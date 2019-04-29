@@ -2,189 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22BE0E801
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 18:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C5B2E970
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 19:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728735AbfD2Qok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 12:44:40 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:36079 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728681AbfD2Qok (ORCPT
+        id S1728993AbfD2Rp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 13:45:58 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41334 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728748AbfD2Rp6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 12:44:40 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hL9OJ-0004ea-Em; Mon, 29 Apr 2019 18:44:31 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hL9OG-0006mR-0q; Mon, 29 Apr 2019 18:44:28 +0200
-Date:   Mon, 29 Apr 2019 18:44:28 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     robh+dt@kernel.org
-Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
-        Ian Arkver <ian.arkver.dev@gmail.com>, hans.verkuil@cisco.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        mchehab@kernel.org, graphics@pengutronix.de,
-        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 1/3] media: dt-bindings: add bindings for Toshiba TC358746
-Message-ID: <20190429164427.naz6fqbbnqi5gqum@pengutronix.de>
-References: <20190218100333.qvptfllrd4pyhsyb@paasikivi.fi.intel.com>
- <20190301105235.a23jwiwmxejuv2yf@pengutronix.de>
- <a51ecc47-df19-a48b-3d82-01b21d03972c@gmail.com>
- <20190301130118.jy57g5wcsn7mqclk@pengutronix.de>
- <20190304123621.l3ocvdiya5z5wzal@paasikivi.fi.intel.com>
- <20190304165528.n4sqxjhfsplmt5km@pengutronix.de>
- <20190304181747.ax7nvbvhdul4vtna@kekkonen.localdomain>
- <20190305084902.vzaqr53q77oy2o7r@uno.localdomain>
- <20190305181419.kqdaqnjte3v7663f@pengutronix.de>
- <20190416104550.htexnpzgypuuubo4@pengutronix.de>
+        Mon, 29 Apr 2019 13:45:58 -0400
+Received: by mail-ot1-f67.google.com with SMTP id g8so8415762otl.8;
+        Mon, 29 Apr 2019 10:45:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jAzJmF2TDQHSyudozQ8MRP+x53QYDHzdtWrUcOyie5o=;
+        b=g+R92KDFW0x6NHaON6tGIwOzwahJ1uY0f2uFCkM4ehSXaRpBAy18WwSJwtH24yiNe8
+         Dg6R8os/+N3ERC8WIGnbGzbVmntXuD3l6v60G+bWPUzFAUYTgXamkoM8+k0Hygiag358
+         GhJSY0zjzqtA+iVigi21JwYab0ZHSptzDZa3GUb+5ElgDPZSLLDfbjpAHCd+XoXNw3W1
+         fUo9gVCXk3klCJArpYi8zt+LC0xiTwZp08rGBvCJaPEVcuBd7S06+vaQ0G9Ii2T0Ol6N
+         +wb+8004MAeSHDVZQJI9zLO9mqyT9QTIsihnsVlEJRJYudAGAISx7wr+ryHl4Xk4q3WW
+         3lAA==
+X-Gm-Message-State: APjAAAXP/1pUa26HJGkf/eXsNAxq4jxGUKPhrIqtba3Po3E4Tvs+/7yL
+        Wu+pL+cVudy8UBa+4r+JhGhHMoc=
+X-Google-Smtp-Source: APXvYqyDmhrZrBxVsjETXa+G0jMSBEdawMchYDvBe7bdT/A54hBJgsvfF2vIblFu+/8+xxw3vWkkFw==
+X-Received: by 2002:a9d:7f89:: with SMTP id t9mr23252837otp.169.1556559413449;
+        Mon, 29 Apr 2019 10:36:53 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s26sm13741338otk.24.2019.04.29.10.36.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 10:36:52 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 12:36:51 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Maxime Ripard <maxime.ripard@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH 2/6] dt-bindings: media: sun6i-csi: Add compatible string
+ for A83T variant
+Message-ID: <20190429173651.GA6551@bogus>
+References: <20190408165744.11672-1-wens@kernel.org>
+ <20190408165744.11672-3-wens@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190416104550.htexnpzgypuuubo4@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 18:41:26 up 100 days, 21:23, 80 users,  load average: 0.21, 0.08,
- 0.02
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20190408165744.11672-3-wens@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-sorry instead of adding you to To you was on Cc.
-Do you have any preferences about the below discussion?
-
-Regards,
-  Marco
-
-On 19-04-16 12:45, Marco Felsch wrote:
-> Hi Rob,
+On Tue,  9 Apr 2019 00:57:40 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> gentle ping.
+> The A83T SoC has a camera sensor interface (known as CSI in Allwinner
+> lingo), which is similar to the one found on the A64 and H3. The only
+> difference seems to be that support of MIPI CSI through a connected
+> MIPI CSI-2 bridge.
 > 
-> Regards,
->   Marco
+> Add a compatible string for this variant.
 > 
-> On 19-03-05 19:14, Marco Felsch wrote:
-> > Hi Rob,
-> > 
-> > I think you didn't followed the discussion in detail so I will ask you
-> > personal. In short the tc358746 can act as parallel-in -> csi-out or as
-> > csi->in -> parallel-out device. The phyiscal pins are always the same
-> > only the internal timings are different. So we have two ports with two
-> > endpoints.
-> > 
-> > Now the question is how we determine the mode. We have two approaches:
-> > 1)
-> >   port@0 -> input port
-> >   port@1 -> output port
-> > 
-> >   pro:
-> >   + no extra vendor specific binding is needed to determine the mode
-> > 
-> >   con:
-> >   - input/output endpoint can be parallel or mipi-csi2.
-> > 
-> > 2)
-> >   port@0 -> parallel port
-> >   port@1 -> mipi-csi2 port
-> > 
-> >   pro:
-> >   + input/output endpoint are fixed to parallel or mipi
-> > 
-> >   con:
-> >   - vendor specific binding is needed to determine the mode
-> > 
-> > Thanks for your comments :)
-> > 
-> > Regards,
-> > Marco
-> > 
-> > On 19-03-05 09:49, Jacopo Mondi wrote:
-> > > Hi Sakari, Marco,
-> > > 
-> > > On Mon, Mar 04, 2019 at 08:17:48PM +0200, Sakari Ailus wrote:
-> > > > Hi Marco,
-> > > >
-> > > > On Mon, Mar 04, 2019 at 05:55:28PM +0100, Marco Felsch wrote:
-> > > > > > > (more device specific)
-> > > > > > > tc358746,default-mode = <CSI-Tx> /* Parallel-in -> CSI-out */
-> > > > > > > tc358746,default-mode = <CSI-Rx> /* CSI-in -> Parallel-out */
-> > > > > > >
-> > > > > > > or
-> > > > > > >
-> > > > > > > (more generic)
-> > > > > > > tc358746,default-dir = <PARALLEL_TO_CSI2>
-> > > > > > > tc358746,default-dir = <CSI2_TO_PARALLEL>
-> > > > > >
-> > > > > > The prefix for Toshiba is "toshiba". What would you think of
-> > > > > > "toshiba,csi2-direction" with values of either "rx" or "tx"? Or
-> > > > > > "toshiba,csi2-mode" with either "master" or "slave", which would be a
-> > > > > > little bit more generic, but could be slightly more probable to get wrong
-> > > > > > as well.
-> > > > >
-> > > > > You're right mixed the prefix with the device.. If we need to introduce
-> > > > > a property I would prefer the "toshiba,csi2-direction" one. I said if
-> > > > > because as Jacopo mentioned we can avoid the property by define port@0
-> > > > > as input and port@1 as output. I tink that's the best solution, since we
-> > > > > can avoid device specific bindings and it's common to use the last port
-> > > > > as output (e.g. video-mux).
-> > > >
-> > > > The ports represent hardware and I think I would avoid reordering them. I
-> > > > wonder what would the DT folks prefer.
-> > > >
-> > > 
-> > > I might have missed why you mention re-ordering? :)
-> > > 
-> > > > The device specific property is to the point at least: it describes an
-> > > > orthogonal part of the device configuration. That's why I'd pick that if I
-> > > > were to choose. But I'll let Rob to comment on this.
-> > > 
-> > > That's true indeed. Let's wait for inputs from DT people, I'm fine
-> > > with both approaches.
-> > > 
-> > > Thanks
-> > >    j
-> > > 
-> > > >
-> > > > --
-> > > > Regards,
-> > > >
-> > > > Sakari Ailus
-> > > > sakari.ailus@linux.intel.com
-> > 
-> > 
-> > 
-> > -- 
-> > Pengutronix e.K.                           |                             |
-> > Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> > 
-> > 
-> 
-> -- 
-> Pengutronix e.K.                           |                             |
-> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> ---
+>  Documentation/devicetree/bindings/media/sun6i-csi.txt | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Reviewed-by: Rob Herring <robh@kernel.org>
