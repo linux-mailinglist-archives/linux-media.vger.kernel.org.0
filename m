@@ -2,95 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E37E9DF0C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 11:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6560EDF44
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 11:18:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbfD2JN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 05:13:56 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42841 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727884AbfD2JN4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 05:13:56 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hL2ME-00055Y-Sr; Mon, 29 Apr 2019 11:13:54 +0200
-Message-ID: <1556529234.3009.4.camel@pengutronix.de>
-Subject: Re: [PATCH 3/5] media: coda: Replace the threaded interrupt with a
- hard interrupt
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com
-Date:   Mon, 29 Apr 2019 11:13:54 +0200
-In-Reply-To: <47a776d4d5e8e169924e1c55d5be42325225f1d7.camel@collabora.com>
-References: <20190425183546.16244-1-ezequiel@collabora.com>
-         <20190425183546.16244-4-ezequiel@collabora.com>
-         <1556270218.3664.8.camel@pengutronix.de>
-         <47a776d4d5e8e169924e1c55d5be42325225f1d7.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        id S1727899AbfD2JSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 05:18:02 -0400
+Received: from shell.v3.sk ([90.176.6.54]:59263 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727884AbfD2JRJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Apr 2019 05:17:09 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 8DFA01036A0;
+        Mon, 29 Apr 2019 11:17:04 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id nfkfA1vzJ1e3; Mon, 29 Apr 2019 11:16:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id A1853103695;
+        Mon, 29 Apr 2019 11:16:43 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id QUJh-FssglVF; Mon, 29 Apr 2019 11:16:39 +0200 (CEST)
+Received: from belphegor.brq.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 6487810367B;
+        Mon, 29 Apr 2019 11:16:38 +0200 (CEST)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
+        Libin Yang <lbyang@marvell.com>,
+        Albert Wang <twang13@marvell.com>,
+        jacopo mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH v4 00/14] media: make Marvell camera work on DT-based OLPC XO-1.75
+Date:   Mon, 29 Apr 2019 11:16:22 +0200
+Message-Id: <20190429091632.2462285-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2019-04-26 at 14:56 -0300, Ezequiel Garcia wrote:
-> Hi Philipp,
-> 
-> Thanks for the quick review of the series.
-> 
-> On Fri, 2019-04-26 at 11:16 +0200, Philipp Zabel wrote:
-> > On Thu, 2019-04-25 at 15:35 -0300, Ezequiel Garcia wrote:
-> > > The current interrupt handler is doing very little, and not doing
-> > > any non-atomic operations. Pretty much all it does is accessing
-> > > a couple registers, taking a couple spinlocks and then signalling
-> > > a completion.
-> > > 
-> > > There is no reason this should be a threaded interrupt handler,
-> > > so move the handler to regular hard interrupt context.
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  drivers/media/platform/coda/coda-common.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-> > > index 1f53ca4effd2..617d4547ec82 100644
-> > > --- a/drivers/media/platform/coda/coda-common.c
-> > > +++ b/drivers/media/platform/coda/coda-common.c
-> > > @@ -2789,8 +2789,8 @@ static int coda_probe(struct platform_device *pdev)
-> > >  		return irq;
-> > >  	}
-> > >  
-> > > -	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL, coda_irq_handler,
-> > > -			IRQF_ONESHOT, dev_name(&pdev->dev), dev);
-> > > +	ret = devm_request_irq(&pdev->dev, irq, coda_irq_handler, 0,
-> > > +			       dev_name(&pdev->dev), dev);
-> > >  	if (ret < 0) {
-> > >  		dev_err(&pdev->dev, "failed to request irq: %d\n", ret);
-> > >  		return ret;
-> > 
-> > There is one thing that this would complicate. For at least H.264 I
-> > know that we can pad the bitstream in reaction to a BIT_BUF_EMPTY
-> > interrupt, to make a picture run finish successfully when it is stuck in
-> >   buffer underrun condition. This would need to be done under the
-> > bitstream_mutex in a threaded handler.
-> > 
-> 
-> In this case, a top-half handler would still stand in good stead,
-> as it would check the interrupt status, and fire the bottom-half
-> threaded interrupt to handle the buffer underrun.
 
-I agree, and the R-b stands.
+Hi,
 
-regards
-Philipp
+this is the fourth spin of a patchset that modernizes the Marvell MMP2 CC=
+IC
+driver.
+
+At the core of the rework is the move to asynchronous sensor discovery
+and clock management with the standard clock framework. There are also
+some straightforward fixes for the bitrotten parts.
+
+Compared the the previous version it addresses things pointed out in last
+review, in patches [01/10] and [10/10]. Details in the changelogs of
+the individual patches.
+
+Tested on OLPC XO-1 and OLPC XO-1.75 laptops.
+
+Thanks,
+Lubo
+
+
+
+
