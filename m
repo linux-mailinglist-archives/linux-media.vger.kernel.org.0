@@ -2,377 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1C3DE787
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 18:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22BE0E801
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 18:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728894AbfD2QRx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 12:17:53 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:56396 "EHLO vps-vb.mhejs.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728846AbfD2QRx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 12:17:53 -0400
-Received: from MUA
-        by vps-vb.mhejs.net with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <mail@maciej.szmigiero.name>)
-        id 1hL8yU-0002qj-A9; Mon, 29 Apr 2019 18:17:50 +0200
-From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To:     Michael Krufky <mkrufky@linuxtv.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Andy Walls <awalls@md.metrocast.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH v12 8/8] [media] cxusb: add raw mode support for Medion MD95700
-Date:   Mon, 29 Apr 2019 18:16:59 +0200
-Message-Id: <ca40baf749c46588e6196caa9542da4a84eca4e3.1556554056.git.mail@maciej.szmigiero.name>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1556554056.git.mail@maciej.szmigiero.name>
-References: <cover.1556554056.git.mail@maciej.szmigiero.name>
+        id S1728735AbfD2Qok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 12:44:40 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:36079 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728681AbfD2Qok (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Apr 2019 12:44:40 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hL9OJ-0004ea-Em; Mon, 29 Apr 2019 18:44:31 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hL9OG-0006mR-0q; Mon, 29 Apr 2019 18:44:28 +0200
+Date:   Mon, 29 Apr 2019 18:44:28 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     robh+dt@kernel.org
+Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
+        Ian Arkver <ian.arkver.dev@gmail.com>, hans.verkuil@cisco.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        mchehab@kernel.org, graphics@pengutronix.de,
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 1/3] media: dt-bindings: add bindings for Toshiba TC358746
+Message-ID: <20190429164427.naz6fqbbnqi5gqum@pengutronix.de>
+References: <20190218100333.qvptfllrd4pyhsyb@paasikivi.fi.intel.com>
+ <20190301105235.a23jwiwmxejuv2yf@pengutronix.de>
+ <a51ecc47-df19-a48b-3d82-01b21d03972c@gmail.com>
+ <20190301130118.jy57g5wcsn7mqclk@pengutronix.de>
+ <20190304123621.l3ocvdiya5z5wzal@paasikivi.fi.intel.com>
+ <20190304165528.n4sqxjhfsplmt5km@pengutronix.de>
+ <20190304181747.ax7nvbvhdul4vtna@kekkonen.localdomain>
+ <20190305084902.vzaqr53q77oy2o7r@uno.localdomain>
+ <20190305181419.kqdaqnjte3v7663f@pengutronix.de>
+ <20190416104550.htexnpzgypuuubo4@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190416104550.htexnpzgypuuubo4@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 18:41:26 up 100 days, 21:23, 80 users,  load average: 0.21, 0.08,
+ 0.02
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds raw (unprocessed) BT.656 stream capturing support for the analog
-part of Medion 95700.
-It can be enabled by setting CXUSB_EXTENDEDMODE_CAPTURE_RAW flag in
-parm.capture.extendedmode passed to VIDIOC_S_PARM.
+Hi Rob,
 
-Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
----
- drivers/media/usb/dvb-usb/cxusb-analog.c | 190 +++++++++++++++++++----
- drivers/media/usb/dvb-usb/cxusb.h        |   4 +
- drivers/media/v4l2-core/v4l2-ioctl.c     |   3 +-
- 3 files changed, 163 insertions(+), 34 deletions(-)
+sorry instead of adding you to To you was on Cc.
+Do you have any preferences about the below discussion?
 
-diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
-index 395c257aa237..aed491481c51 100644
---- a/drivers/media/usb/dvb-usb/cxusb-analog.c
-+++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
-@@ -44,7 +44,9 @@ static int cxusb_medion_v_queue_setup(struct vb2_queue *q,
- {
- 	struct dvb_usb_device *dvbdev = vb2_get_drv_priv(q);
- 	struct cxusb_medion_dev *cxdev = dvbdev->priv;
--	unsigned int size = cxdev->width * cxdev->height * 2;
-+	unsigned int size = cxdev->raw_mode ?
-+		CXUSB_VIDEO_MAX_FRAME_SIZE :
-+		cxdev->width * cxdev->height * 2;
- 
- 	if (*num_planes > 0) {
- 		if (*num_planes != 1)
-@@ -67,8 +69,13 @@ static int cxusb_medion_v_buf_init(struct vb2_buffer *vb)
- 
- 	cxusb_vprintk(dvbdev, OPS, "buffer init\n");
- 
--	if (vb2_plane_size(vb, 0) < cxdev->width * cxdev->height * 2)
--		return -ENOMEM;
-+	if (cxdev->raw_mode) {
-+		if (vb2_plane_size(vb, 0) < CXUSB_VIDEO_MAX_FRAME_SIZE)
-+			return -ENOMEM;
-+	} else {
-+		if (vb2_plane_size(vb, 0) < cxdev->width * cxdev->height * 2)
-+			return -ENOMEM;
-+	}
- 
- 	cxusb_vprintk(dvbdev, OPS, "buffer OK\n");
- 
-@@ -442,6 +449,45 @@ static bool cxusb_medion_copy_field(struct dvb_usb_device *dvbdev,
- 	return true;
- }
- 
-+static void cxusb_medion_v_process_urb_raw(struct cxusb_medion_dev *cxdev,
-+					   struct urb *urb)
-+{
-+	struct dvb_usb_device *dvbdev = cxdev->dvbdev;
-+	u8 *buf;
-+	struct cxusb_medion_vbuffer *vbuf;
-+	int i;
-+	unsigned long len;
-+
-+	if (list_empty(&cxdev->buflist)) {
-+		dev_warn(&dvbdev->udev->dev, "no free buffers\n");
-+		cxdev->vbuf_sequence++;
-+		return;
-+	}
-+
-+	vbuf = list_first_entry(&cxdev->buflist, struct cxusb_medion_vbuffer,
-+				list);
-+	list_del(&vbuf->list);
-+
-+	vbuf->vb2.field = V4L2_FIELD_NONE;
-+	vbuf->vb2.sequence = cxdev->vbuf_sequence++;
-+	vbuf->vb2.vb2_buf.timestamp = ktime_get_ns();
-+
-+	buf = vb2_plane_vaddr(&vbuf->vb2.vb2_buf, 0);
-+
-+	for (i = 0, len = 0; i < urb->number_of_packets; i++) {
-+		memcpy(buf, urb->transfer_buffer +
-+		       urb->iso_frame_desc[i].offset,
-+		       urb->iso_frame_desc[i].actual_length);
-+
-+		buf += urb->iso_frame_desc[i].actual_length;
-+		len += urb->iso_frame_desc[i].actual_length;
-+	}
-+
-+	vb2_set_plane_payload(&vbuf->vb2.vb2_buf, 0, len);
-+
-+	vb2_buffer_done(&vbuf->vb2.vb2_buf, VB2_BUF_STATE_DONE);
-+}
-+
- static bool cxusb_medion_v_process_auxbuf(struct cxusb_medion_dev *cxdev,
- 					  bool reset)
- {
-@@ -566,22 +612,26 @@ static bool cxusb_medion_v_complete_handle_urb(struct cxusb_medion_dev *cxdev,
- 			      len);
- 
- 		if (len > 0) {
--			cxusb_vprintk(dvbdev, URB, "appending URB\n");
--
--			/*
--			 * append new data to auxbuf while
--			 * overwriting old data if necessary
--			 *
--			 * if any overwrite happens then we can no
--			 * longer rely on consistency of the whole
--			 * data so let's start again the current
--			 * auxbuf frame assembling process from
--			 * the beginning
--			 */
--			*auxbuf_reset =
--				!cxusb_auxbuf_append_urb(dvbdev,
--							 &cxdev->auxbuf,
--							 urb);
-+			if (cxdev->raw_mode)
-+				cxusb_medion_v_process_urb_raw(cxdev, urb);
-+			else {
-+				cxusb_vprintk(dvbdev, URB, "appending URB\n");
-+
-+				/*
-+				 * append new data to auxbuf while
-+				 * overwriting old data if necessary
-+				 *
-+				 * if any overwrite happens then we can no
-+				 * longer rely on consistency of the whole
-+				 * data so let's start again the current
-+				 * auxbuf frame assembling process from
-+				 * the beginning
-+				 */
-+				*auxbuf_reset =
-+					!cxusb_auxbuf_append_urb(dvbdev,
-+								 &cxdev->auxbuf,
-+								 urb);
-+			}
- 		}
- 	}
- 
-@@ -616,7 +666,8 @@ static void cxusb_medion_v_complete_work(struct work_struct *work)
- 
- 	reschedule = cxusb_medion_v_complete_handle_urb(cxdev, &auxbuf_reset);
- 
--	if (cxusb_medion_v_process_auxbuf(cxdev, auxbuf_reset))
-+	if (!cxdev->raw_mode && cxusb_medion_v_process_auxbuf(cxdev,
-+							      auxbuf_reset))
- 		/* reschedule us until auxbuf no longer can produce any frame */
- 		reschedule = true;
- 
-@@ -805,9 +856,13 @@ static int cxusb_medion_v_start_streaming(struct vb2_queue *q,
- 		goto ret_unstream_cx;
- 	}
- 
--	ret = cxusb_medion_v_ss_auxbuf_alloc(cxdev, &npackets);
--	if (ret != 0)
--		goto ret_unstream_md;
-+	if (cxdev->raw_mode)
-+		npackets = CXUSB_VIDEO_MAX_FRAME_PKTS;
-+	else {
-+		ret = cxusb_medion_v_ss_auxbuf_alloc(cxdev, &npackets);
-+		if (ret != 0)
-+			goto ret_unstream_md;
-+	}
- 
- 	for (i = 0; i < CXUSB_VIDEO_URBS; i++) {
- 		int framen;
-@@ -863,9 +918,11 @@ static int cxusb_medion_v_start_streaming(struct vb2_queue *q,
- 	cxdev->nexturb = 0;
- 	cxdev->vbuf_sequence = 0;
- 
--	cxdev->vbuf = NULL;
--	cxdev->bt656.mode = NEW_FRAME;
--	cxdev->bt656.buf = NULL;
-+	if (!cxdev->raw_mode) {
-+		cxdev->vbuf = NULL;
-+		cxdev->bt656.mode = NEW_FRAME;
-+		cxdev->bt656.buf = NULL;
-+	}
- 
- 	for (i = 0; i < CXUSB_VIDEO_URBS; i++)
- 		if (cxdev->streamurbs[i] != NULL) {
-@@ -883,7 +940,8 @@ static int cxusb_medion_v_start_streaming(struct vb2_queue *q,
- 	cxusb_medion_urbs_free(cxdev);
- 
- ret_freeab:
--	vfree(cxdev->auxbuf.buf);
-+	if (!cxdev->raw_mode)
-+		vfree(cxdev->auxbuf.buf);
- 
- ret_unstream_md:
- 	cxusb_ctrl_msg(dvbdev, CMD_STREAMING_OFF, NULL, 0, NULL, 0);
-@@ -930,7 +988,8 @@ static void cxusb_medion_v_stop_streaming(struct vb2_queue *q)
- 	mutex_lock(cxdev->videodev->lock);
- 
- 	/* free transfer buffer and URB */
--	vfree(cxdev->auxbuf.buf);
-+	if (!cxdev->raw_mode)
-+		vfree(cxdev->auxbuf.buf);
- 
- 	cxusb_medion_urbs_free(cxdev);
- 
-@@ -1003,9 +1062,11 @@ static int cxusb_medion_g_fmt_vid_cap(struct file *file, void *fh,
- 	f->fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
- 	f->fmt.pix.field = vb2_start_streaming_called(&cxdev->videoqueue) ?
- 		cxdev->field_order : cxusb_medion_field_order(cxdev);
--	f->fmt.pix.bytesperline = cxdev->width * 2;
-+	f->fmt.pix.bytesperline = cxdev->raw_mode ? 0 : cxdev->width * 2;
- 	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
--	f->fmt.pix.sizeimage = f->fmt.pix.bytesperline * f->fmt.pix.height;
-+	f->fmt.pix.sizeimage =
-+		cxdev->raw_mode ? CXUSB_VIDEO_MAX_FRAME_SIZE :
-+		f->fmt.pix.bytesperline * f->fmt.pix.height;
- 
- 	return 0;
- }
-@@ -1043,8 +1104,10 @@ static int cxusb_medion_try_s_fmt_vid_cap(struct file *file,
- 	f->fmt.pix.height = subfmt.format.height;
- 	f->fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
- 	f->fmt.pix.field = field;
--	f->fmt.pix.bytesperline = f->fmt.pix.width * 2;
--	f->fmt.pix.sizeimage = f->fmt.pix.bytesperline * f->fmt.pix.height;
-+	f->fmt.pix.bytesperline = cxdev->raw_mode ? 0 : f->fmt.pix.width * 2;
-+	f->fmt.pix.sizeimage =
-+		cxdev->raw_mode ? CXUSB_VIDEO_MAX_FRAME_SIZE :
-+		f->fmt.pix.bytesperline * f->fmt.pix.height;
- 	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
- 
- 	if (isset) {
-@@ -1400,6 +1463,67 @@ static int cxusb_medion_querystd(struct file *file, void *fh,
- 	return 0;
- }
- 
-+static int cxusb_medion_g_s_parm(struct file *file, void *fh,
-+				 struct v4l2_streamparm *param)
-+{
-+	v4l2_std_id std;
-+
-+	if (param->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		return -EINVAL;
-+
-+	param->parm.capture.readbuffers = 2;
-+
-+	if (cxusb_medion_g_std(file, fh, &std) == 0)
-+		v4l2_video_std_frame_period(std,
-+					    &param->parm.capture.timeperframe);
-+
-+	return 0;
-+}
-+
-+static int cxusb_medion_g_parm(struct file *file, void *fh,
-+			       struct v4l2_streamparm *param)
-+{
-+	struct dvb_usb_device *dvbdev = video_drvdata(file);
-+	struct cxusb_medion_dev *cxdev = dvbdev->priv;
-+	int ret;
-+
-+	ret = cxusb_medion_g_s_parm(file, fh, param);
-+	if (ret != 0)
-+		return ret;
-+
-+	if (cxdev->raw_mode)
-+		param->parm.capture.extendedmode |=
-+			CXUSB_EXTENDEDMODE_CAPTURE_RAW;
-+
-+	return 0;
-+}
-+
-+static int cxusb_medion_s_parm(struct file *file, void *fh,
-+			       struct v4l2_streamparm *param)
-+{
-+	struct dvb_usb_device *dvbdev = video_drvdata(file);
-+	struct cxusb_medion_dev *cxdev = dvbdev->priv;
-+	int ret;
-+	bool want_raw;
-+
-+	ret = cxusb_medion_g_s_parm(file, fh, param);
-+	if (ret != 0)
-+		return ret;
-+
-+	want_raw = param->parm.capture.extendedmode &
-+		CXUSB_EXTENDEDMODE_CAPTURE_RAW;
-+
-+	if (want_raw != cxdev->raw_mode) {
-+		if (vb2_start_streaming_called(&cxdev->videoqueue) ||
-+		    cxdev->stop_streaming)
-+			return -EBUSY;
-+
-+		cxdev->raw_mode = want_raw;
-+	}
-+
-+	return 0;
-+}
-+
- static int cxusb_medion_log_status(struct file *file, void *fh)
- {
- 	struct dvb_usb_device *dvbdev = video_drvdata(file);
-@@ -1419,6 +1543,8 @@ static const struct v4l2_ioctl_ops cxusb_video_ioctl = {
- 	.vidioc_enum_input = cxusb_medion_enum_input,
- 	.vidioc_g_input = cxusb_medion_g_input,
- 	.vidioc_s_input = cxusb_medion_s_input,
-+	.vidioc_g_parm = cxusb_medion_g_parm,
-+	.vidioc_s_parm = cxusb_medion_s_parm,
- 	.vidioc_g_tuner = cxusb_medion_g_tuner,
- 	.vidioc_s_tuner = cxusb_medion_s_tuner,
- 	.vidioc_g_frequency = cxusb_medion_g_frequency,
-diff --git a/drivers/media/usb/dvb-usb/cxusb.h b/drivers/media/usb/dvb-usb/cxusb.h
-index 9636f9575e58..35e72f571a2c 100644
---- a/drivers/media/usb/dvb-usb/cxusb.h
-+++ b/drivers/media/usb/dvb-usb/cxusb.h
-@@ -131,6 +131,7 @@ struct cxusb_medion_dev {
- 	bool stop_streaming;
- 	u32 width, height;
- 	u32 field_order;
-+	bool raw_mode;
- 	struct cxusb_medion_auxbuf auxbuf;
- 	v4l2_std_id norm;
- 
-@@ -154,6 +155,9 @@ struct cxusb_medion_vbuffer {
- 	struct list_head list;
- };
- 
-+/* Capture streaming parameters extendedmode field flags */
-+#define CXUSB_EXTENDEDMODE_CAPTURE_RAW 1
-+
- /* defines for "debug" module parameter */
- #define CXUSB_DBG_RC BIT(0)
- #define CXUSB_DBG_I2C BIT(1)
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index ac87c3e37280..0b9ca5acdd35 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -2023,7 +2023,7 @@ static int v4l_s_parm(const struct v4l2_ioctl_ops *ops,
- 	if (ret)
- 		return ret;
- 
--	/* Note: extendedmode is never used in drivers */
-+	/* Note: extendedmode is never used in output drivers */
- 	if (V4L2_TYPE_IS_OUTPUT(p->type)) {
- 		memset(p->parm.output.reserved, 0,
- 		       sizeof(p->parm.output.reserved));
-@@ -2032,7 +2032,6 @@ static int v4l_s_parm(const struct v4l2_ioctl_ops *ops,
- 	} else {
- 		memset(p->parm.capture.reserved, 0,
- 		       sizeof(p->parm.capture.reserved));
--		p->parm.capture.extendedmode = 0;
- 		p->parm.capture.capturemode &= V4L2_MODE_HIGHQUALITY;
- 	}
- 	return ops->vidioc_s_parm(file, fh, p);
+Regards,
+  Marco
+
+On 19-04-16 12:45, Marco Felsch wrote:
+> Hi Rob,
+> 
+> gentle ping.
+> 
+> Regards,
+>   Marco
+> 
+> On 19-03-05 19:14, Marco Felsch wrote:
+> > Hi Rob,
+> > 
+> > I think you didn't followed the discussion in detail so I will ask you
+> > personal. In short the tc358746 can act as parallel-in -> csi-out or as
+> > csi->in -> parallel-out device. The phyiscal pins are always the same
+> > only the internal timings are different. So we have two ports with two
+> > endpoints.
+> > 
+> > Now the question is how we determine the mode. We have two approaches:
+> > 1)
+> >   port@0 -> input port
+> >   port@1 -> output port
+> > 
+> >   pro:
+> >   + no extra vendor specific binding is needed to determine the mode
+> > 
+> >   con:
+> >   - input/output endpoint can be parallel or mipi-csi2.
+> > 
+> > 2)
+> >   port@0 -> parallel port
+> >   port@1 -> mipi-csi2 port
+> > 
+> >   pro:
+> >   + input/output endpoint are fixed to parallel or mipi
+> > 
+> >   con:
+> >   - vendor specific binding is needed to determine the mode
+> > 
+> > Thanks for your comments :)
+> > 
+> > Regards,
+> > Marco
+> > 
+> > On 19-03-05 09:49, Jacopo Mondi wrote:
+> > > Hi Sakari, Marco,
+> > > 
+> > > On Mon, Mar 04, 2019 at 08:17:48PM +0200, Sakari Ailus wrote:
+> > > > Hi Marco,
+> > > >
+> > > > On Mon, Mar 04, 2019 at 05:55:28PM +0100, Marco Felsch wrote:
+> > > > > > > (more device specific)
+> > > > > > > tc358746,default-mode = <CSI-Tx> /* Parallel-in -> CSI-out */
+> > > > > > > tc358746,default-mode = <CSI-Rx> /* CSI-in -> Parallel-out */
+> > > > > > >
+> > > > > > > or
+> > > > > > >
+> > > > > > > (more generic)
+> > > > > > > tc358746,default-dir = <PARALLEL_TO_CSI2>
+> > > > > > > tc358746,default-dir = <CSI2_TO_PARALLEL>
+> > > > > >
+> > > > > > The prefix for Toshiba is "toshiba". What would you think of
+> > > > > > "toshiba,csi2-direction" with values of either "rx" or "tx"? Or
+> > > > > > "toshiba,csi2-mode" with either "master" or "slave", which would be a
+> > > > > > little bit more generic, but could be slightly more probable to get wrong
+> > > > > > as well.
+> > > > >
+> > > > > You're right mixed the prefix with the device.. If we need to introduce
+> > > > > a property I would prefer the "toshiba,csi2-direction" one. I said if
+> > > > > because as Jacopo mentioned we can avoid the property by define port@0
+> > > > > as input and port@1 as output. I tink that's the best solution, since we
+> > > > > can avoid device specific bindings and it's common to use the last port
+> > > > > as output (e.g. video-mux).
+> > > >
+> > > > The ports represent hardware and I think I would avoid reordering them. I
+> > > > wonder what would the DT folks prefer.
+> > > >
+> > > 
+> > > I might have missed why you mention re-ordering? :)
+> > > 
+> > > > The device specific property is to the point at least: it describes an
+> > > > orthogonal part of the device configuration. That's why I'd pick that if I
+> > > > were to choose. But I'll let Rob to comment on this.
+> > > 
+> > > That's true indeed. Let's wait for inputs from DT people, I'm fine
+> > > with both approaches.
+> > > 
+> > > Thanks
+> > >    j
+> > > 
+> > > >
+> > > > --
+> > > > Regards,
+> > > >
+> > > > Sakari Ailus
+> > > > sakari.ailus@linux.intel.com
+> > 
+> > 
+> > 
+> > -- 
+> > Pengutronix e.K.                           |                             |
+> > Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+> > Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> > 
+> > 
+> 
+> -- 
+> Pengutronix e.K.                           |                             |
+> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
