@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE708E17C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 13:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B92FEE17F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 13:42:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727913AbfD2Llu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 07:41:50 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:54462 "EHLO vps-vb.mhejs.net"
+        id S1727996AbfD2Lmj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 07:42:39 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:54710 "EHLO vps-vb.mhejs.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727895AbfD2Llt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 07:41:49 -0400
+        id S1727857AbfD2Lmj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Apr 2019 07:42:39 -0400
 Received: from MUA
         by vps-vb.mhejs.net with esmtps (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
         (Exim 4.90_1)
         (envelope-from <mail@maciej.szmigiero.name>)
-        id 1hL4fJ-0002Hd-Id; Mon, 29 Apr 2019 13:41:45 +0200
-Subject: Re: [PATCH v11 2/7] cx25840: g_std operation really implements
- querystd operation
+        id 1hL4g8-0002Hy-F1; Mon, 29 Apr 2019 13:42:36 +0200
+Subject: Re: [PATCH v11 0/7] [media] Add analog mode support for Medion
+ MD95700
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Michael Krufky <mkrufky@linuxtv.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -25,8 +25,7 @@ Cc:     Michael Krufky <mkrufky@linuxtv.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-media@vger.kernel.org
 References: <cover.1556365459.git.mail@maciej.szmigiero.name>
- <9490ba236364690f582815c125b3e5208a4778a2.1556365459.git.mail@maciej.szmigiero.name>
- <7ae66245-e524-cecd-70dd-be33fe6589d9@xs4all.nl>
+ <9a0d5e31-120b-c0fa-7782-c330a06c23b3@xs4all.nl>
 From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
@@ -96,12 +95,12 @@ Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
  AhvobFozJ63zafYHkuEjMo0Xps3o3uvKg7coooH521nNsv4ci+KeBq3mgMCRAy0g/Ef+Ql7m
  t900RCBHu4tktOhPc3J1ep/e2WAJ4ngUqJhilzyCJnzVJ4cT79VK/uPtlfUCZdUz+jTC88Tm
  P1p5wlucS31kThy/CV4cqDFB8yzEujTSiRzd7neG3sH0vcxBd69uvSxLZPLGID840k0v5sft PA==
-Message-ID: <2b34d7d0-18b7-d403-4186-6a851c1520eb@maciej.szmigiero.name>
-Date:   Mon, 29 Apr 2019 13:41:39 +0200
+Message-ID: <370e45ab-5534-4e65-5631-5d7a2babcb19@maciej.szmigiero.name>
+Date:   Mon, 29 Apr 2019 13:42:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <7ae66245-e524-cecd-70dd-be33fe6589d9@xs4all.nl>
+In-Reply-To: <9a0d5e31-120b-c0fa-7782-c330a06c23b3@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -110,81 +109,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29.04.2019 10:05, Hans Verkuil wrote:
-> On 4/27/19 4:50 PM, Maciej S. Szmigiero wrote:
->> cx25840 driver g_std operation queries the currently detected video signal,
->> however this is what querystd operation should do, so let's rename the
->> handler.
->>
->> None of the existing cx25840 driver users ever called the g_std operation,
->> one of them calls querystd on each of its subdevs but then the result is
->> only used to implement VIDIOC_QUERYSTD (as it should).
->>
->> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
->> ---
->>  drivers/media/i2c/cx25840/cx25840-core.c | 9 +++++----
->>  1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
->> index 0bf30222cf93..2bcaf239b0d2 100644
->> --- a/drivers/media/i2c/cx25840/cx25840-core.c
->> +++ b/drivers/media/i2c/cx25840/cx25840-core.c
->> @@ -1772,7 +1772,7 @@ static int cx25840_s_stream(struct v4l2_subdev *sd, int enable)
->>  }
->>  
->>  /* Query the current detected video format */
->> -static int cx25840_g_std(struct v4l2_subdev *sd, v4l2_std_id *std)
->> +static int cx25840_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
->>  {
->>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->>  
->> @@ -1800,8 +1800,9 @@ static int cx25840_g_std(struct v4l2_subdev *sd, v4l2_std_id *std)
->>  	u32 fmt = (cx25840_read4(client, 0x40c) >> 8) & 0xf;
->>  	*std = stds[ fmt ];
->>  
->> -	v4l_dbg(1, cx25840_debug, client, "g_std fmt = %x, v4l2_std_id = 0x%x\n",
->> -		fmt, (unsigned int)stds[ fmt ]);
->> +	v4l_dbg(1, cx25840_debug, client,
->> +		"querystd fmt = %x, v4l2_std_id = 0x%x\n",
->> +		fmt, (unsigned int)stds[fmt]);
->>  
->>  	return 0;
->>  }
->> @@ -5081,7 +5082,7 @@ static const struct v4l2_subdev_audio_ops cx25840_audio_ops = {
->>  
->>  static const struct v4l2_subdev_video_ops cx25840_video_ops = {
->>  	.s_std = cx25840_s_std,
->> -	.g_std = cx25840_g_std,
->> +	.querystd = cx25840_querystd,
->>  	.s_routing = cx25840_s_video_routing,
->>  	.s_stream = cx25840_s_stream,
->>  	.g_input_status = cx25840_g_input_status,
->>
-> 
-> Hmm, you are right, g_std really implements querystd. I wondered why this wasn't
-> noticed before, and it appears that no bridge driver ever calls the g_std op of the
-> cx25840 driver. It's all handled inside the bridge driver itself.
-> 
-> Can you add a new cx25840_g_std() op here that just returns state->std?
-> 
-> That would make much more sense.
-> 
-> You also need to use g_std in patch 6/7 (see my comments there)
+Hi Hans,
 
-Will do, but a small comment here:
-Currently, when somebody passes a set of multiple standards to s_std,
-let's say V4L2_STD_ALL the chip isn't configured for "every standard
-possible".
+On 29.04.2019 10:17, Hans Verkuil wrote:
+> Hi Maciej,
+> 
+> I reviewed v11 and I had only two comments in two sources. Can you fix that
+> and post a v12?
 
-It is set for a specific, single standard from this set of standards.
-There is a "if" tree at the begging of set_v4lstd() that implements,
-effectively, a list of priorities when selecting a single standard
-from a set of multiple.
+Thanks for looking at this quickly, will do.
 
-That's why I think the incoming standard should be selected upfront
-according to this priority list in s_std handler and only this
-effective value should be set in state->std so g_std actually
-returns what the device is set for.
+> Mike, once v12 is posted, can you try and test it on your hardware?
+> 
+> The goal is to get this merged for 5.3.
+> 
+> Maciej, just FYI: I won't merge the last patch. It's OK to post it, that
+> way it is archived if anyone is ever interested in this in the future, but
+> it's not something that we want to merge. It adds a new public API to enable
+> this, and that's not something we'd like to do unless there is a really
+> good reason. And adding a debug feature for old hardware isn't enough of a
+> reason. Sorry.
+
+:(
+
+I was hoping that maybe something like CONFIG_VIDEO_ADV_DEBUG will do the
+trick.
+
+I'm afraid that if this is out-of-tree it will quickly bitrot since people
+will submit patches to "optimize" the in-kernel code unknowingly breaking
+compatibility with this patch.
+
+But I respect your decision here.
 
 > Regards,
 > 
