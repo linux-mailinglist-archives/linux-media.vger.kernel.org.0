@@ -2,156 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C454E067
-	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 12:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 500D1E085
+	for <lists+linux-media@lfdr.de>; Mon, 29 Apr 2019 12:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727730AbfD2KSD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 06:18:03 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55955 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727428AbfD2KSD (ORCPT
+        id S1727822AbfD2K2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 06:28:16 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:60248 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727621AbfD2K2Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 06:18:03 -0400
-Received: from [192.168.2.10] ([46.9.232.72])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id L3MDhKlWwb8gSL3MGh7sXz; Mon, 29 Apr 2019 12:18:00 +0200
-Subject: Re: [PATCH v5 00/14] media: vimc: Add support for multiplanar formats
-To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, helen.koike@collabora.com,
-        kernel@collabora.com, lucmaga@gmail.com,
-        lkcamp@lists.libreplanetbr.org
-References: <20190426195114.5002-1-andrealmeid@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b2d1bfb0-bcca-2729-88ed-6d226661b8a1@xs4all.nl>
-Date:   Mon, 29 Apr 2019 12:17:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        Mon, 29 Apr 2019 06:28:16 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 1A27A634C7B;
+        Mon, 29 Apr 2019 13:28:10 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hL3W5-0000Wy-MQ; Mon, 29 Apr 2019 13:28:09 +0300
+Date:   Mon, 29 Apr 2019 13:28:09 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
+        Libin Yang <lbyang@marvell.com>,
+        Albert Wang <twang13@marvell.com>,
+        jacopo mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v4 01/10] media: dt-bindings: marvell,mmp2-ccic: Add
+ Marvell MMP2 camera
+Message-ID: <20190429102809.qlwwgzgwzh4raz2q@valkosipuli.retiisi.org.uk>
+References: <20190429091632.2462285-1-lkundrak@v3.sk>
+ <20190429091632.2462285-2-lkundrak@v3.sk>
 MIME-Version: 1.0
-In-Reply-To: <20190426195114.5002-1-andrealmeid@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPDc0S8nX9fACGarV3oSCB+aVrLFnM8EjvMeI7JzHK3kiq0xt+72AExIt202X52ERdcFT9irU/ORzUXKhr6bqRMML4JY4qSr5lY2ApRbbtvI+9AR8Igk
- YL2hEHRQwCH79Xt0x+w0P0pft1kjhsG8npPUVQ2dPRvEqD1EvvueYN3qJ2FyuxTi73f2OpgAJnIRWaxcAKRJGunIqLq0vmtrOKQcWA2IGzTWllulKG5hp4rq
- aKomgieybc0/Ai1xcuoON8SB0Y+w5x6kXCOVfHDoeKLA8k7x4Hm/HzEx2i3Uu81cI/IO76HJvU8RyceOGFGfW0i8VGwsVPruyk2KqlbpRlQrf79l1frWvyYC
- vPngURcRRCE80zoE8dBHA9ZIjhP8rg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190429091632.2462285-2-lkundrak@v3.sk>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi André,
+Hi Lubomir,
 
-Thank you for you work on this. I've posted a few review comments (nothing
-major), so this should be ready for be merged for 5.3 once v6 is posted.
+On Mon, Apr 29, 2019 at 11:16:23AM +0200, Lubomir Rintel wrote:
+> Add Marvell MMP2 camera host interface.
+> 
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> 
+> ---
+> Changes since v3:
+> - Dropped the video-interfaces.txt reference
+> - Clarify "clocks", "clock-names" and "clock-output-names" descriptions
+> - Refer to other documentation by full path
+> 
+> Changes since v2:
+> - Added #clock-cells, clock-names, port
+> 
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+>  
+> .../bindings/media/marvell,mmp2-ccic.txt      | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
+> new file mode 100644
+> index 000000000000..cf7767268c52
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
+> @@ -0,0 +1,38 @@
+> +Marvell MMP2 camera host interface
+> +
+> +Required properties:
+> + - compatible: Should be "marvell,mmp2-ccic".
+> + - reg: Register base and size.
+> + - interrupts: The interrupt number.
+> + - #clock-cells: Nust be 0.
 
-On 4/26/19 9:51 PM, André Almeida wrote:
-> Hello,
-> 
-> This series implements support for multiplane pixel formats at Vimc.
-> A lot of changes were required since vimc support for singleplane
-> was "hardcoded". The code has been adapted in order to support both
-> formats. When was possible, the functions were written generically,
-> avoiding functions for just one type of pixel format.
-> 
-> The debayer subdevice is the only one that currently doesn't supports
-> multiplanar formats. Documentation to each device will be made in a
-> future patch. In hardcoded topology, the exposed capture device
-> `RGB/YUV Capture` have a debayer in the pipeline, so it will fail when
-> tested with multiplanar formats.
-> 
-> The last commit of this series was tested using Hans' virtme.sh[1]
-> script here are the summary of results:
-> 
-> Grand Total for vivid device /dev/media0: 631, Succeeded: 631, Failed: 0, Warnings: 6
-> Grand Total for vivid device /dev/media1: 631, Succeeded: 631, Failed: 0, Warnings: 6
-> Grand Total for vim2m device /dev/media3: 61, Succeeded: 61, Failed: 0, Warnings: 0
-> Grand Total for vimc device /dev/media3: 478, Succeeded: 478, Failed: 0, Warnings: 0
-> Final Summary: 1801, Succeeded: 1801, Failed: 0, Warnings: 12
+"Must".
 
-It would be great if you can also post a separate patch to update contrib/test/test-media
-so vimc is tested twice: once in singleplanar and once in multiplanar mode.
+> +
+> +Optional properties:
+> + - clocks: Reference to the input clock as specified by
+> +           Documentation/devicetree/bindings/clock/clock-bindings.txt.
+> + - clock-names: Names of the clocks used; "axi" for the AXI bus interface,
+> +                "func" for the peripheral clock and "phy" for the parallel
+> +                video bus interface.
+> + - clock-output-names: Optional clock source for sensors. Shall be "mclk".
+> +
+> +Required subnodes:
+> + - port: The parallel bus interface port with a single endpoint linked to
+> +         the sensor's endpoint as described in
+> +         Documentation/devicetree/bindings/media/video-interfaces.txt.
 
-The current vimc test should be done in a for loop so it is tested twice.
+Both parallel and Bt.656 are supported. So you'll need the bus-type
+property. Looking further the datasheet, you'll also need pclk-sample,
+hsync-active and vsync-active properties. I'd make them mandatory for the
+endpoint (the two latter are for parallel mode only).
 
-Thanks!
+> +
+> +Example:
+> +
+> +	camera0: camera@d420a000 {
+> +		compatible = "marvell,mmp2-ccic";
+> +		reg = <0xd420a000 0x800>;
+> +		interrupts = <42>;
+> +		clocks = <&soc_clocks MMP2_CLK_CCIC0>;
+> +		clock-names = "axi";
+> +		#clock-cells = <0>;
+> +		clock-output-names = "mclk";
+> +
+> +		port {
+> +			camera0_0: endpoint {
+> +				remote-endpoint = <&ov7670_0>;
 
-	Hans
+Please also add the above properties here.
 
-> 
-> Thanks,
-> 	André
-> 
-> [1] https://hverkuil.home.xs4all.nl/virtme/virtme.sh
-> 
-> Changes in v5:
-> - Remove bpp from vimc_sca_device
-> 
-> Changes in v4:
-> - Remove unutilized commit "Propagate multiplanar state in the stream" 
-> - Split "Create multiplanar parameter and ioctls"
-> - Check for try_fmt return value
-> - Change ret from `unsigned int` to `int`
-> - Remove label `free_planes` from else scope
-> - Change vars at vimc-scaler
-> 
-> Changes in v3:
-> - Refactor vimc_frame and vimc_fill_frame in order to be more clear and
-> simple
-> - Squash "Add handler for multiplanar fmt ioctls" and "Create multiplanar
-> parameter"
-> - Define format ioctls of capture device according to it capabilities
-> - Get rid of `IS_MULTIPLANAR(vcap)` verification on format ioctls
-> - Remove some format ioctl handlers
-> - Reorder "Move sp2mp functions to v4l2-common"
-> - Minimal code style and comments changes
-> - Assign ioctls according to capture device capabilities
-> 
-> Changes in v2:
-> - Fix typos
-> - Fix indentations
-> - Enhance v4l2_fmt_* documentation
-> - Change the order of commits, now the multiplanar parameter is the last
-> one with the commit to set the device capabilities
-> - Squash "unnecessary checks" commits together
-> - In v1, the whole media device was in singleplanar or in multiplanar
-> format. Now, each stream/pipeline can be in a format
-> - Check the capture capabilities to get if the stream is in
-> singleplanar/multiplanar mode, instead of checking the module parameter.
-> - Change `if (multiplanar)` to `if (IS_MULTIPLANAR(vcap))`
-> - Add a new commit to propagate in the stream if the capture device is
-> in multiplanar or singleplanar mode
-> 
-> André Almeida (14):
->   media: vimc: Remove unnecessary stream checks
->   media: vimc: cap: Change vimc_cap_device.format type
->   media: vimc: cap: Dynamically define stream pixelformat
->   media: Move sp2mp functions to v4l2-common
->   media: vimc: cap: refactor singleplanar as a subset of multiplanar
->   media: vimc: cap: Add handler for multiplanar fmt ioctls
->   media: vimc: cap: Add multiplanar formats
->   media: vimc: cap: Add multiplanar default format
->   media: vimc: cap: Allocate and verify mplanar buffers
->   media: vimc: Add and use new struct vimc_frame
->   media: vimc: sen: Add support for multiplanar formats
->   media: vimc: sca: Add support for multiplanar formats
->   media: vimc: cap: Add support for multiplanar formats
->   media: vimc: Create multiplanar parameter
-> 
->  drivers/media/platform/vimc/vimc-capture.c    | 288 ++++++++++++++----
->  drivers/media/platform/vimc/vimc-common.c     |   8 +
->  drivers/media/platform/vimc/vimc-common.h     |  41 ++-
->  drivers/media/platform/vimc/vimc-debayer.c    |  38 ++-
->  drivers/media/platform/vimc/vimc-scaler.c     | 127 ++++----
->  drivers/media/platform/vimc/vimc-sensor.c     |  67 ++--
->  drivers/media/platform/vimc/vimc-streamer.c   |   2 +-
->  drivers/media/platform/vivid/vivid-vid-cap.c  |   6 +-
->  .../media/platform/vivid/vivid-vid-common.c   |  59 ----
->  .../media/platform/vivid/vivid-vid-common.h   |   9 -
->  drivers/media/platform/vivid/vivid-vid-out.c  |   6 +-
->  drivers/media/v4l2-core/v4l2-common.c         |  62 ++++
->  include/media/v4l2-common.h                   |  37 +++
->  13 files changed, 511 insertions(+), 239 deletions(-)
-> 
+> +			};
+> +		};
+> +	};
 
+-- 
+Kind regards,
+
+Sakari Ailus
