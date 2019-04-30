@@ -2,250 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77927ED00
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 00:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CF6CEE09
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 02:47:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729671AbfD2WxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Apr 2019 18:53:19 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44092 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729601AbfD2WxS (ORCPT
+        id S1729671AbfD3Ar3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Apr 2019 20:47:29 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:40753 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729507AbfD3Ar3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Apr 2019 18:53:18 -0400
-Received: by mail-ot1-f68.google.com with SMTP id d24so10186077otl.11;
-        Mon, 29 Apr 2019 15:53:18 -0700 (PDT)
+        Mon, 29 Apr 2019 20:47:29 -0400
+Received: by mail-qt1-f193.google.com with SMTP id y49so8580531qta.7
+        for <linux-media@vger.kernel.org>; Mon, 29 Apr 2019 17:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=JsAzde18G844oUFsP84w7alrwOBHCnuavwt/AS7sS2k=;
+        b=lUhDjsVD1HvmTZzSlmnmNS8+KHK7lhpF4/MdTE1Sll4f4/Abxpr9EZf43vY3nUv4gc
+         SByYo4fESpwSj2ehkg5CBnkPoMig7wo7c3MER30cWOsyZa3X18dZ4H5sK3vFWmHAcLHQ
+         DFc22NY0N8ybP2uMrhr1x1d8eXorCas+FecmuHqxCft2nD3aprG04jfX3EMKbOPBu95b
+         xL1dCW9l8KBp+333PBmln1HIjhsfpEuyhbI7MHMD+ZS04jijenSMAeJUEHqvtxMygai4
+         EDp7AXbiLhODKY2dC2v1KhUw2AbeCzyLub3PH5P0Asj5RCVj8r8ESN7yBQ3Mx+g8xirX
+         85zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TJyEVrvktv6Tufpho/NZ7KCvbKlhL+8KY18oT1f7uHk=;
-        b=FJULULKAAcnBe11wbD9qO34jMJKWBnu/n50Zy9IOS/yVArJ6HHkD0EV5TEU9MIev63
-         g02p8u1dTmV5DSEWXfZ/x6KblmQoZurUwIkEGMD2XG1WlvgWREGv+lpPo/hGN1UfXBuq
-         Mht5zcmAC2V8OJ4yB7Sctpq+53tzFDfmcZH0mai9BOba1nEPf8FfhaNckk9vEQr4YFL+
-         xFyy5cZRAsECc8ASz1gy+EcWK+ddt6FzqMIix5px5cTckU/eM14CMJwpd+IO6PQytZ5d
-         zkYeEviN+pSrHjaZZFwU6CMFVvFnhFxD65nfE7tsLaYxuwTFoIlyHUkehEB6IH58dxYp
-         NqPw==
-X-Gm-Message-State: APjAAAX6p0moDAVXzpv/hWh+i92aibcqaisN3267Ybe1WeD5Q3e0AcWI
-        Yq4+6G3OBc2iMa1Rwi1Rxg==
-X-Google-Smtp-Source: APXvYqxyLs6MFB7n9d1LRFWLjpK15UJ0Vz05okp6i1ecyTDNMHsqOeG5GSjwhhfcQTOtr1suT8/yeg==
-X-Received: by 2002:a05:6830:4d:: with SMTP id d13mr8171393otp.106.1556578397797;
-        Mon, 29 Apr 2019 15:53:17 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s202sm2479151oih.42.2019.04.29.15.53.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2019 15:53:16 -0700 (PDT)
-Date:   Mon, 29 Apr 2019 17:53:15 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Stu Hsieh <stu.hsieh@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        CK Hu <ck.hu@mediatek.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com
-Subject: Re: [PATCH v2 01/15] dt-bindings: media: Add binding for MT2712
- MIPI-CSI2
-Message-ID: <20190429225315.GA23589@bogus>
-References: <1555407015-18130-1-git-send-email-stu.hsieh@mediatek.com>
- <1555407015-18130-2-git-send-email-stu.hsieh@mediatek.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=JsAzde18G844oUFsP84w7alrwOBHCnuavwt/AS7sS2k=;
+        b=oGtH977N4LW3s62X4ycSLcdf6VsMIegp7k6JuDCoVBffgl8mstYg/3F8dP4N8CCLb8
+         6wWT/SDzDB7bUe/WiwGFO9/bQXbiJ8hPRgr/N+1HfcQgC85XW9FOW05UDCZ3JRs7Sj4A
+         TR2dbvT5F6snmJGj5hoJ4glWxFkkkOwXyfrydehT+aM9LK27hm2wNChgkB5aCe+3AXGM
+         2adc1pwibl1B7Rb7nlaS+rgJQCIFV1ivLZ7BE3wtLAvEImo4f6vhQzs4HprkanSZG2Qp
+         W4nqCUpTCIEmUDqJRpXw5LIucOUIVgvmeIUR/AFptEfD1vaGYOe7KgN+OWAZV0aVX8tN
+         AA/g==
+X-Gm-Message-State: APjAAAX+6gANpQuV7yeFpsNeCG25io/nLjcDZdRv//Js8rwEj4dm35GR
+        rjzQtkBgEHVgGpOfKeJ0ioKJdg==
+X-Google-Smtp-Source: APXvYqwJSGNUVuDa2FUM0o3OME5qMP0cGWBbqP2LXOcKpqiPUnnprVDe23XmndJihocMHghRo62FSA==
+X-Received: by 2002:aed:2196:: with SMTP id l22mr52293656qtc.226.1556585247694;
+        Mon, 29 Apr 2019 17:47:27 -0700 (PDT)
+Received: from skullcanyon ([2002:c0de:c115:0:481e:e17e:2f68:43f8])
+        by smtp.gmail.com with ESMTPSA id 46sm22813618qtz.87.2019.04.29.17.47.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 29 Apr 2019 17:47:26 -0700 (PDT)
+Message-ID: <8bfacddaf6c8a94bccbae5c6a83688d42bbf63a9.camel@ndufresne.ca>
+Subject: Re: [PATCH v4] media: docs-rst: Document m2m stateless video
+ decoder interface
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        kernel mailing list <kernel@lists.collabora.co.uk>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Thierry Reding <thierry.reding@gmail.com>
+Date:   Mon, 29 Apr 2019 20:47:23 -0400
+In-Reply-To: <0c8d534cf1ad262ab790f4ccfe9c2900e8a50aba.camel@bootlin.com>
+References: <20190306080019.159676-1-acourbot@chromium.org>
+         <371df0e4ec9e38d83d11171cbd98f19954cbf787.camel@ndufresne.ca>
+         <da5aa9ab957923a72e30b169a3c242c4fe6260f1.camel@bootlin.com>
+         <c07703459c7e48904bd7fd83be1e675c70eee83c.camel@ndufresne.ca>
+         <d81d0112b99feba0a1899f3722077a4aeec9860c.camel@bootlin.com>
+         <439b7f57aa3ba2b2ed5b043f961ef87cb83912af.camel@ndufresne.ca>
+         <59e23c5ca5bfbadf9441ea06da2e9b9b5898c6d7.camel@bootlin.com>
+         <0b495143bb260cf9f8927ee541e7f001842ac5c3.camel@ndufresne.ca>
+         <CAPBb6MVG+3jQcw3AuhYDYCZ0YJ0aX=TmEuM5izh12GLw9V6B8Q@mail.gmail.com>
+         <793af82c-6b37-6f69-648e-2cd2a2e87645@xs4all.nl>
+         <f30f69af184cc80d5c56853b517943f45c90d9d9.camel@ndufresne.ca>
+         <0a39c613-440d-c7a9-a078-b4688874f9e6@xs4all.nl>
+         <16a3a61fe354dc545e99aef36aa58c7d4943de26.camel@bootlin.com>
+         <d656119e73d491fe307045639ccc2102cb8a8722.camel@ndufresne.ca>
+         <0c8d534cf1ad262ab790f4ccfe9c2900e8a50aba.camel@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1555407015-18130-2-git-send-email-stu.hsieh@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 05:30:01PM +0800, Stu Hsieh wrote:
-> Add MIPI-CSI2 dt-binding for Mediatek MT2712 SoC
+Le lundi 29 avril 2019 à 22:32 +0200, Paul Kocialkowski a écrit :
+> > Adding Boris in CC. Boris, do you think that could possibly fit into
+> > your todo while working on the H264 accelerator on RK ? If needed I can
+> > generate test streams, there is couple of lines of code to remove / add
+> > in FFMPEG backend if you want to test this properly, though I'm not
+> > able to run this code atm (it requires a working DRM, and I'm having
+> > issues with my board in this regard).
 > 
-> Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
-> ---
->  .../bindings/media/mediatek-mipicsi-camsv.txt | 53 ++++++++++++++++++
->  .../media/mediatek-mipicsi-common.txt         | 19 +++++++
->  .../bindings/media/mediatek-mipicsi.txt       | 54 +++++++++++++++++++
->  3 files changed, 126 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
+> Well, that seems like a task that requires in-depth knowledge about how
+> the v4l2 m2m core and the request API work and some familiary with
+> it. My feeling is that Boris is pretty new to all of this, so perhaps
+> it would be best for him to focus on the rockchip driver alone, which
+> is already a significant piece of work on its own.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
-> new file mode 100644
-> index 000000000000..5f34974f12ac
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
-> @@ -0,0 +1,53 @@
-> +* Mediatek MIPI-CSI2 receiver camsv
-> +
-> +Mediatek MIPI-CSI2 receiver camsv transfer data to DRAM in Mediatek SoCs
-> +
-> +Required properties:
-> +- reg : physical base address of the mipicsi receiver registers and length of
-> +  memory mapped region.
-
-Looks like 2 regions in the example. What are they?
-
-> +- clocks: device clocks, see
-> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
-
-1 clock?
-
-> +- interrupts : interrupt number to the interrupt controller.
-> +
-> +Example:
-> +	seninf1_mux_camsv0: seninf_mux_camsv@15002100 {
-> +		reg = <0 0x15002120 0 0x40>,
-> +		      <0 0x15004000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
-> +		interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_LOW>;
-> +	};
-> +
-> +	seninf2_mux_camsv1: seninf_mux_camsv@15002500 {
-> +		reg = <0 0x15002520 0 0x40>,
-> +		      <0 0x15005000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
-> +		interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_LOW>;
-> +	};
-> +
-> +	seninf3_mux_camsv2: seninf_mux_camsv@15002900 {
-> +		reg = <0 0x15002920 0 0x40>,
-> +		      <0 0x15006000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
-> +		interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_LOW>;
-> +	};
-> +
-> +	seninf4_mux_camsv3: seninf_mux_camsv@15002D00 {
-> +		reg = <0 0x15002D20 0 0x40>,
-> +		      <0 0x15007000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
-> +		interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_LOW>;
-> +	};
-> +
-> +	seninf5_mux_camsv4: seninf_mux_camsv@15003100 {
-> +		reg = <0 0x15003120 0 0x40>,
-> +		      <0 0x15008000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
-> +		interrupts = <GIC_SPI 270 IRQ_TYPE_LEVEL_LOW>;
-> +	};
-> +
-> +	seninf6_mux_camsv5: seninf_mux_camsv@15003500 {
-> +		reg = <0 0x15003520 0 0x40>,
-> +		      <0 0x15009000 0 0x1000>;
-> +		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
-> +		interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_LOW>;
-> +	
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
-> new file mode 100644
-> index 000000000000..a67c744b75f0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
-> @@ -0,0 +1,19 @@
-> +* Mediatek MIPI-CSI2 receiver common
-> +
-> +Mediatek MIPI-CSI2 receiver is the MIPI Signal capture hardware present in Mediatek SoCs
-> +
-> +Required properties:
-> +- compatible: should be "mediatek,mt2712-mipicsi-common"
-> +- reg : physical base address of the mipicsi receiver registers and length of
-> +  memory mapped region.
-> +- clocks: device clocks, see
-> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
-
-How many clocks and what are they?
-
-> +
-> +
-> +Example:
-> +	mipicsi: mipicsi@15002000 {
-> +		compatible = "mediatek,mt2712-mipicsi-common", "syscon";
-> +		reg = <0 0x15002000 0 0x10>;
-> +		clocks = <&imgsys CLK_IMG_SENINF_CAM_EN>,
-> +			 <&imgsys CLK_IMG_SENINF_SCAM_EN>;
-> +	};
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
-> new file mode 100644
-> index 000000000000..24741ed62b25
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
-> @@ -0,0 +1,54 @@
-> +* Mediatek MIPI-CSI2 receiver
-> +
-> +Mediatek MIPI-CSI2 receiver is the MIPI Signal capture hardware present in Mediatek SoCs
-> +
-> +Required properties:
-> +- compatible: should be "mediatek,mt2712-mipicsi"
-> +- reg : physical base address of the mipicsi receiver registers and length of
-> +  memory mapped region.
-
-How many regions?
-
-> +- power-domains: a phandle to the power domain, see
-> +  Documentation/devicetree/bindings/power/power_domain.txt for details.
-> +- mediatek,larb: must contain the local arbiters in the current Socs, see
-> +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> +  for details.
-> +- iommus: should point to the respective IOMMU block with master port as
-> +  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-> +  for details.
-
-How many?
-
-> +- mediatek,seninf_mux_camsv: seninf_mux_camsv the data go through of the mipicsi port
-
-s/_/-/
-
-How many entries?
-
-> +- mediatek,mipicsiid: the id of the mipicsi port
-
-What is this for? We generally don't do device indexes in DT.
-
-> +- mediatek,mipicsi: the common component of the two mipicsi port
-> +
-> +Example:
-> +	mipicsi0: mipicsi@10217000 {
-> +		compatible = "mediatek,mt2712-mipicsi";
-> +		mediatek,mipicsi = <&mipicsi>;
-> +		iommus = <&iommu0 M4U_PORT_CAM_DMA0>,
-> +			 <&iommu0 M4U_PORT_CAM_DMA1>;
-> +		mediatek,larb = <&larb2>;
-> +		power-domains = <&scpsys MT2712_POWER_DOMAIN_ISP>;
-> +
-> +		mediatek,seninf_mux_camsv = <&seninf1_mux_camsv0
-> +					     &seninf2_mux_camsv1
-> +					     &seninf3_mux_camsv2
-> +					     &seninf4_mux_camsv3>;
-> +		reg = <0 0x10217000 0 0x60>,
-> +		      <0 0x15002100 0 0x4>,
-> +		      <0 0x15002300 0 0x100>;
-> +		mediatek,mipicsiid = <0>;
-> +		status="disabled";
-
-Don't show status in examples.
-
-> +	};
-> +
-> +	mipicsi1: mipicsi@10218000 {
-> +		compatible = "mediatek,mt2712-mipicsi";
-> +		mediatek,mipicsi = <&mipicsi>;
-> +		iommus = <&iommu0 M4U_PORT_CAM_DMA2>;
-> +		mediatek,larb = <&larb2>;
-> +		power-domains = <&scpsys MT2712_POWER_DOMAIN_ISP>;
-> +		mediatek,seninf_mux_camsv = <&seninf5_mux_camsv4
-> +					     &seninf6_mux_camsv5>;
-> +		reg = <0 0x10218000 0 0x60>,
-> +		      <0 0x15002500 0 0x4>,
-> +		      <0 0x15002700 0 0x100>;
-> +		mediatek,mipicsiid = <1>;
-> +		status="disabled";
-> +	};
-> \ No newline at end of file
-
-Fix this.
-
-> -- 
-> 2.18.0
+> It looks like Hans has proposed to come up with something soon, so
+> things are looking good for us. Once we have that, I think the next
+> area we need to look into is how we need to rework and refine the
+> controls. I think it would be good to define common guidelines for
+> adapting bitstream descriptions into controls with what the hardware
+> needs to know about precisely.
 > 
+> In spite of that, I would be very interested in knowing what the
+> rockchip MPEG-2 and H.264 decoders expect precisely. I'm also
+
+We are still working on that. For now, we believe that the list (and
+traces from real stream matches) are according to the standard
+"Initialization process" section 8.2.4.2. But they run both P and B
+initialization regardless of the type, hence the 3 lists. But the
+modification (section 8.4.2.3) are not applied. They also program the 3
+lists regardless of the current picture type. This is quite strange.
+Tomorrow I'll mark all b0/b1 value as invalid on P slice and the
+opposite for B slice to see if that still decodes fine. If that was the
+case, it would mean that the current list are complete, but not in the
+expected order.
+
+What I'm wondering is if it would be fine to add more information to
+the DPB entry so that we could simply implement 8.2.4.2 to re-create
+the pre-modification order. It's more doable then trying to reverse the
+modifications and would offer a better uAPI in exchange for a very
+small overhead.
+
+> interested in learning about Tegra decoders and there are also docs
+> about the Hantro G1 (MPEG-2 to H.264) and Hantro G2 (H.265) which are
+> well documented in the i.MX8M docs. It's also used on some Atmel
+> platforms apparently. So feedback regarding the current controls that
+> Maxime and I came up with would be welcome.
+
