@@ -2,234 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1474F1AF
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 09:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9519DF20A
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 10:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbfD3H45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Apr 2019 03:56:57 -0400
-Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:60915 "EHLO
-        4.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725769AbfD3H45 (ORCPT
+        id S1726685AbfD3IbV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Apr 2019 04:31:21 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:36281 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725769AbfD3IbU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Apr 2019 03:56:57 -0400
-X-Greylist: delayed 455 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Apr 2019 03:56:56 EDT
-Received: from player787.ha.ovh.net (unknown [10.108.35.240])
-        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 3182AF0485
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2019 09:49:19 +0200 (CEST)
-Received: from armadeus.com (lfbn-1-7591-179.w90-126.abo.wanadoo.fr [90.126.248.179])
-        (Authenticated sender: sebastien.szymanski@armadeus.com)
-        by player787.ha.ovh.net (Postfix) with ESMTPSA id 0350155C06F1;
-        Tue, 30 Apr 2019 07:49:02 +0000 (UTC)
-From:   =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org
-Cc:     NXP Linux Team <linux-imx@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Subject: [PATCH 2/2] media: imx7-media-csi: add i.MX6UL support
-Date:   Tue, 30 Apr 2019 09:49:11 +0200
-Message-Id: <20190430074911.8361-1-sebastien.szymanski@armadeus.com>
-X-Mailer: git-send-email 2.19.2
+        Tue, 30 Apr 2019 04:31:20 -0400
+Received: from [192.168.2.10] ([46.9.232.72])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id LOAUhXlsQb8gSLOAXhFCX5; Tue, 30 Apr 2019 10:31:18 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCH] vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+Message-ID: <87ad5e5c-088c-c5b6-f653-8936b8f334ab@xs4all.nl>
+Date:   Tue, 30 Apr 2019 10:31:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 18302347411810046999
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrieefgdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEz5Kowc0XKGqE0Y4zGN2o4ixX/EUiU3bxkhyG6A85RcFDUPWvzlqIeGbJRCP9bIbqKMEqBvDbEP2tenJc7NtyJEXnbVd1VkrHO44cEprWt5/3DLGBC0
+ 8S1WFkqUDSzbT6/QtzPqPyowZaARzE46lVJQbdKrdR7jcK6ErXoe2b9LNuqR3Gn1mj7kJkN7tJ9slCcUb8pjn3yPLqCZwskFJj0YYMNItaxKiJdQ8XDgjv+C
+ KYzF8bPsVj5FF2O8djyIsrB2M1iM5n2Ycl3KZl3kVxj64gl8Lz2cx32lQqFT5fLK0Q51p6t6oP6BWHQQ5yKyq62J567WJtx2eeCguim6BIZkTxx6PAwTq1Aj
+ rmoNFcO8tO0YqQgpfqZk9Zz00MhybJDbtvuJ8BJN95EpeRvkGXDpjU8LfptvZTdCbOo/GZwADltLvIa6QpYofTIx6i/jIg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-i.MX7 and i.MX6UL/L have the same CSI controller. So add i.MX6UL/L support
-to imx7-media-csi driver.
+This RFC patch adds support for the V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag.
+It also adds a new V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability and
+a v4l2_m2m_release_capture_buf() helper function.
 
-Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+Drivers should set vb2_queue->subsystem_flags to VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF
+to indicate support for this flag.
+
+At the start of the device_run function drivers should first check if the
+current capture buffer should be released:
+
+if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+	v4l2_m2m_job_finish(...);
+	return;
+}
+
+And at the end they should check (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
+and, if set, skip returning the capture buffer to vb2.
+
+This has only been compile tested, and this is missing the documentation. I would
+like to know if this works in a real driver first before turning this into a proper
+patch series.
+
+Regards,
+
+	Hans
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- This patch needs the following patch from Rui Miguel Silva:
- https://patchwork.linuxtv.org/patch/55657/
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index fb9ac7696fc6..83372de9b815 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -50,7 +50,8 @@ module_param(debug, int, 0644);
+ 				 V4L2_BUF_FLAG_TIMESTAMP_MASK)
+ /* Output buffer flags that should be passed on to the driver */
+ #define V4L2_BUFFER_OUT_FLAGS	(V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME | \
+-				 V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE)
++				 V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE | \
++				 V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
 
- I have tested this patch with a OV5640 sensor (8-bit parallel). The pipeline is:
+ /*
+  * __verify_planes_array() - verify that the planes array passed in struct
+@@ -321,6 +322,8 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+ 		 */
+ 		vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
+ 		vbuf->field = b->field;
++		if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
++			vbuf->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+ 	} else {
+ 		/* Zero any output buffer flags as this is a capture buffer */
+ 		vbuf->flags &= ~V4L2_BUFFER_OUT_FLAGS;
+@@ -659,6 +662,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+ 		*caps |= V4L2_BUF_CAP_SUPPORTS_USERPTR;
+ 	if (q->io_modes & VB2_DMABUF)
+ 		*caps |= V4L2_BUF_CAP_SUPPORTS_DMABUF;
++	if (q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)
++		*caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+ #ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
+ 	if (q->supports_requests)
+ 		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
+diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+index bb3e63d6bd1a..6af1d519938f 100644
+--- a/include/media/v4l2-mem2mem.h
++++ b/include/media/v4l2-mem2mem.h
+@@ -648,6 +648,38 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
+ 				struct vb2_v4l2_buffer *cap_vb,
+ 				bool copy_frame_flags);
 
- Device topology
- - entity 1: csi (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-        pad0: Sink
-                [fmt:UYVY8_2X8/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-                <- "ov5640 1-003c":0 [ENABLED]
-        pad1: Source
-                [fmt:UYVY8_2X8/640x480 field:none colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-                -> "csi capture":0 [ENABLED]
-
- - entity 4: csi capture (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video0
-        pad0: Sink
-                <- "csi":1 [ENABLED]
-
- - entity 10: ov5640 1-003c (1 pad, 1 link)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev1
-        pad0: Source
-                [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                -> "csi":0 [ENABLED]
-
- drivers/staging/media/imx/imx7-media-csi.c | 61 ++++++++++++++++------
- 1 file changed, 46 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a708a0340eb1..ef4534a96fa0 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -154,6 +154,11 @@
- 
- static const char * const imx7_csi_clk_id[] = {"axi", "dcic", "mclk"};
- 
-+enum csi_type {
-+	IMX7,
-+	IMX6UL
-+};
++/**
++ * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
++ * released
++ *
++ * @out_vb: the output buffer
++ * @cap_vb: the capture buffer
++ *
++ * This helper function returns true if the current capture buffer should
++ * be released to vb2. This is the case if the output buffer specified that
++ * the capture buffer should be held (i.e. not returned to vb2) AND if the
++ * timestamp of the capture buffer differs from the output buffer timestamp.
++ *
++ * This helper is to be called at the start of the device_run callback:
++ *
++ * if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
++ *	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
++ *	v4l2_m2m_job_finish(...);
++ *	return;
++ * }
++ *
++ * This allows for multiple output buffers to be used to fill in a single
++ * capture buffer. This is typically used by stateless decoders where
++ * multiple e.g. H.264 slices contribute to a single decoded frame.
++ */
++static inline bool v4l2_m2m_release_capture_buf(const struct vb2_v4l2_buffer *out_vb,
++						const struct vb2_v4l2_buffer *cap_vb)
++{
++	return (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF) &&
++		cap_vb->vb2_buf.copied_timestamp &&
++		out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
++}
 +
- struct imx7_csi {
- 	struct device *dev;
- 	struct v4l2_subdev sd;
-@@ -195,6 +200,7 @@ struct imx7_csi {
- 	bool is_init;
- 	bool is_streaming;
- 	bool is_csi2;
-+	enum csi_type type;
- 
- 	struct completion last_eof_completion;
+ /* v4l2 request helper */
+
+ void v4l2_m2m_request_queue(struct media_request *req);
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 22f3ff76a8b5..e9d99023c637 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -504,6 +504,8 @@ struct vb2_buf_ops {
+  * @buf_ops:	callbacks to deliver buffer information.
+  *		between user-space and kernel-space.
+  * @drv_priv:	driver private data.
++ * @subsystem_flags: Flags specific to the subsystem (V4L2/DVB/etc.). Not used
++ *		by the vb2 core.
+  * @buf_struct_size: size of the driver-specific buffer structure;
+  *		"0" indicates the driver doesn't want to use a custom buffer
+  *		structure type. for example, ``sizeof(struct vb2_v4l2_buffer)``
+@@ -570,6 +572,7 @@ struct vb2_queue {
+ 	const struct vb2_buf_ops	*buf_ops;
+
+ 	void				*drv_priv;
++	u32				subsystem_flags;
+ 	unsigned int			buf_struct_size;
+ 	u32				timestamp_flags;
+ 	gfp_t				gfp_flags;
+diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+index 8a10889dc2fd..4e52427a4114 100644
+--- a/include/media/videobuf2-v4l2.h
++++ b/include/media/videobuf2-v4l2.h
+@@ -49,6 +49,9 @@ struct vb2_v4l2_buffer {
+ 	struct vb2_plane	planes[VB2_MAX_PLANES];
  };
-@@ -554,6 +560,14 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 	if (ret)
- 		return ret;
- 
-+	if (csi->type == IMX6UL) {
-+		mutex_lock(&csi->lock);
-+		csi->is_csi2 = false;
-+		mutex_unlock(&csi->lock);
-+
-+		return 0;
-+	}
-+
- 	ret = imx7_csi_get_upstream_endpoint(csi, &upstream_ep, true);
- 	if (ret) {
- 		v4l2_err(&csi->sd, "failed to find upstream endpoint\n");
-@@ -763,6 +777,7 @@ static int imx7_csi_configure(struct imx7_csi *csi)
- 	struct v4l2_pix_format *out_pix = &vdev->fmt.fmt.pix;
- 	__u32 in_code = csi->format_mbus[IMX7_CSI_PAD_SINK].code;
- 	u32 cr1, cr18;
-+	int width = out_pix->width;
- 
- 	if (out_pix->field == V4L2_FIELD_INTERLACED) {
- 		imx7_csi_deinterlace_enable(csi, true);
-@@ -772,15 +787,27 @@ static int imx7_csi_configure(struct imx7_csi *csi)
- 		imx7_csi_buf_stride_set(csi, 0);
- 	}
- 
--	imx7_csi_set_imagpara(csi, out_pix->width, out_pix->height);
-+	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
-+
-+	if (!csi->is_csi2) {
-+		if (out_pix->pixelformat == V4L2_PIX_FMT_UYVY ||
-+		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
-+			width *= 2;
-+
-+		imx7_csi_set_imagpara(csi, width, out_pix->height);
-+
-+		cr18 |= (BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-+			BIT_BASEADDR_CHG_ERR_EN);
-+		imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
- 
--	if (!csi->is_csi2)
- 		return 0;
-+	}
-+
-+	imx7_csi_set_imagpara(csi, width, out_pix->height);
- 
- 	cr1 = imx7_csi_reg_read(csi, CSI_CSICR1);
- 	cr1 &= ~BIT_GCLK_MODE;
- 
--	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
- 	cr18 &= BIT_MIPI_DATA_FORMAT_MASK;
- 	cr18 |= BIT_DATA_FROM_MIPI;
- 
-@@ -815,12 +842,9 @@ static int imx7_csi_enable(struct imx7_csi *csi)
- {
- 	imx7_csi_sw_reset(csi);
- 
--	if (csi->is_csi2) {
--		imx7_csi_dmareq_rff_enable(csi);
--		imx7_csi_hw_enable_irq(csi);
--		imx7_csi_hw_enable(csi);
--		return 0;
--	}
-+	imx7_csi_dmareq_rff_enable(csi);
-+	imx7_csi_hw_enable_irq(csi);
-+	imx7_csi_hw_enable(csi);
- 
- 	return 0;
- }
-@@ -1218,20 +1242,33 @@ static int imx7_csi_clocks_get(struct imx7_csi *csi)
- 	return devm_clk_bulk_get(dev, csi->num_clks, csi->clks);
- }
- 
-+static const struct of_device_id imx7_csi_of_match[] = {
-+	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
-+	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
-+
- static int imx7_csi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *node = dev->of_node;
- 	struct imx_media_dev *imxmd;
- 	struct imx7_csi *csi;
-+	const struct of_device_id *of_id;
- 	struct resource *res;
- 	int ret;
- 
-+	of_id = of_match_node(imx7_csi_of_match, node);
-+	if (!of_id)
-+		return -ENODEV;
-+
- 	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
- 	if (!csi)
- 		return -ENOMEM;
- 
- 	csi->dev = dev;
-+	csi->type = (enum csi_type)of_id->data;
- 
- 	ret = imx7_csi_clocks_get(csi);
- 	if (ret < 0) {
-@@ -1349,12 +1386,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--static const struct of_device_id imx7_csi_of_match[] = {
--	{ .compatible = "fsl,imx7-csi" },
--	{ },
--};
--MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
--
- static struct platform_driver imx7_csi_driver = {
- 	.probe = imx7_csi_probe,
- 	.remove = imx7_csi_remove,
--- 
-2.19.2
 
++/* VB2 V4L2 flags as set in vb2_queue.subsystem_flags */
++#define VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF (1 << 0)
++
+ /*
+  * to_vb2_v4l2_buffer() - cast struct vb2_buffer * to struct vb2_v4l2_buffer *
+  */
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1050a75fb7ef..26925d63ea05 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -907,11 +907,12 @@ struct v4l2_requestbuffers {
+ };
+
+ /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
+-#define V4L2_BUF_CAP_SUPPORTS_MMAP	(1 << 0)
+-#define V4L2_BUF_CAP_SUPPORTS_USERPTR	(1 << 1)
+-#define V4L2_BUF_CAP_SUPPORTS_DMABUF	(1 << 2)
+-#define V4L2_BUF_CAP_SUPPORTS_REQUESTS	(1 << 3)
+-#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS (1 << 4)
++#define V4L2_BUF_CAP_SUPPORTS_MMAP			(1 << 0)
++#define V4L2_BUF_CAP_SUPPORTS_USERPTR			(1 << 1)
++#define V4L2_BUF_CAP_SUPPORTS_DMABUF			(1 << 2)
++#define V4L2_BUF_CAP_SUPPORTS_REQUESTS			(1 << 3)
++#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
++#define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+
+ /**
+  * struct v4l2_plane - plane info for multi-planar buffers
+@@ -1033,6 +1034,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+ #define V4L2_BUF_FLAG_IN_REQUEST		0x00000080
+ /* timecode field is valid */
+ #define V4L2_BUF_FLAG_TIMECODE			0x00000100
++/* Don't return the capture buffer until OUTPUT timestamp changes */
++#define V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF	0x00000200
+ /* Buffer is prepared for queuing */
+ #define V4L2_BUF_FLAG_PREPARED			0x00000400
+ /* Cache handling flags */
