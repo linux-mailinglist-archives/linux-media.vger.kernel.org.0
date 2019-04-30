@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E306F9F0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 15:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 712D6F9FD
+	for <lists+linux-media@lfdr.de>; Tue, 30 Apr 2019 15:27:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728566AbfD3NZ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Apr 2019 09:25:56 -0400
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:39617 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728549AbfD3NZz (ORCPT
+        id S1728639AbfD3N0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Apr 2019 09:26:00 -0400
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:44112 "EHLO
+        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728602AbfD3NZ7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Apr 2019 09:25:55 -0400
-Received: by mail-ua1-f73.google.com with SMTP id v5so1911420ual.6
-        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2019 06:25:54 -0700 (PDT)
+        Tue, 30 Apr 2019 09:25:59 -0400
+Received: by mail-qk1-f202.google.com with SMTP id b67so11748656qkc.11
+        for <linux-media@vger.kernel.org>; Tue, 30 Apr 2019 06:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=/erHdYVyxDvhPu3v7RMhd3dO9bpNIdyHyuRFKthPw/o=;
-        b=eEiOGFetYWxih+SqIZFzGNfWcb2WG27fgr8umX6U99zGn9TVk7qoyvUJvyLbyO9646
-         My6AFQXfx+E54pBbdCbbmUTy552nSiekbu8p+Z3EjOZkkRzKh6/KPKq2xMXR6PGCbeOC
-         fF7Wnybo7p7oNGCxEtdGcC/SjUjb33krZmpxfplFBazN0BgfioX0FSzySTA4N97gTFrT
-         W6ijBCliSwnkOOpdiWk5kSemwYixok6PKUQxZHW6VplcdEwGvrCZqCKdW+XjRywAL4b4
-         tr3KgVn6nyJgYRcK+gwURasQznomoMLJd50NL8tFT/I0TUKbeATfwfeLLEXDX2wH0kWJ
-         cXSQ==
+        bh=5l0a3uzMK38mxhU43HR3pLkdTsHYkFU/5p0+WtYx5vA=;
+        b=g9CCdO8J183ztwieMKtxq5bQgdPwn8MyKUl5zlyySPt09tOB1Gypd0bdF1FTgPWg9U
+         vgl3VSH+QbfWqwQxuQNAq18fHGv2grDucix13/YUy3bvOI1BB9BrzAgOyNFI+ychptbo
+         BVp24qrS90whe3PqSvAaQ8Kncxvv8pqzjLbVvi9smoyLBamx2Dg/fg59oj/C1VgTZmLk
+         po6sIoVdSb935f+/5YJnlpWSaOQYjK3//t7Ql3k3IgbH35nE1TWkeZ08/rMUWbwR2R7Q
+         rNZsAyxKMZqUS4nVVdVnnh9Mowjk/e6QvbUTkAZYjeM7AIkIVd6G6w9+5n4IsjstGWE8
+         jwFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=/erHdYVyxDvhPu3v7RMhd3dO9bpNIdyHyuRFKthPw/o=;
-        b=iBPlyST3zyUh1UpQQwiEqjXsGITSKoKNbuYfzltx/V6SV68gOpqaMDoL0O9hS9RYiB
-         4LN0MJfs1+BL1q2m/xkCljYxhk37DlM6lIApPYhcfv99gnHSOpxhJ0iFtHpV5WKxaYdF
-         nmbblWqjMR44eVX0/9SC24CE1J7Y8AYYArh9CoyKlmLuDSjgC09xvrXgq27zqmPvXr81
-         0xfm3GGdZ13Iq83p07GlFv6pVsh2ygnXxPw/8UETglHpyhSm7lAX3Nl2kAQd2mOUbJiJ
-         SXI9bF1R0M3niBiKNAtfqARbkbb0nUBnrsmh0SxGYrk9qK5ZchbKlmOOMIYKBIbAzQ/o
-         Cr4Q==
-X-Gm-Message-State: APjAAAUQ63EUVKDKCMUrXMiQtn6IRwCJRlkzefSUQStqCL8jnzylknkC
-        4cRz4UjAPRbeFtQlgwbmNq4l+YoDhQPgQC1i
-X-Google-Smtp-Source: APXvYqz67px3tLUaZFP489IW2cHQSs+LvJjC7bfPcwFfPsiBelEm070ukqvUpFmAC3UEaQxQ+Sud/QNcvCPvUR/K
-X-Received: by 2002:a67:82c8:: with SMTP id e191mr36596964vsd.24.1556630754448;
- Tue, 30 Apr 2019 06:25:54 -0700 (PDT)
-Date:   Tue, 30 Apr 2019 15:25:08 +0200
+        bh=5l0a3uzMK38mxhU43HR3pLkdTsHYkFU/5p0+WtYx5vA=;
+        b=Q7QmygYFrjtrlCJv/ZHGJAyn6/XtZzRHjpSB0vhvwbUuUyTh3aUiJnRrIy/vwVPNJy
+         GXqj4XhNUsDLkJhPSzQ1/6Y63p87sBx5tLENFkj4QXghWvt7nWV5J3QoYxYLGIqYbzjD
+         Ud6yNb6Dqy0RZHmuq+n93E7/O3yAjSQB/BtNpkEWGZtD8rws3fjEMiDYz+3VkHvlD1XC
+         +EPhy+jKXckE6lyADRhqQwMbc8wLNfFrc/PwUoYLgr/1ACA8AlWZgPNw/r87PiAUh3s8
+         r9A4vEz/WLcTZ45/tBQpsd5OSuG4wsl8VdhA3Fg5kNfOBPMS/1T29KpdSsT0tiqVgeqN
+         sLxg==
+X-Gm-Message-State: APjAAAWu7dJzgXFDyEqTzsASR7p9w+nXf5Y0KRyp7MAm20X1E2Lp91C+
+        fHTP4fpne6z/Wm9gcihmxVY+O0XfHg+qi5Mx
+X-Google-Smtp-Source: APXvYqzcKJMSJm3saTG/Jy9RV9wnqiRL/1GQ7HSUwiNcvOVWaTtiFz1xHas1LLHxgSsag1rnBPh3sxDf1Qf0ekUW
+X-Received: by 2002:a05:6214:18d:: with SMTP id q13mr1705396qvr.213.1556630757432;
+ Tue, 30 Apr 2019 06:25:57 -0700 (PDT)
+Date:   Tue, 30 Apr 2019 15:25:09 +0200
 In-Reply-To: <cover.1556630205.git.andreyknvl@google.com>
-Message-Id: <9a50ef07d927cbccd9620894bda825e551168c3d.1556630205.git.andreyknvl@google.com>
+Message-Id: <05c0c078b8b5984af4cc3b105a58c711dcd83342.1556630205.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1556630205.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
-Subject: [PATCH v14 12/17] drm/radeon, arm64: untag user pointers
+Subject: [PATCH v14 13/17] IB/mlx4, arm64: untag user pointers in mlx4_get_umem_mr
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -82,7 +82,8 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
+        Andrey Konovalov <andreyknvl@google.com>,
+        Leon Romanovsky <leonro@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -93,48 +94,42 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-radeon_ttm_tt_pin_userptr() uses provided user pointers for vma
-lookups, which can only by done with untagged pointers. This patch
-untags user pointers when they are being set in
-radeon_ttm_tt_pin_userptr().
+mlx4_get_umem_mr() uses provided user pointers for vma lookups, which can
+only by done with untagged pointers.
 
-In amdgpu_gem_userptr_ioctl() an MMU notifier is set up with a (tagged)
-userspace pointer. The untagged address should be used so that MMU
-notifiers for the untagged address get correctly matched up with the right
-BO. This patch untags user pointers in radeon_gem_userptr_ioctl().
+Untag user pointers in this function.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Reviewed-by: Leon Romanovsky <leonro@mellanox.com>
 ---
- drivers/gpu/drm/radeon/radeon_gem.c | 2 ++
- drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/infiniband/hw/mlx4/mr.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 44617dec8183..90eb78fb5eb2 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -291,6 +291,8 @@ int radeon_gem_userptr_ioctl(struct drm_device *dev, void *data,
- 	uint32_t handle;
- 	int r;
+diff --git a/drivers/infiniband/hw/mlx4/mr.c b/drivers/infiniband/hw/mlx4/mr.c
+index 395379a480cb..9a35ed2c6a6f 100644
+--- a/drivers/infiniband/hw/mlx4/mr.c
++++ b/drivers/infiniband/hw/mlx4/mr.c
+@@ -378,6 +378,7 @@ static struct ib_umem *mlx4_get_umem_mr(struct ib_udata *udata, u64 start,
+ 	 * again
+ 	 */
+ 	if (!ib_access_writable(access_flags)) {
++		unsigned long untagged_start = untagged_addr(start);
+ 		struct vm_area_struct *vma;
  
-+	args->addr = untagged_addr(args->addr);
-+
- 	if (offset_in_page(args->addr | args->size))
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 9920a6fc11bf..dce722c494c1 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -742,7 +742,7 @@ int radeon_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
- 	if (gtt == NULL)
- 		return -EINVAL;
- 
--	gtt->userptr = addr;
-+	gtt->userptr = untagged_addr(addr);
- 	gtt->usermm = current->mm;
- 	gtt->userflags = flags;
- 	return 0;
+ 		down_read(&current->mm->mmap_sem);
+@@ -386,9 +387,9 @@ static struct ib_umem *mlx4_get_umem_mr(struct ib_udata *udata, u64 start,
+ 		 * cover the memory, but for now it requires a single vma to
+ 		 * entirely cover the MR to support RO mappings.
+ 		 */
+-		vma = find_vma(current->mm, start);
+-		if (vma && vma->vm_end >= start + length &&
+-		    vma->vm_start <= start) {
++		vma = find_vma(current->mm, untagged_start);
++		if (vma && vma->vm_end >= untagged_start + length &&
++		    vma->vm_start <= untagged_start) {
+ 			if (vma->vm_flags & VM_WRITE)
+ 				access_flags |= IB_ACCESS_LOCAL_WRITE;
+ 		} else {
 -- 
 2.21.0.593.g511ec345e18-goog
 
