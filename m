@@ -2,197 +2,341 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6146F11431
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 09:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E04BD11549
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 10:24:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbfEBHdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 May 2019 03:33:47 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:36385 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725795AbfEBHdr (ORCPT
+        id S1726127AbfEBIYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 May 2019 04:24:11 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42233 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725944AbfEBIYK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 May 2019 03:33:47 -0400
+        Thu, 2 May 2019 04:24:10 -0400
 Received: from [192.168.2.10] ([46.9.232.72])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id M6DshvXDUNExlM6DvhmBY2; Thu, 02 May 2019 09:33:45 +0200
-Subject: Re: Questions regarding Documentation/media/uapi/v4l/field-order.rst
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        "Rodin, Michael (Ferchau; ADITG/ESM1)" <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     "Friedrich, Eugen (ADITG/ESM1)" <efriedrich@de.adit-jv.com>,
-        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <AC35D0CFBC66A84AAA9DF4334B52828D13614162@HI2EXCH01.adit-jv.com>
- <187c237b-6b75-f408-ae41-6065baf5cd7f@xs4all.nl>
- <4f57076c-9a41-dfe3-2d26-568be09b1637@gmail.com>
+        id M70bhvpw3NExlM70ehmMnQ; Thu, 02 May 2019 10:24:07 +0200
+Subject: Re: [PATCH 18/20] lib: image-formats: Add v4l2 formats support
+To:     Maxime Ripard <maxime.ripard@bootlin.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <cover.8ec406bf8f4f097e9dc909d5aac466556822f592.1555487650.git-series.maxime.ripard@bootlin.com>
+ <a9af304793a38b6001c9155f36e370002926841c.1555487650.git-series.maxime.ripard@bootlin.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <23fb5b15-a952-ed2f-0da4-bf4c5a5d93b5@xs4all.nl>
-Date:   Thu, 2 May 2019 09:33:40 +0200
+Message-ID: <5c904167-14f3-8e64-42f1-650d0689f78d@xs4all.nl>
+Date:   Thu, 2 May 2019 10:24:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <4f57076c-9a41-dfe3-2d26-568be09b1637@gmail.com>
+In-Reply-To: <a9af304793a38b6001c9155f36e370002926841c.1555487650.git-series.maxime.ripard@bootlin.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEUZu8150konz2uKMTg9o14kJQDuQdsyLuS0XrEgQvDlbiOzaxiH9F8DPMNgpeEXpwAb5vdFnmCHVb6EoEciMgYtQ8oblPrZb23NpgGk2PZOhAgfuOGt
- g0UUly6Md7e4VIGz/SQN0o+5brxC0jIKYQI/BWGhzfVE7SjB2kegH5oEKFNA9hdmHRnzb91pByHdM8YQEe20pFHsxn7dWw62p1EyCgDDs6U3xYFp/BsL1yM+
- xEqa6yE/sndjUsmd/Lvyam0S02Rh1YT4eBcPV02Io23cJqerKjM2MigOJbsi2xn8F7RTunSnMAdYOsw9FWwLIXirEEjYJwe5Au04yR9drJXn7hM1nBYwPVyJ
- IvqRxZSy1rTki+r6Q/UBAQsa0MSzYg==
+X-CMAE-Envelope: MS4wfK2oLcO4yRgTOk3hNM0fIcHIfQYN+EnKbGvw+wrdrrBNXji62ugoSC7OmbD2C0HjZsGFFjU64Pb3N+v5GncsKJecfhZFzDiS+1z9UB4jWY88XLGMFsY7
+ 4WIoORtOksdn+hGMS912G9N1ejB2dHgIoOkKaQM4HMyWu3zlEnBzv0Ywtp9+XXP3MrTK/7HBSAqvYUbEaX0PEkW8cz+N6nZpwjj4W66NAw3Q7YDQAQU82lve
+ 9E1fbl+Nxd/3HD+iRXivkSvkj3mXojttKjGijTID8rKsGt3WzNYjDhiO/fFWqPXZu0jMYYjmI+OP0knKSBBaCxu3m26c78BzsrsJ10T8fAkW0Omp7nn9xhgY
+ GfmexGAOk8AOOcc8wmfYpsudbfDrvN6fKFViabL//D4OKLuLHWxd/wIbl3hba9MWO8vml/T6T7DR8ItY9HSONGI/N3WKrIa1JNH+WrZkdw6Hsm8jY/H3GLge
+ n0PkMndezBERfVmcbY5iQbVxZMaeuO7dcdg6Rfg2ADginEOuH0gi+pTROFCsOyQOINY9A05MgFfaAC1BxJ3aIRPUvd7qK6a6ziktgRVDTgrakgOPoYU8EiBx
+ ul7jx/6qriP113MP/Ro6A2gj2wbgZ5olb7oTzNktqHbufm2fgxqTCryDOp7LR4ZqKkQBQzsvWzZAdBj3e9IkX2HBIDfabTVNDkmYvi4IuIUXcQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/1/19 2:09 AM, Steve Longerbeam wrote:
-> Hi Hans,
-> 
-> Thanks for the clarifications.
-> 
-> I have one additional comment.
-> 
-> The distinction between which field is _older_ (e.g. the field that was 
-> recorded or captured first by the video camera) and which field is 
-> _transmitted_ first needs to be more clear IMHO.
-> 
-> Even if there is no distinction, that is, all video equipment transmit 
-> fields in the same order they were recorded, I think this should be 
-> clarified better. The doc is using both terminology (captured first vs. 
-> transmitted first) so it would be helpful to clarify that they mean the 
-> same thing.
+Hi Maxime,
 
-Thank you for the suggestion. This can be improved. I'll add it as a TODO,
-but it's not high on my prio list, I'm afraid. If you don't want to wait
-for me, then feel free to post a patch.
+On 4/17/19 9:54 AM, Maxime Ripard wrote:
+> V4L2 uses different fourcc's than DRM, and has a different set of formats.
+> For now, let's add the v4l2 fourcc's for the already existing formats.
+
+For this lib to be more useful for V4L2, would it be a good idea to add
+Bayer formats as well? This can be done in a separate patch.
+
+Those formats are V4L specific, but are very common.
 
 Regards,
 
 	Hans
 
 > 
-> Steve
+> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> ---
+>  include/linux/image-formats.h |  9 +++++-
+>  lib/image-formats.c           | 62 ++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 71 insertions(+)
 > 
-> 
-> On 4/23/19 7:05 AM, Hans Verkuil wrote:
->> On 4/16/19 3:54 PM, Rodin, Michael (Ferchau; ADITG/ESM1) wrote:
->>> Hi,
->>>
->>> I would like to ask several questions regarding the documentation of the enum "v4l2_field" [1].
->>> These questions came up during my investigations of issues with interaction between
->>> the gstreamer plugin v4l2src and the rcar video input driver [2].
->>>
->>> The documentation [1] specifies that:
->>> "All video capture and output devices must report the current field order.
->>> Some drivers may permit the selection of a different order, to this end
->>> applications initialize the field field of struct v4l2_pix_format before
->>> calling the VIDIOC_S_FMT ioctl. If this is not desired it should have
->>> the value V4L2_FIELD_ANY (0)."
->>>
->>> If I have understood these lines correctly, this means that if userspace sets "field" member of
->>> the struct "v4l2_pix_format" to V4L2_FIELD_ANY and uses this as parameter for the VIDIOC_S_FMT ioctl,
->>> then a driver should select/report the field order, which was previously set by media-ctl utility
->>> in the next subdevice, which is connected to the /dev/videoX node
->>> (From my understanding this would be equivalent to the "current field order").
->>>
->>> If the described behavior is correct, then the description in the table row for V4L2_FIELD_ANY in [1] is incomplete:
->>> "Applications request this field order when any one of the V4L2_FIELD_NONE, V4L2_FIELD_TOP, V4L2_FIELD_BOTTOM, or V4L2_FIELD_INTERLACED formats is acceptable."
->>> What if V4L2_FIELD_ALTERNATE or V4L2_FIELD_SEQ_TB or V4L2_FIELD_SEQ_BT are also acceptable for the application?
->>> I think that the specification is either unprecise or my understanding of the specification is wrong.
->> The spec is a bit out of date: those missing field values were probably added after this
->> text was written. I'll make a patch fixing this.
->>
->>> Another potential issue, which I found in this documentation is that it does not distinguish between
->>> multiple contexts in which enum v4l2_field can be used. I can think of at least two different contexts:
->>> - When used to select the field order with VIDIOC_S_FMT ioctl.
->>> - When used to report the field order in a buffer: for example application sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl and then gets buffers, which have V4L2_FIELD_TOP/BOTTOM set.
->> IMHO the text is reasonably clear on that. But if you have suggestions to
->> improve it, then make a proposal.
->>
->>> Now with this in mind, when I read the description of V4L2_FIELD_NONE:
->>> "The driver may also indicate this order when it cannot distinguish between V4L2_FIELD_TOP and V4L2_FIELD_BOTTOM."
->> Whoops, that makes no sense. There are no drivers that do this. I'll remove this
->> line. If a driver can't tell the difference, then it should just pick FIELD_TOP
->> or BOTTOM.
->>
->>> I see two possible meanings/interpretations:
->>> - If application sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl, report V4L2_FIELD_NONE back
->>>     so the application knows that the driver can not provide any TOP/BOTTOM metadata in the buffers
->>>     (which may be necessary for the application for example for deinterlacing) before it has got any buffer.
->>> - If application sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl, driver reports V4L2_FIELD_ALTERNATE back,
->>>     even if it can not distinguish between TOP/BOTTOM. But when the application starts to read buffers,
->>>     they have V4L2_FIELD_NONE set if it's not possible to distinguish between TOP/BOTTOM.
->> Actually, drivers cannot ever return NONE for a top or bottom field. FIELD_NONE
->> indicates that a full frame has arrived, and doing something else would break
->> userspace.
->>
->>> Also there is another ambiguity in the description of V4L2_FIELD_NONE:
->>> "Images are in progressive format, not interlaced."
->>> What does "interlaced" mean in this case? Does it mean the other possible enum values or just the V4L2_FIELD_INTERLACED?
->> It means that the source video transmitted full frames, not top and bottom
->> fields. I clarified the text a bit.
->>
->>> If this just means V4L2_FIELD_INTERLACED, then it would imply that for example V4L2_FIELD_SEQ_TB
->>> and V4L2_FIELD_ALTERNATE are progressive formats, which is obviously not true.
->>> And also generally, in which of described contexts should be V4L2_FIELD_NONE set or reported (buffer or VIDIOC_S_FMT ioctl)?
->> For video capture (that's what we are talking about here) it is returned by the
->> driver in v4l2_buffer, never by userspace. Userspace can try to request a specific
->> field value when calling S_FMT, but the driver can overwrite it.
->>
->> The possible field values that a driver can support are dependent on the video
->> source (i.e. sensors are always FIELD_NONE) and the hardware capabilities.
->>
->>> Another point is that V4L2_FIELD_INTERLACED is also used by v4l2src to tell rcar-vin driver to combine the fields before giving them to application,
->>> so basically it requests progressive signal. So the meanings of V4L2_FIELD_INTERLACED and V4L2_FIELD_NONE are basically the same in this case.
->> Certainly not. FIELD_INTERLACED combines two fields into a single buffer, but the
->> odd and even lines in the frame were captured at different times. Whereas for
->> FIELD_NONE all lines were captured at the same time.
->>
->> So a FIELD_INTERLACED buffer may need to undergo additional deinterlacing.
->>
->> If the hardware already does high-quality deinterlacing then that might be
->> a reason for the driver to return FIELD_NONE to avoid additional deinterlacing
->> in userspace.
->>
->> In practice there are three main categories in the way the field is handled:
->>
->> 1) The video source is a webcam: field is always FIELD_NONE, set by the driver.
->>
->> 2) The video source is HDMI: if the video is progressive, then the field is always
->>     FIELD_NONE. If the video is interlaced, then the field is always FIELD_ALTERNATE
->>     in v4l2_format and alternating FIELD_TOP and BOTTOM in v4l2_buffer.
->>
->> 3) The video source is SDTV (i.e. S-Video or composite): the video is always
->>     interlaced, and it depends on the hardware which field values are supported,
->>     except for FIELD_NONE, which is never returned as far as I am aware.
->>
->> Regards,
->>
->> 	Hans
->>
->>> Thank you in advance and sorry for the long mail!
->>>
->>> [1] Documentation/media/uapi/v4l/field-order.rst
->>> [2] drivers/media/platform/rcar-vin
->>>
->>> Best regards
->>>
->>> Michael Rodin
->>>
->>> Advanced Driver Information Technology GmbH
->>> Engineering Software Multimedia 1 (ADITG/ESM1)
->>> Robert-Bosch-Str. 200
->>> 31139 Hildesheim
->>> Germany
->>>
->>> Tel. +49 5121 49 6936
->>> Fax +49 5121 49 6999
->>> mrodin@de.adit-jv.com
->>> Web: www.adit-jv.com
->>>
->>> ADIT is a joint venture company of Robert Bosch GmbH/Robert Bosch Car Multimedia GmbH and DENSO Corporation
->>> Sitz: Hildesheim, Registergericht: Amtsgericht Hildesheim HRB 3438
->>> Geschaeftsfuehrung: Wilhelm Grabow, Ken Yaguchi
->>>
+> diff --git a/include/linux/image-formats.h b/include/linux/image-formats.h
+> index ec43d9f9a527..b78b8e861fc9 100644
+> --- a/include/linux/image-formats.h
+> +++ b/include/linux/image-formats.h
+> @@ -50,6 +50,13 @@ struct image_format_info {
+>  	};
+>  
+>  	/**
+> +	 * @v4l2_fmt:
+> +	 *
+> +	 * V4L2 4CC format identifier (V4L2_PIX_FMT_*)
+> +	 */
+> +	u32 v4l2_fmt;
+> +
+> +	/**
+>  	 * @depth:
+>  	 *
+>  	 * Color depth (number of bits per pixel excluding padding bits),
+> @@ -382,6 +389,8 @@ uint64_t image_format_info_min_pitch(const struct image_format_info *info,
+>  }
+>  
+>  const struct image_format_info *__image_format_drm_lookup(u32 drm);
+> +const struct image_format_info *__image_format_v4l2_lookup(u32 v4l2);
+>  const struct image_format_info *image_format_drm_lookup(u32 drm);
+> +const struct image_format_info *image_format_v4l2_lookup(u32 v4l2);
+>  
+>  #endif /* _IMAGE_FORMATS_H_ */
+> diff --git a/lib/image-formats.c b/lib/image-formats.c
+> index 1e52a7410222..25fa22d243fb 100644
+> --- a/lib/image-formats.c
+> +++ b/lib/image-formats.c
+> @@ -25,12 +25,14 @@
+>  #include <linux/image-formats.h>
+>  #include <linux/kernel.h>
+>  #include <linux/math64.h>
+> +#include <linux/videodev2.h>
+>  
+>  #include <uapi/drm/drm_fourcc.h>
+>  
+>  static const struct image_format_info formats[] = {
+>  	{
+>  		.drm_fmt = DRM_FORMAT_C8,
+> +		.v4l2_fmt = V4L2_PIX_FMT_GREY,
+>  		.depth = 8,
+>  		.num_planes = 1,
+>  		.cpp = { 1, 0, 0 },
+> @@ -38,6 +40,7 @@ static const struct image_format_info formats[] = {
+>  		.vsub = 1,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_RGB332,
+> +		.v4l2_fmt = V4L2_PIX_FMT_RGB332,
+>  		.depth = 8,
+>  		.num_planes = 1,
+>  		.cpp = { 1, 0, 0 },
+> @@ -172,6 +175,7 @@ static const struct image_format_info formats[] = {
+>  		.has_alpha = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_RGB565,
+> +		.v4l2_fmt = V4L2_PIX_FMT_RGB565X,
+>  		.depth = 16,
+>  		.num_planes = 1,
+>  		.cpp = { 2, 0, 0 },
+> @@ -186,6 +190,7 @@ static const struct image_format_info formats[] = {
+>  		.vsub = 1,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_RGB888,
+> +		.v4l2_fmt = V4L2_PIX_FMT_BGR24,
+>  		.depth = 24,
+>  		.num_planes = 1,
+>  		.cpp = { 3, 0, 0 },
+> @@ -193,6 +198,7 @@ static const struct image_format_info formats[] = {
+>  		.vsub = 1,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_BGR888,
+> +		.v4l2_fmt = V4L2_PIX_FMT_RGB24,
+>  		.depth = 24,
+>  		.num_planes = 1,
+>  		.cpp = { 3, 0, 0 },
+> @@ -200,6 +206,7 @@ static const struct image_format_info formats[] = {
+>  		.vsub = 1,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_XRGB8888,
+> +		.v4l2_fmt = V4L2_PIX_FMT_XBGR32,
+>  		.depth = 24,
+>  		.num_planes = 1,
+>  		.cpp = { 4, 0, 0 },
+> @@ -304,6 +311,7 @@ static const struct image_format_info formats[] = {
+>  		.has_alpha = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_ARGB8888,
+> +		.v4l2_fmt = V4L2_PIX_FMT_ABGR32,
+>  		.depth = 32,
+>  		.num_planes = 1,
+>  		.cpp = { 4, 0, 0 },
+> @@ -384,6 +392,7 @@ static const struct image_format_info formats[] = {
+>  		.has_alpha = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YUV410,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YUV410,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -392,6 +401,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YVU410,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YVU410,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -416,6 +426,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YUV420,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YUV420,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -424,6 +435,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YVU420,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YVU420,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -432,6 +444,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YUV422,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YUV422P,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -448,6 +461,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YUV444,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YUV444,
+>  		.depth = 0,
+>  		.num_planes = 3,
+>  		.cpp = { 1, 1, 1 },
+> @@ -464,6 +478,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV12,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV12,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -472,6 +487,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV21,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV21,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -480,6 +496,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV16,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV16,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -488,6 +505,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV61,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV61,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -496,6 +514,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV24,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV24,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -504,6 +523,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_NV42,
+> +		.v4l2_fmt = V4L2_PIX_FMT_NV42,
+>  		.depth = 0,
+>  		.num_planes = 2,
+>  		.cpp = { 1, 2, 0 },
+> @@ -512,6 +532,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YUYV,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YUYV,
+>  		.depth = 0,
+>  		.num_planes = 1,
+>  		.cpp = { 2, 0, 0 },
+> @@ -520,6 +541,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_YVYU,
+> +		.v4l2_fmt = V4L2_PIX_FMT_YVYU,
+>  		.depth = 0,
+>  		.num_planes = 1,
+>  		.cpp = { 2, 0, 0 },
+> @@ -528,6 +550,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_UYVY,
+> +		.v4l2_fmt = V4L2_PIX_FMT_UYVY,
+>  		.depth = 0,
+>  		.num_planes = 1,
+>  		.cpp = { 2, 0, 0 },
+> @@ -536,6 +559,7 @@ static const struct image_format_info formats[] = {
+>  		.is_yuv = true,
+>  	}, {
+>  		.drm_fmt = DRM_FORMAT_VYUY,
+> +		.v4l2_fmt = V4L2_PIX_FMT_VYUY,
+>  		.depth = 0,
+>  		.num_planes = 1,
+>  		.cpp = { 2, 0, 0 },
+> @@ -653,3 +677,41 @@ const struct image_format_info *image_format_drm_lookup(u32 drm)
+>  	return format;
+>  }
+>  EXPORT_SYMBOL(image_format_drm_lookup);
+> +
+> +/**
+> + * __image_format_v4l2_lookup - query information for a given format
+> + * @v4l2: V4L2 fourcc pixel format (V4L2_PIX_FMT_*)
+> + *
+> + * The caller should only pass a supported pixel format to this function.
+> + *
+> + * Returns:
+> + * The instance of struct image_format_info that describes the pixel format, or
+> + * NULL if the format is unsupported.
+> + */
+> +const struct image_format_info *__image_format_v4l2_lookup(u32 v4l2)
+> +{
+> +	return __image_format_lookup(v4l2_fmt, v4l2);
+> +}
+> +EXPORT_SYMBOL(__image_format_v4l2_lookup);
+> +
+> +/**
+> + * image_format_v4l2_lookup - query information for a given format
+> + * @v4l2: V4L2 fourcc pixel format (V4L2_PIX_FMT_*)
+> + *
+> + * The caller should only pass a supported pixel format to this function.
+> + * Unsupported pixel formats will generate a warning in the kernel log.
+> + *
+> + * Returns:
+> + * The instance of struct image_format_info that describes the pixel format, or
+> + * NULL if the format is unsupported.
+> + */
+> +const struct image_format_info *image_format_v4l2_lookup(u32 v4l2)
+> +{
+> +	const struct image_format_info *format;
+> +
+> +	format = __image_format_v4l2_lookup(v4l2);
+> +
+> +	WARN_ON(!format);
+> +	return format;
+> +}
+> +EXPORT_SYMBOL(image_format_v4l2_lookup);
 > 
 
