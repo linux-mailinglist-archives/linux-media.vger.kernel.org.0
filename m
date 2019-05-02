@@ -2,136 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4B8123CE
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 23:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A4712426
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 23:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726145AbfEBVEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 May 2019 17:04:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39638 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725962AbfEBVEt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 May 2019 17:04:49 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x42KqHeT121696
-        for <linux-media@vger.kernel.org>; Thu, 2 May 2019 17:04:48 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2s83w1htvn-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-media@vger.kernel.org>; Thu, 02 May 2019 17:04:48 -0400
-Received: from localhost
-        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-media@vger.kernel.org> from <eajames@linux.ibm.com>;
-        Thu, 2 May 2019 22:04:47 +0100
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 2 May 2019 22:04:43 +0100
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x42L4gqc31784966
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 2 May 2019 21:04:42 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3755B12405B;
-        Thu,  2 May 2019 21:04:42 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BD5CF124052;
-        Thu,  2 May 2019 21:04:41 +0000 (GMT)
-Received: from [9.85.142.14] (unknown [9.85.142.14])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu,  2 May 2019 21:04:41 +0000 (GMT)
-Subject: Re: [PATCH 7/7] media: aspeed: refine interrupt handling logic
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190502191317.29698-1-jae.hyun.yoo@linux.intel.com>
- <20190502191317.29698-8-jae.hyun.yoo@linux.intel.com>
-From:   Eddie James <eajames@linux.ibm.com>
-Date:   Thu, 2 May 2019 16:04:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726231AbfEBVcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 May 2019 17:32:24 -0400
+Received: from mga06.intel.com ([134.134.136.31]:29953 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726128AbfEBVcY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 May 2019 17:32:24 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 May 2019 14:32:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,423,1549958400"; 
+   d="scan'208";a="136359276"
+Received: from navneet1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.48.157])
+  by orsmga007.jf.intel.com with ESMTP; 02 May 2019 14:32:08 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id F17F521DD2; Fri,  3 May 2019 00:32:02 +0300 (EEST)
+Date:   Fri, 3 May 2019 00:32:02 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Route lifetime in SUBDEV_[GS]_ROUTING
+Message-ID: <20190502213202.62sglrhgdgqiujsp@kekkonen.localdomain>
+References: <20190417104147.zlmbw32dr46vmtrq@paasikivi.fi.intel.com>
+ <20190423101932.gszkn4olqatoisde@uno.localdomain>
+ <20190423132839.3rybeo4rolzu6cfb@kekkonen.localdomain>
+ <20190426230042.soeb7wqxd56grn72@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20190502191317.29698-8-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19050221-0064-0000-0000-000003D5B388
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011037; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000285; SDB=6.01197665; UDB=6.00628187; IPR=6.00978521;
- MB=3.00026704; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-02 21:04:45
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050221-0065-0000-0000-00003D4C4D94
-Message-Id: <21bfb564-785b-24ad-4f03-d6762cc58a46@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-02_12:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=876 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905020131
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190426230042.soeb7wqxd56grn72@uno.localdomain>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jacopo,
 
-On 5/2/19 2:13 PM, Jae Hyun Yoo wrote:
-> There are cases that interrupt bits are cleared by a 500ms delayed
-> work which causes unnecessary irq calls. Also, the current
-> interrupt handler returns IRQ_HANDLED always but it should return
-> IRQ_NONE if there is any unhandled interrupt. So this commit
-> refines the interrupt handling logic to fix these issues.
+On Sat, Apr 27, 2019 at 01:00:42AM +0200, Jacopo Mondi wrote:
+> HI Sakari,
+> 
+> On Tue, Apr 23, 2019 at 04:28:40PM +0300, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
+> > On Tue, Apr 23, 2019 at 12:19:32PM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari,
+> > >
+> > > On Wed, Apr 17, 2019 at 01:41:48PM +0300, Sakari Ailus wrote:
+> > > > Hi Jacopo,
+> > > >
+> > > > I promised to write a bit about the routing problem I attempted to write on
+> > > > #v4l. It's a bit late, but here it is. Let me know if you share my
+> > > > understanding (and especially do so if you don't :)).
+> > >
+> > > Thanks for doing this, and sorry it took me a while to reply!
+> > >
+> > > >
+> > > > A route is identified by the source and sink pads as well as the stream ID
+> > > > on the source and the sink pads. Its flags allow enabling or disabling a
+> > > > route.
+> > > >
+> > > > Most devices that function as transmitters (such as sensors) have a fixed
+> > > > number of routes they can support. These's no need to change them; enabling
+> > > > and disabling them will be enough for the user.
+> > > >
+> > >
+> > > Fine so far.
+> > >
+> > > We indeed define routes as:
+> > > (sink pad - sink stream) -> (source pad - source stream)
+> > >
+> > > > For receivers this is different. What needs to be supported on the receiver
+> > > > side is directing any incoming stream (a 32-bit unsigned integer) to any
+> > > > source pad.
+> > > >
+> > > > This is because pads are not alike --- one may be connected to a block that
+> > > > further processes the image whereas the others may be connected to a DMA
+> > > > engine, just writing the data to memory.
+> > > >
+> > > > The receivers also may not make assumptions beyond the sub-device API: the
+> > > > stream is a 32-bit unsigned integer, there is currently no API requirement
+> > > > to have the stream IDs on a particular low integer range. In principle we
+> > > > could define that range, but I'd rather try to find better solutions than
+> > > > that: it's hard to come up with a number as it depends on the hardware.
+> > > > Some kind of an upper limit could be the number of CSI-2 channels
+> > > > multiplied by CSI-2 data types. That would be enough for CSI-2. 16 or 32
+> > > > virtual channels and up to 64 data types would mean up to 2048 routes
+> > > > between a demultiplexer's sink pad and *each* of its source pads. And this
+> > > > comes with an assumption that the source pads only support a single
+> > > > stream...
+> > >
+> > > I lost you here.
+> > >
+> > > My mental model was far more (too?) simple:
+> > >
+> > > - Routing tables inside an entity might have an arbitrary size, as how
+> > >   that configuration depends on the device and the driver
+> > >   implementation. As an example, the adv748x accepts 7 analogue
+> > >   inputs to chose from and route to a CSI-2 source pad.
+> > >   depending on the implementation, those 7 inputs could be modeled as
+> > >   7 pads with one stream each, or a single pad with 7 channels or
+> > >   whatever else, and I agree the 'stream_id' values range is totally
+> > >   up to the driver implementation -inside an entity-.
+> > >
+> > > - The cross-entity (sorry, I lack a better term here) multiplexing
+> > >   happens on physical bus that allows so, and I can only think of
+> > >   CSI-2 at the moment. Sure, you could share the lines of a parallel
+> > >   bus playing with enables/disables of the transmitters, but this
+> > >   is a custom hack that does not play well in this model.
+> > >   Each CSI-2 source pad has up to 4 streams (one per VC) and the
+> > >   content of those streams is retrieved from the transmitter by the
+> > >   receiver through the remote frame_desc operation [*], as receivers
+> > >   might need to be setup using to filter on particular VC/DT combinations
+> > >   to receive the stream.
+> >
+> > Note that the concept of a "stream" is different in our proposed API and in
+> > CSI-2 (virtual channel): on CSI-2 virtual channels can carry multiple data
+> > types but in our definition they do not. That means there will be more
+> > streams on SUBDEV_[GS]_ROUTING API than there are on a CSI-2 bus.
+> >
+> > We also do not limit the use of the new API to old CSI-2 D-PHYs that
+> > only support four virtual channels. Therefore we need to think how this
+> > would work on 16 or 32 virtual channels, and preferrably not posing
+> > problems with larger numbers either.
+> >
+> 
+> Indeed, each stream carries one DT and can be sent in one VC, so at least
+> 64*4 possible routes (per source pad) for what is currently specified by
+> CSI-2 and maybe up to 64*32 to have space for future extensions as you
+> explained below.
+> 
+> I agree, 2048 routes per source pad is not an easily manageable number
+> of entries for a routing table.
+> 
+> > >
+> > > - Each CSI-2 receiver sink pad supports 4 streams (the CSI-2 VCs) and any
+> > >   of those streams can be directed to any of its source pads, to
+> > >   implement what you have described (one pad connected to an ISP-like
+> > >   device, on other to the DMA engine directly etc)
+> > >
+> > > - DT negotiation is still a bit vague. The example we have on the
+> > >   series (adv748x and r-car csi2) configure the receiver's accepted DT
+> > >   inspecting the remote frame_desc. Again, as per [*] this migh be
+> > >   limitied to 1 DT for VC, which might not be enough and would require
+> > >   re-thinking the operation used for the negotiation.
+> > >
+> > > - Configuring a multiplexed source pad image format is today not
+> > >   possible, the format is always propagated from the sink pad to which
+> > >   a route is enabled to the source pad. Might this be a limitation on
+> > >   how we control which DTs are multiplexed inside a VC and won't allow
+> > >   to model any format conversion that might happen at the source pad
+> > >   output. I was toying myself with the idea of a stream-aware set
+> > >   format operation for multiplexed source pads, not sure it might work
+> > >   though.
+> > >
+> > > Can I ask you why:
+> > > - you mention 16 or 32 VCs ? Each CSI-2 link supports up to 4.
+> >
+> > See above.
+> >
+> > > - you put DT in the routing mix, and I suspect it is here where our
+> > >   disconnection happens. I always assume DT configuration as a result
+> > >   of a format configuration operation, which currently has limitations
+> > >   as noted here above.
+> >
+> > Yes; DT comes from the format and is generally determined by the
+> > transmitting driver. Nothing else limits the number of DTs on a VC except
+> > the number of DTs --- which is currently 64.
+> >
+> > >
+> > >
+> > > [*] I would later like to talk about if this is the most appropriate
+> > > operation to handle this negotiation, as I'm not sure we can handle DT
+> > > negotiation properly with that, but that's for later.
+> > >
+> > > >
+> > > > CSI-2 receivers support a number of simultaneous streams, and as the stream
+> > > > is demultiplexed there, this means there will be as many source pads as
+> > > > there are supported simultaneous streams. This heavily depe`nds on the
+> > > > hardware, but the number could be e.g. 1, 4 or 8. Much smaller than 2048 in
+> > > > any case.
+> > > >
+> > >
+> > > Why 8? Is this related to DT multiplexing again?
+> >
+> > Yes and no. It's just a random number between 1 and 2048. :-)
+> >
+> > >
+> > > > Another option could be creating no routes at all at device init time, and
+> > > > letting the user create them. We could add a new flag for routes telling
+> > > > that a route is dynamic: disabling a dynamic route would simply delete it.
+> > > > Likewise, a SUBDEV_G_ROUTING returning no routes (but no error either)
+> > > > would also tell the user only dynamic routes are supported.
+> > > >
+> 
+> I see your point, but I cannot see how one would easily map a stream_id to a
+> DT/VC combination. One way would be:
+>         DT = stream_id % 64; VC = stream_id / 64;
+> 
+> Just to make sure we're on the same page, how would you enable/disable
+> transmitting, say, embedded data (DT=18) on VC=2? By enabling/disabling
+> the stream_id 146 ( = 18 + 64 * 2) ?
 
+The stream ID that is used by the receiver must match that used on the
+transmitter. So presumably the transmitter will use a reasonable small
+integer number for that stream. The number of streams on the transmitter
+side is typically small, even if the maximum possible value is large. All
+the user needs to do is to use the same integer on the receiver's routing
+setup. The virtual channel or the data type aren't visible in the uAPI
+anyway.
 
-Thanks Jae, looks good.
+Does this answer the question? We could try discussing this on #v4l to
+converge faster. :-)
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+-- 
+Kind regards,
 
-
->
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->   drivers/media/platform/aspeed-video.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index 8d0bb395e46d..98944a911998 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -488,6 +488,7 @@ static void aspeed_video_off(struct aspeed_video *video)
->   
->   	/* Disable interrupts */
->   	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
-> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
->   
->   	/* Turn off the relevant clocks */
->   	clk_disable(video->vclk);
-> @@ -556,7 +557,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->   					    VE_INTERRUPT_MODE_DETECT, 0);
->   			aspeed_video_write(video, VE_INTERRUPT_STATUS,
->   					   VE_INTERRUPT_MODE_DETECT);
-> -
-> +			sts &= ~VE_INTERRUPT_MODE_DETECT;
->   			set_bit(VIDEO_MODE_DETECT_DONE, &video->flags);
->   			wake_up_interruptible_all(&video->wait);
->   		} else {
-> @@ -601,12 +602,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->   				    VE_INTERRUPT_COMP_COMPLETE, 0);
->   		aspeed_video_write(video, VE_INTERRUPT_STATUS,
->   				   VE_INTERRUPT_COMP_COMPLETE);
-> -
-> +		sts &= ~VE_INTERRUPT_COMP_COMPLETE;
->   		if (test_bit(VIDEO_STREAMING, &video->flags) && buf)
->   			aspeed_video_start_frame(video);
->   	}
->   
-> -	return IRQ_HANDLED;
-> +	return sts ? IRQ_NONE : IRQ_HANDLED;
->   }
->   
->   static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
-
+Sakari Ailus
+sakari.ailus@linux.intel.com
