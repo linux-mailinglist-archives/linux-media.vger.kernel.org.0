@@ -2,100 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31C911195A
-	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 14:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF4911984
+	for <lists+linux-media@lfdr.de>; Thu,  2 May 2019 14:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbfEBMtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 May 2019 08:49:49 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50961 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726267AbfEBMts (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 May 2019 08:49:48 -0400
-Received: from [IPv6:2001:420:44c1:2579:7549:573e:9131:939b] ([IPv6:2001:420:44c1:2579:7549:573e:9131:939b])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id MB9jhHJHEZVjxMB9nh6G4M; Thu, 02 May 2019 14:49:47 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.2] Various fixes
-Message-ID: <d5b4a68d-520e-0e93-d44e-07974058d690@xs4all.nl>
-Date:   Thu, 2 May 2019 14:49:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726709AbfEBM4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 May 2019 08:56:01 -0400
+Received: from casper.infradead.org ([85.118.1.10]:33114 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbfEBM4B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 May 2019 08:56:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=tcHL2blm9ynOYpWqMzfbIx2YVy5kv7jk6z9Ht/ZJGMo=; b=Ye2vyuEt1720XjqEirU81HuFcI
+        sSatA2vLMSPIIZup8V0sLaHawpOaLhfeUuezk0LsH2nPXTDYiPFgoeck9CEExOmXEtcfBQZHrjV24
+        NygfavLsmfQ3SYElZrQorV70Ey/J60KyTyqxmrZDXM09XmAsfINtJd9+GeWImefjp51LjxTITAEaQ
+        cuUFbthCdvLHLf28W6iZ2lSWidExHke/CyPXOs/jVP7hZ9rrI4T1oBa8+K6GcOJGC9iAPzoxkXSMD
+        23FxlWVbNsDAxUtJU+J7YAtC07LBtejiIDs8L83Dl0qMuUij6/lNp40HiGgA4VtBQyGxFLOXgeLl6
+        d3mt788g==;
+Received: from [177.159.247.19] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hMBFl-0002uH-Oa; Thu, 02 May 2019 12:55:58 +0000
+Date:   Thu, 2 May 2019 09:55:50 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media/doc: Allow sizeimage to be set by v4l clients
+Message-ID: <20190502095550.31282c0d@coco.lan>
+In-Reply-To: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
+References: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfHqKno825TTCFHwy23y/rxFOv7kOs+oGvMT3efO6z08DfmXCXn8ptwrbcm5TNYPRsH3DMeKNctge6NrDH9lGJUP46iRnN4tbW7H7VgKRL59/jRg9U0/5
- OCOscuw/YLMakoRHkjwJIzghs0+J750YDxLn/xyAYSXfE54N5Z5jtErDZrw7U7JsOfu0Lz7M8nLLiLBzfox0KQXpGcexc8kUfGKmbM2nEN7XjAUX2FiAhvq8
- CqZCV+th8eMEmurR1W7J5F/TPyjnfe3bz+hZccEAhgSD6YiPlU2HHMNWa4VNT+73
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This previous PR https://patchwork.linuxtv.org/patch/55818/ is now split
-in two, one with patches for 5.2 and one with stuff that can go into 5.3.
+Em Fri, 12 Apr 2019 18:59:15 +0300
+Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
 
-This PR contains the fixes for 5.2.
+> This changes v4l2_pix_format and v4l2_plane_pix_format sizeimage
+> field description to allow v4l clients to set bigger image size
+> in case of variable length compressed data.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst | 13 ++++++++++++-
+>  Documentation/media/uapi/v4l/pixfmt-v4l2.rst        | 11 ++++++++++-
+>  2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst b/Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst
+> index 5688c816e334..005428a8121e 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst
+> @@ -31,7 +31,18 @@ describing all planes of that format.
+>  
+>      * - __u32
+>        - ``sizeimage``
+> -      - Maximum size in bytes required for image data in this plane.
+> +      - Maximum size in bytes required for image data in this plane,
+> +	set by the driver. When the image consists of variable length
+> +	compressed data this is the number of bytes required by the
+> +	codec to support the worst-case compression scenario.
+> +
+> +	For uncompressed images the driver will set the value. For
+> +	variable length compressed data clients are allowed to set
+> +	the sizeimage field, but the driver may ignore it and set the
+> +	value itself, or it may modify the provided value based on
+> +	alignment requirements or minimum/maximum size requirements.
+> +	If the client wants to leave this to the driver, then it should
+> +	set sizeimage to 0.
+>      * - __u32
+>        - ``bytesperline``
+>        - Distance in bytes between the leftmost pixels in two adjacent
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-v4l2.rst b/Documentation/media/uapi/v4l/pixfmt-v4l2.rst
+> index 71eebfc6d853..0f7771151db9 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-v4l2.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-v4l2.rst
+> @@ -89,7 +89,16 @@ Single-planar format structure
+>        - Size in bytes of the buffer to hold a complete image, set by the
+>  	driver. Usually this is ``bytesperline`` times ``height``. When
+>  	the image consists of variable length compressed data this is the
+> -	maximum number of bytes required to hold an image.
+> +	number of bytes required by the codec to support the worst-case
+> +	compression scenario.
+> +
+> +	For uncompressed images the driver will set the value. For
+> +	variable length compressed data clients are allowed to set
+> +	the sizeimage field, but the driver may ignore it and set the
+> +	value itself, or it may modify the provided value based on
+> +	alignment requirements or minimum/maximum size requirements.
+> +	If the client wants to leave this to the driver, then it should
+> +	set sizeimage to 0.
 
-Regards,
+It is very confusing to understand what you meant by the above paragraph,
+as you inverted the sentence order and forgot a comma.
 
-	Hans
+I would, instead, write the phrases using the direct order, and break
+into two paragraphs, e. g., changing the above to:
 
-The other patches of that previous PR will be added to a PR for
+	"The driver will set the value for uncompressed images.
 
-The following changes since commit 7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd:
+	Clients are allowed to set the sizeimage field for variable length
+	compressed data, but the driver may ignore it and set the
+	value itself, or it may modify the provided value based on
+	alignment requirements or minimum/maximum size requirements.
+	If the client wants to leave this to the driver, then it should
+	set sizeimage to 0."
 
-  media: vsp1: Add support for missing 16-bit RGB555 formats (2019-04-25 11:07:05 -0400)
+That makes it a lot easier to read, hopefully preventing mistakes from
+app and driver developers when reading about sizeimage.
 
-are available in the Git repository at:
+Yet, I'm not too comfortable on letting this too generic. I mean,
+how an app writer would know what formats are "variable length
+compressed data", specially since libv4l may actually change that.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.2k
-
-for you to fetch changes up to 43a25a7f5176a8e7671dd2728f0f25f3c6ebf791:
-
-  tegra-cec: fix cec_notifier_parse_hdmi_phandle return check (2019-05-02 14:39:55 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dan Carpenter (2):
-      media: omap_vout: potential buffer overflow in vidioc_dqbuf()
-      media: davinci/vpbe: array underflow in vpbe_enum_outputs()
-
-Eugen Hristev (3):
-      media: atmel: atmel-isc: limit incoming pixels per frame
-      media: atmel: atmel-isc: fix INIT_WORK misplacement
-      media: atmel: atmel-isc: fix asd memory allocation
-
-Hans Verkuil (2):
-      field-order.rst: clarify FIELD_ANY and FIELD_NONE
-      tegra-cec: fix cec_notifier_parse_hdmi_phandle return check
-
-Niklas Söderlund (2):
-      rcar-csi2: restart CSI-2 link if error is detected
-      rcar-csi2: Propagate the FLD signal for NTSC and PAL
-
-Philipp Zabel (1):
-      media: coda: fix unset field and fail on invalid field in buf_prepare
-
-Rui Miguel Silva (1):
-      media: staging/imx: add media device to capture register
-
- Documentation/media/uapi/v4l/field-order.rst  | 16 +++++++---------
- drivers/media/platform/atmel/atmel-isc-regs.h | 19 +++++++++++++++++++
- drivers/media/platform/atmel/atmel-isc.c      | 46 ++++++++++++++++++++++++++++++++++++++++++----
- drivers/media/platform/coda/coda-common.c     | 10 ++++++++++
- drivers/media/platform/davinci/vpbe.c         |  2 +-
- drivers/media/platform/omap/omap_vout.c       | 15 ++++++---------
- drivers/media/platform/rcar-vin/rcar-csi2.c   | 68 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
- drivers/media/platform/tegra-cec/tegra_cec.c  |  4 ++--
- drivers/staging/media/imx/imx-ic-prpencvf.c   |  2 +-
- drivers/staging/media/imx/imx-media-capture.c |  6 +++---
- drivers/staging/media/imx/imx-media-csi.c     |  2 +-
- drivers/staging/media/imx/imx-media.h         |  3 ++-
- drivers/staging/media/imx/imx7-media-csi.c    |  2 +-
- include/media/davinci/vpbe.h                  |  2 +-
- 14 files changed, 160 insertions(+), 37 deletions(-)
+Thanks,
+Mauro
