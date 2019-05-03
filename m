@@ -2,157 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B148012D50
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2019 14:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BAC12D63
+	for <lists+linux-media@lfdr.de>; Fri,  3 May 2019 14:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbfECMP7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 May 2019 08:15:59 -0400
-Received: from mail-eopbgr750047.outbound.protection.outlook.com ([40.107.75.47]:55278
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727022AbfECMP7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 May 2019 08:15:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vP8KghCwLC9SX9KlcJ0beUsqEQtZycE9YDWd3iaRohI=;
- b=3AmAgBWCUbkJjrOC+ORsnq534oquZdTu4nMvGQukuvCyKc35miu4kkzSmIVTrV6GRkrDSbWdOzcx5QZVh2Rkb4sW/y/pZaXGmktQZSh3IDsdYvkBg26xIvl2+yvFt7+ahXIyP3Tj2NkdpFduWse6Yt2swbn6APN+Ff9rY3SRKpA=
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB2501.namprd12.prod.outlook.com (52.132.141.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.10; Fri, 3 May 2019 12:15:53 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::70fc:f26c:1e22:73ba]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::70fc:f26c:1e22:73ba%10]) with mapi id 15.20.1856.008; Fri, 3 May 2019
- 12:15:53 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "digetx@gmail.com" <digetx@gmail.com>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "sstabellini@kernel.org" <sstabellini@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "pawel@osciak.com" <pawel@osciak.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "jgross@suse.com" <jgross@suse.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kyungmin.park@samsung.com" <kyungmin.park@samsung.com>
-Subject: Re: [Intel-gfx] [PATCH] dma-buf: add struct dma_buf_attach_info v2
-Thread-Topic: [Intel-gfx] [PATCH] dma-buf: add struct dma_buf_attach_info v2
-Thread-Index: AQHVAakX08N5MfJN2UuxGmp0NXoZTaZZUImA
-Date:   Fri, 3 May 2019 12:15:53 +0000
-Message-ID: <64f9e5ed-eb7d-d0f9-5041-05ac711b213e@amd.com>
-References: <20190430111002.106168-1-christian.koenig@amd.com>
- <20190430173127.k5ivpaz6ktbfecgo@shell.armlinux.org.uk>
- <cbcbb076-a8b0-67b0-8c16-daf1d060fc1d@gmail.com>
- <20190503120933.GL3271@phenom.ffwll.local>
-In-Reply-To: <20190503120933.GL3271@phenom.ffwll.local>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM5P190CA0010.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:206:14::23) To DM5PR12MB1546.namprd12.prod.outlook.com
- (2603:10b6:4:8::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b4d5c0af-3970-4b56-ca92-08d6cfc1168d
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB2501;
-x-ms-traffictypediagnostic: DM5PR12MB2501:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DM5PR12MB25017250302F2F14486BA1B783350@DM5PR12MB2501.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0026334A56
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(346002)(136003)(366004)(39860400002)(396003)(189003)(199004)(6246003)(6436002)(64126003)(6512007)(71200400001)(2501003)(6486002)(11346002)(229853002)(14444005)(5024004)(53936002)(65806001)(65956001)(5660300002)(446003)(36756003)(110136005)(71190400001)(102836004)(6306002)(6116002)(31686004)(2616005)(186003)(2906002)(72206003)(486006)(478600001)(73956011)(966005)(66946007)(2201001)(305945005)(7736002)(65826007)(86362001)(64756008)(52116002)(46003)(476003)(58126008)(6506007)(68736007)(66574012)(14454004)(8936002)(66556008)(25786009)(99286004)(7416002)(81166006)(31696002)(386003)(316002)(256004)(66446008)(81156014)(8676002)(76176011)(66476007)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB2501;H:DM5PR12MB1546.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Ty1jb6YkPLPnqBYPNAIiOPPKrVsARsWqj0hr7ftIxwJA5xmqt///Cg+I2s9L3Fh7fLZRv5suyUirvyDk0D9HgzhT47aDN6nPxWKKKi357szXAsLW0AH23EPtnUumzLD6HcI0xPSqtzsZzxlSYAROMF7GQC7AR/T0MNMe0T7pmXO2/ZkOXehzKJ29gCpauWsS39t78/To3fOqGhpRTb+sZoYCWV1iy2+OXpuH0f97ptPxmo8xfJm++UhyiDUCKxobfo8SI5Oh/oJob68N4kbKM7zOWE5AEG5JY+8QyGnNWpcAHEX65NBDWbJq+NLc94KKWkDxqQZaG4vKDQJt/8Jo2b2Y/jjyKbY753kiSeQ4Itg5n0buYAimIFhsCSsHQIvPegER3uXbY6nFAK/2nb8tXStbkxzVIl6kzEHQ5H1GhnY=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8E3BFC8FCF8F65429E5AD60DC34769C0@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1727781AbfECMUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 May 2019 08:20:14 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:38179 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbfECMUO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 May 2019 08:20:14 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1hMXAi-00025r-In; Fri, 03 May 2019 14:20:12 +0200
+Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1hMXAh-0008Ta-PP; Fri, 03 May 2019 14:20:11 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
+        tfiga@chromium.org, dshah@xilinx.com, hverkuil@xs4all.nl,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH v5 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
+Date:   Fri,  3 May 2019 14:20:05 +0200
+Message-Id: <20190503122010.16663-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4d5c0af-3970-4b56-ca92-08d6cfc1168d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2019 12:15:53.6345
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2501
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMDMuMDUuMTkgdW0gMTQ6MDkgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBbQ0FVVElPTjog
-RXh0ZXJuYWwgRW1haWxdDQo+DQo+IE9uIEZyaSwgTWF5IDAzLCAyMDE5IGF0IDAyOjA1OjQ3UE0g
-KzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6DQo+PiBBbSAzMC4wNC4xOSB1bSAxOTozMSBz
-Y2hyaWViIFJ1c3NlbGwgS2luZyAtIEFSTSBMaW51eCBhZG1pbjoNCj4+PiBPbiBUdWUsIEFwciAz
-MCwgMjAxOSBhdCAwMToxMDowMlBNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOg0KPj4+
-PiBBZGQgYSBzdHJ1Y3R1cmUgZm9yIHRoZSBwYXJhbWV0ZXJzIG9mIGRtYV9idWZfYXR0YWNoLCB0
-aGlzIG1ha2VzIGl0IG11Y2ggZWFzaWVyDQo+Pj4+IHRvIGFkZCBuZXcgcGFyYW1ldGVycyBsYXRl
-ciBvbi4NCj4+PiBJIGRvbid0IHVuZGVyc3RhbmQgdGhpcyByZWFzb25pbmcuICBXaGF0IGFyZSB0
-aGUgIm5ldyBwYXJhbWV0ZXJzIiB0aGF0DQo+Pj4gYXJlIGJlaW5nIHByb3Bvc2VkLCBhbmQgd2h5
-IGRvIHdlIG5lZWQgdG8gcHV0IHRoZW0gaW50byBtZW1vcnkgdG8gcGFzcw0KPj4+IHRoZW0gYWNy
-b3NzIHRoaXMgaW50ZXJmYWNlPw0KPj4+DQo+Pj4gSWYgdGhlIGludGVudGlvbiBpcyB0byBtYWtl
-IGl0IGVhc2llciB0byBjaGFuZ2UgdGhlIGludGVyZmFjZSwgcGFzc2luZw0KPj4+IHBhcmFtZXRl
-cnMgaW4gdGhpcyBtYW5uZXIgbWVhbiB0aGF0IGl0J3MgZWFzeSBmb3IgdGhlIGludGVyZmFjZSB0
-bw0KPj4+IGNoYW5nZSBhbmQgZHJpdmVycyBub3QgdG8gbm90aWNlIHRoZSBjaGFuZ2VzLCBzaW5j
-ZSB0aGUgY29tcGlsZXIgd2lsbA0KPj4+IG5vdCB3YXJuICh1bmxlc3Mgc29tZSBtZW1iZXIgb2Yg
-dGhlIHN0cnVjdHVyZSB0aGF0IHRoZSBkcml2ZXIgaXMgdXNpbmcNCj4+PiBnZXRzIHJlbW92ZWQs
-IGluIHdoaWNoIGNhc2UgaXQgd2lsbCBlcnJvci4pDQo+Pj4NCj4+PiBBZGRpdGlvbnMgdG8gdGhl
-IHN0cnVjdHVyZSB3aWxsIGdvIHVubm90aWNlZCBieSBkcml2ZXJzIC0gd2hhdCBpZiB0aGUNCj4+
-PiBjYWxsZXIgaXMgZXhwZWN0aW5nIHNvbWUgZGlmZmVyZW50IGtpbmQgb2YgYmVoYXZpb3VyLCBh
-bmQgdGhlIGRyaXZlcg0KPj4+IGlnbm9yZXMgdGhhdCBuZXcgYWRkaXRpb24/DQo+PiBXZWxsLCBl
-eGFjdGx5IHRoYXQncyB0aGUgaW50ZW50aW9uIGhlcmU6IFRoYXQgdGhlIGRyaXZlcnMgdXNpbmcg
-dGhpcw0KPj4gaW50ZXJmYWNlIHNob3VsZCBiZSBhYmxlIHRvIGlnbm9yZSB0aGUgbmV3IGFkZGl0
-aW9ucyBmb3Igbm93IGFzIGxvbmcgYXMgdGhleQ0KPj4gYXJlIG5vdCBnb2luZyB0byB1c2UgdGhl
-bS4NCj4+DQo+PiBUaGUgYmFja2dyb3VuZCBpcyB0aGF0IHdlIGhhdmUgbXVsdGlwbGUgaW50ZXJm
-YWNlIGNoYW5nZXMgaW4gdGhlIHBpcGVsaW5lLA0KPj4gYW5kIGVhY2ggc3RlcCByZXF1aXJlcyBu
-ZXcgb3B0aW9uYWwgcGFyYW1ldGVycy4NCj4+DQo+Pj4gVGhpcyBkb2Vzbid0IHNlZW0gdG8gbWUg
-bGlrZSBhIGdvb2QgaWRlYS4NCj4+IFdlbGwsIHRoZSBvYnZpb3VzIGFsdGVybmF0aXZlcyBhcmU6
-DQo+Pg0KPj4gYSkgQ2hhbmdlIGFsbCBkcml2ZXJzIHRvIGV4cGxpY2l0bHkgcHJvdmlkZSBOVUxM
-LzAgZm9yIHRoZSBuZXcgcGFyYW1ldGVycy4NCj4+DQo+PiBiKSBVc2UgYSB3cmFwcGVyLCBzbyB0
-aGF0IHRoZSBmdW5jdGlvbiBzaWduYXR1cmUgb2YgZG1hX2J1Zl9hdHRhY2ggc3RheXMgdGhlDQo+
-PiBzYW1lLg0KPj4NCj4+IEtleSBwb2ludCBoZXJlIGlzIHRoYXQgSSBoYXZlIGFuIGludmFsaWRh
-dGlvbiBjYWxsYmFjayBjaGFuZ2UsIGEgUDJQIHBhdGNoDQo+PiBzZXQgYW5kIHNvbWUgbG9ja2lu
-ZyBjaGFuZ2VzIHdoaWNoIGFsbCByZXF1aXJlIGFkZGluZyBuZXcgcGFyYW1ldGVycyBvcg0KPj4g
-ZmxhZ3MuIEFuZCBhdCBlYWNoIHN0ZXAgSSB3b3VsZCB0aGVuIHN0YXJ0IHRvIGNoYW5nZSBhbGwg
-ZHJpdmVycywgYWRkaW5nDQo+PiBzb21lIG1vcmUgTlVMTCBwb2ludGVycyBvciBmbGFncyB3aXRo
-IDAgZGVmYXVsdCB2YWx1ZS4NCj4+DQo+PiBJJ20gYWN0dWFsbHkgcGVyZmVjdGx5IGZpbmUgZ29p
-bmcgZG93biBhbnkgcm91dGUsIGJ1dCB0aGlzIGp1c3Qgc2VlbWVkIHRvIG1lDQo+PiBzaW1wbGVz
-dCBhbmQgd2l0aCB0aGUgbGVhc3QgcmlzayBvZiBicmVha2luZyBhbnl0aGluZy4gT3BpbmlvbnM/
-DQo+IEkgdGhpbmsgZ2l2ZW4gYWxsIG91ciBkaXNjdXNzaW9ucyBhbmQgcGxhbnMgdGhlIGFyZ3Vt
-ZW50IG9iamVjdCBtYWtlcyB0b25zDQo+IG9mIHNlbnNlLiBNdWNoIGVhc2llciB0byBkb2N1bWVu
-dCB3ZWxsIHRoYW4gYSBsb25nIGxpc3Qgb2YgcGFyYW1ldGVycy4NCj4gTWF5YmUgd2Ugc2hvdWxk
-IG1ha2UgaXQgY29uc3QsIHNvIGl0IGNvdWxkIHdvcmsgbGlrZSBhbiBvcHMvZnVuYyB0YWJsZSBh
-bmQNCj4gd2UgY291bGQgc3RvcmUgaXQgYXMgYSBwb2ludGVyIGluIHRoZSBkbWFfYnVmX2F0dGFj
-aG1lbnQ/DQoNClllYWgsIHRoZSBpbnZhbGlkYXRpb24gY2FsbGJhY2sgYW5kIFAyUCBmbGFncyBh
-cmUgY29uc3RhbnQuIEJ1dCB0aGUgDQppbXBvcnRlcl9wcml2IGZpZWxkIGlzbid0Lg0KDQpXZSBj
-b3VsZCBkbyBzb21ldGhpbmcgbGlrZSBhZGRpbmcgdGhlIGltcG9ydGVyX3ByaXYgZmllbGQgYXMg
-cGFyYW1ldGVyIA0KYW5kIHRoZSBvdGhlciB0d28gYXMgY29uc3Qgc3RydWN0dXJlLg0KDQpUaGly
-ZCBhbHRlcm5hdGl2ZSB3b3VsZCBiZSB0byB0aHJvdyBvdXQgYWxsIHRoZSBEUk0gYWJzdHJhY3Rp
-b24gYW5kIGp1c3QgDQplbWJlZCB0aGUgYXR0YWNobWVudCBzdHJ1Y3R1cmUgaW4gdGhlIGJ1ZmZl
-ciBvYmplY3QgYW5kIGdldCBjb21wbGV0ZWx5IA0KcmlkIG9mIHRoZSBpbXBvcnRlcl9wcml2IGZp
-ZWxkIChwcm9iYWJseSB0aGUgY2xlYW5lc3QgYWx0ZXJuYXRpdmUsIGJ1dCANCmFsc28gdGhlIG1v
-c3Qgd29yayB0b2RvKS4NCg0KQ2hyaXN0aWFuLg0KDQo+IC1EYW5pZWwNCj4gLS0NCj4gRGFuaWVs
-IFZldHRlcg0KPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24NCj4gaHR0cDov
-L2Jsb2cuZmZ3bGwuY2gNCg0K
+It has been a while since the last update, but here is v5 of the Allegro DVT
+H.264 encoder found in the EV family of the Xilinx ZynqMP platform.
+
+Patch 3 ("media: dt-bindings: media: Add vendor prefix for allegro") is new
+and adds the Allegro DVT vendor prefix.
+
+The biggest change is a pretty much rewrite of the NAL unit RBSP generator
+code. I dropped the macros that were used for error handling and added an
+error field to the rbsp struct to signal an error while writing or reading the
+RBSP. Furthermore, the struct now contains function pointers for handling
+different encodings (bit, bits, uev, sev) that are used in the RBSP. This
+allows to have a single function for describing the structure of a NAL unit
+instead of duplicating the function for read and write.
+
+There are various minor fixes in the actual driver code including proper
+handling of CMD_STOP and CMD_START for draining the encoder, an increased
+estimate of the encoded stream size, and fixed handling of the busy state of
+the ctrl handler.
+
+Implementing draining also required Patch 1 ("videobuf2-v4l2: set
+last_buffer_dequeued in dqbuf"), which I took from the mailing list. Not sure
+how to handle this patch.
+
+As suggested, I moved the driver out of staging.
+
+I tested the driver with v4l2-compliance from the vicodec branch:
+
+v4l2-compliance SHA: 7f5a6e9086653774a8c77bc773ef41c962d5e391, 64 bits
+
+Compliance test for allegro device /dev/video2:
+
+Driver Info:
+	Driver name      : allegro
+	Card type        : Allegro DVT Video Encoder
+	Bus info         : platform:a0009000.video-codec
+	Driver version   : 5.1.0
+	Capabilities     : 0x84208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video2 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 10 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture: Captured 60 buffers                
+	test MMAP (select): OK
+	Video Capture: Captured 60 buffers                
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for allegro device /dev/video2: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+A more detailed changelog is attached to each patch.
+
+Michael
+
+v4 -> v5:
+- add patch for allegro vendor prefix
+- move driver out of staging
+- implement draining with CMD_STOP and CMD_START
+- rewrite NAL unit RBSP generator
+
+v3 -> v4:
+- fix checkpatch and compiler warnings
+- use v4l2_m2m_buf_copy_metadata to copy buffer metadata
+- resolve FIXME regarding channel creation and streamon
+- resolve various TODOs
+- add mailbox format to firmware info
+- add suballocator_size to firmware info
+- use struct_size to allocate mcu_msg_push_buffers_internal
+- handle *_response messages in a union
+- cleanup mcu_send_msg functions
+- increase maximum video resolution to 4k
+- handle errors when creating a channel
+- do not update ctrls after channel is created
+- add documentation for nal_h264.h
+
+v2 -> v3:
+- add clocks to devicetree bindings
+- fix devicetree binding according to review comments on v2
+- add missing v4l2 callbacks
+- drop unnecessary v4l2 callbacks
+- drop debug module parameter poison_capture_buffers
+- check firmware size before loading firmware
+- rework error handling
+
+v1 -> v2:
+- clean up debug log levels
+- fix unused variable in allegro_mbox_init
+- fix uninitialized variable in allegro_mbox_write
+- fix global module parameters
+- fix Kconfig dependencies
+- return h264 as default codec for mcu
+- implement device reset as documented
+- document why irq does not wait for clear
+- rename ENCODE_ONE_FRM to ENCODE_FRAME
+- allow error codes for mcu_channel_id
+- move control handler to channel
+- add fw version check
+- add support for colorspaces
+- enable configuration of H.264 levels
+- enable configuration of frame size
+- enable configuration of bit rate and CPB size
+- enable configuration of GOP size
+- rework response handling
+- fix missing error handling in allegro_h264_write_sps
+
+Hans Verkuil (1):
+  videobuf2-v4l2: set last_buffer_dequeued in dqbuf
+
+Michael Tretter (4):
+  media: dt-bindings: media: document allegro-dvt bindings
+  media: dt-bindings: media: Add vendor prefix for allegro
+  [media] allegro: add Allegro DVT video IP core driver
+  [media] allegro: add SPS/PPS nal unit writer
+
+ .../devicetree/bindings/media/allegro.txt     |   43 +
+ .../devicetree/bindings/vendor-prefixes.txt   |    1 +
+ MAINTAINERS                                   |    7 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |   10 +-
+ drivers/media/platform/Kconfig                |   16 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/allegro-dvt/Makefile   |    6 +
+ .../media/platform/allegro-dvt/allegro-core.c | 3070 +++++++++++++++++
+ drivers/media/platform/allegro-dvt/nal-h264.c | 1001 ++++++
+ drivers/media/platform/allegro-dvt/nal-h264.h |  208 ++
+ 10 files changed, 4359 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allegro.txt
+ create mode 100644 drivers/media/platform/allegro-dvt/Makefile
+ create mode 100644 drivers/media/platform/allegro-dvt/allegro-core.c
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-h264.c
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-h264.h
+
+-- 
+2.20.1
+
