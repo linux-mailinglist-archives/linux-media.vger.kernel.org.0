@@ -2,116 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D045132CB
-	for <lists+linux-media@lfdr.de>; Fri,  3 May 2019 19:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5842135B4
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 00:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728738AbfECRDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 May 2019 13:03:21 -0400
-Received: from foss.arm.com ([217.140.101.70]:37368 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726720AbfECRDU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 May 2019 13:03:20 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B389915A2;
-        Fri,  3 May 2019 10:03:19 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A5D43F557;
-        Fri,  3 May 2019 10:03:13 -0700 (PDT)
-Date:   Fri, 3 May 2019 18:03:10 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>, Kuehling@google.com,
-        Felix <Felix.Kuehling@amd.com>, Deucher@google.com,
-        Alexander <Alexander.Deucher@amd.com>, Koenig@google.com,
-        Christian <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Leon Romanovsky <leonro@mellanox.com>
-Subject: Re: [PATCH v14 13/17] IB/mlx4, arm64: untag user pointers in
- mlx4_get_umem_mr
-Message-ID: <20190503170310.GL55449@arrakis.emea.arm.com>
-References: <cover.1556630205.git.andreyknvl@google.com>
- <05c0c078b8b5984af4cc3b105a58c711dcd83342.1556630205.git.andreyknvl@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05c0c078b8b5984af4cc3b105a58c711dcd83342.1556630205.git.andreyknvl@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726150AbfECWnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 May 2019 18:43:35 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46842 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726041AbfECWnf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 May 2019 18:43:35 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n2so3367598pgg.13
+        for <linux-media@vger.kernel.org>; Fri, 03 May 2019 15:43:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=YTxb+AUQfvDbK/mf1ARE21Esut2lbyiCwuhalQCsvr0=;
+        b=UzsOMahcyBx9jhIoDo4240WN+j0rAftAaVMGugFWvrRreJrB26SnSZQRsPlG5u5r8v
+         XTHs7b2JCDN38wnGP2y1ECq/RysQ+5ckYWjqB6mZNEVHZR6H3iAZArTWyjQlZ2afM/nO
+         bywmC3xn0YReLUrA70KkatnB9EHoqqL6NRzaquzLoh0USFxObeHxYgwvVlBLYNk5dF13
+         2HfYWapB34xBhNntSoSMfLX0TZuwXtP6uQQyQscO/2E+Iarvy+wIInOIF4n5Ixg0Qutd
+         D0zEHkj2Oebe2SdOhwO2QZVP/frh21YKuc9oj4rg8XGsNSpRbK3wwu7Fbv11B6TsLIeQ
+         CQEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YTxb+AUQfvDbK/mf1ARE21Esut2lbyiCwuhalQCsvr0=;
+        b=KX4WVLZjqFxJ1JNo0zbVXAq5EH5y15RRn6DKoYOaAFPuV0F4PzWaqi38sAaTF/4hJt
+         KlXchE2oax7hff9CY7KB87NFpVw2Qat9SMLGSBnzbvjQgUVVOGMJKNYwQTHzotJ0p1hE
+         x0PMmroQCUujOV+i4F815ITCsHEKMzPYKVUrgrVLrfQrn2ShGVIaoxgojU1HtoAcc04A
+         RRjycoX4n8VnDypmo8AFSWUCrCmnTHz0yZaBTFSjn1htkaS+paqU+5Wb/VYQXT8zCoVr
+         fVCqTyEHgXCmGPG6/SSJfFVrO1Fk8sS3LW/T5kljvfPEK0bVhcZmltd1t5b0FowZYjD8
+         0kew==
+X-Gm-Message-State: APjAAAWRVhOXuahXSyPdEukKFfFVXcAtXJDtMnzi7Y2X+9Zx5QYYNFdW
+        Dfx5ao8JmOOPvC4vzmM0m/HBZF/B
+X-Google-Smtp-Source: APXvYqyJNdlB5L+mAML8fPc11pNWYXQl8FKfCOhE4btzj2fAl7hooHfpDhGBYHBxAuQO95xlLZg1GQ==
+X-Received: by 2002:a62:575b:: with SMTP id l88mr14525485pfb.143.1556923413695;
+        Fri, 03 May 2019 15:43:33 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.googlemail.com with ESMTPSA id e62sm4793871pfa.50.2019.05.03.15.43.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 May 2019 15:43:32 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v4 0/8] Switch to sync registration for IPU subdevs
+Date:   Fri,  3 May 2019 15:43:18 -0700
+Message-Id: <20190503224326.21039-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 03:25:09PM +0200, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow to
-> pass tagged user pointers (with the top byte set to something else other
-> than 0x00) as syscall arguments.
-> 
-> mlx4_get_umem_mr() uses provided user pointers for vma lookups, which can
-> only by done with untagged pointers.
-> 
-> Untag user pointers in this function.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> Reviewed-by: Leon Romanovsky <leonro@mellanox.com>
-> ---
->  drivers/infiniband/hw/mlx4/mr.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/infiniband/hw/mlx4/mr.c b/drivers/infiniband/hw/mlx4/mr.c
-> index 395379a480cb..9a35ed2c6a6f 100644
-> --- a/drivers/infiniband/hw/mlx4/mr.c
-> +++ b/drivers/infiniband/hw/mlx4/mr.c
-> @@ -378,6 +378,7 @@ static struct ib_umem *mlx4_get_umem_mr(struct ib_udata *udata, u64 start,
->  	 * again
->  	 */
->  	if (!ib_access_writable(access_flags)) {
-> +		unsigned long untagged_start = untagged_addr(start);
->  		struct vm_area_struct *vma;
->  
->  		down_read(&current->mm->mmap_sem);
-> @@ -386,9 +387,9 @@ static struct ib_umem *mlx4_get_umem_mr(struct ib_udata *udata, u64 start,
->  		 * cover the memory, but for now it requires a single vma to
->  		 * entirely cover the MR to support RO mappings.
->  		 */
-> -		vma = find_vma(current->mm, start);
-> -		if (vma && vma->vm_end >= start + length &&
-> -		    vma->vm_start <= start) {
-> +		vma = find_vma(current->mm, untagged_start);
-> +		if (vma && vma->vm_end >= untagged_start + length &&
-> +		    vma->vm_start <= untagged_start) {
->  			if (vma->vm_flags & VM_WRITE)
->  				access_flags |= IB_ACCESS_LOCAL_WRITE;
->  		} else {
+Switch to sync registration for the IPU internal sub-devices, re-organize
+modules, and a few other miscellaneous cleanups.
 
-Discussion ongoing on the previous version of the patch but I'm more
-inclined to do this in ib_uverbs_(re)reg_mr() on cmd.start.
+History:
+v4:
+- Add **cc arg to __capture_try_fmt_vid_cap() to validate colorspace,
+  instead of calling ipu_pixelformat_to_colorspace().
+- Add error message if capture format validation failed.
+v3:
+- A couple patches did not compile/link. All patches now build so the
+  series is fully bisectable. No functional changes.
+v2:
+- Added a patch that improves the pipeline upstream/downstream search
+  functions, which no longer require the media device.
+- Add a patch to remove getting media device from v4l2_dev driver data.
+
+
+Steve Longerbeam (8):
+  media: staging/imx: Switch to sync registration for IPU subdevs
+  media: staging/imx: Pass device to alloc/free_dma_buf
+  media: staging/imx: Move add_video_device into capture_device_register
+  Revert "media: imx: Set capture compose rectangle in
+    capture_device_set_format"
+  media: staging/imx: Remove capture_device_set_format
+  media: staging/imx: Re-organize modules
+  media: staging/imx: Improve pipeline searching
+  media: staging/imx: Don't set driver data for v4l2_dev
+
+ drivers/staging/media/imx/Makefile            |  18 +-
+ drivers/staging/media/imx/imx-ic-common.c     |  68 +--
+ drivers/staging/media/imx/imx-ic-prp.c        |  36 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  88 ++--
+ drivers/staging/media/imx/imx-ic.h            |   6 +-
+ drivers/staging/media/imx/imx-media-capture.c |  90 ++--
+ drivers/staging/media/imx/imx-media-csi.c     |  45 +-
+ .../staging/media/imx/imx-media-dev-common.c  | 346 +++++++++++++-
+ drivers/staging/media/imx/imx-media-dev.c     | 449 +-----------------
+ drivers/staging/media/imx/imx-media-fim.c     |   9 -
+ .../staging/media/imx/imx-media-internal-sd.c | 357 ++++++--------
+ drivers/staging/media/imx/imx-media-of.c      |  41 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 170 +++----
+ drivers/staging/media/imx/imx-media-vdic.c    |  84 +---
+ drivers/staging/media/imx/imx-media.h         | 113 +++--
+ drivers/staging/media/imx/imx7-media-csi.c    |  43 +-
+ 16 files changed, 857 insertions(+), 1106 deletions(-)
 
 -- 
-Catalin
+2.17.1
+
