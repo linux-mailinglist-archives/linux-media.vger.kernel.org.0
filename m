@@ -2,127 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7795913805
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 09:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 553B81388F
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 11:56:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726827AbfEDHBo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 May 2019 03:01:44 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7151 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726604AbfEDHBo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 May 2019 03:01:44 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 330EDE64C73B608B93FC;
-        Sat,  4 May 2019 15:01:42 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.439.0; Sat, 4 May 2019 15:01:32 +0800
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-CC:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH] [media] saa7164: fix remove_proc_entry warning
-Date:   Sat, 4 May 2019 15:10:57 +0800
-Message-ID: <20190504071057.58471-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726208AbfEDJ4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 May 2019 05:56:19 -0400
+Received: from 178.115.242.59.static.drei.at ([178.115.242.59]:38136 "EHLO
+        mail.osadl.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725981AbfEDJ4T (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 May 2019 05:56:19 -0400
+X-Greylist: delayed 529 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 May 2019 05:56:18 EDT
+Received: by mail.osadl.at (Postfix, from userid 1001)
+        id AF5A55C0B0A; Sat,  4 May 2019 11:46:35 +0200 (CEST)
+Date:   Sat, 4 May 2019 11:46:35 +0200
+From:   Nicholas Mc Guire <der.herr@hofr.at>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Nicholas Mc Guire <hofrat@opentech.at>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: smiapp: core: add range to usleep_range
+Message-ID: <20190504094635.GA27029@osadl.at>
+References: <1554603364-10500-1-git-send-email-hofrat@opentech.at>
+ <20190430134944.6sutxdztj6crgo6w@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190430134944.6sutxdztj6crgo6w@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-if saa7164_proc_create() fails, saa7164_fini() will trigger a warning,
+On Tue, Apr 30, 2019 at 04:49:44PM +0300, Sakari Ailus wrote:
+> Hi Nicholas,
+> 
+> On Sun, Apr 07, 2019 at 04:16:02AM +0200, Nicholas Mc Guire wrote:
+> > Allow the hrtimer subsystem to coalesce delay timers of lower accuracy
+> > by providing a suitable range
+> > 
+> > Signed-off-by: Nicholas Mc Guire <hofrat@opentech.at>
+> > ---
+> > 
+> > Problem located by an experimental coccinelle script
+> > 
+> > hrtimers in atomic context have limited accuracy due to possible
+> > context-switching and interruption so the accuracy is limited 
+> > anyway. Giving the hrtimer subsystem a reasonable range for merging
+> > hrtimers helps to reduce the load on the hrtimer subsystem. As this
+> > delays do not seem to mandate high accuracy the range of a factor
+> > two seems acceptable.
+> > 
+> > Patch was compile tested with: x86_64_defconfig + MEDIA_SUPPORT=m,
+> > MEDIA_CAMERA_SUPPORT=y, MEDIA_CONTROLLER=y, VIDEO_V4L2_SUBDEV_API=y,
+> > VIDEO_SMIAPP=m                                                                                               
+> > (with a number of sparse warnings on sizeof() usage)
+> > 
+> > Patch is against 5.1-rc3 (localversion-next is next-20190405)
+> 
+> The delays are exact for the reason that they are user-visible delays in
+> image capturing related use cases. Sometimes milliseconds matter, or at
+> least adding more does not help.
+>
 
-name 'saa7164'
-WARNING: CPU: 1 PID: 6311 at fs/proc/generic.c:672 remove_proc_entry+0x1e8/0x3a0
-  ? remove_proc_entry+0x1e8/0x3a0
-  ? try_stop_module+0x7b/0x240
-  ? proc_readdir+0x70/0x70
-  ? rcu_read_lock_sched_held+0xd7/0x100
-  saa7164_fini+0x13/0x1f [saa7164]
-  __x64_sys_delete_module+0x30c/0x480
-  ? __ia32_sys_delete_module+0x480/0x480
-  ? __x64_sys_clock_gettime+0x11e/0x1c0
-  ? __x64_sys_timer_create+0x1a0/0x1a0
-  ? trace_hardirqs_off_caller+0x40/0x180
-  ? do_syscall_64+0x18/0x450
-  do_syscall_64+0x9f/0x450
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+Actually it can be better iwith respect to jitter to let the hrtimer 
+subsystem use an existing timer event than to have a close by second event 
+and the accuracy is determined by the non-atomic context anyway - 
+so while the proposed delay extension might be excessive in your case
+I would still suggest to try to get away from a range of 0 - even if
+you only end up with (1000,1050) that would be an advantage for the
+timer subsystem.
 
-Fix it by checking the return of proc_create_single() before
-calling remove_proc_entry().
-
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- drivers/media/pci/saa7164/saa7164-core.c | 31 +++++++++++++++---------
- 1 file changed, 20 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index 05f25c9bb308..51dff0d84399 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -1122,16 +1122,23 @@ static int saa7164_proc_show(struct seq_file *m, void *v)
- 	return 0;
- }
+thx!
+hofrat
  
-+static struct proc_dir_entry *saa7164_pe;
- static int saa7164_proc_create(void)
- {
--	struct proc_dir_entry *pe;
--
--	pe = proc_create_single("saa7164", S_IRUGO, NULL, saa7164_proc_show);
--	if (!pe)
-+	saa7164_pe = proc_create_single("saa7164", S_IRUGO, NULL, saa7164_proc_show);
-+	if (!saa7164_pe)
- 		return -ENOMEM;
- 
- 	return 0;
- }
-+static void saa7164_proc_destory(void)
-+{
-+	if (saa7164_pe)
-+		remove_proc_entry("saa7164", NULL);
-+}
-+#else
-+static int saa7164_proc_create(void) { return 0; }
-+static void saa7164_proc_destory(void) {}
- #endif
- 
- static int saa7164_thread_function(void *data)
-@@ -1503,19 +1510,21 @@ static struct pci_driver saa7164_pci_driver = {
- 
- static int __init saa7164_init(void)
- {
--	printk(KERN_INFO "saa7164 driver loaded\n");
-+	int ret = pci_register_driver(&saa7164_pci_driver);
-+
-+	if (ret)
-+		return ret;
- 
--#ifdef CONFIG_PROC_FS
- 	saa7164_proc_create();
--#endif
--	return pci_register_driver(&saa7164_pci_driver);
-+
-+	printk(KERN_INFO "saa7164 driver loaded\n");
-+
-+	return 0;
- }
- 
- static void __exit saa7164_fini(void)
- {
--#ifdef CONFIG_PROC_FS
--	remove_proc_entry("saa7164", NULL);
--#endif
-+	saa7164_proc_destory();
- 	pci_unregister_driver(&saa7164_pci_driver);
- }
- 
--- 
-2.20.1
-
+> > 
+> >  drivers/media/i2c/smiapp/smiapp-core.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+> > index 58a45c3..c0c29ec 100644
+> > --- a/drivers/media/i2c/smiapp/smiapp-core.c
+> > +++ b/drivers/media/i2c/smiapp/smiapp-core.c
+> > @@ -1222,19 +1222,19 @@ static int smiapp_power_on(struct device *dev)
+> >  		dev_err(&client->dev, "failed to enable vana regulator\n");
+> >  		return rval;
+> >  	}
+> > -	usleep_range(1000, 1000);
+> > +	usleep_range(1000, 2000);
+> >  
+> >  	rval = clk_prepare_enable(sensor->ext_clk);
+> >  	if (rval < 0) {
+> >  		dev_dbg(&client->dev, "failed to enable xclk\n");
+> >  		goto out_xclk_fail;
+> >  	}
+> > -	usleep_range(1000, 1000);
+> > +	usleep_range(1000, 2000);
+> >  
+> >  	gpiod_set_value(sensor->xshutdown, 1);
+> >  
+> >  	sleep = SMIAPP_RESET_DELAY(sensor->hwcfg->ext_clk);
+> > -	usleep_range(sleep, sleep);
+> > +	usleep_range(sleep, sleep*2);
+> >  
+> >  	mutex_lock(&sensor->mutex);
+> >  
+> > @@ -1381,7 +1381,7 @@ static int smiapp_power_off(struct device *dev)
+> >  
+> >  	gpiod_set_value(sensor->xshutdown, 0);
+> >  	clk_disable_unprepare(sensor->ext_clk);
+> > -	usleep_range(5000, 5000);
+> > +	usleep_range(5000, 10000);
+> >  	regulator_disable(sensor->vana);
+> >  	sensor->streaming = false;
+> >  
+> 
+> -- 
+> Sakari Ailus
