@@ -2,116 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C7B1364F
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 01:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DDD413728
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 05:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbfECXpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 May 2019 19:45:20 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:44254 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbfECXpU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 May 2019 19:45:20 -0400
-Received: by mail-pg1-f194.google.com with SMTP id z16so3439083pgv.11;
-        Fri, 03 May 2019 16:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=YwU0rEAoU3W17Opegh7mF+iV9cwzVugNkEFNcWTlMS4=;
-        b=N4ls73dujYNHFvMXFxBqEq7JfnVVj/+Nwi1F7ujWUhejmumxykj3wuGRHLGFReW99q
-         Z+wBbYIH3LGgGCTyGTzuz5CErGUB5Is4W1dPTGSsC5XD5Mm5istGcnCvCLHBO+LQag/J
-         BrMCZhqgwpAQvi7br01ycABkrY/lU6ZG8QuZ3GSDtYQeVEXg8DjrdYzG6kKR+ehc0PFE
-         7I8r643XSCYVZOxqzYJ7lKHdghnk86ExnwP2CGFs6qQryj7HT60ir9/lHGABH3i3Jxte
-         +jAxUHjnoh0SVLYLgXjHj3ILLXuip7qmogHqaX7ILhizUaKyWRTWw1VZ6KJfRxKU8Pfo
-         Tozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YwU0rEAoU3W17Opegh7mF+iV9cwzVugNkEFNcWTlMS4=;
-        b=kYZBDV6oy80hfqlsDFvqxViftxoNI58RlVA1X6qKhpI6xEXO7PhZHV4v/f0qQN2RtJ
-         AROJ0bhFdN0qMRCIC7qEriFkalAk/rAbaObKwB0UVn5bbluorJaepyQmCMNdaREWvy1a
-         K+PyXZ/RJ73qhUIPpvQrrBlADf/JR808czj81uoMTdXauRMpPwaaQAtXe9GprMOngIWC
-         i0Cw1tlhXt4x9/fck3FD+TSGiF/pGnsLb989yrrekgKmwhpUG5cHZu6yJKDJFYKZJFKQ
-         KB7k4q7DNW77sN5aIJyUebYgyMcImCi6VQ9aD5MBtlBd7eX/VWD4IDmpB7bPCo6KjgNB
-         w9Ow==
-X-Gm-Message-State: APjAAAUfPCvIP6La7LhkR1fSC6Bshh+AcseCeRNnLuv/wacoK4im96fv
-        D1vT4YdVJvDCzxRNLMmEx6UH4fRa
-X-Google-Smtp-Source: APXvYqxrXFp43Iis9R2K9Ny+WO/pkUJ5leYbrRI3UnraGRuqllaEvG0ru5TSKh2jIdtNSHP7WnA48Q==
-X-Received: by 2002:a63:5f42:: with SMTP id t63mr14176377pgb.275.1556927118425;
-        Fri, 03 May 2019 16:45:18 -0700 (PDT)
-Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id z9sm3861582pga.92.2019.05.03.16.45.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 03 May 2019 16:45:17 -0700 (PDT)
-From:   Steve Longerbeam <slongerbeam@gmail.com>
+        id S1726543AbfEDDsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 May 2019 23:48:32 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51979 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726149AbfEDDsc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 May 2019 23:48:32 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:fce6:b471:fcc2:bbdf])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Mlf3hNRhNb8gSMlf4hdMYd; Sat, 04 May 2019 05:48:30 +0200
+Message-ID: <6cc98500a5f57339bfb97b1d95a6349f@smtp-cloud8.xs4all.net>
+Date:   Sat, 04 May 2019 05:48:29 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] [media] docs-rst: Clarify older field vs. first transmitted field
-Date:   Fri,  3 May 2019 16:45:07 -0700
-Message-Id: <20190503234508.23183-1-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHJt6roUh6o9lG3Yj/yPw8IYSPLqMMFf3cyOmWSzHamIprlugYdPo+l2QeAzES4PlUqyrhB3namDtxNEjV93gUIithgqpqhinrXO1sHuYKRbueEHY781
+ mToaTsRh6J7gVCBPJg0yGRDs94NtJMjWZm9NDf7/N5niyKkMpCyKwrOHpZ6/aNWcMJomJJBXAwGP9O1LQwjNs2V05N74CEdqkM6ZlBz2fZi573ZFVni4/ONB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a paragraph to make it more clear that video equipment will transmit
-fields in the same order the fields were captured, and replace some of
-the "is transmitted first" language with "is the older field", since the
-latter is the important info for motion compensation applications.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
----
- Documentation/media/uapi/v4l/field-order.rst | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/media/uapi/v4l/field-order.rst b/Documentation/media/uapi/v4l/field-order.rst
-index 3fb473e3b8e2..19d13ecde1d7 100644
---- a/Documentation/media/uapi/v4l/field-order.rst
-+++ b/Documentation/media/uapi/v4l/field-order.rst
-@@ -51,6 +51,11 @@ determined by the video standard. Hence the distinction between temporal
- and spatial order of fields. The diagrams below should make this
- clearer.
- 
-+In V4L it is assumed that all video cameras transmit fields on the media
-+bus in the same order they were captured, so if the top field was
-+captured first (is the older field), the top field is also transmitted
-+first on the bus.
-+
- All video capture and output devices must report the current field
- order. Some drivers may permit the selection of a different order, to
- this end applications initialize the ``field`` field of struct
-@@ -103,10 +108,10 @@ enum v4l2_field
-     * - ``V4L2_FIELD_INTERLACED``
-       - 4
-       - Images contain both fields, interleaved line by line. The temporal
--	order of the fields (whether the top or bottom field is first
--	transmitted) depends on the current video standard. M/NTSC
--	transmits the bottom field first, all other standards the top
--	field first.
-+	order of the fields (whether the top or bottom field is older)
-+	depends on the current video standard. In M/NTSC the bottom
-+	field is the older field. In all other standards the top field
-+	is the older field.
-     * - ``V4L2_FIELD_SEQ_TB``
-       - 5
-       - Images contain both fields, the top field lines are stored first
-@@ -137,11 +142,11 @@ enum v4l2_field
-     * - ``V4L2_FIELD_INTERLACED_TB``
-       - 8
-       - Images contain both fields, interleaved line by line, top field
--	first. The top field is transmitted first.
-+	first. The top field is the older field.
-     * - ``V4L2_FIELD_INTERLACED_BT``
-       - 9
-       - Images contain both fields, interleaved line by line, top field
--	first. The bottom field is transmitted first.
-+	first. The bottom field is the older field.
- 
- 
- 
--- 
-2.17.1
+date:			Sat May  4 05:00:12 CEST 2019
+media-tree git hash:	7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.1-i686: OK
+linux-5.0.1-x86_64: OK
+linux-5.1-rc1-i686: OK
+linux-5.1-rc1-x86_64: WARNINGS
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
