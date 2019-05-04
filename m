@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5828C13AB0
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 16:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0430713AB1
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 16:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbfEDOkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 May 2019 10:40:52 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42490 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726217AbfEDOkw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 May 2019 10:40:52 -0400
-Received: by mail-qt1-f194.google.com with SMTP id p20so10016169qtc.9;
-        Sat, 04 May 2019 07:40:51 -0700 (PDT)
+        id S1727312AbfEDOk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 May 2019 10:40:56 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:36261 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726217AbfEDOk4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 4 May 2019 10:40:56 -0400
+Received: by mail-qk1-f193.google.com with SMTP id c14so1644429qke.3;
+        Sat, 04 May 2019 07:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=rWFbpbNrzQ1y2PIHtjx8Zisl8LLVI1Mr9vzfhnCkPAA=;
-        b=PFwFQHDtTkN/931PrOlDp8Qf7U/eH5jEzr7s9xkqngFKNPbDEQLmTPlkwLv7Euplb9
-         lnVo5i6kjPvYLGclNKNTvmFGH0h+k+pw2f0DZ8xTN9Mjc432Pi2mqeldIOORZTkKgTjN
-         xsR5xfhVeKwN0Fz3VbnA7Qb7PUuhKjHbtDdWr/3lnylrofWH6VGBKRcQoPyZIEGMS1EX
-         sbQRJo1Xq9LQcyiz1vdhBOp+gbMHgOs0XegCmtDGbnYDdM+IFNgkYo0pykZoYLweR7p+
-         oemL0tdWEvbnocaa1SBFGOr1NCdhM2KWKbxDQh2xPUkzVKMfSne4wKdRXF66Uy9VCbCL
-         RR7A==
+        bh=xu38cRaLtpnqYuurbo6CWspS+gIr3m1joWBLVxT3VQA=;
+        b=nkzXoV4AxU3SGKXtSy42c6ZXNaBHglADNYXaXokmwRgmqZp0zaWpXM579zcxFQhQKj
+         vlgmWJTxf2O4ZILm4VpZlyrxkNSFoeA8oPkAJiocRx+BY8tOUzzmAnmnfF/tl4TnPC9X
+         mvbuAj9kseO7oeqtnPXKzB+nXA2KBeQpjI2s0XyTxBTecC82qggq+arV6OwoVn7UOx+I
+         9l6sxoyG8I/1JQY/qyxqlXUqkC3PfQgeTXARgs3DXKgTfbTDKJiXewwth4MKMENHy3hA
+         ASUG1wRmtzwRnMt31I5KPUV5EtVhN6FPQxxyowpEKpqvmb7+aMKHT80Bn1cYpSjCvVaT
+         +cvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=rWFbpbNrzQ1y2PIHtjx8Zisl8LLVI1Mr9vzfhnCkPAA=;
-        b=nc2CmqRi48a56KICI9qfFPMSs94jlIVTeaxzxgQYQEaKOv8jMYF2OsTqCewChzPNdp
-         BejCKaQALhdSjjSI5b54Vy7Ul68AKX0zSiiqS/e0rUh8qVMjt6knzSe5r3rvPJIQLddw
-         zW++xaxUEjjcfnWnOgnHOXeQj+FMd8twbqLiqqrBv94YRjwdP0RKwobyEWYVuDCfc4jY
-         DccGeh3OVV+3Z4x0igErdyACTddQzQfJe1ht2FKGaAid67Gn/kebLfbmChmJ0QzGtzJX
-         cMBe+qwXm9d/AfA9FFKARKPTfB3lnN+6WqIV5BwPYuz+HosdRbTPngEXrTwZTJuq6Y7V
-         0PpQ==
-X-Gm-Message-State: APjAAAXRShCS0iMPZSfVamJJaQCcfaedUzU7VrULQ7jS5Yf+KnV18wKP
-        psjtFOQhE8/1J6dZUfLPJII=
-X-Google-Smtp-Source: APXvYqzcyNISvmNu+UTcTQzmt9RYZyQvCh8y5tuZzCyBAqzkVddR7lL6SUZp1zaOukNUbWFiYIITJQ==
-X-Received: by 2002:a0c:b05b:: with SMTP id l27mr12899413qvc.162.1556980851372;
-        Sat, 04 May 2019 07:40:51 -0700 (PDT)
+        bh=xu38cRaLtpnqYuurbo6CWspS+gIr3m1joWBLVxT3VQA=;
+        b=YM1tb34BK8DJ0UfZ+gu3D+6pSxPzs9iERZ8l4JeY7Bu3/lmnbUp35EsFOONBKNa3GA
+         /JkzTaOg+fcMZl4MvFpXr5ZFpAn3LKw802UgwhZYEv+OWMsagu+n3Ia7ueHwkJ1M2IGh
+         rnNY4//aK3oBVQ4ORLlk7rSEF118QNOSgWeOCk0HK0g4qZqEvissIF+hOxO/cyx5D8w1
+         dlnAoGY9qjYIRc1PxAM02YvbQe+fHj6F1WAX2gxsU8h9Lkr7/ky+f3/gz27OeMHwIQZf
+         rhVf3UIvNeliCR/JdPvVQS4RdlVpPfIynoMZemPJg9dx3lLYTSrKaZ5KhXMu1l90YPc2
+         meJg==
+X-Gm-Message-State: APjAAAVvRcveeHJOZKxOGVU/mlnOsN2uN++jRz4MUvkxjsyAcpkcOKZT
+        kr1ty+eBCF+50tNF4OqsSsI=
+X-Google-Smtp-Source: APXvYqyWAYwH5Ber7i35gLcncyKZIE9FdNcmSHuccNVyBNZ+HZ7xNCikYoQoQw0NpsnmSG5fGriwGg==
+X-Received: by 2002:a05:620a:141a:: with SMTP id d26mr12478633qkj.238.1556980855673;
+        Sat, 04 May 2019 07:40:55 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
-        by smtp.gmail.com with ESMTPSA id 67sm2536815qtc.29.2019.05.04.07.40.47
+        by smtp.gmail.com with ESMTPSA id 67sm2536815qtc.29.2019.05.04.07.40.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 04 May 2019 07:40:50 -0700 (PDT)
+        Sat, 04 May 2019 07:40:55 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     hverkuil-cisco@xs4all.nl
 Cc:     rui.silva@linaro.org, slongerbeam@gmail.com,
@@ -50,9 +50,9 @@ Cc:     rui.silva@linaro.org, slongerbeam@gmail.com,
         sebastien.szymanski@armadeus.com, otavio@ossystems.com.br,
         robh+dt@kernel.org, devicetree@vger.kernel.org,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 7/8] media: imx7-media-csi: Check the return value from clk_prepare_enable()
-Date:   Sat,  4 May 2019 11:40:26 -0300
-Message-Id: <20190504144027.31920-7-festevam@gmail.com>
+Subject: [PATCH 8/8] media: imx7-media-csi: Change imx7_csi_enable() to void
+Date:   Sat,  4 May 2019 11:40:27 -0300
+Message-Id: <20190504144027.31920-8-festevam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190504144027.31920-1-festevam@gmail.com>
 References: <20190504144027.31920-1-festevam@gmail.com>
@@ -61,54 +61,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-clk_prepare_enable() may fail, so we should better check its return value
-and propagate it in the case of error.
+imx7_csi_enable() always return 0 and its return value is never checked,
+so convert it to void.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index d1ecdcfc792e..dcc6027fe32b 100644
+index dcc6027fe32b..0f51791f788a 100644
 --- a/drivers/staging/media/imx/imx7-media-csi.c
 +++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -390,17 +390,23 @@ static void imx7_csi_error_recovery(struct imx7_csi *csi)
- 	imx7_csi_hw_enable(csi);
+@@ -799,7 +799,7 @@ static int imx7_csi_configure(struct imx7_csi *csi)
+ 	return 0;
  }
  
--static void imx7_csi_init(struct imx7_csi *csi)
-+static int imx7_csi_init(struct imx7_csi *csi)
+-static int imx7_csi_enable(struct imx7_csi *csi)
++static void imx7_csi_enable(struct imx7_csi *csi)
  {
-+	int ret;
-+
- 	if (csi->is_init)
--		return;
-+		return 0;
+ 	imx7_csi_sw_reset(csi);
  
--	clk_prepare_enable(csi->mclk);
-+	ret = clk_prepare_enable(csi->mclk);
-+	if (ret < 0)
-+		return ret;
- 	imx7_csi_hw_reset(csi);
- 	imx7_csi_init_interface(csi);
- 	imx7_csi_dmareq_rff_enable(csi);
- 
- 	csi->is_init = true;
-+
-+	return 0;
+@@ -807,10 +807,7 @@ static int imx7_csi_enable(struct imx7_csi *csi)
+ 		imx7_csi_dmareq_rff_enable(csi);
+ 		imx7_csi_hw_enable_irq(csi);
+ 		imx7_csi_hw_enable(csi);
+-		return 0;
+ 	}
+-
+-	return 0;
  }
  
- static void imx7_csi_deinit(struct imx7_csi *csi)
-@@ -513,7 +519,7 @@ static int imx7_csi_link_setup(struct media_entity *entity,
- 
- init:
- 	if (csi->sink || csi->src_sd)
--		imx7_csi_init(csi);
-+		ret = imx7_csi_init(csi);
- 	else
- 		imx7_csi_deinit(csi);
- 
+ static void imx7_csi_disable(struct imx7_csi *csi)
 -- 
 2.17.1
 
