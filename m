@@ -2,120 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 553B81388F
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 11:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E0C113981
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 13:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726208AbfEDJ4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 May 2019 05:56:19 -0400
-Received: from 178.115.242.59.static.drei.at ([178.115.242.59]:38136 "EHLO
-        mail.osadl.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725981AbfEDJ4T (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 May 2019 05:56:19 -0400
-X-Greylist: delayed 529 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 May 2019 05:56:18 EDT
-Received: by mail.osadl.at (Postfix, from userid 1001)
-        id AF5A55C0B0A; Sat,  4 May 2019 11:46:35 +0200 (CEST)
-Date:   Sat, 4 May 2019 11:46:35 +0200
-From:   Nicholas Mc Guire <der.herr@hofr.at>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Nicholas Mc Guire <hofrat@opentech.at>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: smiapp: core: add range to usleep_range
-Message-ID: <20190504094635.GA27029@osadl.at>
-References: <1554603364-10500-1-git-send-email-hofrat@opentech.at>
- <20190430134944.6sutxdztj6crgo6w@valkosipuli.retiisi.org.uk>
+        id S1727481AbfEDLlg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 May 2019 07:41:36 -0400
+Received: from mga01.intel.com ([192.55.52.88]:43554 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727049AbfEDLlg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 May 2019 07:41:36 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 May 2019 04:41:35 -0700
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 04 May 2019 04:41:33 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hMt2r-0003e2-6R; Sat, 04 May 2019 19:41:33 +0800
+Date:   Sat, 4 May 2019 19:40:49 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     kbuild-all@01.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        robh+dt@kernel.org, mchehab@kernel.org, tfiga@chromium.org,
+        dshah@xilinx.com, hverkuil@xs4all.nl,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: Re: [PATCH v5 4/5] [media] allegro: add Allegro DVT video IP core
+ driver
+Message-ID: <201905041935.pwEMGoy7%lkp@intel.com>
+References: <20190503122010.16663-5-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190430134944.6sutxdztj6crgo6w@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20190503122010.16663-5-m.tretter@pengutronix.de>
+X-Patchwork-Hint: ignore
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 04:49:44PM +0300, Sakari Ailus wrote:
-> Hi Nicholas,
-> 
-> On Sun, Apr 07, 2019 at 04:16:02AM +0200, Nicholas Mc Guire wrote:
-> > Allow the hrtimer subsystem to coalesce delay timers of lower accuracy
-> > by providing a suitable range
-> > 
-> > Signed-off-by: Nicholas Mc Guire <hofrat@opentech.at>
-> > ---
-> > 
-> > Problem located by an experimental coccinelle script
-> > 
-> > hrtimers in atomic context have limited accuracy due to possible
-> > context-switching and interruption so the accuracy is limited 
-> > anyway. Giving the hrtimer subsystem a reasonable range for merging
-> > hrtimers helps to reduce the load on the hrtimer subsystem. As this
-> > delays do not seem to mandate high accuracy the range of a factor
-> > two seems acceptable.
-> > 
-> > Patch was compile tested with: x86_64_defconfig + MEDIA_SUPPORT=m,
-> > MEDIA_CAMERA_SUPPORT=y, MEDIA_CONTROLLER=y, VIDEO_V4L2_SUBDEV_API=y,
-> > VIDEO_SMIAPP=m                                                                                               
-> > (with a number of sparse warnings on sizeof() usage)
-> > 
-> > Patch is against 5.1-rc3 (localversion-next is next-20190405)
-> 
-> The delays are exact for the reason that they are user-visible delays in
-> image capturing related use cases. Sometimes milliseconds matter, or at
-> least adding more does not help.
->
+Hi Michael,
 
-Actually it can be better iwith respect to jitter to let the hrtimer 
-subsystem use an existing timer event than to have a close by second event 
-and the accuracy is determined by the non-atomic context anyway - 
-so while the proposed delay extension might be excessive in your case
-I would still suggest to try to get away from a range of 0 - even if
-you only end up with (1000,1050) that would be an advantage for the
-timer subsystem.
+I love your patch! Perhaps something to improve:
 
-thx!
-hofrat
- 
-> > 
-> >  drivers/media/i2c/smiapp/smiapp-core.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-> > index 58a45c3..c0c29ec 100644
-> > --- a/drivers/media/i2c/smiapp/smiapp-core.c
-> > +++ b/drivers/media/i2c/smiapp/smiapp-core.c
-> > @@ -1222,19 +1222,19 @@ static int smiapp_power_on(struct device *dev)
-> >  		dev_err(&client->dev, "failed to enable vana regulator\n");
-> >  		return rval;
-> >  	}
-> > -	usleep_range(1000, 1000);
-> > +	usleep_range(1000, 2000);
-> >  
-> >  	rval = clk_prepare_enable(sensor->ext_clk);
-> >  	if (rval < 0) {
-> >  		dev_dbg(&client->dev, "failed to enable xclk\n");
-> >  		goto out_xclk_fail;
-> >  	}
-> > -	usleep_range(1000, 1000);
-> > +	usleep_range(1000, 2000);
-> >  
-> >  	gpiod_set_value(sensor->xshutdown, 1);
-> >  
-> >  	sleep = SMIAPP_RESET_DELAY(sensor->hwcfg->ext_clk);
-> > -	usleep_range(sleep, sleep);
-> > +	usleep_range(sleep, sleep*2);
-> >  
-> >  	mutex_lock(&sensor->mutex);
-> >  
-> > @@ -1381,7 +1381,7 @@ static int smiapp_power_off(struct device *dev)
-> >  
-> >  	gpiod_set_value(sensor->xshutdown, 0);
-> >  	clk_disable_unprepare(sensor->ext_clk);
-> > -	usleep_range(5000, 5000);
-> > +	usleep_range(5000, 10000);
-> >  	regulator_disable(sensor->vana);
-> >  	sensor->streaming = false;
-> >  
-> 
-> -- 
-> Sakari Ailus
+[auto build test WARNING on linuxtv-media/master]
+[also build test WARNING on v5.1-rc7 next-20190503]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Michael-Tretter/Add-ZynqMP-VCU-Allegro-DVT-H-264-encoder-driver/20190504-161958
+base:   git://linuxtv.org/media_tree.git master
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/media/platform/allegro-dvt/allegro-core.c:735:5: sparse: sparse: symbol 'allegro_alloc_buffer' was not declared. Should it be static?
+>> drivers/media/platform/allegro-dvt/allegro-core.c:747:6: sparse: sparse: symbol 'allegro_free_buffer' was not declared. Should it be static?
+>> drivers/media/platform/allegro-dvt/allegro-core.c:1607:13: sparse: sparse: symbol 'allegro_hardirq' was not declared. Should it be static?
+>> drivers/media/platform/allegro-dvt/allegro-core.c:1621:13: sparse: sparse: symbol 'allegro_irq_thread' was not declared. Should it be static?
+
+Please review and possibly fold the followup patch.
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
