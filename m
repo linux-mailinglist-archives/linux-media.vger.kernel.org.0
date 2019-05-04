@@ -2,147 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DDD413728
-	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 05:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7795913805
+	for <lists+linux-media@lfdr.de>; Sat,  4 May 2019 09:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726543AbfEDDsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 May 2019 23:48:32 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51979 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726149AbfEDDsc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 May 2019 23:48:32 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:fce6:b471:fcc2:bbdf])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Mlf3hNRhNb8gSMlf4hdMYd; Sat, 04 May 2019 05:48:30 +0200
-Message-ID: <6cc98500a5f57339bfb97b1d95a6349f@smtp-cloud8.xs4all.net>
-Date:   Sat, 04 May 2019 05:48:29 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHJt6roUh6o9lG3Yj/yPw8IYSPLqMMFf3cyOmWSzHamIprlugYdPo+l2QeAzES4PlUqyrhB3namDtxNEjV93gUIithgqpqhinrXO1sHuYKRbueEHY781
- mToaTsRh6J7gVCBPJg0yGRDs94NtJMjWZm9NDf7/N5niyKkMpCyKwrOHpZ6/aNWcMJomJJBXAwGP9O1LQwjNs2V05N74CEdqkM6ZlBz2fZi573ZFVni4/ONB
+        id S1726827AbfEDHBo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 May 2019 03:01:44 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7151 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726604AbfEDHBo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 May 2019 03:01:44 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 330EDE64C73B608B93FC;
+        Sat,  4 May 2019 15:01:42 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.439.0; Sat, 4 May 2019 15:01:32 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+CC:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH] [media] saa7164: fix remove_proc_entry warning
+Date:   Sat, 4 May 2019 15:10:57 +0800
+Message-ID: <20190504071057.58471-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+if saa7164_proc_create() fails, saa7164_fini() will trigger a warning,
 
-Results of the daily build of media_tree:
+name 'saa7164'
+WARNING: CPU: 1 PID: 6311 at fs/proc/generic.c:672 remove_proc_entry+0x1e8/0x3a0
+  ? remove_proc_entry+0x1e8/0x3a0
+  ? try_stop_module+0x7b/0x240
+  ? proc_readdir+0x70/0x70
+  ? rcu_read_lock_sched_held+0xd7/0x100
+  saa7164_fini+0x13/0x1f [saa7164]
+  __x64_sys_delete_module+0x30c/0x480
+  ? __ia32_sys_delete_module+0x480/0x480
+  ? __x64_sys_clock_gettime+0x11e/0x1c0
+  ? __x64_sys_timer_create+0x1a0/0x1a0
+  ? trace_hardirqs_off_caller+0x40/0x180
+  ? do_syscall_64+0x18/0x450
+  do_syscall_64+0x9f/0x450
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-date:			Sat May  4 05:00:12 CEST 2019
-media-tree git hash:	7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Fix it by checking the return of proc_create_single() before
+calling remove_proc_entry().
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.1-i686: OK
-linux-5.0.1-x86_64: OK
-linux-5.1-rc1-i686: OK
-linux-5.1-rc1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 31 +++++++++++++++---------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index 05f25c9bb308..51dff0d84399 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -1122,16 +1122,23 @@ static int saa7164_proc_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
++static struct proc_dir_entry *saa7164_pe;
+ static int saa7164_proc_create(void)
+ {
+-	struct proc_dir_entry *pe;
+-
+-	pe = proc_create_single("saa7164", S_IRUGO, NULL, saa7164_proc_show);
+-	if (!pe)
++	saa7164_pe = proc_create_single("saa7164", S_IRUGO, NULL, saa7164_proc_show);
++	if (!saa7164_pe)
+ 		return -ENOMEM;
+ 
+ 	return 0;
+ }
++static void saa7164_proc_destory(void)
++{
++	if (saa7164_pe)
++		remove_proc_entry("saa7164", NULL);
++}
++#else
++static int saa7164_proc_create(void) { return 0; }
++static void saa7164_proc_destory(void) {}
+ #endif
+ 
+ static int saa7164_thread_function(void *data)
+@@ -1503,19 +1510,21 @@ static struct pci_driver saa7164_pci_driver = {
+ 
+ static int __init saa7164_init(void)
+ {
+-	printk(KERN_INFO "saa7164 driver loaded\n");
++	int ret = pci_register_driver(&saa7164_pci_driver);
++
++	if (ret)
++		return ret;
+ 
+-#ifdef CONFIG_PROC_FS
+ 	saa7164_proc_create();
+-#endif
+-	return pci_register_driver(&saa7164_pci_driver);
++
++	printk(KERN_INFO "saa7164 driver loaded\n");
++
++	return 0;
+ }
+ 
+ static void __exit saa7164_fini(void)
+ {
+-#ifdef CONFIG_PROC_FS
+-	remove_proc_entry("saa7164", NULL);
+-#endif
++	saa7164_proc_destory();
+ 	pci_unregister_driver(&saa7164_pci_driver);
+ }
+ 
+-- 
+2.20.1
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
