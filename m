@@ -2,147 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24B4513D03
-	for <lists+linux-media@lfdr.de>; Sun,  5 May 2019 05:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28BEF14004
+	for <lists+linux-media@lfdr.de>; Sun,  5 May 2019 16:02:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727343AbfEEDtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 May 2019 23:49:15 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:39803 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726524AbfEEDtP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 May 2019 23:49:15 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:4cdb:5595:ed69:fbb])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id N89IhacGxZVjxN89JhF8SN; Sun, 05 May 2019 05:49:13 +0200
-Message-ID: <03164f671ec3a9292770696a3ceaf2c4@smtp-cloud7.xs4all.net>
-Date:   Sun, 05 May 2019 05:49:12 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGFsecOQlLeiTsESP+DRdIK8AwxggoeiUmSq8RfipemU7Thhcs9mFv3l46nRpgPNZe6/XGsIzidwdEDXNL9nBUVP09RrkJfit77sNcV1hrc8iDif4NCz
- awG8ED6SVxT4IGwzNJVJ0uLiHS9PyS8zHTSeF/sisu88Ty3rpGfm9NJtSRPweLeJEt5cniJmXVZdbLkrhJOYeU/vvYUKFBOWFS2UDn3WoXnWi16Ggj+ubS+t
+        id S1727634AbfEEOA6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 May 2019 10:00:58 -0400
+Received: from shell.v3.sk ([90.176.6.54]:55673 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726397AbfEEOA5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 5 May 2019 10:00:57 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id A6400103D35;
+        Sun,  5 May 2019 16:00:52 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id iH3liF-fHYco; Sun,  5 May 2019 16:00:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 5B25E103D2B;
+        Sun,  5 May 2019 16:00:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id hQjYDOwTATBy; Sun,  5 May 2019 16:00:35 +0200 (CEST)
+Received: from nedofet.lan (ip-89-102-31-34.net.upcbroadband.cz [89.102.31.34])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id E05B0103D24;
+        Sun,  5 May 2019 16:00:34 +0200 (CEST)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
+        Libin Yang <lbyang@marvell.com>,
+        Albert Wang <twang13@marvell.com>,
+        jacopo mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH v5 00/10] media: make Marvell camera work on DT-based OLPC XO-1.75
+Date:   Sun,  5 May 2019 16:00:21 +0200
+Message-Id: <20190505140031.9636-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+this is the fifth spin of a patchset that modernizes the Marvell MMP2 CCI=
+C
+driver, making it work on DT-based systems such as OLPC XO-1.75 laptop.
 
-date:			Sun May  5 05:00:11 CEST 2019
-media-tree git hash:	7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+At the core of the rework is the move to asynchronous sensor discovery
+and clock management with the standard clock framework. There are also
+some straightforward fixes for the bitrotten parts.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.1-i686: OK
-linux-5.0.1-x86_64: OK
-linux-5.1-rc1-i686: OK
-linux-5.1-rc1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+Compared the the previous version it just fixes issues with the device
+bindings, pointed out by Sakari Ailus, in patch [01/10].
 
-Detailed results are available here:
+Tested on OLPC XO-1 and OLPC XO-1.75.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Thanks,
+Lubo
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
