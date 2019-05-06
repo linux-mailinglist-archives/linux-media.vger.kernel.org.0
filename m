@@ -2,109 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF41E14B03
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 15:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70A1D14B36
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 15:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726272AbfEFNiQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 09:38:16 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:50487 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbfEFNiQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 09:38:16 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 844E924001C;
-        Mon,  6 May 2019 13:38:06 +0000 (UTC)
-Date:   Mon, 6 May 2019 15:39:05 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v6 13/13] media: tvp5150: make debug output more readable
-Message-ID: <20190506133905.gvdgrei5n6crbwxc@uno.localdomain>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-14-m.felsch@pengutronix.de>
+        id S1726328AbfEFNui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 May 2019 09:50:38 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35307 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbfEFNui (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 09:50:38 -0400
+Received: by mail-pl1-f196.google.com with SMTP id w24so6423826plp.2
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 06:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bQJbdD3DpYVGAJMB4xHT/wsaNr2EFZ6QKX73vdaXiy8=;
+        b=DRQ6yKsX6G++7lU4Zg5s3BYR0P9dOtDVRdgDq4OTKtqnFzdHr5mrU+eAH8m/xaAqq9
+         GjaGvUS7mkeRr5xpwetie72lE61cQQyZApscmN4YS70y1VIT4NWv/M48lKerfm627Th7
+         gjcuK1BYAbSf4nXxfiio5m7d5spLpXCCTDKGcC2aVAdeBFYRKrP8Z7bE2tG9DZ2rIsGu
+         CwljSWmdU9qHLtd/Gz+syQE0KKMpSKrEQoJTqd9Mdkk5tKa5G5tK8eI5XA5KcbzqPu4t
+         Lq4Z4U34+8CqteCsW5OMIEDaAHJ5orfzvcPcniCK32BPqiOxrEh1Ln7swqpgKcat4g3N
+         37Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bQJbdD3DpYVGAJMB4xHT/wsaNr2EFZ6QKX73vdaXiy8=;
+        b=hAXIdj/OdiYTNZrYwkaKyQZSQdIG6gTiA4LGYJqdgSPGMH0J1oH0TZKXpX5t/VXV31
+         DX9WC7u9Eg3zY6E5oVw18mvF9tw513h9h/fO4Jo0hCraG9X/vhzRdNsM1trZoDJpL+R5
+         UAlpn7OaJ9QlvxUmB+i2mBq4EpuxU4xYjGCRn+k14XDfPXiCvK9UbYdRlgOsHFIZ7H1/
+         2tlRhWyQfzLUTI0aA5Qy8QH/isK5RwUQkRLrRj/mjiYg5mfWh7iVrY3ln6EdI2h/KVGz
+         nfBI/DyyCtGYByA7QkLP+fq8YLuuhhhhoLFahWQGrDSbj6xiLUXwfwSQJ+m33hQPgRu0
+         YDAg==
+X-Gm-Message-State: APjAAAUdb7m9ztQeFH2uTiMbHv9xiDT7/zRwByW63RPAHPybrGwTLArP
+        b4Ot45AEwJN68vSTfEOHEf7C4Ohu5JSXYkBRkIrL6g==
+X-Google-Smtp-Source: APXvYqwbKSvVTOpuC9GERGa4zYi/56mC1YqRSuljrXhiTGgFzKxKxPy7xquJMcd52Z/Xw9GWuZtYyS77z4awlmXBnWo=
+X-Received: by 2002:a17:902:7783:: with SMTP id o3mr32208910pll.159.1557150636780;
+ Mon, 06 May 2019 06:50:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ytby4rv5fpn2xb64"
-Content-Disposition: inline
-In-Reply-To: <20190415124413.18456-14-m.felsch@pengutronix.de>
-User-Agent: NeoMutt/20180716
+References: <cover.1556630205.git.andreyknvl@google.com> <2e827b5c484be14044933049fec180cd6acb054b.1556630205.git.andreyknvl@google.com>
+ <3108d33e-8e18-a73e-5e1a-f0db64f02ab3@amd.com>
+In-Reply-To: <3108d33e-8e18-a73e-5e1a-f0db64f02ab3@amd.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 6 May 2019 15:50:25 +0200
+Message-ID: <CAAeHK+zDScw-aYpQFVG=JKartDqCF+ZWnq3-6PuaYgMiBphcJA@mail.gmail.com>
+Subject: Re: [PATCH v14 11/17] drm/amdgpu, arm64: untag user pointers
+To:     "Kuehling, Felix" <Felix.Kuehling@amd.com>
+Cc:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+        "Koenig, Christian" <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---ytby4rv5fpn2xb64
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Marco,
-  thanks
-
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-On Mon, Apr 15, 2019 at 02:44:13PM +0200, Marco Felsch wrote:
-> The debug output for tvp5150_selmux() isn't really intuitive. Register
-> values are printed decimal formatted and the input/output driver states
-> are printed as enum. Even more the "normal" output enum mapps to zero so
-> a active output will printing output=0 and a inactive output=1.
+On Tue, Apr 30, 2019 at 8:03 PM Kuehling, Felix <Felix.Kuehling@amd.com> wrote:
 >
-> Change this by brinting the register values hex formatted and the states
-> as more readable string.
+> On 2019-04-30 9:25 a.m., Andrey Konovalov wrote:
+> > [CAUTION: External Email]
+> >
+> > This patch is a part of a series that extends arm64 kernel ABI to allow to
+> > pass tagged user pointers (with the top byte set to something else other
+> > than 0x00) as syscall arguments.
+> >
+> > amdgpu_ttm_tt_get_user_pages() uses provided user pointers for vma
+> > lookups, which can only by done with untagged pointers. This patch
+> > untag user pointers when they are being set in
+> > amdgpu_ttm_tt_set_userptr().
+> >
+> > In amdgpu_gem_userptr_ioctl() and amdgpu_amdkfd_gpuvm.c/init_user_pages()
+> > an MMU notifier is set up with a (tagged) userspace pointer. The untagged
+> > address should be used so that MMU notifiers for the untagged address get
+> > correctly matched up with the right BO. This patch untag user pointers in
+> > amdgpu_gem_userptr_ioctl() for the GEM case and in
+> > amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu() for the KFD case.
+> >
+> > Suggested-by: Kuehling, Felix <Felix.Kuehling@amd.com>
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c          | 2 ++
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          | 2 +-
+> >   3 files changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> > index 1921dec3df7a..20cac44ed449 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> > @@ -1121,7 +1121,7 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+> >                  alloc_flags = 0;
+> >                  if (!offset || !*offset)
+> >                          return -EINVAL;
+> > -               user_addr = *offset;
+> > +               user_addr = untagged_addr(*offset);
+> >          } else if (flags & ALLOC_MEM_FLAGS_DOORBELL) {
+> >                  domain = AMDGPU_GEM_DOMAIN_GTT;
+> >                  alloc_domain = AMDGPU_GEM_DOMAIN_CPU;
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > index d21dd2f369da..985cb82b2aa6 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > @@ -286,6 +286,8 @@ int amdgpu_gem_userptr_ioctl(struct drm_device *dev, void *data,
+> >          uint32_t handle;
+> >          int r;
+> >
+> > +       args->addr = untagged_addr(args->addr);
+> > +
+> >          if (offset_in_page(args->addr | args->size))
+> >                  return -EINVAL;
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > index 73e71e61dc99..1d30e97ac2c4 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> > @@ -1248,7 +1248,7 @@ int amdgpu_ttm_tt_set_userptr(struct ttm_tt *ttm, uint64_t addr,
+> >          if (gtt == NULL)
+> >                  return -EINVAL;
+> >
+> > -       gtt->userptr = addr;
+> > +       gtt->userptr = untagged_addr(addr);
 >
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
->  drivers/media/i2c/tvp5150.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> index c0ee08546643..13ee6d781efb 100644
-> --- a/drivers/media/i2c/tvp5150.c
-> +++ b/drivers/media/i2c/tvp5150.c
-> @@ -302,9 +302,12 @@ static void tvp5150_selmux(struct v4l2_subdev *sd)
->  		break;
->  	}
->
-> -	dev_dbg_lvl(sd->dev, 1, debug, "Selecting video route: route input=%i, output=%i => tvp5150 input=%i, opmode=%i\n",
-> -			decoder->input, decoder->output,
-> -			input, opmode);
-> +	dev_dbg_lvl(sd->dev, 1, debug,
-> +		    "Selecting video route: route input=%s, output=%s => tvp5150 input=0x%02x, opmode=0x%02x\n",
-> +		    decoder->input == 0 ? "aip1a" :
-> +		    decoder->input == 2 ? "aip1b" : "svideo",
-> +		    decoder->output == 0 ? "normal" : "black-frame-gen",
-> +		    input, opmode);
->
->  	regmap_write(decoder->regmap, TVP5150_OP_MODE_CTL, opmode);
->  	regmap_write(decoder->regmap, TVP5150_VD_IN_SRC_SEL_1, input);
-> --
-> 2.20.1
->
+> Doing this here seems unnecessary. You already untagged the address in
+> both callers of this function. Untagging in the two callers ensures that
+> the userptr and MMU notifier are in sync, using the same untagged
+> address. Doing it again here is redundant.
 
---ytby4rv5fpn2xb64
-Content-Type: application/pgp-signature; name="signature.asc"
+ Will fix in v15, thanks!
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzQOPkACgkQcjQGjxah
-VjznAg//dODoy3i18xQaDyQL/9/cB5Yj5K/pC2mfndsMHOHav7xm7ikuAZ8oEhA7
-3bfJnbTWFKU9qvQnozkf0VDDszqvyzpyJtSdVLPCFml87cpx6PLdd6txFUoL3Cc/
-PkmvrQA+8K4waii86qubtdI5Hr5tcvRj14gnOmND4GEQlvvWhWT8silh3BsG56/M
-exZmDyVC7TK6wUAGss0/ByfdC5AM/rOU0aZ2FlTZE3UWt0vDyM08CZ612Z0AE6xJ
-1oJyWBbzbpzNXUlMMyOZxQoTZrR1sL/ji+RGVNNveOR52g/IsugCSwgXW5Trt5hS
-Wea+v7gOZzGjFfmvYxTzYZ8gVv+Gt0u9tLQeHeJXpoGqW3kzEyQRc7VV/gNFD6TP
-1cTkH9nH9q9/u7UQyMn17bkekJSk2/WbJD90nkFfuZAyKSOC68YnXx3LGrZtRtC7
-ZlmkHxwLOtt63/nx92SkzmquIVC9bY6BJmAqjE6izKOhtkP9WKQAIVGtDGYJQDF8
-GtB0qtw28uUEWtb3kkoOBHjZ6yQ02DLPnePt2mrZQBJpXYtxGNUJdaw1Pp19tSeL
-cC69grf6OnzERkQHDGrQ9tP1skiBaEeUDiWtRYhhDYnmw3W4C6UdC45dpU5n+lTj
-kIDMq6F2EPHdLpmxpd9v+NsifRSbl23cwAjjJJYp8DrdDNuZ5qM=
-=qR7O
------END PGP SIGNATURE-----
-
---ytby4rv5fpn2xb64--
+>
+> Regards,
+>    Felix
+>
+>
+> >          gtt->userflags = flags;
+> >
+> >          if (gtt->usertask)
+> > --
+> > 2.21.0.593.g511ec345e18-goog
+> >
