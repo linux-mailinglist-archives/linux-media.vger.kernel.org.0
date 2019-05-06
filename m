@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEF011517A
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 18:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB8215176
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 18:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbfEFQcf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 12:32:35 -0400
-Received: from mail-ot1-f73.google.com ([209.85.210.73]:37044 "EHLO
-        mail-ot1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727203AbfEFQbo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 12:31:44 -0400
-Received: by mail-ot1-f73.google.com with SMTP id i21so7764782otf.4
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 09:31:44 -0700 (PDT)
+        id S1727279AbfEFQbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 May 2019 12:31:49 -0400
+Received: from mail-oi1-f201.google.com ([209.85.167.201]:33402 "EHLO
+        mail-oi1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727261AbfEFQbs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 12:31:48 -0400
+Received: by mail-oi1-f201.google.com with SMTP id m8so4538519oih.0
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 09:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=eYbhxmTmdaiTVlq2aRmj2n9QkL6CX4/S4opJ9oDHFhE=;
-        b=ZSFHbQPvMQhkrf29+rXmES4x80rxWQfO3CRg3EirSkEvMHaN6TChbsHuGqG8tqYPqI
-         EOCA65HA1vwG2VBAq4EN+A4OM16jXXWhM8t5gUCVAGxaFpj7A96cWjckSSXVB9ifgUBP
-         JPRXtbLz3WvjXz6TEKimgkTZH4CSKnvPcLkcG+UwjiKkw5OJqJ0dywa/iWl3MUEMoYLx
-         yX/R0TAlH28V7Dy/lDpZ2CQKiEy+5rLrSQMyM1Z1SBWcw4VX+lOfzjflOLQGIDoNcKIy
-         Lw+nu7cdx5CVE6SIyoKDCFcQFHBzYbom0atBI7FulTuqD2oMzEvZRTJLiB0pdkfBeBX2
-         irnA==
+        bh=BvoYtYVsULamnYvbwO19c3h5oHA1gsMsAv5tZYbLYtI=;
+        b=hn4rH9KTek8R37jjBWMcf/SnTi9wO6imyjbK43Qo3YFFy0w0QB9ppRC7K8TE7v3vlN
+         nPLbzWoXhcOl9RZZTW0CT+GOCLOJRZHlTgH0IFE90/0mo3gA6Benvmv0xM9qlEM2L7iM
+         a5/5EdryhXK5o1zmP38+JskPbuvRNi2KBDqgGoYwdgZckW/t0t3zXYlgA28tCgQWx38p
+         zeMjQt/2TKtd8YWaOZqpDqkiV1tfPRGdf11R4Vmzgti01WpJ/ug4M22kRPfo4KNLvnrQ
+         G8KQ2Dx3TZLoioP3vZYIMjrpzIYzmaefwwMqniR4qNzu+AscTWd9F/aHBCgCKh66bnIf
+         LcNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=eYbhxmTmdaiTVlq2aRmj2n9QkL6CX4/S4opJ9oDHFhE=;
-        b=Qo9KrmhYN7mG4NnwsrfDLam+mx2vez/NzGC+4tlB7RNhCv0IJFqdVdmM757QCO0Uhm
-         fEzbfLGtrqscThV49HjXBny/J3RGr+dNQkPoOvHVdn6iiaOhXT/7IYEagVKiJFtE/9rk
-         oRGUIll/YMeqVLnJtkxRZVouoGTjfbH5pU4AXz9cHLYlYzVUDEI8s9d15OERgHdZdlsE
-         /+0vNQaugDuAOARIHdJtqBoOPf7dUv0k9B3eYK5FkrIUPtcatWvyVKli0k6lpEfkUiq6
-         VXLtRYiy4Q1J08QdhaWZml+FrYhnQBtzTp4aKzRNjAeTtJu+PmCE3J42nLM4Col3bfAS
-         3rmg==
-X-Gm-Message-State: APjAAAWYSLN09ofJI7FSq8zgjkldurY1grNANlA9DVdxHSoYy1yLfYnq
-        Sn3Vh6HN5FyJ5EhWCHwAsK5osb+fExwqA53y
-X-Google-Smtp-Source: APXvYqzdzQlfaHkw0Qwo4QQtxGeWhxSSS13Ps1SOtj6ReWwWjESZwRkhi/LnnldOgTKgizVRLfncWXFiUgbgbiQx
-X-Received: by 2002:a9d:7d04:: with SMTP id v4mr16958653otn.185.1557160304159;
- Mon, 06 May 2019 09:31:44 -0700 (PDT)
-Date:   Mon,  6 May 2019 18:30:58 +0200
+        bh=BvoYtYVsULamnYvbwO19c3h5oHA1gsMsAv5tZYbLYtI=;
+        b=oP7C9C/AksgS9ciQZ/b139sxDEUb5GtgEtdn1+m5lVFcYkB/xG0s/2Jc23cTAOvS6H
+         zi5vzBYdOR8mFETRkmhvo4H/4QI54A/5glSrL21larkLpMsmj+wOazTcbFTDyN5KIUgc
+         l4S1IkvQhiUJR3uQtFJc5jZB8A/7bmxgUVajIt9YwuOpCUj/LLSGWjca9igToUKKzZKf
+         VPE+xEnfHLfuSEz/J4Jr9KXj+NBAZybWNOmhAsju4HlkzN+jmu8gBTDSsfUGyUU/KcXv
+         UQVbSJKMUeSPBl6qS/Mx49s8aNIdbACVTuF0Go+dORXf2BziVvtFge9Dali0ue7SW+7q
+         e3yw==
+X-Gm-Message-State: APjAAAXRWCd/KAl5eI2xPxf84eWSu+cWCjT6gyx50W1BVo8ncoEFPt2T
+        xyOjCR8JjlY+ADqBawcAxYQ2S4iI6v6uQ3NY
+X-Google-Smtp-Source: APXvYqy3zk1gAf1HD3ERPdP+fu/IbJWPYjnwXEpH7KM/4Kolrw9tSDmooPMwqXT4nvIVhZWlBkow5/TqTCzeTPOv
+X-Received: by 2002:a9d:6008:: with SMTP id h8mr18251374otj.55.1557160307352;
+ Mon, 06 May 2019 09:31:47 -0700 (PDT)
+Date:   Mon,  6 May 2019 18:30:59 +0200
 In-Reply-To: <cover.1557160186.git.andreyknvl@google.com>
-Message-Id: <03fe9d923db75cf72678f3ce103838e67390751a.1557160186.git.andreyknvl@google.com>
+Message-Id: <66d044ab9445dcf36a96205a109458ac23f38b73.1557160186.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1557160186.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v15 12/17] drm/radeon, arm64: untag user pointers in radeon_gem_userptr_ioctl
+Subject: [PATCH v15 13/17] IB, arm64: untag user pointers in ib_uverbs_(re)reg_mr()
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -91,31 +91,36 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-In radeon_gem_userptr_ioctl() an MMU notifier is set up with a (tagged)
-userspace pointer. The untagged address should be used so that MMU
-notifiers for the untagged address get correctly matched up with the right
-BO. This funcation also calls radeon_ttm_tt_pin_userptr(), which uses
-provided user pointers for vma lookups, which can only by done with
-untagged pointers.
+ib_uverbs_(re)reg_mr() use provided user pointers for vma lookups (through
+e.g. mlx4_get_umem_mr()), which can only by done with untagged pointers.
 
-This patch untags user pointers in radeon_gem_userptr_ioctl().
+Untag user pointers in these functions.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- drivers/gpu/drm/radeon/radeon_gem.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/infiniband/core/uverbs_cmd.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 44617dec8183..90eb78fb5eb2 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -291,6 +291,8 @@ int radeon_gem_userptr_ioctl(struct drm_device *dev, void *data,
- 	uint32_t handle;
- 	int r;
+diff --git a/drivers/infiniband/core/uverbs_cmd.c b/drivers/infiniband/core/uverbs_cmd.c
+index 062a86c04123..36e7b52577d0 100644
+--- a/drivers/infiniband/core/uverbs_cmd.c
++++ b/drivers/infiniband/core/uverbs_cmd.c
+@@ -708,6 +708,8 @@ static int ib_uverbs_reg_mr(struct uverbs_attr_bundle *attrs)
+ 	if (ret)
+ 		return ret;
  
-+	args->addr = untagged_addr(args->addr);
++	cmd.start = untagged_addr(cmd.start);
 +
- 	if (offset_in_page(args->addr | args->size))
+ 	if ((cmd.start & ~PAGE_MASK) != (cmd.hca_va & ~PAGE_MASK))
+ 		return -EINVAL;
+ 
+@@ -790,6 +792,8 @@ static int ib_uverbs_rereg_mr(struct uverbs_attr_bundle *attrs)
+ 	if (ret)
+ 		return ret;
+ 
++	cmd.start = untagged_addr(cmd.start);
++
+ 	if (cmd.flags & ~IB_MR_REREG_SUPPORTED || !cmd.flags)
  		return -EINVAL;
  
 -- 
