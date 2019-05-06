@@ -2,116 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 441201549E
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 21:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD96715501
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 22:41:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbfEFTuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 15:50:23 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46284 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbfEFTuX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 15:50:23 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a132so8596748qkb.13
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 12:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ESsJ96JGC0CvnjgihpL/0kogE+VQksbbiyHqcPsgGyM=;
-        b=mAg8m7rSPAxM5D+1qNjO71dhsXUrQSGF8zaXxmrvN1W1e7B7fEhL/nFNC4QmlTH5S/
-         9FjLthJrMSnJTSlBNmAzOuj+WEEEHBw1j3jchmVO404WkT8GTT4n4WekZCWvQcvu4KOF
-         mx0V5cfxdymPVb2Ruxoza7w5KItB51NAJ5xivBL7H4fj5rRig8CXPXI75f55CKvkZyYC
-         Gs093sJb6bHKcKo1jSkGyp2Pk8c68+e+QijlfKiUVNZuBsCjguF+Uc/8jtTaC+sffP6g
-         22gO2vicgInFZL3gRZwFvB6M65AQIPZr/G+9s6iQjRuVRTS6fQK5LrCRIMT4SjvjNieX
-         MViA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ESsJ96JGC0CvnjgihpL/0kogE+VQksbbiyHqcPsgGyM=;
-        b=D4t2T75DEepze+tCJMnFHUwDnZVG8Fh90vryaq/dO6b4QcR2owkC02bmIJjoVm867Z
-         OPkowl2u7VsHEyBhhXP7g1uytNSoTGMBvXeGzxbEC4yIwHE832tOEOFZ6rNASjCBgRx2
-         Vjz/EfkumA0ayl/U/1C6824YgHkHmV/zIwPMMeeDsgOskz4UsXJaImVAohr8vtfg/xtj
-         mrDwf2aPca0uokf4en15O5GgAE9aYf4gCYjWRCkrUBDPWWOIjEa+RaZ5Z12Cco3RbkmK
-         Hs2OvRwiVb+SPrzAJNiOfT/vcgvGAjLHeIqsnfZFmEEAG93umunjoQgKTJJZ5Zz82E83
-         YWeA==
-X-Gm-Message-State: APjAAAUPnIZf/kbAsl2MGLcF4wXcaxNDjQvI2XSsC4rVzcY9MjB7fw9t
-        NLsZN9TRaIJ1N30oSIvhbB473A==
-X-Google-Smtp-Source: APXvYqweK3T+QR6CpnWc0KpWvE878/YztoCohPUsZDawCWkz4P9i6ckWrJvxSZLqhWTPckszjgD1bg==
-X-Received: by 2002:a05:620a:16b4:: with SMTP id s20mr10803976qkj.34.1557172222493;
-        Mon, 06 May 2019 12:50:22 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-49-251.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.49.251])
-        by smtp.gmail.com with ESMTPSA id o44sm9303175qto.36.2019.05.06.12.50.21
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 12:50:21 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1hNjcy-0007kq-Cs; Mon, 06 May 2019 16:50:20 -0300
-Date:   Mon, 6 May 2019 16:50:20 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v15 13/17] IB, arm64: untag user pointers in
- ib_uverbs_(re)reg_mr()
-Message-ID: <20190506195020.GD6201@ziepe.ca>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <66d044ab9445dcf36a96205a109458ac23f38b73.1557160186.git.andreyknvl@google.com>
+        id S1726460AbfEFUlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 May 2019 16:41:42 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:52512 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726438AbfEFUlm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 16:41:42 -0400
+Received: (qmail 5462 invoked by uid 2102); 6 May 2019 16:41:41 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 6 May 2019 16:41:41 -0400
+Date:   Mon, 6 May 2019 16:41:41 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <mchehab@kernel.org>, <syzkaller-bugs@googlegroups.com>,
+        <wen.yang99@zte.com.cn>
+Subject: Re: general protection fault in smsusb_init_device
+In-Reply-To: <0000000000008d89900586ccd37b@google.com>
+Message-ID: <Pine.LNX.4.44L0.1905061638380.1585-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66d044ab9445dcf36a96205a109458ac23f38b73.1557160186.git.andreyknvl@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 06, 2019 at 06:30:59PM +0200, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow to
-> pass tagged user pointers (with the top byte set to something else other
-> than 0x00) as syscall arguments.
-> 
-> ib_uverbs_(re)reg_mr() use provided user pointers for vma lookups (through
-> e.g. mlx4_get_umem_mr()), which can only by done with untagged pointers.
-> 
-> Untag user pointers in these functions.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  drivers/infiniband/core/uverbs_cmd.c | 4 ++++
->  1 file changed, 4 insertions(+)
+On Thu, 18 Apr 2019, syzbot wrote:
 
-I think this is OK.. We should really get it tested though.. Leon?
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+> dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
+> 
+> usb 1-1: config 0 descriptor??
+> usb 1-1: string descriptor 0 read error: -71
+> smsusb:smsusb_probe: board id=18, interface number 0
+> kasan: CONFIG_KASAN_INLINE enabled
+> kasan: GPF could be caused by NULL-ptr deref or user memory access
+> general protection fault: 0000 [#1] SMP KASAN PTI
+> CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:smsusb_init_device+0x366/0x937  
+> drivers/media/usb/siano/smsusb.c:429
 
-Jason
+The driver assumes endpoint 1in exists, and doesn't check the existence 
+of the endpoints it uses.
+
+Alan Stern
+
+
+#syz test: https://github.com/google/kasan.git usb-fuzzer
+
+ drivers/media/usb/siano/smsusb.c |   32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
+
+Index: usb-devel/drivers/media/usb/siano/smsusb.c
+===================================================================
+--- usb-devel.orig/drivers/media/usb/siano/smsusb.c
++++ usb-devel/drivers/media/usb/siano/smsusb.c
+@@ -400,6 +400,7 @@ static int smsusb_init_device(struct usb
+ 	struct smsusb_device_t *dev;
+ 	void *mdev;
+ 	int i, rc;
++	int in_maxp;
+ 
+ 	/* create device object */
+ 	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
+@@ -411,6 +412,23 @@ static int smsusb_init_device(struct usb
+ 	dev->udev = interface_to_usbdev(intf);
+ 	dev->state = SMSUSB_DISCONNECTED;
+ 
++	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
++		struct usb_endpoint_descriptor *desc =
++				&intf->cur_altsetting->endpoint[i].desc;
++
++		if (desc->bEndpointAddress & USB_DIR_IN) {
++			dev->in_ep = desc->bEndpointAddress;
++			in_maxp = usb_endpoint_maxp(desc);
++		} else {
++			dev->out_ep = desc->bEndpointAddress;
++		}
++	}
++
++	pr_debug("in_ep = %02x, out_ep = %02x\n",
++		dev->in_ep, dev->out_ep);
++	if (!dev->in_ep || !dev->out_ep)	/* Missing endpoints? */
++		return -EINVAL;
++
+ 	params.device_type = sms_get_board(board_id)->type;
+ 
+ 	switch (params.device_type) {
+@@ -425,24 +443,12 @@ static int smsusb_init_device(struct usb
+ 		/* fall-thru */
+ 	default:
+ 		dev->buffer_size = USB2_BUFFER_SIZE;
+-		dev->response_alignment =
+-		    le16_to_cpu(dev->udev->ep_in[1]->desc.wMaxPacketSize) -
+-		    sizeof(struct sms_msg_hdr);
++		dev->response_alignment = in_maxp - sizeof(struct sms_msg_hdr);
+ 
+ 		params.flags |= SMS_DEVICE_FAMILY2;
+ 		break;
+ 	}
+ 
+-	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
+-		if (intf->cur_altsetting->endpoint[i].desc. bEndpointAddress & USB_DIR_IN)
+-			dev->in_ep = intf->cur_altsetting->endpoint[i].desc.bEndpointAddress;
+-		else
+-			dev->out_ep = intf->cur_altsetting->endpoint[i].desc.bEndpointAddress;
+-	}
+-
+-	pr_debug("in_ep = %02x, out_ep = %02x\n",
+-		dev->in_ep, dev->out_ep);
+-
+ 	params.device = &dev->udev->dev;
+ 	params.usb_device = dev->udev;
+ 	params.buffer_size = dev->buffer_size;
+
