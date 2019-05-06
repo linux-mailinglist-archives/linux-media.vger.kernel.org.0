@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF17514B41
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 15:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46EBE14B9D
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 16:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbfEFNxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 09:53:14 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45954 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbfEFNxN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 09:53:13 -0400
-Received: by mail-pf1-f196.google.com with SMTP id e24so6801221pfi.12
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 06:53:13 -0700 (PDT)
+        id S1726160AbfEFOPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 May 2019 10:15:32 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:36437 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726094AbfEFOPc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 10:15:32 -0400
+Received: by mail-pl1-f193.google.com with SMTP id cb4so2524047plb.3
+        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 07:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DfsikH3ADmgNVGOW8dVHffAJXBPBy/1Drd0IdtpjjJ8=;
-        b=kv7aGbZwowOP86IiNXKGTzv02HGdI2dS555U/AmH12LgQOZnKLK39c4sVdRuufn96A
-         qthFKSfdn7G60uj86be1sn6Yz08bEym7ZdQPS1mHAwXca2PX4G4xwzBsumjfQSNalrzf
-         yL5bwTZ9P03pKULjLPyCJCemso/1RN2dFNxsJkh8Db8dDQ4uyTu4XB2OtIwgRdUtOIbE
-         AyYkrbplUjKWiH4tJjgIH/K5mFuPdBD8NVSdZa64NURA8ieEyhpOBhaJlBUr1GIoMIGp
-         v2ptbSyS2qLsf62uamUc0COAt9buSU1YrXxFbkm18U+53rgjezb09axtZoHwZgv8hVgU
-         L1Yg==
+        bh=OW9r981uG4q4mCEE3eviMpvcgNrP8ztSBy/V22TuEyU=;
+        b=RwIwMiF88+Wz2lyiiiRFLD0DtzmtPhSYctT7DECXSVGGsMCqqEywraKb1VVIDK0D+6
+         e05K/iAAJcE9yRHQNbEvq9ePWUxNo3jMQ16tSsOGtmWiuiuGjYTIKZn3RWyGJN1L7rxH
+         JWCib8njn+v5Gl74GjdEjnavoToExJWkPKuLN2usGUeeVQU1cj6afqv3AP+Szx9d1YbR
+         /iYb1mW4rEJXqf/1doCy1zenFphH/aiHoOYrBoxPgEK3EUfKzOGpHL63KMDfpfhEfnGD
+         SAWo20WeW5Qs/kAhFHEaSxMs4rZb4+Da05bz1k2JR3ScMW8GRukA/aJ+BvUhLbhKhimD
+         bg2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DfsikH3ADmgNVGOW8dVHffAJXBPBy/1Drd0IdtpjjJ8=;
-        b=HOnh5Dobq+kqorJlki72sQ4KZSG710scMxeletPjHkjBGe2MliHLKcqxzlnkdvWIxQ
-         L6IjHkiZGz/DhyogYnCClGPZ8Jmb6+Btoc61puBetqdpQ/8vXSU5CQcyKEvAe0+a3KfE
-         M9whIlzQjbdUA0uPo3NtuGGEPMF6q4CEaxxrGrxCVA494IXUsqdqq0jULwfRVUkmRDQv
-         RXMtgPDMHALjsk8ELlCAiWHKVjVz6pcKcicyxXTSoM6TtfkDQOkhidWAt77Nv7OK4+up
-         6rOLMoMGGUQtOOz4cXgXVDopQSHIRlHhWkripr7x3f7JDbFnZLuZoQWgF88z0V6nVQHj
-         RvNg==
-X-Gm-Message-State: APjAAAVR0ewHaj9wcSUean+ABah8bdW9PVPPA+SpO7ktbCScAPgqlZT9
-        yOmP89cihwVEGntfInj4gkcxL2xnivrX86fjmajZZQ==
-X-Google-Smtp-Source: APXvYqz1fgwxD3Q1L0PJp0GBoiDCnAmVuD+UduBO6dKustad4HqnmYC98uMKFLNp2x7D5yl19BVMVIT9EGy2Pg34Ktk=
-X-Received: by 2002:aa7:9116:: with SMTP id 22mr33262822pfh.165.1557150792655;
- Mon, 06 May 2019 06:53:12 -0700 (PDT)
+        bh=OW9r981uG4q4mCEE3eviMpvcgNrP8ztSBy/V22TuEyU=;
+        b=ILF9tAZybGSkcFemZsu9/SPbK3Ob2qd1FKlzYuzNVHPD76INJmPTHyf+renE1hRk+R
+         OY9e1n0ZPlBqS+FuaDlPVdb0kQYr+Y3HA2PqxFCCiqgdp2X5weQxl9iVCAGuLs50BIPf
+         aKmBRyS4GeMnwFbrEkYhZfPbpaTnqO7lD5ZCfZZFLF0T37a8DYY24xBMLcGzKVYTxOSj
+         xCM13uwl0vkiDhmmOTM3K2qMbb+W7s6/bCQ0TcPPUa3Mvo4krU7eklL+pjRwuOnUO6FB
+         ebAXwqWAPinB/kBAOHk+AlcScTsxcoyltiXUuPM31/Cgsv2sAgkaFoarBQfaweEawUH/
+         fJpA==
+X-Gm-Message-State: APjAAAW3A8qO/P8eoklVFBb0cbAnvz4cHrg3SmXF0X5sODmKPjF4ICJ6
+        AIW78goZ82fj2zBqc25fxAcc+b/xf82nIruBPAQoYw==
+X-Google-Smtp-Source: APXvYqyWDp8mHq4mu+m9PaBcR4hr0UfLsUgs2S/OxvEKrdiWi6A7iqRf42KWhYp4nRTNFO6VlU1AYWwzebl0ku93GlI=
+X-Received: by 2002:a17:902:7783:: with SMTP id o3mr32385898pll.159.1557152131315;
+ Mon, 06 May 2019 07:15:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1556630205.git.andreyknvl@google.com> <8e20df035de677029b3f970744ba2d35e2df1db3.1556630205.git.andreyknvl@google.com>
- <20190503165113.GJ55449@arrakis.emea.arm.com>
-In-Reply-To: <20190503165113.GJ55449@arrakis.emea.arm.com>
+References: <cover.1556630205.git.andreyknvl@google.com> <7d3b28689d47c0fa1b80628f248dbf78548da25f.1556630205.git.andreyknvl@google.com>
+ <20190503165646.GK55449@arrakis.emea.arm.com>
+In-Reply-To: <20190503165646.GK55449@arrakis.emea.arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 6 May 2019 15:53:01 +0200
-Message-ID: <CAAeHK+wCyCa-5=bPNwfivP6sEODOXKE1bPjcjc2y_T4rN+-6gA@mail.gmail.com>
-Subject: Re: [PATCH v14 08/17] mm, arm64: untag user pointers in get_vaddr_frames
+Date:   Mon, 6 May 2019 16:15:20 +0200
+Message-ID: <CAAeHK+yya4OR7GfSJPc59+trq3fS9Qh_1WK2hB1aoHdR0C_t8Q@mail.gmail.com>
+Subject: Re: [PATCH v14 10/17] fs, arm64: untag user pointers in fs/userfaultfd.c
 To:     Catalin Marinas <catalin.marinas@arm.com>
 Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
@@ -90,43 +90,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 3, 2019 at 6:51 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Fri, May 3, 2019 at 6:56 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> On Tue, Apr 30, 2019 at 03:25:04PM +0200, Andrey Konovalov wrote:
+> On Tue, Apr 30, 2019 at 03:25:06PM +0200, Andrey Konovalov wrote:
 > > This patch is a part of a series that extends arm64 kernel ABI to allow to
 > > pass tagged user pointers (with the top byte set to something else other
 > > than 0x00) as syscall arguments.
 > >
-> > get_vaddr_frames uses provided user pointers for vma lookups, which can
-> > only by done with untagged pointers. Instead of locating and changing
-> > all callers of this function, perform untagging in it.
+> > userfaultfd_register() and userfaultfd_unregister() use provided user
+> > pointers for vma lookups, which can only by done with untagged pointers.
+> >
+> > Untag user pointers in these functions.
 > >
 > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > > ---
-> >  mm/frame_vector.c | 2 ++
-> >  1 file changed, 2 insertions(+)
+> >  fs/userfaultfd.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
 > >
-> > diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> > index c64dca6e27c2..c431ca81dad5 100644
-> > --- a/mm/frame_vector.c
-> > +++ b/mm/frame_vector.c
-> > @@ -46,6 +46,8 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> >       if (WARN_ON_ONCE(nr_frames > vec->nr_allocated))
-> >               nr_frames = vec->nr_allocated;
+> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> > index f5de1e726356..fdee0db0e847 100644
+> > --- a/fs/userfaultfd.c
+> > +++ b/fs/userfaultfd.c
+> > @@ -1325,6 +1325,9 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >               goto out;
+> >       }
 > >
-> > +     start = untagged_addr(start);
+> > +     uffdio_register.range.start =
+> > +             untagged_addr(uffdio_register.range.start);
 > > +
-> >       down_read(&mm->mmap_sem);
-> >       locked = 1;
-> >       vma = find_vma_intersection(mm, start, start + 1);
+> >       ret = validate_range(mm, uffdio_register.range.start,
+> >                            uffdio_register.range.len);
+> >       if (ret)
+> > @@ -1514,6 +1517,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+> >       if (copy_from_user(&uffdio_unregister, buf, sizeof(uffdio_unregister)))
+> >               goto out;
+> >
+> > +     uffdio_unregister.start = untagged_addr(uffdio_unregister.start);
+> > +
+> >       ret = validate_range(mm, uffdio_unregister.start,
+> >                            uffdio_unregister.len);
+> >       if (ret)
 >
-> Is this some buffer that the user may have malloc'ed? I got lost when
-> trying to track down the provenience of this buffer.
+> Wouldn't it be easier to do this in validate_range()? There are a few
+> more calls in this file, though I didn't check whether a tagged address
+> would cause issues.
 
-The caller that I found when I was looking at this:
-
-drivers/gpu/drm/exynos/exynos_drm_g2d.c:482
-exynos_g2d_set_cmdlist_ioctl()->g2d_map_cmdlist_gem()->g2d_userptr_get_dma_addr()->get_vaddr_frames()
+Yes, I think it makes more sense, will do in v15, thanks!
 
 >
 > --
