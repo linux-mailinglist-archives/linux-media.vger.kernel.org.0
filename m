@@ -2,234 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C06B914832
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 12:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADC8614851
+	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 12:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726016AbfEFKKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 06:10:45 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52885 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725856AbfEFKKp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 May 2019 06:10:45 -0400
-Received: from [IPv6:2001:983:e9a7:1:94cb:c5ca:b4e:5bdf] ([IPv6:2001:983:e9a7:1:94cb:c5ca:b4e:5bdf])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Naa1hMWbsNExlNaa3hy1fN; Mon, 06 May 2019 12:10:43 +0200
-Subject: Re: [PATCH v6 03/13] media: v4l2-fwnode: add initial connector
- parsing support
-To:     Marco Felsch <m.felsch@pengutronix.de>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+        id S1725981AbfEFK0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 May 2019 06:26:36 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40702 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725883AbfEFK0g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 06:26:36 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x46AIvBj034896;
+        Mon, 6 May 2019 10:26:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2018-07-02; bh=6tzxzcTc/aqne9cPRGeSKcpQM5kD6ysk+yLi19TTFts=;
+ b=vNw6lfQt9QAB6vRvb5Y7x+cCAYz06O6DH27saqT9yWqXTBF4JwytEseiwEivc65I4KDE
+ jaoXwG1GYhQFEAtodTPLrIjEB+BrCe3Y9+p0vn2vyq4UEl97dGmdS0C+YC4V9GhDyqlQ
+ 1b7UKMynmLWw2RSyLudehMb0cuvy/9MvuDF7hUKP2RXmsmnt0EuUcErBY8ABX18P4REn
+ lXRYDeQ7XY6jQgZ9N39PYppGyJkTMvP6ery8mT7v50iHAzwO+TY0WeXPV24yrWbC5LWK
+ n0Xo6wBRRhAaJyef49muGVgFr+IH+uDof6zn5swPMb/tCA5xEm4QL8bjIveCk/G/Nbth XQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 2s94bfnmg5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 06 May 2019 10:26:27 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x46ANqKO193300;
+        Mon, 6 May 2019 10:24:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2sagyt9sas-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 06 May 2019 10:24:27 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x46AONan030405;
+        Mon, 6 May 2019 10:24:24 GMT
+Received: from kadam (/105.52.123.240)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 06 May 2019 03:24:23 -0700
+Date:   Mon, 6 May 2019 13:24:12 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@01.org, Michael Tretter <m.tretter@pengutronix.de>
+Cc:     kbuild-all@01.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, kernel@pengutronix.de,
-        Jacopo Mondi <jacopo@jmondi.org>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-4-m.felsch@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
-Date:   Mon, 6 May 2019 12:10:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        robh+dt@kernel.org, mchehab@kernel.org, tfiga@chromium.org,
+        dshah@xilinx.com, hverkuil@xs4all.nl,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: Re: [PATCH v5 5/5] [media] allegro: add SPS/PPS nal unit writer
+Message-ID: <20190506102412.GR2239@kadam>
 MIME-Version: 1.0
-In-Reply-To: <20190415124413.18456-4-m.felsch@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfG/g4lMYqu1STzpLWfJCZ3i71I2vjRGAKI7odFJ/h++tEKCmLQ0K12TMv09YLm/bG1i4QWWC+RmZJOUi4DLt4Z8DRFwrB6wLn9K85ktWiIa1BJafONAG
- /Ylj7flZtJ1Xe8J1EsitymTN5WVSh2gEldQL2nDJhPO4L37wNbnv+i+DpUs726MkMNJNl6fwtov6HPcvHdbKURcpXf4rlPdSNpdW5uRCIGQddiYrfeXapkWQ
- Q3yEp9fC3SY6r2oy5T7qkRLa0NZQFudu3of7rRorsk3qRDQx/+IMhzSHY1ALuVC/xMveuVsC5phIFwsqlvGpYsU7nuguXP1ZfU7J1Xfahtqha0AKjikSxhCc
- hGsFM5sUnihD9xeVLtC2PiWwoYw3NTYjo6+hIk0fPZpLWQv/2C6OF7FFnI7mLnz8ZvOq5zqAqFZHQVY4JBQaNCUzlVFR/kjdVLuiLZyO/tLJhDLrE6WzFJgw
- wZxhjU/r+LAMMzQu1+mxOAkwNnxGwT2Jta9WloBSqQf0pdv8/KkB/9AS3gY1ZVKY4AyLlq92pRK27S3ohrA2i/N7eKOlb/NNpcnlPCMWpuMwl6o3yQk0jTAF
- eThT9ynlubwLZtWN0a8nQSH1riX75Lo/643FdO0sD3spGA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190503122010.16663-6-m.tretter@pengutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9248 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905060091
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9248 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905060091
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/15/19 2:44 PM, Marco Felsch wrote:
-> The patch adds the initial connector parsing code, so we can move from a
-> driver specific parsing code to a generic one. Currently only the
-> generic fields and the analog-connector specific fields are parsed. Parsing
-> the other connector specific fields can be added by a simple callbacks.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
-> [1] https://patchwork.kernel.org/cover/10794703/
-> 
-> v6:
-> - use 'unsigned int' count var
-> - fix comment and style issues
-> - place '/* fall through */' to correct places
-> - fix error handling and cleanup by releasing fwnode
-> - drop vga and dvi parsing support as those connectors are rarely used
->   these days
-> 
-> v5:
-> - s/strlcpy/strscpy/
-> 
-> v2-v4:
-> - nothing since the patch was squashed from series [1] into this
->   series.
-> 
->  drivers/media/v4l2-core/v4l2-fwnode.c | 111 ++++++++++++++++++++++++++
->  include/media/v4l2-fwnode.h           |  16 ++++
->  2 files changed, 127 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 20571846e636..f1cca95c8fef 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -592,6 +592,117 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
->  
-> +static const struct v4l2_fwnode_connector_conv {
-> +	enum v4l2_connector_type type;
-> +	const char *name;
-> +} connectors[] = {
-> +	{
-> +		.type = V4L2_CON_COMPOSITE,
-> +		.name = "composite-video-connector",
-> +	}, {
-> +		.type = V4L2_CON_SVIDEO,
-> +		.name = "svideo-connector",
-> +	}, {
-> +		.type = V4L2_CON_HDMI,
-> +		.name = "hdmi-connector",
-> +	},
-> +};
-> +
-> +static enum v4l2_connector_type
-> +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> +		if (!strcmp(con_str, connectors[i].name))
-> +			return connectors[i].type;
-> +
-> +	/* no valid connector found */
-> +	return V4L2_CON_UNKNOWN;
-> +}
-> +
-> +static int
-> +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> +				   struct v4l2_fwnode_connector *vc)
-> +{
-> +	u32 tvnorms;
-> +	int ret;
-> +
-> +	ret = fwnode_property_read_u32(fwnode, "tvnorms", &tvnorms);
-> +
-> +	/* tvnorms is optional */
-> +	vc->connector.analog.supported_tvnorms = ret ? V4L2_STD_ALL : tvnorms;
-> +
-> +	return 0;
-> +}
-> +
-> +int v4l2_fwnode_parse_connector(struct fwnode_handle *__fwnode,
-> +				struct v4l2_fwnode_connector *connector)
-> +{
-> +	struct fwnode_handle *fwnode;
-> +	struct fwnode_endpoint __ep;
-> +	const char *c_type_str, *label;
-> +	int ret;
-> +
-> +	memset(connector, 0, sizeof(*connector));
-> +
-> +	fwnode = fwnode_graph_get_remote_port_parent(__fwnode);
-> +	if (!fwnode)
-> +		return -EINVAL;
-> +
-> +	/* parse all common properties first */
-> +	/* connector-type is stored within the compatible string */
-> +	ret = fwnode_property_read_string(fwnode, "compatible", &c_type_str);
-> +	if (ret) {
-> +		fwnode_handle_put(fwnode);
-> +		return -EINVAL;
-> +	}
-> +
-> +	connector->type = v4l2_fwnode_string_to_connector_type(c_type_str);
-> +
-> +	fwnode_graph_parse_endpoint(__fwnode, &__ep);
-> +	connector->remote_port = __ep.port;
-> +	connector->remote_id = __ep.id;
-> +
-> +	ret = fwnode_property_read_string(fwnode, "label", &label);
-> +	if (!ret) {
-> +		/* ensure label doesn't exceed V4L2_CONNECTOR_MAX_LABEL size */
-> +		strscpy(connector->label, label, V4L2_CONNECTOR_MAX_LABEL);
-> +	} else {
-> +		/*
-> +		 * labels are optional, if none is given create one:
-> +		 * <connector-type-string>@port<endpoint_port>/ep<endpoint_id>
-> +		 */
-> +		snprintf(connector->label, V4L2_CONNECTOR_MAX_LABEL,
-> +			 "%s@port%u/ep%u", c_type_str, connector->remote_port,
-> +			 connector->remote_id);
-> +	}
-> +
-> +	/* now parse the connector specific properties */
-> +	switch (connector->type) {
-> +	case V4L2_CON_COMPOSITE:
-> +		/* fall through */
-> +	case V4L2_CON_SVIDEO:
-> +		ret = v4l2_fwnode_connector_parse_analog(fwnode, connector);
-> +		break;
-> +	case V4L2_CON_HDMI:
-> +		pr_warn("Connector specific parsing is currently not supported for %s\n",
-> +			c_type_str);
+Hi Michael,
 
-Why warn? Just drop this.
+url:    https://github.com/0day-ci/linux/commits/Michael-Tretter/Add-ZynqMP-VCU-Allegro-DVT-H-264-encoder-driver/20190504-161958
+base:   git://linuxtv.org/media_tree.git master
 
-> +		ret = 0;
-> +		break;
-> +	case V4L2_CON_UNKNOWN:
-> +		/* fall through */
-> +	default:
-> +		pr_err("Unknown connector type\n");
-> +		ret = -EINVAL;
-> +	};
-> +
-> +	fwnode_handle_put(fwnode);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_connector);
-> +
->  static int
->  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
->  					  struct v4l2_async_notifier *notifier,
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index f4df1b95c5ef..e072f2915ddb 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -269,6 +269,22 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
->   */
->  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
->  
-> +/**
-> + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
-> + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
-> + *          connected to
-> + * @connector: pointer to the V4L2 fwnode connector data structure
-> + *
-> + * Fill the connector data structure with the connector type, label and the
-> + * endpoint id and port where the connector belongs to. If no label is present
-> + * a unique one will be created. Labels with more than 40 characters are cut.
-> + *
-> + * Return: %0 on success or a negative error code on failure:
-> + *	   %-EINVAL on parsing failure
-> + */
-> +int v4l2_fwnode_parse_connector(struct fwnode_handle *fwnode,
-> +				struct v4l2_fwnode_connector *connector);
-> +
->  /**
->   * typedef parse_endpoint_func - Driver's callback function to be called on
->   *	each V4L2 fwnode endpoint.
-> 
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Regards,
+smatch warnings:
+drivers/media/platform/allegro-dvt/nal-h264.c:205 rbsp_read_bit() warn: signedness bug returning '(-22)'
+drivers/media/platform/allegro-dvt/nal-h264.c:259 rbsp_read_bits() warn: unsigned 'bit' is never less than zero.
 
-	Hans
+# https://github.com/0day-ci/linux/commit/eba69588199f08008a1fb4ad24e1f3e66d0080e3
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout eba69588199f08008a1fb4ad24e1f3e66d0080e3
+vim +205 drivers/media/platform/allegro-dvt/nal-h264.c
+
+eba69588 Michael Tretter 2019-05-03  188  
+eba69588 Michael Tretter 2019-05-03  189  static inline bool rbsp_read_bit(struct rbsp *rbsp)
+                                                        ^^^^
+eba69588 Michael Tretter 2019-05-03  190  {
+eba69588 Michael Tretter 2019-05-03  191  	int shift;
+eba69588 Michael Tretter 2019-05-03  192  	int ofs;
+eba69588 Michael Tretter 2019-05-03  193  	bool bit;
+eba69588 Michael Tretter 2019-05-03  194  	int err;
+eba69588 Michael Tretter 2019-05-03  195  
+eba69588 Michael Tretter 2019-05-03  196  	if (rbsp->num_consecutive_zeros == 22) {
+eba69588 Michael Tretter 2019-05-03  197  		err = discard_emulation_prevention_three_byte(rbsp);
+eba69588 Michael Tretter 2019-05-03  198  		if (err)
+eba69588 Michael Tretter 2019-05-03  199  			return err;
+                                                                ^^^^^^^^^^
+
+eba69588 Michael Tretter 2019-05-03  200  	}
+eba69588 Michael Tretter 2019-05-03  201  
+eba69588 Michael Tretter 2019-05-03  202  	shift = 7 - (rbsp->pos % 8);
+eba69588 Michael Tretter 2019-05-03  203  	ofs = rbsp->pos / 8;
+eba69588 Michael Tretter 2019-05-03  204  	if (ofs >= rbsp->size)
+eba69588 Michael Tretter 2019-05-03 @205  		return -EINVAL;
+                                                        ^^^^^^^^^^^^^^
+Probably this function should return int instead of bool.
+
+eba69588 Michael Tretter 2019-05-03  206  
+eba69588 Michael Tretter 2019-05-03  207  	bit = (rbsp->data[ofs] >> shift) & 1;
+eba69588 Michael Tretter 2019-05-03  208  
+eba69588 Michael Tretter 2019-05-03  209  	rbsp->pos++;
+eba69588 Michael Tretter 2019-05-03  210  
+eba69588 Michael Tretter 2019-05-03  211  	if (bit == 1 ||
+eba69588 Michael Tretter 2019-05-03  212  	    (rbsp->num_consecutive_zeros < 7 && (rbsp->pos % 8 == 0)))
+eba69588 Michael Tretter 2019-05-03  213  		rbsp->num_consecutive_zeros = 0;
+eba69588 Michael Tretter 2019-05-03  214  	else
+eba69588 Michael Tretter 2019-05-03  215  		rbsp->num_consecutive_zeros++;
+eba69588 Michael Tretter 2019-05-03  216  
+eba69588 Michael Tretter 2019-05-03  217  	return bit;
+eba69588 Michael Tretter 2019-05-03  218  }
+
+[ snip ]
+
+eba69588 Michael Tretter 2019-05-03  248  static inline int rbsp_read_bits(struct rbsp *rbsp, int n, unsigned int *value)
+eba69588 Michael Tretter 2019-05-03  249  {
+eba69588 Michael Tretter 2019-05-03  250  	int i;
+eba69588 Michael Tretter 2019-05-03  251  	unsigned int bit;
+                                                ^^^^^^^^^^^^^^^^
+
+eba69588 Michael Tretter 2019-05-03  252  	unsigned int tmp = 0;
+eba69588 Michael Tretter 2019-05-03  253  
+eba69588 Michael Tretter 2019-05-03  254  	if (n > 8 * sizeof(*value))
+eba69588 Michael Tretter 2019-05-03  255  		return -EINVAL;
+eba69588 Michael Tretter 2019-05-03  256  
+eba69588 Michael Tretter 2019-05-03  257  	for (i = n; i > 0; i--) {
+eba69588 Michael Tretter 2019-05-03  258  		bit = rbsp_read_bit(rbsp);
+eba69588 Michael Tretter 2019-05-03 @259  		if (bit < 0)
+                                                            ^^^^^^^
+
+eba69588 Michael Tretter 2019-05-03  260  			return bit;
+eba69588 Michael Tretter 2019-05-03  261  		tmp |= bit << (i - 1);
+eba69588 Michael Tretter 2019-05-03  262  	}
+eba69588 Michael Tretter 2019-05-03  263  
+eba69588 Michael Tretter 2019-05-03  264  	if (value)
+eba69588 Michael Tretter 2019-05-03  265  		*value = tmp;
+eba69588 Michael Tretter 2019-05-03  266  
+eba69588 Michael Tretter 2019-05-03  267  	return 0;
+eba69588 Michael Tretter 2019-05-03  268  }
+eba69588 Michael Tretter 2019-05-03  269  
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
