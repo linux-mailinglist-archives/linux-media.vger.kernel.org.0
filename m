@@ -2,157 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD57C16591
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 16:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A948A165ED
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 16:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbfEGOWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 10:22:16 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:38798 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726454AbfEGOWQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 10:22:16 -0400
-X-UUID: 154115064e8a4275805302ff7213d8ff-20190507
-X-UUID: 154115064e8a4275805302ff7213d8ff-20190507
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <frederic.chen@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 191652116; Tue, 07 May 2019 22:22:06 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 7 May 2019 22:22:05 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 7 May 2019 22:22:05 +0800
-Message-ID: <1557238925.11663.21.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V1 1/6] dt-bindings: mt8183: Add binding for DIP
- shared memory
-From:   Frederic Chen <frederic.chen@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <hans.verkuil@cisco.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
-        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
-        <yuzhao@chromium.org>, <zwisler@chromium.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
-        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
-        <holmes.chiou@mediatek.com>, <Jerry-ch.Chen@mediatek.com>,
-        <jungo.lin@mediatek.com>, <Rynn.Wu@mediatek.com>,
-        <linux-media@vger.kernel.org>, <srv_heupstream@mediatek.com>,
-        <devicetree@vger.kernel.org>, <shik@chromium.org>,
-        <suleiman@chromium.org>
-Date:   Tue, 7 May 2019 22:22:05 +0800
-In-Reply-To: <20190430011506.GA8514@bogus>
-References: <20190417104511.21514-1-frederic.chen@mediatek.com>
-         <20190417104511.21514-2-frederic.chen@mediatek.com>
-         <20190430011506.GA8514@bogus>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        id S1726557AbfEGOm7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 10:42:59 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:51814 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726337AbfEGOm7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 10:42:59 -0400
+Received: (qmail 2035 invoked by uid 2102); 7 May 2019 10:42:58 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 7 May 2019 10:42:58 -0400
+Date:   Tue, 7 May 2019 10:42:58 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Johan Hovold <johan@kernel.org>
+cc:     syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>,
+        <andreyknvl@google.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <mchehab@kernel.org>, <syzkaller-bugs@googlegroups.com>,
+        <wen.yang99@zte.com.cn>
+Subject: Re: general protection fault in smsusb_init_device
+In-Reply-To: <20190507083430.GD4333@localhost>
+Message-ID: <Pine.LNX.4.44L0.1905071035450.1632-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-MTK:  N
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Rob,
+On Tue, 7 May 2019, Johan Hovold wrote:
 
-I appreciate your comments.
-
-On Mon, 2019-04-29 at 20:15 -0500, Rob Herring wrote:
-> On Wed, Apr 17, 2019 at 06:45:06PM +0800, Frederic Chen wrote:
-> > This patch adds the binding for describing the shared memory
-> > used to exchange configuration and tuning data between the
-> > co-processor and Digital Image Processing (DIP) unit of the
-> > camera ISP system on Mediatek SoCs.
+> On Mon, May 06, 2019 at 04:41:41PM -0400, Alan Stern wrote:
+> > On Thu, 18 Apr 2019, syzbot wrote:
 > > 
-> > Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
-> > ---
-> >  .../mediatek,reserve-memory-dip_smem.txt      | 45 +++++++++++++++++++
-> >  1 file changed, 45 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
+> > > Hello,
+> > > 
+> > > syzbot found the following crash on:
+> > > 
+> > > HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+> > > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
+> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
+> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
+> > > 
+> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > > Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
+> > > 
+> > > usb 1-1: config 0 descriptor??
+> > > usb 1-1: string descriptor 0 read error: -71
+> > > smsusb:smsusb_probe: board id=18, interface number 0
+> > > kasan: CONFIG_KASAN_INLINE enabled
+> > > kasan: GPF could be caused by NULL-ptr deref or user memory access
+> > > general protection fault: 0000 [#1] SMP KASAN PTI
+> > > CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
+> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> > > Google 01/01/2011
+> > > Workqueue: usb_hub_wq hub_event
+> > > RIP: 0010:smsusb_init_device+0x366/0x937  
+> > > drivers/media/usb/siano/smsusb.c:429
 > > 
-> > diff --git a/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
-> > new file mode 100644
-> > index 000000000000..64c001b476b9
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
-> > @@ -0,0 +1,45 @@
-> > +Mediatek DIP Shared Memory binding
-> > +
-> > +This binding describes the shared memory, which serves the purpose of
-> > +describing the shared memory region used to exchange data between Digital
-> > +Image Processing (DIP) and co-processor in Mediatek SoCs.
-> > +
-> > +The co-processor doesn't have the iommu so we need to use the physical
-> > +address to access the shared buffer in the firmware.
-> > +
-> > +The Digital Image Processing (DIP) can access memory through mt8183 IOMMU so
-> > +it can use dma address to access the memory region.
-> > +(See iommu/mediatek,iommu.txt for the detailed description of Mediatek IOMMU)
-> > +
-> > +
-> > +Required properties:
-> > +
-> > +- compatible: must be "mediatek,reserve-memory-dip_smem"
-> 
-> Don't use '_'.
-
-I got it. I will use "mediatek,reserve-memory-dip-smem" instead in next
-version of the patch
-
-> 
-> > +
-> > +- reg: required for static allocation (see reserved-memory.txt for
-> > +  the detailed usage)
-> > +
-> > +- alloc-range: required for dynamic allocation. The range must
-> > +  between 0x00000400 and 0x100000000 due to the co-processer's
-> > +  addressing limitation
-> 
-> Generally, you should pick either static or dynamic allocation for a 
-> given binding. Static if there's some address restriction or sharing, 
-> dynamic if not.
-> 
-> Sounds like static in this case.
-> 
-
-DIP reserved memory has address restriction so it is the static case. I
-would like to remove the dynamic allocation part and modify the
-description as following:
-
-- reg: required for DIP. The range must be between 0x00000400 and
-  0x100000000 due to the co-processor's addressing limitation.
-  The size must be 26MB. Please see reserved-memory.txt for the 
-  detailed usage.
-
-> > +
-> > +- size: required for dynamic allocation. The unit is bytes.
-> > +  If you want to enable the full feature of Digital Processing Unit,
-> > +  you need 20 MB at least.
-> > +
-> > +
-> > +Example:
-> > +
-> > +The following example shows the DIP shared memory setup for MT8183.
-> > +
-> > +	reserved-memory {
-> > +		#address-cells = <2>;
-> > +		#size-cells = <2>;
-> > +		ranges;
-> > +		reserve-memory-dip_smem {
-> > +			compatible = "mediatek,reserve-memory-dip_smem";
-> > +			size = <0 0x1400000>;
-> > +			alignment = <0 0x1000>;
-> > +			alloc-ranges = <0 0x40000000 0 0x50000000>;
-> > +		};
-> > +	};
-> > -- 
-> > 2.18.0
+> > The driver assumes endpoint 1in exists, and doesn't check the existence 
+> > of the endpoints it uses.
 > > 
+> > Alan Stern
+> > 
+> > 
+> > #syz test: https://github.com/google/kasan.git usb-fuzzer
+> > 
+> >  drivers/media/usb/siano/smsusb.c |   32 +++++++++++++++++++-------------
+> >  1 file changed, 19 insertions(+), 13 deletions(-)
+> > 
+> > Index: usb-devel/drivers/media/usb/siano/smsusb.c
+> > ===================================================================
+> > --- usb-devel.orig/drivers/media/usb/siano/smsusb.c
+> > +++ usb-devel/drivers/media/usb/siano/smsusb.c
+> > @@ -400,6 +400,7 @@ static int smsusb_init_device(struct usb
+> >  	struct smsusb_device_t *dev;
+> >  	void *mdev;
+> >  	int i, rc;
+> > +	int in_maxp;
+> >  
+> >  	/* create device object */
+> >  	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
+> > @@ -411,6 +412,23 @@ static int smsusb_init_device(struct usb
+> >  	dev->udev = interface_to_usbdev(intf);
+> >  	dev->state = SMSUSB_DISCONNECTED;
+> >  
+> > +	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
+> > +		struct usb_endpoint_descriptor *desc =
+> > +				&intf->cur_altsetting->endpoint[i].desc;
+> > +
+> > +		if (desc->bEndpointAddress & USB_DIR_IN) {
+> > +			dev->in_ep = desc->bEndpointAddress;
+> > +			in_maxp = usb_endpoint_maxp(desc);
+> > +		} else {
+> > +			dev->out_ep = desc->bEndpointAddress;
+> > +		}
+> > +	}
+> > +
+> > +	pr_debug("in_ep = %02x, out_ep = %02x\n",
+> > +		dev->in_ep, dev->out_ep);
+> > +	if (!dev->in_ep || !dev->out_ep)	/* Missing endpoints? */
+> > +		return -EINVAL;
+> 
+> Looks like you're now leaking dev here, and so is the current code in
+> the later error paths.
+> 
+> Since this return value will be returned from probe, you may want to use
+> -ENXIO or -ENODEV instead of -EINVAL.
+> 
+> Looks good otherwise.
 
-Sincerely,
+Thanks for the review.  You're right about the memory leak (although 
+you're wrong about the later error paths: smsusb_term_device() 
+deallocates dev).  And -ENODEV does seem like a better return code.
 
-Frederic Chen
+I'll update the patch as you suggest.
 
+Alan Stern
 
