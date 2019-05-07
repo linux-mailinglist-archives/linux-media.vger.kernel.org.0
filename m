@@ -2,144 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AC9315F70
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 10:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D25BC161D4
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 12:20:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbfEGIed (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 04:34:33 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45502 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726291AbfEGIed (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 04:34:33 -0400
-Received: by mail-lj1-f194.google.com with SMTP id r76so2443825lja.12;
-        Tue, 07 May 2019 01:34:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=JVwysLC6toX2nyIeQoEP1UKJSN5udlnWwblQh6x6pT0=;
-        b=blBmAm0OpW0B8WbcjIwqSDGTJPb31Qdt4XuH8z7CduanKt2BUn5kSaigkD4c9Kg312
-         sH/xHeR3T3xUDXfDGoVeCLuN4enVw8dKX2D1leq5Xq9s64a0xrV5VJDQc01gliPUKkrH
-         tF+b2nywJHI2r9DN7047vIv8qS/4cKYJwL+5d9pYgejRuI2sYrpp9ict5Y+ZFGVW6b8+
-         9O+YTyDVSZFNBroSM1hdWwaEOwhSXkqTbBREpJuI6yPt+u/MxrJ8oQFG04P+2kjSyLkD
-         Q22BbCU6WpN2qH0jkccnr7RZYyUNwKnsHa2Z14cK/yfQrFjc0OVQ4nt+TUUb52VqG3eT
-         ANfg==
-X-Gm-Message-State: APjAAAXq4Tz6lTMBbNxVoueHOP8yPOG+IlimPocF7tJdqAiDakvBvjlF
-        6gG4jKtInlP/w8UudyAgV4Y=
-X-Google-Smtp-Source: APXvYqz2fBtz+GXsvkihKxsOKNeL6Kpuy9x3cAuWG48o19KNu9qW6OyOXPHMXK2/1GINfd/FZYqRTQ==
-X-Received: by 2002:a2e:3311:: with SMTP id d17mr16663969ljc.52.1557218071028;
-        Tue, 07 May 2019 01:34:31 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id d23sm2820976ljj.38.2019.05.07.01.34.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 May 2019 01:34:29 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.91)
-        (envelope-from <johan@kernel.org>)
-        id 1hNvYU-0006uI-C9; Tue, 07 May 2019 10:34:30 +0200
-Date:   Tue, 7 May 2019 10:34:30 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
-        wen.yang99@zte.com.cn
-Subject: Re: general protection fault in smsusb_init_device
-Message-ID: <20190507083430.GD4333@localhost>
-References: <0000000000008d89900586ccd37b@google.com>
- <Pine.LNX.4.44L0.1905061638380.1585-100000@iolanthe.rowland.org>
+        id S1726657AbfEGKUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 06:20:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36320 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbfEGKUO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 06:20:14 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53497D5;
+        Tue,  7 May 2019 12:20:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1557224411;
+        bh=QVvyXq09RbodnEjARRwdwnj2LyMSiMMAg/Z2UEnU8aI=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=TYbrMh/rzX94RhUlpbURU2mr3X+SGZdmh+zmLFcmikSSLvX1flVyK7k3oE0BP8T9v
+         l5bS6o76ZhN7kPPmX/V0xkAVxzEkjnJrJRbWs14fVT51+DXhp6J8mW2mRrtMDdug/S
+         crE8HC+K/PU71ZNK3sQ0DI/9mnMmshPo09tDZYTU=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v3 2/5] media: vsp1: Initialise partition windows
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+References: <20190411161256.19607-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190411161256.19607-3-kieran.bingham+renesas@ideasonboard.com>
+ <20190418063236.GF4806@pendragon.ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <3535f115-9699-3dec-d617-2b15c12a88fe@ideasonboard.com>
+Date:   Tue, 7 May 2019 11:20:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1905061638380.1585-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190418063236.GF4806@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 06, 2019 at 04:41:41PM -0400, Alan Stern wrote:
-> On Thu, 18 Apr 2019, syzbot wrote:
-> 
-> > Hello,
-> > 
-> > syzbot found the following crash on:
-> > 
-> > HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
-> > 
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
-> > 
-> > usb 1-1: config 0 descriptor??
-> > usb 1-1: string descriptor 0 read error: -71
-> > smsusb:smsusb_probe: board id=18, interface number 0
-> > kasan: CONFIG_KASAN_INLINE enabled
-> > kasan: GPF could be caused by NULL-ptr deref or user memory access
-> > general protection fault: 0000 [#1] SMP KASAN PTI
-> > CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-> > Google 01/01/2011
-> > Workqueue: usb_hub_wq hub_event
-> > RIP: 0010:smsusb_init_device+0x366/0x937  
-> > drivers/media/usb/siano/smsusb.c:429
-> 
-> The driver assumes endpoint 1in exists, and doesn't check the existence 
-> of the endpoints it uses.
-> 
-> Alan Stern
-> 
-> 
-> #syz test: https://github.com/google/kasan.git usb-fuzzer
-> 
->  drivers/media/usb/siano/smsusb.c |   32 +++++++++++++++++++-------------
->  1 file changed, 19 insertions(+), 13 deletions(-)
-> 
-> Index: usb-devel/drivers/media/usb/siano/smsusb.c
-> ===================================================================
-> --- usb-devel.orig/drivers/media/usb/siano/smsusb.c
-> +++ usb-devel/drivers/media/usb/siano/smsusb.c
-> @@ -400,6 +400,7 @@ static int smsusb_init_device(struct usb
->  	struct smsusb_device_t *dev;
->  	void *mdev;
->  	int i, rc;
-> +	int in_maxp;
->  
->  	/* create device object */
->  	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
-> @@ -411,6 +412,23 @@ static int smsusb_init_device(struct usb
->  	dev->udev = interface_to_usbdev(intf);
->  	dev->state = SMSUSB_DISCONNECTED;
->  
-> +	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
-> +		struct usb_endpoint_descriptor *desc =
-> +				&intf->cur_altsetting->endpoint[i].desc;
-> +
-> +		if (desc->bEndpointAddress & USB_DIR_IN) {
-> +			dev->in_ep = desc->bEndpointAddress;
-> +			in_maxp = usb_endpoint_maxp(desc);
-> +		} else {
-> +			dev->out_ep = desc->bEndpointAddress;
-> +		}
-> +	}
-> +
-> +	pr_debug("in_ep = %02x, out_ep = %02x\n",
-> +		dev->in_ep, dev->out_ep);
-> +	if (!dev->in_ep || !dev->out_ep)	/* Missing endpoints? */
-> +		return -EINVAL;
+Hi Laurent,
 
-Looks like you're now leaking dev here, and so is the current code in
-the later error paths.
+On 18/04/2019 07:32, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Apr 11, 2019 at 05:12:53PM +0100, Kieran Bingham wrote:
+>> Ensure that the partition window is correctly initialised before being
+>> utilised.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/vsp1/vsp1_video.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
+>> index ee2fb8261a6a..563f9a02c373 100644
+>> --- a/drivers/media/platform/vsp1/vsp1_video.c
+>> +++ b/drivers/media/platform/vsp1/vsp1_video.c
+>> @@ -189,7 +189,7 @@ static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
+>>  					   unsigned int index)
+>>  {
+>>  	const struct v4l2_mbus_framefmt *format;
+>> -	struct vsp1_partition_window window;
+>> +	struct vsp1_partition_window window = { 0, };
+> 
+> This isn't needed as-is. If this change is required by a patch further
+> in this series, you can squash it there.
 
-Since this return value will be returned from probe, you may want to use
--ENXIO or -ENODEV instead of -EINVAL.
+Ok, I think this might have got put in because of my debug patch which
+prints the tables and was showing uninitialised data in unused fields.
 
-Looks good otherwise.
+I guess they can stay uninitiailised if/when they are unused :D.
 
-Johan
+
+> 
+>>  	unsigned int modulus;
+>>  
+>>  	/*
+> 
+
