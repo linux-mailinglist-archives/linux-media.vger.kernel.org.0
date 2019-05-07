@@ -2,118 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFB81555E
-	for <lists+linux-media@lfdr.de>; Mon,  6 May 2019 23:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 567A51584A
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 06:11:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbfEFVVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 May 2019 17:21:44 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43436 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726190AbfEFVVo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 May 2019 17:21:44 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r4so3874331wro.10
-        for <linux-media@vger.kernel.org>; Mon, 06 May 2019 14:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=lXD1mb7om2S9zSCUA/jiD1ctEPtzNRTTy8VLPu0OfRw=;
-        b=syVX4TyaME689Dw0tKkFGY20rbG610lj0Rm3K5LktJGE7T/+ESMSmSKsIzfDeuosYU
-         q977j/7wfPIUfgZpvosU2dQCPwMGBMcUFhI3KthhCkWenXn7L5bv+OkfL+q0Rmgg6bVo
-         Az56nLuZgVpdVx+OSbHG0m/syw8nFZNuNxWQxz4WLW1O4eipAz7hqdqlMhrzbLaMsEtl
-         oL+b+s4YXyJLMhURD2YkNKHaPucKed91SuoprlxHxtOlcbCTIEsLaXDkZKiOW9/aBXnJ
-         /yV4vvCOPfv0r56ZdraB6Q10oawDAh43GHsuCx4PSDJdOsbOAp19h9lQtk0iXJNUX4mg
-         E6bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=lXD1mb7om2S9zSCUA/jiD1ctEPtzNRTTy8VLPu0OfRw=;
-        b=AiWIq0x0QQrLBw1WlTiwX91aiUgdMuCsuKROqyVQRC551nQCAKjDEie12OIaSX25KW
-         6L3jPhHAyx9U1zrIUCaqshyhJvu5OaGbUnxpz3vcLf4v50voSJGPGn3jg5T+SVIICSO2
-         SzIYJAqn2TFQymCQa13pqZYgCyeYTG9KQhQELHAZfeXcfo67wsPMqyu0/Q3oNJmuX561
-         l7wGfirvKzc0kPhgYFKc1tGHi/I1ckRocygMjsHyatHdSXEt4pUq/vjEdKNgCi2slJp3
-         vxD3umbR56q1K8VPrTbNEU6emI5P2fytkEthL4fbxk2YfY0nhLKKbaCHjdPuX0vSd3zm
-         5IRA==
-X-Gm-Message-State: APjAAAXOI2cpQztfBEHslvENaloN8k4QwiTy0xAs65e4pLe89HPI5iJr
-        Kp9P4j6g+3vV0E+1LY+dOrUKUw==
-X-Google-Smtp-Source: APXvYqxvtkFmVw9sccOwXJvJqiWW6aZLJWCZFpwJpRBZ4wEHIWyOMEc1v8PxFZSE0AUQ33UqZz112w==
-X-Received: by 2002:a5d:464f:: with SMTP id j15mr1750213wrs.265.1557177702531;
-        Mon, 06 May 2019 14:21:42 -0700 (PDT)
-Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id 10sm13794829wmn.4.2019.05.06.14.21.41
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 14:21:41 -0700 (PDT)
-References: <20190504144027.31920-1-festevam@gmail.com> <20190504144027.31920-6-festevam@gmail.com>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rui.silva@linaro.org>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     hverkuil-cisco@xs4all.nl, slongerbeam@gmail.com,
-        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        sebastien.szymanski@armadeus.com, otavio@ossystems.com.br,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/8] media: dt-bindings: imx7-csi: Document a single CSI clock
-In-reply-to: <20190504144027.31920-6-festevam@gmail.com>
-Date:   Mon, 06 May 2019 22:21:40 +0100
-Message-ID: <m3ef5b5lej.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1725859AbfEGELZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 00:11:25 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:41569 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725843AbfEGELZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 May 2019 00:11:25 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:937:b8af:19c2:fa3])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id NrRqhTTtpNExlNrRsh3pVu; Tue, 07 May 2019 06:11:24 +0200
+Message-ID: <cd98b12bd42bdcc305614b21f34f8207@smtp-cloud9.xs4all.net>
+Date:   Tue, 07 May 2019 06:11:22 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfL8stKT1kFty7XHqmUVO1NNi4Hbn0SdK3MgzVyPaCHPB7mfNxgjFBKCETj/44ckq9UPFuMEOMJ+hUhBaHk8twXic0WWoGErL0e1yPXwu7m9zXPTbMn4L
+ +FD5aqbuc2msaKRXc6r6LKG83DN4FTCX6o9x8PdtDCZH4gRbFZoupbHJU5cUaJTF1XA0cAafqqkHLXynoFPQjbkC46X768P/tiV2tCus0RUDVhvpzqAgVWYN
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Oi Fabio,
-On Sat 04 May 2019 at 15:40, Fabio Estevam wrote:
-> As per the i.MX7D Reference Manual only the MCLK is used for
-> the CSI block, so only document this single clock.
->
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-You missed to add a cover-letter to the series, but I have tested
-it and reviewed on top of Steve series [0] and everything looks good.
+Results of the daily build of media_tree:
 
-Thanks for fixes.
+date:			Tue May  7 05:00:13 CEST 2019
+media-tree git hash:	7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-For the all series:
-Tested-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.1-i686: OK
+linux-5.0.1-x86_64: OK
+linux-5.1-rc1-i686: OK
+linux-5.1-rc1-x86_64: WARNINGS
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
 
----
-Cheers,
-	Rui
+Detailed results are available here:
 
-[0]: https://lore.kernel.org/linux-media/20190503224326.21039-1-slongerbeam@gmail.com/
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-> ---
->  Documentation/devicetree/bindings/media/imx7-csi.txt | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/media/imx7-csi.txt b/Documentation/devicetree/bindings/media/imx7-csi.txt
-> index 3c07bc676bc3..443aef07356e 100644
-> --- a/Documentation/devicetree/bindings/media/imx7-csi.txt
-> +++ b/Documentation/devicetree/bindings/media/imx7-csi.txt
-> @@ -14,8 +14,7 @@ Required properties:
->  - interrupts    : should contain CSI interrupt;
->  - clocks        : list of clock specifiers, see
->          Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
-> -- clock-names   : must contain "axi", "mclk" and "dcic" entries, matching
-> -                 entries in the clock property;
-> +- clock-names   : must contain "mclk";
->  
->  The device node shall contain one 'port' child node with one child 'endpoint'
->  node, according to the bindings defined in:
-> @@ -32,10 +31,8 @@ example:
->                          compatible = "fsl,imx7-csi";
->                          reg = <0x30710000 0x10000>;
->                          interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> -                        clocks = <&clks IMX7D_CLK_DUMMY>,
-> -                                        <&clks IMX7D_CSI_MCLK_ROOT_CLK>,
-> -                                        <&clks IMX7D_CLK_DUMMY>;
-> -                        clock-names = "axi", "mclk", "dcic";
-> +                        clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
-> +                        clock-names = "mclk";
->  
->                          port {
->                                  csi_from_csi_mux: endpoint {
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
