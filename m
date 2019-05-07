@@ -2,134 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6505216D68
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 00:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9315016DDC
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 01:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726225AbfEGWHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 18:07:32 -0400
-Received: from devnull.tasossah.com ([107.6.175.157]:45372 "EHLO
-        devnull.tasossah.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbfEGWHc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 18:07:32 -0400
-X-Greylist: delayed 1775 seconds by postgrey-1.27 at vger.kernel.org; Tue, 07 May 2019 18:07:31 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=devnull.tasossah.com; s=vps;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:Message-ID:Subject:From:To; bh=q7ciQw+/emFPigr9WjtFarpFQrkbMebMvL4fCrnOMGQ=;
-        b=BG2LS0tlBN8wbrehaz6N04nLE5DptDfKS9ye1dBxSa14HTYQly2ajpW/IQPHwopIAPID+p0Q5CSPkc0SrT55KWrT8T7BAn2Jf2TfMn2VgYqTFkMLmaLouUaD5NtoULYQIaP+dE4YZom7V5Oq/1evFePr98lPnhMcHHQus7rVqkY=;
-Received: from [2a02:587:6a0c:c600::298]
-        by devnull.tasossah.com with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-        (Exim 4.82)
-        (envelope-from <tasos@tasossah.com>)
-        id 1hO7md-0002lJ-AL
-        for linux-media@vger.kernel.org; Wed, 08 May 2019 00:37:55 +0300
-To:     linux-media@vger.kernel.org
-From:   Tasos Sahanidis <tasos@tasossah.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tasos@tasossah.com; prefer-encrypt=mutual; keydata=
- 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
-Subject: [PATCH] qv4l2: Fix UTF8 error message strings
-Message-ID: <59947a5a-c29e-1c8d-cb31-82ca41ce7e37@tasossah.com>
-Date:   Wed, 8 May 2019 00:37:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726557AbfEGXdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 19:33:25 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:40741 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbfEGXdZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 19:33:25 -0400
+Received: by mail-lf1-f67.google.com with SMTP id o16so13099386lfl.7;
+        Tue, 07 May 2019 16:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=55v5Dsg1z0oHxHaQ+vXevXFSFPW/zo73YqWBOxq3l78=;
+        b=jYWT+sb+suhqZhqZZ/qEXlVbnN4ssONo8jjnS0+LtXa3jmxZnMQ2vcY2F9qMjJhYOX
+         UOzhG5gO0l4qa8RaJeNgkzBjsRfo3IehKdAF70XwArrUFm5LaP0pF78UbaIgNAlY292A
+         ghD8a0U7HRhwIll9W6a2mlVpYeB9Zb9ih6wDowbYGNTdFipz56p6rg7GYsKeM9LJQbjp
+         8EW9ywb/520t3Q4W8aX+GIwcncNmnBKdDkqtJEouEyYDS4Aa6Riuvwt1IHG/VTfVqr36
+         cwW9oRtK2sv30xq0pmLYgqM63hBoFYZZTQWAIoiEiXphAR2rQC50z4sQZDv6rCKNMSt9
+         UXKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=55v5Dsg1z0oHxHaQ+vXevXFSFPW/zo73YqWBOxq3l78=;
+        b=aFG0s/iUa/Hp+CFolQnMmr5uLYuOifGMCXg/EzwhRQZYuT+a70hoMw5q1JnBWgF7cZ
+         SOYHfrswnd+j5MjWnDCymRmIkE0Z0b6tqB7Otvh9tthwe6115pBD1ZT+Xr6gNbMbqvss
+         d2mIHumiZj3phHdgWszrWh8OlSQ2Y0jGTmdH8PTdFGddDtjaBqNtFpaUBnOt+0CcEoix
+         ogEA3hYxnTzZ5EzGOTKONQTB/vw0Ai7SZjJkAp+36o49Wk4wGLUfbkxaCXK9hRAaxxx0
+         eHs1YpHR6Ox5hoBOSPIRRkzhu+RwDxhj3qjVY11/J4I8GPuA9oO/rKx3sadutEWXB/4A
+         eXRg==
+X-Gm-Message-State: APjAAAXLsbq3T1XD5L9biy8pAJmp2tGEkuewzzQfhF2B9C9mC3dadBSU
+        bJtA+Cc6p+gVF8eKuLYRv9mPjPC97cYccw==
+X-Google-Smtp-Source: APXvYqwsz00DbKdUkTLM7MFYjEwnLbM1Szy4NSt3GBthdFAfGYU8io1AUpnllTniAH6mcvaL8VD9Bg==
+X-Received: by 2002:ac2:4186:: with SMTP id z6mr5674055lfh.50.1557272003068;
+        Tue, 07 May 2019 16:33:23 -0700 (PDT)
+Received: from z50.localnet (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id d80sm4433139lfd.90.2019.05.07.16.33.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 May 2019 16:33:22 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [PATCH 03/14] media: ov6650: Fix unverified arguments used in .set_fmt()
+Date:   Wed, 08 May 2019 01:33:19 +0200
+Message-ID: <2020766.LXvJ9naVtX@z50>
+In-Reply-To: <20190430135809.5mgf4govbqj3cxph@valkosipuli.retiisi.org.uk>
+References: <20190408214242.9603-1-jmkrzyszt@gmail.com> <20190408214242.9603-4-jmkrzyszt@gmail.com> <20190430135809.5mgf4govbqj3cxph@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In locales such as el_GR.UTF-8, sterror() returns localised error
-messages, which get printed as question marks due to the conversion
-in QString::toLatin1().
+Hi Sakari,
 
-Calling QString::toUtf8 instead, corrects this error.
+Sorry for late answer, I've just found your message in Gmail spam folder.
 
-Signed-off-by: Tasos Sahanidis <tasos@tasossah.com>
----
- utils/qv4l2/qv4l2.cpp | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On Tuesday, April 30, 2019 3:58:09 PM CEST Sakari Ailus wrote:
+> Hi Janusz,
+> 
+> On Mon, Apr 08, 2019 at 11:42:31PM +0200, Janusz Krzysztofik wrote:
+> > Commit 717fd5b4907ad ("[media] v4l2: replace try_mbus_fmt by set_fmt")
+> > converted a former ov6650_try_fmt() video operation callback to an
+> > ov6650_set_fmt() pad operation callback.  However, the function does not
+> > verify correctness of user provided format->which flag and pad config
+> > pointer arguments.  Fix it.
+> > 
+> > Fixes: 717fd5b4907ad ("[media] v4l2: replace try_mbus_fmt by set_fmt")
+> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> > Cc: stable@vger.kernel.org
+> > ---
+> >  drivers/media/i2c/ov6650.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > index 007f0ca24913..3062c9a6c57b 100644
+> > --- a/drivers/media/i2c/ov6650.c
+> > +++ b/drivers/media/i2c/ov6650.c
+> > @@ -679,6 +679,17 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+> >  	if (format->pad)
+> >  		return -EINVAL;
+> >  
+> > +	switch (format->which) {
+> > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > +		break;
+> > +	case V4L2_SUBDEV_FORMAT_TRY:
+> > +		if (cfg)
+> > +			break;
+> > +		/* fall through */
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> 
+> For this to return an error, there would need to be a problem on the
+> caller's side. In other words, this isn't supposed to happen.
 
-diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
-index 832f479e..b52a3b60 100644
---- a/utils/qv4l2/qv4l2.cpp
-+++ b/utils/qv4l2/qv4l2.cpp
-@@ -1705,7 +1705,7 @@ void ApplicationWindow::error(const QString &error)
- {
- 	statusBar()->showMessage(error, 20000);
- 	if (!error.isEmpty())
--		fprintf(stderr, "%s\n", error.toLatin1().data());
-+		fprintf(stderr, "%s\n", error.toUtf8().data());
- }
+How about raising a bug if that happens nevertheless?
+
+@@ -677,10 +677,20 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+ 	struct ov6650 *priv = to_ov6650(client);
  
- void ApplicationWindow::error(int err)
-@@ -1780,7 +1780,7 @@ static bool processShortOption(const QStringList &args, int &i, QString &dev)
- 		return false;
- 	if (args[i].length() == 2) {
- 		if (i + 1 >= args.size()) {
--			usageError(args[i].toLatin1());
-+			usageError(args[i].toUtf8());
- 			return false;
- 		}
- 		dev = args[++i];
-@@ -1803,7 +1803,7 @@ static bool processLongOption(const QStringList &args, int &i, QString &dev)
- 		return true;
- 	}
- 	if (i + 1 >= args.size()) {
--		usageError(args[i].toLatin1());
-+		usageError(args[i].toUtf8());
- 		return false;
- 	}
- 	dev = args[++i];
-@@ -1857,7 +1857,7 @@ int main(int argc, char **argv)
- 		} else if (args[i] == "-R" || args[i] == "--raw") {
- 			raw = true;
- 		} else {
--			printf("Invalid argument %s\n", args[i].toLatin1().data());
-+			printf("Invalid argument %s\n", args[i].toUtf8().data());
- 			return 0;
- 		}
- 	}
--- 
-2.20.1
+ 	if (format->pad)
+ 		return -EINVAL;
+ 
++	switch (format->which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		BUG_ON(!cfg);
++		/* fall through */
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		break;
++	default:
++		BUG();
++	}
++
+ 	if (is_unscaled_ok(mf->width, mf->height, &priv->rect))
+ 		v4l_bound_align_image(&mf->width, 2, W_CIF, 1,
+ 				&mf->height, 2, H_CIF, 1, 0);
+ 
+ 	mf->field = V4L2_FIELD_NONE;
+
+
+Thanks,
+Janusz
+
+> 
+> Instead of adding such checks to all drivers, I think they instead should
+> be added to the caller's side. The checks already exist for uAPI, but not
+> for other drivers.
+> 
+> The same applies to patches until 7th (including).
+> 
+> > +
+> >  	if (is_unscaled_ok(mf->width, mf->height, &priv->rect))
+> >  		v4l_bound_align_image(&mf->width, 2, W_CIF, 1,
+> >  				&mf->height, 2, H_CIF, 1, 0);
+> 
+> 
+
+
+
+
