@@ -2,87 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1598F168D7
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 19:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662C816926
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 19:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbfEGRJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 13:09:35 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:38522 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726225AbfEGRJf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 13:09:35 -0400
-Received: by mail-oi1-f195.google.com with SMTP id u199so4992026oie.5;
-        Tue, 07 May 2019 10:09:34 -0700 (PDT)
+        id S1727490AbfEGR00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 13:26:26 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:55293 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726985AbfEGR00 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 13:26:26 -0400
+Received: by mail-it1-f195.google.com with SMTP id a190so27787017ite.4;
+        Tue, 07 May 2019 10:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GunWRoLds4jiLtAh6LLE2TsXCUmGwtbfVmLe2bjqlyk=;
+        b=SneKo/eRyNH8XD4OOXcGl+oZeg2o4H7Hs6UoMjV02arVdpGkIcC+hKDMEk/lkgnswF
+         Fo2ycvV456u0Uudr86kAys098Zr8pe4NbmlbK21DGdkNrcZqyzmB1b+Pedtb6RHXAdwe
+         u79do2mly/Ld5n6j2sZjeTMJgBeL94+rQPTuqFo2+ItFSROp1CE9Ta71fQxUqjMhEqf+
+         xP7YxZ4rCoM2Oggw/Yj0jIQqQK7fFOJQQCQtUA0MCPrDc1/JK3gKQS+JPbF3mTwDt3ms
+         EYEV6yVQIlhz8YTDZXUlbb5/BMQUHp4p9B5aBp62OCI8Av5zvpWQaGHbvEGVwByCaj78
+         EYqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xz8Tv2wS4rvBFAit4Ups9uLGu7qqwKS1nVvm7tnguMs=;
-        b=Oq6wwkmbwunfuAUlryV8QEFsLgPQhTWfu9f9Pu+NOAau2HYI7GTKbP525w++8XJUFP
-         lYQadafsnVSC4DjfvROuYuNkct2UUQAn4vYhu2TANpy8hEMieENSrBOsHPUeASjtK0+L
-         rJmTvCz5pvHDGeMHJZUG7DC7RpsTDEgtgdaYPpEqrp1iGQ/IYe7BbRhtG6EpwaGmCoGM
-         suVqKIA4eee/qlfHnYemI7MHfFIrmYoWD4WQ2jiBTxwb3eqGSk+YTr4STJNTRgL/ddEw
-         DqeFGneiwzDlRsjd0wNKwjcaiE2N43LbUifEKM5YbgtdDn0n+1/yq2qkXfK6q50ju1Kk
-         VGnw==
-X-Gm-Message-State: APjAAAWUH50uTPzyon5uaDixvALKAevuO2XerR12J8MAWTJ2k0yh7+qK
-        A4aQ0QDO19h9nADnBDWY5g==
-X-Google-Smtp-Source: APXvYqw6hBDm8Eza1B3bub9eXvOsE9+C0443/C9azP6hZmzYu4gfI63PV1LLa/Wy+pDkmqZYVmW/tw==
-X-Received: by 2002:aca:ef8a:: with SMTP id n132mr890085oih.98.1557248974374;
-        Tue, 07 May 2019 10:09:34 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id q124sm5979753oia.13.2019.05.07.10.09.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 May 2019 10:09:33 -0700 (PDT)
-Date:   Tue, 7 May 2019 12:09:32 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
-        Libin Yang <lbyang@marvell.com>,
-        Albert Wang <twang13@marvell.com>,
-        jacopo mondi <jacopo@jmondi.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Lubomir Rintel <lkundrak@v3.sk>
-Subject: Re: [PATCH v5 01/10] media: dt-bindings: marvell,mmp2-ccic: Add
- Marvell MMP2 camera
-Message-ID: <20190507170932.GA6587@bogus>
-References: <20190505140031.9636-1-lkundrak@v3.sk>
- <20190505140031.9636-2-lkundrak@v3.sk>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GunWRoLds4jiLtAh6LLE2TsXCUmGwtbfVmLe2bjqlyk=;
+        b=SpiPEHQQrQ5YpCmwKsbMWQtAkXOmHVoq+QryPW29RObIubhl5yrRD+NvAOs/JzedET
+         Nq4xRHInlIw2+6brp0OMSiFPOvP80dr8PxVK+2TEQcRC5F5R8RLE/nwNfUX60kGvaXE5
+         AAJSuPks+XaRprOmDQ0ac/BAhZl0jaqRTNBgINdGCrw+0QH901bnkAo1CLatjxDt2Lky
+         C1y3werCNkkTdeOh/AhfH34nlqmnhpj6W9e+MxTJOOAfJ1qGp+8v3+23ow/e2lRy7fXF
+         HcP4WBmKXY1O9ESYB6ub8bx+z+UJmTn0zQhJdrRPAPxpSkUA20t278B+WU7wU+yczvsL
+         jUSg==
+X-Gm-Message-State: APjAAAUhOZ/GRyaFk1Uxcha/ERDv7aiBYYwb/BgFYBKtCkwGNinmLzIY
+        aeWxauH+Ncuoy6NZHnWbC8U3aZkB7gVRRMIl780=
+X-Google-Smtp-Source: APXvYqxyfWuptXTPdDd0CtFSwzhshxh5ikNJRvy2cALACSmI84A7Mb1Y0WbL7yYrhBbR/N/OOJmIKGRGEoCQ6Fd7YJc=
+X-Received: by 2002:a24:c455:: with SMTP id v82mr25128040itf.143.1557249984946;
+ Tue, 07 May 2019 10:26:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190505140031.9636-2-lkundrak@v3.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20181221011752.25627-1-sre@kernel.org> <4f47f7f2-3abb-856c-4db5-675caf8057c7@xs4all.nl>
+ <20190319133154.7tbfafy7pguzw2tk@earth.universe>
+In-Reply-To: <20190319133154.7tbfafy7pguzw2tk@earth.universe>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Tue, 7 May 2019 12:26:11 -0500
+Message-ID: <CAHCN7xLZFLs=ed539bwuT6s-n6SDof-um7B3AeErQ2ChztC26A@mail.gmail.com>
+Subject: Re: [PATCH 00/14] Add support for FM radio in hcill and kill TI_ST
+To:     Sebastian Reichel <sre@kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun,  5 May 2019 16:00:22 +0200, Lubomir Rintel wrote:
-> Add Marvell MMP2 camera host interface.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> 
-> ---
-> Changes since v4:
-> - s/Nust/Must/
-> - Documented required endpoint properties; bus-type, hsync-active,
->   vsync-active and pclk-sample.
-> 
-> Changes since v3:
-> - Dropped the video-interfaces.txt reference
-> - Clarify "clocks", "clock-names" and "clock-output-names" descriptions
-> - Refer to other documentation by full path
-> 
-> Changes since v2:
-> - Added #clock-cells, clock-names, port
-> 
->  .../bindings/media/marvell,mmp2-ccic.txt      | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
-> 
+On Tue, Mar 19, 2019 at 8:33 AM Sebastian Reichel <sre@kernel.org> wrote:
+>
+> Hi Hans,
+>
+> On Thu, Mar 14, 2019 at 09:20:10AM +0100, Hans Verkuil wrote:
+> > On 12/21/18 2:17 AM, Sebastian Reichel wrote:
+> > > This moves all remaining users of the legacy TI_ST driver to hcill (patches
+> > > 1-3). Then patches 4-7 convert wl128x-radio driver to a standard platform
+> > > device driver with support for multiple instances. Patch 7 will result in
+> > > (userless) TI_ST driver no longer supporting radio at runtime. Patch 8-11 do
+> > > some cleanups in the wl128x-radio driver. Finally patch 12 removes the TI_ST
+> > > specific parts from wl128x-radio and adds the required infrastructure to use it
+> > > with the serdev hcill driver instead. The remaining patches 13 and 14 remove
+> > > the old TI_ST code.
+> > >
+> > > The new code has been tested on the Motorola Droid 4. For testing the audio
+> > > should be configured to route Ext to Speaker or Headphone. Then you need to
+> > > plug headphone, since its cable is used as antenna. For testing there is a
+> > > 'radio' utility packages in Debian. When you start the utility you need to
+> > > specify a frequency, since initial get_frequency returns an error:
+> >
+> > What is the status of this series?
+> >
+> > Based on some of the replies (from Adam Ford in particular) it appears that
+> > this isn't ready to be merged, so is a v2 planned?
+>
+> Yes, a v2 is planned, but I'm super busy at the moment. I don't
+> expect to send something for this merge window. Neither LogicPD
+> nor IGEP use FM radio, so I can just remove FM support from the
+> TI_ST framework. Converting those platforms to hci_ll can be done
+> in a different patchset.
+>
+> If that was the only issue there would be a v2 already. But Marcel
+> Holtmann suggested to pass the custom packet data through the BT
+> subsystem, which is non-trivial (at least for me) :)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I am running some tests today on the wl1283-st on the Logic PD Torpedo
+board.  Tony had suggested a few options, so I'm going to try those.
+Looking at those today.  If/when you have a V2, please CC me on it. If
+it's been posted, can you send me a link?  I would really like to see
+the st-kim driver go away so I'd like to resolve the issues with the
+torpedo board.
+
+thanks
+
+adam
+>
+> -- Sebastian
