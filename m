@@ -2,147 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 567A51584A
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 06:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8130015B0E
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 07:51:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725859AbfEGELZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 00:11:25 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:41569 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725843AbfEGELZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 May 2019 00:11:25 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:937:b8af:19c2:fa3])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id NrRqhTTtpNExlNrRsh3pVu; Tue, 07 May 2019 06:11:24 +0200
-Message-ID: <cd98b12bd42bdcc305614b21f34f8207@smtp-cloud9.xs4all.net>
-Date:   Tue, 07 May 2019 06:11:22 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfL8stKT1kFty7XHqmUVO1NNi4Hbn0SdK3MgzVyPaCHPB7mfNxgjFBKCETj/44ckq9UPFuMEOMJ+hUhBaHk8twXic0WWoGErL0e1yPXwu7m9zXPTbMn4L
- +FD5aqbuc2msaKRXc6r6LKG83DN4FTCX6o9x8PdtDCZH4gRbFZoupbHJU5cUaJTF1XA0cAafqqkHLXynoFPQjbkC46X768P/tiV2tCus0RUDVhvpzqAgVWYN
+        id S1728568AbfEGFj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 01:39:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728963AbfEGFjz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 May 2019 01:39:55 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B78D20578;
+        Tue,  7 May 2019 05:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557207593;
+        bh=H3dWrCyGMHt6/kIAA/p0j5jcMdF3+J6wuk9C3kpEW4A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=1URkmRTRI59pRPjMZJnVdqn9Azxy8kCB0KfZzy+ufXRejiR15iD9004febJl6d45o
+         3soFBUUJTrRnD6rAszSpKAqmROlEK55sr1yQ2G/hXE/4mlCyS8Td3T3ehRgdjueyiR
+         6QTUs7QVgqg74+8uRz6vEUdBP5ELv/RZdT/AuKdE=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <alexander.levin@microsoft.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 43/95] media: cec: make cec_get_edid_spa_location() an inline function
+Date:   Tue,  7 May 2019 01:37:32 -0400
+Message-Id: <20190507053826.31622-43-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190507053826.31622-1-sashal@kernel.org>
+References: <20190507053826.31622-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
-Results of the daily build of media_tree:
+[ Upstream commit b915bf575d5b7774d0f22d57d6c143e07dcaade2 ]
 
-date:			Tue May  7 05:00:13 CEST 2019
-media-tree git hash:	7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+This function is needed by both V4L2 and CEC, so move this to
+cec.h as a static inline since there are no obvious shared
+modules between the two subsystems.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.1-i686: OK
-linux-5.0.1-x86_64: OK
-linux-5.1-rc1-i686: OK
-linux-5.1-rc1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+This patch, together with the following ones, fixes a
+dependency bug: if CEC_CORE is disabled, then building adv7604
+(and other HDMI receivers) will fail because an essential
+function is now stubbed out.
 
-Detailed results are available here:
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Cc: <stable@vger.kernel.org>      # for v4.17 and up
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Sasha Levin <alexander.levin@microsoft.com>
+---
+ drivers/media/cec/cec-edid.c | 60 -------------------------------
+ include/media/cec.h          | 70 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 70 insertions(+), 60 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+diff --git a/drivers/media/cec/cec-edid.c b/drivers/media/cec/cec-edid.c
+index 38e3fec6152b..19a31d4c8603 100644
+--- a/drivers/media/cec/cec-edid.c
++++ b/drivers/media/cec/cec-edid.c
+@@ -22,66 +22,6 @@
+ #include <linux/types.h>
+ #include <media/cec.h>
+ 
+-/*
+- * This EDID is expected to be a CEA-861 compliant, which means that there are
+- * at least two blocks and one or more of the extensions blocks are CEA-861
+- * blocks.
+- *
+- * The returned location is guaranteed to be < size - 1.
+- */
+-static unsigned int cec_get_edid_spa_location(const u8 *edid, unsigned int size)
+-{
+-	unsigned int blocks = size / 128;
+-	unsigned int block;
+-	u8 d;
+-
+-	/* Sanity check: at least 2 blocks and a multiple of the block size */
+-	if (blocks < 2 || size % 128)
+-		return 0;
+-
+-	/*
+-	 * If there are fewer extension blocks than the size, then update
+-	 * 'blocks'. It is allowed to have more extension blocks than the size,
+-	 * since some hardware can only read e.g. 256 bytes of the EDID, even
+-	 * though more blocks are present. The first CEA-861 extension block
+-	 * should normally be in block 1 anyway.
+-	 */
+-	if (edid[0x7e] + 1 < blocks)
+-		blocks = edid[0x7e] + 1;
+-
+-	for (block = 1; block < blocks; block++) {
+-		unsigned int offset = block * 128;
+-
+-		/* Skip any non-CEA-861 extension blocks */
+-		if (edid[offset] != 0x02 || edid[offset + 1] != 0x03)
+-			continue;
+-
+-		/* search Vendor Specific Data Block (tag 3) */
+-		d = edid[offset + 2] & 0x7f;
+-		/* Check if there are Data Blocks */
+-		if (d <= 4)
+-			continue;
+-		if (d > 4) {
+-			unsigned int i = offset + 4;
+-			unsigned int end = offset + d;
+-
+-			/* Note: 'end' is always < 'size' */
+-			do {
+-				u8 tag = edid[i] >> 5;
+-				u8 len = edid[i] & 0x1f;
+-
+-				if (tag == 3 && len >= 5 && i + len <= end &&
+-				    edid[i + 1] == 0x03 &&
+-				    edid[i + 2] == 0x0c &&
+-				    edid[i + 3] == 0x00)
+-					return i + 4;
+-				i += len + 1;
+-			} while (i < end);
+-		}
+-	}
+-	return 0;
+-}
+-
+ u16 cec_get_edid_phys_addr(const u8 *edid, unsigned int size,
+ 			   unsigned int *offset)
+ {
+diff --git a/include/media/cec.h b/include/media/cec.h
+index df6b3bd31284..b7339cc6fd3d 100644
+--- a/include/media/cec.h
++++ b/include/media/cec.h
+@@ -435,4 +435,74 @@ static inline void cec_phys_addr_invalidate(struct cec_adapter *adap)
+ 	cec_s_phys_addr(adap, CEC_PHYS_ADDR_INVALID, false);
+ }
+ 
++/**
++ * cec_get_edid_spa_location() - find location of the Source Physical Address
++ *
++ * @edid: the EDID
++ * @size: the size of the EDID
++ *
++ * This EDID is expected to be a CEA-861 compliant, which means that there are
++ * at least two blocks and one or more of the extensions blocks are CEA-861
++ * blocks.
++ *
++ * The returned location is guaranteed to be <= size-2.
++ *
++ * This is an inline function since it is used by both CEC and V4L2.
++ * Ideally this would go in a module shared by both, but it is overkill to do
++ * that for just a single function.
++ */
++static inline unsigned int cec_get_edid_spa_location(const u8 *edid,
++						     unsigned int size)
++{
++	unsigned int blocks = size / 128;
++	unsigned int block;
++	u8 d;
++
++	/* Sanity check: at least 2 blocks and a multiple of the block size */
++	if (blocks < 2 || size % 128)
++		return 0;
++
++	/*
++	 * If there are fewer extension blocks than the size, then update
++	 * 'blocks'. It is allowed to have more extension blocks than the size,
++	 * since some hardware can only read e.g. 256 bytes of the EDID, even
++	 * though more blocks are present. The first CEA-861 extension block
++	 * should normally be in block 1 anyway.
++	 */
++	if (edid[0x7e] + 1 < blocks)
++		blocks = edid[0x7e] + 1;
++
++	for (block = 1; block < blocks; block++) {
++		unsigned int offset = block * 128;
++
++		/* Skip any non-CEA-861 extension blocks */
++		if (edid[offset] != 0x02 || edid[offset + 1] != 0x03)
++			continue;
++
++		/* search Vendor Specific Data Block (tag 3) */
++		d = edid[offset + 2] & 0x7f;
++		/* Check if there are Data Blocks */
++		if (d <= 4)
++			continue;
++		if (d > 4) {
++			unsigned int i = offset + 4;
++			unsigned int end = offset + d;
++
++			/* Note: 'end' is always < 'size' */
++			do {
++				u8 tag = edid[i] >> 5;
++				u8 len = edid[i] & 0x1f;
++
++				if (tag == 3 && len >= 5 && i + len <= end &&
++				    edid[i + 1] == 0x03 &&
++				    edid[i + 2] == 0x0c &&
++				    edid[i + 3] == 0x00)
++					return i + 4;
++				i += len + 1;
++			} while (i < end);
++		}
++	}
++	return 0;
++}
++
+ #endif /* _MEDIA_CEC_H */
+-- 
+2.20.1
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
