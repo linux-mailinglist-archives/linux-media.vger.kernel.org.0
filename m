@@ -2,29 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D493B1657C
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 16:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD57C16591
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 16:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726634AbfEGOQZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 10:16:25 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35832 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726063AbfEGOQZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 10:16:25 -0400
-X-UUID: 92cac1ec1011402e98fa0e667af04154-20190507
-X-UUID: 92cac1ec1011402e98fa0e667af04154-20190507
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+        id S1726803AbfEGOWQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 10:22:16 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:38798 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726454AbfEGOWQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 May 2019 10:22:16 -0400
+X-UUID: 154115064e8a4275805302ff7213d8ff-20190507
+X-UUID: 154115064e8a4275805302ff7213d8ff-20190507
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
         (envelope-from <frederic.chen@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1660573465; Tue, 07 May 2019 22:16:20 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 7 May 2019 22:16:19 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas09.mediatek.inc
+        with ESMTP id 191652116; Tue, 07 May 2019 22:22:06 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 7 May 2019 22:22:05 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 7 May 2019 22:16:19 +0800
-Message-ID: <1557238579.11663.15.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V1 3/6] dt-bindings: mt8183: Added DIP dt-bindings
+ Transport; Tue, 7 May 2019 22:22:05 +0800
+Message-ID: <1557238925.11663.21.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V1 1/6] dt-bindings: mt8183: Add binding for DIP
+ shared memory
 From:   Frederic Chen <frederic.chen@mediatek.com>
 To:     Rob Herring <robh@kernel.org>
 CC:     <hans.verkuil@cisco.com>,
@@ -39,14 +40,14 @@ CC:     <hans.verkuil@cisco.com>,
         <linux-media@vger.kernel.org>, <srv_heupstream@mediatek.com>,
         <devicetree@vger.kernel.org>, <shik@chromium.org>,
         <suleiman@chromium.org>
-Date:   Tue, 7 May 2019 22:16:19 +0800
-In-Reply-To: <20190430011619.GA22170@bogus>
+Date:   Tue, 7 May 2019 22:22:05 +0800
+In-Reply-To: <20190430011506.GA8514@bogus>
 References: <20190417104511.21514-1-frederic.chen@mediatek.com>
-         <20190417104511.21514-4-frederic.chen@mediatek.com>
-         <20190430011619.GA22170@bogus>
+         <20190417104511.21514-2-frederic.chen@mediatek.com>
+         <20190430011506.GA8514@bogus>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
@@ -58,111 +59,93 @@ Dear Rob,
 
 I appreciate your comments.
 
-On Mon, 2019-04-29 at 20:16 -0500, Rob Herring wrote:
-> On Wed, Apr 17, 2019 at 06:45:08PM +0800, Frederic Chen wrote:
-> > This patch adds DT binding documentation for the Digital Image
-> > Processing (DIP) unit of camera ISP system on Mediatek's SoCs.
+On Mon, 2019-04-29 at 20:15 -0500, Rob Herring wrote:
+> On Wed, Apr 17, 2019 at 06:45:06PM +0800, Frederic Chen wrote:
+> > This patch adds the binding for describing the shared memory
+> > used to exchange configuration and tuning data between the
+> > co-processor and Digital Image Processing (DIP) unit of the
+> > camera ISP system on Mediatek SoCs.
 > > 
 > > Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
 > > ---
-> >  .../bindings/media/mediatek,mt8183-dip.txt    | 35 +++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-dip.txt
+> >  .../mediatek,reserve-memory-dip_smem.txt      | 45 +++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
 > > 
-> > diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8183-dip.txt b/Documentation/devicetree/bindings/media/mediatek,mt8183-dip.txt
+> > diff --git a/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
 > > new file mode 100644
-> > index 000000000000..0e1994bf82f0
+> > index 000000000000..64c001b476b9
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/mediatek,mt8183-dip.txt
-> > @@ -0,0 +1,35 @@
-> > +* Mediatek Digital Image Processor (DIP)
+> > +++ b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
+> > @@ -0,0 +1,45 @@
+> > +Mediatek DIP Shared Memory binding
 > > +
-> > +Digital Image Processor (DIP) unit in Mediatek ISP system is responsible for
-> > +image content adjustment according to the tuning parameters. DIP can process
-> > +the image form memory buffer and output the processed image to multiple output
-> > +buffers. Furthermore, it can support demosaicing and noise reduction on the
-> > +images.
+> > +This binding describes the shared memory, which serves the purpose of
+> > +describing the shared memory region used to exchange data between Digital
+> > +Image Processing (DIP) and co-processor in Mediatek SoCs.
+> > +
+> > +The co-processor doesn't have the iommu so we need to use the physical
+> > +address to access the shared buffer in the firmware.
+> > +
+> > +The Digital Image Processing (DIP) can access memory through mt8183 IOMMU so
+> > +it can use dma address to access the memory region.
+> > +(See iommu/mediatek,iommu.txt for the detailed description of Mediatek IOMMU)
+> > +
 > > +
 > > +Required properties:
-> > +- compatible: "mediatek,mt8183-dip"
-> > +- reg: Physical base address and length of the function block register space
-> > +- interrupts: interrupt number to the cpu
-> > +- iommus: should point to the respective IOMMU block with master port as
-> > +  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-> > +  for details.
-> > +- mediatek,larb: must contain the local arbiters in the current Socs, see
-> > +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> > +  for details.
-> > +- clocks: must contain the local arbiters 5 (LARB5) and DIP clock
-> > +- clock-names: must contain DIP_CG_IMG_LARB5 and DIP_CG_IMG_DIP
+> > +
+> > +- compatible: must be "mediatek,reserve-memory-dip_smem"
+> 
+> Don't use '_'.
+
+I got it. I will use "mediatek,reserve-memory-dip-smem" instead in next
+version of the patch
+
+> 
+> > +
+> > +- reg: required for static allocation (see reserved-memory.txt for
+> > +  the detailed usage)
+> > +
+> > +- alloc-range: required for dynamic allocation. The range must
+> > +  between 0x00000400 and 0x100000000 due to the co-processer's
+> > +  addressing limitation
+> 
+> Generally, you should pick either static or dynamic allocation for a 
+> given binding. Static if there's some address restriction or sharing, 
+> dynamic if not.
+> 
+> Sounds like static in this case.
+> 
+
+DIP reserved memory has address restriction so it is the static case. I
+would like to remove the dynamic allocation part and modify the
+description as following:
+
+- reg: required for DIP. The range must be between 0x00000400 and
+  0x100000000 due to the co-processor's addressing limitation.
+  The size must be 26MB. Please see reserved-memory.txt for the 
+  detailed usage.
+
+> > +
+> > +- size: required for dynamic allocation. The unit is bytes.
+> > +  If you want to enable the full feature of Digital Processing Unit,
+> > +  you need 20 MB at least.
+> > +
 > > +
 > > +Example:
-> > +	dip: dip@15022000 {
-> > +		compatible = "mediatek,mt8183-dip";
-> > +		mediatek,larb = <&larb5>;
-> 
-> > +		mediatek,mdp3 = <&mdp_rdma0>;
-> > +		mediatek,vpu = <&vpu>;
-> 
-> Not documented.
-> 
-
-“mediatek,vpu” will be replaced by “mediatek,scp.” I would like to 
-add the following description in next version of the patch:
-
-- mediatek,scp: must point to the scp block of the co-processor used
-  with DIP. Please see
-  Documentation/devicetree/bindings/remoteproc/mtk,scp.txt for the
-  detail.
-
-- mediatek,mdp3: must point to the Media Data Path 3 (MDP3) block.
-  Please see
-  Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
-  for the detail.
-
-Example:
-
-	mdp_rdma0: mdp_rdma0@14001000 {
-		compatible = "mediatek,mt8183-mdp-rdma",
-			     "mediatek,mt8183-mdp3";
-		mediatek,vpu = <&vpu>;
-		mediatek,scp = <&scp>;
-		mediatek,mdp-id = <0>;
-		/* ...... */
-		};
-
-	scp: scp@10500000 {
-		compatible = "mediatek,mt8183-scp";
-		reg = <0 0x10500000 0 0x80000>,
-		      <0 0x105c0000 0 0x5000>;
-		reg-names = "sram", "cfg";
-		interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <&infracfg CLK_INFRA_SCPSYS>;
-		clock-names = "main";
-		memory-region = <&scp_mem_reserved>;
-		status = "okay";
-	};
-
-	dip: dip@15022000 {
-		compatible = "mediatek,mt8183-dip";
-		mediatek,larb = <&larb5>;
-		mediatek,mdp3 = <&mdp_rdma0>;
-		mediatek,scp = <&scp>;
-		/* ...... */
-	};
-
-
-The dependent Mediatek SCP and MDP3 patch have been sent:
-[1] Mediatek SCP, https://patchwork.kernel.org/patch/10897319/
-[2] Meidatek MDP3, https://patchwork.kernel.org/patch/10844229/
-
-> > +		iommus = <&iommu M4U_PORT_CAM_IMGI>;
-> > +		reg = <0 0x15022000 0 0x6000>;
-> > +		interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_LOW>;
-> > +		clocks = <&imgsys CLK_IMG_LARB5>,
-> > +			 <&imgsys CLK_IMG_DIP>;
-> > +		clock-names = "DIP_CG_IMG_LARB5",
-> > +			      "DIP_CG_IMG_DIP";
+> > +
+> > +The following example shows the DIP shared memory setup for MT8183.
+> > +
+> > +	reserved-memory {
+> > +		#address-cells = <2>;
+> > +		#size-cells = <2>;
+> > +		ranges;
+> > +		reserve-memory-dip_smem {
+> > +			compatible = "mediatek,reserve-memory-dip_smem";
+> > +			size = <0 0x1400000>;
+> > +			alignment = <0 0x1000>;
+> > +			alloc-ranges = <0 0x40000000 0 0x50000000>;
+> > +		};
 > > +	};
 > > -- 
 > > 2.18.0
