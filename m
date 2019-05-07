@@ -2,36 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A44B515B08
-	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 07:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9EFC15AFA
+	for <lists+linux-media@lfdr.de>; Tue,  7 May 2019 07:51:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728890AbfEGFvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 May 2019 01:51:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59444 "EHLO mail.kernel.org"
+        id S1727645AbfEGFue (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 May 2019 01:50:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59560 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728989AbfEGFj5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 May 2019 01:39:57 -0400
+        id S1728428AbfEGFkF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 May 2019 01:40:05 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8895C216C4;
-        Tue,  7 May 2019 05:39:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 70C57214AE;
+        Tue,  7 May 2019 05:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557207597;
-        bh=T86Ozqa4zQwnEIPLFsnsGeVLTp6aZdkd1zJOQJbGNi8=;
+        s=default; t=1557207604;
+        bh=wO4dgz5fNDr1DLrHbr7ktCK4VAv7TGAa/7Uat55/mj4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ktvlgAkdVzgLpEU+g4sYERpClVVQrnwTn8ftkdOrbhhCkrHgJR6UoscKL9WNvK6cJ
-         9MgYUYplaBGS2PDiEbTcVfFvO80bDcNFBCZpupp3Pkh8q4G4b2AyKK2lk0qjCKA24u
-         rOeq9XoyM3GDcJMb71x36frCK4S6re6FPmyBV4B0=
+        b=UzWvclZ1nLA4vb5cElcz4SX1V/Sc6ng20MFyluy9AXER8wCaCZT8swT/Oqz6sKa2+
+         DXpogNUkGI7X0x6n3Gm16f/1PLYLi9Vfeon/EYC4mM32Q4LxSkc8altggPMlP8Q8Rz
+         dkcF4MEicBGFXCTnZTEZaGKB2ihDr6J7VrRYBclY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+Cc:     Hugues Fruchet <hugues.fruchet@st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <alexander.levin@microsoft.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 46/95] media: adv7842: when the EDID is cleared, unconfigure CEC as well
-Date:   Tue,  7 May 2019 01:37:35 -0400
-Message-Id: <20190507053826.31622-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 51/95] media: ov5640: fix wrong binning value in exposure calculation
+Date:   Tue,  7 May 2019 01:37:40 -0400
+Message-Id: <20190507053826.31622-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507053826.31622-1-sashal@kernel.org>
 References: <20190507053826.31622-1-sashal@kernel.org>
@@ -44,37 +47,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+From: Hugues Fruchet <hugues.fruchet@st.com>
 
-[ Upstream commit ab83203e181015b099720aff43ffabc1812e0fb3 ]
+[ Upstream commit c2c3f42df4dd9bb231d756bacb0c897f662c6d3c ]
 
-When there is no EDID the CEC adapter should be unconfigured as
-well. So call cec_phys_addr_invalidate() when this happens.
+ov5640_set_mode_exposure_calc() is checking binning value but
+binning value read is buggy, fix this.
+Rename ov5640_binning_on() to ov5640_get_binning() as per other
+similar functions.
 
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-Cc: <stable@vger.kernel.org>      # for v4.18 and up
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <alexander.levin@microsoft.com>
 ---
- drivers/media/i2c/adv7842.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov5640.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index f9c23173c9fa..dcce8d030e5d 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -799,8 +799,10 @@ static int edid_write_hdmi_segment(struct v4l2_subdev *sd, u8 port)
- 	/* Disable I2C access to internal EDID ram from HDMI DDC ports */
- 	rep_write_and_or(sd, 0x77, 0xf3, 0x00);
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 39a2269c0bee..0366c8dc6ecf 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -1216,7 +1216,7 @@ static int ov5640_set_ae_target(struct ov5640_dev *sensor, int target)
+ 	return ov5640_write_reg(sensor, OV5640_REG_AEC_CTRL1F, fast_low);
+ }
  
--	if (!state->hdmi_edid.present)
-+	if (!state->hdmi_edid.present) {
-+		cec_phys_addr_invalidate(state->cec_adap);
- 		return 0;
-+	}
+-static int ov5640_binning_on(struct ov5640_dev *sensor)
++static int ov5640_get_binning(struct ov5640_dev *sensor)
+ {
+ 	u8 temp;
+ 	int ret;
+@@ -1224,8 +1224,8 @@ static int ov5640_binning_on(struct ov5640_dev *sensor)
+ 	ret = ov5640_read_reg(sensor, OV5640_REG_TIMING_TC_REG21, &temp);
+ 	if (ret)
+ 		return ret;
+-	temp &= 0xfe;
+-	return temp ? 1 : 0;
++
++	return temp & BIT(0);
+ }
  
- 	pa = cec_get_edid_phys_addr(edid, 256, &spa_loc);
- 	err = cec_phys_addr_validate(pa, &pa, NULL);
+ static int ov5640_set_virtual_channel(struct ov5640_dev *sensor)
+@@ -1293,7 +1293,7 @@ static int ov5640_set_mode_exposure_calc(
+ 	if (ret < 0)
+ 		return ret;
+ 	prev_shutter = ret;
+-	ret = ov5640_binning_on(sensor);
++	ret = ov5640_get_binning(sensor);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret && mode->id != OV5640_MODE_720P_1280_720 &&
 -- 
 2.20.1
 
