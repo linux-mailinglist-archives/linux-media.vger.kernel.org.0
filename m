@@ -2,132 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 480FA17888
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 13:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA8217B21
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 15:58:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727684AbfEHLox (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 May 2019 07:44:53 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:38162 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727545AbfEHLox (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 May 2019 07:44:53 -0400
-Received: by mail-lf1-f66.google.com with SMTP id y19so6730771lfy.5
-        for <linux-media@vger.kernel.org>; Wed, 08 May 2019 04:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MVZ8E32dM3IQUQ/4sulzcLWknTbAvmYBrKs0Eer6wKA=;
-        b=aI8x9BVUyV0k/e6hHqtFg2VSGsAE8uqW1Ykt9Vt9Gnl3ZLDZJI+xVptz8VOJ0U+Epz
-         reiiUaD5e1XXfszgv5IduYrWVDkVT6at8d1kvFGnbetBJijOdC2vEyTzs6U8wT/ezspt
-         UDpUgm9iX0D8ixIaEDy8M7y97kMeSpbRcqY62ZwLgI5YxdPUFncrYswcdj413zXXnI3M
-         w5BWe7ZbgDWv1fxphhnrqylrPaM8Pmcp2FX1LLC6KO4RAxI3RNF2dbvBxQNwfeU+zeD+
-         wvYHu1h+x7sU+hANV+44uVwwK7mt5GGgjdxekZ85f5vFD4W1SBzSOMOSOhoEwgu/BEdV
-         D9aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MVZ8E32dM3IQUQ/4sulzcLWknTbAvmYBrKs0Eer6wKA=;
-        b=nqRpuky/LZOim8hr8VP7GuVE3umTV6JAYC9xUZZQbDoedVWLOlrXzOr80iC6y8bgYY
-         aMRbMqvnJnkXSjzWla8QJ32NMX62yz25ZXMCnOSpgINtrQfptEtKIu76rawtJaZTClAp
-         bBiZOZQZMHxTKx9JGRmaRPYuXBdgAgwveb47mxLDB1ryvN2MobD8jbkFVBfin68QJ6CG
-         w9TU6mXITP+1fiB92K2dm6PvUIiHed31igmNTvaGvhbWm4o+8e129EbciMp6/bJca32Y
-         hDo3xiKmZdLY4R6q4a3w+y7rEbbKNTZThUzYuN8EMm5Lr/W3kWqSHW09HcbA5buxIrYg
-         TxIw==
-X-Gm-Message-State: APjAAAXvXnDhR/9LX0e4zwwHYDUJdUgP4kTKyMkWx/2jmEQA+2ZgFldo
-        B+sqgHrLOXFFafb8fMY66mRYMQ==
-X-Google-Smtp-Source: APXvYqxjMqVzBoEBMCg0Uqzhpta0oQMJtUFzmS+zyTM2gjOR58JZ7m+Sy9bAf2amhL1sDOv0Q+Dvrw==
-X-Received: by 2002:ac2:5222:: with SMTP id i2mr19153297lfl.68.1557315891721;
-        Wed, 08 May 2019 04:44:51 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id t20sm4067648lfb.27.2019.05.08.04.44.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 May 2019 04:44:50 -0700 (PDT)
-Subject: Re: [PATCH 1/4] media: venus: firmware: fix leaked of_node references
-To:     Wen Yang <wen.yang99@zte.com.cn>, linux-kernel@vger.kernel.org
-Cc:     wang.yi59@zte.com.cn,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        David Brown <david.brown@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <1557126318-21487-1-git-send-email-wen.yang99@zte.com.cn>
- <1557126318-21487-2-git-send-email-wen.yang99@zte.com.cn>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <3f57c73e-3059-df43-8bc4-6ed8ca906d32@linaro.org>
-Date:   Wed, 8 May 2019 14:44:49 +0300
+        id S1726481AbfEHN6L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 May 2019 09:58:11 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:49785 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725910AbfEHN6L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 May 2019 09:58:11 -0400
+Received: from [IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b] ([IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ON5DhFvbRsDWyON5EhUufJ; Wed, 08 May 2019 15:58:09 +0200
+Subject: Re: [RFC PATCH v2 3/7] media: v4l2: Add extended buffer operations
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <m.chehab@samsung.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
+Cc:     Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
+References: <20190404081700.30006-1-boris.brezillon@collabora.com>
+ <20190404081700.30006-4-boris.brezillon@collabora.com>
+ <20190412105755.42764170@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <64dd011d-d397-b587-6027-b222dd100fc2@xs4all.nl>
+Date:   Wed, 8 May 2019 15:58:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1557126318-21487-2-git-send-email-wen.yang99@zte.com.cn>
+In-Reply-To: <20190412105755.42764170@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBHZRMFQWB4IjEgdjHWjz+cKx3c5MiAagbqTSBqtbaWSnXXp3+uvazbiOnGmdcNdayRJL07FhPddRn+z/yvaRZAQJCQ1+YIe7nJMtst1pLjHIUKZNBUR
+ 2Wx09SRnJcSh/zDgZjGEYX+4ytGgCo+IhGZmF7jT8so/Dr1ZDUPUc79PUP8L/rca/atDesQUbslDpePf8BeDUnWF/UW9Hkt8FQkpQz56A1vUCmhMjlVFaOZC
+ 60/lTF82YniSMO7WeD1LlUGYfslj2fO7ZpEelWDDWi0ryR4W0XBqKEaB9douTGn62axbBSAy+STjkMmyThZCyli8UR6x6z6n8uaeO1rdaDdyPJT4tM7H85wH
+ PuxRrEZOI6Pq9B36omOE+PESh0iD6WI0o0Ds7ThbzCTMYWelm0ZMZglS/c/0QbXsg6jcZucTAwuD4EiMGewFMSst6SYTCsNzWfaSKFcvP5mFcB9DkFj1Brhz
+ vHOu6DrEfl/kobjM9/VY1+Rs7nqQN7r+GZAy5fXommER9PlwLejyX+BfFScfUmpD0vR+CiHMsMhhfq31c1p04xheo16EW9qt8ghlj3TPE0LM8zcEjg00NvKE
+ SVxOBjlha5r+h5wnisrXIHQ5ILd6KgXcq28TpRD94AK6PA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wen,
+Hi Boris,
 
-Thanks for the patch!
-
-On 5/6/19 10:05 AM, Wen Yang wrote:
-> The call to of_parse_phandle returns a node pointer with refcount
-> incremented thus it must be explicitly decremented after the last
-> usage.
+On 4/12/19 10:57 AM, Boris Brezillon wrote:
+> On Thu,  4 Apr 2019 10:16:56 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
-> Detected by coccinelle with the following warnings:
-> drivers/media/platform/qcom/venus/firmware.c:90:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
-> drivers/media/platform/qcom/venus/firmware.c:94:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
-> drivers/media/platform/qcom/venus/firmware.c:128:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
 > 
-> Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
-> Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> Cc: Andy Gross <agross@kernel.org>
-> Cc: David Brown <david.brown@linaro.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  drivers/media/platform/qcom/venus/firmware.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>> +/**
+>> + * struct v4l2_ext_buffer - extended video buffer info
+>> + * @index: id number of the buffer
+>> + * @type: enum v4l2_buf_type; buffer type. _MPLANE and _OVERLAY formats are
+>> + *	  invalid
+>> + * @flags: buffer informational flags
+>> + * @field: enum v4l2_field; field order of the image in the buffer
+>> + * @timestamp: frame timestamp
+>> + * @sequence: sequence count of this frame
+>> + * @memory: enum v4l2_memory; the method, in which the actual video data is
+>> + *          passed
+>> + * @planes: per-plane buffer information
+>> + * @num_planes: number of plane buffers
+>> + * @request_fd: fd of the request that this buffer should use
+>> + * @reserved: some extra space reserved to add future fields (like timecode).
+>> + *	      Must be set to 0
+>> + *
+>> + * Contains data exchanged by application and driver using one of the Streaming
+>> + * I/O methods.
+>> + */
+>> +struct v4l2_ext_buffer {
+>> +	__u32 index;
+>> +	__u32 type;
+>> +	__u32 flags;
+>> +	__u32 field;
+>> +	__u64 timestamp;
+>> +	__u32 sequence;
+>> +	__u32 memory;
+>> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+> 
+> I had a discussion with Tomasz last week, and he made me realize I was
+> misunderstanding the concept of V4L2 planes. I thought it was encoding
+> pixel-component planes, but it's actually memory planes, and sometimes
+> those one memory planes might contain all component planes placed next
+> to each others (like the V4L2_PIX_FMT_NV12 format).
+> 
+> So, the question is, what do we want v4l2_ext_plane to encode (memory
+> planes or pixel component planes)?
+> If we go for the pixel component plane approach (which IMHO would be a
+> good thing), that means we'll have to convert V4L2_PIX_FMT_NV12-like
+> single-memory-plane buffers into v4l2_ext_buffer containing X planes,
+> each pointing to the same memory object but at a different offset.
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+First of all my apologies for the long delay in replying.
+
+I think v4l2_ext_plane should encode pixel component planes, that way
+it becomes much easier to describe e.g. NV12 formats that use a single
+memory range, but where each component plane has its own bytesperline
+value and where each component plane starts at e.g. a page boundary
+due to hardware restrictions.
+
+This is currently impossible to describe without creating a new pixel
+format.
+
+But it is of course possible that different component planes use
+different memory ranges.
+
+I think that the memory information in v4l2_ext_plane should describe the
+memory for that component plane and any following component planes that
+are part of that memory. The memory information for those following
+component planes should be 0 or some other value that makes it clear
+that it is part of the same memory buffer as the preceding component plane.
+
+Regards,
+
+	Hans
 
 > 
-> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-> index 6cfa802..f81449b 100644
-> --- a/drivers/media/platform/qcom/venus/firmware.c
-> +++ b/drivers/media/platform/qcom/venus/firmware.c
-> @@ -87,11 +87,11 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
->  
->  	ret = of_address_to_resource(node, 0, &r);
->  	if (ret)
-> -		return ret;
-> +		goto err_put_node;
->  
->  	ret = request_firmware(&mdt, fwname, dev);
->  	if (ret < 0)
-> -		return ret;
-> +		goto err_put_node;
->  
->  	fw_size = qcom_mdt_get_size(mdt);
->  	if (fw_size < 0) {
-> @@ -125,6 +125,8 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
->  	memunmap(mem_va);
->  err_release_fw:
->  	release_firmware(mdt);
-> +err_put_node:
-> +	of_node_put(node);
->  	return ret;
->  }
->  
+>> +	__u32 num_planes;
+>> +	__u32 request_fd;
+>> +	__u32 reserved[10];
+>> +};
+>> +
+>>  /**
+>>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
+>>   * @ts:		pointer to the timeval variable to be converted
+>> @@ -1062,6 +1139,35 @@ struct v4l2_exportbuffer {
+>>  	__u32		reserved[11];
+>>  };
+>>  
 > 
 
--- 
-regards,
-Stan
