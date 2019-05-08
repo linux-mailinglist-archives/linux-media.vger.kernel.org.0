@@ -2,81 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A317A17E39
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 18:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82AAA17E6C
+	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 18:46:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728204AbfEHQix (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 May 2019 12:38:53 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42155 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725889AbfEHQix (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 May 2019 12:38:53 -0400
-Received: from [IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b] ([IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id OPajhzfge3qlsOPakhLnRq; Wed, 08 May 2019 18:38:51 +0200
-Subject: Re: [PATCH v2] v4l: Add source event change for bit-depth
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20190508113759.19168-1-stanimir.varbanov@linaro.org>
- <d6dcee9a-0308-855c-9819-3e7413cb617d@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a63d1c5f-806e-92c3-a6f7-e70f0686a27d@xs4all.nl>
-Date:   Wed, 8 May 2019 18:38:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1728179AbfEHQqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 May 2019 12:46:55 -0400
+Received: from mail-lj1-f169.google.com ([209.85.208.169]:35653 "EHLO
+        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728130AbfEHQqz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 May 2019 12:46:55 -0400
+Received: by mail-lj1-f169.google.com with SMTP id m20so8857990lji.2
+        for <linux-media@vger.kernel.org>; Wed, 08 May 2019 09:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=Hby2rIW2cPAkJDo63diV7Kv2S/Ktkq/B3JE3am39zPE=;
+        b=eK7jXOqOdf8TyDw+v21oUKyXwPKrqfzsBXlsl4MciwHiv9LVfs3fY8ooEn2Hlo0oDC
+         ejFAL87s1zausn6xlu+I1k5ajdsiJomvmuaSepVyM2m+3WTtQAoTwnQ8t7gaqG3PBTKK
+         uuTb+hjbyYUU+jBK90nFDDGVVKsNinW8owDzUIkXf+CW3ueQPijEXEusfMwVk+JTujTI
+         YakJGzTLpDrLnVcTXB/JhEtbjvwmho2cdVkD5zeBpM5ia0XLZ+ABtp3ljYLFqssnP/HW
+         Ozn3IYp51Ta5IThGljoNAGkqE1MnzzKIy5X/3Xr+hD/cZ6PHPuS56kkV3d4x5wB6Ao7V
+         1h/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=Hby2rIW2cPAkJDo63diV7Kv2S/Ktkq/B3JE3am39zPE=;
+        b=Zr/b3xrkJVjk4tSKy0ks0dmVLY0yH73nCwTsmbpLs01D2bl0VPeMeMCdbaEkVAymvI
+         xUnPeS/W9WOjp/FTis2psCUZfjtdK6ZLB6Bp/yKbHUyEt8lsmC02qZhWaQBuAn9HU8iy
+         JjmLDVHUb+jOCFre9XTm737Ro17EcW6AJcCIzAZHA88e0dA6b1NmFsWYQtV3nCpmO4r7
+         NxxbesqVCCpZ6dS52hpQHxYz4+94uJYbkz+C2iGjn3mwsBHb3GK3gHqx/Q4oDnW7KKNP
+         9cfcve0clDxzV/ddkz+eI8LWYFmzUdPVJrQXbWwwU2KH9BJvlOVS9NNKMnpiUtkrvJV2
+         owMg==
+X-Gm-Message-State: APjAAAXGZXHXOn+ACJlmJv1lej4AKNEKWayITbN6aM9i37WLVxiK9Ptp
+        MNrWOdg3EMlvO+0H/BRepQxkno7Id7VMMzEl84E=
+X-Google-Smtp-Source: APXvYqypsYwRjMPN8MVUFQ5cjK6nBGGE4Y9338y45j+PkzE9e4DSzyM+RFQRbhNuUdXjuMQE5in+SbiASQ91bZCtgh0=
+X-Received: by 2002:a2e:8654:: with SMTP id i20mr10721256ljj.26.1557334013662;
+ Wed, 08 May 2019 09:46:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d6dcee9a-0308-855c-9819-3e7413cb617d@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA2G6OTFamVBKLYKYcEXPMd55QMkc85iZIPxrM91Ve0+9dGD8w/wHJD//upbepQx/xWZ4EsVFzzPsUfiOGkQRMIcqOSEjkdRBeC2TuAJ6BRqM0NjJBlC
- V3K45LT9RPhChatrXpv+tT4o3aP1AK1jDnBYJiuo0YvQYTun4T/U+70wagWERUFtQFtRt3TkPDBRseOF7cMdzNJ6FV1yQAIbHFnu8YhpU0lHXPzTaydgi1rw
- aQPrcYN4XXkiKaZ+WwWKb9NZa8KHkwovd0sN0bpHC61JQMB+ZTmoT1bByVfnNfV65BabiHkiYG9nGv/ZI2xIsBVzh1DUtSYxZy2qK7T8ZTnMV5c0mDIBSk23
- l/pHJG6jF980ZvTElO74Bpb1m4SFGJRQ7kPBg9Z2EAlU3gEjs/e8xA8Uc0iaJwRTdKdWgvCOM9nM4lYIRyQmovJE7no+m1F+nV1LRhs3ZCrnn5d9MPL+NcrT
- Ib06TuXCHdx7yNNS
+From:   "Wolf ." <wolfwings@gmail.com>
+Date:   Wed, 8 May 2019 11:46:42 -0500
+Message-ID: <CAG+9BZXyhdWjeG5w7qfGp1VK66AWZ4-b_x96vvBzZive8QwnNg@mail.gmail.com>
+Subject: RTL28XXU Driver fails to initialize w/ R820T if CONFIG_MODULES enabled
+To:     crope@iki.fi, mchehab@kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/8/19 5:34 PM, Stanimir Varbanov wrote:
-> Hi Hans,
-> 
-> On 5/8/19 2:37 PM, Stanimir Varbanov wrote:
->> This event indicate that the source bit-depth is changed during
->> run-time. The client must get the new format and re-allocate buffers
->> for it. This can usually happens with video decoder (encoders) when
->> the bit-stream depth is changed from 8 to 10bits or vice versa.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->> Change since v1: s/BITDEPTH/BIT_DEPTH
->>
->>  Documentation/media/uapi/v4l/vidioc-dqevent.rst | 7 +++++++
->>  Documentation/media/videodev2.h.rst.exceptions  | 1 +
->>  include/uapi/linux/videodev2.h                  | 1 +
->>  3 files changed, 9 insertions(+)
->>
->> diff --git a/Documentation/media/uapi/v4l/vidioc-dqevent.rst b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
->> index dea9c0cc00ab..f7782cbddc5f 100644
->> --- a/Documentation/media/uapi/v4l/vidioc-dqevent.rst
->> +++ b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
->> @@ -397,6 +397,13 @@ call.
->>  	that many devices are not able to recover from a temporary loss of
->>  	signal and so restarting streaming I/O is required in order for the
->>  	hardware to synchronize to the video signal.
->> +    * - ``V4L2_EVENT_SRC_CH_BIT_DEPTH``
-> 
-> I started to wonder isn't COLOR_DEPTH more appropriate? Bit-depth
-> doesn't describe what is actually deep.
-> 
+Tested with/on Linux 5.0.x using GCC 7.4.x compiler series
 
-I agree. COLOR_DEPTH is a better name.
+If modules are enabled (which in turn enables CONFIG_MEDIA_ATTACH) the
+dvb_attach codepath fails regardless of module load or compiling in
+any or all components with this message:
 
-Regards,
+DVB: Unable to find symbol r820t_attach()
 
-	Hans
+Disabling CONFIG_MODULES (which in turn disables CONFIG_MEDIA_ATTACH
+and turns dvb_attach into a no-op that blindly calls the function
+requested) does work.
+
+I'm unsure if this is a flaw in the dvb_attach macro or the driver's
+usage of this macro, so I'm sending this to both the relevant
+maintainers.
+
+- Wolf
