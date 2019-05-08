@@ -2,105 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BDB18166
-	for <lists+linux-media@lfdr.de>; Wed,  8 May 2019 22:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EA4181F5
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 00:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727922AbfEHU6Y convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 May 2019 16:58:24 -0400
-Received: from coyote.holtmann.net ([212.227.132.17]:35652 "EHLO
-        mail.holtmann.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbfEHU6Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 May 2019 16:58:24 -0400
-Received: from marcel-macpro.fritz.box (p4FF9FD9B.dip0.t-ipconnect.de [79.249.253.155])
-        by mail.holtmann.org (Postfix) with ESMTPSA id 34B19CEFAA;
-        Wed,  8 May 2019 23:06:37 +0200 (CEST)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
-Subject: Re: [PATCH 00/14] Add support for FM radio in hcill and kill TI_ST
-From:   Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <CAHCN7xLQ=h3bfwS=uTfjSpOtv9qWbic0=_51WJz9KmX7v8+vmw@mail.gmail.com>
-Date:   Wed, 8 May 2019 22:58:21 +0200
-Cc:     Sebastian Reichel <sre@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
+        id S1728881AbfEHWOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 May 2019 18:14:46 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:50810 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726837AbfEHWOq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 May 2019 18:14:46 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 99EE1634C7B;
+        Thu,  9 May 2019 01:14:02 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hOUp8-0001dU-9h; Thu, 09 May 2019 01:14:02 +0300
+Date:   Thu, 9 May 2019 01:14:02 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <FCCA9B3E-80AD-416E-B6E4-85E90721881E@holtmann.org>
-References: <20181221011752.25627-1-sre@kernel.org>
- <4f47f7f2-3abb-856c-4db5-675caf8057c7@xs4all.nl>
- <20190319133154.7tbfafy7pguzw2tk@earth.universe>
- <CAHCN7xLZFLs=ed539bwuT6s-n6SDof-um7B3AeErQ2ChztC26A@mail.gmail.com>
- <CAHCN7xLQ=h3bfwS=uTfjSpOtv9qWbic0=_51WJz9KmX7v8+vmw@mail.gmail.com>
-To:     Adam Ford <aford173@gmail.com>
-X-Mailer: Apple Mail (2.3445.104.8)
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] v4l: Add source event change for bit-depth
+Message-ID: <20190508221402.6fh5k2pvep33lggj@valkosipuli.retiisi.org.uk>
+References: <20190508113759.19168-1-stanimir.varbanov@linaro.org>
+ <d6dcee9a-0308-855c-9819-3e7413cb617d@linaro.org>
+ <a63d1c5f-806e-92c3-a6f7-e70f0686a27d@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a63d1c5f-806e-92c3-a6f7-e70f0686a27d@xs4all.nl>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adam,
-
->>>>> This moves all remaining users of the legacy TI_ST driver to hcill (patches
->>>>> 1-3). Then patches 4-7 convert wl128x-radio driver to a standard platform
->>>>> device driver with support for multiple instances. Patch 7 will result in
->>>>> (userless) TI_ST driver no longer supporting radio at runtime. Patch 8-11 do
->>>>> some cleanups in the wl128x-radio driver. Finally patch 12 removes the TI_ST
->>>>> specific parts from wl128x-radio and adds the required infrastructure to use it
->>>>> with the serdev hcill driver instead. The remaining patches 13 and 14 remove
->>>>> the old TI_ST code.
->>>>> 
->>>>> The new code has been tested on the Motorola Droid 4. For testing the audio
->>>>> should be configured to route Ext to Speaker or Headphone. Then you need to
->>>>> plug headphone, since its cable is used as antenna. For testing there is a
->>>>> 'radio' utility packages in Debian. When you start the utility you need to
->>>>> specify a frequency, since initial get_frequency returns an error:
->>>> 
->>>> What is the status of this series?
->>>> 
->>>> Based on some of the replies (from Adam Ford in particular) it appears that
->>>> this isn't ready to be merged, so is a v2 planned?
->>> 
->>> Yes, a v2 is planned, but I'm super busy at the moment. I don't
->>> expect to send something for this merge window. Neither LogicPD
->>> nor IGEP use FM radio, so I can just remove FM support from the
->>> TI_ST framework. Converting those platforms to hci_ll can be done
->>> in a different patchset.
->>> 
->>> If that was the only issue there would be a v2 already. But Marcel
->>> Holtmann suggested to pass the custom packet data through the BT
->>> subsystem, which is non-trivial (at least for me) :)
->> 
->> I am running some tests today on the wl1283-st on the Logic PD Torpedo
->> board.  Tony had suggested a few options, so I'm going to try those.
->> Looking at those today.  If/when you have a V2, please CC me on it. If
->> it's been posted, can you send me a link?  I would really like to see
->> the st-kim driver go away so I'd like to resolve the issues with the
->> torpedo board.
+On Wed, May 08, 2019 at 06:38:49PM +0200, Hans Verkuil wrote:
+> On 5/8/19 5:34 PM, Stanimir Varbanov wrote:
+> > Hi Hans,
+> > 
+> > On 5/8/19 2:37 PM, Stanimir Varbanov wrote:
+> >> This event indicate that the source bit-depth is changed during
+> >> run-time. The client must get the new format and re-allocate buffers
+> >> for it. This can usually happens with video decoder (encoders) when
+> >> the bit-stream depth is changed from 8 to 10bits or vice versa.
+> >>
+> >> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> >> ---
+> >> Change since v1: s/BITDEPTH/BIT_DEPTH
+> >>
+> >>  Documentation/media/uapi/v4l/vidioc-dqevent.rst | 7 +++++++
+> >>  Documentation/media/videodev2.h.rst.exceptions  | 1 +
+> >>  include/uapi/linux/videodev2.h                  | 1 +
+> >>  3 files changed, 9 insertions(+)
+> >>
+> >> diff --git a/Documentation/media/uapi/v4l/vidioc-dqevent.rst b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> >> index dea9c0cc00ab..f7782cbddc5f 100644
+> >> --- a/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> >> +++ b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> >> @@ -397,6 +397,13 @@ call.
+> >>  	that many devices are not able to recover from a temporary loss of
+> >>  	signal and so restarting streaming I/O is required in order for the
+> >>  	hardware to synchronize to the video signal.
+> >> +    * - ``V4L2_EVENT_SRC_CH_BIT_DEPTH``
+> > 
+> > I started to wonder isn't COLOR_DEPTH more appropriate? Bit-depth
+> > doesn't describe what is actually deep.
+> > 
 > 
-> I have run a bunch of tests on the 5.1 kernel.  I am able to get the
-> firmware to load now and the hci0 goes up.  I was able to establish a
-> BLE connection to a TI Sensor Tag and read and write data to it with
-> good success on the wl1283.
-> 
-> Unfortunately, when I tried to do some more extensive testing over
-> classic Bluetooth, I got an error that repeats itself at seemingly
-> random intervals:
->      Bluetooth: hci0: Frame reassembly failed (-84)
-> 
-> I can still scan and pair, but these Frame reassembly failed errors
-> appear to come and go.
+> I agree. COLOR_DEPTH is a better name.
 
-there are only 3 places in h4_recv_buf that return EILSEQ. Just add an extra printk to these to figure out which one it is. Maybe it is just extra packet types that we need to handle. If it is not the packet type one, print what packet we have that is causing this.
+Please add:
 
-Regards
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Marcel
-
+-- 
+Sakari Ailus
