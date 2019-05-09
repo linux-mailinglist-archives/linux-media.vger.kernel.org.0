@@ -2,70 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0039718A90
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 15:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE1F18AC2
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 15:32:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbfEIN2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 May 2019 09:28:08 -0400
-Received: from sonic302-2.consmr.mail.bf2.yahoo.com ([74.6.135.41]:45125 "EHLO
-        sonic302-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726192AbfEIN2H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 May 2019 09:28:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1557408486; bh=M+2BQM2x3GSy/dmtDG0o07y3ZYWK28QOQCLRz1DcS2Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=oV8WDxSR1hMfS2M+rvD+0F64UE9K+2QuIcRqYAgHCZU8EZ2czKFGS8+8vays+Md9nn7dBP1IK8z9iVDm3xlpmy8YSZptUz8iPxqqDwHKuQuCcqn/f4yF9QWpp8fCdS4q4XDwc9gtpJw7Tfkr1IGxMqa2kLEZAG5PZQk+ZZW5pBaIm2TgyyVsGbBC05YXKSaZeCYnjIW/PCksKgHksMeR0PaRQj/UDiyrfvDDqGV4YlUtCEyR4u7bE96cSrHJTDU0kkGWKjeYiUOfY3dzZwMzRdl1XfdM13lqRqhjOeM/Hw1q0kHMyTJRP6dK5U8cUtYC2vv2l4MocRvciuXS0+u4CA==
-X-YMail-OSG: i_wzu_YVM1nC9k6Hp.cuagygbAqGpjX9DNt2a6S3es3eErcSlAFGn8LEsTB2.wz
- cqf1m7gq_pBpSpy.Iijvc3REvwvm7w0CSxzbkZXTMFrFkgm2.DtJXy_8O0VK1g3sRfIS0VD6thIz
- bYBsd9MpwMlWBQX6qNOwJD7Z7Q_.WEwU9Y.PYbeIE0L6a39K2uiFQ0rvm5XTfgrde5LaAkTj9atF
- HpjRHqHTxfWHMo.9FpRS_mic_WtVHhvlOCON1SFNnCZyjhNcQauwvtG3BhcD89RDESLQSHbme0y3
- 2hFa_Ds6IG9aS2m9i0lwdaROSwVBCl0QOq9CPggRUlta.DRwpsrcFKz1Ea0uBXskQ.XgkfCL2YFS
- RwAzRbVHVuU2DFwUojESa39DkHdBOf3wTKAMa3ot7IYSbHTM1LuASCGO_K5gvuPb3t.vtyzFJcTq
- gvrId8bMdP_Fr.8pPDercSs.yRFwZzgHjQWKR0MqJs0b_u13ykW6xXuiYXZxKPOYvmkZTO1N3rPc
- U5ooIyWOzN9n6E0045oPoIWrtjxDoY0SsnNptRn.I1iph17fbO1M95v15Gvnc4GKCmaLY30wPBXv
- i6tjaAJo9HJ7WHEaayK_49ytwbsBmbvY66494IrTKcqOGlGwcVmV8RE0rCOougQ9r2GuMJnlqCxi
- Od.cLN.ULZh4o7nl3EYciEmccONajiYeFfOUQTjQHr1L95ZSxtCiPE63vVhAZn3rahisboZPhOgt
- PazHgCoGI714sHiSgEazo7Bnby38xSMt1s2F_oNRSIWaUl9BTOVKpGF.opPMBNTS9mVMvS9og0gE
- npQBMigxabDLnkBqcmg4l68N.PrflM.Wy9nrl.w4DoBGFhbpbZ2Cipr9f.kP3ALZEyHiykgu.AFl
- wag7nuxW9jTJVGVPAD2mZEHSnqmVGvtwkpWqUwyHTfiFaN9cUIm86WNfk6eo3mgc0pnoXqtO8e9o
- 2S6NPAyD9iwEhJMSz92P7_Kq5iSQyv3VQ9RiCcH1dP8QA.0rCheY4R9NVlQftEern72hIcYuD6ix
- k2BdNnGcxeFuxuI3xyQOW4_t4m2_hLGtsvt34itjqED_2g2orUSOr2gJLK.hS8TPiMUeG8xRqVq7
- 4l5JWy1AdRxC5E2IBDErWx83w6zlyz.rkCcv4Jo0p7obTuS_njmvaMl_fPVBdh9CM
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.bf2.yahoo.com with HTTP; Thu, 9 May 2019 13:28:06 +0000
-Date:   Thu, 9 May 2019 13:28:05 +0000 (UTC)
-From:   Aisha Gaddafi <aishagaddafi721@aol.com>
-Reply-To: Aisha Gaddafi <gaisha983@gmail.com>
-Message-ID: <1076440513.2039102.1557408485465@mail.yahoo.com>
-Subject: Hello My Beloved One, i need your assistance
+        id S1726251AbfEINc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 09:32:29 -0400
+Received: from devnull.tasossah.com ([107.6.175.157]:33230 "EHLO
+        devnull.tasossah.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726087AbfEINc3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 09:32:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=devnull.tasossah.com; s=vps;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:Message-ID:Subject:From:To; bh=IU0z2gg6tdXE7HlEEkRWemEa9t8S4Ix5dN8TPTgHxmM=;
+        b=dos5WczXvRqSU2pha4BsNxvGRPTQV0Xg3joLkpGmiv2HAYQyeUUlb730UmTvl21lPPSO1N26V7Gsns5qNAaE4sVAsydVQEtc3LepnY9k7oNbBnwUoPYrpeu4OQOD4hfaeFnrwe3tHEVRYvZc7yycDppgiyzapSV+Ylwl/EHmAr4=;
+Received: from [2a02:587:6a0c:c600::298]
+        by devnull.tasossah.com with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+        (Exim 4.82)
+        (envelope-from <tasos@tasossah.com>)
+        id 1hOj9v-0002Cb-W9
+        for linux-media@vger.kernel.org; Thu, 09 May 2019 16:32:28 +0300
+To:     linux-media@vger.kernel.org
+From:   Tasos Sahanidis <tasos@tasossah.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tasos@tasossah.com; prefer-encrypt=mutual; keydata=
+ mQINBFhyWVcBEADVELXbk5Xn/wh5VoGfZboTxp3dX8+aUXJ/cLH7hh68VuTPM1M0dEQTv5iW
+ xP2VVONdujPlEMSXXPZjFifs3yNK02S1t2szl4+bteFm7uIMjzKFaIDHSddccvaSXQ3ZzKMx
+ aywYgIIe5/3oJnVlg9yE/1ZGok2Qss73YMst+dbYDkO+43v4tnXTWF8MbqyDVA2E1+Aa43Gh
+ BukdbrTPzXk4WGpxN9wLLgpmLScL17Lh9k1XejJ7lXCMfSfXX3/fyLtuHr0Df2DDZ6LX0blw
+ Nf7McYmmNWU67KBMkRhKFBScYVpDX+gnqocaxITzWo4d/NQtBPAeYHq4ursA70AcHxBkdrUf
+ CYdRTd0iT7NvYuJut8g7Z8MtLFFJoRI3vCAay0YXzhjSw1ozIkFl90WUh3SqOArbPmp1li6L
+ 4t/gjTf9jcBZvBBPZo4k3Jzioq8qAMZZcqzChUtPYYGpr+4YJako0gtjJaVsJPxDBeMmvh3/
+ qXntii2PuXmzXBb3S/0720ym2dgLeF6fe+Lu0bNQbAB31tAANzpC+nftnzdFB8MgRgkHnqQr
+ wSWRsVwySvkxwJqOaeBug7DokW5KiWKEc5vUs0N+h+wboeP6bl9rouehgJo5wxGdWzaoJPp6
+ quyQOmEVodcJrwYQm31cMekUDj2zW7OGjSzuEcP7rBPwSgSY1QARAQABtCRUYXNvcyBTYWhh
+ bmlkaXMgPHRhc29zQHRhc29zc2FoLmNvbT6JAjcEEwEIACEFAlhyWVcCGwMFCwkIBwIGFQgJ
+ CgsCBBYCAwECHgECF4AACgkQAaHcuiLgBcQ97A//an1iqkH0qT55W7vtUaWlRVwB8dhBgcZo
+ PbdlGAL2aBleuTRQ3zBuMr1fOBGSn/01Xkp80SfjNpW7ps+eTWRFHo6SjoeU4GzX7y0yvoFc
+ dpFsjrrteHyOyn4mbG9lrt4z3uvQ9LxMNOucgXOlDaibQbfzeIUGBO1YLaaOLtsC81TGj0iU
+ KkDYcTr5fgqEc15sSywDPF+jWMbFEalDyMYL8+WKsUTUkaooinQ6omIhU0xTQe8TtDwtSyFf
+ brgPem9P1DlFPK6Dty4z6LiUrtTxvcs8UhbAHMxUEYQ40yNpJKhDc1KgFb3UtRl9CYG8my27
+ O088UCWJ7KAWSr1u2i7rx5A+eChfiXyQ+n27AIPvPtEJDLTb/nD3v46Xtf1T2n9T0Yaq1OFA
+ uUrz9uFb4y3EdNa/t0eQPm6BgHWfZ5dszOu+pqNeOdvtQqJbeZ8ogx9BwoBPuQ4mCnnXMkjb
+ aniO51avZ6fOHOCoh/TwiLCGLypKjrQ8vJQ/Rc8u1GyZTtOhFikvz6SZeznQs7Sst7eaWcxz
+ 70FZBeV1r5Yed/VmTpX++t4N/41gKzLbohXgYTPBnBzXBIcpA5s07VuWvK4SdXLV2H2QvaxS
+ Ypp7iIy5oVoPvcFLNH+OHEudcPQOPByboHqe60SdMPyxrer9cuxemGEikFbesYnZGC/N6nJJ
+ 3Ay5Ag0EWHJZVwEQANTB2/2ZRi3zoS/znvraUrZ2lggOgyLZCh3Wy9AA7msvkuyrQjoVuPnK
+ 4thaGmLGbQJEguKbCyMbKJTynm2gpwGouEzqhfYZURyb4WtT/wUEk5+WMwLvFOc00JlWjs5e
+ bEkADo6NkMOUq3AI23Mh0qstfgS5kCm7iJi+9SRIgSZzRkoghd4cBUJWhHt6MZggjPtUPl4d
+ Y6LG/odcFBiHOSM+TVOKWo5LVwUAUodt5cSqop6ol7PiByfcPewl4m/kQJSjLqzOjgFUW5Gs
+ aHpulIXf+OfzEwmHyla7R+f/scwrpMDrJLHyqzvInogq17hf3AM2XlyNfhwz02KqsuOVUrv4
+ NtJbyg2V906+LwTNI+HRviUBnfWiAwlHiiUXQ1dTBHI9ZOyZhLUAS2ejyqCJMovCL/+Ldd7Z
+ EVw68UzhkPWi6mMC0XzOC4pmAEawvmxZRkBE+1kLRR1UkcQe7EB45QF2bDDpqEvumLJMWzKo
+ Lx5X2U24LaQ+m+z43xc09MHdt1xaZvZcax4qDT5N5fmPWj/6STM38DGOq7Bdvhc8LrR5aAnM
+ OijsDsxbtj7HLTHiHZKsH+tP1LbzXg5Ffbysvek7bF8Bq79TG6CjbTpGsud8QzpXOpquVRSt
+ Pr2E6Xt3DYbBdJ7Nk9RsVQ7DrGeaHl24ScuPOw8WihY80SXOaWvNABEBAAGJAh8EGAEIAAkF
+ AlhyWVcCGwwACgkQAaHcuiLgBcS3txAA0qDQSgzjCPgnwPHI1HGyj2vQVww50a5sAvjVfGLG
+ cuA7Y7FdUVrPtBmMfcIqNezgX3vu2ChVUSXW5yKXuTJfZ+r3D3YMVIwL444ECOU1EpdrN5XM
+ Gy5OSP+mm13G4s2DOKu6qk8lUt26UfSJeROntFnVrty2xHfHy/lEhyh/w36LAxngMYhxIFNr
+ 7punXSTyvTXTgBJmENvA2K9ClB7XmaihIzVIMSZ+q8olE0QVzS3EnpHTqmAUkI4pyUzBC1h/
+ s/dm5S6UxGA91XGaUSYavJOXT7yFqs8wHGdIxzzS6YMgNLuTRhCmMjsNJ7Qrj1swwRFapU8b
+ V0IPIDBMRCizS6R5L803p1jKSkDnSqxFqZOQs1E60tQkPeKKDrYFZiAdoJA72M+445LeI+UZ
+ J9AZN07ou/KOI45rZr4b6mOa/9ZLeiCOOtw3duUf4aCbX7mZCx/h/6ftR0ORSZYXngUcyeHU
+ LGgUMIh4G/AErjVzHN14l32vXOw2Gqtm/ZOB6Dbc8TE6xZfvhm8umKDSJMMgUwGpmR0afFqY
+ z1BoGgqb+Obimcy8gj/lHTEJ3XuAsWVgh6qdAW+btexzxFNBZNRlvf0iWKS9ZrJoGm75vP6G
+ cq8pgdDuXavruyMo+8FAM271vGEkaQdYOegODcSPutYoK8jtXj3r5zRHvSbk1xOOsIw=
+Subject: [PATCH] qv4l2: Prevent high CPU usage on device disconnect
+Message-ID: <19b10673-7c90-5bb7-c596-94f73414d65e@tasossah.com>
+Date:   Thu, 9 May 2019 16:32:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1076440513.2039102.1557408485465.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.13583 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:66.0) Gecko/20100101 Firefox/66.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Friend,
+On device disconnect, ApplicationWindow::ctrlEvent() gets called
+continuously, causing high CPU usage.
+Closing the device handles once ENODEV is returned fixes this.
+---
+ utils/qv4l2/alsa_stream.c |  2 +-
+ utils/qv4l2/qv4l2.cpp     | 24 +++++++++++++++++++-----
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
-I came across your e-mail contact prior a private search while in need of 
-your assistance. My name is Aisha  Gaddafi a single Mother and a Widow with 
-three Children. I am the only biological Daughter of late Libyan President 
-(Late Colonel Muammar Gaddafi).
+diff --git a/utils/qv4l2/alsa_stream.c b/utils/qv4l2/alsa_stream.c
+index 05944822..2dca283b 100644
+--- a/utils/qv4l2/alsa_stream.c
++++ b/utils/qv4l2/alsa_stream.c
+@@ -433,7 +433,7 @@ static snd_pcm_sframes_t readbuf(snd_pcm_t *handle, char *buf, long len)
+     snd_pcm_uframes_t frames;
+     snd_pcm_htimestamp(handle, &frames, &timestamp);
+     r = snd_pcm_readi(handle, buf, len);
+-    if (r < 0 && r != -EAGAIN) {
++    if (r < 0 && !(r == -EAGAIN || r == -ENODEV)) {
+ 	r = snd_pcm_recover(handle, r, 0);
+ 	if (r < 0)
+ 	    fprintf(error_fp, "alsa: overrun recover error: %s\n", snd_strerror(r));
+diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
+index b52a3b60..9ac2c332 100644
+--- a/utils/qv4l2/qv4l2.cpp
++++ b/utils/qv4l2/qv4l2.cpp
+@@ -495,8 +495,9 @@ void ApplicationWindow::setAudioBufferSize()
+ void ApplicationWindow::ctrlEvent()
+ {
+ 	v4l2_event ev;
++	int event_ret = 0;
+ 
+-	while (dqevent(ev) == 0) {
++	while ((event_ret = dqevent(ev)) == 0) {
+ 		if (ev.type == V4L2_EVENT_SOURCE_CHANGE) {
+ 			m_genTab->sourceChange(ev);
+ 			continue;
+@@ -551,6 +552,15 @@ void ApplicationWindow::ctrlEvent()
+ 			setString(ev.id, c.string);
+ 		free(c.string);
+ 	}
++
++	if (event_ret && errno == ENODEV) {
++		closeDevice();
++		if (m_capture != NULL) {
++			m_capture->stop();
++			delete m_capture;
++			m_capture = NULL;
++		}
++	}
+ }
+ 
+ void ApplicationWindow::newCaptureWin()
+@@ -558,6 +568,7 @@ void ApplicationWindow::newCaptureWin()
+ 	if (m_capture != NULL) {
+ 		m_capture->stop();
+ 		delete m_capture;
++		m_capture = NULL;
+ 	}
+ 
+ 	switch (m_renderMethod) {
+@@ -1135,7 +1146,7 @@ void ApplicationWindow::stopStreaming()
+ 	if (!m_genTab->isSDR() && m_genTab->isRadio())
+ 		return;
+ 
+-	if (v4l_type_is_capture(g_type()))
++	if (v4l_type_is_capture(g_type()) && m_capture != NULL)
+ 		m_capture->stop();
+ 
+ 	m_snapshotAct->setDisabled(true);
+@@ -1561,8 +1572,10 @@ void ApplicationWindow::makeFullScreen(bool checked)
+ void ApplicationWindow::closeDevice()
+ {
+ 	stopAudio();
+-	delete m_sigMapper;
+-	m_sigMapper = NULL;
++	if(m_sigMapper != NULL) {
++		m_sigMapper->deleteLater();
++		m_sigMapper = NULL;
++	}
+ 	m_capStartAct->setEnabled(false);
+ 	m_capStartAct->setChecked(false);
+ 	m_capStepAct->setEnabled(false);
+@@ -1579,7 +1592,7 @@ void ApplicationWindow::closeDevice()
+ 			m_outNotifier = NULL;
+ 		}
+ 		if (m_ctrlNotifier) {
+-			delete m_ctrlNotifier;
++			m_ctrlNotifier->deleteLater();
+ 			m_ctrlNotifier = NULL;
+ 		}
+ 		delete [] m_frameData;
+@@ -1740,6 +1753,7 @@ void ApplicationWindow::closeEvent(QCloseEvent *event)
+ {
+ 	closeDevice();
+ 	delete m_capture;
++	m_capture = NULL;
+ 	event->accept();
+ }
+ 
+-- 
+2.20.1
 
-I have investment funds worth Twenty Seven Million Five Hundred Thousand 
-United State Dollar ($27.500.000.00 ) and i need a trusted investment 
-Manager/Partner because of my current refugee status, however, I am 
-interested in you for investment project assistance in your country, may be 
-from there, we can build business relationship in the nearest future.
-
-I am willing to negotiate investment/business profit sharing ratio with you 
-base on the future investment earning profits.
-
-If you are willing to handle this project on my behalf kindly reply urgent 
-to enable me provide you more information about the investment funds.
-
-Your Urgent Reply Will Be Appreciated.
-
-Best Regards
-Mrs Aisha Gaddafi
