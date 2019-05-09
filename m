@@ -2,71 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1FA6183A4
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 04:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E47A618436
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 05:48:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbfEICRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 May 2019 22:17:06 -0400
-Received: from gate.crashing.org ([63.228.1.57]:57961 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725842AbfEICRG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 May 2019 22:17:06 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x492Gja6014515;
-        Wed, 8 May 2019 21:16:47 -0500
-Message-ID: <b682cc6a480f2b8a5e14c5c001fa1927467d4e18.camel@kernel.crashing.org>
-Subject: Re: [PATCH 1/7] media: aspeed: fix a kernel warning on clk control
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-Date:   Thu, 09 May 2019 12:16:45 +1000
-In-Reply-To: <3786afed-c34d-e3f0-4cd5-620185807091@linux.intel.com>
-References: <20190502191317.29698-1-jae.hyun.yoo@linux.intel.com>
-         <20190502191317.29698-2-jae.hyun.yoo@linux.intel.com>
-         <1ec7397cb164b40877839bbc90f79b5942675fdb.camel@kernel.crashing.org>
-         <6e93467e-1556-3cfd-b15c-c12b6907f526@linux.intel.com>
-         <3b4269d829467870f0b6adac18089b93114fcd3c.camel@kernel.crashing.org>
-         <3786afed-c34d-e3f0-4cd5-620185807091@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726251AbfEIDsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 May 2019 23:48:38 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58971 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726082AbfEIDsi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 May 2019 23:48:38 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Oa2thMcP0sDWyOa2uhWksc; Thu, 09 May 2019 05:48:36 +0200
+Message-ID: <3cf79cc3389b8c7c7ecb443442cb2a20@smtp-cloud9.xs4all.net>
+Date:   Thu, 09 May 2019 05:48:35 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfDtn8xUStw5JjBtlyv+yJuLAOuTFyXGkY3uwKDYUXU8mKTjNmS95A3GBy9bF7SC/02Qtcm4nrJPoKXNwsqotPIoHcvgwicI3bcIvevc67YfMKrOVtGlb
+ qD4wCZ/e8f+oU1DXOI1foVfjGDbSF0tFpO/lCW6jssI6GcrEsSQphpxAWFcVw/VkAAKSGkF9duTZB8OQE+tmCO5qeqn6WdE7TLRBZO9Xnh2QhVtHawhyj5YD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-05-08 at 18:19 -0700, Jae Hyun Yoo wrote:
-> I changed that from a bool because the maintainer of this code, Eddie
-> doesn't like adding of an additional flag. I'll change it back with
-> codes in the first submit:
-> https://www.spinics.net/lists/linux-media/msg148955.html
-> 
-> Eddie,
-> Please let me know if you have any objection on that.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ok, so random flags ... ugh.
+Results of the daily build of media_tree:
 
-Well, you can approach it either way. Have them all be bitops or all be
-bool.
+date:			Thu May  9 05:00:21 CEST 2019
+media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-The tricky thing however is that if they are bitops you need to ensure
-that they are *all* manipulated under the same lock. If not you have to
-use the atomic bitops variants.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.1-i686: OK
+linux-5.0.1-x86_64: OK
+linux-5.1-rc1-i686: OK
+linux-5.1-rc1-x86_64: WARNINGS
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
 
-The reason I don't like that is that experience shows that most uses of
-such atomic variants in drivers usually are failed attempts at papering
-over broken locking.
+Detailed results are available here:
 
-If everything is covered by a lock, then using the non-atomic versions
-is more efficient, but so is using bool (optionally with :1 bitfield
-qualifiers to avoid wasting memory), which from a pure C language
-perspective I think is more expressive of what you are doing and more
-readable.
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Cheers,
-Ben.
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
