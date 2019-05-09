@@ -2,38 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCDBB19333
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 22:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 017E919507
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 00:09:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726819AbfEIUK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 May 2019 16:10:59 -0400
-Received: from mout1.fh-giessen.de ([212.201.18.42]:58512 "EHLO
-        mout1.fh-giessen.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbfEIUK7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 16:10:59 -0400
-X-Greylist: delayed 1143 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 May 2019 16:10:57 EDT
-Received: from mx1.fh-giessen.de ([212.201.18.40])
-        by mout1.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hOp57-00086y-Lh; Thu, 09 May 2019 21:51:53 +0200
-Received: from mailgate-2.its.fh-giessen.de ([212.201.18.14])
-        by mx1.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hOp57-009hEs-GK; Thu, 09 May 2019 21:51:53 +0200
-Received: from p2e56130f.dip0.t-ipconnect.de ([46.86.19.15] helo=zwei.fritz.box)
-        by mailgate-2.its.fh-giessen.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hOp57-000F2O-5i; Thu, 09 May 2019 21:51:53 +0200
-From:   Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-Cc:     Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-Subject: [PATCH] drivers/media/dvb-frontends: Implement probe/remove for stv6110x
-Date:   Thu,  9 May 2019 21:51:18 +0200
-Message-Id: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
+        id S1726701AbfEIWJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 18:09:37 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44205 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726108AbfEIWJh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 18:09:37 -0400
+Received: by mail-lf1-f68.google.com with SMTP id n134so2664451lfn.11;
+        Thu, 09 May 2019 15:09:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cqxj3Us4XNCJxPZJKTLFD9+lFBvcLoAAs1I09WGFKIc=;
+        b=k2QsJGwD7GfnAL8nlZ6tryBWDeJM5DurbQh5t466dQbs62rPSV/ROy6oqKs1YCkXBo
+         bg9AnUXl1Lz25xuwpqeZIAgHD3rhpaLzsVYlDLPKrtiF2wGCFkWa1CZel3uijL5m98Qg
+         f2xifmk4eA+xPPgKkRLJaR6kXPt7glNL2MKabCnl7BawvDXH1TAUFT6UFAPImDdRizds
+         UmlCimp1x2F4pNO7CZvVtzCU4SIT1J0pvUhlxbvNnYl2xzqO1lYVkfbIJH4KJRknhUrV
+         wXfuv/5w1ETdLR5OgU4TpsLGI9e/lsnZ+RDazun8LtIrv1jXFkjIMHaStv0AtU9l9fnH
+         eXLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cqxj3Us4XNCJxPZJKTLFD9+lFBvcLoAAs1I09WGFKIc=;
+        b=gqA56qHSrtDPW3o34Vh0ey38BoV4mZtpZ2mDZ+yizUtKwrbxwyemi9uqwCAPXGkRoH
+         nFr1B+q15xQ/Ul8Yay/wDTjGCbSKh+cts65Ix1nPIILRFNGlBuOIQ9VIu/yawzL2N4hu
+         FTDGNf6/0Z/odhIjGJOc2UMuO30ouwVcgeapbBUW0CzJjqiZlbX7ok8k5qu+BvaE4nyP
+         4G/k2avXxkepIJOLqtBuPrgyAlBYrFYgkH+Hj/Mp3NCEqcklUJuVh94C7fh4Ct0Km/7V
+         61ioT6mkaTWh/yLGVjpr40+z2HgD7zX/GibuG8aE4YGZZKOGWBmG5Vk/c0D9N3dpfSBt
+         BV+g==
+X-Gm-Message-State: APjAAAURWSqczPfok0tya7fO5+iDqE7HR+ezD1Xsg0PxoqBOBRf3eknz
+        rHe2tefbKUy8QtcprqN5SYd8wIEOYCc=
+X-Google-Smtp-Source: APXvYqyRTVCW6g7aaCx7yK6lc6ZkcQTLPyEfsMtT7MLJ9QWIe+UhelPnfn8oMeDUrGPhddx2wd/DxA==
+X-Received: by 2002:a19:97c8:: with SMTP id z191mr3715814lfd.167.1557439774043;
+        Thu, 09 May 2019 15:09:34 -0700 (PDT)
+Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id k25sm631543lji.40.2019.05.09.15.09.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 May 2019 15:09:33 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [RFC PATCH] media: v4l2-subdev: Verify arguments of v4l2_subdev_call()
+Date:   Fri, 10 May 2019 00:09:01 +0200
+Message-Id: <20190509220901.19737-1-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,221 +61,354 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Refactor out the common parts of stv6110x_probe() and stv6110x_attach() into
-separate functions.
+Correctness of format type (try or active) and pad number parameters
+passed to subdevice operation callbacks is now verified only for IOCTL
+calls.  However, those callbacks are also used by drivers, e.g., V4L2
+host interfaces.
 
-This provides the needed functionality to use dvb_module_probe() instead of
-dvb_attach()!
+Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
+macro while calling subdevice operations, move those parameter checks
+from subdev_do_ioctl() to v4l2_subdev_call() so we can avoid
+reimplementing those checks inside drivers.
 
-Signed-off-by: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 ---
- drivers/media/dvb-frontends/stv6110x.c      | 125 ++++++++++++++++----
- drivers/media/dvb-frontends/stv6110x.h      |   3 +
- drivers/media/dvb-frontends/stv6110x_priv.h |   3 +-
- 3 files changed, 109 insertions(+), 22 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 121 +++-----------------------
+ include/media/v4l2-subdev.h           |  79 +++++++++++++++++
+ 2 files changed, 89 insertions(+), 111 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/stv6110x.c b/drivers/media/dvb-frontends/stv6110x.c
-index 82c002d3833a..17bc7adf3771 100644
---- a/drivers/media/dvb-frontends/stv6110x.c
-+++ b/drivers/media/dvb-frontends/stv6110x.c
-@@ -345,6 +345,33 @@ static void stv6110x_release(struct dvb_frontend *fe)
- 	kfree(stv6110x);
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index d75815ab0d7b..186749d31abf 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -121,53 +121,17 @@ static int subdev_close(struct file *file)
  }
  
-+void st6110x_init_regs(struct stv6110x_state *stv6110x)
-+{
-+	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
-+
-+	memcpy(stv6110x->regs, default_regs, 8);
-+}
-+
-+void stv6110x_setup_divider(struct stv6110x_state *stv6110x)
-+{
-+	switch (stv6110x->config->clk_div) {
-+	default:
-+	case 1:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 0);
-+		break;
-+	case 2:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 1);
-+		break;
-+	case 4:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 2);
-+		break;
-+	case 8:
-+	case 0:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 3);
-+		break;
-+	}
-+}
-+
- static const struct dvb_tuner_ops stv6110x_ops = {
- 	.info = {
- 		.name		  = "STV6110(A) Silicon Tuner",
-@@ -354,7 +381,7 @@ static const struct dvb_tuner_ops stv6110x_ops = {
- 	.release		= stv6110x_release
- };
- 
--static const struct stv6110x_devctl stv6110x_ctl = {
-+static struct stv6110x_devctl stv6110x_ctl = {
- 	.tuner_init		= stv6110x_init,
- 	.tuner_sleep		= stv6110x_sleep,
- 	.tuner_set_mode		= stv6110x_set_mode,
-@@ -368,39 +395,77 @@ static const struct stv6110x_devctl stv6110x_ctl = {
- 	.tuner_get_status	= stv6110x_get_status,
- };
- 
-+void stv6110x_set_frontend_opts(struct stv6110x_state *stv6110x)
-+{
-+	stv6110x->frontend->tuner_priv		= stv6110x;
-+	stv6110x->frontend->ops.tuner_ops	= stv6110x_ops;
-+}
-+
-+static struct stv6110x_devctl *stv6110x_get_devctl(struct i2c_client *client)
-+{
-+	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
-+
-+	dev_dbg(&client->dev, "\n");
-+
-+	return stv6110x->devctl;
-+}
-+
-+static int stv6110x_probe(struct i2c_client *client,
-+			const struct i2c_device_id *id)
-+{
-+	struct stv6110x_config *config = client->dev.platform_data;
-+
-+	struct stv6110x_state *stv6110x;
-+
-+	stv6110x = kzalloc(sizeof(struct stv6110x_state), GFP_KERNEL);
-+	if (!stv6110x)
-+		return -ENOMEM;
-+
-+	stv6110x->frontend	= config->frontend;
-+	stv6110x->i2c		= client->adapter;
-+	stv6110x->config	= config;
-+	stv6110x->devctl	= &stv6110x_ctl;
-+
-+	st6110x_init_regs(stv6110x);
-+	stv6110x_setup_divider(stv6110x);
-+	stv6110x_set_frontend_opts(stv6110x);
-+
-+	printk(KERN_INFO "%s: Probed STV6110x\n", __func__);
-+
-+	i2c_set_clientdata(client, stv6110x);
-+
-+	/* setup callbacks */
-+	config->get_devctl = stv6110x_get_devctl;
-+
-+	return 0;
-+}
-+
-+static int stv6110x_remove(struct i2c_client *client)
-+{
-+	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
-+
-+	stv6110x_release(stv6110x->frontend);
-+	return 0;
-+}
-+
- const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
- 					const struct stv6110x_config *config,
- 					struct i2c_adapter *i2c)
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+-static int check_format(struct v4l2_subdev *sd,
+-			struct v4l2_subdev_format *format)
++void *v4l2_subdev_call_va_arg(int n, ...)
  {
- 	struct stv6110x_state *stv6110x;
--	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
- 
--	stv6110x = kzalloc(sizeof (struct stv6110x_state), GFP_KERNEL);
-+	stv6110x = kzalloc(sizeof(struct stv6110x_state), GFP_KERNEL);
- 	if (!stv6110x)
- 		return NULL;
- 
-+	stv6110x->frontend	= fe;
- 	stv6110x->i2c		= i2c;
- 	stv6110x->config	= config;
- 	stv6110x->devctl	= &stv6110x_ctl;
--	memcpy(stv6110x->regs, default_regs, 8);
- 
--	/* setup divider */
--	switch (stv6110x->config->clk_div) {
--	default:
--	case 1:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 0);
--		break;
--	case 2:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 1);
--		break;
--	case 4:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 2);
--		break;
--	case 8:
--	case 0:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 3);
--		break;
--	}
-+	st6110x_init_regs(stv6110x);
-+	stv6110x_setup_divider(stv6110x);
-+	stv6110x_set_frontend_opts(stv6110x);
- 
- 	fe->tuner_priv		= stv6110x;
- 	fe->ops.tuner_ops	= stv6110x_ops;
-@@ -410,6 +475,24 @@ const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
+-	if (format->which != V4L2_SUBDEV_FORMAT_TRY &&
+-	    format->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	if (format->pad >= sd->entity.num_pads)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+-static int check_crop(struct v4l2_subdev *sd, struct v4l2_subdev_crop *crop)
+-{
+-	if (crop->which != V4L2_SUBDEV_FORMAT_TRY &&
+-	    crop->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	if (crop->pad >= sd->entity.num_pads)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+-static int check_selection(struct v4l2_subdev *sd,
+-			   struct v4l2_subdev_selection *sel)
+-{
+-	if (sel->which != V4L2_SUBDEV_FORMAT_TRY &&
+-	    sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	if (sel->pad >= sd->entity.num_pads)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+-static int check_edid(struct v4l2_subdev *sd, struct v4l2_subdev_edid *edid)
+-{
+-	if (edid->pad >= sd->entity.num_pads)
+-		return -EINVAL;
+-
+-	if (edid->blocks && edid->edid == NULL)
+-		return -EINVAL;
+-
+-	return 0;
++	va_list ap;
++	int i;
++	void *p;
++
++	va_start(ap, n);
++	for (i = 9; i < n; i++)
++		p = va_arg(ap, void *);
++	va_end(ap);
++	return p;
  }
- EXPORT_SYMBOL(stv6110x_attach);
+ #endif
  
-+static const struct i2c_device_id stv6110x_id_table[] = {
-+	{"stv6110x", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, stv6110x_id_table);
+@@ -292,10 +256,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_G_FMT: {
+ 		struct v4l2_subdev_format *format = arg;
+ 
+-		rval = check_format(sd, format);
+-		if (rval)
+-			return rval;
+-
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, get_fmt, subdev_fh->pad, format);
+@@ -304,10 +264,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_S_FMT: {
+ 		struct v4l2_subdev_format *format = arg;
+ 
+-		rval = check_format(sd, format);
+-		if (rval)
+-			return rval;
+-
+ 		memset(format->reserved, 0, sizeof(format->reserved));
+ 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+ 		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
+@@ -317,10 +273,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 		struct v4l2_subdev_crop *crop = arg;
+ 		struct v4l2_subdev_selection sel;
+ 
+-		rval = check_crop(sd, crop);
+-		if (rval)
+-			return rval;
+-
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+@@ -340,10 +292,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 		struct v4l2_subdev_selection sel;
+ 
+ 		memset(crop->reserved, 0, sizeof(crop->reserved));
+-		rval = check_crop(sd, crop);
+-		if (rval)
+-			return rval;
+-
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = crop->which;
+ 		sel.pad = crop->pad;
+@@ -361,13 +309,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
+ 		struct v4l2_subdev_mbus_code_enum *code = arg;
+ 
+-		if (code->which != V4L2_SUBDEV_FORMAT_TRY &&
+-		    code->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-			return -EINVAL;
+-
+-		if (code->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		memset(code->reserved, 0, sizeof(code->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_mbus_code, subdev_fh->pad,
+ 					code);
+@@ -376,13 +317,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
+ 		struct v4l2_subdev_frame_size_enum *fse = arg;
+ 
+-		if (fse->which != V4L2_SUBDEV_FORMAT_TRY &&
+-		    fse->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-			return -EINVAL;
+-
+-		if (fse->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		memset(fse->reserved, 0, sizeof(fse->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_size, subdev_fh->pad,
+ 					fse);
+@@ -391,9 +325,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval *fi = arg;
+ 
+-		if (fi->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
+ 	}
+@@ -401,9 +332,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval *fi = arg;
+ 
+-		if (fi->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		memset(fi->reserved, 0, sizeof(fi->reserved));
+ 		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+ 	}
+@@ -411,13 +339,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
+ 		struct v4l2_subdev_frame_interval_enum *fie = arg;
+ 
+-		if (fie->which != V4L2_SUBDEV_FORMAT_TRY &&
+-		    fie->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-			return -EINVAL;
+-
+-		if (fie->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		memset(fie->reserved, 0, sizeof(fie->reserved));
+ 		return v4l2_subdev_call(sd, pad, enum_frame_interval, subdev_fh->pad,
+ 					fie);
+@@ -426,10 +347,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_G_SELECTION: {
+ 		struct v4l2_subdev_selection *sel = arg;
+ 
+-		rval = check_selection(sd, sel);
+-		if (rval)
+-			return rval;
+-
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, get_selection, subdev_fh->pad, sel);
+@@ -438,10 +355,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_SUBDEV_S_SELECTION: {
+ 		struct v4l2_subdev_selection *sel = arg;
+ 
+-		rval = check_selection(sd, sel);
+-		if (rval)
+-			return rval;
+-
+ 		memset(sel->reserved, 0, sizeof(sel->reserved));
+ 		return v4l2_subdev_call(
+ 			sd, pad, set_selection, subdev_fh->pad, sel);
+@@ -450,38 +363,24 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	case VIDIOC_G_EDID: {
+ 		struct v4l2_subdev_edid *edid = arg;
+ 
+-		rval = check_edid(sd, edid);
+-		if (rval)
+-			return rval;
+-
+ 		return v4l2_subdev_call(sd, pad, get_edid, edid);
+ 	}
+ 
+ 	case VIDIOC_S_EDID: {
+ 		struct v4l2_subdev_edid *edid = arg;
+ 
+-		rval = check_edid(sd, edid);
+-		if (rval)
+-			return rval;
+-
+ 		return v4l2_subdev_call(sd, pad, set_edid, edid);
+ 	}
+ 
+ 	case VIDIOC_SUBDEV_DV_TIMINGS_CAP: {
+ 		struct v4l2_dv_timings_cap *cap = arg;
+ 
+-		if (cap->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		return v4l2_subdev_call(sd, pad, dv_timings_cap, cap);
+ 	}
+ 
+ 	case VIDIOC_SUBDEV_ENUM_DV_TIMINGS: {
+ 		struct v4l2_enum_dv_timings *dvt = arg;
+ 
+-		if (dvt->pad >= sd->entity.num_pads)
+-			return -EINVAL;
+-
+ 		return v4l2_subdev_call(sd, pad, enum_dv_timings, dvt);
+ 	}
+ 
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index a7fa5b80915a..a0ad8c6f588b 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -1091,6 +1091,82 @@ void v4l2_subdev_free_pad_config(struct v4l2_subdev_pad_config *cfg);
+ void v4l2_subdev_init(struct v4l2_subdev *sd,
+ 		      const struct v4l2_subdev_ops *ops);
+ 
++#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
++void *v4l2_subdev_call_va_arg(int n, ...);
 +
-+static struct i2c_driver stv6110x_driver = {
-+	.driver = {
-+		.name	= "stv6110x",
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe		= stv6110x_probe,
-+	.remove		= stv6110x_remove,
-+	.id_table	= stv6110x_id_table,
-+};
++#define v4l2_subdev_call_chk_args(sd, o, f, args...)			\
++({									\
++	__u32 __which = V4L2_SUBDEV_FORMAT_ACTIVE;			\
++	__u32 __pad = 0;						\
++	if ((void *)&sd->ops->o == &sd->ops->pad) {			\
++		if ((void *)&sd->ops->o->f == &sd->ops->pad->get_fmt ||	\
++		    (void *)&sd->ops->o->f == &sd->ops->pad->set_fmt) {	\
++			struct v4l2_subdev_format *__fmt;		\
++			__fmt = v4l2_subdev_call_va_arg(2, ##args);	\
++			__which = __fmt->which;				\
++			__pad = __fmt->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->enum_mbus_code) {	\
++			struct v4l2_subdev_mbus_code_enum *__code;	\
++			__code = v4l2_subdev_call_va_arg(2, ##args);	\
++			__which = __code->which;			\
++			__pad = __code->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->enum_frame_size) {	\
++			struct v4l2_subdev_frame_size_enum *__fse;	\
++			__fse = v4l2_subdev_call_va_arg(2, ##args);	\
++			__which = __fse->which;				\
++			__pad = __fse->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->enum_frame_interval) {\
++			struct v4l2_subdev_frame_interval_enum *__fie;	\
++			__fie = v4l2_subdev_call_va_arg(2, ##args);	\
++			__which = __fie->which;				\
++			__pad = __fie->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->get_selection ||	\
++			   (void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->set_selection) {	\
++			struct v4l2_subdev_selection *__sel;		\
++			__sel = v4l2_subdev_call_va_arg(2, ##args);	\
++			__which = __sel->which;				\
++			__pad = __sel->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->get_edid ||		\
++			   (void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->set_edid) {		\
++			struct v4l2_subdev_edid *__edid;		\
++			__edid = v4l2_subdev_call_va_arg(1, ##args);	\
++			__pad = __edid->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->dv_timings_cap) {	\
++			struct v4l2_dv_timings_cap *__cap;		\
++			__cap = v4l2_subdev_call_va_arg(1, ##args);	\
++			__pad = __cap->pad;				\
++		} else if ((void *)&sd->ops->o->f ==			\
++				   &sd->ops->pad->enum_dv_timings) {	\
++			struct v4l2_enum_dv_timings *__dvt;		\
++			__dvt = v4l2_subdev_call_va_arg(1, ##args);	\
++			__pad = __dvt->pad;				\
++		}							\
++	} else if ((void *)&sd->ops->o == &sd->ops->video) {		\
++		if ((void *)&sd->ops->o->f ==				\
++			    &sd->ops->video->g_frame_interval ||	\
++		    (void *)&sd->ops->o->f ==				\
++			    &sd->ops->video->s_frame_interval) {	\
++			struct v4l2_subdev_frame_interval *__fi;	\
++			__fi = v4l2_subdev_call_va_arg(1, ##args);	\
++			__pad = __fi->pad;				\
++		}							\
++	}								\
++	(__which == V4L2_SUBDEV_FORMAT_ACTIVE ||			\
++	 __which == V4L2_SUBDEV_FORMAT_TRY) &&				\
++	__pad < (sd->entity.num_pads ? : 1) ? 0 : -EINVAL;		\
++})
++#else
++#define v4l2_subdev_call_chk_args(sd, o, f, args...) 0
++#endif
 +
-+module_i2c_driver(stv6110x_driver);
-+
- MODULE_AUTHOR("Manu Abraham");
- MODULE_DESCRIPTION("STV6110x Silicon tuner");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/dvb-frontends/stv6110x.h b/drivers/media/dvb-frontends/stv6110x.h
-index 696b6e5b9e7b..7714adea5242 100644
---- a/drivers/media/dvb-frontends/stv6110x.h
-+++ b/drivers/media/dvb-frontends/stv6110x.h
-@@ -27,6 +27,9 @@ struct stv6110x_config {
- 	u8	addr;
- 	u32	refclk;
- 	u8	clk_div; /* divisor value for the output clock */
-+	struct dvb_frontend		*frontend;
-+
-+	struct stv6110x_devctl* (*get_devctl)(struct i2c_client *);
- };
- 
- enum tuner_mode {
-diff --git a/drivers/media/dvb-frontends/stv6110x_priv.h b/drivers/media/dvb-frontends/stv6110x_priv.h
-index 109dfaf4ba42..383549d25268 100644
---- a/drivers/media/dvb-frontends/stv6110x_priv.h
-+++ b/drivers/media/dvb-frontends/stv6110x_priv.h
-@@ -66,11 +66,12 @@
- #define REFCLOCK_MHz				(stv6110x->config->refclk / 1000000)
- 
- struct stv6110x_state {
-+	struct dvb_frontend		*frontend;
- 	struct i2c_adapter		*i2c;
- 	const struct stv6110x_config	*config;
- 	u8				regs[8];
- 
--	const struct stv6110x_devctl	*devctl;
-+	struct stv6110x_devctl	*devctl;
- };
- 
- #endif /* __STV6110x_PRIV_H */
+ /**
+  * v4l2_subdev_call - call an operation of a v4l2_subdev.
+  *
+@@ -1112,6 +1188,9 @@ void v4l2_subdev_init(struct v4l2_subdev *sd,
+ 			__result = -ENODEV;				\
+ 		else if (!(__sd->ops->o && __sd->ops->o->f))		\
+ 			__result = -ENOIOCTLCMD;			\
++		else if (v4l2_subdev_call_chk_args(sd, o, f, ##args))	\
++			__result = v4l2_subdev_call_chk_args(sd, o, f,	\
++							     ##args);	\
+ 		else							\
+ 			__result = __sd->ops->o->f(__sd, ##args);	\
+ 		__result;						\
 -- 
 2.21.0
 
