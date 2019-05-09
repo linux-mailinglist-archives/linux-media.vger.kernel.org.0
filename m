@@ -2,99 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D007718A00
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 14:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0039718A90
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 15:28:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbfEIMsa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 May 2019 08:48:30 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:46067 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbfEIMsa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 08:48:30 -0400
-X-Originating-IP: 90.88.28.253
-Received: from aptenodytes (aaubervilliers-681-1-86-253.w90-88.abo.wanadoo.fr [90.88.28.253])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4775320010;
-        Thu,  9 May 2019 12:48:28 +0000 (UTC)
-Message-ID: <0cef8bf19e401529750e76d24ef634c543eefe1b.camel@bootlin.com>
-Subject: Re: Support for 2D engines/blitters in V4L2 and DRM
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Frantisek Rysanek <Frantisek.Rysanek@post.cz>,
-        linux-media@vger.kernel.org
-Date:   Thu, 09 May 2019 14:48:11 +0200
-In-Reply-To: <5CD3EFEE.5732.6BF8A27D@Frantisek.Rysanek.post.cz>
-References: <0df3d4b5178d8a37b67b275e0771741c6c268de3.camel@bootlin.com>
-        , <20190506112835.6d4ecf29@eldfell.localdomain>
-        , <6ffb32e804a27557ca49216c4d8f117837c78f4e.camel@bootlin.com>
-         <5CD3EFEE.5732.6BF8A27D@Frantisek.Rysanek.post.cz>
-Organization: Bootlin
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1 
+        id S1726448AbfEIN2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 09:28:08 -0400
+Received: from sonic302-2.consmr.mail.bf2.yahoo.com ([74.6.135.41]:45125 "EHLO
+        sonic302-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726192AbfEIN2H (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 May 2019 09:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1557408486; bh=M+2BQM2x3GSy/dmtDG0o07y3ZYWK28QOQCLRz1DcS2Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=oV8WDxSR1hMfS2M+rvD+0F64UE9K+2QuIcRqYAgHCZU8EZ2czKFGS8+8vays+Md9nn7dBP1IK8z9iVDm3xlpmy8YSZptUz8iPxqqDwHKuQuCcqn/f4yF9QWpp8fCdS4q4XDwc9gtpJw7Tfkr1IGxMqa2kLEZAG5PZQk+ZZW5pBaIm2TgyyVsGbBC05YXKSaZeCYnjIW/PCksKgHksMeR0PaRQj/UDiyrfvDDqGV4YlUtCEyR4u7bE96cSrHJTDU0kkGWKjeYiUOfY3dzZwMzRdl1XfdM13lqRqhjOeM/Hw1q0kHMyTJRP6dK5U8cUtYC2vv2l4MocRvciuXS0+u4CA==
+X-YMail-OSG: i_wzu_YVM1nC9k6Hp.cuagygbAqGpjX9DNt2a6S3es3eErcSlAFGn8LEsTB2.wz
+ cqf1m7gq_pBpSpy.Iijvc3REvwvm7w0CSxzbkZXTMFrFkgm2.DtJXy_8O0VK1g3sRfIS0VD6thIz
+ bYBsd9MpwMlWBQX6qNOwJD7Z7Q_.WEwU9Y.PYbeIE0L6a39K2uiFQ0rvm5XTfgrde5LaAkTj9atF
+ HpjRHqHTxfWHMo.9FpRS_mic_WtVHhvlOCON1SFNnCZyjhNcQauwvtG3BhcD89RDESLQSHbme0y3
+ 2hFa_Ds6IG9aS2m9i0lwdaROSwVBCl0QOq9CPggRUlta.DRwpsrcFKz1Ea0uBXskQ.XgkfCL2YFS
+ RwAzRbVHVuU2DFwUojESa39DkHdBOf3wTKAMa3ot7IYSbHTM1LuASCGO_K5gvuPb3t.vtyzFJcTq
+ gvrId8bMdP_Fr.8pPDercSs.yRFwZzgHjQWKR0MqJs0b_u13ykW6xXuiYXZxKPOYvmkZTO1N3rPc
+ U5ooIyWOzN9n6E0045oPoIWrtjxDoY0SsnNptRn.I1iph17fbO1M95v15Gvnc4GKCmaLY30wPBXv
+ i6tjaAJo9HJ7WHEaayK_49ytwbsBmbvY66494IrTKcqOGlGwcVmV8RE0rCOougQ9r2GuMJnlqCxi
+ Od.cLN.ULZh4o7nl3EYciEmccONajiYeFfOUQTjQHr1L95ZSxtCiPE63vVhAZn3rahisboZPhOgt
+ PazHgCoGI714sHiSgEazo7Bnby38xSMt1s2F_oNRSIWaUl9BTOVKpGF.opPMBNTS9mVMvS9og0gE
+ npQBMigxabDLnkBqcmg4l68N.PrflM.Wy9nrl.w4DoBGFhbpbZ2Cipr9f.kP3ALZEyHiykgu.AFl
+ wag7nuxW9jTJVGVPAD2mZEHSnqmVGvtwkpWqUwyHTfiFaN9cUIm86WNfk6eo3mgc0pnoXqtO8e9o
+ 2S6NPAyD9iwEhJMSz92P7_Kq5iSQyv3VQ9RiCcH1dP8QA.0rCheY4R9NVlQftEern72hIcYuD6ix
+ k2BdNnGcxeFuxuI3xyQOW4_t4m2_hLGtsvt34itjqED_2g2orUSOr2gJLK.hS8TPiMUeG8xRqVq7
+ 4l5JWy1AdRxC5E2IBDErWx83w6zlyz.rkCcv4Jo0p7obTuS_njmvaMl_fPVBdh9CM
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.bf2.yahoo.com with HTTP; Thu, 9 May 2019 13:28:06 +0000
+Date:   Thu, 9 May 2019 13:28:05 +0000 (UTC)
+From:   Aisha Gaddafi <aishagaddafi721@aol.com>
+Reply-To: Aisha Gaddafi <gaisha983@gmail.com>
+Message-ID: <1076440513.2039102.1557408485465@mail.yahoo.com>
+Subject: Hello My Beloved One, i need your assistance
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+References: <1076440513.2039102.1557408485465.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13583 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:66.0) Gecko/20100101 Firefox/66.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey,
+Dear Friend,
 
-On Thu, 2019-05-09 at 11:16 +0200, Frantisek Rysanek wrote:
-> Dear gentlemen,
-> 
-> I've noticed your debate - the topic is something simple enough for 
-> me to superficially grasp and "blitting in the DRI/drmfb" is 
-> something I've been wondering about for a while.
-> Thanks for sharing your insight.
-> 
-> What actually prompted me to respond is this:
-> vaguely in the context of your debate, this is what Google has 
-> revealed to my casual query on the topic:
-> 
-> https://www.phoronix.com/scan.php?page=news_item&px=Intel-Mesa-Blitter
-> -RIP
-> 
-> It's not a blow at the heart of the hypothetical "blitting API in 
-> DRI", but given the market share of Intel, it does look like a splash 
-> of cold water in the broader context, or does it?
+I came across your e-mail contact prior a private search while in need of 
+your assistance. My name is Aisha  Gaddafi a single Mother and a Widow with 
+three Children. I am the only biological Daughter of late Libyan President 
+(Late Colonel Muammar Gaddafi).
 
-Not really actually. I agree that mesa is not the right place to handle
-2D blitters, so it makes sense to kick them out of it :)
+I have investment funds worth Twenty Seven Million Five Hundred Thousand 
+United State Dollar ($27.500.000.00 ) and i need a trusted investment 
+Manager/Partner because of my current refugee status, however, I am 
+interested in you for investment project assistance in your country, may be 
+from there, we can build business relationship in the nearest future.
 
-As for DRI2, it seems that the interface is pretty much deprecated with
-Wayland and I think everyone wants to go towards that, so I don't plan
-on any DRI2 integration at this stage. This would typically be used in
-a Xorg DDX anyway (not by applications), so DRI2 wouldn't even be
-necessary,
+I am willing to negotiate investment/business profit sharing ratio with you 
+base on the future investment earning profits.
 
-Note that DRI2 and DRM are two very distinct things and I'm only
-interested in the DRM side sofar.
+If you are willing to handle this project on my behalf kindly reply urgent 
+to enable me provide you more information about the investment funds.
 
-> If the "DRI blitting API" should go forward, could the Intel DRI 
-> driver in the kernel maybe take inspiration from MESA's approach?
+Your Urgent Reply Will Be Appreciated.
 
-The idea would be that the Intel DRM driver stays supported by mesa for
-the 3D rendering part and by DRM/KMS for the display part. If the
-hardware has fixed-pipeline 2D blocks, then these can be integrated
-with the new API I'm interested in bringing up, which would be a third
-distinct thing.
-
-> I know I know - Intel may be strongish in the desktop and general x86 
-> market, but apart from the Nvidia vs. AMD wars, Linux actually runs 
-> on a number of non-x86 embedded SoCs that have a plethora of small 
-> proprietary GPU's, the CPU horsepower and RAM bandwidth may be scarce 
-> (though not as a rule), X11 is not mandatory and HW blitting may 
-> actually matter...
-
-It sure does, indeed! The situation you are describing for non-x86 is
-exactly the problem I want to help tackle with this :)
-
-Cheers and thanks for your interest,
-
-Paul
-
--- 
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
+Best Regards
+Mrs Aisha Gaddafi
