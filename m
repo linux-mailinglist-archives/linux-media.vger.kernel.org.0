@@ -2,147 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E47A618436
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 05:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B38D91848B
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 06:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbfEIDsi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 May 2019 23:48:38 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58971 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726082AbfEIDsi (ORCPT
+        id S1725907AbfEIEek (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 00:34:40 -0400
+Received: from mx08-00376f01.pphosted.com ([91.207.212.86]:49121 "EHLO
+        mx08-00376f01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725822AbfEIEek (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 May 2019 23:48:38 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:1542:3ab9:816d:970b])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Oa2thMcP0sDWyOa2uhWksc; Thu, 09 May 2019 05:48:36 +0200
-Message-ID: <3cf79cc3389b8c7c7ecb443442cb2a20@smtp-cloud9.xs4all.net>
-Date:   Thu, 09 May 2019 05:48:35 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfDtn8xUStw5JjBtlyv+yJuLAOuTFyXGkY3uwKDYUXU8mKTjNmS95A3GBy9bF7SC/02Qtcm4nrJPoKXNwsqotPIoHcvgwicI3bcIvevc67YfMKrOVtGlb
- qD4wCZ/e8f+oU1DXOI1foVfjGDbSF0tFpO/lCW6jssI6GcrEsSQphpxAWFcVw/VkAAKSGkF9duTZB8OQE+tmCO5qeqn6WdE7TLRBZO9Xnh2QhVtHawhyj5YD
+        Thu, 9 May 2019 00:34:40 -0400
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+        by mx08-00376f01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x494XFBm003700;
+        Thu, 9 May 2019 05:34:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=dk201812; bh=TUGJ2U0A2v399my7K+20ZfwrAtvVzXgUK8GFLa6dde4=;
+ b=L96NZE2espTAXuQoSBjx6LHFL6m+wMKsIOpCTvYicbx9oKxHqxl9GRbtKux7Zto3fA8P
+ g0+w8MKUIT7kdqCK2NAB1m9WeH/XpLlCk0W5vKgohHQYF2Yr42zdWs5jI0Tu481bm7OO
+ hLKqQEQAWoM4UXG0pNxG+KNZPL+xKhhj6bKkXmfn58qqhKhLJ68mB818uNMSOFgyf88Q
+ yv8cxuMywhwTG2i3cJ3w99z8dNFrXPhBMFigePXPHG1gc+jCjJHZ7I1qM1TH3jFjEhCO
+ bbrZmEJY98hdOYxKB6Zsxdfa1XCL/Le73loxywaGPRaCTqBkPJZCxk2u65FBc1A94RFK CA== 
+Received: from hhmail02.hh.imgtec.org ([217.156.249.195])
+        by mx08-00376f01.pphosted.com with ESMTP id 2scb9h03fr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Thu, 09 May 2019 05:34:28 +0100
+Received: from michael-imgtec.tp.imgtec.org (10.80.17.22) by
+ hhmail02.hh.imgtec.org (10.100.10.21) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Thu, 9 May 2019 05:34:26 +0100
+From:   Michael Yang <michael.yang@imgtec.com>
+To:     <sumit.semwal@linaro.org>
+CC:     <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <gustavo@padovan.org>, <linux-media@vger.kernel.org>,
+        <linaro-mm-sig@lists.linaro.org>, <michael.yang@imgtec.com>,
+        <gregkh@linuxfoundation.org>
+Subject: [PATCH] sync_file: Return reasonable timestamp when merging signaled fences
+Date:   Thu, 9 May 2019 12:34:11 +0800
+Message-ID: <1557376451-20164-1-git-send-email-michael.yang@imgtec.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1554710495-6646-1-git-send-email-michael.yang@imgtec.com>
+References: <1554710495-6646-1-git-send-email-michael.yang@imgtec.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.17.22]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+If all the sync points were signaled in both fences a and b,
+there was only one sync point in merged fence which is a_fence[0].
+The Fence structure in android framework might be confused about
+timestamp if there were any sync points which were signaled after
+a_fence[0]. It might be more reasonable to use timestamp of last signaled
+sync point to represent the merged fence.
+The issue can be found from EGL extension ANDROID_get_frame_timestamps.
+Sometimes the return value of EGL_READS_DONE_TIME_ANDROID is head of
+the return value of EGL_RENDERING_COMPLETE_TIME_ANDROID.
+That means display/composition had been completed before rendering
+was completed that is incorrect.
 
-Results of the daily build of media_tree:
+Some discussion can be found at:
+https://android-review.googlesource.com/c/kernel/common/+/907009
 
-date:			Thu May  9 05:00:21 CEST 2019
-media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	5b59b0fd7a5d37921c64e8640527e1180e3e289a
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:                   https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:                   https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Signed-off-by: Michael Yang <michael.yang@imgtec.com>
+---
+Hi,
+I didn't get response since I previously sent this a month ago.
+Could someone have a chance to look at it please?
+Thanks.
+ drivers/dma-buf/sync_file.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.1-i686: OK
-linux-5.0.1-x86_64: OK
-linux-5.1-rc1-i686: OK
-linux-5.1-rc1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index 4f6305c..d46bfe1 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -274,8 +274,29 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 	for (; i_b < b_num_fences; i_b++)
+ 		add_fence(fences, &i, b_fences[i_b]);
+ 
+-	if (i == 0)
+-		fences[i++] = dma_fence_get(a_fences[0]);
++	/* If all the sync pts were signaled, then adding the sync_pt who
++	 * was the last signaled to the fence.
++	 */
++	if (i == 0) {
++		struct dma_fence *last_signaled_sync_pt = a_fences[0];
++		int iter;
++
++		for (iter = 1; iter < a_num_fences; iter++) {
++			if (ktime_compare(last_signaled_sync_pt->timestamp,
++				a_fences[iter]->timestamp) < 0) {
++				last_signaled_sync_pt = a_fences[iter];
++			}
++		}
++
++		for (iter = 0; iter < b_num_fences; iter++) {
++			if (ktime_compare(last_signaled_sync_pt->timestamp,
++				b_fences[iter]->timestamp) < 0) {
++				last_signaled_sync_pt = b_fences[iter];
++			}
++		}
++
++		fences[i++] = dma_fence_get(last_signaled_sync_pt);
++	}
+ 
+ 	if (num_fences > i) {
+ 		nfences = krealloc(fences, i * sizeof(*fences),
+-- 
+2.7.4
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
