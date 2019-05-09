@@ -2,91 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7870B18935
-	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 13:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18E071895D
+	for <lists+linux-media@lfdr.de>; Thu,  9 May 2019 13:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbfEILqR convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 9 May 2019 07:46:17 -0400
-Received: from mail.fireflyinternet.com ([109.228.58.192]:53494 "EHLO
-        fireflyinternet.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725961AbfEILqR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 07:46:17 -0400
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
-Received: from localhost (unverified [78.156.65.138]) 
-        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 16501956-1500050 
-        for multiple; Thu, 09 May 2019 12:46:08 +0100
-Content-Type: text/plain; charset="utf-8"
+        id S1726187AbfEIL7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 07:59:40 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35951 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725961AbfEIL7j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 07:59:39 -0400
+Received: by mail-wm1-f68.google.com with SMTP id j187so2856430wmj.1
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2019 04:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=X15+ANHHAQ325XrPqv3kbx6y+ELh+uxzzzl/XqTNzjk=;
+        b=p0ef7Z7T+1ZmJSSlOImF+GeWyrwB3j+bkL8z0g509sIVaHelbKG2lZW6xhAZ7jaI//
+         15KdOHD6c8KXIF2rKqGEHyr+4hPeVo6I+Qso4uuSdSh5EMQmW6R58970ui/a3oQmwJcN
+         dWX9XgiyMkD+Otj3Bd4zS5jMTKZJGMbRHF+Md1O7Dk/ql/bmisz6hYD7lCo7UVdhCf9X
+         Uz+1qhwt3llLUe4kr+UE4ha4u7hlfI0Ffsyeaeh+KipzKHyEnfpfWnSVdshaMf+hk2jq
+         5SENbe+awP0jUwmXM/G4p5zyZh3RUXABYqRHy+osqHY5q4w/hF4iGpDcWFU9suefCVKa
+         gXbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=X15+ANHHAQ325XrPqv3kbx6y+ELh+uxzzzl/XqTNzjk=;
+        b=H4Gm8Iov9jxIhSVr5u1FQLJqNjE7XY5Et491rTc+uvbZX+VJ1LcPcEMZG8cFGbCbvZ
+         JcGdxSbb/Bj3/IFaBlwiyr7qvhOachgilYx+PQxzJ0UJImsB1qGb3xpIWs3VRqtoKCGn
+         pBTxBIwKlvu/50jRM9QkbgCjyV3HPeqo+HnaifSiw92j5fg7qyA6EJn2S3jSTrfiL4lM
+         wLTTx5aKltB1u2cxNpdyxBBpfxy1P9W/7h1i2ClA1V87XdKDJk9/U/QXcaC96CY1nJy4
+         LuVJwfSUucCDJ5k0antU/zC9dx7ttXlQeX3U8BI7jBbbFeOQ0rjydkTvKDheefW08Ooi
+         yjDA==
+X-Gm-Message-State: APjAAAWsO3ASbsYR2pXLWhTtctbEHmq744PxbR5G8qI9q8qAumSXP9MQ
+        97NgDfC3tZfcydFLl4aByUI2qrwpaygOyGbOcgM=
+X-Google-Smtp-Source: APXvYqxeEoxOOFoGtdBjnrnQMlL+NGjccV3ttTLQrOxfqTzyQoPpmcQ7zF2TDGP/UeTP7k0GJK685/egnelqNvwlGEs=
+X-Received: by 2002:a7b:cb58:: with SMTP id v24mr2479509wmj.121.1557403178400;
+ Thu, 09 May 2019 04:59:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-To:     Michael Yang <michael.yang@imgtec.com>, sumit.semwal@linaro.org
-From:   Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <1557376451-20164-1-git-send-email-michael.yang@imgtec.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, michael.yang@imgtec.com,
-        gregkh@linuxfoundation.org
-References: <1554710495-6646-1-git-send-email-michael.yang@imgtec.com>
- <1557376451-20164-1-git-send-email-michael.yang@imgtec.com>
-Message-ID: <155740236592.28545.17880521046408313036@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] sync_file: Return reasonable timestamp when merging signaled
- fences
-Date:   Thu, 09 May 2019 12:46:05 +0100
+Received: by 2002:adf:f94f:0:0:0:0:0 with HTTP; Thu, 9 May 2019 04:59:38 -0700 (PDT)
+Reply-To: katiehiggin24@gmail.com
+From:   Katie Higgins <fredrickfrance2@gmail.com>
+Date:   Thu, 9 May 2019 13:59:38 +0200
+Message-ID: <CALHaDua_3tk27=OoUjt8-c5h5XvLjje-ciYYEunPKmvWtwuO_A@mail.gmail.com>
+Subject: Hi dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Michael Yang (2019-05-09 05:34:11)
-> If all the sync points were signaled in both fences a and b,
-> there was only one sync point in merged fence which is a_fence[0].
-> The Fence structure in android framework might be confused about
-> timestamp if there were any sync points which were signaled after
-> a_fence[0]. It might be more reasonable to use timestamp of last signaled
-> sync point to represent the merged fence.
-> The issue can be found from EGL extension ANDROID_get_frame_timestamps.
-> Sometimes the return value of EGL_READS_DONE_TIME_ANDROID is head of
-> the return value of EGL_RENDERING_COMPLETE_TIME_ANDROID.
-> That means display/composition had been completed before rendering
-> was completed that is incorrect.
-> 
-> Some discussion can be found at:
-> https://android-review.googlesource.com/c/kernel/common/+/907009
-> 
-> Signed-off-by: Michael Yang <michael.yang@imgtec.com>
-> ---
-> Hi,
-> I didn't get response since I previously sent this a month ago.
-> Could someone have a chance to look at it please?
-> Thanks.
->  drivers/dma-buf/sync_file.c | 25 +++++++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 4f6305c..d46bfe1 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -274,8 +274,29 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->         for (; i_b < b_num_fences; i_b++)
->                 add_fence(fences, &i, b_fences[i_b]);
->  
-> -       if (i == 0)
-> -               fences[i++] = dma_fence_get(a_fences[0]);
-> +       /* If all the sync pts were signaled, then adding the sync_pt who
-> +        * was the last signaled to the fence.
-> +        */
-> +       if (i == 0) {
-> +               struct dma_fence *last_signaled_sync_pt = a_fences[0];
-> +               int iter;
-> +
-> +               for (iter = 1; iter < a_num_fences; iter++) {
+Hi dear,
 
-If there is more than one fence, sync_file->fence is a fence_array and
-its timestamp is what you want. If there is one fence, sync_file->fence
-is a pointer to that fence, and naturally has the right timestamp.
+I am still waiting for your Email response, you did receive my first
+email to you????
 
-In short, this should be handled by dma_fence_array_create() when given
-a complete set of signaled fences, it too should inherit the signaled
-status with the timestamp being taken from the last fence. It should
-also be careful to inherit the error status.
--Chris
+Respectfully Yours,
+
+Capt Katie Higgins
