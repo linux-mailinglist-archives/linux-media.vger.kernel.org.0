@@ -2,77 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58F7C19A7F
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 11:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D4FB19B03
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 12:09:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbfEJJSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 05:18:08 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:42241 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726992AbfEJJSI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 05:18:08 -0400
-Received: from [IPv6:2001:983:e9a7:1:d7b:80d:652c:317d] ([IPv6:2001:983:e9a7:1:d7b:80d:652c:317d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id P1fJhc8LSsDWyP1fKhbcBb; Fri, 10 May 2019 11:18:06 +0200
-Subject: Re: [PATCH 1/3] media: mx2-emmaprp: Allow MX2-EMMA driver support to
- be selected with i.MX21
-To:     Alexander Shiyan <shc_work@mail.ru>, linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20181216034806.15725-1-shc_work@mail.ru>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d082e2ac-480d-8792-8829-2676127a9182@xs4all.nl>
-Date:   Fri, 10 May 2019 11:18:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727240AbfEJKJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 06:09:26 -0400
+Received: from mga18.intel.com ([134.134.136.126]:54995 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727053AbfEJKJ0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 May 2019 06:09:26 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 May 2019 03:09:26 -0700
+X-ExtLoop1: 1
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga005.fm.intel.com with ESMTP; 10 May 2019 03:09:24 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTPS id B3B12201EF;
+        Fri, 10 May 2019 13:09:23 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1hP2T4-0003ov-KY; Fri, 10 May 2019 13:09:30 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-acpi@vger.kernel.org
+Cc:     rajmohan.mani@intel.com, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] Support running driver's probe for a device powered off
+Date:   Fri, 10 May 2019 13:09:25 +0300
+Message-Id: <20190510100930.14641-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <20181216034806.15725-1-shc_work@mail.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE9K/952uLA7tUjBzvHf1PCbMtnPRo1SbNQUkPYSqlQiSvOw87PlqiozyLjEEa+cAzVcFWKVYVSqAsm1SF4Br31hUj40PrCZPLXFeFELtmZEWTih+1WH
- z+MXv5Y6u/Cy6PYT4TqNNgrZPEBI6zUHmNCcD/ghb2KDjTuKzpOmKcqDBvlODdB+MrQn9DGBlbLdNqXkqYFlmtH8npH1eDoN3E6UGrImGvU2FVcQa4/WOf0u
- rFFcy4DAj5HityPBrh2b4KilaPzYshyiWS3cZogeJAx+ZIMn9pni7Y+kFmhiWNnAruzC+oefDAruLavWGHeC0nq25qEtVnflEMKvyRqOoJ9R2C9U1K3eP9tK
- V9TiBDJnMWAXzMlrnTkH2OD2Ma/6FtAg1xvfrooqK2Pi/p/UUq8=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi all,
 
-This series has been stalled since I still haven't received a Reviewed-By of the binding
-patch. I recommend that you rebase it and post it again, hopefully it will get a review
-the second time around.
+These patches enable calling (and finishing) a driver's probe function
+without powering on the respective device on busses where the practice is
+to power on the device for probe. While it generally is a driver's job to
+check the that the device is there, there are cases where it might be
+undesirable. (In this case it stems from a combination of hardware design
+and user expectations; see below.) The downside with this change is that
+if there is something wrong with the device, it will only be found at the
+time the device is used. In this case (the camera sensors + EEPROM in a
+sensor) I don't see any tangible harm from that though.
 
-Regards,
+An indication both from the driver and the firmware is required to allow
+the device's power state to remain off during probe (see the first patch).
 
-	Hans
 
-On 12/16/18 4:48 AM, Alexander Shiyan wrote:
-> Freescale i.MX21 chip has enhanced Multimedia Accelerator (eMMA)
-> video Pre-processor (PrP) unit. This patch allows MX2-EMMA support
-> to be selected for this SoC.
-> 
-> Signed-off-by: Alexander Shiyan <shc_work@mail.ru>
-> ---
->  drivers/media/platform/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 70c4f6c..fb70d21 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -293,7 +293,7 @@ config VIDEO_SAMSUNG_S5P_MFC
->  config VIDEO_MX2_EMMAPRP
->  	tristate "MX2 eMMa-PrP support"
->  	depends on VIDEO_DEV && VIDEO_V4L2
-> -	depends on SOC_IMX27 || COMPILE_TEST
-> +	depends on SOC_IMX21 || SOC_IMX27 || COMPILE_TEST
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_MEM2MEM_DEV
->  	help
-> 
+The use case is such that there is a privacy LED next to an integrated
+user-facing laptop camera, and this LED is there to signal the user that
+the camera is recording a video or capturing images. That LED also happens
+to be wired to one of the power supplies of the camera, so whenever you
+power on the camera, the LED will be lit, whether images are captured from
+the camera --- or not. There's no way to implement this differently
+without additional software control (allowing of which is itself a
+hardware design decision) on most CSI-2-connected camera sensors as they
+simply have no pin to signal the camera streaming state.
+
+This is also what happens during driver probe: the camera will be powered
+on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+already powered on when the driver's own probe function is called. To the
+user this visible during the boot process as a blink of the privacy LED,
+suggesting that the camera is recording without the user having used an
+application to do that. From the end user's point of view the behaviour is
+not expected and for someone unfamiliar with internal workings of a
+computer surely seems quite suspicious --- even if images are not being
+actually captured.
+
+Rajmohan Mani (1):
+  media: i2c: imx319: Support probe while the device is off
+
+Sakari Ailus (4):
+  ACPI: Enable driver and firmware hints to control power at probe time
+  ACPI: Add a convenience function to tell a device is suspended in
+    probe
+  ov5670: Support probe whilst the device is off
+  at24: Support probing while off
+
+ drivers/acpi/device_pm.c   | 42 ++++++++++++++++++++++++++++++++++++++++--
+ drivers/media/i2c/imx319.c | 25 ++++++++++++++-----------
+ drivers/media/i2c/ov5670.c | 25 ++++++++++++++-----------
+ drivers/misc/eeprom/at24.c | 30 ++++++++++++++++++++----------
+ include/linux/acpi.h       |  5 +++++
+ include/linux/device.h     |  6 ++++++
+ 6 files changed, 99 insertions(+), 34 deletions(-)
+
+-- 
+2.11.0
 
