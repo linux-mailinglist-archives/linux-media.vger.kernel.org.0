@@ -2,76 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79BDD195CA
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 01:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6982195E5
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 02:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbfEIXvp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 May 2019 19:51:45 -0400
-Received: from mga14.intel.com ([192.55.52.115]:46731 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726704AbfEIXvp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 May 2019 19:51:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 May 2019 16:51:45 -0700
-X-ExtLoop1: 1
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.148]) ([10.7.153.148])
-  by orsmga007.jf.intel.com with ESMTP; 09 May 2019 16:51:44 -0700
-Subject: Re: [PATCH 1/7] media: aspeed: fix a kernel warning on clk control
-To:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190502191317.29698-1-jae.hyun.yoo@linux.intel.com>
- <20190502191317.29698-2-jae.hyun.yoo@linux.intel.com>
- <1ec7397cb164b40877839bbc90f79b5942675fdb.camel@kernel.crashing.org>
- <6e93467e-1556-3cfd-b15c-c12b6907f526@linux.intel.com>
- <3b4269d829467870f0b6adac18089b93114fcd3c.camel@kernel.crashing.org>
- <3786afed-c34d-e3f0-4cd5-620185807091@linux.intel.com>
- <b682cc6a480f2b8a5e14c5c001fa1927467d4e18.camel@kernel.crashing.org>
- <bd909078-323e-93a6-143f-0bb0f0d2229c@linux.intel.com>
- <9b9f9e0d8fdeef0749fa5fcef1647216e9a74f8c.camel@kernel.crashing.org>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <2f21bac3-7095-a535-e964-ae24ae6e021d@linux.intel.com>
-Date:   Thu, 9 May 2019 16:51:44 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
-MIME-Version: 1.0
-In-Reply-To: <9b9f9e0d8fdeef0749fa5fcef1647216e9a74f8c.camel@kernel.crashing.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726843AbfEJAAh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 May 2019 20:00:37 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:42276 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726694AbfEJAAg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 May 2019 20:00:36 -0400
+Received: by mail-qt1-f202.google.com with SMTP id z7so4454934qtb.9
+        for <linux-media@vger.kernel.org>; Thu, 09 May 2019 17:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=M35jpHh+HUdAc93UKOjDO7JbyHiHSckhQH2gYDGobXY=;
+        b=tSZ3t6N4Z1hNAMYvgS92eIL566ndUhmt5xsPPoUSXPzweWrogmxc+KJ10EVf3pttkF
+         merVBSZHG0xLznvz4TKUL7L/GZ2cjBzn9Uqwa07TqFu+hek4xO0PQZfpn+9AYYxEqHRe
+         iG61HVtIimI9EQNzmCMq2HhMo1YFeWooHmUb1dCm4Km/pTzPbAhRn7WUXoNAQprfpOYl
+         KpalQjheFynt2AC8LlfdwPcJT2Dd9exlL1kqGHdpBmSVkj/RAc0c7GLZHzWoZStRx/DU
+         OVyvgiKkjGPP01EUrs0iwK5npCTDem8hdHBbtbZEpi9IcUifRkYzYt5ron+RYMbsxchS
+         oAYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=M35jpHh+HUdAc93UKOjDO7JbyHiHSckhQH2gYDGobXY=;
+        b=n49BFG/gKlh4dA0q7kh/QKJ0neULp++jGwodwDsRIdI6WqlzKtJyEcUO75ZH05+xcX
+         WQkMLFTgSF0RHcQomUZd6ytxuaKy5zZo7jZuX32pX3qA+EgK14iZPIZnMZukuMW9AAyC
+         x3AtORlYNKrrScG6pOrD1cIAigHnMGCoTMeQKA2GljB/dVW0XlerWlJVnbLyNfxlvgtF
+         KYnSIUZFdMX+KkKyZ6XVjD4ta6bYkAfs/LtjiicdVoKpE31s4JYe0q23kQIjVlB1R/yJ
+         sDH8VtfA7LiCcmhI++7xIZy7IbUog+H1rlkU1yoq2Gjo9SBw4z2HhjCMsS366N6odvnj
+         CYQw==
+X-Gm-Message-State: APjAAAUDgsD0Kg/S5Ia0Ue1DkTtEEXqyRPpx9Cf2pwm3uOzSJo2lufL6
+        BnQK3ST0j9WkaLiIBEkUuoZmKfVYGA==
+X-Google-Smtp-Source: APXvYqxnWMeG08te3Sc05EXGTxd8eHwJqSeZWK3/hm9AqvlKOJ36EdgmCBMpQKg7lKin0TXW98MNSIkgsQ==
+X-Received: by 2002:ac8:29af:: with SMTP id 44mr6461067qts.352.1557446435276;
+ Thu, 09 May 2019 17:00:35 -0700 (PDT)
+Date:   Thu,  9 May 2019 17:00:29 -0700
+Message-Id: <20190510000032.40749-1-fengc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+Subject: [dma-buf v3 0/3] Improve the dma-buf tracking
+From:   Chenbo Feng <fengc@google.com>
+To:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>, erickreyes@google.com,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/9/2019 4:19 PM, Benjamin Herrenschmidt wrote:
-> On Thu, 2019-05-09 at 10:19 -0700, Jae Hyun Yoo wrote:
->>
->> Okay. Probably I need to add one another patch in this series to address
->> what you pointed out.
->>
->> I have one question. I reviewed again all bitops in this driver and
->> checked that some bitops are protected by a spinlock and some others
->> are not. In this case, can I mix use atomic and non-atomic bitops
->> depend on each bitop's protection state by the spinlock? Or, would it be
->> better to change all of them to bool in this case?
-> 
-> No, if some aren't protected by a lock and some are, then they need to
-> remain atomic.
-> 
-> The question then becomes whether the unprotected ones are actually
-> correct or just exposing more races.
+Currently, all dma-bufs share the same anonymous inode. While we can count
+how many dma-buf fds or mappings a process has, we can't get the size of
+the backing buffers or tell if two entries point to the same dma-buf. And
+in debugfs, we can get a per-buffer breakdown of size and reference count,
+but can't tell which processes are actually holding the references to each
+buffer.
 
-Got it. Not sure yet but I think the protected bitops could be moved out
-from the spinlock scope then all bitops could be kept as atomic. I'll
-look at and test this driver code more deeply again, and will submit v2
-soon.
+To resolve the issue above and provide better method for userspace to track
+the dma-buf usage across different processes, the following changes are
+proposed in dma-buf kernel side. First of all, replace the singleton inode
+inside the dma-buf subsystem with a mini-filesystem, and assign each
+dma-buf a unique inode out of this filesystem.  With this change, calling
+stat(2) on each entry gives the caller a unique ID (st_ino), the buffer's
+size (st_size), and even the number of pages assigned to each dma-buffer.
+Secoundly, add the inode information to /sys/kernel/debug/dma_buf/bufinfo
+so in the case where a buffer is mmap()ed into a process=E2=80=99s address =
+space
+but all remaining fds have been closed, we can still get the dma-buf
+information and try to accociate it with the process by searching the
+proc/pid/maps and looking for the corresponding inode number exposed in
+dma-buf debug fs. Thirdly, created an ioctl to assign names to dma-bufs
+which lets userspace assign short names (e.g., "CAMERA") to buffers. This
+information can be extremely helpful for tracking and accounting shared
+buffers based on their usage and original purpose. Last but not least, add
+dma-buf information to /proc/pid/fdinfo by adding a show_fdinfo() handler
+to dma_buf_file_operations. The handler will print the file_count and name
+of each buffer.
 
-Again, thanks a lot for your review.
+Change in v2:
+* Add a check to prevent changing dma-buf name when it is attached to
+  devices.
+* Fixed some compile warnings
 
-Regards,
-Jae
+Change in v3:
+* Removed the GET_DMA_BUF_NAME ioctls, add the dma_buf pointer to dentry
+  d_fsdata so the name can be displayed in proc/pid/maps and
+  proc/pid/map_files.
+
+Greg Hackmann (3):
+  dma-buf: give each buffer a full-fledged inode
+  dma-buf: add DMA_BUF_{GET,SET}_NAME ioctls
+  dma-buf: add show_fdinfo handler
+
+ drivers/dma-buf/dma-buf.c    | 122 +++++++++++++++++++++++++++++++++--
+ include/linux/dma-buf.h      |   5 +-
+ include/uapi/linux/dma-buf.h |   3 +
+ include/uapi/linux/magic.h   |   1 +
+ 4 files changed, 124 insertions(+), 7 deletions(-)
+
+--=20
+2.21.0.1020.gf2820cf01a-goog
+
