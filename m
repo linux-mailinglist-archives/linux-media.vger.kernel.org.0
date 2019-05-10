@@ -2,37 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F111A01F
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 17:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E42631A039
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 17:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727643AbfEJP1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 11:27:14 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54393 "EHLO
+        id S1727459AbfEJPa4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 11:30:56 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54416 "EHLO
         smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727194AbfEJP1O (ORCPT
+        with ESMTP id S1727144AbfEJPa4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 11:27:14 -0400
+        Fri, 10 May 2019 11:30:56 -0400
 Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id D892D3C00C6;
-        Fri, 10 May 2019 17:27:10 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id A1AC63C00D1;
+        Fri, 10 May 2019 17:30:54 +0200 (CEST)
 Received: from smtp1.de.adit-jv.com ([127.0.0.1])
         by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 7FaUUjeoJ1rm; Fri, 10 May 2019 17:27:02 +0200 (CEST)
+        with ESMTP id 9nHt6qMwHxly; Fri, 10 May 2019 17:30:47 +0200 (CEST)
 Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id C1CA83C004C;
-        Fri, 10 May 2019 17:27:02 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 91B4A3C004C;
+        Fri, 10 May 2019 17:30:47 +0200 (CEST)
 Received: from vmlxhi-121.adit-jv.com (10.72.93.65) by HI2EXCH01.adit-jv.com
  (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 10 May
- 2019 17:27:02 +0200
+ 2019 17:30:47 +0200
 From:   Michael Rodin <mrodin@de.adit-jv.com>
 To:     <kieran.bingham@ideasonboard.com>, <mchehab@kernel.org>,
         <linux-media@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <michael@rodin.online>
+CC:     <linux-kernel@vger.kernel.org>, <michael@rodin.online>,
+        <mrodin@de.adit-jv.com>
 Subject: [PATCH] media: i2c: adv748x: initialize bit 7 of csi_tx_top_reg_1f
-Date:   Fri, 10 May 2019 17:26:53 +0200
-Message-ID: <1557502013-16158-1-git-send-email-mrodin@de.adit-jv.com>
+Date:   Fri, 10 May 2019 17:30:40 +0200
+Message-ID: <1557502240-16274-1-git-send-email-mrodin@de.adit-jv.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
