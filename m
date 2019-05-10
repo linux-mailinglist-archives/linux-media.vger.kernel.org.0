@@ -2,154 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24BA119C4E
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 13:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A84C19C63
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 13:18:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727356AbfEJLP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 07:15:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36406 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727324AbfEJLP5 (ORCPT
+        id S1727144AbfEJLSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 07:18:07 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60451 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727052AbfEJLSH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 07:15:57 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB970330;
-        Fri, 10 May 2019 13:15:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557486954;
-        bh=WmunaI8oHw7jhEazGcE81sTya3SO/IDt3fOyyPmna48=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dZxJdtZ6h2ahIcyyEJWzaM8CpeDqecUcdlDmko5vaWELUX1ncflvIFK6UIC/4UUtl
-         fk+BYN4ds5wudlFSbkbkC5OHYQ6aSAki1yU7j/EmTO5R/ZxwqYMlgZoSO0EIQ2sFEP
-         PA8OHKXGRtbtzgCM2j80HlOLZxLcZWBBqlwYnhUs=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v3 4/5] media: vsp1: Split out pre-filter multiplier
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-References: <20190411161256.19607-1-kieran.bingham+renesas@ideasonboard.com>
- <20190411161256.19607-5-kieran.bingham+renesas@ideasonboard.com>
- <20190418063754.GH4806@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <c6222a3f-ea53-e147-7269-e6113be38520@ideasonboard.com>
-Date:   Fri, 10 May 2019 12:15:51 +0100
+        Fri, 10 May 2019 07:18:07 -0400
+Received: from [IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215] ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id P3XPhdN8xsDWyP3XQhc7iO; Fri, 10 May 2019 13:18:04 +0200
+Subject: Re: [PATCH v4 0/8] Switch to sync registration for IPU subdevs
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org
+References: <20190503224326.21039-1-slongerbeam@gmail.com>
+ <m3ftpr5lne.fsf@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <ad321dec-4352-205e-3c04-e13865a279d5@xs4all.nl>
+Date:   Fri, 10 May 2019 13:18:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190418063754.GH4806@pendragon.ideasonboard.com>
+In-Reply-To: <m3ftpr5lne.fsf@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFtCTxdRGndZ7QMeZk84e7dHMFo9Ki2rWHImDrtvHvou/uI5JyY7vxlGwaWRmSFepjD+8L25hiX4wTlJeXDsausuM6GWmLsO5VnSCFEzh06fQuLQmTHc
+ r7e2aB9+/v/Ub+MZvxWLI9PFJKnzGUBaZJFlnlJ8fH1AE7KylPHJahkoPKbYXEITcHD9rM7/+TmLO6sdBATxv0qO8z6rJT5WSGq6MJwTa1ImYRxNuzjOOg9B
+ UuoE1Wm6Lp199pW21kZ5Jt3G2CO/MQNQnsotf7BW0kaUwN4SENoN+etJUpxbhmw8YMsUse8os7NG7EHLnBiEZ6NdDho5pNLyzZu4EDc6i8o=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+On 5/6/19 11:16 PM, Rui Miguel Silva wrote:
+> Hi Steve,
+> On Fri 03 May 2019 at 23:43, Steve Longerbeam wrote:
+>> Switch to sync registration for the IPU internal sub-devices, re-organize
+>> modules, and a few other miscellaneous cleanups.
+> 
+> Thanks for the series and the fixes. Now everything works as
+> before. So, for the all series and related to imx7:
+> 
+> Tested-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> 
+> My only concern is that Hans already pull requested to v5.2 [0] my
+> previous patch that your series do not apply on top of.
+> 
+> So, @Hans will you push this series to v5.2 and add a revert
+> of [1]? or this will go only to v5.3?
 
-On 18/04/2019 07:37, Laurent Pinchart wrote:
-> Hi Kieran,
+This will only go to v5.3.
+
+I believe that Mauro plans to get [0] into 5.2, probably as a pull request
+once v5.2-rc1 has been released. So once that is merged Steve probably needs
+to do a rebase of this series.
+
+Regards,
+
+	Hans
+
 > 
-> Thank you for the patch.
+> ---
+> Cheers,
+> 	Rui
 > 
-> On Thu, Apr 11, 2019 at 05:12:55PM +0100, Kieran Bingham wrote:
->> The 'mp' value is used through many calculations in determining the scaling
->> factors of the UDS. Factor this out so that it can be reused in further
->> calculations, and also ensure that if the BLADV control is ever changed only a
->> single function needs to be modified.
+> 
+> [0]: https://lore.kernel.org/linux-media/d5b4a68d-520e-0e93-d44e-07974058d690@xs4all.nl/
+> [1]: https://lore.kernel.org/linux-media/20190412164400.1270-1-rui.silva@linaro.org/
+> 
+> 
 >>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> ---
->>  drivers/media/platform/vsp1/vsp1_uds.c | 22 ++++++++++++++--------
->>  1 file changed, 14 insertions(+), 8 deletions(-)
+>> History:
+>> v4:
+>> - Add **cc arg to __capture_try_fmt_vid_cap() to validate colorspace,
+>>   instead of calling ipu_pixelformat_to_colorspace().
+>> - Add error message if capture format validation failed.
+>> v3:
+>> - A couple patches did not compile/link. All patches now build so the
+>>   series is fully bisectable. No functional changes.
+>> v2:
+>> - Added a patch that improves the pipeline upstream/downstream search
+>>   functions, which no longer require the media device.
+>> - Add a patch to remove getting media device from v4l2_dev driver data.
 >>
->> diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/vsp1/vsp1_uds.c
->> index 27012af973b2..c71c24363d54 100644
->> --- a/drivers/media/platform/vsp1/vsp1_uds.c
->> +++ b/drivers/media/platform/vsp1/vsp1_uds.c
->> @@ -46,6 +46,18 @@ void vsp1_uds_set_alpha(struct vsp1_entity *entity, struct vsp1_dl_body *dlb,
->>  		       alpha << VI6_UDS_ALPVAL_VAL0_SHIFT);
->>  }
->>  
->> +/*
->> + * Determine the pre-filter multiplication value.
+>>
+>> Steve Longerbeam (8):
+>>   media: staging/imx: Switch to sync registration for IPU subdevs
+>>   media: staging/imx: Pass device to alloc/free_dma_buf
+>>   media: staging/imx: Move add_video_device into capture_device_register
+>>   Revert "media: imx: Set capture compose rectangle in
+>>     capture_device_set_format"
+>>   media: staging/imx: Remove capture_device_set_format
+>>   media: staging/imx: Re-organize modules
+>>   media: staging/imx: Improve pipeline searching
+>>   media: staging/imx: Don't set driver data for v4l2_dev
+>>
+>>  drivers/staging/media/imx/Makefile            |  18 +-
+>>  drivers/staging/media/imx/imx-ic-common.c     |  68 +--
+>>  drivers/staging/media/imx/imx-ic-prp.c        |  36 +-
+>>  drivers/staging/media/imx/imx-ic-prpencvf.c   |  88 ++--
+>>  drivers/staging/media/imx/imx-ic.h            |   6 +-
+>>  drivers/staging/media/imx/imx-media-capture.c |  90 ++--
+>>  drivers/staging/media/imx/imx-media-csi.c     |  45 +-
+>>  .../staging/media/imx/imx-media-dev-common.c  | 346 +++++++++++++-
+>>  drivers/staging/media/imx/imx-media-dev.c     | 449 +-----------------
+>>  drivers/staging/media/imx/imx-media-fim.c     |   9 -
+>>  .../staging/media/imx/imx-media-internal-sd.c | 357 ++++++--------
+>>  drivers/staging/media/imx/imx-media-of.c      |  41 +-
+>>  drivers/staging/media/imx/imx-media-utils.c   | 170 +++----
+>>  drivers/staging/media/imx/imx-media-vdic.c    |  84 +---
+>>  drivers/staging/media/imx/imx-media.h         | 113 +++--
+>>  drivers/staging/media/imx/imx7-media-csi.c    |  43 +-
+>>  16 files changed, 857 insertions(+), 1106 deletions(-)
 > 
-> This would benefit from a more detailed description, and in particular a
-> definition of what "pre-filter" means.
-
-There is a pre-filter processing stage to the scaling filter. I think it
-does some form of pixel binning. The specifics are not documented.
-
-I could update this to:
-
-/*
- * Determine the pre-filter binning divider
- *
- * The UDS uses a two stage filter scaler process. This determines the
- * rate at which pixels are reduced for large down-scaling ratios before
- * being fed into the bicubic filter.
- */
-
->> + *
->> + * This calculation assumes that the BLADV control is unset.
-> 
-> s/control/bit/ ?
-> s/unset/not set/ ?
-> 
-
-Sure.
-
->> + */
->> +static unsigned int uds_multiplier(int ratio)
-> 
-> Should the function be renamed to uds_pre_multiplier() ? And isn't it a
-> divisor ? :-)
-
-Indeed in the pipeline, the component is used when  downscaling, and so
-I believe it is part of a pre-filter divider.
-
-How about: uds_binning_ratio() ?
-
-
-
-
->> +{
->> +	unsigned int mp = ratio / 4096;
->> +
->> +	return mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +}
->> +
->>  /*
->>   * uds_output_size - Return the output size for an input size and scaling ratio
->>   * @input: input size in pixels
->> @@ -55,10 +67,7 @@ static unsigned int uds_output_size(unsigned int input, unsigned int ratio)
->>  {
->>  	if (ratio > 4096) {
->>  		/* Down-scaling */
->> -		unsigned int mp;
->> -
->> -		mp = ratio / 4096;
->> -		mp = mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +		unsigned int mp = uds_multiplier(ratio);
->>  
->>  		return (input - 1) / mp * mp * 4096 / ratio + 1;
->>  	} else {
->> @@ -88,10 +97,7 @@ static unsigned int uds_passband_width(unsigned int ratio)
->>  {
->>  	if (ratio >= 4096) {
->>  		/* Down-scaling */
->> -		unsigned int mp;
->> -
->> -		mp = ratio / 4096;
->> -		mp = mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +		unsigned int mp = uds_multiplier(ratio);
->>  
->>  		return 64 * 4096 * mp / ratio;
->>  	} else {
-> 
---
-Regards
-
-Kieran
-
 
