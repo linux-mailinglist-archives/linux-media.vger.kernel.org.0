@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 494191A4E0
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 23:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ECA1A4DF
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 23:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbfEJVud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 17:50:33 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:36831 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728263AbfEJVuc (ORCPT
+        id S1728373AbfEJVuf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 17:50:35 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40178 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728352AbfEJVuf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 17:50:32 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d21so3420090plr.3;
-        Fri, 10 May 2019 14:50:32 -0700 (PDT)
+        Fri, 10 May 2019 17:50:35 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u17so3883385pfn.7;
+        Fri, 10 May 2019 14:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=AAMozjG2W0PZy93LSAs4zDJPg/GRcksOW95uh6hbVyE=;
-        b=bSMoM0EJrhYiNeKX5OzK8P1Ra+2VCwCUot0RWwHEi3Ik/+J8mmAESRY/NAg9Z7I8km
-         aq3/HHk4GpgBtLpKdBxT5rHO2xlackSYWwxwmbL4dwLM/RGLvfbfxYVHoxH1oFsmt203
-         ik2AY+jG58lffHDia95KccNvkM2H6B8/n8JtLV70NEcPhgzGS0Yxam/ENjo2MWEHCStt
-         ZXLIFTAo4IIHrsetCjutEc5oOpNd0AapJJTR9cD1YbfKP6Sk/gFJ6Ouc1TmDNBWsUkP+
-         tXp9994X3BwFJ4+fj4HEITBLCOuQxhEaLyDE9EC5EfQTsBirmzMbZDJ2BiKbAgh9/UqW
-         QtDw==
+        bh=CyjREGYTzE7t+M0F2sY+PqenAwf3veqlsJcnGpFRNuE=;
+        b=ZpXNHvPvWemv+0yUC4axtThxnmrODDc0eQqpV9AoNm+xA8CVBqMeJ7UvmwayR3Cp9I
+         2h83LViAEq2R/JqyLDj4fE7Vv9UwGAFk2m5IVv4Os3vJ1SG7jB8tv7OdJR5jA8/JqtbB
+         QXzyU9kknoFhKfnGxQjsdFHFPOy8+3gG1Zv1kIz8ujqG2JuEZGzPqjI8krRdYfobE3H+
+         +zZJvOnCbb+LbdVuh2B6ilr73hLkoYs2dRqrUTwl2X3rObFFvjq0EfBt0LfDU0C5f2eJ
+         FYsv82ZgEvr19ettdWNosImhhfXfd+8cfUTpZoOLi7mx0jlIS50YMy6jZnBztfVpGGd+
+         qYww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=AAMozjG2W0PZy93LSAs4zDJPg/GRcksOW95uh6hbVyE=;
-        b=pB7TsBZS5CSpxifEXtvC+bsy1enw9gAs8FUb6nQYKElHFFJIAG9m4iBDdsirQnNFu5
-         /hv0lKlAOHKIjbldWfdK2ju9OTliT5ro34fX4vLktWqhHFWKqmUHsOZUBwfjMsqoKBTt
-         I+HZe1lsnKuF6iwJsj9WSsi91hFoaL73jIJKwDY0fOiNsdQU4PcY4K62P4G59bY0DAV2
-         0KUEYaZolYAQ5kvpwLekM7PLsW3KglIFNJg2afB9YIzezYLRzNlzS4URvi1sfgkiSDHY
-         xZbVWl4+Hpa2IDauBc7Ps6JqQ52rNn5YtXE9S5Q6oIaQ5qgGOkTf0fP3ulDvy+EJX0r+
-         2Shg==
-X-Gm-Message-State: APjAAAVgEPA5zs5xEnuKxKaVhXhMUJifmrC9Mnph+A1yNG/tKucoa4F4
-        jxO7ytu+iD3BjLGi899nFtgxP5jB
-X-Google-Smtp-Source: APXvYqyujDGe6ZaOEXnY+GqYv9rhzUl0g9PfetgMUxFOyyLmX2pggOaWtwlfU1pfsqK3OmyiTA7VvQ==
-X-Received: by 2002:a17:902:2b88:: with SMTP id l8mr15786786plb.262.1557525031495;
-        Fri, 10 May 2019 14:50:31 -0700 (PDT)
+        bh=CyjREGYTzE7t+M0F2sY+PqenAwf3veqlsJcnGpFRNuE=;
+        b=sLpgVJtrR3qV01auKgz/GwikSjQGJW0zPtPpxCfFDN0cjxn4OcVRxJeq7JJeE0AdKq
+         Uoai6DzIrXJvAhliGqg6uzjhdfKMxwCrvuJL/CDREl7uDnx/HcOeT+ViuPjWGoxCS6nm
+         bagI1dXBT0D1DcMUAjnpYCUYXfKtrp6diUGoNAxckL7s+cU9m/2/Nb019p5xuoTNxOgb
+         wj3TVs8+aBNcV/tmQqR627nXpBkP28R8bvwR5fN3Txaw/6hAO7aTuExX54rOdr7fDuHL
+         cMCkKwBR8gS/DKw5AvJhUZbTzG9BbNtA4XMNluBRTt5LfGgtry0nBonLxufhwXk4FDn1
+         Cp3w==
+X-Gm-Message-State: APjAAAV9tt/MkwBn4nH/sThW/NY0VmqHcRFNIE9hteWkBan9mpNQc3Lq
+        ab6Jycp7aQSI1EjADwfakfaovsF4
+X-Google-Smtp-Source: APXvYqzxB4XgherBUAM4op0BkmW+Bsc0ZeEI/STQSzajtL7ehdGjttbKvq9pB0+0XIRpzttulBwEkw==
+X-Received: by 2002:a63:f703:: with SMTP id x3mr16089128pgh.394.1557525033389;
+        Fri, 10 May 2019 14:50:33 -0700 (PDT)
 Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id e14sm1524108pff.60.2019.05.10.14.50.30
+        by smtp.googlemail.com with ESMTPSA id e14sm1524108pff.60.2019.05.10.14.50.31
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 May 2019 14:50:30 -0700 (PDT)
+        Fri, 10 May 2019 14:50:32 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
@@ -59,9 +59,9 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
         linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
         / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v5 4/9] media: staging/imx: Move add_video_device into capture_device_register
-Date:   Fri, 10 May 2019 14:50:07 -0700
-Message-Id: <20190510215012.13881-5-slongerbeam@gmail.com>
+Subject: [PATCH v5 5/9] Revert "media: imx: Set capture compose rectangle in capture_device_set_format"
+Date:   Fri, 10 May 2019 14:50:08 -0700
+Message-Id: <20190510215012.13881-6-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510215012.13881-1-slongerbeam@gmail.com>
 References: <20190510215012.13881-1-slongerbeam@gmail.com>
@@ -70,140 +70,267 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move imx_media_add_video_device() into imx_media_capture_device_register().
-Also the former has no error conditions to convert to void.
+Rvert this commit, as imx_media_capture_device_set_format() will be
+removed. The arguments to mx_media_mbus_fmt_to_pix_fmt() and
+imx_media_capture_device_set_format() in imx7_csi_set_fmt() are also
+reverted.
+
+This reverts commit 5964cbd8692252615370b77eb96764dd70c2f837.
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx-ic-prpencvf.c   |  5 -----
- drivers/staging/media/imx/imx-media-capture.c |  3 +++
- drivers/staging/media/imx/imx-media-csi.c     |  7 +------
- drivers/staging/media/imx/imx-media-utils.c   |  9 ++++-----
- drivers/staging/media/imx/imx-media.h         |  4 ++--
- drivers/staging/media/imx/imx7-media-csi.c    | 12 +-----------
- 6 files changed, 11 insertions(+), 29 deletions(-)
+Chnges in v3:
+- revert to previous args in imx7_csi_set_fmt().
+---
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  5 ++--
+ drivers/staging/media/imx/imx-media-capture.c | 24 +++++++++----------
+ drivers/staging/media/imx/imx-media-csi.c     |  5 ++--
+ drivers/staging/media/imx/imx-media-utils.c   | 20 ++++------------
+ drivers/staging/media/imx/imx-media.h         |  6 ++---
+ drivers/staging/media/imx/imx7-media-csi.c    |  5 ++--
+ 6 files changed, 25 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-index ddcd87a17c71..8242d88dfb82 100644
+index 8242d88dfb82..afaa3a8b15e9 100644
 --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
 +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-@@ -1241,7 +1241,6 @@ static int prp_s_frame_interval(struct v4l2_subdev *sd,
- static int prp_registered(struct v4l2_subdev *sd)
- {
- 	struct prp_priv *priv = sd_to_priv(sd);
--	struct imx_ic_priv *ic_priv = priv->ic_priv;
- 	int i, ret;
- 	u32 code;
+@@ -910,7 +910,6 @@ static int prp_set_fmt(struct v4l2_subdev *sd,
+ 	const struct imx_media_pixfmt *cc;
+ 	struct v4l2_pix_format vdev_fmt;
+ 	struct v4l2_mbus_framefmt *fmt;
+-	struct v4l2_rect vdev_compose;
+ 	int ret = 0;
  
-@@ -1271,10 +1270,6 @@ static int prp_registered(struct v4l2_subdev *sd)
- 	if (ret)
- 		return ret;
+ 	if (sdformat->pad >= PRPENCVF_NUM_PADS)
+@@ -952,11 +951,11 @@ static int prp_set_fmt(struct v4l2_subdev *sd,
+ 	priv->cc[sdformat->pad] = cc;
  
--	ret = imx_media_add_video_device(ic_priv->md, priv->vdev);
--	if (ret)
--		goto unreg;
--
- 	ret = prp_init_controls(priv);
- 	if (ret)
- 		goto unreg;
+ 	/* propagate output pad format to capture device */
+-	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt, &vdev_compose,
++	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt,
+ 				      &priv->format_mbus[PRPENCVF_SRC_PAD],
+ 				      priv->cc[PRPENCVF_SRC_PAD]);
+ 	mutex_unlock(&priv->lock);
+-	imx_media_capture_device_set_format(vdev, &vdev_fmt, &vdev_compose);
++	imx_media_capture_device_set_format(vdev, &vdev_fmt);
+ 
+ 	return 0;
+ out:
 diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 211ec4df2066..335084a6b0cd 100644
+index 335084a6b0cd..555f6204660b 100644
 --- a/drivers/staging/media/imx/imx-media-capture.c
 +++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -780,6 +780,9 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+@@ -205,8 +205,7 @@ static int capture_g_fmt_vid_cap(struct file *file, void *fh,
  
- 	vfd->ctrl_handler = &priv->ctrl_hdlr;
- 
-+	/* add vdev to the video device list */
-+	imx_media_add_video_device(priv->md, vdev);
-+
- 	return 0;
- unreg:
- 	video_unregister_device(vfd);
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index ea3d13103c91..c70fa6b509ae 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1820,13 +1820,8 @@ static int csi_registered(struct v4l2_subdev *sd)
- 	if (ret)
- 		goto free_fim;
- 
--	ret = imx_media_add_video_device(priv->md, priv->vdev);
--	if (ret)
--		goto unreg;
--
- 	return 0;
--unreg:
--	imx_media_capture_device_unregister(priv->vdev);
-+
- free_fim:
- 	if (priv->fim)
- 		imx_media_fim_free(priv->fim);
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index c52aa59acd05..8a6e57652402 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -767,18 +767,17 @@ imx_media_find_subdev_by_devname(struct imx_media_dev *imxmd,
- EXPORT_SYMBOL_GPL(imx_media_find_subdev_by_devname);
- 
- /*
-- * Adds a video device to the master video device list. This is called by
-- * an async subdev that owns a video device when it is registered.
-+ * Adds a video device to the master video device list. This is called
-+ * when a video device is registered.
-  */
--int imx_media_add_video_device(struct imx_media_dev *imxmd,
--			       struct imx_media_video_dev *vdev)
-+void imx_media_add_video_device(struct imx_media_dev *imxmd,
-+				struct imx_media_video_dev *vdev)
+ static int __capture_try_fmt_vid_cap(struct capture_priv *priv,
+ 				     struct v4l2_subdev_format *fmt_src,
+-				     struct v4l2_format *f,
+-				     struct v4l2_rect *compose)
++				     struct v4l2_format *f)
  {
- 	mutex_lock(&imxmd->mutex);
+ 	const struct imx_media_pixfmt *cc, *cc_src;
  
- 	list_add_tail(&vdev->list, &imxmd->vdev_list);
+@@ -246,8 +245,7 @@ static int __capture_try_fmt_vid_cap(struct capture_priv *priv,
+ 		}
+ 	}
  
- 	mutex_unlock(&imxmd->mutex);
--	return 0;
+-	imx_media_mbus_fmt_to_pix_fmt(&f->fmt.pix, compose,
+-				      &fmt_src->format, cc);
++	imx_media_mbus_fmt_to_pix_fmt(&f->fmt.pix, &fmt_src->format, cc);
+ 
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(imx_media_add_video_device);
- 
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index ba2d75bcc4c9..71e20f53ed7b 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -189,8 +189,8 @@ imx_media_find_subdev_by_fwnode(struct imx_media_dev *imxmd,
- struct v4l2_subdev *
- imx_media_find_subdev_by_devname(struct imx_media_dev *imxmd,
- 				 const char *devname);
--int imx_media_add_video_device(struct imx_media_dev *imxmd,
--			       struct imx_media_video_dev *vdev);
-+void imx_media_add_video_device(struct imx_media_dev *imxmd,
-+				struct imx_media_video_dev *vdev);
- int imx_media_find_mipi_csi2_channel(struct imx_media_dev *imxmd,
- 				     struct media_entity *start_entity);
- struct media_pad *
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 96d01d8af874..f2037aba6e0e 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1126,17 +1126,7 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
- 	if (ret < 0)
+@@ -265,7 +263,7 @@ static int capture_try_fmt_vid_cap(struct file *file, void *fh,
+ 	if (ret)
  		return ret;
  
--	ret = imx_media_capture_device_register(csi->vdev);
--	if (ret < 0)
--		return ret;
--
--	ret = imx_media_add_video_device(csi->imxmd, csi->vdev);
--	if (ret < 0) {
--		imx_media_capture_device_unregister(csi->vdev);
--		return ret;
--	}
--
--	return 0;
-+	return imx_media_capture_device_register(csi->vdev);
+-	return __capture_try_fmt_vid_cap(priv, &fmt_src, f, NULL);
++	return __capture_try_fmt_vid_cap(priv, &fmt_src, f);
  }
  
- static void imx7_csi_unregistered(struct v4l2_subdev *sd)
+ static int capture_s_fmt_vid_cap(struct file *file, void *fh,
+@@ -273,7 +271,6 @@ static int capture_s_fmt_vid_cap(struct file *file, void *fh,
+ {
+ 	struct capture_priv *priv = video_drvdata(file);
+ 	struct v4l2_subdev_format fmt_src;
+-	struct v4l2_rect compose;
+ 	int ret;
+ 
+ 	if (vb2_is_busy(&priv->q)) {
+@@ -287,14 +284,17 @@ static int capture_s_fmt_vid_cap(struct file *file, void *fh,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = __capture_try_fmt_vid_cap(priv, &fmt_src, f, &compose);
++	ret = __capture_try_fmt_vid_cap(priv, &fmt_src, f);
+ 	if (ret)
+ 		return ret;
+ 
+ 	priv->vdev.fmt.fmt.pix = f->fmt.pix;
+ 	priv->vdev.cc = imx_media_find_format(f->fmt.pix.pixelformat,
+ 					      CS_SEL_ANY, true);
+-	priv->vdev.compose = compose;
++	priv->vdev.compose.left = 0;
++	priv->vdev.compose.top = 0;
++	priv->vdev.compose.width = fmt_src.format.width;
++	priv->vdev.compose.height = fmt_src.format.height;
+ 
+ 	return 0;
+ }
+@@ -655,8 +655,7 @@ static struct video_device capture_videodev = {
+ };
+ 
+ void imx_media_capture_device_set_format(struct imx_media_video_dev *vdev,
+-					 const struct v4l2_pix_format *pix,
+-					 const struct v4l2_rect *compose)
++					 struct v4l2_pix_format *pix)
+ {
+ 	struct capture_priv *priv = to_capture_priv(vdev);
+ 
+@@ -664,7 +663,6 @@ void imx_media_capture_device_set_format(struct imx_media_video_dev *vdev,
+ 	priv->vdev.fmt.fmt.pix = *pix;
+ 	priv->vdev.cc = imx_media_find_format(pix->pixelformat, CS_SEL_ANY,
+ 					      true);
+-	priv->vdev.compose = *compose;
+ 	mutex_unlock(&priv->mutex);
+ }
+ EXPORT_SYMBOL_GPL(imx_media_capture_device_set_format);
+@@ -770,8 +768,10 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 	}
+ 
+ 	vdev->fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+-	imx_media_mbus_fmt_to_pix_fmt(&vdev->fmt.fmt.pix, &vdev->compose,
++	imx_media_mbus_fmt_to_pix_fmt(&vdev->fmt.fmt.pix,
+ 				      &fmt_src.format, NULL);
++	vdev->compose.width = fmt_src.format.width;
++	vdev->compose.height = fmt_src.format.height;
+ 	vdev->cc = imx_media_find_format(vdev->fmt.fmt.pix.pixelformat,
+ 					 CS_SEL_ANY, false);
+ 
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index c70fa6b509ae..09b89a72eaa2 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -1512,7 +1512,6 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
+ 	struct v4l2_pix_format vdev_fmt;
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	struct v4l2_rect *crop, *compose;
+-	struct v4l2_rect vdev_compose;
+ 	int ret;
+ 
+ 	if (sdformat->pad >= CSI_NUM_PADS)
+@@ -1568,11 +1567,11 @@ static int csi_set_fmt(struct v4l2_subdev *sd,
+ 	priv->cc[sdformat->pad] = cc;
+ 
+ 	/* propagate IDMAC output pad format to capture device */
+-	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt, &vdev_compose,
++	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt,
+ 				      &priv->format_mbus[CSI_SRC_PAD_IDMAC],
+ 				      priv->cc[CSI_SRC_PAD_IDMAC]);
+ 	mutex_unlock(&priv->lock);
+-	imx_media_capture_device_set_format(vdev, &vdev_fmt, &vdev_compose);
++	imx_media_capture_device_set_format(vdev, &vdev_fmt);
+ 
+ 	return 0;
+ out:
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 8a6e57652402..a80ef0b087ad 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -577,8 +577,7 @@ void imx_media_fill_default_mbus_fields(struct v4l2_mbus_framefmt *tryfmt,
+ EXPORT_SYMBOL_GPL(imx_media_fill_default_mbus_fields);
+ 
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+-				  struct v4l2_rect *compose,
+-				  const struct v4l2_mbus_framefmt *mbus,
++				  struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc)
+ {
+ 	u32 width;
+@@ -625,17 +624,6 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+ 	pix->sizeimage = cc->planar ? ((stride * pix->height * cc->bpp) >> 3) :
+ 			 stride * pix->height;
+ 
+-	/*
+-	 * set capture compose rectangle, which is fixed to the
+-	 * source subdevice mbus format.
+-	 */
+-	if (compose) {
+-		compose->left = 0;
+-		compose->top = 0;
+-		compose->width = mbus->width;
+-		compose->height = mbus->height;
+-	}
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+@@ -647,11 +635,13 @@ int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+ 
+ 	memset(image, 0, sizeof(*image));
+ 
+-	ret = imx_media_mbus_fmt_to_pix_fmt(&image->pix, &image->rect,
+-					    mbus, NULL);
++	ret = imx_media_mbus_fmt_to_pix_fmt(&image->pix, mbus, NULL);
+ 	if (ret)
+ 		return ret;
+ 
++	image->rect.width = mbus->width;
++	image->rect.height = mbus->height;
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+index 71e20f53ed7b..ddea972b7bc4 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -174,8 +174,7 @@ void imx_media_fill_default_mbus_fields(struct v4l2_mbus_framefmt *tryfmt,
+ 					struct v4l2_mbus_framefmt *fmt,
+ 					bool ic_route);
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+-				  struct v4l2_rect *compose,
+-				  const struct v4l2_mbus_framefmt *mbus,
++				  struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc);
+ int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+ 				    struct v4l2_mbus_framefmt *mbus);
+@@ -280,8 +279,7 @@ void imx_media_capture_device_unregister(struct imx_media_video_dev *vdev);
+ struct imx_media_buffer *
+ imx_media_capture_device_next_buf(struct imx_media_video_dev *vdev);
+ void imx_media_capture_device_set_format(struct imx_media_video_dev *vdev,
+-					 const struct v4l2_pix_format *pix,
+-					 const struct v4l2_rect *compose);
++					 struct v4l2_pix_format *pix);
+ void imx_media_capture_device_error(struct imx_media_video_dev *vdev);
+ 
+ /* subdev group ids */
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index f2037aba6e0e..e2622c05a793 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1035,7 +1035,6 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
+ 	const struct imx_media_pixfmt *outcc;
+ 	struct v4l2_mbus_framefmt *outfmt;
+ 	struct v4l2_pix_format vdev_fmt;
+-	struct v4l2_rect vdev_compose;
+ 	const struct imx_media_pixfmt *cc;
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	struct v4l2_subdev_format format;
+@@ -1086,11 +1085,11 @@ static int imx7_csi_set_fmt(struct v4l2_subdev *sd,
+ 	csi->cc[sdformat->pad] = cc;
+ 
+ 	/* propagate output pad format to capture device */
+-	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt, &vdev_compose,
++	imx_media_mbus_fmt_to_pix_fmt(&vdev_fmt,
+ 				      &csi->format_mbus[IMX7_CSI_PAD_SRC],
+ 				      csi->cc[IMX7_CSI_PAD_SRC]);
+ 	mutex_unlock(&csi->lock);
+-	imx_media_capture_device_set_format(vdev, &vdev_fmt, &vdev_compose);
++	imx_media_capture_device_set_format(vdev, &vdev_fmt);
+ 
+ 	return 0;
+ 
 -- 
 2.17.1
 
