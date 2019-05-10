@@ -2,212 +2,307 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5849919EC3
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 16:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7D419F16
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 16:25:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbfEJOL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 10:11:57 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51329 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727521AbfEJOL5 (ORCPT
+        id S1727922AbfEJOZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 10:25:05 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38358 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbfEJOZF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 10:11:57 -0400
-Received: from [IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215] ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id P6FehfBjhsDWyP6Ffhcr4d; Fri, 10 May 2019 16:11:55 +0200
-Subject: Re: [PATCH v5 4/5] [media] allegro: add Allegro DVT video IP core
- driver
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        dshah@xilinx.com, mchehab@kernel.org, robh+dt@kernel.org,
-        kernel@pengutronix.de, tfiga@chromium.org
-References: <20190503122010.16663-1-m.tretter@pengutronix.de>
- <20190503122010.16663-5-m.tretter@pengutronix.de>
- <0d15e216-7e10-eb55-1957-32be1c48f461@xs4all.nl>
- <20190510122819.3a978105@litschi.hi.pengutronix.de>
- <f9136e3a-6592-7198-b4fb-75664a8b653e@xs4all.nl>
- <20190510155239.0502e080@litschi.hi.pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5755a4f2-b946-283f-7a96-6bb9583d2c73@xs4all.nl>
-Date:   Fri, 10 May 2019 16:11:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 10 May 2019 10:25:05 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9CD02DF;
+        Fri, 10 May 2019 16:25:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1557498303;
+        bh=zSzgRVfiFBRbmuzyAkiLXYb3UpjWrMHBjfGkOzNX5Qc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PIAWnilmswlXjdhqRi+vmhoRv4cRy0BWhX/Lyew/olpkwpeIRHPRNNF01HIwS1ffp
+         pSTrSSu9b/FnmqQ/f7QjmVRshENxUdqTP/gZL8nNtC0jlmw1oQEIxD5YxQw9u0WxOv
+         imhp/alS0UaYeDZcVPy2swfFtPT+xhst69v7Jar4=
+Date:   Fri, 10 May 2019 17:24:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Edgar Thier <info@edgarthier.net>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [Patch v2] v4l: Add simple packed bayer 12-bit formats
+Message-ID: <20190510142446.GC4972@pendragon.ideasonboard.com>
+References: <b9dc4c99-5aaa-db43-f6cb-f829da9fd654@edgarthier.net>
+ <462cc8c4-b288-9834-302c-02fd0d1a5d62@edgarthier.net>
 MIME-Version: 1.0
-In-Reply-To: <20190510155239.0502e080@litschi.hi.pengutronix.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBPpHW0bTHxMTZqJ/GAUvHNnZvyIdfcPGj099MZv5FE9OhetPBvtYLQUFMu2jI4FdCr0FSBuAEgGCsOFjsKBqKZJX8qh09dybV7gUGvAW8b+vG/r0n1k
- QiHntmGOz9g7jcqWAbs2QnZRFAYIfo/n1N20K6QChBXSM6siCI8t/SLocKplQBahzubZUVwSwTuEMatdbjTQHHX2MaJM38ClzuQFoVEEgoKlG0ZDaSimvUAt
- l2Q8/A3Ou5XoXSwOVkA2xvd8CnkhSX5RgWylwRJALTAOyrDc+fI/LZd8A0wGaELeONlvUmLmYL3Id4+LK9PSJBrPU6SbNFDWhEc2RGCtrzIEjO3J7eHE5cRi
- RXSjlerp2HjPjNzyz/nuMidCXPYyrHTAW+kvQUUOm/h3dzpjZIhgBwrZQovqUPpHYkhmKaddSof1kCjTqDYJncpbg5TYcaeHAhsfRI2eIQv1D1m1fjNXMt6H
- Rx2Sp1J96yZ668vXlYVCYBi5DTTcikSOT74b3Q==
+Content-Disposition: inline
+In-Reply-To: <462cc8c4-b288-9834-302c-02fd0d1a5d62@edgarthier.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/10/19 3:52 PM, Michael Tretter wrote:
-> On Fri, 10 May 2019 12:58:43 +0200, Hans Verkuil wrote:
->> On 5/10/19 12:28 PM, Michael Tretter wrote:
->>> On Fri, 10 May 2019 10:28:53 +0200, Hans Verkuil wrote:  
->>>> On 5/3/19 2:20 PM, Michael Tretter wrote:  
->>>>> Add a V4L2 mem-to-mem driver for Allegro DVT video IP cores as found in
->>>>> the EV family of the Xilinx ZynqMP SoC. The Zynq UltraScale+ Device
->>>>> Technical Reference Manual uses the term VCU (Video Codec Unit) for the
->>>>> encoder, decoder and system integration block.
->>>>>
->>>>> This driver takes care of interacting with the MicroBlaze MCU that
->>>>> controls the actual IP cores. The IP cores and MCU are integrated in the
->>>>> FPGA. The xlnx_vcu driver is responsible for configuring the clocks and
->>>>> providing information about the codec configuration.
->>>>>
->>>>> The driver currently only supports the H.264 video encoder.
->>>>>
->>>>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
->>>>> ---  
->>
->> <snip>
->>
->>>>> +static int allegro_try_fmt_vid_out(struct file *file, void *fh,
->>>>> +				   struct v4l2_format *f)
->>>>> +{
->>>>> +	f->fmt.pix.field = V4L2_FIELD_NONE;
->>>>> +
->>>>> +	f->fmt.pix.width = clamp_t(__u32, f->fmt.pix.width,
->>>>> +				   ALLEGRO_WIDTH_MIN, ALLEGRO_WIDTH_MAX);
->>>>> +	f->fmt.pix.height = clamp_t(__u32, f->fmt.pix.height,
->>>>> +				    ALLEGRO_HEIGHT_MIN, ALLEGRO_HEIGHT_MAX);    
->>>>
->>>> Shouldn't this be rounded up to the macroblock size? Or is the encoder
->>>> smart enough to do the padding internally?  
->>>
->>> The driver sends a message with the visible size of the raw frames
->>> (without macroblock alignment) to the encoder firmware. Therefore, the
->>> encoder firmware is responsible for handling the padding to macroblock
->>> size.  
->>
->> Please add a comment describing this. It is unusual for encoders to be
->> able to do this so it is good to document this.
-> 
-> OK.
-> 
->>
->>>
->>> Furthermore, the encoder requires that the stride is 32 byte aligned.
->>> Therefore, we naturally have a macroblock alignment regarding the
->>> width, but not regarding the height. This limitation is already
->>> included in the bytesperline field.  
->>
->> Ack.
->>
->>>   
->>>>  
->>>>> +
->>>>> +	f->fmt.pix.pixelformat = V4L2_PIX_FMT_NV12;
->>>>> +	f->fmt.pix.bytesperline = round_up(f->fmt.pix.width, 32);
->>>>> +	f->fmt.pix.sizeimage =
->>>>> +		f->fmt.pix.bytesperline * f->fmt.pix.height * 3 / 2;
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int allegro_s_fmt_vid_out(struct file *file, void *fh,
->>>>> +				 struct v4l2_format *f)
->>>>> +{
->>>>> +	struct allegro_channel *channel = fh_to_channel(fh);
->>>>> +	int err;
->>>>> +
->>>>> +	err = allegro_try_fmt_vid_out(file, fh, f);
->>>>> +	if (err)
->>>>> +		return err;
->>>>> +
->>>>> +	channel->width = f->fmt.pix.width;
->>>>> +	channel->height = f->fmt.pix.height;
->>>>> +	channel->stride = f->fmt.pix.bytesperline;
->>>>> +	channel->sizeimage_raw = f->fmt.pix.sizeimage;
->>>>> +
->>>>> +	channel->colorspace = f->fmt.pix.colorspace;
->>>>> +	channel->ycbcr_enc = f->fmt.pix.ycbcr_enc;
->>>>> +	channel->quantization = f->fmt.pix.quantization;
->>>>> +	channel->xfer_func = f->fmt.pix.xfer_func;
->>>>> +
->>>>> +	channel->level =
->>>>> +		select_minimum_h264_level(channel->width, channel->height);
->>>>> +	channel->sizeimage_encoded =
->>>>> +		estimate_stream_size(channel->width, channel->height);
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int allegro_g_selection(struct file *file, void *priv,
->>>>> +			       struct v4l2_selection *s)
->>>>> +{
->>>>> +	struct v4l2_fh *fh = file->private_data;
->>>>> +	struct allegro_channel *channel = fh_to_channel(fh);
->>>>> +
->>>>> +	if (!V4L2_TYPE_IS_OUTPUT(s->type))
->>>>> +		return -EINVAL;
->>>>> +
->>>>> +	switch (s->target) {
->>>>> +	case V4L2_SEL_TGT_CROP:
->>>>> +	case V4L2_SEL_TGT_CROP_DEFAULT:
->>>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
->>>>> +		s->r.left = 0;
->>>>> +		s->r.top = 0;
->>>>> +		s->r.width = channel->width;
->>>>> +		s->r.height = channel->height;    
->>>>
->>>> I don't think this is quite right. The CROP target should return the visible
->>>> width/height (e.g. 1920x1080) whereas the other two targets should return the
->>>> coded width/height (e.g. 1920x1088 when rounded to the macroblock alignment).
->>>>
->>>> Note: if the hardware doesn't require that the raw frame is macroblock aligned,
->>>> then I need to think a bit more about how the selection handling should be
->>>> done.  
->>>
->>> The driver internally calculates the coded width/height in macroblocks
->>> and cropping and writes it to the SPS. Currently, this isn't exposed to
->>> userspace, because I don't see a need to tell the userspace about that.
->>>
->>> If there is a reason to expose this to userspace, I am fine with
->>> implementing that.  
->>
->> There really is no need for the selection API at all. Just drop both
->> G and S_SELECTION from the driver. Let me know if the compliance test
->> fails for drivers without selection support, I'll have to fix the test
->> in that case.
-> 
-> The compliance test for VIDIOC_S_FMT fails with the following message
-> if G_SELECTION is not implemented:
-> 
->                 fail: v4l2-test-formats.cpp(836): sel.r.width != fmt.g_width()
->         test VIDIOC_S_FMT: FAIL
-> 
+Hi Edgar,
 
-Try this patch:
+Thank you for the patch, and sorry for the delay.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-index fc497e3c..544ecb5c 100644
---- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-@@ -828,7 +828,11 @@ static int testM2MFormats(struct node *node)
- 		.type = fmt.g_type(),
- 		.target = V4L2_SEL_TGT_CROP,
- 	};
--	node->g_selection(sel);
-+	if (node->g_selection(sel) == ENOTTY) {
-+		fail_on_test(fmt_cap.g_width() != fmt.g_width());
-+		fail_on_test(fmt_cap.g_height() != fmt.g_height());
-+		return 0;
-+	}
- 	fail_on_test(sel.r.top || sel.r.left);
- 	fail_on_test(sel.r.width != fmt.g_width());
- 	fail_on_test(sel.r.height != fmt.g_height());
-------------------------------------------------------------
+On Thu, Jan 10, 2019 at 09:03:13AM +0100, Edgar Thier wrote:
+> 
+> These formats are compressed 12-bit raw bayer formats with four different
+> pixel orders. They are similar to 10-bit bayer formats 'IPU3'.
+> 
+> Signed-off-by: Edgar Thier <info@edgarthier.net>
+> ---
+> Documentation/media/uapi/v4l/pixfmt-rgb.rst   |   1 +
+> .../media/uapi/v4l/pixfmt-srggb12sp.rst       | 123 ++++++++++++++++++
+> drivers/media/usb/uvc/uvc_driver.c            |  20 +++
+> include/uapi/linux/videodev2.h                |   7 +
+> 4 files changed, 151 insertions(+)
+> create mode 100644 Documentation/media/uapi/v4l/pixfmt-srggb12sp.rst
+> 
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> index 1f9a7e3a07c9..5da00bd085f1 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> @@ -19,5 +19,6 @@ RGB Formats
+> 	pixfmt-srggb10-ipu3
+> 	pixfmt-srggb12
+> 	pixfmt-srggb12p
+> +	pixfmt-srggb12sp
+> 	pixfmt-srggb14p
+> 	pixfmt-srggb16
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb12sp.rst
+> b/Documentation/media/uapi/v4l/pixfmt-srggb12sp.rst
+> new file mode 100644
+> index 000000000000..829f6aef34bc
+> --- /dev/null
+> +++ b/Documentation/media/uapi/v4l/pixfmt-srggb12sp.rst
+> @@ -0,0 +1,123 @@
+> +.. -*- coding: utf-8; mode: rst -*-
+> +
+> +.. _v4l2-pix-fmt-sbggr12sp:
+> +.. _v4l2-pix-fmt-sgbrg12sp:
+> +.. _v4l2-pix-fmt-sgrbg12sp:
+> +.. _v4l2-pix-fmt-srggb12sp:
+> +
+> +******************************************************************************************************************************************************
+> +V4L2_PIX_FMT_SBGGR12SP ('SRGGB12SP'), V4L2_PIX_FMT_SGBRG12SP ('SGBRG12SP'),
+> V4L2_PIX_FMT_SGRBG12SP('SGRBG12SP'), V4L2_PIX_FMT_SRGGB12SP ('SRGGB12SP')
 
+Your mailer seems to wrap lines, corrupting the patch and making it
+impossible to apply it with git am. Could you try to fix this for your
+next submission ?
+
+The string between parentheses is supposed to be the 4CC in string form,
+'BGCp' for the first one for instance.
+
+
+> +******************************************************************************************************************************************************
+> +
+> +12-bit Bayer formats
+> +
+> +Description
+> +===========
+> +
+> +These four pixel formats are used by industrial cameras, often in conjunction with UsbVision (see
+> https://www.visiononline.org/userAssets/aiaUploads/file/USB3_Vision_Specification_v1-0-1.pdf).
+
+Please wrap lines at 80 colums (long URLs can of course be an
+exception).
+
+This document doesn't seem to describe the pixel formats. Is there
+another document that would do so ?
+
+> +
+> +They are raw sRGB / Bayer formats with 12 bits per sample with 6 bytes for every 4 pixels.
+> +The format is little endian.
+
+It's actually 3 bytes for 2 pixels, the pattern repeats every two
+pixels. The difference with the SRGGB12P family of formats is how bits
+are packed, in SRGGB12P we have two bytes of MSBs followed by one byte
+of combined LSBs, while here we have one byte of LSB, one combined byte
+of MSB and LSB, and one byte of MSB.
+
+> +
+> +In other respects this format is similar to :ref:`v4l2-pix-fmt-ipu3-sbggr10`.
+> +Below is an example of a small image in V4L2_PIX_FMT_SBGGR12SP format.
+> +
+> +**Byte Order.**
+> +Each cell is one byte.
+> +
+> +.. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|
+> +
+> +.. flat-table::
+> +
+> +    * - start + 0:
+> +      - B\ :sub:`0000low`
+
+The numerical suffix should be two digits only, with the first digit
+being the line number and the second digit the column number.
+
+> +      - G\ :sub:`0001low`\ (bits 7--4)
+> +
+> +        B\ :sub:`0000high`\ (bits 0--3)
+
+So the LSBs of the G component go in the MSBs of this byte, and the MSBs
+of the B component in the LSBs for this byte ? That's a strange
+arrangement, could you confirm that it's indeed correct ?
+
+> +
+> +      - G\ :sub:`0001high`\
+> +      - B\ :sub:`0002low`
+> +
+> +    * - start + 4:
+> +      - G\ :sub:`0003low`\ (bits 7--4)
+> +
+> +        B\ :sub:`0002high`\ (bits 0--3)
+> +      - G\ :sub:`0003high`
+> +      - B\ :sub:`0004low`
+> +      - G\ :sub:`0005low`\ (bits 7--2)
+> +
+> +        B\ :sub:`0004high`\ (bits 1--0)
+> +
+> +    * - start + 8:
+> +      - G\ :sub:`0005high`
+> +      - B\ :sub:`0006low`
+> +      - G\ :sub:`0007low`\ (bits 7--4)
+> +        B\ :sub:`0006high`\ (bits 3--0)
+> +      - G\ :sub:`0007high`
+> +
+
+This is very difficult to read. You should reduce the image to a 4x4 image
+instead of 8x4 (as the pattern repeats every two pixels, that's more
+than enough, and have 6 bytes per line (so start + 0, start + 6, start +
+12, ...).
+
+> +    * - start + 12:
+> +      - G\ :sub:`0008low`
+> +      - R\ :sub:`0009low`\ (bits 7--4)
+> +
+> +        G\ :sub:`0008high`\ (bits 3--0)
+> +      - R\ :sub:`0009high`
+> +      - G\ :sub:`0010low`
+> +
+> +    * - start + 16:
+> +      - R\ :sub:`0011low`\ (bits 7--4)
+> +        G\ :sub:`00010high`\ (bits 3--0)
+> +      - R\ :sub:`0011high`
+> +      - G\ :sub:`0012low`
+> +      - R\ :sub:`0013low`\ (bits 7--4)
+> +        G\ :sub:`0012high`\ (bits 3--0)
+> +
+> +    * - start + 20
+> +      - R\ :sub:`0013high`
+> +      - G\ :sub:`0014low`
+> +      - R\ :sub:`0015low`\ (bits 7--4)
+> +        G\ :sub:`0014high`\ (bits 3--0)
+> +      - R\ :sub:`0015high`
+> +
+> +    * - start + 24:
+> +      - B\ :sub:`0016low`
+> +      - G\ :sub:`0017low`\ (bits 7--4)
+> +        B\ :sub:`0016high`\ (bits 0--3)
+> +      - G\ :sub:`0017high`\
+> +      - B\ :sub:`0018low`
+> +
+> +    * - start + 28:
+> +      - G\ :sub:`0019low`\ (bits 7--4)
+> +        B\ :sub:`00018high`\ (bits 0--3)
+> +      - G\ :sub:`0019high`
+> +      - B\ :sub:`0020low`
+> +      - G\ :sub:`0021low`\ (bits 7--2)
+> +        B\ :sub:`0020high`\ (bits 1--0)
+> +
+> +    * - start + 32:
+> +      - G\ :sub:`0021high`
+> +      - B\ :sub:`0022low`
+> +      - G\ :sub:`0023low`\ (bits 7--4)
+> +        B\ :sub:`0022high`\ (bits 3--0)
+> +      - G\ :sub:`0024high`
+> +
+> +    * - start + 36:
+> +      - G\ :sub:`0025low`
+> +      - R\ :sub:`0026low`\ (bits 7--4)
+> +        G\ :sub:`0025high`\ (bits 3--0)
+> +      - R\ :sub:`0026high`
+> +      - G\ :sub:`0027low`
+> +
+> +    * - start + 40:
+> +      - R\ :sub:`0028low`\ (bits 7--4)
+> +        G\ :sub:`00027high`\ (bits 3--0)
+> +      - R\ :sub:`0028high`
+> +      - G\ :sub:`0029low`
+> +      - R\ :sub:`0030low`\ (bits 7--4)
+> +        G\ :sub:`0029high`\ (bits 3--0)
+> +
+> +    * - start + 44:
+> +      - R\ :sub:`0030high`
+> +      - G\ :sub:`0031low`
+> +      - R\ :sub:`0033low`\ (bits 7--4)
+> +        G\ :sub:`0032high`\ (bits 3--0)
+> +      - R\ :sub:`0033high`
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index d46dc432456c..3125ed5de3b4 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+
+This belongs to the other patch in the series.
+
+> @@ -179,6 +179,26 @@ static struct uvc_format_desc uvc_fmts[] = {
+> 		.guid		= UVC_GUID_FORMAT_RW10,
+> 		.fcc		= V4L2_PIX_FMT_SRGGB10P,
+> 	},
+> +	{
+> +		.name		= "Bayer 12-bit simple packed (SBGGR12SP)",
+> +		.guid		= UVC_GUID_FORMAT_BG12SP,
+> +		.fcc		= V4L2_PIX_FMT_SBGGR12SP,
+> +	},
+> +	{
+> +		.name		= "Bayer 12-bit simple packed (SGBRG12SP)",
+> +		.guid		= UVC_GUID_FORMAT_GB12SP,
+> +		.fcc		= V4L2_PIX_FMT_SGBRG12SP,
+> +	},
+> +	{
+> +		.name		= "Bayer 12-bit simple packed (SRGGB12SP)",
+> +		.guid		= UVC_GUID_FORMAT_RG12SP,
+> +		.fcc		= V4L2_PIX_FMT_SRGGB12SP,
+> +	},
+> +	{
+> +		.name		= "Bayer 12-bit simple packed (SGRBG12SP)",
+> +		.guid		= UVC_GUID_FORMAT_GR12SP,
+> +		.fcc		= V4L2_PIX_FMT_SGRBG12SP,
+> +	},
+> 	{
+> 		.name		= "Bayer 16-bit (SBGGR16)",
+> 		.guid		= UVC_GUID_FORMAT_BG16,
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 5d1a3685bea9..573acd99ed09 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -605,6 +605,13 @@ struct v4l2_pix_format {
+> #define V4L2_PIX_FMT_SGBRG12 v4l2_fourcc('G', 'B', '1', '2') /* 12  GBGB.. RGRG.. */
+> #define V4L2_PIX_FMT_SGRBG12 v4l2_fourcc('B', 'A', '1', '2') /* 12  GRGR.. BGBG.. */
+> #define V4L2_PIX_FMT_SRGGB12 v4l2_fourcc('R', 'G', '1', '2') /* 12  RGRG.. GBGB.. */
+> ++
+> +/* 12bit raw bayer simple packed, 6 bytes for every 4 pixels */
+
+You're missing a tab here (or is it your mailer that removed it ?).
+
+I don't think there are any way simpler than the SBGGR12P family. I
+wonder if we could find better descriptive name, both for this comment
+and for the format name in uvc_fmts[].
+
+> +#define V4L2_PIX_FMT_SBGGR12SP v4l2_fourcc('B', 'G', 'C', 'p')
+> +#define V4L2_PIX_FMT_SGBRG12SP v4l2_fourcc('G', 'B', 'C', 'p')
+> +#define V4L2_PIX_FMT_SGRBG12SP v4l2_fourcc('G', 'R', 'C', 'p')
+> +#define V4L2_PIX_FMT_SRGGB12SP v4l2_fourcc('R', 'G', 'C', 'p')
+> +
+> /* 12bit raw bayer packed, 6 bytes for every 4 pixels */
+> #define V4L2_PIX_FMT_SBGGR12P v4l2_fourcc('p', 'B', 'C', 'C')
+> #define V4L2_PIX_FMT_SGBRG12P v4l2_fourcc('p', 'G', 'C', 'C')
+
+You should also update the v4l_fill_fmtdesc() function. Please use the
+same format names there and in the uvc_fmts[] table.
+
+-- 
 Regards,
 
-	Hans
+Laurent Pinchart
