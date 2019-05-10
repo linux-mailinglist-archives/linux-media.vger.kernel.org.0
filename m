@@ -2,187 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE70F19EB1
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 16:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5849919EC3
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 16:11:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbfEJOHm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 10:07:42 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:33147 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727521AbfEJOHk (ORCPT
+        id S1727851AbfEJOL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 10:11:57 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51329 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727521AbfEJOL5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 10:07:40 -0400
+        Fri, 10 May 2019 10:11:57 -0400
 Received: from [IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215] ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id P6BUhf94HsDWyP6BVhcq7O; Fri, 10 May 2019 16:07:37 +0200
-Subject: Re: [PATCH v5 03/15] media: v4l2-common: Support custom
- imagesize/bytesperline in fill_pixfmt()
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20190503114719.28784-1-boris.brezillon@collabora.com>
- <20190503114719.28784-4-boris.brezillon@collabora.com>
- <0c5a648c-27a8-8195-8ad9-8cefb4369837@xs4all.nl>
- <20190510112847.GA4972@pendragon.ideasonboard.com>
- <c2d02ffb-5273-67a8-1a3a-c7268dc7bfb6@xs4all.nl>
- <20190510122411.GB4972@pendragon.ideasonboard.com>
- <f9ffc9ae-2c27-2883-7f62-9931597c8e75@xs4all.nl>
- <106a6aa5fe62cf5b18652b667d15bc8677790cad.camel@ndufresne.ca>
+        id P6FehfBjhsDWyP6Ffhcr4d; Fri, 10 May 2019 16:11:55 +0200
+Subject: Re: [PATCH v5 4/5] [media] allegro: add Allegro DVT video IP core
+ driver
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        dshah@xilinx.com, mchehab@kernel.org, robh+dt@kernel.org,
+        kernel@pengutronix.de, tfiga@chromium.org
+References: <20190503122010.16663-1-m.tretter@pengutronix.de>
+ <20190503122010.16663-5-m.tretter@pengutronix.de>
+ <0d15e216-7e10-eb55-1957-32be1c48f461@xs4all.nl>
+ <20190510122819.3a978105@litschi.hi.pengutronix.de>
+ <f9136e3a-6592-7198-b4fb-75664a8b653e@xs4all.nl>
+ <20190510155239.0502e080@litschi.hi.pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4e7f49b2-48ad-b504-5826-d993ba85e624@xs4all.nl>
-Date:   Fri, 10 May 2019 16:07:36 +0200
+Message-ID: <5755a4f2-b946-283f-7a96-6bb9583d2c73@xs4all.nl>
+Date:   Fri, 10 May 2019 16:11:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <106a6aa5fe62cf5b18652b667d15bc8677790cad.camel@ndufresne.ca>
+In-Reply-To: <20190510155239.0502e080@litschi.hi.pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfO6FoDNjsoODniI2jH1jwnFcVeqCrvtZuLfOif/DBTUuibcQ/7Cjf2dNxrIdV/Z3a+NAbDEXCAWuGPKlAg9nxB3N9531ex1lRHAPhMAp6iiszPLxHgx3
- iDEpM5DAwZy5myrO0kMGNQUl/K+qihnzOQbjh/+/7p5C6+v+GCtG/FR1AjQQLdES+BkcarQkb51+tcuFqkEzsiZYcYzbACcY5wP39TPWYQaDCMQmeDwycOYO
- KnJLA61VM0bo2D7ZASPb4VGUj413bMxSL09RxiAbyeEFc84ugIzkdG7PlzEd9Ztv3dvIMzq8NwRk3t5OUTKctf5FwmLr3wvzWgo7hu5t3/AkHzSY+pi8FhHP
- Q5bylaeUVVxr6EWvwhgNYA9BSr9wTDA09r47QCycF8H8/qvVj7LtRuJoWyPi6LZx9yUucWCPbcZok3q4NXEdujEyDWC5OHNPp/zF4FKGBLWHyxVhzuHJv1w7
- XkY3fYXOtKGI+2GUBDP0p5vXz66hLkJ9RNaZNL7wS9pbqiJJs+f1cvI4Y561BKDKrTugLgcWQm3qHipjZ3FzoaIwb2W/hEFRXRuwq1+DaYWYVSBrpMrP3USa
- ig2PT6N/3qXX6sdPxj488Z34UQF55aqYhzT1yYDdJyoDq9z62rbxelRe4PieUplAI3dccExNvOxjOEWE30ZMvH4qfRfabifKly8uzuUt6ctwRIKrhwBHyXye
- VqFcBahC0mYJdvl0hytS2bPb1uVYzsgBcMm17OuAhvyLKycUj8IZYwUBuLE1h7Pa88idyo21sKg=
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBPpHW0bTHxMTZqJ/GAUvHNnZvyIdfcPGj099MZv5FE9OhetPBvtYLQUFMu2jI4FdCr0FSBuAEgGCsOFjsKBqKZJX8qh09dybV7gUGvAW8b+vG/r0n1k
+ QiHntmGOz9g7jcqWAbs2QnZRFAYIfo/n1N20K6QChBXSM6siCI8t/SLocKplQBahzubZUVwSwTuEMatdbjTQHHX2MaJM38ClzuQFoVEEgoKlG0ZDaSimvUAt
+ l2Q8/A3Ou5XoXSwOVkA2xvd8CnkhSX5RgWylwRJALTAOyrDc+fI/LZd8A0wGaELeONlvUmLmYL3Id4+LK9PSJBrPU6SbNFDWhEc2RGCtrzIEjO3J7eHE5cRi
+ RXSjlerp2HjPjNzyz/nuMidCXPYyrHTAW+kvQUUOm/h3dzpjZIhgBwrZQovqUPpHYkhmKaddSof1kCjTqDYJncpbg5TYcaeHAhsfRI2eIQv1D1m1fjNXMt6H
+ Rx2Sp1J96yZ668vXlYVCYBi5DTTcikSOT74b3Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/10/19 3:51 PM, Nicolas Dufresne wrote:
-> Le vendredi 10 mai 2019 à 14:30 +0200, Hans Verkuil a écrit :
->> On 5/10/19 2:24 PM, Laurent Pinchart wrote:
->>> Hi Hans,
->>>
->>> On Fri, May 10, 2019 at 02:17:32PM +0200, Hans Verkuil wrote:
->>>> On 5/10/19 1:28 PM, Laurent Pinchart wrote:
->>>>> On Fri, May 10, 2019 at 10:57:26AM +0200, Hans Verkuil wrote:
->>>>>> On 5/3/19 1:47 PM, Boris Brezillon wrote:
->>>>>>> Users can define custom sizeimage and bytesperline as long as they're
->>>>>>> big enough to store the amount of pixels required for a specific
->>>>>>> width/height under a specific format. Avoid overriding those fields in
->>>>>>> this case.
->>>>>>>
->>>>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>>>>> ---
->>>>>>> Hello Hans,
->>>>>>>
->>>>>>> The sizeimage/bytesperline check on !MPLANE formats is still not 100%
->>>>>>> sure, as custom bytesperline might induce bigger sizeimage than what
->>>>>>> we calculate.
->>>>>>>
->>>>>>> I tried implementing something smarter taking the per-component plane
->>>>>>> bpp + hdiv param as we discussed the other day but decided to step
->>>>>>> back after realizing the per-component plane macro block might also
->>>>>>> differ at least in theory (not sure that's true in practice) and that
->>>>>>> has an impact on bytesperline too.
->>>>>>>
->>>>>>> Let me know how you want to handle that case.
->>>>>>>
->>>>>>> Regards,
->>>>>>>
->>>>>>> Boris
->>>>>>>
->>>>>>> Changes in v5:
->>>>>>> * New patch
->>>>>>> ---
->>>>>>>  drivers/media/v4l2-core/v4l2-common.c | 54 +++++++++++++++++++--------
->>>>>>>  1 file changed, 39 insertions(+), 15 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
->>>>>>> index 3c6f5c115fc5..37bfc984a8b5 100644
->>>>>>> --- a/drivers/media/v4l2-core/v4l2-common.c
->>>>>>> +++ b/drivers/media/v4l2-core/v4l2-common.c
->>>>>>> @@ -563,9 +563,10 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
->>>>>>>  	pixfmt->num_planes = info->mem_planes;
->>>>>>>  
->>>>>>>  	if (info->mem_planes == 1) {
->>>>>>> +		u32 bytesperline, sizeimage = 0;
->>>>>>> +
->>>>>>>  		plane = &pixfmt->plane_fmt[0];
->>>>>>> -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
->>>>>>> -		plane->sizeimage = 0;
->>>>>>> +		bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
->>>>>>>  
->>>>>>>  		for (i = 0; i < info->comp_planes; i++) {
->>>>>>>  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
->>>>>>> @@ -576,10 +577,17 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
->>>>>>>  			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
->>>>>>>  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
->>>>>>>  
->>>>>>> -			plane->sizeimage += info->bpp[i] *
->>>>>>> -				DIV_ROUND_UP(aligned_width, hdiv) *
->>>>>>> -				DIV_ROUND_UP(aligned_height, vdiv);
->>>>>>> +			sizeimage += info->bpp[i] *
->>>>>>> +				     DIV_ROUND_UP(aligned_width, hdiv) *
->>>>>>> +				     DIV_ROUND_UP(aligned_height, vdiv);
->>>>>>>  		}
->>>>>>> +
->>>>>>> +		/*
->>>>>>> +		 * The user might have specified custom sizeimage/bytesperline,
->>>>>>> +		 * only override them if they're not big enough.
->>>>>>> +		 */
->>>>>>> +		plane->sizeimage = max(sizeimage, plane->sizeimage);
->>>>>>> +		plane->bytesperline = max(bytesperline, plane->bytesperline);
->>>>>>
->>>>>> Let's just set bytesperline, ignoring the value the user supplied. There are very
->>>>>> few drivers that allow the user to set bytesperline anyway, so it's not a big deal
->>>>>> to drop support for that for now. We can add it back later.
->>>>>>
->>>>>> Just add a comment that a user-defined bytesperline value isn't currently supported.
+On 5/10/19 3:52 PM, Michael Tretter wrote:
+> On Fri, 10 May 2019 12:58:43 +0200, Hans Verkuil wrote:
+>> On 5/10/19 12:28 PM, Michael Tretter wrote:
+>>> On Fri, 10 May 2019 10:28:53 +0200, Hans Verkuil wrote:  
+>>>> On 5/3/19 2:20 PM, Michael Tretter wrote:  
+>>>>> Add a V4L2 mem-to-mem driver for Allegro DVT video IP cores as found in
+>>>>> the EV family of the Xilinx ZynqMP SoC. The Zynq UltraScale+ Device
+>>>>> Technical Reference Manual uses the term VCU (Video Codec Unit) for the
+>>>>> encoder, decoder and system integration block.
 >>>>>
->>>>> Kieran recently ran into an issue related to this, when sharing buffers
->>>>> between a CSI-2 receiver and an ISP. The ISP has alignment constraints
->>>>> in both the horizontal and vertical directions on the line stride and
->>>>> total image size. Out software framework currently allocates buffers
->>>>> from the CSI-2 receiver which doesn't have those constraints, and not
->>>>> being able to specify sizeimage is thus a problem.
+>>>>> This driver takes care of interacting with the MicroBlaze MCU that
+>>>>> controls the actual IP cores. The IP cores and MCU are integrated in the
+>>>>> FPGA. The xlnx_vcu driver is responsible for configuring the clocks and
+>>>>> providing information about the codec configuration.
+>>>>>
+>>>>> The driver currently only supports the H.264 video encoder.
+>>>>>
+>>>>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+>>>>> ---  
+>>
+>> <snip>
+>>
+>>>>> +static int allegro_try_fmt_vid_out(struct file *file, void *fh,
+>>>>> +				   struct v4l2_format *f)
+>>>>> +{
+>>>>> +	f->fmt.pix.field = V4L2_FIELD_NONE;
+>>>>> +
+>>>>> +	f->fmt.pix.width = clamp_t(__u32, f->fmt.pix.width,
+>>>>> +				   ALLEGRO_WIDTH_MIN, ALLEGRO_WIDTH_MAX);
+>>>>> +	f->fmt.pix.height = clamp_t(__u32, f->fmt.pix.height,
+>>>>> +				    ALLEGRO_HEIGHT_MIN, ALLEGRO_HEIGHT_MAX);    
 >>>>
->>>> Not being able to specify sizeimage where? From userspace? Sorry, I don't
->>>> quite understand the specific issue here.
+>>>> Shouldn't this be rounded up to the macroblock size? Or is the encoder
+>>>> smart enough to do the padding internally?  
 >>>
->>> Yes, from userspace.
+>>> The driver sends a message with the visible size of the raw frames
+>>> (without macroblock alignment) to the encoder firmware. Therefore, the
+>>> encoder firmware is responsible for handling the padding to macroblock
+>>> size.  
 >>
->> Ah, OK. But why not use CREATEBUFS? You can provide your own size when allocating
->> the buffers.
->>
->> Also note this patch: https://patchwork.linuxtv.org/patch/55656/
->>
->> Although this is specific for compressed formats.
+>> Please add a comment describing this. It is unusual for encoders to be
+>> able to do this so it is good to document this.
 > 
-> While this work for compressed formats, it does not do anything for raw
-> image horizontal padding. The importation bit of V4L2 is pretty
-> difficult, so if we add helpers, we should load the way and simplify
-> things for userspace rather then enforcing the existing difficulty.
+> OK.
 > 
-> I think from now own we should design with the mindset that a DMABuf
-> that cannot be imported back into another driver due to software
-> limitations is a useless waste of FD.
+>>
+>>>
+>>> Furthermore, the encoder requires that the stride is 32 byte aligned.
+>>> Therefore, we naturally have a macroblock alignment regarding the
+>>> width, but not regarding the height. This limitation is already
+>>> included in the bytesperline field.  
+>>
+>> Ack.
+>>
+>>>   
+>>>>  
+>>>>> +
+>>>>> +	f->fmt.pix.pixelformat = V4L2_PIX_FMT_NV12;
+>>>>> +	f->fmt.pix.bytesperline = round_up(f->fmt.pix.width, 32);
+>>>>> +	f->fmt.pix.sizeimage =
+>>>>> +		f->fmt.pix.bytesperline * f->fmt.pix.height * 3 / 2;
+>>>>> +
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static int allegro_s_fmt_vid_out(struct file *file, void *fh,
+>>>>> +				 struct v4l2_format *f)
+>>>>> +{
+>>>>> +	struct allegro_channel *channel = fh_to_channel(fh);
+>>>>> +	int err;
+>>>>> +
+>>>>> +	err = allegro_try_fmt_vid_out(file, fh, f);
+>>>>> +	if (err)
+>>>>> +		return err;
+>>>>> +
+>>>>> +	channel->width = f->fmt.pix.width;
+>>>>> +	channel->height = f->fmt.pix.height;
+>>>>> +	channel->stride = f->fmt.pix.bytesperline;
+>>>>> +	channel->sizeimage_raw = f->fmt.pix.sizeimage;
+>>>>> +
+>>>>> +	channel->colorspace = f->fmt.pix.colorspace;
+>>>>> +	channel->ycbcr_enc = f->fmt.pix.ycbcr_enc;
+>>>>> +	channel->quantization = f->fmt.pix.quantization;
+>>>>> +	channel->xfer_func = f->fmt.pix.xfer_func;
+>>>>> +
+>>>>> +	channel->level =
+>>>>> +		select_minimum_h264_level(channel->width, channel->height);
+>>>>> +	channel->sizeimage_encoded =
+>>>>> +		estimate_stream_size(channel->width, channel->height);
+>>>>> +
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static int allegro_g_selection(struct file *file, void *priv,
+>>>>> +			       struct v4l2_selection *s)
+>>>>> +{
+>>>>> +	struct v4l2_fh *fh = file->private_data;
+>>>>> +	struct allegro_channel *channel = fh_to_channel(fh);
+>>>>> +
+>>>>> +	if (!V4L2_TYPE_IS_OUTPUT(s->type))
+>>>>> +		return -EINVAL;
+>>>>> +
+>>>>> +	switch (s->target) {
+>>>>> +	case V4L2_SEL_TGT_CROP:
+>>>>> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+>>>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>>>>> +		s->r.left = 0;
+>>>>> +		s->r.top = 0;
+>>>>> +		s->r.width = channel->width;
+>>>>> +		s->r.height = channel->height;    
+>>>>
+>>>> I don't think this is quite right. The CROP target should return the visible
+>>>> width/height (e.g. 1920x1080) whereas the other two targets should return the
+>>>> coded width/height (e.g. 1920x1088 when rounded to the macroblock alignment).
+>>>>
+>>>> Note: if the hardware doesn't require that the raw frame is macroblock aligned,
+>>>> then I need to think a bit more about how the selection handling should be
+>>>> done.  
+>>>
+>>> The driver internally calculates the coded width/height in macroblocks
+>>> and cropping and writes it to the SPS. Currently, this isn't exposed to
+>>> userspace, because I don't see a need to tell the userspace about that.
+>>>
+>>> If there is a reason to expose this to userspace, I am fine with
+>>> implementing that.  
+>>
+>> There really is no need for the selection API at all. Just drop both
+>> G and S_SELECTION from the driver. Let me know if the compliance test
+>> fails for drivers without selection support, I'll have to fix the test
+>> in that case.
+> 
+> The compliance test for VIDIOC_S_FMT fails with the following message
+> if G_SELECTION is not implemented:
+> 
+>                 fail: v4l2-test-formats.cpp(836): sel.r.width != fmt.g_width()
+>         test VIDIOC_S_FMT: FAIL
+> 
 
-I agree, but I feel that this is part of the new fmt and streaming
-ioctls project that Boris started. Doing further hacking of the existing API
-is just complicating matters even more.
+Try this patch:
 
-Creating new format ioctls that are much more flexible in describing image
-formats (and closer to drm where possible) seems to be the right approach.
-
-Hmmm... "waste of FD": Face Detection? File Descriptor? Probably not.
-
-The urbandictionary doesn't help either: https://www.urbandictionary.com/define.php?term=FD
-
-No idea what FD means :-), although I get the sentiment.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+index fc497e3c..544ecb5c 100644
+--- a/utils/v4l2-compliance/v4l2-test-formats.cpp
++++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+@@ -828,7 +828,11 @@ static int testM2MFormats(struct node *node)
+ 		.type = fmt.g_type(),
+ 		.target = V4L2_SEL_TGT_CROP,
+ 	};
+-	node->g_selection(sel);
++	if (node->g_selection(sel) == ENOTTY) {
++		fail_on_test(fmt_cap.g_width() != fmt.g_width());
++		fail_on_test(fmt_cap.g_height() != fmt.g_height());
++		return 0;
++	}
+ 	fail_on_test(sel.r.top || sel.r.left);
+ 	fail_on_test(sel.r.width != fmt.g_width());
+ 	fail_on_test(sel.r.height != fmt.g_height());
+------------------------------------------------------------
 
 Regards,
 
