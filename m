@@ -2,123 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A84C19C63
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 13:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D0119C92
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 13:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727144AbfEJLSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 07:18:07 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60451 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727052AbfEJLSH (ORCPT
+        id S1727196AbfEJL3H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 07:29:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36538 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727162AbfEJL3H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 07:18:07 -0400
-Received: from [IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215] ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id P3XPhdN8xsDWyP3XQhc7iO; Fri, 10 May 2019 13:18:04 +0200
-Subject: Re: [PATCH v4 0/8] Switch to sync registration for IPU subdevs
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org
-References: <20190503224326.21039-1-slongerbeam@gmail.com>
- <m3ftpr5lne.fsf@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ad321dec-4352-205e-3c04-e13865a279d5@xs4all.nl>
-Date:   Fri, 10 May 2019 13:18:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 10 May 2019 07:29:07 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2EBB2DF;
+        Fri, 10 May 2019 13:29:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1557487743;
+        bh=O5VkRp/cFdU1yhbEvfZGNpBOwVZqtwrZ6R3cmLCJos4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZVe4809/xGKyjijtRUyVRZmCXJP9rjMpX77EZVbaoc9YQuZeSnPMNAIQ1DXjeUP/D
+         8/LRCseAhHpg3GB6GCwUkan5cWe1xATbeOL7fCMKrkY2K7KDYuy01TWhTEZ3J9VS0n
+         fkHVixDudWNa2E7lfJf1oQR/uefnIy47NEJKypNg=
+Date:   Fri, 10 May 2019 14:28:47 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v5 03/15] media: v4l2-common: Support custom
+ imagesize/bytesperline in fill_pixfmt()
+Message-ID: <20190510112847.GA4972@pendragon.ideasonboard.com>
+References: <20190503114719.28784-1-boris.brezillon@collabora.com>
+ <20190503114719.28784-4-boris.brezillon@collabora.com>
+ <0c5a648c-27a8-8195-8ad9-8cefb4369837@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <m3ftpr5lne.fsf@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFtCTxdRGndZ7QMeZk84e7dHMFo9Ki2rWHImDrtvHvou/uI5JyY7vxlGwaWRmSFepjD+8L25hiX4wTlJeXDsausuM6GWmLsO5VnSCFEzh06fQuLQmTHc
- r7e2aB9+/v/Ub+MZvxWLI9PFJKnzGUBaZJFlnlJ8fH1AE7KylPHJahkoPKbYXEITcHD9rM7/+TmLO6sdBATxv0qO8z6rJT5WSGq6MJwTa1ImYRxNuzjOOg9B
- UuoE1Wm6Lp199pW21kZ5Jt3G2CO/MQNQnsotf7BW0kaUwN4SENoN+etJUpxbhmw8YMsUse8os7NG7EHLnBiEZ6NdDho5pNLyzZu4EDc6i8o=
+Content-Disposition: inline
+In-Reply-To: <0c5a648c-27a8-8195-8ad9-8cefb4369837@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/6/19 11:16 PM, Rui Miguel Silva wrote:
-> Hi Steve,
-> On Fri 03 May 2019 at 23:43, Steve Longerbeam wrote:
->> Switch to sync registration for the IPU internal sub-devices, re-organize
->> modules, and a few other miscellaneous cleanups.
-> 
-> Thanks for the series and the fixes. Now everything works as
-> before. So, for the all series and related to imx7:
-> 
-> Tested-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> 
-> My only concern is that Hans already pull requested to v5.2 [0] my
-> previous patch that your series do not apply on top of.
-> 
-> So, @Hans will you push this series to v5.2 and add a revert
-> of [1]? or this will go only to v5.3?
+Hi Hans,
 
-This will only go to v5.3.
+(CC'ing Kieran)
 
-I believe that Mauro plans to get [0] into 5.2, probably as a pull request
-once v5.2-rc1 has been released. So once that is merged Steve probably needs
-to do a rebase of this series.
+On Fri, May 10, 2019 at 10:57:26AM +0200, Hans Verkuil wrote:
+> On 5/3/19 1:47 PM, Boris Brezillon wrote:
+> > Users can define custom sizeimage and bytesperline as long as they're
+> > big enough to store the amount of pixels required for a specific
+> > width/height under a specific format. Avoid overriding those fields in
+> > this case.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Hello Hans,
+> > 
+> > The sizeimage/bytesperline check on !MPLANE formats is still not 100%
+> > sure, as custom bytesperline might induce bigger sizeimage than what
+> > we calculate.
+> > 
+> > I tried implementing something smarter taking the per-component plane
+> > bpp + hdiv param as we discussed the other day but decided to step
+> > back after realizing the per-component plane macro block might also
+> > differ at least in theory (not sure that's true in practice) and that
+> > has an impact on bytesperline too.
+> > 
+> > Let me know how you want to handle that case.
+> > 
+> > Regards,
+> > 
+> > Boris
+> > 
+> > Changes in v5:
+> > * New patch
+> > ---
+> >  drivers/media/v4l2-core/v4l2-common.c | 54 +++++++++++++++++++--------
+> >  1 file changed, 39 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > index 3c6f5c115fc5..37bfc984a8b5 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -563,9 +563,10 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> >  	pixfmt->num_planes = info->mem_planes;
+> >  
+> >  	if (info->mem_planes == 1) {
+> > +		u32 bytesperline, sizeimage = 0;
+> > +
+> >  		plane = &pixfmt->plane_fmt[0];
+> > -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
+> > -		plane->sizeimage = 0;
+> > +		bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
+> >  
+> >  		for (i = 0; i < info->comp_planes; i++) {
+> >  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+> > @@ -576,10 +577,17 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> >  			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+> >  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+> >  
+> > -			plane->sizeimage += info->bpp[i] *
+> > -				DIV_ROUND_UP(aligned_width, hdiv) *
+> > -				DIV_ROUND_UP(aligned_height, vdiv);
+> > +			sizeimage += info->bpp[i] *
+> > +				     DIV_ROUND_UP(aligned_width, hdiv) *
+> > +				     DIV_ROUND_UP(aligned_height, vdiv);
+> >  		}
+> > +
+> > +		/*
+> > +		 * The user might have specified custom sizeimage/bytesperline,
+> > +		 * only override them if they're not big enough.
+> > +		 */
+> > +		plane->sizeimage = max(sizeimage, plane->sizeimage);
+> > +		plane->bytesperline = max(bytesperline, plane->bytesperline);
+> 
+> Let's just set bytesperline, ignoring the value the user supplied. There are very
+> few drivers that allow the user to set bytesperline anyway, so it's not a big deal
+> to drop support for that for now. We can add it back later.
+> 
+> Just add a comment that a user-defined bytesperline value isn't currently supported.
 
+Kieran recently ran into an issue related to this, when sharing buffers
+between a CSI-2 receiver and an ISP. The ISP has alignment constraints
+in both the horizontal and vertical directions on the line stride and
+total image size. Out software framework currently allocates buffers
+from the CSI-2 receiver which doesn't have those constraints, and not
+being able to specify sizeimage is thus a problem.
+
+We have worked around this by allocating buffers on the ISP side but
+that departed from the normal way of operation, and it may not be a good
+idea to carry that forward.
+
+I wonder how we should solve these issues long term. A central memory
+allocator is probably the way to go.
+
+> >  	} else {
+> >  		for (i = 0; i < info->comp_planes; i++) {
+> >  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+> > @@ -591,10 +599,20 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> >  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+> >  
+> >  			plane = &pixfmt->plane_fmt[i];
+> > -			plane->bytesperline =
+> > -				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv);
+> > -			plane->sizeimage =
+> > -				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
+> > +
+> > +			/*
+> > +			 * The user might have specified custom
+> > +			 * sizeimage/bytesperline, only override them if
+> > +			 * they're not big enough.
+> > +			 */
+> > +			plane->bytesperline = max_t(u32,
+> > +						    info->bpp[i] *
+> > +						    DIV_ROUND_UP(aligned_width, hdiv),
+> > +						    plane->bytesperline);
+> > +			plane->sizeimage = max_t(u32,
+> > +						 plane->bytesperline *
+> > +						 DIV_ROUND_UP(aligned_height, vdiv),
+> > +						 plane->sizeimage);
+> >  		}
+> >  	}
+> >  	return 0;
+> > @@ -605,6 +623,7 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> >  		     u32 width, u32 height)
+> >  {
+> >  	const struct v4l2_format_info *info;
+> > +	u32 bytesperline, sizeimage = 0;
+> >  	int i;
+> >  
+> >  	info = v4l2_format_info(pixelformat);
+> > @@ -618,8 +637,7 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> >  	pixfmt->width = width;
+> >  	pixfmt->height = height;
+> >  	pixfmt->pixelformat = pixelformat;
+> > -	pixfmt->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
+> > -	pixfmt->sizeimage = 0;
+> > +	bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
+> >  
+> >  	for (i = 0; i < info->comp_planes; i++) {
+> >  		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+> > @@ -629,11 +647,17 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> >  
+> >  		aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+> >  		aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+> > -
+> > -		pixfmt->sizeimage += info->bpp[i] *
+> > -			DIV_ROUND_UP(aligned_width, hdiv) *
+> > -			DIV_ROUND_UP(aligned_height, vdiv);
+> > +		sizeimage += info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) *
+> > +			     DIV_ROUND_UP(aligned_height, vdiv);
+> >  	}
+> > +
+> > +	/*
+> > +	 * The user might have specified its own sizeimage/bytesperline values,
+> > +	 * only override them if they're not big enough.
+> > +	 */
+> > +	pixfmt->sizeimage = max(sizeimage, pixfmt->sizeimage);
+> > +	pixfmt->bytesperline = max(bytesperline, pixfmt->bytesperline);
+> > +
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> ---
-> Cheers,
-> 	Rui
-> 
-> 
-> [0]: https://lore.kernel.org/linux-media/d5b4a68d-520e-0e93-d44e-07974058d690@xs4all.nl/
-> [1]: https://lore.kernel.org/linux-media/20190412164400.1270-1-rui.silva@linaro.org/
-> 
-> 
->>
->> History:
->> v4:
->> - Add **cc arg to __capture_try_fmt_vid_cap() to validate colorspace,
->>   instead of calling ipu_pixelformat_to_colorspace().
->> - Add error message if capture format validation failed.
->> v3:
->> - A couple patches did not compile/link. All patches now build so the
->>   series is fully bisectable. No functional changes.
->> v2:
->> - Added a patch that improves the pipeline upstream/downstream search
->>   functions, which no longer require the media device.
->> - Add a patch to remove getting media device from v4l2_dev driver data.
->>
->>
->> Steve Longerbeam (8):
->>   media: staging/imx: Switch to sync registration for IPU subdevs
->>   media: staging/imx: Pass device to alloc/free_dma_buf
->>   media: staging/imx: Move add_video_device into capture_device_register
->>   Revert "media: imx: Set capture compose rectangle in
->>     capture_device_set_format"
->>   media: staging/imx: Remove capture_device_set_format
->>   media: staging/imx: Re-organize modules
->>   media: staging/imx: Improve pipeline searching
->>   media: staging/imx: Don't set driver data for v4l2_dev
->>
->>  drivers/staging/media/imx/Makefile            |  18 +-
->>  drivers/staging/media/imx/imx-ic-common.c     |  68 +--
->>  drivers/staging/media/imx/imx-ic-prp.c        |  36 +-
->>  drivers/staging/media/imx/imx-ic-prpencvf.c   |  88 ++--
->>  drivers/staging/media/imx/imx-ic.h            |   6 +-
->>  drivers/staging/media/imx/imx-media-capture.c |  90 ++--
->>  drivers/staging/media/imx/imx-media-csi.c     |  45 +-
->>  .../staging/media/imx/imx-media-dev-common.c  | 346 +++++++++++++-
->>  drivers/staging/media/imx/imx-media-dev.c     | 449 +-----------------
->>  drivers/staging/media/imx/imx-media-fim.c     |   9 -
->>  .../staging/media/imx/imx-media-internal-sd.c | 357 ++++++--------
->>  drivers/staging/media/imx/imx-media-of.c      |  41 +-
->>  drivers/staging/media/imx/imx-media-utils.c   | 170 +++----
->>  drivers/staging/media/imx/imx-media-vdic.c    |  84 +---
->>  drivers/staging/media/imx/imx-media.h         | 113 +++--
->>  drivers/staging/media/imx/imx7-media-csi.c    |  43 +-
->>  16 files changed, 857 insertions(+), 1106 deletions(-)
-> 
-
+Laurent Pinchart
