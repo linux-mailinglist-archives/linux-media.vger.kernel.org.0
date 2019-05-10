@@ -2,164 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F306F19E2F
-	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 15:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 161F919E6F
+	for <lists+linux-media@lfdr.de>; Fri, 10 May 2019 15:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbfEJN3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 09:29:05 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:35803 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727247AbfEJN3E (ORCPT
+        id S1727791AbfEJNph (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 09:45:37 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39569 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727247AbfEJNpg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 09:29:04 -0400
-Received: by mail-it1-f196.google.com with SMTP id u186so9175446ith.0;
-        Fri, 10 May 2019 06:29:03 -0700 (PDT)
+        Fri, 10 May 2019 09:45:36 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w8so5561383wrl.6
+        for <linux-media@vger.kernel.org>; Fri, 10 May 2019 06:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=tEI9sf8s6CbiYTZhinc6UaZKY3nXguWNObTRgvPsffM=;
-        b=MKLC6fFeMMNFlxLJm1qDPzi/olxy7mWKyhC4XwwLqyBjXhuidBs38mAWHI8UFRB9BB
-         Z5KsEEUaF5Gbi4PMSAVYNllV+134u3zlYqmoXWHzcmItQmy/JD/9ep9FwkHWJbOvvSO/
-         js2Lxdtum8wIalNl0T17XkQcCt9Ha+NGcHa6rF/yptT0Ekt46+laq0nY48yJ59bDS5dw
-         bzDu1uUrblxcrBAB2IcZsojYCTUTIo+lsNEthY79ocauJ2Vv3DseLum1nKYNuvN6E6aB
-         VrzIxBHGTz4FjB9f+Te4Be4cY7mVDwltqP1ija8h8IS+t1q4MYELIK1acjaTzcrf2id8
-         Hiow==
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=/kwEtNrt6Tx03dWdWgJh3txugz+EdsZXM5JiK/VgH00=;
+        b=FP5/4SyOxHZYE09zgfxy/ISGMohU3kp1od72h6mCKJHSlXt9RJFefFRaQ0XcQK3Qv9
+         aIfTuk49Sr6i9LIRIrDSCPUPjXatE7CBTaGuxUZTkYQuwGZzteKlu9mReoX2Z0+0S2Sn
+         chA+Fb8MU7gpfb5bcqT+5E1zhFIjgX9bRKGaKKz6aiFt5VUFBuiRFKRtnhAbZ0l0s0m0
+         EHCyxDUhBIRPPuOsFALO3X3SggD4eva185dsSeF5IdSUoNLGZN95gUb0ZgipTzI/3H3V
+         Iy0EL9bv6r2DaE5dmRph0UZcioV14tpTdalULo651KQyClU8LX5Umwvmz22YdWdNI00u
+         uvhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tEI9sf8s6CbiYTZhinc6UaZKY3nXguWNObTRgvPsffM=;
-        b=PZYmET0GXzFaRg8MB3SGGVm3gtNu6jfdnVFF5soJLC7mQAc75fa8SBAT5/nKPMolWQ
-         qNT75nNBeN9JpKvHvxtm2G5KXKBFQHe69qOkJd42UpaSLV0ww8tfp7xp0rS1gSzvxyAo
-         azU3vtOfeFVVKBykLFvZVLG1wPjWN05cWdHmmStIZvHr98N4iOhhIMUYidodk4gE239q
-         AlUCd4fQTtuqDCslQwBQ+GkMymUTT1/mxTJR5TQLufpJTe4k4MmUH1EcQixSHYVpcVfs
-         pZT2H3p9+fJ1nGYSBHQ5Fg2/j6SP0f8WPFHAFpH5bZrg+r3V2RNzfHtSd2aBnBaGaplL
-         MsWw==
-X-Gm-Message-State: APjAAAVOTzG6o2PjOxkSHCVRttb6hCNOsiONLK9B7jC34Oeei2Fpdd+m
-        rMd9+6XlrzXO54MhpdoaBFHEn/2V0LjNAIWYsDw=
-X-Google-Smtp-Source: APXvYqwfD517a0sqCt8zRC0swAkSFTZ4O5J/Aykr/0rp0fbxJ/7CpCNvGVWvAwLspNf49q3MF5lLhY/ndxNGki3BYCA=
-X-Received: by 2002:a24:4415:: with SMTP id o21mr2980847ita.143.1557494943235;
- Fri, 10 May 2019 06:29:03 -0700 (PDT)
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=/kwEtNrt6Tx03dWdWgJh3txugz+EdsZXM5JiK/VgH00=;
+        b=Jx9zNDKCheJcxGEdwXPfhaijWmqW5KMRFVuZMoN1bVSADcta0VHRZHdFx7cNKz/sBu
+         kPzpdWpFf+LgomSkUk4kNceufyCufN5PLoKxhc1r9bAN1Dvzd5Bp6nPZ2JZ7dPnSFxqE
+         8Dcefxv1FcMSMfe1CMxYTD62PTmfXzjvAUdh1RuG75Ci4OGb3KAe8jLnwsnLxrZaNoHu
+         FfxGE0S6WjKKtVsmwAQvRcMQ6GEV+FOqiBsi3lxxsWDgjfqxRkxQLITy6ibodSLeRpDW
+         Wf4oKn72QrzyOxQtrJ8bFY0eDMasxZjyUMPZ/f9+pN2N6oRYbJm6Ewkw9kCjVI5ppHCh
+         4R4g==
+X-Gm-Message-State: APjAAAX+KfpC8NswME/EjN9kRl47/F/ZQ8tL7Srn4u9ZoViJAHJHZWEd
+        31k99TRpT4r8wdUap+LL2nLxGiR2z5Y=
+X-Google-Smtp-Source: APXvYqxhvWi9pSNJMayGglXo1QxtMUthR2vzd1EQyuOCuPmCig8QFPe/41ieGMS+QMYndsF5FfWy8w==
+X-Received: by 2002:adf:a28b:: with SMTP id s11mr7856539wra.16.1557495934819;
+        Fri, 10 May 2019 06:45:34 -0700 (PDT)
+Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id k206sm11512651wmk.16.2019.05.10.06.45.33
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 10 May 2019 06:45:33 -0700 (PDT)
+References: <20190503224326.21039-1-slongerbeam@gmail.com> <m3ftpr5lne.fsf@gmail.com> <ad321dec-4352-205e-3c04-e13865a279d5@xs4all.nl>
+User-agent: mu4e 1.2.0; emacs 27.0.50
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 0/8] Switch to sync registration for IPU subdevs
+In-reply-to: <ad321dec-4352-205e-3c04-e13865a279d5@xs4all.nl>
+Date:   Fri, 10 May 2019 14:45:33 +0100
+Message-ID: <m3ftpms9s2.fsf@gmail.com>
 MIME-Version: 1.0
-References: <20181221011752.25627-1-sre@kernel.org> <4f47f7f2-3abb-856c-4db5-675caf8057c7@xs4all.nl>
- <20190319133154.7tbfafy7pguzw2tk@earth.universe> <CAHCN7xLZFLs=ed539bwuT6s-n6SDof-um7B3AeErQ2ChztC26A@mail.gmail.com>
- <CAHCN7xLQ=h3bfwS=uTfjSpOtv9qWbic0=_51WJz9KmX7v8+vmw@mail.gmail.com> <FCCA9B3E-80AD-416E-B6E4-85E90721881E@holtmann.org>
-In-Reply-To: <FCCA9B3E-80AD-416E-B6E4-85E90721881E@holtmann.org>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 10 May 2019 08:28:51 -0500
-Message-ID: <CAHCN7x+2t++EifqQ17kyzW0=NnnQ4A1HeFvE4pEzJ02cXwy+LA@mail.gmail.com>
-Subject: Re: [PATCH 00/14] Add support for FM radio in hcill and kill TI_ST
-To:     Marcel Holtmann <marcel@holtmann.org>
-Cc:     Sebastian Reichel <sre@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 8, 2019 at 3:58 PM Marcel Holtmann <marcel@holtmann.org> wrote:
+Hi Hans,
+On Fri 10 May 2019 at 12:18, Hans Verkuil wrote:
+> On 5/6/19 11:16 PM, Rui Miguel Silva wrote:
+>> Hi Steve,
+>> On Fri 03 May 2019 at 23:43, Steve Longerbeam wrote:
+>>> Switch to sync registration for the IPU internal sub-devices, re-organize
+>>> modules, and a few other miscellaneous cleanups.
+>> 
+>> Thanks for the series and the fixes. Now everything works as
+>> before. So, for the all series and related to imx7:
+>> 
+>> Tested-by: Rui Miguel Silva <rmfrfs@gmail.com>
+>> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+>> 
+>> My only concern is that Hans already pull requested to v5.2 [0] my
+>> previous patch that your series do not apply on top of.
+>> 
+>> So, @Hans will you push this series to v5.2 and add a revert
+>> of [1]? or this will go only to v5.3?
 >
-> Hi Adam,
+> This will only go to v5.3.
 >
-> >>>>> This moves all remaining users of the legacy TI_ST driver to hcill =
-(patches
-> >>>>> 1-3). Then patches 4-7 convert wl128x-radio driver to a standard pl=
-atform
-> >>>>> device driver with support for multiple instances. Patch 7 will res=
-ult in
-> >>>>> (userless) TI_ST driver no longer supporting radio at runtime. Patc=
-h 8-11 do
-> >>>>> some cleanups in the wl128x-radio driver. Finally patch 12 removes =
-the TI_ST
-> >>>>> specific parts from wl128x-radio and adds the required infrastructu=
-re to use it
-> >>>>> with the serdev hcill driver instead. The remaining patches 13 and =
-14 remove
-> >>>>> the old TI_ST code.
-> >>>>>
-> >>>>> The new code has been tested on the Motorola Droid 4. For testing t=
-he audio
-> >>>>> should be configured to route Ext to Speaker or Headphone. Then you=
- need to
-> >>>>> plug headphone, since its cable is used as antenna. For testing the=
-re is a
-> >>>>> 'radio' utility packages in Debian. When you start the utility you =
-need to
-> >>>>> specify a frequency, since initial get_frequency returns an error:
-> >>>>
-> >>>> What is the status of this series?
-> >>>>
-> >>>> Based on some of the replies (from Adam Ford in particular) it appea=
-rs that
-> >>>> this isn't ready to be merged, so is a v2 planned?
-> >>>
-> >>> Yes, a v2 is planned, but I'm super busy at the moment. I don't
-> >>> expect to send something for this merge window. Neither LogicPD
-> >>> nor IGEP use FM radio, so I can just remove FM support from the
-> >>> TI_ST framework. Converting those platforms to hci_ll can be done
-> >>> in a different patchset.
-> >>>
-> >>> If that was the only issue there would be a v2 already. But Marcel
-> >>> Holtmann suggested to pass the custom packet data through the BT
-> >>> subsystem, which is non-trivial (at least for me) :)
-> >>
-> >> I am running some tests today on the wl1283-st on the Logic PD Torpedo
-> >> board.  Tony had suggested a few options, so I'm going to try those.
-> >> Looking at those today.  If/when you have a V2, please CC me on it. If
-> >> it's been posted, can you send me a link?  I would really like to see
-> >> the st-kim driver go away so I'd like to resolve the issues with the
-> >> torpedo board.
-> >
-> > I have run a bunch of tests on the 5.1 kernel.  I am able to get the
-> > firmware to load now and the hci0 goes up.  I was able to establish a
-> > BLE connection to a TI Sensor Tag and read and write data to it with
-> > good success on the wl1283.
-> >
-> > Unfortunately, when I tried to do some more extensive testing over
-> > classic Bluetooth, I got an error that repeats itself at seemingly
-> > random intervals:
-> >      Bluetooth: hci0: Frame reassembly failed (-84)
-> >
-> > I can still scan and pair, but these Frame reassembly failed errors
-> > appear to come and go.
+> I believe that Mauro plans to get [0] into 5.2, probably as a pull request
+> once v5.2-rc1 has been released. So once that is merged Steve probably needs
+> to do a rebase of this series.
+
+Ok, looks good to me. Thanks for the reply.
+
+---
+Cheers,
+	Rui
+
 >
-> there are only 3 places in h4_recv_buf that return EILSEQ. Just add an ex=
-tra printk to these to figure out which one it is. Maybe it is just extra p=
-acket types that we need to handle. If it is not the packet type one, print=
- what packet we have that is causing this.
+> Regards,
 >
-
-I added some code around
-
-/* Check for invalid packet type */
-    if (!skb) {
-     printk("Check for invalid packet type %x\n", (unsigned int)
-(&pkts[i])->type);
-     return ERR_PTR(-EILSEQ);
-}
-
-I don't know if I did it right or I am reading the packet type
-correctly, but the frame reassembly errors are being caught here.
-
-[  408.519165] Check for invalid packet type ff
-[  408.523559] Bluetooth: hci0: Frame reassembly failed (-84)
-
-
-adam
-
-> Regards
+> 	Hans
 >
-> Marcel
->
+>> 
+>> ---
+>> Cheers,
+>> 	Rui
+>> 
+>> 
+>> [0]: https://lore.kernel.org/linux-media/d5b4a68d-520e-0e93-d44e-07974058d690@xs4all.nl/
+>> [1]: https://lore.kernel.org/linux-media/20190412164400.1270-1-rui.silva@linaro.org/
+>> 
+>> 
+>>>
+>>> History:
+>>> v4:
+>>> - Add **cc arg to __capture_try_fmt_vid_cap() to validate colorspace,
+>>>   instead of calling ipu_pixelformat_to_colorspace().
+>>> - Add error message if capture format validation failed.
+>>> v3:
+>>> - A couple patches did not compile/link. All patches now build so the
+>>>   series is fully bisectable. No functional changes.
+>>> v2:
+>>> - Added a patch that improves the pipeline upstream/downstream search
+>>>   functions, which no longer require the media device.
+>>> - Add a patch to remove getting media device from v4l2_dev driver data.
+>>>
+>>>
+>>> Steve Longerbeam (8):
+>>>   media: staging/imx: Switch to sync registration for IPU subdevs
+>>>   media: staging/imx: Pass device to alloc/free_dma_buf
+>>>   media: staging/imx: Move add_video_device into capture_device_register
+>>>   Revert "media: imx: Set capture compose rectangle in
+>>>     capture_device_set_format"
+>>>   media: staging/imx: Remove capture_device_set_format
+>>>   media: staging/imx: Re-organize modules
+>>>   media: staging/imx: Improve pipeline searching
+>>>   media: staging/imx: Don't set driver data for v4l2_dev
+>>>
+>>>  drivers/staging/media/imx/Makefile            |  18 +-
+>>>  drivers/staging/media/imx/imx-ic-common.c     |  68 +--
+>>>  drivers/staging/media/imx/imx-ic-prp.c        |  36 +-
+>>>  drivers/staging/media/imx/imx-ic-prpencvf.c   |  88 ++--
+>>>  drivers/staging/media/imx/imx-ic.h            |   6 +-
+>>>  drivers/staging/media/imx/imx-media-capture.c |  90 ++--
+>>>  drivers/staging/media/imx/imx-media-csi.c     |  45 +-
+>>>  .../staging/media/imx/imx-media-dev-common.c  | 346 +++++++++++++-
+>>>  drivers/staging/media/imx/imx-media-dev.c     | 449 +-----------------
+>>>  drivers/staging/media/imx/imx-media-fim.c     |   9 -
+>>>  .../staging/media/imx/imx-media-internal-sd.c | 357 ++++++--------
+>>>  drivers/staging/media/imx/imx-media-of.c      |  41 +-
+>>>  drivers/staging/media/imx/imx-media-utils.c   | 170 +++----
+>>>  drivers/staging/media/imx/imx-media-vdic.c    |  84 +---
+>>>  drivers/staging/media/imx/imx-media.h         | 113 +++--
+>>>  drivers/staging/media/imx/imx7-media-csi.c    |  43 +-
+>>>  16 files changed, 857 insertions(+), 1106 deletions(-)
+>> 
+
