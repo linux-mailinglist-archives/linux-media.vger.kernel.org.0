@@ -2,147 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFA691A66B
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2019 05:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 741A51A754
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2019 11:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728293AbfEKDqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 23:46:42 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:34407 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728255AbfEKDqm (ORCPT
+        id S1728478AbfEKJzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 May 2019 05:55:54 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43841 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbfEKJzy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 23:46:42 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id PIy7hlbazsDWyPIy8heFVS; Sat, 11 May 2019 05:46:40 +0200
-Message-ID: <e7a683256e4fb8f8f3d6715217c60df4@smtp-cloud9.xs4all.net>
-Date:   Sat, 11 May 2019 05:46:39 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfHzCbLtU92VVmfBf7wmeL3HWeTipvkfFPNgiURgMoTpSmk6jG4KacrKJmFCZIf3e4NAeAq5MsgUtaJzxt1JYI0U64qim1T3nupkVPuNFdUX6hnpxHfwp
- 7IDBwl/Zh+A/WxbkYbiVux5v3osxbVcoFwPRDARG9BLgoz5gkTudp1J1d4+wUcsoZzfj9bEJy3PM7aw203GF32E6cQAk5d4BLQpKFMJeNXSAUW2/h+vGiBjT
+        Sat, 11 May 2019 05:55:54 -0400
+Received: by mail-lj1-f194.google.com with SMTP id z5so7058069lji.10;
+        Sat, 11 May 2019 02:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FZcJEXqVDANWwYB6owLxOgwCD4ERWg2mDzKvoksXMjE=;
+        b=XyhNnMpeEdjw84bpxZd5jE8qGuRa5un6YUK9d4dHsa4/h87QvSELcWtIuANWyaJKFJ
+         HoSVoA7xP43Jq4TTE28/cNsoH2z+qafv7gq6NXzEVJHTms32lYuqdig0Jr9NSIg/xL9A
+         Pyty+JHvZQjwWV28ncms35dBqxNsxn1Y+fKvdKtZ3KnYiOjv04xEk0Ax+xhaghnun+er
+         DwVYko6t5FMSE4zYQUI8mS2BlgtP6B4No05fvt3c/beIuGbpoimJR9mvl1M6teCVkiOf
+         05qZTvySf7spSv93gQP17c+OIgfMCuBcd8iDtomTaCbJBfaxkhCJjE/9/3zpM0rrWo5G
+         rSdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FZcJEXqVDANWwYB6owLxOgwCD4ERWg2mDzKvoksXMjE=;
+        b=NFfNI740rMSpMsZTZl3P9VnX2aWfsCuc6l/QcKDzUMUrDVp9Z63CceibltUn5WS/ab
+         dRNu3Bc3M7vwAgaJbFzRWQ6zD88Pb3C+sKysciBRgo2BBKvn7/YVMTa+gqEYLs5a0wqZ
+         PBqo8tUm38cO8voA6FTw3avcd7mE7JPk/JzXOXtd+EG+aJYVNT69k61RvWuYxLKjy3Dk
+         TOA6gy232NtGmXueyoBHfuhogc3dJ56Uy4UTPa8s6nHt901D2Ico00J2lS1Y/H+AIv41
+         73DLoFvykC4BG25gRAAGs9nsEPZU2AuVlZswO5TXzkrlZF3jIPU3/V74J1oZCh0ka/sx
+         6CdQ==
+X-Gm-Message-State: APjAAAVvZR9djG23rEAWHkruNKB16tmdlokVMdr4f1NHAH52WNt0WZjW
+        2q2DvCfkr0BVBKMeKTJUtuw=
+X-Google-Smtp-Source: APXvYqxFBRMZL7fPGco5pgdbFvLEJzelYbu4iLzpwU8IUeGJyvlX956YswUAreBi4udRaZ3R+hv4Iw==
+X-Received: by 2002:a2e:548:: with SMTP id 69mr1207600ljf.176.1557568551907;
+        Sat, 11 May 2019 02:55:51 -0700 (PDT)
+Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id x6sm2126224lfn.74.2019.05.11.02.55.50
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 11 May 2019 02:55:50 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [PATCH v3 0/2] media: v4l2-subdev: Verify arguments of v4l2_subdev_call()
+Date:   Sat, 11 May 2019 11:53:57 +0200
+Message-Id: <20190511095359.21502-1-jmkrzyszt@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Correctness of format type (try or active) and pad number parameters
+passed to subdevice operation callbacks is now verified only for IOCTL
+calls.  However, those callbacks are also used by drivers, e.g., V4L2
+host interfaces.
+    
+Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
+macro while calling subdevice operations, move those parameter checks
+from subdev_do_ioctl() to v4l2_subdev_call().  Also, add a check for
+a non-NULL pad config pointer if V4L2_SUBDEV_FORMAT_tRY is requested.
 
-Results of the daily build of media_tree:
+This way we can avoid taking care of those checks inside drivers.
 
-date:			Sat May 11 05:00:10 CEST 2019
-media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Janusz Krzysztofik (2):
+  media: v4l2-subdev: Verify arguments of v4l2_subdev_call()
+  media: v4l2-subdev: Verify pad config argument
 
-linux-git-arm-at91: ERRORS
-linux-git-arm-davinci: ERRORS
-linux-git-arm-multi: ERRORS
-linux-git-arm-pxa: ERRORS
-linux-git-arm-stm32: ERRORS
-linux-git-arm64: ERRORS
-linux-git-i686: ERRORS
-linux-git-mips: ERRORS
-linux-git-powerpc64: ERRORS
-linux-git-sh: ERRORS
-linux-git-x86_64: ERRORS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.1-i686: OK
-linux-5.0.1-x86_64: OK
-linux-5.1-rc1-i686: OK
-linux-5.1-rc1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+ drivers/media/v4l2-core/v4l2-subdev.c | 234 ++++++++++++++++----------
+ include/media/v4l2-subdev.h           |   6 +
+ 2 files changed, 151 insertions(+), 89 deletions(-)
 
-Detailed results are available here:
+Changelog:
+v2->v3:
+- add patch 2/2 with pad config check,
+- adjust continuation line alignments in patch 1/2 to match those 
+  used in 2/2.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+v1->v2:
+- replace the horrible macro with a structure of wrapper functions;
+  inspired by Hans' and Sakari's comments - thanks!
 
-Detailed regression test results are available here:
+-- 
+2.21.0
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
