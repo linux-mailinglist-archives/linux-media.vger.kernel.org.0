@@ -2,472 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D5CD1A5DE
-	for <lists+linux-media@lfdr.de>; Sat, 11 May 2019 02:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFA691A66B
+	for <lists+linux-media@lfdr.de>; Sat, 11 May 2019 05:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbfEKAhw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 May 2019 20:37:52 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34732 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727961AbfEKAhv (ORCPT
+        id S1728293AbfEKDqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 May 2019 23:46:42 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:34407 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728255AbfEKDqm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 May 2019 20:37:51 -0400
-Received: by mail-lj1-f193.google.com with SMTP id j24so5697175ljg.1;
-        Fri, 10 May 2019 17:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SoENxojZ1w/kzXXTcjonW1d0cOOtTjQQz9POaMTb07Y=;
-        b=doo8poFVncJmlaeOJU+4+oVBCthxgC7jMWW4/wZdcVcs233s7iSyKjiJyYnmM/2NxE
-         P6a67kh4YyZxe6AaMOxl8Re90DJwSWm5DqmFc+oNzAcbprAzEtbuE9RmZT10GA/46wRJ
-         v9VNjrgfLkz8+vl0jh5BmUdhGa1Ld/txZJqqT9wXwFMWBt/u33War2vOAJp7HYAGb+DL
-         +QRlt9H8QwREF6naBA5e3IdG+gH8b/aDUnhCNqSYCJP0v1yslUercwfgdjnJ7w1tcfuM
-         2CokEnEKY02nVNpyKej3hq6IeTsEeSgtVNJejf9xwAkafsR0YOA4k64Dwyh4LYaakl/y
-         XH3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SoENxojZ1w/kzXXTcjonW1d0cOOtTjQQz9POaMTb07Y=;
-        b=s1fPh7Xv4k+N87A8XuRcrI2Qq7hJafZ/aqN/KXRi6REnrpg9LSffwtK68Fp3VJjgNi
-         R1kDzXuleTxOUEs504b6xTrzhK9zMy0XxCAxe3z5N7Zg4QoScfcaxq0uezzpbH7deA2h
-         A3IEVuM6X4upeew1YSLLPEI0wrDp37FukbzECx0MovhEhp60Ua+5/I7Jeq9L3KFEDo7x
-         1rv+R3H87zJqmHittGkTurFrBW7VZzGpGOBVXBouglX3k+BGwOIcgeOzzDYuTu+Fi8nm
-         68n8PNzVie6K6HrkBNRQJH73Gup9KBlTQa965tCCSZwpjh0GxCSYZOA64qllARgRFXrg
-         vJhA==
-X-Gm-Message-State: APjAAAXC0hjpmxtgwqbkbqVvkHgFqBEzKDaxp/yI7TdZ29FZVOXyoR8b
-        hAJ3jOpKvS/yhDy3sQNIrJE=
-X-Google-Smtp-Source: APXvYqynOiq7QA4YHEuKtFye3TOnnCyYfAWy5+VEEcuk71719wf8LrK0kHCmzwNCLCUAA7rMfstgJg==
-X-Received: by 2002:a2e:3604:: with SMTP id d4mr7055837lja.157.1557535068770;
-        Fri, 10 May 2019 17:37:48 -0700 (PDT)
-Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id y19sm1899179lfl.40.2019.05.10.17.37.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 10 May 2019 17:37:47 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH v2] media: v4l2-subdev: Verify arguments of v4l2_subdev_call()
-Date:   Sat, 11 May 2019 02:37:20 +0200
-Message-Id: <20190511003720.10984-1-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 10 May 2019 23:46:42 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:2dea:e21e:760a:b215])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id PIy7hlbazsDWyPIy8heFVS; Sat, 11 May 2019 05:46:40 +0200
+Message-ID: <e7a683256e4fb8f8f3d6715217c60df4@smtp-cloud9.xs4all.net>
+Date:   Sat, 11 May 2019 05:46:39 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfHzCbLtU92VVmfBf7wmeL3HWeTipvkfFPNgiURgMoTpSmk6jG4KacrKJmFCZIf3e4NAeAq5MsgUtaJzxt1JYI0U64qim1T3nupkVPuNFdUX6hnpxHfwp
+ 7IDBwl/Zh+A/WxbkYbiVux5v3osxbVcoFwPRDARG9BLgoz5gkTudp1J1d4+wUcsoZzfj9bEJy3PM7aw203GF32E6cQAk5d4BLQpKFMJeNXSAUW2/h+vGiBjT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Correctness of format type (try or active) and pad number parameters
-passed to subdevice operation callbacks is now verified only for IOCTL
-calls.  However, those callbacks are also used by drivers, e.g., V4L2
-host interfaces.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
-macro while calling subdevice operations, move those parameter checks
-from subdev_do_ioctl() to v4l2_subdev_call() so we can avoid
-reimplementing those checks inside drivers.
+Results of the daily build of media_tree:
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
-Changelog:
-v1->v2:
-- replace the horrible macro with a structure of wrapper functions;
-  inspired by Hans' and Sakari's comments - thanks!
- 
-drivers/media/v4l2-core/v4l2-subdev.c | 222 +++++++++++++++-----------
- include/media/v4l2-subdev.h           |   6 +
- 2 files changed, 139 insertions(+), 89 deletions(-)
+date:			Sat May 11 05:00:10 CEST 2019
+media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index d75815ab0d7b..213194660d52 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -120,56 +120,165 @@ static int subdev_close(struct file *file)
- 	return 0;
- }
- 
-+static inline int check_which(__u32 which)
-+{
-+	return which != V4L2_SUBDEV_FORMAT_TRY &&
-+	       which != V4L2_SUBDEV_FORMAT_ACTIVE ? -EINVAL : 0;
-+}
-+
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-+static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
-+{
-+	return pad >= sd->entity.num_pads ? -EINVAL : 0;
-+}
-+#else
-+#define check_pad(...) 0
-+#endif
-+
- static int check_format(struct v4l2_subdev *sd,
- 			struct v4l2_subdev_format *format)
- {
--	if (format->which != V4L2_SUBDEV_FORMAT_TRY &&
--	    format->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
-+	return check_which(format->which) ? : check_pad(sd, format->pad);
-+}
- 
--	if (format->pad >= sd->entity.num_pads)
--		return -EINVAL;
-+static int check_get_fmt(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_pad_config *cfg,
-+			 struct v4l2_subdev_format *format)
-+{
-+	return check_format(sd, format) ? :
-+			sd->ops->pad->get_fmt(sd, cfg, format);
-+}
- 
--	return 0;
-+static int check_set_fmt(struct v4l2_subdev *sd,
-+			 struct v4l2_subdev_pad_config *cfg,
-+			 struct v4l2_subdev_format *format)
-+{
-+	return check_format(sd, format) ? :
-+			sd->ops->pad->set_fmt(sd, cfg, format);
- }
- 
--static int check_crop(struct v4l2_subdev *sd, struct v4l2_subdev_crop *crop)
-+static int check_enum_mbus_code(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_pad_config *cfg,
-+				struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (crop->which != V4L2_SUBDEV_FORMAT_TRY &&
--	    crop->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
-+	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
-+			sd->ops->pad->enum_mbus_code(sd, cfg, code);
-+}
- 
--	if (crop->pad >= sd->entity.num_pads)
--		return -EINVAL;
-+static int check_enum_frame_size(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
-+			sd->ops->pad->enum_frame_size(sd, cfg, fse);
-+}
- 
--	return 0;
-+static int check_frame_interval(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_frame_interval *fi)
-+{
-+	return check_pad(sd, fi->pad);
-+}
-+
-+static int check_g_frame_interval(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_frame_interval *fi)
-+{
-+	return check_frame_interval(sd, fi) ? :
-+			sd->ops->video->g_frame_interval(sd, fi);
-+}
-+
-+static int check_s_frame_interval(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_frame_interval *fi)
-+{
-+	return check_frame_interval(sd, fi) ? :
-+			sd->ops->video->s_frame_interval(sd, fi);
-+}
-+
-+static int check_enum_frame_interval(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_pad_config *cfg,
-+				struct v4l2_subdev_frame_interval_enum *fie)
-+{
-+	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
-+			sd->ops->pad->enum_frame_interval(sd, cfg, fie);
- }
- 
- static int check_selection(struct v4l2_subdev *sd,
- 			   struct v4l2_subdev_selection *sel)
- {
--	if (sel->which != V4L2_SUBDEV_FORMAT_TRY &&
--	    sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
-+	return check_which(sel->which) ? : check_pad(sd, sel->pad);
-+}
- 
--	if (sel->pad >= sd->entity.num_pads)
--		return -EINVAL;
-+static int check_get_selection(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_pad_config *cfg,
-+			       struct v4l2_subdev_selection *sel)
-+{
-+	return check_selection(sd, sel) ? :
-+			sd->ops->pad->get_selection(sd, cfg, sel);
-+}
- 
--	return 0;
-+static int check_set_selection(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_pad_config *cfg,
-+			       struct v4l2_subdev_selection *sel)
-+{
-+	return check_selection(sd, sel) ? :
-+			sd->ops->pad->set_selection(sd, cfg, sel);
- }
- 
- static int check_edid(struct v4l2_subdev *sd, struct v4l2_subdev_edid *edid)
- {
--	if (edid->pad >= sd->entity.num_pads)
--		return -EINVAL;
--
- 	if (edid->blocks && edid->edid == NULL)
- 		return -EINVAL;
- 
--	return 0;
-+	return check_pad(sd, edid->pad);
-+}
-+
-+static int check_get_edid(struct v4l2_subdev *sd, struct v4l2_subdev_edid *edid)
-+{
-+	return check_edid(sd, edid) ? : sd->ops->pad->get_edid(sd, edid);
- }
--#endif
-+
-+static int check_set_edid(struct v4l2_subdev *sd, struct v4l2_subdev_edid *edid)
-+{
-+	return check_edid(sd, edid) ? : sd->ops->pad->set_edid(sd, edid);
-+}
-+
-+static int check_dv_timings_cap(struct v4l2_subdev *sd,
-+				struct v4l2_dv_timings_cap *cap)
-+{
-+	return check_pad(sd, cap->pad) ? :
-+			sd->ops->pad->dv_timings_cap(sd, cap);
-+}
-+
-+static int check_enum_dv_timings(struct v4l2_subdev *sd,
-+				 struct v4l2_enum_dv_timings *dvt)
-+{
-+	return check_pad(sd, dvt->pad) ? :
-+			sd->ops->pad->enum_dv_timings(sd, dvt);
-+}
-+
-+static const struct v4l2_subdev_pad_ops v4l2_subdev_pad_chk_args = {
-+	.get_fmt		= check_get_fmt,
-+	.set_fmt		= check_set_fmt,
-+	.enum_mbus_code		= check_enum_mbus_code,
-+	.enum_frame_size	= check_enum_frame_size,
-+	.enum_frame_interval	= check_enum_frame_interval,
-+	.get_selection		= check_get_selection,
-+	.set_selection		= check_set_selection,
-+	.get_edid		= check_get_edid,
-+	.set_edid		= check_set_edid,
-+	.dv_timings_cap		= check_dv_timings_cap,
-+	.enum_dv_timings	= check_enum_dv_timings,
-+};
-+
-+static const struct v4l2_subdev_video_ops v4l2_subdev_video_chk_args = {
-+	.g_frame_interval	= check_g_frame_interval,
-+	.s_frame_interval	= check_s_frame_interval,
-+};
-+
-+struct v4l2_subdev_ops v4l2_subdev_call_chk_args = {
-+	.pad	= &v4l2_subdev_pad_chk_args,
-+	.video	= &v4l2_subdev_video_chk_args,
-+};
-+EXPORT_SYMBOL(v4l2_subdev_call_chk_args);
- 
- static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- {
-@@ -292,10 +401,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_G_FMT: {
- 		struct v4l2_subdev_format *format = arg;
- 
--		rval = check_format(sd, format);
--		if (rval)
--			return rval;
--
- 		memset(format->reserved, 0, sizeof(format->reserved));
- 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
- 		return v4l2_subdev_call(sd, pad, get_fmt, subdev_fh->pad, format);
-@@ -304,10 +409,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_S_FMT: {
- 		struct v4l2_subdev_format *format = arg;
- 
--		rval = check_format(sd, format);
--		if (rval)
--			return rval;
--
- 		memset(format->reserved, 0, sizeof(format->reserved));
- 		memset(format->format.reserved, 0, sizeof(format->format.reserved));
- 		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
-@@ -317,10 +418,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 		struct v4l2_subdev_crop *crop = arg;
- 		struct v4l2_subdev_selection sel;
- 
--		rval = check_crop(sd, crop);
--		if (rval)
--			return rval;
--
- 		memset(crop->reserved, 0, sizeof(crop->reserved));
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = crop->which;
-@@ -340,10 +437,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 		struct v4l2_subdev_selection sel;
- 
- 		memset(crop->reserved, 0, sizeof(crop->reserved));
--		rval = check_crop(sd, crop);
--		if (rval)
--			return rval;
--
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = crop->which;
- 		sel.pad = crop->pad;
-@@ -361,13 +454,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_ENUM_MBUS_CODE: {
- 		struct v4l2_subdev_mbus_code_enum *code = arg;
- 
--		if (code->which != V4L2_SUBDEV_FORMAT_TRY &&
--		    code->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--			return -EINVAL;
--
--		if (code->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		memset(code->reserved, 0, sizeof(code->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_mbus_code, subdev_fh->pad,
- 					code);
-@@ -376,13 +462,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_ENUM_FRAME_SIZE: {
- 		struct v4l2_subdev_frame_size_enum *fse = arg;
- 
--		if (fse->which != V4L2_SUBDEV_FORMAT_TRY &&
--		    fse->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--			return -EINVAL;
--
--		if (fse->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		memset(fse->reserved, 0, sizeof(fse->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_frame_size, subdev_fh->pad,
- 					fse);
-@@ -391,9 +470,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_G_FRAME_INTERVAL: {
- 		struct v4l2_subdev_frame_interval *fi = arg;
- 
--		if (fi->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		memset(fi->reserved, 0, sizeof(fi->reserved));
- 		return v4l2_subdev_call(sd, video, g_frame_interval, arg);
- 	}
-@@ -401,9 +477,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
- 		struct v4l2_subdev_frame_interval *fi = arg;
- 
--		if (fi->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		memset(fi->reserved, 0, sizeof(fi->reserved));
- 		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
- 	}
-@@ -411,13 +484,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: {
- 		struct v4l2_subdev_frame_interval_enum *fie = arg;
- 
--		if (fie->which != V4L2_SUBDEV_FORMAT_TRY &&
--		    fie->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--			return -EINVAL;
--
--		if (fie->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		memset(fie->reserved, 0, sizeof(fie->reserved));
- 		return v4l2_subdev_call(sd, pad, enum_frame_interval, subdev_fh->pad,
- 					fie);
-@@ -426,10 +492,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_G_SELECTION: {
- 		struct v4l2_subdev_selection *sel = arg;
- 
--		rval = check_selection(sd, sel);
--		if (rval)
--			return rval;
--
- 		memset(sel->reserved, 0, sizeof(sel->reserved));
- 		return v4l2_subdev_call(
- 			sd, pad, get_selection, subdev_fh->pad, sel);
-@@ -438,10 +500,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_SUBDEV_S_SELECTION: {
- 		struct v4l2_subdev_selection *sel = arg;
- 
--		rval = check_selection(sd, sel);
--		if (rval)
--			return rval;
--
- 		memset(sel->reserved, 0, sizeof(sel->reserved));
- 		return v4l2_subdev_call(
- 			sd, pad, set_selection, subdev_fh->pad, sel);
-@@ -450,38 +508,24 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
- 	case VIDIOC_G_EDID: {
- 		struct v4l2_subdev_edid *edid = arg;
- 
--		rval = check_edid(sd, edid);
--		if (rval)
--			return rval;
--
- 		return v4l2_subdev_call(sd, pad, get_edid, edid);
- 	}
- 
- 	case VIDIOC_S_EDID: {
- 		struct v4l2_subdev_edid *edid = arg;
- 
--		rval = check_edid(sd, edid);
--		if (rval)
--			return rval;
--
- 		return v4l2_subdev_call(sd, pad, set_edid, edid);
- 	}
- 
- 	case VIDIOC_SUBDEV_DV_TIMINGS_CAP: {
- 		struct v4l2_dv_timings_cap *cap = arg;
- 
--		if (cap->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		return v4l2_subdev_call(sd, pad, dv_timings_cap, cap);
- 	}
- 
- 	case VIDIOC_SUBDEV_ENUM_DV_TIMINGS: {
- 		struct v4l2_enum_dv_timings *dvt = arg;
- 
--		if (dvt->pad >= sd->entity.num_pads)
--			return -EINVAL;
--
- 		return v4l2_subdev_call(sd, pad, enum_dv_timings, dvt);
- 	}
- 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index a7fa5b80915a..900f265fd950 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1091,6 +1091,8 @@ void v4l2_subdev_free_pad_config(struct v4l2_subdev_pad_config *cfg);
- void v4l2_subdev_init(struct v4l2_subdev *sd,
- 		      const struct v4l2_subdev_ops *ops);
- 
-+extern struct v4l2_subdev_ops v4l2_subdev_call_chk_args;
-+
- /**
-  * v4l2_subdev_call - call an operation of a v4l2_subdev.
-  *
-@@ -1112,6 +1114,10 @@ void v4l2_subdev_init(struct v4l2_subdev *sd,
- 			__result = -ENODEV;				\
- 		else if (!(__sd->ops->o && __sd->ops->o->f))		\
- 			__result = -ENOIOCTLCMD;			\
-+		else if (v4l2_subdev_call_chk_args.o &&			\
-+			 v4l2_subdev_call_chk_args.o->f)		\
-+			__result = v4l2_subdev_call_chk_args.o->f(	\
-+							__sd, ##args);	\
- 		else							\
- 			__result = __sd->ops->o->f(__sd, ##args);	\
- 		__result;						\
--- 
-2.21.0
+linux-git-arm-at91: ERRORS
+linux-git-arm-davinci: ERRORS
+linux-git-arm-multi: ERRORS
+linux-git-arm-pxa: ERRORS
+linux-git-arm-stm32: ERRORS
+linux-git-arm64: ERRORS
+linux-git-i686: ERRORS
+linux-git-mips: ERRORS
+linux-git-powerpc64: ERRORS
+linux-git-sh: ERRORS
+linux-git-x86_64: ERRORS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.1-i686: OK
+linux-5.0.1-x86_64: OK
+linux-5.1-rc1-i686: OK
+linux-5.1-rc1-x86_64: WARNINGS
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
