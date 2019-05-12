@@ -2,169 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C0E1AC9A
-	for <lists+linux-media@lfdr.de>; Sun, 12 May 2019 16:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C534B1ACB2
+	for <lists+linux-media@lfdr.de>; Sun, 12 May 2019 16:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfELOR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 May 2019 10:17:27 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46315 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726442AbfELOR1 (ORCPT
+        id S1726553AbfELOxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 May 2019 10:53:11 -0400
+Received: from mout2.fh-giessen.de ([212.201.18.46]:48710 "EHLO
+        mout2.fh-giessen.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbfELOxK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 May 2019 10:17:27 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a132so6437971qkb.13
-        for <linux-media@vger.kernel.org>; Sun, 12 May 2019 07:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BmrvqU197F+Dlf6m942J19XSdvQ9nvAihmI1KdPxKsg=;
-        b=tj7YinBTPF4khoDVVYxxMKX/mXAEnJas+CrnGYwRqpa6rYr+aoK7WlgM7Sr0tSkVJB
-         s35dIh0RwekkqGgHgYLilpWGPUXK4rZwkDgPtiREhVNnJGHCF94wRPnatm0HXUrWg0K/
-         Xx2ZHlAw/8ixtnpewGLg3tvbNbAfezm4SPl7ntbVlU3FFjf+I+utuDM8e5CS1NFL+rod
-         pFfF1pa7Ix2krtl/mNUocjqTXa4iGf43pNhgowTKOhKyJrN1trvnKTe9LscZnOw/3Nun
-         a0VHfmzGOyao8u/8Rwia4vtsWNKx5mwVxXX+k8zVyOelRv5gX+pV0xYSvdpVWLqdMsI1
-         2ueg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BmrvqU197F+Dlf6m942J19XSdvQ9nvAihmI1KdPxKsg=;
-        b=Rb8HiBPp5AMKTKsJl5OkI5N4EuT+rrDsEqWMImfKTOXhzNyfWgiBmWqsgiS7DGzXmP
-         8TNHcBqzbC3hZi441J7p//f13EbVtVOMUedO9qYq0SqiFA+yPyIBx1s1bga/gvZ3UIQc
-         +alED5cXedH7VcGX6RdFCf1IzhCFSqfk0Sml6X12mjduLYi3PxAKoWyj4w0oD64McLb1
-         KjCUv4kiMAb8HPrC4qO+mDWwJMUJyIA07YWfQlj/Je6Gw3AdfywfR11lgdnK+TDOnr7Q
-         K2m8Ro5Asv/9QApEzkit665VS3Pti3f/qzHvy4CB4w0NwFvoYEiE+hQE48szjeO3P3vK
-         F51Q==
-X-Gm-Message-State: APjAAAWn96AS9hO5+pyF22ad+34lWh2C/PSTqJEE0yWvY9iSelbLOx/z
-        ggTL3Gs5v9TK9Ebem/d7W5Q6zQ==
-X-Google-Smtp-Source: APXvYqzY4n9aq+01MzU4lvnB4gNRd7bnnM119waLVcN7+WT6qHon0IXKdZf2ZbkxseK8oWlxYDBbLw==
-X-Received: by 2002:a37:e40f:: with SMTP id y15mr17786756qkf.61.1557670645847;
-        Sun, 12 May 2019 07:17:25 -0700 (PDT)
-Received: from skullcanyon ([2002:c0de:c115:0:481e:e17e:2f68:43f8])
-        by smtp.gmail.com with ESMTPSA id r47sm6278308qte.70.2019.05.12.07.17.24
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 12 May 2019 07:17:24 -0700 (PDT)
-Message-ID: <69c10fdd26566049c523d4c8cfb1b8c35018b738.camel@ndufresne.ca>
-Subject: Re: Hardware-accelerated video decoders used through a firmware
- instead of hardware registers
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
-Date:   Sun, 12 May 2019 10:17:22 -0400
-In-Reply-To: <19804f842e80f1f8bd85b8eb49e75e149abf0062.camel@bootlin.com>
-References: <19804f842e80f1f8bd85b8eb49e75e149abf0062.camel@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
+        Sun, 12 May 2019 10:53:10 -0400
+Received: from mx2.fh-giessen.de ([212.201.18.41])
+        by mout2.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
+        id 1hPpqd-0003d0-Gc; Sun, 12 May 2019 16:53:07 +0200
+Received: from mailgate-1.its.fh-giessen.de ([212.201.18.15])
+        by mx2.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
+        id 1hPpqd-00E2sQ-Cl; Sun, 12 May 2019 16:53:07 +0200
+Received: from p2e56130f.dip0.t-ipconnect.de ([46.86.19.15] helo=[192.168.1.24])
+        by mailgate-1.its.fh-giessen.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
+        id 1hPpqd-000Do4-3h; Sun, 12 May 2019 16:53:07 +0200
+Subject: Re: [PATCH] drivers/media/dvb-frontends: Implement probe/remove for
+ stv6110x
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org
+References: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
+From:   Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
+Message-ID: <ba914388-04d1-8a57-77eb-3f303941b9bf@mni.thm.de>
+Date:   Sun, 12 May 2019 16:53:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0a1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le dimanche 12 mai 2019 à 13:35 +0200, Paul Kocialkowski a écrit :
-> Hi,
-> 
-> With the work done on the media request API and the cedrus driver for
-> Allwinner ARM SoCs, we now have a kernel interface for exposing fixed-
-> hardware video decoding pipelines (currently MPEG-2 and H.264, with
-> H.265 on the way). Some work remains on the per-format interface and we
-> are looking to improve latency-related aspects, but we are all set to
-> have a nice interface here, that plays well with e.g. ffmpeg.
-> 
-> A specific situation came to my interest, which is apparently quite
-> common: some platforms have general-purpose microcontrollers embedded,
-> which can help with video decoding. They are however rarely to never
-> used to do the decoding itself (since they are general-purpose, not
-> DSPs) and just coordinate the decoding with the fixed-pipeline decoding
-> hardware block. The advantage is that the interface is just a simple
-> mailbox and the raw video bitstream from the file can be passed
-> directly without the need for userspace to do any parsing that the
-> codec requires.
-> 
-> One side-effect from this setup is that the actual hardware register
-> layout of the decoder is hidden away in a non-free piece of
-> microcontroller firmware, that's usually loaded at run-time.
-> 
-> With the recent developments on the media interface, we could interface
-> with these hardware decoders directly, which offers various advantages:
-> - we no longer need a 3rd party external non-free firmware, which just
->   makes distribution easier for everyone and allows support in fully-
->   free setups;
-> - all the usual advantages of having free code that can be fixed and
->   updated instead of an obscure binary that many not always be doing
->   the right thing;
-> - parsing of the slices is probably best done in userspace, and I
->   heard that ffmpeg does this threaded, so there could be a latency
->   advantage there as well, not to mention that it avoids the drag of
->   a mailbox interface altogether;
-> - the general-purpose micro-controller can then be reused for something
->   useful where it could actually make a performance difference.
-> 
-> As far as I understand, it seems that the video decoder for MT8173
-> fails in that category, where a MD32 general-purpose micro-controller
-> is used to only do the parsing. We even have device-tree nodes about
-> the decoder and encoder, but no register layout.
-> 
-> So I was wondering if the linux-media community should set some
-> boundaries here and push towards native implementations instead of
-> firmware-based ones. My opininon is that it definitely should.
-> 
-> It seems that other platforms (e.g. Tegra K1 and onwards) are in the
-> same situation, and I think the ChromiumOS downstream kernel uses an
-> obscure firmware on a general-purpose auxiliary ARM core (that's also
-> used at boot time IIRC).
+Ping,
 
-I like the idea, but enforcing this now is likely going to prevent a
-lot of mainline usage of CODECs (which are proprietary by patents to
-start with). One thing to note, the CODEC accelerators may not be
-accessible from CPU. So to support such idea, we'd need to develop
-minimalist firmware to access these accelerators. That would require a
-lot of reverse engineering as the third party codec vendors (e.g.
-Chips&Media, Allegro etc.) don't document the accelerator or even the
-architecture of the micro-controller. Compilation of these firmware can
-also become tedious, specially if there is no Open Source compiler for
-the chosen micro-controller architecture.
+comments for this patch are appreciated!
 
-I can comment on ChromeOS, current generation is mostly based on
-Rockchip SoC. The CODEC on Rockchip are just accelators, and this is
-what ChromeOS team implemented, and that's what the stateless you have
-done is based upon. The first generation was Samsung Exynos, this one
-uses a unknown source design that they call MFC. This runs on
-proprietary blob, I have not found any information about this blob.
+Thanks,
 
-The early boot stage is not obscure, it's called CoreBoot. This code is
-meant to initialize your CPU when you CPU isn't started yet. Notably on
-Intel, there has been a lot of security concerns with this proprietary
-blob, CoreBoot effort includes reverse engineering and replacing this
-bit. At least on Intel blobs, the micro-controller is still running
-after your main CPU is loaded, giving attackers a place to run with
-true full access to your computer, without being detectable.
+Tobias
 
-On some platforms it can be even more complex. Think of the Xilinx
-ZynMP. Documentation is pretty sparse, it's clear the VCU is only
-accessible from the FPGA, and that's probably why we need a MicroBlaze
-firmware (micro blaze being a micro-controller architecture programmed
-into some part of a Xilinx FPGA) in order to use it. But then, it is
-not clear if the VCU is fully capable of decoding, or if the work is a
-mix of FPA and circuit. So replacing the firmware could be the same as
-rewriting the CODEC HW (or at least some bits of it).
 
-> 
-> What do you think?
-> 
-> Cheers,
-> 
-> Paul
-> 
-
+On 09.05.19 21:51, Tobias Klausmann wrote:
+> Refactor out the common parts of stv6110x_probe() and stv6110x_attach() into
+> separate functions.
+>
+> This provides the needed functionality to use dvb_module_probe() instead of
+> dvb_attach()!
+>
+> Signed-off-by: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
+> ---
+>   drivers/media/dvb-frontends/stv6110x.c      | 125 ++++++++++++++++----
+>   drivers/media/dvb-frontends/stv6110x.h      |   3 +
+>   drivers/media/dvb-frontends/stv6110x_priv.h |   3 +-
+>   3 files changed, 109 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/media/dvb-frontends/stv6110x.c b/drivers/media/dvb-frontends/stv6110x.c
+> index 82c002d3833a..17bc7adf3771 100644
+> --- a/drivers/media/dvb-frontends/stv6110x.c
+> +++ b/drivers/media/dvb-frontends/stv6110x.c
+> @@ -345,6 +345,33 @@ static void stv6110x_release(struct dvb_frontend *fe)
+>   	kfree(stv6110x);
+>   }
+>   
+> +void st6110x_init_regs(struct stv6110x_state *stv6110x)
+> +{
+> +	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
+> +
+> +	memcpy(stv6110x->regs, default_regs, 8);
+> +}
+> +
+> +void stv6110x_setup_divider(struct stv6110x_state *stv6110x)
+> +{
+> +	switch (stv6110x->config->clk_div) {
+> +	default:
+> +	case 1:
+> +		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 0);
+> +		break;
+> +	case 2:
+> +		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 1);
+> +		break;
+> +	case 4:
+> +		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 2);
+> +		break;
+> +	case 8:
+> +	case 0:
+> +		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 3);
+> +		break;
+> +	}
+> +}
+> +
+>   static const struct dvb_tuner_ops stv6110x_ops = {
+>   	.info = {
+>   		.name		  = "STV6110(A) Silicon Tuner",
+> @@ -354,7 +381,7 @@ static const struct dvb_tuner_ops stv6110x_ops = {
+>   	.release		= stv6110x_release
+>   };
+>   
+> -static const struct stv6110x_devctl stv6110x_ctl = {
+> +static struct stv6110x_devctl stv6110x_ctl = {
+>   	.tuner_init		= stv6110x_init,
+>   	.tuner_sleep		= stv6110x_sleep,
+>   	.tuner_set_mode		= stv6110x_set_mode,
+> @@ -368,39 +395,77 @@ static const struct stv6110x_devctl stv6110x_ctl = {
+>   	.tuner_get_status	= stv6110x_get_status,
+>   };
+>   
+> +void stv6110x_set_frontend_opts(struct stv6110x_state *stv6110x)
+> +{
+> +	stv6110x->frontend->tuner_priv		= stv6110x;
+> +	stv6110x->frontend->ops.tuner_ops	= stv6110x_ops;
+> +}
+> +
+> +static struct stv6110x_devctl *stv6110x_get_devctl(struct i2c_client *client)
+> +{
+> +	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
+> +
+> +	dev_dbg(&client->dev, "\n");
+> +
+> +	return stv6110x->devctl;
+> +}
+> +
+> +static int stv6110x_probe(struct i2c_client *client,
+> +			const struct i2c_device_id *id)
+> +{
+> +	struct stv6110x_config *config = client->dev.platform_data;
+> +
+> +	struct stv6110x_state *stv6110x;
+> +
+> +	stv6110x = kzalloc(sizeof(struct stv6110x_state), GFP_KERNEL);
+> +	if (!stv6110x)
+> +		return -ENOMEM;
+> +
+> +	stv6110x->frontend	= config->frontend;
+> +	stv6110x->i2c		= client->adapter;
+> +	stv6110x->config	= config;
+> +	stv6110x->devctl	= &stv6110x_ctl;
+> +
+> +	st6110x_init_regs(stv6110x);
+> +	stv6110x_setup_divider(stv6110x);
+> +	stv6110x_set_frontend_opts(stv6110x);
+> +
+> +	printk(KERN_INFO "%s: Probed STV6110x\n", __func__);
+> +
+> +	i2c_set_clientdata(client, stv6110x);
+> +
+> +	/* setup callbacks */
+> +	config->get_devctl = stv6110x_get_devctl;
+> +
+> +	return 0;
+> +}
+> +
+> +static int stv6110x_remove(struct i2c_client *client)
+> +{
+> +	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
+> +
+> +	stv6110x_release(stv6110x->frontend);
+> +	return 0;
+> +}
+> +
+>   const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
+>   					const struct stv6110x_config *config,
+>   					struct i2c_adapter *i2c)
+>   {
+>   	struct stv6110x_state *stv6110x;
+> -	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
+>   
+> -	stv6110x = kzalloc(sizeof (struct stv6110x_state), GFP_KERNEL);
+> +	stv6110x = kzalloc(sizeof(struct stv6110x_state), GFP_KERNEL);
+>   	if (!stv6110x)
+>   		return NULL;
+>   
+> +	stv6110x->frontend	= fe;
+>   	stv6110x->i2c		= i2c;
+>   	stv6110x->config	= config;
+>   	stv6110x->devctl	= &stv6110x_ctl;
+> -	memcpy(stv6110x->regs, default_regs, 8);
+>   
+> -	/* setup divider */
+> -	switch (stv6110x->config->clk_div) {
+> -	default:
+> -	case 1:
+> -		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 0);
+> -		break;
+> -	case 2:
+> -		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 1);
+> -		break;
+> -	case 4:
+> -		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 2);
+> -		break;
+> -	case 8:
+> -	case 0:
+> -		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 3);
+> -		break;
+> -	}
+> +	st6110x_init_regs(stv6110x);
+> +	stv6110x_setup_divider(stv6110x);
+> +	stv6110x_set_frontend_opts(stv6110x);
+>   
+>   	fe->tuner_priv		= stv6110x;
+>   	fe->ops.tuner_ops	= stv6110x_ops;
+> @@ -410,6 +475,24 @@ const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
+>   }
+>   EXPORT_SYMBOL(stv6110x_attach);
+>   
+> +static const struct i2c_device_id stv6110x_id_table[] = {
+> +	{"stv6110x", 0},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, stv6110x_id_table);
+> +
+> +static struct i2c_driver stv6110x_driver = {
+> +	.driver = {
+> +		.name	= "stv6110x",
+> +		.suppress_bind_attrs = true,
+> +	},
+> +	.probe		= stv6110x_probe,
+> +	.remove		= stv6110x_remove,
+> +	.id_table	= stv6110x_id_table,
+> +};
+> +
+> +module_i2c_driver(stv6110x_driver);
+> +
+>   MODULE_AUTHOR("Manu Abraham");
+>   MODULE_DESCRIPTION("STV6110x Silicon tuner");
+>   MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/dvb-frontends/stv6110x.h b/drivers/media/dvb-frontends/stv6110x.h
+> index 696b6e5b9e7b..7714adea5242 100644
+> --- a/drivers/media/dvb-frontends/stv6110x.h
+> +++ b/drivers/media/dvb-frontends/stv6110x.h
+> @@ -27,6 +27,9 @@ struct stv6110x_config {
+>   	u8	addr;
+>   	u32	refclk;
+>   	u8	clk_div; /* divisor value for the output clock */
+> +	struct dvb_frontend		*frontend;
+> +
+> +	struct stv6110x_devctl* (*get_devctl)(struct i2c_client *);
+>   };
+>   
+>   enum tuner_mode {
+> diff --git a/drivers/media/dvb-frontends/stv6110x_priv.h b/drivers/media/dvb-frontends/stv6110x_priv.h
+> index 109dfaf4ba42..383549d25268 100644
+> --- a/drivers/media/dvb-frontends/stv6110x_priv.h
+> +++ b/drivers/media/dvb-frontends/stv6110x_priv.h
+> @@ -66,11 +66,12 @@
+>   #define REFCLOCK_MHz				(stv6110x->config->refclk / 1000000)
+>   
+>   struct stv6110x_state {
+> +	struct dvb_frontend		*frontend;
+>   	struct i2c_adapter		*i2c;
+>   	const struct stv6110x_config	*config;
+>   	u8				regs[8];
+>   
+> -	const struct stv6110x_devctl	*devctl;
+> +	struct stv6110x_devctl	*devctl;
+>   };
+>   
+>   #endif /* __STV6110x_PRIV_H */
