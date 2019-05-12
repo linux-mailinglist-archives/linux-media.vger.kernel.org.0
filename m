@@ -2,108 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B25281AAD5
-	for <lists+linux-media@lfdr.de>; Sun, 12 May 2019 08:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40E361ABF0
+	for <lists+linux-media@lfdr.de>; Sun, 12 May 2019 13:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbfELGA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 May 2019 02:00:28 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:23023 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725989AbfELGA2 (ORCPT
+        id S1726612AbfELLgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 May 2019 07:36:13 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:53147 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbfELLgM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 May 2019 02:00:28 -0400
-X-UUID: d5ee0ab8cfb8472384061eaca6c10531-20190512
-X-UUID: d5ee0ab8cfb8472384061eaca6c10531-20190512
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
-        (envelope-from <louis.kuo@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 97981656; Sun, 12 May 2019 14:00:21 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 12 May 2019 14:00:19 +0800
-Received: from mtkslt306.mediatek.inc (10.21.14.136) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 12 May 2019 14:00:19 +0800
-From:   Louis Kuo <louis.kuo@mediatek.com>
-To:     <hans.verkuil@cisco.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
-        <keiichiw@chromium.org>, <matthias.bgg@gmail.com>,
-        <mchehab@kernel.org>
-CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
-        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
-        <holmes.chiou@mediatek.com>, <frederic.chen@mediatek.com>,
-        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
-        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>
-Subject: [RFC PATCH V2 4/4] dts: arm64: mt8183: Add sensor interface nodes
-Date:   Sun, 12 May 2019 14:00:05 +0800
-Message-ID: <20190512060005.5444-5-louis.kuo@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190512060005.5444-1-louis.kuo@mediatek.com>
-References: <20190512060005.5444-1-louis.kuo@mediatek.com>
+        Sun, 12 May 2019 07:36:12 -0400
+X-Originating-IP: 93.29.109.196
+Received: from collins (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 73671C0004;
+        Sun, 12 May 2019 11:36:08 +0000 (UTC)
+Message-ID: <19804f842e80f1f8bd85b8eb49e75e149abf0062.camel@bootlin.com>
+Subject: Hardware-accelerated video decoders used through a firmware instead
+ of hardware registers
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+Date:   Sun, 12 May 2019 13:35:55 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add nodes for Mediatek's sensor interface device. Sensor interface module
-embedded in Mediatek SOCs, works as a HW camera interface controller
-intended for image and data transmission between cameras and host devices.
+Hi,
 
-Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 34 ++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+With the work done on the media request API and the cedrus driver for
+Allwinner ARM SoCs, we now have a kernel interface for exposing fixed-
+hardware video decoding pipelines (currently MPEG-2 and H.264, with
+H.265 on the way). Some work remains on the per-format interface and we
+are looking to improve latency-related aspects, but we are all set to
+have a nice interface here, that plays well with e.g. ffmpeg.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index c3a516e63141..2fe97e8544ad 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -474,4 +474,38 @@
- 			#clock-cells = <1>;
- 		};
- 	};
-+
-+	seninf: seninf@1a040000 {
-+		compatible = "mediatek,mt8183-seninf";
-+		reg = <0 0x1a040000 0 0x8000>,
-+		      <0 0x11C80000 0 0x6000>;
-+		reg-names = "base_reg", "rx_reg";
-+		interrupts = <GIC_SPI 251 IRQ_TYPE_LEVEL_LOW>;
-+		power-domains = <&scpsys MT8183_POWER_DOMAIN_CAM>;
-+		clocks =
-+			<&camsys CLK_CAM_SENINF>,
-+			<&topckgen CLK_TOP_MUX_SENINF>;
-+		clock-names =
-+			"CLK_CAM_SENINF", "CLK_TOP_MUX_SENINF";
-+		status = "disabled";
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				mipi_in_cam0: endpoint@0 {
-+					reg = <0>;
-+					data-lanes = <1 3>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				mipi_in_cam1: endpoint@0 {
-+					reg = <1>;
-+					data-lanes = <1 3>;
-+				};
-+			};
-+		};
-+	};
- };
+A specific situation came to my interest, which is apparently quite
+common: some platforms have general-purpose microcontrollers embedded,
+which can help with video decoding. They are however rarely to never
+used to do the decoding itself (since they are general-purpose, not
+DSPs) and just coordinate the decoding with the fixed-pipeline decoding
+hardware block. The advantage is that the interface is just a simple
+mailbox and the raw video bitstream from the file can be passed
+directly without the need for userspace to do any parsing that the
+codec requires.
+
+One side-effect from this setup is that the actual hardware register
+layout of the decoder is hidden away in a non-free piece of
+microcontroller firmware, that's usually loaded at run-time.
+
+With the recent developments on the media interface, we could interface
+with these hardware decoders directly, which offers various advantages:
+- we no longer need a 3rd party external non-free firmware, which just
+  makes distribution easier for everyone and allows support in fully-
+  free setups;
+- all the usual advantages of having free code that can be fixed and
+  updated instead of an obscure binary that many not always be doing
+  the right thing;
+- parsing of the slices is probably best done in userspace, and I
+  heard that ffmpeg does this threaded, so there could be a latency
+  advantage there as well, not to mention that it avoids the drag of
+  a mailbox interface altogether;
+- the general-purpose micro-controller can then be reused for something
+  useful where it could actually make a performance difference.
+
+As far as I understand, it seems that the video decoder for MT8173
+fails in that category, where a MD32 general-purpose micro-controller
+is used to only do the parsing. We even have device-tree nodes about
+the decoder and encoder, but no register layout.
+
+So I was wondering if the linux-media community should set some
+boundaries here and push towards native implementations instead of
+firmware-based ones. My opininon is that it definitely should.
+
+It seems that other platforms (e.g. Tegra K1 and onwards) are in the
+same situation, and I think the ChromiumOS downstream kernel uses an
+obscure firmware on a general-purpose auxiliary ARM core (that's also
+used at boot time IIRC).
+
+What do you think?
+
+Cheers,
+
+Paul
+
 -- 
-2.18.0
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
