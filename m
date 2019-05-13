@@ -2,147 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50FE91AF3C
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 05:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ABBF1B050
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 08:27:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbfEMDwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 May 2019 23:52:50 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48755 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727359AbfEMDwu (ORCPT
+        id S1726918AbfEMG0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 May 2019 02:26:03 -0400
+Received: from condef-03.nifty.com ([202.248.20.68]:35316 "EHLO
+        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbfEMG0D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 May 2019 23:52:50 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:c9fb:58cc:c828:ff10])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Q218hgRo33qlsQ21AhpjCW; Mon, 13 May 2019 05:52:48 +0200
-Message-ID: <a1634260a2a4ae6e2774ab148b19de08@smtp-cloud7.xs4all.net>
-Date:   Mon, 13 May 2019 05:52:46 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfAtNNMaxcT9C2CeVtZQD2834DN/h1NHw/XvVIzd9YvGHpsFQq5ErGrL9Ky40ssKWcoPntWgVoZg2iY1kPGoZoYRWZF+RVG7KkHWwK2eJjZsuNxp+lxjr
- iF0f7FnhXe5CngJvL3yhDwikyleb946SqdLAcdvibSJogw/7anxb3JYkRiDd2peizPatNtgSdgTfHdN7mhyFS9Ezw0nzVL7htxhcJiUpj8EMn98Vv9svoRIu
+        Mon, 13 May 2019 02:26:03 -0400
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-03.nifty.com with ESMTP id x4D6MUP8016585;
+        Mon, 13 May 2019 15:22:30 +0900
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x4D6MKMD031944;
+        Mon, 13 May 2019 15:22:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMD031944
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557728542;
+        bh=swEZk/Cz28om8/f0Dg5Vc4B35GQqTxoFUbP1b15szx0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ukcj8KGPL9n5eGX37YX+59e9VBeS2YQuC2ctkglb/oRV9CSvYxQ46LPf030QpAX1n
+         FiBvQlvVtcYFSAYmziyEYqZTTJflZmchyBGt8wMfisMRFXsZfz5r5/P+3zx5IY6esv
+         eK1Ut+jP6Jmu4AvAZFOuIqXe4pCF0xMrI4C+uhLppzqYDbv5OZpF9b/YdISs+URE1c
+         QU1x/JlipyxnSVOsoFS6ZGlED+EOufNSh662uQPRRfz85fM143fhiXd43ZN9bYof/n
+         +4/86QmaRcOoFujKqBrgT6/4Ro0iBauFyDyyKmuXaaC6c46sVv5ts1rG6tffPFLPQ3
+         Ei0/PevcXe2Dg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, x86@kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/4] kbuild: remove 'addtree' and 'flags' magic
+Date:   Mon, 13 May 2019 15:22:13 +0900
+Message-Id: <20190513062217.20750-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The 'addtree' and 'flags' are longstanding PITA.
 
-Results of the daily build of media_tree:
+When we discussed this in kbuild ML,
+(https://patchwork.kernel.org/patch/9632347/)
+we agreed to get rid of this hack.
 
-date:			Mon May 13 05:00:10 CEST 2019
-media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+This required lots of efforts to send many fixups
+to each subsystem.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: WARNINGS
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+I did it, all the per-subsystem fixups were merged
+except media subsystem.
 
-Detailed results are available here:
+I will apply all the remaining fixups,
+and delete 'addtree' and 'flags' magic.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+I have tested this series for a long time,
+and addressed all the reported issues.
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
-Full logs are available here:
+Masahiro Yamada (4):
+  media: remove unneeded header search paths
+  media: prefix header search paths with $(srctree)/
+  treewide: prefix header search paths with $(srctree)/
+  kbuild: remove 'addtree' and 'flags' magic for header search paths
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+ arch/mips/pnx833x/Platform                    |  2 +-
+ arch/powerpc/Makefile                         |  2 +-
+ arch/sh/Makefile                              |  4 +--
+ arch/x86/kernel/Makefile                      |  2 +-
+ arch/x86/mm/Makefile                          |  2 +-
+ arch/xtensa/boot/lib/Makefile                 |  2 +-
+ drivers/hid/intel-ish-hid/Makefile            |  2 +-
+ drivers/media/common/b2c2/Makefile            |  4 +--
+ drivers/media/dvb-frontends/cxd2880/Makefile  |  2 --
+ drivers/media/i2c/smiapp/Makefile             |  2 +-
+ drivers/media/mmc/siano/Makefile              |  3 +--
+ drivers/media/pci/b2c2/Makefile               |  2 +-
+ drivers/media/pci/bt8xx/Makefile              |  5 ++--
+ drivers/media/pci/cx18/Makefile               |  4 +--
+ drivers/media/pci/cx23885/Makefile            |  4 +--
+ drivers/media/pci/cx88/Makefile               |  4 +--
+ drivers/media/pci/ddbridge/Makefile           |  4 +--
+ drivers/media/pci/dm1105/Makefile             |  2 +-
+ drivers/media/pci/mantis/Makefile             |  2 +-
+ drivers/media/pci/netup_unidvb/Makefile       |  2 +-
+ drivers/media/pci/ngene/Makefile              |  4 +--
+ drivers/media/pci/pluto2/Makefile             |  2 +-
+ drivers/media/pci/pt1/Makefile                |  4 +--
+ drivers/media/pci/pt3/Makefile                |  4 +--
+ drivers/media/pci/smipcie/Makefile            |  5 ++--
+ drivers/media/pci/ttpci/Makefile              |  4 +--
+ drivers/media/platform/sti/c8sectpfe/Makefile |  5 ++--
+ drivers/media/radio/Makefile                  |  2 --
+ drivers/media/spi/Makefile                    |  4 +--
+ drivers/media/usb/as102/Makefile              |  2 +-
+ drivers/media/usb/au0828/Makefile             |  4 +--
+ drivers/media/usb/b2c2/Makefile               |  2 +-
+ drivers/media/usb/cx231xx/Makefile            |  5 ++--
+ drivers/media/usb/em28xx/Makefile             |  4 +--
+ drivers/media/usb/go7007/Makefile             |  2 +-
+ drivers/media/usb/pvrusb2/Makefile            |  4 +--
+ drivers/media/usb/siano/Makefile              |  2 +-
+ drivers/media/usb/tm6000/Makefile             |  4 +--
+ drivers/media/usb/ttusb-budget/Makefile       |  2 +-
+ drivers/media/usb/usbvision/Makefile          |  2 --
+ drivers/net/ethernet/chelsio/libcxgb/Makefile |  2 +-
+ drivers/target/iscsi/cxgbit/Makefile          |  6 ++---
+ drivers/usb/storage/Makefile                  |  2 +-
+ fs/ocfs2/dlm/Makefile                         |  3 +--
+ fs/ocfs2/dlmfs/Makefile                       |  2 +-
+ fs/xfs/Makefile                               |  4 +--
+ net/bpfilter/Makefile                         |  2 +-
+ scripts/Kbuild.include                        |  8 ------
+ scripts/Makefile.host                         | 12 ++++-----
+ scripts/Makefile.lib                          | 26 ++++++-------------
+ scripts/dtc/Makefile                          |  6 ++---
+ scripts/genksyms/Makefile                     |  4 +--
+ scripts/kconfig/Makefile                      |  4 +--
+ 53 files changed, 85 insertions(+), 119 deletions(-)
 
-The Media Infrastructure API from this daily build is here:
+-- 
+2.17.1
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
