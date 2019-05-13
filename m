@@ -2,83 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 826C01B728
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 15:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46E3D1B757
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 15:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729610AbfEMNif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 May 2019 09:38:35 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:43027 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725866AbfEMNif (ORCPT
+        id S1729774AbfEMNrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 May 2019 09:47:49 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:48863 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728961AbfEMNrs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 May 2019 09:38:35 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QB9whjKyd0YQeQBA0hdDdD; Mon, 13 May 2019 15:38:32 +0200
-Subject: Re: test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
-        linux-media@vger.kernel.org
-Cc:     open list <linux-kernel@vger.kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
-        treding@nvidia.com, niklas.soderlund+renesas@ragnatech.se,
-        sakari.ailus@linux.intel.com,
-        Hans Verkuil <hans.verkuil@cisco.com>, mchehab@kernel.org,
-        lkft-triage@lists.linaro.org
-References: <CA+G9fYuC8dgKs04HmyCaKeQ_xwqKBxnh=zsOFjQK+3Fq7AZRyw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <5de0df37-f0d0-f54c-2eef-a7533cbe7a25@xs4all.nl>
-Date:   Mon, 13 May 2019 15:38:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CA+G9fYuC8dgKs04HmyCaKeQ_xwqKBxnh=zsOFjQK+3Fq7AZRyw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        Mon, 13 May 2019 09:47:48 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hQBIq-0001mO-DH; Mon, 13 May 2019 15:47:40 +0200
+Message-ID: <1557755257.4442.8.camel@pengutronix.de>
+Subject: Re: Hardware-accelerated video decoders used through a firmware
+ instead of hardware registers
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+Date:   Mon, 13 May 2019 15:47:37 +0200
+In-Reply-To: <bfe1680249569241227ab90d5736b228de7b10f9.camel@bootlin.com>
+References: <19804f842e80f1f8bd85b8eb49e75e149abf0062.camel@bootlin.com>
+         <69c10fdd26566049c523d4c8cfb1b8c35018b738.camel@ndufresne.ca>
+         <bfe1680249569241227ab90d5736b228de7b10f9.camel@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOZD1CorHOqojS7/3knRw8+4oscN4wDn5nPd5jP0VMGoFObN6OaK/d2CY/dIca8YNDwZBTS5R3Efz9YAGRrjc7DXzFnEiEER+yoXdrLb8Kx/PHczSnjo
- zpeVodVdOwVqSnnXcfjCfmnz7oMu5uTgadcXC+F4oD1StgeKe7rPhW7FodSoQaNfs5+pZJKmeaqwyqbOhAruJOc/weueFi5WjuTMRvSlDdjqV4Xnj+bZ2nej
- wo9DSRVUZGwxglGUWQ3H/zrVyr8E1kRpeYz2kVA6R0t9gKNX+FfMLlPT11zOxr93/08V6hI1k565p8rN75GIzlKBlLCzLsVd3xA0niUVCd1FVLEBb+9jKnN+
- bo4ohxHSClBA6h2HLuP/NpQX2luZeQ3vUhxcMhpsXS/490cETFNZwLYWm99mSIJXRA3Hjy4ecMtkOgtH90CLJWsb+u/pazUufjq3z5MS0wq7c3jBVZUliQTj
- jh+XwcJnr7yHs8A/WY5yMd/sdF6+JAtPD6JAlip5gu5zk+axLY+7L4jFUdgqEiCtJv+ims45PJ+Smi2YOJwfo/bsAkuDew57exNEUJiusZfAFzvEIZzGozIw
- tgNKYdA/L9s5yPkW1A77TdJS
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/13/19 3:32 PM, Naresh Kamboju wrote:
-> Do you see test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
-> kernel branches ?
+Hi,
 
-Probably related to commit 8a7c5594c0202 (media: v4l2-ioctl: clear fields in s_parm).
+On Sun, 2019-05-12 at 18:32 +0200, Paul Kocialkowski wrote:
+[...]
+> I would be curious to know what the situation is on the i.MX6 coda
+> block, which also seems pretty obscure.
 
-Regards,
+FWIW, I had started collecting things I learned about the BIT processor
+in the CODA IP cores, mostly by looking at the firmware files
+distributed by Freescale/NXP: https://github.com/pH5/coda-bits
 
-	Hans
+It is a somewhat strange custom 16-bit DSP architecture. There is a
+rudimentary start for a disassembler in there as well, but large parts
+of the instruction set are still completely unknown, and I have no idea
+how the address generator / DMA units or bitstream accelerators work.
 
-> 
-> test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> fail: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1132):
-> reserved not zeroed
-> test VIDIOC_G/S_PARM: FAIL
-> 
-> Test passes on mainline, -next, 5.0 and 4.19
-> Test failed on 4.14, 4.9 and 4.4
-> 
-> steps to reproduce:
->        # boot any 4.9/4.14 kernel on x86_64 / Juno / hikey  device
->        #  install v4l-utils package
->        # modprobe vivid.ko no_error_inj=1
->        # v4l2-compliance -v -d /dev/video0
-> 
-> Full test log,
-> https://lkft.validation.linaro.org/scheduler/job/708755#L1791
-> 
-> Test results comparison on all branches,
-> https://qa-reports.linaro.org/_/comparetest/?project=22&project=6&project=58&project=135&project=40&project=23&project=159&suite=v4l2-compliance&test=VIDIOC_G-S_PARM
-> 
-> Best Regards
-> Naresh Kamboju
-> 
+I would be delighted if somebody would like to pick up analyzing the BIT
+processor ISA further. I think it could be fruitful to start
+systematically throwing instructions at it and see what happens, to
+learn more. I haven't had much motivation to play with this, recently.
 
+About the internal connections and available accelerator units, there is
+a block diagram in the i.MX53 TRM, but I am not aware of any register
+level description for any of these.
+
+regards
+Philipp
