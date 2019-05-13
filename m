@@ -2,91 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E071B721
-	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 15:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 826C01B728
+	for <lists+linux-media@lfdr.de>; Mon, 13 May 2019 15:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730176AbfEMNgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 May 2019 09:36:44 -0400
-Received: from mail-lj1-f179.google.com ([209.85.208.179]:35328 "EHLO
-        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730163AbfEMNgo (ORCPT
+        id S1729610AbfEMNif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 May 2019 09:38:35 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:43027 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725866AbfEMNif (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 May 2019 09:36:44 -0400
-Received: by mail-lj1-f179.google.com with SMTP id m20so10996132lji.2
-        for <linux-media@vger.kernel.org>; Mon, 13 May 2019 06:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=BVuWkuJRVxxBIu+ROjURPBDTNuVZik0FjGVxnRhR3Fo=;
-        b=pNEAZa2n+1by6rv0kfBb0m7KhKF+6xoBXtCx9C0mmvaqujWd6MZZi0o36ay7YTdkWp
-         8z86r1jT/LfzQIjBnQJN0l5Wf2L5NYhU3ttANXatmwejt9e0/J+2ZayeLJhvxbYbR/qL
-         54kl55YfLO5Rxm+poLpWtBGc+ukQL8op2geRWUt4LXfLXQHemAL9NCKnG9F7qfNYc4xI
-         A5UXN3rnNkJ9E9XwGd2kPbvZluKDsOpVN7MtlJGmxQmzmFv4b9L8kcp5fFaZj+HIlCgz
-         pKK3VwIHBBxxYWCrkvZkkPcjqUoaeVHghXfPBmvAjdVxXlIZYPm3Id/lLKYVX2SVqG7W
-         0quw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=BVuWkuJRVxxBIu+ROjURPBDTNuVZik0FjGVxnRhR3Fo=;
-        b=Qsf5aq8rXDpHIPYufKtxDsrjoIpPfkElC4dDGkaHjawLZncBpXtLYLFfK/VnJEtEFD
-         WsSPQb7N5ExhWwxLJpx+PJmqsdkhHyWjVxpU9MjQApB7ocJCU0tX4AdnEEFYYt5Jp1WU
-         KrXyj6dyaCBszW8hZH/yb/hCO0MZtjhzV0gIVb25NZmJMNP8wGuK7EmyT+cGgsmZu3Ws
-         CwSZe1wHYYa+nacA8bFxoqVo4S96BNJPzZB6qBWx2QdVLo8Cx8PNfsvtAiDpCYMpinCQ
-         ML58A3nI0hdrMjM/XcItF17aY1k6HscTqKcFBHbNjNBV4MjlBjGLGypuLzVxQ4LQmoOk
-         YU6Q==
-X-Gm-Message-State: APjAAAWSxvmUrHunI/k81W2I/E32aE3RxaJj7nAdjMJO3jGHInVlyjoH
-        Njg7Fv3aaCvl+Mr/qcHBgfEfY38LcvkYaaYOZbBTaRrxp6g=
-X-Google-Smtp-Source: APXvYqx7iTUsSvL5YabfOzpyGgOw20Uj8cIiAbrrP5h7eMuZqf3wPBCBM70VFVRO5aRXQX7yd2mwGbJaTAS2Qmv1Q3g=
-X-Received: by 2002:a2e:8796:: with SMTP id n22mr1561551lji.75.1557754602218;
- Mon, 13 May 2019 06:36:42 -0700 (PDT)
-MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Mon, 13 May 2019 19:06:31 +0530
-Message-ID: <CA+G9fYv+M_8p99c6i=akmuhHSCW6MdF-29CPKrwDsd2EW_LsbQ@mail.gmail.com>
-Subject: Format ioctls (Input 1) test Cropping failed: 4.19, 4.14, 4.9 and 4.4
-To:     linux-media@vger.kernel.org
+        Mon, 13 May 2019 09:38:35 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id QB9whjKyd0YQeQBA0hdDdD; Mon, 13 May 2019 15:38:32 +0200
+Subject: Re: test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        linux-media@vger.kernel.org
 Cc:     open list <linux-kernel@vger.kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
         treding@nvidia.com, niklas.soderlund+renesas@ragnatech.se,
         sakari.ailus@linux.intel.com,
         Hans Verkuil <hans.verkuil@cisco.com>, mchehab@kernel.org,
-        lkft-triage@lists.linaro.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+        lkft-triage@lists.linaro.org
+References: <CA+G9fYuC8dgKs04HmyCaKeQ_xwqKBxnh=zsOFjQK+3Fq7AZRyw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5de0df37-f0d0-f54c-2eef-a7533cbe7a25@xs4all.nl>
+Date:   Mon, 13 May 2019 15:38:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CA+G9fYuC8dgKs04HmyCaKeQ_xwqKBxnh=zsOFjQK+3Fq7AZRyw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOZD1CorHOqojS7/3knRw8+4oscN4wDn5nPd5jP0VMGoFObN6OaK/d2CY/dIca8YNDwZBTS5R3Efz9YAGRrjc7DXzFnEiEER+yoXdrLb8Kx/PHczSnjo
+ zpeVodVdOwVqSnnXcfjCfmnz7oMu5uTgadcXC+F4oD1StgeKe7rPhW7FodSoQaNfs5+pZJKmeaqwyqbOhAruJOc/weueFi5WjuTMRvSlDdjqV4Xnj+bZ2nej
+ wo9DSRVUZGwxglGUWQ3H/zrVyr8E1kRpeYz2kVA6R0t9gKNX+FfMLlPT11zOxr93/08V6hI1k565p8rN75GIzlKBlLCzLsVd3xA0niUVCd1FVLEBb+9jKnN+
+ bo4ohxHSClBA6h2HLuP/NpQX2luZeQ3vUhxcMhpsXS/490cETFNZwLYWm99mSIJXRA3Hjy4ecMtkOgtH90CLJWsb+u/pazUufjq3z5MS0wq7c3jBVZUliQTj
+ jh+XwcJnr7yHs8A/WY5yMd/sdF6+JAtPD6JAlip5gu5zk+axLY+7L4jFUdgqEiCtJv+ims45PJ+Smi2YOJwfo/bsAkuDew57exNEUJiusZfAFzvEIZzGozIw
+ tgNKYdA/L9s5yPkW1A77TdJS
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Format ioctls (Input 1) test Cropping failed on all devices running
-4.19, 4.14, 4.9 and 4.4 kernel branches.
+On 5/13/19 3:32 PM, Naresh Kamboju wrote:
+> Do you see test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
+> kernel branches ?
 
-Format ioctls (Input 1):
+Probably related to commit 8a7c5594c0202 (media: v4l2-ioctl: clear fields in s_parm).
 
-...
-test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-fail: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1425):
-doioctl(node, VIDIOC_CROPCAP, &cap)
-fail: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1447):
-testLegacyCrop(node)
-test Cropping: FAIL
+Regards,
 
-Test passes on mainline, -next and 5.0
-Test failed on 4.19, 4.14, 4.9 and 4.4 for all devices
+	Hans
 
-steps to reproduce:
+> 
+> test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> fail: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1132):
+> reserved not zeroed
+> test VIDIOC_G/S_PARM: FAIL
+> 
+> Test passes on mainline, -next, 5.0 and 4.19
+> Test failed on 4.14, 4.9 and 4.4
+> 
+> steps to reproduce:
+>        # boot any 4.9/4.14 kernel on x86_64 / Juno / hikey  device
+>        #  install v4l-utils package
+>        # modprobe vivid.ko no_error_inj=1
+>        # v4l2-compliance -v -d /dev/video0
+> 
+> Full test log,
+> https://lkft.validation.linaro.org/scheduler/job/708755#L1791
+> 
+> Test results comparison on all branches,
+> https://qa-reports.linaro.org/_/comparetest/?project=22&project=6&project=58&project=135&project=40&project=23&project=159&suite=v4l2-compliance&test=VIDIOC_G-S_PARM
+> 
+> Best Regards
+> Naresh Kamboju
+> 
 
-       # boot 4.19/4.14/4.9 kernel on x86_64 / Juno / hikey /  device
-       #  install v4l-utils package
-       # modprobe vivid.ko no_error_inj=1
-       # v4l2-compliance -v -d /dev/video0
-
-Test results comparison on all branches,
-https://qa-reports.linaro.org/_/comparetest/?project=22&project=6&project=58&project=135&project=40&project=23&project=159&suite=v4l2-compliance&test=Cropping
-
-Test output log,
-https://lkft.validation.linaro.org/scheduler/job/708755#L2236
-
-Best regards
-Naresh Kamboju
