@@ -2,148 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B4021CCCC
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 18:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C08E1CDCD
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 19:18:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726013AbfENQTw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 12:19:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49988 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725901AbfENQTw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 12:19:52 -0400
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A97320675;
-        Tue, 14 May 2019 16:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557850790;
-        bh=qzOY5O00XWu9ltpfoa6ZpPJ9ETaX0rvyq0x+5T3QeMY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LDdzJZZR0zPqXRSts4eVzoabG9u/04+N8xqmoyKWmbf9bfLaGGtz9FglclolDmYnc
-         VZhBS8SikBU3vD2X6G3UwTY7OpwuBaiBqtgnyNhSEMA8zvk1JmOurOmilkncQnUGQp
-         2XB0b0giGzlXj8r7kDAJSWMdrI7q6UUb+SC/5rR4=
-Received: by mail-qt1-f173.google.com with SMTP id o7so19707724qtp.4;
-        Tue, 14 May 2019 09:19:50 -0700 (PDT)
-X-Gm-Message-State: APjAAAUheto7O8hskH/P/q72BYGdzGPbcUXAFpX7BCYCP83MQfxm7TT0
-        zJPUMLgN9DgjB3MTtyqRfnksOVwyLbuHOsQ/8A==
-X-Google-Smtp-Source: APXvYqy/kSHQj4PRwOSVHrR1mu6BOErL78nzm6ufh9vWL2uISjxCvFbdDDvbMa+HOHIkfJYRZbIMBn1G+SPJCs366Qo=
-X-Received: by 2002:ac8:610f:: with SMTP id a15mr29576466qtm.257.1557850789752;
- Tue, 14 May 2019 09:19:49 -0700 (PDT)
+        id S1726610AbfENRSp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 13:18:45 -0400
+Received: from casper.infradead.org ([85.118.1.10]:41632 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726251AbfENRSo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 May 2019 13:18:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=y1jt1vGYA3mBOQ/J2XJeuj9h+9xt/WgbyMVwztThSVQ=; b=sh7Mu5FxviOYnNnBztWbxc8j99
+        wRRyT86DWHAjfiCF6a59D1/7MH6MdrmwRPTgG7KW/DkBJ0nY1souFG/s7CQnRhK28w77tEsUfJ5SS
+        Yelf+jP4gl7sHFSiN4wHRy6co+V0iTpIwc76lKRmjpg1r51w+crVLjoPvpSatDyY/QX4OBFxAXSZW
+        UliRbMV2MTEJzf4LcNeEa1azm4Mwympu2HPW15PwN9aPyLM/V9TcCLGMI1vS+6IBA4GK2/TpHD/7N
+        xwdTIomf4CSP2fDM/645+B2d3QzNNoaO1mY7ZI423OdpWjNlXRMBGS7mH4zREaM0NZ/evUQXomdFY
+        8Dgu6xiA==;
+Received: from [179.179.44.200] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hQb4Q-0000u5-4h; Tue, 14 May 2019 17:18:30 +0000
+Date:   Tue, 14 May 2019 14:18:24 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v6 00/13] TVP5150 new features
+Message-ID: <20190514141824.5bd41389@coco.lan>
+In-Reply-To: <20190506054713.crxc5pw6j5suvvq7@pengutronix.de>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+        <20190506054713.crxc5pw6j5suvvq7@pengutronix.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190417104511.21514-1-frederic.chen@mediatek.com>
- <20190417104511.21514-2-frederic.chen@mediatek.com> <20190430011506.GA8514@bogus>
- <1557238925.11663.21.camel@mtksdccf07>
-In-Reply-To: <1557238925.11663.21.camel@mtksdccf07>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 14 May 2019 11:19:38 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKGW9WqyNgqKD0MxsqxYHKZ+VNV5A2p+neGqwmKmiODOQ@mail.gmail.com>
-Message-ID: <CAL_JsqKGW9WqyNgqKD0MxsqxYHKZ+VNV5A2p+neGqwmKmiODOQ@mail.gmail.com>
-Subject: Re: [RFC PATCH V1 1/6] dt-bindings: mt8183: Add binding for DIP
- shared memory
-To:     Frederic Chen <frederic.chen@mediatek.com>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        yuzhao@chromium.org, zwisler@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, Sean.Cheng@mediatek.com,
-        sj.huang@mediatek.com, christie.yu@mediatek.com,
-        holmes.chiou@mediatek.com,
-        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
-        jungo.lin@mediatek.com, Rynn.Wu@mediatek.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        devicetree@vger.kernel.org, shik@chromium.org,
-        suleiman@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 7, 2019 at 9:22 AM Frederic Chen <frederic.chen@mediatek.com> wrote:
->
-> Dear Rob,
->
-> I appreciate your comments.
->
-> On Mon, 2019-04-29 at 20:15 -0500, Rob Herring wrote:
-> > On Wed, Apr 17, 2019 at 06:45:06PM +0800, Frederic Chen wrote:
-> > > This patch adds the binding for describing the shared memory
-> > > used to exchange configuration and tuning data between the
-> > > co-processor and Digital Image Processing (DIP) unit of the
-> > > camera ISP system on Mediatek SoCs.
-> > >
-> > > Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
-> > > ---
-> > >  .../mediatek,reserve-memory-dip_smem.txt      | 45 +++++++++++++++++++
-> > >  1 file changed, 45 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
-> > > new file mode 100644
-> > > index 000000000000..64c001b476b9
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
-> > > @@ -0,0 +1,45 @@
-> > > +Mediatek DIP Shared Memory binding
-> > > +
-> > > +This binding describes the shared memory, which serves the purpose of
-> > > +describing the shared memory region used to exchange data between Digital
-> > > +Image Processing (DIP) and co-processor in Mediatek SoCs.
-> > > +
-> > > +The co-processor doesn't have the iommu so we need to use the physical
-> > > +address to access the shared buffer in the firmware.
-> > > +
-> > > +The Digital Image Processing (DIP) can access memory through mt8183 IOMMU so
-> > > +it can use dma address to access the memory region.
-> > > +(See iommu/mediatek,iommu.txt for the detailed description of Mediatek IOMMU)
-> > > +
-> > > +
-> > > +Required properties:
-> > > +
-> > > +- compatible: must be "mediatek,reserve-memory-dip_smem"
-> >
-> > Don't use '_'.
->
-> I got it. I will use "mediatek,reserve-memory-dip-smem" instead in next
-> version of the patch
->
-> >
-> > > +
-> > > +- reg: required for static allocation (see reserved-memory.txt for
-> > > +  the detailed usage)
-> > > +
-> > > +- alloc-range: required for dynamic allocation. The range must
-> > > +  between 0x00000400 and 0x100000000 due to the co-processer's
-> > > +  addressing limitation
-> >
-> > Generally, you should pick either static or dynamic allocation for a
-> > given binding. Static if there's some address restriction or sharing,
-> > dynamic if not.
-> >
-> > Sounds like static in this case.
-> >
->
-> DIP reserved memory has address restriction so it is the static case. I
-> would like to remove the dynamic allocation part and modify the
-> description as following:
->
-> - reg: required for DIP. The range must be between 0x00000400 and
->   0x100000000 due to the co-processor's addressing limitation.
->   The size must be 26MB. Please see reserved-memory.txt for the
->   detailed usage.
+Em Mon, 6 May 2019 07:47:13 +0200
+Marco Felsch <m.felsch@pengutronix.de> escreveu:
 
-You can use dma-ranges to define addressing translations and
-restrictions like this. That will in turn set the device's dma-mask to
-ensure allocations are done in a region that is addressable.
+> Hi Mauro,
+> 
+> I know you are busy but can you have a look on it?
 
-But if you have a known, fixed size, then a carve out with
-reserved-memory is fine.
+You should really trust on the sub-maintainers for such kind of
+reviews :-)
 
-Rob
+I'll take a look today.
+
+> 
+> Regards,
+>   Marco
+> 
+> On 19-04-15 14:44, Marco Felsch wrote:
+> > Hi,
+> > 
+> > many thanks to Hans and Jacopo for the feedack :) this v6 address the
+> > comments both made on my v5 [1].
+> > 
+> > In short this is round fixes just some minor issues rather than major
+> > ones so the diff to the v5 is really small. The changed patches contain
+> > the changelog so I omit it here.
+> > 
+> > I've tested it on a custom hardware but I can't test the em28xx usb
+> > use-case since I haven't such a device. So other testers are welcome :)
+> > 
+> > Looking forward for your feedack,
+> > 
+> > 	Marco
+> > 
+> > [1] https://patchwork.kernel.org/cover/10886903/
+> > 
+> > Javier Martinez Canillas (1):
+> >   partial revert of "[media] tvp5150: add HW input connectors support"
+> > 
+> > Marco Felsch (11):
+> >   dt-bindings: connector: analog: add tv norms property
+> >   media: v4l2-fwnode: add v4l2_fwnode_connector
+> >   media: v4l2-fwnode: add initial connector parsing support
+> >   media: tvp5150: add input source selection of_graph support
+> >   media: dt-bindings: tvp5150: Add input port connectors DT bindings
+> >   media: tvp5150: add FORMAT_TRY support for get/set selection handlers
+> >   media: tvp5150: add s_power callback
+> >   media: dt-bindings: tvp5150: cleanup bindings stlye
+> >   media: dt-bindings: tvp5150: add optional tvnorms documentation
+> >   media: tvp5150: add support to limit tv norms on connector
+> >   media: tvp5150: make debug output more readable
+> > 
+> > Michael Tretter (1):
+> >   media: tvp5150: initialize subdev before parsing device tree
+> > 
+> >  .../display/connector/analog-tv-connector.txt |   4 +
+> >  .../devicetree/bindings/media/i2c/tvp5150.txt | 125 +++-
+> >  drivers/media/i2c/tvp5150.c                   | 672 +++++++++++++-----
+> >  drivers/media/v4l2-core/v4l2-fwnode.c         | 111 +++
+> >  include/dt-bindings/media/tvnorms.h           |  56 ++
+> >  include/dt-bindings/media/tvp5150.h           |   2 -
+> >  include/media/v4l2-connector.h                |  30 +
+> >  include/media/v4l2-fwnode.h                   |  49 ++
+> >  8 files changed, 859 insertions(+), 190 deletions(-)
+> >  create mode 100644 include/dt-bindings/media/tvnorms.h
+> >  create mode 100644 include/media/v4l2-connector.h
+> > 
+> > -- 
+> > 2.20.1
+> > 
+> > 
+> >   
+> 
+
+
+
+Thanks,
+Mauro
