@@ -2,151 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CEE11D081
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 22:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AABF61D0F1
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 22:58:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbfENUWZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 16:22:25 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:44738 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbfENUWZ (ORCPT
+        id S1726195AbfENU6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 16:58:37 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55289 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726134AbfENU6g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 16:22:25 -0400
-Received: by mail-oi1-f194.google.com with SMTP id z65so86412oia.11;
-        Tue, 14 May 2019 13:22:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ymvdHlHfw00uLHLYb3t7giCfY/eJ/lnfaeGdckEMHZM=;
-        b=r9MdIc726R+2OIpuM6sPmcDuEEArsLsXvOgzi3aDjdNPcvJXvKhHq0/y6UK4YXe0kj
-         IH0H9mL6uATUaMIP94xule+b0f0tlguSYphl/LByXCpQgIw0kvj9qIno9BwNKVb1R8iV
-         +F7TDiSzaudT6FsKKJyBMG9aFKpJIcl2hM4NrhHWExPNXo0fPIgDZGGGrLdZetTX978n
-         2T67vxPjX0WMqu1b29jE4TOnN+pM25sUwt9zQ4QZUI53MRCuROnOkKle7E8FJBUN9/C1
-         1vTMcgwAqfVmBi5UvttLhhq1Hze6MzZ9dixeZGjP7WmL4hnUMjQ6hMwZlpzr0g0QtB/F
-         W8Og==
-X-Gm-Message-State: APjAAAVgKmKB9wGM1RQMU6OJJiQe4AELbRjgDv5uqZrwNdVmIUrQS1BW
-        TcOjoxdfSW3aFM6sNlsEfA==
-X-Google-Smtp-Source: APXvYqxRbCfJIqlMfGCxeng6SX1wiH/xr3XTuLXQ9tJMpceSgQdh0TskQpjAuRFQJ03BEqxY6HlrFQ==
-X-Received: by 2002:aca:ac43:: with SMTP id v64mr4379156oie.40.1557865344704;
-        Tue, 14 May 2019 13:22:24 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l17sm3825518otp.29.2019.05.14.13.22.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 May 2019 13:22:23 -0700 (PDT)
-Date:   Tue, 14 May 2019 15:22:23 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Louis Kuo <louis.kuo@mediatek.com>
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        tfiga@chromium.org, keiichiw@chromium.org, matthias.bgg@gmail.com,
-        mchehab@kernel.org, yuzhao@chromium.org, zwisler@chromium.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
-        sj.huang@mediatek.com, christie.yu@mediatek.com,
-        holmes.chiou@mediatek.com, frederic.chen@mediatek.com,
-        Jerry-ch.Chen@mediatek.com, jungo.lin@mediatek.com,
-        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
-        srv_heupstream@mediatek.com, devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH V2 3/4] dt-bindings: mt8183: Add sensor interface
- dt-bindings
-Message-ID: <20190514202223.GA2963@bogus>
-References: <20190512060005.5444-1-louis.kuo@mediatek.com>
- <20190512060005.5444-4-louis.kuo@mediatek.com>
+        Tue, 14 May 2019 16:58:36 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hQeVI-00059i-2t; Tue, 14 May 2019 22:58:28 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hQeVE-000198-HY; Tue, 14 May 2019 22:58:24 +0200
+Date:   Tue, 14 May 2019 22:58:24 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v6 00/13] TVP5150 new features
+Message-ID: <20190514205824.ov6prllx2fp77fur@pengutronix.de>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+ <20190506054713.crxc5pw6j5suvvq7@pengutronix.de>
+ <20190514141824.5bd41389@coco.lan>
+ <20190514172028.693ad354@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190512060005.5444-4-louis.kuo@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190514172028.693ad354@coco.lan>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 22:54:32 up 116 days,  1:36, 92 users,  load average: 0.00, 0.04,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, May 12, 2019 at 02:00:04PM +0800, Louis Kuo wrote:
-> This patch adds the DT binding documentation for the sensor interface
-> module in Mediatek SoCs.
+Hi Mauro,
+
+On 19-05-14 17:20, Mauro Carvalho Chehab wrote:
+> Em Tue, 14 May 2019 14:18:24 -0300
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 > 
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> ---
->  .../bindings/media/mediatek-seninf.txt        | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-seninf.txt
+> > Em Mon, 6 May 2019 07:47:13 +0200
+> > Marco Felsch <m.felsch@pengutronix.de> escreveu:
+> > 
+> > > Hi Mauro,
+> > > 
+> > > I know you are busy but can you have a look on it?  
+> > 
+> > You should really trust on the sub-maintainers for such kind of
+> > reviews :-)
+
+I trust all of them and many thanks to Hans and Jacopo for the reviews
+:) I will integrate them this week. The point is that you are the
+maintainer and in that case the one who picks the patches.
+
+> > 
+> > I'll take a look today.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-seninf.txt b/Documentation/devicetree/bindings/media/mediatek-seninf.txt
-> new file mode 100644
-> index 000000000000..5c84a777acbd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek-seninf.txt
-> @@ -0,0 +1,52 @@
-> +* Mediatek seninf MIPI-CSI2 host driver
+> Done. Please notice that I didn't run any test here.
 
-Bindings are for h/w blocks, not drivers...
+Thanks for that will integrate it too and prepare a v7.
 
-How does this relate to the other series for Mediatek MIPI CSI2?
+Regards,
+  Marco
 
-> +
-> +Seninf MIPI-CSI2 host driver is a HW camera interface controller. It support a widely adopted,
-> +simple, high-speed protocol primarily intended for point-to-point image and video
-> +transmission between cameras and host devices.
-> +
-> +Required properties:
-> +  - compatible: "mediatek,mt8183-seninf"
-> +  - reg: Must contain an entry for each entry in reg-names.
-> +  - reg-names: Must include the following entries:
-> +    "base_reg": seninf registers base
-> +    "rx_reg": Rx analog registers base
-
-'_reg' part is redundant.
-
-> +  - interrupts: interrupt number to the cpu.
-> +  - clocks : clock name from clock manager
-> +  - clock-names: must be CLK_CAM_SENINF and CLK_TOP_MUX_SENINF.
-> +    It is the clocks of seninf
-> +  - port : port for camera sensor
-
-port is not a property
-
-> +  - port reg : must be '0' for camera 0, '1' for camera 1
-> +  - endpoint : config mipi-csi2 port setting for each camera
-
-endpoint is not a property
-
-> +  - data-lanes : the number of the data lane
-> +
-> +Example:
-> +    seninf: seninf@1a040000 {
-> +       compatible = "mediatek,mt8183_seninf";
-> +		reg = <0 0x1a040000 0 0x8000>,
-> +		      <0 0x11C80000 0 0x6000>;
-> +		reg-names = "base_reg", "ana_reg";
-> +		interrupts = <GIC_SPI 251 IRQ_TYPE_LEVEL_LOW>;
-> +		power-domains = <&scpsys MT8183_POWER_DOMAIN_CAM>;
-> +	    clocks =
-
-The indentation is all wrong.
-
-> +			<&camsys CLK_CAM_SENINF>, <&topckgen CLK_TOP_MUX_SENINF>;
-> +		clock-names =
-> +			"CLK_CAM_SENINF", "CLK_TOP_MUX_SENINF";
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			port@0 {
-> +				reg = <0>;
-> +				mipi_in_cam0: endpoint@0 {
-> +					reg = <0>;
-> +					data-lanes = <1 3>;
-> +				};
-> +			};
-> +			port@1 {
-> +				reg = <1>;
-> +				mipi_in_cam1: endpoint@0 {
-> +					reg = <1>;
-> +					data-lanes = <1 3>;
-> +				};
-> +			};
-> +		};
-> +	}
-> -- 
-> 2.18.0
 > 
+> > 
+> > > 
+> > > Regards,
+> > >   Marco
+> > > 
+> > > On 19-04-15 14:44, Marco Felsch wrote:  
+> > > > Hi,
+> > > > 
+> > > > many thanks to Hans and Jacopo for the feedack :) this v6 address the
+> > > > comments both made on my v5 [1].
+> > > > 
+> > > > In short this is round fixes just some minor issues rather than major
+> > > > ones so the diff to the v5 is really small. The changed patches contain
+> > > > the changelog so I omit it here.
+> > > > 
+> > > > I've tested it on a custom hardware but I can't test the em28xx usb
+> > > > use-case since I haven't such a device. So other testers are welcome :)
+> > > > 
+> > > > Looking forward for your feedack,
+> > > > 
+> > > > 	Marco
+> > > > 
+> > > > [1] https://patchwork.kernel.org/cover/10886903/
+> > > > 
+> > > > Javier Martinez Canillas (1):
+> > > >   partial revert of "[media] tvp5150: add HW input connectors support"
+> > > > 
+> > > > Marco Felsch (11):
+> > > >   dt-bindings: connector: analog: add tv norms property
+> > > >   media: v4l2-fwnode: add v4l2_fwnode_connector
+> > > >   media: v4l2-fwnode: add initial connector parsing support
+> > > >   media: tvp5150: add input source selection of_graph support
+> > > >   media: dt-bindings: tvp5150: Add input port connectors DT bindings
+> > > >   media: tvp5150: add FORMAT_TRY support for get/set selection handlers
+> > > >   media: tvp5150: add s_power callback
+> > > >   media: dt-bindings: tvp5150: cleanup bindings stlye
+> > > >   media: dt-bindings: tvp5150: add optional tvnorms documentation
+> > > >   media: tvp5150: add support to limit tv norms on connector
+> > > >   media: tvp5150: make debug output more readable
+> > > > 
+> > > > Michael Tretter (1):
+> > > >   media: tvp5150: initialize subdev before parsing device tree
+> > > > 
+> > > >  .../display/connector/analog-tv-connector.txt |   4 +
+> > > >  .../devicetree/bindings/media/i2c/tvp5150.txt | 125 +++-
+> > > >  drivers/media/i2c/tvp5150.c                   | 672 +++++++++++++-----
+> > > >  drivers/media/v4l2-core/v4l2-fwnode.c         | 111 +++
+> > > >  include/dt-bindings/media/tvnorms.h           |  56 ++
+> > > >  include/dt-bindings/media/tvp5150.h           |   2 -
+> > > >  include/media/v4l2-connector.h                |  30 +
+> > > >  include/media/v4l2-fwnode.h                   |  49 ++
+> > > >  8 files changed, 859 insertions(+), 190 deletions(-)
+> > > >  create mode 100644 include/dt-bindings/media/tvnorms.h
+> > > >  create mode 100644 include/media/v4l2-connector.h
+> > > > 
+> > > > -- 
+> > > > 2.20.1
+> > > > 
+> > > > 
+> > > >     
+> > >   
+> > 
+> > 
+> > 
+> > Thanks,
+> > Mauro
+> 
+> 
+> 
+> Thanks,
+> Mauro
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
