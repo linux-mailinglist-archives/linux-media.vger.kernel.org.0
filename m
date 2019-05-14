@@ -2,77 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A083C1BF69
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 00:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E431C11F
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 05:54:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbfEMWSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 May 2019 18:18:23 -0400
-Received: from mail-lj1-f182.google.com ([209.85.208.182]:37137 "EHLO
-        mail-lj1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbfEMWSX (ORCPT
+        id S1726718AbfENDyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 May 2019 23:54:10 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55405 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726638AbfENDyK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 May 2019 18:18:23 -0400
-Received: by mail-lj1-f182.google.com with SMTP id h19so6040156ljj.4
-        for <linux-media@vger.kernel.org>; Mon, 13 May 2019 15:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=egMsceEhCwO1oOOUz6JFx9YojlJLHQCMFeGtv6PQrYk=;
-        b=AJtdyoVFpMf/pg5FeHis+tsTIEgdqTZh8fzH8gmc1ZackO3JIcHlem2dw/APuGWqVg
-         x2Ioxj2s3/t7T3bOXh8d6jpI8Xnejoc2VHNckRktGK/hr7zD3N7Z22a3oUgtRfoo1YGm
-         9AIs7f4TGjXF6PFlNkYBcr1Y/aiPpFx2BzHzCFC7hElhYqbg3P8DUlP8UBq2039aXDQl
-         WgNWK/U3lnq5BmDgHTne7Akz/bSwBwHfIfmdxDos/LUILiqcmxrm0HtqLvURJvMvigv1
-         Ere4ouYVMDbTIktTQYbW/SlMWdvLOZQTrQwC2fwoLXNUSCKji1jfIYN7nQt7+BekXx9E
-         l7OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=egMsceEhCwO1oOOUz6JFx9YojlJLHQCMFeGtv6PQrYk=;
-        b=tpT8QfwAw6hImhiLqR/Z6gYZ7sByK0Ean+V1ZwE75ow88S4epwriWABppF5ptaGV/9
-         ugimUYpMSJez+kKWMP3nbizndZyRPKJ8XAhCEfSA32pkzcBM6pgVknBGV/VaEqedRERI
-         5bph6Ja+B9uRFv8fkGaTFgBGLBTCAAb4p3L8CU6HHRgr6iu173Um9Apzcc15JBuxZ2dD
-         yi6z031+T1hikatrn9fMO5u37D5CVat71xpIUGNzjG+VmLDtuTkCxeRCfJzWbcPTWK48
-         On8+1NnQvvpS4Y8PVq01Ag8lYjdGpUxvCII75EzQURV3ILIG4mKfzW9xrJBRXF+WE7/E
-         0Q4w==
-X-Gm-Message-State: APjAAAVc2mw3gZNJ3jSG5Hcq/AP7QdLa6Eqb9yKSx7d3EVAmori8a/4J
-        dXi0nkNw4wItW/BVUrPXMH+ynDHwFlV/EkYnuv8/306iPew=
-X-Google-Smtp-Source: APXvYqwl9wmzZzLI7u/dRGyIdTPOeLv1WGnFpJdduTWCbuFx6PWXXO2dAWh8qQlN60LtQzd07DYe1LXI9K2DuGz4ZH4=
-X-Received: by 2002:a2e:8041:: with SMTP id p1mr3456787ljg.121.1557785900713;
- Mon, 13 May 2019 15:18:20 -0700 (PDT)
-MIME-Version: 1.0
-From:   Tomasz Borowczyk <tomboro88@gmail.com>
-Date:   Tue, 14 May 2019 00:18:31 +0200
-Message-ID: <CAM+RvBRfLUPS7uaQG3Drj_oSX1ACj7cCT_fMM9o9NSwr=6JT3Q@mail.gmail.com>
-Subject: cx231xx with 3 grabbers
+        Mon, 13 May 2019 23:54:10 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:2d18:8250:572e:d5c6])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id QOVxhKoG2sDWyQOVyhmxLe; Tue, 14 May 2019 05:54:08 +0200
+Message-ID: <70bf199e4c8da9288df7d2ea248895e1@smtp-cloud9.xs4all.net>
+Date:   Tue, 14 May 2019 05:54:05 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfD6qtTDV5Zj7NTYp4HxMN0MHy5mqoKP70HYHBj5npqy45+uxfVxL+kp/fZfwevSX0ksLfpo3XGybHJo3AZMjynyagEVpf7MT5BarSmkD5+LVcZOI9ct/
+ COn+vm26USp3HAyEBkx9jVRE4TeNw5sdkz7gD61+VVoFP6ILt0C8zeygRz5iJLm7rMwm1fTQipyh/Z7cGdoUkzEjtF1frq0Y1SV54unVyGMm5m4pQ2YnFg3t
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello linux-media.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I use cx231xx driver with my August Vgb100 USB video grabber. It works
-great. It automatically detects my device and I can watch the video
-from analog camera on my Raspberry Pi, and I am very happy about how
-it works.
+Results of the daily build of media_tree:
 
-But there is a catch. I want to connect 3 such cameras to my Raspberry
-Pi. When there are connected 2 of them, I can watch video from both of
-them without problems. When there are connected 3 adapters, I can
-watch the video from all three cameras, but the picture from one of
-them is flickering and blurring between blue screen and the correct
-data. And no matter in what order I connect them to the Raspberry, the
-problem exists always on the same adapter.
-The same problem exists when I connect the cameras to my laptop
-running Raspbian desktop.
-This could suggest that the one adapter is a little defective, but it
-works okay when there are connected only two adapters, or when it is
-the only connected. Also when I disconnect it and connect again to USB
-port, I can see correct image. But when I start to play picture from
-another camera, and then go back to the "defective" one, it flickers
-again. How can I find the reason of the problem?
+date:			Tue May 14 05:00:11 CEST 2019
+media-tree git hash:	1199fa8c0ddd34dae6d72b653b27dfb3554e9b57
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: edfe65f7b74008637d2385c35267527af80ec06c
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-Best regards,
-Tomasz
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: ERRORS
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: ERRORS
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
