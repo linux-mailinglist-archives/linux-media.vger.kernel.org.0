@@ -2,294 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9861CF5D
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 20:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A6BF1CFDB
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 21:28:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbfENSsj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 14:48:39 -0400
-Received: from casper.infradead.org ([85.118.1.10]:51582 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727400AbfENSsi (ORCPT
+        id S1726148AbfENT2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 15:28:09 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:46564 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbfENT2I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 14:48:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=NQebJdnsOHzBiVghXXwKgMh/0Jtrwf47R7qqFhUaqE4=; b=uns9c7WxKaKi0qZE0B/yBKE97N
-        Xl8HDJOQSGZroupgCe5MEEDy8s7B+XbH7vq1Nai9HyIhYIK9TVlaPrzSNchxoNt4QzcmVVt3hloPq
-        KAdY+3ho9H4nZGQhm+lUUY9iwVXIbZTyhpqaLz6hFnUS0ha8gFBSTZJGgdz8KJGH7X2thUmG5r05S
-        LMTVrfTJ3uSz47B5Q0zL3iZgbDDGBN/u+YaKo8SYffUk9eWE2ypujQV8PxAw4cmEgRA9Yykp+3VwA
-        q7OR2Z4HrYNtVS64yQ7kBNW0SNn0/AQxPyScSXpFgCflH8k5K5qxmiVYKX8QZN1cW2ioaagm6jRl9
-        WgMPS90w==;
-Received: from [179.179.44.200] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQcTU-0004nV-FE; Tue, 14 May 2019 18:48:29 +0000
-Date:   Tue, 14 May 2019 15:48:23 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v6 07/13] media: tvp5150: add FORMAT_TRY support for
- get/set selection handlers
-Message-ID: <20190514154823.1b8619b2@coco.lan>
-In-Reply-To: <20190415124413.18456-8-m.felsch@pengutronix.de>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
-        <20190415124413.18456-8-m.felsch@pengutronix.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 14 May 2019 15:28:08 -0400
+Received: by mail-ot1-f67.google.com with SMTP id j49so8708387otc.13;
+        Tue, 14 May 2019 12:28:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6guL+gsRRdFgD/vbMcouXTpctp515ym8MFo367/IsYI=;
+        b=XCkZaxwULDPYRZb067kbo6f1iOGhzy8TDqEJszrAL8+UQYZm5LIvIOjAMkJvw7ugiw
+         DCFM42XxTaa6T8Wbj9ppFxR//WXl/Jt0AkXY9v9mIN+2rkYe1AkUKzn3sBNBVOuT7UiF
+         B2YNFV4niXF6mOzIoNCvZzb60KsS0ESJ9aYX0gYFdN/ubmK7kZ77/GmVD+QK2cY78iJ/
+         KryAzhdflfNQ0Iuzu0Tw3CWbpAahkPTzF1JrFIau0yyfrw9gL/wc+CuFtMVPMZB81dZ7
+         R+J2H9NCF/ic4p2Yr9t48Yf2lKtQareOY/p4CzL7mVuBQp5kxIMUCb5ECxf2K0iKFdiS
+         CvFA==
+X-Gm-Message-State: APjAAAVXnp48g5wlMEY3Eh/u82Pt/IkRjjAxW7oGz0Qt8eUptb5/VhfQ
+        J2MNaXMfdmbnn8BE6n3Z1w==
+X-Google-Smtp-Source: APXvYqzyZC245V0LNnDn7RBEDPgVXsCYD9n7cuZSuXUT9DCdxNCo/SfksSuwpVn2D9oIv/Gggi50ng==
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr169374otf.332.1557862087618;
+        Tue, 14 May 2019 12:28:07 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a2sm3731953otf.50.2019.05.14.12.28.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 14 May 2019 12:28:06 -0700 (PDT)
+Date:   Tue, 14 May 2019 14:28:06 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Stu Hsieh <stu.hsieh@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        CK Hu <ck.hu@mediatek.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com
+Subject: Re: [PATCH v3 01/13] dt-bindings: media: Add binding for MT2712
+ MIPI-CSI2
+Message-ID: <20190514192806.GA13654@bogus>
+References: <1557814430-9675-1-git-send-email-stu.hsieh@mediatek.com>
+ <1557814430-9675-2-git-send-email-stu.hsieh@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1557814430-9675-2-git-send-email-stu.hsieh@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 15 Apr 2019 14:44:07 +0200
-Marco Felsch <m.felsch@pengutronix.de> escreveu:
-
-> Since commit 10d5509c8d50 ("[media] v4l2: remove g/s_crop from video ops")
-> the 'which' field for set/get_selection must be FORMAT_ACTIVE. There is
-> no way to try different selections. The patch adds a helper function to
-> select the correct selection memory space (sub-device file handle or
-> driver state) which will be set/returned.
+On Tue, May 14, 2019 at 02:13:38PM +0800, Stu Hsieh wrote:
+> Add MIPI-CSI2 dt-binding for Mediatek MT2712 SoC
 > 
-> The TVP5150 AVID will be updated if the 'which' field is FORMAT_ACTIVE
-> and the requested selection rectangle differs from the already set one.
-> 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
 > ---
-> Changelog:
+>  .../bindings/media/mediatek-mipicsi-camsv.txt | 53 ++++++++++++++++++
+>  .../media/mediatek-mipicsi-common.txt         | 19 +++++++
+>  .../bindings/media/mediatek-mipicsi.txt       | 54 +++++++++++++++++++
+>  3 files changed, 126 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
 > 
-> v5:
->  - handle stub for v4l2_subdev_get_try_crop() internal since commit
->    ("media: v4l2-subdev: add stubs for v4l2_subdev_get_try_*")
->    isn't anymore part of this series.
->  - add error handling of __tvp5150_get_pad_crop()
-> v4:
->  - fix merge conflict due to rebase on top of media-tree/master
->  - __tvp5150_get_pad_crop(): cosmetic alignment fixes
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+> new file mode 100644
+> index 000000000000..5f34974f12ac
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+> @@ -0,0 +1,53 @@
+> +* Mediatek MIPI-CSI2 receiver camsv
+> +
+> +Mediatek MIPI-CSI2 receiver camsv transfer data to DRAM in Mediatek SoCs
+> +
+> +Required properties:
+
+compatible?
+
+> +- reg : physical base address of the mipicsi receiver registers and length of
+> +  memory mapped region.
+
+How many regions? Looks like 2.
+
+> +- clocks: device clocks, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> +- interrupts : interrupt number to the interrupt controller.
+> +
+> +Example:
+> +	seninf1_mux_camsv0: seninf_mux_camsv@15002100 {
+
+Node names should be generic.
+
+mipi-csi@...
+
+Or maybe not as that's the last block...
+
+> +		reg = <0 0x15002120 0 0x40>,
+> +		      <0 0x15004000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
+> +		interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	seninf2_mux_camsv1: seninf_mux_camsv@15002500 {
+> +		reg = <0 0x15002520 0 0x40>,
+> +		      <0 0x15005000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
+> +		interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	seninf3_mux_camsv2: seninf_mux_camsv@15002900 {
+> +		reg = <0 0x15002920 0 0x40>,
+> +		      <0 0x15006000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
+> +		interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	seninf4_mux_camsv3: seninf_mux_camsv@15002D00 {
+> +		reg = <0 0x15002D20 0 0x40>,
+> +		      <0 0x15007000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
+> +		interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	seninf5_mux_camsv4: seninf_mux_camsv@15003100 {
+> +		reg = <0 0x15003120 0 0x40>,
+> +		      <0 0x15008000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
+> +		interrupts = <GIC_SPI 270 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	seninf6_mux_camsv5: seninf_mux_camsv@15003500 {
+> +		reg = <0 0x15003520 0 0x40>,
+> +		      <0 0x15009000 0 0x1000>;
+> +		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
+> +		interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
+> new file mode 100644
+> index 000000000000..a67c744b75f0
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
+> @@ -0,0 +1,19 @@
+> +* Mediatek MIPI-CSI2 receiver common
+> +
+> +Mediatek MIPI-CSI2 receiver is the MIPI Signal capture hardware present in Mediatek SoCs
+> +
+> +Required properties:
+> +- compatible: should be "mediatek,mt2712-mipicsi-common"
+> +- reg : physical base address of the mipicsi receiver registers and length of
+> +  memory mapped region.
+> +- clocks: device clocks, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> +
+> +
+> +Example:
+> +	mipicsi: mipicsi@15002000 {
+> +		compatible = "mediatek,mt2712-mipicsi-common", "syscon";
+> +		reg = <0 0x15002000 0 0x10>;
+> +		clocks = <&imgsys CLK_IMG_SENINF_CAM_EN>,
+> +			 <&imgsys CLK_IMG_SENINF_SCAM_EN>;
+> +	};
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
+> new file mode 100644
+> index 000000000000..24741ed62b25
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
+> @@ -0,0 +1,54 @@
+> +* Mediatek MIPI-CSI2 receiver
+> +
+> +Mediatek MIPI-CSI2 receiver is the MIPI Signal capture hardware present in Mediatek SoCs
+
+What's the difference with this and the prior block? Same text...
+
+> +
+> +Required properties:
+> +- compatible: should be "mediatek,mt2712-mipicsi"
+> +- reg : physical base address of the mipicsi receiver registers and length of
+> +  memory mapped region.
+> +- power-domains: a phandle to the power domain, see
+> +  Documentation/devicetree/bindings/power/power_domain.txt for details.
+> +- mediatek,larb: must contain the local arbiters in the current Socs, see
+> +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+> +  for details.
+> +- iommus: should point to the respective IOMMU block with master port as
+> +  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+> +  for details.
+> +- mediatek,seninf_mux_camsv: seninf_mux_camsv the data go through of the mipicsi port
+
+s/_/-/
+
+How many entries? Needs a reference to the binding doc. 
+
+> +- mediatek,mipicsiid: the id of the mipicsi port
+
+If this is for the 'mediatek,mipicsi' block, then just make the id a 
+cell value in the 'mediatek,mipicsi' prop.
+
+> +- mediatek,mipicsi: the common component of the two mipicsi port
+> +
+> +Example:
+
+I'd prefer one complete example showing all 3 components in this file 
+rather than piecemeal.
+
+> +	mipicsi0: mipicsi@10217000 {
+> +		compatible = "mediatek,mt2712-mipicsi";
+> +		mediatek,mipicsi = <&mipicsi>;
+> +		iommus = <&iommu0 M4U_PORT_CAM_DMA0>,
+> +			 <&iommu0 M4U_PORT_CAM_DMA1>;
+> +		mediatek,larb = <&larb2>;
+> +		power-domains = <&scpsys MT2712_POWER_DOMAIN_ISP>;
+> +
+> +		mediatek,seninf_mux_camsv = <&seninf1_mux_camsv0
+> +					     &seninf2_mux_camsv1
+> +					     &seninf3_mux_camsv2
+> +					     &seninf4_mux_camsv3>;
+> +		reg = <0 0x10217000 0 0x60>,
+> +		      <0 0x15002100 0 0x4>,
+> +		      <0 0x15002300 0 0x100>;
+> +		mediatek,mipicsiid = <0>;
+> +		status="disabled";
+
+Don't should status in examples.
+
+> +	};
+> +
+> +	mipicsi1: mipicsi@10218000 {
+
+This example doesn't add anything.
+
+> +		compatible = "mediatek,mt2712-mipicsi";
+> +		mediatek,mipicsi = <&mipicsi>;
+> +		iommus = <&iommu0 M4U_PORT_CAM_DMA2>;
+> +		mediatek,larb = <&larb2>;
+> +		power-domains = <&scpsys MT2712_POWER_DOMAIN_ISP>;
+> +		mediatek,seninf_mux_camsv = <&seninf5_mux_camsv4
+> +					     &seninf6_mux_camsv5>;
+> +		reg = <0 0x10218000 0 0x60>,
+> +		      <0 0x15002500 0 0x4>,
+> +		      <0 0x15002700 0 0x100>;
+> +		mediatek,mipicsiid = <1>;
+> +		status="disabled";
+> +	};
+> \ No newline at end of file
+
+Fix this...
+
+> -- 
+> 2.18.0
 > 
->  drivers/media/i2c/tvp5150.c | 130 ++++++++++++++++++++++++++----------
->  1 file changed, 96 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> index 4e3228b2ccbc..9331609425bf 100644
-> --- a/drivers/media/i2c/tvp5150.c
-> +++ b/drivers/media/i2c/tvp5150.c
-> @@ -19,6 +19,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-mc.h>
-> +#include <media/v4l2-rect.h>
->  
->  #include "tvp5150_reg.h"
->  
-> @@ -997,20 +998,48 @@ static void tvp5150_set_default(v4l2_std_id std, struct v4l2_rect *crop)
->  		crop->height = TVP5150_V_MAX_OTHERS;
->  }
->  
-> +static struct v4l2_rect *
-> +__tvp5150_get_pad_crop(struct tvp5150 *decoder,
-> +		       struct v4l2_subdev_pad_config *cfg, unsigned int pad,
-> +		       enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> +		return v4l2_subdev_get_try_crop(&decoder->sd, cfg, pad);
-> +#else
-> +		return ERR_PTR(-ENOTTY);
-> +#endif
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &decoder->rect;
-> +	default:
-> +		return NULL;
-> +	}
-
-Same comments as Jacopo: use return ERR_PTR(-EINVAL) instead...
-
-> +}
-> +
->  static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_pad_config *cfg,
->  			    struct v4l2_subdev_format *format)
->  {
->  	struct v4l2_mbus_framefmt *f;
-> +	struct v4l2_rect *__crop;
->  	struct tvp5150 *decoder = to_tvp5150(sd);
->  
->  	if (!format || (format->pad != TVP5150_PAD_VID_OUT))
->  		return -EINVAL;
->  
->  	f = &format->format;
-> +	__crop = __tvp5150_get_pad_crop(decoder, cfg, format->pad,
-> +					format->which);
-> +	if (IS_ERR_OR_NULL(__crop)) {
-> +		if (!__crop)
-> +			return -EINVAL;
-> +		else
-> +			return PTR_ERR(__crop);
-
-And here, return PTR_ERR directly. Same at the similar case below.
-
-> +	}
->  
-> -	f->width = decoder->rect.width;
-> -	f->height = decoder->rect.height / 2;
-> +	f->width = __crop->width;
-> +	f->height = __crop->height / 2;
->  
->  	f->code = TVP5150_MBUS_FMT;
->  	f->field = TVP5150_FIELD;
-> @@ -1021,17 +1050,51 @@ static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +unsigned int tvp5150_get_hmax(struct v4l2_subdev *sd)
-> +{
-> +	struct tvp5150 *decoder = to_tvp5150(sd);
-> +	v4l2_std_id std;
-> +
-> +	/* Calculate height based on current standard */
-> +	if (decoder->norm == V4L2_STD_ALL)
-> +		std = tvp5150_read_std(sd);
-> +	else
-> +		std = decoder->norm;
-> +
-> +	return (std & V4L2_STD_525_60) ?
-> +		TVP5150_V_MAX_525_60 : TVP5150_V_MAX_OTHERS;
-> +}
-> +
-> +static inline void
-> +__tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
-> +{
-> +	struct tvp5150 *decoder = to_tvp5150(sd);
-> +	unsigned int hmax = tvp5150_get_hmax(sd);
-> +
-> +	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect.top);
-> +	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
-> +		     rect.top + rect.height - hmax);
-> +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
-> +		     rect.left >> TVP5150_CROP_SHIFT);
-> +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
-> +		     rect.left | (1 << TVP5150_CROP_SHIFT));
-> +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
-> +		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
-> +		     TVP5150_CROP_SHIFT);
-> +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
-> +		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
-> +}
-> +
->  static int tvp5150_set_selection(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_pad_config *cfg,
->  				 struct v4l2_subdev_selection *sel)
->  {
->  	struct tvp5150 *decoder = to_tvp5150(sd);
->  	struct v4l2_rect rect = sel->r;
-> -	v4l2_std_id std;
-> -	int hmax;
-> +	struct v4l2_rect *__crop;
-> +	unsigned int hmax;
->  
-> -	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
-> -	    sel->target != V4L2_SEL_TGT_CROP)
-> +	if (sel->target != V4L2_SEL_TGT_CROP)
->  		return -EINVAL;
->  
->  	dev_dbg_lvl(sd->dev, 1, debug, "%s left=%d, top=%d, width=%d, height=%d\n",
-> @@ -1040,17 +1103,7 @@ static int tvp5150_set_selection(struct v4l2_subdev *sd,
->  	/* tvp5150 has some special limits */
->  	rect.left = clamp(rect.left, 0, TVP5150_MAX_CROP_LEFT);
->  	rect.top = clamp(rect.top, 0, TVP5150_MAX_CROP_TOP);
-> -
-> -	/* Calculate height based on current standard */
-> -	if (decoder->norm == V4L2_STD_ALL)
-> -		std = tvp5150_read_std(sd);
-> -	else
-> -		std = decoder->norm;
-> -
-> -	if (std & V4L2_STD_525_60)
-> -		hmax = TVP5150_V_MAX_525_60;
-> -	else
-> -		hmax = TVP5150_V_MAX_OTHERS;
-> +	hmax = tvp5150_get_hmax(sd);
->  
->  	/*
->  	 * alignments:
-> @@ -1063,20 +1116,23 @@ static int tvp5150_set_selection(struct v4l2_subdev *sd,
->  			      hmax - TVP5150_MAX_CROP_TOP - rect.top,
->  			      hmax - rect.top, 0, 0);
->  
-> -	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect.top);
-> -	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
-> -		     rect.top + rect.height - hmax);
-> -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
-> -		     rect.left >> TVP5150_CROP_SHIFT);
-> -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
-> -		     rect.left | (1 << TVP5150_CROP_SHIFT));
-> -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
-> -		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
-> -		     TVP5150_CROP_SHIFT);
-> -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
-> -		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
-> +	__crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad, sel->which);
-> +	if (IS_ERR_OR_NULL(__crop)) {
-> +		if (!__crop)
-> +			return -EINVAL;
-> +		else
-> +			return PTR_ERR(__crop);
-> +	}
-> +
-> +	/*
-> +	 * Update output image size if the selection (crop) rectangle size or
-> +	 * position has been modified.
-> +	 */
-> +	if (!v4l2_rect_equal(&rect, __crop))
-> +		if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> +			__tvp5150_set_selection(sd, rect);
->  
-> -	decoder->rect = rect;
-> +	*__crop = rect;
->  
->  	return 0;
->  }
-> @@ -1086,11 +1142,9 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_selection *sel)
->  {
->  	struct tvp5150 *decoder = container_of(sd, struct tvp5150, sd);
-> +	struct v4l2_rect *__crop;
->  	v4l2_std_id std;
->  
-> -	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> -		return -EINVAL;
-> -
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
->  		sel->r.left = 0;
-> @@ -1108,7 +1162,15 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
->  			sel->r.height = TVP5150_V_MAX_OTHERS;
->  		return 0;
->  	case V4L2_SEL_TGT_CROP:
-> -		sel->r = decoder->rect;
-> +		__crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad,
-> +						sel->which);
-> +		if (IS_ERR_OR_NULL(__crop)) {
-> +			if (!__crop)
-> +				return -EINVAL;
-> +			else
-> +				return PTR_ERR(__crop);
-> +		}
-> +		sel->r = *__crop;
->  		return 0;
->  	default:
->  		return -EINVAL;
-
-
-
-Thanks,
-Mauro
