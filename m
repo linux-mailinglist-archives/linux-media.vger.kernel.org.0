@@ -2,105 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF161D06E
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 22:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE50C1D070
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 22:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbfENUTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 16:19:08 -0400
-Received: from casper.infradead.org ([85.118.1.10]:33160 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726221AbfENUTI (ORCPT
+        id S1726174AbfENUT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 16:19:59 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:37453 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfENUT7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 16:19:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Is01q5I7Un1/V4HlbxwG1kyytwiirjymaFeQ7+PpAG0=; b=Ld0PLzmmiqhUDFlBxq1fxHRMmk
-        k4i+e4BoQAOBVeDNuvAsCroh4ayNl+jrwn4Or2Xx09XEBeqm6W1Nh/WQzaMnoy2NNHstgoXvSnj5K
-        0heKfx/FlNtVbzhuCzSDy7wlnzuiO63haEMxCQ3QJDqziXUeJYnft8tOO4n246uWL9H7Gw4xsOME8
-        ynOfPcV6g+CM3pzsTalTtO/ROkF9kYCGjqDFYhsI3zyEqlmvRWvD1IIjgU9dwxiPnnfsYJFO4iycC
-        oHhxQrrliOX2ZoC+ZZPobqNqmoSOepIvrs5cKLtsn/e2Deq7hETZJ4+q5ngnXvma54tPV1OoZazuC
-        Un/IkD6w==;
-Received: from [179.179.44.200] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQdsx-0000EE-TO; Tue, 14 May 2019 20:18:52 +0000
-Date:   Tue, 14 May 2019 17:18:45 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Marco Felsch <m.felsch@pengutronix.de>,
-        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v6 13/13] media: tvp5150: make debug output more
- readable
-Message-ID: <20190514171845.0eafb6f8@coco.lan>
-In-Reply-To: <20190506133905.gvdgrei5n6crbwxc@uno.localdomain>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
-        <20190415124413.18456-14-m.felsch@pengutronix.de>
-        <20190506133905.gvdgrei5n6crbwxc@uno.localdomain>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 14 May 2019 16:19:59 -0400
+Received: by mail-it1-f194.google.com with SMTP id m140so922833itg.2
+        for <linux-media@vger.kernel.org>; Tue, 14 May 2019 13:19:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lK8c734xh5U5PM3ABKp/9nxVkeJ2kE5gY87Z6hnyLjY=;
+        b=b5/8KznOst2nR6u0bDBf/a8OShJG97crXwsB+1g52p+1JoX7WkTBWbFgGa/cQyxar7
+         pXQVB4mERwDIh1c7vn8edo4XhsR8ahYtv9hFKB2ONNZw6Vwue5LW7iDhivHtmtPjJyyO
+         fd6opEmjG6ppdQtLT4eKl9KJE+7kdmL6tUGAhgKQtfI0OC7Jc4bc49D1FWiAuUhKJ5+u
+         NRJDl4IGp+hHbes+3OUq9cT0kDx0lTMEk6vBBBCub+r0N4RaZ94+KNrCnpYoD13OKNyC
+         eMVl/a1dccciewvBfaJUB4KNsJeh3wq1joc4ob7sWD3kZE3e6n+aEz0/B7jEuiMXXx6f
+         20WQ==
+X-Gm-Message-State: APjAAAUGxFE4Wn2zXmLGKsi5JheU75U/s9RYfnOUclS//4MlA12AEDXm
+        T9vzeRWCaYwcexT+L1hiVRKCPQ==
+X-Google-Smtp-Source: APXvYqw5Ieb4O+HXGg5FGMOQuh00DKqk4E7AnX5MHmnns5jJT4DhWDpnXg9aD82Klnzt0ms9U6gjAw==
+X-Received: by 2002:a02:c4c6:: with SMTP id h6mr25419071jaj.33.1557865198005;
+        Tue, 14 May 2019 13:19:58 -0700 (PDT)
+Received: from chromium.org ([2620:15c:183:0:92f:a80a:519d:f777])
+        by smtp.gmail.com with ESMTPSA id m189sm25150itm.21.2019.05.14.13.19.56
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 14 May 2019 13:19:57 -0700 (PDT)
+Date:   Tue, 14 May 2019 14:19:52 -0600
+From:   Drew Davenport <ddavenport@chromium.org>
+To:     Louis Kuo <louis.kuo@mediatek.com>
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        tfiga@chromium.org, keiichiw@chromium.org, matthias.bgg@gmail.com,
+        mchehab@kernel.org, yuzhao@chromium.org, zwisler@chromium.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
+        sj.huang@mediatek.com, christie.yu@mediatek.com,
+        holmes.chiou@mediatek.com, frederic.chen@mediatek.com,
+        Jerry-ch.Chen@mediatek.com, jungo.lin@mediatek.com,
+        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
+        srv_heupstream@mediatek.com, devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH V2 0/4] media: support Mediatek sensor interface
+ driver
+Message-ID: <20190514201952.GA107202@chromium.org>
+References: <20190512060005.5444-1-louis.kuo@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190512060005.5444-1-louis.kuo@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 6 May 2019 15:39:05 +0200
-Jacopo Mondi <jacopo@jmondi.org> escreveu:
+Hello Louis,
 
-> Hi Marco,
->   thanks
+On Sun, May 12, 2019 at 02:00:01PM +0800, Louis Kuo wrote:
+> Hello,
 > 
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> This is the RFC patch adding Sensor Inferface(seninf) driver on
+> Mediatek mt8183 SoC, which will be used in camera features on CrOS application.
+> It belongs to the first Mediatek's camera driver series based on V4L2 and media controller framework.
+> I posted the main part of the seninf driver as RFC to discuss first and would like some review comments
+> on the overall structure of the driver.
+> 
+> The driver is implemented with V4L2 framework.
+> 1. Register as a V4L2 sub-device.
+> 2. Only one entity with sink pads linked to camera sensors for choosing desired camera sensor by setup link
+>    and with source pads linked to cam-io for routing different types of decoded packet datas to PASS1 driver
+>    to generate sensor image frame and meta-data.
+> 
+> The overall file structure of the seninf driver is as following:
+> 
+> * mtk_seninf.c: Implement software and HW control flow of seninf driver.
+> * mtk_seninf_def.h: Define data structure and enumeration.
+> * mtk_seninf_reg.h: Define HW register R/W macros and HW register names.
+> 
+> [ v2: use recommended coding style, fix v4l2-compliance issue, add v4l2 async notifier operations, remove redundant code]
 
-Looks ok to me too.
+Thanks for the style fixes. I made a number of review comments on V1 of
+the driver patch. Please take a look at those if you haven't already.
 
 > 
-> On Mon, Apr 15, 2019 at 02:44:13PM +0200, Marco Felsch wrote:
-> > The debug output for tvp5150_selmux() isn't really intuitive. Register
-> > values are printed decimal formatted and the input/output driver states
-> > are printed as enum. Even more the "normal" output enum mapps to zero so
-> > a active output will printing output=0 and a inactive output=1.
-> >
-> > Change this by brinting the register values hex formatted and the states
-> > as more readable string.
-> >
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  drivers/media/i2c/tvp5150.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> > index c0ee08546643..13ee6d781efb 100644
-> > --- a/drivers/media/i2c/tvp5150.c
-> > +++ b/drivers/media/i2c/tvp5150.c
-> > @@ -302,9 +302,12 @@ static void tvp5150_selmux(struct v4l2_subdev *sd)
-> >  		break;
-> >  	}
-> >
-> > -	dev_dbg_lvl(sd->dev, 1, debug, "Selecting video route: route input=%i, output=%i => tvp5150 input=%i, opmode=%i\n",
-> > -			decoder->input, decoder->output,
-> > -			input, opmode);
-> > +	dev_dbg_lvl(sd->dev, 1, debug,
-> > +		    "Selecting video route: route input=%s, output=%s => tvp5150 input=0x%02x, opmode=0x%02x\n",
-> > +		    decoder->input == 0 ? "aip1a" :
-> > +		    decoder->input == 2 ? "aip1b" : "svideo",
-> > +		    decoder->output == 0 ? "normal" : "black-frame-gen",
-> > +		    input, opmode);
-> >
-> >  	regmap_write(decoder->regmap, TVP5150_OP_MODE_CTL, opmode);
-> >  	regmap_write(decoder->regmap, TVP5150_VD_IN_SRC_SEL_1, input);
-> > --
-> > 2.20.1
-> >  
-
-
-
-Thanks,
-Mauro
+>   media: platform: mtk-isp: Add Mediatek sensor interface driver
+>   media: platform: Add Mediatek sensor interface driver KConfig
+>   dt-bindings: mt8183: Add sensor interface dt-bindings
+>   dts: arm64: mt8183: Add sensor interface nodes
+> 
+>  .../bindings/media/mediatek-seninf.txt        |   52 +
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   34 +
+>  drivers/media/platform/Makefile               |    2 +
+>  drivers/media/platform/mtk-isp/Kconfig        |   16 +
+>  drivers/media/platform/mtk-isp/Makefile       |   14 +
+>  .../media/platform/mtk-isp/isp_50/Makefile    |   17 +
+>  .../platform/mtk-isp/isp_50/seninf/Makefile   |    4 +
+>  .../mtk-isp/isp_50/seninf/mtk_seninf.c        | 1366 +++++++++++++++++
+>  .../mtk-isp/isp_50/seninf/mtk_seninf_def.h    |  170 ++
+>  .../mtk-isp/isp_50/seninf/mtk_seninf_reg.h    |  992 ++++++++++++
+>  10 files changed, 2667 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-seninf.txt
+>  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+>  create mode 100644 drivers/media/platform/mtk-isp/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_def.h
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_reg.h
+> 
+> 
