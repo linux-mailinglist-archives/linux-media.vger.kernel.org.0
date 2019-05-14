@@ -2,164 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AABF61D0F1
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 22:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094FA1E54E
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 00:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726195AbfENU6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 16:58:37 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:55289 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726134AbfENU6g (ORCPT
+        id S1726465AbfENWun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 18:50:43 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43720 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbfENWun (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 16:58:36 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hQeVI-00059i-2t; Tue, 14 May 2019 22:58:28 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hQeVE-000198-HY; Tue, 14 May 2019 22:58:24 +0200
-Date:   Tue, 14 May 2019 22:58:24 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v6 00/13] TVP5150 new features
-Message-ID: <20190514205824.ov6prllx2fp77fur@pengutronix.de>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190506054713.crxc5pw6j5suvvq7@pengutronix.de>
- <20190514141824.5bd41389@coco.lan>
- <20190514172028.693ad354@coco.lan>
+        Tue, 14 May 2019 18:50:43 -0400
+Received: by mail-lj1-f196.google.com with SMTP id z5so707714lji.10;
+        Tue, 14 May 2019 15:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zn4G2bFjrYQCf9SnncqZRscUBjdYIodDzPMbFewZnc8=;
+        b=ZeffY7RelLSaziG4wNcOE/BLaHjI07TAmpkKsAzc1bjup1PGCn5j9VkuH2n8+N8aBy
+         kEH8i7At0K331Cz74YM+RuMyH2YyULShVU74pTW/qoLY1tPgF73m+M/bwd9M9Y2Sw9Bf
+         oVB7cB+SxcGpGrYQ72y+w+mWlKmm60KFad1FRppux8PBB2sGoJsgiQcvVvxLyOh7x4fm
+         aGPPEgbyFb8w31cbo1hWAW0qxHlOq1tvfwl6h47YY19XX0v0sAf44T+ysD4+teNjByvO
+         b9+s1pxdRJcuwlGgq7WzUTxDvixJMtmu4FLOwaMskFq/YX03o7S2Q8GTq9D7rPDeGGtf
+         y+fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zn4G2bFjrYQCf9SnncqZRscUBjdYIodDzPMbFewZnc8=;
+        b=XmvrYzxHKW9beTaAcYSDNI2cKevVl6BUVn7e5li8DMvu8/zv1N808tSIwfAC38a5N3
+         MYy2XEsJBD1jmgNTJyj4RpgQG0NcUqiGnHJbEovOVfCQxzV74VuMko/QgWNcYOPpW/6A
+         Zh1xDh/EAfwbBaq6qA32PrwxUEEsaHMCW4GMveWKA5cgQl/xbGHe73hRMPjrjh4ECtD6
+         1jQQBb2RV+pZhOivtKiG6ONPtzsgOHJyyKmPAHA4U8dhijjCy7Q0OAAGkMGV+eizctAY
+         b93aTHwXSyn+8t6UikcNBahHydFCP4ex7aZ3EQp4llGxud+2sSpPgntQAHhhabVqHWjC
+         hNKA==
+X-Gm-Message-State: APjAAAXF2a11o8mIsrxTsCu3LEzBETT4STV4nT9CH3Gko3cKH/A/jctV
+        GNMSeumChhR6b/+kAfzDJAI=
+X-Google-Smtp-Source: APXvYqxF8F0ef6U2TWFXrcQPbHuZWP7IKGIXBYt0eXRhSsrpoTZ7kq/2sVbGruhOiI72J6QQYZyINQ==
+X-Received: by 2002:a2e:121d:: with SMTP id t29mr9763738lje.29.1557874240760;
+        Tue, 14 May 2019 15:50:40 -0700 (PDT)
+Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id s6sm50190lje.89.2019.05.14.15.50.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 May 2019 15:50:39 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [PATCH v6 0/3] media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
+Date:   Wed, 15 May 2019 00:48:20 +0200
+Message-Id: <20190514224823.11564-1-jmkrzyszt@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514172028.693ad354@coco.lan>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 22:54:32 up 116 days,  1:36, 92 users,  load average: 0.00, 0.04,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Correctness of format type (try or active) and pad ID parameters passed
+to subdevice operation callbacks is now verified only for IOCTL calls.
+However, those callbacks are also used by drivers, e.g., V4L2 host
+interfaces.
+    
+Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
+macro while calling subdevice operations, move those parameter checks
+from subdev_do_ioctl() to v4l2_subdev_call().  Also, add check for
+non-NULL pointers, including pad config if V4L2_SUBDEV_FORMAT_tRY is
+requested.
 
-On 19-05-14 17:20, Mauro Carvalho Chehab wrote:
-> Em Tue, 14 May 2019 14:18:24 -0300
-> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-> 
-> > Em Mon, 6 May 2019 07:47:13 +0200
-> > Marco Felsch <m.felsch@pengutronix.de> escreveu:
-> > 
-> > > Hi Mauro,
-> > > 
-> > > I know you are busy but can you have a look on it?  
-> > 
-> > You should really trust on the sub-maintainers for such kind of
-> > reviews :-)
+Having that done, we can avoid taking care of those checks inside
+drivers.
 
-I trust all of them and many thanks to Hans and Jacopo for the reviews
-:) I will integrate them this week. The point is that you are the
-maintainer and in that case the one who picks the patches.
+Janusz Krzysztofik (3):
+  media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
+  media: v4l2-subdev: Verify v4l2_subdev_call() pointer arguments
+  media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument
 
-> > 
-> > I'll take a look today.
-> 
-> Done. Please notice that I didn't run any test here.
+ drivers/media/v4l2-core/v4l2-subdev.c | 262 +++++++++++++++++---------
+ include/media/v4l2-subdev.h           |   6 +
+ 2 files changed, 182 insertions(+), 86 deletions(-)
 
-Thanks for that will integrate it too and prepare a v7.
+Changelog:
+v5->v6:
+- rename wrappers to call_something() as suggested by Sakari - thanks!
+- make check_ functions inline - also on Sakari's suggestion, thanks!
+- drop patch 2/4 and remove WARN_ONs from remaining patches to avoid
+  kernel WARNs on non-kernel bugs - thanks Hans for pointing this out!
 
-Regards,
-  Marco
+v4->v5:
+- a few coding style and code formatting changes,
+- require CONFIG_MEDIA_CONTROLLER, not CONFIG_VIDEO_V4L2_SUBDEV_API,
+  for a valid pad ID check,
+- perform pad ID check only if at least one pad is configured so
+  drivers which don't configure pads are not affected if built with
+  CONFIG_MEDIA_CONTROLLER defined,
+- issue kernel warnings on invalid parameters (new patch - 2/4),
+- validate pointers before using them (new patch - 3/4).
 
-> 
-> > 
-> > > 
-> > > Regards,
-> > >   Marco
-> > > 
-> > > On 19-04-15 14:44, Marco Felsch wrote:  
-> > > > Hi,
-> > > > 
-> > > > many thanks to Hans and Jacopo for the feedack :) this v6 address the
-> > > > comments both made on my v5 [1].
-> > > > 
-> > > > In short this is round fixes just some minor issues rather than major
-> > > > ones so the diff to the v5 is really small. The changed patches contain
-> > > > the changelog so I omit it here.
-> > > > 
-> > > > I've tested it on a custom hardware but I can't test the em28xx usb
-> > > > use-case since I haven't such a device. So other testers are welcome :)
-> > > > 
-> > > > Looking forward for your feedack,
-> > > > 
-> > > > 	Marco
-> > > > 
-> > > > [1] https://patchwork.kernel.org/cover/10886903/
-> > > > 
-> > > > Javier Martinez Canillas (1):
-> > > >   partial revert of "[media] tvp5150: add HW input connectors support"
-> > > > 
-> > > > Marco Felsch (11):
-> > > >   dt-bindings: connector: analog: add tv norms property
-> > > >   media: v4l2-fwnode: add v4l2_fwnode_connector
-> > > >   media: v4l2-fwnode: add initial connector parsing support
-> > > >   media: tvp5150: add input source selection of_graph support
-> > > >   media: dt-bindings: tvp5150: Add input port connectors DT bindings
-> > > >   media: tvp5150: add FORMAT_TRY support for get/set selection handlers
-> > > >   media: tvp5150: add s_power callback
-> > > >   media: dt-bindings: tvp5150: cleanup bindings stlye
-> > > >   media: dt-bindings: tvp5150: add optional tvnorms documentation
-> > > >   media: tvp5150: add support to limit tv norms on connector
-> > > >   media: tvp5150: make debug output more readable
-> > > > 
-> > > > Michael Tretter (1):
-> > > >   media: tvp5150: initialize subdev before parsing device tree
-> > > > 
-> > > >  .../display/connector/analog-tv-connector.txt |   4 +
-> > > >  .../devicetree/bindings/media/i2c/tvp5150.txt | 125 +++-
-> > > >  drivers/media/i2c/tvp5150.c                   | 672 +++++++++++++-----
-> > > >  drivers/media/v4l2-core/v4l2-fwnode.c         | 111 +++
-> > > >  include/dt-bindings/media/tvnorms.h           |  56 ++
-> > > >  include/dt-bindings/media/tvp5150.h           |   2 -
-> > > >  include/media/v4l2-connector.h                |  30 +
-> > > >  include/media/v4l2-fwnode.h                   |  49 ++
-> > > >  8 files changed, 859 insertions(+), 190 deletions(-)
-> > > >  create mode 100644 include/dt-bindings/media/tvnorms.h
-> > > >  create mode 100644 include/media/v4l2-connector.h
-> > > > 
-> > > > -- 
-> > > > 2.20.1
-> > > > 
-> > > > 
-> > > >     
-> > >   
-> > 
-> > 
-> > 
-> > Thanks,
-> > Mauro
-> 
-> 
-> 
-> Thanks,
-> Mauro
-> 
+v3->v4:
+- fix 'struct' keyword missing from patch 2/2,
+- fix checkpatch reported style issue in patch 2/2
+Sorry for that.
+
+v2->v3:
+- add patch 2/2 with pad config check,
+- adjust continuation line alignments in patch 1/2 to match those
+  used in 2/2.
+
+v1->v2:
+- replace the horrible macro with a structure of wrapper functions;
+  inspired by Hans' and Sakari's comments - thanks!
 
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.21.0
+
