@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCF891C9B8
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 15:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675B11C9B0
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 15:57:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbfENN4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 09:56:45 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38573 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbfENN4T (ORCPT
+        id S1726363AbfENN4W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 09:56:22 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36757 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726324AbfENN4U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 09:56:19 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v11so1508096wru.5
-        for <linux-media@vger.kernel.org>; Tue, 14 May 2019 06:56:18 -0700 (PDT)
+        Tue, 14 May 2019 09:56:20 -0400
+Received: by mail-wm1-f68.google.com with SMTP id j187so2939956wmj.1
+        for <linux-media@vger.kernel.org>; Tue, 14 May 2019 06:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3Z3XkroftFEOZ+oKRERn/ytHnCEs/zdgDA4cYGSY7DY=;
-        b=srwoGdM2pi3FUKVWb1bVPrzv+PX1GFaTRXsw3dRT8fB5USvGoV1sYMg53QdODFcxno
-         Q0dQocvYEG5gARTTaO4iSMlbRUw5ZFHdIjykqvm/sK+VgDNWhBLVYrpWGt/VpfiSU7L1
-         feo74fD6wjwCBdVYIDgvTwfDVDbfS02dmUaA8PZUv2D2A5SxpCtrd2ZsTJlhZs0E71C4
-         XjYy9KGfSI+p2m6BHcAB5HvvtmMu81IckC0kmMmOvOB7mANygS4KrcrekKkjs4bJjqyW
-         agiikBfaeI4Ee70Qu7YqT5BhX02BPGcNvWkzxUtuRfIr5n9xl+YCHs4tWyp5Vv/xUCxJ
-         uOjA==
+        bh=oDHxGsrXeJidj701untt/R6ogKG8h4nrtZU+2E4/fDA=;
+        b=Lac0zP3MgQDHm22bQE4nSrkyNe8uukQesol88+EA7fgTIY6grTc10fcGmsh3CQo5NT
+         SQDJGdzVXFupyQ8yU+5K4a9W2KYoCjvoMj1wbCM0yMPAgwMAELJFEZAoTLYJaOiHzc4t
+         HLolkemGtcdytaw3wngI2rM+VY2A1xnWlyBCifi85baEtTOzFqndDgdxcZiCSaYi8n5z
+         ZF+Nz+A05FvWbfUlEwKqXt4cgZ8DppFR33frFEoFlniGFd4qPz8bBPYED51Se9BeC+zl
+         p5TeAv5AL/GTHRweqp2FwNWdHSWWfHWShipgGGZ8PnBtQCGQUm4V5SPH8eS1DRt+/v96
+         8b8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Z3XkroftFEOZ+oKRERn/ytHnCEs/zdgDA4cYGSY7DY=;
-        b=o4SjYwo97PcrH9vaD5Kfk/Wj7EBsJx5uYs9LK3ToVvNVsqWkN68e+56Y5mfLFX6pID
-         lOCsxEwPrAq75O/qZpR8+xg4qaVywGAtsjBn24v/7pzeKaNMgZvxV0b2leIl9d5laZNa
-         tZ8ZldCNtCBvT+I1vlS0fdeSnCdeJT0uXHU2fQXm0xeQ8E9aomhYjYyvJmWNcJ5a9vsN
-         4kraGgyvJfHj1FJ4Uqp2gXvNSqvVwmtwLT344/U6nQsgANjdieAoxZsUtRmeFlI24Qy1
-         95RCibIeIHPUWwzTq207cFSjs+UyjofuhNIv+zc3arz4NiWVOyXj50euUxNUmIwrc8nP
-         +c3Q==
-X-Gm-Message-State: APjAAAVRTmDvL3DGeCuo01TEtvTYKdFS7ArB1oFB9hrS/SzEuZk+jBCZ
-        xqsdevBSaIu8Y1Iu/TW1Ehxu4Q==
-X-Google-Smtp-Source: APXvYqyzK4kQnCJQWuc1QqSsGoqGq9pNNeIqQotMC679d3W+STr2oaNTyTLUAtjUp3koLKbf/YLfPA==
-X-Received: by 2002:adf:ebd2:: with SMTP id v18mr3451395wrn.108.1557842177761;
-        Tue, 14 May 2019 06:56:17 -0700 (PDT)
+        bh=oDHxGsrXeJidj701untt/R6ogKG8h4nrtZU+2E4/fDA=;
+        b=khbc4k7lVl5gmvQKRETeRlRY6OJkqKkrqofS+zD5zTileVy2a5v8ARgaLKcxH/RaMN
+         TOWAWOuveUkgMWx36uVtsiOAfd8+M/A52AdZu9P7taAq2FRqsByIRiJA2sNT+B/jHf8S
+         dTlZXApCBYb4ocgxn8rBE3MStCbAaxIC2FMi3OPI2tWvxhBRDM5i47bGz7q5ivqZCYA3
+         r/cuW/Rr3COftyEVMxLdpKuILWmYNedUy1B1tjaCKZzx6AOIAO0hxwWELWft7eOfGCtO
+         CNvrS7QdcJ0WE+WZcOmSnSSiRbIGvxbw2VPWmIp5+2l4RuqQ1ELgILPd7FsrcI9BLyo9
+         Re6A==
+X-Gm-Message-State: APjAAAVIEQ7hbOm6jYTbcynEjxpF0PkT0hakRFmsTQHelTQrnLZMZEhg
+        QiUNk6krodA/6DlKGTj5N96XUA==
+X-Google-Smtp-Source: APXvYqysQhF099GYmS3TpeXdPijkIZtr1HbM/ak442MCB8g0sFSjtVD5TgYPOjSACa7qTnYfThZICw==
+X-Received: by 2002:a1c:701a:: with SMTP id l26mr19416389wmc.50.1557842178935;
+        Tue, 14 May 2019 06:56:18 -0700 (PDT)
 Received: from mjourdan-pc.numericable.fr (abo-99-183-68.mtp.modulonet.fr. [85.68.183.99])
-        by smtp.gmail.com with ESMTPSA id d72sm1375764wmd.12.2019.05.14.06.56.16
+        by smtp.gmail.com with ESMTPSA id d72sm1375764wmd.12.2019.05.14.06.56.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 06:56:17 -0700 (PDT)
+        Tue, 14 May 2019 06:56:18 -0700 (PDT)
 From:   Maxime Jourdan <mjourdan@baylibre.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
@@ -55,11 +55,10 @@ Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 1/4] dt-bindings: media: add Amlogic Video Decoder Bindings
-Date:   Tue, 14 May 2019 15:56:09 +0200
-Message-Id: <20190514135612.30822-2-mjourdan@baylibre.com>
+        linux-amlogic@lists.infradead.org
+Subject: [PATCH v6 2/4] media: videodev2: add V4L2_FMT_FLAG_FIXED_RESOLUTION
+Date:   Tue, 14 May 2019 15:56:10 +0200
+Message-Id: <20190514135612.30822-3-mjourdan@baylibre.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190514135612.30822-1-mjourdan@baylibre.com>
 References: <20190514135612.30822-1-mjourdan@baylibre.com>
@@ -70,92 +69,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the meson vdec dts node.
+When a v4l2 driver exposes V4L2_EVENT_SOURCE_CHANGE, some (usually
+OUTPUT) formats may not be able to trigger this event.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For instance, MPEG2 on Amlogic hardware does not support resolution
+switching on the fly, and a decode session must operate at a set
+resolution defined before the decoding start.
+
+Add a enum_fmt format flag to tag those specific formats.
+
 Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
 ---
- .../bindings/media/amlogic,vdec.txt           | 71 +++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/amlogic,vdec.txt
+ Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 6 ++++++
+ include/uapi/linux/videodev2.h                   | 5 +++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/amlogic,vdec.txt b/Documentation/devicetree/bindings/media/amlogic,vdec.txt
-new file mode 100644
-index 000000000000..aabdd01bcf32
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/amlogic,vdec.txt
-@@ -0,0 +1,71 @@
-+Amlogic Video Decoder
-+================================
+diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+index 822d6730e7d2..b11448a1848b 100644
+--- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
++++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+@@ -127,6 +127,12 @@ one until ``EINVAL`` is returned.
+       - This format is not native to the device but emulated through
+ 	software (usually libv4l2), where possible try to use a native
+ 	format instead for better performance.
++    * - ``V4L2_FMT_FLAG_FIXED_RESOLUTION``
++      - 0x0004
++      - Dynamic resolution switching is not supported for this format,
++        even if the event ``V4L2_EVENT_SOURCE_CHANGE`` is supported by
++        the device.
 +
-+The video decoding IP lies within the DOS memory region,
-+except for the hardware bitstream parser that makes use of an undocumented
-+region.
-+
-+It makes use of the following blocks:
-+
-+- ESPARSER is a bitstream parser that outputs to a VIFIFO. Further VDEC blocks
-+then feed from this VIFIFO.
-+- VDEC_1 can decode MPEG-1, MPEG-2, MPEG-4 part 2, MJPEG, H.263, H.264, VC-1.
-+- VDEC_HEVC can decode HEVC and VP9.
-+
-+Both VDEC_1 and VDEC_HEVC share the "vdec" IRQ and as such cannot run
-+concurrently.
-+
-+Device Tree Bindings:
-+---------------------
-+
-+VDEC: Video Decoder
-+--------------------------
-+
-+Required properties:
-+- compatible: value should be different for each SoC family as :
-+	- GXBB (S905) : "amlogic,gxbb-vdec"
-+	- GXL (S905X, S905D) : "amlogic,gxl-vdec"
-+	- GXM (S912) : "amlogic,gxm-vdec"
-+- reg: base address and size of he following memory-mapped regions :
-+	- dos
-+	- esparser
-+- reg-names: should contain the names of the previous memory regions
-+- interrupts: should contain the following IRQs:
-+	- vdec
-+	- esparser
-+- interrupt-names: should contain the names of the previous interrupts
-+- amlogic,ao-sysctrl: should point to the AOBUS sysctrl node
-+- amlogic,canvas: should point to a canvas provider node
-+- clocks: should contain the following clocks :
-+	- dos_parser
-+	- dos
-+	- vdec_1
-+	- vdec_hevc
-+- clock-names: should contain the names of the previous clocks
-+- resets: should contain the parser reset
-+- reset-names: should be "esparser"
-+
-+Example:
-+
-+vdec: video-decoder@c8820000 {
-+	compatible = "amlogic,gxbb-vdec";
-+	reg = <0x0 0xc8820000 0x0 0x10000>,
-+	      <0x0 0xc110a580 0x0 0xe4>;
-+	reg-names = "dos", "esparser";
-+
-+	interrupts = <GIC_SPI 44 IRQ_TYPE_EDGE_RISING>,
-+		     <GIC_SPI 32 IRQ_TYPE_EDGE_RISING>;
-+	interrupt-names = "vdec", "esparser";
-+
-+	amlogic,ao-sysctrl = <&sysctrl_AO>;
-+	amlogic,canvas = <&canvas>;
-+
-+	clocks = <&clkc CLKID_DOS_PARSER>,
-+		 <&clkc CLKID_DOS>,
-+		 <&clkc CLKID_VDEC_1>,
-+		 <&clkc CLKID_VDEC_HEVC>;
-+	clock-names = "dos_parser", "dos", "vdec_1", "vdec_hevc";
-+
-+	resets = <&reset RESET_PARSER>;
-+	reset-names = "esparser";
-+};
+ 
+ 
+ Return Value
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1050a75fb7ef..9b0a7f82dd92 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -768,8 +768,9 @@ struct v4l2_fmtdesc {
+ 	__u32		    reserved[4];
+ };
+ 
+-#define V4L2_FMT_FLAG_COMPRESSED 0x0001
+-#define V4L2_FMT_FLAG_EMULATED   0x0002
++#define V4L2_FMT_FLAG_COMPRESSED	0x0001
++#define V4L2_FMT_FLAG_EMULATED		0x0002
++#define V4L2_FMT_FLAG_FIXED_RESOLUTION	0x0004
+ 
+ 	/* Frame Size and frame rate enumeration */
+ /*
 -- 
 2.21.0
 
