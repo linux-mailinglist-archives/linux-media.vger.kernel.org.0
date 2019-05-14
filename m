@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8DBD1CEE5
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 20:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1D51CEEC
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 20:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727485AbfENSRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 14:17:48 -0400
-Received: from casper.infradead.org ([85.118.1.10]:48620 "EHLO
+        id S1727529AbfENSUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 14:20:20 -0400
+Received: from casper.infradead.org ([85.118.1.10]:48810 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbfENSRq (ORCPT
+        with ESMTP id S1726281AbfENSUT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 14:17:46 -0400
+        Tue, 14 May 2019 14:20:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=d5oCW7u5tSYDL5M32/knT8cVQm6uHXOniLjaK5gB9lk=; b=HIqsdIgF8p/icyYPPuta7NXVyo
-        Rv9YUMK4P6htpUQoNX/ntTta+p/bYY2AXEEGHj9euwiwDS0iB4HQTsIk2we5L4WCj+ePoYpR5WANV
-        qQwUyM2Q72ZOPxsK33XegXYFqQlNF6nbVR+hn+zfy1JXUixzIyBfy8XlOzBjiJUqsBRalFBfuPs3u
-        USmxt3mdPbvelQCe+QL9CjjVLW1x5Xr69xqGbEnjYRDwB7sOoDW9EgQNH9wNcUG2zBM9GhPDeXUY0
-        3fC1MsEyIKNKmmd9EPE2l5L8wqHuRCv1GZ35K9vLKt5fBj5vViCqHqg4uoWXuzaoQYJkxWkJeMAcj
-        lJYQI+CQ==;
+        bh=G8k2DJnuH9MZAN7P78g5dwJjtxQLp3RuBMwzJPsQ1wU=; b=KqOz6n3hbwaQtLgy7hRWTODW/X
+        vv/4BcYdqsHAB9znFxqE60Dx3TmMoGwuY3MSkAsP+9vLNdErRsfJHz+ol+38Wq7L+ZhOh5Xj8lO4i
+        iBNY+BrnCWAkHswwDgJSB/9OSqroFgQe35KF4iFZ4i4Wv8/sn1NkLWNso2Bwmg5zGP8Zg1kI6uDhv
+        KuNhvvNyJ3JFKDykcPQGJIgLadyLNWBry72SFm7wuUEGq5S3VPgJ9hIiz01/dzLQk8nEm6Fv17Vad
+        sU+78hMHVjObaK1/Jfm+A7B/cY0tmdLrNrQCBCNr3qCL67dajAAiz9wPqEqItfNYng3x0lxzK883Y
+        wA/E5L+Q==;
 Received: from [179.179.44.200] (helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQbzf-0003eD-2v; Tue, 14 May 2019 18:17:39 +0000
-Date:   Tue, 14 May 2019 15:17:33 -0300
+        id 1hQc26-0003if-Bb; Tue, 14 May 2019 18:20:10 +0000
+Date:   Tue, 14 May 2019 15:20:04 -0300
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Marco Felsch <m.felsch@pengutronix.de>,
@@ -36,12 +36,13 @@ Cc:     Marco Felsch <m.felsch@pengutronix.de>,
         laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, kernel@pengutronix.de,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v6 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
-Message-ID: <20190514151733.21acb051@coco.lan>
-In-Reply-To: <c5c4b88d-7977-e253-1242-b9a86228a302@xs4all.nl>
+Subject: Re: [PATCH v6 03/13] media: v4l2-fwnode: add initial connector
+ parsing support
+Message-ID: <20190514152004.30d7838b@coco.lan>
+In-Reply-To: <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
 References: <20190415124413.18456-1-m.felsch@pengutronix.de>
-        <20190415124413.18456-3-m.felsch@pengutronix.de>
-        <c5c4b88d-7977-e253-1242-b9a86228a302@xs4all.nl>
+        <20190415124413.18456-4-m.felsch@pengutronix.de>
+        <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,22 +52,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 6 May 2019 11:50:20 +0200
+Em Mon, 6 May 2019 12:10:41 +0200
 Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
 > On 4/15/19 2:44 PM, Marco Felsch wrote:
-> > Currently every driver needs to parse the connector endpoints by it self.
-> > This is the initial work to make this generic. The generic connector has
-> > some common fields and some connector specific parts. The generic one
-> > includes:
-> >   - type
-> >   - label
-> >   - remote_port (the port where the connector is connected to)
-> >   - remote_id   (the endpoint where the connector is connected to)
-> > 
-> > The specific fields are within a union, since only one of them can be
-> > available at the time. Since this is the initial support the patch adds
-> > only the analog-connector specific ones.
+> > The patch adds the initial connector parsing code, so we can move from a
+> > driver specific parsing code to a generic one. Currently only the
+> > generic fields and the analog-connector specific fields are parsed. Parsing
+> > the other connector specific fields can be added by a simple callbacks.
 > > 
 > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
@@ -74,122 +67,183 @@ Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 > > [1] https://patchwork.kernel.org/cover/10794703/
 > > 
 > > v6:
-> > - fix some spelling and style issues
-> > - rm unnecessary comments
-> > - drop vga and dvi connector
+> > - use 'unsigned int' count var
+> > - fix comment and style issues
+> > - place '/* fall through */' to correct places
+> > - fix error handling and cleanup by releasing fwnode
+> > - drop vga and dvi parsing support as those connectors are rarely used
+> >   these days
+> > 
+> > v5:
+> > - s/strlcpy/strscpy/
 > > 
 > > v2-v4:
 > > - nothing since the patch was squashed from series [1] into this
 > >   series.
 > > 
-> >  include/media/v4l2-connector.h | 30 ++++++++++++++++++++++++++++++
-> >  include/media/v4l2-fwnode.h    | 33 +++++++++++++++++++++++++++++++++
-> >  2 files changed, 63 insertions(+)
-> >  create mode 100644 include/media/v4l2-connector.h
+> >  drivers/media/v4l2-core/v4l2-fwnode.c | 111 ++++++++++++++++++++++++++
+> >  include/media/v4l2-fwnode.h           |  16 ++++
+> >  2 files changed, 127 insertions(+)
 > > 
-> > diff --git a/include/media/v4l2-connector.h b/include/media/v4l2-connector.h
-> > new file mode 100644
-> > index 000000000000..3a951c54f50e
-> > --- /dev/null
-> > +++ b/include/media/v4l2-connector.h
-> > @@ -0,0 +1,30 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * v4l2-connector.h
-> > + *
-> > + * V4L2 connector types.
-> > + *
-> > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
-> > + */
-> > +
-> > +#ifndef V4L2_CONNECTOR_H
-> > +#define V4L2_CONNECTOR_H
-> > +
-> > +#define V4L2_CONNECTOR_MAX_LABEL 41  
-> 
-> Where does 41 come from? It's a weird number...
-> 
-> > +
-> > +/**
-> > + * enum v4l2_connector_type - connector type
-> > + * @V4L2_CON_UNKNOWN:   unknown connector type, no V4L2 connetor configuration  
-> 
-> typo: connetor -> connector
-> 
-> > + * @V4L2_CON_COMPOSITE: analog composite connector
-> > + * @V4L2_CON_SVIDEO:    analog svideo connector
-> > + * @V4L2_CON_HDMI:      digital hdmi connector
-> > + */
-> > +enum v4l2_connector_type {
-> > +	V4L2_CON_UNKNOWN,
-> > +	V4L2_CON_COMPOSITE,
-> > +	V4L2_CON_SVIDEO,
-> > +	V4L2_CON_HDMI,
+> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > index 20571846e636..f1cca95c8fef 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > @@ -592,6 +592,117 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> >  
+> > +static const struct v4l2_fwnode_connector_conv {
+> > +	enum v4l2_connector_type type;
+> > +	const char *name;
+> > +} connectors[] = {
+> > +	{
+> > +		.type = V4L2_CON_COMPOSITE,
+> > +		.name = "composite-video-connector",
+> > +	}, {
+> > +		.type = V4L2_CON_SVIDEO,
+> > +		.name = "svideo-connector",
+> > +	}, {
+> > +		.type = V4L2_CON_HDMI,
+> > +		.name = "hdmi-connector",
+> > +	},
 > > +};
 > > +
-> > +#endif /* V4L2_CONNECTOR_H */
-> > +  
+> > +static enum v4l2_connector_type
+> > +v4l2_fwnode_string_to_connector_type(const char *con_str)
+> > +{
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
+> > +		if (!strcmp(con_str, connectors[i].name))
+> > +			return connectors[i].type;
+> > +
+> > +	/* no valid connector found */
+> > +	return V4L2_CON_UNKNOWN;
+> > +}
+> > +
+> > +static int
+> > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
+> > +				   struct v4l2_fwnode_connector *vc)
+> > +{
+> > +	u32 tvnorms;
+> > +	int ret;
+> > +
+> > +	ret = fwnode_property_read_u32(fwnode, "tvnorms", &tvnorms);
+> > +
+> > +	/* tvnorms is optional */
+> > +	vc->connector.analog.supported_tvnorms = ret ? V4L2_STD_ALL : tvnorms;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +int v4l2_fwnode_parse_connector(struct fwnode_handle *__fwnode,
+> > +				struct v4l2_fwnode_connector *connector)
+> > +{
+> > +	struct fwnode_handle *fwnode;
+> > +	struct fwnode_endpoint __ep;
+> > +	const char *c_type_str, *label;
+> > +	int ret;
+> > +
+> > +	memset(connector, 0, sizeof(*connector));
+> > +
+> > +	fwnode = fwnode_graph_get_remote_port_parent(__fwnode);
+> > +	if (!fwnode)
+> > +		return -EINVAL;
+> > +
+> > +	/* parse all common properties first */
+> > +	/* connector-type is stored within the compatible string */
+> > +	ret = fwnode_property_read_string(fwnode, "compatible", &c_type_str);
+> > +	if (ret) {
+> > +		fwnode_handle_put(fwnode);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	connector->type = v4l2_fwnode_string_to_connector_type(c_type_str);
+> > +
+> > +	fwnode_graph_parse_endpoint(__fwnode, &__ep);
+> > +	connector->remote_port = __ep.port;
+> > +	connector->remote_id = __ep.id;
+> > +
+> > +	ret = fwnode_property_read_string(fwnode, "label", &label);
+> > +	if (!ret) {
+> > +		/* ensure label doesn't exceed V4L2_CONNECTOR_MAX_LABEL size */
+> > +		strscpy(connector->label, label, V4L2_CONNECTOR_MAX_LABEL);
+> > +	} else {
+> > +		/*
+> > +		 * labels are optional, if none is given create one:
+> > +		 * <connector-type-string>@port<endpoint_port>/ep<endpoint_id>
+> > +		 */
+> > +		snprintf(connector->label, V4L2_CONNECTOR_MAX_LABEL,
+> > +			 "%s@port%u/ep%u", c_type_str, connector->remote_port,
+> > +			 connector->remote_id);
+> > +	}
+> > +
+> > +	/* now parse the connector specific properties */
+> > +	switch (connector->type) {
+> > +	case V4L2_CON_COMPOSITE:
+> > +		/* fall through */
+> > +	case V4L2_CON_SVIDEO:
+> > +		ret = v4l2_fwnode_connector_parse_analog(fwnode, connector);
+> > +		break;
+> > +	case V4L2_CON_HDMI:
+> > +		pr_warn("Connector specific parsing is currently not supported for %s\n",
+> > +			c_type_str);  
 > 
-> Is there a reason to create a new header for this? I think it is perfectly OK to
-> add this define + enum for v4l2-fwnode.h.
+> Why warn? Just drop this.
+
+good point. I would prefer to have some warning here, in order to warn a
+developer that might be using it that this part of the code would require 
+some change.
+
+perhaps pr_warn_once()?
+
 > 
+> > +		ret = 0;
+> > +		break;
+> > +	case V4L2_CON_UNKNOWN:
+> > +		/* fall through */
+> > +	default:
+> > +		pr_err("Unknown connector type\n");
+> > +		ret = -EINVAL;
+> > +	};
+> > +
+> > +	fwnode_handle_put(fwnode);
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_connector);
+> > +
+> >  static int
+> >  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >  					  struct v4l2_async_notifier *notifier,
 > > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> > index 6c07825e18b9..f4df1b95c5ef 100644
+> > index f4df1b95c5ef..e072f2915ddb 100644
 > > --- a/include/media/v4l2-fwnode.h
 > > +++ b/include/media/v4l2-fwnode.h
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/list.h>
-> >  #include <linux/types.h>
-> >  
-> > +#include <media/v4l2-connector.h>
-> >  #include <media/v4l2-mediabus.h>
-> >  #include <media/v4l2-subdev.h>
-> >  
-> > @@ -126,6 +127,38 @@ struct v4l2_fwnode_link {
-> >  	unsigned int remote_port;
-> >  };
+> > @@ -269,6 +269,22 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> >   */
+> >  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
 > >  
 > > +/**
-> > + * struct v4l2_fwnode_connector_analog - analog connector data structure
-> > + * @supported_tvnorms: tv norms this connector supports, set to V4L2_STD_ALL
-> > + *                     if no restrictions are specified.
+> > + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
+> > + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
+> > + *          connected to
+> > + * @connector: pointer to the V4L2 fwnode connector data structure
+> > + *
+> > + * Fill the connector data structure with the connector type, label and the
+> > + * endpoint id and port where the connector belongs to. If no label is present
+> > + * a unique one will be created. Labels with more than 40 characters are cut.
+> > + *
+> > + * Return: %0 on success or a negative error code on failure:
+> > + *	   %-EINVAL on parsing failure
 > > + */
-> > +struct v4l2_fwnode_connector_analog {
-> > +	v4l2_std_id supported_tvnorms;
-> > +};
-> > +
-> > +/**
-> > + * struct v4l2_fwnode_connector - the connector data structure
-> > + * @remote_port: identifier of the remote endpoint port the connector connects
-> > + *		 to
-> > + * @remote_id: identifier of the remote endpoint the connector connects to
-> > + * @label: connetor label  
-> 
-> Same typo. It's probably a good idea to grep for this typo in this patch series :-)
-
-Except for the points that Hans underlined, patch looks ok to me.
-
-> 
-> > + * @type: connector type
-> > + * @connector: connector configuration
-> > + * @connector.analog: analog connector configuration
-> > + *                    &struct v4l2_fwnode_connector_analog
-> > + */
-> > +struct v4l2_fwnode_connector {
-> > +	unsigned int remote_port;
-> > +	unsigned int remote_id;
-> > +	char label[V4L2_CONNECTOR_MAX_LABEL];
-> > +	enum v4l2_connector_type type;
-> > +
-> > +	union {
-> > +		struct v4l2_fwnode_connector_analog analog;
-> > +		/* future connectors */
-> > +	} connector;
-> > +};
+> > +int v4l2_fwnode_parse_connector(struct fwnode_handle *fwnode,
+> > +				struct v4l2_fwnode_connector *connector);
 > > +
 > >  /**
-> >   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
-> >   * @fwnode: pointer to the endpoint's fwnode handle
+> >   * typedef parse_endpoint_func - Driver's callback function to be called on
+> >   *	each V4L2 fwnode endpoint.
 > >   
 > 
 > Regards,
