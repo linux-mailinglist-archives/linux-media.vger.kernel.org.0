@@ -2,261 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51A261C75C
-	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 12:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A79271C779
+	for <lists+linux-media@lfdr.de>; Tue, 14 May 2019 13:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfENK7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 06:59:33 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47903 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725892AbfENK7d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 06:59:33 -0400
-Received: from [IPv6:2001:420:44c1:2579:859d:cefd:f7a7:d8be] ([IPv6:2001:420:44c1:2579:859d:cefd:f7a7:d8be])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id QV9Xhui8b3qlsQV9bh2twR; Tue, 14 May 2019 12:59:30 +0200
-Subject: Re: [RFC PATCH] vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Thierry Reding <thierry.reding@gmail.com>
-References: <87ad5e5c-088c-c5b6-f653-8936b8f334ab@xs4all.nl>
- <3a18cca2-4d39-e000-3384-305e28b12025@xs4all.nl>
- <CAPBb6MVi1yPN5VepRD2TP3q2LVfd7UYc5Tun0EEUBL6GfPHhdg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <1702aa39-b1db-f8b5-1d2c-1e4125d79740@xs4all.nl>
-Date:   Tue, 14 May 2019 12:59:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726272AbfENLKL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 07:10:11 -0400
+Received: from mga07.intel.com ([134.134.136.100]:50951 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726036AbfENLKL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 May 2019 07:10:11 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 May 2019 04:10:10 -0700
+X-ExtLoop1: 1
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 May 2019 04:10:07 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0289920666; Tue, 14 May 2019 14:10:06 +0300 (EEST)
+Date:   Tue, 14 May 2019 14:10:06 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] media: v4l2-subdev: Verify arguments of
+ v4l2_subdev_call()
+Message-ID: <20190514111006.chhwvyfem2ngu4oy@paasikivi.fi.intel.com>
+References: <20190511101031.4777-1-jmkrzyszt@gmail.com>
+ <20190511101031.4777-2-jmkrzyszt@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MVi1yPN5VepRD2TP3q2LVfd7UYc5Tun0EEUBL6GfPHhdg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJiWxsecXflsC41v249gbo4+3B41hrrWqq2klkw2MWdrbzGmSVYl/1RlBlKAByU4LqbC+51E8OKny+xOz7PpZUrAh8fynoma4pTCsQD0l9MLCoN/vYqn
- rHfWIB4/a9hSedqaNODnq3JbplYKVMg4PuVvxjMsMlAujaGFlJCd+F2H0z+DmQRbm8ZrlxwkjbQj1BPxL9aeMAZLQsUql6AtC0wG78IT2ndWNjmvkD3r2VHL
- hJ3Du8GEhp7Z3RjAQc9ZPjlv6zVuzcAsqnI5oNXu6z/irntzEen3AG3i3dCMp9hP7e2VuUSLCzgmpo3cGwjPmBouOpU++dZPsZjXehFl10zQBI+NpFx5fjP2
- PIHD/cmjW0C1ol7YB2MjIXbsC13AqMcoRXHRmIb9K+rHIwISzb42FbuiQlTRcJ7dfKADILGJQPyZ/ixJvGsaT7oUqwoAR3Y+bYp45+NuCBRxBXdznJM9b10Q
- d9fj1vOotP3nBg1t8Hfuqm5H7gGbEoaJxUUroLeZL94j7JV5Pr5M6x9zyMlmGU6kZR/p57z1uICwChKr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190511101031.4777-2-jmkrzyszt@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/14/19 12:01 PM, Alexandre Courbot wrote:
-> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Date: Mon, May 13, 2019 at 6:36 PM
-> To: Linux Media Mailing List, Paul Kocialkowski, Tomasz Figa, Nicolas
-> Dufresne, Alexandre Courbot, Boris Brezillon, Maxime Ripard, Thierry
-> Reding
-> 
->> On 4/30/19 10:31 AM, Hans Verkuil wrote:
->>> This RFC patch adds support for the V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag.
->>> It also adds a new V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability and
->>> a v4l2_m2m_release_capture_buf() helper function.
->>>
->>> Drivers should set vb2_queue->subsystem_flags to VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF
->>> to indicate support for this flag.
->>>
->>> At the start of the device_run function drivers should first check if the
->>> current capture buffer should be released:
->>>
->>> if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
->>>       v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
->>>       v4l2_m2m_job_finish(...);
->>>       return;
->>> }
->>>
->>> And at the end they should check (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
->>> and, if set, skip returning the capture buffer to vb2.
->>>
->>> This has only been compile tested, and this is missing the documentation. I would
->>> like to know if this works in a real driver first before turning this into a proper
->>> patch series.
->>
->> Ping!
->>
->> Did anyone have the opportunity (or is planning) to test if this patch actually works?
-> 
-> Sorry, I am also still bringing a test driver up as well. But at first
-> sight it seems to cover what we discussed.
+Hi Janusz,
 
-OK, I'll wait for test results. I just wanted to make sure this didn't snow under.
+On Sat, May 11, 2019 at 12:10:30PM +0200, Janusz Krzysztofik wrote:
+> Correctness of format type (try or active) and pad number parameters
+> passed to subdevice operation callbacks is now verified only for IOCTL
+> calls.  However, those callbacks are also used by drivers, e.g., V4L2
+> host interfaces.
+> 
+> Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
+> macro while calling subdevice operations, move those parameter checks
+> from subdev_do_ioctl() to v4l2_subdev_call() so we can avoid taking care
+> of those checks inside drivers.
+
+I have to say I really like this patch!
 
 > 
-> Just one note regarding the naming of v4l2_m2m_release_capture_buf().
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 222 +++++++++++++++-----------
+>  include/media/v4l2-subdev.h           |   6 +
+>  2 files changed, 139 insertions(+), 89 deletions(-)
 > 
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> Regards,
->>>
->>>       Hans
->>>
->>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>> ---
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> index fb9ac7696fc6..83372de9b815 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> @@ -50,7 +50,8 @@ module_param(debug, int, 0644);
->>>                                V4L2_BUF_FLAG_TIMESTAMP_MASK)
->>>  /* Output buffer flags that should be passed on to the driver */
->>>  #define V4L2_BUFFER_OUT_FLAGS        (V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME | \
->>> -                              V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE)
->>> +                              V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE | \
->>> +                              V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
->>>
->>>  /*
->>>   * __verify_planes_array() - verify that the planes array passed in struct
->>> @@ -321,6 +322,8 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->>>                */
->>>               vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
->>>               vbuf->field = b->field;
->>> +             if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
->>> +                     vbuf->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
->>>       } else {
->>>               /* Zero any output buffer flags as this is a capture buffer */
->>>               vbuf->flags &= ~V4L2_BUFFER_OUT_FLAGS;
->>> @@ -659,6 +662,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->>>               *caps |= V4L2_BUF_CAP_SUPPORTS_USERPTR;
->>>       if (q->io_modes & VB2_DMABUF)
->>>               *caps |= V4L2_BUF_CAP_SUPPORTS_DMABUF;
->>> +     if (q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)
->>> +             *caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
->>>  #ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
->>>       if (q->supports_requests)
->>>               *caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
->>> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
->>> index bb3e63d6bd1a..6af1d519938f 100644
->>> --- a/include/media/v4l2-mem2mem.h
->>> +++ b/include/media/v4l2-mem2mem.h
->>> @@ -648,6 +648,38 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
->>>                               struct vb2_v4l2_buffer *cap_vb,
->>>                               bool copy_frame_flags);
->>>
->>> +/**
->>> + * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
->>> + * released
->>> + *
->>> + * @out_vb: the output buffer
->>> + * @cap_vb: the capture buffer
->>> + *
->>> + * This helper function returns true if the current capture buffer should
->>> + * be released to vb2. This is the case if the output buffer specified that
->>> + * the capture buffer should be held (i.e. not returned to vb2) AND if the
->>> + * timestamp of the capture buffer differs from the output buffer timestamp.
->>> + *
->>> + * This helper is to be called at the start of the device_run callback:
->>> + *
->>> + * if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
->>> + *   v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
->>> + *   v4l2_m2m_job_finish(...);
->>> + *   return;
->>> + * }
-> 
-> The way this function is called makes it sound like it does release
-> the capture buffer by itself - but wouldn't the current behavior
-> suggest it should rather be named something like
-> v4l2_m2m_should_release_capture_buf()? Either that or we call
-> v4l2_m2m_buf_done() and v4l2_m2m_job_finish() from it.
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index d75815ab0d7b..cd50fcb86c47 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -120,56 +120,165 @@ static int subdev_close(struct file *file)
+>  	return 0;
+>  }
+>  
+> +static inline int check_which(__u32 which)
+> +{
+> +	return which != V4L2_SUBDEV_FORMAT_TRY &&
+> +	       which != V4L2_SUBDEV_FORMAT_ACTIVE ? -EINVAL : 0;
+> +}
+> +
+>  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> +static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
+> +{
+> +	return pad >= sd->entity.num_pads ? -EINVAL : 0;
+> +}
+> +#else
+> +#define check_pad(...) 0
 
-I agree, this can be named better. How about v4l2_m2m_can_release_capture_buffer()?
+This should be an inline function as well. Or just have one function; the
+prototype is the same anyway.
 
-Regards,
+> +#endif
+> +
+>  static int check_format(struct v4l2_subdev *sd,
 
-	Hans
+inline?
 
-> 
->>> + *
->>> + * This allows for multiple output buffers to be used to fill in a single
->>> + * capture buffer. This is typically used by stateless decoders where
->>> + * multiple e.g. H.264 slices contribute to a single decoded frame.
->>> + */
->>> +static inline bool v4l2_m2m_release_capture_buf(const struct vb2_v4l2_buffer *out_vb,
->>> +                                             const struct vb2_v4l2_buffer *cap_vb)
->>> +{
->>> +     return (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF) &&
->>> +             cap_vb->vb2_buf.copied_timestamp &&
->>> +             out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
->>> +}
->>> +
->>>  /* v4l2 request helper */
->>>
->>>  void v4l2_m2m_request_queue(struct media_request *req);
->>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>> index 22f3ff76a8b5..e9d99023c637 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -504,6 +504,8 @@ struct vb2_buf_ops {
->>>   * @buf_ops: callbacks to deliver buffer information.
->>>   *           between user-space and kernel-space.
->>>   * @drv_priv:        driver private data.
->>> + * @subsystem_flags: Flags specific to the subsystem (V4L2/DVB/etc.). Not used
->>> + *           by the vb2 core.
->>>   * @buf_struct_size: size of the driver-specific buffer structure;
->>>   *           "0" indicates the driver doesn't want to use a custom buffer
->>>   *           structure type. for example, ``sizeof(struct vb2_v4l2_buffer)``
->>> @@ -570,6 +572,7 @@ struct vb2_queue {
->>>       const struct vb2_buf_ops        *buf_ops;
->>>
->>>       void                            *drv_priv;
->>> +     u32                             subsystem_flags;
->>>       unsigned int                    buf_struct_size;
->>>       u32                             timestamp_flags;
->>>       gfp_t                           gfp_flags;
->>> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
->>> index 8a10889dc2fd..4e52427a4114 100644
->>> --- a/include/media/videobuf2-v4l2.h
->>> +++ b/include/media/videobuf2-v4l2.h
->>> @@ -49,6 +49,9 @@ struct vb2_v4l2_buffer {
->>>       struct vb2_plane        planes[VB2_MAX_PLANES];
->>>  };
->>>
->>> +/* VB2 V4L2 flags as set in vb2_queue.subsystem_flags */
->>> +#define VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF (1 << 0)
->>> +
->>>  /*
->>>   * to_vb2_v4l2_buffer() - cast struct vb2_buffer * to struct vb2_v4l2_buffer *
->>>   */
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 1050a75fb7ef..26925d63ea05 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -907,11 +907,12 @@ struct v4l2_requestbuffers {
->>>  };
->>>
->>>  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
->>> -#define V4L2_BUF_CAP_SUPPORTS_MMAP   (1 << 0)
->>> -#define V4L2_BUF_CAP_SUPPORTS_USERPTR        (1 << 1)
->>> -#define V4L2_BUF_CAP_SUPPORTS_DMABUF (1 << 2)
->>> -#define V4L2_BUF_CAP_SUPPORTS_REQUESTS       (1 << 3)
->>> -#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS (1 << 4)
->>> +#define V4L2_BUF_CAP_SUPPORTS_MMAP                   (1 << 0)
->>> +#define V4L2_BUF_CAP_SUPPORTS_USERPTR                        (1 << 1)
->>> +#define V4L2_BUF_CAP_SUPPORTS_DMABUF                 (1 << 2)
->>> +#define V4L2_BUF_CAP_SUPPORTS_REQUESTS                       (1 << 3)
->>> +#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS          (1 << 4)
->>> +#define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF   (1 << 5)
->>>
->>>  /**
->>>   * struct v4l2_plane - plane info for multi-planar buffers
->>> @@ -1033,6 +1034,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
->>>  #define V4L2_BUF_FLAG_IN_REQUEST             0x00000080
->>>  /* timecode field is valid */
->>>  #define V4L2_BUF_FLAG_TIMECODE                       0x00000100
->>> +/* Don't return the capture buffer until OUTPUT timestamp changes */
->>> +#define V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF   0x00000200
->>>  /* Buffer is prepared for queuing */
->>>  #define V4L2_BUF_FLAG_PREPARED                       0x00000400
->>>  /* Cache handling flags */
->>>
->>
+>  			struct v4l2_subdev_format *format)
+>  {
+> -	if (format->which != V4L2_SUBDEV_FORMAT_TRY &&
+> -	    format->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		return -EINVAL;
+> +	return check_which(format->which) ? : check_pad(sd, format->pad);
+> +}
 
+-- 
+Kind regards,
+
+Sakari Ailus
+sakari.ailus@linux.intel.com
