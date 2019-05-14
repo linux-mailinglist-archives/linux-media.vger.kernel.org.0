@@ -2,177 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D691E555
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 00:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CAAA1E5A7
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 01:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfENWu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 May 2019 18:50:57 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:32990 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbfENWur (ORCPT
+        id S1726501AbfENXlv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 May 2019 19:41:51 -0400
+Received: from casper.infradead.org ([85.118.1.10]:51344 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726246AbfENXlu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 May 2019 18:50:47 -0400
-Received: by mail-lf1-f66.google.com with SMTP id x132so463369lfd.0;
-        Tue, 14 May 2019 15:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lRV9qy86YkxGO30+V0j5zzjwK58T+yK4LkJYyPGRu2M=;
-        b=rv76Tzvv5xTtNhz54g1FI1yTF6Y2iTJ6/x1J49i6TegYJQhM49N30DStMqxSUB0fne
-         VH06rDC8tXbfGJHm49EqmEE0YwUW30n6k/S/aGO5LdS+TEVFLU2yiDym+nr6tbXvhSCX
-         oP+MnpprhEnOaq3Dl0hd6RrJJvvEFeqYdp2t50j0GR3BfZdIJfuCMaDevptpdoTC3pqb
-         1W6g+mMu0KKGBTkoQGkD2DvEXQmhEpXx7MmDp1apkP8dSAcDLYCsSEcXLcygGNBrhaaG
-         WmxKDdRzd0uAa8KipFQrhYTu7oGUqESTp3vrdv2VQjHqBvDC6JGWqrd9UYadzNdxQxcN
-         MQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lRV9qy86YkxGO30+V0j5zzjwK58T+yK4LkJYyPGRu2M=;
-        b=gqMuWnXbPipWBM9sHPgnujZujyjwDERQOtiJs7ooIT9QF5NGtZKuE8lEe+3xVGIg1P
-         JL3nHjB2nnra5TpKMv44SGXfZk/ux06RsrVSy8AmXmx/10ptf0Tk3PWtblMaee8KH5fn
-         oDgqcWbMDWXnjDYHeDKG4w9IQOpr/ep6eP8DRKL8Sf9qKw3CfwahVxEDR80GSRkq50zO
-         L5NKYZMbhBXCS+4ka/v1e8Dmz4wF4ACHU8CEvuNbr3aGNs8qjtCOmh/OCn1tbTQNXm88
-         tkTu4F1JbObAEtdhsldmt0mw5yZQh7Zpf/WCO8DtttxjaT2PHyz1dLOJPdMaR4Ytlros
-         dm6A==
-X-Gm-Message-State: APjAAAVzsF0XpZB5fuAru7tLbIFoQJQaT6ApoYhhZ0MjkCq9cR1rsinN
-        BWupKP+va//SoY+FJnCOyoA=
-X-Google-Smtp-Source: APXvYqxt0LwDi5H2y8srDHie2hT3CWGW2UqgGL9VbMmK7MQKgJ4GgQ+hgME93UjnodF2VMT+pC8BMw==
-X-Received: by 2002:ac2:52a8:: with SMTP id r8mr17668182lfm.20.1557874245065;
-        Tue, 14 May 2019 15:50:45 -0700 (PDT)
-Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id s6sm50190lje.89.2019.05.14.15.50.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 15:50:44 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH v6 3/3] media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument
-Date:   Wed, 15 May 2019 00:48:23 +0200
-Message-Id: <20190514224823.11564-4-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190514224823.11564-1-jmkrzyszt@gmail.com>
-References: <20190514224823.11564-1-jmkrzyszt@gmail.com>
+        Tue, 14 May 2019 19:41:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=dA/46aOQVnKxKfZzCP2pKcdLD3rTbr0ua0bqkF5s0ww=; b=LLuoeXAUYa0p6YXWUEKeuqXe9M
+        F30mnclClxf8WsLlcSjMo0OrJUvqXnpxBsyVvXAzeTYt069oj8807ER3P4UsgbcI6tYQghAOd2T9E
+        bRhsQMFonDsX1gB4mXOeHZnOdbJUyt4Ebo3Lb7SkIeuF1DAv4QmvebzRHDx16Jwnb3sm+MUULuV/T
+        F73Y3khlCiLPiAa6SzLNRoZzV3mh4C0Ag1rcNCUANEBGDYRwSHbYkUMKsyClezsCrsZn5t6I9/O+g
+        MW8oivubgxvDeaOVBS6YSNc4ZU61igDni9v/cFPS+jESVLyFCe0vWH8k43Tvc4g+p17WIkaXFOAIk
+        TDQcwJww==;
+Received: from 179.186.99.85.dynamic.adsl.gvt.net.br ([179.186.99.85] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hQh3B-0007YZ-SS; Tue, 14 May 2019 23:41:38 +0000
+Date:   Tue, 14 May 2019 20:41:30 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v6 00/13] TVP5150 new features
+Message-ID: <20190514204130.2c953d97@coco.lan>
+In-Reply-To: <20190514205824.ov6prllx2fp77fur@pengutronix.de>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+        <20190506054713.crxc5pw6j5suvvq7@pengutronix.de>
+        <20190514141824.5bd41389@coco.lan>
+        <20190514172028.693ad354@coco.lan>
+        <20190514205824.ov6prllx2fp77fur@pengutronix.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Extend parameter checks performed by v4l2_subdev_call() with a check for
-a non-NULL pad config pointer if V4L2_SUBDEV_FORMAT_TRY format type is
-requested so drivers don't need to care.
+Em Tue, 14 May 2019 22:58:24 +0200
+Marco Felsch <m.felsch@pengutronix.de> escreveu:
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 27 +++++++++++++++++++++------
- 1 file changed, 21 insertions(+), 6 deletions(-)
+> Hi Mauro,
+> 
+> On 19-05-14 17:20, Mauro Carvalho Chehab wrote:
+> > Em Tue, 14 May 2019 14:18:24 -0300
+> > Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+> >   
+> > > Em Mon, 6 May 2019 07:47:13 +0200
+> > > Marco Felsch <m.felsch@pengutronix.de> escreveu:
+> > >   
+> > > > Hi Mauro,
+> > > > 
+> > > > I know you are busy but can you have a look on it?    
+> > > 
+> > > You should really trust on the sub-maintainers for such kind of
+> > > reviews :-)  
+> 
+> I trust all of them and many thanks to Hans and Jacopo for the reviews
+> :) I will integrate them this week. The point is that you are the
+> maintainer and in that case the one who picks the patches.
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 6933f30e5041..6a5c4f046723 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -138,20 +138,30 @@ static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
- 	return 0;
- }
- 
-+static int check_cfg(__u32 which, struct v4l2_subdev_pad_config *cfg)
-+{
-+	if (which == V4L2_SUBDEV_FORMAT_TRY && !cfg)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- static inline int check_format(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_pad_config *cfg,
- 			       struct v4l2_subdev_format *format)
- {
- 	if (!format)
- 		return -EINVAL;
- 
--	return check_which(format->which) ? : check_pad(sd, format->pad);
-+	return check_which(format->which) ? : check_pad(sd, format->pad) ? :
-+	       check_cfg(format->which, cfg);
- }
- 
- static int call_get_fmt(struct v4l2_subdev *sd,
- 			struct v4l2_subdev_pad_config *cfg,
- 			struct v4l2_subdev_format *format)
- {
--	return check_format(sd, format) ? :
-+	return check_format(sd, cfg, format) ? :
- 	       sd->ops->pad->get_fmt(sd, cfg, format);
- }
- 
-@@ -159,7 +169,7 @@ static int call_set_fmt(struct v4l2_subdev *sd,
- 			struct v4l2_subdev_pad_config *cfg,
- 			struct v4l2_subdev_format *format)
- {
--	return check_format(sd, format) ? :
-+	return check_format(sd, cfg, format) ? :
- 	       sd->ops->pad->set_fmt(sd, cfg, format);
- }
- 
-@@ -171,6 +181,7 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
-+	       check_cfg(code->which, cfg) ? :
- 	       sd->ops->pad->enum_mbus_code(sd, cfg, code);
- }
- 
-@@ -182,6 +193,7 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
-+	       check_cfg(fse->which, cfg) ? :
- 	       sd->ops->pad->enum_frame_size(sd, cfg, fse);
- }
- 
-@@ -216,23 +228,26 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
-+	       check_cfg(fie->which, cfg) ? :
- 	       sd->ops->pad->enum_frame_interval(sd, cfg, fie);
- }
- 
- static inline int check_selection(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_pad_config *cfg,
- 				  struct v4l2_subdev_selection *sel)
- {
- 	if (!sel)
- 		return -EINVAL;
- 
--	return check_which(sel->which) ? : check_pad(sd, sel->pad);
-+	return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
-+	       check_cfg(sel->which, cfg);
- }
- 
- static int call_get_selection(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_pad_config *cfg,
- 			      struct v4l2_subdev_selection *sel)
- {
--	return check_selection(sd, sel) ? :
-+	return check_selection(sd, cfg, sel) ? :
- 	       sd->ops->pad->get_selection(sd, cfg, sel);
- }
- 
-@@ -240,7 +255,7 @@ static int call_set_selection(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_pad_config *cfg,
- 			      struct v4l2_subdev_selection *sel)
- {
--	return check_selection(sd, sel) ? :
-+	return check_selection(sd, cfg, sel) ? :
- 	       sd->ops->pad->set_selection(sd, cfg, sel);
- }
- 
--- 
-2.21.0
+Actually, Hans is the one that usually picks V4L2 patches after reviewing.
+I pull from his tree and from other media maintainers.
 
+> 
+> > > 
+> > > I'll take a look today.  
+> > 
+> > Done. Please notice that I didn't run any test here.  
+> 
+> Thanks for that will integrate it too and prepare a v7.
+
+Thanks!
+Mauro
+> 
+> Regards,
+>   Marco
+> 
+> >   
+> > >   
+> > > > 
+> > > > Regards,
+> > > >   Marco
+> > > > 
+> > > > On 19-04-15 14:44, Marco Felsch wrote:    
+> > > > > Hi,
+> > > > > 
+> > > > > many thanks to Hans and Jacopo for the feedack :) this v6 address the
+> > > > > comments both made on my v5 [1].
+> > > > > 
+> > > > > In short this is round fixes just some minor issues rather than major
+> > > > > ones so the diff to the v5 is really small. The changed patches contain
+> > > > > the changelog so I omit it here.
+> > > > > 
+> > > > > I've tested it on a custom hardware but I can't test the em28xx usb
+> > > > > use-case since I haven't such a device. So other testers are welcome :)
+> > > > > 
+> > > > > Looking forward for your feedack,
+> > > > > 
+> > > > > 	Marco
+> > > > > 
+> > > > > [1] https://patchwork.kernel.org/cover/10886903/
+> > > > > 
+> > > > > Javier Martinez Canillas (1):
+> > > > >   partial revert of "[media] tvp5150: add HW input connectors support"
+> > > > > 
+> > > > > Marco Felsch (11):
+> > > > >   dt-bindings: connector: analog: add tv norms property
+> > > > >   media: v4l2-fwnode: add v4l2_fwnode_connector
+> > > > >   media: v4l2-fwnode: add initial connector parsing support
+> > > > >   media: tvp5150: add input source selection of_graph support
+> > > > >   media: dt-bindings: tvp5150: Add input port connectors DT bindings
+> > > > >   media: tvp5150: add FORMAT_TRY support for get/set selection handlers
+> > > > >   media: tvp5150: add s_power callback
+> > > > >   media: dt-bindings: tvp5150: cleanup bindings stlye
+> > > > >   media: dt-bindings: tvp5150: add optional tvnorms documentation
+> > > > >   media: tvp5150: add support to limit tv norms on connector
+> > > > >   media: tvp5150: make debug output more readable
+> > > > > 
+> > > > > Michael Tretter (1):
+> > > > >   media: tvp5150: initialize subdev before parsing device tree
+> > > > > 
+> > > > >  .../display/connector/analog-tv-connector.txt |   4 +
+> > > > >  .../devicetree/bindings/media/i2c/tvp5150.txt | 125 +++-
+> > > > >  drivers/media/i2c/tvp5150.c                   | 672 +++++++++++++-----
+> > > > >  drivers/media/v4l2-core/v4l2-fwnode.c         | 111 +++
+> > > > >  include/dt-bindings/media/tvnorms.h           |  56 ++
+> > > > >  include/dt-bindings/media/tvp5150.h           |   2 -
+> > > > >  include/media/v4l2-connector.h                |  30 +
+> > > > >  include/media/v4l2-fwnode.h                   |  49 ++
+> > > > >  8 files changed, 859 insertions(+), 190 deletions(-)
+> > > > >  create mode 100644 include/dt-bindings/media/tvnorms.h
+> > > > >  create mode 100644 include/media/v4l2-connector.h
+> > > > > 
+> > > > > -- 
+> > > > > 2.20.1
+> > > > > 
+> > > > > 
+> > > > >       
+> > > >     
+> > > 
+> > > 
+> > > 
+> > > Thanks,
+> > > Mauro  
+> > 
+> > 
+> > 
+> > Thanks,
+> > Mauro
+> >   
+> 
+
+
+
+Thanks,
+Mauro
