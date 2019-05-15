@@ -2,182 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21AF51FA4C
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 21:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 641AD1FBDD
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 22:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbfEOTE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 May 2019 15:04:57 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41951 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbfEOTE4 (ORCPT
+        id S1727008AbfEOU4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 May 2019 16:56:41 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42030 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbfEOU4l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 May 2019 15:04:56 -0400
-Received: by mail-wr1-f68.google.com with SMTP id g12so385810wro.8
-        for <linux-media@vger.kernel.org>; Wed, 15 May 2019 12:04:55 -0700 (PDT)
+        Wed, 15 May 2019 16:56:41 -0400
+Received: by mail-lj1-f193.google.com with SMTP id 188so1041949ljf.9;
+        Wed, 15 May 2019 13:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=ydT69e3qZMHIkiBfI/YoTeciyQCI8pZzMxX+D3yPi00=;
-        b=XdPuVnBA+0fr7ac6B5KzDK3lQG8nLaVmi2tJymtt0UAzwiDfU1r0Qj3GD3oX9jAcEF
-         mqZXgKgvf8byIhYa+MSkcT0c2Gjmxo068yKG4AH9qrLU2+XVOEyUV8gbvswNpqWY0uKo
-         vYDHjokBkur+9eCmSMZCQccz7yh44piwSIQu952j2BPAPBvqSBDezGPw7Z1FUKKeWN8J
-         9UgnlNkTJLHvocbeZfqQdrhBifIwK1YVaP0q7Md+JpDyTF8AxGS58iv3zSkTvbxFt5aP
-         B23TZh7rDMiaMqR7lD/xiicGxv+TYa51FrJCwPSqG+q7rLpD9q2eEFyinOOEh/b91lBs
-         UenA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nKwefnJo5YJrYqWfMruLqrWt5JT9/MOqPcL6hS0ecvg=;
+        b=GVmKIFglLz/jVTQZHP+YWVW5FzXB+lBEEU46re5vDPEQt723AC2N5J0SXpKwFTNrJC
+         ELUTuTt88Qa/GbSnCDDuvf+UyT4ek9NFRNPMtXf8ElItfhU2nZ+QpSdu8bKSRzeIZHbx
+         g1fmGlh2Wex0guWctm8ZWM382meIMtfBBBbMiIGZ77mNKx/1DgYzahua6ipGat56dzgL
+         /pWqwMA/qj6WCGzDABmnGiGOSrOXJ1GCOID7qkH0mciN8TQOavIVI1VMAd/mKGfjcskA
+         10uexC1xg3yZfziJ493EhqEKhJiAJqYnUei4HmTaG88vUTeyQSb+U+SGf6iRMt2XjYck
+         lG+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=ydT69e3qZMHIkiBfI/YoTeciyQCI8pZzMxX+D3yPi00=;
-        b=XAlarCuQM0sxV4DWv4u8yUUdiK47kBwsd0w5cl7fbtkUhII9HqljxaKoQqsHo2Bo38
-         JQzhvnSnWNNoTV5tqi/gW/lrx8yvqurjw2IH51HUm8QRPiY7Az2FmYKRKgSfJFc3LKm5
-         FBVredqBKPvM5ITjqTpAZU4oT2vU/FvSdKrt8Bz9fTvhZmQHeKUYbI98Jdh//albYMxH
-         brZn7KE5zzfqw+X8ZSTBKZLOZxWpp0MxAelNl95TLH4XcXEwGw3+HBx8xsJX6paOB2jw
-         wMoAmVRxLVgJCGBZG4AywPCX9UMsp8M3ufaRUAeNIP2JCMR6+ConFtX1sWi0zQUDY/Fe
-         kqgw==
-X-Gm-Message-State: APjAAAUJmo2TJjtnuqKbq04PHoSt7P8nW/0kiWM2n7GZCzw5jQXwiBKp
-        KjtV0WvGW7Wp5yGn0HEIrfq2bRbl1svH3A==
-X-Google-Smtp-Source: APXvYqwAKE2OCa+FKsqwLs0RdJO++JhgQOwomZ8QuIBlyPZkS2peS9NnI/HuOCWnmryDEBz+ZD9mOw==
-X-Received: by 2002:adf:afcb:: with SMTP id y11mr23504871wrd.97.1557947094778;
-        Wed, 15 May 2019 12:04:54 -0700 (PDT)
-Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
-        by smtp.gmail.com with ESMTPSA id l2sm4113300wmf.16.2019.05.15.12.04.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nKwefnJo5YJrYqWfMruLqrWt5JT9/MOqPcL6hS0ecvg=;
+        b=FICTM02pSLc6yNGhdOhGWPaIouOSvO8pVht4gy7718C9jFAMZ0m5zQk66GNGbC2wml
+         HQR/ywnjJJtPvkdJl9OP8nLdtGv8Oo/J1Q8tk0TzEu3HnoKhx2lH81RR77Zhl4aC2Ftm
+         l6TtjkrsrLFfnNGtd8MWJqHlswm34CkovHLi9HGvnut3usAg9ft5Q/shM6tG5HEANMBH
+         TGeroCZCqpo3Oc5VV4Utum3GYTLo1htGUCZmEsUlpPpFcZI0S7rDXFazf5gWJ/E++9aZ
+         jZP9zMCaL0ifQxPEhmvqmdFvOSMvE27csm+8QpCcd/AJMxgjLzDYhZCoguAvmJRPeci+
+         /zNA==
+X-Gm-Message-State: APjAAAW+Z7tohMOJqpE7gCyCHsIV5IKFzlBoq+aGumTDrya9b6W18aKM
+        Kgtc0NUBP/NnRXYsSFuztX1wK/oC
+X-Google-Smtp-Source: APXvYqwU+EDVRLLJaMTz2Jrna8FKHwyluCSKdSLSBeNjGqCxjfPth1ysP7Auu2DllGlKwtgYN65yJg==
+X-Received: by 2002:a2e:9a1a:: with SMTP id o26mr7219846lji.174.1557953799240;
+        Wed, 15 May 2019 13:56:39 -0700 (PDT)
+Received: from z50.localnet (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id y19sm573574lfl.40.2019.05.15.13.56.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 May 2019 12:04:54 -0700 (PDT)
-Message-ID: <5cdc62d6.1c69fb81.50fe6.849a@mx.google.com>
-Date:   Wed, 15 May 2019 12:04:54 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 15 May 2019 13:56:38 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
+Date:   Wed, 15 May 2019 22:56:36 +0200
+Message-ID: <1943741.XiKEDqKQ7m@z50>
+In-Reply-To: <20190515071601.knfdhwofz6ukjmxt@paasikivi.fi.intel.com>
+References: <20190514224823.11564-1-jmkrzyszt@gmail.com> <20190514224823.11564-2-jmkrzyszt@gmail.com> <20190515071601.knfdhwofz6ukjmxt@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: media
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: media_v5.1-2-16-gfc8670d1f72b
-Subject: media/master v4l2-compliance on uvcvideo: 104 tests,
- 0 regressions (media_v5.1-2-16-gfc8670d1f72b)
-To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-media/master v4l2-compliance on uvcvideo: 104 tests, 0 regressions (media_v=
-5.1-2-16-gfc8670d1f72b)
+Hi Sakari,
 
-Test results summary
---------------------
+On Wednesday, May 15, 2019 9:16:02 AM CEST Sakari Ailus wrote:
+> Hi Janusz,
+> 
+> On Wed, May 15, 2019 at 12:48:21AM +0200, Janusz Krzysztofik wrote:
+> > -static int check_crop(struct v4l2_subdev *sd, struct v4l2_subdev_crop 
+*crop)
+> > +static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
+> >  {
+> > -	if (crop->which != V4L2_SUBDEV_FORMAT_TRY &&
+> > -	    crop->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > +#if defined(CONFIG_MEDIA_CONTROLLER)
+> > +	if (sd->entity.num_pads && pad >= sd->entity.num_pads)
+> 
+> One more comment.
+> 
+> The num_pads doesn't really tell whether a given op is valid for a device.
+> Well, in this case it would have to be a bug in the driver, but those do
+> happen. How about checking for sd->entity.graph_obj.mdev instead? It's
+> non-NULL if the entity is registered with a media device, i.e. when these
+> callback functions are supposed to be called.
 
-V4L2 Compliance on the uvcvideo driver.
+Before I do that, let me undestand your point better.
 
-This test ran "v4l2-compliance -s" from v4l-utils:
+My intentions were:
+1) to provide a check for validity of a pad ID passed to an operation, not ann 
+eligibility of a driver to support the operation,
+2) to not break drivers which don't set pad_num, especially when building them 
+with CONFIG_MEDIA_CONTROLLER turned on for whatever reason.
 
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+Since pad IDs are verified against pad_num which may be not set, we should 
+obviously check validity of pad_num before comparing against it.  Since media 
+controller compatible subdevices need at least one pad, I think the check for 
+non-zero pad_num is quite reasonable.
 
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
+Moreover, old drivers are actually using those pad operations you describe as 
+not supposed to be called.  They are using them because they were converted to 
+use them in place of former video ops.  Already dealing with pad IDs, they may 
+decide to turn on CONFIG_MEDIA_CONTROLLER and use selected functionality, for 
+example register pads, without implementing fulll media controller support.  
+Why should we refuse to perform pad ID verification for them?
 
-
-  Tree:    media
-  Branch:  master
-  Kernel:  media_v5.1-2-16-gfc8670d1f72b
-  URL:     https://git.linuxtv.org/media_tree.git
-  Commit:  fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
-
-
-1  | rk3399-gru-kevin       | arm64 |  52 total:  43 PASS   9 FAIL   0 SKIP
-2  | rk3288-veyron-jaq      | arm   |  52 total:  43 PASS   9 FAIL   0 SKIP=
-  =
-
-    =
-
-
-Test failures
-------------- =
-
-1  | rk3399-gru-kevin       | arm64 |  52 total:  43 PASS   9 FAIL   0 SKIP
-
-  Config:      defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Lab Name:    lab-collabora
-  Plain log:   https://storage.kernelci.org//media/master/media_v5.1-2-16-g=
-fc8670d1f72b/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk3399=
--gru-kevin.txt
-  HTML log:    https://storage.kernelci.org//media/master/media_v5.1-2-16-g=
-fc8670d1f72b/arm64/defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk3399=
--gru-kevin.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/stretch-v4l=
-2/20190510.0/arm64/rootfs.cpio.gz
-  Test Git:    git://linuxtv.org/v4l-utils.git
-  Test Commit: 0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
-              =
+Thanks,
+Janusz
 
 
-    Control-ioctls-Input-0 - 6 tests: 4  PASS, 2 FAIL, 0 SKIP
-      * VIDIOC_QUERY_EXT_CTRL/QUERYMENU: never passed
-      * VIDIOC_G/S/TRY_EXT_CTRLS: never passed   =
 
 
-    Format-ioctls-Input-0 - 10 tests: 9  PASS, 1 FAIL, 0 SKIP
-      * VIDIOC_G/S_PARM: never passed     =
-
-
-    Buffer-ioctls-Input-0 - 3 tests: 2  PASS, 1 FAIL, 0 SKIP
-      * Requests: never passed   =
-
-
-    Streaming-ioctls_Test-input-0 - 7 tests: 2  PASS, 5 FAIL, 0 SKIP
-      * MMAP-no-poll: never passed
-      * MMAP-select: never passed
-      * MMAP-epoll: never passed
-      * USERPTR-no-poll: never passed
-      * USERPTR-select: never passed   =
-
-  =
-
-    =
-
-
-Test failures
-------------- =
-
-2  | rk3288-veyron-jaq      | arm   |  52 total:  43 PASS   9 FAIL   0 SKIP
-
-  Config:      multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Lab Name:    lab-collabora
-  Plain log:   https://storage.kernelci.org//media/master/media_v5.1-2-16-g=
-fc8670d1f72b/arm/multi_v7_defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc=
--rk3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//media/master/media_v5.1-2-16-g=
-fc8670d1f72b/arm/multi_v7_defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc=
--rk3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/stretch-v4l=
-2/20190510.0/armhf/rootfs.cpio.gz
-  Test Git:    git://linuxtv.org/v4l-utils.git
-  Test Commit: 0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
-              =
-
-
-    Control-ioctls-Input-0 - 6 tests: 4  PASS, 2 FAIL, 0 SKIP
-      * VIDIOC_QUERY_EXT_CTRL/QUERYMENU: never passed
-      * VIDIOC_G/S/TRY_EXT_CTRLS: never passed   =
-
-
-    Format-ioctls-Input-0 - 10 tests: 9  PASS, 1 FAIL, 0 SKIP
-      * VIDIOC_G/S_PARM: never passed     =
-
-
-    Buffer-ioctls-Input-0 - 3 tests: 2  PASS, 1 FAIL, 0 SKIP
-      * Requests: never passed   =
-
-
-    Streaming-ioctls_Test-input-0 - 7 tests: 2  PASS, 5 FAIL, 0 SKIP
-      * MMAP-no-poll: never passed
-      * MMAP-select: never passed
-      * MMAP-epoll: never passed
-      * USERPTR-no-poll: never passed
-      * USERPTR-select: never passed   =
-
-=20
