@@ -2,283 +2,330 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2250F1F90C
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 19:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1879F1F974
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 19:43:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbfEORBi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 May 2019 13:01:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33044 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbfEORBi (ORCPT
+        id S1727107AbfEORnP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 May 2019 13:43:15 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:35233 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbfEORnP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 May 2019 13:01:38 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C715927DBE0;
-        Wed, 15 May 2019 18:01:35 +0100 (BST)
-Date:   Wed, 15 May 2019 19:01:33 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Wed, 15 May 2019 13:43:15 -0400
+X-Originating-IP: 93.29.109.196
+Received: from collins (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id CA4AA4000A;
+        Wed, 15 May 2019 17:43:06 +0000 (UTC)
+Message-ID: <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [RFCv2 PATCH] vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
-Message-ID: <20190515190133.4a8e5a64@collabora.com>
-In-Reply-To: <32ed2e39-36de-eca5-c52e-1385bcee7ffb@xs4all.nl>
-References: <32ed2e39-36de-eca5-c52e-1385bcee7ffb@xs4all.nl>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Date:   Wed, 15 May 2019 19:42:50 +0200
+In-Reply-To: <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+         <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 15 May 2019 14:32:20 +0200
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+Hi,
 
-> This RFC patch adds support for the V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag.
-> It also adds a new V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability and
-> a v4l2_m2m_release_capture_buf() helper function.
+Le mercredi 15 mai 2019 à 10:42 -0400, Nicolas Dufresne a écrit :
+> Le mercredi 15 mai 2019 à 12:09 +0200, Paul Kocialkowski a écrit :
+> > Hi,
+> > 
+> > With the Rockchip stateless VPU driver in the works, we now have a
+> > better idea of what the situation is like on platforms other than
+> > Allwinner. This email shares my conclusions about the situation and how
+> > we should update the MPEG-2, H.264 and H.265 controls accordingly.
+> > 
+> > - Per-slice decoding
+> > 
+> > We've discussed this one already[0] and Hans has submitted a patch[1]
+> > to implement the required core bits. When we agree it looks good, we
+> > should lift the restriction that all slices must be concatenated and
+> > have them submitted as individual requests.
+> > 
+> > One question is what to do about other controls. I feel like it would
+> > make sense to always pass all the required controls for decoding the
+> > slice, including the ones that don't change across slices. But there
+> > may be no particular advantage to this and only downsides. Not doing it
+> > and relying on the "control cache" can work, but we need to specify
+> > that only a single stream can be decoded per opened instance of the
+> > v4l2 device. This is the assumption we're going with for handling
+> > multi-slice anyway, so it shouldn't be an issue.
 > 
-> Drivers should set vb2_queue->subsystem_flags to VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF
-> to indicate support for this flag.
-> 
-> The device_run() function should look like this:
-> 
-> if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
-> 	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> 	v4l2_m2m_job_finish(...);
-> 	return;
-> }
-> cap_vb->is_held = out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> 
-> ...
-> 
-> v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
-> if (!cap_vb->is_held) {
-> 	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> 	v4l2_m2m_job_finish(...);
-> }
-> 
-> In order to handle the corner case where V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
-> is always set for the output buffer, and you reached the last frame (so no
-> new output buffer will be queued with a new timestamp), the driver should
-> implement support for the V4L2_DEC_CMD_STOP command, and that should do:
-> 
-> struct vb2_v4l2_buffer *out_vb = v4l2_m2m_last_src_buf(m2m_ctx);
-> struct vb2_v4l2_buffer *cap_vb = v4l2_m2m_last_dst_buf(m2m_ctx);
-> 
-> if (out_vb) {
-> 	out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> } else if (cap_vb && cap_vb->is_held) {
-> 	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> 	v4l2_m2m_job_finish(...);
-> }
-> 
-> At least, I think so. Comments on this are very welcome. We definitely
-> need better support in v4l2-mem2mem.c for such situations (same for
-> stateful codecs) since it's too complex for drivers to get right IMHO.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> My opinion on this is that the m2m instance is a state, and the driver
+> should be responsible of doing time-division multiplexing across
+> multiple m2m instance jobs. Doing the time-division multiplexing in
+> userspace would require some sort of daemon to work properly across
+> processes. I also think the kernel is better place for doing resource
+> access scheduling in general.
 
-FWIW,
+I agree with that yes. We always have a single m2m context and specific
+controls per opened device so keeping cached values works out well.
 
-Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+So maybe we shall explicitly require that the request with the first
+slice for a frame also contains the per-frame controls.
 
-Note that I haven't tested passing V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
-all the time (my implem clears the flag on the last slice of each
-frame) which means the solution proposed for the V4L2_DEC_CMD_STOP path
-is still untested.
+> > - Annex-B formats
+> > 
+> > I don't think we have really reached a conclusion on the pixel formats
+> > we want to expose. The main issue is how to deal with codecs that need
+> > the full slice NALU with start code, where the slice_header is
+> > duplicated in raw bitstream, when others are fine with just the encoded
+> > slice data and the parsed slice header control.
+> > 
+> > My initial thinking was that we'd need 3 formats:
+> > - One that only takes only the slice compressed data (without raw slice
+> > header and start code);
+> > - One that takes both the NALU data (including start code, raw header
+> > and compressed data) and slice header controls;
+> > - One that takes the NALU data but no slice header.
+> > 
+> > But I no longer think the latter really makes sense in the context of
+> > stateless video decoding.
+> > 
+> > A side-note: I think we should definitely have data offsets in every
+> > case, so that implementations can just push the whole NALU regardless
+> > of the format if they're lazy.
+> 
+> I realize that I didn't share our latest research on the subject. So a
+> slice in the original bitstream is formed of the following blocks
+> (simplified):
+> 
+>   [nal_header][nal_type][slice_header][slice]
 
-> ---
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
->  include/media/v4l2-mem2mem.h                  | 40 +++++++++++++++++++
->  include/media/videobuf2-core.h                |  3 ++
->  include/media/videobuf2-v4l2.h                |  5 +++
->  include/uapi/linux/videodev2.h                | 13 +++---
->  5 files changed, 63 insertions(+), 6 deletions(-)
+Thanks for the details!
+
+> nal_header:
+> This one is a header used to locate the start and the end of the of a
+> NAL. There is two standard forms, the ANNEX B / start code, a sequence
+> of 3 bytes 0x00 0x00 0x01, you'll often see 4 bytes, the first byte
+> would be a leading 0 from the previous NAL padding, but this is also
+> totally valid start code. The second form is the AVC form, notably used
+> in ISOMP4 container. It simply is the size of the NAL. You must keep
+> your buffer aligned to NALs in this case as you cannot scan from random
+> location.
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index fb9ac7696fc6..c077d3776840 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -50,7 +50,8 @@ module_param(debug, int, 0644);
->  				 V4L2_BUF_FLAG_TIMESTAMP_MASK)
->  /* Output buffer flags that should be passed on to the driver */
->  #define V4L2_BUFFER_OUT_FLAGS	(V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME | \
-> -				 V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE)
-> +				 V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE | \
-> +				 V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
+> nal_type:
+> It's a bit more then just the type, but it contains at least the
+> information of the nal type. This has different size on H.264 and HEVC
+> but I know it's size is in bytes.
 > 
->  /*
->   * __verify_planes_array() - verify that the planes array passed in struct
-> @@ -194,6 +195,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->  	}
->  	vbuf->sequence = 0;
->  	vbuf->request_fd = -1;
-> +	vbuf->is_held = false;
+> slice_header:
+> This contains per slice parameters, like the modification lists to
+> apply on the references. This one has a size in bits, not in bytes.
 > 
->  	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
->  		switch (b->memory) {
-> @@ -321,6 +323,8 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->  		 */
->  		vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
->  		vbuf->field = b->field;
-> +		if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
-> +			vbuf->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
->  	} else {
->  		/* Zero any output buffer flags as this is a capture buffer */
->  		vbuf->flags &= ~V4L2_BUFFER_OUT_FLAGS;
-> @@ -659,6 +663,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_USERPTR;
->  	if (q->io_modes & VB2_DMABUF)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_DMABUF;
-> +	if (q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)
-> +		*caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
->  #ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
->  	if (q->supports_requests)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-> index bb3e63d6bd1a..8263cf108397 100644
-> --- a/include/media/v4l2-mem2mem.h
-> +++ b/include/media/v4l2-mem2mem.h
-> @@ -648,6 +648,46 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
->  				struct vb2_v4l2_buffer *cap_vb,
->  				bool copy_frame_flags);
+> slice:
+> I don't really know what is in it exactly, but this is the data used to
+> decode. This bit has a special coding called the anti-emulation, which
+> prevents a start-code from appearing in it. This coding is present in
+> both forms, ANNEX-B or AVC (in GStreamer and some reference manual they
+> call ANNEX-B the bytestream format).
 > 
-> +/**
-> + * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
-> + * released
-> + *
-> + * @out_vb: the output buffer
-> + * @cap_vb: the capture buffer
-> + *
-> + * This helper function returns true if the current capture buffer should
-> + * be released to vb2. This is the case if the output buffer specified that
-> + * the capture buffer should be held (i.e. not returned to vb2) AND if the
-> + * timestamp of the capture buffer differs from the output buffer timestamp.
-> + *
-> + * This helper is to be called at the start of the device_run callback:
-> + *
-> + * if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
-> + *	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> + *	v4l2_m2m_job_finish(...);
-> + *	return;
-> + * }
-> + * cap_vb->is_held = out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> + *
-> + * ...
-> + *
-> + * v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
-> + * if (!cap_vb->is_held) {
-> + *	v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> + *	v4l2_m2m_job_finish(...);
-> + * }
-> + *
-> + * This allows for multiple output buffers to be used to fill in a single
-> + * capture buffer. This is typically used by stateless decoders where
-> + * multiple e.g. H.264 slices contribute to a single decoded frame.
-> + */
-> +static inline bool v4l2_m2m_release_capture_buf(const struct vb2_v4l2_buffer *out_vb,
-> +						const struct vb2_v4l2_buffer *cap_vb)
-> +{
-> +	return cap_vb->is_held && cap_vb->vb2_buf.copied_timestamp &&
-> +	       out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
-> +}
-> +
->  /* v4l2 request helper */
+> So, what we notice is that what is currently passed through Cedrus
+> driver:
+>   [nal_type][slice_header][slice]
 > 
->  void v4l2_m2m_request_queue(struct media_request *req);
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 22f3ff76a8b5..e9d99023c637 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -504,6 +504,8 @@ struct vb2_buf_ops {
->   * @buf_ops:	callbacks to deliver buffer information.
->   *		between user-space and kernel-space.
->   * @drv_priv:	driver private data.
-> + * @subsystem_flags: Flags specific to the subsystem (V4L2/DVB/etc.). Not used
-> + *		by the vb2 core.
->   * @buf_struct_size: size of the driver-specific buffer structure;
->   *		"0" indicates the driver doesn't want to use a custom buffer
->   *		structure type. for example, ``sizeof(struct vb2_v4l2_buffer)``
-> @@ -570,6 +572,7 @@ struct vb2_queue {
->  	const struct vb2_buf_ops	*buf_ops;
+> This matches what is being passed through VA-API. We can understand
+> that stripping off the slice_header would be hard, since it's size is
+> in bits. Instead we pass size and header_bit_size in slice_params.
+
+True, there is that.
+
+> About Rockchip. RK3288 is a Hantro G1 and has a bit called
+> start_code_e, when you turn this off, you don't need start code. As a
+> side effect, the bitstream becomes identical. We do now know that it
+> works with the ffmpeg branch implement for cedrus.
+
+Oh great, that makes life easier in the short term, but I guess the
+issue could arise on another decoder sooner or later.
+
+> Now what's special about Hantro G1 (also found on IMX8M) is that it
+> take care for us of reading and executing the modification lists found
+> in the slice header. Mostly because I very disliked having to pass the
+> p/b0/b1 parameters, is that Boris implemented in the driver the
+> transformation from the DPB entries into this p/b0/b1 list. These list
+> a standard, it's basically implementing 8.2.4.1 and 8.2.4.2. the
+> following section is the execution of the modification list. As this
+> list is not modified, it only need to be calculated per frame. As a
+> result, we don't need these new lists, and we can work with the same
+> H264_SLICE format as Cedrus is using.
+
+Yes but I definitely think it makes more sense to pass the list
+modifications rather than reconstructing those in the driver from a
+full list. IMO controls should stick to the bitstream as close as
+possible.
+
+> Now, this is just a start. For RK3399, we have a different CODEC
+> design. This one does not have the start_code_e bit. What the IP does,
+> is that you give it one or more slice per buffer, setup the params,
+> start decoding, but the decoder then return the location of the
+> following NAL. So basically you could offload the scanning of start
+> code to the HW. That being said, with the driver layer in between, that
+> would be amazingly inconvenient to use, and with Boyer-more algorithm,
+> it is pretty cheap to scan this type of start-code on CPU. But the
+> feature that this allows is to operate in frame mode. In this mode, you
+> have 1 interrupt per frame.
+
+I'm not sure there is any interest in exposing that from userspace and
+my current feeling is that we should just ditch support for per-frame
+decoding altogether. I think it mixes decoding with notions that are
+higher-level than decoding, but I agree it's a blurry line.
+
+> But it also support slice mode, with an
+> interrupt per slice, which is what we decided to use.
+
+Easier for everyone and probably better for latency as well :)
+
+> So in this case, indeed we strictly require on start-code. Though, to
+> me this is not a great reason to make a new fourcc, so we will try and
+> use (data_offset = 3) in order to make some space for that start code,
+> and write it down in the driver. This is to be continued, we will
+> report back on this later. This could have some side effect in the
+> ability to import buffers. But most userspace don't try to do zero-copy 
+> on the encoded size and just copy anyway.
 > 
->  	void				*drv_priv;
-> +	u32				subsystem_flags;
->  	unsigned int			buf_struct_size;
->  	u32				timestamp_flags;
->  	gfp_t				gfp_flags;
-> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-> index 8a10889dc2fd..13ab101864aa 100644
-> --- a/include/media/videobuf2-v4l2.h
-> +++ b/include/media/videobuf2-v4l2.h
-> @@ -33,6 +33,7 @@
->   * @timecode:	frame timecode.
->   * @sequence:	sequence count of this frame.
->   * @request_fd:	the request_fd associated with this buffer
-> + * @is_held:	if true, then this buffer was held
->   * @planes:	plane information (userptr/fd, length, bytesused, data_offset).
->   *
->   * Should contain enough information to be able to cover all the fields
-> @@ -46,9 +47,13 @@ struct vb2_v4l2_buffer {
->  	struct v4l2_timecode	timecode;
->  	__u32			sequence;
->  	__s32			request_fd;
-> +	bool			is_held;
->  	struct vb2_plane	planes[VB2_MAX_PLANES];
->  };
+> To my opinion, having a single format is a big deal, since userspace
+> will generally be developed for one specific HW and we would endup with
+> fragmented support. What we really want to achieve is having a driver
+> interface which works across multiple HW, and I think this is quite
+> possible.
+
+I agree with that. The more I think about it, the more I believe we
+should just pass the whole [nal_header][nal_type][slice_header][slice]
+and the parsed list in every scenario.
+
+For H.265, our decoder needs some information from the NAL type too.
+We currently extract that in userspace and stick it to the
+slice_header, but maybe it would make more sense to have drivers parse
+that info from the buffer if they need it. On the other hand, it seems
+quite common to pass information from the NAL type, so maybe we should
+either make a new control for it or have all the fields in the
+slice_header (which would still be wrong in terms of matching bitstream
+description).
+
+> > - Dropping the DPB concept in H.264/H.265
+> > 
+> > As far as I could understand, the decoded picture buffer (DPB) is a
+> > concept that only makes sense relative to a decoder implementation. The
+> > spec mentions how to manage it with the Hypothetical reference decoder
+> > (Annex C), but that's about it.
+> > 
+> > What's really in the bitstream is the list of modified short-term and
+> > long-term references, which is enough for every decoder.
+> > 
+> > For this reason, I strongly believe we should stop talking about DPB in
+> > the controls and just pass these lists agremented with relevant
+> > information for userspace.
+> > 
+> > I think it should be up to the driver to maintain a DPB and we could
+> > have helpers for common cases. For instance, the rockchip decoder needs
+> > to keep unused entries around[2] and cedrus has the same requirement
+> > for H.264. However for cedrus/H.265, we don't need to do any book-
+> > keeping in particular and can manage with the lists from the bitstream
+> > directly.
 > 
-> +/* VB2 V4L2 flags as set in vb2_queue.subsystem_flags */
-> +#define VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF (1 << 0)
-> +
->  /*
->   * to_vb2_v4l2_buffer() - cast struct vb2_buffer * to struct vb2_v4l2_buffer *
->   */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 1050a75fb7ef..26925d63ea05 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -907,11 +907,12 @@ struct v4l2_requestbuffers {
->  };
+> As discusses today, we still need to pass that list. It's being index
+> by the HW to retrieve the extra information we have collected about the
+> status of the reference frames. In the case of Hantro, which process
+> the modification list from the slice header for us, we also need that
+> list to construct the unmodified list.
 > 
->  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
-> -#define V4L2_BUF_CAP_SUPPORTS_MMAP	(1 << 0)
-> -#define V4L2_BUF_CAP_SUPPORTS_USERPTR	(1 << 1)
-> -#define V4L2_BUF_CAP_SUPPORTS_DMABUF	(1 << 2)
-> -#define V4L2_BUF_CAP_SUPPORTS_REQUESTS	(1 << 3)
-> -#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS (1 << 4)
-> +#define V4L2_BUF_CAP_SUPPORTS_MMAP			(1 << 0)
-> +#define V4L2_BUF_CAP_SUPPORTS_USERPTR			(1 << 1)
-> +#define V4L2_BUF_CAP_SUPPORTS_DMABUF			(1 << 2)
-> +#define V4L2_BUF_CAP_SUPPORTS_REQUESTS			(1 << 3)
-> +#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
-> +#define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+> So the problem here is just a naming problem. That list is not really a
+> DPB. It is just the list of long-term/short-term references with the
+> status of these references. So maybe we could just rename as
+> references/reference_entry ?
+
+What I'd like to pass is the diff to the references list, as ffmpeg
+currently provides for v4l2 request and vaapi (probably vdpau too). No
+functional change here, only that we should stop calling it a DPB,
+which confuses everyone.
+
+> > - Using flags
+> > 
+> > The current MPEG-2 controls have lots of u8 values that can be
+> > represented as flags. Using flags also helps with padding.
+> > It's unlikely that we'll get more than 64 flags, so using a u64 by
+> > default for that sounds fine (we definitely do want to keep some room
+> > available and I don't think using 32 bits as a default is good enough).
+> > 
+> > I think H.264/HEVC per-control flags should also be moved to u64.
 > 
->  /**
->   * struct v4l2_plane - plane info for multi-planar buffers
-> @@ -1033,6 +1034,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
->  #define V4L2_BUF_FLAG_IN_REQUEST		0x00000080
->  /* timecode field is valid */
->  #define V4L2_BUF_FLAG_TIMECODE			0x00000100
-> +/* Don't return the capture buffer until OUTPUT timestamp changes */
-> +#define V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF	0x00000200
->  /* Buffer is prepared for queuing */
->  #define V4L2_BUF_FLAG_PREPARED			0x00000400
->  /* Cache handling flags */
+> Make sense, I guess bits (member : 1) are not allowed in uAPI right ?
+
+Mhh, even if they are, it makes it much harder to verify 32/64 bit
+alignment constraints (we're dealing with 64-bit platforms that need to
+have 32-bit userspace and compat_ioctl).
+
+> > - Clear split of controls and terminology
+> > 
+> > Some codecs have explicit NAL units that are good fits to match as
+> > controls: e.g. slice header, pps, sps. I think we should stick to the
+> > bitstream element names for those.
+> > 
+> > For H.264, that would suggest the following changes:
+> > - renaming v4l2_ctrl_h264_decode_param to v4l2_ctrl_h264_slice_header;
+> 
+> Oops, I think you meant slice_prams ? decode_params matches the
+> information found in SPS/PPS (combined?), while slice_params matches
+> the information extracted (and executed in case of l0/l1) from the
+> slice headers.
+
+Yes you're right, I mixed them up.
+
+>  That being said, to me this name wasn't confusing, since
+> it's not just the slice header, and it's per slice.
+
+Mhh, what exactly remains in there and where does it originate in the
+bitstream? Maybe it wouldn't be too bad to have one control per actual
+group of bitstream elements.
+
+> > - killing v4l2_ctrl_h264_decode_param and having the reference lists
+> > where they belong, which seems to be slice_header;
+> 
+> There reference list is only updated by userspace (through it's DPB)
+> base on the result of the last decoding step. I was very confused for a
+> moment until I realize that the lists in the slice_header are just a
+> list of modification to apply to the reference list in order to produce
+> l0 and l1.
+
+Indeed, and I'm suggesting that we pass the modifications only, which
+would fit a slice_header control.
+
+Cheers,
+
+Paul
+
+> > I'm up for preparing and submitting these control changes and updating
+> > cedrus if they seem agreeable.
+> > 
+> > What do you think?
+> > 
+> > Cheers,
+> > 
+> > Paul
+> > 
+> > [0]: https://lkml.org/lkml/2019/3/6/82
+> > [1]: https://patchwork.linuxtv.org/patch/55947/
+> > [2]: https://chromium.googlesource.com/chromiumos/third_party/kernel/+/4d7cb46539a93bb6acc802f5a46acddb5aaab378
+> > 
 
