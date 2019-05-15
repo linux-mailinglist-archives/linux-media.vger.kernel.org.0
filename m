@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D495B1E8C6
-	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 09:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A51B11E99C
+	for <lists+linux-media@lfdr.de>; Wed, 15 May 2019 09:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726169AbfEOHQG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 May 2019 03:16:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:38503 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726039AbfEOHQG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 May 2019 03:16:06 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 May 2019 00:16:06 -0700
-X-ExtLoop1: 1
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008.fm.intel.com with ESMTP; 15 May 2019 00:16:02 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 223C720417; Wed, 15 May 2019 10:16:02 +0300 (EEST)
-Date:   Wed, 15 May 2019 10:16:02 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/3] media: v4l2-subdev: Verify arguments in
- v4l2_subdev_call()
-Message-ID: <20190515071601.knfdhwofz6ukjmxt@paasikivi.fi.intel.com>
-References: <20190514224823.11564-1-jmkrzyszt@gmail.com>
- <20190514224823.11564-2-jmkrzyszt@gmail.com>
+        id S1726302AbfEOH6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 May 2019 03:58:32 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57739 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725876AbfEOH6b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 May 2019 03:58:31 -0400
+Received: from tschai.fritz.box ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id QonyhZzGqsDWyQoo2hrxaP; Wed, 15 May 2019 09:58:30 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 0/6] cec: various improvements
+Date:   Wed, 15 May 2019 09:58:20 +0200
+Message-Id: <20190515075826.18073-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514224823.11564-2-jmkrzyszt@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfODe+GFDI/2Xjp3U8qugp5DdvyZTCgABHgdc17PVFeMJnr0zXVY/rKYZDalZltvlHLzNMWhsGcRlAesbzQBirxfhP8gvJmj3JQIoUFCIDJ156vTwUc8K
+ zLYYy0GHqKEFYbr9aFxuoHAO+o95se8qhw6udW6PnPoBzU1LH6k/Y4w9nHTj+thNXI9SgN/E3CnTvw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+This series adds a new CEC_MSG_FL_RAW flag to skip all CEC message
+checks and transmit the raw message (if called as root).
 
-On Wed, May 15, 2019 at 12:48:21AM +0200, Janusz Krzysztofik wrote:
-> -static int check_crop(struct v4l2_subdev *sd, struct v4l2_subdev_crop *crop)
-> +static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
->  {
-> -	if (crop->which != V4L2_SUBDEV_FORMAT_TRY &&
-> -	    crop->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +	if (sd->entity.num_pads && pad >= sd->entity.num_pads)
+This is useful when debugging issues with other dubious CEC implementations.
 
-One more comment.
+The last patch relaxes an initiator check for Ping and Image/Text View On
+messages when there is no HPD.
 
-The num_pads doesn't really tell whether a given op is valid for a device.
-Well, in this case it would have to be a bug in the driver, but those do
-happen. How about checking for sd->entity.graph_obj.mdev instead? It's
-non-NULL if the entity is registered with a media device, i.e. when these
-callback functions are supposed to be called.
+Currently the initiator is required to be 0xf, but this is not
+actually specified anywhere in the CEC specification, and there are
+indications that some displays ignore messages with initiator 0xf.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (6):
+  cec: cec_transmit_msg_fh: do sanity checks first
+  cec: move check from cec_transmit to cec_transmit_msg_fh
+  cec-ioc-receive.rst: document CEC_MSG_FL_RAW
+  cec: add CEC_MSG_FL_RAW flag and msg_is_raw helper function
+  cec: support CEC_MSG_FL_RAW
+  cec: allow any initiator for Ping and Image/Text View On
+
+ .../media/uapi/cec/cec-ioc-receive.rst        |  13 +-
+ drivers/media/cec/cec-adap.c                  | 112 +++++++++++-------
+ drivers/media/cec/cec-api.c                   |   8 --
+ drivers/media/cec/cec-priv.h                  |   5 +
+ include/uapi/linux/cec.h                      |   1 +
+ 5 files changed, 90 insertions(+), 49 deletions(-)
 
 -- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+2.20.1
+
