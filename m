@@ -2,103 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1E9200CA
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5878D200F2
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:09:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfEPIAN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 04:00:13 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:36130 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbfEPIAM (ORCPT
+        id S1726393AbfEPIJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 04:09:13 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35822 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726374AbfEPIJM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 04:00:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1557993611;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=Fh/E99ZZmYm0AzFfSE/eH8T6ntLQF2HZJuv5OApnqmg=;
-        b=pF1zWVCrVt8gvEX7xCyGhwwvwGrja2CfsjRhXiP841MesQ12PlVUMoqb5qEWwet/4U
-        /yzkOZOXyvWLboEGNjK4NBjYFrLkfUtvL72BE886l9KIVTZcMkUrVLTfToCYXCecDiiG
-        YFOb/QwbbWwhpDpHE21nxp/JQd2Pdg+LGfOWle5jGtDrEULXJoa94pD3zonUzN3Agtph
-        PzbZA8xM0FrtpuOvXSrSTMkfgIRkgVeuwX7hQlu9MHzQ/axRcLtkc+jaD1fLUoNw+gvH
-        feNw8DEBfgJGP7eR0yG5i06y1D8/ywjAXGAXvsJ9XenOBcVohM8Kr2/GxvqiDlJJYczV
-        D6CQ==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp02-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 44.18 AUTH)
-        with ESMTPSA id y08c83v4G803sEa
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Thu, 16 May 2019 10:00:03 +0200 (CEST)
-Date:   Thu, 16 May 2019 10:00:03 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 16 May 2019 04:09:12 -0400
+Received: by mail-lj1-f195.google.com with SMTP id h11so866759ljb.2
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 01:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QG++TdTDo8I5Y/kXuu9iUwjpqJr5RRm0pgh41ilp46o=;
+        b=tNDLPnvnICu0ql4vXKqwN3CRGatnx0hohbiBQksTPFRlycOEhBL9mmRtlSrl0WvP4m
+         5zPygpT9/5ERZlbeoASLFmzJEbC86DaiJfaH0i1Lh+1fs3N2G5qntqynVJcQ3pTl4pJV
+         gr15uR4VXpg7kVk3+xzrBKa52YDFxsN3hgFKHOlVdfX8EVT409ScYKGl+oPBBDP1hBBV
+         tAjgDKAKh158sX6emXiD4/jXaMySs429Zx5naJOtuAJOQJh3gqsPMs4zBuzS9KJDvXJd
+         Rj/8nlgfm5eLdGBMKgZVIjS0Y2RKIBeSrRDML8H7bzG+Qvvg6KdvayevAXaiUw9AlSE5
+         u7LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QG++TdTDo8I5Y/kXuu9iUwjpqJr5RRm0pgh41ilp46o=;
+        b=jnb2N293MK7ZYKWb87MwmKHFH38JdKPXsxQnrJOCM6d75XvgRSRKRiZYyBk1Vnxz/k
+         2z/oitFz1NKcxXnVCIB/wbXysrIhcBq6wSxih7FhHL3rfUJF2K0a/RMXYL2mq6A3ETEn
+         9Rrn+EZua9u9lhTOCNLwt/qJz4CeIb3IjF6mu04KfzRg5/+w1s3Ahc3+grFIt6jTvd/B
+         vTMmxvh9uuXhVB4/6vxWwte1WhGeBRrCx/D68WZPRjQNu3TM3/vFntuon2yoxlBeIicI
+         QtNcQ2wbMtrWh65ksDNZxf/nYe99lIcy+Tm9ANPJuXel9DWMc/Ixlk4F/DYbfVjLZNg/
+         D1MA==
+X-Gm-Message-State: APjAAAU9wCHa1mEqHR9PIT/WKK7lv6kNulrZnPczndn+Efk9/LzWUTw9
+        ebKhYnbwJL3aq+VUti/5hAGrTg==
+X-Google-Smtp-Source: APXvYqxvMH7YTuGRmcz3kUP8TzVYaoFE+f8w+fN6e0CEox7DYVoK71J7fbGskxym6MMzAi9u5G9vKQ==
+X-Received: by 2002:a2e:9d4c:: with SMTP id y12mr23076244ljj.132.1557994150813;
+        Thu, 16 May 2019 01:09:10 -0700 (PDT)
+Received: from [192.168.27.209] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id k1sm938935lfc.18.2019.05.16.01.09.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 16 May 2019 01:09:09 -0700 (PDT)
+Subject: Re: [PATCH v2] media/doc: Allow sizeimage to be set by v4l clients
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        kbuild test robot <lkp@intel.com>
-Message-ID: <1852589922.68806.1557993603921@webmail.strato.com>
-In-Reply-To: <20190516003538.32172-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190516003538.32172-1-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH] rcar-csi2: Fix coccinelle warning for PTR_ERR_OR_ZERO()
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
+ <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <ca0e2c94-cca9-567f-5376-f302f79f4ba7@linaro.org>
+Date:   Thu, 16 May 2019 11:09:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.8.4-Rev57
-X-Originating-IP: 85.212.214.135
-X-Originating-Client: open-xchange-appsuite
+In-Reply-To: <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
-> On May 16, 2019 at 2:35 AM Niklas S=C3=B6derlund <niklas.soderlund+renesa=
-s@ragnatech.se> wrote:
->=20
->=20
-> Use the PTR_ERR_OR_ZERO() macro instead of construct:
->=20
->     if (IS_ERR(foo))
->         return PTR_ERR(foo);
->=20
->     return 0;
->=20
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Fixes: 3ae854cafd76 ("rcar-csi2: Use standby mode instead of resetting")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/=
-platform/rcar-vin/rcar-csi2.c
-> index 8f097e514900307f..c14af1b929dffd34 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -1019,10 +1019,8 @@ static int rcsi2_probe_resources(struct rcar_csi2 =
-*priv,
->  =09=09return ret;
-> =20
->  =09priv->rstc =3D devm_reset_control_get(&pdev->dev, NULL);
-> -=09if (IS_ERR(priv->rstc))
-> -=09=09return PTR_ERR(priv->rstc);
-> =20
-> -=09return 0;
-> +=09return PTR_ERR_OR_ZERO(priv->rstc);
->  }
-> =20
->  static const struct rcar_csi2_info rcar_csi2_info_r8a7795 =3D {
-> --=20
-> 2.21.0
->
+On 5/14/19 11:54 AM, Hans Verkuil wrote:
+> Hi Stanimir,
+> 
+> On 4/12/19 5:59 PM, Stanimir Varbanov wrote:
+>> This changes v4l2_pix_format and v4l2_plane_pix_format sizeimage
+>> field description to allow v4l clients to set bigger image size
+>> in case of variable length compressed data.
+> 
+> I've been reconsidering this change. The sizeimage value in the format
+> is the minimum size a buffer should have in order to store the data of
+> an image of the width and height as described in the format.
+> 
+> But there is nothing that prevents userspace from calling VIDIOC_CREATEBUFS
+> instead of VIDIOC_REQBUFS to allocate larger buffers.
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Sometimes CREATEBUFS cannot be implemented for a particular fw/hw.
 
-CU
-Uli
+CC: Tomasz for his opinion.
+
+> 
+> So do we really need this change?
+> 
+> The more I think about this, the more uncomfortable I become with this change.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
+<cut>
+
+-- 
+regards,
+Stan
