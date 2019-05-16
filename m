@@ -2,119 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC5EF203C1
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 12:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D6912048A
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 13:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727128AbfEPKkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 06:40:53 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42829 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726900AbfEPKkx (ORCPT
+        id S1727269AbfEPLVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 07:21:48 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33612 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfEPLVp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 06:40:53 -0400
-Received: from [IPv6:2001:420:44c1:2579:5556:9d1d:75e4:9919] ([IPv6:2001:420:44c1:2579:5556:9d1d:75e4:9919])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id RDobhFLI43qlsRDofhJXO9; Thu, 16 May 2019 12:40:51 +0200
-Subject: Re: [PATCH v2] media/doc: Allow sizeimage to be set by v4l clients
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
- <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
- <ca0e2c94-cca9-567f-5376-f302f79f4ba7@linaro.org>
- <CAAFQd5DBUUAPV0_=thmRBTFqJE+Nd4LZRzZE20rR0D8d7Cjz5g@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cd7baea0-3893-7471-2e86-9cc6730843e3@xs4all.nl>
-Date:   Thu, 16 May 2019 12:40:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Thu, 16 May 2019 07:21:45 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F7462FD;
+        Thu, 16 May 2019 13:21:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1558005703;
+        bh=Od9FJhOCAF6iWV0Sudo2Dd31NOffbbeZHA5QWn6iBLo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UhxHcJHS3SHnGvEF9YiMoSLkUJGu5z6K52yaP6vGPEHTgX84RMStPcGuCNKPtJ0Yq
+         lgNoL6XlVAg/xELWUXoHSuc081PGmKBKkcoIv/xkh108wRcXdvQupTRvLbozSn6Dzp
+         1E3yK4jFcIfK+PIZmvKANoWJOB57QUc8zFAl8s3c=
+Date:   Thu, 16 May 2019 14:21:27 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Ulrich Hecht <uli@fpond.eu>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: Re: [PATCH v2 3/8] rcar-vin: Allow interrupting lock when trying to
+ open the video device
+Message-ID: <20190516112127.GA14820@pendragon.ideasonboard.com>
+References: <20190516011417.10590-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190516011417.10590-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5DBUUAPV0_=thmRBTFqJE+Nd4LZRzZE20rR0D8d7Cjz5g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfC+pZ2cLL5l2NoiBDT5OW7alsgmlwSoHeajG/jN5qLCRulIzhbjF3XyUAcun4KZfinyIJJuo39QnHsIYprgmoq21cRVYRrpfT0gKF18m++gZp+JB1Szf
- 5iShmic5kPvsHGh6BbNgf4g3h7nVs2sfWfhYssh9ui8ZiNftgsMQ6K9L9FlxITHoBTpRyOXEiOGpV2vsNktg7QkSoUxeFduhQoAPg5vAv0sf36FZgeLpv2M/
- 7gXmfjzJ+IK0TIDkPl9wpCRFLrBuc8/GA10BPah1a1N85xJhPtCqICMguyzxXH2Er+l31K0GXsZPvYEo53hvDarqvhnHsuzCgmJdRtUWY1iPa6SrjiUJvVfR
- hTY2ncAtJlA3F3RhY52TCQvCuIVuEUmMYDYeu46loTn7zJJf/pMaqrDFxyt9ebZmWDBvdXawhW8MbziQRSwfzmunREFGHpk9c3r+AX1xHK5tn1Oe/3avuKe5
- NrKitm6MFNYjDEPU
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190516011417.10590-4-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/16/19 11:56 AM, Tomasz Figa wrote:
-> On Thu, May 16, 2019 at 5:09 PM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> Hi Hans,
->>
->> On 5/14/19 11:54 AM, Hans Verkuil wrote:
->>> Hi Stanimir,
->>>
->>> On 4/12/19 5:59 PM, Stanimir Varbanov wrote:
->>>> This changes v4l2_pix_format and v4l2_plane_pix_format sizeimage
->>>> field description to allow v4l clients to set bigger image size
->>>> in case of variable length compressed data.
->>>
->>> I've been reconsidering this change. The sizeimage value in the format
->>> is the minimum size a buffer should have in order to store the data of
->>> an image of the width and height as described in the format.
->>>
->>> But there is nothing that prevents userspace from calling VIDIOC_CREATEBUFS
->>> instead of VIDIOC_REQBUFS to allocate larger buffers.
->>
->> Sometimes CREATEBUFS cannot be implemented for a particular fw/hw.
->>
->> CC: Tomasz for his opinion.
->>
-> 
-> Thanks Stanimir.
-> 
-> Actually, if called at the same point in time as REQBUFS, CREATE_BUFS
-> doesn't really differ to much, except that it gives more flexibility
-> for allocating the buffers and that shouldn't depend on any specific
-> features of hardware or firmware.
-> 
-> Actually, one could even allocate any buffers any time regardless of
-> hardware/firmware support, but the ability to use such buffers would
-> actually depend on such.
-> 
-> Perhaps we should just let the drivers return -EBUSY from CREATE_BUFS
-> if called at the wrong time?
-> 
->>>
->>> So do we really need this change?
->>>
-> 
-> Yes, because this has worked like this all the time, but it was just
-> not documented. Disallowing this would break quite a bit of existing
-> userspace.
+Hi Niklas,
 
-Which drivers allow this today? I think that would be useful information
-for the commit log of a v4 of this patch.
+Thank you for the patch.
 
+On Thu, May 16, 2019 at 03:14:12AM +0200, Niklas Söderlund wrote:
+> The user should be allowed to break waiting for the lock when opening
+> the video device.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 0841f1a0bfd7ba3a..f67cef97b89a3bd4 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -821,7 +821,9 @@ static int rvin_open(struct file *file)
+>  	struct rvin_dev *vin = video_drvdata(file);
+>  	int ret;
+>  
+> -	mutex_lock(&vin->lock);
+> +	ret = mutex_lock_interruptible(&vin->lock);
+> +	if (ret)
+> +		return ret;
+>  
+>  	file->private_data = vin;
+>  
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> Best regards,
-> Tomasz
-> 
->>> The more I think about this, the more uncomfortable I become with this change.
->>>
->>> Regards,
->>>
->>>       Hans
->>>
->>
->> <cut>
->>
->> --
->> regards,
->> Stan
-
+Laurent Pinchart
