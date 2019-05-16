@@ -2,255 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E9F20129
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7835320134
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfEPIT0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 16 May 2019 04:19:26 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:52004 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbfEPITZ (ORCPT
+        id S1726383AbfEPIXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 04:23:37 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33663 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726347AbfEPIXh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 04:19:25 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 2BBC53C013A;
-        Thu, 16 May 2019 10:19:23 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Uu1cCZtkaWvY; Thu, 16 May 2019 10:19:16 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 08F2D3C00D1;
-        Thu, 16 May 2019 10:19:16 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com ([fe80::69bf:8148:2f13:f289]) by
- HI2EXCH01.adit-jv.com ([fe80::69bf:8148:2f13:f289%12]) with mapi id
- 14.03.0439.000; Thu, 16 May 2019 10:19:15 +0200
-From:   "Rodin, Michael (Ferchau; ADITG/ESM1)" <mrodin@de.adit-jv.com>
-To:     "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "Friedrich, Eugen (ADITG/ESM1)" <efriedrich@de.adit-jv.com>,
-        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: Questions regarding Documentation/media/uapi/v4l/field-order.rst
-Thread-Topic: Questions regarding
- Documentation/media/uapi/v4l/field-order.rst
-Thread-Index: AdT0SL9o51JIskG9TEewiVl3rOlV0gFhA90ABHsrheA=
-Date:   Thu, 16 May 2019 08:19:15 +0000
-Message-ID: <AC35D0CFBC66A84AAA9DF4334B52828D13617E17@HI2EXCH01.adit-jv.com>
-References: <AC35D0CFBC66A84AAA9DF4334B52828D13614162@HI2EXCH01.adit-jv.com>
- <187c237b-6b75-f408-ae41-6065baf5cd7f@xs4all.nl>
-In-Reply-To: <187c237b-6b75-f408-ae41-6065baf5cd7f@xs4all.nl>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.72.92.112]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        Thu, 16 May 2019 04:23:37 -0400
+Received: by mail-lf1-f68.google.com with SMTP id x132so1948602lfd.0
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 01:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XJZVmV6klsLB8rLUMzEHXV+UB7QNIIBSdJCCHsemTzs=;
+        b=I+4X/ssFxAwUPCX3qC+RTjZ1LNGgw7dJLXp1fa5u2ufCyUe8yiiD9Cl1ATeKXPfjp9
+         Njp2V1uRyIs7MMvfpAcC8iPVBBdkmSb21HQ1+QQCfTxcgrCHYnC/RNtXkNJwmI+sFuXd
+         dI8fK298BdJXtWH3r0+Nv104vjq6S6GY3jb38=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XJZVmV6klsLB8rLUMzEHXV+UB7QNIIBSdJCCHsemTzs=;
+        b=EO76tiUcTxCrcPdpG+aBeDKheCU3vdwJdQRiHT9CXR/UHhuBjOqTvHWzLr1/7kycT9
+         i2BpH8mwP9irOJUBYNW6W0WfFO9WUq/4i7yEWXXfhBFkYikLwLkaZBVc2MvnAvWFvmxY
+         7bCiom+n0vd2zb1WSSB9vGfkplh9C3sOv4hG0FSnlZYroIrBQcU2b7Br3Qk52SrxBwzK
+         b7uWO/dkoaUv0u9vJP6p9vVL9tQF0hoSi21PRFrPFEdA6vUbxo/5aNEc7N6GF4gyPvPj
+         9Tfk7UnChaXvRYrQ+/Rx6sAk1lxVMVyF+5YoQ3wvXf2cy7+27aDW8i6V5tX8mXg2YnYv
+         101Q==
+X-Gm-Message-State: APjAAAVGitOAMKlTdGueV0xGXhvehG1VlqZ3VpcHQ+eepWzqb0W/Xphf
+        +qBoJVvVOdly+bU3MBIAACSm2cW1m9auNv7X
+X-Google-Smtp-Source: APXvYqxN5NyxTK7atmE/u/IZmcciOM8fpWaj003GnIFlQgaQCU8SEjD2WkKpxOwTYyGFhUuDPtAJZQ==
+X-Received: by 2002:ac2:428f:: with SMTP id m15mr22680749lfh.40.1557995014268;
+        Thu, 16 May 2019 01:23:34 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id a25sm761759ljd.32.2019.05.16.01.23.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 16 May 2019 01:23:32 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id z1so2270023ljb.3
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 01:23:32 -0700 (PDT)
+X-Received: by 2002:a2e:9142:: with SMTP id q2mr3808443ljg.18.1557995011520;
+ Thu, 16 May 2019 01:23:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190404081700.30006-1-boris.brezillon@collabora.com>
+ <20190404081700.30006-4-boris.brezillon@collabora.com> <20190412105755.42764170@collabora.com>
+ <64dd011d-d397-b587-6027-b222dd100fc2@xs4all.nl>
+In-Reply-To: <64dd011d-d397-b587-6027-b222dd100fc2@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 16 May 2019 17:23:20 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C3rHTeWg0S8ok1cWdDbwecty=0X8BGOQrkhPo6WDxb-A@mail.gmail.com>
+Message-ID: <CAAFQd5C3rHTeWg0S8ok1cWdDbwecty=0X8BGOQrkhPo6WDxb-A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/7] media: v4l2: Add extended buffer operations
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <m.chehab@samsung.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> On 4/16/19 3:54 PM, Rodin, Michael (Ferchau; ADITG/ESM1) wrote:
-> > Hi,
-> >
-> > I would like to ask several questions regarding the documentation of the
-> enum "v4l2_field" [1].
-> > These questions came up during my investigations of issues with
-> > interaction between the gstreamer plugin v4l2src and the rcar video input
-> driver [2].
-> >
-> > The documentation [1] specifies that:
-> > "All video capture and output devices must report the current field order.
-> > Some drivers may permit the selection of a different order, to this
-> > end applications initialize the field field of struct v4l2_pix_format
-> > before calling the VIDIOC_S_FMT ioctl. If this is not desired it
-> > should have the value V4L2_FIELD_ANY (0)."
-> >
-> > If I have understood these lines correctly, this means that if
-> > userspace sets "field" member of the struct "v4l2_pix_format" to
-> > V4L2_FIELD_ANY and uses this as parameter for the VIDIOC_S_FMT ioctl,
-> > then a driver should select/report the field order, which was
-> > previously set by media-ctl utility in the next subdevice, which is
-> > connected
-> to the /dev/videoX node (From my understanding this would be equivalent to
-> the "current field order").
-> >
-> > If the described behavior is correct, then the description in the table
-> > row for
-> V4L2_FIELD_ANY in [1] is incomplete:
-> > "Applications request this field order when any one of the
-> V4L2_FIELD_NONE, V4L2_FIELD_TOP, V4L2_FIELD_BOTTOM, or
-> V4L2_FIELD_INTERLACED formats is acceptable."
-> > What if V4L2_FIELD_ALTERNATE or V4L2_FIELD_SEQ_TB or
-> V4L2_FIELD_SEQ_BT are also acceptable for the application?
-> > I think that the specification is either unprecise or my understanding of
-> > the
-> specification is wrong.
+On Wed, May 8, 2019 at 10:58 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> The spec is a bit out of date: those missing field values were probably
-> added
-> after this text was written. I'll make a patch fixing this.
+> Hi Boris,
+>
+> On 4/12/19 10:57 AM, Boris Brezillon wrote:
+> > On Thu,  4 Apr 2019 10:16:56 +0200
+> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> >
+> >
+> >> +/**
+> >> + * struct v4l2_ext_buffer - extended video buffer info
+> >> + * @index: id number of the buffer
+> >> + * @type: enum v4l2_buf_type; buffer type. _MPLANE and _OVERLAY formats are
+> >> + *    invalid
+> >> + * @flags: buffer informational flags
+> >> + * @field: enum v4l2_field; field order of the image in the buffer
+> >> + * @timestamp: frame timestamp
+> >> + * @sequence: sequence count of this frame
+> >> + * @memory: enum v4l2_memory; the method, in which the actual video data is
+> >> + *          passed
+> >> + * @planes: per-plane buffer information
+> >> + * @num_planes: number of plane buffers
+> >> + * @request_fd: fd of the request that this buffer should use
+> >> + * @reserved: some extra space reserved to add future fields (like timecode).
+> >> + *        Must be set to 0
+> >> + *
+> >> + * Contains data exchanged by application and driver using one of the Streaming
+> >> + * I/O methods.
+> >> + */
+> >> +struct v4l2_ext_buffer {
+> >> +    __u32 index;
+> >> +    __u32 type;
+> >> +    __u32 flags;
+> >> +    __u32 field;
+> >> +    __u64 timestamp;
+> >> +    __u32 sequence;
+> >> +    __u32 memory;
+> >> +    struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+> >
+> > I had a discussion with Tomasz last week, and he made me realize I was
+> > misunderstanding the concept of V4L2 planes. I thought it was encoding
+> > pixel-component planes, but it's actually memory planes, and sometimes
+> > those one memory planes might contain all component planes placed next
+> > to each others (like the V4L2_PIX_FMT_NV12 format).
+> >
+> > So, the question is, what do we want v4l2_ext_plane to encode (memory
+> > planes or pixel component planes)?
+> > If we go for the pixel component plane approach (which IMHO would be a
+> > good thing), that means we'll have to convert V4L2_PIX_FMT_NV12-like
+> > single-memory-plane buffers into v4l2_ext_buffer containing X planes,
+> > each pointing to the same memory object but at a different offset.
+>
+> First of all my apologies for the long delay in replying.
+>
+> I think v4l2_ext_plane should encode pixel component planes, that way
+> it becomes much easier to describe e.g. NV12 formats that use a single
+> memory range, but where each component plane has its own bytesperline
+> value and where each component plane starts at e.g. a page boundary
+> due to hardware restrictions.
+>
+> This is currently impossible to describe without creating a new pixel
+> format.
 
-Thank you for the patch! I think, the sentence "Drivers choose depending on
-hardware capabilities..." in the description of V4L2_FIELD_ANY is also
-unprecise,
-because when media-ctl is used, the format is chosen by the userspace and
-not by the driver. So if I choose "interlaced" for the connected subdevice
-by using media-ctl (which calls VIDIOC_SUBDEV_S_FMT) and it is successfully
-set, then V4L2_FIELD_ANY will definitely return V4L2_FIELD_INTERLACED
-and nothing else is possible.
+Agreed with the above.
 
-> >
-> > Another potential issue, which I found in this documentation is that
-> > it does not distinguish between multiple contexts in which enum v4l2_field
-> can be used. I can think of at least two different contexts:
-> > - When used to select the field order with VIDIOC_S_FMT ioctl.
-> > - When used to report the field order in a buffer: for example application
-> sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl and then gets buffers,
-> which have V4L2_FIELD_TOP/BOTTOM set.
 >
-> IMHO the text is reasonably clear on that. But if you have suggestions to
-> improve it, then make a proposal.
+> But it is of course possible that different component planes use
+> different memory ranges.
 >
-> > Now with this in mind, when I read the description of V4L2_FIELD_NONE:
-> > "The driver may also indicate this order when it cannot distinguish
-> > between
-> V4L2_FIELD_TOP and V4L2_FIELD_BOTTOM."
->
-> Whoops, that makes no sense. There are no drivers that do this. I'll remove
-> this line. If a driver can't tell the difference, then it should just pick
-> FIELD_TOP
-> or BOTTOM.
+> I think that the memory information in v4l2_ext_plane should describe the
+> memory for that component plane and any following component planes that
+> are part of that memory. The memory information for those following
+> component planes should be 0 or some other value that makes it clear
+> that it is part of the same memory buffer as the preceding component plane.
 
-Thank you! So this means that drivers should return FIELD_ALTERNATE in S_FMT,
-even if they can not distinguish between FIELD_TOP and FIELD_BOTTOM.
-Would it make sense to add your last sentence "If a driver can't tell the
-difference,
-then it should just pick FIELD_TOP or BOTTOM." to the description of
-V4L2_FIELD_ALTERNATE (or better just FIELD_TOP so it is easier for userspace
-to check whether there is no field detection), so this case is documented
-after
-removing of "The driver may also indicate this order when it cannot
-distinguish
-between V4L2_FIELD_TOP and V4L2_FIELD_BOTTOM."?
+That could be an option too, but there are also cases where the
+userspace has no idea to know if all the memory buffers are the same,
+e.g. when it gets dup()ed DMA-buf FDs for all the color planes.
 
-> > I see two possible meanings/interpretations:
-> > - If application sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl, report
-> V4L2_FIELD_NONE back
-> >    so the application knows that the driver can not provide any TOP/BOTTOM
-> metadata in the buffers
-> >    (which may be necessary for the application for example for
-> > deinterlacing)
-> before it has got any buffer.
-> > - If application sets V4L2_FIELD_ALTERNATE in VIDIOC_S_FMT ioctl, driver
-> reports V4L2_FIELD_ALTERNATE back,
-> >    even if it can not distinguish between TOP/BOTTOM. But when the
-> application starts to read buffers,
-> >    they have V4L2_FIELD_NONE set if it's not possible to distinguish
-> > between
-> TOP/BOTTOM.
->
-> Actually, drivers cannot ever return NONE for a top or bottom field.
-> FIELD_NONE indicates that a full frame has arrived, and doing something else
-> would break userspace.
->
-> >
-> > Also there is another ambiguity in the description of V4L2_FIELD_NONE:
-> > "Images are in progressive format, not interlaced."
-> > What does "interlaced" mean in this case? Does it mean the other possible
-> enum values or just the V4L2_FIELD_INTERLACED?
->
-> It means that the source video transmitted full frames, not top and bottom
-> fields. I clarified the text a bit.
+We should let the userspace set file descriptors for all the color
+planes and then the framework figure out if that matches the driver
+(or format) expectations.
 
-Thanks for the clarification! So just to avoid misunderstanding, 
-V4L2_FIELD_INTERLACED and V4L2_FIELD_SEQ_BT/TB
-are "interlaced" in this context, because they contain fields (and are "field-based")?
-
-> > If this just means V4L2_FIELD_INTERLACED, then it would imply that for
-> > example V4L2_FIELD_SEQ_TB and V4L2_FIELD_ALTERNATE are progressive
-> formats, which is obviously not true.
-> > And also generally, in which of described contexts should be
-> V4L2_FIELD_NONE set or reported (buffer or VIDIOC_S_FMT ioctl)?
->
-> For video capture (that's what we are talking about here) it is returned by
-> the
-> driver in v4l2_buffer, never by userspace. Userspace can try to request a
-> specific field value when calling S_FMT, but the driver can overwrite it.
-
-Sorry, what do you mean by "returned by userspace" here?
-
-> The possible field values that a driver can support are dependent on the
-> video
-> source (i.e. sensors are always FIELD_NONE) and the hardware capabilities.
->
-> > Another point is that V4L2_FIELD_INTERLACED is also used by v4l2src to
-> > tell rcar-vin driver to combine the fields before giving them to
-> > application, so
-> basically it requests progressive signal. So the meanings of
-> V4L2_FIELD_INTERLACED and V4L2_FIELD_NONE are basically the same in this
-> case.
->
-> Certainly not. FIELD_INTERLACED combines two fields into a single buffer,
-> but
-> the odd and even lines in the frame were captured at different times.
-> Whereas for FIELD_NONE all lines were captured at the same time.
->
-> So a FIELD_INTERLACED buffer may need to undergo additional deinterlacing.
->
-> If the hardware already does high-quality deinterlacing then that might be a
-> reason for the driver to return FIELD_NONE to avoid additional deinterlacing
-> in userspace.
->
-> In practice there are three main categories in the way the field is handled:
->
-> 1) The video source is a webcam: field is always FIELD_NONE, set by the
-> driver.
->
-> 2) The video source is HDMI: if the video is progressive, then the field is
-> always
->    FIELD_NONE. If the video is interlaced, then the field is always
-> FIELD_ALTERNATE
->    in v4l2_format and alternating FIELD_TOP and BOTTOM in v4l2_buffer.
->
-> 3) The video source is SDTV (i.e. S-Video or composite): the video is always
->    interlaced, and it depends on the hardware which field values are
-> supported,
->    except for FIELD_NONE, which is never returned as far as I am aware.
->
-> Regards,
->
-> 	Hans
->
-> >
-> > Thank you in advance and sorry for the long mail!
-> >
-> > [1] Documentation/media/uapi/v4l/field-order.rst
-> > [2] drivers/media/platform/rcar-vin
-> >
-> > Best regards
-> >
-> > Michael Rodin
-> >
-> > Advanced Driver Information Technology GmbH Engineering Software
-> > Multimedia 1 (ADITG/ESM1) Robert-Bosch-Str. 200
-> > 31139 Hildesheim
-> > Germany
-> >
-> > Tel. +49 5121 49 6936
-> > Fax +49 5121 49 6999
-> > mrodin@de.adit-jv.com
-> > Web: www.adit-jv.com
-> >
-> > ADIT is a joint venture company of Robert Bosch GmbH/Robert Bosch Car
-> > Multimedia GmbH and DENSO Corporation
-> > Sitz: Hildesheim, Registergericht: Amtsgericht Hildesheim HRB 3438
-> > Geschaeftsfuehrung: Wilhelm Grabow, Ken Yaguchi
-> >
-
+Best regards,
+Tomasz
