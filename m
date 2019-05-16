@@ -2,297 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1901A20D6A
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 18:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3AF20E3A
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 19:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727548AbfEPQve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 12:51:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40694 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726487AbfEPQve (ORCPT
+        id S1727994AbfEPRvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 13:51:23 -0400
+Received: from mail-qk1-f181.google.com ([209.85.222.181]:41465 "EHLO
+        mail-qk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726441AbfEPRvX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 12:51:34 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0861C2FD;
-        Thu, 16 May 2019 18:51:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1558025491;
-        bh=ixtf6JNvnFoM+9BS9a5jXnzrdn3vsMfW+VeDuNZDnMs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uv8x19HjZJDs7eBjTJjBHKH5r0GS3gyz336yuoG5ROiGWBshptj4KAPWhwnyTeVXa
-         pKi4l4qoOALr9wxKr2UOquSExLSEPjQdioNEPtDgiZAJMqfSqTdWLQOt+g7CZopaa2
-         hTjANVIKcLQgBhSveSnNYv9O8pTdhuPZHt2zOaK4=
-Date:   Thu, 16 May 2019 19:51:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v6 03/13] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20190516165114.GP14820@pendragon.ideasonboard.com>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-4-m.felsch@pengutronix.de>
- <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
- <20190514152004.30d7838b@coco.lan>
+        Thu, 16 May 2019 13:51:23 -0400
+Received: by mail-qk1-f181.google.com with SMTP id g190so2801991qkf.8
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 10:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=TN70BBoKyj2vT/fFVG6syQpG39FsxxM9NqlpBOLPJiE=;
+        b=tjMmAVjqJgHrd+A8b7OT4rB9IFZmZqYVGi+Wdz8cEIKky/SJDNWfhcEccF/NDxUY5Q
+         HatMs8wztxGqm2ZgCUFplN9Rstmt8+cjf5oXP4eGX3vrHHmhjh/r05L5W78cgtNPyYI5
+         LcwknSdX0LpxGBtBjlxgMVx7DZPH+GFA991XZBTZESGWcJmQAeiYjQP6cgeWuI3go2Kf
+         wnvZNC2Utun+5kHPDo/iF7QF7EOYpr4f8iS+Cn+mDk7+GIigpdNB2cb8lPXvtD/6boT8
+         m+Br8caEi5giU+0vAS8kHgwrL0f9eRqGIafe8mIGJd4CZHSVGna2mlvb56FNUwH7C2z+
+         koog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=TN70BBoKyj2vT/fFVG6syQpG39FsxxM9NqlpBOLPJiE=;
+        b=p7Zd5p9/MG/E620r2BGkAqRBhraDsvD6Ssqrlcq6AnqO1GuGrX0G9YMtfvIg4wbt1F
+         tAtt/e/GXJjJTz1BvJ/B4vKNP4SjkPviHhl/jjqfcsvBqAJiQo3FBIcnNz+uinNHaF1Q
+         b3PSDQGZ2SF5D7ZJHHwP1ofo+B9iazoPSHqAl+Xbi9If+pazBgKqD7BaexpCiSxBy1ho
+         emKss8BO1+8dZdoyx7lHq2o2DGpTolMkZ0H9CWMAmDYkOpi8IKu1GKlIhTY1o5svld8k
+         i1iNLqUVmojr7RFIfHWGh1ZHu9+pHCArgUzlJ1xd7vxqCzZdQqfF08yKav9LDLujgZMK
+         FDag==
+X-Gm-Message-State: APjAAAVh6uXDi/uX3amQ1jXPwT4J20Jios+zGNB+Q1TCk5rBaRI1qbM7
+        efkgJG7XtjSt4HqVzNOk9unA7w==
+X-Google-Smtp-Source: APXvYqyjIbP1NjlI1Ky7gSfZTESsowEjiaUDXBrapeOvoIBoR+5PRC+/0GbiNOuGq7mKah7AFi/Twg==
+X-Received: by 2002:a05:620a:1108:: with SMTP id o8mr19841918qkk.126.1558029082090;
+        Thu, 16 May 2019 10:51:22 -0700 (PDT)
+Received: from tpx230-nicolas.collaboramtl (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
+        by smtp.gmail.com with ESMTPSA id q27sm4274356qtf.27.2019.05.16.10.51.19
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 16 May 2019 10:51:20 -0700 (PDT)
+Message-ID: <ce6fc96774337a051840a5c8dbae241a488937dd.camel@ndufresne.ca>
+Subject: Re: [RFC] media: uapi: Add VP8 low-level decoder API compound
+ controls.
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        DVB_Linux_Media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com
+Date:   Thu, 16 May 2019 13:51:18 -0400
+In-Reply-To: <CAAFQd5CQDy4+eWEDpMhdO=ySPN6y__WmTm3PAsVFukO7Sm-dXg@mail.gmail.com>
+References: <20190213211557.17696-1-ezequiel@collabora.com>
+         <3507aedd6fd4be7ad66fa27a341faa36b4cef9dc.camel@collabora.com>
+         <CAKQmDh_ZrwzxY6L2va1i0kumy1ipo2Hn7oeuR9BJMntKxLuYhQ@mail.gmail.com>
+         <4812f69e53d1313678d0c54577793362e6d7ad2e.camel@collabora.com>
+         <CAAFQd5CQDy4+eWEDpMhdO=ySPN6y__WmTm3PAsVFukO7Sm-dXg@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-DCI8r05ws1fgCCHw79TG"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190514152004.30d7838b@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Marco,
 
-Thank you for the patch.
+--=-DCI8r05ws1fgCCHw79TG
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 14, 2019 at 03:20:04PM -0300, Mauro Carvalho Chehab wrote:
-> Em Mon, 6 May 2019 12:10:41 +0200 Hans Verkuil escreveu:
-> > On 4/15/19 2:44 PM, Marco Felsch wrote:
-> > > The patch adds the initial connector parsing code, so we can move from a
-> > > driver specific parsing code to a generic one. Currently only the
-> > > generic fields and the analog-connector specific fields are parsed. Parsing
-> > > the other connector specific fields can be added by a simple callbacks.
-> > > 
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > > [1] https://patchwork.kernel.org/cover/10794703/
-> > > 
-> > > v6:
-> > > - use 'unsigned int' count var
-> > > - fix comment and style issues
-> > > - place '/* fall through */' to correct places
-> > > - fix error handling and cleanup by releasing fwnode
-> > > - drop vga and dvi parsing support as those connectors are rarely used
-> > >   these days
-> > > 
-> > > v5:
-> > > - s/strlcpy/strscpy/
-> > > 
-> > > v2-v4:
-> > > - nothing since the patch was squashed from series [1] into this
-> > >   series.
-> > > 
-> > >  drivers/media/v4l2-core/v4l2-fwnode.c | 111 ++++++++++++++++++++++++++
-> > >  include/media/v4l2-fwnode.h           |  16 ++++
-> > >  2 files changed, 127 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > index 20571846e636..f1cca95c8fef 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > @@ -592,6 +592,117 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
-> > >  
-> > > +static const struct v4l2_fwnode_connector_conv {
-> > > +	enum v4l2_connector_type type;
-> > > +	const char *name;
+Le lundi 25 f=C3=A9vrier 2019 =C3=A0 14:34 +0900, Tomasz Figa a =C3=A9crit =
+:
+> On Fri, Feb 15, 2019 at 9:06 AM Ezequiel Garcia <ezequiel@collabora.com> =
+wrote:
+> > On Wed, 2019-02-13 at 21:35 -0500, Nicolas Dufresne wrote:
+> > > Le mer. 13 f=C3=A9vr. 2019 =C3=A0 16:23, Ezequiel Garcia
+> > > <ezequiel@collabora.com> a =C3=A9crit :
+> > > > Hi,
+> > > >=20
+> > > > On Wed, 2019-02-13 at 18:15 -0300, Ezequiel Garcia wrote:
+> [snip]
+> > > > > +     __u8 version;
+> > > > > +
+> > > > > +     /* Populated also if not a key frame */
+> > > > > +     __u16 width;
+> > > > > +     __u16 height;
+> > > > > +     __u8 horizontal_scale;
+> > > > > +     __u8 vertical_scale;
+> > > > > +
+> > > > > +     struct v4l2_vp8_segment_header segment_header;
+> > > > > +     struct v4l2_vp8_loopfilter_header lf_header;
+> > > > > +     struct v4l2_vp8_quantization_header quant_header;
+> > > > > +     struct v4l2_vp8_entropy_header entropy_header;
+> > > > > +
+> > > > > +     __u8 sign_bias_golden;
+> > > > > +     __u8 sign_bias_alternate;
+> > > > > +
+> > > > > +     __u8 prob_skip_false;
+> > > > > +     __u8 prob_intra;
+> > > > > +     __u8 prob_last;
+> > > > > +     __u8 prob_gf;
+> > > > > +
+> > > > > +     __u32 first_part_size;
+> > > > > +     __u32 first_part_offset; // this needed? it's always 3 + 7 =
+* s->keyframe;
+> > > >=20
+> > > > As the comment says, it seems the first partition offset is always
+> > > > 3 + 7 * s->keyframe. Or am I wrong?
+> > >=20
+> > > I can't find it in VA API or GStreamer parsers. Ideally we need to
+> > > look in the spec, if it's calculated it does not belong here.
+> > >=20
+> >=20
+> > Looking into the spec, I don't think it's part of it.
+> >=20
+> > > https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/master/=
+gst-libs/gst/codecparsers/gstvp8parser.h#L255
+> > > https://github.com/intel/libva/blob/master/va/va_dec_vp8.h#L72
+> > >=20
+> > > Notice that VA splits this in two, the some part in the picture
+> > > parameter, and some parts as SliceParameters. I believe it's to avoid
+> > > having conditional field base on if key_frame =3D=3D 0.
+> > >=20
+> >=20
+> > That might make sense. Something to look into.
+>=20
+> Yeah, sounds reasonable, although VAAPI naming is a bit off, since VP8
+> doesn't have a notion of slices...
 
-Maybe compatible instead of name ?
+Agreed, VAAPI uses slices to fit their abstraction. VP8 is just a
+special case where you only have one slice per frame. It's not needed
+in this uAPI for the kernel.
 
-> > > +} connectors[] = {
-> > > +	{
-> > > +		.type = V4L2_CON_COMPOSITE,
-> > > +		.name = "composite-video-connector",
-> > > +	}, {
-> > > +		.type = V4L2_CON_SVIDEO,
-> > > +		.name = "svideo-connector",
-> > > +	}, {
-> > > +		.type = V4L2_CON_HDMI,
-> > > +		.name = "hdmi-connector",
-> > > +	},
-> > > +};
-> > > +
-> > > +static enum v4l2_connector_type
-> > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> > > +{
-> > > +	unsigned int i;
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> > > +		if (!strcmp(con_str, connectors[i].name))
-> > > +			return connectors[i].type;
-> > > +
-> > > +	/* no valid connector found */
+>=20
+> Best regards,
+> Tomasz
 
-The usual comment style in this file is to start with a capital letter
-and end sentences with a period. I would however drop this comment, it's
-not very useful. The other comments should be updated accordingly.
+--=-DCI8r05ws1fgCCHw79TG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-> > > +	return V4L2_CON_UNKNOWN;
-> > > +}
-> > > +
-> > > +static int
-> > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> > > +				   struct v4l2_fwnode_connector *vc)
-> > > +{
-> > > +	u32 tvnorms;
-> > > +	int ret;
-> > > +
-> > > +	ret = fwnode_property_read_u32(fwnode, "tvnorms", &tvnorms);
-> > > +
-> > > +	/* tvnorms is optional */
-> > > +	vc->connector.analog.supported_tvnorms = ret ? V4L2_STD_ALL : tvnorms;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
+-----BEGIN PGP SIGNATURE-----
 
-Please document all exported functions with kerneldoc.
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXN2jFgAKCRBxUwItrAao
+HPy+AJ0QOkImsG6+YwSwImaSBdF0EfVvpQCgn1gqCi9afr4KbrVaObgkNp2hNto=
+=5H5j
+-----END PGP SIGNATURE-----
 
-> > > +int v4l2_fwnode_parse_connector(struct fwnode_handle *__fwnode,
-> > > +				struct v4l2_fwnode_connector *connector)
-> > > +{
-> > > +	struct fwnode_handle *fwnode;
-> > > +	struct fwnode_endpoint __ep;
-> > > +	const char *c_type_str, *label;
-> > > +	int ret;
-> > > +
-> > > +	memset(connector, 0, sizeof(*connector));
-> > > +
-> > > +	fwnode = fwnode_graph_get_remote_port_parent(__fwnode);
+--=-DCI8r05ws1fgCCHw79TG--
 
-I would rename the argument __fwnode to fwnode, and rename the fwnode
-variable to remote (or similar) to make this clearer.
-
-> > > +	if (!fwnode)
-> > > +		return -EINVAL;
-
-Is EINVAL the right error here ? Wouldn't it be useful for the caller to
-differentiate between unconnected connector nodes and invalid ones ?
-
-> > > +
-> > > +	/* parse all common properties first */
-> > > +	/* connector-type is stored within the compatible string */
-> > > +	ret = fwnode_property_read_string(fwnode, "compatible", &c_type_str);
-
-Prefixing or postfixing names with types is usually frowned upon. You
-could rename this to type_name for instance.
-
-> > > +	if (ret) {
-> > > +		fwnode_handle_put(fwnode);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	connector->type = v4l2_fwnode_string_to_connector_type(c_type_str);
-> > > +
-> > > +	fwnode_graph_parse_endpoint(__fwnode, &__ep);
-> > > +	connector->remote_port = __ep.port;
-> > > +	connector->remote_id = __ep.id;
-> > > +
-> > > +	ret = fwnode_property_read_string(fwnode, "label", &label);
-> > > +	if (!ret) {
-> > > +		/* ensure label doesn't exceed V4L2_CONNECTOR_MAX_LABEL size */
-> > > +		strscpy(connector->label, label, V4L2_CONNECTOR_MAX_LABEL);
-> > > +	} else {
-> > > +		/*
-> > > +		 * labels are optional, if none is given create one:
-> > > +		 * <connector-type-string>@port<endpoint_port>/ep<endpoint_id>
-> > > +		 */
-> > > +		snprintf(connector->label, V4L2_CONNECTOR_MAX_LABEL,
-> > > +			 "%s@port%u/ep%u", c_type_str, connector->remote_port,
-> > > +			 connector->remote_id);
-
-Should we really try to create labels when none is available ? If so
-this needs much more careful thoughts, we need to think about what the
-label will be used for, and create a good naming scheme accordingly. If
-the label will be displayed to the end-user I don't think the above name
-would be very useful, it would be best to leave it empty and let
-applications create a name based on the connector type and other
-information they have at their disposal.
-
-> > > +	}
-> > > +
-> > > +	/* now parse the connector specific properties */
-> > > +	switch (connector->type) {
-> > > +	case V4L2_CON_COMPOSITE:
-> > > +		/* fall through */
-
-I don't think you need a fall-through comment when the two cases are
-adjacent with no line in-between.
-
-> > > +	case V4L2_CON_SVIDEO:
-> > > +		ret = v4l2_fwnode_connector_parse_analog(fwnode, connector);
-> > > +		break;
-> > > +	case V4L2_CON_HDMI:
-> > > +		pr_warn("Connector specific parsing is currently not supported for %s\n",
-> > > +			c_type_str);  
-> > 
-> > Why warn? Just drop this.
-> 
-> good point. I would prefer to have some warning here, in order to warn a
-> developer that might be using it that this part of the code would require 
-> some change.
-> 
-> perhaps pr_warn_once()?
->
-> > > +		ret = 0;
-> > > +		break;
-
-If it's not supported we should warn and return an error. Otherwise we
-should be silent and return success. Combining a warning with success
-isn't a good idea, this is either a normal case or an error, not both.
-
-> > > +	case V4L2_CON_UNKNOWN:
-> > > +		/* fall through */
-> > > +	default:
-> > > +		pr_err("Unknown connector type\n");
-> > > +		ret = -EINVAL;
-> > > +	};
-> > > +
-> > > +	fwnode_handle_put(fwnode);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_connector);
-> > > +
-> > >  static int
-> > >  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
-> > >  					  struct v4l2_async_notifier *notifier,
-> > > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> > > index f4df1b95c5ef..e072f2915ddb 100644
-> > > --- a/include/media/v4l2-fwnode.h
-> > > +++ b/include/media/v4l2-fwnode.h
-> > > @@ -269,6 +269,22 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
-> > >   */
-> > >  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
-> > >  
-
-And I see here that the function is documented. One more reason to move
-kerneldoc to the .c files...
-
-> > > +/**
-> > > + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
-> > > + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
-> > > + *          connected to
-
-This is very unclear, I would interpret that as the remote endpoint, not
-the local endpoint. Could you please try to clarify the documentation ?
-
-> > > + * @connector: pointer to the V4L2 fwnode connector data structure
-> > > + *
-> > > + * Fill the connector data structure with the connector type, label and the
-> > > + * endpoint id and port where the connector belongs to. If no label is present
-> > > + * a unique one will be created. Labels with more than 40 characters are cut.
-> > > + *
-> > > + * Return: %0 on success or a negative error code on failure:
-> > > + *	   %-EINVAL on parsing failure
-> > > + */
-> > > +int v4l2_fwnode_parse_connector(struct fwnode_handle *fwnode,
-> > > +				struct v4l2_fwnode_connector *connector);
-> > > +
-> > >  /**
-> > >   * typedef parse_endpoint_func - Driver's callback function to be called on
-> > >   *	each V4L2 fwnode endpoint.
-
--- 
-Regards,
-
-Laurent Pinchart
