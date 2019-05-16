@@ -2,67 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1622077A
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 15:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 589C020790
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 15:04:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfEPNBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 09:01:01 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34743 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbfEPNBB (ORCPT
+        id S1726911AbfEPNEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 09:04:34 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:45432 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726623AbfEPNEe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 09:01:01 -0400
-Received: by mail-lj1-f194.google.com with SMTP id j24so3052962ljg.1
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 06:00:59 -0700 (PDT)
+        Thu, 16 May 2019 09:04:34 -0400
+Received: by mail-lf1-f66.google.com with SMTP id n22so2544556lfe.12
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 06:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
-        b=vnZPXK73jhhfloxa0nmgb4TyoBFzZKYnOSDuq6+fwdBe3iklUIDK/w/IZapy1cf/GF
-         xVGYVvLfXwir/Z/o+mTYDLGYkvpF9p5Kx+iVDxFaqJ9XQuCHC9TtJXumyLcZN3R1R6Pc
-         3akI3hu6SPIEd+aIn/mhBl1ynuO1uOkuXvApnHJ/h4MXgrCIU4Vm5bo9JQgSahViUFAq
-         g1m/2ulyo5hO09pN0ZqG4cunuKxQRWWSTUaGhmL+3XYH5cAn1sO91xr4rBrwVK15yT/+
-         62uyc0if+NVae18S+2xlqXUUIKcqy7chON+anf0yBZuaLBQdpgOGJDw+6g9hbQe293bs
-         Jxvg==
+        bh=QmYIA/bPPfJ5nYfReI91DNvI6fTYoBR5zHF++KGo7ME=;
+        b=nIbyg0XFxHaLbZPsvZRKM+PonaSRycdwm6iL0UY9N/ERxbrB3oPc0R3vIEHlYFCsTD
+         NwI1d74u2yAgf56C9T5DGq8h4+oLD87YW0Q5snzeUtx3luMlbNISgQdwcnkqdbBVOkWo
+         k2RTsA5nxfiJbpoosX+PKVI+EcgiE/mKPWkfxo3K/JsP/cREJeFu+fR5+3b8gedUZHRY
+         PwIB8Ag8I33N4D/lGlu15WktgCQDAj3iWo6mOZQzwcFqswPDL0WH761+j5Oty8l+n/7z
+         0VqZ8WnbNggLk227V7UzI+LLAsBrqYeYTOeoFzEm0CbU/0NrzJhzwurDCor4duJ3HNE/
+         h97A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:date:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
-        b=nc1ywQwhXELoCTuDDbKG9i6POYjQ2UtzQJq+s7bONfY6RAXyl44Bc3XXG2WZ4gU/aU
-         7iZLgOFXFn+sOR6v+lit57QMVb9LvWg9HTCW1O327Tu34fKHisvszGnRls+vEMB7R1Iz
-         sNxoS+945o9lWEzRvTaUa8NwG9inwlNWyG3tGbRZOE4OhI5DfmoiA95KatjLVEhC+HIQ
-         sOJwyZRGibLMjxYOmjle2IMNrbC+yh0JKxuUG/lQPlrFtbF70mmxis4JtdflyNz7W3JO
-         GXD4mLH8rEK+zhTLaCeci2hyYAhCaDxlYATnSVWWmJnUaKHcWmb/P+PlKdB7s+FvMM4u
-         A7ww==
-X-Gm-Message-State: APjAAAWhDkwETe60FsQJL00HN3nzaqjRo5J74qHoCQw3mRsKaGGyO9Oo
-        k/DocnGEvNNhrHgIruPBcyhRSTzsLJc=
-X-Google-Smtp-Source: APXvYqzalSNSTN5MrqGzlp7ZZ956b+RJC5qohYwGb94Qs84rvqSYrX+nK7hKCjo+COUtsp5u9of6KQ==
-X-Received: by 2002:a2e:85c9:: with SMTP id h9mr11278859ljj.110.1558011658748;
-        Thu, 16 May 2019 06:00:58 -0700 (PDT)
+        bh=QmYIA/bPPfJ5nYfReI91DNvI6fTYoBR5zHF++KGo7ME=;
+        b=Q2feWGO/ftpqh575JDatYH3H+qCFEbzBXknBZGrAX98UWhx0VmHhxgagDzULFfMLmB
+         srGMoEzXEjQKuD5cRSx8SGs/6r5Iz7cUa/I7DzhtvTOjP+i2DU4jpmpuYkkKrgBXg8SQ
+         zsrrbWd2zuYwu7zN4xsH0S2aW2KsWgtZS+LisqpkGEvonZKTP9dyYmYMkUipMB6JtEaX
+         EetvqhuNO7LVSfIgoT9gjGCVcUKpSU+PTKdIy0oKlsttkNoCw3qBorWtOYmuQCZcRDgY
+         OHvQ7p7W8P5cD1d1pvpOdOGCxbhoQLskcE2d/91Il1beBpaCVXe9yLX0Zg+kt9qbU7oB
+         N8JQ==
+X-Gm-Message-State: APjAAAVzVEqkYOzbwxOT69pO91fYqn3kwnMGT0fpH9y8nc2bIIvr2tvj
+        ykCgWN9ikA3TKJgQg0XfwUu+RHXG8ZU=
+X-Google-Smtp-Source: APXvYqwDbpUJ/DrOxZitsTSTcx9JCIZK4sqvQioDBeIuF+JNPxz3DCq5SeDzlStI3CIL3X6U7eZ1+w==
+X-Received: by 2002:ac2:5505:: with SMTP id j5mr19953711lfk.60.1558011871113;
+        Thu, 16 May 2019 06:04:31 -0700 (PDT)
 Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id d23sm892502ljj.38.2019.05.16.06.00.57
+        by smtp.gmail.com with ESMTPSA id k18sm869760ljk.70.2019.05.16.06.04.30
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 May 2019 06:00:57 -0700 (PDT)
+        Thu, 16 May 2019 06:04:30 -0700 (PDT)
 From:   "Niklas =?iso-8859-1?Q?S=F6derlund?=" <niklas.soderlund@ragnatech.se>
 X-Google-Original-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Date:   Thu, 16 May 2019 15:00:57 +0200
+Date:   Thu, 16 May 2019 15:04:30 +0200
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] rcar-vin: Add support for RGB formats with alpha
- component
-Message-ID: <20190516130057.GC31788@bigcity.dyn.berto.se>
+Subject: Re: [PATCH 2/3] rcar-vin: Add control for alpha component
+Message-ID: <20190516130430.GD31788@bigcity.dyn.berto.se>
 References: <20190516004746.3794-1-niklas.soderlund+renesas@ragnatech.se>
- <20190516004746.3794-4-niklas.soderlund+renesas@ragnatech.se>
- <20190516100822.GC4995@pendragon.ideasonboard.com>
+ <20190516004746.3794-3-niklas.soderlund+renesas@ragnatech.se>
+ <20190516100138.GB4995@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190516100822.GC4995@pendragon.ideasonboard.com>
+In-Reply-To: <20190516100138.GB4995@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -73,121 +72,192 @@ Hi Laurent,
 
 Thanks for your feedback.
 
-On 2019-05-16 13:08:22 +0300, Laurent Pinchart wrote:
+On 2019-05-16 13:01:38 +0300, Laurent Pinchart wrote:
 > Hi Niklas,
 > 
 > Thank you for the patch.
 > 
-> On Thu, May 16, 2019 at 02:47:46AM +0200, Niklas Söderlund wrote:
-> > The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
-> > V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
-> > allow the alpha component to be changed while streaming using the
-> > V4L2_CID_ALPHA_COMPONENT control.
+> On Thu, May 16, 2019 at 02:47:45AM +0200, Niklas Söderlund wrote:
+> > In preparation to adding support for RGB pixel formats with an alpha
+> > component add a control to allow the user to control which alpha value
+> > should be used.
 > > 
 > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > > ---
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 30 +++++++++++++++++++++
-> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 ++++++
-> >  2 files changed, 38 insertions(+)
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
+> >  drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++
+> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
+> >  3 files changed, 61 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index 4e991cce5fb56a90..5c0ed27c5d05dd45 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -111,8 +111,11 @@
-> >  #define VNIE_EFE		(1 << 1)
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index 64f9cf790445d14e..ee6e6cb39c749675 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -389,6 +389,28 @@ static void rvin_group_put(struct rvin_dev *vin)
+> >  	kref_put(&group->refcount, rvin_group_release);
+> >  }
 > >  
-> >  /* Video n Data Mode Register bits */
-> > +#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
-> > +#define VNDMR_A8BIT_MASK	(0xff << 24)
-> >  #define VNDMR_EXRGB		(1 << 8)
-> >  #define VNDMR_BPSM		(1 << 4)
-> > +#define VNDMR_ABIT		(1 << 2)
-> >  #define VNDMR_DTMD_YCSEP	(1 << 1)
-> >  #define VNDMR_DTMD_ARGB		(1 << 0)
-> >  
-> > @@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
-> >  		/* Note: not supported on M1 */
-> >  		dmr = VNDMR_EXRGB;
-> >  		break;
-> > +	case V4L2_PIX_FMT_ARGB555:
-> > +		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
-> > +		break;
-> > +	case V4L2_PIX_FMT_ABGR32:
-> > +		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
-> > +		break;
-> >  	default:
-> >  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
-> >  			vin->format.pixelformat);
-> > @@ -1346,5 +1355,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
-> >  
-> >  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
-> 
-> OK, I now see why you added a rvin_set_alpha() function. It makes sense,
-> but I think you need to protect this with a lock to avoid races between
-> stream start and control set. Or are we already protected by a lock the
-> serialises all V4L2 ioctls for the VIN video node ?
-
-Yes we are protected by the ioctls lock in __video_do_ioctl(), at least 
-that is my interpretation of the code I have not tried to force a race.
-
-> 
-> >  {
-> > +	u32 dmr;
+> > +/* -----------------------------------------------------------------------------
+> > + * Controls
+> > + */
 > > +
-> >  	vin->alpha = alpha;
+> > +static int rvin_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	struct rvin_dev *vin =
+> > +		container_of(ctrl->handler, struct rvin_dev, ctrl_handler);
 > > +
-> > +	if (vin->state == STOPPED)
-> > +		return;
-> > +
-> > +	switch (vin->format.pixelformat) {
-> > +	case V4L2_PIX_FMT_ARGB555:
-> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
-> > +		if (vin->alpha)
-> > +			dmr |= VNDMR_ABIT;
-> > +		break;
+> > +	switch (ctrl->id) {
+> > +	case V4L2_CID_ALPHA_COMPONENT:
+> > +		rvin_set_alpha(vin, ctrl->val);
 > 
-> Should you cache the DNDMR valid to avoid a hardware read ?
+> You can set vin->alpha here directly, no need for a rvin_set_alpha()
+> function.
 
-It is one possibility, as VNDMR is written to at other locations I would 
-feel better to to this at a later point in time.
-
-I'm currently trying to clean up the rcar-vin driver with regard to how 
-it handles formats a bit different in the devnode and media centric code 
-paths. Once that work is complete a generic way to cache register values 
-could be added on top. I suspect there are other registers then VNDMR 
-which could benefit from such a solution.
+I think you discovers the reason for this in 3/3. I could set vin->alpha 
+directly here and introduce rvin_set_alpha() in 3/3. I opted for this 
+approach as the reason form not margin 2/3 and 3/3 into a single patch 
+is that I only want the register writes in 3/3.
 
 > 
-> > +	case V4L2_PIX_FMT_ABGR32:
-> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
-> > +		dmr |= VNDMR_A8BIT(vin->alpha);
 > > +		break;
-> > +	default:
-> > +		return;
 > > +	}
 > > +
-> > +	rvin_write(vin, dmr,  VNDMR_REG);
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
+> > +	.s_ctrl = rvin_s_ctrl,
+> > +};
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * Async notifier
+> >   */
+> > @@ -478,6 +500,15 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > +
+> > +	if (vin->ctrl_handler.error) {
+> > +		ret = vin->ctrl_handler.error;
+> > +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +		return ret;
+> > +	}
+> > +
+> >  	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
+> >  				    NULL, true);
+> >  	if (ret < 0) {
+> > @@ -870,6 +901,21 @@ static int rvin_mc_init(struct rvin_dev *vin)
+> >  	if (ret)
+> >  		rvin_group_put(vin);
+> >  
+> > +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > +
+> > +	if (vin->ctrl_handler.error) {
+> > +		ret = vin->ctrl_handler.error;
+> > +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +		return ret;
+> > +	}
+> > +
+> > +	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> > +
+> >  	return ret;
 > >  }
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > index 7cbdcbf9b090c638..bb2900f5d000f9a6 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > @@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
-> >  		.fourcc			= V4L2_PIX_FMT_XBGR32,
-> >  		.bpp			= 4,
-> >  	},
-> > +	{
-> > +		.fourcc			= V4L2_PIX_FMT_ARGB555,
-> > +		.bpp			= 2,
-> > +	},
-> > +	{
-> > +		.fourcc			= V4L2_PIX_FMT_ABGR32,
-> > +		.bpp			= 4,
-> > +	},
+> >  
+> > @@ -1245,6 +1291,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >  
+> >  	vin->dev = &pdev->dev;
+> >  	vin->info = of_device_get_match_data(&pdev->dev);
+> > +	vin->alpha = 0xff;
+> >  
+> >  	/*
+> >  	 * Special care is needed on r8a7795 ES1.x since it
+> > @@ -1288,6 +1335,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >  	return 0;
+> >  
+> >  error_group_unregister:
+> > +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +
+> >  	if (vin->info->use_mc) {
+> >  		mutex_lock(&vin->group->lock);
+> >  		if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
+> > @@ -1323,10 +1372,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> >  		}
+> >  		mutex_unlock(&vin->group->lock);
+> >  		rvin_group_put(vin);
+> > -	} else {
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> >  	}
+> >  
+> > +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +
+> >  	rvin_dma_unregister(vin);
+> >  
+> >  	return 0;
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 2d146ecf93d66ad5..4e991cce5fb56a90 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -1343,3 +1343,8 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  
+> >  	return 0;
+> >  }
+> > +
+> > +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+> > +{
+> > +	vin->alpha = alpha;
+> > +}
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index 0b13b34d03e3dce4..365dfde06ec25add 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -178,6 +178,8 @@ struct rvin_info {
+> >   * @compose:		active composing
+> >   * @source:		active size of the video source
+> >   * @std:		active video standard of the video source
+> > + *
+> 
+> Do you need a blank line here ?
+
+I don't need it, but it make sens in my head on how I group variables in 
+sturct rvin_info. There already exists blank lines in the structure for 
+this grouping of variables thinking. If you are OK with it I would 
+prefer to keep it, but I do not feel strongly about it.
+
+> 
+> Apart from that the patch looks good to me.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> > + * @alpha:		Alpha component to fill in for supported pixel formats
+> >   */
+> >  struct rvin_dev {
+> >  	struct device *dev;
+> > @@ -215,6 +217,8 @@ struct rvin_dev {
+> >  	struct v4l2_rect compose;
+> >  	struct v4l2_rect source;
+> >  	v4l2_std_id std;
+> > +
+> > +	unsigned int alpha;
 > >  };
 > >  
-> >  const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
+> >  #define vin_to_source(vin)		((vin)->parallel->subdev)
+> > @@ -266,5 +270,6 @@ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat);
+> >  void rvin_crop_scale_comp(struct rvin_dev *vin);
+> >  
+> >  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
+> > +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha);
+> >  
+> >  #endif
 > 
 > -- 
 > Regards,
