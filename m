@@ -2,205 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 570071FF5B
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 08:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B833A1FF5C
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 08:12:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726447AbfEPGMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 02:12:36 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:26411 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726315AbfEPGMg (ORCPT
+        id S1726464AbfEPGMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 02:12:46 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33943 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726448AbfEPGMq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 02:12:36 -0400
-X-UUID: 9c6e19ab591b4bdda77bc291f268d520-20190516
-X-UUID: 9c6e19ab591b4bdda77bc291f268d520-20190516
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
-        (envelope-from <jungo.lin@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1194110267; Thu, 16 May 2019 14:12:27 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 16 May 2019 14:12:26 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 16 May 2019 14:12:26 +0800
-Message-ID: <1557987146.5721.12.camel@mtksdccf07>
-Subject: Re: [RFC,V2,03/11] dt-bindings: mt8183: Added camera ISP Pass 1
-From:   Jungo Lin <jungo.lin@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <ryan.yu@mediatek.com>, <frankie.chiu@mediatek.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        <Rynn.Wu@mediatek.com>, <suleiman@chromium.org>,
-        <Jerry-ch.Chen@mediatek.com>, <hans.verkuil@cisco.com>,
-        <frederic.chen@mediatek.com>, <seraph.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <shik@chromium.org>, <yuzhao@chromium.org>,
-        <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
-        <mchehab@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <Sean.Cheng@mediatek.com>, <srv_heupstream@mediatek.com>,
-        <sj.huang@mediatek.com>, <tfiga@chromium.org>,
-        <christie.yu@mediatek.com>, <zwisler@chromium.org>
-Date:   Thu, 16 May 2019 14:12:26 +0800
-In-Reply-To: <20190514195417.GA21726@bogus>
-References: <jungo.lin@mediatek.com>
-         <20190510015755.51495-4-jungo.lin@mediatek.com>
-         <20190514195417.GA21726@bogus>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        Thu, 16 May 2019 02:12:46 -0400
+Received: by mail-lf1-f68.google.com with SMTP id v18so1669672lfi.1
+        for <linux-media@vger.kernel.org>; Wed, 15 May 2019 23:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m8h2qGhJXexlZb92JzkwEQ/P4hBp4dKDlpHUHiZAB0o=;
+        b=g8xowfc0K6UdPYmn3ArPMZFjU7qfFh4F/4ON1m7lE6SOJovSSFXHVv1UiavBfVCG2l
+         q7pZYKU88gyD/qOVszluU3b1hMqu8rFRTHgCTMho+jGXuZ9JcaBdoFQYvTKEVsLZZM1P
+         cvUqkCuERqLxmtBXW/rghMJ0t316OS8OAaFL8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m8h2qGhJXexlZb92JzkwEQ/P4hBp4dKDlpHUHiZAB0o=;
+        b=BEREVnaTqiDpAKM2O7fa+gPO8xTRF8AXlwOtCV5p11BnjUUVJaRUKZ+8EObGnK8qo7
+         WBVZ5juqaphacp146TdLtQmlVPgL7XqDXnV+0WHqC70cUVwqznfbZiIc499UMHnGOH6i
+         6Z7IEf0KAABpndv06D9+l+2wGKqO3192/V9Q/ZrdYzkSqa2tUQzQM4sd1iHGaSGBjfqy
+         Lg2z9PlzIB9Y44CRpI12eYFbCaiX1dS5hWLYuw1juNhAd3i1HPPLTrrUgC/DTYUTFm+0
+         Uf5PMqhRS02HaZCpX4SalFwD7xZfLtjgy0LAGZuPKKYZxSY5PuwlRQxc8NrFSXIwB8P4
+         NlrA==
+X-Gm-Message-State: APjAAAXet2+ochR3TPFWNkJNAsxfoNyOZcLLN7uZUReMeYm/NfKdzCtd
+        7Tt7fwLb4I0DZqoJSBX/vWIYsaGAGMw=
+X-Google-Smtp-Source: APXvYqxU9HUXLqXv+SXE8jHJ2E1CmoFtjrzyn42Ig0c6d+5Qapy2p7hwtkHXXO4v4KCxTf4Wn4YatQ==
+X-Received: by 2002:ac2:424b:: with SMTP id m11mr8543792lfl.71.1557987163429;
+        Wed, 15 May 2019 23:12:43 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id j69sm792415ljb.72.2019.05.15.23.12.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 May 2019 23:12:42 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id y10so1669272lfl.3
+        for <linux-media@vger.kernel.org>; Wed, 15 May 2019 23:12:42 -0700 (PDT)
+X-Received: by 2002:ac2:4899:: with SMTP id x25mr18443319lfc.44.1557987161731;
+ Wed, 15 May 2019 23:12:41 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK:  N
+References: <20190417104511.21514-1-frederic.chen@mediatek.com>
+ <20190417104511.21514-2-frederic.chen@mediatek.com> <20190430011506.GA8514@bogus>
+ <1557238925.11663.21.camel@mtksdccf07> <CAL_JsqKGW9WqyNgqKD0MxsqxYHKZ+VNV5A2p+neGqwmKmiODOQ@mail.gmail.com>
+In-Reply-To: <CAL_JsqKGW9WqyNgqKD0MxsqxYHKZ+VNV5A2p+neGqwmKmiODOQ@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 16 May 2019 15:12:30 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BVWjcxp9Tia9Pmgn_54bc9n5Vs1s__G7YWHiezfVVYpA@mail.gmail.com>
+Message-ID: <CAAFQd5BVWjcxp9Tia9Pmgn_54bc9n5Vs1s__G7YWHiezfVVYpA@mail.gmail.com>
+Subject: Re: [RFC PATCH V1 1/6] dt-bindings: mt8183: Add binding for DIP
+ shared memory
+To:     Rob Herring <robh@kernel.org>
+Cc:     Frederic Chen <frederic.chen@mediatek.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        yuzhao@chromium.org, zwisler@chromium.org,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?SG9sbWVzIENoaW91ICjpgrHmjLop?= 
+        <holmes.chiou@mediatek.com>,
+        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        devicetree@vger.kernel.org, Shik Chen <shik@chromium.org>,
+        suleiman@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Rob:
+On Wed, May 15, 2019 at 1:19 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Tue, May 7, 2019 at 9:22 AM Frederic Chen <frederic.chen@mediatek.com> wrote:
+> >
+> > Dear Rob,
+> >
+> > I appreciate your comments.
+> >
+> > On Mon, 2019-04-29 at 20:15 -0500, Rob Herring wrote:
+> > > On Wed, Apr 17, 2019 at 06:45:06PM +0800, Frederic Chen wrote:
+> > > > This patch adds the binding for describing the shared memory
+> > > > used to exchange configuration and tuning data between the
+> > > > co-processor and Digital Image Processing (DIP) unit of the
+> > > > camera ISP system on Mediatek SoCs.
+> > > >
+> > > > Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
+> > > > ---
+> > > >  .../mediatek,reserve-memory-dip_smem.txt      | 45 +++++++++++++++++++
+> > > >  1 file changed, 45 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
+> > > > new file mode 100644
+> > > > index 000000000000..64c001b476b9
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-dip_smem.txt
+> > > > @@ -0,0 +1,45 @@
+> > > > +Mediatek DIP Shared Memory binding
+> > > > +
+> > > > +This binding describes the shared memory, which serves the purpose of
+> > > > +describing the shared memory region used to exchange data between Digital
+> > > > +Image Processing (DIP) and co-processor in Mediatek SoCs.
+> > > > +
+> > > > +The co-processor doesn't have the iommu so we need to use the physical
+> > > > +address to access the shared buffer in the firmware.
+> > > > +
+> > > > +The Digital Image Processing (DIP) can access memory through mt8183 IOMMU so
+> > > > +it can use dma address to access the memory region.
+> > > > +(See iommu/mediatek,iommu.txt for the detailed description of Mediatek IOMMU)
+> > > > +
+> > > > +
+> > > > +Required properties:
+> > > > +
+> > > > +- compatible: must be "mediatek,reserve-memory-dip_smem"
+> > >
+> > > Don't use '_'.
+> >
+> > I got it. I will use "mediatek,reserve-memory-dip-smem" instead in next
+> > version of the patch
+> >
+> > >
+> > > > +
+> > > > +- reg: required for static allocation (see reserved-memory.txt for
+> > > > +  the detailed usage)
+> > > > +
+> > > > +- alloc-range: required for dynamic allocation. The range must
+> > > > +  between 0x00000400 and 0x100000000 due to the co-processer's
+> > > > +  addressing limitation
+> > >
+> > > Generally, you should pick either static or dynamic allocation for a
+> > > given binding. Static if there's some address restriction or sharing,
+> > > dynamic if not.
+> > >
+> > > Sounds like static in this case.
+> > >
+> >
+> > DIP reserved memory has address restriction so it is the static case. I
+> > would like to remove the dynamic allocation part and modify the
+> > description as following:
+> >
+> > - reg: required for DIP. The range must be between 0x00000400 and
+> >   0x100000000 due to the co-processor's addressing limitation.
+> >   The size must be 26MB. Please see reserved-memory.txt for the
+> >   detailed usage.
+>
+> You can use dma-ranges to define addressing translations and
+> restrictions like this. That will in turn set the device's dma-mask to
+> ensure allocations are done in a region that is addressable.
+>
+> But if you have a known, fixed size, then a carve out with
+> reserved-memory is fine.
 
-Thanks for your comments.
+There is also another aspect here. The coprocessor that we're
+allocating the memory for is behind an MPU that must be programmed
+completely in one go and locked for security reasons to ensure that
+the coprocessor itself doesn't rewrite the MPU settings. That means
+that we need to have all the allocations completed before booting that
+coprocessor.
 
-On Tue, 2019-05-14 at 14:54 -0500, Rob Herring wrote:
-> On Fri, May 10, 2019 at 09:57:52AM +0800, Jungo Lin wrote:
-> > This patch adds DT binding document for the Pass 1 (P1) unit in
-> > Mediatek's camera ISP system. The Pass 1 unit grabs the sensor data
-> > out from the sensor interface, applies ISP image effects from tuning
-> > data and outputs the image data or statistics data to DRAM.
-> > 
-> > Signed-off-by: Jungo Lin <jungo.lin@mediatek.com>
-> > ---
-> >  .../bindings/media/mediatek,camisp.txt        | 92 +++++++++++++++++++
-> >  1 file changed, 92 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/mediatek,camisp.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/mediatek,camisp.txt b/Documentation/devicetree/bindings/media/mediatek,camisp.txt
-> > new file mode 100644
-> > index 000000000000..759e55a5dfac
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/mediatek,camisp.txt
-> > @@ -0,0 +1,92 @@
-> > +* Mediatek Image Signal Processor Pass 1 (ISP P1)
-> > +
-> > +The Pass 1 unit of Mediatek's camera ISP system grabs the sensor data out
-> > +from the sensor interface, applies ISP effects from tuning data and outputs
-> > +the image data and statistics data to DRAM. Furthermore, Pass 1 unit has
-> > +the ability to output two different resolutions frames at the same time to
-> > +increase the performance of the camera application.
-> > +
-> > +Required properties:
-> > +- compatible: Must be "mediatek,mt8183-camisp" for MT8183.
-> > +- reg: Must contain an entry for each entry in reg-names.
-> 
-> Must list reg-names here and define the values. Though, I don't find 
-> cam1, cam2, cam3 to be too useful.
-> 
+To be honest, I'd adopt a completely different design here.
 
-Ok, we will list all our supported reg-names in next patch.
-
-> > +- interrupts: interrupt number to the cpu.
-> > +- iommus: shall point to the respective IOMMU block with master port
-> > +  as argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-> > +  for details.
-> 
-> How many entries?
-> 
-
-Basic, we just need to add only one master port for IOMMU property.
-We will revise this and drop the other two ports.
-
-> > +- power-domains : a phandle to the power domain of this local arbiter.
-> > +- clocks: device clocks, see
-> > +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
-> > +- clock-names: must be "CAMSYS_CAM_CGPDN" and "CAMSYS_CAMTG_CGPDN".
-> > +- mediatek,larb: must contain the local arbiters in the current SOCs, see
-> > +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> > +  for details.
-> > +- mediatek,scp : the node of system control processor (SCP), see
-> > +  Documentation/devicetree/bindings/remoteproc/mtk,scp.txt for details.
-> > +- memory-region : the reserved shared memory region between Pass 1 unit and
-> > +  system control processor.
-> > +
-> > +Example:
-> > +SoC specific DT entry:
-> > +
-> > +	camisp: camisp@1a000000 {
-> > +		compatible = "mediatek,mt8183-camisp", "syscon";
-> > +		reg = <0 0x1a000000 0 0x1000>,
-> > +		      <0 0x1a003000 0 0x1000>,
-> > +		      <0 0x1a004000 0 0x2000>,
-> > +		      <0 0x1a006000 0 0x2000>;
-> > +		reg-names = "camisp",
-> > +		            "cam1",
-> > +		            "cam2",
-> > +		            "cam3";
-> > +		interrupts = <GIC_SPI 253 IRQ_TYPE_LEVEL_LOW>,
-> > +			     <GIC_SPI 254 IRQ_TYPE_LEVEL_LOW>,
-> > +			     <GIC_SPI 255 IRQ_TYPE_LEVEL_LOW>;
-> > +		interrupt-names = "cam1",
-> > +				  "cam2",
-> > +				  "cam3";
-> > +		iommus = <&iommu M4U_PORT_CAM_LSCI0>,
-> > +			 <&iommu M4U_PORT_CAM_LSCI1>,
-> > +			 <&iommu M4U_PORT_CAM_BPCI>;
-> > +		#clock-cells = <1>;
-> > +		power-domains = <&scpsys MT8183_POWER_DOMAIN_CAM>;
-> > +		/* Camera CCF */
-> > +		clocks = <&camsys CLK_CAM_CAM>,
-> > +			 <&camsys CLK_CAM_CAMTG>;
-> > +		clock-names = "CAMSYS_CAM_CGPDN",
-> > +			      "CAMSYS_CAMTG_CGPDN";
-> > +		mediatek,larb = <&larb3>,
-> > +				<&larb6>;
-> > +		mediatek,scp = <&scp>;
-> > +		memory-region = <&cam_mem_reserved>;
-> > +	};
-> > +
-> > +Reserved memory specific DT entry (see reserved memory binding for more
-> > +information):
-> > +
-> > +Example:
-> > +SoC specific DT entry:
-> > +
-> > +	cam_mem_reserved: cam_mem_region {
-> > +		compatible = "mediatek,reserve-memory-cam-smem";
-> > +		no-map;
-> > +		size = <0 0x01400000>; / *20 MB share mem size */
-> > +		alignment = <0 0x1000>;
-> > +		alloc-ranges = <0 0x40000000 0 0x10000000>;
-> > +	};
-> > +
-> > +Mediatek ISP P1 supports a single port node with MIPI-CSI2 bus. It should
-> > +contain one 'port' child node with child 'endpoint' node. Please refer to
-> > +the bindings defined in Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +and Documentation/devicetree/bindings/media/mediatek-seninf.txt.
-> > +
-> > +Example:
-> > +Board specific DT entry:
-> 
-> Don't split examples like this.
-> 
-
-Ok, we will keep one example in next patch.
+We're going to have a driver for that coprocessor (SCP) and IMHO any
+shared memory areas should belong to it. Then, any specific drivers
+talking to the firmware running on SCP should ask the SCP driver to
+allocate some memory from its fixed pool. WDYT?
 
 Best regards,
-
-Jungo
-
-> > +
-> > +	&camisp {
-> > +		port@0 {
-> > +			seninf_0: endpoint {
-> > +				remote-endpoint = <&seninf_core>;
-> > +			};
-> > +		};
-> > +	};
-> > +
-> > -- 
-> > 2.18.0
-> > 
-> 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
-
-
+Tomasz
