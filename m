@@ -2,190 +2,641 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C55220FB7
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 22:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 303E020FC6
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 22:52:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727887AbfEPUoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 16:44:23 -0400
-Received: from mail-lj1-f176.google.com ([209.85.208.176]:43364 "EHLO
-        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727664AbfEPUoX (ORCPT
+        id S1727908AbfEPUwH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 16:52:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46108 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727445AbfEPUwH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 16:44:23 -0400
-Received: by mail-lj1-f176.google.com with SMTP id z5so4318670lji.10
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 13:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=O4YQlmZ5MIYdnldebqyOQVqr06qrs1qRMTeOLjMVWrs=;
-        b=PXFA17v1UFO6E+VdhuOqRYErH8oPXRe6yZhAFz6xU+dvsk37W7zAJAepdhybCiXqg4
-         Ac/eWro6GJUUuCjePX4pCeeXuVlAJPT/i+Huitoajymg5PIqTTxhjI8DvM4rk40k6g9j
-         ocCoPziobgGcwxDVLMVQsw7n/MFClTxWsZVvo0I6lbSnzcAUXOIEBOzhPedxbaxmyFho
-         /gex9coX7lmVF2SfyelL1Ov0fC2x3Dx9deZqxabENXabDjKgA7X18YXUSCoqGdIkgKUc
-         K5WKOGJOtXK20BBYB6d2JRIRkkEpzQZrUv4SkKM0Rl7qyb059GRq7VMQszRcRjA/Huk/
-         tnfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=O4YQlmZ5MIYdnldebqyOQVqr06qrs1qRMTeOLjMVWrs=;
-        b=jvNW74jn+Oqp5tBPms1BHg2pO/hvJsssrjNFd+V+plR0pv55Wrrn9FZRq0eU2S2cxV
-         rhOz7KBWOZFx9VyGI5OJWEYXnc+nkA3f8ReAD/5rt4c0nVkOmEaRsTORxNo1SxzwGLoy
-         /MYXHvDnAuAgDPQOrhVdYbJVtjqkORs6swvAPeHNQMm7KvHOnVE2up2Hwu2TSWUMYm7y
-         Ysad7C4bBTNf3dbJmeD0w8QTkkZdLBHaP9wSSBNBM/dW9YETfDowJSoPvTkapcUGeN22
-         x0+dtQQuH/aOtmqkNkCOzxq4Y2vuHHAUJb1VrbE87gsTNDNTbbv5nDAqa5hEfyJvHzx4
-         vhEw==
-X-Gm-Message-State: APjAAAVcJYM1BNOYaDhMXHbmkkosOdspQXBQy8OKcbWE79+DbMIBbVfW
-        7hwAA4/R51JNARRocmXh9OemQw==
-X-Google-Smtp-Source: APXvYqyVuLVySF5rnrnVsnLgnpGrCTm3hrpsqU2HjHmiL01Cn7/mJY0a3Tzg2KQnuTRCNbgPETjLHQ==
-X-Received: by 2002:a2e:8716:: with SMTP id m22mr10015439lji.128.1558039460458;
-        Thu, 16 May 2019 13:44:20 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id y25sm1147668lfy.59.2019.05.16.13.44.19
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 May 2019 13:44:19 -0700 (PDT)
-Date:   Thu, 16 May 2019 22:44:18 +0200
-From:   "niklas.soderlund@ragnatech.se" <niklas.soderlund@ragnatech.se>
-To:     "Rodin, Michael (Ferchau; ADITG/ESM1)" <mrodin@de.adit-jv.com>
-Cc:     "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "michael@rodin.online" <michael@rodin.online>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv748x: initialize bit 7 of
- csi_tx_top_reg_1f
-Message-ID: <20190516204418.GF31788@bigcity.dyn.berto.se>
-References: <1557502240-16274-1-git-send-email-mrodin@de.adit-jv.com>
- <26e001a0-298f-e23b-9e46-98e62a8399c2@ideasonboard.com>
- <20190510190124.GE28561@bigcity.dyn.berto.se>
- <AC35D0CFBC66A84AAA9DF4334B52828D136181C3@HI2EXCH01.adit-jv.com>
+        Thu, 16 May 2019 16:52:07 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40F5A2FD;
+        Thu, 16 May 2019 22:52:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1558039924;
+        bh=4F4D5ymkFMJBrYWy/U2Qn1q25UmA+9TxMFs8xWYFoQ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Af2eyw6Tf4A7ciUXJBye0D3zkGNTIjntbPEGTdNGkSxfME8SW1z4CcBnWJ0xEdOpZ
+         0uqJ9YmD6VIy52iuAAg3OE/GilCYDMfBRXqXctSPMaJ7PDdQ79bodvNjG63kbJRI2i
+         aK04ucodmnC/qZdcKspXyxjrVXdRkCxxfOXYLQVg=
+Date:   Thu, 16 May 2019 23:51:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] media: vsp1: Provide partition overlap algorithm
+Message-ID: <20190516205146.GB9313@pendragon.ideasonboard.com>
+References: <20190513201355.994-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190513201355.994-5-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AC35D0CFBC66A84AAA9DF4334B52828D136181C3@HI2EXCH01.adit-jv.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <20190513201355.994-5-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rodin,
+Hi Kieran,
 
-On 2019-05-16 14:24:13 +0000, Rodin, Michael (Ferchau; ADITG/ESM1) wrote:
-> Hi Kieran and Niklas,
+Thank you for the patch.
+
+On Mon, May 13, 2019 at 09:13:55PM +0100, Kieran Bingham wrote:
+> To improve image quality, entities involved within the image partition
+> algorithm may extend their partition window to account for their input
+> requirements and to take consideration of the number of taps in their
+> filters.
 > 
-> thank you for your responses!
+> Extend the partition algorithm to sweep first backwards, then forwards
+> through the entity list. Each entity is given the opportunity to expand
+> its window on the reverse sweep, and clip or increase the offset on the
+> forwards sweep.
 > 
-> > Hi Kieran and Michael,
-> >
-> > On 2019-05-10 17:25:24 +0100, Kieran Bingham wrote:
-> > <snip>
-> >
-> > >
-> > > Niklas, how does RCar-CSI determine the top/bottom sequence?
-> >
-> > That patch just got merged in the media tree a few days ago,
-> >
-> >     9f7983bdc4925ae2 ("media: rcar-csi2: Propagate the FLD signal for NTSC
-> > and PAL")
-> >
-> > >
-> > > Do we have field inversion currently? (or one which is perhaps swapped
-> > > somewhere along the pipeline in rcar-vin?)
-> > >
-> >
-> > I'm not sure which tree this patch is developed on but Steve Longerbeam
-> > posted a RFC which IMHO had the fields inverted, there was a discussion in
-> his
-> > thread [1] where I tried to get to the bottom of the issue. My conclusions
-> > there might be wrong due to the issues addressed in this patch.
-> >
-> > Michael: Did you have Steve's patch in your tree when testing this?
-> >
-> > 1. https://patchwork.kernel.org/patch/10904263/
-> >
-> > --
-> > Regards,
-> > Niklas Söderlund
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> I had another version of Steve's patch when testing, but the FLD_NUM
-> setting was still the opposite compared to 9f7983bdc4925ae2
-> ("media: rcar-csi2: Propagate the FLD signal for NTSC and PAL").
-> I could send all patches from the private pull request which Steve Longerbeam
-> has created for ADIT if you want to better understand my test results,
-> but probably they can not be applied to the current mainline development tree.
-> The patch for adv748x I used for testing looks a bit different as well,
-> so it can be applied to the tree used by ADIT. But the functionality
-> is the same (I can provide the patch as well if it is required.).
-> There are also concerns regarding VnMC.FOC bit (I tested V4L2_FIELD_INTERLACED mode 
-> and in my tests I figured out, that this bit does not exactly do
-> what the Renesas Hardware Manual describes and should be always set to 0
-> regardless whether NTSC or PAL are used. But I had only Raspberry Pi as
-> NTSC test source and no additional NTSC camera for verification,
-> so the results may be not reliable.).
-
-Interesting, I will add VnMC.FOC to my list of things to look into.
-
+> ---
+> v2:
+>  - Configure HSTP and HEDP in uds_configure_partition for single partitions
+>  - refactored to use individual functions for various phase and position calculations
+>  - squashed forwards and backwards propagation work to a single patch
+>  - Fixed a few 'off-by-ones'
+>  - considerable other changes :)
 > 
+> v3:
+>  - SRU comments updated
+>  - phase function parameter documentation updated
+>  - s/uds_left_src_pixel/uds_left_sink_pixel/
+>  - s/uds_right_src_pixel/uds_right_sink_pixel/
 > 
-> Niklas, in [1] you mentioned that you could read the WC counter (which is in
-> fact the frame number in case of frame start packets) in the interrupt
-> INT_FSFE and it would start at 0. Could you please share the patch you used
-> for reading?
-
-I'm sorry I no longer have that code. It was a small hack thrown 
-together quickly. Idea was to read the register from the interrupt 
-handler and printk() it. Not the best of methods but at the time it 
-confirmed my theory of how it should work. It might be that I have drawn 
-some premature conclusions.
-
-> As Steve Longerbeam mentioned in [2], this would be a CSI spec 
->violation, which he has cited in the commit message of his RFC 
->patch[3]. It's important to mention that the violation would be on the 
->side of the adv748x chip (adv7482 on my Salvator-X board), because it 
->creates the Frame Start packets. And according to the description of 
->the FRAMENUMBER_INTERLACED bit in [4] (page 193), adv7481 should always 
->send the
-> "1,2,1,2..." CSI frame number sequence (I could  not find a generic document
-> valid for all adv748x but I doubt that it would be  different there.).
-> So starting with CSI frame number 0 would even violate specification in it's 
-> own data sheet. Another possibility could also be a silicon bug in rcar CSI interface,
-> which would decrement the WC value by one. 
-
-A more likely cause is that my way of testing was flawed ;-)
-
-I will add this to my growing pile of things to look into. I don't know 
-when I will find the time. If you got time and figure out a method to 
-verify the settings in rcar-csi2 together with a good video source 
-please post patches ;-) It would be great if this could be figured out 
-together with the VnMC.FOC issue mentioned above. If you should happen 
-to work on it you might be interested in the patches recently merged in 
-the media-tree which adds the interrupt handler to rcar-csi2 making 
-inspection hacks easier to add on top.
-
-One idea I have is to use a programmable video source and "display" 
-frames for capture where one can distinguish top/bottom (different 
-colors for each line for example) fields on the capture side and somehow 
-automate regression testing. I have had this plan for some years now and 
-I still use a old video game system as my test rig so don't hold your 
-breath ;-)
-
+> v4:
+>  - A full rework to the UDS overlap and phase calculations
+>  - Collapse split calculations into the single uds_partition() function
+>  - Document UDS calculations following procedure steps as per datasheet
+>  - Fix SRU -> UDS offset propagation bug
+>  - Remove SRU partition storage (no longer needed)
+>  - Use a bool for scale_up
+>  - Improve documentation
+>  - Fix vsp1_partition documentation
+>  - Fix UDS scaling margin to support 2 pixel overlap on downscaling
+>  - Improve documentation on UDS position steps
+>  - Expand on the UDS scaling operation documentation
+>  - Refactor start phase calculation
+>  - Rework vsp1_pipeline_propagate_partition documentation
+>  - Introduce vsp1_pipeline_partition_last helper
 > 
+>  drivers/media/platform/vsp1/vsp1_entity.h |   2 +-
+>  drivers/media/platform/vsp1/vsp1_pipe.c   |  60 +++++++++-
+>  drivers/media/platform/vsp1/vsp1_pipe.h   |  14 ++-
+>  drivers/media/platform/vsp1/vsp1_rpf.c    |   8 +-
+>  drivers/media/platform/vsp1/vsp1_sru.c    |  52 +++++++-
+>  drivers/media/platform/vsp1/vsp1_uds.c    | 137 ++++++++++++++++++++--
+>  drivers/media/platform/vsp1/vsp1_video.c  |   2 +
+>  drivers/media/platform/vsp1/vsp1_wpf.c    |  16 ++-
+>  8 files changed, 261 insertions(+), 30 deletions(-)
 > 
-> [1] https://patchwork.kernel.org/patch/10904263/#22594157
-> [2] https://patchwork.kernel.org/patch/10904263/#22594563
-> [3] https://patchwork.kernel.org/patch/10904263
-> [4] https://www.analog.com/media/en/technical-documentation/user-guides/ADV7481_UG-747.pdf
-> 
-> Regards,
-> Michael
+> diff --git a/drivers/media/platform/vsp1/vsp1_entity.h b/drivers/media/platform/vsp1/vsp1_entity.h
+> index 97acb7795cf1..772492877764 100644
+> --- a/drivers/media/platform/vsp1/vsp1_entity.h
+> +++ b/drivers/media/platform/vsp1/vsp1_entity.h
+> @@ -88,7 +88,7 @@ struct vsp1_entity_operations {
+>  	unsigned int (*max_width)(struct vsp1_entity *, struct vsp1_pipeline *);
+>  	void (*partition)(struct vsp1_entity *, struct vsp1_pipeline *,
+>  			  struct vsp1_partition *, unsigned int,
+> -			  struct vsp1_partition_window *);
+> +			  struct vsp1_partition_window *, bool);
+>  };
+>  
+>  struct vsp1_entity {
+> diff --git a/drivers/media/platform/vsp1/vsp1_pipe.c b/drivers/media/platform/vsp1/vsp1_pipe.c
+> index e8a86771bde8..edcfbd206b69 100644
+> --- a/drivers/media/platform/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/vsp1/vsp1_pipe.c
+> @@ -434,13 +434,55 @@ bool vsp1_pipeline_partitioned(struct vsp1_pipeline *pipe)
+>  	return pipe->partitions > 1;
+>  }
+>  
+> +/*
+> + * Identify the last (right-most) partition.
+> + *
+> + * The indexes commence at 0, but the pipe->partitions is a counter, thus we
+> + * account for this accordingly.
+> + */
+> +bool vsp1_pipeline_partition_last(struct vsp1_pipeline *pipe,
+> +				  unsigned int index)
+> +{
+> +	return pipe->partitions - 1 == index;
+> +}
+> +
+>  /*
+>   * Propagate the partition calculations through the pipeline.
+>   *
+> - * Work backwards through the pipe, allowing each entity to update the partition
+> - * parameters based on its configuration, and the entity connected to its
+> - * source. Each entity must produce the partition required for the previous
+> - * entity in the pipeline.
+> + * Entities involved in the partition algorithm may have filters requiring
+> + * extra pixels to be supplied on the left and right edges. The extra pixels
+> + * produced allow the filter to correctly process all pixels which must be
+> + * output with valid data while pixels which are based on copied data can be
+> + * clipped by other entities in the pipeline.
+
+"Entities involved in the partition algorithm may have filters requiring
+extra pixels to be supplied on the left and right edges. The extra
+pixels provided to its input allow the filter to calculate the correct
+value for all the output pixels it is required to produce for the next
+entity, without any artifact caused by edge pixel duplication. As a side
+effect those extra pixels will cause the entity to produce and transmit
+to the next entity more pixels than desired, and those extraneous pixels
+must then be clipped further down the pipeline."
+
+> + *
+> + * We determine the partition window size based on the image output size. Then
+> + * perform two passes through the entities in the pipeline, first backwards
+> + * then forwards calling the .partition operation on each entity if it is
+
+We usually write operations as .partition() to show they are function
+calls.
+
+> + * provided.
+> + *
+> + * The .partition function allows an entity to transform a partition window
+> + * based on its current configuration in the direction the algorithm is
+> + * currently processing.
+> + *
+> + * In the first pass, the entities shall process in the backwards direction
+> + * and can expand the window to request a larger number of input pixels for
+> + * processing from the previous entity.
+> + *
+> + * On the second pass, the entities shall process in the forwards direction
+> + * and shall consider any cropping requirements as a result of previous
+> + * entities producing an enlarged window, reporting this as an offset for the
+> + * left edge. An entity can either consume the offset by cropping its input or
+> + * propagate it forwards.
+> + *
+> + * Clipping only occurs on the left edge of a window as the right edge is
+> + * handled by entities processing only as far as they need to satisfy the
+> + * output width requested by the next entity in the pipeline. As the final
+> + * entity, the WPF will only write out valid pixels through a combination of
+> + * clipping the offset from the left edge, and writing only a valid width to
+> + * meet the right edge of the image.
+> + *
+> + * Any information an entity stores in the vsp1_partition is private to that
+> + * entity, and shall not be accessed outside of that entity.
+>   */
+>  void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
+>  				       struct vsp1_partition *partition,
+> @@ -449,10 +491,18 @@ void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
+>  {
+>  	struct vsp1_entity *entity;
+>  
+> +	/* Move backwards through the pipeline to propagate any expansion. */
+>  	list_for_each_entry_reverse(entity, &pipe->entities, list_pipe) {
+>  		if (entity->ops->partition)
+>  			entity->ops->partition(entity, pipe, partition, index,
+> -					       window);
+> +					       window, false);
+> +	}
+> +
+> +	/* Move forwards through the pipeline and propagate any updates. */
+> +	list_for_each_entry(entity, &pipe->entities, list_pipe) {
+> +		if (entity->ops->partition)
+> +			entity->ops->partition(entity, pipe, partition, index,
+> +					       window, true);
+>  	}
+>  }
+>  
+> diff --git a/drivers/media/platform/vsp1/vsp1_pipe.h b/drivers/media/platform/vsp1/vsp1_pipe.h
+> index dd8b2cdc6452..1cc6685eadec 100644
+> --- a/drivers/media/platform/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/vsp1/vsp1_pipe.h
+> @@ -58,26 +58,30 @@ enum vsp1_pipeline_state {
+>   * @left: horizontal coordinate of the partition start in pixels relative to the
+>   *	  left edge of the image
+>   * @width: partition width in pixels
+> + * @offset: The number of pixels from the left edge of the window to clip
+>   */
+>  struct vsp1_partition_window {
+>  	unsigned int left;
+>  	unsigned int width;
+> +	unsigned int offset;
+>  };
+>  
+>  /*
+>   * struct vsp1_partition - A description of a slice for the partition algorithm
+> - * @rpf: The RPF partition window configuration
+> + * @rpf: The RPF output partition window configuration
+>   * @uds_sink: The UDS input partition window configuration
+>   * @uds_source: The UDS output partition window configuration
+> - * @sru: The SRU partition window configuration
+> - * @wpf: The WPF partition window configuration
+> + * @wpf: The WPF input partition window configuration
+> + * @start_phase: The UDS start phase for this partition
+> + * @end_phase: The UDS end phase for this partition
+
+Should we rename these to uds_start_phase and uds_end_phase ? Or maybe
+have a
+
+	struct {
+		struct vsp1_partition_window sink;
+		struct vsp1_partition_window source;
+		unsigned int start_phase;
+		unsigned int end_phase;
+	} uds;
+
+>   */
+>  struct vsp1_partition {
+>  	struct vsp1_partition_window rpf;
+>  	struct vsp1_partition_window uds_sink;
+>  	struct vsp1_partition_window uds_source;
+> -	struct vsp1_partition_window sru;
+>  	struct vsp1_partition_window wpf;
+> +	unsigned int start_phase;
+> +	unsigned int end_phase;
+>  };
+>  
+>  /*
+> @@ -165,6 +169,8 @@ void vsp1_pipeline_propagate_alpha(struct vsp1_pipeline *pipe,
+>  				   unsigned int alpha);
+>  
+>  bool vsp1_pipeline_partitioned(struct vsp1_pipeline *pipe);
+> +bool vsp1_pipeline_partition_last(struct vsp1_pipeline *pipe,
+> +				  unsigned int index);
+>  void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
+>  				       struct vsp1_partition *partition,
+>  				       unsigned int index,
+> diff --git a/drivers/media/platform/vsp1/vsp1_rpf.c b/drivers/media/platform/vsp1/vsp1_rpf.c
+> index ef9bf5dd55a0..46d270644fe2 100644
+> --- a/drivers/media/platform/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/vsp1/vsp1_rpf.c
+> @@ -324,9 +324,13 @@ static void rpf_partition(struct vsp1_entity *entity,
+>  			  struct vsp1_pipeline *pipe,
+>  			  struct vsp1_partition *partition,
+>  			  unsigned int partition_idx,
+> -			  struct vsp1_partition_window *window)
+> +			  struct vsp1_partition_window *window,
+> +			  bool forwards)
+>  {
+> -	partition->rpf = *window;
+> +	if (forwards)
+> +		*window = partition->rpf;
+> +	else
+> +		partition->rpf = *window;
+>  }
+>  
+>  static const struct vsp1_entity_operations rpf_entity_ops = {
+> diff --git a/drivers/media/platform/vsp1/vsp1_sru.c b/drivers/media/platform/vsp1/vsp1_sru.c
+> index b1617cb1f2b9..d019bd2127aa 100644
+> --- a/drivers/media/platform/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/vsp1/vsp1_sru.c
+> @@ -327,24 +327,68 @@ static void sru_partition(struct vsp1_entity *entity,
+>  			  struct vsp1_pipeline *pipe,
+>  			  struct vsp1_partition *partition,
+>  			  unsigned int partition_idx,
+> -			  struct vsp1_partition_window *window)
+> +			  struct vsp1_partition_window *window,
+> +			  bool forwards)
+>  {
+>  	struct vsp1_sru *sru = to_sru(&entity->subdev);
+>  	struct v4l2_mbus_framefmt *input;
+>  	struct v4l2_mbus_framefmt *output;
+> +	bool scale_up;
+>  
+>  	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+>  					   SRU_PAD_SINK);
+>  	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+>  					    SRU_PAD_SOURCE);
+>  
+> -	/* Adapt if SRUx2 is enabled. */
+> -	if (input->width != output->width) {
+> +	scale_up = (input->width != output->width);
+> +
+> +	if (forwards) {
+> +		/* Propagate the clipping offsets forwards. */
+> +		if (window->left != 0)
+> +			window->offset++;
+> +
+> +		if (scale_up)
+> +			window->offset *= 2;
+> +
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * The SRU has a 3-tap pre-filter that generates the same number of
+> +	 * pixels as it consumes. Edge output pixels are computed using edge
+> +	 * pixel duplication at the input. This results in one incorrect output
+> +	 * pixel on each side of the partition window after the pre-filter. To
+> +	 * compensate for this, require one additional input pixel on each side
+> +	 * before the pre-filter (thus before scaling).
+> +	 *
+> +	 * Additionally, the 2x up-scaler uses a bilinear post-filter and
+> +	 * generates odd pixels from their two neighbours. The rightmost output
+> +	 * pixel is thus computed using edge pixel duplication on the right side
+> +	 * of the input (the leftmost output pixel is an even pixel, aligned
+> +	 * with the leftmost input pixel and thus depends only on the
+> +	 * corresponding pixel after the pre-filter). To compensate for this,
+> +	 * require one additional input pixel on the right side when up-scaling.
+> +	 */
+> +
+> +	if (scale_up) {
+> +		/* Clipping offsets are not back-propagated. */
+
+Don't we need offsets even when not scaling up ? If so, shouldn't this
+comment be moved outside of the scale_up block ? It could also help to
+add a paragraph that explains why they don't need to be back-propagated,
+as I'm not sure I remember :-)
+
+>  		window->width /= 2;
+>  		window->left /= 2;
+> +
+> +		/* SRUx2 requires an extra pixel at the right edge. */
+> +		if (!vsp1_pipeline_partition_last(pipe, partition_idx))
+> +			window->width++;
+> +	}
+> +
+> +	/* Expand to the left edge. */
+> +	if (window->left != 0) {
+> +		window->left--;
+> +		window->width++;
+>  	}
+>  
+> -	partition->sru = *window;
+> +	/* Expand to the right edge. */
+> +	if (!vsp1_pipeline_partition_last(pipe, partition_idx))
+> +		window->width++;
+>  }
+>  
+>  static const struct vsp1_entity_operations sru_entity_ops = {
+> diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/vsp1/vsp1_uds.c
+> index effebfc0c862..65f8fe77d822 100644
+> --- a/drivers/media/platform/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/vsp1/vsp1_uds.c
+> @@ -274,6 +274,7 @@ static void uds_configure_stream(struct vsp1_entity *entity,
+>  	const struct v4l2_mbus_framefmt *input;
+>  	unsigned int hscale;
+>  	unsigned int vscale;
+> +	bool manual_phase = vsp1_pipeline_partitioned(pipe);
+>  	bool multitap;
+>  
+>  	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> @@ -298,7 +299,8 @@ static void uds_configure_stream(struct vsp1_entity *entity,
+>  
+>  	vsp1_uds_write(uds, dlb, VI6_UDS_CTRL,
+>  		       (uds->scale_alpha ? VI6_UDS_CTRL_AON : 0) |
+> -		       (multitap ? VI6_UDS_CTRL_BC : 0));
+> +		       (multitap ? VI6_UDS_CTRL_BC : 0) |
+> +		       (manual_phase ? VI6_UDS_CTRL_AMDSLH : 0));
+>  
+>  	vsp1_uds_write(uds, dlb, VI6_UDS_PASS_BWIDTH,
+>  		       (uds_passband_width(hscale)
+> @@ -326,7 +328,8 @@ static void uds_configure_partition(struct vsp1_entity *entity,
+>  
+>  	/* Input size clipping. */
+>  	vsp1_uds_write(uds, dlb, VI6_UDS_HSZCLIP, VI6_UDS_HSZCLIP_HCEN |
+> -		       (0 << VI6_UDS_HSZCLIP_HCL_OFST_SHIFT) |
+> +		       (partition->uds_sink.offset
+> +				<< VI6_UDS_HSZCLIP_HCL_OFST_SHIFT) |
+>  		       (partition->uds_sink.width
+>  				<< VI6_UDS_HSZCLIP_HCL_SIZE_SHIFT));
+>  
+> @@ -336,6 +339,12 @@ static void uds_configure_partition(struct vsp1_entity *entity,
+>  				<< VI6_UDS_CLIP_SIZE_HSIZE_SHIFT) |
+>  		       (output->height
+>  				<< VI6_UDS_CLIP_SIZE_VSIZE_SHIFT));
+> +
+> +	vsp1_uds_write(uds, dlb, VI6_UDS_HPHASE,
+> +		       (partition->start_phase
+> +				<< VI6_UDS_HPHASE_HSTP_SHIFT) |
+> +		       (partition->end_phase
+> +				<< VI6_UDS_HPHASE_HEDP_SHIFT));
+>  }
+>  
+>  static unsigned int uds_max_width(struct vsp1_entity *entity,
+> @@ -378,26 +387,132 @@ static void uds_partition(struct vsp1_entity *entity,
+>  			  struct vsp1_pipeline *pipe,
+>  			  struct vsp1_partition *partition,
+>  			  unsigned int partition_idx,
+> -			  struct vsp1_partition_window *window)
+> +			  struct vsp1_partition_window *window,
+> +			  bool forwards)
+>  {
+>  	struct vsp1_uds *uds = to_uds(&entity->subdev);
+>  	const struct v4l2_mbus_framefmt *output;
+>  	const struct v4l2_mbus_framefmt *input;
+> -
+> -	/* Initialise the partition state. */
+> -	partition->uds_sink = *window;
+> -	partition->uds_source = *window;
+> +	unsigned int hscale;
+> +	unsigned int margin;
+> +	unsigned int mp;
+> +	unsigned int src_left;
+> +	unsigned int src_right;
+> +	unsigned int dst_left;
+> +	unsigned int dst_right;
+> +	unsigned int remainder;
+> +
+> +	if (forwards) {
+> +		/* Accept and consume any input offset (clipping) request. */
+> +		partition->uds_sink.offset = window->offset;
+> +		window->offset = 0;
+> +
+> +		/* pass on the output we computed in the backwards pass. */
+
+s/pass/Pass/
+
+> +		*window = partition->uds_source;
+> +
+> +		return;
+> +	}
+>  
+>  	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+>  					   UDS_PAD_SINK);
+>  	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+>  					    UDS_PAD_SOURCE);
+>  
+> -	partition->uds_sink.width = window->width * input->width
+> -				  / output->width;
+> -	partition->uds_sink.left = window->left * input->width
+> -				 / output->width;
+> +	/*
+> +	 * Quantify the margin required for discontinuous overlap, and expand
+> +	 * the window no further than the limits of the image.
+> +	 *
+> +	 * When downscaling, the UDS has a pre-scaling binning filter which
+> +	 * reduces the input by either 2 or 4 depending on the downscale ratio,
+> +	 * which we must align with. The output is then fed into a 5 tap
+
+s/tap/taps/ ?
+
+> +	 * bi-cubic filter requiring us to expand our output window by 2 pixels
+> +	 * on each side.
+> +	 *
+> +	 * When upscaling the extra margin is required from the input side and
+> +	 * we round up the expansion to a power of 2.
+> +	 */
+> +	hscale = uds_compute_ratio(input->width, output->width);
+> +	margin = hscale < 0x0200 ? 32 : /* 8 <  scale */
+> +		 hscale < 0x0400 ? 16 : /* 4 <  scale <= 8 */
+> +		 hscale < 0x0800 ?  8 : /* 2 <  scale <= 4 */
+> +		 hscale < 0x1000 ?  4 : /* 1 <  scale <= 2 */
+> +				    2;  /*	scale <= 1 (downscaling) */
+> +
+> +	dst_left = max_t(int, 0, window->left - margin);
+> +	dst_right = min_t(int, output->width - 1,
+> +			  window->left + window->width - 1 + margin);
+> +
+> +	/*
+> +	 * We must correctly identify the input positions which represent the
+> +	 * output positions taking into account all of the processing the
+> +	 * hardware does. This requires several operations (Steps 1-5 below).
+> +	 *
+> +	 * First convert output positions to input positions, then convert
+> +	 * back to output positions to account for any rounding requirements.
+> +	 * Once adjusted, the final input positions are determined.
+> +	 */
+> +
+> +	mp = uds_pre_scaling_divisor(hscale);
+> +
+> +	/* Step 1: Calculate temporary src_left (src_pos0) position. */
+> +	/* Step 2: Calculate temporary dst_left (dst_pos0_pb) position. */
+> +	if (partition_idx == 0) {
+> +		src_left = 0;
+> +		dst_left = 0;
+> +	} else {
+> +		unsigned int sub_src = mp == 1 ? 1 : 2;
+> +
+> +		src_left = ((dst_left * hscale) / (4096 * mp) - sub_src) * mp;
+> +		dst_left = src_left * 4096 / hscale;
+> +	}
+> +
+> +	/*
+> +	 * Step 3: Pull back dst_left (dst_pos0_pb) to the left to satisfy
+> +	 * alignment restrictions (the input of the bicubic filter must be
+> +	 * aligned to a multiple of the pre-filter divisor).
+> +	 */
+> +	remainder = (dst_left * hscale) % mp;
+> +	if (remainder)
+> +		/* Remainder can only be two when mp == 4. */
+> +		dst_left = round_down(dst_left, hscale % mp == 2 ? 2 : mp);
+> +
+> +	/* Step 4: Recalculate src_left from newly adjusted dst_left. */
+> +	src_left = DIV_ROUND_UP(dst_left * hscale, 4096 * mp) * mp;
+> +
+> +	/* Step 5: Calculate src_right (src_pos1). */
+> +	if (partition_idx == pipe->partitions - 1)
+> +		src_right = input->width - 1;
+> +	else
+> +		src_right = (((dst_right * hscale) / (mp * 4096)) + 2)
+> +			  * mp + (mp / 2);
+> +
+> +	/* Step 6: Calculate start phase (hstp). */
+> +	remainder = (src_left * hscale) % (mp * 4096);
+> +	partition->start_phase = (4096 - remainder / mp) % 4096;
+> +
+> +	/*
+> +	 * Step 7: Calculate end phase (hedp).
+> +	 *
+> +	 * We do not currently use VI6_UDS_CTRL_AMD from VI6_UDS_CTRL.
+> +	 * In the event that we enable VI6_UDS_CTRL_AMD, we must set the end
+> +	 * phase for the final partition to the phase_edge.
+> +	 */
+> +	partition->end_phase = 0;
+> +
+> +	/*
+> +	 * Fill in our partition windows with the updated positions, and
+> +	 * configure our output offset to allow extraneous pixels to be
+> +	 * clipped by later entities.
+> +	 */
+> +	partition->uds_sink.left = src_left;
+> +	partition->uds_sink.width = src_right - src_left + 1;
+> +
+> +	partition->uds_source.left = dst_left;
+> +	partition->uds_source.width = dst_right - dst_left + 1;
+> +
+> +	partition->uds_source.offset = window->left - dst_left;
+>  
+> +	/* Pass a copy of our sink down to the previous entity. */
+
+Pass it down, or pass it up ? It's against the pipeline flow, so I would
+say up.
+
+>  	*window = partition->uds_sink;
+>  }
+>  
+> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
+> index 9bb8a24870bd..91439dda0a0f 100644
+> --- a/drivers/media/platform/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/vsp1/vsp1_video.c
+> @@ -212,6 +212,7 @@ static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
+>  	if (!vsp1_pipeline_partitioned(pipe)) {
+>  		window.left = 0;
+>  		window.width = format->width;
+> +		window.offset = 0;
+>  
+>  		vsp1_pipeline_propagate_partition(pipe, partition, index,
+>  						  &window);
+> @@ -221,6 +222,7 @@ static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
+>  	/* Initialise the partition with sane starting conditions. */
+>  	window.left = index * div_size;
+>  	window.width = div_size;
+> +	window.offset = 0;
+>  
+>  	modulus = format->width % div_size;
+>  
+> diff --git a/drivers/media/platform/vsp1/vsp1_wpf.c b/drivers/media/platform/vsp1/vsp1_wpf.c
+> index 9e8dbf99878b..2e8cc4195c31 100644
+> --- a/drivers/media/platform/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/vsp1/vsp1_wpf.c
+> @@ -371,16 +371,19 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+>  						 RWPF_PAD_SINK);
+>  	width = sink_format->width;
+>  	height = sink_format->height;
+> +	offset = 0;
+>  
+>  	/*
+>  	 * Cropping. The partition algorithm can split the image into
+>  	 * multiple slices.
+>  	 */
+> -	if (vsp1_pipeline_partitioned(pipe))
+> +	if (vsp1_pipeline_partitioned(pipe)) {
+>  		width = pipe->partition->wpf.width;
+> +		offset = pipe->partition->wpf.offset;
+> +	}
+>  
+>  	vsp1_wpf_write(wpf, dlb, VI6_WPF_HSZCLIP, VI6_WPF_SZCLIP_EN |
+> -		       (0 << VI6_WPF_SZCLIP_OFST_SHIFT) |
+> +		       (offset << VI6_WPF_SZCLIP_OFST_SHIFT) |
+>  		       (width << VI6_WPF_SZCLIP_SIZE_SHIFT));
+>  	vsp1_wpf_write(wpf, dlb, VI6_WPF_VSZCLIP, VI6_WPF_SZCLIP_EN |
+>  		       (0 << VI6_WPF_SZCLIP_OFST_SHIFT) |
+> @@ -491,8 +494,15 @@ static void wpf_partition(struct vsp1_entity *entity,
+>  			  struct vsp1_pipeline *pipe,
+>  			  struct vsp1_partition *partition,
+>  			  unsigned int partition_idx,
+> -			  struct vsp1_partition_window *window)
+> +			  struct vsp1_partition_window *window,
+> +			  bool forwards)
+>  {
+> +	if (forwards) {
+> +		/* Only handle incoming cropping requirements. */
+
+How about expanding this to "Only handle incoming cropping requirements,
+the WPF output width is a fixex property of the partition." ? Feel free
+to propose a better alternative.
+
+> +		partition->wpf.offset = window->offset;
+> +		return;
+> +	}
+> +
+>  	partition->wpf = *window;
+>  }
+>  
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
