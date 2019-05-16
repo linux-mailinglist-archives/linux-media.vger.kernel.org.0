@@ -2,135 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C36620AB7
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 17:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7DA720CF2
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 18:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbfEPPJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 11:09:42 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46114 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbfEPPJl (ORCPT
+        id S1726546AbfEPQ2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 12:28:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40432 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726314AbfEPQ2O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 11:09:41 -0400
-Received: by mail-lf1-f67.google.com with SMTP id l26so2886758lfh.13
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 08:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7fB9DlcVFOAT6LcVvHuzjF9RuGghiAlLNT1Szy+bvHA=;
-        b=QQtT3MUoecbgLPAJBmgi/HgcDX42oA2UghCthloNZ1C2laHkrmgiQ6Tq2ndgNPo9ic
-         GdRJaWixE63tfWlJdp52gMDb6upAh9yovQfON37akDcrQmbGp/kkZeQOgXWwN2Y3uN3N
-         O8CMY99TXMt+Oxj94Gu4swr6le0eyqrXa4wLt8KwitVjTfJIkXNR5Cgi2PNvr+2BE4bQ
-         gThCSeHVJKwKWN5V8Nw63PG5AxV8CwuOkoBx7FezQb0hYPie76L+g1TlYiZUOiH3va+X
-         YrZW1uMFeb4k4Fa0OUqoIDvwI2wbhNoiZ2/jnmUY2GVPHa6WyVixXuzLmK18vO/LMd6Y
-         YEAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7fB9DlcVFOAT6LcVvHuzjF9RuGghiAlLNT1Szy+bvHA=;
-        b=M5waHKUcytLNTSSQG1ZBqPxNjkjMwKzrwLxNlKkX/aLTGsUcLqBQHDyDY1nwWRO98b
-         6yWT5KAzeTKRSp0MsSlVyhg+TMrSTRsAEQC4DqM7rDpmc42PPaPRjUCngy9Z4KGVqc9N
-         uqPWSX6q7W5mUqGbxK9xpskUwOtrDhnOHvjd0zkEkxeyXz4iOydjZYrm43+228SEAoAl
-         Mg6yqpgauPNX35eAtNBVXkwpXmYwVVe7QpBbuZkKy7xjNbguWicMujPuqn2s8M7xUwTs
-         UkddjW3a1Lfly11DsFALxkf8gV/5qrt+3TXNvbi+xjbgHz2Uo6UGMNe+AgIZg8Y6Lc/3
-         pkPA==
-X-Gm-Message-State: APjAAAWqehvAXUUp6FIwUh5I3ciasIFLFDssPZtXNH46f72fxsYHbNdc
-        NB8x75yS/oItEiE4QV+4C8MUhA==
-X-Google-Smtp-Source: APXvYqxwiNJLKxtxCmE2ST2AE9Lmu5H++j8eE4QkIdwsCoxfpJYEwyGO1xHpDzV9MtN/IwdAOuFNIQ==
-X-Received: by 2002:a19:3f4b:: with SMTP id m72mr24201853lfa.32.1558019380002;
-        Thu, 16 May 2019 08:09:40 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id t23sm1148857lfk.9.2019.05.16.08.09.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 May 2019 08:09:38 -0700 (PDT)
-Subject: Re: [PATCH v2] media/doc: Allow sizeimage to be set by v4l clients
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
- <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
- <ca0e2c94-cca9-567f-5376-f302f79f4ba7@linaro.org>
- <CAAFQd5DBUUAPV0_=thmRBTFqJE+Nd4LZRzZE20rR0D8d7Cjz5g@mail.gmail.com>
- <cd7baea0-3893-7471-2e86-9cc6730843e3@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <49fd2002-8723-2f00-c972-8d605561b29a@linaro.org>
-Date:   Thu, 16 May 2019 18:09:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 16 May 2019 12:28:14 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D78C2FD;
+        Thu, 16 May 2019 18:28:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1558024091;
+        bh=KhxxbmPMcpQW5UnhkGZ7aH5mMp6nmxNwSJHEnNs70h0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nvAJaNAWy+D9KB2aHqg/8avODy9ecM1oTAjHA4njhxLUAv2SnMZjbonPAc7HLgZzF
+         343DhtjK9q1yt79LZAeSRBqiNAs5myxvBjivY/n8q/DqnqXXKgNbX5WHsjqH1iMWzV
+         hXltzsigWVmItgWJ9FXvMkYZyljnIjDS5zWgXT9k=
+Date:   Thu, 16 May 2019 19:27:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 01/13] dt-bindings: connector: analog: add tv norms
+ property
+Message-ID: <20190516162755.GN14820@pendragon.ideasonboard.com>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+ <20190415124413.18456-2-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <cd7baea0-3893-7471-2e86-9cc6730843e3@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20190415124413.18456-2-m.felsch@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Marco,
 
-On 5/16/19 1:40 PM, Hans Verkuil wrote:
-> On 5/16/19 11:56 AM, Tomasz Figa wrote:
->> On Thu, May 16, 2019 at 5:09 PM Stanimir Varbanov
->> <stanimir.varbanov@linaro.org> wrote:
->>>
->>> Hi Hans,
->>>
->>> On 5/14/19 11:54 AM, Hans Verkuil wrote:
->>>> Hi Stanimir,
->>>>
->>>> On 4/12/19 5:59 PM, Stanimir Varbanov wrote:
->>>>> This changes v4l2_pix_format and v4l2_plane_pix_format sizeimage
->>>>> field description to allow v4l clients to set bigger image size
->>>>> in case of variable length compressed data.
->>>>
->>>> I've been reconsidering this change. The sizeimage value in the format
->>>> is the minimum size a buffer should have in order to store the data of
->>>> an image of the width and height as described in the format.
->>>>
->>>> But there is nothing that prevents userspace from calling VIDIOC_CREATEBUFS
->>>> instead of VIDIOC_REQBUFS to allocate larger buffers.
->>>
->>> Sometimes CREATEBUFS cannot be implemented for a particular fw/hw.
->>>
->>> CC: Tomasz for his opinion.
->>>
->>
->> Thanks Stanimir.
->>
->> Actually, if called at the same point in time as REQBUFS, CREATE_BUFS
->> doesn't really differ to much, except that it gives more flexibility
->> for allocating the buffers and that shouldn't depend on any specific
->> features of hardware or firmware.
->>
->> Actually, one could even allocate any buffers any time regardless of
->> hardware/firmware support, but the ability to use such buffers would
->> actually depend on such.
->>
->> Perhaps we should just let the drivers return -EBUSY from CREATE_BUFS
->> if called at the wrong time?
->>
->>>>
->>>> So do we really need this change?
->>>>
->>
->> Yes, because this has worked like this all the time, but it was just
->> not documented. Disallowing this would break quite a bit of existing
->> userspace.
-> 
-> Which drivers allow this today? I think that would be useful information
-> for the commit log of a v4 of this patch.
-> 
+Thank you for the patch.
 
-I'd say s5p-mfc and mtk-vcodec at least.
+On Mon, Apr 15, 2019 at 02:44:01PM +0200, Marco Felsch wrote:
+> Some connectors no matter if in- or output supports only a limited
+> range of tv norms. It doesn't matter if the hardware behind that
+> connector supports more than the listed formats since the users are
+> restriced by a label e.g. to plug only a camera into this connector
+> which uses the PAL format.
+> 
+> This patch adds the capability to describe such limitation within the
+> firmware. There are no format restrictions if the property isn't
+> present, so it's completely backward compatible.
+
+Why is this needed ? It's not really a hardware property, is it ? What's
+the use case ?
+
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> [1] https://patchwork.kernel.org/cover/10794703/
+> 
+> v6:
+> - tvnorms.h: use tabs instead of spaces
+> - tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
+> - tvnorms.h: drop rarely used TVNORM_ATSC_* norms
+> 
+> v2-v4:
+> - nothing since the patch was squashed from series [1] into this
+>   series.
+> 
+>  .../display/connector/analog-tv-connector.txt |  4 ++
+>  include/dt-bindings/media/tvnorms.h           | 56 +++++++++++++++++++
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 include/dt-bindings/media/tvnorms.h
+> 
+> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+> index 0c0970c210ab..346f8937a0b7 100644
+> --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+> +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+> @@ -6,6 +6,9 @@ Required properties:
+>  
+>  Optional properties:
+>  - label: a symbolic name for the connector
+> +- tvnorms: limit the supported tv norms on a connector to the given ones else
+> +           all tv norms are allowed. Possible video standards are defined in
+> +           include/dt-bindings/media/tvnorms.h.
+>  
+>  Required nodes:
+>  - Video port for TV input
+> @@ -16,6 +19,7 @@ Example
+>  tv: connector {
+>  	compatible = "composite-video-connector";
+>  	label = "tv";
+> +	tvnorms = <(TVNORM_PAL_M | TVNORM_NTSC_M)>;
+>  
+>  	port {
+>  		tv_connector_in: endpoint {
+> diff --git a/include/dt-bindings/media/tvnorms.h b/include/dt-bindings/media/tvnorms.h
+> new file mode 100644
+> index 000000000000..058ab8414145
+> --- /dev/null
+> +++ b/include/dt-bindings/media/tvnorms.h
+> @@ -0,0 +1,56 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only or X11 */
+> +/*
+> + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
+> + */
+> +
+> +#ifndef _DT_BINDINGS_MEDIA_TVNORMS_H
+> +#define _DT_BINDINGS_MEDIA_TVNORMS_H
+> +
+> +/* one bit for each */
+> +#define TVNORM_PAL_B		0x00000001
+> +#define TVNORM_PAL_B1		0x00000002
+> +#define TVNORM_PAL_G		0x00000004
+> +#define TVNORM_PAL_H		0x00000008
+> +#define TVNORM_PAL_I		0x00000010
+> +#define TVNORM_PAL_D		0x00000020
+> +#define TVNORM_PAL_D1		0x00000040
+> +#define TVNORM_PAL_K		0x00000080
+> +
+> +#define TVNORM_PAL		(TVNORM_PAL_B  | \
+> +				 TVNORM_PAL_B1 | \
+> +				 TVNORM_PAL_G  | \
+> +				 TVNORM_PAL_H  | \
+> +				 TVNORM_PAL_I  | \
+> +				 TVNORM_PAL_D  | \
+> +				 TVNORM_PAL_D1 | \
+> +				 TVNORM_PAL_K)
+> +
+> +#define TVNORM_PAL_M		0x00000100
+> +#define TVNORM_PAL_N		0x00000200
+> +#define TVNORM_PAL_Nc		0x00000400
+> +#define TVNORM_PAL_60		0x00000800
+> +
+> +#define TVNORM_NTSC_M		0x00001000	/* BTSC */
+> +#define TVNORM_NTSC_M_JP	0x00002000	/* EIA-J */
+> +#define TVNORM_NTSC_443		0x00004000
+> +#define TVNORM_NTSC_M_KR	0x00008000	/* FM A2 */
+> +
+> +#define TVNORM_SECAM_B		0x00010000
+> +#define TVNORM_SECAM_D		0x00020000
+> +#define TVNORM_SECAM_G		0x00040000
+> +#define TVNORM_SECAM_H		0x00080000
+> +#define TVNORM_SECAM_K		0x00100000
+> +#define TVNORM_SECAM_K1		0x00200000
+> +#define TVNORM_SECAM_L		0x00400000
+> +#define TVNORM_SECAM_LC		0x00800000
+> +
+> +#define TVNORM_SECAM		(TVNORM_SECAM_B  | \
+> +				 TVNORM_SECAM_D  | \
+> +				 TVNORM_SECAM_G  | \
+> +				 TVNORM_SECAM_H  | \
+> +				 TVNORM_SECAM_K  | \
+> +				 TVNORM_SECAM_K1 | \
+> +				 TVNORM_SECAM_L  | \
+> +				 TVNORM_SECAM_LC)
+> +
+> +#endif /* _DT_BINDINGS_MEDIA_TVNORMS_H */
 
 -- 
-regards,
-Stan
+Regards,
+
+Laurent Pinchart
