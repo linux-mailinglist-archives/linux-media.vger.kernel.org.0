@@ -2,107 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5878D200F2
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D9D92011E
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 10:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbfEPIJN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 04:09:13 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35822 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726374AbfEPIJM (ORCPT
+        id S1726429AbfEPIPV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 16 May 2019 04:15:21 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:41133 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbfEPIPV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 04:09:12 -0400
-Received: by mail-lj1-f195.google.com with SMTP id h11so866759ljb.2
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 01:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QG++TdTDo8I5Y/kXuu9iUwjpqJr5RRm0pgh41ilp46o=;
-        b=tNDLPnvnICu0ql4vXKqwN3CRGatnx0hohbiBQksTPFRlycOEhBL9mmRtlSrl0WvP4m
-         5zPygpT9/5ERZlbeoASLFmzJEbC86DaiJfaH0i1Lh+1fs3N2G5qntqynVJcQ3pTl4pJV
-         gr15uR4VXpg7kVk3+xzrBKa52YDFxsN3hgFKHOlVdfX8EVT409ScYKGl+oPBBDP1hBBV
-         tAjgDKAKh158sX6emXiD4/jXaMySs429Zx5naJOtuAJOQJh3gqsPMs4zBuzS9KJDvXJd
-         Rj/8nlgfm5eLdGBMKgZVIjS0Y2RKIBeSrRDML8H7bzG+Qvvg6KdvayevAXaiUw9AlSE5
-         u7LQ==
+        Thu, 16 May 2019 04:15:21 -0400
+Received: by mail-ua1-f66.google.com with SMTP id s30so944473uas.8;
+        Thu, 16 May 2019 01:15:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QG++TdTDo8I5Y/kXuu9iUwjpqJr5RRm0pgh41ilp46o=;
-        b=jnb2N293MK7ZYKWb87MwmKHFH38JdKPXsxQnrJOCM6d75XvgRSRKRiZYyBk1Vnxz/k
-         2z/oitFz1NKcxXnVCIB/wbXysrIhcBq6wSxih7FhHL3rfUJF2K0a/RMXYL2mq6A3ETEn
-         9Rrn+EZua9u9lhTOCNLwt/qJz4CeIb3IjF6mu04KfzRg5/+w1s3Ahc3+grFIt6jTvd/B
-         vTMmxvh9uuXhVB4/6vxWwte1WhGeBRrCx/D68WZPRjQNu3TM3/vFntuon2yoxlBeIicI
-         QtNcQ2wbMtrWh65ksDNZxf/nYe99lIcy+Tm9ANPJuXel9DWMc/Ixlk4F/DYbfVjLZNg/
-         D1MA==
-X-Gm-Message-State: APjAAAU9wCHa1mEqHR9PIT/WKK7lv6kNulrZnPczndn+Efk9/LzWUTw9
-        ebKhYnbwJL3aq+VUti/5hAGrTg==
-X-Google-Smtp-Source: APXvYqxvMH7YTuGRmcz3kUP8TzVYaoFE+f8w+fN6e0CEox7DYVoK71J7fbGskxym6MMzAi9u5G9vKQ==
-X-Received: by 2002:a2e:9d4c:: with SMTP id y12mr23076244ljj.132.1557994150813;
-        Thu, 16 May 2019 01:09:10 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id k1sm938935lfc.18.2019.05.16.01.09.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 May 2019 01:09:09 -0700 (PDT)
-Subject: Re: [PATCH v2] media/doc: Allow sizeimage to be set by v4l clients
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20190412155915.16849-1-stanimir.varbanov@linaro.org>
- <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <ca0e2c94-cca9-567f-5376-f302f79f4ba7@linaro.org>
-Date:   Thu, 16 May 2019 11:09:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lMqMzp64eqAi/eeBR+JyTcWDIbdC9+XvI/n8NU7n5QM=;
+        b=R4evRx+vYbqG/JQhJwd9T+3XWOXmGhlLY+ulPp5q9JSjtU2zUsEMOyPdojVfTu+gea
+         WQGgcOgUTW8vrazVez2+zVD19Yiiv8ux3WcfjMxZnuhAq2hlAKsFztH6kxR5PBodfdyY
+         372twh3xIZruMF0ysOLh5fSwvA4VUOQj6fC1gJc/ky8eS3gtFCQmXEPTeO7UBnDhHH+q
+         +jpvWRl3k/veYT2pXO403oDFzS8mooCWRsVzf6cVgSIZrOY71MOacZolbY4qBk73bpD1
+         qme0vwbIAn+VCzKi53Hj7dsEK7vwL/xKoB5iZXEz0xXm5cAMiQBOlSMnTC3GMcOCFcxn
+         4cHg==
+X-Gm-Message-State: APjAAAXeqw3ZDlKCuTYYITjJogPIZvJ2YIshAhSXnWrmCxn/fcky/XGk
+        Vwjro1tkMau6XSysvzgRm5KS7ZmCgmeV7vkP90Y=
+X-Google-Smtp-Source: APXvYqyBSEvN0lTCRcoclXAhwnpFbOFF6HXKE7zOSyJfEtKUvw9b6UvPuUatKHUACZgqu0Ig5ler61UMIdo5veArT7o=
+X-Received: by 2002:ab0:5a07:: with SMTP id l7mr15977823uad.78.1557994520321;
+ Thu, 16 May 2019 01:15:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a1807c37-99cf-d1fa-bcb9-67af2935abaf@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190516003538.32172-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190516003538.32172-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 16 May 2019 10:15:08 +0200
+Message-ID: <CAMuHMdX_Dt92cExbWSdSkWd01b0Jp76Sb4u_fcEm9E-hOAMPCQ@mail.gmail.com>
+Subject: Re: [PATCH] rcar-csi2: Fix coccinelle warning for PTR_ERR_OR_ZERO()
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Thu, May 16, 2019 at 3:50 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Use the PTR_ERR_OR_ZERO() macro instead of construct:
+>
+>     if (IS_ERR(foo))
+>         return PTR_ERR(foo);
+>
+>     return 0;
+>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Fixes: 3ae854cafd76 ("rcar-csi2: Use standby mode instead of resetting")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On 5/14/19 11:54 AM, Hans Verkuil wrote:
-> Hi Stanimir,
-> 
-> On 4/12/19 5:59 PM, Stanimir Varbanov wrote:
->> This changes v4l2_pix_format and v4l2_plane_pix_format sizeimage
->> field description to allow v4l clients to set bigger image size
->> in case of variable length compressed data.
-> 
-> I've been reconsidering this change. The sizeimage value in the format
-> is the minimum size a buffer should have in order to store the data of
-> an image of the width and height as described in the format.
-> 
-> But there is nothing that prevents userspace from calling VIDIOC_CREATEBUFS
-> instead of VIDIOC_REQBUFS to allocate larger buffers.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Sometimes CREATEBUFS cannot be implemented for a particular fw/hw.
+Gr{oetje,eeting}s,
 
-CC: Tomasz for his opinion.
-
-> 
-> So do we really need this change?
-> 
-> The more I think about this, the more uncomfortable I become with this change.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-
-<cut>
+                        Geert
 
 -- 
-regards,
-Stan
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
