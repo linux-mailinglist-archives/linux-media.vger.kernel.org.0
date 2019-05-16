@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B57BE208F0
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 16:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95965208F2
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 16:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727812AbfEPOAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 May 2019 10:00:42 -0400
-Received: from mail-vk1-f201.google.com ([209.85.221.201]:55565 "EHLO
-        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727808AbfEPOAl (ORCPT
+        id S1727836AbfEPOAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 May 2019 10:00:45 -0400
+Received: from mail-yw1-f73.google.com ([209.85.161.73]:51326 "EHLO
+        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727811AbfEPOAp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 10:00:41 -0400
-Received: by mail-vk1-f201.google.com with SMTP id r11so1245322vkl.22
-        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 07:00:41 -0700 (PDT)
+        Thu, 16 May 2019 10:00:45 -0400
+Received: by mail-yw1-f73.google.com with SMTP id k10so3162824ywb.18
+        for <linux-media@vger.kernel.org>; Thu, 16 May 2019 07:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=rlRVknlZU7qYpUcxId0/VutlDA2ELBhIWtuAFSYl26U=;
-        b=W/tfpJ46pm6QwaEsnL+ks8gRef5r8nf2B7dUTibUg/joOKC1EXfGHPltFpIwbVPU9v
-         TBi+fnSwOkLvw7FzES/V0KLSXqhV+MC58kUWaVGqWAtcz0p5qDde0U+iA9vX84D+2sjp
-         OWFgPDghIPEHlYjiZrU58wH21GXVNplgPUMeZT1N9gV0WjtY8I1sqCEzlxKNWv/BeBUc
-         C8EhUu7EN1/JirLH4YBUHjQ/9US8Gx/KphuXRUUbx24XcF6uPyvLsslL1+CrYu9e0b4y
-         VmcgF1DroAo1yJD+zY+C634qxRbld2c6PNMYlHs/wZ4Oz0LHwtL2X8/DLImc2Vine3xZ
-         nwPw==
+        bh=0W2BzNydBRd7QhaGcoJcvGTU7rmnrCYSV56xvl6bzSI=;
+        b=Ze8Tkxqk0wx23S6A7duvigoJPnTj7PRU02KReczZHeQEeF4mhN+1JFLjXiyvLc2uOo
+         K0L+nHK5dIoAKUezZbvHDmZnHd+p6BSfo3sxFUUDRPLhx7bGncD/pjOwb6QUbv3cOkrz
+         6XAnncWcjHlIqBY2nP9hXLzj6HRzvCXZ1rqLPMOOiILRHvPR31uRLrrzVKF1z2TIyd11
+         hZxLUK3tJaLFX5RY0W09ISXDy3pMLKE/YAfHuFt+uSHeEadW1GSRIWNTjmuAUFgtg1Cr
+         XqKADFQcLIDucjHgE9sQapJlUwjh8H94yZ47pbLaCYqCr7ovB9TM7TxNCAKRcY46qx47
+         hBfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=rlRVknlZU7qYpUcxId0/VutlDA2ELBhIWtuAFSYl26U=;
-        b=YJ/Xdku9oG7dMb+DO/VZYdGTvNEY3CpQgIE/AbSN2prmqBsup4MsOj5Au6lB+pHCql
-         6ePxChKKySMP6/j3wl2UeskqvdSCtN8tNsAm8/zB8m+Syw2S2AwDPuD0gpb4+ivkkw/a
-         Epdg0a3W7n2paLIvQsteSAoJEbqV7DU2Mm01d/opDK4JMHx+Bbng8py1auVnNBu2J4ZZ
-         fFkiazCkjs5EK5F2yYp2Yto3LIivIVfz8n6LfzRUQ8FhyE+Mpfc6ObtxnudbmLQMKmwQ
-         seXxOAQtBDqN/Qsz9dMH4HEP++j/49NUxNjQeqNJr3sB2RTMxRKb50NgRaM2rRREx6vQ
-         wQug==
-X-Gm-Message-State: APjAAAUih2zRIxFgSKwdphHSm7MEcx/D/+TEGjNgcn90qn2Nb+kh1nJO
-        Evmd45K1gQult4U61cCB8h5LqjlimTCMGzbGxEUwS0j98EfE9thmmHZJ3suymqbKSb4Q1cgNuFU
-        +gFHpbB1so5NslRykeZc2beNJU067ap5e7QsjKtU2aue49Uw+IZJlzoQv/Mkeuk0uCbi9
-X-Google-Smtp-Source: APXvYqwBfop0sVMYzVgicTJbUQL+4IOtu+mUxtXvxjLYIa8tDZ5zzlW2t2aIKr249ZniIeEVl/xOiRgLgck=
-X-Received: by 2002:a67:8042:: with SMTP id b63mr23047683vsd.202.1558015240438;
- Thu, 16 May 2019 07:00:40 -0700 (PDT)
-Date:   Thu, 16 May 2019 16:00:19 +0200
+        bh=0W2BzNydBRd7QhaGcoJcvGTU7rmnrCYSV56xvl6bzSI=;
+        b=DBrUiZelYrB9uhs/uwLtD3sY9Y1pZcVHO7L+0+lanF1tFaho6P8zfyYXUN1ZCiFCf6
+         iSwwLYlXG3sfD7OGmp5OcSsKDP2JcknC/9L7U/qze6Q25jUpBaRxUeS41FriZodoyP6Q
+         zKVSjWNo6VCHfDtu1NAO00roftonXSGTWGTHVEBwULo5wqFei6Xdj2GQXMwB3M0h18uy
+         A8LbuIun6UKp4js4YSkv16sR2Vpe9s6k/CbQpJbwkar/0X9+u0yncmrzz2cMKffUBC9N
+         cWZbkMaXq1ZOb/EhrKgjjQAMslm4c4oVl7DBEpDv6PtiZkum+32Yv+seXmTLPMIrKV/p
+         im1g==
+X-Gm-Message-State: APjAAAW4pYmBrzZYtbE7JtN6YrLi7iF2PT259x76wijajX3Ka+/O/i81
+        lY4mS0csPns2wDfuF0A89rO+WsCkjcZ3FIcd09FAXKGWCf1fatmppHlqTSiBmj1mzJ7n4DuNVfx
+        1P9H0Ottd1rOkBKF88jvNUQEyq47IpLgS2t1qBc9ULbwzfN7FgjC4Iqg88Yl8gYFVQhEd
+X-Google-Smtp-Source: APXvYqylyCuEAoh/IO80hPvL85QhJypPrPpWyzFZNNCr4o4QOYuBtPRskXjvQaK6dQzj824TNXBcM630WdM=
+X-Received: by 2002:a81:2717:: with SMTP id n23mr25197449ywn.511.1558015244107;
+ Thu, 16 May 2019 07:00:44 -0700 (PDT)
+Date:   Thu, 16 May 2019 16:00:20 +0200
 In-Reply-To: <20190516140020.200105-1-darekm@google.com>
-Message-Id: <20190516140020.200105-2-darekm@google.com>
+Message-Id: <20190516140020.200105-3-darekm@google.com>
 Mime-Version: 1.0
 References: <20190516140020.200105-1-darekm@google.com>
 X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v5 2/3] drm/bridge: dw-hdmi: pass connector info to the CEC adapter
+Subject: [PATCH v5 3/3] drm/i2c: tda9950: pass HDMI connector info to CEC adapter
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     linux-media@vger.kernel.org, hans.verkuil@cisco.com,
         hverkuil@xs4all.nl
@@ -60,207 +60,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch makes dw-hdmi pass DRM connector info to a respective
-CEC adapter. In order to be able to do that it delays creation of
-the dw-hdmi-cec platform device until DRM connector is initialized.
+With that change tda998x provides a connector info to the CEC
+adapter. In order to be able to that it delays creation of
+respective CEC device until the DRM connector is initialized.
 
 Requires testing.
 
 Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c |  5 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.h |  2 +
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 82 +++++++++++--------
- 3 files changed, 52 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/i2c/tda9950.c         |  7 ++++-
+ drivers/gpu/drm/i2c/tda998x_drv.c     | 41 +++++++++++++--------------
+ include/linux/platform_data/tda9950.h |  2 ++
+ 3 files changed, 28 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-index 84fb7b6a0a5e0..cf879629e0726 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-@@ -232,6 +232,7 @@ static void dw_hdmi_cec_del(void *data)
- static int dw_hdmi_cec_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index b944dd9df85e1..2778a0015cc31 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -382,6 +382,7 @@ static int tda9950_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *id)
  {
- 	struct dw_hdmi_cec_data *data = dev_get_platdata(&pdev->dev);
+ 	struct tda9950_glue *glue = client->dev.platform_data;
 +	struct cec_connector_info conn_info;
- 	struct dw_hdmi_cec *cec;
+ 	struct device *dev = &client->dev;
+ 	struct tda9950_priv *priv;
+ 	unsigned long irqflags;
+@@ -422,10 +423,14 @@ static int tda9950_probe(struct i2c_client *client,
+ 	if (glue && glue->parent)
+ 		priv->hdmi = glue->parent;
+ 
++	memset(&conn_info, 0, sizeof(conn_info));
++	if (glue)
++		cec_fill_connector_info(&conn_info, glue->connector);
++
+ 	priv->adap = cec_allocate_adapter(&tda9950_cec_ops, priv, "tda9950",
+ 					  CEC_CAP_DEFAULTS,
+ 					  CEC_MAX_LOG_ADDRS,
+-					  NULL);
++					  &conn_info);
+ 	if (IS_ERR(priv->adap))
+ 		return PTR_ERR(priv->adap);
+ 
+diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+index 7f34601bb5155..ef2aa3134b387 100644
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1253,6 +1253,7 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+ 				  struct drm_device *drm)
+ {
+ 	struct drm_connector *connector = &priv->connector;
++	struct i2c_board_info cec_info;
  	int ret;
  
-@@ -258,10 +259,12 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
- 	dw_hdmi_write(cec, ~0, HDMI_IH_MUTE_CEC_STAT0);
- 	dw_hdmi_write(cec, 0, HDMI_CEC_POLARITY);
+ 	connector->interlace_allowed = 1;
+@@ -1269,6 +1270,24 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+ 	if (ret)
+ 		return ret;
  
-+	cec_fill_connector_info(&conn_info, data->connector);
++	/*
++	 * Some TDA998x are actually two I2C devices merged onto one piece
++	 * of silicon: TDA9989 and TDA19989 combine the HDMI transmitter
++	 * with a slightly modified TDA9950 CEC device.  The CEC device
++	 * is at the TDA9950 address, with the address pins strapped across
++	 * to the TDA998x address pins.  Hence, it always has the same
++	 * offset.
++	 */
++	memset(&cec_info, 0, sizeof(cec_info));
++	strlcpy(cec_info.type, "tda9950", sizeof(cec_info.type));
++	cec_info.addr = priv->cec_addr;
++	cec_info.platform_data = &priv->cec_glue;
++	cec_info.irq = priv->hdmi->irq;
 +
- 	cec->adap = cec_allocate_adapter(&dw_hdmi_cec_ops, cec, "dw_hdmi",
- 					 CEC_CAP_LOG_ADDRS | CEC_CAP_TRANSMIT |
- 					 CEC_CAP_RC | CEC_CAP_PASSTHROUGH,
--					 CEC_MAX_LOG_ADDRS, NULL);
-+					 CEC_MAX_LOG_ADDRS, &conn_info);
- 	if (IS_ERR(cec->adap))
- 		return PTR_ERR(cec->adap);
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.h
-index cf4dc121a2c43..a2ac91ec845ed 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.h
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.h
-@@ -1,6 +1,7 @@
- #ifndef DW_HDMI_CEC_H
- #define DW_HDMI_CEC_H
- 
-+struct drm_connector;
- struct dw_hdmi;
- 
- struct dw_hdmi_cec_ops {
-@@ -13,6 +14,7 @@ struct dw_hdmi_cec_ops {
- struct dw_hdmi_cec_data {
- 	struct dw_hdmi *hdmi;
- 	const struct dw_hdmi_cec_ops *ops;
-+	const struct drm_connector *connector;
- 	int irq;
- };
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index db761329a1e3e..6aaf0a7db9818 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -138,6 +138,8 @@ struct dw_hdmi {
- 	struct drm_connector connector;
- 	struct drm_bridge bridge;
- 
-+	int irq;
++	priv->cec = i2c_new_device(priv->hdmi->adapter, &cec_info);
++	if (!priv->cec)
++		return -ENODEV;
 +
- 	unsigned int version;
+ 	drm_connector_attach_encoder(&priv->connector,
+ 				     priv->bridge.encoder);
  
- 	struct platform_device *audio;
-@@ -189,6 +191,7 @@ struct dw_hdmi {
- 	void (*enable_audio)(struct dw_hdmi *hdmi);
- 	void (*disable_audio)(struct dw_hdmi *hdmi);
- 
-+	bool cec_configured;
- 	struct cec_notifier *cec_notifier;
- };
- 
-@@ -2105,6 +2108,29 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
- 	.get_modes = dw_hdmi_connector_get_modes,
- };
- 
-+static void dw_hdmi_cec_enable(struct dw_hdmi *hdmi)
-+{
-+	mutex_lock(&hdmi->mutex);
-+	hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CECCLK_DISABLE;
-+	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-+	mutex_unlock(&hdmi->mutex);
-+}
-+
-+static void dw_hdmi_cec_disable(struct dw_hdmi *hdmi)
-+{
-+	mutex_lock(&hdmi->mutex);
-+	hdmi->mc_clkdis |= HDMI_MC_CLKDIS_CECCLK_DISABLE;
-+	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-+	mutex_unlock(&hdmi->mutex);
-+}
-+
-+static const struct dw_hdmi_cec_ops dw_hdmi_cec_ops = {
-+	.write = hdmi_writeb,
-+	.read = hdmi_readb,
-+	.enable = dw_hdmi_cec_enable,
-+	.disable = dw_hdmi_cec_disable,
-+};
-+
- static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+@@ -1658,7 +1677,6 @@ static int tda998x_create(struct device *dev)
  {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
-@@ -2121,6 +2147,23 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
- 
- 	drm_connector_attach_encoder(connector, encoder);
- 
-+	if (hdmi->cec_configured) {
-+		struct platform_device_info pdevinfo;
-+		struct dw_hdmi_cec_data cec;
-+
-+		cec.hdmi = hdmi;
-+		cec.ops = &dw_hdmi_cec_ops;
-+		cec.irq = hdmi->irq;
-+		cec.connector = connector;
-+
-+		pdevinfo.name = "dw-hdmi-cec";
-+		pdevinfo.data = &cec;
-+		pdevinfo.size_data = sizeof(cec);
-+		pdevinfo.dma_mask = 0;
-+
-+		hdmi->cec = platform_device_register_full(&pdevinfo);
-+	}
-+
- 	return 0;
- }
- 
-@@ -2390,29 +2433,6 @@ static int dw_hdmi_detect_phy(struct dw_hdmi *hdmi)
- 	return -ENODEV;
- }
- 
--static void dw_hdmi_cec_enable(struct dw_hdmi *hdmi)
--{
--	mutex_lock(&hdmi->mutex);
--	hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CECCLK_DISABLE;
--	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
--	mutex_unlock(&hdmi->mutex);
--}
--
--static void dw_hdmi_cec_disable(struct dw_hdmi *hdmi)
--{
--	mutex_lock(&hdmi->mutex);
--	hdmi->mc_clkdis |= HDMI_MC_CLKDIS_CECCLK_DISABLE;
--	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
--	mutex_unlock(&hdmi->mutex);
--}
--
--static const struct dw_hdmi_cec_ops dw_hdmi_cec_ops = {
--	.write = hdmi_writeb,
--	.read = hdmi_readb,
--	.enable = dw_hdmi_cec_enable,
--	.disable = dw_hdmi_cec_disable,
--};
--
- static const struct regmap_config hdmi_regmap_8bit_config = {
- 	.reg_bits	= 32,
- 	.val_bits	= 8,
-@@ -2435,7 +2455,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 	struct device_node *np = dev->of_node;
- 	struct platform_device_info pdevinfo;
- 	struct device_node *ddc_node;
--	struct dw_hdmi_cec_data cec;
- 	struct dw_hdmi *hdmi;
- 	struct resource *iores = NULL;
- 	int irq;
-@@ -2585,6 +2604,7 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		ret = irq;
- 		goto err_iahb;
- 	}
-+	hdmi->irq = irq;
- 
- 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
- 					dw_hdmi_irq, IRQF_SHARED,
-@@ -2660,18 +2680,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->audio = platform_device_register_full(&pdevinfo);
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct device_node *np = client->dev.of_node;
+-	struct i2c_board_info cec_info;
+ 	struct tda998x_priv *priv;
+ 	u32 video;
+ 	int rev_lo, rev_hi, ret;
+@@ -1783,32 +1801,13 @@ static int tda998x_create(struct device *dev)
  	}
  
--	if (config0 & HDMI_CONFIG0_CEC) {
--		cec.hdmi = hdmi;
--		cec.ops = &dw_hdmi_cec_ops;
--		cec.irq = irq;
+ 	priv->cec_glue.parent = dev;
++	priv->cec_glue.connector = &priv->connector;
+ 	priv->cec_glue.data = priv;
+ 	priv->cec_glue.init = tda998x_cec_hook_init;
+ 	priv->cec_glue.exit = tda998x_cec_hook_exit;
+ 	priv->cec_glue.open = tda998x_cec_hook_open;
+ 	priv->cec_glue.release = tda998x_cec_hook_release;
+ 
+-	/*
+-	 * Some TDA998x are actually two I2C devices merged onto one piece
+-	 * of silicon: TDA9989 and TDA19989 combine the HDMI transmitter
+-	 * with a slightly modified TDA9950 CEC device.  The CEC device
+-	 * is at the TDA9950 address, with the address pins strapped across
+-	 * to the TDA998x address pins.  Hence, it always has the same
+-	 * offset.
+-	 */
+-	memset(&cec_info, 0, sizeof(cec_info));
+-	strlcpy(cec_info.type, "tda9950", sizeof(cec_info.type));
+-	cec_info.addr = priv->cec_addr;
+-	cec_info.platform_data = &priv->cec_glue;
+-	cec_info.irq = client->irq;
 -
--		pdevinfo.name = "dw-hdmi-cec";
--		pdevinfo.data = &cec;
--		pdevinfo.size_data = sizeof(cec);
--		pdevinfo.dma_mask = 0;
--
--		hdmi->cec = platform_device_register_full(&pdevinfo);
+-	priv->cec = i2c_new_device(client->adapter, &cec_info);
+-	if (!priv->cec) {
+-		ret = -ENODEV;
+-		goto fail;
 -	}
-+	if (config0 & HDMI_CONFIG0_CEC)
-+		hdmi->cec_configured = true;
+-
+ 	/* enable EDID read irq: */
+ 	reg_set(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
  
- 	/* Reset HDMI DDC I2C master controller and mute I2CM interrupts */
- 	if (hdmi->i2c)
+diff --git a/include/linux/platform_data/tda9950.h b/include/linux/platform_data/tda9950.h
+index c65efd461102e..7e6893bad03a2 100644
+--- a/include/linux/platform_data/tda9950.h
++++ b/include/linux/platform_data/tda9950.h
+@@ -2,10 +2,12 @@
+ #define LINUX_PLATFORM_DATA_TDA9950_H
+ 
+ struct device;
++struct drm_connector;
+ 
+ struct tda9950_glue {
+ 	struct device *parent;
+ 	unsigned long irq_flags;
++	const struct drm_connector *connector;
+ 	void *data;
+ 	int (*init)(void *);
+ 	void (*exit)(void *);
 -- 
 2.18.1
 
