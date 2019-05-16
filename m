@@ -2,49 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57A522000A
-	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 09:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57F972002E
+	for <lists+linux-media@lfdr.de>; Thu, 16 May 2019 09:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbfEPHPa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 16 May 2019 03:15:30 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:45013 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbfEPHP3 (ORCPT
+        id S1726447AbfEPHXy convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 16 May 2019 03:23:54 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:42565 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726374AbfEPHXy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 May 2019 03:15:29 -0400
-Received: by mail-vs1-f67.google.com with SMTP id j184so1617227vsd.11;
-        Thu, 16 May 2019 00:15:28 -0700 (PDT)
+        Thu, 16 May 2019 03:23:54 -0400
+Received: by mail-vs1-f68.google.com with SMTP id z11so1641008vsq.9;
+        Thu, 16 May 2019 00:23:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vBPaoFAauCH5+iqFfyzqNMHD69Jtgjzqknm8ZGh1Rho=;
-        b=fGSAUOgg65uvbuXBnBbxz44Dkmu0LWLRVCHUJRLuvv89bK3ZJbI5pNQVABTwxE4LE7
-         o++8qeiHfRLWAivZEtVrSXjo2AArWhHiABEr/uOX0aPrjVAT2NeCof/jzfdLrDGDDWXI
-         r72Lt+iGWLHjZlVQEmkQUUv41go249S8RiAs9ZGuymG9fKsfRNZdp3qWhyquTOzq5sGV
-         F8wE3bvZX/llb3d8Sgv3hAs8tMj/0Wfcjs6OZ1OCH1BhZg/TKWBc6mo4BetWKzbMa7uC
-         cYgbiXGrxPo98vyCVG5qAJtb7gk9Aoz/xLphc+rVn1yHP/H0KWi6AeVL3T7vtXyjLzwA
-         2iJw==
-X-Gm-Message-State: APjAAAWsUgcO4lMN7L+O1QvrO6Zd5HoZi9pvd0+HFN6Gpq0pFBdJRvAs
-        30Z0XQGswteFODDvbG1WfVgiQnl//Biht6hpvBKsF+Ht
-X-Google-Smtp-Source: APXvYqx3lubdb4zhS3ZD+mCp84RPS/GM5QyWhtoYpBVTrzLxaHp6HAB4gJ/WpOZhyHhmWae1oCBKMGqHKgMGV9Tgg58=
-X-Received: by 2002:a67:fdd4:: with SMTP id l20mr18208599vsq.63.1557990928358;
- Thu, 16 May 2019 00:15:28 -0700 (PDT)
+        bh=tgfau7boWrWh6F3Fa9WuK4GpRReaYJg5HNoV5hTdOBo=;
+        b=gu7aMvJfTEcC94VUyzuiotm/xiKv/Aim8bT3fZDrOtT0OJlSRF1cnHPi1exkpO98YV
+         S68aX7G6hDTB3c1P1zFV+Ka4B9EzGhEyESCfL7dYG2S2Oa8UWoiuCQ5wT7Ae7hHwmiTk
+         i+P3Gb/HU8jJ5MU69jXJ+iEiDEt1ijQGUVDaPgH7SAuU6p/fceMqnZ9vd/jDgyFnUgW6
+         jOmAzhRR4BRlrkPjxlwIg2HZJzdeZ/eskSsnGVJUymwr7XM9WkSOWojZo6nDAompREOg
+         bOSKhWgWsB2VUUxkoALluDVErMJ3YPxmakxHUIRsuvO6iAH7p5GxBG3ZJPg321Xqgz0p
+         KHiQ==
+X-Gm-Message-State: APjAAAXkE9KQ0i2jZSxuBdOaAjpv/NUX0xol1SVnDmRH3+qyDl4GPd5Q
+        3/CBluaANUhNhkqnyFmOvhCldIUEPlL5synKPoQ=
+X-Google-Smtp-Source: APXvYqzWxSQY3dY6GUjsZ1P1q09AZKaieGK8Rl0D0Ox+5areEV5HUfnEFYBx5FyuhBkuR+yXaYjJrAAfDOGlQq0D+b4=
+X-Received: by 2002:a67:770f:: with SMTP id s15mr14318843vsc.11.1557991433239;
+ Thu, 16 May 2019 00:23:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190516003803.808-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20190516003803.808-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20190516011417.10590-1-niklas.soderlund+renesas@ragnatech.se> <20190516011417.10590-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190516011417.10590-2-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 May 2019 09:15:16 +0200
-Message-ID: <CAMuHMdVU5WhL66Lve1qjZx7OGYWbkUmC9JNvYye0SGvtWmawVQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: rcar-{csi2,vin}: Rename bindings
- documentation files
+Date:   Thu, 16 May 2019 09:23:41 +0200
+Message-ID: <CAMuHMdWqw-PAUbm9WLJwYecrQxoJ-vN6iOHEL7Jwx_H9d_LdBg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] rcar-vin: Do not call pm_runtime_{resume,suspend}()
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ulrich Hecht <uli@fpond.eu>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Ulrich Hecht <uli+renesas@fpond.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
@@ -52,15 +51,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 16, 2019 at 3:49 AM Niklas Söderlund
+Hi Niklas,
+
+On Thu, May 16, 2019 at 3:46 AM Niklas Söderlund
 <niklas.soderlund+renesas@ragnatech.se> wrote:
-> Renesas media binding documentation files uses a naming schema of
-> 'renesas,<module>.txt'. Rename VIN and CSI-2 files to match this
-> pattern.
+> The driver does not implement runtime resume and suspend function so
+> there is little point in trying to call them. This is a leftover from
+> the drivers soc_camera beginnings.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 7cbdcbf9b090c638..b821ea01786eb1ff 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -798,9 +798,6 @@ static int rvin_initialize_device(struct file *file)
+>                 return ret;
+>
+>         pm_runtime_enable(&vin->vdev.dev);
+> -       ret = pm_runtime_resume(&vin->vdev.dev);
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Please pardon my ignorance, but which device is vin->vdev.dev?
+Who calls pm_runtime_get_sync() on it, and where?
+
+I see this function calls rvin_power_on(vin->v4l2_dev.dev) (before the
+call to pm_runtime_enable()), but presumably that's a different device?
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
