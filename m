@@ -2,242 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF20215E5
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2019 11:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C9521926
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2019 15:27:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728436AbfEQJFq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 May 2019 05:05:46 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:64726 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727338AbfEQJFq (ORCPT
+        id S1728935AbfEQN06 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 May 2019 09:26:58 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:8487 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728333AbfEQN06 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 May 2019 05:05:46 -0400
-X-UUID: 7e0adf44dfaf4e61a3e5cfc579ddbcb2-20190517
-X-UUID: 7e0adf44dfaf4e61a3e5cfc579ddbcb2-20190517
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 492930839; Fri, 17 May 2019 17:05:35 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs03n1.mediatek.inc (172.21.101.181) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 17 May 2019 17:05:34 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 17 May 2019 17:05:34 +0800
-Message-ID: <1558083934.29098.6.camel@mtksdaap41>
-Subject: Re: [PATCH v3 09/13] [media] mtk-mipicsi: add ISR for writing the
- data to buffer
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Stu Hsieh <stu.hsieh@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
-Date:   Fri, 17 May 2019 17:05:34 +0800
-In-Reply-To: <1557814430-9675-10-git-send-email-stu.hsieh@mediatek.com>
-References: <1557814430-9675-1-git-send-email-stu.hsieh@mediatek.com>
-         <1557814430-9675-10-git-send-email-stu.hsieh@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Fri, 17 May 2019 09:26:58 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdeb6a60000>; Fri, 17 May 2019 06:27:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 17 May 2019 06:26:56 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 17 May 2019 06:26:56 -0700
+Received: from [10.24.42.162] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 May
+ 2019 13:26:52 +0000
+Subject: Re: [Patch V3] v4l2-core: fix use-after-free error
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, <mchehab@kernel.org>,
+        <sakari.ailus@linux.intel.com>, <paul.kocialkowski@bootlin.com>,
+        <tfiga@chromium.org>, <keiichiw@chromium.org>, <bbasu@nvidia.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1555342574-15940-1-git-send-email-sumitg@nvidia.com>
+ <16a25e01-7ebe-f0c9-2915-bd811b28c9c0@xs4all.nl>
+X-Nvconfidentiality: public
+From:   sumitg <sumitg@nvidia.com>
+Message-ID: <fcc04cce-cfc8-dfc1-f953-6b9a268a2294@nvidia.com>
+Date:   Fri, 17 May 2019 18:56:50 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <16a25e01-7ebe-f0c9-2915-bd811b28c9c0@xs4all.nl>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK:  N
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558099622; bh=M/osV76ryvDNBuZiIoBB4rLB9C5kRiGNWsdcND1xvY0=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:
+         Content-Transfer-Encoding:Content-Language;
+        b=OiMkBdcrBm2aa0ASsHmjalKxAo4/DCzF/uPov9JcK27aT6mLWMc05xwWBwBqu7kQq
+         WCQ9myGeVxszlaA3T/kxOyT8z3zttHyNU/7FyiiVumnsnjPhrnzov344c+FpMo2uXQ
+         fPQtbQhCmT7LlzVIGG9yOx1vpYOYsRnldMEeRF5gRk4PJ9UtQGRVvS4jw5C3Eq/G0C
+         A0QuKTZAgec5moXP0o6IRiuL83iReaHOTPfc/0JjtxQ52qlToqdH/VBqHoq6Lw4YXq
+         MaT6bKVqgV6Np67Sh6lp/yhuG+ae0aFkJg7/ZBoTZICTVkCWsqMwS5ChKFnqdTdGV0
+         3u8/mCLdU52nw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Stu:
 
-On Tue, 2019-05-14 at 14:13 +0800, Stu Hsieh wrote:
-> This patch add ISR for writing the data to buffer
-> 
-> When mipicsi HW complete to write the data in buffer,
-> the interrupt woulb be trigger.
-> So, the ISR need to clear interrupt status for next interrupt.
-> 
-> Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
-> ---
->  .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-> index 44c01c8d566b..af5655345754 100644
-> --- a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-> +++ b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-> @@ -36,6 +36,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/iommu.h>
->  #include <linux/of.h>
-> +#include <linux/of_irq.h>
->  #include <linux/of_platform.h>
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-dev.h>
-> @@ -93,6 +94,8 @@
->  #define CAMSV_MODULE_EN					0x10
->  #define CAMSV_FMT_SEL					0x14
->  #define CAMSV_INT_EN					0x18
-> +#define CAMSV_INT_STATUS				0x1C
-> +#define PASS1_DONE_STATUS				10
->  #define CAMSV_SW_CTL					0x20
->  #define CAMSV_CLK_EN					0x30
->  
-> @@ -122,6 +125,8 @@ struct mtk_mipicsi_dev {
->  	struct platform_device *pdev;
->  	unsigned int camsv_num;
->  	struct device *larb_pdev;
-> +	unsigned int		irq[MTK_CAMDMA_MAX_NUM];
-> +	bool irq_status[MTK_CAMDMA_MAX_NUM];
->  	void __iomem		*ana;
->  	void __iomem		*seninf_ctrl;
->  	void __iomem		*seninf;
-> @@ -132,6 +137,7 @@ struct mtk_mipicsi_dev {
->  	spinlock_t		lock;
->  	spinlock_t		queue_lock;
->  	struct mtk_mipicsi_buf	cam_buf[MAX_BUFFER_NUM];
-> +	bool			is_enable_irq[MTK_CAMDMA_MAX_NUM];
+On 24/04/19 4:37 PM, Hans Verkuil wrote:
+> On 4/15/19 5:36 PM, Sumit Gupta wrote:
+>> From: sumitg <sumitg@nvidia.com>
+>>
+>> Fixing use-after-free within __v4l2_ctrl_handler_setup().
+>> Memory is being freed with kfree(new_ref) for duplicate
+>> control reference entry but ctrl->cluster pointer is still
+>> referring to freed duplicate entry resulting in error on
+>> access. Change done to update cluster pointer only when new
+>> control reference is added. Also, added check to add new
+>> ctrl to handler only if the cluster points to an entry.
+>>
+>>   ==================================================================
+>>   BUG: KASAN: use-after-free in __v4l2_ctrl_handler_setup+0x388/0x428
+>>   Read of size 8 at addr ffffffc324e78618 by task systemd-udevd/312
+>>
+>>   Allocated by task 312:
+>>
+>>   Freed by task 312:
+>>
+>>   The buggy address belongs to the object at ffffffc324e78600
+>>    which belongs to the cache kmalloc-64 of size 64
+>>   The buggy address is located 24 bytes inside of
+>>    64-byte region [ffffffc324e78600, ffffffc324e78640)
+>>   The buggy address belongs to the page:
+>>   page:ffffffbf0c939e00 count:1 mapcount:0 mapping:
+>> 					(null) index:0xffffffc324e78f80
+>>   flags: 0x4000000000000100(slab)
+>>   raw: 4000000000000100 0000000000000000 ffffffc324e78f80 000000018020001a
+>>   raw: 0000000000000000 0000000100000001 ffffffc37040fb80 0000000000000000
+>>   page dumped because: kasan: bad access detected
+>>
+>>   Memory state around the buggy address:
+>>    ffffffc324e78500: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>>    ffffffc324e78580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>>   >ffffffc324e78600: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>>                               ^
+>>    ffffffc324e78680: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
+>>    ffffffc324e78700: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
+>>   ==================================================================
+>>
+>> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>> ---
+>>
+>> v3:
+>> * update ctrl->cluster only when new control reference is added.
+>> * add new ctrl to handler only if the cluster points to an entry.
+>>
+>> v2:
+>> * update ctrl->cluster only when new control reference is added.
+>> * check ctrl->ncontrols to avoid illegal access when cluster has zero controls.
+>>
+>>   drivers/media/v4l2-core/v4l2-ctrls.c | 26 ++++++++++++++------------
+>>   1 file changed, 14 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 5e3806f..877c2ab 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -2154,15 +2154,6 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
+>>   	if (size_extra_req)
+>>   		new_ref->p_req.p = &new_ref[1];
+>>   
+>> -	if (ctrl->handler == hdl) {
+>> -		/* By default each control starts in a cluster of its own.
+>> -		   new_ref->ctrl is basically a cluster array with one
+>> -		   element, so that's perfect to use as the cluster pointer.
+>> -		   But only do this for the handler that owns the control. */
+>> -		ctrl->cluster = &new_ref->ctrl;
+>> -		ctrl->ncontrols = 1;
+>> -	}
+>> -
+>>   	INIT_LIST_HEAD(&new_ref->node);
+>>   
+>>   	mutex_lock(hdl->lock);
+>> @@ -2195,6 +2186,15 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
+>>   	hdl->buckets[bucket] = new_ref;
+>>   	if (ctrl_ref)
+>>   		*ctrl_ref = new_ref;
+>> +	if (ctrl->handler == hdl) {
+>> +		/* By default each control starts in a cluster of its own.
+>> +		 * new_ref->ctrl is basically a cluster array with one
+>> +		 * element, so that's perfect to use as the cluster pointer.
+>> +		 * But only do this for the handler that owns the control.
+>> +		 */
+>> +		ctrl->cluster = &new_ref->ctrl;
+>> +		ctrl->ncontrols = 1;
+>> +	}
+> This is good.
+>
+>>   
+>>   unlock:
+>>   	mutex_unlock(hdl->lock);
+>> @@ -2346,9 +2346,11 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>   		kvfree(ctrl);
+>>   		return NULL;
+>>   	}
+>> -	mutex_lock(hdl->lock);
+>> -	list_add_tail(&ctrl->node, &hdl->ctrls);
+>> -	mutex_unlock(hdl->lock);
+>> +	if (ctrl->cluster) {
+>> +		mutex_lock(hdl->lock);
+>> +		list_add_tail(&ctrl->node, &hdl->ctrls);
+>> +		mutex_unlock(hdl->lock);
+>> +	}
+> But why change this? ctrl->cluster can never be NULL here.
+>
+> If ctrl->cluster really is NULL for you, then something else
+> is wrong.
 
-Useless, so remove it.
+I checked it again but issue is not visible now in my setup.
 
->  	bool streamon;
->  	unsigned int link;
->  	u8 link_reg_val;
-> @@ -911,9 +917,96 @@ static const struct dev_pm_ops mtk_mipicsi_pm = {
->  		mtk_mipicsi_pm_resume, NULL)
->  };
->  
-> +static int get_irq_channel(struct mtk_mipicsi_dev *mipicsi)
-> +{
-> +	int ch;
-> +	u32 int_reg_val;
-> +
-> +	for (ch = 0; ch < mipicsi->camsv_num; ++ch) {
-> +		int_reg_val = readl(mipicsi->camsv[ch] + CAMSV_INT_STATUS);
-> +		if ((int_reg_val & (1UL << PASS1_DONE_STATUS)) != 0UL)
-> +			return ch;
-> +	}
-> +
-> +	return -1;
-> +}
-> +
-> +static void mtk_mipicsi_irq_buf_process(struct mtk_mipicsi_dev *mipicsi)
-> +{
-> +	unsigned int i = 0U;
-> +	struct mtk_mipicsi_buf *new_cam_buf = NULL;
-> +	struct mtk_mipicsi_buf *tmp = NULL;
-> +	unsigned int index = 0U;
-> +	unsigned int next = 0U;
-> +
-> +	for (i = 0U; i < MTK_CAMDMA_MAX_NUM; ++i)
-> +		mipicsi->irq_status[i] = false;
-> +
-> +	i = 0;
-> +
-> +	/* only one buffer left */
-> +	if ((&(mipicsi->fb_list))->next->next == &(mipicsi->fb_list))
-> +		return;
-> +
-> +	/*for each fb_lst 2 times to get the top 2 buffer.*/
-> +	list_for_each_entry_safe(new_cam_buf, tmp,
-> +		&(mipicsi->fb_list), queue) {
-> +		if (i == 0U) {
-> +			index = new_cam_buf->vb->index;
-> +		} else {
-> +			next = new_cam_buf->vb->index;
-> +			break;
-> +		}
-> +		++i;
-> +	}
-> +
-> +	/*
-> +	 * fb_list has one more buffer. Free the first buffer to user
-> +	 * and fill the second buffer to HW.
-> +	 */
-> +	vb2_buffer_done(mipicsi->cam_buf[index].vb,
-> +		VB2_BUF_STATE_DONE);
-> +
-> +	list_del_init(&(mipicsi->cam_buf[index].queue));
-> +}
-> +
-> +static irqreturn_t mtk_mipicsi_isr(int irq, void *data)
-> +{
-> +
-> +	struct mtk_mipicsi_dev *mipicsi = data;
-> +	unsigned long flags = 0;
-> +	int isr_ch;
-> +	u8 irq_cnt = 0, i = 0;
-> +
-> +	spin_lock_irqsave(&mipicsi->lock, flags);
-> +
-> +	isr_ch = get_irq_channel(mipicsi);
+So, as suspected by you there might be some other issue which
 
-I think you should pass data as camsv instance, so you need not to
-search the camsv instance, and each camsv instance could pointer to the
-same misicsi instance.
+was causing this problem earlier. But now that looks fixed. Sending
 
-> +	if (isr_ch < 0) {
-> +		spin_unlock_irqrestore(&mipicsi->lock, flags);
-> +		return IRQ_HANDLED;
-> +	}
-> +
-> +	/* clear interrupt */
-> +	writel(1UL << PASS1_DONE_STATUS,
-> +		mipicsi->camsv[isr_ch] + CAMSV_INT_STATUS);
-> +	mipicsi->irq_status[isr_ch] = true;
-> +	for (i = 0U; i < MTK_CAMDMA_MAX_NUM; ++i) {
-> +		if (mipicsi->irq_status[i])
-> +			++irq_cnt;
-> +	}
-> +
-> +	if (irq_cnt == mipicsi->link)
-> +		mtk_mipicsi_irq_buf_process(mipicsi);
+first patch as code improvement to avoid use-after-free problem.
 
-I think mtk_mipicsi_irq_buf_process() should not be processed in irq
-handler. In irq handler, do as few things as possible.
-
-Regards,
-CK
-
-> +	spin_unlock_irqrestore(&mipicsi->lock, flags);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
->  static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
->  		int index)
->  {
-> +	int ret;
-> +	int irq;
->  	struct clk *clk = NULL;
->  	struct device *dev = NULL;
->  	struct resource *res = NULL;
-> @@ -951,6 +1044,23 @@ static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
->  	}
->  	mipicsi->clk[index] = clk;
->  
-> +	irq = of_irq_get(np, 0);
-> +	if (irq <= 0) {
-> +		dev_err(dev, "get irq fail in %s node\n", np->full_name);
-> +		return -ENODEV;
-> +	}
-> +	mipicsi->irq[index] = irq;
-> +
-> +	ret = devm_request_irq(dev, irq,
-> +			mtk_mipicsi_isr, 0,
-> +			mipicsi->drv_name, mipicsi);
-> +	if (ret != 0) {
-> +		dev_err(dev, "%s irq register failed\n", np->full_name);
-> +		return -ENODEV;
-> +	}
-> +	disable_irq(mipicsi->irq[index]);
-> +	mipicsi->irq_status[index] = false;
-> +
->  	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 0);
->  	if (res == NULL) {
->  		dev_err(dev, "get seninf_mux memory failed in %s node\n",
-
-
+>
+> Regards,
+>
+> 	Hans
+>
+>>   	return ctrl;
+>>   }
+>>   
+>>
