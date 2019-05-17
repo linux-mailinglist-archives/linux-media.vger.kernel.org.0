@@ -2,151 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2561C21968
-	for <lists+linux-media@lfdr.de>; Fri, 17 May 2019 15:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4244521A01
+	for <lists+linux-media@lfdr.de>; Fri, 17 May 2019 16:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbfEQNxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 May 2019 09:53:50 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:9545 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728103AbfEQNxu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 May 2019 09:53:50 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdebcf20000>; Fri, 17 May 2019 06:53:54 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 17 May 2019 06:53:48 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 17 May 2019 06:53:48 -0700
-Received: from HQMAIL106.nvidia.com (172.18.146.12) by HQMAIL106.nvidia.com
- (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 17 May
- 2019 13:53:48 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL106.nvidia.com
- (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 17 May 2019 13:53:48 +0000
-Received: from sumitg-l4t.nvidia.com (Not Verified[10.24.42.162]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cdebce90002>; Fri, 17 May 2019 06:53:48 -0700
-From:   Sumit Gupta <sumitg@nvidia.com>
-To:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <sakari.ailus@linux.intel.com>, <paul.kocialkowski@bootlin.com>,
-        <tfiga@chromium.org>, <keiichiw@chromium.org>, <bbasu@nvidia.com>,
-        <sumitg@nvidia.com>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [Patch V4] v4l2-core: fix use-after-free error
-Date:   Fri, 17 May 2019 19:23:42 +0530
-Message-ID: <1558101222-31561-1-git-send-email-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+        id S1729122AbfEQOtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 May 2019 10:49:40 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:44286 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729041AbfEQOtk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 May 2019 10:49:40 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C624E1715;
+        Fri, 17 May 2019 07:49:39 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BA583F71E;
+        Fri, 17 May 2019 07:49:34 -0700 (PDT)
+Date:   Fri, 17 May 2019 15:49:31 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <20190517144931.GA56186@arrakis.emea.arm.com>
+References: <cover.1557160186.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558101234; bh=stfFbiMFaMOGKxRkfm3KN5/YWTVTdNcxBzqgLT72XC4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=U4OqajLcdejMgiOT6Aqn6upoK/NND13QD6QluTj8Nar5FnL4dcBW2vC66Ou04tXyx
-         7+NHOIZT+islWazgEWSx9bMKrCZU2ywZGqTzw8eb8lmN9rLZUlDvpGgvmNLLTcd53f
-         kO8XY+sQ0EZU3l7gE4v4HAhFPTPDAV5k6ETG6Fd22LRQpNnvgDPggM8pfW6Q37hTWk
-         Aai7bOgc7hEt3i5H/ZPDGLmSBazeXLXzFqO6TbAoeJutP3g3LJ25G8S3acwqVM2zmg
-         9yFgK9twsp6ZXVDQn68AHJGNvIRcJPhOUyASJvZJctv96nA2AJRyl4Mu4Vh8XON52k
-         7RMkapz7B9bPA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1557160186.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: sumitg <sumitg@nvidia.com>
+Hi Andrey,
 
-Fixing use-after-free within __v4l2_ctrl_handler_setup().
-Memory is being freed with kfree(new_ref) for duplicate
-control reference entry but ctrl->cluster pointer is still
-referring to freed duplicate entry resulting in error on
-access. Change done to update cluster pointer only when new
-control reference is added.
+On Mon, May 06, 2019 at 06:30:46PM +0200, Andrey Konovalov wrote:
+> One of the alternative approaches to untagging that was considered is to
+> completely strip the pointer tag as the pointer enters the kernel with
+> some kind of a syscall wrapper, but that won't work with the countless
+> number of different ioctl calls. With this approach we would need a custom
+> wrapper for each ioctl variation, which doesn't seem practical.
 
- ==================================================================
- BUG: KASAN: use-after-free in __v4l2_ctrl_handler_setup+0x388/0x428
- Read of size 8 at addr ffffffc324e78618 by task systemd-udevd/312
+The more I look at this problem, the less convinced I am that we can
+solve it in a way that results in a stable ABI covering ioctls(). While
+for the Android kernel codebase it could be simpler as you don't upgrade
+the kernel version every 2.5 months, for the mainline kernel this
+doesn't scale. Any run-time checks are relatively limited in terms of
+drivers covered. Better static checking would be nice as a long term
+solution but we didn't get anywhere with the discussion last year.
 
- Allocated by task 312:
+IMO (RFC for now), I see two ways forward:
 
- Freed by task 312:
+1. Make this a user space problem and do not allow tagged pointers into
+   the syscall ABI. A libc wrapper would have to convert structures,
+   parameters before passing them into the kernel. Note that we can
+   still support the hardware MTE in the kernel by enabling tagged
+   memory ranges, saving/restoring tags etc. but not allowing tagged
+   addresses at the syscall boundary.
 
- The buggy address belongs to the object at ffffffc324e78600
-  which belongs to the cache kmalloc-64 of size 64
- The buggy address is located 24 bytes inside of
-  64-byte region [ffffffc324e78600, ffffffc324e78640)
- The buggy address belongs to the page:
- page:ffffffbf0c939e00 count:1 mapcount:0 mapping:
-					(null) index:0xffffffc324e78f80
- flags: 0x4000000000000100(slab)
- raw: 4000000000000100 0000000000000000 ffffffc324e78f80 000000018020001a
- raw: 0000000000000000 0000000100000001 ffffffc37040fb80 0000000000000000
- page dumped because: kasan: bad access detected
+2. Similar shim to the above libc wrapper but inside the kernel
+   (arch/arm64 only; most pointer arguments could be covered with an
+   __SC_CAST similar to the s390 one). There are two differences from
+   what we've discussed in the past:
 
- Memory state around the buggy address:
-  ffffffc324e78500: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffffffc324e78580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
- >ffffffc324e78600: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-                             ^
-  ffffffc324e78680: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
-  ffffffc324e78700: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
- ==================================================================
+   a) this is an opt-in by the user which would have to explicitly call
+      prctl(). If it returns -ENOTSUPP etc., the user won't be allowed
+      to pass tagged pointers to the kernel. This would probably be the
+      responsibility of the C lib to make sure it doesn't tag heap
+      allocations. If the user did not opt-in, the syscalls are routed
+      through the normal path (no untagging address shim).
 
-Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
+   b) ioctl() and other blacklisted syscalls (prctl) will not accept
+      tagged pointers (to be documented in Vicenzo's ABI patches).
 
-v4:
-* update ctrl->cluster only when new control reference is added.
+It doesn't solve the problems we are trying to address but 2.a saves us
+from blindly relaxing the ABI without knowing how to easily assess new
+code being merged (over 500K lines between kernel versions). Existing
+applications (who don't opt-in) won't inadvertently start using the new
+ABI which could risk becoming de-facto ABI that we need to support on
+the long run.
 
-v3:
-* update ctrl->cluster only when new control reference is added.
-* add new ctrl to handler only if the cluster points to an entry.
+Option 1 wouldn't solve the ioctl() problem either and while it makes
+things simpler for the kernel, I am aware that it's slightly more
+complicated in user space (but I really don't mind if you prefer option
+1 ;)).
 
-v2:
-* update ctrl->cluster only when new control reference is added.
-* check ctrl->ncontrols to avoid illegal access when cluster has zero controls.
+The tagged pointers (whether hwasan or MTE) should ideally be a
+transparent feature for the application writer but I don't think we can
+solve it entirely and make it seamless for the multitude of ioctls().
+I'd say you only opt in to such feature if you know what you are doing
+and the user code takes care of specific cases like ioctl(), hence the
+prctl() proposal even for the hwasan.
 
- drivers/media/v4l2-core/v4l2-ctrls.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Comments welcomed.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 5e3806f..956522c 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -2154,15 +2154,6 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	if (size_extra_req)
- 		new_ref->p_req.p = &new_ref[1];
- 
--	if (ctrl->handler == hdl) {
--		/* By default each control starts in a cluster of its own.
--		   new_ref->ctrl is basically a cluster array with one
--		   element, so that's perfect to use as the cluster pointer.
--		   But only do this for the handler that owns the control. */
--		ctrl->cluster = &new_ref->ctrl;
--		ctrl->ncontrols = 1;
--	}
--
- 	INIT_LIST_HEAD(&new_ref->node);
- 
- 	mutex_lock(hdl->lock);
-@@ -2195,6 +2186,15 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	hdl->buckets[bucket] = new_ref;
- 	if (ctrl_ref)
- 		*ctrl_ref = new_ref;
-+	if (ctrl->handler == hdl) {
-+		/* By default each control starts in a cluster of its own.
-+		 * new_ref->ctrl is basically a cluster array with one
-+		 * element, so that's perfect to use as the cluster pointer.
-+		 * But only do this for the handler that owns the control.
-+		 */
-+		ctrl->cluster = &new_ref->ctrl;
-+		ctrl->ncontrols = 1;
-+	}
- 
- unlock:
- 	mutex_unlock(hdl->lock);
 -- 
-2.7.4
-
+Catalin
