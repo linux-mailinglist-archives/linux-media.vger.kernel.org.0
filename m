@@ -2,149 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1D8228AE
-	for <lists+linux-media@lfdr.de>; Sun, 19 May 2019 22:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 759BA22850
+	for <lists+linux-media@lfdr.de>; Sun, 19 May 2019 20:24:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbfESUPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 May 2019 16:15:44 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:36833 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726066AbfESUPo (ORCPT
+        id S1726052AbfESSYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 May 2019 14:24:03 -0400
+Received: from mail-lj1-f169.google.com ([209.85.208.169]:44281 "EHLO
+        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfESSYD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 May 2019 16:15:44 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:db:4e38:36ca:29c2])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id SCmwhOKHZsDWySCmxh6OiR; Sun, 19 May 2019 05:47:07 +0200
-Message-ID: <a7ba383c9320a563e6b106c5ba7b4557@smtp-cloud9.xs4all.net>
-Date:   Sun, 19 May 2019 05:47:06 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfP1mmnGRwT6n2AXdSTdEwOwMrFTsy1wgk7r8BVIJXAkthFK7mH3D2vnItzpBeajbuC7grBQBV6W/I+pbaYbuSIlWdr11Vyl8iTHhDYdH2it977qdvE4H
- nJCEmmC1/vqILMHSj/l/wKF8HF1FKgAAgYADNbWeOs1orrBeTfkNd7kuKJWTJPzgOF8hvBqTyPScOdpUnApS30FIDTe4bfkulrS5ku4FZiK8IzM7kPStbCuj
+        Sun, 19 May 2019 14:24:03 -0400
+Received: by mail-lj1-f169.google.com with SMTP id e13so10362269ljl.11
+        for <linux-media@vger.kernel.org>; Sun, 19 May 2019 11:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=fXjVevl6BP66mFQKoiB3+26NGeA1iCJUXHTsVSV02p4=;
+        b=C7Irj0ILXi8E16663mgBBXjMpYpabNSLuwM88Zc/D9J5iswYLLWB9kzMwAdkHJjD+1
+         LnZeKP6rzX/WS6g2mX2ftktsbxxBHXtemQ95IzIijTeTxRohhrKmO50aUxBP9Cawl6n0
+         hOqeo0SuxrrSvMBRXVm1ffnuXEUW2KkzfewC0k1kiOuMMDCLT53qX/TO2acOn7DYdJtv
+         PRRQiHJk5CVxERX55sVX8ivJsjQYw7wnz/5X5vW6wIolzZ5yXzPwk3Szg+syyeFUX44+
+         qPhTyK0Tofrv8EaQLh5lvK1eh3i96BLPj3/7TUDWdGGsK/95OEWJEmxS2WVMD+s7UhW4
+         Qbgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=fXjVevl6BP66mFQKoiB3+26NGeA1iCJUXHTsVSV02p4=;
+        b=lvg2jymcnj1bDPdPVjgoSSaUP0BRTJxca9n2TN4ZX2u5Odvn5/COtys+AoxefadUc0
+         UqcufcXKsHOPBG8cqa49mqo0+aPRYJu1kRvcDfZqEtU76g+t+CJqeNXfNFiNLHihS3nl
+         aNYYE9howvwdtVRxK8iL3VzslI822hxKAX0ulKKR6KMNHqxLfS20zwIQGS5hEVmQ1Ars
+         opQwTLonercRluKiN602dMwifw4Iv0mLFbKT2RpgICOwVfesdfVGRRtO0VaWvRdOGCxw
+         /Eg/XWTl0PgfzeVqs7AZnBnLytFKe+pLRoyPW4XcqKbD3U6rA6gfBPgmv/hG/OAJXpLf
+         Kd3Q==
+X-Gm-Message-State: APjAAAXnm6Sfi0Fp6OM5mS4RZH6DjAFduODLBWgtUK8/whRNvfBsfbml
+        iLDdEb0kkiIodArc/V/YOe/yW+KC+nRBUn1lNUMsqds35Ww=
+X-Google-Smtp-Source: APXvYqyV4vV10URHWppWiMJTzxUVb/1+6TPomIkmWxiU3Ua9C6L3Kdr/ebLFjdM6XIUKTlP/73RGgj9ITx4UZ215XHQ=
+X-Received: by 2002:a2e:8516:: with SMTP id j22mr3930380lji.119.1558259013312;
+ Sun, 19 May 2019 02:43:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAM+RvBRfLUPS7uaQG3Drj_oSX1ACj7cCT_fMM9o9NSwr=6JT3Q@mail.gmail.com>
+ <20190514090528.78965584@coco.lan> <CAM+RvBRhG_Am=eGKog8a-rDAULrkNjKpbH+C+bqOk=wx5gXLJQ@mail.gmail.com>
+ <20190518080408.40b3822f@coco.lan>
+In-Reply-To: <20190518080408.40b3822f@coco.lan>
+From:   Tomasz Borowczyk <tomboro88@gmail.com>
+Date:   Sun, 19 May 2019 11:43:58 +0200
+Message-ID: <CAM+RvBR5LxB=Kauc=4=y_gaP6jfQbWETaJJp_X=ZEav5jzAZvw@mail.gmail.com>
+Subject: Re: cx231xx with 3 grabbers
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+sob., 18 maj 2019 o 13:04 Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> napisa=C5=82(a):
+>
+> Tomasz,
+>
+> Please don't top-post. Makes very confusing to for people to follow
+> the discussions on mailing lists.
 
-Results of the daily build of media_tree:
+I'm sorry.
 
-date:			Sun May 19 05:00:09 CEST 2019
-media-tree git hash:	fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	5cd5b668d79134976c9a9d816bddf9412c22de7a
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 15fd9fb1f474e4e289e8756ebaeab108ad21742a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+> Most laptops use a single USB bus shared on all their ports. This is
+> easy to verify: the lsusb command shows on what bus a device is connected=
+.
+> If you can place the 3 cameras on different buses, it may work there
+> (or if you have an USB 3.0 hub and connect the hub to an USB 3.0 port,
+> and the cameras on it, it might work as well).
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+Hmm. I have both USB 3.0 and USB 2.0 on my laptop, and I connected the
+3 grabbers to USB 3.0 HUB,
+but the HUB was then connected to USB2.0 port :(. My mistake.
+So I need to check what will happen when I connect the HUB to USB3.0 port.
+But I will be at home in a week. If it works, then maybe it will be
+possible to use 3 grabbers with a single Orange Pi 3 (it has USB3.0),
+or  NVIDIA Jetson Nano (the same price as 3x Raspberry Pi 3).
 
-Detailed results are available here:
+>Without taking into account the limited speed and features of the CPU
+>found on RPi3, probably the only solution for using 3 cameras on a single
+>RPi3 would be:
+>
+>        - 1 RPi Camera module using the special camera connector;
+>        - 1 USB camera to a RPi USB port;
+>        - 1 USB hat;
+>        - 1 USB camera connected to the USB hat.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+I want to use 3 grabbers, because I have already installed 3 analog
+cameras at home, which are connected to a small CRT Display.
+I want to have remote access to them, and it looks like a fun project for a=
+ SBC.
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks,
+Tomasz
