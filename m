@@ -2,62 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E94E24068
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 20:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED3E623B98
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 17:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbfETScg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 14:32:36 -0400
-Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:42997 "EHLO
-        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726207AbfETScf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 14:32:35 -0400
-To:     linux-media@vger.kernel.org
-Subject: Print your logo
-Message-ID: <76e65ac33596de4323b86e0d2f112971@esquire.com>
-Date:   Mon, 20 May 2019 17:02:21 +0200
-From:   "Heather" <heather@usblogo.space>
-Reply-To: flashdrive@aliyun.com
+        id S2387483AbfETPGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 11:06:41 -0400
+Received: from vps.xff.cz ([195.181.215.36]:54742 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727108AbfETPGl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 May 2019 11:06:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1558364799; bh=MOIiLhQ+IjpqYl5yHzKvxPsRQBzGIbHz8ojgz49ajzM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c739CFNQlY0oMPgSRJ6Gd+ppWrHcU9ifdJ48imf5TZ4akgkyrfOflPcrue9VhteFO
+         ZqNzzuIzVhoyOMOguR3sQcwhxTpxHpUWAU9zheMWLMTve+3VME2HcaUJlM5wcyUB0i
+         NIGfuNVaPkXChDZBBhR7Hb/fH1VvUxQKeMrRAS/E=
+From:   megous@megous.com
+To:     Chen-Yu Tsai <wens@kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 0/3] ARM: sun8i: a83t: Support Camera Sensor Interface controller
+Date:   Mon, 20 May 2019 17:06:34 +0200
+Message-Id: <20190520150637.23557-1-megous@megous.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Ondrej Jirman <megous@megous.com>
 
-I didn’t know if you had received my email from last week?
+This is a re-send of Chen-Yu's A83T CSI patch series with review tags
+applied and removed address/size cells from csi_in port. Already applied
+patches from v1  were dropped.
 
-We manufacture ALL custom LOGO and branded products – over 300,000 to
-choose from.
+The series is ready to be merged:
 
-The most asked about product that we make, is the custom printed USB flash
-drives!
-We can print your logo on them and load your digital images, videos and
-files!
+  Patch 1 and 2 via sunxi tree
+  Patch 3 via media tree
 
-Here is what we include:
--Any size memory you need: 64MB up to 128GB
--We will print your logo on both sides, just ask!
--Very Low Order Minimums
--Need them quickly?  Not a problem, we offer Rush Service
+v2:
+- dropped address/size cells from csi_in port
+- added review tags
 
-Email over a copy of your logo and we will create a design mock up for you
-at no cost!
+Please take a look and merge.
 
-Our higher memory sizes are a really good option right now!
+Thank you,
+	Ondrej
 
-Pricing is low right now, so let us know what you need and we will get you
-a quick quote.
+--------------------------
+Original description:
 
-We always offer great rates for schools and nonprofits as well.
+Hi everyone,
 
-Let us know what you would like quoted?
+This series adds support for the camera sensor interface controller
+found on the Allwinner A83T SoC. The controller is similar to the one
+found on  the H3, with the addition of a MIPI CSI-2 interface. However,
+this series only supports parallel and BT.656 interfaces, based on the
+existing driver.
 
-Regards,
+Patch 1 adds an undocumented clock parent of the CSI MCLK. This was
+found after finding the default value to sometimes work and sometimes
+not, and then comparing against BSP code.
 
-Heather Millons
-Custom USB Account Manager
+Patch 2 adds a compatible string for the A83T variant.
+
+Patch 3 adds support for the A83T variant to the existing sun6i-csi
+driver.
+
+Patch 4 adds a device node for the controller, as well as commonly
+used pin muxing options.
+
+Patch 5 adds a pin muxing option for I2C1 on the PE pins, used in
+conjunction with the CSI pins.
+
+Patch 6 provides an example usage of the CSI controller: the Bananapi M3
+with its camera module attached.
+
+Please have a look.
+
+Regards
+ChenYu
+
+Chen-Yu Tsai (3):
+  dt-bindings: media: sun6i-csi: Add compatible string for A83T variant
+  media: sun6i: Support A83T variant
+  ARM: dts: sun8i: a83t: Add device node for CSI (Camera Sensor
+    Interface)
+
+ .../devicetree/bindings/media/sun6i-csi.txt   |  1 +
+ arch/arm/boot/dts/sun8i-a83t.dtsi             | 29 +++++++++++++++++++
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  1 +
+ 3 files changed, 31 insertions(+)
+
+-- 
+2.21.0
 
