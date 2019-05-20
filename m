@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E905242B6
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 23:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86DE6242D8
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 23:28:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbfETVUf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 17:20:35 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44409 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbfETVUf (ORCPT
+        id S1726619AbfETV2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 17:28:06 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38173 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726111AbfETV2G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 17:20:35 -0400
-Received: by mail-lj1-f193.google.com with SMTP id e13so13815146ljl.11;
-        Mon, 20 May 2019 14:20:34 -0700 (PDT)
+        Mon, 20 May 2019 17:28:06 -0400
+Received: by mail-lj1-f194.google.com with SMTP id 14so13877149ljj.5;
+        Mon, 20 May 2019 14:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=eeXGl4OisvD9va1fGMuq+T3d0J26MMP0kgZu3foyCjo=;
-        b=OYoUqfsV7mnWmXy+IkWaJk4b+/wAkvrpvuM+z79nSyjzwjwcS6AbOID0/NRi0HEY/c
-         vrGdesXrxKXYljPfOXnKFv+7ZR9dlIDKxl3uwE+YUCimbotSmyNR6J02eiwvneuH31xk
-         2AVqmnjLPRb4k/vLeJAsZNbdPxTMqp0X+Y947Xs7Vd2p4HfUCsK0z1QMjP2ujrKc1rgA
-         5O++K6uhB1xVh7CdROgmc8FJVG1BJ6x1YKY9klnWLd82mQ2FO8/GkUhw0trQJMPmguVo
-         swQdsXmwhG6gynTTtXQp4Gtftjgi98VHaObRFRvLwXDhOP/flvotiFMMxVtxRJkJufIn
-         TRuA==
+        b=pFNOQb9hR5mBf6ujnYXfCgJXtYgalIrtiB0t5xD4Xa3bxGaLC1QriMaDDnyKSs2qia
+         M2lfOvHOkeYSX2Pa3318he20GOXkYWoopJr269ALVqWEcc/ZdclEpYZLBM6VSOlTtEvy
+         VvMR0626uVCtq7OxzXLBsiQxRxmlOsZ8flSN3SXqL5Xzmzsq4ezR9ENyzetowICyutmz
+         uGQHAhULamFlaSLG5HhT0DGpN1pBVGtLQz6xG+3ES7Hve7jhc/2nHypzcnxw4g5bJJRv
+         g+PsBS+XnYgLTpLOBmVXUwrXSufgXebD6jv/3K3ZfOAztsTvBOuChcTHNuLo/z16Y4Pd
+         N9bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=eeXGl4OisvD9va1fGMuq+T3d0J26MMP0kgZu3foyCjo=;
-        b=lANFTL0HwkftuZKtQ3rSsJYg9xD8uAadY9ZQIHG2zG0FRHFxqXTCUOHwdZm5gX6vX6
-         MN1gNXGUbRe84Y4g/n6KFQ/+yqRAjUd7vI/nQXgcUSn2KSkrg7oM/+RexHQgMXquRQGH
-         ghr3DPnp48WL7Nnvq/a6I5gGdCdu1NFhIY3qq3DeXmbmZinnLUXEVOC5y+R8I9xm4uu1
-         rPru/tE9TNAj7XZnLCg4pT1RjhLqT5/S1S6baq+b1wcVVQnRC3QtWks5V1kORLNYXnAs
-         rd8zjl6LoYIBiIAnWYWMRMQIH9UOY9pppJTCzfGdJ1j559Z52c7UpLGjvYYGoQsBwhx1
-         nnLg==
-X-Gm-Message-State: APjAAAXOE4drpxfkOsG5JOJpCT98W+D9xpAJanvHWkPiyLYlAXmATwD2
-        iDQEib32pnxPtbP/QhGcbt4=
-X-Google-Smtp-Source: APXvYqzxP/xb+w6wE/ZkGlf3K3toIPvyEsdt0fzUOzdIzNGu0FtAMPR2E1Ma/ja1p9A3sd6h2qEGRQ==
-X-Received: by 2002:a2e:8857:: with SMTP id z23mr38822150ljj.73.1558387233349;
-        Mon, 20 May 2019 14:20:33 -0700 (PDT)
+        b=ZgBXzenWDrrMT1cCWU8mZGAlJ3YI97zdQWGyVX6ZS04xgK+52c0H13mQSG2nXztac+
+         l0nkHTX4y2DoFuZXRrOmZkMAIxNupWJHItsO9dd6HzSn7jwbgMMzwl8mmZV7ze+6AGZU
+         LyAuDpntC3abUBACzJUmLAHLAUKteTzet7z06EUUdWMcmvvHmXn68ozsD8tEEJ8GKu7T
+         2lpBzw7QmYCAUA45AlA3tvZlROkZ/fq1lMiYFIpFW4QPowbMHFWa6yTWKVxb++dqPSX3
+         8KTBdgT4I7tSnazDCYp89TVkeGuw+T7hiyV9R4Yu1Bh4pnzgOT7y4DrX3+IaGCaIPz72
+         EzMA==
+X-Gm-Message-State: APjAAAXkQjFc1bKKZbcRPMXmkWoVovrVrEXa7OkLwpok475DEu35kDoC
+        HBWD44p+F6X3zQa32JOxvvg=
+X-Google-Smtp-Source: APXvYqxu/gYyuXVEVMYZumel6gJClPU4QqMU5iEHC7fT2PYZBo8pJDBPpThXdcs8Msnq3XKTjSWjiA==
+X-Received: by 2002:a2e:2f03:: with SMTP id v3mr1017507ljv.6.1558387683881;
+        Mon, 20 May 2019 14:28:03 -0700 (PDT)
 Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id e12sm4149897lfb.70.2019.05.20.14.20.31
+        by smtp.gmail.com with ESMTPSA id q9sm4226813lfn.88.2019.05.20.14.28.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 14:20:32 -0700 (PDT)
+        Mon, 20 May 2019 14:28:03 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH v7 0/3] media: v4l2-subdev: Verify arguments in  v4l2_subdev_call()
-Date:   Mon, 20 May 2019 22:50:19 +0200
-Message-Id: <20190520205022.8714-1-jmkrzyszt@gmail.com>
+Subject: [PATCH v7 0/3] media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
+Date:   Mon, 20 May 2019 23:27:44 +0200
+Message-Id: <20190520212747.368-1-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,7 +66,7 @@ Correctness of format type (try or active) and pad ID parameters passed
 to subdevice operation callbacks is now verified only for IOCTL calls.
 However, those callbacks are also used by drivers, e.g., V4L2 host
 interfaces.
-    
+
 Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
 macro while calling subdevice operations, move those parameter checks
 from subdev_do_ioctl() to v4l2_subdev_call().  Also, add check for
