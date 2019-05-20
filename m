@@ -2,129 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2322D2419F
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 22:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05150241DD
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 22:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbfETUBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 16:01:46 -0400
-Received: from gofer.mess.org ([88.97.38.141]:46459 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbfETUBq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 16:01:46 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 2F35060022; Mon, 20 May 2019 21:01:45 +0100 (BST)
-From:   Sean Young <sean@mess.org>
+        id S1726673AbfETUMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 16:12:24 -0400
+Received: from mail-out.m-online.net ([212.18.0.10]:46510 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbfETUMY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 May 2019 16:12:24 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 45796Y6kYTz1rXtr;
+        Mon, 20 May 2019 22:12:21 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 45796Y64p7z1qqkK;
+        Mon, 20 May 2019 22:12:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id mk2St3hC6xf3; Mon, 20 May 2019 22:12:20 +0200 (CEST)
+X-Auth-Info: kmNXI0TxIlaaqExCaWRMDlb5icVi0TM7Pep8lDDUuSk=
+Received: from kurokawa.lan (ip-86-49-110-70.net.upcbroadband.cz [86.49.110.70])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Mon, 20 May 2019 22:12:20 +0200 (CEST)
+From:   Marek Vasut <marex@denx.de>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: dvb: remove replace frontend_debug with dynamic debug
-Date:   Mon, 20 May 2019 21:01:44 +0100
-Message-Id: <20190520200144.16713-2-sean@mess.org>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190520200144.16713-1-sean@mess.org>
-References: <20190520200144.16713-1-sean@mess.org>
+Cc:     Marek Vasut <marex@denx.de>, Fabio Estevam <festevam@gmail.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>
+Subject: [PATCH] media: imx: Handle VIDIOC_ENUMINPUT
+Date:   Mon, 20 May 2019 22:12:13 +0200
+Message-Id: <20190520201213.7536-1-marex@denx.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This simplifies the code a little. This does move a dev_dbg() into a
-timing sensitive code path. This is in the microseconds order so dev_dbg()
-should not make a difference.
+Add basic handling for VIDIOC_ENUMINPUT, where the imx capture devices
+report they are cameras to userspace. Code like e.g. Qt5 qcamera uses
+this information when enumerating camera devices and this fixes it's
+operation on iMX6, where it previously didn't detect any cameras.
 
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Hans Verkuil <hans.verkuil@cisco.com>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Steve Longerbeam <steve_longerbeam@mentor.com>
+To: linux-media@vger.kernel.org
 ---
- drivers/media/dvb-core/dvb_frontend.c | 39 +++++++++++++--------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
+ drivers/staging/media/imx/imx-media-capture.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index d3c0f6267bf8..3aad13415654 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -47,15 +47,12 @@
- #include <media/dvbdev.h>
- #include <linux/dvb/version.h>
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index 9430c835c434..1e3790479fd6 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -148,6 +148,18 @@ static int capture_enum_frameintervals(struct file *file, void *fh,
+ 	return 0;
+ }
  
--static int dvb_frontend_debug;
- static int dvb_shutdown_timeout;
- static int dvb_force_auto_inversion;
- static int dvb_override_tune_delay;
- static int dvb_powerdown_on_sleep = 1;
- static int dvb_mfe_wait_time = 5;
- 
--module_param_named(frontend_debug, dvb_frontend_debug, int, 0644);
--MODULE_PARM_DESC(frontend_debug, "Turn on/off frontend core debugging (default:off).");
- module_param(dvb_shutdown_timeout, int, 0644);
- MODULE_PARM_DESC(dvb_shutdown_timeout, "wait <shutdown_timeout> seconds after close() before suspending hardware");
- module_param(dvb_force_auto_inversion, int, 0644);
-@@ -917,9 +914,9 @@ static void dvb_frontend_get_frequency_limits(struct dvb_frontend *fe,
- 			 "DVB: adapter %i frontend %u frequency limits undefined - fix the driver\n",
- 			 fe->dvb->num, fe->id);
- 
--	if (dvb_frontend_debug)
--		dprintk("frequency interval: tuner: %u...%u, frontend: %u...%u",
--			tuner_min, tuner_max, frontend_min, frontend_max);
-+	dev_dbg(fe->dvb->device,
-+		"frequency interval: tuner: %u...%u, frontend: %u...%u",
-+		tuner_min, tuner_max, frontend_min, frontend_max);
- 
- 	/* If the standard is for satellite, convert frequencies to kHz */
- 	switch (c->delivery_system) {
-@@ -2586,41 +2583,41 @@ static int dvb_frontend_handle_ioctl(struct file *file,
- 			 */
- 			unsigned long swcmd = ((unsigned long)parg) << 1;
- 			ktime_t nexttime;
--			ktime_t tv[10];
-+			ktime_t now, lasttime;
- 			int i;
- 			u8 last = 1;
- 
--			if (dvb_frontend_debug)
--				dprintk("switch command: 0x%04lx\n",
--					swcmd);
-+			dev_dbg(fe->dvb->device, "switch command: 0x%04lx\n",
-+				swcmd);
- 			nexttime = ktime_get_boottime();
--			if (dvb_frontend_debug)
--				tv[0] = nexttime;
- 			/* before sending a command, initialize by sending
- 			 * a 32ms 18V to the switch
- 			 */
- 			fe->ops.set_voltage(fe, SEC_VOLTAGE_18);
++static int capture_enum_input(struct file *file, void *priv,
++			      struct v4l2_input *inp)
++{
++	if (inp->index > 0)
++		return -EINVAL;
 +
-+			dev_dbg(fe->dvb->device, "(adapter %d): switch delay (should be 32k followed by all 8k)\n",
-+				fe->dvb->num);
++	inp->type = V4L2_INPUT_TYPE_CAMERA;
++	strlcpy(inp->name, "Camera", sizeof(inp->name));
 +
-+			lasttime = nexttime;
- 			dvb_frontend_sleep_until(&nexttime, 32000);
++	return 0;
++}
++
+ static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
+ 				    struct v4l2_fmtdesc *f)
+ {
+@@ -414,6 +426,7 @@ static const struct v4l2_ioctl_ops capture_ioctl_ops = {
  
- 			for (i = 0; i < 9; i++) {
--				if (dvb_frontend_debug)
--					tv[i + 1] = ktime_get_boottime();
- 				if ((swcmd & 0x01) != last) {
- 					/* set voltage to (last ? 13V : 18V) */
- 					fe->ops.set_voltage(fe, (last) ? SEC_VOLTAGE_13 : SEC_VOLTAGE_18);
- 					last = (last) ? 0 : 1;
- 				}
- 				swcmd = swcmd >> 1;
-+
-+				now = ktime_get_boottime();
-+				dev_dbg(fe->dvb->device, "%d: %lld\n", i,
-+					ktime_us_delta(now, lasttime));
-+				lasttime = now;
-+
- 				if (i != 8)
- 					dvb_frontend_sleep_until(&nexttime, 8000);
- 			}
--			if (dvb_frontend_debug) {
--				dprintk("(adapter %d): switch delay (should be 32k followed by all 8k)\n",
--					fe->dvb->num);
--				for (i = 1; i < 10; i++)
--					pr_info("%d: %d\n", i,
--						(int)ktime_us_delta(tv[i], tv[i - 1]));
--			}
-+
- 			err = 0;
- 			fepriv->state = FESTATE_DISEQC;
- 			fepriv->status = 0;
+ 	.vidioc_enum_framesizes = capture_enum_framesizes,
+ 	.vidioc_enum_frameintervals = capture_enum_frameintervals,
++	.vidioc_enum_input = capture_enum_input,
+ 
+ 	.vidioc_enum_fmt_vid_cap        = capture_enum_fmt_vid_cap,
+ 	.vidioc_g_fmt_vid_cap           = capture_g_fmt_vid_cap,
 -- 
 2.20.1
 
