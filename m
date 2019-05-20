@@ -2,199 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DD3232C5
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 13:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF29232C8
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 13:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730485AbfETLi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 07:38:58 -0400
-Received: from vps.xff.cz ([195.181.215.36]:52566 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725772AbfETLi5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 07:38:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1558352334; bh=rAw4E5u5yC+I7cC6PCbSVyMvIwVJ8vK/VlOL2T4E4AQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dppL/+PYlejvDtRHTB5HhLGEFp5Mv+vfXDWeZEYAgjF+32qoDGlDN9yzAQ6ZZi/s+
-         kokNdiDrhAdqsx5R7NMaVzI7Iw1Ojmda461UQcCE6B06pfXZHM+5fuEvVlSoSrdDgh
-         +Skzmd3/tQdP5l9EKK8hTFbrJOI3mhwZ2ZnrM3WQ=
-Date:   Mon, 20 May 2019 13:38:54 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     Chen-Yu Tsai <wens@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 4/6] ARM: dts: sun8i: a83t: Add device node for CSI
- (Camera Sensor Interface)
-Message-ID: <20190520113854.ngyaw4mgki77gdbn@core.my.home>
-Mail-Followup-To: Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20190408165744.11672-1-wens@kernel.org>
- <20190408165744.11672-5-wens@kernel.org>
- <20190409075804.4zrwjil7ie2gjigu@flea>
- <CAGb2v64CYV68Q0a7x5p-XabS74vaQWP3paPopodmqQPTOrq2gQ@mail.gmail.com>
- <20190409082818.z33mq2qrxethldzf@flea>
- <CAGb2v67pX+7ccihmGEWPKrXg8mMhht-vh37p2auWYgt=qGDA6A@mail.gmail.com>
- <20190409145225.2ltluiyqa5xha4zd@flea>
- <20190519135422.l2bnumyjr3dxehhx@core.my.home>
- <20190520111048.cnh435fnmz7esyks@flea>
+        id S1733282AbfETLjB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 07:39:01 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32955 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725772AbfETLjA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 May 2019 07:39:00 -0400
+Received: by mail-wr1-f67.google.com with SMTP id d9so1246115wrx.0
+        for <linux-media@vger.kernel.org>; Mon, 20 May 2019 04:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=//ZD23GlUg0Rjx9kaggXyZtUpXWU1ALeFH1wLQZKmk0=;
+        b=dYH9cYybET2urMILgdKSoxQcLSBWo8B5v28wSCrEBTTKiUUD4az7j3yjGnaCGmaFPA
+         vFvqoiV1KkwWAmh9+KSh9Xx/FCl1+nZcMWtConLmzsHWvL+C/kZkaiOFzq3qznFe4zv1
+         6un/r8vZPqP5NjoNlm05SIAgQoLFnunm8RziI4Xa6Rl3Xsp/QEVNQXSKkfbQLrZVGM28
+         Wc16Ep6c/H3jEP/HKhIjmjp0gLTAz8t+gEYVaC0kZhO6hBFXMyC2HffxgJQ9XVqII5Ty
+         abY6C77YLgxWwx4Wzx3kNYnJOTt41pzEAMCCwvwUCMP7tHHr5QbK/zjltpJd+rdfTlsD
+         0vRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=//ZD23GlUg0Rjx9kaggXyZtUpXWU1ALeFH1wLQZKmk0=;
+        b=KTaAtXX0wJH6YIFLfXuYbjGRypVfCHTzqG9bvovYDJEf4qT1Hn8zGlUBQGdGpiDSEj
+         NKCXvgyOrlbZW98pKlaxPdh4CHNBd5gdcgQ0dkGKxpF7dwt9qbsYp5tLQOvGW9D2RqXS
+         /yfWapXFVPKwaQMhHUhKxejZUOcqrRTQOoZgYdl4qFZnd43zgCEJlxcaJDg/mG4CUuJI
+         kAfkIrJY7Dxrzu4Yu8GC+AYMDKvE63Ol3sdKwfUhREPE27gQpMnDNl3RhpctrK/8VaT2
+         oMhFswSpvMSYcD73qDpGULnJAX5nXWB+JR0i/J9sUJ2GtIjuE20PB8jPRa99ZYZQ8w9w
+         7jyw==
+X-Gm-Message-State: APjAAAXbsgdmj9ZuBmVk1m+ROnBrbMJqtvSobcKO0+DNv1GDDqs56Ff/
+        1yIGKcsZHvVD5vy6fxQ8PLc=
+X-Google-Smtp-Source: APXvYqw5QnmOM4cfYsPamwlaWlURmkvSiofI1qTGdKmW3afeOmg8KkuE7wXIdf7TDKytTADBX3eQEA==
+X-Received: by 2002:a5d:6703:: with SMTP id o3mr150013wru.183.1558352338841;
+        Mon, 20 May 2019 04:38:58 -0700 (PDT)
+Received: from drswgregorj02.drs.expertcity.com (ent-nat1.drs.expertcity.com. [78.108.113.1])
+        by smtp.gmail.com with ESMTPSA id y1sm15064315wma.14.2019.05.20.04.38.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 May 2019 04:38:57 -0700 (PDT)
+Subject: Re: Bug#929262: libv4l-dev: pac207 cam(s) give frame decode errors
+To:     folkert@vanheusden.com, 929262@bugs.debian.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+References: <155834073601.757.12828508994068038463.reportbug@scrollert>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Message-ID: <c2d8869f-4ca5-7f70-1c0e-44d4c1e094f4@googlemail.com>
+Date:   Mon, 20 May 2019 13:38:56 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190520111048.cnh435fnmz7esyks@flea>
+In-Reply-To: <155834073601.757.12828508994068038463.reportbug@scrollert>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+Hello,
 
-On Mon, May 20, 2019 at 01:10:49PM +0200, Maxime Ripard wrote:
-> Hi Ondřej,
+On 20.05.19 10:25, folkert@vanheusden.com wrote:
+> Trying to get a pac207 camera to work with constatus.
 > 
-> On Sun, May 19, 2019 at 03:54:22PM +0200, Ondřej Jirman wrote:
-> > On Tue, Apr 09, 2019 at 04:52:25PM +0200, Maxime Ripard wrote:
-> > > On Tue, Apr 09, 2019 at 04:40:40PM +0800, Chen-Yu Tsai wrote:
-> > > > On Tue, Apr 9, 2019 at 4:28 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > >
-> > > > > On Tue, Apr 09, 2019 at 04:07:34PM +0800, Chen-Yu Tsai wrote:
-> > > > > > On Tue, Apr 9, 2019 at 3:58 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > > > > On Tue, Apr 09, 2019 at 12:57:42AM +0800, Chen-Yu Tsai wrote:
-> > > > > > > > From: Chen-Yu Tsai <wens@csie.org>
-> > > > > > > >
-> > > > > > > > The A83T SoC has a camera sensor interface (known as CSI in Allwinner
-> > > > > > > > lingo), which is similar to the one found on the A64 and H3. The only
-> > > > > > > > difference seems to be that support of MIPI CSI through a connected
-> > > > > > > > MIPI CSI-2 bridge.
-> > > > > > > >
-> > > > > > > > Add a device node for it, and pinctrl nodes for the commonly used MCLK
-> > > > > > > > and 8-bit parallel interface. The property /omit-if-no-ref/ is added to
-> > > > > > > > the pinctrl nodes to keep the device tree blob size down if they are
-> > > > > > > > unused.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
-> > > > > > > > ---
-> > > > > > > >  arch/arm/boot/dts/sun8i-a83t.dtsi | 31 +++++++++++++++++++++++++++++++
-> > > > > > > >  1 file changed, 31 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > > > > > > > index f739b88efb53..0c52f945fd5f 100644
-> > > > > > > > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > > > > > > > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > > > > > > > @@ -682,6 +682,20 @@
-> > > > > > > >                       #interrupt-cells = <3>;
-> > > > > > > >                       #gpio-cells = <3>;
-> > > > > > > >
-> > > > > > > > +                     /omit-if-no-ref/
-> > > > > > > > +                     csi_8bit_parallel_pins: csi-8bit-parallel-pins {
-> > > > > > > > +                             pins = "PE0", "PE2", "PE3", "PE6", "PE7",
-> > > > > > > > +                                    "PE8", "PE9", "PE10", "PE11",
-> > > > > > > > +                                    "PE12", "PE13";
-> > > > > > > > +                             function = "csi";
-> > > > > > > > +                     };
-> > > > > > > > +
-> > > > > > > > +                     /omit-if-no-ref/
-> > > > > > > > +                     csi_mclk_pin: csi-mclk-pin {
-> > > > > > > > +                             pins = "PE1";
-> > > > > > > > +                             function = "csi";
-> > > > > > > > +                     };
-> > > > > > > > +
-> > > > > > > >                       emac_rgmii_pins: emac-rgmii-pins {
-> > > > > > > >                               pins = "PD2", "PD3", "PD4", "PD5", "PD6", "PD7",
-> > > > > > > >                                      "PD11", "PD12", "PD13", "PD14", "PD18",
-> > > > > > > > @@ -994,6 +1008,23 @@
-> > > > > > > >                       interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
-> > > > > > > >               };
-> > > > > > > >
-> > > > > > > > +             csi: camera@1cb0000 {
-> > > > > > > > +                     compatible = "allwinner,sun8i-a83t-csi";
-> > > > > > > > +                     reg = <0x01cb0000 0x1000>;
-> > > > > > > > +                     interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > > > +                     clocks = <&ccu CLK_BUS_CSI>,
-> > > > > > > > +                              <&ccu CLK_CSI_SCLK>,
-> > > > > > > > +                              <&ccu CLK_DRAM_CSI>;
-> > > > > > > > +                     clock-names = "bus", "mod", "ram";
-> > > > > > > > +                     resets = <&ccu RST_BUS_CSI>;
-> > > > > > > > +                     status = "disabled";
-> > > > > > > > +
-> > > > > > > > +                     csi_in: port {
-> > > > > > > > +                             #address-cells = <1>;
-> > > > > > > > +                             #size-cells = <0>;
-> > > > > > >
-> > > > > > > If we expect a single enpoint, then we don't need the address-cells
-> > > > > > > and size-cells properties.
-> > > > > >
-> > > > > > I wouldn't bet on anything. The way the Q8 tablets did front/back cameras
-> > > > > > is kind of genius if not very hacky. They have two "identical" sensors
-> > > > > > on the same I2C bus and CSI bus, with shared reset line but separate
-> > > > > > shutdown lines. Since they are identical, they also have the same I2C
-> > > > > > address. I haven't figured out how to model this in the device tree.
-> > > > > >
-> > > > > > The point is, it's perfectly possible to have two or more sensors use
-> > > > > > the same controller, provided only one be active at a time.
-> > > > >
-> > > > > Right, but I guess the common case would be to have a single sensor,
-> > > > > where that wouldn't be needed.
-> > > > >
-> > > > > In odd cases, we can always specify it in the DTS, and if it becomes
-> > > > > common enough, we can move it to the DTSI.
-> > > >
-> > > > Makes sense. Do you want me to re-spin?
-> > >
-> > > If there's no other comment, we'll fix it when applying.
-> >
-> > This patch series seems to have been forgotten. It doesn't seem there are any
-> > blockers.
+> 2019-05-20 10:22:34.864900  INFO constatus [1-1] source v4l2 thread started
+> libv4l2: error got 4 consecutive frame decode errors, last error: v4l-convert: error unknown pac207 row header: 0x0000
+> 2019-05-20 10:22:35.597949 ERROR cs:src_v4l2 [1-1] VIDIOC_DQBUF failed: Input/output error
+> ioctl(VIDIOC_QBUF) failed
+> errno: 22 (Invalid argument)
 > 
-> Sorry about that :/
-> 
-> > Can you please apply it now? I have some further series (camera module
-> > support for TBS-A711) that depend on this.
-> 
-> Some parts of it will have to be merged through v4l2, and I can't
-> apply those patches.
-> 
-> Can you resend that series, and ping on a regular basis (like once a
-> week) if you don't get any feedback?
+> To verify that it is not a constatus-problem I also tried a raspberry-pi camera via its video4linux-interface and that works fine.
 
-You mean this series for A83t CSI?
+According to the Linux Kernel Maintainers file the device driver is 
+maintained by Hans, which I CC'ed on this bug report:
 
-regards,
-	o.
+GSPCA PAC207 SONIXB SUBDRIVER
+M:	Hans Verkuil <hverkuil@xs4all.nl>
+L:	linux-media@vger.kernel.org
+T:	git git://linuxtv.org/media_tree.git
+S:	Odd Fixes
+F:	drivers/media/usb/gspca/pac207.c
 
-> Thanks!
-> Maxime
-> 
-> --
-> Maxime Ripard, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Did your camera ever work on another Kernel, CPU architecture, or 
+v4l-utils version? Do you have anything suspicious in dmesg output?
 
-
-
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
+Thanks,
+Gregor
