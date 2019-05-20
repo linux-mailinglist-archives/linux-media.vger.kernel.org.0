@@ -2,157 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC952231BE
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 12:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD8523205
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 13:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730508AbfETKuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 06:50:46 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:52463 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725601AbfETKuq (ORCPT
+        id S1732440AbfETLK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 07:10:56 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:36853 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730634AbfETLK4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 06:50:46 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id SfsOhqxuR3qlsSfsRhiyoi; Mon, 20 May 2019 12:50:43 +0200
-Subject: Re: [PATCH v6 1/3] media: cec: expose HDMI connector to CEC dev
- mapping
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
-        linux-media@vger.kernel.org, hans.verkuil@cisco.com
-Cc:     linux-kernel@vger.kernel.org
-References: <20190517154256.255696-1-darekm@google.com>
- <c0007b51-5e9f-4788-b860-d0623e21013b@xs4all.nl>
-Message-ID: <3300cffd-62e7-7e2d-3c73-dc5fc7455c88@xs4all.nl>
-Date:   Mon, 20 May 2019 12:50:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 20 May 2019 07:10:56 -0400
+X-Originating-IP: 90.88.22.185
+Received: from localhost (aaubervilliers-681-1-80-185.w90-88.abo.wanadoo.fr [90.88.22.185])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 75B681C0007;
+        Mon, 20 May 2019 11:10:49 +0000 (UTC)
+Date:   Mon, 20 May 2019 13:10:49 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Chen-Yu Tsai <wens@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 4/6] ARM: dts: sun8i: a83t: Add device node for CSI
+ (Camera Sensor Interface)
+Message-ID: <20190520111048.cnh435fnmz7esyks@flea>
+References: <20190408165744.11672-1-wens@kernel.org>
+ <20190408165744.11672-5-wens@kernel.org>
+ <20190409075804.4zrwjil7ie2gjigu@flea>
+ <CAGb2v64CYV68Q0a7x5p-XabS74vaQWP3paPopodmqQPTOrq2gQ@mail.gmail.com>
+ <20190409082818.z33mq2qrxethldzf@flea>
+ <CAGb2v67pX+7ccihmGEWPKrXg8mMhht-vh37p2auWYgt=qGDA6A@mail.gmail.com>
+ <20190409145225.2ltluiyqa5xha4zd@flea>
+ <20190519135422.l2bnumyjr3dxehhx@core.my.home>
 MIME-Version: 1.0
-In-Reply-To: <c0007b51-5e9f-4788-b860-d0623e21013b@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfH2u1XC9W1AeULLKABa1KeV48WihI7kLEBY0VIqkJ9SmdFfczG8189/ZCLXPic4rjjJHlsxzVeghMjoc6kWSQN/Y/YqXAOcn/cVM9pzLx9O5KrYGt7I+
- ijZjL3fQ2ukMWNhWngSlFNaWvYoKiM/Wc0f/1K4mEhTpt+j84hsaWsz94kO5IBJgjSkOXV59+KT7DDiIfq2KoBBYKhl+fEX+w0iL913mguE4kmbGAv99EItk
- 7LLEJbgsH0P0vX/CsWk3pZED7qZ1SJMr0RpF2SV25Gk=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qkatogddc44c6dds"
+Content-Disposition: inline
+In-Reply-To: <20190519135422.l2bnumyjr3dxehhx@core.my.home>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/20/19 12:25 PM, Hans Verkuil wrote:
-> Hi Dariusz,
-> 
-> On 5/17/19 5:42 PM, Dariusz Marcinkiewicz wrote:
->> This patch proposes to expose explicit mapping between HDMI connectors
->> and /dev/cecX adapters to userland.
->>
->> New structure with connector info (card number and connector id in case
->> of DRM connectors) is added to cec_adapter. That connector info is expected
->> to be provided when an adapter is created.
->>
->> CEC notifier is extended so that it can be used to communicate the
->> connector's info to CEC adapters' creators.
->>
->> New ioctl, exposing connector info to userland, is added to /dev/cec.
->>
->> Changes since v5:
->>  - make the patch apply against the latest changes in the affected code
->> Changes since v4:
->>  - small tweaks + added documentation
->> Changes since v3:
->>  - cec_get_connter_conn takes connector_info as argument
->> Changes since v2:
->>  - cec_s_connector_info removed, the connector info is now passed to
->>    cec_allocate_adapter
->>  - updated commit message
->> Changes since v1:
->>  - removed the unnecessary event,
->>  - extended cec_connctor_info to allow for various types of connectors.
->>
->> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
->> ---
->>  Documentation/media/kapi/cec-core.rst         |   7 +-
->>  Documentation/media/uapi/cec/cec-funcs.rst    |   1 +
->>  .../uapi/cec/cec-ioc-adap-g-conn-info.rst     | 109 ++++++++++++++++++
->>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   2 +-
->>  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c  |   3 +-
->>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c |   2 +-
->>  drivers/gpu/drm/drm_dp_cec.c                  |  22 ++--
->>  drivers/gpu/drm/i2c/tda9950.c                 |   3 +-
->>  drivers/gpu/drm/i915/intel_dp.c               |   4 +-
->>  drivers/gpu/drm/i915/intel_hdmi.c             |   6 +-
->>  drivers/gpu/drm/nouveau/nouveau_connector.c   |   3 +-
->>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   8 +-
->>  drivers/media/cec/cec-adap.c                  |  13 +++
->>  drivers/media/cec/cec-api.c                   |  12 ++
->>  drivers/media/cec/cec-core.c                  |   8 +-
->>  drivers/media/cec/cec-notifier.c              |  20 +++-
->>  drivers/media/cec/cec-pin.c                   |   2 +-
->>  drivers/media/i2c/tc358743.c                  |   3 +-
->>  .../media/platform/cros-ec-cec/cros-ec-cec.c  |   7 +-
->>  drivers/media/platform/meson/ao-cec.c         |   6 +-
->>  drivers/media/platform/s5p-cec/s5p_cec.c      |   6 +-
->>  drivers/media/platform/seco-cec/seco-cec.c    |   8 +-
->>  drivers/media/platform/sti/cec/stih-cec.c     |   6 +-
->>  drivers/media/platform/stm32/stm32-cec.c      |   2 +-
->>  drivers/media/platform/tegra-cec/tegra_cec.c  |   5 +-
->>  drivers/media/platform/vivid/vivid-cec.c      |   2 +-
->>  drivers/media/usb/pulse8-cec/pulse8-cec.c     |   3 +-
->>  .../media/usb/rainshadow-cec/rainshadow-cec.c |   3 +-
->>  include/drm/drm_dp_helper.h                   |  14 +--
->>  include/media/cec-notifier.h                  |  34 ++++--
->>  include/media/cec.h                           |  16 ++-
->>  include/uapi/linux/cec.h                      |  24 ++++
->>  32 files changed, 310 insertions(+), 54 deletions(-)
->>  create mode 100644 Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst
->>
-> 
-> I've been doing some testing with my Khadas VIM2 board (amlogic SoC).
-> 
-> It's a bit unusual since it uses the Synopsys bridge, but not the Synopsys
-> CEC driver (it has its own meson cec driver).
-> 
-> The first thing I noticed is that I did not get any connector info.
-> I think that the root cause of that is that you forgot that there are
-> several drm drivers that call cec_notifier_get() instead of cec_notifier_get_conn().
-> 
-> I think all those calls to cec_notifier_get() in drm drivers should be replaced
-> by cec_notifier_get_conn() where the second argument is NULL, but the third argument
-> should contain valid connector info.
-> 
-> A quick grep gives me the following drivers that need work:
-> 
-> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> drivers/gpu/drm/exynos/exynos_hdmi.c
-> drivers/gpu/drm/i2c/tda998x_drv.c
-> drivers/gpu/drm/sti/sti_hdmi.c
-> drivers/gpu/drm/tegra/output.c
 
-You also missed updating drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c: the
-cec_allocate_adapter call should be extended with the connector info.
+--qkatogddc44c6dds
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You also missed these three v4l cec adapters:
+Hi Ond=C5=99ej,
 
-drivers/media/i2c/adv7511.c
-drivers/media/i2c/adv7604.c
-drivers/media/i2c/adv7842.c
+On Sun, May 19, 2019 at 03:54:22PM +0200, Ond=C5=99ej Jirman wrote:
+> On Tue, Apr 09, 2019 at 04:52:25PM +0200, Maxime Ripard wrote:
+> > On Tue, Apr 09, 2019 at 04:40:40PM +0800, Chen-Yu Tsai wrote:
+> > > On Tue, Apr 9, 2019 at 4:28 PM Maxime Ripard <maxime.ripard@bootlin.c=
+om> wrote:
+> > > >
+> > > > On Tue, Apr 09, 2019 at 04:07:34PM +0800, Chen-Yu Tsai wrote:
+> > > > > On Tue, Apr 9, 2019 at 3:58 PM Maxime Ripard <maxime.ripard@bootl=
+in.com> wrote:
+> > > > > > On Tue, Apr 09, 2019 at 12:57:42AM +0800, Chen-Yu Tsai wrote:
+> > > > > > > From: Chen-Yu Tsai <wens@csie.org>
+> > > > > > >
+> > > > > > > The A83T SoC has a camera sensor interface (known as CSI in A=
+llwinner
+> > > > > > > lingo), which is similar to the one found on the A64 and H3. =
+The only
+> > > > > > > difference seems to be that support of MIPI CSI through a con=
+nected
+> > > > > > > MIPI CSI-2 bridge.
+> > > > > > >
+> > > > > > > Add a device node for it, and pinctrl nodes for the commonly =
+used MCLK
+> > > > > > > and 8-bit parallel interface. The property /omit-if-no-ref/ i=
+s added to
+> > > > > > > the pinctrl nodes to keep the device tree blob size down if t=
+hey are
+> > > > > > > unused.
+> > > > > > >
+> > > > > > > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> > > > > > > ---
+> > > > > > >  arch/arm/boot/dts/sun8i-a83t.dtsi | 31 +++++++++++++++++++++=
+++++++++++
+> > > > > > >  1 file changed, 31 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boo=
+t/dts/sun8i-a83t.dtsi
+> > > > > > > index f739b88efb53..0c52f945fd5f 100644
+> > > > > > > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > > > > > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+> > > > > > > @@ -682,6 +682,20 @@
+> > > > > > >                       #interrupt-cells =3D <3>;
+> > > > > > >                       #gpio-cells =3D <3>;
+> > > > > > >
+> > > > > > > +                     /omit-if-no-ref/
+> > > > > > > +                     csi_8bit_parallel_pins: csi-8bit-parall=
+el-pins {
+> > > > > > > +                             pins =3D "PE0", "PE2", "PE3", "=
+PE6", "PE7",
+> > > > > > > +                                    "PE8", "PE9", "PE10", "P=
+E11",
+> > > > > > > +                                    "PE12", "PE13";
+> > > > > > > +                             function =3D "csi";
+> > > > > > > +                     };
+> > > > > > > +
+> > > > > > > +                     /omit-if-no-ref/
+> > > > > > > +                     csi_mclk_pin: csi-mclk-pin {
+> > > > > > > +                             pins =3D "PE1";
+> > > > > > > +                             function =3D "csi";
+> > > > > > > +                     };
+> > > > > > > +
+> > > > > > >                       emac_rgmii_pins: emac-rgmii-pins {
+> > > > > > >                               pins =3D "PD2", "PD3", "PD4", "=
+PD5", "PD6", "PD7",
+> > > > > > >                                      "PD11", "PD12", "PD13", =
+"PD14", "PD18",
+> > > > > > > @@ -994,6 +1008,23 @@
+> > > > > > >                       interrupts =3D <GIC_PPI 9 (GIC_CPU_MASK=
+_SIMPLE(8) | IRQ_TYPE_LEVEL_HIGH)>;
+> > > > > > >               };
+> > > > > > >
+> > > > > > > +             csi: camera@1cb0000 {
+> > > > > > > +                     compatible =3D "allwinner,sun8i-a83t-cs=
+i";
+> > > > > > > +                     reg =3D <0x01cb0000 0x1000>;
+> > > > > > > +                     interrupts =3D <GIC_SPI 84 IRQ_TYPE_LEV=
+EL_HIGH>;
+> > > > > > > +                     clocks =3D <&ccu CLK_BUS_CSI>,
+> > > > > > > +                              <&ccu CLK_CSI_SCLK>,
+> > > > > > > +                              <&ccu CLK_DRAM_CSI>;
+> > > > > > > +                     clock-names =3D "bus", "mod", "ram";
+> > > > > > > +                     resets =3D <&ccu RST_BUS_CSI>;
+> > > > > > > +                     status =3D "disabled";
+> > > > > > > +
+> > > > > > > +                     csi_in: port {
+> > > > > > > +                             #address-cells =3D <1>;
+> > > > > > > +                             #size-cells =3D <0>;
+> > > > > >
+> > > > > > If we expect a single enpoint, then we don't need the address-c=
+ells
+> > > > > > and size-cells properties.
+> > > > >
+> > > > > I wouldn't bet on anything. The way the Q8 tablets did front/back=
+ cameras
+> > > > > is kind of genius if not very hacky. They have two "identical" se=
+nsors
+> > > > > on the same I2C bus and CSI bus, with shared reset line but separ=
+ate
+> > > > > shutdown lines. Since they are identical, they also have the same=
+ I2C
+> > > > > address. I haven't figured out how to model this in the device tr=
+ee.
+> > > > >
+> > > > > The point is, it's perfectly possible to have two or more sensors=
+ use
+> > > > > the same controller, provided only one be active at a time.
+> > > >
+> > > > Right, but I guess the common case would be to have a single sensor,
+> > > > where that wouldn't be needed.
+> > > >
+> > > > In odd cases, we can always specify it in the DTS, and if it becomes
+> > > > common enough, we can move it to the DTSI.
+> > >
+> > > Makes sense. Do you want me to re-spin?
+> >
+> > If there's no other comment, we'll fix it when applying.
+>
+> This patch series seems to have been forgotten. It doesn't seem there are=
+ any
+> blockers.
 
-Use NULL for the connector info for these three drivers.
+Sorry about that :/
 
-Also note that in 5.2-rc1 a new meson cec driver was added, that should
-be updated as well, similar to the existing meson cec driver.
+> Can you please apply it now? I have some further series (camera module
+> support for TBS-A711) that depend on this.
 
-Regards,
+Some parts of it will have to be merged through v4l2, and I can't
+apply those patches.
 
-	Hans
+Can you resend that series, and ping on a regular basis (like once a
+week) if you don't get any feedback?
 
-> 
-> The second thing I noticed is that patch 2 gave me a new kernel warning, but
-> I'll do some more testing for that and reply to patch 2/3 once I know more.
-> 
-> Regards,
-> 
-> 	Hans
-> 
+Thanks!
+Maxime
 
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--qkatogddc44c6dds
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOKLOAAKCRDj7w1vZxhR
+xcUUAQD7Jfd29f0QBa+jm16CGAaZx4LxWkZ47YM74jycMwsRPQD+JbLPWMLy39fT
+gI37QUUND5p2czBiA+hpbcz3sQLb8w8=
+=a/4m
+-----END PGP SIGNATURE-----
+
+--qkatogddc44c6dds--
