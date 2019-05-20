@@ -2,159 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8D3230E9
-	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 12:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4867623144
+	for <lists+linux-media@lfdr.de>; Mon, 20 May 2019 12:25:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732323AbfETKE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 06:04:28 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:64736 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729834AbfETKE1 (ORCPT
+        id S1730701AbfETKZU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 06:25:20 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36437 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727108AbfETKZT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 06:04:27 -0400
-X-UUID: 59e24c48e3944b249364089e978a8184-20190520
-X-UUID: 59e24c48e3944b249364089e978a8184-20190520
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <jerry-ch.chen@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 2058970961; Mon, 20 May 2019 18:04:14 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs03n2.mediatek.inc (172.21.101.182) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 20 May 2019 18:04:13 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 20 May 2019 18:04:12 +0800
-Message-ID: <1558346653.3318.18.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V1 1/6] dt-bindings: mt8183: Add binding for FD
- shared memory
-From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "tfiga@chromium.org" <tfiga@chromium.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <Sean.Cheng@mediatek.com>,
-        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
-        <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Holmes Chiou =?UTF-8?Q?=28=E9=82=B1=E6=8C=BA=29?= 
-        <holmes.chiou@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <Frederic.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <Rynn.Wu@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "shik@chromium.org" <shik@chromium.org>,
-        "suleiman@chromium.org" <suleiman@chromium.org>
-Date:   Mon, 20 May 2019 18:04:13 +0800
-In-Reply-To: <20190501224512.GA4287@bogus>
-References: <20190423104505.38778-1-Jerry-Ch.chen@mediatek.com>
-         <20190423104505.38778-2-Jerry-Ch.chen@mediatek.com>
-         <20190501224512.GA4287@bogus>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        Mon, 20 May 2019 06:25:19 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id SfTlhqk8u3qlsSfTohikkm; Mon, 20 May 2019 12:25:17 +0200
+Subject: Re: [PATCH v6 1/3] media: cec: expose HDMI connector to CEC dev
+ mapping
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        linux-media@vger.kernel.org, hans.verkuil@cisco.com
+Cc:     linux-kernel@vger.kernel.org
+References: <20190517154256.255696-1-darekm@google.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c0007b51-5e9f-4788-b860-d0623e21013b@xs4all.nl>
+Date:   Mon, 20 May 2019 12:25:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C4BCE08F12A91F1FC96390B1BA7BC941E6507BB7E8BC193F02F220A7615273562000:8
-X-MTK:  N
+In-Reply-To: <20190517154256.255696-1-darekm@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfKEF/qrL172t6obrkm8HyOk/eUS2F7bfDd44IIofALMIBMe6NV42AaWBlaKkZvX5pLHsAWENDTX1HKGHEBuYmCEnbO8w4RQLrfp5HgJL30se5Hy94pHN
+ mQguejpYQ52d+8VPfjuWdF/y+lJVq0EJrvDf6aVf1+mnFvrdqgKGzaQ5wBw6EKclgKj76cO4arBbThe8g8yxxePrAzrtBQByftLCfTXPfnQjISahoB4RgVtn
+ LX8z6JMkfzUbUYyPjPgTPjWiE1DbjV/WiAGRx0G2y6s=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi Dariusz,
 
-Thank you for your comments.
-
-On Thu, 2019-05-02 at 06:45 +0800, Rob Herring wrote:
-> On Tue, Apr 23, 2019 at 06:45:00PM +0800, Jerry-ch Chen wrote:
-> > From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
-> > 
-> > This patch adds the binding for describing the shared memory
-> > used to exchange meta data between the co-processor and Face
-> > Detection (FD) unit of the camera system on Mediatek SoCs.
-> > 
-> > Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
-> > ---
-> >  .../mediatek,reserve-memory-fd_smem.txt       | 44 +++++++++++++++++++
-> >  1 file changed, 44 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-fd_smem.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-fd_smem.txt b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-fd_smem.txt
-> > new file mode 100644
-> > index 000000000000..52ae5071e238
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/reserved-memory/mediatek,reserve-memory-fd_smem.txt
-> > @@ -0,0 +1,44 @@
-> > +Mediatek FD Shared Memory binding
-> > +
-> > +This binding describes the shared memory, which serves the purpose of
-> > +describing the shared memory region used to exchange data between Face
-> > +Detection hardware (FD) and co-processor in Mediatek SoCs.
-> > +
-> > +The co-processor doesn't have the iommu so we need to use the physical
-> > +address to access the shared buffer in the firmware.
-> > +
-> > +The Face Detection hardware (FD) can access memory through mt8183 IOMMU so
-> > +it can use dma address to access the memory region.
-> > +(See iommu/mediatek,iommu.txt for the detailed description of Mediatek IOMMU)
-> > +
-> > +
-> > +Required properties:
-> > +
-> > +- compatible: must be "mediatek,reserve-memory-fd_smem"
-> > +
-> > +- reg: required for static allocation (see reserved-memory.txt for
-> > +  the detailed usage)
-> > +
-> > +- alloc-range: required for dynamic allocation. The range must
-> > +  between 0x00000400 and 0x100000000 due to the co-processer's
-> > +  addressing limitation
-> > +
-> > +- size: required for dynamic allocation. The unit is bytes.
-> > +  for Face Detection Unit, you need 1 MB at least.
+On 5/17/19 5:42 PM, Dariusz Marcinkiewicz wrote:
+> This patch proposes to expose explicit mapping between HDMI connectors
+> and /dev/cecX adapters to userland.
 > 
-> What's the most?
+> New structure with connector info (card number and connector id in case
+> of DRM connectors) is added to cec_adapter. That connector info is expected
+> to be provided when an adapter is created.
 > 
-
-For this part, we would like to revise as following:
-
-alloc-range: required for dynamic allocation. The range must between
-0x40000000 and 0x100000000 due to the co-processor's addressing
-limitation
-
-size: required for dynamic allocation. The unit is bytes.
-for Face Detection Unit, you need 518KB.
-
-> I don't think you really need reserved memory here if you don't need a 
-> fixed address. The size is not that big that a contiguous allocation 
-> shouldn't be a problem (though with IOMMU you don't even need that). 
-> 'dma-ranges' can be used to set the kernel's dma mask and ensure a 
-> range below 0x10000000.
+> CEC notifier is extended so that it can be used to communicate the
+> connector's info to CEC adapters' creators.
+> 
+> New ioctl, exposing connector info to userland, is added to /dev/cec.
+> 
+> Changes since v5:
+>  - make the patch apply against the latest changes in the affected code
+> Changes since v4:
+>  - small tweaks + added documentation
+> Changes since v3:
+>  - cec_get_connter_conn takes connector_info as argument
+> Changes since v2:
+>  - cec_s_connector_info removed, the connector info is now passed to
+>    cec_allocate_adapter
+>  - updated commit message
+> Changes since v1:
+>  - removed the unnecessary event,
+>  - extended cec_connctor_info to allow for various types of connectors.
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> ---
+>  Documentation/media/kapi/cec-core.rst         |   7 +-
+>  Documentation/media/uapi/cec/cec-funcs.rst    |   1 +
+>  .../uapi/cec/cec-ioc-adap-g-conn-info.rst     | 109 ++++++++++++++++++
+>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   2 +-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c  |   3 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c |   2 +-
+>  drivers/gpu/drm/drm_dp_cec.c                  |  22 ++--
+>  drivers/gpu/drm/i2c/tda9950.c                 |   3 +-
+>  drivers/gpu/drm/i915/intel_dp.c               |   4 +-
+>  drivers/gpu/drm/i915/intel_hdmi.c             |   6 +-
+>  drivers/gpu/drm/nouveau/nouveau_connector.c   |   3 +-
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   8 +-
+>  drivers/media/cec/cec-adap.c                  |  13 +++
+>  drivers/media/cec/cec-api.c                   |  12 ++
+>  drivers/media/cec/cec-core.c                  |   8 +-
+>  drivers/media/cec/cec-notifier.c              |  20 +++-
+>  drivers/media/cec/cec-pin.c                   |   2 +-
+>  drivers/media/i2c/tc358743.c                  |   3 +-
+>  .../media/platform/cros-ec-cec/cros-ec-cec.c  |   7 +-
+>  drivers/media/platform/meson/ao-cec.c         |   6 +-
+>  drivers/media/platform/s5p-cec/s5p_cec.c      |   6 +-
+>  drivers/media/platform/seco-cec/seco-cec.c    |   8 +-
+>  drivers/media/platform/sti/cec/stih-cec.c     |   6 +-
+>  drivers/media/platform/stm32/stm32-cec.c      |   2 +-
+>  drivers/media/platform/tegra-cec/tegra_cec.c  |   5 +-
+>  drivers/media/platform/vivid/vivid-cec.c      |   2 +-
+>  drivers/media/usb/pulse8-cec/pulse8-cec.c     |   3 +-
+>  .../media/usb/rainshadow-cec/rainshadow-cec.c |   3 +-
+>  include/drm/drm_dp_helper.h                   |  14 +--
+>  include/media/cec-notifier.h                  |  34 ++++--
+>  include/media/cec.h                           |  16 ++-
+>  include/uapi/linux/cec.h                      |  24 ++++
+>  32 files changed, 310 insertions(+), 54 deletions(-)
+>  create mode 100644 Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst
 > 
 
-FD driver might be able to use the FD memory pool inside the scp
-reserved memory instead of declaring reserved memory here.
-would you have any suggestion if so?
+I've been doing some testing with my Khadas VIM2 board (amlogic SoC).
 
-Sincerely,
-	Jerry
+It's a bit unusual since it uses the Synopsys bridge, but not the Synopsys
+CEC driver (it has its own meson cec driver).
 
+The first thing I noticed is that I did not get any connector info.
+I think that the root cause of that is that you forgot that there are
+several drm drivers that call cec_notifier_get() instead of cec_notifier_get_conn().
 
-> Rob
+I think all those calls to cec_notifier_get() in drm drivers should be replaced
+by cec_notifier_get_conn() where the second argument is NULL, but the third argument
+should contain valid connector info.
 
+A quick grep gives me the following drivers that need work:
 
+drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+drivers/gpu/drm/exynos/exynos_hdmi.c
+drivers/gpu/drm/i2c/tda998x_drv.c
+drivers/gpu/drm/sti/sti_hdmi.c
+drivers/gpu/drm/tegra/output.c
+
+The second thing I noticed is that patch 2 gave me a new kernel warning, but
+I'll do some more testing for that and reply to patch 2/3 once I know more.
+
+Regards,
+
+	Hans
