@@ -2,116 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D5E25712
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 19:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B67925756
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 20:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbfEURzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 13:55:35 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:46948 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728055AbfEURzf (ORCPT
+        id S1728256AbfEUSQD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 14:16:03 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42712 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727969AbfEUSQD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 13:55:35 -0400
-Received: by mail-lf1-f65.google.com with SMTP id l26so13741753lfh.13;
-        Tue, 21 May 2019 10:55:33 -0700 (PDT)
+        Tue, 21 May 2019 14:16:03 -0400
+Received: by mail-pl1-f196.google.com with SMTP id go2so291879plb.9;
+        Tue, 21 May 2019 11:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IfC90GLWAL5buzqpB3Hhmc94gWiD9YxrxMTKQ1rMyRM=;
-        b=j0FisOER1y/L+6LkfBt8YXZO/d0LHxfgfibIXMagQRz8eZuFtPr0xsdxx2UDbih1BO
-         t+M6Fpu2GA34I8qh+suppEju4J9ej11udj/cd4wftrK1/goHeAqOU/EQBZU75bBqx6yY
-         0pisnKM4YolPLuFaAjssSdxnSsVc68/sveBiOMX1FOUvDdnCBqoIYbxGB6l9wp8dgPkb
-         2KrXe+32kRCKSQvlRIrK2Y7KT2Trc97RFF628Lv9HMLvyqS91s/hZ54WeduaZyBqBtsZ
-         xE3rlPeLNnTTRLi2YHNPDY6trmPtfDlBjcf1Do0NcWfe4gCpZbc8rd4v0YRs728qYpdC
-         aA4w==
+        h=from:to:cc:subject:date:message-id;
+        bh=Y/MYMhrU1tjyFi5FjnHoCnJ6B3pMDuL+caZmJS6iXvc=;
+        b=hC3NzunQtTacilbhVcY+YFbxqEcQa7u2d4uxOn6mm8U3vBSyR8govzXKG4chhNrcRA
+         wHqe/oPMYGsy7eymiKvAciIePZj1f94FfWgD7qI7eEiNhGMyNwlz/RUdusmaicIsKFjG
+         Og4d1f9RMsLBqyFpUOi1GzmCAdfvJxL782vKeAAEvGAMOaAewamcuUPjJQSZLxZr2q8H
+         M5QbbfP7CQS5mwa3rtANt0wV+w1ALdpzJrWFRgsnWe2wDDyT8yQvjX/vMVJ+GB3k2hlX
+         RYlPw1YHcImnxJh5jKM/YeETpxv9xMJSEk4ety0d/RZwDyc6S5c8W7BdzoVAVn8NlVr3
+         UlKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IfC90GLWAL5buzqpB3Hhmc94gWiD9YxrxMTKQ1rMyRM=;
-        b=RHXjkAmgleZDVpD9w8kauGgZX2t3iXs6fHEqNvZCW4fd97pZlhmrRj2mQMpZ6msI9B
-         GKEK9oRiNYMzYjz1BQOyO6iLJowOof8/xcnhfn/HQFB9dtVyH1BgJkoYBOt8JmV4EklL
-         mIWb0nxQ86Q3E3taRrJjomYSG+kcQ4uvXoo+MAClXSbNCiuQAY+8jDmZdrOGdYnBW+yX
-         fJ1uShNtXOa+RAMQBBHvP3L/mn5kMKLwKfNY5voThk1CtD5KjV+RHRqALwOT+GlbkVC/
-         6lDjfih0PTaRfOyqUbn9zkaYG0+PXeQ0TMlyNpXic+p9ITRT3G2WnF0H6OL+UZhDMgK8
-         8hVw==
-X-Gm-Message-State: APjAAAVvZgtgS//Mz9Bo0+F5O0M/3g2qZ8UFGtI7G8OGjpbu/eur/ber
-        G8WkMhMINqhk6++zZqVYKQc=
-X-Google-Smtp-Source: APXvYqwO6dtTEgUYcoodZ/ORFTKcLy5c4fhJsQj3OtLXPCDDB+PojqiaceAFBupQdJWkjIAB8kaKXQ==
-X-Received: by 2002:ac2:50c4:: with SMTP id h4mr22359011lfm.105.1558461333023;
-        Tue, 21 May 2019 10:55:33 -0700 (PDT)
-Received: from z50.localnet (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id s6sm4741081lje.89.2019.05.21.10.55.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Y/MYMhrU1tjyFi5FjnHoCnJ6B3pMDuL+caZmJS6iXvc=;
+        b=IOAwhdEnVdJvZ7Iw0noYc8Kyb1Vy1148rXkMOW5w56Q4MTgmeuk4u3fr6hTgAPQ8y9
+         lO8DcRZMPj6UVwdgHbmZPoPz0usDUJoRaTXOp8ysEeIoZnm593wlUxgKRvm5bpeRIKOW
+         lq3FPqvGMqzE8BG3T/4jHipwq9M856NhVXQaigx7P2K4fP1agYw2P/Sc4sbofCj+7M8w
+         BtZwD5yPGCF0LzlNypT0EpaxysATeCJWhh9X/uu3yoS7pAaDg8sQcK8Fvv2aLV4T4e4d
+         rc0URM02iRuX0bv8klG5lwbyOzJuy1yFTwN5v43+P/xj8HQ3/M0AjcqVT6iSgNeJO3Zh
+         be/w==
+X-Gm-Message-State: APjAAAUEht9ymeAPUjzrJDMoDfNBJmOjDceONA2taqU4UW8syE90cg5h
+        lL/DD+zM1A/Tx8HDW4gOwrk=
+X-Google-Smtp-Source: APXvYqxAfd+J7HIHw5JyCAQwtUv73KL+sISPMY7Pc7gfBzn8OOfnEfEILHYYQdJXY1Y2bECtz1qIxg==
+X-Received: by 2002:a17:902:6b:: with SMTP id 98mr84476086pla.271.1558462562160;
+        Tue, 21 May 2019 11:16:02 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.200.143])
+        by smtp.gmail.com with ESMTPSA id y17sm24090105pfn.79.2019.05.21.11.15.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 10:55:32 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Greg KH <greg@kroah.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/9] media: ov6650: Fix MODDULE_DESCRIPTION
-Date:   Tue, 21 May 2019 19:55:30 +0200
-Message-ID: <1658715.gUuAbo05IQ@z50>
-In-Reply-To: <20190521051537.GA8325@kroah.com>
-References: <20190520225007.2308-1-jmkrzyszt@gmail.com> <20190520225007.2308-2-jmkrzyszt@gmail.com> <20190521051537.GA8325@kroah.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        Tue, 21 May 2019 11:16:01 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     hverkuil@xs4all.nl, royale@zerezo.com, mchehab@kernel.org,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH] media:usb:zr364xx:Fix KASAN:null-ptr-deref Read in zr364xx_vidioc_querycap
+Date:   Tue, 21 May 2019 23:45:35 +0530
+Message-Id: <20190521181535.7974-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tuesday, May 21, 2019 7:15:37 AM CEST Greg KH wrote:
-> On Tue, May 21, 2019 at 12:49:59AM +0200, Janusz Krzysztofik wrote:
-> > Commit 23a52386fabe ("media: ov6650: convert to standalone v4l2
-> > subdevice") converted the driver from a soc_camera sensor to a
-> > standalone V4L subdevice driver.  Unfortunately, module description was
-> > not updated to reflect the change.  Fix it.
-> > 
-> > While being at it, update email address of the module author.
-> > 
-> > Fixes: 23a52386fabe ("media: ov6650: convert to standalone v4l2 subdevice")
-> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > cc: stable@vger.kernel.org
-> > ---
-> >  drivers/media/i2c/ov6650.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > index 1b972e591b48..a3d00afcb0c8 100644
-> > --- a/drivers/media/i2c/ov6650.c
-> > +++ b/drivers/media/i2c/ov6650.c
-> > @@ -1045,6 +1045,6 @@ static struct i2c_driver ov6650_i2c_driver = {
-> >  
-> >  module_i2c_driver(ov6650_i2c_driver);
-> >  
-> > -MODULE_DESCRIPTION("SoC Camera driver for OmniVision OV6650");
-> > -MODULE_AUTHOR("Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>");
-> > +MODULE_DESCRIPTION("V4L2 subdevice driver for OmniVision OV6650 camera sensor");
-> > +MODULE_AUTHOR("Janusz Krzysztofik <jmkrzyszt@gmail.com");
-> >  MODULE_LICENSE("GPL v2");
-> 
-> is this _really_ a patch that meets the stable kernel requirements?
-> Same for this whole series...
+SyzKaller hit the null pointer deref while reading from uninitialized
+udev->product in zr364xx_vidioc_querycap().
+==================================================================
+BUG: KASAN: null-ptr-deref in read_word_at_a_time+0xe/0x20
+include/linux/compiler.h:274
+Read of size 1 at addr 0000000000000000 by task v4l_id/5287
 
-Hi Greg,
+CPU: 1 PID: 5287 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  kasan_report.cold+0x5/0x3c mm/kasan/report.c:321
+  read_word_at_a_time+0xe/0x20 include/linux/compiler.h:274
+  strscpy+0x8a/0x280 lib/string.c:207
+  zr364xx_vidioc_querycap+0xb5/0x210 drivers/media/usb/zr364xx/zr364xx.c:706
+  v4l_querycap+0x12b/0x340 drivers/media/v4l2-core/v4l2-ioctl.c:1062
+  __video_do_ioctl+0x5bb/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2874
+  video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
+  v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
+  vfs_ioctl fs/ioctl.c:46 [inline]
+  file_ioctl fs/ioctl.c:509 [inline]
+  do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
+  ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
+  __do_sys_ioctl fs/ioctl.c:720 [inline]
+  __se_sys_ioctl fs/ioctl.c:718 [inline]
+  __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
+  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7f3b56d8b347
+Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
+ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
+ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
+RSP: 002b:00007ffe005d5d68 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f3b56d8b347
+RDX: 00007ffe005d5d70 RSI: 0000000080685600 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
+R13: 00007ffe005d5ec0 R14: 0000000000000000 R15: 0000000000000000
+==================================================================
 
-My bad, I'm sorry.  Please ignore the whole series, and I'll be more careful
-in the future.
+For this device udev->product is not initialized and accessing it causes a NULL pointer deref.
 
-Thanks,
-Janusz
+The fix is to check for NULL before strscpy() and copy empty string, if
+product is NULL
 
-> 
-> thanks,
-> 
-> greg k-h
-> 
+Reported-by: syzbot+66010012fd4c531a1a96@syzkaller.appspotmail.com
 
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ drivers/media/usb/zr364xx/zr364xx.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-
+diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
+index 96fee8d5b865..401a1e55dbe1 100644
+--- a/drivers/media/usb/zr364xx/zr364xx.c
++++ b/drivers/media/usb/zr364xx/zr364xx.c
+@@ -703,7 +703,10 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
+ 	struct zr364xx_camera *cam = video_drvdata(file);
+ 
+ 	strscpy(cap->driver, DRIVER_DESC, sizeof(cap->driver));
+-	strscpy(cap->card, cam->udev->product, sizeof(cap->card));
++	if (cam->udev->product)
++		strscpy(cap->card, cam->udev->product, sizeof(cap->card));
++	else
++		strscpy(cap->card, "", sizeof(cap->card));
+ 	strscpy(cap->bus_info, dev_name(&cam->udev->dev),
+ 		sizeof(cap->bus_info));
+ 	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
+-- 
+2.17.1
 
