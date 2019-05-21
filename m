@@ -2,124 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38FF524DED
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 13:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C187324E41
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 13:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727044AbfEULcf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 07:32:35 -0400
-Received: from casper.infradead.org ([85.118.1.10]:50164 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726242AbfEULcf (ORCPT
+        id S1726814AbfEULpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 07:45:00 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:47033 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726740AbfEULpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 07:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Mvxkzx+yx7+DsQVK/GzfO9p5kzqyPTChQxBAUg/ko6E=; b=T7xcC5m5pb8h33VkKBa1qwOq8U
-        tANPWnu9qCBjx6fSsJHhqbyhg0AIbOVudI5d41XA/SkLrcca2v4LQfs1GXxHDJvUomi56n4sxWvRg
-        4zIB6BIuTBdNTNb2qWQwnMdGgQN+S/8yg33V7ZCgQBDqsmm7RpTUNPApTopwbi9ElROW+/rqqDdSy
-        SBdk5qo1jzYKuPHEJvdW0idGRGomlL1MRDTI/feAboL47Hy+E364QH2Ui1k5H606T6MzokWFWtAAp
-        mxh2POttQVRYsiS4zo1xDYUWAv+hZtf9CWm9BgMeo18i1YbjrcNejHbwnUMsnqhsP+OsLKzi9t6CZ
-        8oP3h5Xw==;
-Received: from 189.27.21.94.dynamic.adsl.gvt.net.br ([189.27.21.94] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hT30T-0007ed-Ac; Tue, 21 May 2019 11:32:33 +0000
-Date:   Tue, 21 May 2019 08:32:29 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
+        Tue, 21 May 2019 07:45:00 -0400
+Received: from aptenodytes (aaubervilliers-681-1-80-185.w90-88.abo.wanadoo.fr [90.88.22.185])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 7470810000C;
+        Tue, 21 May 2019 11:44:51 +0000 (UTC)
+Message-ID: <dee0307b4cce84f1e35b5c6da7a8b2dbbac22bbc.camel@bootlin.com>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "eugen.hristev@microchip.com" <eugen.hristev@microchip.com>
-Subject: Re: [GIT PULL FOR v5.3] atmel-isc and coda enhancements
-Message-ID: <20190521083229.66b4afbe@coco.lan>
-In-Reply-To: <1fc4f310-aa97-fa5f-ed1b-1253caabb003@xs4all.nl>
-References: <1fc4f310-aa97-fa5f-ed1b-1253caabb003@xs4all.nl>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Date:   Tue, 21 May 2019 13:44:50 +0200
+In-Reply-To: <CAAFQd5AoNvVbx+PMQM9jOA-q4NEqe-PEm66DtxSd-9B8G=-9Ow@mail.gmail.com>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+         <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+         <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
+         <CAAFQd5AoNvVbx+PMQM9jOA-q4NEqe-PEm66DtxSd-9B8G=-9Ow@mail.gmail.com>
+Organization: Bootlin
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 2 May 2019 15:13:58 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Hi,
 
-> This previous PR https://patchwork.linuxtv.org/patch/55818/ is now split
-> in two, one with patches for 5.2 and one with stuff that can go into 5.3.
+On Tue, 2019-05-21 at 19:27 +0900, Tomasz Figa wrote:
+> On Thu, May 16, 2019 at 2:43 AM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> > Hi,
+> > 
+> > Le mercredi 15 mai 2019 à 10:42 -0400, Nicolas Dufresne a écrit :
+> > > Le mercredi 15 mai 2019 à 12:09 +0200, Paul Kocialkowski a écrit :
+> > > > Hi,
+> > > > 
+> > > > With the Rockchip stateless VPU driver in the works, we now have a
+> > > > better idea of what the situation is like on platforms other than
+> > > > Allwinner. This email shares my conclusions about the situation and how
+> > > > we should update the MPEG-2, H.264 and H.265 controls accordingly.
+> > > > 
+> > > > - Per-slice decoding
+> > > > 
+> > > > We've discussed this one already[0] and Hans has submitted a patch[1]
+> > > > to implement the required core bits. When we agree it looks good, we
+> > > > should lift the restriction that all slices must be concatenated and
+> > > > have them submitted as individual requests.
+> > > > 
+> > > > One question is what to do about other controls. I feel like it would
+> > > > make sense to always pass all the required controls for decoding the
+> > > > slice, including the ones that don't change across slices. But there
+> > > > may be no particular advantage to this and only downsides. Not doing it
+> > > > and relying on the "control cache" can work, but we need to specify
+> > > > that only a single stream can be decoded per opened instance of the
+> > > > v4l2 device. This is the assumption we're going with for handling
+> > > > multi-slice anyway, so it shouldn't be an issue.
+> > > 
+> > > My opinion on this is that the m2m instance is a state, and the driver
+> > > should be responsible of doing time-division multiplexing across
+> > > multiple m2m instance jobs. Doing the time-division multiplexing in
+> > > userspace would require some sort of daemon to work properly across
+> > > processes. I also think the kernel is better place for doing resource
+> > > access scheduling in general.
+> > 
+> > I agree with that yes. We always have a single m2m context and specific
+> > controls per opened device so keeping cached values works out well.
+> > 
+> > So maybe we shall explicitly require that the request with the first
+> > slice for a frame also contains the per-frame controls.
+> > 
 > 
-> This PR contains the patches with new features for 5.3.
+> Agreed.
 > 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 7afa8db323e37b9174cf78a1c9ab0ae7a9f5e7dd:
-> 
->   media: vsp1: Add support for missing 16-bit RGB555 formats (2019-04-25 11:07:05 -0400)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3a
-> 
-> for you to fetch changes up to 73d1351fb7d7dafd88d15848bfacfe9f16b13351:
-> 
->   media: coda: use v4l2_m2m_buf_copy_metadata (2019-05-02 15:04:53 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Eugen Hristev (4):
->       media: atmel: atmel-isc: reworked white balance feature
->       media: v4l2-ctrl: fix flags for DO_WHITE_BALANCE
->       media: atmel: atmel-isc: add support for DO_WHITE_BALANCE
->       media: atmel: atmel-isc: make try_fmt error less verbose
-> 
-> Philipp Zabel (12):
->       media: coda: move register debugging to coda_debug level 3
->       media: coda: move job ready message to coda_debug level 2
->       media: coda: add coda_frame_type_char helper
->       media: coda: improve decoder job finished debug message
->       media: coda: demote s_ctrl debug messages to level 2
->       media: coda: add menu strings to s_ctrl debug output
->       media: coda: update profile and level controls after sequence initialization
+> One more argument not to allow such multiplexing is that despite the
+> API being called "stateless", there is actually some state saved
+> between frames, e.g. the Rockchip decoder writes some intermediate
+> data to some local buffers which need to be given to the decoder to
+> decode the next frame. Actually, on Rockchip there is even a
+> requirement to keep the reference list entries in the same order
+> between frames.
 
-Patches up to here applied fine.
+Well, what I'm suggesting is to have one stream per m2m context, but it
+should certainly be possible to have multiple m2m contexts (multiple
+userspace open calls) that decode different streams concurrently.
 
->       media: coda: add decoder MPEG-4 profile and level controls
+Is that really going to be a problem for Rockchip? If so, then the
+driver should probably enforce allowing a single userspace open and m2m
+context at a time.
 
-This one caused build to break. I'm stopping merging here.
+Cheers,
 
-Regards,
-Mauro
+Paul
 
->       media: v4l2-ctrl: add MPEG-2 profile and level controls
->       media: coda: add decoder MPEG-2 profile and level controls
->       media: coda: add lockdep asserts
->       media: coda: use v4l2_m2m_buf_copy_metadata
-> 
->  Documentation/media/uapi/v4l/ext-ctrls-codec.rst |  56 +++++++++++++++++++
->  drivers/media/platform/atmel/atmel-isc-regs.h    |   6 ++-
->  drivers/media/platform/atmel/atmel-isc.c         | 263 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------
->  drivers/media/platform/coda/Makefile             |   2 +-
->  drivers/media/platform/coda/coda-bit.c           |  69 +++++++++++++++++++-----
->  drivers/media/platform/coda/coda-common.c        | 129 +++++++++++++++++++++++++++++++++-----------
->  drivers/media/platform/coda/coda-mpeg2.c         |  44 +++++++++++++++
->  drivers/media/platform/coda/coda-mpeg4.c         |  48 +++++++++++++++++
->  drivers/media/platform/coda/coda.h               |  14 +++++
->  drivers/media/platform/coda/coda_regs.h          |   2 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c             |  24 +++++++++
->  include/uapi/linux/v4l2-controls.h               |  18 +++++++
->  12 files changed, 597 insertions(+), 78 deletions(-)
->  create mode 100644 drivers/media/platform/coda/coda-mpeg2.c
->  create mode 100644 drivers/media/platform/coda/coda-mpeg4.c
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-
-
-Thanks,
-Mauro
