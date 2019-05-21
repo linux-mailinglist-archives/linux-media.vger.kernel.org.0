@@ -2,113 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B70A22477B
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 07:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060CE24B2E
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 11:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbfEUFPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 01:15:43 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48145 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727228AbfEUFPn (ORCPT
+        id S1727174AbfEUJKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 05:10:02 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:36751 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727032AbfEUJKC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 01:15:43 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id A152C22572;
-        Tue, 21 May 2019 01:15:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Tue, 21 May 2019 01:15:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=Zs2g6tIaEDwqeFSvJ6bXGDZori8
-        SQskXCTnrMkz9V0o=; b=XkYC0Fn21fxBL0Y/5xlGTXf/QGhEqpLwC85P4Fk2PGK
-        0KLkieW0hAY6tbhd4yXVr3IpKhelBCISBrHUPUICnqqv46bjFfGBkGHvjfn0CISx
-        0s3FMtnBo1PhklLGB/4det3M2ATP7QqcGHSVfESwZXhlO5TEFe5cfxfW8AmrPfa8
-        gZxIl8bj90v2HAUH+IFzoowMmXJn2QmYLA35Wyt8/aFbLbnrpamSgsyYqrle2omr
-        SxO+xainrHKtUXqGRjtTLQ7Xe2yetygYEABsE2MAONgIpy/YpSEWOy498KMrVbcL
-        KPi3EXLbl8EfLvy6uWb4+aXjOt39OPjeP3K4DZc11sg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Zs2g6t
-        IaEDwqeFSvJ6bXGDZori8SQskXCTnrMkz9V0o=; b=xPO8jHCtWXj3rDrQEU7Kn+
-        0pOJnLE5jm7t2pMh3r2MsG+k1IxzDaEY4FSM2A1e3dCOX3o+OXIXCUrsro60OFr3
-        Tv4sJ393/LOMKlZGzX6ITxr1VV10yXSpoumg2+BsWjH17g+Lu19TuB3Mz5eMcyAy
-        HVU7bGr3XvlF54OFITAIulQgN3AqwKrXU1eEVgvhzOCleHMHSnwf6xmn38M7UPeR
-        2bRcKtswySRSYj98KuDsBxs4mAXNodjoM+BUEhxtJy4PWFtu4nZBZ15Fn1n0IH58
-        S/8mfPYDh6SArfsZhAAiNGonIUl4y0mvvX51zHW/D0q2SuJKCsrMdvLKgnmrst0A
-        ==
-X-ME-Sender: <xms:fInjXOO0wwQHk0J41lr-xuKWbnTSuzCtcO1Qowc70EMzshaL7Z7Eqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddtledgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeekfedrkeeirdekledrud
-    dtjeenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecu
-    vehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:fInjXEbu7SiHIpzIVFdLVV2ucgC0nog-8XQblkluBQ5pk6eKeCkhAA>
-    <xmx:fInjXCpgZ8JXC9_J1e9wIhVzBqnFsav38Yo8PCYoDlP-vUPM-yPC3w>
-    <xmx:fInjXIYx7KH-uRJwMxK9NKW4-urnXhKcjVi1bH2aoWdhc-5BCGTFDw>
-    <xmx:fYnjXKROHSiJEbHDppq7-CQZOUklbNVZdxFCBR_d1R3oH7MTJgtw6Q>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4EED310323;
-        Tue, 21 May 2019 01:15:40 -0400 (EDT)
-Date:   Tue, 21 May 2019 07:15:37 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/9] media: ov6650: Fix MODDULE_DESCRIPTION
-Message-ID: <20190521051537.GA8325@kroah.com>
-References: <20190520225007.2308-1-jmkrzyszt@gmail.com>
- <20190520225007.2308-2-jmkrzyszt@gmail.com>
+        Tue, 21 May 2019 05:10:02 -0400
+Received: by mail-ed1-f68.google.com with SMTP id a8so28303942edx.3
+        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 02:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PSdPOItR/QwQaJqAWDzyHjSOY0FhX0Q6RByw0iZfWqY=;
+        b=LRgF3QOdZRfOdkdcevF4kHXKpLVf+DmgnDacDANvUI/gJ05zyHF+rFhWral3BX2t5a
+         AJ+s8NZT0eJHefNlxPmxnDRpDW3x3YNDwEXIYtO228pxHr+jNhr45VMKgvEdUUF0YW8k
+         t3rsUQityMohQJFpsxx9FCJ4P2P235mLpB1no=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PSdPOItR/QwQaJqAWDzyHjSOY0FhX0Q6RByw0iZfWqY=;
+        b=Lwfv3+Nu61ZS+lw5HTYJVgCwNJ0TcMqVMZUbA7kbj0TBpjogD7X11BjHD0UrBY24+4
+         cNhJdM1T+XHTwqLoBzE6OmBl6m0MSrvmUwAfN+pOx3851Nfn9LvH6u5198C0lldOhHD4
+         MmcDJT/qNo9htC5nHl2uoa15ZNbyKZasAg5H2kjJANQqd7xutM2yM6l9d/angJtd6gqd
+         lus1HreGLHPfQCyPP1MBjC+CSEGl2tEBDfQ7E5AmPEravnxVxth/a6oPPv4WunZTGh3X
+         wbtR3lqGmMgyKRV1EasOHeKLNuHMU7KxKJr8YqOM2W4/nQR3rvYlgV+JdtdjaCmQW2V0
+         tYhQ==
+X-Gm-Message-State: APjAAAXq26sYGHVML7JIgvK3PiHVqGwttQwUAqkkk8E0U6gCM34ObHS6
+        xsG03NVR9Txz+JFgvVKbmK4/MI0O1T+w44ua
+X-Google-Smtp-Source: APXvYqzsOaUHJebXLr/recgudfL5fDPkIK+VzkzmpN7ODZPvsGh0qZqv0ppZGU/lukb3GxhxB9oTRA==
+X-Received: by 2002:a50:92c9:: with SMTP id l9mr81006043eda.75.1558429799536;
+        Tue, 21 May 2019 02:09:59 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id f25sm6166878ede.44.2019.05.21.02.09.58
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 May 2019 02:09:58 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id g12so17372250wro.8
+        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 02:09:58 -0700 (PDT)
+X-Received: by 2002:a5d:5048:: with SMTP id h8mr681332wrt.177.1558429797759;
+ Tue, 21 May 2019 02:09:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520225007.2308-2-jmkrzyszt@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190117162008.25217-1-stanimir.varbanov@linaro.org>
+ <20190117162008.25217-11-stanimir.varbanov@linaro.org> <60b3efff-31c1-bc04-8af9-deebb8bc013a@xs4all.nl>
+ <fe51ae1e-6d2e-36bd-485a-d85520ad2386@linaro.org> <CAAFQd5Co3G1J4+HOcjtCb7p3rhLcm+1E=mPr2d=AtdOSuF_eKg@mail.gmail.com>
+ <c56930e0-be6f-2ade-fcea-8ee0ff6247ec@linaro.org>
+In-Reply-To: <c56930e0-be6f-2ade-fcea-8ee0ff6247ec@linaro.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 21 May 2019 18:09:45 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CNGsnqjpLsWSTf=8r+hSfyOgD8SU-tn5EbHCCuuSgH6A@mail.gmail.com>
+Message-ID: <CAAFQd5CNGsnqjpLsWSTf=8r+hSfyOgD8SU-tn5EbHCCuuSgH6A@mail.gmail.com>
+Subject: Re: [PATCH 10/10] venus: dec: make decoder compliant with stateful
+ codec API
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Malathi Gottam <mgottam@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 21, 2019 at 12:49:59AM +0200, Janusz Krzysztofik wrote:
-> Commit 23a52386fabe ("media: ov6650: convert to standalone v4l2
-> subdevice") converted the driver from a soc_camera sensor to a
-> standalone V4L subdevice driver.  Unfortunately, module description was
-> not updated to reflect the change.  Fix it.
-> 
-> While being at it, update email address of the module author.
-> 
-> Fixes: 23a52386fabe ("media: ov6650: convert to standalone v4l2 subdevice")
-> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> cc: stable@vger.kernel.org
-> ---
->  drivers/media/i2c/ov6650.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> index 1b972e591b48..a3d00afcb0c8 100644
-> --- a/drivers/media/i2c/ov6650.c
-> +++ b/drivers/media/i2c/ov6650.c
-> @@ -1045,6 +1045,6 @@ static struct i2c_driver ov6650_i2c_driver = {
->  
->  module_i2c_driver(ov6650_i2c_driver);
->  
-> -MODULE_DESCRIPTION("SoC Camera driver for OmniVision OV6650");
-> -MODULE_AUTHOR("Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>");
-> +MODULE_DESCRIPTION("V4L2 subdevice driver for OmniVision OV6650 camera sensor");
-> +MODULE_AUTHOR("Janusz Krzysztofik <jmkrzyszt@gmail.com");
->  MODULE_LICENSE("GPL v2");
-> -- 
-> 2.21.0
-> 
+Hi Stan,
 
-is this _really_ a patch that meets the stable kernel requirements?
-Same for this whole series...
+On Mon, May 20, 2019 at 11:47 PM Stanimir Varbanov
+<stanimir.varbanov@linaro.org> wrote:
+>
+> Hi Tomasz,
+>
+> On 4/24/19 3:39 PM, Tomasz Figa wrote:
+> > On Wed, Apr 24, 2019 at 9:15 PM Stanimir Varbanov
+> > <stanimir.varbanov@linaro.org> wrote:
+> >>
+> >> Hi Hans,
+> >>
+> >> On 2/15/19 3:44 PM, Hans Verkuil wrote:
+> >>> Hi Stanimir,
+> >>>
+> >>> I never paid much attention to this patch series since others were busy
+> >>> discussing it and I had a lot of other things on my plate, but then I heard
+> >>> that this patch made G_FMT blocking.
+> >>
+> >> OK, another option could be to block REQBUF(CAPTURE) until event from hw
+> >> is received that the stream is parsed and the resolution is correctly
+> >> set by application. Just to note that I'd think to this like a temporal
+> >> solution until gstreamer implements v4l events.
+> >>
+> >> Is that looks good to you?
+> >
+> > Hmm, I thought we concluded that gstreamer sets the width and height
+> > in OUTPUT queue before querying the CAPTURE queue and so making the
+> > driver calculate the CAPTURE format based on what's set on OUTPUT
+> > would work fine. Did I miss something?
+>
+> Nobody is miss something.
+>
+> First some background about how Venus implements stateful codec API.
+>
+> The Venus firmware can generate two events "sufficient" and
+> "insufficient" buffer requirements (this includes decoder output buffer
+> size and internal/scratch buffer sizes). Presently I always set minimum
+> possible decoder resolution no matter what the user said, and by that
+> way I'm sure that "insufficient" event will always be triggered by the
+> firmware (the other reason to take this path is because this is the
+> least-common-divider for all supported Venus hw/fw versions thus common
+> code in the driver). The reconfiguration (during codec Initialization
+> sequence) is made from STREAMON(CAPTURE) context. Now, to make that
+> re-configuration happen I need to wait for "insufficient" event from
+> firmware in order to know the real coded resolution.
+>
+> In the case of gstreamer where v4l2_events support is missing I have to
+> block (wait for firmware event) REQBUF(CAPTURE) (vb2::queue_setup) or
+> STREAMON(CAPTURE) (vb2::start_streaming).
+>
+> I tried to set the coded resolution to the firmware as-is it set by
+> gstreamer but then I cannot receive the "sufficient" event for VP8 and
+> VP9 codecs. So I return back to the solution with minimum resolution above.
+>
+> I'm open for suggestions.
 
-thanks,
+I think you could still keep setting the minimum size and wait for the
+"insufficient" event. At the same time, you could speculatively
+advertise the expected "sufficient" size on the CAPTURE queue before
+the hardware signals those. Even if you mispredict them, you'll get
+the event, update the CAPTURE resolution and send the source change
+event to the application, which would then give you the correct
+buffers. Would that work for you?
 
-greg k-h
+Best regards,
+Tomasz
