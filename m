@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BAD824F52
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 14:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95BD124F58
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 14:55:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbfEUMy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 08:54:28 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47184 "EHLO
+        id S1727969AbfEUMzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 08:55:53 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47192 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726995AbfEUMy2 (ORCPT
+        with ESMTP id S1726692AbfEUMzx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 08:54:28 -0400
+        Tue, 21 May 2019 08:55:53 -0400
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 18467283ECE;
-        Tue, 21 May 2019 13:54:26 +0100 (BST)
-Date:   Tue, 21 May 2019 14:53:22 +0200
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1C7C1283ECE;
+        Tue, 21 May 2019 13:55:51 +0100 (BST)
+Date:   Tue, 21 May 2019 14:55:48 +0200
 From:   Boris Brezillon <boris.brezillon@collabora.com>
 To:     Helen Koike <helen.koike@collabora.com>
 Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
@@ -27,7 +27,7 @@ Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] media: vimc: fix component match compare
-Message-ID: <20190521145322.5ef21cf7@collabora.com>
+Message-ID: <20190521145548.27844fa6@collabora.com>
 In-Reply-To: <20190517172011.13257-1-helen.koike@collabora.com>
 References: <20190517172011.13257-1-helen.koike@collabora.com>
 Organization: Collabora
@@ -56,11 +56,12 @@ Helen Koike <helen.koike@collabora.com> wrote:
 > advance exactly which object to expect in the match.
 > 
 > Fixes: 4a29b7090749 ("[media] vimc: Subdevices as modules")
+
+Oh, and you forgot to add
+
+Cc: <stable@vger.kernel.org>
+
 > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
-
 > 
 > ---
 > 
