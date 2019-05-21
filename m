@@ -2,151 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F04BA24679
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 05:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B70A22477B
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 07:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727045AbfEUDtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 23:49:00 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33739 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726348AbfEUDtA (ORCPT
+        id S1727864AbfEUFPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 01:15:43 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48145 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727228AbfEUFPn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 23:49:00 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:b8de:9e64:28bb:aa79])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Svlohxvc33qlsSvlphppbU; Tue, 21 May 2019 05:48:57 +0200
-Message-ID: <929ab3076d1a1280a8ea4711ab1654d0@smtp-cloud7.xs4all.net>
-Date:   Tue, 21 May 2019 05:48:56 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfOafVlqNndJnT4GAwreo2FJWsnXSUcPmJIyxnN1ycrj0V5pADCcuT62Sp8QEnescW0i48wZCVw0rY/JKPHVr8pgVNDvc5lk8McZ/GwiwiaLe4yuOWLMe
- JsraIUH+LTsy5EM9ZxT/3CJR3YEt7fLg019ciTI05GRpSQyb1NY+f0YThGEYmum0rF/e7QZxsxHjf2RvtGkGmiwI644cRr9fsqSZwToKQHUwPFnYD7OQDYow
+        Tue, 21 May 2019 01:15:43 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id A152C22572;
+        Tue, 21 May 2019 01:15:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 21 May 2019 01:15:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=Zs2g6tIaEDwqeFSvJ6bXGDZori8
+        SQskXCTnrMkz9V0o=; b=XkYC0Fn21fxBL0Y/5xlGTXf/QGhEqpLwC85P4Fk2PGK
+        0KLkieW0hAY6tbhd4yXVr3IpKhelBCISBrHUPUICnqqv46bjFfGBkGHvjfn0CISx
+        0s3FMtnBo1PhklLGB/4det3M2ATP7QqcGHSVfESwZXhlO5TEFe5cfxfW8AmrPfa8
+        gZxIl8bj90v2HAUH+IFzoowMmXJn2QmYLA35Wyt8/aFbLbnrpamSgsyYqrle2omr
+        SxO+xainrHKtUXqGRjtTLQ7Xe2yetygYEABsE2MAONgIpy/YpSEWOy498KMrVbcL
+        KPi3EXLbl8EfLvy6uWb4+aXjOt39OPjeP3K4DZc11sg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Zs2g6t
+        IaEDwqeFSvJ6bXGDZori8SQskXCTnrMkz9V0o=; b=xPO8jHCtWXj3rDrQEU7Kn+
+        0pOJnLE5jm7t2pMh3r2MsG+k1IxzDaEY4FSM2A1e3dCOX3o+OXIXCUrsro60OFr3
+        Tv4sJ393/LOMKlZGzX6ITxr1VV10yXSpoumg2+BsWjH17g+Lu19TuB3Mz5eMcyAy
+        HVU7bGr3XvlF54OFITAIulQgN3AqwKrXU1eEVgvhzOCleHMHSnwf6xmn38M7UPeR
+        2bRcKtswySRSYj98KuDsBxs4mAXNodjoM+BUEhxtJy4PWFtu4nZBZ15Fn1n0IH58
+        S/8mfPYDh6SArfsZhAAiNGonIUl4y0mvvX51zHW/D0q2SuJKCsrMdvLKgnmrst0A
+        ==
+X-ME-Sender: <xms:fInjXOO0wwQHk0J41lr-xuKWbnTSuzCtcO1Qowc70EMzshaL7Z7Eqw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddtledgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeekfedrkeeirdekledrud
+    dtjeenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecu
+    vehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:fInjXEbu7SiHIpzIVFdLVV2ucgC0nog-8XQblkluBQ5pk6eKeCkhAA>
+    <xmx:fInjXCpgZ8JXC9_J1e9wIhVzBqnFsav38Yo8PCYoDlP-vUPM-yPC3w>
+    <xmx:fInjXIYx7KH-uRJwMxK9NKW4-urnXhKcjVi1bH2aoWdhc-5BCGTFDw>
+    <xmx:fYnjXKROHSiJEbHDppq7-CQZOUklbNVZdxFCBR_d1R3oH7MTJgtw6Q>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 4EED310323;
+        Tue, 21 May 2019 01:15:40 -0400 (EDT)
+Date:   Tue, 21 May 2019 07:15:37 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] media: ov6650: Fix MODDULE_DESCRIPTION
+Message-ID: <20190521051537.GA8325@kroah.com>
+References: <20190520225007.2308-1-jmkrzyszt@gmail.com>
+ <20190520225007.2308-2-jmkrzyszt@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190520225007.2308-2-jmkrzyszt@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, May 21, 2019 at 12:49:59AM +0200, Janusz Krzysztofik wrote:
+> Commit 23a52386fabe ("media: ov6650: convert to standalone v4l2
+> subdevice") converted the driver from a soc_camera sensor to a
+> standalone V4L subdevice driver.  Unfortunately, module description was
+> not updated to reflect the change.  Fix it.
+> 
+> While being at it, update email address of the module author.
+> 
+> Fixes: 23a52386fabe ("media: ov6650: convert to standalone v4l2 subdevice")
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> cc: stable@vger.kernel.org
+> ---
+>  drivers/media/i2c/ov6650.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index 1b972e591b48..a3d00afcb0c8 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -1045,6 +1045,6 @@ static struct i2c_driver ov6650_i2c_driver = {
+>  
+>  module_i2c_driver(ov6650_i2c_driver);
+>  
+> -MODULE_DESCRIPTION("SoC Camera driver for OmniVision OV6650");
+> -MODULE_AUTHOR("Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>");
+> +MODULE_DESCRIPTION("V4L2 subdevice driver for OmniVision OV6650 camera sensor");
+> +MODULE_AUTHOR("Janusz Krzysztofik <jmkrzyszt@gmail.com");
+>  MODULE_LICENSE("GPL v2");
+> -- 
+> 2.21.0
+> 
 
-Results of the daily build of media_tree:
+is this _really_ a patch that meets the stable kernel requirements?
+Same for this whole series...
 
-date:			Tue May 21 05:00:11 CEST 2019
-media-tree git hash:	fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	51edf99b20d6bc2ff5e40ebd0691a65d60f9d1ed
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 15fd9fb1f474e4e289e8756ebaeab108ad21742a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+thanks,
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: ERRORS
-linux-5.2-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+greg k-h
