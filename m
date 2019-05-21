@@ -2,175 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9152244D1
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 01:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F04BA24679
+	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 05:49:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727410AbfETXxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 May 2019 19:53:35 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:37801 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727450AbfETXxU (ORCPT
+        id S1727045AbfEUDtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 May 2019 23:49:00 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33739 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726348AbfEUDtA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 May 2019 19:53:20 -0400
-Received: by mail-vs1-f65.google.com with SMTP id o5so10065861vsq.4
-        for <linux-media@vger.kernel.org>; Mon, 20 May 2019 16:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DOow0La3W2Essx5H031uTOWFbAnDcBGJlXVfamcoL3w=;
-        b=Dx4+lU9jqXDtln/17Mrd8EV4Dxp/5zASL+1Y8Niio9Pqb06rC0aI8wedP3ohgziyEW
-         jppEZzDyXiAo/njLuzUnS0cZqB4tlCDf5SInO7A6W3spDccr9FtwpNa39rs9vTjn9Pol
-         gFjx66w14oqATAsCg/4xevDnAIAQo2Q0YzZMa3Njt5yFKOelm+SuxVUsWhk4woonxC/+
-         9D5FC/UAWBXCau72ARfrLZBFx2zGvzGs/3QYXrUb8NFYR9FnDOYRxbwkdocqirkPGsSw
-         AxoIYh3MeUP070fRiIy388VcetefsVsnX0FjFahzGTgGe2zBg5LkCE8dqpCaiB/D65kK
-         79Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DOow0La3W2Essx5H031uTOWFbAnDcBGJlXVfamcoL3w=;
-        b=XxlvIsqmrLQw2OZ9/Alg4EDrHZ/kYUy5zaQ0nGWuvCdI3uG5ygcjZcZ3RNqSBwczP8
-         LtwUMGOxyFcFLiPoPsBCpMHICpcPPX/xTQnXeba3e63ZQWOECkrxheSMMW3oDhw7jX3N
-         eQ1Zek9aXZlVI4W6Wx3t1UTLF6AoH1q3ge0OE/BXmKivLW0PnuPp05fP41xfBqm944NT
-         mSUH0c4YCXhUaOOt+3b3VfDHNbeGD7r+vpVj3/GMlXRVUt2WhQkuUsmaqnDvCndOAF7M
-         9C7IkFs+lMfgToP2QKe2ihJdUXJUoR8Pw43h8nG7t+lmqV+t6Rv0x7LkkDzhBUZLJzej
-         i2Hw==
-X-Gm-Message-State: APjAAAU74UecEfMKWQAUdDTT88R9XDeO+b6OvyseqmoXragSMx7gZ0j3
-        YTtwAI2s20o3k33qtR/tel/WYdoIb8fLWCcbfyN+zw==
-X-Google-Smtp-Source: APXvYqyR0JsazypV3hCmWgdEzYpNKlJ3PjKF8ENA0Fjbz+eEGES/3XAyQs/kAm4YlbOIpNAtAAzvW9GW3+g1GtceCfY=
-X-Received: by 2002:a67:be17:: with SMTP id x23mr26047761vsq.173.1558396399029;
- Mon, 20 May 2019 16:53:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1557160186.git.andreyknvl@google.com> <20190517144931.GA56186@arrakis.emea.arm.com>
-In-Reply-To: <20190517144931.GA56186@arrakis.emea.arm.com>
-From:   Evgenii Stepanov <eugenis@google.com>
-Date:   Mon, 20 May 2019 16:53:07 -0700
-Message-ID: <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Elliott Hughes <enh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 20 May 2019 23:49:00 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:b8de:9e64:28bb:aa79])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Svlohxvc33qlsSvlphppbU; Tue, 21 May 2019 05:48:57 +0200
+Message-ID: <929ab3076d1a1280a8ea4711ab1654d0@smtp-cloud7.xs4all.net>
+Date:   Tue, 21 May 2019 05:48:56 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOafVlqNndJnT4GAwreo2FJWsnXSUcPmJIyxnN1ycrj0V5pADCcuT62Sp8QEnescW0i48wZCVw0rY/JKPHVr8pgVNDvc5lk8McZ/GwiwiaLe4yuOWLMe
+ JsraIUH+LTsy5EM9ZxT/3CJR3YEt7fLg019ciTI05GRpSQyb1NY+f0YThGEYmum0rF/e7QZxsxHjf2RvtGkGmiwI644cRr9fsqSZwToKQHUwPFnYD7OQDYow
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 17, 2019 at 7:49 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> Hi Andrey,
->
-> On Mon, May 06, 2019 at 06:30:46PM +0200, Andrey Konovalov wrote:
-> > One of the alternative approaches to untagging that was considered is to
-> > completely strip the pointer tag as the pointer enters the kernel with
-> > some kind of a syscall wrapper, but that won't work with the countless
-> > number of different ioctl calls. With this approach we would need a custom
-> > wrapper for each ioctl variation, which doesn't seem practical.
->
-> The more I look at this problem, the less convinced I am that we can
-> solve it in a way that results in a stable ABI covering ioctls(). While
-> for the Android kernel codebase it could be simpler as you don't upgrade
-> the kernel version every 2.5 months, for the mainline kernel this
-> doesn't scale. Any run-time checks are relatively limited in terms of
-> drivers covered. Better static checking would be nice as a long term
-> solution but we didn't get anywhere with the discussion last year.
->
-> IMO (RFC for now), I see two ways forward:
->
-> 1. Make this a user space problem and do not allow tagged pointers into
->    the syscall ABI. A libc wrapper would have to convert structures,
->    parameters before passing them into the kernel. Note that we can
->    still support the hardware MTE in the kernel by enabling tagged
->    memory ranges, saving/restoring tags etc. but not allowing tagged
->    addresses at the syscall boundary.
->
-> 2. Similar shim to the above libc wrapper but inside the kernel
->    (arch/arm64 only; most pointer arguments could be covered with an
->    __SC_CAST similar to the s390 one). There are two differences from
->    what we've discussed in the past:
->
->    a) this is an opt-in by the user which would have to explicitly call
->       prctl(). If it returns -ENOTSUPP etc., the user won't be allowed
->       to pass tagged pointers to the kernel. This would probably be the
->       responsibility of the C lib to make sure it doesn't tag heap
->       allocations. If the user did not opt-in, the syscalls are routed
->       through the normal path (no untagging address shim).
->
->    b) ioctl() and other blacklisted syscalls (prctl) will not accept
->       tagged pointers (to be documented in Vicenzo's ABI patches).
->
-> It doesn't solve the problems we are trying to address but 2.a saves us
-> from blindly relaxing the ABI without knowing how to easily assess new
-> code being merged (over 500K lines between kernel versions). Existing
-> applications (who don't opt-in) won't inadvertently start using the new
-> ABI which could risk becoming de-facto ABI that we need to support on
-> the long run.
->
-> Option 1 wouldn't solve the ioctl() problem either and while it makes
-> things simpler for the kernel, I am aware that it's slightly more
-> complicated in user space (but I really don't mind if you prefer option
-> 1 ;)).
->
-> The tagged pointers (whether hwasan or MTE) should ideally be a
-> transparent feature for the application writer but I don't think we can
-> solve it entirely and make it seamless for the multitude of ioctls().
-> I'd say you only opt in to such feature if you know what you are doing
-> and the user code takes care of specific cases like ioctl(), hence the
-> prctl() proposal even for the hwasan.
->
-> Comments welcomed.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Any userspace shim approach is problematic for Android because of the
-apps that use raw system calls. AFAIK, all apps written in Go are in
-that camp - I'm not sure how common they are, but getting them all
-recompiled is probably not realistic.
+Results of the daily build of media_tree:
 
-The way I see it, a patch that breaks handling of tagged pointers is
-not that different from, say, a patch that adds a wild pointer
-dereference. Both are bugs; the difference is that (a) the former
-breaks a relatively uncommon target and (b) it's arguably an easier
-mistake to make. If MTE adoption goes well, (a) will not be the case
-for long.
+date:			Tue May 21 05:00:11 CEST 2019
+media-tree git hash:	fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
+media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
+v4l-utils git hash:	51edf99b20d6bc2ff5e40ebd0691a65d60f9d1ed
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 15fd9fb1f474e4e289e8756ebaeab108ad21742a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-This is a bit of a chicken-and-egg problem. In a world where memory
-allocators on one or several popular platforms generate pointers with
-non-zero tags, any such breakage will be caught in testing.
-Unfortunately to reach that state we need the kernel to start
-accepting tagged pointers first, and then hold on for a couple of
-years until userspace catches up.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: ERRORS
+linux-5.2-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
 
-Perhaps we can start by whitelisting ioctls by driver?
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
