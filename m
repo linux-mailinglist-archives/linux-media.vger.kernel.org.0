@@ -2,164 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 357AD25B2D
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 02:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31DDD25B38
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 02:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727222AbfEVAcX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 20:32:23 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:36516 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbfEVAcX (ORCPT
+        id S1726718AbfEVAm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 20:42:57 -0400
+Received: from casper.infradead.org ([85.118.1.10]:49300 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726434AbfEVAm5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 20:32:23 -0400
-Received: by mail-pl1-f195.google.com with SMTP id d21so162541plr.3;
-        Tue, 21 May 2019 17:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=VGIvfzaOgeWFcIXYZN/wl5CoVxGOnE9T7onHlmNH6wQ=;
-        b=irs3SrhUMnEuURqj4z1l/qbrI/tSUIj4JARNCqEv2ZDuEphpUHEn66u0jq75y0Pr/G
-         IX/3C+VcFXcn2ztVs9QciOLvrsfQq5WKLoiAWMeOw1dtFiaIcd+T5n6CikV2PkQyLPDY
-         TBqkUP0vfXVuOozFIT4NQwmsylCIlVR0+500jLAfmbYzE4w2hG0oTZ0I1ByPVaucZ45w
-         4TXNyp5809Mcg8YsovW2CXgmQOD56nnHsVojyCmNHVBJm0yzADH+W2kMbqTyYKqVsJ9M
-         G92nJzXaOYx65NOtGVSu+cevDD3bo7Me+/xqeRHCs9PjWDaUmFmZ2cE3V6VDM+nvvRAY
-         iCGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=VGIvfzaOgeWFcIXYZN/wl5CoVxGOnE9T7onHlmNH6wQ=;
-        b=UqbfMMgb+R5k2X/RrOsLuPO7dRjp3PaANN33xiDods9ej3XoYXqdf5LPhug5gKqFdY
-         jpSNFltYUvgALwQYIHps+aW0xyHLI8PAfFAAfr2FqadNvhoBVtCc0re1qg1jEdIz1ZBz
-         scPwkNJR9raGmwH2i+ZqNRNn1DAvrpnD560g+bP/oSrT5/MLQCkHGhXkTRXNv2T1Gahc
-         FG5LjJTzQz4u2IIJe1SXzEhVE4oSTKOuLUltN71mqkhIZRRf5EWhA9dVWwpNTZv46wvD
-         3NN9lAiLwKW5zpy+FCkcrs6BzzB+9qwHAFrAVC4IN5lEPoAMc/BMb0jjNKVqe2HDEXPF
-         MfXQ==
-X-Gm-Message-State: APjAAAX8KaljwItbKE2jpFHnaBfnJUwO6vauqCpymY6Mb+9/hYh6ziVo
-        dtw39w0A5upAvKbqoAYHpN68RjF7
-X-Google-Smtp-Source: APXvYqxlAWK6Bw1UuJ99F3bEAK9UPQdnN9Ry/S6IfVRHFvOTn3CddATKf0VN7dD2QMZ8hdkTz846ow==
-X-Received: by 2002:a17:902:6b:: with SMTP id 98mr86611463pla.271.1558485142252;
-        Tue, 21 May 2019 17:32:22 -0700 (PDT)
-Received: from [172.30.90.239] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id 14sm26253668pfx.13.2019.05.21.17.32.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 17:32:20 -0700 (PDT)
-Subject: Re: [PATCH v7 2/5] gpu: ipu-v3: ipu-ic: Fully describe colorspace
- conversions
-To:     Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Cc:     stable@vger.kernel.org
-References: <20190406230903.16488-3-slongerbeam@gmail.com>
- <20190408145233.7F26F214C6@mail.kernel.org>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <c49da0a6-1165-b283-a4f2-ba02b73af5b5@gmail.com>
-Date:   Tue, 21 May 2019 17:32:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 21 May 2019 20:42:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=MNpE+na0fxVVnfb74QQ+GsjFMyVre83YVvd0C+LOHOM=; b=V6tnkIbwWWINAcQXYbV7TZBbG9
+        m6IuxqvwOiV+8S6BkKlbN9jYIHbyefegEObTXJpwJf9351uWuHtTDo19be7YcosOL7rieP0BePnTP
+        ojSUD5Io2GSdDcdeKi3wLYF8COo5gi+8it7jPvNZXfHXQAGu4gDnnofX8Z9W2cAGNu8v3HUkhoA9u
+        KnnreAHpaVBWxNLBV4J3qlxYnUfkcOEq4LoI+24UpIafyf0eI+K3Na7YTTUSBiyLNQ9fMLySdymmZ
+        G6jiCJ947LIkrkgxMh5qAFS7kdODsTOFLnwwn4inTtBR8HFBo3XbCcis8PHIMoALMt3Ca9GvfANCe
+        ZNRwqtlQ==;
+Received: from [179.182.168.126] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTFLL-0007HV-AU; Wed, 22 May 2019 00:42:55 +0000
+Date:   Tue, 21 May 2019 21:42:49 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Dominik Danelski <dominik@danelski.pl>
+Cc:     <linux-media@vger.kernel.org>
+Subject: Re: Problem with compilation prevents me from adding a new device
+Message-ID: <20190521214249.24dd8f68@coco.lan>
+In-Reply-To: <1558470015.3271.4@pro1.mail.ovh.net>
+References: <1558470015.3271.4@pro1.mail.ovh.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190408145233.7F26F214C6@mail.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sasha,
+Hi Dominik,
 
-On 4/8/19 7:52 AM, Sasha Levin wrote:
-> Hi,
->
-> [This is an automated email]
->
-> This commit has been processed because it contains a "Fixes:" tag,
-> fixing commit: 1aa8ea0d2bd5 gpu: ipu-v3: Add Image Converter unit.
->
-> The bot has tested the following trees: v5.0.7, v4.19.34, v4.14.111, v4.9.168, v4.4.178, v3.18.138.
->
-> v5.0.7: Failed to apply! Possible dependencies:
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->
-> v4.19.34: Failed to apply! Possible dependencies:
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
->      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
->      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
->
-> v4.14.111: Failed to apply! Possible dependencies:
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
->      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
->      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
->
-> v4.9.168: Failed to apply! Possible dependencies:
->      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
->      4a34ec8e470c ("[media] media: imx: Add CSI subdev driver")
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->      64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
->      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
->      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
->      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
->      93dae31149bf ("[media] media: imx: Add VDIC subdev driver")
->      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
->      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
->      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
->      e130291212df ("[media] media: Add i.MX media core driver")
->      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
->      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
->
-> v4.4.178: Failed to apply! Possible dependencies:
->      2d2ead453077 ("gpu: ipu-v3: Add Video Deinterlacer unit")
->      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
->      4a34ec8e470c ("[media] media: imx: Add CSI subdev driver")
->      572a7615aedd ("gpu: ipu-v3: Add ipu_get_num()")
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->      64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
->      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
->      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
->      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
->      93dae31149bf ("[media] media: imx: Add VDIC subdev driver")
->      cd98e85a6b78 ("gpu: ipu-v3: Add queued image conversion support")
->      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
->      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
->      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
->      e130291212df ("[media] media: Add i.MX media core driver")
->      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
->      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
->
-> v3.18.138: Failed to apply! Possible dependencies:
->      029d61779189 ("[media] adv7180: Cleanup register define naming")
->      08b717c2ae8b ("[media] adv7180: Add fast switch support")
->      2d2ead453077 ("gpu: ipu-v3: Add Video Deinterlacer unit")
->      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
->      3999e5d01da7 ("[media] adv7180: Do implicit register paging")
->      3e35e33c086c ("[media] adv7180: Consolidate video mode setting")
->      417d2e507edc ("[media] media: platform: add VPFE capture driver support for AM437X")
->      572a7615aedd ("gpu: ipu-v3: Add ipu_get_num()")
->      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
->      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
->      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
->      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
->      b37135e395c3 ("[media] adv7180: Add support for the adv7280-m/adv7281-m/adv7281-ma/adv7282-m")
->      c18818e99067 ("[media] adv7180: Reset the device before initialization")
->      c4c0283ab3cd ("[media] media: i2c: add support for omnivision's ov2659 sensor")
->      cd98e85a6b78 ("gpu: ipu-v3: Add queued image conversion support")
->      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
->      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
->      d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
->      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
->      e130291212df ("[media] media: Add i.MX media core driver")
->      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
->      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
->      f5dde49b8f36 ("[media] adv7180: Prepare for multi-chip support")
->
->
-> How should we proceed with this patch?
+Em Tue, 21 May 2019 22:20:15 +0200
+Dominik Danelski <dominik@danelski.pl> escreveu:
 
-It will be too difficult to backport this patch to stable trees, so the 
-Fixes: tag should just be removed. I will resubmit this series without it.
+> Hello,
+> 
+> I found this 
+> guide:https://www.onetransistor.eu/2017/05/magix-usb-videowandler-2-linux.html 
+> which explains how to get Magix Videowandler 2 as an audio-video 
+> source. It is achieved by downloading drivers from LinuxTV project, 
+> slightly modifying them and installing. I wanted to incorporate changes 
+> from the guide to the upstream code, but first I wanted to test 
+> everything once again. I tried to follow the described method of 
+> compiling drivers (before making any changes) and I got stuck with a 
+> following output:
+>   CC [M]  /tmp/media_build/v4l/videobuf-core.o
+>   CC [M]  /tmp/media_build/v4l/videobuf-dma-sg.o
+> /tmp/media_build/v4l/videobuf-dma-sg.c: In function 
+> 'videobuf_dma_init_user_locked':
+> /tmp/media_build/v4l/videobuf-dma-sg.c:190:17: error: 'FOLL_LONGTERM' 
+> undeclared (first use in this function); did you mean 'FOLL_FORCE'?
+>          flags | FOLL_LONGTERM, dma->pages, NULL);
+>                  ^~~~~~~~~~~~~
+>                  FOLL_FORCE
 
-Steve
+The media_build basically downloads a tarball with the media drivers
+from the media_tree.git tree and applies a set of backport patches.
 
+Today, the media_tree.git received an update with Kernel 5.2-rc1
+development. It is likely that the media_build tree will require 
+some changes after that, as some upstream Kernel APIs may have
+changed.
+
+If you can, it would be better if you could just use the git tree
+and build a new kernel from it. Otherwise, you may need to wait
+a few days for people to add the needed backports from changes that
+happened upstream and got reflected at media_build.
+
+For em28xx, you can do whatever it takes for videobuf-dma-sg.c
+to build (I would just remove " | FOLL_LONGTERM" from the above),
+as em28xx doesn't use videobuf-dma-sg (it uses, instead,
+videobuf2-vmalloc.h). This legacy core driver is used only on a couple
+of PCI drivers.
+
+I suspect, however, that you may find other breakages over there.
+
+> /tmp/media_build/v4l/videobuf-dma-sg.c:190:17: note: each undeclared 
+> identifier is reported only once for each function it appears in
+> 
+> What could have caused it? I suppose that the code already in the 
+> repository has been checked and such thing should not happen if not by 
+> my mistake, but I did not change anything after cloning git repo.
+> 
+> Regards
+> Dominik Danelski
+> 
+
+
+
+Thanks,
+Mauro
