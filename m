@@ -2,180 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A03012712F
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 22:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1646E2717C
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 23:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730402AbfEVUx7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 16:53:59 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:36926 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729528AbfEVUx7 (ORCPT
+        id S1730261AbfEVVRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 17:17:11 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:39851 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729910AbfEVVRL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 16:53:59 -0400
-Received: by mail-qt1-f201.google.com with SMTP id q23so3305521qtb.4
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 13:53:58 -0700 (PDT)
+        Wed, 22 May 2019 17:17:11 -0400
+Received: by mail-ua1-f66.google.com with SMTP id 79so1412854uav.6
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 14:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ukNWyZpQEscAlXdUip/QWXhs5cbXEziRRf5YyJhah4M=;
-        b=YNNVPbSx7FsOwk16jCPbtBA2G+ZPpu8SLkw0MknnLWZEzpx3k3DQ24qU05oO58WL6/
-         Z3l/BWk0m2bqB2K7kjkcu2kFTiiSFUPaofTqH+Ct/OXdNXdY5jrYgET3PSnvoKLV6YsV
-         HPayFURnBcfIEAK0D4VLrSsrs+q/kTNes9QTKFDjUVSpa/Yju1xDE7/Xlid8W0NEqX7I
-         BRPnjfmY9tImK6Runjp2fQl0RHt53RpT1MPLuqRn333dWhZgbJRDa41ppTyfbyzAZ6fz
-         URyIlnrJyVefkwaIo5PNLvNKJ8riAjHPlW1+VpMWGXP9P565Hqa4wpp1GScQEybwh+u2
-         hmlQ==
+        bh=4dHniiz5Iec+zX/39XStbUXbmPxCKmuaK7gygHepfyc=;
+        b=BozsRedf7hxOrPEwc14/5gYKjPtcuYPfCzdL5Qh8eptxMopndG6sl6KK8l1wx0gHcO
+         fX9KUGo72jJQy2d1m1wZ3No1Qi2uQpl1cB2uKNXeTTE0y7bVHQRp3jZ8gNy6f12oUbuZ
+         9pqndA18D5HuCzEP7FakfNMcFjkFYSW5Qf6tTdWeb6YU5HYx7NFV4gOPaqZKnmwkQ5VN
+         K2fCVmPCADr0j8VP+wLoOUFpEpW6WISMm8/ajD25DfdGIBy1SiKGnwF+/Lt+nHE51rtB
+         vS7fbs1gYfPlwpTBaswd0RKzwzIK+7d4NhNx6dxPb1W6jd5YUGLoFQyi73p/mW3CKcJq
+         v2ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=ukNWyZpQEscAlXdUip/QWXhs5cbXEziRRf5YyJhah4M=;
-        b=XiSCN8+UuVVmmFvKwY7aWx9nk0HkD75DPyTJjUDBAB2jWCe9acNTJY8zsCzDZPTwDv
-         7JAsIzT2bGWpHU/y+uMSf08BtZ4/htITU07E1HkttbkydVchRG24+8W6aqYOcivYqXdr
-         mZr8iTejUyKbyzDec5EnUPUdGGmEb86lm0cz+fKYi3XilI41dLCTgOznN1cjrZpMJA90
-         BNzuAHgD0CxUv7WApplBYUJt4dyAi6pa/Zz4Dgq1wDeN56gLIE3nfrSRg773ddbKotyQ
-         VH71OsK7m6TwPlcm7SNIc9xuaDaia7DRpzImFmi1OB2uJuaMmmDtFgStOFHZZxNdBmlB
-         8tBQ==
-X-Gm-Message-State: APjAAAWbZbx751GRJyFXFprh7w0NahfuKLPDLtLgL/SEQVWk4R9adgQD
-        5MmW4inWP/A2pCpjbcJSwt4ZhRQ=
-X-Google-Smtp-Source: APXvYqx9x1/i9RddXIFy8UKRAw7tdSzqIGW+3fgcjqiypNTjBQ0QyE3Nol6HJXkiMDN9Q2UXUhI54Uo=
-X-Received: by 2002:ac8:1a04:: with SMTP id v4mr77233094qtj.63.1558558438027;
- Wed, 22 May 2019 13:53:58 -0700 (PDT)
-Date:   Wed, 22 May 2019 13:53:51 -0700
-In-Reply-To: <20190522205353.140648-1-sdf@google.com>
-Message-Id: <20190522205353.140648-2-sdf@google.com>
-Mime-Version: 1.0
-References: <20190522205353.140648-1-sdf@google.com>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH bpf-next v2 2/4] bpf: media: properly use bpf_prog_array api
-From:   Stanislav Fomichev <sdf@google.com>
-To:     netdev@vger.kernel.org, bpf@vger.kernel.org
-Cc:     davem@davemloft.net, ast@kernel.org, daniel@iogearbox.net,
-        Stanislav Fomichev <sdf@google.com>,
-        linux-media@vger.kernel.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4dHniiz5Iec+zX/39XStbUXbmPxCKmuaK7gygHepfyc=;
+        b=VIKFRuhJGGExdw5SEdo1S6SXiqh7tNaEJ9seqy9Miv/IFdmtBAgGegGKrMNZ+kyKqy
+         eRMAKqW9EiY9qWYjL3opw3oqompp6CRPgcUEZELKaDMasolKXleDP8HwbxPO1OrtSaCd
+         GbiRwkjp4L4qb5Ye7big9Ej0WHLQND8APTo5wKfP2qUapAHz1Nxo1yajvEDTCgNQnmoz
+         iyLbTPNkL7YgwbYuuyRDQvw9awuyXg4cUb60sxXt8a1cwUNi7a/C8n2WeyFYa/4tsaw0
+         5YfSuUGRn5kdz9Z2nbVqiBKu5PNvAgJsaXwVZUqrFffmE/Sl39YQQ6igpMOyI8qRmPpm
+         HUSg==
+X-Gm-Message-State: APjAAAUur0BaRzog7JK9A11wkUpn2/FkmmbqgWVc5VIX0E2tKluGInzm
+        GzZWArDMSjbhb+0RbyuN3cPBkcjUX6+Qbh60Ry6Fgg==
+X-Google-Smtp-Source: APXvYqxH4+lXdvKeAKR6IcV6qRcWyD41x0RLMgowdC0uvePb1uyY7QqZdIceH4zhHD2Gn25pj1INm9uTZm6L2qnPIh8=
+X-Received: by 2002:ab0:115a:: with SMTP id g26mr16507991uac.84.1558559829704;
+ Wed, 22 May 2019 14:17:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1557160186.git.andreyknvl@google.com> <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
+ <20190522114910.emlckebwzv2qz42i@mbp>
+In-Reply-To: <20190522114910.emlckebwzv2qz42i@mbp>
+From:   Evgenii Stepanov <eugenis@google.com>
+Date:   Wed, 22 May 2019 14:16:57 -0700
+Message-ID: <CAFKCwrjyP+x0JJy=qpBFsp4pub3He6UkvU0qnf1UOKt6W1LPRQ@mail.gmail.com>
+Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory syscalls
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sean Young <sean@mess.org>
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that we don't have __rcu markers on the bpf_prog_array helpers,
-let's use proper rcu_dereference_protected to obtain array pointer
-under mutex.
+On Wed, May 22, 2019 at 4:49 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, May 06, 2019 at 06:30:51PM +0200, Andrey Konovalov wrote:
+> > This patch is a part of a series that extends arm64 kernel ABI to allow to
+> > pass tagged user pointers (with the top byte set to something else other
+> > than 0x00) as syscall arguments.
+> >
+> > This patch allows tagged pointers to be passed to the following memory
+> > syscalls: brk, get_mempolicy, madvise, mbind, mincore, mlock, mlock2,
+> > mmap, mmap_pgoff, mprotect, mremap, msync, munlock, munmap,
+> > remap_file_pages, shmat and shmdt.
+> >
+> > This is done by untagging pointers passed to these syscalls in the
+> > prologues of their handlers.
+>
+> I'll go through them one by one to see if we can tighten the expected
+> ABI while having the MTE in mind.
+>
+> > diff --git a/arch/arm64/kernel/sys.c b/arch/arm64/kernel/sys.c
+> > index b44065fb1616..933bb9f3d6ec 100644
+> > --- a/arch/arm64/kernel/sys.c
+> > +++ b/arch/arm64/kernel/sys.c
+> > @@ -35,10 +35,33 @@ SYSCALL_DEFINE6(mmap, unsigned long, addr, unsigned long, len,
+> >  {
+> >       if (offset_in_page(off) != 0)
+> >               return -EINVAL;
+> > -
+> > +     addr = untagged_addr(addr);
+> >       return ksys_mmap_pgoff(addr, len, prot, flags, fd, off >> PAGE_SHIFT);
+> >  }
+>
+> If user passes a tagged pointer to mmap() and the address is honoured
+> (or MAP_FIXED is given), what is the expected return pointer? Does it
+> need to be tagged with the value from the hint?
 
-Cc: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sean Young <sean@mess.org>
-Signed-off-by: Stanislav Fomichev <sdf@google.com>
----
- drivers/media/rc/bpf-lirc.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+For HWASan the most convenient would be to use the tag from the hint.
+But since in the TBI (not MTE) mode the kernel has no idea what
+meaning userspace assigns to pointer tags, perhaps it should not try
+to guess, and should return raw (zero-tagged) address instead.
 
-diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
-index ee657003c1a1..0a0ce620e4a2 100644
---- a/drivers/media/rc/bpf-lirc.c
-+++ b/drivers/media/rc/bpf-lirc.c
-@@ -8,6 +8,9 @@
- #include <linux/bpf_lirc.h>
- #include "rc-core-priv.h"
- 
-+#define lirc_rcu_dereference(p)						\
-+	rcu_dereference_protected(p, lockdep_is_held(&ir_raw_handler_lock))
-+
- /*
-  * BPF interface for raw IR
-  */
-@@ -136,7 +139,7 @@ const struct bpf_verifier_ops lirc_mode2_verifier_ops = {
- 
- static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
- {
--	struct bpf_prog_array __rcu *old_array;
-+	struct bpf_prog_array *old_array;
- 	struct bpf_prog_array *new_array;
- 	struct ir_raw_event_ctrl *raw;
- 	int ret;
-@@ -154,12 +157,12 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
- 		goto unlock;
- 	}
- 
--	if (raw->progs && bpf_prog_array_length(raw->progs) >= BPF_MAX_PROGS) {
-+	old_array = lirc_rcu_dereference(raw->progs);
-+	if (old_array && bpf_prog_array_length(old_array) >= BPF_MAX_PROGS) {
- 		ret = -E2BIG;
- 		goto unlock;
- 	}
- 
--	old_array = raw->progs;
- 	ret = bpf_prog_array_copy(old_array, NULL, prog, &new_array);
- 	if (ret < 0)
- 		goto unlock;
-@@ -174,7 +177,7 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
- 
- static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
- {
--	struct bpf_prog_array __rcu *old_array;
-+	struct bpf_prog_array *old_array;
- 	struct bpf_prog_array *new_array;
- 	struct ir_raw_event_ctrl *raw;
- 	int ret;
-@@ -192,7 +195,7 @@ static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
- 		goto unlock;
- 	}
- 
--	old_array = raw->progs;
-+	old_array = lirc_rcu_dereference(raw->progs);
- 	ret = bpf_prog_array_copy(old_array, prog, NULL, &new_array);
- 	/*
- 	 * Do not use bpf_prog_array_delete_safe() as we would end up
-@@ -223,21 +226,22 @@ void lirc_bpf_run(struct rc_dev *rcdev, u32 sample)
- /*
-  * This should be called once the rc thread has been stopped, so there can be
-  * no concurrent bpf execution.
-+ *
-+ * Should be called with the ir_raw_handler_lock held.
-  */
- void lirc_bpf_free(struct rc_dev *rcdev)
- {
- 	struct bpf_prog_array_item *item;
-+	struct bpf_prog_array *array;
- 
--	if (!rcdev->raw->progs)
-+	array = lirc_rcu_dereference(rcdev->raw->progs);
-+	if (!array)
- 		return;
- 
--	item = rcu_dereference(rcdev->raw->progs)->items;
--	while (item->prog) {
-+	for (item = array->items; item->prog; item++)
- 		bpf_prog_put(item->prog);
--		item++;
--	}
- 
--	bpf_prog_array_free(rcdev->raw->progs);
-+	bpf_prog_array_free(array);
- }
- 
- int lirc_prog_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-@@ -290,7 +294,7 @@ int lirc_prog_detach(const union bpf_attr *attr)
- int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
- {
- 	__u32 __user *prog_ids = u64_to_user_ptr(attr->query.prog_ids);
--	struct bpf_prog_array __rcu *progs;
-+	struct bpf_prog_array *progs;
- 	struct rc_dev *rcdev;
- 	u32 cnt, flags = 0;
- 	int ret;
-@@ -311,7 +315,7 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
- 	if (ret)
- 		goto put;
- 
--	progs = rcdev->raw->progs;
-+	progs = lirc_rcu_dereference(rcdev->raw->progs);
- 	cnt = progs ? bpf_prog_array_length(progs) : 0;
- 
- 	if (copy_to_user(&uattr->query.prog_cnt, &cnt, sizeof(cnt))) {
--- 
-2.21.0.1020.gf2820cf01a-goog
+> With MTE, we may want to use this as a request for the default colour of
+> the mapped pages (still under discussion).
 
+I like this - and in that case it would make sense to return the
+pointer that can be immediately dereferenced without crashing the
+process, i.e. with the matching tag.
+
+> > +SYSCALL_DEFINE6(arm64_mmap_pgoff, unsigned long, addr, unsigned long, len,
+> > +             unsigned long, prot, unsigned long, flags,
+> > +             unsigned long, fd, unsigned long, pgoff)
+> > +{
+> > +     addr = untagged_addr(addr);
+> > +     return ksys_mmap_pgoff(addr, len, prot, flags, fd, pgoff);
+> > +}
+>
+> We don't have __NR_mmap_pgoff on arm64.
+>
+> > +SYSCALL_DEFINE5(arm64_mremap, unsigned long, addr, unsigned long, old_len,
+> > +             unsigned long, new_len, unsigned long, flags,
+> > +             unsigned long, new_addr)
+> > +{
+> > +     addr = untagged_addr(addr);
+> > +     new_addr = untagged_addr(new_addr);
+> > +     return ksys_mremap(addr, old_len, new_len, flags, new_addr);
+> > +}
+>
+> Similar comment as for mmap(), do we want the tag from new_addr to be
+> preserved? In addition, should we check that the two tags are identical
+> or mremap() should become a way to repaint a memory region?
+>
+> > +SYSCALL_DEFINE2(arm64_munmap, unsigned long, addr, size_t, len)
+> > +{
+> > +     addr = untagged_addr(addr);
+> > +     return ksys_munmap(addr, len);
+> > +}
+>
+> This looks fine.
+>
+> > +SYSCALL_DEFINE1(arm64_brk, unsigned long, brk)
+> > +{
+> > +     brk = untagged_addr(brk);
+> > +     return ksys_brk(brk);
+> > +}
+>
+> I wonder whether brk() should simply not accept tags, and should not
+> return them (similar to the prctl(PR_SET_MM) discussion). We could
+> document this in the ABI requirements.
+>
+> > +SYSCALL_DEFINE5(arm64_get_mempolicy, int __user *, policy,
+> > +             unsigned long __user *, nmask, unsigned long, maxnode,
+> > +             unsigned long, addr, unsigned long, flags)
+> > +{
+> > +     addr = untagged_addr(addr);
+> > +     return ksys_get_mempolicy(policy, nmask, maxnode, addr, flags);
+> > +}
+> > +
+> > +SYSCALL_DEFINE3(arm64_madvise, unsigned long, start,
+> > +             size_t, len_in, int, behavior)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_madvise(start, len_in, behavior);
+> > +}
+> > +
+> > +SYSCALL_DEFINE6(arm64_mbind, unsigned long, start, unsigned long, len,
+> > +             unsigned long, mode, const unsigned long __user *, nmask,
+> > +             unsigned long, maxnode, unsigned int, flags)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_mbind(start, len, mode, nmask, maxnode, flags);
+> > +}
+> > +
+> > +SYSCALL_DEFINE2(arm64_mlock, unsigned long, start, size_t, len)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_mlock(start, len, VM_LOCKED);
+> > +}
+> > +
+> > +SYSCALL_DEFINE2(arm64_mlock2, unsigned long, start, size_t, len)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_mlock(start, len, VM_LOCKED);
+> > +}
+> > +
+> > +SYSCALL_DEFINE2(arm64_munlock, unsigned long, start, size_t, len)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_munlock(start, len);
+> > +}
+> > +
+> > +SYSCALL_DEFINE3(arm64_mprotect, unsigned long, start, size_t, len,
+> > +             unsigned long, prot)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_mprotect_pkey(start, len, prot, -1);
+> > +}
+> > +
+> > +SYSCALL_DEFINE3(arm64_msync, unsigned long, start, size_t, len, int, flags)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_msync(start, len, flags);
+> > +}
+> > +
+> > +SYSCALL_DEFINE3(arm64_mincore, unsigned long, start, size_t, len,
+> > +             unsigned char __user *, vec)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_mincore(start, len, vec);
+> > +}
+>
+> These look fine.
+>
+> > +SYSCALL_DEFINE5(arm64_remap_file_pages, unsigned long, start,
+> > +             unsigned long, size, unsigned long, prot,
+> > +             unsigned long, pgoff, unsigned long, flags)
+> > +{
+> > +     start = untagged_addr(start);
+> > +     return ksys_remap_file_pages(start, size, prot, pgoff, flags);
+> > +}
+>
+> While this has been deprecated for some time, I presume user space still
+> invokes it?
+>
+> > +SYSCALL_DEFINE3(arm64_shmat, int, shmid, char __user *, shmaddr, int, shmflg)
+> > +{
+> > +     shmaddr = untagged_addr(shmaddr);
+> > +     return ksys_shmat(shmid, shmaddr, shmflg);
+> > +}
+> > +
+> > +SYSCALL_DEFINE1(arm64_shmdt, char __user *, shmaddr)
+> > +{
+> > +     shmaddr = untagged_addr(shmaddr);
+> > +     return ksys_shmdt(shmaddr);
+> > +}
+>
+> Do we actually want to allow shared tagged memory? Who's going to tag
+> it? If not, we can document it as not supported.
+>
+> --
+> Catalin
