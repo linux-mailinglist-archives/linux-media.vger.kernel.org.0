@@ -2,194 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C689525B07
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 02:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 357AD25B2D
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 02:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbfEVAEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 20:04:43 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:39532 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725797AbfEVAEn (ORCPT
+        id S1727222AbfEVAcX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 20:32:23 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36516 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbfEVAcX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 20:04:43 -0400
-Received: by mail-pf1-f195.google.com with SMTP id z26so291874pfg.6
-        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 17:04:42 -0700 (PDT)
+        Tue, 21 May 2019 20:32:23 -0400
+Received: by mail-pl1-f195.google.com with SMTP id d21so162541plr.3;
+        Tue, 21 May 2019 17:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=h+HMpjJbOByDkcgcmqTFcjwM/Zjfkc20s8NGwt76Mr8=;
-        b=Zf9QLE33qmPluiR2OGF4dL2quucaUAVgN4YPizfJiTzAzfLxxGI5FlE9xizVc831A4
-         PZROfhtKhT/R7pMFQlHGrknlILzZeG3LHD5gyBNKzIo1iuXRcoC6OuM/wsNOYEBlL6Lp
-         KGXm5hniO64celTxThJARG41BLIiM0pmyycsI=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=VGIvfzaOgeWFcIXYZN/wl5CoVxGOnE9T7onHlmNH6wQ=;
+        b=irs3SrhUMnEuURqj4z1l/qbrI/tSUIj4JARNCqEv2ZDuEphpUHEn66u0jq75y0Pr/G
+         IX/3C+VcFXcn2ztVs9QciOLvrsfQq5WKLoiAWMeOw1dtFiaIcd+T5n6CikV2PkQyLPDY
+         TBqkUP0vfXVuOozFIT4NQwmsylCIlVR0+500jLAfmbYzE4w2hG0oTZ0I1ByPVaucZ45w
+         4TXNyp5809Mcg8YsovW2CXgmQOD56nnHsVojyCmNHVBJm0yzADH+W2kMbqTyYKqVsJ9M
+         G92nJzXaOYx65NOtGVSu+cevDD3bo7Me+/xqeRHCs9PjWDaUmFmZ2cE3V6VDM+nvvRAY
+         iCGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=h+HMpjJbOByDkcgcmqTFcjwM/Zjfkc20s8NGwt76Mr8=;
-        b=GHEtUEaTvX1lbqWn+p98mhgE0uQC7fWle+LW1PE/SLD2N9Ek51aAuImZ7QoM3rq9vv
-         FuW7FH9GWiS8OVEvOrD13JNSLpr5M09XBsyFOYJKhsxpgEZQUXIuXvAUUoldSiAc7xYN
-         BWIOsn9Nn49VbNNVNY7oEOaG64NtRXfiKa/cWteMAUggsjNBoG3QknZXkTkyjD9NxF7X
-         6wCHWA2lilymr4vNoHv6NJFx9oVltIcfqcxHP0M1leISUseJ22hd9j/Xn/kOXRDf6u5q
-         NWddR6SD8zT7ZudK5YThkUOUKewt+lYBTNXeJC1ZZKlIGh4/Vav0fhzDYEc5lOlTInb3
-         zAIA==
-X-Gm-Message-State: APjAAAU2u2PNlBJyd+7n61/gsQTSso2AftfWF1+YF8cLynLY1XvE/awQ
-        8Og5OCtGFbfGjGu3Mp1R7r/svg==
-X-Google-Smtp-Source: APXvYqyRHlp4k1ARvHRDx6pnXWJEks1ZEDsNIbDRibBeuJSxc6NZrbRUP3gWhA9hXypH8RUrMs25NQ==
-X-Received: by 2002:a63:8dc8:: with SMTP id z191mr87505404pgd.9.1558483482349;
-        Tue, 21 May 2019 17:04:42 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a11sm15675685pff.128.2019.05.21.17.04.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 May 2019 17:04:40 -0700 (PDT)
-Date:   Tue, 21 May 2019 17:04:39 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Elliott Hughes <enh@google.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-Message-ID: <201905211633.6C0BF0C2@keescook>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <20190517144931.GA56186@arrakis.emea.arm.com>
- <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
- <20190521182932.sm4vxweuwo5ermyd@mbp>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=VGIvfzaOgeWFcIXYZN/wl5CoVxGOnE9T7onHlmNH6wQ=;
+        b=UqbfMMgb+R5k2X/RrOsLuPO7dRjp3PaANN33xiDods9ej3XoYXqdf5LPhug5gKqFdY
+         jpSNFltYUvgALwQYIHps+aW0xyHLI8PAfFAAfr2FqadNvhoBVtCc0re1qg1jEdIz1ZBz
+         scPwkNJR9raGmwH2i+ZqNRNn1DAvrpnD560g+bP/oSrT5/MLQCkHGhXkTRXNv2T1Gahc
+         FG5LjJTzQz4u2IIJe1SXzEhVE4oSTKOuLUltN71mqkhIZRRf5EWhA9dVWwpNTZv46wvD
+         3NN9lAiLwKW5zpy+FCkcrs6BzzB+9qwHAFrAVC4IN5lEPoAMc/BMb0jjNKVqe2HDEXPF
+         MfXQ==
+X-Gm-Message-State: APjAAAX8KaljwItbKE2jpFHnaBfnJUwO6vauqCpymY6Mb+9/hYh6ziVo
+        dtw39w0A5upAvKbqoAYHpN68RjF7
+X-Google-Smtp-Source: APXvYqxlAWK6Bw1UuJ99F3bEAK9UPQdnN9Ry/S6IfVRHFvOTn3CddATKf0VN7dD2QMZ8hdkTz846ow==
+X-Received: by 2002:a17:902:6b:: with SMTP id 98mr86611463pla.271.1558485142252;
+        Tue, 21 May 2019 17:32:22 -0700 (PDT)
+Received: from [172.30.90.239] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id 14sm26253668pfx.13.2019.05.21.17.32.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 May 2019 17:32:20 -0700 (PDT)
+Subject: Re: [PATCH v7 2/5] gpu: ipu-v3: ipu-ic: Fully describe colorspace
+ conversions
+To:     Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Cc:     stable@vger.kernel.org
+References: <20190406230903.16488-3-slongerbeam@gmail.com>
+ <20190408145233.7F26F214C6@mail.kernel.org>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <c49da0a6-1165-b283-a4f2-ba02b73af5b5@gmail.com>
+Date:   Tue, 21 May 2019 17:32:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190521182932.sm4vxweuwo5ermyd@mbp>
+In-Reply-To: <20190408145233.7F26F214C6@mail.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 21, 2019 at 07:29:33PM +0100, Catalin Marinas wrote:
-> On Mon, May 20, 2019 at 04:53:07PM -0700, Evgenii Stepanov wrote:
-> > On Fri, May 17, 2019 at 7:49 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > IMO (RFC for now), I see two ways forward:
-> > > [...]
-> > > 2. Similar shim to the above libc wrapper but inside the kernel
-> > >    (arch/arm64 only; most pointer arguments could be covered with an
-> > >    __SC_CAST similar to the s390 one). There are two differences from
-> > >    what we've discussed in the past:
-> > >
-> > >    a) this is an opt-in by the user which would have to explicitly call
-> > >       prctl(). If it returns -ENOTSUPP etc., the user won't be allowed
-> > >       to pass tagged pointers to the kernel. This would probably be the
-> > >       responsibility of the C lib to make sure it doesn't tag heap
-> > >       allocations. If the user did not opt-in, the syscalls are routed
-> > >       through the normal path (no untagging address shim).
-> > >
-> > >    b) ioctl() and other blacklisted syscalls (prctl) will not accept
-> > >       tagged pointers (to be documented in Vicenzo's ABI patches).
-> >
-> > The way I see it, a patch that breaks handling of tagged pointers is
-> > not that different from, say, a patch that adds a wild pointer
-> > dereference. Both are bugs; the difference is that (a) the former
-> > breaks a relatively uncommon target and (b) it's arguably an easier
-> > mistake to make. If MTE adoption goes well, (a) will not be the case
-> > for long.
-> 
-> It's also the fact such patch would go unnoticed for a long time until
-> someone exercises that code path. And when they do, the user would be
-> pretty much in the dark trying to figure what what went wrong, why a
-> SIGSEGV or -EFAULT happened. What's worse, we can't even say we fixed
-> all the places where it matters in the current kernel codebase (ignoring
-> future patches).
+Hi Sasha,
 
-So, looking forward a bit, this isn't going to be an ARM-specific issue
-for long. In fact, I think we shouldn't have arm-specific syscall wrappers
-in this series: I think untagged_addr() should likely be added at the
-top-level and have it be a no-op for other architectures. So given this
-becoming a kernel-wide multi-architecture issue (under the assumption
-that x86, RISC-V, and others will gain similar TBI or MTE things),
-we should solve it in a way that we can re-use.
+On 4/8/19 7:52 AM, Sasha Levin wrote:
+> Hi,
+>
+> [This is an automated email]
+>
+> This commit has been processed because it contains a "Fixes:" tag,
+> fixing commit: 1aa8ea0d2bd5 gpu: ipu-v3: Add Image Converter unit.
+>
+> The bot has tested the following trees: v5.0.7, v4.19.34, v4.14.111, v4.9.168, v4.4.178, v3.18.138.
+>
+> v5.0.7: Failed to apply! Possible dependencies:
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>
+> v4.19.34: Failed to apply! Possible dependencies:
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
+>      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
+>      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
+>
+> v4.14.111: Failed to apply! Possible dependencies:
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
+>      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
+>      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
+>
+> v4.9.168: Failed to apply! Possible dependencies:
+>      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
+>      4a34ec8e470c ("[media] media: imx: Add CSI subdev driver")
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>      64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
+>      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
+>      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
+>      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
+>      93dae31149bf ("[media] media: imx: Add VDIC subdev driver")
+>      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
+>      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
+>      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
+>      e130291212df ("[media] media: Add i.MX media core driver")
+>      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
+>      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
+>
+> v4.4.178: Failed to apply! Possible dependencies:
+>      2d2ead453077 ("gpu: ipu-v3: Add Video Deinterlacer unit")
+>      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
+>      4a34ec8e470c ("[media] media: imx: Add CSI subdev driver")
+>      572a7615aedd ("gpu: ipu-v3: Add ipu_get_num()")
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>      64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
+>      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
+>      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
+>      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
+>      93dae31149bf ("[media] media: imx: Add VDIC subdev driver")
+>      cd98e85a6b78 ("gpu: ipu-v3: Add queued image conversion support")
+>      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
+>      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
+>      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
+>      e130291212df ("[media] media: Add i.MX media core driver")
+>      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
+>      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
+>
+> v3.18.138: Failed to apply! Possible dependencies:
+>      029d61779189 ("[media] adv7180: Cleanup register define naming")
+>      08b717c2ae8b ("[media] adv7180: Add fast switch support")
+>      2d2ead453077 ("gpu: ipu-v3: Add Video Deinterlacer unit")
+>      30310c835f3e ("gpu: ipu-v3: don't depend on DRM being enabled")
+>      3999e5d01da7 ("[media] adv7180: Do implicit register paging")
+>      3e35e33c086c ("[media] adv7180: Consolidate video mode setting")
+>      417d2e507edc ("[media] media: platform: add VPFE capture driver support for AM437X")
+>      572a7615aedd ("gpu: ipu-v3: Add ipu_get_num()")
+>      5a89b98a172c ("gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM")
+>      70b9b6b3bcb2 ("gpu: ipu-v3: image-convert: calculate per-tile resize coefficients")
+>      8d67ae25a9ea ("[media] media: v4l2-ctrls: Reserve controls for MAX217X")
+>      92681fe7e98e ("gpu: ipu-v3: hook up PRG unit")
+>      b37135e395c3 ("[media] adv7180: Add support for the adv7280-m/adv7281-m/adv7281-ma/adv7282-m")
+>      c18818e99067 ("[media] adv7180: Reset the device before initialization")
+>      c4c0283ab3cd ("[media] media: i2c: add support for omnivision's ov2659 sensor")
+>      cd98e85a6b78 ("gpu: ipu-v3: Add queued image conversion support")
+>      d0cbc93a0110 ("gpu: ipu-v3: ipu-ic: allow to manually set resize coefficients")
+>      d2a34232580a ("gpu: ipu-v3: add driver for Prefetch Resolve Engine")
+>      d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
+>      dd65d2a93b0c ("gpu: ipu-v3: image-convert: prepare for per-tile configuration")
+>      e130291212df ("[media] media: Add i.MX media core driver")
+>      ea9c260514c1 ("gpu: ipu-v3: add driver for Prefetch Resolve Gasket")
+>      f0d9c8924e2c ("[media] media: imx: Add IC subdev drivers")
+>      f5dde49b8f36 ("[media] adv7180: Prepare for multi-chip support")
+>
+>
+> How should we proceed with this patch?
 
-We need something that is going to work everywhere. And it needs to be
-supported by the kernel for the simple reason that the kernel needs to
-do MTE checks during copy_from_user(): having that information stripped
-means we lose any userspace-assigned MTE protections if they get handled
-by the kernel, which is a total non-starter, IMO.
+It will be too difficult to backport this patch to stable trees, so the 
+Fixes: tag should just be removed. I will resubmit this series without it.
 
-As an aside: I think Sparc ADI support in Linux actually side-stepped
-this[1] (i.e. chose "solution 1"): "All addresses passed to kernel must
-be non-ADI tagged addresses." (And sadly, "Kernel does not enable ADI
-for kernel code.") I think this was a mistake we should not repeat for
-arm64 (we do seem to be at least in agreement about this, I think).
+Steve
 
-[1] https://lore.kernel.org/patchwork/patch/654481/
-
-> > This is a bit of a chicken-and-egg problem. In a world where memory
-> > allocators on one or several popular platforms generate pointers with
-> > non-zero tags, any such breakage will be caught in testing.
-> > Unfortunately to reach that state we need the kernel to start
-> > accepting tagged pointers first, and then hold on for a couple of
-> > years until userspace catches up.
-> 
-> Would the kernel also catch up with providing a stable ABI? Because we
-> have two moving targets.
-> 
-> On one hand, you have Android or some Linux distro that stick to a
-> stable kernel version for some time, so they have better chance of
-> clearing most of the problems. On the other hand, we have mainline
-> kernel that gets over 500K lines every release. As maintainer, I can't
-> rely on my testing alone as this is on a limited number of platforms. So
-> my concern is that every kernel release has a significant chance of
-> breaking the ABI, unless we have a better way of identifying potential
-> issues.
-
-I just want to make sure I fully understand your concern about this
-being an ABI break, and I work best with examples. The closest situation
-I can see would be:
-
-- some program has no idea about MTE
-- malloc() starts returning MTE-tagged addresses
-- program doesn't break from that change
-- program uses some syscall that is missing untagged_addr() and fails
-- kernel has now broken userspace that used to work
-
-The trouble I see with this is that it is largely theoretical and
-requires part of userspace to collude to start using a new CPU feature
-that tickles a bug in the kernel. As I understand the golden rule,
-this is a bug in the kernel (a missed ioctl() or such) to be fixed,
-not a global breaking of some userspace behavior.
-
-I feel like I'm missing something about this being seen as an ABI
-break. The kernel already fails on userspace addresses that have high
-bits set -- are there things that _depend_ on this failure to operate?
-
--- 
-Kees Cook
