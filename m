@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 024B727020
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 22:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FE5826F4F
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 21:57:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730895AbfEVUB0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 16:01:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43158 "EHLO mail.kernel.org"
+        id S1731383AbfEVTYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 15:24:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45900 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730469AbfEVTW0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 15:22:26 -0400
+        id S1731371AbfEVTYn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 May 2019 15:24:43 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3EB762177E;
-        Wed, 22 May 2019 19:22:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9CE9D217D9;
+        Wed, 22 May 2019 19:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558552946;
-        bh=fm3B4Pe3j03XFGU1vqiruP0v4b3ADfWzaIFnGy3kgQU=;
+        s=default; t=1558553082;
+        bh=o2DyYICtDDi92G9bAt/y1p5sGO/JSMfMvTFH3uurWqE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Lfce27fTT0OLXwqdmYi1e+txm3449sH/S86qrRBs2SihoMJ3WLylNKA+UT+7tqwbP
-         fYy1Yd0GgEKZ8OfLPwdJTj8rS8AIxR8tVeocL5dxkNoNWnoUGdWGu8AALnHf4nGrEF
-         prNLgSJ6gMetqt4V+Ks72R8ucjlZNNDDmSVZeT/Y=
+        b=cFsg5MlTj4crXqHYF3/QdD3y5gJgNigRltZvc8NrcpjB/FNWJN0WXBgWA07OQSoP4
+         sFl6RKckjRzhdjZ+nMbgjtVdzopoBgvjnD58K770TgXokt9WW/I0ywqRt7UjOWCY9S
+         KGhlRAf+P3kf8uHdKQBObl1RX2Lzgmrd6gO9bwCs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Fabien Dessenne <fabien.dessenne@st.com>,
@@ -30,12 +30,12 @@ Cc:     Fabien Dessenne <fabien.dessenne@st.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 044/375] media: stm32-dcmi: return appropriate error codes during probe
-Date:   Wed, 22 May 2019 15:15:44 -0400
-Message-Id: <20190522192115.22666-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 038/317] media: stm32-dcmi: return appropriate error codes during probe
+Date:   Wed, 22 May 2019 15:18:59 -0400
+Message-Id: <20190522192338.23715-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192115.22666-1-sashal@kernel.org>
-References: <20190522192115.22666-1-sashal@kernel.org>
+In-Reply-To: <20190522192338.23715-1-sashal@kernel.org>
+References: <20190522192338.23715-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,7 +62,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index 5fe5b38fa901d..a1f0801081ba9 100644
+index 6732874114cf7..918e49f27c7ed 100644
 --- a/drivers/media/platform/stm32/stm32-dcmi.c
 +++ b/drivers/media/platform/stm32/stm32-dcmi.c
 @@ -1645,7 +1645,7 @@ static int dcmi_probe(struct platform_device *pdev)
