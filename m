@@ -2,151 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 318A125C41
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 05:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3EEA25DDC
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 08:02:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbfEVDlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 23:41:44 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:53947 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727156AbfEVDlo (ORCPT
+        id S1728461AbfEVGCE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 02:02:04 -0400
+Received: from mail-ed1-f54.google.com ([209.85.208.54]:35962 "EHLO
+        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725802AbfEVGCE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 23:41:44 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:6959:ae18:51d7:9d13])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id TI8KhztJnsDWyTI8LhJ9Hw; Wed, 22 May 2019 05:41:41 +0200
-Message-ID: <33b97525975808095e40a944f7473cd4@smtp-cloud9.xs4all.net>
-Date:   Wed, 22 May 2019 05:41:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfK6CaC7gP3+IFkS2HogVaTgck9rZYBN6j67CDmBRHZAnKHBZFxy/ZdiXmS15Xok2DC0mxEPTUg/8EY6/Q61Af8vGFIuApRNEsRK+SshBvnWlHUi0HQ0K
- hTXg1HinwrqrRrrUHDHiFS82BAPkilNWA8jqvdYpQqhGB3jK1gL48ZNSJRikgl67P+9LQ5OrGdayK4N9+GgE8M69O2ZskPjOPYeISWydY1cVcNE5wvds+osc
+        Wed, 22 May 2019 02:02:04 -0400
+Received: by mail-ed1-f54.google.com with SMTP id a8so2031503edx.3
+        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 23:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Dix/4D/hmMjfzk6ndIY9b/lFgw9MVKURoZP+I9g7lpk=;
+        b=PW9A9aQeK/e1HMQNGjmw0lB4lGRGy943l8+cEplLhtvfeN++fmdW/nAD9Cg+DFivry
+         DVb4MlKy+Vr05UZzlmmfmxYJH6lvrwEpzlVX96bUbcoFQeGcQg1Ve3aWyX8Wd/4VO4+9
+         AN/R3Si069t2L/x6CUtaQ6a2zAH98RxctRxU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Dix/4D/hmMjfzk6ndIY9b/lFgw9MVKURoZP+I9g7lpk=;
+        b=sn+9TATo+qvsdTHhNhltWC/XNUVvaHeosThUr8oME7NnoOsRFdf82BaTn+rKWGRLGQ
+         W2pe5Fl8SvQXQsbSyS4Dx8Ufd/nZ4JUqQm2s3y6oCCh0J9y8/NC6gkuBQ/xGxPknlXpD
+         Pco1Ypm3AVS4TTmBkIeX8ERWkHbv+3ccsvNnA50SqTDYpy4SGkl+qStqIaOIBm9thB4y
+         PbHGVlt8OCF8gbsqzHzUDnSC/Pbpzra2pcIdrZOgqglnIDUi3WX5of9vscREcamWTlec
+         FLKDWLrVALGen15Ic/7G/TJ3CsFf2BJEFk/9eDqDHxLGyP4RtO/g9PHe3RECOzRq5nld
+         ozyw==
+X-Gm-Message-State: APjAAAVz3HVGiuxlxJjVBjsJowsgyLKzwxIsqBgjZ7Rue09U3F6ZuatK
+        darhkknlCSorKELXEAdwC7Bux2YH68Ci+Q==
+X-Google-Smtp-Source: APXvYqwIgZXF7bx4luU+5U0O+sBOMH2SFZK3vrY9Lr8PkdT38iN4Tj/V0T8a4nbCYqpaws1+9QQEJw==
+X-Received: by 2002:a50:a522:: with SMTP id y31mr86484388edb.69.1558504922357;
+        Tue, 21 May 2019 23:02:02 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
+        by smtp.gmail.com with ESMTPSA id i33sm6914795ede.47.2019.05.21.23.02.01
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 May 2019 23:02:01 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id f8so784461wrt.1
+        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 23:02:01 -0700 (PDT)
+X-Received: by 2002:adf:fa4e:: with SMTP id y14mr41341474wrr.149.1558504920656;
+ Tue, 21 May 2019 23:02:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+ <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+ <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
+ <CAAFQd5AoNvVbx+PMQM9jOA-q4NEqe-PEm66DtxSd-9B8G=-9Ow@mail.gmail.com> <dee0307b4cce84f1e35b5c6da7a8b2dbbac22bbc.camel@bootlin.com>
+In-Reply-To: <dee0307b4cce84f1e35b5c6da7a8b2dbbac22bbc.camel@bootlin.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 22 May 2019 15:01:48 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C4qgfm7oi=kC8Z-9du954G3gMOANOw0bDXO2-Ny6_=yw@mail.gmail.com>
+Message-ID: <CAAFQd5C4qgfm7oi=kC8Z-9du954G3gMOANOw0bDXO2-Ny6_=yw@mail.gmail.com>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, May 21, 2019 at 8:45 PM Paul Kocialkowski
+<paul.kocialkowski@bootlin.com> wrote:
+>
+> Hi,
+>
+> On Tue, 2019-05-21 at 19:27 +0900, Tomasz Figa wrote:
+> > On Thu, May 16, 2019 at 2:43 AM Paul Kocialkowski
+> > <paul.kocialkowski@bootlin.com> wrote:
+> > > Hi,
+> > >
+> > > Le mercredi 15 mai 2019 =C3=A0 10:42 -0400, Nicolas Dufresne a =C3=A9=
+crit :
+> > > > Le mercredi 15 mai 2019 =C3=A0 12:09 +0200, Paul Kocialkowski a =C3=
+=A9crit :
+> > > > > Hi,
+> > > > >
+> > > > > With the Rockchip stateless VPU driver in the works, we now have =
+a
+> > > > > better idea of what the situation is like on platforms other than
+> > > > > Allwinner. This email shares my conclusions about the situation a=
+nd how
+> > > > > we should update the MPEG-2, H.264 and H.265 controls accordingly=
+.
+> > > > >
+> > > > > - Per-slice decoding
+> > > > >
+> > > > > We've discussed this one already[0] and Hans has submitted a patc=
+h[1]
+> > > > > to implement the required core bits. When we agree it looks good,=
+ we
+> > > > > should lift the restriction that all slices must be concatenated =
+and
+> > > > > have them submitted as individual requests.
+> > > > >
+> > > > > One question is what to do about other controls. I feel like it w=
+ould
+> > > > > make sense to always pass all the required controls for decoding =
+the
+> > > > > slice, including the ones that don't change across slices. But th=
+ere
+> > > > > may be no particular advantage to this and only downsides. Not do=
+ing it
+> > > > > and relying on the "control cache" can work, but we need to speci=
+fy
+> > > > > that only a single stream can be decoded per opened instance of t=
+he
+> > > > > v4l2 device. This is the assumption we're going with for handling
+> > > > > multi-slice anyway, so it shouldn't be an issue.
+> > > >
+> > > > My opinion on this is that the m2m instance is a state, and the dri=
+ver
+> > > > should be responsible of doing time-division multiplexing across
+> > > > multiple m2m instance jobs. Doing the time-division multiplexing in
+> > > > userspace would require some sort of daemon to work properly across
+> > > > processes. I also think the kernel is better place for doing resour=
+ce
+> > > > access scheduling in general.
+> > >
+> > > I agree with that yes. We always have a single m2m context and specif=
+ic
+> > > controls per opened device so keeping cached values works out well.
+> > >
+> > > So maybe we shall explicitly require that the request with the first
+> > > slice for a frame also contains the per-frame controls.
+> > >
+> >
+> > Agreed.
+> >
+> > One more argument not to allow such multiplexing is that despite the
 
-Results of the daily build of media_tree:
+^^ Here I meant the "userspace multiplexing".
 
-date:			Wed May 22 05:00:15 CEST 2019
-media-tree git hash:	bc8c479a5b19bd44f7379e42e627170957985ee9
-media_build git hash:	78eccfa404ec982e1302930cb7f45756ab404a3c
-v4l-utils git hash:	51edf99b20d6bc2ff5e40ebd0691a65d60f9d1ed
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 15fd9fb1f474e4e289e8756ebaeab108ad21742a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+> > API being called "stateless", there is actually some state saved
+> > between frames, e.g. the Rockchip decoder writes some intermediate
+> > data to some local buffers which need to be given to the decoder to
+> > decode the next frame. Actually, on Rockchip there is even a
+> > requirement to keep the reference list entries in the same order
+> > between frames.
+>
+> Well, what I'm suggesting is to have one stream per m2m context, but it
+> should certainly be possible to have multiple m2m contexts (multiple
+> userspace open calls) that decode different streams concurrently.
+>
+> Is that really going to be a problem for Rockchip? If so, then the
+> driver should probably enforce allowing a single userspace open and m2m
+> context at a time.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.63-i686: ERRORS
-linux-3.16.63-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.167-i686: ERRORS
-linux-4.4.167-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.162-i686: ERRORS
-linux-4.9.162-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.105-i686: ERRORS
-linux-4.14.105-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.28-i686: ERRORS
-linux-4.19.28-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: OK
-smatch: OK
+No, that's not what I meant. Obviously the driver can switch between
+different sets of private buffers when scheduling different contexts,
+as long as the userspace doesn't attempt to do any multiplexing
+itself.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
