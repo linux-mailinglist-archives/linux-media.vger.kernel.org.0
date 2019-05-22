@@ -2,110 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E3F12650B
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 15:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C4C626586
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 16:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729155AbfEVNts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 09:49:48 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:37701 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728491AbfEVNts (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 09:49:48 -0400
-Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <m.tretter@pengutronix.de>)
-        id 1hTRco-0003CL-7M; Wed, 22 May 2019 15:49:46 +0200
-Date:   Wed, 22 May 2019 15:49:45 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
-        tfiga@chromium.org, dshah@xilinx.com
-Subject: Re: [PATCH v6 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
-Message-ID: <20190522154945.54ac67d7@litschi.hi.pengutronix.de>
-In-Reply-To: <23de1fe8-f868-d13d-4217-05bc007fab13@xs4all.nl>
-References: <20190513172131.15048-1-m.tretter@pengutronix.de>
-        <23de1fe8-f868-d13d-4217-05bc007fab13@xs4all.nl>
-Organization: Pengutronix
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1729003AbfEVOQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 10:16:22 -0400
+Received: from foss.arm.com ([217.140.101.70]:52330 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727284AbfEVOQV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 May 2019 10:16:21 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E408280D;
+        Wed, 22 May 2019 07:16:20 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57C233F718;
+        Wed, 22 May 2019 07:16:15 -0700 (PDT)
+Date:   Wed, 22 May 2019 15:16:12 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 17/17] selftests, arm64: add a selftest for passing
+ tagged pointers to kernel
+Message-ID: <20190522141612.GA28122@arrakis.emea.arm.com>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <e31d9364eb0c2eba8ce246a558422e811d82d21b.1557160186.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e31d9364eb0c2eba8ce246a558422e811d82d21b.1557160186.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 22 May 2019 14:04:23 +0200, Hans Verkuil wrote:
-> On 5/13/19 7:21 PM, Michael Tretter wrote:
-> > This is v6 of the Allegro DVT H.264 encoder driver found in the EV
-> > family of the Xilinx ZynqMP platform.
-> > 
-> > Only minor changes this time. I dropped the implementation of the
-> > selection api, removed all references mentioning the decoder, and fixed
-> > a few issues reported by sparse and smatch.
-> > 
-> > The v4l2-compliance result using the current vicodec branch is
-> > 
-> > v4l2-compliance SHA: c2ad13e4b7aef9ae160303189c67a91e1775f025, 64 bits
-> > 
-> > Compliance test for allegro device /dev/video4:
-[...]
-> > I observed that the "MMAP (select)" test occasionally fails, because the
-> > test did not receive an V4L2_EVENT_EOS when dequeuing a buffer with
-> > V4L2_BUF_FLAG_LAST being set. The driver always queues the event before
-> > returning the last buffer and the "MMAP (epoll)" does not fail. Thus, I
-> > decided to send the series anyway.  
+On Mon, May 06, 2019 at 06:31:03PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
 > 
-> Where exactly does v4l2-compliance fail? This is weird, and I believe
-> this warrants a bit more debugging. I recommend adding a debug
-> statement in allegro_channel_buf_done() to see when a buffer is marked
-> LAST.
+> This patch adds a simple test, that calls the uname syscall with a
+> tagged user pointer as an argument. Without the kernel accepting tagged
+> user pointers the test fails with EFAULT.
 
-v4l2-compliance fails in line 1074
+That's probably sufficient for a simple example. Something we could add
+to Documentation maybe is a small library that can be LD_PRELOAD'ed so
+that you can run a lot more tests like LTP.
 
-	fail: v4l2-test-buffers.cpp(1074): !got_eos && !got_source_change
+We could add this to selftests but I think it's too glibc specific.
 
-The corresponding code in v4l2-compliance is
+--------------------8<------------------------------------
+#include <stdlib.h>
 
-	if (buf.g_flags() & V4L2_BUF_FLAG_LAST) {
-		fail_on_test(buf.dqbuf(node) != EPIPE);
->		fail_on_test(!got_eos && !got_source_change);
-		if (!count)
-			break;
-		fail_on_test(node->streamoff(m2m_q.g_type()));
-		m2m_q.munmap_bufs(node);
+#define TAG_SHIFT	(56)
+#define TAG_MASK	(0xffUL << TAG_SHIFT)
 
-When the test fails, the select/epoll_wait returns with readable data,
-but without readable events on the last buffer. If the test is
-successful, data and events are available. This looks like a race
-between the event and the LAST buffer and if the LAST buffer comes
-first, the test fails.
+void *__libc_malloc(size_t size);
+void __libc_free(void *ptr);
+void *__libc_realloc(void *ptr, size_t size);
+void *__libc_calloc(size_t nmemb, size_t size);
 
-As said, the driver always queues the EOS event before calling
-v4l2_m2m_buf_done() on the LAST buffer. Right now, I don't understand
-how this can happen, but I will continue debugging.
+static void *tag_ptr(void *ptr)
+{
+	unsigned long tag = rand() & 0xff;
+	if (!ptr)
+		return ptr;
+	return (void *)((unsigned long)ptr | (tag << TAG_SHIFT));
+}
 
-> 
-> These tests really should not fail, and it is a strong indication of a
-> bug somewhere.
-> 
-> I don't want to merge a driver that has a FAIL in v4l2-compliance without
-> at the very least understanding why that happens. Ignoring it defeats the
-> purpose of v4l2-compliance.
+static void *untag_ptr(void *ptr)
+{
+	return (void *)((unsigned long)ptr & ~TAG_MASK);
+}
 
-Totally agreed.
+void *malloc(size_t size)
+{
+	return tag_ptr(__libc_malloc(size));
+}
 
-Michael
+void free(void *ptr)
+{
+	__libc_free(untag_ptr(ptr));
+}
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
+void *realloc(void *ptr, size_t size)
+{
+	return tag_ptr(__libc_realloc(untag_ptr(ptr), size));
+}
+
+void *calloc(size_t nmemb, size_t size)
+{
+	return tag_ptr(__libc_calloc(nmemb, size));
+}
