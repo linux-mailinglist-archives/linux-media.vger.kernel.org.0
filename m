@@ -2,71 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08974258DA
-	for <lists+linux-media@lfdr.de>; Tue, 21 May 2019 22:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C689525B07
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 02:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727464AbfEUU3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 May 2019 16:29:20 -0400
-Received: from smtpout1.mo528.mail-out.ovh.net ([46.105.34.251]:35835 "EHLO
-        smtpout1.mo528.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726766AbfEUU3U (ORCPT
+        id S1727453AbfEVAEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 May 2019 20:04:43 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39532 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbfEVAEn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 May 2019 16:29:20 -0400
-X-Greylist: delayed 542 seconds by postgrey-1.27 at vger.kernel.org; Tue, 21 May 2019 16:29:19 EDT
-Received: from DAG6EX1.emp.local (unknown [10.108.57.209])
-        by mo528.mail-out.ovh.net (Postfix) with ESMTPS id CC3AB142F204
-        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 22:20:16 +0200 (CEST)
-Received: from [192.168.1.111] (185.20.172.155) by DAG6EX1.emp.local
- (172.16.2.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1713.5; Tue, 21 May
- 2019 21:20:16 +0100
-Date:   Tue, 21 May 2019 22:20:15 +0200
-From:   Dominik Danelski <dominik@danelski.pl>
-Subject: Problem with compilation prevents me from adding a new device
-To:     <linux-media@vger.kernel.org>
-Message-ID: <1558470015.3271.4@pro1.mail.ovh.net>
-X-Mailer: geary/0.12.4
+        Tue, 21 May 2019 20:04:43 -0400
+Received: by mail-pf1-f195.google.com with SMTP id z26so291874pfg.6
+        for <linux-media@vger.kernel.org>; Tue, 21 May 2019 17:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=h+HMpjJbOByDkcgcmqTFcjwM/Zjfkc20s8NGwt76Mr8=;
+        b=Zf9QLE33qmPluiR2OGF4dL2quucaUAVgN4YPizfJiTzAzfLxxGI5FlE9xizVc831A4
+         PZROfhtKhT/R7pMFQlHGrknlILzZeG3LHD5gyBNKzIo1iuXRcoC6OuM/wsNOYEBlL6Lp
+         KGXm5hniO64celTxThJARG41BLIiM0pmyycsI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=h+HMpjJbOByDkcgcmqTFcjwM/Zjfkc20s8NGwt76Mr8=;
+        b=GHEtUEaTvX1lbqWn+p98mhgE0uQC7fWle+LW1PE/SLD2N9Ek51aAuImZ7QoM3rq9vv
+         FuW7FH9GWiS8OVEvOrD13JNSLpr5M09XBsyFOYJKhsxpgEZQUXIuXvAUUoldSiAc7xYN
+         BWIOsn9Nn49VbNNVNY7oEOaG64NtRXfiKa/cWteMAUggsjNBoG3QknZXkTkyjD9NxF7X
+         6wCHWA2lilymr4vNoHv6NJFx9oVltIcfqcxHP0M1leISUseJ22hd9j/Xn/kOXRDf6u5q
+         NWddR6SD8zT7ZudK5YThkUOUKewt+lYBTNXeJC1ZZKlIGh4/Vav0fhzDYEc5lOlTInb3
+         zAIA==
+X-Gm-Message-State: APjAAAU2u2PNlBJyd+7n61/gsQTSso2AftfWF1+YF8cLynLY1XvE/awQ
+        8Og5OCtGFbfGjGu3Mp1R7r/svg==
+X-Google-Smtp-Source: APXvYqyRHlp4k1ARvHRDx6pnXWJEks1ZEDsNIbDRibBeuJSxc6NZrbRUP3gWhA9hXypH8RUrMs25NQ==
+X-Received: by 2002:a63:8dc8:: with SMTP id z191mr87505404pgd.9.1558483482349;
+        Tue, 21 May 2019 17:04:42 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a11sm15675685pff.128.2019.05.21.17.04.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 21 May 2019 17:04:40 -0700 (PDT)
+Date:   Tue, 21 May 2019 17:04:39 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Elliott Hughes <enh@google.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <201905211633.6C0BF0C2@keescook>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <20190517144931.GA56186@arrakis.emea.arm.com>
+ <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
+ <20190521182932.sm4vxweuwo5ermyd@mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-X-Originating-IP: [185.20.172.155]
-X-ClientProxiedBy: EX3.emp.local (172.16.2.3) To DAG6EX1.emp.local
- (172.16.2.11)
-X-Ovh-Tracer-Id: 6737385043797057590
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddutddgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190521182932.sm4vxweuwo5ermyd@mbp>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Tue, May 21, 2019 at 07:29:33PM +0100, Catalin Marinas wrote:
+> On Mon, May 20, 2019 at 04:53:07PM -0700, Evgenii Stepanov wrote:
+> > On Fri, May 17, 2019 at 7:49 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > > IMO (RFC for now), I see two ways forward:
+> > > [...]
+> > > 2. Similar shim to the above libc wrapper but inside the kernel
+> > >    (arch/arm64 only; most pointer arguments could be covered with an
+> > >    __SC_CAST similar to the s390 one). There are two differences from
+> > >    what we've discussed in the past:
+> > >
+> > >    a) this is an opt-in by the user which would have to explicitly call
+> > >       prctl(). If it returns -ENOTSUPP etc., the user won't be allowed
+> > >       to pass tagged pointers to the kernel. This would probably be the
+> > >       responsibility of the C lib to make sure it doesn't tag heap
+> > >       allocations. If the user did not opt-in, the syscalls are routed
+> > >       through the normal path (no untagging address shim).
+> > >
+> > >    b) ioctl() and other blacklisted syscalls (prctl) will not accept
+> > >       tagged pointers (to be documented in Vicenzo's ABI patches).
+> >
+> > The way I see it, a patch that breaks handling of tagged pointers is
+> > not that different from, say, a patch that adds a wild pointer
+> > dereference. Both are bugs; the difference is that (a) the former
+> > breaks a relatively uncommon target and (b) it's arguably an easier
+> > mistake to make. If MTE adoption goes well, (a) will not be the case
+> > for long.
+> 
+> It's also the fact such patch would go unnoticed for a long time until
+> someone exercises that code path. And when they do, the user would be
+> pretty much in the dark trying to figure what what went wrong, why a
+> SIGSEGV or -EFAULT happened. What's worse, we can't even say we fixed
+> all the places where it matters in the current kernel codebase (ignoring
+> future patches).
 
-I found this 
-guide:https://www.onetransistor.eu/2017/05/magix-usb-videowandler-2-linux.html 
-which explains how to get Magix Videowandler 2 as an audio-video 
-source. It is achieved by downloading drivers from LinuxTV project, 
-slightly modifying them and installing. I wanted to incorporate changes 
-from the guide to the upstream code, but first I wanted to test 
-everything once again. I tried to follow the described method of 
-compiling drivers (before making any changes) and I got stuck with a 
-following output:
-  CC [M]  /tmp/media_build/v4l/videobuf-core.o
-  CC [M]  /tmp/media_build/v4l/videobuf-dma-sg.o
-/tmp/media_build/v4l/videobuf-dma-sg.c: In function 
-'videobuf_dma_init_user_locked':
-/tmp/media_build/v4l/videobuf-dma-sg.c:190:17: error: 'FOLL_LONGTERM' 
-undeclared (first use in this function); did you mean 'FOLL_FORCE'?
-         flags | FOLL_LONGTERM, dma->pages, NULL);
-                 ^~~~~~~~~~~~~
-                 FOLL_FORCE
-/tmp/media_build/v4l/videobuf-dma-sg.c:190:17: note: each undeclared 
-identifier is reported only once for each function it appears in
+So, looking forward a bit, this isn't going to be an ARM-specific issue
+for long. In fact, I think we shouldn't have arm-specific syscall wrappers
+in this series: I think untagged_addr() should likely be added at the
+top-level and have it be a no-op for other architectures. So given this
+becoming a kernel-wide multi-architecture issue (under the assumption
+that x86, RISC-V, and others will gain similar TBI or MTE things),
+we should solve it in a way that we can re-use.
 
-What could have caused it? I suppose that the code already in the 
-repository has been checked and such thing should not happen if not by 
-my mistake, but I did not change anything after cloning git repo.
+We need something that is going to work everywhere. And it needs to be
+supported by the kernel for the simple reason that the kernel needs to
+do MTE checks during copy_from_user(): having that information stripped
+means we lose any userspace-assigned MTE protections if they get handled
+by the kernel, which is a total non-starter, IMO.
 
-Regards
-Dominik Danelski
+As an aside: I think Sparc ADI support in Linux actually side-stepped
+this[1] (i.e. chose "solution 1"): "All addresses passed to kernel must
+be non-ADI tagged addresses." (And sadly, "Kernel does not enable ADI
+for kernel code.") I think this was a mistake we should not repeat for
+arm64 (we do seem to be at least in agreement about this, I think).
 
+[1] https://lore.kernel.org/patchwork/patch/654481/
+
+> > This is a bit of a chicken-and-egg problem. In a world where memory
+> > allocators on one or several popular platforms generate pointers with
+> > non-zero tags, any such breakage will be caught in testing.
+> > Unfortunately to reach that state we need the kernel to start
+> > accepting tagged pointers first, and then hold on for a couple of
+> > years until userspace catches up.
+> 
+> Would the kernel also catch up with providing a stable ABI? Because we
+> have two moving targets.
+> 
+> On one hand, you have Android or some Linux distro that stick to a
+> stable kernel version for some time, so they have better chance of
+> clearing most of the problems. On the other hand, we have mainline
+> kernel that gets over 500K lines every release. As maintainer, I can't
+> rely on my testing alone as this is on a limited number of platforms. So
+> my concern is that every kernel release has a significant chance of
+> breaking the ABI, unless we have a better way of identifying potential
+> issues.
+
+I just want to make sure I fully understand your concern about this
+being an ABI break, and I work best with examples. The closest situation
+I can see would be:
+
+- some program has no idea about MTE
+- malloc() starts returning MTE-tagged addresses
+- program doesn't break from that change
+- program uses some syscall that is missing untagged_addr() and fails
+- kernel has now broken userspace that used to work
+
+The trouble I see with this is that it is largely theoretical and
+requires part of userspace to collude to start using a new CPU feature
+that tickles a bug in the kernel. As I understand the golden rule,
+this is a bug in the kernel (a missed ioctl() or such) to be fixed,
+not a global breaking of some userspace behavior.
+
+I feel like I'm missing something about this being seen as an ABI
+break. The kernel already fails on userspace addresses that have high
+bits set -- are there things that _depend_ on this failure to operate?
+
+-- 
+Kees Cook
