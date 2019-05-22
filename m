@@ -2,130 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3969526508
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 15:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E3F12650B
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 15:50:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbfEVNth (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 09:49:37 -0400
-Received: from foss.arm.com ([217.140.101.70]:51862 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726770AbfEVNth (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 09:49:37 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5198E80D;
-        Wed, 22 May 2019 06:49:36 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94CFA3F575;
-        Wed, 22 May 2019 06:49:30 -0700 (PDT)
-Date:   Wed, 22 May 2019 14:49:28 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        linux-kernel@vger.kernel.org,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-Message-ID: <20190522134925.GV28398@e103592.cambridge.arm.com>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <20190517144931.GA56186@arrakis.emea.arm.com>
- <20190521184856.GC2922@ziepe.ca>
+        id S1729155AbfEVNts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 09:49:48 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:37701 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728491AbfEVNts (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 May 2019 09:49:48 -0400
+Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1hTRco-0003CL-7M; Wed, 22 May 2019 15:49:46 +0200
+Date:   Wed, 22 May 2019 15:49:45 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
+        tfiga@chromium.org, dshah@xilinx.com
+Subject: Re: [PATCH v6 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
+Message-ID: <20190522154945.54ac67d7@litschi.hi.pengutronix.de>
+In-Reply-To: <23de1fe8-f868-d13d-4217-05bc007fab13@xs4all.nl>
+References: <20190513172131.15048-1-m.tretter@pengutronix.de>
+        <23de1fe8-f868-d13d-4217-05bc007fab13@xs4all.nl>
+Organization: Pengutronix
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190521184856.GC2922@ziepe.ca>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 21, 2019 at 03:48:56PM -0300, Jason Gunthorpe wrote:
-> On Fri, May 17, 2019 at 03:49:31PM +0100, Catalin Marinas wrote:
+On Wed, 22 May 2019 14:04:23 +0200, Hans Verkuil wrote:
+> On 5/13/19 7:21 PM, Michael Tretter wrote:
+> > This is v6 of the Allegro DVT H.264 encoder driver found in the EV
+> > family of the Xilinx ZynqMP platform.
+> > 
+> > Only minor changes this time. I dropped the implementation of the
+> > selection api, removed all references mentioning the decoder, and fixed
+> > a few issues reported by sparse and smatch.
+> > 
+> > The v4l2-compliance result using the current vicodec branch is
+> > 
+> > v4l2-compliance SHA: c2ad13e4b7aef9ae160303189c67a91e1775f025, 64 bits
+> > 
+> > Compliance test for allegro device /dev/video4:
+[...]
+> > I observed that the "MMAP (select)" test occasionally fails, because the
+> > test did not receive an V4L2_EVENT_EOS when dequeuing a buffer with
+> > V4L2_BUF_FLAG_LAST being set. The driver always queues the event before
+> > returning the last buffer and the "MMAP (epoll)" does not fail. Thus, I
+> > decided to send the series anyway.  
 > 
-> > The tagged pointers (whether hwasan or MTE) should ideally be a
-> > transparent feature for the application writer but I don't think we can
-> > solve it entirely and make it seamless for the multitude of ioctls().
-> > I'd say you only opt in to such feature if you know what you are doing
-> > and the user code takes care of specific cases like ioctl(), hence the
-> > prctl() proposal even for the hwasan.
+> Where exactly does v4l2-compliance fail? This is weird, and I believe
+> this warrants a bit more debugging. I recommend adding a debug
+> statement in allegro_channel_buf_done() to see when a buffer is marked
+> LAST.
+
+v4l2-compliance fails in line 1074
+
+	fail: v4l2-test-buffers.cpp(1074): !got_eos && !got_source_change
+
+The corresponding code in v4l2-compliance is
+
+	if (buf.g_flags() & V4L2_BUF_FLAG_LAST) {
+		fail_on_test(buf.dqbuf(node) != EPIPE);
+>		fail_on_test(!got_eos && !got_source_change);
+		if (!count)
+			break;
+		fail_on_test(node->streamoff(m2m_q.g_type()));
+		m2m_q.munmap_bufs(node);
+
+When the test fails, the select/epoll_wait returns with readable data,
+but without readable events on the last buffer. If the test is
+successful, data and events are available. This looks like a race
+between the event and the LAST buffer and if the LAST buffer comes
+first, the test fails.
+
+As said, the driver always queues the EOS event before calling
+v4l2_m2m_buf_done() on the LAST buffer. Right now, I don't understand
+how this can happen, but I will continue debugging.
+
 > 
-> I'm not sure such a dire view is warrented.. 
+> These tests really should not fail, and it is a strong indication of a
+> bug somewhere.
 > 
-> The ioctl situation is not so bad, other than a few special cases,
-> most drivers just take a 'void __user *' and pass it as an argument to
-> some function that accepts a 'void __user *'. sparse et al verify
-> this. 
+> I don't want to merge a driver that has a FAIL in v4l2-compliance without
+> at the very least understanding why that happens. Ignoring it defeats the
+> purpose of v4l2-compliance.
+
+Totally agreed.
+
+Michael
+
 > 
-> As long as the core functions do the right thing the drivers will be
-> OK.
+> Regards,
 > 
-> The only place things get dicy is if someone casts to unsigned long
-> (ie for vma work) but I think that reflects that our driver facing
-> APIs for VMAs are compatible with static analysis (ie I have no
-> earthly idea why get_user_pages() accepts an unsigned long), not that
-> this is too hard.
-
-If multiple people will care about this, perhaps we should try to
-annotate types more explicitly in SYSCALL_DEFINEx() and ABI data
-structures.
-
-For example, we could have a couple of mutually exclusive modifiers
-
-T __object *
-T __vaddr * (or U __vaddr)
-
-In the first case the pointer points to an object (in the C sense)
-that the call may dereference but not use for any other purpose.
-
-In the latter case the pointer (or other type) is a virtual address
-that the call does not dereference but my do other things with.
-
-Also
-
-U __really(T)
-
-to tell static analysers the real type of pointers smuggled through
-UAPI disguised as other types (*cough* KVM, etc.)
-
-We could gradually make sparse more strict about the presence of
-annotations and allowed conversions, add get/put_user() variants
-that demand explicit annotation, etc.
-
-find_vma() wouldn't work with a __object pointer, for example.  A
-get_user_pages_for_dereference() might be needed for __object pointers
-(embodying a promise from the caller that only the object will be
-dereferenced within the mapped pages).
-
-Thoughts?
-
-This kind of thing would need widespread buy-in in order to be viable.
-
-Cheers
----Dave
+> 	Hans
+> 
