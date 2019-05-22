@@ -2,189 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C17B625F92
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C316A25F9D
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728845AbfEVIce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 04:32:34 -0400
-Received: from mail-wm1-f51.google.com ([209.85.128.51]:33067 "EHLO
-        mail-wm1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728784AbfEVIce (ORCPT
+        id S1728542AbfEVIe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 04:34:58 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:41238 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728406AbfEVIe5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 04:32:34 -0400
-Received: by mail-wm1-f51.google.com with SMTP id c66so4145500wme.0
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 01:32:31 -0700 (PDT)
+        Wed, 22 May 2019 04:34:57 -0400
+Received: by mail-pl1-f194.google.com with SMTP id f12so716848plt.8;
+        Wed, 22 May 2019 01:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=X3hxowui42rvOVqxWQKg3nCZ/EQuD8g44cM3fDxu9Kc=;
-        b=WxJbBiWBwgu2T0DXvHfShseNTB5d88vbxRJQ5Zm3jRcxYpQDP/0WF+v5FsGCkNUkVa
-         7Om8aivBmhwOFkDYFj0ednLrnx1juu/5jsfPabGo7M9kn3PE6Xqk9hceNlcV8dBdo3QI
-         V1sHhM6Pq0d7WgTRJl8sSgh83GLFrd5oCRJj98v0WWR5sliVFMiTwnF44KPLMOKYLhKO
-         aMQd9TVEcpATeCFiR9/u/59c2JI+HtU4mbMn+qkETLRXCRscIIya2ZCtzYK2ODPW9WMW
-         u5eqWkgLxEnInzbEuHfcaSC6S4BkGrsVwBiw3jdZm5moMhKmUfF2u1vxLUu9rhPz+d+j
-         jhpw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=aa0JQwY4uqqpbNq959wh0RxA5zY61j1J+l6728Nh0xs=;
+        b=KB8t9RLG/XAQuV0B2FyA+h6KuulHMJdc0VO5dfFxoQOcLju9pBzcuEN3mPzaHMFjaB
+         ltQFcvgoLeZi7ox1wz358ZekzNH3Nx0AYlgrRlwYcmA26Kr0bZRds4BrEBEKeg6f6CH5
+         vcfN2FqZQDsg1qFuKSfLOYiDy92agibityXYDsbcvvmhDMNu4QdIs5trn8nxbwF0Jwp5
+         HrDJYgW0mi8EZkqENcC61L+dn9XfaR9A8vRQmFtQMTyALTyolOm5R18kMOtIRhxB12X+
+         jiQWfTSFW0S7wxb23svwJ1bmmxeR4hYh1uTIHSG92DYzVJ9AvQdONAw4rBlWqKNx+S7h
+         dJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=X3hxowui42rvOVqxWQKg3nCZ/EQuD8g44cM3fDxu9Kc=;
-        b=OXlK5G6tji0+w3gjlWz/XuqTNzyiN4eLK01soiVwPcZNZYKo9uawP6tsheL8eYnmji
-         qo3X8VC6XkKvShaO5tjuDdys33HE3l18+YMSC+J5YPg5hN3suC4JdqjC8r/6+3N2X4R4
-         nO+Ifk4/aKNlxIpyUF3S92lMsdmtRi+/UvNwHHY7fZu0+PYIdDChw28MMV5IneoQaXQ4
-         x7fErxvkKGPJK6j//1kRbIf99fYtxKiLc4i1KoJELTKRGbhtXdEwLwZcSUX86jQaPS21
-         bjSE7NzpS2hesMiTp/B1Qzrdddmzu4hMeM01d65vMkypER7ffSV893WEx/obRVte9+BA
-         Wrsg==
-X-Gm-Message-State: APjAAAWKobqcPFwHC1YfeGNetnzyxbikzRYl71bPDApyLqlygBKILqyp
-        MjJPG/tnfLudidg1B5iXof4=
-X-Google-Smtp-Source: APXvYqxRshfMHZImKAQBgmPTPD9xvDlgYATtqLizTqIaN+Ejj2mnAfz3bvNHUlpAJ8bsHf8eexWT6Q==
-X-Received: by 2002:a1c:e714:: with SMTP id e20mr6339164wmh.143.1558513951164;
-        Wed, 22 May 2019 01:32:31 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id b12sm11833641wmg.27.2019.05.22.01.32.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 01:32:30 -0700 (PDT)
-Date:   Wed, 22 May 2019 10:32:29 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
- stateless support
-Message-ID: <20190522083229.GB30938@ulmo>
-References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
- <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
- <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
- <20190521154358.GC7098@ulmo>
- <124db795c1ed77854be6c565092c2820776ac223.camel@ndufresne.ca>
- <CAAFQd5Cmv-CJAsQ7QdoEPYyCFLDjAJjFFLo8PMZT=zeOumnkmQ@mail.gmail.com>
- <20190522092924.116b212e@collabora.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lEGEL1/lMxI0MVQ2"
-Content-Disposition: inline
-In-Reply-To: <20190522092924.116b212e@collabora.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=aa0JQwY4uqqpbNq959wh0RxA5zY61j1J+l6728Nh0xs=;
+        b=O3UMha+9O3o1B0u/yskp6eC+iwWrTmbRVrU3C+Nxgs0G6CJAzST64DFWXFoS5/U+Jq
+         om38rYdbkN+MsYWRtFHgFFR3MPqhZ8z4l/392itiuOxpghEoCU19HVouXaTm/ITtILA1
+         R5gRut0lqzmW2NFyMbhXn0ThtZMwsFN8DjeDvav1vgqYFxx86cbXylJejnXlkgE1XWQc
+         WTdkvP71su/Gt1cqbnckfiiBE3dAeCV/SAYzHf0vMQgnWnPm/D3eFjc/3skFMPQUDhQY
+         vnEdDXNVSl+G7dv6uYjH5mFeJB+6d21Dw/RhtGd+Hmt2Nma1o7DKnBsKTcStov4TdliO
+         82gQ==
+X-Gm-Message-State: APjAAAXT0CcVCCz4J7y0xS/E0nScCBRN+nIMwcFv7tapDK5hE81/MUle
+        B/CzhU9nUNAxfQ8sM8xjtMg=
+X-Google-Smtp-Source: APXvYqyLmLXdPtAfGmXKNp/xMdMdCWCm7/beFiMKuIxmongEL96HvIGFip9kZFfLDHMAT1pm8o27yQ==
+X-Received: by 2002:a17:902:a510:: with SMTP id s16mr88921899plq.334.1558514096893;
+        Wed, 22 May 2019 01:34:56 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.200.143])
+        by smtp.gmail.com with ESMTPSA id n13sm27870900pgh.6.2019.05.22.01.34.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 01:34:56 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     hverkuil@xs4all.nl, royale@zerezo.com, mchehab@kernel.org,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v2] media:usb:zr364xx:Fix KASAN:null-ptr-deref Read in zr364xx_vidioc_querycap
+Date:   Wed, 22 May 2019 14:04:15 +0530
+Message-Id: <20190522083415.9252-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190521181535.7974-1-bnvandana@gmail.com>
+References: <20190521181535.7974-1-bnvandana@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+SyzKaller hit the null pointer deref while reading from uninitialized
+udev->product in zr364xx_vidioc_querycap().
+==================================================================
+BUG: KASAN: null-ptr-deref in read_word_at_a_time+0xe/0x20
+include/linux/compiler.h:274
+Read of size 1 at addr 0000000000000000 by task v4l_id/5287
 
---lEGEL1/lMxI0MVQ2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+CPU: 1 PID: 5287 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  kasan_report.cold+0x5/0x3c mm/kasan/report.c:321
+  read_word_at_a_time+0xe/0x20 include/linux/compiler.h:274
+  strscpy+0x8a/0x280 lib/string.c:207
+  zr364xx_vidioc_querycap+0xb5/0x210 drivers/media/usb/zr364xx/zr364xx.c:706
+  v4l_querycap+0x12b/0x340 drivers/media/v4l2-core/v4l2-ioctl.c:1062
+  __video_do_ioctl+0x5bb/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2874
+  video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
+  v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
+  vfs_ioctl fs/ioctl.c:46 [inline]
+  file_ioctl fs/ioctl.c:509 [inline]
+  do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
+  ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
+  __do_sys_ioctl fs/ioctl.c:720 [inline]
+  __se_sys_ioctl fs/ioctl.c:718 [inline]
+  __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
+  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7f3b56d8b347
+Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
+ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
+ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
+RSP: 002b:00007ffe005d5d68 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f3b56d8b347
+RDX: 00007ffe005d5d70 RSI: 0000000080685600 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
+R13: 00007ffe005d5ec0 R14: 0000000000000000 R15: 0000000000000000
+==================================================================
 
-On Wed, May 22, 2019 at 09:29:24AM +0200, Boris Brezillon wrote:
-> On Wed, 22 May 2019 15:39:37 +0900
-> Tomasz Figa <tfiga@chromium.org> wrote:
->=20
-> > > It would be premature to state that we are excluding. We are just
-> > > trying to find one format to get things upstream, and make sure we ha=
-ve
-> > > a plan how to extend it. Trying to support everything on the first try
-> > > is not going to work so well.
-> > >
-> > > What is interesting to provide is how does you IP achieve multi-slice
-> > > decoding per frame. That's what we are studying on the RK/Hantro chip.
-> > > Typical questions are:
-> > >
-> > >   1. Do all slices have to be contiguous in memory
-> > >   2. If 1., do you place start-code, AVC header or pass a seperate in=
-dex to let the HW locate the start of each NAL ?
-> > >   3. Does the HW do support single interrupt per frame (RK3288 as an =
-example does not, but RK3399 do) =20
-> >=20
-> > AFAICT, the bit about RK3288 isn't true. At least in our downstream
-> > driver that was created mostly by RK themselves, we've been assuming
-> > that the interrupt is for the complete frame, without any problems.
->=20
-> I confirm that's what happens when all slices forming a frame are packed
-> in a single output buffer: you only get one interrupt at the end of the
-> decoding process (in that case, when the frame is decoded). Of course,
-> if you split things up and do per-slice decoding instead (one slice per
-> buffer) you get an interrupt per slice, though I didn't manage to make
-> that work.
-> I get a DEC_BUFFER interrupt (AKA, "buffer is empty but frame is not
-> fully decoded") on the first slice and an ASO (Arbitrary Slice Ordering)
-> interrupt on the second slice, which makes me think some states are
-> reset between the 2 operations leading the engine to think that the
-> second slice is part of a new frame.
+For this device udev->product is not initialized and accessing it causes a NULL pointer deref.
 
-That sounds a lot like how this works on Tegra. My understanding is that
-for slice decoding you'd also get an interrupt every time a full slice
-has been decoded perhaps coupled with another "frame done" interrupt
-when the full frame has been decoded after the last slice.
+The fix is to check for NULL before strscpy() and copy empty string, if
+product is NULL
 
-In frame-level decode mode you don't get interrupts in between and
-instead only get the "frame done" interrupt. Unless something went wrong
-during decoding, in which case you also get an interrupt but with error
-flags and status registers that help determine what exactly happened.
+Reported-by: syzbot+66010012fd4c531a1a96@syzkaller.appspotmail.com
 
-> Anyway, it doesn't sound like a crazy idea to support both per-slice
-> and per-frame decoding and maybe have a way to expose what a
-> specific codec can do (through an extra cap mechanism).
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+v2 - removed else part as cap->card is already zeroed.
 
-Yeah, I think it makes sense to support both for devices that can do
-both. From what Nicolas said it may make sense for an application to
-want to do slice-level decoding if receiving a stream from the network
-and frame-level decoding if playing back from a local file. If a driver
-supports both, the application could detect that and choose the
-appropriate format.
+ drivers/media/usb/zr364xx/zr364xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-It sounds to me like using different input formats for that would be a
-very natural way to describe it. Applications can already detect the set
-of supported input formats and set the format when they allocate buffers
-so that should work very nicely.
+diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
+index 96fee8d5b865..cd2bc9ed0cd9 100644
+--- a/drivers/media/usb/zr364xx/zr364xx.c
++++ b/drivers/media/usb/zr364xx/zr364xx.c
+@@ -703,7 +703,8 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
+ 	struct zr364xx_camera *cam = video_drvdata(file);
+ 
+ 	strscpy(cap->driver, DRIVER_DESC, sizeof(cap->driver));
+-	strscpy(cap->card, cam->udev->product, sizeof(cap->card));
++	if (cam->udev->product)
++		strscpy(cap->card, cam->udev->product, sizeof(cap->card));
+ 	strscpy(cap->bus_info, dev_name(&cam->udev->dev),
+ 		sizeof(cap->bus_info));
+ 	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
+-- 
+2.17.1
 
-> The other option would be to support only per-slice decoding with a
-> mandatory START_FRAME/END_FRAME sequence to let drivers for HW that
-> only support per-frame decoding know when they should trigger the
-> decoding operation. The downside is that it implies having a bounce
-> buffer where the driver can pack slices to be decoded on the END_FRAME
-> event.
-
-I vaguely remember that that's what the video codec abstraction does in
-Mesa/Gallium. I'm not very familiar with V4L2, but this seems like it
-could be problematic to integrate with the way that V4L2 works in
-general. Perhaps sending a special buffer (0 length or whatever) to mark
-the end of a frame would work. But this is probably something that
-others have already thought about, since slice-level decoding is what
-most people are using, hence there must already be a way for userspace
-to somehow synchronize input vs. output buffers. Or does this currently
-just work by queueing bitstream buffers as fast as possible and then
-dequeueing frame buffers as they become available?
-
-Thierry
-
---lEGEL1/lMxI0MVQ2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzlCRoACgkQ3SOs138+
-s6Hllw//Tkyc9LuIKlkx/ClOGBzJC7QhRnDfBO7LT7FwzGlPwV9ItXIKyvGHSJ+h
-aeqe3wLsYfLFYIWFJ1MQwI1uibK4t/sFSx2KDmhnD/Rv5K7h14krYnKry05qT0Tq
-0+S3AOY4xxRZyHp/ZLn//xq2ic0VmcHe+/J54nQNsPrYDWvXi1R2Gwxn772ya1Ns
-E2FvH18p5AFKO+39WCxzcAs0VK7fLmGV9eWWX/McLfiU3VtfajBnziwh3U9/Tth7
-QuS3rXuSttiXxfIcjX28PoUjmj6dc8WdZFRRhwxGFYhUVDSzgPUEnLNltVYBm+SM
-bHieiMRqYT7heXOzV+u58bUlT5NECemUszGq1/VvQKWc8b4NeIafGWUL8eNPWsqM
-f0OkeNjGtGPbJiEWa5NcfTVPG4PXmfbsnszgMQIeahzeuR9e6qacYVBPuK0Ckrb8
-8Sq78p0yAkDQ3rKJ+gZG9ksq4LsmpE7Q85NweRsN2NL6sEtc+Ac67mFUtgOYnfJI
-iZCoLfUNJrNz8Xk43LB+0IlI/bf32lkStGy3di4DW+h6NzxmukEUXNN7oMGgUW2G
-OCeQwu0/a8boOvC+emoIAqvR7h2MIDvMuD14w0qa3nUyzQhPxDJHLipAgWl3wlAb
-7Sbc0E4V/6f1P3h4ipbo6hm+LmoY3heDjlpQEe1ihOz9ghMVPlY=
-=be6m
------END PGP SIGNATURE-----
-
---lEGEL1/lMxI0MVQ2--
