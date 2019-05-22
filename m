@@ -2,108 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2697A26326
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 13:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2002632C
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 13:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728406AbfEVLre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 07:47:34 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:56724 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727464AbfEVLre (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 07:47:34 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 53942634C7B
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 14:47:11 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hTPiB-0000nS-89
-        for linux-media@vger.kernel.org; Wed, 22 May 2019 14:47:11 +0300
-Date:   Wed, 22 May 2019 14:47:11 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.3] Sensor and ccic driver patches
-Message-ID: <20190522114711.5c6okeibdepthmoq@valkosipuli.retiisi.org.uk>
+        id S1729059AbfEVLtU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 07:49:20 -0400
+Received: from foss.arm.com ([217.140.101.70]:48626 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727464AbfEVLtU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 May 2019 07:49:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DC8180D;
+        Wed, 22 May 2019 04:49:19 -0700 (PDT)
+Received: from mbp (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE7643F575;
+        Wed, 22 May 2019 04:49:13 -0700 (PDT)
+Date:   Wed, 22 May 2019 12:49:10 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
+ syscalls
+Message-ID: <20190522114910.emlckebwzv2qz42i@mbp>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Mon, May 06, 2019 at 06:30:51PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> This patch allows tagged pointers to be passed to the following memory
+> syscalls: brk, get_mempolicy, madvise, mbind, mincore, mlock, mlock2,
+> mmap, mmap_pgoff, mprotect, mremap, msync, munlock, munmap,
+> remap_file_pages, shmat and shmdt.
+> 
+> This is done by untagging pointers passed to these syscalls in the
+> prologues of their handlers.
 
-Here are sensor and Marvell CCIC driver patches for v5.3. Included is also
-a fix for fwnode C-PHY handling.
+I'll go through them one by one to see if we can tighten the expected
+ABI while having the MTE in mind.
 
-Please pull.
+> diff --git a/arch/arm64/kernel/sys.c b/arch/arm64/kernel/sys.c
+> index b44065fb1616..933bb9f3d6ec 100644
+> --- a/arch/arm64/kernel/sys.c
+> +++ b/arch/arm64/kernel/sys.c
+> @@ -35,10 +35,33 @@ SYSCALL_DEFINE6(mmap, unsigned long, addr, unsigned long, len,
+>  {
+>  	if (offset_in_page(off) != 0)
+>  		return -EINVAL;
+> -
+> +	addr = untagged_addr(addr);
+>  	return ksys_mmap_pgoff(addr, len, prot, flags, fd, off >> PAGE_SHIFT);
+>  }
 
+If user passes a tagged pointer to mmap() and the address is honoured
+(or MAP_FIXED is given), what is the expected return pointer? Does it
+need to be tagged with the value from the hint?
 
-The following changes since commit bc8c479a5b19bd44f7379e42e627170957985ee9:
+With MTE, we may want to use this as a request for the default colour of
+the mapped pages (still under discussion).
 
-  media: venus: helpers: fix dynamic buffer mode for v4 (2019-05-21 09:03:25 -0400)
+> +SYSCALL_DEFINE6(arm64_mmap_pgoff, unsigned long, addr, unsigned long, len,
+> +		unsigned long, prot, unsigned long, flags,
+> +		unsigned long, fd, unsigned long, pgoff)
+> +{
+> +	addr = untagged_addr(addr);
+> +	return ksys_mmap_pgoff(addr, len, prot, flags, fd, pgoff);
+> +}
 
-are available in the git repository at:
+We don't have __NR_mmap_pgoff on arm64.
 
-  ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.3-1-signed
+> +SYSCALL_DEFINE5(arm64_mremap, unsigned long, addr, unsigned long, old_len,
+> +		unsigned long, new_len, unsigned long, flags,
+> +		unsigned long, new_addr)
+> +{
+> +	addr = untagged_addr(addr);
+> +	new_addr = untagged_addr(new_addr);
+> +	return ksys_mremap(addr, old_len, new_len, flags, new_addr);
+> +}
 
-for you to fetch changes up to b9656c3ca991c4edca908bb37455351f6fddf235:
+Similar comment as for mmap(), do we want the tag from new_addr to be
+preserved? In addition, should we check that the two tags are identical
+or mremap() should become a way to repaint a memory region?
 
-  media:staging/intel-ipu3: update minimal GDC envelope size to 4 (2019-05-22 12:06:14 +0300)
+> +SYSCALL_DEFINE2(arm64_munmap, unsigned long, addr, size_t, len)
+> +{
+> +	addr = untagged_addr(addr);
+> +	return ksys_munmap(addr, len);
+> +}
 
-----------------------------------------------------------------
-sensor + ccic patches for 5.3
+This looks fine.
 
-----------------------------------------------------------------
-Akinobu Mita (4):
-      media: ov7740: fix unbalanced pm_runtime_get/put
-      media: ov7740: avoid invalid framesize setting
-      media: ov7740: fix vertical flip control
-      media: ov7740: remove redundant V4L2_CTRL_FLAG_VOLATILE set
+> +SYSCALL_DEFINE1(arm64_brk, unsigned long, brk)
+> +{
+> +	brk = untagged_addr(brk);
+> +	return ksys_brk(brk);
+> +}
 
-Bingbu Cao (1):
-      media:staging/intel-ipu3: update minimal GDC envelope size to 4
+I wonder whether brk() should simply not accept tags, and should not
+return them (similar to the prctl(PR_SET_MM) discussion). We could
+document this in the ABI requirements.
 
-Lubomir Rintel (10):
-      media: dt-bindings: marvell,mmp2-ccic: Add Marvell MMP2 camera
-      marvell-ccic: fix DMA s/g desc number calculation
-      marvell-ccic: don't generate EOF on parallel bus
-      Revert "[media] marvell-ccic: reset ccic phy when stop streaming for stability"
-      marvell-ccic: drop unused stuff
-      marvell-ccic/mmp: enable clock before accessing registers
-      marvell-ccic: rename the clocks
-      marvell-ccic/mmp: add devicetree support
-      marvell-ccic: use async notifier to get the sensor
-      marvell-ccic: provide a clock for the sensor
+> +SYSCALL_DEFINE5(arm64_get_mempolicy, int __user *, policy,
+> +		unsigned long __user *, nmask, unsigned long, maxnode,
+> +		unsigned long, addr, unsigned long, flags)
+> +{
+> +	addr = untagged_addr(addr);
+> +	return ksys_get_mempolicy(policy, nmask, maxnode, addr, flags);
+> +}
+> +
+> +SYSCALL_DEFINE3(arm64_madvise, unsigned long, start,
+> +		size_t, len_in, int, behavior)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_madvise(start, len_in, behavior);
+> +}
+> +
+> +SYSCALL_DEFINE6(arm64_mbind, unsigned long, start, unsigned long, len,
+> +		unsigned long, mode, const unsigned long __user *, nmask,
+> +		unsigned long, maxnode, unsigned int, flags)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mbind(start, len, mode, nmask, maxnode, flags);
+> +}
+> +
+> +SYSCALL_DEFINE2(arm64_mlock, unsigned long, start, size_t, len)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mlock(start, len, VM_LOCKED);
+> +}
+> +
+> +SYSCALL_DEFINE2(arm64_mlock2, unsigned long, start, size_t, len)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mlock(start, len, VM_LOCKED);
+> +}
+> +
+> +SYSCALL_DEFINE2(arm64_munlock, unsigned long, start, size_t, len)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_munlock(start, len);
+> +}
+> +
+> +SYSCALL_DEFINE3(arm64_mprotect, unsigned long, start, size_t, len,
+> +		unsigned long, prot)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mprotect_pkey(start, len, prot, -1);
+> +}
+> +
+> +SYSCALL_DEFINE3(arm64_msync, unsigned long, start, size_t, len, int, flags)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_msync(start, len, flags);
+> +}
+> +
+> +SYSCALL_DEFINE3(arm64_mincore, unsigned long, start, size_t, len,
+> +		unsigned char __user *, vec)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mincore(start, len, vec);
+> +}
 
-Nicholas Mc Guire (1):
-      media: smiapp: core: add small range to usleep_range
+These look fine.
 
-Sakari Ailus (1):
-      v4l: fwnode: C-PHY has no clock lane
+> +SYSCALL_DEFINE5(arm64_remap_file_pages, unsigned long, start,
+> +		unsigned long, size, unsigned long, prot,
+> +		unsigned long, pgoff, unsigned long, flags)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_remap_file_pages(start, size, prot, pgoff, flags);
+> +}
 
-Shawnx Tu (1):
-      media: ov8856: modify register to fix test pattern
+While this has been deprecated for some time, I presume user space still
+invokes it?
 
- .../bindings/media/marvell,mmp2-ccic.txt           |  50 +++
- drivers/media/i2c/ov7740.c                         |  24 +-
- drivers/media/i2c/ov8856.c                         |  12 +-
- drivers/media/i2c/smiapp/smiapp-quirk.c            |   2 +-
- drivers/media/platform/marvell-ccic/Kconfig        |   2 +
- drivers/media/platform/marvell-ccic/cafe-driver.c  |  58 +++-
- drivers/media/platform/marvell-ccic/mcam-core.c    | 339 ++++++++++++++-------
- drivers/media/platform/marvell-ccic/mcam-core.h    |  12 +-
- drivers/media/platform/marvell-ccic/mmp-driver.c   | 241 ++++-----------
- drivers/media/v4l2-core/v4l2-fwnode.c              |   8 +-
- drivers/staging/media/ipu3/ipu3-css.c              |  14 +-
- include/linux/platform_data/media/mmp-camera.h     |   4 -
- 12 files changed, 424 insertions(+), 342 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
+> +SYSCALL_DEFINE3(arm64_shmat, int, shmid, char __user *, shmaddr, int, shmflg)
+> +{
+> +	shmaddr = untagged_addr(shmaddr);
+> +	return ksys_shmat(shmid, shmaddr, shmflg);
+> +}
+> +
+> +SYSCALL_DEFINE1(arm64_shmdt, char __user *, shmaddr)
+> +{
+> +	shmaddr = untagged_addr(shmaddr);
+> +	return ksys_shmdt(shmaddr);
+> +}
 
+Do we actually want to allow shared tagged memory? Who's going to tag
+it? If not, we can document it as not supported.
 
 -- 
-Sakari Ailus
+Catalin
