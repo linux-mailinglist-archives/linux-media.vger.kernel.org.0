@@ -2,74 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B4F269B2
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 20:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2918269B6
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 20:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbfEVSPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 14:15:30 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:41958 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727975AbfEVSPa (ORCPT
+        id S1728450AbfEVSSq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 14:18:46 -0400
+Received: from mail-qk1-f173.google.com ([209.85.222.173]:36833 "EHLO
+        mail-qk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727984AbfEVSSq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 14:15:30 -0400
-Received: by mail-qk1-f195.google.com with SMTP id m18so2093941qki.8
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 11:15:29 -0700 (PDT)
+        Wed, 22 May 2019 14:18:46 -0400
+Received: by mail-qk1-f173.google.com with SMTP id o2so1797717qkb.3
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 11:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version;
-        bh=F+3WHsssrstnT7OuTRHdjOXffUtBJ5jFmBM7YNeCPEw=;
-        b=e4dxFcQl6La+KmpAOdyHVV8D+G2E5OONvpQbrizoL/7HopRdnZRgotQzOmFqpp4kzN
-         NtVWMEeQfXvjaDYXLW5i4p1D2AAV15VdH6INWxDm2u6So6tvfQfpdUZLvm7LFXtakMDy
-         7oTUQinI1Wc8Hn+3WedCFOaCzksQ9YwKN7sG4ZCA3TFJm1BG2dnhMnw8lhz/cSZ4pf96
-         rulrBKbNmCk2viSWce0axg6L9lW7NHGk6i2NisBkePjHIaSMavz3GD3iHEr0gMS48HOt
-         vt4UbZNemAOpep4rwuNVX5/XqVIUFonCD0i5fcQy3IdqthEoIw0Js4YqoQbEhPWqOvZ4
-         2ETg==
+        bh=xNMtNZgwFyLADZ0hqOJ1E9sbxjNMg7q0rPt6S1NZ27k=;
+        b=C9OuXTwAPbrrOkeZQyDYV0tKqQri/aZ+WWjeu4+dU9mEUX+8YOh+lauAiZrwwDjFCe
+         92cwb2zCQ35U9DTlCWLLkHf9JF3SMQ/o/J7VlrSso1kZ1UEBQmXwz5w3QLSTnJwSejtg
+         k5oG/yx9GkmMNfJseLSwpcHqufWaGsLBg1VA8KmaGU+RmS1awzJRuMvYH+ceRe2Ivrxl
+         YjxJ/NU/GCXTZW7lOqTMFOxQUSwbAsrmt2p/HYTIDAENCQEXGQDtTE5o7PDv4T2eL0oo
+         CDO21Dh/qfsmtYf2WlvXMX4QRT87FG53pVfiHBi4UHCalzKbIua4eQjSeAtbCRC1quOS
+         Ss+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version;
-        bh=F+3WHsssrstnT7OuTRHdjOXffUtBJ5jFmBM7YNeCPEw=;
-        b=p+lrRs+BZQGSjGAE1HiYAN8dJwitPXaZn4CRgGVlbH1UK+NNTP1YIr/dlFYbAEA46i
-         NSKE6DOSBM5kbD/QQIZQP1iWLkTalZ/AeFyiC6jcz2mXkTbRju+0IRm3f3uGEECAgsUm
-         KWnsvB6NCQYfqDUyt1Q0GUjldNAfFUW9SXyFODULIReUBT6cYCFblHlYtM7rvx2Fol72
-         +8uKyu2PRyWEFH/l62pXoevCL7BOR5NZTQXiQBw8wad6R4QGB8SakmzjsUSRT/Akaj/W
-         jmr3+t6wRxEdxBFcRCQL1kwvwjBNg81CqIqvplXVy5NR4SlQ+vNyIP6dABMV4PI/CLad
-         MGCg==
-X-Gm-Message-State: APjAAAWsFZg9hqVMS55m1gCfsCuvU4JWazEJPf94U0f/986QgO0rOYxI
-        vAaSJxrIvhBLWszUMQjt6+5uWg==
-X-Google-Smtp-Source: APXvYqysNsPq8uSjRdrjYs8H5nzxGYuJtCWDuK5CBodsfw1DG7vpSDDgNv0ScXgkkIUGRadgh2c6xg==
-X-Received: by 2002:a05:620a:47:: with SMTP id t7mr22772153qkt.327.1558548929174;
-        Wed, 22 May 2019 11:15:29 -0700 (PDT)
+        bh=xNMtNZgwFyLADZ0hqOJ1E9sbxjNMg7q0rPt6S1NZ27k=;
+        b=N55x/FP78cockYi4beZU1kPnm3KcYNEpMtoIIqNqDbUbomixfbRC8/o1gfV2J4HUX9
+         IM+vEWuUApguYmJ7v+EYo6zEyH9zghNpouiCh8eGSAG5lnO0FZ925HMZTwQ7SH4ZzV0K
+         W66ydd4E+dHQVU0SEQHgymV/8KQl9F0r3JDHda5T0BGbhld+AymFE4klxaSNahIuwhaF
+         r4DByUQaj97yaESnOKHXb6GN7X6o6JHth07HEreO0ob3RkwcFd9y/3K0xlRK6qsis8/n
+         qhhfENt8equzViblDGiY5r7XL4OlgmTyMUxsPRiE/13ubRJPxA+C/raKnNKiZbIIZgWI
+         u7aw==
+X-Gm-Message-State: APjAAAVAPTm3A58+/cRnzQJdEjJhDk9Prja9/efsmXCLK0Vqdklr9tbq
+        uFua+LV4NwoxjzaAzeXzbPG/Dw==
+X-Google-Smtp-Source: APXvYqzHYTLXQ81+HME2bKwsRfwZW5YHE9KfnEi8eXMOK15w/YY8r+bHW56V7QFQlSv510LCjzTF9Q==
+X-Received: by 2002:a05:620a:15c4:: with SMTP id o4mr4137812qkm.89.1558549125263;
+        Wed, 22 May 2019 11:18:45 -0700 (PDT)
 Received: from tpx230-nicolas.collaboramtl (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id z29sm12729119qkg.19.2019.05.22.11.15.27
+        by smtp.gmail.com with ESMTPSA id s12sm12151715qkm.38.2019.05.22.11.18.43
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 22 May 2019 11:15:27 -0700 (PDT)
-Message-ID: <b685052546d788a8096ea9ea4f181397c5cadea6.camel@ndufresne.ca>
+        Wed, 22 May 2019 11:18:44 -0700 (PDT)
+Message-ID: <dd84eeebb5ca744976f5edead063c0285ecf79ce.camel@ndufresne.ca>
 Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
  stateless support
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Jonas Karlman <jonas@kwiboo.se>
-Date:   Wed, 22 May 2019 14:15:26 -0400
-In-Reply-To: <CAAFQd5C4qgfm7oi=kC8Z-9du954G3gMOANOw0bDXO2-Ny6_=yw@mail.gmail.com>
+Date:   Wed, 22 May 2019 14:18:42 -0400
+In-Reply-To: <20190522102055.53933998@collabora.com>
 References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
          <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
          <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
-         <CAAFQd5AoNvVbx+PMQM9jOA-q4NEqe-PEm66DtxSd-9B8G=-9Ow@mail.gmail.com>
-         <dee0307b4cce84f1e35b5c6da7a8b2dbbac22bbc.camel@bootlin.com>
-         <CAAFQd5C4qgfm7oi=kC8Z-9du954G3gMOANOw0bDXO2-Ny6_=yw@mail.gmail.com>
+         <20190521154358.GC7098@ulmo>
+         <124db795c1ed77854be6c565092c2820776ac223.camel@ndufresne.ca>
+         <CAAFQd5Cmv-CJAsQ7QdoEPYyCFLDjAJjFFLo8PMZT=zeOumnkmQ@mail.gmail.com>
+         <20190522092924.116b212e@collabora.com>
+         <20190522102055.53933998@collabora.com>
 Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-SnWuFaxOwPK7ylCJjGIn"
+        boundary="=-sC3I7RKfJoRRYXbMBPHB"
 User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
@@ -78,125 +80,91 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---=-SnWuFaxOwPK7ylCJjGIn
+--=-sC3I7RKfJoRRYXbMBPHB
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mercredi 22 mai 2019 =C3=A0 15:01 +0900, Tomasz Figa a =C3=A9crit :
-> On Tue, May 21, 2019 at 8:45 PM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
-> > Hi,
+Le mercredi 22 mai 2019 =C3=A0 10:20 +0200, Boris Brezillon a =C3=A9crit :
+> On Wed, 22 May 2019 09:29:24 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>=20
+> > On Wed, 22 May 2019 15:39:37 +0900
+> > Tomasz Figa <tfiga@chromium.org> wrote:
 > >=20
-> > On Tue, 2019-05-21 at 19:27 +0900, Tomasz Figa wrote:
-> > > On Thu, May 16, 2019 at 2:43 AM Paul Kocialkowski
-> > > <paul.kocialkowski@bootlin.com> wrote:
-> > > > Hi,
+> > > > It would be premature to state that we are excluding. We are just
+> > > > trying to find one format to get things upstream, and make sure we =
+have
+> > > > a plan how to extend it. Trying to support everything on the first =
+try
+> > > > is not going to work so well.
 > > > >=20
-> > > > Le mercredi 15 mai 2019 =C3=A0 10:42 -0400, Nicolas Dufresne a =C3=
-=A9crit :
-> > > > > Le mercredi 15 mai 2019 =C3=A0 12:09 +0200, Paul Kocialkowski a =
-=C3=A9crit :
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > With the Rockchip stateless VPU driver in the works, we now hav=
-e a
-> > > > > > better idea of what the situation is like on platforms other th=
-an
-> > > > > > Allwinner. This email shares my conclusions about the situation=
- and how
-> > > > > > we should update the MPEG-2, H.264 and H.265 controls according=
-ly.
-> > > > > >=20
-> > > > > > - Per-slice decoding
-> > > > > >=20
-> > > > > > We've discussed this one already[0] and Hans has submitted a pa=
-tch[1]
-> > > > > > to implement the required core bits. When we agree it looks goo=
-d, we
-> > > > > > should lift the restriction that all slices must be concatenate=
-d and
-> > > > > > have them submitted as individual requests.
-> > > > > >=20
-> > > > > > One question is what to do about other controls. I feel like it=
- would
-> > > > > > make sense to always pass all the required controls for decodin=
-g the
-> > > > > > slice, including the ones that don't change across slices. But =
-there
-> > > > > > may be no particular advantage to this and only downsides. Not =
-doing it
-> > > > > > and relying on the "control cache" can work, but we need to spe=
-cify
-> > > > > > that only a single stream can be decoded per opened instance of=
- the
-> > > > > > v4l2 device. This is the assumption we're going with for handli=
-ng
-> > > > > > multi-slice anyway, so it shouldn't be an issue.
-> > > > >=20
-> > > > > My opinion on this is that the m2m instance is a state, and the d=
-river
-> > > > > should be responsible of doing time-division multiplexing across
-> > > > > multiple m2m instance jobs. Doing the time-division multiplexing =
-in
-> > > > > userspace would require some sort of daemon to work properly acro=
-ss
-> > > > > processes. I also think the kernel is better place for doing reso=
-urce
-> > > > > access scheduling in general.
+> > > > What is interesting to provide is how does you IP achieve multi-sli=
+ce
+> > > > decoding per frame. That's what we are studying on the RK/Hantro ch=
+ip.
+> > > > Typical questions are:
 > > > >=20
-> > > > I agree with that yes. We always have a single m2m context and spec=
-ific
-> > > > controls per opened device so keeping cached values works out well.
-> > > >=20
-> > > > So maybe we shall explicitly require that the request with the firs=
-t
-> > > > slice for a frame also contains the per-frame controls.
-> > > >=20
+> > > >   1. Do all slices have to be contiguous in memory
+> > > >   2. If 1., do you place start-code, AVC header or pass a seperate =
+index to let the HW locate the start of each NAL ?
+> > > >   3. Does the HW do support single interrupt per frame (RK3288 as a=
+n example does not, but RK3399 do)   =20
 > > >=20
-> > > Agreed.
-> > >=20
-> > > One more argument not to allow such multiplexing is that despite the
->=20
-> ^^ Here I meant the "userspace multiplexing".
-
-Thanks, I was confused for a moment (specially that browser is your use
-case).
-
->=20
-> > > API being called "stateless", there is actually some state saved
-> > > between frames, e.g. the Rockchip decoder writes some intermediate
-> > > data to some local buffers which need to be given to the decoder to
-> > > decode the next frame. Actually, on Rockchip there is even a
-> > > requirement to keep the reference list entries in the same order
-> > > between frames.
+> > > AFAICT, the bit about RK3288 isn't true. At least in our downstream
+> > > driver that was created mostly by RK themselves, we've been assuming
+> > > that the interrupt is for the complete frame, without any problems. =
+=20
 > >=20
-> > Well, what I'm suggesting is to have one stream per m2m context, but it
-> > should certainly be possible to have multiple m2m contexts (multiple
-> > userspace open calls) that decode different streams concurrently.
+> > I confirm that's what happens when all slices forming a frame are packe=
+d
+> > in a single output buffer: you only get one interrupt at the end of the
+> > decoding process (in that case, when the frame is decoded). Of course,
+> > if you split things up and do per-slice decoding instead (one slice per
+> > buffer) you get an interrupt per slice, though I didn't manage to make
+> > that work.
+> > I get a DEC_BUFFER interrupt (AKA, "buffer is empty but frame is not
+> > fully decoded") on the first slice and an ASO (Arbitrary Slice Ordering=
+)
+> > interrupt on the second slice, which makes me think some states are
+> > reset between the 2 operations leading the engine to think that the
+> > second slice is part of a new frame.
 > >=20
-> > Is that really going to be a problem for Rockchip? If so, then the
-> > driver should probably enforce allowing a single userspace open and m2m
-> > context at a time.
+> > Anyway, it doesn't sound like a crazy idea to support both per-slice
+> > and per-frame decoding and maybe have a way to expose what a
+> > specific codec can do (through an extra cap mechanism).
+> > The other option would be to support only per-slice decoding with a
+> > mandatory START_FRAME/END_FRAME sequence to let drivers for HW that
+> > only support per-frame decoding know when they should trigger the
+> > decoding operation.
 >=20
-> No, that's not what I meant. Obviously the driver can switch between
-> different sets of private buffers when scheduling different contexts,
-> as long as the userspace doesn't attempt to do any multiplexing
-> itself.
->=20
-> Best regards,
-> Tomasz
+> Just to clarify, we can use Hans' V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> work to identify start/end frame boundaries, the only problem I see is
+> that users are not required to clear the flag on the last slice of a
+> frame, so there's no way for the driver to know when it should trigger
+> the decode-frame operation. I guess we could trigger this decode
+> operation when v4l2_m2m_release_capture_buf() returns true, but I
+> wonder if it's not too late to do that.
 
---=-SnWuFaxOwPK7ylCJjGIn
+If the flag is gone, you can schedule immediatly, otherwise you'll know
+by the timestamp change on the following slice.
+
+>=20
+> > The downside is that it implies having a bounce
+> > buffer where the driver can pack slices to be decoded on the END_FRAME
+> > event.
+> >=20
+
+--=-sC3I7RKfJoRRYXbMBPHB
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXOWRvgAKCRBxUwItrAao
-HBFyAKCx5Xur+MT6UVmYrZXXYzvoxJ64pQCdGdn6FSCrD9uj1T9+6LnUVg0koyQ=
-=xmBW
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXOWSggAKCRBxUwItrAao
+HO1yAKCsB1hMd7AXSRxKGDvGgH+CE87CrACfenDwxV3/5VACRr3RrNR+UwqQQ+E=
+=gPFh
 -----END PGP SIGNATURE-----
 
---=-SnWuFaxOwPK7ylCJjGIn--
+--=-sC3I7RKfJoRRYXbMBPHB--
 
