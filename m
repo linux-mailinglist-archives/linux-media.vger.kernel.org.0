@@ -2,128 +2,350 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C614425FA2
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0F2225FB8
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728725AbfEVIge (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 04:36:34 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:34643 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728538AbfEVIge (ORCPT
+        id S1728502AbfEVIoJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 04:44:09 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:44786 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728491AbfEVIoJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 04:36:34 -0400
-Received: from [IPv6:2001:420:44c1:2579:69f9:edb3:2367:c945] ([IPv6:2001:420:44c1:2579:69f9:edb3:2367:c945])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id TMjch3cxZsDWyTMjfhK3my; Wed, 22 May 2019 10:36:31 +0200
-Subject: Re: [PATCH v2] media:usb:zr364xx:Fix KASAN:null-ptr-deref Read in
- zr364xx_vidioc_querycap
-To:     Vandana BN <bnvandana@gmail.com>, royale@zerezo.com,
-        mchehab@kernel.org, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20190521181535.7974-1-bnvandana@gmail.com>
- <20190522083415.9252-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5cb192e9-aa20-cc80-44b3-16d11a6257ff@xs4all.nl>
-Date:   Wed, 22 May 2019 10:36:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Wed, 22 May 2019 04:44:09 -0400
+Received: by mail-ed1-f68.google.com with SMTP id b8so2624045edm.11
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 01:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8hZOMikNAdzCFXs81DxGOYILQe00ak1lGbNwJA4vBN4=;
+        b=lLdzOP/71hf7UMsKFU7/V28RAB2acIvdFBwvqXVM5Zw5LWKzkEI2a3N+h8dVTBnYX+
+         pvJLJKvlHHOI0lKXGG7rYRD/szkHoAbo0JhtIaC90HbDdIZxbSINW87+upiFbuShOpGq
+         e2eIWh0Qfta43D0nSEBeVOIu2lko+k+H5l9HY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8hZOMikNAdzCFXs81DxGOYILQe00ak1lGbNwJA4vBN4=;
+        b=rUwHhBUlQjnu8Lhaz4LWEx6lzbo5yNkLOQPCr55bdprlFr5t8OT3ubH6WXblPPuEa6
+         jBHXz05bX3r1IBL+S58n7QUXIgKnSJTGJYGcAWcBtl5N/QTwTn7EXqKSazYP+qhWQNq7
+         BJBswOJIXqKBoMXqOeeIsBj3CP+EBMh2Gl/QaBdbGu6o3xUY2zXI3F0rsTeomlKY2g5t
+         7eFziAs0NjBeoEdXft1L+dIOKNV/0fVrmTLDdf8Nuw+UYZLxHMkxDzCQXlyYY14uTILQ
+         +qv4x3pokjIDpkp22EMwh96JgUyRn2y2uEa6cEADnUkE1oq1rqAM5k/h51TrWcRD/t8V
+         TuKA==
+X-Gm-Message-State: APjAAAVJTatmZAlvHaVewjp8TbA+zIW22nLlvbQANfdajVq2WX0C8DN9
+        olG3QX5oVO4NrnzRbLzabzKZnuovJruowQ==
+X-Google-Smtp-Source: APXvYqy+V7PDTow0dGDbRdiXW1cC1eJyV6u4Y3TI0L1M+4W5QSlAv0zHi+ANccTFDoJujxWfK59mcQ==
+X-Received: by 2002:a50:8818:: with SMTP id b24mr88820964edb.28.1558514647018;
+        Wed, 22 May 2019 01:44:07 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id s23sm67934edb.12.2019.05.22.01.44.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 01:44:05 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id w13so1261363wru.11
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 01:44:04 -0700 (PDT)
+X-Received: by 2002:adf:e4d2:: with SMTP id v18mr13578692wrm.189.1558514643525;
+ Wed, 22 May 2019 01:44:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190522083415.9252-1-bnvandana@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBv8opnsATBgOet2RDvjx5IAZBuBfDknh/The5JZZbHYsmjvTH93TTcaND9Rt9LiAjQVUdSwwD+s/Almv4aY1JSdCJhp+6vgLy8CUxqYuHbWUzJfH61x
- thFX4H9wCPNrhAsS3tFQHsmHHgXhzo8KngW/fCEHYud+kr0EHyVeb4Fr5T4qQxE6uO4a5yijdJcVzzxR9vQlaTV7Ph1VdnNMXnt883wfHp+o/4VC8GTTD/Wa
- pYpUdHqvBCDbrPHtsr+he1RiFJ4fex+MC0OS73opTg8Ir3ThPKi49eMSfndjekn3ICEEPix4Z19HwFDQhBWzi05A7pEhxUuIf0ZfnKD8r9IUcTCOyHm022zx
- dj0n4oygdc1jvyJeZE3hXPmpKuIXyuN5dxouhoXWUQINFB3C3CQz8IQBNyu7ddD77cQM2LujDQUuvaLFjkghg49uV/K575K/ovjgGYb5YOhI5n/pvqkyfwtu
- +BGj4UFthSUgLJJ43ThZ5t23dEUkjCw6U2l4B2KcZdmgqIuGvN7mVGaUiS1ZAbMBVByjWj+fzLIliOUz7qdSfdgaIsX9O1KKOHm8xltEy+z4oK/W3kPUcFkX
- uMORaAd8nCu6TCs0KwbAtQcw
+References: <20190124100419.26492-1-tfiga@chromium.org> <20190124100419.26492-3-tfiga@chromium.org>
+ <cb3c73e0-9481-54d1-8730-69e51655d7d8@xs4all.nl> <CAAFQd5AqRzGehW6fN4P=_oVdPdH+bJQqKhxgP6zsu80p-74bXA@mail.gmail.com>
+ <fded491f-8a25-3283-76c4-dee3dd56045e@xs4all.nl> <CAAFQd5CYT=eA_eFyHLTePBQatOBVwsoDjAfMoybJeWrO7V-raA@mail.gmail.com>
+ <2376896b-0087-5eee-a4b9-6ad03b0fef9c@xs4all.nl> <CAAFQd5BWXhTBWM0DtakC6KgrBdXbP_3rw5V4RhV53kFzh0awvw@mail.gmail.com>
+In-Reply-To: <CAAFQd5BWXhTBWM0DtakC6KgrBdXbP_3rw5V4RhV53kFzh0awvw@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 22 May 2019 17:43:49 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Ci6QCFyVtTo11NeKZ2KA+keicqoVd72mOyhRK8-tGrsQ@mail.gmail.com>
+Message-ID: <CAAFQd5Ci6QCFyVtTo11NeKZ2KA+keicqoVd72mOyhRK8-tGrsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] media: docs-rst: Document memory-to-memory video
+ encoder interface
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Kamil Debski <kamil@wypas.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        =?UTF-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= 
+        <tiffany.lin@mediatek.com>,
+        =?UTF-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?= 
+        <andrew-ct.chen@mediatek.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dave.stevenson@raspberrypi.org,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Maxime Jourdan <maxi.jourdan@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/22/19 10:34 AM, Vandana BN wrote:
-> SyzKaller hit the null pointer deref while reading from uninitialized
-> udev->product in zr364xx_vidioc_querycap().
-> ==================================================================
-> BUG: KASAN: null-ptr-deref in read_word_at_a_time+0xe/0x20
-> include/linux/compiler.h:274
-> Read of size 1 at addr 0000000000000000 by task v4l_id/5287
-> 
-> CPU: 1 PID: 5287 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xe8/0x16e lib/dump_stack.c:113
->   kasan_report.cold+0x5/0x3c mm/kasan/report.c:321
->   read_word_at_a_time+0xe/0x20 include/linux/compiler.h:274
->   strscpy+0x8a/0x280 lib/string.c:207
->   zr364xx_vidioc_querycap+0xb5/0x210 drivers/media/usb/zr364xx/zr364xx.c:706
->   v4l_querycap+0x12b/0x340 drivers/media/v4l2-core/v4l2-ioctl.c:1062
->   __video_do_ioctl+0x5bb/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2874
->   video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
->   v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
->   vfs_ioctl fs/ioctl.c:46 [inline]
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
->   ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7f3b56d8b347
-> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
-> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
-> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
-> RSP: 002b:00007ffe005d5d68 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f3b56d8b347
-> RDX: 00007ffe005d5d70 RSI: 0000000080685600 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
-> R13: 00007ffe005d5ec0 R14: 0000000000000000 R15: 0000000000000000
-> ==================================================================
-> 
-> For this device udev->product is not initialized and accessing it causes a NULL pointer deref.
-> 
-> The fix is to check for NULL before strscpy() and copy empty string, if
-> product is NULL
-> 
-> Reported-by: syzbot+66010012fd4c531a1a96@syzkaller.appspotmail.com
-> 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+On Tue, Apr 9, 2019 at 6:43 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Tue, Apr 9, 2019 at 6:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > On 4/9/19 9:11 AM, Tomasz Figa wrote:
+> > > On Mon, Apr 8, 2019 at 5:43 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> > >>
+> > >> On 4/8/19 10:36 AM, Tomasz Figa wrote:
+> > >>> On Mon, Mar 25, 2019 at 10:12 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> > >>>>
+> > >>>> Another comment found while creating compliance tests:
+> > >>>>
+> > >>>> On 1/24/19 11:04 AM, Tomasz Figa wrote:
+> > >>>>> +Drain
+> > >>>>> +=====
+> > >>>>> +
+> > >>>>> +To ensure that all the queued ``OUTPUT`` buffers have been processed and the
+> > >>>>> +related ``CAPTURE`` buffers are given to the client, the client must follow the
+> > >>>>> +drain sequence described below. After the drain sequence ends, the client has
+> > >>>>> +received all encoded frames for all ``OUTPUT`` buffers queued before the
+> > >>>>> +sequence was started.
+> > >>>>> +
+> > >>>>> +1. Begin the drain sequence by issuing :c:func:`VIDIOC_ENCODER_CMD`.
+> > >>>>> +
+> > >>>>> +   * **Required fields:**
+> > >>>>> +
+> > >>>>> +     ``cmd``
+> > >>>>> +         set to ``V4L2_ENC_CMD_STOP``
+> > >>>>> +
+> > >>>>> +     ``flags``
+> > >>>>> +         set to 0
+> > >>>>> +
+> > >>>>> +     ``pts``
+> > >>>>> +         set to 0
+> > >>>>> +
+> > >>>>> +   .. warning::
+> > >>>>> +
+> > >>>>> +      The sequence can be only initiated if both ``OUTPUT`` and ``CAPTURE``
+> > >>>>> +      queues are streaming. For compatibility reasons, the call to
+> > >>>>> +      :c:func:`VIDIOC_ENCODER_CMD` will not fail even if any of the queues is
+> > >>>>> +      not streaming, but at the same time it will not initiate the `Drain`
+> > >>>>> +      sequence and so the steps described below would not be applicable.
+> > >>>>> +
+> > >>>>> +2. Any ``OUTPUT`` buffers queued by the client before the
+> > >>>>> +   :c:func:`VIDIOC_ENCODER_CMD` was issued will be processed and encoded as
+> > >>>>> +   normal. The client must continue to handle both queues independently,
+> > >>>>> +   similarly to normal encode operation. This includes:
+> > >>>>> +
+> > >>>>> +   * queuing and dequeuing ``CAPTURE`` buffers, until a buffer marked with the
+> > >>>>> +     ``V4L2_BUF_FLAG_LAST`` flag is dequeued,
+> > >>>>> +
+> > >>>>> +     .. warning::
+> > >>>>> +
+> > >>>>> +        The last buffer may be empty (with :c:type:`v4l2_buffer`
+> > >>>>> +        ``bytesused`` = 0) and in that case it must be ignored by the client,
+> > >>>>> +        as it does not contain an encoded frame.
+> > >>>>> +
+> > >>>>> +     .. note::
+> > >>>>> +
+> > >>>>> +        Any attempt to dequeue more buffers beyond the buffer marked with
+> > >>>>> +        ``V4L2_BUF_FLAG_LAST`` will result in a -EPIPE error from
+> > >>>>> +        :c:func:`VIDIOC_DQBUF`.
+> > >>>>> +
+> > >>>>> +   * dequeuing processed ``OUTPUT`` buffers, until all the buffers queued
+> > >>>>> +     before the ``V4L2_ENC_CMD_STOP`` command are dequeued,
+> > >>>>> +
+> > >>>>> +   * dequeuing the ``V4L2_EVENT_EOS`` event, if the client subscribes to it.
+> > >>>>> +
+> > >>>>> +   .. note::
+> > >>>>> +
+> > >>>>> +      For backwards compatibility, the encoder will signal a ``V4L2_EVENT_EOS``
+> > >>>>> +      event when the last frame has been decoded and all frames are ready to be
+> > >>>>> +      dequeued. It is deprecated behavior and the client must not rely on it.
+> > >>>>> +      The ``V4L2_BUF_FLAG_LAST`` buffer flag should be used instead.
+> > >>>>> +
+> > >>>>> +3. Once all ``OUTPUT`` buffers queued before the ``V4L2_ENC_CMD_STOP`` call are
+> > >>>>> +   dequeued and the last ``CAPTURE`` buffer is dequeued, the encoder is stopped
+> > >>>>> +   and it will accept, but not process any newly queued ``OUTPUT`` buffers
+> > >>>>> +   until the client issues any of the following operations:
+> > >>>>> +
+> > >>>>> +   * ``V4L2_ENC_CMD_START`` - the encoder will not be reset and will resume
+> > >>>>> +     operation normally, with all the state from before the drain,
+> > >>>>
+> > >>>> I assume that calling CMD_START when *not* draining will succeed but does nothing.
+> > >>>>
+> > >>>> In other words: while draining is in progress START will return EBUSY. When draining
+> > >>>> was finished, then START will resume the encoder. In all other cases it just returns
+> > >>>> 0 since the encoder is really already started.
+> > >>>>
+> > >>>
+> > >>> Yes, that was the intention and seems to be the closest to the
+> > >>> behavior described in the existing documentation.
+> > >>>
+> > >>>>> +
+> > >>>>> +   * a pair of :c:func:`VIDIOC_STREAMOFF` and :c:func:`VIDIOC_STREAMON` on the
+> > >>>>> +     ``CAPTURE`` queue - the encoder will be reset (see the `Reset` sequence)
+> > >>>>> +     and then resume encoding,
+> > >>>>> +
+> > >>>>> +   * a pair of :c:func:`VIDIOC_STREAMOFF` and :c:func:`VIDIOC_STREAMON` on the
+> > >>>>> +     ``OUTPUT`` queue - the encoder will resume operation normally, however any
+> > >>>>> +     source frames queued to the ``OUTPUT`` queue between ``V4L2_ENC_CMD_STOP``
+> > >>>>> +     and :c:func:`VIDIOC_STREAMOFF` will be discarded.
+> > >>>>> +
+> > >>>>> +.. note::
+> > >>>>> +
+> > >>>>> +   Once the drain sequence is initiated, the client needs to drive it to
+> > >>>>> +   completion, as described by the steps above, unless it aborts the process by
+> > >>>>> +   issuing :c:func:`VIDIOC_STREAMOFF` on any of the ``OUTPUT`` or ``CAPTURE``
+> > >>>>> +   queues.  The client is not allowed to issue ``V4L2_ENC_CMD_START`` or
+> > >>>>> +   ``V4L2_ENC_CMD_STOP`` again while the drain sequence is in progress and they
+> > >>>>> +   will fail with -EBUSY error code if attempted.
+> > >>>>
+> > >>>> I assume calling STOP again once the drain sequence completed just returns 0 and
+> > >>>> doesn't do anything else (since we're already stopped).
+> > >>>>
+> > >>>
+> > >>> Right.
+> > >>>
+> > >>>>> +
+> > >>>>> +   Although mandatory, the availability of encoder commands may be queried
+> > >>>>> +   using :c:func:`VIDIOC_TRY_ENCODER_CMD`.
+> > >>>>
+> > >>>> Some corner cases:
+> > >>>>
+> > >>>> 1) No buffers are queued on either vb2_queue, but STREAMON is called for both queues.
+> > >>>>    Now ENC_CMD_STOP is issued. What should happen?
+> > >>>>
+> > >>>>    Proposal: the next time the applications queues a CAPTURE buffer it is returned
+> > >>>>    at once as an empty buffer with FLAG_LAST set.
+> > >>>>
+> > >>>
+> > >>> SGTM. It's actually similar to a relatively common case where all
+> > >>> CAPTURE buffers have been dequeued and the application has to refill
+> > >>> the CAPTURE queue, but in the meantime a drain request needs to be
+> > >>> issued.
+> > >>>
+> > >>>> 2) Both queues are streaming and buffers have been encoded, but currently no buffers
+> > >>>>    are queued on either vb2_queue. Now ENC_CMD_STOP is issued. What should happen?
+> > >>>>
+> > >>>>    Proposal: the next time the applications queues a CAPTURE buffer it is returned
+> > >>>>    at once as an empty buffer with FLAG_LAST set. This is consistent with the
+> > >>>>    previous corner case.
+> > >>>
+> > >>> Agreed.
+> > >>>
+> > >>>>
+> > >>>> 3) The CAPTURE queue contains buffers, the OUTPUT queue does not. Now ENC_CMD_STOP
+> > >>>>    is issued. What should happen?
+> > >>>>
+> > >>>>    Proposal: the oldest CAPTURE buffer in the ready queue is returned as an empty
+> > >>>>    buffer with FLAG_LAST set.
+> > >>>
+> > >>> Generally agreed, but not sure if there is a reason to specifically
+> > >>> refer to the oldest buffer. (I'm personally for keeping the queues
+> > >>> ordered, though...)
+> > >>
+> > >> Feel free to rephrase. Perhaps: "an empty CAPTURE buffer with FLAG_LAST set should be
+> > >> queued up for userspace to signal that the encoder has stopped." Or something along
+> > >> those lines.
+> > >
+> > > I've added a note:
+> > >
+> > >    For reference, handling of various corner cases is described below:
+> > >
+> > >    * In case of no buffer in the ``OUTPUT`` queue at the time the
+> > >      ``V4L2_ENC_CMD_STOP`` command was issued, the drain sequence completes
+> > >      immediately and the encoder returns an empty ``CAPTURE`` buffer with the
+> > >      ``V4L2_BUF_FLAG_LAST`` flag set.
+> > >
+> > >    * In case of no buffer in the ``CAPTURE`` queue at the time the drain
+> > >      sequence completes, the next time the client queues a ``CAPTURE`` buffer
+> > >      it is returned at once as an empty buffer with the ``V4L2_BUF_FLAG_LAST``
+> > >      flag set.
+> > >
+> > >    * If :c:func:`VIDIOC_STREAMOFF` is called on the ``CAPTURE`` queue in the
+> > >      middle of the drain sequence, the drain sequence is cancelled and all
+> >
+> > cancelled -> canceled
+> >
+> > >      ``CAPTURE`` buffers are implicitly returned to the userpace.
+> >
+> > userpace -> userspace
+> >
+>
+> Actually changed it to "client".
+>
+> > >
+> > >    * If :c:func:`VIDIOC_STREAMOFF` is called on the ``OUTPUT`` queue in the
+> > >      middle of the drain sequence, the drain sequence completes immediately and
+> > >      next ``CAPTURE`` buffer will be returned empty with the
+> > >      ``V4L2_BUF_FLAG_LAST`` flag set.
+> > >
+> > > Slightly changed the split into cases to cover behaviors rather than
+> > > conditions. WDYT?
+> >
+> > Looks good (with those two typos fixed).
+> >
+>
+> Thanks.
 
-Looks good!
+Hmm, we actually looked into implementing this in mtk-vcodec and
+handling of this corner case gets quite complicated. When stopping the
+streaming on OUTPUT, you may not have any available CAPTURE buffer, so
+you need to keep some extra state in the driver and check it in vb2
+.buf_queue for CAPTURE to return the first buffer and complete the
+drain.
 
-I'll take this patch for v5.3.
+The general handling of drain would have to look like this:
+ - VIDIOC_DECODER_CMD must check if a drain isn't already in progress
+and also whether the queues are streaming,
+ - STREAMOFF(CAPTURE) needs to cancel any pending drain,
+ - STREAMOFF(OUTPUT) needs to return a CAPTURE buffer with LAST set if
+there is one or postpone it until a buffer is queued,
+ - QBUF(CAPTURE) must return the buffer instantly if such return was
+postponed by STREAMOFF(OUTPUT).
+ - DQBUF(CAPTURE) of a buffer with the LAST flag set would finish the sequence.
 
-Regards,
+Sounds like we definitely need some generic code to handle this...
 
-	Hans
-
-> ---
-> v2 - removed else part as cap->card is already zeroed.
-> 
->  drivers/media/usb/zr364xx/zr364xx.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-> index 96fee8d5b865..cd2bc9ed0cd9 100644
-> --- a/drivers/media/usb/zr364xx/zr364xx.c
-> +++ b/drivers/media/usb/zr364xx/zr364xx.c
-> @@ -703,7 +703,8 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
->  	struct zr364xx_camera *cam = video_drvdata(file);
->  
->  	strscpy(cap->driver, DRIVER_DESC, sizeof(cap->driver));
-> -	strscpy(cap->card, cam->udev->product, sizeof(cap->card));
-> +	if (cam->udev->product)
-> +		strscpy(cap->card, cam->udev->product, sizeof(cap->card));
->  	strscpy(cap->bus_info, dev_name(&cam->udev->dev),
->  		sizeof(cap->bus_info));
->  	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
-> 
-
+>
+> >         Hans
+> >
+> > >
+> > > Best regards,
+> > > Tomasz
+> > >
+> > >>
+> > >> Regards,
+> > >>
+> > >>         Hans
+> > >>
+> > >>>
+> > >>>>
+> > >>>> 4) Both queues have queued buffers. ENC_CMD_STOP is issued to start the drain process.
+> > >>>>    Before the drain process completes STREAMOFF is called for either CAPTURE or
+> > >>>>    OUTPUT queue. What should happen?
+> > >>>>
+> > >>>>    Proposal for STREAMOFF(CAPTURE): aborts the drain process and all CAPTURE buffers are
+> > >>>>    returned to userspace. If encoding is restarted, then any remaining OUTPUT buffers
+> > >>>>    will be used as input to the encoder.
+> > >>>>
+> > >>>
+> > >>> Agreed.
+> > >>>
+> > >>>>    Proposal for STREAMOFF(OUTPUT): the next capture buffer will be empty and have
+> > >>>>    FLAG_LAST set.
+> > >>>
+> > >>> Agreed.
+> > >>>
+> > >>>>
+> > >>>> Some of this might have to be documented, but these corner cases should certainly be
+> > >>>> tested by v4l2-compliance. Before I write those tests I'd like to know if you agree
+> > >>>> with this.
+> > >>>
+> > >>> Agreed with just one minor comment. Thanks for checking with me!
+> > >>>
+> > >>> Best regards,
+> > >>> Tomasz
+> > >>>
+> > >>
+> >
