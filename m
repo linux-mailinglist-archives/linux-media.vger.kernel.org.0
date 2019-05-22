@@ -2,163 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3A127102
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 22:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A03012712F
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 22:54:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730005AbfEVUrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 16:47:39 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:38484 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730213AbfEVUrj (ORCPT
+        id S1730402AbfEVUx7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 16:53:59 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:36926 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729528AbfEVUx7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 16:47:39 -0400
-Received: by mail-pl1-f194.google.com with SMTP id f97so1633230plb.5
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 13:47:38 -0700 (PDT)
+        Wed, 22 May 2019 16:53:59 -0400
+Received: by mail-qt1-f201.google.com with SMTP id q23so3305521qtb.4
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 13:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zy3PazUIRm9Jc9PdJuB2u+ElFTk96lbYpo+oNBJZGCM=;
-        b=Y8j7WD6zpcc/2sEpj8EY6NRT1Dc510C1spsir21/hkUeu4mUUaoDDgjLww0pivEwF/
-         z6iJ0+f+gBw8re6q5xM6Dar0lLD7YYS2gJO3KPMVbNBtZ3Id3RkPfmb6s3Yr3rdRIcuf
-         rTPZw7otg9Z5O5b4Ojw+hEe7n4misMdps/iC8=
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=ukNWyZpQEscAlXdUip/QWXhs5cbXEziRRf5YyJhah4M=;
+        b=YNNVPbSx7FsOwk16jCPbtBA2G+ZPpu8SLkw0MknnLWZEzpx3k3DQ24qU05oO58WL6/
+         Z3l/BWk0m2bqB2K7kjkcu2kFTiiSFUPaofTqH+Ct/OXdNXdY5jrYgET3PSnvoKLV6YsV
+         HPayFURnBcfIEAK0D4VLrSsrs+q/kTNes9QTKFDjUVSpa/Yju1xDE7/Xlid8W0NEqX7I
+         BRPnjfmY9tImK6Runjp2fQl0RHt53RpT1MPLuqRn333dWhZgbJRDa41ppTyfbyzAZ6fz
+         URyIlnrJyVefkwaIo5PNLvNKJ8riAjHPlW1+VpMWGXP9P565Hqa4wpp1GScQEybwh+u2
+         hmlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zy3PazUIRm9Jc9PdJuB2u+ElFTk96lbYpo+oNBJZGCM=;
-        b=lCSkZUgW5akQD3/QQyErC4fmaVajljE6l3MjJwEpVrFQXcXc8s6Qsb6Jo9ieq8igJm
-         4Pnpnh9eiFtuWEQF+m8pw2GNcEHG8UWyNcuLTI0A2e1WQlKkwpDDGZByLcLnta3sTxPJ
-         C6wpbD9KRUfMK/jBUdHRSsRJvSJLD3zlv93smrKTC3TPHGaaJWlSmnR/EYqB8goBc0cS
-         ep8s+DGDdUiuv/RLhvnnKujAE3wt2PxCqEWC1CoYxt9eisSi2LgdOlbUh8yqOpVPFS7L
-         lGyj2x9jhqjpI4xEtuD6qpz/X19bD+CuoQn9514CPsho5OpYMNf9IVnY3J79WtzDWPAc
-         VzCA==
-X-Gm-Message-State: APjAAAUCU7kMP/LdF4rjDL/bgZA6LD3FoAe0RK2UQ7HOQVUN6Bc8Qev1
-        yA6L4LCdEa6UPjSoq9dI1IneAg==
-X-Google-Smtp-Source: APXvYqxzAX+RobICkloaWYce4rx4oMkBv2QD394+NKxfoEao6LHAAvOlkD0rcjglQVK68ClP6ctquQ==
-X-Received: by 2002:a17:902:15c5:: with SMTP id a5mr93624265plh.39.1558558058259;
-        Wed, 22 May 2019 13:47:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d13sm23312074pfh.113.2019.05.22.13.47.36
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 13:47:37 -0700 (PDT)
-Date:   Wed, 22 May 2019 13:47:36 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     enh <enh@google.com>, Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=ukNWyZpQEscAlXdUip/QWXhs5cbXEziRRf5YyJhah4M=;
+        b=XiSCN8+UuVVmmFvKwY7aWx9nk0HkD75DPyTJjUDBAB2jWCe9acNTJY8zsCzDZPTwDv
+         7JAsIzT2bGWpHU/y+uMSf08BtZ4/htITU07E1HkttbkydVchRG24+8W6aqYOcivYqXdr
+         mZr8iTejUyKbyzDec5EnUPUdGGmEb86lm0cz+fKYi3XilI41dLCTgOznN1cjrZpMJA90
+         BNzuAHgD0CxUv7WApplBYUJt4dyAi6pa/Zz4Dgq1wDeN56gLIE3nfrSRg773ddbKotyQ
+         VH71OsK7m6TwPlcm7SNIc9xuaDaia7DRpzImFmi1OB2uJuaMmmDtFgStOFHZZxNdBmlB
+         8tBQ==
+X-Gm-Message-State: APjAAAWbZbx751GRJyFXFprh7w0NahfuKLPDLtLgL/SEQVWk4R9adgQD
+        5MmW4inWP/A2pCpjbcJSwt4ZhRQ=
+X-Google-Smtp-Source: APXvYqx9x1/i9RddXIFy8UKRAw7tdSzqIGW+3fgcjqiypNTjBQ0QyE3Nol6HJXkiMDN9Q2UXUhI54Uo=
+X-Received: by 2002:ac8:1a04:: with SMTP id v4mr77233094qtj.63.1558558438027;
+ Wed, 22 May 2019 13:53:58 -0700 (PDT)
+Date:   Wed, 22 May 2019 13:53:51 -0700
+In-Reply-To: <20190522205353.140648-1-sdf@google.com>
+Message-Id: <20190522205353.140648-2-sdf@google.com>
+Mime-Version: 1.0
+References: <20190522205353.140648-1-sdf@google.com>
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+Subject: [PATCH bpf-next v2 2/4] bpf: media: properly use bpf_prog_array api
+From:   Stanislav Fomichev <sdf@google.com>
+To:     netdev@vger.kernel.org, bpf@vger.kernel.org
+Cc:     davem@davemloft.net, ast@kernel.org, daniel@iogearbox.net,
+        Stanislav Fomichev <sdf@google.com>,
+        linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-Message-ID: <201905221316.865581CF@keescook>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <20190517144931.GA56186@arrakis.emea.arm.com>
- <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
- <20190521182932.sm4vxweuwo5ermyd@mbp>
- <201905211633.6C0BF0C2@keescook>
- <20190522101110.m2stmpaj7seezveq@mbp>
- <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
- <20190522163527.rnnc6t4tll7tk5zw@mbp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190522163527.rnnc6t4tll7tk5zw@mbp>
+        Sean Young <sean@mess.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 22, 2019 at 05:35:27PM +0100, Catalin Marinas wrote:
-> The two hard requirements I have for supporting any new hardware feature
-> in Linux are (1) a single kernel image binary continues to run on old
-> hardware while making use of the new feature if available and (2) old
-> user space continues to run on new hardware while new user space can
-> take advantage of the new feature.
+Now that we don't have __rcu markers on the bpf_prog_array helpers,
+let's use proper rcu_dereference_protected to obtain array pointer
+under mutex.
 
-Agreed! And I think the series meets these requirements, yes?
+Cc: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sean Young <sean@mess.org>
+Signed-off-by: Stanislav Fomichev <sdf@google.com>
+---
+ drivers/media/rc/bpf-lirc.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-> For MTE, we just can't enable it by default since there are applications
-> who use the top byte of a pointer and expect it to be ignored rather
-> than failing with a mismatched tag. Just think of a hwasan compiled
-> binary where TBI is expected to work and you try to run it with MTE
-> turned on.
-
-Ah! Okay, here's the use-case I wasn't thinking of: the concern is TBI
-conflicting with MTE. And anything that starts using TBI suddenly can't
-run in the future because it's being interpreted as MTE bits? (Is that
-the ABI concern? I feel like we got into the weeds about ioctl()s and
-one-off bugs...)
-
-So there needs to be some way to let the kernel know which of three
-things it should be doing:
-1- leaving userspace addresses as-is (present)
-2- wiping the top bits before using (this series)
-3- wiping the top bits for most things, but retaining them for MTE as
-   needed (the future)
-
-I expect MTE to be the "default" in the future. Once a system's libc has
-grown support for it, everything will be trying to use MTE. TBI will be
-the special case (but TBI is effectively a prerequisite).
-
-AFAICT, the only difference I see between 2 and 3 will be the tag handling
-in usercopy (all other places will continue to ignore the top bits). Is
-that accurate?
-
-Is "1" a per-process state we want to keep? (I assume not, but rather it
-is available via no TBI/MTE CONFIG or a boot-time option, if at all?)
-
-To choose between "2" and "3", it seems we need a per-process flag to
-opt into TBI (and out of MTE). For userspace, how would a future binary
-choose TBI over MTE? If it's a library issue, we can't use an ELF bit,
-since the choice may be "late" after ELF load (this implies the need
-for a prctl().) If it's binary-only ("built with HWKASan") then an ELF
-bit seems sufficient. And without the marking, I'd expect the kernel to
-enforce MTE when there are high bits.
-
-> I would also expect the C library or dynamic loader to check for the
-> presence of a HWCAP_MTE bit before starting to tag memory allocations,
-> otherwise it would get SIGILL on the first MTE instruction it tries to
-> execute.
-
-I've got the same question as Elliot: aren't MTE instructions just NOP
-to older CPUs? I.e. if the CPU (or kernel) don't support it, it just
-gets entirely ignored: checking is only needed to satisfy curiosity
-or behavioral expectations.
-
-To me, the conflict seems to be using TBI in the face of expecting MTE to
-be the default state of the future. (But the internal changes needed
-for TBI -- this series -- is a prereq for MTE.)
-
+diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
+index ee657003c1a1..0a0ce620e4a2 100644
+--- a/drivers/media/rc/bpf-lirc.c
++++ b/drivers/media/rc/bpf-lirc.c
+@@ -8,6 +8,9 @@
+ #include <linux/bpf_lirc.h>
+ #include "rc-core-priv.h"
+ 
++#define lirc_rcu_dereference(p)						\
++	rcu_dereference_protected(p, lockdep_is_held(&ir_raw_handler_lock))
++
+ /*
+  * BPF interface for raw IR
+  */
+@@ -136,7 +139,7 @@ const struct bpf_verifier_ops lirc_mode2_verifier_ops = {
+ 
+ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ {
+-	struct bpf_prog_array __rcu *old_array;
++	struct bpf_prog_array *old_array;
+ 	struct bpf_prog_array *new_array;
+ 	struct ir_raw_event_ctrl *raw;
+ 	int ret;
+@@ -154,12 +157,12 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 		goto unlock;
+ 	}
+ 
+-	if (raw->progs && bpf_prog_array_length(raw->progs) >= BPF_MAX_PROGS) {
++	old_array = lirc_rcu_dereference(raw->progs);
++	if (old_array && bpf_prog_array_length(old_array) >= BPF_MAX_PROGS) {
+ 		ret = -E2BIG;
+ 		goto unlock;
+ 	}
+ 
+-	old_array = raw->progs;
+ 	ret = bpf_prog_array_copy(old_array, NULL, prog, &new_array);
+ 	if (ret < 0)
+ 		goto unlock;
+@@ -174,7 +177,7 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 
+ static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ {
+-	struct bpf_prog_array __rcu *old_array;
++	struct bpf_prog_array *old_array;
+ 	struct bpf_prog_array *new_array;
+ 	struct ir_raw_event_ctrl *raw;
+ 	int ret;
+@@ -192,7 +195,7 @@ static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 		goto unlock;
+ 	}
+ 
+-	old_array = raw->progs;
++	old_array = lirc_rcu_dereference(raw->progs);
+ 	ret = bpf_prog_array_copy(old_array, prog, NULL, &new_array);
+ 	/*
+ 	 * Do not use bpf_prog_array_delete_safe() as we would end up
+@@ -223,21 +226,22 @@ void lirc_bpf_run(struct rc_dev *rcdev, u32 sample)
+ /*
+  * This should be called once the rc thread has been stopped, so there can be
+  * no concurrent bpf execution.
++ *
++ * Should be called with the ir_raw_handler_lock held.
+  */
+ void lirc_bpf_free(struct rc_dev *rcdev)
+ {
+ 	struct bpf_prog_array_item *item;
++	struct bpf_prog_array *array;
+ 
+-	if (!rcdev->raw->progs)
++	array = lirc_rcu_dereference(rcdev->raw->progs);
++	if (!array)
+ 		return;
+ 
+-	item = rcu_dereference(rcdev->raw->progs)->items;
+-	while (item->prog) {
++	for (item = array->items; item->prog; item++)
+ 		bpf_prog_put(item->prog);
+-		item++;
+-	}
+ 
+-	bpf_prog_array_free(rcdev->raw->progs);
++	bpf_prog_array_free(array);
+ }
+ 
+ int lirc_prog_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+@@ -290,7 +294,7 @@ int lirc_prog_detach(const union bpf_attr *attr)
+ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+ {
+ 	__u32 __user *prog_ids = u64_to_user_ptr(attr->query.prog_ids);
+-	struct bpf_prog_array __rcu *progs;
++	struct bpf_prog_array *progs;
+ 	struct rc_dev *rcdev;
+ 	u32 cnt, flags = 0;
+ 	int ret;
+@@ -311,7 +315,7 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+ 	if (ret)
+ 		goto put;
+ 
+-	progs = rcdev->raw->progs;
++	progs = lirc_rcu_dereference(rcdev->raw->progs);
+ 	cnt = progs ? bpf_prog_array_length(progs) : 0;
+ 
+ 	if (copy_to_user(&uattr->query.prog_cnt, &cnt, sizeof(cnt))) {
 -- 
-Kees Cook
+2.21.0.1020.gf2820cf01a-goog
+
