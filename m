@@ -2,215 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99ABF268BE
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 18:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFCFA26917
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 19:28:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730256AbfEVQ6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 12:58:37 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35921 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730243AbfEVQ6h (ORCPT
+        id S1729155AbfEVR2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 13:28:05 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53160 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727499AbfEVR2E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 12:58:37 -0400
-Received: by mail-lj1-f193.google.com with SMTP id z1so2787915ljb.3
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 09:58:34 -0700 (PDT)
+        Wed, 22 May 2019 13:28:04 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y3so3055865wmm.2;
+        Wed, 22 May 2019 10:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iEj6Ff/H6E4VLiXQm6DO5BqKseElb7ler1ySMSlsz4I=;
-        b=wK+Ags5fi2Zh9VWkgyeKWGUKDczOLAxo6NEBDIkT47LLbY+0uPXQ20Ef3md4Je4YM7
-         yTt+Dnj+qvCgrr4bQbXebiU250PfvvmpvwxcaxOqBf5zn5CMszutRFHD1jRI8Y5V/CPs
-         jt+pv/yu85FknwLJ8Zo9R8XECA2KhoyXo2Diq4THdh7+NYacc5mTvAPuk8TOUmLqFwYn
-         AgFwdp2R8ztxIowcvgrh5IyXMpDzu2HT0gF+HDg31nzr0Ecz3Q04rvVhTpk7W+XmTJ5D
-         H6CtsOUOTi8rz1vPfB8hysSXAunrOlBx79JX28IwO3FUWoOi2wwQCUxMiiDLS3NePwQF
-         DnQw==
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=4S0Pec9BfD8kDwkly62E8kWNDoNmW+jmLXii0uHlq84=;
+        b=qSC/E8Xb32KhkpZX/APfXdIGTG2h3A33Q295nP7KBI+d/zKZEyDPBic2fY/4AfElK1
+         CdqKD9m70g5/oyzWKpWUdlSzNrItRXf5+5B+Fbh9bc1ZnGcUBWBUmCCafNkw8ASARpx8
+         +3wtKHc/5RtFtzk2URnIEz+Wow7rsZNeI5c5bc3gGNKRkJc4Sdvxi2Uain6tG76D5Z3j
+         S7JvBic6R/by6vzi3Md1y/JyCBwLE+CMci+2VQ26I8ANLdaoSzjcjV78UIUlYfM1twB8
+         x5VvrP1B+vxF/hxxIiPJCZ8iSVHx2g2I+CDq0Om7XzoGxOA4LKxCszYV7sMVfx58HQdm
+         8jww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iEj6Ff/H6E4VLiXQm6DO5BqKseElb7ler1ySMSlsz4I=;
-        b=WRYyxPJrHkEeGzCAKQUzlB/3UApxdJ86CSUlimpRjSExAaZhVSxmnR/IS942wba0Gc
-         4ed9Nxu9+CYUEQhgoVNk/FEzftlOYLUnejYNUvOl1V3/PQPUdWJaU4ZJa84TS2Z4Wa1i
-         IVSqt/iW05fNlVasLgs1DKZ7bWm3LYj/CUZ3mnD5sp1m2FmUOQly3y8CPEPufnY5xEWy
-         abugGvXPwOviR5nOOO7AX7j/MqErqa+crqqs1H2Zsjku0AjyH2fbRa0R3NzhNqIXtcSW
-         UsOdufUbqxFLmD2tFJs649bdxaa7E/PtU6Hre4AQjDeHLjR0hQ/LvW4uXHnUaAzBfAlz
-         UGuQ==
-X-Gm-Message-State: APjAAAWsyOlLgOFxdCin9wlBba7YE48QK9r8n9DGMPp8zBqIDDYP461V
-        bQCpjqJGKS/+9DLZYE4+2/KmKDIip+yDye0fIQaumQ==
-X-Google-Smtp-Source: APXvYqy5hQuwmu5sUHU1LdrMDZRl8vRMt+7oXELCei2Hw7KHmtQdp6HFikhxSbWr2LIYnAvYIHTeEegng6kT70Dc8d0=
-X-Received: by 2002:a2e:8614:: with SMTP id a20mr7690480lji.20.1558544313559;
- Wed, 22 May 2019 09:58:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1557160186.git.andreyknvl@google.com> <20190517144931.GA56186@arrakis.emea.arm.com>
- <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
- <20190521182932.sm4vxweuwo5ermyd@mbp> <201905211633.6C0BF0C2@keescook>
- <20190522101110.m2stmpaj7seezveq@mbp> <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
- <20190522163527.rnnc6t4tll7tk5zw@mbp>
-In-Reply-To: <20190522163527.rnnc6t4tll7tk5zw@mbp>
-From:   enh <enh@google.com>
-Date:   Wed, 22 May 2019 09:58:22 -0700
-Message-ID: <CAJgzZooc+wXBBXenm62n2zR8TVrv-y1pXMmHSdxeaNYhFLSzBA@mail.gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=4S0Pec9BfD8kDwkly62E8kWNDoNmW+jmLXii0uHlq84=;
+        b=FoSvT16Mu2LkrJrBDgJXLMQdPqjujG4oeTwiXRKYno44eoncIQ1jD2RM/HsHzmmOOY
+         vVQ0030apyxFoDsvQNV9z9u5IWsQb6GSHd+PWy2OVfd9cJN/2AW6aWQriXApUl6loKHB
+         baHXJVVxB7FTeBxVrHWsRpSK5cD3W6rQeea+7BRzkdh4SsQKP/J+gr5cCgP7/jLxyrZ4
+         Hy25rN7p1lirMudK1yarNyw3nPJV2CfeO4P31jjypHiciq4ICUm40dFosJtGTaYRQ3en
+         ejoDwirMEtk8BsCk35mQZegLGV7qVtgthBPJzN0Pl6/WKZsfl3BIiWmSFH5z4QbLXK95
+         C64w==
+X-Gm-Message-State: APjAAAUk/ZG5dC7EcWHm+ArTovxsqCgVNNrcV4U4Q4REJzTs27ELDFdR
+        21vnoyy1YEka+UsjAIO/V9BmSX6r
+X-Google-Smtp-Source: APXvYqwD8IBhEolkceHyQXps2P8YYEE22P/lpAoZE3V2IX1M1/rT6DDluSpzupRRYXRQCKwANjBPQQ==
+X-Received: by 2002:a1c:a7cc:: with SMTP id q195mr8640694wme.53.1558546081898;
+        Wed, 22 May 2019 10:28:01 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id m206sm8514022wmf.21.2019.05.22.10.28.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 10:28:01 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 01/12] dma-buf: add dynamic caching of sg_table
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>
+Cc:     amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20190416183841.1577-1-christian.koenig@amd.com>
+ <1556323269-19670-1-git-send-email-lmark@codeaurora.org>
+ <CAO_48GGanguXbmYDD+p1kK_VkiWdZSTYAD1y-0JQK7hqL_OPPg@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <d7fb2a6b-f516-b506-247d-0f3d4d59ec8e@gmail.com>
+Date:   Wed, 22 May 2019 19:27:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAO_48GGanguXbmYDD+p1kK_VkiWdZSTYAD1y-0JQK7hqL_OPPg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 22, 2019 at 9:35 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+Am 22.05.19 um 18:17 schrieb Sumit Semwal:
+> Hi Christian,
 >
-> On Wed, May 22, 2019 at 08:30:21AM -0700, enh wrote:
-> > On Wed, May 22, 2019 at 3:11 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > On Tue, May 21, 2019 at 05:04:39PM -0700, Kees Cook wrote:
-> > > > I just want to make sure I fully understand your concern about this
-> > > > being an ABI break, and I work best with examples. The closest situation
-> > > > I can see would be:
-> > > >
-> > > > - some program has no idea about MTE
-> > >
-> > > Apart from some libraries like libc (and maybe those that handle
-> > > specific device ioctls), I think most programs should have no idea about
-> > > MTE. I wouldn't expect programmers to have to change their app just
-> > > because we have a new feature that colours heap allocations.
-> >
-> > obviously i'm biased as a libc maintainer, but...
-> >
-> > i don't think it helps to move this to libc --- now you just have an
-> > extra dependency where to have a guaranteed working system you need to
-> > update your kernel and libc together. (or at least update your libc to
-> > understand new ioctls etc _before_ you can update your kernel.)
->
-> That's not what I meant (or I misunderstood you). If we have a relaxed
-> ABI in the kernel and a libc that returns tagged pointers on malloc() I
-> wouldn't expect the programmer to do anything different in the
-> application code like explicit untagging. Basically the program would
-> continue to run unmodified irrespective of whether you use an old libc
-> without tagged pointers or a new one which tags heap allocations.
->
-> What I do expect is that the libc checks for the presence of the relaxed
-> ABI, currently proposed as an AT_FLAGS bit (for MTE we'd have a
-> HWCAP_MTE), and only tag the malloc() pointers if the kernel supports
-> the relaxed ABI. As you said, you shouldn't expect that the C library
-> and kernel are upgraded together, so they should be able to work in any
-> new/old version combination.
+> On Sat, 27 Apr 2019 at 05:31, Liam Mark <lmark@codeaurora.org> wrote:
+>> On Tue, 16 Apr 2019, Christian König wrote:
+>>
+>>> To allow a smooth transition from pinning buffer objects to dynamic
+>>> invalidation we first start to cache the sg_table for an attachment
+>>> unless the driver explicitly says to not do so.
+>>>
+>>> ---
+>>>   drivers/dma-buf/dma-buf.c | 24 ++++++++++++++++++++++++
+>>>   include/linux/dma-buf.h   | 11 +++++++++++
+>>>   2 files changed, 35 insertions(+)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 7c858020d14b..65161a82d4d5 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -573,6 +573,20 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>>>        list_add(&attach->node, &dmabuf->attachments);
+>>>
+>>>        mutex_unlock(&dmabuf->lock);
+>>> +
+>>> +     if (!dmabuf->ops->dynamic_sgt_mapping) {
+>>> +             struct sg_table *sgt;
+>>> +
+>>> +             sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
+>>> +             if (!sgt)
+>>> +                     sgt = ERR_PTR(-ENOMEM);
+>>> +             if (IS_ERR(sgt)) {
+>>> +                     dma_buf_detach(dmabuf, attach);
+>>> +                     return ERR_CAST(sgt);
+>>> +             }
+>>> +             attach->sgt = sgt;
+>>> +     }
+>>> +
+>>>        return attach;
+>>>
+>>>   err_attach:
+>>> @@ -595,6 +609,10 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>>>        if (WARN_ON(!dmabuf || !attach))
+>>>                return;
+>>>
+>>> +     if (attach->sgt)
+>>> +             dmabuf->ops->unmap_dma_buf(attach, attach->sgt,
+>>> +                                        DMA_BIDIRECTIONAL);
+>>> +
+>>>        mutex_lock(&dmabuf->lock);
+>>>        list_del(&attach->node);
+>>>        if (dmabuf->ops->detach)
+>>> @@ -630,6 +648,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>>>        if (WARN_ON(!attach || !attach->dmabuf))
+>>>                return ERR_PTR(-EINVAL);
+>>>
+>>> +     if (attach->sgt)
+>>> +             return attach->sgt;
+>>> +
+>> I am concerned by this change to make caching the sg_table the default
+>> behavior as this will result in the exporter's map_dma_buf/unmap_dma_buf
+>> calls are no longer being called in
+>> dma_buf_map_attachment/dma_buf_unmap_attachment.
+> Probably this concern from Liam got lost between versions of your
+> patches; could we please request a reply to these points here?
 
-yes, that part makes sense. i do think we'd use the AT_FLAGS bit, for
-exactly this.
+Sorry I indeed never got this mail, but this is actually not an issue 
+because Daniel had similar concerns and we didn't made this the default 
+in the final version.
 
-i was questioning the argument about the ioctl issues, and saying that
-from my perspective, untagging bugs are not really any different than
-any other kind of kernel bug.
+>> This seems concerning to me as it appears to ignore the cache maintenance
+>> aspect of the map_dma_buf/unmap_dma_buf calls.
+>> For example won't this potentially cause issues for clients of ION.
+>>
+>> If we had the following
+>> - #1 dma_buf_attach coherent_device
+>> - #2 dma_buf attach non_coherent_device
+>> - #3 dma_buf_map_attachment non_coherent_device
+>> - #4 non_coherent_device writes to buffer
+>> - #5 dma_buf_unmap_attachment non_coherent_device
+>> - #6 dma_buf_map_attachment coherent_device
+>> - #7 coherent_device reads buffer
+>> - #8 dma_buf_unmap_attachment coherent_device
+>>
+>> There wouldn't be any CMO at step #5 anymore (specifically no invalidate)
+>> so now at step #7 the coherent_device could read a stale cache line.
+>>
+>> Also, now by default dma_buf_unmap_attachment no longer removes the
+>> mappings from the iommu, so now by default dma_buf_unmap_attachment is not
+>> doing what I would expect and clients are losing the potential sandboxing
+>> benefits of removing the mappings.
+>> Shouldn't this caching behavior be something that clients opt into instead
+>> of being the default?
 
-> > > > The trouble I see with this is that it is largely theoretical and
-> > > > requires part of userspace to collude to start using a new CPU feature
-> > > > that tickles a bug in the kernel. As I understand the golden rule,
-> > > > this is a bug in the kernel (a missed ioctl() or such) to be fixed,
-> > > > not a global breaking of some userspace behavior.
-> > >
-> > > Yes, we should follow the rule that it's a kernel bug but it doesn't
-> > > help the user that a newly installed kernel causes user space to no
-> > > longer reach a prompt. Hence the proposal of an opt-in via personality
-> > > (for MTE we would need an explicit opt-in by the user anyway since the
-> > > top byte is no longer ignored but checked against the allocation tag).
-> >
-> > but realistically would this actually get used in this way? or would
-> > any given system either be MTE or non-MTE. in which case a kernel
-> > configuration option would seem to make more sense. (because either
-> > way, the hypothetical user basically needs to recompile the kernel to
-> > get back on their feet. or all of userspace.)
->
-> The two hard requirements I have for supporting any new hardware feature
-> in Linux are (1) a single kernel image binary continues to run on old
-> hardware while making use of the new feature if available and (2) old
-> user space continues to run on new hardware while new user space can
-> take advantage of the new feature.
->
-> The distro user space usually has a hard requirement that it continues
-> to run on (certain) old hardware. We can't enforce this in the kernel
-> but we offer the option to user space developers of checking feature
-> availability through HWCAP bits.
->
-> The Android story may be different as you have more control about which
-> kernel configurations are deployed on specific SoCs. I'm looking more
-> from a Linux distro angle where you just get an off-the-shelf OS image
-> and install it on your hardware, either taking advantage of new features
-> or just not using them if the software was not updated. Or, if updated
-> software is installed on old hardware, it would just run.
->
-> For MTE, we just can't enable it by default since there are applications
-> who use the top byte of a pointer and expect it to be ignored rather
-> than failing with a mismatched tag. Just think of a hwasan compiled
-> binary where TBI is expected to work and you try to run it with MTE
-> turned on.
->
-> I would also expect the C library or dynamic loader to check for the
-> presence of a HWCAP_MTE bit before starting to tag memory allocations,
-> otherwise it would get SIGILL on the first MTE instruction it tries to
-> execute.
+Well, it seems you are making incorrect assumptions about the cache 
+maintenance of DMA-buf here.
 
-(a bit off-topic, but i thought the MTE instructions were encoded in
-the no-op space, to avoid this?)
+At least for all DRM devices I'm aware of mapping/unmapping an 
+attachment does *NOT* have any cache maintenance implications.
 
-> > i'm not sure i see this new way for a kernel update to break my system
-> > and need to be fixed forward/rolled back as any different from any of
-> > the existing ways in which this can happen :-) as an end-user i have
-> > to rely on whoever's sending me software updates to test adequately
-> > enough that they find the problems. as an end user, there isn't any
-> > difference between "my phone rebooted when i tried to take a photo
-> > because of a kernel/driver leak", say, and "my phone rebooted when i
-> > tried to take a photo because of missing untagging of a pointer passed
-> > via ioctl".
-> >
-> > i suspect you and i have very different people in mind when we say "user" :-)
->
-> Indeed, I think we have different users in mind. I didn't mean the end
-> user who doesn't really care which C library version it's running on
-> their phone but rather advanced users (not necessarily kernel
-> developers) that prefer to build their own kernels with every release.
-> We could extend this to kernel developers who don't have time to track
-> down why a new kernel triggers lots of SIGSEGVs during boot.
+E.g. the use case you describe above would certainly fail with amdgpu, 
+radeon, nouveau and i915 because mapping a DMA-buf doesn't stop the 
+exporter from reading/writing to that buffer (just the opposite actually).
 
-i still don't see how this isn't just a regular testing/CI issue, the
-same as any other kind of kernel bug. it's already the case that i can
-get a bad kernel...
+All of them assume perfectly coherent access to the underlying memory. 
+As far as I know there is no documented cache maintenance requirements 
+for DMA-buf.
 
-> --
-> Catalin
+The IOMMU concern on the other hand is certainly valid and I perfectly 
+agree that keeping the mapping time as short as possible is desirable.
+
+Regards,
+Christian.
+
+>> Liam
+>>
+>> Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
+> Best,
+> Sumit.
+
