@@ -2,171 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B7725F7B
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA8D25F1B
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 10:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728602AbfEVI25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 04:28:57 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:49356 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726552AbfEVI25 (ORCPT
+        id S1728370AbfEVII6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 04:08:58 -0400
+Received: from mail-wm1-f43.google.com ([209.85.128.43]:39295 "EHLO
+        mail-wm1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727946AbfEVII6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 04:28:57 -0400
-X-Greylist: delayed 3003 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 May 2019 04:28:55 EDT
-Received: from [109.168.11.45] (port=47788 helo=[192.168.101.64])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.91)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1hTLpp-001bvJ-Jg; Wed, 22 May 2019 09:38:49 +0200
-Subject: Re: [RFC 0/4] TI camera serdes - I2C address translation draft
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        jacopo mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-References: <20190108223953.9969-1-luca@lucaceresoli.net>
- <20190521144034.100f9f8b@coco.lan>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f3346136-1fba-dd85-8448-ce8d0580f0d3@lucaceresoli.net>
-Date:   Wed, 22 May 2019 09:38:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 22 May 2019 04:08:58 -0400
+Received: by mail-wm1-f43.google.com with SMTP id n25so1133111wmk.4
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 01:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7HvbE/0BIpLfSTVkGloNWHf8c3bl4DIEneBol9c+CMA=;
+        b=IddGXv1snBieJLrJHNIswIWfzKgiiI7/CCfxY1qjNXOqoiVus+3Gxh4yCmGbCCfR9w
+         jJ66PvTrGFg7kYGxllSzs63GCwAPU1CuKpqcJ6+Cj9XQdP6S2Z75eEUGXZUckGK/NZYz
+         bmFR73QSAZSVZWxeH00PKDf+lvI7Ai9Fws1kvaNFCZsAWPMCX2szalW1RuNVaHjUgjVT
+         hLeU7Yqf+MG7hwk87YcNYRyKxYrxBmSuvjRXxntXLofgA1HSkoz8n2vr/xznV79JRL32
+         1u2Mmy1ie2G446AVzATO7RZNnVcqYqsyGmeP9fhZUn2IBkMOBSSMUbkDuVXhOVnwyIUR
+         Y29g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7HvbE/0BIpLfSTVkGloNWHf8c3bl4DIEneBol9c+CMA=;
+        b=SDnaPtItggjx0y80Def93qqCU9gwSomnqTdgBKzHV8Yn/0lLq2mlw07TYvO7O8gNPM
+         W5wMIFVF/jYOHIp85C4uAI3/7F3HEI0yT4FuVyf5sGe96VETbRTlRm54lXAucw3XRkgM
+         BLwYJCM4LzP3Uk2JoG4HoGVUmwBKszcMl4mpAbA9juzccv0v7mbJF1xxybj0U1uu+3sy
+         rh2JsUaeirFdWTj7sq8/IHSFPPMPezE7hZl4OYLdcrJ6XkaCz/CQrnxDL0Jegec3rghO
+         dYuFdbXdPVIr+FP8dPGmOTsFc0i0e8MNx1RAQp2SoQ5fahuGWOLHswopaJ6G+4MVQ/wl
+         ohRA==
+X-Gm-Message-State: APjAAAUC/TA5OHQ57tPHPKbyoDIPKnT+Jq1nlNBKJdkH9f/nyqGMKfxW
+        roA+pp8chp9MJD9OTne/RFE=
+X-Google-Smtp-Source: APXvYqxpGFUluikVxyh8XxVEqocZ8brEagBLlONS6CYSWAA/CFLkVwXPUCdfRdZ6n9+qkhTWsb3nGw==
+X-Received: by 2002:a1c:f60d:: with SMTP id w13mr5893991wmc.40.1558512536023;
+        Wed, 22 May 2019 01:08:56 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id 91sm36673875wrs.43.2019.05.22.01.08.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 22 May 2019 01:08:54 -0700 (PDT)
+Date:   Wed, 22 May 2019 10:08:53 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+Message-ID: <20190522080853.GA30938@ulmo>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+ <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+ <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
+ <CAAFQd5AoNvVbx+PMQM9jOA-q4NEqe-PEm66DtxSd-9B8G=-9Ow@mail.gmail.com>
+ <dee0307b4cce84f1e35b5c6da7a8b2dbbac22bbc.camel@bootlin.com>
+ <20190521150939.GB7098@ulmo>
+ <e8d228e84075e1dd4d89c5094192e282bc76003f.camel@ndufresne.ca>
 MIME-Version: 1.0
-In-Reply-To: <20190521144034.100f9f8b@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
+Content-Disposition: inline
+In-Reply-To: <e8d228e84075e1dd4d89c5094192e282bc76003f.camel@ndufresne.ca>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 21/05/19 19:40, Mauro Carvalho Chehab wrote:
-> Em Tue,  8 Jan 2019 23:39:49 +0100
-> Luca Ceresoli <luca@lucaceresoli.net> escreveu:
-> 
->> Hi,
->>
->> there has been some discussion on linux-media about video
->> serializer/deserializer chipsets with remote I2C capabilities from TI
->> [0] and Maxim [1]. I took part discussing how the remote I2C feature
->> of such chips could be best implemented in Linux while I was
->> implementing a driver for the Texas Instruments DS90UB954-Q1 video
->> deserializer. My approach is different from both the one used by
->> Vladimir Zapolskiy on other TI chips, which look similar to the
->> DS90UB954 in their I2C management, and the one used by Kieran Bingham
->> with Maxim chips, which have a different and simpler I2C management.
->>
->> After that I had to stop that work, so it is unfinished and I have no
->> plan to continue it. Upon suggestion by some linux-media developers
->> I'm sending my patches as RFC in the hope that they bring additional
->> material for the discussion.
->>
->> I2C management is quite complete in my patches, and it shows how I
->> envisioned I2C management. For the rest the code is in large part
->> incomplete. Don't consider the V4L2, GPIO and other sections as ready
->> for any review.
->>
->> The whole idea is structured around a central node, called the ATR
->> (Address Translator). It is similar to an I2C mux except it changes
->> the I2C addresses of transactions with an "alias" address for each
->> remote chip. Patch 2 has a detailed description of this process.
->>
->>
->> A typical setup looks like:
->>
->>                           Slave X @ 0x10
->>                   .-----.   |
->>       .-----.     |     |---+---- B
->>       | CPU |--A--| ATR |
->>       `-----'     |     |---+---- C
->>                   `-----'   |
->>                           Slave Y @ 0x10
->>
->>   A = "local" bus
->>   B = "remote" bus 0
->>   C = "remote" bus 1
->>
->> In patch 2 I enriched the i2c-mux to also act as an ATR. However the
->> implementation grew larger than I desired, so now I think it would
->> make sense to leave i2c-mux as is, and add a new i2c-atr.c which has
->> ATR features without much of the MUX code. However the implementation
->> would not change too much, so you can look at i2c-mux to see how I
->> implemented the ATR.
->>
->> In the ATR (i2c-mux.c) I implemented the logic needed to remap slave
->> addresses according to a table. Choosing appropriate aliases and
->> filling that table is driver-specific, so in this case it is done by
->> ds90ub954.c. The ATR driver needs to know when a new client appears on
->> the remote bus to setup translation and when it gets disconnected to
->> undo it. So I added a callback pair, attach_client and detach_client,
->> from i2c-core to i2c-mux and from there to the ATR driver. When
->> getting the callback the ATR driver chooses an alias to be used on the
->> local bus for the new chip, configures the ATR (perhaps setting some
->> registers) returns the alias back to the ATR which sill add the new
->> chip-alias pair to its table. The ATR (i2c-mux) then will do the
->> translation for each message, so that the alias will be used on the
->> local bus and the physical chip address on the remote bus.
->>
->> The alias address for a new client is chosen from an alias pool that
->> must be defined in device tree. It is the responsibility of the DT
->> writer to fill the pool with addresses that are otherwise unused on
->> the local bus. The pool could not be filled automatically because
->> there might be conflicting chips on the local bus that are unknown to
->> the software, or that are just connected later.
->>
->> The alias pool and the mapping done at runtime allow to model
->> different camera modules [or display or other modules] similarly to
->> beaglebone capes or rpi hats, up to a model where:
->>
->>  1. there can be different camera modules being designed over time
->>  2. there can be different base boards being designed over time
->>  3. there is a standard interconnection between them (mechanical,
->>     electrical, communication bus)
->>  4. camera modules and base boards are designed and sold independently
->>     (thanks to point 3)
->>
->> The implementation is split in the following patches:
->>  * Patch 1 adds the attach_client() and detach_client() callbacks to
->>    i2c-core
->>  * Patch 2 adds similar callbacks for the use of device drivers and,
->>    most importantly, implements the ATR engine
->>  * Patch 3 adds a farily complete DT bindings document, including the
->>    alias map
->>  * Patch 4 adds the DS90UB954-Q1 dual deserializer driver
->>
->> There is no serializer driver here. The one I have is just a skeleton
->> setting a few registers, just enough to work on the deserializer
->> driver.
-> 
-> Not sure what to do here... I guess I'll just mark the patches as
-> RFC at media patchwork, as someone has to need support for it and need
-> to finish its implementation.
+--vkogqOf2sHV7VnPd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I just did it.
+On Tue, May 21, 2019 at 12:07:47PM -0400, Nicolas Dufresne wrote:
+> Le mardi 21 mai 2019 =C3=A0 17:09 +0200, Thierry Reding a =C3=A9crit :
+> > On Tue, May 21, 2019 at 01:44:50PM +0200, Paul Kocialkowski wrote:
+> > > Hi,
+> > >=20
+> > > On Tue, 2019-05-21 at 19:27 +0900, Tomasz Figa wrote:
+> > > > On Thu, May 16, 2019 at 2:43 AM Paul Kocialkowski
+> > > > <paul.kocialkowski@bootlin.com> wrote:
+> > > > > Hi,
+> > > > >=20
+> > > > > Le mercredi 15 mai 2019 =C3=A0 10:42 -0400, Nicolas Dufresne a =
+=C3=A9crit :
+> > > > > > Le mercredi 15 mai 2019 =C3=A0 12:09 +0200, Paul Kocialkowski a=
+ =C3=A9crit :
+> > > > > > > Hi,
+> > > > > > >=20
+> > > > > > > With the Rockchip stateless VPU driver in the works, we now h=
+ave a
+> > > > > > > better idea of what the situation is like on platforms other =
+than
+> > > > > > > Allwinner. This email shares my conclusions about the situati=
+on and how
+> > > > > > > we should update the MPEG-2, H.264 and H.265 controls accordi=
+ngly.
+> > > > > > >=20
+> > > > > > > - Per-slice decoding
+> > > > > > >=20
+> > > > > > > We've discussed this one already[0] and Hans has submitted a =
+patch[1]
+> > > > > > > to implement the required core bits. When we agree it looks g=
+ood, we
+> > > > > > > should lift the restriction that all slices must be concatena=
+ted and
+> > > > > > > have them submitted as individual requests.
+> > > > > > >=20
+> > > > > > > One question is what to do about other controls. I feel like =
+it would
+> > > > > > > make sense to always pass all the required controls for decod=
+ing the
+> > > > > > > slice, including the ones that don't change across slices. Bu=
+t there
+> > > > > > > may be no particular advantage to this and only downsides. No=
+t doing it
+> > > > > > > and relying on the "control cache" can work, but we need to s=
+pecify
+> > > > > > > that only a single stream can be decoded per opened instance =
+of the
+> > > > > > > v4l2 device. This is the assumption we're going with for hand=
+ling
+> > > > > > > multi-slice anyway, so it shouldn't be an issue.
+> > > > > >=20
+> > > > > > My opinion on this is that the m2m instance is a state, and the=
+ driver
+> > > > > > should be responsible of doing time-division multiplexing across
+> > > > > > multiple m2m instance jobs. Doing the time-division multiplexin=
+g in
+> > > > > > userspace would require some sort of daemon to work properly ac=
+ross
+> > > > > > processes. I also think the kernel is better place for doing re=
+source
+> > > > > > access scheduling in general.
+> > > > >=20
+> > > > > I agree with that yes. We always have a single m2m context and sp=
+ecific
+> > > > > controls per opened device so keeping cached values works out wel=
+l.
+> > > > >=20
+> > > > > So maybe we shall explicitly require that the request with the fi=
+rst
+> > > > > slice for a frame also contains the per-frame controls.
+> > > > >=20
+> > > >=20
+> > > > Agreed.
+> > > >=20
+> > > > One more argument not to allow such multiplexing is that despite the
+> > > > API being called "stateless", there is actually some state saved
+> > > > between frames, e.g. the Rockchip decoder writes some intermediate
+> > > > data to some local buffers which need to be given to the decoder to
+> > > > decode the next frame. Actually, on Rockchip there is even a
+> > > > requirement to keep the reference list entries in the same order
+> > > > between frames.
+> > >=20
+> > > Well, what I'm suggesting is to have one stream per m2m context, but =
+it
+> > > should certainly be possible to have multiple m2m contexts (multiple
+> > > userspace open calls) that decode different streams concurrently.
+> > >=20
+> > > Is that really going to be a problem for Rockchip? If so, then the
+> > > driver should probably enforce allowing a single userspace open and m=
+2m
+> > > context at a time.
+> >=20
+> > If you have hardware storing data necessary to the decoding process in
+> > buffers local to the decoder you'd have to have some sort of context
+> > switch operation that backs up the data in those buffers before you
+> > switch to a different context and restore those buffers when you switch
+> > back. We have similar hardware on Tegra, though I'm not exactly familiar
+> > with the details of what is saved and how essential it is. My
+> > understanding is that those internal buffers can be copied to external
+> > RAM or vice versa, but I suspect that this isn't going to be very
+> > efficient. It may very well be that restricting to a single userspace
+> > open is the most sensible option.
+>=20
+> That would be by far the worst for a browser use case where an adds
+> might have stolen that single instance you have available in HW. It's
+> normal that context switching will have some impact on performance, but
+> in general, most of the time, the other instances will be idles by
+> userspace. If there is not context switches, there should be no (or
+> very little overhead). Of course, it's should not be a heard
+> requirement to get a driver in the kernel, I'm not saying that.
 
-As I wrote in the cover letter, I was not actively working on the topic
-and sent these patches as an additional input for the discussion about
-I2C address translation and serdes chips in general.
+Sounds like we're in agreement. I didn't mean to imply that all drivers
+should be single-open. I was just trying to say that there may be cases
+where it's not possible or highly impractical to do a context switch or
+multiple ones in a driver.
 
--- 
-Luca
+> p.s. In the IMX8M/Hantro G1 they specifically says that the single core
+> decoder can handle up to 8 1080p60 streams at the same time. But there
+> is some buffers being write-back by the IP for every slice (at the end
+> of the decoded reference frames).
+
+I know that there is a similar mechanism on VDE for Tegra where an extra
+auxiliary buffer can be defined where extra data is written, though it's
+only used for some profiles (H.264 constrained baseline for example does
+not seem to require that). I think this has to do with reference picture
+marking. It may very well be that the other internal buffers don't
+actually need to persist across multiple frame decode operations, which
+would of course eliminate any concurrency issues.
+
+Sorry for this being somewhat vague. I've only begun to familiarize
+myself with the VDE and I keep getting side-tracked by a bunch of other
+things. But I'm trying to pitch in while the discussion is ongoing in
+the hope that it will help us come up with the best solution.
+
+Thierry
+
+--vkogqOf2sHV7VnPd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlzlA5IACgkQ3SOs138+
+s6HXdg//QiYB5Q4PBUyVuwmpCtmcvY63godklB/brEpU1XDIJUHuMBIwvGnjQs3C
+Gvoedb2MvJ2c40X9ziw8eVRF0U8nD7NDE/CCSaEDHRjoLBVttYgLyWrX9DobbVLd
+z8tfRpFMGPPnCxi+75LZXET4d3Kkiqnxz91ZUc020xlB6vQcuq9IjG5YULdGVwzD
+OEy/e8ZC1BerPTnG2QNVxhlzmL84t0Kw/jaGTO3fjaOCyX7nOcdmDWQpbp2FOMfz
+0EQJ1Hp42HRjZ5q6eTvIJVgWG8U6W2tOtwh70227NiQ6U8uoD9vGBh8kkkdthDKp
+TEywE3QWcGNZv1RJlK1tmtUStEvUA2PkxgzY70DHKPjS7Bj9a7JQCs8ZHxFJlaZ/
+yuvG726rQQmyct2rkj4F5c4rKpv6XAG2wvLMYn4HXvwAoIiSh1HmYvLjpFER7tX0
+1HXiTp9CTY8iFuXugR6H4Tf9KWndeUhrwUadY2tDws2EjXgxTNOrQ+Lk51zs/OER
+lmMEosonUzekrD/rHxcqKkJekx5fCT+/SCSCfQnvG0iO11/QB4G6Y7eJ5juw2fiA
+WBmZg5z1gRG4+KXUNbvbx4iZhZJTYQcd+BgEPP5Bw4DElSpk3T/UR3o4zuXwfwos
+jR66u3GCCMbHUshU+bK20AsCOFuZ1VQ/IksB7PylEh9rwGLIPiU=
+=osCS
+-----END PGP SIGNATURE-----
+
+--vkogqOf2sHV7VnPd--
