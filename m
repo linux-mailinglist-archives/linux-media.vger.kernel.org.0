@@ -2,125 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58AE225E50
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 08:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DDA225EAC
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2019 09:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfEVGwk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 02:52:40 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:52303 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725801AbfEVGwk (ORCPT
+        id S1728568AbfEVH3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 03:29:30 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53870 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbfEVH33 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 02:52:40 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id TL73h27qisDWyTL76hJb1d; Wed, 22 May 2019 08:52:37 +0200
-Subject: Re: [PATCH] media:usb:zr364xx:Fix KASAN:null-ptr-deref Read in
- zr364xx_vidioc_querycap
-To:     Vandana BN <bnvandana@gmail.com>, royale@zerezo.com,
-        mchehab@kernel.org, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20190521181535.7974-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c9311eeb-4cb6-e69c-8a26-7faea7e0c088@xs4all.nl>
-Date:   Wed, 22 May 2019 08:52:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 22 May 2019 03:29:29 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4A02E260E09;
+        Wed, 22 May 2019 08:29:28 +0100 (BST)
+Date:   Wed, 22 May 2019 09:29:24 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+Message-ID: <20190522092924.116b212e@collabora.com>
+In-Reply-To: <CAAFQd5Cmv-CJAsQ7QdoEPYyCFLDjAJjFFLo8PMZT=zeOumnkmQ@mail.gmail.com>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+        <3e0d6d5106e9c0c27ef4b11e64a488726ff77103.camel@ndufresne.ca>
+        <39ded6d4ddf85849bf45abc94dc8e104fd4c0978.camel@bootlin.com>
+        <20190521154358.GC7098@ulmo>
+        <124db795c1ed77854be6c565092c2820776ac223.camel@ndufresne.ca>
+        <CAAFQd5Cmv-CJAsQ7QdoEPYyCFLDjAJjFFLo8PMZT=zeOumnkmQ@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190521181535.7974-1-bnvandana@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAgCbWpy3/Mf5iE6uyIh7ObpST1ZI0MlELXVDzMVOAM5s4N2waUax5FlNru1+/Av8LNMcRlwevn2yp8AUTXfT6JWENMdahG1tg7KBmzj8qYDGnX3vzE3
- Mm+eQgNaM2bAQ5zig8OtkP8f6wDRWan4EKKgCl1DWhMF/mAbAWu4rEvNuL9wrLcvRBibv85CnBvwzvHeo8vo3McSwFDEpd/no29TWWtFXiC5L74tSKnigtBC
- KRYYhWTgj/5UHdwlRpp027YgOkt6f6/6C9xsoNVFmAOvQuLk5F+g3E0L4pzAEV2Ead6GT9BFyR9+3eQnHdq68MwtQQLaqCPVfT/6ZerSdV0GGXW06bIaO+hm
- Xzq6N3RyvhGs9vMmBc3LLAMt01hFKuNIJa5ebL16+xQRHy8f+VknmDk3kBBScWvpS+/ZU8DeYBsmu0gOBGzvxOU3tt99LCqimqby/y2BIWh6p8/ddEduf1Fz
- F6ponXMjgeuIgMF8
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/21/19 8:15 PM, Vandana BN wrote:
-> SyzKaller hit the null pointer deref while reading from uninitialized
-> udev->product in zr364xx_vidioc_querycap().
-> ==================================================================
-> BUG: KASAN: null-ptr-deref in read_word_at_a_time+0xe/0x20
-> include/linux/compiler.h:274
-> Read of size 1 at addr 0000000000000000 by task v4l_id/5287
-> 
-> CPU: 1 PID: 5287 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xe8/0x16e lib/dump_stack.c:113
->   kasan_report.cold+0x5/0x3c mm/kasan/report.c:321
->   read_word_at_a_time+0xe/0x20 include/linux/compiler.h:274
->   strscpy+0x8a/0x280 lib/string.c:207
->   zr364xx_vidioc_querycap+0xb5/0x210 drivers/media/usb/zr364xx/zr364xx.c:706
->   v4l_querycap+0x12b/0x340 drivers/media/v4l2-core/v4l2-ioctl.c:1062
->   __video_do_ioctl+0x5bb/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2874
->   video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
->   v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
->   vfs_ioctl fs/ioctl.c:46 [inline]
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
->   ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7f3b56d8b347
-> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
-> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
-> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
-> RSP: 002b:00007ffe005d5d68 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f3b56d8b347
-> RDX: 00007ffe005d5d70 RSI: 0000000080685600 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
-> R13: 00007ffe005d5ec0 R14: 0000000000000000 R15: 0000000000000000
-> ==================================================================
-> 
-> For this device udev->product is not initialized and accessing it causes a NULL pointer deref.
-> 
-> The fix is to check for NULL before strscpy() and copy empty string, if
-> product is NULL
-> 
-> Reported-by: syzbot+66010012fd4c531a1a96@syzkaller.appspotmail.com
-> 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
-> ---
->  drivers/media/usb/zr364xx/zr364xx.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-> index 96fee8d5b865..401a1e55dbe1 100644
-> --- a/drivers/media/usb/zr364xx/zr364xx.c
-> +++ b/drivers/media/usb/zr364xx/zr364xx.c
-> @@ -703,7 +703,10 @@ static int zr364xx_vidioc_querycap(struct file *file, void *priv,
->  	struct zr364xx_camera *cam = video_drvdata(file);
->  
->  	strscpy(cap->driver, DRIVER_DESC, sizeof(cap->driver));
-> -	strscpy(cap->card, cam->udev->product, sizeof(cap->card));
-> +	if (cam->udev->product)
-> +		strscpy(cap->card, cam->udev->product, sizeof(cap->card));
-> +	else
-> +		strscpy(cap->card, "", sizeof(cap->card));
+On Wed, 22 May 2019 15:39:37 +0900
+Tomasz Figa <tfiga@chromium.org> wrote:
 
-You can drop the 'else' part since cap->card is already zeroed by the
-V4L2 core framework. Looks good otherwise!
-
-Regards,
-
-	Hans
-
->  	strscpy(cap->bus_info, dev_name(&cam->udev->dev),
->  		sizeof(cap->bus_info));
->  	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
+> > It would be premature to state that we are excluding. We are just
+> > trying to find one format to get things upstream, and make sure we have
+> > a plan how to extend it. Trying to support everything on the first try
+> > is not going to work so well.
+> >
+> > What is interesting to provide is how does you IP achieve multi-slice
+> > decoding per frame. That's what we are studying on the RK/Hantro chip.
+> > Typical questions are:
+> >
+> >   1. Do all slices have to be contiguous in memory
+> >   2. If 1., do you place start-code, AVC header or pass a seperate index to let the HW locate the start of each NAL ?
+> >   3. Does the HW do support single interrupt per frame (RK3288 as an example does not, but RK3399 do)  
 > 
+> AFAICT, the bit about RK3288 isn't true. At least in our downstream
+> driver that was created mostly by RK themselves, we've been assuming
+> that the interrupt is for the complete frame, without any problems.
+
+I confirm that's what happens when all slices forming a frame are packed
+in a single output buffer: you only get one interrupt at the end of the
+decoding process (in that case, when the frame is decoded). Of course,
+if you split things up and do per-slice decoding instead (one slice per
+buffer) you get an interrupt per slice, though I didn't manage to make
+that work.
+I get a DEC_BUFFER interrupt (AKA, "buffer is empty but frame is not
+fully decoded") on the first slice and an ASO (Arbitrary Slice Ordering)
+interrupt on the second slice, which makes me think some states are
+reset between the 2 operations leading the engine to think that the
+second slice is part of a new frame.
+
+Anyway, it doesn't sound like a crazy idea to support both per-slice
+and per-frame decoding and maybe have a way to expose what a
+specific codec can do (through an extra cap mechanism).
+The other option would be to support only per-slice decoding with a
+mandatory START_FRAME/END_FRAME sequence to let drivers for HW that
+only support per-frame decoding know when they should trigger the
+decoding operation. The downside is that it implies having a bounce
+buffer where the driver can pack slices to be decoded on the END_FRAME
+event.
 
