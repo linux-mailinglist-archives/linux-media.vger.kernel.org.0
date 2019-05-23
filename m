@@ -2,94 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 881412733E
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 02:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6496274DC
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 05:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729519AbfEWAW5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 20:22:57 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:40544 "EHLO
-        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727634AbfEWAW5 (ORCPT
+        id S1727526AbfEWDw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 23:52:26 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42353 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726326AbfEWDw0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 20:22:57 -0400
-Received: by mail-wm1-f54.google.com with SMTP id 15so3935978wmg.5
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 17:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=1yR+/DcWPjwvSYea0DSVe94caiPKtW89stICL1YQ8rg=;
-        b=VmRa0cbnR89MA3xWIpiZyJ/860bpRRPl6vr5J/N/zTkQmKATlwblpFftHmWhjFg3MN
-         pKisG0rTwswarJQZXzYbeikhhZpg11Y2HEx83riaPBiMrnDfwW06k6uRbxmUp41+bCKD
-         Cz4Cmu6aTy5vMeI2+i5F/rQX9NbhL6I+dQrgBe18DVHWKmaFkUsce+Ymia1TsaWBfJmF
-         H/U9LBKHZGm8NqjCVZbryEEeVK2IMJvu6AplHeNptRQmoamRP+1dG36czZG3FNolE4sm
-         Mvhw4510Mc6bBnYqtvoIVGKcg9mSXbrHGIlzJxmJNBQuJpIf9sdLYjbIYPwSSvPSUALj
-         Diww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=1yR+/DcWPjwvSYea0DSVe94caiPKtW89stICL1YQ8rg=;
-        b=Tag0+NgfpQqtNFdYBjbo2VxA2vgH01Zc3u/5QQzqOdZ5bBA+muhEUNvBdARzzWe53i
-         Hux2mZvjuNpEEpn+6odwbe3TZthKkbL6TABwrFrgo1XzIxaxbYxNYbpmGswS0db91E4h
-         WhRFes7RZdSMz44vki2u6xWfJzdVvFSlRCSePzsM9HTI9jX1p3qsk4HP/p1Tl1PWePyF
-         1okzyo1qx+Bm5H/H7SVaavHDX2vZXu77PB1ZAaWMNwnVkcbS7GA0x5KUbNS3CKjAwIAQ
-         qVkE9gVjh5/jAOP9f+nqNzHfDT82gVu/QdXSHndN5z5yueh4vV2j/u1e3flhw9S9fo61
-         /r9A==
-X-Gm-Message-State: APjAAAV7JOzJxTPOl5IKqzaPWtRMBdMg1/DMB+A8I0vp51dPyPvNBp/d
-        Pq1bpAoKTNVwAYJngWKh+3BqtOS+ZbGhHA==
-X-Google-Smtp-Source: APXvYqzry8sKN7qxHtf9X6wQki8W64q88R5TCVIVzWwNT729CXOvWvw9x+B7y+/DhTB0VE9SGEMZqg==
-X-Received: by 2002:a1c:4486:: with SMTP id r128mr9823533wma.90.1558570974947;
-        Wed, 22 May 2019 17:22:54 -0700 (PDT)
-Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
-        by smtp.gmail.com with ESMTPSA id u7sm17651372wmg.25.2019.05.22.17.22.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 17:22:53 -0700 (PDT)
-Message-ID: <5ce5e7dd.1c69fb81.78e2f.4cbd@mx.google.com>
-Date:   Wed, 22 May 2019 17:22:53 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: media
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: v5.2-rc1-23-g9390467c2d3b
-Subject: media/master v4l2-compliance on vivid: 236 tests,
- 0 regressions (v5.2-rc1-23-g9390467c2d3b)
-To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
-From:   "kernelci.org bot" <bot@kernelci.org>
+        Wed, 22 May 2019 23:52:26 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:4f6:e435:e3c8:a6fb])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id TemEhMqmM3qlsTemFh7rEZ; Thu, 23 May 2019 05:52:24 +0200
+Message-ID: <78dc7f985c8fcb8a3274780450210836@smtp-cloud7.xs4all.net>
+Date:   Thu, 23 May 2019 05:52:22 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfJ+G2dPr/KO8t4wXvZads6Dj+UI/OonpKZxaKGu00/mLhQfSE0ibCVjEov1W4i6Ut2BEpPEaXBcwC3vSaY9acK0L+AQoEt/YN+HrIdBzwmppoY1cWfpW
+ P4US3HhxiCqrHG7xqnboafGMAX0BHOQxd9GvVIHBQ0XeDsJS/u2CzH5GOvChXUf9q2NumU0Kklv6+tF5EgHN+pr6I6VCctVaawtKgNnnOZSmfULOw6HTPpTZ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-media/master v4l2-compliance on vivid: 236 tests, 0 regressions (v5.2-rc1-2=
-3-g9390467c2d3b)
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Test results summary
---------------------
+Results of the daily build of media_tree:
 
-V4L2 Compliance on the vivid driver.
+date:			Thu May 23 05:00:11 CEST 2019
+media-tree git hash:	9390467c2d3bd19778ec23b39dde5424151ec37d
+media_build git hash:	483b4f0f48283ddaf1ba54d079051b58cdff2ef9
+v4l-utils git hash:	13510fae73041548b438b47ef83bcf93de6aec7c
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f324e8d7f445042ca6a3f85a18cfec395c27df23
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-This test ran "v4l2-compliance -s" from v4l-utils:
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: OK
+smatch: OK
 
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+Detailed results are available here:
 
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
 
-  Tree:    media
-  Branch:  master
-  Kernel:  v5.2-rc1-23-g9390467c2d3b
-  URL:     https://git.linuxtv.org/media_tree.git
-  Commit:  9390467c2d3bd19778ec23b39dde5424151ec37d
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
+Full logs are available here:
 
-1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
-2  | qemu                   | arm   | 118 total: 118 PASS   0 FAIL   0 SKIP=
-  =
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
-  =
+The Media Infrastructure API from this daily build is here:
 
-=20
+http://www.xs4all.nl/~hverkuil/spec/index.html
