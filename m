@@ -2,152 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2D327338
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 02:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881412733E
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 02:22:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbfEWAU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 May 2019 20:20:56 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:44858 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727638AbfEWAUz (ORCPT
+        id S1729519AbfEWAW5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 May 2019 20:22:57 -0400
+Received: from mail-wm1-f54.google.com ([209.85.128.54]:40544 "EHLO
+        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727634AbfEWAW5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 May 2019 20:20:55 -0400
-Received: by mail-qt1-f194.google.com with SMTP id f24so4686073qtk.11
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 17:20:54 -0700 (PDT)
+        Wed, 22 May 2019 20:22:57 -0400
+Received: by mail-wm1-f54.google.com with SMTP id 15so3935978wmg.5
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2019 17:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kja4wR6FLtasYFQS1xUbhik8iG88bHuMFvf2ArrK0nw=;
-        b=b1PxbkXji6rxJkxXzX+E8hmtsDc4EAG6spndGBpqTY6Mtd1Z82qmKG7IFdzEDWmzKK
-         cpfPgmFkndIKUtDn3lZmf4ZAYcKRjit4YkqMU72A44nfyHayfu0+OGxh9SgysS/YRAv2
-         RDEnuh2qly9nvvswbClZIbFXuZCzwJj2KYSwWCU/YgJUugR9fRVuJUTKIe2+8zLwiPOj
-         anBDeIuRaK3lpaZn56KojfHXM/H6EWmNRZuecl/6erGrJ5dc4+VdWT4yxUQf8Rpv9nUY
-         hRDkUmUo3tTzvQuC1Vf8iYC9BBrTle8EWAWahcABrO+2gaF43DLowx5aiqsiUBpSVZlJ
-         7EAg==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=1yR+/DcWPjwvSYea0DSVe94caiPKtW89stICL1YQ8rg=;
+        b=VmRa0cbnR89MA3xWIpiZyJ/860bpRRPl6vr5J/N/zTkQmKATlwblpFftHmWhjFg3MN
+         pKisG0rTwswarJQZXzYbeikhhZpg11Y2HEx83riaPBiMrnDfwW06k6uRbxmUp41+bCKD
+         Cz4Cmu6aTy5vMeI2+i5F/rQX9NbhL6I+dQrgBe18DVHWKmaFkUsce+Ymia1TsaWBfJmF
+         H/U9LBKHZGm8NqjCVZbryEEeVK2IMJvu6AplHeNptRQmoamRP+1dG36czZG3FNolE4sm
+         Mvhw4510Mc6bBnYqtvoIVGKcg9mSXbrHGIlzJxmJNBQuJpIf9sdLYjbIYPwSSvPSUALj
+         Diww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kja4wR6FLtasYFQS1xUbhik8iG88bHuMFvf2ArrK0nw=;
-        b=tJhyBP4f+sqnwGxb1hOVijLZ8tR335JEErsA7YH8aoUKIUp5p3jVZ+gG+c5GeA4XEN
-         WYpkgkqAjv9Y/7+S1q3gcJuDovKyLJh0eFsdZd/A43cAMmpCf006v6Y+rogHJgmQ70ZV
-         ToFGFwj4xlcZdeIfga5KMTdcAMPij3UVvBDxWJc0/C0/84TcF2/7B6dJG1WZDcLJf8Br
-         NSytkstxLtzhlbzJNykJz9KoTmG6mtsDV7BONo0HujsjJbL/Lukx6+8sPe8+vTBW0YLh
-         cL4IGG/bcxO+u1nwTBsS6ow3xmcH+ia3h3UOvlER+NPVjgoPZAa953SangOHABFjjZCp
-         eXQg==
-X-Gm-Message-State: APjAAAX+Kg2MMaASRrFXqjgSHgUpl/Ukts6SAslsjenej63eH8ywNfiw
-        TMSnbM+kmKrFd6yxSawlqHPc7g==
-X-Google-Smtp-Source: APXvYqwzvo9H/aW7qSfx2OQVIHnUtdd1Cyzpi6J44RNo2JLbDhDXh7kfDH2OJy33sD2sQGXynL6VQQ==
-X-Received: by 2002:ac8:f71:: with SMTP id l46mr70609860qtk.321.1558570854263;
-        Wed, 22 May 2019 17:20:54 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-49-251.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.49.251])
-        by smtp.gmail.com with ESMTPSA id t30sm15637238qtc.80.2019.05.22.17.20.53
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 17:20:53 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1hTbTZ-0001Zh-03; Wed, 22 May 2019 21:20:53 -0300
-Date:   Wed, 22 May 2019 21:20:52 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        linux-kernel@vger.kernel.org,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-Message-ID: <20190523002052.GF15389@ziepe.ca>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <20190517144931.GA56186@arrakis.emea.arm.com>
- <20190521184856.GC2922@ziepe.ca>
- <20190522134925.GV28398@e103592.cambridge.arm.com>
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=1yR+/DcWPjwvSYea0DSVe94caiPKtW89stICL1YQ8rg=;
+        b=Tag0+NgfpQqtNFdYBjbo2VxA2vgH01Zc3u/5QQzqOdZ5bBA+muhEUNvBdARzzWe53i
+         Hux2mZvjuNpEEpn+6odwbe3TZthKkbL6TABwrFrgo1XzIxaxbYxNYbpmGswS0db91E4h
+         WhRFes7RZdSMz44vki2u6xWfJzdVvFSlRCSePzsM9HTI9jX1p3qsk4HP/p1Tl1PWePyF
+         1okzyo1qx+Bm5H/H7SVaavHDX2vZXu77PB1ZAaWMNwnVkcbS7GA0x5KUbNS3CKjAwIAQ
+         qVkE9gVjh5/jAOP9f+nqNzHfDT82gVu/QdXSHndN5z5yueh4vV2j/u1e3flhw9S9fo61
+         /r9A==
+X-Gm-Message-State: APjAAAV7JOzJxTPOl5IKqzaPWtRMBdMg1/DMB+A8I0vp51dPyPvNBp/d
+        Pq1bpAoKTNVwAYJngWKh+3BqtOS+ZbGhHA==
+X-Google-Smtp-Source: APXvYqzry8sKN7qxHtf9X6wQki8W64q88R5TCVIVzWwNT729CXOvWvw9x+B7y+/DhTB0VE9SGEMZqg==
+X-Received: by 2002:a1c:4486:: with SMTP id r128mr9823533wma.90.1558570974947;
+        Wed, 22 May 2019 17:22:54 -0700 (PDT)
+Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
+        by smtp.gmail.com with ESMTPSA id u7sm17651372wmg.25.2019.05.22.17.22.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 17:22:53 -0700 (PDT)
+Message-ID: <5ce5e7dd.1c69fb81.78e2f.4cbd@mx.google.com>
+Date:   Wed, 22 May 2019 17:22:53 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190522134925.GV28398@e103592.cambridge.arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: media
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: v5.2-rc1-23-g9390467c2d3b
+Subject: media/master v4l2-compliance on vivid: 236 tests,
+ 0 regressions (v5.2-rc1-23-g9390467c2d3b)
+To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
+From:   "kernelci.org bot" <bot@kernelci.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 22, 2019 at 02:49:28PM +0100, Dave Martin wrote:
-> On Tue, May 21, 2019 at 03:48:56PM -0300, Jason Gunthorpe wrote:
-> > On Fri, May 17, 2019 at 03:49:31PM +0100, Catalin Marinas wrote:
-> > 
-> > > The tagged pointers (whether hwasan or MTE) should ideally be a
-> > > transparent feature for the application writer but I don't think we can
-> > > solve it entirely and make it seamless for the multitude of ioctls().
-> > > I'd say you only opt in to such feature if you know what you are doing
-> > > and the user code takes care of specific cases like ioctl(), hence the
-> > > prctl() proposal even for the hwasan.
-> > 
-> > I'm not sure such a dire view is warrented.. 
-> > 
-> > The ioctl situation is not so bad, other than a few special cases,
-> > most drivers just take a 'void __user *' and pass it as an argument to
-> > some function that accepts a 'void __user *'. sparse et al verify
-> > this. 
-> > 
-> > As long as the core functions do the right thing the drivers will be
-> > OK.
-> > 
-> > The only place things get dicy is if someone casts to unsigned long
-> > (ie for vma work) but I think that reflects that our driver facing
-> > APIs for VMAs are compatible with static analysis (ie I have no
-> > earthly idea why get_user_pages() accepts an unsigned long), not that
-> > this is too hard.
-> 
-> If multiple people will care about this, perhaps we should try to
-> annotate types more explicitly in SYSCALL_DEFINEx() and ABI data
-> structures.
-> 
-> For example, we could have a couple of mutually exclusive modifiers
-> 
-> T __object *
-> T __vaddr * (or U __vaddr)
-> 
-> In the first case the pointer points to an object (in the C sense)
-> that the call may dereference but not use for any other purpose.
+media/master v4l2-compliance on vivid: 236 tests, 0 regressions (v5.2-rc1-2=
+3-g9390467c2d3b)
 
-How would you use these two differently?
+Test results summary
+--------------------
 
-So far the kernel has worked that __user should tag any pointer that
-is from userspace and then you can't do anything with it until you
-transform it into a kernel something
+V4L2 Compliance on the vivid driver.
 
-> to tell static analysers the real type of pointers smuggled through
-> UAPI disguised as other types (*cough* KVM, etc.)
+This test ran "v4l2-compliance -s" from v4l-utils:
 
-Yes, that would help alot, we often have to pass pointers through a
-u64 in the uAPI, and there is no static checker support to make sure
-they are run through the u64_to_user_ptr() helper.
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
 
-Jason
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
+
+
+  Tree:    media
+  Branch:  master
+  Kernel:  v5.2-rc1-23-g9390467c2d3b
+  URL:     https://git.linuxtv.org/media_tree.git
+  Commit:  9390467c2d3bd19778ec23b39dde5424151ec37d
+
+
+1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
+2  | qemu                   | arm   | 118 total: 118 PASS   0 FAIL   0 SKIP=
+  =
+
+  =
+
+=20
