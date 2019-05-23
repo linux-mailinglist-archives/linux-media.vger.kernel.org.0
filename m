@@ -2,94 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 906FA28CAA
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 23:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25E4928DE2
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 01:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388232AbfEWVtg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 17:49:36 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61477 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388134AbfEWVtg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 17:49:36 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 May 2019 14:49:35 -0700
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 23 May 2019 14:49:34 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1hTvaf-0004Yj-TB; Fri, 24 May 2019 05:49:33 +0800
-Date:   Fri, 24 May 2019 05:49:06 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Jungo Lin <jungo.lin@mediatek.com>
-Cc:     kbuild-all@01.org, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [linuxtv-media:master 51/52] drivers/media/media-device.c:521:9:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <201905240504.XLNXJBMV%lkp@intel.com>
+        id S2388177AbfEWXfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 May 2019 19:35:54 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:36886 "EHLO
+        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387758AbfEWXfy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 May 2019 19:35:54 -0400
+Received: by mail-wr1-f50.google.com with SMTP id e15so8040398wrs.4
+        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 16:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=cG+rQwQR2lF5W8tPjecA+2BQC9Q0M6xcWT4n883TbOg=;
+        b=uXTlcuu4M4zcbHPalelc1p1HRQP/JS15e96k/2R8P7FsH/NliOFYGt7NRSvM9LNoEE
+         2YlHWF8Pd+HSEX42XLRNYKx2joEk8DrqLB8J3TU8wKma1/vWH6k7o3MKYHPWRW+/5WkW
+         ihD8Ip2asQOWROhOPeAPMHaI2AzmcqCYjxrbIExx/AJq2dpbqyZvgfx3AZpd2h9S7qB9
+         0poZKHiPDktA0Rc4PNwjiL8xouenic0imaNgdrGXZ9qdtIsZ/kWBpUz93oSR+XMGEmZs
+         xQE+8GpheCwiiwAmTNfW7Q8f6PzBLhosb9qHuQ+UWgNQ5g9wUoDeCQGbCF5WhBqtNiYl
+         ne0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=cG+rQwQR2lF5W8tPjecA+2BQC9Q0M6xcWT4n883TbOg=;
+        b=JudjwgoDBG+cR0ZmuByUOi50jzVzbZfuiCUgjRI4P8wa2K6R7l+YgQ9Mjtdabcm/S6
+         G5pAHyDxiL8cWOpPWUdXiRR7gADTXvHDyojBESByeQOjbz2dz8lHlDGDbCRjC8HzKm/k
+         7SJ5NLM+MCiZdDYVspbZIeV7rD9H9gBwymoyGOrZBXXmr8eCWpH2RyPK+rOmSKqMPyb5
+         TNF06YG/LK5OsFG9i2YSlWUwkQjbhHZwM7SCuktxIklmZ+tmP7JjtwQeGFh/SbksZCF9
+         GyAEUAuq1sOFeHwMspzAm1FozqyFZcOaQ4k72jB4N0RvSczZIs7k4UfcXtp8cdG8loM+
+         +TkQ==
+X-Gm-Message-State: APjAAAXT6FLEnrbDbvka7zSsaaGPQau3k7eBxJnvqlb7T+/W4xKwWGXV
+        x0gWcnsJYajLzHXHpYbPY0ZUPVTsZ/+84w==
+X-Google-Smtp-Source: APXvYqzTvInwZ/uPX/y+I5GWL2AnKWuhyDG2Sjwap2eE73FnCV4tk1pWKC/brGlQYduGVva/5OkF4g==
+X-Received: by 2002:adf:9bd2:: with SMTP id e18mr10058656wrc.210.1558654552676;
+        Thu, 23 May 2019 16:35:52 -0700 (PDT)
+Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
+        by smtp.gmail.com with ESMTPSA id f6sm788647wro.12.2019.05.23.16.35.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 23 May 2019 16:35:51 -0700 (PDT)
+Message-ID: <5ce72e57.1c69fb81.94eab.4ac0@mx.google.com>
+Date:   Thu, 23 May 2019 16:35:51 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: media
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: v5.2-rc1-52-g3d3515312f97
+Subject: media/master v4l2-compliance on vivid: 236 tests,
+ 0 regressions (v5.2-rc1-52-g3d3515312f97)
+To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
+From:   "kernelci.org bot" <bot@kernelci.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/media_tree.git master
-head:   3d3515312f97582136644a7327ed262c7bb7ea31
-commit: f49308878d7202e07d8761238e01bd0e5fce2750 [51/52] media: media_device_enum_links32: clean a reserved field
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-rc1-7-g2b96cd8-dirty
-        git checkout f49308878d7202e07d8761238e01bd0e5fce2750
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+media/master v4l2-compliance on vivid: 236 tests, 0 regressions (v5.2-rc1-5=
+2-g3d3515312f97)
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+Test results summary
+--------------------
+
+V4L2 Compliance on the vivid driver.
+
+This test ran "v4l2-compliance -s" from v4l-utils:
+
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
 
 
-sparse warnings: (new ones prefixed by >>)
+  Tree:    media
+  Branch:  master
+  Kernel:  v5.2-rc1-52-g3d3515312f97
+  URL:     https://git.linuxtv.org/media_tree.git
+  Commit:  3d3515312f97582136644a7327ed262c7bb7ea31
 
->> drivers/media/media-device.c:521:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@    expected void *s @@    got unsigned int [noderef] <asvoid *s @@
->> drivers/media/media-device.c:521:9: sparse:    expected void *s
->> drivers/media/media-device.c:521:9: sparse:    got unsigned int [noderef] <asn:1> *
 
-vim +521 drivers/media/media-device.c
+1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
+2  | qemu                   | arm   | 118 total: 118 PASS   0 FAIL   0 SKIP=
+  =
 
-   499	
-   500	static long media_device_enum_links32(struct media_device *mdev,
-   501					      struct media_links_enum32 __user *ulinks)
-   502	{
-   503		struct media_links_enum links;
-   504		compat_uptr_t pads_ptr, links_ptr;
-   505		int ret;
-   506	
-   507		memset(&links, 0, sizeof(links));
-   508	
-   509		if (get_user(links.entity, &ulinks->entity)
-   510		    || get_user(pads_ptr, &ulinks->pads)
-   511		    || get_user(links_ptr, &ulinks->links))
-   512			return -EFAULT;
-   513	
-   514		links.pads = compat_ptr(pads_ptr);
-   515		links.links = compat_ptr(links_ptr);
-   516	
-   517		ret = media_device_enum_links(mdev, &links);
-   518		if (ret)
-   519			return ret;
-   520	
- > 521		memset(ulinks->reserved, 0, sizeof(ulinks->reserved));
-   522	
-   523		return 0;
-   524	}
-   525	
+  =
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+=20
