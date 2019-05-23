@@ -2,59 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D6228180
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 17:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D06283EE
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 18:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731064AbfEWPo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 11:44:28 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38915 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731038AbfEWPo2 (ORCPT
+        id S1731277AbfEWQiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 May 2019 12:38:25 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43117 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730752AbfEWQiX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 11:44:28 -0400
-Received: by mail-lj1-f196.google.com with SMTP id a10so5936779ljf.6
-        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 08:44:25 -0700 (PDT)
+        Thu, 23 May 2019 12:38:23 -0400
+Received: by mail-pl1-f195.google.com with SMTP id gn7so2961706plb.10
+        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 09:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/wji4Ea/4BKbtz1pB+NomkucTVNmeP5sWS4Z09Qoh/0=;
-        b=aFH35CN6oPRsy0HINPVyUyCLmmZ1q+W5tanGOLFB9ZDOu6iaE0T6Zf2p50/YpwHsbr
-         48EE1NUmchXldef87VmFcBOfomkIHiEfKDLilaRqMK87cFmewn3SJqhTI1TRHWczozD4
-         oXQnG40alYiwUIlV5zhAeNCFOXlq3pqE0BbnZ0FvRVuwBWMRV9wfu1H9fYBPCAdnSv5U
-         HVNKv9dUz6r+VmwUQYwzrC3kRsKz62p+YOIjrLW4bC1aoOEaVaZZBPmIi8QCc4AHmXYb
-         1tLTls+6tcRQac2V8FPQbYxeEAGXeJISVC1rVB3y4LA5KetGIABPN8JvrlKNXRYKDzkN
-         FlXA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lscewINPN3hq/l0Swcavzj6U0JCykRwN+VKQYmeGavk=;
+        b=MzIBf/cg8HqX7LDHDmH3NduBH/GNHyk36BoEHjmaEfwdA0mOkdLBAg0EUXF7biIGPX
+         1D7AzOrIM750xRnkubOq1jGRkMcjIZjIYf+kPatHpylhUSqCQfdwGLTrWn4J8esTRBLk
+         Xcvmw1TY3lT5og+Fj9TWzv82uZX9wel5U8qi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/wji4Ea/4BKbtz1pB+NomkucTVNmeP5sWS4Z09Qoh/0=;
-        b=HP+7Y02jyIRPFEyjTJ2xq8UiZuDylAhZWC+z8QjFYAkpszC9rUfSn7FuZWlTCdReXX
-         GV0MFT0huilI1J1M3AkfjlIDIaCuTJycBSYvueeFYhm9waiu4I3haoVlzO4YpxCbzwVp
-         lLMyoIfcULbBKZu4Kjg74bhMZ/TbYr+qgqjhg1/UK8qCXxXP6PYN60DTVY907vAQNEbB
-         D5C+5x+sOtBTM3MNidQs9xWcMzF0ZRv5nmDPsF+Jrd5ggkAtuXAsXkdrR5MbnVwaP5NG
-         oSrEzOHrYbEgf/rqerhvo45NY+4/qNIjMVe7Te9YktoTGlXHrG3WO8rk8BuAxY/gHFDw
-         XXZQ==
-X-Gm-Message-State: APjAAAXC/m5ObnQXeQAlruCXasCN+hvPeGdrE2GJwI/J9bX16hNfd6yJ
-        TqZ3dvoR7xMaLcA5SHKW69mw5KSQMWHZjm3Lr8xpZg==
-X-Google-Smtp-Source: APXvYqzhSDjrNWAy5KyNhMUlv7cjkwlGbRwsa6Uqsf4zqqYvI69PmEIAwS9JjP+IZnW+JBpTZSKDycdIF2QLVLgBgoM=
-X-Received: by 2002:a2e:9d4e:: with SMTP id y14mr23518941ljj.199.1558626264355;
- Thu, 23 May 2019 08:44:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1557160186.git.andreyknvl@google.com> <20190517144931.GA56186@arrakis.emea.arm.com>
- <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
- <20190521182932.sm4vxweuwo5ermyd@mbp> <201905211633.6C0BF0C2@keescook>
- <20190522101110.m2stmpaj7seezveq@mbp> <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
- <20190522163527.rnnc6t4tll7tk5zw@mbp> <201905221316.865581CF@keescook> <20190523144449.waam2mkyzhjpqpur@mbp>
-In-Reply-To: <20190523144449.waam2mkyzhjpqpur@mbp>
-From:   enh <enh@google.com>
-Date:   Thu, 23 May 2019 08:44:12 -0700
-Message-ID: <CAJgzZoqX--Kd9=Kjpnfz-5cjVJ=TdsXM5dJM_EjLFKniVbny2w@mail.gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lscewINPN3hq/l0Swcavzj6U0JCykRwN+VKQYmeGavk=;
+        b=d+RaH6mNWAIibBeGcadFP4rZN2xSEBW3b6cjtYc3Q77tBm9m/xURNWPYwgApckswPS
+         dXeTuYjudDL0cOoWiFMDmFS5GodrMR8r3DlIO1bG/nCAzejYff0btAAltBsYcQvVgGWc
+         FGAZeSG7GbFnwhUWcxGTw8W7a/yzS0JQT35eu4/nyyROsV72YZSYS2um5xtvQV07QxSN
+         COz8ADTi68aK6seMiRWA+sC0qdkFnoSx+wvPL09+9Hgg9Q5yE4JgJ7V62rbK34Hlso97
+         OQvqQYG0ekCqsQV2DYUCzTdvPu4+dEMWEQBqirgodtLQ8i6LvZF/OMTjyNH4yiIrh3V7
+         /wQQ==
+X-Gm-Message-State: APjAAAV/WHFOLrGcVUfV+FRxcWtOk7KjOI0zJ0OR+qZ8G9gekFUC6pqy
+        9yu0SnTxAVsMG+ZqWVYqaB2wOA==
+X-Google-Smtp-Source: APXvYqzxDNUT+zQ+3IUTM4Pfo29z2ussIuDSTH+Mz2tPZncaJ19KDxQ7w12Ra519k713lyeCzNKlsQ==
+X-Received: by 2002:a17:902:2aa6:: with SMTP id j35mr17743251plb.189.1558629502290;
+        Thu, 23 May 2019 09:38:22 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g19sm56536684pgj.75.2019.05.23.09.38.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 May 2019 09:38:21 -0700 (PDT)
+Date:   Thu, 23 May 2019 09:38:19 -0700
+From:   Kees Cook <keescook@chromium.org>
 To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Evgenii Stepanov <eugenis@google.com>,
+Cc:     enh <enh@google.com>, Evgenii Stepanov <eugenis@google.com>,
         Andrey Konovalov <andreyknvl@google.com>,
         Khalid Aziz <khalid.aziz@oracle.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
@@ -89,27 +80,28 @@ Cc:     Kees Cook <keescook@chromium.org>,
         Dave Martin <Dave.Martin@arm.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <201905230917.DEE7A75EF0@keescook>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <20190517144931.GA56186@arrakis.emea.arm.com>
+ <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
+ <20190521182932.sm4vxweuwo5ermyd@mbp>
+ <201905211633.6C0BF0C2@keescook>
+ <20190522101110.m2stmpaj7seezveq@mbp>
+ <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
+ <20190522163527.rnnc6t4tll7tk5zw@mbp>
+ <201905221316.865581CF@keescook>
+ <20190523144449.waam2mkyzhjpqpur@mbp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523144449.waam2mkyzhjpqpur@mbp>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 23, 2019 at 7:45 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
->
-> On Wed, May 22, 2019 at 01:47:36PM -0700, Kees Cook wrote:
-> > On Wed, May 22, 2019 at 05:35:27PM +0100, Catalin Marinas wrote:
-> > > The two hard requirements I have for supporting any new hardware feature
-> > > in Linux are (1) a single kernel image binary continues to run on old
-> > > hardware while making use of the new feature if available and (2) old
-> > > user space continues to run on new hardware while new user space can
-> > > take advantage of the new feature.
-> >
-> > Agreed! And I think the series meets these requirements, yes?
->
-> Yes. I mentioned this just to make sure people don't expect different
-> kernel builds for different hardware features.
->
+On Thu, May 23, 2019 at 03:44:49PM +0100, Catalin Marinas wrote:
 > There is also the obvious requirement which I didn't mention: new user
 > space continues to run on new/subsequent kernel versions. That's one of
 > the points of contention for this series (ignoring MTE) with the
@@ -117,110 +109,127 @@ On Thu, May 23, 2019 at 7:45 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
 > 500K+ new lines in a subsequent kernel version break any user space out
 > there? I'm only talking about the relaxed TBI ABI. Are the usual LTP,
 > syskaller sufficient? Better static analysis would definitely help.
->
-> > > For MTE, we just can't enable it by default since there are applications
-> > > who use the top byte of a pointer and expect it to be ignored rather
-> > > than failing with a mismatched tag. Just think of a hwasan compiled
-> > > binary where TBI is expected to work and you try to run it with MTE
-> > > turned on.
-> >
-> > Ah! Okay, here's the use-case I wasn't thinking of: the concern is TBI
-> > conflicting with MTE. And anything that starts using TBI suddenly can't
-> > run in the future because it's being interpreted as MTE bits? (Is that
-> > the ABI concern?
->
-> That's another aspect to figure out when we add the MTE support. I don't
-> think we'd be able to do this without an explicit opt-in by the user.
->
+
+We can't have perfect coverage of people actively (or accidentally)
+working to trick static analyzers (and the compiler) into "forgetting"
+about a __user annotation. We can certainly improve analysis (I see
+the other sub-thread on that), but I'd like that work not to block
+this series.
+
+What on this front would you be comfortable with? Given it's a new
+feature isn't it sufficient to have a CONFIG (and/or boot option)?
+
 > Or, if we ever want MTE to be turned on by default (i.e. tag checking),
 > even if everything is tagged with 0, we have to disallow TBI for user
 > and this includes hwasan. There were a small number of programs using
 > the TBI (I think some JavaScript compilers tried this). But now we are
 > bringing in the hwasan support and this can be a large user base. Shall
 > we add an ELF note for such binaries that use TBI/hwasan?
->
-> This series is still required for MTE but we may decide not to relax the
-> ABI blindly, therefore the opt-in (prctl) or personality idea.
->
-> > I feel like we got into the weeds about ioctl()s and one-off bugs...)
->
+
+Just to be clear, you say "disallow TBI for user" -- you mean a
+particular process, yes? i.e. there is no architectural limitation that
+says once we're using MTE nothing can switch to TBI. i.e. a process is
+either doing MTE or TBI (or nothing, but that's the same as TBI).
+
 > This needs solving as well. Most driver developers won't know why
 > untagged_addr() is needed unless we have more rigorous types or type
 > annotations and a tool to check them (we should probably revive the old
 > sparse thread).
->
+
+This seems like a parallel concern: we can do that separately from this
+series. Without landing it, is it much harder for people to test it,
+look for bugs, help with types/annotations, etc.
+
 > > So there needs to be some way to let the kernel know which of three
 > > things it should be doing:
 > > 1- leaving userspace addresses as-is (present)
 > > 2- wiping the top bits before using (this series)
->
+> 
 > (I'd say tolerating rather than wiping since get_user still uses the tag
 > in the current series)
->
+> 
 > The current series does not allow any choice between 1 and 2, the
 > default ABI basically becomes option 2.
->
+
+What about testing tools that intentionally insert high bits for syscalls
+and are _expecting_ them to fail? It seems the TBI series will break them?
+In that case, do we need to opt into TBI as well?
+
 > > 3- wiping the top bits for most things, but retaining them for MTE as
 > >    needed (the future)
->
+> 
 > 2 and 3 are not entirely compatible as a tagged pointer may be checked
 > against the memory colour by the hardware. So you can't have hwasan
 > binary with MTE enabled.
->
+
+Right: a process must be either MTE or TBI, not both.
+
 > > I expect MTE to be the "default" in the future. Once a system's libc has
 > > grown support for it, everything will be trying to use MTE. TBI will be
 > > the special case (but TBI is effectively a prerequisite).
->
+> 
 > The kernel handling of tagged pointers is indeed a prerequisite. The ABI
 > distinction between the above 2 and 3 needs to be solved.
->
+
+Does that need solving now or when the MTE series appears? As there is
+no reason to distinguish between "normal" and "TBI", that doesn't seem
+to need solving at this point?
+
 > > AFAICT, the only difference I see between 2 and 3 will be the tag handling
 > > in usercopy (all other places will continue to ignore the top bits). Is
 > > that accurate?
->
+> 
 > Yes, mostly (for the kernel). If MTE is enabled by default for a hwasan
 > binary, it will SEGFAULT (either in user space or in kernel uaccess).
 > How does the kernel choose between 2 and 3?
->
+
+Right -- that was my question as well.
+
 > > Is "1" a per-process state we want to keep? (I assume not, but rather it
 > > is available via no TBI/MTE CONFIG or a boot-time option, if at all?)
->
+> 
 > Possibly, though not necessarily per process. For testing or if
 > something goes wrong during boot, a command line option with a static
 > label would do. The AT_FLAGS bit needs to be checked by user space. My
 > preference would be per-process.
->
+
+I would agree.
+
 > > To choose between "2" and "3", it seems we need a per-process flag to
 > > opt into TBI (and out of MTE).
->
+> 
 > Or leave option 2 the default and get it to opt in to MTE.
->
-> > For userspace, how would a future binary choose TBI over MTE? If it's
-> > a library issue, we can't use an ELF bit, since the choice may be
-> > "late" after ELF load (this implies the need for a prctl().) If it's
-> > binary-only ("built with HWKASan") then an ELF bit seems sufficient.
-> > And without the marking, I'd expect the kernel to enforce MTE when
-> > there are high bits.
->
+
+Given that MTE has to "start" at some point in the binary lifetime, I'm
+fine with opting into MTE. I do expect, though, this will feel redundant
+in a couple years as everything will immediately opt-in. But, okay, this
+is therefore an issue for the MTE series.
+
 > The current plan is that a future binary issues a prctl(), after
 > checking the HWCAP_MTE bit (as I replied to Elliot, the MTE instructions
 > are not in the current NOP space). I'd expect this to be done by the
 > libc or dynamic loader under the assumption that the binaries it loads
-> do _not_ use the top pointer byte for anything else.
-
-yeah, it sounds like to support hwasan and MTE, the dynamic linker
-will need to not use either itself.
-
-> With hwasan
+> do _not_ use the top pointer byte for anything else. With hwasan
 > compiled objects this gets more confusing (any ELF note to identify
 > them?).
 
-no, at the moment code that wants to know checks for the presence of
-__hwasan_init. (and bionic doesn't actually look at any ELF notes
-right now.) but we can always add something if we need to.
+Okay, sounds fine.
 
 > (there is also the risk of existing applications using TBI already but
 > I'm not aware of any still using this feature other than hwasan)
->
-> --
-> Catalin
+
+Correct.
+
+
+Alright, the tl;dr appears to be:
+- you want more assurances that we can find __user stripping in the
+  kernel more easily. (But this seems like a parallel problem.)
+- we might need to opt in to TBI with a prctl()
+- all other concerns are for the future MTE series (though it sounds
+  like HWCAP_MTE and a prctl() solve those issues too).
+
+Is this accurate? What do you see as the blockers for this series at
+this point?
+
+-- 
+Kees Cook
