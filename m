@@ -2,91 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED2A327929
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 11:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A84F27A43
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 12:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729836AbfEWJ1h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 05:27:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36724 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728518AbfEWJ1h (ORCPT
+        id S1729934AbfEWKWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 May 2019 06:22:17 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:32507 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726429AbfEWKWR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 05:27:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=U3SIZWwdixPE5Gzjbi/xgO7y/RgMkVRc69U4kPPKbeI=; b=DgGt/ih0/kqZAcKorU+Ect1B1
-        BmJw4VtuSBFjivJ6KJ6muHXSUMhBcdKyX8bi1d/yVm2Tv6xSoaxcWd2h5/XuBEDXWaHp0YQ3b4T8T
-        rN427ataavon8S2128aGgYD0soY7hDMZ8wAr1rnKaeYakLFSCsRj5CaO963EbGvQ+qyTlduEkThlI
-        l3JnQs4GSNYHC5OO8xcyuVIqM4kvApp+PRriqyNh7fqgik4diWRTBXMYWPFS3mPEJp47AuazdqOZb
-        O/ITpYSq7+bxyUt9qPNDbcdhW52gdTUyB2Zq+d2bzf0G9aP0ORe2ZDOSV1RMWkxUwiUtOYXL4zAHI
-        yeqsGHO4g==;
-Received: from [179.182.168.126] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTk0e-0005Bt-Cz; Thu, 23 May 2019 09:27:36 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hTk0Z-0007Um-RA; Thu, 23 May 2019 05:27:31 -0400
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sean Young <sean@mess.org>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Patrick Lerda <patrick9876@free.fr>,
-        Matthias Reichl <hias@horus.com>
-Subject: [PATCH] media: rc-main: clean-up two warnings
-Date:   Thu, 23 May 2019 05:27:30 -0400
-Message-Id: <eda16d66b830a1bb62129b4771b5ca8ca0ed0a9b.1558603642.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        Thu, 23 May 2019 06:22:17 -0400
+X-UUID: 87f410f3d5a44aac8648adfca8faf497-20190523
+X-UUID: 87f410f3d5a44aac8648adfca8faf497-20190523
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 1620421820; Thu, 23 May 2019 18:22:09 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 23 May 2019 18:22:08 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 23 May 2019 18:22:07 +0800
+From:   <dongchun.zhu@mediatek.com>
+To:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <menghui.lin@mediatek.com>,
+        <shengnan.wang@mediatek.com>, <dongchun.zhu@mediatek.com>
+Subject: [PATCH 0/3] media: suppport ov02a10 sensor driver
+Date:   Thu, 23 May 2019 18:22:01 +0800
+Message-ID: <20190523102204.24112-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While correct, the code is too complex for smatch to undersdand
-that protocol will always be initialized:
+From: Dongchun Zhu <dongchun.zhu@mediatek.com>
 
-	drivers/media/rc/rc-main.c:1531 store_wakeup_protocols() error: uninitialized symbol 'protocol'.
-	drivers/media/rc/rc-main.c:1541 store_wakeup_protocols() error: uninitialized symbol 'protocol'.
+Hello,
 
-So, change it a little bit in order to avoid such warning.
+This is the OV02A10 sensor driver, which would be used in camera features on CrOS application.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/rc/rc-main.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+The driver is implemented wth V4L2 framework.
+1. Async registered as a V4L2 I2C sub-device.
+2. A media entity that can provide several source pads and sink pads to link with other device like Seninf, ISP one after another
+   to create a default overall camera topology, image frame or meta-data from sensor can flow through particular path to output
+   preview or capture image or 3A info.
 
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index be5fd129d728..13da4c5c7d17 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -1502,7 +1502,7 @@ static ssize_t store_wakeup_protocols(struct device *device,
- 				      const char *buf, size_t len)
- {
- 	struct rc_dev *dev = to_rc_dev(device);
--	enum rc_proto protocol;
-+	enum rc_proto protocol = RC_PROTO_UNKNOWN;
- 	ssize_t rc;
- 	u64 allowed;
- 	int i;
-@@ -1511,9 +1511,7 @@ static ssize_t store_wakeup_protocols(struct device *device,
- 
- 	allowed = dev->allowed_wakeup_protocols;
- 
--	if (sysfs_streq(buf, "none")) {
--		protocol = RC_PROTO_UNKNOWN;
--	} else {
-+	if (!sysfs_streq(buf, "none")) {
- 		for (i = 0; i < ARRAY_SIZE(protocols); i++) {
- 			if ((allowed & (1ULL << i)) &&
- 			    sysfs_streq(buf, protocols[i].name)) {
+Dongchun Zhu (3):
+  media: i2c: ov02a10: Add ov02a10 camera sensor driver
+  media: i2c: ov02a10: Add CONFIG_VIDEO_OV02A10
+  media: dt-bindings: media: i2c: Add bindings for ov02a10
+
+ .../devicetree/bindings/media/i2c/ov02a10.txt      |   43 +
+ drivers/media/i2c/Kconfig                          |   12 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/ov02a10.c                        | 1067 ++++++++++++++++++++
+ 4 files changed, 1123 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+ create mode 100644 drivers/media/i2c/ov02a10.c
+
 -- 
-2.21.0
+2.9.2
 
