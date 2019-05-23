@@ -2,65 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8E32808D
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 17:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B09E528093
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2019 17:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730710AbfEWPIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 11:08:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59706 "EHLO mail.kernel.org"
+        id S1730796AbfEWPI1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 May 2019 11:08:27 -0400
+Received: from foss.arm.com ([217.140.101.70]:48564 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730672AbfEWPIG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 11:08:06 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24E3620856;
-        Thu, 23 May 2019 15:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558624086;
-        bh=4TA0d+rPQtFpFcdemX8bHYjtjVHYSb5XzW82G6jhtJY=;
-        h=To:Cc:From:Subject:Date:From;
-        b=KNXdngPdOZjVaRbGsHrCA61Wl7XS+92P8+NRhKQZK6NTUD1g9B3Ra9ajWoRbsIzjz
-         QNeRGIjyfAJP/qAG4ytTu41WgMAXLbtK3ceJajT4siv5hjB/4BR0GoBnU4032cKr8N
-         urP0ndV8CAAcEEC1yztd6K3bevyVF7x6DomaQF7w=
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        shuah <shuah@kernel.org>
-From:   shuah <shuah@kernel.org>
-Subject: Linux 5.2 - vimc streaming fails with format error
-Message-ID: <9ceba30b-dea6-a337-da3a-20d90398cab5@kernel.org>
-Date:   Thu, 23 May 2019 09:07:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1730672AbfEWPI1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 May 2019 11:08:27 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7E5C80D;
+        Thu, 23 May 2019 08:08:26 -0700 (PDT)
+Received: from mbp (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B63863F690;
+        Thu, 23 May 2019 08:08:20 -0700 (PDT)
+Date:   Thu, 23 May 2019 16:08:14 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     enh <enh@google.com>, Evgenii Stepanov <eugenis@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <20190523150813.x4btg5zxa4gl5o4q@mbp>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <20190517144931.GA56186@arrakis.emea.arm.com>
+ <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
+ <20190521182932.sm4vxweuwo5ermyd@mbp>
+ <201905211633.6C0BF0C2@keescook>
+ <20190522101110.m2stmpaj7seezveq@mbp>
+ <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
+ <201905221157.A9BAB1F296@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <201905221157.A9BAB1F296@keescook>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans and Helen,
+On Wed, May 22, 2019 at 12:21:27PM -0700, Kees Cook wrote:
+> If a process wants to not tag, that's also up to the allocator where
+> it can decide not to ask the kernel, and just not tag. Nothing breaks in
+> userspace if a process is NOT tagging and untagged_addr() exists or is
+> missing. This, I think, is the core way this doesn't trip over the
+> golden rule: an old system image will run fine (because it's not
+> tagging). A *new* system may encounter bugs with tagging because it's a
+> new feature: this is The Way Of Things. But we don't break old userspace
+> because old userspace isn't using tags.
 
-vimc streaming fails on Linux 5.2-rc1
+With this series and hwasan binaries, at some point in the future they
+will be considered "old userspace" and they do use pointer tags which
+expect to be ignored by both the hardware and the kernel. MTE breaks
+this assumption.
 
-vimc: format doesn't match in link Scaler->RGB/YUV Capture
-
-You can reproduce this easily with v4l2-ctl
-
-Streaming works fine on Linux 5.1
-
-I narrowed it to the following commit.
-commit b6c61a6c37317efd7327199bfe24770af3d7e799
-Author: Helen Fornazier <helen.koike@collabora.com>
-Date:   Wed Mar 13 14:29:37 2019 -0400
-
-     media: vimc: propagate pixel format in the stream
-
-
-Please take a look.
-
-thanks,
--- Shuah
+-- 
+Catalin
