@@ -2,44 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5A729867
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 14:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4273298A6
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 15:14:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391359AbfEXM6z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 08:58:55 -0400
-Received: from casper.infradead.org ([85.118.1.10]:52652 "EHLO
+        id S2391597AbfEXNOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 09:14:05 -0400
+Received: from casper.infradead.org ([85.118.1.10]:53982 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391124AbfEXM6y (ORCPT
+        with ESMTP id S2391560AbfEXNOF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 08:58:54 -0400
+        Fri, 24 May 2019 09:14:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Uu9Fmh5pwSkk63A/ozGUPFdWVQX5yOpI9xs85fZyEQA=; b=jxRC9/nxBNjuwCaVymHPBJAC1G
-        h0h2yiTY+lQ92E0Kji4sDWnj6Rrg6S0W7LqqjU+6oSVVgsrt3Fgi7a/HYNVesz7M7TgpT2/GoAbOO
-        O3Tw454tu7FVIGbRiYKSbHBkRsfo3b3cy4ZWZoKwb+of0bzwyVFsgLEDyU5A5hdohM98R0F3KeebD
-        QDDkL93Pl8xFPvSWf5PyR2dU44oT4MKfKTbBXYfmw0a8xknNWwfD+Eh4La5y9kIRG/H2bJVagGplz
-        7q3YdgpX+6t1L1y/rNMtPYqjpXeE5rUTj87UBcMv6rZoNMFXM3RYnXkVcdgcOWFxmgz0kjoCG0V6w
-        sx849M4Q==;
+        bh=/n51XGtaWTFL2kzn79WHLkkiSbCnRxm63xReP9D+Qhg=; b=bUkJxWW27UUn0amoOcX30OMJrj
+        ZKVRSd1fLa7wKAL02nzw4IuOiQA4rzgr054ftsu9MviuEbu9mlGcvkuzEzVnirDZFWPfHjMMLLRk3
+        ZsW9iClnPD6BeArzI/irNnfgAKRVNaTgvodZ4TtoBZwoHm+HpL855LvNq4JvaGdw7aEGxArIj4/ar
+        bjQ2iBjNGlyPTpQSCWDE80zIQI9EXYMUp8RizSkmI+AmxIKaaD96lVlDCETopHnXFcxZVFNsAuFYn
+        eLi0l7CIdF+p1i1kh/+U5yW0qGVeRM/1NgoUENimwmZJ/qxCwebQt5wRW4slq4faCCWf2/ok2eNHJ
+        OcM7Zp+w==;
 Received: from 177.97.63.247.dynamic.adsl.gvt.net.br ([177.97.63.247] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hU9mc-0006sj-E0; Fri, 24 May 2019 12:58:51 +0000
-Date:   Fri, 24 May 2019 09:58:45 -0300
+        id 1hUA1G-0007UW-C4; Fri, 24 May 2019 13:13:58 +0000
+Date:   Fri, 24 May 2019 10:13:45 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH next 15/25] media: platform: Use dev_get_drvdata()
-Message-ID: <20190524095845.26ef82fd@coco.lan>
-In-Reply-To: <20190423075020.173734-16-wangkefeng.wang@huawei.com>
-References: <20190423075020.173734-1-wangkefeng.wang@huawei.com>
-        <20190423075020.173734-16-wangkefeng.wang@huawei.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 14/17] media/v4l2-core, arm64: untag user pointers
+ in videobuf_dma_contig_user_get
+Message-ID: <20190524101345.67c425fa@coco.lan>
+In-Reply-To: <b7999d13af54eb3ed8d7b0192397c7cde3df0b28.1557160186.git.andreyknvl@google.com>
+References: <cover.1557160186.git.andreyknvl@google.com>
+        <b7999d13af54eb3ed8d7b0192397c7cde3df0b28.1557160186.git.andreyknvl@google.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,50 +76,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 23 Apr 2019 15:50:10 +0800
-Kefeng Wang <wangkefeng.wang@huawei.com> escreveu:
+Em Mon,  6 May 2019 18:31:00 +0200
+Andrey Konovalov <andreyknvl@google.com> escreveu:
 
-> Using dev_get_drvdata directly.
-
-Patch looks ok to me. Assuming that this will be applied via some
-other tree:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> videobuf_dma_contig_user_get() uses provided user pointers for vma
+> lookups, which can only by done with untagged pointers.
+> 
+> Untag the pointers in this function.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-> 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 > ---
->  drivers/media/platform/cros-ec-cec/cros-ec-cec.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  drivers/media/v4l2-core/videobuf-dma-contig.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> index 7bc4d8a9af28..2e218c7a3a1f 100644
-> --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> @@ -174,8 +174,7 @@ static const struct cec_adap_ops cros_ec_cec_ops = {
->  #ifdef CONFIG_PM_SLEEP
->  static int cros_ec_cec_suspend(struct device *dev)
+> diff --git a/drivers/media/v4l2-core/videobuf-dma-contig.c b/drivers/media/v4l2-core/videobuf-dma-contig.c
+> index e1bf50df4c70..8a1ddd146b17 100644
+> --- a/drivers/media/v4l2-core/videobuf-dma-contig.c
+> +++ b/drivers/media/v4l2-core/videobuf-dma-contig.c
+> @@ -160,6 +160,7 @@ static void videobuf_dma_contig_user_put(struct videobuf_dma_contig_memory *mem)
+>  static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
+>  					struct videobuf_buffer *vb)
 >  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct cros_ec_cec *cros_ec_cec = dev_get_drvdata(&pdev->dev);
-> +	struct cros_ec_cec *cros_ec_cec = dev_get_drvdata(dev);
+> +	unsigned long untagged_baddr = untagged_addr(vb->baddr);
+>  	struct mm_struct *mm = current->mm;
+>  	struct vm_area_struct *vma;
+>  	unsigned long prev_pfn, this_pfn;
+> @@ -167,22 +168,22 @@ static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
+>  	unsigned int offset;
+>  	int ret;
 >  
->  	if (device_may_wakeup(dev))
->  		enable_irq_wake(cros_ec_cec->cros_ec->irq);
-> @@ -185,8 +184,7 @@ static int cros_ec_cec_suspend(struct device *dev)
+> -	offset = vb->baddr & ~PAGE_MASK;
+> +	offset = untagged_baddr & ~PAGE_MASK;
+>  	mem->size = PAGE_ALIGN(vb->size + offset);
+>  	ret = -EINVAL;
 >  
->  static int cros_ec_cec_resume(struct device *dev)
->  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct cros_ec_cec *cros_ec_cec = dev_get_drvdata(&pdev->dev);
-> +	struct cros_ec_cec *cros_ec_cec = dev_get_drvdata(dev);
+>  	down_read(&mm->mmap_sem);
 >  
->  	if (device_may_wakeup(dev))
->  		disable_irq_wake(cros_ec_cec->cros_ec->irq);
+> -	vma = find_vma(mm, vb->baddr);
+> +	vma = find_vma(mm, untagged_baddr);
+>  	if (!vma)
+>  		goto out_up;
+>  
+> -	if ((vb->baddr + mem->size) > vma->vm_end)
+> +	if ((untagged_baddr + mem->size) > vma->vm_end)
+>  		goto out_up;
+>  
+>  	pages_done = 0;
+>  	prev_pfn = 0; /* kill warning */
+> -	user_address = vb->baddr;
+> +	user_address = untagged_baddr;
+>  
+>  	while (pages_done < (mem->size >> PAGE_SHIFT)) {
+>  		ret = follow_pfn(vma, user_address, &this_pfn);
 
 
 
