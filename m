@@ -2,183 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA44729B56
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 17:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1786629D52
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 19:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389947AbfEXPlu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 11:41:50 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:45532 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389079AbfEXPlr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 11:41:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72E5C15A2;
-        Fri, 24 May 2019 08:41:46 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC68A3F575;
-        Fri, 24 May 2019 08:41:45 -0700 (PDT)
-Date:   Fri, 24 May 2019 16:41:44 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
- syscalls
-Message-ID: <20190524154143.GG8268@e119886-lin.cambridge.arm.com>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
+        id S1731913AbfEXRkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 13:40:13 -0400
+Received: from mail-wr1-f42.google.com ([209.85.221.42]:41512 "EHLO
+        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726381AbfEXRkN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 May 2019 13:40:13 -0400
+Received: by mail-wr1-f42.google.com with SMTP id u16so6924098wrn.8
+        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 10:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=lWnSuaqVPjgN2snJdj1wTjpvQKQgx7BiruKYoDjOVqk=;
+        b=YypSgLag1k240N3INrDq7aLpwzJiQqArWehKADntOYXCDFLXvbkHVJm8TQCAw3IgAe
+         xjhQYDAF5qTvcpP+lNNV6+ZjR0CtKRPFHBwjBjJ95pvQWq2YPizvwIPWbGwt1cCfoDv1
+         0SDT5May+Wt3v/0rpOUq2QG2b/uLFXrUSZMrYiU/ynbTqLEWiHn+v8fTaBXMdbIgI0Px
+         ACz39b+3dy+iHjqtvMWyoSFpN4OwqL7mjOsczwTGW08hlwuLYnw1GAoLm1ggfAYOBvTR
+         DucZs8AcEcKYPGrrHCrhPwJQK8Yj8zLclrKBYzaSKBhjU+FxKYTYO4CmNsKjc3Mh/bRt
+         FDvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=lWnSuaqVPjgN2snJdj1wTjpvQKQgx7BiruKYoDjOVqk=;
+        b=loyidLoAjFA3hISGs4wLb2BT9lf4eJQ4Soq96hcpOKHS+PuGRlJvceBw1shHYgmTOr
+         aN0giQIcaWiZxIZKUkW0cxxdlnv38uftZLQZH5qOdcAfuEYBMpqmA2lPFKlDj1D2p/6l
+         kdDI/1PesMXjqRAaVebk5s/+dLlYlHY5azm2/YyKuDcYPW6pfFeGxF6Nrp/xtHoQAJvp
+         zyCvyxCTaEKNBRTZI06ZxY/lWCFA4LLOfHyTvDOMreRZG0E+q3CuNEJZluqoyKZaT4uq
+         2AsWcBeIGf0raVYICqlE2OtSVRtjf3RjIdyhR0g9G/r701QFJ3M5OHIrAbKv9eOSpA3n
+         msWg==
+X-Gm-Message-State: APjAAAWkSTTnhc8I/g3ZXw2a11Rb/Ib+W3Hy0ZjMT50WbxAf0nHK09QR
+        yy+w7ovfwHP0cZKqVUAMNdu7z2u6ELQ+9g==
+X-Google-Smtp-Source: APXvYqxK9XEb3uCvCEoRXN3TEkCnmzVKa8LqwTztKw1q0nLQC+xAQftuVLwyGctvTclbz+g9gfjXxA==
+X-Received: by 2002:a5d:6807:: with SMTP id w7mr905623wru.336.1558719611745;
+        Fri, 24 May 2019 10:40:11 -0700 (PDT)
+Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
+        by smtp.gmail.com with ESMTPSA id l18sm3438172wrv.38.2019.05.24.10.40.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 May 2019 10:40:11 -0700 (PDT)
+Message-ID: <5ce82c7b.1c69fb81.9f701.40f4@mx.google.com>
+Date:   Fri, 24 May 2019 10:40:11 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: media
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: v5.2-rc1-53-g2f39cce96363
+Subject: media/master v4l2-compliance on vivid: 236 tests,
+ 0 regressions (v5.2-rc1-53-g2f39cce96363)
+To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
+From:   "kernelci.org bot" <bot@kernelci.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 06, 2019 at 06:30:51PM +0200, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow to
-> pass tagged user pointers (with the top byte set to something else other
-> than 0x00) as syscall arguments.
-> 
-> This patch allows tagged pointers to be passed to the following memory
-> syscalls: brk, get_mempolicy, madvise, mbind, mincore, mlock, mlock2,
-> mmap, mmap_pgoff, mprotect, mremap, msync, munlock, munmap,
-> remap_file_pages, shmat and shmdt.
-> 
-> This is done by untagging pointers passed to these syscalls in the
-> prologues of their handlers.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
+media/master v4l2-compliance on vivid: 236 tests, 0 regressions (v5.2-rc1-5=
+3-g2f39cce96363)
+
+Test results summary
+--------------------
+
+V4L2 Compliance on the vivid driver.
+
+This test ran "v4l2-compliance -s" from v4l-utils:
+
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
 
 
-> +SYSCALL_DEFINE2(arm64_mlock, unsigned long, start, size_t, len)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_mlock(start, len, VM_LOCKED);
-> +}
-> +
-> +SYSCALL_DEFINE2(arm64_mlock2, unsigned long, start, size_t, len)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_mlock(start, len, VM_LOCKED);
-> +}
+  Tree:    media
+  Branch:  master
+  Kernel:  v5.2-rc1-53-g2f39cce96363
+  URL:     https://git.linuxtv.org/media_tree.git
+  Commit:  2f39cce963637eee1c58740859c7c63356c29099
 
-I think this may be a copy/paste error...
 
-Shouldn't mlock2 have a third 'flags' argument to distinguish is from mlock?
+1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
+2  | qemu                   | arm   | 118 total: 118 PASS   0 FAIL   0 SKIP=
+  =
 
-Thanks,
+  =
 
-Andrew Murray
-
-> +
-> +SYSCALL_DEFINE2(arm64_munlock, unsigned long, start, size_t, len)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_munlock(start, len);
-> +}
-> +
-> +SYSCALL_DEFINE3(arm64_mprotect, unsigned long, start, size_t, len,
-> +		unsigned long, prot)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_mprotect_pkey(start, len, prot, -1);
-> +}
-> +
-> +SYSCALL_DEFINE3(arm64_msync, unsigned long, start, size_t, len, int, flags)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_msync(start, len, flags);
-> +}
-> +
-> +SYSCALL_DEFINE3(arm64_mincore, unsigned long, start, size_t, len,
-> +		unsigned char __user *, vec)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_mincore(start, len, vec);
-> +}
-> +
-> +SYSCALL_DEFINE5(arm64_remap_file_pages, unsigned long, start,
-> +		unsigned long, size, unsigned long, prot,
-> +		unsigned long, pgoff, unsigned long, flags)
-> +{
-> +	start = untagged_addr(start);
-> +	return ksys_remap_file_pages(start, size, prot, pgoff, flags);
-> +}
-> +
-> +SYSCALL_DEFINE3(arm64_shmat, int, shmid, char __user *, shmaddr, int, shmflg)
-> +{
-> +	shmaddr = untagged_addr(shmaddr);
-> +	return ksys_shmat(shmid, shmaddr, shmflg);
-> +}
-> +
-> +SYSCALL_DEFINE1(arm64_shmdt, char __user *, shmaddr)
-> +{
-> +	shmaddr = untagged_addr(shmaddr);
-> +	return ksys_shmdt(shmaddr);
-> +}
-> +
->  /*
->   * Wrappers to pass the pt_regs argument.
->   */
->  #define sys_personality		sys_arm64_personality
-> +#define sys_mmap_pgoff		sys_arm64_mmap_pgoff
-> +#define sys_mremap		sys_arm64_mremap
-> +#define sys_munmap		sys_arm64_munmap
-> +#define sys_brk			sys_arm64_brk
-> +#define sys_get_mempolicy	sys_arm64_get_mempolicy
-> +#define sys_madvise		sys_arm64_madvise
-> +#define sys_mbind		sys_arm64_mbind
-> +#define sys_mlock		sys_arm64_mlock
-> +#define sys_mlock2		sys_arm64_mlock2
-> +#define sys_munlock		sys_arm64_munlock
-> +#define sys_mprotect		sys_arm64_mprotect
-> +#define sys_msync		sys_arm64_msync
-> +#define sys_mincore		sys_arm64_mincore
-> +#define sys_remap_file_pages	sys_arm64_remap_file_pages
-> +#define sys_shmat		sys_arm64_shmat
-> +#define sys_shmdt		sys_arm64_shmdt
->  
->  asmlinkage long sys_ni_syscall(const struct pt_regs *);
->  #define __arm64_sys_ni_syscall	sys_ni_syscall
-> -- 
-> 2.21.0.1020.gf2820cf01a-goog
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+=20
