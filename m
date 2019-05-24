@@ -2,222 +2,405 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27F07296FE
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 13:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C0329837
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 14:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390935AbfEXLUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 07:20:31 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:40630 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390535AbfEXLUa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 07:20:30 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C89F4374;
-        Fri, 24 May 2019 04:20:29 -0700 (PDT)
-Received: from mbp (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B166B3F703;
-        Fri, 24 May 2019 04:20:23 -0700 (PDT)
-Date:   Fri, 24 May 2019 12:20:20 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     enh <enh@google.com>, Evgenii Stepanov <eugenis@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-Message-ID: <20190524112020.xcio5jrx6kzmrdnz@mbp>
-References: <20190521182932.sm4vxweuwo5ermyd@mbp>
- <201905211633.6C0BF0C2@keescook>
- <20190522101110.m2stmpaj7seezveq@mbp>
- <CAJgzZoosKBwqXRyA6fb8QQSZXFqfHqe9qO9je5TogHhzuoGXJQ@mail.gmail.com>
- <20190522163527.rnnc6t4tll7tk5zw@mbp>
- <201905221316.865581CF@keescook>
- <20190523144449.waam2mkyzhjpqpur@mbp>
- <201905230917.DEE7A75EF0@keescook>
- <20190523174345.6sv3kcipkvlwfmox@mbp>
- <201905231327.77CA8D0A36@keescook>
+        id S2390974AbfEXMo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 08:44:29 -0400
+Received: from h2.fbrelay.privateemail.com ([131.153.2.43]:53216 "EHLO
+        h2.fbrelay.privateemail.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389057AbfEXMo3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 May 2019 08:44:29 -0400
+Received: from MTA-07-3.privateemail.com (mta-07.privateemail.com [198.54.127.57])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by h1.fbrelay.privateemail.com (Postfix) with ESMTPS id 0724C814F5
+        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 08:44:28 -0400 (EDT)
+Received: from MTA-07.privateemail.com (localhost [127.0.0.1])
+        by MTA-07.privateemail.com (Postfix) with ESMTP id CCE3F60050
+        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 08:44:26 -0400 (EDT)
+Received: from APP-03 (unknown [10.20.147.153])
+        by MTA-07.privateemail.com (Postfix) with ESMTPA id B60666004F
+        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 12:44:26 +0000 (UTC)
+Date:   Fri, 24 May 2019 08:44:26 -0400 (EDT)
+From:   Justin Overfelt <justin@overfelt.family>
+To:     linux-media@vger.kernel.org
+Message-ID: <593253548.233317.1558701866733@privateemail.com>
+In-Reply-To: <327291063.219600.1558662776404@privateemail.com>
+References: <327291063.219600.1558662776404@privateemail.com>
+Subject: Re: Geniatech A681 Support
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <201905231327.77CA8D0A36@keescook>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev57
+X-Originating-Client: open-xchange-appsuite
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 23, 2019 at 02:31:16PM -0700, Kees Cook wrote:
-> On Thu, May 23, 2019 at 06:43:46PM +0100, Catalin Marinas wrote:
-> > On Thu, May 23, 2019 at 09:38:19AM -0700, Kees Cook wrote:
-> > > What about testing tools that intentionally insert high bits for syscalls
-> > > and are _expecting_ them to fail? It seems the TBI series will break them?
-> > > In that case, do we need to opt into TBI as well?
-> > 
-> > If there are such tools, then we may need a per-process control. It's
-> > basically an ABI change.
+Update:
+
+I opened the case and got the following component information based on model numbers:
+
+Demodulator: MN88436
+Tuner: MXL603 
+USB Microcontroller: CY7C68013
+
+-Justin
+
+> On May 23, 2019 at 9:52 PM Justin Overfelt <justin@overfelt.family> wrote:
 > 
-> syzkaller already attempts to randomly inject non-canonical and
-> 0xFFFF....FFFF addresses for user pointers in syscalls in an effort to
-> find bugs like CVE-2017-5123 where waitid() via unchecked put_user() was
-> able to write directly to kernel memory[1].
 > 
-> It seems that using TBI by default and not allowing a switch back to
-> "normal" ABI without a reboot actually means that userspace cannot inject
-> kernel pointers into syscalls any more, since they'll get universally
-> stripped now. Is my understanding correct, here? i.e. exploiting
-> CVE-2017-5123 would be impossible under TBI?
-
-Unless the kernel is also using TBI (khwasan), in which case masking out
-the top byte wouldn't help. Anyway, as per this discussion, we want the
-tagged pointer to remain intact all the way to put_user(), so nothing
-gets masked out. I don't think this would have helped with the waitid()
-bug.
-
-> If so, then I think we should commit to the TBI ABI and have a boot
-> flag to disable it, but NOT have a process flag, as that would allow
-> attackers to bypass the masking. The only flag should be "TBI or MTE".
+> Hello!
 > 
-> If so, can I get top byte masking for other architectures too? Like,
-> just to strip high bits off userspace addresses? ;)
-
-But you didn't like my option 2 shim proposal which strips the tag on
-kernel entry because it lowers the value of MTE ;).
-
-> (Oh, in looking I see this is implemented with sign-extension... why
-> not just a mask? So it'll either be valid userspace address or forced
-> into the non-canonical range?)
-
-The TTBR0/1 selection on memory accesses is done based on bit 63 if TBI
-is disabled and bit 55 when enabled. Sign-extension allows us to use the
-same macro for both user and kernel tagged pointers. With MTE tag 0
-would be match-all for TTBR0 and 0xff for TTBR1 (so that we don't modify
-the virtual address space of the kernel; I need to check the latest spec
-to be sure). Note that the VA space for both user and kernel is limited
-to 52-bit architecturally so, on access, bits 55..52 must be the same, 0
-or 1, otherwise you get a fault.
-
-Since the syzkaller tests would also need to set bits 55-52 (actually 48
-for kernel addresses, we haven't merged the 52-bit kernel VA patches
-yet) to hit a valid kernel address, I don't think ignoring the top byte
-makes much difference to the expected failure scenario.
-
-> > > Alright, the tl;dr appears to be:
-> > > - you want more assurances that we can find __user stripping in the
-> > >   kernel more easily. (But this seems like a parallel problem.)
-> > 
-> > Yes, and that we found all (most) cases now. The reason I don't see it
-> > as a parallel problem is that, as maintainer, I promise an ABI to user
-> > and I'd rather stick to it. I don't want, for example, ncurses to stop
-> > working because of some ioctl() rejecting tagged pointers.
+> I recently purchased a Geniatech A681, which is an ATSC USB device and found that it didn't seem to work with Linux. I found this old thread about the same device but unfortunately the person emailing didn't respond to requests for information.
 > 
-> But this is what I don't understand: it would need to be ncurses _using
-> TBI_, that would stop working (having started to work before, but then
-> regress due to a newly added one-off bug). Regular ncurses will be fine
-> because it's not using TBI. So The Golden Rule isn't violated,
-
-Once we introduced TBI and the libc starts tagging heap allocations,
-this becomes the new "regular" user space behaviour (i.e. using TBI). So
-a new bug would break the golden rule. It could also be an old bug that
-went unnoticed (i.e. you changed the graphics card and its driver gets
-confused by tagged pointers coming from user-space).
-
-> and by definition, it's a specific regression caused by some bug
-> (since TBI would have had to have worked _before_ in the situation to
-> be considered a regression now). Which describes the normal path for
-> kernel development... add feature, find corner cases where it doesn't
-> work, fix them, encounter new regressions, fix those, repeat forever.
+> https://www.spinics.net/lists/linux-media/msg118245.html
 > 
-> > If it's just the occasional one-off bug I'm fine to deal with it. But
-> > no-one convinced me yet that this is the case.
+> I'd like to help any way I can to get this device supported. The lsusb -v output for the device at the bottom of this email.
 > 
-> You believe there still to be some systemic cases that haven't been
-> found yet? And even if so -- isn't it better to work on that
-> incrementally?
-
-I want some way to systematically identify potential issues (sparse?).
-Since problems are most likely in drivers, I don't have all devices to
-check and not all users have the knowledge to track down why something
-failed.
-
-I think we can do this incrementally as long the TBI ABI is not the
-default. Even better if we made it per process.
-
-> > As for the generic driver code (filesystems or other subsystems),
-> > without some clear direction for developers, together with static
-> > checking/sparse, on how user pointers are cast to longs (one example),
-> > it would become my responsibility to identify and fix them up with any
-> > kernel release. This series is not providing such guidance, just adding
-> > untagged_addr() in some places that we think matter.
+> Here are the relevant lines from dmesg:
 > 
-> What about adding a nice bit of .rst documentation that describes the
-> situation and shows how to use untagged_addr(). This is the kind of
-> kernel-wide change that "everyone" needs to know about, and shouldn't
-> be the arch maintainer's sole responsibility to fix.
-
-This works (if people read it) but we also need to be more prescriptive
-in how casting is done and how we differentiate between a pointer for
-dereference (T __user *) and address space management (usually unsigned
-long). On top of that, we'd get sparse to check for such conversions and
-maybe even checkpatch for some low-hanging fruit.
-
-> > > - we might need to opt in to TBI with a prctl()
-> > 
-> > Yes, although still up for discussion.
+> [ 2493.387308] usb 3-2: new high-speed USB device number 6 using xhci_hcd
+> [ 2493.536130] usb 3-2: language id specifier not provided by device, defaulting to English
+> [ 2493.537270] usb 3-2: New USB device found, idVendor=1f4d, idProduct=a681, bcdDevice= 8.00
+> [ 2493.537273] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
 > 
-> I think I've talked myself out of it. I say boot param only! :)
-
-I hope I talked you in again ;). I don't see TBI as improving kernel
-security.
-
-> So what do you say to these next steps:
+> The specific device I have is actually sold by Mohu:
 > 
-> - change untagged_addr() to use a static branch that is controlled with
->   a boot parameter.
-
-access_ok() as well.
-
-> - add, say, Documentation/core-api/user-addresses.rst to describe
->   proper care and handling of user space pointers with untagged_addr(),
->   with examples based on all the cases seen so far in this series.
-
-We have u64_to_user_ptr(). What about the reverse? And maybe changing
-get_user_pages() to take void __user *.
-
-> - continue work to improve static analysis.
-
-Andrew Murray in the ARM kernel team started revisiting the old sparse
-threads, let's see how it goes.
-
--- 
-Catalin
+> https://www.ebay.com/itm/Mohu-USB-TV-Tuner-/273687149793
+> 
+> But it's just a rebranded Geniatech/Mygica A681. I found some specifications documents but nothing that had specifics about the chips on the board. However, a Windows driver is available here:
+> 
+> http://www.gomohu.com/tuner
+> 
+> I see that an inf file is included, but I don't know how to interpret it. I can try to get the case open and take a look at the board itself if that's helpful.
+> 
+> I appreciate all the volunteer work put in by the folks on this mailing list - if this is not enough information or otherwise too difficult, no worries.
+> 
+> Thanks!
+> 
+> Justin
+> 
+> Bus 003 Device 007: ID 1f4d:a681 G-Tek Electronics Group 
+> Couldn't open device, some information will be missing
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass            0 (Defined at Interface level)
+>   bDeviceSubClass         0 
+>   bDeviceProtocol         0 
+>   bMaxPacketSize0        64
+>   idVendor           0x1f4d G-Tek Electronics Group
+>   idProduct          0xa681 
+>   bcdDevice            8.00
+>   iManufacturer           1 
+>   iProduct                2 
+>   iSerial                 3 
+>   bNumConfigurations      1
+>   Configuration Descriptor:
+>     bLength                 9
+>     bDescriptorType         2
+>     wTotalLength          226
+>     bNumInterfaces          1
+>     bConfigurationValue     1
+>     iConfiguration          4 
+>     bmAttributes         0x80
+>       (Bus Powered)
+>     MaxPower              500mA
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       0
+>       bNumEndpoints           4
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x86  EP 6 IN
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       1
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x13f2  3x 1010 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       2
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x12d6  3x 726 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       3
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x12ae  3x 686 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       4
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ca  1x 970 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       5
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x02ac  1x 684 bytes
+>         bInterval               1
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        0
+>       bAlternateSetting       6
+>       bNumEndpoints           3
+>       bInterfaceClass       255 Vendor Specific Class
+>       bInterfaceSubClass      1 
+>       bInterfaceProtocol      1 
+>       iInterface              0 
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x81  EP 1 IN
+>         bmAttributes            3
+>           Transfer Type            Interrupt
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0040  1x 64 bytes
+>         bInterval               3
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x01  EP 1 OUT
+>         bmAttributes            2
+>           Transfer Type            Bulk
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x0200  1x 512 bytes
+>         bInterval               0
+>       Endpoint Descriptor:
+>         bLength                 7
+>         bDescriptorType         5
+>         bEndpointAddress     0x82  EP 2 IN
+>         bmAttributes            1
+>           Transfer Type            Isochronous
+>           Synch Type               None
+>           Usage Type               Data
+>         wMaxPacketSize     0x03ac  1x 940 bytes
+>         bInterval               1
