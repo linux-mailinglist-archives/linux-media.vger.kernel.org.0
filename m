@@ -2,71 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B7FA28FA6
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 05:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E708328FA2
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 05:31:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388800AbfEXDbF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 23:31:05 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46668 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388735AbfEXDbF (ORCPT
+        id S2388847AbfEXDbH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 May 2019 23:31:07 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:35416 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388804AbfEXDbG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 23:31:05 -0400
-Received: by mail-io1-f65.google.com with SMTP id q21so6622593iog.13
-        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 20:31:05 -0700 (PDT)
+        Thu, 23 May 2019 23:31:06 -0400
+Received: by mail-it1-f195.google.com with SMTP id u186so11767266ith.0
+        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 20:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4IMXeSPz07H/1FS+L5wog9k24C98hcuyfvlIBRrFToQ=;
-        b=JuooVbNFZqVGK0ePviE0+zQb5HLSPgmBhi22D2BkiE/7yFc3PTJNQPFhzTnHXwXDO/
-         JweFIXmAX8zk6C7iGGlZ8FZ3K7jJswX+d2yJ+56Yho3vHWhkyP2jP4CFjXXhQCbbZTk6
-         tn1Y3UpMIIKQI6eOHSBeOwAZuvY9AONqt+uic=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Mv9CMN0i6nNcIH3+gboQPHuQ3PFIry51DtN3+zdUF0M=;
+        b=IxNxaYrz95tN91XjVNI3UZ+WlfGO3SRzMiNHHQNCCLJouwGqKBfnwmZbq6bRWDhQrG
+         aUOM8bJ4BAs6XD6I8cStJ6rWQQ+syKvXrRPJeXM6MmzODaNCzxsNOQaFm6HNC8HCwaqn
+         xvXZ/p4QpAcYet2UxsjZ461n6UGmxiei8k9NM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4IMXeSPz07H/1FS+L5wog9k24C98hcuyfvlIBRrFToQ=;
-        b=d/p7i51W5x+v5yBvMZpUjpsf63wzCMK7t5cQtyVJuFQZuFc68fE5EpnQyqflJk9MhG
-         CJOBCMiBjd1gYL3MW6FhAqsUxePode71yN+rzPsd2k2MprJg4SKRkkK9HcjJdXDo4flH
-         HlIB8sv/2iVh64Q6HsScba5XmzLpPkE7cp1bKXeAm5ZMTcK3VntJxjL31DsSOKypDjpB
-         luQmy+fGiQNqcefl4qRY+ahsOA2HAVIX+iXn01hMyxs+YTNWZ/RqxejesYz+Y3JJAL6t
-         s/TCSA4QCJRc/IqlA5NRVr4ijyhGHepc/YtNTtNdJfM9Wk9p89ZrDUri08vG03w4Yy+x
-         LexQ==
-X-Gm-Message-State: APjAAAX4DWBUFff6eXTI9j/x7O7lltr4e34LDgZiWpEF6lRdUqjRcRq0
-        Sdiv9xVIhLiuwZSN+f3tyot68g==
-X-Google-Smtp-Source: APXvYqw5FmID+PmO0aMdsdSEbVeSQErU4FoC610/wj0wuiUVHLFvpKEsMgkeFn5w6ac6DAfyipIrXQ==
-X-Received: by 2002:a6b:4408:: with SMTP id r8mr3147213ioa.103.1558668664632;
-        Thu, 23 May 2019 20:31:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Mv9CMN0i6nNcIH3+gboQPHuQ3PFIry51DtN3+zdUF0M=;
+        b=MVJPzSFYXXbYFFmrdXQnxhCyRFtw7WMIELRa6QneAMUin0CymdnGuQiRlvPKGpY4uW
+         Z5TkrA5MrcFj1RoWrzrusPAIAqCbuiHFMrXCk9+fIsKK8KGysEHl5f4GXNjxFKQPltJo
+         SCzm7kAoCXIrNo9ZMxV+UAiIK+kWkWcaojfPeVjsOiAJTjE+OrmHEWhHnO1hp+/8OKZI
+         XslO5UwEaPsJOCszy/7M0481hPKYJ4wc9fsxPjAax3WtkmlS/x0Nol9o5fJ/SLokeotH
+         H9s7x06RevIR4uFjuAgYgnCNHLFMKKns+C8ojb0aTQRagty4wLoedqtJPl1ycSlj3fXc
+         zmWg==
+X-Gm-Message-State: APjAAAWKR4meWRvQN/ck238qGDpx1wk2fyIblgBJHGdtrK7QDteLQG/6
+        AYOj07zY/lNqH6ykev/DARXflg==
+X-Google-Smtp-Source: APXvYqzu4HFk3XLY67ReDmSSeHuX4CFH8VygT+5D9E6iMHvE0v5XoUNZtGm8DWCnSZ9pIcW9imvfKg==
+X-Received: by 2002:a02:1006:: with SMTP id 6mr66453369jay.47.1558668665524;
+        Thu, 23 May 2019 20:31:05 -0700 (PDT)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h185sm794380itb.16.2019.05.23.20.31.03
+        by smtp.gmail.com with ESMTPSA id h185sm794380itb.16.2019.05.23.20.31.04
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 23 May 2019 20:31:04 -0700 (PDT)
+        Thu, 23 May 2019 20:31:05 -0700 (PDT)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         helen.koike@collabora.com
 Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Use Media Dev Allocator to fix vimc dev lifetime bugs
-Date:   Thu, 23 May 2019 21:31:00 -0600
-Message-Id: <cover.1558667245.git.skhan@linuxfoundation.org>
+Subject: [PATCH 1/2] media: add generic device allocate interface to media-dev-allocator
+Date:   Thu, 23 May 2019 21:31:01 -0600
+Message-Id: <f4b11067f523b5727b9a44cf415ce265deffdfe0.1558667245.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1558667245.git.skhan@linuxfoundation.org>
+References: <cover.1558667245.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-media_device is embedded in struct vimc_device and when vimc is removed
-vimc_device and the embedded media_device goes with it, while the active
-stream and vimc_capture continue to access it.
-
-Fix the media_device lifetime problem by changing vimc to create shared
-media_device using Media Device Allocator API and vimc_capture getting
-a reference to vimc module. With this change, vimc module can be removed
-only when the references are gone. vimc can be removed after vimc_capture
-is removed.
 
 Media Device Allocator API supports just USB devices. Enhance it
 adding a genetic device allocate interface to support other media
@@ -81,17 +73,157 @@ reference.
 The new interface has been tested with vimc component driver to fix
 panics when vimc module is removed while streaming is in progress.
 
-Shuah Khan (2):
-  media: add generic device allocate interface to media-dev-allocator
-  vimc: fix BUG: unable to handle kernel NULL pointer dereference
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ drivers/media/Makefile              |  4 +--
+ drivers/media/media-dev-allocator.c | 39 ++++++++++++++++++++++++
+ include/media/media-dev-allocator.h | 46 +++++++++++++++++++++++++----
+ 3 files changed, 80 insertions(+), 9 deletions(-)
 
- drivers/media/Makefile                     |  4 +-
- drivers/media/media-dev-allocator.c        | 39 ++++++++++++++
- drivers/media/platform/vimc/vimc-capture.c | 17 +++++-
- drivers/media/platform/vimc/vimc-core.c    | 60 ++++++++++++----------
- include/media/media-dev-allocator.h        | 46 ++++++++++++++---
- 5 files changed, 130 insertions(+), 36 deletions(-)
-
+diff --git a/drivers/media/Makefile b/drivers/media/Makefile
+index 4a330d0e5e40..3a4f7f74301d 100644
+--- a/drivers/media/Makefile
++++ b/drivers/media/Makefile
+@@ -7,9 +7,7 @@ media-objs	:= media-device.o media-devnode.o media-entity.o \
+ 		   media-request.o
+ 
+ ifeq ($(CONFIG_MEDIA_CONTROLLER),y)
+-	ifeq ($(CONFIG_USB),y)
+-		media-objs += media-dev-allocator.o
+-	endif
++	media-objs += media-dev-allocator.o
+ endif
+ 
+ #
+diff --git a/drivers/media/media-dev-allocator.c b/drivers/media/media-dev-allocator.c
+index ae17887dec59..4078e098cede 100644
+--- a/drivers/media/media-dev-allocator.c
++++ b/drivers/media/media-dev-allocator.c
+@@ -94,6 +94,7 @@ static struct media_device *__media_device_get(struct device *dev,
+ 	return &mdi->mdev;
+ }
+ 
++#if IS_ENABLED(CONFIG_USB)
+ struct media_device *media_device_usb_allocate(struct usb_device *udev,
+ 					       const char *module_name,
+ 					       struct module *owner)
+@@ -115,6 +116,44 @@ struct media_device *media_device_usb_allocate(struct usb_device *udev,
+ 	return mdev;
+ }
+ EXPORT_SYMBOL_GPL(media_device_usb_allocate);
++#endif
++
++struct media_device *media_device_allocate(struct device *dev,
++					   const char *model,
++					   const char *bus_info,
++					   const char *module_name,
++					   struct module *owner)
++{
++	struct media_device *mdev;
++
++	mutex_lock(&media_device_lock);
++	mdev = __media_device_get(dev, module_name, owner);
++	if (!mdev) {
++		mutex_unlock(&media_device_lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	if (!mdev->dev) {
++		/* Initialize media device */
++		if (model)
++			strscpy(mdev->model, model, sizeof(mdev->model));
++		else
++			strscpy(mdev->model, "Unkonw model",
++				sizeof(mdev->model));
++		if (bus_info)
++			strscpy(mdev->bus_info, bus_info,
++				sizeof(mdev->bus_info));
++		else
++			strscpy(mdev->bus_info, "Unknown bus_info",
++				sizeof(mdev->bus_info));
++		mdev->dev = dev;
++		media_device_init(mdev);
++	}
++
++	mutex_unlock(&media_device_lock);
++	return mdev;
++}
++EXPORT_SYMBOL_GPL(media_device_allocate);
+ 
+ void media_device_delete(struct media_device *mdev, const char *module_name,
+ 			 struct module *owner)
+diff --git a/include/media/media-dev-allocator.h b/include/media/media-dev-allocator.h
+index b35ea6062596..479a3c52cf89 100644
+--- a/include/media/media-dev-allocator.h
++++ b/include/media/media-dev-allocator.h
+@@ -19,7 +19,8 @@
+ 
+ struct usb_device;
+ 
+-#if defined(CONFIG_MEDIA_CONTROLLER) && defined(CONFIG_USB)
++#if defined(CONFIG_MEDIA_CONTROLLER)
++#if defined(CONFIG_USB)
+ /**
+  * media_device_usb_allocate() - Allocate and return struct &media device
+  *
+@@ -38,6 +39,36 @@ struct usb_device;
+ struct media_device *media_device_usb_allocate(struct usb_device *udev,
+ 					       const char *module_name,
+ 					       struct module *owner);
++#else
++static inline struct media_device *media_device_usb_allocate(
++			struct usb_device *udev, const char *module_name,
++			struct module *owner)
++			{ return NULL; }
++#endif /* CONFIG_USB */
++/**
++ * media_device_allocate() - Allocate and return struct &media device
++ *
++ * @udev:		struct &device pointer
++ * @model:		should be filled with device model name
++ * @bus_info:		should be filled with device bus information:
++ *			Unique and stable device location identifier
++ *			as defined in struct media_device
++ * @module_name:	should be filled with %KBUILD_MODNAME
++ * @owner:		struct module pointer %THIS_MODULE for the driver.
++ *			%THIS_MODULE is null for a built-in driver.
++ *			It is safe even when %THIS_MODULE is null.
++ *
++ * This interface should be called to allocate a Media Device when multiple
++ * drivers/sub-drivers share device and the media device. This interface
++ * allocates &media_device structure and calls media_device_init() to
++ * initialize it.
++ *
++ */
++struct media_device *media_device_allocate(struct device *dev,
++					   const char *model,
++					   const char *bus_info,
++					   const char *module_name,
++					   struct module *owner);
+ /**
+  * media_device_delete() - Release media device. Calls kref_put().
+  *
+@@ -52,12 +83,15 @@ struct media_device *media_device_usb_allocate(struct usb_device *udev,
+ void media_device_delete(struct media_device *mdev, const char *module_name,
+ 			 struct module *owner);
+ #else
+-static inline struct media_device *media_device_usb_allocate(
+-			struct usb_device *udev, const char *module_name,
+-			struct module *owner)
+-			{ return NULL; }
++static inline struct media_device *media_device_allocate(
++					struct device *dev,
++					const char *model,
++					const char *bus_info,
++					const char *module_name,
++					struct module *owner)
++					{ return NULL; }
+ static inline void media_device_delete(
+ 			struct media_device *mdev, const char *module_name,
+ 			struct module *owner) { }
+-#endif /* CONFIG_MEDIA_CONTROLLER && CONFIG_USB */
++#endif /* CONFIG_MEDIA_CONTROLLER */
+ #endif /* _MEDIA_DEV_ALLOCATOR_H */
 -- 
 2.17.1
 
