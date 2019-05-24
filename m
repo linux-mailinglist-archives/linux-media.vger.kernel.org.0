@@ -2,71 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4273298A6
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 15:14:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9B92990E
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 15:35:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391597AbfEXNOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 09:14:05 -0400
-Received: from casper.infradead.org ([85.118.1.10]:53982 "EHLO
+        id S2403821AbfEXNfu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 09:35:50 -0400
+Received: from casper.infradead.org ([85.118.1.10]:56308 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391560AbfEXNOF (ORCPT
+        with ESMTP id S2403804AbfEXNfu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 09:14:05 -0400
+        Fri, 24 May 2019 09:35:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/n51XGtaWTFL2kzn79WHLkkiSbCnRxm63xReP9D+Qhg=; b=bUkJxWW27UUn0amoOcX30OMJrj
-        ZKVRSd1fLa7wKAL02nzw4IuOiQA4rzgr054ftsu9MviuEbu9mlGcvkuzEzVnirDZFWPfHjMMLLRk3
-        ZsW9iClnPD6BeArzI/irNnfgAKRVNaTgvodZ4TtoBZwoHm+HpL855LvNq4JvaGdw7aEGxArIj4/ar
-        bjQ2iBjNGlyPTpQSCWDE80zIQI9EXYMUp8RizSkmI+AmxIKaaD96lVlDCETopHnXFcxZVFNsAuFYn
-        eLi0l7CIdF+p1i1kh/+U5yW0qGVeRM/1NgoUENimwmZJ/qxCwebQt5wRW4slq4faCCWf2/ok2eNHJ
-        OcM7Zp+w==;
+        bh=a84L9ZynbQTHP9MHDmUi2uab2LrEajX0zeKKzUoHR2Q=; b=QbNFbzbaVGx6nDE4Lt/gz/ontH
+        mryLBk30+Ei/1aJ+mmhUQ1nwSoK+Py0cZktjf95fKVLP0ih2qCetBqumwAPZ3v9hvga8J/u12VOsz
+        wFi+JwWMK3ZMvFf/WHD8qCexM6jX0O6LKU8b+ka+TM8Xd9igf8AIzEuu91xScDMK9qQ7WQYz07wlG
+        TdPelpbWfdjxSj1WSXwumK1MacDG7AWnyZvKhmxIl/YWXUj5unKVWShDq38fDFgU5zM9KPc3Cn74W
+        NLqjEzHu1Q2rAsc2qy6QCf6WI11FyYoYaoQNTJviuZrQP0QGneB+DzhTgL3jLGdU2wL5dzxCj1D4J
+        9HSKYaAQ==;
 Received: from 177.97.63.247.dynamic.adsl.gvt.net.br ([177.97.63.247] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hUA1G-0007UW-C4; Fri, 24 May 2019 13:13:58 +0000
-Date:   Fri, 24 May 2019 10:13:45 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v15 14/17] media/v4l2-core, arm64: untag user pointers
- in videobuf_dma_contig_user_get
-Message-ID: <20190524101345.67c425fa@coco.lan>
-In-Reply-To: <b7999d13af54eb3ed8d7b0192397c7cde3df0b28.1557160186.git.andreyknvl@google.com>
-References: <cover.1557160186.git.andreyknvl@google.com>
-        <b7999d13af54eb3ed8d7b0192397c7cde3df0b28.1557160186.git.andreyknvl@google.com>
+        id 1hUAML-00007l-4G; Fri, 24 May 2019 13:35:45 +0000
+Date:   Fri, 24 May 2019 10:35:40 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     andreyknvl@google.com,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>, <wen.yang99@zte.com.cn>
+Subject: Re: [PATCH] media: usb: siano: Fix general protection fault in
+ smsusb
+Message-ID: <20190524103540.250a69e7@coco.lan>
+In-Reply-To: <Pine.LNX.4.44L0.1905071237310.1632-100000@iolanthe.rowland.org>
+References: <0000000000004a08f805883ead54@google.com>
+        <Pine.LNX.4.44L0.1905071237310.1632-100000@iolanthe.rowland.org>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -76,67 +50,169 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon,  6 May 2019 18:31:00 +0200
-Andrey Konovalov <andreyknvl@google.com> escreveu:
+Em Tue, 7 May 2019 12:39:47 -0400 (EDT)
+Alan Stern <stern@rowland.harvard.edu> escreveu:
 
-> This patch is a part of a series that extends arm64 kernel ABI to allow to
-> pass tagged user pointers (with the top byte set to something else other
-> than 0x00) as syscall arguments.
+> The syzkaller USB fuzzer found a general-protection-fault bug in the
+> smsusb part of the Siano DVB driver.  The fault occurs during probe
+> because the driver assumes without checking that the device has both
+> IN and OUT endpoints and the IN endpoint is ep1.
 > 
-> videobuf_dma_contig_user_get() uses provided user pointers for vma
-> lookups, which can only by done with untagged pointers.
+> By slightly rearranging the driver's initialization code, we can make
+> the appropriate checks early on and thus avoid the problem.  If the
+> expected endpoints aren't present, the new code safely returns -ENODEV
+> from the probe routine.
 > 
-> Untag the pointers in this function.
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Reported-and-tested-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
+> CC: <stable@vger.kernel.org>
 > 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
 > ---
->  drivers/media/v4l2-core/videobuf-dma-contig.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/videobuf-dma-contig.c b/drivers/media/v4l2-core/videobuf-dma-contig.c
-> index e1bf50df4c70..8a1ddd146b17 100644
-> --- a/drivers/media/v4l2-core/videobuf-dma-contig.c
-> +++ b/drivers/media/v4l2-core/videobuf-dma-contig.c
-> @@ -160,6 +160,7 @@ static void videobuf_dma_contig_user_put(struct videobuf_dma_contig_memory *mem)
->  static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
->  					struct videobuf_buffer *vb)
->  {
-> +	unsigned long untagged_baddr = untagged_addr(vb->baddr);
->  	struct mm_struct *mm = current->mm;
->  	struct vm_area_struct *vma;
->  	unsigned long prev_pfn, this_pfn;
-> @@ -167,22 +168,22 @@ static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
->  	unsigned int offset;
->  	int ret;
+> 
+> [as1897]
+> 
+> 
+>  drivers/media/usb/siano/smsusb.c |   33 ++++++++++++++++++++-------------
+>  1 file changed, 20 insertions(+), 13 deletions(-)
+> 
+> Index: usb-devel/drivers/media/usb/siano/smsusb.c
+> ===================================================================
+> --- usb-devel.orig/drivers/media/usb/siano/smsusb.c
+> +++ usb-devel/drivers/media/usb/siano/smsusb.c
+> @@ -400,6 +400,7 @@ static int smsusb_init_device(struct usb
+>  	struct smsusb_device_t *dev;
+>  	void *mdev;
+>  	int i, rc;
+> +	int in_maxp;
 >  
-> -	offset = vb->baddr & ~PAGE_MASK;
-> +	offset = untagged_baddr & ~PAGE_MASK;
->  	mem->size = PAGE_ALIGN(vb->size + offset);
->  	ret = -EINVAL;
+>  	/* create device object */
+>  	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
+> @@ -411,6 +412,24 @@ static int smsusb_init_device(struct usb
+>  	dev->udev = interface_to_usbdev(intf);
+>  	dev->state = SMSUSB_DISCONNECTED;
 >  
->  	down_read(&mm->mmap_sem);
+> +	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
+> +		struct usb_endpoint_descriptor *desc =
+> +				&intf->cur_altsetting->endpoint[i].desc;
+> +
+> +		if (desc->bEndpointAddress & USB_DIR_IN) {
+> +			dev->in_ep = desc->bEndpointAddress;
+> +			in_maxp = usb_endpoint_maxp(desc);
+> +		} else {
+> +			dev->out_ep = desc->bEndpointAddress;
+> +		}
+> +	}
+> +
+> +	pr_debug("in_ep = %02x, out_ep = %02x\n", dev->in_ep, dev->out_ep);
+> +	if (!dev->in_ep || !dev->out_ep) {	/* Missing endpoints? */
+> +		smsusb_term_device(intf);
+> +		return -ENODEV;
+> +	}
+> +
+>  	params.device_type = sms_get_board(board_id)->type;
 >  
-> -	vma = find_vma(mm, vb->baddr);
-> +	vma = find_vma(mm, untagged_baddr);
->  	if (!vma)
->  		goto out_up;
+>  	switch (params.device_type) {
+> @@ -425,24 +444,12 @@ static int smsusb_init_device(struct usb
+>  		/* fall-thru */
+>  	default:
+>  		dev->buffer_size = USB2_BUFFER_SIZE;
+> -		dev->response_alignment =
+> -		    le16_to_cpu(dev->udev->ep_in[1]->desc.wMaxPacketSize) -
+> -		    sizeof(struct sms_msg_hdr);
+> +		dev->response_alignment = in_maxp - sizeof(struct sms_msg_hdr);
 >  
-> -	if ((vb->baddr + mem->size) > vma->vm_end)
-> +	if ((untagged_baddr + mem->size) > vma->vm_end)
->  		goto out_up;
+>  		params.flags |= SMS_DEVICE_FAMILY2;
+>  		break;
+>  	}
 >  
->  	pages_done = 0;
->  	prev_pfn = 0; /* kill warning */
-> -	user_address = vb->baddr;
-> +	user_address = untagged_baddr;
->  
->  	while (pages_done < (mem->size >> PAGE_SHIFT)) {
->  		ret = follow_pfn(vma, user_address, &this_pfn);
+> -	for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
+> -		if (intf->cur_altsetting->endpoint[i].desc. bEndpointAddress & USB_DIR_IN)
+> -			dev->in_ep = intf->cur_altsetting->endpoint[i].desc.bEndpointAddress;
+> -		else
+> -			dev->out_ep = intf->cur_altsetting->endpoint[i].desc.bEndpointAddress;
+> -	}
+> -
+> -	pr_debug("in_ep = %02x, out_ep = %02x\n",
+> -		dev->in_ep, dev->out_ep);
+> -
+>  	params.device = &dev->udev->dev;
+>  	params.usb_device = dev->udev;
+>  	params.buffer_size = dev->buffer_size;
+> 
 
+Patch looks correct, and I'm applying it. It exposes another potential
+problem though: what happens if sizeof(desc.wMaxPacketSize) < sizeof(struct sms_msg_hdr)?
 
+I'm enclosing a followup patch that should solve this situation
+(and clean up a sparse warning).
 
 Thanks,
 Mauro
+
+[PATCH] media: smsusb: better handle optional alignment
+
+Most Siano devices require an alignment for the response.
+
+Changeset f3be52b0056a ("media: usb: siano: Fix general protection fault in smsusb")
+changed the logic with gets such aligment, but it now produces a
+sparce warning:
+
+drivers/media/usb/siano/smsusb.c: In function 'smsusb_init_device':
+drivers/media/usb/siano/smsusb.c:447:37: warning: 'in_maxp' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  447 |   dev->response_alignment = in_maxp - sizeof(struct sms_msg_hdr);
+      |                             ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The sparse message itself is bogus, but a broken (or fake) USB
+eeprom could produce a negative value for response_alignment.
+
+So, change the code in order to check if the result is not
+negative.
+
+Fixes: f3be52b0056a ("media: usb: siano: Fix general protection fault in smsusb")
+CC: <stable@vger.kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 27ad14a3f831..e39f3f40dfdd 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -400,7 +400,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	struct smsusb_device_t *dev;
+ 	void *mdev;
+ 	int i, rc;
+-	int in_maxp;
++	int align = 0;
+ 
+ 	/* create device object */
+ 	dev = kzalloc(sizeof(struct smsusb_device_t), GFP_KERNEL);
+@@ -418,14 +418,14 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 
+ 		if (desc->bEndpointAddress & USB_DIR_IN) {
+ 			dev->in_ep = desc->bEndpointAddress;
+-			in_maxp = usb_endpoint_maxp(desc);
++			align = usb_endpoint_maxp(desc) - sizeof(struct sms_msg_hdr);
+ 		} else {
+ 			dev->out_ep = desc->bEndpointAddress;
+ 		}
+ 	}
+ 
+ 	pr_debug("in_ep = %02x, out_ep = %02x\n", dev->in_ep, dev->out_ep);
+-	if (!dev->in_ep || !dev->out_ep) {	/* Missing endpoints? */
++	if (!dev->in_ep || !dev->out_ep || align < 0) {  /* Missing endpoints? */
+ 		smsusb_term_device(intf);
+ 		return -ENODEV;
+ 	}
+@@ -444,7 +444,7 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 		/* fall-thru */
+ 	default:
+ 		dev->buffer_size = USB2_BUFFER_SIZE;
+-		dev->response_alignment = in_maxp - sizeof(struct sms_msg_hdr);
++		dev->response_alignment = align;
+ 
+ 		params.flags |= SMS_DEVICE_FAMILY2;
+ 		break;
+
+
+
+
