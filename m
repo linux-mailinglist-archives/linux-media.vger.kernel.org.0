@@ -2,405 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C0329837
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 14:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3945929853
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 14:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390974AbfEXMo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 08:44:29 -0400
-Received: from h2.fbrelay.privateemail.com ([131.153.2.43]:53216 "EHLO
-        h2.fbrelay.privateemail.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389057AbfEXMo3 (ORCPT
+        id S2391316AbfEXMzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 08:55:08 -0400
+Received: from casper.infradead.org ([85.118.1.10]:52268 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390946AbfEXMzH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 08:44:29 -0400
-Received: from MTA-07-3.privateemail.com (mta-07.privateemail.com [198.54.127.57])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by h1.fbrelay.privateemail.com (Postfix) with ESMTPS id 0724C814F5
-        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 08:44:28 -0400 (EDT)
-Received: from MTA-07.privateemail.com (localhost [127.0.0.1])
-        by MTA-07.privateemail.com (Postfix) with ESMTP id CCE3F60050
-        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 08:44:26 -0400 (EDT)
-Received: from APP-03 (unknown [10.20.147.153])
-        by MTA-07.privateemail.com (Postfix) with ESMTPA id B60666004F
-        for <linux-media@vger.kernel.org>; Fri, 24 May 2019 12:44:26 +0000 (UTC)
-Date:   Fri, 24 May 2019 08:44:26 -0400 (EDT)
-From:   Justin Overfelt <justin@overfelt.family>
-To:     linux-media@vger.kernel.org
-Message-ID: <593253548.233317.1558701866733@privateemail.com>
-In-Reply-To: <327291063.219600.1558662776404@privateemail.com>
-References: <327291063.219600.1558662776404@privateemail.com>
-Subject: Re: Geniatech A681 Support
+        Fri, 24 May 2019 08:55:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=cyQ2oCePc4465xvjRRiSWu3xnwrETc8dIcA8pz3EwJ0=; b=E4iX4UX6mglLfAHRlj9/ZWx+Pu
+        yjmQqjwNzpxIGvni7RskChjxO4ZkWz+4AxWjRGdL/6NO5FLorU4dYd5TmXiM8JGzpnn2J0v82gsPf
+        oap2Y2VrPjk8iSXtkTbSk5vr3DIKak5KbRd3qKasC28pEf8aVn+a5aCiXaeImaL5VKHV5kxDl+8rL
+        DsC2gwUE9Qy87vP6utPhnfZeTZP+gCCKcj8BxEuy+9oKbpuSf6UK8Pj+l8+B5TcI/BthdUA897BIi
+        iaRO0las5/BQy59Sv+piPNCgL/9LhSMmy3jISAVESqnN2tFQ3Sbo91uVu5WwTB+7vmY0prvMP3Mvo
+        cLGtF+rw==;
+Received: from 177.97.63.247.dynamic.adsl.gvt.net.br ([177.97.63.247] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hU9io-0006hg-JZ; Fri, 24 May 2019 12:54:55 +0000
+Date:   Fri, 24 May 2019 09:54:48 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Hans Verkuil <hansverk@cisco.com>, od@zcrc.me,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] media: uapi: Add RGB bus formats for the
+ GiantPlus GPM940B0 panel
+Message-ID: <20190524095448.5eeddc06@coco.lan>
+In-Reply-To: <20190422093722.4344-2-paul@crapouillou.net>
+References: <20190422093722.4344-1-paul@crapouillou.net>
+        <20190422093722.4344-2-paul@crapouillou.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.8.4-Rev57
-X-Originating-Client: open-xchange-appsuite
-X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update:
+Em Mon, 22 Apr 2019 11:37:21 +0200
+Paul Cercueil <paul@crapouillou.net> escreveu:
 
-I opened the case and got the following component information based on model numbers:
+> The GiantPlus GPM940B0 is a 24-bit TFT panel where the RGB components
+> are transferred sequentially on a 8-bit bus.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+> 
+> Notes:
+>     v2: New patch
+>     
+>     v3: No change
+> 
+>  include/uapi/linux/media-bus-format.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index d6a5a3bfe6c4..f31724d6cd40 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -34,7 +34,7 @@
+>  
+>  #define MEDIA_BUS_FMT_FIXED			0x0001
+>  
+> -/* RGB - next is	0x101b */
+> +/* RGB - next is	0x101d */
+>  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+> @@ -54,6 +54,8 @@
+>  #define MEDIA_BUS_FMT_RGB888_1X24		0x100a
+>  #define MEDIA_BUS_FMT_RGB888_2X12_BE		0x100b
+>  #define MEDIA_BUS_FMT_RGB888_2X12_LE		0x100c
+> +#define MEDIA_BUS_FMT_RGB888_3X8_BE		0x101b
+> +#define MEDIA_BUS_FMT_RGB888_3X8_LE		0x101c
+>  #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
+>  #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
+>  #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
 
-Demodulator: MN88436
-Tuner: MXL603 
-USB Microcontroller: CY7C68013
+You should also patch the documentation text at:
 
--Justin
+	Documentation/media/uapi/v4l/subdev-formats.rst
 
-> On May 23, 2019 at 9:52 PM Justin Overfelt <justin@overfelt.family> wrote:
-> 
-> 
-> Hello!
-> 
-> I recently purchased a Geniatech A681, which is an ATSC USB device and found that it didn't seem to work with Linux. I found this old thread about the same device but unfortunately the person emailing didn't respond to requests for information.
-> 
-> https://www.spinics.net/lists/linux-media/msg118245.html
-> 
-> I'd like to help any way I can to get this device supported. The lsusb -v output for the device at the bottom of this email.
-> 
-> Here are the relevant lines from dmesg:
-> 
-> [ 2493.387308] usb 3-2: new high-speed USB device number 6 using xhci_hcd
-> [ 2493.536130] usb 3-2: language id specifier not provided by device, defaulting to English
-> [ 2493.537270] usb 3-2: New USB device found, idVendor=1f4d, idProduct=a681, bcdDevice= 8.00
-> [ 2493.537273] usb 3-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> 
-> The specific device I have is actually sold by Mohu:
-> 
-> https://www.ebay.com/itm/Mohu-USB-TV-Tuner-/273687149793
-> 
-> But it's just a rebranded Geniatech/Mygica A681. I found some specifications documents but nothing that had specifics about the chips on the board. However, a Windows driver is available here:
-> 
-> http://www.gomohu.com/tuner
-> 
-> I see that an inf file is included, but I don't know how to interpret it. I can try to get the case open and take a look at the board itself if that's helpful.
-> 
-> I appreciate all the volunteer work put in by the folks on this mailing list - if this is not enough information or otherwise too difficult, no worries.
-> 
-> Thanks!
-> 
-> Justin
-> 
-> Bus 003 Device 007: ID 1f4d:a681 G-Tek Electronics Group 
-> Couldn't open device, some information will be missing
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass            0 (Defined at Interface level)
->   bDeviceSubClass         0 
->   bDeviceProtocol         0 
->   bMaxPacketSize0        64
->   idVendor           0x1f4d G-Tek Electronics Group
->   idProduct          0xa681 
->   bcdDevice            8.00
->   iManufacturer           1 
->   iProduct                2 
->   iSerial                 3 
->   bNumConfigurations      1
->   Configuration Descriptor:
->     bLength                 9
->     bDescriptorType         2
->     wTotalLength          226
->     bNumInterfaces          1
->     bConfigurationValue     1
->     iConfiguration          4 
->     bmAttributes         0x80
->       (Bus Powered)
->     MaxPower              500mA
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       0
->       bNumEndpoints           4
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x86  EP 6 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       1
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x13f2  3x 1010 bytes
->         bInterval               1
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       2
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x12d6  3x 726 bytes
->         bInterval               1
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       3
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x12ae  3x 686 bytes
->         bInterval               1
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       4
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x03ca  1x 970 bytes
->         bInterval               1
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       5
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x02ac  1x 684 bytes
->         bInterval               1
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       6
->       bNumEndpoints           3
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 
->       bInterfaceProtocol      1 
->       iInterface              0 
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            3
->           Transfer Type            Interrupt
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0040  1x 64 bytes
->         bInterval               3
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            1
->           Transfer Type            Isochronous
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x03ac  1x 940 bytes
->         bInterval               1
+In order to describe the new formats that will be included.
+
+(also patch needs to be rebased, as it conflicts to some other
+new formats added there)
+
+Thanks,
+Mauro
