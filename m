@@ -2,151 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6AF528FC1
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 05:58:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BD6528FDC
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 06:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387885AbfEXD6T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 May 2019 23:58:19 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51211 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387703AbfEXD6T (ORCPT
+        id S1726073AbfEXEMy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 00:12:54 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:34973 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfEXEMy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 May 2019 23:58:19 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:1c59:cd67:ed42:fb0c])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id U1LThGuH7sDWyU1LUhQFZH; Fri, 24 May 2019 05:58:17 +0200
-Message-ID: <22601c7f0d5511825580f272ab0ce463@smtp-cloud9.xs4all.net>
-Date:   Fri, 24 May 2019 05:58:15 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Fri, 24 May 2019 00:12:54 -0400
+Received: by mail-wr1-f48.google.com with SMTP id m3so8427980wrv.2
+        for <linux-media@vger.kernel.org>; Thu, 23 May 2019 21:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=6uBDGzrhR9tgJgi/3ZPmBqUwlPwB27ODVj/kHaFBkSs=;
+        b=kpwMGuuZnhFIawQrzNDKgtJs90PCV19fUlao5AwZYe98oLtA+X9OxTHc3xPvlQh7el
+         EFt1bnW2VJ8qw7K/md27R8fu1zK/+q6v0TA/BIBQcLpdw0+1vbxDYVeD1ysWdPpY577F
+         qHeF7/LK2oMst9b0ZMy1pTivPLVCpjDT5LzX+c1qRTKvnyRmGTVUNjUgFtFaaPKSyDUf
+         iUwLHUBDuEyaV/L0HtgkDySZxHh4+mh4urlbaER5+snBgJoxUUAy8guCtdqCR6Ptmqq/
+         EvZAaKgdoVtSnR0kS1zWv91CSZIAAEj0cKDHHyP1O5zwf/Q2bDQ3wUbBraiafCSM7Bge
+         CSPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=6uBDGzrhR9tgJgi/3ZPmBqUwlPwB27ODVj/kHaFBkSs=;
+        b=iIwHN28NR6pomNox6ydjzUm1S7DFSnMmBt1Dx9qYlQapM7Ky/o2cdaIA1Sxuqc0wWG
+         3jj9dhI05gyxCVG+AwgKjxVYjCGeSkmMTME9Sg2IvPYyF4yzFaVEgSFkW8yrzhm2102f
+         iUvmC4ai6I+SWjrtfKRFwCOHBrNfCAhZy6ojdPX5Aw0IWnKEWBpl5zcPKxmie+e+ikkX
+         0kz5W6N9xbr5D8bpBAuL1Gf+13blyuxLhf5PVfVV2QK4JQwj1F+TC1cht27ChbbEtTEi
+         /13Pd5Tgm3J5U4ABSvzPW6Bw4iKXIcSBLttte4YI96QBrUvG6J2wsbIB4X4FNOZWKKFS
+         CgVg==
+X-Gm-Message-State: APjAAAWyZzD6RnrqW9G88qQRU9CjMK+g9+Xfd7t5D9xFSUmHhaaicCis
+        8K3qfZg23/wox5sQuIwE6VTbUX9h
+X-Google-Smtp-Source: APXvYqw/shIzIMul2oo04y75j6DpBCgmIWfrwNM9vm/66F69/yYBzpibrY8hRatPnYh+3DQl8k+JJQ==
+X-Received: by 2002:adf:ef8f:: with SMTP id d15mr8654595wro.330.1558671172236;
+        Thu, 23 May 2019 21:12:52 -0700 (PDT)
+Received: from [192.168.1.89] (249.52.21.93.rev.sfr.net. [93.21.52.249])
+        by smtp.gmail.com with ESMTPSA id n2sm1199225wro.13.2019.05.23.21.12.50
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 23 May 2019 21:12:51 -0700 (PDT)
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfHkS7uE79mVENn51rYV9necdkT7zWP0L6LYVNsdVolx2XqsRfOJpoJ4Q18dKGv+c52a2O61vt9VyX19LXYeBo8QwSEJMMjJPvlv6nT4+MJqqr5fvDQCc
- M5ybgHgrshWcmUIuFbkFFDl1GafbdCXdHUK5p2RuvXqVk/C0Yrs72/oJgnbX13oB0GjDwR2AWzJ4N4fcShRzKHuRYgRBNodl7aejqgDtEdyNSZYdteRk3A3V
+From:   =?UTF-8?Q?Fr=c3=a9d=c3=a9ric_Deghetto?= 
+        <frederic.deghetto@gmail.com>
+Subject: rc rc0: two consecutive events of type space & strange ir-keytable
+ behaviour
+Message-ID: <ff3cbf92-3f43-2a85-68d3-35f9086aa393@gmail.com>
+Date:   Fri, 24 May 2019 06:12:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Good day,
 
-Results of the daily build of media_tree:
+Information on the system:
 
-date:			Fri May 24 05:00:10 CEST 2019
-media-tree git hash:	3d3515312f97582136644a7327ed262c7bb7ea31
-media_build git hash:	483b4f0f48283ddaf1ba54d079051b58cdff2ef9
-v4l-utils git hash:	1cbe6e53dcb10745fcf8569a9cd0ba0979c2808e
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f324e8d7f445042ca6a3f85a18cfec395c27df23
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+- Raspberry 3b+
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: WARNINGS
-smatch: OK
+- Updated yesterday to 4.19.42-v7+
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Before the update the remote control was working well with:
 
-Detailed regression test results are available here:
+- gpio-rc-recv    rc-rc6-mce    kodi (into the file rc_maps.cfg)
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+- And the following data into /etc/rc_keymaps/kodi:
 
-Full logs are available here:
+# table kodi, type: NEC
+0x140 KEY_POWER
+0x1ff KEY_TAB
+0x143 KEY_RED
+0x10f KEY_GREEN
+0x110 KEY_MINUS
+0x118 KEY_VOLUMEUP
+0x111 KEY_ESC
+0x119 KEY_BACKSPACE
+0x116 KEY_UP
+0x151 KEY_LEFT
+0x113 KEY_ENTER
+0x150 KEY_RIGHT
+0x11a KEY_DOWN
+0x14c KEY_EPG
+0x100 KEY_C
+0x14e KEY_1
+0x10d KEY_2
+0x10c KEY_3
+0x14a KEY_4
+0x109 KEY_5
+0x108 KEY_6
+0x146 KEY_7
+0x105 KEY_8
+0x104 KEY_9
+0x141 KEY_F8
+0x101 KEY_0
+0x142 KEY_DELETE
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
+Since the kernel update I get this message from dmesg: "rc rc0: two 
+consecutive events of type space", and the remote control doesn't work.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+I tried to force the protocol NEC with ir-keytable -t -p NEC and I can 
+this some events. Something strange, when I push a button I can get the 
+event of the previous pushed button. By insisting I get the right one.
+
+I went to google and didn't see any workaround.
+
+Many thanks for your support,
+
+Frederic
+
