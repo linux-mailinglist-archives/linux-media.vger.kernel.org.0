@@ -2,279 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 269A4299A8
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 16:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9474429A00
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2019 16:24:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404059AbfEXOF1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 10:05:27 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:44339 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404000AbfEXOF1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 10:05:27 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hUAp3-0002Dk-Kz; Fri, 24 May 2019 16:05:25 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 10/10] media: hantro: add initial i.MX8MM support (untested)
-Date:   Fri, 24 May 2019 16:04:59 +0200
-Message-Id: <20190524140459.4002-11-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190524140459.4002-1-p.zabel@pengutronix.de>
-References: <20190524140459.4002-1-p.zabel@pengutronix.de>
+        id S2404054AbfEXOYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 10:24:04 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:44072 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404039AbfEXOYD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 May 2019 10:24:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 268E8A78;
+        Fri, 24 May 2019 07:24:03 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65CAA3F575;
+        Fri, 24 May 2019 07:23:57 -0700 (PDT)
+Date:   Fri, 24 May 2019 15:23:54 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        linux-media@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        linux-kernel@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <20190524142352.GY28398@e103592.cambridge.arm.com>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <20190517144931.GA56186@arrakis.emea.arm.com>
+ <20190521184856.GC2922@ziepe.ca>
+ <20190522134925.GV28398@e103592.cambridge.arm.com>
+ <20190523002052.GF15389@ziepe.ca>
+ <20190523104256.GX28398@e103592.cambridge.arm.com>
+ <20190523165708.q6ru7xg45aqfjzpr@mbp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523165708.q6ru7xg45aqfjzpr@mbp>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This should enable MPEG-2 decoding on the Hantro G1 and JPEG encoding on
-the Hantro H1 on i.MX8MM.
+On Thu, May 23, 2019 at 05:57:09PM +0100, Catalin Marinas wrote:
+> On Thu, May 23, 2019 at 11:42:57AM +0100, Dave P Martin wrote:
+> > On Wed, May 22, 2019 at 09:20:52PM -0300, Jason Gunthorpe wrote:
+> > > On Wed, May 22, 2019 at 02:49:28PM +0100, Dave Martin wrote:
+> > > > If multiple people will care about this, perhaps we should try to
+> > > > annotate types more explicitly in SYSCALL_DEFINEx() and ABI data
+> > > > structures.
+> > > > 
+> > > > For example, we could have a couple of mutually exclusive modifiers
+> > > > 
+> > > > T __object *
+> > > > T __vaddr * (or U __vaddr)
+> > > > 
+> > > > In the first case the pointer points to an object (in the C sense)
+> > > > that the call may dereference but not use for any other purpose.
+> > > 
+> > > How would you use these two differently?
+> > > 
+> > > So far the kernel has worked that __user should tag any pointer that
+> > > is from userspace and then you can't do anything with it until you
+> > > transform it into a kernel something
+> > 
+> > Ultimately it would be good to disallow casting __object pointers execpt
+> > to compatible __object pointer types, and to make get_user etc. demand
+> > __object.
+> > 
+> > __vaddr pointers / addresses would be freely castable, but not to
+> > __object and so would not be dereferenceable even indirectly.
+> 
+> I think it gets too complicated and there are ambiguous cases that we
+> may not be able to distinguish. For example copy_from_user() may be used
+> to copy a user data structure into the kernel, hence __object would
+> work, while the same function may be used to copy opaque data to a file,
+> so __vaddr may be a better option (unless I misunderstood your
+> proposal).
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/staging/media/hantro/hantro_drv.c   |   1 +
- drivers/staging/media/hantro/hantro_hw.h    |   1 +
- drivers/staging/media/hantro/imx8m_vpu_hw.c | 134 ++++++++++++++++++++
- 3 files changed, 136 insertions(+)
+Can you illustrate?  I'm not sure of your point here.
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index dc9c8ea7ff2d..5e24dc3daf00 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -421,6 +421,7 @@ static const struct of_device_id of_hantro_match[] = {
- 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
- 	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
- 	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-+	{ .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, of_hantro_match);
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 3eb70b627ad5..bdd4d98a2d6d 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -81,6 +81,7 @@ enum hantro_enc_fmt {
- extern const struct hantro_variant rk3399_vpu_variant;
- extern const struct hantro_variant rk3288_vpu_variant;
- extern const struct hantro_variant imx8mq_vpu_variant;
-+extern const struct hantro_variant imx8mm_vpu_variant;
- 
- void hantro_watchdog(struct work_struct *work);
- void hantro_run(struct hantro_ctx *ctx);
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 2d62bf415cdc..8f5c105743f0 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -15,14 +15,17 @@
- #define CTRL_SOFT_RESET		0x00
- #define RESET_G1		BIT(1)
- #define RESET_G2		BIT(0)
-+#define RESET_H1		BIT(2)
- 
- #define CTRL_CLOCK_ENABLE	0x04
- #define CLOCK_G1		BIT(1)
- #define CLOCK_G2		BIT(0)
-+#define CLOCK_H1		BIT(2)
- 
- #define CTRL_G1_DEC_FUSE	0x08
- #define CTRL_G1_PP_FUSE		0x0c
- #define CTRL_G2_DEC_FUSE	0x10
-+#define CTRL_H1_ENC_FUSE	0x14
- 
- static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
- {
-@@ -73,6 +76,30 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
- 	return 0;
- }
- 
-+static int imx8mm_runtime_resume(struct hantro_dev *vpu)
-+{
-+	int ret;
-+
-+	ret = clk_bulk_prepare_enable(vpu->variant->num_clocks, vpu->clocks);
-+	if (ret) {
-+		dev_err(vpu->dev, "Failed to enable clocks\n");
-+		return ret;
-+	}
-+
-+	imx8m_soft_reset(vpu, RESET_G1 | RESET_G2 | RESET_H1);
-+	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2 | RESET_H1);
-+
-+	/* Set values of the fuse registers */
-+	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
-+	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
-+	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
-+	writel(0xffffffff, vpu->ctrl_base + CTRL_H1_ENC_FUSE);
-+
-+	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
-+
-+	return 0;
-+}
-+
- /*
-  * Supported formats.
-  */
-@@ -97,6 +124,43 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
- 	},
- };
- 
-+static const struct hantro_fmt imx8mm_vpu_enc_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_YUV420M,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.enc_fmt = RK3288_VPU_ENC_FMT_YUV420P,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV12M,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.enc_fmt = RK3288_VPU_ENC_FMT_YUV420SP,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_YUYV,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.enc_fmt = RK3288_VPU_ENC_FMT_YUYV422,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_UYVY,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.enc_fmt = RK3288_VPU_ENC_FMT_UYVY422,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_JPEG,
-+		.codec_mode = HANTRO_MODE_JPEG_ENC,
-+		.max_depth = 2,
-+		.header_size = JPEG_HEADER_SIZE,
-+		.frmsize = {
-+			.min_width = 96,
-+			.max_width = 8192,
-+			.step_width = JPEG_MB_DIM,
-+			.min_height = 32,
-+			.max_height = 8192,
-+			.step_height = JPEG_MB_DIM,
-+		},
-+	},
-+};
-+
- static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
- {
- 	struct hantro_dev *vpu = dev_id;
-@@ -115,6 +179,25 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t imx8mm_vpu_h1_irq(int irq, void *dev_id)
-+{
-+	struct hantro_dev *vpu = dev_id;
-+	enum vb2_buffer_state state;
-+	u32 status, bytesused;
-+
-+	status = vepu_read(vpu, VEPU_REG_INTERRUPT);
-+	bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
-+	state = (status & VEPU_REG_INTERRUPT_FRAME_RDY) ?
-+		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-+
-+	vepu_write(vpu, 0, VEPU_REG_INTERRUPT);
-+	vepu_write(vpu, 0, VEPU_REG_AXI_CTRL);
-+
-+	hantro_irq_done(vpu, bytesused, state);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- {
- 	vpu->dec_base = vpu->base[0];
-@@ -123,6 +206,15 @@ static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
- 	return 0;
- }
- 
-+static int imx8mm_vpu_hw_init(struct hantro_dev *vpu)
-+{
-+	vpu->dec_base = vpu->base[0];
-+	vpu->enc_base = vpu->base[2];
-+	vpu->ctrl_base = vpu->base[vpu->variant->num_regs - 1];
-+
-+	return 0;
-+}
-+
- static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -130,6 +222,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
- 	imx8m_soft_reset(vpu, RESET_G1);
- }
- 
-+static void imx8mm_vpu_h1_reset(struct hantro_ctx *ctx)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+
-+	imx8m_soft_reset(vpu, RESET_H1);
-+}
-+
- /*
-  * Supported codec ops.
-  */
-@@ -143,6 +242,21 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
- 	},
- };
- 
-+static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
-+	[HANTRO_MODE_MPEG2_DEC] = {
-+		.run = hantro_g1_mpeg2_dec_run,
-+		.reset = imx8m_vpu_g1_reset,
-+		.init = hantro_mpeg2_dec_init,
-+		.exit = hantro_mpeg2_dec_exit,
-+	},
-+	[HANTRO_MODE_JPEG_ENC] = {
-+		.run = hantro_h1_jpeg_enc_run,
-+		.reset = imx8mm_vpu_h1_reset,
-+		.init = hantro_jpeg_enc_init,
-+		.exit = hantro_jpeg_enc_exit,
-+	},
-+};
-+
- /*
-  * VPU variants.
-  */
-@@ -165,3 +279,23 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.reg_names = { "g1", "g2", "ctrl" },
- 	.num_regs = 3,
- };
-+
-+const struct hantro_variant imx8mm_vpu_variant = {
-+	.dec_fmts = imx8m_vpu_dec_fmts,
-+	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
-+	.codec = HANTRO_MPEG2_DECODER,
-+	.codec_ops = imx8mm_vpu_codec_ops,
-+	.init = imx8mm_vpu_hw_init,
-+	.runtime_resume = imx8mm_runtime_resume,
-+	.irq_handlers = {
-+		imx8m_vpu_g1_irq,
-+		NULL, /* TODO: imx8m_vpu_g2_irq */
-+		imx8mm_vpu_h1_irq
-+	},
-+	.irq_names = { "g1", "g2", "h1" },
-+	.num_irqs = 3,
-+	.clk_names = { "g1", "g2", "h1", "bus" },
-+	.num_clocks = 4,
-+	.reg_names = { "g1", "g2", "h1", "ctrl" },
-+	.num_regs = 4,
-+};
--- 
-2.20.1
+> We currently have T __user * and I think it's a good starting point. The
+> prior attempt [1] was shut down because it was just hiding the cast
+> using __force. We'd need to work through those cases again and rather
+> start changing the function prototypes to avoid unnecessary casting in
+> the callers (e.g. get_user_pages(void __user *) or come up with a new
+> type) while changing the explicit casting to a macro where it needs to
+> be obvious that we are converting a user pointer, potentially typed
+> (tagged), to an untyped address range. We may need a user_ptr_to_ulong()
+> macro or similar (it seems that we have a u64_to_user_ptr, wasn't aware
+> of it).
+> 
+> It may actually not be far from what you suggested but I'd keep the
+> current T __user * to denote possible dereference.
 
+This may not have been clear, but __object and __vaddr would be
+orthogonal to __user.  Since __object and __vaddr strictly constrain
+what can be done with an lvalue, they could be cast on, but not be
+cast off without __force.
+
+Syscall arguments and pointer in ioctl structs etc. would typically
+be annotated as __object __user * or __vaddr __user *.  Plain old
+__user * would work as before, but would be more permissive and give
+static analysers less information to go on.
+
+Conversion or use or __object or __vaddr pointers would require specific
+APIs in the kernel, so that we can be clear about the semantics.
+
+Doing things this way would allow migration to annotation of most or all
+ABI pointers with __object or __vaddr over time, but we wouldn't have to
+do it all in one go.  Problem cases (which won't be the majority) could
+continue to be plain __user.
+
+
+This does not magically solve the challenges of MTE, but might provide
+tools that are useful to help avoid bitrot and regressions over time.
+
+I agree though that there might be a fair number of of cases that don't
+conveniently fall under __object or __vaddr semantics.  It's hard to
+know without trying it.
+
+_Most_ syscall arguments seem to be fairly obviously one or another
+though, and this approach has some possibility of scaling to ioctls
+and other odd interfaces.
+
+Cheers
+---Dave
