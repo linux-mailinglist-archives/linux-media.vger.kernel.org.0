@@ -2,104 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3017A2A18F
-	for <lists+linux-media@lfdr.de>; Sat, 25 May 2019 01:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B062A2A4
+	for <lists+linux-media@lfdr.de>; Sat, 25 May 2019 05:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbfEXXRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 May 2019 19:17:37 -0400
-Received: from mga03.intel.com ([134.134.136.65]:23063 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726258AbfEXXRg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 May 2019 19:17:36 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 May 2019 16:17:36 -0700
-X-ExtLoop1: 1
-Received: from maru.jf.intel.com ([10.54.51.75])
-  by orsmga007.jf.intel.com with ESMTP; 24 May 2019 16:17:35 -0700
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH v2 11/11] media: aspeed: add a workaround to fix a silicon bug
-Date:   Fri, 24 May 2019 16:17:25 -0700
-Message-Id: <20190524231725.12320-12-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
-References: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726685AbfEYDt3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 May 2019 23:49:29 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49743 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726663AbfEYDt3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 May 2019 23:49:29 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:29b0:4b85:9436:d329])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id UNgUhNSL9sDWyUNgVhTdUh; Sat, 25 May 2019 05:49:27 +0200
+Message-ID: <16abe885b451c67c96b91f585f5d30f0@smtp-cloud9.xs4all.net>
+Date:   Sat, 25 May 2019 05:49:26 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfKs54mhMoHwGZ1arFSiz9tmfOnG+h8xIQVmeFLDT9Aa549eaLJzozEvVWPwroRuUtowjhBaVSSx61lyO9pBF+8tIR4i00NY0N1B3BdwuiAkb4yZwQgE1
+ HZiGzsqXZcC5BHxXGXr38iKUM9+Suf+7aKvkHKaed+cmBsX/B+GEB9pHyoT47lJMAfSGQu3Za5oLuYaXqkd7kEaHw+4UtuRf8nSJZc+LyGHeRlhAvmz07GwX
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-AST2500 silicon revision A1 and A2 have a silicon bug which causes
-extremly long capturing time on specific resolutions (1680 width).
-To fix the bug, this commit adjusts the capturing window register
-setting to 1728 if detected width is 1680. The compression window
-register setting will be kept as the original width so output
-result will be the same.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
-v1 -> v2:
- New.
+Results of the daily build of media_tree:
 
- drivers/media/platform/aspeed-video.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+date:			Sat May 25 05:00:13 CEST 2019
+media-tree git hash:	2c41cc0be07b5ee2f1167f41cd8a86fc5b53d82c
+media_build git hash:	483b4f0f48283ddaf1ba54d079051b58cdff2ef9
+v4l-utils git hash:	1cbe6e53dcb10745fcf8569a9cd0ba0979c2808e
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: f1eea1117281d36d3f15e8955933d17600bb047e
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index b05b073b63bc..f93989f532d6 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -824,8 +824,27 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 	struct v4l2_bt_timings *act = &video->active_timings;
- 	unsigned int size = act->width * act->height;
- 
-+	/* Set capture/compression frame sizes */
- 	aspeed_video_calc_compressed_size(video, size);
- 
-+	if (video->active_timings.width == 1680) {
-+		/*
-+		 * This is a workaround to fix a silicon bug on A1 and A2
-+		 * revisions. Since it doesn't break capturing operation on A0
-+		 * revision, use it for all revisions without checking the
-+		 * revision ID.
-+		 */
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   1728 << 16 | act->height);
-+		size += (1728 - 1680) * video->active_timings.height;
-+	} else {
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   act->width << 16 | act->height);
-+	}
-+	aspeed_video_write(video, VE_COMP_WINDOW,
-+			   act->width << 16 | act->height);
-+	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
-+
- 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
- 	if (size < DIRECT_FETCH_THRESHOLD) {
- 		aspeed_video_write(video, VE_TGS_0,
-@@ -842,13 +861,6 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
- 	}
- 
--	/* Set capture/compression frame sizes */
--	aspeed_video_write(video, VE_CAP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_COMP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
--
- 	size *= 4;
- 
- 	if (size == video->srcs[0].size / 2) {
--- 
-2.21.0
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
+sparse: WARNINGS
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
