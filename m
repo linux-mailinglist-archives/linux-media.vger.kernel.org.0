@@ -2,89 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 271662ABBF
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 21:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B172ABC7
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 21:09:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbfEZTEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 15:04:16 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:48587 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfEZTEQ (ORCPT
+        id S1727020AbfEZTJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 15:09:12 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:39312 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbfEZTJL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 15:04:16 -0400
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id BA316240002;
-        Sun, 26 May 2019 19:04:11 +0000 (UTC)
-Date:   Sun, 26 May 2019 21:04:10 +0200
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+        Sun, 26 May 2019 15:09:11 -0400
+Received: by mail-yw1-f65.google.com with SMTP id w21so5811521ywd.6;
+        Sun, 26 May 2019 12:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=afnFp8Qj6zuCgzLE0dd47oL4y3p86FHahzySe9xFq38=;
+        b=P225AtmgLXa4AQY4cLPTI/vGK0XNkInPnL3TFJ67fgeH0aM7EbwXlurnLETHJqJwIh
+         fZ9Gsxb9n8ok3a7vfE7NH6onYvFkrBRxB1DwC2NKEkqBC+k25HTZIy4M2EXfc9gk5akm
+         tz84YkSiT4qKaiZhDM1DHw448nfsm6oak5ZuC7DmpLyDNabMOXdhhn+gj4HvAMH9HB1U
+         Z6qcoTwwIwjws0tJAp0I7zCPBTkXcBBSoTklqbJzbhc9oNfllaGHm4MMPQsgY/M0jND/
+         ECBOOGlgt9/FKvSsRPiADIXyFnhQD3IQ6YuPzbgM5MtDOOxqNOWP61PGGAPKNH6YxORJ
+         oYEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=afnFp8Qj6zuCgzLE0dd47oL4y3p86FHahzySe9xFq38=;
+        b=twwA7htDESyg4cJyJ33blNe4y/E1S0A/yodRtnoB/8RrscCbkL5fI2TGEt++cqBg9+
+         BWsGS3vaZB4CxiFImxsMaLZMVW78eLUF7+T6gm8oxXqDe71HmcvBq91oV934JkBHaKNs
+         1jT29nW0iEDVlmAPThOKdg1I+WiwqYBf9cA/Aebj3+taZReNO5RqDJNO7vHQGYmxJtgG
+         foAA84hac1WuGDiXtWoRAw3A6gRY6afScrwVt0GhRhMBC1zYm69QosOMbmIci2ERuCaG
+         4UCgQZEjuc4zUOW2SCMj0fclZ1DIIMXT5H0QkbYIB5lFExccrvxV6UoCJHLOijwHsVA2
+         RzQg==
+X-Gm-Message-State: APjAAAUaOuQ6zZs9IPeQh6kP2nTdYRbuR5e1/Pzs3umQlErSG/AUWZmq
+        g7IxmZDDu2+WfECF7KKZWmJLfvGg59oQ25bU8fo=
+X-Google-Smtp-Source: APXvYqzuO7uis+Ag6d0Dm4SMdjW5wXGBTZf9kN4/BqjULwWAZx1N7dZqSDycF4Wb4W9vS79yjtRH9ARh5G62qavqBn4=
+X-Received: by 2002:a81:cf03:: with SMTP id u3mr23678220ywi.306.1558897750823;
+ Sun, 26 May 2019 12:09:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190525180923.6105-1-peron.clem@gmail.com> <20190525180923.6105-2-peron.clem@gmail.com>
+ <20190526190217.257pxcc5s7ykhfor@flea>
+In-Reply-To: <20190526190217.257pxcc5s7ykhfor@flea>
+From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date:   Sun, 26 May 2019 21:08:59 +0200
+Message-ID: <CAJiuCcdpaw8jLMFUAAqvHr82+UZ4Lf1rrVvB1ksYQ1xcQqTDAg@mail.gmail.com>
+Subject: Re: [PATCH 01/10] dt-bindings: media: A31 compatible
+To:     Maxime Ripard <maxime.ripard@bootlin.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/10] dt-bindings: media: sunxi-ir: Add A64 compatible
-Message-ID: <20190526190410.ngrvrclp5ge5rdqy@flea>
-References: <20190525180923.6105-1-peron.clem@gmail.com>
- <20190525180923.6105-5-peron.clem@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="w6dqjdni2ih5gdsl"
-Content-Disposition: inline
-In-Reply-To: <20190525180923.6105-5-peron.clem@gmail.com>
-User-Agent: NeoMutt/20180716
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Maxime,
 
---w6dqjdni2ih5gdsl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, May 25, 2019 at 08:09:17PM +0200, Cl=E9ment P=E9ron wrote:
-> There is some minor differences between A31 and A64 driver.
+On Sun, 26 May 2019 at 21:02, Maxime Ripard <maxime.ripard@bootlin.com> wro=
+te:
 >
-> But A31 IR driver is compatible with A64.
+> On Sat, May 25, 2019 at 08:09:14PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
+> > Since Allwiner A31 all the SoC have a differente memory mapping.
+> >
+> > Introduce this bindings to make a difference since this generation.
+> >
+> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
 >
-> Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
-> ---
->  Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
->  1 file changed, 1 insertion(+)
+> Mentionning what those differences are would be great
+
+Will do,
+Thanks for the review,
+Cl=C3=A9ment
+
 >
-> diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Docum=
-entation/devicetree/bindings/media/sunxi-ir.txt
-> index 53e88ebb53fe..da5aeba843de 100644
-> --- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
-> +++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
-> @@ -5,6 +5,7 @@ Required properties:
->  	"allwinner,sun4i-a10-ir"
->  	"allwinner,sun5i-a13-ir"
->  	"allwinner,sun6i-a31-ir"
-> +	"allwinner,sun50i-a64-ir", "allwinner,sun6i-a31-ir"
-
-I guess resets is mandatory for the A31 onwards too, right?
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---w6dqjdni2ih5gdsl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOrjKgAKCRDj7w1vZxhR
-xQ69AP9KzirH0gAauBKyHVeF6rXLXOLssPNHmqkbjf6FMstJIAEAvZfH+Pmy/Uxe
-k16aY3T57rVDb23zD0ZgAvrdiP9uXwU=
-=dC11
------END PGP SIGNATURE-----
-
---w6dqjdni2ih5gdsl--
+> Maxime
+>
+> --
+> Maxime Ripard, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com, "Missing dma-requests, using %u.\n",
+> > -                      DMA_CHAN_MAX_DRQ_A31);
+> > -             sdc->max_request =3D DMA_CHAN_MAX_DRQ_A31;
+> > +                      DMA_CHAN_MA
