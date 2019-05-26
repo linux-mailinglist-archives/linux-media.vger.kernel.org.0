@@ -2,106 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EA622ABD1
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 21:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F21BA2AC33
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 22:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbfEZTQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 15:16:05 -0400
-Received: from mail-yw1-f66.google.com ([209.85.161.66]:37312 "EHLO
-        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfEZTQF (ORCPT
+        id S1725846AbfEZUsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 16:48:13 -0400
+Received: from mail-lj1-f176.google.com ([209.85.208.176]:38786 "EHLO
+        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725788AbfEZUsM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 15:16:05 -0400
-Received: by mail-yw1-f66.google.com with SMTP id 186so5815849ywo.4;
-        Sun, 26 May 2019 12:16:04 -0700 (PDT)
+        Sun, 26 May 2019 16:48:12 -0400
+Received: by mail-lj1-f176.google.com with SMTP id 14so12915037ljj.5;
+        Sun, 26 May 2019 13:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=noskaXJB+lKStgYLNqjD43scq/LOmprbRcl7XPqZyEI=;
-        b=D8JnONzvJVlbSq818NlO2tEUyWIfBoSFmPsh5zvcDyBHWIlsg/7WbzUDiBGXDGAa7t
-         t7q/y9nPrbUqqkKlGdqnb0djhVmy6zqH1f47Z4PDzhqU1x2w7hZNelCNTCOpD13xVL1O
-         ZXbpqJTWIhIkHYxjvmoGoEFYcUfZ7ezMF2AkwVJlNHt4HR36YZKr2zCpBrXoR3LnYP1K
-         PXKJcdeEEjMtuWmQN0LmMdGXR4WGYNss6d30qaK4MmrC9KOQmgn6/n9ZxVEiEa787Ywe
-         ZHeqUNq1DmIrBF1UNo7bLY4/n1OEYs7At07Uz5vFO5lZL7KPf6H57qHjmR7U1zykp5tQ
-         Qptg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnNXTlUJ0JZePDmFboabIvf4BbFB+04UY9OlZNiUXEk=;
+        b=WtL9uSIVO7aVej5859ERtPiS3O495Mr1bnXxNKXiqhA7TIeuXR15kNwYV7IJ0PDQVP
+         TldXaBVMejTFe7xiCFALNXSM8Ul1IYPBnGIGlSOoHS+5vbo6KD+K4PI965u0HKNWsvNs
+         WHJYoIGYotFEAB7mylEYPmWCkPisrBYmz6nLEZ0kzNyOEKD6VC6/K+QOhGeANUE+QNIV
+         OX6QcTdiO5NkCEY4qPNIWeH8m5ar9d8dVdLdaB9UCMZjWDXdeGkofnAQyDoquLG4wyuG
+         BcfL9eJnpGms74svKy1ZvnALdZMO8bRIL0Hs2aVxgkHHzCHMYuFRY6fjVV04QA/+y5Jt
+         74HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=noskaXJB+lKStgYLNqjD43scq/LOmprbRcl7XPqZyEI=;
-        b=q3OMvuAI+N1vAgBgWFO9dEkDsdTyyRGG4Md5LtGzjhdI7xR4gMIKzhQV3rmx9RNUIq
-         HwKyTo1fGjrMeWYlOC0M79JO5nGKzw3zWX8pBF7PRse3V9sqNZvCd/yLT8DPvADnIwus
-         jKqyIG08VZLJz+mbzdSHbepoEYDHoI0YiUYzT3Ni8UUvegLqhwHH7L5/x4DCGMwFDo+L
-         BJ48zxpBHg2Wk0P0QJKHVAW9bG86KwGkk3aEa3ignIQARtajVSu3Ud/H11Dj+Oejds1B
-         9YyGZP03RT6b3Yf9AMOVRjatSw+GQeNe1AjSCKXKoighZMUzRQxukDDb43abaM2y7rC2
-         bp/g==
-X-Gm-Message-State: APjAAAXGskhURqx+xSrHo+W8SVkGg8cGtIsvUh+C+m0gArds2eisH+Og
-        pWoVypFGMIwq8+B9pbZAm7wMxOuL0fIR6jS7ip8=
-X-Google-Smtp-Source: APXvYqz+VzNt0oKUMWNius14IRSdTfbNvnD/DEiP9e5FvjbEQtR2ABEeJ+6nuk7ooQZFFcE+eOm26NaadqAoXgSQSww=
-X-Received: by 2002:a81:9a4b:: with SMTP id r72mr30838628ywg.422.1558898160019;
- Sun, 26 May 2019 12:16:00 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnNXTlUJ0JZePDmFboabIvf4BbFB+04UY9OlZNiUXEk=;
+        b=PtHjyYxF1Q0LTthOc7WAyb9vB5D8F2PmteEQWXe6hMOOXWr2zmd4YWpAEO5QuSEoHZ
+         yJZItLI+amrQX1gtPEvRaaLK0fgN6lInQRDVuRDo4MCXHZoQ9GK0v2wQ18Vuc0fNn9gn
+         x7AgfMc45KJ4XvIlrki0RlPAHyT/if8U/sx1GkwU+Cwc2hVp7uqAkyjjE0NzE+iB/AFX
+         9oMPNGMTR0s2m76CrAaxE4lPZN4xVuB+CV9U9pfmnqqeV1wiCH3LYCWIPV9x+xIQ6DRm
+         xtBJXhVO5ShtS0ABt0mpXkdWS5rQyk9ny6//Qw35Q5QlfdSsIDrAOFqjpThtc560CJ+i
+         XELA==
+X-Gm-Message-State: APjAAAU5ZlKHTyXt2eDG8DnbwZ0SBf76nOt9ipfwz68RFa0cw0dLxjoX
+        X52c/FXXJiKEdl/OHtyaFk8=
+X-Google-Smtp-Source: APXvYqwJzpUotxAkdwaOibB4nQS6FiLDfgun0vU7i/sCJOOprIvcb4q+88YKUjX9FYpTSirLfw/5VQ==
+X-Received: by 2002:a2e:5515:: with SMTP id j21mr32630078ljb.198.1558903690682;
+        Sun, 26 May 2019 13:48:10 -0700 (PDT)
+Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id i187sm1859475lfe.64.2019.05.26.13.48.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 May 2019 13:48:09 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: [RFC PATCH 0/5] media: ov6650: V4L2 subdev compliance fixes
+Date:   Sun, 26 May 2019 22:47:53 +0200
+Message-Id: <20190526204758.1904-1-jmkrzyszt@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190525180923.6105-1-peron.clem@gmail.com> <20190525180923.6105-5-peron.clem@gmail.com>
- <20190526190410.ngrvrclp5ge5rdqy@flea>
-In-Reply-To: <20190526190410.ngrvrclp5ge5rdqy@flea>
-From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date:   Sun, 26 May 2019 21:15:49 +0200
-Message-ID: <CAJiuCceHhxYt=BY0Jvfv6+80ekKcMLUSv5UWBorYuvtO-DkOtg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] dt-bindings: media: sunxi-ir: Add A64 compatible
-To:     Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+An attepmt to make the driver more compliant with V4L2 subdevice
+interface specification.
 
-On Sun, 26 May 2019 at 21:04, Maxime Ripard <maxime.ripard@bootlin.com> wro=
-te:
->
-> On Sat, May 25, 2019 at 08:09:17PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
-> > There is some minor differences between A31 and A64 driver.
-> >
-> > But A31 IR driver is compatible with A64.
-> >
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> > ---
-> >  Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Doc=
-umentation/devicetree/bindings/media/sunxi-ir.txt
-> > index 53e88ebb53fe..da5aeba843de 100644
-> > --- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
-> > +++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
-> > @@ -5,6 +5,7 @@ Required properties:
-> >       "allwinner,sun4i-a10-ir"
-> >       "allwinner,sun5i-a13-ir"
-> >       "allwinner,sun6i-a31-ir"
-> > +     "allwinner,sun50i-a64-ir", "allwinner,sun6i-a31-ir"
->
-> I guess resets is mandatory for the A31 onwards too, right?
+Non-compliant frame half scaling is kept in .set_fmt() until composing
+is implemented.
 
-Indeed, I will add this information in the device-tree bindings.
-Ideally, we should also introduce a quirks with a "has_reset" property.
+Janusz Krzysztofik (5):
+  media: ov6650: Fix V4L2_SEL_FLAG_KEEP_CONFIG handling
+  media: ov6650: Refactor ov6650_s_fmt() helper
+  media: ov6650: Fix active crop rectangle affected by .set_fmt()
+  media: ov6650: Fix frame scaling not reset on crop
+  media: ov6650: Add .init_cfg() pad operation callback
 
-Thanks for your review,
-Cl=C3=A9ment
+ drivers/media/i2c/ov6650.c | 71 +++++++++++++++++++++++---------------
+ 1 file changed, 43 insertions(+), 28 deletions(-)
 
->
-> Maxime
->
-> --
-> Maxime Ripard, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+-- 
+2.21.0
+
