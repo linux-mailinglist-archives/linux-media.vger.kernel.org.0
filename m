@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B172ABC7
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 21:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EA622ABD1
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2019 21:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbfEZTJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 15:09:12 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:39312 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfEZTJL (ORCPT
+        id S1727036AbfEZTQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 15:16:05 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:37312 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbfEZTQF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 15:09:11 -0400
-Received: by mail-yw1-f65.google.com with SMTP id w21so5811521ywd.6;
-        Sun, 26 May 2019 12:09:11 -0700 (PDT)
+        Sun, 26 May 2019 15:16:05 -0400
+Received: by mail-yw1-f66.google.com with SMTP id 186so5815849ywo.4;
+        Sun, 26 May 2019 12:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=afnFp8Qj6zuCgzLE0dd47oL4y3p86FHahzySe9xFq38=;
-        b=P225AtmgLXa4AQY4cLPTI/vGK0XNkInPnL3TFJ67fgeH0aM7EbwXlurnLETHJqJwIh
-         fZ9Gsxb9n8ok3a7vfE7NH6onYvFkrBRxB1DwC2NKEkqBC+k25HTZIy4M2EXfc9gk5akm
-         tz84YkSiT4qKaiZhDM1DHw448nfsm6oak5ZuC7DmpLyDNabMOXdhhn+gj4HvAMH9HB1U
-         Z6qcoTwwIwjws0tJAp0I7zCPBTkXcBBSoTklqbJzbhc9oNfllaGHm4MMPQsgY/M0jND/
-         ECBOOGlgt9/FKvSsRPiADIXyFnhQD3IQ6YuPzbgM5MtDOOxqNOWP61PGGAPKNH6YxORJ
-         oYEQ==
+        bh=noskaXJB+lKStgYLNqjD43scq/LOmprbRcl7XPqZyEI=;
+        b=D8JnONzvJVlbSq818NlO2tEUyWIfBoSFmPsh5zvcDyBHWIlsg/7WbzUDiBGXDGAa7t
+         t7q/y9nPrbUqqkKlGdqnb0djhVmy6zqH1f47Z4PDzhqU1x2w7hZNelCNTCOpD13xVL1O
+         ZXbpqJTWIhIkHYxjvmoGoEFYcUfZ7ezMF2AkwVJlNHt4HR36YZKr2zCpBrXoR3LnYP1K
+         PXKJcdeEEjMtuWmQN0LmMdGXR4WGYNss6d30qaK4MmrC9KOQmgn6/n9ZxVEiEa787Ywe
+         ZHeqUNq1DmIrBF1UNo7bLY4/n1OEYs7At07Uz5vFO5lZL7KPf6H57qHjmR7U1zykp5tQ
+         Qptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=afnFp8Qj6zuCgzLE0dd47oL4y3p86FHahzySe9xFq38=;
-        b=twwA7htDESyg4cJyJ33blNe4y/E1S0A/yodRtnoB/8RrscCbkL5fI2TGEt++cqBg9+
-         BWsGS3vaZB4CxiFImxsMaLZMVW78eLUF7+T6gm8oxXqDe71HmcvBq91oV934JkBHaKNs
-         1jT29nW0iEDVlmAPThOKdg1I+WiwqYBf9cA/Aebj3+taZReNO5RqDJNO7vHQGYmxJtgG
-         foAA84hac1WuGDiXtWoRAw3A6gRY6afScrwVt0GhRhMBC1zYm69QosOMbmIci2ERuCaG
-         4UCgQZEjuc4zUOW2SCMj0fclZ1DIIMXT5H0QkbYIB5lFExccrvxV6UoCJHLOijwHsVA2
-         RzQg==
-X-Gm-Message-State: APjAAAUaOuQ6zZs9IPeQh6kP2nTdYRbuR5e1/Pzs3umQlErSG/AUWZmq
-        g7IxmZDDu2+WfECF7KKZWmJLfvGg59oQ25bU8fo=
-X-Google-Smtp-Source: APXvYqzuO7uis+Ag6d0Dm4SMdjW5wXGBTZf9kN4/BqjULwWAZx1N7dZqSDycF4Wb4W9vS79yjtRH9ARh5G62qavqBn4=
-X-Received: by 2002:a81:cf03:: with SMTP id u3mr23678220ywi.306.1558897750823;
- Sun, 26 May 2019 12:09:10 -0700 (PDT)
+        bh=noskaXJB+lKStgYLNqjD43scq/LOmprbRcl7XPqZyEI=;
+        b=q3OMvuAI+N1vAgBgWFO9dEkDsdTyyRGG4Md5LtGzjhdI7xR4gMIKzhQV3rmx9RNUIq
+         HwKyTo1fGjrMeWYlOC0M79JO5nGKzw3zWX8pBF7PRse3V9sqNZvCd/yLT8DPvADnIwus
+         jKqyIG08VZLJz+mbzdSHbepoEYDHoI0YiUYzT3Ni8UUvegLqhwHH7L5/x4DCGMwFDo+L
+         BJ48zxpBHg2Wk0P0QJKHVAW9bG86KwGkk3aEa3ignIQARtajVSu3Ud/H11Dj+Oejds1B
+         9YyGZP03RT6b3Yf9AMOVRjatSw+GQeNe1AjSCKXKoighZMUzRQxukDDb43abaM2y7rC2
+         bp/g==
+X-Gm-Message-State: APjAAAXGskhURqx+xSrHo+W8SVkGg8cGtIsvUh+C+m0gArds2eisH+Og
+        pWoVypFGMIwq8+B9pbZAm7wMxOuL0fIR6jS7ip8=
+X-Google-Smtp-Source: APXvYqz+VzNt0oKUMWNius14IRSdTfbNvnD/DEiP9e5FvjbEQtR2ABEeJ+6nuk7ooQZFFcE+eOm26NaadqAoXgSQSww=
+X-Received: by 2002:a81:9a4b:: with SMTP id r72mr30838628ywg.422.1558898160019;
+ Sun, 26 May 2019 12:16:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190525180923.6105-1-peron.clem@gmail.com> <20190525180923.6105-2-peron.clem@gmail.com>
- <20190526190217.257pxcc5s7ykhfor@flea>
-In-Reply-To: <20190526190217.257pxcc5s7ykhfor@flea>
+References: <20190525180923.6105-1-peron.clem@gmail.com> <20190525180923.6105-5-peron.clem@gmail.com>
+ <20190526190410.ngrvrclp5ge5rdqy@flea>
+In-Reply-To: <20190526190410.ngrvrclp5ge5rdqy@flea>
 From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date:   Sun, 26 May 2019 21:08:59 +0200
-Message-ID: <CAJiuCcdpaw8jLMFUAAqvHr82+UZ4Lf1rrVvB1ksYQ1xcQqTDAg@mail.gmail.com>
-Subject: Re: [PATCH 01/10] dt-bindings: media: A31 compatible
+Date:   Sun, 26 May 2019 21:15:49 +0200
+Message-ID: <CAJiuCceHhxYt=BY0Jvfv6+80ekKcMLUSv5UWBorYuvtO-DkOtg@mail.gmail.com>
+Subject: Re: [PATCH 04/10] dt-bindings: media: sunxi-ir: Add A64 compatible
 To:     Maxime Ripard <maxime.ripard@bootlin.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -66,20 +66,36 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Maxime,
 
-On Sun, 26 May 2019 at 21:02, Maxime Ripard <maxime.ripard@bootlin.com> wro=
+On Sun, 26 May 2019 at 21:04, Maxime Ripard <maxime.ripard@bootlin.com> wro=
 te:
 >
-> On Sat, May 25, 2019 at 08:09:14PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
-> > Since Allwiner A31 all the SoC have a differente memory mapping.
+> On Sat, May 25, 2019 at 08:09:17PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
+> > There is some minor differences between A31 and A64 driver.
 > >
-> > Introduce this bindings to make a difference since this generation.
+> > But A31 IR driver is compatible with A64.
 > >
 > > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > ---
+> >  Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Doc=
+umentation/devicetree/bindings/media/sunxi-ir.txt
+> > index 53e88ebb53fe..da5aeba843de 100644
+> > --- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
+> > +++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
+> > @@ -5,6 +5,7 @@ Required properties:
+> >       "allwinner,sun4i-a10-ir"
+> >       "allwinner,sun5i-a13-ir"
+> >       "allwinner,sun6i-a31-ir"
+> > +     "allwinner,sun50i-a64-ir", "allwinner,sun6i-a31-ir"
 >
-> Mentionning what those differences are would be great
+> I guess resets is mandatory for the A31 onwards too, right?
 
-Will do,
-Thanks for the review,
+Indeed, I will add this information in the device-tree bindings.
+Ideally, we should also introduce a quirks with a "has_reset" property.
+
+Thanks for your review,
 Cl=C3=A9ment
 
 >
@@ -88,7 +104,4 @@ Cl=C3=A9ment
 > --
 > Maxime Ripard, Bootlin
 > Embedded Linux and Kernel engineering
-> https://bootlin.com, "Missing dma-requests, using %u.\n",
-> > -                      DMA_CHAN_MAX_DRQ_A31);
-> > -             sdc->max_request =3D DMA_CHAN_MAX_DRQ_A31;
-> > +                      DMA_CHAN_MA
+> https://bootlin.com
