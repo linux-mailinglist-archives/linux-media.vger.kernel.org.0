@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2E02AC8F
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 00:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD1D2AC80
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 00:27:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbfEZW0R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 18:26:17 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35667 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbfEZWZw (ORCPT
+        id S1726264AbfEZWZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 18:25:54 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36925 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfEZWZx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 18:25:52 -0400
-Received: by mail-wr1-f67.google.com with SMTP id m3so14994354wrv.2;
-        Sun, 26 May 2019 15:25:51 -0700 (PDT)
+        Sun, 26 May 2019 18:25:53 -0400
+Received: by mail-wr1-f66.google.com with SMTP id h1so847102wro.4;
+        Sun, 26 May 2019 15:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MeV22BL5hfS4X5C1QCisA6E+loww6qQHxa27Rpq4STA=;
-        b=cYvjitwt6Zssvyq0y6oSHGLuaB5wjzWR35lt6S5xd4v662DyRpgwsaejZD4ispPT2g
-         6KdrANRs/Yij48RioY+QNv2g+oQ6DRO4FvLSLb97UcWN1BJGgpxxh2oDbuGi/PM2Urd/
-         sMZnvjdgb2mHIa0ZPsEesxkjZGjdajj4/g8bPfNCPDBIeRsQH/ZaaDc0t5i1juAmnXYo
-         CQDkTKN/ANGGjeh5IAFWb/NQZDkcpmWrICvALYpcWWXUy0u+gRWsev0mE0LcdYlLoSQk
-         xWRzb/MVmIx5YPRbgzVLWr8SQ7E05tg6OGklxz7oYbcLzp+0yydxCayJfaG5dOpZZWmp
-         cvJQ==
+        bh=pfFUA/FtBsg0My+1YWgyWmibdI4dMuoplvWrY93VZPg=;
+        b=TmLyQMTzxNlDvMDpq/v4obLZ5cBfs+Eah78F1fP5yW3/ULBAsc8S6q/MYlBl7JnaIx
+         cuY7bjgKYs2TpF+qrkAghyFpMKx/O2WNsISJKc/zPMDvZFVz5VaPy0fEQXzVrl0fZd8O
+         xsrxhDIXZdMMywYDMF040JBk2hizL6lIKXLhCquwfdHGA1CSGGFb5WDucx4DXPelJhQT
+         UPIUq5i81N/o5um8/RMKBN0bq2KkmlAQxzwB2AXv6AOQb7CSsYU2D6ipR7G6oY62sUPF
+         5BUUDHAWyaHYHMJ95CJazAoZKqeJ81joOfoyzLP6uewG6Xts431qtFKeZ0NRkA675k5l
+         02CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MeV22BL5hfS4X5C1QCisA6E+loww6qQHxa27Rpq4STA=;
-        b=SbMNWK8n2MxYmbQ57cfno58CD16+rWoHsE1xYVCypbswfEEHi3kdnY6IcR2XjKNxoC
-         SC2T4rx2jmQKoxEmCBmPApx4RK7BPgrX+HaOAnZOpemmPAvtwXH5VoV8dWpIAWCwggDY
-         9VDWWumJ9/J8ItCyxig7yZAjHNiygWPZ35k23QaNYq/bnGJDKLxe24Fbfb1S5JOu1dHV
-         B5c4MIBHXyANQRdYcNWWAx2ptN/Z3lhSmDXXNbSWYWAaZcpbjQDNDf/d1eLuRbp9R6HT
-         k1VzNU1H/zKfbTI7g5EAueJjO9Sebwf6knzCRVvUSa5KG0n/ATZ8JcI1CXEWh0R4AaQq
-         xycw==
-X-Gm-Message-State: APjAAAVJJHoWMQk3OtdAE6YaxBcS6NTB1aFDxWSjPLj5QobvkyBOv01r
-        vM/B1MdOyFiNyZ0/UgrPSKo=
-X-Google-Smtp-Source: APXvYqyTduyrC6vwtzNZtpslsRevUwtmp5f2Hx9nBBNt3DvpbqG+lo3ER9TfZm0nW/X0vDWROl0kow==
-X-Received: by 2002:adf:bc94:: with SMTP id g20mr19235766wrh.206.1558909550377;
-        Sun, 26 May 2019 15:25:50 -0700 (PDT)
+        bh=pfFUA/FtBsg0My+1YWgyWmibdI4dMuoplvWrY93VZPg=;
+        b=SKyoBL8tiGqqVvZ1YPW5vecM5/BNGHED4sf8aLXEUcUISDzgUqIVtLjp6DfZAzK0YD
+         iI0fJqG5iQbAHTJPQm6TQddxZZwdGy+cySh0jzcXdbqYs8EnmzXoNGdaB1mcJBbre7Xg
+         FwkrjHpi1G0V2QgELMnT6ZhHrsaVtSKExYka0vktfcdB55Rz8978lxGK/Ew07Kjj54cd
+         noDyYU4N3evmwpIdcwO9wnuChhr6I0wK+7O0tc3cQY3KaTXVQ0z/NC19DiRhVMU+BCzw
+         FZmKiQw8IEAPWSrrKyx5fuF6vrhLHf5/KkihFEQmt4XczTygQsqfBDH6EkoRgiKWND46
+         W9vA==
+X-Gm-Message-State: APjAAAWDfNFFsLEt5AcHIDiHU3FtqSCq6VJYEv2M/GlOl3GXqPiKT7dH
+        96stbZtGTsljr4k++o59cdM=
+X-Google-Smtp-Source: APXvYqyear9blP86T2MNWn79SUP2m1/FCW8iYuubkJwpsPjuck36zawUuWPezuETPh26SIP94gxRXQ==
+X-Received: by 2002:adf:d84e:: with SMTP id k14mr6520699wrl.76.1558909551466;
+        Sun, 26 May 2019 15:25:51 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id o20sm10368398wro.2.2019.05.26.15.25.49
+        by smtp.gmail.com with ESMTPSA id o20sm10368398wro.2.2019.05.26.15.25.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 26 May 2019 15:25:49 -0700 (PDT)
+        Sun, 26 May 2019 15:25:50 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -54,11 +54,10 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
         =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v2 06/10] arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
-Date:   Mon, 27 May 2019 00:25:32 +0200
-Message-Id: <20190526222536.10917-7-peron.clem@gmail.com>
+Subject: [PATCH v2 07/10] dt-bindings: media: sunxi-ir: Add H6 compatible
+Date:   Mon, 27 May 2019 00:25:33 +0200
+Message-Id: <20190526222536.10917-8-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190526222536.10917-1-peron.clem@gmail.com>
 References: <20190526222536.10917-1-peron.clem@gmail.com>
@@ -70,31 +69,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
+There are some minor differences between A31 or A64 with H6 IR peripheral.
 
-OrangePi Win board contains IR receiver. Enable it.
+But A31 IR driver is compatible with H6.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
-index 510f661229dc..e05191b71adf 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
-@@ -180,6 +180,10 @@
- 	status = "okay";
- };
- 
-+&r_ir {
-+	status = "okay";
-+};
-+
- &r_rsb {
- 	status = "okay";
- 
+diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Documentation/devicetree/bindings/media/sunxi-ir.txt
+index 1dd287a4ab3a..81eaf95fb764 100644
+--- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
++++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
+@@ -6,6 +6,7 @@ Required properties:
+ 	"allwinner,sun5i-a13-ir"
+ 	"allwinner,sun6i-a31-ir"
+ 	"allwinner,sun50i-a64-ir", "allwinner,sun6i-a31-ir"
++	"allwinner,sun50i-h6-ir", "allwinner,sun6i-a31-ir"
+ - clocks	    : list of clock specifiers, corresponding to
+ 		      entries in clock-names property;
+ - clock-names	    : should contain "apb" and "ir" entries;
 -- 
 2.20.1
 
