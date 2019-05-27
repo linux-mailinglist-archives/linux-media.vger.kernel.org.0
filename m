@@ -2,64 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 082B02B153
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 11:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E7B32B17E
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 11:43:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726115AbfE0JbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 05:31:16 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:53443 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725991AbfE0JbQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 05:31:16 -0400
-Received: from [IPv6:2001:983:e9a7:1:f4bd:6355:63eb:2e52] ([IPv6:2001:983:e9a7:1:f4bd:6355:63eb:2e52])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id VByLhZvCksDWyVByMhYPEP; Mon, 27 May 2019 11:31:14 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] mc-device.c: don't memset __user pointer contents
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <98876672-00cb-4648-4ba7-e960a2f6c2bb@xs4all.nl>
-Date:   Mon, 27 May 2019 11:31:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726620AbfE0JnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 05:43:06 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59724 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725991AbfE0JnG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 May 2019 05:43:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E16CA78;
+        Mon, 27 May 2019 02:43:05 -0700 (PDT)
+Received: from MBP.local (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D0DA3F5AF;
+        Mon, 27 May 2019 02:42:59 -0700 (PDT)
+Date:   Mon, 27 May 2019 10:42:48 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
+ syscalls
+Message-ID: <20190527094247.GA45660@MBP.local>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDDpTiamHM+gIzx/SlDhYuUwliZd6DdiA04t0oWz9aLGI41F069pHcJ2OlpIM//smBeFSAqumn0JsqIPHBZMN3RmtEkMWqIkfwNbFbFvfXDwPoxEUz9g
- ppM/HCHGlbBijHIkW2XZ6ZDyC3KLvnNclEOp+uVHxn4jZNV27G+CiqFfgSIuswOyA6CBlBbKEwxYbjYJUYFw4fx+msK8x8d2mP5SCbWNUJsrpm0DZTP7eR0x
- izwlPLaTugOJnJP4Wy+UxdsUII8LlvF5qtP79TBz/1I=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
+User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-You can't memset the contents of a __user pointer. Instead, call copy_to_user to
-copy links.reserved (which is zeroed) to the user memory.
+On Mon, May 06, 2019 at 06:30:51PM +0200, Andrey Konovalov wrote:
+> +SYSCALL_DEFINE2(arm64_mlock2, unsigned long, start, size_t, len)
+> +{
+> +	start = untagged_addr(start);
+> +	return ksys_mlock(start, len, VM_LOCKED);
+> +}
 
-This fixes this sparse warning:
+Copy/paste error: sys_mlock2() has 3 arguments and should call
+ksys_mlock2().
 
-SPARSE:drivers/media/mc/mc-device.c drivers/media/mc/mc-device.c:521:16:  warning: incorrect type in argument 1 (different address spaces)
+Still tracking down an LTP failure on test mlock01.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: f49308878d720 ("media: media_device_enum_links32: clean a reserved field")
----
-Note: this patch sits on top of https://patchwork.linuxtv.org/patch/56330/,
-which moves the media sources to drivers/media/mc.
----
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index 6893843edada..8e2a66493e62 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -518,8 +518,9 @@ static long media_device_enum_links32(struct media_device *mdev,
- 	if (ret)
- 		return ret;
-
--	memset(ulinks->reserved, 0, sizeof(ulinks->reserved));
--
-+	if (copy_to_user(ulinks->reserved, links.reserved,
-+			 sizeof(ulinks->reserved)))
-+		return -EFAULT;
- 	return 0;
- }
-
+-- 
+Catalin
