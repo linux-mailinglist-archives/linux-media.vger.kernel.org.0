@@ -2,149 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC0312B4E3
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 14:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DF72B5B4
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 14:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726879AbfE0MU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 08:20:56 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37987 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726206AbfE0MUz (ORCPT
+        id S1726206AbfE0MsL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 08:48:11 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:56189 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725991AbfE0MsK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 08:20:55 -0400
+        Mon, 27 May 2019 08:48:10 -0400
 Received: from [IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13] ([IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id VEcVhb3kOsDWyVEcXhZEK6; Mon, 27 May 2019 14:20:53 +0200
-Subject: Re: [PATCH] qv4l2: Prevent high CPU usage on device disconnect
-To:     Tasos Sahanidis <tasos@tasossah.com>, linux-media@vger.kernel.org
-References: <19b10673-7c90-5bb7-c596-94f73414d65e@tasossah.com>
+        id VF2thbFJysDWyVF2uhZN6G; Mon, 27 May 2019 14:48:08 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <maxime.ripard@free-electrons.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <53f97d24-41e2-881f-ff48-963f0252d48a@xs4all.nl>
-Date:   Mon, 27 May 2019 14:20:51 +0200
+Subject: [GIT PULL FOR v5.3] v2: Coda improvements and cedrus H264 support
+Message-ID: <b242c174-56af-9b13-3d4c-3a639ba1de75@xs4all.nl>
+Date:   Mon, 27 May 2019 14:48:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <19b10673-7c90-5bb7-c596-94f73414d65e@tasossah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF03xDKlDDziHFtS3WEqkXQw/WmL6WhRlXSRbOuNiVfaIxWM6t2R8HDctlhdyq0yBIicVUAotDVPg7ftboZjuTgxySIMwiGzEOuOA2eEnxlCotAdKM6X
- d/Njz0pylKE22P9NwhofVhTPkAajg9AxNRUhGdg1xuDNecsN4fTfW2YjXMSvPcpZ3RWXjor/Fe7eAImMbZPGUHpG8gT8cjE+HFD0g/wvimICirbM8OJowzgW
- VLvFrz3YCGhcWcAi88ZiDWS3jlPrMxYtBduhs5/qZANJxhIRphVKHAatJ1JAX1vFWqZ+yWSEqJN1argiBgoe/Q==
+X-CMAE-Envelope: MS4wfNfQkTGp2uZnQl99vYR5Lnlha+38Pq2ObqnSO4X/gZHmmT2MexOjgvyKwJTnuc0XwZYNiNVrBRnzzDvcg/2GnocZDDNZbqcm4V8fD6H/pxn3atsKXD1H
+ 6eCmW7ApkY6D12SakgKkHRY8/SCv/dJ5gB+bfYqRvioK78V+/T+Rd3boycIiwm7UYB6w09aZgmcHFN8DSz9/rmyPpqBaglY7dsddbesaH82SucQykjQBUCrR
+ wT/Ycme/1nl8AV+liE9DMtPvL0FAFvIurvLVGwvn4ZcILHPOGvtDd2lZU86Jhnisb9dNl/4DroQYWhCtHkgfVooSJyLbBqLpnWvWc4EtA7k6pebX1X5jiatr
+ QSqPDPWmYAP3gLJYfhswrLgUDlUIV+rT4jjuhMEJvfSQ/0FGekA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tasos,
-
-On 5/9/19 3:32 PM, Tasos Sahanidis wrote:
-> On device disconnect, ApplicationWindow::ctrlEvent() gets called
-> continuously, causing high CPU usage.
-> Closing the device handles once ENODEV is returned fixes this.
-
-I'm missing your Signed-of-by. Can you reply to this and add your SoB so I
-can merge this patch?
+This supersedes https://patchwork.linuxtv.org/patch/56299/. It updates patches
+'coda: add decoder MPEG-4 profile and level controls' and 'coda: add decoder
+MPEG-2 profile and level controls' to newer versions.
 
 Regards,
 
 	Hans
 
-> ---
->  utils/qv4l2/alsa_stream.c |  2 +-
->  utils/qv4l2/qv4l2.cpp     | 24 +++++++++++++++++++-----
->  2 files changed, 20 insertions(+), 6 deletions(-)
-> 
-> diff --git a/utils/qv4l2/alsa_stream.c b/utils/qv4l2/alsa_stream.c
-> index 05944822..2dca283b 100644
-> --- a/utils/qv4l2/alsa_stream.c
-> +++ b/utils/qv4l2/alsa_stream.c
-> @@ -433,7 +433,7 @@ static snd_pcm_sframes_t readbuf(snd_pcm_t *handle, char *buf, long len)
->      snd_pcm_uframes_t frames;
->      snd_pcm_htimestamp(handle, &frames, &timestamp);
->      r = snd_pcm_readi(handle, buf, len);
-> -    if (r < 0 && r != -EAGAIN) {
-> +    if (r < 0 && !(r == -EAGAIN || r == -ENODEV)) {
->  	r = snd_pcm_recover(handle, r, 0);
->  	if (r < 0)
->  	    fprintf(error_fp, "alsa: overrun recover error: %s\n", snd_strerror(r));
-> diff --git a/utils/qv4l2/qv4l2.cpp b/utils/qv4l2/qv4l2.cpp
-> index b52a3b60..9ac2c332 100644
-> --- a/utils/qv4l2/qv4l2.cpp
-> +++ b/utils/qv4l2/qv4l2.cpp
-> @@ -495,8 +495,9 @@ void ApplicationWindow::setAudioBufferSize()
->  void ApplicationWindow::ctrlEvent()
->  {
->  	v4l2_event ev;
-> +	int event_ret = 0;
->  
-> -	while (dqevent(ev) == 0) {
-> +	while ((event_ret = dqevent(ev)) == 0) {
->  		if (ev.type == V4L2_EVENT_SOURCE_CHANGE) {
->  			m_genTab->sourceChange(ev);
->  			continue;
-> @@ -551,6 +552,15 @@ void ApplicationWindow::ctrlEvent()
->  			setString(ev.id, c.string);
->  		free(c.string);
->  	}
-> +
-> +	if (event_ret && errno == ENODEV) {
-> +		closeDevice();
-> +		if (m_capture != NULL) {
-> +			m_capture->stop();
-> +			delete m_capture;
-> +			m_capture = NULL;
-> +		}
-> +	}
->  }
->  
->  void ApplicationWindow::newCaptureWin()
-> @@ -558,6 +568,7 @@ void ApplicationWindow::newCaptureWin()
->  	if (m_capture != NULL) {
->  		m_capture->stop();
->  		delete m_capture;
-> +		m_capture = NULL;
->  	}
->  
->  	switch (m_renderMethod) {
-> @@ -1135,7 +1146,7 @@ void ApplicationWindow::stopStreaming()
->  	if (!m_genTab->isSDR() && m_genTab->isRadio())
->  		return;
->  
-> -	if (v4l_type_is_capture(g_type()))
-> +	if (v4l_type_is_capture(g_type()) && m_capture != NULL)
->  		m_capture->stop();
->  
->  	m_snapshotAct->setDisabled(true);
-> @@ -1561,8 +1572,10 @@ void ApplicationWindow::makeFullScreen(bool checked)
->  void ApplicationWindow::closeDevice()
->  {
->  	stopAudio();
-> -	delete m_sigMapper;
-> -	m_sigMapper = NULL;
-> +	if(m_sigMapper != NULL) {
-> +		m_sigMapper->deleteLater();
-> +		m_sigMapper = NULL;
-> +	}
->  	m_capStartAct->setEnabled(false);
->  	m_capStartAct->setChecked(false);
->  	m_capStepAct->setEnabled(false);
-> @@ -1579,7 +1592,7 @@ void ApplicationWindow::closeDevice()
->  			m_outNotifier = NULL;
->  		}
->  		if (m_ctrlNotifier) {
-> -			delete m_ctrlNotifier;
-> +			m_ctrlNotifier->deleteLater();
->  			m_ctrlNotifier = NULL;
->  		}
->  		delete [] m_frameData;
-> @@ -1740,6 +1753,7 @@ void ApplicationWindow::closeEvent(QCloseEvent *event)
->  {
->  	closeDevice();
->  	delete m_capture;
-> +	m_capture = NULL;
->  	event->accept();
->  }
->  
-> 
 
+The following changes since commit 2c41cc0be07b5ee2f1167f41cd8a86fc5b53d82c:
+
+  media: venus: firmware: fix leaked of_node references (2019-05-24 09:03:06 -0400)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3b2
+
+for you to fetch changes up to a23c1303f6f485aa5ae0070ae071b7d0459bbcb6:
+
+  media: cedrus: Add H264 decoding support (2019-05-27 14:29:21 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jernej Skrabec (1):
+      media: cedrus: Allow different mod clock rates
+
+Maxime Ripard (3):
+      media: pixfmt: Add H264 Slice format
+      media: pixfmt: Add H264_SLICE_RAW format documentation
+      media: cedrus: Add H264 decoding support
+
+Pawel Osciak (1):
+      media: uapi: Add H264 low-level decoder API compound controls.
+
+Philipp Zabel (5):
+      media: coda: add decoder MPEG-4 profile and level controls
+      media: v4l2-ctrl: add MPEG-2 profile and level controls
+      media: coda: add decoder MPEG-2 profile and level controls
+      media: coda: add lockdep asserts
+      media: coda: use v4l2_m2m_buf_copy_metadata
+
+ Documentation/media/uapi/v4l/biblio.rst            |   9 +
+ Documentation/media/uapi/v4l/ext-ctrls-codec.rst   | 625 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/pixfmt-compressed.rst |  25 +++
+ Documentation/media/uapi/v4l/vidioc-queryctrl.rst  |  30 ++++
+ Documentation/media/videodev2.h.rst.exceptions     |   5 +
+ drivers/media/platform/coda/Makefile               |   2 +-
+ drivers/media/platform/coda/coda-bit.c             |  13 +-
+ drivers/media/platform/coda/coda-common.c          |  48 ++++++
+ drivers/media/platform/coda/coda-mpeg2.c           |  44 +++++
+ drivers/media/platform/coda/coda-mpeg4.c           |  49 ++++++
+ drivers/media/platform/coda/coda.h                 |  11 ++
+ drivers/media/v4l2-core/v4l2-ctrls.c               |  65 +++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   1 +
+ drivers/staging/media/sunxi/cedrus/Makefile        |   3 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c        |  42 ++++-
+ drivers/staging/media/sunxi/cedrus/cedrus.h        |  39 ++++-
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c    |  13 ++
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c   | 576 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c     |   6 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.h     |   2 -
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h   |  91 ++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c  |   9 +
+ include/media/h264-ctrls.h                         | 197 ++++++++++++++++++++++
+ include/media/v4l2-ctrls.h                         |  13 +-
+ include/uapi/linux/v4l2-controls.h                 |  18 ++
+ 25 files changed, 1920 insertions(+), 16 deletions(-)
+ create mode 100644 drivers/media/platform/coda/coda-mpeg2.c
+ create mode 100644 drivers/media/platform/coda/coda-mpeg4.c
+ create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+ create mode 100644 include/media/h264-ctrls.h
