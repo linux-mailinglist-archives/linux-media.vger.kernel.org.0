@@ -2,170 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 551132B807
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 17:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8402B87B
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 17:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726884AbfE0O7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 10:59:48 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:35135 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbfE0O7s (ORCPT
+        id S1726397AbfE0PkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 11:40:19 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54054 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfE0PkT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 10:59:48 -0400
-Received: by mail-yb1-f194.google.com with SMTP id s69so6527315ybi.2;
-        Mon, 27 May 2019 07:59:47 -0700 (PDT)
+        Mon, 27 May 2019 11:40:19 -0400
+Received: by mail-wm1-f67.google.com with SMTP id d17so3313188wmb.3
+        for <linux-media@vger.kernel.org>; Mon, 27 May 2019 08:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=qHKlqaDcjkkJBYjpD6p5oVuBHv3/XDA8/X7EQnB7SeY=;
-        b=SXkK6kBCFfbLWyL8ky6jB32sMjtkgipf5iPMaiQvEQlh1c8BE9HZm4zfmahGWPH44f
-         BgzQvy+TwIpvXWgH3ugw/56DlzKr2xioHXkSYmaMNcOIsxYv/c7wj8eRXsO4/78DSHE8
-         sRbSpiIzqb8EtSXt0ILGkSFa2G/1f+tklT5EtEmLF/mLV7iLgC2dJuDWkQrY9CpCtUfo
-         UYHBmslUM1zUJthKMQ0rOkjrZWPwKeZRx+afnk5AhUzamFa1H5zjgiHexTTfDILstfc4
-         kmWOoV25LeeJT+d9vifZs0IKB69qUyB6p8rLkqxEr3ovyUQvLprM99ti6xRexUEaqfJG
-         Eppg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=if0dvOxPFZMTRCUDLGJXrtErSrV3TkkgDXw6lswOXKw=;
+        b=s58oswTZuPdQpVM4Q7/Nsea1m3OZ9oxj+fLPudJzrZ6kzqbwJbwFcGBiSGW1WNimcj
+         IwaLUrHH8eP35Evfuci/mq07T9GEPI7Um6iWeD/Nquc6qfg10wABNiLBqeTiBjrvFzML
+         R+m2GduUou731CTsT0O4dVHTlobXYnYC9vQfrRD7p+jqcuyjq/NolFTFRRgRcteE2H1+
+         NsBqDFj04si/R8WRIA94I/T5vfyjQn06IHHRdtadt1vH9O4cwqqrOuwhYpeFROuh4lwQ
+         LMIegnzrJJB3D1OWSkMm9SkuB3mpFuIWMVGf8ZQWTrpYQmLkUBnq7eI6EFUoueP2dJyC
+         wniA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=qHKlqaDcjkkJBYjpD6p5oVuBHv3/XDA8/X7EQnB7SeY=;
-        b=nDaZw123ufapc3Mg6+WUjw7jJ1kRf8y+IAMdL3de17r6uG2TQwe+rZBSHshaVir4PU
-         K7aNhqF4mnVZd7sPv3zLkc4q/gJSOsA/tCrS/fo5LEEh8zVCVlP9UDMGxhgKc/KDmPfF
-         Vwe4oMBYAAvZ+51mqO4qWlR5XEmU/eDX9tCh6083DSWK8Ta7LRkscwrfR30nfZT0Gc9c
-         oKv36EnFxN2A2JSvkOEFhyrqSivTZRykUP1rFTS3WFEb++R/rWyg/M+jAdtOHGhhsuUN
-         Hjkxd7UK2NCHpc66alIAWd58obZQ+4LmKfwCX3ZS2ayAQE4B4awKibFeQuTLXncChLVI
-         nyJA==
-X-Gm-Message-State: APjAAAWpHR2gEUkl8vwSJtUerokPM2FWjp/lGU4E/bsLzR2tFhk4lSls
-        Q3RzCUsWOhNyqXMifIdWVRsL2v+dx9So0GJfUQ69N4c/eRYYBA==
-X-Google-Smtp-Source: APXvYqzIB91v4uwsl17oRKUKktkU9IRGKO5MyrKYomIW70qShKac/i2k5ZBdNkZTwL9MRRb3bjsZpmhw8fwpTTZ/CKU=
-X-Received: by 2002:a25:138a:: with SMTP id 132mr54282750ybt.127.1558969186997;
- Mon, 27 May 2019 07:59:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190526222536.10917-1-peron.clem@gmail.com> <20190527134805.j7t4ffstrnhdml47@core.my.home>
-In-Reply-To: <20190527134805.j7t4ffstrnhdml47@core.my.home>
-From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date:   Mon, 27 May 2019 16:59:35 +0200
-Message-ID: <CAJiuCcdnQa0TArduT4yBbUyd+dOaM0cQ1JcRUQLXLR6s_5e8sA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Allwinner A64/H6 IR support
-To:     =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=if0dvOxPFZMTRCUDLGJXrtErSrV3TkkgDXw6lswOXKw=;
+        b=Cd4EFs+gvOZ9v8WBq2X4Xit3yUEAArmzZRwM+gKkaj0YyLHDUG9ExGWN85rI13jg0m
+         o82Rz2eyTGekQ36guMnpB2/L9cd4hoNwhFYFVhMQuG41sn0Yuo7hPryhUbGLmFjwd1Ts
+         pnwvVi95u7eZBGFoFiCVDPSbGYFPt2XkevHsDBHSlum6oTZTRUtTgYpj2Cnp5jlBEEC9
+         lkWVV6Igg8AhGRWbBrsQtes4YhIncbs3FH48BHaKS5P3CgfpD+fKlEc+pDCBPrgLmwDt
+         LVZpeR+pW4p+xr372pw+AMRyLmkVY516m7U8czt+nvSPJ0/VtaTLyoORI6+i5MItjV15
+         uWZA==
+X-Gm-Message-State: APjAAAXkPK6RzAw063lKeB3HMRZHOKId9Hqm969Jxhu/whs1+MixOOt+
+        grimTJTqYWZtjy6YrizZb0oCJoa1c5o=
+X-Google-Smtp-Source: APXvYqyzWNVUholum0COSzgfMq6oO+Q+SFaJDTh2QcqMkldrbsSgPu/5a77hS320h8e2T+E36WxOjA==
+X-Received: by 2002:a1c:9dc7:: with SMTP id g190mr26063379wme.121.1558971616866;
+        Mon, 27 May 2019 08:40:16 -0700 (PDT)
+Received: from localhost.localdomain ([37.157.136.206])
+        by smtp.gmail.com with ESMTPSA id b2sm10125744wrt.20.2019.05.27.08.40.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 May 2019 08:40:16 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: hfi_parser: fix a regression in parser
+Date:   Mon, 27 May 2019 18:39:48 +0300
+Message-Id: <20190527153948.3432-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ond=C5=99ej,
+This fixes the following data abort:
 
-On Mon, 27 May 2019 at 15:48, Ond=C5=99ej Jirman <megous@megous.com> wrote:
->
-> Hi Cl=C3=A9ment,
->
-> On Mon, May 27, 2019 at 12:25:26AM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
-> > Hi,
-> >
-> > A64 IR support series[1] pointed out that an A31 bindings should be
-> > introduced.
-> >
-> > This series introduce the A31 compatible bindings, then switch it on
-> > the already existing board.
-> >
-> > Finally introduce A64 and H6 support.
->
-> Does H6 support actually work? I don't see any driver changes and last ti=
-me
-> I tried with the exact same bindings, I got RCU stalls shortly after boot=
-.
+ Unable to handle kernel paging request at virtual address 0000078000000040
+ Mem abort info:
+   ESR = 0x96000004
+   Exception class = DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+ Data abort info:
+   ISV = 0, ISS = 0x00000004
+   CM = 0, WnR = 0
+ user pgtable: 4k pages, 48-bit VAs, pgdp = (____ptrval____)
+ [0000078000000040] pgd=0000000000000000
+ Internal error: Oops: 96000004 [#1] PREEMPT SMP
+ Process irq/28-venus (pid: 292, stack limit = 0x(____ptrval____))
+ CPU: 0 PID: 292 Comm: irq/28-venus Not tainted 5.2.0-rc1+ #60
+ Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+ pstate: 60000005 (nZCv daif -PAN -UAO)
+ pc : __memcpy+0x100/0x180
+ lr : parse_caps+0x94/0xc0 [venus_core]
+ sp : ffff0000114e3990
+ x29: ffff0000114e3990 x28: ffff80003a7d0148
+ x27: 00000000000df018 x26: ffff000008bd4618
+ x25: 0000000000020003 x24: 0000078000000040
+ x23: 0000000000000002 x22: 0000000000000002
+ x21: ffff80003b9b8080 x20: 0000000000000008
+ x19: ffff000010f59000 x18: 0000000000000000
+ x17: 0000000000000000 x16: ffff80003c0f9b80
+ x15: 0000000000000000 x14: 0100000100000002
+ x13: 000000010020100b x12: 000000010000100a
+ x11: 0000100000000040 x10: 0000100000000004
+ x9 : 0000000000000000 x8 : ffff0000114e3bd8
+ x7 : 0000000000000000 x6 : ffff0000114e39d8
+ x5 : 0000000000000040 x4 : 0000000000000000
+ x3 : 0000000000000010 x2 : 0000000000000000
+ x1 : 0000078000000040 x0 : ffff0000114e39d8
+ Call trace:
+  __memcpy+0x100/0x180
+  hfi_parser+0x23c/0x3b8 [venus_core]
+  hfi_session_init_done+0x40/0x60 [venus_core]
+  hfi_process_msg_packet+0xd4/0x1d8 [venus_core]
+  venus_isr_thread+0x1e0/0x230 [venus_core]
+  hfi_isr_thread+0x18/0x20 [venus_core]
+  irq_thread_fn+0x28/0x78
+  irq_thread+0x124/0x1c0
+  kthread+0x124/0x128
+  ret_from_fork+0x10/0x18
+ Code: d503201f d503201f d503201f d503201f (a8c12027)
+ ---[ end trace fd253ebaeea05ffc ]---
+ genirq: exiting task "irq/28-venus" (292) is an active IRQ thread (irq 28)
 
-Actually, I have tested only on H6 on my Beelink GS1 with a "NEC" remote.
+by modifying structure members to flexible array members.
 
-I have manually toggle the protocols and do a simple cat in /dev/input/even=
-t0
-# echo nec > /sys/class/rc/rc0/protocols
-# cat /dev/input/event0 | hexdump
-0000000 0093 0000 0000 0000 8bfb 0009 0000 0000
-0000010 0004 0004 8028 0000 0093 0000 0000 0000
-0000020 8bfb 0009 0000 0000 0000 0000 0000 0000
-0000030 0093 0000 0000 0000 55be 000a 0000 0000
-0000040 0004 0004 8028 0000 0093 0000 0000 0000
-0000050 55be 000a 0000 0000 0000 0000 0000 0000
-0000060 0093 0000 0000 0000 fa42 000d 0000 0000
-0000070 0004 0004 8028 0000 0093 0000 0000 0000
-0000080 fa42 000d 0000 0000 0000 0000 0000 0000
-0000090 0093 0000 0000 0000 c41a 000e 0000 0000
-00000a0 0004 0004 8028 0000 0093 0000 0000 0000
-00000b0 c41a 000e 0000 0000 0000 0000 0000 0000
+Fixes: ded716267196862809e5926072adc962a611a1e3 media: hfi_parser: don't trick gcc with a wrong expected size
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/hfi_helper.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 34ea503a9842..a2b95ff79c4a 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -569,7 +569,7 @@ struct hfi_capability {
+ 
+ struct hfi_capabilities {
+ 	u32 num_capabilities;
+-	struct hfi_capability *data;
++	struct hfi_capability data[];
+ };
+ 
+ #define HFI_DEBUG_MSG_LOW	0x01
+@@ -726,7 +726,7 @@ struct hfi_profile_level {
+ 
+ struct hfi_profile_level_supported {
+ 	u32 profile_count;
+-	struct hfi_profile_level *profile_level;
++	struct hfi_profile_level profile_level[];
+ };
+ 
+ struct hfi_quality_vs_speed {
+-- 
+2.17.1
 
-Which kernel did you test with? Do you have any log?
-
-Thanks,
-Cl=C3=A9ment
-
->
-> Enabling/disabling ir node was enough to trigger/stop the RCU stalls on H=
-6.
->
-> regards,
->         o.
->
-> > Regards,
-> > Cl=C3=A9ment
-> >
-> > [1] https://lore.kernel.org/patchwork/patch/1031390/#1221464
-> >
-> > Changes since v1:
-> >  - Document reset lines as required since A31
-> >  - Explain the memory mapping difference in commit log
-> >  - Fix misspelling "Allwiner" to "Allwinner"
-> >
-> > Cl=C3=A9ment P=C3=A9ron (8):
-> >   dt-bindings: media: sunxi-ir: add A31 compatible
-> >   media: rc: sunxi: Add A31 compatible
-> >   ARM: dts: sunxi: prefer A31 instead of A13 for ir
-> >   dt-bindings: media: sunxi-ir: Add A64 compatible
-> >   dt-bindings: media: sunxi-ir: Add H6 compatible
-> >   arm64: dts: allwinner: h6: Add IR receiver node
-> >   arm64: dts: allwinner: h6: Enable IR on H6 boards
-> >   arm64: defconfig: enable IR SUNXI option
-> >
-> > Igors Makejevs (1):
-> >   arm64: dts: allwinner: a64: Add IR node
-> >
-> > Jernej Skrabec (1):
-> >   arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
-> >
-> >  .../devicetree/bindings/media/sunxi-ir.txt    | 11 +++++++++--
-> >  arch/arm/boot/dts/sun6i-a31.dtsi              |  2 +-
-> >  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
-> >  arch/arm/boot/dts/sun9i-a80.dtsi              |  2 +-
-> >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  2 +-
-> >  .../dts/allwinner/sun50i-a64-orangepi-win.dts |  4 ++++
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++++++++++++++++
-> >  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  4 ++++
-> >  .../dts/allwinner/sun50i-h6-orangepi.dtsi     |  4 ++++
-> >  .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  4 ++++
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 19 +++++++++++++++++++
-> >  arch/arm64/configs/defconfig                  |  1 +
-> >  drivers/media/rc/sunxi-cir.c                  |  1 +
-> >  13 files changed, 68 insertions(+), 6 deletions(-)
-> >
-> > --
-> > 2.20.1
-> >
-> >
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
