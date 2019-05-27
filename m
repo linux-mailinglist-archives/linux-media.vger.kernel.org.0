@@ -2,75 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D1E2B128
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 11:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394C52B116
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 11:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726492AbfE0JOC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 05:14:02 -0400
-Received: from mail.lunch4employee.eu ([80.211.219.151]:57266 "EHLO
-        mail.lunch4employee.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725973AbfE0JOC (ORCPT
+        id S1726185AbfE0JLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 05:11:35 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:51141 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725943AbfE0JLf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 05:14:02 -0400
-X-Greylist: delayed 448 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 May 2019 05:14:01 EDT
-Received: by mail.lunch4employee.eu (Postfix, from userid 1001)
-        id 35D0387F7A; Mon, 27 May 2019 11:06:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lunch4employee.eu;
-        s=mail; t=1558947992;
-        bh=ONuCP8WSrotnQIIUXuF9Z25xGEoxfqhSKmedy3wfW2M=;
-        h=Date:From:To:Subject:From;
-        b=Xuqd6aRhCs7O2/92FYAaYxCXY/0rC9CxJJZ40FeUWvl7fApD1V2+7UNU5l/Zv3YUy
-         4VTgQffBO41soDPjQWtYFmHWwGcuMXYHzSegLxJfeccLfZMelqFn2LsqDd8W0n/A5V
-         Dm/gmkfN/0XCViDTO5arFYuPtcsjAomkGAMn0Pvs=
-Received: by mail.lunch4employee.eu for <linux-media@vger.kernel.org>; Mon, 27 May 2019 09:06:27 GMT
-Message-ID: <20190527084500-0.1.m.u08.0.q69leqly9o@lunch4employee.eu>
-Date:   Mon, 27 May 2019 09:06:27 GMT
-From:   "Radoslav Dobrev" <radoslav.dobrev@lunch4employee.eu>
-To:     <linux-media@vger.kernel.org>
-Subject: =?UTF-8?Q?=D0=9F=D1=80=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B8_=D0=B7=D0=B0_=D0=BF=D0=B5=D1=80=D1=81=D0=BE=D0=BD=D0=B0=D0=BB=D0=B0?=
-X-Mailer: mail.lunch4employee.eu
+        Mon, 27 May 2019 05:11:35 -0400
+Received: from [IPv6:2001:983:e9a7:1:f4bd:6355:63eb:2e52] ([IPv6:2001:983:e9a7:1:f4bd:6355:63eb:2e52])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id VBfIhZmU5sDWyVBfJhYICd; Mon, 27 May 2019 11:11:33 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media-ioc-enum-links.rst: fix incorrect reserved field
+ documentation
+Message-ID: <db111993-2071-3023-56c2-1bffc83eb994@xs4all.nl>
+Date:   Mon, 27 May 2019 11:11:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAkgZd2OUJw4qH7sXOog7JcsU7T/etf4oPPK8AujuZ30qMtJFaJqmk6oKI3e9Ot21/yIP8PHWDRUHSGew3QuF+JHdByEnQMNnof/ZAz5+CsL/o8ZhCnm
+ XnaG7GvrpMJM+ocR6m5HxzHpSpUVJ4lUtTVCrry+NIkoe2mu/qUIinWu51rcnbCUoGVWtFG+bIhNmLXsZTwSQnFtPMGktThURrwtXDKj24pqYdMjY3u7sO9t
+ oc4Uvvs8h78k4Q4LdwDorS+rKGjdnQ/RRjg/ZAbp9Z0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5,
+The reserved field array for struct media_link_desc has length 2, not 4.
 
-=D0=97=D0=B0=D0=BF=D0=BE=D0=B7=D0=BD=D0=B0=D1=82=D0=B8 =D0=BB=D0=B8 =D1=81=
-=D1=82=D0=B5 =D1=81 =D0=BD=D0=B0=D0=B9-=D0=BD=D0=BE=D0=B2=D0=B0=D1=82=D0=B0=
- =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B0 =D0=BF=D1=80=D0=B8=D0=B4=
-=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B0 =E2=80=93 =D0=B2=D0=B0=D1=83=D1=87=D0=
-=B5=D1=80=D0=B8 =D0=B7=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0? =D0=90 =D0=BE=
-=D0=B1=D0=BC=D0=B8=D1=81=D0=BB=D1=8F=D0=BB=D0=B8 =D0=BB=D0=B8 =D1=81=D1=82=
-=D0=B5 =D0=B8=D0=B7=D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B5=D1=82=
-=D0=BE =D0=BD=D0=B0 =D1=82=D0=B0=D0=BA=D0=B8=D0=B2=D0=B0 =D0=B2=D0=B0=D1=83=
-=D1=87=D0=B5=D1=80=D0=B8, =D1=81 =D0=BF=D0=BE=D0=BC=D0=BE=D1=89=D1=82=D0=B0=
- =D0=BD=D0=B0 =D0=BA=D0=BE=D0=B8=D1=82=D0=BE =D0=92=D0=B0=D1=88=D0=B8=D1=8F=
-=D1=82 =D0=BF=D0=B5=D1=80=D1=81=D0=BE=D0=BD=D0=B0=D0=BB =D0=BC=D0=BE=D0=B6=
-=D0=B5 =D0=B4=D0=B0 =D0=BF=D0=B0=D0=B7=D0=B0=D1=80=D1=83=D0=B2=D0=B0 =D0=B2=
- =D1=80=D0=B0=D0=B7=D0=BB=D0=B8=D1=87=D0=BD=D0=B8 =D0=B2=D0=B5=D1=80=D0=B8=
-=D0=B3=D0=B8 =D1=85=D1=80=D0=B0=D0=BD=D0=B8=D1=82=D0=B5=D0=BB=D0=BD=D0=B8=
- =D0=BC=D0=B0=D0=B3=D0=B0=D0=B7=D0=B8=D0=BD=D0=B8 =D0=B8 =D0=B7=D0=B0=D0=B2=
-=D0=B5=D0=B4=D0=B5=D0=BD=D0=B8=D1=8F?
+And the reserved field array of struct media_links_enum was never documented
+at all.
 
-=D0=91=D0=B8=D1=85 =D0=BC=D0=BE=D0=B3=D1=8A=D0=BB =D0=B4=D0=B0 =D0=92=D0=B8=
- =D1=81=D0=B5 =D0=BE=D0=B1=D0=B0=D0=B4=D1=8F =D0=BF=D0=BE =D1=82=D0=B5=D0=
-=BB=D0=B5=D1=84=D0=BE=D0=BD=D0=B0 =D0=B8 =D0=B4=D0=B0 =D0=92=D0=B8 =D0=BF=
-=D1=80=D0=B5=D0=B4=D1=81=D1=82=D0=B0=D0=B2=D1=8F =D0=B2=D1=8A=D0=B7=D0=BC=
-=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=82=D0=B8=D1=82=D0=B5 =D0=BD=D0=B0 =D1=82=
-=D0=B5=D0=B7=D0=B8 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =E2=80=93 =D0=
-=BC=D0=BE=D0=BB=D1=8F =D0=BF=D0=BE=D1=81=D0=BE=D1=87=D0=B5=D1=82=D0=B5 =D0=
-=BA=D0=BE=D0=B3=D0=B0 =D1=89=D0=B5 =D0=92=D0=B8 =D0=B1=D1=8A=D0=B4=D0=B5 =
-=D1=83=D0=B4=D0=BE=D0=B1=D0=BD=D0=BE =D0=B4=D0=B0 =D1=80=D0=B0=D0=B7=D0=B3=
-=D0=BE=D0=B2=D0=B0=D1=80=D1=8F=D0=BC=D0=B5.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/Documentation/media/uapi/mediactl/media-ioc-enum-links.rst b/Documentation/media/uapi/mediactl/media-ioc-enum-links.rst
+index a982f16e55a4..b827ebc398f8 100644
+--- a/Documentation/media/uapi/mediactl/media-ioc-enum-links.rst
++++ b/Documentation/media/uapi/mediactl/media-ioc-enum-links.rst
+@@ -84,6 +84,11 @@ returned during the enumeration process.
+        -  Pointer to a links array allocated by the application. Ignored if
+ 	  NULL.
 
-=D0=9F=D1=80=D0=B8=D1=8F=D1=82=D0=B5=D0=BD =D0=B4=D0=B5=D0=BD!
++    *  -  __u32
++       -  ``reserved[4]``
++       -  Reserved for future extensions. Drivers and applications must set
++          the array to zero.
++
 
+ .. c:type:: media_pad_desc
 
-=D0=A0=D0=B0=D0=B4=D0=BE=D1=81=D0=BB=D0=B0=D0=B2 =D0=94=D0=BE=D0=B1=D1=80=
-=D0=B5=D0=B2
-Head of HR Benefit Team
-www.lunch4employee.eu
+@@ -135,7 +140,7 @@ returned during the enumeration process.
+        -  Link flags, see :ref:`media-link-flag` for more details.
+
+     *  -  __u32
+-       -  ``reserved[4]``
++       -  ``reserved[2]``
+        -  Reserved for future extensions. Drivers and applications must set
+           the array to zero.
+
