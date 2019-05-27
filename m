@@ -2,119 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C00AC2B6E6
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 15:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB59D2B783
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 16:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbfE0NsJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 09:48:09 -0400
-Received: from vps.xff.cz ([195.181.215.36]:50564 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726191AbfE0NsI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 09:48:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1558964885; bh=ustEk4EO9XCG6FHJLRsAPk5OCbRSi/9z1v7hcR+OOgc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=edC5Jqk9FcWLFnpa3bcokUCDAFQwsb+TpIDCCYGdhgfUh1W7oU5Bn2z9Q0GL+F8Kt
-         42vTLM8E5qQffspMvcPk6PzjMvdtXIcbSRfGRYIdLtoGA+RizEVkzZa4TRt/L3mxxf
-         AJPIdPH7zJyf/4FtMpBuLG2nnV9lRFhnELYl4BC8=
-Date:   Mon, 27 May 2019 15:48:05 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] Allwinner A64/H6 IR support
-Message-ID: <20190527134805.j7t4ffstrnhdml47@core.my.home>
-Mail-Followup-To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20190526222536.10917-1-peron.clem@gmail.com>
+        id S1726420AbfE0OaH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 10:30:07 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:52289 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726191AbfE0OaH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 May 2019 10:30:07 -0400
+Received: from [IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13] ([IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id VGdWhbWRA3qlsVGdYhd2GG; Mon, 27 May 2019 16:30:04 +0200
+Subject: Re: [PATCH v6 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
+        tfiga@chromium.org, dshah@xilinx.com
+References: <20190513172131.15048-1-m.tretter@pengutronix.de>
+ <23de1fe8-f868-d13d-4217-05bc007fab13@xs4all.nl>
+ <20190522154945.54ac67d7@litschi.hi.pengutronix.de>
+ <20190527154557.62278063@litschi.hi.pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <504559da-214d-da20-f8e6-ca24d3296961@xs4all.nl>
+Date:   Mon, 27 May 2019 16:30:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190526222536.10917-1-peron.clem@gmail.com>
+In-Reply-To: <20190527154557.62278063@litschi.hi.pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAEfPlylyG8hRg7PC/4iM7lJUlpQYCjsHABagLIQUEz+TRwpZ4lmLPve/iowLg8aBid9L8Bhjw0ncl2Tg4TekortvU1V5sxseoLvmN5yiHbcfzNNOTQU
+ FF6jVGZnfk15/Jr7Rhol49gMUrrVQXFruquaitJpiVaO5YYlD3IahyaOmETJBoNWX0oAkISs9MgnYHjSBtchX/6vq9TDLqdmyX53DSE+fBW7GZn30H3xyYkN
+ Vh6JAxT0MfBl7/vtBgSrGWpCLKofOBaCrTIyFJv8Z3IxLo9YcxvFz8F8cIooldY9e1WGg0LUonYREpePrMzNxXqKn2Hy/mxEpg1c19FshS5u85a54D4yeekO
+ zYZqKaYHeDip/Tqo27cUmrkDRFlcqmU0tZnfifW9FYHimt9vsikyo1GJ6QWVsPlIf+dbrwzXnMQlTx79H8yTs9gH5MOWlJZxoLI48Lk99ZCtACjEsgTt8xoa
+ 1EKZ6V8JpC2H9RksPArMf4fcReHkDlibLyK5Zw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Clément,
+On 5/27/19 3:45 PM, Michael Tretter wrote:
+> On Wed, 22 May 2019 15:49:45 +0200, Michael Tretter wrote:
+>> On Wed, 22 May 2019 14:04:23 +0200, Hans Verkuil wrote:
+>>> On 5/13/19 7:21 PM, Michael Tretter wrote:  
+>>>> This is v6 of the Allegro DVT H.264 encoder driver found in the EV
+>>>> family of the Xilinx ZynqMP platform.
+>>>>
+>>>> Only minor changes this time. I dropped the implementation of the
+>>>> selection api, removed all references mentioning the decoder, and fixed
+>>>> a few issues reported by sparse and smatch.
+>>>>
+>>>> The v4l2-compliance result using the current vicodec branch is
+>>>>
+>>>> v4l2-compliance SHA: c2ad13e4b7aef9ae160303189c67a91e1775f025, 64 bits
+>>>>
+>>>> Compliance test for allegro device /dev/video4:  
+>> [...]
+>>>> I observed that the "MMAP (select)" test occasionally fails, because the
+>>>> test did not receive an V4L2_EVENT_EOS when dequeuing a buffer with
+>>>> V4L2_BUF_FLAG_LAST being set. The driver always queues the event before
+>>>> returning the last buffer and the "MMAP (epoll)" does not fail. Thus, I
+>>>> decided to send the series anyway.    
+>>>
+>>> Where exactly does v4l2-compliance fail? This is weird, and I believe
+>>> this warrants a bit more debugging. I recommend adding a debug
+>>> statement in allegro_channel_buf_done() to see when a buffer is marked
+>>> LAST.  
+>>
+>> v4l2-compliance fails in line 1074
+>>
+>> 	fail: v4l2-test-buffers.cpp(1074): !got_eos && !got_source_change
+>>
+>> The corresponding code in v4l2-compliance is
+>>
+>> 	if (buf.g_flags() & V4L2_BUF_FLAG_LAST) {
+>> 		fail_on_test(buf.dqbuf(node) != EPIPE);
+>>> 		fail_on_test(!got_eos && !got_source_change);  
+>> 		if (!count)
+>> 			break;
+>> 		fail_on_test(node->streamoff(m2m_q.g_type()));
+>> 		m2m_q.munmap_bufs(node);
+>>
+>> When the test fails, the select/epoll_wait returns with readable data,
+>> but without readable events on the last buffer. If the test is
+>> successful, data and events are available. This looks like a race
+>> between the event and the LAST buffer and if the LAST buffer comes
+>> first, the test fails.
+>>
+>> As said, the driver always queues the EOS event before calling
+>> v4l2_m2m_buf_done() on the LAST buffer. Right now, I don't understand
+>> how this can happen, but I will continue debugging.
+> 
+> There is a race between v4l2_m2m_poll() and allegro_channel_finish_frame().
+> 
+> v4l2_m2m_poll() first calls v4l2_event_pending() to check if events are
+> available and afterwards checks if there are buffers on src_q and
+> dst_q. If allegro_channel_finish_frame() queues the V4L2_EVENT_EOS
+> after v4l2_event_pending() but before the checks on the queues,
+> v4l2_m2m_poll() sets EPOLLIN | EPOLLRDNORM for the LAST buffer, but does
+> not set EPOLLPRI, because it missed V4L2_EVENT_EOS.
+> 
+> As a fix, the driver must hold the m2m_ctx->q_lock mutex while calling
+> v4l2_event_queue_fh() for V4L2_EVENT_EOS to ensure that the event is
+> not queued during v4l2_m2m_poll() after the v4l2_event_pending() check.
 
-On Mon, May 27, 2019 at 12:25:26AM +0200, Clément Péron wrote:
-> Hi,
-> 
-> A64 IR support series[1] pointed out that an A31 bindings should be
-> introduced.
-> 
-> This series introduce the A31 compatible bindings, then switch it on
-> the already existing board.
-> 
-> Finally introduce A64 and H6 support.
+Nice analysis!
 
-Does H6 support actually work? I don't see any driver changes and last time
-I tried with the exact same bindings, I got RCU stalls shortly after boot.
+I think this can be fixed fairly simply: just call v4l2_event_pending as
+the last thing in v4l2_m2m_poll() and in vb2_poll().
 
-Enabling/disabling ir node was enough to trigger/stop the RCU stalls on H6.
+That will ensure that no events are missed by poll.
 
-regards,
-	o.
+> 
+> I'm not completely sure, but it seems to me that other v4l2 mem2mem
+> drivers have the same issue.
 
-> Regards,
-> Clément
+Most likely, yes.
+
+The good news is that this is not a driver bug, so I'll make a pull request
+for this series.
+
+It would be great if you can make two patches (one for vb2_poll, one for
+v4l2_m2m_poll) that changes this behavior.
+
+You can test it with your driver to verify that this indeed fixes the problem.
+
+Regards,
+
+	Hans
+
 > 
-> [1] https://lore.kernel.org/patchwork/patch/1031390/#1221464
+> Michael
 > 
-> Changes since v1:
->  - Document reset lines as required since A31
->  - Explain the memory mapping difference in commit log
->  - Fix misspelling "Allwiner" to "Allwinner"
-> 
-> Clément Péron (8):
->   dt-bindings: media: sunxi-ir: add A31 compatible
->   media: rc: sunxi: Add A31 compatible
->   ARM: dts: sunxi: prefer A31 instead of A13 for ir
->   dt-bindings: media: sunxi-ir: Add A64 compatible
->   dt-bindings: media: sunxi-ir: Add H6 compatible
->   arm64: dts: allwinner: h6: Add IR receiver node
->   arm64: dts: allwinner: h6: Enable IR on H6 boards
->   arm64: defconfig: enable IR SUNXI option
-> 
-> Igors Makejevs (1):
->   arm64: dts: allwinner: a64: Add IR node
-> 
-> Jernej Skrabec (1):
->   arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
-> 
->  .../devicetree/bindings/media/sunxi-ir.txt    | 11 +++++++++--
->  arch/arm/boot/dts/sun6i-a31.dtsi              |  2 +-
->  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
->  arch/arm/boot/dts/sun9i-a80.dtsi              |  2 +-
->  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  2 +-
->  .../dts/allwinner/sun50i-a64-orangepi-win.dts |  4 ++++
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++++++++++++++++
->  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  4 ++++
->  .../dts/allwinner/sun50i-h6-orangepi.dtsi     |  4 ++++
->  .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  4 ++++
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 19 +++++++++++++++++++
->  arch/arm64/configs/defconfig                  |  1 +
->  drivers/media/rc/sunxi-cir.c                  |  1 +
->  13 files changed, 68 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.20.1
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>>
+>>>
+>>> These tests really should not fail, and it is a strong indication of a
+>>> bug somewhere.
+>>>
+>>> I don't want to merge a driver that has a FAIL in v4l2-compliance without
+>>> at the very least understanding why that happens. Ignoring it defeats the
+>>> purpose of v4l2-compliance.  
+>>
+>> Totally agreed.
+>>
+>> Michael
+>>
+>>>
+>>> Regards,
+>>>
+>>> 	Hans
+>>>   
+>>
+
