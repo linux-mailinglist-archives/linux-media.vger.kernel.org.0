@@ -2,220 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D002BAF5
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 21:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D17A2BB5D
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 22:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbfE0Txd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 15:53:33 -0400
-Received: from vps.xff.cz ([195.181.215.36]:54828 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726346AbfE0Txd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 15:53:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1558986810; bh=TQm1z7XV9OcXC3zOVs+6uPifYNf994Ug5KfUvl6jkw8=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=MiChMqP4U9HE88aPO9vEKcSp8Jkx39Bk5JYJZZyrLUPRveB4GmNseExAgdpO1fx5y
-         LTYKRGqy2jEcgC8v6Z3aeFiISGWD+syP8+yqb0uHMXdKmXh8dw7gt/kq2CEFqTd1Eu
-         7RqduuUIm5Qw2K+82XUblNp+fMCH0WN6HnaYW3wI=
-Date:   Mon, 27 May 2019 21:53:30 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] Allwinner A64/H6 IR support
-Message-ID: <20190527195330.pugb7ypvnyv32fug@core.my.home>
-Mail-Followup-To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-References: <20190526222536.10917-1-peron.clem@gmail.com>
- <20190527134805.j7t4ffstrnhdml47@core.my.home>
- <CAJiuCcdnQa0TArduT4yBbUyd+dOaM0cQ1JcRUQLXLR6s_5e8sA@mail.gmail.com>
- <20190527163117.hpealt6cttqzqdxz@core.my.home>
- <20190527172337.5qxh5qeqnul55gsb@core.my.home>
- <CAJiuCccnRCqez2uG-pU8XY4Z=5S8rDwFB3rgsBovPHY1Uxyazw@mail.gmail.com>
- <20190527193016.yxngu5grsqnctx3z@core.my.home>
+        id S1726839AbfE0USk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 16:18:40 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44110 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726657AbfE0USk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 May 2019 16:18:40 -0400
+Received: by mail-lf1-f67.google.com with SMTP id r15so3394580lfm.11;
+        Mon, 27 May 2019 13:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OvAUbe7K2xMqtGukRvbyAcK37R51pLBjtoeTTYWgxsQ=;
+        b=acnjEkzUONJXr68U3rGDlvPQOpxMYkUluPjF/L2FWCDTrEh/Dqpt4YV4oFmk4NafI2
+         lXPUOzH2bM+2r15A+ZdXatIQisuqB13nUbNfSEtq42zibjT9abroP+iULvcFkxsWTnoh
+         Uhm8t1lNnjQasTeTByWOzTReOlgyTw1h5lDq48cL8ZZ6K9fSKSAU4Yza8Kea/E3TJ/8z
+         tFVrCLO6h8uJuyvFEOquiKzz/0SJLnnLqJSuJuN+J14PV8eeipNJ9OwuVZsKXUgROxMK
+         9j+JgxADQfS0O826RSVWi7YGDp2OIoRiR1SrFszF7BUdO2AwWcPlMoXzTVhC3PhFUM91
+         USeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OvAUbe7K2xMqtGukRvbyAcK37R51pLBjtoeTTYWgxsQ=;
+        b=JDwg0QtM3I6ItdkkNwRuuafxhfHi38QtGsxf95DVK1AA+qPTiTSlSpk1cF5ix2m9oq
+         hjrrUNJedBiGUDdFAh+yzxzc69cDLIzH2Cq2m1xG1O8vVXMPQDLSTD01rlpNFWk/iMYI
+         2OFmXuEFPtRCQUPnuL4JSEFZi1oTnb7X8VBUcVfMBmBE1BVyKO0EJ2QaQNvIIjFHkw5S
+         fBZf30I58YBmc6u7wauEsUdzcQo8G3N0OaJ97iaCe57GPbW3pgGQBuHKEKIKvH4pMIXY
+         2sA4t3Pz9hH6mQ7EOIY7McA7a6Bcw4GrBUcugILANgFhlSEEay9U+3OhVyraWTHjgoF6
+         aWiw==
+X-Gm-Message-State: APjAAAXPhmw56lNqkZFz7c8ySBI2Rgh0a8quWgf4zGqDInz99LArYwKx
+        bkTxaHYvv1ncKyUzg9/0szAvT4mPoO62zF7BE9w=
+X-Google-Smtp-Source: APXvYqyxfqbMHT5nTyWym+yreIOwF2hutbzSGK0O2yyJXJBibvYAht3syEewDACi2AN7cwItuMnOUTlhUha/B7aKqI0=
+X-Received: by 2002:ac2:4899:: with SMTP id x25mr5704165lfc.44.1558988318149;
+ Mon, 27 May 2019 13:18:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190527193016.yxngu5grsqnctx3z@core.my.home>
+References: <20190504144027.31920-1-festevam@gmail.com> <20190504144027.31920-6-festevam@gmail.com>
+In-Reply-To: <20190504144027.31920-6-festevam@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 27 May 2019 17:18:44 -0300
+Message-ID: <CAOMZO5AZBQuD8Tdhbf+r4C6M7zZy9VevVQoyb8o4KJY4EkO9WA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] media: dt-bindings: imx7-csi: Document a single CSI clock
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Rui Miguel Silva <rui.silva@linaro.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?S=C3=A9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>,
+        Otavio Salvador <otavio@ossystems.com.br>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, hverkuil-cisco@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Clément,
+Hi Rob,
 
-On Mon, May 27, 2019 at 09:30:16PM +0200, verejna wrote:
-> Hi Clément,
-> 
-> On Mon, May 27, 2019 at 08:49:59PM +0200, Clément Péron wrote:
-> > Hi Ondrej,
-> > 
-> > >
-> > > I'm testing on Orange Pi 3.
-> > >
-> > > With your patches, I get kernel lockup after ~1 minute of use (ssh stops
-> > > responding/serial console stops responding). I don't have RC controller to test
-> > > the CIR. But just enabling the CIR causes kernel to hang shortly after boot.
-> > >
-> > > I tried booting multiple times. Other results:
-> > >
-> > > boot 2:
-> > >
-> > > - ssh hangs even before connecting (ethernet crashes/is reset)
-> > >
-> > > INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (1 GPs behind) idle=64a/0/0x3 softirq=4091/4091 fqs=2437
-> > > dwmac-sun8i 5020000.ethernet eth0: Reset adapter.
-> > > rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 0-... } 5696 jiffies s: 81 root: 0x1/.
-> > > rcu: blocking rcu_node structures:
-> > >  rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (1 GPs behind) idle=64a/0/0x3 softirq=4091/4091 fqs=9714
-> > > rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 0-... } 21568 jiffies s: 81 root: 0x1/.
-> > > rcu: blocking rcu_node structures:
-> > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (1 GPs behind) idle=64a/0/0x3 softirq=4091/4091 fqs=17203
-> > >
-> > > above messages appear regularly.
-> > >
-> > > boot 3:
-> > >
-> > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (9 GPs behind) idle=992/0/0x3 softirq=6123/6123 fqs=2600
-> > >
-> > >
-> > > Sometimes serial console keeps working. Sometimes it locks up too (but not
-> > > frequently). Storage locks up always (any program that was not run before
-> > > the crash can't be started and lock up the kernel hard, programs that
-> > > were executed prior, can be run again).
-> > >
-> > >
-> > > Exactly the same kernel build on H5 seems to work (or at least I was not able to
-> > > trigger the crash). So this seems to be limited to H6 for now.
-> > >
-> > > I suspect that the crash occurs sooner if I vary the light (turn on/off the table
-> > > lamp light).
-> > >
-> > > Without your patches, everything works fine on H6, and I never see
-> > > crashes/lockups.
-> > >
-> > > I tired physically covering the IR receiver, and that helps preventing the
-> > > crash. As soon as I uncover it, the crash happens again in 1s or so:
-> > >
-> > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (1 GPs behind) idle=4ea/0/0x3 softirq=4483/4484 fqs=2444
-> > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > rcu:    0-....: (1 GPs behind) idle=4ea/0/0x3 softirq=4483/4484 fqs=9777
-> > >
-> > > This time I got the hung task and reboot: (probably not directly related)
-> > >
-> > > INFO: task find:560 blocked for more than 120 seconds.
-> > >       Not tainted 5.2.0-rc2+ #7
-> > > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > > find            D    0   560    551 0x00000000
-> > > Call trace:
-> > >  __switch_to+0x6c/0x90
-> > >  __schedule+0x1f4/0x578
-> > >  schedule+0x28/0xa8
-> > >  io_schedule+0x18/0x38
-> > >  __lock_page+0x12c/0x208
-> > >  pagecache_get_page+0x238/0x2e8
-> > >  __get_node_page+0x6c/0x310
-> > >  f2fs_get_node_page+0x14/0x20
-> > >  f2fs_iget+0x70/0xc60
-> > >  f2fs_lookup+0xcc/0x218
-> > >  __lookup_slow+0x78/0x160
-> > >  lookup_slow+0x3c/0x60
-> > >  walk_component+0x1e4/0x2e0
-> > >  path_lookupat.isra.13+0x5c/0x1e0
-> > >  filename_lookup.part.23+0x6c/0xe8
-> > >  user_path_at_empty+0x4c/0x60
-> > >  vfs_statx+0x78/0xd8
-> > >  __se_sys_newfstatat+0x24/0x48
-> > >  __arm64_sys_newfstatat+0x18/0x20
-> > >  el0_svc_handler+0x9c/0x170
-> > >  el0_svc+0x8/0xc
-> > > Kernel panic - not syncing: hung_task: blocked tasks
-> > > CPU: 1 PID: 34 Comm: khungtaskd Not tainted 5.2.0-rc2+ #7
-> > > Hardware name: OrangePi 3 (DT)
-> > > Call trace:
-> > >  dump_backtrace+0x0/0xf8
-> > >  show_stack+0x14/0x20
-> > >  dump_stack+0xa8/0xcc
-> > >  panic+0x124/0x2dc
-> > >  proc_dohung_task_timeout_secs+0x0/0x40
-> > >  kthread+0x120/0x128
-> > >  ret_from_fork+0x10/0x18
-> > > SMP: stopping secondary CPUs
-> > > Kernel Offset: disabled
-> > > CPU features: 0x0002,20002000
-> > > Memory Limit: none
-> > > Rebooting in 3 seconds..
-> > >
-> > >
-> > > Meanwhile H5 based board now runs for 15 minutes without issues.
-> > >
-> > > So to sum up:
-> > >
-> > > - these crashes are definitely H6 IR related
-> > >   - the same kernel, on H5 works
-> > >   - covering the sensor prevents the crashes on H6
-> > >
-> > > So we should probably hold on with the series, until this is figured out.
-> > 
-> > Thanks for testing, but I think it's more hardware related.
-> > It seems that your IR is flooded or misconfigured for your board.
-> > Could you add a simple print in the "sunxi_ir_irq"
-> 
-> Yes, I get flood of IRQs with status = 0x30. (after I turn on the lamp,
-> but it persists even after I turn it off and cover the IR sensor).
+On Sat, May 4, 2019 at 11:40 AM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> As per the i.MX7D Reference Manual only the MCLK is used for
+> the CSI block, so only document this single clock.
+>
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/imx7-csi.txt | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/imx7-csi.txt b/Documentation/devicetree/bindings/media/imx7-csi.txt
+> index 3c07bc676bc3..443aef07356e 100644
+> --- a/Documentation/devicetree/bindings/media/imx7-csi.txt
+> +++ b/Documentation/devicetree/bindings/media/imx7-csi.txt
+> @@ -14,8 +14,7 @@ Required properties:
+>  - interrupts    : should contain CSI interrupt;
+>  - clocks        : list of clock specifiers, see
+>          Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
+> -- clock-names   : must contain "axi", "mclk" and "dcic" entries, matching
+> -                 entries in the clock property;
+> +- clock-names   : must contain "mclk";
+>
+>  The device node shall contain one 'port' child node with one child 'endpoint'
+>  node, according to the bindings defined in:
+> @@ -32,10 +31,8 @@ example:
+>                          compatible = "fsl,imx7-csi";
+>                          reg = <0x30710000 0x10000>;
+>                          interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> -                        clocks = <&clks IMX7D_CLK_DUMMY>,
+> -                                        <&clks IMX7D_CSI_MCLK_ROOT_CLK>,
+> -                                        <&clks IMX7D_CLK_DUMMY>;
+> -                        clock-names = "axi", "mclk", "dcic";
+> +                        clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
+> +                        clock-names = "mclk";
 
-Interestingly, status also contains RAC, and it's 0 in this case. So the 
-interrupt if firing with "No available data in RX FIFO" repeatedly. Regardless
-of input.
+Any comments, please?
 
-So there's something else up.
-
-regards,
-	o.
-
-> That's weird, because on H6 in CIR_RXSTA, bit 5 is undefined but corresponding 
-> bit in CIR_RXINT is DRQ_EN (RX FIFO DMA Enable)
-> 
-> So I'm not sure what it could be flooded with and why IRQs keep being
-> fired, even with no sensor input after the FIFO is read.
-> 
-> regards,
-> 	o.
-> 
-> > If it's confirmed, maybe tweak the threshold configuration or
-> > implement the new active_threshold will help.
-> > 
-> > With my hardware Beelink GS1 and on Jernej's board (A64) there is no issue.
-> > 
-> > I will disable all the other H6 boards until someone test it.
-> > 
-> > Regards,
-> > Clément
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Thanks
