@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B7822AF85
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 09:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18CFB2AFA4
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 10:00:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfE0HrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 May 2019 03:47:12 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50817 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbfE0HrL (ORCPT
+        id S1726072AbfE0IAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 May 2019 04:00:08 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:59520 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbfE0IAH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 May 2019 03:47:11 -0400
+        Mon, 27 May 2019 04:00:07 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 9A6AC3A293C;
+        Mon, 27 May 2019 07:47:56 +0000 (UTC)
 X-Originating-IP: 90.88.147.134
 Received: from localhost (aaubervilliers-681-1-27-134.w90-88.abo.wanadoo.fr [90.88.147.134])
         (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id F3FD5FF804;
-        Mon, 27 May 2019 07:47:00 +0000 (UTC)
-Date:   Mon, 27 May 2019 09:47:00 +0200
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 4DDFCC000B;
+        Mon, 27 May 2019 07:47:46 +0000 (UTC)
+Date:   Mon, 27 May 2019 09:47:45 +0200
 From:   Maxime Ripard <maxime.ripard@bootlin.com>
 To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -26,15 +29,16 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v2 02/10] media: rc: sunxi: Add A31 compatible
-Message-ID: <20190527074700.rvhqua44ixudt52z@flea>
+Subject: Re: [PATCH v2 03/10] ARM: dts: sunxi: prefer A31 instead of A13 for
+ ir
+Message-ID: <20190527074745.5oyt5tyuoc75ntiq@flea>
 References: <20190526222536.10917-1-peron.clem@gmail.com>
- <20190526222536.10917-3-peron.clem@gmail.com>
+ <20190526222536.10917-4-peron.clem@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xx34rvresls3nexu"
+        protocol="application/pgp-signature"; boundary="pp6ncxjpttni4i4p"
 Content-Disposition: inline
-In-Reply-To: <20190526222536.10917-3-peron.clem@gmail.com>
+In-Reply-To: <20190526222536.10917-4-peron.clem@gmail.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -42,36 +46,27 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---xx34rvresls3nexu
+--pp6ncxjpttni4i4p
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, May 27, 2019 at 12:25:28AM +0200, Cl=E9ment P=E9ron wrote:
-> Allwiner A31 has a different memory mapping so add the compatible
-> we will need it later.
+On Mon, May 27, 2019 at 12:25:29AM +0200, Cl=E9ment P=E9ron wrote:
+> Since A31, memory mapping of the IR driver has changed.
+>
+> Prefer the A31 bindings instead of A13.
 >
 > Signed-off-by: Cl=E9ment P=E9ron <peron.clem@gmail.com>
 > ---
->  drivers/media/rc/sunxi-cir.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index 307e44714ea0..29ac33b68596 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -319,6 +319,7 @@ static int sunxi_ir_remove(struct platform_device *pd=
-ev)
->  static const struct of_device_id sunxi_ir_match[] =3D {
->  	{ .compatible =3D "allwinner,sun4i-a10-ir", },
->  	{ .compatible =3D "allwinner,sun5i-a13-ir", },
-> +	{ .compatible =3D "allwinner,sun6i-a31-ir", },
+>  arch/arm/boot/dts/sun6i-a31.dtsi   | 2 +-
+>  arch/arm/boot/dts/sun8i-a83t.dtsi  | 2 +-
+>  arch/arm/boot/dts/sun9i-a80.dtsi   | 2 +-
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 2 +-
 
-We should also move from reset_get_optional to the non optional
-variant for the A31, and ignore it otherwise.
+Can you split the H3 in a separate patch? this will go through a
+separate branch.
 
+Thanks!
 Maxime
 
 --
@@ -79,15 +74,15 @@ Maxime Ripard, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
 
---xx34rvresls3nexu
+--pp6ncxjpttni4i4p
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOuV9AAKCRDj7w1vZxhR
-xYI4APwLA7XkEJEvZo163pjX8FYq/eehfm/B/XlHpRd4MGPiPAEA7XTUsahB0xGh
-X93+OkLnWss/BMtLjZmj/mbzvyOITAo=
-=oSdS
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOuWIQAKCRDj7w1vZxhR
+xUx7AQDWMM7bqbWyusgAqBceK1Mm3YxF86z+jSIPo7ooKR2vMgEApTPK5Q9rYvHu
+XiaJRAAZYlSm12fyKBMhDUzo2be/fwE=
+=ZMdg
 -----END PGP SIGNATURE-----
 
---xx34rvresls3nexu--
+--pp6ncxjpttni4i4p--
