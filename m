@@ -2,151 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E34F2AD66
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 05:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F0F62AD6B
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 05:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbfE0Dtq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 23:49:46 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44177 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725923AbfE0Dtq (ORCPT
+        id S1726094AbfE0Dvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 23:51:42 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33293 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbfE0Dvl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 23:49:46 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:f4bd:6355:63eb:2e52])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id V6dqhY6ZSsDWyV6drhXFAm; Mon, 27 May 2019 05:49:43 +0200
-Message-ID: <4185e5fec60a6014d4831ea0602619ef@smtp-cloud9.xs4all.net>
-Date:   Mon, 27 May 2019 05:49:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfPTuRqlTqHbynZgm2PQvSdkoqtf+k+8uh0FLtWOYBN9qJLxmuLQVm5y73Tx+lu89H2ol6qNn2GP9GLp1pZBqHvTnobjxLj0jDD7xmwRIZSf36GHI3Omp
- CwW2bBcnBTCcCnC1+kVfFIrqZzkIhfoL//tmyBcHhSGh6+b3y/0n7mkgmUo3rfRMZh6o3btFENb8l+rBXPbeijRF5pFeuSYWY3Y6ZPr8HVfjtIugmUUVKdOa
+        Sun, 26 May 2019 23:51:41 -0400
+Received: by mail-ed1-f67.google.com with SMTP id n17so24608980edb.0
+        for <linux-media@vger.kernel.org>; Sun, 26 May 2019 20:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D0QV8qyfvSFrB2pCHlJaBkLaI6mf2LLeBc50MxxOpH8=;
+        b=MJglQuI93h/MaSGCbXpu+1/2njRn2SFnTRXg0exJjB8T3VjOTgwLuhH/Wnbh501X8T
+         pLiLZ+agaxbwhmWjj1kTZilthQ4/cuEYUj96l7xADwCpD7aCog/g6PqXbBiUBc48Dw6o
+         XqeoEdTY/p4h78o3Odmn+2BjwEbXmyr3yQWwA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D0QV8qyfvSFrB2pCHlJaBkLaI6mf2LLeBc50MxxOpH8=;
+        b=KsIxrhTj8E+BSXWnYUa9/EzbukeNmHA0KQBTOx4Z6ijfG9wqjVG4XKttccaL5+GRco
+         /EO7yvqJtX7d+Jq9sxkypwy/hXapd8hM+4Dmtfb/YKxD/yLb3ZxDVdIQyJL8gRNTJ0z0
+         p4w2AIacdGL+SR9KExlpEJ+g4QFVsMLcFQcm9nVN+vF8y/S79ungl37epc3ARgCk+qBu
+         J/rGFiWFKUe91nybUBG1DZT38OVAVWFjB9X57Iu9BxLwF4OIbdMuqkYubjDvH0L9Uuwc
+         a/6ymaZgWIxaCAN6ehEE9rWG//MF8LKbSQE+MG99j4XsxwXeibXomoLCbyn1AaoGJhqA
+         Zz8A==
+X-Gm-Message-State: APjAAAX5n2PW2OouETxOdnHF2GBcH8g1q+A/dP6ueNdUBMXAgKCWve3s
+        aMausqYz0SaDhU3n3N4L3pAxo5Z9RwsJZA==
+X-Google-Smtp-Source: APXvYqybOioPUSlFVWa6P21IP7+bjfz+gHDpV5SyaLDR69Noy2+OKYxDNbwBrF3sHgWuucg0fVpmpQ==
+X-Received: by 2002:a50:ae84:: with SMTP id e4mr121002953edd.33.1558929099524;
+        Sun, 26 May 2019 20:51:39 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id v16sm2934168edm.56.2019.05.26.20.51.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 May 2019 20:51:38 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id d17so1434084wmb.3
+        for <linux-media@vger.kernel.org>; Sun, 26 May 2019 20:51:38 -0700 (PDT)
+X-Received: by 2002:a1c:994f:: with SMTP id b76mr7388714wme.90.1558929098045;
+ Sun, 26 May 2019 20:51:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190117162008.25217-1-stanimir.varbanov@linaro.org>
+ <20190117162008.25217-11-stanimir.varbanov@linaro.org> <60b3efff-31c1-bc04-8af9-deebb8bc013a@xs4all.nl>
+ <fe51ae1e-6d2e-36bd-485a-d85520ad2386@linaro.org> <CAAFQd5Co3G1J4+HOcjtCb7p3rhLcm+1E=mPr2d=AtdOSuF_eKg@mail.gmail.com>
+ <c56930e0-be6f-2ade-fcea-8ee0ff6247ec@linaro.org> <CAAFQd5CNGsnqjpLsWSTf=8r+hSfyOgD8SU-tn5EbHCCuuSgH6A@mail.gmail.com>
+ <01b6683f-9378-e6f2-501f-e2213e6c690d@xs4all.nl>
+In-Reply-To: <01b6683f-9378-e6f2-501f-e2213e6c690d@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 27 May 2019 12:51:26 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Dw-1A2gXuC54Z7808L6Vm9mjPpE7Kbj-TZC18_k_FgVA@mail.gmail.com>
+Message-ID: <CAAFQd5Dw-1A2gXuC54Z7808L6Vm9mjPpE7Kbj-TZC18_k_FgVA@mail.gmail.com>
+Subject: Re: [PATCH 10/10] venus: dec: make decoder compliant with stateful
+ codec API
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Malathi Gottam <mgottam@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, May 21, 2019 at 9:27 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 5/21/19 11:09 AM, Tomasz Figa wrote:
+> > Hi Stan,
+> >
+> > On Mon, May 20, 2019 at 11:47 PM Stanimir Varbanov
+> > <stanimir.varbanov@linaro.org> wrote:
+> >>
+> >> Hi Tomasz,
+> >>
+> >> On 4/24/19 3:39 PM, Tomasz Figa wrote:
+> >>> On Wed, Apr 24, 2019 at 9:15 PM Stanimir Varbanov
+> >>> <stanimir.varbanov@linaro.org> wrote:
+> >>>>
+> >>>> Hi Hans,
+> >>>>
+> >>>> On 2/15/19 3:44 PM, Hans Verkuil wrote:
+> >>>>> Hi Stanimir,
+> >>>>>
+> >>>>> I never paid much attention to this patch series since others were busy
+> >>>>> discussing it and I had a lot of other things on my plate, but then I heard
+> >>>>> that this patch made G_FMT blocking.
+> >>>>
+> >>>> OK, another option could be to block REQBUF(CAPTURE) until event from hw
+> >>>> is received that the stream is parsed and the resolution is correctly
+> >>>> set by application. Just to note that I'd think to this like a temporal
+> >>>> solution until gstreamer implements v4l events.
+> >>>>
+> >>>> Is that looks good to you?
+> >>>
+> >>> Hmm, I thought we concluded that gstreamer sets the width and height
+> >>> in OUTPUT queue before querying the CAPTURE queue and so making the
+> >>> driver calculate the CAPTURE format based on what's set on OUTPUT
+> >>> would work fine. Did I miss something?
+> >>
+> >> Nobody is miss something.
+> >>
+> >> First some background about how Venus implements stateful codec API.
+> >>
+> >> The Venus firmware can generate two events "sufficient" and
+> >> "insufficient" buffer requirements (this includes decoder output buffer
+> >> size and internal/scratch buffer sizes). Presently I always set minimum
+> >> possible decoder resolution no matter what the user said, and by that
+> >> way I'm sure that "insufficient" event will always be triggered by the
+> >> firmware (the other reason to take this path is because this is the
+> >> least-common-divider for all supported Venus hw/fw versions thus common
+> >> code in the driver). The reconfiguration (during codec Initialization
+> >> sequence) is made from STREAMON(CAPTURE) context. Now, to make that
+> >> re-configuration happen I need to wait for "insufficient" event from
+> >> firmware in order to know the real coded resolution.
+> >>
+> >> In the case of gstreamer where v4l2_events support is missing I have to
+> >> block (wait for firmware event) REQBUF(CAPTURE) (vb2::queue_setup) or
+> >> STREAMON(CAPTURE) (vb2::start_streaming).
+> >>
+> >> I tried to set the coded resolution to the firmware as-is it set by
+> >> gstreamer but then I cannot receive the "sufficient" event for VP8 and
+> >> VP9 codecs. So I return back to the solution with minimum resolution above.
+> >>
+> >> I'm open for suggestions.
+> >
+> > I think you could still keep setting the minimum size and wait for the
+> > "insufficient" event. At the same time, you could speculatively
+> > advertise the expected "sufficient" size on the CAPTURE queue before
+> > the hardware signals those. Even if you mispredict them, you'll get
+> > the event, update the CAPTURE resolution and send the source change
+> > event to the application, which would then give you the correct
+> > buffers. Would that work for you?
+>
+> As I understand it this still would require event support, which gstreamer
+> doesn't have.
 
-Results of the daily build of media_tree:
+I don't think it matches what I remember from the earlier discussion.
+As long as Gstreamer sets the visible resolution (from the container
+AFAIR) on OUTPUT, the driver would adjust it to something that is
+expected to be the right framebuffer resolution and so Gstreamer would
+be able to continue. Of course if the expected value doesn't match, it
+wouldn't work, but it's the same as currently for Coda AFAICT.
 
-date:			Mon May 27 05:00:10 CEST 2019
-media-tree git hash:	2c41cc0be07b5ee2f1167f41cd8a86fc5b53d82c
-media_build git hash:	483b4f0f48283ddaf1ba54d079051b58cdff2ef9
-v4l-utils git hash:	030fb6540933fdbbb039b4c865e47c3b372ad088
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: f1eea1117281d36d3f15e8955933d17600bb047e
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+>
+> I think it is OK to have REQBUFS sleep in this case. However, I would only
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 12
-sparse: WARNINGS
-smatch: OK
+Why REQBUFS? While that could possibly allow us to allocate the right
+buffers, Gstreamer wouldn't be able to know the right format, because
+it would query it before REQBUFS, wouldn't it?
 
-Detailed results are available here:
+For this reason, s5p-mfc makes G_FMT(CAPTURE) blocking and if we
+decide to forcefully keep the compatibility, even with in drivers, we
+should probably do the same here.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+> enable this behavior if the application didn't subscribe to the SOURCE_CHANGE
+> event. That's easy enough to check in the driver. And that means that if the
+> application is well written, then the driver will behave in a completely
+> standard way that the compliance test can check.
 
-Detailed regression test results are available here:
+I guess one could have some helpers for this. They would listen to the
+source change events internally and block / wake-up appropriate ioctls
+whenever necessary.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+Another question: If we intend this to be implemented in new drivers
+too, should it be documented in the spec?
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
