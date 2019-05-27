@@ -2,93 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7130A2AC88
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 00:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 310962ACF4
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2019 04:26:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbfEZWZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 26 May 2019 18:25:57 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36962 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbfEZWZ4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 26 May 2019 18:25:56 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 7so13953453wmo.2;
-        Sun, 26 May 2019 15:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ky+CVe/5shquKmn2x9Mkd4t0sluqJy1OgxXU5TLlF8Y=;
-        b=sPUyp9v+8Z9vQEkItY8c65gc4hEJo1CCryJxXjEdBdgRfT2MwtaViFBfAqvbTOfAJA
-         /JfCsjccRQ8bYTwKOTfczCXgDfnCYj21+5+IVPeLjjZkPeezZNCwdoE00b6q9I1MzKhT
-         bp4TYVKCMu+GBI28ErZcklCjb8AS2W7bnrxiRuVT4yGJZKCU8g+QxOhnXTFcBEwmXyPU
-         c26Y6DzSLlLy+MePCkuTLC45BYWSRRsjnXKtqnvcyGwF05vRABib42Fd+DzUfk1u/CZ0
-         IE5YiyYxBy5pkFuAuNo5wHhq25SVIe58MP5Ry62abf1ZZD8BsWwN/S9Dst3L+A/teMPG
-         AMOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ky+CVe/5shquKmn2x9Mkd4t0sluqJy1OgxXU5TLlF8Y=;
-        b=PyQDpC+Zry+B8XWgbSRnouVXKMmrd3NxxqXJIEnvyMIu4nD6yDd62xh5h0fu1jziC6
-         HPD5lSSvlJ8e4png6JUcwPkd/TRH1MRhKxQ6JfPAGe83ocP6JDaM+BgP/8em8FV7XeL5
-         7zl/uTFj84Jn3Pj5gIJZdks5OF9rz4BpE+GCeFSu0dWJZ7JySR1rHBzUDRQ3AJf47fHs
-         8fjjt4X500t6ir2N5voddi7RIJVV6bKTsUwkmJ0rh6+H/4K7GMJ7YsSqXpZKTDmXe0Of
-         4zh4drKnGVXPqKfra4D/BEA9xqEtxiCqTyBJ8Qa8WjemANdw1Iu03ThKzF6RZjOxlXfj
-         VeZg==
-X-Gm-Message-State: APjAAAVeXNxVAiONeo5r5Cpwm74QoPXcf7Q/rQspxo0YGF9Rb343finD
-        mcfBvxjK+bYxvuXkoyK7JkqFyXe0umS4Zg==
-X-Google-Smtp-Source: APXvYqyyd3PZUV8lPG0zWsqVsz5SNpdDjh7xV3aWAQkNiuXXvaMocqOTw1pYCTR4qThphBMnLW2HcQ==
-X-Received: by 2002:a1c:f413:: with SMTP id z19mr2205565wma.145.1558909554617;
-        Sun, 26 May 2019 15:25:54 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id o20sm10368398wro.2.2019.05.26.15.25.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 26 May 2019 15:25:53 -0700 (PDT)
-From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com,
-        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v2 10/10] arm64: defconfig: enable IR SUNXI option
-Date:   Mon, 27 May 2019 00:25:36 +0200
-Message-Id: <20190526222536.10917-11-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190526222536.10917-1-peron.clem@gmail.com>
-References: <20190526222536.10917-1-peron.clem@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1726005AbfE0C0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 May 2019 22:26:11 -0400
+Received: from mga07.intel.com ([134.134.136.100]:46271 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725923AbfE0C0L (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 26 May 2019 22:26:11 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 May 2019 19:26:11 -0700
+X-ExtLoop1: 1
+Received: from shawn-bm6650-pc.itwn.intel.com ([10.5.230.127])
+  by fmsmga005.fm.intel.com with ESMTP; 26 May 2019 19:26:09 -0700
+From:   Shawnx Tu <shawnx.tu@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
+        shawnx.tu@intel.com
+Subject: [PATCH v2] ov8856: modify register to fix test pattern
+Date:   Mon, 27 May 2019 10:26:05 +0800
+Message-Id: <1558923965-23481-1-git-send-email-shawnx.tu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable CONFIG_IR_SUNXI option for ARM64, so that Allwinner A64/H6 SoCs
-can use their IR receiver controller.
+From: Shawn Tu <shawnx.tu@intel.com>
 
-Signed-off-by: Clément Péron <peron.clem@gmail.com>
+modify registers to fix bayer order in test pattern mode
+
+Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/ov8856.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 4d583514258c..5128029100d2 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -460,6 +460,7 @@ CONFIG_RC_CORE=m
- CONFIG_RC_DECODERS=y
- CONFIG_RC_DEVICES=y
- CONFIG_IR_MESON=m
-+CONFIG_IR_SUNXI=m
- CONFIG_MEDIA_SUPPORT=m
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index dbf1095..cd347d6 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -195,11 +195,11 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
+ 	{0x3800, 0x00},
+ 	{0x3801, 0x00},
+ 	{0x3802, 0x00},
+-	{0x3803, 0x07},
++	{0x3803, 0x06},
+ 	{0x3804, 0x0c},
+ 	{0x3805, 0xdf},
+ 	{0x3806, 0x09},
+-	{0x3807, 0xa6},
++	{0x3807, 0xa7},
+ 	{0x3808, 0x0c},
+ 	{0x3809, 0xd0},
+ 	{0x380a, 0x09},
+@@ -211,7 +211,7 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x00},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x00},
++	{0x3813, 0x01},
+ 	{0x3814, 0x01},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
+@@ -385,11 +385,11 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+ 	{0x3800, 0x00},
+ 	{0x3801, 0x00},
+ 	{0x3802, 0x00},
+-	{0x3803, 0x07},
++	{0x3803, 0x06},
+ 	{0x3804, 0x0c},
+ 	{0x3805, 0xdf},
+ 	{0x3806, 0x09},
+-	{0x3807, 0xa6},
++	{0x3807, 0xa7},
+ 	{0x3808, 0x06},
+ 	{0x3809, 0x68},
+ 	{0x380a, 0x04},
+@@ -401,7 +401,7 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x00},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x00},
++	{0x3813, 0x01},
+ 	{0x3814, 0x03},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x00},
 -- 
-2.20.1
+2.7.4
 
