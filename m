@@ -2,75 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D77132C82A
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 15:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8862C886
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 16:15:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbfE1NzC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 09:55:02 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50175 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726867AbfE1NzC (ORCPT
+        id S1726802AbfE1OO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 10:14:59 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:46490 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726532AbfE1OO6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 09:55:02 -0400
-Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id VcZ8hizLksDWyVcZ9hdj7f; Tue, 28 May 2019 15:55:00 +0200
-Subject: Re: [PATCH v7 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
-        tfiga@chromium.org, dshah@xilinx.com
-References: <20190528130920.4450-1-m.tretter@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d0f49d4e-d060-1324-5348-eec0f4336601@xs4all.nl>
-Date:   Tue, 28 May 2019 15:54:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 28 May 2019 10:14:58 -0400
+Received: by mail-pg1-f195.google.com with SMTP id v9so4683274pgr.13
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 07:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uILrnXKlYf2xjYbSzuRjxVZ/GKBRZG6iBlNh5FVzNqg=;
+        b=tL4iRhDxBHlVQ+tyr45nAjSTrWm4FGkpU9/gqgAOrFY5B7cJ7oOHLY740uFY6v9Apt
+         FqrRnmxExj3iQTQYzs/PenqdbelZVqX7ImfSm34SI3kUWnaFv2Pd1vXHqDLGJYPgxvw8
+         7KLV8hWWHlsDJ/UwTZYLqE3rqDzmSrpBL95BUyqXducEuzu32sr8cYoLi6lrm/VHbu19
+         kGodX0/6n5OKGvwKCkqnvqlMkPVgQ7D246As7ltK/sqPD0kwVjhXWCNgzf39x95m1k16
+         0eXP9QfKOUXReSvTh9f0l8fCYrSWQokxzY+jcITzAkXcdghBa76eI6mVVXYUH34oj3Ib
+         qnwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uILrnXKlYf2xjYbSzuRjxVZ/GKBRZG6iBlNh5FVzNqg=;
+        b=hbyWrOgaIilAqtBNDDSuGfY9qbALzyYa4cbb3LjBwSXd/oW6Bscxz5WO3ks9WQlU84
+         JaMsUraFJ30oOnl//jX25juL6zkQC6JShWDRebilbhkUyCa4PmF+bmmaWDBGl5SIBUrn
+         wYXTsgtK1ujnOtd+MKsyBzxixNnNyWMKPqqLM3gZIHejQKv20jStFrlBhQ/6wbo0wpid
+         tmSsUuLXJsQ84v+fb8QUFZSbpwrsHm8VmITdxase1EHKN2BJpp6bl7RhambeeP+l9JQ+
+         CYYLcclXWtDzCUgKWjSIfibANnaEs0YdbXnmIPOEPRtYzO8MsX94eVcNGBsRA6+ju380
+         mfGw==
+X-Gm-Message-State: APjAAAUGfI8G3myJL3wo6B4HdwJywYvkfqWlERCkqRt548byfHOK2JAe
+        JfTt5Gg1t7xg1gw3dqOCKdiEJo2SzkydEY1rGtp+vg==
+X-Google-Smtp-Source: APXvYqyOX9PeZsCaqURSrIEWPGIBd1WFVQ7exVP3S114miK0Cy+gUD/uDqW5wGxUjPG0aHqJLJFWW3mMb6YG8JIQdRk=
+X-Received: by 2002:a65:64d9:: with SMTP id t25mr132418776pgv.130.1559052897854;
+ Tue, 28 May 2019 07:14:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190528130920.4450-1-m.tretter@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDQhOnCR1l2VQrV8/pTVrVX567xUMSObhXn2Yia5AomYyVXviAcPGZBJ+8pv4UPw4dGPe6NBpiggrDRrSc6Z16lQWTtvaFemKTp1W+/PWng8Io4NrbM2
- 9NEPi1OZIUlPW1WJ8mqY79BW3733t0T8axkXnGfqKOIYQtsBZgYugeJEFstQNGO/zDWlxXvT1IHtAqCCHSSz9Ch5azKLHrM55+o6UjlHlgrjZZU9UZwvg2AN
- ++lmLZuvL51Ob8ARXuQhLQDXcv020GEBqnWGUDAFVPyLCyRxjp9NokfZSdJuidy3Lv8DZn1HHbC50J51tFqlWAv34FaLT0KDKc+FbilPrXLu1vhDcIiP3jfm
- 2blsID8RS9dW7go4IctnMou1vYor1cyIA9AZ+Z5hjsG2W1K0zggQgLAzsIRDuqf1B35BlKODltKgYVFWBM0nm6Dicrt+j1jKv02zNfElGzyW13p5xwGlchjZ
- TUNTRbsJOHJmpq2v6R97b9xzswZTvUXoWg9feA==
+References: <cover.1557160186.git.andreyknvl@google.com> <20190517144931.GA56186@arrakis.emea.arm.com>
+ <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
+ <20190521182932.sm4vxweuwo5ermyd@mbp> <201905211633.6C0BF0C2@keescook>
+ <6049844a-65f5-f513-5b58-7141588fef2b@oracle.com> <20190523201105.oifkksus4rzcwqt4@mbp>
+ <ffe58af3-7c70-d559-69f6-1f6ebcb0fec6@oracle.com> <20190524101139.36yre4af22bkvatx@mbp>
+ <c6dd53d8-142b-3d8d-6a40-d21c5ee9d272@oracle.com>
+In-Reply-To: <c6dd53d8-142b-3d8d-6a40-d21c5ee9d272@oracle.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 28 May 2019 16:14:45 +0200
+Message-ID: <CAAeHK+yAUsZWhp6xPAbWewX5Nbw+-G3svUyPmhXu5MVeEDKYvA@mail.gmail.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Elliott Hughes <enh@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+Thanks for a lot of valuable input! I've read through all the replies
+and got somewhat lost. What are the changes I need to do to this
+series?
 
-On 5/28/19 3:09 PM, Michael Tretter wrote:
-> This is v7 of the Allegro DVT H.264 encoder driver found in the EV
-> family of the Xilinx ZynqMP platform.
-> 
-> I moved the driver back to staging, because the v4l2 stateful encoder spec is
-> not finished, yet. Once the spec is finished, this driver shall be tested
-> against the final v4l2-compliance and moved to mainline again.
-> 
-> Further, I converted the allegro vendor prefix to the new json format in
-> vendor-prefixes.yaml.
-> 
-> The observed occasional failures in v4l2-compliance in v6 of this series
-> turned out to be caused by a race condition with v4l2_m2m_poll(). I will send
-> patches to fix this issue as a separate series.
+1. Should I move untagging for memory syscalls back to the generic
+code so other arches would make use of it as well, or should I keep
+the arm64 specific memory syscalls wrappers and address the comments
+on that patch?
 
-I'm getting these smatch warnings:
+2. Should I make untagging opt-in and controlled by a command line argument?
 
-drivers/staging/media/allegro-dvt/allegro-core.c:1849:36: warning: constant 0xffffffff00000000 is so big it is unsigned long
-drivers/staging/media/allegro-dvt/nal-h264.c:751: warning: Function parameter or member 'dev' not described in 'nal_h264_write_sps'
-drivers/staging/media/allegro-dvt/nal-h264.c:792: warning: Function parameter or member 'dev' not described in 'nal_h264_read_sps'
-drivers/staging/media/allegro-dvt/nal-h264.c:842: warning: Function parameter or member 'dev' not described in 'nal_h264_write_pps'
-drivers/staging/media/allegro-dvt/nal-h264.c:884: warning: Function parameter or member 'dev' not described in 'nal_h264_read_pps'
-drivers/staging/media/allegro-dvt/nal-h264.c:926: warning: Function parameter or member 'dev' not described in 'nal_h264_write_filler'
-drivers/staging/media/allegro-dvt/nal-h264.c:969: warning: Function parameter or member 'dev' not described in 'nal_h264_read_filler'
+3. Should I "add Documentation/core-api/user-addresses.rst to describe
+proper care and handling of user space pointers with untagged_addr(),
+with examples based on all the cases seen so far in this series"?
+Which examples specifically should it cover?
 
-Can you take a look? The nal-h264.c warnings look trivial to fix, the
-allegro-core.c warnings looks more interesting.
-
-Regards,
-
-	Hans
+Is there something else?
