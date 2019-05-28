@@ -2,112 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D53432C94D
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 16:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA902C969
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 17:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726560AbfE1OyP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 10:54:15 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:58716 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726371AbfE1OyO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 10:54:14 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F18CC80D;
-        Tue, 28 May 2019 07:54:13 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 689083F5AF;
-        Tue, 28 May 2019 07:54:13 -0700 (PDT)
-Date:   Tue, 28 May 2019 15:54:11 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, Dmitry Vyukov <dvyukov@google.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        linux-kernel@vger.kernel.org,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
- syscalls
-Message-ID: <20190528145411.GA709@e119886-lin.cambridge.arm.com>
-References: <cover.1557160186.git.andreyknvl@google.com>
- <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
- <20190527143719.GA59948@MBP.local>
+        id S1726492AbfE1PAW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 11:00:22 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:43241 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726371AbfE1PAV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 May 2019 11:00:21 -0400
+Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1hVdaN-0001hB-Pw; Tue, 28 May 2019 17:00:19 +0200
+Date:   Tue, 28 May 2019 17:00:16 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, robh+dt@kernel.org, mchehab@kernel.org,
+        tfiga@chromium.org, dshah@xilinx.com
+Subject: Re: [PATCH v7 0/5] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
+Message-ID: <20190528170016.68252586@litschi.hi.pengutronix.de>
+In-Reply-To: <d0f49d4e-d060-1324-5348-eec0f4336601@xs4all.nl>
+References: <20190528130920.4450-1-m.tretter@pengutronix.de>
+        <d0f49d4e-d060-1324-5348-eec0f4336601@xs4all.nl>
+Organization: Pengutronix
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190527143719.GA59948@MBP.local>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 27, 2019 at 03:37:20PM +0100, Catalin Marinas wrote:
-> On Mon, May 06, 2019 at 06:30:51PM +0200, Andrey Konovalov wrote:
-> > This patch is a part of a series that extends arm64 kernel ABI to allow to
-> > pass tagged user pointers (with the top byte set to something else other
-> > than 0x00) as syscall arguments.
-> > 
-> > This patch allows tagged pointers to be passed to the following memory
-> > syscalls: brk, get_mempolicy, madvise, mbind, mincore, mlock, mlock2,
-> > mmap, mmap_pgoff, mprotect, mremap, msync, munlock, munmap,
-> > remap_file_pages, shmat and shmdt.
-> > 
-> > This is done by untagging pointers passed to these syscalls in the
-> > prologues of their handlers.
-> > 
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On Tue, 28 May 2019 15:54:58 +0200, Hans Verkuil wrote:
+> Hi Michael,
 > 
-> Actually, I don't think any of these wrappers get called (have you
-> tested this patch?). Following commit 4378a7d4be30 ("arm64: implement
-> syscall wrappers"), I think we have other macro names for overriding the
-> sys_* ones.
+> On 5/28/19 3:09 PM, Michael Tretter wrote:
+> > This is v7 of the Allegro DVT H.264 encoder driver found in the EV
+> > family of the Xilinx ZynqMP platform.
+> > 
+> > I moved the driver back to staging, because the v4l2 stateful encoder spec is
+> > not finished, yet. Once the spec is finished, this driver shall be tested
+> > against the final v4l2-compliance and moved to mainline again.
+> > 
+> > Further, I converted the allegro vendor prefix to the new json format in
+> > vendor-prefixes.yaml.
+> > 
+> > The observed occasional failures in v4l2-compliance in v6 of this series
+> > turned out to be caused by a race condition with v4l2_m2m_poll(). I will send
+> > patches to fix this issue as a separate series.  
+> 
+> I'm getting these smatch warnings:
+> 
+> drivers/staging/media/allegro-dvt/allegro-core.c:1849:36: warning: constant 0xffffffff00000000 is so big it is unsigned long
 
-What is the value in adding these wrappers?
+The constant is used to calculate an offset, which is used by the
+hardware as offset for addresses in mailbox messages. The hardware
+expects a 64 bit value, but the driver calculates the value using a
+dma_addr_t, which is fine for 64 bit systems (e.g. ZynqMP), but is a
+problem on 32 bit systems.
 
-The untagged_addr macro is defined for all in linux/mm.h and these patches
-already use untagged_addr in generic code. Thus adding a few more
-untagged_addr in the generic syscall handlers (which turn to a nop for most)
-is surely better than adding wrappers?
+I am currently working on improving the handling of frame addresses and
+make it fit for using the PL-RAM (in the FPGA) instead of the normal
+system RAM (PS-RAM). I would fix the warning with that patch set, if
+it is OK.
 
-Even if other architectures implement untagged_addr in the future it would
-be more consistent if they untagged in the same places and thus not adding
-these wrappers enforces that.
+> drivers/staging/media/allegro-dvt/nal-h264.c:751: warning: Function parameter or member 'dev' not described in 'nal_h264_write_sps'
+> drivers/staging/media/allegro-dvt/nal-h264.c:792: warning: Function parameter or member 'dev' not described in 'nal_h264_read_sps'
+> drivers/staging/media/allegro-dvt/nal-h264.c:842: warning: Function parameter or member 'dev' not described in 'nal_h264_write_pps'
+> drivers/staging/media/allegro-dvt/nal-h264.c:884: warning: Function parameter or member 'dev' not described in 'nal_h264_read_pps'
+> drivers/staging/media/allegro-dvt/nal-h264.c:926: warning: Function parameter or member 'dev' not described in 'nal_h264_write_filler'
+> drivers/staging/media/allegro-dvt/nal-h264.c:969: warning: Function parameter or member 'dev' not described in 'nal_h264_read_filler'
 
-Thanks,
+I didn't describe the "struct device *dev" parameter, because it really
+doesn't add any value.
 
-Andrew Murray
+Michael
 
 > 
-> -- 
-> Catalin
+> Can you take a look? The nal-h264.c warnings look trivial to fix, the
+> allegro-core.c warnings looks more interesting.
 > 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> Regards,
+> 
+> 	Hans
+> 
