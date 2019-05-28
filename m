@@ -2,71 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9862C2EE
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 11:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62A1C2C419
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 12:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbfE1JSc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 05:18:32 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55403 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725943AbfE1JSc (ORCPT
+        id S1726562AbfE1KRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 06:17:03 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40020 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726476AbfE1KRD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 05:18:32 -0400
-Received: from [IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13] ([IPv6:2001:983:e9a7:1:10b2:2e62:e4b1:bd13])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id VYFZhh8VhsDWyVYFahcRZ2; Tue, 28 May 2019 11:18:30 +0200
-Subject: Re: [RFCv1 00/12] media: mtk-vcodec: support for MT8183 decoder
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20190528055635.12109-1-acourbot@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f143b2e2-45ab-9d59-a607-f2032206e4e0@xs4all.nl>
-Date:   Tue, 28 May 2019 11:18:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 28 May 2019 06:17:03 -0400
+Received: by mail-lf1-f66.google.com with SMTP id h13so14119223lfc.7
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 03:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=omzYkgWz22q89sKu1iLsbZyCOdqyQheSz4RqyHrLMFc=;
+        b=p8fD8VwvSW3OdflENE16cTmUBmEcFgPsh+D3UCs5vCYq4VWrIb7YSj5zvjX70YB63z
+         F7WK4jzwaVXumiHF4vdKsku46bYkSHEbhtCPipyHpVAsXj9M/SNffG5e8WZy/F7lO5r5
+         DE+3zlpeD71/E4OQjpuCppHJrm7uuD8AZQxJQIm+jjJRUetWfFkUkEjKlS4dTYV+OkNp
+         sKEuQUt3C4SG/DDcI5N9QNSPh1ApgZEdXNqulHv6XhRUmAZ2U2qRrZDPZm/9/qj6IDl6
+         IrRqfnlIb2Rb6rGts7d7kZPd6tn003l5L2qeIXdoxr3OZJYCrq2a6yEOC6tFjKuUGUXY
+         hF7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=omzYkgWz22q89sKu1iLsbZyCOdqyQheSz4RqyHrLMFc=;
+        b=bs4md0BXAYehzXmb1/jVD3BiX1Sza1z9XekRBBqTzgJwL9bOiBMq35UueAQABXwlVl
+         ZGIkxeqziJSlFvQCNZ6FM4I16+QoTKXkx+jg4YBHS6nhatkxDBzGvSq3ehBGcVYLhMSL
+         YZCJ1WGuQEOHKIlXuml+m5gC12sL434aQH6pVWetVyHQAqpTdaZt1q+pOCb/Ap35tnxU
+         ci5T9rHctxSatlp6WbuRAV1FfMlLWiF2Br4tXKMeEeUgRHy/VYwZlgqsvBcfPinVMOMi
+         h0DLtqKeimsyMTYJ+rB+c3NBTST+H7Uu3SofvIx98/1dTG7Du+2qPCxUvPsQf/z0AnX8
+         fIpw==
+X-Gm-Message-State: APjAAAWos+CvcadQgVHLepeA/RoFGjH4WojuAmE2RJfDd9MVv/C2V3qp
+        Qg6ZBry5fJx94wFFpJ+4BHWxHyj2WNsq4h6Pfc7jcA==
+X-Google-Smtp-Source: APXvYqzamdaZXpeZl61uUP6hfueaTlLGJ89yX6kdCpWeIWmbcsT+OGn6sLsetdzaTpiI1Xod4K0QX7oKadskvsU6DaA=
+X-Received: by 2002:a19:488e:: with SMTP id v136mr3600054lfa.192.1559038620930;
+ Tue, 28 May 2019 03:17:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190528055635.12109-1-acourbot@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMM8dvHjwzwUAfKnKoP8luEtEGaVf32kshxDabImXd9jy0WyZNQu0oWcDuCA15v9nj/65NQVATJO4tPv31EblnvNkBcLyM0GlUCHRM2mkscgsxSaiswR
- z+uWhE+HAnoTjmtUpDFDsRwqLldLpm10GCvThGRZS9AwpB6rYzpOoJACHAi+y7ayANPTsKM8eXP10lvHUMh3XG3vFDJmZyk+ZKi4hili3Ha6LsQVHdZ1Kq3v
- vKz7PBFkC289Svxv/UAK1HyqfzxsmMyvf3hgblMRlP6QCjItw2KzTaQuDPaDKe25huRnygLIgRxG5gND9j3oXY1Z1GJ8dz7N4yXj4S9m59bZfu7ZZABtfHe3
- xnEJWDQZmDvZFYRZWNECTI8f1mrue7Twz7xEv+XgXHHNARAg5dowSUiLwU3VaLo7hq3660hThRLml4Z47FJzmQHHI23PFddGlMShAwD4IcU9WP0Gm3pZagt5
- uj3w07yiQs3Z5ISYUg9Ic/KY+HpW5qmmXcqyIeQwT3ro8nPkQ5zdw8Ifphm4h2EKGIXgHZae/WMch5Sz9rDGyVUtTyRv4tUkPXalEvIEwlgMP4zknzhckwVy
- kYI=
+References: <CA+G9fYuC8dgKs04HmyCaKeQ_xwqKBxnh=zsOFjQK+3Fq7AZRyw@mail.gmail.com>
+ <5de0df37-f0d0-f54c-2eef-a7533cbe7a25@xs4all.nl> <CA+G9fYtbb82EPY9gG63+U2FTVswt7f3FjHdaHMA2kibxgVvZcw@mail.gmail.com>
+In-Reply-To: <CA+G9fYtbb82EPY9gG63+U2FTVswt7f3FjHdaHMA2kibxgVvZcw@mail.gmail.com>
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Tue, 28 May 2019 15:46:49 +0530
+Message-ID: <CA+G9fYu-guJaWDrEp5=KeJsje6Teo-V=_AhFStf0gnLk-QNfzA@mail.gmail.com>
+Subject: Re: test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        paul.kocialkowski@bootlin.com, ezequiel@collabora.com,
+        treding@nvidia.com, niklas.soderlund+renesas@ragnatech.se,
+        sakari.ailus@linux.intel.com,
+        Hans Verkuil <hans.verkuil@cisco.com>, mchehab@kernel.org,
+        lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/28/19 7:56 AM, Alexandre Courbot wrote:
-> This series is a refactoring/split of the initial patch for MT8183 codec support
-> that was posted for Chrome OS [1] in order to make it upstreamable.
-> 
-> The line count has been significantly reduced compared to the initial patch,
-> although support for the MT8183 encoder is not here yet to limit the amount of
-> code to review.
-> 
-> Although the series applies on top of today's media tree, it will not compile
-> until support for the SCP is merged, hence the RFC status. Note also that the
-> H.264 structures used and implementation of the stateless codec API may not be
-> completely up-to-date. So the goal of this publication is to review the general
-> idea (especially split unto stateful and stateless ops), and maybe merge the
-> first 5 patches.
-> 
-> Patches 1-5 are cleanup/small fixes that came while working on this series. They
-> should be harmless and can be merged.
+Hi Hans,
 
-Merging these makes sense. I should be able to do that when v2 is posted with the
-SPDX conversion.
+On Mon, 20 May 2019 at 19:26, Naresh Kamboju <naresh.kamboju@linaro.org> wrote:
+>
+> Hi Hans,
+>
+> On Mon, 13 May 2019 at 19:08, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >
+> > On 5/13/19 3:32 PM, Naresh Kamboju wrote:
+> > > Do you see test VIDIOC_G/S_PARM: FAIL on stable 4.14, 4.9 and 4.4
+> > > kernel branches ?
+> >
+> > Probably related to commit 8a7c5594c0202 (media: v4l2-ioctl: clear fields in s_parm).
+>
+> I have cherry-picked on stable rc 4.9 branch and tested and test got
+> PASS on x86_64.
 
-Regards,
+I have cherry-picked for stable -rc 4.14 and 4.9 and test got PASS.
 
-	Hans
+do you want to queue this for stable rc 4.14 and 4.9 ?
+
+I have tested for 4.4 with patch applied but failed with below error.
+
+test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+ warn: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1237):
+S_PARM is supported but doesn't report V4L2_CAP_TIMEPERFRAME
+ fail: ../../../v4l-utils-1.16.0/utils/v4l2-compliance/v4l2-test-formats.cpp(1139):
+node->has_frmintervals && !cap->capability
+test VIDIOC_G/S_PARM: FAIL
+
+4.4 - failed log
+https://lkft.validation.linaro.org/scheduler/job/746548#L1678
+
+ref:
+4.14 pass log,
+https://lkft.validation.linaro.org/scheduler/job/739126#L1843
+
+4.9 pass log,
+https://lkft.validation.linaro.org/scheduler/job/736243#L1744
+
+- Naresh
