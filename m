@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B95FA2CB7D
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 18:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80FC32CB75
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 18:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727100AbfE1QPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 12:15:46 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44222 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727231AbfE1QPD (ORCPT
+        id S1727353AbfE1QPF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 12:15:05 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54152 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727274AbfE1QPF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 12:15:03 -0400
-Received: by mail-wr1-f66.google.com with SMTP id w13so12527916wru.11;
-        Tue, 28 May 2019 09:15:02 -0700 (PDT)
+        Tue, 28 May 2019 12:15:05 -0400
+Received: by mail-wm1-f68.google.com with SMTP id d17so3613074wmb.3;
+        Tue, 28 May 2019 09:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Lc9tkqKyrUQ5ybnMKprgGIZIid5kSZLfkgDo+bRAOdQ=;
-        b=fwQLKvh5/S7iFzkUlVTAYUVkkE/lVKgHJmIDwwiVBqggvIzhiGITP3ApoPrypCyb9F
-         diNds2S+qxoXdduel3jePDqml5+sOKA3uLGy328bUBXS+29giS69GXO2aUKHAwSLQnAC
-         If79va1gLrApIMvfqA44I4qUnXwgQtLPmCFHh9aHTLf1k748Zp75c6eWbqJBVr1n+5Li
-         v5wfvpj4xYNf/SViB6fd5tm8gxkiV7Qgr4aZJDeAYrPRkbDZzCtcDmYG1RsyLwNBYSJx
-         fu4G8ekdfQQd9bbQOv2FqYOb3MFr+knpfmHFoHyhhY5agWq+6RKufaUJ6J4Vf5/XsNlB
-         KS1g==
+        bh=q27XYokGtE0PF+e6Jf1zBq2DoW5PvxIGPkQQOfCJr1E=;
+        b=HFUvyHXx8VHztoOIZncJwhbhhwGM6/33nEZ+Dnb0ZNAZMX/HCdsLaTmJIlK2YB1rSt
+         OqQIhud3nbj4bUcdGshdA0qed5SDiimDzVItGH+ythngmmlSg8CVcLNu0cdWvMYwSGSf
+         u1VaunPEueoijVnZSkTPfMKjO5eDaDrheNDkoBVGXy1tKJUQI+VRPcKrAmaER3RZdsHk
+         bpBii7hnK/soi9FuKOnK3OViFOI3+SH1oVxYddi0lsdwZOWncnR2odwoYpVGWbcdIRP9
+         H3g34RRcBwN7JMDodaP8UniO9Re03GLcn92ezxYsaepo2xukm3EldxN/0oB93vhHE4lH
+         ncKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Lc9tkqKyrUQ5ybnMKprgGIZIid5kSZLfkgDo+bRAOdQ=;
-        b=m0TgRg5dZOqnXgNvhB3uuAPz5Pwa2/TJhBvqnLK2qQ4HCt6GHRq/uwNuyJPcxTfBel
-         eUMqUP+XMxWFzAXniGxKG5W9rXREvZNni53DNwmR9Rv4d4Mr78mWeHenurTcrZ8Yjt8c
-         vuGFt4QHhKZD5fuTyJnEwoLph9BmvAFwOfMotAJT94lPVBchYTpo2Ay26rgwSqpCq3jh
-         FCWNkLZfazq0NrdIpEvQr6Rxgt+NMKKsw2J1WzjkiVoL5+I6memvhwqh/I3XPxPehTSC
-         Hva4TFd9kcX7IyuxGrDmlYsSFZQVRJW5aSjBpwhfphmZs5dgKV92cMTOkh5WiEeLr3O9
-         5xeA==
-X-Gm-Message-State: APjAAAXRJNp+BFePK+a5u1Yr6U1e/ycnVvW653U7FMVwau2hpD/RkK53
-        KhS6CZJ6YFndZ5yWjwQEInA=
-X-Google-Smtp-Source: APXvYqwL0cL3QCeeaDPY071jkNLGK3/vjrUceMyKFnaAy+HZOfNPOmfTRE3d4/jH96rR456TgdwZlA==
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr2525397wrp.149.1559060101572;
-        Tue, 28 May 2019 09:15:01 -0700 (PDT)
+        bh=q27XYokGtE0PF+e6Jf1zBq2DoW5PvxIGPkQQOfCJr1E=;
+        b=GpZ+1bBuMgt73WjvIfgQVHvEjyKA8f2TLTrxhKG9mP+i00FtyociGtR5McqGvRLyvq
+         4ElLVc4soDhJX/s1zIiJy3oS+pI1PIYr43iC1NIU4X99os2RzaESDkLM1flT65IJNGUn
+         Iq7DidwB8Zp7E+XIv7gU6ZYLfuqw8NetfZqBk2UGctBPxsM0IuC9KqJcNe7MbU+IDMiy
+         RVgWOdosCOukuRe419myhJJC7ysnpa8MB6z17gnVsXhH7BSdQzGGp8zepmqdtFKxOsBN
+         gYqym+ekGXC9qe0JlxXbE01N/+LNBSWjbzCvlQcRIuu83Gr6UzQrgrGqNI3OkTSHtZOC
+         OELw==
+X-Gm-Message-State: APjAAAXL2njCd7dw2gnJ5fakDJd6f5GRpyCi94BXx9qxhT26cOnRurxX
+        gDWF+nQd27Lol+TKjpygq2M=
+X-Google-Smtp-Source: APXvYqz/joxHvvODIOd7kz0qELHlGEhUT9mw5hsDYpXJzwCuo0YHwLvhkfaEYMl/b5bkaqZyM6fKBw==
+X-Received: by 2002:a1c:f606:: with SMTP id w6mr4037175wmc.130.1559060102677;
+        Tue, 28 May 2019 09:15:02 -0700 (PDT)
 Received: from localhost.localdomain (18.189-60-37.rdns.acropolistelecom.net. [37.60.189.18])
-        by smtp.gmail.com with ESMTPSA id l14sm13678787wrt.57.2019.05.28.09.15.00
+        by smtp.gmail.com with ESMTPSA id l14sm13678787wrt.57.2019.05.28.09.15.01
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 28 May 2019 09:15:00 -0700 (PDT)
+        Tue, 28 May 2019 09:15:01 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -53,11 +53,12 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com,
+        linux-sunxi@googlegroups.com, Igors Makejevs <git_bb@bwzone.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v3 06/12] dt-bindings: media: sunxi-ir: Add A64 compatible
-Date:   Tue, 28 May 2019 18:14:34 +0200
-Message-Id: <20190528161440.27172-7-peron.clem@gmail.com>
+Subject: [PATCH v3 07/12] arm64: dts: allwinner: a64: Add IR node
+Date:   Tue, 28 May 2019 18:14:35 +0200
+Message-Id: <20190528161440.27172-8-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190528161440.27172-1-peron.clem@gmail.com>
 References: <20190528161440.27172-1-peron.clem@gmail.com>
@@ -69,27 +70,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are some minor differences between A31 and A64 driver.
+From: Igors Makejevs <git_bb@bwzone.com>
 
-But A31 IR driver is compatible with A64.
+IR peripheral is completely compatible with A31 one.
 
+Signed-off-by: Igors Makejevs <git_bb@bwzone.com>
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Documentation/devicetree/bindings/media/sunxi-ir.txt
-index 2e59a32a7e33..1dd287a4ab3a 100644
---- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
-+++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
-@@ -5,6 +5,7 @@ Required properties:
- 	"allwinner,sun4i-a10-ir"
- 	"allwinner,sun5i-a13-ir"
- 	"allwinner,sun6i-a31-ir"
-+	"allwinner,sun50i-a64-ir", "allwinner,sun6i-a31-ir"
- - clocks	    : list of clock specifiers, corresponding to
- 		      entries in clock-names property;
- - clock-names	    : should contain "apb" and "ir" entries;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 8c5b521e6389..b22b0aa89515 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -1072,6 +1072,19 @@
+ 			#size-cells = <0>;
+ 		};
+ 
++		r_ir: ir@1f02000 {
++			compatible = "allwinner,sun50i-a64-ir",
++				     "allwinner,sun6i-a31-ir";
++			reg = <0x01f02000 0x400>;
++			clocks = <&r_ccu CLK_APB0_IR>, <&r_ccu CLK_IR>;
++			clock-names = "apb", "ir";
++			resets = <&r_ccu RST_APB0_IR>;
++			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&r_ir_rx_pin>;
++			status = "disabled";
++		};
++
+ 		r_pwm: pwm@1f03800 {
+ 			compatible = "allwinner,sun50i-a64-pwm",
+ 				     "allwinner,sun5i-a13-pwm";
+@@ -1099,6 +1112,11 @@
+ 				function = "s_i2c";
+ 			};
+ 
++			r_ir_rx_pin: r-ir-rx-pin {
++				pins = "PL11";
++				function = "s_cir_rx";
++			};
++
+ 			r_pwm_pin: r-pwm-pin {
+ 				pins = "PL10";
+ 				function = "s_pwm";
 -- 
 2.20.1
 
