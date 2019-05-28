@@ -2,114 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC8862C886
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 16:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA84E2C927
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 16:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbfE1OO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 10:14:59 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46490 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726532AbfE1OO6 (ORCPT
+        id S1726943AbfE1Ork (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 10:47:40 -0400
+Received: from mail-out.m-online.net ([212.18.0.9]:56192 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbfE1Orj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 10:14:58 -0400
-Received: by mail-pg1-f195.google.com with SMTP id v9so4683274pgr.13
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 07:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uILrnXKlYf2xjYbSzuRjxVZ/GKBRZG6iBlNh5FVzNqg=;
-        b=tL4iRhDxBHlVQ+tyr45nAjSTrWm4FGkpU9/gqgAOrFY5B7cJ7oOHLY740uFY6v9Apt
-         FqrRnmxExj3iQTQYzs/PenqdbelZVqX7ImfSm34SI3kUWnaFv2Pd1vXHqDLGJYPgxvw8
-         7KLV8hWWHlsDJ/UwTZYLqE3rqDzmSrpBL95BUyqXducEuzu32sr8cYoLi6lrm/VHbu19
-         kGodX0/6n5OKGvwKCkqnvqlMkPVgQ7D246As7ltK/sqPD0kwVjhXWCNgzf39x95m1k16
-         0eXP9QfKOUXReSvTh9f0l8fCYrSWQokxzY+jcITzAkXcdghBa76eI6mVVXYUH34oj3Ib
-         qnwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uILrnXKlYf2xjYbSzuRjxVZ/GKBRZG6iBlNh5FVzNqg=;
-        b=hbyWrOgaIilAqtBNDDSuGfY9qbALzyYa4cbb3LjBwSXd/oW6Bscxz5WO3ks9WQlU84
-         JaMsUraFJ30oOnl//jX25juL6zkQC6JShWDRebilbhkUyCa4PmF+bmmaWDBGl5SIBUrn
-         wYXTsgtK1ujnOtd+MKsyBzxixNnNyWMKPqqLM3gZIHejQKv20jStFrlBhQ/6wbo0wpid
-         tmSsUuLXJsQ84v+fb8QUFZSbpwrsHm8VmITdxase1EHKN2BJpp6bl7RhambeeP+l9JQ+
-         CYYLcclXWtDzCUgKWjSIfibANnaEs0YdbXnmIPOEPRtYzO8MsX94eVcNGBsRA6+ju380
-         mfGw==
-X-Gm-Message-State: APjAAAUGfI8G3myJL3wo6B4HdwJywYvkfqWlERCkqRt548byfHOK2JAe
-        JfTt5Gg1t7xg1gw3dqOCKdiEJo2SzkydEY1rGtp+vg==
-X-Google-Smtp-Source: APXvYqyOX9PeZsCaqURSrIEWPGIBd1WFVQ7exVP3S114miK0Cy+gUD/uDqW5wGxUjPG0aHqJLJFWW3mMb6YG8JIQdRk=
-X-Received: by 2002:a65:64d9:: with SMTP id t25mr132418776pgv.130.1559052897854;
- Tue, 28 May 2019 07:14:57 -0700 (PDT)
+        Tue, 28 May 2019 10:47:39 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 45CxX80kpDz1rT05;
+        Tue, 28 May 2019 16:47:36 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 45CxX76pg7z1qqkD;
+        Tue, 28 May 2019 16:47:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id hYMFupLT5KSP; Tue, 28 May 2019 16:47:34 +0200 (CEST)
+X-Auth-Info: UPOV/l0mM24VBKJkifr1gbClUs+DMmnrr6lDjv9hc1U=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Tue, 28 May 2019 16:47:34 +0200 (CEST)
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add Intersil ISL7998x DT bindings
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20190520201812.7937-1-marex@denx.de>
+ <20190528114758.a4oac3zgdy7dkx7k@uno.localdomain>
+From:   Marek Vasut <marex@denx.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <6cd36678-2a2c-2a43-e245-4263c0e0f666@denx.de>
+Date:   Tue, 28 May 2019 16:36:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <cover.1557160186.git.andreyknvl@google.com> <20190517144931.GA56186@arrakis.emea.arm.com>
- <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
- <20190521182932.sm4vxweuwo5ermyd@mbp> <201905211633.6C0BF0C2@keescook>
- <6049844a-65f5-f513-5b58-7141588fef2b@oracle.com> <20190523201105.oifkksus4rzcwqt4@mbp>
- <ffe58af3-7c70-d559-69f6-1f6ebcb0fec6@oracle.com> <20190524101139.36yre4af22bkvatx@mbp>
- <c6dd53d8-142b-3d8d-6a40-d21c5ee9d272@oracle.com>
-In-Reply-To: <c6dd53d8-142b-3d8d-6a40-d21c5ee9d272@oracle.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 28 May 2019 16:14:45 +0200
-Message-ID: <CAAeHK+yAUsZWhp6xPAbWewX5Nbw+-G3svUyPmhXu5MVeEDKYvA@mail.gmail.com>
-Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Evgenii Stepanov <eugenis@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Elliott Hughes <enh@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190528114758.a4oac3zgdy7dkx7k@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for a lot of valuable input! I've read through all the replies
-and got somewhat lost. What are the changes I need to do to this
-series?
+On 5/28/19 1:47 PM, Jacopo Mondi wrote:
+> Hi Marek,
+>    thanks for the patch
 
-1. Should I move untagging for memory syscalls back to the generic
-code so other arches would make use of it as well, or should I keep
-the arm64 specific memory syscalls wrappers and address the comments
-on that patch?
+Hi,
 
-2. Should I make untagging opt-in and controlled by a command line argument?
+> On Mon, May 20, 2019 at 10:18:11PM +0200, Marek Vasut wrote:
+>> Add bindings for the Intersil ISL7998x BT656-to-MIPI-CSI2 decoder.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>> Cc: Rob Herring <robh+dt@kernel.org>
+>> Cc: devicetree@vger.kernel.org
+>> To: linux-media@vger.kernel.org
+>> ---
+>>  .../bindings/media/i2c/isl7998x.txt           | 37 +++++++++++++++++++
+>>  1 file changed, 37 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/isl7998x.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/isl7998x.txt b/Documentation/devicetree/bindings/media/i2c/isl7998x.txt
+>> new file mode 100644
+>> index 000000000000..c21703983360
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/isl7998x.txt
+>> @@ -0,0 +1,37 @@
+>> +Intersil ISL7998x BT656-to-MIPI-CSI2 decoder
+>> +
+>> +The Intersil ISL7998x is a BT656-to-MIPI-CSI decoder which, capable of
+>> +receiving up to four analog stream and multiplexing them into up to four
+>> +MIPI CSI2 virtual channels, using one MIPI clock lane and 1/2 data lanes.
+>> +
+> 
+> The documentation is not public, so I can only read what's reported on
+> the website and the short public datasheet at [1]
 
-3. Should I "add Documentation/core-api/user-addresses.rst to describe
-proper care and handling of user space pointers with untagged_addr(),
-with examples based on all the cases seen so far in this series"?
-Which examples specifically should it cover?
+Right
 
-Is there something else?
+> From my understanding of the product page, both the ISL79987 and
+> ILS79988 devices support up to 4 analog inputs, and provide a CSI-2
+> output and a BT656 output respectively.
+> 
+> What am I reading wrong ?
+
+ISL79987 is analog video to mipi csi2 ; I have this chip.
+ISL79988 is analog video to bt656 ; I don't have this chip.
+
+> [1] https://www.renesas.com/eu/en/products/audio-video/video-decoders-encoders/video-decoders/device/ISL79987.html
+> 
+>> +Required Properties:
+>> +- compatible: value should be "isil,isl79987"
+>> +- pd-gpios: a GPIO spec for the Power Down pin (active high)
+>> +
+>> +Option Properties:
+>> +- isil,num-inputs: Number of connected inputs (1, 2 or 4)
+> 
+> Can't you derive this from the number of connected input endpoints
+> instead of providing a custom property?
+
+Input endpoints from where ?
+
+>> +
+>> +For further reading on port node refer to
+>> +Documentation/devicetree/bindings/media/video-interfaces.txt.
+>> +
+> 
+> I think a description of the supported ports and their intended
+> usages is required here. You have up to 4 inputs and 1 output port,
+> how do you expect them to be numbered? is port@4 the last input or the
+> output one?
+
+The only port is the MIPI CSI2 , see the example below.
+
+>> +Example:
+>> +
+>> +	i2c_master {
+>> +		isl7998x_mipi@44 {
+>> +			compatible = "isil,isl79987";
+>> +			reg = <0x44>;
+>> +			isil,num-inputs = <4>;
+>> +			pinctrl-names = "default";
+>> +			pinctrl-0 = <&pinctrl_videoadc>;
+>> +			pd-gpios = <&gpio3 27 GPIO_ACTIVE_HIGH>;
+>> +			status = "okay";
+>> +
+>> +			port {
+>> +				isl79987_to_mipi_csi2: endpoint {
+>> +					remote-endpoint = <&mipi_csi2_in>;
+>> +					clock-lanes = <0>;
+>> +					data-lanes = <1 2>;
+>> +				};
+> 
+> I see from the example you only support one output port? How do you
+> model the input ones.
+
+I don't . Do we model analog inputs now somehow ?
+
+-- 
+Best regards,
+Marek Vasut
