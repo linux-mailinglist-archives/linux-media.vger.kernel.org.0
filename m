@@ -2,88 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1161E2C67B
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 14:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BDF2C6B0
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 14:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbfE1M3p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 08:29:45 -0400
-Received: from keetweej.vanheusden.com ([82.161.210.122]:39088 "EHLO
-        keetweej.vanheusden.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726592AbfE1M3o (ORCPT
+        id S1727141AbfE1MhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 08:37:05 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35654 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726824AbfE1MhF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 08:29:44 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by keetweej.vanheusden.com (Postfix) with ESMTP id 84D1D162AAA
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 14:29:43 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at vanheusden.com
-Received: from keetweej.vanheusden.com ([127.0.0.1])
-        by localhost (mauer.intranet.vanheusden.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 3sZu1WiKRtu2 for <linux-media@vger.kernel.org>;
-        Tue, 28 May 2019 14:29:42 +0200 (CEST)
-Received: from belle.intranet.vanheusden.com (belle.intranet.vanheusden.com [192.168.64.100])
-        by keetweej.vanheusden.com (Postfix) with ESMTP id 5F146162A99
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 14:29:42 +0200 (CEST)
-Received: by belle.intranet.vanheusden.com (Postfix, from userid 1000)
-        id D12EC16036D; Tue, 28 May 2019 14:29:41 +0200 (CEST)
-Date:   Tue, 28 May 2019 14:29:41 +0200
-From:   folkert <folkert@vanheusden.com>
-To:     linux-media@vger.kernel.org
-Subject: Re: libv4l resolution selection not working?
-Message-ID: <20190528122941.4kgvfocstaxaafuu@belle.intranet.vanheusden.com>
-References: <20190525075609.l52enswewxkqvmf3@belle.intranet.vanheusden.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190525075609.l52enswewxkqvmf3@belle.intranet.vanheusden.com>
-Organization: www.vanheusden.com
-X-Chameleon-Return-To: folkert@vanheusden.com
-X-Xfmail-Return-To: folkert@vanheusden.com
-X-Phonenumber: +31-6-41278122
-X-URL:  http://www.vanheusden.com/
-X-PGP-KeyID: 1F077C42
-X-GPG-fingerprint: AC89 09CE 41F2 00B4 FCF2  B174 3019 0E8C 1F28 D8AE
-X-Key:  http://pgp.surfnet.nl:11371/pks/lookup?op=get&search=0x1F077C42
-Read-Receipt-To: <folkert@vanheusden.com>
-Reply-By: Fri May 24 13:37:36 CEST 2019
-User-Agent: NeoMutt/20170306 (1.8.0)
+        Tue, 28 May 2019 08:37:05 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t1so10929106pgc.2;
+        Tue, 28 May 2019 05:37:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=T0rvoruj4EouBF2s9WLw8GruoH2nVQyED2DEWY5fc+4=;
+        b=d0tohVoWy6jU64ypaoIOEg7BvHTwDuk6YaqYBG2SN1QxyYJIi8WcfUCImE28FbggbF
+         2/LphM5WK9iBFK46QOmuI8woDuIoosCg2ziCSrZaKeiqElcrsyl0J1oR4MnBILpOZ4bO
+         v+cm/3pvgGv5fMmZo+jXBwcc5mQntxZgWziP7OrAgwF6lkAoS7Pk9Kmaorb28q9WsCoJ
+         Ifk0Tn279WzhcQNoWKozVuneA6WANSBwilph59yJiARLTUnB1yuyru1lJ1COW/6WTtlf
+         klXQM83NNl6hmoCkCm2cfXZPUI4AsHc3nGAG/sZYjQIbD/jz7S5ut5pJiKNZIUPng1Xs
+         nPDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=T0rvoruj4EouBF2s9WLw8GruoH2nVQyED2DEWY5fc+4=;
+        b=Ggm3Vjg+V+8yu47A6+hfCIxq2jIIALIz1SEvkhVhwMvjOwq9R/5LZZT/zkz32CIjzN
+         881VMumvCKr12N3Ee+erHnRc9y4s6yjmauYizB8OcYOHU/9FyiUsv1l6FpMWWnDgwTeQ
+         GZuA2vQAtqG7vgWOTVZGLYn1FGvM7mM5dIrCnTOd//+hRhbMSfSEKAwgWDY5YTK/nm+c
+         Ao0x8idHAZiM9pCgAJ+vvxOSbbw80OkXvkkLjrRGQ9nPTPj84ACbVv9Zp4wMHU/chORs
+         WId+R0Akt3nCFdWa1AcwLdaQCAtWX5G9vafKKMg2pw0T4Wz3YYpTqB2a6YC4MnpZSuiI
+         yFeA==
+X-Gm-Message-State: APjAAAUIwgz7fgpCKZ7+pmqRXlbGSwCDt1DYBfYkvUR7i18LPFA8ATdw
+        XFzF1VvoxbJ6sq+Zs59zK2Q=
+X-Google-Smtp-Source: APXvYqxSouUWWJPCb6xj5BYUok7eIdvfja0nsQs3U+G601kQp1uLBVV0wPGeasTrI3bdLB/yQl8DaQ==
+X-Received: by 2002:a62:65c1:: with SMTP id z184mr125482542pfb.130.1559047024583;
+        Tue, 28 May 2019 05:37:04 -0700 (PDT)
+Received: from xy-data.openstacklocal (ecs-159-138-22-150.compute.hwclouds-dns.com. [159.138.22.150])
+        by smtp.gmail.com with ESMTPSA id o7sm18796067pfp.168.2019.05.28.05.37.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 28 May 2019 05:37:04 -0700 (PDT)
+From:   Young Xiao <92siuyang@gmail.com>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Young Xiao <92siuyang@gmail.com>
+Subject: [PATCH] cx231xx-dvb: fix memory leak in dvb_fini()
+Date:   Tue, 28 May 2019 20:38:13 +0800
+Message-Id: <1559047093-24235-1-git-send-email-92siuyang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ehm, the problem might be somewhere else :-)
+In dvb_init(), dev->dvb is allocated by kzalloc.
+Therefore, it must be freed being set to NULL.
 
-On Sat, May 25, 2019 at 09:56:09AM +0200, folkert wrote:
-> Hi,
-> 
-> Situation: a raspberry pi with kernel 4.9.59-v7+ and a v2 camera.
-> 
-> With that I do:
-> 
-> 	struct v4l2_format fmt;
-> 	memset(&fmt, 0x00, sizeof fmt);
-> 
-> 	fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> 	fmt.fmt.pix.width       = 640;
-> 	fmt.fmt.pix.height      = 480;
-> 	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_RGB24;
-> 	fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;
-> 
-> 	v4l2_ioctl(fd, VIDIOC_S_FMT, &fmt);
-> 
-> I would expect it to select 640x480 but instead it always it selects
-> 3280x2464. Also with other resolutions the result is always 3280x2464.
-> 
-> Is this a bug in libv4l?
-> 
-> 
-> Folkert van Heusden
+Signed-off-by: Young Xiao <92siuyang@gmail.com>
+---
+ drivers/media/usb/cx231xx/cx231xx-dvb.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-Folkert van Heusden
-
+diff --git a/drivers/media/usb/cx231xx/cx231xx-dvb.c b/drivers/media/usb/cx231xx/cx231xx-dvb.c
+index 89357cb..89839c7 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-dvb.c
++++ b/drivers/media/usb/cx231xx/cx231xx-dvb.c
+@@ -1159,6 +1159,7 @@ static int dvb_fini(struct cx231xx *dev)
+ 
+ 	if (dev->dvb) {
+ 		unregister_dvb(dev->dvb);
++		kfree(dev->dvb);
+ 		dev->dvb = NULL;
+ 	}
+ 
 -- 
-You've probably gotten really fed up with never winning in the Mega-
-Millions lottery. Well, weep no longer: www.smartwinning.info tells
-you everything that might help you deciding what numbers to choose.
-With nice graphs and pretty animations!
+2.7.4
+
