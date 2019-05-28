@@ -2,81 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CEE3A2CE3C
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 20:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A542CEAF
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 20:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727619AbfE1SKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 14:10:30 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50737 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726576AbfE1SKa (ORCPT
+        id S1728154AbfE1S3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 14:29:54 -0400
+Received: from mail-ot1-f73.google.com ([209.85.210.73]:55455 "EHLO
+        mail-ot1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728150AbfE1S3w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 14:10:30 -0400
-Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id VgYNhkPOIsDWyVgYOheXBy; Tue, 28 May 2019 20:10:28 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] Add ZynqMP VCU/Allegro DVT H.264 encoder driver
-Message-ID: <4d45c05b-8b24-6f35-a891-4646c8e1e1f5@xs4all.nl>
-Date:   Tue, 28 May 2019 20:10:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO//DNpoEl1nWpaZPdglafhweZc8lurHzZlBzaU8gYlAaxxQeWoACUzmItzMikvjfFFuxBQXVtFP1H2Eo8vjrW4qlDoTffTvesqvZgwSVrkx6ysk4iie
- 6DhbjpdfUIK+ECt1fiuanALtcSWSs+AVxnHVlejerYOb5FBThPqJ73J6H8F31Q5E0eQtRX9ZKM9itmSg/NUR2C/AdwvOvqmvFuIvqNUaa+xBQ37m2ZYLFcqy
- mvxmQ/TZTJxHDPIs2iI7ZhN7Tt10EhMl6mOpcC06FgcH460LoIZZfdMsy/HbTErxBSyf5cDAkyoT5+93vVwleg==
+        Tue, 28 May 2019 14:29:52 -0400
+Received: by mail-ot1-f73.google.com with SMTP id f18so10690047otf.22
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 11:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=lfVPYgVsrgTm5HSRXwm4saqwmib2k5XfcIamVFoAWPg=;
+        b=bsnCWvydPDTWyFLpW3/zbC88qkCf051v0n/sK15ngfL7uZDNj2iVe7fCJM7B6ewdaP
+         z50mWaIWAUekPnO4QKlJ2I+G3LHSKdqBB0oiIb4MLGeyFKiG3NAYIgJsejRcuwAbspdK
+         9L3wEP7/9s0/rUVT13ACQaB/se2/phN+8HhdDccfnCNc8XNWf69kZDHu7Ou+9pVdGJrW
+         oFNacl/jFcAJbMveDbJnxCJYQBO+EQUAQx3XwcYiJ+6ces6fhD93X2/wDwqCviyzaFQr
+         YCayewCEXA96LjxdECJIhUsKgWVCsMeu9ervpqlWNJh+TuAg8X9b05NlJE1/LsY4jtIC
+         vjaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=lfVPYgVsrgTm5HSRXwm4saqwmib2k5XfcIamVFoAWPg=;
+        b=PwFYHFERiTo5F5T9JdPIqP605xksGA3/QBhqtKd8x1INfxFqZ2XAeBr8i2Kcr8cSi0
+         LW46/m9KUz+XUow7jtOSi/czl52DJSOXFIWxzE+kctuQ+HgnmPcmClxHIey8f739XXqn
+         WQZezriybc2iqtxZmsnyGYqzhO8yXM2GxMpCBJq5Xoxo2BCVVnBD1hd+UPq9RQh1IdEG
+         ETlhDPvLPyQGYa2/E9jqp30hccacF9x/rQexCent8xs4ZW77EamRpAZSz0Y28o2IMj7v
+         yeZvoeECciIcAIbNn9dQno6PQsngeOeNY2szNpnjmL+oNzOEP3hPvVNm+srGT0XQT1NX
+         i6yw==
+X-Gm-Message-State: APjAAAUzPYgrXk8UY329jtHVuz4coWjD174DRsUtCtjWB+EP6PrKN05D
+        1nnSGVZSVEqNTHt6Am4rkFxJEhQ=
+X-Google-Smtp-Source: APXvYqybmb7CtYZcZ7uZMCRDD2BKcgJ5fu7zv/g35JgmErtJ6JzPhNaPtkZd+sUPQbGgHy/Z5hBPC1k=
+X-Received: by 2002:a9d:661:: with SMTP id 88mr35748119otn.214.1559068191802;
+ Tue, 28 May 2019 11:29:51 -0700 (PDT)
+Date:   Tue, 28 May 2019 11:29:44 -0700
+In-Reply-To: <20190528182946.3633-1-sdf@google.com>
+Message-Id: <20190528182946.3633-2-sdf@google.com>
+Mime-Version: 1.0
+References: <20190528182946.3633-1-sdf@google.com>
+X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
+Subject: [PATCH bpf-next v3 2/4] bpf: media: properly use bpf_prog_array api
+From:   Stanislav Fomichev <sdf@google.com>
+To:     netdev@vger.kernel.org, bpf@vger.kernel.org
+Cc:     davem@davemloft.net, ast@kernel.org, daniel@iogearbox.net,
+        Stanislav Fomichev <sdf@google.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sean Young <sean@mess.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 9bec226d8c79fcbc95817b082557f72a79d182f5:
+Now that we don't have __rcu markers on the bpf_prog_array helpers,
+let's use proper rcu_dereference_protected to obtain array pointer
+under mutex.
 
-  media: v4l2-pci-skeleton.c: fix doc warning (2019-05-28 13:14:28 -0400)
+Cc: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sean Young <sean@mess.org>
+Signed-off-by: Stanislav Fomichev <sdf@google.com>
+---
+ drivers/media/rc/bpf-lirc.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
+index ee657003c1a1..0a0ce620e4a2 100644
+--- a/drivers/media/rc/bpf-lirc.c
++++ b/drivers/media/rc/bpf-lirc.c
+@@ -8,6 +8,9 @@
+ #include <linux/bpf_lirc.h>
+ #include "rc-core-priv.h"
+ 
++#define lirc_rcu_dereference(p)						\
++	rcu_dereference_protected(p, lockdep_is_held(&ir_raw_handler_lock))
++
+ /*
+  * BPF interface for raw IR
+  */
+@@ -136,7 +139,7 @@ const struct bpf_verifier_ops lirc_mode2_verifier_ops = {
+ 
+ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ {
+-	struct bpf_prog_array __rcu *old_array;
++	struct bpf_prog_array *old_array;
+ 	struct bpf_prog_array *new_array;
+ 	struct ir_raw_event_ctrl *raw;
+ 	int ret;
+@@ -154,12 +157,12 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 		goto unlock;
+ 	}
+ 
+-	if (raw->progs && bpf_prog_array_length(raw->progs) >= BPF_MAX_PROGS) {
++	old_array = lirc_rcu_dereference(raw->progs);
++	if (old_array && bpf_prog_array_length(old_array) >= BPF_MAX_PROGS) {
+ 		ret = -E2BIG;
+ 		goto unlock;
+ 	}
+ 
+-	old_array = raw->progs;
+ 	ret = bpf_prog_array_copy(old_array, NULL, prog, &new_array);
+ 	if (ret < 0)
+ 		goto unlock;
+@@ -174,7 +177,7 @@ static int lirc_bpf_attach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 
+ static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ {
+-	struct bpf_prog_array __rcu *old_array;
++	struct bpf_prog_array *old_array;
+ 	struct bpf_prog_array *new_array;
+ 	struct ir_raw_event_ctrl *raw;
+ 	int ret;
+@@ -192,7 +195,7 @@ static int lirc_bpf_detach(struct rc_dev *rcdev, struct bpf_prog *prog)
+ 		goto unlock;
+ 	}
+ 
+-	old_array = raw->progs;
++	old_array = lirc_rcu_dereference(raw->progs);
+ 	ret = bpf_prog_array_copy(old_array, prog, NULL, &new_array);
+ 	/*
+ 	 * Do not use bpf_prog_array_delete_safe() as we would end up
+@@ -223,21 +226,22 @@ void lirc_bpf_run(struct rc_dev *rcdev, u32 sample)
+ /*
+  * This should be called once the rc thread has been stopped, so there can be
+  * no concurrent bpf execution.
++ *
++ * Should be called with the ir_raw_handler_lock held.
+  */
+ void lirc_bpf_free(struct rc_dev *rcdev)
+ {
+ 	struct bpf_prog_array_item *item;
++	struct bpf_prog_array *array;
+ 
+-	if (!rcdev->raw->progs)
++	array = lirc_rcu_dereference(rcdev->raw->progs);
++	if (!array)
+ 		return;
+ 
+-	item = rcu_dereference(rcdev->raw->progs)->items;
+-	while (item->prog) {
++	for (item = array->items; item->prog; item++)
+ 		bpf_prog_put(item->prog);
+-		item++;
+-	}
+ 
+-	bpf_prog_array_free(rcdev->raw->progs);
++	bpf_prog_array_free(array);
+ }
+ 
+ int lirc_prog_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+@@ -290,7 +294,7 @@ int lirc_prog_detach(const union bpf_attr *attr)
+ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+ {
+ 	__u32 __user *prog_ids = u64_to_user_ptr(attr->query.prog_ids);
+-	struct bpf_prog_array __rcu *progs;
++	struct bpf_prog_array *progs;
+ 	struct rc_dev *rcdev;
+ 	u32 cnt, flags = 0;
+ 	int ret;
+@@ -311,7 +315,7 @@ int lirc_prog_query(const union bpf_attr *attr, union bpf_attr __user *uattr)
+ 	if (ret)
+ 		goto put;
+ 
+-	progs = rcdev->raw->progs;
++	progs = lirc_rcu_dereference(rcdev->raw->progs);
+ 	cnt = progs ? bpf_prog_array_length(progs) : 0;
+ 
+ 	if (copy_to_user(&uattr->query.prog_cnt, &cnt, sizeof(cnt))) {
+-- 
+2.22.0.rc1.257.g3120a18244-goog
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3f
-
-for you to fetch changes up to 75e52767fa3d58a783dd6862a7fb686e5de67fc6:
-
-  allegro: add SPS/PPS nal unit writer (2019-05-28 20:00:26 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (1):
-      videobuf2-v4l2: set last_buffer_dequeued in dqbuf
-
-Michael Tretter (4):
-      media: dt-bindings: media: document allegro-dvt bindings
-      media: dt-bindings: media: Add vendor prefix for allegro
-      allegro: add Allegro DVT video IP core driver
-      allegro: add SPS/PPS nal unit writer
-
- Documentation/devicetree/bindings/media/allegro.txt    |   43 +
- Documentation/devicetree/bindings/vendor-prefixes.yaml |    2 +
- MAINTAINERS                                            |    7 +
- drivers/media/common/videobuf2/videobuf2-v4l2.c        |   10 +-
- drivers/staging/media/Kconfig                          |    2 +
- drivers/staging/media/Makefile                         |    1 +
- drivers/staging/media/allegro-dvt/Kconfig              |   16 +
- drivers/staging/media/allegro-dvt/Makefile             |    6 +
- drivers/staging/media/allegro-dvt/TODO                 |    4 +
- drivers/staging/media/allegro-dvt/allegro-core.c       | 3032 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/allegro-dvt/nal-h264.c           | 1001 +++++++++++++++++++++
- drivers/staging/media/allegro-dvt/nal-h264.h           |  208 +++++
- 12 files changed, 4327 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allegro.txt
- create mode 100644 drivers/staging/media/allegro-dvt/Kconfig
- create mode 100644 drivers/staging/media/allegro-dvt/Makefile
- create mode 100644 drivers/staging/media/allegro-dvt/TODO
- create mode 100644 drivers/staging/media/allegro-dvt/allegro-core.c
- create mode 100644 drivers/staging/media/allegro-dvt/nal-h264.c
- create mode 100644 drivers/staging/media/allegro-dvt/nal-h264.h
