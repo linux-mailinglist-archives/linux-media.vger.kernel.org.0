@@ -2,49 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B7382D11E
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 23:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 518A92D11D
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 23:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbfE1VnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726813AbfE1VnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 28 May 2019 17:43:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44288 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:44282 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfE1VnR (ORCPT
+        with ESMTP id S1726492AbfE1VnQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 17:43:17 -0400
+        Tue, 28 May 2019 17:43:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=WxFsHJgdMJt0gst35MyrJJ7HARk9Qbt02CLD8D3yil0=; b=PRewOkf565/Y9H1oMxbPls15f
-        jY+V/rqhMX3U3ZESixZyhPpPWbo8wuZpTVre8zY1JHjuZr2PMTXaMT6R5nbmQ+YGmFE5UF7JOxTbl
-        HX/33iLPd5//Gm0mgJNKS+LgjDYD2mTovPWFHeh5N5/dvugmiTWNuCj9aQM9JVRJjZKaTXImbjIK9
-        OnjWK0QMacnAlramRj6sETw5vBSwvpZ3NLfwLxZD4A8QcmULTaGS9UQ9MK1g84KxxdokY/b4QFMVd
-        bXfraftRgNuJfJPnpkT/Xhf0JypLru70qv+2kNQj4XuDMhRW+x9ZmGM6PlnfQ9W36dxljOiotfw5h
-        Vd6NK1kDw==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=mrKUE3njdm4fZPzu8TtRbOKGMWSjbmiImTmUz9x9dPg=; b=h6GRjvXeo2m5pp3KDlu/0TMlgI
+        fkzpOeel7bG9mQbEZCVDc7SQne2AN22LpAAJ5AJ5inwvtmQyOHAVWG80ycvDTikVqGuQnYbrpCPdv
+        C0iYjtpu0Y5e3cgve79TMTOs27m6lwxkk6LzfMnmXnQtL+v/+2CaAYvlmQIeJ30Ggf58r7iidfOxV
+        qoNpMe/NkGKOcfIrXJqZg5tKcir8lbmsScn5ZQHhvrJ3L6a359fUGjRWeeQNwbQ+bhUkAL3iI/MN1
+        1tt0upDWKa7pN8g4l0tdUWXMJ12vP3GEIJ+7ZhNwp7ZXt8FVAEY5+1wAD0qO9Myth/wl1bOmkDYiZ
+        KhgzYFGA==;
 Received: from [187.58.202.19] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hVjsF-0000Gc-LF; Tue, 28 May 2019 21:43:16 +0000
+        id 1hVjsF-0000Ga-KX; Tue, 28 May 2019 21:43:16 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hVjs2-000AYf-SI; Tue, 28 May 2019 17:42:58 -0400
+        id 1hVjs2-000AYi-Sq; Tue, 28 May 2019 17:42:58 -0400
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
-        Cody P Schafer <dev@codyps.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Richard Fontana <rfontana@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 1/2] media: cx25840: Address several coding style issues
-Date:   Tue, 28 May 2019 17:42:56 -0400
-Message-Id: <373dc495b36ae4a96af0bf042303954eec493fd3.1559079754.git.mchehab+samsung@kernel.org>
+        Michael Krufky <mkrufky@linuxtv.org>
+Subject: [PATCH 2/2] media: cxusb: fix several coding style issues
+Date:   Tue, 28 May 2019 17:42:57 -0400
+Message-Id: <9ee3b0687c42d65d6f2db0c35e6ecb2ab725277f.1559079754.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <373dc495b36ae4a96af0bf042303954eec493fd3.1559079754.git.mchehab+samsung@kernel.org>
+References: <373dc495b36ae4a96af0bf042303954eec493fd3.1559079754.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
@@ -53,8 +49,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As we did a major change on this file, let's take the moment
-to cleanup several coding style issues on it.
+As this driver had a major change, let's take the opportunity
+and do some coding style cleanup, in order to make it compliant
+with Kernel's style.
 
 This patch was partially done with the help of two tools:
 
@@ -65,1617 +62,956 @@ But manually adjusted in order to fit our style.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/media/i2c/cx25840/cx25840-core.c | 915 +++++++++++++++--------
- drivers/media/i2c/cx25840/cx25840-core.h |  15 +-
- include/media/drv-intf/cx25840.h         |  33 +-
- 3 files changed, 619 insertions(+), 344 deletions(-)
+ drivers/media/usb/dvb-usb/cxusb.c | 365 +++++++++++++++++-------------
+ drivers/media/usb/dvb-usb/cxusb.h |   8 +-
+ 2 files changed, 217 insertions(+), 156 deletions(-)
 
-diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
-index 371ac6bb265a..98241da3965f 100644
---- a/drivers/media/i2c/cx25840/cx25840-core.c
-+++ b/drivers/media/i2c/cx25840/cx25840-core.c
-@@ -35,7 +35,6 @@
-  * GNU General Public License for more details.
-  */
- 
--
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -76,17 +75,17 @@ MODULE_LICENSE("GPL");
- 
- static int cx25840_debug;
- 
--module_param_named(debug,cx25840_debug, int, 0644);
-+module_param_named(debug, cx25840_debug, int, 0644);
- 
- MODULE_PARM_DESC(debug, "Debugging messages [0=Off (default) 1=On]");
- 
--
- /* ----------------------------------------------------------------------- */
- static void cx23888_std_setup(struct i2c_client *client);
- 
- int cx25840_write(struct i2c_client *client, u16 addr, u8 value)
- {
- 	u8 buffer[3];
-+
- 	buffer[0] = addr >> 8;
- 	buffer[1] = addr & 0xff;
- 	buffer[2] = value;
-@@ -96,6 +95,7 @@ int cx25840_write(struct i2c_client *client, u16 addr, u8 value)
- int cx25840_write4(struct i2c_client *client, u16 addr, u32 value)
- {
- 	u8 buffer[6];
-+
- 	buffer[0] = addr >> 8;
- 	buffer[1] = addr & 0xff;
- 	buffer[2] = value & 0xff;
-@@ -105,7 +105,7 @@ int cx25840_write4(struct i2c_client *client, u16 addr, u32 value)
- 	return i2c_master_send(client, buffer, 6);
+diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
+index 8b754ea069bc..cc61315b675c 100644
+--- a/drivers/media/usb/dvb-usb/cxusb.c
++++ b/drivers/media/usb/dvb-usb/cxusb.c
+@@ -136,7 +136,7 @@ static void cxusb_gpio_tuner(struct dvb_usb_device *d, int onoff)
  }
  
--u8 cx25840_read(struct i2c_client * client, u16 addr)
-+u8 cx25840_read(struct i2c_client *client, u16 addr)
+ static int cxusb_bluebird_gpio_rw(struct dvb_usb_device *d, u8 changemask,
+-				 u8 newval)
++				  u8 newval)
  {
- 	struct i2c_msg msgs[2];
- 	u8 tx_buf[2], rx_buf[1];
-@@ -116,13 +116,13 @@ u8 cx25840_read(struct i2c_client * client, u16 addr)
- 	msgs[0].addr = client->addr;
- 	msgs[0].flags = 0;
- 	msgs[0].len = 2;
--	msgs[0].buf = (char *) tx_buf;
-+	msgs[0].buf = (char *)tx_buf;
+ 	u8 o[2], gpio_state;
+ 	int rc;
+@@ -164,7 +164,7 @@ static void cxusb_nano2_led(struct dvb_usb_device *d, int onoff)
+ }
  
- 	/* Read data from register */
- 	msgs[1].addr = client->addr;
- 	msgs[1].flags = I2C_M_RD;
- 	msgs[1].len = 1;
--	msgs[1].buf = (char *) rx_buf;
-+	msgs[1].buf = (char *)rx_buf;
+ static int cxusb_d680_dmb_gpio_tuner(struct dvb_usb_device *d,
+-		u8 addr, int onoff)
++				     u8 addr, int onoff)
+ {
+ 	u8  o[2] = {addr, onoff};
+ 	u8  i;
+@@ -174,12 +174,12 @@ static int cxusb_d680_dmb_gpio_tuner(struct dvb_usb_device *d,
  
- 	if (i2c_transfer(client->adapter, msgs, 2) < 2)
+ 	if (rc < 0)
+ 		return rc;
++
+ 	if (i == 0x01)
  		return 0;
-@@ -130,7 +130,7 @@ u8 cx25840_read(struct i2c_client * client, u16 addr)
- 	return rx_buf[0];
- }
- 
--u32 cx25840_read4(struct i2c_client * client, u16 addr)
-+u32 cx25840_read4(struct i2c_client *client, u16 addr)
- {
- 	struct i2c_msg msgs[2];
- 	u8 tx_buf[2], rx_buf[4];
-@@ -141,22 +141,22 @@ u32 cx25840_read4(struct i2c_client * client, u16 addr)
- 	msgs[0].addr = client->addr;
- 	msgs[0].flags = 0;
- 	msgs[0].len = 2;
--	msgs[0].buf = (char *) tx_buf;
-+	msgs[0].buf = (char *)tx_buf;
- 
- 	/* Read data from registers */
- 	msgs[1].addr = client->addr;
- 	msgs[1].flags = I2C_M_RD;
- 	msgs[1].len = 4;
--	msgs[1].buf = (char *) rx_buf;
-+	msgs[1].buf = (char *)rx_buf;
- 
- 	if (i2c_transfer(client->adapter, msgs, 2) < 2)
- 		return 0;
- 
- 	return (rx_buf[3] << 24) | (rx_buf[2] << 16) | (rx_buf[1] << 8) |
--		rx_buf[0];
-+	        rx_buf[0];
- }
- 
--int cx25840_and_or(struct i2c_client *client, u16 addr, unsigned and_mask,
-+int cx25840_and_or(struct i2c_client *client, u16 addr, unsigned int and_mask,
- 		   u8 or_value)
- {
- 	return cx25840_write(client, addr,
-@@ -174,13 +174,14 @@ int cx25840_and_or4(struct i2c_client *client, u16 addr, u32 and_mask,
- 
- /* ----------------------------------------------------------------------- */
- 
--static int set_input(struct i2c_client *client, enum cx25840_video_input vid_input,
--						enum cx25840_audio_input aud_input);
-+static int set_input(struct i2c_client *client,
-+		     enum cx25840_video_input vid_input,
-+		     enum cx25840_audio_input aud_input);
- 
- /* ----------------------------------------------------------------------- */
- 
- static int cx23885_s_io_pin_config(struct v4l2_subdev *sd, size_t n,
--				      struct v4l2_subdev_io_pin_config *p)
-+				   struct v4l2_subdev_io_pin_config *p)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int i;
-@@ -411,7 +412,6 @@ static int cx25840_s_io_pin_config(struct v4l2_subdev *sd, size_t n,
- 		if (strength != CX25840_PIN_DRIVE_SLOW &&
- 		    strength != CX25840_PIN_DRIVE_MEDIUM &&
- 		    strength != CX25840_PIN_DRIVE_FAST) {
--
- 			v4l_err(client,
- 				"invalid drive speed for pin %u (%u), assuming fast\n",
- 				(unsigned int)p[i].pin,
-@@ -531,7 +531,7 @@ static int cx25840_s_io_pin_config(struct v4l2_subdev *sd, size_t n,
- }
- 
- static int common_s_io_pin_config(struct v4l2_subdev *sd, size_t n,
--				      struct v4l2_subdev_io_pin_config *pincfg)
-+				  struct v4l2_subdev_io_pin_config *pincfg)
- {
- 	struct cx25840_state *state = to_state(sd);
- 
-@@ -546,8 +546,10 @@ static int common_s_io_pin_config(struct v4l2_subdev *sd, size_t n,
- 
- static void init_dll1(struct i2c_client *client)
- {
--	/* This is the Hauppauge sequence used to
--	 * initialize the Delay Lock Loop 1 (ADC DLL). */
-+	/*
-+	 * This is the Hauppauge sequence used to
-+	 * initialize the Delay Lock Loop 1 (ADC DLL).
-+	 */
- 	cx25840_write(client, 0x159, 0x23);
- 	cx25840_write(client, 0x15a, 0x87);
- 	cx25840_write(client, 0x15b, 0x06);
-@@ -562,8 +564,10 @@ static void init_dll1(struct i2c_client *client)
- 
- static void init_dll2(struct i2c_client *client)
- {
--	/* This is the Hauppauge sequence used to
--	 * initialize the Delay Lock Loop 2 (ADC DLL). */
-+	/*
-+	 * This is the Hauppauge sequence used to
-+	 * initialize the Delay Lock Loop 2 (ADC DLL).
-+	 */
- 	cx25840_write(client, 0x15d, 0xe3);
- 	cx25840_write(client, 0x15e, 0x86);
- 	cx25840_write(client, 0x15f, 0x06);
-@@ -575,7 +579,11 @@ static void init_dll2(struct i2c_client *client)
- 
- static void cx25836_initialize(struct i2c_client *client)
- {
--	/* reset configuration is described on page 3-77 of the CX25836 datasheet */
-+	/*
-+	 *reset configuration is described on page 3-77
-+	 * of the CX25836 datasheet
-+	 */
-+
- 	/* 2. */
- 	cx25840_and_or(client, 0x000, ~0x01, 0x01);
- 	cx25840_and_or(client, 0x000, ~0x01, 0x00);
-@@ -601,6 +609,7 @@ static void cx25836_initialize(struct i2c_client *client)
- static void cx25840_work_handler(struct work_struct *work)
- {
- 	struct cx25840_state *state = container_of(work, struct cx25840_state, fw_work);
-+
- 	cx25840_loadfw(state->c);
- 	wake_up(&state->fw_wait);
- }
-@@ -699,8 +708,10 @@ static void cx25840_initialize(struct i2c_client *client)
- 	/* datasheet startup in numbered steps, refer to page 3-77 */
- 	/* 2. */
- 	cx25840_and_or(client, 0x803, ~0x10, 0x00);
--	/* The default of this register should be 4, but I get 0 instead.
--	 * Set this register to 4 manually. */
-+	/*
-+	 * The default of this register should be 4, but I get 0 instead.
-+	 * Set this register to 4 manually.
-+	 */
- 	cx25840_write(client, 0x000, 0x04);
- 	/* 3. */
- 	init_dll1(client);
-@@ -710,10 +721,12 @@ static void cx25840_initialize(struct i2c_client *client)
- 	cx25840_write(client, 0x13c, 0x01);
- 	cx25840_write(client, 0x13c, 0x00);
- 	/* 5. */
--	/* Do the firmware load in a work handler to prevent.
--	   Otherwise the kernel is blocked waiting for the
--	   bit-banging i2c interface to finish uploading the
--	   firmware. */
-+	/*
-+	 * Do the firmware load in a work handler to prevent.
-+	 * Otherwise the kernel is blocked waiting for the
-+	 * bit-banging i2c interface to finish uploading the
-+	 * firmware.
-+	 */
- 	INIT_WORK(&state->fw_work, cx25840_work_handler);
- 	init_waitqueue_head(&state->fw_wait);
- 	q = create_singlethread_workqueue("cx25840_fw");
-@@ -945,10 +958,12 @@ static void cx23885_initialize(struct i2c_client *client)
- 	cx25840_write(client, 0x160, 0x1d);
- 	cx25840_write(client, 0x164, 0x00);
- 
--	/* Do the firmware load in a work handler to prevent.
--	   Otherwise the kernel is blocked waiting for the
--	   bit-banging i2c interface to finish uploading the
--	   firmware. */
-+	/*
-+	 * Do the firmware load in a work handler to prevent.
-+	 * Otherwise the kernel is blocked waiting for the
-+	 * bit-banging i2c interface to finish uploading the
-+	 * firmware.
-+	 */
- 	INIT_WORK(&state->fw_work, cx25840_work_handler);
- 	init_waitqueue_head(&state->fw_wait);
- 	q = create_singlethread_workqueue("cx25840_fw");
-@@ -960,7 +975,8 @@ static void cx23885_initialize(struct i2c_client *client)
- 		destroy_workqueue(q);
- 	}
- 
--	/* Call the cx23888 specific std setup func, we no longer rely on
-+	/*
-+	 * Call the cx23888 specific std setup func, we no longer rely on
- 	 * the generic cx24840 func.
- 	 */
- 	if (is_cx23888(state))
-@@ -982,7 +998,9 @@ static void cx23885_initialize(struct i2c_client *client)
- 	cx25840_write(client, CX25840_AUD_INT_STAT_REG, 0xff);
- 
- 	/* CC raw enable */
--	/*  - VIP 1.1 control codes - 10bit, blue field enable.
-+
-+	/*
-+	 *  - VIP 1.1 control codes - 10bit, blue field enable.
- 	 *  - enable raw data during vertical blanking.
- 	 *  - enable ancillary Data insertion for 656 or VIP.
- 	 */
-@@ -1065,10 +1083,12 @@ static void cx231xx_initialize(struct i2c_client *client)
- 	/* White crush, Chroma AGC & Chroma Killer enabled */
- 	cx25840_write(client, 0x401, 0xe8);
- 
--	/* Do the firmware load in a work handler to prevent.
--	   Otherwise the kernel is blocked waiting for the
--	   bit-banging i2c interface to finish uploading the
--	   firmware. */
-+	/*
-+	 * Do the firmware load in a work handler to prevent.
-+	 * Otherwise the kernel is blocked waiting for the
-+	 * bit-banging i2c interface to finish uploading the
-+	 * firmware.
-+	 */
- 	INIT_WORK(&state->fw_work, cx25840_work_handler);
- 	init_waitqueue_head(&state->fw_wait);
- 	q = create_singlethread_workqueue("cx25840_fw");
-@@ -1164,8 +1184,9 @@ void cx25840_std_setup(struct i2c_client *client)
- 				vblank = 26;
- 				vblank656 = 26;
- 				burst = 0x5b;
--			} else
-+			} else {
- 				burst = 0x59;
-+			}
- 			luma_lpf = 2;
- 			comb = 0x20;
- 			sc = 688739;
-@@ -1200,24 +1221,28 @@ void cx25840_std_setup(struct i2c_client *client)
- 			int pll = (28636363L * ((((u64)pll_int) << 25L) + pll_frac)) >> 25L;
- 
- 			pll /= pll_post;
--			v4l_dbg(1, cx25840_debug, client, "PLL = %d.%06d MHz\n",
--					pll / 1000000, pll % 1000000);
--			v4l_dbg(1, cx25840_debug, client, "PLL/8 = %d.%06d MHz\n",
--					pll / 8000000, (pll / 8) % 1000000);
-+			v4l_dbg(1, cx25840_debug, client,
-+				"PLL = %d.%06d MHz\n",
-+				pll / 1000000, pll % 1000000);
-+			v4l_dbg(1, cx25840_debug, client,
-+				"PLL/8 = %d.%06d MHz\n",
-+				pll / 8000000, (pll / 8) % 1000000);
- 
- 			fin = ((u64)src_decimation * pll) >> 12;
- 			v4l_dbg(1, cx25840_debug, client,
--					"ADC Sampling freq = %d.%06d MHz\n",
--					fin / 1000000, fin % 1000000);
-+				"ADC Sampling freq = %d.%06d MHz\n",
-+				fin / 1000000, fin % 1000000);
- 
- 			fsc = (((u64)sc) * pll) >> 24L;
- 			v4l_dbg(1, cx25840_debug, client,
--					"Chroma sub-carrier freq = %d.%06d MHz\n",
--					fsc / 1000000, fsc % 1000000);
-+				"Chroma sub-carrier freq = %d.%06d MHz\n",
-+				fsc / 1000000, fsc % 1000000);
- 
--			v4l_dbg(1, cx25840_debug, client, "hblank %i, hactive %i, vblank %i, vactive %i, vblank656 %i, src_dec %i, burst 0x%02x, luma_lpf %i, uv_lpf %i, comb 0x%02x, sc 0x%06x\n",
-+			v4l_dbg(1, cx25840_debug, client,
-+				"hblank %i, hactive %i, vblank %i, vactive %i, vblank656 %i, src_dec %i, burst 0x%02x, luma_lpf %i, uv_lpf %i, comb 0x%02x, sc 0x%06x\n",
- 				hblank, hactive, vblank, vactive, vblank656,
--				src_decimation, burst, luma_lpf, uv_lpf, comb, sc);
-+				src_decimation, burst, luma_lpf, uv_lpf,
-+				comb, sc);
- 		}
- 	}
- 
-@@ -1272,10 +1297,10 @@ static void input_change(struct i2c_client *client)
- 	/* Follow step 8c and 8d of section 3.16 in the cx25840 datasheet */
- 	if (std & V4L2_STD_SECAM) {
- 		cx25840_write(client, 0x402, 0);
--	}
 -	else {
-+	} else {
- 		cx25840_write(client, 0x402, 0x04);
--		cx25840_write(client, 0x49f, (std & V4L2_STD_NTSC) ? 0x14 : 0x11);
-+		cx25840_write(client, 0x49f,
-+			      (std & V4L2_STD_NTSC) ? 0x14 : 0x11);
- 	}
- 	cx25840_and_or(client, 0x401, ~0x60, 0);
- 	cx25840_and_or(client, 0x401, ~0x60, 0x60);
-@@ -1289,13 +1314,14 @@ static void input_change(struct i2c_client *client)
- 	if (state->radio) {
- 		cx25840_write(client, 0x808, 0xf9);
- 		cx25840_write(client, 0x80b, 0x00);
+-		deb_info("gpio_write failed.\n");
+-		return -EIO;
 -	}
--	else if (std & V4L2_STD_525_60) {
--		/* Certain Hauppauge PVR150 models have a hardware bug
--		   that causes audio to drop out. For these models the
--		   audio standard must be set explicitly.
--		   To be precise: it affects cards with tuner models
--		   85, 99 and 112 (model numbers from tveeprom). */
-+	} else if (std & V4L2_STD_525_60) {
-+		/*
-+		 * Certain Hauppauge PVR150 models have a hardware bug
-+		 * that causes audio to drop out. For these models the
-+		 * audio standard must be set explicitly.
-+		 * To be precise: it affects cards with tuner models
-+		 * 85, 99 and 112 (model numbers from tveeprom).
-+		 */
- 		int hw_fix = state->pvr150_workaround;
- 
- 		if (std == V4L2_STD_NTSC_M_JP) {
-@@ -1312,35 +1338,40 @@ static void input_change(struct i2c_client *client)
- 	} else if (std & V4L2_STD_PAL) {
- 		/* Autodetect audio standard and audio system */
- 		cx25840_write(client, 0x808, 0xff);
--		/* Since system PAL-L is pretty much non-existent and
--		   not used by any public broadcast network, force
--		   6.5 MHz carrier to be interpreted as System DK,
--		   this avoids DK audio detection instability */
-+		/*
-+		 * Since system PAL-L is pretty much non-existent and
-+		 * not used by any public broadcast network, force
-+		 * 6.5 MHz carrier to be interpreted as System DK,
-+		 * this avoids DK audio detection instability
-+		 */
- 		cx25840_write(client, 0x80b, 0x00);
- 	} else if (std & V4L2_STD_SECAM) {
- 		/* Autodetect audio standard and audio system */
- 		cx25840_write(client, 0x808, 0xff);
--		/* If only one of SECAM-DK / SECAM-L is required, then force
--		  6.5MHz carrier, else autodetect it */
-+		/*
-+		 * If only one of SECAM-DK / SECAM-L is required, then force
-+		 * 6.5MHz carrier, else autodetect it
-+		 */
- 		if ((std & V4L2_STD_SECAM_DK) &&
- 		    !(std & (V4L2_STD_SECAM_L | V4L2_STD_SECAM_LC))) {
- 			/* 6.5 MHz carrier to be interpreted as System DK */
- 			cx25840_write(client, 0x80b, 0x00);
--	       } else if (!(std & V4L2_STD_SECAM_DK) &&
--			  (std & (V4L2_STD_SECAM_L | V4L2_STD_SECAM_LC))) {
-+		} else if (!(std & V4L2_STD_SECAM_DK) &&
-+			   (std & (V4L2_STD_SECAM_L | V4L2_STD_SECAM_LC))) {
- 			/* 6.5 MHz carrier to be interpreted as System L */
- 			cx25840_write(client, 0x80b, 0x08);
--	       } else {
-+		} else {
- 			/* 6.5 MHz carrier to be autodetected */
- 			cx25840_write(client, 0x80b, 0x10);
--	       }
-+		}
- 	}
- 
- 	cx25840_and_or(client, 0x810, ~0x01, 0);
++
++	deb_info("gpio_write failed.\n");
++	return -EIO;
  }
  
--static int set_input(struct i2c_client *client, enum cx25840_video_input vid_input,
--						enum cx25840_audio_input aud_input)
-+static int set_input(struct i2c_client *client,
-+		     enum cx25840_video_input vid_input,
-+		     enum cx25840_audio_input aud_input)
- {
- 	struct cx25840_state *state = to_state(i2c_get_clientdata(client));
- 	u8 is_composite = (vid_input >= CX25840_COMPOSITE1 &&
-@@ -1365,7 +1396,7 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 			vid_input);
- 		reg = vid_input & 0xff;
- 		is_composite = !is_component &&
--			((vid_input & CX25840_SVIDEO_ON) != CX25840_SVIDEO_ON);
-+			       ((vid_input & CX25840_SVIDEO_ON) != CX25840_SVIDEO_ON);
+ /* I2C */
+@@ -194,7 +194,6 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 		return -EAGAIN;
  
- 		v4l_dbg(1, cx25840_debug, client, "mux cfg 0x%x comp=%d\n",
- 			reg, is_composite);
-@@ -1373,8 +1404,10 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 		reg = 0xf0 + (vid_input - CX25840_COMPOSITE1);
- 	} else {
- 		if ((vid_input & ~0xff0) ||
--		    luma < CX25840_SVIDEO_LUMA1 || luma > CX25840_SVIDEO_LUMA8 ||
--		    chroma < CX25840_SVIDEO_CHROMA4 || chroma > CX25840_SVIDEO_CHROMA8) {
-+		    luma < CX25840_SVIDEO_LUMA1 ||
-+		    luma > CX25840_SVIDEO_LUMA8 ||
-+		    chroma < CX25840_SVIDEO_CHROMA4 ||
-+		    chroma > CX25840_SVIDEO_CHROMA8) {
- 			v4l_err(client, "0x%04x is not a valid video input!\n",
- 				vid_input);
- 			return -EINVAL;
-@@ -1398,12 +1431,24 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 		case CX25840_AUDIO_SERIAL:
- 			/* do nothing, use serial audio input */
- 			break;
--		case CX25840_AUDIO4: reg &= ~0x30; break;
--		case CX25840_AUDIO5: reg &= ~0x30; reg |= 0x10; break;
--		case CX25840_AUDIO6: reg &= ~0x30; reg |= 0x20; break;
--		case CX25840_AUDIO7: reg &= ~0xc0; break;
--		case CX25840_AUDIO8: reg &= ~0xc0; reg |= 0x40; break;
+ 	for (i = 0; i < num; i++) {
 -
-+		case CX25840_AUDIO4:
-+			reg &= ~0x30;
-+			break;
-+		case CX25840_AUDIO5:
-+			reg &= ~0x30;
-+			reg |= 0x10;
-+			break;
-+		case CX25840_AUDIO6:
-+			reg &= ~0x30;
-+			reg |= 0x20;
-+			break;
-+		case CX25840_AUDIO7:
-+			reg &= ~0xc0;
-+			break;
-+		case CX25840_AUDIO8:
-+			reg &= ~0xc0;
-+			reg |= 0x40;
-+			break;
- 		default:
- 			v4l_err(client, "0x%04x is not a valid audio input!\n",
- 				aud_input);
-@@ -1420,7 +1465,6 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 		cx25840_and_or(client, 0x401, ~0x6, is_composite ? 0 : 0x02);
+ 		if (le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_MEDION)
+ 			switch (msg[i].addr) {
+ 			case 0x63:
+@@ -220,13 +219,13 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 			obuf[2] = msg[i].addr;
+ 			if (cxusb_ctrl_msg(d, CMD_I2C_READ,
+ 					   obuf, 3,
+-					   ibuf, 1+msg[i].len) < 0) {
++					   ibuf, 1 + msg[i].len) < 0) {
+ 				warn("i2c read failed");
+ 				break;
+ 			}
+ 			memcpy(msg[i].buf, &ibuf[1], msg[i].len);
+-		} else if (i+1 < num && (msg[i+1].flags & I2C_M_RD) &&
+-			   msg[i].addr == msg[i+1].addr) {
++		} else if (i + 1 < num && (msg[i + 1].flags & I2C_M_RD) &&
++			   msg[i].addr == msg[i + 1].addr) {
+ 			/* write to then read from same address */
+ 			u8 obuf[MAX_XFER_SIZE], ibuf[MAX_XFER_SIZE];
  
- 	if (is_cx2388x(state)) {
--
- 		/* Enable or disable the DIF for tuner use */
- 		if (is_dif) {
- 			cx25840_and_or(client, 0x102, ~0x80, 0x80);
-@@ -1451,15 +1495,23 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 			cx25840_write4(client, 0x410, 0xffff0dbf);
- 			cx25840_write4(client, 0x414, 0x00137d03);
+@@ -243,19 +242,19 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 				goto unlock;
+ 			}
+ 			obuf[0] = msg[i].len;
+-			obuf[1] = msg[i+1].len;
++			obuf[1] = msg[i + 1].len;
+ 			obuf[2] = msg[i].addr;
+ 			memcpy(&obuf[3], msg[i].buf, msg[i].len);
  
--			cx25840_write4(client, state->vbi_regs_offset + 0x42c, 0x42600000);
--			cx25840_write4(client, state->vbi_regs_offset + 0x430, 0x0000039b);
--			cx25840_write4(client, state->vbi_regs_offset + 0x438, 0x00000000);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x42c,
-+				       0x42600000);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x430,
-+				       0x0000039b);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x438,
-+				       0x00000000);
+ 			if (cxusb_ctrl_msg(d, CMD_I2C_READ,
+-					   obuf, 3+msg[i].len,
+-					   ibuf, 1+msg[i+1].len) < 0)
++					   obuf, 3 + msg[i].len,
++					   ibuf, 1 + msg[i + 1].len) < 0)
+ 				break;
  
--			cx25840_write4(client, state->vbi_regs_offset + 0x440, 0xF8E3E824);
--			cx25840_write4(client, state->vbi_regs_offset + 0x444, 0x401040dc);
--			cx25840_write4(client, state->vbi_regs_offset + 0x448, 0xcd3f02a0);
--			cx25840_write4(client, state->vbi_regs_offset + 0x44c, 0x161f1000);
--			cx25840_write4(client, state->vbi_regs_offset + 0x450, 0x00000802);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x440,
-+				       0xF8E3E824);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x444,
-+				       0x401040dc);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x448,
-+				       0xcd3f02a0);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x44c,
-+				       0x161f1000);
-+			cx25840_write4(client, state->vbi_regs_offset + 0x450,
-+				       0x00000802);
+ 			if (ibuf[0] != 0x08)
+ 				deb_i2c("i2c read may have failed\n");
  
- 			cx25840_write4(client, 0x91c, 0x01000000);
- 			cx25840_write4(client, 0x8e0, 0x03063870);
-@@ -1526,8 +1578,9 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 			 * Only one of the two will be in use.
- 			 */
- 			cx25840_write4(client, AFE_CTRL, val);
--		} else
-+		} else {
- 			cx25840_and_or(client, 0x102, ~0x2, 0);
-+		}
- 	}
+-			memcpy(msg[i+1].buf, &ibuf[1], msg[i+1].len);
++			memcpy(msg[i + 1].buf, &ibuf[1], msg[i + 1].len);
  
- 	state->vid_input = vid_input;
-@@ -1566,29 +1619,32 @@ static int set_input(struct i2c_client *client, enum cx25840_video_input vid_inp
- 		cx25840_write(client, 0x919, 0x01);
- 	}
- 
--	if (is_cx2388x(state) && ((aud_input == CX25840_AUDIO7) ||
--		(aud_input == CX25840_AUDIO6))) {
-+	if (is_cx2388x(state) &&
-+	    ((aud_input == CX25840_AUDIO7) || (aud_input == CX25840_AUDIO6))) {
- 		/* Configure audio from LR1 or LR2 input */
- 		cx25840_write4(client, 0x910, 0);
- 		cx25840_write4(client, 0x8d0, 0x63073);
--	} else
--	if (is_cx2388x(state) && (aud_input == CX25840_AUDIO8)) {
-+	} else if (is_cx2388x(state) && (aud_input == CX25840_AUDIO8)) {
- 		/* Configure audio from tuner/sif input */
- 		cx25840_write4(client, 0x910, 0x12b000c9);
- 		cx25840_write4(client, 0x8d0, 0x1f063870);
- 	}
- 
- 	if (is_cx23888(state)) {
--		/* HVR1850 */
--		/* AUD_IO_CTRL - I2S Input, Parallel1*/
--		/*  - Channel 1 src - Parallel1 (Merlin out) */
--		/*  - Channel 2 src - Parallel2 (Merlin out) */
--		/*  - Channel 3 src - Parallel3 (Merlin AC97 out) */
--		/*  - I2S source and dir - Merlin, output */
-+		/*
-+		 * HVR1850
-+		 *
-+		 * AUD_IO_CTRL - I2S Input, Parallel1
-+		 *  - Channel 1 src - Parallel1 (Merlin out)
-+		 *  - Channel 2 src - Parallel2 (Merlin out)
-+		 *  - Channel 3 src - Parallel3 (Merlin AC97 out)
-+		 *  - I2S source and dir - Merlin, output
-+		 */
- 		cx25840_write4(client, 0x124, 0x100);
- 
- 		if (!is_dif) {
--			/* Stop microcontroller if we don't need it
-+			/*
-+			 * Stop microcontroller if we don't need it
- 			 * to avoid audio popping on svideo/composite use.
- 			 */
- 			cx25840_and_or(client, 0x803, ~0x10, 0x00);
-@@ -1630,11 +1686,14 @@ static int set_v4lstd(struct i2c_client *client)
- 			fmt = 0xc;
- 	}
- 
--	v4l_dbg(1, cx25840_debug, client, "changing video std to fmt %i\n",fmt);
-+	v4l_dbg(1, cx25840_debug, client,
-+		"changing video std to fmt %i\n", fmt);
- 
--	/* Follow step 9 of section 3.16 in the cx25840 datasheet.
--	   Without this PAL may display a vertical ghosting effect.
--	   This happens for example with the Yuan MPC622. */
-+	/*
-+	 * Follow step 9 of section 3.16 in the cx25840 datasheet.
-+	 * Without this PAL may display a vertical ghosting effect.
-+	 * This happens for example with the Yuan MPC622.
-+	 */
- 	if (fmt >= 4 && fmt < 8) {
- 		/* Set format to NTSC-M */
- 		cx25840_and_or(client, 0x400, ~0xf, 1);
-@@ -1696,15 +1755,15 @@ static int cx25840_s_ctrl(struct v4l2_ctrl *ctrl)
- /* ----------------------------------------------------------------------- */
- 
- static int cx25840_set_fmt(struct v4l2_subdev *sd,
--		struct v4l2_subdev_pad_config *cfg,
--		struct v4l2_subdev_format *format)
-+			   struct v4l2_subdev_pad_config *cfg,
-+			   struct v4l2_subdev_format *format)
- {
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
- 	struct cx25840_state *state = to_state(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u32 HSC, VSC, Vsrc, Hsrc, Vadd;
-+	u32 hsc, vsc, v_src, h_src, v_add;
- 	int filter;
--	int is_50Hz = !(state->std & V4L2_STD_525_60);
-+	int is_50hz = !(state->std & V4L2_STD_525_60);
- 
- 	if (format->pad || fmt->code != MEDIA_BUS_FMT_FIXED)
- 		return -EINVAL;
-@@ -1713,23 +1772,23 @@ static int cx25840_set_fmt(struct v4l2_subdev *sd,
- 	fmt->colorspace = V4L2_COLORSPACE_SMPTE170M;
- 
- 	if (is_cx23888(state)) {
--		Vsrc = (cx25840_read(client, 0x42a) & 0x3f) << 4;
--		Vsrc |= (cx25840_read(client, 0x429) & 0xf0) >> 4;
-+		v_src = (cx25840_read(client, 0x42a) & 0x3f) << 4;
-+		v_src |= (cx25840_read(client, 0x429) & 0xf0) >> 4;
- 	} else {
--		Vsrc = (cx25840_read(client, 0x476) & 0x3f) << 4;
--		Vsrc |= (cx25840_read(client, 0x475) & 0xf0) >> 4;
-+		v_src = (cx25840_read(client, 0x476) & 0x3f) << 4;
-+		v_src |= (cx25840_read(client, 0x475) & 0xf0) >> 4;
- 	}
- 
- 	if (is_cx23888(state)) {
--		Hsrc = (cx25840_read(client, 0x426) & 0x3f) << 4;
--		Hsrc |= (cx25840_read(client, 0x425) & 0xf0) >> 4;
-+		h_src = (cx25840_read(client, 0x426) & 0x3f) << 4;
-+		h_src |= (cx25840_read(client, 0x425) & 0xf0) >> 4;
- 	} else {
--		Hsrc = (cx25840_read(client, 0x472) & 0x3f) << 4;
--		Hsrc |= (cx25840_read(client, 0x471) & 0xf0) >> 4;
-+		h_src = (cx25840_read(client, 0x472) & 0x3f) << 4;
-+		h_src |= (cx25840_read(client, 0x471) & 0xf0) >> 4;
- 	}
- 
- 	if (!state->generic_mode) {
--		Vadd = is_50Hz ? 4 : 7;
-+		v_add = is_50hz ? 4 : 7;
- 
- 		/*
- 		 * cx23888 in 525-line mode is programmed for 486 active lines
-@@ -1738,16 +1797,17 @@ static int cx25840_set_fmt(struct v4l2_subdev *sd,
- 		 * See reg 0x428 bits [21:12] in cx23888_std_setup() vs
- 		 * vactive in cx25840_std_setup().
- 		 */
--		if (is_cx23888(state) && !is_50Hz)
--			Vadd--;
--	} else
--		Vadd = 0;
-+		if (is_cx23888(state) && !is_50hz)
-+			v_add--;
-+	} else {
-+		v_add = 0;
-+	}
- 
--	if (Hsrc == 0 ||
--	    Vsrc <= Vadd) {
-+	if (h_src == 0 ||
-+	    v_src <= v_add) {
- 		v4l_err(client,
- 			"chip reported picture size (%u x %u) is far too small\n",
--			(unsigned int)Hsrc, (unsigned int)Vsrc);
-+			(unsigned int)h_src, (unsigned int)v_src);
- 		/*
- 		 * that's the best we can do since the output picture
- 		 * size is completely unknown in this case
-@@ -1755,20 +1815,20 @@ static int cx25840_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	}
- 
--	fmt->width = clamp(fmt->width, (Hsrc + 15) / 16, Hsrc);
-+	fmt->width = clamp(fmt->width, (h_src + 15) / 16, h_src);
- 
--	if (Vadd * 8 >= Vsrc)
--		fmt->height = clamp(fmt->height, (u32)1, Vsrc - Vadd);
-+	if (v_add * 8 >= v_src)
-+		fmt->height = clamp(fmt->height, (u32)1, v_src - v_add);
- 	else
--		fmt->height = clamp(fmt->height, (Vsrc - Vadd * 8 + 7) / 8,
--				    Vsrc - Vadd);
-+		fmt->height = clamp(fmt->height, (v_src - v_add * 8 + 7) / 8,
-+				    v_src - v_add);
- 
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
- 		return 0;
- 
--	HSC = (Hsrc * (1 << 20)) / fmt->width - (1 << 20);
--	VSC = (1 << 16) - (Vsrc * (1 << 9) / (fmt->height + Vadd) - (1 << 9));
--	VSC &= 0x1fff;
-+	hsc = (h_src * (1 << 20)) / fmt->width - (1 << 20);
-+	vsc = (1 << 16) - (v_src * (1 << 9) / (fmt->height + v_add) - (1 << 9));
-+	vsc &= 0x1fff;
- 
- 	if (fmt->width >= 385)
- 		filter = 0;
-@@ -1782,20 +1842,20 @@ static int cx25840_set_fmt(struct v4l2_subdev *sd,
- 	v4l_dbg(1, cx25840_debug, client,
- 		"decoder set size %u x %u with scale %x x %x\n",
- 		(unsigned int)fmt->width, (unsigned int)fmt->height,
--		(unsigned int)HSC, (unsigned int)VSC);
-+		(unsigned int)hsc, (unsigned int)vsc);
- 
--	/* HSCALE=HSC */
-+	/* HSCALE=hsc */
- 	if (is_cx23888(state)) {
--		cx25840_write4(client, 0x434, HSC | (1 << 24));
--		/* VSCALE=VSC VS_INTRLACE=1 VFILT=filter */
--		cx25840_write4(client, 0x438, VSC | (1 << 19) | (filter << 16));
-+		cx25840_write4(client, 0x434, hsc | (1 << 24));
-+		/* VSCALE=vsc VS_INTRLACE=1 VFILT=filter */
-+		cx25840_write4(client, 0x438, vsc | (1 << 19) | (filter << 16));
- 	} else {
--		cx25840_write(client, 0x418, HSC & 0xff);
--		cx25840_write(client, 0x419, (HSC >> 8) & 0xff);
--		cx25840_write(client, 0x41a, HSC >> 16);
--		/* VSCALE=VSC */
--		cx25840_write(client, 0x41c, VSC & 0xff);
--		cx25840_write(client, 0x41d, VSC >> 8);
-+		cx25840_write(client, 0x418, hsc & 0xff);
-+		cx25840_write(client, 0x419, (hsc >> 8) & 0xff);
-+		cx25840_write(client, 0x41a, hsc >> 16);
-+		/* VSCALE=vsc */
-+		cx25840_write(client, 0x41c, vsc & 0xff);
-+		cx25840_write(client, 0x41d, vsc >> 8);
- 		/* VS_INTRLACE=1 VFILT=filter */
- 		cx25840_write(client, 0x41e, 0x8 | filter);
- 	}
-@@ -1822,23 +1882,25 @@ static void log_video_status(struct i2c_client *client)
- 	int vid_input = state->vid_input;
- 
- 	v4l_info(client, "Video signal:              %spresent\n",
--		    (gen_stat2 & 0x20) ? "" : "not ");
-+		 (gen_stat2 & 0x20) ? "" : "not ");
- 	v4l_info(client, "Detected format:           %s\n",
--		    fmt_strs[gen_stat1 & 0xf]);
-+		 fmt_strs[gen_stat1 & 0xf]);
- 
- 	v4l_info(client, "Specified standard:        %s\n",
--		    vidfmt_sel ? fmt_strs[vidfmt_sel] : "automatic detection");
-+		 vidfmt_sel ? fmt_strs[vidfmt_sel] : "automatic detection");
- 
- 	if (vid_input >= CX25840_COMPOSITE1 &&
- 	    vid_input <= CX25840_COMPOSITE8) {
- 		v4l_info(client, "Specified video input:     Composite %d\n",
--			vid_input - CX25840_COMPOSITE1 + 1);
-+			 vid_input - CX25840_COMPOSITE1 + 1);
- 	} else {
--		v4l_info(client, "Specified video input:     S-Video (Luma In%d, Chroma In%d)\n",
--			(vid_input & 0xf0) >> 4, (vid_input & 0xf00) >> 8);
-+		v4l_info(client,
-+			 "Specified video input:     S-Video (Luma In%d, Chroma In%d)\n",
-+			 (vid_input & 0xf0) >> 4, (vid_input & 0xf00) >> 8);
- 	}
- 
--	v4l_info(client, "Specified audioclock freq: %d Hz\n", state->audclk_freq);
-+	v4l_info(client, "Specified audioclock freq: %d Hz\n",
-+		 state->audclk_freq);
- }
- 
- /* ----------------------------------------------------------------------- */
-@@ -1857,138 +1919,315 @@ static void log_audio_status(struct i2c_client *client)
- 	char *p;
- 
- 	switch (mod_det_stat0) {
--	case 0x00: p = "mono"; break;
--	case 0x01: p = "stereo"; break;
--	case 0x02: p = "dual"; break;
--	case 0x04: p = "tri"; break;
--	case 0x10: p = "mono with SAP"; break;
--	case 0x11: p = "stereo with SAP"; break;
--	case 0x12: p = "dual with SAP"; break;
--	case 0x14: p = "tri with SAP"; break;
--	case 0xfe: p = "forced mode"; break;
--	default: p = "not defined";
-+	case 0x00:
-+		p = "mono";
-+		break;
-+	case 0x01:
-+		p = "stereo";
-+		break;
-+	case 0x02:
-+		p = "dual";
-+		break;
-+	case 0x04:
-+		p = "tri";
-+		break;
-+	case 0x10:
-+		p = "mono with SAP";
-+		break;
-+	case 0x11:
-+		p = "stereo with SAP";
-+		break;
-+	case 0x12:
-+		p = "dual with SAP";
-+		break;
-+	case 0x14:
-+		p = "tri with SAP";
-+		break;
-+	case 0xfe:
-+		p = "forced mode";
-+		break;
-+	default:
-+		p = "not defined";
- 	}
- 	v4l_info(client, "Detected audio mode:       %s\n", p);
- 
- 	switch (mod_det_stat1) {
--	case 0x00: p = "not defined"; break;
--	case 0x01: p = "EIAJ"; break;
--	case 0x02: p = "A2-M"; break;
--	case 0x03: p = "A2-BG"; break;
--	case 0x04: p = "A2-DK1"; break;
--	case 0x05: p = "A2-DK2"; break;
--	case 0x06: p = "A2-DK3"; break;
--	case 0x07: p = "A1 (6.0 MHz FM Mono)"; break;
--	case 0x08: p = "AM-L"; break;
--	case 0x09: p = "NICAM-BG"; break;
--	case 0x0a: p = "NICAM-DK"; break;
--	case 0x0b: p = "NICAM-I"; break;
--	case 0x0c: p = "NICAM-L"; break;
--	case 0x0d: p = "BTSC/EIAJ/A2-M Mono (4.5 MHz FMMono)"; break;
--	case 0x0e: p = "IF FM Radio"; break;
--	case 0x0f: p = "BTSC"; break;
--	case 0x10: p = "high-deviation FM"; break;
--	case 0x11: p = "very high-deviation FM"; break;
--	case 0xfd: p = "unknown audio standard"; break;
--	case 0xfe: p = "forced audio standard"; break;
--	case 0xff: p = "no detected audio standard"; break;
--	default: p = "not defined";
-+	case 0x00:
-+		p = "not defined";
-+		break;
-+	case 0x01:
-+		p = "EIAJ";
-+		break;
-+	case 0x02:
-+		p = "A2-M";
-+		break;
-+	case 0x03:
-+		p = "A2-BG";
-+		break;
-+	case 0x04:
-+		p = "A2-DK1";
-+		break;
-+	case 0x05:
-+		p = "A2-DK2";
-+		break;
-+	case 0x06:
-+		p = "A2-DK3";
-+		break;
-+	case 0x07:
-+		p = "A1 (6.0 MHz FM Mono)";
-+		break;
-+	case 0x08:
-+		p = "AM-L";
-+		break;
-+	case 0x09:
-+		p = "NICAM-BG";
-+		break;
-+	case 0x0a:
-+		p = "NICAM-DK";
-+		break;
-+	case 0x0b:
-+		p = "NICAM-I";
-+		break;
-+	case 0x0c:
-+		p = "NICAM-L";
-+		break;
-+	case 0x0d:
-+		p = "BTSC/EIAJ/A2-M Mono (4.5 MHz FMMono)";
-+		break;
-+	case 0x0e:
-+		p = "IF FM Radio";
-+		break;
-+	case 0x0f:
-+		p = "BTSC";
-+		break;
-+	case 0x10:
-+		p = "high-deviation FM";
-+		break;
-+	case 0x11:
-+		p = "very high-deviation FM";
-+		break;
-+	case 0xfd:
-+		p = "unknown audio standard";
-+		break;
-+	case 0xfe:
-+		p = "forced audio standard";
-+		break;
-+	case 0xff:
-+		p = "no detected audio standard";
-+		break;
-+	default:
-+		p = "not defined";
- 	}
- 	v4l_info(client, "Detected audio standard:   %s\n", p);
- 	v4l_info(client, "Audio microcontroller:     %s\n",
--		    (download_ctl & 0x10) ?
--				((mute_ctl & 0x2) ? "detecting" : "running") : "stopped");
-+		 (download_ctl & 0x10) ?
-+		 ((mute_ctl & 0x2) ? "detecting" : "running") : "stopped");
- 
- 	switch (audio_config >> 4) {
--	case 0x00: p = "undefined"; break;
--	case 0x01: p = "BTSC"; break;
--	case 0x02: p = "EIAJ"; break;
--	case 0x03: p = "A2-M"; break;
--	case 0x04: p = "A2-BG"; break;
--	case 0x05: p = "A2-DK1"; break;
--	case 0x06: p = "A2-DK2"; break;
--	case 0x07: p = "A2-DK3"; break;
--	case 0x08: p = "A1 (6.0 MHz FM Mono)"; break;
--	case 0x09: p = "AM-L"; break;
--	case 0x0a: p = "NICAM-BG"; break;
--	case 0x0b: p = "NICAM-DK"; break;
--	case 0x0c: p = "NICAM-I"; break;
--	case 0x0d: p = "NICAM-L"; break;
--	case 0x0e: p = "FM radio"; break;
--	case 0x0f: p = "automatic detection"; break;
--	default: p = "undefined";
-+	case 0x00:
-+		p = "undefined";
-+		break;
-+	case 0x01:
-+		p = "BTSC";
-+		break;
-+	case 0x02:
-+		p = "EIAJ";
-+		break;
-+	case 0x03:
-+		p = "A2-M";
-+		break;
-+	case 0x04:
-+		p = "A2-BG";
-+		break;
-+	case 0x05:
-+		p = "A2-DK1";
-+		break;
-+	case 0x06:
-+		p = "A2-DK2";
-+		break;
-+	case 0x07:
-+		p = "A2-DK3";
-+		break;
-+	case 0x08:
-+		p = "A1 (6.0 MHz FM Mono)";
-+		break;
-+	case 0x09:
-+		p = "AM-L";
-+		break;
-+	case 0x0a:
-+		p = "NICAM-BG";
-+		break;
-+	case 0x0b:
-+		p = "NICAM-DK";
-+		break;
-+	case 0x0c:
-+		p = "NICAM-I";
-+		break;
-+	case 0x0d:
-+		p = "NICAM-L";
-+		break;
-+	case 0x0e:
-+		p = "FM radio";
-+		break;
-+	case 0x0f:
-+		p = "automatic detection";
-+		break;
-+	default:
-+		p = "undefined";
- 	}
- 	v4l_info(client, "Configured audio standard: %s\n", p);
- 
- 	if ((audio_config >> 4) < 0xF) {
- 		switch (audio_config & 0xF) {
--		case 0x00: p = "MONO1 (LANGUAGE A/Mono L+R channel for BTSC, EIAJ, A2)"; break;
--		case 0x01: p = "MONO2 (LANGUAGE B)"; break;
--		case 0x02: p = "MONO3 (STEREO forced MONO)"; break;
--		case 0x03: p = "MONO4 (NICAM ANALOG-Language C/Analog Fallback)"; break;
--		case 0x04: p = "STEREO"; break;
--		case 0x05: p = "DUAL1 (AB)"; break;
--		case 0x06: p = "DUAL2 (AC) (FM)"; break;
--		case 0x07: p = "DUAL3 (BC) (FM)"; break;
--		case 0x08: p = "DUAL4 (AC) (AM)"; break;
--		case 0x09: p = "DUAL5 (BC) (AM)"; break;
--		case 0x0a: p = "SAP"; break;
--		default: p = "undefined";
-+		case 0x00:
-+			p = "MONO1 (LANGUAGE A/Mono L+R channel for BTSC, EIAJ, A2)";
-+			break;
-+		case 0x01:
-+			p = "MONO2 (LANGUAGE B)";
-+			break;
-+		case 0x02:
-+			p = "MONO3 (STEREO forced MONO)";
-+			break;
-+		case 0x03:
-+			p = "MONO4 (NICAM ANALOG-Language C/Analog Fallback)";
-+			break;
-+		case 0x04:
-+			p = "STEREO";
-+			break;
-+		case 0x05:
-+			p = "DUAL1 (AB)";
-+			break;
-+		case 0x06:
-+			p = "DUAL2 (AC) (FM)";
-+			break;
-+		case 0x07:
-+			p = "DUAL3 (BC) (FM)";
-+			break;
-+		case 0x08:
-+			p = "DUAL4 (AC) (AM)";
-+			break;
-+		case 0x09:
-+			p = "DUAL5 (BC) (AM)";
-+			break;
-+		case 0x0a:
-+			p = "SAP";
-+			break;
-+		default:
-+			p = "undefined";
- 		}
- 		v4l_info(client, "Configured audio mode:     %s\n", p);
- 	} else {
- 		switch (audio_config & 0xF) {
--		case 0x00: p = "BG"; break;
--		case 0x01: p = "DK1"; break;
--		case 0x02: p = "DK2"; break;
--		case 0x03: p = "DK3"; break;
--		case 0x04: p = "I"; break;
--		case 0x05: p = "L"; break;
--		case 0x06: p = "BTSC"; break;
--		case 0x07: p = "EIAJ"; break;
--		case 0x08: p = "A2-M"; break;
--		case 0x09: p = "FM Radio"; break;
--		case 0x0f: p = "automatic standard and mode detection"; break;
--		default: p = "undefined";
-+		case 0x00:
-+			p = "BG";
-+			break;
-+		case 0x01:
-+			p = "DK1";
-+			break;
-+		case 0x02:
-+			p = "DK2";
-+			break;
-+		case 0x03:
-+			p = "DK3";
-+			break;
-+		case 0x04:
-+			p = "I";
-+			break;
-+		case 0x05:
-+			p = "L";
-+			break;
-+		case 0x06:
-+			p = "BTSC";
-+			break;
-+		case 0x07:
-+			p = "EIAJ";
-+			break;
-+		case 0x08:
-+			p = "A2-M";
-+			break;
-+		case 0x09:
-+			p = "FM Radio";
-+			break;
-+		case 0x0f:
-+			p = "automatic standard and mode detection";
-+			break;
-+		default:
-+			p = "undefined";
- 		}
- 		v4l_info(client, "Configured audio system:   %s\n", p);
- 	}
- 
- 	if (aud_input) {
--		v4l_info(client, "Specified audio input:     Tuner (In%d)\n", aud_input);
-+		v4l_info(client, "Specified audio input:     Tuner (In%d)\n",
-+			 aud_input);
- 	} else {
- 		v4l_info(client, "Specified audio input:     External\n");
- 	}
- 
- 	switch (pref_mode & 0xf) {
--	case 0: p = "mono/language A"; break;
--	case 1: p = "language B"; break;
--	case 2: p = "language C"; break;
--	case 3: p = "analog fallback"; break;
--	case 4: p = "stereo"; break;
--	case 5: p = "language AC"; break;
--	case 6: p = "language BC"; break;
--	case 7: p = "language AB"; break;
--	default: p = "undefined";
-+	case 0:
-+		p = "mono/language A";
-+		break;
-+	case 1:
-+		p = "language B";
-+		break;
-+	case 2:
-+		p = "language C";
-+		break;
-+	case 3:
-+		p = "analog fallback";
-+		break;
-+	case 4:
-+		p = "stereo";
-+		break;
-+	case 5:
-+		p = "language AC";
-+		break;
-+	case 6:
-+		p = "language BC";
-+		break;
-+	case 7:
-+		p = "language AB";
-+		break;
-+	default:
-+		p = "undefined";
- 	}
- 	v4l_info(client, "Preferred audio mode:      %s\n", p);
- 
- 	if ((audio_config & 0xf) == 0xf) {
- 		switch ((afc0 >> 3) & 0x3) {
--		case 0: p = "system DK"; break;
--		case 1: p = "system L"; break;
--		case 2: p = "autodetect"; break;
--		default: p = "undefined";
-+		case 0:
-+			p = "system DK";
-+			break;
-+		case 1:
-+			p = "system L";
-+			break;
-+		case 2:
-+			p = "autodetect";
-+			break;
-+		default:
-+			p = "undefined";
- 		}
- 		v4l_info(client, "Selected 65 MHz format:    %s\n", p);
- 
- 		switch (afc0 & 0x7) {
--		case 0: p = "chroma"; break;
--		case 1: p = "BTSC"; break;
--		case 2: p = "EIAJ"; break;
--		case 3: p = "A2-M"; break;
--		case 4: p = "autodetect"; break;
--		default: p = "undefined";
-+		case 0:
-+			p = "chroma";
-+			break;
-+		case 1:
-+			p = "BTSC";
-+			break;
-+		case 2:
-+			p = "EIAJ";
-+			break;
-+		case 3:
-+			p = "A2-M";
-+			break;
-+		case 4:
-+			p = "autodetect";
-+			break;
-+		default:
-+			p = "undefined";
- 		}
- 		v4l_info(client, "Selected 45 MHz format:    %s\n", p);
- 	}
-@@ -2039,22 +2278,24 @@ static int cx25840_init(struct v4l2_subdev *sd, u32 val)
- 	if (is_cx2584x(state)) {
- 		/* set datasheet video output defaults */
- 		state->vid_config = CX25840_VCONFIG_FMT_BT656 |
--			CX25840_VCONFIG_RES_8BIT |
--			CX25840_VCONFIG_VBIRAW_DISABLED |
--			CX25840_VCONFIG_ANCDATA_ENABLED |
--			CX25840_VCONFIG_TASKBIT_ONE |
--			CX25840_VCONFIG_ACTIVE_HORIZONTAL |
--			CX25840_VCONFIG_VALID_NORMAL |
--			CX25840_VCONFIG_HRESETW_NORMAL |
--			CX25840_VCONFIG_CLKGATE_NONE |
--			CX25840_VCONFIG_DCMODE_DWORDS |
--			CX25840_VCONFIG_IDID0S_NORMAL |
--			CX25840_VCONFIG_VIPCLAMP_DISABLED;
-+				    CX25840_VCONFIG_RES_8BIT |
-+				    CX25840_VCONFIG_VBIRAW_DISABLED |
-+				    CX25840_VCONFIG_ANCDATA_ENABLED |
-+				    CX25840_VCONFIG_TASKBIT_ONE |
-+				    CX25840_VCONFIG_ACTIVE_HORIZONTAL |
-+				    CX25840_VCONFIG_VALID_NORMAL |
-+				    CX25840_VCONFIG_HRESETW_NORMAL |
-+				    CX25840_VCONFIG_CLKGATE_NONE |
-+				    CX25840_VCONFIG_DCMODE_DWORDS |
-+				    CX25840_VCONFIG_IDID0S_NORMAL |
-+				    CX25840_VCONFIG_VIPCLAMP_DISABLED;
- 
- 		/* add additional settings */
- 		cx25840_vconfig_add(state, val);
--	} else /* TODO: generic mode needs to be developed for other chips */
-+	} else {
-+		/* TODO: generic mode needs to be developed for other chips */
- 		WARN_ON(1);
-+	}
- 
- 	return 0;
- }
-@@ -2104,7 +2345,8 @@ static int cx25840_load_fw(struct v4l2_subdev *sd)
- }
- 
- #ifdef CONFIG_VIDEO_ADV_DEBUG
--static int cx25840_g_register(struct v4l2_subdev *sd, struct v4l2_dbg_register *reg)
-+static int cx25840_g_register(struct v4l2_subdev *sd,
-+			      struct v4l2_dbg_register *reg)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
-@@ -2113,7 +2355,8 @@ static int cx25840_g_register(struct v4l2_subdev *sd, struct v4l2_dbg_register *
- 	return 0;
- }
- 
--static int cx25840_s_register(struct v4l2_subdev *sd, const struct v4l2_dbg_register *reg)
-+static int cx25840_s_register(struct v4l2_subdev *sd,
-+			      const struct v4l2_dbg_register *reg)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
-@@ -2132,7 +2375,7 @@ static int cx25840_s_audio_stream(struct v4l2_subdev *sd, int enable)
- 		return 0;
- 
- 	v4l_dbg(1, cx25840_debug, client, "%s audio output\n",
--			enable ? "enable" : "disable");
-+		enable ? "enable" : "disable");
- 
- 	if (enable) {
- 		v = cx25840_read(client, 0x115) | 0x80;
-@@ -2155,7 +2398,7 @@ static int cx25840_s_stream(struct v4l2_subdev *sd, int enable)
- 	u8 v;
- 
- 	v4l_dbg(1, cx25840_debug, client, "%s video output\n",
--			enable ? "enable" : "disable");
-+		enable ? "enable" : "disable");
- 
- 	/*
- 	 * It's not clear what should be done for these devices.
-@@ -2208,7 +2451,7 @@ static int cx25840_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
- 	};
- 
- 	u32 fmt = (cx25840_read4(client, 0x40c) >> 8) & 0xf;
--	*std = stds[ fmt ];
-+	*std = stds[fmt];
- 
- 	v4l_dbg(1, cx25840_debug, client,
- 		"querystd fmt = %x, v4l2_std_id = 0x%x\n",
-@@ -2221,7 +2464,8 @@ static int cx25840_g_input_status(struct v4l2_subdev *sd, u32 *status)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
--	/* A limited function that checks for signal status and returns
-+	/*
-+	 * A limited function that checks for signal status and returns
- 	 * the state.
- 	 */
- 
-@@ -2289,7 +2533,8 @@ static int cx25840_s_audio_routing(struct v4l2_subdev *sd,
- 	return set_input(client, state->vid_input, input);
- }
- 
--static int cx25840_s_frequency(struct v4l2_subdev *sd, const struct v4l2_frequency *freq)
-+static int cx25840_s_frequency(struct v4l2_subdev *sd,
-+			       const struct v4l2_frequency *freq)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 
-@@ -2312,9 +2557,8 @@ static int cx25840_g_tuner(struct v4l2_subdev *sd, struct v4l2_tuner *vt)
- 	if (is_cx2583x(state))
- 		return 0;
- 
--	vt->capability |=
--		V4L2_TUNER_CAP_STEREO | V4L2_TUNER_CAP_LANG1 |
--		V4L2_TUNER_CAP_LANG2 | V4L2_TUNER_CAP_SAP;
-+	vt->capability |= V4L2_TUNER_CAP_STEREO | V4L2_TUNER_CAP_LANG1 |
-+			  V4L2_TUNER_CAP_LANG2 | V4L2_TUNER_CAP_SAP;
- 
- 	mode = cx25840_read(client, 0x804);
- 
-@@ -2344,33 +2588,41 @@ static int cx25840_s_tuner(struct v4l2_subdev *sd, const struct v4l2_tuner *vt)
- 		return 0;
- 
- 	switch (vt->audmode) {
--		case V4L2_TUNER_MODE_MONO:
--			/* mono      -> mono
--			   stereo    -> mono
--			   bilingual -> lang1 */
--			cx25840_and_or(client, 0x809, ~0xf, 0x00);
--			break;
--		case V4L2_TUNER_MODE_STEREO:
--		case V4L2_TUNER_MODE_LANG1:
--			/* mono      -> mono
--			   stereo    -> stereo
--			   bilingual -> lang1 */
--			cx25840_and_or(client, 0x809, ~0xf, 0x04);
--			break;
--		case V4L2_TUNER_MODE_LANG1_LANG2:
--			/* mono      -> mono
--			   stereo    -> stereo
--			   bilingual -> lang1/lang2 */
--			cx25840_and_or(client, 0x809, ~0xf, 0x07);
--			break;
--		case V4L2_TUNER_MODE_LANG2:
--			/* mono      -> mono
--			   stereo    -> stereo
--			   bilingual -> lang2 */
--			cx25840_and_or(client, 0x809, ~0xf, 0x01);
--			break;
--		default:
--			return -EINVAL;
-+	case V4L2_TUNER_MODE_MONO:
-+		/*
-+		 * mono      -> mono
-+		 * stereo    -> mono
-+		 * bilingual -> lang1
-+		 */
-+		cx25840_and_or(client, 0x809, ~0xf, 0x00);
-+		break;
-+	case V4L2_TUNER_MODE_STEREO:
-+	case V4L2_TUNER_MODE_LANG1:
-+		/*
-+		 * mono      -> mono
-+		 * stereo    -> stereo
-+		 * bilingual -> lang1
-+		 */
-+		cx25840_and_or(client, 0x809, ~0xf, 0x04);
-+		break;
-+	case V4L2_TUNER_MODE_LANG1_LANG2:
-+		/*
-+		 * mono      -> mono
-+		 * stereo    -> stereo
-+		 * bilingual -> lang1/lang2
-+		 */
-+		cx25840_and_or(client, 0x809, ~0xf, 0x07);
-+		break;
-+	case V4L2_TUNER_MODE_LANG2:
-+		/*
-+		 * mono      -> mono
-+		 * stereo    -> stereo
-+		 * bilingual -> lang2
-+		 */
-+		cx25840_and_or(client, 0x809, ~0xf, 0x01);
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
- 	state->audmode = vt->audmode;
- 	return 0;
-@@ -5545,22 +5797,28 @@ static u32 get_cx2388x_ident(struct i2c_client *client)
- 	/* Come out of digital power down */
- 	cx25840_write(client, 0x000, 0);
- 
--	/* Detecting whether the part is cx23885/7/8 is more
-+	/*
-+	 * Detecting whether the part is cx23885/7/8 is more
- 	 * difficult than it needs to be. No ID register. Instead we
- 	 * probe certain registers indicated in the datasheets to look
--	 * for specific defaults that differ between the silicon designs. */
-+	 * for specific defaults that differ between the silicon designs.
-+	 */
- 
- 	/* It's either 885/7 if the IR Tx Clk Divider register exists */
- 	if (cx25840_read4(client, 0x204) & 0xffff) {
--		/* CX23885 returns bogus repetitive byte values for the DIF,
--		 * which doesn't exist for it. (Ex. 8a8a8a8a or 31313131) */
-+		/*
-+		 * CX23885 returns bogus repetitive byte values for the DIF,
-+		 * which doesn't exist for it. (Ex. 8a8a8a8a or 31313131)
-+		 */
- 		ret = cx25840_read4(client, 0x300);
- 		if (((ret & 0xffff0000) >> 16) == (ret & 0xffff)) {
- 			/* No DIF */
- 			ret = CX23885_AV;
+ 			i++;
  		} else {
--			/* CX23887 has a broken DIF, but the registers
--			 * appear valid (but unused), good enough to detect. */
-+			/*
-+			 * CX23887 has a broken DIF, but the registers
-+			 * appear valid (but unused), good enough to detect.
-+			 */
- 			ret = CX23887_AV;
- 		}
- 	} else if (cx25840_read4(client, 0x300) & 0x0fffffff) {
-@@ -5592,14 +5850,18 @@ static int cx25840_probe(struct i2c_client *client,
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+@@ -273,7 +272,7 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 			memcpy(&obuf[2], msg[i].buf, msg[i].len);
+ 
+ 			if (cxusb_ctrl_msg(d, CMD_I2C_WRITE, obuf,
+-					   2+msg[i].len, &ibuf,1) < 0)
++					   2 + msg[i].len, &ibuf, 1) < 0)
+ 				break;
+ 			if (ibuf != 0x08)
+ 				deb_i2c("i2c write may have failed\n");
+@@ -314,8 +313,7 @@ static int _cxusb_power_ctrl(struct dvb_usb_device *d, int onoff)
+ 
+ static int cxusb_power_ctrl(struct dvb_usb_device *d, int onoff)
+ {
+-	bool is_medion = d->props.devices[0].warm_ids[0] ==
+-		&cxusb_table[MEDION_MD95700];
++	bool is_medion = d->props.devices[0].warm_ids[0] == &cxusb_table[MEDION_MD95700];
+ 	int ret;
+ 
+ 	if (is_medion && !onoff) {
+@@ -345,17 +343,23 @@ static int cxusb_power_ctrl(struct dvb_usb_device *d, int onoff)
+ static int cxusb_aver_power_ctrl(struct dvb_usb_device *d, int onoff)
+ {
+ 	int ret;
++
+ 	if (!onoff)
+ 		return cxusb_ctrl_msg(d, CMD_POWER_OFF, NULL, 0, NULL, 0);
+ 	if (d->state == DVB_USB_STATE_INIT &&
+ 	    usb_set_interface(d->udev, 0, 0) < 0)
+ 		err("set interface failed");
+-	do {} while (!(ret = cxusb_ctrl_msg(d, CMD_POWER_ON, NULL, 0, NULL, 0)) &&
+-		   !(ret = cxusb_ctrl_msg(d, 0x15, NULL, 0, NULL, 0)) &&
+-		   !(ret = cxusb_ctrl_msg(d, 0x17, NULL, 0, NULL, 0)) && 0);
++	do {
++		/* Nothing */
++	} while (!(ret = cxusb_ctrl_msg(d, CMD_POWER_ON, NULL, 0, NULL, 0)) &&
++		 !(ret = cxusb_ctrl_msg(d, 0x15, NULL, 0, NULL, 0)) &&
++		 !(ret = cxusb_ctrl_msg(d, 0x17, NULL, 0, NULL, 0)) && 0);
++
+ 	if (!ret) {
+-		/* FIXME: We don't know why, but we need to configure the
+-		 * lgdt3303 with the register settings below on resume */
++		/*
++		 * FIXME: We don't know why, but we need to configure the
++		 * lgdt3303 with the register settings below on resume
++		 */
+ 		int i;
+ 		u8 buf;
+ 		static const u8 bufs[] = {
+@@ -373,7 +377,7 @@ static int cxusb_aver_power_ctrl(struct dvb_usb_device *d, int onoff)
+ 		msleep(20);
+ 		for (i = 0; i < ARRAY_SIZE(bufs); i += 4 / sizeof(u8)) {
+ 			ret = cxusb_ctrl_msg(d, CMD_I2C_WRITE,
+-					     bufs+i, 4, &buf, 1);
++					     bufs + i, 4, &buf, 1);
+ 			if (ret)
+ 				break;
+ 			if (buf != 0x8)
+@@ -386,6 +390,7 @@ static int cxusb_aver_power_ctrl(struct dvb_usb_device *d, int onoff)
+ static int cxusb_bluebird_power_ctrl(struct dvb_usb_device *d, int onoff)
+ {
+ 	u8 b = 0;
++
+ 	if (onoff)
+ 		return cxusb_ctrl_msg(d, CMD_POWER_ON, &b, 1, NULL, 0);
+ 	else
+@@ -407,6 +412,7 @@ static int cxusb_d680_dmb_power_ctrl(struct dvb_usb_device *d, int onoff)
+ {
+ 	int ret;
+ 	u8  b;
++
+ 	ret = cxusb_power_ctrl(d, onoff);
+ 	if (!onoff)
+ 		return ret;
+@@ -454,7 +460,7 @@ static int cxusb_aver_streaming_ctrl(struct dvb_usb_adapter *adap, int onoff)
+ }
+ 
+ static int cxusb_read_status(struct dvb_frontend *fe,
+-				  enum fe_status *status)
++			     enum fe_status *status)
+ {
+ 	struct dvb_usb_adapter *adap = (struct dvb_usb_adapter *)fe->dvb->priv;
+ 	struct cxusb_state *state = (struct cxusb_state *)adap->dev->priv;
+@@ -487,8 +493,8 @@ static void cxusb_d680_dmb_drain_message(struct dvb_usb_device *d)
+ 		return;
+ 	while (1) {
+ 		if (usb_bulk_msg(d->udev,
+-			usb_rcvbulkpipe(d->udev, ep),
+-			junk, junk_len, &rd_count, timeout) < 0)
++				 usb_rcvbulkpipe(d->udev, ep),
++				 junk, junk_len, &rd_count, timeout) < 0)
+ 			break;
+ 		if (!rd_count)
+ 			break;
+@@ -510,8 +516,8 @@ static void cxusb_d680_dmb_drain_video(struct dvb_usb_device *d)
+ 		return;
+ 	while (1) {
+ 		if (usb_bulk_msg(d->udev,
+-			usb_rcvbulkpipe(d->udev, p->endpoint),
+-			junk, junk_len, &rd_count, timeout) < 0)
++				 usb_rcvbulkpipe(d->udev, p->endpoint),
++				 junk, junk_len, &rd_count, timeout) < 0)
+ 			break;
+ 		if (!rd_count)
+ 			break;
+@@ -519,17 +525,18 @@ static void cxusb_d680_dmb_drain_video(struct dvb_usb_device *d)
+ 	kfree(junk);
+ }
+ 
+-static int cxusb_d680_dmb_streaming_ctrl(
+-		struct dvb_usb_adapter *adap, int onoff)
++static int cxusb_d680_dmb_streaming_ctrl(struct dvb_usb_adapter *adap,
++					 int onoff)
+ {
+ 	if (onoff) {
+ 		u8 buf[2] = { 0x03, 0x00 };
++
+ 		cxusb_d680_dmb_drain_video(adap->dev);
+ 		return cxusb_ctrl_msg(adap->dev, CMD_STREAMING_ON,
+-			buf, sizeof(buf), NULL, 0);
++				      buf, sizeof(buf), NULL, 0);
+ 	} else {
+ 		int ret = cxusb_ctrl_msg(adap->dev,
+-			CMD_STREAMING_OFF, NULL, 0, NULL, 0);
++					 CMD_STREAMING_OFF, NULL, 0, NULL, 0);
+ 		return ret;
+ 	}
+ }
+@@ -549,8 +556,12 @@ static int cxusb_rc_query(struct dvb_usb_device *d)
+ static int cxusb_bluebird2_rc_query(struct dvb_usb_device *d)
+ {
+ 	u8 ircode[4];
+-	struct i2c_msg msg = { .addr = 0x6b, .flags = I2C_M_RD,
+-			       .buf = ircode, .len = 4 };
++	struct i2c_msg msg = {
++		.addr = 0x6b,
++		.flags = I2C_M_RD,
++		.buf = ircode,
++		.len = 4
++	};
+ 
+ 	if (cxusb_i2c_xfer(&d->i2c_adap, &msg, 1) != 1)
+ 		return 0;
+@@ -574,13 +585,13 @@ static int cxusb_d680_dmb_rc_query(struct dvb_usb_device *d)
+ 	return 0;
+ }
+ 
+-static int cxusb_dee1601_demod_init(struct dvb_frontend* fe)
++static int cxusb_dee1601_demod_init(struct dvb_frontend *fe)
+ {
+-	static u8 clock_config []  = { CLOCK_CTL,  0x38, 0x28 };
+-	static u8 reset []         = { RESET,      0x80 };
+-	static u8 adc_ctl_1_cfg [] = { ADC_CTL_1,  0x40 };
+-	static u8 agc_cfg []       = { AGC_TARGET, 0x28, 0x20 };
+-	static u8 gpp_ctl_cfg []   = { GPP_CTL,    0x33 };
++	static u8 clock_config[]   = { CLOCK_CTL,  0x38, 0x28 };
++	static u8 reset[]          = { RESET,      0x80 };
++	static u8 adc_ctl_1_cfg[]  = { ADC_CTL_1,  0x40 };
++	static u8 agc_cfg[]        = { AGC_TARGET, 0x28, 0x20 };
++	static u8 gpp_ctl_cfg[]    = { GPP_CTL,    0x33 };
+ 	static u8 capt_range_cfg[] = { CAPT_RANGE, 0x32 };
+ 
+ 	mt352_write(fe, clock_config,   sizeof(clock_config));
+@@ -595,13 +606,14 @@ static int cxusb_dee1601_demod_init(struct dvb_frontend* fe)
+ 	return 0;
+ }
+ 
+-static int cxusb_mt352_demod_init(struct dvb_frontend* fe)
+-{	/* used in both lgz201 and th7579 */
+-	static u8 clock_config []  = { CLOCK_CTL,  0x38, 0x29 };
+-	static u8 reset []         = { RESET,      0x80 };
+-	static u8 adc_ctl_1_cfg [] = { ADC_CTL_1,  0x40 };
+-	static u8 agc_cfg []       = { AGC_TARGET, 0x24, 0x20 };
+-	static u8 gpp_ctl_cfg []   = { GPP_CTL,    0x33 };
++static int cxusb_mt352_demod_init(struct dvb_frontend *fe)
++{
++	/* used in both lgz201 and th7579 */
++	static u8 clock_config[]   = { CLOCK_CTL,  0x38, 0x29 };
++	static u8 reset[]          = { RESET,      0x80 };
++	static u8 adc_ctl_1_cfg[]  = { ADC_CTL_1,  0x40 };
++	static u8 agc_cfg[]        = { AGC_TARGET, 0x24, 0x20 };
++	static u8 gpp_ctl_cfg[]    = { GPP_CTL,    0x33 };
+ 	static u8 capt_range_cfg[] = { CAPT_RANGE, 0x32 };
+ 
+ 	mt352_write(fe, clock_config,   sizeof(clock_config));
+@@ -719,7 +731,7 @@ static int cxusb_fmd1216me_tuner_attach(struct dvb_usb_adapter *adap)
+ 		   &dvbdev->i2c_adap, 0x61,
+ 		   TUNER_PHILIPS_FMD1216ME_MK3);
+ 
+-	if (is_medion && adap->fe_adap[0].fe != NULL)
++	if (is_medion && adap->fe_adap[0].fe)
+ 		/*
+ 		 * make sure that DVB core won't put to sleep (reset, really)
+ 		 * tuner when we might be open in analog mode
+@@ -738,7 +750,8 @@ static int cxusb_dee1601_tuner_attach(struct dvb_usb_adapter *adap)
+ 
+ static int cxusb_lgz201_tuner_attach(struct dvb_usb_adapter *adap)
+ {
+-	dvb_attach(dvb_pll_attach, adap->fe_adap[0].fe, 0x61, NULL, DVB_PLL_LG_Z201);
++	dvb_attach(dvb_pll_attach, adap->fe_adap[0].fe, 0x61,
++		   NULL, DVB_PLL_LG_Z201);
+ 	return 0;
+ }
+ 
+@@ -798,7 +811,7 @@ static int cxusb_dvico_xc3028_tuner_attach(struct dvb_usb_adapter *adap)
+ 	adap->fe_adap[0].fe->callback = dvico_bluebird_xc2028_callback;
+ 
+ 	fe = dvb_attach(xc2028_attach, adap->fe_adap[0].fe, &cfg);
+-	if (fe == NULL || fe->ops.tuner_ops.set_config == NULL)
++	if (!fe || !fe->ops.tuner_ops.set_config)
  		return -EIO;
  
--	v4l_dbg(1, cx25840_debug, client, "detecting cx25840 client on address 0x%x\n", client->addr << 1);
-+	v4l_dbg(1, cx25840_debug, client,
-+		"detecting cx25840 client on address 0x%x\n",
-+		client->addr << 1);
- 
- 	device_id = cx25840_read(client, 0x101) << 8;
- 	device_id |= cx25840_read(client, 0x100);
- 	v4l_dbg(1, cx25840_debug, client, "device_id = 0x%04x\n", device_id);
- 
--	/* The high byte of the device ID should be
--	 * 0x83 for the cx2583x and 0x84 for the cx2584x */
-+	/*
-+	 * The high byte of the device ID should be
-+	 * 0x83 for the cx2583x and 0x84 for the cx2584x
-+	 */
- 	if ((device_id & 0xff00) == 0x8300) {
- 		id = CX25836 + ((device_id >> 4) & 0xf) - 6;
- 	} else if ((device_id & 0xff00) == 0x8400) {
-@@ -5613,7 +5875,8 @@ static int cx25840_probe(struct i2c_client *client,
- 		v4l_err(client,
- 			"likely a confused/unresponsive cx2388[578] A/V decoder found @ 0x%x (%s)\n",
- 			client->addr << 1, client->adapter->name);
--		v4l_err(client, "A method to reset it from the cx25840 driver software is not known at this time\n");
-+		v4l_err(client,
-+			"A method to reset it from the cx25840 driver software is not known at this time\n");
- 		return -ENODEV;
- 	} else {
- 		v4l_dbg(1, cx25840_debug, client, "cx25840 not found\n");
-@@ -5621,7 +5884,7 @@ static int cx25840_probe(struct i2c_client *client,
- 	}
- 
- 	state = devm_kzalloc(&client->dev, sizeof(*state), GFP_KERNEL);
--	if (state == NULL)
-+	if (!state)
- 		return -ENOMEM;
- 
- 	sd = &state->sd;
-@@ -5648,7 +5911,7 @@ static int cx25840_probe(struct i2c_client *client,
- 	sd->entity.function = MEDIA_ENT_F_ATV_DECODER;
- 
- 	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(state->pads),
--				state->pads);
-+				     state->pads);
- 	if (ret < 0) {
- 		v4l_info(client, "failed to initialize media entity!\n");
- 		return ret;
-@@ -5676,8 +5939,10 @@ static int cx25840_probe(struct i2c_client *client,
- 	case CX25841:
- 	case CX25842:
- 	case CX25843:
--		/* Note: revision '(device_id & 0x0f) == 2' was never built. The
--		   marking skips from 0x1 == 22 to 0x3 == 23. */
-+		/*
-+		 * Note: revision '(device_id & 0x0f) == 2' was never built.
-+		 * The marking skips from 0x1 == 22 to 0x3 == 23.
-+		 */
- 		v4l_info(client, "cx25%3x-2%x found @ 0x%x (%s)\n",
- 			 (device_id & 0xfff0) >> 4,
- 			 (device_id & 0x0f) < 3 ? (device_id & 0x0f) + 1
-@@ -5705,13 +5970,13 @@ static int cx25840_probe(struct i2c_client *client,
- 	state->std = V4L2_STD_NTSC_M;
- 	v4l2_ctrl_handler_init(&state->hdl, 9);
- 	v4l2_ctrl_new_std(&state->hdl, &cx25840_ctrl_ops,
--			V4L2_CID_BRIGHTNESS, 0, 255, 1, 128);
-+			  V4L2_CID_BRIGHTNESS, 0, 255, 1, 128);
- 	v4l2_ctrl_new_std(&state->hdl, &cx25840_ctrl_ops,
--			V4L2_CID_CONTRAST, 0, 127, 1, 64);
-+			  V4L2_CID_CONTRAST, 0, 127, 1, 64);
- 	v4l2_ctrl_new_std(&state->hdl, &cx25840_ctrl_ops,
--			V4L2_CID_SATURATION, 0, 127, 1, 64);
-+			  V4L2_CID_SATURATION, 0, 127, 1, 64);
- 	v4l2_ctrl_new_std(&state->hdl, &cx25840_ctrl_ops,
--			V4L2_CID_HUE, -128, 127, 1, 0);
-+			  V4L2_CID_HUE, -128, 127, 1, 0);
- 	if (!is_cx2583x(state)) {
- 		default_volume = cx25840_read(client, 0x8d4);
- 		/*
-@@ -5723,8 +5988,7 @@ static int cx25840_probe(struct i2c_client *client,
- 			/* Bottom out at -96 dB, v4l2 vol range 0x2e00-0x2fff */
- 			default_volume = 228;
- 			cx25840_write(client, 0x8d4, 228);
--		}
--		else if (default_volume < 20) {
-+		} else if (default_volume < 20) {
- 			/* Top out at + 8 dB, v4l2 vol range 0xfe00-0xffff */
- 			default_volume = 20;
- 			cx25840_write(client, 0x8d4, 20);
-@@ -5732,20 +5996,23 @@ static int cx25840_probe(struct i2c_client *client,
- 		default_volume = (((228 - default_volume) >> 1) + 23) << 9;
- 
- 		state->volume = v4l2_ctrl_new_std(&state->hdl,
--			&cx25840_audio_ctrl_ops, V4L2_CID_AUDIO_VOLUME,
--			0, 65535, 65535 / 100, default_volume);
-+						  &cx25840_audio_ctrl_ops,
-+						  V4L2_CID_AUDIO_VOLUME,
-+						  0, 65535, 65535 / 100,
-+						  default_volume);
- 		state->mute = v4l2_ctrl_new_std(&state->hdl,
--			&cx25840_audio_ctrl_ops, V4L2_CID_AUDIO_MUTE,
--			0, 1, 1, 0);
-+						&cx25840_audio_ctrl_ops,
-+						V4L2_CID_AUDIO_MUTE,
-+						0, 1, 1, 0);
- 		v4l2_ctrl_new_std(&state->hdl, &cx25840_audio_ctrl_ops,
--			V4L2_CID_AUDIO_BALANCE,
--			0, 65535, 65535 / 100, 32768);
-+				  V4L2_CID_AUDIO_BALANCE,
-+				  0, 65535, 65535 / 100, 32768);
- 		v4l2_ctrl_new_std(&state->hdl, &cx25840_audio_ctrl_ops,
--			V4L2_CID_AUDIO_BASS,
--			0, 65535, 65535 / 100, 32768);
-+				  V4L2_CID_AUDIO_BASS,
-+				  0, 65535, 65535 / 100, 32768);
- 		v4l2_ctrl_new_std(&state->hdl, &cx25840_audio_ctrl_ops,
--			V4L2_CID_AUDIO_TREBLE,
--			0, 65535, 65535 / 100, 32768);
-+				  V4L2_CID_AUDIO_TREBLE,
-+				  0, 65535, 65535 / 100, 32768);
- 	}
- 	sd->ctrl_handler = &state->hdl;
- 	if (state->hdl.error) {
-diff --git a/drivers/media/i2c/cx25840/cx25840-core.h b/drivers/media/i2c/cx25840/cx25840-core.h
-index 2ff7191ad232..079ad503b507 100644
---- a/drivers/media/i2c/cx25840/cx25840-core.h
-+++ b/drivers/media/i2c/cx25840/cx25840-core.h
-@@ -16,7 +16,6 @@
- #ifndef _CX25840_CORE_H_
- #define _CX25840_CORE_H_
- 
--
- #include <linux/videodev2.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ctrls.h>
-@@ -100,7 +99,7 @@ struct cx25840_state {
- 	enum cx25840_model id;
- 	u32 rev;
- 	int is_initialized;
--	unsigned vbi_regs_offset;
-+	unsigned int vbi_regs_offset;
- 	wait_queue_head_t fw_wait;
- 	struct work_struct fw_work;
- 	struct cx25840_ir_state *ir_state;
-@@ -166,7 +165,8 @@ int cx25840_write(struct i2c_client *client, u16 addr, u8 value);
- int cx25840_write4(struct i2c_client *client, u16 addr, u32 value);
- u8 cx25840_read(struct i2c_client *client, u16 addr);
- u32 cx25840_read4(struct i2c_client *client, u16 addr);
--int cx25840_and_or(struct i2c_client *client, u16 addr, unsigned mask, u8 value);
-+int cx25840_and_or(struct i2c_client *client, u16 addr, unsigned int mask,
-+		   u8 value);
- int cx25840_and_or4(struct i2c_client *client, u16 addr, u32 and_mask,
- 		    u32 or_value);
- void cx25840_std_setup(struct i2c_client *client);
-@@ -185,9 +185,12 @@ extern const struct v4l2_ctrl_ops cx25840_audio_ctrl_ops;
- /* ----------------------------------------------------------------------- */
- /* cx25850-vbi.c                                                           */
- int cx25840_s_raw_fmt(struct v4l2_subdev *sd, struct v4l2_vbi_format *fmt);
--int cx25840_s_sliced_fmt(struct v4l2_subdev *sd, struct v4l2_sliced_vbi_format *fmt);
--int cx25840_g_sliced_fmt(struct v4l2_subdev *sd, struct v4l2_sliced_vbi_format *fmt);
--int cx25840_decode_vbi_line(struct v4l2_subdev *sd, struct v4l2_decode_vbi_line *vbi);
-+int cx25840_s_sliced_fmt(struct v4l2_subdev *sd,
-+			 struct v4l2_sliced_vbi_format *fmt);
-+int cx25840_g_sliced_fmt(struct v4l2_subdev *sd,
-+			 struct v4l2_sliced_vbi_format *fmt);
-+int cx25840_decode_vbi_line(struct v4l2_subdev *sd,
-+			    struct v4l2_decode_vbi_line *vbi);
- 
- /* ----------------------------------------------------------------------- */
- /* cx25850-ir.c                                                            */
-diff --git a/include/media/drv-intf/cx25840.h b/include/media/drv-intf/cx25840.h
-index ed8ee1c77a6c..ba69bc525382 100644
---- a/include/media/drv-intf/cx25840.h
-+++ b/include/media/drv-intf/cx25840.h
-@@ -1,10 +1,10 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
+ 	fe->ops.tuner_ops.set_config(fe, &ctl);
+@@ -816,17 +829,19 @@ static int cxusb_mxl5003s_tuner_attach(struct dvb_usb_adapter *adap)
+ static int cxusb_d680_dmb_tuner_attach(struct dvb_usb_adapter *adap)
+ {
+ 	struct dvb_frontend *fe;
 +
- /*
--    cx25840.h - definition for cx25840/1/2/3 inputs
--
--    Copyright (C) 2006 Hans Verkuil (hverkuil@xs4all.nl)
--
--*/
-+ *   cx25840.h - definition for cx25840/1/2/3 inputs
-+ *
-+ *   Copyright (C) 2006 Hans Verkuil (hverkuil@xs4all.nl)
-+ */
+ 	fe = dvb_attach(mxl5005s_attach, adap->fe_adap[0].fe,
+ 			&adap->dev->i2c_adap, &d680_dmb_tuner);
+-	return (fe == NULL) ? -EIO : 0;
++	return (!fe) ? -EIO : 0;
+ }
  
- #ifndef _CX25840_H_
- #define _CX25840_H_
-@@ -38,8 +38,10 @@ enum cx25840_video_input {
- 	CX25840_COMPOSITE7,
- 	CX25840_COMPOSITE8,
+ static int cxusb_mygica_d689_tuner_attach(struct dvb_usb_adapter *adap)
+ {
+ 	struct dvb_frontend *fe;
++
+ 	fe = dvb_attach(max2165_attach, adap->fe_adap[0].fe,
+ 			&adap->dev->i2c_adap, &mygica_d689_max2165_cfg);
+-	return (fe == NULL) ? -EIO : 0;
++	return (!fe) ? -EIO : 0;
+ }
  
--	/* S-Video inputs consist of one luma input (In1-In8) ORed with one
--	   chroma input (In5-In8) */
+ static int cxusb_medion_fe_ts_bus_ctrl(struct dvb_frontend *fe, int acquire)
+@@ -920,7 +935,7 @@ static int cxusb_cx22702_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	adap->fe_adap[0].fe = dvb_attach(cx22702_attach, &cxusb_cx22702_config,
+ 					 &dvbdev->i2c_adap);
+-	if (adap->fe_adap[0].fe == NULL)
++	if (!adap->fe_adap[0].fe)
+ 		return -EIO;
+ 
+ 	if (is_medion)
+@@ -941,7 +956,7 @@ static int cxusb_lgdt3303_frontend_attach(struct dvb_usb_adapter *adap)
+ 					 &cxusb_lgdt3303_config,
+ 					 0x0e,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	return -EIO;
+@@ -953,7 +968,7 @@ static int cxusb_aver_lgdt3303_frontend_attach(struct dvb_usb_adapter *adap)
+ 					 &cxusb_aver_lgdt3303_config,
+ 					 0x0e,
+ 					 &adap->dev->i2c_adap);
+-	if (adap->fe_adap[0].fe != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	return -EIO;
+@@ -969,7 +984,7 @@ static int cxusb_mt352_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	adap->fe_adap[0].fe = dvb_attach(mt352_attach, &cxusb_mt352_config,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	return -EIO;
+@@ -984,13 +999,13 @@ static int cxusb_dee1601_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	adap->fe_adap[0].fe = dvb_attach(mt352_attach, &cxusb_dee1601_config,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	adap->fe_adap[0].fe = dvb_attach(zl10353_attach,
+ 					 &cxusb_zl10353_dee1601_config,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	return -EIO;
+@@ -1000,8 +1015,12 @@ static int cxusb_dualdig4_frontend_attach(struct dvb_usb_adapter *adap)
+ {
+ 	u8 ircode[4];
+ 	int i;
+-	struct i2c_msg msg = { .addr = 0x6b, .flags = I2C_M_RD,
+-			       .buf = ircode, .len = 4 };
++	struct i2c_msg msg = {
++		.addr = 0x6b,
++		.flags = I2C_M_RD,
++		.buf = ircode,
++		.len = 4
++	};
+ 
+ 	if (usb_set_interface(adap->dev->udev, 0, 1) < 0)
+ 		err("set interface failed");
+@@ -1017,7 +1036,7 @@ static int cxusb_dualdig4_frontend_attach(struct dvb_usb_adapter *adap)
+ 		dvb_attach(zl10353_attach,
+ 			   &cxusb_zl10353_xc3028_config_no_i2c_gate,
+ 			   &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) == NULL)
++	if (!adap->fe_adap[0].fe)
+ 		return -EIO;
+ 
+ 	/* try to determine if there is no IR decoder on the I2C bus */
+@@ -1115,7 +1134,7 @@ static struct dib7000p_config cxusb_dualdig4_rev2_config = {
+ };
+ 
+ struct dib0700_adapter_state {
+-	int (*set_param_save)(struct dvb_frontend *);
++	int (*set_param_save)(struct dvb_frontend *fe);
+ 	struct dib7000p_ops dib7000p_ops;
+ };
+ 
+@@ -1134,14 +1153,15 @@ static int cxusb_dualdig4_rev2_frontend_attach(struct dvb_usb_adapter *adap)
+ 		return -ENODEV;
+ 
+ 	if (state->dib7000p_ops.i2c_enumeration(&adap->dev->i2c_adap, 1, 18,
+-				       &cxusb_dualdig4_rev2_config) < 0) {
+-		printk(KERN_WARNING "Unable to enumerate dib7000p\n");
++						&cxusb_dualdig4_rev2_config) < 0) {
++		pr_warn("Unable to enumerate dib7000p\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	adap->fe_adap[0].fe = state->dib7000p_ops.init(&adap->dev->i2c_adap, 0x80,
+-					      &cxusb_dualdig4_rev2_config);
+-	if (adap->fe_adap[0].fe == NULL)
++	adap->fe_adap[0].fe = state->dib7000p_ops.init(&adap->dev->i2c_adap,
++						       0x80,
++						       &cxusb_dualdig4_rev2_config);
++	if (!adap->fe_adap[0].fe)
+ 		return -EIO;
+ 
+ 	return 0;
+@@ -1174,11 +1194,16 @@ static int dib7070_set_param_override(struct dvb_frontend *fe)
+ 	struct dib0700_adapter_state *state = adap->priv;
+ 
+ 	u16 offset;
+-	u8 band = BAND_OF_FREQUENCY(p->frequency/1000);
++	u8 band = BAND_OF_FREQUENCY(p->frequency / 1000);
++
+ 	switch (band) {
+-	case BAND_VHF: offset = 950; break;
++	case BAND_VHF:
++		offset = 950;
++		break;
+ 	default:
+-	case BAND_UHF: offset = 550; break;
++	case BAND_UHF:
++		offset = 550;
++		break;
+ 	}
+ 
+ 	state->dib7000p_ops.set_wbd_ref(fe, offset + dib0070_wbd_offset(fe));
+@@ -1200,7 +1225,7 @@ static int cxusb_dualdig4_rev2_tuner_attach(struct dvb_usb_adapter *adap)
+ 					DIBX000_I2C_INTERFACE_TUNER, 1);
+ 
+ 	if (dvb_attach(dib0070_attach, adap->fe_adap[0].fe, tun_i2c,
+-	    &dib7070p_dib0070_config) == NULL)
++		       &dib7070p_dib0070_config) == NULL)
+ 		return -ENODEV;
+ 
+ 	st->set_param_save = adap->fe_adap[0].fe->ops.tuner_ops.set_params;
+@@ -1223,13 +1248,13 @@ static int cxusb_nano2_frontend_attach(struct dvb_usb_adapter *adap)
+ 	adap->fe_adap[0].fe = dvb_attach(zl10353_attach,
+ 					 &cxusb_zl10353_xc3028_config,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	adap->fe_adap[0].fe = dvb_attach(mt352_attach,
+ 					 &cxusb_mt352_xc3028_config,
+ 					 &adap->dev->i2c_adap);
+-	if ((adap->fe_adap[0].fe) != NULL)
++	if (adap->fe_adap[0].fe)
+ 		return 0;
+ 
+ 	return -EIO;
+@@ -1260,11 +1285,14 @@ static int cxusb_d680_dmb_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	/* Unblock all USB pipes */
+ 	usb_clear_halt(d->udev,
+-		usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_sndbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.adapter[0].fe[0].stream.endpoint));
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.adapter[0].fe[0].stream.endpoint));
+ 
+ 	/* Drain USB pipes to avoid hang after reboot */
+ 	for (n = 0;  n < 5;  n++) {
+@@ -1286,8 +1314,9 @@ static int cxusb_d680_dmb_frontend_attach(struct dvb_usb_adapter *adap)
+ 	msleep(100);
+ 
+ 	/* Attach frontend */
+-	adap->fe_adap[0].fe = dvb_attach(lgs8gxx_attach, &d680_lgs8gl5_cfg, &d->i2c_adap);
+-	if (adap->fe_adap[0].fe == NULL)
++	adap->fe_adap[0].fe = dvb_attach(lgs8gxx_attach,
++					 &d680_lgs8gl5_cfg, &d->i2c_adap);
++	if (!adap->fe_adap[0].fe)
+ 		return -EIO;
+ 
+ 	return 0;
+@@ -1317,12 +1346,14 @@ static int cxusb_mygica_d689_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	/* Unblock all USB pipes */
+ 	usb_clear_halt(d->udev,
+-		usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_sndbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.adapter[0].fe[0].stream.endpoint));
+-
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.adapter[0].fe[0].stream.endpoint));
+ 
+ 	/* Reset the tuner */
+ 	if (cxusb_d680_dmb_gpio_tuner(d, 0x07, 0) < 0) {
+@@ -1337,9 +1368,10 @@ static int cxusb_mygica_d689_frontend_attach(struct dvb_usb_adapter *adap)
+ 	msleep(100);
+ 
+ 	/* Attach frontend */
+-	adap->fe_adap[0].fe = dvb_attach(atbm8830_attach, &mygica_d689_atbm8830_cfg,
+-		&d->i2c_adap);
+-	if (adap->fe_adap[0].fe == NULL)
++	adap->fe_adap[0].fe = dvb_attach(atbm8830_attach,
++					 &mygica_d689_atbm8830_cfg,
++					 &d->i2c_adap);
++	if (!adap->fe_adap[0].fe)
+ 		return -EIO;
+ 
+ 	return 0;
+@@ -1362,11 +1394,14 @@ static int cxusb_mygica_t230_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	/* Unblock all USB pipes */
+ 	usb_clear_halt(d->udev,
+-		usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_sndbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.generic_bulk_ctrl_endpoint));
+ 	usb_clear_halt(d->udev,
+-		usb_rcvbulkpipe(d->udev, d->props.adapter[0].fe[0].stream.endpoint));
++		       usb_rcvbulkpipe(d->udev,
++				       d->props.adapter[0].fe[0].stream.endpoint));
+ 
+ 	/* attach frontend */
+ 	si2168_config.i2c_adapter = &adapter;
+@@ -1379,7 +1414,7 @@ static int cxusb_mygica_t230_frontend_attach(struct dvb_usb_adapter *adap)
+ 	info.platform_data = &si2168_config;
+ 	request_module(info.type);
+ 	client_demod = i2c_new_device(&d->i2c_adap, &info);
+-	if (client_demod == NULL || client_demod->dev.driver == NULL)
++	if (!client_demod || !client_demod->dev.driver)
+ 		return -ENODEV;
+ 
+ 	if (!try_module_get(client_demod->dev.driver->owner)) {
+@@ -1399,7 +1434,7 @@ static int cxusb_mygica_t230_frontend_attach(struct dvb_usb_adapter *adap)
+ 	info.platform_data = &si2157_config;
+ 	request_module(info.type);
+ 	client_tuner = i2c_new_device(adapter, &info);
+-	if (client_tuner == NULL || client_tuner->dev.driver == NULL) {
++	if (!client_tuner || !client_tuner->dev.driver) {
+ 		module_put(client_demod->dev.driver->owner);
+ 		i2c_unregister_device(client_demod);
+ 		return -ENODEV;
+@@ -1543,18 +1578,20 @@ int cxusb_medion_get(struct dvb_usb_device *dvbdev,
+ 			}
+ 
+ 			cxdev->open_type = open_type;
+-		} else
++		} else {
+ 			deb_info("reacquired idle %s\n",
+ 				 open_type == CXUSB_OPEN_ANALOG ?
+ 				 "analog" : "digital");
++		}
+ 
+ 		cxdev->open_ctr = 1;
+ 	} else if (cxdev->open_type == open_type) {
+ 		cxdev->open_ctr++;
+ 		deb_info("acquired %s\n", open_type == CXUSB_OPEN_ANALOG ?
+ 			 "analog" : "digital");
+-	} else
++	} else {
+ 		ret = -EBUSY;
++	}
+ 
+ ret_unlock:
+ 	mutex_unlock(&cxdev->open_lock);
+@@ -1577,8 +1614,9 @@ void cxusb_medion_put(struct dvb_usb_device *dvbdev)
+ 	if (!WARN_ON(cxdev->open_ctr < 1)) {
+ 		cxdev->open_ctr--;
+ 
+-		deb_info("release %s\n", cxdev->open_type ==
+-			 CXUSB_OPEN_ANALOG ? "analog" : "digital");
++		deb_info("release %s\n",
++			 cxdev->open_type == CXUSB_OPEN_ANALOG ?
++			 "analog" : "digital");
+ 	}
+ 
+ unlock:
+@@ -1670,8 +1708,8 @@ static int cxusb_probe(struct usb_interface *intf,
+ 	int ret;
+ 
+ 	/* Medion 95700 */
+-	if (0 == dvb_usb_device_init(intf, &cxusb_medion_properties,
+-				     THIS_MODULE, &dvbdev, adapter_nr)) {
++	if (!dvb_usb_device_init(intf, &cxusb_medion_properties,
++				 THIS_MODULE, &dvbdev, adapter_nr)) {
+ 		if (!cxusb_medion_check_intf(intf)) {
+ 			ret = -ENODEV;
+ 			goto ret_uninit;
+@@ -1694,33 +1732,39 @@ static int cxusb_probe(struct usb_interface *intf,
+ 		cxusb_medion_put(dvbdev);
+ 
+ 		return 0;
+-	} else if (0 == dvb_usb_device_init(intf, &cxusb_bluebird_lgh064f_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_bluebird_dee1601_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_bluebird_lgz201_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_bluebird_dtt7579_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_bluebird_dualdig4_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_bluebird_nano2_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf,
+-				&cxusb_bluebird_nano2_needsfirmware_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_aver_a868r_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf,
+-				     &cxusb_bluebird_dualdig4_rev2_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_d680_dmb_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_mygica_d689_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0 == dvb_usb_device_init(intf, &cxusb_mygica_t230_properties,
+-				     THIS_MODULE, NULL, adapter_nr) ||
+-	    0)
++	} else if (!dvb_usb_device_init(intf,
++					&cxusb_bluebird_lgh064f_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_dee1601_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_lgz201_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_dtt7579_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_dualdig4_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_nano2_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_nano2_needsfirmware_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf, &cxusb_aver_a868r_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf,
++					&cxusb_bluebird_dualdig4_rev2_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf, &cxusb_d680_dmb_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf, &cxusb_mygica_d689_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   !dvb_usb_device_init(intf, &cxusb_mygica_t230_properties,
++					THIS_MODULE, NULL, adapter_nr) ||
++		   0)
+ 		return 0;
+ 
+ 	return -EINVAL;
+@@ -1786,10 +1830,12 @@ static struct usb_device_id cxusb_table[NR__cxusb_table_index + 1] = {
+ 		USB_DEVICE(USB_VID_DVICO, USB_PID_DVICO_BLUEBIRD_TH7579_WARM)
+ 	},
+ 	[DIGITALNOW_BLUEBIRD_DUAL_1_COLD] = {
+-		USB_DEVICE(USB_VID_DVICO, USB_PID_DIGITALNOW_BLUEBIRD_DUAL_1_COLD)
++		USB_DEVICE(USB_VID_DVICO,
++			   USB_PID_DIGITALNOW_BLUEBIRD_DUAL_1_COLD)
+ 	},
+ 	[DIGITALNOW_BLUEBIRD_DUAL_1_WARM] = {
+-		USB_DEVICE(USB_VID_DVICO, USB_PID_DIGITALNOW_BLUEBIRD_DUAL_1_WARM)
++		USB_DEVICE(USB_VID_DVICO,
++			   USB_PID_DIGITALNOW_BLUEBIRD_DUAL_1_WARM)
+ 	},
+ 	[DVICO_BLUEBIRD_DUAL_2_COLD] = {
+ 		USB_DEVICE(USB_VID_DVICO, USB_PID_DVICO_BLUEBIRD_DUAL_2_COLD)
+@@ -1804,7 +1850,8 @@ static struct usb_device_id cxusb_table[NR__cxusb_table_index + 1] = {
+ 		USB_DEVICE(USB_VID_DVICO, USB_PID_DVICO_BLUEBIRD_DVB_T_NANO_2)
+ 	},
+ 	[DVICO_BLUEBIRD_DVB_T_NANO_2_NFW_WARM] = {
+-		USB_DEVICE(USB_VID_DVICO, USB_PID_DVICO_BLUEBIRD_DVB_T_NANO_2_NFW_WARM)
++		USB_DEVICE(USB_VID_DVICO,
++			   USB_PID_DVICO_BLUEBIRD_DVB_T_NANO_2_NFW_WARM)
+ 	},
+ 	[AVERMEDIA_VOLAR_A868R] = {
+ 		USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_VOLAR_A868R)
+@@ -1823,7 +1870,7 @@ static struct usb_device_id cxusb_table[NR__cxusb_table_index + 1] = {
+ 	},
+ 	{}		/* Terminating entry */
+ };
+-MODULE_DEVICE_TABLE (usb, cxusb_table);
++MODULE_DEVICE_TABLE(usb, cxusb_table);
+ 
+ static struct dvb_usb_device_properties cxusb_medion_properties = {
+ 	.caps = DVB_USB_IS_AN_I2C_ADAPTER,
+@@ -1853,7 +1900,7 @@ static struct dvb_usb_device_properties cxusb_medion_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 	.power_ctrl       = cxusb_power_ctrl,
+@@ -1864,7 +1911,8 @@ static struct dvb_usb_device_properties cxusb_medion_properties = {
+ 
+ 	.num_device_descs = 1,
+ 	.devices = {
+-		{   "Medion MD95700 (MDUSBTV-HYBRID)",
++		{
++			"Medion MD95700 (MDUSBTV-HYBRID)",
+ 			{ NULL },
+ 			{ &cxusb_table[MEDION_MD95700], NULL },
+ 		},
+@@ -1877,8 +1925,10 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgh064f_properties = {
+ 	.usb_ctrl          = DEVICE_SPECIFIC,
+ 	.firmware          = "dvb-usb-bluebird-01.fw",
+ 	.download_firmware = bluebird_patch_dvico_firmware_download,
+-	/* use usb alt setting 0 for EP4 transfer (dvb-t),
+-	   use usb alt setting 7 for EP2 transfer (atsc) */
 +	/*
-+	 * S-Video inputs consist of one luma input (In1-In8) ORed with one
-+	 * chroma input (In5-In8)
++	 * use usb alt setting 0 for EP4 transfer (dvb-t),
++	 * use usb alt setting 7 for EP2 transfer (atsc)
 +	 */
- 	CX25840_SVIDEO_LUMA1 = 0x10,
- 	CX25840_SVIDEO_LUMA2 = 0x20,
- 	CX25840_SVIDEO_LUMA3 = 0x30,
-@@ -243,13 +245,16 @@ enum cx23885_io_pad {
- 	CX23885_PAD_GPIO16,
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+@@ -1902,7 +1952,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgh064f_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -1935,8 +1985,10 @@ static struct dvb_usb_device_properties cxusb_bluebird_dee1601_properties = {
+ 	.usb_ctrl          = DEVICE_SPECIFIC,
+ 	.firmware          = "dvb-usb-bluebird-01.fw",
+ 	.download_firmware = bluebird_patch_dvico_firmware_download,
+-	/* use usb alt setting 0 for EP4 transfer (dvb-t),
+-	   use usb alt setting 7 for EP2 transfer (atsc) */
++	/*
++	 * use usb alt setting 0 for EP4 transfer (dvb-t),
++	 * use usb alt setting 7 for EP2 transfer (atsc)
++	 */
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+@@ -1959,7 +2011,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_dee1601_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -1984,7 +2036,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_dee1601_properties = {
+ 			{ &cxusb_table[DVICO_BLUEBIRD_DUAL_1_WARM], NULL },
+ 		},
+ 		{   "DigitalNow DVB-T Dual USB",
+-			{ &cxusb_table[DIGITALNOW_BLUEBIRD_DUAL_1_COLD],  NULL },
++			{ &cxusb_table[DIGITALNOW_BLUEBIRD_DUAL_1_COLD], NULL },
+ 			{ &cxusb_table[DIGITALNOW_BLUEBIRD_DUAL_1_WARM], NULL },
+ 		},
+ 		{   "DViCO FusionHDTV DVB-T Dual Digital 2",
+@@ -2000,8 +2052,10 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgz201_properties = {
+ 	.usb_ctrl          = DEVICE_SPECIFIC,
+ 	.firmware          = "dvb-usb-bluebird-01.fw",
+ 	.download_firmware = bluebird_patch_dvico_firmware_download,
+-	/* use usb alt setting 0 for EP4 transfer (dvb-t),
+-	   use usb alt setting 7 for EP2 transfer (atsc) */
++	/*
++	 * use usb alt setting 0 for EP4 transfer (dvb-t),
++	 * use usb alt setting 7 for EP2 transfer (atsc)
++	 */
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+@@ -2025,7 +2079,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_lgz201_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 	.power_ctrl       = cxusb_bluebird_power_ctrl,
+@@ -2056,8 +2110,11 @@ static struct dvb_usb_device_properties cxusb_bluebird_dtt7579_properties = {
+ 	.usb_ctrl          = DEVICE_SPECIFIC,
+ 	.firmware          = "dvb-usb-bluebird-01.fw",
+ 	.download_firmware = bluebird_patch_dvico_firmware_download,
+-	/* use usb alt setting 0 for EP4 transfer (dvb-t),
+-	   use usb alt setting 7 for EP2 transfer (atsc) */
++
++	/*
++	 * use usb alt setting 0 for EP4 transfer (dvb-t),
++	 * use usb alt setting 7 for EP2 transfer (atsc)
++	 */
+ 
+ 	.size_of_priv     = sizeof(struct cxusb_state),
+ 
+@@ -2081,7 +2138,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_dtt7579_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 	.power_ctrl       = cxusb_bluebird_power_ctrl,
+@@ -2133,7 +2190,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_dualdig4_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -2187,7 +2244,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_nano2_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -2214,7 +2271,8 @@ static struct dvb_usb_device_properties cxusb_bluebird_nano2_properties = {
+ 	}
  };
  
--/* pvr150_workaround activates a workaround for a hardware bug that is
--   present in Hauppauge PVR-150 (and possibly PVR-500) cards that have
--   certain NTSC tuners (tveeprom tuner model numbers 85, 99 and 112). The
--   audio autodetect fails on some channels for these models and the workaround
--   is to select the audio standard explicitly. Many thanks to Hauppauge for
--   providing this information.
--   This platform data only needs to be supplied by the ivtv driver. */
-+/*
-+ * pvr150_workaround activates a workaround for a hardware bug that is
-+ * present in Hauppauge PVR-150 (and possibly PVR-500) cards that have
-+ * certain NTSC tuners (tveeprom tuner model numbers 85, 99 and 112). The
-+ * audio autodetect fails on some channels for these models and the workaround
-+ * is to select the audio standard explicitly. Many thanks to Hauppauge for
-+ * providing this information.
-+ *
-+ * This platform data only needs to be supplied by the ivtv driver.
-+ */
- struct cx25840_platform_data {
- 	int pvr150_workaround;
+-static struct dvb_usb_device_properties cxusb_bluebird_nano2_needsfirmware_properties = {
++static struct dvb_usb_device_properties
++cxusb_bluebird_nano2_needsfirmware_properties = {
+ 	.caps = DVB_USB_IS_AN_I2C_ADAPTER,
+ 
+ 	.usb_ctrl          = DEVICE_SPECIFIC,
+@@ -2243,7 +2301,7 @@ static struct dvb_usb_device_properties cxusb_bluebird_nano2_needsfirmware_prope
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -2262,10 +2320,11 @@ static struct dvb_usb_device_properties cxusb_bluebird_nano2_needsfirmware_prope
+ 	},
+ 
+ 	.num_device_descs = 1,
+-	.devices = {
+-		{   "DViCO FusionHDTV DVB-T NANO2 w/o firmware",
++	.devices = { {
++			"DViCO FusionHDTV DVB-T NANO2 w/o firmware",
+ 			{ &cxusb_table[DVICO_BLUEBIRD_DVB_T_NANO_2], NULL },
+-			{ &cxusb_table[DVICO_BLUEBIRD_DVB_T_NANO_2_NFW_WARM], NULL },
++			{ &cxusb_table[DVICO_BLUEBIRD_DVB_T_NANO_2_NFW_WARM],
++			  NULL },
+ 		},
+ 	}
  };
+@@ -2296,7 +2355,7 @@ static struct dvb_usb_device_properties cxusb_aver_a868r_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 	.power_ctrl       = cxusb_aver_power_ctrl,
+@@ -2342,7 +2401,7 @@ struct dvb_usb_device_properties cxusb_bluebird_dualdig4_rev2_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -2396,7 +2455,7 @@ static struct dvb_usb_device_properties cxusb_d680_dmb_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+@@ -2451,7 +2510,7 @@ static struct dvb_usb_device_properties cxusb_mygica_d689_properties = {
+ 					}
+ 				}
+ 			},
+-		}},
++		} },
+ 		},
+ 	},
+ 
+diff --git a/drivers/media/usb/dvb-usb/cxusb.h b/drivers/media/usb/dvb-usb/cxusb.h
+index 35e72f571a2c..eb70fbb02680 100644
+--- a/drivers/media/usb/dvb-usb/cxusb.h
++++ b/drivers/media/usb/dvb-usb/cxusb.h
+@@ -77,12 +77,14 @@ struct cxusb_state {
+ 	struct mutex stream_mutex;
+ 	u8 last_lock;
+ 	int (*fe_read_status)(struct dvb_frontend *fe,
+-		enum fe_status *status);
++			      enum fe_status *status);
+ };
+ 
+ enum cxusb_open_type {
+-	CXUSB_OPEN_INIT, CXUSB_OPEN_NONE,
+-	CXUSB_OPEN_ANALOG, CXUSB_OPEN_DIGITAL
++	CXUSB_OPEN_INIT,
++	CXUSB_OPEN_NONE,
++	CXUSB_OPEN_ANALOG,
++	CXUSB_OPEN_DIGITAL
+ };
+ 
+ struct cxusb_medion_auxbuf {
 -- 
 2.21.0
 
