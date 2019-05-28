@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B20E92C2B6
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 11:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 736522C2BD
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 11:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727184AbfE1JIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 05:08:14 -0400
-Received: from shell.v3.sk ([90.176.6.54]:36896 "EHLO shell.v3.sk"
+        id S1726876AbfE1JIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 05:08:23 -0400
+Received: from shell.v3.sk ([90.176.6.54]:36902 "EHLO shell.v3.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726628AbfE1JIN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 05:08:13 -0400
+        id S1727157AbfE1JIP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 May 2019 05:08:15 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 624731048A1;
-        Tue, 28 May 2019 11:08:10 +0200 (CEST)
+        by zimbra.v3.sk (Postfix) with ESMTP id 550EB1048A2;
+        Tue, 28 May 2019 11:08:13 +0200 (CEST)
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ILQweAFKPHcX; Tue, 28 May 2019 11:07:50 +0200 (CEST)
+        with ESMTP id mNdo6QIVcfXp; Tue, 28 May 2019 11:07:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 638871048B3;
+        by zimbra.v3.sk (Postfix) with ESMTP id 327CF1048B0;
         Tue, 28 May 2019 11:07:42 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id JELQbYAs-JDO; Tue, 28 May 2019 11:07:37 +0200 (CEST)
+        with ESMTP id gWaM28HA6Dzp; Tue, 28 May 2019 11:07:37 +0200 (CEST)
 Received: from belphegor.brq.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 0F3901048A4;
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 461771048A6;
         Tue, 28 May 2019 11:07:35 +0200 (CEST)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH v6 6/7] [media] marvell-ccic: use async notifier to get the sensor
-Date:   Tue, 28 May 2019 11:07:30 +0200
-Message-Id: <20190528090731.10341-7-lkundrak@v3.sk>
+Subject: [PATCH v6 7/7] [media] marvell-ccic: provide a clock for the sensor
+Date:   Tue, 28 May 2019 11:07:31 +0200
+Message-Id: <20190528090731.10341-8-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190528090731.10341-1-lkundrak@v3.sk>
 References: <20190528090731.10341-1-lkundrak@v3.sk>
@@ -44,515 +44,677 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An instance of a sensor on DT-based MMP2 platform is always going to be
-created asynchronously.
+The sensor needs the MCLK clock running when it's being probed. On
+platforms where the sensor is instantiated from a DT (MMP2) it is going
+to happen asynchronously.
 
-Let's move the manual device creation away from the core to the Cafe
-driver (used on OLPC XO-1, not present in DT) and set up appropriate
-async matches: I2C on Cafe, FWNODE on MMP (OLPC XO-1.75).
+Therefore, the current modus operandi, where the bridge driver fiddles
+with the sensor power and clock itself is not going to fly. As the commen=
+ts
+wisely note, this doesn't even belong there.
+
+Luckily, the ov7670 driver is already able to control its power and
+reset lines, we can just drop the MMP platform glue altogether.
+
+It also requests the clock via the standard clock subsystem. Good -- let'=
+s
+set up a clock instance so that the sensor can ask us to enable the clock=
+.
+Note that this is pretty dumb at the moment: the clock is hardwired to a
+particular frequency and parent. It was always the case.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 
 ---
-Changes since v2:
-- Moved a typo fix hunk that was accidentally in the following patch
-  here, to unbreak build.
+Changes since v3:
+- Do not enable the clock on register() now that the sensor can turn
+  it on.
 
- .../media/platform/marvell-ccic/cafe-driver.c |  49 ++++--
- .../media/platform/marvell-ccic/mcam-core.c   | 161 ++++++++++++------
- .../media/platform/marvell-ccic/mcam-core.h   |   5 +-
- .../media/platform/marvell-ccic/mmp-driver.c  |  27 +--
- .../linux/platform_data/media/mmp-camera.h    |   1 -
- 5 files changed, 164 insertions(+), 79 deletions(-)
+Changes since v1:
+- [kbuild/ia64] depend on COMMON_CLK.
+- [smatch] fix bad return in mcam_v4l_open() leading to lock not getting
+  released on error.
 
+ drivers/media/platform/marvell-ccic/Kconfig   |   2 +
+ .../media/platform/marvell-ccic/cafe-driver.c |   9 +-
+ .../media/platform/marvell-ccic/mcam-core.c   | 172 +++++++++++++-----
+ .../media/platform/marvell-ccic/mcam-core.h   |   3 +
+ .../media/platform/marvell-ccic/mmp-driver.c  | 152 ++--------------
+ .../linux/platform_data/media/mmp-camera.h    |   2 -
+ 6 files changed, 157 insertions(+), 183 deletions(-)
+
+diff --git a/drivers/media/platform/marvell-ccic/Kconfig b/drivers/media/=
+platform/marvell-ccic/Kconfig
+index cd88e2eed749..136ce370f62d 100644
+--- a/drivers/media/platform/marvell-ccic/Kconfig
++++ b/drivers/media/platform/marvell-ccic/Kconfig
+@@ -1,6 +1,7 @@
+ config VIDEO_CAFE_CCIC
+ 	tristate "Marvell 88ALP01 (Cafe) CMOS Camera Controller support"
+ 	depends on PCI && I2C && VIDEO_V4L2
++	depends on COMMON_CLK
+ 	select VIDEO_OV7670
+ 	select VIDEOBUF2_VMALLOC
+ 	select VIDEOBUF2_DMA_CONTIG
+@@ -14,6 +15,7 @@ config VIDEO_MMP_CAMERA
+ 	tristate "Marvell Armada 610 integrated camera controller support"
+ 	depends on I2C && VIDEO_V4L2
+ 	depends on ARCH_MMP || COMPILE_TEST
++	depends on COMMON_CLK
+ 	select VIDEO_OV7670
+ 	select I2C_GPIO
+ 	select VIDEOBUF2_VMALLOC
 diff --git a/drivers/media/platform/marvell-ccic/cafe-driver.c b/drivers/=
 media/platform/marvell-ccic/cafe-driver.c
-index 8d00d9d8adff..bf80799a9349 100644
+index bf80799a9349..173013d6135d 100644
 --- a/drivers/media/platform/marvell-ccic/cafe-driver.c
 +++ b/drivers/media/platform/marvell-ccic/cafe-driver.c
-@@ -8,6 +8,7 @@
-  *
-  * Copyright 2006-11 One Laptop Per Child Association, Inc.
-  * Copyright 2006-11 Jonathan Corbet <corbet@lwn.net>
-+ * Copyright 2018 Lubomir Rintel <lkundrak@v3.sk>
-  *
-  * Written by Jonathan Corbet, corbet@lwn.net.
-  *
-@@ -27,6 +28,7 @@
- #include <linux/slab.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-device.h>
-+#include <media/i2c/ov7670.h>
- #include <linux/device.h>
+@@ -33,6 +33,7 @@
  #include <linux/wait.h>
  #include <linux/delay.h>
-@@ -52,6 +54,7 @@ struct cafe_camera {
- 	int registered;			/* Fully initialized? */
- 	struct mcam_camera mcam;
- 	struct pci_dev *pdev;
-+	struct i2c_adapter *i2c_adapter;
- 	wait_queue_head_t smbus_wait;	/* Waiting on i2c events */
- };
+ #include <linux/io.h>
++#include <linux/clkdev.h>
 =20
-@@ -351,15 +354,15 @@ static int cafe_smbus_setup(struct cafe_camera *cam=
+ #include "mcam-core.h"
+=20
+@@ -533,11 +534,10 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 		goto out_iounmap;
+=20
+ 	/*
+-	 * Initialize the controller and leave it powered up.  It will
+-	 * stay that way until the sensor driver shows up.
++	 * Initialize the controller.
+ 	 */
+ 	cafe_ctlr_init(mcam);
+-	cafe_ctlr_power_up(mcam);
++
+ 	/*
+ 	 * Set up I2C/SMBUS communications.  We have to drop the mutex here
+ 	 * because the sensor could attach in this call chain, leading to
+@@ -555,6 +555,9 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+ 	if (ret)
+ 		goto out_smbus_shutdown;
+=20
++	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
++		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
++
+ 	if (i2c_new_device(cam->i2c_adapter, &ov7670_info)) {
+ 		cam->registered =3D 1;
+ 		return 0;
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/me=
+dia/platform/marvell-ccic/mcam-core.c
+index 7dc7d9d91782..f9ac1547d093 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -22,6 +22,7 @@
+ #include <linux/vmalloc.h>
+ #include <linux/io.h>
+ #include <linux/clk.h>
++#include <linux/clk-provider.h>
+ #include <linux/videodev2.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
+@@ -303,9 +304,6 @@ static void mcam_enable_mipi(struct mcam_camera *mcam=
 )
- 		return ret;
+ 		 */
+ 		mcam_reg_write(mcam, REG_CSI2_CTRL0,
+ 			CSI2_C0_MIPI_EN | CSI2_C0_ACT_LANE(mcam->lane));
+-		mcam_reg_write(mcam, REG_CLKCTRL,
+-			(mcam->mclk_src << 29) | mcam->mclk_div);
+-
+ 		mcam->mipi_enabled =3D true;
  	}
+ }
+@@ -830,31 +828,6 @@ static void mcam_ctlr_irq_disable(struct mcam_camera=
+ *cam)
+ 	mcam_reg_clear_bit(cam, REG_IRQMASK, FRAMEIRQS);
+ }
 =20
--	cam->mcam.i2c_adapter =3D adap;
-+	cam->i2c_adapter =3D adap;
- 	cafe_smbus_enable_irq(cam);
+-
+-
+-static void mcam_ctlr_init(struct mcam_camera *cam)
+-{
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&cam->dev_lock, flags);
+-	/*
+-	 * Make sure it's not powered down.
+-	 */
+-	mcam_reg_clear_bit(cam, REG_CTRL1, C1_PWRDWN);
+-	/*
+-	 * Turn off the enable bit.  It sure should be off anyway,
+-	 * but it's good to be sure.
+-	 */
+-	mcam_reg_clear_bit(cam, REG_CTRL0, C0_ENABLE);
+-	/*
+-	 * Clock the sensor appropriately.  Controller clock should
+-	 * be 48MHz, sensor "typical" value is half that.
+-	 */
+-	mcam_reg_write_mask(cam, REG_CLKCTRL, 2, CLK_DIV_MASK);
+-	spin_unlock_irqrestore(&cam->dev_lock, flags);
+-}
+-
+-
+ /*
+  * Stop the controller, and don't return until we're really sure that no
+  * further DMA is going on.
+@@ -898,14 +871,15 @@ static int mcam_ctlr_power_up(struct mcam_camera *c=
+am)
+ 	int ret;
+=20
+ 	spin_lock_irqsave(&cam->dev_lock, flags);
+-	ret =3D cam->plat_power_up(cam);
+-	if (ret) {
+-		spin_unlock_irqrestore(&cam->dev_lock, flags);
+-		return ret;
++	if (cam->plat_power_up) {
++		ret =3D cam->plat_power_up(cam);
++		if (ret) {
++			spin_unlock_irqrestore(&cam->dev_lock, flags);
++			return ret;
++		}
+ 	}
+ 	mcam_reg_clear_bit(cam, REG_CTRL1, C1_PWRDWN);
+ 	spin_unlock_irqrestore(&cam->dev_lock, flags);
+-	msleep(5); /* Just to be sure */
  	return 0;
  }
 =20
- static void cafe_smbus_shutdown(struct cafe_camera *cam)
- {
--	i2c_del_adapter(cam->mcam.i2c_adapter);
--	kfree(cam->mcam.i2c_adapter);
-+	i2c_del_adapter(cam->i2c_adapter);
-+	kfree(cam->i2c_adapter);
- }
-=20
-=20
-@@ -452,6 +455,29 @@ static irqreturn_t cafe_irq(int irq, void *data)
- 	return IRQ_RETVAL(handled);
+@@ -920,10 +894,101 @@ static void mcam_ctlr_power_down(struct mcam_camer=
+a *cam)
+ 	 * power down routine.
+ 	 */
+ 	mcam_reg_set_bit(cam, REG_CTRL1, C1_PWRDWN);
+-	cam->plat_power_down(cam);
++	if (cam->plat_power_down)
++		cam->plat_power_down(cam);
+ 	spin_unlock_irqrestore(&cam->dev_lock, flags);
  }
 =20
 +/* ---------------------------------------------------------------------=
------ */
+- */
++/*
++ * Controller clocks.
++ */
++static void mcam_clk_enable(struct mcam_camera *mcam)
++{
++	unsigned int i;
 +
-+static struct ov7670_config sensor_cfg =3D {
-+	/*
-+	 * Exclude QCIF mode, because it only captures a tiny portion
-+	 * of the sensor FOV
-+	 */
-+	.min_width =3D 320,
-+	.min_height =3D 240,
++	for (i =3D 0; i < NR_MCAM_CLK; i++) {
++		if (!IS_ERR(mcam->clk[i]))
++			clk_prepare_enable(mcam->clk[i]);
++	}
++}
++
++static void mcam_clk_disable(struct mcam_camera *mcam)
++{
++	int i;
++
++	for (i =3D NR_MCAM_CLK - 1; i >=3D 0; i--) {
++		if (!IS_ERR(mcam->clk[i]))
++			clk_disable_unprepare(mcam->clk[i]);
++	}
++}
++
++/* ---------------------------------------------------------------------=
+- */
++/*
++ * Master sensor clock.
++ */
++static int mclk_prepare(struct clk_hw *hw)
++{
++	struct mcam_camera *cam =3D container_of(hw, struct mcam_camera, mclk_h=
+w);
++
++	clk_prepare(cam->clk[0]);
++	return 0;
++}
++
++static void mclk_unprepare(struct clk_hw *hw)
++{
++	struct mcam_camera *cam =3D container_of(hw, struct mcam_camera, mclk_h=
+w);
++
++	clk_unprepare(cam->clk[0]);
++}
++
++static int mclk_enable(struct clk_hw *hw)
++{
++	struct mcam_camera *cam =3D container_of(hw, struct mcam_camera, mclk_h=
+w);
++	int mclk_src;
++	int mclk_div;
 +
 +	/*
-+	 * Set the clock speed for the XO 1; I don't believe this
-+	 * driver has ever run anywhere else.
++	 * Clock the sensor appropriately.  Controller clock should
++	 * be 48MHz, sensor "typical" value is half that.
 +	 */
-+	.clock_speed =3D 45,
-+	.use_smbus =3D 1,
++	if (cam->bus_type =3D=3D V4L2_MBUS_CSI2_DPHY) {
++		mclk_src =3D cam->mclk_src;
++		mclk_div =3D cam->mclk_div;
++	} else {
++		mclk_src =3D 3;
++		mclk_div =3D 2;
++	}
++
++	clk_enable(cam->clk[0]);
++	mcam_reg_write(cam, REG_CLKCTRL, (mclk_src << 29) | mclk_div);
++	mcam_ctlr_power_up(cam);
++
++	return 0;
++}
++
++static void mclk_disable(struct clk_hw *hw)
++{
++	struct mcam_camera *cam =3D container_of(hw, struct mcam_camera, mclk_h=
+w);
++
++	mcam_ctlr_power_down(cam);
++	clk_disable(cam->clk[0]);
++}
++
++static unsigned long mclk_recalc_rate(struct clk_hw *hw,
++				unsigned long parent_rate)
++{
++	return 48000000;
++}
++
++static const struct clk_ops mclk_ops =3D {
++	.prepare =3D mclk_prepare,
++	.unprepare =3D mclk_unprepare,
++	.enable =3D mclk_enable,
++	.disable =3D mclk_disable,
++	.recalc_rate =3D mclk_recalc_rate,
 +};
 +
-+struct i2c_board_info ov7670_info =3D {
-+	.type =3D "ov7670",
-+	.addr =3D 0x42 >> 1,
-+	.platform_data =3D &sensor_cfg,
-+};
-=20
- /* ---------------------------------------------------------------------=
------ */
+ /* -------------------------------------------------------------------- =
+*/
  /*
-@@ -481,12 +507,6 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 	mcam->plat_power_down =3D cafe_ctlr_power_down;
- 	mcam->dev =3D &pdev->dev;
- 	snprintf(mcam->bus_info, sizeof(mcam->bus_info), "PCI:%s", pci_name(pde=
-v));
--	/*
--	 * Set the clock speed for the XO 1; I don't believe this
--	 * driver has ever run anywhere else.
--	 */
--	mcam->clock_speed =3D 45;
--	mcam->use_smbus =3D 1;
- 	/*
- 	 * Vmalloc mode for buffers is traditional with this driver.
- 	 * We *might* be able to run DMA_contig, especially on a system
-@@ -527,12 +547,21 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+  * Communications with the sensor.
+@@ -948,7 +1013,6 @@ static int mcam_cam_init(struct mcam_camera *cam)
+ 	ret =3D __mcam_cam_reset(cam);
+ 	/* Get/set parameters? */
+ 	cam->state =3D S_IDLE;
+-	mcam_ctlr_power_down(cam);
+ 	return ret;
+ }
+=20
+@@ -1584,9 +1648,10 @@ static int mcam_v4l_open(struct file *filp)
  	if (ret)
- 		goto out_pdown;
-=20
-+	mcam->asd.match_type =3D V4L2_ASYNC_MATCH_I2C;
-+	mcam->asd.match.i2c.adapter_id =3D i2c_adapter_id(cam->i2c_adapter);
-+	mcam->asd.match.i2c.address =3D ov7670_info.addr;
-+
- 	ret =3D mccic_register(mcam);
--	if (ret =3D=3D 0) {
-+	if (ret)
-+		goto out_smbus_shutdown;
-+
-+	if (i2c_new_device(cam->i2c_adapter, &ov7670_info)) {
- 		cam->registered =3D 1;
- 		return 0;
+ 		goto out;
+ 	if (v4l2_fh_is_singular_file(filp)) {
+-		ret =3D mcam_ctlr_power_up(cam);
++		ret =3D sensor_call(cam, core, s_power, 1);
+ 		if (ret)
+ 			goto out;
++		mcam_clk_enable(cam);
+ 		__mcam_cam_reset(cam);
+ 		mcam_set_config_needed(cam, 1);
  	}
-=20
-+	mccic_shutdown(mcam);
-+out_smbus_shutdown:
- 	cafe_smbus_shutdown(cam);
- out_pdown:
- 	cafe_ctlr_power_down(mcam);
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/me=
-dia/platform/marvell-ccic/mcam-core.c
-index 76641d5211ab..7dc7d9d91782 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.c
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-@@ -4,6 +4,7 @@
-  * so it needs platform-specific support outside of the core.
-  *
-  * Copyright 2011 Jonathan Corbet corbet@lwn.net
-+ * Copyright 2018 Lubomir Rintel <lkundrak@v3.sk>
-  */
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -26,7 +27,6 @@
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
--#include <media/i2c/ov7670.h>
- #include <media/videobuf2-vmalloc.h>
- #include <media/videobuf2-dma-contig.h>
- #include <media/videobuf2-dma-sg.h>
-@@ -93,6 +93,9 @@ MODULE_PARM_DESC(buffer_mode,
- #define sensor_call(cam, o, f, args...) \
- 	v4l2_subdev_call(cam->sensor, o, f, ##args)
-=20
-+#define notifier_to_mcam(notifier) \
-+	container_of(notifier, struct mcam_camera, notifier)
-+
- static struct mcam_format_struct {
- 	__u8 *desc;
- 	__u32 pixelformat;
-@@ -1715,23 +1718,94 @@ EXPORT_SYMBOL_GPL(mccic_irq);
- /*
-  * Registration and such.
-  */
--static struct ov7670_config sensor_cfg =3D {
--	/*
--	 * Exclude QCIF mode, because it only captures a tiny portion
--	 * of the sensor FOV
--	 */
--	.min_width =3D 320,
--	.min_height =3D 240,
--};
-=20
-+static int mccic_notify_bound(struct v4l2_async_notifier *notifier,
-+	struct v4l2_subdev *subdev, struct v4l2_async_subdev *asd)
-+{
-+	struct mcam_camera *cam =3D notifier_to_mcam(notifier);
-+	int ret;
-+
-+	mutex_lock(&cam->s_mutex);
-+	if (cam->sensor) {
-+		cam_err(cam, "sensor already bound\n");
-+		ret =3D -EBUSY;
-+		goto out;
-+	}
-+
-+	v4l2_set_subdev_hostdata(subdev, cam);
-+	cam->sensor =3D subdev;
-+
-+	ret =3D mcam_cam_init(cam);
-+	if (ret) {
-+		cam->sensor =3D NULL;
-+		goto out;
-+	}
-+
-+	ret =3D mcam_setup_vb2(cam);
-+	if (ret) {
-+		cam->sensor =3D NULL;
-+		goto out;
-+	}
-+
-+	cam->vdev =3D mcam_v4l_template;
-+	cam->vdev.v4l2_dev =3D &cam->v4l2_dev;
-+	cam->vdev.lock =3D &cam->s_mutex;
-+	cam->vdev.queue =3D &cam->vb_queue;
-+	video_set_drvdata(&cam->vdev, cam);
-+	ret =3D video_register_device(&cam->vdev, VFL_TYPE_GRABBER, -1);
-+	if (ret) {
-+		cam->sensor =3D NULL;
-+		goto out;
-+	}
-+
-+	cam_dbg(cam, "sensor %s bound\n", subdev->name);
-+out:
-+	mutex_unlock(&cam->s_mutex);
-+	return ret;
-+}
-+
-+static void mccic_notify_unbind(struct v4l2_async_notifier *notifier,
-+	struct v4l2_subdev *subdev, struct v4l2_async_subdev *asd)
-+{
-+	struct mcam_camera *cam =3D notifier_to_mcam(notifier);
-+
-+	mutex_lock(&cam->s_mutex);
-+	if (cam->sensor !=3D subdev) {
-+		cam_err(cam, "sensor %s not bound\n", subdev->name);
-+		goto out;
-+	}
-+
-+	video_unregister_device(&cam->vdev);
-+	cam->sensor =3D NULL;
-+	cam_dbg(cam, "sensor %s unbound\n", subdev->name);
-+
-+out:
-+	mutex_unlock(&cam->s_mutex);
-+}
-+
-+static int mccic_notify_complete(struct v4l2_async_notifier *notifier)
-+{
-+	struct mcam_camera *cam =3D notifier_to_mcam(notifier);
-+	int ret;
-+
-+	/*
-+	 * Get the v4l2 setup done.
-+	 */
-+	ret =3D v4l2_ctrl_handler_init(&cam->ctrl_handler, 10);
-+	if (!ret)
-+		cam->v4l2_dev.ctrl_handler =3D &cam->ctrl_handler;
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_async_notifier_operations mccic_notify_ops =3D =
-{
-+	.bound =3D mccic_notify_bound,
-+	.unbind =3D mccic_notify_unbind,
-+	.complete =3D mccic_notify_complete,
-+};
+@@ -1608,7 +1673,8 @@ static int mcam_v4l_release(struct file *filp)
+ 	_vb2_fop_release(filp, NULL);
+ 	if (last_open) {
+ 		mcam_disable_mipi(cam);
+-		mcam_ctlr_power_down(cam);
++		sensor_call(cam, core, s_power, 0);
++		mcam_clk_disable(cam);
+ 		if (cam->buffer_mode =3D=3D B_vmalloc && alloc_bufs_at_read)
+ 			mcam_free_dma_bufs(cam);
+ 	}
+@@ -1806,6 +1872,7 @@ static const struct v4l2_async_notifier_operations =
+mccic_notify_ops =3D {
 =20
  int mccic_register(struct mcam_camera *cam)
  {
--	struct i2c_board_info ov7670_info =3D {
--		.type =3D "ov7670",
--		.addr =3D 0x42 >> 1,
--		.platform_data =3D &sensor_cfg,
--	};
++	struct clk_init_data mclk_init =3D { };
  	int ret;
 =20
  	/*
-@@ -1744,17 +1818,20 @@ int mccic_register(struct mcam_camera *cam)
- 		printk(KERN_ERR "marvell-cam: Cafe can't do S/G I/O, attempting vmallo=
-c mode instead\n");
- 		cam->buffer_mode =3D B_vmalloc;
+@@ -1838,7 +1905,6 @@ int mccic_register(struct mcam_camera *cam)
+ 	mcam_set_config_needed(cam, 1);
+ 	cam->pix_format =3D mcam_def_pix_format;
+ 	cam->mbus_code =3D mcam_def_mbus_code;
+-	mcam_ctlr_init(cam);
+=20
+ 	/*
+ 	 * Register sensor notifier.
+@@ -1857,6 +1923,26 @@ int mccic_register(struct mcam_camera *cam)
+ 		goto out;
  	}
+=20
++	/*
++	 * Register sensor master clock.
++	 */
++	mclk_init.parent_names =3D NULL;
++	mclk_init.num_parents =3D 0;
++	mclk_init.ops =3D &mclk_ops;
++	mclk_init.name =3D "mclk";
 +
- 	if (!mcam_buffer_mode_supported(cam->buffer_mode)) {
- 		printk(KERN_ERR "marvell-cam: buffer mode %d unsupported\n",
- 				cam->buffer_mode);
--		return -EINVAL;
-+		ret =3D -EINVAL;
++	of_property_read_string(cam->dev->of_node, "clock-output-names",
++							&mclk_init.name);
++
++	cam->mclk_hw.init =3D &mclk_init;
++
++	cam->mclk =3D devm_clk_register(cam->dev, &cam->mclk_hw);
++	if (IS_ERR(cam->mclk)) {
++		ret =3D PTR_ERR(cam->mclk);
++		dev_err(cam->dev, "can't register clock\n");
 +		goto out;
- 	}
++	}
 +
  	/*
- 	 * Register with V4L
+ 	 * If so requested, try to get our DMA buffers now.
  	 */
- 	ret =3D v4l2_device_register(cam->dev, &cam->v4l2_dev);
- 	if (ret)
--		return ret;
-+		goto out;
-=20
- 	mutex_init(&cam->s_mutex);
- 	cam->state =3D S_NOTREADY;
-@@ -1764,43 +1841,20 @@ int mccic_register(struct mcam_camera *cam)
- 	mcam_ctlr_init(cam);
-=20
- 	/*
--	 * Get the v4l2 setup done.
-+	 * Register sensor notifier.
+@@ -1884,7 +1970,7 @@ void mccic_shutdown(struct mcam_camera *cam)
  	 */
--	ret =3D v4l2_ctrl_handler_init(&cam->ctrl_handler, 10);
--	if (ret)
--		goto out_unregister;
--	cam->v4l2_dev.ctrl_handler =3D &cam->ctrl_handler;
--
--	/*
--	 * Try to find the sensor.
--	 */
--	sensor_cfg.clock_speed =3D cam->clock_speed;
--	sensor_cfg.use_smbus =3D cam->use_smbus;
--	cam->sensor =3D v4l2_i2c_new_subdev_board(&cam->v4l2_dev,
--			cam->i2c_adapter, &ov7670_info, NULL);
--	if (cam->sensor =3D=3D NULL) {
--		ret =3D -ENODEV;
--		goto out_unregister;
-+	v4l2_async_notifier_init(&cam->notifier);
-+	ret =3D v4l2_async_notifier_add_subdev(&cam->notifier, &cam->asd);
-+	if (ret) {
-+		cam_warn(cam, "failed to add subdev to a notifier");
-+		goto out;
- 	}
-=20
--	ret =3D mcam_cam_init(cam);
--	if (ret)
--		goto out_unregister;
--
--	ret =3D mcam_setup_vb2(cam);
--	if (ret)
--		goto out_unregister;
--
--	mutex_lock(&cam->s_mutex);
--	cam->vdev =3D mcam_v4l_template;
--	cam->vdev.v4l2_dev =3D &cam->v4l2_dev;
--	cam->vdev.lock =3D &cam->s_mutex;
--	cam->vdev.queue =3D &cam->vb_queue;
--	video_set_drvdata(&cam->vdev, cam);
--	ret =3D video_register_device(&cam->vdev, VFL_TYPE_GRABBER, -1);
--	if (ret) {
--		mutex_unlock(&cam->s_mutex);
--		goto out_unregister;
-+	cam->notifier.ops =3D &mccic_notify_ops;
-+	ret =3D v4l2_async_notifier_register(&cam->v4l2_dev, &cam->notifier);
-+	if (ret < 0) {
-+		cam_warn(cam, "failed to register a sensor notifier");
-+		goto out;
- 	}
-=20
- 	/*
-@@ -1811,11 +1865,10 @@ int mccic_register(struct mcam_camera *cam)
- 			cam_warn(cam, "Unable to alloc DMA buffers at load will try again lat=
-er.");
- 	}
-=20
--	mutex_unlock(&cam->s_mutex);
- 	return 0;
-=20
--out_unregister:
--	v4l2_ctrl_handler_free(&cam->ctrl_handler);
-+out:
-+	v4l2_async_notifier_unregister(&cam->notifier);
- 	v4l2_device_unregister(&cam->v4l2_dev);
- 	return ret;
- }
-@@ -1835,8 +1888,8 @@ void mccic_shutdown(struct mcam_camera *cam)
+ 	if (!list_empty(&cam->vdev.fh_list)) {
+ 		cam_warn(cam, "Removing a device with users!\n");
+-		mcam_ctlr_power_down(cam);
++		sensor_call(cam, core, s_power, 0);
  	}
  	if (cam->buffer_mode =3D=3D B_vmalloc)
  		mcam_free_dma_bufs(cam);
--	video_unregister_device(&cam->vdev);
- 	v4l2_ctrl_handler_free(&cam->ctrl_handler);
-+	v4l2_async_notifier_unregister(&cam->notifier);
- 	v4l2_device_unregister(&cam->v4l2_dev);
- }
- EXPORT_SYMBOL_GPL(mccic_shutdown);
+@@ -1906,7 +1992,8 @@ void mccic_suspend(struct mcam_camera *cam)
+ 		enum mcam_state cstate =3D cam->state;
+=20
+ 		mcam_ctlr_stop_dma(cam);
+-		mcam_ctlr_power_down(cam);
++		sensor_call(cam, core, s_power, 0);
++		mcam_clk_disable(cam);
+ 		cam->state =3D cstate;
+ 	}
+ 	mutex_unlock(&cam->s_mutex);
+@@ -1919,14 +2006,15 @@ int mccic_resume(struct mcam_camera *cam)
+=20
+ 	mutex_lock(&cam->s_mutex);
+ 	if (!list_empty(&cam->vdev.fh_list)) {
+-		ret =3D mcam_ctlr_power_up(cam);
++		mcam_clk_enable(cam);
++		ret =3D sensor_call(cam, core, s_power, 1);
+ 		if (ret) {
+ 			mutex_unlock(&cam->s_mutex);
+ 			return ret;
+ 		}
+ 		__mcam_cam_reset(cam);
+ 	} else {
+-		mcam_ctlr_power_down(cam);
++		sensor_call(cam, core, s_power, 0);
+ 	}
+ 	mutex_unlock(&cam->s_mutex);
+=20
 diff --git a/drivers/media/platform/marvell-ccic/mcam-core.h b/drivers/me=
 dia/platform/marvell-ccic/mcam-core.h
-index b828b1bb59d3..4a72213aca1a 100644
+index 4a72213aca1a..2e3a7567a76a 100644
 --- a/drivers/media/platform/marvell-ccic/mcam-core.h
 +++ b/drivers/media/platform/marvell-ccic/mcam-core.h
-@@ -102,14 +102,11 @@ struct mcam_camera {
- 	 * These fields should be set by the platform code prior to
- 	 * calling mcam_register().
- 	 */
--	struct i2c_adapter *i2c_adapter;
- 	unsigned char __iomem *regs;
- 	unsigned regs_size; /* size in bytes of the register space */
- 	spinlock_t dev_lock;
- 	struct device *dev; /* For messages, dma alloc */
- 	enum mcam_chip_id chip_id;
--	short int clock_speed;	/* Sensor clock speed, default 30 */
--	short int use_smbus;	/* SMBUS or straight I2c? */
- 	enum mcam_buffer_mode buffer_mode;
+@@ -8,6 +8,7 @@
+ #define _MCAM_CORE_H
 =20
- 	int mclk_src;	/* which clock source the mclk derives from */
-@@ -150,6 +147,8 @@ struct mcam_camera {
- 	 * Subsystem structures.
- 	 */
- 	struct video_device vdev;
-+	struct v4l2_async_notifier notifier;
-+	struct v4l2_async_subdev asd;
- 	struct v4l2_subdev *sensor;
+ #include <linux/list.h>
++#include <linux/clk-provider.h>
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+@@ -125,6 +126,8 @@ struct mcam_camera {
 =20
- 	/* Videobuf2 stuff */
+ 	/* clock tree support */
+ 	struct clk *clk[NR_MCAM_CLK];
++	struct clk_hw mclk_hw;
++	struct clk *mclk;
+=20
+ 	/*
+ 	 * Callbacks from the core to the platform code.
 diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/m=
 edia/platform/marvell-ccic/mmp-driver.c
-index 54c2dd8c29d8..eea0399fd81f 100644
+index eea0399fd81f..380702cfccd6 100644
 --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
 +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
-@@ -3,6 +3,7 @@
-  * to work with the Armada 610 as used in the OLPC 1.75 system.
-  *
-  * Copyright 2011 Jonathan Corbet <corbet@lwn.net>
-+ * Copyright 2018 Lubomir Rintel <lkundrak@v3.sk>
-  *
-  * This file may be distributed under the terms of the GNU General
-  * Public License, version 2.
-@@ -11,7 +12,6 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/spinlock.h>
- #include <linux/slab.h>
-@@ -316,6 +316,7 @@ static int mmpcam_probe(struct platform_device *pdev)
- 	struct mmp_camera *cam;
- 	struct mcam_camera *mcam;
- 	struct resource *res;
-+	struct fwnode_handle *ep;
- 	struct mmp_camera_platform_data *pdata;
- 	int ret;
+@@ -22,9 +22,7 @@
+ #include <linux/of.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
+ #include <linux/io.h>
+-#include <linux/delay.h>
+ #include <linux/list.h>
+ #include <linux/pm.h>
+ #include <linux/clk.h>
+@@ -38,7 +36,6 @@ MODULE_LICENSE("GPL");
+ static char *mcam_clks[] =3D {"axi", "func", "phy"};
 =20
-@@ -330,7 +331,6 @@ static int mmpcam_probe(struct platform_device *pdev)
- 	mcam->plat_power_down =3D mmpcam_power_down;
+ struct mmp_camera {
+-	void __iomem *power_regs;
+ 	struct platform_device *pdev;
+ 	struct mcam_camera mcam;
+ 	struct list_head devlist;
+@@ -94,94 +91,6 @@ static struct mmp_camera *mmpcam_find_device(struct pl=
+atform_device *pdev)
+ 	return NULL;
+ }
+=20
+-
+-
+-
+-/*
+- * Power-related registers; this almost certainly belongs
+- * somewhere else.
+- *
+- * ARMADA 610 register manual, sec 7.2.1, p1842.
+- */
+-#define CPU_SUBSYS_PMU_BASE	0xd4282800
+-#define REG_CCIC_DCGCR		0x28	/* CCIC dyn clock gate ctrl reg */
+-#define REG_CCIC_CRCR		0x50	/* CCIC clk reset ctrl reg	*/
+-
+-static void mcam_clk_enable(struct mcam_camera *mcam)
+-{
+-	unsigned int i;
+-
+-	for (i =3D 0; i < NR_MCAM_CLK; i++) {
+-		if (!IS_ERR(mcam->clk[i]))
+-			clk_prepare_enable(mcam->clk[i]);
+-	}
+-}
+-
+-static void mcam_clk_disable(struct mcam_camera *mcam)
+-{
+-	int i;
+-
+-	for (i =3D NR_MCAM_CLK - 1; i >=3D 0; i--) {
+-		if (!IS_ERR(mcam->clk[i]))
+-			clk_disable_unprepare(mcam->clk[i]);
+-	}
+-}
+-
+-/*
+- * Power control.
+- */
+-static void mmpcam_power_up_ctlr(struct mmp_camera *cam)
+-{
+-	iowrite32(0x3f, cam->power_regs + REG_CCIC_DCGCR);
+-	iowrite32(0x3805b, cam->power_regs + REG_CCIC_CRCR);
+-	mdelay(1);
+-}
+-
+-static int mmpcam_power_up(struct mcam_camera *mcam)
+-{
+-	struct mmp_camera *cam =3D mcam_to_cam(mcam);
+-	struct mmp_camera_platform_data *pdata;
+-
+-/*
+- * Turn on power and clocks to the controller.
+- */
+-	mmpcam_power_up_ctlr(cam);
+-	mcam_clk_enable(mcam);
+-/*
+- * Provide power to the sensor.
+- */
+-	mcam_reg_write(mcam, REG_CLKCTRL, 0x60000002);
+-	pdata =3D cam->pdev->dev.platform_data;
+-	gpio_set_value(pdata->sensor_power_gpio, 1);
+-	mdelay(5);
+-	mcam_reg_clear_bit(mcam, REG_CTRL1, 0x10000000);
+-	gpio_set_value(pdata->sensor_reset_gpio, 0); /* reset is active low */
+-	mdelay(5);
+-	gpio_set_value(pdata->sensor_reset_gpio, 1); /* reset is active low */
+-	mdelay(5);
+-
+-	return 0;
+-}
+-
+-static void mmpcam_power_down(struct mcam_camera *mcam)
+-{
+-	struct mmp_camera *cam =3D mcam_to_cam(mcam);
+-	struct mmp_camera_platform_data *pdata;
+-/*
+- * Turn off clocks and set reset lines
+- */
+-	iowrite32(0, cam->power_regs + REG_CCIC_DCGCR);
+-	iowrite32(0, cam->power_regs + REG_CCIC_CRCR);
+-/*
+- * Shut down the sensor.
+- */
+-	pdata =3D cam->pdev->dev.platform_data;
+-	gpio_set_value(pdata->sensor_power_gpio, 0);
+-	gpio_set_value(pdata->sensor_reset_gpio, 0);
+-
+-	mcam_clk_disable(mcam);
+-}
+-
+ /*
+  * calc the dphy register values
+  * There are three dphy registers being used.
+@@ -327,8 +236,6 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&cam->devlist);
+=20
+ 	mcam =3D &cam->mcam;
+-	mcam->plat_power_up =3D mmpcam_power_up;
+-	mcam->plat_power_down =3D mmpcam_power_down;
  	mcam->calc_dphy =3D mmpcam_calc_dphy;
  	mcam->dev =3D &pdev->dev;
--	mcam->use_smbus =3D 0;
  	pdata =3D pdev->dev.platform_data;
- 	if (pdata) {
- 		mcam->mclk_src =3D pdata->mclk_src;
-@@ -374,15 +374,6 @@ static int mmpcam_probe(struct platform_device *pdev=
+@@ -366,33 +273,6 @@ static int mmpcam_probe(struct platform_device *pdev=
 )
- 	cam->power_regs =3D devm_ioremap_resource(&pdev->dev, res);
- 	if (IS_ERR(cam->power_regs))
- 		return PTR_ERR(cam->power_regs);
+ 	if (IS_ERR(mcam->regs))
+ 		return PTR_ERR(mcam->regs);
+ 	mcam->regs_size =3D resource_size(res);
 -	/*
--	 * Find the i2c adapter.  This assumes, of course, that the
--	 * i2c bus is already up and functioning.
+-	 * Power/clock memory is elsewhere; get it too.  Perhaps this
+-	 * should really be managed outside of this driver?
 -	 */
--	mcam->i2c_adapter =3D platform_get_drvdata(pdata->i2c_device);
--	if (mcam->i2c_adapter =3D=3D NULL) {
--		dev_err(&pdev->dev, "No i2c adapter\n");
--		return -ENODEV;
+-	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	cam->power_regs =3D devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(cam->power_regs))
+-		return PTR_ERR(cam->power_regs);
+-	/*
+-	 * Sensor GPIO pins.
+-	 */
+-	ret =3D devm_gpio_request(&pdev->dev, pdata->sensor_power_gpio,
+-							"cam-power");
+-	if (ret) {
+-		dev_err(&pdev->dev, "Can't get sensor power gpio %d",
+-				pdata->sensor_power_gpio);
+-		return ret;
 -	}
- 	/*
- 	 * Sensor GPIO pins.
- 	 */
-@@ -405,6 +396,19 @@ static int mmpcam_probe(struct platform_device *pdev=
-)
+-	gpio_direction_output(pdata->sensor_power_gpio, 0);
+-	ret =3D devm_gpio_request(&pdev->dev, pdata->sensor_reset_gpio,
+-							"cam-reset");
+-	if (ret) {
+-		dev_err(&pdev->dev, "Can't get sensor reset gpio %d",
+-				pdata->sensor_reset_gpio);
+-		return ret;
+-	}
+-	gpio_direction_output(pdata->sensor_reset_gpio, 0);
 =20
  	mcam_init_clk(mcam);
 =20
-+	/*
-+	 * Create a match of the sensor against its OF node.
-+	 */
-+	ep =3D fwnode_graph_get_next_endpoint(of_fwnode_handle(pdev->dev.of_nod=
-e),
-+					    NULL);
-+	if (!ep)
-+		return -ENODEV;
-+
-+	mcam->asd.match_type =3D V4L2_ASYNC_MATCH_FWNODE;
-+	mcam->asd.match.fwnode =3D fwnode_graph_get_remote_port_parent(ep);
-+
-+	fwnode_handle_put(ep);
-+
+@@ -410,14 +290,21 @@ static int mmpcam_probe(struct platform_device *pde=
+v)
+ 	fwnode_handle_put(ep);
+=20
  	/*
- 	 * Power the device up and hand it off to the core.
+-	 * Power the device up and hand it off to the core.
++	 * Register the device with the core.
  	 */
-@@ -414,6 +418,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+-	ret =3D mmpcam_power_up(mcam);
+-	if (ret)
+-		return ret;
  	ret =3D mccic_register(mcam);
  	if (ret)
- 		goto out_power_down;
+-		goto out_power_down;
++		return ret;
 +
++	/*
++	 * Add OF clock provider.
++	 */
++	ret =3D of_clk_add_provider(pdev->dev.of_node, of_clk_src_simple_get,
++								mcam->mclk);
++	if (ret) {
++		dev_err(&pdev->dev, "can't add DT clock provider\n");
++		goto out;
++	}
+=20
  	/*
  	 * Finally, set up our IRQ now that the core is ready to
- 	 * deal with it.
+@@ -426,7 +313,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	res =3D platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+ 	if (res =3D=3D NULL) {
+ 		ret =3D -ENODEV;
+-		goto out_unregister;
++		goto out;
+ 	}
+ 	cam->irq =3D res->start;
+ 	ret =3D devm_request_irq(&pdev->dev, cam->irq, mmpcam_irq, IRQF_SHARED,
+@@ -436,10 +323,10 @@ static int mmpcam_probe(struct platform_device *pde=
+v)
+ 		return 0;
+ 	}
+=20
+-out_unregister:
++out:
++	fwnode_handle_put(mcam->asd.match.fwnode);
+ 	mccic_shutdown(mcam);
+-out_power_down:
+-	mmpcam_power_down(mcam);
++
+ 	return ret;
+ }
+=20
+@@ -450,7 +337,6 @@ static int mmpcam_remove(struct mmp_camera *cam)
+=20
+ 	mmpcam_remove_device(cam);
+ 	mccic_shutdown(mcam);
+-	mmpcam_power_down(mcam);
+ 	return 0;
+ }
+=20
+@@ -482,12 +368,6 @@ static int mmpcam_resume(struct platform_device *pde=
+v)
+ {
+ 	struct mmp_camera *cam =3D mmpcam_find_device(pdev);
+=20
+-	/*
+-	 * Power up unconditionally just in case the core tries to
+-	 * touch a register even if nothing was active before; trust
+-	 * me, it's better this way.
+-	 */
+-	mmpcam_power_up_ctlr(cam);
+ 	return mccic_resume(&cam->mcam);
+ }
+=20
 diff --git a/include/linux/platform_data/media/mmp-camera.h b/include/lin=
 ux/platform_data/media/mmp-camera.h
-index 4c3a80a45883..c573ebc40035 100644
+index c573ebc40035..53adaab64f28 100644
 --- a/include/linux/platform_data/media/mmp-camera.h
 +++ b/include/linux/platform_data/media/mmp-camera.h
-@@ -12,7 +12,6 @@ enum dphy3_algo {
+@@ -12,8 +12,6 @@ enum dphy3_algo {
  };
 =20
  struct mmp_camera_platform_data {
--	struct platform_device *i2c_device;
- 	int sensor_power_gpio;
- 	int sensor_reset_gpio;
+-	int sensor_power_gpio;
+-	int sensor_reset_gpio;
  	enum v4l2_mbus_type bus_type;
+ 	int mclk_src;	/* which clock source the MCLK derives from */
+ 	int mclk_div;	/* Clock Divider Value for MCLK */
 --=20
 2.21.0
 
