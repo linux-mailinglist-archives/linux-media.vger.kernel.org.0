@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE43E2CB8A
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 18:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9A8C2CB5E
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 18:15:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbfE1QO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 12:14:57 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35573 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfE1QO5 (ORCPT
+        id S1727070AbfE1QO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 12:14:59 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37187 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbfE1QO6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 12:14:57 -0400
-Received: by mail-wr1-f66.google.com with SMTP id m3so20903454wrv.2;
-        Tue, 28 May 2019 09:14:55 -0700 (PDT)
+        Tue, 28 May 2019 12:14:58 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 7so3539242wmo.2;
+        Tue, 28 May 2019 09:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t4fNuHNyNd5YWtEhF5ffcGp/LQDSV+yF804x4uNxMPE=;
-        b=dpSBRvHt0/ewBa230CkxQ60kS10EXTbLJLifOiTz4RZTmmVQM2vRxd8unWYqDmUSp1
-         EWsPKepGFokj30p8xyfx9N5JbPdIdmzXmtwJ5yCZzrVMUzKYIAwT/jiF01HS8hw4eLWr
-         d0NGjVfDfY4kil+Qc6Fdv1HRNLbyoU3Pq6Pi9O1CbkrNKQnOdbhOmnP5dkgmvqh/nsQV
-         /JnIjF9xrxK7zJogasjEBQQLi/HcVDwlhtzjYOKAL3boLxE9eQHAtEKwMZboHXbe9ceT
-         J2KmGaSgXRZDu6/jnLSjhSkwUmHBOYmKcAkK/mj9QzazUi0O6ts7tYwxfYK6ge5prHq5
-         dlnA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=K/XHCO5OpLMI7hm5w9MXtKPLk5GaTtp3symSRQtLrEY=;
+        b=EyM0D5GavuIb2ZHU3Ey2iuUrjxx5yFjgNYGJtX+8Zore5n4WfYzSMfIgAzEJ3qhtY1
+         AB2Nw7oYWntoTt98IWF8mPj9NyY/gWEkWlQR9cOLwsqfFJk072jFtE/XYVsSxoPCr738
+         pNqDCTpQ8OzCwhfrXj5tgKUrqX37WBC1im8BiXLOtQn4R5VLAsaCbcCcOZMPW3M4Fpqp
+         z2PPhRioLG6uAcgAvrBiYITN2get23JzjqSzdqf3sUf2huHQUSBFLezGXXkQM9WRAwuf
+         dcZeZ0/WyT8I6lpM/QCXXFP8KGkbzITB6Hqi3pOGKNZbpHo7KxGem4JdEFbN4yE0Bedl
+         wU/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t4fNuHNyNd5YWtEhF5ffcGp/LQDSV+yF804x4uNxMPE=;
-        b=VDLuMsxVMaFoLDMDphgNBTE5CNfIF1A6aj5IYkKrNMtS4EEYuS2E36kgSCC56PlK4i
-         XvUWgwYbdxx3pxbPzNM4RjSlraV/a87dTH/XvKmjULc5kO7sJYgK7xO9XsOxDTRAwBmH
-         ewWUdWRNTldLgrHCe9k0cQfZFRHRH1W/gx3VvdHfKe7wv5a52BDxwBZf/jl6aL3vu+I5
-         rASPvL5tUgVIfK/6fojYcEO+/GuEP+5SSE9gmgFGLYz8K2ZgVDpKC7lXJ4trC6ZYfmeS
-         q3ug7gvjrU7PPwXXPVuB+MQCt4dlUwFxkzpEALWxyOA/1klM9WojmhC02vL9Rs5/2KE4
-         tBVQ==
-X-Gm-Message-State: APjAAAU853ghIiHAdIQhEa+bNAu0snXpR/n7vobLvKuyA5aD472C3SYa
-        2/qk8/CSbQs4S/FqiKsWcMQ=
-X-Google-Smtp-Source: APXvYqwz2aW7Eu9zLK7jrGuM0szO6rQV52q6NbuzpwC4zNuAynJd1LRd/HFIVRILdoCmMC8bYpqUyA==
-X-Received: by 2002:a05:6000:1285:: with SMTP id f5mr9066145wrx.112.1559060094876;
-        Tue, 28 May 2019 09:14:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=K/XHCO5OpLMI7hm5w9MXtKPLk5GaTtp3symSRQtLrEY=;
+        b=Q0bUmrijQ3Ict16S2JAFzWemH/DpspHXRhgVHlJJY+zAdRl/zGm/m8HDM0glldy8GK
+         G0UeCra2+34hA1qE5O+0B+FdrcNRH7l2/r38zcap3o1xgxPX93MoAFEyMHGIdkjPjela
+         PrqoeN7iB3zusYA+U+rkbxM/5jmSn6wj+ghBE3EVBMhicwRCxbKb9gI8kvJnoGBJQxmu
+         JevK1Mym5YtnGN/Vlo4sCN8zSPiTAbRcO3kJI67ca5cyrH2JZ6IRkOS36AKXT+NWlI40
+         9oSXecR+b3tVzuH8j/pvQ+fF2HY9KF6xyM77x8gg3C9xfXFdRB34uuWvA+QHjXrOaxfm
+         t5mw==
+X-Gm-Message-State: APjAAAXvDLM525rau8VWc6aWQ/uxy6edq8oShoNyeKLJQTwDK5cdwQKC
+        3tpKIsr66Ja1MJXAp1Y0k97vfwCEDdxryQ==
+X-Google-Smtp-Source: APXvYqyEiWcBV7Gxq6C/3F0I6ecov4ivFns4OBUBpcj4xXx1WWacV5+gIGN9TAndCV5ongzHxXWx0A==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr3664693wmb.88.1559060096018;
+        Tue, 28 May 2019 09:14:56 -0700 (PDT)
 Received: from localhost.localdomain (18.189-60-37.rdns.acropolistelecom.net. [37.60.189.18])
-        by smtp.gmail.com with ESMTPSA id l14sm13678787wrt.57.2019.05.28.09.14.53
+        by smtp.gmail.com with ESMTPSA id l14sm13678787wrt.57.2019.05.28.09.14.54
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 28 May 2019 09:14:54 -0700 (PDT)
+        Tue, 28 May 2019 09:14:55 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -55,10 +55,12 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com,
         =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v3 00/12] Allwinner A64/H6 IR support
-Date:   Tue, 28 May 2019 18:14:28 +0200
-Message-Id: <20190528161440.27172-1-peron.clem@gmail.com>
+Subject: [PATCH v3 01/12] dt-bindings: media: sunxi-ir: add A31 compatible
+Date:   Tue, 28 May 2019 18:14:29 +0200
+Message-Id: <20190528161440.27172-2-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190528161440.27172-1-peron.clem@gmail.com>
+References: <20190528161440.27172-1-peron.clem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,66 +69,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Allwinner A31 has introduced a new memory mapping and a
+reset line.
 
-A64 IR support series[1] pointed out that an A31 bindings should be
-introduced.
+The difference in memory mapping are :
 
-This series introduce the A31 compatible bindings, then switch it on
-the already existing board.
+- In the configure register there is a new sample bit
+  and Allwinner has introduced the active threshold feature.
 
-Finally introduce A64 and H6 support.
+- In the status register a new STAT bit is present.
 
-I didn't enable the IR on other H6 boards as Ondrej reported an issue
-on his board[2].
+Note: CGPO and DRQ_EN bits are removed on A31 but present on A13
+and on new SoCs like A64/H6.
+This is actually not an issue as these bits are togglable and new
+SoCs have a dedicated bindings.
 
-Regards,
-Clément
+Introduce this bindings to make a difference since this generation.
+And declare the reset line required since A31.
 
-[1] https://lore.kernel.org/patchwork/patch/1031390/#1221464
-[2] https://lkml.org/lkml/2019/5/27/321
+Signed-off-by: Clément Péron <peron.clem@gmail.com>
+---
+ Documentation/devicetree/bindings/media/sunxi-ir.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Changes since v2:
- - Disable IR for other H6 boards
- - Split DTS patch for H3/H5
- - Introduce IR quirks
-
-Changes since v1:
- - Document reset lines as required since A31
- - Explain the memory mapping difference in commit log
- - Fix misspelling "Allwiner" to "Allwinner"
-
-Clément Péron (10):
-  dt-bindings: media: sunxi-ir: add A31 compatible
-  media: rc: Introduce sunxi_ir_quirks
-  media: rc: sunxi: Add A31 compatible
-  ARM: dts: sunxi: Prefer A31 bindings for IR
-  ARM: dts: sunxi: Prefer A31 bindings for IR
-  dt-bindings: media: sunxi-ir: Add A64 compatible
-  dt-bindings: media: sunxi-ir: Add H6 compatible
-  arm64: dts: allwinner: h6: Add IR receiver node
-  arm64: dts: allwinner: h6: Enable IR on Beelink GS1
-  arm64: defconfig: enable IR SUNXI option
-
-Igors Makejevs (1):
-  arm64: dts: allwinner: a64: Add IR node
-
-Jernej Skrabec (1):
-  arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
-
- .../devicetree/bindings/media/sunxi-ir.txt    | 11 ++-
- arch/arm/boot/dts/sun6i-a31.dtsi              |  2 +-
- arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
- arch/arm/boot/dts/sun9i-a80.dtsi              |  2 +-
- arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  2 +-
- .../dts/allwinner/sun50i-a64-orangepi-win.dts |  4 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 +++++
- .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  4 ++
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 19 +++++
- arch/arm64/configs/defconfig                  |  1 +
- drivers/media/rc/sunxi-cir.c                  | 70 +++++++++++++++----
- 11 files changed, 115 insertions(+), 20 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/sunxi-ir.txt b/Documentation/devicetree/bindings/media/sunxi-ir.txt
+index 278098987edb..2e59a32a7e33 100644
+--- a/Documentation/devicetree/bindings/media/sunxi-ir.txt
++++ b/Documentation/devicetree/bindings/media/sunxi-ir.txt
+@@ -1,16 +1,21 @@
+ Device-Tree bindings for SUNXI IR controller found in sunXi SoC family
+ 
+ Required properties:
+-- compatible	    : "allwinner,sun4i-a10-ir" or "allwinner,sun5i-a13-ir"
++- compatible	    :
++	"allwinner,sun4i-a10-ir"
++	"allwinner,sun5i-a13-ir"
++	"allwinner,sun6i-a31-ir"
+ - clocks	    : list of clock specifiers, corresponding to
+ 		      entries in clock-names property;
+ - clock-names	    : should contain "apb" and "ir" entries;
+ - interrupts	    : should contain IR IRQ number;
+ - reg		    : should contain IO map address for IR.
+ 
++Required properties since A31:
++- resets	    : phandle + reset specifier pair
++
+ Optional properties:
+ - linux,rc-map-name: see rc.txt file in the same directory.
+-- resets : phandle + reset specifier pair
+ - clock-frequency  : IR Receiver clock frequency, in Hertz. Defaults to 8 MHz
+ 		     if missing.
+ 
 -- 
 2.20.1
 
