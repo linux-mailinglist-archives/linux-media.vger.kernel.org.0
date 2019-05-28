@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADFEE2C2B0
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 11:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B64D02C2B2
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2019 11:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727322AbfE1JH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 05:07:57 -0400
-Received: from shell.v3.sk ([90.176.6.54]:36881 "EHLO shell.v3.sk"
+        id S1726776AbfE1JIE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 May 2019 05:08:04 -0400
+Received: from shell.v3.sk ([90.176.6.54]:36875 "EHLO shell.v3.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726999AbfE1JH5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 05:07:57 -0400
+        id S1726628AbfE1JHz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 May 2019 05:07:55 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id C04F81048A2;
-        Tue, 28 May 2019 11:07:54 +0200 (CEST)
+        by zimbra.v3.sk (Postfix) with ESMTP id 798481048A3;
+        Tue, 28 May 2019 11:07:53 +0200 (CEST)
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id nk24y4G3_50M; Tue, 28 May 2019 11:07:39 +0200 (CEST)
+        with ESMTP id Un6JU6auwMBf; Tue, 28 May 2019 11:07:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id A42F31048AF;
-        Tue, 28 May 2019 11:07:39 +0200 (CEST)
+        by zimbra.v3.sk (Postfix) with ESMTP id D19CD1048A5;
+        Tue, 28 May 2019 11:07:37 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ST7KxHyT1ibE; Tue, 28 May 2019 11:07:35 +0200 (CEST)
+        with ESMTP id 2ZfBnQcYb63e; Tue, 28 May 2019 11:07:35 +0200 (CEST)
 Received: from belphegor.brq.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 47DEE1048A0;
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 7DBCA1048A1;
         Tue, 28 May 2019 11:07:34 +0200 (CEST)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
         Pavel Machek <pavel@ucw.cz>
-Subject: [PATCH v6 2/7] [media] marvell-ccic: drop unused stuff
-Date:   Tue, 28 May 2019 11:07:26 +0200
-Message-Id: <20190528090731.10341-3-lkundrak@v3.sk>
+Subject: [PATCH v6 3/7] [media] marvell-ccic/mmp: enable clock before accessing registers
+Date:   Tue, 28 May 2019 11:07:27 +0200
+Message-Id: <20190528090731.10341-4-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190528090731.10341-1-lkundrak@v3.sk>
 References: <20190528090731.10341-1-lkundrak@v3.sk>
@@ -45,86 +45,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove structure members and headers that are not actually used. Saves
-us from some noise in subsequent cleanup commits.
+The access to REG_CLKCTRL or REG_CTRL1 without the clock enabled hangs
+the machine. Enable the clock first.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 Acked-by: Pavel Machek <pavel@ucw.cz>
 ---
- drivers/media/platform/marvell-ccic/mcam-core.c  | 1 -
- drivers/media/platform/marvell-ccic/mcam-core.h  | 2 --
- drivers/media/platform/marvell-ccic/mmp-driver.c | 2 --
- include/linux/platform_data/media/mmp-camera.h   | 1 -
- 4 files changed, 6 deletions(-)
+ drivers/media/platform/marvell-ccic/mmp-driver.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/me=
-dia/platform/marvell-ccic/mcam-core.c
-index 2494a31de01b..76641d5211ab 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.c
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-@@ -1776,7 +1776,6 @@ int mccic_register(struct mcam_camera *cam)
- 	 */
- 	sensor_cfg.clock_speed =3D cam->clock_speed;
- 	sensor_cfg.use_smbus =3D cam->use_smbus;
--	cam->sensor_addr =3D ov7670_info.addr;
- 	cam->sensor =3D v4l2_i2c_new_subdev_board(&cam->v4l2_dev,
- 			cam->i2c_adapter, &ov7670_info, NULL);
- 	if (cam->sensor =3D=3D NULL) {
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.h b/drivers/me=
-dia/platform/marvell-ccic/mcam-core.h
-index a3a097a45e78..b828b1bb59d3 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.h
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.h
-@@ -112,7 +112,6 @@ struct mcam_camera {
- 	short int use_smbus;	/* SMBUS or straight I2c? */
- 	enum mcam_buffer_mode buffer_mode;
-=20
--	int mclk_min;	/* The minimal value of mclk */
- 	int mclk_src;	/* which clock source the mclk derives from */
- 	int mclk_div;	/* Clock Divider Value for MCLK */
-=20
-@@ -152,7 +151,6 @@ struct mcam_camera {
- 	 */
- 	struct video_device vdev;
- 	struct v4l2_subdev *sensor;
--	unsigned short sensor_addr;
-=20
- 	/* Videobuf2 stuff */
- 	struct vb2_queue vb_queue;
 diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/m=
 edia/platform/marvell-ccic/mmp-driver.c
-index 8d982c4aae0d..a1b1d66e34cd 100644
+index a1b1d66e34cd..352e67fc1062 100644
 --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
 +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
-@@ -12,7 +12,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/i2c.h>
--#include <linux/platform_data/i2c-gpio.h>
- #include <linux/interrupt.h>
- #include <linux/spinlock.h>
- #include <linux/slab.h>
-@@ -332,7 +331,6 @@ static int mmpcam_probe(struct platform_device *pdev)
- 	mcam->calc_dphy =3D mmpcam_calc_dphy;
- 	mcam->dev =3D &pdev->dev;
- 	mcam->use_smbus =3D 0;
--	mcam->mclk_min =3D pdata->mclk_min;
- 	mcam->mclk_src =3D pdata->mclk_src;
- 	mcam->mclk_div =3D pdata->mclk_div;
- 	mcam->bus_type =3D pdata->bus_type;
-diff --git a/include/linux/platform_data/media/mmp-camera.h b/include/lin=
-ux/platform_data/media/mmp-camera.h
-index d2d3a443eedf..4c3a80a45883 100644
---- a/include/linux/platform_data/media/mmp-camera.h
-+++ b/include/linux/platform_data/media/mmp-camera.h
-@@ -16,7 +16,6 @@ struct mmp_camera_platform_data {
- 	int sensor_power_gpio;
- 	int sensor_reset_gpio;
- 	enum v4l2_mbus_type bus_type;
--	int mclk_min;	/* The minimal value of MCLK */
- 	int mclk_src;	/* which clock source the MCLK derives from */
- 	int mclk_div;	/* Clock Divider Value for MCLK */
- 	/*
+@@ -144,6 +144,7 @@ static int mmpcam_power_up(struct mcam_camera *mcam)
+  * Turn on power and clocks to the controller.
+  */
+ 	mmpcam_power_up_ctlr(cam);
++	mcam_clk_enable(mcam);
+ /*
+  * Provide power to the sensor.
+  */
+@@ -157,8 +158,6 @@ static int mmpcam_power_up(struct mcam_camera *mcam)
+ 	gpio_set_value(pdata->sensor_reset_gpio, 1); /* reset is active low */
+ 	mdelay(5);
+=20
+-	mcam_clk_enable(mcam);
+-
+ 	return 0;
+ }
+=20
 --=20
 2.21.0
 
