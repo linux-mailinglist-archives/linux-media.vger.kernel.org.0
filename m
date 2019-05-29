@@ -2,184 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A88B2D44E
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 05:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C432D563
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 08:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbfE2Di0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 May 2019 23:38:26 -0400
-Received: from mail-it1-f194.google.com ([209.85.166.194]:53976 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725828AbfE2Di0 (ORCPT
+        id S1726033AbfE2GLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 02:11:33 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57898 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbfE2GLc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 May 2019 23:38:26 -0400
-Received: by mail-it1-f194.google.com with SMTP id m141so1354437ita.3
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 20:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mIbWrLxXAUE8DdyCUYuINo2mEcBTR51/ocvmSZbFSDw=;
-        b=lcHDc2Op9T8SoWV1TcTU9MzPj1yUXZKCIdo2qqKUeKkLApgMEYjVonwfqLSxyI8jUr
-         dutzBgiBuJt/RUNJqMJHifw/vSAqE9DuDbryE6gSznXK7pHOVR5vgSrMKXYWJPlFOpls
-         VzVfrKJwU1ySbtqwH+I71n0GF+r1wIXnbJxRI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mIbWrLxXAUE8DdyCUYuINo2mEcBTR51/ocvmSZbFSDw=;
-        b=UfW3t+e4VVm2QJqxZNXt0hYk2x/Bxxt//iZnvc6hEI7W8R3foBjdMjjYtgKu5JJoYa
-         +6J/inZNof/ZAkOBnUlnxlmjg0d4UN2EU/m2z3TnOtGN+H8e9WyIdZiupvdler0x4PoQ
-         OLCo+DJhWdvNkBaGMkCpkbBhHUGqbF4l2yruk3Mt/iKG1zTx64MUr76DYMIawWGLocnW
-         PbiS8T0VgLiFmteE2BvcUe7NmhrM5S1N5vxDfjLOjDRrba7CmNnJyPKOdcXUTCUXnSb1
-         xNzGb2RiVlosQRJ6x+nUdJqAH59l3vpPEMKW6Jk0IFUgkHcUb9JpdZieWDhce9x1lIv8
-         /2Ew==
-X-Gm-Message-State: APjAAAVsDTOC8epce/wkQOJOuxttFJ+1WLB4ERu6nUdxrSoPa/FzBxvZ
-        ZehrSEcZcsbMP+S6aJI56/79+RVe0HwkM1gZ
-X-Google-Smtp-Source: APXvYqzOiUrdsXrfxAsA8apN4uQdPmplJ/POUj/OGIvG6D91wc514oJKL8YVdo3OzXl/fKsbDDyWdg==
-X-Received: by 2002:a24:b948:: with SMTP id k8mr5426333iti.29.1559101105136;
-        Tue, 28 May 2019 20:38:25 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
-        by smtp.gmail.com with ESMTPSA id i23sm1809698ioj.24.2019.05.28.20.38.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 May 2019 20:38:24 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id h6so607351ioh.3
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2019 20:38:23 -0700 (PDT)
-X-Received: by 2002:a5e:db02:: with SMTP id q2mr308707iop.306.1559101103189;
- Tue, 28 May 2019 20:38:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190417104511.21514-1-frederic.chen@mediatek.com>
- <20190417104511.21514-7-frederic.chen@mediatek.com> <20190509094846.GA65444@google.com>
- <1558466055.15388.342.camel@mtksdccf07> <20190522102514.GA218991@chromium.org>
- <1558619189.7995.27.camel@mtksdccf07>
-In-Reply-To: <1558619189.7995.27.camel@mtksdccf07>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 29 May 2019 12:38:11 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BbrfhjGbKaUi4p6fJJNOKvkZb4_47gw-W8n5fEmaf5XQ@mail.gmail.com>
-Message-ID: <CAAFQd5BbrfhjGbKaUi4p6fJJNOKvkZb4_47gw-W8n5fEmaf5XQ@mail.gmail.com>
-Subject: Re: [RFC PATCH V1 6/6] platform: mtk-isp: Add Mediatek DIP driver
-To:     Frederic Chen <frederic.chen@mediatek.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Wed, 29 May 2019 02:11:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Ki8wlzJaAXUMUjbjK207hScTMszow2OB9kp3Ebyx2W4=; b=C63n5tH5sy21OVy69pE2Oeedi
+        R/8G/O4R+cqkOb+iay2A6/Ut98QvmOoVxDkFq9W2+7U/LqR+H8f2OYu4N8PPxCiXmTn6+ZCacke9R
+        NiVaBNHylJKbX5saC2PVaMZWgJI/vqUasbLHzdYAaf6JMJZnN5dnuUb+xuFqzNQ1JfxCcFuQJ4xK+
+        6qWDzjNi2j3o36d3TPB8w5XNqN0HcN+Qs09ffRNSsIKDnPfv3T/Ev6qXrq/Wr6gPHomkX4l/KvNpH
+        N2TnBmCl3vuVelWduaIB1cfkd9FE3VcX3LaRbJyskNDE+jHFkxAKB3R4p6SImibWTKLIlWDTUm7UG
+        kjPLjC7pg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hVro6-0006Yh-Is; Wed, 29 May 2019 06:11:26 +0000
+Date:   Tue, 28 May 2019 23:11:26 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        yuzhao@chromium.org, zwisler@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?SG9sbWVzIENoaW91ICjpgrHmjLop?= 
-        <holmes.chiou@mediatek.com>,
-        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        devicetree@vger.kernel.org, Shik Chen <shik@chromium.org>,
-        suleiman@chromium.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Elliott Hughes <enh@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>
+Subject: Re: [PATCH v15 00/17] arm64: untag user pointers passed to the kernel
+Message-ID: <20190529061126.GA18124@infradead.org>
+References: <20190517144931.GA56186@arrakis.emea.arm.com>
+ <CAFKCwrj6JEtp4BzhqO178LFJepmepoMx=G+YdC8sqZ3bcBp3EQ@mail.gmail.com>
+ <20190521182932.sm4vxweuwo5ermyd@mbp>
+ <201905211633.6C0BF0C2@keescook>
+ <6049844a-65f5-f513-5b58-7141588fef2b@oracle.com>
+ <20190523201105.oifkksus4rzcwqt4@mbp>
+ <ffe58af3-7c70-d559-69f6-1f6ebcb0fec6@oracle.com>
+ <20190524101139.36yre4af22bkvatx@mbp>
+ <c6dd53d8-142b-3d8d-6a40-d21c5ee9d272@oracle.com>
+ <CAAeHK+yAUsZWhp6xPAbWewX5Nbw+-G3svUyPmhXu5MVeEDKYvA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+yAUsZWhp6xPAbWewX5Nbw+-G3svUyPmhXu5MVeEDKYvA@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 23, 2019 at 10:46 PM Frederic Chen
-<frederic.chen@mediatek.com> wrote:
->
-> Dear Tomasz,
->
-> Thank you for your comments.
->
->
-> On Wed, 2019-05-22 at 19:25 +0900, Tomasz Figa wrote:
-> > Hi Frederic,
-> >
-> > On Wed, May 22, 2019 at 03:14:15AM +0800, Frederic Chen wrote:
-> > > Dear Tomasz,
-> > >
-> > > I appreciate your comment. It is very helpful for us.
-> > >
-> >
-> > You're welcome. Thanks for replying to all the comments. I'll skip those
-> > resolved in my reply to keep the message shorter.
-> >
-> > >
-> > > On Thu, 2019-05-09 at 18:48 +0900, Tomasz Figa wrote:
-> > > > Hi Frederic,
-> > > >
-> > > > On Wed, Apr 17, 2019 at 7:45 PM Frederic Chen <frederic.chen@mediatek.com> wrote:
-[snip]
-> > > > Also a general note - a work can be queued only once. This means that
-> > > > current code races when two dip_works are attempted to be queued very
-> > > > quickly one after another (or even at the same time from different threads).
-> > > >
-> > > > I can think of two potential options for fixing this:
-> > > >
-> > > > 1) Loop in the work function until there is nothing to queue to the hardware
-> > > >    anymore - but this needs tricky synchronization, because there is still
-> > > >    short time at the end of the work function when a new dip_work could be
-> > > >    added.
-> > > >
-> > > > 2) Change this to a kthread that just keeps running in a loop waiting for
-> > > >    some available dip_work to show up and then sending it to the firmware.
-> > > >    This should be simpler, as the kthread shouldn't have a chance to miss
-> > > >    any dip_work queued.
-> > > >
-> > > > I'm personally in favor of option 2, as it should simplify the
-> > > > synchronization.
-> > > >
-> > >
-> > > I would like to re-design this part with a kthread in the next patch.
-> >
-> > Actually I missed another option. We could have 1 work_struct for 1
-> > request and then we could keep using a workqueue. Perhaps that could be
-> > simpler than a kthread.
-> >
-> > Actually, similar approach could be used for the dip_runner_func.
-> > Instead of having a kthread looping, we could just have another
-> > workqueue and 1 dip_runner_work per 1 request. Then we wouldn't need to
-> > do the waiting loop ourselves anymore.
-> >
-> > Does it make sense?
->
-> Yes, it make sense. Let me summarize the modification about the flow.
->
-> First, we will have two work_struct in mtk_dip_request.
->
-> struct mtk_dip_request {
->         struct media_request request;
->         //...
->         /* Prepare DIP part hardware configurtion */
->         struct mtk_dip_hw_submit_work submit_work;
->         /* Replace dip_running thread jobs*/
->         struct mtk_dip_hw_composing_work composing_work;
->         /* Only for composing error handling */
->         struct mtk_dip_hw_mdpcb_timeout_work timeout_work;
-> };
->
-> Second, the overall flow of handling each request is :
->
-> 1. mtk_dip_hw_enqueue calls queue_work() to put submit_work into its
->    workqueue
-> 2. submit_work sends IMG_IPI_FRAME command to SCP to prepare DIP
->    hardware configuration
-> 3. dip_scp_handler receives the IMG_IPI_FRAME result from SCP
-> 4. dip_scp_handler calls queue_work() to put composing_work (instead
->    of original dip_running thread jobs) into its workqueue
-> 5. composing_work calls dip_mdp_cmdq_send() to finish the mdp part tasks
-> 6. dip_mdp_cb_func() trigged by MDP driver calls vb2_buffer_done to
->    return the buffer (no workqueue required here)
->
+On Tue, May 28, 2019 at 04:14:45PM +0200, Andrey Konovalov wrote:
+> Thanks for a lot of valuable input! I've read through all the replies
+> and got somewhat lost. What are the changes I need to do to this
+> series?
+> 
+> 1. Should I move untagging for memory syscalls back to the generic
+> code so other arches would make use of it as well, or should I keep
+> the arm64 specific memory syscalls wrappers and address the comments
+> on that patch?
 
-Sounds good to me, but actually then simply making the workqueues
-freezable doesn't solve the suspend/resume problem, because the work
-functions wouldn't wait for the firmware/hardware completion anymore.
-That's also okay, but in this case we need to add some code to suspend
-to wait for any pending operations to complete.
+It absolutely needs to move to common code.  Having arch code leads
+to pointless (often unintentional) semantic difference between
+architectures, and lots of boilerplate code.
 
-Best regards,
-Tomasz
+Btw, can anyone of the arm crowd or Khalid comment on the linux-mm
+thread on generic gup where I'm dealing with the pre-existing ADI
+case of pointer untagging?
