@@ -2,85 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF212D96C
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 11:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96DE22D999
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 11:54:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfE2JtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 05:49:08 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48033 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725861AbfE2JtI (ORCPT
+        id S1726643AbfE2Jyh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 05:54:37 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:52543 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725990AbfE2Jyd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 05:49:08 -0400
-Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VvCjh5LNL3qlsVvCkhsjEz; Wed, 29 May 2019 11:49:06 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] Various fixes
-Message-ID: <40e92b58-c725-f854-50b4-9b9bd7cbb450@xs4all.nl>
-Date:   Wed, 29 May 2019 11:49:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 29 May 2019 05:54:33 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hVvHz-0002DF-1N; Wed, 29 May 2019 11:54:31 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH v2 0/9] Rename Rockchip VPU driver to Hantro, add initial i.MX8M support
+Date:   Wed, 29 May 2019 11:54:15 +0200
+Message-Id: <20190529095424.23614-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBHzG6kWYkDSzEYPh1B85UX74r5UuebLx4Gn9vW3L+JreBJSOmCputAvesZ8PjJTnpVB47JHAutQV30KHUegjkFUlWM/6A9jAi2F1HvlX9dGPC0E8W5Y
- x/KChSr5bWN3nSaFUdDtI5opR85cn7GWRYUPrItthuk84zMMaFFbYKuWhTlMrG0FcMxuq7JqMlU0J71I0oU4jJDv7GlUTFWS4uMuRxFMF98KYGRNT7GhYH1j
- jMG0LuTEXYIHT1bW/vqsqDqPx2V/JkaT0kHMjdkifgU=
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Note: this includes two regressions for 5.3:
+There are several other SoCs that contain Hantro IP based VPUs, such as
+NXP i.MX8MQ (Hantro G1 and G2) and i.MX8MM (Hantro G1, G2, and H1). To
+maximize code sharing, add initial support for these SoCs to the
+Rockchip VPU driver, after renaming it to Hantro VPU.
 
-      mc-device.c: don't memset __user pointer contents
-      cec-adap: fix regression in ping sanity check
+This series is based on the br-v5.3g tag, commit e568d2cc1ef6
+("rockchip/vpu: Add support for MPEG-2 decoding on RK3288") with
+https://patchwork.linuxtv.org/patch/56402/ ("rockchip/vpu: Add support
+for MPEG-2 decoding on RK3328") applied on top. It supports MPEG-2
+decoding on i.MX8MQ. MPEG-2 decoding and JPEG encoding on i.MX8MM may
+or may not work, I don't have the hardware to test.
 
-Regards,
+Changes since v1:
+ - Rebased onto "[PATCH v6] Add MPEG-2 decoding to Rockchip VPU" series,
+   dropped deprecated patch [1].
 
-	Hans
+[1] https://patchwork.linuxtv.org/patch/56278/
 
-The following changes since commit 39cb46751e2fbb72e0698f80e339db1fd4e1f50e:
+regards
+Philipp
 
-  media: imx7-media-csi: Change imx7_csi_enable() to void (2019-05-28 14:20:12 -0400)
+Philipp Zabel (9):
+  rockchip/vpu: rename from rockchip to hantro
+  media: hantro: print video device name in addition to device node
+  media: hantro: add PM runtime resume callback
+  media: hantro: make irq names configurable
+  media: hantro: add support for named register ranges
+  media: hantro: add support for separate control block
+  media: dt-bindings: Document i.MX8MQ and i.MX8MM VPU bindings
+  media: hantro: add initial i.MX8MQ support
+  media: hantro: add initial i.MX8MM support (untested)
 
-are available in the Git repository at:
+ .../devicetree/bindings/media/imx8m-vpu.txt   |  56 +++
+ MAINTAINERS                                   |   4 +-
+ drivers/staging/media/Kconfig                 |   2 +-
+ drivers/staging/media/Makefile                |   2 +-
+ drivers/staging/media/hantro/Kconfig          |  15 +
+ drivers/staging/media/hantro/Makefile         |  14 +
+ .../media/{rockchip/vpu => hantro}/TODO       |   0
+ .../vpu/rockchip_vpu.h => hantro/hantro.h}    | 158 +++++----
+ .../hantro_drv.c}                             | 325 +++++++++---------
+ .../hantro_g1_mpeg2_dec.c}                    |  55 ++-
+ .../hantro_h1_jpeg_enc.c}                     |  44 +--
+ drivers/staging/media/hantro/hantro_hw.h      | 104 ++++++
+ .../hantro_jpeg.c}                            |  18 +-
+ drivers/staging/media/hantro/hantro_jpeg.h    |  13 +
+ .../hantro_mpeg2.c}                           |  14 +-
+ .../hantro_v4l2.c}                            | 234 ++++++-------
+ .../hantro_v4l2.h}                            |  16 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 301 ++++++++++++++++
+ .../{rockchip/vpu => hantro}/rk3288_vpu_hw.c  |  69 ++--
+ .../vpu => hantro}/rk3288_vpu_regs.h          |   2 +-
+ .../{rockchip/vpu => hantro}/rk3399_vpu_hw.c  |  73 ++--
+ .../vpu => hantro}/rk3399_vpu_hw_jpeg_enc.c   |  32 +-
+ .../vpu => hantro}/rk3399_vpu_hw_mpeg2_dec.c  |  37 +-
+ .../vpu => hantro}/rk3399_vpu_regs.h          |   2 +-
+ drivers/staging/media/rockchip/vpu/Kconfig    |  14 -
+ drivers/staging/media/rockchip/vpu/Makefile   |  14 -
+ .../media/rockchip/vpu/rockchip_vpu_hw.h      | 103 ------
+ .../media/rockchip/vpu/rockchip_vpu_jpeg.h    |  14 -
+ 28 files changed, 1057 insertions(+), 678 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/imx8m-vpu.txt
+ create mode 100644 drivers/staging/media/hantro/Kconfig
+ create mode 100644 drivers/staging/media/hantro/Makefile
+ rename drivers/staging/media/{rockchip/vpu => hantro}/TODO (100%)
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu.h => hantro/hantro.h} (66%)
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu_drv.c => hantro/hantro_drv.c} (70%)
+ rename drivers/staging/media/{rockchip/vpu/rk3288_vpu_hw_mpeg2_dec.c => hantro/hantro_g1_mpeg2_dec.c} (87%)
+ rename drivers/staging/media/{rockchip/vpu/rk3288_vpu_hw_jpeg_enc.c => hantro/hantro_h1_jpeg_enc.c} (76%)
+ create mode 100644 drivers/staging/media/hantro/hantro_hw.h
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu_jpeg.c => hantro/hantro_jpeg.c} (95%)
+ create mode 100644 drivers/staging/media/hantro/hantro_jpeg.h
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu_mpeg2.c => hantro/hantro_mpeg2.c} (79%)
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu_v4l2.c => hantro/hantro_v4l2.c} (69%)
+ rename drivers/staging/media/{rockchip/vpu/rockchip_vpu_v4l2.h => hantro/hantro_v4l2.h} (53%)
+ create mode 100644 drivers/staging/media/hantro/imx8m_vpu_hw.c
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3288_vpu_hw.c (66%)
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3288_vpu_regs.h (99%)
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3399_vpu_hw.c (67%)
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3399_vpu_hw_jpeg_enc.c (86%)
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3399_vpu_hw_mpeg2_dec.c (92%)
+ rename drivers/staging/media/{rockchip/vpu => hantro}/rk3399_vpu_regs.h (99%)
+ delete mode 100644 drivers/staging/media/rockchip/vpu/Kconfig
+ delete mode 100644 drivers/staging/media/rockchip/vpu/Makefile
+ delete mode 100644 drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+ delete mode 100644 drivers/staging/media/rockchip/vpu/rockchip_vpu_jpeg.h
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3h
+-- 
+2.20.1
 
-for you to fetch changes up to 6d40d995f877ef1cec20bec1135207f0dfac4c5a:
-
-  cec-adap: fix regression in ping sanity check (2019-05-29 11:41:05 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (4):
-      videobuf2-vmalloc: get_userptr: buffers are always writable
-      media-ioc-enum-links.rst: fix incorrect reserved field documentation
-      mc-device.c: don't memset __user pointer contents
-      cec-adap: fix regression in ping sanity check
-
-Kefeng Wang (1):
-      media: saa7164: fix remove_proc_entry warning
-
-Wen Yang (2):
-      media: mtk-vpu: fix leaked of_node references
-      media: mtk-vcodec: fix leaked of_node references
-
- Documentation/media/uapi/mediactl/media-ioc-enum-links.rst |  7 ++++++-
- drivers/media/cec/cec-adap.c                               |  2 +-
- drivers/media/common/videobuf2/videobuf2-dma-contig.c      |  3 +--
- drivers/media/common/videobuf2/videobuf2-dma-sg.c          |  3 +--
- drivers/media/common/videobuf2/videobuf2-memops.c          |  9 ++-------
- drivers/media/common/videobuf2/videobuf2-vmalloc.c         |  3 +--
- drivers/media/mc/mc-device.c                               |  5 +++--
- drivers/media/pci/saa7164/saa7164-core.c                   | 33 ++++++++++++++++++++++-----------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c      |  2 +-
- drivers/media/platform/mtk-vpu/mtk_vpu.c                   |  2 +-
- include/media/videobuf2-memops.h                           |  3 +--
- 11 files changed, 40 insertions(+), 32 deletions(-)
