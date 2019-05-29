@@ -2,120 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D62F32DDC0
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2514B2DDFF
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbfE2NJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 09:09:00 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33725 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726881AbfE2NJA (ORCPT
+        id S1727054AbfE2NUz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 09:20:55 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:60973 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726029AbfE2NUz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 09:09:00 -0400
-Received: by mail-pf1-f194.google.com with SMTP id z28so1620467pfk.0;
-        Wed, 29 May 2019 06:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=aGFU8dFMfcB3DwQNIKfjc5/Xy1Xwp0lFwoOF2AErJSc=;
-        b=sKIs11XB8c/C6qoFJNojhUQw+hyCuNdTTvO07PAX2kPQFJkx/d0TXtapL/2maxdMSo
-         Jbq81BDYzSWW2xI8f9OM/OnpL6GyPgVJW9BHhEYGj/rY/rOp2iAknd2YSplEOzLm5pjF
-         PmG7/fRfXcfzfdI3o1Agr/pw65uYt/ELwJwJe+1bkoaJAuljgTumaV5QGnW//k4LlpQN
-         Mquj2YP+nJU17HiYO3ytJ0EPnmyd6k3rtiB5owzESpS0pb1aDPfXIyvbW92sU/ycDQP8
-         oVVLMWxAbwIDB+6TRUSrieFDJbC0gmIMt7derFe3K5Hz7k6sveeqgDZTsLz9CV4Lyoad
-         e46w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=aGFU8dFMfcB3DwQNIKfjc5/Xy1Xwp0lFwoOF2AErJSc=;
-        b=sEZgHPctGzIMYd0uD7tVH+Dg7UKXtz5TcqkdNsblGGt0aoG4WtJn7CKWEuZGYSfGYx
-         o8WNGkiSYCUukrPoWPwNIolMh4/reKbRqMfzgMEPpzczW/IdW4wpoR94WjK+Y/YIxAVa
-         UowRCREw9x/DlTErgdZKn2li5BGZKR/7FqVlHRIfOT3gp/KmdtzykB+mONjzyhMUGJ8C
-         dWggIFA9/FXuCGoypSMlviApL7OQumbVuKpEx+kZvPziAU61u2rgaFgkPwOQPfblR67x
-         DSKF+QShelbYhglA7cIc1aQIVDKXB1eY/Ae/U8me9celP7VlNB8/6x/pPxmQNcANVnz/
-         MOVg==
-X-Gm-Message-State: APjAAAVOYNkZbm4d9Db2SQl4NED+06MMhbH0+ipIi3Y1gFcGJIT0oLCG
-        m5H4mOxOs6XMdsmyGOAiBEU=
-X-Google-Smtp-Source: APXvYqynG2BOmMG9lRLHoLq9aoHvztBMjsBGyG1PwYgghnMUvTj9EtyxiMqXhNv9gKEldLR3g83AgQ==
-X-Received: by 2002:a63:144e:: with SMTP id 14mr120856311pgu.304.1559135339595;
-        Wed, 29 May 2019 06:08:59 -0700 (PDT)
-Received: from xy-data.openstacklocal (ecs-159-138-22-150.compute.hwclouds-dns.com. [159.138.22.150])
-        by smtp.gmail.com with ESMTPSA id k19sm1753273pfa.94.2019.05.29.06.08.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 29 May 2019 06:08:59 -0700 (PDT)
-From:   Young Xiao <92siuyang@gmail.com>
-To:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Young Xiao <92siuyang@gmail.com>
-Subject: [PATCH] media: davinci: vpif_capture: fix memory leak in vpif_probe()
-Date:   Wed, 29 May 2019 21:09:59 +0800
-Message-Id: <1559135399-28998-1-git-send-email-92siuyang@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 29 May 2019 09:20:55 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hVyVh-0003eY-JP; Wed, 29 May 2019 15:20:53 +0200
+Message-ID: <1559136052.3651.9.camel@pengutronix.de>
+Subject: Re: [PATCH v2 5/9] media: hantro: add support for named register
+ ranges
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Date:   Wed, 29 May 2019 15:20:52 +0200
+In-Reply-To: <20190529134645.65f8feb4@collabora.com>
+References: <20190529095424.23614-1-p.zabel@pengutronix.de>
+         <20190529095424.23614-6-p.zabel@pengutronix.de>
+         <20190529134645.65f8feb4@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vpif_probe() fails on vpif_probe_complete(), then memory
-allocated at initialize_vpif() for global vpif_obj.dev[i]
-become unreleased.
+Hi Boris,
 
-The patch adds deallocation of vpif_obj.dev[i] on the error path.
+thank you for the review.
 
-Signed-off-by: Young Xiao <92siuyang@gmail.com>
----
- drivers/media/platform/davinci/vpif_capture.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+On Wed, 2019-05-29 at 13:46 +0200, Boris Brezillon wrote:
+> On Wed, 29 May 2019 11:54:20 +0200
+> Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> 
+> > Add support for multiple register ranges with SoC specific names.
+> > 
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> >  drivers/staging/media/hantro/hantro.h     |  7 ++++++-
+> >  drivers/staging/media/hantro/hantro_drv.c | 25 +++++++++++++++++------
+> >  2 files changed, 25 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> > index 6b90fe48bcdf..b796867808d5 100644
+> > --- a/drivers/staging/media/hantro/hantro.h
+> > +++ b/drivers/staging/media/hantro/hantro.h
+> > @@ -27,6 +27,7 @@
+> >  
+> >  #define HANTRO_MAX_CLOCKS		4
+> >  #define HANTRO_MAX_IRQS			3
+> > +#define HANTRO_MAX_REG_RANGES		4
+> >  
+> >  #define MPEG2_MB_DIM			16
+> >  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
+> > @@ -63,6 +64,8 @@ struct hantro_codec_ops;
+> >   * @num_irqs:			number of irqs in the arrays
+> >   * @clk_names:			array of clock names
+> >   * @num_clocks:			number of clocks in the array
+> > + * @reg_names:			array of register range names
+> > + * @num_regs:			number of register range names in the array
+> >   */
+> >  struct hantro_variant {
+> >  	unsigned int enc_offset;
+> > @@ -80,6 +83,8 @@ struct hantro_variant {
+> >  	int num_irqs;
+> >  	const char *clk_names[HANTRO_MAX_CLOCKS];
+> >  	int num_clocks;
+> > +	const char *reg_names[HANTRO_MAX_REG_RANGES];
+> > +	int num_regs;
 
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index b5aacb0..63e6ec4 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1621,6 +1621,14 @@ vpif_capture_get_pdata(struct platform_device *pdev)
- 	return NULL;
- }
- 
-+static void free_vpif_objs(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < VPIF_DISPLAY_MAX_DEVICES; i++)
-+		kfree(vpif_obj.dev[i]);
-+}
-+
- /**
-  * vpif_probe : This function probes the vpif capture driver
-  * @pdev: platform device pointer
-@@ -1701,7 +1709,10 @@ static __init int vpif_probe(struct platform_device *pdev)
- 				  "registered sub device %s\n",
- 				   subdevdata->name);
- 		}
--		vpif_probe_complete();
-+		err = vpif_probe_complete();
-+		if (err) {
-+			goto probe_subdev_out;
-+		}
- 	} else {
- 		vpif_obj.notifier.ops = &vpif_async_ops;
- 		err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
-@@ -1722,6 +1733,7 @@ static __init int vpif_probe(struct platform_device *pdev)
- 	v4l2_device_unregister(&vpif_obj.v4l2_dev);
- cleanup:
- 	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
-+	free_vpif_objs();
- 
- 	return err;
- }
-@@ -1748,8 +1760,8 @@ static int vpif_remove(struct platform_device *device)
- 		ch = vpif_obj.dev[i];
- 		/* Unregister video device */
- 		video_unregister_device(&ch->video_dev);
--		kfree(vpif_obj.dev[i]);
- 	}
-+	free_vpif_objs()
- 	return 0;
- }
- 
--- 
-2.7.4
+Do you suggest
+	const char * const *reg_names;
+...
 
+> >  };
+> >  
+> >  /**
+> > @@ -170,7 +175,7 @@ struct hantro_dev {
+> >  	struct platform_device *pdev;
+> >  	struct device *dev;
+> >  	struct clk_bulk_data clocks[HANTRO_MAX_CLOCKS];
+> > -	void __iomem *base;
+> > +	void __iomem *base[HANTRO_MAX_REG_RANGES];
+> 
+> Same comment as for the irq stuff.
+
+... and
+	void __iomem **base;
+to get rid of HANTRO_MAX_REG_RANGES?
+
+Would you like to see the same for clk_names?
+
+> >  	void __iomem *enc_base;
+> >  	void __iomem *dec_base;
+> >  
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> > index f677b40bcd2d..bd02b27258e3 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -692,12 +692,25 @@ static int hantro_probe(struct platform_device *pdev)
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
+> > -	vpu->base = devm_ioremap_resource(vpu->dev, res);
+> > -	if (IS_ERR(vpu->base))
+> > -		return PTR_ERR(vpu->base);
+> > -	vpu->enc_base = vpu->base + vpu->variant->enc_offset;
+> > -	vpu->dec_base = vpu->base + vpu->variant->dec_offset;
+> > +	if (vpu->variant->num_regs) {
+> > +		for (i = 0; i < vpu->variant->num_regs; i++) {
+> > +			const char *reg_name = vpu->variant->reg_names[i];
+> > +
+> > +			res = platform_get_resource_byname(vpu->pdev,
+> > +							   IORESOURCE_MEM,
+> > +							   reg_name);
+> > +			vpu->base[i] = devm_ioremap_resource(vpu->dev, res);
+> > +			if (IS_ERR(vpu->base[i]))
+> > +				return PTR_ERR(vpu->base[i]);
+> > +		}
+> > +	} else {
+> > +		res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
+> > +		vpu->base[0] = devm_ioremap_resource(vpu->dev, res);
+> > +		if (IS_ERR(vpu->base[0]))
+> > +			return PTR_ERR(vpu->base[0]);
+> > +		vpu->enc_base = vpu->base[0] + vpu->variant->enc_offset;
+> > +		vpu->dec_base = vpu->base[0] + vpu->variant->dec_offset;
+> 
+> I see ->dec_based is assigned in ->hw_init() in patch 8, so maybe it's
+> better to have the same workflow for rk variants: assign
+> vpu->{dec,enc}_base in ->hw_init() 
+
+I didn't want to change this around too much, as dec_base is just needed
+for the vdpu_read/write functions, and I expect we'll have to somehow
+replace these anyway when adding G2 support.
+Adding yet another set of register accessors for g1_read/write vs
+g2_read/write isn't very convenient. Maybe it woudl be better to call
+the register accessors with the base as a parameter instead of
+hantro_dev.
+
+Also the kerneldoc comment says .init() should "initialize hardware".
+Should that be changed to "variant specific initialization" if the
+enc/dec_base are set there?
+
+> and set ->num_regs to 1 (plus a
+> fallback to platform_get_resource() instead of
+> platform_get_resource_byname() when ->reg_names[0] == NULL).
+
+I suppose we could do that, but
+
+	static const char * const rk3288_regs[] = {
+		NULL
+	}
+
+	const struct hantro_variant rk3288_vpu_variant = {
+		.reg_n
+ames = rk3288_regs,
+		.num_regs = ARRAY_SIZE(rk3288_regs)
+	};
+
+would look a bit strange if we were to get rid of
+HANTRO_MAX_REG_RANGES...
+
+regards
+Philipp
