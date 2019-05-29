@@ -2,140 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87B2E2D850
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 10:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAD652D866
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 11:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbfE2I4y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 04:56:54 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:38349 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725948AbfE2I4x (ORCPT
+        id S1726057AbfE2JAW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 05:00:22 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36697 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725957AbfE2JAV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 04:56:53 -0400
+        Wed, 29 May 2019 05:00:21 -0400
 Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id VuO8h4USX3qlsVuO9hsPNJ; Wed, 29 May 2019 10:56:51 +0200
-Subject: Re: [PATCH 4/4] media: xilinx: fix leaked of_node references
-To:     Wen Yang <wen.yang99@zte.com.cn>, linux-kernel@vger.kernel.org
-Cc:     wang.yi59@zte.com.cn, Patrice Chotard <patrice.chotard@st.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <1557126318-21487-1-git-send-email-wen.yang99@zte.com.cn>
- <1557126318-21487-5-git-send-email-wen.yang99@zte.com.cn>
+        id VuRWh4YLD3qlsVuRXhsQmm; Wed, 29 May 2019 11:00:19 +0200
+Subject: Re: [PATCH v6 16/16] rockchip/vpu: Add support for MPEG-2 decoding on
+ RK3328
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     "kernel@collabora.com" <kernel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+References: <20190528170232.2091-1-ezequiel@collabora.com>
+ <20190528170232.2091-17-ezequiel@collabora.com>
+ <2ef056a2-e9dc-52b1-855b-2bef759af9b6@xs4all.nl>
+ <VI1PR03MB42066B8C9F364ACF7CFFF241AC1F0@VI1PR03MB4206.eurprd03.prod.outlook.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e557b5a7-524b-56e0-0642-7f9c04c136f9@xs4all.nl>
-Date:   Wed, 29 May 2019 10:56:48 +0200
+Message-ID: <e5e06b74-95b6-fcfb-dd75-b9c5b5e5278b@xs4all.nl>
+Date:   Wed, 29 May 2019 11:00:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1557126318-21487-5-git-send-email-wen.yang99@zte.com.cn>
+In-Reply-To: <VI1PR03MB42066B8C9F364ACF7CFFF241AC1F0@VI1PR03MB4206.eurprd03.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCNcQwo2tuDr/le+vUGvfG5jmsmcDf9YkYYz99PHycHPmKjCwQlYKvxglDv57a3asuiBY5gKxAEKqAKjFc3lu2ZDtAslmARGu7eN1mc1tICkwrBtrRHf
- jETldO7ENIaH2fYtCZa/jD7AxE9q1CAbUGMt1a8I5v5wFd7bSIxyT7b/3sKSZp7oJMDyr6CUNt6HoGn2YWiU5+GcUsoXjpM8Pc+shfRL1wxAx3m4MqOPgmB8
- nsusfRls9FAQ0N3gedQv9uF1D0i7yN02Xg0g5gDG4nGL2N7GiZ2FQPIaW+ie4kwQ/Gj2ZsAegb4rK8gMy8dhNhKhysa5bTmT2uKO+ReHJJ2w5he2Csd/Vl4p
- l8l28GeEUPq0xeflpZ2iE0cHY81U0zQfutkAM7pGNxk5AEGrsR0y6xpoXw9981qK4kklNbnqvb3aVKIdYUCwmTCofERU0yrjY4lk25P+4JpgzTEZHdnaMuH4
- nl6AbgRZYZoa66bsIu3U2qHzj2GHmXFvoJIW23v+ACJSAD8d9g403vBZc/tvdYSdn2OFqot0GZg0YegL02ignZKzTGObZ3Je5nqDEh9PuWlx4KeGDDwKdwqI
- zVaalO86OUNbdiaWzg8SWOK9
+X-CMAE-Envelope: MS4wfHWDkFCXUX/1g0+x44NJ1VtDSBod6t4DT7r0ZAg7QLWVK0QNwwxW/6sYtoPRlSqCAiHRpmFwB+ZVI74//qu9txwodFI5BGRs2Baa/N1/OfyCTQcuSWQk
+ bDg8W1snC9iFalW4xdyV4xFrB+obyWLOUQf9J6cLTgKetwOa/JAFIgbSq+I9NkrF3qL3S8tQfZAGbuHwG3SawXYQIY2J1Sm3btXePd1MDwC9YBoIqbzayEnJ
+ n3UCZlvpooslaMrFPiF8jUZJPc7qNHZZwMwFrMgpr6P7EOThhkL7zroReWe6CJP+UQumn1hfl+903XOEOlrgK9leUnlinUMYUOqXIDVLKb8p21Eo8p7oTCBx
+ wZxlRPKvqBf89UmmDpUSE5CILGdRTSQ+lMwg2kyWzSS6w1/VLs02IZbTpNFg+n1uyNmnCu6BuRaffqcwGEBObsSdVohwcGVZK35FF4Y41AAlXa+NsgPkiWS2
+ K1lzYxFfW25jKAloo2inlPiK9QCFlj0QHCevakrw9WUEekuPB2MSCq8Hl3OgrqEz5xe83Kkg1tO1dQJbQ59Gg1IKCsMCadvIjH11guKMCRpv/88B3kFs9CjQ
+ 79x3B0uFKy43vUl2zODv/oryS+1u3PxTM4CvhHrYj0KzOg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/6/19 9:05 AM, Wen Yang wrote:
-> The call to of_get_child_by_name returns a node pointer with refcount
-> incremented thus it must be explicitly decremented after the last
-> usage.
+On 5/29/19 10:50 AM, Jonas Karlman wrote:
+> On 2019-05-29 10:11, Hans Verkuil wrote:
+>> On 5/28/19 7:02 PM, Ezequiel Garcia wrote:
+>>> From: Jonas Karlman <jonas@kwiboo.se>
+>>>
+>>> Add necessary bits to support MPEG2 decoding on RK3328.
+>>>
+>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>>> --
+>>> Changes from v5:
+>>> * New patch.
+>>>
+>>>  drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c   | 12 ++++++++++++
+>>>  .../staging/media/rockchip/vpu/rockchip_vpu_drv.c    |  1 +
+>>>  drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h |  1 +
+>>>  3 files changed, 14 insertions(+)
+>>>
+>>> diff --git a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+>>> index 2b3689968ef4..341f8d69c33d 100644
+>>> --- a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+>>> +++ b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+>>> @@ -175,3 +175,15 @@ const struct rockchip_vpu_variant rk3399_vpu_variant = {
+>>>  	.clk_names = {"aclk", "hclk"},
+>>>  	.num_clocks = 2
+>>>  };
+>>> +
+>>> +const struct rockchip_vpu_variant rk3328_vpu_variant = {
+>>> +	.dec_offset = 0x400,
+>>> +	.dec_fmts = rk3399_vpu_dec_fmts,
+>>> +	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+>>> +	.codec = RK_VPU_MPEG2_DECODER,
+>>> +	.codec_ops = rk3399_vpu_codec_ops,
+>>> +	.vdpu_irq = rk3399_vdpu_irq,
+>>> +	.init = rk3399_vpu_hw_init,
+>>> +	.clk_names = {"aclk", "hclk"},
+>>> +	.num_clocks = 2
+>>> +};
+>>> diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+>>> index b94ff97451db..2e22009b6583 100644
+>>> --- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+>>> +++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+>>> @@ -419,6 +419,7 @@ static const struct v4l2_file_operations rockchip_vpu_fops = {
+>>>  
+>>>  static const struct of_device_id of_rockchip_vpu_match[] = {
+>>>  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>>> +	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+>> This new compatible string should be documented in
+>> Documentation/devicetree/bindings/media/rockchip-vpu.txt as well.
+>>
+>> I'll take patches 1-15 and drop this one. This patch can be merged once
+>> the bindings file is updated as well.
 > 
-> Detected by coccinelle with the following warnings:
-> drivers/media/platform/xilinx/xilinx-vipp.c:487:3-9: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 477, but without a corresponding object release within this function.
-> drivers/media/platform/xilinx/xilinx-vipp.c:491:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 477, but without a corresponding object release within this function.
+> Looks like the bindings patch did not get picked for v6 :-)
 > 
-> Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
-> Cc: Patrice Chotard <patrice.chotard@st.com>
-> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  drivers/media/platform/exynos4-is/fimc-is.c   | 1 +
->  drivers/media/platform/exynos4-is/media-dev.c | 1 +
+> I am a bit unclear on how to handle patch submission that covers multiple subtrees.
+> Should I send a single series including three patches: bindings update, this patch and device tree update?
+> Or is a series with only bindings update and this patch preferred?
 
-Huh? This patch changes exynos4 as well, not just xilinx.
+In this case just post a patch updating rockchip-vpu.txt, CC-ing devicetree@vger.kernel.org and
+Rob Herring <robh+dt@kernel.org>.
 
-Please split this up into two patches, one for each driver.
-
->  drivers/media/platform/xilinx/xilinx-vipp.c   | 8 +++++---
->  3 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
-> index 02da0b0..25df4c6 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-is.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-is.c
-> @@ -809,6 +809,7 @@ static int fimc_is_probe(struct platform_device *pdev)
->  		return -ENODEV;
->  
->  	is->pmu_regs = of_iomap(node, 0);
-> +	of_node_put(node);
->  	if (!is->pmu_regs)
->  		return -ENOMEM;
->  
-> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-> index 463f2d8..a31dacf 100644
-> --- a/drivers/media/platform/exynos4-is/media-dev.c
-> +++ b/drivers/media/platform/exynos4-is/media-dev.c
-> @@ -450,6 +450,7 @@ static int fimc_md_parse_port_node(struct fimc_md *fmd,
->  	else
->  		pd->fimc_bus_type = pd->sensor_bus_type;
->  
-> +	of_node_put(np);
->  	if (WARN_ON(index >= ARRAY_SIZE(fmd->sensor))) {
->  		of_node_put(rem);
->  		return -EINVAL;
-> diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-> index edce040..307717c 100644
-> --- a/drivers/media/platform/xilinx/xilinx-vipp.c
-> +++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-> @@ -472,7 +472,7 @@ static int xvip_graph_dma_init(struct xvip_composite_device *xdev)
->  {
->  	struct device_node *ports;
->  	struct device_node *port;
-> -	int ret;
-> +	int ret = 0;
->  
->  	ports = of_get_child_by_name(xdev->dev->of_node, "ports");
->  	if (ports == NULL) {
-> @@ -484,11 +484,13 @@ static int xvip_graph_dma_init(struct xvip_composite_device *xdev)
->  		ret = xvip_graph_dma_init_one(xdev, port);
->  		if (ret < 0) {
->  			of_node_put(port);
-> -			return ret;
-> +			goto out_put_node;
-
-Just do a break here,
-
->  		}
->  	}
->  
-> -	return 0;
-> +out_put_node:
-
-and drop this label.
-
-> +	of_node_put(ports);
-> +	return ret;
->  }
->  
->  static void xvip_graph_cleanup(struct xvip_composite_device *xdev)
-> 
+Rob will Ack it, and then I can make a pull request for that bindings patch and this
+16/16 patch. There is nothing wrong with this patch, so no need to repost. I just
+need to have an updated rockchip-vpu.txt patch as well.
 
 Regards,
 
 	Hans
+
+> 
+> Regards,
+> Jonas
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+>>>  	{ /* sentinel */ }
+>>>  };
+>>> diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h b/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+>>> index 6cecb528f994..3d6b97af90fb 100644
+>>> --- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+>>> +++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+>>> @@ -79,6 +79,7 @@ enum rockchip_vpu_enc_fmt {
+>>>  };
+>>>  
+>>>  extern const struct rockchip_vpu_variant rk3399_vpu_variant;
+>>> +extern const struct rockchip_vpu_variant rk3328_vpu_variant;
+>>>  extern const struct rockchip_vpu_variant rk3288_vpu_variant;
+>>>  
+>>>  void rockchip_vpu_watchdog(struct work_struct *work);
+>>>
+> 
+
