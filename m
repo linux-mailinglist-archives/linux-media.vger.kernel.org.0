@@ -2,278 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A462E2A2
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 18:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED5F62E2B4
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 19:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfE2Q5D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 12:57:03 -0400
-Received: from mout2.fh-giessen.de ([212.201.18.46]:38474 "EHLO
-        mout2.fh-giessen.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbfE2Q5C (ORCPT
+        id S1726097AbfE2RAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 13:00:00 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54102 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725948AbfE2RAA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 12:57:02 -0400
-Received: from mx3.fh-giessen.de ([212.201.18.28])
-        by mout2.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hW1sq-0002O2-GZ; Wed, 29 May 2019 18:57:00 +0200
-Received: from mailgate-1.its.fh-giessen.de ([212.201.18.15])
-        by mx3.fh-giessen.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hW1sq-004TMw-Br; Wed, 29 May 2019 18:57:00 +0200
-Received: from p2e5610f3.dip0.t-ipconnect.de ([46.86.16.243] helo=zwei.fritz.box)
-        by mailgate-1.its.fh-giessen.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-        id 1hW1sq-0000rQ-14; Wed, 29 May 2019 18:57:00 +0200
-From:   Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org
-Cc:     Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-Subject: [PATCH v2] drivers/media/dvb-frontends: Implement probe/remove for stv6110x
-Date:   Wed, 29 May 2019 18:56:33 +0200
-Message-Id: <20190529165633.8779-1-tobias.johannes.klausmann@mni.thm.de>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
-References: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
+        Wed, 29 May 2019 13:00:00 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id D1499260D33
+Message-ID: <87ee90d1f42dfbaff43ac29ecadcb5c1d5748230.camel@collabora.com>
+Subject: Re: [PATCH] media: v4l2: Initialize mpeg slice controls
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, kernel@collabora.com
+Date:   Wed, 29 May 2019 13:59:50 -0300
+In-Reply-To: <20190529180635.0fef93bd@collabora.com>
+References: <20190503114221.28469-1-boris.brezillon@collabora.com>
+         <b025d972-b7a9-ae0d-a286-e0364d1b52ea@xs4all.nl>
+         <100592967e3c3546b4dcbbb8a0369297b27fa8e8.camel@collabora.com>
+         <70396bcf-7fdc-f69b-7b8a-f0d6958093dc@xs4all.nl>
+         <20190529180635.0fef93bd@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Refactor out the common parts of stv6110x_probe() and stv6110x_attach()
-into separate functions.
+On Wed, 2019-05-29 at 18:06 +0200, Boris Brezillon wrote:
+> On Wed, 29 May 2019 17:42:58 +0200
+> Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> 
+> > On 5/29/19 5:36 PM, Ezequiel Garcia wrote:
+> > > On Wed, 2019-05-29 at 16:41 +0200, Hans Verkuil wrote:  
+> > > > On 5/3/19 1:42 PM, Boris Brezillon wrote:  
+> > > > > Make sure the default value at least passes the std_validate() tests.
+> > > > > 
+> > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > > ---
+> > > > >  drivers/media/v4l2-core/v4l2-ctrls.c | 20 +++++++++++++++++++-
+> > > > >  1 file changed, 19 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > > > > index b1ae2e555c68..19d40cc6e565 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > > > > @@ -1461,7 +1461,14 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+> > > > >  static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+> > > > >  		     union v4l2_ctrl_ptr ptr)
+> > > > >  {
+> > > > > -	switch (ctrl->type) {
+> > > > > +	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * The cast is needed to get rid of a gcc warning complaining that
+> > > > > +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
+> > > > > +	 * v4l2_ctrl_type enum.
+> > > > > +	 */
+> > > > > +	switch ((u32)ctrl->type) {
+> > > > >  	case V4L2_CTRL_TYPE_STRING:
+> > > > >  		idx *= ctrl->elem_size;
+> > > > >  		memset(ptr.p_char + idx, ' ', ctrl->minimum);
+> > > > > @@ -1486,6 +1493,17 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+> > > > >  	case V4L2_CTRL_TYPE_U32:
+> > > > >  		ptr.p_u32[idx] = ctrl->default_value;
+> > > > >  		break;
+> > > > > +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+> > > > > +		p_mpeg2_slice_params = ptr.p;
+> > > > > +		/* 4:2:0 */
+> > > > > +		p_mpeg2_slice_params->sequence.chroma_format = 1;
+> > > > > +		/* 8 bits */
+> > > > > +		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
+> > > > > +		/* interlaced top field */
+> > > > > +		p_mpeg2_slice_params->picture.picture_structure = 1;
+> > > > > +		p_mpeg2_slice_params->picture.picture_coding_type =
+> > > > > +					V4L2_MPEG2_PICTURE_CODING_TYPE_I;  
+> > > > 
+> > > > Oops, this isn't complete. It should still zero the p_mpeg2_slice_params
+> > > > struct first. Right now any fields not explicitly set just have whatever
+> > > > was in memory.
+> 
+> Oops.
+> 
+> > > > Can you post a patch fixing this?
+> > > > 
+> > > >  
+> > > 
+> > > I was wondering if we want to zero all the cases, and not just
+> > > the struct types ones.  
+> > 
+> > The others either overwrite the data with the default_value, or memset
+> > the whole control (default case). It's only for these compound controls
+> > that something special needs to be done.
+> > 
+> > The code can be restructured, though: instead of break do return in all
+> > the simple type cases.
+> > 
+> > Then call memset followed by a new switch for the compound types where you
+> > need to set some fields to non-zero.
+> 
+> memset(0) will fix the undefined val issue, the question is, is it the
+> default we want? I haven't worked on MPEG2 (just posted patches
+> Ezequiel worked on) so I can't tell.
+> 
 
-This provides the needed functionality to use dvb_module_probe() instead
-of dvb_attach()!
-
-v2:
-- Impovments based on comments by Sean Young
-- Fix checkpatch.pl --strict errors
-
-Signed-off-by: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
----
- drivers/media/dvb-frontends/stv6110x.c      | 135 ++++++++++++++++----
- drivers/media/dvb-frontends/stv6110x.h      |   3 +
- drivers/media/dvb-frontends/stv6110x_priv.h |   3 +-
- 3 files changed, 118 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/stv6110x.c b/drivers/media/dvb-frontends/stv6110x.c
-index 0126cfae2e03..f2368ed20bc1 100644
---- a/drivers/media/dvb-frontends/stv6110x.c
-+++ b/drivers/media/dvb-frontends/stv6110x.c
-@@ -333,6 +333,41 @@ static void stv6110x_release(struct dvb_frontend *fe)
- 	kfree(stv6110x);
- }
- 
-+void st6110x_init_regs(struct stv6110x_state *stv6110x)
-+{
-+	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
-+
-+	memcpy(stv6110x->regs, default_regs, 8);
-+}
-+
-+void stv6110x_setup_divider(struct stv6110x_state *stv6110x)
-+{
-+	switch (stv6110x->config->clk_div) {
-+	default:
-+	case 1:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2],
-+				  CTRL2_CO_DIV,
-+				  0);
-+		break;
-+	case 2:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2],
-+				  CTRL2_CO_DIV,
-+				  1);
-+		break;
-+	case 4:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2],
-+				  CTRL2_CO_DIV,
-+				  2);
-+		break;
-+	case 8:
-+	case 0:
-+		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2],
-+				  CTRL2_CO_DIV,
-+				  3);
-+		break;
-+	}
-+}
-+
- static const struct dvb_tuner_ops stv6110x_ops = {
- 	.info = {
- 		.name		  = "STV6110(A) Silicon Tuner",
-@@ -342,7 +377,7 @@ static const struct dvb_tuner_ops stv6110x_ops = {
- 	.release		= stv6110x_release
- };
- 
--static const struct stv6110x_devctl stv6110x_ctl = {
-+static struct stv6110x_devctl stv6110x_ctl = {
- 	.tuner_init		= stv6110x_init,
- 	.tuner_sleep		= stv6110x_sleep,
- 	.tuner_set_mode		= stv6110x_set_mode,
-@@ -356,48 +391,104 @@ static const struct stv6110x_devctl stv6110x_ctl = {
- 	.tuner_get_status	= stv6110x_get_status,
- };
- 
-+void stv6110x_set_frontend_opts(struct stv6110x_state *stv6110x)
-+{
-+	stv6110x->frontend->tuner_priv		= stv6110x;
-+	stv6110x->frontend->ops.tuner_ops	= stv6110x_ops;
-+}
-+
-+static struct stv6110x_devctl *stv6110x_get_devctl(struct i2c_client *client)
-+{
-+	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
-+
-+	dev_dbg(&client->dev, "\n");
-+
-+	return stv6110x->devctl;
-+}
-+
-+static int stv6110x_probe(struct i2c_client *client,
-+			  const struct i2c_device_id *id)
-+{
-+	struct stv6110x_config *config = client->dev.platform_data;
-+
-+	struct stv6110x_state *stv6110x;
-+
-+	stv6110x = kzalloc(sizeof(*stv6110x), GFP_KERNEL);
-+	if (!stv6110x)
-+		return -ENOMEM;
-+
-+	stv6110x->frontend	= config->frontend;
-+	stv6110x->i2c		= client->adapter;
-+	stv6110x->config	= config;
-+	stv6110x->devctl	= &stv6110x_ctl;
-+
-+	st6110x_init_regs(stv6110x);
-+	stv6110x_setup_divider(stv6110x);
-+	stv6110x_set_frontend_opts(stv6110x);
-+
-+	dev_info(&stv6110x->i2c->dev, "Probed STV6110x\n");
-+
-+	i2c_set_clientdata(client, stv6110x);
-+
-+	/* setup callbacks */
-+	config->get_devctl = stv6110x_get_devctl;
-+
-+	return 0;
-+}
-+
-+static int stv6110x_remove(struct i2c_client *client)
-+{
-+	struct stv6110x_state *stv6110x = i2c_get_clientdata(client);
-+
-+	stv6110x_release(stv6110x->frontend);
-+	return 0;
-+}
-+
- const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
- 					const struct stv6110x_config *config,
- 					struct i2c_adapter *i2c)
- {
- 	struct stv6110x_state *stv6110x;
--	u8 default_regs[] = {0x07, 0x11, 0xdc, 0x85, 0x17, 0x01, 0xe6, 0x1e};
- 
--	stv6110x = kzalloc(sizeof (struct stv6110x_state), GFP_KERNEL);
-+	stv6110x = kzalloc(sizeof(*stv6110x), GFP_KERNEL);
- 	if (!stv6110x)
- 		return NULL;
- 
-+	stv6110x->frontend	= fe;
- 	stv6110x->i2c		= i2c;
- 	stv6110x->config	= config;
- 	stv6110x->devctl	= &stv6110x_ctl;
--	memcpy(stv6110x->regs, default_regs, 8);
- 
--	/* setup divider */
--	switch (stv6110x->config->clk_div) {
--	default:
--	case 1:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 0);
--		break;
--	case 2:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 1);
--		break;
--	case 4:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 2);
--		break;
--	case 8:
--	case 0:
--		STV6110x_SETFIELD(stv6110x->regs[STV6110x_CTRL2], CTRL2_CO_DIV, 3);
--		break;
--	}
-+	st6110x_init_regs(stv6110x);
-+	stv6110x_setup_divider(stv6110x);
-+	stv6110x_set_frontend_opts(stv6110x);
- 
- 	fe->tuner_priv		= stv6110x;
- 	fe->ops.tuner_ops	= stv6110x_ops;
- 
--	printk(KERN_INFO "%s: Attaching STV6110x\n", __func__);
-+	dev_info(&stv6110x->i2c->dev, "Attaching STV6110x\n");
- 	return stv6110x->devctl;
- }
- EXPORT_SYMBOL(stv6110x_attach);
- 
-+static const struct i2c_device_id stv6110x_id_table[] = {
-+	{"stv6110x", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, stv6110x_id_table);
-+
-+static struct i2c_driver stv6110x_driver = {
-+	.driver = {
-+		.name	= "stv6110x",
-+		.suppress_bind_attrs = true,
-+	},
-+	.probe		= stv6110x_probe,
-+	.remove		= stv6110x_remove,
-+	.id_table	= stv6110x_id_table,
-+};
-+
-+module_i2c_driver(stv6110x_driver);
-+
- MODULE_AUTHOR("Manu Abraham");
- MODULE_DESCRIPTION("STV6110x Silicon tuner");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/dvb-frontends/stv6110x.h b/drivers/media/dvb-frontends/stv6110x.h
-index 1630e55255fd..1feade3158c2 100644
---- a/drivers/media/dvb-frontends/stv6110x.h
-+++ b/drivers/media/dvb-frontends/stv6110x.h
-@@ -15,6 +15,9 @@ struct stv6110x_config {
- 	u8	addr;
- 	u32	refclk;
- 	u8	clk_div; /* divisor value for the output clock */
-+	struct dvb_frontend		*frontend;
-+
-+	struct stv6110x_devctl* (*get_devctl)(struct i2c_client *i2c);
- };
- 
- enum tuner_mode {
-diff --git a/drivers/media/dvb-frontends/stv6110x_priv.h b/drivers/media/dvb-frontends/stv6110x_priv.h
-index 909094df28df..b27769558f78 100644
---- a/drivers/media/dvb-frontends/stv6110x_priv.h
-+++ b/drivers/media/dvb-frontends/stv6110x_priv.h
-@@ -54,11 +54,12 @@
- #define REFCLOCK_MHz				(stv6110x->config->refclk / 1000000)
- 
- struct stv6110x_state {
-+	struct dvb_frontend		*frontend;
- 	struct i2c_adapter		*i2c;
- 	const struct stv6110x_config	*config;
- 	u8				regs[8];
- 
--	const struct stv6110x_devctl	*devctl;
-+	struct stv6110x_devctl	*devctl;
- };
- 
- #endif /* __STV6110x_PRIV_H */
--- 
-2.21.0
+Well, any fields where zero is not a good default, should be assigned here.
 
