@@ -2,144 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 350D12DC9B
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C9972DCBA
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbfE2MYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 08:24:48 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42221 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfE2MYs (ORCPT
+        id S1726870AbfE2M0m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 08:26:42 -0400
+Received: from casper.infradead.org ([85.118.1.10]:42290 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfE2M0m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 08:24:48 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hVxdO-0004Tg-Or; Wed, 29 May 2019 14:24:46 +0200
-Message-ID: <1559132686.3651.8.camel@pengutronix.de>
-Subject: Re: [PATCH v2 4/9] media: hantro: make irq names configurable
-From:   Philipp Zabel <p.zabel@pengutronix.de>
+        Wed, 29 May 2019 08:26:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=/4ICUut7ZGvTT5LMVStBJZgvC9tL2XzI4vHBhP44gJg=; b=HNIMJ9NjpM6+wTAbbj6buk99UK
+        ujJ8U+JIe4EFnmRzpDd2+ZIRFMGL9gz9pbTWxTcqUBoF6ZqMVOLF2PAhFwkd1u3jTSuEpCRzQ07Yc
+        2bBYEhHEOSR2fwj57LbGzYBrDGAw09cPe4HAfJ5figxwgS31U2eqEPZWoGsSIXyGtsQbWFprHzseF
+        KbNI2VKkJxbj5erCuZl03/2NJZKPYyEv3aNwXc8+pJUfQq38oc08WcFotrJSgL4mHtrylEfkL5WFc
+        cYUEcrqJWUizNtzRVmE8JWrmDixHEJDFV7WGHTWRLxpiJlJFthSL04p9S0UHG16SYl9MqD61xIzZj
+        PdYvdBPw==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hVxfC-0006Z2-N8; Wed, 29 May 2019 12:26:39 +0000
+Date:   Wed, 29 May 2019 09:26:32 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Date:   Wed, 29 May 2019 14:24:46 +0200
-In-Reply-To: <20190529133456.0096a6a4@collabora.com>
-References: <20190529095424.23614-1-p.zabel@pengutronix.de>
-         <20190529095424.23614-5-p.zabel@pengutronix.de>
-         <20190529133456.0096a6a4@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v6 03/16] media: v4l2-common: Support custom imagesize
+ in fill_pixfmt()
+Message-ID: <20190529092632.779f5f1b@coco.lan>
+In-Reply-To: <20190529141633.19c5079b@collabora.com>
+References: <20190528170232.2091-1-ezequiel@collabora.com>
+        <20190528170232.2091-4-ezequiel@collabora.com>
+        <20190529082809.0b9f3553@coco.lan>
+        <cc51be76-81c3-1c54-2005-1b99d00a8ac1@xs4all.nl>
+        <20190529085854.6c689f8d@coco.lan>
+        <20190529141633.19c5079b@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Boris,
+Em Wed, 29 May 2019 14:16:33 +0200
+Boris Brezillon <boris.brezillon@collabora.com> escreveu:
 
-On Wed, 2019-05-29 at 13:34 +0200, Boris Brezillon wrote:
-> On Wed, 29 May 2019 11:54:19 +0200
-> Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> On Wed, 29 May 2019 08:58:54 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> > The i.MX8MQ bindings will use different IRQ names ("g1" instead of
-> > "vdpu", and "g2"), so make them configurable. This also allows to
-> > register more than two IRQs, which will be required for i.MX8MM support
-> > later (it will add "h1" instead of "vepu").
+> > Em Wed, 29 May 2019 13:43:20 +0200
+> > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >   
+> > > On 5/29/19 1:28 PM, Mauro Carvalho Chehab wrote:    
+> > > > Em Tue, 28 May 2019 14:02:19 -0300
+> > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+> > > >       
+> > > >> From: Boris Brezillon <boris.brezillon@collabora.com>
+> > > >>
+> > > >> Users can define custom sizeimage as long as they're big enough to
+> > > >> store the amount of pixels required for a specific width/height under a
+> > > >> specific format. Avoid overriding those fields in this case.
+> > > >>
+> > > >> We could possibly do the same for bytesperline, but it gets tricky when
+> > > >> dealing with !MPLANE definitions, so this case is omitted for now and      
+> > > >> ->bytesperline is always overwritten with the value calculated in      
+> > > >> fill_pixfmt().
+> > > >>
+> > > >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > >> ---
+> > > >> Changes from v5:
+> > > >> * Overwrite bytesperline with the value calculated in fill_pixfmt()
+> > > >>
+> > > >> Changes from v4:
+> > > >> * New patch
+> > > >>
+> > > >>  drivers/media/v4l2-core/v4l2-common.c | 58 ++++++++++++++++++++-------
+> > > >>  1 file changed, 43 insertions(+), 15 deletions(-)
+> > > >>
+> > > >> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > >> index b2d1e55d9561..fd286f6e17d7 100644
+> > > >> --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > >> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > >> @@ -585,9 +585,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> > > >>  	pixfmt->num_planes = info->mem_planes;
+> > > >>  
+> > > >>  	if (info->mem_planes == 1) {
+> > > >> +		u32 sizeimage = 0;
+> > > >> +
+> > > >>  		plane = &pixfmt->plane_fmt[0];
+> > > >> -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
+> > > >> -		plane->sizeimage = 0;
+> > > >>  
+> > > >>  		for (i = 0; i < info->comp_planes; i++) {
+> > > >>  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
+> > > >> @@ -598,10 +598,21 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> > > >>  			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
+> > > >>  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
+> > > >>  
+> > > >> -			plane->sizeimage += info->bpp[i] *
+> > > >> -				DIV_ROUND_UP(aligned_width, hdiv) *
+> > > >> -				DIV_ROUND_UP(aligned_height, vdiv);
+> > > >> +			sizeimage += info->bpp[i] *
+> > > >> +				     DIV_ROUND_UP(aligned_width, hdiv) *
+> > > >> +				     DIV_ROUND_UP(aligned_height, vdiv);
+> > > >>  		}
+> > > >> +
+> > > >> +		/* Custom bytesperline value is not supported yet. */
+> > > >> +		plane->bytesperline = ALIGN(width,
+> > > >> +					    v4l2_format_block_width(info, 0)) *
+> > > >> +				      info->bpp[0];
+> > > >> +
+> > > >> +		/*
+> > > >> +		 * The user might have specified a custom sizeimage, only
+> > > >> +		 * override it if it's not big enough.
+> > > >> +		 */
+> > > >> +		plane->sizeimage = max(sizeimage, plane->sizeimage);      
+> > > > 
+> > > > No upper limit? That doesn't sound a good idea to me, specially since some
+> > > > (broken) app might not be memset the format to zero before filling the ioctl
+> > > > structure.
+> > > > 
+> > > > Perhaps we could do something like:
+> > > > 
+> > > > 		sizeimage = min (sizeimage, 2 * plane->sizeimage)
+> > > > 
+> > > > or something similar that would be reasonable.      
+> > > 
+> > > I've no idea what's sane.
+> > > 
+> > > Buffers can be really large. The largest video resolution defined by CTA-861-G
+> > > is 10240x4320, so at 4 bytes per pixel that's 0x0a8c0000. So perhaps we can
+> > > use min(sizeimage, 0x10000000)? Although we should probably use the clamp function
+> > > instead of min/max.    
 > > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > Changes since v1 [1]:
-> >  - Rebased onto "[PATCH v6] Add MPEG-2 decoding to Rockchip VPU" series.
+> > Well, the max is driver-specific. 
 > > 
-> > [1] https://patchwork.linuxtv.org/patch/56285/
-> > ---
-> >  drivers/staging/media/hantro/hantro.h        | 11 ++++---
-> >  drivers/staging/media/hantro/hantro_drv.c    | 31 +++++++-------------
-> >  drivers/staging/media/hantro/rk3288_vpu_hw.c |  5 ++--
-> >  drivers/staging/media/hantro/rk3399_vpu_hw.c |  9 ++++--
-> >  4 files changed, 26 insertions(+), 30 deletions(-)
+> > For example, for a camera with a max resolution of 640x480 with 2 bytes
+> > per pixel as the max format can only be
 > > 
-> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> > index 296b9ffad547..6b90fe48bcdf 100644
-> > --- a/drivers/staging/media/hantro/hantro.h
-> > +++ b/drivers/staging/media/hantro/hantro.h
-> > @@ -26,6 +26,7 @@
-> >  #include "hantro_hw.h"
-> >  
-> >  #define HANTRO_MAX_CLOCKS		4
-> > +#define HANTRO_MAX_IRQS			3
-> >  
-> >  #define MPEG2_MB_DIM			16
-> >  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
-> > @@ -57,8 +58,9 @@ struct hantro_codec_ops;
-> >   * @codec_ops:			Codec ops.
-> >   * @init:			Initialize hardware.
-> >   * @runtime_resume:		reenable hardware after power gating
-> > - * @vepu_irq:			encoder interrupt handler
-> > - * @vdpu_irq:			decoder interrupt handler
-> > + * @irq_handlers:		interrupt handlers, same order as irq names
-> > + * @irq_names:			array of irq names
-> > + * @num_irqs:			number of irqs in the arrays
-> >   * @clk_names:			array of clock names
-> >   * @num_clocks:			number of clocks in the array
-> >   */
-> > @@ -73,8 +75,9 @@ struct hantro_variant {
-> >  	const struct hantro_codec_ops *codec_ops;
-> >  	int (*init)(struct hantro_dev *vpu);
-> >  	int (*runtime_resume)(struct hantro_dev *vpu);
-> > -	irqreturn_t (*vepu_irq)(int irq, void *priv);
-> > -	irqreturn_t (*vdpu_irq)(int irq, void *priv);
-> > +	irqreturn_t (*irq_handlers[HANTRO_MAX_IRQS])(int irq, void *priv);
-> > +	const char *irq_names[HANTRO_MAX_IRQS];
+> > 	max_size = 640*480*2 (plus some alignment value if pertinent)
+> > 
+> > It sounds to me that the best would be to have a callback function
+> > or value filled by the drivers that would support custom sizeimage.
+> > 
+> > The core could actually calculate during init (by asking the driver
+> > to a very big resolution and getting the returned value), but
+> > it sounds better to let the drivers to explicitly calculate it.  
 > 
-> Can we have a struct instead of an array for all handlers and another
-> array for irq names:
-> 
-> 	struct {
-> 		const char *name;
-> 		irqreturn_t (*handler)(int irq, void *priv);
-> 	} irqs[HANTRO_MAX_IRQS];
-> 
-> > +	int num_irqs;
-> 
-> Or we could have the struct defined outside of hantro_variant and get
-> rid of HANTRO_MAX_IRQS (I find it annoying to have to update the MAX
-> value every time a new variant needs more than what was previously
-> defined as MAX):
-> 
-> struct hantro_irq {
-> 	const char *name;
-> 	irqreturn_t (*handler)(int irq, void *priv);
-> };
-> 
-> struct hantro_variant {
-> 	...
-> 	unsigned int num_irqs;
-> 	const struct hantro_irq *irqs;
-> };
-> 
-> static const struct hantro_irq xxxx_irqs[] = {
-> 	{ ... },
-> 	{ ... },
-> 
-> };
-> 
-> static const struct hantro_variant xxxx_variant = {
-> 	.num_irqs = ARRAY_SIZE(xxxx_irqs),
-> 	.irqs = xxxx_irqs,
-> };
+> If we want max_sizeimage to be driver specific I can add it as an extra
+> arg to the fill_pixfmt() funcs.
 
-Thank you, that looks better. I'll change this for v3.
+Works for me.
 
-regards
-Philipp
+> If that works for you, we'll send a new version of this patch alone
+> (unless you want us to send the whole series again).
+
+If the other patches on this series don't depend on this, I can
+apply the PR just skipping this one, applying your patch afterwards.
+
+Thanks,
+Mauro
