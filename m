@@ -2,103 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D2972DFFB
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EDFB2E015
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbfE2OlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 10:41:13 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:51977 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726012AbfE2OlN (ORCPT
+        id S1726141AbfE2Orp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 10:47:45 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58203 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726106AbfE2Orp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 10:41:13 -0400
+        Wed, 29 May 2019 10:47:45 -0400
 Received: from [IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e] ([IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id VzlNhqhARsDWyVzlOhhqb0; Wed, 29 May 2019 16:41:11 +0200
-Subject: Re: [PATCH] media: v4l2: Initialize mpeg slice controls
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     kernel@collabora.com
-References: <20190503114221.28469-1-boris.brezillon@collabora.com>
+        id VzrihqjyRsDWyVzrjhhsMi; Wed, 29 May 2019 16:47:43 +0200
+Subject: Re: [PATCH v7 1/3] media: cec: expose HDMI connector to CEC dev
+ mapping
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b025d972-b7a9-ae0d-a286-e0364d1b52ea@xs4all.nl>
-Date:   Wed, 29 May 2019 16:41:09 +0200
+To:     Dariusz Marcinkiewicz <darekm@google.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190521105203.154043-1-darekm@google.com>
+ <16889839-b4e9-9984-2e36-5f07ceb7d7f2@xs4all.nl>
+ <CALFZZQH7-mzRZbji1w-UwRLdw6c8+CThn0e96oG8E2Eq1ivANQ@mail.gmail.com>
+ <8e575d0b-4765-ae54-019e-0fab522fe1d5@xs4all.nl>
+Message-ID: <a421ff13-c8ee-b72c-3e1e-376b9e426064@xs4all.nl>
+Date:   Wed, 29 May 2019 16:47:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190503114221.28469-1-boris.brezillon@collabora.com>
+In-Reply-To: <8e575d0b-4765-ae54-019e-0fab522fe1d5@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOyyJGD7XSKeeAdl/8Pg8TIJrFkcTwtxaWIJZTMMTtJUgdK7D8LYhz03gXYdq4ZjnFuxM1dD/QRg6tdkoZmS/IU8Si1y9Lg+FAal9BY660KUY5Pf7oUQ
- VrXk5OgMjDnwAo0aEn93WYaygVH6ekAcg+Uig0z19Yos0ueRn1g7vrqk8JYX5LU+neWkiXYEOVVCFSb5+WXjsy40dLhokkmqLha6Of//AI1izqKD3rAMAVW3
- 3+CAI2JTHQ6kDiQxajY7Zdu1q+J/xf9a5jLzSt3USsleQqwb7vky6nwdQJjBTtY5hsVauMX20+bGAwoou3Xmu7ebz7+L9QDrt+WDknJ6532AdCnzDWGY7OOS
- kBWaMnkgqd2NZ3f6wKs6s0mvjcuivYhF82PgoSdOFU/YqFFDYlV95BbDUFhfdzJJYGFEI4d9MAT3TAwe3u1dFtNNmA+JC1p0yGdIyEm8E81jMZSl1SzD5K8Z
- HFUz3r5JxIcoqUNsSaoFCDT01896IQcOtb0YGA==
+X-CMAE-Envelope: MS4wfOFT+KbQpijqyY5R6EctfAmZFUWcR7Yo8VtDvKyY1iseCfmQislEu119ZXE7vyKuwoWGVlrk+vRYss4UV7TI8lpabv6A4Ezf/SBF9CeiZfUq0sePM05e
+ klvYpdsrUkSKH2hKRVUZ1ZAeP0aAob/B/vnp76BTChU1VyxDtyuYsYr0o9Hdy+U7dgTuyiYF3rHTAH9oYrUS9Q2nMMMUWBlGV9iCOaC8uSe99TNO1rPcszYo
+ Nzu1hK4y16hkHF8msZQxpkL5JfsrZGydglixkKiYet2TKPe7rYJu6upOAlaXYloccL2jEDt0MakXY9bc2OZ72gj8JjsGUCWl+NNQJAzeUXqpoT9MgPQoYjnt
+ tHyGHbib
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/3/19 1:42 PM, Boris Brezillon wrote:
-> Make sure the default value at least passes the std_validate() tests.
+On 5/28/19 10:05 AM, Hans Verkuil wrote:
+> On 5/28/19 9:53 AM, Dariusz Marcinkiewicz wrote:
+>> On Fri, May 24, 2019 at 11:21 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>>
+>>> Hi Dariusz,
+>>>
+>>> I did some more testing with the Khadas VIM2 and found another problem,
+>>> something that will, unfortunately, require some redesign.
+>>>
+>> ...
+>>>
+>>> The other problem is in the CEC driver: it creates the CEC device as
+>>> soon as the HDMI device is found (cec_notifier_parse_hdmi_phandle).
+>>>
+>>> But that doesn't mean that the HDMI device also had registered itself
+>>> as a CEC notifier.
+>>>
+>>> Until now that never mattered: as long as the HDMI device was found
+>>> the CEC adapter would function fine, it would just have no physical
+>>> address until so notified by the HDMI device once it registered its
+>>> CEC notifier.
+>>>
+>>> But if we want to have valid connector info during the lifetime of
+>>> the CEC adapter, then this no longer works.
+>>>
+>>> I'm not entirely sure how to handle this.
+>>>
+>>> Another issue here is that when the HDMI driver removes the notifier,
+>>> then it should also zero the connector info. Remember that both the
+>>> HDMI and the CEC drivers can be loaded and unloaded independently from
+>>> one another.
+>>>
+>> Given all of the above, what do you think about coming back to the v1
+>> of the patch, where a connector info could be set on an adapter at any
+>> time and an event was used to notify userland when that happened? That
+>> approach seems to cover all the scenarios mentioned above.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
+> That's just hiding the real problems :-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index b1ae2e555c68..19d40cc6e565 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -1461,7 +1461,14 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
->  static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
->  		     union v4l2_ctrl_ptr ptr)
->  {
-> -	switch (ctrl->type) {
-> +	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
-> +
-> +	/*
-> +	 * The cast is needed to get rid of a gcc warning complaining that
-> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
-> +	 * v4l2_ctrl_type enum.
-> +	 */
-> +	switch ((u32)ctrl->type) {
->  	case V4L2_CTRL_TYPE_STRING:
->  		idx *= ctrl->elem_size;
->  		memset(ptr.p_char + idx, ' ', ctrl->minimum);
-> @@ -1486,6 +1493,17 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_U32:
->  		ptr.p_u32[idx] = ctrl->default_value;
->  		break;
-> +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> +		p_mpeg2_slice_params = ptr.p;
-> +		/* 4:2:0 */
-> +		p_mpeg2_slice_params->sequence.chroma_format = 1;
-> +		/* 8 bits */
-> +		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
-> +		/* interlaced top field */
-> +		p_mpeg2_slice_params->picture.picture_structure = 1;
-> +		p_mpeg2_slice_params->picture.picture_coding_type =
-> +					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
+> I hope to spend some time on CEC tomorrow and I'll get back to you then.
 
-Oops, this isn't complete. It should still zero the p_mpeg2_slice_params
-struct first. Right now any fields not explicitly set just have whatever
-was in memory.
+Unfortunately I had too many other things going on to spend time on this.
 
-Can you post a patch fixing this?
+Hopefully next week.
 
 Regards,
 
 	Hans
-
-> +		break;
->  	default:
->  		idx *= ctrl->elem_size;
->  		memset(ptr.p + idx, 0, ctrl->elem_size);
-> 
 
