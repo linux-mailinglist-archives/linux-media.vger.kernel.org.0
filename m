@@ -2,84 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABBD02DC91
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:18:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 350D12DC9B
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbfE2MSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 08:18:20 -0400
-Received: from mail-wr1-f46.google.com ([209.85.221.46]:32946 "EHLO
-        mail-wr1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbfE2MSU (ORCPT
+        id S1726101AbfE2MYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 08:24:48 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:42221 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbfE2MYs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 08:18:20 -0400
-Received: by mail-wr1-f46.google.com with SMTP id d9so1649503wrx.0
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 05:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=Bejd1gVgSgMcW8pTKawlHhgsU2AuPn6IsO3HpoUoBw4=;
-        b=TVCczjE7bWQQz40zGXU6Sb9hMI0WJ+L+tAD/lz3jJztwWqdNNC+KgXQDKBvNqxxipF
-         82fcmvciSYR01CKBb/cOthvydQy4J01D2pKZuHAAnsVRwDT3JA0fJMzAE2h8fnNLegkn
-         GbGR/SP4A68skkNzmR38B+2DMV5iBdkm2CHMXcS4+rzqRFouY8UYhWXas0BGRRvK3Z5a
-         dECKIuveAfkt4rb6B6p9TfgozyH/N/sNtqXt/EJXFiXiZqfTW2dBVueq/nFPFD7nWNg+
-         tDt2ofUJTZGI+b07ZMIVs7jN+MniZ13hI/URRPIMdfEE954heXW63okavLasbOaxDijc
-         alMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Bejd1gVgSgMcW8pTKawlHhgsU2AuPn6IsO3HpoUoBw4=;
-        b=EhLgP/URImKJtHikLEOhrjWx/RN56LKmrpZj8XOnS6GldrdYM1oJbEMxi3duKuSwjv
-         5Kv4HrRBqX3zRXF+CXydU1LU5ETBAbHxem0du6Pj8t82kUYWVcXBSd69zIa/HjHY86w8
-         aXFx3DQ+7UW20KQtT6GgtrhplWdEXy6SQld+RaqQVzd5agnraf7XPqcUAGzGaMrk6swt
-         WTa/as51h9uYW9oXf/7zKIS1s9TBIfGrLT8LLzs+g1Pjgb7QWwOWv6w8jEo1HpQPnw/p
-         6f9oqqHc724Dex2DiFEI1UQ5tXryVvC7ps3RgmNt72gsGRlaH+mbojvv8nBVyqGNbDXT
-         eAGA==
-X-Gm-Message-State: APjAAAUL+gT1XdUY3zUZukU+Xftgl7FZUWyrqgFRDubFxEhjX072SlAz
-        PoQb70UBnyZFWcj7ecd/DjNTnA==
-X-Google-Smtp-Source: APXvYqzm2vBc4V8UvEHgtYpMnPDUJxzpbOXsvWk5noCh3SmUShbW6Sto2y27QgEAaDNe8uMKk1CeFg==
-X-Received: by 2002:adf:8385:: with SMTP id 5mr4110035wre.194.1559132298798;
-        Wed, 29 May 2019 05:18:18 -0700 (PDT)
-Received: from localhost.localdomain ([37.157.136.206])
-        by smtp.gmail.com with ESMTPSA id z3sm1133836wml.28.2019.05.29.05.18.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 05:18:17 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [GIT FIXES FOR v5.2] Venus fixes
-Date:   Wed, 29 May 2019 15:18:12 +0300
-Message-Id: <20190529121812.822-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        Wed, 29 May 2019 08:24:48 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hVxdO-0004Tg-Or; Wed, 29 May 2019 14:24:46 +0200
+Message-ID: <1559132686.3651.8.camel@pengutronix.de>
+Subject: Re: [PATCH v2 4/9] media: hantro: make irq names configurable
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Date:   Wed, 29 May 2019 14:24:46 +0200
+In-Reply-To: <20190529133456.0096a6a4@collabora.com>
+References: <20190529095424.23614-1-p.zabel@pengutronix.de>
+         <20190529095424.23614-5-p.zabel@pengutronix.de>
+         <20190529133456.0096a6a4@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Boris,
 
-Here is a fix for a regression in HFI parser. Please pull.
+On Wed, 2019-05-29 at 13:34 +0200, Boris Brezillon wrote:
+> On Wed, 29 May 2019 11:54:19 +0200
+> Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> 
+> > The i.MX8MQ bindings will use different IRQ names ("g1" instead of
+> > "vdpu", and "g2"), so make them configurable. This also allows to
+> > register more than two IRQs, which will be required for i.MX8MM support
+> > later (it will add "h1" instead of "vepu").
+> > 
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> > Changes since v1 [1]:
+> >  - Rebased onto "[PATCH v6] Add MPEG-2 decoding to Rockchip VPU" series.
+> > 
+> > [1] https://patchwork.linuxtv.org/patch/56285/
+> > ---
+> >  drivers/staging/media/hantro/hantro.h        | 11 ++++---
+> >  drivers/staging/media/hantro/hantro_drv.c    | 31 +++++++-------------
+> >  drivers/staging/media/hantro/rk3288_vpu_hw.c |  5 ++--
+> >  drivers/staging/media/hantro/rk3399_vpu_hw.c |  9 ++++--
+> >  4 files changed, 26 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> > index 296b9ffad547..6b90fe48bcdf 100644
+> > --- a/drivers/staging/media/hantro/hantro.h
+> > +++ b/drivers/staging/media/hantro/hantro.h
+> > @@ -26,6 +26,7 @@
+> >  #include "hantro_hw.h"
+> >  
+> >  #define HANTRO_MAX_CLOCKS		4
+> > +#define HANTRO_MAX_IRQS			3
+> >  
+> >  #define MPEG2_MB_DIM			16
+> >  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
+> > @@ -57,8 +58,9 @@ struct hantro_codec_ops;
+> >   * @codec_ops:			Codec ops.
+> >   * @init:			Initialize hardware.
+> >   * @runtime_resume:		reenable hardware after power gating
+> > - * @vepu_irq:			encoder interrupt handler
+> > - * @vdpu_irq:			decoder interrupt handler
+> > + * @irq_handlers:		interrupt handlers, same order as irq names
+> > + * @irq_names:			array of irq names
+> > + * @num_irqs:			number of irqs in the arrays
+> >   * @clk_names:			array of clock names
+> >   * @num_clocks:			number of clocks in the array
+> >   */
+> > @@ -73,8 +75,9 @@ struct hantro_variant {
+> >  	const struct hantro_codec_ops *codec_ops;
+> >  	int (*init)(struct hantro_dev *vpu);
+> >  	int (*runtime_resume)(struct hantro_dev *vpu);
+> > -	irqreturn_t (*vepu_irq)(int irq, void *priv);
+> > -	irqreturn_t (*vdpu_irq)(int irq, void *priv);
+> > +	irqreturn_t (*irq_handlers[HANTRO_MAX_IRQS])(int irq, void *priv);
+> > +	const char *irq_names[HANTRO_MAX_IRQS];
+> 
+> Can we have a struct instead of an array for all handlers and another
+> array for irq names:
+> 
+> 	struct {
+> 		const char *name;
+> 		irqreturn_t (*handler)(int irq, void *priv);
+> 	} irqs[HANTRO_MAX_IRQS];
+> 
+> > +	int num_irqs;
+> 
+> Or we could have the struct defined outside of hantro_variant and get
+> rid of HANTRO_MAX_IRQS (I find it annoying to have to update the MAX
+> value every time a new variant needs more than what was previously
+> defined as MAX):
+> 
+> struct hantro_irq {
+> 	const char *name;
+> 	irqreturn_t (*handler)(int irq, void *priv);
+> };
+> 
+> struct hantro_variant {
+> 	...
+> 	unsigned int num_irqs;
+> 	const struct hantro_irq *irqs;
+> };
+> 
+> static const struct hantro_irq xxxx_irqs[] = {
+> 	{ ... },
+> 	{ ... },
+> 
+> };
+> 
+> static const struct hantro_variant xxxx_variant = {
+> 	.num_irqs = ARRAY_SIZE(xxxx_irqs),
+> 	.irqs = xxxx_irqs,
+> };
+
+Thank you, that looks better. I'll change this for v3.
 
 regards
-Stan
-
-The following changes since commit eb96e57b913ff668b8b804178cdc509f9b3d4472:
-
-  media: dvb: warning about dvb frequency limits produces too much noise (2019-05-22 15:32:08 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-fixes-v5.2-rc
-
-for you to fetch changes up to a75d2c1073da0f09e02848f3ae490c308007d792:
-
-  venus: hfi_parser: fix a regression in parser (2019-05-29 14:26:31 +0300)
-
-----------------------------------------------------------------
-venus fixes
-
-----------------------------------------------------------------
-Stanimir Varbanov (1):
-      venus: hfi_parser: fix a regression in parser
-
- drivers/media/platform/qcom/venus/hfi_helper.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Philipp
