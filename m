@@ -2,97 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FBB62DBE4
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 13:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F25C2DBEA
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 13:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbfE2LcP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 07:32:15 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:34015 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725894AbfE2LcP (ORCPT
+        id S1726875AbfE2LdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 07:33:01 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35652 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbfE2LdB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 07:32:15 -0400
-Received: from [IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e] ([IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VwoWh76fV3qlsVwoXhtJaR; Wed, 29 May 2019 13:32:13 +0200
-Subject: Re: [GIT PULL FOR v5.3] Add ZynqMP VCU/Allegro DVT H.264 encoder
- driver
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>
-References: <4d45c05b-8b24-6f35-a891-4646c8e1e1f5@xs4all.nl>
- <20190529080713.03f47ab8@coco.lan>
- <ae133543-8f1e-e0b4-1086-8fc8b4fcd7f4@xs4all.nl>
-Message-ID: <c90e38a5-3bb7-2e8f-8e06-e3d7676058a1@xs4all.nl>
-Date:   Wed, 29 May 2019 13:32:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <ae133543-8f1e-e0b4-1086-8fc8b4fcd7f4@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNug04sSlA5PYKLoDcKwVKcRVuUSILfesfGR0ywYR2UE1OUFMYaBo4Kxq8cs5t/iOTWk0Li2HaLq58CkEDazWykjl1L2TybiMshhRGkkt98E8cjd0394
- d542mitXDTsZbqZ8h1v4l0XeYBchl6xsz0BpzQdDm+NGpBXaG2DKKQyyrVJ9endLjZjky9t1SzSbaLPhMYF4t7R31xL/O10Zpu0bvOd9HsIKRlTasbD8CRsh
- fNotwyXEbJnkP5Qmu5MiqhfaBwgf1nnUDwBMiKgtcq9x90OdYUoLybSbnNuAXcu0w1yE55Ki3DNTgNcRxAqLtdjSr5cmiA27yif4cWrUBf1AsEi0jOEJF7nt
- Y7ezuu+8
+        Wed, 29 May 2019 07:33:01 -0400
+Received: by mail-wm1-f65.google.com with SMTP id w9so1365057wmi.0
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 04:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=fghY+BZG9jzLH9CkfdGMJemIUFdCRHcuHHhTEZX8sh0=;
+        b=L+C/lE+FoHWyOoKPusjaa84mUfC5vwra665gmIPOHxtpeKaROW6pH6HWhk7bB99zDx
+         0pTtMvF4Ey0i4wH88VMwcD5bz3bSDGlMesqI/bW7UJzVjpAFV1XpvVPkW+F5baqsncXe
+         A5RkrHuYBJxrWlfomO4FDAIFqItODvK2WIgYe5B0+Fj/y9ITA1Gw5GJxEZ/dQ7YPOzXG
+         htCeZbJhccM4fT+tdo6xXN/McOmQVTH8rrOLHGNVYpWiAxKxcxp9leWir5f9rt3M6o8Y
+         AeFALuV7F022LnFUNFCIEWx7RgXkGBgVIMg3jXEawHzIhAed8IvmrYGoxD/0Cw+2Eqry
+         pPHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fghY+BZG9jzLH9CkfdGMJemIUFdCRHcuHHhTEZX8sh0=;
+        b=luHVQ6Z6t2nK8nbazcA5/gnvw4HR1XdBm7N6oyXRgXIOTO0rI80QOCohScCN4j8iBL
+         aV0zkcHm1EO+BZEF44rzI/SQslKTny3Jm5GJoLFp12MxJDeUPlcwdm4azTOqU4jrKxzv
+         NopVLAz5wpmNncSPtVmv3IUL5QZIOFAIb6/h7/4wjHXrz0/QJZiPJXLm3ddeHh/Lo2pl
+         pBVzUMCGmNf0RBw+OQzCYzoHwQbYqNwyz7mygC1SnlCBrmCq4bFyduWMzdMp/tSnGCJn
+         kL3/mNlwEXmDg+EYDT8DWeho7Dudx6C9wFfO+KAMqnoP+72xJeKg7foZabSmuAoq7xHP
+         VrTA==
+X-Gm-Message-State: APjAAAV9FAb4LCrGN8eU0P8JjSb46e96Wu40vYF4aszkk8uf6AFSWrl3
+        IC2bFT+FLhqfNXhKoQ9u90GSVw==
+X-Google-Smtp-Source: APXvYqxjNj2+u5xGz/WmE+sFhfaNSVZwlhC/y4svXXUWEjG6Pe2nusU5fvTjI8ygUg0gNdTV1HYmSw==
+X-Received: by 2002:a1c:cb49:: with SMTP id b70mr7029966wmg.80.1559129578915;
+        Wed, 29 May 2019 04:32:58 -0700 (PDT)
+Received: from hackbox2.linaro.org ([81.128.185.34])
+        by smtp.gmail.com with ESMTPSA id t6sm12253565wmt.34.2019.05.29.04.32.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 May 2019 04:32:58 -0700 (PDT)
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+To:     stable@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH] media: v4l2-ioctl: clear fields in s_parm
+Date:   Wed, 29 May 2019 12:32:47 +0100
+Message-Id: <20190529113247.21188-1-naresh.kamboju@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/29/19 1:29 PM, Hans Verkuil wrote:
-> On 5/29/19 1:07 PM, Mauro Carvalho Chehab wrote:
->> Em Tue, 28 May 2019 20:10:27 +0200
->> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
->>
->>> The following changes since commit 9bec226d8c79fcbc95817b082557f72a79d182f5:
->>>
->>>   media: v4l2-pci-skeleton.c: fix doc warning (2019-05-28 13:14:28 -0400)
->>>
->>> are available in the Git repository at:
->>>
->>>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3f
->>>
->>> for you to fetch changes up to 75e52767fa3d58a783dd6862a7fb686e5de67fc6:
->>>
->>>   allegro: add SPS/PPS nal unit writer (2019-05-28 20:00:26 +0200)
->>>
->>> ----------------------------------------------------------------
->>> Tag branch
->>>
->>> ----------------------------------------------------------------
->>> Hans Verkuil (1):
->>>       videobuf2-v4l2: set last_buffer_dequeued in dqbuf
->>>
->>> Michael Tretter (4):
->>>       media: dt-bindings: media: document allegro-dvt bindings
->>>       media: dt-bindings: media: Add vendor prefix for allegro
->>>       allegro: add Allegro DVT video IP core driver
->>>       allegro: add SPS/PPS nal unit writer
->>
->> As this is staging, merged, but there's something wrong with DT here:
->>
->> WARNING: DT compatible string vendor "allegro" appears un-documented -- check ./Documentation/devicetree/bindings/vendor-prefixes.yaml
->> #3013: FILE: drivers/staging/media/allegro-dvt/allegro-core.c:3013:
->> +	{ .compatible = "allegro,al5e-1.1" },
->>
->> Please send a followup patch addressing it.
-> 
-> Huh? Something went wrong: this is the patch that is in my for-v5.3f branch:
-> 
-> https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=for-v5.3f&id=ae4e36dd1945380ccd97090d2099f67be9a976d8
-> 
-> That's not what you tried to merge.
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
-Never mind.
+commit 8a7c5594c02022ca5fa7fb603e11b3e1feb76ed5 upstream.
 
-The cause is that the change to vendor-prefixes.yaml was done after the change
-to allegro.txt. Those two patches should have been swapped.
+Zero the reserved capture/output array.
 
-So nothing is wrong.
+Zero the extendedmode (it is never used in drivers).
 
-Regards,
+Clear all flags in capture/outputmode except for V4L2_MODE_HIGHQUALITY,
+as that is the only valid flag.
 
-	Hans
+Cc: <stable@vger.kernel.org> # v4.9 v4.14
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 4510e8a37244..699e5f8e0a71 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1959,7 +1959,22 @@ static int v4l_s_parm(const struct v4l2_ioctl_ops *ops,
+ 	struct v4l2_streamparm *p = arg;
+ 	int ret = check_fmt(file, p->type);
+ 
+-	return ret ? ret : ops->vidioc_s_parm(file, fh, p);
++	if (ret)
++		return ret;
++
++	/* Note: extendedmode is never used in drivers */
++	if (V4L2_TYPE_IS_OUTPUT(p->type)) {
++		memset(p->parm.output.reserved, 0,
++		       sizeof(p->parm.output.reserved));
++		p->parm.output.extendedmode = 0;
++		p->parm.output.outputmode &= V4L2_MODE_HIGHQUALITY;
++	} else {
++		memset(p->parm.capture.reserved, 0,
++		       sizeof(p->parm.capture.reserved));
++		p->parm.capture.extendedmode = 0;
++		p->parm.capture.capturemode &= V4L2_MODE_HIGHQUALITY;
++	}
++	return ops->vidioc_s_parm(file, fh, p);
+ }
+ 
+ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
+-- 
+2.17.1
+
