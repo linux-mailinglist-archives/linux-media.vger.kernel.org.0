@@ -2,305 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA9A2D71D
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 09:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05E612D76A
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 10:11:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbfE2Hz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 03:55:56 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:35458 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbfE2Hz4 (ORCPT
+        id S1726301AbfE2ILY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 04:11:24 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58135 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726141AbfE2ILY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 03:55:56 -0400
-Received: by mail-yb1-f194.google.com with SMTP id s69so457703ybi.2;
-        Wed, 29 May 2019 00:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Osn05iDZ9YCFVG1ZvG0QdOmP+zixCsnWvYuWdS++NU4=;
-        b=iMD9Kwq2WvoN0BcWVK6saJsnqWZYziNtKrS/SyqMm0kUw/ROxdkvC9WZOr+bZWORMc
-         uV0m//OEWkL4DLgIlHxt8upkxIiLVegk2oDhicTK/pXirfj/dY9NB+Odeb5jDVO6MuuY
-         A2+Lh/z4sOvFaaOuf4TqINSk1EHCy17ANuw1HF6TBX0R4r4GNJcC/q2QJZlygfQkMGRO
-         +A8o2ufbM2pnECngH4NJIbAhqUwWJiRCE3n0sF7IPzt5GArm5hVuSzNnwVw7cvY9RV0w
-         EF+N/vRHL/2I1nbzpo+aO5le/c8GtrVtsmR6RCEH5Bo5MZZCDplfUu2ksRdfYB1HySLP
-         EvCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Osn05iDZ9YCFVG1ZvG0QdOmP+zixCsnWvYuWdS++NU4=;
-        b=pr+c3jiwrHfnfaMDr2CXdLNcNYWRXcMm2p+LwyFKg57LWpbyNaDkQnoNB35VH6flrA
-         zhUYnN1pokbg5cRcagXBSNfkVS4UXV/VMR6X/kTsZjkLzcTYQeN9aBC+lZxHzZd6OGUn
-         r8ecK8mcNxzP2kLBb9J/v8ZKfGv9N7PIsK4fskvE7LKVWv1073MP1s1B8bIwPjbhk/xX
-         p7sjf4Nb8Qal13zfkrqardQ5/0dKdG9TCAgzZ2j2ZHne5h9u6sSyfDsS+2Bn2TavbW0G
-         cxxfeymcukve1lZKV8Jwske20e7Lwh3BVpAChDyWjsQToPvg9LlW8gakaHVfU0wHHLn0
-         zo+A==
-X-Gm-Message-State: APjAAAV+XwqzMvrprzfECPui8TKGHxbEG2afSPIXwPnjZAyZnj0rj6m0
-        nNRCQOmwdSkWeF2pskHYNT8646zLOHqY57rzMJU=
-X-Google-Smtp-Source: APXvYqyGJzi6yznBfh/xZBx33+jcZ1K80IstRlOacxmR/ZeKXYZ51BBwHuo38owcJrO9U70Ny2c0AFM9ulI8unoKmrs=
-X-Received: by 2002:a25:340e:: with SMTP id b14mr20130906yba.82.1559116554895;
- Wed, 29 May 2019 00:55:54 -0700 (PDT)
+        Wed, 29 May 2019 04:11:24 -0400
+Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Vtg4h3fGP3qlsVtg6hs7cd; Wed, 29 May 2019 10:11:22 +0200
+Subject: Re: [PATCH v6 16/16] rockchip/vpu: Add support for MPEG-2 decoding on
+ RK3328
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+References: <20190528170232.2091-1-ezequiel@collabora.com>
+ <20190528170232.2091-17-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2ef056a2-e9dc-52b1-855b-2bef759af9b6@xs4all.nl>
+Date:   Wed, 29 May 2019 10:11:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190526222536.10917-1-peron.clem@gmail.com> <20190527134805.j7t4ffstrnhdml47@core.my.home>
- <CAJiuCcdnQa0TArduT4yBbUyd+dOaM0cQ1JcRUQLXLR6s_5e8sA@mail.gmail.com>
- <20190527163117.hpealt6cttqzqdxz@core.my.home> <20190527172337.5qxh5qeqnul55gsb@core.my.home>
- <CAJiuCccnRCqez2uG-pU8XY4Z=5S8rDwFB3rgsBovPHY1Uxyazw@mail.gmail.com>
- <20190527193016.yxngu5grsqnctx3z@core.my.home> <20190527195330.pugb7ypvnyv32fug@core.my.home>
- <CAJiuCccpnEqw_tGXST+WtGmZLbE+=wN1Hn9HKrk1+4WsW-abiA@mail.gmail.com>
- <20190528180447.zlrdfmn73fntnf4n@core.my.home> <20190529071945.mrbgurcvl2jvpm5r@flea>
-In-Reply-To: <20190529071945.mrbgurcvl2jvpm5r@flea>
-From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date:   Wed, 29 May 2019 09:55:43 +0200
-Message-ID: <CAJiuCcdAnwOO=uexmUMM2qSomxgOHfa432d-KxX-N7Jg+Ekipg@mail.gmail.com>
-Subject: Re: [linux-sunxi] Re: [PATCH v2 00/10] Allwinner A64/H6 IR support
-To:     Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190528170232.2091-17-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfMNOtP4e/XV/W7js+aDpcaAsOGhmRTm6BuvfYfFnsSyw4jJP6kb7xMVKrSZuUN4GaDQD1ZSXVHtDNy/R+83SyouWvcNijeoHgBNCa8eU8dPdBof7Kab5
+ V1hvhRtOlOGaHYwaTF/Y/XTblZe5Fu1/ii8O+fNkEtYGEiAvvITab3yg9XMNEtW8hk2k+99xmJ1HBOKunDBRVGwTbmcbwv3fCI7fYJz6SCQ3dxnMl/SA535h
+ L/zcPpp6sZzoI/yHyLQXuVBKVpb7OlHdt2wYutjCV55e/qY/rxTCEkLZuU2yKjkb+j633+ATuMfaNj1ZghqPZXFmFghNFCrQtDnsb+bv5hXQo+bsifv568kZ
+ bWbDZrkLqjGaojzzpgGDhHLiLx+SeOA75PHcGb0QcL83pTi6fIyULtocEdb1S2zhgtYE6x6bP++8TSqGH5ftvadrYjncP7PQIWoDA8XNSlQD7CM1yZonEdUU
+ 3196CcTVzojwiHoaUZIN49r5PZOyxKZ06q8nvqx3AKJ9+0Rs8ej8mYQlIlDQIWtNuysi19aUrSnnR0OQxkoshoFP+Wsc1HJWwsAlDeca0udZ0ZmVak2E3X9E
+ kIzxFOHzku+A0kNcGHy9ClBlS3dWZv5Yc1j8ELfEeB0rtA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On Wed, 29 May 2019 at 09:19, Maxime Ripard <maxime.ripard@bootlin.com> wro=
-te:
->
-> On Tue, May 28, 2019 at 08:04:47PM +0200, Ond=C5=99ej Jirman wrote:
-> > Hello Cl=C3=A9ment,
-> >
-> > On Tue, May 28, 2019 at 06:21:19PM +0200, Cl=C3=A9ment P=C3=A9ron wrote=
-:
-> > > Hi Ond=C5=99ej,
-> > >
-> > > On Mon, 27 May 2019 at 21:53, 'Ond=C5=99ej Jirman' via linux-sunxi
-> > > <linux-sunxi@googlegroups.com> wrote:
-> > > >
-> > > > Hi Cl=C3=A9ment,
-> > > >
-> > > > On Mon, May 27, 2019 at 09:30:16PM +0200, verejna wrote:
-> > > > > Hi Cl=C3=A9ment,
-> > > > >
-> > > > > On Mon, May 27, 2019 at 08:49:59PM +0200, Cl=C3=A9ment P=C3=A9ron=
- wrote:
-> > > > > > Hi Ondrej,
-> > > > > >
-> > > > > > >
-> > > > > > > I'm testing on Orange Pi 3.
-> > > > > > >
-> > > > > > > With your patches, I get kernel lockup after ~1 minute of use=
- (ssh stops
-> > > > > > > responding/serial console stops responding). I don't have RC =
-controller to test
-> > > > > > > the CIR. But just enabling the CIR causes kernel to hang shor=
-tly after boot.
-> > > > > > >
-> > > > > > > I tried booting multiple times. Other results:
-> > > > > > >
-> > > > > > > boot 2:
-> > > > > > >
-> > > > > > > - ssh hangs even before connecting (ethernet crashes/is reset=
-)
-> > > > > > >
-> > > > > > > INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (1 GPs behind) idle=3D64a/0/0x3 softirq=3D409=
-1/4091 fqs=3D2437
-> > > > > > > dwmac-sun8i 5020000.ethernet eth0: Reset adapter.
-> > > > > > > rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks:=
- { 0-... } 5696 jiffies s: 81 root: 0x1/.
-> > > > > > > rcu: blocking rcu_node structures:
-> > > > > > >  rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (1 GPs behind) idle=3D64a/0/0x3 softirq=3D409=
-1/4091 fqs=3D9714
-> > > > > > > rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks:=
- { 0-... } 21568 jiffies s: 81 root: 0x1/.
-> > > > > > > rcu: blocking rcu_node structures:
-> > > > > > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (1 GPs behind) idle=3D64a/0/0x3 softirq=3D409=
-1/4091 fqs=3D17203
-> > > > > > >
-> > > > > > > above messages appear regularly.
-> > > > > > >
-> > > > > > > boot 3:
-> > > > > > >
-> > > > > > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (9 GPs behind) idle=3D992/0/0x3 softirq=3D612=
-3/6123 fqs=3D2600
-> > > > > > >
-> > > > > > >
-> > > > > > > Sometimes serial console keeps working. Sometimes it locks up=
- too (but not
-> > > > > > > frequently). Storage locks up always (any program that was no=
-t run before
-> > > > > > > the crash can't be started and lock up the kernel hard, progr=
-ams that
-> > > > > > > were executed prior, can be run again).
-> > > > > > >
-> > > > > > >
-> > > > > > > Exactly the same kernel build on H5 seems to work (or at leas=
-t I was not able to
-> > > > > > > trigger the crash). So this seems to be limited to H6 for now=
-.
-> > > > > > >
-> > > > > > > I suspect that the crash occurs sooner if I vary the light (t=
-urn on/off the table
-> > > > > > > lamp light).
-> > > > > > >
-> > > > > > > Without your patches, everything works fine on H6, and I neve=
-r see
-> > > > > > > crashes/lockups.
-> > > > > > >
-> > > > > > > I tired physically covering the IR receiver, and that helps p=
-reventing the
-> > > > > > > crash. As soon as I uncover it, the crash happens again in 1s=
- or so:
-> > > > > > >
-> > > > > > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (1 GPs behind) idle=3D4ea/0/0x3 softirq=3D448=
-3/4484 fqs=3D2444
-> > > > > > > rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
-> > > > > > > rcu:    0-....: (1 GPs behind) idle=3D4ea/0/0x3 softirq=3D448=
-3/4484 fqs=3D9777
-> > > > > > >
-> > > > > > > This time I got the hung task and reboot: (probably not direc=
-tly related)
-> > > > > > >
-> > > > > > > INFO: task find:560 blocked for more than 120 seconds.
-> > > > > > >       Not tainted 5.2.0-rc2+ #7
-> > > > > > > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables t=
-his message.
-> > > > > > > find            D    0   560    551 0x00000000
-> > > > > > > Call trace:
-> > > > > > >  __switch_to+0x6c/0x90
-> > > > > > >  __schedule+0x1f4/0x578
-> > > > > > >  schedule+0x28/0xa8
-> > > > > > >  io_schedule+0x18/0x38
-> > > > > > >  __lock_page+0x12c/0x208
-> > > > > > >  pagecache_get_page+0x238/0x2e8
-> > > > > > >  __get_node_page+0x6c/0x310
-> > > > > > >  f2fs_get_node_page+0x14/0x20
-> > > > > > >  f2fs_iget+0x70/0xc60
-> > > > > > >  f2fs_lookup+0xcc/0x218
-> > > > > > >  __lookup_slow+0x78/0x160
-> > > > > > >  lookup_slow+0x3c/0x60
-> > > > > > >  walk_component+0x1e4/0x2e0
-> > > > > > >  path_lookupat.isra.13+0x5c/0x1e0
-> > > > > > >  filename_lookup.part.23+0x6c/0xe8
-> > > > > > >  user_path_at_empty+0x4c/0x60
-> > > > > > >  vfs_statx+0x78/0xd8
-> > > > > > >  __se_sys_newfstatat+0x24/0x48
-> > > > > > >  __arm64_sys_newfstatat+0x18/0x20
-> > > > > > >  el0_svc_handler+0x9c/0x170
-> > > > > > >  el0_svc+0x8/0xc
-> > > > > > > Kernel panic - not syncing: hung_task: blocked tasks
-> > > > > > > CPU: 1 PID: 34 Comm: khungtaskd Not tainted 5.2.0-rc2+ #7
-> > > > > > > Hardware name: OrangePi 3 (DT)
-> > > > > > > Call trace:
-> > > > > > >  dump_backtrace+0x0/0xf8
-> > > > > > >  show_stack+0x14/0x20
-> > > > > > >  dump_stack+0xa8/0xcc
-> > > > > > >  panic+0x124/0x2dc
-> > > > > > >  proc_dohung_task_timeout_secs+0x0/0x40
-> > > > > > >  kthread+0x120/0x128
-> > > > > > >  ret_from_fork+0x10/0x18
-> > > > > > > SMP: stopping secondary CPUs
-> > > > > > > Kernel Offset: disabled
-> > > > > > > CPU features: 0x0002,20002000
-> > > > > > > Memory Limit: none
-> > > > > > > Rebooting in 3 seconds..
-> > > > > > >
-> > > > > > >
-> > > > > > > Meanwhile H5 based board now runs for 15 minutes without issu=
-es.
-> > > > > > >
-> > > > > > > So to sum up:
-> > > > > > >
-> > > > > > > - these crashes are definitely H6 IR related
-> > > > > > >   - the same kernel, on H5 works
-> > > > > > >   - covering the sensor prevents the crashes on H6
-> > > > > > >
-> > > > > > > So we should probably hold on with the series, until this is =
-figured out.
-> > > > > >
-> > > > > > Thanks for testing, but I think it's more hardware related.
-> > > > > > It seems that your IR is flooded or misconfigured for your boar=
-d.
-> > > > > > Could you add a simple print in the "sunxi_ir_irq"
-> > > > >
-> > > > > Yes, I get flood of IRQs with status =3D 0x30. (after I turn on t=
-he lamp,
-> > > > > but it persists even after I turn it off and cover the IR sensor)=
-.
-> > > >
-> > > > Interestingly, status also contains RAC, and it's 0 in this case. S=
-o the
-> > > > interrupt if firing with "No available data in RX FIFO" repeatedly.=
- Regardless
-> > > > of input.
-> > > >
-> > > > So there's something else up.
-> > >
-> > > Really weird indeed...
-> > >
-> > > I have pushed a new version, where I didn't enabled the support for
-> > > others H6 board and the cover letter include a link to this thread.
-> > >
-> > > It would be great if other sunxi users could test this series, to
-> > > check if this issue in present in other OPi3 / Pine H64.
-> >
-> > I don't know if this is enough. I'd rather prefer if the driver has a w=
-ay
-> > of detecting this situation and shutting the module down, at the very l=
-east,
-> > instead of taking down the entire system with IRQ flood.
-> >
-> > It may be detectable by checking RAC =3D=3D 0 when RX FIFO available in=
-terrupt
-> > flag is set.
-> >
-> > Otherwise, this will eventually be forgotten (cover letters are not eve=
-n stored
-> > in git), and someone will fall into the trap again, after enabling r_ir=
- on
-> > their board, and end up chasing their tail for a day. I've initially on=
-ly found
-> > this is IR driver issue after a long unpleasant debugging session, chas=
-ing other
-> > more obvious ideas (as when this happens there's absolutely nothing in =
-the log
-> > indicating this is IR issue).
->
-> Returning IRQ_NONE in the handler will disable the interrupt line
-> after 100,000 (I think?) occurences. That might be a good workaround,
-> but we definitely want to have a comment there :)
->
-
-Thanks for the suggestion,
-
-I will propose a patch to return IRQ_NONE if Fifo is empty when RA is sette=
-d.
-
-Just a comment in the IRQ handling we are actually looking at the
-RXSTA register and using the RXINT bit ?
-Is there any reason for doing that ?
-
-Thanks,
-Cl=C3=A9ment
-
-
-> Maxime
->
+On 5/28/19 7:02 PM, Ezequiel Garcia wrote:
+> From: Jonas Karlman <jonas@kwiboo.se>
+> 
+> Add necessary bits to support MPEG2 decoding on RK3328.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > --
-> Maxime Ripard, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> Changes from v5:
+> * New patch.
+> 
+>  drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c   | 12 ++++++++++++
+>  .../staging/media/rockchip/vpu/rockchip_vpu_drv.c    |  1 +
+>  drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h |  1 +
+>  3 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> index 2b3689968ef4..341f8d69c33d 100644
+> --- a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> +++ b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> @@ -175,3 +175,15 @@ const struct rockchip_vpu_variant rk3399_vpu_variant = {
+>  	.clk_names = {"aclk", "hclk"},
+>  	.num_clocks = 2
+>  };
+> +
+> +const struct rockchip_vpu_variant rk3328_vpu_variant = {
+> +	.dec_offset = 0x400,
+> +	.dec_fmts = rk3399_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+> +	.codec = RK_VPU_MPEG2_DECODER,
+> +	.codec_ops = rk3399_vpu_codec_ops,
+> +	.vdpu_irq = rk3399_vdpu_irq,
+> +	.init = rk3399_vpu_hw_init,
+> +	.clk_names = {"aclk", "hclk"},
+> +	.num_clocks = 2
+> +};
+> diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> index b94ff97451db..2e22009b6583 100644
+> --- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> +++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> @@ -419,6 +419,7 @@ static const struct v4l2_file_operations rockchip_vpu_fops = {
+>  
+>  static const struct of_device_id of_rockchip_vpu_match[] = {
+>  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+> +	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+
+This new compatible string should be documented in
+Documentation/devicetree/bindings/media/rockchip-vpu.txt as well.
+
+I'll take patches 1-15 and drop this one. This patch can be merged once
+the bindings file is updated as well.
+
+Regards,
+
+	Hans
+
+>  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+>  	{ /* sentinel */ }
+>  };
+> diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h b/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+> index 6cecb528f994..3d6b97af90fb 100644
+> --- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+> +++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h
+> @@ -79,6 +79,7 @@ enum rockchip_vpu_enc_fmt {
+>  };
+>  
+>  extern const struct rockchip_vpu_variant rk3399_vpu_variant;
+> +extern const struct rockchip_vpu_variant rk3328_vpu_variant;
+>  extern const struct rockchip_vpu_variant rk3288_vpu_variant;
+>  
+>  void rockchip_vpu_watchdog(struct work_struct *work);
+> 
+
