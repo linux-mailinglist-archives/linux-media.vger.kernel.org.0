@@ -2,215 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCA42DECE
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F6D32DEF1
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727301AbfE2Nqn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 29 May 2019 09:46:43 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53060 "EHLO
+        id S1726828AbfE2NyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 09:54:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53170 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727014AbfE2Nqn (ORCPT
+        with ESMTP id S1726029AbfE2NyS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 09:46:43 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2A66E261484;
-        Wed, 29 May 2019 14:46:41 +0100 (BST)
-Date:   Wed, 29 May 2019 15:46:38 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2 5/9] media: hantro: add support for named register
- ranges
-Message-ID: <20190529154638.0ebd7c56@collabora.com>
-In-Reply-To: <1559136052.3651.9.camel@pengutronix.de>
-References: <20190529095424.23614-1-p.zabel@pengutronix.de>
-        <20190529095424.23614-6-p.zabel@pengutronix.de>
-        <20190529134645.65f8feb4@collabora.com>
-        <1559136052.3651.9.camel@pengutronix.de>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Wed, 29 May 2019 09:54:18 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id DCDC1260A4C
+Message-ID: <4ef64e22f4035fccf09fbb7f0be04a9778b1230d.camel@collabora.com>
+Subject: Re: [PATCH v6 03/16] media: v4l2-common: Support custom imagesize
+ in fill_pixfmt()
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Date:   Wed, 29 May 2019 09:54:09 -0400
+In-Reply-To: <20190529082809.0b9f3553@coco.lan>
+References: <20190528170232.2091-1-ezequiel@collabora.com>
+         <20190528170232.2091-4-ezequiel@collabora.com>
+         <20190529082809.0b9f3553@coco.lan>
+Organization: Collabora Ltd.
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-E3Gex8edDT193EfQlRr+"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 29 May 2019 15:20:52 +0200
-Philipp Zabel <p.zabel@pengutronix.de> wrote:
 
-> Hi Boris,
-> 
-> thank you for the review.
-> 
-> On Wed, 2019-05-29 at 13:46 +0200, Boris Brezillon wrote:
-> > On Wed, 29 May 2019 11:54:20 +0200
-> > Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> >   
-> > > Add support for multiple register ranges with SoC specific names.
-> > > 
-> > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > ---
-> > >  drivers/staging/media/hantro/hantro.h     |  7 ++++++-
-> > >  drivers/staging/media/hantro/hantro_drv.c | 25 +++++++++++++++++------
-> > >  2 files changed, 25 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> > > index 6b90fe48bcdf..b796867808d5 100644
-> > > --- a/drivers/staging/media/hantro/hantro.h
-> > > +++ b/drivers/staging/media/hantro/hantro.h
-> > > @@ -27,6 +27,7 @@
-> > >  
-> > >  #define HANTRO_MAX_CLOCKS		4
-> > >  #define HANTRO_MAX_IRQS			3
-> > > +#define HANTRO_MAX_REG_RANGES		4
-> > >  
-> > >  #define MPEG2_MB_DIM			16
-> > >  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
-> > > @@ -63,6 +64,8 @@ struct hantro_codec_ops;
-> > >   * @num_irqs:			number of irqs in the arrays
-> > >   * @clk_names:			array of clock names
-> > >   * @num_clocks:			number of clocks in the array
-> > > + * @reg_names:			array of register range names
-> > > + * @num_regs:			number of register range names in the array
-> > >   */
-> > >  struct hantro_variant {
-> > >  	unsigned int enc_offset;
-> > > @@ -80,6 +83,8 @@ struct hantro_variant {
-> > >  	int num_irqs;
-> > >  	const char *clk_names[HANTRO_MAX_CLOCKS];
-> > >  	int num_clocks;
-> > > +	const char *reg_names[HANTRO_MAX_REG_RANGES];
-> > > +	int num_regs;  
-> 
-> Do you suggest
-> 	const char * const *reg_names;
-> ...
+--=-E3Gex8edDT193EfQlRr+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes.
+Hi Mauro,
 
-> 
-> > >  };
-> > >  
-> > >  /**
-> > > @@ -170,7 +175,7 @@ struct hantro_dev {
-> > >  	struct platform_device *pdev;
-> > >  	struct device *dev;
-> > >  	struct clk_bulk_data clocks[HANTRO_MAX_CLOCKS];
-> > > -	void __iomem *base;
-> > > +	void __iomem *base[HANTRO_MAX_REG_RANGES];  
-> > 
-> > Same comment as for the irq stuff.  
-> 
-> ... and
-> 	void __iomem **base;
-> to get rid of HANTRO_MAX_REG_RANGES?
+Le mercredi 29 mai 2019 =C3=A0 08:28 -0300, Mauro Carvalho Chehab a =C3=A9c=
+rit :
+> Em Tue, 28 May 2019 14:02:19 -0300
+> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+>=20
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> >=20
+> > Users can define custom sizeimage as long as they're big enough to
+> > store the amount of pixels required for a specific width/height under a
+> > specific format. Avoid overriding those fields in this case.
+> >=20
+> > We could possibly do the same for bytesperline, but it gets tricky when
+> > dealing with !MPLANE definitions, so this case is omitted for now and
+> > ->bytesperline is always overwritten with the value calculated in
+> > fill_pixfmt().
+> >=20
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> > Changes from v5:
+> > * Overwrite bytesperline with the value calculated in fill_pixfmt()
+> >=20
+> > Changes from v4:
+> > * New patch
+> >=20
+> >  drivers/media/v4l2-core/v4l2-common.c | 58 ++++++++++++++++++++-------
+> >  1 file changed, 43 insertions(+), 15 deletions(-)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2=
+-core/v4l2-common.c
+> > index b2d1e55d9561..fd286f6e17d7 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -585,9 +585,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mpla=
+ne *pixfmt,
+> >  	pixfmt->num_planes =3D info->mem_planes;
+> > =20
+> >  	if (info->mem_planes =3D=3D 1) {
+> > +		u32 sizeimage =3D 0;
+> > +
+> >  		plane =3D &pixfmt->plane_fmt[0];
+> > -		plane->bytesperline =3D ALIGN(width, v4l2_format_block_width(info, 0=
+)) * info->bpp[0];
+> > -		plane->sizeimage =3D 0;
+> > =20
+> >  		for (i =3D 0; i < info->comp_planes; i++) {
+> >  			unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> > @@ -598,10 +598,21 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mp=
+lane *pixfmt,
+> >  			aligned_width =3D ALIGN(width, v4l2_format_block_width(info, i));
+> >  			aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i))=
+;
+> > =20
+> > -			plane->sizeimage +=3D info->bpp[i] *
+> > -				DIV_ROUND_UP(aligned_width, hdiv) *
+> > -				DIV_ROUND_UP(aligned_height, vdiv);
+> > +			sizeimage +=3D info->bpp[i] *
+> > +				     DIV_ROUND_UP(aligned_width, hdiv) *
+> > +				     DIV_ROUND_UP(aligned_height, vdiv);
+> >  		}
+> > +
+> > +		/* Custom bytesperline value is not supported yet. */
+> > +		plane->bytesperline =3D ALIGN(width,
+> > +					    v4l2_format_block_width(info, 0)) *
+> > +				      info->bpp[0];
+> > +
+> > +		/*
+> > +		 * The user might have specified a custom sizeimage, only
+> > +		 * override it if it's not big enough.
+> > +		 */
+> > +		plane->sizeimage =3D max(sizeimage, plane->sizeimage);
+>=20
+> No upper limit? That doesn't sound a good idea to me, specially since som=
+e
+> (broken) app might not be memset the format to zero before filling the io=
+ctl
+> structure.
+>=20
+> Perhaps we could do something like:
+>=20
+> 		sizeimage =3D min (sizeimage, 2 * plane->sizeimage)
+>=20
+> or something similar that would be reasonable.
+>=20
+> >  	} else {
+> >  		for (i =3D 0; i < info->comp_planes; i++) {
+> >  			unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> > @@ -613,10 +624,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mp=
+lane *pixfmt,
+> >  			aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i))=
+;
+> > =20
+> >  			plane =3D &pixfmt->plane_fmt[i];
+> > -			plane->bytesperline =3D
+> > -				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv);
+> > -			plane->sizeimage =3D
+> > -				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
+> > +
+> > +			/* Custom bytesperline value is not supported yet. */
+>=20
+> Supporting custom bytesperline seems too risky of breaking apps.=20
+> So, I would drop this comment.
 
-This one would have to be dynamically allocated, but yes.
+We will really need this in the long run in many drivers in order to
+allow import/export of DMABuf. Without such adaptive feature, we have a
+software limitation that forces bouncing memory. I have already
+discussed about adding this feature notably in vivid and uvcvideo on
+IRC and in conference, which both have no restriction the memory
+alignment, so should allow importing any kind of video layout.
 
-> 
-> Would you like to see the same for clk_names?
+We already have a partial userspace implementation for this in
+GStreamer and upstream driver submission should come when the IP is
+considered stable enough.
 
-It'd be better, indeed.
+Why I think it won't break userspace is that the correct way to use
+these read-only members of V4L2 struct is to set these to 0, which is
+also documented.
 
-> 
-> > >  	void __iomem *enc_base;
-> > >  	void __iomem *dec_base;
-> > >  
-> > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > > index f677b40bcd2d..bd02b27258e3 100644
-> > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > @@ -692,12 +692,25 @@ static int hantro_probe(struct platform_device *pdev)
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > > -	res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
-> > > -	vpu->base = devm_ioremap_resource(vpu->dev, res);
-> > > -	if (IS_ERR(vpu->base))
-> > > -		return PTR_ERR(vpu->base);
-> > > -	vpu->enc_base = vpu->base + vpu->variant->enc_offset;
-> > > -	vpu->dec_base = vpu->base + vpu->variant->dec_offset;
-> > > +	if (vpu->variant->num_regs) {
-> > > +		for (i = 0; i < vpu->variant->num_regs; i++) {
-> > > +			const char *reg_name = vpu->variant->reg_names[i];
-> > > +
-> > > +			res = platform_get_resource_byname(vpu->pdev,
-> > > +							   IORESOURCE_MEM,
-> > > +							   reg_name);
-> > > +			vpu->base[i] = devm_ioremap_resource(vpu->dev, res);
-> > > +			if (IS_ERR(vpu->base[i]))
-> > > +				return PTR_ERR(vpu->base[i]);
-> > > +		}
-> > > +	} else {
-> > > +		res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
-> > > +		vpu->base[0] = devm_ioremap_resource(vpu->dev, res);
-> > > +		if (IS_ERR(vpu->base[0]))
-> > > +			return PTR_ERR(vpu->base[0]);
-> > > +		vpu->enc_base = vpu->base[0] + vpu->variant->enc_offset;
-> > > +		vpu->dec_base = vpu->base[0] + vpu->variant->dec_offset;  
-> > 
-> > I see ->dec_based is assigned in ->hw_init() in patch 8, so maybe it's
-> > better to have the same workflow for rk variants: assign
-> > vpu->{dec,enc}_base in ->hw_init()   
-> 
-> I didn't want to change this around too much, as dec_base is just needed
-> for the vdpu_read/write functions, and I expect we'll have to somehow
-> replace these anyway when adding G2 support.
+Adding upper bound seems like a good idea though.
 
-If G1 and G2 blocks are completely independent I think they should be
-represented as separate instances, and we can then re-use the same
-accessors. Am I missing something?
+>=20
+>=20
+> > +			plane->bytesperline =3D info->bpp[i] *
+> > +					      DIV_ROUND_UP(aligned_width, hdiv);
+> > +
+> > +			/*
+> > +			 * The user might have specified a custom sizeimage,
+> > +			 * only override it if it's not big enough.
+> > +			 */
+> > +			plane->sizeimage =3D max_t(u32,
+> > +						 plane->bytesperline *
+> > +						 DIV_ROUND_UP(aligned_height, vdiv),
+> > +						 plane->sizeimage);
+> >  		}
+> >  	}
+> >  	return 0;
+> > @@ -627,6 +647,7 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt=
+, u32 pixelformat,
+> >  		     u32 width, u32 height)
+> >  {
+> >  	const struct v4l2_format_info *info;
+> > +	u32 sizeimage =3D 0;
+> >  	int i;
+> > =20
+> >  	info =3D v4l2_format_info(pixelformat);
+> > @@ -640,8 +661,6 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt=
+, u32 pixelformat,
+> >  	pixfmt->width =3D width;
+> >  	pixfmt->height =3D height;
+> >  	pixfmt->pixelformat =3D pixelformat;
+> > -	pixfmt->bytesperline =3D ALIGN(width, v4l2_format_block_width(info, 0=
+)) * info->bpp[0];
+> > -	pixfmt->sizeimage =3D 0;
+> > =20
+> >  	for (i =3D 0; i < info->comp_planes; i++) {
+> >  		unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> > @@ -651,11 +670,20 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixf=
+mt, u32 pixelformat,
+> > =20
+> >  		aligned_width =3D ALIGN(width, v4l2_format_block_width(info, i));
+> >  		aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i));
+> > -
+> > -		pixfmt->sizeimage +=3D info->bpp[i] *
+> > -			DIV_ROUND_UP(aligned_width, hdiv) *
+> > -			DIV_ROUND_UP(aligned_height, vdiv);
+> > +		sizeimage +=3D info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) *
+> > +			     DIV_ROUND_UP(aligned_height, vdiv);
+> >  	}
+> > +
+> > +	/* Custom bytesperline value is not supported yet. */
+> > +	pixfmt->bytesperline =3D ALIGN(width, v4l2_format_block_width(info, 0=
+)) *
+> > +			       info->bpp[0];
+> > +
+> > +	/*
+> > +	 * The user might have specified its own sizeimage value, only overri=
+de
+> > +	 * it if it's not big enough.
+> > +	 */
+> > +	pixfmt->sizeimage =3D max(sizeimage, pixfmt->sizeimage);
+> > +
+>=20
+> Same comment applies here: We need to sanitize it from too big sizeimages=
+.
+>=20
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+>=20
+>=20
+> Thanks,
+> Mauro
 
-> Adding yet another set of register accessors for g1_read/write vs
-> g2_read/write isn't very convenient. Maybe it woudl be better to call
-> the register accessors with the base as a parameter instead of
-> hantro_dev.
+--=-E3Gex8edDT193EfQlRr+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Looks like the reg base is actually per functionality (decoder or
-encoder) not per device. Maybe we should stop passing hantro_dev
-directly and instead expose hantro_func objects that would have a
-pointer to the underlying hantro_dev plus extra attributes like a base
-address for regs, ....
+-----BEGIN PGP SIGNATURE-----
 
-That might help cope with the single-instance+multi-func vs
-single-instance-single-func difference we have between rk and imx
-integration, and we would also have a single set of read/write
-accessors.
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXO6PAgAKCRBxUwItrAao
+HGtVAJ0UVWNP/Lu2BV7o9LxtE4ppAOpZNgCgh5CfgIkF8yo5UMyINC3vVycN1CE=
+=gfX9
+-----END PGP SIGNATURE-----
 
-> 
-> Also the kerneldoc comment says .init() should "initialize hardware".
-> Should that be changed to "variant specific initialization" if the
-> enc/dec_base are set there?
-> 
-> > and set ->num_regs to 1 (plus a
-> > fallback to platform_get_resource() instead of
-> > platform_get_resource_byname() when ->reg_names[0] == NULL).  
-> 
-> I suppose we could do that, but
-> 
-> 	static const char * const rk3288_regs[] = {
-> 		NULL
-> 	}
-> 
-> 	const struct hantro_variant rk3288_vpu_variant = {
-> 		.reg_n
-> ames = rk3288_regs,
-> 		.num_regs = ARRAY_SIZE(rk3288_regs)
-> 	};
-> 
-> would look a bit strange if we were to get rid of
-> HANTRO_MAX_REG_RANGES...
+--=-E3Gex8edDT193EfQlRr+--
 
-You're right, we can probably stay with num_regs = 0 for the unnamed
-mem-resource case.
