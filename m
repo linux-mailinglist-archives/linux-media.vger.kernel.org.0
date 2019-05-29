@@ -2,81 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82CFF2D9B3
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 11:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0084E2DA16
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 12:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfE2JzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 05:55:21 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:33929 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725861AbfE2JzU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 05:55:20 -0400
-Received: from [IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae] ([IPv6:2001:983:e9a7:1:352c:d076:e7aa:19ae])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VvIfh5RzU3qlsVvIghslMC; Wed, 29 May 2019 11:55:19 +0200
-Subject: Re: [PATCH v2 00/11] Improve stability and add bug fixes of Aspeed
- video engine driver
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c841359a-96fe-eb74-e14c-29e304c6ba16@xs4all.nl>
-Date:   Wed, 29 May 2019 11:55:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726508AbfE2KLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 06:11:32 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35105 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725914AbfE2KLc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 May 2019 06:11:32 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 03:11:31 -0700
+X-ExtLoop1: 1
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001.fm.intel.com with ESMTP; 29 May 2019 03:11:28 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id D0EB52091F; Wed, 29 May 2019 13:11:27 +0300 (EEST)
+Date:   Wed, 29 May 2019 13:11:27 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Ondrej Jirman <megous@megous.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 0/3] ARM: sun8i: a83t: Support Camera Sensor Interface
+ controller
+Message-ID: <20190529101127.oykszcj7q4ikji47@paasikivi.fi.intel.com>
+References: <20190520150637.23557-1-megous@megous.com>
+ <20190520151003.uklhhak5clxi5zpf@core.my.home>
+ <CAGb2v64NDYo-yOvUQDpqzRB_A3NUgF3dXJeYbz_57uwB7mXwqQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPjUXrhJBvgXPPTEcsOCCcQshm3OE949Fo+PmiY2sJqd9MTPCcW7w/kbN4SONV4X4KXcJJglV8h/GN5HneFa6mBcsvu3y53EEeBXYrHYbT1eBEGkiDjF
- VKdE+PvDK344JZrQJbYA/Muy9gXbe1TepPLInRQ96MHSijq+SRwiCQ0XBXf3vWnGKPiOu4AL0xMNge3Rs+doGaKmESdhoBG1ET6VPSsMRjYPe83txEf+qWCJ
- DKC74tek992HCyelgeoJO4oo8ULpI0J0xMgLTn2jdokB2ZJSCQDcfAko9DgEVTXt36FtwyJ42VeafXofx99C0ZMCQZSkeihMW+n+xh90XgsrRiNC1yLpsm77
- ijEBlrvHa2pRGma9LnKxtN0KU98BY++vhvXA0EDHXcZ6C2oBjT+ZOQb0d33FmJf+O3prLZVDGwDDme3Jk2RybXviGbyWihNVIUGWOJFlF6Ehhao7RChc6qMU
- ByjxR2/nnl/baF6xBAOODTPuPRxRXEX/j9M/tQ==
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v64NDYo-yOvUQDpqzRB_A3NUgF3dXJeYbz_57uwB7mXwqQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Eddie,
+Hi Chen-Yu,
 
-Can you review the last 4 new patches? If all is OK, then I can make a pull
-request for this series.
-
-Regards,
-
-	Hans
-
-On 5/25/19 1:17 AM, Jae Hyun Yoo wrote:
-> This patch series improves stability of Aspeed video engine driver by fixing
-> clock control and irq handling logic in the driver. Also, it adds a couple of
-> bug fixes and a workaroud for a silicon bug.
+On Tue, May 28, 2019 at 09:03:06PM +0800, Chen-Yu Tsai wrote:
+> On Mon, May 20, 2019 at 11:10 PM Ondřej Jirman <megous@megous.com> wrote:
+> >
+> > On Mon, May 20, 2019 at 05:06:34PM +0200, verejna wrote:
+> > > From: Ondrej Jirman <megous@megous.com>
+> > >
+> > > This is a re-send of Chen-Yu's A83T CSI patch series with review tags
+> > > applied and removed address/size cells from csi_in port. Already applied
+> > > patches from v1  were dropped.
+> > >
+> > > The series is ready to be merged:
+> > >
+> > >   Patch 1 and 2 via sunxi tree
+> > >   Patch 3 via media tree
+> >
+> > Sorry, wrong numbers. 2 is for media tree, 3 is for sunxi, 1 is a dt-bindings
+> > patch, where I'm not sure.
 > 
-> Changes since v1:
-> - Removed spinlock handling code from 0001 patch.
-> - Added 4 more patches.
+> Bindings typically go with the driver.
 > 
-> Jae Hyun Yoo (11):
->   media: aspeed: fix a kernel warning on clk control
->   media: aspeed: refine clock control logic
->   media: aspeed: change irq to threaded irq
->   media: aspeed: remove IRQF_SHARED flag
->   media: aspeed: reduce noisy log printing outs
->   media: aspeed: remove checking of VE_INTERRUPT_CAPTURE_COMPLETE
->   media: aspeed: refine interrupt handling logic
->   media: aspeed: remove source buffer allocation before mode detection
->   media: aspeed: use different delays for triggering VE H/W reset
->   media: aspeed: fix an incorrect timeout checking in mode detection
->   media: aspeed: add a workaround to fix a silicon bug
-> 
->  drivers/media/platform/aspeed-video.c | 140 +++++++++++++++-----------
->  1 file changed, 80 insertions(+), 60 deletions(-)
-> 
+> Sakari, this series is and has been ready for some time since before the merge
+> window. Could you please merge patches 1 and 2.
 
+Don't wait, instead cc or ping me; that helps. :-)
+
+The two patches are fine; I'll merge them.
+
+-- 
+Kind regards,
+
+Sakari Ailus
+sakari.ailus@linux.intel.com
