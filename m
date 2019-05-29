@@ -2,135 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDFD02E3D3
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 19:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F1EC2E3D5
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 19:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727348AbfE2RpD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 13:45:03 -0400
-Received: from mail-wm1-f50.google.com ([209.85.128.50]:52463 "EHLO
-        mail-wm1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727017AbfE2RpC (ORCPT
+        id S1726555AbfE2RqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 13:46:23 -0400
+Received: from casper.infradead.org ([85.118.1.10]:44188 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbfE2RqX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 13:45:02 -0400
-Received: by mail-wm1-f50.google.com with SMTP id y3so2252895wmm.2
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 10:45:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=FvXkW9wYZSnc8D3b6nEQY7IzflOwooygPq7HjXp2wu0=;
-        b=wbE0LsV7TVLkKgD8P/C7whMSzJZEJ74gAEAlP6o9AAws0JQFRU88CBah9tVR4/GVGy
-         qRy9fSEAYYmOXTN1Q7M1quSZM/6Vc4AoWPOm46mtgMohm+LeyeAl8Wam9myOBimU9PVN
-         1jEHd/riv2QWD1oTYMPUrSbLspYQFr4vJ1npWcUHCG4YJPAktx/tdYdexGo00Qx8S6Th
-         apXQww6UghdmwZuapI9hJ4P1Utb2yy/Cf+JAh04xBojpqru6ZuNc6DjRDEjIXO5xp7Ht
-         w22a1U9rudfKuBOPkbj+hIPAdKqV7JHy1nQIZEACzeCmM9wNCZOwesjr3PjcX9cJP5mu
-         qncA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=FvXkW9wYZSnc8D3b6nEQY7IzflOwooygPq7HjXp2wu0=;
-        b=KAoT8gToGVF5zkKFBsBooyi4vOAU7hli4blS45GSZ67rhMHSJzebU3PiMgrg0NEy5A
-         sxe+kpgQqN8ihNJwQFWizPJ9kVrEX5ec8QkZLpnFBi+ObuFpvQbbqShLSSODh7QGWeXm
-         k7QWGv9H7rzEKiNsYZhJ7nWFQXckbUqPSzJ7OyktjQ3xULIpKklc/Pvf1vaHCADU3mGG
-         h+u1Yd0Pl0F0TooAcWnBaG6X05VtYO9+VoTJ0K6CgRri2e2H9Kr6cqC6P1IRbYzpYHd3
-         cYBgOdBUFMd1wap5kC5pTeo6PwlX/RkfOlfcJ7eK6U9MjzMe3wwqaRJH7sXX7Bi9YWRe
-         JoxA==
-X-Gm-Message-State: APjAAAWDepXTjMp0PvpeSYqH8i7DoHZXylk1HO4F9uOUmeDqwmMP2Cij
-        wOdlftChbraxaf9rASSOyITgqFkUZzQTYQ==
-X-Google-Smtp-Source: APXvYqxWXStW1ihP7AEQmYsXx/fgYPd4iOBCAT62doh6fU5A1LLku/hQLroNsI90CghgwZaQuWaoCw==
-X-Received: by 2002:a1c:d10e:: with SMTP id i14mr8121511wmg.161.1559151900973;
-        Wed, 29 May 2019 10:45:00 -0700 (PDT)
-Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
-        by smtp.gmail.com with ESMTPSA id r16sm46000wmh.17.2019.05.29.10.44.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 10:45:00 -0700 (PDT)
-Message-ID: <5ceec51c.1c69fb81.9b356.0394@mx.google.com>
-Date:   Wed, 29 May 2019 10:45:00 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 May 2019 13:46:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WTChWnFrdlSwWyNUxOcrMB9Sjm8UPIf7xsXOjVVk/vs=; b=Jtx3F/9JSmmX46ec/MUjW69ymB
+        anLis22bA1V6Nnrf7d5iRSRp+vCCL2Ma+lLVRyi9F91n3y21nyL9nxZqPpIy6nx1xTPUVLq3NGJCt
+        tVzHvyNlwVdNhJiJdL8NxTfN+mAQLHx0AtkOavvp4ZEftZBt4sGQVaLw1uH0FEyhqyKSyBs5RBk51
+        qb8t549HyD1ISWWj2UKtiEEHKz7bg0zkYrMGSfR6mmKvfjNTzR7gqJW0uPM0J9ahziLhBUJ2HIbS+
+        M0IBSNmwyiQ9RneQHkzWnETCkfbPh2h8eCv3iD3A6YdQq07GJ3H9Nw5n+oGkUqTdjc8YSQfzNsJqY
+        CccGE5OA==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hW2eM-0001jn-3L; Wed, 29 May 2019 17:46:06 +0000
+Date:   Wed, 29 May 2019 14:45:59 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, rmfrfs@gmail.com,
+        zhengsq@rock-chips.com, prabhakar.csengg@gmail.com, corbet@lwn.net,
+        wenyou.yang@microchip.com, lkundrak@v3.sk,
+        hverkuil-cisco@xs4all.nl, jacopo+renesas@jmondi.org,
+        linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 1/6] media: v4l2-subdev: add stubs for
+ v4l2_subdev_get_try_*
+Message-ID: <20190529144538.77801fbd@coco.lan>
+In-Reply-To: <20190405072604.2wul74tibybdw644@pengutronix.de>
+References: <20190404074002.18730-1-m.felsch@pengutronix.de>
+        <20190404074002.18730-2-m.felsch@pengutronix.de>
+        <20190404083933.33ejwyko4xoittux@paasikivi.fi.intel.com>
+        <20190404143947.do4lmvxrvnzubtl7@uno.localdomain>
+        <20190405072604.2wul74tibybdw644@pengutronix.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: media
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: v5.2-rc2-123-g578a3ab12705
-Subject: media/master v4l2-compliance on uvcvideo: 52 tests,
- 0 regressions (v5.2-rc2-123-g578a3ab12705)
-To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
-From:   "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-media/master v4l2-compliance on uvcvideo: 52 tests, 0 regressions (v5.2-rc2=
--123-g578a3ab12705)
+Em Fri, 5 Apr 2019 09:26:04 +0200
+Marco Felsch <m.felsch@pengutronix.de> escreveu:
 
-Test results summary
---------------------
+> Hi Sakari, Jacopo,
+> 
+> On 19-04-04 16:39, Jacopo Mondi wrote:
+> > Hi Marco, Sakari,
+> > 
+> > On Thu, Apr 04, 2019 at 11:39:34AM +0300, Sakari Ailus wrote:  
+> > > Hi Marco,
+> > >
+> > > On Thu, Apr 04, 2019 at 09:39:57AM +0200, Marco Felsch wrote:  
+> > > > In case of missing CONFIG_VIDEO_V4L2_SUBDEV_API those helpers aren't
+> > > > available. So each driver have to add ifdefs around those helpers or
+> > > > add the CONFIG_VIDEO_V4L2_SUBDEV_API as dependcy.
+> > > >
+> > > > Make these helpers available in case of CONFIG_VIDEO_V4L2_SUBDEV_API
+> > > > isn't set to avoid ifdefs. This approach is less error prone too.
+> > > >
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > ---
+> > > > The patch was previously part of series [1]. Since I want to get
+> > > > series [1] merged in 5.2 I split this possible stopper out of the
+> > > > serie and prepared a own series for it. I applied Jacopos comments and
+> > > > switched to Lubomir's approach [2]. During discussion on series [2]
+> > > > Sakari pointed out Hans approach [3] which didn't got into the kernel
+> > > > due to Mauro's concerns. So I think this would be the smalles common
+> > > > dennominator.
+> > > >
+> > > > [1] https://patchwork.kernel.org/cover/10786553/
+> > > > [2] https://patchwork.kernel.org/patch/10703029/
+> > > > [3] https://patchwork.linuxtv.org/patch/53370/
+> > > > ---
+> > > >  include/media/v4l2-subdev.h | 29 ++++++++++++++++++++++++++++-
+> > > >  1 file changed, 28 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > index a7fa5b80915a..eea792757426 100644
+> > > > --- a/include/media/v4l2-subdev.h
+> > > > +++ b/include/media/v4l2-subdev.h
+> > > > @@ -984,7 +984,34 @@ static inline struct v4l2_rect
+> > > >  		pad = 0;
+> > > >  	return &cfg[pad].try_compose;
+> > > >  }
+> > > > -#endif
+> > > > +
+> > > > +#else /* !defined(CONFIG_VIDEO_V4L2_SUBDEV_API) */
+> > > > +
+> > > > +static inline struct v4l2_mbus_framefmt
+> > > > +*v4l2_subdev_get_try_format(struct v4l2_subdev *sd,
+> > > > +			    struct v4l2_subdev_pad_config *cfg,
+> > > > +			    unsigned int pad)
+> > > > +{
+> > > > +	return ERR_PTR(-ENOTTY);
+> > > > +}  
+> > >
+> > > Almost all users of these functions directly use the struct pointer they
+> > > receive from the said functions, without checks for the pointer value.
 
-V4L2 Compliance on the uvcvideo driver.
+It they depends on VIDEO_V4L2_SUBDEV_API, there's no problem with that.
 
-This test ran "v4l2-compliance -s" from v4l-utils:
+> > >
+> > > These drivers now depend on CONFIG_VIDEO_V4L2_SUBDEV_API, but for new
+> > > drivers it could be possible to miss that, leading to dereferencing
+> > > ERR_PTR(-ENOTTY) as a result if the sub-device API isn't enabled.
 
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+If they require subdev API, but doesn't don't depend on such config, 
+then they're already broken: they won't work, and probably will crash
+the Kernel somewhere.
 
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
+> > >
+> > > I have to say I'm not a huge fan of such a change; it's one more such thing
+> > > to remember that results in a kernel crash if you get it wrong.
+> > >  
+> > 
+> > Unfortunately, I have to agree with Sakari here
+> >  
+> 
+> Are those drivers depending on CONFIG_VIDEO_V4L2_SUBDEV_API used by
+> usb-bridge devices? I Remember that was Mauro's concern on Hans RFC patch.
+> I'm with you the "depending way" is quite better.
 
+Neither USB or normal PCI drivers should depend on VIDEO_V4L2_SUBDEV_API.
 
-  Tree:    media
-  Branch:  master
-  Kernel:  v5.2-rc2-123-g578a3ab12705
-  URL:     https://git.linuxtv.org/media_tree.git
-  Commit:  578a3ab12705aae0101f590d3a77ecafe22f9453
+There are, currently, 3 PCI drivers that depends on it:
 
+1) drivers/media/pci/cobalt/Kconfig
 
-1  | rk3288-veyron-jaq      | arm   |  52 total:  43 PASS   9 FAIL   0 SKIP=
-  =
+   This is for a development board that not publicly available. So, I don't 
+   care about what it depends on.
 
-    =
+   Yet, I suspect that it depends on subdev just because of those drivers,
+   with also depends on it:
 
+	drivers/media/pci/cobalt/cobalt-driver.c:#include <media/i2c/adv7604.h>
+	drivers/media/pci/cobalt/cobalt-driver.c:#include <media/i2c/adv7842.h>
+	drivers/media/pci/cobalt/cobalt-driver.c:#include <media/i2c/adv7511.h>
 
-Test failures
-------------- =
+2) drivers/media/pci/intel/ipu3/Kconfig
 
-1  | rk3288-veyron-jaq      | arm   |  52 total:  43 PASS   9 FAIL   0 SKIP
+   This one seems to be the only valid case for the dependency: the IPU3
+   hardware is actually part of an Intel SoC that depends on subdevs 
+   and behave like any other platform driver: it will only work after
+   setting a MC pipeline and command the sub-devices directly via the
+   subdev API.
 
-  Config:      multi_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Lab Name:    lab-collabora
-  Plain log:   https://storage.kernelci.org//media/master/v5.2-rc2-123-g578=
-a3ab12705/arm/multi_v7_defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk=
-3288-veyron-jaq.txt
-  HTML log:    https://storage.kernelci.org//media/master/v5.2-rc2-123-g578=
-a3ab12705/arm/multi_v7_defconfig/gcc-8/lab-collabora/v4l2-compliance-uvc-rk=
-3288-veyron-jaq.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/stretch-v4l=
-2/20190510.0/armhf/rootfs.cpio.gz
-  Test Git:    git://linuxtv.org/v4l-utils.git
-  Test Commit: 0d61ddede7d340ffa1c75a2882e30c455ef3d8b8
-              =
+3) drivers/media/pci/sta2x11/Kconfig
 
+   This one looks weird for me. It sounds that it uses just the
+   adv7180 i2c driver. I suspect that it depends on VIDEO_V4L2_SUBDEV_API
+   just because the I2C driver assumes that the subdev API is always
+   there.
 
-    Control-ioctls-Input-0 - 6 tests: 4  PASS, 2 FAIL, 0 SKIP
-      * VIDIOC_QUERY_EXT_CTRL/QUERYMENU: never passed
-      * VIDIOC_G/S/TRY_EXT_CTRLS: never passed   =
+   IMO, adv7180 should be fixed to not depend on it anymore, and
+   let sta2x11 to also build without such dependency.
 
+Perhaps with the addition of this patch, (1) and (3) can be build and
+run without depending at the subdev API.
 
-    Format-ioctls-Input-0 - 10 tests: 9  PASS, 1 FAIL, 0 SKIP
-      * VIDIOC_G/S_PARM: never passed     =
+> 
+> > > I wonder if v4l2_subdev_call() could become a bit smarter about this;
+> > > checking whether the try format is attempted to be obtained without the
+> > > sub-device API being enabled, and returning an error in that case without
+> > > passing the IOCTL to the driver at all.  
+> > 
+> > I'm not much excited by the idea of specializing v4l2_subdev_call(), I
+> > had a try and I would be ashemed of sharing that code. If someone
+> > could come up with something nice we could consider this too.
+> > 
+> > For the record, it is not enough to check for V4L2_SUBDEV_API and try
+> > format, as a few (1?) bridge drivers calls the subdev operation providing a
+> > 'v4l2_subdev_pad_config' argument, that could be used by the sensor
+> > drivers in place of the one returned from v4l2_subdev_get_try_*, if
+> > V4L2_SUBDEV_API is not available  
+> 
+> Thats true. One thing to think about your caller. This code won't work
+> if you are using the existing ov* implementations too since the ceu
+> don't depend on the subdev-api too.
+> 
+> So including your record increases the complexity.
+> 
+> > 
+> > Caller:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/renesas-ceu.c#L858
+> > Sensor:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/mt9v111.c#L792
+> > 
+> > As I wrote both, they could be very well be wrong, but if they're not,
+> > one other option would be to refuse NULL v4l2_subdev_pad_config arguments
+> > (changing most of the bridge drivers in mainline) and move the code
+> > linked above here from the mt9v111 driver to the v4l2_subdev_get_try_*
+> > functions.
+> >   
+> > >
+> > > Just an idea. It doesn't have to be in the same patchset.
+> > >
+> > > I'd still prefer enabling subdev API always to decrease the number of
+> > > possible different kernel configurations.  
+> > 
+> > That would be best imho, but Hans' attempt didn't go very far because
+> > of the issue Marco reported in his cover letter.  
+> 
+> Yes, that's also my favourite.
+> 
+> @Mauro
+> Can you point out your concerns 'again'? Maybe we can apply Hans
+> approach and will fix the 'maybe' broken usb-bridge devices.
+> 
 
+The point is: only platform drivers require the subdev API; for
+USB/PCI drivers, this is not needed, and the core can be simplified
+in order to give a smaller footprint. Of course, drivers that depend
+on subdevs won't be compiled, but sensors can still work. The em28xx
+cameras, for example, use a few sensor drivers that can optionally
+export the subdev API, when the bridge driver supports it (with is not
+the case of the em28xx bridge itself).
 
-    Buffer-ioctls-Input-0 - 3 tests: 2  PASS, 1 FAIL, 0 SKIP
-      * Requests: never passed   =
+Looking at this patch, I don't see why it would cause any problems
+that aren't already there.
 
-
-    Streaming-ioctls_Test-input-0 - 7 tests: 2  PASS, 5 FAIL, 0 SKIP
-      * MMAP-no-poll: never passed
-      * MMAP-select: never passed
-      * MMAP-epoll: never passed
-      * USERPTR-no-poll: never passed
-      * USERPTR-select: never passed   =
-
-=20
+Thanks,
+Mauro
