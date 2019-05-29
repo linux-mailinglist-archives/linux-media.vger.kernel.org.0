@@ -2,133 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 086B32E1FB
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 18:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12FC32E290
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 18:53:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbfE2QIG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 12:08:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46504 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726062AbfE2QIF (ORCPT
+        id S1726613AbfE2QxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 12:53:13 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:39768 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726097AbfE2QxN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 12:08:05 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4TFwqgS003343
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 12:08:04 -0400
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ssw6w8fbf-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 12:08:04 -0400
-Received: from localhost
-        by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-media@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Wed, 29 May 2019 17:08:03 +0100
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
-        by e36.co.us.ibm.com (192.168.1.136) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 29 May 2019 17:07:59 +0100
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4TG7wKw11665914
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 May 2019 16:07:59 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E151D6A047;
-        Wed, 29 May 2019 16:07:58 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6017E6A04F;
-        Wed, 29 May 2019 16:07:58 +0000 (GMT)
-Received: from [9.41.179.222] (unknown [9.41.179.222])
-        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 29 May 2019 16:07:58 +0000 (GMT)
-Subject: Re: [PATCH v2 08/11] media: aspeed: remove source buffer allocation
- before mode detection
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
- <20190524231725.12320-9-jae.hyun.yoo@linux.intel.com>
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-Date:   Wed, 29 May 2019 11:07:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 29 May 2019 12:53:13 -0400
+Received: by mail-lj1-f194.google.com with SMTP id a10so3178630ljf.6
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 09:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oDIPDLr9Ng0NhpqFSJS8PtCUL0xQurDFel9JgLUuwmw=;
+        b=DEw5PWRnrmAFRgwpU1/rXMPhpfrXeqPWSRbXTRaqidViDDG6lcw4S0A+p1mmSyzWw5
+         ayNKIzZHHeo9vspg+h7ID8ShX+VHWf+ZaCc/fhZ95KpdqPFIdgM4E1pywEHE4mYelVlf
+         RRapeaH+mFRf/vhir/A9hoFDPoca8XygY3uLAp77aCBP93S4QhLipS/GH907HTxPw5jV
+         zGmnv7+xgn9617BYv0S6qXentfe3dpUgVC3Usfln7ev9qvWFq9nK3S20S/WXSNSzTvKQ
+         k0BpJx6JBkF8r7J/Qe2CgSMrVL6VEDfq9TeCtbdQ04G7v2xA84oEKl44sjsVY1USyPKp
+         ViCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oDIPDLr9Ng0NhpqFSJS8PtCUL0xQurDFel9JgLUuwmw=;
+        b=TkY6Ixax3gIJpB2tI8TVjEt9gbkW3bTkRqeWWd8l3/CS+fr/Yea4866dKxKoUL1XWS
+         +UFQndSPeow/PP33NjdWWI1Ve3/ZSMdqkdsnZ9X2tm7+8j+CMKVfP/4wvoGJh8Imk0p4
+         y3yrOv8uf+r79I7mPSPeNnqDh8Xh6UkSAIu2p9etgB/60oXUp1IdjQBtx/oi2g322nr8
+         3GimuwsfNp1KpXjIXMVKIPKMjR2jAsqSU9onxeckv22gUa4+sroPZ7D+cPxj9BdAhOrD
+         P+R2cC8AMKftRWlu3XqBDpR1xNpJGD7sDTPGYlKS4LZsC7WfAVoFLwaXSaf2070NQ3eV
+         KzlQ==
+X-Gm-Message-State: APjAAAXEghAE5YSVPjHs52Gdm+9rC9Q1W/BWhXeEKAfivZ4X69JyOzlr
+        elqOvXiWBSqLxHlvq0doxyciZSsLTx5CMfxOJsw=
+X-Google-Smtp-Source: APXvYqzays2+d1NLoGbSnk77dgOaGBz/ii50kj1DWseY01eFmeCDh5DDpyI+WZVhBqzoBnZnqnHukTR5B5sX/Vw1gpM=
+X-Received: by 2002:a2e:9185:: with SMTP id f5mr39210850ljg.51.1559148791038;
+ Wed, 29 May 2019 09:53:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190524231725.12320-9-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19052916-0020-0000-0000-00000EF1AE5D
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011180; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01210332; UDB=6.00635883; IPR=6.00991364;
- MB=3.00027104; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-29 16:08:02
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052916-0021-0000-0000-000066039819
-Message-Id: <9c99274c-5c7e-a97f-16b9-55f4f9d8d945@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-29_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905290105
+References: <20190418164414.29373-1-p.zabel@pengutronix.de> <20190529154431.11177-1-TheSven73@gmail.com>
+In-Reply-To: <20190529154431.11177-1-TheSven73@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 29 May 2019 13:53:00 -0300
+Message-ID: <CAOMZO5BeEMyEPUbPB8vAbJb1OoUuPxGLh=EBGif12uAMG4=qoQ@mail.gmail.com>
+Subject: Re: [v8] media: imx: add mem2mem device
+To:     Sven Van Asbroeck <thesven73@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sven,
 
-On 5/24/19 6:17 PM, Jae Hyun Yoo wrote:
-> Mode detection doesn't require source buffer allocation so this
-> commit removes that.
-
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
+On Wed, May 29, 2019 at 12:45 PM Sven Van Asbroeck <thesven73@gmail.com> wrote:
 >
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
-> v1 -> v2:
->   New.
+> Thank you all (and especially Philipp) for this amazing work !
 >
->   drivers/media/platform/aspeed-video.c | 21 ---------------------
->   1 file changed, 21 deletions(-)
+> One of the main uses for the VPU scaler is to convert from video file
+> resolution to display resolution. E.g. the source video is 1080p, but the
+> display videomode is only 720p.
 >
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index c0b889141b8f..4647ed2e9e63 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -731,27 +731,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->   	det->height = MIN_HEIGHT;
->   	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
->   
-> -	/*
-> -	 * Since we need max buffer size for detection, free the second source
-> -	 * buffer first.
-> -	 */
-> -	if (video->srcs[1].size)
-> -		aspeed_video_free_buf(video, &video->srcs[1]);
-> -
-> -	if (video->srcs[0].size < VE_MAX_SRC_BUFFER_SIZE) {
-> -		if (video->srcs[0].size)
-> -			aspeed_video_free_buf(video, &video->srcs[0]);
-> -
-> -		if (!aspeed_video_alloc_buf(video, &video->srcs[0],
-> -					    VE_MAX_SRC_BUFFER_SIZE)) {
-> -			dev_err(video->dev,
-> -				"Failed to allocate source buffers\n");
-> -			return;
-> -		}
-> -	}
-> -
-> -	aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
-> -
->   	do {
->   		if (tries) {
->   			set_current_state(TASK_INTERRUPTIBLE);
+> Unfortunately when I connect CODA/h264 decode to the VPU scaler, performance
+> drops to about half. But on the non-mainline Freescale kernel, even with
+> the rescale, I still get 30fps.
+>
+> Mainline kernel + v8 imx rescaler patch:
+> A) 1080p30 source video -> CODA h264 decode -> drm 1080p: near full speed (28fps)
+> B) 1080p30 source video -> CODA h264 decode -> VPU scaler 1080p->720p ->
+>         drm 720p: only half speed (15fps)
 
+Does this patch from Philipp fix the problem?
+https://git.pengutronix.de/cgit/pza/linux/commit/?h=imx-drm/fixes&id=137caa702f2308f7ef03876e164b0d0f3300712a
