@@ -2,195 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B2B2E016
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 594402E01F
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:50:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbfE2OsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 10:48:06 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53484 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726069AbfE2OsF (ORCPT
+        id S1726685AbfE2OuV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 10:50:21 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:37242 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbfE2OuV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 10:48:05 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 51980260D79
-Message-ID: <56a1b17618b1e30c719eb3f96e952997e307e7cb.camel@collabora.com>
-Subject: Re: [PATCH v6 03/16] media: v4l2-common: Support custom imagesize
- in fill_pixfmt()
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Date:   Wed, 29 May 2019 11:47:54 -0300
-In-Reply-To: <20190529161753.7ffa5276@collabora.com>
-References: <20190528170232.2091-1-ezequiel@collabora.com>
-         <20190528170232.2091-4-ezequiel@collabora.com>
-         <20190529082809.0b9f3553@coco.lan>
-         <cc51be76-81c3-1c54-2005-1b99d00a8ac1@xs4all.nl>
-         <20190529085854.6c689f8d@coco.lan> <20190529141633.19c5079b@collabora.com>
-         <223a757d-f008-398c-64ce-18b0aaf390c5@xs4all.nl>
-         <04cb574b530c987a04b098962c93940c49e944d8.camel@collabora.com>
-         <20190529160610.169c6e00@collabora.com>
-         <20190529161753.7ffa5276@collabora.com>
-Organization: Collabora
+        Wed, 29 May 2019 10:50:21 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TEmj59055774;
+        Wed, 29 May 2019 14:49:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2018-07-02;
+ bh=bdiE7HWyHmzeDdhgcpTkxNwVwsKMW5J4u0bwenhkW2I=;
+ b=vAYGK9KOQKh1ci+61dIXEhKr/6PuEl3w9nerHoG2o6KZcTmroHCycrPlXsSVYoCc1D9e
+ u53Af15v96j6SPmPoJ+syGA6mCGI1yCiY2PcW+gMzZiVseWDKwRqdfQ/vA5LKK20Ou6S
+ qqH1kgPXhEpgNiGNUtFLQ9cNrcGvNjpxe3Gfdd5qauvpSfl3hiaspyOm5mJhBkWRqvwm
+ IYx2v4CAD32zNH3jZdsRIlmsjtuapA8CQI+GAGIf1qsl+aD1+DqMFhyfxIFAGNXJW+cz
+ 9a5PK1sw72WXYdjOuDHWee7Q0Jai2TlWbMJfUWHm89DxiTdsjrZTZi400nmT0P2EZndw JQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 2spu7djgus-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 May 2019 14:49:23 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TEnL0O140618;
+        Wed, 29 May 2019 14:49:22 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 2ss1fngsh2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 May 2019 14:49:22 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4TEnF2L021623;
+        Wed, 29 May 2019 14:49:16 GMT
+Received: from concerto-wl.internal (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 29 May 2019 07:49:15 -0700
+Message-ID: <3ade20696cc772772f5362fea02ede81c4a0fad3.camel@oracle.com>
+Subject: Re: [PATCH v15 01/17] uaccess: add untagged_addr definition for
+ other arches
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Date:   Wed, 29 May 2019 08:49:09 -0600
+In-Reply-To: <67ae3bd92e590d42af22ef2de0ad37b730a13837.1557160186.git.andreyknvl@google.com>
+References: <cover.1557160186.git.andreyknvl@google.com>
+         <67ae3bd92e590d42af22ef2de0ad37b730a13837.1557160186.git.andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1 
-MIME-Version: 1.0
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905290098
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905290098
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-05-29 at 16:17 +0200, Boris Brezillon wrote:
-> On Wed, 29 May 2019 16:06:10 +0200
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Mon, 2019-05-06 at 18:30 +0200, Andrey Konovalov wrote:
+> To allow arm64 syscalls to accept tagged pointers from userspace, we
+> must
+> untag them when they are passed to the kernel. Since untagging is
+> done in
+> generic parts of the kernel, the untagged_addr macro needs to be
+> defined
+> for all architectures.
 > 
-> > On Wed, 29 May 2019 11:04:35 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > 
-> > > On Wed, 2019-05-29 at 14:31 +0200, Hans Verkuil wrote:  
-> > > > On 5/29/19 2:16 PM, Boris Brezillon wrote:    
-> > > > > On Wed, 29 May 2019 08:58:54 -0300
-> > > > > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > > > >     
-> > > > > > Em Wed, 29 May 2019 13:43:20 +0200
-> > > > > > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> > > > > >     
-> > > > > > > On 5/29/19 1:28 PM, Mauro Carvalho Chehab wrote:      
-> > > > > > > > Em Tue, 28 May 2019 14:02:19 -0300
-> > > > > > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > > > > > > >         
-> > > > > > > > > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > > > > > > 
-> > > > > > > > > Users can define custom sizeimage as long as they're big enough to
-> > > > > > > > > store the amount of pixels required for a specific width/height under a
-> > > > > > > > > specific format. Avoid overriding those fields in this case.
-> > > > > > > > > 
-> > > > > > > > > We could possibly do the same for bytesperline, but it gets tricky when
-> > > > > > > > > dealing with !MPLANE definitions, so this case is omitted for now and        
-> > > > > > > > > ->bytesperline is always overwritten with the value calculated in        
-> > > > > > > > > fill_pixfmt().
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > > > > > > ---
-> > > > > > > > > Changes from v5:
-> > > > > > > > > * Overwrite bytesperline with the value calculated in fill_pixfmt()
-> > > > > > > > > 
-> > > > > > > > > Changes from v4:
-> > > > > > > > > * New patch
-> > > > > > > > > 
-> > > > > > > > >  drivers/media/v4l2-core/v4l2-common.c | 58 ++++++++++++++++++++-------
-> > > > > > > > >  1 file changed, 43 insertions(+), 15 deletions(-)
-> > > > > > > > > 
-> > > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > > index b2d1e55d9561..fd286f6e17d7 100644
-> > > > > > > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > > @@ -585,9 +585,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > > > > > > > >  	pixfmt->num_planes = info->mem_planes;
-> > > > > > > > >  
-> > > > > > > > >  	if (info->mem_planes == 1) {
-> > > > > > > > > +		u32 sizeimage = 0;
-> > > > > > > > > +
-> > > > > > > > >  		plane = &pixfmt->plane_fmt[0];
-> > > > > > > > > -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
-> > > > > > > > > -		plane->sizeimage = 0;
-> > > > > > > > >  
-> > > > > > > > >  		for (i = 0; i < info->comp_planes; i++) {
-> > > > > > > > >  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
-> > > > > > > > > @@ -598,10 +598,21 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > > > > > > > >  			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
-> > > > > > > > >  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
-> > > > > > > > >  
-> > > > > > > > > -			plane->sizeimage += info->bpp[i] *
-> > > > > > > > > -				DIV_ROUND_UP(aligned_width, hdiv) *
-> > > > > > > > > -				DIV_ROUND_UP(aligned_height, vdiv);
-> > > > > > > > > +			sizeimage += info->bpp[i] *
-> > > > > > > > > +				     DIV_ROUND_UP(aligned_width, hdiv) *
-> > > > > > > > > +				     DIV_ROUND_UP(aligned_height, vdiv);
-> > > > > > > > >  		}
-> > > > > > > > > +
-> > > > > > > > > +		/* Custom bytesperline value is not supported yet. */
-> > > > > > > > > +		plane->bytesperline = ALIGN(width,
-> > > > > > > > > +					    v4l2_format_block_width(info, 0)) *
-> > > > > > > > > +				      info->bpp[0];
-> > > > > > > > > +
-> > > > > > > > > +		/*
-> > > > > > > > > +		 * The user might have specified a custom sizeimage, only
-> > > > > > > > > +		 * override it if it's not big enough.
-> > > > > > > > > +		 */
-> > > > > > > > > +		plane->sizeimage = max(sizeimage, plane->sizeimage);        
-> > > > > > > > 
-> > > > > > > > No upper limit? That doesn't sound a good idea to me, specially since some
-> > > > > > > > (broken) app might not be memset the format to zero before filling the ioctl
-> > > > > > > > structure.
-> > > > > > > > 
-> > > > > > > > Perhaps we could do something like:
-> > > > > > > > 
-> > > > > > > > 		sizeimage = min (sizeimage, 2 * plane->sizeimage)
-> > > > > > > > 
-> > > > > > > > or something similar that would be reasonable.        
-> > > > > > > 
-> > > > > > > I've no idea what's sane.
-> > > > > > > 
-> > > > > > > Buffers can be really large. The largest video resolution defined by CTA-861-G
-> > > > > > > is 10240x4320, so at 4 bytes per pixel that's 0x0a8c0000. So perhaps we can
-> > > > > > > use min(sizeimage, 0x10000000)? Although we should probably use the clamp function
-> > > > > > > instead of min/max.      
-> > > > > > 
-> > > > > > Well, the max is driver-specific. 
-> > > > > > 
-> > > > > > For example, for a camera with a max resolution of 640x480 with 2 bytes
-> > > > > > per pixel as the max format can only be
-> > > > > > 
-> > > > > > 	max_size = 640*480*2 (plus some alignment value if pertinent)
-> > > > > > 
-> > > > > > It sounds to me that the best would be to have a callback function
-> > > > > > or value filled by the drivers that would support custom sizeimage.
-> > > > > > 
-> > > > > > The core could actually calculate during init (by asking the driver
-> > > > > > to a very big resolution and getting the returned value), but
-> > > > > > it sounds better to let the drivers to explicitly calculate it.    
-> > > > > 
-> > > > > If we want max_sizeimage to be driver specific I can add it as an extra
-> > > > > arg to the fill_pixfmt() funcs.    
-> > > > 
-> > > > Looking more closely, only compressed formats can accept a user-specified
-> > > > sizeimage value, and this function is only called for uncompressed formats.
-> > > > 
-> > > > So doesn't that mean that this sizeimage override code can be dropped?
-> > > >     
-> > > 
-> > > I think this is a good idea, which means just picking all patches except this one
-> > > (and the RK3328 one).
-> > > 
-> > > So it would be patches: 1,2 and 4 to 15.
-> > > 
-> > > Boris, Hans: are you OK with this?  
-> > 
-> > I doesn't work => the prototype of the fill_pixfmt() changed.
+> Define it as a noop for architectures other than arm64.
 > 
-> Forget what I said, dropping patch 3 should work just fine.
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  include/linux/mm.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Yeah, I have reviewed the code and it seems OK. The prototype is not changed,
-and the driver is not relying on the sizeimage override feature.
+As discussed in the other thread Chris started, there is a generic need
+to untag addresses in kernel and this patch gets us ready for that.
 
-Also, tested on my RK3399 Rockpi board, and MPEG-2 decoding works fine.
+Reviewed-by: Khalid Aziz <khalid.aziz@oracle.com>
 
-v4l2-compliance also passes with no failures.
-
-Seems OK to just drop patch 3.
-
-Thanks,
-Ezequiel
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 6b10c21630f5..44041df804a6 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -99,6 +99,10 @@ extern int mmap_rnd_compat_bits __read_mostly;
+>  #include <asm/pgtable.h>
+>  #include <asm/processor.h>
+>  
+> +#ifndef untagged_addr
+> +#define untagged_addr(addr) (addr)
+> +#endif
+> +
+>  #ifndef __pa_symbol
+>  #define __pa_symbol(x)  __pa(RELOC_HIDE((unsigned long)(x), 0))
+>  #endif
 
