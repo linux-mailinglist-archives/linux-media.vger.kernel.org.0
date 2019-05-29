@@ -2,154 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 327E02E33D
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 19:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 633C12E3D2
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 19:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbfE2R3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 13:29:22 -0400
-Received: from mga09.intel.com ([134.134.136.24]:54330 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726018AbfE2R3V (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 13:29:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 10:29:21 -0700
-X-ExtLoop1: 1
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.254.17.80]) ([10.254.17.80])
-  by orsmga004.jf.intel.com with ESMTP; 29 May 2019 10:29:20 -0700
-Subject: Re: [PATCH v2 11/11] media: aspeed: add a workaround to fix a silicon
- bug
-To:     Eddie James <eajames@linux.vnet.ibm.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
- <20190524231725.12320-12-jae.hyun.yoo@linux.intel.com>
- <03a3cf74-3fd3-982e-ec37-014ed4a13b47@linux.vnet.ibm.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <cd1814db-4892-bba0-027a-9f51cd49b9b5@linux.intel.com>
-Date:   Wed, 29 May 2019 10:29:19 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727096AbfE2RpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 13:45:02 -0400
+Received: from mail-wr1-f47.google.com ([209.85.221.47]:33546 "EHLO
+        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfE2RpC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 May 2019 13:45:02 -0400
+Received: by mail-wr1-f47.google.com with SMTP id d9so2425815wrx.0
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 10:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=JLc1HQbqKW4ih6uUunq2FkRgilJt0UY0LK0uaWKzifA=;
+        b=rOQgdbs/30IzpSEXB/zq87PMDrdNJlu5uf+U0DQV9omTmsn+VBY5IPZQkvxvb1ex2i
+         zsAersUnfvm99J4miV0D8l9CjA9XW17BkPJCRYKflscnFJ2vxMhqv3wNaaQJTTPvSMD6
+         ZltntOxYWamFvIWV3eJ1JhPCgjl97W/UU7RRBYLzZpDsrKMvBya74ERYG+vBIw53BNOI
+         0YcfHWEpQBt4gf/sFBPzR2yuMg3nD2/MwuQ8v3uKnUpGUxXQ2nBAMMUMQ9r5DJy8THrC
+         S6jI2lgqf/RsGpygzaHjvBwTTLo7awPzpGoEeZNlGyyD5QFbZGcwUjlEzxi8tJDkVMzd
+         O0kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=JLc1HQbqKW4ih6uUunq2FkRgilJt0UY0LK0uaWKzifA=;
+        b=mWCppGH4GEjomaA9QnhUTDjSEPSFeX6FuFajFAOPH6xoCFS59rfAj9DKLnagf+i/au
+         9cuDcddtLnutTPjn62ztGb9/iM1tYleE9m7q1ZKpPSTGx2VyQg7yk9GapgcArYAZ47Jh
+         5E173ZELyuTQ+LTYDX5rVjftBQjlzzTlsVStgMctxzA59Sxm6MLay80QoaCWV6e1Wyzw
+         3iionFLC7soKzGhF9nyGHQsf+2AGVtOST4zp7bpA99Ay9kXtjbEvpTaoq9A28sIRfcFF
+         gL6PM6TN4XrfqLmzhgCWERBLULjKDCFtIGQyRO3evpmCLnOuBqDI+Y9s0hk7M0XVNWzl
+         jiLg==
+X-Gm-Message-State: APjAAAVp8H8AKIC+pxNhF5J8boM3v7AEry5LcZvoHJf8LImkD5aHzoGS
+        8nkQj4JbM7gSB0riBb597AX5zk83Ki4PnQ==
+X-Google-Smtp-Source: APXvYqwWXxyEpF/+IMTh9DOUNZG3nzcYud5zuLx85rvlnDVYoOP2sSOmpRqjWq46BnsL59dEodlYxQ==
+X-Received: by 2002:a5d:610e:: with SMTP id v14mr999436wrt.343.1559151900569;
+        Wed, 29 May 2019 10:45:00 -0700 (PDT)
+Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
+        by smtp.gmail.com with ESMTPSA id z16sm90849wrt.35.2019.05.29.10.44.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 May 2019 10:45:00 -0700 (PDT)
+Message-ID: <5ceec51c.1c69fb81.2fffa.0777@mx.google.com>
+Date:   Wed, 29 May 2019 10:45:00 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <03a3cf74-3fd3-982e-ec37-014ed4a13b47@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Tree: media
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: v5.2-rc2-123-g578a3ab12705
+Subject: media/master v4l2-compliance on vivid: 236 tests,
+ 0 regressions (v5.2-rc2-123-g578a3ab12705)
+To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
+From:   "kernelci.org bot" <bot@kernelci.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/29/2019 7:07 AM, Eddie James wrote:
-> 
-> On 5/24/19 6:17 PM, Jae Hyun Yoo wrote:
->> AST2500 silicon revision A1 and A2 have a silicon bug which causes
->> extremly long capturing time on specific resolutions (1680 width).
->> To fix the bug, this commit adjusts the capturing window register
->> setting to 1728 if detected width is 1680. The compression window
->> register setting will be kept as the original width so output
->> result will be the same.
-> 
-> 
-> This is a bit curious, why 1728 in particular? And what is the behavior 
-> of the VE when the capture window is larger than the actual source 
-> resolution?
+media/master v4l2-compliance on vivid: 236 tests, 0 regressions (v5.2-rc2-1=
+23-g578a3ab12705)
 
-For an example, if resolution is 1680x1050, capturing operation takes
-very long time because VE has the silicon bug. So this patch adjusts
-the 'Capture Window' register slightly larger than 1680 to avoid the
-issue. As a result, source buffer will copy 1728x1050 frames from the
-original screen buffer but the image is still has valid information.
-As the next step in compression phase, it will set the 'Compression
-Window' register as '1680x1050' so it will compress using the original
-image resolution which is a cropped image from the '1728x1050' source
-buffer.
+Test results summary
+--------------------
 
-You can compare results using these shell commands in Ubuntu GUI
-desktop.
+V4L2 Compliance on the vivid driver.
 
-$ xrandr --newmode "1680x1050_60.00"  146.25  1680 1784 1960 1240  1050 
-1053 1059 1089 -hsync +vsync
-$ xrandr --addmode VGA-1 1680x1050_60.00
-$ xrandr --output VGA-1 --mode 1680x1050_60.00
+This test ran "v4l2-compliance -s" from v4l-utils:
 
-I'm also curious about why that is 1728. Actually, this workaround was
-provided from the chip vendor, Aspeed, and they use this in their SDK
-code too. Let's check it to Ryan.
+    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+
+See each detailed section in the report below to find out the git URL and
+particular revision that was used to build the test binaries.
 
 
-Hi Ryan,
+  Tree:    media
+  Branch:  master
+  Kernel:  v5.2-rc2-123-g578a3ab12705
+  URL:     https://git.linuxtv.org/media_tree.git
+  Commit:  578a3ab12705aae0101f590d3a77ecafe22f9453
 
-Can you please explain why that is 1728 in particular.
 
-Thanks,
-Jae
+1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
+2  | qemu                   | arm   | 118 total: 118 PASS   0 FAIL   0 SKIP=
+  =
 
-> 
-> Thanks,
-> 
-> Eddie
-> 
-> 
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> ---
->> v1 -> v2:
->>   New.
->>
->>   drivers/media/platform/aspeed-video.c | 26 +++++++++++++++++++-------
->>   1 file changed, 19 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c 
->> b/drivers/media/platform/aspeed-video.c
->> index b05b073b63bc..f93989f532d6 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -824,8 +824,27 @@ static void aspeed_video_set_resolution(struct 
->> aspeed_video *video)
->>       struct v4l2_bt_timings *act = &video->active_timings;
->>       unsigned int size = act->width * act->height;
->> +    /* Set capture/compression frame sizes */
->>       aspeed_video_calc_compressed_size(video, size);
->> +    if (video->active_timings.width == 1680) {
->> +        /*
->> +         * This is a workaround to fix a silicon bug on A1 and A2
->> +         * revisions. Since it doesn't break capturing operation on A0
->> +         * revision, use it for all revisions without checking the
->> +         * revision ID.
->> +         */
->> +        aspeed_video_write(video, VE_CAP_WINDOW,
->> +                   1728 << 16 | act->height);
->> +        size += (1728 - 1680) * video->active_timings.height;
->> +    } else {
->> +        aspeed_video_write(video, VE_CAP_WINDOW,
->> +                   act->width << 16 | act->height);
->> +    }
->> +    aspeed_video_write(video, VE_COMP_WINDOW,
->> +               act->width << 16 | act->height);
->> +    aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
->> +
->>       /* Don't use direct mode below 1024 x 768 (irqs don't fire) */
->>       if (size < DIRECT_FETCH_THRESHOLD) {
->>           aspeed_video_write(video, VE_TGS_0,
->> @@ -842,13 +861,6 @@ static void aspeed_video_set_resolution(struct 
->> aspeed_video *video)
->>           aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
->>       }
->> -    /* Set capture/compression frame sizes */
->> -    aspeed_video_write(video, VE_CAP_WINDOW,
->> -               act->width << 16 | act->height);
->> -    aspeed_video_write(video, VE_COMP_WINDOW,
->> -               act->width << 16 | act->height);
->> -    aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
->> -
->>       size *= 4;
->>       if (size == video->srcs[0].size / 2) {
-> 
-> 
+  =
+
+=20
