@@ -2,94 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CB5C2DF8F
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:21:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2972DFFB
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbfE2OVp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 10:21:45 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:44314 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727093AbfE2OVp (ORCPT
+        id S1726102AbfE2OlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 10:41:13 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:51977 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726012AbfE2OlN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 10:21:45 -0400
-Received: by mail-wr1-f50.google.com with SMTP id w13so1904989wru.11
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 07:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=RJFYfEJtpR6qgYPchPgw3he/eri+sizHYkgNyy+eCQw=;
-        b=YCFnC3bX0HhQvcypn7r3yOH5RMYvb6pavBcBjyAd6CIbREupLOVo9udg4MsXOiE+yV
-         1jfO2++2jQdwyHjKFaW5sf6EbrsEIz1lWIV0sfYqCsnsWrm/kQy/VeaCCDbC+kr2WRzZ
-         XS3hXTygtBvqNVzAwCrr1cbGQ9HDiZuRkMh2GieHk+i4LgCg+wkKTMl2sGMUwdFB2iih
-         e0o6INFztxJPepD5Duh0541scBMl+1V72rM2W9OJSl7lcoBk0FJ20+KtPe7EdTqdhEVt
-         Zydwt3Kk42TesXF9T9iv7bphQfy3VzRqqfZpZdM1a2oaePnqKWa/4bXtZUdQZgo1W4vi
-         ivqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=RJFYfEJtpR6qgYPchPgw3he/eri+sizHYkgNyy+eCQw=;
-        b=Tbg1zDG6rSJBxJCBMUwg7Uym2D1tAEKc9bklgXPJs/7QU0ycP3URwAzMG4a1q9sB5R
-         lRYemnKghVAF8K1Y+r4j0H9+rRCdEYuBB+KbJ9C4h8sfXF0huDwOqbqtGt2xq2n7gEZw
-         XnP5656beKRFEP8k8E6Id8b2pafYE9R3tq5So+AMMLQgP8riJnSDW+FzcldN2818JIqM
-         R8LdKehlGVYcsKvK5a0p8YvBs9pXzJq26l8GkwJw6uvYVOzhacNJ0GZupg5t47QFvp0X
-         PEPKN911U7gxufHaqN2vsLw44e0zTrgyT0XgPOgU4qTnYNV7sgZAVqzIkDEFFJLVY548
-         YxfQ==
-X-Gm-Message-State: APjAAAUyXhMEoj6mo5/I3wScCpRrKXhGZE6UfiKizZapVKrhwy5qHkyV
-        1BhX052TD2idJA1pR4w8BZlRjtXAVkQHHQ==
-X-Google-Smtp-Source: APXvYqxsvkWxCiMDcoSYSeqWmElUmPfculKKvGdWmED5Tv0ChHfq88LsOlUVjaw93KVNq2A0vzmyWA==
-X-Received: by 2002:a5d:68d2:: with SMTP id p18mr78895642wrw.56.1559139698507;
-        Wed, 29 May 2019 07:21:38 -0700 (PDT)
-Received: from [148.251.42.114] ([2a01:4f8:201:9271::2])
-        by smtp.gmail.com with ESMTPSA id r8sm1316986wrt.92.2019.05.29.07.21.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 07:21:36 -0700 (PDT)
-Message-ID: <5cee9570.1c69fb81.68f7b.80d6@mx.google.com>
-Date:   Wed, 29 May 2019 07:21:36 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 May 2019 10:41:13 -0400
+Received: from [IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e] ([IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id VzlNhqhARsDWyVzlOhhqb0; Wed, 29 May 2019 16:41:11 +0200
+Subject: Re: [PATCH] media: v4l2: Initialize mpeg slice controls
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     kernel@collabora.com
+References: <20190503114221.28469-1-boris.brezillon@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b025d972-b7a9-ae0d-a286-e0364d1b52ea@xs4all.nl>
+Date:   Wed, 29 May 2019 16:41:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Report-Type: test
-X-Kernelci-Tree: media
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: v5.2-rc2-121-g878344de61d0
-Subject: media/master v4l2-compliance on vivid: 235 tests,
- 0 regressions (v5.2-rc2-121-g878344de61d0)
-To:     linux-media@vger.kernel.org, kernel-build-reports@lists.linaro.org
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <20190503114221.28469-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOyyJGD7XSKeeAdl/8Pg8TIJrFkcTwtxaWIJZTMMTtJUgdK7D8LYhz03gXYdq4ZjnFuxM1dD/QRg6tdkoZmS/IU8Si1y9Lg+FAal9BY660KUY5Pf7oUQ
+ VrXk5OgMjDnwAo0aEn93WYaygVH6ekAcg+Uig0z19Yos0ueRn1g7vrqk8JYX5LU+neWkiXYEOVVCFSb5+WXjsy40dLhokkmqLha6Of//AI1izqKD3rAMAVW3
+ 3+CAI2JTHQ6kDiQxajY7Zdu1q+J/xf9a5jLzSt3USsleQqwb7vky6nwdQJjBTtY5hsVauMX20+bGAwoou3Xmu7ebz7+L9QDrt+WDknJ6532AdCnzDWGY7OOS
+ kBWaMnkgqd2NZ3f6wKs6s0mvjcuivYhF82PgoSdOFU/YqFFDYlV95BbDUFhfdzJJYGFEI4d9MAT3TAwe3u1dFtNNmA+JC1p0yGdIyEm8E81jMZSl1SzD5K8Z
+ HFUz3r5JxIcoqUNsSaoFCDT01896IQcOtb0YGA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-media/master v4l2-compliance on vivid: 235 tests, 0 regressions (v5.2-rc2-1=
-21-g878344de61d0)
+On 5/3/19 1:42 PM, Boris Brezillon wrote:
+> Make sure the default value at least passes the std_validate() tests.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index b1ae2e555c68..19d40cc6e565 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -1461,7 +1461,14 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+>  static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+>  		     union v4l2_ctrl_ptr ptr)
+>  {
+> -	switch (ctrl->type) {
+> +	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+> +
+> +	/*
+> +	 * The cast is needed to get rid of a gcc warning complaining that
+> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
+> +	 * v4l2_ctrl_type enum.
+> +	 */
+> +	switch ((u32)ctrl->type) {
+>  	case V4L2_CTRL_TYPE_STRING:
+>  		idx *= ctrl->elem_size;
+>  		memset(ptr.p_char + idx, ' ', ctrl->minimum);
+> @@ -1486,6 +1493,17 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	case V4L2_CTRL_TYPE_U32:
+>  		ptr.p_u32[idx] = ctrl->default_value;
+>  		break;
+> +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+> +		p_mpeg2_slice_params = ptr.p;
+> +		/* 4:2:0 */
+> +		p_mpeg2_slice_params->sequence.chroma_format = 1;
+> +		/* 8 bits */
+> +		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
+> +		/* interlaced top field */
+> +		p_mpeg2_slice_params->picture.picture_structure = 1;
+> +		p_mpeg2_slice_params->picture.picture_coding_type =
+> +					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
 
-Test results summary
---------------------
+Oops, this isn't complete. It should still zero the p_mpeg2_slice_params
+struct first. Right now any fields not explicitly set just have whatever
+was in memory.
 
-V4L2 Compliance on the vivid driver.
+Can you post a patch fixing this?
 
-This test ran "v4l2-compliance -s" from v4l-utils:
+Regards,
 
-    https://www.linuxtv.org/wiki/index.php/V4l2-utils
+	Hans
 
-See each detailed section in the report below to find out the git URL and
-particular revision that was used to build the test binaries.
+> +		break;
+>  	default:
+>  		idx *= ctrl->elem_size;
+>  		memset(ptr.p + idx, 0, ctrl->elem_size);
+> 
 
-
-  Tree:    media
-  Branch:  master
-  Kernel:  v5.2-rc2-121-g878344de61d0
-  URL:     https://git.linuxtv.org/media_tree.git
-  Commit:  878344de61d0d5f351a1b84fce009a321be3eb45
-
-
-1  | qemu                   | arm64 | 118 total: 118 PASS   0 FAIL   0 SKIP
-2  | qemu                   | arm   | 117 total: 117 PASS   0 FAIL   0 SKIP=
-  =
-
-  =
-
-=20
