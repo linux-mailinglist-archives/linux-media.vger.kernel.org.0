@@ -2,142 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 594402E01F
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ABF02E05F
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 16:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfE2OuV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 10:50:21 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:37242 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbfE2OuV (ORCPT
+        id S1726326AbfE2O7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 10:59:51 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53560 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726069AbfE2O7v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 10:50:21 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TEmj59055774;
-        Wed, 29 May 2019 14:49:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
- : from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=corp-2018-07-02;
- bh=bdiE7HWyHmzeDdhgcpTkxNwVwsKMW5J4u0bwenhkW2I=;
- b=vAYGK9KOQKh1ci+61dIXEhKr/6PuEl3w9nerHoG2o6KZcTmroHCycrPlXsSVYoCc1D9e
- u53Af15v96j6SPmPoJ+syGA6mCGI1yCiY2PcW+gMzZiVseWDKwRqdfQ/vA5LKK20Ou6S
- qqH1kgPXhEpgNiGNUtFLQ9cNrcGvNjpxe3Gfdd5qauvpSfl3hiaspyOm5mJhBkWRqvwm
- IYx2v4CAD32zNH3jZdsRIlmsjtuapA8CQI+GAGIf1qsl+aD1+DqMFhyfxIFAGNXJW+cz
- 9a5PK1sw72WXYdjOuDHWee7Q0Jai2TlWbMJfUWHm89DxiTdsjrZTZi400nmT0P2EZndw JQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 2spu7djgus-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 May 2019 14:49:23 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4TEnL0O140618;
-        Wed, 29 May 2019 14:49:22 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 2ss1fngsh2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 May 2019 14:49:22 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4TEnF2L021623;
-        Wed, 29 May 2019 14:49:16 GMT
-Received: from concerto-wl.internal (/24.9.64.241)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 29 May 2019 07:49:15 -0700
-Message-ID: <3ade20696cc772772f5362fea02ede81c4a0fad3.camel@oracle.com>
-Subject: Re: [PATCH v15 01/17] uaccess: add untagged_addr definition for
- other arches
-From:   Khalid Aziz <khalid.aziz@oracle.com>
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Date:   Wed, 29 May 2019 08:49:09 -0600
-In-Reply-To: <67ae3bd92e590d42af22ef2de0ad37b730a13837.1557160186.git.andreyknvl@google.com>
-References: <cover.1557160186.git.andreyknvl@google.com>
-         <67ae3bd92e590d42af22ef2de0ad37b730a13837.1557160186.git.andreyknvl@google.com>
+        Wed, 29 May 2019 10:59:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 88BBD2609D6
+Message-ID: <34015a49654464b072efd401d2b55d26379bc85c.camel@collabora.com>
+Subject: Re: [PATCH v6 16/16] rockchip/vpu: Add support for MPEG-2 decoding
+ on RK3328
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>, Hans Verkuil <hverkuil@xs4all.nl>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     "kernel@collabora.com" <kernel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Date:   Wed, 29 May 2019 11:59:41 -0300
+In-Reply-To: <VI1PR03MB42066B8C9F364ACF7CFFF241AC1F0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+References: <20190528170232.2091-1-ezequiel@collabora.com>
+         <20190528170232.2091-17-ezequiel@collabora.com>
+         <2ef056a2-e9dc-52b1-855b-2bef759af9b6@xs4all.nl>
+         <VI1PR03MB42066B8C9F364ACF7CFFF241AC1F0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
+User-Agent: Evolution 3.30.5-1 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905290098
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905290098
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2019-05-06 at 18:30 +0200, Andrey Konovalov wrote:
-> To allow arm64 syscalls to accept tagged pointers from userspace, we
-> must
-> untag them when they are passed to the kernel. Since untagging is
-> done in
-> generic parts of the kernel, the untagged_addr macro needs to be
-> defined
-> for all architectures.
+On Wed, 2019-05-29 at 08:50 +0000, Jonas Karlman wrote:
+> On 2019-05-29 10:11, Hans Verkuil wrote:
+> > On 5/28/19 7:02 PM, Ezequiel Garcia wrote:
+> > > From: Jonas Karlman <jonas@kwiboo.se>
+> > > 
+> > > Add necessary bits to support MPEG2 decoding on RK3328.
+> > > 
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > --
+> > > Changes from v5:
+> > > * New patch.
+> > > 
+> > >  drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c   | 12 ++++++++++++
+> > >  .../staging/media/rockchip/vpu/rockchip_vpu_drv.c    |  1 +
+> > >  drivers/staging/media/rockchip/vpu/rockchip_vpu_hw.h |  1 +
+> > >  3 files changed, 14 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> > > index 2b3689968ef4..341f8d69c33d 100644
+> > > --- a/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> > > +++ b/drivers/staging/media/rockchip/vpu/rk3399_vpu_hw.c
+> > > @@ -175,3 +175,15 @@ const struct rockchip_vpu_variant rk3399_vpu_variant = {
+> > >  	.clk_names = {"aclk", "hclk"},
+> > >  	.num_clocks = 2
+> > >  };
+> > > +
+> > > +const struct rockchip_vpu_variant rk3328_vpu_variant = {
+> > > +	.dec_offset = 0x400,
+> > > +	.dec_fmts = rk3399_vpu_dec_fmts,
+> > > +	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+> > > +	.codec = RK_VPU_MPEG2_DECODER,
+> > > +	.codec_ops = rk3399_vpu_codec_ops,
+> > > +	.vdpu_irq = rk3399_vdpu_irq,
+> > > +	.init = rk3399_vpu_hw_init,
+> > > +	.clk_names = {"aclk", "hclk"},
+> > > +	.num_clocks = 2
+> > > +};
+> > > diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> > > index b94ff97451db..2e22009b6583 100644
+> > > --- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> > > +++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+> > > @@ -419,6 +419,7 @@ static const struct v4l2_file_operations rockchip_vpu_fops = {
+> > >  
+> > >  static const struct of_device_id of_rockchip_vpu_match[] = {
+> > >  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+> > > +	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+> > This new compatible string should be documented in
+> > Documentation/devicetree/bindings/media/rockchip-vpu.txt as well.
+> > 
+> > I'll take patches 1-15 and drop this one. This patch can be merged once
+> > the bindings file is updated as well.
 > 
-> Define it as a noop for architectures other than arm64.
+> Looks like the bindings patch did not get picked for v6 :-)
 > 
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  include/linux/mm.h | 4 ++++
->  1 file changed, 4 insertions(+)
 
-As discussed in the other thread Chris started, there is a generic need
-to untag addresses in kernel and this patch gets us ready for that.
+Oh, that's my bad. I picked the support and left the binding out.
 
-Reviewed-by: Khalid Aziz <khalid.aziz@oracle.com>
-
+> I am a bit unclear on how to handle patch submission that covers multiple subtrees.
+> Should I send a single series including three patches: bindings update, this patch and device tree update?
+> Or is a series with only bindings update and this patch preferred?
 > 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6b10c21630f5..44041df804a6 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -99,6 +99,10 @@ extern int mmap_rnd_compat_bits __read_mostly;
->  #include <asm/pgtable.h>
->  #include <asm/processor.h>
->  
-> +#ifndef untagged_addr
-> +#define untagged_addr(addr) (addr)
-> +#endif
-> +
->  #ifndef __pa_symbol
->  #define __pa_symbol(x)  __pa(RELOC_HIDE((unsigned long)(x), 0))
->  #endif
+
+Thanks both for sorting this one out,
+Ezequiel
 
