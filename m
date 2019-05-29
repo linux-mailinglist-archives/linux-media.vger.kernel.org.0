@@ -2,158 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A51D62DC89
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABBD02DC91
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 14:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbfE2MQi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 08:16:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52438 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfE2MQi (ORCPT
+        id S1726893AbfE2MSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 08:18:20 -0400
+Received: from mail-wr1-f46.google.com ([209.85.221.46]:32946 "EHLO
+        mail-wr1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726018AbfE2MSU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 08:16:38 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CA575281DC3;
-        Wed, 29 May 2019 13:16:35 +0100 (BST)
-Date:   Wed, 29 May 2019 14:16:33 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v6 03/16] media: v4l2-common: Support custom imagesize
- in fill_pixfmt()
-Message-ID: <20190529141633.19c5079b@collabora.com>
-In-Reply-To: <20190529085854.6c689f8d@coco.lan>
-References: <20190528170232.2091-1-ezequiel@collabora.com>
-        <20190528170232.2091-4-ezequiel@collabora.com>
-        <20190529082809.0b9f3553@coco.lan>
-        <cc51be76-81c3-1c54-2005-1b99d00a8ac1@xs4all.nl>
-        <20190529085854.6c689f8d@coco.lan>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Wed, 29 May 2019 08:18:20 -0400
+Received: by mail-wr1-f46.google.com with SMTP id d9so1649503wrx.0
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 05:18:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=Bejd1gVgSgMcW8pTKawlHhgsU2AuPn6IsO3HpoUoBw4=;
+        b=TVCczjE7bWQQz40zGXU6Sb9hMI0WJ+L+tAD/lz3jJztwWqdNNC+KgXQDKBvNqxxipF
+         82fcmvciSYR01CKBb/cOthvydQy4J01D2pKZuHAAnsVRwDT3JA0fJMzAE2h8fnNLegkn
+         GbGR/SP4A68skkNzmR38B+2DMV5iBdkm2CHMXcS4+rzqRFouY8UYhWXas0BGRRvK3Z5a
+         dECKIuveAfkt4rb6B6p9TfgozyH/N/sNtqXt/EJXFiXiZqfTW2dBVueq/nFPFD7nWNg+
+         tDt2ofUJTZGI+b07ZMIVs7jN+MniZ13hI/URRPIMdfEE954heXW63okavLasbOaxDijc
+         alMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Bejd1gVgSgMcW8pTKawlHhgsU2AuPn6IsO3HpoUoBw4=;
+        b=EhLgP/URImKJtHikLEOhrjWx/RN56LKmrpZj8XOnS6GldrdYM1oJbEMxi3duKuSwjv
+         5Kv4HrRBqX3zRXF+CXydU1LU5ETBAbHxem0du6Pj8t82kUYWVcXBSd69zIa/HjHY86w8
+         aXFx3DQ+7UW20KQtT6GgtrhplWdEXy6SQld+RaqQVzd5agnraf7XPqcUAGzGaMrk6swt
+         WTa/as51h9uYW9oXf/7zKIS1s9TBIfGrLT8LLzs+g1Pjgb7QWwOWv6w8jEo1HpQPnw/p
+         6f9oqqHc724Dex2DiFEI1UQ5tXryVvC7ps3RgmNt72gsGRlaH+mbojvv8nBVyqGNbDXT
+         eAGA==
+X-Gm-Message-State: APjAAAUL+gT1XdUY3zUZukU+Xftgl7FZUWyrqgFRDubFxEhjX072SlAz
+        PoQb70UBnyZFWcj7ecd/DjNTnA==
+X-Google-Smtp-Source: APXvYqzm2vBc4V8UvEHgtYpMnPDUJxzpbOXsvWk5noCh3SmUShbW6Sto2y27QgEAaDNe8uMKk1CeFg==
+X-Received: by 2002:adf:8385:: with SMTP id 5mr4110035wre.194.1559132298798;
+        Wed, 29 May 2019 05:18:18 -0700 (PDT)
+Received: from localhost.localdomain ([37.157.136.206])
+        by smtp.gmail.com with ESMTPSA id z3sm1133836wml.28.2019.05.29.05.18.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 May 2019 05:18:17 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR v5.2] Venus fixes
+Date:   Wed, 29 May 2019 15:18:12 +0300
+Message-Id: <20190529121812.822-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 29 May 2019 08:58:54 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi Mauro,
 
-> Em Wed, 29 May 2019 13:43:20 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
-> > On 5/29/19 1:28 PM, Mauro Carvalho Chehab wrote:  
-> > > Em Tue, 28 May 2019 14:02:19 -0300
-> > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > >     
-> > >> From: Boris Brezillon <boris.brezillon@collabora.com>
-> > >>
-> > >> Users can define custom sizeimage as long as they're big enough to
-> > >> store the amount of pixels required for a specific width/height under a
-> > >> specific format. Avoid overriding those fields in this case.
-> > >>
-> > >> We could possibly do the same for bytesperline, but it gets tricky when
-> > >> dealing with !MPLANE definitions, so this case is omitted for now and    
-> > >> ->bytesperline is always overwritten with the value calculated in    
-> > >> fill_pixfmt().
-> > >>
-> > >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > >> ---
-> > >> Changes from v5:
-> > >> * Overwrite bytesperline with the value calculated in fill_pixfmt()
-> > >>
-> > >> Changes from v4:
-> > >> * New patch
-> > >>
-> > >>  drivers/media/v4l2-core/v4l2-common.c | 58 ++++++++++++++++++++-------
-> > >>  1 file changed, 43 insertions(+), 15 deletions(-)
-> > >>
-> > >> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > >> index b2d1e55d9561..fd286f6e17d7 100644
-> > >> --- a/drivers/media/v4l2-core/v4l2-common.c
-> > >> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > >> @@ -585,9 +585,9 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > >>  	pixfmt->num_planes = info->mem_planes;
-> > >>  
-> > >>  	if (info->mem_planes == 1) {
-> > >> +		u32 sizeimage = 0;
-> > >> +
-> > >>  		plane = &pixfmt->plane_fmt[0];
-> > >> -		plane->bytesperline = ALIGN(width, v4l2_format_block_width(info, 0)) * info->bpp[0];
-> > >> -		plane->sizeimage = 0;
-> > >>  
-> > >>  		for (i = 0; i < info->comp_planes; i++) {
-> > >>  			unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
-> > >> @@ -598,10 +598,21 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > >>  			aligned_width = ALIGN(width, v4l2_format_block_width(info, i));
-> > >>  			aligned_height = ALIGN(height, v4l2_format_block_height(info, i));
-> > >>  
-> > >> -			plane->sizeimage += info->bpp[i] *
-> > >> -				DIV_ROUND_UP(aligned_width, hdiv) *
-> > >> -				DIV_ROUND_UP(aligned_height, vdiv);
-> > >> +			sizeimage += info->bpp[i] *
-> > >> +				     DIV_ROUND_UP(aligned_width, hdiv) *
-> > >> +				     DIV_ROUND_UP(aligned_height, vdiv);
-> > >>  		}
-> > >> +
-> > >> +		/* Custom bytesperline value is not supported yet. */
-> > >> +		plane->bytesperline = ALIGN(width,
-> > >> +					    v4l2_format_block_width(info, 0)) *
-> > >> +				      info->bpp[0];
-> > >> +
-> > >> +		/*
-> > >> +		 * The user might have specified a custom sizeimage, only
-> > >> +		 * override it if it's not big enough.
-> > >> +		 */
-> > >> +		plane->sizeimage = max(sizeimage, plane->sizeimage);    
-> > > 
-> > > No upper limit? That doesn't sound a good idea to me, specially since some
-> > > (broken) app might not be memset the format to zero before filling the ioctl
-> > > structure.
-> > > 
-> > > Perhaps we could do something like:
-> > > 
-> > > 		sizeimage = min (sizeimage, 2 * plane->sizeimage)
-> > > 
-> > > or something similar that would be reasonable.    
-> > 
-> > I've no idea what's sane.
-> > 
-> > Buffers can be really large. The largest video resolution defined by CTA-861-G
-> > is 10240x4320, so at 4 bytes per pixel that's 0x0a8c0000. So perhaps we can
-> > use min(sizeimage, 0x10000000)? Although we should probably use the clamp function
-> > instead of min/max.  
-> 
-> Well, the max is driver-specific. 
-> 
-> For example, for a camera with a max resolution of 640x480 with 2 bytes
-> per pixel as the max format can only be
-> 
-> 	max_size = 640*480*2 (plus some alignment value if pertinent)
-> 
-> It sounds to me that the best would be to have a callback function
-> or value filled by the drivers that would support custom sizeimage.
-> 
-> The core could actually calculate during init (by asking the driver
-> to a very big resolution and getting the returned value), but
-> it sounds better to let the drivers to explicitly calculate it.
+Here is a fix for a regression in HFI parser. Please pull.
 
-If we want max_sizeimage to be driver specific I can add it as an extra
-arg to the fill_pixfmt() funcs.
+regards
+Stan
 
-If that works for you, we'll send a new version of this patch alone
-(unless you want us to send the whole series again).
+The following changes since commit eb96e57b913ff668b8b804178cdc509f9b3d4472:
+
+  media: dvb: warning about dvb frequency limits produces too much noise (2019-05-22 15:32:08 -0400)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-fixes-v5.2-rc
+
+for you to fetch changes up to a75d2c1073da0f09e02848f3ae490c308007d792:
+
+  venus: hfi_parser: fix a regression in parser (2019-05-29 14:26:31 +0300)
+
+----------------------------------------------------------------
+venus fixes
+
+----------------------------------------------------------------
+Stanimir Varbanov (1):
+      venus: hfi_parser: fix a regression in parser
+
+ drivers/media/platform/qcom/venus/hfi_helper.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
