@@ -2,99 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F182E168
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 17:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E0E2E1ED
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 18:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfE2Pol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 11:44:41 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:53298 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725936AbfE2Pol (ORCPT
+        id S1726240AbfE2QGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 12:06:41 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53886 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726118AbfE2QGl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 11:44:41 -0400
-Received: by mail-it1-f196.google.com with SMTP id m141so4656684ita.3
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 08:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LTWj5bCGA0WDBiaBdUfUmFRNgyPmS+xq/N7Z3ARP5Xo=;
-        b=m4AayAYnhYMpJJrFLUSVVjdziXek7Jn0BxL67qQlAtUOpcyZJmAsWam0maYxq1kLKd
-         7zw5+c9fY4Gz2DTh7XS5H24rMkg/a1sfh4mGaFy1dZKIDLBCKauHu1VJRZvbMjQWRe8r
-         wfuf4tiayfdS1bZMlWEkzlmhYZ1Pa0AcOvqt8XTyB2Z+K6e8BBkam4irA+Z4VYVZE3PT
-         Q2WBajcHhsQYXnDN/Dr+YtnIE62rweN5EEZqA0+yE9MIOpzLEaRrlHnI/jsFtqJEyLV5
-         rIN4tIJXJcBf3RwoQG0U9IVim96mWTFhGQEP0N7oJn7SgiUgpnj23OgIsQCdgOq/0oGV
-         gXfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=LTWj5bCGA0WDBiaBdUfUmFRNgyPmS+xq/N7Z3ARP5Xo=;
-        b=FPq/g/lQzgTAdfmFZb+lOrvDtIa7GyQv4kDY5Bdm7zFxQTXcPsNsSCAm7pTHN9iuBK
-         vZ5LjoDpBywujEJApdGI3BXVuQpO4N5/JvcoesKYrv+f+gKqIa2awUzL1PVQbz/wgghG
-         e0aEeYgNEf2Ok2ULVEUiLOClcidfW3DftzfTATi82/sWOQkLbhKg4Z0Am2n05Ssv02hn
-         84xD5/9g0JxRzjaGThrXghQ3GjG+aUWtWDMwzNAhgocdpqShw8cSv+bbgM568bQutAfl
-         /6iKVQXaFDJvIqXp0mAVFoKCw44EpHh5bEzz/YtYZ00Qo8IbV0qtfxvV/kfzhvolnXdV
-         fQ6A==
-X-Gm-Message-State: APjAAAU2L/hYjDNhSQQFP4SM93OCYKG4SIkYYH5QMC3tA1W7PD6sKII+
-        wJKf/U5YJ5gsgQkZseSf68Y=
-X-Google-Smtp-Source: APXvYqwxDSefy42SJXePzOyvJxUhFwCzd10ASC/YaOv67YSuAF3Nfq5JYk/9rQ8xlUZQG8kZxugAzg==
-X-Received: by 2002:a24:4d1:: with SMTP id 200mr7295141itb.92.1559144674807;
-        Wed, 29 May 2019 08:44:34 -0700 (PDT)
-Received: from svens-asus.arcx.com ([184.94.50.30])
-        by smtp.gmail.com with ESMTPSA id a2sm50997iod.57.2019.05.29.08.44.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 08:44:34 -0700 (PDT)
-From:   Sven Van Asbroeck <thesven73@gmail.com>
-X-Google-Original-From: Sven Van Asbroeck <TheSven73@gmail.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>
-Subject: Re: [v8] media: imx: add mem2mem device
-Date:   Wed, 29 May 2019 11:44:31 -0400
-Message-Id: <20190529154431.11177-1-TheSven73@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190418164414.29373-1-p.zabel@pengutronix.de>
-References: <20190418164414.29373-1-p.zabel@pengutronix.de>
+        Wed, 29 May 2019 12:06:41 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CF1C5260732;
+        Wed, 29 May 2019 17:06:38 +0100 (BST)
+Date:   Wed, 29 May 2019 18:06:35 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH] media: v4l2: Initialize mpeg slice controls
+Message-ID: <20190529180635.0fef93bd@collabora.com>
+In-Reply-To: <70396bcf-7fdc-f69b-7b8a-f0d6958093dc@xs4all.nl>
+References: <20190503114221.28469-1-boris.brezillon@collabora.com>
+        <b025d972-b7a9-ae0d-a286-e0364d1b52ea@xs4all.nl>
+        <100592967e3c3546b4dcbbb8a0369297b27fa8e8.camel@collabora.com>
+        <70396bcf-7fdc-f69b-7b8a-f0d6958093dc@xs4all.nl>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you all (and especially Philipp) for this amazing work !
+On Wed, 29 May 2019 17:42:58 +0200
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
-One of the main uses for the VPU scaler is to convert from video file
-resolution to display resolution. E.g. the source video is 1080p, but the
-display videomode is only 720p.
+> On 5/29/19 5:36 PM, Ezequiel Garcia wrote:
+> > On Wed, 2019-05-29 at 16:41 +0200, Hans Verkuil wrote:  
+> >> On 5/3/19 1:42 PM, Boris Brezillon wrote:  
+> >>> Make sure the default value at least passes the std_validate() tests.
+> >>>
+> >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>> ---
+> >>>  drivers/media/v4l2-core/v4l2-ctrls.c | 20 +++++++++++++++++++-
+> >>>  1 file changed, 19 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> >>> index b1ae2e555c68..19d40cc6e565 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> >>> @@ -1461,7 +1461,14 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+> >>>  static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+> >>>  		     union v4l2_ctrl_ptr ptr)
+> >>>  {
+> >>> -	switch (ctrl->type) {
+> >>> +	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+> >>> +
+> >>> +	/*
+> >>> +	 * The cast is needed to get rid of a gcc warning complaining that
+> >>> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
+> >>> +	 * v4l2_ctrl_type enum.
+> >>> +	 */
+> >>> +	switch ((u32)ctrl->type) {
+> >>>  	case V4L2_CTRL_TYPE_STRING:
+> >>>  		idx *= ctrl->elem_size;
+> >>>  		memset(ptr.p_char + idx, ' ', ctrl->minimum);
+> >>> @@ -1486,6 +1493,17 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+> >>>  	case V4L2_CTRL_TYPE_U32:
+> >>>  		ptr.p_u32[idx] = ctrl->default_value;
+> >>>  		break;
+> >>> +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
+> >>> +		p_mpeg2_slice_params = ptr.p;
+> >>> +		/* 4:2:0 */
+> >>> +		p_mpeg2_slice_params->sequence.chroma_format = 1;
+> >>> +		/* 8 bits */
+> >>> +		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
+> >>> +		/* interlaced top field */
+> >>> +		p_mpeg2_slice_params->picture.picture_structure = 1;
+> >>> +		p_mpeg2_slice_params->picture.picture_coding_type =
+> >>> +					V4L2_MPEG2_PICTURE_CODING_TYPE_I;  
+> >>
+> >> Oops, this isn't complete. It should still zero the p_mpeg2_slice_params
+> >> struct first. Right now any fields not explicitly set just have whatever
+> >> was in memory.
 
-Unfortunately when I connect CODA/h264 decode to the VPU scaler, performance
-drops to about half. But on the non-mainline Freescale kernel, even with
-the rescale, I still get 30fps.
+Oops.
 
-Mainline kernel + v8 imx rescaler patch:
-A) 1080p30 source video -> CODA h264 decode -> drm 1080p: near full speed (28fps)
-B) 1080p30 source video -> CODA h264 decode -> VPU scaler 1080p->720p ->
-	drm 720p: only half speed (15fps)
+> >>
+> >> Can you post a patch fixing this?
+> >>
+> >>  
+> > 
+> > 
+> > I was wondering if we want to zero all the cases, and not just
+> > the struct types ones.  
+> 
+> The others either overwrite the data with the default_value, or memset
+> the whole control (default case). It's only for these compound controls
+> that something special needs to be done.
+> 
+> The code can be restructured, though: instead of break do return in all
+> the simple type cases.
+> 
+> Then call memset followed by a new switch for the compound types where you
+> need to set some fields to non-zero.
 
-Freescale non-mainline kernel:
-C) 1080p30 source video -> CODA h264 decode -> VPU scaler 1080p->720p ->
-	v4l2out 720p: full speed (30fps)
+memset(0) will fix the undefined val issue, the question is, is it the
+default we want? I haven't worked on MPEG2 (just posted patches
+Ezequiel worked on) so I can't tell.
 
-Question:
-- is this expected behaviour ? A regression wrt. the Freescale kernel?
-- perhaps I am missing something in the gstreamer pipeline ?
-
-Gstreamer pipelines:
---------------------
-A) gst-launch-1.0 filesrc location=/home/default/jellyfish-10-mbps-hd-h264.mkv ! 
-matroskademux ! h264parse ! v4l2h264dec ! kmssink can-scale=0
-B) gst-launch-1.0 filesrc location=/home/default/jellyfish-10-mbps-hd-h264.mkv ! 
-matroskademux ! h264parse ! v4l2h264dec ! v4l2video8convert ! video/x-raw,width=
-1280,height=720 ! kmssink can-scale=0
-C) gst-launch-0.10 filesrc location=/home/default/jellyfish-10-mbps-hd-h264.
-mkv ! decodebin ! mfw_v4lsink
-
-I have tried various values for capture-io-mode/output-io-mode.
-
-imx6q
-v8 imx scaler patch backported to 4.19 mainline kernel.
-GStreamer 1.14.4
