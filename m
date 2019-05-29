@@ -2,186 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2514B2DDFF
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD3B2DE08
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2019 15:23:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbfE2NUz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 09:20:55 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:60973 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfE2NUz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 09:20:55 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hVyVh-0003eY-JP; Wed, 29 May 2019 15:20:53 +0200
-Message-ID: <1559136052.3651.9.camel@pengutronix.de>
-Subject: Re: [PATCH v2 5/9] media: hantro: add support for named register
- ranges
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     linux-media@vger.kernel.org,
+        id S1727017AbfE2NXv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 09:23:51 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:45920 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726029AbfE2NXv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 May 2019 09:23:51 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0EF180D;
+        Wed, 29 May 2019 06:23:50 -0700 (PDT)
+Received: from mbp (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5BC23F59C;
+        Wed, 29 May 2019 06:23:44 -0700 (PDT)
+Date:   Wed, 29 May 2019 14:23:42 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        linux-media@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Yishai Hadas <yishaih@mellanox.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Date:   Wed, 29 May 2019 15:20:52 +0200
-In-Reply-To: <20190529134645.65f8feb4@collabora.com>
-References: <20190529095424.23614-1-p.zabel@pengutronix.de>
-         <20190529095424.23614-6-p.zabel@pengutronix.de>
-         <20190529134645.65f8feb4@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        linux-arm-kernel@lists.infradead.org,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        linux-kernel@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
+ syscalls
+Message-ID: <20190529132341.27t3knoxpb7t7y3g@mbp>
+References: <cover.1557160186.git.andreyknvl@google.com>
+ <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
+ <20190527143719.GA59948@MBP.local>
+ <20190528145411.GA709@e119886-lin.cambridge.arm.com>
+ <20190528154057.GD32006@arrakis.emea.arm.com>
+ <20190528155644.GD28398@e103592.cambridge.arm.com>
+ <20190528163400.GE32006@arrakis.emea.arm.com>
+ <20190529124224.GE28398@e103592.cambridge.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190529124224.GE28398@e103592.cambridge.arm.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Boris,
-
-thank you for the review.
-
-On Wed, 2019-05-29 at 13:46 +0200, Boris Brezillon wrote:
-> On Wed, 29 May 2019 11:54:20 +0200
-> Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> 
-> > Add support for multiple register ranges with SoC specific names.
+On Wed, May 29, 2019 at 01:42:25PM +0100, Dave P Martin wrote:
+> On Tue, May 28, 2019 at 05:34:00PM +0100, Catalin Marinas wrote:
+> > On Tue, May 28, 2019 at 04:56:45PM +0100, Dave P Martin wrote:
+> > > On Tue, May 28, 2019 at 04:40:58PM +0100, Catalin Marinas wrote:
+> > > 
+> > > [...]
+> > > 
+> > > > My thoughts on allowing tags (quick look):
+> > > >
+> > > > brk - no
+> > > 
+> > > [...]
+> > > 
+> > > > mlock, mlock2, munlock - yes
+> > > > mmap - no (we may change this with MTE but not for TBI)
+> > > 
+> > > [...]
+> > > 
+> > > > mprotect - yes
+> > > 
+> > > I haven't following this discussion closely... what's the rationale for
+> > > the inconsistencies here (feel free to refer me back to the discussion
+> > > if it's elsewhere).
 > > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> >  drivers/staging/media/hantro/hantro.h     |  7 ++++++-
-> >  drivers/staging/media/hantro/hantro_drv.c | 25 +++++++++++++++++------
-> >  2 files changed, 25 insertions(+), 7 deletions(-)
+> > _My_ rationale (feel free to disagree) is that mmap() by default would
+> > not return a tagged address (ignoring MTE for now). If it gets passed a
+> > tagged address or a "tagged NULL" (for lack of a better name) we don't
+> > have clear semantics of whether the returned address should be tagged in
+> > this ABI relaxation. I'd rather reserve this specific behaviour if we
+> > overload the non-zero tag meaning of mmap() for MTE. Similar reasoning
+> > for mremap(), at least on the new_address argument (not entirely sure
+> > about old_address).
 > > 
-> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> > index 6b90fe48bcdf..b796867808d5 100644
-> > --- a/drivers/staging/media/hantro/hantro.h
-> > +++ b/drivers/staging/media/hantro/hantro.h
-> > @@ -27,6 +27,7 @@
-> >  
-> >  #define HANTRO_MAX_CLOCKS		4
-> >  #define HANTRO_MAX_IRQS			3
-> > +#define HANTRO_MAX_REG_RANGES		4
-> >  
-> >  #define MPEG2_MB_DIM			16
-> >  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
-> > @@ -63,6 +64,8 @@ struct hantro_codec_ops;
-> >   * @num_irqs:			number of irqs in the arrays
-> >   * @clk_names:			array of clock names
-> >   * @num_clocks:			number of clocks in the array
-> > + * @reg_names:			array of register range names
-> > + * @num_regs:			number of register range names in the array
-> >   */
-> >  struct hantro_variant {
-> >  	unsigned int enc_offset;
-> > @@ -80,6 +83,8 @@ struct hantro_variant {
-> >  	int num_irqs;
-> >  	const char *clk_names[HANTRO_MAX_CLOCKS];
-> >  	int num_clocks;
-> > +	const char *reg_names[HANTRO_MAX_REG_RANGES];
-> > +	int num_regs;
-
-Do you suggest
-	const char * const *reg_names;
-...
-
-> >  };
-> >  
-> >  /**
-> > @@ -170,7 +175,7 @@ struct hantro_dev {
-> >  	struct platform_device *pdev;
-> >  	struct device *dev;
-> >  	struct clk_bulk_data clocks[HANTRO_MAX_CLOCKS];
-> > -	void __iomem *base;
-> > +	void __iomem *base[HANTRO_MAX_REG_RANGES];
+> > munmap() should probably follow the mmap() rules.
+> > 
+> > As for brk(), I don't see why the user would need to pass a tagged
+> > address, we can't associate any meaning to this tag.
+> > 
+> > For the rest, since it's likely such addresses would have been tagged by
+> > malloc() in user space, we should allow tagged pointers.
 > 
-> Same comment as for the irq stuff.
-
-... and
-	void __iomem **base;
-to get rid of HANTRO_MAX_REG_RANGES?
-
-Would you like to see the same for clk_names?
-
-> >  	void __iomem *enc_base;
-> >  	void __iomem *dec_base;
-> >  
-> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > index f677b40bcd2d..bd02b27258e3 100644
-> > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > @@ -692,12 +692,25 @@ static int hantro_probe(struct platform_device *pdev)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
-> > -	vpu->base = devm_ioremap_resource(vpu->dev, res);
-> > -	if (IS_ERR(vpu->base))
-> > -		return PTR_ERR(vpu->base);
-> > -	vpu->enc_base = vpu->base + vpu->variant->enc_offset;
-> > -	vpu->dec_base = vpu->base + vpu->variant->dec_offset;
-> > +	if (vpu->variant->num_regs) {
-> > +		for (i = 0; i < vpu->variant->num_regs; i++) {
-> > +			const char *reg_name = vpu->variant->reg_names[i];
-> > +
-> > +			res = platform_get_resource_byname(vpu->pdev,
-> > +							   IORESOURCE_MEM,
-> > +							   reg_name);
-> > +			vpu->base[i] = devm_ioremap_resource(vpu->dev, res);
-> > +			if (IS_ERR(vpu->base[i]))
-> > +				return PTR_ERR(vpu->base[i]);
-> > +		}
-> > +	} else {
-> > +		res = platform_get_resource(vpu->pdev, IORESOURCE_MEM, 0);
-> > +		vpu->base[0] = devm_ioremap_resource(vpu->dev, res);
-> > +		if (IS_ERR(vpu->base[0]))
-> > +			return PTR_ERR(vpu->base[0]);
-> > +		vpu->enc_base = vpu->base[0] + vpu->variant->enc_offset;
-> > +		vpu->dec_base = vpu->base[0] + vpu->variant->dec_offset;
+> Those arguments seem reasonable.  We should try to capture this
+> somewhere when documenting the ABI.
 > 
-> I see ->dec_based is assigned in ->hw_init() in patch 8, so maybe it's
-> better to have the same workflow for rk variants: assign
-> vpu->{dec,enc}_base in ->hw_init() 
+> To be clear, I'm not sure that we should guarantee anywhere that a
+> tagged pointer is rejected: rather the behaviour should probably be
+> left unspecified.  Then we can tidy it up incrementally.
+> 
+> (The behaviour is unspecified today, in any case.)
 
-I didn't want to change this around too much, as dec_base is just needed
-for the vdpu_read/write functions, and I expect we'll have to somehow
-replace these anyway when adding G2 support.
-Adding yet another set of register accessors for g1_read/write vs
-g2_read/write isn't very convenient. Maybe it woudl be better to call
-the register accessors with the base as a parameter instead of
-hantro_dev.
+What is specified (or rather de-facto ABI) today is that passing a user
+address above TASK_SIZE (e.g. non-zero top byte) would fail in most
+cases. If we relax this with the TBI we may end up with some de-facto
+ABI before we actually get MTE hardware. Tightening it afterwards may be
+slightly more problematic, although MTE needs to be an explicit opt-in.
 
-Also the kerneldoc comment says .init() should "initialize hardware".
-Should that be changed to "variant specific initialization" if the
-enc/dec_base are set there?
+IOW, I wouldn't want to unnecessarily relax the ABI if we don't need to.
 
-> and set ->num_regs to 1 (plus a
-> fallback to platform_get_resource() instead of
-> platform_get_resource_byname() when ->reg_names[0] == NULL).
-
-I suppose we could do that, but
-
-	static const char * const rk3288_regs[] = {
-		NULL
-	}
-
-	const struct hantro_variant rk3288_vpu_variant = {
-		.reg_n
-ames = rk3288_regs,
-		.num_regs = ARRAY_SIZE(rk3288_regs)
-	};
-
-would look a bit strange if we were to get rid of
-HANTRO_MAX_REG_RANGES...
-
-regards
-Philipp
+-- 
+Catalin
