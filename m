@@ -2,24 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6545E2FEFE
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 17:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4720E2FFE5
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 18:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbfE3PLQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 11:11:16 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:38186 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725440AbfE3PLQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 11:11:16 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66C00341;
-        Thu, 30 May 2019 08:11:15 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A9563F59C;
-        Thu, 30 May 2019 08:11:09 -0700 (PDT)
-Date:   Thu, 30 May 2019 16:11:07 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Khalid Aziz <khalid.aziz@oracle.com>
+        id S1726418AbfE3QHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 12:07:06 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:43836 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726045AbfE3QHG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 May 2019 12:07:06 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4UG4VBr062702;
+        Thu, 30 May 2019 16:06:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=+GLA6qLrn26KPJEpEajh3ipF/BPoxxfouik/rd34OzM=;
+ b=AwmlutIReVoUCST+0CvuT1i683wuk/bgaVaXpwFLuLObOH6WAfasg+1gIzeRdE2lXYjb
+ k8P67eGtLM2jUaKR9Cy3m4TvgSb5+cBwa2T8P+yN1HdMoZWh+Ggt2lVsYNq8wgS4RczC
+ Ob71kUfljvyH5fcGoqQaqFQS4TYWXfMx3pY3C+r2yQF46AIqpx1jAW7P3kPlizYiO3T0
+ ZblzYxr+PrepeLcYjU1orVLKF6nQOQcaFQBGNaPWrM8vzs9svllGt0RN7sK/lmLWd9+b
+ VLJpczb5tPtPCsmplNczUgngjT1jT/8Yk0IfRgeZkTSIRA/aLnoWnZFsdY3idrib592i Ow== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2spw4ts5tq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 30 May 2019 16:06:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4UG64iQ193779;
+        Thu, 30 May 2019 16:06:12 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2sr31vy3va-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 30 May 2019 16:06:12 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4UG62SZ026718;
+        Thu, 30 May 2019 16:06:02 GMT
+Received: from [192.168.1.16] (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 30 May 2019 09:06:02 -0700
+Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
+ syscalls
+To:     Catalin Marinas <catalin.marinas@arm.com>
 Cc:     Andrew Murray <andrew.murray@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>,
         Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
@@ -52,9 +76,6 @@ Cc:     Andrew Murray <andrew.murray@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         Christian Koenig <Christian.Koenig@amd.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v15 05/17] arms64: untag user pointers passed to memory
- syscalls
-Message-ID: <20190530151105.GA35418@arrakis.emea.arm.com>
 References: <cover.1557160186.git.andreyknvl@google.com>
  <00eb4c63fefc054e2c8d626e8fedfca11d7c2600.1557160186.git.andreyknvl@google.com>
  <20190527143719.GA59948@MBP.local>
@@ -63,160 +84,145 @@ References: <cover.1557160186.git.andreyknvl@google.com>
  <11193998209cc6ff34e7d704f081206b8787b174.camel@oracle.com>
  <20190529142008.5quqv3wskmpwdfbu@mbp>
  <b2753e81-7b57-481f-0095-3c6fecb1a74c@oracle.com>
+ <20190530151105.GA35418@arrakis.emea.arm.com>
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+Organization: Oracle Corp
+Message-ID: <f79336b5-46b4-39c0-b754-23366207e32d@oracle.com>
+Date:   Thu, 30 May 2019 10:05:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b2753e81-7b57-481f-0095-3c6fecb1a74c@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190530151105.GA35418@arrakis.emea.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=660
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905300114
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9272 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=684 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905300114
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 29, 2019 at 01:16:37PM -0600, Khalid Aziz wrote:
-> On 5/29/19 8:20 AM, Catalin Marinas wrote:
-> > On Tue, May 28, 2019 at 05:33:04PM -0600, Khalid Aziz wrote:
-> >> Steps 1 and 2 are accomplished by userspace by calling mprotect() with
-> >> PROT_ADI. Tags are set by storing tags in a loop, for example:
-> >>
-> >>         version = 10;
-> >>         tmp_addr = shmaddr;
-> >>         end = shmaddr + BUFFER_SIZE;
-> >>         while (tmp_addr < end) {
-> >>                 asm volatile(
-> >>                         "stxa %1, [%0]0x90\n\t"
-> >>                         :
-> >>                         : "r" (tmp_addr), "r" (version));
-> >>                 tmp_addr += adi_blksz;
-> >>         }
-> > 
-> > On arm64, a sequence similar to the above would live in the libc. So a
-> > malloc() call will tag the memory and return the tagged address to thePre-coloring could easily be done by 
-> > user.
-> > 
-> > We were not planning for a PROT_ADI/MTE but rather have MTE enabled for
-> > all user memory ranges. We may revisit this before we upstream the MTE
-> > support (probably some marginal benefit for the hardware not fetching
-> > the tags from memory if we don't need to, e.g. code sections).
-> > 
-> > Given that we already have the TBI feature and with MTE enabled the top
-> > byte is no longer ignored, we are planning for an explicit opt-in by the
-> > user via prctl() to enable MTE.
-> 
-> OK. I had initially proposed enabling ADI for a process using prctl().
-> Feedback I got was prctl was not a desirable interface and I ended up
-> making mprotect() with PROT_ADI enable ADI on the process instead. Just
-> something to keep in mind.
+On 5/30/19 9:11 AM, Catalin Marinas wrote:
+> On Wed, May 29, 2019 at 01:16:37PM -0600, Khalid Aziz wrote:
+>> mmap() can return the same tagged address but I am uneasy about kernel=
 
-Thanks for the feedback. We'll keep this in mind when adding MTE
-support. In the way we plan to deploy this, it would be a libc decision
-to invoke the mmap() with the right flag.
+>> pre-coloring the pages. Database can mmap 100's of GB of memory. That =
+is
+>> lot of work being offloaded to the kernel to pre-color the page even i=
+f
+>> done in batches as pages are faulted in.
+>=20
+> For anonymous mmap() for example, the kernel would have to zero the
+> faulted in pages anyway. We can handle the colouring at the same time i=
+n
+> clear_user_page() (as I said below, we have to clear the colour anyway
+> from previous uses, so it's simply extending this to support something
+> other than tag/colour 0 by default with no additional overhead).
+>=20
 
-This could actually simplify the automatic page faulting below brk(),
-basically no tagged/coloured memory allowed implicitly. It needs
-feedback from the bionic/glibc folk.
+On sparc M7, clear_user_page() ends up in M7clear_user_page defined in
+arch/sparc/lib/M7memset.S. M7 code use Block Init Store (BIS) to clear
+the page. BIS on M7 clears the memory tags as well and no separate
+instructions are needed to clear the tags. As a result when kernel
+clears a page before returning it to user, the page is not only zeroed
+out, its tags are also cleared to 0.
 
-> >> With these semantics, giving mmap() or shamat() a tagged address is
-> >> meaningless since no tags have been stored at the addresses mmap() will
-> >> allocate and one can not store tags before memory range has been
-> >> allocated. If we choose to allow tagged addresses to come into mmap()
-> >> and shmat(), sparc code can strip the tags unconditionally and that may
-> >> help simplify ABI and/or code.
-> > 
-> > We could say that with TBI (pre-MTE support), the top byte is actually
-> > ignored on mmap(). Now, if you pass a MAP_FIXED with a tagged address,
-> > should the user expect the same tagged address back or stripping the tag
-> > is acceptable? If we want to keep the current mmap() semantics, I'd say
-> > the same tag is returned. However, with MTE this also implies that the
-> > memory was coloured.
-> 
-> Is assigning a tag aprivileged operationon ARM64? I am thinking not
-> since you mentioned libc could do it in a loop for malloc'd memory.
+>>> Since we already need such loop in the kernel, we might as well allow=
 
-Indeed it's not, the user can do it.
+>>> user space to require a certain colour. This comes in handy for large=
 
-> mmap() can return the same tagged address but I am uneasy about kernel
-> pre-coloring the pages. Database can mmap 100's of GB of memory. That is
-> lot of work being offloaded to the kernel to pre-color the page even if
-> done in batches as pages are faulted in.
+>>> malloc() and another advantage is that the C library won't be stuck
+>>> trying to paint the whole range (think GB).
+>>
+>> If kernel is going to pre-color all pages in a vma, we will need to
+>> store the default tag in the vma. It will add more time to page fault
+>> handling code. On sparc M7, kernel will need to execute additional 128=
 
-For anonymous mmap() for example, the kernel would have to zero the
-faulted in pages anyway. We can handle the colouring at the same time in
-clear_user_page() (as I said below, we have to clear the colour anyway
-from previous uses, so it's simply extending this to support something
-other than tag/colour 0 by default with no additional overhead).
+>> stxa instructions to set the tags on a normal page.
+>=20
+> As I said, since the user can retrieve an old colour using ldxa, the
+> kernel should perform this operation anyway on any newly allocated page=
 
-> > Since the user can probe the pre-existing colour in a faulted-in page
-> > (either with some 'ldxa' instruction or by performing a tag-checked
-> > access), the kernel should always pre-colour (even if colour 0) any
-> > allocated page. There might not be an obvious security risk but I feel
-> > uneasy about letting colours leak between address spaces (different user
-> > processes or between kernel and user).
-> 
-> On sparc, tags 0 and 15 are special in that 0 means untagged memory and
-> 15 means match any tag in the address. Colour 0 is the default for any
-> newly faulted in page on sparc.
+> (unless you clear the existing colour on page freeing).>
 
-With MTE we don't have match-all/any tag in memory, only in the virtual
-address/pointer. So if we turn on MTE for all pages and the user
-accesses an address with a 0 tag, the underlying memory needs to be
-coloured with the same 0 value.
+Tags are not cleared on sparc on freeing. They get cleared when the page
+is allocated again.
 
-> > Since we already need such loop in the kernel, we might as well allow
-> > user space to require a certain colour. This comes in handy for large
-> > malloc() and another advantage is that the C library won't be stuck
-> > trying to paint the whole range (think GB).
-> 
-> If kernel is going to pre-color all pages in a vma, we will need to
-> store the default tag in the vma. It will add more time to page fault
-> handling code. On sparc M7, kernel will need to execute additional 128
-> stxa instructions to set the tags on a normal page.
+>>>> We can try to store tags for an entire region in vma but that is
+>>>> expensive, plus on sparc tags are set in userspace with no
+>>>> participation from kernel and now we need a way for userspace to
+>>>> communicate the tags to kernel.
+>>>
+>>> We can't support finer granularity through the mmap() syscall and, as=
 
-As I said, since the user can retrieve an old colour using ldxa, the
-kernel should perform this operation anyway on any newly allocated page
-(unless you clear the existing colour on page freeing).
+>>> you said, the vma is not the right thing to store the individual tags=
+=2E
+>>> With the above extension to mmap(), we'd have to store a colour per v=
+ma
+>>> and prevent merging if different colours (we could as well use the
+>>> pkeys mechanism we already have in the kernel but use a colour per vm=
+a
+>>> instead of a key).
+>>
+>> Since tags can change on any part of mmap region on sparc at any time
+>> without kernel being involved, I am not sure I see much reason for
+>> kernel to enforce any tag related restrictions.
+>=20
+> It's not enforcing a tag, more like the default colour for a faulted in=
 
-> >> We can try to store tags for an entire region in vma but that is
-> >> expensive, plus on sparc tags are set in userspace with no
-> >> participation from kernel and now we need a way for userspace to
-> >> communicate the tags to kernel.
-> > 
-> > We can't support finer granularity through the mmap() syscall and, as
-> > you said, the vma is not the right thing to store the individual tags.
-> > With the above extension to mmap(), we'd have to store a colour per vma
-> > and prevent merging if different colours (we could as well use the
-> > pkeys mechanism we already have in the kernel but use a colour per vma
-> > instead of a key).
-> 
-> Since tags can change on any part of mmap region on sparc at any time
-> without kernel being involved, I am not sure I see much reason for
-> kernel to enforce any tag related restrictions.
+> page. Anyway, if sparc is going with default 0/untagged, that's fine as=
 
-It's not enforcing a tag, more like the default colour for a faulted in
-page. Anyway, if sparc is going with default 0/untagged, that's fine as
-well. We may add this mmap() option to arm64 only.
+> well. We may add this mmap() option to arm64 only.
+>=20
+>>>> From sparc point of view, making kernel responsible for assigning ta=
+gs
+>>>> to a page on page fault is full of pitfalls.
+>>>
+>>> This could be just some arm64-specific but if you plan to deploy it m=
+ore
+>>> generically for sparc (at the C library level), you may find this
+>>> useful.
+>>
+>> Common semantics from app developer point of view will be very useful =
+to
+>> maintain. If arm64 says mmap with MAP_FIXED and a tagged address will
+>> return a pre-colored page, I would rather have it be the same on any
+>> architecture. Is there a use case that justifies kernel doing this ext=
+ra
+>> work?
+>=20
+> So if a database program is doing an anonymous mmap(PROT_TBI) of 100GB,=
 
-> >> From sparc point of view, making kernel responsible for assigning tags
-> >> to a page on page fault is full of pitfalls.
-> > 
-> > This could be just some arm64-specific but if you plan to deploy it more
-> > generically for sparc (at the C library level), you may find this
-> > useful.
-> 
-> Common semantics from app developer point of view will be very useful to
-> maintain. If arm64 says mmap with MAP_FIXED and a tagged address will
-> return a pre-colored page, I would rather have it be the same on any
-> architecture. Is there a use case that justifies kernel doing this extra
-> work?
+> IIUC for sparc the faulted-in pages will have random colours (on 64-byt=
+e
+> granularity). Ignoring the information leak from prior uses of such
+> pages, it would be the responsibility of the db program to issue the
+> stxa. On arm64, since we also want to do this via malloc(), any large
+> allocation would require all pages to be faulted in so that malloc() ca=
+n
+> set the write colour before being handed over to the user. That's what
+> we want to avoid and the user is free to repaint the memory as it likes=
+=2E
+>=20
 
-So if a database program is doing an anonymous mmap(PROT_TBI) of 100GB,
-IIUC for sparc the faulted-in pages will have random colours (on 64-byte
-granularity). Ignoring the information leak from prior uses of such
-pages, it would be the responsibility of the db program to issue the
-stxa. On arm64, since we also want to do this via malloc(), any large
-allocation would require all pages to be faulted in so that malloc() can
-set the write colour before being handed over to the user. That's what
-we want to avoid and the user is free to repaint the memory as it likes.
+On sparc, any newly allocated page is cleared along with any old tags on
+it. Since clearing tag happens automatically when page is cleared on
+sparc, clear_user_page() will need to execute additional stxa
+instructions to set a new tag. It is doable. In a way it is done already
+if page is being pre-colored with tag 0 always ;) Where would the
+pre-defined tag be stored - as part of address stored in vm_start or a
+new field in vm_area_struct?
 
--- 
-Catalin
+--
+Khalid
+
