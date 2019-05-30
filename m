@@ -2,112 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C676C2FDAF
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 16:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5607E2FEA8
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 16:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbfE3OWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 10:22:01 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39605 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbfE3OWB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 10:22:01 -0400
-Received: by mail-pf1-f196.google.com with SMTP id j2so4069762pfe.6
-        for <linux-media@vger.kernel.org>; Thu, 30 May 2019 07:22:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GIW/pDlXlK2ma6IHukrdhsLwsAsLqD6hPWdqk2x6lt0=;
-        b=H/Pqk3pWuFCqPGnKIAlCVRrXiAMJib0IanipWztLLjIqNBWmT6Z35B9gFicssxRhQ/
-         +zz3/NrwluqFgfpYiTLGCm9aNQslVXKNIjD3JrbIT+HssV0mAL3GaXroWxJ4HBFHhYX0
-         4gntRyH68ZHf/qjzAeB0nptqD6cgG1pJ9P+zeDSEVTpvItejWOlF++5/bXXNm9F1BHAb
-         wrIr4cnmPlLLHiE8rkwnk2IJtzMg5SuxN2JQsQWSFBgxC8MBUlCKpCvSsaC6G79V1Zif
-         o0W65zO3aK9P7Rd7JcUC+MFAnYp12VFfcOptnsSc383slRXgBGtQcXMjfmvyQ1IIcGUw
-         H4Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GIW/pDlXlK2ma6IHukrdhsLwsAsLqD6hPWdqk2x6lt0=;
-        b=rfekWE1frKnDqzT9kBhROLVgVCXFXyqCXCe4/BTcTRcV2JmV4GXxGMffGKXNy37j1E
-         e4f4EYpht55Kza/VFhPF8LyHRQ51Hi/Kbo/eW74RDNz2a9gLRjKbTPbr28Zm9hHlUhKG
-         Hhn9B7R8iOwQOT0UgwNyLZqvQJCvXBnKZQql4JcaKz7b4xYZyPcZfy4oJFYqwM+k7lO4
-         xfHRBp5NYpQmVNwq5m4CQ21jHycnXBFowcdh3qLkRJDmoEmGsYi+uEvGZIDKyX36Yg3Y
-         PLqftiKPgUKRPtIbkcwfqXyTyngHcIuSlHhAaldx0r0vTxSHKSqvyGZnEY+h9uKTcgll
-         FAXA==
-X-Gm-Message-State: APjAAAWP1KD+OKmMcKqQXi5EE53E4zYZIdQnzOydKG2833UXqy6l0xJP
-        p/wR/BKmqP3bQMPRHXYr7YIY9r2SPouNwg5Eedavf2/snBA=
-X-Google-Smtp-Source: APXvYqwAKXqdC3YjK44is52lo0tmKf1uoOqqkkTMrcQmP/XXf4ICdDWru4bJROAR/rLtlu2yY+0y93FC8miARsdPXQs=
-X-Received: by 2002:a63:d150:: with SMTP id c16mr3964359pgj.439.1559226120221;
- Thu, 30 May 2019 07:22:00 -0700 (PDT)
+        id S1727080AbfE3Ozw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 10:55:52 -0400
+Received: from vps.xff.cz ([195.181.215.36]:33506 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726512AbfE3Ozw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 May 2019 10:55:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1559228150; bh=4poS9dzXjZyZHVsMTWE55BoeyiNgM40bOoxh48wj2rQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CHfsdM4utd+EIvKv6wDe1J6SZi5pLvTw1w0fitol8/pxnTYF5o+BY8QJNpbVWCOpu
+         fR2KJHmrElEorkXXaP+81G4vNKdJEt/LK3oBGT8SpVZbPIkes3vHjQNQDIoTseAMPZ
+         67EvfWmInFdCaae5mTrHdcWX2SEAykrQfn4kwLKs=
+Date:   Thu, 30 May 2019 16:55:50 +0200
+From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 10/12] arm64: dts: allwinner: h6: Add IR receiver node
+Message-ID: <20190530145550.amalnxmx7kpokykv@core.my.home>
+Mail-Followup-To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20190528161440.27172-1-peron.clem@gmail.com>
+ <20190528161440.27172-11-peron.clem@gmail.com>
 MIME-Version: 1.0
-References: <67b53f91ede9e9ffdda913c818065095a726b92e.1559157595.git.mchehab+samsung@kernel.org>
-In-Reply-To: <67b53f91ede9e9ffdda913c818065095a726b92e.1559157595.git.mchehab+samsung@kernel.org>
-From:   Akinobu Mita <akinobu.mita@gmail.com>
-Date:   Thu, 30 May 2019 23:21:49 +0900
-Message-ID: <CAC5umyiXQ_20okmTgs1uJ1Jqi=SkwRWYHsz4ugP3tarozNqqAg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mt9m111: add regulator support
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190528161440.27172-11-peron.clem@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2019=E5=B9=B45=E6=9C=8830=E6=97=A5(=E6=9C=A8) 4:25 Mauro Carvalho Chehab <m=
-chehab+samsung@kernel.org>:
->
-> From: Robert Jarzmik <robert.jarzmik@free.fr>
->
-> In the soc_camera removal, the board specific power callback was
-> dropped. This at least will remove the power optimization from ezx and
-> em-x270 pxa based boards.
->
-> As to recreate the same level of functionality, make the mt9m111 have a
-> regulator providing it its power, so that board designers can plug in a
-> gpio based or ldo regulator, mimicking their former soc_camera power
-> hook.
->
-> Fixes: 5c10113cc668 ("media: mt9m111: make a standalone v4l2 subdevice")
->
-> [mchehab+samsung@kernel.org: check return values for regulator_enable and
->  fix a build warning]
-> Signed-off-by: Robert Jarzmik <robert.jarzmik@free.fr>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Hello Clément,
+
+On Tue, May 28, 2019 at 06:14:38PM +0200, Clément Péron wrote:
+> Allwinner H6 IR is similar to A31 and can use same driver.
+> 
+> Add support for it.
+> 
+> Signed-off-by: Clément Péron <peron.clem@gmail.com>
 > ---
->
-> This is a respin of this patch:
->
->     http://patchwork.linuxtv.org/patch/37950/
->
-> rebased (and fixed) to apply on the top of upstream.
->
-> While checking old patches at the ML, I noticed that this patch
-> was never applied:
->
->     https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1238720.=
-html
->
->  The first patch of this series got applied, though:
->
->   c771f42fed7f ("[media] media: platform: pxa_camera: add missing sensor =
-power on")
->
-> So, I'm closing the original patch as obsoleted and I'm sending this
-> one to the ML for tests.
->
-> Can anyone test this patch and send a tested-by?
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> index 16c5c3d0fd81..649cbdfe452e 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -647,6 +647,25 @@
+>  				pins = "PL0", "PL1";
+>  				function = "s_i2c";
+>  			};
+> +
+> +			r_ir_rx_pin: r-ir-rx-pin {
+> +				pins = "PL9";
+> +				function = "s_cir_rx";
+> +			};
+> +		};
+> +
+> +		r_ir: ir@7040000 {
+> +				compatible = "allwinner,sun50i-h6-ir",
+> +					     "allwinner,sun6i-a31-ir";
+> +				reg = <0x07040000 0x400>;
+> +				interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks = <&r_ccu CLK_R_APB1_IR>,
+> +					 <&r_ccu CLK_IR>;
+> +				clock-names = "apb", "ir";
+> +				resets = <&r_ccu RST_R_APB1_IR>;
+> +				pinctrl-names = "default";
+> +				pinctrl-0 = <&r_ir_rx_pin>;
+> +				status = "disabled";
+>  		};
 
-In my devicetree, vdd-supply is not defined.  So it falls back to the dummy
-regulator and works fine.
+Please make a comment here, that this is known broken on some boards and may
+result IRQ flood if enabled. Otherwise noone will know.
 
-Tested-by: Akinobu Mita <akinobu.mita@gmail.com>
+thanks,
+	o.
+
+>  		r_i2c: i2c@7081400 {
+> -- 
+> 2.20.1
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
