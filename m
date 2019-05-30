@@ -2,86 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1877A304B0
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 00:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A111304C2
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 00:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbfE3WSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 18:18:17 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:42993 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbfE3WSR (ORCPT
+        id S1726386AbfE3WZp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 18:25:45 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:43487 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726045AbfE3WZp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 18:18:17 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y13so6248192lfh.9
-        for <linux-media@vger.kernel.org>; Thu, 30 May 2019 15:18:16 -0700 (PDT)
+        Thu, 30 May 2019 18:25:45 -0400
+Received: by mail-yw1-f68.google.com with SMTP id t5so3302129ywf.10;
+        Thu, 30 May 2019 15:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cfZDu0nfyBLTaiN3tKuiZ+GpsXOx+pX9J56Zm8+dWQI=;
-        b=aA+kIPnoEuuVQ5S6RGmMjQ/97AKHju7NlTKocTr3RIbGP0r1RPavluWiwolkV0JvOc
-         l++KXeFPgKfLbCoKk86SlazPw4kJw/r5b4TV4EmyyT+XE5QIeV2FVDxxH8yEbOePKVXh
-         pGYAV17YPe+QZpPSRtG37MOcAJ8YPeBIeYhnx5ot5TBQEYjSxH4vq0H2srV/HzhJamfm
-         6WdHof/tSQgZkaXUPcmPuuNNMwxdPUcEOESCCbK1DSWjQtthulGeN5WU8041bKD5jmeu
-         YVJoFaChIP/px6HwxJf9mw7/axaNM/fjbCAy47I54Q+nfqePtQUqAsJukVHnM6yvbViT
-         HTCQ==
+         :content-transfer-encoding;
+        bh=Kt2e7koKuS/w3st+6pWFlXYytQQLT+iijBY66G3TGIQ=;
+        b=SnOvK8D+8dpl/JHjhGSOn/PI1ZA6KFmskkWxxxQdlclHWjqHzPvtclCjTKeO36GZOk
+         ihwqNfm97yuAToZWuIj0NmC4XoK2WRFV69VbOVUfDRHKnbEheioPoQ9qmBbLxo5RkE7P
+         ia3nHxPpgZEUCunu1GQ1HXOwUd1dKSMjMGiwTQjwRQSPQh+chTyTkBJtmEYGuhzP0cj0
+         iOVE8gfcOErvVpykcJUqnxo16i4XNxAXatTaPEm8VCHg8ipPrl424x+xKOHuRFwCGQtB
+         qlapFWyryZ5rN+EI/cj+vyzzmCrtcU/DyfdkA+du4y8ZK4UgqN6DtNR/wZ/fIob5aoeG
+         jnNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cfZDu0nfyBLTaiN3tKuiZ+GpsXOx+pX9J56Zm8+dWQI=;
-        b=rAhEZXtjEvibH2rjp2uZxzx8BMjZ3pSO4ZfmqFX4Lg4rlW8G+jL5Xxgsno9JA3uzM/
-         jFjvHWDP2gIVaSm9PmeBJ/qyD0tr/sl5Mj7zexoPI2MwOS6FUARtGh9AdzWumOkdMBJb
-         9JU1J6cez/xRDWCj7NR+OOTVrdQKs4XC9p5S3uOBv+Nd7b1InMJXnogls4dBxl5vgi6B
-         bWqYm8nbgm1R0H5UvF8W+u0w++xpopOLzbdaq8DN449Q8VKbibV8UtOYoo02XsNL/H4g
-         fLskDXj7k5msrqa0ZZWdfoTfD52KehKRX/NgeY9TG6yBtKMJ+mAX1ZczHwcRgdrOrDjd
-         BJ2w==
-X-Gm-Message-State: APjAAAWaJ0YU0O8aEIHBgZPja4CNkuONVKV5mnoqZkqovJVd590IkQYn
-        uuUxYG2VRELgN9xGQrUBCKYkM3+ifLEF9LU0U+M=
-X-Google-Smtp-Source: APXvYqzz26uIDXMLWWjDb3+Cls1RkOKmckWD1iZJFK421RrAnmovwGPagAufLwszSDogLrYBQrVe0Uq/qyQBi0OnYXY=
-X-Received: by 2002:ac2:5383:: with SMTP id g3mr3514931lfh.107.1559254695296;
- Thu, 30 May 2019 15:18:15 -0700 (PDT)
+         :message-id:subject:to:content-transfer-encoding;
+        bh=Kt2e7koKuS/w3st+6pWFlXYytQQLT+iijBY66G3TGIQ=;
+        b=rTkERJhYCaIeP0ezuDkpCbTR1GFCE99yOO3PkpZ8hSL21lzgZFbJnN9bDWmvHfUhBl
+         Lgo0lN6A2AdiPJxfuTjR2wjs4FJQRi84W556HVS494U9mLdf+NQ9uVPJmrOeUbW7VICX
+         cUv+dvpkNx+eBDmmzwoYGJkcNd3IP/Q1K5wDegV+41836BD+oeJ+ui7QOOanc7TAn1EB
+         DMkQsv44uJz/oPmGsvnCBx9AdjCmU5jd3p2mvDqRXeGm9mDdrk36KlAiofxcgV3RfSHu
+         CmbI/Cq3mQZvRCUOYB68ydpiNrzskTg5SrL0YTZoOTaLkV9rJfubqfP9crqm4mfjPrWO
+         dgBg==
+X-Gm-Message-State: APjAAAW6KW7Zrnvb0aw8o6jIMT3t9rvyafSr9AWR8/YyibRC9etIr6iN
+        UBfSaI6ugr/FQIkLfYlnPRYINqISGPj+kRJdbMY=
+X-Google-Smtp-Source: APXvYqxdINa9M9mKr8zLme+nf6O33yXjlqtzYPUvsQPUOfScvf6wA1/YkYHtuXtS+cQaog6bPnLQyU5UY/WjfuBPMX4=
+X-Received: by 2002:a81:59c2:: with SMTP id n185mr3501471ywb.21.1559255144144;
+ Thu, 30 May 2019 15:25:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190418164414.29373-1-p.zabel@pengutronix.de>
- <20190529154431.11177-1-TheSven73@gmail.com> <CAOMZO5BeEMyEPUbPB8vAbJb1OoUuPxGLh=EBGif12uAMG4=qoQ@mail.gmail.com>
- <CAGngYiWdyzhmsRuAsH_35qdt1SLguh2sUxh=cAK58RWnhm2Y7A@mail.gmail.com>
- <4afffe3822026e23a55c05b7e18b43a2d6d0274e.camel@ndufresne.ca> <CAGngYiUZJCwg-VgOafU=gBgDtaSV++UVmNQawn6d5LunBFg1FQ@mail.gmail.com>
-In-Reply-To: <CAGngYiUZJCwg-VgOafU=gBgDtaSV++UVmNQawn6d5LunBFg1FQ@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 30 May 2019 19:18:06 -0300
-Message-ID: <CAOMZO5AxL6MeOY=Pooq65B-Ly=t41JVp0Y_nXrYUKk03yh0KJQ@mail.gmail.com>
-Subject: Re: [v8] media: imx: add mem2mem device
-To:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Robin Gong <yibin.gong@nxp.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>
+References: <20190528161440.27172-1-peron.clem@gmail.com> <20190528161440.27172-11-peron.clem@gmail.com>
+ <20190530145550.amalnxmx7kpokykv@core.my.home>
+In-Reply-To: <20190530145550.amalnxmx7kpokykv@core.my.home>
+From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date:   Fri, 31 May 2019 00:25:32 +0200
+Message-ID: <CAJiuCce7nHSktVsDKcR8GLRpD3WrN5yP3Nb_Hbu_Q9NjUQbSMw@mail.gmail.com>
+Subject: Re: [PATCH v3 10/12] arm64: dts: allwinner: h6: Add IR receiver node
+To:     =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-sunxi <linux-sunxi@googlegroups.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sven,
+Hi Ondrej,
 
-[Addin Robin]
-
-On Thu, May 30, 2019 at 6:34 PM Sven Van Asbroeck <thesven73@gmail.com> wrote:
-
-> Unfortunately I cannot load any imx-sdma firmware on the latest mainline
-> kernel. Right after the firmware is loaded, reads seem to get corrupted
-> and the whole kernel crashes / hangs.
+On Thu, 30 May 2019 at 16:55, Ond=C5=99ej Jirman <megous@megous.com> wrote:
 >
-> I am currently bisecting to find the offending commit:
-> v.4.20 good
-> v5.0 bad
+> Hello Cl=C3=A9ment,
+>
+> On Tue, May 28, 2019 at 06:14:38PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
+> > Allwinner H6 IR is similar to A31 and can use same driver.
+> >
+> > Add support for it.
+> >
+> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h6.dtsi
+> > index 16c5c3d0fd81..649cbdfe452e 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > @@ -647,6 +647,25 @@
+> >                               pins =3D "PL0", "PL1";
+> >                               function =3D "s_i2c";
+> >                       };
+> > +
+> > +                     r_ir_rx_pin: r-ir-rx-pin {
+> > +                             pins =3D "PL9";
+> > +                             function =3D "s_cir_rx";
+> > +                     };
+> > +             };
+> > +
+> > +             r_ir: ir@7040000 {
+> > +                             compatible =3D "allwinner,sun50i-h6-ir",
+> > +                                          "allwinner,sun6i-a31-ir";
+> > +                             reg =3D <0x07040000 0x400>;
+> > +                             interrupts =3D <GIC_SPI 109 IRQ_TYPE_LEVE=
+L_HIGH>;
+> > +                             clocks =3D <&r_ccu CLK_R_APB1_IR>,
+> > +                                      <&r_ccu CLK_IR>;
+> > +                             clock-names =3D "apb", "ir";
+> > +                             resets =3D <&r_ccu RST_R_APB1_IR>;
+> > +                             pinctrl-names =3D "default";
+> > +                             pinctrl-0 =3D <&r_ir_rx_pin>;
+> > +                             status =3D "disabled";
+> >               };
+>
+> Please make a comment here, that this is known broken on some boards and =
+may
+> result IRQ flood if enabled. Otherwise noone will know.
 
-I am not sure I understood the sdma firmware issue correctly.
+I'm planning to send a v4 next week with the IRQ_NONE return as Maxime
+suggested it.
+https://github.com/clementperon/linux/tree/h6_ir_v4
 
-Please start a new thread in linux-arm-kernel on this topic and also
-copy Robin and the folks from
-./scripts/get_maintainer.pl -f drivers/dma/imx-sdma.c
+But maybe we could also use the bit 5 of the IRQ status.
 
-Thanks
+Regards, Clement
+
+>
+> thanks,
+>         o.
+>
+> >               r_i2c: i2c@7081400 {
+> > --
+> > 2.20.1
+> >
+> >
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
