@@ -2,122 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 121EE2E98A
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 01:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72DC82EDDE
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 05:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfE2Xw6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 May 2019 19:52:58 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36901 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbfE2Xw5 (ORCPT
+        id S1732727AbfE3DmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 May 2019 23:42:00 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58681 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731836AbfE3DmA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 May 2019 19:52:57 -0400
-Received: by mail-qt1-f195.google.com with SMTP id y57so4868724qtk.4
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2019 16:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=L1sm1/zy55IwsxX2fUvje0VQ1zxEWyptyn479+62rIA=;
-        b=WmWu6lgGuOvW68nLYmxzz9D3Xzjhc2fEQFD+BuhmqHC3yFCEFomtQP+2Jy8SfjCTXc
-         J1QbO/ErUIeuiRge9XKlojExWQgWeoLVKCLWnkqdK0X11ge0r17pYNfAvkx2pgyNoP5u
-         9c0+SvWIb6iw9JB00Q9oK+44wVco8PTy/Q7dnd0mtzwQdkBOxyN7SVgzV0xnXESM+Yrw
-         S3G+5VhF2BNwEGLxR3lWXgod4J2ZOxL9KLcWYwI+6Yez6coyQrUfQi91agQXrkH2roeU
-         BQ31EaVWUXDddM/cssGw8b0cq2+W67K3r0NNLJcV7VTWYDeI9b+4Jq7JC0UTV3sgvLa5
-         zE2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=L1sm1/zy55IwsxX2fUvje0VQ1zxEWyptyn479+62rIA=;
-        b=nq9+UXv+L0rb5nFc2b+Kds3xK20K/Zj/RGQLv6xNzVVzaJTd52q8nTotvUsW9vHaV6
-         wfUjQe63nmcAyRz/ghRSHFH6PAOPgK08wtMtsqCxQhwizdsx46n51O/kZgyxuNMdIvwt
-         dVOzuYqZwqsfZex8XKUULtPAkr+g0yzcX3Ik0F+UKFrAz4/GbvBTEziC99Ly4UzOhwRb
-         c6YaKnBP769nu6QIKCP0eaP4ff4XO2romD+y+KUxS+t0wo9hu+IxjqPhjNDVRrbgBfhh
-         smVfNhnHgwXp6PXJdljzM/RKc+aok/3ywNZrxeRFyoqkhNYOujgIhLINPIzYButhd+5Y
-         zqAA==
-X-Gm-Message-State: APjAAAUglJg1jiHUajkaZ8w7lDwubxqZB1TADMcZCtKWa7wZL4uadB8N
-        lov45+OY9iNWIoXNytMmbGBk9g==
-X-Google-Smtp-Source: APXvYqxfed8AmZAGc0qXqBgHyPPt/IFcy33qADjBWz1tohaNeEqcS0CvoU7f/cGBAvmFH+QVlNBZpw==
-X-Received: by 2002:ac8:46c9:: with SMTP id h9mr690893qto.345.1559173976960;
-        Wed, 29 May 2019 16:52:56 -0700 (PDT)
-Received: from skullcanyon ([2002:c0de:c115:0:481e:e17e:2f68:43f8])
-        by smtp.gmail.com with ESMTPSA id j37sm523651qtb.76.2019.05.29.16.52.55
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 29 May 2019 16:52:56 -0700 (PDT)
-Message-ID: <fa48a38ee8e370c195a872ba302f70329d52dca5.camel@ndufresne.ca>
-Subject: Re: [v8] media: imx: add mem2mem device
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>
-Date:   Wed, 29 May 2019 19:52:54 -0400
-In-Reply-To: <CAGngYiWdyzhmsRuAsH_35qdt1SLguh2sUxh=cAK58RWnhm2Y7A@mail.gmail.com>
-References: <20190418164414.29373-1-p.zabel@pengutronix.de>
-         <20190529154431.11177-1-TheSven73@gmail.com>
-         <CAOMZO5BeEMyEPUbPB8vAbJb1OoUuPxGLh=EBGif12uAMG4=qoQ@mail.gmail.com>
-         <CAGngYiWdyzhmsRuAsH_35qdt1SLguh2sUxh=cAK58RWnhm2Y7A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 29 May 2019 23:42:00 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id WBwyhJA2N3qlsWBwzhxnXz; Thu, 30 May 2019 05:41:57 +0200
+Message-ID: <380aaf0e5ad19a62117f6178497cd82c@smtp-cloud7.xs4all.net>
+Date:   Thu, 30 May 2019 05:41:56 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfNkqNAx8f8/DbdHC8dlybSf9sIaxTW9OAUTYw5NucH0643mDfb3I06mySzHJoxmTNgzXSsq5rqhV/ApqeqeXKDwx2N58EuhCQ68ixjoSR77Qj5gJDA7D
+ VFWrvliClVV7+YAWuOihaURVg7IxAzJ2zMrF0ak55z9llVjWDNY6KWbdZ4f7Q2TyeESuNG390GNhnB+8IiBAnVz9djGf64RXWHdeXKi0VcypKl3VmGWnTM/v
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 29 mai 2019 à 16:55 -0400, Sven Van Asbroeck a écrit :
-> Philipp and Fabio,
-> 
-> On Wed, May 29, 2019 at 12:53 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > Does this patch from Philipp fix the problem?
-> > https://git.pengutronix.de/cgit/pza/linux/commit/?h=imx-drm/fixes&id=137caa702f2308f7ef03876e164b0d0f3300712a
-> 
-> I am now running 5.2-rc2 with Philipp's non-plus imx6q patch.
-> 
-> Performance is still much worse than the Freescale baseline.
-> 
-> I am not at all worried about vpu scaler performance, after all v8 is an
-> in-progress patch.
-> 
-> I am much more concerned about the CODA h264 slowdown. My 1080p30 test
-> video runs at half the speed compared to the Freescale kernel. The best it
-> can do is 28fps, which results in visible 'jerks' in the video. Note that
-> this is without using the scaler.
-> 
-> Questions:
-> - is the performance slowdown a known issue?
-> - is there anything I've missed in the gstreamer pipelines below?
-> - is there anything I can do to help?
-> 
-> A) mainline 5.2-rc2 with Philipp's latest non-plus patch:
-> $ time gst-launch-1.0 filesrc
-> location=/home/default/jellyfish-10-mbps-hd-h264.mkv ! matroskademux !
-> h264parse ! v4l2h264dec ! kmssink can-scale=0 sync=0
-> real 0m 32.01s
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-kmssink element still have some issues as it renders using the legacy
-KMS API and makes an synchronous vblank wait before returning. In many
-cases, the proper workaround is to do:
+Results of the daily build of media_tree:
 
-  ... ! v4l2h264dec ! queue ! kmssink can-scale=0 sync=0
+date:			Thu May 30 05:00:19 CEST 2019
+media-tree git hash:	3b6471c7becd06325eb5e701cc2602b2edbbc7b6
+media_build git hash:	b292a7f58a1cceb0c85a3026b4c15e470d149061
+v4l-utils git hash:	4509a09beb1cca754347dc139eecdc4ad7efaa93
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 02669a0e9b11475cbec7dd0e048b3253aabcf29f
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-In order to measure the decoding performance without having the display
-being involved you can also do:
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.105-i686: ERRORS
+linux-4.14.105-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-  ... ! v4l2h264dec ! fpsdisplaysink text-overlay=0 video-sink=fakevideosink sync=0 -v
+Detailed results are available here:
 
-In order to benefit from the best of this driver, you should also use
-the latest GStreamer 1.16.0. It contains latest fixes from Philipp and
-I, including some performance improvement.
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-> 
-> B) Freescale kernel:
-> $ time gst-launch-0.10 filesrc
-> location=/home/default/jellyfish-10-mbps-hd-h264.mkv ! decodebin !
-> mfw_v4lsink sync=0
-> Running time 0:00:14.781129554 render fps 59.941
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
