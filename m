@@ -2,55 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FFC32F252
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 06:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382CD2F786
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 08:45:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731397AbfE3EUm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 00:20:42 -0400
-Received: from smtprelay0033.hostedemail.com ([216.40.44.33]:37168 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731287AbfE3EUl (ORCPT
+        id S1727379AbfE3Gpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 02:45:51 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57267 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727296AbfE3Gpv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 00:20:41 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id C3C53182251B2;
-        Thu, 30 May 2019 04:20:39 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::,RULES_HIT:41:355:379:421:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1381:1437:1515:1516:1518:1534:1538:1567:1593:1594:1711:1714:1730:1747:1777:1792:1963:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3865:3867:3868:3871:3872:3873:3874:4321:5007:9040:10004:10400:10848:11658:11914:12048:12740:12760:12895:13069:13160:13229:13311:13357:13439:14659:21080:21627:21789:30012:30054:30070:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:31,LUA_SUMMARY:none
-X-HE-Tag: nose55_5a26eccd8617
-X-Filterd-Recvd-Size: 1484
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf13.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 30 May 2019 04:20:38 +0000 (UTC)
-Message-ID: <a47d7093b10d671ae89fa6f6962d69d6913a30f7.camel@perches.com>
-Subject: Re: [PATCH v2] drivers/media/dvb-frontends: Implement probe/remove
- for stv6110x
-From:   Joe Perches <joe@perches.com>
-To:     Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org
-Date:   Wed, 29 May 2019 21:20:37 -0700
-In-Reply-To: <d1afd4d3-0dc5-718d-f7b4-f763f367ca1e@mni.thm.de>
-References: <20190509195118.23027-1-tobias.johannes.klausmann@mni.thm.de>
-         <20190529165633.8779-1-tobias.johannes.klausmann@mni.thm.de>
-         <bcd12350374533ef090ae911be444e702e85134b.camel@perches.com>
-         <d1afd4d3-0dc5-718d-f7b4-f763f367ca1e@mni.thm.de>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
+        Thu, 30 May 2019 02:45:51 -0400
+Received: from [IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e] ([IPv6:2001:983:e9a7:1:c843:3d28:cba4:8b6e])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id WEouhL4s93qlsWEovhyNJH; Thu, 30 May 2019 08:45:49 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] dvb-usb/cxusb-analog.c: fix coccinelle warning, use ktime.h
+Message-ID: <7cdb41ac-6c11-270b-8864-adafad423b9a@xs4all.nl>
+Date:   Thu, 30 May 2019 08:45:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOK2EN16f+FDSeoq1v5+S2/rwt1yesuTJbR3yZQnKT7dAiPrnrEjXnTcBLOwFqetAiy1sQEB4GbdNkQCX+ScGKQ+YkOET/laCnwFRffqZp1REcs/Wmay
+ DuiGHHmc0NxvMgmJWMfXE6DPiOaY3on/GlZXVw5n6RvO/KjeF9+bhtojxocrdej2w41ws5rnhD1io16lzM8X+GPinhGBVFCTfX5jJT9acXCGhzZ4M0woVoE/
+ cpPTDpnELIB25pMSDwTukv0/XL6rGbkFJU56C078V8xsTvm0t+4DnDwI7R22jM1o
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-05-29 at 21:03 +0200, Tobias Klausmann wrote:
-> thanks for the comments! If really desired i can change the code 
-> further, adapting to your comments, but note that the code was 
-> essentially just moved around to cater to both _probe() and attach(), 
-> intentionally leaving it as it was before the patch!
+This patch fixes a coccinelle warning and includes ktime.h instead of
+timekeeping.h. The first includes the latter, but the latter doesn't
+exist before 3.17, causing problems for our compat build. It's easier
+to just use ktime.h instead.
 
-Up to you.
-My general preference is for human intelligible and simple code.
+coccinelle warnings: (new ones prefixed by >>)
 
+>> drivers/media/usb/dvb-usb/cxusb-analog.c:1498:41-42: WARNING: Use ARRAY_SIZE
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: kbuild test robot <lkp@intel.com>
+---
+diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
+index 9b42ca71c177..9b4f17ec63d3 100644
+--- a/drivers/media/usb/dvb-usb/cxusb-analog.c
++++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
+@@ -25,7 +25,7 @@
+ #include <linux/device.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+-#include <linux/timekeeping.h>
++#include <linux/ktime.h>
+ #include <linux/vmalloc.h>
+ #include <media/drv-intf/cx25840.h>
+ #include <media/tuner.h>
+@@ -1622,8 +1622,7 @@ int cxusb_medion_analog_init(struct dvb_usb_device *dvbdev)
+ 	/* TODO: setup audio samples insertion */
+
+ 	ret = v4l2_subdev_call(cxdev->cx25840, core, s_io_pin_config,
+-			       sizeof(cxusub_medion_pin_config) /
+-			       sizeof(cxusub_medion_pin_config[0]),
++			       ARRAY_SIZE(cxusub_medion_pin_config),
+ 			       cxusub_medion_pin_config);
+ 	if (ret != 0)
+ 		dev_warn(&dvbdev->udev->dev,
