@@ -2,78 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 026AC30387
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 22:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A471B3038A
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 22:48:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbfE3Uqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 16:46:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726169AbfE3Uqj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 16:46:39 -0400
-Received: from localhost (unknown [207.225.69.115])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 471722617A;
-        Thu, 30 May 2019 20:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559249198;
-        bh=3l/fBGXgNQ3z54neldfhfMe6aZgeoJlVyXU0AaAwnio=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v2pCGD1jqzExF0Y6VZpFYt1i0aBb2vFESyML1kkiCIWUs+pjHG6XtXbVHLl2EVijj
-         BPpjNLOPwnr4zqUnkCf/x7hqMD+CaVljtHhdHFyBj1AcxfemywLbyFdg0YxXlX7x0e
-         6FJIMcqspp4XZ2rNP9jiDTQ9BLMjDT3ZOje9k6gs=
-Date:   Thu, 30 May 2019 13:46:38 -0700
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     digetx@gmail.com, mchehab@kernel.org, thierry.reding@gmail.com,
-        jonathan@nvidia.com, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+        id S1726593AbfE3Ure (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 16:47:34 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:47089 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbfE3Ure (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 May 2019 16:47:34 -0400
+Received: by mail-pl1-f194.google.com with SMTP id e5so1288843pls.13;
+        Thu, 30 May 2019 13:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nFIRytH7aMnjv5Dd67Kdi8+HL3lJPCu+7kfNtuSjMTo=;
+        b=JCOp93MZ2r6mhkO3ypr7kco81GNewMSF8KrRjgKm9SQ7DIf66Ulc3OI8dtkId6ZV1/
+         KYxb/ywJq/HXBc4p/0iEI9OT+zuXphmmdtAzwBQQcCUYOCUZ52JauiK8WvDuB6ji/+ed
+         DUXf8YhD7xF+FPeOEkp7CMmr6QsqH7N7a3r7R7JnfEmO7HD65NwFDB33mRvDgZwmpfxq
+         iU8/6Cb3uj7+QAgV/qbxEztmI/yTxS2FaKsGdlS3bP0vtdsP4oh6DlKMv7ZL8epOI7gA
+         RuweFgwaz4jZs6WfPXWApOttmovw6AXN6OLnfTF8Q20cckzRy9tOHLqMWuy8D8RlRjxb
+         M2VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nFIRytH7aMnjv5Dd67Kdi8+HL3lJPCu+7kfNtuSjMTo=;
+        b=G0FDaAsuUGgZAEfxpM6aKqKfeqlaDRUAoRvbqjyl27Zvq7AKG7l6LR0ZRqHUtSXk7T
+         Ix4RBhI9o5JpZqbqyMonPa/Ne0aqziYA/1iLlhFUIcUWsAVVSTcfalU5B/eEflP466xP
+         ZI5aH1He0yhCtME1En6pDXxLH5FzY/y8WaArqvT16v1J6VyHNbcAJmE+fsLmA7E/63yw
+         qB+5YflUKNSJBeUg/+48mmlHjcVCGfuDgt+uvLYSnRp9OGu2tB5WmMCYGsaC/ihlBUSN
+         5oxIgpYH70DejjaP09kwvnIPTU1XtKlPpAPIAMGQhi2lpaReTTvqqPZm4H5FDyuLkIFz
+         n+iQ==
+X-Gm-Message-State: APjAAAWEoqOXN80WiXNXWu8OH09lGiYgAPInB+3QHU68T1yMJMoEHc63
+        FjjyFusvXdX9pK509NTct4s=
+X-Google-Smtp-Source: APXvYqyHkfDtsyYv8qocg4EROD6AMYRWQSKfYTK6Q/00RxRI16g3FJcKy7i4RETHuFOR3KhyoGjccg==
+X-Received: by 2002:a17:902:6ac4:: with SMTP id i4mr5137585plt.75.1559249253937;
+        Thu, 30 May 2019 13:47:33 -0700 (PDT)
+Received: from localhost.localdomain ([47.15.209.13])
+        by smtp.gmail.com with ESMTPSA id f4sm3672409pfn.118.2019.05.30.13.47.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 May 2019 13:47:33 -0700 (PDT)
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+To:     hans.verkuil@cisco.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, code@wizofe.uk, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: tegra-vde: Remove variable
-Message-ID: <20190530204638.GA4784@kroah.com>
-References: <20190530204439.29830-1-nishkadg.linux@gmail.com>
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: [PATCH] staging: media: davinci_vpfe: Remove variable vpfe_dev
+Date:   Fri, 31 May 2019 02:17:18 +0530
+Message-Id: <20190530204718.29892-1-nishkadg.linux@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190530204439.29830-1-nishkadg.linux@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 31, 2019 at 02:14:39AM +0530, Nishka Dasgupta wrote:
-> Remove unnecessary variable iram_tables and use its value directly.
-> Issue found using Coccinelle.
-> 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-> ---
->  drivers/staging/media/tegra-vde/tegra-vde.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/tegra-vde.c b/drivers/staging/media/tegra-vde/tegra-vde.c
-> index a5020dbf6eef..3205973218e4 100644
-> --- a/drivers/staging/media/tegra-vde/tegra-vde.c
-> +++ b/drivers/staging/media/tegra-vde/tegra-vde.c
-> @@ -273,12 +273,10 @@ static void tegra_vde_setup_iram_entry(struct tegra_vde *vde,
->  				       unsigned int row,
->  				       u32 value1, u32 value2)
->  {
-> -	u32 *iram_tables = vde->iram;
-> -
->  	trace_vde_setup_iram_entry(table, row, value1, value2);
->  
-> -	iram_tables[0x20 * table + row * 2] = value1;
-> -	iram_tables[0x20 * table + row * 2 + 1] = value2;
-> +	vde->iram[0x20 * table + row * 2] = value1;
-> +	vde->iram[0x20 * table + row * 2 + 1] = value2;
+Remove variable vpfe_dev and replace it with its value (since the
+function otherwise uses values directly instead of local variables).
+Issue found with Coccinelle.
 
-Ick, no, why?  why why why?
+Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+---
+ drivers/staging/media/davinci_vpfe/vpfe_video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-You keep sending these patches, please take a bit of time to think about
-what you are doing and see if the change actually makes sense.
+diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
+index 510202a3b091..8927b744b13e 100644
+--- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
++++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
+@@ -448,7 +448,6 @@ vpfe_video_get_next_buffer(struct vpfe_video_device *video)
+ /* schedule the next buffer which is available on dma queue */
+ void vpfe_video_schedule_next_buffer(struct vpfe_video_device *video)
+ {
+-	struct vpfe_device *vpfe_dev = video->vpfe_dev;
+ 	unsigned long addr;
+ 
+ 	if (list_empty(&video->dma_queue))
+@@ -463,19 +462,18 @@ void vpfe_video_schedule_next_buffer(struct vpfe_video_device *video)
+ 	list_del(&video->next_frm->list);
+ 	video->next_frm->vb.vb2_buf.state = VB2_BUF_STATE_ACTIVE;
+ 	addr = vb2_dma_contig_plane_dma_addr(&video->next_frm->vb.vb2_buf, 0);
+-	video->ops->queue(vpfe_dev, addr);
++	video->ops->queue(video->vpfe_dev, addr);
+ 	video->state = VPFE_VIDEO_BUFFER_QUEUED;
+ }
+ 
+ /* schedule the buffer for capturing bottom field */
+ void vpfe_video_schedule_bottom_field(struct vpfe_video_device *video)
+ {
+-	struct vpfe_device *vpfe_dev = video->vpfe_dev;
+ 	unsigned long addr;
+ 
+ 	addr = vb2_dma_contig_plane_dma_addr(&video->cur_frm->vb.vb2_buf, 0);
+ 	addr += video->field_off;
+-	video->ops->queue(vpfe_dev, addr);
++	video->ops->queue(video->vpfe_dev, addr);
+ }
+ 
+ /* make buffer available for dequeue */
+-- 
+2.19.1
 
-Again, here, no, it does not.
-
-greg k-h
