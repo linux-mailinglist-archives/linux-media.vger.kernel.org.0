@@ -2,131 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8876C2FC23
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 15:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21ACA2FCC3
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2019 15:58:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfE3NUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 May 2019 09:20:40 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60234 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726688AbfE3NUk (ORCPT
+        id S1726768AbfE3N6u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 May 2019 09:58:50 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:46250 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbfE3N6u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 May 2019 09:20:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 46A58260D33
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, helen.koike@collabora.com,
-        kernel@collabora.com, lkcamp@lists.libreplanetbr.org,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-Subject: [PATCH] media: vimc: Remove or modify stream checks
-Date:   Thu, 30 May 2019 10:19:56 -0300
-Message-Id: <20190530131956.25606-1-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Thu, 30 May 2019 09:58:50 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id CDE31607CA; Thu, 30 May 2019 13:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1559224729;
+        bh=ZhapyRz7rpO7+RXjnPRw8coTCr3ij19lsTGVLI65SL4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q6+JwilLbIhB+XoM/3S6CaEKG5a6wNZx5/wkuJWPEAD0A5cUs0buLCy5OTbV1/9qO
+         lG22IAs9K95buf1UgYiFVUoMSScNTJJPqYFbZfgNQ+4VILP+EGeMcHaKjbcrL5bAPk
+         O41rBltZWg7/J1QtkiWuwFnTq+jyjFMGnJ2PGLas=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 722026049C;
+        Thu, 30 May 2019 13:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1559224729;
+        bh=ZhapyRz7rpO7+RXjnPRw8coTCr3ij19lsTGVLI65SL4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q6+JwilLbIhB+XoM/3S6CaEKG5a6wNZx5/wkuJWPEAD0A5cUs0buLCy5OTbV1/9qO
+         lG22IAs9K95buf1UgYiFVUoMSScNTJJPqYFbZfgNQ+4VILP+EGeMcHaKjbcrL5bAPk
+         O41rBltZWg7/J1QtkiWuwFnTq+jyjFMGnJ2PGLas=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 722026049C
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [PATCH 0/5] media: venus: Update clock scaling and core selection
+Date:   Thu, 30 May 2019 19:28:23 +0530
+Message-Id: <1559224708-6039-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change the way subdevices check if the stream is running. Verify the stream
-pointer instead of src_frame. This makes easier to get rid of the void* and
-u8* that points to frames in the subdevices structs.
+In this patch series, clock scaling and core selection methods are
+updated. Current clock scaling and core selection methods are same
+for vpu4 and previous versions. Introducing load calculations using
+vpp cycles, which indicates the cycles required by video hardware to
+process each macroblock. Clock scaling is now done more precisely using
+vpp cycles. Instance is assigned to core with minimum load, instead of
+of static assignment.
 
-Remove checks that s_stream does on subdevices. They are redundant since
-the Media Controller Framework doesn't allow two streaming on the same
-media pipeline at the same time.
+Aniket Masule (5):
+  media: venus: Add codec data table
+  media: venus: Initialize codec data
+  media: venus: Update clock scaling
+  media: venus: Add interface for load per core
+  media: venus: Update core selection
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
-Acked-by: Helen Koike <helen.koike@collabora.com>
----
- drivers/media/platform/vimc/vimc-debayer.c | 5 +----
- drivers/media/platform/vimc/vimc-scaler.c  | 7 ++-----
- drivers/media/platform/vimc/vimc-sensor.c  | 6 +-----
- 3 files changed, 4 insertions(+), 14 deletions(-)
+ drivers/media/platform/qcom/venus/core.c       |  13 ++
+ drivers/media/platform/qcom/venus/core.h       |  15 ++
+ drivers/media/platform/qcom/venus/helpers.c    | 189 +++++++++++++++++++++++--
+ drivers/media/platform/qcom/venus/helpers.h    |   3 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h |   1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h |   5 +
+ drivers/media/platform/qcom/venus/vdec.c       |   9 +-
+ drivers/media/platform/qcom/venus/venc.c       |   8 +-
+ 8 files changed, 229 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 281f9c1a7249..b221f26e01cf 100644
---- a/drivers/media/platform/vimc/vimc-debayer.c
-+++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -270,7 +270,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
--		if (vdeb->src_frame)
-+		if (vdeb->ved.stream)
- 			return -EBUSY;
- 
- 		sink_fmt = &vdeb->sink_fmt;
-@@ -337,9 +337,6 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
- 		const struct v4l2_format_info *pix_info;
- 		unsigned int frame_size;
- 
--		if (vdeb->src_frame)
--			return 0;
--
- 		/* We only support translating bayer to RGB24 */
- 		if (src_pixelformat != V4L2_PIX_FMT_RGB24) {
- 			dev_err(vdeb->dev,
-diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index 8aecf8e92031..617f2920b86b 100644
---- a/drivers/media/platform/vimc/vimc-scaler.c
-+++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -158,7 +158,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
--		if (vsca->src_frame)
-+		if (vsca->ved.stream)
- 			return -EBUSY;
- 
- 		sink_fmt = &vsca->sink_fmt;
-@@ -213,9 +213,6 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
- 		const struct v4l2_format_info *pix_info;
- 		unsigned int frame_size;
- 
--		if (vsca->src_frame)
--			return 0;
--
- 		if (!vimc_sca_is_pixfmt_supported(pixelformat)) {
- 			dev_err(vsca->dev, "pixfmt (0x%08x) is not supported\n",
- 				pixelformat);
-@@ -337,7 +334,7 @@ static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
- 						    ved);
- 
- 	/* If the stream in this node is not active, just return */
--	if (!vsca->src_frame)
-+	if (!ved->stream)
- 		return ERR_PTR(-EINVAL);
- 
- 	vimc_sca_fill_src_frame(vsca, sink_frame);
-diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index baca9ca67ce0..d70f1a1408f1 100644
---- a/drivers/media/platform/vimc/vimc-sensor.c
-+++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -141,7 +141,7 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
--		if (vsen->frame)
-+		if (vsen->ved.stream)
- 			return -EBUSY;
- 
- 		mf = &vsen->mbus_format;
-@@ -197,10 +197,6 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
- 		const struct v4l2_format_info *pix_info;
- 		unsigned int frame_size;
- 
--		if (vsen->kthread_sen)
--			/* tpg is already executing */
--			return 0;
--
- 		/* Calculate the frame size */
- 		pix_info = v4l2_format_info(pixelformat);
- 		frame_size = vsen->mbus_format.width * pix_info->bpp[0] *
 -- 
-2.21.0
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
