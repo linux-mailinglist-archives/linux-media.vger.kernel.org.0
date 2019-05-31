@@ -2,58 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2B831587
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 21:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469A7315D1
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 22:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727401AbfEaTnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 15:43:05 -0400
-Received: from smtp10.smtpout.orange.fr ([80.12.242.132]:40440 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727147AbfEaTnF (ORCPT
+        id S1727403AbfEaUHd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 16:07:33 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42080 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727282AbfEaUHd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 15:43:05 -0400
-Received: from belgarion ([90.76.40.119])
-        by mwinf5d45 with ME
-        id K7j2200032aFDoA037j2ME; Fri, 31 May 2019 21:43:03 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Fri, 31 May 2019 21:43:03 +0200
-X-ME-IP: 90.76.40.119
-From:   Robert Jarzmik <robert.jarzmik@free.fr>
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: Re: [PATCH v2] media: mt9m111: add regulator support
-References: <67b53f91ede9e9ffdda913c818065095a726b92e.1559157595.git.mchehab+samsung@kernel.org>
-        <CAC5umyiXQ_20okmTgs1uJ1Jqi=SkwRWYHsz4ugP3tarozNqqAg@mail.gmail.com>
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Fri, 31 May 2019 21:43:02 +0200
-In-Reply-To: <CAC5umyiXQ_20okmTgs1uJ1Jqi=SkwRWYHsz4ugP3tarozNqqAg@mail.gmail.com>
-        (Akinobu Mita's message of "Thu, 30 May 2019 23:21:49 +0900")
-Message-ID: <877ea65s1l.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+        Fri, 31 May 2019 16:07:33 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 5660C2639F4
+Subject: Re: [ANN] Patchwork version upgrade
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20190531124050.3f06e1b8@coco.lan>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <ac538d8e-5b2a-788f-f425-a59283497a85@collabora.com>
+Date:   Fri, 31 May 2019 17:07:01 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190531124050.3f06e1b8@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Akinobu Mita <akinobu.mita@gmail.com> writes:
+If one tries to access a page that doesn't exists (e.g. [1]), the page
+shows that Django is on debug mode. According to Django
+documentation[2], is not a good idea running with debugging enabled on
+production environment. To fix this, just change the `DEBUG = True` to
+`DEBUG = False` on `settings.py`. The result should be something like
+this [3].
 
->> Can anyone test this patch and send a tested-by?
+Thanks,
+André
+
+[1] https://patchwork.linuxtv.org/hacking
+[2] https://docs.djangoproject.com/en/2.2/ref/settings/#debug
+[3] https://patchwork.kernel.org/hacking
+
+On 5/31/19 12:40 PM, Mauro Carvalho Chehab wrote:
+> Hi all,
 >
-> In my devicetree, vdd-supply is not defined.  So it falls back to the dummy
-> regulator and works fine.
-Would that work also in a non devicetree build, ie. in a platform_data based one
-(as this is one of the mach-pxa targets) ?
-
-Cheers.
-
--- 
-Robert
+> For a long time, we were running an old Patchwork version. The thing is that
+> we had applied some patches on the top of it, and the upgrade was not
+> trivial.
+>
+> Today, we upgraded it to its latest stable version. Just like before,
+> you can access it via:
+>
+> 	https://patchwork.linuxtv.org
+>
+> As this is a new version, please report if you find any issues on it.
+>
+> Thanks,
+> Mauro
