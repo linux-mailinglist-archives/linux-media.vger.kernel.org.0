@@ -2,143 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63A8830E56
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 14:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0572730E81
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 15:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727327AbfEaMqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 08:46:35 -0400
-Received: from vps.xff.cz ([195.181.215.36]:49248 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726403AbfEaMqe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 08:46:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1559306791; bh=Vq6PHN+aRiKBxc4hddRHLSZfiSd9bUvG627zPC4o9vY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r7SNqaIwNqwOb9guoWHE+5kcqm8Eu7YcYIULLPtYivZ8AwmvJo/eJZGEmRO1PppSD
-         sTdI0zKF207BU/1eEZQuURPmnPPtCk//a5UQlBB0RqHTU9jsBnN14mUimA6O4If6tq
-         3YsMz2n2ah8SkyCqn84s9ElTauLkHFeD0Xypwu1E=
-Date:   Fri, 31 May 2019 14:46:30 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [linux-sunxi] Re: [PATCH v3 10/12] arm64: dts: allwinner: h6:
- Add IR receiver node
-Message-ID: <20190531124630.q2guo54kjfzr7rkn@core.my.home>
-Mail-Followup-To: =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-References: <20190528161440.27172-1-peron.clem@gmail.com>
- <20190528161440.27172-11-peron.clem@gmail.com>
- <20190530145550.amalnxmx7kpokykv@core.my.home>
- <CAJiuCce7nHSktVsDKcR8GLRpD3WrN5yP3Nb_Hbu_Q9NjUQbSMw@mail.gmail.com>
+        id S1727328AbfEaNDy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 09:03:54 -0400
+Received: from casper.infradead.org ([85.118.1.10]:56632 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbfEaNDx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 May 2019 09:03:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Ftc1mEIFCTo3x66DOUH1XTuXVz233fnNb8/NIDvRBTY=; b=R0ADmDqucmKlXkXAoPn4XXo7wb
+        0M1Bieai55+CjI3HJROkyOhGaepr3lbX38M0Gh0oWvEkIxHU7OPbZDpWfjy4VjfrQsPrMFT7V1en1
+        ok5a6gJ7ms9/VfkiKQBG0wPxbxw1d6dkZrMe6qbVHUgkOWhvzXATrXjJu76zBiXr9FXWLjDVwf37a
+        8Je3kYfuKncQdXXv/Pux10iLYEhPdyFPsikUusGKSQfWQyCwnQQR41777jtWg3jg84AagCmNS9ISY
+        XzDlK3wtGx1m5vaifBzt+lUkQF0/4hLBMZ2Zh0FbJekUu6xiY9vkivkaoZPTkUuyn50IGpmnBJkXp
+        1bqzQCVA==;
+Received: from 179.187.96.185.dynamic.adsl.gvt.net.br ([179.187.96.185] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWhCH-00030q-8q; Fri, 31 May 2019 13:03:49 +0000
+Date:   Fri, 31 May 2019 10:03:44 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: Re: [PATCH v2] media: mt9m111: add regulator support
+Message-ID: <20190531100240.6f9e5c12@coco.lan>
+In-Reply-To: <20190531112723.ijhkpi354ussgvxq@kekkonen.localdomain>
+References: <67b53f91ede9e9ffdda913c818065095a726b92e.1559157595.git.mchehab+samsung@kernel.org>
+        <20190531112723.ijhkpi354ussgvxq@kekkonen.localdomain>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJiuCce7nHSktVsDKcR8GLRpD3WrN5yP3Nb_Hbu_Q9NjUQbSMw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Clément,
+Hi Sakari,
 
-On Fri, May 31, 2019 at 12:25:32AM +0200, Clément Péron wrote:
-> Hi Ondrej,
-> 
-> On Thu, 30 May 2019 at 16:55, Ondřej Jirman <megous@megous.com> wrote:
-> >
-> > Hello Clément,
-> >
-> > On Tue, May 28, 2019 at 06:14:38PM +0200, Clément Péron wrote:
-> > > Allwinner H6 IR is similar to A31 and can use same driver.
-> > >
-> > > Add support for it.
-> > >
-> > > Signed-off-by: Clément Péron <peron.clem@gmail.com>
-> > > ---
-> > >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 19 +++++++++++++++++++
-> > >  1 file changed, 19 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > > index 16c5c3d0fd81..649cbdfe452e 100644
-> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > > @@ -647,6 +647,25 @@
-> > >                               pins = "PL0", "PL1";
-> > >                               function = "s_i2c";
-> > >                       };
-> > > +
-> > > +                     r_ir_rx_pin: r-ir-rx-pin {
-> > > +                             pins = "PL9";
-> > > +                             function = "s_cir_rx";
-> > > +                     };
-> > > +             };
-> > > +
-> > > +             r_ir: ir@7040000 {
-> > > +                             compatible = "allwinner,sun50i-h6-ir",
-> > > +                                          "allwinner,sun6i-a31-ir";
-> > > +                             reg = <0x07040000 0x400>;
-> > > +                             interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-> > > +                             clocks = <&r_ccu CLK_R_APB1_IR>,
-> > > +                                      <&r_ccu CLK_IR>;
-> > > +                             clock-names = "apb", "ir";
-> > > +                             resets = <&r_ccu RST_R_APB1_IR>;
-> > > +                             pinctrl-names = "default";
-> > > +                             pinctrl-0 = <&r_ir_rx_pin>;
-> > > +                             status = "disabled";
-> > >               };
-> >
-> > Please make a comment here, that this is known broken on some boards and may
-> > result IRQ flood if enabled. Otherwise noone will know.
-> 
-> I'm planning to send a v4 next week with the IRQ_NONE return as Maxime
-> suggested it.
-> https://github.com/clementperon/linux/tree/h6_ir_v4
-> 
-> But maybe we could also use the bit 5 of the IRQ status.
+Em Fri, 31 May 2019 14:27:24 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-Thanks, that's nice, but that will not make the HW work. That will just disable
-it. The comment is still necessary.
-
-thank you,
-	o.
-
-> Regards, Clement
+> Hi Mauro,
 > 
-> >
-> > thanks,
-> >         o.
-> >
-> > >               r_i2c: i2c@7081400 {
-> > > --
-> > > 2.20.1
-> > >
-> > >
-> > > _______________________________________________
-> > > linux-arm-kernel mailing list
-> > > linux-arm-kernel@lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> On Wed, May 29, 2019 at 03:25:18PM -0400, Mauro Carvalho Chehab wrote:
+> > From: Robert Jarzmik <robert.jarzmik@free.fr>
+
+As stated here, this patch is not really mine. It is a rebased version of a 
+patch that was delegated to a sub-maintainer, being on his queue for more
+than 2 years.
+
+> > 
+> > In the soc_camera removal, the board specific power callback was
+> > dropped. This at least will remove the power optimization from ezx and
+> > em-x270 pxa based boards.
+> > 
+> > As to recreate the same level of functionality, make the mt9m111 have a
+> > regulator providing it its power, so that board designers can plug in a
+> > gpio based or ldo regulator, mimicking their former soc_camera power
+> > hook.
+> > 
+> > Fixes: 5c10113cc668 ("media: mt9m111: make a standalone v4l2 subdevice")
+> > 
+> > [mchehab+samsung@kernel.org: check return values for regulator_enable and
+> >  fix a build warning]
+> > Signed-off-by: Robert Jarzmik <robert.jarzmik@free.fr>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > ---
+> > 
+> > This is a respin of this patch:
+> > 
+> >     http://patchwork.linuxtv.org/patch/37950/
+> > 
+> > rebased (and fixed) to apply on the top of upstream.
+> > 
+> > While checking old patches at the ML, I noticed that this patch
+> > was never applied:
+> > 
+> >     https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1238720.html
+> > 
+> >  The first patch of this series got applied, though:
+> > 
+> >   c771f42fed7f ("[media] media: platform: pxa_camera: add missing sensor power on")
+> > 
+> > So, I'm closing the original patch as obsoleted and I'm sending this
+> > one to the ML for tests.
+> > 
+> > Can anyone test this patch and send a tested-by?
+> > 
+> >  drivers/media/i2c/mt9m111.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > index 5168bb5880c4..746d1345b505 100644
+> > --- a/drivers/media/i2c/mt9m111.c
+> > +++ b/drivers/media/i2c/mt9m111.c
+> > @@ -13,6 +13,7 @@
+> >  #include <linux/log2.h>
+> >  #include <linux/gpio.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <linux/v4l2-mediabus.h>
+> >  #include <linux/module.h>
+> >  #include <linux/property.h>
+> > @@ -243,6 +244,7 @@ struct mt9m111 {
+> >  	int power_count;
+> >  	const struct mt9m111_datafmt *fmt;
+> >  	int lastpage;	/* PageMap cache value */
+> > +	struct regulator *regulator;
+> >  	bool is_streaming;
+> >  	/* user point of view - 0: falling 1: rising edge */
+> >  	unsigned int pclk_sample:1;
+> > @@ -982,6 +984,12 @@ static int mt9m111_power_on(struct mt9m111 *mt9m111)
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > +	if (mt9m111->regulator) {
+> > +		ret = regulator_enable(mt9m111->regulator);
+> > +		if (ret < 0)
+> > +			return ret;
+> > +	}
+> > +
+> >  	ret = mt9m111_resume(mt9m111);
+> >  	if (ret < 0) {
+> >  		dev_err(&client->dev, "Failed to resume the sensor: %d\n", ret);
+> > @@ -994,6 +1002,8 @@ static int mt9m111_power_on(struct mt9m111 *mt9m111)
+> >  static void mt9m111_power_off(struct mt9m111 *mt9m111)
+> >  {
+> >  	mt9m111_suspend(mt9m111);
+> > +	if (mt9m111->regulator)  
 > 
-> -- 
-> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
-> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/CAJiuCce7nHSktVsDKcR8GLRpD3WrN5yP3Nb_Hbu_Q9NjUQbSMw%40mail.gmail.com.
-> For more options, visit https://groups.google.com/d/optout.
+> You could omit this check, same for the above. As Mita-san explained, it
+> falls back to using the dummy regulator if there isn't one defined.
+> 
+> > +		regulator_disable(mt9m111->regulator);
+
+Makes sense to me.
+
+Feel free to remove it and apply on your tree.
+
+> >  	v4l2_clk_disable(mt9m111->clk);
+> >  }
+> >  
+> > @@ -1256,6 +1266,13 @@ static int mt9m111_probe(struct i2c_client *client,
+> >  	if (IS_ERR(mt9m111->clk))
+> >  		return PTR_ERR(mt9m111->clk);
+> >  
+> > +	mt9m111->regulator = devm_regulator_get(&client->dev, "vdd");
+> > +	if (IS_ERR(mt9m111->regulator)) {
+> > +		dev_err(&client->dev, "regulator not found: %ld\n",
+> > +			PTR_ERR(mt9m111->regulator));
+> > +		return PTR_ERR(mt9m111->regulator);
+> > +	}
+> > +
+> >  	/* Default HIGHPOWER context */
+> >  	mt9m111->ctx = &context_b;
+> >    
+> 
+
+
+
+Thanks,
+Mauro
