@@ -2,110 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F4630B39
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 11:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44EF730B3C
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 11:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbfEaJRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 05:17:14 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:62375 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726158AbfEaJRO (ORCPT
+        id S1726280AbfEaJSr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 05:18:47 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46958 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726002AbfEaJSr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 05:17:14 -0400
-Received: from 79.184.255.225.ipv4.supernova.orange.pl (79.184.255.225) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
- id 737bcbf278445b37; Fri, 31 May 2019 11:17:10 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, rajmohan.mani@intel.com,
-        linux-media@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: Re: [PATCH 1/5] ACPI: Enable driver and firmware hints to control power at probe time
-Date:   Fri, 31 May 2019 11:17:10 +0200
-Message-ID: <9700088.HJ6KcFTmRF@kreacher>
-In-Reply-To: <20190510100930.14641-2-sakari.ailus@linux.intel.com>
-References: <20190510100930.14641-1-sakari.ailus@linux.intel.com> <20190510100930.14641-2-sakari.ailus@linux.intel.com>
+        Fri, 31 May 2019 05:18:47 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4V97nqd018680;
+        Fri, 31 May 2019 11:18:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=rz5GP3p1X72UWRAxSNm3DrASQ+E4MaPT9C6RQHCpmq0=;
+ b=rvbek+Dq2ug8amgrE3UQvq+FhSycEB2bRCB8U9vs4DAkatMPUGr6eKLpSgp9rDmrw/v2
+ ZXOf+CtoinI3KWqDKUQ+hpqVdz2b5sjivjjN50b+hboktcNsV8bg8uT9j786apCqsC5K
+ 2wMmOra0jHuYTEBGK2XNUFDUSvqLZUrxNcqyyXQGWG3mRac7D0Fpq8+m+66m8+UHMr9P
+ SQvviH4fe/eIEjxCN9/myCtgtQ7JFMBRW3kDogi8oXZz+yeZRLBOcI+Sbdxu3mcOR73Z
+ shBWFBRB/yXCf2Oe9s991wLAH5hM8FSrmb/OgCKBu+QwwX96q5GWWJCh8PmhmvN4pDk3 vA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2spvkhk772-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Fri, 31 May 2019 11:18:31 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D1D5C31;
+        Fri, 31 May 2019 09:18:28 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas23.st.com [10.75.90.46])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A14272476;
+        Fri, 31 May 2019 09:18:28 +0000 (GMT)
+Received: from SAFEX1HUBCAS21.st.com (10.75.90.45) by SAFEX1HUBCAS23.st.com
+ (10.75.90.46) with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 31 May
+ 2019 11:18:28 +0200
+Received: from localhost (10.201.23.25) by Webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 31 May 2019 11:18:28
+ +0200
+From:   Fabien Dessenne <fabien.dessenne@st.com>
+To:     Hugues Fruchet <hugues.fruchet@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Alexandre Torgue" <alexandre.torgue@st.com>,
+        Pavel Machek <pavel@denx.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Fabien Dessenne <fabien.dessenne@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] media: stm32-dcmi: fix irq = 0 case
+Date:   Fri, 31 May 2019 11:18:15 +0200
+Message-ID: <1559294295-20573-1-git-send-email-fabien.dessenne@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain
+X-Originating-IP: [10.201.23.25]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-31_05:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Friday, May 10, 2019 12:09:26 PM CEST Sakari Ailus wrote:
-> Allow drivers and firmware tell ACPI that there's no need to power on a
-> device for probe. This requires both a hint from the firmware as well as
-> an indication from a driver to leave the device off.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/acpi/device_pm.c | 9 +++++++--
->  include/linux/device.h   | 6 ++++++
->  2 files changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-> index b859d75eaf9f6..ca2409a30d26d 100644
-> --- a/drivers/acpi/device_pm.c
-> +++ b/drivers/acpi/device_pm.c
-> @@ -1225,7 +1225,9 @@ static void acpi_dev_pm_detach(struct device *dev, bool power_off)
->  	if (adev && dev->pm_domain == &acpi_general_pm_domain) {
->  		dev_pm_domain_set(dev, NULL);
->  		acpi_remove_pm_notifier(adev);
-> -		if (power_off) {
-> +		if (power_off &&
-> +		    !(dev->driver->probe_powered_off &&
-> +		      device_property_present(dev, "avoid-power-probe"))) {
->  			/*
->  			 * If the device's PM QoS resume latency limit or flags
->  			 * have been exposed to user space, they have to be
-> @@ -1273,7 +1275,10 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
->  
->  	acpi_add_pm_notifier(adev, dev, acpi_pm_notify_work_func);
->  	dev_pm_domain_set(dev, &acpi_general_pm_domain);
-> -	if (power_on) {
-> +
-> +	if (power_on &&
-> +	    !(dev->driver->probe_powered_off &&
-> +	      device_property_present(dev, "avoid-power-probe"))) {
->  		acpi_dev_pm_full_power(adev);
->  		acpi_device_wakeup_disable(adev);
->  	}
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index e85264fb66161..2a459fd5b954a 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -245,6 +245,11 @@ enum probe_type {
->   * @owner:	The module owner.
->   * @mod_name:	Used for built-in modules.
->   * @suppress_bind_attrs: Disables bind/unbind via sysfs.
-> + * @probe_powered_off: The driver supports its probe function being called while
-> + *		       the device is powered off, independently of the expected
-> + *		       behaviour on combination of a given bus and firmware
-> + *		       interface etc. The driver is responsible for powering the
-> + *		       device on using runtime PM in such case.
->   * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
->   * @of_match_table: The open firmware table.
->   * @acpi_match_table: The ACPI match table.
-> @@ -282,6 +287,7 @@ struct device_driver {
->  	const char		*mod_name;	/* used for built-in modules */
->  
->  	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
-> +	bool probe_powered_off;
+Manage the irq = 0 case, where we shall return an error.
 
-This is a bit of a misnomer IMO, because it is not just about devices that are completely off.
-From the ACPI perspective that is about all devices not in D0, which may mean gated clocks
-etc.
+Fixes: b5b5a27bee58 ("media: stm32-dcmi: return appropriate error codes during probe")
+Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
+---
+ drivers/media/platform/stm32/stm32-dcmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I would call it probe_low_power or similar and analogously in patch [2/5], and apart from this
-I have no objections against this series, but I would suggest to CC the next iteration of it
-to Greg K-H and the LKML as it touches the driver core.
-
->  	enum probe_type probe_type;
->  
->  	const struct of_device_id	*of_match_table;
-> 
-
-
-
+diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+index b9dad0a..d855e9c 100644
+--- a/drivers/media/platform/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/stm32/stm32-dcmi.c
+@@ -1702,7 +1702,7 @@ static int dcmi_probe(struct platform_device *pdev)
+ 	if (irq <= 0) {
+ 		if (irq != -EPROBE_DEFER)
+ 			dev_err(&pdev->dev, "Could not get irq\n");
+-		return irq;
++		return irq ? irq : -ENXIO;
+ 	}
+ 
+ 	dcmi->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-- 
+2.7.4
 
