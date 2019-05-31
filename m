@@ -2,83 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1365731411
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 19:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E6C931449
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 19:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbfEaRpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 13:45:23 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:34283 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfEaRpX (ORCPT
+        id S1726818AbfEaR4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 13:56:38 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:38643 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbfEaR4i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 13:45:23 -0400
-Received: by mail-qk1-f193.google.com with SMTP id t64so6847985qkh.1
-        for <linux-media@vger.kernel.org>; Fri, 31 May 2019 10:45:23 -0700 (PDT)
+        Fri, 31 May 2019 13:56:38 -0400
+Received: by mail-lf1-f67.google.com with SMTP id b11so8622210lfa.5;
+        Fri, 31 May 2019 10:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=VB3zl1B/8/7HsGS2Ke7GXMR2Fdc2kY6m17qfQPTjjfc=;
-        b=gj4f1V6q/TOzWP3gLLzhPxaYgkZXEb/dEQsU7QeVvAQYdjceLpPa+wc+KGEdep7sya
-         Irw4fa2/SVXojwsbYrN1mF1WA1aXriNVpc3v0FYe/S2Fe8g3AyiDOGAqALtxyvIsH3h1
-         NZdxO3YQm1MdlsWLtfYN4iIKe43tX1cfWZcADAyWwtOiEKAPH3yegDLa4XjH2iU0a+jl
-         s4Uz56pRYe5BHfxjFmufpxhyDMJVSBZFfIpQFydZtD1jQz6pzBBFTb70W8f6U1lfn2y/
-         lAiVjDExiPTzwu5riDIxaH3qi04u+oXGJcjoNf2TYQ6C9Hdp7uyzn0awn+EjiWNAEHfy
-         az7A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8lbvXxV2I9wKlK6AoN+2OqvLiWU+5ClVbYmT8Pxzqvg=;
+        b=S9a+AlHOP6AqqdTUudPclvi3EeIjMj3M/Y2aQJPWdLwjWn+LUtdq6e01oBE4j5oCYD
+         p9iGZNlVNNomjyyAGjDapDZEe7dGULyAMqEBqZM/531gG0Hg2FKVwn2iNqQ1TDp+LwCF
+         iuK4ONk63AG9VqhwQwpj3+xH/UJ5idGZUwC4iXIs2N6rJVgYeyx6bIMMIRxx0IOLexhe
+         iiLakWoee78hk9VgOyrdk/f4/h2RAC8PnulltbjGLZbXHBpFPAjc+rqWnwdZPd0ObWtS
+         0wQhCOeLtJKGNOm+6xpKPgh3TM2amz/6vBmg3AG2YIvnMBKk0SVjhWCAYD4onJpsq5KD
+         hakw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=VB3zl1B/8/7HsGS2Ke7GXMR2Fdc2kY6m17qfQPTjjfc=;
-        b=IB01CppTdIf2JdJfqyH1MxQOdkK4ogOLHVAoov4UxbhqvaEo2XVuMEx992a9qbby4a
-         neBBQF6q9ir2wKM0tEm6qeGY7LRPQV3O3bTB9sW/Dsw8HLYB3ZH6xUPlq6ybCGvxIpJS
-         /8U9ckAMzZ64BpJ3lpKBaFhRDJDxg5yKuZDowdOC0d6MwTz5GYeEkF3OvktNuNt1/lAP
-         K0AUFGJrp3n8iaFL//sxOmtR6ysjaB1zPhv6QwGAQTCBsU3PU8ATI6MoJhp3+G1Toao4
-         OVC45qCpQMV1v1o0jRQmHTD/Inrn+lcMzhHA+03p+hwNyn1q2GqPeJMPBuYKL5rCYVTE
-         zuiA==
-X-Gm-Message-State: APjAAAU5OTk/PNlYpXGUGDNr+c5EGlY++JIQ631RwZP38pYlmRgE5R/U
-        Bilv0ZUTazC7bs5Fj/uv8Um50aOi
-X-Google-Smtp-Source: APXvYqwlyPg1H+CGQceKbCE72kqety4amRHI47CA5Bzav+qcXap+fiXKRSKmmDX4WktBVr6NBttlLQ==
-X-Received: by 2002:a37:a643:: with SMTP id p64mr9748333qke.36.1559324722585;
-        Fri, 31 May 2019 10:45:22 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
-        by smtp.gmail.com with ESMTPSA id f129sm3184879qkj.47.2019.05.31.10.45.18
+         :references:mime-version:content-transfer-encoding;
+        bh=8lbvXxV2I9wKlK6AoN+2OqvLiWU+5ClVbYmT8Pxzqvg=;
+        b=lJzPoOS7VQy9h56qyPVyU77xGi7tM0zEYnb+vWdCLG7J9lfK9mkS2CaOjCiS3hqyS6
+         oCQee4klW6cin/taiphlvLLfA4SXdNxVXkEW7G5Fg4QMnc1mCEbJmUJRp6xAZZ3BTldl
+         fccHQ8f+N3MWPv6BIqNzK+M3+uGhB3wdZh9bR+toGLCZx6adla4h/Wq2Op2o03aqReCm
+         acNyGo2DeMs6xL9tNgRK59FppvA434PuIlleAI4Aig825haDezCYRBtKnbFviB/rO7Qu
+         1/aoQ7UtVYmpjjbjjQN78/OGpg6TorTU7vL2iwbZ3nB939vYAxmZaMT3hqsQU6XihO3n
+         J1iQ==
+X-Gm-Message-State: APjAAAWR+adclrorHYAR1HY0v4abASIDfEjdcdYkIvOzhg5T4lYgZR+D
+        O/Xwm6jvlSdEVH0Yf5zYNis=
+X-Google-Smtp-Source: APXvYqyAcKi6qBmTAoEu3XjQNZdPFQJm1d+QKwaml6ZXSSVfwb3xqqBeDupMyPmYF7arRm+0tA5o8w==
+X-Received: by 2002:a05:6512:519:: with SMTP id o25mr6189734lfb.71.1559325396418;
+        Fri, 31 May 2019 10:56:36 -0700 (PDT)
+Received: from z50.localnet (109241207190.gdansk.vectranet.pl. [109.241.207.190])
+        by smtp.gmail.com with ESMTPSA id y10sm1285752lfy.66.2019.05.31.10.56.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 31 May 2019 10:45:21 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     rmfrfs@gmail.com, p.zabel@pengutronix.de, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 3/3] media: imx7-mipi-csis: Remove extra blank line
-Date:   Fri, 31 May 2019 14:45:06 -0300
-Message-Id: <20190531174506.13251-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190531174506.13251-1-festevam@gmail.com>
-References: <20190531174506.13251-1-festevam@gmail.com>
+        Fri, 31 May 2019 10:56:35 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [RFC PATCH 4/5] media: ov6650: Fix frame scaling not reset on crop
+Date:   Fri, 31 May 2019 19:56:33 +0200
+Message-ID: <1933971.yMpNBnsSgY@z50>
+In-Reply-To: <20190531114258.6bvsqzlexqnelu5u@valkosipuli.retiisi.org.uk>
+References: <20190526204758.1904-1-jmkrzyszt@gmail.com> <20190526204758.1904-5-jmkrzyszt@gmail.com> <20190531114258.6bvsqzlexqnelu5u@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Checkpatch reports an extra blank line, so remove such unneeded
-line.
+Hi Sakari,
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/staging/media/imx/imx7-mipi-csis.c | 1 -
- 1 file changed, 1 deletion(-)
+On Friday, May 31, 2019 1:42:58 PM CEST Sakari Ailus wrote:
+> Hi Janusz,
+> 
+> On Sun, May 26, 2019 at 10:47:57PM +0200, Janusz Krzysztofik wrote:
+> > According to V4L2 subdevice interface specification, frame scaling
+> > factors should be reset to default values on modification of input frame
+> > format.  Assuming that requirement also applies in case of crop
+> > rectangle modification unless V4L2_SEL_FLAG_KEEP_CONFIG is requested,
+> > the driver now does not respect it.
+> > 
+> > The KEEP_CONFIG case is already implemented, fix the other path.
+> > 
+> > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> > ---
+> >  drivers/media/i2c/ov6650.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > index 47590cd51190..cc70d8952999 100644
+> > --- a/drivers/media/i2c/ov6650.c
+> > +++ b/drivers/media/i2c/ov6650.c
+> > @@ -472,6 +472,8 @@ static int ov6650_get_selection(struct v4l2_subdev 
+*sd,
+> >  	}
+> >  }
+> >  
+> > +static int ov6650_s_fmt(struct v4l2_subdev *sd, u32 code, bool 
+half_scale);
+> > +
+> 
+> Would it be possible to rearrange the functions in the file so you wouldn't
+> need extra prototypes? Preferrably that'd be a new patch.
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index acc9936dd075..d1cdf011c8f1 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -902,7 +902,6 @@ static int mipi_csis_subdev_init(struct v4l2_subdev *mipi_sd,
- 	return ret;
- }
- 
--
- static int mipi_csis_dump_regs_show(struct seq_file *m, void *private)
- {
- 	struct csi_state *state = m->private;
--- 
-2.17.1
+Sure. I've intentionally done it like that for better readability of the 
+patches, but I have a task in my queue for rearrangement of functions order as 
+soon as other modifications are in place.
+
+> >  static int ov6650_set_selection(struct v4l2_subdev *sd,
+> >  		struct v4l2_subdev_pad_config *cfg,
+> >  		struct v4l2_subdev_selection *sel)
+> > @@ -515,7 +517,13 @@ static int ov6650_set_selection(struct v4l2_subdev 
+*sd,
+> >  	}
+> >  	if (!ret)
+> >  		priv->rect.height = sel->r.height;
+> > +	else
+> > +		return ret;
+> 
+> if (ret)
+> 	return ret;
+
+OK
+
+Perhaps you will have more comments on other patches so I'll wait a bit and 
+then resubmit the series as v2.
+
+Thanks,
+Janusz
+
+> ...
+> 
+> >  
+> > +	if (priv->half_scale) {
+> > +		/* turn off half scaling, preserve media bus format */
+> > +		ret = ov6650_s_fmt(sd, priv->code, false);
+> > +	}
+> >  	return ret;
+> >  }
+> >  
+> 
+> 
+
+
+
 
