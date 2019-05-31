@@ -2,118 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3741A31008
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 16:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76AD13100E
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 16:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbfEaOVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 10:21:19 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:56130 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbfEaOVT (ORCPT
+        id S1726666AbfEaOWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 10:22:01 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43997 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726693AbfEaOWB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 10:21:19 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4VEJ74A111648;
-        Fri, 31 May 2019 14:21:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
- bh=0ZcHm9/e7e5zol3c0mWMZbM/iVqdEi8mJK2w61VFTRg=;
- b=mz4Xq42VfjzY/IZy8y87XJON4+zI1uEcaP9UcD2jcWVmamUrleVvzwE+xF4xFyg8wc3Q
- blgsEjlZ7fBs1I1OyW36IVj8uLpMw+LDaXqWtiZn7uKmyoqVsL8pI6Whlw89o1/VRYWr
- JD5iu4MkSHK4NtG9hzHPKXBpQ+YpEUW3pImPJLQT+kRgnbhibCXSgDmjx+poNpfUfzBR
- aiG8k39rzTZ0RV0VXl89K2KtADMfwp4aT++3gRmOWxRFW0tfgluPDk+T3JzYw5oVt80/
- 9fggfrg5/4XSP/X87CIzfi6PbzMZKwWrfxA3p7ZG9tk/KqLd3QWiPKrb4dKvqGkg2Vpw 1Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 2spu7dxt8n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 31 May 2019 14:21:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4VEKU8i075470;
-        Fri, 31 May 2019 14:21:01 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2sqh74wdgd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 31 May 2019 14:21:01 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4VEKwWZ002973;
-        Fri, 31 May 2019 14:20:58 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 31 May 2019 07:20:58 -0700
-Date:   Fri, 31 May 2019 17:20:49 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: staging/imx: fix two NULL vs IS_ERR() bugs
-Message-ID: <20190531142048.GA383@mwanda>
+        Fri, 31 May 2019 10:22:01 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c6so6303579pfa.10
+        for <linux-media@vger.kernel.org>; Fri, 31 May 2019 07:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lqGZhr1OXDcqw01dRW7YMwNNKArDZmNdR/78N+BPrn4=;
+        b=ZKOkIMzc1OQGbUNPHq03h99fyCedWbnebo6E2bMji4A+DRTaVEdXjsJpjrPcnu5SSA
+         zIZPDWUgCW5bi+5Hm5xJN08EHp1zrtJRB8hJr+lkARmCPVryFs490LA/D4jT6SugJib6
+         WuyNVM4Q2N7HAjjpa7DOBEdYU4LyBiJDJK5zMqDY/W6JkYNX16roPrVOH81h+nxoiBDb
+         7B2l5NwJlc5O9XzC5yHflmTOv3KCBSLqmkKFOBx9Ekz6rnZxWiAE8V0PArN5B+OlAW0s
+         TvC0lLDPHMJfSpKtEQaVcV+QmrjEmlTv3Oh20DkNgRQ4hUDHUKfXsDqAzpdAzgsjCOV+
+         IttQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lqGZhr1OXDcqw01dRW7YMwNNKArDZmNdR/78N+BPrn4=;
+        b=MlYEK4cVxHiBFOpERauTspHeOvEIQjyrprvaJn96RM0OiC0ZJn29fxAlQV0cxUHtRD
+         IMq6S0fC2qMJu4DYNjVuJj9vz4d+DpHKWntI1Yk5/AxfL1oxA7gz9n30EqaSgxEO8Z3T
+         x4yLiwGcPxG/DhMfl6DiU9FchSXaJi4jefJhO6uLPzKfiyCEgSm5ux7qFZb4QdT+aPC4
+         qVL9egboOtYTGeW/0Va310zMbBg7Lwt6vHwTXUlQfX3Rw0oTpyqBmigEjd5+hmdZ965Z
+         oK64mlt7JWitqnHJ1mZ5AZdqQLN/KYqCIOFhfcPnv52myBXDPZkuW/b66SPxxe6csKTg
+         BjwA==
+X-Gm-Message-State: APjAAAXkJA6mKWXOJ3Tgcno3mP+c5IwSyl6fH0ks/PUVhryGEwbzqvOZ
+        hmNJEkCiowEjQmqXUByMyw2OmGExbBq6IUAOXXON5g==
+X-Google-Smtp-Source: APXvYqyJDYvC63I4W5Lhta3XMIDWbZrlVf994VbGlX5pPuRIANXUx7mxbvFt5+YOh/Wqr0oXVm0H7EASqzCT8eMwsG4=
+X-Received: by 2002:a65:64d9:: with SMTP id t25mr9532741pgv.130.1559312519598;
+ Fri, 31 May 2019 07:21:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9273 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905310091
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9273 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905310091
+References: <cover.1557160186.git.andreyknvl@google.com> <e31d9364eb0c2eba8ce246a558422e811d82d21b.1557160186.git.andreyknvl@google.com>
+ <20190522141612.GA28122@arrakis.emea.arm.com>
+In-Reply-To: <20190522141612.GA28122@arrakis.emea.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 31 May 2019 16:21:48 +0200
+Message-ID: <CAAeHK+wUerHQOV2PuaTwTxcCucZHZodLwg48228SB+ymxEqT2A@mail.gmail.com>
+Subject: Re: [PATCH v15 17/17] selftests, arm64: add a selftest for passing
+ tagged pointers to kernel
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx_media_pipeline_pad() function return NULL pointers on error, it
-never returns error pointers.
+On Wed, May 22, 2019 at 4:16 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, May 06, 2019 at 06:31:03PM +0200, Andrey Konovalov wrote:
+> > This patch is a part of a series that extends arm64 kernel ABI to allow to
+> > pass tagged user pointers (with the top byte set to something else other
+> > than 0x00) as syscall arguments.
+> >
+> > This patch adds a simple test, that calls the uname syscall with a
+> > tagged user pointer as an argument. Without the kernel accepting tagged
+> > user pointers the test fails with EFAULT.
+>
+> That's probably sufficient for a simple example. Something we could add
+> to Documentation maybe is a small library that can be LD_PRELOAD'ed so
+> that you can run a lot more tests like LTP.
 
-Fixes: 3ef46bc97ca2 ("media: staging/imx: Improve pipeline searching")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/staging/media/imx/imx-media-csi.c  | 4 ++--
- drivers/staging/media/imx/imx7-media-csi.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Should I add this into this series, or should this go into Vincenzo's patchset?
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index d2f880938af9..0eeb0db6d83f 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -193,8 +193,8 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
- 
- 	/* get source pad of entity directly upstream from src */
- 	pad = imx_media_pipeline_pad(src, 0, 0, true);
--	if (IS_ERR(pad))
--		return PTR_ERR(pad);
-+	if (!pad)
-+		return -ENODEV;
- 
- 	sd = media_entity_to_v4l2_subdev(pad->entity);
- 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index b1af8694899e..882690561357 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -439,8 +439,8 @@ static int imx7_csi_get_upstream_endpoint(struct imx7_csi *csi,
- skip_video_mux:
- 	/* get source pad of entity directly upstream from src */
- 	pad = imx_media_pipeline_pad(src, 0, 0, true);
--	if (IS_ERR(pad))
--		return PTR_ERR(pad);
-+	if (!pad)
-+		return -ENODEV;
- 
- 	sd = media_entity_to_v4l2_subdev(pad->entity);
- 
--- 
-2.20.1
-
+>
+> We could add this to selftests but I think it's too glibc specific.
+>
+> --------------------8<------------------------------------
+> #include <stdlib.h>
+>
+> #define TAG_SHIFT       (56)
+> #define TAG_MASK        (0xffUL << TAG_SHIFT)
+>
+> void *__libc_malloc(size_t size);
+> void __libc_free(void *ptr);
+> void *__libc_realloc(void *ptr, size_t size);
+> void *__libc_calloc(size_t nmemb, size_t size);
+>
+> static void *tag_ptr(void *ptr)
+> {
+>         unsigned long tag = rand() & 0xff;
+>         if (!ptr)
+>                 return ptr;
+>         return (void *)((unsigned long)ptr | (tag << TAG_SHIFT));
+> }
+>
+> static void *untag_ptr(void *ptr)
+> {
+>         return (void *)((unsigned long)ptr & ~TAG_MASK);
+> }
+>
+> void *malloc(size_t size)
+> {
+>         return tag_ptr(__libc_malloc(size));
+> }
+>
+> void free(void *ptr)
+> {
+>         __libc_free(untag_ptr(ptr));
+> }
+>
+> void *realloc(void *ptr, size_t size)
+> {
+>         return tag_ptr(__libc_realloc(untag_ptr(ptr), size));
+> }
+>
+> void *calloc(size_t nmemb, size_t size)
+> {
+>         return tag_ptr(__libc_calloc(nmemb, size));
+> }
