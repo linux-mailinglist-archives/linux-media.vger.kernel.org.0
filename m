@@ -2,67 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0A4B30D60
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 13:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E899B30D72
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 13:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbfEaLf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 07:35:28 -0400
-Received: from mga02.intel.com ([134.134.136.20]:60749 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726158AbfEaLf1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 07:35:27 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 May 2019 04:35:26 -0700
-X-ExtLoop1: 1
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007.fm.intel.com with ESMTP; 31 May 2019 04:35:25 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTPS id 75111207C2;
-        Fri, 31 May 2019 14:35:24 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1hWfox-00044l-04; Fri, 31 May 2019 14:35:39 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@sx4all.nl, Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH 1/1] v4l2-subdev: Try formats are only available if subdev API is enabled
-Date:   Fri, 31 May 2019 14:35:38 +0300
-Message-Id: <20190531113538.15628-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
+        id S1726415AbfEaLnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 07:43:03 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:48320 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726158AbfEaLnC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 May 2019 07:43:02 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 538F7634C7B;
+        Fri, 31 May 2019 14:42:58 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hWfw2-0000Ju-F9; Fri, 31 May 2019 14:42:58 +0300
+Date:   Fri, 31 May 2019 14:42:58 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 4/5] media: ov6650: Fix frame scaling not reset on
+ crop
+Message-ID: <20190531114258.6bvsqzlexqnelu5u@valkosipuli.retiisi.org.uk>
+References: <20190526204758.1904-1-jmkrzyszt@gmail.com>
+ <20190526204758.1904-5-jmkrzyszt@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190526204758.1904-5-jmkrzyszt@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Return an error for which == V4L2_SUBDEV_FORMAT_TRY if
-CONFIG_VIDEO_V4L2_SUBDEV_API is not enabled. This is because the try
-formats are not available in that case. Do the check here so that drivers
-don't need to.
+Hi Janusz,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Depends-on: ("media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument")
----
- drivers/media/v4l2-core/v4l2-subdev.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Sun, May 26, 2019 at 10:47:57PM +0200, Janusz Krzysztofik wrote:
+> According to V4L2 subdevice interface specification, frame scaling
+> factors should be reset to default values on modification of input frame
+> format.  Assuming that requirement also applies in case of crop
+> rectangle modification unless V4L2_SEL_FLAG_KEEP_CONFIG is requested,
+> the driver now does not respect it.
+> 
+> The KEEP_CONFIG case is already implemented, fix the other path.
+> 
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> ---
+>  drivers/media/i2c/ov6650.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index 47590cd51190..cc70d8952999 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -472,6 +472,8 @@ static int ov6650_get_selection(struct v4l2_subdev *sd,
+>  	}
+>  }
+>  
+> +static int ov6650_s_fmt(struct v4l2_subdev *sd, u32 code, bool half_scale);
+> +
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 34219e489be27..88b4b9d7c41be 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -122,7 +122,10 @@ static int subdev_close(struct file *file)
- 
- static inline int check_which(__u32 which)
- {
--	if (which != V4L2_SUBDEV_FORMAT_TRY &&
-+	if (
-+#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-+	    which != V4L2_SUBDEV_FORMAT_TRY &&
-+#endif
- 	    which != V4L2_SUBDEV_FORMAT_ACTIVE)
- 		return -EINVAL;
- 
+Would it be possible to rearrange the functions in the file so you wouldn't
+need extra prototypes? Preferrably that'd be a new patch.
+
+>  static int ov6650_set_selection(struct v4l2_subdev *sd,
+>  		struct v4l2_subdev_pad_config *cfg,
+>  		struct v4l2_subdev_selection *sel)
+> @@ -515,7 +517,13 @@ static int ov6650_set_selection(struct v4l2_subdev *sd,
+>  	}
+>  	if (!ret)
+>  		priv->rect.height = sel->r.height;
+> +	else
+> +		return ret;
+
+if (ret)
+	return ret;
+
+...
+
+>  
+> +	if (priv->half_scale) {
+> +		/* turn off half scaling, preserve media bus format */
+> +		ret = ov6650_s_fmt(sd, priv->code, false);
+> +	}
+>  	return ret;
+>  }
+>  
+
 -- 
-2.11.0
+Regards,
 
+Sakari Ailus
