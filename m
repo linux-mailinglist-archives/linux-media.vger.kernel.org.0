@@ -2,36 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8278B31711
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 00:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B711A31746
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 00:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbfEaWQH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 18:16:07 -0400
-Received: from mga02.intel.com ([134.134.136.20]:36052 "EHLO mga02.intel.com"
+        id S1726776AbfEaWiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 18:38:09 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:50622 "EHLO vps-vb.mhejs.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726798AbfEaWQF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 18:16:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 May 2019 15:16:05 -0700
-X-ExtLoop1: 1
-Received: from maru.jf.intel.com ([10.54.51.75])
-  by orsmga001.jf.intel.com with ESMTP; 31 May 2019 15:16:05 -0700
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To:     Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH v3 10/10] media: aspeed: add a workaround to fix a silicon bug
-Date:   Fri, 31 May 2019 15:15:48 -0700
-Message-Id: <20190531221548.14757-11-jae.hyun.yoo@linux.intel.com>
+        id S1726538AbfEaWiJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 May 2019 18:38:09 -0400
+Received: from MUA
+        by vps-vb.mhejs.net with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <mail@maciej.szmigiero.name>)
+        id 1hWq9x-000715-Tn; Sat, 01 Jun 2019 00:38:01 +0200
+From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+To:     Michael Krufky <mkrufky@linuxtv.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kbuild test robot <lkp@intel.com>
+Subject: [PATCH] media: cxusb-analog: Use ARRAY_SIZE for cxusub_medion_pin_config
+Date:   Sat,  1 Jun 2019 00:37:56 +0200
+Message-Id: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190531221548.14757-1-jae.hyun.yoo@linux.intel.com>
-References: <20190531221548.14757-1-jae.hyun.yoo@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -39,72 +33,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-AST2500 silicon revision A1 and A2 have a silicon bug which causes
-extremly long capturing time on specific resolutions (1680 width).
-To fix the bug, this commit adjusts the capturing window register
-setting to 1728 if detected width is 1680. The compression window
-register setting will be kept as the original width so output
-result will be the same.
+Use ARRAY_SIZE for computing element count of cxusub_medion_pin_config
+array as suggested by the kbuild test robot.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
 ---
-v2 -> v3:
- Added more detail comments why the value 1728 is picked.
+ drivers/media/usb/dvb-usb/cxusb-analog.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-v1 -> v2:
- New.
-
- drivers/media/platform/aspeed-video.c | 28 ++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index ba093096a5a7..f899ac3b4a61 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -824,8 +824,29 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 	struct v4l2_bt_timings *act = &video->active_timings;
- 	unsigned int size = act->width * act->height;
+diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
+index 9b42ca71c177..51d3cba32b60 100644
+--- a/drivers/media/usb/dvb-usb/cxusb-analog.c
++++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
+@@ -1622,8 +1622,7 @@ int cxusb_medion_analog_init(struct dvb_usb_device *dvbdev)
+ 	/* TODO: setup audio samples insertion */
  
-+	/* Set capture/compression frame sizes */
- 	aspeed_video_calc_compressed_size(video, size);
- 
-+	if (video->active_timings.width == 1680) {
-+		/*
-+		 * This is a workaround to fix a silicon bug on A1 and A2
-+		 * revisions. Since it doesn't break capturing operation of
-+		 * other revisions, use it for all revisions without checking
-+		 * the revision ID. It picked 1728 which is a very next
-+		 * 64-pixels aligned value to 1680 to minimize memory bandwidth
-+		 * and to get better access speed from video engine.
-+		 */
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   1728 << 16 | act->height);
-+		size += (1728 - 1680) * video->active_timings.height;
-+	} else {
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   act->width << 16 | act->height);
-+	}
-+	aspeed_video_write(video, VE_COMP_WINDOW,
-+			   act->width << 16 | act->height);
-+	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
-+
- 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
- 	if (size < DIRECT_FETCH_THRESHOLD) {
- 		aspeed_video_write(video, VE_TGS_0,
-@@ -842,13 +863,6 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
- 	}
- 
--	/* Set capture/compression frame sizes */
--	aspeed_video_write(video, VE_CAP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_COMP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
--
- 	size *= 4;
- 
- 	if (size != video->srcs[0].size) {
--- 
-2.21.0
-
+ 	ret = v4l2_subdev_call(cxdev->cx25840, core, s_io_pin_config,
+-			       sizeof(cxusub_medion_pin_config) /
+-			       sizeof(cxusub_medion_pin_config[0]),
++			       ARRAY_SIZE(cxusub_medion_pin_config),
+ 			       cxusub_medion_pin_config);
+ 	if (ret != 0)
+ 		dev_warn(&dvbdev->udev->dev,
