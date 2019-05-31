@@ -2,119 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F36B313ED
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 19:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD113140D
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 19:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbfEaRed (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 13:34:33 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]:41025 "EHLO
-        mail-qt1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfEaRed (ORCPT
+        id S1726683AbfEaRpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 13:45:15 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42323 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726653AbfEaRpP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 13:34:33 -0400
-Received: by mail-qt1-f181.google.com with SMTP id s57so1820754qte.8
-        for <linux-media@vger.kernel.org>; Fri, 31 May 2019 10:34:32 -0700 (PDT)
+        Fri, 31 May 2019 13:45:15 -0400
+Received: by mail-qt1-f193.google.com with SMTP id s15so1856234qtk.9
+        for <linux-media@vger.kernel.org>; Fri, 31 May 2019 10:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=6lx68IjyoXNHnEwVqZqtfrVRaTubo98gbYHgesOeQXA=;
-        b=jKjgfLFqIX/vlkEA4U6elyOu0Nry4OhSHwaBBGakJ4SldVI2l6CKfx/itdGivTYnDx
-         dHwI/9Yfrq/yE7NF9kbTnKNv6YNhlQqUbjMsoAKOVZR8hFdgNdBxuFXxYCDqEIN5D4C4
-         omAEtjPEztnXQ+5ATdiiNg3ubFcectMntiMQcmRn9cjfJuQZS9bdJ8sOHT/86GBXqyB8
-         m8OOkw5tYe92Xub9QWo04hUWSwXKl74GjH5g7UxbXg+tPTyYK7MzPgfpxOyw+bo57/li
-         y47s5SEbJTMiAK1ecLLJvVTSOQ8ILOy+KBerJkdPzSp/7zvdKCnitUuyGL6MlP8Kpbd/
-         qN8A==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=0Qc1wtJ+AlHNFdrr6IvW8ZlhIQFw6oUtBH71ZGMG3xM=;
+        b=LbxeMG8Io47BqV+w6NoB0QQyQNQRkwSYlrmB5ZLgIytxzIX4zAUxmL5wSMX3vkwRns
+         4ges2rpfEppiP/kfy5rfv2iBzxvmf1hyYQjDP4viwxWl5vHqFTN6c1j9VBy6VG1XtwGm
+         EXVOJCeFqHg1zPF0cueOxSN+q6pqCWoSkMwyVDWHgZzoDqpKK1Z2U4+nxrfvEALKcnAN
+         A52kyn29scJNKSJv3OJpFh25IimlGeW7ra+GhVdsmo1E6GcjuZCwQ9foawudgCn9AsZ9
+         O9/wrBXCMXkODqefLt9wuzUV0xKbEzYrpfrtWBokNADtD2PPubj/JvWFf+ziNEOSG6Q+
+         I0Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=6lx68IjyoXNHnEwVqZqtfrVRaTubo98gbYHgesOeQXA=;
-        b=hmxbzDXQBTnuH8nfqT2DspFaU6P8C37F2VqKNv9qOSL5SYj9+TblJCdqwXVAOIkr+g
-         BEOvn2XfVdYF1K6NAe4H5EBwkqmsih+3YM3Pntr6nHzmUE3hlrmws3wc8FOHwp6KBp83
-         YWlwr43xL+APYjLlJW1Em4jzSS0htyjcmJsOBf3YhRZN5afkcsfdGGfSKKobc97dOLGi
-         2F6APZHNFiTaJJRydujf4sX4qaeCgo+Fft1ezY1ThqIQ7JZKhbA9mv2/8eT0IHz2/xgE
-         /t2KD9y4EkzPMTvnSEp6t6Ey4DIdfu/xsRAdq9otkbpln2cu93OfXuSDWjCKNyAdDXtX
-         24jQ==
-X-Gm-Message-State: APjAAAUjDNrzzQAQP5cLKsWhn1VVam3fmzxaiZrND2IXH2GI8olyoRcE
-        4QYdzbNXQTB+JACC5mMwHYKULl/xxA4=
-X-Google-Smtp-Source: APXvYqysC8YYIH4YglnIyQgGGSMDyJ/WlDs78ugPwXWR003s9vwWOkUrkAu89nFNTBjlbIrdswSOUw==
-X-Received: by 2002:aed:2315:: with SMTP id h21mr10595345qtc.303.1559324072113;
-        Fri, 31 May 2019 10:34:32 -0700 (PDT)
-Received: from tpx230-nicolas (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id t17sm4169382qte.66.2019.05.31.10.34.30
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 31 May 2019 10:34:30 -0700 (PDT)
-Message-ID: <c119f93921ea61fde490d33165495fa39620f940.camel@ndufresne.ca>
-Subject: Re: [v8] media: imx: add mem2mem device
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tim Harvey <tharvey@gateworks.com>
-Date:   Fri, 31 May 2019 13:34:28 -0400
-In-Reply-To: <CAGngYiX3Hv3mkd-GB=LuvmwaAuVMsGg2vpjx_F2-J3F6hOBVZw@mail.gmail.com>
-References: <20190418164414.29373-1-p.zabel@pengutronix.de>
-         <20190529154431.11177-1-TheSven73@gmail.com>
-         <CAOMZO5BeEMyEPUbPB8vAbJb1OoUuPxGLh=EBGif12uAMG4=qoQ@mail.gmail.com>
-         <CAGngYiWdyzhmsRuAsH_35qdt1SLguh2sUxh=cAK58RWnhm2Y7A@mail.gmail.com>
-         <fa48a38ee8e370c195a872ba302f70329d52dca5.camel@ndufresne.ca>
-         <e16e87bfdeee242a1dfb8c62b6f1528b346c3a99.camel@ndufresne.ca>
-         <CAGngYiX3Hv3mkd-GB=LuvmwaAuVMsGg2vpjx_F2-J3F6hOBVZw@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-g4ooUj0IBdVwWawtumXy"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
-MIME-Version: 1.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=0Qc1wtJ+AlHNFdrr6IvW8ZlhIQFw6oUtBH71ZGMG3xM=;
+        b=qWgx15XYWCGoGo5zAzOQ7jUMkkLZ5QVlhXd9OtVoRpZyOWSIxk0C18Phab5ZqoutOK
+         IPM0r6SQdBV2oH/87Z3CnuQh76HabRs2WSDGWgOQ34YfifNtBdEY/ZBk9mKDL6TXCSqM
+         ExTaay2cWx0uQHUkTidA2pCPSeAHrdqirsIKRdPdbosY2CKOLc41C5EwDK4H29v/niBS
+         ducd0JW72knyGBfXHtispuMb1dxB+ad3fqZUKFCRxr4GJHN6NAN2fUvwNionRW+/d0wN
+         /66XI+smizdC/jcQ0fpSD67/g7kSxnCPVlr5eJRPtuMyUJgm8g7pIDvezz0oX0l0vDbK
+         esXA==
+X-Gm-Message-State: APjAAAWwgFdLJKv/byewMZw3HGEaAN9yInPOGGvP9AbANeeAi6EFwR8C
+        5rxyneWyfRWFbcW++mc4nfw=
+X-Google-Smtp-Source: APXvYqxMZPOVNbNzB2zUcrBrywxZ58Sd3aqgoomkw7zQ7j5pbce1yBivJm1/VDNe2LGOHGlPfq3cGw==
+X-Received: by 2002:a0c:b09a:: with SMTP id o26mr10068802qvc.68.1559324714259;
+        Fri, 31 May 2019 10:45:14 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
+        by smtp.gmail.com with ESMTPSA id f129sm3184879qkj.47.2019.05.31.10.45.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 10:45:13 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     rmfrfs@gmail.com, p.zabel@pengutronix.de, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH 1/3] media: imx7-mipi-csis: Propagate the error if clock enabling fails
+Date:   Fri, 31 May 2019 14:45:04 -0300
+Message-Id: <20190531174506.13251-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Currently the return value from clk_bulk_prepare_enable() is checked,
+but it is not propagate it in the case of failure.
 
---=-g4ooUj0IBdVwWawtumXy
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fix it and also move the error message to the caller of
+mipi_csis_clk_enable().
 
-Le vendredi 31 mai 2019 =C3=A0 12:07 -0400, Sven Van Asbroeck a =C3=A9crit =
-:
-> Hello Nicholas, thank you so much for investigating.
->=20
-> On Fri, May 31, 2019 at 11:34 AM Nicolas Dufresne <nicolas@ndufresne.ca> =
-wrote:
-> > Now, if that pipeline was live, this would be a problem.
->=20
-> This is where my gstreamer knowledge gets really hazy.
-> What does it mean for a pipeline to be 'live' ?
-> Would this be a problem when playing a 1080p30 h264
-> video from a file?
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Playback from file is not live. That basically means that the input of
-your pipeline is not paced. You can read it as fast as you can, and you
-don't have a limited amount of time to deal with it. An example live
-pipeline would be:
-
-  v4l2src ! v4l2h264enc ! rtph264pay ! udpsink
-
-In this case, if v4l2h264 has too much latency, or is too slow, the
-capture driver will start skipping captures, loosing information. The
-latency is mostly for the case you have multiple streams though (e.g.
-audio and video).
-
-Nicolas
-
---=-g4ooUj0IBdVwWawtumXy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXPFlpAAKCRBxUwItrAao
-HKDsAJ4yqSaYiYk6KBpABmZXYTGCV57W9ACZAXdKTw9ZPJ5efDlSkvkshGKB9Io=
-=5wEu
------END PGP SIGNATURE-----
-
---=-g4ooUj0IBdVwWawtumXy--
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 042837b8ea28..1b538ae77364 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -456,13 +456,9 @@ static void mipi_csis_set_params(struct csi_state *state)
+ 			MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL);
+ }
+ 
+-static void mipi_csis_clk_enable(struct csi_state *state)
++static int mipi_csis_clk_enable(struct csi_state *state)
+ {
+-	int ret;
+-
+-	ret = clk_bulk_prepare_enable(state->num_clks, state->clks);
+-	if (ret < 0)
+-		dev_err(state->dev, "failed to enable clocks\n");
++	return clk_bulk_prepare_enable(state->num_clks, state->clks);
+ }
+ 
+ static void mipi_csis_clk_disable(struct csi_state *state)
+@@ -989,7 +985,11 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	mipi_csis_clk_enable(state);
++	ret = mipi_csis_clk_enable(state);
++	if (ret < 0) {
++		dev_err(state->dev, "failed to enable clocks: %d\n", ret);
++		return ret;
++	}
+ 
+ 	ret = devm_request_irq(dev, state->irq, mipi_csis_irq_handler,
+ 			       0, dev_name(dev), state);
+-- 
+2.17.1
 
