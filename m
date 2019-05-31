@@ -2,101 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E899B30D72
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 13:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4825F30D8E
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2019 13:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbfEaLnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 May 2019 07:43:03 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:48320 "EHLO
+        id S1726555AbfEaLwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 May 2019 07:52:02 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:48378 "EHLO
         hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726158AbfEaLnC (ORCPT
+        by vger.kernel.org with ESMTP id S1726518AbfEaLwC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 May 2019 07:43:02 -0400
+        Fri, 31 May 2019 07:52:02 -0400
 Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 538F7634C7B;
-        Fri, 31 May 2019 14:42:58 +0300 (EEST)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 4711C634C7B;
+        Fri, 31 May 2019 14:51:57 +0300 (EEST)
 Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
         (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hWfw2-0000Ju-F9; Fri, 31 May 2019 14:42:58 +0300
-Date:   Fri, 31 May 2019 14:42:58 +0300
+        id 1hWg4j-0000K7-EL; Fri, 31 May 2019 14:51:57 +0300
+Date:   Fri, 31 May 2019 14:51:57 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 4/5] media: ov6650: Fix frame scaling not reset on
- crop
-Message-ID: <20190531114258.6bvsqzlexqnelu5u@valkosipuli.retiisi.org.uk>
-References: <20190526204758.1904-1-jmkrzyszt@gmail.com>
- <20190526204758.1904-5-jmkrzyszt@gmail.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, rmfrfs@gmail.com, zhengsq@rock-chips.com,
+        prabhakar.csengg@gmail.com, corbet@lwn.net,
+        wenyou.yang@microchip.com, lkundrak@v3.sk,
+        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        jacopo+renesas@jmondi.org, linux-media@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 0/6] Avoid v4l2_subdev_get_try_ ifdef dance
+Message-ID: <20190531115157.upmjmowz64hzsafb@valkosipuli.retiisi.org.uk>
+References: <20190404074002.18730-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190526204758.1904-5-jmkrzyszt@gmail.com>
+In-Reply-To: <20190404074002.18730-1-m.felsch@pengutronix.de>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+Hi Marco,
 
-On Sun, May 26, 2019 at 10:47:57PM +0200, Janusz Krzysztofik wrote:
-> According to V4L2 subdevice interface specification, frame scaling
-> factors should be reset to default values on modification of input frame
-> format.  Assuming that requirement also applies in case of crop
-> rectangle modification unless V4L2_SEL_FLAG_KEEP_CONFIG is requested,
-> the driver now does not respect it.
+On Thu, Apr 04, 2019 at 09:39:56AM +0200, Marco Felsch wrote:
+> Hi,
 > 
-> The KEEP_CONFIG case is already implemented, fix the other path.
+> during my work on [1] I prepared a patch to avoid driver interal ifdef
+> dances for:
+>  - v4l2_subdev_get_try_format
+>  - v4l2_subdev_get_try_crop
+>  - v4l2_subdev_get_try_compose
+> helper functions. Jacopo did some comments on it so I picked Lubomir's
+> series [2] as base and prepared a new one since this series didn't got
+> merged.
 > 
-> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> ---
->  drivers/media/i2c/ov6650.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> During discussion on [2] Sakari mentioned Hans RFC Patch [3] which didn't
+> got merged too due to Mauro's concerns.
 > 
-> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> index 47590cd51190..cc70d8952999 100644
-> --- a/drivers/media/i2c/ov6650.c
-> +++ b/drivers/media/i2c/ov6650.c
-> @@ -472,6 +472,8 @@ static int ov6650_get_selection(struct v4l2_subdev *sd,
->  	}
->  }
->  
-> +static int ov6650_s_fmt(struct v4l2_subdev *sd, u32 code, bool half_scale);
-> +
+> The driver changes are only compile tested due to the lack of missing
+> hardware. It would be cool if someone can verify my changes.
+> 
+> [1] https://patchwork.kernel.org/cover/10786553/
+> [2] https://patchwork.kernel.org/patch/10703029/
+> [3] https://patchwork.linuxtv.org/patch/53370/
+> 
+> Marco Felsch (6):
+>   media: v4l2-subdev: add stubs for v4l2_subdev_get_try_*
+>   media: ov2659: get rid of extra ifdefs
+>   media: ov2680: get rid of extra ifdefs
+>   media: ov5695: get rid of extra ifdefs
+>   media: ov7670: get rid of extra ifdefs
+>   media: ov7740: get rid of extra ifdefs
 
-Would it be possible to rearrange the functions in the file so you wouldn't
-need extra prototypes? Preferrably that'd be a new patch.
+Assuming that this patch gets merged:
 
->  static int ov6650_set_selection(struct v4l2_subdev *sd,
->  		struct v4l2_subdev_pad_config *cfg,
->  		struct v4l2_subdev_selection *sel)
-> @@ -515,7 +517,13 @@ static int ov6650_set_selection(struct v4l2_subdev *sd,
->  	}
->  	if (!ret)
->  		priv->rect.height = sel->r.height;
-> +	else
-> +		return ret;
+<URL:https://patchwork.linuxtv.org/patch/56482/>
 
-if (ret)
-	return ret;
+With the above patch, calling these functions when subdev API is disabled
+becomes clearly a driver bug. Instead of returning an error from the
+functions, I'd suggest adding dummy format and selection configurations
+(which are memset to zero by the call to obtain the said configuration)
+that would be returned by these functions. Calling these functions should
+also emit a warning.
 
-...
-
->  
-> +	if (priv->half_scale) {
-> +		/* turn off half scaling, preserve media bus format */
-> +		ret = ov6650_s_fmt(sd, priv->code, false);
-> +	}
->  	return ret;
->  }
->  
+That would be much safer and also would make it easier to catch API misuse.
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
