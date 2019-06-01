@@ -2,128 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8268A31FC8
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 17:27:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACFF3203C
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 19:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726531AbfFAP1i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 11:27:38 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46909 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbfFAP1h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 11:27:37 -0400
-Received: by mail-pl1-f194.google.com with SMTP id e5so3478019pls.13;
-        Sat, 01 Jun 2019 08:27:37 -0700 (PDT)
+        id S1726210AbfFARvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 13:51:44 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:33646 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbfFARvo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 13:51:44 -0400
+Received: by mail-qt1-f195.google.com with SMTP id 14so4985107qtf.0
+        for <linux-media@vger.kernel.org>; Sat, 01 Jun 2019 10:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=XIj7YOEub6/JCzsqfFJlT7eLLCGSmwe1HtOY1YjxnSQ=;
-        b=QqK/60vo/jfvKUYQNFShV+4TE7taLKRU0t6RaGWKMP1yhJMs21nKP6NbTmhuyfsCdq
-         aV/9r/z7lNh3/NAFfO5wB3r0sz1zV+GZNmeUVX7fuzIR+rVVStmqwhJbXg4wf3Q/5Acc
-         tzPf4GhY3TjwiFiphKe+xrLSON7e/QG7VOrLcgS1q5HkKwuaqEnXnxhsTcA9niUFTvlt
-         ttaPmJL5J8kQf+L1SStF/oVJ52JCAybqRUVJGUDs6+raj8YDudTUicLYe/6n/EF99w4T
-         Fgq9ZGFTHYp19gx8gv5Irps3bw25UTaQ9M6qT0HGWKc4MlnpY3ciBlSgeLPT7d2P098K
-         L68g==
+        h=from:to:cc:subject:date:message-id;
+        bh=RdduJKj2trEmgoT+DdzB//Cnls3cdUZxQ17xflBYkFw=;
+        b=r/uAG6FiPAwZoo9zCfDolgFJK+vazEzAEbtRJ5F8X7kgyCwpx6hRWxTjxQKDV/yiyq
+         e8Chj3C+ywJoU6QTTnZI1Wp+zH3G4Rmm7Y4x1kK1ibM3DQn4Ru65CVihcEq6y9PnzHvc
+         Ni5gyh4VAomUV6ZdX5XCN/gK7uWVxfh6nx9z3xfpz5O2qKa8ysUsd0Ahj7uZd7iKE2El
+         0by+eCSJ7nIT5m3oDXMKv7Ec1yUclEv7Cr43nGQk3iBsmSY0b9zCxiecS0RbTW00bqUL
+         yNwtD83HEGEHzz11ONr6FuGxgpZjw0uXgtqgehGL5WU5cUIcRYNU4IylTzYv23DJZehW
+         vb0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=XIj7YOEub6/JCzsqfFJlT7eLLCGSmwe1HtOY1YjxnSQ=;
-        b=qouREPbrt+AvQEA5+/okPdliCZXqTztqNf9UmW/hbD1vT9u2RuQgVSdpLVRzynMXkG
-         b57lEQWCfY5YuVOkOv04P+kLszv3kAY5Z7lE7/5upQuH/pxXZ2nGY8RCvMr82b0/g7L8
-         xvqasHjduGrcwdePpmW6SXrdu0VsHg78/A7Uu0m7fOc/yeIGcCvmwUrPeSgTu5sU+CPO
-         5goS1ybynwkxnJGUAWPAPh8LBooIwQxS64GMXsmH1f4mJhmmGyLssWGuJcbIGdmV6lLb
-         c6YUcf90wtZ2zZppgNn0EGeb9IKQk8vCuPKGHn3+KOCXDuKfPOEf7D+LIhXLdAH+7kU1
-         F8ug==
-X-Gm-Message-State: APjAAAWU8D9v7RciOfQmYuI1lc1fq/cZEBGIdhnXHv44DYNRaZBzfjYE
-        7PtqcNJoPSIG5qgaEFpxYVU=
-X-Google-Smtp-Source: APXvYqwkq5LWhccgJndQpLkagphyyBfTQ93qwaTbUW8HtO/ujVRSt7L4XOPHl57FC2oeddhetk1w6A==
-X-Received: by 2002:a17:902:9006:: with SMTP id a6mr12808271plp.305.1559402857033;
-        Sat, 01 Jun 2019 08:27:37 -0700 (PDT)
-Received: from t-1000 (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
-        by smtp.gmail.com with ESMTPSA id y12sm7521851pgi.10.2019.06.01.08.27.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=RdduJKj2trEmgoT+DdzB//Cnls3cdUZxQ17xflBYkFw=;
+        b=dfPj+VsGWm4g4S8kNpinMcdxVFig3/RfIiFmhtHvWSSFHqY3liq9IKBXWossoIwBzf
+         uz8oaBXBWxZB+shIQmFRdNvTxAjsNZjZCTgrmRUHwV9ek/rysA/wCH9tkzE3qMI6UR26
+         SB8cmX5MMshDMOSSxsfb8HTeeZe4Go8+gd8+nQ1iPPMNe9Dum3f93fhSY/sq+pHqWU/b
+         VoUMs7URcv4D9g66MzvdYNaPqtgM/enZ0ZG6PkGOQXJ4SUg6ud/92OSW6XGyAsLKCziQ
+         4T+buYqBYC9vdS8UmEbU+jVNPLQ6mOUSXHXdZAbUVzgpBeAdWVQ/JA3Zapxh0UZ0tmie
+         ROvQ==
+X-Gm-Message-State: APjAAAXBqamSwUGZv3aaldA72fiqZ7A4LimiCjypAo0FIkhSAloQsG1Y
+        w5IDHr8xTPeR8UbmOWPVVPc=
+X-Google-Smtp-Source: APXvYqw43sZUlXlMdFVeniixc4MneF8mLjjXI2+qkhbzAWVgkSBZ2wyJ3Dl4iXMa6U2/yRI3NoVocQ==
+X-Received: by 2002:a0c:986e:: with SMTP id e43mr14867334qvd.78.1559411503372;
+        Sat, 01 Jun 2019 10:51:43 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
+        by smtp.gmail.com with ESMTPSA id v8sm1558977qkj.77.2019.06.01.10.51.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 01 Jun 2019 08:27:36 -0700 (PDT)
-Date:   Sat, 1 Jun 2019 08:27:34 -0700
-From:   Shobhit Kukreti <shobhitkukreti@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     shobhitkukreti@gmail.com
-Subject: [PATCH] media: i2c: Fix Unnecessary Semicolon Warning Reported by
- coccicheck
-Message-ID: <20190601152731.GA15956@t-1000>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        Sat, 01 Jun 2019 10:51:42 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     rmfrfs@gmail.com, p.zabel@pengutronix.de, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH 1/3] media: imx7-media-csi: Use functions instead of macros
+Date:   Sat,  1 Jun 2019 14:51:38 -0300
+Message-Id: <20190601175140.16305-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-	Removed the warning from the following files:
+Currently there is a macro for reading and another macro for writing
+to the CSI registers.
 
-	drivers/media/i2c/ov13858.c
-	drivers/media/i2c/ov2685.c
-	drivers/media/i2c/ov5695.c
+Functions can do parameter type checking, which leads to a safer code,
+so switch from macro to function implementation.
 
-Signed-off-by: Shobhit Kukreti <shobhitkukreti@gmail.com>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- drivers/media/i2c/ov13858.c | 4 ++--
- drivers/media/i2c/ov2685.c  | 2 +-
- drivers/media/i2c/ov5695.c  | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx7-media-csi.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index 45bb872..aac6f77 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -1224,7 +1224,7 @@ static int ov13858_set_ctrl(struct v4l2_ctrl *ctrl)
- 					 ov13858->exposure->minimum,
- 					 max, ov13858->exposure->step, max);
- 		break;
--	};
-+	}
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index b1af8694899e..8abdf253696d 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -195,10 +195,16 @@ struct imx7_csi {
+ 	struct completion last_eof_completion;
+ };
  
- 	/*
- 	 * Applying V4L2 control value only happens
-@@ -1262,7 +1262,7 @@ static int ov13858_set_ctrl(struct v4l2_ctrl *ctrl)
- 			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
- 			 ctrl->id, ctrl->val);
- 		break;
--	};
-+	}
+-#define imx7_csi_reg_read(_csi, _offset) \
+-	__raw_readl((_csi)->regbase + (_offset))
+-#define imx7_csi_reg_write(_csi, _val, _offset) \
+-	__raw_writel(_val, (_csi)->regbase + (_offset))
++static u32 imx7_csi_reg_read(struct imx7_csi *csi, unsigned int offset)
++{
++	return readl(csi->regbase + offset);
++}
++
++static void imx7_csi_reg_write(struct imx7_csi *csi, unsigned int value,
++			       unsigned int offset)
++{
++	writel(value, csi->regbase + offset);
++}
  
- 	pm_runtime_put(&client->dev);
- 
-diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-index 98a1f2e3..6814583 100644
---- a/drivers/media/i2c/ov2685.c
-+++ b/drivers/media/i2c/ov2685.c
-@@ -576,7 +576,7 @@ static int ov2685_set_ctrl(struct v4l2_ctrl *ctrl)
- 			 __func__, ctrl->id, ctrl->val);
- 		ret = -EINVAL;
- 		break;
--	};
-+	}
- 
- 	pm_runtime_put(&client->dev);
- 
-diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-index 5d107c5..e65a943 100644
---- a/drivers/media/i2c/ov5695.c
-+++ b/drivers/media/i2c/ov5695.c
-@@ -1143,7 +1143,7 @@ static int ov5695_set_ctrl(struct v4l2_ctrl *ctrl)
- 		dev_warn(&client->dev, "%s Unhandled id:0x%x, val:0x%x\n",
- 			 __func__, ctrl->id, ctrl->val);
- 		break;
--	};
-+	}
- 
- 	pm_runtime_put(&client->dev);
- 
+ static void imx7_csi_hw_reset(struct imx7_csi *csi)
+ {
 -- 
-2.7.4
+2.17.1
 
