@@ -2,121 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B44032113
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2019 00:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC11432129
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2019 01:41:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfFAWhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 18:37:55 -0400
-Received: from mga07.intel.com ([134.134.136.100]:45978 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726149AbfFAWhz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 1 Jun 2019 18:37:55 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jun 2019 15:37:54 -0700
-X-ExtLoop1: 1
-Received: from mczarkow-mobl2.ger.corp.intel.com (HELO mara.localdomain) ([10.249.140.11])
-  by orsmga002.jf.intel.com with ESMTP; 01 Jun 2019 15:37:52 -0700
-Received: from sailus by mara.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1hXCdP-0004A3-UP; Sun, 02 Jun 2019 01:37:56 +0300
-Date:   Sun, 2 Jun 2019 01:37:55 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 4/5] media: ov6650: Fix frame scaling not reset on
- crop
-Message-ID: <20190601223754.65soglqayxrblgzl@mara.localdomain>
-References: <20190526204758.1904-1-jmkrzyszt@gmail.com>
- <20190526204758.1904-5-jmkrzyszt@gmail.com>
- <20190531114258.6bvsqzlexqnelu5u@valkosipuli.retiisi.org.uk>
- <1933971.yMpNBnsSgY@z50>
+        id S1726616AbfFAXlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 19:41:31 -0400
+Received: from resqmta-po-04v.sys.comcast.net ([96.114.154.163]:35628 "EHLO
+        resqmta-po-04v.sys.comcast.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726211AbfFAXlb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 1 Jun 2019 19:41:31 -0400
+Received: from resomta-po-17v.sys.comcast.net ([96.114.154.241])
+        by resqmta-po-04v.sys.comcast.net with ESMTP
+        id XD0zhnmA0d4wBXDV5hihbE; Sat, 01 Jun 2019 23:33:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
+        s=20190202a; t=1559432003;
+        bh=/YfxZJjiQez5lydNaQDlhF87AQ8ivWgL0uroog7jX7g=;
+        h=Received:Received:From:Subject:To:Message-ID:Date:MIME-Version:
+         Content-Type;
+        b=x1TGfQPc5nHLq4Wp0BxB+EwnEefi9yXhUK6udV+Ojat4LoLFUmylVLGAEY36Dzihd
+         6UA74WtBZxyANL3l1kjRMZNd2spB//x6TvdZGs73Pe3L9VAzeGusyTY7eiQG3Nujfq
+         WYl+vAOfYFXRRXIVeV4O5DAFPkGuUg/hlck+F8c5gGPQWtW+ExcsGwfy8nZI2Hvt1F
+         UpunLeakanZtXDZFoPjpSwRJhjVdLGCC7cSQ5cIYU40oiKdUsGOznZSwnkYOtnMR53
+         KrvBR7aqb1sUGRj/KVmuT58ZMIqLitTf10HJNEdnRWrx+8O7hEJW/AJMUCnV84Ikux
+         0NmMbV5gbq67A==
+Received: from [192.168.4.4] ([73.248.220.215])
+        by resomta-po-17v.sys.comcast.net with ESMTPA
+        id XDUphogfO0ExbXDV4h6aso; Sat, 01 Jun 2019 23:33:23 +0000
+X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgeduuddrudefgedgvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvehomhgtrghsthdqtfgvshhipdfqfgfvpdfpqffurfetoffkrfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffuvffkffgfgggtgfesthejredttdefjeenucfhrhhomheptecuufhunhcuoegrshdutdeffeigsegtohhmtggrshhtrdhnvghtqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeejfedrvdegkedrvddvtddrvdduheenucfrrghrrghmpehhvghloheplgduledvrdduieekrdegrdegngdpihhnvghtpeejfedrvdegkedrvddvtddrvdduhedpmhgrihhlfhhrohhmpegrshdutdeffeigsegtohhmtggrshhtrdhnvghtpdhrtghpthhtohepmhgthhgvhhgrsgesohhsghdrshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehsvggrnhesmhgvshhsrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-Xfinity-VMeta: sc=-100;st=legit
+From:   A Sun <as1033x@comcast.net>
+Subject: [PATCH v1 0/3] [media] mceusb: Error message text and reporting
+ revisions
+To:     linux-media@vger.kernel.org
+Cc:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Message-ID: <b1d16ea3-71cb-1298-f0d0-f34fccab2d27@comcast.net>
+Date:   Sat, 1 Jun 2019 19:33:22 -0400
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1933971.yMpNBnsSgY@z50>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+Several error message and error reporting revisions for mceusb.c
 
-On Fri, May 31, 2019 at 07:56:33PM +0200, Janusz Krzysztofik wrote:
-> Hi Sakari,
-> 
-> On Friday, May 31, 2019 1:42:58 PM CEST Sakari Ailus wrote:
-> > Hi Janusz,
-> > 
-> > On Sun, May 26, 2019 at 10:47:57PM +0200, Janusz Krzysztofik wrote:
-> > > According to V4L2 subdevice interface specification, frame scaling
-> > > factors should be reset to default values on modification of input frame
-> > > format.  Assuming that requirement also applies in case of crop
-> > > rectangle modification unless V4L2_SEL_FLAG_KEEP_CONFIG is requested,
-> > > the driver now does not respect it.
-> > > 
-> > > The KEEP_CONFIG case is already implemented, fix the other path.
-> > > 
-> > > Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > > ---
-> > >  drivers/media/i2c/ov6650.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > > index 47590cd51190..cc70d8952999 100644
-> > > --- a/drivers/media/i2c/ov6650.c
-> > > +++ b/drivers/media/i2c/ov6650.c
-> > > @@ -472,6 +472,8 @@ static int ov6650_get_selection(struct v4l2_subdev 
-> *sd,
-> > >  	}
-> > >  }
-> > >  
-> > > +static int ov6650_s_fmt(struct v4l2_subdev *sd, u32 code, bool 
-> half_scale);
-> > > +
-> > 
-> > Would it be possible to rearrange the functions in the file so you wouldn't
-> > need extra prototypes? Preferrably that'd be a new patch.
-> 
-> Sure. I've intentionally done it like that for better readability of the 
-> patches, but I have a task in my queue for rearrangement of functions order as 
-> soon as other modifications are in place.
+proposed patches applicable to mceusb.c version
+https://github.com/torvalds/linux/blob/master/drivers/media/rc/mceusb.c
+Mar 1, 2019 commit 04ad30112aec61004f994d8f51461ec06e208e54
 
-I'm totally fine with doing that after this set on as well. Up to you.
 
-> 
-> > >  static int ov6650_set_selection(struct v4l2_subdev *sd,
-> > >  		struct v4l2_subdev_pad_config *cfg,
-> > >  		struct v4l2_subdev_selection *sel)
-> > > @@ -515,7 +517,13 @@ static int ov6650_set_selection(struct v4l2_subdev 
-> *sd,
-> > >  	}
-> > >  	if (!ret)
-> > >  		priv->rect.height = sel->r.height;
-> > > +	else
-> > > +		return ret;
-> > 
-> > if (ret)
-> > 	return ret;
-> 
-> OK
-> 
-> Perhaps you will have more comments on other patches so I'll wait a bit and 
-> then resubmit the series as v2.
+Test platform:
 
-Not so much on this set BUT I realised that the subtle effect of "media:
-ov6650: Register with asynchronous subdevice framework" is that the driver
-is now responsible for serialising the access to its own data structures
-now. And it doesn't do that. Could you submit a fix, please? It'd be good to
-get that to 5.2 through the fixes branch.
+Raspberry Pi 3B+
+Linux raspberrypi 4.14.98-v7+ #1200 SMP Tue Feb 12 20:27:48 GMT 2019 armv7l GNU/Linux
 
--- 
-Kind regards,
+mceusb 1-1.2.7:1.0: long-range (0x1) receiver active
+mceusb 1-1.2.7:1.0: Registered Pinnacle Systems PCTV Remote USB with mce emulator interface version 1
+mceusb 1-1.2.7:1.0: 2 tx ports (0x3 cabled) and 2 rx sensors (0x1 active)
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
