@@ -2,91 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D362831D11
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 15:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03AB931FA3
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 16:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729783AbfFAN0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 09:26:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57366 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729869AbfFAN0w (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 1 Jun 2019 09:26:52 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B446273A3;
-        Sat,  1 Jun 2019 13:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559395611;
-        bh=khIwVd6SZumGNPgq8E7WpdAaNyfO/nGOyz01eOSDa2w=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rBO0nJZXX2hVy+PBVq0dWQU+CoPLYDGZrp0PzsdGlCDH/gf26uVFUaJYuaT7yxxOL
-         6pmccoEGMdOVVboXrWz60l595FzTGdVHuMXjBpN6anX2I5Et+8iljqHaGwOpe5jCHE
-         CJk8TpH2QRaaLI++YaCPNOZo7jGhPN8nL6qQPLoU=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 28/56] media: ov6650: Fix sensor possibly not detected on probe
-Date:   Sat,  1 Jun 2019 09:25:32 -0400
-Message-Id: <20190601132600.27427-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190601132600.27427-1-sashal@kernel.org>
-References: <20190601132600.27427-1-sashal@kernel.org>
+        id S1726655AbfFAODZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 10:03:25 -0400
+Received: from casper.infradead.org ([85.118.1.10]:40544 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbfFAODZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 10:03:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=v0LrETNumBSzOdfcO9SplNOuuMpdyL4QdkEXtDe1++k=; b=UlLJQVZgPChSP8Uk9dq3h6IR2R
+        4gU4+F+Ij+aULct1GC/dh6JFgerVeR9bNNCqhhACq1KMt4zxi3tjplk27D/05TyMHUzx4FrinW1wP
+        gzEx10Sc78ly1c5O9JRlHE7YExko48zhmjBEOdlM7Y1Y0iC1uWyRUC0KOVbTitSKLNLS7ZymBgIkL
+        Vr9z+M72lnd+A4pZ5rNesnOebhTkYoRoIjgxQmYrosxC3qETIMbGN8gQBe5KZbp+Usk48HLqqqSmH
+        wyNWJedM66ImpzOszka5orPXf+DyqK51aRwQ+Zus8jXwMLt7QB84MT+NZ1h6chJ49zzR5Fj7Ku4fZ
+        zQPJu1Wg==;
+Received: from 179.187.96.185.dynamic.adsl.gvt.net.br ([179.187.96.185] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hX4bR-0005d5-3q; Sat, 01 Jun 2019 14:03:22 +0000
+Date:   Sat, 1 Jun 2019 11:03:17 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [ANN] Patchwork version upgrade
+Message-ID: <20190601110317.4b8e50dd@coco.lan>
+In-Reply-To: <ac538d8e-5b2a-788f-f425-a59283497a85@collabora.com>
+References: <20190531124050.3f06e1b8@coco.lan>
+        <ac538d8e-5b2a-788f-f425-a59283497a85@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Em Fri, 31 May 2019 17:07:01 -0300
+Andr=C3=A9 Almeida <andrealmeid@collabora.com> escreveu:
 
-[ Upstream commit 933c1320847f5ed6b61a7d10f0a948aa98ccd7b0 ]
+> If one tries to access a page that doesn't exists (e.g. [1]), the page
+> shows that Django is on debug mode. According to Django
+> documentation[2], is not a good idea running with debugging enabled on
+> production environment. To fix this, just change the `DEBUG =3D True` to
+> `DEBUG =3D False` on `settings.py`. The result should be something like
+> this [3].
 
-After removal of clock_start() from before soc_camera_init_i2c() in
-soc_camera_probe() by commit 9aea470b399d ("[media] soc-camera: switch
-I2C subdevice drivers to use v4l2-clk") introduced in v3.11, the ov6650
-driver could no longer probe the sensor successfully because its clock
-was no longer turned on in advance.  The issue was initially worked
-around by adding that missing clock_start() equivalent to OMAP1 camera
-interface driver - the only user of this sensor - but a propoer fix
-should be rather implemented in the sensor driver code itself.
+Fixed.
 
-Fix the issue by inserting a delay between the clock is turned on and
-the sensor I2C registers are read for the first time.
+>=20
+> Thanks,
+> Andr=C3=A9
 
-Tested on Amstrad Delta with now out of tree but still locally
-maintained omap1_camera host driver.
-
-Fixes: 9aea470b399d ("[media] soc-camera: switch I2C subdevice drivers to use v4l2-clk")
-
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/i2c/soc_camera/ov6650.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/i2c/soc_camera/ov6650.c b/drivers/media/i2c/soc_camera/ov6650.c
-index 1e4783b51a351..1e9ebfda25525 100644
---- a/drivers/media/i2c/soc_camera/ov6650.c
-+++ b/drivers/media/i2c/soc_camera/ov6650.c
-@@ -843,6 +843,8 @@ static int ov6650_video_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		return ret;
- 
-+	msleep(20);
-+
- 	/*
- 	 * check and show product ID and manufacturer ID
- 	 */
--- 
-2.20.1
-
+Thanks,
+Mauro
