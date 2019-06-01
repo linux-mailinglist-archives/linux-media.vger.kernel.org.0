@@ -2,87 +2,330 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F24E3203E
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 19:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC23832044
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 19:57:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfFARvu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 13:51:50 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:44961 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfFARvu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 13:51:50 -0400
-Received: by mail-qk1-f196.google.com with SMTP id w187so8465612qkb.11
-        for <linux-media@vger.kernel.org>; Sat, 01 Jun 2019 10:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=QhOTOR9ZhHXErxoDIUyKQboLl6Rpn3QrGCz20NVmVXQ=;
-        b=FS1FAFGAgIzP3T2T4lOWSFhc5N1+pNVJk0iUx+GwM/56VgK7z64EP0eVw7gN4ObfpU
-         7juVKX6/HTZpWlUepsNgsFUWSq0F6frlIvlrZY+ijV256BwgNBgMkUn81jLruh4qq1Fh
-         rGZQV02RMLy9I1sk+coW6nW71JhqDPNVGnvaghWB2yGt/xK2O/ilT//nHKUxmgDRqw3y
-         TneRq7Li5zHqSA5MCYeC68lmhYFDH47PbxwIh0aGY5iy2JNN3ZuGX/ygnNgoMndIdRf9
-         K6m4eJH8xrmItVWp6lOz0gXm/78jdck74l2oGx1xteYNaQ/WRXf3eKtlgONB2sSUgLw8
-         KNrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=QhOTOR9ZhHXErxoDIUyKQboLl6Rpn3QrGCz20NVmVXQ=;
-        b=ap06LyaoQOM+uk/yOUWhhchMlM7f13aB9N3DAGNYYD3xW/C+NFEqw+fWVs9LLK5Lsk
-         BQc+ojPOQ/bZfNX1T+lT1f92PotqiQiF9W6IeGKI+tAXoqMhO7Gj/p7vMFOJhzUqWQTb
-         gkCQrnTtTm/bH9Ce4HPWSUGEkmULoatgiY8T2jR9Ng/ddHatusBXlcKHFfABWNKbWkS9
-         S8nq46f5ZYT80mrJG6zWkPMPh4IwBn46rYAKDQC0Ek75b5Sh0BuIxLiGuC6TLRGmv+nv
-         YW/4G4bwLeRAtxy5Zc/DRdTnRyyltjiK3yAU6xLfIo/WtPNX0UeXk9R6SGQHMiEOxIS0
-         C2Dw==
-X-Gm-Message-State: APjAAAV6jgxC87tzV/Wk96mLFTsy9XFfEblWcs+SE/mzkp/OUbCUedqI
-        iZwNtkaTQcluU5D+IMzEjJU=
-X-Google-Smtp-Source: APXvYqwkDFhfQbabLwClD+TdFEaI9M77Msti+l4Kts9BmBGhFN730G0k1TecbUUF1Xp7fjEjz19pkw==
-X-Received: by 2002:a37:68d2:: with SMTP id d201mr14298019qkc.65.1559411509489;
-        Sat, 01 Jun 2019 10:51:49 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
-        by smtp.gmail.com with ESMTPSA id v8sm1558977qkj.77.2019.06.01.10.51.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 01 Jun 2019 10:51:48 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     rmfrfs@gmail.com, p.zabel@pengutronix.de, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 3/3] media: imx7-media-csi: Remove unneeded error message
-Date:   Sat,  1 Jun 2019 14:51:40 -0300
-Message-Id: <20190601175140.16305-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190601175140.16305-1-festevam@gmail.com>
-References: <20190601175140.16305-1-festevam@gmail.com>
+        id S1726143AbfFAR5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 13:57:13 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48148 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbfFAR5N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 13:57:13 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 450BA263A21
+Message-ID: <1283d56201cb56110b247025939242c81f705024.camel@collabora.com>
+Subject: Re: [PATCH v2 4/4] media: v4l: ctrls: Add debug messages
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com
+Date:   Sat, 01 Jun 2019 14:57:03 -0300
+In-Reply-To: <20b23d4d-1a8f-d957-73cd-1d8e7a3308a5@xs4all.nl>
+References: <20190227170706.6258-1-ezequiel@collabora.com>
+         <20190227170706.6258-5-ezequiel@collabora.com>
+         <20b23d4d-1a8f-d957-73cd-1d8e7a3308a5@xs4all.nl>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In case of ioremap failure, the core code will take care of printing
-the error message, so there is no need for having a local error
-message in the driver.
+On Mon, 2019-03-11 at 12:36 +0100, Hans Verkuil wrote:
+> On 2/27/19 6:07 PM, Ezequiel Garcia wrote:
+> > Currently, the v4l2 control code is a bit silent on errors.
+> > Now that we have a debug parameter, it's possible to enable
+> > debugging messages here.
+> > 
+> > Add debug messages on (hopefully) most of the error paths.
+> > Since it's really hard to associate all these errors
+> > to video device instance, we are forced to use the global
+> > debug parameter only.
+> > 
+> > Add a warning in case the user enables control debugging
+> > at the per-device dev_debug level.
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-ctrls.c  | 93 +++++++++++++++++++++------
+> >  drivers/media/v4l2-core/v4l2-dev.c    |  2 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c  |  8 +--
+> >  drivers/media/v4l2-core/v4l2-subdev.c |  4 +-
+> >  include/media/v4l2-ctrls.h            |  9 ++-
+> >  include/media/v4l2-ioctl.h            |  2 +
+> >  6 files changed, 91 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > index b79d3bbd8350..af8ad83d1e08 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > @@ -18,6 +18,8 @@
+> >      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+> >   */
+> >  
+> > +#define pr_fmt(fmt) "v4l2-ctrls: " fmt
+> > +
+> >  #include <linux/ctype.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/slab.h>
+> > @@ -28,6 +30,14 @@
+> >  #include <media/v4l2-event.h>
+> >  #include <media/v4l2-dev.h>
+> >  
+> > +extern unsigned int videodev_debug;
+> > +
+> > +#define dprintk(fmt, arg...) do {					\
+> > +	if (videodev_debug & V4L2_DEV_DEBUG_CTRL)			\
+> > +		printk(KERN_DEBUG pr_fmt("%s: " fmt),			\
+> > +		       __func__, ##arg);				\
+> > +} while (0)
+> > +
+> >  #define has_op(master, op) \
+> >  	(master->ops && master->ops->op)
+> >  #define call_op(master, op) \
+> > @@ -1952,8 +1962,11 @@ static int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
+> >  	unsigned idx;
+> >  	int err = 0;
+> >  
+> > -	for (idx = 0; !err && idx < ctrl->elems; idx++)
+> > +	for (idx = 0; !err && idx < ctrl->elems; idx++) {
+> >  		err = ctrl->type_ops->validate(ctrl, idx, p_new);
+> > +		if (err)
+> > +			dprintk("failed to validate control id 0x%x (%d)\n", ctrl->id, err);
+> > +	}
+> >  	return err;
+> >  }
+> >  
+> > @@ -3136,20 +3149,28 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+> >  		if (cs->which &&
+> >  		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
+> >  		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
+> > -		    V4L2_CTRL_ID2WHICH(id) != cs->which)
+> > +		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
+> > +			dprintk("invalid which 0x%x or control id 0x%x\n", cs->which, id);
+> >  			return -EINVAL;
+> > +		}
+> >  
+> >  		/* Old-style private controls are not allowed for
+> >  		   extended controls */
+> > -		if (id >= V4L2_CID_PRIVATE_BASE)
+> > +		if (id >= V4L2_CID_PRIVATE_BASE) {
+> > +			dprintk("old-style private controls not allowed for extended controls\n");
+> >  			return -EINVAL;
+> > +		}
+> >  		ref = find_ref_lock(hdl, id);
+> > -		if (ref == NULL)
+> > +		if (ref == NULL) {
+> > +			dprintk("cannot find control id 0x%x\n", id);
+> >  			return -EINVAL;
+> > +		}
+> >  		h->ref = ref;
+> >  		ctrl = ref->ctrl;
+> > -		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED)
+> > +		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED) {
+> > +			dprintk("control id 0x%x is disabled\n", id);
+> >  			return -EINVAL;
+> > +		}
+> >  
+> >  		if (ctrl->cluster[0]->ncontrols > 1)
+> >  			have_clusters = true;
+> > @@ -3159,10 +3180,16 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+> >  			unsigned tot_size = ctrl->elems * ctrl->elem_size;
+> >  
+> >  			if (c->size < tot_size) {
+> > +				/*
+> > +				 * In the get case the application first queries
+> > +				 * to obtain the size of the control.
+> > +				 */
+> >  				if (get) {
+> >  					c->size = tot_size;
+> >  					return -ENOSPC;
+> >  				}
+> > +				dprintk("pointer control id 0x%x size too small, %d bytes but %d bytes needed\n",
+> > +					id, c->size, tot_size);
+> >  				return -EFAULT;
+> >  			}
+> >  			c->size = tot_size;
+> > @@ -3534,16 +3561,20 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
+> >  
+> >  		cs->error_idx = i;
+> >  
+> > -		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+> > +		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY) {
+> > +			dprintk("control id 0x%x is read-only\n", ctrl->id);
+> >  			return -EACCES;
+> > +		}
+> >  		/* This test is also done in try_set_control_cluster() which
+> >  		   is called in atomic context, so that has the final say,
+> >  		   but it makes sense to do an up-front check as well. Once
+> >  		   an error occurs in try_set_control_cluster() some other
+> >  		   controls may have been set already and we want to do a
+> >  		   best-effort to avoid that. */
+> > -		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED))
+> > +		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED)) {
+> > +			dprintk("control id 0x%x is grabbed, cannot set\n", ctrl->id);
+> >  			return -EBUSY;
+> > +		}
+> >  		/*
+> >  		 * Skip validation for now if the payload needs to be copied
+> >  		 * from userspace into kernelspace. We'll validate those later.
+> > @@ -3576,7 +3607,8 @@ static void update_from_auto_cluster(struct v4l2_ctrl *master)
+> >  }
+> >  
+> >  /* Try or try-and-set controls */
+> > -static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+> > +static int try_set_ext_ctrls_common(struct video_device *vdev,
+> > +				    struct v4l2_fh *fh,
+> >  				    struct v4l2_ctrl_handler *hdl,
+> >  				    struct v4l2_ext_controls *cs, bool set)
+> >  {
+> > @@ -3588,13 +3620,17 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+> >  	cs->error_idx = cs->count;
+> >  
+> >  	/* Default value cannot be changed */
+> > -	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL)
+> > +	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
+> > +		dprintk("%s: cannot change default value\n", video_device_node_name(vdev));
+> >  		return -EINVAL;
+> > +	}
+> >  
+> >  	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+> >  
+> > -	if (hdl == NULL)
+> > +	if (hdl == NULL) {
+> > +		dprintk("%s: invalid null control handler\n", video_device_node_name(vdev));
+> >  		return -EINVAL;
+> > +	}
+> >  
+> >  	if (cs->count == 0)
+> >  		return class_check(hdl, cs->which);
+> > @@ -3691,7 +3727,8 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+> >  	return ret;
+> >  }
+> >  
+> > -static int try_set_ext_ctrls(struct v4l2_fh *fh,
+> > +static int try_set_ext_ctrls(struct video_device *vdev,
+> > +			     struct v4l2_fh *fh,
+> >  			     struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
+> >  			     struct v4l2_ext_controls *cs, bool set)
+> >  {
+> > @@ -3700,21 +3737,32 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
+> >  	int ret;
+> >  
+> >  	if (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL) {
+> > -		if (!mdev || cs->request_fd < 0)
+> > +		if (!mdev) {
+> > +			dprintk("%s: missing media device\n", video_device_node_name(vdev));
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		if (cs->request_fd < 0) {
+> > +			dprintk("%s: invalid request fd %d\n", video_device_node_name(vdev), cs->request_fd);
+> >  			return -EINVAL;
+> > +		}
+> >  
+> >  		req = media_request_get_by_fd(mdev, cs->request_fd);
+> > -		if (IS_ERR(req))
+> > +		if (IS_ERR(req)) {
+> > +			dprintk("%s: cannot find request fd %d\n", video_device_node_name(vdev), cs->request_fd);
+> >  			return PTR_ERR(req);
+> > +		}
+> >  
+> >  		ret = media_request_lock_for_update(req);
+> >  		if (ret) {
+> > +			dprintk("%s: cannot lock request fd %d\n", video_device_node_name(vdev), cs->request_fd);
+> >  			media_request_put(req);
+> >  			return ret;
+> >  		}
+> >  
+> >  		obj = v4l2_ctrls_find_req_obj(hdl, req, set);
+> >  		if (IS_ERR(obj)) {
+> > +			dprintk("%s: cannot find request object for request fd %d\n", video_device_node_name(vdev), cs->request_fd);
+> 
+> These lines are way too long. Just add a newline after the first comma.
+> 
+> Same elsewhere.
+> 
+> >  			media_request_unlock_for_update(req);
+> >  			media_request_put(req);
+> >  			return PTR_ERR(obj);
+> > @@ -3723,7 +3771,9 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
+> >  				   req_obj);
+> >  	}
+> >  
+> > -	ret = try_set_ext_ctrls_common(fh, hdl, cs, set);
+> > +	ret = try_set_ext_ctrls_common(vdev, fh, hdl, cs, set);
+> > +	if (ret)
+> > +		dprintk("%s: try_set_ext_ctrls_common failed (%d)\n", video_device_node_name(vdev), ret);
+> >  
+> >  	if (obj) {
+> >  		media_request_unlock_for_update(req);
+> > @@ -3734,17 +3784,22 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
+> >  	return ret;
+> >  }
+> >  
+> > -int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
+> > +int v4l2_try_ext_ctrls(struct video_device *vdev,
+> > +		       struct v4l2_ctrl_handler *hdl,
+> > +		       struct media_device *mdev,
+> >  		       struct v4l2_ext_controls *cs)
+> >  {
+> > -	return try_set_ext_ctrls(NULL, hdl, mdev, cs, false);
+> > +	return try_set_ext_ctrls(vdev, NULL, hdl, mdev, cs, false);
+> >  }
+> >  EXPORT_SYMBOL(v4l2_try_ext_ctrls);
+> >  
+> > -int v4l2_s_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
+> > -		     struct media_device *mdev, struct v4l2_ext_controls *cs)
+> > +int v4l2_s_ext_ctrls(struct video_device *vdev,
+> > +		     struct v4l2_fh *fh,
+> > +		     struct v4l2_ctrl_handler *hdl,
+> > +		     struct media_device *mdev,
+> > +		     struct v4l2_ext_controls *cs)
+> >  {
+> > -	return try_set_ext_ctrls(fh, hdl, mdev, cs, true);
+> > +	return try_set_ext_ctrls(vdev, fh, hdl, mdev, cs, true);
+> >  }
+> >  EXPORT_SYMBOL(v4l2_s_ext_ctrls);
+> >  
+> > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> > index 39d22bfbe420..c6bcc9ea1122 100644
+> > --- a/drivers/media/v4l2-core/v4l2-dev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> > @@ -83,6 +83,8 @@ static ssize_t dev_debug_store(struct device *cd, struct device_attribute *attr,
+> >  	if (res)
+> >  		return res;
+> >  
+> > +	if (value & V4L2_DEV_DEBUG_CTRL)
+> > +		pr_warn_once("Warning: V4L2_DEV_DEBUG_CTRL cannot be enabled via the dev_debug attribute.\n");
+> 
+> Actually, you can for those functions that have the vdev pointer.
+> And I think you can pass vdev on to more functions. Certainly validate_ctrls()
+> and possibly all of them.
+> 
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Before sending this patch, I tried different options,
+but failed to find a proper way of associating all error paths
+with a struct video_device.
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 7abea8681062..fead72952aba 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1194,10 +1194,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
- 	}
- 
- 	csi->regbase = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(csi->regbase)) {
--		dev_err(dev, "Failed platform resources map\n");
-+	if (IS_ERR(csi->regbase))
- 		return PTR_ERR(csi->regbase);
--	}
- 
- 	spin_lock_init(&csi->irqlock);
- 	mutex_init(&csi->lock);
--- 
-2.17.1
+For instance, __v4l2_ctrl_s_ctrl eventually calls validate_new,
+and it seems really nasty to change its prototype, as it's called
+by so many drivers.
+
+I think it's a too invasive change, and not worth it just to
+add one debug print.
+
+So one option would be to drop the validate_new print.
+
+Another option would be have a slightly inconsistent behavior between
+setting the module debug parameter and the per-device debug attribute.
+
+I think for debugging, consistency is very important, and that's
+why I prefered keeping the debug parameter and produce this warning.
+
+Thanks,
+Ezequiel
 
