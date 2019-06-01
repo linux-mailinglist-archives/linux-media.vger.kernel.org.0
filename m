@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CEFD31F1D
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 15:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9E1931C37
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 15:20:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728253AbfFANmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 09:42:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46044 "EHLO mail.kernel.org"
+        id S1727272AbfFANTi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 09:19:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46750 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727983AbfFANSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 1 Jun 2019 09:18:54 -0400
+        id S1726794AbfFANTh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 1 Jun 2019 09:19:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C3639255FF;
-        Sat,  1 Jun 2019 13:18:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE4A4272BE;
+        Sat,  1 Jun 2019 13:19:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559395133;
-        bh=LKMQHcklJvIWS99udh9eSLS62WW47Rn8+BrT4bYHeeQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T7v76F/G6RWw0jSq1RXc0bSnbgOl86c6yQG4x+u+jWFEZuy6T+Fju/kgNONZdiCBq
-         R6UHUgulPKP2QV8OQcXz7cvZdqybKLfdC77MX/2KcY1RzmCHxi+J8ejsVq/atrnwe/
-         s5X7Mr4xcZC3w+L9JCLnDZGkQSRlWVuquyeGzXPE=
+        s=default; t=1559395176;
+        bh=0BH7zsVElE5DDidWWhc24VgxlmlbeytlvrOF5RZBkgI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DnuLTbkFfqGn9ia3ApPI4iiDFb+8wx9EuSLf9veL3lVWa0QV0j9T6O6SogD1ivUwV
+         Fn9/4XpeFSO1cow30isMmcxRSSEr/1m+8APJjDM1ekazo/Y3IkKI/ppl90tuwjCOrI
+         IxOOvDTp0mqM+dXILwCTGrJqz0eg6Ui1CKR3hCcQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Eugen Hristev <eugen.hristev@microchip.com>,
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 056/186] media: atmel: atmel-isc: fix asd memory allocation
-Date:   Sat,  1 Jun 2019 09:14:32 -0400
-Message-Id: <20190601131653.24205-56-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.0 001/173] media: rockchip/vpu: Fix/re-order probe-error/remove path
+Date:   Sat,  1 Jun 2019 09:16:33 -0400
+Message-Id: <20190601131934.25053-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190601131653.24205-1-sashal@kernel.org>
-References: <20190601131653.24205-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,54 +44,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Eugen Hristev <eugen.hristev@microchip.com>
+From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit 1e4e25c4959c10728fbfcc6a286f9503d32dfe02 ]
+[ Upstream commit fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f ]
 
-The subsystem will free the asd memory on notifier cleanup, if the asd is
-added to the notifier.
-However the memory is freed using kfree.
-Thus, we cannot allocate the asd using devm_*
-This can lead to crashes and problems.
-To test this issue, just return an error at probe, but cleanup the
-notifier beforehand.
+media_device_cleanup() and v4l2_m2m_unregister_media_controller() were
+missing in the probe error path.
+While at it, re-order calls in the remove path to unregister/cleanup
+things in the reverse order they were initialized/registered.
 
-Fixes: 106267444f ("[media] atmel-isc: add the Image Sensor Controller code")
-
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/atmel/atmel-isc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc.c b/drivers/media/platform/atmel/atmel-isc.c
-index 50178968b8a63..5b0e96bd8c7e5 100644
---- a/drivers/media/platform/atmel/atmel-isc.c
-+++ b/drivers/media/platform/atmel/atmel-isc.c
-@@ -2065,8 +2065,11 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
- 			break;
- 		}
+diff --git a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+index 962412c79b917..33b556b3f0df8 100644
+--- a/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
++++ b/drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c
+@@ -481,10 +481,12 @@ static int rockchip_vpu_probe(struct platform_device *pdev)
+ 	return 0;
+ err_video_dev_unreg:
+ 	if (vpu->vfd_enc) {
++		v4l2_m2m_unregister_media_controller(vpu->m2m_dev);
+ 		video_unregister_device(vpu->vfd_enc);
+ 		video_device_release(vpu->vfd_enc);
+ 	}
+ err_m2m_rel:
++	media_device_cleanup(&vpu->mdev);
+ 	v4l2_m2m_release(vpu->m2m_dev);
+ err_v4l2_unreg:
+ 	v4l2_device_unregister(&vpu->v4l2_dev);
+@@ -501,13 +503,13 @@ static int rockchip_vpu_remove(struct platform_device *pdev)
+ 	v4l2_info(&vpu->v4l2_dev, "Removing %s\n", pdev->name);
  
--		subdev_entity->asd = devm_kzalloc(dev,
--				     sizeof(*subdev_entity->asd), GFP_KERNEL);
-+		/* asd will be freed by the subsystem once it's added to the
-+		 * notifier list
-+		 */
-+		subdev_entity->asd = kzalloc(sizeof(*subdev_entity->asd),
-+					     GFP_KERNEL);
- 		if (!subdev_entity->asd) {
- 			of_node_put(rem);
- 			ret = -ENOMEM;
-@@ -2210,6 +2213,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 						     subdev_entity->asd);
- 		if (ret) {
- 			fwnode_handle_put(subdev_entity->asd->match.fwnode);
-+			kfree(subdev_entity->asd);
- 			goto cleanup_subdev;
- 		}
- 
+ 	media_device_unregister(&vpu->mdev);
+-	v4l2_m2m_unregister_media_controller(vpu->m2m_dev);
+-	v4l2_m2m_release(vpu->m2m_dev);
+-	media_device_cleanup(&vpu->mdev);
+ 	if (vpu->vfd_enc) {
++		v4l2_m2m_unregister_media_controller(vpu->m2m_dev);
+ 		video_unregister_device(vpu->vfd_enc);
+ 		video_device_release(vpu->vfd_enc);
+ 	}
++	media_device_cleanup(&vpu->mdev);
++	v4l2_m2m_release(vpu->m2m_dev);
+ 	v4l2_device_unregister(&vpu->v4l2_dev);
+ 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+ 	pm_runtime_disable(vpu->dev);
 -- 
 2.20.1
 
