@@ -2,330 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC23832044
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2019 19:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C378432107
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2019 00:29:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726143AbfFAR5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jun 2019 13:57:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48148 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfFAR5N (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jun 2019 13:57:13 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 450BA263A21
-Message-ID: <1283d56201cb56110b247025939242c81f705024.camel@collabora.com>
-Subject: Re: [PATCH v2 4/4] media: v4l: ctrls: Add debug messages
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com
-Date:   Sat, 01 Jun 2019 14:57:03 -0300
-In-Reply-To: <20b23d4d-1a8f-d957-73cd-1d8e7a3308a5@xs4all.nl>
-References: <20190227170706.6258-1-ezequiel@collabora.com>
-         <20190227170706.6258-5-ezequiel@collabora.com>
-         <20b23d4d-1a8f-d957-73cd-1d8e7a3308a5@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1 
+        id S1726837AbfFAW3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jun 2019 18:29:42 -0400
+Received: from mga06.intel.com ([134.134.136.31]:24291 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726485AbfFAW3m (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 1 Jun 2019 18:29:42 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jun 2019 15:29:41 -0700
+X-ExtLoop1: 1
+Received: from mczarkow-mobl2.ger.corp.intel.com (HELO mara.localdomain) ([10.249.140.11])
+  by orsmga006.jf.intel.com with ESMTP; 01 Jun 2019 15:29:39 -0700
+Received: from sailus by mara.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1hXCVP-00049t-Vd; Sun, 02 Jun 2019 01:29:42 +0300
+Date:   Sun, 2 Jun 2019 01:29:39 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 5/5] media: ov6650: Add .init_cfg() pad operation
+ callback
+Message-ID: <20190601222938.bonoowmbfs6cpctp@mara.localdomain>
+References: <20190526204758.1904-1-jmkrzyszt@gmail.com>
+ <20190526204758.1904-6-jmkrzyszt@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190526204758.1904-6-jmkrzyszt@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2019-03-11 at 12:36 +0100, Hans Verkuil wrote:
-> On 2/27/19 6:07 PM, Ezequiel Garcia wrote:
-> > Currently, the v4l2 control code is a bit silent on errors.
-> > Now that we have a debug parameter, it's possible to enable
-> > debugging messages here.
-> > 
-> > Add debug messages on (hopefully) most of the error paths.
-> > Since it's really hard to associate all these errors
-> > to video device instance, we are forced to use the global
-> > debug parameter only.
-> > 
-> > Add a warning in case the user enables control debugging
-> > at the per-device dev_debug level.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ctrls.c  | 93 +++++++++++++++++++++------
-> >  drivers/media/v4l2-core/v4l2-dev.c    |  2 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c  |  8 +--
-> >  drivers/media/v4l2-core/v4l2-subdev.c |  4 +-
-> >  include/media/v4l2-ctrls.h            |  9 ++-
-> >  include/media/v4l2-ioctl.h            |  2 +
-> >  6 files changed, 91 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > index b79d3bbd8350..af8ad83d1e08 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > @@ -18,6 +18,8 @@
-> >      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-> >   */
-> >  
-> > +#define pr_fmt(fmt) "v4l2-ctrls: " fmt
-> > +
-> >  #include <linux/ctype.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/slab.h>
-> > @@ -28,6 +30,14 @@
-> >  #include <media/v4l2-event.h>
-> >  #include <media/v4l2-dev.h>
-> >  
-> > +extern unsigned int videodev_debug;
-> > +
-> > +#define dprintk(fmt, arg...) do {					\
-> > +	if (videodev_debug & V4L2_DEV_DEBUG_CTRL)			\
-> > +		printk(KERN_DEBUG pr_fmt("%s: " fmt),			\
-> > +		       __func__, ##arg);				\
-> > +} while (0)
-> > +
-> >  #define has_op(master, op) \
-> >  	(master->ops && master->ops->op)
-> >  #define call_op(master, op) \
-> > @@ -1952,8 +1962,11 @@ static int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
-> >  	unsigned idx;
-> >  	int err = 0;
-> >  
-> > -	for (idx = 0; !err && idx < ctrl->elems; idx++)
-> > +	for (idx = 0; !err && idx < ctrl->elems; idx++) {
-> >  		err = ctrl->type_ops->validate(ctrl, idx, p_new);
-> > +		if (err)
-> > +			dprintk("failed to validate control id 0x%x (%d)\n", ctrl->id, err);
-> > +	}
-> >  	return err;
-> >  }
-> >  
-> > @@ -3136,20 +3149,28 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
-> >  		if (cs->which &&
-> >  		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
-> >  		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
-> > -		    V4L2_CTRL_ID2WHICH(id) != cs->which)
-> > +		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
-> > +			dprintk("invalid which 0x%x or control id 0x%x\n", cs->which, id);
-> >  			return -EINVAL;
-> > +		}
-> >  
-> >  		/* Old-style private controls are not allowed for
-> >  		   extended controls */
-> > -		if (id >= V4L2_CID_PRIVATE_BASE)
-> > +		if (id >= V4L2_CID_PRIVATE_BASE) {
-> > +			dprintk("old-style private controls not allowed for extended controls\n");
-> >  			return -EINVAL;
-> > +		}
-> >  		ref = find_ref_lock(hdl, id);
-> > -		if (ref == NULL)
-> > +		if (ref == NULL) {
-> > +			dprintk("cannot find control id 0x%x\n", id);
-> >  			return -EINVAL;
-> > +		}
-> >  		h->ref = ref;
-> >  		ctrl = ref->ctrl;
-> > -		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED)
-> > +		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED) {
-> > +			dprintk("control id 0x%x is disabled\n", id);
-> >  			return -EINVAL;
-> > +		}
-> >  
-> >  		if (ctrl->cluster[0]->ncontrols > 1)
-> >  			have_clusters = true;
-> > @@ -3159,10 +3180,16 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
-> >  			unsigned tot_size = ctrl->elems * ctrl->elem_size;
-> >  
-> >  			if (c->size < tot_size) {
-> > +				/*
-> > +				 * In the get case the application first queries
-> > +				 * to obtain the size of the control.
-> > +				 */
-> >  				if (get) {
-> >  					c->size = tot_size;
-> >  					return -ENOSPC;
-> >  				}
-> > +				dprintk("pointer control id 0x%x size too small, %d bytes but %d bytes needed\n",
-> > +					id, c->size, tot_size);
-> >  				return -EFAULT;
-> >  			}
-> >  			c->size = tot_size;
-> > @@ -3534,16 +3561,20 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
-> >  
-> >  		cs->error_idx = i;
-> >  
-> > -		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
-> > +		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY) {
-> > +			dprintk("control id 0x%x is read-only\n", ctrl->id);
-> >  			return -EACCES;
-> > +		}
-> >  		/* This test is also done in try_set_control_cluster() which
-> >  		   is called in atomic context, so that has the final say,
-> >  		   but it makes sense to do an up-front check as well. Once
-> >  		   an error occurs in try_set_control_cluster() some other
-> >  		   controls may have been set already and we want to do a
-> >  		   best-effort to avoid that. */
-> > -		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED))
-> > +		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED)) {
-> > +			dprintk("control id 0x%x is grabbed, cannot set\n", ctrl->id);
-> >  			return -EBUSY;
-> > +		}
-> >  		/*
-> >  		 * Skip validation for now if the payload needs to be copied
-> >  		 * from userspace into kernelspace. We'll validate those later.
-> > @@ -3576,7 +3607,8 @@ static void update_from_auto_cluster(struct v4l2_ctrl *master)
-> >  }
-> >  
-> >  /* Try or try-and-set controls */
-> > -static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
-> > +static int try_set_ext_ctrls_common(struct video_device *vdev,
-> > +				    struct v4l2_fh *fh,
-> >  				    struct v4l2_ctrl_handler *hdl,
-> >  				    struct v4l2_ext_controls *cs, bool set)
-> >  {
-> > @@ -3588,13 +3620,17 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
-> >  	cs->error_idx = cs->count;
-> >  
-> >  	/* Default value cannot be changed */
-> > -	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL)
-> > +	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
-> > +		dprintk("%s: cannot change default value\n", video_device_node_name(vdev));
-> >  		return -EINVAL;
-> > +	}
-> >  
-> >  	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
-> >  
-> > -	if (hdl == NULL)
-> > +	if (hdl == NULL) {
-> > +		dprintk("%s: invalid null control handler\n", video_device_node_name(vdev));
-> >  		return -EINVAL;
-> > +	}
-> >  
-> >  	if (cs->count == 0)
-> >  		return class_check(hdl, cs->which);
-> > @@ -3691,7 +3727,8 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
-> >  	return ret;
-> >  }
-> >  
-> > -static int try_set_ext_ctrls(struct v4l2_fh *fh,
-> > +static int try_set_ext_ctrls(struct video_device *vdev,
-> > +			     struct v4l2_fh *fh,
-> >  			     struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> >  			     struct v4l2_ext_controls *cs, bool set)
-> >  {
-> > @@ -3700,21 +3737,32 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
-> >  	int ret;
-> >  
-> >  	if (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL) {
-> > -		if (!mdev || cs->request_fd < 0)
-> > +		if (!mdev) {
-> > +			dprintk("%s: missing media device\n", video_device_node_name(vdev));
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		if (cs->request_fd < 0) {
-> > +			dprintk("%s: invalid request fd %d\n", video_device_node_name(vdev), cs->request_fd);
-> >  			return -EINVAL;
-> > +		}
-> >  
-> >  		req = media_request_get_by_fd(mdev, cs->request_fd);
-> > -		if (IS_ERR(req))
-> > +		if (IS_ERR(req)) {
-> > +			dprintk("%s: cannot find request fd %d\n", video_device_node_name(vdev), cs->request_fd);
-> >  			return PTR_ERR(req);
-> > +		}
-> >  
-> >  		ret = media_request_lock_for_update(req);
-> >  		if (ret) {
-> > +			dprintk("%s: cannot lock request fd %d\n", video_device_node_name(vdev), cs->request_fd);
-> >  			media_request_put(req);
-> >  			return ret;
-> >  		}
-> >  
-> >  		obj = v4l2_ctrls_find_req_obj(hdl, req, set);
-> >  		if (IS_ERR(obj)) {
-> > +			dprintk("%s: cannot find request object for request fd %d\n", video_device_node_name(vdev), cs->request_fd);
+Hi Janusz,
+
+On Sun, May 26, 2019 at 10:47:58PM +0200, Janusz Krzysztofik wrote:
+> The driver now supports V4L2_SUBDEV_FORMAT_TRY operation mode only in
+> .get/set_fmt() pad operation callbacks.  That means only .try_format
+> member of pad config is maintained.  As a consequence, active crop
+> rectangle is used as a referece while V4L2_SUBDEV_FORMAT_TRY requests
+> are processed.  In order to fix that, a method for initialization of
+> .try_crop pad config member is needed.
 > 
-> These lines are way too long. Just add a newline after the first comma.
+> Implement .init_cfg() pad operation callback which initializes the pad
+> config from current active format and selection settings.  From now on,
+
+The values set by init_cfg should be the defaults and not reflect the
+current configuration. Apart from that the patch seems fine.
+
+> and before the driver V4L2_SUBDEV_FORMAT_TRY support is further
+> modified, host interface drivers should call .init_cfg() on a pad
+> config before passing it to V4L2_SUBDEV_FORMAT_TRY operations.
 > 
-> Same elsewhere.
+> Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> ---
+>  drivers/media/i2c/ov6650.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> >  			media_request_unlock_for_update(req);
-> >  			media_request_put(req);
-> >  			return PTR_ERR(obj);
-> > @@ -3723,7 +3771,9 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
-> >  				   req_obj);
-> >  	}
-> >  
-> > -	ret = try_set_ext_ctrls_common(fh, hdl, cs, set);
-> > +	ret = try_set_ext_ctrls_common(vdev, fh, hdl, cs, set);
-> > +	if (ret)
-> > +		dprintk("%s: try_set_ext_ctrls_common failed (%d)\n", video_device_node_name(vdev), ret);
-> >  
-> >  	if (obj) {
-> >  		media_request_unlock_for_update(req);
-> > @@ -3734,17 +3784,22 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
-> >  	return ret;
-> >  }
-> >  
-> > -int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> > +int v4l2_try_ext_ctrls(struct video_device *vdev,
-> > +		       struct v4l2_ctrl_handler *hdl,
-> > +		       struct media_device *mdev,
-> >  		       struct v4l2_ext_controls *cs)
-> >  {
-> > -	return try_set_ext_ctrls(NULL, hdl, mdev, cs, false);
-> > +	return try_set_ext_ctrls(vdev, NULL, hdl, mdev, cs, false);
-> >  }
-> >  EXPORT_SYMBOL(v4l2_try_ext_ctrls);
-> >  
-> > -int v4l2_s_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
-> > -		     struct media_device *mdev, struct v4l2_ext_controls *cs)
-> > +int v4l2_s_ext_ctrls(struct video_device *vdev,
-> > +		     struct v4l2_fh *fh,
-> > +		     struct v4l2_ctrl_handler *hdl,
-> > +		     struct media_device *mdev,
-> > +		     struct v4l2_ext_controls *cs)
-> >  {
-> > -	return try_set_ext_ctrls(fh, hdl, mdev, cs, true);
-> > +	return try_set_ext_ctrls(vdev, fh, hdl, mdev, cs, true);
-> >  }
-> >  EXPORT_SYMBOL(v4l2_s_ext_ctrls);
-> >  
-> > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> > index 39d22bfbe420..c6bcc9ea1122 100644
-> > --- a/drivers/media/v4l2-core/v4l2-dev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> > @@ -83,6 +83,8 @@ static ssize_t dev_debug_store(struct device *cd, struct device_attribute *attr,
-> >  	if (res)
-> >  		return res;
-> >  
-> > +	if (value & V4L2_DEV_DEBUG_CTRL)
-> > +		pr_warn_once("Warning: V4L2_DEV_DEBUG_CTRL cannot be enabled via the dev_debug attribute.\n");
-> 
-> Actually, you can for those functions that have the vdev pointer.
-> And I think you can pass vdev on to more functions. Certainly validate_ctrls()
-> and possibly all of them.
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index cc70d8952999..c3d4c1f598b2 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -447,6 +447,26 @@ static int ov6650_s_power(struct v4l2_subdev *sd, int on)
+>  	return ret;
+>  }
+>  
+> +static int ov6650_init_cfg(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_pad_config *cfg)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ov6650 *priv = to_ov6650(client);
+> +	struct v4l2_mbus_framefmt *mf;
+> +	struct v4l2_rect *rect;
+> +
+> +	mf = &cfg->try_fmt;
+> +	*mf = ov6650_def_fmt;
+> +	mf->width = priv->rect.width >> priv->half_scale;
+> +	mf->height = priv->rect.height >> priv->half_scale;
+> +	mf->code = priv->code;
+> +
+> +	rect = &cfg->try_crop;
+> +	*rect = priv->rect;
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov6650_get_selection(struct v4l2_subdev *sd,
+>  		struct v4l2_subdev_pad_config *cfg,
+>  		struct v4l2_subdev_selection *sel)
+> @@ -959,6 +979,7 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+>  };
+>  
+>  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> +	.init_cfg	= ov6650_init_cfg,
+>  	.enum_mbus_code = ov6650_enum_mbus_code,
+>  	.get_selection	= ov6650_get_selection,
+>  	.set_selection	= ov6650_set_selection,
+> -- 
+> 2.21.0
 > 
 
-Before sending this patch, I tried different options,
-but failed to find a proper way of associating all error paths
-with a struct video_device.
-
-For instance, __v4l2_ctrl_s_ctrl eventually calls validate_new,
-and it seems really nasty to change its prototype, as it's called
-by so many drivers.
-
-I think it's a too invasive change, and not worth it just to
-add one debug print.
-
-So one option would be to drop the validate_new print.
-
-Another option would be have a slightly inconsistent behavior between
-setting the module debug parameter and the per-device debug attribute.
-
-I think for debugging, consistency is very important, and that's
-why I prefered keeping the debug parameter and produce this warning.
-
-Thanks,
-Ezequiel
-
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
