@@ -2,57 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9BDF324F4
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2019 23:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 312A432525
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2019 23:45:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfFBVW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Jun 2019 17:22:27 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:40706 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfFBVW1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jun 2019 17:22:27 -0400
-Received: by mail-lj1-f193.google.com with SMTP id q62so14282996ljq.7;
-        Sun, 02 Jun 2019 14:22:25 -0700 (PDT)
+        id S1727064AbfFBVoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Jun 2019 17:44:39 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42253 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbfFBVoj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jun 2019 17:44:39 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y13so11961729lfh.9;
+        Sun, 02 Jun 2019 14:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fz1ltyVFvVWw0/t6pPLFHhNIn1MdgnWyz2QGoYgJ52U=;
-        b=CGUGzSnatSXJWaLOSZq3Mb4UjEy+vI/7kOY3a/2heaGwtjHRHjOE66/LeMqv/vQp6o
-         Ff/nm9C/KRzryxYS5B/RmvAhQNOvGIUFfQ7Mn8PEOsxIrDTxsgyIJYR7vmwGr9huvwWQ
-         laLnthk5eKnJeNtVxMk0tdNn5qJu+Gk9/T7chkKT2DWmlQ0iYsENBZ1cl1B/3eKPGI0d
-         8nUQmO0hpaHoNLSKSXUUw8ZuSlo+mPTUPRDlijPWKTi9f4ZGqz2eLnuMJsKubpdVhl4O
-         tI0/tT4w3BfBpE/BO8uroFnNAO0tmTlLzxnJOSg2Tx3srNG2Xhc+WkmJjTbEZrUdjYia
-         Ox1g==
+        bh=SBjg5eRa81EzQPPSxTQMKBg6nX0dKdVE0RBDky8GBmA=;
+        b=YsDpK0enaC3AKpHJBpeWesF3I3XFx4UEa2ArMOUJ2gsU4VYeNUUuq4kR/nx155oPpP
+         xl6GGEIP9QYoSDkJ5aAoJUMPa2/3s0W852J27jTTKA45mngN7mX8kMnfXIHTQxukywXz
+         q7vYo5pRad4doGyTnwL4f7QLHY/pm2sRcSSA03cDGkvt94fRYjgUWlfCsj5CiHL4FfSS
+         LRlmMRRq+MH5nc0Nua1SOa69PCFksPfDcwUv74z9l8SruttXz2bBmMhcpQHswHTTA4z0
+         QgHoXCM5GYRgJrB6GtS2USoORtnW0OVNnzkTo3vEywkLWMLh3AdQyA3iQx2MIlgjw05P
+         HZAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fz1ltyVFvVWw0/t6pPLFHhNIn1MdgnWyz2QGoYgJ52U=;
-        b=tRT0kuErEGHG3lS4+PQmEe2wXx3cnpZFCQYx7NzWEHqEWs2yx2f/A9bhqzT3zp7vvs
-         gkqrgQBI5kB9daRiPUfMkLgl6W37j/UXUhXbQLxsbvR5zBykpyCfep5Df/aMpuTKnHSQ
-         ueXt0mkLlZFhPArf7rL2zq38JavUyflpRBfRKfzytzydg91QGdMfUR7EyWCfI7hokWTO
-         WvXvVvKPZJ3FuYdW4Ijhbj3bd0eT2Hmz2Yu6zvUPgVYPNrQJhbyPtv3QRpwkivnHF9Pu
-         B3xvUl8uwPf/G5fDpKXZPDpsoJVLSQa9k9zf5lA57tEdnncu+NTAuJM5M9xDbc+Y1QI5
-         bxvg==
-X-Gm-Message-State: APjAAAX+0ra98FJ62/y/RQJsj9/yUnLuca2pzSkpMRp6HbLLenzkbEdl
-        iZaDnRJpCJndNoZndSFvva1rv0USQIk=
-X-Google-Smtp-Source: APXvYqxvhE4gZ/BFQvzhcXN5ZGedfhX2RC5p6Tu43cmdMyaKqAO3/eULvdg6lBSkQfsToOfJ0v8gpg==
-X-Received: by 2002:a2e:809a:: with SMTP id i26mr12499635ljg.182.1559510545309;
-        Sun, 02 Jun 2019 14:22:25 -0700 (PDT)
-Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id j11sm2758551lfm.29.2019.06.02.14.22.23
+        bh=SBjg5eRa81EzQPPSxTQMKBg6nX0dKdVE0RBDky8GBmA=;
+        b=bn1sZQikJF3LR6BshmspF4bgHkC8ILuknU7t4UpFOkphnASqKH0wJW86felA2a9uHd
+         b6tH77ZcSWVtoofJgJ1/6RlhiZVsHV+3omLX9DOS0/OK/q1TSsGYqDN9sEOXS1F+QoLW
+         2suR73dRVi2OwpdUOnJYlM7p4BL5KtIIG/hEcmCcHvCSdGtT+ZZ440hNNe+fiRAvv/wl
+         zmkTcLoxtiYyKdMlTzHvvV9gzY8C1HGrrFYXRiS2zxVN+BDOoj7lumst6cqj5H5y9q3P
+         qs2rDnGJYkSwn/g3w1fgLObH+hJ2CyWjK9TClC+KrK8iFBu+97HN0PRqy28J0CYkGAQU
+         nJpw==
+X-Gm-Message-State: APjAAAV1MWyBhm5cdCpLq91HTol1i2HoVNsA9xyNbW2omSI+NyAofELK
+        aX18wps5D+rrF2zPCpSSb8c=
+X-Google-Smtp-Source: APXvYqzRFvCNnsb07UorKV39uaj4aB8VnwzziVDJkkHdhszJ9fxKQWmdYoy/eC6HvwChuiuiNPCnww==
+X-Received: by 2002:a19:6a01:: with SMTP id u1mr10103527lfu.141.1559511876507;
+        Sun, 02 Jun 2019 14:44:36 -0700 (PDT)
+Received: from localhost.localdomain ([94.29.35.141])
+        by smtp.gmail.com with ESMTPSA id g22sm2803653lje.43.2019.06.02.14.44.32
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 02 Jun 2019 14:22:24 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH] media: ov6650: Fix device node exposed without proper locking
-Date:   Sun,  2 Jun 2019 23:22:15 +0200
-Message-Id: <20190602212215.26734-1-jmkrzyszt@gmail.com>
+        Sun, 02 Jun 2019 14:44:35 -0700 (PDT)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/4] NVIDIA Tegra Video Decoder driver improvements
+Date:   Mon,  3 Jun 2019 00:37:05 +0300
+Message-Id: <20190602213712.26857-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,32 +64,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit c62b96050bee ("media: ov6650: Register with asynchronous
-subdevice framework") carelessly requested creation of a video device
-node by setting a V4L2_SUBDEV_FL_HAS_DEVNODE flag.  The driver is not
-ready for that as it doesn't implement proper locking required for
-serialization of IOCTLs.
+Hello,
 
-Fix it by dropping the flag assignment.
+This series cleans up some of minor shortcomings that are caused by
+checkpatch recommendations that are not very applicable for the driver.
+Then IOMMU support is added to the driver and now it can handle sparse
+memory buffers that GPU hands to VDE in a default kernel configuration
+on Tegra30+.
 
-Fixes: c62b96050bee ("media: ov6650: Register with asynchronous subdevice framework")
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- drivers/media/i2c/ov6650.c | 1 -
- 1 file changed, 1 deletion(-)
+Dmitry Osipenko (4):
+  staging: media: tegra-vde: Remove BIT() macro from UAPI header
+  staging: media: tegra-vde: Manually pack UAPI structures
+  staging: media: tegra-vde: Add IOMMU support
+  staging: media: tegra-vde: Defer dmabuf's unmapping
 
-diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index 1b972e591b48..ace95ba7dd19 100644
---- a/drivers/media/i2c/ov6650.c
-+++ b/drivers/media/i2c/ov6650.c
-@@ -1009,7 +1009,6 @@ static int ov6650_probe(struct i2c_client *client,
- 	priv->colorspace  = V4L2_COLORSPACE_JPEG;
- 
- 	priv->subdev.internal_ops = &ov6650_internal_ops;
--	priv->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 
- 	ret = v4l2_async_register_subdev(&priv->subdev);
- 	if (ret)
+ drivers/staging/media/tegra-vde/Kconfig       |   1 +
+ drivers/staging/media/tegra-vde/Makefile      |   1 +
+ .../staging/media/tegra-vde/dmabuf-cache.c    | 223 ++++++++++++++++++
+ drivers/staging/media/tegra-vde/iommu.c       | 146 ++++++++++++
+ drivers/staging/media/tegra-vde/trace.h       |   1 +
+ drivers/staging/media/tegra-vde/uapi.h        |  48 ++--
+ .../media/tegra-vde/{tegra-vde.c => vde.c}    | 212 ++++++-----------
+ drivers/staging/media/tegra-vde/vde.h         | 105 +++++++++
+ 8 files changed, 574 insertions(+), 163 deletions(-)
+ create mode 100644 drivers/staging/media/tegra-vde/dmabuf-cache.c
+ create mode 100644 drivers/staging/media/tegra-vde/iommu.c
+ rename drivers/staging/media/tegra-vde/{tegra-vde.c => vde.c} (88%)
+ create mode 100644 drivers/staging/media/tegra-vde/vde.h
+
 -- 
 2.21.0
 
