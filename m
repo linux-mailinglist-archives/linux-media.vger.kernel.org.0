@@ -2,129 +2,324 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8FD833146
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 15:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25DE333195
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 15:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728876AbfFCNku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 09:40:50 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:50380 "EHLO vps-vb.mhejs.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727506AbfFCNkt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Jun 2019 09:40:49 -0400
-Received: from MUA
-        by vps-vb.mhejs.net with esmtps (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <mail@maciej.szmigiero.name>)
-        id 1hXnCc-0002YY-P0; Mon, 03 Jun 2019 15:40:42 +0200
-Subject: Re: [PATCH] media: cxusb-analog: Use ARRAY_SIZE for
- cxusub_medion_pin_config
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Michael Krufky <mkrufky@linuxtv.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, kbuild test robot <lkp@intel.com>
-References: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
- <8512e951-03fc-34d0-6dcf-fe9667eba022@xs4all.nl>
-From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
- 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 PA==
-Message-ID: <b604501b-6e66-c7af-5dbe-4f1513fa03b9@maciej.szmigiero.name>
-Date:   Mon, 3 Jun 2019 15:40:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1728062AbfFCN7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 09:59:00 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34286 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726780AbfFCN67 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 09:58:59 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E1C8C284FB9;
+        Mon,  3 Jun 2019 14:58:57 +0100 (BST)
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v5 1/2] media: v4l2: Make sure all drivers set _MPLANE caps in vdev->device_caps
+Date:   Mon,  3 Jun 2019 15:58:49 +0200
+Message-Id: <20190603135850.7689-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <8512e951-03fc-34d0-6dcf-fe9667eba022@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This is needed if we want the core to be able to check _MPLANE support
+without having to call the ->vdioc_querycap() hook.
 
-On 03.06.2019 14:14, Hans Verkuil wrote:
-> Hi Maciej,
-> 
-> Thank you for the patch, but I posted a fix for this earlier already:
-> 
-> https://patchwork.linuxtv.org/patch/56441/
-> 
-> I'll drop this patch in favor of the one above. Apologies for not
-> CC-ing you on my patch, I should have done that.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+Changes in v5:
+- Drop the fimc-lite and fimc-isp-video hack
 
-All right, thanks for the information.
+Changes in v4:
+- Add a hack in fimc-lite and fimc-isp-video ->querycap()
+  implementation to avoid reporting _MPLANE caps as userspace is not
+  ready for that
+- Actually set CAP flags in vdev->device_caps instead of just reporting
+  caps at the ->vidioc_querycap() level
 
-> Regards,
-> 
-> 	Hans
+Changes in v3:
+- New patch
+---
+ drivers/media/platform/exynos-gsc/gsc-m2m.c        | 4 ++--
+ drivers/media/platform/exynos4-is/common.c         | 5 +----
+ drivers/media/platform/exynos4-is/common.h         | 3 +--
+ drivers/media/platform/exynos4-is/fimc-capture.c   | 4 ++--
+ drivers/media/platform/exynos4-is/fimc-isp-video.c | 3 ++-
+ drivers/media/platform/exynos4-is/fimc-lite.c      | 4 +---
+ drivers/media/platform/exynos4-is/fimc-m2m.c       | 4 ++--
+ drivers/media/platform/rcar_jpu.c                  | 6 ++++--
+ drivers/media/platform/s5p-mfc/s5p_mfc.c           | 2 ++
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 7 -------
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c       | 7 -------
+ drivers/media/platform/ti-vpe/vpe.c                | 3 +--
+ 12 files changed, 18 insertions(+), 34 deletions(-)
 
-Regards,
-Maciej
+diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+index c757f5d98bcc..cd02e3c233fc 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
++++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+@@ -298,8 +298,6 @@ static int gsc_m2m_querycap(struct file *file, void *fh,
+ 	strscpy(cap->card, GSC_MODULE_NAME " gscaler", sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&gsc->pdev->dev));
+-	cap->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -763,6 +761,8 @@ int gsc_register_m2m_device(struct gsc_dev *gsc)
+ 	gsc->vdev.lock		= &gsc->lock;
+ 	gsc->vdev.vfl_dir	= VFL_DIR_M2M;
+ 	gsc->vdev.v4l2_dev	= &gsc->v4l2_dev;
++	gsc->vdev.device_caps	= V4L2_CAP_STREAMING |
++				  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 	snprintf(gsc->vdev.name, sizeof(gsc->vdev.name), "%s.%d:m2m",
+ 					GSC_MODULE_NAME, gsc->id);
+ 
+diff --git a/drivers/media/platform/exynos4-is/common.c b/drivers/media/platform/exynos4-is/common.c
+index 76f557548dfc..d47a77c8d4d6 100644
+--- a/drivers/media/platform/exynos4-is/common.c
++++ b/drivers/media/platform/exynos4-is/common.c
+@@ -37,15 +37,12 @@ struct v4l2_subdev *fimc_find_remote_sensor(struct media_entity *entity)
+ }
+ EXPORT_SYMBOL(fimc_find_remote_sensor);
+ 
+-void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap,
+-						unsigned int caps)
++void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap)
+ {
+ 	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
+ 	strscpy(cap->card, dev->driver->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info),
+ 				"platform:%s", dev_name(dev));
+-	cap->device_caps = caps;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ }
+ EXPORT_SYMBOL(__fimc_vidioc_querycap);
+ 
+diff --git a/drivers/media/platform/exynos4-is/common.h b/drivers/media/platform/exynos4-is/common.h
+index 75b9c71d9419..58da94e7910c 100644
+--- a/drivers/media/platform/exynos4-is/common.h
++++ b/drivers/media/platform/exynos4-is/common.h
+@@ -12,5 +12,4 @@
+ #include <media/v4l2-subdev.h>
+ 
+ struct v4l2_subdev *fimc_find_remote_sensor(struct media_entity *entity);
+-void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap,
+-			    unsigned int caps);
++void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap);
+diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+index de4af0357a3c..ecfa6ab4a19d 100644
+--- a/drivers/media/platform/exynos4-is/fimc-capture.c
++++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+@@ -728,8 +728,7 @@ static int fimc_cap_querycap(struct file *file, void *priv,
+ {
+ 	struct fimc_dev *fimc = video_drvdata(file);
+ 
+-	__fimc_vidioc_querycap(&fimc->pdev->dev, cap, V4L2_CAP_STREAMING |
+-					V4L2_CAP_VIDEO_CAPTURE_MPLANE);
++	__fimc_vidioc_querycap(&fimc->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -1765,6 +1764,7 @@ static int fimc_register_capture_device(struct fimc_dev *fimc,
+ 	vfd->release	= video_device_release_empty;
+ 	vfd->queue	= q;
+ 	vfd->lock	= &fimc->lock;
++	vfd->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE_MPLANE;
+ 
+ 	video_set_drvdata(vfd, fimc);
+ 	vid_cap = &fimc->vid_cap;
+diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+index bb35a2017f21..ad8dd672d4a7 100644
+--- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
++++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+@@ -349,7 +349,7 @@ static int isp_video_querycap(struct file *file, void *priv,
+ {
+ 	struct fimc_isp *isp = video_drvdata(file);
+ 
+-	__fimc_vidioc_querycap(&isp->pdev->dev, cap, V4L2_CAP_STREAMING);
++	__fimc_vidioc_querycap(&isp->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -614,6 +614,7 @@ int fimc_isp_video_device_register(struct fimc_isp *isp,
+ 	vdev->minor = -1;
+ 	vdev->release = video_device_release_empty;
+ 	vdev->lock = &isp->video_lock;
++	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE_MPLANE;
+ 
+ 	iv->pad.flags = MEDIA_PAD_FL_SINK;
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &iv->pad);
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+index 96f0a8a0dcae..a16b5bed59bb 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite.c
++++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+@@ -658,9 +658,6 @@ static int fimc_lite_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, FIMC_LITE_DRV_NAME, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 					dev_name(&fimc->pdev->dev));
+-
+-	cap->device_caps = V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -1282,6 +1279,7 @@ static int fimc_lite_subdev_registered(struct v4l2_subdev *sd)
+ 	vfd->minor = -1;
+ 	vfd->release = video_device_release_empty;
+ 	vfd->queue = q;
++	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING;
+ 	fimc->reqbufs_count = 0;
+ 
+ 	INIT_LIST_HEAD(&fimc->pending_buf_q);
+diff --git a/drivers/media/platform/exynos4-is/fimc-m2m.c b/drivers/media/platform/exynos4-is/fimc-m2m.c
+index 1bea1ce4091e..17e5bf4810f4 100644
+--- a/drivers/media/platform/exynos4-is/fimc-m2m.c
++++ b/drivers/media/platform/exynos4-is/fimc-m2m.c
+@@ -236,9 +236,8 @@ static int fimc_m2m_querycap(struct file *file, void *fh,
+ 				     struct v4l2_capability *cap)
+ {
+ 	struct fimc_dev *fimc = video_drvdata(file);
+-	unsigned int caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+-	__fimc_vidioc_querycap(&fimc->pdev->dev, cap, caps);
++	__fimc_vidioc_querycap(&fimc->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -736,6 +735,7 @@ int fimc_register_m2m_device(struct fimc_dev *fimc,
+ 	vfd->release = video_device_release_empty;
+ 	vfd->lock = &fimc->lock;
+ 	vfd->vfl_dir = VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+ 	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
+ 
+ 	snprintf(vfd->name, sizeof(vfd->name), "fimc.%d.m2m", fimc->id);
+diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
+index 1dfd2eb65920..9b6eadef6858 100644
+--- a/drivers/media/platform/rcar_jpu.c
++++ b/drivers/media/platform/rcar_jpu.c
+@@ -671,8 +671,6 @@ static int jpu_querycap(struct file *file, void *priv,
+ 	strscpy(cap->driver, DRV_NAME, sizeof(cap->driver));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(ctx->jpu->dev));
+-	cap->device_caps |= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+-	cap->capabilities = V4L2_CAP_DEVICE_CAPS | cap->device_caps;
+ 	memset(cap->reserved, 0, sizeof(cap->reserved));
+ 
+ 	return 0;
+@@ -1662,6 +1660,8 @@ static int jpu_probe(struct platform_device *pdev)
+ 	jpu->vfd_encoder.lock		= &jpu->mutex;
+ 	jpu->vfd_encoder.v4l2_dev	= &jpu->v4l2_dev;
+ 	jpu->vfd_encoder.vfl_dir	= VFL_DIR_M2M;
++	jpu->vfd_encoder.device_caps	= V4L2_CAP_STREAMING |
++					  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+ 	ret = video_register_device(&jpu->vfd_encoder, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+@@ -1679,6 +1679,8 @@ static int jpu_probe(struct platform_device *pdev)
+ 	jpu->vfd_decoder.lock		= &jpu->mutex;
+ 	jpu->vfd_decoder.v4l2_dev	= &jpu->v4l2_dev;
+ 	jpu->vfd_decoder.vfl_dir	= VFL_DIR_M2M;
++	jpu->vfd_decoder.device_caps	= V4L2_CAP_STREAMING |
++					  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+ 	ret = video_register_device(&jpu->vfd_decoder, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+index 9a53d3908b52..6ff57018a353 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+@@ -1348,6 +1348,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+ 	vfd->lock	= &dev->mfc_mutex;
+ 	vfd->v4l2_dev	= &dev->v4l2_dev;
+ 	vfd->vfl_dir	= VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+ 	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
+ 	snprintf(vfd->name, sizeof(vfd->name), "%s", S5P_MFC_DEC_NAME);
+ 	dev->vfd_dec	= vfd;
+@@ -1366,6 +1367,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+ 	vfd->lock	= &dev->mfc_mutex;
+ 	vfd->v4l2_dev	= &dev->v4l2_dev;
+ 	vfd->vfl_dir	= VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+ 	snprintf(vfd->name, sizeof(vfd->name), "%s", S5P_MFC_ENC_NAME);
+ 	dev->vfd_enc	= vfd;
+ 	video_set_drvdata(vfd, dev);
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+index e111f9c47179..d29e5bc73651 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+@@ -275,13 +275,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, dev->vfd_dec->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&dev->plat_dev->dev));
+-	/*
+-	 * This is only a mem-to-mem video device. The capture and output
+-	 * device capability flags are left only for backward compatibility
+-	 * and are scheduled for removal.
+-	 */
+-	cap->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+index 5505e4fc2090..5ab1231b4189 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+@@ -1317,13 +1317,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, dev->vfd_enc->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&dev->plat_dev->dev));
+-	/*
+-	 * This is only a mem-to-mem video device. The capture and output
+-	 * device capability flags are left only for backward compatibility
+-	 * and are scheduled for removal.
+-	 */
+-	cap->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+index 1e40eafec284..a61ac426853a 100644
+--- a/drivers/media/platform/ti-vpe/vpe.c
++++ b/drivers/media/platform/ti-vpe/vpe.c
+@@ -1495,8 +1495,6 @@ static int vpe_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, VPE_MODULE_NAME, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		VPE_MODULE_NAME);
+-	cap->device_caps  = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -2411,6 +2409,7 @@ static const struct video_device vpe_videodev = {
+ 	.minor		= -1,
+ 	.release	= video_device_release_empty,
+ 	.vfl_dir	= VFL_DIR_M2M,
++	.device_caps	= V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+ };
+ 
+ static const struct v4l2_m2m_ops m2m_ops = {
+-- 
+2.20.1
+
