@@ -2,83 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7885932EC4
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D91932ECE
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728418AbfFCLid (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 07:38:33 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:56235 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728148AbfFCLid (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 07:38:33 -0400
-X-Originating-IP: 90.88.144.139
-Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id C3B3D20014;
-        Mon,  3 Jun 2019 11:38:27 +0000 (UTC)
-Date:   Mon, 3 Jun 2019 13:38:27 +0200
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] media: cedrus: Disable engine after each slice
- decoding
-Message-ID: <20190603113827.2nmm5wkycf44aqox@flea>
-References: <20190530211516.1891-1-jernej.skrabec@siol.net>
- <20190530211516.1891-2-jernej.skrabec@siol.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jzwau3t2b77xs3xp"
-Content-Disposition: inline
-In-Reply-To: <20190530211516.1891-2-jernej.skrabec@siol.net>
-User-Agent: NeoMutt/20180716
+        id S1727964AbfFCLkb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 07:40:31 -0400
+Received: from fglinks.com.br ([187.191.113.207]:51080 "EHLO topdialog.top"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726798AbfFCLka (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 07:40:30 -0400
+X-Greylist: delayed 11591 seconds by postgrey-1.27 at vger.kernel.org; Mon, 03 Jun 2019 07:40:30 EDT
+To:     linux-media@vger.kernel.org
+From:   Martin Winkler <info@topdialog.top>
+Subject: Nachricht
+Date:   Mon, 3 Jun 2019 11:39:22 +0000
+Message-ID: <20190603_113922_041568.info@topdialog.top>
+X-Mailer: WEBMAIL
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Sehr geehrte Damen und Herren,
 
---jzwau3t2b77xs3xp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+nach unserem Besuch Ihrer Homepage möchten wir Ihnen ein Angebot von Produkten vorstellen, das Ihnen ermöglichen wird, den Verkauf Ihrer Produkte sowie Dienstleistungen deutlich zu erhöhen.
 
-Hi,
+Die Datenbanken der Firmen sind in für Sie interessante und relevante Zielgruppen untergliedert.
 
-On Thu, May 30, 2019 at 11:15:10PM +0200, Jernej Skrabec wrote:
-> libvdpau-sunxi always disables engine after each decoded slice.
-> Do same in Cedrus driver.
->
-> Presumably this also lowers power consumption which is always nice.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Is it fixing anything though?
-
-I indeed saw that cedar did disable it everytime, but I couldn't find
-a reason why.
-
-Also, the power management improvement would need to be measured, it
-can even create the opposite situation where the device will draw more
-current from being woken up than if it had just remained disabled.
-
-Maxime
+Die Firmenangaben beinhalten: Name der Firma, Ansprechpartner, E-mail Adresse, Tel. + Fax-Nr., PLZ, Ort, Straße etc.
 
 --
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+1. Gesamtpaket 2019 DE 1 Mio. Firmenadressen ( 1 457 620 ) - 190 EUR ( bis zum 03.06.2019 )
+2. Gesamtpaket 2019 DE,AT,CH ( 1 747 921 ) - 240 EUR ( bis zum 03.06.2019 )
+--
 
---jzwau3t2b77xs3xp
-Content-Type: application/pgp-signature; name="signature.asc"
+Die Verwendungsmöglichkeiten der Datenbanken sind praktisch unbegrenzt und Sie können durch Verwendung der von uns entwickelten
+Programme des personalisierten Versendens von Angeboten u.ä. mittels E-mailing bzw. Fax effektive und sichere Werbekampagnen damit durchführen.
 
------BEGIN PGP SIGNATURE-----
+Bitte informieren Sie sich über die weiteren Details einmal unverbindlich auf unseren Webseiten:
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPUGswAKCRDj7w1vZxhR
-xcoOAP9mzllurMZRL+0rmJfj1Ie1ewdM8HeuqLiB1e/Mm8M0VQD/ULwrfBAx5fRS
-/tgzkYR2nXRMpj0jQ6+7xa2pyZdkdw0=
-=lu1j
------END PGP SIGNATURE-----
+http://www.topdialog.net/?p=1
 
---jzwau3t2b77xs3xp--
+Mit freundlichen Grüßen
+Martin Winkler
+
