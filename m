@@ -2,82 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88FE132EE5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6645132EEC
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:46:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727557AbfFCLpd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 07:45:33 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:48453 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726561AbfFCLpd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Jun 2019 07:45:33 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id XlP5hL7kAsDWyXlP8hsryq; Mon, 03 Jun 2019 13:45:31 +0200
-Subject: Re: [PATCH] media: stm32-dcmi: fix irq = 0 case
-To:     Fabien Dessenne <fabien.dessenne@st.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Pavel Machek <pavel@denx.de>, linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-References: <1559294295-20573-1-git-send-email-fabien.dessenne@st.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <46944972-1f88-ef3b-fef9-8e37753c0ffe@xs4all.nl>
-Date:   Mon, 3 Jun 2019 13:45:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727032AbfFCLqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 07:46:30 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:35157 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbfFCLqa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 07:46:30 -0400
+X-Originating-IP: 90.88.144.139
+Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 6EDBB1BF216;
+        Mon,  3 Jun 2019 11:46:21 +0000 (UTC)
+Date:   Mon, 3 Jun 2019 13:46:20 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, nicolas@ndufresne.ca,
+        boris.brezillon@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH 2/7] media: cedrus: Fix H264 default reference index count
+Message-ID: <20190603114620.vsvbxz6gyhg3tn7b@flea>
+References: <20190530211516.1891-1-jernej.skrabec@siol.net>
+ <20190530211516.1891-3-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-In-Reply-To: <1559294295-20573-1-git-send-email-fabien.dessenne@st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCN0MWjkjUyGzp6RpvMIZ2ZANeW2kYEP03Lpq3iqxfDwME2NkMqcJ+4u8wJA/QHfTb1eUz+uisc7OqX0O7kndwdR0ZVW6uYMPcB/P15b1VaJn538Lf+x
- NpoGEuGPiPtkBx9DsS6X0tLYlnRiI7z09uP0CoCsy8Xjtn42bpslVuei6PSli3eMoap5saASbpiDX6XpET+OFtD9B3RPXBwVdY8s8ZorQPRjKWBS+iFs5tU5
- JcyHlEgjEwFC3lQWFrLx7IKttSJSdQhzLTcFNI4C/GGkE2trkxzNun+9+Ruulo+8qY9ak+/SmKIQ+kgTg7xKgQBhwcWRnLRBWT55TpNhtogX6wNgZDrHA6R+
- DP8O8sDZLy5bkdDBxfik+WTTyrM7PXg/048e9w11h0IqIIlGhif1381FUXcLSGcLziyMd6bFNfwfgVfEUgK16hHn9FgCB4acy5ykhFHypGJ47adWQgK/dE6G
- 9TJhkrGyPEBntvMjPZ9BgUNRVSNLdIIqLJzmuyPjIYgbtaRxjKOprgUXnCZ2Mg+Lh4zk3jdL6wiFvQH6IqSYwOZc/HHUQ3Mu+pq0ncGcj1p4oBZbHedZLcz6
- 1ZXK7+Aa9y7T7q16w8DCGy61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fsayms5djr42vwm2"
+Content-Disposition: inline
+In-Reply-To: <20190530211516.1891-3-jernej.skrabec@siol.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/31/19 11:18 AM, Fabien Dessenne wrote:
-> Manage the irq = 0 case, where we shall return an error.
-> 
-> Fixes: b5b5a27bee58 ("media: stm32-dcmi: return appropriate error codes during probe")
-> Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
+
+--fsayms5djr42vwm2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, May 30, 2019 at 11:15:11PM +0200, Jernej Skrabec wrote:
+> Reference index count in VE_H264_PPS reg should come from PPS control.
+> However, this is not really important because reference index count is
+> in our case always overridden by that from slice header.
+>
+> Cc: nicolas@ndufresne.ca
+> Cc: boris.brezillon@collabora.com
+> Cc: jonas@kwiboo.se
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+
+Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
 > ---
->  drivers/media/platform/stm32/stm32-dcmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-> index b9dad0a..d855e9c 100644
-> --- a/drivers/media/platform/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
-> @@ -1702,7 +1702,7 @@ static int dcmi_probe(struct platform_device *pdev)
->  	if (irq <= 0) {
+> We have to decide if we drop pps->num_ref_idx_l0_default_active_minus1
+> and pps->num_ref_idx_l1_default_active_minus1 fields or add
+> num_ref_idx_l0_active_override_flag and num_ref_idx_l0_active_override_flag
+> to slice control.
+>
+> Current control doesn't have those two flags, so in Cedrus override flag is
+> always set and we rely on userspace to set slice->num_ref_idx_l0_active_minus1
+> and slice->num_ref_idx_l1_active_minus1 to correct values. This means that
+> values stored in PPS are not needed and always ignored by VPU.
+>
+> If I understand correctly, algorithm is very simple:
+>
+> ref_count = PPS->ref_count
+> if (override_flag)
+> 	ref_count = slice->ref_count
+>
+> It seems that VAAPI provides only final value. In my opinion we should do the
+> same - get rid of PPS default ref index count fields.
 
-Shouldn't this be 'irq < 0' instead of '<=' ?
+The rationale was to be as conservative as possible and just expose
+everything that is in the bitstream in those controls to accomodate
+for as many weird hardware as possible.
 
-AFAICT irq == 0 can be a valid irq and isn't an error.
+Maxime
 
-Regards,
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-	Hans
+--fsayms5djr42vwm2
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  		if (irq != -EPROBE_DEFER)
->  			dev_err(&pdev->dev, "Could not get irq\n");
-> -		return irq;
-> +		return irq ? irq : -ENXIO;
->  	}
->  
->  	dcmi->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPUIjAAKCRDj7w1vZxhR
+xdm0AP46c7mpa3rFUC3RjFMniXaoNTXWcQ8pPICsPfw3vjCa9gD+KujizJ6uc9di
++fd1bkaTJJCq8ZbqR+3HqBMJe9acIgE=
+=wE3x
+-----END PGP SIGNATURE-----
+
+--fsayms5djr42vwm2--
