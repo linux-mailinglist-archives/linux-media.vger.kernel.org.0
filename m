@@ -2,231 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44412331A7
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 16:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B03CC331B1
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 16:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728425AbfFCOCo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 10:02:44 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35119 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727429AbfFCOCo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Jun 2019 10:02:44 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id XnXphM2PbsDWyXnXshtSjV; Mon, 03 Jun 2019 16:02:40 +0200
-Subject: Re: [PATCHv4 0/2] Document memory-to-memory video codec interfaces
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        id S1728776AbfFCOFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 10:05:31 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33492 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728604AbfFCOFb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 10:05:31 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v19so7266wmh.0
+        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2019 07:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mcWde5DhfxVwLrw2zsouKr6v70yrDHFnrJ3TD1Kx6cQ=;
+        b=eee5RAAwOeqLPzmReDYnZ+6MgiOK5/stHIYXD6aNCiouRL6OAZ+G0hLga45aX4MiuZ
+         m5StiIxht8Yh5XzRcF54aytxVj7iQnY76LEsCcbjERUrslUHIMYgoU8wCu2ya7ThsdyM
+         Z1KFs5Z6aVoY7fWDho/QLih0qEFc37XSUCf1sZQGVwJVPa5hvmC2zolU0QC/x9fEK1M2
+         sa7Zx79HuceJrWU+9YHreSyZEGlSkUuVNon54dcAguMTsR9TGxuGVC6Qq9Hb56KPRTbe
+         KOjtwbr2g101Vhyhk2ehSBd9sJFLz0Fn4xfSE3YVFt0EVnnOsNbjY3UpjP+nQHXCmoaV
+         r4XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mcWde5DhfxVwLrw2zsouKr6v70yrDHFnrJ3TD1Kx6cQ=;
+        b=f9z74w3SQFGBm3QsGnZDVbrVCbu170nAfVLhveotsoeAhQkkN3HCb8F/bVF7RHFDOm
+         IMwRLrpCp7EfEVsHRmqvfFbf9bIHzjlkFL8jjfs2VfweSPzuMDzBcmG7Oc9Z6Mh3Jgpz
+         H8yJhLwSnPKTJHyaeB+Q9/xdhFGF7smFGR4Jiol27yk/y9X9wPVABCC8z9/yHVPOyKER
+         FIL8yHbpbqCDgkTf7m38/ft3Pw8/OhtCf5Pe+mOR79/fiGk3lw+RtR6s33gkCUkuevJR
+         JS2nlBlZ7CtpjJvusU8ILbCXMg5dzG41H+GQZ6Sa+ZwNui6FbVh9UyOscNSr/Vga82hb
+         qrug==
+X-Gm-Message-State: APjAAAWpWw+1ImgVut21wosFsfD5hQRb2wwdRqFIq3yejr3ZMBsJkj4x
+        35e1G9wZc0U+rF6VD6sgGzU=
+X-Google-Smtp-Source: APXvYqzGgCPhqFkXwKsT9TY4G+cQuY7D/gXV0g8dYpzWDHVdEyyqxaB+0mrKNiZkDqmb1WpnMbJYpQ==
+X-Received: by 2002:a05:600c:2550:: with SMTP id e16mr15166090wma.90.1559570729029;
+        Mon, 03 Jun 2019 07:05:29 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+        by smtp.gmail.com with ESMTPSA id y132sm24267182wmd.35.2019.06.03.07.05.27
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 03 Jun 2019 07:05:28 -0700 (PDT)
+Date:   Mon, 3 Jun 2019 16:05:26 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Pawel Osciak <posciak@chromium.org>
-References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
-Message-ID: <bbc4e018-44d2-b9a7-1453-3e462fc33206@xs4all.nl>
-Date:   Mon, 3 Jun 2019 16:02:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: Re: [PATCH RFC 2/6] media: uapi: h264: Add the concept of decoding
+ mode
+Message-ID: <20190603140526.GF30132@ulmo>
+References: <20190603110946.4952-1-boris.brezillon@collabora.com>
+ <20190603110946.4952-3-boris.brezillon@collabora.com>
+ <20190603123020.GC30132@ulmo>
+ <20190603145058.0c46febd@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfOw8dA4irUZWLqqC75I14gmMwiV4wMq7OUEwWPl8AypmDrqWaQOO1YfQG+XcxMfM3f6HrIoSHQjannlKjzSyXGb7FYIRSv/1GezWgiTjfLvEHrsPv/Qr
- eFcF5+gGQeC4BDBdcBSDVFXgvmh0L1keflmZTVv+Ieqd3oAGu2oh7hLBU0WVBg0KUtgw/QoLnnO0LtPZF8UVHywvychkFBt0JPMtwGVmtEZZNgairI7AkaX5
- w+tPdsCrwRmhqqHK33uQtMw3oQvbLzuRMTY4e30XSbHelOQLq2xtf06hD6jKYEZOQsMzebGerVGfpwgbiO6Y+r4vRMpxD17PLq6Gy9LJKDmzNcmZSMvc7rJN
- DaZ6UJ0QK1iS+fVhRPMyZHFS/eKOfIbxAwbdYbO2KN8NndgsdOFdpuq4spFdKBjFNY/K93myMVZyMTckaR1HOJIKNVLhxqDi0yv/hjoWteSz1w/L8cps9GKy
- ALR013ph4QmY0QEX
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="TdkiTnkLhLQllcMS"
+Content-Disposition: inline
+In-Reply-To: <20190603145058.0c46febd@collabora.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These changes + the stateless decoder v4 patch are now available here:
 
-https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
+--TdkiTnkLhLQllcMS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Easier to read than a patch :-)
+On Mon, Jun 03, 2019 at 02:51:13PM +0200, Boris Brezillon wrote:
+> +Maxime
+>=20
+> Oops, just realized Maxime was not Cc-ed on this series.
+>=20
+> On Mon, 3 Jun 2019 14:30:20 +0200
+> Thierry Reding <thierry.reding@gmail.com> wrote:
+>=20
+> > On Mon, Jun 03, 2019 at 01:09:42PM +0200, Boris Brezillon wrote:
+> > > Some stateless decoders don't support per-slice decoding (or at least
+> > > not in a way that would make them efficient or easy to use).
+> > > Let's expose a menu to control and expose the supported decoding mode=
+s.
+> > > Drivers are allowed to support only one decoding but they can support
+> > > both too.
+> > >=20
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > ---
+> > >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 42 +++++++++++++++++=
++-
+> > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 ++++
+> > >  include/media/h264-ctrls.h                    | 13 ++++++
+> > >  3 files changed, 63 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Docum=
+entation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > index 82547d5de250..188f625acb7c 100644
+> > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> > > @@ -1748,6 +1748,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_=
+type -
+> > >      * - __u32
+> > >        - ``size``
+> > >        -
+> > > +    * - __u32
+> > > +      - ``start_byte_offset``
+> > > +      - Where the slice payload starts in the output buffer. Useful =
+when
+> > > +        operating in per frame decoding mode and decoding multi-slic=
+e content.
+> > > +        In this case, the output buffer will contain more than one s=
+lice and
+> > > +        some codecs need to know where each slice starts. Note that =
+this
+> > > +        offsets points to the beginning of the slice which is suppos=
+ed to
+> > > +        contain an ANNEX B start code
+> > >      * - __u32
+> > >        - ``header_bit_size``
+> > >        -
+> > > @@ -1931,7 +1939,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_=
+type -
+> > >        -
+> > >      * - __u16
+> > >        - ``num_slices``
+> > > -      - Number of slices needed to decode the current frame
+> > > +      - Number of slices needed to decode the current frame/field. W=
+hen
+> > > +        operating in per-slice decoding mode (see
+> > > +        :c:type:`v4l2_mpeg_video_h264_decoding_mode`), this field
+> > > +        should always be set to one
+> > >      * - __u16
+> > >        - ``nal_ref_idc``
+> > >        - NAL reference ID value coming from the NAL Unit header
+> > > @@ -2022,6 +2033,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_=
+type -
+> > >        - 0x00000004
+> > >        - The DPB entry is a long term reference frame
+> > > =20
+> > > +``V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE (enum)``
+> > > +    Specifies the decoding mode to use. Currently exposes per slice =
+and per
+> > > +    frame decoding but new modes might be added later on.
+> > > +
+> > > +    .. note::
+> > > +
+> > > +       This menu control is not yet part of the public kernel API and
+> > > +       it is expected to change.
+> > > +
+> > > +.. c:type:: v4l2_mpeg_video_h264_decoding_mode
+> > > +
+> > > +.. cssclass:: longtable
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +    :widths:       1 1 2
+> > > +
+> > > +    * - ``V4L2_MPEG_VIDEO_H264_DECODING_PER_SLICE``
+> > > +      - 0
+> > > +      - The decoding is done per slice. v4l2_ctrl_h264_decode_params=
+->num_slices
+> > > +        must be set to 1 and the output buffer should contain only o=
+ne slice. =20
+> >=20
+> > I wonder if we need to be that strict. Wouldn't it be possible for
+> > drivers to just iterate over a number of slices and decode each in turn
+> > if userspace passed more than one?
+> >=20
+> > Or perhaps a decoder can batch queue a couple of slices. I'm not sure
+> > how frequent this is, but consider something like a spike in activity on
+> > your system, causing some slices to get delayed so you actually get a
+> > few buffered up before you get a chance to hand them to the V4L2 device.
+> > Processing them all at once may help conceal the lag.
+>=20
+> Hm, so we'd be in some kind of slice-batch mode, which means we could
+> trigger a decode operation with more than one slice, but not
+> necessarily all the slices needed to decode a frame. TBH, supporting
+> per-frame (or the batch mode you suggest) on a HW that supports
+> per-slice decoding should be pretty simple and has not real impact on
+> perfs (as you said, it's just a matter of iterating over all the slices
+> attached to a decode operation), so I'm fine relaxing the rule here and
+> patching the cedrus driver accordingly (I can't really test the
+> changes though). Paul, Maxime, what's your opinion?
 
-Regards,
+We could perhaps have a test program to orchestrate such a scenario. I
+think the assumption should obviously still be that we don't cross the
+frame boundary using slices in one batch. Just that if a frame was made
+up of, say, 4 slices and you first pass 3 slices, then 1, that it'd be
+nice if the driver would be able to cope with that. It's something that
+could probably even be implemented in the framework as a helper, though
+I suspect it'd be just a couple of lines of extra code to wrap a loop
+around everything.
 
-	Hans
+Thierry
 
-On 6/3/19 1:28 PM, Hans Verkuil wrote:
-> Since Thomasz was very busy with other things, I've taken over this
-> patch series. This v4 includes his draft changes and additional changes
-> from me.
-> 
-> This series attempts to add the documentation of what was discussed
-> during Media Workshops at LinuxCon Europe 2012 in Barcelona and then
-> later Embedded Linux Conference Europe 2014 in Düsseldorf and then
-> eventually written down by Pawel Osciak and tweaked a bit by Chrome OS
-> video team (but mostly in a cosmetic way or making the document more
-> precise), during the several years of Chrome OS using the APIs in
-> production.
-> 
-> Note that most, if not all, of the API is already implemented in
-> existing mainline drivers, such as s5p-mfc or mtk-vcodec. Intention of
-> this series is just to formalize what we already have.
-> 
-> Thanks everyone for the huge amount of useful comments to previous
-> versions of this series. Much of the credits should go to Pawel Osciak
-> too, for writing most of the original text of the initial RFC.
-> 
-> This v4 incorporates all known comments (let me know if I missed
-> something!) and should be complete for the decoder.
-> 
-> For the encoder there are two remaining TODOs for the API:
-> 
-> 1) Setting the frame rate so bitrate control can make sense, since
->    they need to know this information.
-> 
->    Suggested solution: require support for ENUM_FRAMEINTERVALS for the
->    coded pixelformats and S_PARM(OUTPUT). Open question: some drivers
->    (mediatek, hva, coda) require S_PARM(OUTPUT), some (venus) allow both
->    S_PARM(CAPTURE) and S_PARM(OUTPUT). I am inclined to allow both since
->    this is not a CAPTURE vs OUTPUT thing, it is global to both queues.
-> 
-> 2) Interactions between OUTPUT and CAPTURE formats.
-> 
->    The main problem is what to do if the capture sizeimage is too small
->    for the OUTPUT resolution when streaming starts.
-> 
->    Proposal: width and height of S_FMT(OUTPUT) are used to
->    calculate a minimum sizeimage (app may request more). This is
->    driver-specific.
-> 
->    V4L2_FMT_FLAG_FIXED_RESOLUTION is always set for codec formats
->    for the encoder (i.e. we don't support mid-stream resolution
->    changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
->    supported. See https://patchwork.linuxtv.org/patch/56478/ for
->    the patch adding this flag.
-> 
->    Of course, if we start to support mid-stream resolution
->    changes (or other changes that require a source change event),
->    then this flag should be dropped by the encoder driver and
->    documentation on how to handle the source change event should
->    be documented in the encoder spec. I prefer to postpone this
->    until we have an encoder than can actually do mid-stream
->    resolution changes.
-> 
->    If sizeimage of the OUTPUT is too small for the CAPTURE
->    resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
->    then the second STREAMON (either CAPTURE or OUTPUT) will
->    return -ENOMEM since there is not enough memory to do the
->    encode.
-> 
->    If V4L2_FMT_FLAG_FIXED_RESOLUTION is set (i.e. that should
->    be the case for all current encoders), then any bitrate controls
->    will be limited in range to what the current state (CAPTURE and
->    OUTPUT formats and frame rate) supports.
-> 
-> Comments regarding these two encoder proposals are welcome!
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> Changes since v3:
-> 
-> - Lots of stylistic fixes and fixing typos/grammar/etc.
-> 
-> Decoder:
-> 
-> - width/height for S_FMT(OUTPUT):
-> 
->   Expects that the output width and height is always a valid
->   resolution (i.e. never 0x0), and G/S/TRY_FMT and REQBUFS will use that
->   instead of returning an error. Note that this resolution is a placeholder
->   until the actual resolution is parsed from the stream.
-> 
-> - Dropped step 3 (Query the minimum number of buffers required for the CAPTURE
->   queue via VIDIOC_G_CTRL().) in the Capture Setup section. It seems to be
->   a left-over from earlier versions. The same information is also in Step 10,
->   so no need to have this in two places.
-> 
-> - Added step 5 in the Capture Setup section: set COMPOSE rectangle if needed.
-> 
-> - VIDIO_DECODER_CMD: document EBUSY return while draining the queue.
-> 
-> Encoder:
-> 
-> - width/height for S_FMT(CAPTURE): The width/height for the CAPTURE format
->   are marked as read-only and are based on the encoders current state such
->   as the OUTPUT format.
-> 
-> - Drop TGT_COMPOSE support in the encoder: there are currently
->   no encoders that can do composing/scaling.
-> 
-> - Document corner cases in the Drain sequence
-> 
-> - Document error handling.
-> 
-> - VIDIO_ENCODER_CMD: document EBUSY return while draining the queue.
-> 
-> Changes since v2:
-> (https://lore.kernel.org/patchwork/cover/1002474/)
-> Decoder:
->  - Specified that the initial source change event is signaled
->    regardless of whether the client-set format matches the
->    stream format.
->  - Dropped V4L2_CID_MIN_BUFFERS_FOR_OUTPUT since it's meaningless
->    for the bitstream input buffers of decoders.
->  - Explicitly stated that VIDIOC_REQBUFS is not allowed on CAPTURE
->    if the stream information is not available.
->  - Described decode error handling.
->  - Mentioned that timestamps can be observed after a seek to
->    determine whether the CAPTURE buffers originated from before
->    or after the seek.
->  - Explicitly stated that after a pair of V4L2_DEC_CMD_STOP and
->    V4L2_DEC_CMD_START, the decoder is not reset and preserves
->    all the state.
-> 
-> Encoder:
->  - Specified that width and height of CAPTURE format are ignored
->    and always zero.
->  - Explicitly noted the common use case for the CROP target with
->    macroblock-unaligned video resolutions.
->  - Added a reference to Request API.
->  - Dropped V4L2_CID_MIN_BUFFERS_FOR_CAPTURE since it's meaningless
->    for the bitstream output buffers of encoders.
->  - Explicitly stated that after a pair of V4L2_ENC_CMD_STOP and
->    V4L2_ENC_CMD_START, the encoder is not reset and preserves
->    all the state.
-> 
-> General:
->  - Dropped format enumeration from "Initialization", since it's already
->    a part of "Querying capabilities".
->  - Many spelling, grammar, stylistic, etc. changes.
->  - Changed the style of note blocks.
->  - Rebased onto Hans' documentation cleanup series.
->    (https://patchwork.kernel.org/cover/10775407/
->     https://patchwork.kernel.org/patch/10776737/)
->  - Moved the interfaces under the "Video Memory-To-Memory Interface"
->    section.
-> 
-> For changes since v1 see the v2:
-> https://lore.kernel.org/patchwork/cover/1002474/
-> 
-> For changes since RFC see the v1:
-> https://patchwork.kernel.org/cover/10542207/
-> 
-> Tomasz Figa (2):
->   media: docs-rst: Document memory-to-memory video decoder interface
->   media: docs-rst: Document memory-to-memory video encoder interface
-> 
->  Documentation/media/uapi/v4l/dev-decoder.rst  | 1084 +++++++++++++++++
->  Documentation/media/uapi/v4l/dev-encoder.rst  |  608 +++++++++
->  Documentation/media/uapi/v4l/dev-mem2mem.rst  |    9 +-
->  Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   10 +
->  Documentation/media/uapi/v4l/v4l2.rst         |   12 +-
->  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   41 +-
->  .../media/uapi/v4l/vidioc-encoder-cmd.rst     |   51 +-
->  7 files changed, 1779 insertions(+), 36 deletions(-)
->  create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
->  create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
-> 
+--TdkiTnkLhLQllcMS
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz1KSQACgkQ3SOs138+
+s6G/EBAAmg96uma2FxLZkV76lDCW6J11n0ZvUP0OVk+MxcB2rSqpCOXveb0jjH5E
+32UuRQYCNPvij4IHKBDolPDAIPjo6/Wsv+wXrCQ7tgdeUZ3aAbQYUx/xlGBQzTZ5
+T91nTvcqBprYF7gZwHMCzEMtZ5yKyx4H2Db4i5SuPEsErP0xmhFBrW2esXCaXRNI
+ULqKVJnHABp5j26/P+LFfUVTCJhXGjACGZZrJ1YvzpCqoUkW+FE6dZIfYm3YSd68
+ZWFCM4StXUHfnOpdlN7U7NalPM08Si2pp9O6Hfmsy2VWgCkCBxwFUflg0taML7Vc
+kty/lSI32vIMILIZwrwoimwD2Vv36qeSO9WXLbTU0JO4a8k+mHKAE0nCDRckT8ue
+WGlbhdCMmXDDfOg4k2ssYde7ursQk3zOcZlY1fg+k5Xl1T952pNI6Dxuirl4kPL1
+CW8AlRszFEw137HsdixuLvfjMhh90EeLyxAALDUcbK9OCkmWyLhcENgR3yoW6vP+
+WeiZfDT3QbbkX9N9fW92n2WrT4x/ZCBqSh2aWeJxm1Ha+kH3Xw8lnxnfuejT/mus
+tvT2qR48yJIxnwg8dKaa5ltAeA67LJyAalTevF4JbQ4gvcwddWZZq5OSvB+ty+Xy
++qPBk+ejkjTBxSTfJlVLuyxpgxWYYfNSw4PP43/6l6KdQSEJkf0=
+=JRZB
+-----END PGP SIGNATURE-----
+
+--TdkiTnkLhLQllcMS--
