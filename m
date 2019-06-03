@@ -2,179 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4282E333AE
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 17:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3ECD333B2
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 17:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbfFCPhQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 11:37:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34860 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726714AbfFCPhQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 11:37:16 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BF040260A1E;
-        Mon,  3 Jun 2019 16:37:13 +0100 (BST)
-Date:   Mon, 3 Jun 2019 17:37:11 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH RFC 2/6] media: uapi: h264: Add the concept of decoding
- mode
-Message-ID: <20190603173711.716b96c4@collabora.com>
-In-Reply-To: <20190603140526.GF30132@ulmo>
-References: <20190603110946.4952-1-boris.brezillon@collabora.com>
-        <20190603110946.4952-3-boris.brezillon@collabora.com>
-        <20190603123020.GC30132@ulmo>
-        <20190603145058.0c46febd@collabora.com>
-        <20190603140526.GF30132@ulmo>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727856AbfFCPhW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 11:37:22 -0400
+Received: from mailoutvs38.siol.net ([185.57.226.229]:51660 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727150AbfFCPhV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 11:37:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 41407520580;
+        Mon,  3 Jun 2019 17:37:18 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id y2fQPCRP4Vjv; Mon,  3 Jun 2019 17:37:17 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id DA31B520F55;
+        Mon,  3 Jun 2019 17:37:17 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-52-202.static.triera.net [86.58.52.202])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 89BE3520580;
+        Mon,  3 Jun 2019 17:37:17 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Maxime Ripard <maxime.ripard@bootlin.com>
+Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] media: cedrus: Fix decoding for some H264 videos
+Date:   Mon, 03 Jun 2019 17:37:17 +0200
+Message-ID: <2536664.ljALn0aKaT@jernej-laptop>
+In-Reply-To: <20190603115536.j5lan6wtmbxpoe2k@flea>
+References: <20190530211516.1891-1-jernej.skrabec@siol.net> <20190530211516.1891-4-jernej.skrabec@siol.net> <20190603115536.j5lan6wtmbxpoe2k@flea>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 3 Jun 2019 16:05:26 +0200
-Thierry Reding <thierry.reding@gmail.com> wrote:
-
-> On Mon, Jun 03, 2019 at 02:51:13PM +0200, Boris Brezillon wrote:
-> > +Maxime
-> > 
-> > Oops, just realized Maxime was not Cc-ed on this series.
-> > 
-> > On Mon, 3 Jun 2019 14:30:20 +0200
-> > Thierry Reding <thierry.reding@gmail.com> wrote:
-> >   
-> > > On Mon, Jun 03, 2019 at 01:09:42PM +0200, Boris Brezillon wrote:  
-> > > > Some stateless decoders don't support per-slice decoding (or at least
-> > > > not in a way that would make them efficient or easy to use).
-> > > > Let's expose a menu to control and expose the supported decoding modes.
-> > > > Drivers are allowed to support only one decoding but they can support
-> > > > both too.
-> > > > 
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > ---
-> > > >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 42 ++++++++++++++++++-
-> > > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 ++++
-> > > >  include/media/h264-ctrls.h                    | 13 ++++++
-> > > >  3 files changed, 63 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > index 82547d5de250..188f625acb7c 100644
-> > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > > @@ -1748,6 +1748,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >      * - __u32
-> > > >        - ``size``
-> > > >        -
-> > > > +    * - __u32
-> > > > +      - ``start_byte_offset``
-> > > > +      - Where the slice payload starts in the output buffer. Useful when
-> > > > +        operating in per frame decoding mode and decoding multi-slice content.
-> > > > +        In this case, the output buffer will contain more than one slice and
-> > > > +        some codecs need to know where each slice starts. Note that this
-> > > > +        offsets points to the beginning of the slice which is supposed to
-> > > > +        contain an ANNEX B start code
-> > > >      * - __u32
-> > > >        - ``header_bit_size``
-> > > >        -
-> > > > @@ -1931,7 +1939,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >        -
-> > > >      * - __u16
-> > > >        - ``num_slices``
-> > > > -      - Number of slices needed to decode the current frame
-> > > > +      - Number of slices needed to decode the current frame/field. When
-> > > > +        operating in per-slice decoding mode (see
-> > > > +        :c:type:`v4l2_mpeg_video_h264_decoding_mode`), this field
-> > > > +        should always be set to one
-> > > >      * - __u16
-> > > >        - ``nal_ref_idc``
-> > > >        - NAL reference ID value coming from the NAL Unit header
-> > > > @@ -2022,6 +2033,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > > >        - 0x00000004
-> > > >        - The DPB entry is a long term reference frame
-> > > >  
-> > > > +``V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE (enum)``
-> > > > +    Specifies the decoding mode to use. Currently exposes per slice and per
-> > > > +    frame decoding but new modes might be added later on.
-> > > > +
-> > > > +    .. note::
-> > > > +
-> > > > +       This menu control is not yet part of the public kernel API and
-> > > > +       it is expected to change.
-> > > > +
-> > > > +.. c:type:: v4l2_mpeg_video_h264_decoding_mode
-> > > > +
-> > > > +.. cssclass:: longtable
-> > > > +
-> > > > +.. flat-table::
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +    :widths:       1 1 2
-> > > > +
-> > > > +    * - ``V4L2_MPEG_VIDEO_H264_DECODING_PER_SLICE``
-> > > > +      - 0
-> > > > +      - The decoding is done per slice. v4l2_ctrl_h264_decode_params->num_slices
-> > > > +        must be set to 1 and the output buffer should contain only one slice.    
-> > > 
-> > > I wonder if we need to be that strict. Wouldn't it be possible for
-> > > drivers to just iterate over a number of slices and decode each in turn
-> > > if userspace passed more than one?
-> > > 
-> > > Or perhaps a decoder can batch queue a couple of slices. I'm not sure
-> > > how frequent this is, but consider something like a spike in activity on
-> > > your system, causing some slices to get delayed so you actually get a
-> > > few buffered up before you get a chance to hand them to the V4L2 device.
-> > > Processing them all at once may help conceal the lag.  
-> > 
-> > Hm, so we'd be in some kind of slice-batch mode, which means we could
-> > trigger a decode operation with more than one slice, but not
-> > necessarily all the slices needed to decode a frame. TBH, supporting
-> > per-frame (or the batch mode you suggest) on a HW that supports
-> > per-slice decoding should be pretty simple and has not real impact on
-> > perfs (as you said, it's just a matter of iterating over all the slices
-> > attached to a decode operation), so I'm fine relaxing the rule here and
-> > patching the cedrus driver accordingly (I can't really test the
-> > changes though). Paul, Maxime, what's your opinion?  
+Dne ponedeljek, 03. junij 2019 ob 13:55:36 CEST je Maxime Ripard napisal(a):
+> Hi,
 > 
-> We could perhaps have a test program to orchestrate such a scenario. I
-> think the assumption should obviously still be that we don't cross the
-> frame boundary using slices in one batch.
+> On Thu, May 30, 2019 at 11:15:12PM +0200, Jernej Skrabec wrote:
+> > It seems that for some H264 videos at least one bitstream parsing
+> > trigger must be called in order to be decoded correctly. There is no
+> > explanation why this helps, but it was observed that two sample videos
+> > with this fix are now decoded correctly and there is no regression with
+> > others.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > I have two samples which are fixed by this:
+> > http://jernej.libreelec.tv/videos/h264/test.mkv
+> > http://jernej.libreelec.tv/videos/h264/Dredd%20%E2%80%93%20DTS%20Sound%20C
+> > heck%20DTS-HD%20MA%207.1.m2ts
+> > 
+> > Although second one also needs support for multi-slice frames, which is
+> > not yet implemented here.> 
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 22 ++++++++++++++++---
+> >  1 file changed, 19 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> > cc8d17f211a1..d0ee3f90ff46 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -6,6 +6,7 @@
+> > 
+> >   * Copyright (c) 2018 Bootlin
+> >   */
+> > 
+> > +#include <linux/delay.h>
+> > 
+> >  #include <linux/types.h>
+> >  
+> >  #include <media/videobuf2-dma-contig.h>
+> > 
+> > @@ -289,6 +290,20 @@ static void cedrus_write_pred_weight_table(struct
+> > cedrus_ctx *ctx,> 
+> >  	}
+> >  
+> >  }
+> 
+> We should have a comment here explaining why that is needed
 
-We should definitely forbid mixing slices of different frames in the
-same decode operation, since each decode operation is targeting a
-single capture buffer.
+ok.
 
-> Just that if a frame was made
-> up of, say, 4 slices and you first pass 3 slices, then 1, that it'd be
-> nice if the driver would be able to cope with that.
+> 
+> > +static void cedrus_skip_bits(struct cedrus_dev *dev, int num)
+> > +{
+> > +	for (; num > 32; num -= 32) {
+> > +		cedrus_write(dev, VE_H264_TRIGGER_TYPE, 0x3 | (32 << 
+8));
+> 
+> Using defines here would be great
 
-Yep, that makes sense.
+Yes, sorry about that.
 
-> It's something that
-> could probably even be implemented in the framework as a helper, though
-> I suspect it'd be just a couple of lines of extra code to wrap a loop
-> around everything.
+> 
+> > +		while (cedrus_read(dev, VE_H264_STATUS) & (1 << 8))
+> > +			udelay(1);
+> > +	}
+> 
+> A new line here would be great
+> 
+> > +	if (num > 0) {
+> > +		cedrus_write(dev, VE_H264_TRIGGER_TYPE, 0x3 | (num << 
+8));
+> > +		while (cedrus_read(dev, VE_H264_STATUS) & (1 << 8))
+> > +			udelay(1);
+> > +	}
+> 
+> Can't we make that a bit simpler by not duplicating the loop?
+> 
+> Something like:
+> 
+> int current = 0;
+> 
+> while (current < num) {
+>     int tmp = min(num - current, 32);
+> 
+>     cedrus_write(dev, VE_H264_TRIGGER_TYPE, 0x3 | (current << 8))
+>     while (...)
+>        ...
+> 
+>     current += tmp;
+> }
 
-I also thought about providing generic wrappers, both for this case and
-the per-slice -> per-frame case (this one would be a bit more
-complicated as it implies queuing slices in a bounce buffer and
-triggering the decode operation only when we have all slices of a
-frame).
+Yes, that looks better, I'll change it in next version.
+
+Best regards,
+Jernej
+
+
+
