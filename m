@@ -2,305 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD5232FA5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E8332FD5
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbfFCMa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 08:30:26 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38368 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbfFCMa0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 08:30:26 -0400
-Received: by mail-wm1-f66.google.com with SMTP id t5so10882478wmh.3
-        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2019 05:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RAy5Q/tmWmz4xxS2AF/2UoBhrYQJxv5tb3Og8Bp1ZSk=;
-        b=bAEOZaOtMKsaxks2v7hak1u0vYEa6GUzzqZakDudwLOtZ35CbZgn1qGWcSw9YsaSw3
-         30ZXGKnk2tnvXtmB4aVW5E7hyK185ii6dQcaR/EyVm+ovPavaukbjsRmF8BFYFGAvX5F
-         2lvRujlvun2XdwRPCJUCJ03JqYfpSHEG5/R1vrixrfWsM2abgwL1vKcoR2Y0nhDBYfWQ
-         Zc+IzKS+J8pzjRhDnM1FCVEc8wpiMA8XZ6N+h42kpKOFGW8wf3ghX9sLDwg31G9rHlHz
-         AD8VURNuK/q9/KVtujpGynaNQlpiWECAOxDu9+DiFPCqlDmhV+O8iSqdh8IoXbODpFVg
-         eENQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RAy5Q/tmWmz4xxS2AF/2UoBhrYQJxv5tb3Og8Bp1ZSk=;
-        b=E/BlpQRFe0Lbc89JL2TXdx2/bOUlv4mxFuIHGxodpryyD2XzJbeBLpG1fH8oxn6Zpv
-         T367K3Gh/GBWDMHWwQ9+oiK9a3yjvPlMdzfKnLGVkUpioB3PHYYsK5Ucofmq786lNHAT
-         LtlqpGj0GofkwIMC10Qi3HHFBnU0k7wVpg5yqFGvIxYOpu4EmkKY60H1plFXwBUERA9J
-         jx2Dtr3WaRcT7QEtOxFTtATfgN681tRVni0wAvv2mhCCIq0fLxxhwFltHwtdo0H85zCn
-         V6vnA6LaKsmzNfxUWKKnAVE9iccP517zSLlqG4pW06LB2hiw2zmDplO+BVQvA4k/bcmk
-         MXbg==
-X-Gm-Message-State: APjAAAVeDMBGqBa9yTMb6k1DWcS//ahtkKZvzZnO1Dpg1+xx6vOnkovk
-        lDfsCll9imMAv8ai7dVjLqM=
-X-Google-Smtp-Source: APXvYqx9b1BMMSRlRrzejtIUwLZlarXN4Z/eNK5ylKLN0+7MzrRCxbpCexsOsfvVwjiWnxAhv8/asg==
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr2398958wmk.127.1559565022547;
-        Mon, 03 Jun 2019 05:30:22 -0700 (PDT)
-Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
-        by smtp.gmail.com with ESMTPSA id r9sm15119089wrq.0.2019.06.03.05.30.21
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 05:30:21 -0700 (PDT)
-Date:   Mon, 3 Jun 2019 14:30:20 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
+        id S1727026AbfFCMkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 08:40:19 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:44991 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726137AbfFCMkT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 08:40:19 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id XmG5hLUHlsDWyXmG8ht6X1; Mon, 03 Jun 2019 14:40:17 +0200
+Subject: Re: [PATCH v3 10/10] media: hantro: allow arbitrary number of clocks
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>
-Subject: Re: [PATCH RFC 2/6] media: uapi: h264: Add the concept of decoding
- mode
-Message-ID: <20190603123020.GC30132@ulmo>
-References: <20190603110946.4952-1-boris.brezillon@collabora.com>
- <20190603110946.4952-3-boris.brezillon@collabora.com>
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+References: <20190531085523.10892-1-p.zabel@pengutronix.de>
+ <20190531085523.10892-11-p.zabel@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <124462a9-7f09-52b6-04cf-baea9dd2b382@xs4all.nl>
+Date:   Mon, 3 Jun 2019 14:40:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Bu8it7iiRSEf40bY"
-Content-Disposition: inline
-In-Reply-To: <20190603110946.4952-3-boris.brezillon@collabora.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190531085523.10892-11-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNfFE+eTcgq5hoNNjBpLall90a8hTCH02yepN0o7T416xzlEUw9HvjfijIeWwbZIm6bzxBbuaI0ONLe2Ey3hoR8ys9I+ejdEHBzKmnOxxnw3TLfvIX9b
+ mWJU9PBvOs181IAPEk3mES8IPRlIACjcVvc8znR3KK2CQg/+zjFEpjoEqR4Pzz2IJ58MnwZzaDbxiLnOPuj3/vofFRENBNYUkgnCbcTFqbV/1QgiCyetY2lX
+ 3dH42XwsMRTxAffLGFhqkS6gkvWVkeg7UnH82L0SOOgYdw3wIg/lFPStfXUAItcA/tAckzJwXQagiGx1wp/LHX7U8afZgzPwXR2SK5DiyR29b04zucBfWm/+
+ VMJwfz2CQoEJYYC+xvIl7CGAyVboui9QVqCJRe/qtn2TfIB6iJRZgJN1KFAck2MLuDd+wUpgBijnoqhEdYx+hhfgRvhuAg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 5/31/19 10:55 AM, Philipp Zabel wrote:
+> Dynamically allocate clocks and move clock names out of struct
+> hantro_variant. This lifts the four clock limit and allows to use
+> ARRAY_SIZE() to fill .num_clocks to reduce the risk of mismatches.
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
---Bu8it7iiRSEf40bY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can you move this patch right after patch 6/10? It makes sense there, and
+it also makes it easier to merge this series without the i.MX8 bits.
 
-On Mon, Jun 03, 2019 at 01:09:42PM +0200, Boris Brezillon wrote:
-> Some stateless decoders don't support per-slice decoding (or at least
-> not in a way that would make them efficient or easy to use).
-> Let's expose a menu to control and expose the supported decoding modes.
-> Drivers are allowed to support only one decoding but they can support
-> both too.
->=20
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+More comments about that in my reply to patch 8/10.
+
+Regards,
+
+	Hans
+
 > ---
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 42 ++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 ++++
->  include/media/h264-ctrls.h                    | 13 ++++++
->  3 files changed, 63 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documenta=
-tion/media/uapi/v4l/ext-ctrls-codec.rst
-> index 82547d5de250..188f625acb7c 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> @@ -1748,6 +1748,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->      * - __u32
->        - ``size``
->        -
-> +    * - __u32
-> +      - ``start_byte_offset``
-> +      - Where the slice payload starts in the output buffer. Useful when
-> +        operating in per frame decoding mode and decoding multi-slice co=
-ntent.
-> +        In this case, the output buffer will contain more than one slice=
- and
-> +        some codecs need to know where each slice starts. Note that this
-> +        offsets points to the beginning of the slice which is supposed to
-> +        contain an ANNEX B start code
->      * - __u32
->        - ``header_bit_size``
->        -
-> @@ -1931,7 +1939,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->        -
->      * - __u16
->        - ``num_slices``
-> -      - Number of slices needed to decode the current frame
-> +      - Number of slices needed to decode the current frame/field. When
-> +        operating in per-slice decoding mode (see
-> +        :c:type:`v4l2_mpeg_video_h264_decoding_mode`), this field
-> +        should always be set to one
->      * - __u16
->        - ``nal_ref_idc``
->        - NAL reference ID value coming from the NAL Unit header
-> @@ -2022,6 +2033,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->        - 0x00000004
->        - The DPB entry is a long term reference frame
-> =20
-> +``V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE (enum)``
-> +    Specifies the decoding mode to use. Currently exposes per slice and =
-per
-> +    frame decoding but new modes might be added later on.
+> New in v3.
+> ---
+>  drivers/staging/media/hantro/hantro.h        |  6 ++----
+>  drivers/staging/media/hantro/hantro_drv.c    |  5 +++++
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c  | 10 ++++++----
+>  drivers/staging/media/hantro/rk3288_vpu_hw.c |  8 ++++++--
+>  drivers/staging/media/hantro/rk3399_vpu_hw.c | 12 ++++++++----
+>  5 files changed, 27 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 295a00d59a5f..0a3b2a8b3e67 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -25,8 +25,6 @@
+>  
+>  #include "hantro_hw.h"
+>  
+> -#define HANTRO_MAX_CLOCKS		4
+> -
+>  #define MPEG2_MB_DIM			16
+>  #define MPEG2_MB_WIDTH(w)		DIV_ROUND_UP(w, MPEG2_MB_DIM)
+>  #define MPEG2_MB_HEIGHT(h)		DIV_ROUND_UP(h, MPEG2_MB_DIM)
+> @@ -88,7 +86,7 @@ struct hantro_variant {
+>  	int (*runtime_resume)(struct hantro_dev *vpu);
+>  	const struct hantro_irq *irqs;
+>  	int num_irqs;
+> -	const char *clk_names[HANTRO_MAX_CLOCKS];
+> +	const char * const *clk_names;
+>  	int num_clocks;
+>  	const char * const *reg_names;
+>  	int num_regs;
+> @@ -182,7 +180,7 @@ struct hantro_dev {
+>  	struct hantro_func *decoder;
+>  	struct platform_device *pdev;
+>  	struct device *dev;
+> -	struct clk_bulk_data clocks[HANTRO_MAX_CLOCKS];
+> +	struct clk_bulk_data *clocks;
+>  	void __iomem **bases;
+>  	void __iomem *enc_base;
+>  	void __iomem *dec_base;
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ef2b29d50100..d9624ee9fdc3 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -688,6 +688,11 @@ static int hantro_probe(struct platform_device *pdev)
+>  
+>  	INIT_DELAYED_WORK(&vpu->watchdog_work, hantro_watchdog);
+>  
+> +	vpu->clocks = devm_kcalloc(&pdev->dev, vpu->variant->num_clocks,
+> +				   sizeof(*vpu->clocks), GFP_KERNEL);
+> +	if (!vpu->clocks)
+> +		return -ENOMEM;
 > +
-> +    .. note::
-> +
-> +       This menu control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_mpeg_video_h264_decoding_mode
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_MPEG_VIDEO_H264_DECODING_PER_SLICE``
-> +      - 0
-> +      - The decoding is done per slice. v4l2_ctrl_h264_decode_params->nu=
-m_slices
-> +        must be set to 1 and the output buffer should contain only one s=
-lice.
-
-I wonder if we need to be that strict. Wouldn't it be possible for
-drivers to just iterate over a number of slices and decode each in turn
-if userspace passed more than one?
-
-Or perhaps a decoder can batch queue a couple of slices. I'm not sure
-how frequent this is, but consider something like a spike in activity on
-your system, causing some slices to get delayed so you actually get a
-few buffered up before you get a chance to hand them to the V4L2 device.
-Processing them all at once may help conceal the lag.
-
-Thierry
-
-> +    * - ``V4L2_MPEG_VIDEO_H264_DECODING_PER_FRAME``
-> +      - 1
-> +      - The decoding is done per frame. v4l2_ctrl_h264_decode_params->nu=
-m_slices
-> +        can be > 1. When that happens, the output buffer should contain =
-all
-> +        slices needed to decode a frame/field, each slice being prefixed=
- by an
-> +        Annex B NAL header/start-code.
-> +
->  .. _v4l2-mpeg-mpeg2:
-> =20
->  ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS (struct)``
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-co=
-re/v4l2-ctrls.c
-> index 1217d38ea394..72bb3c8882f5 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -406,6 +406,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		"Explicit",
->  		NULL,
->  	};
-> +	static const char * const h264_decoding_mode[] =3D {
-> +		"Per Slice",
-> +		"Per Frame",
-> +		NULL,
-> +	};
->  	static const char * const mpeg_mpeg2_level[] =3D {
->  		"Low",
->  		"Main",
-> @@ -637,6 +642,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		return h264_fp_arrangement_type;
->  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
->  		return h264_fmo_map_type;
-> +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:
-> +		return h264_decoding_mode;
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->  		return mpeg_mpeg2_level;
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
-> @@ -856,6 +863,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Mat=
-rix";
->  	case V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS:		return "H264 Slice Paramet=
-ers";
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:		return "H264 Decode Param=
-eters";
-> +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:		return "H264 Decoding Mod=
-e";
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:			return "MPEG2 Level";
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:			return "MPEG2 Profile";
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:		return "MPEG4 I-Frame QP Va=
-lue";
-> @@ -1224,6 +1232,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
- v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_IDC:
->  	case V4L2_CID_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE:
->  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
-> +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index e1404d78d6ff..26de2243f6f5 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -26,6 +26,7 @@
->  #define V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX	(V4L2_CID_MPEG_BASE+1002)
->  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
->  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+1004)
-> +#define V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE	(V4L2_CID_MPEG_BASE+1005)
-> =20
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> @@ -33,6 +34,12 @@
->  #define V4L2_CTRL_TYPE_H264_SCALING_MATRIX	0x0112
->  #define V4L2_CTRL_TYPE_H264_SLICE_PARAMS	0x0113
->  #define V4L2_CTRL_TYPE_H264_DECODE_PARAMS	0x0114
-> +#define V4L2_CTRL_TYPE_H264_DECODING_MODE	0x0115
-> +
-> +enum v4l2_mpeg_video_h264_decoding_mode {
-> +	V4L2_MPEG_VIDEO_H264_DECODING_PER_SLICE,
-> +	V4L2_MPEG_VIDEO_H264_DECODING_PER_FRAME,
-> +};
-> =20
->  #define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
->  #define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
-> @@ -111,6 +118,8 @@ struct v4l2_h264_pred_weight_table {
->  	struct v4l2_h264_weight_factors weight_factors[2];
+>  	for (i = 0; i < vpu->variant->num_clocks; i++)
+>  		vpu->clocks[i].id = vpu->variant->clk_names[i];
+>  	ret = devm_clk_bulk_get(&pdev->dev, vpu->variant->num_clocks,
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index fbe84c5f5619..811899e8416a 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -266,6 +266,7 @@ static const struct hantro_irq imx8mq_irqs[] = {
+>  	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
 >  };
-> =20
-> +#define V4L2_H264_MAX_SLICES_PER_FRAME			16
+>  
+> +static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+>  static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+>  
+>  const struct hantro_variant imx8mq_vpu_variant = {
+> @@ -278,8 +279,8 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>  	.irqs = imx8mq_irqs,
+>  	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
+>  	.num_irqs = 2,
+> -	.clk_names = { "g1", "g2", "bus" },
+> -	.num_clocks = 3,
+> +	.clk_names = imx8mq_clk_names,
+> +	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+>  	.reg_names = imx8mq_reg_names,
+>  	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+> @@ -290,6 +291,7 @@ static const struct hantro_irq imx8mm_irqs[] = {
+>  	{ "h1", imx8mm_vpu_h1_irq },
+>  };
+>  
+> +static const char * const imx8mm_clk_names[] = { "g1", "g2", "h1", "bus" };
+>  static const char * const imx8mm_reg_names[] = { "g1", "g2", "h1", "ctrl" };
+>  
+>  const struct hantro_variant imx8mm_vpu_variant = {
+> @@ -301,8 +303,8 @@ const struct hantro_variant imx8mm_vpu_variant = {
+>  	.runtime_resume = imx8mm_runtime_resume,
+>  	.irqs = imx8mm_irqs,
+>  	.num_irqs = ARRAY_SIZE(imx8mm_irqs),
+> -	.clk_names = { "g1", "g2", "h1", "bus" },
+> -	.num_clocks = 4,
+> +	.clk_names = imx8mm_clk_names,
+> +	.num_clocks = ARRAY_SIZE(imx8mm_clk_names),
+>  	.reg_names = imx8mm_reg_names,
+>  	.num_regs = ARRAY_SIZE(imx8mm_reg_names)
+>  };
+> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> index b4d5e24167db..fe721e0b948d 100644
+> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> @@ -165,6 +165,10 @@ static const struct hantro_irq rk3288_irqs[] = {
+>  	{ "vdpu", rk3288_vdpu_irq },
+>  };
+>  
+> +static const char * const rk3288_clk_names[] = {
+> +	"aclk", "hclk"
+> +};
 > +
->  #define V4L2_H264_SLICE_TYPE_P				0
->  #define V4L2_H264_SLICE_TYPE_B				1
->  #define V4L2_H264_SLICE_TYPE_I				2
-> @@ -125,6 +134,10 @@ struct v4l2_h264_pred_weight_table {
->  struct v4l2_ctrl_h264_slice_params {
->  	/* Size in bytes, including header */
->  	__u32 size;
+>  const struct hantro_variant rk3288_vpu_variant = {
+>  	.enc_offset = 0x0,
+>  	.enc_fmts = rk3288_vpu_enc_fmts,
+> @@ -177,6 +181,6 @@ const struct hantro_variant rk3288_vpu_variant = {
+>  	.irqs = rk3288_irqs,
+>  	.num_irqs = ARRAY_SIZE(rk3288_irqs),
+>  	.init = rk3288_vpu_hw_init,
+> -	.clk_names = {"aclk", "hclk"},
+> -	.num_clocks = 2
+> +	.clk_names = rk3288_clk_names,
+> +	.num_clocks = ARRAY_SIZE(rk3288_clk_names)
+>  };
+> diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw.c b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> index fc52bedf3665..f8400e49bc50 100644
+> --- a/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rk3399_vpu_hw.c
+> @@ -165,6 +165,10 @@ static const struct hantro_irq rk3399_irqs[] = {
+>  	{ "vdpu", rk3399_vdpu_irq },
+>  };
+>  
+> +static const char * const rk3399_clk_names[] = {
+> +	"aclk", "hclk"
+> +};
 > +
-> +	/* Where the slice starts in the output buffer (expressed in bytes). */
-> +	__u32 start_byte_offset;
-> +
->  	/* Offset in bits to slice_data() from the beginning of this slice. */
->  	__u32 header_bit_size;
-> =20
-> --=20
-> 2.20.1
->=20
+>  const struct hantro_variant rk3399_vpu_variant = {
+>  	.enc_offset = 0x0,
+>  	.enc_fmts = rk3399_vpu_enc_fmts,
+> @@ -177,8 +181,8 @@ const struct hantro_variant rk3399_vpu_variant = {
+>  	.irqs = rk3399_irqs,
+>  	.num_irqs = ARRAY_SIZE(rk3399_irqs),
+>  	.init = rk3399_vpu_hw_init,
+> -	.clk_names = {"aclk", "hclk"},
+> -	.num_clocks = 2
+> +	.clk_names = rk3399_clk_names,
+> +	.num_clocks = ARRAY_SIZE(rk3399_clk_names)
+>  };
+>  
+>  static const struct hantro_irq rk3328_irqs[] = {
+> @@ -194,6 +198,6 @@ const struct hantro_variant rk3328_vpu_variant = {
+>  	.irqs = rk3328_irqs,
+>  	.num_irqs = ARRAY_SIZE(rk3328_irqs),
+>  	.init = rk3399_vpu_hw_init,
+> -	.clk_names = {"aclk", "hclk"},
+> -	.num_clocks = 2
+> +	.clk_names = rk3399_clk_names,
+> +	.num_clocks = ARRAY_SIZE(rk3399_clk_names),
+>  };
+> 
 
---Bu8it7iiRSEf40bY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz1EtkACgkQ3SOs138+
-s6FZQQ/8C7kJUSFWP/nYVE16Rta5Uj0IYwQ4vq8CepJTBG70+x1UGpFJxQ6wTLLe
-T1JIwy5Qe10ZG46mnTPFsJ1y2OYJJZ3pi0+DzKUOoSgPltp2DJfj1wYj8XXdL4yv
-cZKdMVLAAXZFe8O0tZpkUSgaTgYQa0Y83Xlb9xSdyQ+573XEqBElRb4cNI6v+VLr
-ky33BRJAGuYQ4YCQq+nUytHh89pUneL2G7BmsicEsc6x7+82KifIBmiA9WKoqIAz
-BQm9isDUtQtp/6QM+iB3JfP97nz5n4arMMJLlS92S0mpkGWhnSpgvuvdQx7OWfmX
-GFiL/9vp+xkFnU8GVrXGw/gJunWtsSzc+a1oUA9hMmhmJn3l5jsoKeY+QkcEgIO3
-kTOTWuqsaSJUmFdW+xROP8PWTEIPnzVi9fHa2zOvI0TvkeEyKr/jkBIFvsKUvfQd
-VwmsT+8Xxk0D0uzbtHKR4aMNE1NQNc41IQfB2TOpLJn1Vh7/B+XxrrO/Qf8OlDKa
-k+YPW+i0xRdm3xQuD300irQY2OSx40bF0JumGvpTP53pn3usjeeDSBj7FUGAB4U6
-oj/yPTHUSwf6mSz1gHWbz4h9PmIo3mAXeUCoptKJYakeM9kNEoyOx01aSsEdhIdW
-TEQbn39Zl1IhdhVTtgKX2u+CHLMDfWgzHm4gW2oCBLPBJ7m54g8=
-=vtaX
------END PGP SIGNATURE-----
-
---Bu8it7iiRSEf40bY--
