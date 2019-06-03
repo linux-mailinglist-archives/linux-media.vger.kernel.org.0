@@ -2,81 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAADA32F53
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E837732F68
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727349AbfFCMOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 08:14:50 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:56801 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726873AbfFCMOu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Jun 2019 08:14:50 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id XlrOhLJi7sDWyXlrRhszmS; Mon, 03 Jun 2019 14:14:48 +0200
-Subject: Re: [PATCH] media: cxusb-analog: Use ARRAY_SIZE for
- cxusub_medion_pin_config
-To:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, kbuild test robot <lkp@intel.com>
-References: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8512e951-03fc-34d0-6dcf-fe9667eba022@xs4all.nl>
-Date:   Mon, 3 Jun 2019 14:14:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727645AbfFCMTP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 08:19:15 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:34559 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbfFCMTP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 08:19:15 -0400
+X-Originating-IP: 90.88.144.139
+Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 4F98124001F;
+        Mon,  3 Jun 2019 12:19:02 +0000 (UTC)
+Date:   Mon, 3 Jun 2019 14:18:59 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] media: cedrus: Add infra for extra buffers connected
+ to capture buffers
+Message-ID: <20190603121859.sbphcjy75kmed6oc@flea>
+References: <20190530211516.1891-1-jernej.skrabec@siol.net>
+ <20190530211516.1891-7-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-In-Reply-To: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGmmtXUUHWs4Wy+dOqpToMDsFs7CxmiRlydZe5t0GbMerN0581bsVAZyRW8PzdOffOAs7MRwnJbXTIOXwihj+s7sPIvmPvy33D9LA7srershSdsfMgZj
- lIO2U90mRo/aVMkcSY/Va4sRZJhUrmYtw/GhZYXItXv7+IgEyO7GbG0nkQL0voyUVF6TaJgUY4s5HjyuUkNariA1gK14HeE2olOJdS53Fe818DySC1DRi60i
- oH/VxHKJWkrWMBU35rz5KqIA5t/1XrmxbSQPA0FKBDMOIuuH0Uir3QaPWgWn9OwYOd/RmoffqQOEV59rgNqXfdS6+baGbBDgLTPrNeLUnI0=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ymlpox2fd2kt5ivb"
+Content-Disposition: inline
+In-Reply-To: <20190530211516.1891-7-jernej.skrabec@siol.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maciej,
 
-Thank you for the patch, but I posted a fix for this earlier already:
+--ymlpox2fd2kt5ivb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://patchwork.linuxtv.org/patch/56441/
+Hi,
 
-I'll drop this patch in favor of the one above. Apologies for not
-CC-ing you on my patch, I should have done that.
-
-Regards,
-
-	Hans
-
-On 6/1/19 12:37 AM, Maciej S. Szmigiero wrote:
-> Use ARRAY_SIZE for computing element count of cxusub_medion_pin_config
-> array as suggested by the kbuild test robot.
-> 
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+On Thu, May 30, 2019 at 11:15:15PM +0200, Jernej Skrabec wrote:
+> H264 and HEVC engines need additional buffers for each capture buffer.
+> H264 engine has this currently solved by allocating fixed size pool,
+> which is not ideal. Most of the time pool size is much bigger than it
+> needs to be.
+>
+> Ideally, extra buffer should be allocated at buffer initialization, but
+> that's not efficient. It's size in H264 depends on flags set in SPS, but
+> that information is not available in buffer init callback.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 > ---
->  drivers/media/usb/dvb-usb/cxusb-analog.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
-> index 9b42ca71c177..51d3cba32b60 100644
-> --- a/drivers/media/usb/dvb-usb/cxusb-analog.c
-> +++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
-> @@ -1622,8 +1622,7 @@ int cxusb_medion_analog_init(struct dvb_usb_device *dvbdev)
->  	/* TODO: setup audio samples insertion */
->  
->  	ret = v4l2_subdev_call(cxdev->cx25840, core, s_io_pin_config,
-> -			       sizeof(cxusub_medion_pin_config) /
-> -			       sizeof(cxusub_medion_pin_config[0]),
-> +			       ARRAY_SIZE(cxusub_medion_pin_config),
->  			       cxusub_medion_pin_config);
->  	if (ret != 0)
->  		dev_warn(&dvbdev->udev->dev,
-> 
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  4 ++++
+>  .../staging/media/sunxi/cedrus/cedrus_video.c | 19 +++++++++++++++++++
+>  2 files changed, 23 insertions(+)
+>
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> index d8e6777e5e27..16c1bdfd243a 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -81,6 +81,10 @@ struct cedrus_run {
+>  struct cedrus_buffer {
+>  	struct v4l2_m2m_buffer          m2m_buf;
+>
+> +	void		*extra_buf;
+> +	dma_addr_t	extra_buf_dma;
+> +	ssize_t		extra_buf_size;
+> +
+>  	union {
+>  		struct {
+>  			unsigned int			position;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index 681dfe3367a6..d756e0e69634 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -411,6 +411,24 @@ static void cedrus_queue_cleanup(struct vb2_queue *vq, u32 state)
+>  	}
+>  }
+>
+> +static void cedrus_buf_cleanup(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_queue *vq = vb->vb2_queue;
+> +
+> +	if (!V4L2_TYPE_IS_OUTPUT(vq->type)) {
+> +		struct cedrus_ctx *ctx = vb2_get_drv_priv(vq);
+> +		struct cedrus_buffer *cedrus_buf;
+> +
+> +		cedrus_buf = vb2_to_cedrus_buffer(vq->bufs[vb->index]);
+> +
+> +		if (cedrus_buf->extra_buf_size)
+> +			dma_free_coherent(ctx->dev->dev,
+> +					  cedrus_buf->extra_buf_size,
+> +					  cedrus_buf->extra_buf,
+> +					  cedrus_buf->extra_buf_dma);
+> +	}
+> +}
+> +
 
+I'm really not a fan of allocating something somewhere, and freeing it
+somewhere else. Making sure you don't leak something is hard enough to
+not have some non-trivial allocation scheme.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--ymlpox2fd2kt5ivb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPUQMwAKCRDj7w1vZxhR
+xZNaAP9V21ZWkOqlo7WZlTwBZOAkVOmATfNXoqclKE0qWtzOVAD8CPTJeCMOMixQ
+jEzMAC7P8TCOrSNny9fgeSx7u+ReUwM=
+=dENZ
+-----END PGP SIGNATURE-----
+
+--ymlpox2fd2kt5ivb--
