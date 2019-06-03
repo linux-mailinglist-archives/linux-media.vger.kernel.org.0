@@ -2,148 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35B593303E
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B236433051
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727323AbfFCMvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 08:51:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33412 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfFCMvR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 08:51:17 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1796F260C9D;
-        Mon,  3 Jun 2019 13:51:16 +0100 (BST)
-Date:   Mon, 3 Jun 2019 14:51:13 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
+        id S1727159AbfFCMyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 08:54:44 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51113 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726791AbfFCMyn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 08:54:43 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id XmU1hLaFcsDWyXmU4htASV; Mon, 03 Jun 2019 14:54:41 +0200
+Subject: Re: [PATCH v3 09/10] media: hantro: add initial i.MX8MM support
+ (untested)
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH RFC 2/6] media: uapi: h264: Add the concept of decoding
- mode
-Message-ID: <20190603145058.0c46febd@collabora.com>
-In-Reply-To: <20190603123020.GC30132@ulmo>
-References: <20190603110946.4952-1-boris.brezillon@collabora.com>
-        <20190603110946.4952-3-boris.brezillon@collabora.com>
-        <20190603123020.GC30132@ulmo>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+References: <20190531085523.10892-1-p.zabel@pengutronix.de>
+ <20190531085523.10892-10-p.zabel@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a49db696-a31e-7f80-f2c3-bcb162c03dee@xs4all.nl>
+Date:   Mon, 3 Jun 2019 14:54:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190531085523.10892-10-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFJUr62JRl6hyfKtUr3UuOOZWPQMVTiZGTl1xL6MXvd1ehAVrwIS2I1RO1RTZdpxR5iSke0Ds6Kx6/QsBRtr3ch7HLAl1juLLymrrp3s8Ltj8F8U+jVQ
+ aRV+tQsE8siwrmWGMrgqSDgMuIClt7CDepHSlJNBsEvXk1SjZ/qaIxYyYF8JHTUEDam1FbDYS27gQV20WADeBRw7mX3Lit+ZUs4DI4NkoPAnzf6d3dBIFjqh
+ DvTo4wj/wUAy7b9RA53usPEO/IZKQd4rAm9FxwWJVd1OihiObfCQlpPFphVq2FOwXPw+ppSP1xWYOg3xAoVMfHgMlsGGs8KoPVv1G9f6uzjHhP3PrpAbXgqX
+ 9wlizEjWRioJalgkgW6RZJV/3YJTfn9Z4SrYs/9Y8133ggoKgay+01qJxhQhvbO1j+5NMQ4Yv7UQEXCYPuGHAdUGHbg//g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Maxime
+On 5/31/19 10:55 AM, Philipp Zabel wrote:
+> This should enable MPEG-2 decoding on the Hantro G1 and JPEG encoding on
+> the Hantro H1 on i.MX8MM.
 
-Oops, just realized Maxime was not Cc-ed on this series.
+That's the i.MX8M Mini, right? I think that's the official name for this
+SoC.
 
-On Mon, 3 Jun 2019 14:30:20 +0200
-Thierry Reding <thierry.reding@gmail.com> wrote:
+In any case, I don't like merging this until someone was able to test it.
 
-> On Mon, Jun 03, 2019 at 01:09:42PM +0200, Boris Brezillon wrote:
-> > Some stateless decoders don't support per-slice decoding (or at least
-> > not in a way that would make them efficient or easy to use).
-> > Let's expose a menu to control and expose the supported decoding modes.
-> > Drivers are allowed to support only one decoding but they can support
-> > both too.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 42 ++++++++++++++++++-
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 ++++
-> >  include/media/h264-ctrls.h                    | 13 ++++++
-> >  3 files changed, 63 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > index 82547d5de250..188f625acb7c 100644
-> > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > @@ -1748,6 +1748,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      * - __u32
-> >        - ``size``
-> >        -
-> > +    * - __u32
-> > +      - ``start_byte_offset``
-> > +      - Where the slice payload starts in the output buffer. Useful when
-> > +        operating in per frame decoding mode and decoding multi-slice content.
-> > +        In this case, the output buffer will contain more than one slice and
-> > +        some codecs need to know where each slice starts. Note that this
-> > +        offsets points to the beginning of the slice which is supposed to
-> > +        contain an ANNEX B start code
-> >      * - __u32
-> >        - ``header_bit_size``
-> >        -
-> > @@ -1931,7 +1939,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        -
-> >      * - __u16
-> >        - ``num_slices``
-> > -      - Number of slices needed to decode the current frame
-> > +      - Number of slices needed to decode the current frame/field. When
-> > +        operating in per-slice decoding mode (see
-> > +        :c:type:`v4l2_mpeg_video_h264_decoding_mode`), this field
-> > +        should always be set to one
-> >      * - __u16
-> >        - ``nal_ref_idc``
-> >        - NAL reference ID value coming from the NAL Unit header
-> > @@ -2022,6 +2033,35 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - 0x00000004
-> >        - The DPB entry is a long term reference frame
-> >  
-> > +``V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE (enum)``
-> > +    Specifies the decoding mode to use. Currently exposes per slice and per
-> > +    frame decoding but new modes might be added later on.
-> > +
-> > +    .. note::
-> > +
-> > +       This menu control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> > +
-> > +.. c:type:: v4l2_mpeg_video_h264_decoding_mode
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - ``V4L2_MPEG_VIDEO_H264_DECODING_PER_SLICE``
-> > +      - 0
-> > +      - The decoding is done per slice. v4l2_ctrl_h264_decode_params->num_slices
-> > +        must be set to 1 and the output buffer should contain only one slice.  
+Regards,
+
+	Hans
+
 > 
-> I wonder if we need to be that strict. Wouldn't it be possible for
-> drivers to just iterate over a number of slices and decode each in turn
-> if userspace passed more than one?
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Changes since v2 [1]:
+>  - Adapted to changes in patches 4 and 5
 > 
-> Or perhaps a decoder can batch queue a couple of slices. I'm not sure
-> how frequent this is, but consider something like a spike in activity on
-> your system, causing some slices to get delayed so you actually get a
-> few buffered up before you get a chance to hand them to the V4L2 device.
-> Processing them all at once may help conceal the lag.
+> [1] https://patchwork.linuxtv.org/patch/56425/
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c   |   1 +
+>  drivers/staging/media/hantro/hantro_hw.h    |   1 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 137 ++++++++++++++++++++
+>  3 files changed, 139 insertions(+)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index bf88e594d440..ef2b29d50100 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -419,6 +419,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+>  	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+> +	{ .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, of_hantro_match);
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index fd6ad017a1cf..1c69669dba54 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -82,6 +82,7 @@ extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+> +extern const struct hantro_variant imx8mm_vpu_variant;
+>  
+>  void hantro_watchdog(struct work_struct *work);
+>  void hantro_run(struct hantro_ctx *ctx);
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index 3da5cbd1eab1..fbe84c5f5619 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -15,14 +15,17 @@
+>  #define CTRL_SOFT_RESET		0x00
+>  #define RESET_G1		BIT(1)
+>  #define RESET_G2		BIT(0)
+> +#define RESET_H1		BIT(2)
+>  
+>  #define CTRL_CLOCK_ENABLE	0x04
+>  #define CLOCK_G1		BIT(1)
+>  #define CLOCK_G2		BIT(0)
+> +#define CLOCK_H1		BIT(2)
+>  
+>  #define CTRL_G1_DEC_FUSE	0x08
+>  #define CTRL_G1_PP_FUSE		0x0c
+>  #define CTRL_G2_DEC_FUSE	0x10
+> +#define CTRL_H1_ENC_FUSE	0x14
+>  
+>  static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+>  {
+> @@ -73,6 +76,30 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+>  	return 0;
+>  }
+>  
+> +static int imx8mm_runtime_resume(struct hantro_dev *vpu)
+> +{
+> +	int ret;
+> +
+> +	ret = clk_bulk_prepare_enable(vpu->variant->num_clocks, vpu->clocks);
+> +	if (ret) {
+> +		dev_err(vpu->dev, "Failed to enable clocks\n");
+> +		return ret;
+> +	}
+> +
+> +	imx8m_soft_reset(vpu, RESET_G1 | RESET_G2 | RESET_H1);
+> +	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2 | RESET_H1);
+> +
+> +	/* Set values of the fuse registers */
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_H1_ENC_FUSE);
+> +
+> +	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Supported formats.
+>   */
+> @@ -97,6 +124,43 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>  	},
+>  };
+>  
+> +static const struct hantro_fmt imx8mm_vpu_enc_fmts[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_YUV420M,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +		.enc_fmt = RK3288_VPU_ENC_FMT_YUV420P,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV12M,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +		.enc_fmt = RK3288_VPU_ENC_FMT_YUV420SP,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_YUYV,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +		.enc_fmt = RK3288_VPU_ENC_FMT_YUYV422,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_UYVY,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +		.enc_fmt = RK3288_VPU_ENC_FMT_UYVY422,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_JPEG,
+> +		.codec_mode = HANTRO_MODE_JPEG_ENC,
+> +		.max_depth = 2,
+> +		.header_size = JPEG_HEADER_SIZE,
+> +		.frmsize = {
+> +			.min_width = 96,
+> +			.max_width = 8192,
+> +			.step_width = JPEG_MB_DIM,
+> +			.min_height = 32,
+> +			.max_height = 8192,
+> +			.step_height = JPEG_MB_DIM,
+> +		},
+> +	},
+> +};
+> +
+>  static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>  {
+>  	struct hantro_dev *vpu = dev_id;
+> @@ -115,6 +179,25 @@ static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static irqreturn_t imx8mm_vpu_h1_irq(int irq, void *dev_id)
+> +{
+> +	struct hantro_dev *vpu = dev_id;
+> +	enum vb2_buffer_state state;
+> +	u32 status, bytesused;
+> +
+> +	status = vepu_read(vpu, VEPU_REG_INTERRUPT);
+> +	bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
+> +	state = (status & VEPU_REG_INTERRUPT_FRAME_RDY) ?
+> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +
+> +	vepu_write(vpu, 0, VEPU_REG_INTERRUPT);
+> +	vepu_write(vpu, 0, VEPU_REG_AXI_CTRL);
+> +
+> +	hantro_irq_done(vpu, bytesused, state);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>  {
+>  	vpu->dec_base = vpu->bases[0];
+> @@ -123,6 +206,15 @@ static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+>  	return 0;
+>  }
+>  
+> +static int imx8mm_vpu_hw_init(struct hantro_dev *vpu)
+> +{
+> +	vpu->dec_base = vpu->bases[0];
+> +	vpu->enc_base = vpu->bases[2];
+> +	vpu->ctrl_base = vpu->bases[vpu->variant->num_regs - 1];
+> +
+> +	return 0;
+> +}
+> +
+>  static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu = ctx->dev;
+> @@ -130,6 +222,13 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+>  	imx8m_soft_reset(vpu, RESET_G1);
+>  }
+>  
+> +static void imx8mm_vpu_h1_reset(struct hantro_ctx *ctx)
+> +{
+> +	struct hantro_dev *vpu = ctx->dev;
+> +
+> +	imx8m_soft_reset(vpu, RESET_H1);
+> +}
+> +
+>  /*
+>   * Supported codec ops.
+>   */
+> @@ -143,6 +242,21 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+>  	},
+>  };
+>  
+> +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
+> +	[HANTRO_MODE_MPEG2_DEC] = {
+> +		.run = hantro_g1_mpeg2_dec_run,
+> +		.reset = imx8m_vpu_g1_reset,
+> +		.init = hantro_mpeg2_dec_init,
+> +		.exit = hantro_mpeg2_dec_exit,
+> +	},
+> +	[HANTRO_MODE_JPEG_ENC] = {
+> +		.run = hantro_h1_jpeg_enc_run,
+> +		.reset = imx8mm_vpu_h1_reset,
+> +		.init = hantro_jpeg_enc_init,
+> +		.exit = hantro_jpeg_enc_exit,
+> +	},
+> +};
+> +
+>  /*
+>   * VPU variants.
+>   */
+> @@ -169,3 +283,26 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>  	.reg_names = imx8mq_reg_names,
+>  	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+> +
+> +static const struct hantro_irq imx8mm_irqs[] = {
+> +	{ "g1", imx8m_vpu_g1_irq },
+> +	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
+> +	{ "h1", imx8mm_vpu_h1_irq },
+> +};
+> +
+> +static const char * const imx8mm_reg_names[] = { "g1", "g2", "h1", "ctrl" };
+> +
+> +const struct hantro_variant imx8mm_vpu_variant = {
+> +	.dec_fmts = imx8m_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+> +	.codec = HANTRO_MPEG2_DECODER,
+> +	.codec_ops = imx8mm_vpu_codec_ops,
+> +	.init = imx8mm_vpu_hw_init,
+> +	.runtime_resume = imx8mm_runtime_resume,
+> +	.irqs = imx8mm_irqs,
+> +	.num_irqs = ARRAY_SIZE(imx8mm_irqs),
+> +	.clk_names = { "g1", "g2", "h1", "bus" },
+> +	.num_clocks = 4,
+> +	.reg_names = imx8mm_reg_names,
+> +	.num_regs = ARRAY_SIZE(imx8mm_reg_names)
+> +};
+> 
 
-Hm, so we'd be in some kind of slice-batch mode, which means we could
-trigger a decode operation with more than one slice, but not
-necessarily all the slices needed to decode a frame. TBH, supporting
-per-frame (or the batch mode you suggest) on a HW that supports
-per-slice decoding should be pretty simple and has not real impact on
-perfs (as you said, it's just a matter of iterating over all the slices
-attached to a decode operation), so I'm fine relaxing the rule here and
-patching the cedrus driver accordingly (I can't really test the
-changes though). Paul, Maxime, what's your opinion?
