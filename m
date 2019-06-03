@@ -2,101 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6645132EEC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAB2832F12
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 13:55:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbfFCLqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 07:46:30 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:35157 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbfFCLqa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 07:46:30 -0400
-X-Originating-IP: 90.88.144.139
-Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 6EDBB1BF216;
-        Mon,  3 Jun 2019 11:46:21 +0000 (UTC)
-Date:   Mon, 3 Jun 2019 13:46:20 +0200
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, nicolas@ndufresne.ca,
-        boris.brezillon@collabora.com, jonas@kwiboo.se
-Subject: Re: [PATCH 2/7] media: cedrus: Fix H264 default reference index count
-Message-ID: <20190603114620.vsvbxz6gyhg3tn7b@flea>
-References: <20190530211516.1891-1-jernej.skrabec@siol.net>
- <20190530211516.1891-3-jernej.skrabec@siol.net>
+        id S1727952AbfFCLzG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 07:55:06 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:51473 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726179AbfFCLzF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 07:55:05 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id XlYKhLBiNsDWyXlYNhsugW; Mon, 03 Jun 2019 13:55:04 +0200
+Subject: Re: [PATCH] media: davinci: vpif_capture: fix memory leak in
+ vpif_probe()
+To:     Young Xiao <92siuyang@gmail.com>, prabhakar.csengg@gmail.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1559135399-28998-1-git-send-email-92siuyang@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9a2b8351-cdb7-cec7-87d0-7aafb93ab647@xs4all.nl>
+Date:   Mon, 3 Jun 2019 13:55:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="fsayms5djr42vwm2"
-Content-Disposition: inline
-In-Reply-To: <20190530211516.1891-3-jernej.skrabec@siol.net>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1559135399-28998-1-git-send-email-92siuyang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGcufboZE2BlEtyVUpsP+OXKLTXUYPNtp8CXNw0P33UYkdPzpCk0niF5iWxotMGdVXp7MWIvxavg4/AjqMtuLMDY0swCYt2YGreqy4R9d+PlImFUgYOf
+ J3eWAJLaEU1LbZG1m56yXsVKchz2pSqIgI4a3LI9xMf6EptHTA6Ttkr71RFhtxbZACihQebc5nx8/QwmOYcYX3Qs3gcP0Ho5mS6DOYaunBegDs9SOMVqGUCZ
+ vnHAdu6aFid3oT5P4vtZEEFky7Pw0HaHKCLtznKQBXx+/wjc4LGBS66qsp3KCLqEeh8U/EFTUWwGs+aTvs+Jng==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---fsayms5djr42vwm2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, May 30, 2019 at 11:15:11PM +0200, Jernej Skrabec wrote:
-> Reference index count in VE_H264_PPS reg should come from PPS control.
-> However, this is not really important because reference index count is
-> in our case always overridden by that from slice header.
->
-> Cc: nicolas@ndufresne.ca
-> Cc: boris.brezillon@collabora.com
-> Cc: jonas@kwiboo.se
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
-
+On 5/29/19 3:09 PM, Young Xiao wrote:
+> If vpif_probe() fails on vpif_probe_complete(), then memory
+> allocated at initialize_vpif() for global vpif_obj.dev[i]
+> become unreleased.
+> 
+> The patch adds deallocation of vpif_obj.dev[i] on the error path.
+> 
+> Signed-off-by: Young Xiao <92siuyang@gmail.com>
 > ---
-> We have to decide if we drop pps->num_ref_idx_l0_default_active_minus1
-> and pps->num_ref_idx_l1_default_active_minus1 fields or add
-> num_ref_idx_l0_active_override_flag and num_ref_idx_l0_active_override_flag
-> to slice control.
->
-> Current control doesn't have those two flags, so in Cedrus override flag is
-> always set and we rely on userspace to set slice->num_ref_idx_l0_active_minus1
-> and slice->num_ref_idx_l1_active_minus1 to correct values. This means that
-> values stored in PPS are not needed and always ignored by VPU.
->
-> If I understand correctly, algorithm is very simple:
->
-> ref_count = PPS->ref_count
-> if (override_flag)
-> 	ref_count = slice->ref_count
->
-> It seems that VAAPI provides only final value. In my opinion we should do the
-> same - get rid of PPS default ref index count fields.
+>  drivers/media/platform/davinci/vpif_capture.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+> index b5aacb0..63e6ec4 100644
+> --- a/drivers/media/platform/davinci/vpif_capture.c
+> +++ b/drivers/media/platform/davinci/vpif_capture.c
+> @@ -1621,6 +1621,14 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+>  	return NULL;
+>  }
+>  
+> +static void free_vpif_objs(void)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < VPIF_DISPLAY_MAX_DEVICES; i++)
+> +		kfree(vpif_obj.dev[i]);
+> +}
+> +
+>  /**
+>   * vpif_probe : This function probes the vpif capture driver
+>   * @pdev: platform device pointer
+> @@ -1701,7 +1709,10 @@ static __init int vpif_probe(struct platform_device *pdev)
+>  				  "registered sub device %s\n",
+>  				   subdevdata->name);
+>  		}
+> -		vpif_probe_complete();
+> +		err = vpif_probe_complete();
+> +		if (err) {
+> +			goto probe_subdev_out;
+> +		}
 
-The rationale was to be as conservative as possible and just expose
-everything that is in the bitstream in those controls to accomodate
-for as many weird hardware as possible.
+No need for { and } as per kernel coding style.
 
-Maxime
+>  	} else {
+>  		vpif_obj.notifier.ops = &vpif_async_ops;
+>  		err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
+> @@ -1722,6 +1733,7 @@ static __init int vpif_probe(struct platform_device *pdev)
+>  	v4l2_device_unregister(&vpif_obj.v4l2_dev);
+>  cleanup:
+>  	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
+> +	free_vpif_objs();
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+This would break the case where initialize_vpif() returns an error, since
+initialize_vpif already frees these objects on error.
 
---fsayms5djr42vwm2
-Content-Type: application/pgp-signature; name="signature.asc"
+In this case the easiest way of doing this is to just return if initialize_vpif
+returns an error. No need to clean up anything.
 
------BEGIN PGP SIGNATURE-----
+Regards,
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPUIjAAKCRDj7w1vZxhR
-xdm0AP46c7mpa3rFUC3RjFMniXaoNTXWcQ8pPICsPfw3vjCa9gD+KujizJ6uc9di
-+fd1bkaTJJCq8ZbqR+3HqBMJe9acIgE=
-=wE3x
------END PGP SIGNATURE-----
+	Hans
 
---fsayms5djr42vwm2--
+>  
+>  	return err;
+>  }
+> @@ -1748,8 +1760,8 @@ static int vpif_remove(struct platform_device *device)
+>  		ch = vpif_obj.dev[i];
+>  		/* Unregister video device */
+>  		video_unregister_device(&ch->video_dev);
+> -		kfree(vpif_obj.dev[i]);
+>  	}
+> +	free_vpif_objs()
+>  	return 0;
+>  }
+>  
+> 
+
