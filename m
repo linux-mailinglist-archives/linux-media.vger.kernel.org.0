@@ -2,110 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF18D33727
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 19:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E09B7337B7
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 20:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbfFCRsa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 13:48:30 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40890 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfFCRs3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 13:48:29 -0400
-Received: by mail-wm1-f68.google.com with SMTP id u16so6766502wmc.5
-        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2019 10:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=tG+C56bB4yZxBjtgl2HHPxaWz0jBW2bNwXumPHNbLW0=;
-        b=BhPZdymONapufrSelNBLXojerNIjOMyi9S4HmKO2eKSpLmjVKoe5sgTl/RlRqLycYA
-         +8EnK8/7VlXYrrP6dJ3EsiNOprQ34KJcPjMU7Qj0y/j74HBRmKFra5U5H4KsZ/oSJYZm
-         cSRCEyRILKYvIm5aaGHGqTpXvAJwZDi1WjjdYzQFlVTowI19b0Dga3+rDUE1eX6Vg/wK
-         C2oMMkfsnM/sDlb9PHLRCZUJsvuI7Sx4EH38cdnZxQtE/r+VMzDf/3ZLck0YmXw5pHwB
-         o10SYmVmvpseFIt5N1wIoAD52iXGhmEz2Jn43TQNLuyxpV3XKl6T+79WyYZRGBlEbHfU
-         b5GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=tG+C56bB4yZxBjtgl2HHPxaWz0jBW2bNwXumPHNbLW0=;
-        b=AWnkUK2GfCyJdycYx4Z7yu1852J6Wfb5YslIgS3nuvdFnzgQ5sEjR4o6mDigxPlXFN
-         wzezUVVYwuBuXpWP9xfWpeaemUqZbfi9DfVmb0fviC3aZ70Qb/aVq9E+sF1ekucBT0S2
-         bvK2q1qNchKwNZfg0Vjh3RokpzOVGUA9b4MHphU/G8vbt85Skrj7KNk1lpl/Ffs8vhZC
-         TaeI376F7U8jLOnGOr61C+54xxpxaBhR4j1WZEapawd+NzOhkfQzkq4G2vkEQRkkSkCZ
-         pumFI6CKIcGWZZNZy92zm8WEC2wqWLzZWVJgRyRNPOFKWpJcsZA6Et6Ho/lZ2NAyCo/M
-         mF0g==
-X-Gm-Message-State: APjAAAW4evUE0RUGHXxEEpS1dYnjHGptlTHbc40tlcuyzY8hb6TOQsLC
-        PHg3kyMU8C557ZuY717PgHWe8Z8poG8=
-X-Google-Smtp-Source: APXvYqyab/bw/Y/9qFyjo8xTzzQv041IR/PDKkkMnWvDydo3Ucix7QTNZse0Cxj8TUqLHT9pq0txfQ==
-X-Received: by 2002:a1c:f909:: with SMTP id x9mr15132190wmh.12.1559584108222;
-        Mon, 03 Jun 2019 10:48:28 -0700 (PDT)
-Received: from arch-late (87-196-73-160.net.novis.pt. [87.196.73.160])
-        by smtp.gmail.com with ESMTPSA id q20sm19874248wra.36.2019.06.03.10.48.26
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 10:48:27 -0700 (PDT)
-References: <20190601175140.16305-1-festevam@gmail.com>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     hverkuil-cisco@xs4all.nl, p.zabel@pengutronix.de,
-        slongerbeam@gmail.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: imx7-media-csi: Use functions instead of macros
-In-reply-to: <20190601175140.16305-1-festevam@gmail.com>
-Date:   Mon, 03 Jun 2019 18:48:25 +0100
-Message-ID: <m3h896a7bq.fsf@gmail.com>
+        id S1726349AbfFCSTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 14:19:09 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:47388 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfFCSTJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 14:19:09 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x53I8gIs153035;
+        Mon, 3 Jun 2019 18:17:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=GlaYcvRbXVbYyKKXSyNwJ8tBGJAG2pfqt1R7amaBqEw=;
+ b=05U6KHBi25HCGJeXlllc8lO/7iSw1O36+nkjRk4VyMlhqURaxhzyWEAG56qBArt4ZIXH
+ Rs6H67bbFeXkJ8dNAj/863iIftETrMYapMu/08uwIeo59ZY37LjyfUDhTwYxIuq0apcm
+ mxgbgRIkv1jIFr3D9wbmIYjjONDeqSnJ2Q6OpAFTFQJnXlxeGQP3CRq4pVItc3hsAHhY
+ eyf+kruVixj7mGRtSpX0nUteC3Br6Cqgqf9GkrLjvi8wjVLQ+WKBafILZOHfOiiQNyNp
+ J0U+PSjroYIWCro+VOsKn1DLmMtnqiEQYZkolve4C6NI/cUHUIedA0+lH2Bzv9u6n/N0 Yw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2suj0q8ka1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 03 Jun 2019 18:17:43 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x53IGZGQ023818;
+        Mon, 3 Jun 2019 18:17:42 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 2sv36sc445-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 03 Jun 2019 18:17:42 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x53IHbbL010166;
+        Mon, 3 Jun 2019 18:17:37 GMT
+Received: from [192.168.1.16] (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 03 Jun 2019 11:17:36 -0700
+Subject: Re: [PATCH v16 01/16] uaccess: add untagged_addr definition for other
+ arches
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <097bc300a5c6554ca6fd1886421bb2e0adb03420.1559580831.git.andreyknvl@google.com>
+ <8ff5b0ff-849a-1e0b-18da-ccb5be85dd2b@oracle.com>
+ <CAAeHK+xX2538e674Pz25unkdFPCO_SH0pFwFu=8+DS7RzfYnLQ@mail.gmail.com>
+ <f6711d31-e52c-473a-d7ad-b2d63131d7a5@oracle.com>
+ <20190603172916.GA5390@infradead.org>
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+Organization: Oracle Corp
+Message-ID: <7a687a26-fc3e-2caa-1d6a-464f1f7e684c@oracle.com>
+Date:   Mon, 3 Jun 2019 12:17:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190603172916.GA5390@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9277 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=970
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906030124
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9277 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=988 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906030124
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Oi Fabio,
-On Sat 01 Jun 2019 at 18:51, Fabio Estevam wrote:
-> Currently there is a macro for reading and another macro for writing
-> to the CSI registers.
->
-> Functions can do parameter type checking, which leads to a safer code,
-> so switch from macro to function implementation.
->
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
->
+On 6/3/19 11:29 AM, Christoph Hellwig wrote:
+> On Mon, Jun 03, 2019 at 11:24:35AM -0600, Khalid Aziz wrote:
+>> On 6/3/19 11:06 AM, Andrey Konovalov wrote:
+>>> On Mon, Jun 3, 2019 at 7:04 PM Khalid Aziz <khalid.aziz@oracle.com> w=
+rote:
+>>>> Andrey,
+>>>>
+>>>> This patch has now become part of the other patch series Chris Hellw=
+ig
+>>>> has sent out -
+>>>> <https://lore.kernel.org/lkml/20190601074959.14036-1-hch@lst.de/>. C=
+an
+>>>> you coordinate with that patch series?
+>>>
+>>> Hi!
+>>>
+>>> Yes, I've seen it. How should I coordinate? Rebase this series on top=
 
-Thanks for the patches. for all of them:
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+>>> of that one?
+>>
+>> That would be one way to do it. Better yet, separate this patch from
+>> both patch series, make it standalone and then rebase the two patch
+>> series on top of it.
+>=20
+> I think easiest would be to just ask Linus if he could make an exceptio=
+n
+> and include this trivial prep patch in 5.2-rc.
+>=20
 
----
-Cheers,
-        Rui
+Andrey,
 
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index b1af8694899e..8abdf253696d 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -195,10 +195,16 @@ struct imx7_csi {
->  	struct completion last_eof_completion;
->  };
->
-> -#define imx7_csi_reg_read(_csi, _offset) \
-> -	__raw_readl((_csi)->regbase + (_offset))
-> -#define imx7_csi_reg_write(_csi, _val, _offset) \
-> -	__raw_writel(_val, (_csi)->regbase + (_offset))
-> +static u32 imx7_csi_reg_read(struct imx7_csi *csi, unsigned int offset)
-> +{
-> +	return readl(csi->regbase + offset);
-> +}
-> +
-> +static void imx7_csi_reg_write(struct imx7_csi *csi, unsigned int value,
-> +			       unsigned int offset)
-> +{
-> +	writel(value, csi->regbase + offset);
-> +}
->
->  static void imx7_csi_hw_reset(struct imx7_csi *csi)
->  {
+Would you mind updating the commit log to make it not arm64 specific and
+sending this patch out by itself. We can then ask Linus if he can
+include just this patch in the next rc.
+
+Thanks,
+Khalid
 
