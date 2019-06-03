@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 042643356F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 18:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7825C335AB
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 18:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727928AbfFCQz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 12:55:56 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:37080 "EHLO
+        id S1727243AbfFCQ5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 12:57:23 -0400
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:49121 "EHLO
         mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728320AbfFCQzy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 12:55:54 -0400
-Received: by mail-qk1-f202.google.com with SMTP id k13so1001747qkj.4
-        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2019 09:55:53 -0700 (PDT)
+        with ESMTP id S1729632AbfFCQz5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 12:55:57 -0400
+Received: by mail-qk1-f202.google.com with SMTP id w184so975735qka.15
+        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2019 09:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=V8W9/R1INxLH8IpjzMBaweiOjVPk4ghaGGjHQk6nF0Q=;
-        b=Ic80Nhco3iRVjaadOA8+znksGsevCWKjr0xS5FrfRT68EY2GjH7FNqxQ/S059IWRME
-         Uk1bw3K6alaW8N/9Rs9bh2+EZh8EcVJH3cxi1ame2GYHVGzkN7Qz1H1smlWX23XCNo3x
-         XPf9GSBwjp2Wlg5+Uj+WrIp+Jk7K9IWrhUgFda1FHXXV316C7cTRBKd5zQOn+A1+5Aft
-         F1iszJDrA1FKS5eHvaL17A52p/3BNscmam9+VyXB7pU/EsAF/YnBaqcEkTUbGMZM4HOi
-         O4Y2Ewn60j/2WNgR2OxufWSoY1qQbeSPNPwvgeO0aN1frIK5bxzhsw5VzJiPVQL++TeN
-         2Fgw==
+        bh=QTQ4ZZ+1ONHvx3iNcSe/c62gqBzIbuX20WtdiRnopfw=;
+        b=Iulw2LDXuMXrguiNT2nc8pImmlAd9SEaHxzy+PIXZoC7Ry1861+IgSJT7msXK0lxjW
+         Stlg9JACJI0q7DDqW7dFD1lXLlRa2BWigOxwo5Vw8cFe6qNirKkII0FhPNgtUk9+cp1T
+         aHJGoLoDr4Q8979Fk7TFLPwhp9/TzWuYwglUurKj3rFU9GpRJ5xL6D7/jxXgMSu4llum
+         hXs/FNVkTTazIDAfHhBMirRaAiVUM4CzdwvnR1yvQzgHmFdNai1A63k4wvi7etXyFGuo
+         QDD/dhSJypo/bxB/7BkdNMWk1BD1fsQcPpD2mwu3O8zxH9SkplM6OKzkYqDvbWZfOgAq
+         9GzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=V8W9/R1INxLH8IpjzMBaweiOjVPk4ghaGGjHQk6nF0Q=;
-        b=FWs+cTovQDwQJSlvvOKgqD1Y9JIH+xk8pILQ4KGlrOx3fw1CidVyaNH357rHpzxgLl
-         Sn/WdEJcWzka2lMWnBOGS/6p9F+BUu7xTnpSr5l/NW+UPwacOuexhucovvC72X4VuD3y
-         AB8zwH6F9uEUY0iILRb8wT/DeDnywKHxGdFlRJlngl9v0V8zHB+rYsy+gcCav9WOCE9V
-         oQvQr/3jibCWwScnbHhoaZYZL8hEN9IKfmOpAzmFc9s5OHX+GjWivJMRxCja2y8s5LcR
-         +js4B7CaqC7vtsW73E1GUHDxYH7H7IvqQJQVlmeXi5x993anUlQDAfp7P/egeX5YlwwJ
-         7jfg==
-X-Gm-Message-State: APjAAAWnvwctBuOsx4Wb2Sm+dHvzdoQbdZoYCM7fYOS8BP6VrhioPDZA
-        nrnAkarWsFacQ+z5Hu9YhpHIbFuDdE/mzSFZ
-X-Google-Smtp-Source: APXvYqxbJDGUw94i6RNaa88fy33raOhr5MIqE66YRUj/nWlTewQjYqVQIrvYFblxs7ri2FDDMOtmRTjTXzyL1IBV
-X-Received: by 2002:a37:6782:: with SMTP id b124mr6422877qkc.242.1559580953075;
- Mon, 03 Jun 2019 09:55:53 -0700 (PDT)
-Date:   Mon,  3 Jun 2019 18:55:11 +0200
+        bh=QTQ4ZZ+1ONHvx3iNcSe/c62gqBzIbuX20WtdiRnopfw=;
+        b=CGB5eYfr6K56uer1bJmwb1HQ5UjRVPVifeqCYWGz952AlAJcf4Imlun5Bpu0+5otXS
+         fO7v7TA3I3GC/p6jtw3v1ZDFzg/PGZRNhT9NHL7wXv9kaQtomtJKHaOfum9KwErga62I
+         WRT9qwBEN2eiyeKgzJIPOPfFqBFyLEj+c3uiEO75TRAs6QoyilmPmVUijO5n2dqdoJRN
+         VKXaOkYyrHQa6FJ75Uajmbt2j6D3iUlWDKYleCDi/5qk1dm/onLuY31FppN70EvsGBvo
+         YVSwdmIM8BCFuzRV23zFoQ5puS4jSiGEQ5rylyBy0pQOjVIPFWz8mD8DPYj1ioh5/HWu
+         IvPg==
+X-Gm-Message-State: APjAAAX+Dnv9w8byNkU2r1k8AmwTTc1+jE/X3iEdnCkeAc/sRoK6/xYQ
+        NgXMiT+XQmfl6popVyNrtuY4gKAcocOikQuo
+X-Google-Smtp-Source: APXvYqynCi8uC9mwY5hf72ttWfEiYBsQ+6wl0nvKi3Uj+AQb+Ufw5GSOsuV9qYkE0ai47XUYEZWA+IZ0Az+FoQAg
+X-Received: by 2002:a37:8002:: with SMTP id b2mr23304828qkd.289.1559580956267;
+ Mon, 03 Jun 2019 09:55:56 -0700 (PDT)
+Date:   Mon,  3 Jun 2019 18:55:12 +0200
 In-Reply-To: <cover.1559580831.git.andreyknvl@google.com>
-Message-Id: <7d6fef00d7daf647b5069101da8cf5a202da75b0.1559580831.git.andreyknvl@google.com>
+Message-Id: <47d4e95b61013933ffe4f0be8832d03179d94b27.1559580831.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1559580831.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
-Subject: [PATCH v16 09/16] fs, arm64: untag user pointers in fs/userfaultfd.c
+Subject: [PATCH v16 10/16] drm/amdgpu, arm64: untag user pointers
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -83,7 +83,7 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
+        Andrey Konovalov <andreyknvl@google.com>, Kuehling@google.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -94,94 +94,49 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-userfaultfd code use provided user pointers for vma lookups, which can
-only by done with untagged pointers.
+In amdgpu_gem_userptr_ioctl() and amdgpu_amdkfd_gpuvm.c/init_user_pages()
+an MMU notifier is set up with a (tagged) userspace pointer. The untagged
+address should be used so that MMU notifiers for the untagged address get
+correctly matched up with the right BO. This patch untag user pointers in
+amdgpu_gem_userptr_ioctl() for the GEM case and in amdgpu_amdkfd_gpuvm_
+alloc_memory_of_gpu() for the KFD case. This also makes sure that an
+untagged pointer is passed to amdgpu_ttm_tt_get_user_pages(), which uses
+it for vma lookups.
 
-Untag user pointers in validate_range().
-
+Suggested-by: Kuehling, Felix <Felix.Kuehling@amd.com>
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/userfaultfd.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c          | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-index 3b30301c90ec..24d68c3b5ee2 100644
---- a/fs/userfaultfd.c
-+++ b/fs/userfaultfd.c
-@@ -1263,21 +1263,23 @@ static __always_inline void wake_userfault(struct userfaultfd_ctx *ctx,
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index a6e5184d436c..5d476e9bbc43 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1108,7 +1108,7 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+ 		alloc_flags = 0;
+ 		if (!offset || !*offset)
+ 			return -EINVAL;
+-		user_addr = *offset;
++		user_addr = untagged_addr(*offset);
+ 	} else if (flags & ALLOC_MEM_FLAGS_DOORBELL) {
+ 		domain = AMDGPU_GEM_DOMAIN_GTT;
+ 		alloc_domain = AMDGPU_GEM_DOMAIN_CPU;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index d4fcf5475464..e91df1407618 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -287,6 +287,8 @@ int amdgpu_gem_userptr_ioctl(struct drm_device *dev, void *data,
+ 	uint32_t handle;
+ 	int r;
  
- static __always_inline int validate_range(struct mm_struct *mm,
--					  __u64 start, __u64 len)
-+					  __u64 *start, __u64 len)
- {
- 	__u64 task_size = mm->task_size;
- 
--	if (start & ~PAGE_MASK)
-+	*start = untagged_addr(*start);
++	args->addr = untagged_addr(args->addr);
 +
-+	if (*start & ~PAGE_MASK)
+ 	if (offset_in_page(args->addr | args->size))
  		return -EINVAL;
- 	if (len & ~PAGE_MASK)
- 		return -EINVAL;
- 	if (!len)
- 		return -EINVAL;
--	if (start < mmap_min_addr)
-+	if (*start < mmap_min_addr)
- 		return -EINVAL;
--	if (start >= task_size)
-+	if (*start >= task_size)
- 		return -EINVAL;
--	if (len > task_size - start)
-+	if (len > task_size - *start)
- 		return -EINVAL;
- 	return 0;
- }
-@@ -1327,7 +1329,7 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
- 		goto out;
- 	}
  
--	ret = validate_range(mm, uffdio_register.range.start,
-+	ret = validate_range(mm, &uffdio_register.range.start,
- 			     uffdio_register.range.len);
- 	if (ret)
- 		goto out;
-@@ -1516,7 +1518,7 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
- 	if (copy_from_user(&uffdio_unregister, buf, sizeof(uffdio_unregister)))
- 		goto out;
- 
--	ret = validate_range(mm, uffdio_unregister.start,
-+	ret = validate_range(mm, &uffdio_unregister.start,
- 			     uffdio_unregister.len);
- 	if (ret)
- 		goto out;
-@@ -1667,7 +1669,7 @@ static int userfaultfd_wake(struct userfaultfd_ctx *ctx,
- 	if (copy_from_user(&uffdio_wake, buf, sizeof(uffdio_wake)))
- 		goto out;
- 
--	ret = validate_range(ctx->mm, uffdio_wake.start, uffdio_wake.len);
-+	ret = validate_range(ctx->mm, &uffdio_wake.start, uffdio_wake.len);
- 	if (ret)
- 		goto out;
- 
-@@ -1707,7 +1709,7 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
- 			   sizeof(uffdio_copy)-sizeof(__s64)))
- 		goto out;
- 
--	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
-+	ret = validate_range(ctx->mm, &uffdio_copy.dst, uffdio_copy.len);
- 	if (ret)
- 		goto out;
- 	/*
-@@ -1763,7 +1765,7 @@ static int userfaultfd_zeropage(struct userfaultfd_ctx *ctx,
- 			   sizeof(uffdio_zeropage)-sizeof(__s64)))
- 		goto out;
- 
--	ret = validate_range(ctx->mm, uffdio_zeropage.range.start,
-+	ret = validate_range(ctx->mm, &uffdio_zeropage.range.start,
- 			     uffdio_zeropage.range.len);
- 	if (ret)
- 		goto out;
 -- 
 2.22.0.rc1.311.g5d7573a151-goog
 
