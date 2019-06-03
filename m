@@ -2,71 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6394332F50
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAADA32F53
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 14:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727569AbfFCMOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 08:14:03 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:53789 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727554AbfFCMOD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jun 2019 08:14:03 -0400
-X-Originating-IP: 90.88.144.139
-Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 970BC60004;
-        Mon,  3 Jun 2019 12:13:45 +0000 (UTC)
-Date:   Mon, 3 Jun 2019 14:13:45 +0200
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/7] media: cedrus: Remove dst_bufs from context
-Message-ID: <20190603121345.5uh4xquo64fopqnn@flea>
-References: <20190530211516.1891-1-jernej.skrabec@siol.net>
- <20190530211516.1891-5-jernej.skrabec@siol.net>
+        id S1727349AbfFCMOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 08:14:50 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:56801 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726873AbfFCMOu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 08:14:50 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id XlrOhLJi7sDWyXlrRhszmS; Mon, 03 Jun 2019 14:14:48 +0200
+Subject: Re: [PATCH] media: cxusb-analog: Use ARRAY_SIZE for
+ cxusub_medion_pin_config
+To:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, kbuild test robot <lkp@intel.com>
+References: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8512e951-03fc-34d0-6dcf-fe9667eba022@xs4all.nl>
+Date:   Mon, 3 Jun 2019 14:14:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hwwfrxwoaemzsp3p"
-Content-Disposition: inline
-In-Reply-To: <20190530211516.1891-5-jernej.skrabec@siol.net>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190531223756.1305617-1-mail@maciej.szmigiero.name>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGmmtXUUHWs4Wy+dOqpToMDsFs7CxmiRlydZe5t0GbMerN0581bsVAZyRW8PzdOffOAs7MRwnJbXTIOXwihj+s7sPIvmPvy33D9LA7srershSdsfMgZj
+ lIO2U90mRo/aVMkcSY/Va4sRZJhUrmYtw/GhZYXItXv7+IgEyO7GbG0nkQL0voyUVF6TaJgUY4s5HjyuUkNariA1gK14HeE2olOJdS53Fe818DySC1DRi60i
+ oH/VxHKJWkrWMBU35rz5KqIA5t/1XrmxbSQPA0FKBDMOIuuH0Uir3QaPWgWn9OwYOd/RmoffqQOEV59rgNqXfdS6+baGbBDgLTPrNeLUnI0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Maciej,
 
---hwwfrxwoaemzsp3p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thank you for the patch, but I posted a fix for this earlier already:
 
-On Thu, May 30, 2019 at 11:15:13PM +0200, Jernej Skrabec wrote:
-> This array is just duplicated capture buffer queue. Remove it and adjust
-> code to look into capture buffer queue instead.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+https://patchwork.linuxtv.org/patch/56441/
 
-Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+I'll drop this patch in favor of the one above. Apologies for not
+CC-ing you on my patch, I should have done that.
 
-Maxime
+Regards,
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+	Hans
 
---hwwfrxwoaemzsp3p
-Content-Type: application/pgp-signature; name="signature.asc"
+On 6/1/19 12:37 AM, Maciej S. Szmigiero wrote:
+> Use ARRAY_SIZE for computing element count of cxusub_medion_pin_config
+> array as suggested by the kbuild test robot.
+> 
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+> ---
+>  drivers/media/usb/dvb-usb/cxusb-analog.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
+> index 9b42ca71c177..51d3cba32b60 100644
+> --- a/drivers/media/usb/dvb-usb/cxusb-analog.c
+> +++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
+> @@ -1622,8 +1622,7 @@ int cxusb_medion_analog_init(struct dvb_usb_device *dvbdev)
+>  	/* TODO: setup audio samples insertion */
+>  
+>  	ret = v4l2_subdev_call(cxdev->cx25840, core, s_io_pin_config,
+> -			       sizeof(cxusub_medion_pin_config) /
+> -			       sizeof(cxusub_medion_pin_config[0]),
+> +			       ARRAY_SIZE(cxusub_medion_pin_config),
+>  			       cxusub_medion_pin_config);
+>  	if (ret != 0)
+>  		dev_warn(&dvbdev->udev->dev,
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPUO+QAKCRDj7w1vZxhR
-xY1uAP9hH5O7WjfeV/BXsKPStm23IM1ZX1gwoL+bHz6M1yQBjwD+NvJ/2aWqWf8f
-R+ArhaQDIa5EhvE33GmymyMWU6/RpQc=
-=Hu9G
------END PGP SIGNATURE-----
-
---hwwfrxwoaemzsp3p--
