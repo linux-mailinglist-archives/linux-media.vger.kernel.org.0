@@ -2,367 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0F532D06
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 11:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 603F632D51
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2019 12:00:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727421AbfFCJkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jun 2019 05:40:06 -0400
-Received: from mail-eopbgr800080.outbound.protection.outlook.com ([40.107.80.80]:3108
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1727329AbfFCKAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jun 2019 06:00:04 -0400
+Received: from mail-eopbgr750043.outbound.protection.outlook.com ([40.107.75.43]:34838
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726341AbfFCJkG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Jun 2019 05:40:06 -0400
+        id S1727003AbfFCKAE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Jun 2019 06:00:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g3xVghtUpX1mhTaDQja477SabT74htDt1XPin70ZS6M=;
- b=u47ir6BVjpLGg0AIG/tog9keJjLhpT4+LfwY9wdedM1QiIX7QuaGLkK53wGlWGE+cHKULKtbqNihhJccTXvjtNvc+vxJ7yhqZleJ3qJqoVqAQoU9sOZ+AxmZGj0/Euaku96moJPyGqebJ6UAQBWI0IzAvNogDPLLGnXICFokilo=
-Received: from CH2PR02MB6088.namprd02.prod.outlook.com (52.132.228.94) by
- CH2PR02MB6101.namprd02.prod.outlook.com (52.132.228.155) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1943.18; Mon, 3 Jun 2019 09:40:00 +0000
-Received: from CH2PR02MB6088.namprd02.prod.outlook.com
- ([fe80::3cca:e795:ebe2:b366]) by CH2PR02MB6088.namprd02.prod.outlook.com
- ([fe80::3cca:e795:ebe2:b366%6]) with mapi id 15.20.1943.018; Mon, 3 Jun 2019
- 09:40:00 +0000
-From:   Vishal Sagar <vsagar@xilinx.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vishal Sagar <vishal.sagar@xilinx.com>
-CC:     Hyun Kwon <hyunk@xilinx.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
+ bh=nSySRpPrnpZf1tjbBvHg+9ujlAfg46/Mj9t/j1b6ynQ=;
+ b=vqEaZYdYkjLxRiWywTe6BFLR8V74GOhnUx8L6beg5LFTGeaHrsbJ6FeX+zSbEqX1d1VC1VcZh+6fpQIMYpmxsz1MoiiYqYuUJCdUg8WrNTC3x15PG6Alk/H8SzdQrOaTcThJtKzzVWN23PJ4rDFWsoGyayt+HTG/OBr/P69RsLg=
+Received: from CY4PR02CA0024.namprd02.prod.outlook.com (2603:10b6:903:18::34)
+ by BN6PR02MB2673.namprd02.prod.outlook.com (2603:10b6:404:fd::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1943.22; Mon, 3 Jun
+ 2019 09:59:59 +0000
+Received: from SN1NAM02FT016.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::200) by CY4PR02CA0024.outlook.office365.com
+ (2603:10b6:903:18::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1943.17 via Frontend
+ Transport; Mon, 3 Jun 2019 09:59:59 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; jmondi.org; dkim=none (message not signed)
+ header.d=none;jmondi.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT016.mail.protection.outlook.com (10.152.72.113) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1943.19
+ via Frontend Transport; Mon, 3 Jun 2019 09:59:58 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1hXjl0-0006bS-2O; Mon, 03 Jun 2019 02:59:58 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1hXjku-0006Zl-WC; Mon, 03 Jun 2019 02:59:53 -0700
+Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66] (may be forged))
+        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x539xgcu018342;
+        Mon, 3 Jun 2019 02:59:42 -0700
+Received: from [172.23.62.223] (helo=xhdrdevl203.xilinx.com)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1hXjkj-0006Xs-Pq; Mon, 03 Jun 2019 02:59:42 -0700
+From:   Vishal Sagar <vishal.sagar@xilinx.com>
+To:     Hyun Kwon <hyunk@xilinx.com>, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Dinesh Kumar <dineshk@xilinx.com>,
         Sandip Kothari <sandipk@xilinx.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Subject: RE: [PATCH v7 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
- Subsystem driver
-Thread-Topic: [PATCH v7 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
- Subsystem driver
-Thread-Index: AQHU2ll5hXMlh9sgmEWvEs930MmUZ6YX3EIAgHJL8cA=
-Date:   Mon, 3 Jun 2019 09:39:59 +0000
-Message-ID: <CH2PR02MB6088E29E6F2C41A97779E127A7140@CH2PR02MB6088.namprd02.prod.outlook.com>
-References: <1552562691-14445-1-git-send-email-vishal.sagar@xilinx.com>
- <1552562691-14445-3-git-send-email-vishal.sagar@xilinx.com>
- <20190322160115.4sket6kvo5aj3dds@paasikivi.fi.intel.com>
-In-Reply-To: <20190322160115.4sket6kvo5aj3dds@paasikivi.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsagar@xilinx.com; 
-x-originating-ip: [149.199.50.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1897ec31-900e-409f-fb0f-08d6e8077264
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:CH2PR02MB6101;
-x-ms-traffictypediagnostic: CH2PR02MB6101:
-x-microsoft-antispam-prvs: <CH2PR02MB6101BA308AFDD63D1A71D3D7A7140@CH2PR02MB6101.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0057EE387C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(366004)(39860400002)(136003)(346002)(13464003)(51914003)(189003)(199004)(229853002)(305945005)(3846002)(6436002)(8936002)(6116002)(68736007)(74316002)(81156014)(486006)(11346002)(446003)(7416002)(8676002)(81166006)(5660300002)(76116006)(476003)(2906002)(73956011)(66476007)(64756008)(186003)(66446008)(7736002)(9686003)(6636002)(52536014)(55016002)(66556008)(86362001)(33656002)(66066001)(76176011)(14454004)(478600001)(14444005)(256004)(66946007)(110136005)(4326008)(54906003)(7696005)(71190400001)(71200400001)(99286004)(102836004)(316002)(6246003)(53546011)(25786009)(26005)(6506007)(53936002);DIR:OUT;SFP:1101;SCL:1;SRVR:CH2PR02MB6101;H:CH2PR02MB6088.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: xilinx.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: IeIy6GjGIyCXz9YzsHi13KTYNB7bdpKnw1IJriPYdXngpBEWsZrUJsRARx4SlDGiK7BTlDMr15wjrB2+xIreb19Loz/tk9m7c3LAIB1zvlQ0gDk6hciskP261SChvwi/uxcs062Q/dM+oq+DdrV8B6y1MjEzKGDOgi96zZhevO6wF5HjbipDgoXo7xz8whlcesA9VSAUeoFA8HiUUkARm/J5uWYMr8pV+zGPYnFeySzxvUICanaU3kZTv05zcA/0hYLyyIK1xTZq5QdrxJtrEJQJRyOD7NyYuz5+FXfC1GXctl+RHeYaykwhEXU8w2PNuSr4zK9FGxShq9e2Nm6MnrEG11cMHveJh0ArD3W+d8y6we3foz93DtQLQmTwFp/sFN4yNAe0g2IuymxE2XDAIuRNYeeR9sW2KbOaD9+xRAk=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Vishal Sagar <vishal.sagar@xilinx.com>
+Subject: [PATCH v8 0/2] Add support for Xilinx CSI2 Receiver Subsystem
+Date:   Mon,  3 Jun 2019 15:29:29 +0530
+Message-Id: <1559555971-193235-1-git-send-email-vishal.sagar@xilinx.com>
+X-Mailer: git-send-email 1.8.3.1
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(136003)(39860400002)(396003)(346002)(376002)(2980300002)(199004)(189003)(8676002)(4326008)(81156014)(2906002)(2616005)(77096007)(107886003)(8936002)(186003)(305945005)(26005)(336012)(50226002)(50466002)(356004)(476003)(81166006)(4720700003)(6666004)(48376002)(36756003)(44832011)(426003)(14444005)(126002)(486006)(47776003)(36386004)(316002)(63266004)(110136005)(16586007)(478600001)(70586007)(51416003)(86362001)(5660300002)(7416002)(7696005)(106002)(9786002)(70206006)(921003)(42866002)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR02MB2673;H:xsj-pvapsmtpgw01;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-83.xilinx.com;A:1;MX:1;
 MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a9473fd-4a91-4f3c-7e7c-08d6e80a3cf3
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(4709080)(1401327)(2017052603328);SRVR:BN6PR02MB2673;
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2673:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB2673519F738294B4BB8B857EF6140@BN6PR02MB2673.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0057EE387C
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: 2x0HIU5WLUpLDXQ7CcttJJTihzGjEYzBUrVZPrOFy0e0w3exBKMt/n61JC87KxXnHLhobIEJ1BN0V3bjjfjH6MCYRTxRR/+Eqi9POBzzQKC6YQH4qX4lQG8O78iIXcH7Q50+0/c6lPL5hwMdO5e3X3eOrRhXqkilBvs8ywXTFJy21xT9Dir+pVFxRsior0vclW3jCaQfsIL8lI3Pzj8N52X+htNP//3JV/g+/6k+GUAKnQZilKij8VuVok5w5A7Zd4CeqkMe0D5JRo9ltZeG2XDwlnT86R6W6ybMaPOJPX8n79E0jk8PKHbU6vBn442mz4DH+E7/IdeZ1D7VMhHlRBdr2f6KZhP2ueV6UA3nusfEzjb6O4G1tQSwJrswnikwMXX0VYRgBhy7wjks6SFV4fa79yKSLLkNvYpA9dHjNlg=
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1897ec31-900e-409f-fb0f-08d6e8077264
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2019 09:40:00.0289
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2019 09:59:58.4727
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsagar@xilinx.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6101
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a9473fd-4a91-4f3c-7e7c-08d6e80a3cf3
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2673
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
 
-Thanks for the review.=20
+Xilinx MIPI CSI-2 Receiver Subsystem
+------------------------------------
 
-> -----Original Message-----
-> From: Sakari Ailus [mailto:sakari.ailus@linux.intel.com]
-> Sent: Friday, March 22, 2019 9:31 PM
-> To: Vishal Sagar <vishal.sagar@xilinx.com>
-> Cc: Hyun Kwon <hyunk@xilinx.com>; laurent.pinchart@ideasonboard.com;
-> mchehab@kernel.org; robh+dt@kernel.org; mark.rutland@arm.com; Michal
-> Simek <michals@xilinx.com>; linux-media@vger.kernel.org;
-> devicetree@vger.kernel.org; hans.verkuil@cisco.com; linux-arm-
-> kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Dinesh Kumar
-> <dineshk@xilinx.com>; Sandip Kothari <sandipk@xilinx.com>; Luca Ceresoli
-> <luca@lucaceresoli.net>
-> Subject: Re: [PATCH v7 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
-> Subsystem driver
->=20
-> EXTERNAL EMAIL
->=20
-> Hi Vishal,
->=20
-> On Thu, Mar 14, 2019 at 04:54:51PM +0530, Vishal Sagar wrote:
-> > The Xilinx MIPI CSI-2 Rx Subsystem soft IP is used to capture images
-> > from MIPI CSI-2 camera sensors and output AXI4-Stream video data ready
-> > for image processing. Please refer to PG232 for details.
-> >
-> > The driver is used to set the number of active lanes, if enabled
-> > in hardware. The CSI2 Rx controller filters out all packets except for
-> > the packets with data type fixed in hardware. RAW8 packets are always
-> > allowed to pass through.
-> >
-> > It is also used to setup and handle interrupts and enable the core. It
-> > logs all the events in respective counters between streaming on and off=
-.
-> > The generic short packets received are notified to application via
-> > v4l2_events.
-> >
-> > The driver supports only the video format bridge enabled configuration.
-> > Some data types like YUV 422 10bpc, RAW16, RAW20 are supported when
-> the
-> > CSI v2.0 feature is enabled in design. When the VCX feature is enabled,
-> > the maximum number of virtual channels becomes 16 from 4.
-> >
-> > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> > Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-> > ---
-> > v7
-> > - No change
-> >
-> > v6
-> > - No change
-> >
-> > v5
-> > - Removed bayer and updated related parts like set default format based
-> >   on Luca Cersoli's comments.
-> > - Added correct YUV422 10bpc media bus format
-> >
-> > v4
-> > - Removed irq member from core structure
-> > - Consolidated IP config prints in xcsi2rxss_log_ipconfig()
-> > - Return -EINVAL in case of invalid ioctl
-> > - Code formatting
-> > - Added reviewed by Hyun Kwon
-> >
-> > v3
-> > - Fixed comments given by Hyun.
-> > - Removed DPHY 200 MHz clock. This will be controlled by DPHY driver
-> > - Minor code formatting
-> > - en_csi_v20 and vfb members removed from struct and made local to dt
-> parsing
-> > - lock description updated
-> > - changed to ratelimited type for all dev prints in irq handler
-> > - Removed YUV 422 10bpc media format
-> >
-> > v2
-> > - Fixed comments given by Hyun and Sakari.
-> > - Made all bitmask using BIT() and GENMASK()
-> > - Removed unused definitions
-> > - Removed DPHY access. This will be done by separate DPHY PHY driver.
-> > - Added support for CSI v2.0 for YUV 422 10bpc, RAW16, RAW20 and extra
-> >   virtual channels
-> > - Fixed the ports as sink and source
-> > - Now use the v4l2fwnode API to get number of data-lanes
-> > - Added clock framework support
-> > - Removed the close() function
-> > - updated the set format function
-> > - support only VFB enabled configuration
-> >
-> >  drivers/media/platform/xilinx/Kconfig           |   10 +
-> >  drivers/media/platform/xilinx/Makefile          |    1 +
-> >  drivers/media/platform/xilinx/xilinx-csi2rxss.c | 1465
-> +++++++++++++++++++++++
-> >  include/uapi/linux/xilinx-v4l2-controls.h       |   14 +
-> >  include/uapi/linux/xilinx-v4l2-events.h         |   25 +
-> >  5 files changed, 1515 insertions(+)
-> >  create mode 100644 drivers/media/platform/xilinx/xilinx-csi2rxss.c
-> >  create mode 100644 include/uapi/linux/xilinx-v4l2-events.h
-> >
-> > diff --git a/drivers/media/platform/xilinx/Kconfig
-> b/drivers/media/platform/xilinx/Kconfig
-> > index 74ec8aa..30b4a25 100644
-> > --- a/drivers/media/platform/xilinx/Kconfig
-> > +++ b/drivers/media/platform/xilinx/Kconfig
-> > @@ -10,6 +10,16 @@ config VIDEO_XILINX
-> >
-> >  if VIDEO_XILINX
-> >
+The Xilinx MIPI CSI-2 Receiver Subsystem Soft IP consists of a DPHY which
+gets the data, an optional I2C, a CSI-2 Receiver which parses the data and
+converts it into AXIS data.
+This stream output maybe connected to a Xilinx Video Format Bridge.
+The maximum number of lanes supported is fixed in the design.
+The number of active lanes can be programmed.
+For e.g. the design may set maximum lanes as 4 but if the camera sensor has
+only 1 lane then the active lanes shall be set as 1.
 
-<snip>
+The pixel format set in design acts as a filter allowing only the selected
+data type or RAW8 data packets. The D-PHY register access can be gated in
+the design. The base address of the DPHY depends on whether the internal
+Xilinx I2C controller is enabled or not in design.
 
-> > + *
-> > + * Return: 0 on success, errors otherwise
-> > + */
-> > +static int xcsi2rxss_subscribe_event(struct v4l2_subdev *sd,
-> > +                                  struct v4l2_fh *fh,
-> > +                                  struct v4l2_event_subscription *sub)
-> > +{
-> > +     struct xcsi2rxss_state *xcsi2rxss =3D to_xcsi2rxssstate(sd);
-> > +     int ret;
-> > +
-> > +     mutex_lock(&xcsi2rxss->lock);
-> > +
-> > +     switch (sub->type) {
-> > +     case V4L2_EVENT_XLNXCSIRX_SPKT:
-> > +     case V4L2_EVENT_XLNXCSIRX_SPKT_OVF:
-> > +     case V4L2_EVENT_XLNXCSIRX_SLBF:
-> > +             ret =3D v4l2_event_subscribe(fh, sub, XCSI_MAX_SPKT_EVENT=
-, NULL);
->=20
-> What's your use case for notifying the user about the short packets?
+The device driver registers the MIPI CSI2 Rx Subsystem as a V4L2 sub device
+having 2 pads. The sink pad is connected to the MIPI camera sensor and
+output pad is connected to the video node.
+Refer to xlnx,csi2rxss.txt for device tree node details.
 
-I don't have a use case.
-My motivation was that v4l2 events would be a good way to notify and share =
-short packet with application.
+This driver helps configure the number of active lanes to be set, setting
+and handling interrupts and IP core enable. It logs the number of events
+occurring according to their type between streaming ON and OFF.
 
-> Generally these are control messages of some kind that do not need handli=
-ng
-> by the user.
->=20
-> If it's just debugging, you could print them using dev_dbg().
->=20
-> Same for the frame counter.
->=20
+It adds new V4L2 controls which are used to get the event counter values
+and reset the subsystem.
 
-Ok. I will be removing these in the next version.
+The Xilinx CSI-2 Rx Subsystem outputs an AXI4 Stream data which can be
+used for image processing. This data follows the video formats mentioned
+in Xilinx UG934 when the Video Format Bridge is enabled.
 
-> > +             break;
-> > +     default:
-> > +             ret =3D -EINVAL;
-> > +     }
-> > +
-> > +     mutex_unlock(&xcsi2rxss->lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +/**
-> > + * xcsi2rxss_unsubscribe_event - Unsubscribe from all events registere=
-d
-> > + * @sd: V4L2 Sub device
-> > + * @fh: V4L2 file handle
-> > + * @sub: pointer to Event unsubscription structure
-> > + *
+v8
+- 1/2
+  - Added reset-gpios optional property
+- 2/2
+  - Use clk_bulk* APIs
+  - Add gpio reset for asserting video_aresetn when stream line buffer occurs
+  - Removed short packet related events and irq handling
+    - V4L2_EVENT_XLNXCSIRX_SPKT and V4L2_EVENT_XLNXCSIRX_SPKT_OVF removed
+  - Removed frame counter control V4L2_CID_XILINX_MIPICSISS_FRAME_COUNTER
+    and xcsi2rxss_g_volatile_ctrl()
+  - Minor formatting fixes
 
-<snip>
+v7
+- 1/2
+  - Removed the name of control from en-active-lanes as suggested by Sakari
+  - Updated the dt node name to csi2rx
+- 2/2
+  - No change
 
-> > +static struct v4l2_mbus_framefmt *
-> > +__xcsi2rxss_get_pad_format(struct xcsi2rxss_state *xcsi2rxss,
-> > +                        struct v4l2_subdev_pad_config *cfg,
-> > +                        unsigned int pad, u32 which)
-> > +{
-> > +     switch (which) {
-> > +     case V4L2_SUBDEV_FORMAT_TRY:
-> > +             return v4l2_subdev_get_try_format(&xcsi2rxss->subdev, cfg=
-,
-> > +                                               pad);
->=20
-> Fits on a single line.
->=20
+v6
+- 1/2
+  - Added minor comment by Luca
+  - Added Reviewed by Rob Herring
+- 2/2
+  - No change
 
-Agree. I will fix this in next version.
+v5
+- 1/2
+  - Removed the DPHY clock description and dt node.
+  - removed bayer pattern as CSI doesn't deal with it.
+- 2/2
+  - removed bayer pattern as CSI doesn't deal with it.
+  - add YUV422 10bpc media bus format.
 
-> > +     case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > +             return &xcsi2rxss->format;
-> > +     default:
-> > +             return NULL;
-> > +     }
-> > +}
-> > +
-> > +/**
+v4
+- 1/2
+  - Added reviewed by Hyun Kwon
+- 2/2
+  - Removed irq member from core structure
+  - Consolidated IP config prints in xcsi2rxss_log_ipconfig()
+  - Return -EINVAL in case of invalid ioctl
+  - Code formatting
+  - Added reviewed by Hyun Kwon
 
-<snip>
+v3
+- 1/2
+  - removed interrupt parent as suggested by Rob
+  - removed dphy clock
+  - moved vfb to optional properties
+  - Added required and optional port properties section
+  - Added endpoint property section
+- 2/2
+ - Fixed comments given by Hyun.
+ - Removed DPHY 200 MHz clock. This will be controlled by DPHY driver
+ - Minor code formatting
+ - en_csi_v20 and vfb members removed from struct and made local to dt parsing
+ - lock description updated
+ - changed to ratelimited type for all dev prints in irq handler
+ - Removed YUV 422 10bpc media format
 
-> > +static int xcsi2rxss_clk_get(struct xcsi2rxss_core *core)
-> > +{
-> > +     int ret;
-> > +
-> > +     core->lite_aclk =3D devm_clk_get(core->dev, "lite_aclk");
-> > +     if (IS_ERR(core->lite_aclk)) {
-> > +             ret =3D PTR_ERR(core->lite_aclk);
-> > +             dev_err(core->dev, "failed to get lite_aclk (%d)\n",
-> > +                     ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     core->video_aclk =3D devm_clk_get(core->dev, "video_aclk");
-> > +     if (IS_ERR(core->video_aclk)) {
-> > +             ret =3D PTR_ERR(core->video_aclk);
-> > +             dev_err(core->dev, "failed to get video_aclk (%d)\n",
-> > +                     ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int xcsi2rxss_clk_enable(struct xcsi2rxss_core *core)
-> > +{
-> > +     int ret;
-> > +
-> > +     ret =3D clk_prepare_enable(core->lite_aclk);
-> > +     if (ret) {
-> > +             dev_err(core->dev, "failed enabling lite_aclk (%d)\n",
-> > +                     ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     ret =3D clk_prepare_enable(core->video_aclk);
-> > +     if (ret) {
-> > +             dev_err(core->dev, "failed enabling video_aclk (%d)\n",
-> > +                     ret);
-> > +             clk_disable_unprepare(core->lite_aclk);
-> > +             return ret;
-> > +     }
-> > +
->=20
-> Could you use the *_clk_bulk_* APIs instead in the two functions? Below,
-> too.
->=20
+v2
+- 1/2
+  - updated the compatible string to latest version supported
+  - removed DPHY related parameters
+  - added CSI v2.0 related property (including VCX for supporting upto 16
+    virtual channels).
+  - modified csi-pxl-format from string to unsigned int type where the value
+    is as per the CSI specification
+  - Defined port 0 and port 1 as sink and source ports.
+  - Removed max-lanes property as suggested by Rob and Sakari
 
-Ok. I will fix this in next version.
+- 2/2
+  - Fixed comments given by Hyun and Sakari.
+  - Made all bitmask using BIT() and GENMASK()
+  - Removed unused definitions
+  - Removed DPHY access. This will be done by separate DPHY PHY driver.
+  - Added support for CSI v2.0 for YUV 422 10bpc, RAW16, RAW20 and extra
+    virtual channels
+  - Fixed the ports as sink and source
+  - Now use the v4l2fwnode API to get number of data-lanes
+  - Added clock framework support
+  - Removed the close() function
+  - updated the set format function
+  - Support only VFB enabled config
 
-> > +     return ret;
-> > +}
-> > +
-> > +static void xcsi2rxss_clk_disable(struct xcsi2rxss_core *core)
-> > +{
-> > +     clk_disable_unprepare(core->video_aclk);
-> > +     clk_disable_unprepare(core->lite_aclk);
-> > +}
-> > +
+Vishal Sagar (2):
+  media: dt-bindings: media: xilinx: Add Xilinx MIPI CSI-2 Rx Subsystem
+  media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx Subsystem driver
 
-<snip>
+ .../bindings/media/xilinx/xlnx,csi2rxss.txt        |  119 ++
+ drivers/media/platform/xilinx/Kconfig              |   10 +
+ drivers/media/platform/xilinx/Makefile             |    1 +
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c    | 1406 ++++++++++++++++++++
+ include/uapi/linux/xilinx-v4l2-controls.h          |   12 +
+ include/uapi/linux/xilinx-v4l2-events.h            |   21 +
+ 6 files changed, 1569 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.txt
+ create mode 100644 drivers/media/platform/xilinx/xilinx-csi2rxss.c
+ create mode 100644 include/uapi/linux/xilinx-v4l2-events.h
 
-> > +/* Short packet FIFO overflow */
-> > +#define V4L2_EVENT_XLNXCSIRX_SPKT_OVF
-> (V4L2_EVENT_XLNXCSIRX_CLASS | 0x2)
-> > +/* Stream Line Buffer full */
-> > +#define V4L2_EVENT_XLNXCSIRX_SLBF    (V4L2_EVENT_XLNXCSIRX_CLASS |
-> 0x3)
-> > +
-> > +#endif /* __UAPI_XILINX_V4L2_EVENTS_H__ */
->=20
-> --
-> Regards,
->=20
-> Sakari Ailus
-> sakari.ailus@linux.intel.com
+-- 
+1.8.3.1
 
-
-Regards
-Vishal Sagar
