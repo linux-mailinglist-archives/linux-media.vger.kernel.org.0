@@ -2,64 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA1753456C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D67345C7
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:45:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbfFDLav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 07:30:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726508AbfFDLav (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Jun 2019 07:30:51 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9530C24BDC;
-        Tue,  4 Jun 2019 11:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559647851;
-        bh=BABEmEyvyc0NzAlG1uEwpJ1teQrAL2899GTNBrnmIMI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xdTaFrNzQw9V5OdgWcYOlLkuPu0NgSt7kyoWe3mxIfqZ0rO4xOzvIoPaNG44rIOuu
-         0sfI10K02oYUKgiUakupATly+kbTC3qCbgPkAidQdaMUL7kRwIequ65Q7Eu67ZWHmv
-         mdsv/e3Jb4vMRuZFCQSkpexz6UPpDlfwo1OYWp2E=
-Date:   Tue, 4 Jun 2019 13:30:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH 6/7] vc04_services/bcm2835-camera: set device_caps in
- struct video_device
-Message-ID: <20190604113048.GA18535@kroah.com>
-References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
- <20190604111958.22331-7-hverkuil-cisco@xs4all.nl>
+        id S1727532AbfFDLpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 07:45:36 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36653 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727416AbfFDLpg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 07:45:36 -0400
+Received: by mail-pl1-f195.google.com with SMTP id d21so8255586plr.3
+        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 04:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ROpXrP+r2OC9uJKtrd7VeU5I2GEkuLFi73TKRyEYr3w=;
+        b=YbXtk1gZpPouwSYE2Vhs1oY1Y4f37CPgCl4rhCDKDXOACPNCfLr9np6wKfbnqxvNqK
+         net1HG8o5wBQb4vNApxrOerpg8MX7Frcm0nkoJCRedOp4gIlsU8B+szPQLnyAp7uDFz6
+         18a5z5D1t2cCXPLwVyjN57+1xoFuuaOeWrZS3QYEL6m6NSRbpHdyTtJVRsjz8hDvO7ay
+         x4MfN3T0GXyhVOPDl8Cb4swrSICIbrgdMT9k5w6B73MKVGcGVf0T8Ojj0gm6GQdck4bi
+         ehe9TCYVm49T6ewlmRPV9pTGt0imE7M4Hg2EyyudgsziWrwS3zmaj416nN50DFpNVxSV
+         8gRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ROpXrP+r2OC9uJKtrd7VeU5I2GEkuLFi73TKRyEYr3w=;
+        b=Gmb003MpzUiEMlnBWVCYWLIARkEjaeNcmY4hJy2ZAAcHJBPalOrEtciYK3Bi6U2KIk
+         zZgCQGCW/UH7Zs1klMHiaH5Zxu37jtRVZ6RADh0Mg8+XDDvFmfaEUxA/cCrlJrhwzZ8Y
+         CR0QoXgIyTXdQk0kCP0Ke0x0AZJSEOjb2eXe6MJAQAGH3Jj2ZTwoRrVALMsiyoK4mvsI
+         ik4ZHlt2e1hQX07SZButJE14DbtQH9D1kRJjqAmdMASwfZ5r/0e/glufg47bTGyYC406
+         AF1fUvJ6RG7SnRt2N+c32uF0oxZIC1CHaUxxd0nfX7P78kFjIt8TQni+Cjm6Wvn+H81g
+         YNCQ==
+X-Gm-Message-State: APjAAAX4DqVd+GTm4SEFuE2Q3SRZOOXehaQzSgck9qyy/5m7GZB2Ynxi
+        ZS+A9q4Msv2NdJ5dfGAApzmEpCsv9WtKHxMpF+A/TQ==
+X-Google-Smtp-Source: APXvYqw/MEeiL2bhH+9bBygV1lo6Im71uAjcUSVWx84fFkrTwjlzF36BIb4PZCfj0/vMKrfmiVx/F/2QMSAp/3q5QEs=
+X-Received: by 2002:a17:902:8609:: with SMTP id f9mr33680584plo.252.1559648735444;
+ Tue, 04 Jun 2019 04:45:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190604111958.22331-7-hverkuil-cisco@xs4all.nl>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <cover.1559580831.git.andreyknvl@google.com> <097bc300a5c6554ca6fd1886421bb2e0adb03420.1559580831.git.andreyknvl@google.com>
+ <8ff5b0ff-849a-1e0b-18da-ccb5be85dd2b@oracle.com> <CAAeHK+xX2538e674Pz25unkdFPCO_SH0pFwFu=8+DS7RzfYnLQ@mail.gmail.com>
+ <f6711d31-e52c-473a-d7ad-b2d63131d7a5@oracle.com> <20190603172916.GA5390@infradead.org>
+ <7a687a26-fc3e-2caa-1d6a-464f1f7e684c@oracle.com>
+In-Reply-To: <7a687a26-fc3e-2caa-1d6a-464f1f7e684c@oracle.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 4 Jun 2019 13:45:24 +0200
+Message-ID: <CAAeHK+wccK1upfOWxNbZBR0BUWT23VFUFEqRTEp3H+8hXN8yzw@mail.gmail.com>
+Subject: Re: [PATCH v16 01/16] uaccess: add untagged_addr definition for other arches
+To:     Khalid Aziz <khalid.aziz@oracle.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 04, 2019 at 01:19:57PM +0200, Hans Verkuil wrote:
-> Instead of filling in the struct v4l2_capability device_caps
-> field, fill in the struct video_device device_caps field.
-> 
-> That way the V4L2 core knows what the capabilities of the
-> video device are.
-> 
-> But this only really works if all drivers use this, so convert
-> this driver accordingly.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Eric Anholt <eric@anholt.net>
-> ---
->  .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c   | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+On Mon, Jun 3, 2019 at 8:17 PM Khalid Aziz <khalid.aziz@oracle.com> wrote:
+>
+> On 6/3/19 11:29 AM, Christoph Hellwig wrote:
+> > On Mon, Jun 03, 2019 at 11:24:35AM -0600, Khalid Aziz wrote:
+> >> On 6/3/19 11:06 AM, Andrey Konovalov wrote:
+> >>> On Mon, Jun 3, 2019 at 7:04 PM Khalid Aziz <khalid.aziz@oracle.com> wrote:
+> >>>> Andrey,
+> >>>>
+> >>>> This patch has now become part of the other patch series Chris Hellwig
+> >>>> has sent out -
+> >>>> <https://lore.kernel.org/lkml/20190601074959.14036-1-hch@lst.de/>. Can
+> >>>> you coordinate with that patch series?
+> >>>
+> >>> Hi!
+> >>>
+> >>> Yes, I've seen it. How should I coordinate? Rebase this series on top
+> >>> of that one?
+> >>
+> >> That would be one way to do it. Better yet, separate this patch from
+> >> both patch series, make it standalone and then rebase the two patch
+> >> series on top of it.
+> >
+> > I think easiest would be to just ask Linus if he could make an exception
+> > and include this trivial prep patch in 5.2-rc.
+> >
+>
+> Andrey,
+>
+> Would you mind updating the commit log to make it not arm64 specific and
+> sending this patch out by itself. We can then ask Linus if he can
+> include just this patch in the next rc.
 
+Sure! Just sent it out.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> Thanks,
+> Khalid
+>
