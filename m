@@ -2,698 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B839B3454F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CF334557
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727609AbfFDLUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 07:20:47 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43855 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727287AbfFDLUr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 07:20:47 -0400
-Received: by mail-pl1-f194.google.com with SMTP id cl9so3116312plb.10
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 04:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Tmjp7uxhtxS2kVoM4kIG611PYBK7e6RriOINwXGIdyY=;
-        b=jmQxQ5vhpzPqg+jX+G3YLkJrZULUDsEeFFhEK7hcuv7g34Dqv+MSHls6k6WjfzT7KR
-         7ZFd7nyAfVlIByf62Z3lAOf8jiOucA400Fr6KrKahTDP1C1I/VZnhlSoN514FsCw9zeS
-         6NVgZauCVsgrFvkfsCSxUUc6g3fTS8SErU78I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Tmjp7uxhtxS2kVoM4kIG611PYBK7e6RriOINwXGIdyY=;
-        b=nrvr8TBmXBwnyQZuHBg56p2Bo3dtYcK5YDFqLsfG3p6C9RuZ1xTIAk8WnApjT6lX2l
-         ndYTYbVlrArVE/ihaahpw8KV7dTe5GLpE7RUcec8BkOhDiRn+e9A6Xx//fKhZyg6C216
-         xmrarN6qd4vpSUgZJXyvOnsXz++tRtSEKyGrgPGqdhrR4vlNK2Y7zBIp/+Tb/auLZrGd
-         xre2Z5gE0KZPKOUO1F+7UH9Dd4sxZppb4nrNs3pysxOkGyH9Aj8BPGOy9dXq7uNV92Ua
-         erZQImXmkrpHG92wRCm/7B27EH5BUMkCS/8vq4+2AU52u6KqFmwtCTkLTCkPw05cQR35
-         G/0w==
-X-Gm-Message-State: APjAAAUFCpcFcUNB/skufdtEkmjoIw9v/9iYCfeLUXO3H2cg1WkQ/Cn0
-        fU9ibeyu4CcTeQeIZ98s0rSziQ==
-X-Google-Smtp-Source: APXvYqwqENrQCZbaQRT5DkgIFqMpq9I6HuPB4CQOJoJ5n6x4nqU/qB20pWnXbZrW2AWLZIs8+AOQ7w==
-X-Received: by 2002:a17:902:2869:: with SMTP id e96mr34649130plb.203.1559647246436;
-        Tue, 04 Jun 2019 04:20:46 -0700 (PDT)
-Received: from chromium.org ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
-        by smtp.gmail.com with ESMTPSA id o126sm5313699pfb.134.2019.06.04.04.20.41
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 04 Jun 2019 04:20:45 -0700 (PDT)
-Date:   Tue, 4 Jun 2019 20:20:39 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Daoyuan Huang <daoyuan.huang@mediatek.com>
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        matthias.bgg@gmail.com, mchehab@kernel.org, yuzhao@chromium.org,
-        zwisler@chromium.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
-        sj.huang@mediatek.com, christie.yu@mediatek.com,
-        holmes.chiou@mediatek.com, frederic.chen@mediatek.com,
-        Jerry-ch.Chen@mediatek.com, jungo.lin@mediatek.com,
-        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
-        srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>, acourbot@chromium.org
-Subject: Re: [RFC v2 4/4] media: platform: mtk-mdp3: Add Mediatek MDP3 driver
-Message-ID: <20190604112039.GA12168@chromium.org>
-References: <20190516032332.56844-1-daoyuan.huang@mediatek.com>
- <20190516032332.56844-5-daoyuan.huang@mediatek.com>
+        id S1727295AbfFDLWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 07:22:39 -0400
+Received: from mga06.intel.com ([134.134.136.31]:50795 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727170AbfFDLWj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 Jun 2019 07:22:39 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 04:22:36 -0700
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Jun 2019 04:22:35 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hY7WU-00095m-SO; Tue, 04 Jun 2019 19:22:34 +0800
+Date:   Tue, 4 Jun 2019 19:21:55 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     kbuild-all@01.org, linux-media@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [linux-next:master 3228/4211] htmldocs: /bin/bash:
+ ./scripts/sphinx-pre-install: No such file or directory
+Message-ID: <201906041954.7hpCmVWJ%lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="ZGiS0Q5IWpPtfppv"
 Content-Disposition: inline
-In-Reply-To: <20190516032332.56844-5-daoyuan.huang@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daoyuan,
 
-On Thu, May 16, 2019 at 11:23:32AM +0800, Daoyuan Huang wrote:
-> From: daoyuan huang <daoyuan.huang@mediatek.com>
-> 
-> This patch adds driver for Media Data Path 3 (MDP3).
-> Each modules' related operation control is sited in mtk-mdp3-comp.c
-> Each modules' register table is defined in file with "mdp_reg_"
-> and "mmsys_" prefix
-> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
-> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
-> Probe, power, suspend/resume, system level functions are defined in
-> mtk-mdp3-core.c
-
-Thanks for the patch. Some initial comments inline.
-
-[snip]
-> +void mdp_comp_clock_on(struct device *dev, struct mdp_comp *comp)
-> +{
-> +	int i, err;
-> +
-> +	if (comp->larb_dev) {
-> +		err = pm_runtime_get_sync(comp->larb_dev);
-> +		if (err < 0)
-> +			dev_err(dev,
-> +				"Failed to get larb, err %d. type:%d id:%d\n",
-> +				err, comp->type, comp->id);
-
-There is no need to make this conditional. Actually, we always need to grab
-a runtime PM enable count, otherwise the power domain would power off (if
-this SoC has gate'able power domains).
-
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
-> +		if (IS_ERR(comp->clks[i]))
-> +			break;
-> +		err = clk_prepare_enable(comp->clks[i]);
-> +		if (err)
-> +			dev_err(dev,
-> +				"Failed to enable clock %d, err %d. type:%d id:%d\n",
-> +				i, err, comp->type, comp->id);
-> +	}
-> +}
-> +
-> +void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
-> +		if (IS_ERR(comp->clks[i]))
-> +			break;
-> +		clk_disable_unprepare(comp->clks[i]);
-> +	}
-> +
-> +	if (comp->larb_dev)
-> +		pm_runtime_put_sync(comp->larb_dev);
-
-Ditto. Also, it doesn't make sense to use the _sync variant here, we don't
-care if it powers off before the function returns or a bit after.
-
-[snip]
-
-> +static int mdp_comp_init(struct device *dev, struct mdp_dev *mdp,
-> +			 struct device_node *node, struct mdp_comp *comp,
-> +			 enum mdp_comp_id id)
-> +{
-> +	struct device_node *larb_node;
-> +	struct platform_device *larb_pdev;
-> +	int i;
-> +
-> +	if (id < 0 || id >= MDP_MAX_COMP_COUNT) {
-> +		dev_err(dev, "Invalid component id %d\n", id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	__mdp_comp_init(mdp, node, comp);
-> +	comp->type = mdp_comp_matches[id].type;
-> +	comp->id = id;
-> +	comp->alias_id = mdp_comp_matches[id].alias_id;
-> +	comp->ops = mdp_comp_ops[comp->type];
-> +
-> +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
-> +		comp->clks[i] = of_clk_get(node, i);
-> +		if (IS_ERR(comp->clks[i]))
-> +			break;
-> +	}
-> +
-> +	mdp_get_subsys_id(dev, node, comp);
-> +
-> +	/* Only DMA capable components need the LARB property */
-> +	comp->larb_dev = NULL;
-> +	if (comp->type != MDP_COMP_TYPE_RDMA &&
-> +	    comp->type != MDP_COMP_TYPE_WROT &&
-> +		comp->type != MDP_COMP_TYPE_WDMA)
-> +		return 0;
-> +
-> +	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
-> +	if (!larb_node) {
-> +		dev_err(dev, "Missing mediatek,larb phandle in %pOF node\n",
-> +			node);
-> +		return -EINVAL;
-> +	}
-> +
-> +	larb_pdev = of_find_device_by_node(larb_node);
-> +	if (!larb_pdev) {
-> +		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
-> +		of_node_put(larb_node);
-> +		return -EPROBE_DEFER;
-> +	}
-> +	of_node_put(larb_node);
-> +
-> +	comp->larb_dev = &larb_pdev->dev;
-
-Why do we need this larb_dev? I believe we already made the handling
-transparent by using device links, so as long as the driver handles runtime
-PM properly, it should automatically handle larbs.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static void mdp_comp_deinit(struct device *dev, struct mdp_comp *comp)
-> +{
-> +	iounmap(comp->regs);
-> +	/* of_node_put(comp->dev_node); */
-> +}
-> +
-> +void mdp_component_deinit(struct device *dev, struct mdp_dev *mdp)
-> +{
-> +	int i;
-> +
-> +	mdp_comp_deinit(dev, &mdp->mmsys);
-> +	mdp_comp_deinit(dev, &mdp->mm_mutex);
-> +	for (i = 0; i < ARRAY_SIZE(mdp->comp); i++) {
-> +		if (mdp->comp[i]) {
-> +			mdp_comp_deinit(dev, mdp->comp[i]);
-> +			kfree(mdp->comp[i]);
-> +		}
-> +	}
-> +}
-> +
-> +int mdp_component_init(struct device *dev, struct mdp_dev *mdp)
-> +{
-> +	struct device_node *node, *parent;
-> +	int i, ret;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(gce_event_names); i++) {
-> +		s32 event_id;
-> +
-> +		event_id = cmdq_dev_get_event(dev, gce_event_names[i]);
-> +		mdp->event[i] = (event_id < 0) ? -i : event_id;
-> +		dev_info(dev, "Get event %s id:%d\n",
-> +			 gce_event_names[i], mdp->event[i]);
-> +	}
-> +
-> +	ret = mdp_mm_init(dev, mdp, &mdp->mmsys, "mediatek,mmsys");
-> +	if (ret)
-> +		goto err_init_mm;
-> +
-> +	ret = mdp_mm_init(dev, mdp, &mdp->mm_mutex, "mediatek,mm-mutex");
-> +	if (ret)
-> +		goto err_init_mm;
-> +
-> +	parent = dev->of_node->parent;
-> +	/* Iterate over sibling MDP function blocks */
-> +	for_each_child_of_node(parent, node) {
-> +		const struct of_device_id *of_id;
-> +		enum mdp_comp_type type;
-> +		int id;
-> +		struct mdp_comp *comp;
-> +
-> +		of_id = of_match_node(mdp_comp_dt_ids, node);
-> +		if (!of_id)
-> +			continue;
-> +
-> +		if (!of_device_is_available(node)) {
-> +			dev_err(dev, "Skipping disabled component %pOF\n",
-> +				node);
-
-The function doesn't fail, so this doesn't look like error. Perhaps
-dev_info()?
-
-> +			continue;
-> +		}
-> +
-> +		type = (enum mdp_comp_type)of_id->data;
-> +		id = mdp_comp_get_id(dev, node, type);
-> +		if (id < 0) {
-> +			dev_warn(dev, "Skipping unknown component %pOF\n",
-> +				 node);
-> +			continue;
-> +		}
-> +
-> +		comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
-> +		if (!comp) {
-> +			ret = -ENOMEM;
-> +			goto err_init_comps;
-> +		}
-> +		mdp->comp[id] = comp;
-> +
-> +		ret = mdp_comp_init(dev, mdp, node, comp, id);
-> +		if (ret)
-> +			goto err_init_comps;
-> +
-> +		dev_info(dev, "%s type:%d alias:%d id:%d base:%#x regs:%p\n",
-> +			 of_id->compatible, type, comp->alias_id, id,
-> +			(u32)comp->reg_base, comp->regs);
-> +	}
-> +	return 0;
-> +
-> +err_init_comps:
-> +	mdp_component_deinit(dev, mdp);
-> +err_init_mm:
-> +	return ret;
-> +}
-[snip]
-> +static int mdp_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct mdp_dev *mdp;
-> +	phandle rproc_phandle;
-> +	int ret;
-> +
-> +	mdp = devm_kzalloc(dev, sizeof(*mdp), GFP_KERNEL);
-> +	if (!mdp)
-> +		return -ENOMEM;
-> +
-> +	mdp->pdev = pdev;
-> +	ret = mdp_component_init(dev, mdp);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to initialize mdp components\n");
-> +		goto err_init_comp;
-
-There should be no cleanup needed here.
-
-Please always name the labels after the first cleanup step that is needed
-after the jump. That helps avoiding such mistakes.
-
-> +	}
-> +
-> +	mdp->job_wq = create_singlethread_workqueue(MDP_MODULE_NAME);
-
-We should make it freezable.
-
-> +	if (!mdp->job_wq) {
-> +		dev_err(dev, "Unable to create job workqueue\n");
-> +		ret = -ENOMEM;
-> +		goto err_create_job_wq;
-> +	}
-> +
-> +	mdp->vpu_dev = scp_get_pdev(pdev);
-> +
-> +	if (of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-> +				 &rproc_phandle))
-> +		dev_err(&pdev->dev, "Could not get scp device\n");
-
-This should fail the probe.
-
-> +	else
-> +		dev_info(&pdev->dev, "Find mediatek,scp phandle:%llx\n",
-> +			 (unsigned long long)rproc_phandle);
-
-No need for this positive log.
-
-> +
-> +	mdp->rproc_handle = rproc_get_by_phandle(rproc_phandle);
-> +
-> +	dev_info(&pdev->dev, "MDP rproc_handle: %llx",
-> +		 (unsigned long long)mdp->rproc_handle);
-> +
-> +	if (!mdp->rproc_handle)
-> +		dev_err(&pdev->dev, "Could not get MDP's rproc_handle\n");
-
-This should fail the probe too.
-
-> +
-> +	/* vpu_wdt_reg_handler(mdp->vpu_dev, mdp_reset_handler, mdp,
-> +	 *		       VPU_RST_MDP);
-> +	 */
-
-Please remove unnecessary code.
-
-> +	mutex_init(&mdp->vpu_lock);
-> +	mdp->vpu_count = 0;
-> +	mdp->id_count = 0;
-
-No need to explicitly initialize to 0, because we just allocated a zeroed
-struct earlier in this function.
-
-> +
-> +	mdp->cmdq_clt = cmdq_mbox_create(dev, 0, 1200);
-> +	if (IS_ERR(mdp->cmdq_clt))
-> +		goto err_mbox_create;
-> +
-> +	ret = v4l2_device_register(dev, &mdp->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register v4l2 device\n");
-> +		ret = -EINVAL;
-> +		goto err_v4l2_register;
-> +	}
-> +
-> +	ret = mdp_m2m_device_register(mdp);
-> +	if (ret) {
-> +		v4l2_err(&mdp->v4l2_dev, "Failed to register m2m device\n");
-> +		goto err_m2m_register;
-> +	}
-> +	mutex_init(&mdp->m2m_lock);
-> +
-> +	platform_set_drvdata(pdev, mdp);
-> +
-> +	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-> +	pm_runtime_enable(dev);
-
-This is racy, because mdp_m2m_device_register() already exposed the video
-node to the userspace, before we ended the initialization. Please reorder the
-initialization so that the device node is registered at the end, when the
-driver is fully ready to accept userspace requests.
-
-> +	dev_dbg(dev, "mdp-%d registered successfully\n", pdev->id);
-> +	return 0;
-> +
-> +err_m2m_register:
-> +	v4l2_device_unregister(&mdp->v4l2_dev);
-> +err_v4l2_register:
-
-Shouldn't we destroy the cmdq_mbox?
-
-> +err_mbox_create:
-> +	destroy_workqueue(mdp->job_wq);
-> +err_create_job_wq:
-> +err_init_comp:
-> +	kfree(mdp);
-
-This was allocated using devm_kzalloc(), so no need to free it explicitly.
-
-> +
-> +	dev_dbg(dev, "Errno %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static int mdp_remove(struct platform_device *pdev)
-> +{
-> +	struct mdp_dev *mdp = platform_get_drvdata(pdev);
-> +
-> +	pm_runtime_disable(&pdev->dev);
-> +	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
-> +	mdp_m2m_device_unregister(mdp);
-
-Same as in probe, removing must start with unregistering the userspace
-interfaces.
-
-> +	v4l2_device_unregister(&mdp->v4l2_dev);
-> +
-> +	flush_workqueue(mdp->job_wq);
-> +	destroy_workqueue(mdp->job_wq);
-
-destroy_workqueue() includes a flush (or drain specifically, which is
-stricter than flush).
-
-> +
-> +	mdp_component_deinit(&pdev->dev, mdp);
-> +	kfree(mdp);
-
-Allocated by devm_kzalloc(), so no need to free here.
-
-> +
-> +	dev_dbg(&pdev->dev, "%s driver unloaded\n", pdev->name);
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused mdp_pm_suspend(struct device *dev)
-> +{
-> +	// TODO: mdp clock off
-
-Is MDP inside a power domain that is controlled by genpd? If yes, runtime
-suspend would be cover for the power domain sequencing latency, which would
-cause the clock to be running unnecessarily for that time. To avoid that,
-one would control the clocks separately, outside of runtime PM callbacks.
-
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused mdp_pm_resume(struct device *dev)
-> +{
-> +	// TODO: mdp clock on
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused mdp_suspend(struct device *dev)
-> +{
-> +	if (pm_runtime_suspended(dev))
-> +		return 0;
-> +
-
-We need to ensure here that the hardware is not doing any processing
-anymore.
-
-Hint: Looks like mdp_m2m_worker() is synchronous, so we could make the
-workqueue freezable and the PM core would wait for the current pending work
-to complete and then freeze the workqueue.
-
-> +	return mdp_pm_suspend(dev);
-> +}
-> +
-> +static int __maybe_unused mdp_resume(struct device *dev)
-> +{
-> +	if (pm_runtime_suspended(dev))
-> +		return 0;
-> +
-> +	return mdp_pm_resume(dev);
-
-We need to resume any processing that was queued to the driver before the
-system suspended. Should be possible to handle by switching the workqueue to
-freezable too.
-
-> +}
-> +
-> +static const struct dev_pm_ops mdp_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(mdp_suspend, mdp_resume)
-> +	SET_RUNTIME_PM_OPS(mdp_pm_suspend, mdp_pm_resume, NULL)
-> +};
-> +
-> +static struct platform_driver mdp_driver = {
-> +	.probe		= mdp_probe,
-> +	.remove		= mdp_remove,
-> +	.driver = {
-> +		.name	= MDP_MODULE_NAME,
-> +		.pm	= &mdp_pm_ops,
-> +		.of_match_table = mdp_of_ids,
-
-Please use the of_match_ptr() wrapper.
-
-[snip]
-> +static int mdp_m2m_ctrls_create(struct mdp_m2m_ctx *ctx)
-> +{
-> +	v4l2_ctrl_handler_init(&ctx->ctrl_handler, MDP_MAX_CTRLS);
-> +	ctx->ctrls.hflip = v4l2_ctrl_new_std(&ctx->ctrl_handler,
-> +					     &mdp_m2m_ctrl_ops, V4L2_CID_HFLIP,
-> +					     0, 1, 1, 0);
-> +	ctx->ctrls.vflip = v4l2_ctrl_new_std(&ctx->ctrl_handler,
-> +					     &mdp_m2m_ctrl_ops, V4L2_CID_VFLIP,
-> +					     0, 1, 1, 0);
-> +	ctx->ctrls.rotate = v4l2_ctrl_new_std(&ctx->ctrl_handler,
-> +					      &mdp_m2m_ctrl_ops,
-> +					      V4L2_CID_ROTATE, 0, 270, 90, 0);
-> +
-> +	if (ctx->ctrl_handler.error) {
-> +		int err = ctx->ctrl_handler.error;
-> +
-> +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> +		dev_err(&ctx->mdp_dev->pdev->dev,
-> +			"Failed to create control handler\n");
-
-Perhaps "Failed to register controls"?
-
-> +		return err;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int mdp_m2m_open(struct file *file)
-> +{
-> +	struct video_device *vdev = video_devdata(file);
-> +	struct mdp_dev *mdp = video_get_drvdata(vdev);
-> +	struct mdp_m2m_ctx *ctx;
-> +	int ret;
-> +
-> +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	if (mutex_lock_interruptible(&mdp->m2m_lock)) {
-> +		ret = -ERESTARTSYS;
-> +		goto err_lock;
-> +	}
-> +
-> +	ctx->id = mdp->id_count++;
-
-Hmm, wouldn't this leave holes in the id space after we close? Should we use
-something like ida?
-See: https://www.kernel.org/doc/htmldocs/kernel-api/idr.html
-
-> +	ctx->mdp_dev = mdp;
-> +
-> +	v4l2_fh_init(&ctx->fh, vdev);
-> +	file->private_data = &ctx->fh;
-> +	ret = mdp_m2m_ctrls_create(ctx);
-> +	if (ret)
-> +		goto err_ctrls_create;
-> +
-> +	/* Use separate control handler per file handle */
-> +	ctx->fh.ctrl_handler = &ctx->ctrl_handler;
-> +	v4l2_fh_add(&ctx->fh);
-> +
-> +	ctx->m2m_ctx = v4l2_m2m_ctx_init(mdp->m2m_dev, ctx, mdp_m2m_queue_init);
-> +	if (IS_ERR(ctx->m2m_ctx)) {
-> +		dev_err(&mdp->pdev->dev, "Failed to initialize m2m context\n");
-> +		ret = PTR_ERR(ctx->m2m_ctx);
-> +		goto err_m2m_ctx;
-> +	}
-> +	ctx->fh.m2m_ctx = ctx->m2m_ctx;
-> +
-> +	INIT_WORK(&ctx->work, mdp_m2m_worker);
-> +	ctx->frame_count = 0;
-
-No need to explicitly initialize fields to 0, because we just allocated the
-struct using kzalloc().
-
-> +
-> +	ctx->curr_param = mdp_frameparam_init();
-> +	if (IS_ERR(ctx->curr_param)) {
-> +		dev_err(&mdp->pdev->dev,
-> +			"Failed to initialize mdp parameter\n");
-> +		ret = PTR_ERR(ctx->curr_param);
-> +		goto err_param_init;
-> +	}
-> +	ctx->curr_param->type = MDP_STREAM_TYPE_BITBLT;
-
-Why not initialize this in mdp_frameparam_init()? We only seem to be using
-this value in this driver.
-
-> +
-> +	INIT_LIST_HEAD(&ctx->param_list);
-> +	list_add_tail(&ctx->curr_param->list, &ctx->param_list);
-
-Why do we need this list? We only seem to have ctx->curr_param in this
-driver.
-
-> +
-> +	ret = mdp_vpu_get_locked(mdp);
-> +	if (ret < 0)
-> +		goto err_load_vpu;
-
-This shouldn't happen in open(), but rather the latest possible point in
-time. If one needs to keep the VPU running for the time of streaming, then
-it should be start_streaming. If one can safely turn the VPU off if there is
-no frame queued for long time, it should be just in m2m job_run.
-
-Generally the userspace should be able to
-just open an m2m device for querying it, without any side effects like
-actually powering on the hardware or grabbing a hardware instance (which
-could block some other processes, trying to grab one too).
-
-> +
-> +	mutex_unlock(&mdp->m2m_lock);
-> +
-> +	mdp_dbg(0, "%s [%d]", dev_name(&mdp->pdev->dev), ctx->id);
-> +
-> +	return 0;
-> +
-> +err_load_vpu:
-> +	mdp_frameparam_release(ctx->curr_param);
-> +err_param_init:
-> +	v4l2_m2m_ctx_release(ctx->m2m_ctx);
-> +err_m2m_ctx:
-> +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> +	v4l2_fh_del(&ctx->fh);
-> +err_ctrls_create:
-> +	v4l2_fh_exit(&ctx->fh);
-> +	mutex_unlock(&mdp->m2m_lock);
-> +err_lock:
-
-Incorrect naming of all the error labels here.
-
-> +	kfree(ctx);
-> +
-> +	return ret;
-> +}
-[snip]
-> +enum mdp_ycbcr_profile mdp_map_ycbcr_prof_mplane(struct v4l2_format *f,
-> +						 u32 mdp_color)
-> +{
-> +	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> +
-> +	if (MDP_COLOR_IS_RGB(mdp_color))
-> +		return MDP_YCBCR_PROFILE_FULL_BT601;
-> +
-> +	switch (pix_mp->colorspace) {
-> +	case V4L2_COLORSPACE_JPEG:
-> +		return MDP_YCBCR_PROFILE_JPEG;
-> +	case V4L2_COLORSPACE_REC709:
-> +	case V4L2_COLORSPACE_DCI_P3:
-> +		if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
-> +			return MDP_YCBCR_PROFILE_FULL_BT709;
-> +		return MDP_YCBCR_PROFILE_BT709;
-> +	case V4L2_COLORSPACE_BT2020:
-> +		if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
-> +			return MDP_YCBCR_PROFILE_FULL_BT2020;
-> +		return MDP_YCBCR_PROFILE_BT2020;
-> +	}
-> +	/* V4L2_COLORSPACE_SRGB or else */
-> +	if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
-> +		return MDP_YCBCR_PROFILE_FULL_BT601;
-> +	return MDP_YCBCR_PROFILE_BT601;
-
-Putting this under the default clause of the switch statement would be
-cleaner and the comment wouldn't be needed.
-
-[snip]
-> +struct mdp_frameparam *mdp_frameparam_init(void)
-> +{
-> +	struct mdp_frameparam *param;
-> +	struct mdp_frame *frame;
-> +
-> +	param = kzalloc(sizeof(*param), GFP_KERNEL);
-> +	if (!param)
-> +		return ERR_PTR(-ENOMEM);
-
-We could just embed mdp_frameparam into the mdp_m2m_ctx struct and then
-wouldn't need any dynamic allocation here anymore. And as a side effect, the
-function could be just made void, because it couldn't fail.
-
-> +
-> +	INIT_LIST_HEAD(&param->list);
-> +	mutex_init(&param->lock);
-> +	param->state = 0;
-> +	param->limit = &mdp_def_limit;
-> +	param->type = MDP_STREAM_TYPE_UNKNOWN;
-
-We always seem to use MDP_STREAM_TYPE_BITBLT in this driver.
-
-> +	param->frame_no = 0;
-
-No need for explicit initialization to 0.
-
-Best regards,
-Tomasz
-
+--ZGiS0Q5IWpPtfppv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Mauro,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   56b697c6c13b51887a0c66c8bcbd10cd537476fa
+commit: 9b88ad5464af1bf7228991f1c46a9a13484790a4 [3228/4211] scripts/sphinx-pre-install: always check if version is compatible with build
+reproduce: make htmldocs
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> /bin/bash: ./scripts/sphinx-pre-install: No such file or directory
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+
+--ZGiS0Q5IWpPtfppv
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+lmgAAA==
+
+--ZGiS0Q5IWpPtfppv--
