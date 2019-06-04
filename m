@@ -2,164 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68DCC347B1
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 15:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4D05347B5
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 15:10:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727212AbfFDNJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 09:09:39 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:37048 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727123AbfFDNJi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 09:09:38 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 20so10349703pgr.4
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 06:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zBLpk28DZpa5o94Q/0/LiLBGCkVoEs9cAD1KugSM2WY=;
-        b=Lkz8dpKPRyddE/5l1SxtFW2tJDVJSIsNFYCOD1eigwQMuFNNmYLAz8pfUb/eNChwZF
-         OH2h9RaIuTJvzD4zfwI4In+YKCusdO0C+/wNdpvUvPZXC2iOOrHIqrrS+koi+fxYqD+r
-         iK2Zgy43Tahmq3qaqGtP4n+xMyhj8Yk3JvazolAsNKLfjKj1GXO3dAAQy063Hi2tMAsN
-         GhJY2yKC3BApNCj1AkvEe/6mz6FyJyIhhdR95z/RQ7El5pARzqaaKppkgNvLbKRJzKwz
-         N+Va7sAICkGdL463idSaVxKwCH7V2NZvNaXeQHS+go3oLu7b/Bj32cawMXuwRC+DSWx3
-         9rBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zBLpk28DZpa5o94Q/0/LiLBGCkVoEs9cAD1KugSM2WY=;
-        b=KeaELcsTrbSY0JdQRQXcfHXh0nLNWQ4rk9av11aLP4jYic7oZp02Zlg/VkiHciu6Q5
-         OLTNH4HyCQH4NqZ88o7VXcsDhJ2yEyiaex8CxrFUz40gi0JpU1S0MN4sLrc3c6QLlYpt
-         9lKDntd03H4WVQbwt/ZRvm6iq0ExbQND/zHdNeWUQnevygCpKP10M3nnMtybXB3pheXn
-         yFPUiycBRnr+9h016AqQVyUwlsKtlKgOGlosEp5IMb8L7bb0pjQjNUHdytmJhoEvXQ3l
-         6YBQW7ZwXGqOoM+9WhLXl7nzuJW59VnunwwYjBVRqQt1+9nTsGTN6cdsFtxU4qA5as9F
-         ZaEQ==
-X-Gm-Message-State: APjAAAX1dkTZkJiJkG2XLAG8KYqidNlib78MhKx6HJEmyApOtPMAQxGU
-        m9eQWCM/2sZVx5yC93ik0s4l8+nEaXOAbW/KWvbGmA==
-X-Google-Smtp-Source: APXvYqwE+yY3fi9MHe5pAmjH6ujV7dnKQuJJ2mvTpcdW82/qczftH0mUauffZu6ryTn350uiR7ngmmR4ga1rtqlB5p8=
-X-Received: by 2002:aa7:8491:: with SMTP id u17mr25575697pfn.93.1559653777333;
- Tue, 04 Jun 2019 06:09:37 -0700 (PDT)
+        id S1727182AbfFDNKP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 09:10:15 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:43895 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727153AbfFDNKP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 09:10:15 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20190604131013euoutp01e6fa727867c0c232ae50e077950cca67~lAOFcBTyS3124131241euoutp01M
+        for <linux-media@vger.kernel.org>; Tue,  4 Jun 2019 13:10:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20190604131013euoutp01e6fa727867c0c232ae50e077950cca67~lAOFcBTyS3124131241euoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1559653813;
+        bh=iWdOqdf51+Xg8W2OHDmnfJgsaatSNdGBiGiIBaELpSQ=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=if0PUWFwEWPK2WICigBPhPTO0s9Ehoja23zxKJ60Q+/re4R/uRwH79AuPcFllp1hQ
+         pCgiEiWM2U2RScvJiJ+IZNyUtkAC7yprntvi2yOX6JjevMdti+xe0ALNoSWzlarkKg
+         Exx6a7193daLIDzHPGSvGo3w9tf3Xm+DbxQOnFds=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20190604131012eucas1p1a58b2c71e47029236cb8d5ea2bd7ec48~lAOEUoEDE0311203112eucas1p1w;
+        Tue,  4 Jun 2019 13:10:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 40.FA.04298.4BD66FC5; Tue,  4
+        Jun 2019 14:10:12 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20190604131011eucas1p1dec86d30e87e0b6c46eed8bde559bd7d~lAODmUAbi0311303113eucas1p13;
+        Tue,  4 Jun 2019 13:10:11 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190604131011eusmtrp122a1902d207cabae9ec05fd02e275fd9~lAODWwb2W0320503205eusmtrp1R;
+        Tue,  4 Jun 2019 13:10:11 +0000 (GMT)
+X-AuditID: cbfec7f2-3615e9c0000010ca-e5-5cf66db46db5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id C2.18.04146.3BD66FC5; Tue,  4
+        Jun 2019 14:10:11 +0100 (BST)
+Received: from [106.120.51.75] (unknown [106.120.51.75]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20190604131011eusmtip2716cfebfaa8ed4537b2aef9e8ae1eb90~lAOC7hVgt3044330443eusmtip2h;
+        Tue,  4 Jun 2019 13:10:11 +0000 (GMT)
+Subject: Re: [PATCH v6 1/2] media: v4l2: Make sure all drivers set _MPLANE
+ caps in vdev->device_caps
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, kernel@collabora.com,
+        Tomasz Figa <tfiga@chromium.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <c2b11229-c66c-4a77-4775-eff416243da1@samsung.com>
+Date:   Tue, 4 Jun 2019 15:10:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <cover.1559580831.git.andreyknvl@google.com> <c829f93b19ad6af1b13be8935ce29baa8e58518f.1559580831.git.andreyknvl@google.com>
- <20190603174619.GC11474@ziepe.ca> <CAAeHK+xy-dx4dLDLLj9dRzRNSVG9H5nDPPnjpYF38qKZNNCh_g@mail.gmail.com>
- <20190604122714.GA15385@ziepe.ca> <CAAeHK+xyqwuJyviGhvU7L1wPZQF7Mf9g2vgKSsYmML3fV6NrXg@mail.gmail.com>
- <20190604130207.GD15385@ziepe.ca>
-In-Reply-To: <20190604130207.GD15385@ziepe.ca>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 4 Jun 2019 15:09:26 +0200
-Message-ID: <CAAeHK+xBxDB-OBuzPDcNaTHCNJqu6djHwqoVGSYpxG33w-YR9g@mail.gmail.com>
-Subject: Re: [PATCH v16 12/16] IB, arm64: untag user pointers in ib_uverbs_(re)reg_mr()
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190604070625.7664-1-boris.brezillon@collabora.com>
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SeyyVcRj2O9/3HZ+TY59DO29u5UyJza219oWJ1tZZf1lbJdny4XNZDjrH
+        JfKH1TKXk4Qmh5ZiwlY45FraqE4uXaRQkstsTO4OS0TO+VT+e97nfd49z7O9JCbSEBZkRFQs
+        K49iIiV8AV7/evW9U51sJcB1UCWmu7o7eXTpajOPni8OpmvfKQk6/XapIa2sfkrQZep1Hr3Y
+        2YTR3S8q+PTSjQ2+t0BamNKDS/PWaghp41ApkhamFRDS9uUHuFRdmc6X1k5mYtIltY0v6S/w
+        DGEjI+JZuYtXoCB8eHoRi2nErgzkz6EUtMDLQEYkUIeho3UD12ERVY5gYiomAwm2sBbBdNE8
+        xg1LCHJLav9d9Pf/5nMXjxD0pbKcaAbB5ssfepEZFQrZjS16kTkVAEXLLYROhFG1PCh/rsF0
+        Cz7lBjdfZSEdFlJeMPtlgtBhnLKD3s8V+ky7KT/QNqm3NabQUTCu542o47A+XqM3wCgxXNNW
+        EBzeCw0zRRiXdMwQVJ0Mh09Ae17KdgMzmNLUGXLYCrpylbguHFDXEShbBg25IRvBsKYYcSoP
+        aNf0bDmQWw4OUNXswtE+0Dt2F+looExgYMaUy2ACOfX5GEcLIS1VxKntYK0yfzuCBWSOb+LZ
+        SKLa0Uy1o41qRxvVf99ihFciMRunkIWxCrcoNsFZwcgUcVFhzsHRMjXaeq+uDc1iI1r+GNSG
+        KBJJjIXzzEqAiGDiFYmyNgQkJjEXMoPaAJEwhElMYuXRF+VxkayiDVmSuEQsvGowckFEhTGx
+        7CWWjWHlf7c80sgiBZ2pDnLJrbxjzWZZTsx+GL0fmnDW9mT0KceSrqHEY+eqD5r/tCqJzXE/
+        RHrfm/AcnSOSntjtsULf39p4RB5JOv3toa0o2T/Qx93VumFKW9aXdcA+WWzfurBfyfoNHK1y
+        4I3c+mVg9/X8wrhVR9gu08v21av7vCf7fcWfnllOOhk/fhMkwRXhjJsjJlcwfwDviYoZWgMA
+        AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNIsWRmVeSWpSXmKPExsVy+t/xe7qbc7/FGLyeoWpx+swpJoslP3cx
+        WXxYkGyx+VwPq0XnxCXsFj0btrJaLNv0h8ni06mdzBZn9q9ks/jc+o/NgctjdsNFFo8pvzey
+        euy4u4TRY3bHTFaPw18XsnhsWtXJ5rH5RTezx+dNcgEcUXo2RfmlJakKGfnFJbZK0YYWRnqG
+        lhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZ9998Yi7YwVxxY/p7xgbGj0xdjJwcEgIm
+        Etev/2XrYuTiEBJYyihxsuEbexcjB1BCSmJ+ixJEjbDEn2tdUDWvGSVWtn9nBUkIC6RJTNix
+        mw3EFhGIkVhy/iYzSBGzwGYmifmr57FDdExllDi+/xc7SBWbgKFE79E+RhCbV8BO4t3N52CT
+        WARUJC5fXckCYosKREjM3tXAAlEjKHFy5hMwm1PASeLPk41g25gF1CX+zLvEDGGLSzR9WckK
+        YctLbH87h3kCo9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIER
+        u+3Yz807GC9tDD7EKMDBqMTDOyP+W4wQa2JZcWXuIUYJDmYlEd7E219ihHhTEiurUovy44tK
+        c1KLDzGaAj03kVlKNDkfmEzySuINTQ3NLSwNzY3Njc0slMR5OwQOxggJpCeWpGanphakFsH0
+        MXFwSjUw2k/5UCcq9r91i+/2witVy1+tijtoe3vdZ70UjWdbZFi9rBqWcB18+/aDTWXCJZVd
+        nHNEfQtvnPnf3DLBhGVv/xWBrmbm613L5ufH9st+PGBzxHTT98SQwyeWx74/+KaYe3Px28R4
+        95zDZmdtFvl+643oblKZL3LFsrQoWuzGhxdvziWtunmYV4mlOCPRUIu5qDgRAKiH6VXuAgAA
+X-CMS-MailID: 20190604131011eucas1p1dec86d30e87e0b6c46eed8bde559bd7d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190604070638epcas2p32a4f7ec8c40822a1559bdcc2a918a502
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190604070638epcas2p32a4f7ec8c40822a1559bdcc2a918a502
+References: <CGME20190604070638epcas2p32a4f7ec8c40822a1559bdcc2a918a502@epcas2p3.samsung.com>
+        <20190604070625.7664-1-boris.brezillon@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 4, 2019 at 3:02 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Jun 04, 2019 at 02:45:32PM +0200, Andrey Konovalov wrote:
-> > On Tue, Jun 4, 2019 at 2:27 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Tue, Jun 04, 2019 at 02:18:19PM +0200, Andrey Konovalov wrote:
-> > > > On Mon, Jun 3, 2019 at 7:46 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > > >
-> > > > > On Mon, Jun 03, 2019 at 06:55:14PM +0200, Andrey Konovalov wrote:
-> > > > > > This patch is a part of a series that extends arm64 kernel ABI to allow to
-> > > > > > pass tagged user pointers (with the top byte set to something else other
-> > > > > > than 0x00) as syscall arguments.
-> > > > > >
-> > > > > > ib_uverbs_(re)reg_mr() use provided user pointers for vma lookups (through
-> > > > > > e.g. mlx4_get_umem_mr()), which can only by done with untagged pointers.
-> > > > > >
-> > > > > > Untag user pointers in these functions.
-> > > > > >
-> > > > > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > > > > >  drivers/infiniband/core/uverbs_cmd.c | 4 ++++
-> > > > > >  1 file changed, 4 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/infiniband/core/uverbs_cmd.c b/drivers/infiniband/core/uverbs_cmd.c
-> > > > > > index 5a3a1780ceea..f88ee733e617 100644
-> > > > > > +++ b/drivers/infiniband/core/uverbs_cmd.c
-> > > > > > @@ -709,6 +709,8 @@ static int ib_uverbs_reg_mr(struct uverbs_attr_bundle *attrs)
-> > > > > >       if (ret)
-> > > > > >               return ret;
-> > > > > >
-> > > > > > +     cmd.start = untagged_addr(cmd.start);
-> > > > > > +
-> > > > > >       if ((cmd.start & ~PAGE_MASK) != (cmd.hca_va & ~PAGE_MASK))
-> > > > > >               return -EINVAL;
-> > > > >
-> > > > > I feel like we shouldn't thave to do this here, surely the cmd.start
-> > > > > should flow unmodified to get_user_pages, and gup should untag it?
-> > > > >
-> > > > > ie, this sort of direction for the IB code (this would be a giant
-> > > > > patch, so I didn't have time to write it all, but I think it is much
-> > > > > saner):
-> > > >
-> > > > Hi Jason,
-> > > >
-> > > > ib_uverbs_reg_mr() passes cmd.start to mlx4_get_umem_mr(), which calls
-> > > > find_vma(), which only accepts untagged addresses. Could you explain
-> > > > how your patch helps?
-> > >
-> > > That mlx4 is just a 'weird duck', it is not the normal flow, and I
-> > > don't think the core code should be making special consideration for
-> > > it.
-> >
-> > How do you think we should do untagging (or something else) to deal
-> > with this 'weird duck' case?
->
-> mlx4 should handle it around the call to find_vma like other patches
-> do, ideally as part of the cast from a void __user * to the unsigned
-> long that find_vma needs
+On 6/4/19 09:06, Boris Brezillon wrote:
+> This is needed if we want the core to be able to check _MPLANE support
+> without having to call the ->vdioc_querycap() hook.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-So essentially what we had a few versions ago
-(https://lkml.org/lkml/2019/4/30/785) plus changing unsigned longs to
-__user * across all IB code? I think the second part is something
-that's not related to this series and needs to be done separately. I
-can move untagging back to mlx4_get_umem_mr() though.
+For:
+ drivers/media/platform/exynos-gsc
+ drivers/media/platform/exynos4-is
+ drivers/media/platform/s5p-mfc
 
-Catalin, you've initially asked to to move untagging out of
-mlx4_get_umem_mr(), do you have any comments on this?
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 
->
-> Jason
+-- 
+Thanks,
+Sylwester
