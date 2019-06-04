@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C50834400
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:13:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C23A1343E1
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727239AbfFDKMI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 06:12:08 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:11494 "EHLO
+        id S1727344AbfFDKMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 06:12:19 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:33113 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727107AbfFDKMI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:08 -0400
-X-UUID: ba1ccf79b92949c6900fef6057c08ab0-20190604
-X-UUID: ba1ccf79b92949c6900fef6057c08ab0-20190604
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        with ESMTP id S1727272AbfFDKMP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:15 -0400
+X-UUID: 5e9a1462f50545f08df5da3af885d4e5-20190604
+X-UUID: 5e9a1462f50545f08df5da3af885d4e5-20190604
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
         (envelope-from <stu.hsieh@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 834335591; Tue, 04 Jun 2019 18:12:01 +0800
+        with ESMTP id 1145993752; Tue, 04 Jun 2019 18:12:02 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
  15.0.1395.4; Tue, 4 Jun 2019 18:12:00 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 4 Jun 2019 18:11:59 +0800
+ Transport; Tue, 4 Jun 2019 18:12:00 +0800
 From:   Stu Hsieh <stu.hsieh@mediatek.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>, CK Hu <ck.hu@mediatek.com>
@@ -33,9 +33,9 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v4 03/14] dt-bindings: media: Add camsv binding for MT2712 MIPI-CSI2
-Date:   Tue, 4 Jun 2019 18:11:44 +0800
-Message-ID: <1559643115-15124-4-git-send-email-stu.hsieh@mediatek.com>
+Subject: [PATCH v4 04/14] [media] mtk-mipicsi: add mediatek mipicsi driver for mt2712
+Date:   Tue, 4 Jun 2019 18:11:45 +0800
+Message-ID: <1559643115-15124-5-git-send-email-stu.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
 References: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
@@ -47,75 +47,625 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add camsv binding for MT2712 MIPI-CSI2
+This patch add mediatek mipicsi driver for mt2712,
+including probe function to get the value from device tree,
+and register to v4l2 the host device.
 
 Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
 ---
- .../bindings/media/mediatek-mipicsi-camsv.txt | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+ drivers/media/platform/mtk-mipicsi/Makefile   |   4 +
+ .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 591 ++++++++++++++++++
+ 2 files changed, 595 insertions(+)
+ create mode 100644 drivers/media/platform/mtk-mipicsi/Makefile
+ create mode 100644 drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+diff --git a/drivers/media/platform/mtk-mipicsi/Makefile b/drivers/media/platform/mtk-mipicsi/Makefile
 new file mode 100644
-index 000000000000..c9b4af9eeeff
+index 000000000000..326a5e3808fa
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
-@@ -0,0 +1,55 @@
-+* Mediatek MIPI-CSI2 receiver camsv
++++ b/drivers/media/platform/mtk-mipicsi/Makefile
+@@ -0,0 +1,4 @@
++mtk-mipicsi-y += mtk_mipicsi.o
 +
-+Mediatek MIPI-CSI2 receiver camsv transfer data to DRAM in Mediatek SoCs
++obj-$(CONFIG_VIDEO_MEDIATEK_MIPICSI) += mtk-mipicsi.o
 +
-+These node are refer by mipicsi
+diff --git a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
+new file mode 100644
+index 000000000000..3d1e52411b69
+--- /dev/null
++++ b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
+@@ -0,0 +1,591 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019 MediaTek Inc.
++ * Author: Stu Hsieh <stu.hsieh@mediatek.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * http://www.gnu.org/licenses/gpl-2.0.html for more details.
++ */
 +
-+Required properties:
-+- reg : physical base address of the mipicsi receiver registers and length of
-+  memory mapped region.
-+- clocks: device clocks, see
-+  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
-+- interrupts : interrupt number to the interrupt controller.
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/io.h>
++#include <linux/delay.h>
++#include <linux/dma-mapping.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/fs.h>
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/mm.h>
++#include <linux/moduleparam.h>
++#include <linux/device.h>
++#include <linux/platform_device.h>
++#include <linux/clk.h>
++#include <linux/sched.h>
++#include <linux/slab.h>
++#include <linux/pm_runtime.h>
++#include <linux/iommu.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <soc/mediatek/smi.h>
++#include <linux/regmap.h>
++#include <linux/mfd/syscon.h>
 +
-+Example:
-+	seninf1_mux_camsv0: seninf_mux_camsv@15002100 {
-+		reg = <0 0x15002120 0 0x40>,
-+		      <0 0x15004000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
-+		interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define MTK_MIPICSI_DRV_NAME "mtk-mipicsi"
++#define MTK_PLATFORM_STR "platform:mt2712"
 +
-+	seninf2_mux_camsv1: seninf_mux_camsv@15002500 {
-+		reg = <0 0x15002520 0 0x40>,
-+		      <0 0x15005000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV_EN>;
-+		interrupts = <GIC_SPI 223 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define MIPI_RX_ANA00_CSI				0x00
++#define MIPI_RX_ANA04_CSI				0x04
++#define MIPI_RX_ANA08_CSI				0x08
++#define MIPI_RX_ANA0C_CSI				0x0c
++#define MIPI_RX_ANA10_CSI				0x10
++#define MIPI_RX_ANA20_CSI				0x20
++#define MIPI_RX_ANA24_CSI				0x24
++#define MIPI_RX_ANA4C_CSI				0x4c
++#define MIPI_RX_ANA50_CSI				0x50
 +
-+	seninf3_mux_camsv2: seninf_mux_camsv@15002900 {
-+		reg = <0 0x15002920 0 0x40>,
-+		      <0 0x15006000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
-+		interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define SENINF_CTRL					0x00
 +
-+	seninf4_mux_camsv3: seninf_mux_camsv@15002D00 {
-+		reg = <0 0x15002D20 0 0x40>,
-+		      <0 0x15007000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV1_EN>;
-+		interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define SENINF_NCSI2_CAL_24				0x24
++#define SENINF_NCSI2_CAL_38				0x38
++#define SENINF_NCSI2_CAL_3C				0x3C
++#define SENINF_NCSI2_CTL				0xA0
++#define SENINF_NCSI2_LNRD_TIMING			0xA8
++#define SENINF_NCSI2_INT_EN				0xB0
++#define SENINF_NCSI2_INT_STATUS				0xB4
++#define SENINF_NCSI2_DBG_SEL				0xB8
++#define SENINF_NCSI2_HSRX_DBG				0xD8
++#define SENINF_NCSI2_DI					0xDC
++#define SENINF_NCSI2_DI_CTRL				0xE4
 +
-+	seninf5_mux_camsv4: seninf_mux_camsv@15003100 {
-+		reg = <0 0x15003120 0 0x40>,
-+		      <0 0x15008000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
-+		interrupts = <GIC_SPI 270 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define SENINF_TOP_CTRL					0x00
++#define SENINF_TOP_CMODEL_PAR				0x04
++#define SENINF_TOP_MUX					0x08
 +
-+	seninf6_mux_camsv5: seninf_mux_camsv@15003500 {
-+		reg = <0 0x15003520 0 0x40>,
-+		      <0 0x15009000 0 0x1000>;
-+		clocks = <&imgsys CLK_IMG_CAM_SV2_EN>;
-+		interrupts = <GIC_SPI 271 IRQ_TYPE_LEVEL_LOW>;
-+	};
++#define SENINF_MUX_CTRL					0x00
++
++#define CAMSV_MODULE_EN					0x10
++#define CAMSV_FMT_SEL					0x14
++#define CAMSV_INT_EN					0x18
++#define CAMSV_CLK_EN					0x30
++
++#define CAMSV_TG_SEN_MODE				0x500
++#define CAMSV_TG_SEN_GRAB_PXL				0x508
++#define CAMSV_TG_SEN_GRAB_LIN				0x50C
++#define CAMSV_TG_PATH_CFG				0x510
++
++#define IMGO_XSIZE					0x230
++#define IMGO_YSIZE					0x234
++#define IMGO_STRIDE					0x238
++#define DMA_FRAME_HEADER_EN				0xE00
++
++struct mtk_mipicsi_channel {
++	void __iomem            *seninf_mux;
++	void __iomem            *camsv;
++	struct clk		*clk;
++};
++
++struct mtk_mipicsi_dev {
++	struct platform_device		*pdev;
++	struct mtk_mipicsi_channel	*channel;
++	unsigned int		camsv_num;
++	unsigned int		common_clk_num;
++	struct clk		**common_clk;
++	struct device		*larb_pdev;
++	void __iomem		*ana;
++	void __iomem		*seninf_ctrl;
++	void __iomem		*seninf;
++	struct regmap		*seninf_top;
++};
++
++static void mtk_mipicsi_ana_init(void __iomem *base)
++{
++	writel(0xFEFBEFBEU & readl(base + MIPI_RX_ANA4C_CSI),
++		base + MIPI_RX_ANA4C_CSI);
++	writel(0xFEFBEFBEU & readl(base + MIPI_RX_ANA50_CSI),
++		base + MIPI_RX_ANA50_CSI);
++
++	/* clock lane and lane0-lane3 input select */
++	writel(8UL | readl(base + MIPI_RX_ANA00_CSI),
++		base + MIPI_RX_ANA00_CSI);
++	writel(8UL | readl(base + MIPI_RX_ANA04_CSI),
++		base + MIPI_RX_ANA04_CSI);
++	writel(8UL | readl(base + MIPI_RX_ANA08_CSI),
++		base + MIPI_RX_ANA08_CSI);
++	writel(8UL | readl(base + MIPI_RX_ANA0C_CSI),
++		base + MIPI_RX_ANA0C_CSI);
++	writel(8UL | readl(base + MIPI_RX_ANA10_CSI),
++		base + MIPI_RX_ANA10_CSI);
++
++	/* BG chopper clock and CSI BG enable */
++	writel(11UL | readl(base + MIPI_RX_ANA24_CSI),
++		base + MIPI_RX_ANA24_CSI);
++	mdelay(1);
++
++	/* LDO core bias enable */
++	writel(0xFF030003U | readl(base + MIPI_RX_ANA20_CSI),
++		base + MIPI_RX_ANA20_CSI);
++	mdelay(1);
++}
++
++static void mtk_mipicsi_seninf_ctrl_init(void __iomem *base)
++{
++	/*seninf enable. select NCSI2 as seninif input source */
++	writel(0x8001U, base + SENINF_CTRL);
++}
++
++static void mtk_mipicsi_seninf_init(void __iomem *base)
++{
++	writel(1U, base + SENINF_NCSI2_CAL_38);
++	writel(0x00051545U, base + SENINF_NCSI2_CAL_3C);
++	writel(5U, base + SENINF_NCSI2_CAL_38);
++	mdelay(1);
++	writel(4U, base + SENINF_NCSI2_CAL_38);
++	writel(0U, base + SENINF_NCSI2_CAL_3C);
++	writel(0x11U, base + SENINF_NCSI2_DBG_SEL);
++	writel(0x189617FU, base + SENINF_NCSI2_CTL);
++	writel(~(1UL << 27) & readl(base + SENINF_NCSI2_CTL),
++		base + SENINF_NCSI2_CTL);
++	writel((1UL << 27) | readl(base + SENINF_NCSI2_CTL),
++		base + SENINF_NCSI2_CTL);
++	writel(0x2800U, base + SENINF_NCSI2_LNRD_TIMING);
++	writel(0x7FFFU, base + SENINF_NCSI2_INT_STATUS);
++	writel(0x7FCFFFFEU, base + SENINF_NCSI2_INT_EN);
++	writel(0xE4000000U, base + SENINF_NCSI2_CAL_24);
++	writel(0xFFFFFF00U & readl(base + SENINF_NCSI2_DBG_SEL),
++		base + SENINF_NCSI2_DBG_SEL);
++	writel(0xFFFFFF45U | readl(base + SENINF_NCSI2_DBG_SEL),
++		base + SENINF_NCSI2_DBG_SEL);
++	writel(0xFFFFFFEFU & readl(base + SENINF_NCSI2_HSRX_DBG),
++		base + SENINF_NCSI2_HSRX_DBG);
++	writel(0x01010101U, base + SENINF_NCSI2_DI_CTRL);
++	writel(0x03020100U, base + SENINF_NCSI2_DI);
++	writel(0x10, base + SENINF_NCSI2_DBG_SEL);
++}
++
++static int mtk_mipicsi_seninf_top_init(struct regmap *regmap)
++{
++	int ret;
++
++	ret = regmap_write(regmap, SENINF_TOP_CTRL, 0x00010C00U);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(regmap, SENINF_TOP_CMODEL_PAR, 0x00079871);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(regmap, SENINF_TOP_MUX, 0x11110000);
++	if (ret)
++		return ret;
++
++	return ret;
++}
++
++static void mtk_mipicsi_seninf_mux_init(void __iomem *base, unsigned int ch)
++{
++	unsigned int mux_ctrl_val = (((0x9EFF8U + ch) << 12U) | 0x180U);
++
++	/* select seninf_mux1-4 as input for NCSI2 VC0-3*/
++	writel(mux_ctrl_val, base + SENINF_MUX_CTRL);
++}
++
++static void mtk_mipicsi_camsv_csr_init(void __iomem *base)
++{
++	/* double buffer enable. IMGO enable. PAK sel. TG enable */
++	writel(0x40000019U, base + CAMSV_MODULE_EN);
++	/* IMGO DP, PAK DP and TG clk enable */
++	writel(0x00008005U, base + CAMSV_CLK_EN);
++	/* 0: raw8, 1:raw10, 2:raw12, 3:YUV422, 4:raw14, 7:JPEG */
++	writel(0x00000003U, base + CAMSV_FMT_SEL);
++	/* write clear enable. pass1 down interrupt enable */
++	writel(0x80000400U, base + CAMSV_INT_EN);
++}
++
++static void mtk_mipicsi_camsv_tg_init(void __iomem *base, u32 b, u32 h)
++{
++	/* bit[30:16] grab end pixel clock number.
++	 * bit[14:0] grab start pixel clock number
++	 */
++	writel(b << 16U, base + CAMSV_TG_SEN_GRAB_PXL);
++	/* bit[29:16] end line number. bit[13:0] start line number */
++	writel(h << 16U, base + CAMSV_TG_SEN_GRAB_LIN);
++	/* YUV sensor unsigned to signed enable */
++	writel(0x1000U, base + CAMSV_TG_PATH_CFG);
++	/* cmos enable YUV422 mode */
++	writel(3U, base + CAMSV_TG_SEN_MODE);
++}
++
++static void mtk_mipicsi_camsv_dma_init(void __iomem *base, u32 b, u32 h)
++{
++	/* enable SW format setting. YUV format. 16bit */
++	writel(0x01810000U | b, base + IMGO_STRIDE);
++	/* b -1 bytes per line to write */
++	writel(b - 1U, base + IMGO_XSIZE);
++	/* w - 1 lines to write */
++	writel(h - 1U, base + IMGO_YSIZE);
++	/* disable frame header function */
++	writel(0U, base + DMA_FRAME_HEADER_EN);
++}
++
++static void mtk_mipicsi_camsv_init(void __iomem *base, u32 b, u32 h)
++{
++	mtk_mipicsi_camsv_csr_init(base);
++	mtk_mipicsi_camsv_tg_init(base, b, h);
++	mtk_mipicsi_camsv_dma_init(base, b, h);
++}
++
++static void mtk_mipicsi_reg_init(struct mtk_mipicsi_dev *mipicsi)
++{
++	struct mtk_mipicsi_channel *ch = mipicsi->channel;
++	struct device *dev = &mipicsi->pdev->dev;
++	unsigned int i;
++	int ret;
++
++	mtk_mipicsi_ana_init(mipicsi->ana);
++	mtk_mipicsi_seninf_ctrl_init(mipicsi->seninf_ctrl);
++	mtk_mipicsi_seninf_init(mipicsi->seninf);
++	ret = mtk_mipicsi_seninf_top_init(mipicsi->seninf_top);
++	if (ret)
++		dev_err(dev, "seninf_top_init error\n");
++
++	for (i = 0; i < mipicsi->camsv_num; i++) {
++		u32 b = 1280*2;
++		u32 h = 720;
++
++		mtk_mipicsi_seninf_mux_init(ch[i].seninf_mux, i);
++		mtk_mipicsi_camsv_init(ch[i].camsv, b, h);
++	}
++}
++
++static void mipicsi_clk_enable(struct mtk_mipicsi_dev *mipicsi, bool enable)
++{
++	struct mtk_mipicsi_channel *ch = mipicsi->channel;
++	int i;
++
++	for (i = 0; i < mipicsi->camsv_num; i++)
++		enable ? clk_prepare_enable(ch[i].clk) :
++			 clk_disable_unprepare(ch[i].clk);
++
++	for (i = 0; i < mipicsi->common_clk_num; i++)
++		enable ? clk_prepare_enable(mipicsi->common_clk[i]) :
++			 clk_disable_unprepare(mipicsi->common_clk[i]);
++}
++
++static int mtk_mipicsi_pm_suspend(struct device *dev)
++{
++	struct mtk_mipicsi_dev *mipicsi = dev_get_drvdata(dev);
++	int ret = 0;
++
++	mipicsi_clk_enable(mipicsi, false);
++
++	if (mipicsi->larb_pdev != NULL)
++		mtk_smi_larb_put(mipicsi->larb_pdev);
++
++	return ret;
++}
++
++static int mtk_mipicsi_suspend(struct device *dev)
++{
++	if (pm_runtime_suspended(dev))
++		return 0;
++
++	return mtk_mipicsi_pm_suspend(dev);
++}
++
++static int mtk_mipicsi_pm_resume(struct device *dev)
++{
++	struct mtk_mipicsi_dev *mipicsi = dev_get_drvdata(dev);
++	int ret = 0;
++
++	if (mipicsi->larb_pdev != NULL) {
++		ret = mtk_smi_larb_get(mipicsi->larb_pdev);
++		if (ret != 0) {
++			dev_err(dev, "failed to get larb, err %d", ret);
++
++			return ret;
++		}
++	}
++
++	mipicsi_clk_enable(mipicsi, true);
++
++	mtk_mipicsi_reg_init(mipicsi);
++
++	return ret;
++}
++
++static int mtk_mipicsi_resume(struct device *dev)
++{
++	if (pm_runtime_suspended(dev))
++		return 0;
++
++	return mtk_mipicsi_pm_resume(dev);
++}
++
++static const struct dev_pm_ops mtk_mipicsi_pm = {
++	SET_SYSTEM_SLEEP_PM_OPS(mtk_mipicsi_suspend, mtk_mipicsi_resume)
++	SET_RUNTIME_PM_OPS(mtk_mipicsi_pm_suspend,
++		mtk_mipicsi_pm_resume, NULL)
++};
++
++static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
++		int index)
++{
++	struct clk *clk = NULL;
++	struct device *dev = NULL;
++	struct resource *res = NULL;
++	struct platform_device *camdma_pdev = NULL;
++	struct device_node *np = NULL;
++	struct mtk_mipicsi_channel *ch = mipicsi->channel;
++
++	dev = &mipicsi->pdev->dev;
++
++	np = of_parse_phandle(dev->of_node,
++		"mediatek,seninf_mux_camsv", index);
++	if (np == NULL) {
++		dev_err(dev, "no NO.%d mediatek,seninf_mux_camsv node\n",
++			index);
++		return -ENODEV;
++	}
++
++	camdma_pdev = of_find_device_by_node(np);
++	of_node_put(np);
++	if (camdma_pdev == NULL) {
++		camdma_pdev = of_platform_device_create(np, NULL,
++					platform_bus_type.dev_root);
++	}
++
++	clk = of_clk_get(np, 0);
++	if (clk == NULL) {
++		dev_err(dev, "get clk fail in %s node\n", np->full_name);
++		return -ENODEV;
++	}
++	ch[index].clk = clk;
++
++	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 0);
++	if (res == NULL) {
++		dev_err(dev, "get seninf_mux memory failed in %s node\n",
++			np->full_name);
++		return -ENODEV;
++	}
++	ch[index].seninf_mux = devm_ioremap_resource(&camdma_pdev->dev, res);
++
++	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 1);
++	if (res == NULL) {
++		dev_err(dev, "get camsv memory failed in %s node\n",
++			np->full_name);
++		return -ENODEV;
++	}
++	ch[index].camsv = devm_ioremap_resource(&camdma_pdev->dev, res);
++
++	dev_info(dev, "%s parse done\n", np->full_name);
++
++	return 0;
++}
++
++static int mtk_mipicsi_common_node_parse(struct mtk_mipicsi_dev *mipicsi,
++	struct device_node *node)
++{
++	int i = 0;
++	struct regmap *seninf_top = NULL;
++	struct device *dev = NULL;
++	struct clk *clk = NULL;
++
++	if ((mipicsi == NULL) || (node == NULL))
++		return -EINVAL;
++
++	dev = &mipicsi->pdev->dev;
++
++	/* All the mipicsi HW share the same seninf_top */
++	seninf_top = syscon_regmap_lookup_by_phandle(dev->of_node,
++			"mediatek,mipicsi");
++	if (seninf_top == NULL) {
++		dev_err(dev, "Missing mediadek,mipicsi in %s node\n",
++			node->full_name);
++		return -EINVAL;
++	}
++	mipicsi->seninf_top = seninf_top;
++
++	/* get IMG_SENINF_CAM_EN and IMG_SENINF_SCAM_EN clk*/
++	mipicsi->common_clk_num = of_count_phandle_with_args(node, "clocks",
++							     "#clock-cells");
++	if (mipicsi->common_clk_num < 0) {
++		dev_err(dev, "common clock number error\n");
++		return -EINVAL;
++	}
++
++	mipicsi->common_clk = devm_kmalloc_array(dev, mipicsi->common_clk_num,
++						 sizeof(*mipicsi->common_clk),
++						 GFP_KERNEL);
++	for (i = 0; i < mipicsi->common_clk_num; i++) {
++		clk = of_clk_get(node, i);
++		if (clk == NULL) {
++			dev_err(dev, "get clk fail in %s node\n",
++				node->full_name);
++			return -EINVAL;
++		}
++		mipicsi->common_clk[i] = clk;
++	}
++
++	dev_info(dev, "%s parse done\n", node->full_name);
++
++	return 0;
++}
++
++static int mtk_mipicsi_node_parse(struct mtk_mipicsi_dev *mipicsi)
++{
++	int ret;
++	int camsv_num = 0;
++	int i;
++	struct device *dev = NULL;
++	struct resource *res = NULL;
++	struct device_node *common_node = NULL;
++	struct platform_device *pdev = NULL;
++
++	dev = &mipicsi->pdev->dev;
++	pdev = mipicsi->pdev;
++
++	/* get and parse seninf_mux_camsv */
++	camsv_num = of_count_phandle_with_args(dev->of_node,
++		"mediatek,seninf_mux_camsv", NULL);
++	if (camsv_num <= 0) {
++		dev_err(dev, "no mediatek,seninf_mux_camsv\n");
++		return -EINVAL;
++	}
++	mipicsi->camsv_num = camsv_num;
++	dev_info(dev, "there are %d camsv node\n", camsv_num);
++
++	mipicsi->channel = devm_kmalloc_array(dev, camsv_num,
++					      sizeof(*mipicsi->channel),
++					      GFP_KERNEL);
++
++	for (i = 0; i < mipicsi->camsv_num; ++i) {
++		ret = seninf_mux_camsv_node_parse(mipicsi, i);
++		if (ret < 0) {
++			dev_err(dev,
++				"NO.%d seninf_mux_camsv node parse fail\n", i);
++			return ret;
++		}
++	}
++
++	/* get mediatek,mipicsi node and its resource */
++	common_node = of_parse_phandle(dev->of_node, "mediatek,mipicsi", 0);
++	if (common_node == NULL) {
++		dev_err(dev, "no mediadek,mipicsi\n");
++		return -EINVAL;
++	}
++
++	ret = mtk_mipicsi_common_node_parse(mipicsi, common_node);
++	if (ret < 0)
++		return ret;
++	of_node_put(common_node);
++
++	/*get ana and seninf reg*/
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (res == NULL) {
++		dev_err(dev, "get ana register failed\n");
++		return -ENODEV;
++	}
++	mipicsi->ana = devm_ioremap_resource(&pdev->dev, res);
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	if (res == NULL) {
++		dev_err(dev, "get seninf_ctrl register failed\n");
++		return -ENODEV;
++	}
++	mipicsi->seninf_ctrl = devm_ioremap_resource(&pdev->dev, res);
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
++	if (res == NULL) {
++		dev_err(dev, "get seninf register failed\n");
++		return -ENODEV;
++	}
++	mipicsi->seninf = devm_ioremap_resource(&pdev->dev, res);
++
++	dev_info(dev, "mipicsi node parse done\n");
++
++	return 0;
++}
++
++static int mtk_mipicsi_probe(struct platform_device *pdev)
++{
++	struct mtk_mipicsi_dev *mipicsi = NULL;
++	int ret = 0;
++	struct iommu_domain *iommu = NULL;
++	struct device_node *larb_node = NULL;
++	struct platform_device *larb_pdev = NULL;
++
++	iommu = iommu_get_domain_for_dev(&pdev->dev);
++	if (iommu == NULL) {
++		dev_err(&pdev->dev, "Waiting iommu driver ready...\n");
++		return -EPROBE_DEFER;
++	}
++
++	larb_node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
++	if (larb_node == NULL) {
++		dev_err(&pdev->dev, "Missing mediadek,larb in %s node\n",
++			pdev->dev.of_node->full_name);
++		return -EINVAL;
++	}
++
++	larb_pdev = of_find_device_by_node(larb_node);
++	if (larb_pdev == NULL || !larb_pdev->dev.driver) {
++		of_node_put(larb_node);
++		dev_err(&pdev->dev, "Waiting for larb device %s\n",
++			larb_node->full_name);
++		return -EPROBE_DEFER;
++	}
++	of_node_put(larb_node);
++
++	mipicsi = devm_kzalloc(&pdev->dev, sizeof(*mipicsi), GFP_KERNEL);
++	if (mipicsi == NULL)
++		return -ENOMEM;
++
++	mipicsi->pdev = pdev;
++	mipicsi->larb_pdev = &larb_pdev->dev;
++
++	ret = mtk_mipicsi_node_parse(mipicsi);
++	if (ret < 0)
++		return ret;
++
++	pm_runtime_enable(&pdev->dev);
++
++	dev_set_drvdata(&pdev->dev, mipicsi);
++
++	dev_info(&pdev->dev, "probe done\n");
++
++	return ret;
++}
++
++static int mtk_mipicsi_remove(struct platform_device *pdev)
++{
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static const struct of_device_id mtk_mipicsi_of_match[] = {
++	{ .compatible = "mediatek,mt2712-mipicsi", },
++	{},
++};
++
++static struct platform_driver mtk_mipicsi_driver = {
++	.driver		= {
++		.name	= MTK_MIPICSI_DRV_NAME,
++		.pm	= &mtk_mipicsi_pm,
++		.of_match_table = of_match_ptr(mtk_mipicsi_of_match),
++	},
++	.probe		= mtk_mipicsi_probe,
++	.remove		= mtk_mipicsi_remove,
++};
++
++module_platform_driver(mtk_mipicsi_driver);
++MODULE_DESCRIPTION("MediaTek SoC Camera Host driver");
++MODULE_LICENSE("GPL v2");
 -- 
 2.18.0
 
