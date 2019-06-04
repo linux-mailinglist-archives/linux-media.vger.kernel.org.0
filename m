@@ -2,156 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 856DB33F8C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 09:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A8DE33FCA
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 09:16:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbfFDHLI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 03:11:08 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40018 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726568AbfFDHLI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 03:11:08 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 10C8E27E3EC;
-        Tue,  4 Jun 2019 08:11:06 +0100 (BST)
-Date:   Tue, 4 Jun 2019 09:11:02 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH v5 2/2] media: v4l2: Get rid of
- ->vidioc_enum_fmt_vid_{cap,out}_mplane
-Message-ID: <20190604091102.4a820e09@collabora.com>
-In-Reply-To: <71e2f8b2-db8e-68da-f627-86b22e5a0d39@xs4all.nl>
-References: <20190603135850.7689-1-boris.brezillon@collabora.com>
-        <20190603135850.7689-2-boris.brezillon@collabora.com>
-        <71e2f8b2-db8e-68da-f627-86b22e5a0d39@xs4all.nl>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726792AbfFDHQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 03:16:15 -0400
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:46971 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726691AbfFDHQP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 03:16:15 -0400
+Received: by mail-ua1-f67.google.com with SMTP id a95so7401859uaa.13;
+        Tue, 04 Jun 2019 00:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=744sh7i43ZPFiN/iw9NUnCWgofSPxKmCotfAmBs96b0=;
+        b=IFAC6NpkYpPw9Edw3aHOIdy91qw0uIepSwcauD/df4nSMlkVUwHXfXu321k9CvyEuw
+         YYgWZHxXYCT+buuHuW+5qonZRv38j7KV6LhJHUmgWUndZE4mFQbGlbvSfFCH7xTx8eix
+         u+6x9o6n8sR4kpdymr5Z4PhAaP138QNtmLZHUDfHzZXMH1t7O1onvwbGz/2TPtH8sspe
+         XblRix14XPcuEME0y8acw7xbkWK1BxRTncFik1Ac8HoyMHqIXzwVbRnXtXh/7wXIdRb9
+         TZipOjYXX80jgGyGq0Nb8zMYoQMGVQARgoPSruNNbKBOluDYV9Q3N7IRrGx1vI6cCtM0
+         VdHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=744sh7i43ZPFiN/iw9NUnCWgofSPxKmCotfAmBs96b0=;
+        b=NmwJJMbUMAevFQJH2NZZYjit7kIHZJpSyknaiBDjkPgVIxtqhFxPbekKDuWOKu6DQL
+         Eu3CvwWy/w1Vafld6Q/DuaPrwVvV/vnMR0U5Jc7GvPm7pclIZZhXqGNN16OiqCfEBK/m
+         Z5CTBj45hrXKHuWVc+obScICeDZE9gDFq5g3z058Y0rnuZYS+pCQbV8fOH4zZdPbmKX8
+         hNjT6VZNAp351Vu6233Qti0GqmJ3v4rXtbJHUMbn/w72jZOuFOdOuQBLq0svieh9Rnq0
+         FQSOkhu/HVNheaOwLcHcmHY/foVhFfI9Mpm2t080f9Kn8tcS5hbmIwarI05PkknEJrQO
+         oBKg==
+X-Gm-Message-State: APjAAAXetN1ehy27fnvsvoH+TrS1MJlXErKWn9/+0nFVcFYzlnFitPwT
+        UQtmSc8AL96hMUeDoTGDbocVGgxJ0jJMZGybS00=
+X-Google-Smtp-Source: APXvYqzUFQzKn9EneUzQvkQXk+oR8D+qZEm+3bxwEJhZF+r5g1FUgxpQ67hcS3Bz6JHc6oltyqHurNNTPWsPx5RFJto=
+X-Received: by 2002:ab0:4e12:: with SMTP id g18mr14881980uah.1.1559632574221;
+ Tue, 04 Jun 2019 00:16:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <1559135399-28998-1-git-send-email-92siuyang@gmail.com> <9a2b8351-cdb7-cec7-87d0-7aafb93ab647@xs4all.nl>
+In-Reply-To: <9a2b8351-cdb7-cec7-87d0-7aafb93ab647@xs4all.nl>
+From:   Yang Xiao <92siuyang@gmail.com>
+Date:   Tue, 4 Jun 2019 15:15:33 +0800
+Message-ID: <CAKgHYH0fCgo98+3R4+VWmV9RYHoy7v_BsV39Ed_qOYrxT0+zPA@mail.gmail.com>
+Subject: Re: [PATCH] media: davinci: vpif_capture: fix memory leak in vpif_probe()
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     prabhakar.csengg@gmail.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 4 Jun 2019 09:02:56 +0200
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+Yes, you are correct. I will fix the issue and resubmit the patch again.
 
-> On 6/3/19 3:58 PM, Boris Brezillon wrote:
-> > Support for multiplanar and singleplanar formats is mutually exclusive,
-> > at least in practice. In our attempt to unify support for support for
-> > mplane and !mplane in v4l, let's get rid of the  
-> > ->vidioc_enum_fmt_{vid,out}_cap_mplane() hooks and call
-> > ->vidioc_enum_fmt_{vid,out}_cap() instead.  
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Mon, Jun 3, 2019 at 7:55 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 5/29/19 3:09 PM, Young Xiao wrote:
+> > If vpif_probe() fails on vpif_probe_complete(), then memory
+> > allocated at initialize_vpif() for global vpif_obj.dev[i]
+> > become unreleased.
+> >
+> > The patch adds deallocation of vpif_obj.dev[i] on the error path.
+> >
+> > Signed-off-by: Young Xiao <92siuyang@gmail.com>
 > > ---
-> > Changes in v5:
-> > - None
-> > 
-> > Changes in v4:
-> > - None
-> > 
-> > Changes in v3:
-> > - Send this patch separately (was previously part of the EXT_BUF/FMT
-> >   rework)
-> > 
-> > Changes in v2:
-> > - None
-> > ---
-> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-core.c  |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-core.h  |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-m2m.c   | 10 ++++-----
-> >  .../media/platform/exynos4-is/fimc-capture.c  |  6 +++---
-> >  .../platform/exynos4-is/fimc-isp-video.c      |  6 +++---
-> >  drivers/media/platform/exynos4-is/fimc-lite.c |  6 +++---
-> >  drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +++----
-> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  4 ++--
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  | 18 ++++++++--------
-> >  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 12 +++++------
-> >  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 12 +++++------
-> >  .../media/platform/qcom/camss/camss-video.c   |  2 +-
-> >  drivers/media/platform/qcom/venus/vdec.c      |  4 ++--
-> >  drivers/media/platform/qcom/venus/venc.c      |  4 ++--
-> >  drivers/media/platform/rcar_fdp1.c            |  4 ++--
-> >  drivers/media/platform/rcar_jpu.c             |  4 ++--
-> >  drivers/media/platform/renesas-ceu.c          |  2 +-
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  | 12 +++++------
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  | 12 +++++------
-> >  drivers/media/platform/ti-vpe/vpe.c           |  4 ++--
-> >  drivers/media/platform/vicodec/vicodec-core.c |  2 --
-> >  drivers/media/platform/vivid/vivid-core.c     |  6 ++----
-> >  .../media/platform/vivid/vivid-vid-common.c   | 20 ------------------
-> >  .../media/platform/vivid/vivid-vid-common.h   |  2 --
-> >  drivers/media/v4l2-core/v4l2-dev.c            |  2 --
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 21 ++++++++++---------
-> >  drivers/staging/media/ipu3/ipu3-v4l2.c        |  4 ++--
-> >  .../media/rockchip/vpu/rockchip_vpu_v4l2.c    | 12 +++++------
-> >  include/media/v4l2-ioctl.h                    | 14 ++-----------
-> >  30 files changed, 91 insertions(+), 128 deletions(-)
-> >   
-> 
-> <snip>
-> 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 0fbee3caef5d..3768eb012cef 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1382,6 +1382,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  				struct file *file, void *fh, void *arg)
-> >  {
-> > +	struct video_device *vdev = video_devdata(file);
-> >  	struct v4l2_fmtdesc *p = arg;
-> >  	int ret = check_fmt(file, p->type);
-> >  
-> > @@ -1391,30 +1392,30 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  
-> >  	switch (p->type) {
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> > +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > +		if (!!(vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) !=
-> > +		    p->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> > +			break;
+> >  drivers/media/platform/davinci/vpif_capture.c | 16 ++++++++++++++--
+> >  1 file changed, 14 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+> > index b5aacb0..63e6ec4 100644
+> > --- a/drivers/media/platform/davinci/vpif_capture.c
+> > +++ b/drivers/media/platform/davinci/vpif_capture.c
+> > @@ -1621,6 +1621,14 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+> >       return NULL;
+> >  }
+> >
+> > +static void free_vpif_objs(void)
+> > +{
+> > +     int i;
 > > +
-> >  		if (unlikely(!ops->vidioc_enum_fmt_vid_cap))
-> >  			break;
-> >  		ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
-> >  		break;
-> > -	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > -		if (unlikely(!ops->vidioc_enum_fmt_vid_cap_mplane))
-> > -			break;
-> > -		ret = ops->vidioc_enum_fmt_vid_cap_mplane(file, fh, arg);
-> > -		break;  
-> 
-> We got kbuild test robot complaints about this. The new check is a bit
-> complicated, and I propose we do this instead:
-> 
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> 		if (!(vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) &&
-> 		    ops->vidioc_enum_fmt_vid_cap)
->  			ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
->  		break;
-> 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> 		if ((vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) &&
-> 		    ops->vidioc_enum_fmt_vid_cap)
->  			ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
->  		break;
-> 
-
-More on that matter: it happened because I blindly fixed a warning
-reported by checkpatch --strict saying that parens were useless here.
-Looks like checkpatch was wrong :-/.
+> > +     for (i = 0; i < VPIF_DISPLAY_MAX_DEVICES; i++)
+> > +             kfree(vpif_obj.dev[i]);
+> > +}
+> > +
+> >  /**
+> >   * vpif_probe : This function probes the vpif capture driver
+> >   * @pdev: platform device pointer
+> > @@ -1701,7 +1709,10 @@ static __init int vpif_probe(struct platform_device *pdev)
+> >                                 "registered sub device %s\n",
+> >                                  subdevdata->name);
+> >               }
+> > -             vpif_probe_complete();
+> > +             err = vpif_probe_complete();
+> > +             if (err) {
+> > +                     goto probe_subdev_out;
+> > +             }
+>
+> No need for { and } as per kernel coding style.
+>
+> >       } else {
+> >               vpif_obj.notifier.ops = &vpif_async_ops;
+> >               err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
+> > @@ -1722,6 +1733,7 @@ static __init int vpif_probe(struct platform_device *pdev)
+> >       v4l2_device_unregister(&vpif_obj.v4l2_dev);
+> >  cleanup:
+> >       v4l2_async_notifier_cleanup(&vpif_obj.notifier);
+> > +     free_vpif_objs();
+>
+> This would break the case where initialize_vpif() returns an error, since
+> initialize_vpif already frees these objects on error.
+>
+> In this case the easiest way of doing this is to just return if initialize_vpif
+> returns an error. No need to clean up anything.
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >       return err;
+> >  }
+> > @@ -1748,8 +1760,8 @@ static int vpif_remove(struct platform_device *device)
+> >               ch = vpif_obj.dev[i];
+> >               /* Unregister video device */
+> >               video_unregister_device(&ch->video_dev);
+> > -             kfree(vpif_obj.dev[i]);
+> >       }
+> > +     free_vpif_objs()
+> >       return 0;
+> >  }
+> >
+> >
+>
