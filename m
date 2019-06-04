@@ -2,37 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68D2D346AC
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D46CC346C2
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:31:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727543AbfFDM2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 08:28:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47544 "EHLO
+        id S1727815AbfFDMa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 08:30:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47570 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbfFDM2Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 08:28:16 -0400
+        with ESMTP id S1727597AbfFDMa5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 08:30:57 -0400
 Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:2788:668:163:5bb7:9f6c:564c:d55e])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3215C5D;
-        Tue,  4 Jun 2019 14:28:14 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C71785D;
+        Tue,  4 Jun 2019 14:30:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559651294;
-        bh=J7NkxVf07lu0PHbMf37oWXWdQ4DdmhVdEY9cdEV/+kk=;
+        s=mail; t=1559651455;
+        bh=riZl41DfG1QZNOepOjUUx076mp+LakAw4unAJMAF22k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UJKHGB0TZO3bNrR55gKa6CQ+YVWju2hYhl4PtiP/QsvWIAtoLoQgdsGAPz3KqUCCO
-         gHbhOSzb/YcH4utjiC/ia12YNmweo2qrS93OlC8hA6nAacY5Pk1WpB1M38PMEeGjdf
-         DvOFSzsfXCPYHdOWyqIT5CJSiXnQcc2xc8oYaah8=
-Date:   Tue, 4 Jun 2019 15:28:01 +0300
+        b=jjQzu8Qm1TeGC8eO2n1kGVesn7cLa3l/ebUAuFPSg+52yIyyIMnXwYrFElPmZbbhz
+         g/dqiD+BA6scuKF1dx9vUIUsIOt2GSFRYt4ewtyXG+d0vsGNIYYkBTdzVYYQ+xQCeN
+         xcnge4BMBJ6via8SzEOZZMqDANbW0Qpa8qPa1zh8=
+Date:   Tue, 4 Jun 2019 15:30:42 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 7/7] staging/media: set device_caps in struct video_device
-Message-ID: <20190604122801.GC7812@pendragon.ideasonboard.com>
-References: <d6832f03-915a-91fc-b678-b2daf68d66d9@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+Subject: Re: [PATCH 4/7] usb/gadget/f_uvc: set device_caps in struct
+ video_device
+Message-ID: <20190604123042.GD7812@pendragon.ideasonboard.com>
+References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
+ <20190604111958.22331-5-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d6832f03-915a-91fc-b678-b2daf68d66d9@xs4all.nl>
+In-Reply-To: <20190604111958.22331-5-hverkuil-cisco@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -43,12 +46,7 @@ Hi Hans,
 
 Thank you for the patch.
 
-On Tue, Jun 04, 2019 at 01:22:26PM +0200, Hans Verkuil wrote:
-> From 5e271dce24e2a0e3bad026fff4f8d7485d97aa71 Mon Sep 17 00:00:00 2001
-> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Date: Tue, 4 Jun 2019 11:39:41 +0200
-> Subject: [PATCH 7/7] staging/media: set device_caps in struct video_device
-> 
+On Tue, Jun 04, 2019 at 01:19:55PM +0200, Hans Verkuil wrote:
 > Instead of filling in the struct v4l2_capability device_caps
 > field, fill in the struct video_device device_caps field.
 > 
@@ -56,112 +54,49 @@ On Tue, Jun 04, 2019 at 01:22:26PM +0200, Hans Verkuil wrote:
 > video device are.
 > 
 > But this only really works if all drivers use this, so convert
-> all staging/media drivers in this patch.
+> this UVC gadget driver.
 > 
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Prabhakar Lad <prabhakar.csengg@gmail.com>
-> ---
->  drivers/staging/media/bcm2048/radio-bcm2048.c   |  7 ++-----
->  drivers/staging/media/davinci_vpfe/vpfe_video.c |  9 +++++----
->  drivers/staging/media/omap4iss/iss_video.c      | 11 +++++------
->  3 files changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> index 09903ffb13ba..2c60a1fb6350 100644
-> --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-> +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> @@ -2310,11 +2310,6 @@ static int bcm2048_vidioc_querycap(struct file *file, void *priv,
->  	strscpy(capability->card, BCM2048_DRIVER_CARD,
->  		sizeof(capability->card));
->  	snprintf(capability->bus_info, 32, "I2C: 0x%X", bdev->client->addr);
-> -	capability->device_caps = V4L2_CAP_TUNER | V4L2_CAP_RADIO |
-> -					V4L2_CAP_HW_FREQ_SEEK;
-> -	capability->capabilities = capability->device_caps |
-> -		V4L2_CAP_DEVICE_CAPS;
-> -
->  	return 0;
->  }
-> 
-> @@ -2570,6 +2565,8 @@ static const struct video_device bcm2048_viddev_template = {
->  	.name			= BCM2048_DRIVER_NAME,
->  	.release		= video_device_release_empty,
->  	.ioctl_ops		= &bcm2048_ioctl_ops,
-> +	.device_caps		= V4L2_CAP_TUNER | V4L2_CAP_RADIO |
-> +				  V4L2_CAP_HW_FREQ_SEEK,
->  };
-> 
->  /*
-> diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> index 84cca18e3e9d..ab6bc452d9f6 100644
-> --- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> +++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> @@ -612,10 +612,6 @@ static int vpfe_querycap(struct file *file, void  *priv,
-> 
->  	v4l2_dbg(1, debug, &vpfe_dev->v4l2_dev, "vpfe_querycap\n");
-> 
-> -	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> -		cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> -	else
-> -		cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
->  	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT |
->  			    V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
->  	strscpy(cap->driver, CAPTURE_DRV_NAME, sizeof(cap->driver));
-> @@ -1628,6 +1624,11 @@ int vpfe_video_register(struct vpfe_video_device *video,
-> 
->  	video->video_dev.v4l2_dev = vdev;
-> 
-> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> +		video->video_dev.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-> +	else
-> +		video->video_dev.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-> +	video->video_dev.device_caps |= V4L2_CAP_STREAMING;
->  	ret = video_register_device(&video->video_dev, VFL_TYPE_GRABBER, -1);
->  	if (ret < 0)
->  		pr_err("%s: could not register video device (%d)\n",
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index c2c5a9cd8642..c307707480f7 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -533,12 +533,6 @@ iss_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->  	strscpy(cap->driver, ISS_VIDEO_DRIVER_NAME, sizeof(cap->driver));
->  	strscpy(cap->card, video->video.name, sizeof(cap->card));
->  	strscpy(cap->bus_info, "media", sizeof(cap->bus_info));
-> -
-> -	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> -		cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> -	else
-> -		cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
-> -
->  	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
->  			  | V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT;
-> 
-> @@ -1272,6 +1266,11 @@ int omap4iss_video_register(struct iss_video *video, struct v4l2_device *vdev)
->  	int ret;
-> 
->  	video->video.v4l2_dev = vdev;
-> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> +		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-> +	else
-> +		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-> +	video->video.device_caps |= V4L2_CAP_STREAMING;
-
-I would write this
-
-	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE
-					 | V4L2_CAP_STREAMING;
-	else
-		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT
-					 | V4L2_CAP_STREAMING;
-
-as an optimisation. Apart from that, for the omap4iss driver,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+I have no patch for the UVC gadget driver for the next merge window, so
+feel free to merge this through the Linux media tree if Felipe is fine
+with this.
+
+> ---
+>  drivers/usb/gadget/function/f_uvc.c    | 1 +
+>  drivers/usb/gadget/function/uvc_v4l2.c | 4 ----
+>  2 files changed, 1 insertion(+), 4 deletions(-)
 > 
->  	ret = video_register_device(&video->video, VFL_TYPE_GRABBER, -1);
->  	if (ret < 0)
+> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> index 8c99392df593..fb0a892687c0 100644
+> --- a/drivers/usb/gadget/function/f_uvc.c
+> +++ b/drivers/usb/gadget/function/f_uvc.c
+> @@ -423,6 +423,7 @@ uvc_register_video(struct uvc_device *uvc)
+>  	uvc->vdev.release = video_device_release_empty;
+>  	uvc->vdev.vfl_dir = VFL_DIR_TX;
+>  	uvc->vdev.lock = &uvc->video.mutex;
+> +	uvc->vdev.device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+>  	strlcpy(uvc->vdev.name, cdev->gadget->name, sizeof(uvc->vdev.name));
+>  
+>  	video_set_drvdata(&uvc->vdev, uvc);
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index a1183eccee22..495f0ec663ea 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -71,10 +71,6 @@ uvc_v4l2_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+>  	strlcpy(cap->card, cdev->gadget->name, sizeof(cap->card));
+>  	strlcpy(cap->bus_info, dev_name(&cdev->gadget->dev),
+>  		sizeof(cap->bus_info));
+> -
+> -	cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> -	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+> -
+>  	return 0;
+>  }
+>  
 
 -- 
 Regards,
