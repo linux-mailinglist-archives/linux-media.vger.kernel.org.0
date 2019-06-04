@@ -2,138 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A7234366
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 11:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B005B343EB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbfFDJib (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 05:38:31 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:41096 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbfFDJia (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 05:38:30 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D948128A12A;
-        Tue,  4 Jun 2019 10:38:27 +0100 (BST)
-Date:   Tue, 4 Jun 2019 11:38:24 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
- stateless support
-Message-ID: <20190604113824.6d9fb135@collabora.com>
-In-Reply-To: <VI1PR03MB4206CA39BCD520111EF9844AAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
-References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
-        <20190603112449.GA30132@ulmo>
-        <a2f6bac6596da86d597d9ac4c12b1f72b772dbe5.camel@ndufresne.ca>
-        <20190603214117.664f6ba1@collabora.com>
-        <20190604083157.GC9048@ulmo>
-        <20190604104921.5f4dcbe8@collabora.com>
-        <20190604090636.GF9048@ulmo>
-        <VI1PR03MB4206CA39BCD520111EF9844AAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727370AbfFDKMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 06:12:49 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52722 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727278AbfFDKMP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:15 -0400
+X-UUID: 09c32f24de5f4180bf28aeb7ddab803a-20190604
+X-UUID: 09c32f24de5f4180bf28aeb7ddab803a-20190604
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
+        (envelope-from <stu.hsieh@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 612278754; Tue, 04 Jun 2019 18:12:06 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 4 Jun 2019 18:11:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 4 Jun 2019 18:11:58 +0800
+From:   Stu Hsieh <stu.hsieh@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, CK Hu <ck.hu@mediatek.com>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stu Hsieh <stu.hsieh@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
+Subject: [PATCH v4 00/14] Add mediatek mipicsi driver for Mediatek SOC MT2712
+Date:   Tue, 4 Jun 2019 18:11:41 +0800
+Message-ID: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 532CD136B93353C89B0B0C85495B6EDAE408C70C02392551530E77B5757C0DB42000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 4 Jun 2019 09:15:28 +0000
-Jonas Karlman <jonas@kwiboo.se> wrote:
+Add mediatek mipicsi driver for Mediatek SOC MT2712
 
-> On 2019-06-04 11:06, Thierry Reding wrote:
-> > On Tue, Jun 04, 2019 at 10:49:21AM +0200, Boris Brezillon wrote:  
-> >> On Tue, 4 Jun 2019 10:31:57 +0200
-> >> Thierry Reding <thierry.reding@gmail.com> wrote:
-> >>  
-> >>>>>>> - Using flags
-> >>>>>>>
-> >>>>>>> The current MPEG-2 controls have lots of u8 values that can be
-> >>>>>>> represented as flags. Using flags also helps with padding.
-> >>>>>>> It's unlikely that we'll get more than 64 flags, so using a u64 by
-> >>>>>>> default for that sounds fine (we definitely do want to keep some room
-> >>>>>>> available and I don't think using 32 bits as a default is good enough).
-> >>>>>>>
-> >>>>>>> I think H.264/HEVC per-control flags should also be moved to u64.      
-> >>>>>> There was also some concensus on this, that u64 should be good enough
-> >>>>>> for anything out there, though we obviously don't know what the future
-> >>>>>> will hold, so perhaps adding some way for possible extending this in the
-> >>>>>> future might be good. I guess we'll get new controls for new codecs
-> >>>>>> anyway, so we can punt on this until then.
-> >>>>>>       
-> >>>>>>> - Clear split of controls and terminology
-> >>>>>>>
-> >>>>>>> Some codecs have explicit NAL units that are good fits to match as
-> >>>>>>> controls: e.g. slice header, pps, sps. I think we should stick to the
-> >>>>>>> bitstream element names for those.
-> >>>>>>>
-> >>>>>>> For H.264, that would suggest the following changes:
-> >>>>>>> - renaming v4l2_ctrl_h264_decode_param to v4l2_ctrl_h264_slice_header;
-> >>>>>>> - killing v4l2_ctrl_h264_decode_param and having the reference lists
-> >>>>>>> where they belong, which seems to be slice_header;      
-> >>>>> But now here it's being described per slice. When I look at the slice
-> >>>>> header, I only see list of modifications and when I look at userspace,
-> >>>>> That list is simply built from DPB, the modifications list found in the
-> >>>>> slice header seems to be only used to craft the l0/l1 list.    
-> >>>> Yes, I think there was a misunderstanding which was then clarified
-> >>>> (unfortunately it happened on IRC, so we don't have a trace of this
-> >>>> discussion). The reference list should definitely be per-frame, and the
-> >>>> L0/L1 slice reflists are referring to the per-frame reference list (it's
-> >>>> just a sub-set of the per-frame reflist re-ordered differently).
-> >>>>     
-> >>>>> There is one thing that come up though, if we enable per-frame decoding
-> >>>>> on top of per-slice decoder (like Cedrus), won't we force userspace to
-> >>>>> always compute l0/l1 even though the HW might be handling that ?    
-> >>>> That's true, the question is, what's the cost of this extra re-ordering?    
-> >>> I think ultimately userspace is already forced to compute these lists
-> >>> even if some hardware may be able to do it in hardware. There's going to
-> >>> be other hardware that userspace wants to support that can't do it by
-> >>> itself, so userspace has to at least have the code anyway. What it could
-> >>> do on top of that decide not to run that code if it somehow detects that
-> >>> hardware can do it already. On the other hand this means that we have to
-> >>> expose a whole lot of capabilities to userspace and userspace has to go
-> >>> and detect all of them in order to parameterize all of the code.
-> >>>
-> >>> Ultimately I suspect many applications will just choose to pass the data
-> >>> all the time out of simplicity. I mean drivers that don't need it will
-> >>> already ignore it (i.e. they must not break if they get the extra data)
-> >>> so other than the potential runtime savings on some hardware, there are
-> >>> no advantages.
-> >>>
-> >>> Given that other APIs don't bother exposing this level of control to
-> >>> applications makes me think that it's just not worth it from a
-> >>> performance point of view.  
-> >> That's not exactly what Nicolas proposed. He was suggesting that we
-> >> build those reflists kernel-side: V4L would provide an helper and
-> >> drivers that need those lists would use it, others won't. This way we
-> >> have no useless computation done, and userspace doesn't even have to
-> >> bother checking the device caps to avoid this extra step.  
-> > Oh yeah, that sounds much better. I suppose one notable differences to
-> > other APIs is that they have to pass in buffers for all the frames in
-> > the DPB, so they basically have to build the lists in userspace. Since
-> > we'll end up looking up the frames in the kernel, it sounds reasonable
-> > to also build the lists in the kernel.  
-> 
-> Userspace must already process the modification list or it wont have correct DPB for next frame.
+Change in v4:
+- remove soc_camera framework dependence in v3
+- add some error handle and of_node_put() in patch
+  "[media] mtk-mipicsi: add mediatek mipicsi driver for mt2712"
+- remove some useless variable
 
-Can you point us to the code or the section in the spec that
-mentions/proves this dependency? I might have missed something, but my
-understanding was that the slice ref lists (or the list of
-modifications to apply to the list of long/short refs attached to a
-frame) had no impact on the list of long/short refs attached to the
-following frame.
+Stu Hsieh (14):
+  dt-bindings: Add binding for MT2712 MIPI-CSI2
+  dt-bindings: media: Add mipicsi common node binding for MT2712
+    MIPI-CSI2
+  dt-bindings: media: Add camsv binding for MT2712 MIPI-CSI2
+  [media] mtk-mipicsi: add mediatek mipicsi driver for mt2712
+  [media] mtk-mipicsi: register the v4l2 device for mt2712 mipicsi
+  [media] mtk-mipicsi: enable/disable ana clk
+  [media] mtk-mipicsi: add function to get the number of subdev link
+  [media] mtk-mipicsi: enable/disable cmos for mt2712
+  [media] mtk-mipicsi: add ISR for writing the data to buffer
+  [media] mtk-mipicsi: set the output address in HW reg
+  [media] mtk-mipicsi: add function to get the format
+  [media] mtk-mipicsi: add debug message for mipicsi driver
+  [media] mtk-mipicsi: add debugfs for mipicsi driver
+  [media] mtk-mipicsi: add function to support SerDes for link number
+
+ .../bindings/media/mediatek-mipicsi-camsv.txt |   55 +
+ .../media/mediatek-mipicsi-common.txt         |   19 +
+ .../bindings/media/mediatek-mipicsi.txt       |   58 +
+ drivers/media/platform/mtk-mipicsi/Makefile   |    4 +
+ .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 1734 +++++++++++++++++
+ 5 files changed, 1870 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-camsv.txt
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi-common.txt
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-mipicsi.txt
+ create mode 100644 drivers/media/platform/mtk-mipicsi/Makefile
+ create mode 100644 drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
+
+-- 
+2.18.0
 
