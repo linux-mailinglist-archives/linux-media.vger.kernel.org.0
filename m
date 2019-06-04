@@ -2,151 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A86B33447F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF6E9344B9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727342AbfFDKmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 06:42:40 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:54103 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727242AbfFDKmk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Jun 2019 06:42:40 -0400
-Received: from [IPv6:2001:420:44c1:2579:8c28:9f60:8294:d97] ([IPv6:2001:420:44c1:2579:8c28:9f60:8294:d97])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Y6tlhWA4u3qlsY6tphXrKC; Tue, 04 Jun 2019 12:42:37 +0200
-Subject: Re: [PATCH v3 08/10] media: hantro: add initial i.MX8MQ support
+        id S1727239AbfFDKtU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 4 Jun 2019 06:49:20 -0400
+Received: from mail-oln040092065061.outbound.protection.outlook.com ([40.92.65.61]:47235
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727139AbfFDKtT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 Jun 2019 06:49:19 -0400
+Received: from VE1EUR01FT011.eop-EUR01.prod.protection.outlook.com
+ (10.152.2.52) by VE1EUR01HT176.eop-EUR01.prod.protection.outlook.com
+ (10.152.2.190) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1943.19; Tue, 4 Jun
+ 2019 10:49:14 +0000
+Received: from VI1PR03MB4206.eurprd03.prod.outlook.com (10.152.2.53) by
+ VE1EUR01FT011.mail.protection.outlook.com (10.152.2.229) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.1943.19 via Frontend Transport; Tue, 4 Jun 2019 10:49:14 +0000
+Received: from VI1PR03MB4206.eurprd03.prod.outlook.com
+ ([fe80::fdae:4944:7c73:c26a]) by VI1PR03MB4206.eurprd03.prod.outlook.com
+ ([fe80::fdae:4944:7c73:c26a%6]) with mapi id 15.20.1943.018; Tue, 4 Jun 2019
+ 10:49:13 +0000
+From:   Jonas Karlman <jonas@kwiboo.se>
 To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+CC:     Thierry Reding <thierry.reding@gmail.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-References: <20190531085523.10892-1-p.zabel@pengutronix.de>
- <20190531085523.10892-9-p.zabel@pengutronix.de>
- <cfabcdc7-baff-82d8-2b24-5a18a9c50441@xs4all.nl>
- <20190603220256.1922901a@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <93cad5e2-12ef-10e2-e18f-4c22a82d3b04@xs4all.nl>
-Date:   Tue, 4 Jun 2019 12:42:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <20190603220256.1922901a@collabora.com>
-Content-Type: text/plain; charset=utf-8
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "Alexandre Courbot" <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+Thread-Topic: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+Thread-Index: AQHVCwZV113RJIvxkU+HTUkBX8F+66aJ59yAgAB9JQCAAA2RgIAA11KAgAAE3YCAAATRAIAAAneAgAAGbACAABPEgA==
+Date:   Tue, 4 Jun 2019 10:49:13 +0000
+Message-ID: <VI1PR03MB4206D752EBA7D53FF2563B0EAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+ <20190603112449.GA30132@ulmo>
+ <a2f6bac6596da86d597d9ac4c12b1f72b772dbe5.camel@ndufresne.ca>
+ <20190603214117.664f6ba1@collabora.com> <20190604083157.GC9048@ulmo>
+ <20190604104921.5f4dcbe8@collabora.com> <20190604090636.GF9048@ulmo>
+ <VI1PR03MB4206CA39BCD520111EF9844AAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
+ <20190604113824.6d9fb135@collabora.com>
+In-Reply-To: <20190604113824.6d9fb135@collabora.com>
+Accept-Language: sv-SE, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGnQhvpuokQrXdaMwFSbwjcvv9W0uz7YRsgB5DIhJNac1MsNz5U9BjjlaHlH1m4/SWsqu0lRDwx8Or60DBfKM2RAdUTFmo0drDk+JKLSawi7Ld5HPVX2
- NctodSX82Rhc/51jxfvY3u6F9O60pJshhy6JMpNt9Wii2v+1atv/jpnoUwyJxfr/pSI6b7/VBpHlfOD/HHv+0oo5Dt0qPvb04ulSyEKJylrQP4rg6nlZwHlP
- s4WIH49taiPCl0znNNFTQFLd2RTGWjmjxxS9X/+jUE/lzMaePIyoRt1oxzAFmV3u4lvRMjRhSMzkmR+UHnuMOxdbFiq0YOaR1zntsFpzVh5l5WLvDMx1XW2v
- LAYQL/Yb9b5UVsmH7H/k8Ehm+JB1jokQLdNl23q7Xt1v5slDFs3EF8vF+dKv3zHxJ9/3KWMxWkc7RTsDzM/6C+miYCaWRKV1h/Rp+uOb+MIqhLhDxKuqV7LP
- RNRPirtIfufssV9m5Xk2QN7B3XyWeCniZXWxxMgY4Kc9x/MwAyxM5TyTeV7taMfvTFItmCip2beogDTvRgDBwV1yYgTS+eP8jPj5Mg==
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0102CA0064.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:7d::41) To VI1PR03MB4206.eurprd03.prod.outlook.com
+ (2603:10a6:803:51::23)
+x-incomingtopheadermarker: OriginalChecksum:55F52A4604438F3CCAA4FB66C7CCCD75A5B5BD40DCA463B138EFACAC2A906657;UpperCasedChecksum:992D522281F6FF2CC6730BE5C40E2F3A1BAEB5656FDDF95B73FD8050EC795486;SizeAsReceived:8281;Count:49
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [jsOZ59HGveIwP9lmxbohfxDNjYXt9yvB]
+x-microsoft-original-message-id: <2f41970b-75b2-0593-8e21-da319b5c5e4a@kwiboo.se>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 49
+x-eopattributedmessage: 0
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031322404)(2017031323274)(2017031324274)(1601125500)(1603101475)(1701031045);SRVR:VE1EUR01HT176;
+x-ms-traffictypediagnostic: VE1EUR01HT176:
+x-microsoft-antispam-message-info: jz3HNIqiQNIiHfCWiEjPhZAOj5QXqPRVZ3X8nFPXUdlTG8rEZ9kJsHFLXm3tCwEsUuD+aF9YQul+TX9COj4+ISGlep7z3hVnT7QrWd8sJNQKfec8H4LdWpJe2ju/UAkl9P+P7iod+IX5AZguyn2BepYPf02NBBQlBsNR2GPsPZOGCS8s9JkfjY+VkM6Sj03P
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <5C9D4BC593C5544C87931BD5B2980636@eurprd03.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44a7a0cd-917e-455e-62dc-08d6e8da485c
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2019 10:49:13.8240
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT176
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/3/19 10:02 PM, Boris Brezillon wrote:
-> On Mon, 3 Jun 2019 14:45:37 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> 
->> On 5/31/19 10:55 AM, Philipp Zabel wrote:
->>> For now this just enables MPEG-2 decoding on the Hantro G1 on i.MX8MQ.
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>> Changes since v2 [1]:
->>>  - Adapted to changes in patches 4 and 5
->>>
->>> [1] https://patchwork.linuxtv.org/patch/56420/
->>> ---
->>>  drivers/staging/media/hantro/Kconfig        |   8 +-
->>>  drivers/staging/media/hantro/Makefile       |   1 +
->>>  drivers/staging/media/hantro/hantro_drv.c   |   1 +
->>>  drivers/staging/media/hantro/hantro_hw.h    |   1 +
->>>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 171 ++++++++++++++++++++
->>>  5 files changed, 178 insertions(+), 4 deletions(-)
->>>  create mode 100644 drivers/staging/media/hantro/imx8m_vpu_hw.c
->>>
->>> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
->>> index 660cca358f04..6fdb72df7bd3 100644
->>> --- a/drivers/staging/media/hantro/Kconfig
->>> +++ b/drivers/staging/media/hantro/Kconfig
->>> @@ -1,15 +1,15 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>>  config VIDEO_HANTRO
->>>  	tristate "Hantro VPU driver"
->>> -	depends on ARCH_ROCKCHIP || COMPILE_TEST
->>> +	depends on ARCH_MXC || ARCH_ROCKCHIP || COMPILE_TEST
->>>  	depends on VIDEO_DEV && VIDEO_V4L2 && MEDIA_CONTROLLER
->>>  	depends on MEDIA_CONTROLLER_REQUEST_API
->>>  	select VIDEOBUF2_DMA_CONTIG
->>>  	select VIDEOBUF2_VMALLOC
->>>  	select V4L2_MEM2MEM_DEV
->>>  	help
->>> -	  Support for the Hantro IP based Video Processing Unit present on
->>> -	  Rockchip SoC, which accelerates video and image encoding and
->>> -	  decoding.
->>> +	  Support for the Hantro IP based Video Processing Units present on
->>> +	  Rockchip and NXP i.MX8M SoCs, which accelerate video and image
->>> +	  encoding and decoding.
->>>  	  To compile this driver as a module, choose M here: the module
->>>  	  will be called hantro-vpu.
->>> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
->>> index 14f17a4e48cb..1dac16af451e 100644
->>> --- a/drivers/staging/media/hantro/Makefile
->>> +++ b/drivers/staging/media/hantro/Makefile
->>> @@ -9,5 +9,6 @@ hantro-vpu-y += \
->>>  		rk3399_vpu_hw.o \
->>>  		rk3399_vpu_hw_jpeg_enc.o \
->>>  		rk3399_vpu_hw_mpeg2_dec.o \
->>> +		imx8m_vpu_hw.o \
->>>  		hantro_jpeg.o \
->>>  		hantro_mpeg2.o  
->>
->> I'm a bit concerned about how this is organized. As far as I can tell,
->> enabling this driver would compile both rockchip and imx8 code into the
->> same driver. You would expect that only the code for the selected
->> architectures would be compiled in (or all if COMPILE_TEST is set, of course).
->>
->> Can you take a look at this?
-> 
-> Shouldn't be hard to do:
-> 
-> config VIDEO_HANTRO
-> 	tristate "Hantro VPU driver"
-> 	...
-> 
-> config VIDEO_HANTRO_ROCKCHIP
-> 	bool "Rockchip Hantro VPU driver"
-> 	depends on ARCH_ROCKCHIP || COMPILE_TEST
-> 	depends on VIDEO_HANTRO
-> 	...
-> 
-> config VIDEO_HANTRO_IMX8
-> 	bool "IMX8 Hantro VPU driver"
-> 	depends on ARCH_IMX || COMPILE_TEST
-> 	depends on VIDEO_HANTRO
-> 	...
-> 
-> hantro-vpu-$(VIDEO_HANTRO_RK3288)	+= rkxxxx...
-> hantro-vpu-$(VIDEO_HANTRO_IMX8)		+= imx8...
-> 
-> and a couple of #ifdef in rockchip_vpu_drv.c.
-> 
-> This being said, I think most of the code in the SoC specific files
-> could be shared if we find a way to abstract the reg layout (using
-> regmap/reg_field?), leaving a small amount of SoC-specific code, so I'm
-> not sure it's a big deal if have support for all SoCs compiled in. What
-> could be a problem though is if each SoC starts pulling its own set of
-> dependencies.
-> 
+On 2019-06-04 11:38, Boris Brezillon wrote:
+> On Tue, 4 Jun 2019 09:15:28 +0000
+> Jonas Karlman <jonas@kwiboo.se> wrote:
+>
+>> On 2019-06-04 11:06, Thierry Reding wrote:
+>>> On Tue, Jun 04, 2019 at 10:49:21AM +0200, Boris Brezillon wrote:  
+>>>> On Tue, 4 Jun 2019 10:31:57 +0200
+>>>> Thierry Reding <thierry.reding@gmail.com> wrote:
+>>>>  
+>>>>>>>>> - Using flags
+>>>>>>>>>
+>>>>>>>>> The current MPEG-2 controls have lots of u8 values that can be
+>>>>>>>>> represented as flags. Using flags also helps with padding.
+>>>>>>>>> It's unlikely that we'll get more than 64 flags, so using a u64 by
+>>>>>>>>> default for that sounds fine (we definitely do want to keep some room
+>>>>>>>>> available and I don't think using 32 bits as a default is good enough).
+>>>>>>>>>
+>>>>>>>>> I think H.264/HEVC per-control flags should also be moved to u64.      
+>>>>>>>> There was also some concensus on this, that u64 should be good enough
+>>>>>>>> for anything out there, though we obviously don't know what the future
+>>>>>>>> will hold, so perhaps adding some way for possible extending this in the
+>>>>>>>> future might be good. I guess we'll get new controls for new codecs
+>>>>>>>> anyway, so we can punt on this until then.
+>>>>>>>>       
+>>>>>>>>> - Clear split of controls and terminology
+>>>>>>>>>
+>>>>>>>>> Some codecs have explicit NAL units that are good fits to match as
+>>>>>>>>> controls: e.g. slice header, pps, sps. I think we should stick to the
+>>>>>>>>> bitstream element names for those.
+>>>>>>>>>
+>>>>>>>>> For H.264, that would suggest the following changes:
+>>>>>>>>> - renaming v4l2_ctrl_h264_decode_param to v4l2_ctrl_h264_slice_header;
+>>>>>>>>> - killing v4l2_ctrl_h264_decode_param and having the reference lists
+>>>>>>>>> where they belong, which seems to be slice_header;      
+>>>>>>> But now here it's being described per slice. When I look at the slice
+>>>>>>> header, I only see list of modifications and when I look at userspace,
+>>>>>>> That list is simply built from DPB, the modifications list found in the
+>>>>>>> slice header seems to be only used to craft the l0/l1 list.    
+>>>>>> Yes, I think there was a misunderstanding which was then clarified
+>>>>>> (unfortunately it happened on IRC, so we don't have a trace of this
+>>>>>> discussion). The reference list should definitely be per-frame, and the
+>>>>>> L0/L1 slice reflists are referring to the per-frame reference list (it's
+>>>>>> just a sub-set of the per-frame reflist re-ordered differently).
+>>>>>>     
+>>>>>>> There is one thing that come up though, if we enable per-frame decoding
+>>>>>>> on top of per-slice decoder (like Cedrus), won't we force userspace to
+>>>>>>> always compute l0/l1 even though the HW might be handling that ?    
+>>>>>> That's true, the question is, what's the cost of this extra re-ordering?    
+>>>>> I think ultimately userspace is already forced to compute these lists
+>>>>> even if some hardware may be able to do it in hardware. There's going to
+>>>>> be other hardware that userspace wants to support that can't do it by
+>>>>> itself, so userspace has to at least have the code anyway. What it could
+>>>>> do on top of that decide not to run that code if it somehow detects that
+>>>>> hardware can do it already. On the other hand this means that we have to
+>>>>> expose a whole lot of capabilities to userspace and userspace has to go
+>>>>> and detect all of them in order to parameterize all of the code.
+>>>>>
+>>>>> Ultimately I suspect many applications will just choose to pass the data
+>>>>> all the time out of simplicity. I mean drivers that don't need it will
+>>>>> already ignore it (i.e. they must not break if they get the extra data)
+>>>>> so other than the potential runtime savings on some hardware, there are
+>>>>> no advantages.
+>>>>>
+>>>>> Given that other APIs don't bother exposing this level of control to
+>>>>> applications makes me think that it's just not worth it from a
+>>>>> performance point of view.  
+>>>> That's not exactly what Nicolas proposed. He was suggesting that we
+>>>> build those reflists kernel-side: V4L would provide an helper and
+>>>> drivers that need those lists would use it, others won't. This way we
+>>>> have no useless computation done, and userspace doesn't even have to
+>>>> bother checking the device caps to avoid this extra step.  
+>>> Oh yeah, that sounds much better. I suppose one notable differences to
+>>> other APIs is that they have to pass in buffers for all the frames in
+>>> the DPB, so they basically have to build the lists in userspace. Since
+>>> we'll end up looking up the frames in the kernel, it sounds reasonable
+>>> to also build the lists in the kernel.  
+>> Userspace must already process the modification list or it wont have correct DPB for next frame.
+> Can you point us to the code or the section in the spec that
+> mentions/proves this dependency? I might have missed something, but my
+> understanding was that the slice ref lists (or the list of
+> modifications to apply to the list of long/short refs attached to a
+> frame) had no impact on the list of long/short refs attached to the
+> following frame.
 
-I'd rather we do this right from the start. It's easy enough to implement,
-and it is cleaner this way.
+I must have mixed up the marking process with the modification process.
+You seem to be correct, the modification process should not affect the short/long-term
+reference marking if I understand the spec and code correctly.
 
 Regards,
-
-	Hans
+Jonas
