@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C23A1343E1
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A4D343D0
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:12:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727344AbfFDKMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727339AbfFDKMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 4 Jun 2019 06:12:19 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:33113 "EHLO
+Received: from mailgw01.mediatek.com ([210.61.82.183]:21251 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727272AbfFDKMP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:15 -0400
-X-UUID: 5e9a1462f50545f08df5da3af885d4e5-20190604
-X-UUID: 5e9a1462f50545f08df5da3af885d4e5-20190604
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        with ESMTP id S1727298AbfFDKMS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:18 -0400
+X-UUID: b71fe34024024ef39acc5b4b3a5e4bb8-20190604
+X-UUID: b71fe34024024ef39acc5b4b3a5e4bb8-20190604
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
         (envelope-from <stu.hsieh@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1145993752; Tue, 04 Jun 2019 18:12:02 +0800
+        with ESMTP id 1925106364; Tue, 04 Jun 2019 18:12:02 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 4 Jun 2019 18:12:00 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 4 Jun 2019 18:12:01 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
  Transport; Tue, 4 Jun 2019 18:12:00 +0800
@@ -33,9 +33,9 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v4 04/14] [media] mtk-mipicsi: add mediatek mipicsi driver for mt2712
-Date:   Tue, 4 Jun 2019 18:11:45 +0800
-Message-ID: <1559643115-15124-5-git-send-email-stu.hsieh@mediatek.com>
+Subject: [PATCH v4 05/14] [media] mtk-mipicsi: register the v4l2 device for mt2712 mipicsi
+Date:   Tue, 4 Jun 2019 18:11:46 +0800
+Message-ID: <1559643115-15124-6-git-send-email-stu.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
 References: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
@@ -47,625 +47,812 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch add mediatek mipicsi driver for mt2712,
-including probe function to get the value from device tree,
-and register to v4l2 the host device.
+This patch register the v4l2 camera for mt2712 mipicsi.
 
 Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
 ---
- drivers/media/platform/mtk-mipicsi/Makefile   |   4 +
- .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 591 ++++++++++++++++++
- 2 files changed, 595 insertions(+)
- create mode 100644 drivers/media/platform/mtk-mipicsi/Makefile
- create mode 100644 drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
+ .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 728 ++++++++++++++++++
+ 1 file changed, 728 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-mipicsi/Makefile b/drivers/media/platform/mtk-mipicsi/Makefile
-new file mode 100644
-index 000000000000..326a5e3808fa
---- /dev/null
-+++ b/drivers/media/platform/mtk-mipicsi/Makefile
-@@ -0,0 +1,4 @@
-+mtk-mipicsi-y += mtk_mipicsi.o
-+
-+obj-$(CONFIG_VIDEO_MEDIATEK_MIPICSI) += mtk-mipicsi.o
-+
 diff --git a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-new file mode 100644
-index 000000000000..3d1e52411b69
---- /dev/null
+index 3d1e52411b69..28dcc683a958 100644
+--- a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
 +++ b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-@@ -0,0 +1,591 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019 MediaTek Inc.
-+ * Author: Stu Hsieh <stu.hsieh@mediatek.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+ * http://www.gnu.org/licenses/gpl-2.0.html for more details.
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/io.h>
-+#include <linux/delay.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/fs.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/moduleparam.h>
-+#include <linux/device.h>
-+#include <linux/platform_device.h>
-+#include <linux/clk.h>
-+#include <linux/sched.h>
-+#include <linux/slab.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/iommu.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <soc/mediatek/smi.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
-+
-+#define MTK_MIPICSI_DRV_NAME "mtk-mipicsi"
-+#define MTK_PLATFORM_STR "platform:mt2712"
-+
-+#define MIPI_RX_ANA00_CSI				0x00
-+#define MIPI_RX_ANA04_CSI				0x04
-+#define MIPI_RX_ANA08_CSI				0x08
-+#define MIPI_RX_ANA0C_CSI				0x0c
-+#define MIPI_RX_ANA10_CSI				0x10
-+#define MIPI_RX_ANA20_CSI				0x20
-+#define MIPI_RX_ANA24_CSI				0x24
-+#define MIPI_RX_ANA4C_CSI				0x4c
-+#define MIPI_RX_ANA50_CSI				0x50
-+
-+#define SENINF_CTRL					0x00
-+
-+#define SENINF_NCSI2_CAL_24				0x24
-+#define SENINF_NCSI2_CAL_38				0x38
-+#define SENINF_NCSI2_CAL_3C				0x3C
-+#define SENINF_NCSI2_CTL				0xA0
-+#define SENINF_NCSI2_LNRD_TIMING			0xA8
-+#define SENINF_NCSI2_INT_EN				0xB0
-+#define SENINF_NCSI2_INT_STATUS				0xB4
-+#define SENINF_NCSI2_DBG_SEL				0xB8
-+#define SENINF_NCSI2_HSRX_DBG				0xD8
-+#define SENINF_NCSI2_DI					0xDC
-+#define SENINF_NCSI2_DI_CTRL				0xE4
-+
-+#define SENINF_TOP_CTRL					0x00
-+#define SENINF_TOP_CMODEL_PAR				0x04
-+#define SENINF_TOP_MUX					0x08
-+
-+#define SENINF_MUX_CTRL					0x00
-+
-+#define CAMSV_MODULE_EN					0x10
-+#define CAMSV_FMT_SEL					0x14
-+#define CAMSV_INT_EN					0x18
-+#define CAMSV_CLK_EN					0x30
-+
-+#define CAMSV_TG_SEN_MODE				0x500
-+#define CAMSV_TG_SEN_GRAB_PXL				0x508
-+#define CAMSV_TG_SEN_GRAB_LIN				0x50C
-+#define CAMSV_TG_PATH_CFG				0x510
-+
-+#define IMGO_XSIZE					0x230
-+#define IMGO_YSIZE					0x234
-+#define IMGO_STRIDE					0x238
-+#define DMA_FRAME_HEADER_EN				0xE00
-+
-+struct mtk_mipicsi_channel {
-+	void __iomem            *seninf_mux;
-+	void __iomem            *camsv;
-+	struct clk		*clk;
+@@ -32,14 +32,28 @@
+ #include <linux/slab.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/iommu.h>
++#include <linux/of_graph.h>
+ #include <linux/of.h>
+ #include <linux/of_platform.h>
++#include <media/v4l2-common.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-dev.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-fwnode.h>
++#include <media/videobuf2-dma-contig.h>
++#include <media/videobuf2-core.h>
++#include <linux/videodev2.h>
+ #include <soc/mediatek/smi.h>
+ #include <linux/regmap.h>
+ #include <linux/mfd/syscon.h>
+ 
+ #define MTK_MIPICSI_DRV_NAME "mtk-mipicsi"
+ #define MTK_PLATFORM_STR "platform:mt2712"
++#define MAX_SUPPORT_WIDTH             4096U
++#define MAX_SUPPORT_HEIGHT            4096U
++#define MAX_BUFFER_NUM                  32U
+ 
+ #define MIPI_RX_ANA00_CSI				0x00
+ #define MIPI_RX_ANA04_CSI				0x04
+@@ -86,6 +100,28 @@
+ #define IMGO_STRIDE					0x238
+ #define DMA_FRAME_HEADER_EN				0xE00
+ 
++#define notifier_to_mipicsi(n) container_of(n, struct mtk_mipicsi_dev, \
++					    notifier)
++/* buffer for one video frame */
++struct mtk_mipicsi_buf {
++	struct list_head queue;
++	struct vb2_buffer *vb;
++	dma_addr_t vb_dma_addr_phy;
++	int prepare_flag;
 +};
 +
-+struct mtk_mipicsi_dev {
-+	struct platform_device		*pdev;
-+	struct mtk_mipicsi_channel	*channel;
-+	unsigned int		camsv_num;
-+	unsigned int		common_clk_num;
-+	struct clk		**common_clk;
-+	struct device		*larb_pdev;
-+	void __iomem		*ana;
-+	void __iomem		*seninf_ctrl;
-+	void __iomem		*seninf;
-+	struct regmap		*seninf_top;
++struct mtk_format {
++	u32     fourcc;
++	u32     mbus_code;
++	u8      bpp;
 +};
 +
-+static void mtk_mipicsi_ana_init(void __iomem *base)
++struct mtk_mipicsi_subdev {
++	struct device_node *node;
++	struct v4l2_async_subdev asd;
++	struct v4l2_subdev *subdev;
++};
++
+ struct mtk_mipicsi_channel {
+ 	void __iomem            *seninf_mux;
+ 	void __iomem            *camsv;
+@@ -103,6 +139,47 @@ struct mtk_mipicsi_dev {
+ 	void __iomem		*seninf_ctrl;
+ 	void __iomem		*seninf;
+ 	struct regmap		*seninf_top;
++
++	struct v4l2_device	v4l2_dev;
++	struct video_device	*vdev;
++	struct vb2_queue	queue;
++	struct v4l2_async_notifier	notifier;
++	struct mtk_mipicsi_subdev	mipicsi_sd;
++	struct v4l2_format		fmt;
++	unsigned int			num_user_formats;
++	const struct mtk_format		**user_formats;
++	const struct mtk_format		*current_fmt;
++
++	struct mtk_mipicsi_buf	cam_buf[MAX_BUFFER_NUM];
++	struct list_head	fb_list;
++	bool streamon;
++	char drv_name[16];
++	u32 id;
++
++	spinlock_t		irqlock;
++	spinlock_t		queue_lock;
++	struct mutex		lock;
++
++};
++
++static const struct mtk_format mtk_mipicsi_formats[] = {
 +{
-+	writel(0xFEFBEFBEU & readl(base + MIPI_RX_ANA4C_CSI),
-+		base + MIPI_RX_ANA4C_CSI);
-+	writel(0xFEFBEFBEU & readl(base + MIPI_RX_ANA50_CSI),
-+		base + MIPI_RX_ANA50_CSI);
-+
-+	/* clock lane and lane0-lane3 input select */
-+	writel(8UL | readl(base + MIPI_RX_ANA00_CSI),
-+		base + MIPI_RX_ANA00_CSI);
-+	writel(8UL | readl(base + MIPI_RX_ANA04_CSI),
-+		base + MIPI_RX_ANA04_CSI);
-+	writel(8UL | readl(base + MIPI_RX_ANA08_CSI),
-+		base + MIPI_RX_ANA08_CSI);
-+	writel(8UL | readl(base + MIPI_RX_ANA0C_CSI),
-+		base + MIPI_RX_ANA0C_CSI);
-+	writel(8UL | readl(base + MIPI_RX_ANA10_CSI),
-+		base + MIPI_RX_ANA10_CSI);
-+
-+	/* BG chopper clock and CSI BG enable */
-+	writel(11UL | readl(base + MIPI_RX_ANA24_CSI),
-+		base + MIPI_RX_ANA24_CSI);
-+	mdelay(1);
-+
-+	/* LDO core bias enable */
-+	writel(0xFF030003U | readl(base + MIPI_RX_ANA20_CSI),
-+		base + MIPI_RX_ANA20_CSI);
-+	mdelay(1);
-+}
-+
-+static void mtk_mipicsi_seninf_ctrl_init(void __iomem *base)
++	.fourcc = V4L2_PIX_FMT_YUYV,
++	.mbus_code = MEDIA_BUS_FMT_YUYV8_2X8,
++	.bpp = 2,
++}, {
++	.fourcc = V4L2_PIX_FMT_YVYU,
++	.mbus_code = MEDIA_BUS_FMT_YVYU8_2X8,
++	.bpp = 2,
++}, {
++	.fourcc = V4L2_PIX_FMT_UYVY,
++	.mbus_code = MEDIA_BUS_FMT_UYVY8_2X8,
++	.bpp = 2,
++}, {
++	.fourcc = V4L2_PIX_FMT_VYUY,
++	.mbus_code = MEDIA_BUS_FMT_VYUY8_2X8,
++	.bpp = 2,
++},
+ };
+ 
+ static void mtk_mipicsi_ana_init(void __iomem *base)
+@@ -335,6 +412,321 @@ static const struct dev_pm_ops mtk_mipicsi_pm = {
+ 		mtk_mipicsi_pm_resume, NULL)
+ };
+ 
++static int mtk_mipicsi_vb2_queue_setup(struct vb2_queue *vq,
++		unsigned int *nbufs, unsigned int *num_planes,
++		unsigned int sizes[], struct device *alloc_devs[])
 +{
-+	/*seninf enable. select NCSI2 as seninif input source */
-+	writel(0x8001U, base + SENINF_CTRL);
-+}
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vq);
++	u32 sizeimage = mipicsi->fmt.fmt.pix.sizeimage;
 +
-+static void mtk_mipicsi_seninf_init(void __iomem *base)
-+{
-+	writel(1U, base + SENINF_NCSI2_CAL_38);
-+	writel(0x00051545U, base + SENINF_NCSI2_CAL_3C);
-+	writel(5U, base + SENINF_NCSI2_CAL_38);
-+	mdelay(1);
-+	writel(4U, base + SENINF_NCSI2_CAL_38);
-+	writel(0U, base + SENINF_NCSI2_CAL_3C);
-+	writel(0x11U, base + SENINF_NCSI2_DBG_SEL);
-+	writel(0x189617FU, base + SENINF_NCSI2_CTL);
-+	writel(~(1UL << 27) & readl(base + SENINF_NCSI2_CTL),
-+		base + SENINF_NCSI2_CTL);
-+	writel((1UL << 27) | readl(base + SENINF_NCSI2_CTL),
-+		base + SENINF_NCSI2_CTL);
-+	writel(0x2800U, base + SENINF_NCSI2_LNRD_TIMING);
-+	writel(0x7FFFU, base + SENINF_NCSI2_INT_STATUS);
-+	writel(0x7FCFFFFEU, base + SENINF_NCSI2_INT_EN);
-+	writel(0xE4000000U, base + SENINF_NCSI2_CAL_24);
-+	writel(0xFFFFFF00U & readl(base + SENINF_NCSI2_DBG_SEL),
-+		base + SENINF_NCSI2_DBG_SEL);
-+	writel(0xFFFFFF45U | readl(base + SENINF_NCSI2_DBG_SEL),
-+		base + SENINF_NCSI2_DBG_SEL);
-+	writel(0xFFFFFFEFU & readl(base + SENINF_NCSI2_HSRX_DBG),
-+		base + SENINF_NCSI2_HSRX_DBG);
-+	writel(0x01010101U, base + SENINF_NCSI2_DI_CTRL);
-+	writel(0x03020100U, base + SENINF_NCSI2_DI);
-+	writel(0x10, base + SENINF_NCSI2_DBG_SEL);
-+}
++	if (*nbufs == 0U || *nbufs > MAX_BUFFER_NUM)
++		*nbufs = MAX_BUFFER_NUM;
 +
-+static int mtk_mipicsi_seninf_top_init(struct regmap *regmap)
-+{
-+	int ret;
-+
-+	ret = regmap_write(regmap, SENINF_TOP_CTRL, 0x00010C00U);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(regmap, SENINF_TOP_CMODEL_PAR, 0x00079871);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(regmap, SENINF_TOP_MUX, 0x11110000);
-+	if (ret)
-+		return ret;
-+
-+	return ret;
-+}
-+
-+static void mtk_mipicsi_seninf_mux_init(void __iomem *base, unsigned int ch)
-+{
-+	unsigned int mux_ctrl_val = (((0x9EFF8U + ch) << 12U) | 0x180U);
-+
-+	/* select seninf_mux1-4 as input for NCSI2 VC0-3*/
-+	writel(mux_ctrl_val, base + SENINF_MUX_CTRL);
-+}
-+
-+static void mtk_mipicsi_camsv_csr_init(void __iomem *base)
-+{
-+	/* double buffer enable. IMGO enable. PAK sel. TG enable */
-+	writel(0x40000019U, base + CAMSV_MODULE_EN);
-+	/* IMGO DP, PAK DP and TG clk enable */
-+	writel(0x00008005U, base + CAMSV_CLK_EN);
-+	/* 0: raw8, 1:raw10, 2:raw12, 3:YUV422, 4:raw14, 7:JPEG */
-+	writel(0x00000003U, base + CAMSV_FMT_SEL);
-+	/* write clear enable. pass1 down interrupt enable */
-+	writel(0x80000400U, base + CAMSV_INT_EN);
-+}
-+
-+static void mtk_mipicsi_camsv_tg_init(void __iomem *base, u32 b, u32 h)
-+{
-+	/* bit[30:16] grab end pixel clock number.
-+	 * bit[14:0] grab start pixel clock number
++	/*
++	 * Called from VIDIOC_REQBUFS or in compatibility mode For YUV422P
++	 * format, even if there are 3 planes Y, U and V, we reply there is only
++	 * one plane, containing Y, U and V data, one after the other.
 +	 */
-+	writel(b << 16U, base + CAMSV_TG_SEN_GRAB_PXL);
-+	/* bit[29:16] end line number. bit[13:0] start line number */
-+	writel(h << 16U, base + CAMSV_TG_SEN_GRAB_LIN);
-+	/* YUV sensor unsigned to signed enable */
-+	writel(0x1000U, base + CAMSV_TG_PATH_CFG);
-+	/* cmos enable YUV422 mode */
-+	writel(3U, base + CAMSV_TG_SEN_MODE);
++	if (*num_planes != 0U)
++		return sizes[0] < sizeimage ? -EINVAL : 0;
++
++	sizes[0] = sizeimage;
++	*num_planes = 1;
++
++	return 0;
 +}
 +
-+static void mtk_mipicsi_camsv_dma_init(void __iomem *base, u32 b, u32 h)
++static int mtk_mipicsi_vb2_init(struct vb2_buffer *vb)
 +{
-+	/* enable SW format setting. YUV format. 16bit */
-+	writel(0x01810000U | b, base + IMGO_STRIDE);
-+	/* b -1 bytes per line to write */
-+	writel(b - 1U, base + IMGO_XSIZE);
-+	/* w - 1 lines to write */
-+	writel(h - 1U, base + IMGO_YSIZE);
-+	/* disable frame header function */
-+	writel(0U, base + DMA_FRAME_HEADER_EN);
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vb->vb2_queue);
++
++	mipicsi->cam_buf[vb->index].prepare_flag = 0;
++
++	return 0;
 +}
 +
-+static void mtk_mipicsi_camsv_init(void __iomem *base, u32 b, u32 h)
++static int mtk_mipicsi_vb2_prepare(struct vb2_buffer *vb)
 +{
-+	mtk_mipicsi_camsv_csr_init(base);
-+	mtk_mipicsi_camsv_tg_init(base, b, h);
-+	mtk_mipicsi_camsv_dma_init(base, b, h);
-+}
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vb->vb2_queue);
++	struct mtk_mipicsi_buf *buf;
++	u32 size = 0;
 +
-+static void mtk_mipicsi_reg_init(struct mtk_mipicsi_dev *mipicsi)
-+{
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
-+	struct device *dev = &mipicsi->pdev->dev;
-+	unsigned int i;
-+	int ret;
++	buf = &mipicsi->cam_buf[vb->index];
++	size = mipicsi->fmt.fmt.pix.sizeimage;
 +
-+	mtk_mipicsi_ana_init(mipicsi->ana);
-+	mtk_mipicsi_seninf_ctrl_init(mipicsi->seninf_ctrl);
-+	mtk_mipicsi_seninf_init(mipicsi->seninf);
-+	ret = mtk_mipicsi_seninf_top_init(mipicsi->seninf_top);
-+	if (ret)
-+		dev_err(dev, "seninf_top_init error\n");
-+
-+	for (i = 0; i < mipicsi->camsv_num; i++) {
-+		u32 b = 1280*2;
-+		u32 h = 720;
-+
-+		mtk_mipicsi_seninf_mux_init(ch[i].seninf_mux, i);
-+		mtk_mipicsi_camsv_init(ch[i].camsv, b, h);
++	if (vb2_plane_size(vb, 0) < size) {
++		dev_err(&mipicsi->pdev->dev, "data will not fit into plane (%lu < %u)",
++			vb2_plane_size(vb, 0), size);
++		return -EINVAL;
 +	}
++
++	vb2_set_plane_payload(vb, 0, size);
++
++	if ((buf->prepare_flag) == 0) {
++		buf->prepare_flag = 1;
++		buf->vb_dma_addr_phy =
++			vb2_dma_contig_plane_dma_addr(vb, 0);
++		buf->vb = vb;
++	}
++
++	return 0;
 +}
 +
-+static void mipicsi_clk_enable(struct mtk_mipicsi_dev *mipicsi, bool enable)
++static void mtk_mipicsi_vb2_queue(struct vb2_buffer *vb)
 +{
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
-+	int i;
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vb->vb2_queue);
 +
-+	for (i = 0; i < mipicsi->camsv_num; i++)
-+		enable ? clk_prepare_enable(ch[i].clk) :
-+			 clk_disable_unprepare(ch[i].clk);
-+
-+	for (i = 0; i < mipicsi->common_clk_num; i++)
-+		enable ? clk_prepare_enable(mipicsi->common_clk[i]) :
-+			 clk_disable_unprepare(mipicsi->common_clk[i]);
++	spin_lock(&mipicsi->queue_lock);
++	list_add_tail(&(mipicsi->cam_buf[vb->index].queue),
++		&(mipicsi->fb_list));
++	spin_unlock(&mipicsi->queue_lock);
 +}
 +
-+static int mtk_mipicsi_pm_suspend(struct device *dev)
++static int mtk_mipicsi_vb2_start_streaming(struct vb2_queue *vq,
++		unsigned int count)
 +{
-+	struct mtk_mipicsi_dev *mipicsi = dev_get_drvdata(dev);
-+	int ret = 0;
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vq);
 +
-+	mipicsi_clk_enable(mipicsi, false);
++	mipicsi->streamon = true;
 +
-+	if (mipicsi->larb_pdev != NULL)
-+		mtk_smi_larb_put(mipicsi->larb_pdev);
-+
-+	return ret;
++	return 0;
 +}
 +
-+static int mtk_mipicsi_suspend(struct device *dev)
++static void mtk_mipicsi_vb2_stop_streaming(struct vb2_queue *vq)
 +{
-+	if (pm_runtime_suspended(dev))
-+		return 0;
++	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vq);
++	struct mtk_mipicsi_buf *buf = NULL;
++	struct mtk_mipicsi_buf *tmp = NULL;
++	unsigned int index = 0;
 +
-+	return mtk_mipicsi_pm_suspend(dev);
-+}
-+
-+static int mtk_mipicsi_pm_resume(struct device *dev)
-+{
-+	struct mtk_mipicsi_dev *mipicsi = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	if (mipicsi->larb_pdev != NULL) {
-+		ret = mtk_smi_larb_get(mipicsi->larb_pdev);
-+		if (ret != 0) {
-+			dev_err(dev, "failed to get larb, err %d", ret);
-+
-+			return ret;
++	spin_lock(&mipicsi->queue_lock);
++	while (list_empty(&(mipicsi->fb_list)) == 0) {
++		list_for_each_entry_safe(buf, tmp, &(mipicsi->fb_list), queue) {
++			if (buf->vb->state == VB2_BUF_STATE_ACTIVE) {
++				vb2_buffer_done(buf->vb, VB2_BUF_STATE_ERROR);
++				break;
++			}
 +		}
++		buf->vb_dma_addr_phy = 0ULL;
++		buf->prepare_flag = 0;
++		index = buf->vb->index;
++		list_del_init(&(mipicsi->cam_buf[index].queue));
 +	}
++	spin_unlock(&mipicsi->queue_lock);
 +
-+	mipicsi_clk_enable(mipicsi, true);
++	INIT_LIST_HEAD(&(mipicsi->fb_list));
 +
-+	mtk_mipicsi_reg_init(mipicsi);
-+
-+	return ret;
++	mipicsi->streamon = false;
 +}
 +
-+static int mtk_mipicsi_resume(struct device *dev)
-+{
-+	if (pm_runtime_suspended(dev))
-+		return 0;
-+
-+	return mtk_mipicsi_pm_resume(dev);
-+}
-+
-+static const struct dev_pm_ops mtk_mipicsi_pm = {
-+	SET_SYSTEM_SLEEP_PM_OPS(mtk_mipicsi_suspend, mtk_mipicsi_resume)
-+	SET_RUNTIME_PM_OPS(mtk_mipicsi_pm_suspend,
-+		mtk_mipicsi_pm_resume, NULL)
++static struct vb2_ops mtk_vb2_ops = {
++	.queue_setup		= mtk_mipicsi_vb2_queue_setup,
++	.buf_init		= mtk_mipicsi_vb2_init,
++	.buf_prepare		= mtk_mipicsi_vb2_prepare,
++	.buf_queue		= mtk_mipicsi_vb2_queue,
++	.start_streaming	= mtk_mipicsi_vb2_start_streaming,
++	.stop_streaming		= mtk_mipicsi_vb2_stop_streaming,
++	.wait_prepare		= vb2_ops_wait_prepare,
++	.wait_finish		= vb2_ops_wait_finish,
 +};
 +
-+static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
-+		int index)
++static int mtk_s_input(struct file *file, void *priv, unsigned int i)
 +{
-+	struct clk *clk = NULL;
-+	struct device *dev = NULL;
-+	struct resource *res = NULL;
-+	struct platform_device *camdma_pdev = NULL;
-+	struct device_node *np = NULL;
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
-+
-+	dev = &mipicsi->pdev->dev;
-+
-+	np = of_parse_phandle(dev->of_node,
-+		"mediatek,seninf_mux_camsv", index);
-+	if (np == NULL) {
-+		dev_err(dev, "no NO.%d mediatek,seninf_mux_camsv node\n",
-+			index);
-+		return -ENODEV;
-+	}
-+
-+	camdma_pdev = of_find_device_by_node(np);
-+	of_node_put(np);
-+	if (camdma_pdev == NULL) {
-+		camdma_pdev = of_platform_device_create(np, NULL,
-+					platform_bus_type.dev_root);
-+	}
-+
-+	clk = of_clk_get(np, 0);
-+	if (clk == NULL) {
-+		dev_err(dev, "get clk fail in %s node\n", np->full_name);
-+		return -ENODEV;
-+	}
-+	ch[index].clk = clk;
-+
-+	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 0);
-+	if (res == NULL) {
-+		dev_err(dev, "get seninf_mux memory failed in %s node\n",
-+			np->full_name);
-+		return -ENODEV;
-+	}
-+	ch[index].seninf_mux = devm_ioremap_resource(&camdma_pdev->dev, res);
-+
-+	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 1);
-+	if (res == NULL) {
-+		dev_err(dev, "get camsv memory failed in %s node\n",
-+			np->full_name);
-+		return -ENODEV;
-+	}
-+	ch[index].camsv = devm_ioremap_resource(&camdma_pdev->dev, res);
-+
-+	dev_info(dev, "%s parse done\n", np->full_name);
++	if (i > 0)
++		return -EINVAL;
 +
 +	return 0;
 +}
 +
-+static int mtk_mipicsi_common_node_parse(struct mtk_mipicsi_dev *mipicsi,
-+	struct device_node *node)
++static int mtk_g_input(struct file *file, void *priv, unsigned int *i)
 +{
-+	int i = 0;
-+	struct regmap *seninf_top = NULL;
-+	struct device *dev = NULL;
-+	struct clk *clk = NULL;
-+
-+	if ((mipicsi == NULL) || (node == NULL))
-+		return -EINVAL;
-+
-+	dev = &mipicsi->pdev->dev;
-+
-+	/* All the mipicsi HW share the same seninf_top */
-+	seninf_top = syscon_regmap_lookup_by_phandle(dev->of_node,
-+			"mediatek,mipicsi");
-+	if (seninf_top == NULL) {
-+		dev_err(dev, "Missing mediadek,mipicsi in %s node\n",
-+			node->full_name);
-+		return -EINVAL;
-+	}
-+	mipicsi->seninf_top = seninf_top;
-+
-+	/* get IMG_SENINF_CAM_EN and IMG_SENINF_SCAM_EN clk*/
-+	mipicsi->common_clk_num = of_count_phandle_with_args(node, "clocks",
-+							     "#clock-cells");
-+	if (mipicsi->common_clk_num < 0) {
-+		dev_err(dev, "common clock number error\n");
-+		return -EINVAL;
-+	}
-+
-+	mipicsi->common_clk = devm_kmalloc_array(dev, mipicsi->common_clk_num,
-+						 sizeof(*mipicsi->common_clk),
-+						 GFP_KERNEL);
-+	for (i = 0; i < mipicsi->common_clk_num; i++) {
-+		clk = of_clk_get(node, i);
-+		if (clk == NULL) {
-+			dev_err(dev, "get clk fail in %s node\n",
-+				node->full_name);
-+			return -EINVAL;
-+		}
-+		mipicsi->common_clk[i] = clk;
-+	}
-+
-+	dev_info(dev, "%s parse done\n", node->full_name);
++	*i = 0;
 +
 +	return 0;
 +}
 +
-+static int mtk_mipicsi_node_parse(struct mtk_mipicsi_dev *mipicsi)
++static int mtk_enum_input(struct file *file, void *priv,
++				struct v4l2_input *i)
 +{
-+	int ret;
-+	int camsv_num = 0;
-+	int i;
-+	struct device *dev = NULL;
-+	struct resource *res = NULL;
-+	struct device_node *common_node = NULL;
-+	struct platform_device *pdev = NULL;
-+
-+	dev = &mipicsi->pdev->dev;
-+	pdev = mipicsi->pdev;
-+
-+	/* get and parse seninf_mux_camsv */
-+	camsv_num = of_count_phandle_with_args(dev->of_node,
-+		"mediatek,seninf_mux_camsv", NULL);
-+	if (camsv_num <= 0) {
-+		dev_err(dev, "no mediatek,seninf_mux_camsv\n");
++	if (i->index != 0)
 +		return -EINVAL;
-+	}
-+	mipicsi->camsv_num = camsv_num;
-+	dev_info(dev, "there are %d camsv node\n", camsv_num);
 +
-+	mipicsi->channel = devm_kmalloc_array(dev, camsv_num,
-+					      sizeof(*mipicsi->channel),
-+					      GFP_KERNEL);
++	i->type = V4L2_INPUT_TYPE_CAMERA;
++	strscpy(i->name, "Camera", sizeof(i->name));
 +
-+	for (i = 0; i < mipicsi->camsv_num; ++i) {
-+		ret = seninf_mux_camsv_node_parse(mipicsi, i);
-+		if (ret < 0) {
-+			dev_err(dev,
-+				"NO.%d seninf_mux_camsv node parse fail\n", i);
-+			return ret;
-+		}
-+	}
++	return 0;
++}
 +
-+	/* get mediatek,mipicsi node and its resource */
-+	common_node = of_parse_phandle(dev->of_node, "mediatek,mipicsi", 0);
-+	if (common_node == NULL) {
-+		dev_err(dev, "no mediadek,mipicsi\n");
++static int mtk_enum_fmt_vid_cap(struct file *file, void  *priv,
++				struct v4l2_fmtdesc *f)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++
++	if (f->index >= mipicsi->num_user_formats)
 +		return -EINVAL;
++
++	f->pixelformat = mipicsi->user_formats[f->index]->fourcc;
++
++	return 0;
++}
++
++static const struct mtk_format *find_format_by_fourcc(
++					struct mtk_mipicsi_dev *mipicsi,
++					unsigned int fourcc)
++{
++	unsigned int num_formats = mipicsi->num_user_formats;
++	const struct mtk_format *fmt;
++	unsigned int i;
++
++	for (i = 0; i < num_formats; i++) {
++		fmt = mipicsi->user_formats[i];
++		if (fmt->fourcc == fourcc)
++			return fmt;
 +	}
 +
-+	ret = mtk_mipicsi_common_node_parse(mipicsi, common_node);
++	return NULL;
++}
++
++static int mtk_mipicsi_try_fmt(struct mtk_mipicsi_dev *mipicsi,
++			      struct v4l2_format *f,
++			      const struct mtk_format **current_fmt)
++{
++	const struct mtk_format *mtk_fmt;
++	struct v4l2_pix_format *pix = &f->fmt.pix;
++	struct v4l2_subdev_pad_config pad_cfg;
++	struct v4l2_subdev *sd = mipicsi->mipicsi_sd.subdev;
++	struct v4l2_subdev_format format = {
++		.which = V4L2_SUBDEV_FORMAT_TRY,
++	};
++	int ret = 0;
++
++	mtk_fmt = find_format_by_fourcc(mipicsi, pix->pixelformat);
++	if (!mtk_fmt) {
++		mtk_fmt = mipicsi->user_formats[0];
++		pix->pixelformat = mtk_fmt->fourcc;
++	}
++
++	/* limit to MTK hardware capabilities */
++	pix->height = clamp(pix->height, 0U, MAX_SUPPORT_HEIGHT);
++	pix->width = clamp(pix->width, 0U, MAX_SUPPORT_WIDTH);
++	v4l2_fill_mbus_format(&format.format, pix, mtk_fmt->mbus_code);
++	ret = v4l2_subdev_call(sd, pad, set_fmt, &pad_cfg, &format);
 +	if (ret < 0)
 +		return ret;
-+	of_node_put(common_node);
 +
-+	/*get ana and seninf reg*/
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (res == NULL) {
-+		dev_err(dev, "get ana register failed\n");
-+		return -ENODEV;
-+	}
-+	mipicsi->ana = devm_ioremap_resource(&pdev->dev, res);
++	v4l2_fill_pix_format(pix, &format.format);
++	pix->bytesperline = pix->width * mtk_fmt->bpp;
++	pix->sizeimage = pix->bytesperline * pix->height;
 +
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (res == NULL) {
-+		dev_err(dev, "get seninf_ctrl register failed\n");
-+		return -ENODEV;
-+	}
-+	mipicsi->seninf_ctrl = devm_ioremap_resource(&pdev->dev, res);
++	if (current_fmt)
++		*current_fmt = mtk_fmt;
 +
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
-+	if (res == NULL) {
-+		dev_err(dev, "get seninf register failed\n");
-+		return -ENODEV;
-+	}
-+	mipicsi->seninf = devm_ioremap_resource(&pdev->dev, res);
++	return ret;
++}
 +
-+	dev_info(dev, "mipicsi node parse done\n");
++static int mtk_mipicsi_set_fmt(struct mtk_mipicsi_dev *mipicsi,
++				struct v4l2_format *f)
++{
++	struct v4l2_subdev *sd = mipicsi->mipicsi_sd.subdev;
++	struct device *dev = &mipicsi->pdev->dev;
++	struct v4l2_pix_format *pix = &f->fmt.pix;
++	struct v4l2_subdev_format format = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++	const struct mtk_format *current_fmt;
++	int ret;
++
++	ret = mtk_mipicsi_try_fmt(mipicsi, f, &current_fmt);
++	if (ret)
++		return ret;
++
++	v4l2_fill_mbus_format(&format.format, &f->fmt.pix,
++			current_fmt->mbus_code);
++
++	ret = v4l2_subdev_call(sd, pad, set_fmt, NULL, &format);
++	if (ret < 0)
++		return ret;
++
++	mipicsi->fmt = *f;
++	mipicsi->current_fmt = current_fmt;
++
++	dev_info(dev, "width/height/sizeimage %u/%u/%u", pix->width,
++							 pix->height,
++							 pix->sizeimage);
++
++	return ret;
++}
++
++static int mtk_s_fmt_vid_cap(struct file *file, void *priv,
++				struct v4l2_format *f)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++
++	if (vb2_is_streaming(&mipicsi->queue))
++		return -EBUSY;
++
++	return mtk_mipicsi_set_fmt(mipicsi, f);
++}
++
++static int mtk_g_fmt_vid_cap(struct file *file, void *priv,
++				struct v4l2_format *fmt)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++
++	*fmt = mipicsi->fmt;
 +
 +	return 0;
 +}
 +
-+static int mtk_mipicsi_probe(struct platform_device *pdev)
++static int mtk_try_fmt_vid_cap(struct file *file, void *priv,
++				struct v4l2_format *f)
 +{
-+	struct mtk_mipicsi_dev *mipicsi = NULL;
-+	int ret = 0;
-+	struct iommu_domain *iommu = NULL;
-+	struct device_node *larb_node = NULL;
-+	struct platform_device *larb_pdev = NULL;
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
 +
-+	iommu = iommu_get_domain_for_dev(&pdev->dev);
-+	if (iommu == NULL) {
-+		dev_err(&pdev->dev, "Waiting iommu driver ready...\n");
-+		return -EPROBE_DEFER;
++	return mtk_mipicsi_try_fmt(mipicsi, f, NULL);
++}
++
++static int mtk_mipicsi_querycap(struct file *file, void *priv,
++				struct v4l2_capability *cap)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++
++	strlcpy(cap->card, MTK_PLATFORM_STR, sizeof(cap->card));
++	strlcpy(cap->driver, mipicsi->drv_name, sizeof(cap->driver));
++	strlcpy(cap->bus_info, MTK_PLATFORM_STR, sizeof(cap->bus_info));
++	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
++	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops mtk_mipicsi_ioctl_ops = {
++	.vidioc_querycap                = mtk_mipicsi_querycap,
++
++	.vidioc_try_fmt_vid_cap         = mtk_try_fmt_vid_cap,
++	.vidioc_g_fmt_vid_cap           = mtk_g_fmt_vid_cap,
++	.vidioc_s_fmt_vid_cap           = mtk_s_fmt_vid_cap,
++	.vidioc_enum_fmt_vid_cap        = mtk_enum_fmt_vid_cap,
++
++	.vidioc_enum_input              = mtk_enum_input,
++	.vidioc_g_input                 = mtk_g_input,
++	.vidioc_s_input                 = mtk_s_input,
++
++	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
++	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
++	.vidioc_querybuf                = vb2_ioctl_querybuf,
++	.vidioc_qbuf                    = vb2_ioctl_qbuf,
++	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
++	.vidioc_expbuf                  = vb2_ioctl_expbuf,
++	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
++	.vidioc_streamon                = vb2_ioctl_streamon,
++	.vidioc_streamoff               = vb2_ioctl_streamoff,
++
++	.vidioc_log_status              = v4l2_ctrl_log_status,
++	.vidioc_subscribe_event         = v4l2_ctrl_subscribe_event,
++	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
++};
++
+ static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
+ 		int index)
+ {
+@@ -452,6 +844,16 @@ static int mtk_mipicsi_node_parse(struct mtk_mipicsi_dev *mipicsi)
+ 	dev = &mipicsi->pdev->dev;
+ 	pdev = mipicsi->pdev;
+ 
++	/* mediatek,mipicsiid is a flag to show which mipicsi HW */
++	ret = of_property_read_u32(dev->of_node, "mediatek,mipicsiid",
++		(u32 *)&mipicsi->id);
++	if (ret != 0) {
++		dev_info(dev, "not set mediatek,mipicsiid, use default id 0\n");
++		mipicsi->id = 0;
++	}
++	(void)sprintf(mipicsi->drv_name, MTK_MIPICSI_DRV_NAME"%d",
++		mipicsi->id);
++
+ 	/* get and parse seninf_mux_camsv */
+ 	camsv_num = of_count_phandle_with_args(dev->of_node,
+ 		"mediatek,seninf_mux_camsv", NULL);
+@@ -514,6 +916,262 @@ static int mtk_mipicsi_node_parse(struct mtk_mipicsi_dev *mipicsi)
+ 	return 0;
+ }
+ 
++static int mtk_mipicsi_set_default_fmt(struct mtk_mipicsi_dev *mipicsi)
++{
++	struct v4l2_format f = {
++		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++		.fmt.pix = {
++			.width          = 1280,
++			.height         = 720,
++			.field          = V4L2_FIELD_NONE,
++			.pixelformat    = mipicsi->user_formats[0]->fourcc,
++		},
++	};
++	int ret;
++
++	ret = mtk_mipicsi_try_fmt(mipicsi, &f, NULL);
++	if (ret)
++		return ret;
++	mipicsi->current_fmt = mipicsi->user_formats[0];
++	mipicsi->fmt = f;
++
++	return 0;
++}
++
++static int mipicsi_formats_init(struct mtk_mipicsi_dev *mipicsi)
++{
++	const struct mtk_format *mipicsi_fmts[ARRAY_SIZE(mtk_mipicsi_formats)];
++	struct v4l2_subdev *sd = mipicsi->mipicsi_sd.subdev;
++	unsigned int i, j, num_fmts = 0;
++	struct v4l2_subdev_mbus_code_enum mbus_code = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++
++	while (!v4l2_subdev_call(sd, pad, enum_mbus_code, NULL, &mbus_code)) {
++		for (i = 0; i < ARRAY_SIZE(mtk_mipicsi_formats); i++) {
++			if (mtk_mipicsi_formats[i].mbus_code != mbus_code.code)
++				continue;
++
++			/* Code supported, have we got this fourcc yet? */
++			for (j = 0; j < num_fmts; j++)
++				if (mipicsi_fmts[j]->fourcc ==
++				    mtk_mipicsi_formats[i].fourcc)
++					/* Already available */
++					break;
++
++			if (j == num_fmts)
++				/* new */
++				mipicsi_fmts[num_fmts++] =
++					&mtk_mipicsi_formats[i];
++		}
++		mbus_code.index++;
 +	}
 +
-+	larb_node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
-+	if (larb_node == NULL) {
-+		dev_err(&pdev->dev, "Missing mediadek,larb in %s node\n",
-+			pdev->dev.of_node->full_name);
-+		return -EINVAL;
-+	}
++	if (!num_fmts)
++		return -ENXIO;
 +
-+	larb_pdev = of_find_device_by_node(larb_node);
-+	if (larb_pdev == NULL || !larb_pdev->dev.driver) {
-+		of_node_put(larb_node);
-+		dev_err(&pdev->dev, "Waiting for larb device %s\n",
-+			larb_node->full_name);
-+		return -EPROBE_DEFER;
-+	}
-+	of_node_put(larb_node);
-+
-+	mipicsi = devm_kzalloc(&pdev->dev, sizeof(*mipicsi), GFP_KERNEL);
-+	if (mipicsi == NULL)
++	mipicsi->num_user_formats = num_fmts;
++	mipicsi->user_formats = devm_kcalloc(&mipicsi->pdev->dev,
++					     num_fmts,
++					     sizeof(struct isi_format *),
++					     GFP_KERNEL);
++	if (!mipicsi->user_formats)
 +		return -ENOMEM;
 +
-+	mipicsi->pdev = pdev;
-+	mipicsi->larb_pdev = &larb_pdev->dev;
-+
-+	ret = mtk_mipicsi_node_parse(mipicsi);
-+	if (ret < 0)
-+		return ret;
-+
-+	pm_runtime_enable(&pdev->dev);
-+
-+	dev_set_drvdata(&pdev->dev, mipicsi);
-+
-+	dev_info(&pdev->dev, "probe done\n");
-+
-+	return ret;
-+}
-+
-+static int mtk_mipicsi_remove(struct platform_device *pdev)
-+{
-+	pm_runtime_disable(&pdev->dev);
++	memcpy(mipicsi->user_formats, mipicsi_fmts,
++	       num_fmts * sizeof(struct mtk_format *));
++	mipicsi->current_fmt = mipicsi->user_formats[0];
 +
 +	return 0;
 +}
 +
-+static const struct of_device_id mtk_mipicsi_of_match[] = {
-+	{ .compatible = "mediatek,mt2712-mipicsi", },
-+	{},
++static int mipicsi_subdev_notify_complete(struct v4l2_async_notifier *notifier)
++{
++	struct mtk_mipicsi_dev *mipicsi = notifier_to_mipicsi(notifier);
++	struct device *dev = &mipicsi->pdev->dev;
++	int ret;
++
++	mipicsi->vdev->ctrl_handler = mipicsi->mipicsi_sd.subdev->ctrl_handler;
++	ret = mipicsi_formats_init(mipicsi);
++	if (ret) {
++		dev_err(dev, "No supported mediabus format found\n");
++		return ret;
++	}
++
++	ret = mtk_mipicsi_set_default_fmt(mipicsi);
++	if (ret) {
++		dev_err(dev, "Could not set default format\n");
++		return ret;
++	}
++
++	ret = video_register_device(mipicsi->vdev, VFL_TYPE_GRABBER, -1);
++	if (ret) {
++		dev_err(dev, "Failed to register video device\n");
++		return ret;
++	}
++
++	dev_dbg(dev, "Device registered as %s\n",
++		video_device_node_name(mipicsi->vdev));
++
++	return 0;
++}
++
++static void mipicsi_subdev_notify_unbind(struct v4l2_async_notifier *notifier,
++					 struct v4l2_subdev *sd,
++					 struct v4l2_async_subdev *asd)
++{
++	struct mtk_mipicsi_dev *mipicsi = notifier_to_mipicsi(notifier);
++
++	dev_dbg(&mipicsi->pdev->dev, "Removing %s\n",
++		video_device_node_name(mipicsi->vdev));
++
++	/* Checks internally if vdev have been init or not */
++	video_unregister_device(mipicsi->vdev);
++}
++
++static int mipicsi_subdev_notify_bound(struct v4l2_async_notifier *notifier,
++				       struct v4l2_subdev *subdev,
++				       struct v4l2_async_subdev *asd)
++{
++	struct mtk_mipicsi_dev *mipicsi = notifier_to_mipicsi(notifier);
++
++	dev_dbg(&mipicsi->pdev->dev, "subdev %s bound\n", subdev->name);
++
++	mipicsi->mipicsi_sd.subdev = subdev;
++
++	return 0;
++}
++
++static const struct v4l2_async_notifier_operations mipicsi_subdev_notify_ops = {
++	.bound = mipicsi_subdev_notify_bound,
++	.unbind = mipicsi_subdev_notify_unbind,
++	.complete = mipicsi_subdev_notify_complete,
 +};
 +
-+static struct platform_driver mtk_mipicsi_driver = {
-+	.driver		= {
-+		.name	= MTK_MIPICSI_DRV_NAME,
-+		.pm	= &mtk_mipicsi_pm,
-+		.of_match_table = of_match_ptr(mtk_mipicsi_of_match),
-+	},
-+	.probe		= mtk_mipicsi_probe,
-+	.remove		= mtk_mipicsi_remove,
++static int mtk_mipicsi_graph_parse(struct mtk_mipicsi_dev *mipicsi,
++					struct device_node *node)
++{
++	struct device_node *ep = NULL;
++	struct device_node *remote;
++
++	ep = of_graph_get_next_endpoint(node, ep);
++	if (!ep)
++		return -EINVAL;
++
++	remote = of_graph_get_remote_port_parent(ep);
++	of_node_put(ep);
++	if (!remote)
++		return -EINVAL;
++
++	/* Remote node to connect */
++	mipicsi->mipicsi_sd.node = remote;
++	mipicsi->mipicsi_sd.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
++	mipicsi->mipicsi_sd.asd.match.fwnode = of_fwnode_handle(remote);
++	return 0;
++}
++
++static int mtk_mipicsi_subdev_init(struct mtk_mipicsi_dev *mipicsi)
++{
++	int ret;
++	struct device *dev = &mipicsi->pdev->dev;
++
++	/* Parse the graph to extract a list of subdevice DT nodes. */
++	ret = mtk_mipicsi_graph_parse(mipicsi, dev->of_node);
++	if (ret < 0) {
++		dev_err(&mipicsi->pdev->dev, "Graph parsing failed\n");
++		return ret;
++	}
++
++	v4l2_async_notifier_init(&mipicsi->notifier);
++
++	ret = v4l2_async_notifier_add_subdev(&mipicsi->notifier,
++						&mipicsi->mipicsi_sd.asd);
++	if (ret) {
++		of_node_put(mipicsi->mipicsi_sd.node);
++		return ret;
++	}
++
++	mipicsi->notifier.ops = &mipicsi_subdev_notify_ops;
++
++	ret = v4l2_async_notifier_register(&mipicsi->v4l2_dev,
++					   &mipicsi->notifier);
++	if (ret < 0) {
++		dev_err(&mipicsi->pdev->dev, "Notifier registration failed\n");
++		v4l2_async_notifier_cleanup(&mipicsi->notifier);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int mtk_mipicsi_open(struct file *file)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++	struct v4l2_subdev *sd = mipicsi->mipicsi_sd.subdev;
++	int ret;
++
++	if (mutex_lock_interruptible(&mipicsi->lock))
++		return -ERESTARTSYS;
++
++	ret = v4l2_fh_open(file);
++	if (ret < 0)
++		goto unlock;
++
++	if (!v4l2_fh_is_singular_file(file))
++		goto fh_rel;
++
++	ret = v4l2_subdev_call(sd, core, s_power, 1);
++	if (ret < 0 && ret != -ENOIOCTLCMD)
++		goto fh_rel;
++
++	ret = mtk_mipicsi_set_fmt(mipicsi, &mipicsi->fmt);
++	if (ret)
++		v4l2_subdev_call(sd, core, s_power, 0);
++
++	pm_runtime_get_sync(&mipicsi->pdev->dev);
++
++fh_rel:
++	if (ret)
++		v4l2_fh_release(file);
++unlock:
++	mutex_unlock(&mipicsi->lock);
++	return ret;
++}
++
++static int mtk_mipicsi_release(struct file *file)
++{
++	struct mtk_mipicsi_dev *mipicsi = video_drvdata(file);
++	struct device *dev = &mipicsi->pdev->dev;
++	struct v4l2_subdev *sd = mipicsi->mipicsi_sd.subdev;
++	bool fh_singular;
++	int ret;
++
++	mutex_lock(&mipicsi->lock);
++
++	pm_runtime_put_sync(dev);
++
++	fh_singular = v4l2_fh_is_singular_file(file);
++
++	ret = _vb2_fop_release(file, NULL);
++
++	if (fh_singular)
++		v4l2_subdev_call(sd, core, s_power, 0);
++
++	mutex_unlock(&mipicsi->lock);
++
++	return ret;
++}
++
++static const struct v4l2_file_operations mipicsi_fops = {
++	.owner          = THIS_MODULE,
++	.unlocked_ioctl = video_ioctl2,
++	.open           = mtk_mipicsi_open,
++	.release        = mtk_mipicsi_release,
++	.poll           = vb2_fop_poll,
++	.mmap           = vb2_fop_mmap,
++	.read           = vb2_fop_read,
 +};
 +
-+module_platform_driver(mtk_mipicsi_driver);
-+MODULE_DESCRIPTION("MediaTek SoC Camera Host driver");
-+MODULE_LICENSE("GPL v2");
+ static int mtk_mipicsi_probe(struct platform_device *pdev)
+ {
+ 	struct mtk_mipicsi_dev *mipicsi = NULL;
+@@ -521,6 +1179,7 @@ static int mtk_mipicsi_probe(struct platform_device *pdev)
+ 	struct iommu_domain *iommu = NULL;
+ 	struct device_node *larb_node = NULL;
+ 	struct platform_device *larb_pdev = NULL;
++	struct vb2_queue *q;
+ 
+ 	iommu = iommu_get_domain_for_dev(&pdev->dev);
+ 	if (iommu == NULL) {
+@@ -557,9 +1216,78 @@ static int mtk_mipicsi_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
++	INIT_LIST_HEAD(&mipicsi->fb_list);
++	spin_lock_init(&mipicsi->queue_lock);
++	spin_lock_init(&mipicsi->irqlock);
++	mutex_init(&mipicsi->lock);
++
++	q = &mipicsi->queue;
++
++	/* Initialize the top-level structure */
++	ret = v4l2_device_register(&pdev->dev, &mipicsi->v4l2_dev);
++	if (ret)
++		return ret;
++
++	mipicsi->vdev = video_device_alloc();
++	if (mipicsi->vdev == NULL) {
++		ret = -ENOMEM;
++		goto err_vdev_alloc;
++	}
++
++	/* video node */
++	mipicsi->vdev->fops = &mipicsi_fops;
++	mipicsi->vdev->v4l2_dev = &mipicsi->v4l2_dev;
++	mipicsi->vdev->queue = &mipicsi->queue;
++	strscpy(mipicsi->vdev->name, mipicsi->drv_name,
++		sizeof(mipicsi->vdev->name));
++	mipicsi->vdev->release = video_device_release;
++	mipicsi->vdev->ioctl_ops = &mtk_mipicsi_ioctl_ops;
++	mipicsi->vdev->lock = &mipicsi->lock;
++	mipicsi->vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE |
++				     V4L2_CAP_STREAMING |
++				     V4L2_CAP_READWRITE;
++	video_set_drvdata(mipicsi->vdev, mipicsi);
++
++	/* buffer queue */
++	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
++	q->drv_priv = mipicsi;
++	q->buf_struct_size = sizeof(struct vb2_buffer);
++	q->ops = &mtk_vb2_ops;
++	q->mem_ops = &vb2_dma_contig_memops;
++	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	q->dev = mipicsi->v4l2_dev.dev;
++	q->lock = &mipicsi->lock;
++
++	ret = vb2_queue_init(q);
++	if (ret < 0) {
++		dev_err(&pdev->dev, "failed to initialize VB2 queue\n");
++		goto err_vb2_queue;
++	}
++
++	mipicsi->streamon = false;
++
++	ret = mtk_mipicsi_subdev_init(mipicsi);
++	if (ret < 0)
++		goto err_mipicsi_subdev_init;
++
++	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32U));
++	if (ret != 0) {
++		dev_err(&pdev->dev, "dma set max seg size fail\n");
++		goto clean;
++	}
++
+ 	dev_set_drvdata(&pdev->dev, mipicsi);
+ 
+ 	dev_info(&pdev->dev, "probe done\n");
++	return ret;
++clean:
++err_mipicsi_subdev_init:
++err_vb2_queue:
++	video_device_release(mipicsi->vdev);
++err_vdev_alloc:
++	v4l2_device_unregister(&mipicsi->v4l2_dev);
++	pm_runtime_disable(&pdev->dev);
+ 
+ 	return ret;
+ }
 -- 
 2.18.0
 
