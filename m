@@ -2,148 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 095BF34221
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 10:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539AB34224
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 10:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfFDIsL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 04:48:11 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37416 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726637AbfFDIsL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 04:48:11 -0400
-Received: by mail-oi1-f193.google.com with SMTP id i4so14584319oih.4;
-        Tue, 04 Jun 2019 01:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=60qtclcriTCJgyXNXG6GAHptvalrj045wqbp5raOPsY=;
-        b=mj6yspFwb5/Uk1RdZR2Nb55kpf6PrEJEZexMkPf0vRPdYtJG21fSUvXcbKaWSn5BnE
-         g1GmMVtMbe04MGpHqjfiqbme2uBLUCR9PrxOMP32oJxo6Gp5JcEfEp5j4O/58pc30HNT
-         kGHTjjXlq77Z2VX6J1IHESZq0zTi/EBfOU+rq6fXJ0ltHWtIjEzbEP4/s/hSaRQxjxL+
-         5H23nW9cdyXiV5/AjlZ+PezgzFzz+p6XC+DSWrcQFhAlsbJ9flbkfvim8nDLd0wGa6gb
-         OwK9pGelxhhC0r+Q25Dy44KQcExaQwYcMYCF7bclGlChLRmGcCvSjTZndvCTfRRGocbr
-         ge4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=60qtclcriTCJgyXNXG6GAHptvalrj045wqbp5raOPsY=;
-        b=h6lu1twhyhj4hWDVzFrsNg675Je4IkLtNCOezbPZoF4/j2x9vTzB+kIzRqIRjXi9Il
-         Icc+rVT0H0XYLbSW+Negb2wWWQpLPzgxRsvCQH4rJW0DxUBIZQC34XZfbN21P99rFmIi
-         7V06dBaOudX+ONAB+mhAUI0MTLMSZHyPwR6Eq8KrEPihBsHqjfKKo2fppE40O7PP1f22
-         Voqe2TkKQJbFD9/rlzhJJWaqvmO41itpb7APR/Fc+v0np8MHF7zPjz/xeOfdyPlxHGYZ
-         lbSMRygoHHbhjdE8/6MJULpxbKoUTPzkFcSgQ1Fqg7kg0DtquHQUJ6jdBZ+IWPKZucJQ
-         cfNg==
-X-Gm-Message-State: APjAAAVW91wGmGiXGO0TIGj+zypSVCJfnnKwJgOlYsx+qqQkCynd7fSv
-        gJOiR7V5Xx90Kskxq/r7RogrECxGV634T2gYx4MRCM+Aht8=
-X-Google-Smtp-Source: APXvYqyzoGigvQXxoqbv87+ErAoH9ENdhaGEpKzaEDLH4SzhJUyMCFwzBUzlVZGuR7TLwin2L6Z+FX6VFiLvcPsUeRw=
-X-Received: by 2002:aca:b606:: with SMTP id g6mr1666340oif.101.1559638090383;
- Tue, 04 Jun 2019 01:48:10 -0700 (PDT)
+        id S1726869AbfFDIt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 04:49:26 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40806 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726637AbfFDIt0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 04:49:26 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 56A67260676;
+        Tue,  4 Jun 2019 09:49:24 +0100 (BST)
+Date:   Tue, 4 Jun 2019 10:49:21 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
+ stateless support
+Message-ID: <20190604104921.5f4dcbe8@collabora.com>
+In-Reply-To: <20190604083157.GC9048@ulmo>
+References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
+        <20190603112449.GA30132@ulmo>
+        <a2f6bac6596da86d597d9ac4c12b1f72b772dbe5.camel@ndufresne.ca>
+        <20190603214117.664f6ba1@collabora.com>
+        <20190604083157.GC9048@ulmo>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1559634617-16264-1-git-send-email-92siuyang@gmail.com>
- <CA+V-a8sBe53iZASaT+uJH0kMvJKNJOHYJLbTfEF+9FOVz3H=Rg@mail.gmail.com> <CAKgHYH2VN0NvEi=kStJPVSgenabnM6GpAGHYZa9YXz+o36GRKg@mail.gmail.com>
-In-Reply-To: <CAKgHYH2VN0NvEi=kStJPVSgenabnM6GpAGHYZa9YXz+o36GRKg@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 4 Jun 2019 09:47:44 +0100
-Message-ID: <CA+V-a8u6068HOEkrZizB6+bzbDdZyS=UQ0bA6OBch3_17j_GQQ@mail.gmail.com>
-Subject: Re: [PATCH] media: davinci: vpif_capture: fix memory leak in vpif_probe()
-To:     Yang Xiao <92siuyang@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Cheers,
---Prabhakar Lad
+On Tue, 4 Jun 2019 10:31:57 +0200
+Thierry Reding <thierry.reding@gmail.com> wrote:
 
-On Tue, Jun 4, 2019 at 9:34 AM Yang Xiao <92siuyang@gmail.com> wrote:
->
-> On Tue, Jun 4, 2019 at 4:15 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> >
-> > Hi Young,
-> >
-> > Thanks for the patch.
-> >
-> > On Tue, Jun 4, 2019 at 8:49 AM Young Xiao <92siuyang@gmail.com> wrote:
-> > >
-> > > If vpif_probe() fails on v4l2_device_register() and vpif_probe_complete(),
-> > > then memory allocated at initialize_vpif() for global vpif_obj.dev[i]
-> > > become unreleased.
-> > >
-> > > The patch adds deallocation of vpif_obj.dev[i] on the error path.
-> > >
-> > > Signed-off-by: Young Xiao <92siuyang@gmail.com>
-> > > ---
-> > >  drivers/media/platform/davinci/vpif_capture.c | 19 ++++++++++++++++---
-> > >  1 file changed, 16 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-> > > index b5aacb0..277d500 100644
-> > > --- a/drivers/media/platform/davinci/vpif_capture.c
-> > > +++ b/drivers/media/platform/davinci/vpif_capture.c
-> > > @@ -1385,6 +1385,14 @@ static int initialize_vpif(void)
-> > >         return err;
-> > >  }
-> > >
-> > > +static void free_vpif_objs(void)
-> > > +{
-> > function could be made inline.
-> >
-> > > +       int i;
-> > > +
-> > > +       for (i = 0; i < VPIF_DISPLAY_MAX_DEVICES; i++)
-> >
-> > VPIF_DISPLAY_MAX_DEVICES ? this should be  VPIF_CAPTURE_MAX_DEVICES
-> >
-> > > +               kfree(vpif_obj.dev[i]);
-> > > +}
-> > > +
-> > >  static int vpif_async_bound(struct v4l2_async_notifier *notifier,
-> > >                             struct v4l2_subdev *subdev,
-> > >                             struct v4l2_async_subdev *asd)
-> > > @@ -1654,7 +1662,7 @@ static __init int vpif_probe(struct platform_device *pdev)
-> > >         err = v4l2_device_register(vpif_dev, &vpif_obj.v4l2_dev);
-> > >         if (err) {
-> > >                 v4l2_err(vpif_dev->driver, "Error registering v4l2 device\n");
-> > > -               goto cleanup;
-> > > +               goto vpif_free;
-> > >         }
-> > >
-> > >         while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
-> > > @@ -1701,7 +1709,10 @@ static __init int vpif_probe(struct platform_device *pdev)
-> > >                                   "registered sub device %s\n",
-> > >                                    subdevdata->name);
-> > >                 }
-> > > -               vpif_probe_complete();
-> > > +               err = vpif_probe_complete();
-> > > +               if (err) {
-> > > +                       goto probe_subdev_out;
-> > > +               }
-> >
-> > No need for { and } as per kernel coding style.
->
-> Sorry, I can not get your point here.
-> There is no need to check the return value of vpif_probe_complete(), isn't it?
-> So, we just fix the memory leak in the error path of v4l2_device_register()?
->
-Not sure if you got my statement here, it means do not add {} braces
-around the if statement,
-so for example the code should look like something below (refer the
-link [1] for more reading)
+> > > > > - Using flags
+> > > > > 
+> > > > > The current MPEG-2 controls have lots of u8 values that can be
+> > > > > represented as flags. Using flags also helps with padding.
+> > > > > It's unlikely that we'll get more than 64 flags, so using a u64 by
+> > > > > default for that sounds fine (we definitely do want to keep some room
+> > > > > available and I don't think using 32 bits as a default is good enough).
+> > > > > 
+> > > > > I think H.264/HEVC per-control flags should also be moved to u64.    
+> > > > 
+> > > > There was also some concensus on this, that u64 should be good enough
+> > > > for anything out there, though we obviously don't know what the future
+> > > > will hold, so perhaps adding some way for possible extending this in the
+> > > > future might be good. I guess we'll get new controls for new codecs
+> > > > anyway, so we can punt on this until then.
+> > > >     
+> > > > > - Clear split of controls and terminology
+> > > > > 
+> > > > > Some codecs have explicit NAL units that are good fits to match as
+> > > > > controls: e.g. slice header, pps, sps. I think we should stick to the
+> > > > > bitstream element names for those.
+> > > > > 
+> > > > > For H.264, that would suggest the following changes:
+> > > > > - renaming v4l2_ctrl_h264_decode_param to v4l2_ctrl_h264_slice_header;
+> > > > > - killing v4l2_ctrl_h264_decode_param and having the reference lists
+> > > > > where they belong, which seems to be slice_header;    
+> > > 
+> > > But now here it's being described per slice. When I look at the slice
+> > > header, I only see list of modifications and when I look at userspace,
+> > > That list is simply built from DPB, the modifications list found in the
+> > > slice header seems to be only used to craft the l0/l1 list.  
+> > 
+> > Yes, I think there was a misunderstanding which was then clarified
+> > (unfortunately it happened on IRC, so we don't have a trace of this
+> > discussion). The reference list should definitely be per-frame, and the
+> > L0/L1 slice reflists are referring to the per-frame reference list (it's
+> > just a sub-set of the per-frame reflist re-ordered differently).
+> >   
+> > > 
+> > > There is one thing that come up though, if we enable per-frame decoding
+> > > on top of per-slice decoder (like Cedrus), won't we force userspace to
+> > > always compute l0/l1 even though the HW might be handling that ?  
+> > 
+> > That's true, the question is, what's the cost of this extra re-ordering?  
+> 
+> I think ultimately userspace is already forced to compute these lists
+> even if some hardware may be able to do it in hardware. There's going to
+> be other hardware that userspace wants to support that can't do it by
+> itself, so userspace has to at least have the code anyway. What it could
+> do on top of that decide not to run that code if it somehow detects that
+> hardware can do it already. On the other hand this means that we have to
+> expose a whole lot of capabilities to userspace and userspace has to go
+> and detect all of them in order to parameterize all of the code.
+> 
+> Ultimately I suspect many applications will just choose to pass the data
+> all the time out of simplicity. I mean drivers that don't need it will
+> already ignore it (i.e. they must not break if they get the extra data)
+> so other than the potential runtime savings on some hardware, there are
+> no advantages.
+> 
+> Given that other APIs don't bother exposing this level of control to
+> applications makes me think that it's just not worth it from a
+> performance point of view.
 
- err = vpif_probe_complete();
- if (err)
-    goto probe_subdev_out;
+That's not exactly what Nicolas proposed. He was suggesting that we
+build those reflists kernel-side: V4L would provide an helper and
+drivers that need those lists would use it, others won't. This way we
+have no useless computation done, and userspace doesn't even have to
+bother checking the device caps to avoid this extra step.
 
-
-[1] https://www.kernel.org/doc/html/v4.10/process/coding-style.html#placing-braces-and-spaces
-
-Cheers,
---Prabhakar Lad
