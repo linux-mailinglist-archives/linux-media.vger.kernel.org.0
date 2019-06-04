@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC23B34D77
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 18:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A29534D46
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 18:30:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728102AbfFDQbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 12:31:13 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53348 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727586AbfFDQaJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 12:30:09 -0400
-Received: by mail-wm1-f66.google.com with SMTP id d17so732388wmb.3;
-        Tue, 04 Jun 2019 09:30:08 -0700 (PDT)
+        id S1727830AbfFDQaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 12:30:12 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43849 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727408AbfFDQaL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 12:30:11 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r18so7514713wrm.10;
+        Tue, 04 Jun 2019 09:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MV6jnkx+iwxZaJiMiVz9qnojBD0BD/3s5TPe2dpCEIM=;
-        b=Fx/IlzsiYB9NYMdSCB4N/0Fj/qvx9OeMIafcg/PSyOCDwGIesjtTCej002nbNf4JPz
-         A+bujnIxIilBNprucYdILxd1YfwkIdB9NF5tJHeIRgq+GqtBODKeetd7IlWQEVNS/T4V
-         Uuhbz1duDEJKlQupeWkL7I+11uiZ5HdfeLxgr2Pov3CSp8bXGLqWWBZg/yX+EZGYmsHF
-         njkmZ18cXZifWLATeXayCefXx5+tZtP9C8546a6eYd3FosyS29FmLxytOxW/+ReL0muo
-         3G6x5PHVjYlT4j2mBrzTzXodcxUaNXkueypM9+K+dxEVGWTVay3M8vbiFrstyKORq435
-         2ICw==
+        bh=WVt9PLRHxA5shLBGM+rat6DzEBJdBuHXCCimY/wvQxI=;
+        b=Xru/SMuMwtGeeWJ3+w4TxGGjpjQHqX4X8g8eFmhGVvijmB4VGTqI0vGJzZqmhinYf9
+         yQbPAkvZt8d8Ss/f2AMKMQZ0gwETtA4010GDyUvDLdgPGzRyVFbXUuw3yV77NdxCu2XF
+         1fhbB9o7LmJmFGQ+xYBmghjdwPKM3hZdFWnIVARImSuSyHKqOvi7Pupr60JfEnj5S7bi
+         Y0KhiYJKB5XU0ZYNZJYds7HxI87XBs0sWcT+YNXQIlMRv5EMNtVBx6Kvt7YYHYSkkMo7
+         G/PWLBmvTup5CJyxk1brnACswG12Zc48cMPobx1vAbLI4vyX88F9Ht3xWc53dJuPQ+td
+         aoKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MV6jnkx+iwxZaJiMiVz9qnojBD0BD/3s5TPe2dpCEIM=;
-        b=dSmee30SSqlvuSkidQgpCc7aCWCKApDfRaRGKn9BLkGmVn8/26YO1RNCzLit2va9wx
-         ERyUgiDRZNB593eUYBjPtu3jm8uoS+DubfoSLKAcq/CpfWSwEpI4n/cnkw+YyWxthn17
-         iqOT8eT1icGpZmr72+T33+bop2lRuuC/3uADbjDoI/8JAA0JyWKnnKvOflM5UTMuytQm
-         fRRzfzF34iTMqb1y3SXYh94NcwrLtVC05X+lR6F3CgwMKGCrv6aym5VVHvJeZcE9bWyz
-         VoiFfkavLVGr9HFarmYhwemRV1Au2yNAMe8/8Se7x5D1Q2i6d2ARPiumEbLnpR0VdL4l
-         CS4A==
-X-Gm-Message-State: APjAAAWK2xQGiMZTmT3eHROUKLh2RjPG3g7cd5anxlIwGLSPtZNrD7tT
-        XOXAaV5BTkgvqRG9xbfc5MCkvt//XzW1sw==
-X-Google-Smtp-Source: APXvYqwJYDJu1KcvEZ11IPopX5Ugbq2R6IGnkd1uXC8mohUAoxPbVCeDp32xyLvquSj+Yt3X0cF4Fg==
-X-Received: by 2002:a1c:1947:: with SMTP id 68mr1406373wmz.171.1559665807417;
-        Tue, 04 Jun 2019 09:30:07 -0700 (PDT)
+        bh=WVt9PLRHxA5shLBGM+rat6DzEBJdBuHXCCimY/wvQxI=;
+        b=KeFOTzP1o8H9eCD1V/G9Kyh16ovZNADWhrlMJl1thZLAFXLtBe6eUbEmVytWj2PjQi
+         0OBxud6REOFl5afbONnhOFG+tLi6kbmpClKwMMdw/mBfEM1TNMByWa8uA31q+L5vVObi
+         HhHRL44/z64R2zZeX5rDJwODxd/3dg1p/No40qZ4rNicn1qdZJ39c5ytaPBh6RDqtmaz
+         3c5vaeW6Gb473YHyRCEstNN+QOhyAJLJHNWOx6ITe6/iarFq5SulJDKVmb73vKXBBhqr
+         Q7owWYe9mBkO6w0FbPKnFjY8g5vhAe3FoWWMmv0HINEVnsQuOjhfSBrFLteSxGQyAZmy
+         XrWw==
+X-Gm-Message-State: APjAAAW9nTnvarnDv9m5jz2XCyBPKIcYcGUjGLBBDAafzv8stajk2JWV
+        PkqaSmSIggR1YDy+EmCaD0U=
+X-Google-Smtp-Source: APXvYqzBl9dj83P9V27+Fdl0MwabMhnwcsDkxoHC8nOmjtY9SHfRpfzvhefntyBnBp30NrlHWphusA==
+X-Received: by 2002:a5d:4004:: with SMTP id n4mr21919479wrp.240.1559665808671;
+        Tue, 04 Jun 2019 09:30:08 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id y12sm15108176wrh.40.2019.06.04.09.30.06
+        by smtp.gmail.com with ESMTPSA id y12sm15108176wrh.40.2019.06.04.09.30.07
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 04 Jun 2019 09:30:06 -0700 (PDT)
+        Tue, 04 Jun 2019 09:30:07 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -55,9 +55,9 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-sunxi@googlegroups.com,
         =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
         Sean Young <sean@mess.org>
-Subject: [PATCH v4 02/13] media: rc: Introduce sunxi_ir_quirks
-Date:   Tue,  4 Jun 2019 18:29:48 +0200
-Message-Id: <20190604162959.29199-3-peron.clem@gmail.com>
+Subject: [PATCH v4 03/13] media: rc: sunxi: Add A31 compatible
+Date:   Tue,  4 Jun 2019 18:29:49 +0200
+Message-Id: <20190604162959.29199-4-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190604162959.29199-1-peron.clem@gmail.com>
 References: <20190604162959.29199-1-peron.clem@gmail.com>
@@ -69,119 +69,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This driver is used in various Allwinner SoC with different configuration.
-
-Introduce a quirks struct to know the fifo size and if a reset is required.
+Allwiner A31 has a different memory mapping so add the compatible
+we will need it later.
 
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 Acked-by: Sean Young <sean@mess.org>
 ---
- drivers/media/rc/sunxi-cir.c | 61 +++++++++++++++++++++++++++---------
- 1 file changed, 47 insertions(+), 14 deletions(-)
+ drivers/media/rc/sunxi-cir.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 307e44714ea0..d02dcb6fd0a5 100644
+index d02dcb6fd0a5..0504ebfc831f 100644
 --- a/drivers/media/rc/sunxi-cir.c
 +++ b/drivers/media/rc/sunxi-cir.c
-@@ -81,6 +81,17 @@
- /* Time after which device stops sending data in ms */
- #define SUNXI_IR_TIMEOUT      120
+@@ -343,6 +343,11 @@ static const struct sunxi_ir_quirks sun5i_a13_ir_quirks = {
+ 	.fifo_size = 64,
+ };
  
-+/**
-+ * struct sunxi_ir_quirks - Differences between SoC variants.
-+ *
-+ * @has_reset: SoC needs reset deasserted.
-+ * @fifo_size: size of the fifo.
-+ */
-+struct sunxi_ir_quirks {
-+	bool		has_reset;
-+	int		fifo_size;
-+};
-+
- struct sunxi_ir {
- 	spinlock_t      ir_lock;
- 	struct rc_dev   *rc;
-@@ -143,6 +154,7 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 
- 	struct device *dev = &pdev->dev;
- 	struct device_node *dn = dev->of_node;
-+	const struct sunxi_ir_quirks *quirks;
- 	struct resource *res;
- 	struct sunxi_ir *ir;
- 	u32 b_clk_freq = SUNXI_IR_BASE_CLK;
-@@ -151,12 +163,15 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 	if (!ir)
- 		return -ENOMEM;
- 
-+	quirks = of_device_get_match_data(&pdev->dev);
-+	if (quirks == NULL) {
-+		dev_err(&pdev->dev, "Failed to determine the quirks to use\n");
-+		return -ENODEV;
-+	}
-+
- 	spin_lock_init(&ir->ir_lock);
- 
--	if (of_device_is_compatible(dn, "allwinner,sun5i-a13-ir"))
--		ir->fifo_size = 64;
--	else
--		ir->fifo_size = 16;
-+	ir->fifo_size = quirks->fifo_size;
- 
- 	/* Clock */
- 	ir->apb_clk = devm_clk_get(dev, "apb");
-@@ -173,13 +188,15 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 	/* Base clock frequency (optional) */
- 	of_property_read_u32(dn, "clock-frequency", &b_clk_freq);
- 
--	/* Reset (optional) */
--	ir->rst = devm_reset_control_get_optional_exclusive(dev, NULL);
--	if (IS_ERR(ir->rst))
--		return PTR_ERR(ir->rst);
--	ret = reset_control_deassert(ir->rst);
--	if (ret)
--		return ret;
-+	/* Reset */
-+	if (quirks->has_reset) {
-+		ir->rst = devm_reset_control_get_exclusive(dev, NULL);
-+		if (IS_ERR(ir->rst))
-+			return PTR_ERR(ir->rst);
-+		ret = reset_control_deassert(ir->rst);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	ret = clk_set_rate(ir->clk, b_clk_freq);
- 	if (ret) {
-@@ -316,10 +333,26 @@ static int sunxi_ir_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct sunxi_ir_quirks sun4i_a10_ir_quirks = {
-+	.has_reset = false,
-+	.fifo_size = 16,
-+};
-+
-+static const struct sunxi_ir_quirks sun5i_a13_ir_quirks = {
-+	.has_reset = false,
++static const struct sunxi_ir_quirks sun6i_a31_ir_quirks = {
++	.has_reset = true,
 +	.fifo_size = 64,
 +};
 +
  static const struct of_device_id sunxi_ir_match[] = {
--	{ .compatible = "allwinner,sun4i-a10-ir", },
--	{ .compatible = "allwinner,sun5i-a13-ir", },
--	{},
+ 	{
+ 		.compatible = "allwinner,sun4i-a10-ir",
+@@ -352,6 +357,10 @@ static const struct of_device_id sunxi_ir_match[] = {
+ 		.compatible = "allwinner,sun5i-a13-ir",
+ 		.data = &sun5i_a13_ir_quirks,
+ 	},
 +	{
-+		.compatible = "allwinner,sun4i-a10-ir",
-+		.data = &sun4i_a10_ir_quirks,
++		.compatible = "allwinner,sun6i-a31-ir",
++		.data = &sun6i_a31_ir_quirks,
 +	},
-+	{
-+		.compatible = "allwinner,sun5i-a13-ir",
-+		.data = &sun5i_a13_ir_quirks,
-+	},
-+	{}
+ 	{}
  };
  MODULE_DEVICE_TABLE(of, sunxi_ir_match);
- 
 -- 
 2.20.1
 
