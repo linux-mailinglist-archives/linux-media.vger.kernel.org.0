@@ -2,118 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4432D34695
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06110346A9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727726AbfFDMZZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 08:25:25 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:44330 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbfFDMZY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 08:25:24 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n2so10260569pgp.11;
-        Tue, 04 Jun 2019 05:25:24 -0700 (PDT)
+        id S1727810AbfFDM1R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 08:27:17 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:45557 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727804AbfFDM1R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 08:27:17 -0400
+Received: by mail-qt1-f195.google.com with SMTP id j19so9708854qtr.12
+        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 05:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=wnihfRtnOZly/8sbh9urZ5IlVD0j11FdjgEyNkCSnR0=;
-        b=E2HdfzpWcOtm9481R5yVrEJB1Cg7gFP3Uw9A8bL6m6QonZkiLDJYJbk757getw1IaH
-         Fv5bP64xuaxdQ5b9w0BFh4u7BPnH3b0L4d8wTWRk/K0inaP0sdbYIK3by/SF77SSGnmv
-         wD5wbDhZpaCtusxXLbmkvHj6aTkBjbDh2QQqp6yp2BaHNxQZN0GAfh9EqpOnxEgcMktg
-         Ff+KtGLQ1UzSyKsl7+WRk7rXtZDon+MgvFwaD9LMwKyX5Bp7PglFWbKeG/jWkb677OUp
-         6sBRDMotvgkjBB/VtJIBtX5EJIkQL0LAfVE9PFrCoOgLc2jwwVH97TBkINUsVpAv7PX8
-         QqkQ==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wnsJg5IBUcpd0uvGih9L7zWjhXAHb1EJO0yOEExZSzo=;
+        b=dcNC7UmtypwgYv25SVviVAOUG7URTCQh95rjKD+gc1HkGG0jrMjWKvaHqgOqnkLXCe
+         CmoljchytuIVIDVbprMz3tL0S5wF3BfmVPwpXMEcKwEKuopvqQDwmPbpLySBrTe+5P0P
+         +zjXSkVABYGjw15OrEI3UNK6X3hEEYJ5lmU4VodgY1OGgetHeu4xf6gu/Drrr5PoUFZD
+         NGszqORq933qFqUy4wxVOf9PkDJzNBd6Vt6SxvMrx9KcQhBJruI+UAnsanyndNgyFsW8
+         SfJHC+U7tiqZ4PP8CoYnZCXFGYoMymsmvspjQbzELX76TfLMwbqeFyJLFyTuqJIB4Dhp
+         ZF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=wnihfRtnOZly/8sbh9urZ5IlVD0j11FdjgEyNkCSnR0=;
-        b=daNTIJCLcy1sVUMjrTm0zpIcA9e0Utm7/WxlfV1cCWmlOzgVSl7f4F7uEQbaauxPJ4
-         hA2giBkEnyv+eIN058ncSkQUvQ/1U5si/V2FrehxGbE8dRUQsagcAmuDfNm2urw5pjAX
-         BimQ/wEHj9AgDtcdGLssTTpc2UXkRN2g8hx78vNtMcGUbZyS24M9GP4NQ/x6kxpMlaPt
-         SaDHoqSRcWTGZLD2+D5VLjaFgqz2bJ/WI9SxQm0Besv04bw1P3naOs/zXs9OyblrUPYn
-         fSAb4gSng/CDw8A/MWafA2i86pRQIWjqbV1187G4M7KnN7OyTzx8f5m3W1mRnbZFFknR
-         FjXw==
-X-Gm-Message-State: APjAAAUReISI1PYkmH1toEAHawNqM0kgiPQCrPyXChaHcV3QAdfBCwHj
-        kyqifWzYt1PfCTl/F625Pbo=
-X-Google-Smtp-Source: APXvYqzTlaNsaIjqCx2gUiMYqRlw5zgTvcx8dM1r+OCqK8xtt80+DErHL4mnu2N1mhYlevg/dow/Ug==
-X-Received: by 2002:a62:a508:: with SMTP id v8mr37065808pfm.87.1559651124115;
-        Tue, 04 Jun 2019 05:25:24 -0700 (PDT)
-Received: from xy-data.openstacklocal (ecs-159-138-22-150.compute.hwclouds-dns.com. [159.138.22.150])
-        by smtp.gmail.com with ESMTPSA id j22sm24660576pfn.121.2019.06.04.05.25.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 04 Jun 2019 05:25:23 -0700 (PDT)
-From:   Young Xiao <92siuyang@gmail.com>
-To:     prabhakar.csengg@gmail.com, mchehab@kernel.org, hverkuil@xs4all.nl,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Young Xiao <92siuyang@gmail.com>
-Subject: [PATCH] media: davinci: vpif_capture: fix memory leak in vpif_probe()
-Date:   Tue,  4 Jun 2019 20:26:33 +0800
-Message-Id: <1559651193-17982-1-git-send-email-92siuyang@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wnsJg5IBUcpd0uvGih9L7zWjhXAHb1EJO0yOEExZSzo=;
+        b=cv4h5CiBlVfocWlrBo82q0eay+FxOsnWLE76IeyMjGxi2l7qW/GCRrS7HV8QpINqiC
+         3oDVj66ncWzUuyZDkDhzjkbBKn0CLUXi9laubAX1AdmCLkpoa2cXZQ255NWHtT+4OKuI
+         ENSUQMxQeAz9TGDyJVD9groAMXj7LgIOy9nTZuEx4NmQ9BSFyFwMx2xIG0MgtlWYDs0T
+         ZII/31cTJBoYmKhrR1PA9im1KRJ1bFP1ctUCgKw3ylTRFdRavwhD8kZp4FobAlj3M5GX
+         66bD0GiAStfUKWxacvh+QXRDdiJ1+mPqHInEDAeh/YXlpVE/QbjqOkJyUa7n2iIDr5si
+         xh4A==
+X-Gm-Message-State: APjAAAWQYT2D6PdedpB3lLfIGdYuwGX8ujJ0uQJL43UdYBoGDWQVhFbs
+        C++yofpTQBmx/lPpMMLOva0CMA==
+X-Google-Smtp-Source: APXvYqyQKZsajkt/gWb5hfUpWdj5TzMt6KfoFh/bz/W6aTLwqi1dm4Rk21CH5MrcGrt3uoh1Lu64hg==
+X-Received: by 2002:aed:3a87:: with SMTP id o7mr27583430qte.310.1559651236150;
+        Tue, 04 Jun 2019 05:27:16 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-55-100.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.55.100])
+        by smtp.gmail.com with ESMTPSA id c18sm4454633qkm.78.2019.06.04.05.27.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 04 Jun 2019 05:27:15 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1hY8X4-000416-LN; Tue, 04 Jun 2019 09:27:14 -0300
+Date:   Tue, 4 Jun 2019 09:27:14 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v16 12/16] IB, arm64: untag user pointers in
+ ib_uverbs_(re)reg_mr()
+Message-ID: <20190604122714.GA15385@ziepe.ca>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <c829f93b19ad6af1b13be8935ce29baa8e58518f.1559580831.git.andreyknvl@google.com>
+ <20190603174619.GC11474@ziepe.ca>
+ <CAAeHK+xy-dx4dLDLLj9dRzRNSVG9H5nDPPnjpYF38qKZNNCh_g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+xy-dx4dLDLLj9dRzRNSVG9H5nDPPnjpYF38qKZNNCh_g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vpif_probe() fails on v4l2_device_register() and vpif_probe_complete(),
-then memory allocated at initialize_vpif() for global vpif_obj.dev[i]
-become unreleased.
+On Tue, Jun 04, 2019 at 02:18:19PM +0200, Andrey Konovalov wrote:
+> On Mon, Jun 3, 2019 at 7:46 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Mon, Jun 03, 2019 at 06:55:14PM +0200, Andrey Konovalov wrote:
+> > > This patch is a part of a series that extends arm64 kernel ABI to allow to
+> > > pass tagged user pointers (with the top byte set to something else other
+> > > than 0x00) as syscall arguments.
+> > >
+> > > ib_uverbs_(re)reg_mr() use provided user pointers for vma lookups (through
+> > > e.g. mlx4_get_umem_mr()), which can only by done with untagged pointers.
+> > >
+> > > Untag user pointers in these functions.
+> > >
+> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > >  drivers/infiniband/core/uverbs_cmd.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/infiniband/core/uverbs_cmd.c b/drivers/infiniband/core/uverbs_cmd.c
+> > > index 5a3a1780ceea..f88ee733e617 100644
+> > > +++ b/drivers/infiniband/core/uverbs_cmd.c
+> > > @@ -709,6 +709,8 @@ static int ib_uverbs_reg_mr(struct uverbs_attr_bundle *attrs)
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > +     cmd.start = untagged_addr(cmd.start);
+> > > +
+> > >       if ((cmd.start & ~PAGE_MASK) != (cmd.hca_va & ~PAGE_MASK))
+> > >               return -EINVAL;
+> >
+> > I feel like we shouldn't thave to do this here, surely the cmd.start
+> > should flow unmodified to get_user_pages, and gup should untag it?
+> >
+> > ie, this sort of direction for the IB code (this would be a giant
+> > patch, so I didn't have time to write it all, but I think it is much
+> > saner):
+> 
+> Hi Jason,
+> 
+> ib_uverbs_reg_mr() passes cmd.start to mlx4_get_umem_mr(), which calls
+> find_vma(), which only accepts untagged addresses. Could you explain
+> how your patch helps?
 
-The patch adds deallocation of vpif_obj.dev[i] on the error path.
+That mlx4 is just a 'weird duck', it is not the normal flow, and I
+don't think the core code should be making special consideration for
+it.
 
-Signed-off-by: Young Xiao <92siuyang@gmail.com>
----
- drivers/media/platform/davinci/vpif_capture.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-index b5aacb0..75c2c10 100644
---- a/drivers/media/platform/davinci/vpif_capture.c
-+++ b/drivers/media/platform/davinci/vpif_capture.c
-@@ -1385,6 +1385,14 @@ static int initialize_vpif(void)
- 	return err;
- }
- 
-+static inline void free_vpif_objs(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < VPIF_CAPTURE_MAX_DEVICES; i++)
-+		kfree(vpif_obj.dev[i]);
-+}
-+
- static int vpif_async_bound(struct v4l2_async_notifier *notifier,
- 			    struct v4l2_subdev *subdev,
- 			    struct v4l2_async_subdev *asd)
-@@ -1654,7 +1662,7 @@ static __init int vpif_probe(struct platform_device *pdev)
- 	err = v4l2_device_register(vpif_dev, &vpif_obj.v4l2_dev);
- 	if (err) {
- 		v4l2_err(vpif_dev->driver, "Error registering v4l2 device\n");
--		goto cleanup;
-+		goto vpif_free;
- 	}
- 
- 	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
-@@ -1701,7 +1709,9 @@ static __init int vpif_probe(struct platform_device *pdev)
- 				  "registered sub device %s\n",
- 				   subdevdata->name);
- 		}
--		vpif_probe_complete();
-+		err = vpif_probe_complete();
-+		if (err)
-+			goto probe_subdev_out;
- 	} else {
- 		vpif_obj.notifier.ops = &vpif_async_ops;
- 		err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
-@@ -1720,6 +1730,8 @@ static __init int vpif_probe(struct platform_device *pdev)
- 	kfree(vpif_obj.sd);
- vpif_unregister:
- 	v4l2_device_unregister(&vpif_obj.v4l2_dev);
-+vpif_free:
-+	free_vpif_objs();
- cleanup:
- 	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
- 
--- 
-2.7.4
-
+Jason
