@@ -2,173 +2,327 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA66133F7C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 09:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A93EC33F7F
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 09:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbfFDHEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 03:04:41 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39936 "EHLO
+        id S1726637AbfFDHGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 03:06:36 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39962 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726568AbfFDHEl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 03:04:41 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        with ESMTP id S1726568AbfFDHGf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 03:06:35 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5588527E3EC;
-        Tue,  4 Jun 2019 08:04:39 +0100 (BST)
-Date:   Tue, 4 Jun 2019 09:04:36 +0200
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4BD8C27E3EC;
+        Tue,  4 Jun 2019 08:06:33 +0100 (BST)
 From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
-        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
         Hirokazu Honda <hiroh@chromium.org>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [PATCH v5 2/2] media: v4l2: Get rid of
- ->vidioc_enum_fmt_vid_{cap,out}_mplane
-Message-ID: <20190604090436.69241a58@collabora.com>
-In-Reply-To: <71e2f8b2-db8e-68da-f627-86b22e5a0d39@xs4all.nl>
-References: <20190603135850.7689-1-boris.brezillon@collabora.com>
-        <20190603135850.7689-2-boris.brezillon@collabora.com>
-        <71e2f8b2-db8e-68da-f627-86b22e5a0d39@xs4all.nl>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v6 1/2] media: v4l2: Make sure all drivers set _MPLANE caps in vdev->device_caps
+Date:   Tue,  4 Jun 2019 09:06:24 +0200
+Message-Id: <20190604070625.7664-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 4 Jun 2019 09:02:56 +0200
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+This is needed if we want the core to be able to check _MPLANE support
+without having to call the ->vdioc_querycap() hook.
 
-> On 6/3/19 3:58 PM, Boris Brezillon wrote:
-> > Support for multiplanar and singleplanar formats is mutually exclusive,
-> > at least in practice. In our attempt to unify support for support for
-> > mplane and !mplane in v4l, let's get rid of the  
-> > ->vidioc_enum_fmt_{vid,out}_cap_mplane() hooks and call
-> > ->vidioc_enum_fmt_{vid,out}_cap() instead.  
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> > Changes in v5:
-> > - None
-> > 
-> > Changes in v4:
-> > - None
-> > 
-> > Changes in v3:
-> > - Send this patch separately (was previously part of the EXT_BUF/FMT
-> >   rework)
-> > 
-> > Changes in v2:
-> > - None
-> > ---
-> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-core.c  |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-core.h  |  2 +-
-> >  drivers/media/platform/exynos-gsc/gsc-m2m.c   | 10 ++++-----
-> >  .../media/platform/exynos4-is/fimc-capture.c  |  6 +++---
-> >  .../platform/exynos4-is/fimc-isp-video.c      |  6 +++---
-> >  drivers/media/platform/exynos4-is/fimc-lite.c |  6 +++---
-> >  drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +++----
-> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  4 ++--
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  | 18 ++++++++--------
-> >  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 12 +++++------
-> >  .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 12 +++++------
-> >  .../media/platform/qcom/camss/camss-video.c   |  2 +-
-> >  drivers/media/platform/qcom/venus/vdec.c      |  4 ++--
-> >  drivers/media/platform/qcom/venus/venc.c      |  4 ++--
-> >  drivers/media/platform/rcar_fdp1.c            |  4 ++--
-> >  drivers/media/platform/rcar_jpu.c             |  4 ++--
-> >  drivers/media/platform/renesas-ceu.c          |  2 +-
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  | 12 +++++------
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  | 12 +++++------
-> >  drivers/media/platform/ti-vpe/vpe.c           |  4 ++--
-> >  drivers/media/platform/vicodec/vicodec-core.c |  2 --
-> >  drivers/media/platform/vivid/vivid-core.c     |  6 ++----
-> >  .../media/platform/vivid/vivid-vid-common.c   | 20 ------------------
-> >  .../media/platform/vivid/vivid-vid-common.h   |  2 --
-> >  drivers/media/v4l2-core/v4l2-dev.c            |  2 --
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 21 ++++++++++---------
-> >  drivers/staging/media/ipu3/ipu3-v4l2.c        |  4 ++--
-> >  .../media/rockchip/vpu/rockchip_vpu_v4l2.c    | 12 +++++------
-> >  include/media/v4l2-ioctl.h                    | 14 ++-----------
-> >  30 files changed, 91 insertions(+), 128 deletions(-)
-> >   
-> 
-> <snip>
-> 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 0fbee3caef5d..3768eb012cef 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1382,6 +1382,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  				struct file *file, void *fh, void *arg)
-> >  {
-> > +	struct video_device *vdev = video_devdata(file);
-> >  	struct v4l2_fmtdesc *p = arg;
-> >  	int ret = check_fmt(file, p->type);
-> >  
-> > @@ -1391,30 +1392,30 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  
-> >  	switch (p->type) {
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> > +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > +		if (!!(vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) !=
-> > +		    p->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> > +			break;
-> > +
-> >  		if (unlikely(!ops->vidioc_enum_fmt_vid_cap))
-> >  			break;
-> >  		ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
-> >  		break;
-> > -	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > -		if (unlikely(!ops->vidioc_enum_fmt_vid_cap_mplane))
-> > -			break;
-> > -		ret = ops->vidioc_enum_fmt_vid_cap_mplane(file, fh, arg);
-> > -		break;  
-> 
-> We got kbuild test robot complaints about this. The new check is a bit
-> complicated, and I propose we do this instead:
-> 
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> 		if (!(vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) &&
-> 		    ops->vidioc_enum_fmt_vid_cap)
->  			ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
->  		break;
-> 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> 		if ((vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) &&
-> 		    ops->vidioc_enum_fmt_vid_cap)
->  			ret = ops->vidioc_enum_fmt_vid_cap(file, fh, arg);
->  		break;
-> 
-> 
-> >  	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
-> >  		if (unlikely(!ops->vidioc_enum_fmt_vid_overlay))
-> >  			break;
-> >  		ret = ops->vidioc_enum_fmt_vid_overlay(file, fh, arg);
-> >  		break;
-> >  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-> > +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> > +		if (!!(vdev->device_caps & V4L2_CAP_VIDEO_OUTPUT_MPLANE) !=
-> > +		    p->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> > +			break;
-> > +
-> >  		if (unlikely(!ops->vidioc_enum_fmt_vid_out))
-> >  			break;
-> >  		ret = ops->vidioc_enum_fmt_vid_out(file, fh, arg);
-> >  		break;  
-> 
-> And the same here, of course.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+Changes in v6:
+- None
 
-Sorry about that. I had it fixed locally but forgot to amend the
-commit :-/. I'm sending a v6 right now.
+Changes in v5:
+- Drop the fimc-lite and fimc-isp-video hack
+
+Changes in v4:
+- Add a hack in fimc-lite and fimc-isp-video ->querycap()
+  implementation to avoid reporting _MPLANE caps as userspace is not
+  ready for that
+- Actually set CAP flags in vdev->device_caps instead of just reporting
+  caps at the ->vidioc_querycap() level
+
+Changes in v3:
+- New patch
+---
+ drivers/media/platform/exynos-gsc/gsc-m2m.c        | 4 ++--
+ drivers/media/platform/exynos4-is/common.c         | 5 +----
+ drivers/media/platform/exynos4-is/common.h         | 3 +--
+ drivers/media/platform/exynos4-is/fimc-capture.c   | 4 ++--
+ drivers/media/platform/exynos4-is/fimc-isp-video.c | 3 ++-
+ drivers/media/platform/exynos4-is/fimc-lite.c      | 4 +---
+ drivers/media/platform/exynos4-is/fimc-m2m.c       | 4 ++--
+ drivers/media/platform/rcar_jpu.c                  | 6 ++++--
+ drivers/media/platform/s5p-mfc/s5p_mfc.c           | 2 ++
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 7 -------
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c       | 7 -------
+ drivers/media/platform/ti-vpe/vpe.c                | 3 +--
+ 12 files changed, 18 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+index c757f5d98bcc..cd02e3c233fc 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
++++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+@@ -298,8 +298,6 @@ static int gsc_m2m_querycap(struct file *file, void *fh,
+ 	strscpy(cap->card, GSC_MODULE_NAME " gscaler", sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&gsc->pdev->dev));
+-	cap->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -763,6 +761,8 @@ int gsc_register_m2m_device(struct gsc_dev *gsc)
+ 	gsc->vdev.lock		= &gsc->lock;
+ 	gsc->vdev.vfl_dir	= VFL_DIR_M2M;
+ 	gsc->vdev.v4l2_dev	= &gsc->v4l2_dev;
++	gsc->vdev.device_caps	= V4L2_CAP_STREAMING |
++				  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 	snprintf(gsc->vdev.name, sizeof(gsc->vdev.name), "%s.%d:m2m",
+ 					GSC_MODULE_NAME, gsc->id);
+ 
+diff --git a/drivers/media/platform/exynos4-is/common.c b/drivers/media/platform/exynos4-is/common.c
+index 76f557548dfc..d47a77c8d4d6 100644
+--- a/drivers/media/platform/exynos4-is/common.c
++++ b/drivers/media/platform/exynos4-is/common.c
+@@ -37,15 +37,12 @@ struct v4l2_subdev *fimc_find_remote_sensor(struct media_entity *entity)
+ }
+ EXPORT_SYMBOL(fimc_find_remote_sensor);
+ 
+-void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap,
+-						unsigned int caps)
++void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap)
+ {
+ 	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
+ 	strscpy(cap->card, dev->driver->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info),
+ 				"platform:%s", dev_name(dev));
+-	cap->device_caps = caps;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ }
+ EXPORT_SYMBOL(__fimc_vidioc_querycap);
+ 
+diff --git a/drivers/media/platform/exynos4-is/common.h b/drivers/media/platform/exynos4-is/common.h
+index 75b9c71d9419..58da94e7910c 100644
+--- a/drivers/media/platform/exynos4-is/common.h
++++ b/drivers/media/platform/exynos4-is/common.h
+@@ -12,5 +12,4 @@
+ #include <media/v4l2-subdev.h>
+ 
+ struct v4l2_subdev *fimc_find_remote_sensor(struct media_entity *entity);
+-void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap,
+-			    unsigned int caps);
++void __fimc_vidioc_querycap(struct device *dev, struct v4l2_capability *cap);
+diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
+index de4af0357a3c..ecfa6ab4a19d 100644
+--- a/drivers/media/platform/exynos4-is/fimc-capture.c
++++ b/drivers/media/platform/exynos4-is/fimc-capture.c
+@@ -728,8 +728,7 @@ static int fimc_cap_querycap(struct file *file, void *priv,
+ {
+ 	struct fimc_dev *fimc = video_drvdata(file);
+ 
+-	__fimc_vidioc_querycap(&fimc->pdev->dev, cap, V4L2_CAP_STREAMING |
+-					V4L2_CAP_VIDEO_CAPTURE_MPLANE);
++	__fimc_vidioc_querycap(&fimc->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -1765,6 +1764,7 @@ static int fimc_register_capture_device(struct fimc_dev *fimc,
+ 	vfd->release	= video_device_release_empty;
+ 	vfd->queue	= q;
+ 	vfd->lock	= &fimc->lock;
++	vfd->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE_MPLANE;
+ 
+ 	video_set_drvdata(vfd, fimc);
+ 	vid_cap = &fimc->vid_cap;
+diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+index bb35a2017f21..ad8dd672d4a7 100644
+--- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
++++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+@@ -349,7 +349,7 @@ static int isp_video_querycap(struct file *file, void *priv,
+ {
+ 	struct fimc_isp *isp = video_drvdata(file);
+ 
+-	__fimc_vidioc_querycap(&isp->pdev->dev, cap, V4L2_CAP_STREAMING);
++	__fimc_vidioc_querycap(&isp->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -614,6 +614,7 @@ int fimc_isp_video_device_register(struct fimc_isp *isp,
+ 	vdev->minor = -1;
+ 	vdev->release = video_device_release_empty;
+ 	vdev->lock = &isp->video_lock;
++	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE_MPLANE;
+ 
+ 	iv->pad.flags = MEDIA_PAD_FL_SINK;
+ 	ret = media_entity_pads_init(&vdev->entity, 1, &iv->pad);
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+index 96f0a8a0dcae..a16b5bed59bb 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite.c
++++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+@@ -658,9 +658,6 @@ static int fimc_lite_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, FIMC_LITE_DRV_NAME, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 					dev_name(&fimc->pdev->dev));
+-
+-	cap->device_caps = V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -1282,6 +1279,7 @@ static int fimc_lite_subdev_registered(struct v4l2_subdev *sd)
+ 	vfd->minor = -1;
+ 	vfd->release = video_device_release_empty;
+ 	vfd->queue = q;
++	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING;
+ 	fimc->reqbufs_count = 0;
+ 
+ 	INIT_LIST_HEAD(&fimc->pending_buf_q);
+diff --git a/drivers/media/platform/exynos4-is/fimc-m2m.c b/drivers/media/platform/exynos4-is/fimc-m2m.c
+index 1bea1ce4091e..17e5bf4810f4 100644
+--- a/drivers/media/platform/exynos4-is/fimc-m2m.c
++++ b/drivers/media/platform/exynos4-is/fimc-m2m.c
+@@ -236,9 +236,8 @@ static int fimc_m2m_querycap(struct file *file, void *fh,
+ 				     struct v4l2_capability *cap)
+ {
+ 	struct fimc_dev *fimc = video_drvdata(file);
+-	unsigned int caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+-	__fimc_vidioc_querycap(&fimc->pdev->dev, cap, caps);
++	__fimc_vidioc_querycap(&fimc->pdev->dev, cap);
+ 	return 0;
+ }
+ 
+@@ -736,6 +735,7 @@ int fimc_register_m2m_device(struct fimc_dev *fimc,
+ 	vfd->release = video_device_release_empty;
+ 	vfd->lock = &fimc->lock;
+ 	vfd->vfl_dir = VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+ 	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
+ 
+ 	snprintf(vfd->name, sizeof(vfd->name), "fimc.%d.m2m", fimc->id);
+diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
+index 1dfd2eb65920..9b6eadef6858 100644
+--- a/drivers/media/platform/rcar_jpu.c
++++ b/drivers/media/platform/rcar_jpu.c
+@@ -671,8 +671,6 @@ static int jpu_querycap(struct file *file, void *priv,
+ 	strscpy(cap->driver, DRV_NAME, sizeof(cap->driver));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(ctx->jpu->dev));
+-	cap->device_caps |= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_M2M_MPLANE;
+-	cap->capabilities = V4L2_CAP_DEVICE_CAPS | cap->device_caps;
+ 	memset(cap->reserved, 0, sizeof(cap->reserved));
+ 
+ 	return 0;
+@@ -1662,6 +1660,8 @@ static int jpu_probe(struct platform_device *pdev)
+ 	jpu->vfd_encoder.lock		= &jpu->mutex;
+ 	jpu->vfd_encoder.v4l2_dev	= &jpu->v4l2_dev;
+ 	jpu->vfd_encoder.vfl_dir	= VFL_DIR_M2M;
++	jpu->vfd_encoder.device_caps	= V4L2_CAP_STREAMING |
++					  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+ 	ret = video_register_device(&jpu->vfd_encoder, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+@@ -1679,6 +1679,8 @@ static int jpu_probe(struct platform_device *pdev)
+ 	jpu->vfd_decoder.lock		= &jpu->mutex;
+ 	jpu->vfd_decoder.v4l2_dev	= &jpu->v4l2_dev;
+ 	jpu->vfd_decoder.vfl_dir	= VFL_DIR_M2M;
++	jpu->vfd_decoder.device_caps	= V4L2_CAP_STREAMING |
++					  V4L2_CAP_VIDEO_M2M_MPLANE;
+ 
+ 	ret = video_register_device(&jpu->vfd_decoder, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+index 9a53d3908b52..6ff57018a353 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+@@ -1348,6 +1348,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+ 	vfd->lock	= &dev->mfc_mutex;
+ 	vfd->v4l2_dev	= &dev->v4l2_dev;
+ 	vfd->vfl_dir	= VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+ 	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
+ 	snprintf(vfd->name, sizeof(vfd->name), "%s", S5P_MFC_DEC_NAME);
+ 	dev->vfd_dec	= vfd;
+@@ -1366,6 +1367,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+ 	vfd->lock	= &dev->mfc_mutex;
+ 	vfd->v4l2_dev	= &dev->v4l2_dev;
+ 	vfd->vfl_dir	= VFL_DIR_M2M;
++	vfd->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+ 	snprintf(vfd->name, sizeof(vfd->name), "%s", S5P_MFC_ENC_NAME);
+ 	dev->vfd_enc	= vfd;
+ 	video_set_drvdata(vfd, dev);
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+index e111f9c47179..d29e5bc73651 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+@@ -275,13 +275,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, dev->vfd_dec->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&dev->plat_dev->dev));
+-	/*
+-	 * This is only a mem-to-mem video device. The capture and output
+-	 * device capability flags are left only for backward compatibility
+-	 * and are scheduled for removal.
+-	 */
+-	cap->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+index 5505e4fc2090..5ab1231b4189 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_enc.c
+@@ -1317,13 +1317,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, dev->vfd_enc->name, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		 dev_name(&dev->plat_dev->dev));
+-	/*
+-	 * This is only a mem-to-mem video device. The capture and output
+-	 * device capability flags are left only for backward compatibility
+-	 * and are scheduled for removal.
+-	 */
+-	cap->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+index 1e40eafec284..a61ac426853a 100644
+--- a/drivers/media/platform/ti-vpe/vpe.c
++++ b/drivers/media/platform/ti-vpe/vpe.c
+@@ -1495,8 +1495,6 @@ static int vpe_querycap(struct file *file, void *priv,
+ 	strscpy(cap->card, VPE_MODULE_NAME, sizeof(cap->card));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+ 		VPE_MODULE_NAME);
+-	cap->device_caps  = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
+ 
+@@ -2411,6 +2409,7 @@ static const struct video_device vpe_videodev = {
+ 	.minor		= -1,
+ 	.release	= video_device_release_empty,
+ 	.vfl_dir	= VFL_DIR_M2M,
++	.device_caps	= V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+ };
+ 
+ static const struct v4l2_m2m_ops m2m_ops = {
+-- 
+2.20.1
+
