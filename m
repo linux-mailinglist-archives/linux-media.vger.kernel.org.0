@@ -2,153 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 833C734327
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 11:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FD334340
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 11:33:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727134AbfFDJ2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 05:28:34 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:51013 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727106AbfFDJ2d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 05:28:33 -0400
-X-Originating-IP: 90.88.144.139
-Received: from aptenodytes (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr [90.88.144.139])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8B5B220020;
-        Tue,  4 Jun 2019 09:28:28 +0000 (UTC)
-Message-ID: <515715f5571f2d9fc9ed0326db583b5fa9c279d3.camel@bootlin.com>
-Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
- stateless support
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Date:   Tue, 04 Jun 2019 11:28:28 +0200
-In-Reply-To: <VI1PR03MB4206CA39BCD520111EF9844AAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
-References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
-         <20190603112449.GA30132@ulmo>
-         <a2f6bac6596da86d597d9ac4c12b1f72b772dbe5.camel@ndufresne.ca>
-         <20190603214117.664f6ba1@collabora.com> <20190604083157.GC9048@ulmo>
-         <20190604104921.5f4dcbe8@collabora.com> <20190604090636.GF9048@ulmo>
-         <VI1PR03MB4206CA39BCD520111EF9844AAC150@VI1PR03MB4206.eurprd03.prod.outlook.com>
-Organization: Bootlin
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 
+        id S1727075AbfFDJda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 05:33:30 -0400
+Received: from casper.infradead.org ([85.118.1.10]:34986 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726918AbfFDJda (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 05:33:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=6RMZolwoIkoJa4RmdsjIzV/h2+fkQW6j6eWWJglfjew=; b=DoYh/S0Z8FiZJ1vWxeMoXLn/pr
+        vcUa6G2N9MpYdNKS67ijZ5U2B6K0efEzWYuRJsm7BvnKxcXIE6+FhSkNNtABx1Y062FFPz2vj7EhT
+        xvOd1C7eal0TJoJ3X6m25zVN8QAyyC0LIwauuNrq5tUWy6dVCqaf1iK+gcQXieK/PZFVhhQbd0ro4
+        bP2rajEqiTexfx3gnZIjd0qegDpPKK6XyCJoMtmHhDaIzQPktLKIR+EDQxKldXz/J20RsY2C+Tww1
+        M1Yc7JcQD/iJXoittFgrfAKb/n05LvOgeIKoMdFO7rPLhUnFlkeGDRudLFOM884hv/u1etRjppn4e
+        qDBE9cPA==;
+Received: from [187.113.6.249] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hY5op-0004Hq-VN; Tue, 04 Jun 2019 09:33:24 +0000
+Date:   Tue, 4 Jun 2019 06:33:18 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [lwn:docs-next 25/31] htmldocs: /bin/bash:
+ ./scripts/sphinx-pre-install: No such file or directory
+Message-ID: <20190604063318.34c7bde5@coco.lan>
+In-Reply-To: <20190530153239.57f321c9@lwn.net>
+References: <201905310424.Zhlxo3ky%lkp@intel.com>
+        <20190530153239.57f321c9@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Em Thu, 30 May 2019 15:32:39 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On Tue, 2019-06-04 at 09:15 +0000, Jonas Karlman wrote:
-> On 2019-06-04 11:06, Thierry Reding wrote:
-> > On Tue, Jun 04, 2019 at 10:49:21AM +0200, Boris Brezillon wrote:
-> > > On Tue, 4 Jun 2019 10:31:57 +0200
-> > > Thierry Reding <thierry.reding@gmail.com> wrote:
-> > > 
-> > > > > > > > - Using flags
-> > > > > > > > 
-> > > > > > > > The current MPEG-2 controls have lots of u8 values that can be
-> > > > > > > > represented as flags. Using flags also helps with padding.
-> > > > > > > > It's unlikely that we'll get more than 64 flags, so using a u64 by
-> > > > > > > > default for that sounds fine (we definitely do want to keep some room
-> > > > > > > > available and I don't think using 32 bits as a default is good enough).
-> > > > > > > > 
-> > > > > > > > I think H.264/HEVC per-control flags should also be moved to u64.    
-> > > > > > > There was also some concensus on this, that u64 should be good enough
-> > > > > > > for anything out there, though we obviously don't know what the future
-> > > > > > > will hold, so perhaps adding some way for possible extending this in the
-> > > > > > > future might be good. I guess we'll get new controls for new codecs
-> > > > > > > anyway, so we can punt on this until then.
-> > > > > > >     
-> > > > > > > > - Clear split of controls and terminology
-> > > > > > > > 
-> > > > > > > > Some codecs have explicit NAL units that are good fits to match as
-> > > > > > > > controls: e.g. slice header, pps, sps. I think we should stick to the
-> > > > > > > > bitstream element names for those.
-> > > > > > > > 
-> > > > > > > > For H.264, that would suggest the following changes:
-> > > > > > > > - renaming v4l2_ctrl_h264_decode_param to v4l2_ctrl_h264_slice_header;
-> > > > > > > > - killing v4l2_ctrl_h264_decode_param and having the reference lists
-> > > > > > > > where they belong, which seems to be slice_header;    
-> > > > > > But now here it's being described per slice. When I look at the slice
-> > > > > > header, I only see list of modifications and when I look at userspace,
-> > > > > > That list is simply built from DPB, the modifications list found in the
-> > > > > > slice header seems to be only used to craft the l0/l1 list.  
-> > > > > Yes, I think there was a misunderstanding which was then clarified
-> > > > > (unfortunately it happened on IRC, so we don't have a trace of this
-> > > > > discussion). The reference list should definitely be per-frame, and the
-> > > > > L0/L1 slice reflists are referring to the per-frame reference list (it's
-> > > > > just a sub-set of the per-frame reflist re-ordered differently).
-> > > > >   
-> > > > > > There is one thing that come up though, if we enable per-frame decoding
-> > > > > > on top of per-slice decoder (like Cedrus), won't we force userspace to
-> > > > > > always compute l0/l1 even though the HW might be handling that ?  
-> > > > > That's true, the question is, what's the cost of this extra re-ordering?  
-> > > > I think ultimately userspace is already forced to compute these lists
-> > > > even if some hardware may be able to do it in hardware. There's going to
-> > > > be other hardware that userspace wants to support that can't do it by
-> > > > itself, so userspace has to at least have the code anyway. What it could
-> > > > do on top of that decide not to run that code if it somehow detects that
-> > > > hardware can do it already. On the other hand this means that we have to
-> > > > expose a whole lot of capabilities to userspace and userspace has to go
-> > > > and detect all of them in order to parameterize all of the code.
-> > > > 
-> > > > Ultimately I suspect many applications will just choose to pass the data
-> > > > all the time out of simplicity. I mean drivers that don't need it will
-> > > > already ignore it (i.e. they must not break if they get the extra data)
-> > > > so other than the potential runtime savings on some hardware, there are
-> > > > no advantages.
-> > > > 
-> > > > Given that other APIs don't bother exposing this level of control to
-> > > > applications makes me think that it's just not worth it from a
-> > > > performance point of view.
-> > > That's not exactly what Nicolas proposed. He was suggesting that we
-> > > build those reflists kernel-side: V4L would provide an helper and
-> > > drivers that need those lists would use it, others won't. This way we
-> > > have no useless computation done, and userspace doesn't even have to
-> > > bother checking the device caps to avoid this extra step.
-> > Oh yeah, that sounds much better. I suppose one notable differences to
-> > other APIs is that they have to pass in buffers for all the frames in
-> > the DPB, so they basically have to build the lists in userspace. Since
-> > we'll end up looking up the frames in the kernel, it sounds reasonable
-> > to also build the lists in the kernel.
+> On Fri, 31 May 2019 04:19:29 +0800
+> kbuild test robot <lkp@intel.com> wrote:
 > 
-> Userspace must already process the modification list or it wont have
-> correct DPB for next frame.
-> If you move this processing into kernel side you also introduce state
-> into the stateless driver.
-
-There is state in the form of the m2m context anyway, so I don't think
-that's a concern in particular. We've been using the "stateless"
-terminology all around, but it's really more about programming the
-decoding registers versus passing raw bitstream through a mailbox
-interface rather than the fine stateless/stateful distinction.
-
-Cheers,
-
-Paul
-
-> Regards,
-> Jonas
-> > On that note, it would probably be useful to have some sort of helper
-> > to get at all the buffers that make up the DPB in the kernel. That's got
-> > to be something that everybody wants.
+> > tree:   git://git.lwn.net/linux-2.6 docs-next
+> > head:   a700767a7682d9bd237e927253274859aee075e7
+> > commit: 9b88ad5464af1bf7228991f1c46a9a13484790a4 [25/31] scripts/sphinx-pre-install: always check if version is compatible with build
+> > reproduce: make htmldocs
 > > 
-> > Thierry
--- 
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> > If you fix the issue, kindly add following tag
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > 
+> > All errors (new ones prefixed by >>):
+> >   
+> > >> /bin/bash: ./scripts/sphinx-pre-install: No such file or directory    
+> 
+> For this one, I'm guessing we need something like the following...disagree?
+> 
+> jon
+> 
+> --------
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index e889e7cb8511..c98188994322 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -23,7 +23,7 @@ ifeq ($(HAVE_SPHINX),0)
+>  .DEFAULT:
+>  	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
+>  	@echo
+> -	@./scripts/sphinx-pre-install
+> +	@$(srctree)/scripts/sphinx-pre-install
+>  	@echo "  SKIP    Sphinx $@ target."
+>  
+>  else # HAVE_SPHINX
 
+Hi Jon,
+
+The fix is incomplete... there are other occurrences of this
+within the Makefile:
+
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2edd03b1dad6..2df0789f90b7 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -72,14 +72,14 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+ 	$(abspath $(BUILDDIR)/$3/$4)
+ 
+ htmldocs:
+-	@./scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+ 
+ linkcheckdocs:
+ 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
+ 
+ latexdocs:
+-	@./scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
+ 
+ ifeq ($(HAVE_PDFLATEX),0)
+@@ -91,17 +91,17 @@ pdfdocs:
+ else # HAVE_PDFLATEX
+ 
+ pdfdocs: latexdocs
+-	@./scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
+ 
+ endif # HAVE_PDFLATEX
+ 
+ epubdocs:
+-	@./scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+ 
+ xmldocs:
+-	@./scripts/sphinx-pre-install --version-check
++	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
+ 
+ endif # HAVE_SPHINX
+
+
+
+Thanks,
+Mauro
