@@ -2,121 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2151634741
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9505734742
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 14:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbfFDMtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 08:49:01 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:38774 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbfFDMtB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 08:49:01 -0400
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x54CmnVr002530;
-        Tue, 4 Jun 2019 21:48:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x54CmnVr002530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559652530;
-        bh=H21/n5ZeA1Sd3QqC5U97OCEIy4trQ6PmVFi/VT4QN+4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HYwodEMul5OlQzmwKhEX6b6C1LVY4TFC427YWZnAh8FpKOLhbGx3nkXMth/GG8vu2
-         /ge7aM6G/sHybQ+pNIcbuI8FxmcgcwZpYWkWGaYIUJZ5DwYtxgReCPxBybOnfwhUMd
-         3spDI9xYERz6OQKv8WTZQiXN7llNojzp6+LdN2w2XgwiOIe519QIgyi/IvNIGXNJOO
-         OE84YjAYKvwfo6fEVcNQ33COgUHWK6EsY/UI7PdO9kNSx2E1YlSuqnsGX5kvuzmGzM
-         1whvXLCXmyCN0NJcZeWukuJEr5LjgNF4jQ1HDzP8BJHPKCmUoCd5Irc+i+8DBEhKbB
-         zBsK14Sf9hL1g==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id c24so13398068vsp.7;
-        Tue, 04 Jun 2019 05:48:49 -0700 (PDT)
-X-Gm-Message-State: APjAAAXxL+TITY0bnE3OumKbASPm/GvMWMibydToHEFS6AiEJQjR6O2l
-        nQ9qOQdShazob2DID7T10qqFc0L07V9YcaiWn0o=
-X-Google-Smtp-Source: APXvYqyl1i9lHN0jNv7AJ7DU8zIFIGmuYR+L/Yq9Azwv8O1F0W+l+BJxWSTbx748qLtCYkM7STINmYgRtNldie1Bjvc=
-X-Received: by 2002:a67:b109:: with SMTP id w9mr5031632vsl.155.1559652528996;
- Tue, 04 Jun 2019 05:48:48 -0700 (PDT)
+        id S1727704AbfFDMt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 08:49:59 -0400
+Received: from mga03.intel.com ([134.134.136.65]:1777 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727394AbfFDMt7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 Jun 2019 08:49:59 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 05:49:59 -0700
+X-ExtLoop1: 1
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2019 05:49:57 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH 4/7] usb/gadget/f_uvc: set device_caps in struct video_device
+In-Reply-To: <20190604123042.GD7812@pendragon.ideasonboard.com>
+References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl> <20190604111958.22331-5-hverkuil-cisco@xs4all.nl> <20190604123042.GD7812@pendragon.ideasonboard.com>
+Date:   Tue, 04 Jun 2019 15:49:56 +0300
+Message-ID: <87r289ikgb.fsf@linux.intel.com>
 MIME-Version: 1.0
-References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
- <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com> <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
-In-Reply-To: <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 4 Jun 2019 21:48:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
-Message-ID: <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
-Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Joe Perches <joe@perches.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 4, 2019 at 8:55 PM Arnd Bergmann <arnd@arndb.de> wrote:
+
+Hi,
+
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
+
+> Hi Hans,
 >
-> On Tue, Jun 4, 2019 at 1:23 PM Joe Perches <joe@perches.com> wrote:
-> >
-> > On Tue, 2019-06-04 at 20:13 +0900, Masahiro Yamada wrote:
-> > > On the other hand, uapi headers are written in more strict C, where
-> > > the C++ comment style is forbidden.
-> >
-> > Is this a real problem for any toolchain?
+> Thank you for the patch.
 >
-> There is likely some code that is built with -Wpedandic -Werror --std=c89
-> or similar. Since glibc allows this combination for its own headers, it seems
-> best to also allow it in kernel headers that may be included by libc headers
-> or by applications, at least where it does not hurt.
+> On Tue, Jun 04, 2019 at 01:19:55PM +0200, Hans Verkuil wrote:
+>> Instead of filling in the struct v4l2_capability device_caps
+>> field, fill in the struct video_device device_caps field.
+>> 
+>> That way the V4L2 core knows what the capabilities of the
+>> video device are.
+>> 
+>> But this only really works if all drivers use this, so convert
+>> this UVC gadget driver.
+>> 
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> Realistically though, we probably assume c99 or gnu89 in user space
-> headers anyway, since there is no 'long long' in earlier standards.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
->        Arnd
+> I have no patch for the UVC gadget driver for the next merge window, so
+> feel free to merge this through the Linux media tree if Felipe is fine
+> with this.
 
-In fact, I detected this issue by the following patch:
-https://patchwork.kernel.org/patch/10974669/
+Fine by me:
 
-When I worked on it, I wondered which
-c-dialect flags should be used.
+Acked-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 
-This code:
-
-> # Unlike the kernel space, uapi headers are written in more strict C.
-> #  - Forbid C++ style comments
-> #  - Use '__inline', '__asm__' instead of 'inline', 'asm'
-> #
-> # -std=c90 (equivalent to -ansi) catches the violation of those.
-> # We cannot go as far as adding -Wpedantic since it emits too many warnings.
-> #
-> # REVISIT: re-consider the proper set of compiler flags for uapi compile-test.
->
-> UAPI_CFLAGS := -std=c90 -Wpedantic -Wall -Werror=implicit-function-declaration
-
-Even "-std=c99 -Wpedantic" emits lots of warnings.
-
-
-
-I noticed one more thing.
-
-There are two ways to define fixed-width type.
-
-[1] #include <linux/types.h>, __u8, __u16, __u32, __u64
-
-      vs
-
-[2] #include <stdint.h>, uint8_t, uint16_t, uint32_t, uint64_t
-
-
-Both are used in UAPI headers.
-IIRC, <stdint.h> was standardized by C99.
-
-So, we have already relied on C99 in user-space too.
-
-
+cheers
 
 -- 
-Best Regards
-Masahiro Yamada
+balbi
