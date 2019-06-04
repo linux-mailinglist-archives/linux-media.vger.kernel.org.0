@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58345343C8
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11260343F8
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 12:13:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727269AbfFDKML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 06:12:11 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:13010 "EHLO
+        id S1727279AbfFDKMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 06:12:12 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:16528 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727167AbfFDKMJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:09 -0400
-X-UUID: 5904d1d7544a4135bf5ae6706ff78b22-20190604
-X-UUID: 5904d1d7544a4135bf5ae6706ff78b22-20190604
+        with ESMTP id S1727110AbfFDKMI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 06:12:08 -0400
+X-UUID: 913cc3a306454d96b3044610a02c493d-20190604
+X-UUID: 913cc3a306454d96b3044610a02c493d-20190604
 Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
         (envelope-from <stu.hsieh@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1181666245; Tue, 04 Jun 2019 18:12:02 +0800
+        with ESMTP id 1893859149; Tue, 04 Jun 2019 18:12:02 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
  mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
  15.0.1395.4; Tue, 4 Jun 2019 18:12:01 +0800
@@ -33,9 +33,9 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v4 09/14] [media] mtk-mipicsi: add ISR for writing the data to buffer
-Date:   Tue, 4 Jun 2019 18:11:50 +0800
-Message-ID: <1559643115-15124-10-git-send-email-stu.hsieh@mediatek.com>
+Subject: [PATCH v4 10/14] [media] mtk-mipicsi: set the output address in HW reg
+Date:   Tue, 4 Jun 2019 18:11:51 +0800
+Message-ID: <1559643115-15124-11-git-send-email-stu.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
 References: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
@@ -47,206 +47,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch add ISR for writing the data to buffer
-
-When mipicsi HW complete to write the data in buffer,
-the interrupt woulb be trigger.
-So, the ISR need to clear interrupt status for next interrupt.
+This patch set the output address in HW reg when buffer queue and ISR.
 
 Signed-off-by: Stu Hsieh <stu.hsieh@mediatek.com>
 ---
- .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 122 +++++++++++++++++-
- 1 file changed, 120 insertions(+), 2 deletions(-)
+ .../media/platform/mtk-mipicsi/mtk_mipicsi.c  | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-index 8bb40656bcb1..dc5c5c888914 100644
+index dc5c5c888914..9e45786a0282 100644
 --- a/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
 +++ b/drivers/media/platform/mtk-mipicsi/mtk_mipicsi.c
-@@ -34,6 +34,7 @@
- #include <linux/iommu.h>
- #include <linux/of_graph.h>
- #include <linux/of.h>
-+#include <linux/of_irq.h>
- #include <linux/of_platform.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-ctrls.h>
-@@ -88,6 +89,8 @@
- #define CAMSV_MODULE_EN					0x10
- #define CAMSV_FMT_SEL					0x14
- #define CAMSV_INT_EN					0x18
-+#define CAMSV_INT_STATUS				0x1C
-+#define PASS1_DONE_STATUS				10
- #define CAMSV_SW_CTL					0x20
- #define CAMSV_CLK_EN					0x30
+@@ -100,6 +100,7 @@
+ #define CAMSV_TG_SEN_GRAB_LIN				0x50C
+ #define CAMSV_TG_PATH_CFG				0x510
  
-@@ -129,6 +132,8 @@ struct mtk_mipicsi_channel {
- 	void __iomem            *seninf_mux;
- 	void __iomem            *camsv;
- 	struct clk		*clk;
-+	unsigned int		irq;
-+	bool			irq_status;
- };
- 
- struct mtk_mipicsi_dev {
-@@ -547,26 +552,31 @@ static void mtk_mipicsi_cmos_vf_enable(struct mtk_mipicsi_dev *mipicsi,
- 				       unsigned int max_camsv_num,
- 				       bool enable)
- {
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
- 	void __iomem *base = NULL;
- 	u32 mask = enable ? (u32)1 : ~(u32)1;
- 	int i;
- 
- 	for (i = 0; i < max_camsv_num; i++)
- 		if (((mipicsi->link_reg_val >> i) & 0x01U) == 0x01U) {
-+			base = ch[i].camsv;
- 			if (enable) {
-+				enable_irq(ch[i].irq);
-+
- 				/*enable cmos_en and vf_en*/
--				base = mipicsi->camsv[i];
- 				writel(readl(base + CAMSV_TG_SEN_MODE) | mask,
- 				       base + CAMSV_TG_SEN_MODE);
- 				writel(readl(base + CAMSV_TG_VF_CON) | mask,
- 				       base + CAMSV_TG_VF_CON);
- 			} else {
- 				/*disable cmos_en and vf_en*/
--				base = mipicsi->camsv[i];
- 				writel(readl(base + CAMSV_TG_SEN_MODE) & mask,
- 					base + CAMSV_TG_SEN_MODE);
- 				writel(readl(base + CAMSV_TG_VF_CON) & mask,
- 					base + CAMSV_TG_VF_CON);
-+
-+				disable_irq(ch[i].irq);
-+				ch[i].irq_status = false;
- 			}
- 		}
++#define IMGO_BASE_ADDR					0x220
+ #define IMGO_XSIZE					0x230
+ #define IMGO_YSIZE					0x234
+ #define IMGO_STRIDE					0x238
+@@ -538,6 +539,32 @@ static int mtk_mipicsi_vb2_prepare(struct vb2_buffer *vb)
+ 	return 0;
  }
-@@ -820,9 +830,100 @@ static const struct v4l2_ioctl_ops mtk_mipicsi_ioctl_ops = {
- 	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
- };
  
-+static int get_irq_channel(struct mtk_mipicsi_dev *mipicsi)
++static void mtk_mipicsi_fill_buffer(void __iomem *base, dma_addr_t dma_handle)
 +{
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
-+	int i;
-+	u32 int_reg_val;
-+
-+	for (i = 0; i < mipicsi->camsv_num; i++) {
-+		int_reg_val = readl(ch[i].camsv + CAMSV_INT_STATUS);
-+		if ((int_reg_val & (1 << PASS1_DONE_STATUS)) != 0)
-+			return i;
-+	}
-+
-+	return -1;
++	writel(dma_handle, base + IMGO_BASE_ADDR);
 +}
 +
-+static void mtk_mipicsi_irq_buf_process(struct mtk_mipicsi_dev *mipicsi)
++static void mtk_mipicsi_write_camsv(struct mtk_mipicsi_dev *mipicsi,
++				    unsigned int index,
++				    unsigned int max_camsv_num)
 +{
 +	struct mtk_mipicsi_channel *ch = mipicsi->channel;
 +	unsigned int i = 0;
-+	struct mtk_mipicsi_buf *new_cam_buf = NULL;
-+	struct mtk_mipicsi_buf *tmp = NULL;
-+	unsigned int index = 0;
-+	unsigned int next = 0;
++	u8 link_index = 0;
++	u32 bytesperline = mipicsi->fmt.fmt.pix.bytesperline;
++	u32 height = mipicsi->fmt.fmt.pix.height;
++	u64 offset = 0;
 +
-+	for (i = 0; i < mipicsi->camsv_num; ++i)
-+		ch[i].irq_status = false;
-+
-+	i = 0;
-+
-+	/* only one buffer left */
-+	if ((&(mipicsi->fb_list))->next->next == &(mipicsi->fb_list))
-+		return;
-+
-+	/*for each fb_lst 2 times to get the top 2 buffer.*/
-+	list_for_each_entry_safe(new_cam_buf, tmp,
-+		&(mipicsi->fb_list), queue) {
-+		if (i == 0) {
-+			index = new_cam_buf->vb->index;
-+		} else {
-+			next = new_cam_buf->vb->index;
-+			break;
++	for (i = 0; i < max_camsv_num; i++)
++		if (((mipicsi->link_reg_val >> i) & 0x01) == 0x01) {
++			offset = (u64)link_index * bytesperline * height;
++			mtk_mipicsi_fill_buffer(ch[i].camsv,
++				mipicsi->cam_buf[index].vb_dma_addr_phy
++					+ offset);
++			link_index++;
 +		}
-+		++i;
-+	}
-+
-+	/*
-+	 * fb_list has one more buffer. Free the first buffer to user
-+	 * and fill the second buffer to HW.
-+	 */
-+	vb2_buffer_done(mipicsi->cam_buf[index].vb,
-+		VB2_BUF_STATE_DONE);
-+
-+	list_del_init(&(mipicsi->cam_buf[index].queue));
 +}
 +
-+static irqreturn_t mtk_mipicsi_isr(int irq, void *data)
-+{
-+	struct mtk_mipicsi_dev *mipicsi = data;
-+	struct device *dev = &mipicsi->pdev->dev;
-+	struct mtk_mipicsi_channel *ch = mipicsi->channel;
-+	unsigned long flags = 0;
-+	int isr_ch;
-+	u8 irq_cnt = 0, i = 0;
-+
-+	spin_lock_irqsave(&mipicsi->irqlock, flags);
-+
-+	isr_ch = get_irq_channel(mipicsi);
-+	if (isr_ch < 0) {
-+		dev_info(dev, "no interrupt occur");
-+		spin_unlock_irqrestore(&mipicsi->irqlock, flags);
-+		return IRQ_HANDLED;
-+	}
-+
-+	/* clear interrupt */
-+	writel(1UL << PASS1_DONE_STATUS,
-+		ch[isr_ch].camsv + CAMSV_INT_STATUS);
-+	ch[isr_ch].irq_status = true;
-+	for (i = 0U; i < mipicsi->camsv_num; ++i) {
-+		if (ch[i].irq_status)
-+			++irq_cnt;
-+	}
-+
-+	if (irq_cnt == mipicsi->link)
-+		mtk_mipicsi_irq_buf_process(mipicsi);
-+	spin_unlock_irqrestore(&mipicsi->irqlock, flags);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
- 		int index)
+ static void mtk_mipicsi_vb2_queue(struct vb2_buffer *vb)
  {
-+	int ret;
-+	int irq;
- 	struct clk *clk = NULL;
- 	struct device *dev = NULL;
- 	struct resource *res = NULL;
-@@ -854,6 +955,23 @@ static int seninf_mux_camsv_node_parse(struct mtk_mipicsi_dev *mipicsi,
- 	}
- 	ch[index].clk = clk;
+ 	struct mtk_mipicsi_dev *mipicsi = vb2_get_drv_priv(vb->vb2_queue);
+@@ -546,6 +573,12 @@ static void mtk_mipicsi_vb2_queue(struct vb2_buffer *vb)
+ 	list_add_tail(&(mipicsi->cam_buf[vb->index].queue),
+ 		&(mipicsi->fb_list));
+ 	spin_unlock(&mipicsi->queue_lock);
++
++	spin_lock(&mipicsi->irqlock);
++	if (!mipicsi->streamon)
++		mtk_mipicsi_write_camsv(mipicsi, vb->index, mipicsi->camsv_num);
++
++	spin_unlock(&mipicsi->irqlock);
+ }
  
-+	irq = of_irq_get(np, 0);
-+	if (irq <= 0) {
-+		dev_err(dev, "get irq fail in %s node\n", np->full_name);
-+		return -ENODEV;
-+	}
-+	ch[index].irq = irq;
+ static void mtk_mipicsi_cmos_vf_enable(struct mtk_mipicsi_dev *mipicsi,
+@@ -875,6 +908,8 @@ static void mtk_mipicsi_irq_buf_process(struct mtk_mipicsi_dev *mipicsi)
+ 		++i;
+ 	}
+ 
++	mtk_mipicsi_write_camsv(mipicsi, next, mipicsi->camsv_num);
 +
-+	ret = devm_request_irq(dev, irq,
-+			mtk_mipicsi_isr, 0,
-+			mipicsi->drv_name, mipicsi);
-+	if (ret != 0) {
-+		dev_err(dev, "%s irq register failed\n", np->full_name);
-+		return -ENODEV;
-+	}
-+	disable_irq(ch[index].irq);
-+	ch[index].irq_status = false;
-+
- 	res = platform_get_resource(camdma_pdev, IORESOURCE_MEM, 0);
- 	if (res == NULL) {
- 		dev_err(dev, "get seninf_mux memory failed in %s node\n",
+ 	/*
+ 	 * fb_list has one more buffer. Free the first buffer to user
+ 	 * and fill the second buffer to HW.
 -- 
 2.18.0
 
