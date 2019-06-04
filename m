@@ -2,137 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48FD334340
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 11:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2DE634353
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 11:37:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbfFDJda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 05:33:30 -0400
-Received: from casper.infradead.org ([85.118.1.10]:34986 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726918AbfFDJda (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 05:33:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6RMZolwoIkoJa4RmdsjIzV/h2+fkQW6j6eWWJglfjew=; b=DoYh/S0Z8FiZJ1vWxeMoXLn/pr
-        vcUa6G2N9MpYdNKS67ijZ5U2B6K0efEzWYuRJsm7BvnKxcXIE6+FhSkNNtABx1Y062FFPz2vj7EhT
-        xvOd1C7eal0TJoJ3X6m25zVN8QAyyC0LIwauuNrq5tUWy6dVCqaf1iK+gcQXieK/PZFVhhQbd0ro4
-        bP2rajEqiTexfx3gnZIjd0qegDpPKK6XyCJoMtmHhDaIzQPktLKIR+EDQxKldXz/J20RsY2C+Tww1
-        M1Yc7JcQD/iJXoittFgrfAKb/n05LvOgeIKoMdFO7rPLhUnFlkeGDRudLFOM884hv/u1etRjppn4e
-        qDBE9cPA==;
-Received: from [187.113.6.249] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hY5op-0004Hq-VN; Tue, 04 Jun 2019 09:33:24 +0000
-Date:   Tue, 4 Jun 2019 06:33:18 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [lwn:docs-next 25/31] htmldocs: /bin/bash:
- ./scripts/sphinx-pre-install: No such file or directory
-Message-ID: <20190604063318.34c7bde5@coco.lan>
-In-Reply-To: <20190530153239.57f321c9@lwn.net>
-References: <201905310424.Zhlxo3ky%lkp@intel.com>
-        <20190530153239.57f321c9@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727039AbfFDJhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 05:37:53 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44492 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727036AbfFDJhx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 05:37:53 -0400
+Received: by mail-pg1-f195.google.com with SMTP id n2so10012680pgp.11
+        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 02:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7TVSYqt0AsB7YJ3Xxm3mitaiZCuCIy+XhLVxFHTQpdU=;
+        b=TtcFDUOJBTX4fU2GOjsgZOopz/xtxGVoz+Nwp22m4PeQyBKJ/joM9EAJNiIaRtoJ7H
+         oKJ7hUmAgn59md500Nmzbpi8IoyMiB2Iq0+TXblIz4ZaTZKDAJSWjm7DG1PdYmhTUcj/
+         j0dio82Tr0LUwlE4i2DbfXKQLb0EWq1oljcJQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7TVSYqt0AsB7YJ3Xxm3mitaiZCuCIy+XhLVxFHTQpdU=;
+        b=pbiNUV49lcxhSVmgwQSmcHNsW3GHJM3Zlo2HYDfSn1DQV6ypjAN9+iaavMKUO6RgXF
+         319gSFs8kYXu/eUFwIKQCC3NVHA+i1DIy0Qyp7cfC8kwBrTxpnA4ffTmP55q494ciPcV
+         CDGVbH6rrWAQf6rCrVVmVesQeDzvvt448WnMg+2MhAQpmzB2zhtgu0grWHG+6zM6Rh6Q
+         7M/5318SAA8Y3Gb36hkQ5J0NbCdvNh5jXbQiR/KiTZePzhZIRhn3HmFbxrfNRiqQwNLE
+         /MqeibvhwesL1EeuOt7DMaV5uu4/Sxz9xQrQJrGlN3J0JNMYpyZpi8y+tdZbB/JmpAzG
+         oJDQ==
+X-Gm-Message-State: APjAAAWnKsFYrHlrLlIeTpC6LQT6SaCwsgXiGKlOGiLLvV2VpLlAmPTS
+        cq5Z5VavVIF6E2txiSp9wE+XpA==
+X-Google-Smtp-Source: APXvYqygJscPGYv83kU8NoDlzGvEBMrfVK4hfkmv7ZiRjnzxo6G3Ih+KPMJupDZ/zyViHMve6I+sDg==
+X-Received: by 2002:a17:90a:dd42:: with SMTP id u2mr35787654pjv.118.1559641072459;
+        Tue, 04 Jun 2019 02:37:52 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:4:4:9712:8cf1:d0f:7d33])
+        by smtp.gmail.com with ESMTPSA id j7sm17431588pfa.184.2019.06.04.02.37.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Jun 2019 02:37:51 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH 0/5] media: mtk-vcodec: cleanups and fixes
+Date:   Tue,  4 Jun 2019 18:37:32 +0900
+Message-Id: <20190604093737.172599-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 30 May 2019 15:32:39 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+This series extracts the cleanup patches from the RFC of MT8183 support [1] as
+these patches can already be merged. MT8183 support will be sent separately.
 
-> On Fri, 31 May 2019 04:19:29 +0800
-> kbuild test robot <lkp@intel.com> wrote:
-> 
-> > tree:   git://git.lwn.net/linux-2.6 docs-next
-> > head:   a700767a7682d9bd237e927253274859aee075e7
-> > commit: 9b88ad5464af1bf7228991f1c46a9a13484790a4 [25/31] scripts/sphinx-pre-install: always check if version is compatible with build
-> > reproduce: make htmldocs
-> > 
-> > If you fix the issue, kindly add following tag
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > 
-> > All errors (new ones prefixed by >>):
-> >   
-> > >> /bin/bash: ./scripts/sphinx-pre-install: No such file or directory    
-> 
-> For this one, I'm guessing we need something like the following...disagree?
-> 
-> jon
-> 
-> --------
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index e889e7cb8511..c98188994322 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -23,7 +23,7 @@ ifeq ($(HAVE_SPHINX),0)
->  .DEFAULT:
->  	$(warning The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the '$(SPHINXBUILD)' executable.)
->  	@echo
-> -	@./scripts/sphinx-pre-install
-> +	@$(srctree)/scripts/sphinx-pre-install
->  	@echo "  SKIP    Sphinx $@ target."
->  
->  else # HAVE_SPHINX
+[1] https://patchwork.kernel.org/cover/10963769/
 
-Hi Jon,
+Changes since RFC:
 
-The fix is incomplete... there are other occurrences of this
-within the Makefile:
+- Replaced all GPLv2 headers with SPDX
 
+- Replaced EXPORT_SYMBOL with EXPORT_SYMBOL_GPL
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2edd03b1dad6..2df0789f90b7 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -72,14 +72,14 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	$(abspath $(BUILDDIR)/$3/$4)
- 
- htmldocs:
--	@./scripts/sphinx-pre-install --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
- 
- linkcheckdocs:
- 	@$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,linkcheck,$(var),,$(var)))
- 
- latexdocs:
--	@./scripts/sphinx-pre-install --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,latex,$(var),latex,$(var)))
- 
- ifeq ($(HAVE_PDFLATEX),0)
-@@ -91,17 +91,17 @@ pdfdocs:
- else # HAVE_PDFLATEX
- 
- pdfdocs: latexdocs
--	@./scripts/sphinx-pre-install --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
- 
- endif # HAVE_PDFLATEX
- 
- epubdocs:
--	@./scripts/sphinx-pre-install --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
- 
- xmldocs:
--	@./scripts/sphinx-pre-install --version-check
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,xml,$(var),xml,$(var)))
- 
- endif # HAVE_SPHINX
+Alexandre Courbot (4):
+  media: mtk-vcodec: replace GPLv2 with SPDX
+  media: mtk-vcodec: avoid unneeded pointer-to-long conversions
+  media: mtk-vcodec: remove unneeded proxy functions
+  media: mtk-vcodec: constify formats
 
+Yunfei Dong (1):
+  media: mtk-vcodec: support single-buffer frames
 
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 45 ++++++++-----------
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      | 15 +------
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 15 +------
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      | 19 ++------
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 34 +++++---------
+ .../platform/mtk-vcodec/mtk_vcodec_enc.h      | 15 +------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 15 +------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     | 14 +-----
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     | 15 +------
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     | 15 +------
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   | 35 ++++-----------
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    | 36 ++++-----------
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    | 37 ++++-----------
+ .../media/platform/mtk-vcodec/vdec_drv_base.h | 22 +++------
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   | 29 ++++--------
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   | 15 +------
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  | 15 +------
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   | 14 +-----
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   | 14 +-----
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   | 36 +++------------
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    | 35 +++------------
+ .../media/platform/mtk-vcodec/venc_drv_base.h | 25 +++--------
+ .../media/platform/mtk-vcodec/venc_drv_if.c   | 27 +++--------
+ .../media/platform/mtk-vcodec/venc_drv_if.h   | 17 +------
+ .../media/platform/mtk-vcodec/venc_ipi_msg.h  | 17 +------
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   | 15 +------
+ .../media/platform/mtk-vcodec/venc_vpu_if.h   | 15 +------
+ 32 files changed, 114 insertions(+), 562 deletions(-)
 
-Thanks,
-Mauro
+-- 
+2.22.0.rc1.311.g5d7573a151-goog
+
