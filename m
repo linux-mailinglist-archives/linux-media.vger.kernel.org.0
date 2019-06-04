@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C90934D58
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 18:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96CD734D56
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 18:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727957AbfFDQaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 12:30:21 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34931 "EHLO
+        id S1728030AbfFDQai (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 12:30:38 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40808 "EHLO
         mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727917AbfFDQaV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 12:30:21 -0400
-Received: by mail-wr1-f68.google.com with SMTP id m3so698594wrv.2;
-        Tue, 04 Jun 2019 09:30:19 -0700 (PDT)
+        with ESMTP id S1727933AbfFDQaW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 12:30:22 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p11so11681459wre.7;
+        Tue, 04 Jun 2019 09:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=njnjG6a7jdrYLSKYX++HVTkLLSLz4gvoHp7YU4YYSHc=;
-        b=hjRO/5G+35x3CtsnItSo0oEhpihExukJxRz38P34BJFVsCWjmfCgVq669GLHPmTu63
-         +Td9MCqpm903OMRnobhlEySB4BaoYn/pKaVbrcdroRrnkYZrLRCAyY47rQVzMYSG9hS4
-         tOP9cLOBdwkRdKWwDOy1QJnqcfasCZI5Epx0VXQd+n4JmaV0Rm76h3n0gpap544V5EX6
-         towlwcb5mD0TBfKcT+WgfSjE4SnSNz7gzXMEVuV8p8RUTl3Px2Bf8MmR3+ApI7w9rM8u
-         btAHqLoxcVEPNCnB0NWPMHpvzPVOSZYm8PFdlL6m7EZZl7kMLDqxsFepS7c4afXfenRj
-         QJxA==
+        bh=R6G/HHE3Lw7PsZVrg7cAYjp5rZiFrvQ8UHmrA7ixhEk=;
+        b=Kedeat9Q1DoBS2uCjqTmSzeahTsS+pO8gnneywg90JhjrJLeQ7O6xfmqwM5DmgW/MI
+         RWjVZqpB79tnBwnrfcplpN8QBUJDHsnYmW6Wes/VKr6kdbur8gzABlwudagkRk6VRYAB
+         dlhAvJMvOHQYVgbF6ED9hxP2cRqKzZDFrPBiFgYD8MbFF6lnNRTpqbtnvGYUVTTMfaDP
+         Cm550MzkV5tr91BdIW3smbnjxHcrnFoTZ9S9W9R8kFn2o0G8XQl8U2oDQKEnKGMUMLiH
+         QgzmS0V+LcLF8LJ7hvZCvaLeO6GP4uwUEtEe/4oWJ/HNDbQ/rKWeoB5QADX6lxrUR8to
+         OF0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=njnjG6a7jdrYLSKYX++HVTkLLSLz4gvoHp7YU4YYSHc=;
-        b=G8Kr2L1IhgHBo8SCIFxZMjE82i6PC6P2NNT864xP7PnAIrgzFEfAm8qbcsjROh9Dju
-         dVgQaqJqqzImmBJNHnmD7Jn1znnanQ3R+0YkyFUgTCg41+S+uiA1o2dVrRkNWY1i7OfI
-         fDk1LwzRxY6cz6Uq0nj0zOmMIAqHkrg/+vVO94xBnpF3cDP4VfEE/+SGYfAl4q/zhC+0
-         gQZ4UKTMLrM4jPpYh+G7fyX1u7xMRvmV8ydfMXcYp3+qq5vDJ9Zk93W3X+nbupFtNCaq
-         B2KAGnCfL+V3+7rA1WuElMuy2dX1r1uZoK7QjGSbnvlHuLxWXsHiO4pQsLURYso8IQdA
-         b+Sg==
-X-Gm-Message-State: APjAAAXl7W5uSvuPVullTyEWIN9hzjLKT80BRsq9sQEXvtE5AOW2LJNY
-        On+NmGQ6IV2D5Z7d5cgnTak=
-X-Google-Smtp-Source: APXvYqysS9M3ppquDw2c5HMbHi5hNJ8JqiIA9np0vOWzotvcTepc7ZINfKGMWQ1aLcdglS57gxLIuA==
-X-Received: by 2002:a05:6000:124b:: with SMTP id j11mr901402wrx.157.1559665818860;
-        Tue, 04 Jun 2019 09:30:18 -0700 (PDT)
+        bh=R6G/HHE3Lw7PsZVrg7cAYjp5rZiFrvQ8UHmrA7ixhEk=;
+        b=emcUEbwl1hdkZfeF94Tp4jSV74NOmUE/Y1E96RoAKAqNLzN2F1D+8UuYlg9Ge4rhRq
+         H5QTaf2KELV0nlAhjxW397LQ2SZvljTm42Nid+tg58kLC67+o8IQwVxeNbngxIPKUdqN
+         WayPLhHNq9RjTKQQhv+ip5L330mEZ5TtLwFDeoWzxxFR3+h18Y0tA426i9bXzfN1GJdI
+         kxlSJASLQvhsG01/ym1H+LlU1VhNM3TFW0gaTtH0zvcMa+d5LrXRrnMMEfanlx25vEdJ
+         hcIDfJlDmLbpnVTdughz4FtHm90cogW4A4TCTBS2WapWRc/9s/5LjMYsRkdFqFUciM5a
+         oqGA==
+X-Gm-Message-State: APjAAAU/Olk/yXKEfSuRI+gs/zEyute3rBXNwXasTc/+3ClObqX4Ov5f
+        4VT9FWbKDVSCXhPEc/cS4h4=
+X-Google-Smtp-Source: APXvYqwi4oFrO7C1qnIPUTgo/kzDBOoSBBpNkHtnhvHg7KuAsyuewuuG+vnaOzim/mUn8o+LyWKDog==
+X-Received: by 2002:adf:e590:: with SMTP id l16mr7127528wrm.257.1559665819998;
+        Tue, 04 Jun 2019 09:30:19 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id y12sm15108176wrh.40.2019.06.04.09.30.17
+        by smtp.gmail.com with ESMTPSA id y12sm15108176wrh.40.2019.06.04.09.30.18
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 04 Jun 2019 09:30:18 -0700 (PDT)
+        Tue, 04 Jun 2019 09:30:19 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -53,11 +53,10 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com,
-        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
-        Sean Young <sean@mess.org>
-Subject: [PATCH v4 11/13] arm64: dts: allwinner: h6: Add IR receiver node
-Date:   Tue,  4 Jun 2019 18:29:57 +0200
-Message-Id: <20190604162959.29199-12-peron.clem@gmail.com>
+        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Subject: [PATCH v4 12/13] arm64: dts: allwinner: h6: Enable IR on H6 boards
+Date:   Tue,  4 Jun 2019 18:29:58 +0200
+Message-Id: <20190604162959.29199-13-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190604162959.29199-1-peron.clem@gmail.com>
 References: <20190604162959.29199-1-peron.clem@gmail.com>
@@ -69,46 +68,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner H6 IR is similar to A31 and can use same driver.
+Beelink GS1, OrangePi H6 boards and Pine H64 have an IR receiver.
 
-Add support for it.
+Enable it in their device-tree.
 
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
-Acked-by: Sean Young <sean@mess.org>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts | 4 ++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi   | 4 ++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts    | 4 ++++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 16c5c3d0fd81..649cbdfe452e 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -647,6 +647,25 @@
- 				pins = "PL0", "PL1";
- 				function = "s_i2c";
- 			};
-+
-+			r_ir_rx_pin: r-ir-rx-pin {
-+				pins = "PL9";
-+				function = "s_cir_rx";
-+			};
-+		};
-+
-+		r_ir: ir@7040000 {
-+				compatible = "allwinner,sun50i-h6-ir",
-+					     "allwinner,sun6i-a31-ir";
-+				reg = <0x07040000 0x400>;
-+				interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&r_ccu CLK_R_APB1_IR>,
-+					 <&r_ccu CLK_IR>;
-+				clock-names = "apb", "ir";
-+				resets = <&r_ccu RST_R_APB1_IR>;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&r_ir_rx_pin>;
-+				status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+index 0dc33c90dd60..680dc29cb089 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
+@@ -232,6 +232,10 @@
+ 	};
+ };
  
- 		r_i2c: i2c@7081400 {
++&r_ir {
++	status = "okay";
++};
++
+ &r_pio {
+ 	/*
+ 	 * PL0 and PL1 are used for PMIC I2C
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+index 62e27948a3fa..ec9b6a578e3f 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+@@ -189,6 +189,10 @@
+ 	};
+ };
+ 
++&r_ir {
++	status = "okay";
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_ph_pins>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+index 4802902e128f..ae12ee4fcc77 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+@@ -247,6 +247,10 @@
+ 	};
+ };
+ 
++&r_ir {
++	status = "okay";
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_ph_pins>;
 -- 
 2.20.1
 
