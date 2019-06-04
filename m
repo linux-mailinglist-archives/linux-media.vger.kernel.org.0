@@ -2,133 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D67345C7
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5647C345E3
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:49:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727532AbfFDLpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 07:45:36 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:36653 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727416AbfFDLpg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 07:45:36 -0400
-Received: by mail-pl1-f195.google.com with SMTP id d21so8255586plr.3
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 04:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ROpXrP+r2OC9uJKtrd7VeU5I2GEkuLFi73TKRyEYr3w=;
-        b=YbXtk1gZpPouwSYE2Vhs1oY1Y4f37CPgCl4rhCDKDXOACPNCfLr9np6wKfbnqxvNqK
-         net1HG8o5wBQb4vNApxrOerpg8MX7Frcm0nkoJCRedOp4gIlsU8B+szPQLnyAp7uDFz6
-         18a5z5D1t2cCXPLwVyjN57+1xoFuuaOeWrZS3QYEL6m6NSRbpHdyTtJVRsjz8hDvO7ay
-         x4MfN3T0GXyhVOPDl8Cb4swrSICIbrgdMT9k5w6B73MKVGcGVf0T8Ojj0gm6GQdck4bi
-         ehe9TCYVm49T6ewlmRPV9pTGt0imE7M4Hg2EyyudgsziWrwS3zmaj416nN50DFpNVxSV
-         8gRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ROpXrP+r2OC9uJKtrd7VeU5I2GEkuLFi73TKRyEYr3w=;
-        b=Gmb003MpzUiEMlnBWVCYWLIARkEjaeNcmY4hJy2ZAAcHJBPalOrEtciYK3Bi6U2KIk
-         zZgCQGCW/UH7Zs1klMHiaH5Zxu37jtRVZ6RADh0Mg8+XDDvFmfaEUxA/cCrlJrhwzZ8Y
-         CR0QoXgIyTXdQk0kCP0Ke0x0AZJSEOjb2eXe6MJAQAGH3Jj2ZTwoRrVALMsiyoK4mvsI
-         ik4ZHlt2e1hQX07SZButJE14DbtQH9D1kRJjqAmdMASwfZ5r/0e/glufg47bTGyYC406
-         AF1fUvJ6RG7SnRt2N+c32uF0oxZIC1CHaUxxd0nfX7P78kFjIt8TQni+Cjm6Wvn+H81g
-         YNCQ==
-X-Gm-Message-State: APjAAAX4DqVd+GTm4SEFuE2Q3SRZOOXehaQzSgck9qyy/5m7GZB2Ynxi
-        ZS+A9q4Msv2NdJ5dfGAApzmEpCsv9WtKHxMpF+A/TQ==
-X-Google-Smtp-Source: APXvYqw/MEeiL2bhH+9bBygV1lo6Im71uAjcUSVWx84fFkrTwjlzF36BIb4PZCfj0/vMKrfmiVx/F/2QMSAp/3q5QEs=
-X-Received: by 2002:a17:902:8609:: with SMTP id f9mr33680584plo.252.1559648735444;
- Tue, 04 Jun 2019 04:45:35 -0700 (PDT)
+        id S1727462AbfFDLt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 07:49:28 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:31437 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727403AbfFDLt2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 07:49:28 -0400
+X-Greylist: delayed 2084 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Jun 2019 07:49:27 EDT
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x54Bn6uR024495;
+        Tue, 4 Jun 2019 20:49:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x54Bn6uR024495
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559648947;
+        bh=9N5NeHfx2fU/+GKUsh6zL9XmwhyuyoSht+iOnW6e544=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=auj+58e0LnOwMh/t/3iy+Lmc463u1vG77LBGoy955VbsiujWXVGzTmd7RJ//Ulb+N
+         jtI17TLQkeFmJEr7WWEK0TwJHB9MUjOaRyBt73ddXbbqd8dt/R8Q3I0qQ5q1tAaq49
+         VMAej+PNkxN5JfK+wKUM0qaI6M9hValbzIauHeP7UHPcPdxt4XQrSy0nF4Tn/YDx4C
+         plTHlMx+0Jo9ge+iN51/xEUwsOxbzV2E4zqLT3mNlBnBqGQ+Wy0ZLwPMDv4c7/Fegh
+         m6yHHInRE87ZHotA59f4AOM1arzgddZsaEsKFl9J5Nnygl9nQUl5GHp4cDF0l62bDW
+         Ls3EPKl9Vi1ag==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id e9so7662802uar.9;
+        Tue, 04 Jun 2019 04:49:06 -0700 (PDT)
+X-Gm-Message-State: APjAAAW9Hnv70lomERxe/edXq6JvbSuhyE6AySi+rFlGkVy2+SbtyOTN
+        80VyjEsW9K0tToeHiATMY39piDnXNsQmisDNagQ=
+X-Google-Smtp-Source: APXvYqyBuNwYhSBlOhBtt2J0eGochK7GFtRchNYSGgkNWS8Izf41KiE9qlzTzNov/VM4fBzNtDlUxSk4TxSv8TfXOcY=
+X-Received: by 2002:a9f:25e9:: with SMTP id 96mr330459uaf.95.1559648945837;
+ Tue, 04 Jun 2019 04:49:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1559580831.git.andreyknvl@google.com> <097bc300a5c6554ca6fd1886421bb2e0adb03420.1559580831.git.andreyknvl@google.com>
- <8ff5b0ff-849a-1e0b-18da-ccb5be85dd2b@oracle.com> <CAAeHK+xX2538e674Pz25unkdFPCO_SH0pFwFu=8+DS7RzfYnLQ@mail.gmail.com>
- <f6711d31-e52c-473a-d7ad-b2d63131d7a5@oracle.com> <20190603172916.GA5390@infradead.org>
- <7a687a26-fc3e-2caa-1d6a-464f1f7e684c@oracle.com>
-In-Reply-To: <7a687a26-fc3e-2caa-1d6a-464f1f7e684c@oracle.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 4 Jun 2019 13:45:24 +0200
-Message-ID: <CAAeHK+wccK1upfOWxNbZBR0BUWT23VFUFEqRTEp3H+8hXN8yzw@mail.gmail.com>
-Subject: Re: [PATCH v16 01/16] uaccess: add untagged_addr definition for other arches
-To:     Khalid Aziz <khalid.aziz@oracle.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
+References: <20190604111334.22182-1-yamada.masahiro@socionext.com> <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
+In-Reply-To: <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 4 Jun 2019 20:48:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR9iz8_wvybmrVFqDaiP3bzxjQ18EUwkvC1LMjR96WWag@mail.gmail.com>
+Message-ID: <CAK7LNAR9iz8_wvybmrVFqDaiP3bzxjQ18EUwkvC1LMjR96WWag@mail.gmail.com>
+Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
+To:     Joe Perches <joe@perches.com>
+Cc:     linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 3, 2019 at 8:17 PM Khalid Aziz <khalid.aziz@oracle.com> wrote:
+On Tue, Jun 4, 2019 at 8:24 PM Joe Perches <joe@perches.com> wrote:
 >
-> On 6/3/19 11:29 AM, Christoph Hellwig wrote:
-> > On Mon, Jun 03, 2019 at 11:24:35AM -0600, Khalid Aziz wrote:
-> >> On 6/3/19 11:06 AM, Andrey Konovalov wrote:
-> >>> On Mon, Jun 3, 2019 at 7:04 PM Khalid Aziz <khalid.aziz@oracle.com> wrote:
-> >>>> Andrey,
-> >>>>
-> >>>> This patch has now become part of the other patch series Chris Hellwig
-> >>>> has sent out -
-> >>>> <https://lore.kernel.org/lkml/20190601074959.14036-1-hch@lst.de/>. Can
-> >>>> you coordinate with that patch series?
-> >>>
-> >>> Hi!
-> >>>
-> >>> Yes, I've seen it. How should I coordinate? Rebase this series on top
-> >>> of that one?
-> >>
-> >> That would be one way to do it. Better yet, separate this patch from
-> >> both patch series, make it standalone and then rebase the two patch
-> >> series on top of it.
-> >
-> > I think easiest would be to just ask Linus if he could make an exception
-> > and include this trivial prep patch in 5.2-rc.
-> >
+> On Tue, 2019-06-04 at 20:13 +0900, Masahiro Yamada wrote:
+> > On the other hand, uapi headers are written in more strict C, where
+> > the C++ comment style is forbidden.
 >
-> Andrey,
->
-> Would you mind updating the commit log to make it not arm64 specific and
-> sending this patch out by itself. We can then ask Linus if he can
-> include just this patch in the next rc.
+> Is this a real problem for any toolchain?
 
-Sure! Just sent it out.
 
->
-> Thanks,
-> Khalid
->
+I was waiting for this comment!
+
+Which standard should UAPI headers follow?
+Is it defined somewhere?
+
+If there is no rule, is it up to subsystem maintainers?
+
+We have a certain of unknowledge in user-space,
+I do not know it it is a real problem.
+
+
+Actually, this patch is related to this thread:
+https://lkml.org/lkml/2019/5/22/1441
+
+Thomas and you agreed
+// should be avoided for SPDX tags in UAPI headers.
+
+So, I just thought C99 was forbidden for user-space.
+
+
+If C89/C90 is already fantasy,
+let's clearly say "Kernel requires C99 for user-space",
+and use // everywhere for SPDX tags?
+
+
+-- 
+Best Regards
+Masahiro Yamada
