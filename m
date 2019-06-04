@@ -2,145 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 773AC34556
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8BA3455A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2019 13:23:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727269AbfFDLWc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 07:22:32 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50883 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727170AbfFDLWc (ORCPT
+        id S1727301AbfFDLXU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 07:23:20 -0400
+Received: from smtprelay0012.hostedemail.com ([216.40.44.12]:44544 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727170AbfFDLXU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Jun 2019 07:22:32 -0400
-Received: from [IPv6:2001:420:44c1:2579:8c28:9f60:8294:d97] ([IPv6:2001:420:44c1:2579:8c28:9f60:8294:d97])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Y7WMhWc3c3qlsY7WPhYANa; Tue, 04 Jun 2019 13:22:30 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 7/7] staging/media: set device_caps in struct video_device
-Message-ID: <d6832f03-915a-91fc-b678-b2daf68d66d9@xs4all.nl>
-Date:   Tue, 4 Jun 2019 13:22:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Tue, 4 Jun 2019 07:23:20 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 92D63182CF671;
+        Tue,  4 Jun 2019 11:23:18 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::,RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1537:1560:1593:1594:1711:1714:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3865:3870:3871:4321:5007:10004:10400:10848:11232:11658:11914:12740:12760:12895:13069:13311:13357:13439:14659:21080:21627:30054:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.14.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:31,LUA_SUMMARY:none
+X-HE-Tag: lace45_39cbc9b5a940d
+X-Filterd-Recvd-Size: 1256
+Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf20.hostedemail.com (Postfix) with ESMTPA;
+        Tue,  4 Jun 2019 11:23:17 +0000 (UTC)
+Message-ID: <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
+Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
+From:   Joe Perches <joe@perches.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 04 Jun 2019 04:23:15 -0700
+In-Reply-To: <20190604111334.22182-1-yamada.masahiro@socionext.com>
+References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE3mQBXdWNP1MUYUkW1B0V0DuEnyLxACU+NmDKENKfiLavRYdbPdiNXOPs43uD9PKqupFKkkdBIkHva8Fr52Z/GDrLHvYZddf0nHcbQpjXxXad035OPz
- neO4RcdfhqdChwlJSZkqqBcGh2vwdjfc1nCuCVZJcVfS3Zj1R0b71VPa8Qc25npeyBz3A1PnWgZvwzVQUpOV9O1D2Xy+j3RbVBZOLTR1DttLWNSKubwtAddm
- wlX5vQ10ycX/XmngNJT+U9Syd3+BzM3E9kYbhcHrnQSFFLl1swB1FSMEka/ivoB8NyxpM2uYhf27ZUbRFL1z3bg/eEuemA1XrpMp6tE5V3EyLvME6nxqzk8L
- 5wF1xcnztj0j3fHeXbMPdlWaqSf+ng==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From 5e271dce24e2a0e3bad026fff4f8d7485d97aa71 Mon Sep 17 00:00:00 2001
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Date: Tue, 4 Jun 2019 11:39:41 +0200
-Subject: [PATCH 7/7] staging/media: set device_caps in struct video_device
+On Tue, 2019-06-04 at 20:13 +0900, Masahiro Yamada wrote:
+> On the other hand, uapi headers are written in more strict C, where
+> the C++ comment style is forbidden.
 
-Instead of filling in the struct v4l2_capability device_caps
-field, fill in the struct video_device device_caps field.
+Is this a real problem for any toolchain?
 
-That way the V4L2 core knows what the capabilities of the
-video device are.
-
-But this only really works if all drivers use this, so convert
-all staging/media drivers in this patch.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Prabhakar Lad <prabhakar.csengg@gmail.com>
----
- drivers/staging/media/bcm2048/radio-bcm2048.c   |  7 ++-----
- drivers/staging/media/davinci_vpfe/vpfe_video.c |  9 +++++----
- drivers/staging/media/omap4iss/iss_video.c      | 11 +++++------
- 3 files changed, 12 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-index 09903ffb13ba..2c60a1fb6350 100644
---- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-+++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-@@ -2310,11 +2310,6 @@ static int bcm2048_vidioc_querycap(struct file *file, void *priv,
- 	strscpy(capability->card, BCM2048_DRIVER_CARD,
- 		sizeof(capability->card));
- 	snprintf(capability->bus_info, 32, "I2C: 0x%X", bdev->client->addr);
--	capability->device_caps = V4L2_CAP_TUNER | V4L2_CAP_RADIO |
--					V4L2_CAP_HW_FREQ_SEEK;
--	capability->capabilities = capability->device_caps |
--		V4L2_CAP_DEVICE_CAPS;
--
- 	return 0;
- }
-
-@@ -2570,6 +2565,8 @@ static const struct video_device bcm2048_viddev_template = {
- 	.name			= BCM2048_DRIVER_NAME,
- 	.release		= video_device_release_empty,
- 	.ioctl_ops		= &bcm2048_ioctl_ops,
-+	.device_caps		= V4L2_CAP_TUNER | V4L2_CAP_RADIO |
-+				  V4L2_CAP_HW_FREQ_SEEK,
- };
-
- /*
-diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-index 84cca18e3e9d..ab6bc452d9f6 100644
---- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
-+++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-@@ -612,10 +612,6 @@ static int vpfe_querycap(struct file *file, void  *priv,
-
- 	v4l2_dbg(1, debug, &vpfe_dev->v4l2_dev, "vpfe_querycap\n");
-
--	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
--	else
--		cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
- 	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT |
- 			    V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
- 	strscpy(cap->driver, CAPTURE_DRV_NAME, sizeof(cap->driver));
-@@ -1628,6 +1624,11 @@ int vpfe_video_register(struct vpfe_video_device *video,
-
- 	video->video_dev.v4l2_dev = vdev;
-
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		video->video_dev.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-+	else
-+		video->video_dev.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-+	video->video_dev.device_caps |= V4L2_CAP_STREAMING;
- 	ret = video_register_device(&video->video_dev, VFL_TYPE_GRABBER, -1);
- 	if (ret < 0)
- 		pr_err("%s: could not register video device (%d)\n",
-diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index c2c5a9cd8642..c307707480f7 100644
---- a/drivers/staging/media/omap4iss/iss_video.c
-+++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -533,12 +533,6 @@ iss_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- 	strscpy(cap->driver, ISS_VIDEO_DRIVER_NAME, sizeof(cap->driver));
- 	strscpy(cap->card, video->video.name, sizeof(cap->card));
- 	strscpy(cap->bus_info, "media", sizeof(cap->bus_info));
--
--	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
--	else
--		cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
--
- 	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
- 			  | V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT;
-
-@@ -1272,6 +1266,11 @@ int omap4iss_video_register(struct iss_video *video, struct v4l2_device *vdev)
- 	int ret;
-
- 	video->video.v4l2_dev = vdev;
-+	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-+	else
-+		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-+	video->video.device_caps |= V4L2_CAP_STREAMING;
-
- 	ret = video_register_device(&video->video, VFL_TYPE_GRABBER, -1);
- 	if (ret < 0)
--- 
-2.20.1
 
