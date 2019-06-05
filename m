@@ -2,169 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C09D736707
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 23:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2557A36712
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 23:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbfFEVwi convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 5 Jun 2019 17:52:38 -0400
-Received: from mailoutvs3.siol.net ([185.57.226.194]:35673 "EHLO mail.siol.net"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726541AbfFEVwh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 17:52:37 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 970E952208F;
-        Wed,  5 Jun 2019 23:52:33 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 3s15YwTEOaZU; Wed,  5 Jun 2019 23:52:33 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 1DAE05220CF;
-        Wed,  5 Jun 2019 23:52:33 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-52-202.static.triera.net [86.58.52.202])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id D6D3F52208F;
-        Wed,  5 Jun 2019 23:52:30 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Maxime Ripard <maxime.ripard@bootlin.com>, wens@csie.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] media: cedrus: Add infra for extra buffers connected to capture buffers
-Date:   Wed, 05 Jun 2019 23:52:30 +0200
-Message-ID: <7799592.17q1oAZbP1@jernej-laptop>
-In-Reply-To: <e45ea296476b2966a3800552dae259d7117a7751.camel@bootlin.com>
-References: <20190530211516.1891-1-jernej.skrabec@siol.net> <3029072.frl2UAsRGt@jernej-laptop> <e45ea296476b2966a3800552dae259d7117a7751.camel@bootlin.com>
+        id S1726735AbfFEVxx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 17:53:53 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:55455 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726510AbfFEVxx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 17:53:53 -0400
+Received: by mail-it1-f195.google.com with SMTP id i21so5928848ita.5
+        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2019 14:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K+r7RaKysQWVK1kSGMptDDC44bF0ZIkuhOXfBK5LAE8=;
+        b=W9wQlz4ewzWgIHUvyjdmghjfzs2N93XSM6bBGBSNwyk7szuqaElR9hETXLl5AiPMJ/
+         HVMUsJErFNl3toJvO3QnBP70fopnoqjTCFvhqB6H9mBnv8ZfAXzor5U+HT7IiDfx8Si0
+         b3PYidfXUcVIi8lUY3FNf0rtvCAWGe7BaT1ss=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K+r7RaKysQWVK1kSGMptDDC44bF0ZIkuhOXfBK5LAE8=;
+        b=VxTXq5LppjNguKD2tkPIyRyRKcDa4BZUktfs8C8aNMm+IWGOiQR/ZfHrvirs37ukP7
+         WspdfGSckaQwd3/kfNys8fGQ+G1yGSNkEcCBjqw/Zz4A4XEl+6Ylxb2eHhFe1XA7T94A
+         SnIJS43TpZu6BV/AnShsbYT33CuINhAvMwzmBCJBWSURXEMLr3PKYaclyQ56Sr+TCI8D
+         GxRZQAwfE3R1y0ATXMewLVeYkGEU76KLSy3gIUulcX/zH61jftcpz01yLRtkc5ITcly1
+         Jvf0AG36b3eNXTCldPAXfvcRiqDMQ5Ja/IFPwG6LL7cogUJX8G3iHQ+KSaT6jvY8LnbI
+         X6UQ==
+X-Gm-Message-State: APjAAAWds2+Ny1FUuTF4pUkM3HOj84ff7LyTJyyBgCWmj8x5QoDOX1kT
+        APx8zJL+isaEKHEeSky7B1U43Q==
+X-Google-Smtp-Source: APXvYqxtbeU9CnF1kOfkcBsm2/XWPfxEpuuzggpK+0/Cf1Ern2i+PfGC8ou5qpL8iPjP+HcxjVQrxA==
+X-Received: by 2002:a24:2e8c:: with SMTP id i134mr27696135ita.9.1559771632716;
+        Wed, 05 Jun 2019 14:53:52 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id e127sm37484ite.33.2019.06.05.14.53.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 14:53:52 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, ezequiel@collabora.com,
+        paul.kocialkowski@bootlin.com
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Fixes to cppcheck errors in v4l2-ioctl.c
+Date:   Wed,  5 Jun 2019 15:53:46 -0600
+Message-Id: <cover.1559764506.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sreda, 05. junij 2019 ob 23:10:17 CEST je Paul Kocialkowski napisal(a):
-> Hi,
-> 
-> Le lundi 03 juin 2019 à 17:48 +0200, Jernej Škrabec a écrit :
-> > Dne ponedeljek, 03. junij 2019 ob 14:18:59 CEST je Maxime Ripard 
-napisal(a):
-> > > Hi,
-> > > 
-> > > On Thu, May 30, 2019 at 11:15:15PM +0200, Jernej Skrabec wrote:
-> > > > H264 and HEVC engines need additional buffers for each capture buffer.
-> > > > H264 engine has this currently solved by allocating fixed size pool,
-> > > > which is not ideal. Most of the time pool size is much bigger than it
-> > > > needs to be.
-> > > > 
-> > > > Ideally, extra buffer should be allocated at buffer initialization,
-> > > > but
-> > > > that's not efficient. It's size in H264 depends on flags set in SPS,
-> > > > but
-> > > > that information is not available in buffer init callback.
-> > > > 
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > ---
-> > > > 
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  4 ++++
-> > > >  .../staging/media/sunxi/cedrus/cedrus_video.c | 19
-> > > >  +++++++++++++++++++
-> > > >  2 files changed, 23 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
-> > > > d8e6777e5e27..16c1bdfd243a 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > > > @@ -81,6 +81,10 @@ struct cedrus_run {
-> > > > 
-> > > >  struct cedrus_buffer {
-> > > >  
-> > > >  	struct v4l2_m2m_buffer          m2m_buf;
-> > > > 
-> > > > +	void		*extra_buf;
-> > > > +	dma_addr_t	extra_buf_dma;
-> > > > +	ssize_t		extra_buf_size;
-> > > > +
-> > > > 
-> > > >  	union {
-> > > >  	
-> > > >  		struct {
-> > > >  		
-> > > >  			unsigned int			position;
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
-> > > > 681dfe3367a6..d756e0e69634 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > > > @@ -411,6 +411,24 @@ static void cedrus_queue_cleanup(struct vb2_queue
-> > > > *vq, u32 state)>
-> > > > 
-> > > >  	}
-> > > >  
-> > > >  }
-> > > > 
-> > > > +static void cedrus_buf_cleanup(struct vb2_buffer *vb)
-> > > > +{
-> > > > +	struct vb2_queue *vq = vb->vb2_queue;
-> > > > +
-> > > > +	if (!V4L2_TYPE_IS_OUTPUT(vq->type)) {
-> > > > +		struct cedrus_ctx *ctx = vb2_get_drv_priv(vq);
-> > > > +		struct cedrus_buffer *cedrus_buf;
-> > > > +
-> > > > +		cedrus_buf = vb2_to_cedrus_buffer(vq->bufs[vb->index]);
-> > > > +
-> > > > +		if (cedrus_buf->extra_buf_size)
-> > > > +			dma_free_coherent(ctx->dev->dev,
-> > > > +					  cedrus_buf-
-> > > 
-> > > extra_buf_size,
-> > > 
-> > > > +					  cedrus_buf-
-> > > 
-> > > extra_buf,
-> > > 
-> > > > +					  cedrus_buf-
-> > > 
-> > > extra_buf_dma);
-> > > 
-> > > > +	}
-> > > > +}
-> > > > +
-> > > 
-> > > I'm really not a fan of allocating something somewhere, and freeing it
-> > > somewhere else. Making sure you don't leak something is hard enough to
-> > > not have some non-trivial allocation scheme.
-> > 
-> > Ok, what about introducing two new optional methods in engine callbacks,
-> > buffer_init and buffer_destroy, which would be called from
-> > cedrus_buf_init() and cedrus_buf_cleanup(), respectively. That way all
-> > (de)allocation logic stays within the same engine.
-> 
-> I'm thinking that we should have v4l2-framework-level per-codec helpers
-> to provide ops for these kinds of things, since they tend be quite
-> common across decoders.
+cppcheck runs on the kernel found a couple of cppcheck errors in
+v4l2-ioctl.c. These two patches fix them.
 
-Isn't .buf_init and .buf_cleanup callbacks provided by struct vb2_ops meant 
-for exactly that?
+Shuah Khan (2):
+  media: v4l2-core: Shifting signed 32-bit value by 31 bits error
+  media: v4l2-core: fix uninitialized variable error
 
-Related, but different topic. I managed to fix 10-bit HEVC support on H6, but 
-when working in 8-bit mode, capture buffers have to be big enough to hold 
-normal NV12 decoded image plus extra buffer for 2 bits of each pixel. VPU 
-accepts only offset from destination buffer for this extra buffer instead of full 
-address. How we will handle that? Override sizeimage when allocating? But 
-there we don't have information if it's 10-bit video or not. As you can see, 
-I'm not a fan of overallocating.
+ drivers/media/v4l2-core/v4l2-ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I suspect we will have even bigger issues when decoding 10-bit HEVC video in 
-P010 format, which is the only 10-bit YUV format useable by DRM driver (not 
-implemented yet). From what I know till now, VPU needs aforementioned 8-bit+2-
-bit buffers (for decoding) and another one in which it rearranges samples in 
-P010 format. But that has to be confirmed first.
-
-Best regards,
-Jernej
-
+-- 
+2.17.1
 
