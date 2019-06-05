@@ -2,166 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5101C35B32
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 13:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0754A35C22
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 13:56:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727405AbfFELXY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 07:23:24 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37443 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726280AbfFELXY (ORCPT
+        id S1727577AbfFEL4O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 07:56:14 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56769 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727183AbfFEL4O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 07:23:24 -0400
+        Wed, 5 Jun 2019 07:56:14 -0400
 Received: from [IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9] ([IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id YU0khksDf3qlsYU0nhfYER; Wed, 05 Jun 2019 13:23:21 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>
+        id YUWThlG5P3qlsYUWWhfjs4; Wed, 05 Jun 2019 13:56:11 +0200
+Subject: Re: [PATCH v2] media: atmel: atmel-isc: split driver into driver base
+ and isc
+To:     Eugen.Hristev@microchip.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     ksloat@aampglobal.com
+References: <1559202331-15397-1-git-send-email-eugen.hristev@microchip.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] Drop vidioc_enum_fmt_vid_*_mplane, driver
- improvements, add codec helpers
-Message-ID: <abba589c-0a90-a773-9480-4197628c3926@xs4all.nl>
-Date:   Wed, 5 Jun 2019 13:23:18 +0200
+Message-ID: <4f1925a5-9361-7f57-4526-3d28be8291dd@xs4all.nl>
+Date:   Wed, 5 Jun 2019 13:56:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.5.1
 MIME-Version: 1.0
+In-Reply-To: <1559202331-15397-1-git-send-email-eugen.hristev@microchip.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPWIopRjTlW1Be3e1WWi9hcABydtHRYmfUAe/pQorsB/iFvUI+8GsQxH3lnpKwATJMb+zDjWo8aOP3coNmss7Rz9DtucaucODToUCQyx6upJbG+pLfs6
- +MoZFKFMzvAJ0RdouH3jMfmBC6k4Rhakeg6kUKtwKNQk1VC2r7xLW/Lpz5qgWcOOXWDetAHDothap5zK+1vmfbhiawj6f1C5CjHoG2NqIGpOOkOs+ymJ4ONH
- tS0hEH5y5lilRmdoq7lNn75L+BBBEwLglhRo4Td+2/9SvCOuiVj87vB22G1rjQSlxTQAru6OcLQV49/lyynVw8PVAZqEchKzQV+oD7DqyYM=
+X-CMAE-Envelope: MS4wfDGHyAwyH2zA9EhGcmXOLNXHaTarbVEUHs6xOhFzmaqx14XGbxyU9oa8vrh1dFcFtEsfcEhyeVRprSbS4irwoRyA1DO/WnVMt5W5VBdS8mDhy3cveA7l
+ hhUDbOkuTfD44BtOV4Ov3Deyyzl9GekqFtxvEjAlx5gCX9c2EvgrFxLFvGtGzFJZDvUhCc8hv0iPoUaDbBROUPsMlkbfrSwJUe4ZHytP2fynAf0kCfPLFwg+
+ D77kQKzMePJngExD4iYHGmdd8Br/EGL1IiwFRxKBpN3+JNYDjE8sujq35W74JTcDIFHUrk1W2dJduntaMC1qxyFU9S1MqVawr8GNddUWa1X3+5BifFa5c2Dt
+ wvcbC5vSiedszXirzG5UJ/GcKply9jTq1dwsyPDvep3lxwFctAb6vosjo+HIkTn9vEKu7roNWk5jFCCE+cVi0N/Z82RE7NxodhQskHLTyuyi6+UbhZw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This pull request drops the vidioc_enum_fmt_vid_{cap, out}_mplane callbacks;
-instead just use vidioc_enum_fmt_vid_{cap, out}.
+Hi Eugen,
 
-Convert lots of drivers to set device_caps in struct video_device instead of
-in v4l2_capability: this gives the V4L2 core information about the capabilities
-of the video device node. But this can only work if all drivers use it.
+On 5/30/19 9:50 AM, Eugen.Hristev@microchip.com wrote:
+> From: Eugen Hristev <eugen.hristev@microchip.com>
+> 
+> This splits the Atmel ISC driver into a common base: atmel-isc-base.c
+> and the driver probe/dt part , atmel-sama5d2-isc.c
+> This is needed to keep a common ground for the sensor controller which will
+> be reused.
+> The atmel-isc will use the common symbols inside the atmel-isc-base
+> Future driver will also use the same symbols and redefine different aspects,
+> for a different version of the ISC.
+> This is done to avoid complete code duplication by creating a totally
+> different driver for the new variant of the ISC.
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+> 
+> Hello Hans,
+> 
+> I am resending this with the required fixes.
+> You asked me about the #ifdef around ATMEL_ISC_NAME, it's because I was
+> thinking to have the ATMEL_ISC_NAME different by each driver that use
+> the atmel-isc.h, but for now I removed any ifdef around it, and will
+> consider a different define for new drivers.
+> 
+> Changes in v2:
+> - renamed atmel-isc.c to atmel-sama5d2-isc.c as sama5d2 is the SoC that
+>   includes this hardware block. The module will still be named atmel-isc.ko
+> - removed ifdef around definition of ATMEL_ISC_NAME
+> - moved external declarations in the specific files, this was breaking
+>   module loading
+> 
+> v4l2-compliance SHA: 0d61ddede7d340ffa1c75a2882e30c455ef3d8b8, 32 bitatmel-isc f0008000.isc: =================  START STATUS  =================
+> 
+> atmelpliance test for atmel-isc device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : atmel-isc
+>         Card type        : Atmel Image Sensor Controller
+>         Bus info         : platform:atmel-isc f0008000.isc
+>         Driver version   : 5.2.0
+>         Capabilities     : 0x84200001
+>                 Video Capture
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04200001
+>                 Video Capture
+>                 Streaming
+>                 Extended Pix Format
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> -isc f0008000.isc: Brightness: 0
+> atmel-isc f0008000.isc: Contrast: 256
+> atmel-isc f0008000.isc: Gamma: 2
+> atmel-isc f0008000.isc: White Balance, Automatic: true
+> atmel-isc f0008000.isc: ==================  END STATUS  ==================
+>         test VIDIOC_LOG_STATUS: OK
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 1 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls (Input 0):
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 6 Private Controls: 0
+> 
+> Format ioctls (Input 0):
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls (Input 0):
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls (Input 0):
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Total for atmel-isc device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+> 
+> 
+>  MAINTAINERS                                      |    4 +-
+>  drivers/media/platform/atmel/Makefile            |    4 +-
+>  drivers/media/platform/atmel/atmel-isc-base.c    | 2148 ++++++++++++++++++
+>  drivers/media/platform/atmel/atmel-isc.c         | 2634 ----------------------
+>  drivers/media/platform/atmel/atmel-isc.h         |  192 ++
+>  drivers/media/platform/atmel/atmel-sama5d2-isc.c |  365 +++
+>  6 files changed, 2711 insertions(+), 2636 deletions(-)
+>  create mode 100644 drivers/media/platform/atmel/atmel-isc-base.c
+>  delete mode 100644 drivers/media/platform/atmel/atmel-isc.c
+>  create mode 100644 drivers/media/platform/atmel/atmel-isc.h
+>  create mode 100644 drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> 
 
-This conversion does all except media/pci and media/platform, and the input
-touchscreen driver sur40.c (waiting for an Ack from the author for that one).
+Checkpatch gave me various warnings that I think should be addressed:
 
-The final two patches add new helpers for codec drivers.
+WARNING: externs should be avoided in .c files
+#249: FILE: drivers/media/platform/atmel/atmel-isc-base.c:40:
++extern unsigned int sensor_preferred;
+
+It looks like these module parameters can be moved to atmel-isc-base.c
+and only an extern unsigned int debug should be added to the atmel-isc.h.
+
+Externs in a source is indeed dubious.
+
+CHECK: spinlock_t definition without comment
+#681: FILE: drivers/media/platform/atmel/atmel-isc.h:27:
++       spinlock_t      lock;
+
+I know there was no comment before, but it might be nice to add one
+now.
+
+CHECK: Macro argument reuse 'hw' - possible side-effects?
+#688: FILE: drivers/media/platform/atmel/atmel-isc.h:34:
++#define to_isc_clk(hw) container_of(hw, struct isc_clk, hw)
+
+This seems really wrong. One hw refers to the argument, the
+other is the name of a field in a struct. Use a different
+name as the macro argument to avoid this confusion.
+
+
+CHECK: spinlock_t definition without comment
+#814: FILE: drivers/media/platform/atmel/atmel-isc.h:160:
++       spinlock_t              dma_queue_lock;
+
+CHECK: struct mutex definition without comment
+#832: FILE: drivers/media/platform/atmel/atmel-isc.h:178:
++       struct mutex            lock;
+
+CHECK: spinlock_t definition without comment
+#833: FILE: drivers/media/platform/atmel/atmel-isc.h:179:
++       spinlock_t              awb_lock;
+
+Comments would be nice.
+
+WARNING: externs should be avoided in .c files
+#909: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:57:
++extern struct isc_format formats_list[];
+
+WARNING: externs should be avoided in .c files
+#910: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:58:
++extern struct isc_format controller_formats[];
+
+WARNING: externs should be avoided in .c files
+#911: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:59:
++extern const u32 isc_gamma_table[GAMMA_MAX + 1][GAMMA_ENTRIES];
+
+WARNING: externs should be avoided in .c files
+#912: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:60:
++extern const struct regmap_config isc_regmap_config;
+
+WARNING: externs should be avoided in .c files
+#913: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:61:
++extern const struct v4l2_async_notifier_operations isc_async_ops;
+
+This should be in a header.
+
+WARNING: externs should be avoided in .c files
+#915: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:63:
++extern irqreturn_t isc_interrupt(int irq, void *dev_id);
+
+WARNING: externs should be avoided in .c files
+#916: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:64:
++extern int isc_pipeline_init(struct isc_device *isc);
+
+WARNING: externs should be avoided in .c files
+#917: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:65:
++extern int isc_clk_init(struct isc_device *isc);
+
+WARNING: externs should be avoided in .c files
+#918: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:66:
++extern void isc_subdev_cleanup(struct isc_device *isc);
+
+WARNING: externs should be avoided in .c files
+#919: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:67:
++extern void isc_clk_cleanup(struct isc_device *isc);
+
+Should also be in a header. No need to extern when just declaring the
+function prototype, BTW.
+
+CHECK: Alignment should match open parenthesis
+#964: FILE: drivers/media/platform/atmel/atmel-sama5d2-isc.c:112:
++               subdev_entity = devm_kzalloc(dev,
++                                         sizeof(*subdev_entity), GFP_KERNEL);
+
+Please fix this as well.
 
 Regards,
 
 	Hans
-
-The following changes since commit 0864c9ce8fe83eadfd21b08e98997111d091660c:
-
-  media: dt-bindings: Fix vendor-prefixes YAML (2019-06-03 10:47:34 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3j3
-
-for you to fetch changes up to 54c979060f4afe8501a61fee6d504d883c6d2eff:
-
-  vicodec: use new v4l2_m2m_ioctl_try_en/decoder_cmd funcs (2019-06-05 13:18:00 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Boris Brezillon (2):
-      media: v4l2: Make sure all drivers set _MPLANE caps in vdev->device_caps
-      media: v4l2: Get rid of ->vidioc_enum_fmt_vid_{cap, out}_mplane
-
-Hans Verkuil (8):
-      media/radio: set device_caps in struct video_device
-      media/usb: set device_caps in struct video_device
-      rtl2832_sdr: set device_caps in struct video_device
-      usb/gadget/f_uvc: set device_caps in struct video_device
-      vc04_services/bcm2835-camera: set device_caps in struct video_device
-      staging/media: set device_caps in struct video_device
-      v4l2-mem2mem: add try_en/decoder_cmd ioctl helpers
-      vicodec: use new v4l2_m2m_ioctl_try_en/decoder_cmd funcs
-
- drivers/media/dvb-frontends/rtl2832_sdr.c                     |  5 ++---
- drivers/media/pci/intel/ipu3/ipu3-cio2.c                      |  2 +-
- drivers/media/platform/exynos-gsc/gsc-core.c                  |  2 +-
- drivers/media/platform/exynos-gsc/gsc-core.h                  |  2 +-
- drivers/media/platform/exynos-gsc/gsc-m2m.c                   | 14 +++++++-------
- drivers/media/platform/exynos4-is/common.c                    |  5 +----
- drivers/media/platform/exynos4-is/common.h                    |  3 +--
- drivers/media/platform/exynos4-is/fimc-capture.c              | 10 +++++-----
- drivers/media/platform/exynos4-is/fimc-isp-video.c            |  9 +++++----
- drivers/media/platform/exynos4-is/fimc-lite.c                 | 10 ++++------
- drivers/media/platform/exynos4-is/fimc-m2m.c                  | 12 ++++++------
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c               |  4 ++--
- drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c                  | 18 +++++++++---------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c            | 12 ++++++------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c            | 12 ++++++------
- drivers/media/platform/qcom/camss/camss-video.c               |  2 +-
- drivers/media/platform/qcom/venus/vdec.c                      |  4 ++--
- drivers/media/platform/qcom/venus/venc.c                      |  4 ++--
- drivers/media/platform/rcar_fdp1.c                            |  4 ++--
- drivers/media/platform/rcar_jpu.c                             | 10 ++++++----
- drivers/media/platform/renesas-ceu.c                          |  2 +-
- drivers/media/platform/s5p-mfc/s5p_mfc.c                      |  2 ++
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c                  | 19 ++++++-------------
- drivers/media/platform/s5p-mfc/s5p_mfc_enc.c                  | 19 ++++++-------------
- drivers/media/platform/ti-vpe/vpe.c                           |  7 +++----
- drivers/media/platform/vicodec/vicodec-core.c                 | 37 ++++---------------------------------
- drivers/media/platform/vivid/vivid-core.c                     |  6 ++----
- drivers/media/platform/vivid/vivid-vid-common.c               | 20 --------------------
- drivers/media/platform/vivid/vivid-vid-common.h               |  2 --
- drivers/media/radio/dsbr100.c                                 |  3 +--
- drivers/media/radio/radio-cadet.c                             |  5 ++---
- drivers/media/radio/radio-isa.c                               |  4 +---
- drivers/media/radio/radio-keene.c                             |  3 +--
- drivers/media/radio/radio-ma901.c                             |  3 +--
- drivers/media/radio/radio-miropcm20.c                         |  4 ++--
- drivers/media/radio/radio-mr800.c                             |  5 ++---
- drivers/media/radio/radio-raremono.c                          |  3 +--
- drivers/media/radio/radio-sf16fmi.c                           |  3 +--
- drivers/media/radio/radio-si476x.c                            | 21 ++++++++-------------
- drivers/media/radio/radio-tea5764.c                           |  3 +--
- drivers/media/radio/radio-tea5777.c                           |  5 ++---
- drivers/media/radio/radio-timb.c                              |  3 +--
- drivers/media/radio/radio-wl1273.c                            | 12 ++++--------
- drivers/media/radio/si470x/radio-si470x-i2c.c                 |  7 +++----
- drivers/media/radio/si470x/radio-si470x-usb.c                 |  6 +++---
- drivers/media/radio/si4713/radio-platform-si4713.c            |  4 +---
- drivers/media/radio/si4713/radio-usb-si4713.c                 |  4 +---
- drivers/media/radio/tea575x.c                                 |  7 +++----
- drivers/media/radio/wl128x/fmdrv_v4l2.c                       | 10 +++-------
- drivers/media/usb/airspy/airspy.c                             |  6 ++----
- drivers/media/usb/au0828/au0828-video.c                       | 21 ++++++++++-----------
- drivers/media/usb/cpia2/cpia2_v4l.c                           |  9 ++-------
- drivers/media/usb/cx231xx/cx231xx-video.c                     | 28 ++++++++++++++--------------
- drivers/media/usb/em28xx/em28xx-video.c                       | 32 ++++++++++++++++----------------
- drivers/media/usb/go7007/go7007-v4l2.c                        | 15 ++++++---------
- drivers/media/usb/gspca/gspca.c                               |  6 ++----
- drivers/media/usb/hackrf/hackrf.c                             | 14 ++++++--------
- drivers/media/usb/hdpvr/hdpvr-video.c                         |  5 ++---
- drivers/media/usb/msi2500/msi2500.c                           |  5 ++---
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                      | 17 ++++++-----------
- drivers/media/usb/pwc/pwc-if.c                                |  2 ++
- drivers/media/usb/pwc/pwc-v4l.c                               |  3 ---
- drivers/media/usb/s2255/s2255drv.c                            |  5 ++---
- drivers/media/usb/stk1160/stk1160-v4l.c                       |  7 ++-----
- drivers/media/usb/stkwebcam/stk-webcam.c                      |  6 ++----
- drivers/media/usb/tm6000/tm6000-video.c                       | 20 ++++++++++----------
- drivers/media/usb/usbtv/usbtv-video.c                         |  5 ++---
- drivers/media/usb/usbvision/usbvision-video.c                 | 20 ++++++++++----------
- drivers/media/usb/zr364xx/zr364xx.c                           |  7 ++-----
- drivers/media/v4l2-core/v4l2-dev.c                            |  2 --
- drivers/media/v4l2-core/v4l2-ioctl.c                          | 21 +++++++++++----------
- drivers/media/v4l2-core/v4l2-mem2mem.c                        | 29 +++++++++++++++++++++++++++++
- drivers/staging/media/bcm2048/radio-bcm2048.c                 |  7 ++-----
- drivers/staging/media/davinci_vpfe/vpfe_video.c               |  9 +++++----
- drivers/staging/media/ipu3/ipu3-v4l2.c                        |  4 ++--
- drivers/staging/media/omap4iss/iss_video.c                    | 11 +++++------
- drivers/staging/media/rockchip/vpu/rockchip_vpu_v4l2.c        | 12 ++++++------
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c |  6 ++----
- drivers/usb/gadget/function/f_uvc.c                           |  1 +
- drivers/usb/gadget/function/uvc_v4l2.c                        |  4 ----
- include/media/v4l2-ioctl.h                                    | 14 ++------------
- include/media/v4l2-mem2mem.h                                  |  4 ++++
- 82 files changed, 305 insertions(+), 425 deletions(-)
