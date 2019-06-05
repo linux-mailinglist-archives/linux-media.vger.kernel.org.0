@@ -2,52 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE06835D1C
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF00835D35
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:49:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727737AbfFEMo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 08:44:27 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:39097 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727320AbfFEMo0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:44:26 -0400
-Received: from [IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9] ([IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YVH5hlrl13qlsYVH8hg56W; Wed, 05 Jun 2019 14:44:19 +0200
-Subject: Re: [PATCH v8 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
- Subsystem driver
-To:     Vishal Sagar <vishal.sagar@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com,
+        id S1727828AbfFEMtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 08:49:06 -0400
+Received: from mga17.intel.com ([192.55.52.151]:28008 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727600AbfFEMtG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 Jun 2019 08:49:06 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 05:49:03 -0700
+X-ExtLoop1: 1
+Received: from pbooyens-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.48.29])
+  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2019 05:48:57 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id 100D421D78; Wed,  5 Jun 2019 15:48:53 +0300 (EEST)
+Date:   Wed, 5 Jun 2019 15:48:52 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Vishal Sagar <vishal.sagar@xilinx.com>
+Cc:     Hyun Kwon <hyunk@xilinx.com>, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
         Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Dinesh Kumar <dineshk@xilinx.com>,
+        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dinesh Kumar <dineshk@xilinx.com>,
         Sandip Kothari <sandipk@xilinx.com>,
         Luca Ceresoli <luca@lucaceresoli.net>,
         Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v8 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
+ Subsystem driver
+Message-ID: <20190605124851.xr2hmgyoe46q6xud@kekkonen.localdomain>
 References: <1559555971-193235-1-git-send-email-vishal.sagar@xilinx.com>
  <1559555971-193235-3-git-send-email-vishal.sagar@xilinx.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2a21e26e-35f2-635c-b99f-89e7e100ce11@xs4all.nl>
-Date:   Wed, 5 Jun 2019 14:44:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <1559555971-193235-3-git-send-email-vishal.sagar@xilinx.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfG+TjL6jaBSSdGZYGtHmSq6lZZ+/Ly2o5YWYIwJDySt9mrXqneDjt5aKnMRhjYD9s0e0s0OIVeFkfvvqSnCBDfBABBqqUMZi50MB1IDSrsCGdce6fYm4
- UHXX6GtdlwFk2PIJteK943h3zjDV74JZ5POOzRGGHn9AV93hdZNYmNH2lr02AmCudCJt/+0br3Wk46LeScRJySDo+t0XySIjWxoSvSrcTZkyBxupxpDNL/ka
- I8PJ5JcULF+MC09uAtOnUUA+ckIJKZ5xxhuN9WjQwxVOw3T1ASSY9GALBMiGgYxJaVFnow2a9SFzhnbCU4eamF5CP7Zwrp3Za82pOvaX1jGRL1Nf+Zqv3K52
- q4OERJ4fIQxOauDULSt43OSDA9QCnQNC7pXCKt7iliWC+IMX8F2nv6mvU/VLv9NWs4yPXg0OFfJkJcmW7xnclJ55SBJdUTNJvWIiyRHvIoGNxwfB9KcVHEXA
- 1RPOVN5sd7ZvCQSvHGyA/3nEOtJgYVjS7m5nVeMPo8Bjy0+QhokflrcT4/5aKHd0+orDcqqG6hUnU8khXTU+CsFcrq7o5MiFEZjEH0ssZApoXZWHqKyKtKS/
- CtZoGVaK46XYcP536ARgSZ5k+MHDAo8KBQANI95bnqb0+tiOAv3bb+D8OjSdUA+qh4cIkBOPhpwoa+ZiIr9n0UU30YmiD4Rh96qa0+0EMVxsdFHyyj2YiPNj
- cyjwzfZKFaKjH++lN022ewgiv6asPEBGJHFsCh7ByoftkwcSvm4WK2XE0kmwwHtzvKsXxydgag3cUsEYaH7JOuFBkT3G11uewyLBLUH43dh/6v+ib3XxdE68
- MPXms88q5JngVvl9d8c=
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -55,9 +50,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Vishal,
 
-Some comments below...
-
-On 6/3/19 11:59 AM, Vishal Sagar wrote:
+On Mon, Jun 03, 2019 at 03:29:31PM +0530, Vishal Sagar wrote:
 > The Xilinx MIPI CSI-2 Rx Subsystem soft IP is used to capture images
 > from MIPI CSI-2 camera sensors and output AXI4-Stream video data ready
 > for image processing. Please refer to PG232 for details.
@@ -147,6 +140,15 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 >  
 > +config VIDEO_XILINX_CSI2RXSS
 > +	tristate "Xilinx CSI2 Rx Subsystem"
+
+I think you'll need at least these dependencies:
+
+	VIDEO_V4L2
+	VIDEO_V4L2_SUBDEV_API
+
+And select:
+	VIDEO_V4L2_FWNODE
+
 > +	help
 > +	  Driver for Xilinx MIPI CSI2 Rx Subsystem. This is a V4L sub-device
 > +	  based driver that takes input from CSI2 Tx source and converts
@@ -423,6 +425,10 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +};
 > +
 > +static struct xcsi2rxss_event xcsi2rxss_events[] = {
+
+This struct is static and not related to a single device. You'll need to
+store the count elsewhere if you want to keep it, and make this const.
+
 > +	{ XCSI_ISR_FR, "Frame Received", 0 },
 > +	{ XCSI_ISR_VCXFE, "VCX Frame Errors", 0 },
 > +	{ XCSI_ISR_WCC, "Word Count Errors", 0 },
@@ -720,6 +726,26 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > + * Second is to register for Short packet FIFO overflow
 > + * In case the rate of receiving short packets is high and
 > + * the short packet FIFO overflows, this event will be triggered.
+
+What is the effect of this?
+
+Short packets in general tell about frame or line start or end, the packets
+themselves are not something the user space is interested as such in
+general. The frame start is useful, however, and there's an event for that:
+it's called V4L2_EVENT_FRAME_SYNC. Please implement that instead, if you'd
+like to provide information to the user space on frame start.
+
+If you have a line buffer overflow (i.e. you can't forward the data from
+the long packets fast enough), then that will effectively cause a broken
+frame. There's no API to signal that to the DMA driver currently. I wonder
+if it could be added meaningfully --- the problem is that I guess it could
+be bound to be unrelible due to the frame number not being conveyed to the
+DMA driver. Feel free to make a proposal, but this should be probably
+separate from this patch.
+
+Either way, this is not something that the user space is interested in form
+of an event.
+
 > + *
 > + * Return: 0 on success, errors otherwise
 > + */
@@ -793,6 +819,10 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +		 * This will be called only when "Enable Active Lanes" parameter
 > +		 * is set in design
 > +		 */
+
+You generally get the number of lanes from firmware. There's no need to add
+a control for it.
+
 > +		if (core->enable_active_lanes) {
 > +			u32 active_lanes;
 > +
@@ -1091,6 +1121,16 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +	     fmt->format.code == MEDIA_BUS_FMT_RBG888_1X24)) {
 > +		/* Copy over the format to be set */
 > +		*__format = fmt->format;
+
+If the hardware only supports a single media bus code, then you need to
+assign it here. Width and height should come from the user independently of
+that. I presume the format on the source pad should be equal to the format
+on the sink pad; therefore the driver should propagate the format from the
+sink to the source.
+
+You're also overwriting the rest of the fields in the __format struct here
+with what comes from the user space without validating it.
+
 > +	} else {
 > +		/* Restore the original pad format code */
 > +		fmt->format.code = code;
@@ -1124,6 +1164,10 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +	for (i = 0; i < XCSI_MEDIA_PADS; i++) {
 > +		format = v4l2_subdev_get_try_format(sd, fh->pad, i);
 > +		*format = xcsi2rxss->format;
+
+The default try format should reflect the hardware default, not its current
+configuration.
+
 > +	}
 > +
 > +	return 0;
@@ -1142,6 +1186,9 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +};
 > +
 > +static struct v4l2_ctrl_config xcsi2rxss_ctrls[] = {
+
+const
+
 > +	{
 > +		.ops	= &xcsi2rxss_ctrl_ops,
 > +		.id	= V4L2_CID_XILINX_MIPICSISS_ACT_LANES,
@@ -1171,12 +1218,18 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +};
 > +
 > +static struct v4l2_subdev_video_ops xcsi2rxss_video_ops = {
+
+const; same below.
+
 > +	.s_stream = xcsi2rxss_s_stream
 > +};
 > +
 > +static struct v4l2_subdev_pad_ops xcsi2rxss_pad_ops = {
 > +	.get_fmt = xcsi2rxss_get_format,
 > +	.set_fmt = xcsi2rxss_set_format,
+
+Could you also implement the enum_mbus_code op?
+
 > +};
 > +
 > +static struct v4l2_subdev_ops xcsi2rxss_ops = {
@@ -1463,9 +1516,6 @@ On 6/3/19 11:59 AM, Vishal Sagar wrote:
 > +	subdev->dev = &pdev->dev;
 > +	subdev->internal_ops = &xcsi2rxss_internal_ops;
 > +	strlcpy(subdev->name, dev_name(&pdev->dev), sizeof(subdev->name));
-
-Use strscpy.
-
 > +	subdev->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
 > +	subdev->entity.ops = &xcsi2rxss_media_ops;
 > +	v4l2_set_subdevdata(subdev, xcsi2rxss);
@@ -1598,23 +1648,11 @@ Use strscpy.
 > +
 > +/* Base ID */
 > +#define V4L2_CID_XILINX_MIPICSISS		(V4L2_CID_USER_BASE + 0xc080)
-
-For private controls you need to reserve a range in include/uapi/linux/v4l2-controls.h.
-See e.g. V4L2_CID_USER_IMX_BASE.
-
 > +
 > +/* Active Lanes */
 > +#define V4L2_CID_XILINX_MIPICSISS_ACT_LANES	(V4L2_CID_XILINX_MIPICSISS + 1)
 > +/* Reset all event counters */
 > +#define V4L2_CID_XILINX_MIPICSISS_RESET_COUNTERS (V4L2_CID_XILINX_MIPICSISS + 2)
-
-Please improve a bit on the documentation of the controls. What are they
-used for, when can you use them? I.e. I suspect changing active lanes while
-streaming is probably a bad idea (and do you check for that?).
-
-This is the only documentation there will be for these controls, so keep
-in mind the poor end-user who has to understand how to use them.
-
 > +
 >  #endif /* __UAPI_XILINX_V4L2_CONTROLS_H__ */
 > diff --git a/include/uapi/linux/xilinx-v4l2-events.h b/include/uapi/linux/xilinx-v4l2-events.h
@@ -1640,27 +1678,13 @@ in mind the poor end-user who has to understand how to use them.
 > +
 > +/* Xilinx CSI2 Receiver events */
 > +#define V4L2_EVENT_XLNXCSIRX_CLASS	(V4L2_EVENT_PRIVATE_START | 0x100)
-
-Ugly prefix. V4L2_EVENT_XILINX_CSIRX_CLASS looks much better.
-
-Also use 0x200 instead of 0x100. 0x100 is already in use by omap3.
-
 > +/* Stream Line Buffer full */
 > +#define V4L2_EVENT_XLNXCSIRX_SLBF	(V4L2_EVENT_XLNXCSIRX_CLASS | 0x1)
-
-This needs to be documented a lot better: what does the event mean? what
-should userspace do if this event arrives?
-
 > +
 > +#endif /* __UAPI_XILINX_V4L2_EVENTS_H__ */
-> 
 
-I would probably also combine these two public headers into one:
-
-include/uapi/linux/xilinx-csi2rxss.h
-
-It's overkill IMHO to have two headers for this.
-
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
+sakari.ailus@linux.intel.com
