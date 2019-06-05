@@ -2,66 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2508E35D68
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 15:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C550335E16
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 15:39:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbfFENAe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 09:00:34 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:18084 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727601AbfFENAe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 09:00:34 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 5444C141E15664E96DBB;
-        Wed,  5 Jun 2019 21:00:31 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 5 Jun 2019 21:00:21 +0800
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-To:     Mike Isely <isely@pobox.com>,
+        id S1727970AbfFENjr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 09:39:47 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45351 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727966AbfFENjr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 Jun 2019 09:39:47 -0400
+Received: from [IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9] ([IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YW8ihmUzN3qlsYW8mhgRsz; Wed, 05 Jun 2019 15:39:44 +0200
+Subject: Re: [PATCH v7 2/4] media: videodev2: add
+ V4L2_FMT_FLAG_FIXED_RESOLUTION
+To:     Maxime Jourdan <mjourdan@baylibre.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH] media: pvrusb2: fix null-ptr-deref in class_unregister()
-Date:   Wed, 5 Jun 2019 21:08:20 +0800
-Message-ID: <20190605130820.19306-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <20190531093126.26956-1-mjourdan@baylibre.com>
+ <20190531093126.26956-3-mjourdan@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9731b2db-efd4-87d0-c48d-87adec433747@xs4all.nl>
+Date:   Wed, 5 Jun 2019 15:39:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20190531093126.26956-3-mjourdan@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfL/7ZtmqqJer1hsK60jgZcgv+ioTMnBw2zhprc8Tz/bSylE8VX716nESUCWjidOuDf++DgPrGp2TlmKV5m4/D8Uig0rBNJDhyiYnBcNPYN0uSWQYEbqc
+ iGPqk330/IS2JJurKbAu7zb5CiKZnIF0mh86cRmofiHBhEJpBAvfw+b2ZhBs0791Ti17gyoh1Kb1p+cj8jTcxar9xMevoSncdv+OcQj7vqP9QX3QDu1/V0fw
+ Cjr+Ss9igdPPnCorYJa7CRHkI6LmnZ26jdOuCy2C6GkXKAf6SVG242m4NBWVYP0O4wS3q/QhCD+1UWVihM8BdbN/2RhSH4G9kgp/0oZGV2jvYX76BzgVgyQM
+ 1q1rGgIaYu252pObFB0QHBhd2nxcVRaflTFhSv6QNXOwWqdAiETXCVJ/B0HTr9Zb3/OltbHHB5mo7rrQFCdu4xf/8mCX8/0vgOTTUdDKpLfpCU08YO4blDdv
+ NPpTQMBErTJOwzpD4/R0i6O6lfR0ZIdtbTcCA/VXx8Y+UVRAB9QwVtn9tGLSYyVWjHd7l+TzvFNZ1fbTVjPTIO5NewY9QQCybH3da4oeZ0GBkwCazm3iLiJB
+ guYMTtfR7IUQGlSU2YYVcJJwj/gLClyKMlV6r5DU4Dhs+Kd2kVHTL950rjCC6IKKR7yKnEsKMoShErTrTGGsWxPZPexQf2CbHAjql8hY9QJT1rTSoMwjdDPD
+ c0iwon8trQ0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The class_ptr will be NULL if pvr2_sysfs_class_create() fails
-in pvr_init(), when call pvr2_sysfs_class_destroy(), it will
-lead to null-ptr-deref, fix it.
+Hi Maxime,
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- drivers/media/usb/pvrusb2/pvrusb2-sysfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I am wondering if this flag shouldn't be inverted: you set
+V4L2_FMT_FLAG_DYN_RESOLUTION if dynamic resolution is supported,
+otherwise it isn't.
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-index 7bc6d090358e..b6c6b314fadc 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-sysfs.c
-@@ -802,7 +802,8 @@ struct pvr2_sysfs_class *pvr2_sysfs_class_create(void)
- void pvr2_sysfs_class_destroy(struct pvr2_sysfs_class *clp)
- {
- 	pvr2_sysfs_trace("Unregistering pvr2_sysfs_class id=%p", clp);
--	class_unregister(&clp->class);
-+	if (clp)
-+		class_unregister(&clp->class);
- }
- 
- 
--- 
-2.20.1
+Can all the existing mainlined codec drivers handle midstream
+resolution changes?
+
+s5p-mfc, venus and mediatek can, but I see no SOURCE_CHANGE event in
+the coda drivers, so I suspect that that can't handle this.
+
+Philipp, what is the status of the coda driver for dynamic resolution
+changes?
+
+Another reason is that AFAIK all encoders are of the fixed resolution
+type.
+
+And a final reason is that usually flags should indicate the presence
+of a feature, not the absence.
+
+Regards,
+
+	Hans
+
+On 5/31/19 11:31 AM, Maxime Jourdan wrote:
+> When a v4l2 driver exposes V4L2_EVENT_SOURCE_CHANGE, some (usually
+> OUTPUT) formats may not be able to trigger this event.
+> 
+> For instance, MPEG2 on Amlogic hardware does not support resolution
+> switching on the fly, and a decode session must operate at a set
+> resolution defined before the decoding start.
+> 
+> Add a enum_fmt format flag to tag those specific formats.
+> 
+> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> ---
+>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 6 ++++++
+>  include/uapi/linux/videodev2.h                   | 5 +++--
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> index 822d6730e7d2..b11448a1848b 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> @@ -127,6 +127,12 @@ one until ``EINVAL`` is returned.
+>        - This format is not native to the device but emulated through
+>  	software (usually libv4l2), where possible try to use a native
+>  	format instead for better performance.
+> +    * - ``V4L2_FMT_FLAG_FIXED_RESOLUTION``
+> +      - 0x0004
+> +      - Dynamic resolution switching is not supported for this format,
+> +        even if the event ``V4L2_EVENT_SOURCE_CHANGE`` is supported by
+> +        the device.
+> +
+>  
+>  
+>  Return Value
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 1050a75fb7ef..9b0a7f82dd92 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -768,8 +768,9 @@ struct v4l2_fmtdesc {
+>  	__u32		    reserved[4];
+>  };
+>  
+> -#define V4L2_FMT_FLAG_COMPRESSED 0x0001
+> -#define V4L2_FMT_FLAG_EMULATED   0x0002
+> +#define V4L2_FMT_FLAG_COMPRESSED	0x0001
+> +#define V4L2_FMT_FLAG_EMULATED		0x0002
+> +#define V4L2_FMT_FLAG_FIXED_RESOLUTION	0x0004
+>  
+>  	/* Frame Size and frame rate enumeration */
+>  /*
+> 
 
