@@ -2,202 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF00835D35
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE8EA35D5E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:57:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727828AbfFEMtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 08:49:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:28008 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727600AbfFEMtG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:49:06 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 05:49:03 -0700
-X-ExtLoop1: 1
-Received: from pbooyens-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.48.29])
-  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2019 05:48:57 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id 100D421D78; Wed,  5 Jun 2019 15:48:53 +0300 (EEST)
-Date:   Wed, 5 Jun 2019 15:48:52 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Vishal Sagar <vishal.sagar@xilinx.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        id S1728002AbfFEM5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 08:57:45 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47267 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727769AbfFEM5p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 Jun 2019 08:57:45 -0400
+Received: from [IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9] ([IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YVU0hm1Mv3qlsYVU3hgAHl; Wed, 05 Jun 2019 14:57:39 +0200
+Subject: Re: [PATCH 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx Subsystem
+ driver
+To:     Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v8 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
- Subsystem driver
-Message-ID: <20190605124851.xr2hmgyoe46q6xud@kekkonen.localdomain>
-References: <1559555971-193235-1-git-send-email-vishal.sagar@xilinx.com>
- <1559555971-193235-3-git-send-email-vishal.sagar@xilinx.com>
+        Sandip Kothari <sandipk@xilinx.com>
+References: <1559656556-79174-1-git-send-email-vishal.sagar@xilinx.com>
+ <1559656556-79174-3-git-send-email-vishal.sagar@xilinx.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <023cf8a6-6fbc-6425-8bca-798045d39e02@xs4all.nl>
+Date:   Wed, 5 Jun 2019 14:57:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1559555971-193235-3-git-send-email-vishal.sagar@xilinx.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <1559656556-79174-3-git-send-email-vishal.sagar@xilinx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfMuFWCdkRQvPVjMAnXXQxBGvEJVvFRKxcgo1vz6LJD165IvtP/5nO/EkFXqh3LDBSNIE4cicUAb7grQLqlQJ/G6b77XdhaAIiV5vREGAR4QrX+2IYEfF
+ /ka4a/QkY8OGJti3t4wdJjoFCmM3WnTgeUmOnAJ46PWoz8vnc6LZJFTJaKc1+Lwe5HdGUnjmTf5iMkeeDgRRke3sh3/kH8uVGAnpeuC5M22X4GVpm5Rx7era
+ quQvoIRjj+vXnlpFe5QNaoTCDGgt/bhExSHfEw7uGEXqGR1TGtFJaQO67mNuxYBSjpA/hBnCf29mdAakmS2f3zCj6fnrtmx/dq/8pYolabJ3WG9KqvmLi9V2
+ 87kQyIATgnpH8SNcae2optPHdZmP7Vtk3JSgrV9+mEAJ+BnURA/kwrhvxPlAlI/z6Kwlu9uT1Adir4Gyv1VhPdJb+tSAR3cKzKYvrTLhefEwxa0U0b1YDeYh
+ b+MGfgXZ8GwY1G14pMVyd5s85RO74dl5MtKlEYa2nVPcgaaNWY6jk2GPfjO56fTU2Q5JN0uKVvx+myhDnzLlrTsNf23KVIejWyRmtdu21EZuL5wdkTbSQPR1
+ r8LLlJOX3RfkiNftlFMD2tO+ifHIeuHY6+EuR4NNQcI35TO2lasZhRWmQ6BWJp0vx/x6wL/I1TWLErAzeDHtJHFSJmmNpfam0bvimTbb7XTSe8vDdkfs3gEy
+ +0mGVsH1j0/13ZIaGq8aE+t7RRlZo0Mp
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vishal,
-
-On Mon, Jun 03, 2019 at 03:29:31PM +0530, Vishal Sagar wrote:
-> The Xilinx MIPI CSI-2 Rx Subsystem soft IP is used to capture images
-> from MIPI CSI-2 camera sensors and output AXI4-Stream video data ready
-> for image processing. Please refer to PG232 for details.
+On 6/4/19 3:55 PM, Vishal Sagar wrote:
+> The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
+> streams from SDI sources like SDI broadcast equipment like cameras and
+> mixers. This block outputs either native SDI, native video or
+> AXI4-Stream compliant data stream for further processing. Please refer
+> to PG290 for details.
 > 
-> The driver is used to set the number of active lanes, if enabled
-> in hardware. The CSI2 Rx controller filters out all packets except for
-> the packets with data type fixed in hardware. RAW8 packets are always
-> allowed to pass through.
+> The driver is used to configure the IP to add framer, search for
+> specific modes, get the detected mode, stream parameters, errors, etc.
+> It also generates events for video lock/unlock, bridge over/under flow.
 > 
-> It is also used to setup and handle interrupts and enable the core. It
-> logs all the events in respective counters between streaming on and off.
+> The driver supports only 10 bpc YUV 422 media bus format. It also
+> decodes the stream parameters based on the ST352 packet embedded in the
+> stream. In case the ST352 packet isn't present in the stream, the core's
+> detected properties are used to set stream properties.
 > 
-> The driver supports only the video format bridge enabled configuration.
-> Some data types like YUV 422 10bpc, RAW16, RAW20 are supported when the
-> CSI v2.0 feature is enabled in design. When the VCX feature is enabled,
-> the maximum number of virtual channels becomes 16 from 4.
+> The driver currently supports only the AXI4-Stream configuration.
 > 
 > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
 > ---
-> v8
-> - Use clk_bulk* APIs
-> - Add gpio reset for asserting video_aresetn when stream line buffer occurs
-> - Removed short packet related events and irq handling
->   - V4L2_EVENT_XLNXCSIRX_SPKT and V4L2_EVENT_XLNXCSIRX_SPKT_OVF removed
-> - Removed frame counter control V4L2_CID_XILINX_MIPICSISS_FRAME_COUNTER
->   and xcsi2rxss_g_volatile_ctrl()
-> - Minor formatting fixes
-> 
-> v7
-> - No change
-> 
-> v6
-> - No change
-> 
-> v5
-> - Removed bayer and updated related parts like set default format based
->   on Luca Cersoli's comments.
-> - Added correct YUV422 10bpc media bus format
-> 
-> v4
-> - Removed irq member from core structure
-> - Consolidated IP config prints in xcsi2rxss_log_ipconfig()
-> - Return -EINVAL in case of invalid ioctl
-> - Code formatting
-> - Added reviewed by Hyun Kwon
-> 
-> v3
-> - Fixed comments given by Hyun.
-> - Removed DPHY 200 MHz clock. This will be controlled by DPHY driver
-> - Minor code formatting
-> - en_csi_v20 and vfb members removed from struct and made local to dt parsing
-> - lock description updated
-> - changed to ratelimited type for all dev prints in irq handler
-> - Removed YUV 422 10bpc media format
-> 
-> v2
-> - Fixed comments given by Hyun and Sakari.
-> - Made all bitmask using BIT() and GENMASK()
-> - Removed unused definitions
-> - Removed DPHY access. This will be done by separate DPHY PHY driver.
-> - Added support for CSI v2.0 for YUV 422 10bpc, RAW16, RAW20 and extra
->   virtual channels
-> - Fixed the ports as sink and source
-> - Now use the v4l2fwnode API to get number of data-lanes
-> - Added clock framework support
-> - Removed the close() function
-> - updated the set format function
-> - support only VFB enabled configuration
-> 
->  drivers/media/platform/xilinx/Kconfig           |   10 +
->  drivers/media/platform/xilinx/Makefile          |    1 +
->  drivers/media/platform/xilinx/xilinx-csi2rxss.c | 1406 +++++++++++++++++++++++
->  include/uapi/linux/xilinx-v4l2-controls.h       |   12 +
->  include/uapi/linux/xilinx-v4l2-events.h         |   21 +
->  5 files changed, 1450 insertions(+)
->  create mode 100644 drivers/media/platform/xilinx/xilinx-csi2rxss.c
->  create mode 100644 include/uapi/linux/xilinx-v4l2-events.h
+>  drivers/media/platform/xilinx/Kconfig          |   11 +
+>  drivers/media/platform/xilinx/Makefile         |    1 +
+>  drivers/media/platform/xilinx/xilinx-sdirxss.c | 1846 ++++++++++++++++++++++++
+>  include/uapi/linux/xilinx-sdirxss.h            |   63 +
+>  include/uapi/linux/xilinx-v4l2-controls.h      |   30 +
+>  include/uapi/linux/xilinx-v4l2-events.h        |    9 +
+
+My comments for the MIPI CSI-2 Rx driver apply here as well with respect
+to the naming of controls/events and documenting them.
+
+Also, the contents of xilinx-v4l2-*.h can just be moved to xilinx-sdirxss.h.
+
+>  6 files changed, 1960 insertions(+)
+>  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
+>  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
 > 
 > diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
-> index a2773ad..cd1a0fd 100644
+> index cd1a0fd..0c68caa 100644
 > --- a/drivers/media/platform/xilinx/Kconfig
 > +++ b/drivers/media/platform/xilinx/Kconfig
-> @@ -10,6 +10,16 @@ config VIDEO_XILINX
+> @@ -20,6 +20,17 @@ config VIDEO_XILINX_CSI2RXSS
+>  	  Bridge. The driver is used to set the number of active lanes and
+>  	  get short packet data.
 >  
->  if VIDEO_XILINX
->  
-> +config VIDEO_XILINX_CSI2RXSS
-> +	tristate "Xilinx CSI2 Rx Subsystem"
-
-I think you'll need at least these dependencies:
-
-	VIDEO_V4L2
-	VIDEO_V4L2_SUBDEV_API
-
-And select:
-	VIDEO_V4L2_FWNODE
-
+> +config VIDEO_XILINX_SDIRXSS
+> +	tristate "Xilinx UHD SDI Rx Subsystem"
 > +	help
-> +	  Driver for Xilinx MIPI CSI2 Rx Subsystem. This is a V4L sub-device
-> +	  based driver that takes input from CSI2 Tx source and converts
-> +	  it into an AXI4-Stream. The subsystem comprises of a CSI2 Rx
-> +	  controller, DPHY, an optional I2C controller and a Video Format
-> +	  Bridge. The driver is used to set the number of active lanes and
-> +	  get short packet data.
+> +	  Driver for Xilinx UHD-SDI Rx Subsystem. This is a V4L sub-device
+> +	  based driver that takes input from a SDI source like SDI camera and
+> +	  converts it into an AXI4-Stream. The subsystem comprises of a SMPTE
+> +	  UHD-SDI Rx core, a SDI Rx to Native Video bridge and a Video In to
+> +	  AXI4-Stream bridge. The driver is used to set different stream
+> +	  detection modes and identify stream properties to properly configure
+> +	  downstream.
 > +
 >  config VIDEO_XILINX_TPG
 >  	tristate "Xilinx Video Test Pattern Generator"
 >  	depends on VIDEO_XILINX
 > diff --git a/drivers/media/platform/xilinx/Makefile b/drivers/media/platform/xilinx/Makefile
-> index 4cdc0b1..6119a34 100644
+> index 6119a34..223f2ea 100644
 > --- a/drivers/media/platform/xilinx/Makefile
 > +++ b/drivers/media/platform/xilinx/Makefile
-> @@ -3,5 +3,6 @@
->  xilinx-video-objs += xilinx-dma.o xilinx-vip.o xilinx-vipp.o
+> @@ -4,5 +4,6 @@ xilinx-video-objs += xilinx-dma.o xilinx-vip.o xilinx-vipp.o
 >  
 >  obj-$(CONFIG_VIDEO_XILINX) += xilinx-video.o
-> +obj-$(CONFIG_VIDEO_XILINX_CSI2RXSS) += xilinx-csi2rxss.o
+>  obj-$(CONFIG_VIDEO_XILINX_CSI2RXSS) += xilinx-csi2rxss.o
+> +obj-$(CONFIG_VIDEO_XILINX_SDIRXSS) += xilinx-sdirxss.o
 >  obj-$(CONFIG_VIDEO_XILINX_TPG) += xilinx-tpg.o
 >  obj-$(CONFIG_VIDEO_XILINX_VTC) += xilinx-vtc.o
-> diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
+> diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
 > new file mode 100644
-> index 0000000..51bb80c
+> index 0000000..ba2d9d0
 > --- /dev/null
-> +++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-> @@ -0,0 +1,1406 @@
+> +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> @@ -0,0 +1,1846 @@
 > +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * Driver for Xilinx MIPI CSI2 Rx Subsystem
+> + * Driver for Xilinx SDI Rx Subsystem
 > + *
-> + * Copyright (C) 2016 - 2019 Xilinx, Inc.
+> + * Copyright (C) 2017 - 2019 Xilinx, Inc.
 > + *
 > + * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
 > + *
 > + */
+> +
+> +#include <dt-bindings/media/xilinx-vip.h>
+> +#include <linux/bitops.h>
+> +#include <linux/compiler.h>
 > +#include <linux/clk.h>
 > +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
+> +#include <linux/device.h>
 > +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
 > +#include <linux/module.h>
-> +#include <linux/mutex.h>
 > +#include <linux/of.h>
 > +#include <linux/of_irq.h>
 > +#include <linux/platform_device.h>
+> +#include <linux/pm.h>
+> +#include <linux/slab.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/spinlock_types.h>
+> +#include <linux/types.h>
 > +#include <linux/v4l2-subdev.h>
-> +#include <linux/xilinx-v4l2-controls.h>
+> +#include <linux/xilinx-sdirxss.h>
 > +#include <linux/xilinx-v4l2-events.h>
+> +#include <linux/xilinx-v4l2-controls.h>
 > +#include <media/media-entity.h>
 > +#include <media/v4l2-common.h>
 > +#include <media/v4l2-ctrls.h>
@@ -206,826 +167,1241 @@ And select:
 > +#include <media/v4l2-subdev.h>
 > +#include "xilinx-vip.h"
 > +
-> +/* Register register map */
-> +#define XCSI_CCR_OFFSET		0x00
-> +#define XCSI_CCR_SOFTRESET	BIT(1)
-> +#define XCSI_CCR_ENABLE		BIT(0)
+> +/*
+> + * SDI Rx register map, bitmask and offsets
+> + */
+> +#define XSDIRX_RST_CTRL_REG		0x00
+> +#define XSDIRX_MDL_CTRL_REG		0x04
+> +#define XSDIRX_GLBL_IER_REG		0x0C
+> +#define XSDIRX_ISR_REG			0x10
+> +#define XSDIRX_IER_REG			0x14
+> +#define XSDIRX_ST352_VALID_REG		0x18
+> +#define XSDIRX_ST352_DS1_REG		0x1C
+> +#define XSDIRX_ST352_DS3_REG		0x20
+> +#define XSDIRX_ST352_DS5_REG		0x24
+> +#define XSDIRX_ST352_DS7_REG		0x28
+> +#define XSDIRX_ST352_DS9_REG		0x2C
+> +#define XSDIRX_ST352_DS11_REG		0x30
+> +#define XSDIRX_ST352_DS13_REG		0x34
+> +#define XSDIRX_ST352_DS15_REG		0x38
+> +#define XSDIRX_VERSION_REG		0x3C
+> +#define XSDIRX_SS_CONFIG_REG		0x40
+> +#define XSDIRX_MODE_DET_STAT_REG	0x44
+> +#define XSDIRX_TS_DET_STAT_REG		0x48
+> +#define XSDIRX_EDH_STAT_REG		0x4C
+> +#define XSDIRX_EDH_ERRCNT_EN_REG	0x50
+> +#define XSDIRX_EDH_ERRCNT_REG		0x54
+> +#define XSDIRX_CRC_ERRCNT_REG		0x58
+> +#define XSDIRX_VID_LOCK_WINDOW_REG	0x5C
+> +#define XSDIRX_SB_RX_STS_REG		0x60
 > +
-> +#define XCSI_PCR_OFFSET		0x04
-> +#define XCSI_PCR_MAXLANES_MASK	GENMASK(4, 3)
-> +#define XCSI_PCR_ACTLANES_MASK	GENMASK(1, 0)
+> +#define XSDIRX_RST_CTRL_SS_EN_MASK			BIT(0)
+> +#define XSDIRX_RST_CTRL_SRST_MASK			BIT(1)
+> +#define XSDIRX_RST_CTRL_RST_CRC_ERRCNT_MASK		BIT(2)
+> +#define XSDIRX_RST_CTRL_RST_EDH_ERRCNT_MASK		BIT(3)
+> +#define XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK		BIT(8)
+> +#define XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK	BIT(9)
 > +
-> +#define XCSI_CSR_OFFSET		0x10
-> +#define XCSI_CSR_PKTCNT		GENMASK(31, 16)
-> +#define XCSI_CSR_SPFIFOFULL	BIT(3)
-> +#define XCSI_CSR_SPFIFONE	BIT(2)
-> +#define XCSI_CSR_SLBF		BIT(1)
-> +#define XCSI_CSR_RIPCD		BIT(0)
+> +#define XSDIRX_MDL_CTRL_FRM_EN_MASK		BIT(4)
+> +#define XSDIRX_MDL_CTRL_MODE_DET_EN_MASK	BIT(5)
+> +#define XSDIRX_MDL_CTRL_MODE_HD_EN_MASK		BIT(8)
+> +#define XSDIRX_MDL_CTRL_MODE_SD_EN_MASK		BIT(9)
+> +#define XSDIRX_MDL_CTRL_MODE_3G_EN_MASK		BIT(10)
+> +#define XSDIRX_MDL_CTRL_MODE_6G_EN_MASK		BIT(11)
+> +#define XSDIRX_MDL_CTRL_MODE_12GI_EN_MASK	BIT(12)
+> +#define XSDIRX_MDL_CTRL_MODE_12GF_EN_MASK	BIT(13)
+> +#define XSDIRX_MDL_CTRL_MODE_AUTO_DET_MASK	GENMASK(13, 8)
 > +
-> +#define XCSI_GIER_OFFSET	0x20
-> +#define XCSI_GIER_GIE		BIT(0)
+> +#define XSDIRX_MDL_CTRL_FORCED_MODE_OFFSET	16
+> +#define XSDIRX_MDL_CTRL_FORCED_MODE_MASK	GENMASK(18, 16)
 > +
-> +#define XCSI_ISR_OFFSET		0x24
-> +#define XCSI_IER_OFFSET		0x28
+> +#define XSDIRX_GLBL_INTR_EN_MASK	BIT(0)
 > +
-> +#define XCSI_ISR_FR		BIT(31)
-> +#define XCSI_ISR_VCXFE		BIT(30)
-> +#define XCSI_ISR_WCC		BIT(22)
-> +#define XCSI_ISR_ILC		BIT(21)
-> +#define XCSI_ISR_SPFIFOF	BIT(20)
-> +#define XCSI_ISR_SPFIFONE	BIT(19)
-> +#define XCSI_ISR_SLBF		BIT(18)
-> +#define XCSI_ISR_STOP		BIT(17)
-> +#define XCSI_ISR_SOTERR		BIT(13)
-> +#define XCSI_ISR_SOTSYNCERR	BIT(12)
-> +#define XCSI_ISR_ECC2BERR	BIT(11)
-> +#define XCSI_ISR_ECC1BERR	BIT(10)
-> +#define XCSI_ISR_CRCERR		BIT(9)
-> +#define XCSI_ISR_DATAIDERR	BIT(8)
-> +#define XCSI_ISR_VC3FSYNCERR	BIT(7)
-> +#define XCSI_ISR_VC3FLVLERR	BIT(6)
-> +#define XCSI_ISR_VC2FSYNCERR	BIT(5)
-> +#define XCSI_ISR_VC2FLVLERR	BIT(4)
-> +#define XCSI_ISR_VC1FSYNCERR	BIT(3)
-> +#define XCSI_ISR_VC1FLVLERR	BIT(2)
-> +#define XCSI_ISR_VC0FSYNCERR	BIT(1)
-> +#define XCSI_ISR_VC0FLVLERR	BIT(0)
+> +#define XSDIRX_INTR_VIDLOCK_MASK	BIT(0)
+> +#define XSDIRX_INTR_VIDUNLOCK_MASK	BIT(1)
+> +#define XSDIRX_INTR_OVERFLOW_MASK	BIT(9)
+> +#define XSDIRX_INTR_UNDERFLOW_MASK	BIT(10)
 > +
-> +#define XCSI_INTR_PROT_MASK	(XCSI_ISR_VC3FSYNCERR |	XCSI_ISR_VC3FLVLERR |\
-> +				 XCSI_ISR_VC2FSYNCERR | XCSI_ISR_VC2FLVLERR |\
-> +				 XCSI_ISR_VC1FSYNCERR | XCSI_ISR_VC1FLVLERR |\
-> +				 XCSI_ISR_VC0FSYNCERR |	XCSI_ISR_VC0FLVLERR |\
-> +				 XCSI_ISR_VCXFE)
+> +#define XSDIRX_INTR_ALL_MASK	(XSDIRX_INTR_VIDLOCK_MASK |\
+> +				XSDIRX_INTR_VIDUNLOCK_MASK |\
+> +				XSDIRX_INTR_OVERFLOW_MASK |\
+> +				XSDIRX_INTR_UNDERFLOW_MASK)
 > +
-> +#define XCSI_INTR_PKTLVL_MASK	(XCSI_ISR_ECC2BERR | XCSI_ISR_ECC1BERR |\
-> +				 XCSI_ISR_CRCERR | XCSI_ISR_DATAIDERR)
+> +#define XSDIRX_ST352_VALID_DS1_MASK	BIT(0)
+> +#define XSDIRX_ST352_VALID_DS3_MASK	BIT(1)
+> +#define XSDIRX_ST352_VALID_DS5_MASK	BIT(2)
+> +#define XSDIRX_ST352_VALID_DS7_MASK	BIT(3)
+> +#define XSDIRX_ST352_VALID_DS9_MASK	BIT(4)
+> +#define XSDIRX_ST352_VALID_DS11_MASK	BIT(5)
+> +#define XSDIRX_ST352_VALID_DS13_MASK	BIT(6)
+> +#define XSDIRX_ST352_VALID_DS15_MASK	BIT(7)
 > +
-> +#define XCSI_INTR_DPHY_MASK	(XCSI_ISR_SOTERR | XCSI_ISR_SOTSYNCERR)
+> +#define XSDIRX_MODE_DET_STAT_RX_MODE_MASK	GENMASK(2, 0)
+> +#define XSDIRX_MODE_DET_STAT_MODE_LOCK_MASK	BIT(3)
+> +#define XSDIRX_MODE_DET_STAT_ACT_STREAM_MASK	GENMASK(6, 4)
+> +#define XSDIRX_MODE_DET_STAT_ACT_STREAM_OFFSET	4
+> +#define XSDIRX_MODE_DET_STAT_LVLB_3G_MASK	BIT(7)
 > +
-> +#define XCSI_INTR_SPKT_MASK	(XCSI_ISR_SPFIFOF | XCSI_ISR_SPFIFONE)
+> +#define XSDIRX_ACTIVE_STREAMS_1		0x0
+> +#define XSDIRX_ACTIVE_STREAMS_2		0x1
+> +#define XSDIRX_ACTIVE_STREAMS_4		0x2
+> +#define XSDIRX_ACTIVE_STREAMS_8		0x3
+> +#define XSDIRX_ACTIVE_STREAMS_16	0x4
 > +
-> +#define XCSI_INTR_ERR_MASK	(XCSI_ISR_WCC | XCSI_ISR_ILC | XCSI_ISR_SLBF |\
-> +				 XCSI_ISR_STOP)
+> +#define XSDIRX_TS_DET_STAT_LOCKED_MASK		BIT(0)
+> +#define XSDIRX_TS_DET_STAT_SCAN_MASK		BIT(1)
+> +#define XSDIRX_TS_DET_STAT_SCAN_OFFSET		(1)
+> +#define XSDIRX_TS_DET_STAT_FAMILY_MASK		GENMASK(7, 4)
+> +#define XSDIRX_TS_DET_STAT_FAMILY_OFFSET	(4)
+> +#define XSDIRX_TS_DET_STAT_RATE_MASK		GENMASK(11, 8)
+> +#define XSDIRX_TS_DET_STAT_RATE_OFFSET		(8)
 > +
-> +#define XCSI_INTR_FRAMERCVD_MASK	(XCSI_ISR_FR)
+> +#define XSDIRX_TS_DET_STAT_RATE_NONE		0x0
+> +#define XSDIRX_TS_DET_STAT_RATE_23_98HZ		0x2
+> +#define XSDIRX_TS_DET_STAT_RATE_24HZ		0x3
+> +#define XSDIRX_TS_DET_STAT_RATE_47_95HZ		0x4
+> +#define XSDIRX_TS_DET_STAT_RATE_25HZ		0x5
+> +#define XSDIRX_TS_DET_STAT_RATE_29_97HZ		0x6
+> +#define XSDIRX_TS_DET_STAT_RATE_30HZ		0x7
+> +#define XSDIRX_TS_DET_STAT_RATE_48HZ		0x8
+> +#define XSDIRX_TS_DET_STAT_RATE_50HZ		0x9
+> +#define XSDIRX_TS_DET_STAT_RATE_59_94HZ		0xA
+> +#define XSDIRX_TS_DET_STAT_RATE_60HZ		0xB
 > +
-> +#define XCSI_ISR_ALLINTR_MASK	(XCSI_INTR_PROT_MASK | XCSI_INTR_PKTLVL_MASK |\
-> +				 XCSI_INTR_DPHY_MASK | XCSI_INTR_SPKT_MASK |\
-> +				 XCSI_INTR_ERR_MASK | XCSI_INTR_FRAMERCVD_MASK)
+> +#define XSDIRX_EDH_STAT_EDH_AP_MASK	BIT(0)
+> +#define XSDIRX_EDH_STAT_EDH_FF_MASK	BIT(1)
+> +#define XSDIRX_EDH_STAT_EDH_ANC_MASK	BIT(2)
+> +#define XSDIRX_EDH_STAT_AP_FLAG_MASK	GENMASK(8, 4)
+> +#define XSDIRX_EDH_STAT_FF_FLAG_MASK	GENMASK(13, 9)
+> +#define XSDIRX_EDH_STAT_ANC_FLAG_MASK	GENMASK(18, 14)
+> +#define XSDIRX_EDH_STAT_PKT_FLAG_MASK	GENMASK(22, 19)
+> +
+> +#define XSDIRX_EDH_ERRCNT_COUNT_MASK	GENMASK(15, 0)
+> +
+> +#define XSDIRX_CRC_ERRCNT_COUNT_MASK	GENMASK(31, 16)
+> +#define XSDIRX_CRC_ERRCNT_DS_CRC_MASK	GENMASK(15, 0)
+> +
+> +#define XSDIRX_VERSION_REV_MASK		GENMASK(7, 0)
+> +#define XSDIRX_VERSION_PATCHID_MASK	GENMASK(11, 8)
+> +#define XSDIRX_VERSION_VER_REV_MASK	GENMASK(15, 12)
+> +#define XSDIRX_VERSION_VER_MIN_MASK	GENMASK(23, 16)
+> +#define XSDIRX_VERSION_VER_MAJ_MASK	GENMASK(31, 24)
+> +
+> +#define XSDIRX_SS_CONFIG_EDH_INCLUDED_MASK		BIT(1)
+> +
+> +#define XSDIRX_STAT_SB_RX_TDATA_CHANGE_DONE_MASK	BIT(0)
+> +#define XSDIRX_STAT_SB_RX_TDATA_CHANGE_FAIL_MASK	BIT(1)
+> +#define XSDIRX_STAT_SB_RX_TDATA_GT_RESETDONE_MASK	BIT(2)
+> +#define XSDIRX_STAT_SB_RX_TDATA_GT_BITRATE_MASK		BIT(3)
+> +
+> +/* Number of media pads */
+> +#define XSDIRX_MEDIA_PADS	(1)
+> +
+> +#define XSDIRX_DEFAULT_WIDTH	(1920)
+> +#define XSDIRX_DEFAULT_HEIGHT	(1080)
+> +
+> +#define XSDIRX_MAX_STR_LENGTH	16
+> +
+> +#define XSDIRXSS_SDI_STD_3G		0
+> +#define XSDIRXSS_SDI_STD_6G		1
+> +#define XSDIRXSS_SDI_STD_12G_8DS	2
+> +
+> +#define XSDIRX_DEFAULT_VIDEO_LOCK_WINDOW	0x3000
+> +
+> +#define XSDIRX_MODE_HD_MASK	0x0
+> +#define XSDIRX_MODE_SD_MASK	0x1
+> +#define XSDIRX_MODE_3G_MASK	0x2
+> +#define XSDIRX_MODE_6G_MASK	0x4
+> +#define XSDIRX_MODE_12GI_MASK	0x5
+> +#define XSDIRX_MODE_12GF_MASK	0x6
 > +
 > +/*
-> + * Removed VCXFE mask as it doesn't exist in IER
-> + * Removed STOP state irq as this will keep driver in irq handler only
+> + * Maximum number of events per file handle.
 > + */
-> +#define XCSI_IER_INTR_MASK	(XCSI_ISR_ALLINTR_MASK &\
-> +				 ~(XCSI_ISR_STOP | XCSI_ISR_VCXFE))
+> +#define XSDIRX_MAX_EVENTS	(128)
 > +
-> +#define XCSI_SPKTR_OFFSET	0x30
-> +#define XCSI_SPKTR_DATA		GENMASK(23, 8)
-> +#define XCSI_SPKTR_VC		GENMASK(7, 6)
-> +#define XCSI_SPKTR_DT		GENMASK(5, 0)
+> +/* ST352 related macros */
+> +#define XST352_PAYLOAD_BYTE_MASK	0xFF
+> +#define XST352_PAYLOAD_BYTE1_SHIFT	0
+> +#define XST352_PAYLOAD_BYTE2_SHIFT	8
+> +#define XST352_PAYLOAD_BYTE3_SHIFT	16
+> +#define XST352_PAYLOAD_BYTE4_SHIFT	24
 > +
-> +#define XCSI_VCXR_OFFSET	0x34
-> +#define XCSI_VCXR_VCERR		GENMASK(23, 0)
-> +#define XCSI_VCXR_VCSTART	4
-> +#define XCSI_VCXR_VCEND		15
-> +#define XCSI_VCXR_FSYNCERR	BIT(1)
-> +#define XCSI_VCXR_FLVLERR	BIT(0)
+> +#define XST352_BYTE1_ST292_1x720L_1_5G		0x84
+> +#define XST352_BYTE1_ST292_1x1080L_1_5G		0x85
+> +#define XST352_BYTE1_ST425_2008_750L_3GB	0x88
+> +#define XST352_BYTE1_ST425_2008_1125L_3GA	0x89
+> +#define XST352_BYTE1_ST372_DL_3GB		0x8A
+> +#define XST352_BYTE1_ST372_2x720L_3GB		0x8B
+> +#define XST352_BYTE1_ST372_2x1080L_3GB		0x8C
+> +#define XST352_BYTE1_ST2081_10_2160L_6G		0xC0
+> +#define XST352_BYTE1_ST2081_10_DL_2160L_6G	0xC2
+> +#define XST352_BYTE1_ST2082_10_2160L_12G	0xCE
 > +
-> +#define XCSI_CLKINFR_OFFSET	0x3C
-> +#define XCSI_CLKINFR_STOP	BIT(1)
+> +#define XST352_BYTE2_TS_TYPE_MASK		BIT(15)
+> +#define XST352_BYTE2_TS_TYPE_OFFSET		15
+> +#define XST352_BYTE2_PIC_TYPE_MASK		BIT(14)
+> +#define XST352_BYTE2_PIC_TYPE_OFFSET		14
+> +#define XST352_BYTE2_TS_PIC_TYPE_INTERLACED	0
+> +#define XST352_BYTE2_TS_PIC_TYPE_PROGRESSIVE	1
 > +
-> +#define XCSI_DLXINFR_OFFSET	0x40
-> +#define XCSI_DLXINFR_STOP	BIT(5)
-> +#define XCSI_DLXINFR_SOTERR	BIT(1)
-> +#define XCSI_DLXINFR_SOTSYNCERR	BIT(0)
-> +#define XCSI_MAXDL_COUNT	0x4
+> +#define XST352_BYTE2_FPS_MASK			0xF
+> +#define XST352_BYTE2_FPS_SHIFT			8
+> +#define XST352_BYTE2_FPS_24F			0x2
+> +#define XST352_BYTE2_FPS_24			0x3
+> +#define XST352_BYTE2_FPS_48F			0x4
+> +#define XST352_BYTE2_FPS_25			0x5
+> +#define XST352_BYTE2_FPS_30F			0x6
+> +#define XST352_BYTE2_FPS_30			0x7
+> +#define XST352_BYTE2_FPS_48			0x8
+> +#define XST352_BYTE2_FPS_50			0x9
+> +#define XST352_BYTE2_FPS_60F			0xA
+> +#define XST352_BYTE2_FPS_60			0xB
+> +/* Table 4 ST 2081-10:2015 */
+> +#define XST352_BYTE2_FPS_96			0xC
+> +#define XST352_BYTE2_FPS_100			0xD
+> +#define XST352_BYTE2_FPS_120			0xE
+> +#define XST352_BYTE2_FPS_120F			0xF
 > +
-> +#define XCSI_VCXINF1R_OFFSET		0x60
-> +#define XCSI_VCXINF1R_LINECOUNT		GENMASK(31, 16)
-> +#define XCSI_VCXINF1R_LINECOUNT_SHIFT	16
-> +#define XCSI_VCXINF1R_BYTECOUNT		GENMASK(15, 0)
+> +#define XST352_BYTE3_ACT_LUMA_COUNT_MASK	BIT(22)
+> +#define XST352_BYTE3_ACT_LUMA_COUNT_OFFSET	22
 > +
-> +#define XCSI_VCXINF2R_OFFSET	0x64
-> +#define XCSI_VCXINF2R_DT	GENMASK(5, 0)
-> +#define XCSI_MAXVCX_COUNT	16
-> +
-> +/*
-> + * The core takes less than 100 video clock cycles to reset.
-> + * So choosing a timeout value larger than this.
-> + */
-> +#define XCSI_TIMEOUT_VAL	1000 /* us */
-> +
-> +/* Maximum short packet events */
-> +#define XCSI_MAX_SPKT_EVENT	64
-> +
-> +/*
-> + * Sink pad connected to sensor source pad.
-> + * Source pad connected to next module like demosaic.
-> + */
-> +#define XCSI_MEDIA_PADS		2
-> +#define XCSI_DEFAULT_WIDTH	1920
-> +#define XCSI_DEFAULT_HEIGHT	1080
-> +
-> +/* Max string length for CSI Data type string */
-> +#define XCSI_PXLFMT_STRLEN_MAX	16
-> +
-> +/* MIPI CSI2 Data Types from spec */
-> +#define XCSI_DT_YUV4228B	0x1E
-> +#define XCSI_DT_YUV42210B	0x1F
-> +#define XCSI_DT_RGB444		0x20
-> +#define XCSI_DT_RGB555		0x21
-> +#define XCSI_DT_RGB565		0x22
-> +#define XCSI_DT_RGB666		0x23
-> +#define XCSI_DT_RGB888		0x24
-> +#define XCSI_DT_RAW6		0x28
-> +#define XCSI_DT_RAW7		0x29
-> +#define XCSI_DT_RAW8		0x2A
-> +#define XCSI_DT_RAW10		0x2B
-> +#define XCSI_DT_RAW12		0x2C
-> +#define XCSI_DT_RAW14		0x2D
-> +#define XCSI_DT_RAW16		0x2E
-> +#define XCSI_DT_RAW20		0x2F
-> +
-> +#define XCSI_VCX_START		4
-> +#define XCSI_MAX_VC		4
-> +#define XCSI_MAX_VCX		16
-> +
-> +#define XCSI_NEXTREG_OFFSET	4
-> +
-> +/* There are 2 events frame sync and frame level error per VC */
-> +#define XCSI_VCX_NUM_EVENTS	((XCSI_MAX_VCX - XCSI_MAX_VC) * 2)
-> +
-> +/* Macro to return "true" or "false" string if bit is set */
-> +#define XCSI_GET_BITSET_STR(val, mask)	(val) & (mask) ? "true" : "false"
+> +#define XST352_BYTE3_COLOR_FORMAT_MASK		GENMASK(19, 16)
+> +#define XST352_BYTE3_COLOR_FORMAT_OFFSET	16
+> +#define XST352_BYTE3_COLOR_FORMAT_422		0x0
+> +#define XST352_BYTE3_COLOR_FORMAT_420		0x3
 > +
 > +/**
-> + * struct xcsi2rxss_event - Event log structure
-> + * @mask: Event mask
-> + * @name: Name of the event
-> + * @counter: Count number of events
+> + * enum sdi_family_enc - SDI Transport Video Format Detected with Active Pixels
+> + * @XSDIRX_SMPTE_ST_274: SMPTE ST 274 detected with AP 1920x1080
+> + * @XSDIRX_SMPTE_ST_296: SMPTE ST 296 detected with AP 1280x720
+> + * @XSDIRX_SMPTE_ST_2048_2: SMPTE ST 2048-2 detected with AP 2048x1080
+> + * @XSDIRX_SMPTE_ST_295: SMPTE ST 295 detected with AP 1920x1080
+> + * @XSDIRX_NTSC: NTSC encoding detected with AP 720x486
+> + * @XSDIRX_PAL: PAL encoding detected with AP 720x576
+> + * @XSDIRX_TS_UNKNOWN: Unknown SMPTE Transport family type
 > + */
-> +struct xcsi2rxss_event {
-> +	u32 mask;
-> +	const char *const name;
-> +	unsigned int counter;
+> +enum sdi_family_enc {
+> +	XSDIRX_SMPTE_ST_274	= 0,
+> +	XSDIRX_SMPTE_ST_296	= 1,
+> +	XSDIRX_SMPTE_ST_2048_2	= 2,
+> +	XSDIRX_SMPTE_ST_295	= 3,
+> +	XSDIRX_NTSC		= 8,
+> +	XSDIRX_PAL		= 9,
+> +	XSDIRX_TS_UNKNOWN	= 15
 > +};
 > +
-> +/*
-> + * struct xcsi2rxss_core - Core configuration CSI2 Rx Subsystem device structure
+> +/**
+> + * struct xsdirxss_core - Core configuration SDI Rx Subsystem device structure
 > + * @dev: Platform structure
 > + * @iomem: Base address of subsystem
-> + * @enable_active_lanes: If number of active lanes can be modified
-> + * @max_num_lanes: Maximum number of lanes present
-> + * @datatype: Data type filter
-> + * @events: Structure to maintain event logs
-> + * @vcx_events: Structure to maintain VCX event logs
-> + * @en_vcx: If more than 4 VC are enabled
-> + * @clks: array of clocks
-> + * @num_clks: number of clocks
-> + * @rst_gpio: reset to video_aresetn
+> + * @irq: requested irq number
+> + * @include_edh: EDH processor presence
+> + * @mode: 3G/6G/12G mode
+> + * @axi_clk: Axi lite interface clock
+> + * @sdirx_clk: SDI Rx GT clock
+> + * @vidout_clk: Video clock
 > + */
-> +struct xcsi2rxss_core {
+> +struct xsdirxss_core {
 > +	struct device *dev;
 > +	void __iomem *iomem;
-> +	bool enable_active_lanes;
-> +	u32 max_num_lanes;
-> +	u32 datatype;
-> +	struct xcsi2rxss_event *events;
-> +	struct xcsi2rxss_event *vcx_events;
-> +	bool en_vcx;
-> +	struct clk_bulk_data *clks;
-> +	int num_clks;
-> +	struct gpio_desc *rst_gpio;
+> +	int irq;
+> +	bool include_edh;
+> +	int mode;
+> +	struct clk *axi_clk;
+> +	struct clk *sdirx_clk;
+> +	struct clk *vidout_clk;
 > +};
 > +
 > +/**
-> + * struct xcsi2rxss_state - CSI2 Rx Subsystem device structure
-> + * @core: Core structure for MIPI CSI2 Rx Subsystem
+> + * struct xsdirxss_state - SDI Rx Subsystem device structure
+> + * @core: Core structure for MIPI SDI Rx Subsystem
 > + * @subdev: The v4l2 subdev structure
 > + * @ctrl_handler: control handler
-> + * @format: Active V4L2 formats on each pad
-> + * @event: Holds the short packet event
-> + * @lock: mutex for accessing this structure
+> + * @event: Holds the video unlock event
+> + * @formats: Active V4L2 formats on each pad
+> + * @default_format: default V4L2 media bus format
+> + * @frame_interval: Captures the frame rate
+> + * @vip_format: format information corresponding to the active format
 > + * @pads: media pads
 > + * @streaming: Flag for storing streaming state
+> + * @vidlocked: Flag indicating SDI Rx has locked onto video stream
+> + * @ts_is_interlaced: Flag indicating Transport Stream is interlaced.
 > + *
 > + * This structure contains the device driver related parameters
 > + */
-> +struct xcsi2rxss_state {
-> +	struct xcsi2rxss_core core;
+> +struct xsdirxss_state {
+> +	struct xsdirxss_core core;
 > +	struct v4l2_subdev subdev;
 > +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_mbus_framefmt format;
 > +	struct v4l2_event event;
-> +	/* used to protect access to this struct */
-> +	struct mutex lock;
-> +	struct media_pad pads[XCSI_MEDIA_PADS];
+> +	struct v4l2_mbus_framefmt formats[XSDIRX_MEDIA_PADS];
+> +	struct v4l2_mbus_framefmt default_format;
+> +	struct v4l2_fract frame_interval;
+> +	const struct xvip_video_format *vip_format;
+> +	struct media_pad pads[XSDIRX_MEDIA_PADS];
 > +	bool streaming;
+> +	bool vidlocked;
+> +	bool ts_is_interlaced;
 > +};
 > +
-> +static struct xcsi2rxss_event xcsi2rxss_events[] = {
-
-This struct is static and not related to a single device. You'll need to
-store the count elsewhere if you want to keep it, and make this const.
-
-> +	{ XCSI_ISR_FR, "Frame Received", 0 },
-> +	{ XCSI_ISR_VCXFE, "VCX Frame Errors", 0 },
-> +	{ XCSI_ISR_WCC, "Word Count Errors", 0 },
-> +	{ XCSI_ISR_ILC, "Invalid Lane Count Error", 0 },
-> +	{ XCSI_ISR_SPFIFOF, "Short Packet FIFO OverFlow Error", 0 },
-> +	{ XCSI_ISR_SPFIFONE, "Short Packet FIFO Not Empty", 0 },
-> +	{ XCSI_ISR_SLBF, "Streamline Buffer Full Error", 0 },
-> +	{ XCSI_ISR_STOP, "Lane Stop State", 0 },
-> +	{ XCSI_ISR_SOTERR, "SOT Error", 0 },
-> +	{ XCSI_ISR_SOTSYNCERR, "SOT Sync Error", 0 },
-> +	{ XCSI_ISR_ECC2BERR, "2 Bit ECC Unrecoverable Error", 0 },
-> +	{ XCSI_ISR_ECC1BERR, "1 Bit ECC Recoverable Error", 0 },
-> +	{ XCSI_ISR_CRCERR, "CRC Error", 0 },
-> +	{ XCSI_ISR_DATAIDERR, "Data Id Error", 0 },
-> +	{ XCSI_ISR_VC3FSYNCERR, "Virtual Channel 3 Frame Sync Error", 0 },
-> +	{ XCSI_ISR_VC3FLVLERR, "Virtual Channel 3 Frame Level Error", 0 },
-> +	{ XCSI_ISR_VC2FSYNCERR, "Virtual Channel 2 Frame Sync Error", 0 },
-> +	{ XCSI_ISR_VC2FLVLERR, "Virtual Channel 2 Frame Level Error", 0 },
-> +	{ XCSI_ISR_VC1FSYNCERR, "Virtual Channel 1 Frame Sync Error", 0 },
-> +	{ XCSI_ISR_VC1FLVLERR, "Virtual Channel 1 Frame Level Error", 0 },
-> +	{ XCSI_ISR_VC0FSYNCERR, "Virtual Channel 0 Frame Sync Error", 0 },
-> +	{ XCSI_ISR_VC0FLVLERR, "Virtual Channel 0 Frame Level Error", 0 }
-> +};
-> +
-> +#define XCSI_NUM_EVENTS		ARRAY_SIZE(xcsi2rxss_events)
-> +
-> +static const struct clk_bulk_data xcsi2rxss_clks[] = {
-> +	{ .id = "lite_aclk" },
-> +	{ .id = "video_aclk" },
-> +};
-> +
-> +static inline struct xcsi2rxss_state *
-> +to_xcsi2rxssstate(struct v4l2_subdev *subdev)
+> +static inline struct xsdirxss_state *
+> +to_xsdirxssstate(struct v4l2_subdev *subdev)
 > +{
-> +	return container_of(subdev, struct xcsi2rxss_state, subdev);
+> +	return container_of(subdev, struct xsdirxss_state, subdev);
 > +}
 > +
 > +/*
 > + * Register related operations
 > + */
-> +static inline u32 xcsi2rxss_read(struct xcsi2rxss_core *xcsi2rxss, u32 addr)
+> +static inline u32 xsdirxss_read(struct xsdirxss_core *xsdirxss, u32 addr)
 > +{
-> +	return ioread32(xcsi2rxss->iomem + addr);
+> +	return ioread32(xsdirxss->iomem + addr);
 > +}
 > +
-> +static inline void xcsi2rxss_write(struct xcsi2rxss_core *xcsi2rxss, u32 addr,
-> +				   u32 value)
+> +static inline void xsdirxss_write(struct xsdirxss_core *xsdirxss, u32 addr,
+> +				  u32 value)
 > +{
-> +	iowrite32(value, xcsi2rxss->iomem + addr);
+> +	iowrite32(value, xsdirxss->iomem + addr);
 > +}
 > +
-> +static inline void xcsi2rxss_clr(struct xcsi2rxss_core *xcsi2rxss, u32 addr,
-> +				 u32 clr)
+> +static inline void xsdirxss_clr(struct xsdirxss_core *xsdirxss, u32 addr,
+> +				u32 clr)
 > +{
-> +	xcsi2rxss_write(xcsi2rxss, addr,
-> +			xcsi2rxss_read(xcsi2rxss, addr) & ~clr);
+> +	xsdirxss_write(xsdirxss, addr, xsdirxss_read(xsdirxss, addr) & ~clr);
 > +}
 > +
-> +static inline void xcsi2rxss_set(struct xcsi2rxss_core *xcsi2rxss, u32 addr,
-> +				 u32 set)
+> +static inline void xsdirxss_set(struct xsdirxss_core *xsdirxss, u32 addr,
+> +				u32 set)
 > +{
-> +	xcsi2rxss_write(xcsi2rxss, addr,
-> +			xcsi2rxss_read(xcsi2rxss, addr) | set);
+> +	xsdirxss_write(xsdirxss, addr, xsdirxss_read(xsdirxss, addr) | set);
 > +}
 > +
-> +/**
-> + * xcsi2rxss_clr_and_set - Clear and set the register with a bitmask
-> + * @xcsi2rxss: Xilinx MIPI CSI2 Rx Subsystem subdev core struct
-> + * @addr: address of register
-> + * @clr: bitmask to be cleared
-> + * @set: bitmask to be set
-> + *
-> + * Clear a bit(s) of mask @clr in the register at address @addr, then set
-> + * a bit(s) of mask @set in the register after.
-> + */
-> +static void xcsi2rxss_clr_and_set(struct xcsi2rxss_core *xcsi2rxss,
-> +				  u32 addr, u32 clr, u32 set)
+> +static void xsdirx_core_disable(struct xsdirxss_core *core)
 > +{
-> +	u32 reg;
-> +
-> +	reg = xcsi2rxss_read(xcsi2rxss, addr);
-> +	reg &= ~clr;
-> +	reg |= set;
-> +	xcsi2rxss_write(xcsi2rxss, addr, reg);
+> +	xsdirxss_clr(core, XSDIRX_RST_CTRL_REG, XSDIRX_RST_CTRL_SS_EN_MASK);
 > +}
 > +
-> +static void xcsi2rxss_enable(struct xcsi2rxss_core *core)
+> +static void xsdirx_core_enable(struct xsdirxss_core *core)
 > +{
-> +	xcsi2rxss_set(core, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
+> +	xsdirxss_set(core, XSDIRX_RST_CTRL_REG, XSDIRX_RST_CTRL_SS_EN_MASK);
 > +}
 > +
-> +static void xcsi2rxss_disable(struct xcsi2rxss_core *core)
+> +static int xsdirx_set_modedetect(struct xsdirxss_core *core, u16 mask)
 > +{
-> +	xcsi2rxss_clr(core, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-> +}
+> +	u32 i, val;
 > +
-> +static void xcsi2rxss_intr_enable(struct xcsi2rxss_core *core)
-> +{
-> +	xcsi2rxss_clr(core, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-> +	xcsi2rxss_write(core, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-> +	xcsi2rxss_set(core, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-> +}
-> +
-> +static void xcsi2rxss_intr_disable(struct xcsi2rxss_core *core)
-> +{
-> +	xcsi2rxss_clr(core, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-> +	xcsi2rxss_clr(core, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-> +}
-> +
-> +/**
-> + * xcsi2rxss_reset - Does a soft reset of the MIPI CSI2 Rx Subsystem
-> + * @core: Core Xilinx CSI2 Rx Subsystem structure pointer
-> + *
-> + * Core takes less than 100 video clock cycles to reset.
-> + * So a larger timeout value is chosen for margin.
-> + *
-> + * Return: 0 - on success OR -ETIME if reset times out
-> + */
-> +static int xcsi2rxss_reset(struct xcsi2rxss_core *core)
-> +{
-> +	u32 timeout = XCSI_TIMEOUT_VAL;
-> +
-> +	xcsi2rxss_set(core, XCSI_CCR_OFFSET, XCSI_CCR_SOFTRESET);
-> +
-> +	while (xcsi2rxss_read(core, XCSI_CSR_OFFSET) & XCSI_CSR_RIPCD) {
-> +		if (timeout == 0) {
-> +			dev_err(core->dev, "soft reset timed out!\n");
-> +			return -ETIME;
-> +		}
-> +
-> +		timeout--;
-> +		udelay(1);
+> +	mask &= XSDIRX_DETECT_ALL_MODES;
+> +	if (!mask) {
+> +		dev_err(core->dev, "Invalid bit mask = 0x%08x\n", mask);
+> +		return -EINVAL;
 > +	}
 > +
-> +	xcsi2rxss_clr(core, XCSI_CCR_OFFSET, XCSI_CCR_SOFTRESET);
-> +	return 0;
-> +}
+> +	dev_dbg(core->dev, "mask = 0x%x\n", mask);
 > +
-> +static void xcsi2rxss_reset_event_counters(struct xcsi2rxss_state *state)
-> +{
-> +	unsigned int i;
+> +	val = xsdirxss_read(core, XSDIRX_MDL_CTRL_REG);
+> +	val &= ~(XSDIRX_MDL_CTRL_MODE_DET_EN_MASK);
+> +	val &= ~(XSDIRX_MDL_CTRL_MODE_AUTO_DET_MASK);
+> +	val &= ~(XSDIRX_MDL_CTRL_FORCED_MODE_MASK);
 > +
-> +	for (i = 0; i < XCSI_NUM_EVENTS; i++)
-> +		state->core.events[i].counter = 0;
-> +
-> +	if (state->core.en_vcx) {
-> +		for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++)
-> +			state->core.vcx_events[i].counter = 0;
-> +	}
-> +}
-> +
-> +/* Print event counters */
-> +static void xcsi2rxss_log_counters(struct xcsi2rxss_state *state)
-> +{
-> +	struct xcsi2rxss_core *core = &state->core;
-> +	int i;
-> +
-> +	for (i = 0; i < XCSI_NUM_EVENTS; i++) {
-> +		if (core->events[i].counter > 0) {
-> +			dev_info(core->dev, "%s events: %d\n",
-> +				 core->events[i].name,
-> +				 core->events[i].counter);
-> +		}
-> +	}
-> +
-> +	if (core->en_vcx) {
-> +		for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++) {
-> +			if (core->vcx_events[i].counter > 0) {
-> +				dev_info(core->dev,
-> +					 "VC %d Frame %s err vcx events: %d\n",
-> +					 (i / 2) + XCSI_VCX_START,
-> +					 i & 1 ? "Sync" : "Level",
-> +					 core->vcx_events[i].counter);
+> +	if (hweight16(mask) > 1) {
+> +		/* Multi mode detection as more than 1 bit set in mask */
+> +		dev_dbg(core->dev, "Detect multiple modes\n");
+> +		for (i = 0; i < XSDIRX_MODE_NUM_SUPPORTED; i++) {
+> +			switch (mask & (1 << i)) {
+> +			case BIT(XSDIRX_MODE_SD_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_SD_EN_MASK;
+> +				break;
+> +			case BIT(XSDIRX_MODE_HD_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_HD_EN_MASK;
+> +				break;
+> +			case BIT(XSDIRX_MODE_3G_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_3G_EN_MASK;
+> +				break;
+> +			case BIT(XSDIRX_MODE_6G_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_6G_EN_MASK;
+> +				break;
+> +			case BIT(XSDIRX_MODE_12GI_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_12GI_EN_MASK;
+> +				break;
+> +			case BIT(XSDIRX_MODE_12GF_OFFSET):
+> +				val |= XSDIRX_MDL_CTRL_MODE_12GF_EN_MASK;
+> +				break;
 > +			}
 > +		}
-> +	}
-> +}
+> +		val |= XSDIRX_MDL_CTRL_MODE_DET_EN_MASK;
+> +	} else {
+> +		/* Fixed Mode */
+> +		u32 forced_mode_mask = 0;
 > +
-> +static void xcsi2rxss_log_ipconfig(struct xcsi2rxss_state *state)
-> +{
-> +	struct xcsi2rxss_core *core = &state->core;
+> +		dev_dbg(core->dev, "Detect fixed mode\n");
 > +
-> +	dev_dbg(core->dev, "****** Xilinx MIPI CSI2 Rx SS IP Config ******\n");
-> +	dev_dbg(core->dev, "vcx is %s", core->en_vcx ? "enabled" : "disabled");
-> +	dev_dbg(core->dev, "Enable active lanes property is %s\n",
-> +		core->enable_active_lanes ? "present" : "absent");
-> +	dev_dbg(core->dev, "Max lanes = %d", core->max_num_lanes);
-> +	dev_dbg(core->dev, "Pixel format set as 0x%x\n", core->datatype);
-> +	dev_dbg(core->dev, "**********************************************\n");
-> +}
-> +
-> +/**
-> + * xcsi2rxss_log_status - Logs the status of the CSI-2 Receiver
-> + * @sd: Pointer to V4L2 subdevice structure
-> + *
-> + * This function prints the current status of Xilinx MIPI CSI-2
-> + *
-> + * Return: 0 on success
-> + */
-> +static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
-> +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
-> +	unsigned int reg, data, i, max_vc;
-> +
-> +	mutex_lock(&xcsi2rxss->lock);
-> +
-> +	xcsi2rxss_log_ipconfig(xcsi2rxss);
-> +
-> +	xcsi2rxss_log_counters(xcsi2rxss);
-> +
-> +	dev_info(core->dev, "***** Core Status *****\n");
-> +	data = xcsi2rxss_read(core, XCSI_CSR_OFFSET);
-> +	dev_info(core->dev, "Short Packet FIFO Full = %s\n",
-> +		 XCSI_GET_BITSET_STR(data, XCSI_CSR_SPFIFOFULL));
-> +	dev_info(core->dev, "Short Packet FIFO Not Empty = %s\n",
-> +		 XCSI_GET_BITSET_STR(data, XCSI_CSR_SPFIFONE));
-> +	dev_info(core->dev, "Stream line buffer full = %s\n",
-> +		 XCSI_GET_BITSET_STR(data, XCSI_CSR_SLBF));
-> +	dev_info(core->dev, "Soft reset/Core disable in progress = %s\n",
-> +		 XCSI_GET_BITSET_STR(data, XCSI_CSR_RIPCD));
-> +
-> +	/* Clk & Lane Info  */
-> +	dev_info(core->dev, "******** Clock Lane Info *********\n");
-> +	data = xcsi2rxss_read(core, XCSI_CLKINFR_OFFSET);
-> +	dev_info(core->dev, "Clock Lane in Stop State = %s\n",
-> +		 XCSI_GET_BITSET_STR(data, XCSI_CLKINFR_STOP));
-> +
-> +	dev_info(core->dev, "******** Data Lane Info *********\n");
-> +	dev_info(core->dev, "Lane\tSoT Error\tSoT Sync Error\tStop State\n");
-> +	reg = XCSI_DLXINFR_OFFSET;
-> +	for (i = 0; i < XCSI_MAXDL_COUNT; i++) {
-> +		data = xcsi2rxss_read(core, reg);
-> +
-> +		dev_info(core->dev, "%d\t%s\t\t%s\t\t%s\n", i,
-> +			 XCSI_GET_BITSET_STR(data, XCSI_DLXINFR_SOTERR),
-> +			 XCSI_GET_BITSET_STR(data, XCSI_DLXINFR_SOTSYNCERR),
-> +			 XCSI_GET_BITSET_STR(data, XCSI_DLXINFR_STOP));
-> +
-> +		reg += XCSI_NEXTREG_OFFSET;
+> +		/* Find offset of first bit set */
+> +		switch (__ffs(mask)) {
+> +		case XSDIRX_MODE_SD_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_SD_MASK;
+> +			break;
+> +		case XSDIRX_MODE_HD_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_HD_MASK;
+> +			break;
+> +		case XSDIRX_MODE_3G_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_3G_MASK;
+> +			break;
+> +		case XSDIRX_MODE_6G_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_6G_MASK;
+> +			break;
+> +		case XSDIRX_MODE_12GI_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_12GI_MASK;
+> +			break;
+> +		case XSDIRX_MODE_12GF_OFFSET:
+> +			forced_mode_mask = XSDIRX_MODE_12GF_MASK;
+> +			break;
+> +		}
+> +		dev_dbg(core->dev, "Forced Mode Mask : 0x%x\n",
+> +			forced_mode_mask);
+> +		val |= forced_mode_mask << XSDIRX_MDL_CTRL_FORCED_MODE_OFFSET;
 > +	}
 > +
-> +	/* Virtual Channel Image Information */
-> +	dev_info(core->dev, "********** Virtual Channel Info ************\n");
-> +	dev_info(core->dev, "VC\tLine Count\tByte Count\tData Type\n");
-> +	if (core->en_vcx)
-> +		max_vc = XCSI_MAX_VCX;
-> +	else
-> +		max_vc = XCSI_MAX_VC;
-> +
-> +	reg = XCSI_VCXINF1R_OFFSET;
-> +	for (i = 0; i < max_vc; i++) {
-> +		u32 line_count, byte_count, data_type;
-> +
-> +		/* Get line and byte count from VCXINFR1 Register */
-> +		data = xcsi2rxss_read(core, reg);
-> +		byte_count = data & XCSI_VCXINF1R_BYTECOUNT;
-> +		line_count = data & XCSI_VCXINF1R_LINECOUNT;
-> +		line_count >>= XCSI_VCXINF1R_LINECOUNT_SHIFT;
-> +
-> +		/* Get data type from VCXINFR2 Register */
-> +		reg += XCSI_NEXTREG_OFFSET;
-> +		data = xcsi2rxss_read(core, reg);
-> +		data_type = data & XCSI_VCXINF2R_DT;
-> +
-> +		dev_info(core->dev, "%d\t%d\t\t%d\t\t0x%x\n", i, line_count,
-> +			 byte_count, data_type);
-> +
-> +		/* Move to next pair of VC Info registers */
-> +		reg += XCSI_NEXTREG_OFFSET;
-> +	}
-> +
-> +	mutex_unlock(&xcsi2rxss->lock);
+> +	dev_dbg(core->dev, "Modes to be detected : sdi ctrl reg = 0x%08x\n",
+> +		val);
+> +	xsdirxss_write(core, XSDIRX_MDL_CTRL_REG, val);
 > +
 > +	return 0;
 > +}
 > +
-> +/*
-> + * xcsi2rxss_subscribe_event - Subscribe to the custom short packet
-> + * receive event.
+> +static void xsdirx_framer(struct xsdirxss_core *core, bool flag)
+> +{
+> +	if (flag)
+> +		xsdirxss_set(core, XSDIRX_MDL_CTRL_REG,
+> +			     XSDIRX_MDL_CTRL_FRM_EN_MASK);
+> +	else
+> +		xsdirxss_clr(core, XSDIRX_MDL_CTRL_REG,
+> +			     XSDIRX_MDL_CTRL_FRM_EN_MASK);
+> +}
+> +
+> +static void xsdirx_setedherrcnttrigger(struct xsdirxss_core *core, u32 enable)
+> +{
+> +	u32 val = xsdirxss_read(core, XSDIRX_EDH_ERRCNT_EN_REG);
+> +
+> +	val = enable & XSDIRX_EDH_ALLERR_MASK;
+> +
+> +	xsdirxss_write(core, XSDIRX_EDH_ERRCNT_EN_REG, val);
+> +}
+> +
+> +static void xsdirx_setvidlockwindow(struct xsdirxss_core *core, u32 val)
+> +{
+> +	/*
+> +	 * The video lock window is the amount of time for which the
+> +	 * the mode and transport stream should be locked to get the
+> +	 * video lock interrupt.
+> +	 */
+> +	xsdirxss_write(core, XSDIRX_VID_LOCK_WINDOW_REG, val);
+> +}
+> +
+> +static void xsdirx_disableintr(struct xsdirxss_core *core, u32 mask)
+> +{
+> +	xsdirxss_clr(core, XSDIRX_IER_REG, mask);
+> +}
+> +
+> +static void xsdirx_enableintr(struct xsdirxss_core *core, u32 mask)
+> +{
+> +	xsdirxss_set(core, XSDIRX_IER_REG, mask);
+> +}
+> +
+> +static void xsdirx_globalintr(struct xsdirxss_core *core, bool flag)
+> +{
+> +	if (flag)
+> +		xsdirxss_set(core, XSDIRX_GLBL_IER_REG,
+> +			     XSDIRX_GLBL_INTR_EN_MASK);
+> +	else
+> +		xsdirxss_clr(core, XSDIRX_GLBL_IER_REG,
+> +			     XSDIRX_GLBL_INTR_EN_MASK);
+> +}
+> +
+> +static void xsdirx_clearintr(struct xsdirxss_core *core, u32 mask)
+> +{
+> +	xsdirxss_set(core, XSDIRX_ISR_REG, mask);
+> +}
+> +
+> +static void xsdirx_vid_bridge_control(struct xsdirxss_core *core, bool enable)
+> +{
+> +	if (enable)
+> +		xsdirxss_set(core, XSDIRX_RST_CTRL_REG,
+> +			     XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK);
+> +	else
+> +		xsdirxss_clr(core, XSDIRX_RST_CTRL_REG,
+> +			     XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK);
+> +}
+> +
+> +static void xsdirx_axis4_bridge_control(struct xsdirxss_core *core, bool enable)
+> +{
+> +	if (enable)
+> +		xsdirxss_set(core, XSDIRX_RST_CTRL_REG,
+> +			     XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK);
+> +	else
+> +		xsdirxss_clr(core, XSDIRX_RST_CTRL_REG,
+> +			     XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK);
+> +}
+> +
+> +static void xsdirx_streamflow_control(struct xsdirxss_core *core, bool enable)
+> +{
+> +	/* The sdi to native bridge is followed by native to axis4 bridge */
+> +	if (enable) {
+> +		xsdirx_axis4_bridge_control(core, enable);
+> +		xsdirx_vid_bridge_control(core, enable);
+> +	} else {
+> +		xsdirx_vid_bridge_control(core, enable);
+> +		xsdirx_axis4_bridge_control(core, enable);
+> +	}
+> +}
+> +
+> +static void xsdirx_streamdowncb(struct xsdirxss_core *core)
+> +{
+> +	xsdirx_streamflow_control(core, false);
+> +}
+> +
+> +static void xsdirxss_get_framerate(struct v4l2_fract *frame_interval,
+> +				   u32 framerate)
+> +{
+> +	switch (framerate) {
+> +	case XSDIRX_TS_DET_STAT_RATE_23_98HZ:
+> +		frame_interval->numerator = 1001;
+> +		frame_interval->denominator = 24000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_24HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 24000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_25HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 25000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_29_97HZ:
+> +		frame_interval->numerator = 1001;
+> +		frame_interval->denominator = 30000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_30HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 30000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_47_95HZ:
+> +		frame_interval->numerator = 1001;
+> +		frame_interval->denominator = 48000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_48HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 48000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_50HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 50000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_59_94HZ:
+> +		frame_interval->numerator = 1001;
+> +		frame_interval->denominator = 60000;
+> +		break;
+> +	case XSDIRX_TS_DET_STAT_RATE_60HZ:
+> +		frame_interval->numerator = 1000;
+> +		frame_interval->denominator = 60000;
+> +		break;
+> +	default:
+> +		frame_interval->numerator = 1;
+> +		frame_interval->denominator = 1;
+> +	}
+> +}
+> +
+> +/**
+> + * xsdirx_get_stream_properties - Get SDI Rx stream properties
+> + * @state: pointer to driver state
+> + *
+> + * This function decodes the stream's ST352 payload (if available) to get
+> + * stream properties like width, height, picture type (interlaced/progressive),
+> + * etc.
+> + *
+> + * Return: 0 for success else errors
+> + */
+> +static int xsdirx_get_stream_properties(struct xsdirxss_state *state)
+> +{
+> +	struct xsdirxss_core *core = &state->core;
+> +	u32 mode, payload = 0, val, family, valid, tscan;
+> +	u8 byte1 = 0, active_luma = 0, pic_type = 0, framerate = 0;
+> +	u8 sampling = XST352_BYTE3_COLOR_FORMAT_422;
+> +	struct v4l2_mbus_framefmt *format = &state->formats[0];
+> +
+> +	mode = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +	mode &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> +
+> +	valid = xsdirxss_read(core, XSDIRX_ST352_VALID_REG);
+> +
+> +	if (mode >= XSDIRX_MODE_3G_MASK && !valid) {
+> +		dev_err(core->dev, "No valid ST352 payload present even for 3G mode and above\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	val = xsdirxss_read(core, XSDIRX_TS_DET_STAT_REG);
+> +	if (valid & XSDIRX_ST352_VALID_DS1_MASK) {
+> +		payload = xsdirxss_read(core, XSDIRX_ST352_DS1_REG);
+> +		byte1 = (payload >> XST352_PAYLOAD_BYTE1_SHIFT) &
+> +				XST352_PAYLOAD_BYTE_MASK;
+> +		active_luma = (payload & XST352_BYTE3_ACT_LUMA_COUNT_MASK) >>
+> +				XST352_BYTE3_ACT_LUMA_COUNT_OFFSET;
+> +		pic_type = (payload & XST352_BYTE2_PIC_TYPE_MASK) >>
+> +				XST352_BYTE2_PIC_TYPE_OFFSET;
+> +		framerate = (payload >> XST352_BYTE2_FPS_SHIFT) &
+> +				XST352_BYTE2_FPS_MASK;
+> +		tscan = (payload & XST352_BYTE2_TS_TYPE_MASK) >>
+> +				XST352_BYTE2_TS_TYPE_OFFSET;
+> +		sampling = (payload & XST352_BYTE3_COLOR_FORMAT_MASK) >>
+> +			   XST352_BYTE3_COLOR_FORMAT_OFFSET;
+> +	} else {
+> +		dev_dbg(core->dev, "No ST352 payload available : Mode = %d\n",
+> +			mode);
+> +		framerate = (val & XSDIRX_TS_DET_STAT_RATE_MASK) >>
+> +				XSDIRX_TS_DET_STAT_RATE_OFFSET;
+> +		tscan = (val & XSDIRX_TS_DET_STAT_SCAN_MASK) >>
+> +				XSDIRX_TS_DET_STAT_SCAN_OFFSET;
+> +	}
+> +
+> +	family = (val & XSDIRX_TS_DET_STAT_FAMILY_MASK) >>
+> +		  XSDIRX_TS_DET_STAT_FAMILY_OFFSET;
+> +	state->ts_is_interlaced = tscan ? false : true;
+> +
+> +	dev_dbg(core->dev, "ts_is_interlaced = %d, family = %d\n",
+> +		state->ts_is_interlaced, family);
+> +
+> +	switch (mode) {
+> +	case XSDIRX_MODE_HD_MASK:
+> +		if (!valid) {
+> +			/* No payload obtained */
+> +			dev_dbg(core->dev, "frame rate : %d, tscan = %d\n",
+> +				framerate, tscan);
+> +			/*
+> +			 * NOTE : A progressive segmented frame pSF will be
+> +			 * reported incorrectly as Interlaced as we rely on IP's
+> +			 * transport scan locked bit.
+> +			 */
+> +			dev_warn(core->dev, "pSF will be incorrectly reported as Interlaced\n");
+> +
+> +			switch (framerate) {
+> +			case XSDIRX_TS_DET_STAT_RATE_23_98HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_24HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_25HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_29_97HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_30HZ:
+> +				if (family == XSDIRX_SMPTE_ST_296) {
+> +					format->width = 1280;
+> +					format->height = 720;
+> +					format->field = V4L2_FIELD_NONE;
+> +				} else if (family == XSDIRX_SMPTE_ST_2048_2) {
+> +					format->width = 2048;
+> +					format->height = 1080;
+> +					if (tscan)
+> +						format->field = V4L2_FIELD_NONE;
+> +					else
+> +						format->field =
+> +							V4L2_FIELD_ALTERNATE;
+> +				} else {
+> +					format->width = 1920;
+> +					format->height = 1080;
+> +					if (tscan)
+> +						format->field = V4L2_FIELD_NONE;
+> +					else
+> +						format->field =
+> +							V4L2_FIELD_ALTERNATE;
+> +				}
+> +				break;
+> +			case XSDIRX_TS_DET_STAT_RATE_50HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_59_94HZ:
+> +			case XSDIRX_TS_DET_STAT_RATE_60HZ:
+> +				if (family == XSDIRX_SMPTE_ST_274) {
+> +					format->width = 1920;
+> +					format->height = 1080;
+> +				} else {
+> +					format->width = 1280;
+> +					format->height = 720;
+> +				}
+> +				format->field = V4L2_FIELD_NONE;
+> +				break;
+> +			default:
+> +				format->width = 1920;
+> +				format->height = 1080;
+> +				format->field = V4L2_FIELD_NONE;
+> +			}
+> +		} else {
+> +			dev_dbg(core->dev, "Got the payload\n");
+> +			switch (byte1) {
+> +			case XST352_BYTE1_ST292_1x720L_1_5G:
+> +				/* SMPTE ST 292-1 for 720 line payloads */
+> +				format->width = 1280;
+> +				format->height = 720;
+> +				break;
+> +			case XST352_BYTE1_ST292_1x1080L_1_5G:
+> +				/* SMPTE ST 292-1 for 1080 line payloads */
+> +				format->height = 1080;
+> +				if (active_luma)
+> +					format->width = 2048;
+> +				else
+> +					format->width = 1920;
+> +				break;
+> +			default:
+> +				dev_dbg(core->dev, "Unknown HD Mode SMPTE standard\n");
+> +				return -EINVAL;
+> +			}
+> +		}
+> +		break;
+> +	case XSDIRX_MODE_SD_MASK:
+> +		format->field = V4L2_FIELD_ALTERNATE;
+> +
+> +		switch (family) {
+> +		case XSDIRX_NTSC:
+> +			format->width = 720;
+> +			format->height = 486;
+> +			break;
+> +		case XSDIRX_PAL:
+> +			format->width = 720;
+> +			format->height = 576;
+> +			break;
+> +		default:
+> +			dev_dbg(core->dev, "Unknown SD Mode SMPTE standard\n");
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	case XSDIRX_MODE_3G_MASK:
+> +		switch (byte1) {
+> +		case XST352_BYTE1_ST425_2008_750L_3GB:
+> +			/* Sec 4.1.6.1 SMPTE 425-2008 */
+> +		case XST352_BYTE1_ST372_2x720L_3GB:
+> +			/* Table 13 SMPTE 425-2008 */
+> +			format->width = 1280;
+> +			format->height = 720;
+> +			break;
+> +		case XST352_BYTE1_ST425_2008_1125L_3GA:
+> +			/* ST352 Table SMPTE 425-1 */
+> +		case XST352_BYTE1_ST372_DL_3GB:
+> +			/* Table 13 SMPTE 425-2008 */
+> +		case XST352_BYTE1_ST372_2x1080L_3GB:
+> +			/* Table 13 SMPTE 425-2008 */
+> +			format->height = 1080;
+> +			if (active_luma)
+> +				format->width = 2048;
+> +			else
+> +				format->width = 1920;
+> +			break;
+> +		default:
+> +			dev_dbg(core->dev, "Unknown 3G Mode SMPTE standard\n");
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	case XSDIRX_MODE_6G_MASK:
+> +		switch (byte1) {
+> +		case XST352_BYTE1_ST2081_10_DL_2160L_6G:
+> +			/* Dual link 6G */
+> +		case XST352_BYTE1_ST2081_10_2160L_6G:
+> +			/* Table 3 SMPTE ST 2081-10 */
+> +			format->height = 2160;
+> +			if (active_luma)
+> +				format->width = 4096;
+> +			else
+> +				format->width = 3840;
+> +			break;
+> +		default:
+> +			dev_dbg(core->dev, "Unknown 6G Mode SMPTE standard\n");
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	case XSDIRX_MODE_12GI_MASK:
+> +	case XSDIRX_MODE_12GF_MASK:
+> +		switch (byte1) {
+> +		case XST352_BYTE1_ST2082_10_2160L_12G:
+> +			/* Section 4.3.1 SMPTE ST 2082-10 */
+> +			format->height = 2160;
+> +			if (active_luma)
+> +				format->width = 4096;
+> +			else
+> +				format->width = 3840;
+> +			break;
+> +		default:
+> +			dev_dbg(core->dev, "Unknown 12G Mode SMPTE standard\n");
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	default:
+> +		dev_err(core->dev, "Invalid Mode\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (valid) {
+> +		if (pic_type)
+> +			format->field = V4L2_FIELD_NONE;
+> +		else
+> +			format->field = V4L2_FIELD_ALTERNATE;
+> +	}
+> +
+> +	if (format->field == V4L2_FIELD_ALTERNATE)
+> +		format->height = format->height / 2;
+> +
+> +	switch (sampling) {
+> +	case XST352_BYTE3_COLOR_FORMAT_422:
+> +		format->code = MEDIA_BUS_FMT_UYVY10_1X20;
+> +		break;
+> +	default:
+> +		dev_err(core->dev, "Unsupported color format : %d\n", sampling);
+> +		return -EINVAL;
+> +	}
+> +
+> +	xsdirxss_get_framerate(&state->frame_interval, framerate);
+> +
+> +	dev_dbg(core->dev, "Stream width = %d height = %d Field = %d payload = 0x%08x ts = 0x%08x\n",
+> +		format->width, format->height, format->field, payload, val);
+> +	dev_dbg(core->dev, "frame rate numerator = %d denominator = %d\n",
+> +		state->frame_interval.numerator,
+> +		state->frame_interval.denominator);
+> +	dev_dbg(core->dev, "Stream code = 0x%x\n", format->code);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xsdirxss_irq_handler - Interrupt handler for SDI Rx
+> + * @irq: IRQ number
+> + * @dev_id: Pointer to device state
+> + *
+> + * The SDI Rx interrupts are cleared by first setting and then clearing the bits
+> + * in the interrupt clear register. The interrupt status register is read only.
+> + *
+> + * Return: IRQ_HANDLED after handling interrupts
+> + */
+> +static irqreturn_t xsdirxss_irq_handler(int irq, void *dev_id)
+> +{
+> +	struct xsdirxss_state *state = (struct xsdirxss_state *)dev_id;
+> +	struct xsdirxss_core *core = &state->core;
+> +	u32 status;
+> +
+> +	status = xsdirxss_read(core, XSDIRX_ISR_REG);
+> +	dev_dbg(core->dev, "interrupt status = 0x%08x\n", status);
+> +
+> +	if (!status)
+> +		return IRQ_NONE;
+> +
+> +	if (status & XSDIRX_INTR_VIDLOCK_MASK) {
+> +		u32 val1, val2;
+> +
+> +		dev_dbg(core->dev, "video lock interrupt\n");
+> +		xsdirx_clearintr(core, XSDIRX_INTR_VIDLOCK_MASK);
+> +
+> +		val1 = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val2 = xsdirxss_read(core, XSDIRX_TS_DET_STAT_REG);
+> +
+> +		if ((val1 & XSDIRX_MODE_DET_STAT_MODE_LOCK_MASK) &&
+> +		    (val2 & XSDIRX_TS_DET_STAT_LOCKED_MASK)) {
+> +			u32 mask = XSDIRX_RST_CTRL_RST_CRC_ERRCNT_MASK |
+> +				   XSDIRX_RST_CTRL_RST_EDH_ERRCNT_MASK;
+> +
+> +			dev_dbg(core->dev, "mode & ts lock occurred\n");
+> +
+> +			xsdirxss_set(core, XSDIRX_RST_CTRL_REG, mask);
+> +			xsdirxss_clr(core, XSDIRX_RST_CTRL_REG, mask);
+> +
+> +			val1 = xsdirxss_read(core, XSDIRX_ST352_VALID_REG);
+> +			val2 = xsdirxss_read(core, XSDIRX_ST352_DS1_REG);
+> +
+> +			dev_dbg(core->dev, "valid st352 mask = 0x%08x\n", val1);
+> +			dev_dbg(core->dev, "st352 payload = 0x%08x\n", val2);
+> +
+> +			if (!xsdirx_get_stream_properties(state)) {
+> +				memset(&state->event, 0, sizeof(state->event));
+> +				state->event.type = V4L2_EVENT_SOURCE_CHANGE;
+> +				state->event.u.src_change.changes =
+> +					V4L2_EVENT_SRC_CH_RESOLUTION;
+> +				v4l2_subdev_notify_event(&state->subdev,
+> +							 &state->event);
+> +
+> +				state->vidlocked = true;
+> +			} else {
+> +				dev_err(core->dev, "Unable to get stream properties!\n");
+> +				state->vidlocked = false;
+> +			}
+> +		} else {
+> +			dev_dbg(core->dev, "video unlock before video lock!\n");
+> +			state->vidlocked = false;
+> +		}
+> +	}
+> +
+> +	if (status & XSDIRX_INTR_VIDUNLOCK_MASK) {
+> +		dev_dbg(core->dev, "video unlock interrupt\n");
+> +		xsdirx_clearintr(core, XSDIRX_INTR_VIDUNLOCK_MASK);
+> +		xsdirx_streamdowncb(core);
+> +
+> +		memset(&state->event, 0, sizeof(state->event));
+> +		state->event.type = V4L2_EVENT_XLNXSDIRX_VIDUNLOCK;
+> +		v4l2_subdev_notify_event(&state->subdev, &state->event);
+> +
+> +		state->vidlocked = false;
+> +	}
+> +
+> +	if (status & XSDIRX_INTR_UNDERFLOW_MASK) {
+> +		dev_dbg(core->dev, "Video in to AXI4 Stream core underflow interrupt\n");
+> +		xsdirx_clearintr(core, XSDIRX_INTR_UNDERFLOW_MASK);
+> +
+> +		memset(&state->event, 0, sizeof(state->event));
+> +		state->event.type = V4L2_EVENT_XLNXSDIRX_UNDERFLOW;
+> +		v4l2_subdev_notify_event(&state->subdev, &state->event);
+> +	}
+> +
+> +	if (status & XSDIRX_INTR_OVERFLOW_MASK) {
+> +		dev_dbg(core->dev, "Video in to AXI4 Stream core overflow interrupt\n");
+> +		xsdirx_clearintr(core, XSDIRX_INTR_OVERFLOW_MASK);
+> +
+> +		memset(&state->event, 0, sizeof(state->event));
+> +		state->event.type = V4L2_EVENT_XLNXSDIRX_OVERFLOW;
+> +		v4l2_subdev_notify_event(&state->subdev, &state->event);
+> +	}
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +/**
+> + * xsdirxss_subscribe_event - Subscribe to video lock and unlock event
 > + * @sd: V4L2 Sub device
 > + * @fh: V4L2 File Handle
 > + * @sub: Subcribe event structure
 > + *
-> + * There are two types of events to be subscribed.
-> + *
-> + * First is to register for receiving a generic short packet.
-> + * The generic short packets received are queued up in a FIFO.
-> + * On reception of a generic short packet, an event will be generated
-> + * with the short packet contents copied to its data area.
-> + * Application subscribed to this event will poll for POLLPRI.
-> + * On getting the event, the app dequeues the event to get the short packet
-> + * data.
-> + *
-> + * Second is to register for Short packet FIFO overflow
-> + * In case the rate of receiving short packets is high and
-> + * the short packet FIFO overflows, this event will be triggered.
-
-What is the effect of this?
-
-Short packets in general tell about frame or line start or end, the packets
-themselves are not something the user space is interested as such in
-general. The frame start is useful, however, and there's an event for that:
-it's called V4L2_EVENT_FRAME_SYNC. Please implement that instead, if you'd
-like to provide information to the user space on frame start.
-
-If you have a line buffer overflow (i.e. you can't forward the data from
-the long packets fast enough), then that will effectively cause a broken
-frame. There's no API to signal that to the DMA driver currently. I wonder
-if it could be added meaningfully --- the problem is that I guess it could
-be bound to be unrelible due to the frame number not being conveyed to the
-DMA driver. Feel free to make a proposal, but this should be probably
-separate from this patch.
-
-Either way, this is not something that the user space is interested in form
-of an event.
-
-> + *
 > + * Return: 0 on success, errors otherwise
 > + */
-> +static int xcsi2rxss_subscribe_event(struct v4l2_subdev *sd,
-> +				     struct v4l2_fh *fh,
-> +				     struct v4l2_event_subscription *sub)
+> +static int xsdirxss_subscribe_event(struct v4l2_subdev *sd,
+> +				    struct v4l2_fh *fh,
+> +				    struct v4l2_event_subscription *sub)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
 > +	int ret;
-> +
-> +	mutex_lock(&xcsi2rxss->lock);
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
 > +	switch (sub->type) {
-> +	case V4L2_EVENT_XLNXCSIRX_SLBF:
-> +		ret = v4l2_event_subscribe(fh, sub, XCSI_MAX_SPKT_EVENT, NULL);
+> +	case V4L2_EVENT_XLNXSDIRX_VIDUNLOCK:
+> +	case V4L2_EVENT_XLNXSDIRX_UNDERFLOW:
+> +	case V4L2_EVENT_XLNXSDIRX_OVERFLOW:
+> +		ret = v4l2_event_subscribe(fh, sub, XSDIRX_MAX_EVENTS, NULL);
+> +		break;
+> +	case V4L2_EVENT_SOURCE_CHANGE:
+> +		ret = v4l2_src_change_event_subscribe(fh, sub);
 > +		break;
 > +	default:
-> +		ret = -EINVAL;
+> +		return -EINVAL;
 > +	}
-> +
-> +	mutex_unlock(&xcsi2rxss->lock);
-> +
+> +	dev_dbg(core->dev, "Event subscribed : 0x%08x\n", sub->type);
 > +	return ret;
 > +}
 > +
 > +/**
-> + * xcsi2rxss_unsubscribe_event - Unsubscribe from all events registered
+> + * xsdirxss_unsubscribe_event - Unsubscribe from all events registered
 > + * @sd: V4L2 Sub device
 > + * @fh: V4L2 file handle
 > + * @sub: pointer to Event unsubscription structure
 > + *
 > + * Return: zero on success, else a negative error code.
 > + */
-> +static int xcsi2rxss_unsubscribe_event(struct v4l2_subdev *sd,
-> +				       struct v4l2_fh *fh,
-> +				       struct v4l2_event_subscription *sub)
+> +static int xsdirxss_unsubscribe_event(struct v4l2_subdev *sd,
+> +				      struct v4l2_fh *fh,
+> +				      struct v4l2_event_subscription *sub)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	int ret;
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
-> +	mutex_lock(&xcsi2rxss->lock);
-> +	ret = v4l2_event_unsubscribe(fh, sub);
-> +	mutex_unlock(&xcsi2rxss->lock);
-> +
-> +	return ret;
+> +	dev_dbg(core->dev, "Event unsubscribe : 0x%08x\n", sub->type);
+> +	return v4l2_event_unsubscribe(fh, sub);
 > +}
 > +
 > +/**
-> + * xcsi2rxss_s_ctrl - This is used to set the Xilinx MIPI CSI-2 V4L2 controls
+> + * xsdirxss_s_ctrl - This is used to set the Xilinx SDI Rx V4L2 controls
 > + * @ctrl: V4L2 control to be set
 > + *
-> + * This function is used to set the V4L2 controls for the Xilinx MIPI
-> + * CSI-2 Rx Subsystem. It is used to set the active lanes in the system.
-> + * The event counters can be reset.
+> + * This function is used to set the V4L2 controls for the Xilinx SDI Rx
+> + * Subsystem.
 > + *
 > + * Return: 0 on success, errors otherwise
 > + */
-> +static int xcsi2rxss_s_ctrl(struct v4l2_ctrl *ctrl)
+> +static int xsdirxss_s_ctrl(struct v4l2_ctrl *ctrl)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss =
-> +		container_of(ctrl->handler, struct xcsi2rxss_state,
-> +			     ctrl_handler);
-> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
 > +	int ret = 0;
+> +	struct xsdirxss_state *xsdirxss =
+> +		container_of(ctrl->handler,
+> +			     struct xsdirxss_state, ctrl_handler);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
-> +	mutex_lock(&xcsi2rxss->lock);
+> +	dev_dbg(core->dev, "set ctrl id = 0x%08x val = 0x%08x\n",
+> +		ctrl->id, ctrl->val);
 > +
+> +	if (xsdirxss->streaming) {
+> +		dev_err(core->dev, "Cannot set controls while streaming\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	xsdirx_core_disable(core);
 > +	switch (ctrl->id) {
-> +	case V4L2_CID_XILINX_MIPICSISS_ACT_LANES:
-> +		/*
-> +		 * This will be called only when "Enable Active Lanes" parameter
-> +		 * is set in design
-> +		 */
-
-You generally get the number of lanes from firmware. There's no need to add
-a control for it.
-
-> +		if (core->enable_active_lanes) {
-> +			u32 active_lanes;
-> +
-> +			xcsi2rxss_clr_and_set(core, XCSI_PCR_OFFSET,
-> +					      XCSI_PCR_ACTLANES_MASK,
-> +					      ctrl->val - 1);
-> +			/*
-> +			 * This delay is to allow the value to reflect as write
-> +			 * and read paths are different.
-> +			 */
-> +			udelay(1);
-> +			active_lanes = xcsi2rxss_read(core, XCSI_PCR_OFFSET);
-> +			active_lanes &= XCSI_PCR_ACTLANES_MASK;
-> +			active_lanes++;
-> +			if (active_lanes != ctrl->val)
-> +				dev_info(core->dev, "RxByteClkHS absent\n");
-> +			dev_dbg(core->dev, "active lanes = %d\n", ctrl->val);
-> +		} else {
-> +			ret = -EINVAL;
-> +		}
+> +	case V4L2_CID_XILINX_SDIRX_FRAMER:
+> +		xsdirx_framer(core, ctrl->val);
 > +		break;
-> +	case V4L2_CID_XILINX_MIPICSISS_RESET_COUNTERS:
-> +		xcsi2rxss_reset_event_counters(xcsi2rxss);
+> +	case V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW:
+> +		xsdirx_setvidlockwindow(core, ctrl->val);
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_EDH_ERRCNT_ENABLE:
+> +		xsdirx_setedherrcnttrigger(core, ctrl->val);
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_SEARCH_MODES:
+> +		if (ctrl->val) {
+> +			if (core->mode == XSDIRXSS_SDI_STD_3G) {
+> +				dev_dbg(core->dev, "Upto 3G supported\n");
+> +				ctrl->val &= ~(BIT(XSDIRX_MODE_6G_OFFSET) |
+> +					       BIT(XSDIRX_MODE_12GI_OFFSET) |
+> +					       BIT(XSDIRX_MODE_12GF_OFFSET));
+> +			}
+> +
+> +			if (core->mode == XSDIRXSS_SDI_STD_6G) {
+> +				dev_dbg(core->dev, "Upto 6G supported\n");
+> +				ctrl->val &= ~(BIT(XSDIRX_MODE_12GI_OFFSET) |
+> +					       BIT(XSDIRX_MODE_12GF_OFFSET));
+> +			}
+> +
+> +			ret = xsdirx_set_modedetect(core, ctrl->val);
+> +		} else {
+> +			dev_err(core->dev, "Select at least one mode!\n");
+> +			return -EINVAL;
+> +		}
 > +		break;
 > +	default:
-> +		ret = -EINVAL;
-> +		break;
+> +		xsdirxss_set(core, XSDIRX_RST_CTRL_REG,
+> +			     XSDIRX_RST_CTRL_SS_EN_MASK);
+> +		return -EINVAL;
 > +	}
-> +
-> +	mutex_unlock(&xcsi2rxss->lock);
-> +
+> +	xsdirx_core_enable(core);
 > +	return ret;
-> +}
-> +
-> +static int xcsi2rxss_start_stream(struct xcsi2rxss_state *state)
-> +{
-> +	struct xcsi2rxss_core *core = &state->core;
-> +	int ret = 0;
-> +
-> +	xcsi2rxss_enable(core);
-> +
-> +	ret = xcsi2rxss_reset(core);
-> +	if (ret < 0) {
-> +		state->streaming = false;
-> +		return ret;
-> +	}
-> +
-> +	xcsi2rxss_intr_enable(core);
-> +	state->streaming = true;
-> +
-> +	return ret;
-> +}
-> +
-> +static void xcsi2rxss_stop_stream(struct xcsi2rxss_state *state)
-> +{
-> +	struct xcsi2rxss_core *core = &state->core;
-> +
-> +	xcsi2rxss_intr_disable(core);
-> +	xcsi2rxss_disable(core);
-> +	state->streaming = false;
 > +}
 > +
 > +/**
-> + * xcsi2rxss_irq_handler - Interrupt handler for CSI-2
-> + * @irq: IRQ number
-> + * @dev_id: Pointer to device state
+> + * xsdirxss_g_volatile_ctrl - get the Xilinx SDI Rx controls
+> + * @ctrl: Pointer to V4L2 control
 > + *
-> + * In the interrupt handler, a list of event counters are updated for
-> + * corresponding interrupts. This is useful to get status / debug.
-> + * If the short packet FIFO not empty or overflow interrupt is received
-> + * capture the short packet and notify of event occurrence
-> + *
-> + * Return: IRQ_HANDLED after handling interrupts
-> + *         IRQ_NONE is no interrupts
+> + * Return: 0 on success, errors otherwise
 > + */
-> +static irqreturn_t xcsi2rxss_irq_handler(int irq, void *dev_id)
+> +static int xsdirxss_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
 > +{
-> +	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)dev_id;
-> +	struct xcsi2rxss_core *core = &state->core;
-> +	u32 status;
+> +	u32 val;
+> +	struct xsdirxss_state *xsdirxss =
+> +		container_of(ctrl->handler,
+> +			     struct xsdirxss_state, ctrl_handler);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
-> +	status = xcsi2rxss_read(core, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
-> +	dev_dbg_ratelimited(core->dev, "interrupt status = 0x%08x\n", status);
-> +
-> +	if (!status)
-> +		return IRQ_NONE;
-> +
-> +	/* Received a short packet */
-> +	if (status & XCSI_ISR_SPFIFONE) {
-> +		dev_dbg_ratelimited(core->dev, "Short packet = 0x%08x\n",
-> +				    xcsi2rxss_read(core, XCSI_SPKTR_OFFSET));
-> +	}
-> +
-> +	/* Short packet FIFO overflow */
-> +	if (status & XCSI_ISR_SPFIFOF)
-> +		dev_alert_ratelimited(core->dev, "Short packet FIFO overflowed\n");
-> +
-> +	/*
-> +	 * Stream line buffer full
-> +	 * This means there is a backpressure from downstream IP
-> +	 */
-> +	if (status & XCSI_ISR_SLBF) {
-> +		dev_alert_ratelimited(core->dev, "Stream Line Buffer Full!\n");
-> +		if (core->rst_gpio) {
-> +			gpiod_set_value(core->rst_gpio, 1);
-> +			/* minimum 40 dphy_clk_200M cycles */
-> +			ndelay(250);
-> +			gpiod_set_value(core->rst_gpio, 0);
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_XILINX_SDIRX_MODE_DETECT:
+> +		if (!xsdirxss->vidlocked) {
+> +			dev_err(core->dev, "Can't get values when video not locked!\n");
+> +			return -EINVAL;
 > +		}
-> +		xcsi2rxss_stop_stream(state);
-> +		memset(&state->event, 0, sizeof(state->event));
-> +		state->event.type = V4L2_EVENT_XLNXCSIRX_SLBF;
-> +		v4l2_subdev_notify_event(&state->subdev, &state->event);
-> +	}
+> +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
 > +
-> +	/* Increment event counters */
-> +	if (status & XCSI_ISR_ALLINTR_MASK) {
-> +		unsigned int i;
-> +
-> +		for (i = 0; i < XCSI_NUM_EVENTS; i++) {
-> +			if (!(status & core->events[i].mask))
-> +				continue;
-> +			core->events[i].counter++;
-> +			dev_dbg_ratelimited(core->dev, "%s: %d\n",
-> +					    core->events[i].name,
-> +					    core->events[i].counter);
+> +		switch (val) {
+> +		case XSDIRX_MODE_SD_MASK:
+> +			ctrl->val = XSDIRX_MODE_SD_OFFSET;
+> +			break;
+> +		case XSDIRX_MODE_HD_MASK:
+> +			ctrl->val = XSDIRX_MODE_HD_OFFSET;
+> +			break;
+> +		case XSDIRX_MODE_3G_MASK:
+> +			ctrl->val = XSDIRX_MODE_3G_OFFSET;
+> +			break;
+> +		case XSDIRX_MODE_6G_MASK:
+> +			ctrl->val = XSDIRX_MODE_6G_OFFSET;
+> +			break;
+> +		case XSDIRX_MODE_12GI_MASK:
+> +			ctrl->val = XSDIRX_MODE_12GI_OFFSET;
+> +			break;
+> +		case XSDIRX_MODE_12GF_MASK:
+> +			ctrl->val = XSDIRX_MODE_12GF_OFFSET;
+> +			break;
 > +		}
-> +
-> +		if (status & XCSI_ISR_VCXFE && core->en_vcx) {
-> +			u32 vcxstatus;
-> +
-> +			vcxstatus = xcsi2rxss_read(core, XCSI_VCXR_OFFSET);
-> +			vcxstatus &= XCSI_VCXR_VCERR;
-> +			for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++) {
-> +				if (!(vcxstatus & core->vcx_events[i].mask))
-> +					continue;
-> +				core->vcx_events[i].counter++;
-> +			}
-> +			xcsi2rxss_write(core, XCSI_VCXR_OFFSET, vcxstatus);
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_CRC:
+> +		ctrl->val = xsdirxss_read(core, XSDIRX_CRC_ERRCNT_REG);
+> +		xsdirxss_write(core, XSDIRX_CRC_ERRCNT_REG, 0xFFFF);
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_EDH_ERRCNT:
+> +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> +		if (val == XSDIRX_MODE_SD_MASK) {
+> +			ctrl->val = xsdirxss_read(core, XSDIRX_EDH_ERRCNT_REG);
+> +		} else {
+> +			dev_dbg(core->dev, "%d - not in SD mode\n", ctrl->id);
+> +			return -EINVAL;
 > +		}
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_EDH_STATUS:
+> +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> +		if (val == XSDIRX_MODE_SD_MASK) {
+> +			ctrl->val = xsdirxss_read(core, XSDIRX_EDH_STAT_REG);
+> +		} else {
+> +			dev_dbg(core->dev, "%d - not in SD mode\n", ctrl->id);
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
+> +		if (!xsdirxss->vidlocked) {
+> +			dev_err(core->dev, "Can't get values when video not locked!\n");
+> +			return -EINVAL;
+> +		}
+> +		ctrl->val = xsdirxss->ts_is_interlaced;
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_ACTIVE_STREAMS:
+> +		if (!xsdirxss->vidlocked) {
+> +			dev_err(core->dev, "Can't get values when video not locked!\n");
+> +			return -EINVAL;
+> +		}
+> +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val &= XSDIRX_MODE_DET_STAT_ACT_STREAM_MASK;
+> +		val >>= XSDIRX_MODE_DET_STAT_ACT_STREAM_OFFSET;
+> +		ctrl->val = 1 << val;
+> +		break;
+> +	case V4L2_CID_XILINX_SDIRX_IS_3GB:
+> +		if (!xsdirxss->vidlocked) {
+> +			dev_err(core->dev, "Can't get values when video not locked!\n");
+> +			return -EINVAL;
+> +		}
+> +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> +		val &= XSDIRX_MODE_DET_STAT_LVLB_3G_MASK;
+> +		ctrl->val = val ? true : false;
+> +		break;
+> +	default:
+> +		dev_err(core->dev, "Get Invalid control id 0x%0x\n", ctrl->id);
+> +		return -EINVAL;
 > +	}
-> +
-> +	xcsi2rxss_write(core, XCSI_ISR_OFFSET, status);
-> +	return IRQ_HANDLED;
+> +	dev_dbg(core->dev, "Get ctrl id = 0x%08x val = 0x%08x\n",
+> +		ctrl->id, ctrl->val);
+> +	return 0;
 > +}
 > +
 > +/**
-> + * xcsi2rxss_s_stream - It is used to start/stop the streaming.
+> + * xsdirxss_log_status - Logs the status of the SDI Rx Subsystem
+> + * @sd: Pointer to V4L2 subdevice structure
+> + *
+> + * This function prints the current status of Xilinx SDI Rx Subsystem
+> + *
+> + * Return: 0 on success
+> + */
+> +static int xsdirxss_log_status(struct v4l2_subdev *sd)
+> +{
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
+> +	u32 data, i;
+> +
+> +	v4l2_info(sd, "***** SDI Rx subsystem reg dump start *****\n");
+> +	for (i = 0; i < 0x28; i++) {
+> +		data = xsdirxss_read(core, i * 4);
+> +		v4l2_info(sd, "offset 0x%08x data 0x%08x\n",
+> +			  i * 4, data);
+> +	}
+> +	v4l2_info(sd, "***** SDI Rx subsystem reg dump end *****\n");
+> +	return 0;
+> +}
+> +
+> +static void xsdirxss_start_stream(struct xsdirxss_state *xsdirxss)
+> +{
+> +	xsdirx_streamflow_control(&xsdirxss->core, true);
+> +}
+> +
+> +static void xsdirxss_stop_stream(struct xsdirxss_state *xsdirxss)
+> +{
+> +	xsdirx_streamflow_control(&xsdirxss->core, false);
+> +}
+> +
+> +/**
+> + * xsdirxss_g_frame_interval - Get the frame interval
+> + * @sd: V4L2 Sub device
+> + * @fi: Pointer to V4l2 Sub device frame interval structure
+> + *
+> + * This function is used to get the frame interval.
+> + * The frame rate can be integral or fractional.
+> + * Integral frame rate e.g. numerator = 1000, denominator = 24000 => 24 fps
+> + * Fractional frame rate e.g. numerator = 1001, denominator = 24000 => 23.97 fps
+> + *
+> + * Return: 0 on success
+> + */
+> +static int xsdirxss_g_frame_interval(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_frame_interval *fi)
+> +{
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
+> +
+> +	if (!xsdirxss->vidlocked) {
+> +		dev_err(core->dev, "Video not locked!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	fi->interval = xsdirxss->frame_interval;
+> +
+> +	dev_dbg(core->dev, "frame rate numerator = %d denominator = %d\n",
+> +		xsdirxss->frame_interval.numerator,
+> +		xsdirxss->frame_interval.denominator);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xsdirxss_s_stream - It is used to start/stop the streaming.
 > + * @sd: V4L2 Sub device
 > + * @enable: Flag (True / False)
 > + *
 > + * This function controls the start or stop of streaming for the
-> + * Xilinx MIPI CSI-2 Rx Subsystem.
+> + * Xilinx SDI Rx Subsystem.
 > + *
 > + * Return: 0 on success, errors otherwise
 > + */
-> +static int xcsi2rxss_s_stream(struct v4l2_subdev *sd, int enable)
+> +static int xsdirxss_s_stream(struct v4l2_subdev *sd, int enable)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&xcsi2rxss->lock);
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
 > +	if (enable) {
-> +		if (!xcsi2rxss->streaming) {
-> +			/* reset the event counters */
-> +			xcsi2rxss_reset_event_counters(xcsi2rxss);
-> +			ret = xcsi2rxss_start_stream(xcsi2rxss);
+> +		if (!xsdirxss->vidlocked) {
+> +			dev_dbg(core->dev, "Video is not locked\n");
+> +			return -EINVAL;
 > +		}
-> +	} else {
-> +		if (xcsi2rxss->streaming) {
-> +			struct gpio_desc *rst = xcsi2rxss->core.rst_gpio;
+> +		if (xsdirxss->streaming) {
+> +			dev_dbg(core->dev, "Already streaming\n");
+> +			return -EINVAL;
+> +		}
 > +
-> +			if (rst) {
-> +				gpiod_set_value_cansleep(rst, 1);
-> +				usleep_range(1, 2);
-> +				gpiod_set_value_cansleep(rst, 0);
-> +			}
-> +			xcsi2rxss_stop_stream(xcsi2rxss);
+> +		xsdirxss_start_stream(xsdirxss);
+> +		xsdirxss->streaming = true;
+> +		dev_dbg(core->dev, "Streaming started\n");
+> +	} else {
+> +		if (!xsdirxss->streaming) {
+> +			dev_dbg(core->dev, "Stopped streaming already\n");
+> +			return -EINVAL;
 > +		}
+> +
+> +		xsdirxss_stop_stream(xsdirxss);
+> +		xsdirxss->streaming = false;
+> +		dev_dbg(core->dev, "Streaming stopped\n");
 > +	}
 > +
-> +	mutex_unlock(&xcsi2rxss->lock);
-> +	return ret;
+> +	return 0;
 > +}
 > +
 > +static struct v4l2_mbus_framefmt *
-> +__xcsi2rxss_get_pad_format(struct xcsi2rxss_state *xcsi2rxss,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   unsigned int pad, u32 which)
+> +__xsdirxss_get_pad_format(struct xsdirxss_state *xsdirxss,
+> +			  struct v4l2_subdev_pad_config *cfg,
+> +				unsigned int pad, u32 which)
 > +{
 > +	switch (which) {
 > +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_get_try_format(&xcsi2rxss->subdev, cfg, pad);
+> +		return v4l2_subdev_get_try_format(&xsdirxss->subdev, cfg, pad);
 > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &xcsi2rxss->format;
+> +		return &xsdirxss->formats[pad];
 > +	default:
 > +		return NULL;
 > +	}
 > +}
 > +
 > +/**
-> + * xcsi2rxss_get_format - Get the pad format
+> + * xsdirxss_get_format - Get the pad format
 > + * @sd: Pointer to V4L2 Sub device structure
 > + * @cfg: Pointer to sub device pad information structure
 > + * @fmt: Pointer to pad level media bus format
@@ -1034,142 +1410,95 @@ a control for it.
 > + *
 > + * Return: 0 on success
 > + */
-> +static int xcsi2rxss_get_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_pad_config *cfg,
-> +				struct v4l2_subdev_format *fmt)
+> +static int xsdirxss_get_format(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_pad_config *cfg,
+> +					struct v4l2_subdev_format *fmt)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +
-> +	mutex_lock(&xcsi2rxss->lock);
-> +	fmt->format = *__xcsi2rxss_get_pad_format(xcsi2rxss, cfg, fmt->pad,
-> +						  fmt->which);
-> +	mutex_unlock(&xcsi2rxss->lock);
+> +	if (!xsdirxss->vidlocked) {
+> +		dev_err(core->dev, "Video not locked!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	fmt->format = *__xsdirxss_get_pad_format(xsdirxss, cfg,
+> +						 fmt->pad, fmt->which);
+> +
+> +	dev_dbg(core->dev, "Stream width = %d height = %d Field = %d\n",
+> +		fmt->format.width, fmt->format.height, fmt->format.field);
 > +
 > +	return 0;
 > +}
 > +
 > +/**
-> + * xcsi2rxss_set_format - This is used to set the pad format
+> + * xsdirxss_set_format - This is used to set the pad format
 > + * @sd: Pointer to V4L2 Sub device structure
 > + * @cfg: Pointer to sub device pad information structure
 > + * @fmt: Pointer to pad level media bus format
 > + *
-> + * This function is used to set the pad format. Since the pad format is fixed
-> + * in hardware, it can't be modified on run time. So when a format set is
-> + * requested by application, all parameters except the format type is saved
-> + * for the pad and the original pad format is sent back to the application.
+> + * This function is used to set the pad format.
+> + * Since the pad format is fixed in hardware, it can't be
+> + * modified on run time.
 > + *
 > + * Return: 0 on success
 > + */
-> +static int xcsi2rxss_set_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_pad_config *cfg,
+> +static int xsdirxss_set_format(struct v4l2_subdev *sd,
+> +			       struct v4l2_subdev_pad_config *cfg,
 > +				struct v4l2_subdev_format *fmt)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
 > +	struct v4l2_mbus_framefmt *__format;
-> +	u32 code;
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
 > +
-> +	/* only sink pad format can be updated */
-> +	mutex_lock(&xcsi2rxss->lock);
+> +	dev_dbg(xsdirxss->core.dev,
+> +		"set width %d height %d code %d field %d colorspace %d\n",
+> +		fmt->format.width, fmt->format.height,
+> +		fmt->format.code, fmt->format.field,
+> +		fmt->format.colorspace);
 > +
-> +	/*
-> +	 * Only the format->code parameter matters for CSI as the
-> +	 * CSI format cannot be changed at runtime.
-> +	 * Ensure that format to set is copied to over to CSI pad format
-> +	 */
-> +	__format = __xcsi2rxss_get_pad_format(xcsi2rxss, cfg,
-> +					      fmt->pad, fmt->which);
+> +	__format = __xsdirxss_get_pad_format(xsdirxss, cfg,
+> +					     fmt->pad, fmt->which);
 > +
-> +	/* Save the pad format code */
-> +	code = __format->code;
-> +
-> +	/*
-> +	 * RAW8 is supported in all datatypes. So if requested media bus format
-> +	 * is of RAW8 type, then allow to be set. In case core is configured to
-> +	 * other RAW, YUV422 8/10 or RGB888, set appropriate media bus format.
-> +	 */
-> +	if ((fmt->format.code == MEDIA_BUS_FMT_SBGGR8_1X8 ||
-> +	     fmt->format.code == MEDIA_BUS_FMT_SGBRG8_1X8 ||
-> +	     fmt->format.code == MEDIA_BUS_FMT_SGRBG8_1X8 ||
-> +	     fmt->format.code == MEDIA_BUS_FMT_SRGGB8_1X8) ||
-> +	    (core->datatype == XCSI_DT_RAW10 &&
-> +	     (fmt->format.code == MEDIA_BUS_FMT_SBGGR10_1X10 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGBRG10_1X10 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGRBG10_1X10 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SRGGB10_1X10)) ||
-> +	    (core->datatype == XCSI_DT_RAW12 &&
-> +	     (fmt->format.code == MEDIA_BUS_FMT_SBGGR12_1X12 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGBRG12_1X12 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGRBG12_1X12 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SRGGB12_1X12)) ||
-> +	    (core->datatype == XCSI_DT_RAW14 &&
-> +	     (fmt->format.code == MEDIA_BUS_FMT_SBGGR14_1X14 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGBRG14_1X14 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGRBG14_1X14 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SRGGB14_1X14)) ||
-> +	    (core->datatype == XCSI_DT_RAW16 &&
-> +	     (fmt->format.code == MEDIA_BUS_FMT_SBGGR16_1X16 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGBRG16_1X16 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SGRBG16_1X16 ||
-> +	      fmt->format.code == MEDIA_BUS_FMT_SRGGB16_1X16)) ||
-> +	    (core->datatype == XCSI_DT_YUV4228B &&
-> +	     fmt->format.code == MEDIA_BUS_FMT_UYVY8_1X16) ||
-> +	    (core->datatype == XCSI_DT_YUV42210B &&
-> +	     fmt->format.code == MEDIA_BUS_FMT_UYVY10_1X20) ||
-> +	    (core->datatype == XCSI_DT_RGB888 &&
-> +	     fmt->format.code == MEDIA_BUS_FMT_RBG888_1X24)) {
-> +		/* Copy over the format to be set */
-> +		*__format = fmt->format;
-
-If the hardware only supports a single media bus code, then you need to
-assign it here. Width and height should come from the user independently of
-that. I presume the format on the source pad should be equal to the format
-on the sink pad; therefore the driver should propagate the format from the
-sink to the source.
-
-You're also overwriting the rest of the fields in the __format struct here
-with what comes from the user space without validating it.
-
-> +	} else {
-> +		/* Restore the original pad format code */
-> +		fmt->format.code = code;
-> +		__format->code = code;
-> +		__format->width = fmt->format.width;
-> +		__format->height = fmt->format.height;
-> +	}
-> +
-> +	mutex_unlock(&xcsi2rxss->lock);
+> +	/* Currently reset the code to one fixed in hardware */
+> +	/* TODO : Add checks for width height */
+> +	fmt->format.code = __format->code;
 > +
 > +	return 0;
 > +}
 > +
 > +/**
-> + * xcsi2rxss_open - Called on v4l2_open()
+> + * xsdirxss_open - Called on v4l2_open()
 > + * @sd: Pointer to V4L2 sub device structure
 > + * @fh: Pointer to V4L2 File handle
 > + *
-> + * This function is called on v4l2_open(). It sets the default format
-> + * for both pads.
+> + * This function is called on v4l2_open(). It sets the default format for pad.
 > + *
 > + * Return: 0 on success
 > + */
-> +static int xcsi2rxss_open(struct v4l2_subdev *sd,
+> +static int xsdirxss_open(struct v4l2_subdev *sd,
+> +			 struct v4l2_subdev_fh *fh)
+> +{
+> +	struct v4l2_mbus_framefmt *format;
+> +	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
+> +
+> +	format = v4l2_subdev_get_try_format(sd, fh->pad, 0);
+> +	*format = xsdirxss->default_format;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * xsdirxss_close - Called on v4l2_close()
+> + * @sd: Pointer to V4L2 sub device structure
+> + * @fh: Pointer to V4L2 File handle
+> + *
+> + * This function is called on v4l2_close().
+> + *
+> + * Return: 0 on success
+> + */
+> +static int xsdirxss_close(struct v4l2_subdev *sd,
 > +			  struct v4l2_subdev_fh *fh)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	struct v4l2_mbus_framefmt *format;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < XCSI_MEDIA_PADS; i++) {
-> +		format = v4l2_subdev_get_try_format(sd, fh->pad, i);
-> +		*format = xcsi2rxss->format;
-
-The default try format should reflect the hardware default, not its current
-configuration.
-
-> +	}
-> +
 > +	return 0;
 > +}
 > +
@@ -1177,189 +1506,217 @@ configuration.
 > + * Media Operations
 > + */
 > +
-> +static const struct media_entity_operations xcsi2rxss_media_ops = {
+> +static const struct media_entity_operations xsdirxss_media_ops = {
 > +	.link_validate = v4l2_subdev_link_validate
 > +};
 > +
-> +static const struct v4l2_ctrl_ops xcsi2rxss_ctrl_ops = {
-> +	.s_ctrl	= xcsi2rxss_s_ctrl
+> +static const struct v4l2_ctrl_ops xsdirxss_ctrl_ops = {
+> +	.g_volatile_ctrl = xsdirxss_g_volatile_ctrl,
+> +	.s_ctrl	= xsdirxss_s_ctrl
 > +};
 > +
-> +static struct v4l2_ctrl_config xcsi2rxss_ctrls[] = {
-
-const
-
+> +static struct v4l2_ctrl_config xsdirxss_edh_ctrls[] = {
 > +	{
-> +		.ops	= &xcsi2rxss_ctrl_ops,
-> +		.id	= V4L2_CID_XILINX_MIPICSISS_ACT_LANES,
-> +		.name	= "Active Lanes",
-> +		.type	= V4L2_CTRL_TYPE_INTEGER,
-> +		.min	= 1,
-> +		.max	= 4,
-> +		.step	= 1,
-> +		.def	= 1,
-> +	}, {
-> +		.ops	= &xcsi2rxss_ctrl_ops,
-> +		.id	= V4L2_CID_XILINX_MIPICSISS_RESET_COUNTERS,
-> +		.name	= "Reset Counters",
-> +		.type	= V4L2_CTRL_TYPE_BUTTON,
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_EDH_ERRCNT_ENABLE,
+> +		.name	= "SDI Rx : EDH Error Count Enable",
+> +		.type	= V4L2_CTRL_TYPE_BITMASK,
 > +		.min	= 0,
-> +		.max	= 1,
+> +		.max	= XSDIRX_EDH_ALLERR_MASK,
+> +		.def	= 0,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_EDH_ERRCNT,
+> +		.name	= "SDI Rx : EDH Error Count",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= 0,
+> +		.max	= 0xFFFF,
 > +		.step	= 1,
 > +		.def	= 0,
-> +		.flags	= V4L2_CTRL_FLAG_WRITE_ONLY,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_EDH_STATUS,
+> +		.name	= "SDI Rx : EDH Status",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= 0,
+> +		.max	= 0xFFFFFFFF,
+> +		.step	= 1,
+> +		.def	= 0,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
 > +	}
 > +};
 > +
-> +static const struct v4l2_subdev_core_ops xcsi2rxss_core_ops = {
-> +	.log_status = xcsi2rxss_log_status,
-> +	.subscribe_event = xcsi2rxss_subscribe_event,
-> +	.unsubscribe_event = xcsi2rxss_unsubscribe_event
-> +};
-> +
-> +static struct v4l2_subdev_video_ops xcsi2rxss_video_ops = {
-
-const; same below.
-
-> +	.s_stream = xcsi2rxss_s_stream
-> +};
-> +
-> +static struct v4l2_subdev_pad_ops xcsi2rxss_pad_ops = {
-> +	.get_fmt = xcsi2rxss_get_format,
-> +	.set_fmt = xcsi2rxss_set_format,
-
-Could you also implement the enum_mbus_code op?
-
-> +};
-> +
-> +static struct v4l2_subdev_ops xcsi2rxss_ops = {
-> +	.core = &xcsi2rxss_core_ops,
-> +	.video = &xcsi2rxss_video_ops,
-> +	.pad = &xcsi2rxss_pad_ops
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops xcsi2rxss_internal_ops = {
-> +	.open = xcsi2rxss_open,
-> +};
-> +
-> +static void xcsi2rxss_set_default_format(struct xcsi2rxss_state *state)
-> +{
-> +	struct xcsi2rxss_core *core = &state->core;
-> +
-> +	memset(&state->format, 0, sizeof(state->format));
-> +
-> +	switch (core->datatype) {
-> +	case XCSI_DT_YUV4228B:
-> +		state->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
-> +		break;
-> +	case XCSI_DT_RGB888:
-> +		state->format.code = MEDIA_BUS_FMT_RBG888_1X24;
-> +		break;
-> +	case XCSI_DT_YUV42210B:
-> +		state->format.code = MEDIA_BUS_FMT_UYVY10_1X20;
-> +		break;
-> +	case XCSI_DT_RAW10:
-> +		state->format.code = MEDIA_BUS_FMT_SRGGB10_1X10;
-> +		break;
-> +	case XCSI_DT_RAW12:
-> +		state->format.code = MEDIA_BUS_FMT_SRGGB12_1X12;
-> +		break;
-> +	case XCSI_DT_RAW14:
-> +		state->format.code = MEDIA_BUS_FMT_SRGGB14_1X14;
-> +		break;
-> +	case XCSI_DT_RAW16:
-> +		state->format.code = MEDIA_BUS_FMT_SRGGB16_1X16;
-> +		break;
-> +	case XCSI_DT_RAW8:
-> +	case XCSI_DT_RGB444:
-> +	case XCSI_DT_RGB555:
-> +	case XCSI_DT_RGB565:
-> +	case XCSI_DT_RGB666:
-> +		state->format.code = MEDIA_BUS_FMT_SRGGB8_1X8;
-> +		break;
+> +static struct v4l2_ctrl_config xsdirxss_ctrls[] = {
+> +	{
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_FRAMER,
+> +		.name	= "SDI Rx : Enable Framer",
+> +		.type	= V4L2_CTRL_TYPE_BOOLEAN,
+> +		.min	= false,
+> +		.max	= true,
+> +		.step	= 1,
+> +		.def	= true,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW,
+> +		.name	= "SDI Rx : Video Lock Window",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= 0,
+> +		.max	= 0xFFFFFFFF,
+> +		.step	= 1,
+> +		.def	= XSDIRX_DEFAULT_VIDEO_LOCK_WINDOW,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_SEARCH_MODES,
+> +		.name	= "SDI Rx : Modes search Mask",
+> +		.type	= V4L2_CTRL_TYPE_BITMASK,
+> +		.min	= 0,
+> +		.max	= XSDIRX_DETECT_ALL_MODES,
+> +		.def	= XSDIRX_DETECT_ALL_MODES,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_MODE_DETECT,
+> +		.name	= "SDI Rx : Mode Detect Status",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= XSDIRX_MODE_SD_OFFSET,
+> +		.max	= XSDIRX_MODE_12GF_OFFSET,
+> +		.step	= 1,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_CRC,
+> +		.name	= "SDI Rx : CRC Error status",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= 0,
+> +		.max	= 0xFFFFFFFF,
+> +		.step	= 1,
+> +		.def	= 0,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED,
+> +		.name	= "SDI Rx : TS is Interlaced",
+> +		.type	= V4L2_CTRL_TYPE_BOOLEAN,
+> +		.min	= false,
+> +		.max	= true,
+> +		.def	= false,
+> +		.step	= 1,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_ACTIVE_STREAMS,
+> +		.name	= "SDI Rx : Active Streams",
+> +		.type	= V4L2_CTRL_TYPE_INTEGER,
+> +		.min	= 1,
+> +		.max	= 16,
+> +		.def	= 1,
+> +		.step	= 1,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
+> +	}, {
+> +		.ops	= &xsdirxss_ctrl_ops,
+> +		.id	= V4L2_CID_XILINX_SDIRX_IS_3GB,
+> +		.name	= "SDI Rx : Is 3GB",
+> +		.type	= V4L2_CTRL_TYPE_BOOLEAN,
+> +		.min	= false,
+> +		.max	= true,
+> +		.def	= false,
+> +		.step	= 1,
+> +		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
 > +	}
+> +};
 > +
-> +	state->format.field = V4L2_FIELD_NONE;
-> +	state->format.colorspace = V4L2_COLORSPACE_SRGB;
-> +	state->format.width = XCSI_DEFAULT_WIDTH;
-> +	state->format.height = XCSI_DEFAULT_HEIGHT;
+> +static const struct v4l2_subdev_core_ops xsdirxss_core_ops = {
+> +	.log_status = xsdirxss_log_status,
+> +	.subscribe_event = xsdirxss_subscribe_event,
+> +	.unsubscribe_event = xsdirxss_unsubscribe_event
+> +};
 > +
-> +	dev_dbg(core->dev, "default mediabus format = 0x%x",
-> +		state->format.code);
-> +}
+> +static struct v4l2_subdev_video_ops xsdirxss_video_ops = {
+> +	.g_frame_interval = xsdirxss_g_frame_interval,
+> +	.s_stream = xsdirxss_s_stream
+> +};
 > +
-> +static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
+> +static struct v4l2_subdev_pad_ops xsdirxss_pad_ops = {
+> +	.get_fmt = xsdirxss_get_format,
+> +	.set_fmt = xsdirxss_set_format,
+> +};
+> +
+> +static struct v4l2_subdev_ops xsdirxss_ops = {
+> +	.core = &xsdirxss_core_ops,
+> +	.video = &xsdirxss_video_ops,
+> +	.pad = &xsdirxss_pad_ops
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops xsdirxss_internal_ops = {
+> +	.open = xsdirxss_open,
+> +	.close = xsdirxss_close
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Platform Device Driver
+> + */
+> +
+> +static int xsdirxss_parse_of(struct xsdirxss_state *xsdirxss)
 > +{
-> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
-> +	struct device_node *node = xcsi2rxss->core.dev->of_node;
+> +	struct device_node *node = xsdirxss->core.dev->of_node;
 > +	struct device_node *ports = NULL;
 > +	struct device_node *port = NULL;
-> +	unsigned int nports, irq;
-> +	bool en_csi_v20, vfb;
+> +	unsigned int nports = 0;
+> +	struct xsdirxss_core *core = &xsdirxss->core;
 > +	int ret;
+> +	const char *sdi_std;
 > +
-> +	en_csi_v20 = of_property_read_bool(node, "xlnx,en-csi-v2-0");
-> +	if (en_csi_v20)
-> +		core->en_vcx = of_property_read_bool(node, "xlnx,en-vcx");
+> +	core->include_edh = of_property_read_bool(node, "xlnx,include-edh");
+> +	dev_dbg(core->dev, "EDH property = %s\n",
+> +		core->include_edh ? "Present" : "Absent");
 > +
-> +	core->enable_active_lanes =
-> +		of_property_read_bool(node, "xlnx,en-active-lanes");
-> +
-> +	ret = of_property_read_u32(node, "xlnx,csi-pxl-format",
-> +				   &core->datatype);
+> +	ret = of_property_read_string(node, "xlnx,line-rate",
+> +				      &sdi_std);
 > +	if (ret < 0) {
-> +		dev_err(core->dev, "missing xlnx,csi-pxl-format property\n");
+> +		dev_err(core->dev, "xlnx,line-rate property not found\n");
 > +		return ret;
 > +	}
 > +
-> +	switch (core->datatype) {
-> +	case XCSI_DT_YUV4228B:
-> +	case XCSI_DT_RGB444:
-> +	case XCSI_DT_RGB555:
-> +	case XCSI_DT_RGB565:
-> +	case XCSI_DT_RGB666:
-> +	case XCSI_DT_RGB888:
-> +	case XCSI_DT_RAW6:
-> +	case XCSI_DT_RAW7:
-> +	case XCSI_DT_RAW8:
-> +	case XCSI_DT_RAW10:
-> +	case XCSI_DT_RAW12:
-> +	case XCSI_DT_RAW14:
-> +		break;
-> +	case XCSI_DT_YUV42210B:
-> +	case XCSI_DT_RAW16:
-> +	case XCSI_DT_RAW20:
-> +		if (!en_csi_v20) {
-> +			ret = -EINVAL;
-> +			dev_dbg(core->dev, "enable csi v2 for this pixel format");
-> +		}
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +	}
-> +	if (ret < 0) {
-> +		dev_err(core->dev, "invalid csi-pxl-format property!\n");
-> +		return ret;
-> +	}
-> +
-> +	vfb = of_property_read_bool(node, "xlnx,vfb");
-> +	if (!vfb) {
-> +		dev_err(core->dev, "failed as VFB is disabled!\n");
+> +	if (!strncmp(sdi_std, "12G_SDI_8DS", XSDIRX_MAX_STR_LENGTH)) {
+> +		core->mode = XSDIRXSS_SDI_STD_12G_8DS;
+> +	} else if (!strncmp(sdi_std, "6G_SDI", XSDIRX_MAX_STR_LENGTH)) {
+> +		core->mode = XSDIRXSS_SDI_STD_6G;
+> +	} else if (!strncmp(sdi_std, "3G_SDI", XSDIRX_MAX_STR_LENGTH)) {
+> +		core->mode = XSDIRXSS_SDI_STD_3G;
+> +	} else {
+> +		dev_err(core->dev, "Invalid Line Rate\n");
 > +		return -EINVAL;
 > +	}
+> +	dev_dbg(core->dev, "SDI Rx Line Rate = %s, mode = %d\n", sdi_std,
+> +		core->mode);
 > +
 > +	ports = of_get_child_by_name(node, "ports");
 > +	if (!ports)
 > +		ports = node;
 > +
-> +	nports = 0;
 > +	for_each_child_of_node(ports, port) {
+> +		const struct xvip_video_format *format;
 > +		struct device_node *endpoint;
-> +		struct v4l2_fwnode_endpoint v4lendpoint;
-> +		int ret;
 > +
 > +		if (!port->name || of_node_cmp(port->name, "port"))
 > +			continue;
+> +
+> +		format = xvip_of_get_format(port);
+> +		if (IS_ERR(format)) {
+> +			dev_err(core->dev, "invalid format in DT");
+> +			return PTR_ERR(format);
+> +		}
+> +
+> +		dev_dbg(core->dev, "vf_code = %d bpc = %d bpp = %d\n",
+> +			format->vf_code, format->width, format->bpp);
+> +
+> +		if (format->vf_code != XVIP_VF_YUV_422 &&
+> +		    format->vf_code != XVIP_VF_YUV_420) {
+> +			dev_err(core->dev, "Incorrect UG934 video format set.\n");
+> +			return -EINVAL;
+> +		}
+> +		xsdirxss->vip_format = format;
 > +
 > +		endpoint = of_get_next_child(port, NULL);
 > +		if (!endpoint) {
@@ -1367,303 +1724,267 @@ Could you also implement the enum_mbus_code op?
 > +			return -EINVAL;
 > +		}
 > +
-> +		/*
-> +		 * since first port is sink port and it contains
-> +		 * all info about data-lanes and cfa-pattern,
-> +		 * don't parse second port but only check if exists
-> +		 */
-> +		if (nports == XVIP_PAD_SOURCE) {
-> +			dev_dbg(core->dev, "no need to parse source port");
-> +			nports++;
-> +			of_node_put(endpoint);
-> +			continue;
-> +		}
-> +
-> +		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
-> +						 &v4lendpoint);
-> +		of_node_put(endpoint);
-> +		if (ret)
-> +			return ret;
-> +
-> +		dev_dbg(core->dev, "%s : port %d bus type = %d\n",
-> +			__func__, nports, v4lendpoint.bus_type);
-> +
-> +		if (v4lendpoint.bus_type == V4L2_MBUS_CSI2_DPHY) {
-> +			dev_dbg(core->dev, "%s : base.port = %d base.id = %d\n",
-> +				__func__, v4lendpoint.base.port,
-> +				v4lendpoint.base.id);
-> +
-> +			dev_dbg(core->dev, "%s : mipi number lanes = %d\n",
-> +				__func__,
-> +				v4lendpoint.bus.mipi_csi2.num_data_lanes);
-> +
-> +			core->max_num_lanes =
-> +				v4lendpoint.bus.mipi_csi2.num_data_lanes;
-> +		}
-> +
 > +		/* Count the number of ports. */
 > +		nports++;
 > +	}
 > +
-> +	if (nports != XCSI_MEDIA_PADS) {
+> +	if (nports != 1) {
 > +		dev_err(core->dev, "invalid number of ports %u\n", nports);
 > +		return -EINVAL;
 > +	}
 > +
 > +	/* Register interrupt handler */
-> +	irq = irq_of_parse_and_map(node, 0);
-> +	ret = devm_request_irq(core->dev, irq, xcsi2rxss_irq_handler,
-> +			       IRQF_SHARED, "xilinx-csi2rxss", xcsi2rxss);
+> +	core->irq = irq_of_parse_and_map(node, 0);
+> +
+> +	ret = devm_request_irq(core->dev, core->irq, xsdirxss_irq_handler,
+> +			       IRQF_SHARED, "xilinx-sdirxss", xsdirxss);
 > +	if (ret) {
 > +		dev_err(core->dev, "Err = %d Interrupt handler reg failed!\n",
 > +			ret);
 > +		return ret;
 > +	}
 > +
-> +	xcsi2rxss_log_ipconfig(xcsi2rxss);
-> +
 > +	return 0;
 > +}
 > +
-> +static int xcsi2rxss_probe(struct platform_device *pdev)
+> +static int xsdirxss_probe(struct platform_device *pdev)
 > +{
 > +	struct v4l2_subdev *subdev;
-> +	struct xcsi2rxss_state *xcsi2rxss;
-> +	struct xcsi2rxss_core *core;
+> +	struct xsdirxss_state *xsdirxss;
+> +	struct xsdirxss_core *core;
 > +	struct resource *res;
-> +	int ret, num_ctrls, i;
+> +	int ret;
+> +	unsigned int num_ctrls, num_edh_ctrls = 0, i;
 > +
-> +	xcsi2rxss = devm_kzalloc(&pdev->dev, sizeof(*xcsi2rxss), GFP_KERNEL);
-> +	if (!xcsi2rxss)
+> +	xsdirxss = devm_kzalloc(&pdev->dev, sizeof(*xsdirxss), GFP_KERNEL);
+> +	if (!xsdirxss)
 > +		return -ENOMEM;
 > +
-> +	core = &xcsi2rxss->core;
-> +	core->dev = &pdev->dev;
+> +	xsdirxss->core.dev = &pdev->dev;
+> +	core = &xsdirxss->core;
 > +
-> +	core->clks = devm_kmemdup(core->dev, xcsi2rxss_clks,
-> +				  sizeof(xcsi2rxss_clks), GFP_KERNEL);
-> +	if (!core->clks)
-> +		return -ENOMEM;
-> +
-> +	/* Reset GPIO */
-> +	core->rst_gpio = devm_gpiod_get_optional(core->dev, "reset",
-> +						 GPIOD_OUT_HIGH);
-> +	if (IS_ERR(core->rst_gpio)) {
-> +		if (PTR_ERR(core->rst_gpio) != -EPROBE_DEFER)
-> +			dev_err(core->dev, "Video Reset GPIO not setup in DT");
-> +		return PTR_ERR(core->rst_gpio);
+> +	core->axi_clk = devm_clk_get(&pdev->dev, "s_axi_aclk");
+> +	if (IS_ERR(core->axi_clk)) {
+> +		ret = PTR_ERR(core->axi_clk);
+> +		dev_err(&pdev->dev, "failed to get s_axi_clk (%d)\n", ret);
+> +		return ret;
 > +	}
 > +
-> +	mutex_init(&xcsi2rxss->lock);
-> +
-> +	ret = xcsi2rxss_parse_of(xcsi2rxss);
-> +	if (ret < 0)
+> +	core->sdirx_clk = devm_clk_get(&pdev->dev, "sdi_rx_clk");
+> +	if (IS_ERR(core->sdirx_clk)) {
+> +		ret = PTR_ERR(core->sdirx_clk);
+> +		dev_err(&pdev->dev, "failed to get sdi_rx_clk (%d)\n", ret);
 > +		return ret;
+> +	}
+> +
+> +	core->vidout_clk = devm_clk_get(&pdev->dev, "video_out_clk");
+> +	if (IS_ERR(core->vidout_clk)) {
+> +		ret = PTR_ERR(core->vidout_clk);
+> +		dev_err(&pdev->dev, "failed to get video_out_aclk (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(core->axi_clk);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to enable axi_clk (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(core->sdirx_clk);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to enable sdirx_clk (%d)\n", ret);
+> +		goto rx_clk_err;
+> +	}
+> +
+> +	ret = clk_prepare_enable(core->vidout_clk);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to enable vidout_clk (%d)\n", ret);
+> +		goto vidout_clk_err;
+> +	}
+> +
+> +	ret = xsdirxss_parse_of(xsdirxss);
+> +	if (ret < 0)
+> +		goto clk_err;
 > +
 > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	core->iomem = devm_ioremap_resource(core->dev, res);
-> +	if (IS_ERR(core->iomem))
-> +		return PTR_ERR(core->iomem);
-> +
-> +	core->num_clks = ARRAY_SIZE(xcsi2rxss_clks);
-> +
-> +	ret = clk_bulk_get(core->dev, core->num_clks, core->clks);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = clk_bulk_prepare_enable(core->num_clks, core->clks);
-> +	if (ret)
-> +		goto err_clk_put;
-> +
-> +	if (xcsi2rxss->core.rst_gpio) {
-> +		gpiod_set_value_cansleep(xcsi2rxss->core.rst_gpio, 1);
-> +		/* minimum of 40 dphy_clk_200M cycles */
-> +		usleep_range(1, 2);
-> +		gpiod_set_value_cansleep(xcsi2rxss->core.rst_gpio, 0);
+> +	xsdirxss->core.iomem = devm_ioremap_resource(xsdirxss->core.dev, res);
+> +	if (IS_ERR(xsdirxss->core.iomem)) {
+> +		ret = PTR_ERR(xsdirxss->core.iomem);
+> +		goto clk_err;
 > +	}
 > +
-> +	xcsi2rxss_reset(core);
-> +
-> +	core->events = (struct xcsi2rxss_event *)&xcsi2rxss_events;
-> +
-> +	if (core->en_vcx) {
-> +		u32 alloc_size;
-> +
-> +		alloc_size = sizeof(struct xcsi2rxss_event) *
-> +			     XCSI_VCX_NUM_EVENTS;
-> +		core->vcx_events = devm_kzalloc(&pdev->dev, alloc_size,
-> +						GFP_KERNEL);
-> +		if (!core->vcx_events) {
-> +			mutex_destroy(&xcsi2rxss->lock);
-> +			ret = -ENOMEM;
-> +			goto err_clk_disable;
-> +		}
-> +
-> +		for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++)
-> +			core->vcx_events[i].mask = 1 << i;
-> +	}
+> +	/* Reset the core */
+> +	xsdirx_streamflow_control(core, false);
+> +	xsdirx_core_disable(core);
+> +	xsdirx_clearintr(core, XSDIRX_INTR_ALL_MASK);
+> +	xsdirx_disableintr(core, XSDIRX_INTR_ALL_MASK);
+> +	xsdirx_enableintr(core, XSDIRX_INTR_ALL_MASK);
+> +	xsdirx_globalintr(core, true);
+> +	xsdirxss_write(core, XSDIRX_CRC_ERRCNT_REG, 0xFFFF);
 > +
 > +	/* Initialize V4L2 subdevice and media entity */
-> +	xcsi2rxss->pads[XVIP_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +	xcsi2rxss->pads[XVIP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+> +	xsdirxss->pads[0].flags = MEDIA_PAD_FL_SOURCE;
 > +
 > +	/* Initialize the default format */
-> +	xcsi2rxss_set_default_format(xcsi2rxss);
+> +	xsdirxss->default_format.code = xsdirxss->vip_format->code;
+> +	xsdirxss->default_format.field = V4L2_FIELD_NONE;
+> +	xsdirxss->default_format.colorspace = V4L2_COLORSPACE_DEFAULT;
+> +	xsdirxss->default_format.width = XSDIRX_DEFAULT_WIDTH;
+> +	xsdirxss->default_format.height = XSDIRX_DEFAULT_HEIGHT;
+> +
+> +	xsdirxss->formats[0] = xsdirxss->default_format;
 > +
 > +	/* Initialize V4L2 subdevice and media entity */
-> +	subdev = &xcsi2rxss->subdev;
-> +	v4l2_subdev_init(subdev, &xcsi2rxss_ops);
-> +	subdev->dev = &pdev->dev;
-> +	subdev->internal_ops = &xcsi2rxss_internal_ops;
-> +	strlcpy(subdev->name, dev_name(&pdev->dev), sizeof(subdev->name));
-> +	subdev->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	subdev->entity.ops = &xcsi2rxss_media_ops;
-> +	v4l2_set_subdevdata(subdev, xcsi2rxss);
+> +	subdev = &xsdirxss->subdev;
+> +	v4l2_subdev_init(subdev, &xsdirxss_ops);
 > +
-> +	ret = media_entity_pads_init(&subdev->entity, XCSI_MEDIA_PADS,
-> +				     xcsi2rxss->pads);
+> +	subdev->dev = &pdev->dev;
+> +	subdev->internal_ops = &xsdirxss_internal_ops;
+> +	strlcpy(subdev->name, dev_name(&pdev->dev), sizeof(subdev->name));
+
+Use strscpy.
+
+> +
+> +	subdev->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +
+> +	subdev->entity.ops = &xsdirxss_media_ops;
+> +
+> +	v4l2_set_subdevdata(subdev, xsdirxss);
+> +
+> +	ret = media_entity_pads_init(&subdev->entity, 1, xsdirxss->pads);
 > +	if (ret < 0)
 > +		goto error;
 > +
-> +	/*
-> +	 * In case the Enable Active Lanes config parameter is not set,
-> +	 * dynamic lane reconfiguration is not allowed.
-> +	 * So V4L2_CID_XILINX_MIPICSISS_ACT_LANES ctrl will not be registered.
-> +	 * Accordingly allocate the number of controls
-> +	 */
-> +	num_ctrls = ARRAY_SIZE(xcsi2rxss_ctrls);
+> +	/* Initialise and register the controls */
+> +	num_ctrls = ARRAY_SIZE(xsdirxss_ctrls);
 > +
-> +	if (!core->enable_active_lanes)
-> +		num_ctrls--;
+> +	if (xsdirxss->core.include_edh)
+> +		num_edh_ctrls = ARRAY_SIZE(xsdirxss_edh_ctrls);
 > +
-> +	v4l2_ctrl_handler_init(&xcsi2rxss->ctrl_handler, num_ctrls);
-> +	for (i = 0; i < ARRAY_SIZE(xcsi2rxss_ctrls); i++) {
+> +	v4l2_ctrl_handler_init(&xsdirxss->ctrl_handler,
+> +			       (num_ctrls + num_edh_ctrls));
+> +
+> +	for (i = 0; i < num_ctrls; i++) {
 > +		struct v4l2_ctrl *ctrl;
 > +
-> +		if (xcsi2rxss_ctrls[i].id ==
-> +			V4L2_CID_XILINX_MIPICSISS_ACT_LANES) {
-> +			if (!core->enable_active_lanes) {
-> +				/* Don't register control */
-> +				dev_dbg(core->dev,
-> +					"Skip active lane control\n");
-> +				continue;
-> +			}
-> +			xcsi2rxss_ctrls[i].max = core->max_num_lanes;
-> +			xcsi2rxss_ctrls[i].def = core->max_num_lanes;
-> +		}
+> +		dev_dbg(xsdirxss->core.dev, "%d %s ctrl = 0x%x\n",
+> +			i, xsdirxss_ctrls[i].name, xsdirxss_ctrls[i].id);
 > +
-> +		dev_dbg(core->dev, "%d ctrl = 0x%x\n", i,
-> +			xcsi2rxss_ctrls[i].id);
-> +		ctrl = v4l2_ctrl_new_custom(&xcsi2rxss->ctrl_handler,
-> +					    &xcsi2rxss_ctrls[i], NULL);
+> +		ctrl = v4l2_ctrl_new_custom(&xsdirxss->ctrl_handler,
+> +					    &xsdirxss_ctrls[i], NULL);
 > +		if (!ctrl) {
-> +			dev_err(core->dev, "Failed for %s ctrl\n",
-> +				xcsi2rxss_ctrls[i].name);
+> +			dev_dbg(xsdirxss->core.dev, "Failed to add %s ctrl\n",
+> +				xsdirxss_ctrls[i].name);
 > +			goto error;
 > +		}
 > +	}
 > +
-> +	if (xcsi2rxss->ctrl_handler.error) {
-> +		dev_err(core->dev, "failed to add controls\n");
-> +		ret = xcsi2rxss->ctrl_handler.error;
+> +	if (xsdirxss->core.include_edh) {
+> +		for (i = 0; i < num_edh_ctrls; i++) {
+> +			struct v4l2_ctrl *ctrl;
+> +
+> +			dev_dbg(xsdirxss->core.dev, "%d %s ctrl = 0x%x\n",
+> +				i, xsdirxss_edh_ctrls[i].name,
+> +				xsdirxss_edh_ctrls[i].id);
+> +
+> +			ctrl = v4l2_ctrl_new_custom(&xsdirxss->ctrl_handler,
+> +						    &xsdirxss_edh_ctrls[i],
+> +						    NULL);
+> +			if (!ctrl) {
+> +				dev_dbg(xsdirxss->core.dev, "Failed to add %s ctrl\n",
+> +					xsdirxss_edh_ctrls[i].name);
+> +				goto error;
+> +			}
+> +		}
+> +	} else {
+> +		dev_dbg(xsdirxss->core.dev, "Not registering the EDH controls as EDH is disabled in IP\n");
+> +	}
+> +
+> +	if (xsdirxss->ctrl_handler.error) {
+> +		dev_err(&pdev->dev, "failed to add controls\n");
+> +		ret = xsdirxss->ctrl_handler.error;
 > +		goto error;
 > +	}
 > +
-> +	subdev->ctrl_handler = &xcsi2rxss->ctrl_handler;
-> +	ret = v4l2_ctrl_handler_setup(&xcsi2rxss->ctrl_handler);
+> +	subdev->ctrl_handler = &xsdirxss->ctrl_handler;
+> +
+> +	ret = v4l2_ctrl_handler_setup(&xsdirxss->ctrl_handler);
 > +	if (ret < 0) {
-> +		dev_err(core->dev, "failed to set controls\n");
+> +		dev_err(&pdev->dev, "failed to set controls\n");
 > +		goto error;
 > +	}
 > +
-> +	platform_set_drvdata(pdev, xcsi2rxss);
+> +	platform_set_drvdata(pdev, xsdirxss);
 > +
 > +	ret = v4l2_async_register_subdev(subdev);
 > +	if (ret < 0) {
-> +		dev_err(core->dev, "failed to register subdev\n");
+> +		dev_err(&pdev->dev, "failed to register subdev\n");
 > +		goto error;
 > +	}
 > +
-> +	dev_info(core->dev, "Xilinx CSI2 Rx Subsystem device found!\n");
+> +	xsdirxss->streaming = false;
+> +
+> +	dev_info(xsdirxss->core.dev, "Xilinx SDI Rx Subsystem device found!\n");
+> +
+> +	xsdirx_core_enable(core);
 > +
 > +	return 0;
 > +error:
-> +	v4l2_ctrl_handler_free(&xcsi2rxss->ctrl_handler);
+> +	v4l2_ctrl_handler_free(&xsdirxss->ctrl_handler);
 > +	media_entity_cleanup(&subdev->entity);
-> +	mutex_destroy(&xcsi2rxss->lock);
-> +err_clk_disable:
-> +	clk_bulk_disable_unprepare(core->num_clks, core->clks);
-> +err_clk_put:
-> +	clk_bulk_put(core->num_clks, core->clks);
+> +
+> +clk_err:
+> +	clk_disable_unprepare(core->vidout_clk);
+> +vidout_clk_err:
+> +	clk_disable_unprepare(core->sdirx_clk);
+> +rx_clk_err:
+> +	clk_disable_unprepare(core->axi_clk);
 > +	return ret;
 > +}
 > +
-> +static int xcsi2rxss_remove(struct platform_device *pdev)
+> +static int xsdirxss_remove(struct platform_device *pdev)
 > +{
-> +	struct xcsi2rxss_state *xcsi2rxss = platform_get_drvdata(pdev);
-> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
-> +	struct v4l2_subdev *subdev = &xcsi2rxss->subdev;
+> +	struct xsdirxss_state *xsdirxss = platform_get_drvdata(pdev);
+> +	struct v4l2_subdev *subdev = &xsdirxss->subdev;
 > +
 > +	v4l2_async_unregister_subdev(subdev);
-> +	v4l2_ctrl_handler_free(&xcsi2rxss->ctrl_handler);
+> +	v4l2_ctrl_handler_free(&xsdirxss->ctrl_handler);
 > +	media_entity_cleanup(&subdev->entity);
-> +	mutex_destroy(&xcsi2rxss->lock);
-> +	clk_bulk_disable_unprepare(core->num_clks, core->clks);
-> +	clk_bulk_put(core->num_clks, core->clks);
-> +
+> +	clk_disable_unprepare(xsdirxss->core.vidout_clk);
+> +	clk_disable_unprepare(xsdirxss->core.sdirx_clk);
+> +	clk_disable_unprepare(xsdirxss->core.axi_clk);
 > +	return 0;
 > +}
 > +
-> +static const struct of_device_id xcsi2rxss_of_id_table[] = {
-> +	{ .compatible = "xlnx,mipi-csi2-rx-subsystem-4.0",},
+> +static const struct of_device_id xsdirxss_of_id_table[] = {
+> +	{ .compatible = "xlnx,v-smpte-uhdsdi-rx-ss" },
 > +	{ }
 > +};
-> +MODULE_DEVICE_TABLE(of, xcsi2rxss_of_id_table);
+> +MODULE_DEVICE_TABLE(of, xsdirxss_of_id_table);
 > +
-> +static struct platform_driver xcsi2rxss_driver = {
+> +static struct platform_driver xsdirxss_driver = {
 > +	.driver = {
-> +		.name		= "xilinx-csi2rxss",
-> +		.of_match_table	= xcsi2rxss_of_id_table,
+> +		.name		= "xilinx-sdirxss",
+> +		.of_match_table	= xsdirxss_of_id_table,
 > +	},
-> +	.probe			= xcsi2rxss_probe,
-> +	.remove			= xcsi2rxss_remove,
+> +	.probe			= xsdirxss_probe,
+> +	.remove			= xsdirxss_remove,
 > +};
 > +
-> +module_platform_driver(xcsi2rxss_driver);
+> +module_platform_driver(xsdirxss_driver);
 > +
 > +MODULE_AUTHOR("Vishal Sagar <vsagar@xilinx.com>");
-> +MODULE_DESCRIPTION("Xilinx MIPI CSI2 Rx Subsystem Driver");
+> +MODULE_DESCRIPTION("Xilinx SDI Rx Subsystem Driver");
 > +MODULE_LICENSE("GPL v2");
-> diff --git a/include/uapi/linux/xilinx-v4l2-controls.h b/include/uapi/linux/xilinx-v4l2-controls.h
-> index b6441fe..f023623 100644
-> --- a/include/uapi/linux/xilinx-v4l2-controls.h
-> +++ b/include/uapi/linux/xilinx-v4l2-controls.h
-> @@ -71,4 +71,16 @@
->  /* Noise level */
->  #define V4L2_CID_XILINX_TPG_NOISE_GAIN		(V4L2_CID_XILINX_TPG + 17)
->  
-> +/*
-> + * Xilinx MIPI CSI2 Rx Subsystem
-> + */
-> +
-> +/* Base ID */
-> +#define V4L2_CID_XILINX_MIPICSISS		(V4L2_CID_USER_BASE + 0xc080)
-> +
-> +/* Active Lanes */
-> +#define V4L2_CID_XILINX_MIPICSISS_ACT_LANES	(V4L2_CID_XILINX_MIPICSISS + 1)
-> +/* Reset all event counters */
-> +#define V4L2_CID_XILINX_MIPICSISS_RESET_COUNTERS (V4L2_CID_XILINX_MIPICSISS + 2)
-> +
->  #endif /* __UAPI_XILINX_V4L2_CONTROLS_H__ */
-> diff --git a/include/uapi/linux/xilinx-v4l2-events.h b/include/uapi/linux/xilinx-v4l2-events.h
+> diff --git a/include/uapi/linux/xilinx-sdirxss.h b/include/uapi/linux/xilinx-sdirxss.h
 > new file mode 100644
-> index 0000000..2aa357c
+> index 0000000..983a43b
 > --- /dev/null
-> +++ b/include/uapi/linux/xilinx-v4l2-events.h
-> @@ -0,0 +1,21 @@
+> +++ b/include/uapi/linux/xilinx-sdirxss.h
+> @@ -0,0 +1,63 @@
 > +/* SPDX-License-Identifier: GPL-2.0 */
 > +/*
-> + * Xilinx V4L2 Events
+> + * Xilinx SDI Rx Subsystem mode and flag definitions.
 > + *
 > + * Copyright (C) 2019 Xilinx, Inc.
 > + *
@@ -1671,20 +1992,134 @@ Could you also implement the enum_mbus_code op?
 > + *
 > + */
 > +
-> +#ifndef __UAPI_XILINX_V4L2_EVENTS_H__
-> +#define __UAPI_XILINX_V4L2_EVENTS_H__
+> +#ifndef __UAPI_XILINX_SDIRXSS_H__
+> +#define __UAPI_XILINX_SDIRXSS_H__
 > +
+> +#include <linux/types.h>
 > +#include <linux/videodev2.h>
 > +
-> +/* Xilinx CSI2 Receiver events */
-> +#define V4L2_EVENT_XLNXCSIRX_CLASS	(V4L2_EVENT_PRIVATE_START | 0x100)
-> +/* Stream Line Buffer full */
-> +#define V4L2_EVENT_XLNXCSIRX_SLBF	(V4L2_EVENT_XLNXCSIRX_CLASS | 0x1)
+> +/*
+> + * This enum is used to prepare the bitmask of modes to be detected
+> + */
+> +enum {
+> +	XSDIRX_MODE_SD_OFFSET = 0,
+> +	XSDIRX_MODE_HD_OFFSET,
+> +	XSDIRX_MODE_3G_OFFSET,
+> +	XSDIRX_MODE_6G_OFFSET,
+> +	XSDIRX_MODE_12GI_OFFSET,
+> +	XSDIRX_MODE_12GF_OFFSET,
+> +	XSDIRX_MODE_NUM_SUPPORTED,
+> +};
 > +
-> +#endif /* __UAPI_XILINX_V4L2_EVENTS_H__ */
+> +#define XSDIRX_DETECT_ALL_MODES		(BIT(XSDIRX_MODE_SD_OFFSET) | \
+> +					BIT(XSDIRX_MODE_HD_OFFSET) | \
+> +					BIT(XSDIRX_MODE_3G_OFFSET) | \
+> +					BIT(XSDIRX_MODE_6G_OFFSET) | \
+> +					BIT(XSDIRX_MODE_12GI_OFFSET) | \
+> +					BIT(XSDIRX_MODE_12GF_OFFSET))
+> +
+> +/*
+> + * EDH Error Types
+> + * ANC - Ancillary Data Packet Errors
+> + * FF - Full Field Errors
+> + * AP - Active Portion Errors
+> + */
+> +
+> +#define XSDIRX_EDH_ERRCNT_ANC_EDH_ERR		BIT(0)
+> +#define XSDIRX_EDH_ERRCNT_ANC_EDA_ERR		BIT(1)
+> +#define XSDIRX_EDH_ERRCNT_ANC_IDH_ERR		BIT(2)
+> +#define XSDIRX_EDH_ERRCNT_ANC_IDA_ERR		BIT(3)
+> +#define XSDIRX_EDH_ERRCNT_ANC_UES_ERR		BIT(4)
+> +#define XSDIRX_EDH_ERRCNT_FF_EDH_ERR		BIT(5)
+> +#define XSDIRX_EDH_ERRCNT_FF_EDA_ERR		BIT(6)
+> +#define XSDIRX_EDH_ERRCNT_FF_IDH_ERR		BIT(7)
+> +#define XSDIRX_EDH_ERRCNT_FF_IDA_ERR		BIT(8)
+> +#define XSDIRX_EDH_ERRCNT_FF_UES_ERR		BIT(9)
+> +#define XSDIRX_EDH_ERRCNT_AP_EDH_ERR		BIT(10)
+> +#define XSDIRX_EDH_ERRCNT_AP_EDA_ERR		BIT(11)
+> +#define XSDIRX_EDH_ERRCNT_AP_IDH_ERR		BIT(12)
+> +#define XSDIRX_EDH_ERRCNT_AP_IDA_ERR		BIT(13)
+> +#define XSDIRX_EDH_ERRCNT_AP_UES_ERR		BIT(14)
+> +#define XSDIRX_EDH_ERRCNT_PKT_CHKSUM_ERR	BIT(15)
+> +
+> +#define XSDIRX_EDH_ALLERR_MASK		0xFFFF
+> +
+> +#endif /* __UAPI_XILINX_SDIRXSS_H__ */
+> diff --git a/include/uapi/linux/xilinx-v4l2-controls.h b/include/uapi/linux/xilinx-v4l2-controls.h
+> index f023623..4c68a10 100644
+> --- a/include/uapi/linux/xilinx-v4l2-controls.h
+> +++ b/include/uapi/linux/xilinx-v4l2-controls.h
+> @@ -83,4 +83,34 @@
+>  /* Reset all event counters */
+>  #define V4L2_CID_XILINX_MIPICSISS_RESET_COUNTERS (V4L2_CID_XILINX_MIPICSISS + 2)
+>  
+> +/*
+> + * Xilinx SDI Rx Subsystem
+> + */
+> +
+> +/* Base ID */
+> +#define V4L2_CID_XILINX_SDIRX			(V4L2_CID_USER_BASE + 0xc100)
+> +
+> +/* Framer Control */
+> +#define V4L2_CID_XILINX_SDIRX_FRAMER		(V4L2_CID_XILINX_SDIRX + 1)
+> +/* Video Lock Window Control */
+> +#define V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW	(V4L2_CID_XILINX_SDIRX + 2)
+> +/* EDH Error Mask Control */
+> +#define V4L2_CID_XILINX_SDIRX_EDH_ERRCNT_ENABLE	(V4L2_CID_XILINX_SDIRX + 3)
+> +/* Mode search Control */
+> +#define V4L2_CID_XILINX_SDIRX_SEARCH_MODES	(V4L2_CID_XILINX_SDIRX + 4)
+> +/* Get Detected Mode control */
+> +#define V4L2_CID_XILINX_SDIRX_MODE_DETECT	(V4L2_CID_XILINX_SDIRX + 5)
+> +/* Get CRC error status */
+> +#define V4L2_CID_XILINX_SDIRX_CRC		(V4L2_CID_XILINX_SDIRX + 6)
+> +/* Get EDH error count control */
+> +#define V4L2_CID_XILINX_SDIRX_EDH_ERRCNT	(V4L2_CID_XILINX_SDIRX + 7)
+> +/* Get EDH status control */
+> +#define V4L2_CID_XILINX_SDIRX_EDH_STATUS	(V4L2_CID_XILINX_SDIRX + 8)
+> +/* Get Transport Interlaced status */
+> +#define V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED	(V4L2_CID_XILINX_SDIRX + 9)
+> +/* Get Active Streams count */
+> +#define V4L2_CID_XILINX_SDIRX_ACTIVE_STREAMS	(V4L2_CID_XILINX_SDIRX + 10)
+> +/* Is Mode 3GB */
+> +#define V4L2_CID_XILINX_SDIRX_IS_3GB		(V4L2_CID_XILINX_SDIRX + 11)
+> +
+>  #endif /* __UAPI_XILINX_V4L2_CONTROLS_H__ */
+> diff --git a/include/uapi/linux/xilinx-v4l2-events.h b/include/uapi/linux/xilinx-v4l2-events.h
+> index 2aa357c..7b47595 100644
+> --- a/include/uapi/linux/xilinx-v4l2-events.h
+> +++ b/include/uapi/linux/xilinx-v4l2-events.h
+> @@ -18,4 +18,13 @@
+>  /* Stream Line Buffer full */
+>  #define V4L2_EVENT_XLNXCSIRX_SLBF	(V4L2_EVENT_XLNXCSIRX_CLASS | 0x1)
+>  
+> +/* Xilinx SMPTE UHD-SDI RX Subsystem */
+> +#define V4L2_EVENT_XLNXSDIRX_CLASS	(V4L2_EVENT_PRIVATE_START | 0x200)
+> +/* Video Unlock event */
+> +#define V4L2_EVENT_XLNXSDIRX_VIDUNLOCK	(V4L2_EVENT_XLNXSDIRX_CLASS | 0x1)
+> +/* Video in to AXI4 Stream core underflowed */
+> +#define V4L2_EVENT_XLNXSDIRX_UNDERFLOW	(V4L2_EVENT_XLNXSDIRX_CLASS | 0x2)
+> +/* Video in to AXI4 Stream core overflowed */
+> +#define V4L2_EVENT_XLNXSDIRX_OVERFLOW	(V4L2_EVENT_XLNXSDIRX_CLASS | 0x3)
+> +
+>  #endif /* __UAPI_XILINX_V4L2_EVENTS_H__ */
+> 
 
--- 
+I am concerned about this driver: I see that none of the *_dv_timings callbacks
+are implemented. I would expect to see that for a video receiver. There is also
+no g_input_status implemented.
+
+Take a look at another SDI driver: drivers/media/spi/gs1662.c
+
+Some of the controls you add in this driver can likely be dropped. Especially
+those controls that are not specific to the Xilinx implementation but are
+generic for any SDI receiver, should be looked at closely: those are
+candidates for becoming standard controls.
+
+But the documentation above is simply insufficient for me to tell what is
+SDI specific and what is implementation specific.
+
+Also, I'm no SDI expert, certainly not for the UHD-SDI.
+
 Regards,
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+	Hans
