@@ -2,180 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06DD235CDD
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BE9D35D15
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 14:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbfFEMaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 08:30:11 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51035 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727642AbfFEMaK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:30:10 -0400
-Received: from [IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9] ([IPv6:2001:420:44c1:2579:c806:4d76:5b3c:eea9])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YV3MhlgoN3qlsYV3Phfy71; Wed, 05 Jun 2019 14:30:07 +0200
-Subject: Re: [GIT PULL FOR v5.3] Drop vidioc_enum_fmt_vid_*_mplane, driver
- improvements, add codec helpers
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>
-References: <abba589c-0a90-a773-9480-4197628c3926@xs4all.nl>
-Message-ID: <52fc154a-3004-0929-f677-88cef1d6aff9@xs4all.nl>
-Date:   Wed, 5 Jun 2019 14:30:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1727683AbfFEMoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 08:44:18 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:43116 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727320AbfFEMoS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 08:44:18 -0400
+Received: by mail-yb1-f195.google.com with SMTP id n145so9240140ybg.10;
+        Wed, 05 Jun 2019 05:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xi2EvDvX1o5a9FG2uTIFVqZhlEAgWZPRI+I6e9eKWDA=;
+        b=Fv7/k7a9r4amkCrKI+VwwbKV67Pg6mruQZNeLTqihnSgQaggIJUtMx2rmAl7PlxGml
+         2oi+ybtMM6nhyiSI/NAC2ikNhDm3JyvTAE0bdi1xoAraGXyIOKAeCWEw0kx9plShaYRu
+         73rVdnZAwsTNw0ZRvAxgqjUnXIZlCozkOXdibujrNjp+Gp3G2WadNfhkTXtXKd/uJRRJ
+         n6pM5OFFQ5CxiUlQA1nKorGAvXCzdE2ZD/bdQ4VzyST4XyV2Av0wV2g8rCKI1KYP4/hx
+         kSTvIi37vF429N2y3Y9rNWMwKfj1MA2RhMoOaSexaLVUKGjvAv46Sx+HHcT1HHu19vnB
+         UhwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xi2EvDvX1o5a9FG2uTIFVqZhlEAgWZPRI+I6e9eKWDA=;
+        b=su3MDhQ356W+7gmQhfK6zB5yTGxWffb7FGABado5hQpecfZCZDi5CHMr40/LRmGj4i
+         ibJNiA4jTAVZv3j1FexHW7a51K8KwQ8sGVCzYeVQrvokcfap7VN8lbt0VoP0PRIG0/H7
+         j3G0jDzeyBQb0L/cCT6VJy4QcpY207EUFjB1LFCDre2LI+inqHTicJOgnRZ9tAezE6AX
+         e5/OoUNhEBNnRE1yMRZs2BrECnu5yyV+pPbP6kWwpqgzrguxIb6BRhQMDAEMGHjswFOm
+         nVGFB1iBoS+PDJPXDEngVvWmqBJafXRFDGiNTcMfmBIcNCPzb3PTXHkIaKJvdYiWi+A1
+         /e8w==
+X-Gm-Message-State: APjAAAVBqDKAO25hTVR8cPd1CDbOZR/OFCH6qibVRceFtXTLFYkbVTz0
+        OIqCtZamU6o/YLthfZT/b08pSIxoCr9iLp/L4uo=
+X-Google-Smtp-Source: APXvYqyNydPnvstKf3mleSA1trFVpSWc/CJWb4PuLa9jX2KFdsZOVXxyiG1PQefvl++ce+LJ3J7EvkwU6iNd8X+t88g=
+X-Received: by 2002:a25:9b47:: with SMTP id u7mr18656221ybo.396.1559738657457;
+ Wed, 05 Jun 2019 05:44:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <abba589c-0a90-a773-9480-4197628c3926@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF9y+pTy4BvMR49pdbXFRi1XN5bDTgPWrtS696415k3LYA32Ca+UT3kUaHWnMEXhuyXwO0Rqilxzxdg+pLDzNO3ZMOjqgsUefqu9ol5+aWItulgWtU7z
- 0zjeOSb+NQEDAeMRoW15qzveDw15ecWq2/0tMVrfGmPiS3CB0+8mkWkxOIQTbFjfgNcamqrx8NJz3BvWZ/beWw6yfBzKaQSGsl79EcSBPYvHo2HVz6p7PNj4
- k4B4S/2bE1ekBjo/KZM2k/NDMdwaXHw2546h1uoUXDBX7EjGi/3p7dnLupxb1GUqI/v3KaZQ/R/KEZMaAAxij8ti884L3/EruPbC/2wnn5g=
+References: <20190604162959.29199-1-peron.clem@gmail.com> <20190604162959.29199-5-peron.clem@gmail.com>
+ <20190605095141.psrq6mhk63zto77s@flea>
+In-Reply-To: <20190605095141.psrq6mhk63zto77s@flea>
+From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date:   Wed, 5 Jun 2019 14:44:06 +0200
+Message-ID: <CAJiuCceZa=WEiF8_LK+jDdiXOn1i8+z8Smr6YKCpo9_XftgueQ@mail.gmail.com>
+Subject: Re: [PATCH v4 04/13] media: rc: sunxi: Add RXSTA bits definition
+To:     Maxime Ripard <maxime.ripard@bootlin.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-sunxi <linux-sunxi@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/5/19 1:23 PM, Hans Verkuil wrote:
-> This pull request drops the vidioc_enum_fmt_vid_{cap, out}_mplane callbacks;
-> instead just use vidioc_enum_fmt_vid_{cap, out}.
+Hi Maxime,
 
-Oops, I forgot to mention that patch 'v4l2: Get rid of ->vidioc_enum_fmt_vid_{cap, out}_mplane'
-generates a false checkpatch message about removing parenthesis. But doing that will
-1) break the code, and 2) cause another checkpatch warning.
+On Wed, 5 Jun 2019 at 11:51, Maxime Ripard <maxime.ripard@bootlin.com> wrot=
+e:
+>
+> On Tue, Jun 04, 2019 at 06:29:50PM +0200, Cl=C3=A9ment P=C3=A9ron wrote:
+> > We are using RXINT bits definition when looking at RXSTA register.
+> >
+> > These bits are equal but it's not really proper.
+> >
+> > Introduce the RXSTA bits and use them to have coherency.
+> >
+> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> > ---
+> >  drivers/media/rc/sunxi-cir.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.=
+c
+> > index 0504ebfc831f..572bd2257d35 100644
+> > --- a/drivers/media/rc/sunxi-cir.c
+> > +++ b/drivers/media/rc/sunxi-cir.c
+> > @@ -48,11 +48,11 @@
+> >
+> >  /* Rx Interrupt Enable */
+> >  #define SUNXI_IR_RXINT_REG    0x2C
+> > -/* Rx FIFO Overflow */
+> > +/* Rx FIFO Overflow Interrupt Enable */
+> >  #define REG_RXINT_ROI_EN             BIT(0)
+> > -/* Rx Packet End */
+> > +/* Rx Packet End Interrupt Enable */
+> >  #define REG_RXINT_RPEI_EN            BIT(1)
+> > -/* Rx FIFO Data Available */
+> > +/* Rx FIFO Data Available Interrupt Enable */
+> >  #define REG_RXINT_RAI_EN             BIT(4)
+> >
+> >  /* Rx FIFO available byte level */
+> > @@ -60,6 +60,12 @@
+> >
+> >  /* Rx Interrupt Status */
+> >  #define SUNXI_IR_RXSTA_REG    0x30
+> > +/* Rx FIFO Overflow */
+> > +#define REG_RXSTA_ROI                        BIT(0)
+> > +/* Rx Packet End */
+> > +#define REG_RXSTA_RPE                        BIT(1)
+> > +/* Rx FIFO Data Available */
+> > +#define REG_RXSTA_RA                 BIT(4)
+>
+> I'm fine with it on principle, but if the consistency needs to be
+> maintained then we could just reuse the above defines
+
+There is no comment why we can reuse them, they can also be some wrong
+case for example the RXINT_DRQ_EN bit is not present in RXSTA and same
+for STAT bit present in RXSTA and not present in RXINT.
+
+I have discover and read this code a month ago and this logic is
+really not obvious nor explain.
+
+Maybe this hack could be done when we will introduce a quirks, but for
+the moment I really think that it's more proper and readable to
+introduce them properly.
 
 Regards,
+Cl=C3=A9ment
 
-	Hans
-
-> 
-> Convert lots of drivers to set device_caps in struct video_device instead of
-> in v4l2_capability: this gives the V4L2 core information about the capabilities
-> of the video device node. But this can only work if all drivers use it.
-> 
-> This conversion does all except media/pci and media/platform, and the input
-> touchscreen driver sur40.c (waiting for an Ack from the author for that one).
-> 
-> The final two patches add new helpers for codec drivers.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 0864c9ce8fe83eadfd21b08e98997111d091660c:
-> 
->   media: dt-bindings: Fix vendor-prefixes YAML (2019-06-03 10:47:34 -0400)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3j3
-> 
-> for you to fetch changes up to 54c979060f4afe8501a61fee6d504d883c6d2eff:
-> 
->   vicodec: use new v4l2_m2m_ioctl_try_en/decoder_cmd funcs (2019-06-05 13:18:00 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Boris Brezillon (2):
->       media: v4l2: Make sure all drivers set _MPLANE caps in vdev->device_caps
->       media: v4l2: Get rid of ->vidioc_enum_fmt_vid_{cap, out}_mplane
-> 
-> Hans Verkuil (8):
->       media/radio: set device_caps in struct video_device
->       media/usb: set device_caps in struct video_device
->       rtl2832_sdr: set device_caps in struct video_device
->       usb/gadget/f_uvc: set device_caps in struct video_device
->       vc04_services/bcm2835-camera: set device_caps in struct video_device
->       staging/media: set device_caps in struct video_device
->       v4l2-mem2mem: add try_en/decoder_cmd ioctl helpers
->       vicodec: use new v4l2_m2m_ioctl_try_en/decoder_cmd funcs
-> 
->  drivers/media/dvb-frontends/rtl2832_sdr.c                     |  5 ++---
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c                      |  2 +-
->  drivers/media/platform/exynos-gsc/gsc-core.c                  |  2 +-
->  drivers/media/platform/exynos-gsc/gsc-core.h                  |  2 +-
->  drivers/media/platform/exynos-gsc/gsc-m2m.c                   | 14 +++++++-------
->  drivers/media/platform/exynos4-is/common.c                    |  5 +----
->  drivers/media/platform/exynos4-is/common.h                    |  3 +--
->  drivers/media/platform/exynos4-is/fimc-capture.c              | 10 +++++-----
->  drivers/media/platform/exynos4-is/fimc-isp-video.c            |  9 +++++----
->  drivers/media/platform/exynos4-is/fimc-lite.c                 | 10 ++++------
->  drivers/media/platform/exynos4-is/fimc-m2m.c                  | 12 ++++++------
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c               |  4 ++--
->  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c                  | 18 +++++++++---------
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c            | 12 ++++++------
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c            | 12 ++++++------
->  drivers/media/platform/qcom/camss/camss-video.c               |  2 +-
->  drivers/media/platform/qcom/venus/vdec.c                      |  4 ++--
->  drivers/media/platform/qcom/venus/venc.c                      |  4 ++--
->  drivers/media/platform/rcar_fdp1.c                            |  4 ++--
->  drivers/media/platform/rcar_jpu.c                             | 10 ++++++----
->  drivers/media/platform/renesas-ceu.c                          |  2 +-
->  drivers/media/platform/s5p-mfc/s5p_mfc.c                      |  2 ++
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c                  | 19 ++++++-------------
->  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c                  | 19 ++++++-------------
->  drivers/media/platform/ti-vpe/vpe.c                           |  7 +++----
->  drivers/media/platform/vicodec/vicodec-core.c                 | 37 ++++---------------------------------
->  drivers/media/platform/vivid/vivid-core.c                     |  6 ++----
->  drivers/media/platform/vivid/vivid-vid-common.c               | 20 --------------------
->  drivers/media/platform/vivid/vivid-vid-common.h               |  2 --
->  drivers/media/radio/dsbr100.c                                 |  3 +--
->  drivers/media/radio/radio-cadet.c                             |  5 ++---
->  drivers/media/radio/radio-isa.c                               |  4 +---
->  drivers/media/radio/radio-keene.c                             |  3 +--
->  drivers/media/radio/radio-ma901.c                             |  3 +--
->  drivers/media/radio/radio-miropcm20.c                         |  4 ++--
->  drivers/media/radio/radio-mr800.c                             |  5 ++---
->  drivers/media/radio/radio-raremono.c                          |  3 +--
->  drivers/media/radio/radio-sf16fmi.c                           |  3 +--
->  drivers/media/radio/radio-si476x.c                            | 21 ++++++++-------------
->  drivers/media/radio/radio-tea5764.c                           |  3 +--
->  drivers/media/radio/radio-tea5777.c                           |  5 ++---
->  drivers/media/radio/radio-timb.c                              |  3 +--
->  drivers/media/radio/radio-wl1273.c                            | 12 ++++--------
->  drivers/media/radio/si470x/radio-si470x-i2c.c                 |  7 +++----
->  drivers/media/radio/si470x/radio-si470x-usb.c                 |  6 +++---
->  drivers/media/radio/si4713/radio-platform-si4713.c            |  4 +---
->  drivers/media/radio/si4713/radio-usb-si4713.c                 |  4 +---
->  drivers/media/radio/tea575x.c                                 |  7 +++----
->  drivers/media/radio/wl128x/fmdrv_v4l2.c                       | 10 +++-------
->  drivers/media/usb/airspy/airspy.c                             |  6 ++----
->  drivers/media/usb/au0828/au0828-video.c                       | 21 ++++++++++-----------
->  drivers/media/usb/cpia2/cpia2_v4l.c                           |  9 ++-------
->  drivers/media/usb/cx231xx/cx231xx-video.c                     | 28 ++++++++++++++--------------
->  drivers/media/usb/em28xx/em28xx-video.c                       | 32 ++++++++++++++++----------------
->  drivers/media/usb/go7007/go7007-v4l2.c                        | 15 ++++++---------
->  drivers/media/usb/gspca/gspca.c                               |  6 ++----
->  drivers/media/usb/hackrf/hackrf.c                             | 14 ++++++--------
->  drivers/media/usb/hdpvr/hdpvr-video.c                         |  5 ++---
->  drivers/media/usb/msi2500/msi2500.c                           |  5 ++---
->  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c                      | 17 ++++++-----------
->  drivers/media/usb/pwc/pwc-if.c                                |  2 ++
->  drivers/media/usb/pwc/pwc-v4l.c                               |  3 ---
->  drivers/media/usb/s2255/s2255drv.c                            |  5 ++---
->  drivers/media/usb/stk1160/stk1160-v4l.c                       |  7 ++-----
->  drivers/media/usb/stkwebcam/stk-webcam.c                      |  6 ++----
->  drivers/media/usb/tm6000/tm6000-video.c                       | 20 ++++++++++----------
->  drivers/media/usb/usbtv/usbtv-video.c                         |  5 ++---
->  drivers/media/usb/usbvision/usbvision-video.c                 | 20 ++++++++++----------
->  drivers/media/usb/zr364xx/zr364xx.c                           |  7 ++-----
->  drivers/media/v4l2-core/v4l2-dev.c                            |  2 --
->  drivers/media/v4l2-core/v4l2-ioctl.c                          | 21 +++++++++++----------
->  drivers/media/v4l2-core/v4l2-mem2mem.c                        | 29 +++++++++++++++++++++++++++++
->  drivers/staging/media/bcm2048/radio-bcm2048.c                 |  7 ++-----
->  drivers/staging/media/davinci_vpfe/vpfe_video.c               |  9 +++++----
->  drivers/staging/media/ipu3/ipu3-v4l2.c                        |  4 ++--
->  drivers/staging/media/omap4iss/iss_video.c                    | 11 +++++------
->  drivers/staging/media/rockchip/vpu/rockchip_vpu_v4l2.c        | 12 ++++++------
->  drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c |  6 ++----
->  drivers/usb/gadget/function/f_uvc.c                           |  1 +
->  drivers/usb/gadget/function/uvc_v4l2.c                        |  4 ----
->  include/media/v4l2-ioctl.h                                    | 14 ++------------
->  include/media/v4l2-mem2mem.h                                  |  4 ++++
->  82 files changed, 305 insertions(+), 425 deletions(-)
-> 
-
+>
+> Maxime
+>
+> --
+> Maxime Ripard, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
