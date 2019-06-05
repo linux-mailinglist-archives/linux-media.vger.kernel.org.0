@@ -2,178 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 804A5364F2
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 21:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2060D36508
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 22:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbfFETro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 15:47:44 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42648 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726421AbfFETro (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 15:47:44 -0400
-Received: by mail-oi1-f196.google.com with SMTP id s184so8071478oie.9
-        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2019 12:47:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yC6edW49A9SF7YaZ5YMj1/I45rWSos0znU784v+zphU=;
-        b=tsH+IrG138XsbmX1VANzVd6v4nvGXN/52S6uavDFom1wyYGA+LaKXyGo0kD5LlzFnI
-         GCKzamCxDK51b4POmz9Lo3ymDXUYbWREygtu+YFrN6RfTo1gH9NQXSYyk+0s7v2CN8Qo
-         p0/rQ7ifst+CWnBhFhNQKnhdnNMcrpo4bCFa/FepfZ0N0J2vnGw83nh4T2VUFsDUYCA/
-         qtiSn6iCeq+qRox3SwLwt0qmvfFyYHxg3RRP87y0HDElGB3HGK9ILveccVcmN9zNgUzI
-         paSJtI37r9rruQjXXSsrhrQqWwhVxxi9cDRuqhc1nWM0oIE0biC9sMcbf4TFzwxY/ruY
-         S0Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yC6edW49A9SF7YaZ5YMj1/I45rWSos0znU784v+zphU=;
-        b=UhebzoQZAGBTnz8l9Ed2HRp0ZN0pLaKJIcFCTZTEmWoM4h3/b4ASoNlrKRCSzAvP/U
-         p9/7gGEKa/X9PCTVX2QOn4pvRqzNAbkVGVRUbelkX97V5eD+TvLZka4jbSqh82XAyrXx
-         hpLgxZ+YI1Ak0hJb9jH5f1XXVKNZyH/CWnaAtAdY5M+wLaWGLwjyQwQwyMrdInpHGdyt
-         qM5hBjEmEEw6B49pB/+offTgvXp64U2Tn+P+oRLiLjLp2WGaEQxclkUobRdzevu7rOjq
-         MN6mP6MCP1J4esWU21f4KW9YvdpeOt9dfkOmGkAOR2bQJIbhzoHHTOZS3JAiA5xemDwG
-         gm8w==
-X-Gm-Message-State: APjAAAVc6QCBYF3GJ0QVfUmlytovXmVYpuS4YkMeY3DxebKNBuq33qU6
-        swdhpMBRgSYrj+ynjNGGqk4QL1GEvmOhywph+Ck=
-X-Google-Smtp-Source: APXvYqz1ALbDRbUthss1BL6PsJLtM3MwhktE+T3VJCh/B+9WJVtnYjrOnMEGhv923PZvUSwCsXTm0U7vmm0ilhSIa1U=
-X-Received: by 2002:aca:ba56:: with SMTP id k83mr4577285oif.7.1559764063712;
- Wed, 05 Jun 2019 12:47:43 -0700 (PDT)
+        id S1726537AbfFEUAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 16:00:32 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:38191 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726510AbfFEUAb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 16:00:31 -0400
+X-Originating-IP: 90.89.68.76
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id EA63FC0006;
+        Wed,  5 Jun 2019 20:00:21 +0000 (UTC)
+Date:   Wed, 5 Jun 2019 22:00:20 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     =?utf-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-sunxi <linux-sunxi@googlegroups.com>
+Subject: Re: [PATCH v4 04/13] media: rc: sunxi: Add RXSTA bits definition
+Message-ID: <20190605200020.tmyom3lg3inu6vvf@flea>
+References: <20190604162959.29199-1-peron.clem@gmail.com>
+ <20190604162959.29199-5-peron.clem@gmail.com>
+ <20190605095141.psrq6mhk63zto77s@flea>
+ <CAJiuCceZa=WEiF8_LK+jDdiXOn1i8+z8Smr6YKCpo9_XftgueQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <d6832f03-915a-91fc-b678-b2daf68d66d9@xs4all.nl>
-In-Reply-To: <d6832f03-915a-91fc-b678-b2daf68d66d9@xs4all.nl>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 5 Jun 2019 20:47:17 +0100
-Message-ID: <CA+V-a8vwKhf_KzbR1tBRPcZHcici9nxeA=Q4T6PzHE2ty496Ng@mail.gmail.com>
-Subject: Re: [PATCH 7/7] staging/media: set device_caps in struct video_device
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJiuCceZa=WEiF8_LK+jDdiXOn1i8+z8Smr6YKCpo9_XftgueQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Wed, Jun 05, 2019 at 02:44:06PM +0200, Clément Péron wrote:
+> Hi Maxime,
+>
+> On Wed, 5 Jun 2019 at 11:51, Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> >
+> > On Tue, Jun 04, 2019 at 06:29:50PM +0200, Clément Péron wrote:
+> > > We are using RXINT bits definition when looking at RXSTA register.
+> > >
+> > > These bits are equal but it's not really proper.
+> > >
+> > > Introduce the RXSTA bits and use them to have coherency.
+> > >
+> > > Signed-off-by: Clément Péron <peron.clem@gmail.com>
+> > > ---
+> > >  drivers/media/rc/sunxi-cir.c | 18 ++++++++++++------
+> > >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+> > > index 0504ebfc831f..572bd2257d35 100644
+> > > --- a/drivers/media/rc/sunxi-cir.c
+> > > +++ b/drivers/media/rc/sunxi-cir.c
+> > > @@ -48,11 +48,11 @@
+> > >
+> > >  /* Rx Interrupt Enable */
+> > >  #define SUNXI_IR_RXINT_REG    0x2C
+> > > -/* Rx FIFO Overflow */
+> > > +/* Rx FIFO Overflow Interrupt Enable */
+> > >  #define REG_RXINT_ROI_EN             BIT(0)
+> > > -/* Rx Packet End */
+> > > +/* Rx Packet End Interrupt Enable */
+> > >  #define REG_RXINT_RPEI_EN            BIT(1)
+> > > -/* Rx FIFO Data Available */
+> > > +/* Rx FIFO Data Available Interrupt Enable */
+> > >  #define REG_RXINT_RAI_EN             BIT(4)
+> > >
+> > >  /* Rx FIFO available byte level */
+> > > @@ -60,6 +60,12 @@
+> > >
+> > >  /* Rx Interrupt Status */
+> > >  #define SUNXI_IR_RXSTA_REG    0x30
+> > > +/* Rx FIFO Overflow */
+> > > +#define REG_RXSTA_ROI                        BIT(0)
+> > > +/* Rx Packet End */
+> > > +#define REG_RXSTA_RPE                        BIT(1)
+> > > +/* Rx FIFO Data Available */
+> > > +#define REG_RXSTA_RA                 BIT(4)
+> >
+> > I'm fine with it on principle, but if the consistency needs to be
+> > maintained then we could just reuse the above defines
+>
+> There is no comment why we can reuse them, they can also be some wrong
+> case for example the RXINT_DRQ_EN bit is not present in RXSTA and same
+> for STAT bit present in RXSTA and not present in RXINT.
+>
+> I have discover and read this code a month ago and this logic is
+> really not obvious nor explain.
+>
+> Maybe this hack could be done when we will introduce a quirks, but for
+> the moment I really think that it's more proper and readable to
+> introduce them properly.
 
-Thanks for the patch.
+I don't think we understood each other :)
 
-On Tue, Jun 4, 2019 at 12:22 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> From 5e271dce24e2a0e3bad026fff4f8d7485d97aa71 Mon Sep 17 00:00:00 2001
-> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Date: Tue, 4 Jun 2019 11:39:41 +0200
-> Subject: [PATCH 7/7] staging/media: set device_caps in struct video_device
->
-> Instead of filling in the struct v4l2_capability device_caps
-> field, fill in the struct video_device device_caps field.
->
-> That way the V4L2 core knows what the capabilities of the
-> video device are.
->
-> But this only really works if all drivers use this, so convert
-> all staging/media drivers in this patch.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Prabhakar Lad <prabhakar.csengg@gmail.com>
-> ---
->  drivers/staging/media/bcm2048/radio-bcm2048.c   |  7 ++-----
->  drivers/staging/media/davinci_vpfe/vpfe_video.c |  9 +++++----
+I was talking about having something like
 
-For davinci changes,
+#define REG_RXSTA_ROI  REG_RXINT_ROI_EN
 
-Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+Maxime
 
-Cheers,
---Prabhakar Lad
-
->  drivers/staging/media/omap4iss/iss_video.c      | 11 +++++------
->  3 files changed, 12 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> index 09903ffb13ba..2c60a1fb6350 100644
-> --- a/drivers/staging/media/bcm2048/radio-bcm2048.c
-> +++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
-> @@ -2310,11 +2310,6 @@ static int bcm2048_vidioc_querycap(struct file *file, void *priv,
->         strscpy(capability->card, BCM2048_DRIVER_CARD,
->                 sizeof(capability->card));
->         snprintf(capability->bus_info, 32, "I2C: 0x%X", bdev->client->addr);
-> -       capability->device_caps = V4L2_CAP_TUNER | V4L2_CAP_RADIO |
-> -                                       V4L2_CAP_HW_FREQ_SEEK;
-> -       capability->capabilities = capability->device_caps |
-> -               V4L2_CAP_DEVICE_CAPS;
-> -
->         return 0;
->  }
->
-> @@ -2570,6 +2565,8 @@ static const struct video_device bcm2048_viddev_template = {
->         .name                   = BCM2048_DRIVER_NAME,
->         .release                = video_device_release_empty,
->         .ioctl_ops              = &bcm2048_ioctl_ops,
-> +       .device_caps            = V4L2_CAP_TUNER | V4L2_CAP_RADIO |
-> +                                 V4L2_CAP_HW_FREQ_SEEK,
->  };
->
->  /*
-> diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> index 84cca18e3e9d..ab6bc452d9f6 100644
-> --- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> +++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-> @@ -612,10 +612,6 @@ static int vpfe_querycap(struct file *file, void  *priv,
->
->         v4l2_dbg(1, debug, &vpfe_dev->v4l2_dev, "vpfe_querycap\n");
->
-> -       if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> -               cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> -       else
-> -               cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
->         cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT |
->                             V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
->         strscpy(cap->driver, CAPTURE_DRV_NAME, sizeof(cap->driver));
-> @@ -1628,6 +1624,11 @@ int vpfe_video_register(struct vpfe_video_device *video,
->
->         video->video_dev.v4l2_dev = vdev;
->
-> +       if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> +               video->video_dev.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-> +       else
-> +               video->video_dev.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-> +       video->video_dev.device_caps |= V4L2_CAP_STREAMING;
->         ret = video_register_device(&video->video_dev, VFL_TYPE_GRABBER, -1);
->         if (ret < 0)
->                 pr_err("%s: could not register video device (%d)\n",
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index c2c5a9cd8642..c307707480f7 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -533,12 +533,6 @@ iss_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->         strscpy(cap->driver, ISS_VIDEO_DRIVER_NAME, sizeof(cap->driver));
->         strscpy(cap->card, video->video.name, sizeof(cap->card));
->         strscpy(cap->bus_info, "media", sizeof(cap->bus_info));
-> -
-> -       if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> -               cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> -       else
-> -               cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
-> -
->         cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
->                           | V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT;
->
-> @@ -1272,6 +1266,11 @@ int omap4iss_video_register(struct iss_video *video, struct v4l2_device *vdev)
->         int ret;
->
->         video->video.v4l2_dev = vdev;
-> +       if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> +               video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE;
-> +       else
-> +               video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT;
-> +       video->video.device_caps |= V4L2_CAP_STREAMING;
->
->         ret = video_register_device(&video->video, VFL_TYPE_GRABBER, -1);
->         if (ret < 0)
-> --
-> 2.20.1
->
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
