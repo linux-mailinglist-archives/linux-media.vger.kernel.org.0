@@ -2,44 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F15A3662A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 23:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E80736649
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 23:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbfFEVBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 17:01:47 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:55915 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfFEVBq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 17:01:46 -0400
-X-Originating-IP: 93.29.109.196
+        id S1726551AbfFEVHi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 17:07:38 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:53551 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfFEVHi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 17:07:38 -0400
 Received: from collins (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C325CC0003;
-        Wed,  5 Jun 2019 21:01:37 +0000 (UTC)
-Message-ID: <7d1512239f13280195af995c112b4bda52c4b609.camel@bootlin.com>
-Subject: Re: [PATCH RFC 5/6] media: cedrus: Make the slice_params array size
- limitation more explicit
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 1E24924000B;
+        Wed,  5 Jun 2019 21:07:33 +0000 (UTC)
+Message-ID: <870e55d3697583841700258b184ed4f5f3a8fb03.camel@bootlin.com>
+Subject: Re: [PATCH 4/7] media: cedrus: Remove dst_bufs from context
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 05 Jun 2019 23:01:37 +0200
-In-Reply-To: <cb3dff3942ba0468e65855cfdc35e92611bb5c82.camel@ndufresne.ca>
-References: <20190603110946.4952-1-boris.brezillon@collabora.com>
-         <20190603110946.4952-6-boris.brezillon@collabora.com>
-         <1764986.tDiRxPxGAQ@jernej-laptop>
-         <0fbe395c644bfba4830e98d208c143b8a265498a.camel@ndufresne.ca>
-         <20190604081210.GA9048@ulmo>
-         <cb3dff3942ba0468e65855cfdc35e92611bb5c82.camel@ndufresne.ca>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>, maxime.ripard@bootlin.com
+Cc:     wens@csie.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Wed, 05 Jun 2019 23:07:33 +0200
+In-Reply-To: <20190530211516.1891-5-jernej.skrabec@siol.net>
+References: <20190530211516.1891-1-jernej.skrabec@siol.net>
+         <20190530211516.1891-5-jernej.skrabec@siol.net>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.32.1 
 MIME-Version: 1.0
@@ -51,51 +37,106 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-Le mardi 04 juin 2019 à 10:31 -0400, Nicolas Dufresne a écrit :
-> Le mardi 04 juin 2019 à 10:12 +0200, Thierry Reding a écrit :
-> > On Mon, Jun 03, 2019 at 07:55:48PM -0400, Nicolas Dufresne wrote:
-> > > Le lundi 03 juin 2019 à 23:48 +0200, Jernej Škrabec a écrit :
-> > > > Dne ponedeljek, 03. junij 2019 ob 13:09:45 CEST je Boris Brezillon napisal(a):
-> > > > > The driver only supports per-slice decoding, and in that mode
-> > > > > decode_params->num_slices must be set to 1 and the slice_params array
-> > > > > should contain only one element.
-> > > > 
-> > > > What Cedrus actually needs to know is if this is first slice in frame or not. I 
-> > > > imagine it resets some stuff internally when first slice is processed.
-> > > > 
-> > > > So if driver won't get all slices of one frame at once, it can't know if this 
-> > > > is first slice in frame or not. I guess we need additional flag for this.
-> > > 
-> > > A first slice of a frame comes with a new timestamp, so you don't need
-> > > a flag for that.
-> > 
-> > But slices for the same frame will all have the same timestamp, so we
-> > can't use the timestamp to tell the individual slices apart.
-> > 
-> > I mentioned this in that other thread, but I think it'd be useful to
-> > pass along the number of each of the slices. Drivers can use this in
-> > order to conceal errors when corrupt slices are detected during the
-> > decode operation.
+Le jeudi 30 mai 2019 à 23:15 +0200, Jernej Skrabec a écrit :
+> This array is just duplicated capture buffer queue. Remove it and adjust
+> code to look into capture buffer queue instead.
 > 
-> This is already passed as this is part of the slice header that we both
-> pass and parse to structure. Each slice have it's first MB indicated
-> (that standard to H264) and you can deduce the lost slice from that.
-> 
-> > So if we also passed a slice index along with the offset of the slice in
-> > the bitstream, that should give us enough information to achieve both. A
-> > slice with index 0 is obviously going to be the first slice in a frame.
-> 
-> We do this in per-frame mode only. The offset of the slice in the
-> bitstream is always 0 in per-slice mode, since each v4l2 input buffer
-> is a slice.
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 
-I don't think we need a slice index either, we most likely already have
-enough information to know where we're at regarding slices position.
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-But how about allowing an arbitrary number of slices within frame
-boundary in per-slice decoding mode?
-
-Cheers,
+Cheers and thanks,
 
 Paul
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  4 +---
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  4 ++--
+>  .../staging/media/sunxi/cedrus/cedrus_video.c | 22 -------------------
+>  3 files changed, 3 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> index 3f476d0fd981..d8e6777e5e27 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -100,8 +100,6 @@ struct cedrus_ctx {
+>  	struct v4l2_ctrl_handler	hdl;
+>  	struct v4l2_ctrl		**ctrls;
+>  
+> -	struct vb2_buffer		*dst_bufs[VIDEO_MAX_FRAME];
+> -
+>  	union {
+>  		struct {
+>  			void		*mv_col_buf;
+> @@ -187,7 +185,7 @@ static inline dma_addr_t cedrus_dst_buf_addr(struct cedrus_ctx *ctx,
+>  	if (index < 0)
+>  		return 0;
+>  
+> -	buf = ctx->dst_bufs[index];
+> +	buf = ctx->fh.m2m_ctx->cap_q_ctx.q.bufs[index];
+>  	return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0;
+>  }
+>  
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index d0ee3f90ff46..b2290f98d81a 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -119,7 +119,7 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
+>  		if (buf_idx < 0)
+>  			continue;
+>  
+> -		cedrus_buf = vb2_to_cedrus_buffer(ctx->dst_bufs[buf_idx]);
+> +		cedrus_buf = vb2_to_cedrus_buffer(cap_q->bufs[buf_idx]);
+>  		position = cedrus_buf->codec.h264.position;
+>  		used_dpbs |= BIT(position);
+>  
+> @@ -194,7 +194,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+>  		if (buf_idx < 0)
+>  			continue;
+>  
+> -		ref_buf = to_vb2_v4l2_buffer(ctx->dst_bufs[buf_idx]);
+> +		ref_buf = to_vb2_v4l2_buffer(cap_q->bufs[buf_idx]);
+>  		cedrus_buf = vb2_v4l2_to_cedrus_buffer(ref_buf);
+>  		position = cedrus_buf->codec.h264.position;
+>  
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index e2b530b1a956..681dfe3367a6 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -411,26 +411,6 @@ static void cedrus_queue_cleanup(struct vb2_queue *vq, u32 state)
+>  	}
+>  }
+>  
+> -static int cedrus_buf_init(struct vb2_buffer *vb)
+> -{
+> -	struct vb2_queue *vq = vb->vb2_queue;
+> -	struct cedrus_ctx *ctx = vb2_get_drv_priv(vq);
+> -
+> -	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
+> -		ctx->dst_bufs[vb->index] = vb;
+> -
+> -	return 0;
+> -}
+> -
+> -static void cedrus_buf_cleanup(struct vb2_buffer *vb)
+> -{
+> -	struct vb2_queue *vq = vb->vb2_queue;
+> -	struct cedrus_ctx *ctx = vb2_get_drv_priv(vq);
+> -
+> -	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
+> -		ctx->dst_bufs[vb->index] = NULL;
+> -}
+> -
+>  static int cedrus_buf_out_validate(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> @@ -517,8 +497,6 @@ static void cedrus_buf_request_complete(struct vb2_buffer *vb)
+>  static struct vb2_ops cedrus_qops = {
+>  	.queue_setup		= cedrus_queue_setup,
+>  	.buf_prepare		= cedrus_buf_prepare,
+> -	.buf_init		= cedrus_buf_init,
+> -	.buf_cleanup		= cedrus_buf_cleanup,
+>  	.buf_queue		= cedrus_buf_queue,
+>  	.buf_out_validate	= cedrus_buf_out_validate,
+>  	.buf_request_complete	= cedrus_buf_request_complete,
 
