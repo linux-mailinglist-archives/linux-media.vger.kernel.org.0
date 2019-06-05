@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36CBE354A3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 02:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37F04354A0
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 02:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726572AbfFEAML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 20:12:11 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:50132 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726519AbfFEAMH (ORCPT
+        id S1726536AbfFEAMH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jun 2019 20:12:07 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:41115 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfFEAMH (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jun 2019 20:12:07 -0400
-Received: by mail-io1-f71.google.com with SMTP id z15so10527782ioz.16
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 17:12:07 -0700 (PDT)
+Received: by mail-io1-f70.google.com with SMTP id i7so17631495ioh.8
+        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2019 17:12:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=jgCMdX0ZEsmY8XvkNK3Jyfdn5ZUGJpEvgmM+oqBcr0g=;
-        b=uFr0rd5Qd1HGJy+j3BDqZdTI5SaqOscVZ+fRmkMVmTgS7LDsZbJrAcSnomxitxeG2y
-         B//PrRUZnSsxpjDcqqTLdvn9zjwG2C1ZjtAvwxxcqPSCEuDt1pHfhwajhFoQmdVtb140
-         U+xyzhAn4QUulr+CjMm/Yk7jdGbTKWLUDei9QYgo4F1SULlKqBUxhgPR7mWxEYPTSVpK
-         mfttDuhLorEUru+vH1B5ygvzW0xdD0S+16qH8wErIJsM2uvpTb2j/roU6mxO55ynbQTn
-         7gpsefJNk5nN3Fc6q8MwoUBYc5Gbp3wmqCbRUOZbx5/tbQwrmRoF9SjBMylaFNn3HaCk
-         tVTg==
-X-Gm-Message-State: APjAAAUN5Ia898dUS445Hj9nJ4ojZQFvuwDabxK4m6tD48zOGXvSFPnj
-        2LK3EBMIKx+lyaVyTirlClgP1nkqrTC//CwKi5MLbkXZOi+m
-X-Google-Smtp-Source: APXvYqw8ukmx46TfaN7DnsSRAfMuScTMSkn/jtZMeHP5wDxzXSTrSTaZ1cxgD5RSWu37DUSofPSvoAMJ10+058loG/8E69D8Ob9B
+        bh=FGuzGX/odArR8Wasi2hmCQXeCrMlVsnJR2R5E+8BwFQ=;
+        b=be9Q3cNueXnvrKOZymxwMPC0UbQXC1Dpdu8ooDw9MJWGKEkUa4aLgMxoDD8wDU03ff
+         YFRhwXXPrjy/t44c/6QEUDLSPrZd5KivItQi1T4d2KQKqmdnlRkla3p49U0lGkxwKgjK
+         nz1y1DTFWiSy8DqNLByx9XWE4xXDzknZ0RUns4tl44OeyhNwJbIBG9jnuIEvQm25apQT
+         PgVNqxWQrZIxi9E/1mINGBiwV3hORWmgdt7JGYZ36+0ixC9UP9RuAcWclSoknrznVzmD
+         Dvf/9ABws0LjyRgmjXU2fdGQRpqmhmEQz+Sn5qWUGps5L5YfSevPm+Kye62Lg/xBMM1j
+         Z1cg==
+X-Gm-Message-State: APjAAAWhNDPHD03MQdj1wk/C6JMkqOpIvu+TvVzOCIkCDLwBDQqmuJ+e
+        W6zhvbZ0kRcxVQwK8EHOYzX3sgGBOQP+1P8eHuLTDl32zuF2
+X-Google-Smtp-Source: APXvYqx0Aj831JIJffguwTlX4uz3Q/32KuSI38Eju+sXqcM9OTtpYBImR7kQ+fu2UKaBv4U7UIJd+hphh+G4QKtljQi9ZhVa2Txy
 MIME-Version: 1.0
-X-Received: by 2002:a24:eec1:: with SMTP id b184mr25361888iti.61.1559693526866;
+X-Received: by 2002:a24:7d08:: with SMTP id b8mr22607288itc.155.1559693526558;
  Tue, 04 Jun 2019 17:12:06 -0700 (PDT)
 Date:   Tue, 04 Jun 2019 17:12:06 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a0a468058a88723d@google.com>
-Subject: KMSAN: uninit-value in i2c_w
-From:   syzbot <syzbot+397fd082ce5143e2f67d@syzkaller.appspotmail.com>
+Message-ID: <0000000000009bf1bd058a887277@google.com>
+Subject: KMSAN: uninit-value in sd_init
+From:   syzbot <syzbot+1a35278dd0ebfb3a038a@syzkaller.appspotmail.com>
 To:     glider@google.com, hverkuil@xs4all.nl,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         mchehab@kernel.org, syzkaller-bugs@googlegroups.com
@@ -50,27 +50,31 @@ syzbot found the following crash on:
 
 HEAD commit:    f75e4cfe kmsan: use kmsan_handle_urb() in urb.c
 git tree:       kmsan
-console output: https://syzkaller.appspot.com/x/log.txt?x=1514cdaaa00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17eadebaa00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=602468164ccdc30a
-dashboard link: https://syzkaller.appspot.com/bug?extid=397fd082ce5143e2f67d
+dashboard link: https://syzkaller.appspot.com/bug?extid=1a35278dd0ebfb3a038a
 compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
 06d00afa61eef8f7f501ebdb4e8612ea43ec2d78)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12e7a54aa00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17ab35dea00000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=147f4136a00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17aec4f2a00000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+397fd082ce5143e2f67d@syzkaller.appspotmail.com
+Reported-by: syzbot+1a35278dd0ebfb3a038a@syzkaller.appspotmail.com
 
-usb 1-1: New USB device found, idVendor=06a2, idProduct=6810,  
-bcdDevice=1b.af
+usb 1-1: config 0 has an invalid interface number: 142 but max is 0
+usb 1-1: config 0 has no interface number 0
+usb 1-1: New USB device found, idVendor=08ca, idProduct=2018,  
+bcdDevice=95.4a
 usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: string descriptor 0 read error: -71
-gspca_main: gspca_topro-2.14.0 probing 06a2:6810
-gspca_topro: reg_w err -71
+usb 1-1: config 0 descriptor??
+gspca_main: sunplus-2.14.0 probing 08ca:2018
+gspca_sunplus: reg_w_riv err -71
 ==================================================================
-BUG: KMSAN: uninit-value in i2c_w+0xb7a/0xd70  
-drivers/media/usb/gspca/topro.c:1043
-CPU: 1 PID: 3338 Comm: kworker/1:2 Not tainted 5.1.0+ #1
+BUG: KMSAN: uninit-value in spca504B_PollingDataReady  
+drivers/media/usb/gspca/sunplus.c:409 [inline]
+BUG: KMSAN: uninit-value in sd_init+0x5b6f/0x5e60  
+drivers/media/usb/gspca/sunplus.c:643
+CPU: 0 PID: 3902 Comm: kworker/0:2 Not tainted 5.1.0+ #1
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -79,9 +83,8 @@ Call Trace:
   dump_stack+0x191/0x1f0 lib/dump_stack.c:113
   kmsan_report+0x130/0x2a0 mm/kmsan/kmsan.c:622
   __msan_warning+0x75/0xe0 mm/kmsan/kmsan_instr.c:310
-  i2c_w+0xb7a/0xd70 drivers/media/usb/gspca/topro.c:1043
-  probe_6810 drivers/media/usb/gspca/topro.c:1126 [inline]
-  sd_init+0xc05/0x7ca0 drivers/media/usb/gspca/topro.c:4081
+  spca504B_PollingDataReady drivers/media/usb/gspca/sunplus.c:409 [inline]
+  sd_init+0x5b6f/0x5e60 drivers/media/usb/gspca/sunplus.c:643
   gspca_dev_probe2+0xee0/0x2240 drivers/media/usb/gspca/gspca.c:1546
   gspca_dev_probe+0x346/0x3b0 drivers/media/usb/gspca/gspca.c:1619
   sd_probe+0x8d/0xa0 drivers/media/usb/gspca/gl860/gl860.c:523
