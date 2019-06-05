@@ -2,86 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 235D83568D
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 08:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 491293576F
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 09:07:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfFEGCJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 02:02:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46004 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726464AbfFEGCJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Jun 2019 02:02:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D73632075B;
-        Wed,  5 Jun 2019 06:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559714528;
-        bh=HepOocMGQbxV1XkzbMNksN58w/TkVlWsGTwtJsPEC3Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CpwYst9o9FOBMseaTUmOc8FZStSK3v69CHuj3cMA26LdyDNfjZBBkYCVsfmv1Ezbc
-         ryP7VakobNyJF1HaIMEEDmKrEPPrNzABbUywElOndzfLyeQljOtWqBTL2lUDKe+TeQ
-         jYP8/8RN0G/7ehzDSaHPFH8DKxmiLhj/Y7w/nn7c=
-Date:   Wed, 5 Jun 2019 08:02:05 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
-Message-ID: <20190605060205.GA29484@kroah.com>
-References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
- <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
- <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
- <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
- <20190604134213.GA26263@kroah.com>
- <CAK7LNARyqW3q6_46e-aYjmF8c0jUNDLdyB28zNaBEXqTV+5QSA@mail.gmail.com>
- <CAK8P3a0bz8XYJOsmND2=CT_oTDmGMJGaRo9+QMroEhpekSMEaQ@mail.gmail.com>
- <CAK7LNARU+uT0aUBh5niwEafL8+Ok7=sOZYukptpDH1w7Cii3hQ@mail.gmail.com>
- <20190605051040.GA22760@kroah.com>
- <b70cf8c1f901ea09abbdb22dd28244b18fd1a39d.camel@perches.com>
+        id S1726603AbfFEHH5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 03:07:57 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:41766 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbfFEHH4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 03:07:56 -0400
+Received: by mail-pl1-f193.google.com with SMTP id s24so9211163plr.8
+        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2019 00:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=G5DT3HSkNGcPA0+dfVoxLXiX+ckkiJmmC8Hx3I63JHY=;
+        b=gNR5LPmQnR+iaGYVj4CZkWZIgkFnzTrmOi9QoqaJa6kzwvTi4l+sYqtFT4iunqTaQA
+         0YEnLkwypWIHbTkf1wFlWT9ZwNFvKZ7RSz6CickyFFw7AO+S/LeIVfKO3Kch7x6rb//q
+         F+uGrZAyzJNayN4zGFJZudtjJtehiRcmFv+HI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=G5DT3HSkNGcPA0+dfVoxLXiX+ckkiJmmC8Hx3I63JHY=;
+        b=JDfqVC2kUCkL5S8U09pWwkJ1J34JsP//6Dh5CRdda9YxVaJfmYbp5gTazWV6A8w0CD
+         7EChPojXBrJrjw/+D2KVmTRxjQ0MhGBo9V5AK4inMOCG7RKnMtxy5RSzT4+tAE8wG8VS
+         lKYTzBfrAtSs/vaST1U90VumxRXowlZxuleuER7d/lIURhj2rZeKpdLSajZErDaZbRIC
+         4mUE1i/0x9/NilxHSF3Wl2U5p7hcJCRsHDyoH19tZszuuxYfxCj91cxjIQjd6rrT9yj5
+         RQR7azH1CJ43yjhRDs6yefMH9izab6jODLqOlvS2OmFNrvfnlhB5OQ+FmpeitT2AUcBO
+         mFKg==
+X-Gm-Message-State: APjAAAXOo1LYXPkeHXTXtZweGdZNzJymwlI6oWIJPg9vlkSTEvgnWLo0
+        +loeu7seJHednZ05vw4jxejFCrzxucCEyw==
+X-Google-Smtp-Source: APXvYqzcz1ThSD30uSaDaWhLBJCiLOp6xkp6jmkaZ3blNklDtJmEZ5md6LyBbclcX1UZoIh1B9C+gg==
+X-Received: by 2002:a17:902:e582:: with SMTP id cl2mr26609826plb.60.1559718476180;
+        Wed, 05 Jun 2019 00:07:56 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
+        by smtp.gmail.com with ESMTPSA id l3sm17947773pgl.3.2019.06.05.00.07.54
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 05 Jun 2019 00:07:55 -0700 (PDT)
+Date:   Wed, 5 Jun 2019 16:07:52 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, rajmohan.mani@intel.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/5] ov5670: Support probe whilst the device is off
+Message-ID: <20190605070752.GA126683@chromium.org>
+References: <20190510100930.14641-1-sakari.ailus@linux.intel.com>
+ <20190510100930.14641-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b70cf8c1f901ea09abbdb22dd28244b18fd1a39d.camel@perches.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190510100930.14641-4-sakari.ailus@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 04, 2019 at 10:22:05PM -0700, Joe Perches wrote:
-> On Wed, 2019-06-05 at 07:10 +0200, Greg KH wrote:
-> > On Wed, Jun 05, 2019 at 01:10:41PM +0900, Masahiro Yamada wrote:
-> > > On Wed, Jun 5, 2019 at 3:21 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> []
-> > > This means we cannot reliably use uint{8,16,32,64}_t in UAPI headers.
-> > 
-> > We should not be doing that as they are in the userspace "namespace" of
-> > variables, not in the kernel namespace.  We've been over this many times
-> > in the past :(
-> 
-> Just not very successfully...
-> 
-> $ git grep -w -P 'u?_?int(?:8|16|32|64)_t' include/uapi | wc -l
-> 342
-> 
-> $ git grep -w -P --name-only 'u?_?int(?:8|16|32|64)_t' include/uapi | wc -l
-> 13
-> 
-> Documentation helps a bit, checkpatch helps as well.
-> Maintainer knowledge and vigilance probably helps the most.
+Hi Sakari,
 
-Yes, it's not been a dedicated effort at all :(
+On Fri, May 10, 2019 at 01:09:28PM +0300, Sakari Ailus wrote:
+> Tell ACPI device PM code that the driver supports the device being powered
+> off when the driver's probe function is entered.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ov5670.c | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+> index 041fcbb4eebdf..57e8b92f90e09 100644
+> --- a/drivers/media/i2c/ov5670.c
+> +++ b/drivers/media/i2c/ov5670.c
+> @@ -2444,6 +2444,7 @@ static int ov5670_probe(struct i2c_client *client)
+>  	struct ov5670 *ov5670;
+>  	const char *err_msg;
+>  	u32 input_clk = 0;
+> +	bool powered_off;
+>  	int ret;
+>  
+>  	device_property_read_u32(&client->dev, "clock-frequency", &input_clk);
+> @@ -2460,11 +2461,14 @@ static int ov5670_probe(struct i2c_client *client)
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
+>  
+> -	/* Check module identity */
+> -	ret = ov5670_identify_module(ov5670);
+> -	if (ret) {
+> -		err_msg = "ov5670_identify_module() error";
+> -		goto error_print;
+> +	powered_off = acpi_dev_powered_off_for_probe(&client->dev);
+> +	if (!powered_off) {
+> +		/* Check module identity */
+> +		ret = ov5670_identify_module(ov5670);
+> +		if (ret) {
+> +			err_msg = "ov5670_identify_module() error";
+> +			goto error_print;
+> +		}
+>  	}
 
-But it needs to be resolved, if we want people to actually use our
-kernel headers easily.
+I don't like the fact that we can't detect any hardware connection issue
+here anymore and we would actually get some obscure failure when we
+actually start streaming.
 
-thanks,
+Wouldn't it be possible to still keep this behavior of not powering on
+the device at boot-up if no driver is bound and then have this driver
+built as a module and loaded later when the camera is to be used for the
+first time after the system boots?
 
-greg k-h
+Best regards,
+Tomasz
