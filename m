@@ -2,151 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 768EC355AD
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 05:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2086355C4
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 06:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfFEDu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jun 2019 23:50:26 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47039 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726488AbfFEDuZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Jun 2019 23:50:25 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:c1eb:8d15:c54d:1c9e])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YMwQhg30O3qlsYMwRhcstf; Wed, 05 Jun 2019 05:50:23 +0200
-Message-ID: <63a2b412993ccd706131d82b450c2155@smtp-cloud7.xs4all.net>
-Date:   Wed, 05 Jun 2019 05:50:22 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfF+it1QGrdB377L4gwJzXpmyzEgKQuPb+vm7iAWWMOh7mGHj6PXGKgjO09dn3B3mrZIKHgj7MaAFZXRV5QFM5n1CoT7vWGCOQ/+MGq5m6PbWYfrQfsSa
- X3Lc4q4+QiWNMylb0aOcivY0m6qMIc/xOI6hJ2PAloN3XihALGAKMcK6K0gYKfjGldMpSXjfNahdOTUzu87V2YTMP3cFDbHxcPIzCvabkCIcj83d8xQMMv/U
+        id S1726050AbfFEELm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 00:11:42 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:19909 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbfFEELm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 00:11:42 -0400
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x554BINJ019657;
+        Wed, 5 Jun 2019 13:11:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x554BINJ019657
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559707879;
+        bh=QsPdivrwLdOGJOU/WFMS+cKg91hI/bfOVvEmq1t5e7c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KaTiRT+70eGEthJy3jCbqL3AT3gCdATYa7dabpfZVDEeI7QNk+qBtEEOEY5/E8Z4d
+         trUCJD+BuOXJmLtNo7afZFqUjWpkZ5DXs54yxGoDir/aS2zf8XSsH5faWlek+j0LAF
+         f10aTyifAvJopefUk2mYI78Dg1bZiHevtzdxdzahAZx8U4uIDcttBWq6m9iaiPf8C7
+         5d6Z/M1P+NlwH05UjgJWpqsk4bc86W6S7TgckQShizZ9XMtmmslycSrx3hANdbtIqK
+         u2PPQXdxjKhpT88I5aDpOGRnaznaLO4yO3i+bSiMiLOgmK6wfR2cILvLZun7K4utJj
+         MsAfqiwoLKkvA==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id a95so8607048uaa.13;
+        Tue, 04 Jun 2019 21:11:18 -0700 (PDT)
+X-Gm-Message-State: APjAAAV1Ugbdx3KJFlcIQGGbeRcZcx5imPZqbkovmK98zXFc/nzzIs36
+        LBaGl+a7gIdcohHLuWTb7dAC00AIu0EZ37v6ZmM=
+X-Google-Smtp-Source: APXvYqzz4qFiscI0xcqKkDE7UFFJBKkvkW6TWgtTPNQURXJ4y01rFQKCdNp2WsgYNUCG2fQMZ0dGQ2rX4eSLLDWZnh0=
+X-Received: by 2002:a9f:3381:: with SMTP id p1mr19527123uab.40.1559707877666;
+ Tue, 04 Jun 2019 21:11:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
+ <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
+ <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
+ <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
+ <20190604134213.GA26263@kroah.com> <CAK7LNARyqW3q6_46e-aYjmF8c0jUNDLdyB28zNaBEXqTV+5QSA@mail.gmail.com>
+ <CAK8P3a0bz8XYJOsmND2=CT_oTDmGMJGaRo9+QMroEhpekSMEaQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a0bz8XYJOsmND2=CT_oTDmGMJGaRo9+QMroEhpekSMEaQ@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 5 Jun 2019 13:10:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARU+uT0aUBh5niwEafL8+Ok7=sOZYukptpDH1w7Cii3hQ@mail.gmail.com>
+Message-ID: <CAK7LNARU+uT0aUBh5niwEafL8+Ok7=sOZYukptpDH1w7Cii3hQ@mail.gmail.com>
+Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Jun 5, 2019 at 3:21 AM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > >
+> > > > There are two ways to define fixed-width type.
+> > > >
+> > > > [1] #include <linux/types.h>, __u8, __u16, __u32, __u64
+> > > >
+> > > >       vs
+> > > >
+> > > > [2] #include <stdint.h>, uint8_t, uint16_t, uint32_t, uint64_t
+> > > >
+> > > >
+> > > > Both are used in UAPI headers.
+> > > > IIRC, <stdint.h> was standardized by C99.
+> > > >
+> > > > So, we have already relied on C99 in user-space too.
+>
+> A related problem is that using the stdint.h types requires
+> including stdint.h first, but the C library requires that including
+> one standard header does not include another one recursively.
+>
+> So if sys/socket.h includes linux/socket.h, that must not include
+> stdint.h or any other header file that does so.
 
-Results of the daily build of media_tree:
 
-date:			Wed Jun  5 05:00:12 CEST 2019
-media-tree git hash:	0864c9ce8fe83eadfd21b08e98997111d091660c
-media_build git hash:	d121a2bedf6dd541c6182041142ec54fd94760ab
-v4l-utils git hash:	4509a09beb1cca754347dc139eecdc4ad7efaa93
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: cb4f17f7462676dcd9ec58da434cd5afae0aee40
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+This means we cannot reliably use uint{8,16,32,64}_t in UAPI headers.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 7
-sparse: OK
-smatch: OK
 
-Detailed results are available here:
+[1] If we include <stdint.h> from linux/foo.h
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+    If sys/foo.h includes <linux/foo.h> and <stdint.h>,
+    it violates the C library requirement.
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+[2] If we do not include <stdint.h> from linux/foo.h
 
-Full logs are available here:
+    If sys/foo.h includes <linux/foo.h>, but not <stdint.h>,
+    we get 'unknown type name' errors.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Best Regards
+Masahiro Yamada
