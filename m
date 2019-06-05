@@ -2,123 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B775365AE
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 22:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 900CF365AC
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2019 22:41:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726537AbfFEUlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 16:41:10 -0400
-Received: from casper.infradead.org ([85.118.1.10]:37114 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfFEUlK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 16:41:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=h98u8H7RfP5qJN0kCyqIabwfZ68OoIG1a6EpwEt8FWo=; b=aPJ1cnA0f/UZYVjZUKtwfuWMb5
-        vKz7K7uIjdvvTt7FI5ZNUONLESbeimFe9dKnYZooD2ZYm4yzq9WhVK9bLmYuF/mctvbtMMidzidl8
-        JSgQAjo2NBhYacmYSta7LS2rmcP2ZiuoEIdN4PcItWiVmewmwOx6mH1ijxIfhCX9LrCpw4BxhXU2V
-        IgDqKXg6eVvKxHUHUND4zQ9evsScTrXXBP3dAFdyh0DiQqp6ymensVDZPiffP6KaDAwdpH3YnX6Ft
-        5u69dBOiIjUucOdLQ7k8NaFOACSS9fXysZrWD1wPHn8iplGS4KCaWuoMP0DdkKWIkVcw0wX4tw9zV
-        HbRkufNQ==;
-Received: from [179.182.172.34] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYciZ-00073A-BD; Wed, 05 Jun 2019 20:41:07 +0000
-Date:   Wed, 5 Jun 2019 17:41:02 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Marek <jonathan@marek.ca>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        David Brown <david.brown@linaro.org>,
-        linux-media@vger.kernel.org (open list:QUALCOMM VENUS VIDEO ACCELERATOR
-        DRIVER),
-        linux-arm-msm@vger.kernel.org (open list:QUALCOMM VENUS VIDEO
-        ACCELERATOR DRIVER), linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] Revert "media: hfi_parser: don't trick gcc with a wrong
- expected size"
-Message-ID: <20190605174044.65ac1e4a@coco.lan>
-In-Reply-To: <20190605201941.4150-1-jonathan@marek.ca>
-References: <20190605201941.4150-1-jonathan@marek.ca>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726685AbfFEUlR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 16:41:17 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:42106 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726305AbfFEUlQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 16:41:16 -0400
+Received: by mail-vs1-f67.google.com with SMTP id z11so16546071vsq.9;
+        Wed, 05 Jun 2019 13:41:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EhtXy4UWQwP12EecpVe4mAF89wcEtevNoGW2PWVKNj8=;
+        b=XzH/f0bGQr9JHNffSaN3NDiFUdpNEfh7aYqpjMqiUq16LYB77Xxozu8hBwhsuhaSB/
+         d3isnhvTzK1bz7oTh+OjXNGO69DbSrFu4oDJzI8pzwhpmAMqM6QtAv+21v6TNG7qnFyQ
+         fzwRtlb9VFlBZ4MvDCKiVOvaR53GbUzLgWCXxxXVCvGJL3feaiqU4H7pTsWxD9afyrkl
+         gHbcBQ4vU+ZUjqA1BGGnQ5gXCWd7MrRy/po+fXivghdoC8rUkoUKE2KcNnpe9FLtdurk
+         Wa9ICHl5yaoSHqo3eE32fz651T09R+ifNGfQY9t+mcsA1X+WlUuLnAkrjP7M70YloKkC
+         KUjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EhtXy4UWQwP12EecpVe4mAF89wcEtevNoGW2PWVKNj8=;
+        b=XG8AuKtII4N+pucFcmhtkq344bhMVj2AVPpAZ7tKuXH1387A2xNzQeSYgWc+Tu5S23
+         rRh/wO43B3aNOcLnmB++kS3YOK0K6i2E4wajjrid4t2el91RDvGZOZvADJKCUijOuHRg
+         hCR7+BsnkdHH+KZKb8VrQw3RNIXTC/ykkCXcIh6cIajMAHKzXi6fRUK4YW3z4D0RMKGV
+         cnojeqAV1Sq+2HBCHo+KQifaBUt5xBaisPbKLgWRV0sUP+fhEbQEk6HLBe0lahJO3cI9
+         oZR8KOLKbZJD8U8t2WtYsUxsmW7EPcGBcn1MYPouruw681VegXO877gagy6y25aD0zd5
+         Pulw==
+X-Gm-Message-State: APjAAAVIen+qrMs/44k6IdbyIeTD3ChWPcWTrsT0P/nuBBKNBW5Ghj3E
+        gcij5XuZKzK9OKd5ZOE5AmtUDkElfInDbamFSFo=
+X-Google-Smtp-Source: APXvYqwsaHTIZZ1e295x7b77gVgiPmxiSewtzvTkvz+RIRW3NkAJ1BXravjDUzEsPMM4euyle8zQouERJF/btpGDIHU=
+X-Received: by 2002:a67:7143:: with SMTP id m64mr22339994vsc.131.1559767275349;
+ Wed, 05 Jun 2019 13:41:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190605161436.3ac174f3@canb.auug.org.au> <4857750b-a4f4-8539-218c-7e9ac1a6006e@infradead.org>
+In-Reply-To: <4857750b-a4f4-8539-218c-7e9ac1a6006e@infradead.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 5 Jun 2019 17:41:07 -0300
+Message-ID: <CAOMZO5Db6Lh1L9Fw8QXfuQVLHq_c6Y8YBqy9_1=wjs=vSHTMjA@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jun 5 (staging/media/imx/)
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed,  5 Jun 2019 16:19:40 -0400
-Jonathan Marek <jonathan@marek.ca> escreveu:
+Hi Randy,
 
-> This reverts commit ded716267196862809e5926072adc962a611a1e3.
-> 
-> This change doesn't make any sense and breaks the driver.
+On Wed, Jun 5, 2019 at 4:37 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 
-The fix is indeed wrong, but reverting is the wrong thing to do.
+> on x86_64:
+>
+> ld: drivers/staging/media/imx/imx-media-internal-sd.o: in function `imx_media_register_ipu_internal_subdevs':
+> imx-media-internal-sd.c:(.text+0xd1): undefined reference to `ipu_get_num'
 
-The problem is that the driver is trying to write past the
-allocated area, as reported:
+Thanks for reporting this problem.
 
-	drivers/media/platform/qcom/venus/hfi_parser.c:103 parse_profile_level() error: memcpy() 'proflevel' too small (8 vs 128)
-	drivers/media/platform/qcom/venus/hfi_parser.c:129 parse_caps() error: memcpy() 'cap' too small (16 vs 512)
-
-If you check the memcpy() logic at the above lines, you'll see that
-hfi_capability.data may have up to 32 entries, and
-hfi_profile_level_supported.profile level can have up to it can be up
-to 16 entries.
-
-So, the buffer should either be dynamically allocated with the real
-size or we need something like the enclosed patch.
-
-Thanks,
-Mauro
-
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7a3feb5cee00..06a84f266bcc 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -59,7 +59,6 @@ struct venus_format {
- 
- #define MAX_PLANES		4
- #define MAX_FMT_ENTRIES		32
--#define MAX_CAP_ENTRIES		32
- #define MAX_ALLOC_MODE_ENTRIES	16
- #define MAX_CODEC_NUM		32
- 
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 34ea503a9842..ca8033381515 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -560,6 +560,8 @@ struct hfi_bitrate {
- #define HFI_CAPABILITY_HIER_P_HYBRID_NUM_ENH_LAYERS	0x15
- #define HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE		0x16
- 
-+#define MAX_CAP_ENTRIES                32
-+
- struct hfi_capability {
- 	u32 capability_type;
- 	u32 min;
-@@ -569,7 +571,7 @@ struct hfi_capability {
- 
- struct hfi_capabilities {
- 	u32 num_capabilities;
--	struct hfi_capability *data;
-+	struct hfi_capability data[MAX_CAP_ENTRIES];
- };
- 
- #define HFI_DEBUG_MSG_LOW	0x01
-@@ -726,7 +728,7 @@ struct hfi_profile_level {
- 
- struct hfi_profile_level_supported {
- 	u32 profile_count;
--	struct hfi_profile_level *profile_level;
-+	struct hfi_profile_level profile_level[HFI_MAX_PROFILE_COUNT];
- };
- 
- struct hfi_quality_vs_speed {
-
-
-
+I will submit a fix.
