@@ -2,337 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC806373DA
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 14:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94EA7373E1
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 14:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728027AbfFFMLl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jun 2019 08:11:41 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35795 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726040AbfFFMLi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Jun 2019 08:11:38 -0400
-Received: from tschai.fritz.box ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YrExhzc7c3qlsYrF2hma9U; Thu, 06 Jun 2019 14:11:36 +0200
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 9/9] vicodec: improve handling of ENC_CMD_STOP/START
-Date:   Thu,  6 Jun 2019 14:11:31 +0200
-Message-Id: <20190606121131.37110-10-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190606121131.37110-1-hverkuil-cisco@xs4all.nl>
-References: <20190606121131.37110-1-hverkuil-cisco@xs4all.nl>
+        id S1728103AbfFFMMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jun 2019 08:12:46 -0400
+Received: from mga04.intel.com ([192.55.52.120]:19764 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726757AbfFFMMq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jun 2019 08:12:46 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 05:12:45 -0700
+X-ExtLoop1: 1
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga005.fm.intel.com with ESMTP; 06 Jun 2019 05:12:39 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id E6E6C20D69; Thu,  6 Jun 2019 15:12:38 +0300 (EEST)
+Date:   Thu, 6 Jun 2019 15:12:38 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Vishal Sagar <vsagar@xilinx.com>
+Cc:     Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xilinx
+ MIPI CSI-2 Rx Subsystem
+Message-ID: <20190606121238.zxdvvogob3umzid4@paasikivi.fi.intel.com>
+References: <1559555971-193235-1-git-send-email-vishal.sagar@xilinx.com>
+ <1559555971-193235-2-git-send-email-vishal.sagar@xilinx.com>
+ <20190604192344.7tycwffjd3yeizxh@paasikivi.fi.intel.com>
+ <CH2PR02MB60889B850DCAA810A772160DA7170@CH2PR02MB6088.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfF8IrJ5MbVPIR6gyWP7iAau3S6ZwUN5Ek0hxsRNg/O3trIAdxqRi0Nu4U0JbqlsDS30hoWrW+xtaYDDzGiHb5e1yZ4Lon6vV7IApIaa+FvVQ9ZwIkMIr
- WT8FFnl1NcYawcqA9n0SswVWRAWX3Ej/cf0fHkuRKIKpGPfFbenlfa2E6vbgrqqZIyfDltuH5b2mGSL6tlsjHnFfq8EHXNTs4WhdKjYKK0/+AXW/y05Q1qp1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CH2PR02MB60889B850DCAA810A772160DA7170@CH2PR02MB6088.namprd02.prod.outlook.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Correctly handle stopping and restarting the encoder, keeping
-track of the stop and drain states.
+Hi Vishal,
 
-In addition it adds correct handling of corner cases, allowing
-v4l2-compliance to pass.
+On Thu, Jun 06, 2019 at 11:54:19AM +0000, Vishal Sagar wrote:
+> Hi Sakari,
+> 
+> > -----Original Message-----
+> > From: Sakari Ailus [mailto:sakari.ailus@linux.intel.com]
+> > Sent: Wednesday, June 05, 2019 12:54 AM
+> > To: Vishal Sagar <vishal.sagar@xilinx.com>
+> > Cc: Hyun Kwon <hyunk@xilinx.com>; laurent.pinchart@ideasonboard.com;
+> > mchehab@kernel.org; robh+dt@kernel.org; mark.rutland@arm.com; Michal
+> > Simek <michals@xilinx.com>; linux-media@vger.kernel.org;
+> > devicetree@vger.kernel.org; hans.verkuil@cisco.com; linux-arm-
+> > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Dinesh Kumar
+> > <dineshk@xilinx.com>; Sandip Kothari <sandipk@xilinx.com>; Luca Ceresoli
+> > <luca@lucaceresoli.net>; Jacopo Mondi <jacopo@jmondi.org>
+> > Subject: Re: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xilinx MIPI
+> > CSI-2 Rx Subsystem
+> > 
+> > EXTERNAL EMAIL
+> > 
+> > Hi Vishal,
+> > 
+> > On Mon, Jun 03, 2019 at 03:29:30PM +0530, Vishal Sagar wrote:
+> > 
+> > > +Optional properties:
+> > > +--------------------
+> > > +- .
+> > > +  Without this property the driver won't be loaded as IP won't be able to
+> > generate
+> > > +  media bus format compliant stream output.
+> > 
+> > I think we previously concluded that the format will be just different in
+> > this case. So the description appears incorrect.
+> > 
+> 
+> Referring to your email https://lkml.org/lkml/2019/3/22/1823 in response to v6 patches,
+> if the video format bridge is not enabled, then the way in which pixels are transported on
+> the bus don't correspond to the existing media bus formats in Linux.
+> 
+> If not loading the driver is incorrect way, is it ok for the driver to allow same media bus format
+> for packed and unpacked data type on the sink pad?
+> 
+> Or is it ok for the driver to not validate the media bus format set on the sink pad?
 
-Unfortunately, the code is getting to be quite complicated, so
-we need to work on better codec support in v4l2-mem2mem.c to
-simplify drivers.
+Taking a fresh look at the issue --- usually such unpacking is done by the
+DMA engine, or the same device contains both the CSI-2 RX and DMA. But here
+it actually affects the input of that DMA engine. You're right in saying we
+don't have format definitions from which you could tell which case it is,
+and we also don't have other pre-existing means to tell them apart.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/platform/vicodec/vicodec-core.c | 150 ++++++++++++++----
- 1 file changed, 122 insertions(+), 28 deletions(-)
+Feel free to keep the check in the driver, but we can't refer to the driver
+loading in DT binding documentation: this is really not supposed to be
+related to that driver, or even Linux at all.
 
-diff --git a/drivers/media/platform/vicodec/vicodec-core.c b/drivers/media/platform/vicodec/vicodec-core.c
-index 91cd0c1dbede..7e7c1e80f29f 100644
---- a/drivers/media/platform/vicodec/vicodec-core.c
-+++ b/drivers/media/platform/vicodec/vicodec-core.c
-@@ -117,12 +117,14 @@ struct vicodec_ctx {
- 	struct vicodec_dev	*dev;
- 	bool			is_enc;
- 	bool			is_stateless;
-+	bool			is_draining;
-+	bool			next_is_last;
-+	bool			has_stopped;
- 	spinlock_t		*lock;
- 
- 	struct v4l2_ctrl_handler hdl;
- 
- 	struct vb2_v4l2_buffer *last_src_buf;
--	struct vb2_v4l2_buffer *last_dst_buf;
- 
- 	/* Source and destination queue data */
- 	struct vicodec_q_data   q_data[2];
-@@ -139,6 +141,10 @@ struct vicodec_ctx {
- 	bool			source_changed;
- };
- 
-+static const struct v4l2_event vicodec_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static inline struct vicodec_ctx *file2ctx(struct file *file)
- {
- 	return container_of(file->private_data, struct vicodec_ctx, fh);
-@@ -402,9 +408,6 @@ static enum vb2_buffer_state get_next_header(struct vicodec_ctx *ctx,
- /* device_run() - prepares and starts the device */
- static void device_run(void *priv)
- {
--	static const struct v4l2_event eos_event = {
--		.type = V4L2_EVENT_EOS
--	};
- 	struct vicodec_ctx *ctx = priv;
- 	struct vicodec_dev *dev = ctx->dev;
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-@@ -427,12 +430,12 @@ static void device_run(void *priv)
- 	dst_buf->flags &= ~V4L2_BUF_FLAG_LAST;
- 	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
- 
--	ctx->last_dst_buf = dst_buf;
--
- 	spin_lock(ctx->lock);
- 	if (!ctx->comp_has_next_frame && src_buf == ctx->last_src_buf) {
- 		dst_buf->flags |= V4L2_BUF_FLAG_LAST;
--		v4l2_event_queue_fh(&ctx->fh, &eos_event);
-+		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+		ctx->is_draining = false;
-+		ctx->has_stopped = true;
- 	}
- 	if (ctx->is_enc || ctx->is_stateless) {
- 		src_buf->sequence = q_src->sequence++;
-@@ -583,6 +586,8 @@ static int job_ready(void *priv)
- 	unsigned int max_to_copy;
- 	unsigned int comp_frame_size;
- 
-+	if (ctx->has_stopped)
-+		return 0;
- 	if (ctx->source_changed)
- 		return 0;
- 	if (ctx->is_stateless || ctx->is_enc || ctx->comp_has_frame)
-@@ -602,6 +607,8 @@ static int job_ready(void *priv)
- 	if (ctx->header_size < sizeof(struct fwht_cframe_hdr)) {
- 		state = get_next_header(ctx, &p, p_src + sz - p);
- 		if (ctx->header_size < sizeof(struct fwht_cframe_hdr)) {
-+			if (ctx->is_draining && src_buf == ctx->last_src_buf)
-+				return 1;
- 			job_remove_src_buf(ctx, state);
- 			goto restart;
- 		}
-@@ -629,6 +636,8 @@ static int job_ready(void *priv)
- 		p += copy;
- 		ctx->comp_size += copy;
- 		if (ctx->comp_size < max_to_copy) {
-+			if (ctx->is_draining && src_buf == ctx->last_src_buf)
-+				return 1;
- 			job_remove_src_buf(ctx, state);
- 			goto restart;
- 		}
-@@ -670,7 +679,6 @@ static int job_ready(void *priv)
- 			v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 
- 		update_capture_data_from_header(ctx);
--		ctx->first_source_change_sent = true;
- 		v4l2_event_queue_fh(&ctx->fh, &rs_event);
- 		set_last_buffer(dst_buf, src_buf, ctx);
- 		ctx->source_changed = true;
-@@ -717,7 +725,8 @@ static int enum_fmt(struct v4l2_fmtdesc *f, struct vicodec_ctx *ctx,
- 		const struct v4l2_fwht_pixfmt_info *info =
- 					get_q_data(ctx, f->type)->info;
- 
--		if (!info || ctx->is_enc)
-+		if (ctx->is_enc ||
-+		    !vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q))
- 			info = v4l2_fwht_get_pixfmt(f->index);
- 		else
- 			info = v4l2_fwht_find_nth_fmt(info->width_div,
-@@ -768,9 +777,6 @@ static int vidioc_g_fmt(struct vicodec_ctx *ctx, struct v4l2_format *f)
- 	q_data = get_q_data(ctx, f->type);
- 	info = q_data->info;
- 
--	if (!info)
--		info = v4l2_fwht_get_pixfmt(0);
--
- 	switch (f->type) {
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-@@ -1210,19 +1216,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
--static void vicodec_mark_last_buf(struct vicodec_ctx *ctx)
-+static int vicodec_mark_last_buf(struct vicodec_ctx *ctx)
- {
--	static const struct v4l2_event eos_event = {
--		.type = V4L2_EVENT_EOS
--	};
-+	struct vb2_v4l2_buffer *next_dst_buf;
-+	int ret = 0;
- 
- 	spin_lock(ctx->lock);
-+	if (ctx->is_draining) {
-+		ret = -EBUSY;
-+		goto unlock;
-+	}
-+	if (ctx->has_stopped)
-+		goto unlock;
-+
- 	ctx->last_src_buf = v4l2_m2m_last_src_buf(ctx->fh.m2m_ctx);
--	if (!ctx->last_src_buf && ctx->last_dst_buf) {
--		ctx->last_dst_buf->flags |= V4L2_BUF_FLAG_LAST;
--		v4l2_event_queue_fh(&ctx->fh, &eos_event);
-+	ctx->is_draining = true;
-+	if (ctx->last_src_buf)
-+		goto unlock;
-+
-+	next_dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-+	if (!next_dst_buf) {
-+		ctx->next_is_last = true;
-+		goto unlock;
- 	}
-+
-+	next_dst_buf->flags |= V4L2_BUF_FLAG_LAST;
-+	vb2_buffer_done(&next_dst_buf->vb2_buf, VB2_BUF_STATE_DONE);
-+	ctx->is_draining = false;
-+	ctx->has_stopped = true;
-+	v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+
-+unlock:
- 	spin_unlock(ctx->lock);
-+	return ret;
- }
- 
- static int vicodec_encoder_cmd(struct file *file, void *fh,
-@@ -1235,8 +1261,22 @@ static int vicodec_encoder_cmd(struct file *file, void *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	vicodec_mark_last_buf(ctx);
--	return 0;
-+	if (!vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q) ||
-+	    !vb2_is_streaming(&ctx->fh.m2m_ctx->out_q_ctx.q))
-+		return 0;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP)
-+		return vicodec_mark_last_buf(ctx);
-+	ret = 0;
-+	spin_lock(ctx->lock);
-+	if (ctx->is_draining) {
-+		ret = -EBUSY;
-+	} else if (ctx->has_stopped) {
-+		ctx->has_stopped = false;
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+	}
-+	spin_unlock(ctx->lock);
-+	return ret;
- }
- 
- static int vicodec_decoder_cmd(struct file *file, void *fh,
-@@ -1249,8 +1289,22 @@ static int vicodec_decoder_cmd(struct file *file, void *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	vicodec_mark_last_buf(ctx);
--	return 0;
-+	if (!vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q) ||
-+	    !vb2_is_streaming(&ctx->fh.m2m_ctx->out_q_ctx.q))
-+		return 0;
-+
-+	if (dc->cmd == V4L2_DEC_CMD_STOP)
-+		return vicodec_mark_last_buf(ctx);
-+	ret = 0;
-+	spin_lock(ctx->lock);
-+	if (ctx->is_draining) {
-+		ret = -EBUSY;
-+	} else if (ctx->has_stopped) {
-+		ctx->has_stopped = false;
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+	}
-+	spin_unlock(ctx->lock);
-+	return ret;
- }
- 
- static int vicodec_enum_framesizes(struct file *file, void *fh,
-@@ -1423,6 +1477,25 @@ static void vicodec_buf_queue(struct vb2_buffer *vb)
- 		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
- 	};
- 
-+	if (vb2_is_streaming(vq_cap)) {
-+		if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type) &&
-+		    ctx->next_is_last) {
-+			unsigned int i;
-+
-+			for (i = 0; i < vb->num_planes; i++)
-+				vb->planes[i].bytesused = 0;
-+			vbuf->flags = V4L2_BUF_FLAG_LAST;
-+			vbuf->field = V4L2_FIELD_NONE;
-+			vbuf->sequence = get_q_data(ctx, vb->vb2_queue->type)->sequence++;
-+			vb2_buffer_done(vb, VB2_BUF_STATE_DONE);
-+			ctx->is_draining = false;
-+			ctx->has_stopped = true;
-+			ctx->next_is_last = false;
-+			v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+			return;
-+		}
-+	}
-+
- 	/* buf_queue handles only the first source change event */
- 	if (ctx->first_source_change_sent) {
- 		v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
-@@ -1530,16 +1603,11 @@ static int vicodec_start_streaming(struct vb2_queue *q,
- 	unsigned int total_planes_size;
- 	u8 *new_comp_frame = NULL;
- 
--	if (!info)
--		return -EINVAL;
--
- 	chroma_div = info->width_div * info->height_div;
- 	q_data->sequence = 0;
- 
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->last_src_buf = NULL;
--	else
--		ctx->last_dst_buf = NULL;
- 
- 	state->gop_cnt = 0;
- 
-@@ -1615,6 +1683,32 @@ static void vicodec_stop_streaming(struct vb2_queue *q)
- 
- 	vicodec_return_bufs(q, VB2_BUF_STATE_ERROR);
- 
-+	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-+		if (ctx->is_draining) {
-+			struct vb2_v4l2_buffer *next_dst_buf;
-+
-+			spin_lock(ctx->lock);
-+			ctx->last_src_buf = NULL;
-+			next_dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-+			if (!next_dst_buf) {
-+				ctx->next_is_last = true;
-+			} else {
-+				next_dst_buf->flags |= V4L2_BUF_FLAG_LAST;
-+				vb2_buffer_done(&next_dst_buf->vb2_buf, VB2_BUF_STATE_DONE);
-+				ctx->is_draining = false;
-+				ctx->has_stopped = true;
-+				v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+			}
-+			spin_unlock(ctx->lock);
-+		}
-+	} else {
-+		ctx->is_draining = false;
-+		ctx->has_stopped = false;
-+		ctx->next_is_last = false;
-+	}
-+	if (!ctx->is_enc && V4L2_TYPE_IS_OUTPUT(q->type))
-+		ctx->first_source_change_sent = false;
-+
- 	if ((!V4L2_TYPE_IS_OUTPUT(q->type) && !ctx->is_enc) ||
- 	    (V4L2_TYPE_IS_OUTPUT(q->type) && ctx->is_enc)) {
- 		if (!ctx->is_stateless)
+How about changing this to:
+
+xlnx,vfb: Present when Video Format Bridge is enabled in IP configuration.
+
+That'd be aligned with the other properties and would more accurately
+convey what this means.
+
 -- 
-2.20.1
+Kind regards,
 
+Sakari Ailus
+sakari.ailus@linux.intel.com
