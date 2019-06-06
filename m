@@ -2,98 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C213747C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 14:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB29374C0
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 15:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbfFFMqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jun 2019 08:46:21 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:45842 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbfFFMqU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jun 2019 08:46:20 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x56ChqtW003123;
-        Thu, 6 Jun 2019 12:45:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2018-07-02;
- bh=suyPrwakIpx4/GT/1pO6R0rUGM7UxiWyf4SfHp3I1Gg=;
- b=z1VhShHb2i7HnW0uk6ZwccsbeHFgBJW4/hx22fhDyqH28AJ8xAcapEeLDVpLjk9rbrMW
- UisNBRZh0n+QqG1pVdBjtjrz1Mxr/rvvYdsTOEuevBWAk0FoGOSTj6HF8fIVUzRI051K
- mb7wXoROtxyO9AHeQFBky8CcvcAMh+oGHExVMojIgLxKzhneo1dr/j9xe6XwHQmJTEMH
- JLOi6Jjyc56J3HJTAEdiryvLWQKNNw3awF7CGTCPufdE975bApnwDw7SP5clqDMbGYWo
- XO/xt7wN8y+m8aZWAhjmwx7VCtLdFqxZKgJw8lNUag1KkZxTNMpW3JuUh5HLiPVb6e9R jw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 2sugstr6hv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 06 Jun 2019 12:45:50 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x56ChtjB099122;
-        Thu, 6 Jun 2019 12:45:50 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2swngje01v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 06 Jun 2019 12:45:49 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x56Cjho5021500;
-        Thu, 6 Jun 2019 12:45:43 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 06 Jun 2019 05:45:42 -0700
-Date:   Thu, 6 Jun 2019 15:45:33 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Cc:     Maxime Ripard <maxime.ripard@bootlin.com>,
-        devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, paul.kocialkowski@bootlin.com,
-        wens@csie.org, mchehab@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/7] media: cedrus: Fix decoding for some H264 videos
-Message-ID: <20190606124533.GN31203@kadam>
-References: <20190530211516.1891-1-jernej.skrabec@siol.net>
- <20190530211516.1891-4-jernej.skrabec@siol.net>
- <20190603115536.j5lan6wtmbxpoe2k@flea>
- <2536664.ljALn0aKaT@jernej-laptop>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2536664.ljALn0aKaT@jernej-laptop>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9279 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=769
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906060091
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9279 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=802 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906060091
+        id S1728036AbfFFNC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jun 2019 09:02:28 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:49802 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725782AbfFFNC2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jun 2019 09:02:28 -0400
+Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1001])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 6ABAA634C7B;
+        Thu,  6 Jun 2019 16:02:16 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        jacopo@jmondi.org, niklas.soderlund@ragnatech.se
+Subject: [PATCH v2 0/9] Rework V4L2 fwnode parsing; add defaults and avoid iteration
+Date:   Thu,  6 Jun 2019 16:02:16 +0300
+Message-Id: <20190606130225.10751-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 03, 2019 at 05:37:17PM +0200, Jernej Škrabec wrote:
-> Dne ponedeljek, 03. junij 2019 ob 13:55:36 CEST je Maxime Ripard napisal(a):
-> > int current = 0;
-> > 
-> > while (current < num) {
-> >     int tmp = min(num - current, 32);
-> > 
-> >     cedrus_write(dev, VE_H264_TRIGGER_TYPE, 0x3 | (current << 8))
-                                                       ^^^^^^^
-This should be "tmp << 8" instead of "current << 8" though.
+Hi folks,
+
+This patchset reworks V4L2 fwnode endpoint parsing. It enables the use of
+endpoint configuration defaults that is available sensors and other
+drivers that only use a single endpoint. Well, the functionality was
+available already but no driver used it likely because of two reasons:
+lack of any examples in a non-trivial problem area as well as lack of a
+needed functionality to obtain through non-iterative means in the fwnode
+graph API. Also the fwnode framework did not provide the most convenient
+APIs to perform this for drivers.
+
+Conversion from the iterative API is done for the omap3isp and ipu3-cio2
+drivers. A downside here is that this adds code: what used to be done in
+the framework in a one-size-fits-all fashion is now the responsibility of
+the driver. The benefits (default settings and simplicity of the
+implementation from driver's point of view) are not really achievable
+without some of that.
+
+Also baked in the set is matching devices with endpoints by endpoint node
+rather than the device's node. This allows finding out more information
+than just the device bound (i.e. the port --- or endpoint --- through
+which it was bound). Compatibility support is provided for existing
+drivers by setting the fwnode to be matched based on the available
+endpoints.
+
+I'll send a pull request on these soonish as they've been out for review
+for a long time with trivial changes in this version only.
+
+since v1:
+
+- Fix a typo in ipu3-cio2 driver --- it did not compile.
+
+- Remove unused ret variable.
+
+- Rework the code regarding ret variable in the 2nd patch. That code did
+  not compile until the 3rd patch fixed it.
+
+since RFC v1:
+
+- Add another patch to change fwnode refcounting for
+  v4l2_async_notifier_add_fwnode_subdev
+
+- Add a patch to fix OF node refcounting and use / put order for
+  davinci-vpif
+
+- Don't take endpoint reference in v4l2_async_register_subdev; that's not
+  intended
+
+- Fix kerneldoc documentation for
+  v4l2_async_notifier_add_fwnode_remote_subdev
+
+- Fix endpoint refcounting in the patch changing fwnode parsing for the
+  omap3isp driver
+
+- Fixed a compiler error in rcar_drif.c --- thanks, Niklas!
+
+Sakari Ailus (9):
+  davinci-vpif: Don't dereference endpoint after putting it, fix
+    refcounting
+  v4l2-async: Use endpoint node, not device node, for fwnode match
+  v4l2-async: Get fwnode reference when putting it to the notifier's
+    list
+  v4l2-async: Add v4l2_async_notifier_add_fwnode_remote_subdev
+  omap3isp: Rework OF endpoint parsing
+  v4l2-async: Safely clean up an uninitialised notifier
+  ipu3-cio2: Clean up notifier's subdev list if parsing endpoints fails
+  ipu3-cio2: Proceed with notifier init even if there are no subdevs
+  ipu3-cio2: Parse information from firmware without using callbacks
+
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  96 ++++----
+ drivers/media/platform/am437x/am437x-vpfe.c   |   7 +-
+ drivers/media/platform/atmel/atmel-isc.c      |   2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |   2 +-
+ drivers/media/platform/davinci/vpif_capture.c |  37 +--
+ drivers/media/platform/exynos4-is/media-dev.c |  14 +-
+ drivers/media/platform/omap3isp/isp.c         | 331 +++++++++++++++-----------
+ drivers/media/platform/pxa_camera.c           |   2 +-
+ drivers/media/platform/qcom/camss/camss.c     |  10 +-
+ drivers/media/platform/rcar_drif.c            |   2 +-
+ drivers/media/platform/renesas-ceu.c          |   2 +-
+ drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
+ drivers/media/platform/ti-vpe/cal.c           |   2 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  15 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  37 ++-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  26 +-
+ drivers/staging/media/soc_camera/soc_camera.c |  14 +-
+ include/media/v4l2-async.h                    |  30 ++-
+ 19 files changed, 386 insertions(+), 247 deletions(-)
+
+-- 
+2.11.0
 
 
-> >     while (...)
-> >        ...
-> > 
-> >     current += tmp;
-> > }
-> 
 
-regards,
-dan carpenter
+Sakari Ailus (9):
+  davinci-vpif: Don't dereference endpoint after putting it, fix
+    refcounting
+  v4l2-async: Use endpoint node, not device node, for fwnode match
+  v4l2-async: Get fwnode reference when putting it to the notifier's
+    list
+  v4l2-async: Add v4l2_async_notifier_add_fwnode_remote_subdev
+  omap3isp: Rework OF endpoint parsing
+  v4l2-async: Safely clean up an uninitialised notifier
+  ipu3-cio2: Clean up notifier's subdev list if parsing endpoints fails
+  ipu3-cio2: Proceed with notifier init even if there are no subdevs
+  ipu3-cio2: Parse information from firmware without using callbacks
+
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  96 ++++----
+ drivers/media/platform/am437x/am437x-vpfe.c   |   7 +-
+ drivers/media/platform/atmel/atmel-isc.c      |   2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |   2 +-
+ drivers/media/platform/davinci/vpif_capture.c |  37 +--
+ drivers/media/platform/exynos4-is/media-dev.c |  14 +-
+ drivers/media/platform/omap3isp/isp.c         | 331 +++++++++++++++-----------
+ drivers/media/platform/pxa_camera.c           |   2 +-
+ drivers/media/platform/qcom/camss/camss.c     |  10 +-
+ drivers/media/platform/rcar_drif.c            |   2 +-
+ drivers/media/platform/renesas-ceu.c          |   2 +-
+ drivers/media/platform/stm32/stm32-dcmi.c     |   2 +-
+ drivers/media/platform/ti-vpe/cal.c           |   2 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  15 +-
+ drivers/media/v4l2-core/v4l2-async.c          |  37 ++-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  27 +--
+ drivers/staging/media/soc_camera/soc_camera.c |  14 +-
+ include/media/v4l2-async.h                    |  30 ++-
+ 19 files changed, 386 insertions(+), 248 deletions(-)
+
+-- 
+2.11.0
+
