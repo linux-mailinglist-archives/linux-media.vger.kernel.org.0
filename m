@@ -2,94 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5FE37978
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 18:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FAB937B31
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 19:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726849AbfFFQ0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jun 2019 12:26:31 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:52893 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727840AbfFFQ0b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Jun 2019 12:26:31 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YvDdh2Nle3qlsYvDgho3dr; Thu, 06 Jun 2019 18:26:29 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] add meson decoder driver
-Message-ID: <89dbffab-7d15-555b-9401-37243b0c9feb@xs4all.nl>
-Date:   Thu, 6 Jun 2019 18:26:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1730198AbfFFRgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jun 2019 13:36:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59748 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730192AbfFFRgs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jun 2019 13:36:48 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9A5DC2605F9;
+        Thu,  6 Jun 2019 18:36:47 +0100 (BST)
+Date:   Thu, 6 Jun 2019 19:36:44 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        kernel@collabora.com
+Subject: Re: [PATCH v3 1/2] media: v4l2-ctrl: Initialize _BUTTON and
+ _CTRL_CLASS
+Message-ID: <20190606193644.767f5246@collabora.com>
+In-Reply-To: <20190606161254.17311-1-ezequiel@collabora.com>
+References: <20190606161254.17311-1-ezequiel@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBYrwH9L7Tt3t6Sx5C2ykIvEgdmvBHmwKZI2lDPavUNN16/U4J6Dn4hJXm4G2yBRPFDkHrAP71YsNxAGokkzJhk8eZfpr/bO1hLIrC/KEfHC2jw/AjBH
- HsKtnYpqlvMI2BswTi0Gc4PqLUb7ezqIAOPv24XhnkB4lYp93WA1rObxUT+KisI8F9g2PACXuGcm4p7oktZR2ylHvU00tm/B9II=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit edadd68031e5b7c1ba0c413a9549dce62a02844c:
+On Thu,  6 Jun 2019 13:12:53 -0300
+Ezequiel Garcia <ezequiel@collabora.com> wrote:
 
-  media: MAINTAINERS: update email address (2019-06-05 15:58:40 -0400)
+> These two control types don't really need a default value,
+> as they are not expected to carry any value.
+> 
+> However, it's slightly clearer to initialize them explicitly
+> instead of falling back to the switch default.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-are available in the Git repository at:
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3o
+> ---
+> Changes from v2:
+> * Initialize the controls to zero, instead of default.
+> 
+> Changes from v1:
+> * No change.
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 1870cecad9ae..92a5521f6813 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -1532,6 +1532,10 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	case V4L2_CTRL_TYPE_BOOLEAN:
+>  		ptr.p_s32[idx] = ctrl->default_value;
+>  		break;
+> +	case V4L2_CTRL_TYPE_BUTTON:
+> +	case V4L2_CTRL_TYPE_CTRL_CLASS:
+> +		ptr.p_s32[idx] = 0;
+> +		break;
+>  	case V4L2_CTRL_TYPE_U8:
+>  		ptr.p_u8[idx] = ctrl->default_value;
+>  		break;
 
-for you to fetch changes up to ddfad6971e54f423ea78548e3dbf741a54968193:
-
-  MAINTAINERS: Add meson video decoder (2019-06-06 18:16:40 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Maxime Jourdan (3):
-      dt-bindings: media: add Amlogic Video Decoder Bindings
-      media: meson: add v4l2 m2m video decoder driver
-      MAINTAINERS: Add meson video decoder
-
- Documentation/devicetree/bindings/media/amlogic,vdec.txt |   71 +++
- MAINTAINERS                                              |    8 +
- drivers/staging/media/Kconfig                            |    2 +
- drivers/staging/media/Makefile                           |    1 +
- drivers/staging/media/meson/vdec/Kconfig                 |   11 +
- drivers/staging/media/meson/vdec/Makefile                |    8 +
- drivers/staging/media/meson/vdec/TODO                    |    8 +
- drivers/staging/media/meson/vdec/codec_mpeg12.c          |  210 ++++++++
- drivers/staging/media/meson/vdec/codec_mpeg12.h          |   14 +
- drivers/staging/media/meson/vdec/dos_regs.h              |   98 ++++
- drivers/staging/media/meson/vdec/esparser.c              |  324 +++++++++++++
- drivers/staging/media/meson/vdec/esparser.h              |   32 ++
- drivers/staging/media/meson/vdec/vdec.c                  | 1098 ++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/meson/vdec/vdec.h                  |  267 ++++++++++
- drivers/staging/media/meson/vdec/vdec_1.c                |  230 +++++++++
- drivers/staging/media/meson/vdec/vdec_1.h                |   14 +
- drivers/staging/media/meson/vdec/vdec_helpers.c          |  449 +++++++++++++++++
- drivers/staging/media/meson/vdec/vdec_helpers.h          |   83 ++++
- drivers/staging/media/meson/vdec/vdec_platform.c         |  101 ++++
- drivers/staging/media/meson/vdec/vdec_platform.h         |   30 ++
- 20 files changed, 3059 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/amlogic,vdec.txt
- create mode 100644 drivers/staging/media/meson/vdec/Kconfig
- create mode 100644 drivers/staging/media/meson/vdec/Makefile
- create mode 100644 drivers/staging/media/meson/vdec/TODO
- create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.c
- create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.h
- create mode 100644 drivers/staging/media/meson/vdec/dos_regs.h
- create mode 100644 drivers/staging/media/meson/vdec/esparser.c
- create mode 100644 drivers/staging/media/meson/vdec/esparser.h
- create mode 100644 drivers/staging/media/meson/vdec/vdec.c
- create mode 100644 drivers/staging/media/meson/vdec/vdec.h
- create mode 100644 drivers/staging/media/meson/vdec/vdec_1.c
- create mode 100644 drivers/staging/media/meson/vdec/vdec_1.h
- create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.c
- create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.h
- create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.c
- create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.h
