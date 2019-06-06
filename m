@@ -2,214 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7261D37407
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 14:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BF7937428
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 14:32:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbfFFMXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jun 2019 08:23:14 -0400
-Received: from mail-eopbgr760070.outbound.protection.outlook.com ([40.107.76.70]:4288
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726876AbfFFMXO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Jun 2019 08:23:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PeyhXymArBVhn9yOZ9BdY0SCC3sFt0O/m7nOcPL7l7s=;
- b=sxtF1DpxHoBZn8Di1JiQx3JDa1vuncl78Ce2IlOHCkXk0qwExNIY3N13wUrEC/ZXPp3MTEof0sjvacYxAJw49a2BLRaVc+oq0EebjI7umNZerugvUgCHbbttUONySOFAXyyeQNMNHxYvbPQ6iZ8qPduq5Ov32y70RGuN7ULBKJA=
-Received: from CH2PR02MB6088.namprd02.prod.outlook.com (52.132.228.94) by
- SN4SPR01MB010.namprd02.prod.outlook.com (10.167.133.32) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Thu, 6 Jun 2019 12:23:08 +0000
-Received: from CH2PR02MB6088.namprd02.prod.outlook.com
- ([fe80::3cca:e795:ebe2:b366]) by CH2PR02MB6088.namprd02.prod.outlook.com
- ([fe80::3cca:e795:ebe2:b366%6]) with mapi id 15.20.1943.018; Thu, 6 Jun 2019
- 12:23:08 +0000
-From:   Vishal Sagar <vsagar@xilinx.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Vishal Sagar <vishal.sagar@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: RE: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xilinx MIPI
- CSI-2 Rx Subsystem
-Thread-Topic: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xilinx
- MIPI CSI-2 Rx Subsystem
-Thread-Index: AQHVGfMZOW4cFen74Uu6bLLV7F3ehaaL4iYAgAKizUCAAAlqAIAAAJyg
-Date:   Thu, 6 Jun 2019 12:23:08 +0000
-Message-ID: <CH2PR02MB6088A1C4C6AA60462B1A338EA7170@CH2PR02MB6088.namprd02.prod.outlook.com>
-References: <1559555971-193235-1-git-send-email-vishal.sagar@xilinx.com>
- <1559555971-193235-2-git-send-email-vishal.sagar@xilinx.com>
- <20190604192344.7tycwffjd3yeizxh@paasikivi.fi.intel.com>
- <CH2PR02MB60889B850DCAA810A772160DA7170@CH2PR02MB6088.namprd02.prod.outlook.com>
- <20190606121238.zxdvvogob3umzid4@paasikivi.fi.intel.com>
-In-Reply-To: <20190606121238.zxdvvogob3umzid4@paasikivi.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsagar@xilinx.com; 
-x-originating-ip: [149.199.50.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ad0c02d-06d8-486f-d75b-08d6ea79bbdf
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN4SPR01MB010;
-x-ms-traffictypediagnostic: SN4SPR01MB010:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <SN4SPR01MB01061B98FDE656EE65461D8A7170@SN4SPR01MB010.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 00603B7EEF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(346002)(366004)(39860400002)(396003)(13464003)(199004)(189003)(8936002)(316002)(8676002)(6506007)(53936002)(6246003)(7696005)(102836004)(478600001)(53546011)(74316002)(256004)(5660300002)(7416002)(81166006)(81156014)(76116006)(6306002)(11346002)(33656002)(446003)(4326008)(9686003)(66946007)(73956011)(2906002)(54906003)(6436002)(76176011)(66476007)(66556008)(486006)(64756008)(66446008)(476003)(55016002)(99286004)(305945005)(86362001)(71190400001)(71200400001)(26005)(229853002)(68736007)(966005)(66066001)(25786009)(6916009)(186003)(6116002)(52536014)(14444005)(3846002)(14454004)(7736002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN4SPR01MB010;H:CH2PR02MB6088.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: xilinx.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: X934sQJ2E3AupcKSUifWu3jj4Lke4xcvqeP6GVi4LUf8dctuu0RhdZtEsPpT8uImGzkAax2E99yIIBtBO0tohTGAZ7hpXz6eLyKIeHswLAxnMYR/+oAy+ZkKlKiowlNOZpYvnq4E8tWR8QMHPP17AvKizMp+eVYKwnBCtxMQgeBTKn6rgzXOcPjNP2iO8r15J18Dp0YDqiNtrQ5VXbIIr2Z3x0J1fK4dzHLM8ioXlOmBcr2BvOClMzSDs1CHZOL3yb9S/ufbRcVwR1uwO7ftsk9Dv7SPa5rEgezVzmeNDHyptcWB0UcgulpRb+12gEUxvvuoBF8YeTU76Ycb4EFTH4I9ICfhPhTpWKlBCeis+hv5tT/tzaUVWBzl7WqAy1s82YsAfrUV+v4QgVVXvp3bucaxBVGPdW4iVeO4IDtXsgw=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1727256AbfFFMcZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jun 2019 08:32:25 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59749 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726717AbfFFMcZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jun 2019 08:32:25 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YrZ1hzqhS3qlsYrZ4hmhxK; Thu, 06 Jun 2019 14:32:22 +0200
+Subject: Re: [PATCH v8 2/3] media: meson: add v4l2 m2m video decoder driver
+To:     Maxime Jourdan <mjourdan@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org
+References: <20190605161858.29372-1-mjourdan@baylibre.com>
+ <20190605161858.29372-3-mjourdan@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a5676c4e-9c79-5ee4-fb3d-924602ef912e@xs4all.nl>
+Date:   Thu, 6 Jun 2019 14:32:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad0c02d-06d8-486f-d75b-08d6ea79bbdf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 12:23:08.2036
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsagar@xilinx.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4SPR01MB010
+In-Reply-To: <20190605161858.29372-3-mjourdan@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfC1DkQ3NST7ErsrPPuwF0Fp+7Lg18lnXtj3qX9vnPMYk4GQRDUp97GAsWgGwbNZca+ucvpCRTSXwBovWAk2BiVTGqkX3sXVMW/3zIeueurwn6tsIYUH7
+ C1P0HyQRxgWfG12uf04zpaSrB+MIpAONVTRGZaAsIsTquUCFGAsMpABkmz6ub0Zs/h2+bguhWyE5pp021jlyP6qyUk+Wc6XRdWH9B3hlKIdgYpBP3GZZzfej
+ 9L8OAc7rIhUbFc+IKSNgqtScA1//lC0LYdsFULMgzcBcjJ2gf+Kg7h3LZqYbbdT1DwcORZIZv7KGR8/0RdYvMnQINStPFlvSgwW0LBfr6H/7N3zn1tMZfLjZ
+ bRC5wyQEYjPMDx7h2tOmZ4IqIf1g9cds9dZh7qwBe07EM7FVHAfBUUEDFO/L0bQpo6uYBMe5+VJWk6M58xbQyK1Vb4AGr6ZqKPXFrGUSDxj5GBXT5WbLbPSS
+ mGh5grYHpkw+nD9z3izD8ksMLllZ8c+adqBReoW/HUHlzDOFCZN5MqyrcdwR1ppN1jPu+UZBy4/8LBvXKd3iUq2WbBjmeJ5d36DlNQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On 6/5/19 6:18 PM, Maxime Jourdan wrote:
+> Amlogic SoCs feature a powerful video decoder unit able to
+> decode many formats, with a performance of usually up to 4k60.
+> 
+> This is a driver for this IP that is based around the v4l2 m2m framework.
+> 
+> It features decoding for:
+> - MPEG 1
+> - MPEG 2
+> 
+> Supported SoCs are: GXBB (S905), GXL (S905X/W/D), GXM (S912)
+> 
+> There is also a hardware bitstream parser (ESPARSER) that is handled here.
+> 
+> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> ---
+>  drivers/staging/media/Kconfig                 |    2 +
+>  drivers/staging/media/Makefile                |    1 +
+>  drivers/staging/media/meson/vdec/Kconfig      |   11 +
+>  drivers/staging/media/meson/vdec/Makefile     |    8 +
+>  drivers/staging/media/meson/vdec/TODO         |    8 +
+>  .../staging/media/meson/vdec/codec_mpeg12.c   |  209 ++++
+>  .../staging/media/meson/vdec/codec_mpeg12.h   |   14 +
+>  drivers/staging/media/meson/vdec/dos_regs.h   |   98 ++
+>  drivers/staging/media/meson/vdec/esparser.c   |  324 +++++
+>  drivers/staging/media/meson/vdec/esparser.h   |   32 +
+>  drivers/staging/media/meson/vdec/vdec.c       | 1075 +++++++++++++++++
+>  drivers/staging/media/meson/vdec/vdec.h       |  269 +++++
+>  drivers/staging/media/meson/vdec/vdec_1.c     |  229 ++++
+>  drivers/staging/media/meson/vdec/vdec_1.h     |   14 +
+>  drivers/staging/media/meson/vdec/vdec_ctrls.c |   29 +
+>  drivers/staging/media/meson/vdec/vdec_ctrls.h |   14 +
+>  .../staging/media/meson/vdec/vdec_helpers.c   |  449 +++++++
+>  .../staging/media/meson/vdec/vdec_helpers.h   |   83 ++
+>  .../staging/media/meson/vdec/vdec_platform.c  |  101 ++
+>  .../staging/media/meson/vdec/vdec_platform.h  |   30 +
+>  20 files changed, 3000 insertions(+)
+>  create mode 100644 drivers/staging/media/meson/vdec/Kconfig
+>  create mode 100644 drivers/staging/media/meson/vdec/Makefile
+>  create mode 100644 drivers/staging/media/meson/vdec/TODO
+>  create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.c
+>  create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.h
+>  create mode 100644 drivers/staging/media/meson/vdec/dos_regs.h
+>  create mode 100644 drivers/staging/media/meson/vdec/esparser.c
+>  create mode 100644 drivers/staging/media/meson/vdec/esparser.h
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec.c
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec.h
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_1.c
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_1.h
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_ctrls.c
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_ctrls.h
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.c
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.h
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.c
+>  create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.h
+> 
 
-> -----Original Message-----
-> From: Sakari Ailus [mailto:sakari.ailus@linux.intel.com]
-> Sent: Thursday, June 06, 2019 5:43 PM
-> To: Vishal Sagar <vsagar@xilinx.com>
-> Cc: Vishal Sagar <vishal.sagar@xilinx.com>; Hyun Kwon <hyunk@xilinx.com>;
-> laurent.pinchart@ideasonboard.com; mchehab@kernel.org;
-> robh+dt@kernel.org; mark.rutland@arm.com; Michal Simek
-> <michals@xilinx.com>; linux-media@vger.kernel.org;
-> devicetree@vger.kernel.org; hans.verkuil@cisco.com; linux-arm-
-> kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Dinesh Kumar
-> <dineshk@xilinx.com>; Sandip Kothari <sandipk@xilinx.com>; Luca Ceresoli
-> <luca@lucaceresoli.net>; Jacopo Mondi <jacopo@jmondi.org>
-> Subject: Re: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xilinx=
- MIPI
-> CSI-2 Rx Subsystem
->=20
-> Hi Vishal,
->=20
-> On Thu, Jun 06, 2019 at 11:54:19AM +0000, Vishal Sagar wrote:
-> > Hi Sakari,
-> >
-> > > -----Original Message-----
-> > > From: Sakari Ailus [mailto:sakari.ailus@linux.intel.com]
-> > > Sent: Wednesday, June 05, 2019 12:54 AM
-> > > To: Vishal Sagar <vishal.sagar@xilinx.com>
-> > > Cc: Hyun Kwon <hyunk@xilinx.com>; laurent.pinchart@ideasonboard.com;
-> > > mchehab@kernel.org; robh+dt@kernel.org; mark.rutland@arm.com;
-> Michal
-> > > Simek <michals@xilinx.com>; linux-media@vger.kernel.org;
-> > > devicetree@vger.kernel.org; hans.verkuil@cisco.com; linux-arm-
-> > > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; Dinesh Kuma=
-r
-> > > <dineshk@xilinx.com>; Sandip Kothari <sandipk@xilinx.com>; Luca Ceres=
-oli
-> > > <luca@lucaceresoli.net>; Jacopo Mondi <jacopo@jmondi.org>
-> > > Subject: Re: [PATCH v8 1/2] media: dt-bindings: media: xilinx: Add Xi=
-linx
-> MIPI
-> > > CSI-2 Rx Subsystem
-> > >
-> > > EXTERNAL EMAIL
-> > >
-> > > Hi Vishal,
-> > >
-> > > On Mon, Jun 03, 2019 at 03:29:30PM +0530, Vishal Sagar wrote:
-> > >
-> > > > +Optional properties:
-> > > > +--------------------
-> > > > +- .
-> > > > +  Without this property the driver won't be loaded as IP won't be =
-able to
-> > > generate
-> > > > +  media bus format compliant stream output.
-> > >
-> > > I think we previously concluded that the format will be just differen=
-t in
-> > > this case. So the description appears incorrect.
-> > >
-> >
-> > Referring to your email https://lkml.org/lkml/2019/3/22/1823 in respons=
-e to
-> v6 patches,
-> > if the video format bridge is not enabled, then the way in which pixels=
- are
-> transported on
-> > the bus don't correspond to the existing media bus formats in Linux.
-> >
-> > If not loading the driver is incorrect way, is it ok for the driver to =
-allow same
-> media bus format
-> > for packed and unpacked data type on the sink pad?
-> >
-> > Or is it ok for the driver to not validate the media bus format set on =
-the sink
-> pad?
->=20
-> Taking a fresh look at the issue --- usually such unpacking is done by th=
-e
-> DMA engine, or the same device contains both the CSI-2 RX and DMA. But he=
-re
-> it actually affects the input of that DMA engine. You're right in saying =
-we
-> don't have format definitions from which you could tell which case it is,
-> and we also don't have other pre-existing means to tell them apart.
->=20
-> Feel free to keep the check in the driver, but we can't refer to the driv=
-er
-> loading in DT binding documentation: this is really not supposed to be
-> related to that driver, or even Linux at all.
->=20
+While preparing this series for merging I came across the following checkpatch
+and sparse warnings:
 
-Ok got it. The description here shouldn't be specific to driver.
-I will keep the check in driver.
+checkpatch:
 
-> How about changing this to:
->=20
-> xlnx,vfb: Present when Video Format Bridge is enabled in IP configuration=
-.
->=20
-> That'd be aligned with the other properties and would more accurately
-> convey what this means.
+CHECK: Alignment should match open parenthesis
+#159: FILE: drivers/staging/media/meson/vdec/codec_mpeg12.c:83:
++       ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
++                                       (u32[]){ 8, 0 });
 
-Agree this is a good way to define the property. I will update it the descr=
-iption as mentioned here.
+HV: I think this doesn't need changing, this is easier to read.
 
->=20
-> --
-> Kind regards,
->=20
-> Sakari Ailus
-> sakari.ailus@linux.intel.com
+CHECK: Alignment should match open parenthesis
+#968: FILE: drivers/staging/media/meson/vdec/vdec.c:185:
++static int vdec_queue_setup(struct vb2_queue *q,
++               unsigned int *num_buffers, unsigned int *num_planes,
 
-Regards
-Vishal Sagar
+CHECK: Alignment should match open parenthesis
+#1755: FILE: drivers/staging/media/meson/vdec/vdec.c:972:
++       core->regmap_ao = syscon_regmap_lookup_by_phandle(dev->of_node,
++                                                        "amlogic,ao-sysctrl");
+
+CHECK: struct mutex definition without comment
+#1949: FILE: drivers/staging/media/meson/vdec/vdec.h:85:
++       struct mutex lock;
+
+CHECK: struct mutex definition without comment
+#2085: FILE: drivers/staging/media/meson/vdec/vdec.h:221:
++       struct mutex lock;
+
+CHECK: struct mutex definition without comment
+#2116: FILE: drivers/staging/media/meson/vdec/vdec.h:252:
++       struct mutex bufs_recycle_lock;
+
+CHECK: spinlock_t definition without comment
+#2120: FILE: drivers/staging/media/meson/vdec/vdec.h:256:
++       spinlock_t ts_spinlock;
+
+CHECK: Alignment should match open parenthesis
+#2247: FILE: drivers/staging/media/meson/vdec/vdec_1.c:108:
++       amvdec_write_dos_bits(core, VLD_MEM_VIFIFO_CONTROL,
++               (0x11 << MEM_FIFO_CNT_BIT) | MEM_FILL_ON_LEVEL |
+
+CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.txt
+#2313: FILE: drivers/staging/media/meson/vdec/vdec_1.c:174:
++       udelay(10);
+
+CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.txt
+#2354: FILE: drivers/staging/media/meson/vdec/vdec_1.c:215:
++       udelay(10);
+
+CHECK: Alignment should match open parenthesis
+#2413: FILE: drivers/staging/media/meson/vdec/vdec_ctrls.c:19:
++       sess->ctrl_min_buf_capture = v4l2_ctrl_new_std(ctrl_handler, NULL,
++                               V4L2_CID_MIN_BUFFERS_FOR_CAPTURE, 1, 32, 1, 1);
+
+
+sparse:
+
+SPARSE:/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/codec_mpeg12.c
+/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/codec_mpeg12.c:201:25:  warning: symbol 'codec_mpeg12_ops' was not
+declared. Should it be static?
+SPARSE:/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec.c
+/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec.c:417:5:  warning: symbol 'vdec_vb2_buf_prepare' was not declared.
+Should it be static?
+SPARSE:/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec_1.c
+/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec_1.c:85:5:  warning: symbol 'vdec_1_stbuf_power_up' was not declared.
+Should it be static?
+/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec_1.c:85:5: warning: no previous prototype for 'vdec_1_stbuf_power_up'
+[-Wmissing-prototypes]
+/home/hans/work/build/media-git/drivers/staging/media/meson/vdec/vdec.c:417:5: warning: no previous prototype for 'vdec_vb2_buf_prepare'
+[-Wmissing-prototypes]
+
+Can you fix these issues?
+
+Regards,
+
+	Hans
