@@ -2,112 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7119F36A90
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 05:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD2A36A91
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 05:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfFFDyO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jun 2019 23:54:14 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46884 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726519AbfFFDyO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jun 2019 23:54:14 -0400
-Received: by mail-ed1-f66.google.com with SMTP id h10so1150302edi.13
-        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2019 20:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kIvQ1sS/OpNhTZqfsenmMSeWF7OiJ2I3gdO0diuwA3M=;
-        b=TdOHtsPjA9fAmTxth7+zK823+8lfvsQudGC92U4RyT1oSIpW9u72NKANUV4gVKBOrr
-         HJTqjqb63YBQZ2tPPQXnwYTtdiMmHrsX328qd5DyVpuYXY+w3jZto3qGP/9xpKrIL7m4
-         qdXSZvL8S80Xg/HAdpt+fyxvE//LpIF3srEOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kIvQ1sS/OpNhTZqfsenmMSeWF7OiJ2I3gdO0diuwA3M=;
-        b=PMxn1VJgfB0fd2iKDtYJ3IXhoIoUvNHtpwKG1p1gZivczyQO291xGjxdIFnePRw916
-         w17tu5o8KY/NvOcUS1b5hClTGUt71PksU+s0xfpN2zHU/Ho9ei8zgXgcF9aFpegqO9Bq
-         xswlWUgoHC2G4cQv2XDw9nKgdloFSkPvZy+traH9N1VLDC1qO6wTU8cTYAXrR3kJEv6p
-         XluOlU5SpbLJerccMt9zVRwoOLYa02Fz2+xsqDB/0fDqXNIi66+20F+6c0kgyWASfukU
-         ozPhpuTGBCzoA/0Z+WY1cttuBVmlFERyyELN5077/qXcIgx7gl9Abnc+dWtrjqLKcrH1
-         8o9g==
-X-Gm-Message-State: APjAAAWCyyx1A8YVTmy8vJJ8mloOgB3GrKssyMlRHMqSQjSuDwg321IS
-        Xgi8+WGTRoR+1xshvDNZy/HL/8yPh+VJ8g==
-X-Google-Smtp-Source: APXvYqylKavVJfdB7SjsF6hcFWwWRYmgKkiRs8Auv3bvxkYMfUCk9CVaDp46eBhWk1Ei8r/g0Z0cqw==
-X-Received: by 2002:a50:9116:: with SMTP id e22mr13433063eda.161.1559793252397;
-        Wed, 05 Jun 2019 20:54:12 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id a17sm150831edt.63.2019.06.05.20.54.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 20:54:09 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id n4so766970wrw.13
-        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2019 20:54:09 -0700 (PDT)
-X-Received: by 2002:a5d:514d:: with SMTP id u13mr10799306wrt.77.1559793248723;
- Wed, 05 Jun 2019 20:54:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190605164625.5109-1-boris.brezillon@collabora.com>
-In-Reply-To: <20190605164625.5109-1-boris.brezillon@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 6 Jun 2019 12:53:57 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Aji4v7fJZ+at_W58L_0+wC5E9wvSW=gCPLWswFECBMJA@mail.gmail.com>
-Message-ID: <CAAFQd5Aji4v7fJZ+at_W58L_0+wC5E9wvSW=gCPLWswFECBMJA@mail.gmail.com>
-Subject: Re: [PATCH] media: v4l2: Fix the _MPLANE format check in v4l_enum_fmt()
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        kernel@collabora.com, Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Maxime Jourdan <mjourdan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726541AbfFFDyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jun 2019 23:54:50 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33997 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726490AbfFFDyt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 5 Jun 2019 23:54:49 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:59ff:e0ef:9fb9:32bc])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YjUEhuIiJ3qlsYjUFhjs7G; Thu, 06 Jun 2019 05:54:47 +0200
+Message-ID: <22247ce79c9eec3b77c2d2fde1e06e3d@smtp-cloud7.xs4all.net>
+Date:   Thu, 06 Jun 2019 05:54:45 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfOQs861XEXtgAKney5Sx4Zt23zF8D59ZOSgtlHJ9G76PC69vh6Ay4S76OL0VKSm0P1bks5jWja0EmR2nPP2dIgoSI5JOGw3pDBeGrDWhhbEEztirhevS
+ O3JrSPSiA+kU0xVRvRLiEznDqsER+PxyU63nnck0eSbspU+mce2YPEH7pIDDF1Gw3suyxq6srFCWkWA2uinvawy0rI3zv9qjU06oW7UwPSRx+srqLGthWd/1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 6, 2019 at 1:46 AM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
->
-> CAP_M2M_MPLANE means the device supports _MPLANE formats for both
-> capture and output. Adjust the check to avoid EINVAL errors on
-> such devices.
->
-> Fixes: 366c719d6479 ("media: v4l2: Get rid of ->vidioc_enum_fmt_vid_{cap,out}_mplane")
-> Reported-by: Maxime Jourdan <mjourdan@baylibre.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index b4c73e8f23c5..ace9b9761bed 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1385,6 +1385,7 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->         struct video_device *vdev = video_devdata(file);
->         struct v4l2_fmtdesc *p = arg;
->         int ret = check_fmt(file, p->type);
-> +       u32 cap_mask;
->
->         if (ret)
->                 return ret;
-> @@ -1393,7 +1394,9 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->         switch (p->type) {
->         case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->         case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> -               if (!!(vdev->device_caps & V4L2_CAP_VIDEO_CAPTURE_MPLANE) !=
-> +               cap_mask = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
-> +                          V4L2_CAP_VIDEO_M2M_MPLANE;
-> +               if (!!(vdev->device_caps & cap_mask) !=
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Shouldn't devices that report V4L2_CAP_VIDEO_M2M_MPLANE have also
-V4L2_CAP_VIDEO_CAPTURE_MPLANE and V4L2_CAP_VIDEO_OUTPUT_MPLANE
-reported anyway?
+Results of the daily build of media_tree:
 
-Best regards,
-Tomasz
+date:			Thu Jun  6 05:00:11 CEST 2019
+media-tree git hash:	edadd68031e5b7c1ba0c413a9549dce62a02844c
+media_build git hash:	d121a2bedf6dd541c6182041142ec54fd94760ab
+v4l-utils git hash:	4509a09beb1cca754347dc139eecdc4ad7efaa93
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: cb4f17f7462676dcd9ec58da434cd5afae0aee40
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 6
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
