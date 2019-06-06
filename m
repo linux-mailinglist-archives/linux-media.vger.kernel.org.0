@@ -2,121 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE44537940
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 18:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5FE37978
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2019 18:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729541AbfFFQNo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jun 2019 12:13:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59234 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729274AbfFFQNo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jun 2019 12:13:44 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 2F4C32854F5
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     kernel@collabora.com,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 2/2] media: v4l2-ctrl: Move compound control initialization
-Date:   Thu,  6 Jun 2019 13:12:54 -0300
-Message-Id: <20190606161254.17311-2-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190606161254.17311-1-ezequiel@collabora.com>
-References: <20190606161254.17311-1-ezequiel@collabora.com>
+        id S1726849AbfFFQ0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jun 2019 12:26:31 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:52893 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727840AbfFFQ0b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Jun 2019 12:26:31 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YvDdh2Nle3qlsYvDgho3dr; Thu, 06 Jun 2019 18:26:29 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.3] add meson decoder driver
+Message-ID: <89dbffab-7d15-555b-9401-37243b0c9feb@xs4all.nl>
+Date:   Thu, 6 Jun 2019 18:26:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBYrwH9L7Tt3t6Sx5C2ykIvEgdmvBHmwKZI2lDPavUNN16/U4J6Dn4hJXm4G2yBRPFDkHrAP71YsNxAGokkzJhk8eZfpr/bO1hLIrC/KEfHC2jw/AjBH
+ HsKtnYpqlvMI2BswTi0Gc4PqLUb7ezqIAOPv24XhnkB4lYp93WA1rObxUT+KisI8F9g2PACXuGcm4p7oktZR2ylHvU00tm/B9II=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rework std_init adding an explicit initialization for
-compound controls.
+The following changes since commit edadd68031e5b7c1ba0c413a9549dce62a02844c:
 
-While here, make sure the control is initialized to zero,
-before providing default values for all its fields.
+  media: MAINTAINERS: update email address (2019-06-05 15:58:40 -0400)
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-Changes from v2:
-* Align parameters to parenthesis
-* Drop unneeded zero initialization
+are available in the Git repository at:
 
-Changes from v1:
-* Drop the s/break/return replacements
-* Drop unneeded default cases
-* Fix memset to take account of the index
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 37 +++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3o
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 92a5521f6813..18c8d0c102d2 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1506,17 +1506,36 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
- 	}
- }
- 
--static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
--		     union v4l2_ctrl_ptr ptr)
-+static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-+			      union v4l2_ctrl_ptr ptr)
- {
- 	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
- 
-+	idx *= ctrl->elem_size;
-+	memset(ptr.p + idx, 0, ctrl->elem_size);
-+
- 	/*
- 	 * The cast is needed to get rid of a gcc warning complaining that
- 	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
- 	 * v4l2_ctrl_type enum.
- 	 */
- 	switch ((u32)ctrl->type) {
-+	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-+		p_mpeg2_slice_params = ptr.p;
-+		/* 4:2:0 */
-+		p_mpeg2_slice_params->sequence.chroma_format = 1;
-+		/* interlaced top field */
-+		p_mpeg2_slice_params->picture.picture_structure = 1;
-+		p_mpeg2_slice_params->picture.picture_coding_type =
-+					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
-+		break;
-+	}
-+}
-+
-+static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
-+		     union v4l2_ctrl_ptr ptr)
-+{
-+	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_STRING:
- 		idx *= ctrl->elem_size;
- 		memset(ptr.p_char + idx, ' ', ctrl->minimum);
-@@ -1545,20 +1564,8 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
- 	case V4L2_CTRL_TYPE_U32:
- 		ptr.p_u32[idx] = ctrl->default_value;
- 		break;
--	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
--		p_mpeg2_slice_params = ptr.p;
--		/* 4:2:0 */
--		p_mpeg2_slice_params->sequence.chroma_format = 1;
--		/* 8 bits */
--		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
--		/* interlaced top field */
--		p_mpeg2_slice_params->picture.picture_structure = 1;
--		p_mpeg2_slice_params->picture.picture_coding_type =
--					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
--		break;
- 	default:
--		idx *= ctrl->elem_size;
--		memset(ptr.p + idx, 0, ctrl->elem_size);
-+		std_init_compound(ctrl, idx, ptr);
- 		break;
- 	}
- }
--- 
-2.20.1
+for you to fetch changes up to ddfad6971e54f423ea78548e3dbf741a54968193:
 
+  MAINTAINERS: Add meson video decoder (2019-06-06 18:16:40 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Maxime Jourdan (3):
+      dt-bindings: media: add Amlogic Video Decoder Bindings
+      media: meson: add v4l2 m2m video decoder driver
+      MAINTAINERS: Add meson video decoder
+
+ Documentation/devicetree/bindings/media/amlogic,vdec.txt |   71 +++
+ MAINTAINERS                                              |    8 +
+ drivers/staging/media/Kconfig                            |    2 +
+ drivers/staging/media/Makefile                           |    1 +
+ drivers/staging/media/meson/vdec/Kconfig                 |   11 +
+ drivers/staging/media/meson/vdec/Makefile                |    8 +
+ drivers/staging/media/meson/vdec/TODO                    |    8 +
+ drivers/staging/media/meson/vdec/codec_mpeg12.c          |  210 ++++++++
+ drivers/staging/media/meson/vdec/codec_mpeg12.h          |   14 +
+ drivers/staging/media/meson/vdec/dos_regs.h              |   98 ++++
+ drivers/staging/media/meson/vdec/esparser.c              |  324 +++++++++++++
+ drivers/staging/media/meson/vdec/esparser.h              |   32 ++
+ drivers/staging/media/meson/vdec/vdec.c                  | 1098 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/meson/vdec/vdec.h                  |  267 ++++++++++
+ drivers/staging/media/meson/vdec/vdec_1.c                |  230 +++++++++
+ drivers/staging/media/meson/vdec/vdec_1.h                |   14 +
+ drivers/staging/media/meson/vdec/vdec_helpers.c          |  449 +++++++++++++++++
+ drivers/staging/media/meson/vdec/vdec_helpers.h          |   83 ++++
+ drivers/staging/media/meson/vdec/vdec_platform.c         |  101 ++++
+ drivers/staging/media/meson/vdec/vdec_platform.h         |   30 ++
+ 20 files changed, 3059 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/amlogic,vdec.txt
+ create mode 100644 drivers/staging/media/meson/vdec/Kconfig
+ create mode 100644 drivers/staging/media/meson/vdec/Makefile
+ create mode 100644 drivers/staging/media/meson/vdec/TODO
+ create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_mpeg12.h
+ create mode 100644 drivers/staging/media/meson/vdec/dos_regs.h
+ create mode 100644 drivers/staging/media/meson/vdec/esparser.c
+ create mode 100644 drivers/staging/media/meson/vdec/esparser.h
+ create mode 100644 drivers/staging/media/meson/vdec/vdec.c
+ create mode 100644 drivers/staging/media/meson/vdec/vdec.h
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_1.c
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_1.h
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.c
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_helpers.h
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.c
+ create mode 100644 drivers/staging/media/meson/vdec/vdec_platform.h
