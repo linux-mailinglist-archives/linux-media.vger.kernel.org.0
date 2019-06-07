@@ -2,295 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3566C38E8F
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 17:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 338AF395D2
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 21:35:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729849AbfFGPKQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 11:10:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42218 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728486AbfFGPKO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 11:10:14 -0400
-Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48440334;
-        Fri,  7 Jun 2019 17:10:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559920211;
-        bh=+x4lHSXcZKgnY2FKUIUABrt34M7BIKOizDULNvVj3Ps=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gnj93uPme5KWAOhxhIaXRMkho6lEIoH5EQCBQ6upkO0Gl9u4ikbez6FD/h2MH2f0g
-         YRIK0a22cnCBkehVm9HQI3E3XjrqO8YTfBykogtl3RzlLv9iJJ8YseZD17CjBILSg1
-         hUaliCtc5pXiID7Mhmf3m2JZLHXAFVwaz1H10rrA=
-Date:   Fri, 7 Jun 2019 18:09:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH for v5.2] videobuf2-core.c: always reacquire USERPTR
- memory
-Message-ID: <20190607150956.GO7593@pendragon.ideasonboard.com>
-References: <20190607111634.GA7593@pendragon.ideasonboard.com>
- <CGME20190607120150epcas3p34178a04f712c89b013a263264cf2184f@epcas3p3.samsung.com>
- <cb129a47-e114-6841-44cc-ec34ffa562c7@xs4all.nl>
- <e674539f-6b40-7b54-90bd-d1ed96ea5f55@samsung.com>
- <6c3ffe98-9d64-b881-470a-bfef8b9280de@xs4all.nl>
- <1f754020-296c-cf9b-1331-598bb774fa42@xs4all.nl>
- <4e711a70-ef25-b9f2-e27a-ae6c80288388@xs4all.nl>
- <ddacf8a1-61c4-bc04-8c52-cd56dfd13842@samsung.com>
- <07253fe3-0152-24e1-87f1-ba77d8630a97@xs4all.nl>
- <CAAFQd5CyCHc5Q5j-9uHjkoCFqAjvN0zSfd_ask0thphojdXw+Q@mail.gmail.com>
+        id S1730656AbfFGTfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 15:35:45 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:33850 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729943AbfFGTfo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 15:35:44 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x57JZQV9112093;
+        Fri, 7 Jun 2019 14:35:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1559936126;
+        bh=zbSkB5Ajhq5+I2P/3ydJOL0aLvWRvmr8/ursYCm7yS0=;
+        h=From:To:CC:Subject:Date;
+        b=XiItKva0Y3eCs1Ox/nzCGi05jIW0SeJTZEcT1Q4f0vr+QGWjk3CC1RziNGJjpAvwk
+         2HWcuYl7pE+3/72kfLnaDw4JUXG5hojaBirjI+BDDyjTag81mcNbkeJFxDu9cl7nVD
+         VVLzf7hgiaf7iH51YhLvthxNhrZgZlfGL0dob48I=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x57JZQaR105636
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 7 Jun 2019 14:35:26 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 7 Jun
+ 2019 14:35:25 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 7 Jun 2019 14:35:25 -0500
+Received: from legion.dal.design.ti.com (legion.dal.design.ti.com [128.247.22.53])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x57JZP2s068219;
+        Fri, 7 Jun 2019 14:35:25 -0500
+Received: from localhost ([10.250.68.219])
+        by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id x57JZOm20275;
+        Fri, 7 Jun 2019 14:35:24 -0500 (CDT)
+From:   "Andrew F. Davis" <afd@ti.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Tero Kristo <t-kristo@ti.com>,
+        William Mills <wmills@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        John Stultz <john.stultz@linaro.org>
+CC:     <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <iommu@lists.linux-foundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, "Andrew F . Davis" <afd@ti.com>
+Subject: [RFC PATCH 0/2] Support for TI Page-based Address Translator
+Date:   Fri, 7 Jun 2019 15:35:21 -0400
+Message-ID: <20190607193523.25700-1-afd@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5CyCHc5Q5j-9uHjkoCFqAjvN0zSfd_ask0thphojdXw+Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 11:34:35PM +0900, Tomasz Figa wrote:
-> On Fri, Jun 7, 2019 at 11:11 PM Hans Verkuil wrote:
-> > On 6/7/19 3:55 PM, Marek Szyprowski wrote:
-> > > On 2019-06-07 15:40, Hans Verkuil wrote:
-> > >> On 6/7/19 2:47 PM, Hans Verkuil wrote:
-> > >>> On 6/7/19 2:23 PM, Hans Verkuil wrote:
-> > >>>> On 6/7/19 2:14 PM, Marek Szyprowski wrote:
-> > >>>>> On 2019-06-07 14:01, Hans Verkuil wrote:
-> > >>>>>> On 6/7/19 1:16 PM, Laurent Pinchart wrote:
-> > >>>>>>> Thank you for the patch.
-> > >>>>>>>
-> > >>>>>>> On Fri, Jun 07, 2019 at 10:45:31AM +0200, Hans Verkuil wrote:
-> > >>>>>>>> The __prepare_userptr() function made the incorrect assumption that if the
-> > >>>>>>>> same user pointer was used as the last one for which memory was acquired, then
-> > >>>>>>>> there was no need to re-acquire the memory. This assumption was never properly
-> > >>>>>>>> tested, and after doing that it became clear that this was in fact wrong.
-> > >>>>>>> Could you explain in the commit message why the assumption is not
-> > >>>>>>> correct ?
-> > >>>>>> You can free the memory, then allocate it again and you can get the same pointer,
-> > >>>>>> even though it is not necessarily using the same physical pages for the memory
-> > >>>>>> that the kernel is still using for it.
-> > >>>>>>
-> > >>>>>> Worse, you can free the memory, then allocate only half the memory you need and
-> > >>>>>> get back the same pointer. vb2 wouldn't notice this. And it seems to work (since
-> > >>>>>> the original mapping still remains), but this can corrupt userspace memory
-> > >>>>>> causing the application to crash. It's not quite clear to me how the memory can
-> > >>>>>> get corrupted. I don't know enough of those low-level mm internals to understand
-> > >>>>>> the sequence of events.
-> > >>>>>>
-> > >>>>>> I have test code for v4l2-compliance available if someone wants to test this.
-> > >>>>> I'm interested, I would really like to know what happens in the mm
-> > >>>>> subsystem in such case.
-> > >>>> Here it is:
-> > >>>>
-> > >>>> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > >>>> index be606e48..9abf41da 100644
-> > >>>> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > >>>> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > >>>> @@ -797,7 +797,7 @@ int testReadWrite(struct node *node)
-> > >>>>    return 0;
-> > >>>>   }
-> > >>>>
-> > >>>> -static int captureBufs(struct node *node, const cv4l_queue &q,
-> > >>>> +static int captureBufs(struct node *node, cv4l_queue &q,
-> > >>>>            const cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
-> > >>>>            unsigned &capture_count)
-> > >>>>   {
-> > >>>> @@ -962,6 +962,21 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
-> > >>>>                            buf.s_flags(V4L2_BUF_FLAG_REQUEST_FD);
-> > >>>>                            buf.s_request_fd(buf_req_fds[req_idx]);
-> > >>>>                    }
-> > >>>> +                  if (v4l_type_is_capture(buf.g_type()) && q.g_memory() == V4L2_MEMORY_USERPTR) {
-> > >>>> +                          printf("\nidx: %d", buf.g_index());
-> > >>>> +                          for (unsigned p = 0; p < q.g_num_planes(); p++) {
-> > >>>> +                                  printf(" old buf[%d]: %p ", p, buf.g_userptr(p));
-> > >>>> +                                  fflush(stdout);
-> > >>>> +                                  free(buf.g_userptr(p));
-> > >>>> +                                  void *m = calloc(1, q.g_length(p)/2);
-> > >>>> +
-> > >>>> +                                  fail_on_test(m == NULL);
-> > >>>> +                                  q.s_userptr(buf.g_index(), p, m);
-> > >>>> +                                  printf("new buf[%d]: %p", p, m);
-> > >>>> +                                  buf.s_userptr(m, p);
-> > >>>> +                          }
-> > >>>> +                          printf("\n");
-> > >>>> +                  }
-> > >>>>                    fail_on_test(buf.qbuf(node, q));
-> > >>>>                    fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
-> > >>>>                    if (buf.g_flags() & V4L2_BUF_FLAG_REQUEST_FD) {
-> > >>>>
-> > >>>>
-> > >>>>
-> > >>>> Load the vivid driver and just run 'v4l2-compliance -s10' and you'll see:
-> > >>>>
-> > >>>> ...
-> > >>>> Streaming ioctls:
-> > >>>>          test read/write: OK
-> > >>>>          test blocking wait: OK
-> > >>>>          test MMAP (no poll): OK
-> > >>>>          test MMAP (select): OK
-> > >>>>          test MMAP (epoll): OK
-> > >>>>          Video Capture: Frame #000
-> > >>>> idx: 0 old buf[0]: 0x7f71c6e7c010 new buf[0]: 0x7f71c6eb4010
-> > >>>>          Video Capture: Frame #001
-> > >>>> idx: 1 old buf[0]: 0x7f71c6e0b010 new buf[0]: 0x7f71c6e7b010
-> > >>>>          Video Capture: Frame #002
-> > >>>> idx: 0 old buf[0]: 0x7f71c6eb4010 free(): invalid pointer
-> > >>>> Aborted
-> > >>> To clarify: two full size buffers are allocated and queued (that happens in setupUserPtr()),
-> > >>> then streaming starts and captureBufs is called which basically just calls dqbuf
-> > >>> and qbuf.
-> > >>>
-> > >>> Tomasz pointed out that all the pointers in this log are actually different. That's
-> > >>> correct, but here is a log where the old and new buf ptr are the same:
-> > >>>
-> > >>> Streaming ioctls:
-> > >>>          test read/write: OK
-> > >>>          test blocking wait: OK
-> > >>>          test MMAP (no poll): OK
-> > >>>          test MMAP (select): OK
-> > >>>          test MMAP (epoll): OK
-> > >>>          Video Capture: Frame #000
-> > >>> idx: 0 old buf[0]: 0x7f1094e16010 new buf[0]: 0x7f1094e4e010
-> > >>>          Video Capture: Frame #001
-> > >>> idx: 1 old buf[0]: 0x7f1094da5010 new buf[0]: 0x7f1094e15010
-> > >>>          Video Capture: Frame #002
-> > >>> idx: 0 old buf[0]: 0x7f1094e4e010 new buf[0]: 0x7f1094e4e010
-> > >>>          Video Capture: Frame #003
-> > >>> idx: 1 old buf[0]: 0x7f1094e15010 free(): invalid pointer
-> > >>> Aborted
-> > >>>
-> > >>> It's weird that the first log fails that way: if the pointers are different,
-> > >>> then vb2 will call get_userptr and it should discover that the buffer isn't
-> > >>> large enough, causing qbuf to fail. That doesn't seem to happen.
-> > >> I think that the reason for this corruption is that the memory pool used
-> > >> by glibc is now large enough for vb2 to think it can map the full length
-> > >> of the user pointer into memory, even though only the first half is actually
-> > >> from the buffer that's allocated. When you capture a frame you just overwrite
-> > >> a random part of the application's memory pool, causing this invalid pointer.
-> > >>
-> > >> But that's a matter of garbage in, garbage out. So that's not the issue here.
-> > >>
-> > >> The real question is what happens when you free the old buffer, allocate a
-> > >> new buffer, end up with the same userptr, but it's using one or more different
-> > >> pages for its memory compared to the mapping that the kernel uses.
-> > >>
-> > >> I managed to reproduce this with v4l2-ctl:
-> > >>
-> > >> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > >> index 28b2b3b9..8f2ed9b5 100644
-> > >> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > >> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > >> @@ -1422,6 +1422,24 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
-> > >>               * has the size that fits the old resolution and might not
-> > >>               * fit to the new one.
-> > >>               */
-> > >> +            if (q.g_memory() == V4L2_MEMORY_USERPTR) {
-> > >> +                    printf("\nidx: %d", buf.g_index());
-> > >> +                    for (unsigned p = 0; p < q.g_num_planes(); p++) {
-> > >> +                            unsigned *pb = (unsigned *)buf.g_userptr(p);
-> > >> +                            printf(" old buf[%d]: %p first pixel: 0x%x", p, buf.g_userptr(p), *pb);
-> > >> +                            fflush(stdout);
-> > >> +                            free(buf.g_userptr(p));
-> > >> +                            void *m = calloc(1, q.g_length(p));
-> > >> +
-> > >> +                            if (m == NULL)
-> > >> +                                    return QUEUE_ERROR;
-> > >> +                            q.s_userptr(buf.g_index(), p, m);
-> > >> +                            if (m == buf.g_userptr(p))
-> > >> +                                    printf(" identical new buf");
-> > >> +                            buf.s_userptr(m, p);
-> > >> +                    }
-> > >> +                    printf("\n");
-> > >> +            }
-> > >>              if (fd.qbuf(buf) && errno != EINVAL) {
-> > >>                      fprintf(stderr, "%s: qbuf error\n", __func__);
-> > >>                      return QUEUE_ERROR;
-> > >>
-> > >>
-> > >> Load vivid, setup a pure white test pattern:
-> > >>
-> > >> v4l2-ctl -c test_pattern=6
-> > >>
-> > >> Now run v4l2-ctl --stream-user and you'll see:
-> > >>
-> > >> idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x80ea80ea identical new buf
-> > >> <
-> > >> idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x80ea80ea identical new buf
-> > >> <
-> > >> idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x80ea80ea identical new buf
-> > >> <
-> > >> idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x80ea80ea identical new buf
-> > >> <
-> > >> idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x0 identical new buf
-> > >> <
-> > >> idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x0 identical new buf
-> > >> < 5.00 fps
-> > >>
-> > >> idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x0 identical new buf
-> > >> <
-> > >> idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x0 identical new buf
-> > >>
-> > >> The first four dequeued buffers are filled with data, after that the
-> > >> returned buffer is empty because vivid is actually writing to different
-> > >> memory pages.
-> > >>
-> > >> With this patch the first pixel is always non-zero.
-> > >
-> > > Good catch. The question is weather we treat that as undefined behavior
-> > > and keep the optimization for 'good applications' or assume that every
-> > > broken userspace code has to be properly handled. The good thing is that
-> > > there is still imho no security issue. The physical pages gathered by
-> >
-> > Yeah, that scared me for a bit, but it all looks secure.
-> >
-> > > vb2 in worst case belongs to noone else (vb2 is their last user, they
-> > > are not yet returned to free pages pool).
-> >
-> > I see three options:
-> >
-> > 1) just always reacquire the buffer, and if anyone complains about it
-> >    being slower we point them towards DMABUF.
-> >
-> > 2) keep the current behavior, but document it.
-> >
-> > 3) as 2), but also add a new buffer flag that forces a reacquire of the
-> >    buffer. This could be valid for DMABUF as well. E.g.:
-> >
-> >    V4L2_BUF_FLAG_REACQUIRE
-> >
-> > I'm leaning towards the third option since it won't slow down existing
-> > implementations, yet if you do change the userptr every time, then you
-> > can now force this to work safely.
-> >
-> 
-> I'd be for 1) or 3) as that would allow Chrome work on mainline.
+Hello all,
 
-I don't like 3) much, it makes the API and the implementation more
-complex just to work around a problem with an API that should not be
-used anymore. I'd go for 1), giving even more incentive to stop using
-USERPTR.
+So I've got a new IP on our new SoC I'm looking to make use of and would
+like some help figuring out what framework best matches its function. The
+IP is called a "Page-based Address Translator" or PAT. A PAT instance
+(there are 5 of these things on our J721e device[0]) is basically a
+really simple IOMMU sitting on the interconnect between the device bus
+and what is effectively our northbridge called
+MSMC (DRAM/SRAM/L3-Cache/Coherency controller).
 
-> Also I believe there is still some bug when the pointers don't match,
-> even if you don't free those pages. I guess some more testing that
-> includes verifying the contents of previously dequeued buffers could
-> show something.
-> 
-> > >> I wonder if it isn't possible to just check the physical address of
-> > >> the received user pointer with the physical address of the previous
-> > >> user pointer. Or something like that. I'll dig around a bit more.
-> > >
-> > > Such check won't be so simple. Pages contiguous in the virtual memory
-> > > won't map to pages contiguous in the physical memory, so you would need
-> > > to check every single memory page. Make no sense. It is better to
-> > > reacquire buffer on every queue operation. This indeed show how broken
-> > > the USERPTR related part of v4l2 API is.
-> >
-> > OK, good to know. Then I'm not going to spend time on that.
+Simplified it looks about like this:
+
+         CPUs
+          |
+DRAM --- MSMC --- SRAM/L3
+          |
+        NAVSS - (PATs)
+          |
+  --- Device Bus ---------
+ |      |      |          |
+Device  Device  Device   etc..
+
+Each PAT has a set a window in high memory (about 0x48_0000_0000 area)
+for which any transaction with an address targeting its window will be
+routed into that PAT. The PAT then does a simple calculation based on
+the how far into the window the address is and the current page size,
+does a lookup to an internally held table of translations, then sends the
+transaction back out on the interconnect with a new address. Usually this
+address should be towards somewhere in DRAM, but can be some other device
+or even back into PAT (I'm not sure there is a valid use-case for this
+but just a point of interest).
+
+My gut reaction is that this is an IOMMU which belongs in the IOMMU
+subsystem. But there are a couple oddities that make me less sure it is
+really suitable for the IOMMU framework. First it doesn't sit in front of
+any devices, it sits in front of *all* devices, this means we would have
+every device claim it as an IOMMU parent, even though many devices also
+have a traditional IOMMU connected. Second, there is only a limited
+window of address space per PAT, this means we will get fragmentation and
+allocation failures on occasion, in this way it looks to me more like AGP
+GART. Third, the window is in high-memory, so unlike some IOMMU devices
+which can be used to allow DMA to high-mem from low-mem only devices, PAT
+can't be used for that. Lastly it doesn't provide any isolation, if the
+access does not target the PAT window it is not used (that is not to say
+we don't have isolation, just that it is taken care of by other parts of
+the interconnect).
+
+This means, to me, that PAT has one main purpose: making
+physically-contiguous views of scattered pages in system memory for DMA.
+But it does that really well, the whole translation table is held in a
+PAT-internal SRAM giving 1 bus cycle latency and at full bus bandwidth.
+
+So what are my options here, is IOMMU the right way to go or not?
+
+Looking around the kernel I also see the char dev ARP/GART interface
+which looks like a good fit, but also looks quite dated and my guess
+deprecated at this point. Moving right along..
+
+Another thing I saw is we have the support upstream of the DMM device[1]
+available in some OMAPx/AM57x SoCs. I'm a little more familiar with this
+device. The DMM is a bundle of IPs and in fact one of them is called
+"PAT" and it even does basically the same thing this incarnation of "PAT"
+does. It's upstream integration design is a bit questionable
+unfortunately, the DMM support was integrated into the OMAPDRM display
+driver, which does make some sense then given its support for rotation
+(using TILER IP contained in DMM). The issue with this was that the
+DMM/TILER/PAT IP was not part of the our display IP, but instead out at
+the end of the shared device bus, inside the external memory controller.
+Like this new PAT this meant that any IP that could make use of it, but
+only the display framework could actually provide buffers backed by it.
+This meant, for instance, if we wanted to decode some video buffer using
+our video decoder we would have to allocate from DRM framework then pass
+that over to the V4L2 system. This doesn't make much sense and required
+the user-space to know about this odd situation and allocate from the
+right spot or else have to use up valuable CMA space or waste memory with
+dedicated carveouts.
+
+Another idea would be to have this as a special central allocator
+(exposed through DMA-BUF heaps[2] or ION) that would give out normal
+system memory as a DMA-BUF but remap it with PAT if a device that only
+supports contiguous memory tries to attach/map that DMA-BUF.
+
+One last option would be to allow user-space to choose to make the buffer
+contiguous when it needs. That's what the driver in this series allows.
+We expose a remapping device, user-space passes it a non-contiguous
+DMA-BUF handle and it passes a contiguous one back. Simple as that.
+
+So how do we use this, lets take Android for example, we don't know at
+allocation time if a rendering buffer will end up going back into the GPU
+for further processing, or if it will be consumed directly by the display.
+This is a problem for us as our GPU can work with non-contiguous buffers
+but our display cannot, so any buffers that could possibly go to the
+display at some point currently needs to be allocated as contiguous from
+the start, this leads to a lot of unneeded use of carveout/CMA memory.
+With this driver on the other hand, we allocate regular non-contiguous
+system memory (again using DMA-BUF heaps, but ION could work here too),
+then only when a buffer is about to be sent to the display we pass the
+handle to this DMA-BUF to our driver here and take the handle it gives
+back and pass that to the display instead.
+
+As said, it is probably not the ideal solution but it does work and was
+used for some early testing of the IP.
+
+Well, sorry for the wall of text.
+Any and all suggestions very welcome and appreciated.
+
+Thanks,
+Andrew
+
+[0] http://www.ti.com/lit/pdf/spruil1
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+[2] https://lkml.org/lkml/2019/6/6/1211
+
+Andrew F. Davis (2):
+  dt-bindings: soc: ti: Add TI PAT bindings
+  soc: ti: Add Support for the TI Page-based Address Translator (PAT)
+
+ .../devicetree/bindings/misc/ti,pat.txt       |  34 ++
+ drivers/soc/ti/Kconfig                        |   9 +
+ drivers/soc/ti/Makefile                       |   1 +
+ drivers/soc/ti/ti-pat.c                       | 569 ++++++++++++++++++
+ include/uapi/linux/ti-pat.h                   |  44 ++
+ 5 files changed, 657 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/ti,pat.txt
+ create mode 100644 drivers/soc/ti/ti-pat.c
+ create mode 100644 include/uapi/linux/ti-pat.h
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
