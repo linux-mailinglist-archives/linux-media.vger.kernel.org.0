@@ -2,153 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB10D385C2
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 09:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9C5385D2
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 09:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbfFGHyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 03:54:22 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:38606 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727145AbfFGHyW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 03:54:22 -0400
-Received: by mail-ed1-f66.google.com with SMTP id g13so1699792edu.5
-        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 00:54:21 -0700 (PDT)
+        id S1727051AbfFGH5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 03:57:33 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:40876 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbfFGH5d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 03:57:33 -0400
+Received: by mail-ed1-f67.google.com with SMTP id k8so562914eds.7
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 00:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ArYYKIMOHCWSGh7ZEky8JCH+cH+neP3KWbv+59bI+28=;
-        b=Bq2TWJruDFYdyZULuzbY3hPJEj2zvv5gXoXPLGbzPuv0Pg0U1NDPxH/X3qaJ1YHC7Y
-         /MXlv48Cgef8tb+DGmKSI7kzSZGY5/foWVte1IKChKjP9n6WUOVQZc7ciz87hBjfTreD
-         o34AOo3A23IKDE/KlbW4UGPsFGQ1HBSHAf3I0=
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1Y0dqNgN5GRlPumwnSwim+P7xV+jz6U0uadHjVytHrk=;
+        b=KW+UbysjArNVACv4q6+549r7+cTv3EkG+0hIgp5Gzs8ersC7PVJ/arg0EbqcKW/BDT
+         7m/td0oX1nSkgEGBxV+/rFF94cYaaujJuBaZbnkb6j43aX9EoDSuUh2jbUn90a72Q1m6
+         wWSpptOZ5QJhMjkYz1VNG/I1tEoevoc3dgNZE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ArYYKIMOHCWSGh7ZEky8JCH+cH+neP3KWbv+59bI+28=;
-        b=jt/XRspjErIUAx3MawcAdpJK6CXhNgiQEmykBvyvOO7CdJnF+fcAMHhN6aieNu3mfw
-         f3hfYmtnx07gIGJS0N/gkoJiv6fQQ1SFO8fIC0hx/63pHfy+Qs4pt7Hr7pCztsq+w6q2
-         2ES2Q0Np0K1tEhIh18TtfnZP1+XAbWvUuoNgjfSlDyHDIpSS1SIF41ksC31et5styb+/
-         XhtxJaLLuh2nEhnZpPcWrhpOah47whrHGU2NUNGqv5mPcupvKrU6CMiI7Vqc3F48lyhc
-         E94OjkU646qgeGxYNWuAorfk0WNxmjCGwMuiZmPrAaE4ntSX7MWBwWsYWtij3z8kj9AE
-         HgEg==
-X-Gm-Message-State: APjAAAXOgrQVkWVoAqPIrTfVuKUs1pVr80CQEUKIguc5rLddWBH3WPey
-        /5IR5kiBZ5bfOepHXYWvJixKOMlURYvUSg==
-X-Google-Smtp-Source: APXvYqxuxfSdaozILPgLx0mf6zf0exvf1ptt0vlxvOkA2Rl3rshW9spUqcr6pF5stBWPacmIEhCF7g==
-X-Received: by 2002:aa7:dd92:: with SMTP id g18mr66176edv.194.1559894060654;
-        Fri, 07 Jun 2019 00:54:20 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id s17sm237919ejf.48.2019.06.07.00.54.19
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 00:54:19 -0700 (PDT)
-Received: by mail-wm1-f43.google.com with SMTP id g135so965367wme.4
-        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 00:54:19 -0700 (PDT)
-X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr2676794wmk.10.1559894059267;
- Fri, 07 Jun 2019 00:54:19 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=1Y0dqNgN5GRlPumwnSwim+P7xV+jz6U0uadHjVytHrk=;
+        b=tCPLow+KvNOlqZD/UxthCATEBBxNHrPUk7Cx0HbetNvPjzYbpPGfxDlI+oNwikdZ4J
+         t0UJAvJZXN9eaYd5sRojaS06kMrxOUvZH7CSWuzboMkbUiY1GLzLupULZr4lmV3Hiydq
+         lOEYD8xC+vGJZHVscQMSfSgHRD8nUYP26XXV9qOvQrG76c59n02xTExfAUzq/v1LWhfM
+         Bop67rJSOW5apEBIHqBHKOLzwVKvc4rvFzSC+vAoqPR+9u+FK6oMXXKHsPtm8LR86JA+
+         nWfzF9n2TWaBwIAzDTtYwFF9GPg+rLkM5a7xShykZOTeFyGJG1czDnUPVUmzNqRM0D72
+         ODDA==
+X-Gm-Message-State: APjAAAXfnh0WIB+aDpFJ15nE+ZlPoCM2AoJsXegUcCRhF6f39SZyHnL3
+        itP3pHMJCFxBA7PXNuflNKnvOQ==
+X-Google-Smtp-Source: APXvYqxb9k77uDmPH+x6SZW7m5DzVGO6PSl0oSp7JXNVVPERM605KEjklDJiu0Eyo4Ib14+dHcCJGA==
+X-Received: by 2002:a17:906:4f8f:: with SMTP id o15mr45250693eju.129.1559894251343;
+        Fri, 07 Jun 2019 00:57:31 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id f3sm241948ejc.15.2019.06.07.00.57.29
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 07 Jun 2019 00:57:30 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 09:57:28 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Anders Roxell <anders.roxell@linaro.org>
+Cc:     marex@denx.de, stefan@agner.ch, airlied@linux.ie, daniel@ffwll.ch,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        b.zolnierkie@samsung.com, andrew@lunn.ch, vivien.didelot@gmail.com,
+        f.fainelli@gmail.com, a.hajda@samsung.com, mchehab@kernel.org,
+        p.zabel@pengutronix.de, hkallweit1@gmail.com, lee.jones@linaro.org,
+        lgirdwood@gmail.com, broonie@kernel.org, davem@davemloft.net,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/8] drivers: (video|gpu): fix warning same module names
+Message-ID: <20190607075728.GE21222@phenom.ffwll.local>
+Mail-Followup-To: Anders Roxell <anders.roxell@linaro.org>, marex@denx.de,
+        stefan@agner.ch, airlied@linux.ie, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, b.zolnierkie@samsung.com, andrew@lunn.ch,
+        vivien.didelot@gmail.com, f.fainelli@gmail.com, a.hajda@samsung.com,
+        mchehab@kernel.org, p.zabel@pengutronix.de, hkallweit1@gmail.com,
+        lee.jones@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20190606094712.23715-1-anders.roxell@linaro.org>
 MIME-Version: 1.0
-References: <20190510100930.14641-1-sakari.ailus@linux.intel.com>
- <20190510100930.14641-4-sakari.ailus@linux.intel.com> <20190605070752.GA126683@chromium.org>
- <20190605101535.4sydewuv656x6c2g@kekkonen.localdomain>
-In-Reply-To: <20190605101535.4sydewuv656x6c2g@kekkonen.localdomain>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 7 Jun 2019 16:54:06 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5D+RZS0E6xpZ3v8gC5zerj5fd6b6YxcAS_TeWei6vGvUA@mail.gmail.com>
-Message-ID: <CAAFQd5D+RZS0E6xpZ3v8gC5zerj5fd6b6YxcAS_TeWei6vGvUA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] ov5670: Support probe whilst the device is off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org,
-        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606094712.23715-1-anders.roxell@linaro.org>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 5, 2019 at 7:15 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Tomasz,
->
-> On Wed, Jun 05, 2019 at 04:07:52PM +0900, Tomasz Figa wrote:
-> > Hi Sakari,
-> >
-> > On Fri, May 10, 2019 at 01:09:28PM +0300, Sakari Ailus wrote:
-> > > Tell ACPI device PM code that the driver supports the device being po=
-wered
-> > > off when the driver's probe function is entered.
-> > >
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/i2c/ov5670.c | 25 ++++++++++++++-----------
-> > >  1 file changed, 14 insertions(+), 11 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > > index 041fcbb4eebdf..57e8b92f90e09 100644
-> > > --- a/drivers/media/i2c/ov5670.c
-> > > +++ b/drivers/media/i2c/ov5670.c
-> > > @@ -2444,6 +2444,7 @@ static int ov5670_probe(struct i2c_client *clie=
-nt)
-> > >     struct ov5670 *ov5670;
-> > >     const char *err_msg;
-> > >     u32 input_clk =3D 0;
-> > > +   bool powered_off;
-> > >     int ret;
-> > >
-> > >     device_property_read_u32(&client->dev, "clock-frequency", &input_=
-clk);
-> > > @@ -2460,11 +2461,14 @@ static int ov5670_probe(struct i2c_client *cl=
-ient)
-> > >     /* Initialize subdev */
-> > >     v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops);
-> > >
-> > > -   /* Check module identity */
-> > > -   ret =3D ov5670_identify_module(ov5670);
-> > > -   if (ret) {
-> > > -           err_msg =3D "ov5670_identify_module() error";
-> > > -           goto error_print;
-> > > +   powered_off =3D acpi_dev_powered_off_for_probe(&client->dev);
-> > > +   if (!powered_off) {
-> > > +           /* Check module identity */
-> > > +           ret =3D ov5670_identify_module(ov5670);
-> > > +           if (ret) {
-> > > +                   err_msg =3D "ov5670_identify_module() error";
-> > > +                   goto error_print;
-> > > +           }
-> > >     }
-> >
-> > I don't like the fact that we can't detect any hardware connection issu=
-e
-> > here anymore and we would actually get some obscure failure when we
-> > actually start streaming.
-> >
-> > Wouldn't it be possible to still keep this behavior of not powering on
-> > the device at boot-up if no driver is bound and then have this driver
-> > built as a module and loaded later when the camera is to be used for th=
-e
-> > first time after the system boots?
->
-> That'd be a way to work around this, but the downside would be that the
-> user space would need to know not only which drivers to load, but also
-> which drivers _not_ to load. The user space could obtain the former from
-> the kernel but not the latter, it'd be system specific configuration.
->
-> Moving the responsibility of loading the driver to user space would also
-> not address figuring out whether the sensor is accessible through its
-> control bus: you have to power it on to do that. In fact, if you want to =
-be
-> sure that the hardware is all right, you have to start streaming on the
-> device first and that is not a part of a typical driver initialisation
-> sequence. Just checking the sensor is accessible over I=E6=B6=8E is not e=
-nough.
->
-> The proposed solution addresses the problem without user space changes.
+On Thu, Jun 06, 2019 at 11:47:12AM +0200, Anders Roxell wrote:
+> When building with CONFIG_DRM_MXSFB and CONFIG_FB_MXS enabled as
+> loadable modules, we see the following warning:
+> 
+> warning: same module names found:
+>   drivers/video/fbdev/mxsfb.ko
+>   drivers/gpu/drm/mxsfb/mxsfb.ko
+> 
+> Rework so the names matches the config fragment.
+> 
+> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
 
-I guess that makes sense indeed. If going this way, why not just move
-all the hardware access from probe to streamon and avoid any
-conditional checks at all?
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Best regards,
-Tomasz
+I'm assuming Bart will pick this one up for fbdev.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/mxsfb/Makefile | 4 ++--
+>  drivers/video/fbdev/Makefile   | 3 ++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
+> index ff6e358088fa..5d49d7548e66 100644
+> --- a/drivers/gpu/drm/mxsfb/Makefile
+> +++ b/drivers/gpu/drm/mxsfb/Makefile
+> @@ -1,3 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -mxsfb-y := mxsfb_drv.o mxsfb_crtc.o mxsfb_out.o
+> -obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
+> +drm-mxsfb-y := mxsfb_drv.o mxsfb_crtc.o mxsfb_out.o
+> +obj-$(CONFIG_DRM_MXSFB)	+= drm-mxsfb.o
+> diff --git a/drivers/video/fbdev/Makefile b/drivers/video/fbdev/Makefile
+> index 655f2537cac1..7ee967525af2 100644
+> --- a/drivers/video/fbdev/Makefile
+> +++ b/drivers/video/fbdev/Makefile
+> @@ -131,7 +131,8 @@ obj-$(CONFIG_FB_VGA16)            += vga16fb.o
+>  obj-$(CONFIG_FB_OF)               += offb.o
+>  obj-$(CONFIG_FB_MX3)		  += mx3fb.o
+>  obj-$(CONFIG_FB_DA8XX)		  += da8xx-fb.o
+> -obj-$(CONFIG_FB_MXS)		  += mxsfb.o
+> +obj-$(CONFIG_FB_MXS)		  += fb-mxs.o
+> +fb-mxs-objs			  := mxsfb.o
+>  obj-$(CONFIG_FB_SSD1307)	  += ssd1307fb.o
+>  obj-$(CONFIG_FB_SIMPLE)           += simplefb.o
+>  
+> -- 
+> 2.20.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
