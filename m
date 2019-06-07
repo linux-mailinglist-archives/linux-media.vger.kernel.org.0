@@ -2,72 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 811573992D
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 00:57:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D08339976
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 01:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730711AbfFGW4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 18:56:53 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:37281 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729919AbfFGW4x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 18:56:53 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 20so1892913pgr.4
-        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 15:56:52 -0700 (PDT)
+        id S1729810AbfFGXLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 19:11:11 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39052 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727415AbfFGXLL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 19:11:11 -0400
+Received: by mail-wr1-f68.google.com with SMTP id x4so971040wrt.6;
+        Fri, 07 Jun 2019 16:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=M8kh7Dgz12YKrTZB/CDTuS2cguipR8YlgXyL4uu88Rk=;
-        b=NqnGfAJwCu03tLbifhT0GvFm2QW9R9io9AMcdefvJFzJ7g5Vr8PmXoK2S/sS0EBCtH
-         Fusk7Ssd1izPi4ZVcnBnUIZrYJgm2cJJofYjf12PPHOu7ZZQRvC6lU0/MhgweIGPyLeg
-         E6/EwGWuLTjiqp09TGPSY2SCFTQsrN6Q1gyBuOEW5aINnxk+dmy7z5bJcCLEazyA8lbi
-         VWQySNTO5RzIXQriYe54HK29THy5Z3raT0y6A4hFRm5CoOlH/IVwVyITcvGmjab4XIjl
-         OGj96J+wDHrvBD5Bl803937Zwo9o/GU9QYKxuCxNaeVzWqwjMi90YBdkhNvlFjQpuFFm
-         tqPQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wfPe7o+pKiEiYzQKf2K8qPkbS6b/+iHkf3dAJkOwkg=;
+        b=VCDey2umgxvrMenWODCRhKJQDjsDcGl5TS+Y8nJqfGhrR0/n3Cn57kOrv+VICYltiY
+         JqARgHm+jRVjCPDFp4qKRWf8IEaYe4V/zCAmK8gB0VuBxPUzpHuMOfBDJlqHWbh0yfC2
+         tbc3BYRHjk/824UWEFpk6LK2unGwpHVNdHcNYPKICPzWEN++MToCGo/WP3DI61Is1PYH
+         vQWAWIfA+PkVZbXb+Kmn6DBRzreiHiGiiPIics+eBTI6MqMjTjx6PTPs3mnUX52fQfHD
+         EeJqHgORMKLQqckjpnBxqaSqqhFrYfZL8YCMWA4wHhoNLvVNAuDb+J9ke/39i5wrwT/R
+         K3vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=M8kh7Dgz12YKrTZB/CDTuS2cguipR8YlgXyL4uu88Rk=;
-        b=al4z1kHNH/iSTPlQugSmicAueE5jiagO0oRnhAYQAZz/2t6mLwAQpB5nNjrhrybAcV
-         qCGgADaP4zVixql5ngtTN7E82yGxmu6N9uNIdkl38x2cFql5AhSBu6CR4FprV5EmYksM
-         Kil7ZwMGuPhTziwnwHLeB54eS/hZnnsRoyLE4tH+XUg5I3doL5tc0SoCE/+N1wOn8Bfz
-         etzG9LKEGOuHsG6CN3bVvc8rJw0Wu1iKAUc5HuKKI7bds0UCFPV8JBgZAqWaQHF9y3RT
-         D71iF3/SNRBfWOTCsDEsxYZawi6iJmZwhhvLxWpvV4A9u2aMbMxqOJAUvHZjAAZwxASA
-         euLg==
-X-Gm-Message-State: APjAAAX4/DrGAjD1F/L166C1GUoOOt09EdTVaoTTBd46muCH+gJPLNw+
-        GaGxEV7Wp7PX078BA6tY0heFvw==
-X-Google-Smtp-Source: APXvYqx8Ow2gN0FBBUIuNPbj3rAAjRbrUfUEtyHrw8/8rVx9mCf6X0IFniQr4nPekXIHjCWdFu3P7g==
-X-Received: by 2002:a17:90a:5d15:: with SMTP id s21mr8054502pji.126.1559948212523;
-        Fri, 07 Jun 2019 15:56:52 -0700 (PDT)
-Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
-        by smtp.googlemail.com with ESMTPSA id f13sm3439916pfa.182.2019.06.07.15.56.51
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Jun 2019 15:56:51 -0700 (PDT)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-media@vger.kernel.org, linux-media@lists.freedesktop.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: platform: ao-cec-g12a: remove spin_lock_irqsave() locking in meson_ao_cec_g12a_read/write
-In-Reply-To: <20190605122015.11439-1-narmstrong@baylibre.com>
-References: <20190605122015.11439-1-narmstrong@baylibre.com>
-Date:   Fri, 07 Jun 2019 15:56:51 -0700
-Message-ID: <7hk1dxatsc.fsf@baylibre.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wfPe7o+pKiEiYzQKf2K8qPkbS6b/+iHkf3dAJkOwkg=;
+        b=bo7znaDd7MGXj70s3GWSpR7bqkrVWed6Xnghk3c5RXcLsDFcp7GEuK/HB/5DgympZQ
+         1NGDIW8pxkCHx8ZGV5p+Vpt0kEtC6vmWPm4YYME/CM4a3jAVYBEHknLCplpaQfhu4Mnf
+         qt3kMqZWjZ25x7GGdm4QcIIefrLpng5UuNtmu+7FXN1IWch1VkS87ny5Txyhzhw6H07n
+         hCkE4iEWCQisU4FR1PCJVGlxtwVWc3atGaEOQxaX7blNUfDnQ3JMOkXAyO9b/Wk6BCyW
+         YNzKmEBh02llo+dTW0honmDyi6DRasfE0G0JWGzuttd48wvCqjyBMOjQ+rXBSdRq/CT2
+         2a5A==
+X-Gm-Message-State: APjAAAV8RQPOW/32K0G6ifHMo3rWkNGiVFmmZR1Btn0dh/Jd3CGF2g1o
+        Imq8b8+w5y8UHrJKr/Hrknw=
+X-Google-Smtp-Source: APXvYqw+PzKucyesHZ0bjq4qJTJx4ikEmxjo++sha0U0BPwPHx54569NJJVYz2yXIpfxd0xB0L/+DQ==
+X-Received: by 2002:adf:e30d:: with SMTP id b13mr17448803wrj.246.1559949069031;
+        Fri, 07 Jun 2019 16:11:09 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
+        by smtp.gmail.com with ESMTPSA id h84sm4108559wmf.43.2019.06.07.16.11.07
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 07 Jun 2019 16:11:08 -0700 (PDT)
+From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sunxi@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org,
+        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Subject: [PATCH v5 00/13] Allwinner A64/H6 IR support
+Date:   Sat,  8 Jun 2019 01:10:47 +0200
+Message-Id: <20190607231100.5894-1-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Neil Armstrong <narmstrong@baylibre.com> writes:
+Hi,
 
-> Since locking is handled by regmap, the spin_lock_irqsave() in the
-> meson_ao_cec_g12a_read/write() regmap callbacks is not needed.
->
-> Fixes: b7778c46683c ("media: platform: meson: Add Amlogic Meson G12A AO CEC Controller driver")
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+A64 IR support series[1] pointed out that an A31 bindings should be
+introduced.
 
-Tested-by: Kevin Hilman <khilman@baylibre.com>
+This series introduce the A31 compatible bindings, then switch it on
+the already existing board.
+
+Finally introduce A64 and H6 support.
+
+I have reenable the other H6 boards IR support as Ondrej solve the issue.
+
+Regards,
+Clément
+
+[1] https://lore.kernel.org/patchwork/patch/1031390/#1221464
+[2] https://lkml.org/lkml/2019/5/27/321
+[3] https://patchwork.kernel.org/patch/10975563/
+
+Changes since v4:
+ - Reuse defines for RXSTA bits definition
+
+Changes since v3:
+ - Reenable IR for other H6 boards
+ - Add RXSTA bits definition
+ - Add Sean Young's "Acked-by" tags
+
+Changes since v2:
+ - Disable IR for other H6 boards
+ - Split DTS patch for H3/H5
+ - Introduce IR quirks
+
+Clément Péron (11):
+  dt-bindings: media: sunxi-ir: Add A31 compatible
+  media: rc: Introduce sunxi_ir_quirks
+  media: rc: sunxi: Add A31 compatible
+  media: rc: sunxi: Add RXSTA bits definition
+  ARM: dts: sunxi: Prefer A31 bindings for IR
+  ARM: dts: sunxi: Prefer A31 bindings for IR
+  dt-bindings: media: sunxi-ir: Add A64 compatible
+  dt-bindings: media: sunxi-ir: Add H6 compatible
+  arm64: dts: allwinner: h6: Add IR receiver node
+  arm64: dts: allwinner: h6: Enable IR on H6 boards
+  arm64: defconfig: Enable IR SUNXI option
+
+Igors Makejevs (1):
+  arm64: dts: allwinner: a64: Add IR node
+
+Jernej Skrabec (1):
+  arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
+
+ .../devicetree/bindings/media/sunxi-ir.txt    | 11 ++-
+ arch/arm/boot/dts/sun6i-a31.dtsi              |  2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+ arch/arm/boot/dts/sun9i-a80.dtsi              |  2 +-
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  2 +-
+ .../dts/allwinner/sun50i-a64-orangepi-win.dts |  4 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++
+ .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  4 +
+ .../dts/allwinner/sun50i-h6-orangepi.dtsi     |  4 +
+ .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  4 +
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 19 ++++
+ arch/arm64/configs/defconfig                  |  1 +
+ drivers/media/rc/sunxi-cir.c                  | 88 ++++++++++++++-----
+ 13 files changed, 135 insertions(+), 26 deletions(-)
+
+-- 
+2.20.1
+
