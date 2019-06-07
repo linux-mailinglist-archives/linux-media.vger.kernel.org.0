@@ -2,131 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B783860F
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 10:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5557038663
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 10:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbfFGIXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 04:23:09 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36349 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725978AbfFGIXI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 Jun 2019 04:23:08 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ZA9OhApmd3qlsZA9RhrHzG; Fri, 07 Jun 2019 10:23:06 +0200
-Subject: Re: Proposed updates and guidelines for MPEG-2, H.264 and H.265
- stateless support
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>
-References: <0be542fabc57c38596bdb1db44aead7054a89158.camel@bootlin.com>
- <3de878d39d32280b5a83001944dd2b4aea9b3d43.camel@ndufresne.ca>
- <8bcc41efa3f477ca34a3da203a2f3fa91474e502.camel@bootlin.com>
- <2793216.N2HdOGtWhe@jernej-laptop>
- <5d9a5567eed5148fc7ade7c9a9cef5dcb48f47db.camel@bootlin.com>
- <58ef7cda93864ed88922dce76fa6ddb8dac0a38d.camel@ndufresne.ca>
- <CAAFQd5AintQedU7b1PQ3WgaO+EruLLtOWPcwVd3azTx+hiENHg@mail.gmail.com>
- <6ab029d01d532540dfb170072ca5063feaded946.camel@bootlin.com>
- <20190522104246.GD30938@ulmo>
- <310ac52d-8290-cc17-08b2-436efe7da26a@xs4all.nl>
- <CAAFQd5BYzvovq6tQQXu6u7tdW=rAe_-ottdDe8qL-BzHNUqF9Q@mail.gmail.com>
- <abf88a12-053d-e0a9-1772-e76c9d70446c@xs4all.nl>
-Message-ID: <e7c15cd3-7131-c084-8668-a75c3be25e5d@xs4all.nl>
-Date:   Fri, 7 Jun 2019 10:23:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727057AbfFGIfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 04:35:30 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38877 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726671AbfFGIf3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 04:35:29 -0400
+Received: by mail-pf1-f196.google.com with SMTP id a186so781716pfa.5
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 01:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GOLXUpq3s4svc3Cb5o0cuO6zNdr2zIZ53GxxO13HULA=;
+        b=cNtJuPJdBf+76+FIHXRqrb62Gu0a3W5bwRWSGq/Awpg612ChWmX34W/4ee+7sMq6cB
+         OdsiTvGx/uswbz32NfXfuf9d0wREnzw5qCeujamyKkTpviW94LFzkTawp0gw1n6MZdyf
+         azN9VWlvdHaocIMwVVa5KskNRl++9A5zAlswQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GOLXUpq3s4svc3Cb5o0cuO6zNdr2zIZ53GxxO13HULA=;
+        b=srWKjvmh6j/JVeFyTbP0Ou4JsQPZoER8Ksxqw40jJzrhsTLXAN5Ef4b41uHzJfrAjK
+         j5zoFB0bYbj+Ebv7bC1U6j56OekUOM9GJRInbzvF+1yhQdmXAjh+9S7bfLH4egDZtIWb
+         7WJfWg8Om6gspmX4tMm4RwB9YhZXYIYnCWkNAeGBbPWVcg1P3mzEAnck8wQ6oRNjEOWh
+         hoZ06W4jf+l1DwbBsl93mch01wjufa7S4Q7uOiyDnsCITMaODDnyB6RdH97kI0iGamiW
+         AfCXhe7SUzgP2zjPirvzm2V2f6CPvSQ/3EQuRszTfnIPlwqrci7SUMvfKRmcZL8cS5Ps
+         Flfg==
+X-Gm-Message-State: APjAAAWeh5nRzQSweP/47Jpm6IwEpOlbT6Ll4rIEBzwAy0B00Jaa7Dpc
+        IFd9WZs0aUzzuSi/OabhmJ2UeEBsrIuM+Q==
+X-Google-Smtp-Source: APXvYqyQFIagXtjKC+oKCI13OrcGrXZcIXeRXH0yCpp8sYK+T78yBASGcqSO+GyLmvngeJ8aX5FkvA==
+X-Received: by 2002:a17:90a:a410:: with SMTP id y16mr4268037pjp.62.1559896528709;
+        Fri, 07 Jun 2019 01:35:28 -0700 (PDT)
+Received: from tfiga.tok.corp.google.com ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
+        by smtp.gmail.com with ESMTPSA id l13sm1240509pjq.20.2019.06.07.01.35.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2019 01:35:28 -0700 (PDT)
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Pawe=C5=82=20O=C5=9Bciak?= <posciak@chromium.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH] MAINTAINERS: media: Add Tomasz Figa as a videobuf2 reviewer
+Date:   Fri,  7 Jun 2019 17:35:18 +0900
+Message-Id: <20190607083518.90078-1-tfiga@chromium.org>
+X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
 MIME-Version: 1.0
-In-Reply-To: <abf88a12-053d-e0a9-1772-e76c9d70446c@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLVu60slwU84z1dPYUrNxH8w6xPw0WQHbzDfule/PTxkF1vyvcjzCz+8DzfSCPhDqDoFiHvLw2d3iXl2TJoZLhsLvvzfRUtyM+hH+36R0KSu4lgX5kup
- Sh4IooKnNXN3Y3OnlUlgR6Of+Qkks3N4T8JNpF/EBU4JXlv7dCKGUlTIg9XA8AJzSCUgQVVVZgPHTMd3zdY8GLkRpqB86/q4RImqNNRLGLVGIXpWpMPk1TLB
- KzM/rgfGDYRv1biEt1z1ZLakiYoaJxqxqKIWknqOlndfnK1T1Usa8IkOoxr6wgWFYFSSWbVSoBWnhv0P6QYPkpdyIbVPQBUH+wBOnq7PWmrwC+/ewCCD/lSX
- 7mWxKRkh+n3r8q5IDawvkufwJdV8MF7aWJ3YJ5cy1RV03kj5VNYV/tAy6WobOQfk3emkPrw2dLkzTYj7HsMcKIh6s2k3qMlyPlKI6tUBNsw4Ml31H4q/lkJU
- 6ujOuJI6vJwVx6R6gLXK5FuEVLy+ZsgiFIAzGxUziZ81AdfMWfj5EHdzWBpSs2Dudab13oow/DqLkroc
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/7/19 8:45 AM, Hans Verkuil wrote:
-> On 6/7/19 8:11 AM, Tomasz Figa wrote:
->> On Wed, May 22, 2019 at 7:56 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>> I share the same experience. Bitstream buffers are usually so small that
->>>> you can always find a physically contiguous memory region for them and a
->>>> memcpy() will be faster than the overhead of getting an IOMMU involved.
->>>> This obviously depends on the specific hardware, but there's always some
->>>> threshold before which mapping through an IOMMU just doesn't make sense
->>>> from a fragmentation and/or performance point of view.
->>>>
->>>> I wonder, though, if it's not possible to keep userptr buffers around
->>>> and avoid the constant mapping/unmapping. If we only performed cache
->>>> maintenance on them as necessary, perhaps that could provide a viable,
->>>> maybe even good, zero-copy mechanism.
->>>
->>> The vb2 framework will keep the mapping for a userptr as long as userspace
->>> uses the same userptr for every buffer.
->>>
->>> I.e. the first time a buffer with index I is queued the userptr is mapped.
->>> If that buffer is later dequeued and then requeued again with the same
->>> userptr the vb2 core will reuse the old mapping. Otherwise it will unmap
->>> and map again with the new userptr.
->>
->> That's a good point. I forgot that we've been seeing random memory
->> corruptions (fortunately of the userptr memory only, not random system
->> memory) because of this behavior and carrying a patch in all
->> downstream branches to remove this caching.
->>
->> I can see that we keep references on the pages that corresponded to
->> the user VMA at the time the buffer was queued, but are we guaranteed
->> that the list of pages backing that VMA hasn't changed over time?
-> 
-> Since you are seeing memory corruptions, the answer to this is perhaps 'no'?
-> 
-> I think the (quite possibly faulty) reasoning was that while memory is mapped,
-> userspace can't do a free()/malloc() pair and end up with the same address.
-> 
-> I suspect this might be a wrong assumption, and in that case we're better off
-> removing this check.
-> 
-> But I'd like to have some confirmation that it is really wrong.
+I tend to review most of the vb2 patches anyway and we need some active
+reviewers, so let add me to the MAINTAINERS file as such.
 
-I did some testing, and indeed, this doesn't work.
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-A patch fixing this will be posted soon.
-
-Regards,
-
-	Hans
-
-> 
-> USERPTR isn't used very often, so it wouldn't surprise me if it is buggy.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->>>
->>> The same is done for dmabuf, BTW. So if userspace keeps changing dmabuf
->>> fds for each buffer, then that is not optimal.
->>
->> We could possibly try to search through the other buffers and reuse
->> the mapping if there is a match?
->>
->> Best regards,
->> Tomasz
->>
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 98cd84977350..b5f65f61becb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16758,6 +16758,7 @@ VIDEOBUF2 FRAMEWORK
+ M:	Pawel Osciak <pawel@osciak.com>
+ M:	Marek Szyprowski <m.szyprowski@samsung.com>
+ M:	Kyungmin Park <kyungmin.park@samsung.com>
++R:	Tomasz Figa <tfiga@chromium.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/common/videobuf2/*
+-- 
+2.22.0.rc1.311.g5d7573a151-goog
 
