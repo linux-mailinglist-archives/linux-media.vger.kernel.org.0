@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A39A39981
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 01:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89C5F39980
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 01:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731708AbfFGXLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1731716AbfFGXLU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 7 Jun 2019 19:11:20 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37545 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731454AbfFGXLT (ORCPT
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33745 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731692AbfFGXLT (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 19:11:19 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 22so3289943wmg.2;
-        Fri, 07 Jun 2019 16:11:17 -0700 (PDT)
+Received: by mail-wr1-f66.google.com with SMTP id n9so3667852wru.0;
+        Fri, 07 Jun 2019 16:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BsQBIKOAel5fnBJ7QqXJ25YvFcF3acsbydOzLPIsKmY=;
-        b=F3abP1GJdWlmfJW/OC7w6iBmIU7IT9Rbr586VC3aGTc5hCHZyoeC5LXUTU52seqokB
-         0lum/lXwTv7VihyKAp25E94NNv6ebzvAlfrF1jvag8+cGfIg6N3uFqkt0Zi6NXd2Z9Nz
-         /W7Te95jk8n3pJ2prulZW7n8rxtBYqG+Tbr71BswZlyJrmixfWUJN9VCTfgwv7RxTIj1
-         Ob2CvmKyf8VQAGtQZ+QTSEJEBXR6w7gebLF/0Np8PGacuW8DCAIbVC/5dnyxZm5XarBV
-         lA4m/UiPjNoxuw+jm0uxhugbVpVpF2qCtC2PEbOjG8ErLgIaxVd+0k9v+YGJvRZkfFRV
-         4Zgg==
+        bh=erM6d71aChyl+Iyy/eqYauRUQ2nKHoueD7cmlIRiQZ8=;
+        b=M8xAidn+V0cDdtxVKZcU0GsUhS0BGe2it4zhUBpyeNxNEcOr5R8PfJHWcgzm971XgL
+         PvhZ3yFhEiAAcHa9oTIOzu8Vc1N9kJTQV6TLaaLIXrRNsA6ZPQFDm9cR+y0wrwkWuN0b
+         uaHQCU7c/L0hmB2PT6DgmtblerDjdmxAFq/VKgc5xnyMTiygGLu5ZwfnMkQN3UuEUllq
+         Hmd8hBHmfLYjfIIhzdKSVzWL2sMqpCMW2HtaKVnBO9VoccEo05Xy4FuAwmc+RBopfb/w
+         SnCy8MzVtBRv8+jr5dU01qgL8aaKlL1+Dg1aYEIoou4Z90mTGMTljKR2RSkbmA2MdBn3
+         Vp2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BsQBIKOAel5fnBJ7QqXJ25YvFcF3acsbydOzLPIsKmY=;
-        b=GbStUuovSAeFfGMIqo8RHSy218cA5uP9ifMWdU6GPD/ButvyYiPvK0z8dzXehHDjRM
-         RFHGMBC9DQ1GAZbht1XR/VL0NRG+DZmdTChfMQeUd7PVFU0C9h6LxSIKG1yQxszKpijy
-         NzB60oM5Rg3W9SzBLnfV07gMCJd6ojqBwisrBCf+AS2kDPN7RzISmKYc0uFOH49nS5To
-         B3hmYmpzAKDNah762sDMypcD7Qw3ecYEC4UAujGUVOoPZAiLHefnT+FmYmz7q6eOdvld
-         SNXDut14aWIBuEGtbqAZXuS1rhso7SxVtJi+UFg0Sx5YAMrr/hO1eP5LfV0pksrUsISs
-         ry6w==
-X-Gm-Message-State: APjAAAVMguxxzf0JckEks8RoQkM1XK+lH8OcdYOT2FSuXExER5m/qOiU
-        h0L7xSvuMpJeGiXRSJx4WVI=
-X-Google-Smtp-Source: APXvYqzHBE1qVb3MOsnJZBaCNkT/iFJTJDAo6+g+YPS8ESoYt0STIvyQR+CFM/+/sd3m4Oxt45Vn0Q==
-X-Received: by 2002:a05:600c:1150:: with SMTP id z16mr4958318wmz.168.1559949077095;
+        bh=erM6d71aChyl+Iyy/eqYauRUQ2nKHoueD7cmlIRiQZ8=;
+        b=VFkK4sVZhbTeKlczlysiVdf9FgBZnhfKNWn6KSD0oDleSOxLC0mIi8lSwJPJUQabL8
+         qlKGefp+r/pI/AcVRA8rELZfOla7gF9cjMj9PEkKddSYgQeNrwF8dcSJkLzEi3anLZm8
+         2NbITnElGpUHRL6a945bF+B7S/oJjt7TqNabiHR6C9IAVFsUNdgs4hXWBLWMA8aj8RvO
+         kXvYreyuvzp4TGmScKqXbdtL4mESCMHwrg+o9ZdHBFvYeViXG0eL6HeWfZtL/FEeRpt1
+         jQWE76/Vgp2pZfaYHOGD7hZc1p95jjsMPtTo6x3zB8AJDcaJZxSypHat5lMKTp0yGyzN
+         xDOg==
+X-Gm-Message-State: APjAAAUMKvZ9F2TUScPrxNlp6xzPwuJMjjI+A4pYodW0W31KOFT1R8yH
+        yBrPkf2io8z6b1UZsGMTAC8=
+X-Google-Smtp-Source: APXvYqzhAaNc1KaAVPMCpP/YKiDq4gEpDCjaNfnx+VL50LxQ1xgj3PKgBe8srCe5bCOuxpxnMq3tKg==
+X-Received: by 2002:a5d:4707:: with SMTP id y7mr4235805wrq.227.1559949077999;
         Fri, 07 Jun 2019 16:11:17 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id h84sm4108559wmf.43.2019.06.07.16.11.16
+        by smtp.gmail.com with ESMTPSA id h84sm4108559wmf.43.2019.06.07.16.11.17
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 07 Jun 2019 16:11:16 -0700 (PDT)
+        Fri, 07 Jun 2019 16:11:17 -0700 (PDT)
 From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -52,13 +52,13 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, Igors Makejevs <git_bb@bwzone.com>,
+        linux-media@vger.kernel.org,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
         Sean Young <sean@mess.org>
-Subject: [PATCH v5 08/13] arm64: dts: allwinner: a64: Add IR node
-Date:   Sat,  8 Jun 2019 01:10:55 +0200
-Message-Id: <20190607231100.5894-9-peron.clem@gmail.com>
+Subject: [PATCH v5 09/13] arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
+Date:   Sat,  8 Jun 2019 01:10:56 +0200
+Message-Id: <20190607231100.5894-10-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190607231100.5894-1-peron.clem@gmail.com>
 References: <20190607231100.5894-1-peron.clem@gmail.com>
@@ -70,54 +70,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Igors Makejevs <git_bb@bwzone.com>
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-IR peripheral is completely compatible with A31 one.
+OrangePi Win board contains IR receiver. Enable it.
 
-Signed-off-by: Igors Makejevs <git_bb@bwzone.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 Signed-off-by: Clément Péron <peron.clem@gmail.com>
 Acked-by: Sean Young <sean@mess.org>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 8c5b521e6389..b22b0aa89515 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -1072,6 +1072,19 @@
- 			#size-cells = <0>;
- 		};
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+index 510f661229dc..e05191b71adf 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+@@ -180,6 +180,10 @@
+ 	status = "okay";
+ };
  
-+		r_ir: ir@1f02000 {
-+			compatible = "allwinner,sun50i-a64-ir",
-+				     "allwinner,sun6i-a31-ir";
-+			reg = <0x01f02000 0x400>;
-+			clocks = <&r_ccu CLK_APB0_IR>, <&r_ccu CLK_IR>;
-+			clock-names = "apb", "ir";
-+			resets = <&r_ccu RST_APB0_IR>;
-+			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&r_ir_rx_pin>;
-+			status = "disabled";
-+		};
++&r_ir {
++	status = "okay";
++};
 +
- 		r_pwm: pwm@1f03800 {
- 			compatible = "allwinner,sun50i-a64-pwm",
- 				     "allwinner,sun5i-a13-pwm";
-@@ -1099,6 +1112,11 @@
- 				function = "s_i2c";
- 			};
+ &r_rsb {
+ 	status = "okay";
  
-+			r_ir_rx_pin: r-ir-rx-pin {
-+				pins = "PL11";
-+				function = "s_cir_rx";
-+			};
-+
- 			r_pwm_pin: r-pwm-pin {
- 				pins = "PL10";
- 				function = "s_pwm";
 -- 
 2.20.1
 
