@@ -2,744 +2,364 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28880395D6
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 21:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75CAE395E3
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2019 21:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730701AbfFGTfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 15:35:48 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:58100 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729943AbfFGTfs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 15:35:48 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x57JZT6K085446;
-        Fri, 7 Jun 2019 14:35:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1559936129;
-        bh=cAAtY/BJUn7iO79jToVtIHll/5ZQdyNmALRTaYjK+7U=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=fOCL+ce0w2H8xNelRB5QL8rqp5d7b5keq5sMXBCnQK0sz46tcG8LJ8UxUqwvIfKpI
-         Jfvrkt9C/IIT6q9TXXDIYUu9kYVVggthejZ2sNosS/mguHF67Gs9QbYWPgCrQ2u9SA
-         NK8JnV45EjO7o5AQNHf+B/3I+gR5Hs6sUX0OKD0g=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x57JZTc5029112
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 7 Jun 2019 14:35:29 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 7 Jun
- 2019 14:35:29 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 7 Jun 2019 14:35:29 -0500
-Received: from legion.dal.design.ti.com (legion.dal.design.ti.com [128.247.22.53])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x57JZTgU130558;
-        Fri, 7 Jun 2019 14:35:29 -0500
-Received: from localhost ([10.250.68.219])
-        by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id x57JZRm20302;
-        Fri, 7 Jun 2019 14:35:27 -0500 (CDT)
-From:   "Andrew F. Davis" <afd@ti.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Tero Kristo <t-kristo@ti.com>,
-        William Mills <wmills@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        John Stultz <john.stultz@linaro.org>
-CC:     <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <iommu@lists.linux-foundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, "Andrew F . Davis" <afd@ti.com>
-Subject: [RFC PATCH 2/2] soc: ti: Add Support for the TI Page-based Address Translator (PAT)
-Date:   Fri, 7 Jun 2019 15:35:23 -0400
-Message-ID: <20190607193523.25700-3-afd@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190607193523.25700-1-afd@ti.com>
-References: <20190607193523.25700-1-afd@ti.com>
+        id S1730211AbfFGTip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 15:38:45 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36468 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729809AbfFGTip (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 15:38:45 -0400
+Received: by mail-qt1-f196.google.com with SMTP id u12so3660114qth.3
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 12:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=y/She4vyCCpmb6c/GUFG7u4My6gP73rZiDX6zsfDPsI=;
+        b=M161iYvdQQE+VGzQs4rv/EryJEpF/vDlvgc1lFlCZ7Mheli/GVbTe3o1w1+9c8bXcp
+         sYTN7Y/2NBAvvBYnQdVqsg+AXNuXyunezqVN69FyyJMd2drA3ycfKZWLY+O5IBAWOnd+
+         vSlWO90V2ny2yf2WxrhEJf9wxFL13TAP9nzJzX5m5RA5vqYdpUKUgQc5ulnb2VItJnw6
+         yttsht+6xSbYw27j8hPdlh8BRa3VRndYHXbddL9++AI71FhaFG6IVDmsklM2muFhfly7
+         wFX4lwDzWvAr5eUyqt0yvGp6WFAh5xpuGQnTE9jPos9K7Z+s3A2XCuChrwhgIkmmbucz
+         4v7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=y/She4vyCCpmb6c/GUFG7u4My6gP73rZiDX6zsfDPsI=;
+        b=JKDowmVaCg5j+iilhIayQLIEWhfMNA2J3mVRbEoyOj2ftUZpBqPENN9rsWn+m5DVBo
+         ShMuVFJNsOKNe/RjHW8HWJ6FSQOKY5MeMlclQkO5TFQYj9gMSkSq2aQ5+eXDi1DlurDh
+         IUfeXraXS0RL1RKp8PvfQN3vvHxZfHZg+5fh6b0qcznq0dKA5GEhSSqyb1yRGbq1YUIk
+         r1lInRYlEnyoqTxpJgw+VJcQoAz3+a5+KU+2aeNjn9qXtNiUag+ojWW2Un54UWUyBRqD
+         CJq7gwxOEm9cNXe4tv93fWb1FYSA10rK5DSHfQs7VcG0gVRtxYyDEGVuwpEPmwHxFnP0
+         +mEw==
+X-Gm-Message-State: APjAAAVpgm/WLgMxBVVe0pc6I4vBvExFprn3bcqYAFUE/bXS08UVbDmU
+        WlwZHMo0uGgS8dzVkB0iB33tXg==
+X-Google-Smtp-Source: APXvYqz0DH5KEzPuGagnEjNQmqY6lpWPF0dUQ7jdvCDIXVRF0nc60DpLzy5Dyx/GhK6CRe3rF7CBEQ==
+X-Received: by 2002:a0c:989d:: with SMTP id f29mr26796269qvd.209.1559936323784;
+        Fri, 07 Jun 2019 12:38:43 -0700 (PDT)
+Received: from tpx230-nicolas (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
+        by smtp.gmail.com with ESMTPSA id z64sm1484128qke.35.2019.06.07.12.38.41
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 07 Jun 2019 12:38:42 -0700 (PDT)
+Message-ID: <675dc8c2985754f6c72c06ec36a00ebca4f49fc8.camel@ndufresne.ca>
+Subject: Re: [PATCH for v5.2] videobuf2-core.c: always reacquire USERPTR
+ memory
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Date:   Fri, 07 Jun 2019 15:38:39 -0400
+In-Reply-To: <20190607135815.GN7593@pendragon.ideasonboard.com>
+References: <69e87f9a-a5ce-8c85-3862-de552f83f13e@xs4all.nl>
+         <20190607111634.GA7593@pendragon.ideasonboard.com>
+         <CGME20190607120150epcas3p34178a04f712c89b013a263264cf2184f@epcas3p3.samsung.com>
+         <cb129a47-e114-6841-44cc-ec34ffa562c7@xs4all.nl>
+         <e674539f-6b40-7b54-90bd-d1ed96ea5f55@samsung.com>
+         <6c3ffe98-9d64-b881-470a-bfef8b9280de@xs4all.nl>
+         <1f754020-296c-cf9b-1331-598bb774fa42@xs4all.nl>
+         <4e711a70-ef25-b9f2-e27a-ae6c80288388@xs4all.nl>
+         <ddacf8a1-61c4-bc04-8c52-cd56dfd13842@samsung.com>
+         <20190607135815.GN7593@pendragon.ideasonboard.com>
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-SLXXE5xDjBC6QBGOPUKR"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds a driver for the Page-based Address Translator (PAT)
-present on various TI SoCs. A PAT device performs address translation
-using tables stored in an internal SRAM. Each PAT supports a set number
-of pages, each occupying a programmable 4KB, 16KB, 64KB, or 1MB of
-addresses in a window for which an incoming transaction will be
-translated.
 
-Signed-off-by: Andrew F. Davis <afd@ti.com>
----
- drivers/soc/ti/Kconfig      |   9 +
- drivers/soc/ti/Makefile     |   1 +
- drivers/soc/ti/ti-pat.c     | 569 ++++++++++++++++++++++++++++++++++++
- include/uapi/linux/ti-pat.h |  44 +++
- 4 files changed, 623 insertions(+)
- create mode 100644 drivers/soc/ti/ti-pat.c
- create mode 100644 include/uapi/linux/ti-pat.h
+--=-SLXXE5xDjBC6QBGOPUKR
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/soc/ti/Kconfig b/drivers/soc/ti/Kconfig
-index f0be35d3dcba..b838ae74d01f 100644
---- a/drivers/soc/ti/Kconfig
-+++ b/drivers/soc/ti/Kconfig
-@@ -86,4 +86,13 @@ config TI_SCI_INTA_MSI_DOMAIN
- 	help
- 	  Driver to enable Interrupt Aggregator specific MSI Domain.
- 
-+config TI_PAT
-+	tristate "TI PAT DMA-BUF exporter"
-+	select REGMAP
-+	help
-+	  Driver for TI Page-based Address Translator (PAT). This driver
-+	  provides the an API allowing the remapping of a non-contiguous
-+	  DMA-BUF into a contiguous one that is sutable for devices needing
-+	  coniguous memory.
-+
- endif # SOC_TI
-diff --git a/drivers/soc/ti/Makefile b/drivers/soc/ti/Makefile
-index b3868d392d4f..1369642b40c3 100644
---- a/drivers/soc/ti/Makefile
-+++ b/drivers/soc/ti/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_AMX3_PM)			+= pm33xx.o
- obj-$(CONFIG_WKUP_M3_IPC)		+= wkup_m3_ipc.o
- obj-$(CONFIG_TI_SCI_PM_DOMAINS)		+= ti_sci_pm_domains.o
- obj-$(CONFIG_TI_SCI_INTA_MSI_DOMAIN)	+= ti_sci_inta_msi.o
-+obj-$(CONFIG_TI_PAT)			+= ti-pat.o
-diff --git a/drivers/soc/ti/ti-pat.c b/drivers/soc/ti/ti-pat.c
-new file mode 100644
-index 000000000000..7359ea0f7ccf
---- /dev/null
-+++ b/drivers/soc/ti/ti-pat.c
-@@ -0,0 +1,569 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TI PAT mapped DMA-BUF memory re-exporter
-+ *
-+ * Copyright (C) 2018-2019 Texas Instruments Incorporated - http://www.ti.com/
-+ *	Andrew F. Davis <afd@ti.com>
-+ */
-+
-+#include <linux/fs.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/uaccess.h>
-+#include <linux/miscdevice.h>
-+#include <linux/regmap.h>
-+#include <linux/dma-buf.h>
-+#include <linux/genalloc.h>
-+#include <linux/vmalloc.h>
-+#include <linux/slab.h>
-+
-+#include <linux/ti-pat.h>
-+
-+#define TI_PAT_DRIVER_NAME	"ti-pat"
-+
-+/* TI PAT MMRS registers */
-+#define TI_PAT_MMRS_PID		0x0 /* Revision Register */
-+#define TI_PAT_MMRS_CONFIG	0x4 /* Config Register */
-+#define TI_PAT_MMRS_CONTROL	0x10 /* Control Register */
-+
-+/* TI PAT CONTROL register field values */
-+#define TI_PAT_CONTROL_ARB_MODE_UF	0x0 /* Updates first */
-+#define TI_PAT_CONTROL_ARB_MODE_RR	0x2 /* Round-robin */
-+
-+#define TI_PAT_CONTROL_PAGE_SIZE_4KB	0x0
-+#define TI_PAT_CONTROL_PAGE_SIZE_16KB	0x1
-+#define TI_PAT_CONTROL_PAGE_SIZE_64KB	0x2
-+#define TI_PAT_CONTROL_PAGE_SIZE_1MB	0x3
-+
-+static unsigned int ti_pat_page_sizes[] = {
-+	[TI_PAT_CONTROL_PAGE_SIZE_4KB]  = 4 * 1024,
-+	[TI_PAT_CONTROL_PAGE_SIZE_16KB] = 16 * 1024,
-+	[TI_PAT_CONTROL_PAGE_SIZE_64KB] = 64 * 1024,
-+	[TI_PAT_CONTROL_PAGE_SIZE_1MB]  = 1024 * 1024,
-+};
-+
-+enum ti_pat_mmrs_fields {
-+	/* Revision */
-+	F_PID_MAJOR,
-+	F_PID_MINOR,
-+
-+	/* Controls */
-+	F_CONTROL_ARB_MODE,
-+	F_CONTROL_PAGE_SIZE,
-+	F_CONTROL_REPLACE_OID_EN,
-+	F_CONTROL_EN,
-+
-+	/* sentinel */
-+	F_MAX_FIELDS
-+};
-+
-+static const struct reg_field ti_pat_mmrs_reg_fields[] = {
-+	/* Revision */
-+	[F_PID_MAJOR]			= REG_FIELD(TI_PAT_MMRS_PID, 8, 10),
-+	[F_PID_MINOR]			= REG_FIELD(TI_PAT_MMRS_PID, 0, 5),
-+	/* Controls */
-+	[F_CONTROL_ARB_MODE]		= REG_FIELD(TI_PAT_MMRS_CONTROL, 6, 7),
-+	[F_CONTROL_PAGE_SIZE]		= REG_FIELD(TI_PAT_MMRS_CONTROL, 4, 5),
-+	[F_CONTROL_REPLACE_OID_EN]	= REG_FIELD(TI_PAT_MMRS_CONTROL, 1, 1),
-+	[F_CONTROL_EN]			= REG_FIELD(TI_PAT_MMRS_CONTROL, 0, 0),
-+};
-+
-+/**
-+ * struct ti_pat_data - PAT device instance data
-+ * @dev: PAT device structure
-+ * @mdev: misc device
-+ * @mmrs_map: Register map of MMRS region
-+ * @table_base: Base address of TABLE region
-+ */
-+struct ti_pat_data {
-+	struct device *dev;
-+	struct miscdevice mdev;
-+	struct regmap *mmrs_map;
-+	struct regmap_field *mmrs_fields[F_MAX_FIELDS];
-+	void __iomem *table_base;
-+	unsigned int page_count;
-+	unsigned int page_size;
-+	phys_addr_t window_base;
-+	struct gen_pool *pool;
-+};
-+
-+struct ti_pat_dma_buf_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct ti_pat_buffer *buffer;
-+	struct list_head list;
-+};
-+
-+struct ti_pat_buffer {
-+	struct ti_pat_data *pat;
-+	struct dma_buf *i_dma_buf;
-+	size_t size;
-+	unsigned long offset;
-+	struct dma_buf *e_dma_buf;
-+
-+	struct dma_buf_attachment *attachment;
-+	struct sg_table *sgt;
-+
-+	struct list_head attachments;
-+	int map_count;
-+
-+	struct mutex lock;
-+};
-+
-+static const struct regmap_config ti_pat_regmap_config = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+};
-+
-+static int ti_pat_dma_buf_attach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct ti_pat_dma_buf_attachment *a;
-+	struct ti_pat_buffer *buffer = dmabuf->priv;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	a->dev = attachment->dev;
-+	a->buffer = buffer;
-+	INIT_LIST_HEAD(&a->list);
-+
-+	a->table = kzalloc(sizeof(*a->table), GFP_KERNEL);
-+	if (!a->table) {
-+		kfree(a);
-+		return -ENOMEM;
-+	}
-+
-+	if (sg_alloc_table(a->table, 1, GFP_KERNEL)) {
-+		kfree(a->table);
-+		kfree(a);
-+		return -ENOMEM;
-+	}
-+
-+	sg_set_page(a->table->sgl, pfn_to_page(PFN_DOWN(buffer->offset)), buffer->size, 0);
-+
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	/* First time attachment we attach to parent */
-+	if (list_empty(&buffer->attachments)) {
-+		buffer->attachment = dma_buf_attach(buffer->i_dma_buf, buffer->pat->dev);
-+		if (IS_ERR(buffer->attachment)) {
-+			dev_err(buffer->pat->dev, "Unable to attach to parent DMA-BUF\n");
-+			mutex_unlock(&buffer->lock);
-+			kfree(a->table);
-+			kfree(a);
-+			return PTR_ERR(buffer->attachment);
-+		}
-+	}
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void ti_pat_dma_buf_detatch(struct dma_buf *dmabuf,
-+				   struct dma_buf_attachment *attachment)
-+{
-+	struct ti_pat_dma_buf_attachment *a = attachment->priv;
-+	struct ti_pat_buffer *buffer = dmabuf->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	/* Last attachment we detach from parent */
-+	if (list_empty(&buffer->attachments)) {
-+		dma_buf_detach(buffer->i_dma_buf, buffer->attachment);
-+		buffer->attachment = NULL;
-+	}
-+	mutex_unlock(&buffer->lock);
-+
-+	kfree(a);
-+}
-+
-+static void ti_pat_set_page(struct ti_pat_data *pat, size_t page_id, dma_addr_t dma_address)
-+{
-+	unsigned int j = page_id >> 8;
-+	unsigned int k = page_id & 0xff;
-+	dma_addr_t offset = (j * 0x1000) + (k * 0x8);
-+	void __iomem *table_base_l = pat->table_base + offset;
-+	void __iomem *table_base_h = table_base_l + 0x4;
-+
-+	u32 base_l = dma_address >> 12;
-+	u32 base_h = (dma_address >> 44) & GENMASK(3, 0);
-+
-+	dev_dbg(pat->dev, "Enabling PAT index: %zu pointing to %pad\n", page_id, &dma_address);
-+
-+	writel(base_l, table_base_l);
-+	writel(BIT(31) | base_h, table_base_h);
-+}
-+
-+static void ti_pat_unset_page(struct ti_pat_data *pat, size_t page_id)
-+{
-+	unsigned int j = page_id >> 8;
-+	unsigned int k = page_id & 0xff;
-+	dma_addr_t offset = (j * 0x1000) + (k * 0x8);
-+	void __iomem *table_base_l = pat->table_base + offset;
-+	void __iomem *table_base_h = table_base_l + 0x4;
-+
-+	dev_dbg(pat->dev, "Disabling PAT index: %zu\n", page_id);
-+
-+	writel(0, table_base_h);
-+}
-+
-+static struct sg_table *ti_pat_map_dma_buf(struct dma_buf_attachment *attachment,
-+					   enum dma_data_direction direction)
-+{
-+	struct ti_pat_dma_buf_attachment *a = attachment->priv;
-+	struct ti_pat_buffer *buffer = a->buffer;
-+	struct ti_pat_data *pat = buffer->pat;
-+	struct sg_table *table = a->table;
-+	struct scatterlist *s;
-+	unsigned int i, s_len;
-+	size_t page_id;
-+	int ret;
-+
-+	mutex_lock(&buffer->lock);
-+	/* First time mapping we map to parent */
-+	if (!buffer->map_count) {
-+		buffer->sgt = dma_buf_map_attachment(buffer->attachment, DMA_BIDIRECTIONAL);
-+		if (IS_ERR(buffer->sgt)) {
-+			dev_err(pat->dev, "Unable to map parent DMA-BUF\n");
-+			return buffer->sgt;
-+		}
-+
-+		/* And program PAT area for this set of pages */
-+		page_id = (buffer->offset - pat->window_base) / pat->page_size;
-+		for_each_sg(buffer->sgt->sgl, s, buffer->sgt->nents, i) {
-+			if (s->offset) {
-+				dev_err(pat->dev, "Cannot use offset buffers\n");
-+				ret = -EINVAL;
-+				goto unmap;
-+			}
-+
-+			if (s->length % pat->page_size) {
-+				dev_err(pat->dev, "Cannot use buffers not a multiple of page size\n");
-+				ret = -EINVAL;
-+				goto unmap;
-+			}
-+
-+			for (s_len = 0; s_len < s->length; s_len += pat->page_size)
-+				ti_pat_set_page(pat, page_id++, s->dma_address + s_len);
-+		}
-+	}
-+	buffer->map_count++;
-+	mutex_unlock(&buffer->lock);
-+
-+	/* Map the attached device's table to get DMA addresses */
-+	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents, direction, DMA_ATTR_SKIP_CPU_SYNC))
-+		return ERR_PTR(-ENOMEM);
-+
-+	return table;
-+
-+unmap:
-+	dma_buf_unmap_attachment(buffer->attachment, buffer->sgt, DMA_BIDIRECTIONAL);
-+	return ERR_PTR(ret);
-+}
-+
-+static void ti_pat_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+				 struct sg_table *table,
-+				 enum dma_data_direction direction)
-+{
-+	struct ti_pat_dma_buf_attachment *a = attachment->priv;
-+	struct ti_pat_buffer *buffer = a->buffer;
-+	struct ti_pat_data *pat = buffer->pat;
-+
-+	/* Unmap the attached device's table */
-+	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents, direction, DMA_ATTR_SKIP_CPU_SYNC);
-+
-+	mutex_lock(&buffer->lock);
-+	buffer->map_count--;
-+	/* Last mapping we unmap from parent */
-+	if (!buffer->map_count) {
-+		/* Disable PAT pages for this area */
-+		size_t page_start = (buffer->offset - pat->window_base) / pat->page_size;
-+		size_t page_end = page_start + (buffer->size / pat->page_size);
-+		for (; page_start < page_end; page_start++)
-+			ti_pat_unset_page(pat, page_start);
-+
-+		dma_buf_unmap_attachment(buffer->attachment, buffer->sgt, DMA_BIDIRECTIONAL);
-+		buffer->sgt = NULL;
-+	}
-+	mutex_unlock(&buffer->lock);
-+}
-+
-+static void ti_pat_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct ti_pat_buffer *buffer = dmabuf->priv;
-+
-+	if (buffer->attachment && buffer->sgt)
-+		dma_buf_unmap_attachment(buffer->attachment, buffer->sgt, DMA_BIDIRECTIONAL);
-+	if (buffer->i_dma_buf && !IS_ERR_OR_NULL(buffer->attachment))
-+		dma_buf_detach(buffer->i_dma_buf, buffer->attachment);
-+	if (buffer->i_dma_buf)
-+		dma_buf_put(buffer->i_dma_buf);
-+
-+	if (buffer->offset)
-+		gen_pool_free(buffer->pat->pool, buffer->offset, buffer->size);
-+
-+	kfree(buffer);
-+}
-+
-+void *ti_pat_dma_buf_map(struct dma_buf *dma_buf, unsigned long page_num)
-+{
-+	return NULL;
-+}
-+
-+int ti_pat_dma_buf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
-+{
-+	return -EINVAL;
-+}
-+
-+static const struct dma_buf_ops dma_buf_ops = {
-+	.attach = ti_pat_dma_buf_attach,
-+	.detach = ti_pat_dma_buf_detatch,
-+
-+	.map_dma_buf = ti_pat_map_dma_buf,
-+	.unmap_dma_buf = ti_pat_unmap_dma_buf,
-+
-+	.release = ti_pat_dma_buf_release,
-+
-+	.map = ti_pat_dma_buf_map,
-+	.mmap = ti_pat_dma_buf_mmap,
-+};
-+
-+int ti_pat_export(struct ti_pat_data *pat,
-+		  struct dma_buf *i_dma_buf,
-+		  struct dma_buf **e_dma_buf)
-+{
-+	struct ti_pat_buffer *buffer;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	int ret;
-+
-+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-+	if (!buffer)
-+		return -ENOMEM;
-+
-+	buffer->pat = pat;
-+	buffer->i_dma_buf = i_dma_buf;
-+	buffer->size = buffer->i_dma_buf->size;
-+	mutex_init(&buffer->lock);
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	buffer->map_count = 0;
-+
-+	/* Reserve PAT space */
-+	buffer->offset = gen_pool_alloc(buffer->pat->pool, buffer->size);
-+	if (!buffer->offset) {
-+		ret = -ENOMEM;
-+		goto free_buffer;
-+	}
-+
-+	exp_info.ops = &dma_buf_ops;
-+	exp_info.size = buffer->size;
-+	exp_info.flags = O_RDWR;
-+	exp_info.priv = buffer;
-+
-+	*e_dma_buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(*e_dma_buf)) {
-+		ret = PTR_ERR(*e_dma_buf);
-+		goto free_pool;
-+	}
-+
-+	return 0;
-+
-+free_pool:
-+	gen_pool_free(buffer->pat->pool, buffer->offset, buffer->size);
-+free_buffer:
-+	kfree(buffer);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(ti_pat_export);
-+
-+static long ti_pat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	struct ti_pat_data *pat = container_of(file->private_data, struct ti_pat_data, mdev);
-+
-+	switch (cmd) {
-+	case TI_PAT_IOC_EXPORT:
-+	{
-+		struct ti_pat_export_data export;
-+		struct dma_buf *i_dma_buf;
-+		struct dma_buf *e_dma_buf;
-+		int ret;
-+
-+		if (_IOC_SIZE(cmd) > sizeof(export))
-+			return -EINVAL;
-+
-+		if (copy_from_user(&export, (void __user *)arg, _IOC_SIZE(cmd)))
-+			return -EFAULT;
-+
-+		i_dma_buf = dma_buf_get(export.fd);
-+		if (IS_ERR(i_dma_buf))
-+			return PTR_ERR(i_dma_buf);
-+
-+		ret = ti_pat_export(pat, i_dma_buf, &e_dma_buf);
-+		if (ret) {
-+			dma_buf_put(i_dma_buf);
-+			return ret;
-+		}
-+
-+		export.fd = dma_buf_fd(e_dma_buf, O_CLOEXEC);
-+		if (export.fd < 0) {
-+			dma_buf_put(e_dma_buf);
-+			dma_buf_put(i_dma_buf);
-+			return export.fd;
-+		}
-+
-+		if (copy_to_user((void __user *)arg, &export, _IOC_SIZE(cmd)))
-+			return -EFAULT;
-+
-+		break;
-+	}
-+	default:
-+		return -ENOTTY;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct file_operations ti_pat_fops = {
-+	.owner          = THIS_MODULE,
-+	.unlocked_ioctl = ti_pat_ioctl,
-+#ifdef CONFIG_COMPAT
-+	.compat_ioctl	= ti_pat_ioctl,
-+#endif
-+};
-+
-+static const struct of_device_id ti_pat_of_match[] = {
-+	{ .compatible = "ti,j721e-pat", },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, ti_pat_of_match);
-+
-+static int ti_pat_probe(struct platform_device *pdev)
-+{
-+	struct ti_pat_data *pat;
-+	struct resource *res;
-+	void __iomem *base;
-+	unsigned int revision_major;
-+	unsigned int revision_minor;
-+	resource_size_t size;
-+	size_t page_size;
-+	int i, ret;
-+
-+	pat = devm_kzalloc(&pdev->dev, sizeof(*pat), GFP_KERNEL);
-+	if (!pat)
-+		return -ENOMEM;
-+	platform_set_drvdata(pdev, pat);
-+	pat->dev = &pdev->dev;
-+
-+	/* MMRS */
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	base = devm_ioremap_resource(pat->dev, res);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	pat->mmrs_map = devm_regmap_init_mmio(pat->dev, base, &ti_pat_regmap_config);
-+	if (IS_ERR(pat->mmrs_map)) {
-+		dev_err(pat->dev, "Unable to allocate MMRS register map\n");
-+		return PTR_ERR(pat->mmrs_map);
-+	}
-+
-+	for (i = 0; i < F_MAX_FIELDS; i++) {
-+		pat->mmrs_fields[i] = devm_regmap_field_alloc(pat->dev, pat->mmrs_map, ti_pat_mmrs_reg_fields[i]);
-+		if (IS_ERR(pat->mmrs_fields[i])) {
-+			dev_err(pat->dev, "Unable to allocate Regmap fields\n");
-+			return PTR_ERR(pat->mmrs_fields[i]);
-+		}
-+	}
-+
-+	ret = regmap_read(pat->mmrs_map, TI_PAT_MMRS_CONFIG, &pat->page_count);
-+	if (ret) {
-+		dev_err(pat->dev, "Unable to read device page count\n");
-+		return ret;
-+	}
-+
-+	ret = regmap_field_read(pat->mmrs_fields[F_PID_MAJOR], &revision_major);
-+	if (ret) {
-+		dev_err(pat->dev, "Unable to read device major revision\n");
-+		return ret;
-+	}
-+
-+	ret = regmap_field_read(pat->mmrs_fields[F_PID_MINOR], &revision_minor);
-+	if (ret) {
-+		dev_err(pat->dev, "Unable to read device minor revision\n");
-+		return ret;
-+	}
-+
-+	dev_info(pat->dev, "Found PAT Rev %d.%d with %d pages\n", revision_major, revision_minor, pat->page_count);
-+
-+	/* TABLE */
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (!res) {
-+		dev_err(pat->dev, "Unable to find TABLE IO resource\n");
-+		return -ENOENT;
-+	}
-+	size = resource_size(res);
-+
-+	/* 256 pages per 4KB of table space */
-+	if (size != (pat->page_count << 4))
-+		dev_warn(pat->dev, "TABLE region size (%llu) does not match reported page count\n", size);
-+
-+	pat->table_base = devm_ioremap_resource(pat->dev, res);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	/* WINDOW */
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
-+	if (!res) {
-+		dev_err(pat->dev, "Unable to find WINDOW IO resource\n");
-+		return -ENOENT;
-+	}
-+	pat->window_base = res->start;
-+	size = resource_size(res);
-+
-+	pat->page_size = PAGE_SIZE;
-+	for (page_size = 0; page_size < ARRAY_SIZE(ti_pat_page_sizes); page_size++)
-+		if (ti_pat_page_sizes[page_size] == pat->page_size)
-+			break;
-+	if (page_size == ARRAY_SIZE(ti_pat_page_sizes)) {
-+		dev_err(pat->dev, "Unsupported PAGE_SIZE (%d)\n", pat->page_size);
-+		return -EINVAL;
-+	}
-+	regmap_field_write(pat->mmrs_fields[F_CONTROL_PAGE_SIZE], page_size);
-+
-+	/* Enable this PAT module */
-+	regmap_field_write(pat->mmrs_fields[F_CONTROL_EN], 1);
-+
-+	pat->pool = gen_pool_create(PAGE_SHIFT, -1);
-+	if (!pat->pool)
-+		return -ENOMEM;
-+	gen_pool_add(pat->pool, pat->window_base, size, -1);
-+
-+	pat->mdev.minor = MISC_DYNAMIC_MINOR;
-+	pat->mdev.name = pdev->name;
-+	pat->mdev.fops = &ti_pat_fops;
-+	pat->mdev.parent = NULL;
-+	ret = misc_register(&pat->mdev);
-+	if (ret) {
-+		dev_err(pat->dev, "Unable to register misc device\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct platform_driver ti_pat_driver = {
-+	.probe = ti_pat_probe,
-+	.driver = {
-+		.name = TI_PAT_DRIVER_NAME,
-+		.of_match_table = ti_pat_of_match,
-+	},
-+};
-+module_platform_driver(ti_pat_driver);
-+
-+MODULE_AUTHOR("Andrew F. Davis <afd@ti.com>");
-+MODULE_DESCRIPTION("TI PAT mapped DMA-BUF memory exporter");
-+MODULE_LICENSE("GPL v2");
-diff --git a/include/uapi/linux/ti-pat.h b/include/uapi/linux/ti-pat.h
-new file mode 100644
-index 000000000000..b06d79454815
---- /dev/null
-+++ b/include/uapi/linux/ti-pat.h
-@@ -0,0 +1,44 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * TI PAT mapped DMA-BUF memory exporter UAPI
-+ *
-+ * Copyright (C) 2018 Texas Instruments Incorporated - http://www.ti.com/
-+ *	Andrew F. Davis <afd@ti.com>
-+ */
-+
-+#ifndef _UAPI_LINUX_TI_PAT_H
-+#define _UAPI_LINUX_TI_PAT_H
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+/**
-+ * DOC: TI PAT Userspace API
-+ *
-+ * create a client by opening /dev/ti-pat
-+ * most operations handled via following ioctls
-+ */
-+
-+/**
-+ * struct ti_pat_allocation_data - metadata passed from userspace for allocations
-+ * @fd:			populated with DMA-BUF FD for this allocation
-+ * @flags:		flags for the allocation
-+ *
-+ * Provided by userspace as an argument to the ioctl
-+ */
-+struct ti_pat_export_data {
-+	__u32 fd;
-+	__u32 flags;
-+};
-+
-+#define TI_PAT_IOC_MAGIC 'P'
-+
-+/**
-+ * DOC: TI_PAT_IOC_EXPORT - Re-export DMA-BUF through TI PAT
-+ *
-+ * Takes an ti_pat_export_data struct and returns it with the fd field
-+ * populated with the DMA-BUF handle for the new export.
-+ */
-+#define TI_PAT_IOC_EXPORT _IOWR(TI_PAT_IOC_MAGIC, 0, struct ti_pat_export_data)
-+
-+#endif /* _UAPI_LINUX_TI_PAT_H */
--- 
-2.17.1
+Le vendredi 07 juin 2019 =C3=A0 16:58 +0300, Laurent Pinchart a =C3=A9crit =
+:
+> Hi Marek,
+>=20
+> On Fri, Jun 07, 2019 at 03:55:05PM +0200, Marek Szyprowski wrote:
+> > On 2019-06-07 15:40, Hans Verkuil wrote:
+> > > On 6/7/19 2:47 PM, Hans Verkuil wrote:
+> > > > On 6/7/19 2:23 PM, Hans Verkuil wrote:
+> > > > > On 6/7/19 2:14 PM, Marek Szyprowski wrote:
+> > > > > > On 2019-06-07 14:01, Hans Verkuil wrote:
+> > > > > > > On 6/7/19 1:16 PM, Laurent Pinchart wrote:
+> > > > > > > > Thank you for the patch.
+> > > > > > > >=20
+> > > > > > > > On Fri, Jun 07, 2019 at 10:45:31AM +0200, Hans Verkuil wrot=
+e:
+> > > > > > > > > The __prepare_userptr() function made the incorrect assum=
+ption that if the
+> > > > > > > > > same user pointer was used as the last one for which memo=
+ry was acquired, then
+> > > > > > > > > there was no need to re-acquire the memory. This assumpti=
+on was never properly
+> > > > > > > > > tested, and after doing that it became clear that this wa=
+s in fact wrong.
+> > > > > > > > Could you explain in the commit message why the assumption =
+is not
+> > > > > > > > correct ?
+> > > > > > > You can free the memory, then allocate it again and you can g=
+et the same pointer,
+> > > > > > > even though it is not necessarily using the same physical pag=
+es for the memory
+> > > > > > > that the kernel is still using for it.
+> > > > > > >=20
+> > > > > > > Worse, you can free the memory, then allocate only half the m=
+emory you need and
+> > > > > > > get back the same pointer. vb2 wouldn't notice this. And it s=
+eems to work (since
+> > > > > > > the original mapping still remains), but this can corrupt use=
+rspace memory
+> > > > > > > causing the application to crash. It's not quite clear to me =
+how the memory can
+> > > > > > > get corrupted. I don't know enough of those low-level mm inte=
+rnals to understand
+> > > > > > > the sequence of events.
+> > > > > > >=20
+> > > > > > > I have test code for v4l2-compliance available if someone wan=
+ts to test this.
+> > > > > > I'm interested, I would really like to know what happens in the=
+ mm
+> > > > > > subsystem in such case.
+> > > > > Here it is:
+> > > > >=20
+> > > > > diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/=
+v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > index be606e48..9abf41da 100644
+> > > > > --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > @@ -797,7 +797,7 @@ int testReadWrite(struct node *node)
+> > > > >   	return 0;
+> > > > >   }
+> > > > >=20
+> > > > > -static int captureBufs(struct node *node, const cv4l_queue &q,
+> > > > > +static int captureBufs(struct node *node, cv4l_queue &q,
+> > > > >   		const cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
+> > > > >   		unsigned &capture_count)
+> > > > >   {
+> > > > > @@ -962,6 +962,21 @@ static int captureBufs(struct node *node, co=
+nst cv4l_queue &q,
+> > > > >   				buf.s_flags(V4L2_BUF_FLAG_REQUEST_FD);
+> > > > >   				buf.s_request_fd(buf_req_fds[req_idx]);
+> > > > >   			}
+> > > > > +			if (v4l_type_is_capture(buf.g_type()) && q.g_memory() =3D=3D =
+V4L2_MEMORY_USERPTR) {
+> > > > > +				printf("\nidx: %d", buf.g_index());
+> > > > > +				for (unsigned p =3D 0; p < q.g_num_planes(); p++) {
+> > > > > +					printf(" old buf[%d]: %p ", p, buf.g_userptr(p));
+> > > > > +					fflush(stdout);
+> > > > > +					free(buf.g_userptr(p));
+> > > > > +					void *m =3D calloc(1, q.g_length(p)/2);
+> > > > > +
+> > > > > +					fail_on_test(m =3D=3D NULL);
+> > > > > +					q.s_userptr(buf.g_index(), p, m);
+> > > > > +					printf("new buf[%d]: %p", p, m);
+> > > > > +					buf.s_userptr(m, p);
+> > > > > +				}
+> > > > > +				printf("\n");
+> > > > > +			}
+> > > > >   			fail_on_test(buf.qbuf(node, q));
+> > > > >   			fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
+> > > > >   			if (buf.g_flags() & V4L2_BUF_FLAG_REQUEST_FD) {
+> > > > >=20
+> > > > >=20
+> > > > >=20
+> > > > > Load the vivid driver and just run 'v4l2-compliance -s10' and you=
+'ll see:
+> > > > >=20
+> > > > > ...
+> > > > > Streaming ioctls:
+> > > > >          test read/write: OK
+> > > > >          test blocking wait: OK
+> > > > >          test MMAP (no poll): OK
+> > > > >          test MMAP (select): OK
+> > > > >          test MMAP (epoll): OK
+> > > > >          Video Capture: Frame #000
+> > > > > idx: 0 old buf[0]: 0x7f71c6e7c010 new buf[0]: 0x7f71c6eb4010
+> > > > >          Video Capture: Frame #001
+> > > > > idx: 1 old buf[0]: 0x7f71c6e0b010 new buf[0]: 0x7f71c6e7b010
+> > > > >          Video Capture: Frame #002
+> > > > > idx: 0 old buf[0]: 0x7f71c6eb4010 free(): invalid pointer
+> > > > > Aborted
+> > > > To clarify: two full size buffers are allocated and queued (that ha=
+ppens in setupUserPtr()),
+> > > > then streaming starts and captureBufs is called which basically jus=
+t calls dqbuf
+> > > > and qbuf.
+> > > >=20
+> > > > Tomasz pointed out that all the pointers in this log are actually d=
+ifferent. That's
+> > > > correct, but here is a log where the old and new buf ptr are the sa=
+me:
+> > > >=20
+> > > > Streaming ioctls:
+> > > >          test read/write: OK
+> > > >          test blocking wait: OK
+> > > >          test MMAP (no poll): OK
+> > > >          test MMAP (select): OK
+> > > >          test MMAP (epoll): OK
+> > > >          Video Capture: Frame #000
+> > > > idx: 0 old buf[0]: 0x7f1094e16010 new buf[0]: 0x7f1094e4e010
+> > > >          Video Capture: Frame #001
+> > > > idx: 1 old buf[0]: 0x7f1094da5010 new buf[0]: 0x7f1094e15010
+> > > >          Video Capture: Frame #002
+> > > > idx: 0 old buf[0]: 0x7f1094e4e010 new buf[0]: 0x7f1094e4e010
+> > > >          Video Capture: Frame #003
+> > > > idx: 1 old buf[0]: 0x7f1094e15010 free(): invalid pointer
+> > > > Aborted
+> > > >=20
+> > > > It's weird that the first log fails that way: if the pointers are d=
+ifferent,
+> > > > then vb2 will call get_userptr and it should discover that the buff=
+er isn't
+> > > > large enough, causing qbuf to fail. That doesn't seem to happen.
+> > > I think that the reason for this corruption is that the memory pool u=
+sed
+> > > by glibc is now large enough for vb2 to think it can map the full len=
+gth
+> > > of the user pointer into memory, even though only the first half is a=
+ctually
+> > > from the buffer that's allocated. When you capture a frame you just o=
+verwrite
+> > > a random part of the application's memory pool, causing this invalid =
+pointer.
+> > >=20
+> > > But that's a matter of garbage in, garbage out. So that's not the iss=
+ue here.
+> > >=20
+> > > The real question is what happens when you free the old buffer, alloc=
+ate a
+> > > new buffer, end up with the same userptr, but it's using one or more =
+different
+> > > pages for its memory compared to the mapping that the kernel uses.
+> > >=20
+> > > I managed to reproduce this with v4l2-ctl:
+> > >=20
+> > > diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v=
+4l2-ctl-streaming.cpp
+> > > index 28b2b3b9..8f2ed9b5 100644
+> > > --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > > +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > > @@ -1422,6 +1422,24 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_que=
+ue &q, FILE *fout, int *index,
+> > >   		 * has the size that fits the old resolution and might not
+> > >   		 * fit to the new one.
+> > >   		 */
+> > > +		if (q.g_memory() =3D=3D V4L2_MEMORY_USERPTR) {
+> > > +			printf("\nidx: %d", buf.g_index());
+> > > +			for (unsigned p =3D 0; p < q.g_num_planes(); p++) {
+> > > +				unsigned *pb =3D (unsigned *)buf.g_userptr(p);
+> > > +				printf(" old buf[%d]: %p first pixel: 0x%x", p, buf.g_userptr(p)=
+, *pb);
+> > > +				fflush(stdout);
+> > > +				free(buf.g_userptr(p));
+> > > +				void *m =3D calloc(1, q.g_length(p));
+> > > +
+> > > +				if (m =3D=3D NULL)
+> > > +					return QUEUE_ERROR;
+> > > +				q.s_userptr(buf.g_index(), p, m);
+> > > +				if (m =3D=3D buf.g_userptr(p))
+> > > +					printf(" identical new buf");
+> > > +				buf.s_userptr(m, p);
+> > > +			}
+> > > +			printf("\n");
+> > > +		}
+> > >   		if (fd.qbuf(buf) && errno !=3D EINVAL) {
+> > >   			fprintf(stderr, "%s: qbuf error\n", __func__);
+> > >   			return QUEUE_ERROR;
+> > >=20
+> > >=20
+> > > Load vivid, setup a pure white test pattern:
+> > >=20
+> > > v4l2-ctl -c test_pattern=3D6
+> > >=20
+> > > Now run v4l2-ctl --stream-user and you'll see:
+> > >=20
+> > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x80ea80ea identical n=
+ew buf
+> > > <
+> > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x80ea80ea identical n=
+ew buf
+> > > <
+> > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x80ea80ea identical n=
+ew buf
+> > > <
+> > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x80ea80ea identical n=
+ew buf
+> > > <
+> > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x0 identical new buf
+> > > <
+> > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x0 identical new buf
+> > > < 5.00 fps
+> > >=20
+> > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x0 identical new buf
+> > > <
+> > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x0 identical new buf
+> > >=20
+> > > The first four dequeued buffers are filled with data, after that the
+> > > returned buffer is empty because vivid is actually writing to differe=
+nt
+> > > memory pages.
+> > >=20
+> > > With this patch the first pixel is always non-zero.
+> >=20
+> > Good catch. The question is weather we treat that as undefined behavior=
+=20
+> > and keep the optimization for 'good applications' or assume that every=
+=20
+> > broken userspace code has to be properly handled.
+>=20
+> Given how long we've been saying that USERPTR should be replaced by
+> DMABUF, I would consider that any userspace code using USERPTR is broken
+> :-) One could however question whether we were effective at getting that
+> message across...
+
+Just a reminder that DMABuf is not a replacement for USERPTR. It only
+cover a subset in absence of an allocater for it. There is no clean way
+to allocate a DMAbuf. Notably, memfds (which could have filled the gap)
+are not DMABuf, even though they are they are similar to the buffers
+allocated by vivid or uvcvideo.
+
+>=20
+> > The good thing is that=20
+> > there is still imho no security issue. The physical pages gathered by=
+=20
+> > vb2 in worst case belongs to noone else (vb2 is their last user, they=
+=20
+> > are not yet returned to free pages pool).
+> >=20
+> > > I wonder if it isn't possible to just check the physical address of
+> > > the received user pointer with the physical address of the previous
+> > > user pointer. Or something like that. I'll dig around a bit more.
+> >=20
+> > Such check won't be so simple. Pages contiguous in the virtual memory=
+=20
+> > won't map to pages contiguous in the physical memory, so you would need=
+=20
+> > to check every single memory page. Make no sense. It is better to=20
+> > reacquire buffer on every queue operation. This indeed show how broken=
+=20
+> > the USERPTR related part of v4l2 API is.
+
+--=-SLXXE5xDjBC6QBGOPUKR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXPq9PwAKCRBxUwItrAao
+HIFyAJ9aY/t8UQgHH2hdBS2B9Pp1UQSs/wCg1PCbZfPxFXYBRtsyZr+cDbFHo/o=
+=/7sF
+-----END PGP SIGNATURE-----
+
+--=-SLXXE5xDjBC6QBGOPUKR--
 
