@@ -2,151 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC2739A69
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 05:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 823F239A73
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 05:51:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730547AbfFHDuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 23:50:18 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:55397 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730828AbfFHDuS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 Jun 2019 23:50:18 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:3db3:9929:85ad:2d0a])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ZSMwhLjG83qlsZSMxhvw34; Sat, 08 Jun 2019 05:50:15 +0200
-Message-ID: <f4c13a10ac8eb25ddcc28f966c4f6d10@smtp-cloud7.xs4all.net>
-Date:   Sat, 08 Jun 2019 05:50:14 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfCarvjPO3lXyqmOJDPlV9wqAX4ML+nBPhpxKjs/lsku22rPuAjJS0+SVlumISDw6UAxtUBq8JwoGkjtEcR4GDOihcYoFnhiTGpGKgglq6J7wMYTqSXr6
- WeC0cQ8yU8Dare7oaCEnxJDEWac5RIyz5KLwu1W/RsQmL+jBLwhR+kB2q8wu2znBFQcURvJcVOsHw0HX5enwUXDzv5KuLkSjvC1NNzQ7KXdz//QJNs3qqH2q
+        id S1731537AbfFHDvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 23:51:41 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40466 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731591AbfFHDvk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 23:51:40 -0400
+Received: by mail-pg1-f196.google.com with SMTP id d30so2132849pgm.7
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 20:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3wKfqS97rJvrbhUUDlvq7gOlHPn2Fxrd7rOcfg+ujIw=;
+        b=RYl1PwRkMzex6A4O7SLxvvwiq5dij7m4eHDLUNE4a3aGBYLeVjbDL8gLqao1EoQT+p
+         YQb1mF9o9UcoV8td3+9AP7z+CkGq6mDaNnYR3pzaWwp8gUl1cHoE4YNqEbgWKNWvGAFB
+         0KAoZe50aGSCoeHmlFMZ5SpxFp6+d2TadDVto=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3wKfqS97rJvrbhUUDlvq7gOlHPn2Fxrd7rOcfg+ujIw=;
+        b=cH1IkNxIH02/fNOL1HZKXZspyx4eDM5Hii/xpOAEJCQSMR/4YCAopi/Z2Ykbm8zFTG
+         gM9YK908v1LdbFs90jX9/qmQxUeHoCjlcriEtMpLwOh186n5+MkFc03MDbpynk24yrjC
+         9tXwCtaKi6Sq43OQzkFSU0WpYpDI3V4kars4YFCisfLBez37q1Jh+Hi/gu21A2LiM9M0
+         Ta0yk8gffslwOqynq9Z8SddrB1MGkwS0IRVIIdXDdO6Q4Se9dBnU9oE4AHxDXAn9yhCx
+         jJ6UqJZ82RKuXrhuKCcvyh04TPbv8kqlcSczyWxZrisfw3mxVGys4158U+vX7i930v+h
+         /E9A==
+X-Gm-Message-State: APjAAAWxVEB/X/kfnlR23KgDs4dopYa9mNThg9L6gQnhrzqc1gfHPN4x
+        TgESCLDKKxry9ArufcK/A+vloENBbBQ=
+X-Google-Smtp-Source: APXvYqw907PVDblcTVkonPdzATNJGir/Lb4Vx1Ol6psoQ6Dh4wHkfs9go3mE5W0bvdvS6vG2+lgMCw==
+X-Received: by 2002:a63:161b:: with SMTP id w27mr5796313pgl.338.1559965870042;
+        Fri, 07 Jun 2019 20:51:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id e4sm3563052pgi.80.2019.06.07.20.51.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 07 Jun 2019 20:51:09 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 20:51:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v16 02/16] arm64: untag user pointers in access_ok and
+ __uaccess_mask_ptr
+Message-ID: <201906072051.3047B3DC56@keescook>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <4327b260fb17c4776a1e3c844f388e4948cfb747.1559580831.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4327b260fb17c4776a1e3c844f388e4948cfb747.1559580831.git.andreyknvl@google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Mon, Jun 03, 2019 at 06:55:04PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> copy_from_user (and a few other similar functions) are used to copy data
+> from user memory into the kernel memory or vice versa. Since a user can
+> provided a tagged pointer to one of the syscalls that use copy_from_user,
+> we need to correctly handle such pointers.
+> 
+> Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
+> before performing access validity checks.
+> 
+> Note, that this patch only temporarily untags the pointers to perform the
+> checks, but then passes them as is into the kernel internals.
+> 
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-Results of the daily build of media_tree:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-date:			Sat Jun  8 05:00:11 CEST 2019
-media-tree git hash:	edadd68031e5b7c1ba0c413a9549dce62a02844c
-media_build git hash:	d121a2bedf6dd541c6182041142ec54fd94760ab
-v4l-utils git hash:	e8c9709f2dafe53f298cf929266ad45263993403
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ab60faba4750d45cb22a911605a15707de0c01ed
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+-Kees
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 6
-sparse: OK
-smatch: WARNINGS
+> ---
+>  arch/arm64/include/asm/uaccess.h | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+> index e5d5f31c6d36..9164ecb5feca 100644
+> --- a/arch/arm64/include/asm/uaccess.h
+> +++ b/arch/arm64/include/asm/uaccess.h
+> @@ -94,7 +94,7 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+>  	return ret;
+>  }
+>  
+> -#define access_ok(addr, size)	__range_ok(addr, size)
+> +#define access_ok(addr, size)	__range_ok(untagged_addr(addr), size)
+>  #define user_addr_max			get_fs
+>  
+>  #define _ASM_EXTABLE(from, to)						\
+> @@ -226,7 +226,8 @@ static inline void uaccess_enable_not_uao(void)
+>  
+>  /*
+>   * Sanitise a uaccess pointer such that it becomes NULL if above the
+> - * current addr_limit.
+> + * current addr_limit. In case the pointer is tagged (has the top byte set),
+> + * untag the pointer before checking.
+>   */
+>  #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
+>  static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+> @@ -234,10 +235,11 @@ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+>  	void __user *safe_ptr;
+>  
+>  	asm volatile(
+> -	"	bics	xzr, %1, %2\n"
+> +	"	bics	xzr, %3, %2\n"
+>  	"	csel	%0, %1, xzr, eq\n"
+>  	: "=&r" (safe_ptr)
+> -	: "r" (ptr), "r" (current_thread_info()->addr_limit)
+> +	: "r" (ptr), "r" (current_thread_info()->addr_limit),
+> +	  "r" (untagged_addr(ptr))
+>  	: "cc");
+>  
+>  	csdb();
+> -- 
+> 2.22.0.rc1.311.g5d7573a151-goog
+> 
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Kees Cook
