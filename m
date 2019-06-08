@@ -2,112 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E4339A34
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 05:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3661539A57
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 05:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729925AbfFHDYd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 23:24:33 -0400
-Received: from jp.dhs.org ([62.251.46.73]:40400 "EHLO jp.jpvw.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729815AbfFHDYc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 Jun 2019 23:24:32 -0400
-X-Greylist: delayed 2106 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 23:24:32 EDT
-Received: from localhost ([::1])
-        by jp.jpvw.nl with esmtp (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hZRQ4-0005Se-0y; Sat, 08 Jun 2019 04:49:24 +0200
-To:     linux-media@vger.kernel.org
-From:   JP <jp@jpvw.nl>
-Subject: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
- version 2
-Cc:     Jan Pieter <raslal@live.com>
-Message-ID: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
-Date:   Sat, 8 Jun 2019 04:49:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1730381AbfFHDsK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 23:48:10 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35078 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730257AbfFHDsK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 23:48:10 -0400
+Received: by mail-pl1-f196.google.com with SMTP id p1so1538789plo.2
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2019 20:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RNlIE7RpVdU5f0iicQk2k5+1DUNsXJMHiELoWiOeeG4=;
+        b=D3MmOWnYob5UGtglFoMh75eVVkGVzLzcVT66trF4Vmsjdvy86taKH6QFas2mfzRzwj
+         M8+OanNKrPI4fOGoGPo9/Uo5q+LH1LQX0K1IVkP72ijXTjagsPaUUaKA337dIrVp0dDF
+         lHdVQs6LUPfUrx+oo7yXpxf993QJ3yfDpOh+8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RNlIE7RpVdU5f0iicQk2k5+1DUNsXJMHiELoWiOeeG4=;
+        b=Z/YB6li2/oKs7iKD9hGj/57BnMfyuUPaqsEw0JEhG52hJvwc6Er1im3HvwTXiDssCd
+         iTXFTiX6dVai38LtxgXh6t6mO5fX8U0xRbXHUcsdJVQJjReNI4dFn67BkMoOxfdnR+Bh
+         K5F2tBtqlW+SAHel9u2p+CYkIVlR428kvusa2xSuIkQgHbXEcCB9gEDQJ3+enwjsryxU
+         +yj+gf0+OpVGN8DNGAgUNn1THGbWciOdL6UNO6deICJ2lK9S+tdwBCVph+sY+nRFfKi5
+         GbaaF2J42Skw4hN2UVvw2s1IHEk0c+uvnb1Bp+EuctpLBZop9P4ZpWDzgKPc4zhRb55U
+         scfA==
+X-Gm-Message-State: APjAAAWveBzIurn2DhjUqgkU3YqrkK5+hC+eGm6ArKOTYB+axbysXKPs
+        5nwvHwAIgIRNXxRsgChhY+gkcg==
+X-Google-Smtp-Source: APXvYqzUHOb4VtJencGcx41aqOHHoNwcDiffGcfqaDDdYTWrPV9XhElqMpS0fUjS81CjEO5luRHFeQ==
+X-Received: by 2002:a17:902:d916:: with SMTP id c22mr34327398plz.195.1559965689632;
+        Fri, 07 Jun 2019 20:48:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id l13sm3156889pjq.20.2019.06.07.20.48.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 07 Jun 2019 20:48:08 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 20:48:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v16 03/16] lib, arm64: untag user pointers in strn*_user
+Message-ID: <201906072047.50371DBE2@keescook>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <14f17ef1902aa4f07a39f96879394e718a1f5dc1.1559580831.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14f17ef1902aa4f07a39f96879394e718a1f5dc1.1559580831.git.andreyknvl@google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
+On Mon, Jun 03, 2019 at 06:55:05PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> strncpy_from_user and strnlen_user accept user addresses as arguments, and
+> do not go through the same path as copy_from_user and others, so here we
+> need to handle the case of tagged user addresses separately.
+> 
+> Untag user pointers passed to these functions.
+> 
+> Note, that this patch only temporarily untags the pointers to perform
+> validity checks, but then uses them as is to perform user memory accesses.
+> 
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-how to submit this. http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
+Acked-by: Kees Cook <keescook@chromium.org>
 
+-Kees
 
-Please can someone help me out. It looks like the extra code in the
+> ---
+>  lib/strncpy_from_user.c | 3 ++-
+>  lib/strnlen_user.c      | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+> index 023ba9f3b99f..dccb95af6003 100644
+> --- a/lib/strncpy_from_user.c
+> +++ b/lib/strncpy_from_user.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/uaccess.h>
+>  #include <linux/kernel.h>
+>  #include <linux/errno.h>
+> +#include <linux/mm.h>
+>  
+>  #include <asm/byteorder.h>
+>  #include <asm/word-at-a-time.h>
+> @@ -108,7 +109,7 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+>  		return 0;
+>  
+>  	max_addr = user_addr_max();
+> -	src_addr = (unsigned long)src;
+> +	src_addr = (unsigned long)untagged_addr(src);
+>  	if (likely(src_addr < max_addr)) {
+>  		unsigned long max = max_addr - src_addr;
+>  		long retval;
+> diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
+> index 7f2db3fe311f..28ff554a1be8 100644
+> --- a/lib/strnlen_user.c
+> +++ b/lib/strnlen_user.c
+> @@ -2,6 +2,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/export.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/mm.h>
+>  
+>  #include <asm/word-at-a-time.h>
+>  
+> @@ -109,7 +110,7 @@ long strnlen_user(const char __user *str, long count)
+>  		return 0;
+>  
+>  	max_addr = user_addr_max();
+> -	src_addr = (unsigned long)str;
+> +	src_addr = (unsigned long)untagged_addr(str);
+>  	if (likely(src_addr < max_addr)) {
+>  		unsigned long max = max_addr - src_addr;
+>  		long retval;
+> -- 
+> 2.22.0.rc1.311.g5d7573a151-goog
+> 
 
-demodulator does not effect other drivers that use it. Tested with a
-
-T230, they bothseem to work OK.
-
-
-Jan Pieter van Woerkom
-
-
-
-diff -ru a/drivers/media/dvb-frontends/si2168.c 
-b/drivers/media/dvb-frontends/si2168.c
---- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 
-07:59:45.000000000 +0200
-+++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 
-22:49:21.226337473 +0200
-@@ -91,8 +91,16 @@
-
-      dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
-
-+    /* set ts clock freq to 10Mhz */
-+       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
-+    cmd.wlen = 6;
-+    cmd.rlen = 4;
-+    ret = si2168_cmd_execute(client, &cmd);
-+    if (ret) return ret;
-+
-      /* set TS_MODE property */
--    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-+    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
-+    cmd.args[4] = dev->ts_mode & 0x30;
-      if (acquire)
-          cmd.args[4] |= dev->ts_mode;
-      else
-diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c 
-b/drivers/media/usb/dvb-usb-v2/dvbsky.c
---- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 
-07:59:45.000000000 +0200
-+++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 
-16:47:32.141530489 +0200
-@@ -560,6 +560,9 @@
-      si2168_config.i2c_adapter = &i2c_adapter;
-      si2168_config.fe = &adap->fe[0];
-      si2168_config.ts_mode = SI2168_TS_PARALLEL;
-+    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
-+        si2168_config.ts_mode |= 0x20;
-      si2168_config.ts_clock_inv = 1;
-
-      state->i2c_client_demod = dvb_module_probe("si2168", NULL,
-@@ -799,6 +802,9 @@
-      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
-          &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
-          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
-+    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
-+        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
-+        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
-      { }
-  };
-  MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
-diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
---- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 +0200
-+++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 +0200
-@@ -387,6 +387,7 @@
-  #define USB_PID_MYGICA_D689                0xd811
-  #define USB_PID_MYGICA_T230                0xc688
-  #define USB_PID_MYGICA_T230C                0xc689
-+#define USB_PID_MYGICA_T230C2                0xc68a
-  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
-  #define USB_PID_ELGATO_EYETV_DTT            0x0021
-  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
-
+-- 
+Kees Cook
