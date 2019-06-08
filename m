@@ -2,1285 +2,1126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D09D39F6B
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 14:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D0D839FAF
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 14:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727151AbfFHMF1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jun 2019 08:05:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46808 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726883AbfFHMF1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 8 Jun 2019 08:05:27 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3D8E2168B;
-        Sat,  8 Jun 2019 12:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559995521;
-        bh=8EB65gjVyXQY31KIqAaVAvtkAVzYIQCfHOeErw19JrQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Gk8JfdTtT6WuAn4MK2D77Ajdg1YwoS3ZNMAmkr2qLLWmGbKbymgCYb3eIj7rVoRlK
-         9cc2RmpnaipZ4/CEKABwpkCvMIsa8083HHvf72SVQsWn5o4zDXMaNuWemJwWZCwMqf
-         Cks0VTEz4syAJ5Bl/xjBzUdOLtia6RHae83qi16U=
-Date:   Sat, 8 Jun 2019 13:05:10 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        dtor@chromium.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        alsa-devel@alsa-project.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-iio@vger.kernel.org,
-        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-i2c@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Brian Norris <briannorris@chromium.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        linux-pm@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        Takashi Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Evan Green <evgreen@chromium.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kees Cook <keescook@chromium.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        Mark Brown <broonie@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: [PATCH 06/10] mfd / platform: cros_ec: Reorganize platform and
- mfd includes
-Message-ID: <20190608130510.63c88de3@archlinux>
-In-Reply-To: <20190604152019.16100-7-enric.balletbo@collabora.com>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
-        <20190604152019.16100-7-enric.balletbo@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726984AbfFHMi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jun 2019 08:38:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39166 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbfFHMi2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jun 2019 08:38:28 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0A8A5D
+        for <linux-media@vger.kernel.org>; Sat,  8 Jun 2019 14:38:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1559997504;
+        bh=fGrUQevCgzIMwZznQr1OnfeuBZlsE2arAGIVXq8Yub4=;
+        h=From:To:Subject:Date:From;
+        b=jc3jXno2wdsrbgrSMJmRiIbIMz46t8T7IwyZ0Pw7nF4xywVux2oq7r2I0dsIMjytO
+         ccyFZ8iCPqf++6TG6m7vDrtPC1+m9BQ9k3PGYY+3MdhSzIMBoNitD72iEgZ4SlI8XU
+         s91y2VJNgB/Lkk7S90spr28xr12gTCiy+HHuZTvk=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: vb2: Print the queue pointer in debug messages
+Date:   Sat,  8 Jun 2019 15:38:04 +0300
+Message-Id: <20190608123804.15983-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue,  4 Jun 2019 17:20:15 +0200
-Enric Balletbo i Serra <enric.balletbo@collabora.com> wrote:
+When debugging issues that involve more than one video queue, messages
+related to multiple queues get interleaved without any easy way to tell
+which queue they relate to. Fix this by printing the queue pointer for
+all debug messages in the vb2 core and V4L2 layers.
 
-> There is a bit of mess between cros-ec mfd includes and platform
-> includes. For example, we have a linux/mfd/cros_ec.h include that
-> exports the interface implemented in platform/chrome/cros_ec_proto.c. Or
-> we have a linux/mfd/cros_ec_commands.h file that is non related to the
-> multifunction device (in the sense that is not exporting any function of
-> the mfd device). This causes crossed includes between mfd and
-> platform/chrome subsystems and makes the code difficult to read, apart
-> from creating 'curious' situations where a platform/chrome driver includes
-> a linux/mfd/cros_ec.h file just to get the exported functions that are
-> implemented in another platform/chrome driver.
-> 
-> In order to have a better separation on what the cros-ec multifunction
-> driver does and what the cros-ec core provides move and rework the
-> affected includes doing:
-> 
->  - Move cros_ec_commands.h to include/linux/platform_data/cros_ec_commands.h
->  - Get rid of the parts that are implemented in the platform/chrome/cros_ec_proto.c
->    driver from include/linux/mfd/cros_ec.h to a new file
->    include/linux/platform_data/cros_ec_proto.h
->  - Update all the drivers with the new includes, so
->    - Drivers that only need to know about the protocol include
->      - linux/platform_data/cros_ec_proto.h
->      - linux/platform_data/cros_ec_commands.h
->    - Drivers that need to know about the cros-ec mfd device also include
->      - linux/mfd/cros_ec.h
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> # for iio parts
-> ---
-> 
->  drivers/extcon/extcon-usbc-cros-ec.c          |   3 +-
->  drivers/hid/hid-google-hammer.c               |   4 +-
->  drivers/i2c/busses/i2c-cros-ec-tunnel.c       |   4 +-
->  drivers/iio/accel/cros_ec_accel_legacy.c      |   3 +-
->  .../common/cros_ec_sensors/cros_ec_sensors.c  |   3 +-
->  .../cros_ec_sensors/cros_ec_sensors_core.c    |   3 +-
->  drivers/iio/light/cros_ec_light_prox.c        |   3 +-
->  drivers/iio/pressure/cros_ec_baro.c           |   3 +-
->  drivers/input/keyboard/cros_ec_keyb.c         |   4 +-
->  .../media/platform/cros-ec-cec/cros-ec-cec.c  |   4 +-
->  drivers/mfd/cros_ec_dev.c                     |   3 +-
->  drivers/platform/chrome/cros_ec.c             |   3 +-
->  drivers/platform/chrome/cros_ec_chardev.c     |   4 +-
->  drivers/platform/chrome/cros_ec_debugfs.c     |   3 +-
->  drivers/platform/chrome/cros_ec_i2c.c         |   4 +-
->  drivers/platform/chrome/cros_ec_lightbar.c    |   3 +-
->  drivers/platform/chrome/cros_ec_lpc.c         |   4 +-
->  drivers/platform/chrome/cros_ec_lpc_reg.c     |   4 +-
->  drivers/platform/chrome/cros_ec_proto.c       |   3 +-
->  drivers/platform/chrome/cros_ec_rpmsg.c       |   4 +-
->  drivers/platform/chrome/cros_ec_spi.c         |   4 +-
->  drivers/platform/chrome/cros_ec_sysfs.c       |   3 +-
->  drivers/platform/chrome/cros_ec_trace.c       |   2 +-
->  drivers/platform/chrome/cros_ec_trace.h       |   4 +-
->  drivers/platform/chrome/cros_ec_vbc.c         |   3 +-
->  drivers/platform/chrome/cros_usbpd_logger.c   |   5 +-
->  drivers/power/supply/cros_usbpd-charger.c     |   5 +-
->  drivers/pwm/pwm-cros-ec.c                     |   4 +-
->  drivers/rtc/rtc-cros-ec.c                     |   3 +-
->  .../linux/iio/common/cros_ec_sensors_core.h   |   3 +-
->  include/linux/mfd/cros_ec.h                   | 306 -----------------
->  .../{mfd => platform_data}/cros_ec_commands.h |   0
->  include/linux/platform_data/cros_ec_proto.h   | 315 ++++++++++++++++++
->  sound/soc/codecs/cros_ec_codec.c              |   4 +-
->  34 files changed, 379 insertions(+), 351 deletions(-)
->  rename include/linux/{mfd => platform_data}/cros_ec_commands.h (100%)
->  create mode 100644 include/linux/platform_data/cros_ec_proto.h
-> 
-> diff --git a/drivers/extcon/extcon-usbc-cros-ec.c b/drivers/extcon/extcon-usbc-cros-ec.c
-> index 43c0a936ab82..5290cc2d19d9 100644
-> --- a/drivers/extcon/extcon-usbc-cros-ec.c
-> +++ b/drivers/extcon/extcon-usbc-cros-ec.c
-> @@ -6,10 +6,11 @@
->  
->  #include <linux/extcon-provider.h>
->  #include <linux/kernel.h>
-> -#include <linux/mfd/cros_ec.h>
->  #include <linux/module.h>
->  #include <linux/notifier.h>
->  #include <linux/of.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/sched.h>
-> diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-> index ee5e0bdcf078..84f8c127ebdc 100644
-> --- a/drivers/hid/hid-google-hammer.c
-> +++ b/drivers/hid/hid-google-hammer.c
-> @@ -16,9 +16,9 @@
->  #include <linux/acpi.h>
->  #include <linux/hid.h>
->  #include <linux/leds.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_wakeup.h>
->  #include <asm/unaligned.h>
-> diff --git a/drivers/i2c/busses/i2c-cros-ec-tunnel.c b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-> index 82bcd9a78759..c551aa96a2e3 100644
-> --- a/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-> +++ b/drivers/i2c/busses/i2c-cros-ec-tunnel.c
-> @@ -5,8 +5,8 @@
->  
->  #include <linux/module.h>
->  #include <linux/i2c.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  
-> diff --git a/drivers/iio/accel/cros_ec_accel_legacy.c b/drivers/iio/accel/cros_ec_accel_legacy.c
-> index 46bb2e421bb9..fd9a634f741e 100644
-> --- a/drivers/iio/accel/cros_ec_accel_legacy.c
-> +++ b/drivers/iio/accel/cros_ec_accel_legacy.c
-> @@ -18,9 +18,10 @@
->  #include <linux/iio/triggered_buffer.h>
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  
->  #define DRV_NAME	"cros-ec-accel-legacy"
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-> index 17af4e0fd5f8..40dc24ff0ee5 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors.c
-> @@ -17,8 +17,9 @@
->  #include <linux/iio/triggered_buffer.h>
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  
-> diff --git a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> index 719a0df5aeeb..fd63315399ac 100644
-> --- a/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> +++ b/drivers/iio/common/cros_ec_sensors/cros_ec_sensors_core.c
-> @@ -14,9 +14,10 @@
->  #include <linux/iio/trigger_consumer.h>
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  
->  static char *cros_ec_loc[] = {
-> diff --git a/drivers/iio/light/cros_ec_light_prox.c b/drivers/iio/light/cros_ec_light_prox.c
-> index 308ee6ff2e22..437e0eae9178 100644
-> --- a/drivers/iio/light/cros_ec_light_prox.c
-> +++ b/drivers/iio/light/cros_ec_light_prox.c
-> @@ -15,8 +15,9 @@
->  #include <linux/iio/trigger_consumer.h>
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  
-> diff --git a/drivers/iio/pressure/cros_ec_baro.c b/drivers/iio/pressure/cros_ec_baro.c
-> index 034ce98d6e97..956dc01f1295 100644
-> --- a/drivers/iio/pressure/cros_ec_baro.c
-> +++ b/drivers/iio/pressure/cros_ec_baro.c
-> @@ -15,9 +15,10 @@
->  #include <linux/iio/trigger_consumer.h>
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  
->  /*
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index d56001181598..2b71c5a51f90 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -22,8 +22,8 @@
->  #include <linux/slab.h>
->  #include <linux/sysrq.h>
->  #include <linux/input/matrix_keypad.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  
->  #include <asm/unaligned.h>
->  
-> diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> index 068df9888dbf..2e4e263a4a94 100644
-> --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-> @@ -16,8 +16,8 @@
->  #include <linux/interrupt.h>
->  #include <media/cec.h>
->  #include <media/cec-notifier.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  
->  #define DRV_NAME	"cros-ec-cec"
->  
-> diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-> index c7a5dfa36874..5481df4e1216 100644
-> --- a/drivers/mfd/cros_ec_dev.c
-> +++ b/drivers/mfd/cros_ec_dev.c
-> @@ -7,11 +7,12 @@
->  
->  #include <linux/mfd/core.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
->  #include <linux/mod_devicetable.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/slab.h>
->  
->  #define DRV_NAME "cros-ec-dev"
-> diff --git a/drivers/platform/chrome/cros_ec.c b/drivers/platform/chrome/cros_ec.c
-> index 11fced7917fc..9800597ccd96 100644
-> --- a/drivers/platform/chrome/cros_ec.c
-> +++ b/drivers/platform/chrome/cros_ec.c
-> @@ -21,7 +21,8 @@
->  #include <linux/interrupt.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> -#include <linux/mfd/cros_ec.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/suspend.h>
->  #include <asm/unaligned.h>
->  
-> diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-> index 1a0a27080026..786b941a60df 100644
-> --- a/drivers/platform/chrome/cros_ec_chardev.c
-> +++ b/drivers/platform/chrome/cros_ec_chardev.c
-> @@ -9,10 +9,10 @@
->  #include <linux/device.h>
->  #include <linux/fs.h>
->  #include <linux/list.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/miscdevice.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
-> diff --git a/drivers/platform/chrome/cros_ec_debugfs.c b/drivers/platform/chrome/cros_ec_debugfs.c
-> index 4c2a27f6a6d0..b088d91be9c9 100644
-> --- a/drivers/platform/chrome/cros_ec_debugfs.c
-> +++ b/drivers/platform/chrome/cros_ec_debugfs.c
-> @@ -8,9 +8,10 @@
->  #include <linux/delay.h>
->  #include <linux/fs.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/poll.h>
->  #include <linux/sched.h>
-> diff --git a/drivers/platform/chrome/cros_ec_i2c.c b/drivers/platform/chrome/cros_ec_i2c.c
-> index 6bb82dfa7dae..9bd97bc8454b 100644
-> --- a/drivers/platform/chrome/cros_ec_i2c.c
-> +++ b/drivers/platform/chrome/cros_ec_i2c.c
-> @@ -9,8 +9,8 @@
->  #include <linux/module.h>
->  #include <linux/i2c.h>
->  #include <linux/interrupt.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  
-> diff --git a/drivers/platform/chrome/cros_ec_lightbar.c b/drivers/platform/chrome/cros_ec_lightbar.c
-> index d30a6650b0b5..caa26da2c788 100644
-> --- a/drivers/platform/chrome/cros_ec_lightbar.c
-> +++ b/drivers/platform/chrome/cros_ec_lightbar.c
-> @@ -9,8 +9,9 @@
->  #include <linux/fs.h>
->  #include <linux/kobject.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/sched.h>
->  #include <linux/types.h>
-> diff --git a/drivers/platform/chrome/cros_ec_lpc.c b/drivers/platform/chrome/cros_ec_lpc.c
-> index 2c7e654cf89c..0c976e95998a 100644
-> --- a/drivers/platform/chrome/cros_ec_lpc.c
-> +++ b/drivers/platform/chrome/cros_ec_lpc.c
-> @@ -16,9 +16,9 @@
->  #include <linux/delay.h>
->  #include <linux/io.h>
->  #include <linux/interrupt.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/printk.h>
->  #include <linux/suspend.h>
-> diff --git a/drivers/platform/chrome/cros_ec_lpc_reg.c b/drivers/platform/chrome/cros_ec_lpc_reg.c
-> index 0f5cd0ac8b49..dec9a779e209 100644
-> --- a/drivers/platform/chrome/cros_ec_lpc_reg.c
-> +++ b/drivers/platform/chrome/cros_ec_lpc_reg.c
-> @@ -4,8 +4,8 @@
->  // Copyright (C) 2016 Google, Inc
->  
->  #include <linux/io.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  
->  #include "cros_ec_lpc_mec.h"
->  
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index 3d2325197a68..f659f96bda12 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -3,10 +3,11 @@
->  //
->  // Copyright (C) 2015 Google, Inc
->  
-> -#include <linux/mfd/cros_ec.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/slab.h>
->  #include <asm/unaligned.h>
->  
-> diff --git a/drivers/platform/chrome/cros_ec_rpmsg.c b/drivers/platform/chrome/cros_ec_rpmsg.c
-> index 520e507bfa54..9633e5417686 100644
-> --- a/drivers/platform/chrome/cros_ec_rpmsg.c
-> +++ b/drivers/platform/chrome/cros_ec_rpmsg.c
-> @@ -6,9 +6,9 @@
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/of.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/rpmsg.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/platform/chrome/cros_ec_spi.c b/drivers/platform/chrome/cros_ec_spi.c
-> index 2e21f2776063..9006e1872942 100644
-> --- a/drivers/platform/chrome/cros_ec_spi.c
-> +++ b/drivers/platform/chrome/cros_ec_spi.c
-> @@ -6,9 +6,9 @@
->  #include <linux/delay.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/of.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/spi/spi.h>
-> diff --git a/drivers/platform/chrome/cros_ec_sysfs.c b/drivers/platform/chrome/cros_ec_sysfs.c
-> index fe0b7614ae1b..0caeb8d0989d 100644
-> --- a/drivers/platform/chrome/cros_ec_sysfs.c
-> +++ b/drivers/platform/chrome/cros_ec_sysfs.c
-> @@ -9,8 +9,9 @@
->  #include <linux/fs.h>
->  #include <linux/kobject.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/printk.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/platform/chrome/cros_ec_trace.c b/drivers/platform/chrome/cros_ec_trace.c
-> index 0a76412095a9..6f80ff4532ae 100644
-> --- a/drivers/platform/chrome/cros_ec_trace.c
-> +++ b/drivers/platform/chrome/cros_ec_trace.c
-> @@ -6,7 +6,7 @@
->  #define TRACE_SYMBOL(a) {a, #a}
->  
->  // Generate the list using the following script:
-> -// sed -n 's/^#define \(EC_CMD_[[:alnum:]_]*\)\s.*/\tTRACE_SYMBOL(\1), \\/p' include/linux/mfd/cros_ec_commands.h
-> +// sed -n 's/^#define \(EC_CMD_[[:alnum:]_]*\)\s.*/\tTRACE_SYMBOL(\1), \\/p' include/linux/platform_data/cros_ec_commands.h
->  #define EC_CMDS \
->  	TRACE_SYMBOL(EC_CMD_PROTO_VERSION), \
->  	TRACE_SYMBOL(EC_CMD_HELLO), \
-> diff --git a/drivers/platform/chrome/cros_ec_trace.h b/drivers/platform/chrome/cros_ec_trace.h
-> index 7ae3b89c78b9..0dd4df30fa89 100644
-> --- a/drivers/platform/chrome/cros_ec_trace.h
-> +++ b/drivers/platform/chrome/cros_ec_trace.h
-> @@ -11,8 +11,10 @@
->  #if !defined(_CROS_EC_TRACE_H_) || defined(TRACE_HEADER_MULTI_READ)
->  #define _CROS_EC_TRACE_H_
->  
-> +#include <linux/bits.h>
->  #include <linux/types.h>
-> -#include <linux/mfd/cros_ec.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  
->  #include <linux/tracepoint.h>
->  
-> diff --git a/drivers/platform/chrome/cros_ec_vbc.c b/drivers/platform/chrome/cros_ec_vbc.c
-> index 8392a1ec33a7..cffe119e7a7a 100644
-> --- a/drivers/platform/chrome/cros_ec_vbc.c
-> +++ b/drivers/platform/chrome/cros_ec_vbc.c
-> @@ -7,8 +7,9 @@
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/slab.h>
->  
->  #define DRV_NAME "cros-ec-vbc"
-> diff --git a/drivers/platform/chrome/cros_usbpd_logger.c b/drivers/platform/chrome/cros_usbpd_logger.c
-> index 7c7b267626a0..c549a9b49b56 100644
-> --- a/drivers/platform/chrome/cros_usbpd_logger.c
-> +++ b/drivers/platform/chrome/cros_usbpd_logger.c
-> @@ -6,10 +6,11 @@
->   */
->  
->  #include <linux/ktime.h>
-> -#include <linux/math64.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/math64.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/rtc.h>
->  
-> diff --git a/drivers/power/supply/cros_usbpd-charger.c b/drivers/power/supply/cros_usbpd-charger.c
-> index 3a9ea94c3de3..6cc7c3910e09 100644
-> --- a/drivers/power/supply/cros_usbpd-charger.c
-> +++ b/drivers/power/supply/cros_usbpd-charger.c
-> @@ -5,9 +5,10 @@
->   * Copyright (c) 2014 - 2018 Google, Inc
->   */
->  
-> -#include <linux/module.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/power_supply.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-> index 98f6ac6cf6ab..85bea2d40b7d 100644
-> --- a/drivers/pwm/pwm-cros-ec.c
-> +++ b/drivers/pwm/pwm-cros-ec.c
-> @@ -6,8 +6,8 @@
->   */
->  
->  #include <linux/module.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/pwm.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/rtc/rtc-cros-ec.c b/drivers/rtc/rtc-cros-ec.c
-> index 4d6bf9304ceb..6909e01936d9 100644
-> --- a/drivers/rtc/rtc-cros-ec.c
-> +++ b/drivers/rtc/rtc-cros-ec.c
-> @@ -6,8 +6,9 @@
->  
->  #include <linux/kernel.h>
->  #include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <linux/rtc.h>
->  #include <linux/slab.h>
-> diff --git a/include/linux/iio/common/cros_ec_sensors_core.h b/include/linux/iio/common/cros_ec_sensors_core.h
-> index ce16445411ac..8a91669f5bed 100644
-> --- a/include/linux/iio/common/cros_ec_sensors_core.h
-> +++ b/include/linux/iio/common/cros_ec_sensors_core.h
-> @@ -18,7 +18,8 @@
->  
->  #include <linux/iio/iio.h>
->  #include <linux/irqreturn.h>
-> -#include <linux/mfd/cros_ec.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  
->  enum {
->  	CROS_EC_SENSOR_X,
-> diff --git a/include/linux/mfd/cros_ec.h b/include/linux/mfd/cros_ec.h
-> index 2a1372d167b9..e0bae49535e1 100644
-> --- a/include/linux/mfd/cros_ec.h
-> +++ b/include/linux/mfd/cros_ec.h
-> @@ -16,184 +16,7 @@
->  #ifndef __LINUX_MFD_CROS_EC_H
->  #define __LINUX_MFD_CROS_EC_H
->  
-> -#include <linux/cdev.h>
->  #include <linux/device.h>
-> -#include <linux/notifier.h>
-> -#include <linux/mfd/cros_ec_commands.h>
-> -#include <linux/mutex.h>
-> -
-> -#define CROS_EC_DEV_NAME "cros_ec"
-> -#define CROS_EC_DEV_FP_NAME "cros_fp"
-> -#define CROS_EC_DEV_PD_NAME "cros_pd"
-> -#define CROS_EC_DEV_TP_NAME "cros_tp"
-> -#define CROS_EC_DEV_ISH_NAME "cros_ish"
-> -
-> -/*
-> - * The EC is unresponsive for a time after a reboot command.  Add a
-> - * simple delay to make sure that the bus stays locked.
-> - */
-> -#define EC_REBOOT_DELAY_MS             50
-> -
-> -/*
-> - * Max bus-specific overhead incurred by request/responses.
-> - * I2C requires 1 additional byte for requests.
-> - * I2C requires 2 additional bytes for responses.
-> - * SPI requires up to 32 additional bytes for responses.
-> - */
-> -#define EC_PROTO_VERSION_UNKNOWN	0
-> -#define EC_MAX_REQUEST_OVERHEAD		1
-> -#define EC_MAX_RESPONSE_OVERHEAD	32
-> -
-> -/*
-> - * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
-> - */
-> -enum {
-> -	EC_MSG_TX_HEADER_BYTES	= 3,
-> -	EC_MSG_TX_TRAILER_BYTES	= 1,
-> -	EC_MSG_TX_PROTO_BYTES	= EC_MSG_TX_HEADER_BYTES +
-> -					EC_MSG_TX_TRAILER_BYTES,
-> -	EC_MSG_RX_PROTO_BYTES	= 3,
-> -
-> -	/* Max length of messages for proto 2*/
-> -	EC_PROTO2_MSG_BYTES		= EC_PROTO2_MAX_PARAM_SIZE +
-> -					EC_MSG_TX_PROTO_BYTES,
-> -
-> -	EC_MAX_MSG_BYTES		= 64 * 1024,
-> -};
-> -
-> -/**
-> - * struct cros_ec_command - Information about a ChromeOS EC command.
-> - * @version: Command version number (often 0).
-> - * @command: Command to send (EC_CMD_...).
-> - * @outsize: Outgoing length in bytes.
-> - * @insize: Max number of bytes to accept from the EC.
-> - * @result: EC's response to the command (separate from communication failure).
-> - * @data: Where to put the incoming data from EC and outgoing data to EC.
-> - */
-> -struct cros_ec_command {
-> -	uint32_t version;
-> -	uint32_t command;
-> -	uint32_t outsize;
-> -	uint32_t insize;
-> -	uint32_t result;
-> -	uint8_t data[0];
-> -};
-> -
-> -/**
-> - * struct cros_ec_device - Information about a ChromeOS EC device.
-> - * @phys_name: Name of physical comms layer (e.g. 'i2c-4').
-> - * @dev: Device pointer for physical comms device
-> - * @was_wake_device: True if this device was set to wake the system from
-> - *                   sleep at the last suspend.
-> - * @cros_class: The class structure for this device.
-> - * @cmd_readmem: Direct read of the EC memory-mapped region, if supported.
-> - *     @offset: Is within EC_LPC_ADDR_MEMMAP region.
-> - *     @bytes: Number of bytes to read. zero means "read a string" (including
-> - *             the trailing '\0'). At most only EC_MEMMAP_SIZE bytes can be
-> - *             read. Caller must ensure that the buffer is large enough for the
-> - *             result when reading a string.
-> - * @max_request: Max size of message requested.
-> - * @max_response: Max size of message response.
-> - * @max_passthru: Max sice of passthru message.
-> - * @proto_version: The protocol version used for this device.
-> - * @priv: Private data.
-> - * @irq: Interrupt to use.
-> - * @id: Device id.
-> - * @din: Input buffer (for data from EC). This buffer will always be
-> - *       dword-aligned and include enough space for up to 7 word-alignment
-> - *       bytes also, so we can ensure that the body of the message is always
-> - *       dword-aligned (64-bit). We use this alignment to keep ARM and x86
-> - *       happy. Probably word alignment would be OK, there might be a small
-> - *       performance advantage to using dword.
-> - * @dout: Output buffer (for data to EC). This buffer will always be
-> - *        dword-aligned and include enough space for up to 7 word-alignment
-> - *        bytes also, so we can ensure that the body of the message is always
-> - *        dword-aligned (64-bit). We use this alignment to keep ARM and x86
-> - *        happy. Probably word alignment would be OK, there might be a small
-> - *        performance advantage to using dword.
-> - * @din_size: Size of din buffer to allocate (zero to use static din).
-> - * @dout_size: Size of dout buffer to allocate (zero to use static dout).
-> - * @wake_enabled: True if this device can wake the system from sleep.
-> - * @suspended: True if this device had been suspended.
-> - * @cmd_xfer: Send command to EC and get response.
-> - *            Returns the number of bytes received if the communication
-> - *            succeeded, but that doesn't mean the EC was happy with the
-> - *            command. The caller should check msg.result for the EC's result
-> - *            code.
-> - * @pkt_xfer: Send packet to EC and get response.
-> - * @lock: One transaction at a time.
-> - * @mkbp_event_supported: True if this EC supports the MKBP event protocol.
-> - * @host_sleep_v1: True if this EC supports the sleep v1 command.
-> - * @event_notifier: Interrupt event notifier for transport devices.
-> - * @event_data: Raw payload transferred with the MKBP event.
-> - * @event_size: Size in bytes of the event data.
-> - * @host_event_wake_mask: Mask of host events that cause wake from suspend.
-> - * @ec: The platform_device used by the mfd driver to interface with the
-> - *      main EC.
-> - * @pd: The platform_device used by the mfd driver to interface with the
-> - *      PD behind an EC.
-> - */
-> -struct cros_ec_device {
-> -	/* These are used by other drivers that want to talk to the EC */
-> -	const char *phys_name;
-> -	struct device *dev;
-> -	bool was_wake_device;
-> -	struct class *cros_class;
-> -	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
-> -			   unsigned int bytes, void *dest);
-> -
-> -	/* These are used to implement the platform-specific interface */
-> -	u16 max_request;
-> -	u16 max_response;
-> -	u16 max_passthru;
-> -	u16 proto_version;
-> -	void *priv;
-> -	int irq;
-> -	u8 *din;
-> -	u8 *dout;
-> -	int din_size;
-> -	int dout_size;
-> -	bool wake_enabled;
-> -	bool suspended;
-> -	int (*cmd_xfer)(struct cros_ec_device *ec,
-> -			struct cros_ec_command *msg);
-> -	int (*pkt_xfer)(struct cros_ec_device *ec,
-> -			struct cros_ec_command *msg);
-> -	struct mutex lock;
-> -	bool mkbp_event_supported;
-> -	bool host_sleep_v1;
-> -	struct blocking_notifier_head event_notifier;
-> -
-> -	struct ec_response_get_next_event_v1 event_data;
-> -	int event_size;
-> -	u32 host_event_wake_mask;
-> -
-> -	/* The platform devices used by the mfd driver */
-> -	struct platform_device *ec;
-> -	struct platform_device *pd;
-> -};
-> -
-> -/**
-> - * struct cros_ec_sensor_platform - ChromeOS EC sensor platform information.
-> - * @sensor_num: Id of the sensor, as reported by the EC.
-> - */
-> -struct cros_ec_sensor_platform {
-> -	u8 sensor_num;
-> -};
-> -
-> -/**
-> - * struct cros_ec_platform - ChromeOS EC platform information.
-> - * @ec_name: Name of EC device (e.g. 'cros-ec', 'cros-pd', ...)
-> - *           used in /dev/ and sysfs.
-> - * @cmd_offset: Offset to apply for each command. Set when
-> - *              registering a device behind another one.
-> - */
-> -struct cros_ec_platform {
-> -	const char *ec_name;
-> -	u16 cmd_offset;
-> -};
-> -
-> -struct cros_ec_debugfs;
->  
->  /**
->   * struct cros_ec_dev - ChromeOS EC device entry point.
-> @@ -217,133 +40,4 @@ struct cros_ec_dev {
->  
->  #define to_cros_ec_dev(dev)  container_of(dev, struct cros_ec_dev, class_dev)
->  
-> -/**
-> - * cros_ec_suspend() - Handle a suspend operation for the ChromeOS EC device.
-> - * @ec_dev: Device to suspend.
-> - *
-> - * This can be called by drivers to handle a suspend event.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_suspend(struct cros_ec_device *ec_dev);
-> -
-> -/**
-> - * cros_ec_resume() - Handle a resume operation for the ChromeOS EC device.
-> - * @ec_dev: Device to resume.
-> - *
-> - * This can be called by drivers to handle a resume event.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_resume(struct cros_ec_device *ec_dev);
-> -
-> -/**
-> - * cros_ec_prepare_tx() - Prepare an outgoing message in the output buffer.
-> - * @ec_dev: Device to register.
-> - * @msg: Message to write.
-> - *
-> - * This is intended to be used by all ChromeOS EC drivers, but at present
-> - * only SPI uses it. Once LPC uses the same protocol it can start using it.
-> - * I2C could use it now, with a refactor of the existing code.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_prepare_tx(struct cros_ec_device *ec_dev,
-> -		       struct cros_ec_command *msg);
-> -
-> -/**
-> - * cros_ec_check_result() - Check ec_msg->result.
-> - * @ec_dev: EC device.
-> - * @msg: Message to check.
-> - *
-> - * This is used by ChromeOS EC drivers to check the ec_msg->result for
-> - * errors and to warn about them.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_check_result(struct cros_ec_device *ec_dev,
-> -			 struct cros_ec_command *msg);
-> -
-> -/**
-> - * cros_ec_cmd_xfer() - Send a command to the ChromeOS EC.
-> - * @ec_dev: EC device.
-> - * @msg: Message to write.
-> - *
-> - * Call this to send a command to the ChromeOS EC.  This should be used
-> - * instead of calling the EC's cmd_xfer() callback directly.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
-> -		     struct cros_ec_command *msg);
-> -
-> -/**
-> - * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
-> - * @ec_dev: EC device.
-> - * @msg: Message to write.
-> - *
-> - * This function is identical to cros_ec_cmd_xfer, except it returns success
-> - * status only if both the command was transmitted successfully and the EC
-> - * replied with success status. It's not necessary to check msg->result when
-> - * using this function.
-> - *
-> - * Return: The number of bytes transferred on success or negative error code.
-> - */
-> -int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
-> -			    struct cros_ec_command *msg);
-> -
-> -/**
-> - * cros_ec_register() - Register a new ChromeOS EC, using the provided info.
-> - * @ec_dev: Device to register.
-> - *
-> - * Before calling this, allocate a pointer to a new device and then fill
-> - * in all the fields up to the --private-- marker.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_register(struct cros_ec_device *ec_dev);
-> -
-> -/**
-> - * cros_ec_unregister() - Remove a ChromeOS EC.
-> - * @ec_dev: Device to unregister.
-> - *
-> - * Call this to deregister a ChromeOS EC, then clean up any private data.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_unregister(struct cros_ec_device *ec_dev);
-> -
-> -/**
-> - * cros_ec_query_all() -  Query the protocol version supported by the
-> - *         ChromeOS EC.
-> - * @ec_dev: Device to register.
-> - *
-> - * Return: 0 on success or negative error code.
-> - */
-> -int cros_ec_query_all(struct cros_ec_device *ec_dev);
-> -
-> -/**
-> - * cros_ec_get_next_event() - Fetch next event from the ChromeOS EC.
-> - * @ec_dev: Device to fetch event from.
-> - * @wake_event: Pointer to a bool set to true upon return if the event might be
-> - *              treated as a wake event. Ignored if null.
-> - *
-> - * Return: negative error code on errors; 0 for no data; or else number of
-> - * bytes received (i.e., an event was retrieved successfully). Event types are
-> - * written out to @ec_dev->event_data.event_type on success.
-> - */
-> -int cros_ec_get_next_event(struct cros_ec_device *ec_dev, bool *wake_event);
-> -
-> -/**
-> - * cros_ec_get_host_event() - Return a mask of event set by the ChromeOS EC.
-> - * @ec_dev: Device to fetch event from.
-> - *
-> - * When MKBP is supported, when the EC raises an interrupt, we collect the
-> - * events raised and call the functions in the ec notifier. This function
-> - * is a helper to know which events are raised.
-> - *
-> - * Return: 0 on error or non-zero bitmask of one or more EC_HOST_EVENT_*.
-> - */
-> -u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
-> -
->  #endif /* __LINUX_MFD_CROS_EC_H */
-> diff --git a/include/linux/mfd/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-> similarity index 100%
-> rename from include/linux/mfd/cros_ec_commands.h
-> rename to include/linux/platform_data/cros_ec_commands.h
-> diff --git a/include/linux/platform_data/cros_ec_proto.h b/include/linux/platform_data/cros_ec_proto.h
-> new file mode 100644
-> index 000000000000..34dd9e5c1779
-> --- /dev/null
-> +++ b/include/linux/platform_data/cros_ec_proto.h
-> @@ -0,0 +1,315 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * ChromeOS Embedded Controller protocol interface.
-> + *
-> + * Copyright (C) 2012 Google, Inc
-> + */
-> +
-> +#ifndef __LINUX_CROS_EC_PROTO_H
-> +#define __LINUX_CROS_EC_PROTO_H
-> +
-> +#include <linux/device.h>
-> +#include <linux/mutex.h>
-> +#include <linux/notifier.h>
-> +
-> +#define CROS_EC_DEV_NAME	"cros_ec"
-> +#define CROS_EC_DEV_FP_NAME	"cros_fp"
-> +#define CROS_EC_DEV_ISH_NAME	"cros_ish"
-> +#define CROS_EC_DEV_PD_NAME	"cros_pd"
-> +#define CROS_EC_DEV_TP_NAME	"cros_tp"
-> +
-> +/*
-> + * The EC is unresponsive for a time after a reboot command.  Add a
-> + * simple delay to make sure that the bus stays locked.
-> + */
-> +#define EC_REBOOT_DELAY_MS		50
-> +
-> +/*
-> + * Max bus-specific overhead incurred by request/responses.
-> + * I2C requires 1 additional byte for requests.
-> + * I2C requires 2 additional bytes for responses.
-> + * SPI requires up to 32 additional bytes for responses.
-> + */
-> +#define EC_PROTO_VERSION_UNKNOWN	0
-> +#define EC_MAX_REQUEST_OVERHEAD		1
-> +#define EC_MAX_RESPONSE_OVERHEAD	32
-> +
-> +/*
-> + * Command interface between EC and AP, for LPC, I2C and SPI interfaces.
-> + */
-> +enum {
-> +	EC_MSG_TX_HEADER_BYTES	= 3,
-> +	EC_MSG_TX_TRAILER_BYTES	= 1,
-> +	EC_MSG_TX_PROTO_BYTES	= EC_MSG_TX_HEADER_BYTES +
-> +				  EC_MSG_TX_TRAILER_BYTES,
-> +	EC_MSG_RX_PROTO_BYTES	= 3,
-> +
-> +	/* Max length of messages for proto 2*/
-> +	EC_PROTO2_MSG_BYTES	= EC_PROTO2_MAX_PARAM_SIZE +
-> +				  EC_MSG_TX_PROTO_BYTES,
-> +
-> +	EC_MAX_MSG_BYTES	= 64 * 1024,
-> +};
-> +
-> +/**
-> + * struct cros_ec_command - Information about a ChromeOS EC command.
-> + * @version: Command version number (often 0).
-> + * @command: Command to send (EC_CMD_...).
-> + * @outsize: Outgoing length in bytes.
-> + * @insize: Max number of bytes to accept from the EC.
-> + * @result: EC's response to the command (separate from communication failure).
-> + * @data: Where to put the incoming data from EC and outgoing data to EC.
-> + */
-> +struct cros_ec_command {
-> +	uint32_t version;
-> +	uint32_t command;
-> +	uint32_t outsize;
-> +	uint32_t insize;
-> +	uint32_t result;
-> +	uint8_t data[0];
-> +};
-> +
-> +/**
-> + * struct cros_ec_device - Information about a ChromeOS EC device.
-> + * @phys_name: Name of physical comms layer (e.g. 'i2c-4').
-> + * @dev: Device pointer for physical comms device
-> + * @was_wake_device: True if this device was set to wake the system from
-> + *                   sleep at the last suspend.
-> + * @cros_class: The class structure for this device.
-> + * @cmd_readmem: Direct read of the EC memory-mapped region, if supported.
-> + *     @offset: Is within EC_LPC_ADDR_MEMMAP region.
-> + *     @bytes: Number of bytes to read. zero means "read a string" (including
-> + *             the trailing '\0'). At most only EC_MEMMAP_SIZE bytes can be
-> + *             read. Caller must ensure that the buffer is large enough for the
-> + *             result when reading a string.
-> + * @max_request: Max size of message requested.
-> + * @max_response: Max size of message response.
-> + * @max_passthru: Max sice of passthru message.
-> + * @proto_version: The protocol version used for this device.
-> + * @priv: Private data.
-> + * @irq: Interrupt to use.
-> + * @id: Device id.
-> + * @din: Input buffer (for data from EC). This buffer will always be
-> + *       dword-aligned and include enough space for up to 7 word-alignment
-> + *       bytes also, so we can ensure that the body of the message is always
-> + *       dword-aligned (64-bit). We use this alignment to keep ARM and x86
-> + *       happy. Probably word alignment would be OK, there might be a small
-> + *       performance advantage to using dword.
-> + * @dout: Output buffer (for data to EC). This buffer will always be
-> + *        dword-aligned and include enough space for up to 7 word-alignment
-> + *        bytes also, so we can ensure that the body of the message is always
-> + *        dword-aligned (64-bit). We use this alignment to keep ARM and x86
-> + *        happy. Probably word alignment would be OK, there might be a small
-> + *        performance advantage to using dword.
-> + * @din_size: Size of din buffer to allocate (zero to use static din).
-> + * @dout_size: Size of dout buffer to allocate (zero to use static dout).
-> + * @wake_enabled: True if this device can wake the system from sleep.
-> + * @suspended: True if this device had been suspended.
-> + * @cmd_xfer: Send command to EC and get response.
-> + *            Returns the number of bytes received if the communication
-> + *            succeeded, but that doesn't mean the EC was happy with the
-> + *            command. The caller should check msg.result for the EC's result
-> + *            code.
-> + * @pkt_xfer: Send packet to EC and get response.
-> + * @lock: One transaction at a time.
-> + * @mkbp_event_supported: True if this EC supports the MKBP event protocol.
-> + * @host_sleep_v1: True if this EC supports the sleep v1 command.
-> + * @event_notifier: Interrupt event notifier for transport devices.
-> + * @event_data: Raw payload transferred with the MKBP event.
-> + * @event_size: Size in bytes of the event data.
-> + * @host_event_wake_mask: Mask of host events that cause wake from suspend.
-> + * @ec: The platform_device used by the mfd driver to interface with the
-> + *      main EC.
-> + * @pd: The platform_device used by the mfd driver to interface with the
-> + *      PD behind an EC.
-> + */
-> +struct cros_ec_device {
-> +	/* These are used by other drivers that want to talk to the EC */
-> +	const char *phys_name;
-> +	struct device *dev;
-> +	bool was_wake_device;
-> +	struct class *cros_class;
-> +	int (*cmd_readmem)(struct cros_ec_device *ec, unsigned int offset,
-> +			   unsigned int bytes, void *dest);
-> +
-> +	/* These are used to implement the platform-specific interface */
-> +	u16 max_request;
-> +	u16 max_response;
-> +	u16 max_passthru;
-> +	u16 proto_version;
-> +	void *priv;
-> +	int irq;
-> +	u8 *din;
-> +	u8 *dout;
-> +	int din_size;
-> +	int dout_size;
-> +	bool wake_enabled;
-> +	bool suspended;
-> +	int (*cmd_xfer)(struct cros_ec_device *ec,
-> +			struct cros_ec_command *msg);
-> +	int (*pkt_xfer)(struct cros_ec_device *ec,
-> +			struct cros_ec_command *msg);
-> +	struct mutex lock;
-> +	bool mkbp_event_supported;
-> +	bool host_sleep_v1;
-> +	struct blocking_notifier_head event_notifier;
-> +
-> +	struct ec_response_get_next_event_v1 event_data;
-> +	int event_size;
-> +	u32 host_event_wake_mask;
-> +
-> +	/* The platform devices used by the mfd driver */
-> +	struct platform_device *ec;
-> +	struct platform_device *pd;
-> +};
-> +
-> +/**
-> + * struct cros_ec_sensor_platform - ChromeOS EC sensor platform information.
-> + * @sensor_num: Id of the sensor, as reported by the EC.
-> + */
-> +struct cros_ec_sensor_platform {
-> +	u8 sensor_num;
-> +};
-> +
-> +/**
-> + * struct cros_ec_platform - ChromeOS EC platform information.
-> + * @ec_name: Name of EC device (e.g. 'cros-ec', 'cros-pd', ...)
-> + *           used in /dev/ and sysfs.
-> + * @cmd_offset: Offset to apply for each command. Set when
-> + *              registering a device behind another one.
-> + */
-> +struct cros_ec_platform {
-> +	const char *ec_name;
-> +	u16 cmd_offset;
-> +};
-> +
-> +/**
-> + * cros_ec_suspend() - Handle a suspend operation for the ChromeOS EC device.
-> + * @ec_dev: Device to suspend.
-> + *
-> + * This can be called by drivers to handle a suspend event.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_suspend(struct cros_ec_device *ec_dev);
-> +
-> +/**
-> + * cros_ec_resume() - Handle a resume operation for the ChromeOS EC device.
-> + * @ec_dev: Device to resume.
-> + *
-> + * This can be called by drivers to handle a resume event.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_resume(struct cros_ec_device *ec_dev);
-> +
-> +/**
-> + * cros_ec_prepare_tx() - Prepare an outgoing message in the output buffer.
-> + * @ec_dev: Device to register.
-> + * @msg: Message to write.
-> + *
-> + * This is intended to be used by all ChromeOS EC drivers, but at present
-> + * only SPI uses it. Once LPC uses the same protocol it can start using it.
-> + * I2C could use it now, with a refactor of the existing code.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_prepare_tx(struct cros_ec_device *ec_dev,
-> +		       struct cros_ec_command *msg);
-> +
-> +/**
-> + * cros_ec_check_result() - Check ec_msg->result.
-> + * @ec_dev: EC device.
-> + * @msg: Message to check.
-> + *
-> + * This is used by ChromeOS EC drivers to check the ec_msg->result for
-> + * errors and to warn about them.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_check_result(struct cros_ec_device *ec_dev,
-> +			 struct cros_ec_command *msg);
-> +
-> +/**
-> + * cros_ec_cmd_xfer() - Send a command to the ChromeOS EC.
-> + * @ec_dev: EC device.
-> + * @msg: Message to write.
-> + *
-> + * Call this to send a command to the ChromeOS EC.  This should be used
-> + * instead of calling the EC's cmd_xfer() callback directly.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_cmd_xfer(struct cros_ec_device *ec_dev,
-> +		     struct cros_ec_command *msg);
-> +
-> +/**
-> + * cros_ec_cmd_xfer_status() - Send a command to the ChromeOS EC.
-> + * @ec_dev: EC device.
-> + * @msg: Message to write.
-> + *
-> + * This function is identical to cros_ec_cmd_xfer, except it returns success
-> + * status only if both the command was transmitted successfully and the EC
-> + * replied with success status. It's not necessary to check msg->result when
-> + * using this function.
-> + *
-> + * Return: The number of bytes transferred on success or negative error code.
-> + */
-> +int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
-> +			    struct cros_ec_command *msg);
-> +
-> +/**
-> + * cros_ec_register() - Register a new ChromeOS EC, using the provided info.
-> + * @ec_dev: Device to register.
-> + *
-> + * Before calling this, allocate a pointer to a new device and then fill
-> + * in all the fields up to the --private-- marker.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_register(struct cros_ec_device *ec_dev);
-> +
-> +/**
-> + * cros_ec_unregister() - Remove a ChromeOS EC.
-> + * @ec_dev: Device to unregister.
-> + *
-> + * Call this to deregister a ChromeOS EC, then clean up any private data.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_unregister(struct cros_ec_device *ec_dev);
-> +
-> +/**
-> + * cros_ec_query_all() -  Query the protocol version supported by the
-> + *         ChromeOS EC.
-> + * @ec_dev: Device to register.
-> + *
-> + * Return: 0 on success or negative error code.
-> + */
-> +int cros_ec_query_all(struct cros_ec_device *ec_dev);
-> +
-> +/**
-> + * cros_ec_get_next_event() - Fetch next event from the ChromeOS EC.
-> + * @ec_dev: Device to fetch event from.
-> + * @wake_event: Pointer to a bool set to true upon return if the event might be
-> + *              treated as a wake event. Ignored if null.
-> + *
-> + * Return: negative error code on errors; 0 for no data; or else number of
-> + * bytes received (i.e., an event was retrieved successfully). Event types are
-> + * written out to @ec_dev->event_data.event_type on success.
-> + */
-> +int cros_ec_get_next_event(struct cros_ec_device *ec_dev, bool *wake_event);
-> +
-> +/**
-> + * cros_ec_get_host_event() - Return a mask of event set by the ChromeOS EC.
-> + * @ec_dev: Device to fetch event from.
-> + *
-> + * When MKBP is supported, when the EC raises an interrupt, we collect the
-> + * events raised and call the functions in the ec notifier. This function
-> + * is a helper to know which events are raised.
-> + *
-> + * Return: 0 on error or non-zero bitmask of one or more EC_HOST_EVENT_*.
-> + */
-> +u32 cros_ec_get_host_event(struct cros_ec_device *ec_dev);
-> +
-> +#endif /* __LINUX_CROS_EC_PROTO_H */
-> diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
-> index 87830ed5ebf4..79bb4081d3c2 100644
-> --- a/sound/soc/codecs/cros_ec_codec.c
-> +++ b/sound/soc/codecs/cros_ec_codec.c
-> @@ -9,9 +9,9 @@
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/kernel.h>
-> -#include <linux/mfd/cros_ec.h>
-> -#include <linux/mfd/cros_ec_commands.h>
->  #include <linux/module.h>
-> +#include <linux/platform_data/cros_ec_commands.h>
-> +#include <linux/platform_data/cros_ec_proto.h>
->  #include <linux/platform_device.h>
->  #include <sound/pcm.h>
->  #include <sound/pcm_params.h>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Changes since v1:
+
+- Fix format specifiers in vb2 ops-related macros
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 219 +++++++++---------
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  55 ++---
+ 2 files changed, 139 insertions(+), 135 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 4489744fbbd9..05677ebdb21f 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -34,10 +34,10 @@
+ static int debug;
+ module_param(debug, int, 0644);
+ 
+-#define dprintk(level, fmt, arg...)				\
+-	do {							\
+-		if (debug >= level)				\
+-			pr_info("%s: " fmt, __func__, ## arg);	\
++#define dprintk(q, level, fmt, arg...)					\
++	do {								\
++		if (debug >= level)					\
++			pr_info("(q=%p) %s: " fmt, q, __func__, ## arg);\
+ 	} while (0)
+ 
+ #ifdef CONFIG_VIDEO_ADV_DEBUG
+@@ -51,8 +51,8 @@ module_param(debug, int, 0644);
+  */
+ 
+ #define log_memop(vb, op)						\
+-	dprintk(2, "call_memop(%p, %d, %s)%s\n",			\
+-		(vb)->vb2_queue, (vb)->index, #op,			\
++	dprintk((vb)->vb2_queue, 2, "call_memop(%d, %s)%s\n",		\
++		(vb)->index, #op,					\
+ 		(vb)->vb2_queue->mem_ops->op ? "" : " (nop)")
+ 
+ #define call_memop(vb, op, args...)					\
+@@ -90,7 +90,7 @@ module_param(debug, int, 0644);
+ })
+ 
+ #define log_qop(q, op)							\
+-	dprintk(2, "call_qop(%p, %s)%s\n", q, #op,			\
++	dprintk(q, 2, "call_qop(%s)%s\n", #op,				\
+ 		(q)->ops->op ? "" : " (nop)")
+ 
+ #define call_qop(q, op, args...)					\
+@@ -113,8 +113,8 @@ module_param(debug, int, 0644);
+ })
+ 
+ #define log_vb_qop(vb, op, args...)					\
+-	dprintk(2, "call_vb_qop(%p, %d, %s)%s\n",			\
+-		(vb)->vb2_queue, (vb)->index, #op,			\
++	dprintk((vb)->vb2_queue, 2, "call_vb_qop(%d, %s)%s\n",		\
++		(vb)->index, #op,					\
+ 		(vb)->vb2_queue->ops->op ? "" : " (nop)")
+ 
+ #define call_vb_qop(vb, op, args...)					\
+@@ -246,7 +246,8 @@ static void __vb2_buf_mem_free(struct vb2_buffer *vb)
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+ 		call_void_memop(vb, put, vb->planes[plane].mem_priv);
+ 		vb->planes[plane].mem_priv = NULL;
+-		dprintk(3, "freed plane %d of buffer %d\n", plane, vb->index);
++		dprintk(vb->vb2_queue, 3, "freed plane %d of buffer %d\n",
++			plane, vb->index);
+ 	}
+ }
+ 
+@@ -316,7 +317,7 @@ static void __setup_offsets(struct vb2_buffer *vb)
+ 	for (plane = 0; plane < vb->num_planes; ++plane) {
+ 		vb->planes[plane].m.offset = off;
+ 
+-		dprintk(3, "buffer %d, plane %d offset 0x%08lx\n",
++		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
+ 				vb->index, plane, off);
+ 
+ 		off += vb->planes[plane].length;
+@@ -347,7 +348,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 		/* Allocate videobuf buffer structures */
+ 		vb = kzalloc(q->buf_struct_size, GFP_KERNEL);
+ 		if (!vb) {
+-			dprintk(1, "memory alloc for buffer struct failed\n");
++			dprintk(q, 1, "memory alloc for buffer struct failed\n");
+ 			break;
+ 		}
+ 
+@@ -369,7 +370,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 		if (memory == VB2_MEMORY_MMAP) {
+ 			ret = __vb2_buf_mem_alloc(vb);
+ 			if (ret) {
+-				dprintk(1, "failed allocating memory for buffer %d\n",
++				dprintk(q, 1, "failed allocating memory for buffer %d\n",
+ 					buffer);
+ 				q->bufs[vb->index] = NULL;
+ 				kfree(vb);
+@@ -383,7 +384,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 			 */
+ 			ret = call_vb_qop(vb, buf_init, vb);
+ 			if (ret) {
+-				dprintk(1, "buffer %d %p initialization failed\n",
++				dprintk(q, 1, "buffer %d %p initialization failed\n",
+ 					buffer, vb);
+ 				__vb2_buf_mem_free(vb);
+ 				q->bufs[vb->index] = NULL;
+@@ -393,7 +394,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+ 		}
+ 	}
+ 
+-	dprintk(1, "allocated %d buffers, %d plane(s) each\n",
++	dprintk(q, 1, "allocated %d buffers, %d plane(s) each\n",
+ 			buffer, num_planes);
+ 
+ 	return buffer;
+@@ -445,7 +446,7 @@ static int __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+ 		if (q->bufs[buffer] == NULL)
+ 			continue;
+ 		if (q->bufs[buffer]->state == VB2_BUF_STATE_PREPARING) {
+-			dprintk(1, "preparing buffers, cannot free\n");
++			dprintk(q, 1, "preparing buffers, cannot free\n");
+ 			return -EAGAIN;
+ 		}
+ 	}
+@@ -623,12 +624,12 @@ int vb2_verify_memory_type(struct vb2_queue *q,
+ {
+ 	if (memory != VB2_MEMORY_MMAP && memory != VB2_MEMORY_USERPTR &&
+ 	    memory != VB2_MEMORY_DMABUF) {
+-		dprintk(1, "unsupported memory type\n");
++		dprintk(q, 1, "unsupported memory type\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (type != q->type) {
+-		dprintk(1, "requested type is incorrect\n");
++		dprintk(q, 1, "requested type is incorrect\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -637,17 +638,17 @@ int vb2_verify_memory_type(struct vb2_queue *q,
+ 	 * are available.
+ 	 */
+ 	if (memory == VB2_MEMORY_MMAP && __verify_mmap_ops(q)) {
+-		dprintk(1, "MMAP for current setup unsupported\n");
++		dprintk(q, 1, "MMAP for current setup unsupported\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (memory == VB2_MEMORY_USERPTR && __verify_userptr_ops(q)) {
+-		dprintk(1, "USERPTR for current setup unsupported\n");
++		dprintk(q, 1, "USERPTR for current setup unsupported\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (memory == VB2_MEMORY_DMABUF && __verify_dmabuf_ops(q)) {
+-		dprintk(1, "DMABUF for current setup unsupported\n");
++		dprintk(q, 1, "DMABUF for current setup unsupported\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -657,7 +658,7 @@ int vb2_verify_memory_type(struct vb2_queue *q,
+ 	 * do the memory and type validation.
+ 	 */
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 	return 0;
+@@ -673,12 +674,12 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	int ret;
+ 
+ 	if (q->streaming) {
+-		dprintk(1, "streaming active\n");
++		dprintk(q, 1, "streaming active\n");
+ 		return -EBUSY;
+ 	}
+ 
+ 	if (q->waiting_in_dqbuf && *count) {
+-		dprintk(1, "another dup()ped fd is waiting for a buffer\n");
++		dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -691,7 +692,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		mutex_lock(&q->mmap_lock);
+ 		if (debug && q->memory == VB2_MEMORY_MMAP &&
+ 		    __buffers_in_use(q))
+-			dprintk(1, "memory in use, orphaning buffers\n");
++			dprintk(q, 1, "memory in use, orphaning buffers\n");
+ 
+ 		/*
+ 		 * Call queue_cancel to clean up any buffers in the
+@@ -742,7 +743,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	allocated_buffers =
+ 		__vb2_queue_alloc(q, memory, num_buffers, num_planes, plane_sizes);
+ 	if (allocated_buffers == 0) {
+-		dprintk(1, "memory allocation failed\n");
++		dprintk(q, 1, "memory allocation failed\n");
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -812,20 +813,20 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	int ret;
+ 
+ 	if (q->num_buffers == VB2_MAX_FRAME) {
+-		dprintk(1, "maximum number of buffers already allocated\n");
++		dprintk(q, 1, "maximum number of buffers already allocated\n");
+ 		return -ENOBUFS;
+ 	}
+ 
+ 	if (!q->num_buffers) {
+ 		if (q->waiting_in_dqbuf && *count) {
+-			dprintk(1, "another dup()ped fd is waiting for a buffer\n");
++			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+ 			return -EBUSY;
+ 		}
+ 		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+ 		q->memory = memory;
+ 		q->waiting_for_buffers = !q->is_output;
+ 	} else if (q->memory != memory) {
+-		dprintk(1, "memory model mismatch\n");
++		dprintk(q, 1, "memory model mismatch\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -849,7 +850,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	allocated_buffers = __vb2_queue_alloc(q, memory, num_buffers,
+ 				num_planes, plane_sizes);
+ 	if (allocated_buffers == 0) {
+-		dprintk(1, "memory allocation failed\n");
++		dprintk(q, 1, "memory allocation failed\n");
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -939,7 +940,7 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
+ 	 */
+ 	vb->cnt_buf_done++;
+ #endif
+-	dprintk(4, "done processing on buffer %d, state: %d\n",
++	dprintk(q, 4, "done processing on buffer %d, state: %d\n",
+ 			vb->index, state);
+ 
+ 	if (state != VB2_BUF_STATE_QUEUED) {
+@@ -1029,12 +1030,12 @@ static int __prepare_userptr(struct vb2_buffer *vb)
+ 			&& vb->planes[plane].length == planes[plane].length)
+ 			continue;
+ 
+-		dprintk(3, "userspace address for plane %d changed, reacquiring memory\n",
++		dprintk(q, 3, "userspace address for plane %d changed, reacquiring memory\n",
+ 			plane);
+ 
+ 		/* Check if the provided plane buffer is large enough */
+ 		if (planes[plane].length < vb->planes[plane].min_length) {
+-			dprintk(1, "provided buffer size %u is less than setup size %u for plane %d\n",
++			dprintk(q, 1, "provided buffer size %u is less than setup size %u for plane %d\n",
+ 						planes[plane].length,
+ 						vb->planes[plane].min_length,
+ 						plane);
+@@ -1064,7 +1065,7 @@ static int __prepare_userptr(struct vb2_buffer *vb)
+ 				planes[plane].m.userptr,
+ 				planes[plane].length, q->dma_dir);
+ 		if (IS_ERR(mem_priv)) {
+-			dprintk(1, "failed acquiring userspace memory for plane %d\n",
++			dprintk(q, 1, "failed acquiring userspace memory for plane %d\n",
+ 				plane);
+ 			ret = PTR_ERR(mem_priv);
+ 			goto err;
+@@ -1091,14 +1092,14 @@ static int __prepare_userptr(struct vb2_buffer *vb)
+ 		 */
+ 		ret = call_vb_qop(vb, buf_init, vb);
+ 		if (ret) {
+-			dprintk(1, "buffer initialization failed\n");
++			dprintk(q, 1, "buffer initialization failed\n");
+ 			goto err;
+ 		}
+ 	}
+ 
+ 	ret = call_vb_qop(vb, buf_prepare, vb);
+ 	if (ret) {
+-		dprintk(1, "buffer preparation failed\n");
++		dprintk(q, 1, "buffer preparation failed\n");
+ 		call_void_vb_qop(vb, buf_cleanup, vb);
+ 		goto err;
+ 	}
+@@ -1141,7 +1142,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 		struct dma_buf *dbuf = dma_buf_get(planes[plane].m.fd);
+ 
+ 		if (IS_ERR_OR_NULL(dbuf)) {
+-			dprintk(1, "invalid dmabuf fd for plane %d\n",
++			dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
+ 				plane);
+ 			ret = -EINVAL;
+ 			goto err;
+@@ -1152,7 +1153,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 			planes[plane].length = dbuf->size;
+ 
+ 		if (planes[plane].length < vb->planes[plane].min_length) {
+-			dprintk(1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
++			dprintk(q, 1, "invalid dmabuf length %u for plane %d, minimum length %u\n",
+ 				planes[plane].length, plane,
+ 				vb->planes[plane].min_length);
+ 			dma_buf_put(dbuf);
+@@ -1167,7 +1168,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 			continue;
+ 		}
+ 
+-		dprintk(3, "buffer for plane %d changed\n", plane);
++		dprintk(q, 3, "buffer for plane %d changed\n", plane);
+ 
+ 		if (!reacquired) {
+ 			reacquired = true;
+@@ -1187,7 +1188,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 				q->alloc_devs[plane] ? : q->dev,
+ 				dbuf, planes[plane].length, q->dma_dir);
+ 		if (IS_ERR(mem_priv)) {
+-			dprintk(1, "failed to attach dmabuf\n");
++			dprintk(q, 1, "failed to attach dmabuf\n");
+ 			ret = PTR_ERR(mem_priv);
+ 			dma_buf_put(dbuf);
+ 			goto err;
+@@ -1208,7 +1209,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 
+ 		ret = call_memop(vb, map_dmabuf, vb->planes[plane].mem_priv);
+ 		if (ret) {
+-			dprintk(1, "failed to map dmabuf for plane %d\n",
++			dprintk(q, 1, "failed to map dmabuf for plane %d\n",
+ 				plane);
+ 			goto err;
+ 		}
+@@ -1233,14 +1234,14 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 		 */
+ 		ret = call_vb_qop(vb, buf_init, vb);
+ 		if (ret) {
+-			dprintk(1, "buffer initialization failed\n");
++			dprintk(q, 1, "buffer initialization failed\n");
+ 			goto err;
+ 		}
+ 	}
+ 
+ 	ret = call_vb_qop(vb, buf_prepare, vb);
+ 	if (ret) {
+-		dprintk(1, "buffer preparation failed\n");
++		dprintk(q, 1, "buffer preparation failed\n");
+ 		call_void_vb_qop(vb, buf_cleanup, vb);
+ 		goto err;
+ 	}
+@@ -1276,7 +1277,7 @@ static int __buf_prepare(struct vb2_buffer *vb)
+ 	int ret;
+ 
+ 	if (q->error) {
+-		dprintk(1, "fatal error occurred on queue\n");
++		dprintk(q, 1, "fatal error occurred on queue\n");
+ 		return -EIO;
+ 	}
+ 
+@@ -1287,7 +1288,7 @@ static int __buf_prepare(struct vb2_buffer *vb)
+ 	if (q->is_output) {
+ 		ret = call_vb_qop(vb, buf_out_validate, vb);
+ 		if (ret) {
+-			dprintk(1, "buffer validation failed\n");
++			dprintk(q, 1, "buffer validation failed\n");
+ 			return ret;
+ 		}
+ 	}
+@@ -1311,7 +1312,7 @@ static int __buf_prepare(struct vb2_buffer *vb)
+ 	}
+ 
+ 	if (ret) {
+-		dprintk(1, "buffer preparation failed: %d\n", ret);
++		dprintk(q, 1, "buffer preparation failed: %d\n", ret);
+ 		vb->state = orig_state;
+ 		return ret;
+ 	}
+@@ -1423,12 +1424,12 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
+ 
+ 	vb = q->bufs[index];
+ 	if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+-		dprintk(1, "invalid buffer state %d\n",
++		dprintk(q, 1, "invalid buffer state %d\n",
+ 			vb->state);
+ 		return -EINVAL;
+ 	}
+ 	if (vb->prepared) {
+-		dprintk(1, "buffer already prepared\n");
++		dprintk(q, 1, "buffer already prepared\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1439,7 +1440,7 @@ int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
+ 	/* Fill buffer information for the userspace */
+ 	call_void_bufop(q, fill_user_buffer, vb, pb);
+ 
+-	dprintk(2, "prepare of buffer %d succeeded\n", vb->index);
++	dprintk(q, 2, "prepare of buffer %d succeeded\n", vb->index);
+ 
+ 	return 0;
+ }
+@@ -1477,7 +1478,7 @@ static int vb2_start_streaming(struct vb2_queue *q)
+ 
+ 	q->start_streaming_called = 0;
+ 
+-	dprintk(1, "driver refused to start streaming\n");
++	dprintk(q, 1, "driver refused to start streaming\n");
+ 	/*
+ 	 * If you see this warning, then the driver isn't cleaning up properly
+ 	 * after a failed start_streaming(). See the start_streaming()
+@@ -1515,7 +1516,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 	int ret;
+ 
+ 	if (q->error) {
+-		dprintk(1, "fatal error occurred on queue\n");
++		dprintk(q, 1, "fatal error occurred on queue\n");
+ 		return -EIO;
+ 	}
+ 
+@@ -1523,14 +1524,14 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 
+ 	if (!req && vb->state != VB2_BUF_STATE_IN_REQUEST &&
+ 	    q->requires_requests) {
+-		dprintk(1, "qbuf requires a request\n");
++		dprintk(q, 1, "qbuf requires a request\n");
+ 		return -EBADR;
+ 	}
+ 
+ 	if ((req && q->uses_qbuf) ||
+ 	    (!req && vb->state != VB2_BUF_STATE_IN_REQUEST &&
+ 	     q->uses_requests)) {
+-		dprintk(1, "queue in wrong mode (qbuf vs requests)\n");
++		dprintk(q, 1, "queue in wrong mode (qbuf vs requests)\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -1539,7 +1540,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 
+ 		q->uses_requests = 1;
+ 		if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+-			dprintk(1, "buffer %d not in dequeued state\n",
++			dprintk(q, 1, "buffer %d not in dequeued state\n",
+ 				vb->index);
+ 			return -EINVAL;
+ 		}
+@@ -1547,7 +1548,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 		if (q->is_output && !vb->prepared) {
+ 			ret = call_vb_qop(vb, buf_out_validate, vb);
+ 			if (ret) {
+-				dprintk(1, "buffer validation failed\n");
++				dprintk(q, 1, "buffer validation failed\n");
+ 				return ret;
+ 			}
+ 		}
+@@ -1583,7 +1584,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 			call_void_bufop(q, fill_user_buffer, vb, pb);
+ 		}
+ 
+-		dprintk(2, "qbuf of buffer %d succeeded\n", vb->index);
++		dprintk(q, 2, "qbuf of buffer %d succeeded\n", vb->index);
+ 		return 0;
+ 	}
+ 
+@@ -1600,10 +1601,10 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 		}
+ 		break;
+ 	case VB2_BUF_STATE_PREPARING:
+-		dprintk(1, "buffer still being prepared\n");
++		dprintk(q, 1, "buffer still being prepared\n");
+ 		return -EINVAL;
+ 	default:
+-		dprintk(1, "invalid buffer state %d\n", vb->state);
++		dprintk(q, 1, "invalid buffer state %d\n", vb->state);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1645,7 +1646,7 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
+ 			return ret;
+ 	}
+ 
+-	dprintk(2, "qbuf of buffer %d succeeded\n", vb->index);
++	dprintk(q, 2, "qbuf of buffer %d succeeded\n", vb->index);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_qbuf);
+@@ -1671,22 +1672,22 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 		int ret;
+ 
+ 		if (q->waiting_in_dqbuf) {
+-			dprintk(1, "another dup()ped fd is waiting for a buffer\n");
++			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
+ 			return -EBUSY;
+ 		}
+ 
+ 		if (!q->streaming) {
+-			dprintk(1, "streaming off, will not wait for buffers\n");
++			dprintk(q, 1, "streaming off, will not wait for buffers\n");
+ 			return -EINVAL;
+ 		}
+ 
+ 		if (q->error) {
+-			dprintk(1, "Queue in error state, will not wait for buffers\n");
++			dprintk(q, 1, "Queue in error state, will not wait for buffers\n");
+ 			return -EIO;
+ 		}
+ 
+ 		if (q->last_buffer_dequeued) {
+-			dprintk(3, "last buffer dequeued already, will not wait for buffers\n");
++			dprintk(q, 3, "last buffer dequeued already, will not wait for buffers\n");
+ 			return -EPIPE;
+ 		}
+ 
+@@ -1698,7 +1699,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 		}
+ 
+ 		if (nonblocking) {
+-			dprintk(3, "nonblocking and no buffers to dequeue, will not wait\n");
++			dprintk(q, 3, "nonblocking and no buffers to dequeue, will not wait\n");
+ 			return -EAGAIN;
+ 		}
+ 
+@@ -1713,7 +1714,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 		/*
+ 		 * All locks have been released, it is safe to sleep now.
+ 		 */
+-		dprintk(3, "will sleep waiting for buffers\n");
++		dprintk(q, 3, "will sleep waiting for buffers\n");
+ 		ret = wait_event_interruptible(q->done_wq,
+ 				!list_empty(&q->done_list) || !q->streaming ||
+ 				q->error);
+@@ -1725,7 +1726,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
+ 		call_void_qop(q, wait_finish, q);
+ 		q->waiting_in_dqbuf = 0;
+ 		if (ret) {
+-			dprintk(1, "sleep was interrupted\n");
++			dprintk(q, 1, "sleep was interrupted\n");
+ 			return ret;
+ 		}
+ 	}
+@@ -1773,7 +1774,7 @@ static int __vb2_get_done_vb(struct vb2_queue *q, struct vb2_buffer **vb,
+ int vb2_wait_for_all_buffers(struct vb2_queue *q)
+ {
+ 	if (!q->streaming) {
+-		dprintk(1, "streaming off, will not wait for buffers\n");
++		dprintk(q, 1, "streaming off, will not wait for buffers\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1811,13 +1812,13 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+ 
+ 	switch (vb->state) {
+ 	case VB2_BUF_STATE_DONE:
+-		dprintk(3, "returning done buffer\n");
++		dprintk(q, 3, "returning done buffer\n");
+ 		break;
+ 	case VB2_BUF_STATE_ERROR:
+-		dprintk(3, "returning done buffer with errors\n");
++		dprintk(q, 3, "returning done buffer with errors\n");
+ 		break;
+ 	default:
+-		dprintk(1, "invalid buffer state\n");
++		dprintk(q, 1, "invalid buffer state\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1848,7 +1849,7 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+ 		media_request_put(vb->request);
+ 	vb->request = NULL;
+ 
+-	dprintk(2, "dqbuf of buffer %d, with state %d\n",
++	dprintk(q, 2, "dqbuf of buffer %d, with state %d\n",
+ 			vb->index, vb->state);
+ 
+ 	return 0;
+@@ -1971,22 +1972,22 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+ 	int ret;
+ 
+ 	if (type != q->type) {
+-		dprintk(1, "invalid stream type\n");
++		dprintk(q, 1, "invalid stream type\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (q->streaming) {
+-		dprintk(3, "already streaming\n");
++		dprintk(q, 3, "already streaming\n");
+ 		return 0;
+ 	}
+ 
+ 	if (!q->num_buffers) {
+-		dprintk(1, "no buffers have been allocated\n");
++		dprintk(q, 1, "no buffers have been allocated\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (q->num_buffers < q->min_buffers_needed) {
+-		dprintk(1, "need at least %u allocated buffers\n",
++		dprintk(q, 1, "need at least %u allocated buffers\n",
+ 				q->min_buffers_needed);
+ 		return -EINVAL;
+ 	}
+@@ -2006,7 +2007,7 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+ 
+ 	q->streaming = 1;
+ 
+-	dprintk(3, "successful\n");
++	dprintk(q, 3, "successful\n");
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_streamon);
+@@ -2022,7 +2023,7 @@ EXPORT_SYMBOL_GPL(vb2_queue_error);
+ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+ {
+ 	if (type != q->type) {
+-		dprintk(1, "invalid stream type\n");
++		dprintk(q, 1, "invalid stream type\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2039,7 +2040,7 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
+ 	q->waiting_for_buffers = !q->is_output;
+ 	q->last_buffer_dequeued = false;
+ 
+-	dprintk(3, "successful\n");
++	dprintk(q, 3, "successful\n");
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(vb2_core_streamoff);
+@@ -2082,39 +2083,39 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+ 	struct dma_buf *dbuf;
+ 
+ 	if (q->memory != VB2_MEMORY_MMAP) {
+-		dprintk(1, "queue is not currently set up for mmap\n");
++		dprintk(q, 1, "queue is not currently set up for mmap\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (!q->mem_ops->get_dmabuf) {
+-		dprintk(1, "queue does not support DMA buffer exporting\n");
++		dprintk(q, 1, "queue does not support DMA buffer exporting\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (flags & ~(O_CLOEXEC | O_ACCMODE)) {
+-		dprintk(1, "queue does support only O_CLOEXEC and access mode flags\n");
++		dprintk(q, 1, "queue does support only O_CLOEXEC and access mode flags\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (type != q->type) {
+-		dprintk(1, "invalid buffer type\n");
++		dprintk(q, 1, "invalid buffer type\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (index >= q->num_buffers) {
+-		dprintk(1, "buffer index out of range\n");
++		dprintk(q, 1, "buffer index out of range\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	vb = q->bufs[index];
+ 
+ 	if (plane >= vb->num_planes) {
+-		dprintk(1, "buffer plane out of range\n");
++		dprintk(q, 1, "buffer plane out of range\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "expbuf: file io in progress\n");
++		dprintk(q, 1, "expbuf: file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -2123,20 +2124,20 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+ 	dbuf = call_ptr_memop(vb, get_dmabuf, vb_plane->mem_priv,
+ 				flags & O_ACCMODE);
+ 	if (IS_ERR_OR_NULL(dbuf)) {
+-		dprintk(1, "failed to export buffer %d, plane %d\n",
++		dprintk(q, 1, "failed to export buffer %d, plane %d\n",
+ 			index, plane);
+ 		return -EINVAL;
+ 	}
+ 
+ 	ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
+ 	if (ret < 0) {
+-		dprintk(3, "buffer %d, plane %d failed to export (%d)\n",
++		dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
+ 			index, plane, ret);
+ 		dma_buf_put(dbuf);
+ 		return ret;
+ 	}
+ 
+-	dprintk(3, "buffer %d, plane %d exported as %d descriptor\n",
++	dprintk(q, 3, "buffer %d, plane %d exported as %d descriptor\n",
+ 		index, plane, ret);
+ 	*fd = ret;
+ 
+@@ -2153,7 +2154,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	unsigned long length;
+ 
+ 	if (q->memory != VB2_MEMORY_MMAP) {
+-		dprintk(1, "queue is not currently set up for mmap\n");
++		dprintk(q, 1, "queue is not currently set up for mmap\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2161,17 +2162,17 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	 * Check memory area access mode.
+ 	 */
+ 	if (!(vma->vm_flags & VM_SHARED)) {
+-		dprintk(1, "invalid vma flags, VM_SHARED needed\n");
++		dprintk(q, 1, "invalid vma flags, VM_SHARED needed\n");
+ 		return -EINVAL;
+ 	}
+ 	if (q->is_output) {
+ 		if (!(vma->vm_flags & VM_WRITE)) {
+-			dprintk(1, "invalid vma flags, VM_WRITE needed\n");
++			dprintk(q, 1, "invalid vma flags, VM_WRITE needed\n");
+ 			return -EINVAL;
+ 		}
+ 	} else {
+ 		if (!(vma->vm_flags & VM_READ)) {
+-			dprintk(1, "invalid vma flags, VM_READ needed\n");
++			dprintk(q, 1, "invalid vma flags, VM_READ needed\n");
+ 			return -EINVAL;
+ 		}
+ 	}
+@@ -2179,7 +2180,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	mutex_lock(&q->mmap_lock);
+ 
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "mmap: file io in progress\n");
++		dprintk(q, 1, "mmap: file io in progress\n");
+ 		ret = -EBUSY;
+ 		goto unlock;
+ 	}
+@@ -2200,7 +2201,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	 */
+ 	length = PAGE_ALIGN(vb->planes[plane].length);
+ 	if (length < (vma->vm_end - vma->vm_start)) {
+-		dprintk(1,
++		dprintk(q, 1,
+ 			"MMAP invalid, as it would overflow buffer length\n");
+ 		ret = -EINVAL;
+ 		goto unlock;
+@@ -2220,7 +2221,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
+ 	if (ret)
+ 		return ret;
+ 
+-	dprintk(3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
++	dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(vb2_mmap);
+@@ -2239,7 +2240,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
+ 	int ret;
+ 
+ 	if (q->memory != VB2_MEMORY_MMAP) {
+-		dprintk(1, "queue is not currently set up for mmap\n");
++		dprintk(q, 1, "queue is not currently set up for mmap\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2479,7 +2480,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+ 	 */
+ 	count = 1;
+ 
+-	dprintk(3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
++	dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
+ 		(read) ? "read" : "write", count, q->fileio_read_once,
+ 		q->fileio_write_immediately);
+ 
+@@ -2577,7 +2578,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
+ 		fileio->count = 0;
+ 		vb2_core_reqbufs(q, fileio->memory, &fileio->count);
+ 		kfree(fileio);
+-		dprintk(3, "file io emulator closed\n");
++		dprintk(q, 3, "file io emulator closed\n");
+ 	}
+ 	return 0;
+ }
+@@ -2606,7 +2607,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	unsigned index;
+ 	int ret;
+ 
+-	dprintk(3, "mode %s, offset %ld, count %zd, %sblocking\n",
++	dprintk(q, 3, "mode %s, offset %ld, count %zd, %sblocking\n",
+ 		read ? "read" : "write", (long)*ppos, count,
+ 		nonblock ? "non" : "");
+ 
+@@ -2614,7 +2615,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 		return -EINVAL;
+ 
+ 	if (q->waiting_in_dqbuf) {
+-		dprintk(3, "another dup()ped fd is %s\n",
++		dprintk(q, 3, "another dup()ped fd is %s\n",
+ 			read ? "reading" : "writing");
+ 		return -EBUSY;
+ 	}
+@@ -2624,7 +2625,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	 */
+ 	if (!vb2_fileio_is_active(q)) {
+ 		ret = __vb2_init_fileio(q, read);
+-		dprintk(3, "vb2_init_fileio result: %d\n", ret);
++		dprintk(q, 3, "vb2_init_fileio result: %d\n", ret);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -2641,7 +2642,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 		 * Call vb2_dqbuf to get buffer back.
+ 		 */
+ 		ret = vb2_core_dqbuf(q, &index, NULL, nonblock);
+-		dprintk(5, "vb2_dqbuf result: %d\n", ret);
++		dprintk(q, 5, "vb2_dqbuf result: %d\n", ret);
+ 		if (ret)
+ 			return ret;
+ 		fileio->dq_count += 1;
+@@ -2672,20 +2673,20 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	 */
+ 	if (buf->pos + count > buf->size) {
+ 		count = buf->size - buf->pos;
+-		dprintk(5, "reducing read count: %zd\n", count);
++		dprintk(q, 5, "reducing read count: %zd\n", count);
+ 	}
+ 
+ 	/*
+ 	 * Transfer data to userspace.
+ 	 */
+-	dprintk(3, "copying %zd bytes - buffer %d, offset %u\n",
++	dprintk(q, 3, "copying %zd bytes - buffer %d, offset %u\n",
+ 		count, index, buf->pos);
+ 	if (read)
+ 		ret = copy_to_user(data, buf->vaddr + buf->pos, count);
+ 	else
+ 		ret = copy_from_user(buf->vaddr + buf->pos, data, count);
+ 	if (ret) {
+-		dprintk(3, "error copying data\n");
++		dprintk(q, 3, "error copying data\n");
+ 		return -EFAULT;
+ 	}
+ 
+@@ -2705,7 +2706,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 		 * Check if this is the last buffer to read.
+ 		 */
+ 		if (read && fileio->read_once && fileio->dq_count == 1) {
+-			dprintk(3, "read limit reached\n");
++			dprintk(q, 3, "read limit reached\n");
+ 			return __vb2_cleanup_fileio(q);
+ 		}
+ 
+@@ -2717,7 +2718,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 		if (copy_timestamp)
+ 			b->timestamp = ktime_get_ns();
+ 		ret = vb2_core_qbuf(q, index, NULL, NULL);
+-		dprintk(5, "vb2_dbuf result: %d\n", ret);
++		dprintk(q, 5, "vb2_dbuf result: %d\n", ret);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -2804,7 +2805,7 @@ static int vb2_thread(void *data)
+ 			if (!threadio->stop)
+ 				ret = vb2_core_dqbuf(q, &index, NULL, 0);
+ 			call_void_qop(q, wait_prepare, q);
+-			dprintk(5, "file io: vb2_dqbuf result: %d\n", ret);
++			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
+ 			if (!ret)
+ 				vb = q->bufs[index];
+ 		}
+@@ -2858,7 +2859,7 @@ int vb2_thread_start(struct vb2_queue *q, vb2_thread_fnc fnc, void *priv,
+ 	threadio->priv = priv;
+ 
+ 	ret = __vb2_init_fileio(q, !q->is_output);
+-	dprintk(3, "file io: vb2_init_fileio result: %d\n", ret);
++	dprintk(q, 3, "file io: vb2_init_fileio result: %d\n", ret);
+ 	if (ret)
+ 		goto nomem;
+ 	q->threadio = threadio;
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 40d76eb4c2fe..0f034cabcd21 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -35,10 +35,11 @@
+ static int debug;
+ module_param(debug, int, 0644);
+ 
+-#define dprintk(level, fmt, arg...)					      \
++#define dprintk(q, level, fmt, arg...)					      \
+ 	do {								      \
+ 		if (debug >= level)					      \
+-			pr_info("vb2-v4l2: %s: " fmt, __func__, ## arg); \
++			pr_info("vb2-v4l2: (q=%p) %s: " fmt,		      \
++				q, __func__, ## arg);			      \
+ 	} while (0)
+ 
+ /* Flags that are set by us */
+@@ -63,12 +64,14 @@ static int __verify_planes_array(struct vb2_buffer *vb, const struct v4l2_buffer
+ 
+ 	/* Is memory for copying plane information present? */
+ 	if (b->m.planes == NULL) {
+-		dprintk(1, "multi-planar buffer passed but planes array not provided\n");
++		dprintk(vb->vb2_queue, 1,
++			"multi-planar buffer passed but planes array not provided\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (b->length < vb->num_planes || b->length > VB2_MAX_PLANES) {
+-		dprintk(1, "incorrect planes array length, expected %d, got %d\n",
++		dprintk(vb->vb2_queue, 1,
++			"incorrect planes array length, expected %d, got %d\n",
+ 			vb->num_planes, b->length);
+ 		return -EINVAL;
+ 	}
+@@ -176,7 +179,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+ 
+ 	ret = __verify_length(vb, b);
+ 	if (ret < 0) {
+-		dprintk(1, "plane parameters verification failed: %d\n", ret);
++		dprintk(q, 1, "plane parameters verification failed: %d\n", ret);
+ 		return ret;
+ 	}
+ 	if (b->field == V4L2_FIELD_ALTERNATE && q->is_output) {
+@@ -189,7 +192,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+ 		 * that just says that it is either a top or a bottom field,
+ 		 * but not which of the two it is.
+ 		 */
+-		dprintk(1, "the field is incorrectly set to ALTERNATE for an output buffer\n");
++		dprintk(q, 1, "the field is incorrectly set to ALTERNATE for an output buffer\n");
+ 		return -EINVAL;
+ 	}
+ 	vbuf->sequence = 0;
+@@ -342,23 +345,23 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 	int ret;
+ 
+ 	if (b->type != q->type) {
+-		dprintk(1, "%s: invalid buffer type\n", opname);
++		dprintk(q, 1, "%s: invalid buffer type\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (b->index >= q->num_buffers) {
+-		dprintk(1, "%s: buffer index out of range\n", opname);
++		dprintk(q, 1, "%s: buffer index out of range\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (q->bufs[b->index] == NULL) {
+ 		/* Should never happen */
+-		dprintk(1, "%s: buffer is NULL\n", opname);
++		dprintk(q, 1, "%s: buffer is NULL\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (b->memory != q->memory) {
+-		dprintk(1, "%s: invalid memory type\n", opname);
++		dprintk(q, 1, "%s: invalid memory type\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -370,7 +373,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 
+ 	if (!is_prepare && (b->flags & V4L2_BUF_FLAG_REQUEST_FD) &&
+ 	    vb->state != VB2_BUF_STATE_DEQUEUED) {
+-		dprintk(1, "%s: buffer is not in dequeued state\n", opname);
++		dprintk(q, 1, "%s: buffer is not in dequeued state\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -388,19 +391,19 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 
+ 	if (!(b->flags & V4L2_BUF_FLAG_REQUEST_FD)) {
+ 		if (q->requires_requests) {
+-			dprintk(1, "%s: queue requires requests\n", opname);
++			dprintk(q, 1, "%s: queue requires requests\n", opname);
+ 			return -EBADR;
+ 		}
+ 		if (q->uses_requests) {
+-			dprintk(1, "%s: queue uses requests\n", opname);
++			dprintk(q, 1, "%s: queue uses requests\n", opname);
+ 			return -EBUSY;
+ 		}
+ 		return 0;
+ 	} else if (!q->supports_requests) {
+-		dprintk(1, "%s: queue does not support requests\n", opname);
++		dprintk(q, 1, "%s: queue does not support requests\n", opname);
+ 		return -EBADR;
+ 	} else if (q->uses_qbuf) {
+-		dprintk(1, "%s: queue does not use requests\n", opname);
++		dprintk(q, 1, "%s: queue does not use requests\n", opname);
+ 		return -EBUSY;
+ 	}
+ 
+@@ -430,13 +433,13 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 		return -EINVAL;
+ 
+ 	if (b->request_fd < 0) {
+-		dprintk(1, "%s: request_fd < 0\n", opname);
++		dprintk(q, 1, "%s: request_fd < 0\n", opname);
+ 		return -EINVAL;
+ 	}
+ 
+ 	req = media_request_get_by_fd(mdev, b->request_fd);
+ 	if (IS_ERR(req)) {
+-		dprintk(1, "%s: invalid request_fd\n", opname);
++		dprintk(q, 1, "%s: invalid request_fd\n", opname);
+ 		return PTR_ERR(req);
+ 	}
+ 
+@@ -446,7 +449,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 	 */
+ 	if (req->state != MEDIA_REQUEST_STATE_IDLE &&
+ 	    req->state != MEDIA_REQUEST_STATE_UPDATING) {
+-		dprintk(1, "%s: request is not idle\n", opname);
++		dprintk(q, 1, "%s: request is not idle\n", opname);
+ 		media_request_put(req);
+ 		return -EBUSY;
+ 	}
+@@ -629,12 +632,12 @@ int vb2_querybuf(struct vb2_queue *q, struct v4l2_buffer *b)
+ 	int ret;
+ 
+ 	if (b->type != q->type) {
+-		dprintk(1, "wrong buffer type\n");
++		dprintk(q, 1, "wrong buffer type\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (b->index >= q->num_buffers) {
+-		dprintk(1, "buffer index out of range\n");
++		dprintk(q, 1, "buffer index out of range\n");
+ 		return -EINVAL;
+ 	}
+ 	vb = q->bufs[b->index];
+@@ -675,7 +678,7 @@ int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
+ 	int ret;
+ 
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -751,7 +754,7 @@ int vb2_qbuf(struct vb2_queue *q, struct media_device *mdev,
+ 	int ret;
+ 
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -770,12 +773,12 @@ int vb2_dqbuf(struct vb2_queue *q, struct v4l2_buffer *b, bool nonblocking)
+ 	int ret;
+ 
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 
+ 	if (b->type != q->type) {
+-		dprintk(1, "invalid buffer type\n");
++		dprintk(q, 1, "invalid buffer type\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -799,7 +802,7 @@ EXPORT_SYMBOL_GPL(vb2_dqbuf);
+ int vb2_streamon(struct vb2_queue *q, enum v4l2_buf_type type)
+ {
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 	return vb2_core_streamon(q, type);
+@@ -809,7 +812,7 @@ EXPORT_SYMBOL_GPL(vb2_streamon);
+ int vb2_streamoff(struct vb2_queue *q, enum v4l2_buf_type type)
+ {
+ 	if (vb2_fileio_is_active(q)) {
+-		dprintk(1, "file io in progress\n");
++		dprintk(q, 1, "file io in progress\n");
+ 		return -EBUSY;
+ 	}
+ 	return vb2_core_streamoff(q, type);
+-- 
+Regards,
+
+Laurent Pinchart
 
