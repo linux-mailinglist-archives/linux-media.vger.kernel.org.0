@@ -2,94 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 350AC39990
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 01:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E4339A34
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 05:24:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731853AbfFGXLf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jun 2019 19:11:35 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37548 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731692AbfFGXLZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jun 2019 19:11:25 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 22so3290050wmg.2;
-        Fri, 07 Jun 2019 16:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZFHFRMwqhia+MVch9pKGgEBNeKukD3ZLzLQ+6+PB9fg=;
-        b=eiLeaHHak8jYQRZKjm/x1H8ej+KxQ2LjmoNyoxAAGEjakKrI7elSGX0wrr60ZoO5qj
-         9HU+8ZIVn3pNJvvh82yUhGxMElRvn7NJ7FPjqlXS7tS+rmnFy7UyH2NsO8qQY2GvvwTA
-         +Ks0iEPXlNlJy77jrZZ/TfqHLkhTrrBApCZj5lQzYAP9CfjT9ks1SOToNaHh+UrAgrne
-         B9+/uz12mb0rkzFBGXjZ23XnsQ/cnjjPyPzSMzCwKImGOrW4pZz69r0+QX1orVmhFcu8
-         dLfDhGHEnCL7q1FgbuP6sJYZnK9iZghCczKyDY70qnQ73o4xwyKnIwdcEF1luofmnTZK
-         kKyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZFHFRMwqhia+MVch9pKGgEBNeKukD3ZLzLQ+6+PB9fg=;
-        b=avr4bebehorIOb2O+9rvwI/dzLReEPXtQmIj7wigqjQxWyq8HPGdH1FPaaMZ1HAk6H
-         h8wWoMjXUktyKI0S+lcUZAHqa+yUrqQGCa8aqG+ImXTxL3Dm24wBgwn8w+ycnbbEqLxp
-         MTGYHwxDaEaEMauxdTVFtzVrUHylePis9ipRO881LIXukLrmN4LClc6nR+311Jz9998X
-         C5/+psCYoPG1+m6NnnDPOPKCKCvYryinh8ub4QpwdpqA+Rzg0XeNebkyBL//td61H9MB
-         bedRsWGuDYD2+5/o4ZeAkc/VD+YPeL/35fAKZbAo0yMslz9yrwDind+lpLWqGCA2G7Cm
-         oZvQ==
-X-Gm-Message-State: APjAAAXa5+wDQoJ4tqUBJJC6sRmRaIm3Ujg/yE2v7vuxpAjL4ToTPuG4
-        nC7lqNrJLhzqB0d5OZamkEU=
-X-Google-Smtp-Source: APXvYqwddSzhdksmvNkBbueAxfPvGpAbf9YR3GwvhZyX9J61/5+7yOtpn8VduLAqIR6fHtcd7KNeQQ==
-X-Received: by 2002:a7b:c018:: with SMTP id c24mr3051220wmb.37.1559949082496;
-        Fri, 07 Jun 2019 16:11:22 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
-        by smtp.gmail.com with ESMTPSA id h84sm4108559wmf.43.2019.06.07.16.11.21
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 07 Jun 2019 16:11:21 -0700 (PDT)
-From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org,
-        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
-        Sean Young <sean@mess.org>
-Subject: [PATCH v5 13/13] arm64: defconfig: Enable IR SUNXI option
-Date:   Sat,  8 Jun 2019 01:11:00 +0200
-Message-Id: <20190607231100.5894-14-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190607231100.5894-1-peron.clem@gmail.com>
-References: <20190607231100.5894-1-peron.clem@gmail.com>
+        id S1729925AbfFHDYd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jun 2019 23:24:33 -0400
+Received: from jp.dhs.org ([62.251.46.73]:40400 "EHLO jp.jpvw.nl"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729815AbfFHDYc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 7 Jun 2019 23:24:32 -0400
+X-Greylist: delayed 2106 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 23:24:32 EDT
+Received: from localhost ([::1])
+        by jp.jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hZRQ4-0005Se-0y; Sat, 08 Jun 2019 04:49:24 +0200
+To:     linux-media@vger.kernel.org
+From:   JP <jp@jpvw.nl>
+Subject: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
+ version 2
+Cc:     Jan Pieter <raslal@live.com>
+Message-ID: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
+Date:   Sat, 8 Jun 2019 04:49:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable CONFIG_IR_SUNXI option for ARM64, so that Allwinner A64/H6 SoCs
-can use their IR receiver controller.
+I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
 
-Signed-off-by: Clément Péron <peron.clem@gmail.com>
-Acked-by: Sean Young <sean@mess.org>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+how to submit this. http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 4d583514258c..5128029100d2 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -460,6 +460,7 @@ CONFIG_RC_CORE=m
- CONFIG_RC_DECODERS=y
- CONFIG_RC_DEVICES=y
- CONFIG_IR_MESON=m
-+CONFIG_IR_SUNXI=m
- CONFIG_MEDIA_SUPPORT=m
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
--- 
-2.20.1
+
+Please can someone help me out. It looks like the extra code in the
+
+demodulator does not effect other drivers that use it. Tested with a
+
+T230, they bothseem to work OK.
+
+
+Jan Pieter van Woerkom
+
+
+
+diff -ru a/drivers/media/dvb-frontends/si2168.c 
+b/drivers/media/dvb-frontends/si2168.c
+--- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 
+07:59:45.000000000 +0200
++++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 
+22:49:21.226337473 +0200
+@@ -91,8 +91,16 @@
+
+      dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+
++    /* set ts clock freq to 10Mhz */
++       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
++    cmd.wlen = 6;
++    cmd.rlen = 4;
++    ret = si2168_cmd_execute(client, &cmd);
++    if (ret) return ret;
++
+      /* set TS_MODE property */
+-    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
++    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
++    cmd.args[4] = dev->ts_mode & 0x30;
+      if (acquire)
+          cmd.args[4] |= dev->ts_mode;
+      else
+diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c 
+b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+--- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 
+07:59:45.000000000 +0200
++++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 
+16:47:32.141530489 +0200
+@@ -560,6 +560,9 @@
+      si2168_config.i2c_adapter = &i2c_adapter;
+      si2168_config.fe = &adap->fe[0];
+      si2168_config.ts_mode = SI2168_TS_PARALLEL;
++    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
++        si2168_config.ts_mode |= 0x20;
+      si2168_config.ts_clock_inv = 1;
+
+      state->i2c_client_demod = dvb_module_probe("si2168", NULL,
+@@ -799,6 +802,9 @@
+      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
+          &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
+          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
++    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
++        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
++        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+      { }
+  };
+  MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
+diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+--- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 +0200
++++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 +0200
+@@ -387,6 +387,7 @@
+  #define USB_PID_MYGICA_D689                0xd811
+  #define USB_PID_MYGICA_T230                0xc688
+  #define USB_PID_MYGICA_T230C                0xc689
++#define USB_PID_MYGICA_T230C2                0xc68a
+  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
+  #define USB_PID_ELGATO_EYETV_DTT            0x0021
+  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
 
