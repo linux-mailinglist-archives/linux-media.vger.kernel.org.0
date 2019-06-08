@@ -2,102 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7558939D3F
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 13:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C90739E02
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 13:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbfFHL13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jun 2019 07:27:29 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:38564 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726816AbfFHL13 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jun 2019 07:27:29 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hZZVO-0001nb-92; Sat, 08 Jun 2019 11:27:26 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: davinci: fix memory leaks and check for allocation failure
-Date:   Sat,  8 Jun 2019 12:27:25 +0100
-Message-Id: <20190608112725.27658-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S1728675AbfFHLnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jun 2019 07:43:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37848 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728670AbfFHLnP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jun 2019 07:43:15 -0400
+Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA9335D;
+        Sat,  8 Jun 2019 13:43:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1559994193;
+        bh=fx0n19qeDMTimK0VJDa0BLED3Bsk5ypjzYYcWtyI8qM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZDPaD+uGBOpeDGvPUnyFI/5vah3s3AzGNxyTy1RxJCRRphTDxgBJJM1VZqVDcP1cl
+         EZGYUzEMYUy/3PWydkLoruilef7KKBLifnP6pwg364yGk+Z7xxJJYiwa4KTR+KEyLn
+         4r+q6zI8+SEipYfGasvIMBKiQ3P4khCzwqZaDIDA=
+Date:   Sat, 8 Jun 2019 14:42:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/34] media: i2c: mt9p031: simplify getting the adapter
+ of a client
+Message-ID: <20190608114259.GB4786@pendragon.ideasonboard.com>
+References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
+ <20190608105619.593-10-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190608105619.593-10-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Hi Wolfram,
 
-There are three error return paths that don't kfree params causing a
-memory leak.  Fix this by adding an error return path that kfree's
-params before returning.  Also add a check to see params failed to
-be allocated.
+Thank you for the patch.
 
-Addresses-Coverity: ("Resource leak")
-Fixes: da43b6ccadcf ("[media] davinci: vpfe: dm365: add IPIPE support for media controller driver")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/staging/media/davinci_vpfe/dm365_ipipe.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+On Sat, Jun 08, 2019 at 12:55:48PM +0200, Wolfram Sang wrote:
+> We have a dedicated pointer for that, so use it. Much easier to read and
+> less computation involved.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-diff --git a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-index 08c26f3c5282..52397ad0e3e2 100644
---- a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-+++ b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-@@ -1251,10 +1251,10 @@ static int ipipe_s_config(struct v4l2_subdev *sd, struct vpfe_ipipe_config *cfg)
- 	struct vpfe_ipipe_device *ipipe = v4l2_get_subdevdata(sd);
- 	unsigned int i;
- 	int rval = 0;
-+	struct ipipe_module_params *params;
- 
- 	for (i = 0; i < ARRAY_SIZE(ipipe_modules); i++) {
- 		const struct ipipe_module_if *module_if;
--		struct ipipe_module_params *params;
- 		void *from, *to;
- 		size_t size;
- 
-@@ -1265,25 +1265,30 @@ static int ipipe_s_config(struct v4l2_subdev *sd, struct vpfe_ipipe_config *cfg)
- 		from = *(void **)((void *)cfg + module_if->config_offset);
- 
- 		params = kmalloc(sizeof(*params), GFP_KERNEL);
-+		if (!params)
-+			return -ENOMEM;
- 		to = (void *)params + module_if->param_offset;
- 		size = module_if->param_size;
- 
- 		if (to && from && size) {
- 			if (copy_from_user(to, (void __user *)from, size)) {
- 				rval = -EFAULT;
--				break;
-+				goto error_free;
- 			}
- 			rval = module_if->set(ipipe, to);
- 			if (rval)
--				goto error;
-+				goto error_free;
- 		} else if (to && !from && size) {
- 			rval = module_if->set(ipipe, NULL);
- 			if (rval)
--				goto error;
-+				goto error_free;
- 		}
- 		kfree(params);
- 	}
--error:
-+	return rval;
-+
-+error_free:
-+	kfree(params);
- 	return rval;
- }
- 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+and taken in my tree.
+
+> ---
+> 
+> Please apply to your subsystem tree.
+> 
+>  drivers/media/i2c/mt9p031.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> index 715be3632b01..5d824dd33edd 100644
+> --- a/drivers/media/i2c/mt9p031.c
+> +++ b/drivers/media/i2c/mt9p031.c
+> @@ -1034,7 +1034,7 @@ static int mt9p031_probe(struct i2c_client *client,
+>  			 const struct i2c_device_id *did)
+>  {
+>  	struct mt9p031_platform_data *pdata = mt9p031_get_pdata(client);
+> -	struct i2c_adapter *adapter = to_i2c_adapter(client->dev.parent);
+> +	struct i2c_adapter *adapter = client->adapter;
+>  	struct mt9p031 *mt9p031;
+>  	unsigned int i;
+>  	int ret;
+
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
