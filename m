@@ -2,129 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6105039C22
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 11:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88BC239C8B
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 12:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726616AbfFHJay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jun 2019 05:30:54 -0400
-Received: from gofer.mess.org ([88.97.38.141]:49817 "EHLO gofer.mess.org"
+        id S1726958AbfFHK4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jun 2019 06:56:46 -0400
+Received: from sauhun.de ([88.99.104.3]:51774 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726478AbfFHJay (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 8 Jun 2019 05:30:54 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id F253860570; Sat,  8 Jun 2019 10:30:51 +0100 (BST)
-Date:   Sat, 8 Jun 2019 10:30:51 +0100
-From:   Sean Young <sean@mess.org>
-To:     JP <jp@jpvw.nl>
-Cc:     linux-media@vger.kernel.org, Jan Pieter <raslal@live.com>
-Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
- version 2
-Message-ID: <20190608093051.wauot4m2cikxzcjp@gofer.mess.org>
-References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
+        id S1726692AbfFHK4p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 8 Jun 2019 06:56:45 -0400
+Received: from localhost (p5486CBCC.dip0.t-ipconnect.de [84.134.203.204])
+        by pokefinder.org (Postfix) with ESMTPSA id D0A142C3637;
+        Sat,  8 Jun 2019 12:56:40 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 00/34] treewide: simplify getting the adapter of an I2C client
+Date:   Sat,  8 Jun 2019 12:55:39 +0200
+Message-Id: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
-User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jan Pieter,
+While preparing a refactoring series, I noticed that some drivers use a
+complicated way of determining the adapter of a client. The easy way is
+to use the intended pointer: client->adapter
 
-On Sat, Jun 08, 2019 at 04:49:23AM +0200, JP wrote:
-> I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
-> 
-> how to submit this. http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
-> 
-> 
-> Please can someone help me out. It looks like the extra code in the
-> 
-> demodulator does not effect other drivers that use it. Tested with a
-> 
-> T230, they bothseem to work OK.
+These drivers do:
+	to_i2c_adapter(client->dev.parent);
 
-That's great, but there are some changes needed before we can accept this
-patch. It needs a commit message and Signed-off-by and more:
+The I2C core populates the parent pointer as:
+	client->dev.parent = &client->adapter->dev;
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+Now take into consideration that
+	to_i2c_adapter(&adapter->dev);
 
-> 
-> 
-> Jan Pieter van Woerkom
-> 
-> 
-> 
-> diff -ru a/drivers/media/dvb-frontends/si2168.c
-> b/drivers/media/dvb-frontends/si2168.c
-> --- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 07:59:45.000000000
-> +0200
-> +++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 22:49:21.226337473
-> +0200
-> @@ -91,8 +91,16 @@
-> 
->      dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
-> 
-> +    /* set ts clock freq to 10Mhz */
-> +       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
-> +    cmd.wlen = 6;
-> +    cmd.rlen = 4;
-> +    ret = si2168_cmd_execute(client, &cmd);
-> +    if (ret) return ret;
-> +
->      /* set TS_MODE property */
-> -    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-> +    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
-> +    cmd.args[4] = dev->ts_mode & 0x30;
+is a complicated way of saying 'adapter', then we can even formally
+prove that the complicated expression can be simplified by using
+client->adapter.
 
-This change affects every driver that uses the si2168. This will need some
-justification.
+The conversion was done using a coccinelle script with some manual
+indentation fixes applied on top.
 
->      if (acquire)
->          cmd.args[4] |= dev->ts_mode;
->      else
-> diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c
-> b/drivers/media/usb/dvb-usb-v2/dvbsky.c
-> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 07:59:45.000000000
-> +0200
-> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 16:47:32.141530489
-> +0200
-> @@ -560,6 +560,9 @@
->      si2168_config.i2c_adapter = &i2c_adapter;
->      si2168_config.fe = &adap->fe[0];
->      si2168_config.ts_mode = SI2168_TS_PARALLEL;
-> +    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
+To avoid a brown paper bag mistake, I double checked this on a Renesas
+Salvator-XS board (R-Car M3N) and verified both expression result in the
+same pointer. Other than that, the series is only build tested.
 
-This needs le16_to_cpu().
+A branch can be found here:
 
-> +        si2168_config.ts_mode |= 0x20;
->      si2168_config.ts_clock_inv = 1;
-> 
->      state->i2c_client_demod = dvb_module_probe("si2168", NULL,
-> @@ -799,6 +802,9 @@
->      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
->          &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
->          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
-> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
-> +        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
-> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->      { }
->  };
->  MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
-> diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
-> --- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 +0200
-> +++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 +0200
-> @@ -387,6 +387,7 @@
->  #define USB_PID_MYGICA_D689                0xd811
->  #define USB_PID_MYGICA_T230                0xc688
->  #define USB_PID_MYGICA_T230C                0xc689
-> +#define USB_PID_MYGICA_T230C2                0xc68a
->  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
->  #define USB_PID_ELGATO_EYETV_DTT            0x0021
->  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/no_to_adapter
 
-Thanks,
+Please apply the patches to the individual subsystem trees. There are no
+dependencies.
 
-Sean
+Thanks and kind regards,
+
+   Wolfram
+
+
+Wolfram Sang (34):
+  clk: clk-cdce706: simplify getting the adapter of a client
+  gpu: drm: bridge: sii9234: simplify getting the adapter of a client
+  iio: light: bh1780: simplify getting the adapter of a client
+  leds: leds-pca955x: simplify getting the adapter of a client
+  leds: leds-tca6507: simplify getting the adapter of a client
+  media: i2c: ak881x: simplify getting the adapter of a client
+  media: i2c: mt9m001: simplify getting the adapter of a client
+  media: i2c: mt9m111: simplify getting the adapter of a client
+  media: i2c: mt9p031: simplify getting the adapter of a client
+  media: i2c: ov2640: simplify getting the adapter of a client
+  media: i2c: tw9910: simplify getting the adapter of a client
+  misc: fsa9480: simplify getting the adapter of a client
+  misc: isl29003: simplify getting the adapter of a client
+  misc: tsl2550: simplify getting the adapter of a client
+  mtd: maps: pismo: simplify getting the adapter of a client
+  power: supply: bq24190_charger: simplify getting the adapter of a client
+  power: supply: bq24257_charger: simplify getting the adapter of a client
+  power: supply: bq25890_charger: simplify getting the adapter of a client
+  power: supply: max14656_charger_detector: simplify getting the adapter
+    of a client
+  power: supply: max17040_battery: simplify getting the adapter of a client
+  power: supply: max17042_battery: simplify getting the adapter of a client
+  power: supply: rt5033_battery: simplify getting the adapter of a client
+  power: supply: rt9455_charger: simplify getting the adapter of a client
+  power: supply: sbs-manager: simplify getting the adapter of a client
+  regulator: max8952: simplify getting the adapter of a client
+  rtc: fm3130: simplify getting the adapter of a client
+  rtc: m41t80: simplify getting the adapter of a client
+  rtc: rv8803: simplify getting the adapter of a client
+  rtc: rx8010: simplify getting the adapter of a client
+  rtc: rx8025: simplify getting the adapter of a client
+  staging: media: soc_camera: imx074: simplify getting the adapter of a client
+  staging: media: soc_camera: mt9t031: simplify getting the adapter of a client
+  staging: media: soc_camera: soc_mt9v022: simplify getting the adapter
+    of a client
+  usb: typec: tcpm: fusb302: simplify getting the adapter of a client
+
+ drivers/clk/clk-cdce706.c                        | 2 +-
+ drivers/gpu/drm/bridge/sii9234.c                 | 4 ++--
+ drivers/iio/light/bh1780.c                       | 2 +-
+ drivers/leds/leds-pca955x.c                      | 2 +-
+ drivers/leds/leds-tca6507.c                      | 2 +-
+ drivers/media/i2c/ak881x.c                       | 2 +-
+ drivers/media/i2c/mt9m001.c                      | 2 +-
+ drivers/media/i2c/mt9m111.c                      | 2 +-
+ drivers/media/i2c/mt9p031.c                      | 2 +-
+ drivers/media/i2c/ov2640.c                       | 2 +-
+ drivers/media/i2c/tw9910.c                       | 3 +--
+ drivers/misc/fsa9480.c                           | 2 +-
+ drivers/misc/isl29003.c                          | 2 +-
+ drivers/misc/tsl2550.c                           | 2 +-
+ drivers/mtd/maps/pismo.c                         | 2 +-
+ drivers/power/supply/bq24190_charger.c           | 2 +-
+ drivers/power/supply/bq24257_charger.c           | 2 +-
+ drivers/power/supply/bq25890_charger.c           | 2 +-
+ drivers/power/supply/max14656_charger_detector.c | 2 +-
+ drivers/power/supply/max17040_battery.c          | 2 +-
+ drivers/power/supply/max17042_battery.c          | 2 +-
+ drivers/power/supply/rt5033_battery.c            | 2 +-
+ drivers/power/supply/rt9455_charger.c            | 2 +-
+ drivers/power/supply/sbs-manager.c               | 2 +-
+ drivers/regulator/max8952.c                      | 2 +-
+ drivers/rtc/rtc-fm3130.c                         | 8 +++-----
+ drivers/rtc/rtc-m41t80.c                         | 2 +-
+ drivers/rtc/rtc-rv8803.c                         | 2 +-
+ drivers/rtc/rtc-rx8010.c                         | 2 +-
+ drivers/rtc/rtc-rx8025.c                         | 2 +-
+ drivers/staging/media/soc_camera/imx074.c        | 2 +-
+ drivers/staging/media/soc_camera/mt9t031.c       | 2 +-
+ drivers/staging/media/soc_camera/soc_mt9v022.c   | 2 +-
+ drivers/usb/typec/tcpm/fusb302.c                 | 3 +--
+ 34 files changed, 37 insertions(+), 41 deletions(-)
+
+-- 
+2.19.1
+
