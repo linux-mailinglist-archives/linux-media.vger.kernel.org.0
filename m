@@ -2,172 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C59339BE0
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 10:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6105039C22
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 11:30:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfFHIhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jun 2019 04:37:32 -0400
-Received: from gofer.mess.org ([88.97.38.141]:35439 "EHLO gofer.mess.org"
+        id S1726616AbfFHJay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jun 2019 05:30:54 -0400
+Received: from gofer.mess.org ([88.97.38.141]:49817 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726157AbfFHIhb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 8 Jun 2019 04:37:31 -0400
+        id S1726478AbfFHJay (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 8 Jun 2019 05:30:54 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id C410860570; Sat,  8 Jun 2019 09:37:29 +0100 (BST)
-Date:   Sat, 8 Jun 2019 09:37:29 +0100
+        id F253860570; Sat,  8 Jun 2019 10:30:51 +0100 (BST)
+Date:   Sat, 8 Jun 2019 10:30:51 +0100
 From:   Sean Young <sean@mess.org>
-To:     A Sun <as1033x@comcast.net>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 3/3] [media] mceusb: Show USB halt/stall error recovery
-Message-ID: <20190608083729.bw47vkplpf3r4e4b@gofer.mess.org>
-References: <999ae5cd-d72b-983f-2f96-5aaca72e8214@comcast.net>
- <43f4ef6e-2c64-cd7a-26f7-3c1309b68936@comcast.net>
- <20190606095337.jfhmc6jqgyhmxn4q@gofer.mess.org>
- <2548e827-1d11-4ce2-013f-bf36c9f5436e@comcast.net>
+To:     JP <jp@jpvw.nl>
+Cc:     linux-media@vger.kernel.org, Jan Pieter <raslal@live.com>
+Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
+ version 2
+Message-ID: <20190608093051.wauot4m2cikxzcjp@gofer.mess.org>
+References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2548e827-1d11-4ce2-013f-bf36c9f5436e@comcast.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello Jan Pieter,
 
-On Thu, Jun 06, 2019 at 05:11:04PM -0400, A Sun wrote:
-> Hi Sean,
+On Sat, Jun 08, 2019 at 04:49:23AM +0200, JP wrote:
+> I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
 > 
-> Thanks again for reviewing my patch submission.
+> how to submit this. http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
 > 
-> This patch updates mceusb RX and TX HALT error handling and recovery reporting,
-> and provides placeholder for a later patch.
 > 
-> The possible later patch would have mceusb call usb_reset_device() in place of the
-> new "... requires USB Reset ..." message. I say "possible" because I'm running into
-> multiple issues invoking usb_reset_device() from within mceusb.
+> Please can someone help me out. It looks like the extra code in the
 > 
-> I'll also mention the difficulty obtaining even a single fault replication
-> (~ 1/month) and test cycle.
-
-OK, thank you.
-
-> Additional comments below...  ..A Sun
+> demodulator does not effect other drivers that use it. Tested with a
 > 
-> On 6/6/2019 5:53 AM, Sean Young wrote:
-> > On Sat, Jun 01, 2019 at 07:35:09PM -0400, A Sun wrote:
+> T230, they bothseem to work OK.
 
--snip-
+That's great, but there are some changes needed before we can accept this
+patch. It needs a commit message and Signed-off-by and more:
 
- >> Additional findings are "modprobe -r mceusb" and "modprobe mceusb"
-> >> are unable to clear stuck RX or TX HALT state.
-> >> Attempts to call usb_reset_endpoint() and usb_reset_configuration()
-> >> from within the mceusb driver also did not clear stuck HALTs.
-> >>
-> >> A possible future patch could have the mceusb call usb_reset_device()
-> >> on itself, when necessary. Limiting the number of HALT error recovery
-> >> attempts may also be necessary to prevent halt/clear-halt loops.
-> >>
-> >> Unresolved for now, deadlock complications occur if mceusb's worker
-> >> thread, mceusb_deferred_kevent(), calls usb_reset_device(),
-> >> which calls mceusb_dev_disconnect(), which calls cancel_work_sync(),
-> >> which waits on the still active worker thread.
-> > 
-> > I think you can call usb_lock_device_for_reset() to prevent that problem.
-> 
-> Deadlock still occurs in test:
-> mceusb_deferred_kevent()
->     ->usb_reset_device()
->         ->mceusb_dev_disconnect()
->             ->cancel_work_sync()
-> where cancel_work_sync() blocks because mceusb_deferred_kevent() is active.
-
-I understand. The usb_reset_device() does not need to happen synchronously
-in mceusb_deferred_kevent(). Possibly another delayed workqueue.
-
-Actually there is also a function usb_queue_reset_device() which might do
-what you want here.
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 
 > 
-> > It would be nice to see this implemented too.
-> > 
 > 
-> Any additional tips to implement would help!
-> How to validate and test a rare condition with a larger audience?
+> Jan Pieter van Woerkom
+> 
+> 
+> 
+> diff -ru a/drivers/media/dvb-frontends/si2168.c
+> b/drivers/media/dvb-frontends/si2168.c
+> --- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 07:59:45.000000000
+> +0200
+> +++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 22:49:21.226337473
+> +0200
+> @@ -91,8 +91,16 @@
+> 
+>      dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+> 
+> +    /* set ts clock freq to 10Mhz */
+> +       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
+> +    cmd.wlen = 6;
+> +    cmd.rlen = 4;
+> +    ret = si2168_cmd_execute(client, &cmd);
+> +    if (ret) return ret;
+> +
+>      /* set TS_MODE property */
+> -    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
+> +    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
+> +    cmd.args[4] = dev->ts_mode & 0x30;
 
-This is hard. Do you know the model of the mceusb and host hardware?
+This change affects every driver that uses the si2168. This will need some
+justification.
 
-> >>
-> >> Signed-off-by: A Sun <as1033x@comcast.net>
-> >> ---
-> >>  drivers/media/rc/mceusb.c | 35 +++++++++++++++++++++++++----------
-> >>  1 file changed, 25 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-> >> index efffb1795..5d81ccafc 100644
-> >> --- a/drivers/media/rc/mceusb.c
-> >> +++ b/drivers/media/rc/mceusb.c
-> >> @@ -765,7 +765,7 @@ static void mceusb_defer_kevent(struct mceusb_dev *ir, int kevent)
-> >>  {
-> >>  	set_bit(kevent, &ir->kevent_flags);
-> >>  	if (!schedule_work(&ir->kevent))
-> >> -		dev_err(ir->dev, "kevent %d may have been dropped", kevent);
-> >> +		dev_dbg(ir->dev, "kevent %d already scheduled", kevent);
-> >>  	else
-> >>  		dev_dbg(ir->dev, "kevent %d scheduled", kevent);
-> >>  }
-> >> @@ -1404,19 +1404,26 @@ static void mceusb_deferred_kevent(struct work_struct *work)
-> >>  		container_of(work, struct mceusb_dev, kevent);
-> >>  	int status;
-> >>  
-> >> +	dev_info(ir->dev, "kevent handler called (flags 0x%lx)",
-> >> +		 ir->kevent_flags);
-> >> +
-> >>  	if (test_bit(EVENT_RX_HALT, &ir->kevent_flags)) {
-> >>  		usb_unlink_urb(ir->urb_in);
-> >>  		status = usb_clear_halt(ir->usbdev, ir->pipe_in);
-> >> +		dev_err(ir->dev, "rx clear halt status = %d", status);
-> >>  		if (status < 0) {
-> >> -			dev_err(ir->dev, "rx clear halt error %d",
-> >> -				status);
-> >> -		}
-> >> -		clear_bit(EVENT_RX_HALT, &ir->kevent_flags);
-> >> -		if (status == 0) {
-> >> +			/*
-> >> +			 * Unable to clear RX stall/halt.
-> >> +			 * Will need to call usb_reset_device().
-> >> +			 */
-> >> +			dev_err(ir->dev,
-> >> +				"stuck RX HALT state requires USB Reset Device to clear");
-> > 
-> > Here you say if the usb_clear_halt() returns < 0 then we're in the bad
-> > code path. But in this code path, we're not re-submitting the urb so
-> > we wouldn't end up in an infinite loop.
-> > 
-> 
-> The theory for the infinite loop case is usb_clear_halt() returned 0.
-> The infinite loop isn't resolved with this patch.
-> 
-> > 
-> >> +		} else {
-> >> +			clear_bit(EVENT_RX_HALT, &ir->kevent_flags);
-> > 
-> > Why have you moved this line?
-> > 
-> 
-> Clear bit but only if usb_clear_halt() recovery succeeds.
+>      if (acquire)
+>          cmd.args[4] |= dev->ts_mode;
+>      else
+> diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 07:59:45.000000000
+> +0200
+> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 16:47:32.141530489
+> +0200
+> @@ -560,6 +560,9 @@
+>      si2168_config.i2c_adapter = &i2c_adapter;
+>      si2168_config.fe = &adap->fe[0];
+>      si2168_config.ts_mode = SI2168_TS_PARALLEL;
+> +    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
 
-To what affect? Will it be attempted again? Might it cause an infinite
-loop?
-> 
-> A future usb_device_reset() operation affects both RX and TX and its
-> success code path must clear both EVENT_RX_HALT and EVENT_TX_HALT
-> and do its own usb_submit_urb() with message "rx reset device submit urb status = %d"
-> 
-> Hence, the moved line.
+This needs le16_to_cpu().
 
-That's in a future patch. Please only change error strings in this patch.
+> +        si2168_config.ts_mode |= 0x20;
+>      si2168_config.ts_clock_inv = 1;
+> 
+>      state->i2c_client_demod = dvb_module_probe("si2168", NULL,
+> @@ -799,6 +802,9 @@
+>      { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
+>          &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
+>          RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
+> +        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
+> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+>      { }
+>  };
+>  MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
+> diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+> --- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 +0200
+> +++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 +0200
+> @@ -387,6 +387,7 @@
+>  #define USB_PID_MYGICA_D689                0xd811
+>  #define USB_PID_MYGICA_T230                0xc688
+>  #define USB_PID_MYGICA_T230C                0xc689
+> +#define USB_PID_MYGICA_T230C2                0xc68a
+>  #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
+>  #define USB_PID_ELGATO_EYETV_DTT            0x0021
+>  #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
 
 Thanks,
 
