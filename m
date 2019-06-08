@@ -2,187 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FED23A07B
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 17:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2A03A1E9
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2019 22:19:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbfFHPfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jun 2019 11:35:55 -0400
-Received: from jp.dhs.org ([62.251.46.73]:58954 "EHLO jp.jpvw.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727015AbfFHPfy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 8 Jun 2019 11:35:54 -0400
-Received: from localhost ([::1])
-        by jp.jpvw.nl with esmtp (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hZdNp-0006qq-Jr; Sat, 08 Jun 2019 17:35:53 +0200
-Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
- version 2
-From:   JP <jp@jpvw.nl>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, Jan Pieter <raslal@live.com>
-References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
- <20190608093051.wauot4m2cikxzcjp@gofer.mess.org>
- <152ff12f-608d-0fef-e455-7d102c14b8f7@jpvw.nl>
-Message-ID: <9f3ab22e-6803-8e14-e35b-4bb38234e6a6@jpvw.nl>
-Date:   Sat, 8 Jun 2019 17:35:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727568AbfFHUTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jun 2019 16:19:12 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:38631 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727437AbfFHUTM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jun 2019 16:19:12 -0400
+Received: by mail-it1-f193.google.com with SMTP id e25so1618276itk.3
+        for <linux-media@vger.kernel.org>; Sat, 08 Jun 2019 13:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Oibz9MnDmwNMmGUKMKiPf6+1t2ZWez65UHGa4Eunn0E=;
+        b=bNe0kgIRbmZfooq/JigqzAXl39KKFNd4zTEtJzEJFOFaxfrvihmLG1JthBvvi8bmMb
+         YE/ZfJ95cKLxSI79FH2BJ1nbMSPMbVDbiZ3esxC3Cmi5eXS0WKcQQSozdNb962q2hpv5
+         CDRaRhwMS6XHog7JhutF2eAtWwZpH3phEDwznlAupNVifv1bfiVLc37aPMjnHYTILqph
+         rn8hJJaOTTCxiBLin4Q693Pi65Xr9Kd5fKRaEHCXJWsJKpHbNfn3QXxY+27UfUMq8LWt
+         o8qBbthHcIYTEu6FJVfA2lsW4z3h6EBAscQO9BNbzdS+TwJSUjEg51VOhQVPn0IEIi4Y
+         oIJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=Oibz9MnDmwNMmGUKMKiPf6+1t2ZWez65UHGa4Eunn0E=;
+        b=e5rjeV7MoovLckH/KLnIu568CipirGzpfp0H9XP1m/zypz0RpnbZsPFmFVrunCDu9x
+         WF6+Zh6/w7aRHPXzby8TomFZ2nkA0LAypfWcBga6YhBJy5X9/VIMcUE1RCs3D8dpG342
+         5d/FlHB2rSfwKw+yQV3Y9kc9F/lgfBY/tTUjg7p+ZxcimhPWR7jx6Rfv1mD11mFumcK0
+         RL+tmUXzTTOTiN5jV/aMLRJvCSwi+Kw4f4PKtJxpNSIy6DuRT96Iw1sxSAmuxdwp+SRX
+         ulD4uFCmDy2E/LCiLBv8pMda+gWmjXdUZ/VapEBN1eHdJrek6CmhxFiRKKmvBqs21Ejy
+         l9jQ==
+X-Gm-Message-State: APjAAAVl9a0RrLY7gSa68yS9NHcYjWPPCCkidYDjWQ0DtVDS+FZ5Itlm
+        itQs0MWg4ixgiyo7cFEknlRWmjH8uOaynI4qGbI=
+X-Google-Smtp-Source: APXvYqy3ctbmTwSIU2s3QLDVhwTo0ZhaNurwuOVwknJZrCW03OtJH6BebLGghrfFwyD6PDjfIzMtFN4MNr9/WOg2Ac8=
+X-Received: by 2002:a24:3a42:: with SMTP id m63mr9450639itm.29.1560025151667;
+ Sat, 08 Jun 2019 13:19:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <152ff12f-608d-0fef-e455-7d102c14b8f7@jpvw.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Received: by 2002:a6b:410f:0:0:0:0:0 with HTTP; Sat, 8 Jun 2019 13:19:11 -0700 (PDT)
+From:   Ayesha Al-Gaddafi <aishagaddafimd@gmail.com>
+Date:   Sat, 8 Jun 2019 20:19:11 +0000
+X-Google-Sender-Auth: xLfim6oFDS6scCbvxXaBoD3b0jA
+Message-ID: <CAFyj9jxf=-R1-wCXY97xvOYhPCAyZke5JcLUcaNCx=hVjTgr_Q@mail.gmail.com>
+Subject: From Mrs. Ayesha Al-Qaddafi,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Peace be upon you Dear Friend,
 
-On 6/8/19 5:01 PM, JP wrote:
->
-> On 6/8/19 11:30 AM, Sean Young wrote:
->> Hello Jan Pieter,
->>
->> On Sat, Jun 08, 2019 at 04:49:23AM +0200, JP wrote:
->>> I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
->>>
->>> how to submit this. 
->>> http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
->>>
->>>
->>> Please can someone help me out. It looks like the extra code in the
->>>
->>> demodulator does not effect other drivers that use it. Tested with a
->>>
->>> T230, they bothseem to work OK.
->> That's great, but there are some changes needed before we can accept 
->> this
->> patch. It needs a commit message and Signed-off-by and more:
->>
->> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
->>
->>>
->>> Jan Pieter van Woerkom
->>>
->>>
->>>
->>> diff -ru a/drivers/media/dvb-frontends/si2168.c
->>> b/drivers/media/dvb-frontends/si2168.c
->>> --- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 
->>> 07:59:45.000000000
->>> +0200
->>> +++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 
->>> 22:49:21.226337473
->>> +0200
->>> @@ -91,8 +91,16 @@
->>>
->>>       dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
->>>
->>> +    /* set ts clock freq to 10Mhz */
->>> +       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
->>> +    cmd.wlen = 6;
->>> +    cmd.rlen = 4;
->>> +    ret = si2168_cmd_execute(client, &cmd);
->>> +    if (ret) return ret;
->>> +
->>>       /* set TS_MODE property */
->>> -    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
->>> +    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
->>> +    cmd.args[4] = dev->ts_mode & 0x30;
->> This change affects every driver that uses the si2168. This will need 
->> some
->> justification.
->
->> There is currently no other driver that uses anything else than
->>
->> AUTO for ts clock mode. This is the best way to set it to MANUAL
->>
->> from the calling driver. With this patch, the outcome in cmd.args[4]
->>
->> for every other driver that does not set MANUAL (they currently
->>
->> don't) is exactly the same.
+ It=E2=80=99s my pleasure to contact you through this media as i am in need=
+ of
+your urgent assistance. My names are Mrs. Ayesha Al-Qaddafi a single
+Mother and a Widow with three Children. I am the only biological
+Daughter of late Libyan President (Late Colonel Muammar Al-Qaddafi).
 
-In other words: the si2168 code currently hardcodes TC_CLOCK_MODE
+I have an investment funds worth Twenty Eight Million Four Hundred
+Thousand United State Dollars ($28.400.000.00) and i need an
+investment Manager/Partner and because of the asylum status i will
+authorize you the ownership of the funds, however, I am interested in
+you for the investment project assistance in your country, may be from
+there, we can build a business relationship in the nearest future.
 
-to AUTO. The T230C2 needs MANUAL. The patch allows the driver to
+I am willing to negotiate investment/business profit sharing ratio
+with you base on the future investment earning profits. If you are
+willing to handle this project kindly reply urgent if only you are
+interested in this transaction to enable me provide you more
+information about the investment funds. Your Urgent Reply Will Be
+Appreciated.
 
-set MANUAL via ts_mode. Other drivers are not affected, except for
-
-the 10Mhz value but that does not do any harm in AUTO mode.
-
->>
->> Setting this clock to 10Mhz doesn't hurt anyone either. When
->>
->> in AUTO mode, I guess it is overwritten with the scanned value.
->>
->> When in the future there will be more drivers that use si2168
->>
->> manual clock mode, with different clock values, some other
->>
->> approach might be better. Having to modify  every driver that
->>
->> uses the si2168 to set the clock mode explicitly, just to be able
->>
->> to add one more driver, does not seem the right choice to me.
->>
->>>       if (acquire)
->>>           cmd.args[4] |= dev->ts_mode;
->>>       else
->>> diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c
->>> b/drivers/media/usb/dvb-usb-v2/dvbsky.c
->>> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 
->>> 07:59:45.000000000
->>> +0200
->>> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 
->>> 16:47:32.141530489
->>> +0200
->>> @@ -560,6 +560,9 @@
->>>       si2168_config.i2c_adapter = &i2c_adapter;
->>>       si2168_config.fe = &adap->fe[0];
->>>       si2168_config.ts_mode = SI2168_TS_PARALLEL;
->>> +    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
->> This needs le16_to_cpu().
->
->
-> It has been almost 25 years ago I did any programming.
->
-> But I'll look into that. And also into the administrative stuff.
->
->>
->>> +        si2168_config.ts_mode |= 0x20;
->>>       si2168_config.ts_clock_inv = 1;
->>>
->>>       state->i2c_client_demod = dvb_module_probe("si2168", NULL,
->>> @@ -799,6 +802,9 @@
->>>       { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
->>>           &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
->>>           RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
->>> +        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
->>> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>>       { }
->>>   };
->>>   MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
->>> diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
->>> --- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 
->>> +0200
->>> +++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 
->>> +0200
->>> @@ -387,6 +387,7 @@
->>>   #define USB_PID_MYGICA_D689                0xd811
->>>   #define USB_PID_MYGICA_T230                0xc688
->>>   #define USB_PID_MYGICA_T230C                0xc689
->>> +#define USB_PID_MYGICA_T230C2                0xc68a
->>>   #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
->>>   #define USB_PID_ELGATO_EYETV_DTT            0x0021
->>>   #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
->> Thanks,
->>
->> Sean
->>
-> Than you.
->
-> Jan Pieter.
->
->
+Kind Regards.
+Mrs. Ayesha Al-Qaddafi.
