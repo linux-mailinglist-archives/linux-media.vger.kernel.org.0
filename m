@@ -2,121 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 425063A6D7
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2019 18:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D55303AAAF
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2019 19:21:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729034AbfFIQiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jun 2019 12:38:01 -0400
-Received: from mail-eopbgr30121.outbound.protection.outlook.com ([40.107.3.121]:35491
-        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728678AbfFIQiB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 9 Jun 2019 12:38:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EngMpKounZPzZ32Ch+Ck4ZFFgS/evJSip8KYe1nOlZw=;
- b=Tg5EmUYE64TeuLXo+AMqNPdL8tewMD6bxc/CKftnk4Ir1b1i61r3udvbesw5bdfeVYeEvQS9GkmKDny0J0emAhdL0XZr2pfzjU/szQ50AZYbSyV2gq57Q/lXAGSQWKw3Wcj2NqgOI76g5BZgAnth80wCm0cQKIODEYrxXTJqo0E=
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
- DB3PR0202MB3466.eurprd02.prod.outlook.com (52.134.72.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.12; Sun, 9 Jun 2019 16:37:53 +0000
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf%5]) with mapi id 15.20.1965.017; Sun, 9 Jun 2019
- 16:37:53 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
- client
-Thread-Topic: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
- client
-Thread-Index: AQHVHelLRUjwurRB7Uaj1nj2qmlQFKaTh4UA
-Date:   Sun, 9 Jun 2019 16:37:52 +0000
-Message-ID: <661f1084-da4e-75f0-e632-335134932801@axentia.se>
-References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-x-originating-ip: [213.112.138.100]
-x-clientproxiedby: HE1PR0902CA0028.eurprd09.prod.outlook.com
- (2603:10a6:7:15::17) To DB3PR0202MB3434.eurprd02.prod.outlook.com
- (2603:10a6:8:5::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: de20f092-15a7-4702-8fc2-08d6ecf8d141
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DB3PR0202MB3466;
-x-ms-traffictypediagnostic: DB3PR0202MB3466:
-x-microsoft-antispam-prvs: <DB3PR0202MB34662F819F80F0C79EA26E7CBC120@DB3PR0202MB3466.eurprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 006339698F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(136003)(366004)(376002)(39830400003)(396003)(189003)(199004)(6246003)(65806001)(2501003)(66066001)(71200400001)(86362001)(6116002)(3846002)(31696002)(65826007)(71190400001)(5660300002)(4326008)(65956001)(66556008)(7416002)(64756008)(66446008)(256004)(66476007)(66946007)(73956011)(26005)(36756003)(25786009)(476003)(2616005)(14454004)(53936002)(6436002)(186003)(229853002)(8936002)(99286004)(52116002)(6512007)(6486002)(68736007)(53546011)(6506007)(386003)(11346002)(31686004)(446003)(64126003)(81166006)(81156014)(76176011)(110136005)(316002)(8676002)(7736002)(508600001)(74482002)(102836004)(2906002)(486006)(54906003)(58126008)(305945005);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3466;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: b5PbBXdfDmrxCUpaoqEeP2qIdv9epeSARFxp+Ctrw7uz8w0o/3OyFrDay2wEG0IkjivZIlW321ahRt3eTE1i9pomhJehCDP9vbTXa+1u7oAna0reWVUunYsM+PDK1jsxv8bVvTPfv0ICQHS1Y6GzIzOtBkUmsEBk8wVUiE4MmQ12KD8eD5IlPOo2Tc3H5wp9mS3zh3+1sor8Pjo86ZUKURBhUA3+LweyRO9UHQd30L9DZD6CbSLxtQRwP2WscT6Il6mG6V3FXQTnbDh3PGheCVZbdDVw+g2HZKemwzZ9JfFlArver5OvyyKXQay5CJ5CVglaNXjWGG+ThF/PWtn82KSdt+AKwv2Ood1U/sdTvUS5/6xTQkn5AF2vsHM04RBTIjPb3p/3yFAtK1f1vlQZdoZOcHO7Y+YO05XitWSJwc4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C55F5D15CFF4704BB7913C0E714412B0@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1731246AbfFIRUh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jun 2019 13:20:37 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:20540 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730139AbfFIRUg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jun 2019 13:20:36 -0400
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x59HKQ00009606;
+        Mon, 10 Jun 2019 02:20:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x59HKQ00009606
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1560100827;
+        bh=1ySK9wzh5EoMbwrJ8cJodwxCbTXiTLYsNbdKaL1fqtI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GZ0tzeWlAtCiiyKxspCt0mUF0VDxbXBDzbXup66dIyNRwF29xHu6y3v0d8yGc7Vga
+         BiKpv0OmeIeE0Y66CjkuCM+0BAPuHv1VpltpWJ4TF2i5DXqa1Pe+p7jpFy8qe6vWrH
+         qBKhpSVH6QPz0zbLAxA1LLigJy1pWtotzKV1RzrmcBb7aDdctBwTyz4mnj31ujvRA1
+         boAROXP/k2UEiz83ZrBY9a5jhxoBe8lagGWMj1GA2PXUweoWWtBmC9iCaWNUWsIsGk
+         qq/MlfQvpU/KtLxzhFdbF+0aQq3JMcHX5lESVHkQegw3Bsmay3vomR7TkWbL8a/zpl
+         M5zJ8+cvafWLg==
+X-Nifty-SrcIP: [209.85.217.47]
+Received: by mail-vs1-f47.google.com with SMTP id q64so4012902vsd.1;
+        Sun, 09 Jun 2019 10:20:26 -0700 (PDT)
+X-Gm-Message-State: APjAAAWd/57RmiEDymoUbAULTiOP+z18XgVSkE+NoyC2mDkH8V8D7OvI
+        MMB7n8q/BCIbDLMW9NoM/M5tAN+KMD/oQpARyF0=
+X-Google-Smtp-Source: APXvYqyVekfcVCyZGa1ldLjCcfToCDvlg8U4tDLhnKcPBhGAs7CzTNxomvXqVEzZuvlWy2C4qxXT+i4Fa5So7679jEA=
+X-Received: by 2002:a67:cd1a:: with SMTP id u26mr14566333vsl.155.1560100825584;
+ Sun, 09 Jun 2019 10:20:25 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: de20f092-15a7-4702-8fc2-08d6ecf8d141
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2019 16:37:52.9651
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: peda@axentia.se
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3466
+References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
+ <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
+ <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
+ <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
+ <20190604134213.GA26263@kroah.com> <CAK7LNARyqW3q6_46e-aYjmF8c0jUNDLdyB28zNaBEXqTV+5QSA@mail.gmail.com>
+ <CAK8P3a0bz8XYJOsmND2=CT_oTDmGMJGaRo9+QMroEhpekSMEaQ@mail.gmail.com>
+ <CAK7LNARU+uT0aUBh5niwEafL8+Ok7=sOZYukptpDH1w7Cii3hQ@mail.gmail.com>
+ <20190605051040.GA22760@kroah.com> <b70cf8c1f901ea09abbdb22dd28244b18fd1a39d.camel@perches.com>
+ <20190605071413.779bd821@coco.lan> <a798561d24c486d31063a7994d8630c859df00e9.camel@perches.com>
+ <CAK7LNARsSFT1ncyRgWi_tga_7KC6ZwZOETXQ2GrO9PfeJgLxyQ@mail.gmail.com>
+ <ba5ec856bce34eead8ba655b9bd6c54b002c40b5.camel@perches.com>
+ <CAK7LNAToTXt71obf8NvOiuN5MnxHs+-dkCp_Midu9e6OaOqc4g@mail.gmail.com> <bd1ef99fc503fed492ad036f781963ca15a8596f.camel@perches.com>
+In-Reply-To: <bd1ef99fc503fed492ad036f781963ca15a8596f.camel@perches.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Mon, 10 Jun 2019 02:19:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT3iKOX=0GxrB__m9haM=0L+MZQRq_OvFhW5N3iaaBAPA@mail.gmail.com>
+Message-ID: <CAK7LNAT3iKOX=0GxrB__m9haM=0L+MZQRq_OvFhW5N3iaaBAPA@mail.gmail.com>
+Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
+To:     Joe Perches <joe@perches.com>
+Cc:     Julia Lawall <julia.lawall@lip6.fr>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gMjAxOS0wNi0wOCAxMjo1NSwgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBXaGlsZSBwcmVwYXJp
-bmcgYSByZWZhY3RvcmluZyBzZXJpZXMsIEkgbm90aWNlZCB0aGF0IHNvbWUgZHJpdmVycyB1c2Ug
-YQ0KPiBjb21wbGljYXRlZCB3YXkgb2YgZGV0ZXJtaW5pbmcgdGhlIGFkYXB0ZXIgb2YgYSBjbGll
-bnQuIFRoZSBlYXN5IHdheSBpcw0KPiB0byB1c2UgdGhlIGludGVuZGVkIHBvaW50ZXI6IGNsaWVu
-dC0+YWRhcHRlcg0KPiANCj4gVGhlc2UgZHJpdmVycyBkbzoNCj4gCXRvX2kyY19hZGFwdGVyKGNs
-aWVudC0+ZGV2LnBhcmVudCk7DQo+IA0KPiBUaGUgSTJDIGNvcmUgcG9wdWxhdGVzIHRoZSBwYXJl
-bnQgcG9pbnRlciBhczoNCj4gCWNsaWVudC0+ZGV2LnBhcmVudCA9ICZjbGllbnQtPmFkYXB0ZXIt
-PmRldjsNCj4gDQo+IE5vdyB0YWtlIGludG8gY29uc2lkZXJhdGlvbiB0aGF0DQo+IAl0b19pMmNf
-YWRhcHRlcigmYWRhcHRlci0+ZGV2KTsNCj4gDQo+IGlzIGEgY29tcGxpY2F0ZWQgd2F5IG9mIHNh
-eWluZyAnYWRhcHRlcicsIHRoZW4gd2UgY2FuIGV2ZW4gZm9ybWFsbHkNCj4gcHJvdmUgdGhhdCB0
-aGUgY29tcGxpY2F0ZWQgZXhwcmVzc2lvbiBjYW4gYmUgc2ltcGxpZmllZCBieSB1c2luZw0KPiBj
-bGllbnQtPmFkYXB0ZXIuDQo+IA0KPiBUaGUgY29udmVyc2lvbiB3YXMgZG9uZSB1c2luZyBhIGNv
-Y2NpbmVsbGUgc2NyaXB0IHdpdGggc29tZSBtYW51YWwNCj4gaW5kZW50YXRpb24gZml4ZXMgYXBw
-bGllZCBvbiB0b3AuDQo+IA0KPiBUbyBhdm9pZCBhIGJyb3duIHBhcGVyIGJhZyBtaXN0YWtlLCBJ
-IGRvdWJsZSBjaGVja2VkIHRoaXMgb24gYSBSZW5lc2FzDQo+IFNhbHZhdG9yLVhTIGJvYXJkIChS
-LUNhciBNM04pIGFuZCB2ZXJpZmllZCBib3RoIGV4cHJlc3Npb24gcmVzdWx0IGluIHRoZQ0KPiBz
-YW1lIHBvaW50ZXIuIE90aGVyIHRoYW4gdGhhdCwgdGhlIHNlcmllcyBpcyBvbmx5IGJ1aWxkIHRl
-c3RlZC4NCg0KU2ltaWxhciB0aGluZ3MgZ28gb24gaW46DQoNCmRyaXZlcnMvaHdtb24vbG05MC5j
-DQpkcml2ZXJzL2xlZHMvbGVkcy1pczMxZmwzMTl4LmMNCmRyaXZlcnMvb2YvdW5pdHRlc3QuYw0K
-DQpUaG9zZSBoYXZlIHRoaXMgcGF0dGVybjoNCg0KCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZjbGll
-bnQtPmRldjsNCglzdHJ1Y3QgaTJjX2FkYXB0ZXIgKmFkYXB0ZXIgPSB0b19pMmNfYWRhcHRlcihk
-ZXYtPnBhcmVudCk7DQoNCkFuZCBkcml2ZXJzL3J0Yy9ydGMtZm0zMTMwLmMgaGFzIGEgY291cGxl
-IG9mIHRoZXNlOg0KDQoJdG1wID0gaTJjX3RyYW5zZmVyKHRvX2kyY19hZGFwdGVyKGZtMzEzMC0+
-Y2xpZW50LT5kZXYucGFyZW50KSwNCgkJCS4uLik7DQoNCndoZXJlIGZtMzEzMC0+Y2xpZW50IGlz
-IG9mIHR5cGUgInN0cnVjdCBpMmNfY2xpZW50ICoiDQoNCkNoZWVycywNClBldGVyDQo=
+On Sun, Jun 9, 2019 at 10:40 PM Joe Perches <joe@perches.com> wrote:
+>
+> On Sun, 2019-06-09 at 22:08 +0900, Masahiro Yamada wrote:
+> > On Sun, Jun 9, 2019 at 8:57 PM Joe Perches <joe@perches.com> wrote:
+> > > On Sun, 2019-06-09 at 16:14 +0900, Masahiro Yamada wrote:
+> > > > Hi Joe,
+> > > >
+> > > > On Thu, Jun 6, 2019 at 2:06 AM Joe Perches <joe@perches.com> wrote:
+> > > > > Perhaps a checkpatch change too:
+> > > > >
+> > > > > The first block updates unsigned only bitfields
+> > > > > The second tests uapi definitions and suggests "__<kernel_types"
+> > > >
+> > > > Good.
+> > > >
+> > > > In addition,
+> > > >
+> > > > "warn if __u8, __u16, __u32, __u64 are used outside of uapi/"
+> > > >
+> > > > Lots of kernel-space headers use __u{8,16,32,64} instead of u{8,16,32,64}
+> > > > just because developers often miss to understand when to use
+> > > > the underscore-prefixed types.
+> > >
+> > > The problem there is that checkpatch can't know if the
+> > > __<uapi_type> being used is for an actual uapi use or not.
+> > >
+> > > coccinelle could be much better at that.
+> >
+> > Why?
+>
+>
+> Perhaps it's (somewhat) bad form to have a __uapi type in a
+> structure, include that structure in a driver for something
+> like a copy_to/from_user, and map the __<uapi_type> to a non
+> underscore prefixed <kernel_type>
+
+Linus Torvalds wrote 'sparse' to check this.
+
+Any attempt to distinguish the address-space
+by the presence of double-underscore-prefixes is pointless.
+This is already checked by __kernel / __user.
+
+It is absolutely correct to assign __u32 to u32, and vice versa.
+
+If you think the following patch is wrong, please tell me why:
+
+
+diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+index 748ac489ef7e..24c1b73d9fbd 100644
+--- a/drivers/android/binder.c
++++ b/drivers/android/binder.c
+@@ -1132,7 +1132,7 @@ static struct binder_node *binder_init_node_ilocked(
+        struct binder_node *node;
+        binder_uintptr_t ptr = fp ? fp->binder : 0;
+        binder_uintptr_t cookie = fp ? fp->cookie : 0;
+-       __u32 flags = fp ? fp->flags : 0;
++       u32 flags = fp ? fp->flags : 0;
+
+        assert_spin_locked(&proc->inner_lock);
+
+@@ -4918,7 +4918,7 @@ static int
+binder_ioctl_get_node_info_for_ref(struct binder_proc *proc,
+ {
+        struct binder_node *node;
+        struct binder_context *context = proc->context;
+-       __u32 handle = info->handle;
++       u32 handle = info->handle;
+
+        if (info->strong_count || info->weak_count || info->reserved1 ||
+            info->reserved2 || info->reserved3) {
+
+
+
+
+>
+> For instance
+>
+> struct flat_binder_object in drivers/android/binder.c
+>
+> How is checkpatch supposed to know that __u32 flags is
+> inappropriate?
+>
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
