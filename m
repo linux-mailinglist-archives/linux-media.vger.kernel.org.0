@@ -2,104 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53CBC3A5EC
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2019 15:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56E463A669
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2019 16:38:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728534AbfFINfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jun 2019 09:35:18 -0400
-Received: from smtprelay0154.hostedemail.com ([216.40.44.154]:60483 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727382AbfFINfS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 9 Jun 2019 09:35:18 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id D7DFB18029125;
-        Sun,  9 Jun 2019 13:35:16 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2692:2828:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:5007:7653:10004:10400:10848:11026:11232:11473:11658:11914:12740:12760:12895:13069:13311:13357:13439:14096:14097:14180:14181:14659:14721:21060:21080:21627:30054:30060:30070:30090:30091,0,RBL:107.134.184.123:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:24,LUA_SUMMARY:none
-X-HE-Tag: pies35_2dd16e86e5d0d
-X-Filterd-Recvd-Size: 3394
-Received: from XPS-9350 (107-134-184-123.lightspeed.renonv.sbcglobal.net [107.134.184.123])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Sun,  9 Jun 2019 13:35:14 +0000 (UTC)
-Message-ID: <bd1ef99fc503fed492ad036f781963ca15a8596f.camel@perches.com>
-Subject: Re: [PATCH] media: do not use C++ style comments in uapi headers
-From:   Joe Perches <joe@perches.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Julia Lawall <julia.lawall@lip6.fr>,
+        id S1728742AbfFIOiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jun 2019 10:38:25 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46084 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728534AbfFIOiZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jun 2019 10:38:25 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n4so6558396wrw.13
+        for <linux-media@vger.kernel.org>; Sun, 09 Jun 2019 07:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aT145cOmHBvHp5+au2TZxy31k5STP3PpDOo3PdqIDJ8=;
+        b=IPnY8mvIy8Zprrk36vEaBlOtsMxy5Ei2rhkeKdqfFVZVIYx56/hnDCSwH+IJbp2tS4
+         hYKreR35169ujUfgPWvSlGBS0G4SjsOrkczW2nhfeVMPjNwahyzar/4ye5aacufYRs95
+         enWme4Obm6p25t4eI2rIxlQbgNqjgD6hzkTTJwrMR6gaOS+ds1kI/ybc3JnTBcaysa0L
+         cQunNBBrHI4XH8JOWIBj7gGizkK2pT0XeylbyVC0xHctA0HBQot60b0rPEu8aT1EErzt
+         8BpcQTSV6fBjuD0yP1QGPrJs34A9U2DpMAwpeQUD9yix39LyoTbZAQnjcXSrxm6jz/KC
+         OPSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aT145cOmHBvHp5+au2TZxy31k5STP3PpDOo3PdqIDJ8=;
+        b=TgQN1iJJfBgJ3qxF166m6AOA7E62lmLoyOXLcW7UeAMtJRvhEm4mimYHES396dtE3U
+         hr0YA5n0CrfpYRgNq4yHBFdRVGne0H93X+/QcJ2bUT12Hj+/hlTXdorkhRNIwPfiAwIW
+         1o7eFwhCuq5fkX/9NeJR6308f616A3oHKYttsZ0zRHppdMTe6Kr2NJAeHX/0vMAwMPpg
+         hwLfyre/M1nFYrIfR883pjXmYQm8XPET+zyR6Wg1a2E4Ja/HGt75APgV//JTWiVeq7fp
+         sHth6nVFcEqJuUJlf7oqswz5+DhcUtVLUAASS9W8q4azJNMnZug7sq3++spgDBPiGBRx
+         0kLg==
+X-Gm-Message-State: APjAAAVLm1al2c0LAP38cZHBNLv8Xn+tXSjM8dcy/r58+MXLqXdwv8lD
+        H4YFOGU1ZCoXeFaVZroMeaBwzA==
+X-Google-Smtp-Source: APXvYqzEWdX1dLa5jrJ7WFynMa9ukpv6QH+rjpKLNuzSGX8vCZD/X1JfHgecs3YUbxbBuWdebzC/TA==
+X-Received: by 2002:adf:f04d:: with SMTP id t13mr21209674wro.36.1560091103673;
+        Sun, 09 Jun 2019 07:38:23 -0700 (PDT)
+Received: from mjourdan-pc.numericable.fr (abo-99-183-68.mtp.modulonet.fr. [85.68.183.99])
+        by smtp.gmail.com with ESMTPSA id c17sm6047713wrv.82.2019.06.09.07.38.22
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 09 Jun 2019 07:38:22 -0700 (PDT)
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Sun, 09 Jun 2019 06:35:07 -0700
-In-Reply-To: <CAK7LNAToTXt71obf8NvOiuN5MnxHs+-dkCp_Midu9e6OaOqc4g@mail.gmail.com>
-References: <20190604111334.22182-1-yamada.masahiro@socionext.com>
-         <8cf48e20064eabdfe150795365e6ca6f36032e9f.camel@perches.com>
-         <CAK8P3a1oDfNF_T+NCoPsXkJAY2x4_uCWSwrDXHi7dDSaMqfnfA@mail.gmail.com>
-         <CAK7LNAS0Ph2Z6x0-UPSkJUC31NvPi09BmFrve+YJcXMrop-BGA@mail.gmail.com>
-         <20190604134213.GA26263@kroah.com>
-         <CAK7LNARyqW3q6_46e-aYjmF8c0jUNDLdyB28zNaBEXqTV+5QSA@mail.gmail.com>
-         <CAK8P3a0bz8XYJOsmND2=CT_oTDmGMJGaRo9+QMroEhpekSMEaQ@mail.gmail.com>
-         <CAK7LNARU+uT0aUBh5niwEafL8+Ok7=sOZYukptpDH1w7Cii3hQ@mail.gmail.com>
-         <20190605051040.GA22760@kroah.com>
-         <b70cf8c1f901ea09abbdb22dd28244b18fd1a39d.camel@perches.com>
-         <20190605071413.779bd821@coco.lan>
-         <a798561d24c486d31063a7994d8630c859df00e9.camel@perches.com>
-         <CAK7LNARsSFT1ncyRgWi_tga_7KC6ZwZOETXQ2GrO9PfeJgLxyQ@mail.gmail.com>
-         <ba5ec856bce34eead8ba655b9bd6c54b002c40b5.camel@perches.com>
-         <CAK7LNAToTXt71obf8NvOiuN5MnxHs+-dkCp_Midu9e6OaOqc4g@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Subject: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic resolution switching
+Date:   Sun,  9 Jun 2019 16:38:15 +0200
+Message-Id: <20190609143820.4662-1-mjourdan@baylibre.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 2019-06-09 at 22:08 +0900, Masahiro Yamada wrote:
-> On Sun, Jun 9, 2019 at 8:57 PM Joe Perches <joe@perches.com> wrote:
-> > On Sun, 2019-06-09 at 16:14 +0900, Masahiro Yamada wrote:
-> > > Hi Joe,
-> > > 
-> > > On Thu, Jun 6, 2019 at 2:06 AM Joe Perches <joe@perches.com> wrote:
-> > > > Perhaps a checkpatch change too:
-> > > > 
-> > > > The first block updates unsigned only bitfields
-> > > > The second tests uapi definitions and suggests "__<kernel_types"
-> > > 
-> > > Good.
-> > > 
-> > > In addition,
-> > > 
-> > > "warn if __u8, __u16, __u32, __u64 are used outside of uapi/"
-> > > 
-> > > Lots of kernel-space headers use __u{8,16,32,64} instead of u{8,16,32,64}
-> > > just because developers often miss to understand when to use
-> > > the underscore-prefixed types.
-> > 
-> > The problem there is that checkpatch can't know if the
-> > __<uapi_type> being used is for an actual uapi use or not.
-> > 
-> > coccinelle could be much better at that.
-> 
-> Why?
+Hello,
 
+This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
+to tag coded formats for which the device supports dynamic resolution
+switching, via V4L2_EVENT_SOURCE_CHANGE.
+This includes the initial "source change" where the device is able to
+tell userspace about the coded resolution and the DPB size (which
+sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
+This flag is mainly aimed at stateful decoder drivers.
 
-Perhaps it's (somewhat) bad form to have a __uapi type in a
-structure, include that structure in a driver for something
-like a copy_to/from_user, and map the __<uapi_type> to a non
-underscore prefixed <kernel_type>
+This RFC is motivated by my development on the amlogic video decoder
+driver, which does not support dynamic resolution switching for older
+coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
+it for the newer formats (H264, HEVC, VP9).
 
-For instance
+The specification regarding stateful video decoders should be amended
+to include that, in the absence of this flag for a certain format,
+userspace is expected to extract the coded resolution and allocate
+a sufficient amount of capture buffers on its own.
+I understand that this point may be tricky, since older kernels with
+close-to-spec drivers would not have this flag available, yet would
+fully support dynamic resolution switching.
+However, with the spec not merged in yet, I wanted to have your opinion
+on this late addition.
 
-struct flat_binder_object in drivers/android/binder.c
+The RFC patches also adds support for this flag for the 4 following
+stateful decoder drivers:
+ - venus
+ - s5p-mfc
+ - mtk-vcodec
+ - vicodec
 
-How is checkpatch supposed to know that __u32 flags is
-inappropriate?
+Maxime Jourdan (5):
+  media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: venus: vdec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: s5p_mfc_dec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: mtk-vcodec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: vicodec: flag vdec/stateful OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
 
+ Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
+ drivers/media/platform/qcom/venus/core.h           |  1 +
+ drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
+ drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
+ drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
+ include/uapi/linux/videodev2.h                     |  5 +++--
+ 9 files changed, 43 insertions(+), 2 deletions(-)
+
+-- 
+2.21.0
 
