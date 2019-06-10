@@ -2,135 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AC663B33C
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 12:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFF93B588
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 14:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389470AbfFJKcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jun 2019 06:32:41 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36247 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389466AbfFJKcl (ORCPT
+        id S2389686AbfFJM6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jun 2019 08:58:33 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:35849 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389169AbfFJM6c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jun 2019 06:32:41 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u8so7641181wmm.1;
-        Mon, 10 Jun 2019 03:32:39 -0700 (PDT)
+        Mon, 10 Jun 2019 08:58:32 -0400
+Received: by mail-lf1-f67.google.com with SMTP id q26so6569560lfc.3
+        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2019 05:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version:content-transfer-encoding;
-        bh=IkG1E0AYyaW7+6Dt1fH+3V0jkXsmdfRM9uUK4jdUh+w=;
-        b=Yfo8EUqarFT7nPkF1aeKi1R8SH3rF0IbMaxPFbHD5BQef/cTOgwy1X/WI0zGiITxEX
-         jPeF/HOSXo3Qf0jFyOC2mSzVaSnASG/UpSuS2zNVb55CS8hRjSgBFQ9cfOSzDSNxx6Uz
-         FT+OBn8OrrCVB4V5V6YCIJhc9gwFGLARBwcGcYxgfn59c630P2IYvl9pFuCdqV4DjsA6
-         Sx92LVIpPcRLrdmqe444Idcck7Dgj09/ZSurEmcgyIGeQs1LYorx0pA5P03Vv8gQH62n
-         YIO1lG/oVeF0n4VkBxQQpD3JJa8tpu5TlY9a+Dj0ZxaST59vZwZRjsopxlD6YKsLcyMG
-         eBXQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7DLFQ8by/jV1+O/LDvQ3huJEjoQ4sVNIYrRFls+hbxg=;
+        b=kJwSbhswbKbQHzM85JPdk5WWpRJM3BNteN454cZjnKRT4+2cK1IwcgVbguNeugjWKU
+         anfYSptxIdmrRV7MDJsWRwyVls6QGDNJe5RT+rmXTGCG/V7I4ey08t14jgw3CqDZdqaM
+         4iETn+6dLcyFpjEoplS3FYXNzJi3sRorfA74TrLC+x6NxDVEIZqzxw7UcdmfBUQRlhlD
+         XI6GJjZNM0hgCsW6GDaj6cyDatbRJLDB/QZwR6Hjgxqcihk9ghBmHeWACTK2zvqac68v
+         dsnJZUC75L3rxuEyKrjXMpty88ykkZ7ebW3xpLMPpt/RQC6Pk3NpgulvKjx1FFOGfJXq
+         0hQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-        bh=IkG1E0AYyaW7+6Dt1fH+3V0jkXsmdfRM9uUK4jdUh+w=;
-        b=IV56IsLGIQe/eNYAH7F83YHPxLq6EKdeBHZ5yru3bQ48HPrnwOs7iJnerMxBvXG2r0
-         KmY7KS5vbhamg/PEmQyi2uUKV6AJuFJLkhihGy4FQlLQcv3p/lBhoDCevHhPMGLoeIgi
-         9VhBrHjZcbx9+gr1/fwtNlJT2WXnXmVlmY5EZE/G5FjaiAqlqnmb5Mi/ijZE5uHWjvJ2
-         4g6f3tJeI7kbQog+1fkvpml6t52Jt9zLLYvWAC6lG0irlndho1VeuoYXccWgmRv+iqn0
-         YNwgX1PFr4jwU1tUM3Wp19bK+fq/bC2198gZzdgnyE4/PiWLtuh+vmKrlLjJKqUoyfCv
-         i0pw==
-X-Gm-Message-State: APjAAAVfUHV+03nnJSjguR7Js7p4IeGvTfvVOYbQSuM6bmJ3eEqpxXz1
-        pysbyYm+MqGGyzd7mB5+xlk=
-X-Google-Smtp-Source: APXvYqzibcwpB846QHozkg6IQp2B/oYTBKhsZYSYuuwjsqFbx1LuXZFZoi9TZb/x6Ii+Fr9hHWLjGA==
-X-Received: by 2002:a1c:7a10:: with SMTP id v16mr13435253wmc.98.1560162759118;
-        Mon, 10 Jun 2019 03:32:39 -0700 (PDT)
-Received: from arch-late ([87.196.73.9])
-        by smtp.gmail.com with ESMTPSA id o15sm12661526wrw.42.2019.06.10.03.32.37
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 10 Jun 2019 03:32:38 -0700 (PDT)
-References: <20190606153825.8183-1-sebastien.szymanski@armadeus.com> <20190606153825.8183-2-sebastien.szymanski@armadeus.com> <92ca6e6e-2ebd-cec4-4f75-2674fd2c3d99@infradead.org>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     driverdev-devel@linuxdriverproject.org
-Cc:     =?utf-8?Q?S=C3=A9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Shawn Guo <shawnguo@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: Re: [PATCH v2 2/3] media: imx7-media-csi: add i.MX6UL support
-In-reply-to: <92ca6e6e-2ebd-cec4-4f75-2674fd2c3d99@infradead.org>
-Date:   Mon, 10 Jun 2019 11:32:36 +0100
-Message-ID: <m336khpw6z.fsf@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7DLFQ8by/jV1+O/LDvQ3huJEjoQ4sVNIYrRFls+hbxg=;
+        b=qPPPnq0gK53HXC0CT/1xwoHamZKC5XbvTXAPpDtm461hyjI44cM+Q7SXdmWuHhnI1I
+         T8oUqDsmPW7TA0opiIAN3NsfgIvm70BLeqfpUX5iCncygBtA07089nWVakfC39XPHrPZ
+         GU2vt/Pqf4pAoGTIelKpNx3D7KZ2lC8MIFk7sBSOfkMNWwvJVxHZEf7fvKxT9tMQxn4u
+         i5cdEhMcna2q2YpIRtKadmNFs/HJlDBNhCIvOg+CdZxbeUlh8xx9ZgAu7JodZhT+N/pw
+         Sr+8wdULQotXaBhrfyrK6kRIimMjmF20t4ZH9hXUJSrUVXyiEkJhSGtoIHGoh6OfHa86
+         HvvA==
+X-Gm-Message-State: APjAAAV9n/sEVqZmNisqMx/MN5qID98OasY2LpgMOx3DS3dF7VzVpSDA
+        KWcRV8850dVEk3kIkfWCId9eYs2sNoAdUSAS/4ZVhA==
+X-Google-Smtp-Source: APXvYqw+d2TzVaMlkIN2DtQbw9EMUt0fHjzFymluDcPEIw5oOSKylqjj5JhidkPvvSMbBAUtXjailq7IiV0LAj261QA=
+X-Received: by 2002:ac2:4d17:: with SMTP id r23mr28592327lfi.130.1560171510009;
+ Mon, 10 Jun 2019 05:58:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20190606094657.23612-1-anders.roxell@linaro.org> <20190606071052.412a766d@coco.lan>
+In-Reply-To: <20190606071052.412a766d@coco.lan>
+From:   Anders Roxell <anders.roxell@linaro.org>
+Date:   Mon, 10 Jun 2019 14:58:18 +0200
+Message-ID: <CADYN=9K0k30U5Uov3RHuSQAe2hfdVCWayWHmVdzQ9umD8Mpi-A@mail.gmail.com>
+Subject: Re: [PATCH 0/8] fix warnings for same module names
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     andrew@lunn.ch, vivien.didelot@gmail.com, f.fainelli@gmail.com,
+        marex@denx.de, stefan@agner.ch, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, b.zolnierkie@samsung.com,
+        a.hajda@samsung.com, p.zabel@pengutronix.de, hkallweit1@gmail.com,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
-On Fri 07 Jun 2019 at 00:10, Randy Dunlap wrote:
-> On 6/6/19 8:38 AM, S=C3=A9bastien Szymanski wrote:
->> i.MX7 and i.MX6UL/L have the same CSI controller. So add i.MX6UL/L suppo=
-rt
->> to imx7-media-csi driver.
->>
->> Signed-off-by: S=C3=A9bastien Szymanski <sebastien.szymanski@armadeus.co=
-m>
->> ---
->>
->> Changes for v2:
->>  - rebase on top of linuxtv/master
->>  - mention i.MX6UL/L in header and Kconfig help text
->>  - rename csi_type to csi_soc_id
->>
->>  drivers/staging/media/imx/Kconfig          |  4 +-
->>  drivers/staging/media/imx/imx7-media-csi.c | 62 ++++++++++++++++------
->>  2 files changed, 49 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/i=
-mx/Kconfig
->> index ad3d7df6bb3c..8b6dc42c39e0 100644
->> --- a/drivers/staging/media/imx/Kconfig
->> +++ b/drivers/staging/media/imx/Kconfig
->> @@ -22,11 +22,11 @@ config VIDEO_IMX_CSI
->>  	  A video4linux camera sensor interface driver for i.MX5/6.
->>
->>  config VIDEO_IMX7_CSI
->> -	tristate "i.MX7 Camera Sensor Interface driver"
->> +	tristate "i.MX6UL/L / i.MX7 Camera Sensor Interface driver"
->>  	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
->>  	default y
+On Thu, 6 Jun 2019 at 12:11, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
 >
-> Hi,
-> I realize that this "default y" is not part of this patch set, but we have
-> pretty strong guidance that a driver should not default to 'y' unless it =
-is
-> needed for a system to boot.  If this driver is optional, then please drop
-> the 2 occurrences of "default y" in this Kconfig file.
+> Em Thu,  6 Jun 2019 11:46:57 +0200
+> Anders Roxell <anders.roxell@linaro.org> escreveu:
+>
+> > Hi,
+> >
+> > This patch set addresses warnings that module names are named the
+> > same, this may lead to a problem that wrong module gets loaded or if one
+> > of the two same-name modules exports a symbol, this can confuse the
+> > dependency resolution. and the build may fail.
+> >
+> >
+> > Patch "drivers: net: dsa: realtek: fix warning same module names" and
+> > "drivers: net: phy: realtek: fix warning same module names" resolves the
+> > name clatch realtek.ko.
+> >
+> > warning: same module names found:
+> >   drivers/net/phy/realtek.ko
+> >   drivers/net/dsa/realtek.ko
+> >
+> >
+> > Patch  "drivers: (video|gpu): fix warning same module names" resolves
+> > the name clatch mxsfb.ko.
+> >
+> > warning: same module names found:
+> >   drivers/video/fbdev/mxsfb.ko
+> >   drivers/gpu/drm/mxsfb/mxsfb.ko
+> >
+> > Patch "drivers: media: i2c: fix warning same module names" resolves the
+> > name clatch adv7511.ko however, it seams to refer to the same device
+> > name in i2c_device_id, does anyone have any guidance how that should be
+> > solved?
+> >
+> > warning: same module names found:
+> >   drivers/gpu/drm/bridge/adv7511/adv7511.ko
+> >   drivers/media/i2c/adv7511.ko
+> >
+> >
+> > Patch "drivers: media: coda: fix warning same module names" resolves the
+> > name clatch coda.ko.
+> >
+> > warning: same module names found:
+> >   fs/coda/coda.ko
+> >   drivers/media/platform/coda/coda.ko
+>
+> Media change look ok, and probably the other patches too, but the
+> problem here is: who will apply it and when.
+>
+> The way you grouped the changes makes harder for subsystem maintainers
+> to pick, as the same patch touches multiple subsystems.
+>
+> On the other hand, if this gets picked by someone else, it has the
+> potential to cause conflicts between linux-next and the maintainer's
+> tree.
+>
+> So, the best would be if you re-arrange this series to submit one
+> patch per subsystem.
 
-Yeah, even though both depends on imx_media, I agree that they
-should not default to y. I will send a patch for this.
-Thanks.
+I will send it per subsystem.
 
----
 Cheers,
-        Rui
-
+Anders
 
 >
-> thanks.
->>  	help
->>  	  Enable support for video4linux camera sensor interface driver for
->> -	  i.MX7.
->> +	  i.MX6UL/L or i.MX7.
->>  endmenu
->>  endif
-
+>
+> >
+> >
+> > Patch "drivers: net: phy: fix warning same module names" resolves the
+> > name clatch asix.ko.
+> >
+> > warning: same module names found:
+> >   drivers/net/phy/asix.ko
+> >   drivers/net/usb/asix.ko
+> >
+> > Patch "drivers: mfd: 88pm800: fix warning same module names" and
+> > "drivers: regulator: 88pm800: fix warning same module names" resolves
+> > the name clatch 88pm800.ko.
+> >
+> > warning: same module names found:
+> >   drivers/regulator/88pm800.ko
+> >   drivers/mfd/88pm800.ko
+> >
+> >
+> > Cheers,
+> > Anders
+> >
+> > Anders Roxell (8):
+> >   drivers: net: dsa: realtek: fix warning same module names
+> >   drivers: net: phy: realtek: fix warning same module names
+> >   drivers: (video|gpu): fix warning same module names
+> >   drivers: media: i2c: fix warning same module names
+> >   drivers: media: coda: fix warning same module names
+> >   drivers: net: phy: fix warning same module names
+> >   drivers: mfd: 88pm800: fix warning same module names
+> >   drivers: regulator: 88pm800: fix warning same module names
+> >
+> >  drivers/gpu/drm/bridge/adv7511/Makefile | 10 +++++-----
+> >  drivers/gpu/drm/mxsfb/Makefile          |  4 ++--
+> >  drivers/media/i2c/Makefile              |  3 ++-
+> >  drivers/media/platform/coda/Makefile    |  4 ++--
+> >  drivers/mfd/Makefile                    |  7 +++++--
+> >  drivers/net/dsa/Makefile                |  4 ++--
+> >  drivers/net/phy/Makefile                |  6 ++++--
+> >  drivers/regulator/Makefile              |  3 ++-
+> >  drivers/video/fbdev/Makefile            |  3 ++-
+> >  9 files changed, 26 insertions(+), 18 deletions(-)
+> >
+>
+>
+>
+> Thanks,
+> Mauro
