@@ -2,138 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8A1D3B150
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 10:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 836433B166
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 10:57:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388257AbfFJIyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jun 2019 04:54:51 -0400
-Received: from mga01.intel.com ([192.55.52.88]:18771 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388120AbfFJIyv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jun 2019 04:54:51 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 01:54:50 -0700
-X-ExtLoop1: 1
-Received: from mwilganx-mobl2.ger.corp.intel.com (HELO mara.localdomain) ([10.249.140.122])
-  by orsmga001.jf.intel.com with ESMTP; 10 Jun 2019 01:54:48 -0700
-Received: from sailus by mara.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1haG4j-0000MC-6w; Mon, 10 Jun 2019 11:54:45 +0300
-Date:   Mon, 10 Jun 2019 11:54:44 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        m.felsch@pengutronix.de
-Subject: Re: [RFC 1/1] v4l2-subdev: Rework subdev format and selection macros
- to work without MC
-Message-ID: <20190610085443.mdwxw6pehfr2o5e4@mara.localdomain>
-References: <20190604175731.20596-1-sakari.ailus@linux.intel.com>
- <1846727.Tl316bQTBL@z50>
- <20190606135642.2fctrsymqmuxsxol@paasikivi.fi.intel.com>
- <60014338.tBqkIJZrQe@z50>
+        id S2388755AbfFJI5M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jun 2019 04:57:12 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55978 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388570AbfFJI5L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 Jun 2019 04:57:11 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6A3A927E746;
+        Mon, 10 Jun 2019 09:57:09 +0100 (BST)
+Date:   Mon, 10 Jun 2019 10:57:06 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v2 0/3] media: uapi: h264: First batch of adjusments
+Message-ID: <20190610105706.33aa0b95@collabora.com>
+In-Reply-To: <20190610085250.3255-1-boris.brezillon@collabora.com>
+References: <20190610085250.3255-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60014338.tBqkIJZrQe@z50>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Janusz,
+On Mon, 10 Jun 2019 10:52:47 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-On Thu, Jun 06, 2019 at 08:13:36PM +0200, Janusz Krzysztofik wrote:
-> Hi Sakari,
+> Hello,
 > 
-> On Thursday, June 6, 2019 3:56:42 PM CEST Sakari Ailus wrote:
-> > Hi Janusz,
-> > 
-> > On Wed, Jun 05, 2019 at 09:33:41PM +0200, Janusz Krzysztofik wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Tuesday, June 4, 2019 7:57:31 PM CEST Sakari Ailus wrote:
-> > > > Rework the macros for accessing subdev try formats to work meaningfully
-> > > > and relatively safely without V4L2 sub-device uAPI (and without MC). This
-> > > > is done by simply reverting to accessing the pad number zero if
-> > > > CONFIG_VIDEO_V4L2_SUBDEV_API isn't enabled, and emitting a kernel warning
-> > > > if the pad is non-zero in that case.
-> > > > 
-> > > > The functions are seen useful if subdev uAPI is disabled for drivers that
-> > > > can work without the Kconfig option but benefit from the option if it's
-> > > > enabled.
-> > > 
-> > > I'm not sure which drivers you (we) consider valid users of those functions.  
-> > > Subdevice drivers only? Or other drivers which interact with subdevices as 
-> > > well?  An answer to that question determines my possible other comments.
-> > 
-> > These functions are only by drivers for the devices they control directly
-> > only.
+> This is a first batch of adjustments to the stateless H264 decoder
+> uAPI. The first one is about adding support for per-frame decoding,
+> which is the only mode supported on some codecs (the hantro G1 block
+> supports per-slice decoding but not in an way that would allow
+> efficient multiplexing of several decoding contexts).
 > 
-> That's what I expected.
+> The second modification drops the P0/B0/B1 ref lists from the
+> decode_params control. These lists are no longer needed now that we know
+> we can build them kernel side based on the DPB.
 > 
-> Exposing those functions to drivers not supporting V4L2 subdev uAPI is 
-> not a bad idea but it would make more sense to me if we also updated potential 
-> users.  Otherwise I just don't believe anyone will care for as long as a 
-> driver is not refreshed to support MC and V4L2 subdev uAPI.
+> There are few more changes in the pipe, but I'd like to sync with Paul,
+> Jonas, Jernej and Nicolas before modifying:
+> * Enforce order of the scaling list (looks like the rockchip and cedrus
+>   have different expectations)
+> * Pass top/bottom field info as flags in the DPB entry: the field
+>   attached to the capture buffer is not accurate as capture bufs might
+>   contain both top/bottom (meaning they are actually interlaced), but a
+>   coded frame might contain only one of these fields. Note
+>   that there's also a problem with the output -> capture field flag
+>   propagation we have in copy_metadata() because a coded slice might
+>   contain only data for top or bottom, but the capture frame might
+>   contain both. Doing capture->field = output->field means we're lying
+>   about what's inside the capture buffer (not sure we have
+>   implementation checking that)
+> * s/dpb/refs/: looks like we're abusing the term DPB which is supposed
+>   to be implementation specific. What's provided by the bitstream is a
+>   list of references that will be used to decode a frame
+> * ... (add your own)
+> 
+> Feel free to comment on these changes and/or propose alternatives.
+> 
+> Regards,
+> 
+> Boris
+> 
+> Changes in v2:
+> * Allow decoding multiple slices in per-slice decoding mode
+> * Minor doc improvements/fixes
 
-The primary users of these functions are drivers that do support subdev
-uAPI. Some drivers can function that disabled, so making these functions
-usable to those drivers in all cases simplifies those drivers.
+Forgot:
+
+* Drop sunxi changes until we settle on the uAPI changes (supporting
+  multi-slice decoding in per-slice mode requires a bit more work and I
+  can't test it)
 
 > 
-> > > ...
-> > > > As a by-product, the patch simplifies individual inline functions by
-> > > > removing two lines of code from each of them and moving the functionality
-> > > > to a common macro.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > > Hi guys,
-> > > > 
-> > > > This might not be pretty but should provide some comfort for drivers
-> > > > working with different Kconfig options. Comments are welcome...
-> > > > 
-> > > >  include/media/v4l2-subdev.h | 24 ++++++++++++++----------
-> > > >  1 file changed, 14 insertions(+), 10 deletions(-)
-> > > > 
-> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > index e1e3c18c3fd6..3328f302326b 100644
-> > > > --- a/include/media/v4l2-subdev.h
-> > > > +++ b/include/media/v4l2-subdev.h
-> > > > @@ -930,6 +930,17 @@ struct v4l2_subdev_fh {
-> > > >  	container_of(fh, struct v4l2_subdev_fh, vfh)
-> > > >  
-> > > >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> > > > +#define __v4l2_subdev_get_try_field(__sd, __cfg, __pad, __field)	\
-> > > > +	(WARN_ON(!(__cfg)) ? NULL :		\
-> > > > +	 ((__sd)->entity.graph_obj.mdev ?				
-> > > \strange
-> > > > +	  (WARN_ON((__pad) >= (__sd)->entity.num_pads) ?		\
-> > > > +	   NULL : &(__cfg)[__pad].__field) :				
-> > > \
-> > > > +	  &(__cfg)[WARN_ON(__pad) && 0].__field))
-> > > > +#else /* CONFIG_VIDEO_V4L2_SUBDEV_API */
-> > > > +#define __v4l2_subdev_get_try_field(__sd, __cfg, __pad, __field)	\
-> > > > +	(WARN_ON(!(__cfg)) ? NULL :				
-> > > 	\
-> > > > +	 &(__cfg)[WARN_ON(__pad) && 0].__field)
-> > > > +#endif /* !CONFIG_VIDEO_V4L2_SUBDEV_API */
+> Boris Brezillon (3):
+>   media: uapi: h264: Clarify our expectations regarding NAL header
+>     format
+>   media: uapi: h264: Add the concept of decoding mode
+>   media: uapi: h264: Get rid of the p0/b0/b1 ref-lists
 > 
-> I think that as long as we already have in place the same checks performed by 
-> v4l2_subdev_call() which seems the only user entry point to a subdevice 
-> driver, invalid cfg or pad values you are trying to catch here will never be 
-> passed unless the driver performs unusual operations and, moreover, is 
-> internally broken.
+>  .../media/uapi/v4l/ext-ctrls-codec.rst        | 56 +++++++++++++++----
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++
+>  include/media/h264-ctrls.h                    | 13 +++++
+>  3 files changed, 68 insertions(+), 10 deletions(-)
+> 
 
-You can't rely on checks done by the v4l2_subdev_call macro as these
-parameters do not come from the caller; they are set by the driver itself.
-
--- 
-Regards,
-
-Sakari Ailus
-sakari.ailus@linux.intel.com
