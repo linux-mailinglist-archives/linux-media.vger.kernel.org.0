@@ -2,95 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 694223ADA6
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 05:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC6F3ADBB
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 05:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387459AbfFJDcW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Jun 2019 23:32:22 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38151 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387462AbfFJDcT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jun 2019 23:32:19 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s15so4240119wmj.3
-        for <linux-media@vger.kernel.org>; Sun, 09 Jun 2019 20:32:17 -0700 (PDT)
+        id S2387481AbfFJDse (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Jun 2019 23:48:34 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:36248 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387457AbfFJDse (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Jun 2019 23:48:34 -0400
+Received: by mail-ed1-f68.google.com with SMTP id k21so9047860edq.3
+        for <linux-media@vger.kernel.org>; Sun, 09 Jun 2019 20:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aB/CXMwsJOLPR4IkBpKLs3rzXiAB5Hq8Pmg82KTdnpc=;
-        b=Y4/jV4x/QxbzMXVAb5TMOW4WdmEW5sviWbYsTmRNFNlD69uTDhv6J8R+yhmkWCVyBN
-         LQZ/CFTN0p8CmCFVXPT9wvG8NPn2HZPdjK3T0gfr78v6nandp9hVA0mOohamnOS3xAic
-         5Zjn4PE8b2O3HGvcCHt8K8jeOmxLL99cpm5f8=
+        bh=tyVbEX8Q7845VL+UyQC4uATDf+ZCJyrmJs00s73pXsQ=;
+        b=HyJx/Kg/ieEUdA34z51oabdQyL7YB7V3Cn8RRGJFvFSQUEOu7vfZ7eSiHB3tp1Cgg3
+         z1NDZ7/LIpbdvyxS9WhgRhCc14Y4gA4/YLPv8YdLo1FohOPVxbWkQRKm7Lx75GbKb+ri
+         xYsx8pNKZaPez3r6Y8wqlJ21bSjQVev9ZH4n4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aB/CXMwsJOLPR4IkBpKLs3rzXiAB5Hq8Pmg82KTdnpc=;
-        b=aVzOKWvNA2zzhWi0PIq402Yo5/IC3XOe/GwXXFtQCvaQ29PVuxH3AXyUpOY9YzAKdV
-         Fu6K0YIjc9B3itDy+JzpEFcsMFGkgzqowAEUZIZYW20jVci8nSYtvJTjccJgUn1iPJfl
-         qFd2eIcpay63TJzZM8OIltU11xYdQrA5DbCz4JSoRW2WD6JwgDXGWN80DSdHEt2OhcEw
-         5aEdaoUs84r2pIyFcuIzTURwpV6ZzJZD13u0xj//h2fFRTLElt3vyifhwQgifxOzEuGZ
-         iBwThGzZKJjVOG7ogejmZ/8AJI3pT2W7MO9jmtUCsDwxY029n+wSqPv+otDzI0pwp07E
-         fABg==
-X-Gm-Message-State: APjAAAXv/3mFTo8+UlZMWuPG/a6Cp/taO1VqZSgGVJt0otEP9ihrx8GD
-        Hpm2okiXtGNX+bmFnOpmJ9S/yo/ghM51sK5m15nk+w==
-X-Google-Smtp-Source: APXvYqxQJliHEcKaKIvUY9ONOqr7UkNdbKO1DVUr+ac8CojHhnvVRkYyq2OEzprCcxtZsq0ucGzSaD6jwh7YT2ESHRc=
-X-Received: by 2002:a1c:2bc7:: with SMTP id r190mr11435752wmr.174.1560137537307;
- Sun, 09 Jun 2019 20:32:17 -0700 (PDT)
+        bh=tyVbEX8Q7845VL+UyQC4uATDf+ZCJyrmJs00s73pXsQ=;
+        b=aFp0ZU/vJuwc2jH5ab+Y3ZzaaRDzTBfSol/MeLV9hWYOLM0eaYY1vT9V/eTBllhN2B
+         7Ks1brJ9Ba2tNP4CQvvgR7G8nWDTNbZ7qZVtNQjHyDN0hiMKFE1UAmYloMMZKRWEK4F2
+         VKdAjNn3FEq7YS5oFrqRETBL6h/vvpPHnB5JUm+1AfslEhATDz05EesH6xQu9XfDyzXd
+         aebtrbVkg6P/a1KbaBVYt9bS669MJBJTDY+N3y0Uo7gaGmhhr38LSp0Ug1gp1x7AQxJ3
+         cGZ1sHO7mS5j7dqzVuebhrJ2ajqaue7YGKU/p5ocv72NZdI2rpCo2+X5KC8PBhrgWcFJ
+         WhUA==
+X-Gm-Message-State: APjAAAXB2kdn3/pLR0luTanczb+EHa5NUDUULyA4BS+RTKL9nobj1uzK
+        VRxZuTRxd1vPL/jn6UDzSXG6l0VrFKXrVw==
+X-Google-Smtp-Source: APXvYqyjdufg8NMEqaYF6O5swzBAsQiV7xdx4tJOvja5u0swGNAYfyTAh7nDqZuGhr+y+Qa7/rCUwA==
+X-Received: by 2002:a17:906:5a05:: with SMTP id p5mr9801356ejq.193.1560138512420;
+        Sun, 09 Jun 2019 20:48:32 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id s17sm1608601ejf.48.2019.06.09.20.48.31
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sun, 09 Jun 2019 20:48:31 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id s15so4256507wmj.3
+        for <linux-media@vger.kernel.org>; Sun, 09 Jun 2019 20:48:31 -0700 (PDT)
+X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr11992946wmk.10.1560138510940;
+ Sun, 09 Jun 2019 20:48:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
- <1559643115-15124-2-git-send-email-stu.hsieh@mediatek.com> <1560134057.28527.5.camel@mtksdaap41>
-In-Reply-To: <1560134057.28527.5.camel@mtksdaap41>
+References: <20190609143820.4662-1-mjourdan@baylibre.com> <20190609143820.4662-2-mjourdan@baylibre.com>
+In-Reply-To: <20190609143820.4662-2-mjourdan@baylibre.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 10 Jun 2019 12:32:06 +0900
-Message-ID: <CAHD77H=vuPi2Rj4Mw-CQ2=UYX7YnS8w8FpUk0QTVxNUVLWKbJg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/14] dt-bindings: Add binding for MT2712 MIPI-CSI2
-To:     CK Hu <ck.hu@mediatek.com>
-Cc:     Stu Hsieh <stu.hsieh@mediatek.com>,
+Date:   Mon, 10 Jun 2019 12:48:19 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AR1SXdMp6xiCEksrmpF7qk+Tg2-w7Ogw47GZx1pU6T_Q@mail.gmail.com>
+Message-ID: <CAAFQd5AR1SXdMp6xiCEksrmpF7qk+Tg2-w7Ogw47GZx1pU6T_Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/5] media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+To:     Maxime Jourdan <mjourdan@baylibre.com>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi CK, Stu,
+Hi Maxime,
 
-On Mon, Jun 10, 2019 at 11:34 AM CK Hu <ck.hu@mediatek.com> wrote:
+On Sun, Jun 9, 2019 at 11:38 PM Maxime Jourdan <mjourdan@baylibre.com> wrote:
 >
-> Hi, Stu:
+> Add a enum_fmt format flag to specifically tag coded formats where
+> dynamic resolution switching is supported by the device.
 >
-> "mediatek,mt2712-mipicsi" and "mediatek,mt2712-mipicsi-common" have many
-> common part with "mediatek,mt8183-seninf", and I've a discussion in [1],
-> so I would like these two to be merged together.
+> This is useful for some codec drivers that can't support dynamic
+> resolution switching for all their listed coded formats. It allows
+> userspace to know whether it should extract the video parameters itself,
+> or if it can rely on the device to send V4L2_EVENT_SOURCE_CHANGE when
+> such changes are detected.
 >
-> [1] https://patchwork.kernel.org/patch/10979131/
->
 
-Thanks CK for spotting this.
+First of all, thanks for the patch!
 
-I also noticed that the driver in fact handles two hardware blocks at
-the same time - SenInf and CamSV. Unless the architecture is very
-different from MT8183, I'd suggest splitting it.
-
-On a general note, the MT8183 SenInf driver has received several
-rounds of review comments already, but I couldn't find any comments
-posted for this one.
-
-Given the two aspects above and also based on my quick look at code
-added by this series, I'd recommend adding MT2712 support on top of
-the MT8183 series.
+Given the aspect of compatibility and also the general preference for
+the drivers to actually handle dynamic resolution changes, I'd suggest
+inverting the meaning of this flag. With something like
+"V4L2_FMT_FLAG_STATIC_RESOLUTION" it would be more of an exception
+rather than the default behavior.
 
 Best regards,
 Tomasz
