@@ -2,183 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6443BB57
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 19:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 573C93BB69
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2019 19:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388130AbfFJRti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jun 2019 13:49:38 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33165 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388052AbfFJRth (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jun 2019 13:49:37 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y17so7274466lfe.0
-        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2019 10:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8UUl6ahGnr7c+6PWkqKikTXVQmYpvSxXuE2hR5jzwAI=;
-        b=UTgZZLr4KIQDGV75NmlPzdGAWL627Ka22lvYfmXoI57Vm80fQk47ZmIpviRM/N4j5/
-         mVc+GhGdrBbjvee1ZTMp2VjdZ1E/WVvEUqW23J1sQ8rQudLH9wv9iM/R4ENLTISq0ZQV
-         sN9bG9g09UsIqlAijv9xhqkFG8wEz3NQlJyax7snA/diNZW2D9sUD3zILRdRu/QZg259
-         n/C2DkEZbVYxomunYuKYRZsgqTV6nzdrrfgs6fG+SQb4X/XHcnzKWT40Q3uDTt2O6h5E
-         h9iEUrTm9jMBsS0ana0detzSY5G5QaAjmVaFA6hnEAxcP4G5aHM31mXgDSfXARhcyhCZ
-         IynQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8UUl6ahGnr7c+6PWkqKikTXVQmYpvSxXuE2hR5jzwAI=;
-        b=DLi/ZB/1f/43vI71cUe/SpuPYEyP5y2+K1Nx9ifdMm3pJLlrOgUNOCNCIPTSRmRCGg
-         qNWC+oKzs1v/JW3EeDXqO84eNcCkLxUjDjXNIYRAPQG8jnkGNs1n7YjUTVI1O/V922GI
-         kMI7al/DuOfxBBtyZs5bC0TUh0QndUSNNX/AI6DJngtSwq1+byW/aYRm35PDuZf66IFa
-         5BozFjQ26nrNt5PiRaUIF64zNpZgEV8kO2xgs6mC6aemXGZMclr/S89eUXzvswWMzv01
-         hT6imIv95QASdVFSfBhrba1Y0VU/0nP9KjDrByOrSmOj+wJor26UoX4VJcTlQgCX1F20
-         1cqQ==
-X-Gm-Message-State: APjAAAUhVXlqUKvPYcfyZh8ObCreIV1JGp8RqwIQtOkIUAOr5CaS+QwM
-        C/qG6ratmrryiECOvk0Fjew=
-X-Google-Smtp-Source: APXvYqwN7KV15mJu2ELI+8LPKnq8z9A7TnK2w1XgvOgf5VK+u76pB4G2El077r0NhHAcPG7++pVSYQ==
-X-Received: by 2002:a19:5044:: with SMTP id z4mr34037784lfj.80.1560188974926;
-        Mon, 10 Jun 2019 10:49:34 -0700 (PDT)
-Received: from z50.localnet (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id g76sm1334235lje.43.2019.06.10.10.49.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 10:49:34 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        m.felsch@pengutronix.de, Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [RFC 1/1] v4l2-subdev: Rework subdev format and selection macros to work without MC
-Date:   Mon, 10 Jun 2019 19:49:32 +0200
-Message-ID: <1565475.m9sZUypsIq@z50>
-In-Reply-To: <20190610085443.mdwxw6pehfr2o5e4@mara.localdomain>
-References: <20190604175731.20596-1-sakari.ailus@linux.intel.com> <60014338.tBqkIJZrQe@z50> <20190610085443.mdwxw6pehfr2o5e4@mara.localdomain>
+        id S2388630AbfFJRxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jun 2019 13:53:35 -0400
+Received: from foss.arm.com ([217.140.110.172]:47008 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388174AbfFJRxf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 Jun 2019 13:53:35 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED62C337;
+        Mon, 10 Jun 2019 10:53:33 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4ABC63F246;
+        Mon, 10 Jun 2019 10:53:29 -0700 (PDT)
+Date:   Mon, 10 Jun 2019 18:53:27 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v16 02/16] arm64: untag user pointers in access_ok and
+ __uaccess_mask_ptr
+Message-ID: <20190610175326.GC25803@arrakis.emea.arm.com>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <4327b260fb17c4776a1e3c844f388e4948cfb747.1559580831.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4327b260fb17c4776a1e3c844f388e4948cfb747.1559580831.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Mon, Jun 03, 2019 at 06:55:04PM +0200, Andrey Konovalov wrote:
+> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+> index e5d5f31c6d36..9164ecb5feca 100644
+> --- a/arch/arm64/include/asm/uaccess.h
+> +++ b/arch/arm64/include/asm/uaccess.h
+> @@ -94,7 +94,7 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+>  	return ret;
+>  }
+>  
+> -#define access_ok(addr, size)	__range_ok(addr, size)
+> +#define access_ok(addr, size)	__range_ok(untagged_addr(addr), size)
 
-On Monday, June 10, 2019 10:54:44 AM CEST Sakari Ailus wrote:
-> Hi Janusz,
-> 
-> On Thu, Jun 06, 2019 at 08:13:36PM +0200, Janusz Krzysztofik wrote:
-> > Hi Sakari,
-> > 
-> > On Thursday, June 6, 2019 3:56:42 PM CEST Sakari Ailus wrote:
-> > > Hi Janusz,
-> > > 
-> > > On Wed, Jun 05, 2019 at 09:33:41PM +0200, Janusz Krzysztofik wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > On Tuesday, June 4, 2019 7:57:31 PM CEST Sakari Ailus wrote:
-> > > > > Rework the macros for accessing subdev try formats to work
-> > > > > meaningfully
-> > > > > and relatively safely without V4L2 sub-device uAPI (and without MC).
-> > > > > This
-> > > > > is done by simply reverting to accessing the pad number zero if
-> > > > > CONFIG_VIDEO_V4L2_SUBDEV_API isn't enabled, and emitting a kernel
-> > > > > warning
-> > > > > if the pad is non-zero in that case.
-> > > > > 
-> > > > > The functions are seen useful if subdev uAPI is disabled for drivers
-> > > > > that
-> > > > > can work without the Kconfig option but benefit from the option if
-> > > > > it's
-> > > > > enabled.
-> > > > 
-> > > > I'm not sure which drivers you (we) consider valid users of those
-> > > > functions. Subdevice drivers only? Or other drivers which interact
-> > > > with subdevices as well?  An answer to that question determines my
-> > > > possible other comments.> > 
-> > > These functions are only by drivers for the devices they control
-> > > directly
-> > > only.
-> > 
-> > That's what I expected.
-> > 
-> > Exposing those functions to drivers not supporting V4L2 subdev uAPI is
-> > not a bad idea but it would make more sense to me if we also updated
-> > potential users.  Otherwise I just don't believe anyone will care for as
-> > long as a driver is not refreshed to support MC and V4L2 subdev uAPI.
-> 
-> The primary users of these functions are drivers that do support subdev
-> uAPI. Some drivers can function that disabled, so making these functions
-> usable to those drivers in all cases simplifies those drivers.
+I'm going to propose an opt-in method here (RFC for now). We can't have
+a check in untagged_addr() since this is already used throughout the
+kernel for both user and kernel addresses (khwasan) but we can add one
+in __range_ok(). The same prctl() option will be used for controlling
+the precise/imprecise mode of MTE later on. We can use a TIF_ flag here
+assuming that this will be called early on and any cloned thread will
+inherit this.
 
-Indeed.  I didn't take that group of drivers into account.
+Anyway, it's easier to paste some diff than explain but Vincenzo can
+fold them into his ABI patches that should really go together with
+these. I added a couple of MTE definitions for prctl() as an example,
+not used currently:
 
-> > > > ...
-> > > > 
-> > > > > As a by-product, the patch simplifies individual inline functions by
-> > > > > removing two lines of code from each of them and moving the
-> > > > > functionality
-> > > > > to a common macro.
-> > > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > > Hi guys,
-> > > > > 
-> > > > > This might not be pretty but should provide some comfort for drivers
-> > > > > working with different Kconfig options. Comments are welcome...
-> > > > > 
-> > > > >  include/media/v4l2-subdev.h | 24 ++++++++++++++----------
-> > > > >  1 file changed, 14 insertions(+), 10 deletions(-)
-> > > > > 
-> > > > > diff --git a/include/media/v4l2-subdev.h
-> > > > > b/include/media/v4l2-subdev.h
-> > > > > index e1e3c18c3fd6..3328f302326b 100644
-> > > > > --- a/include/media/v4l2-subdev.h
-> > > > > +++ b/include/media/v4l2-subdev.h
-> > > > > @@ -930,6 +930,17 @@ struct v4l2_subdev_fh {
-> > > > > 
-> > > > >  	container_of(fh, struct v4l2_subdev_fh, vfh)
-> > > > >  
-> > > > >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> > > > > 
-> > > > > +#define __v4l2_subdev_get_try_field(__sd, __cfg, __pad, __field)	
-\
-> > > > > +	(WARN_ON(!(__cfg)) ? NULL :		\
-> > > > > +	 ((__sd)->entity.graph_obj.mdev ?
-> > > > 
-> > > > \strange
-> > > > 
-> > > > > +	  (WARN_ON((__pad) >= (__sd)->entity.num_pads) ?		\
-> > > > 
-> > > > > +	   NULL : &(__cfg)[__pad].__field) :
-> > > > \
-> > > > 
-> > > > > +	  &(__cfg)[WARN_ON(__pad) && 0].__field))
-> > > > > +#else /* CONFIG_VIDEO_V4L2_SUBDEV_API */
-> > > > > +#define __v4l2_subdev_get_try_field(__sd, __cfg, __pad, __field)	
-\
-> > > > 	
-> > > > > +	(WARN_ON(!(__cfg)) ? NULL :
-> > > > 	\
-> > > > 	
-> > > > > +	 &(__cfg)[WARN_ON(__pad) && 0].__field)
-> > > > > +#endif /* !CONFIG_VIDEO_V4L2_SUBDEV_API */
-> > 
-> > I think that as long as we already have in place the same checks performed
-> > by v4l2_subdev_call() which seems the only user entry point to a
-> > subdevice driver, invalid cfg or pad values you are trying to catch here
-> > will never be passed unless the driver performs unusual operations and,
-> > moreover, is internally broken.
-> 
-> You can't rely on checks done by the v4l2_subdev_call macro as these
-> parameters do not come from the caller; they are set by the driver itself.
+------------------8<---------------------------------------------
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index fcd0e691b1ea..2d4cb7e4edab 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -307,6 +307,10 @@ extern void __init minsigstksz_setup(void);
+ /* PR_PAC_RESET_KEYS prctl */
+ #define PAC_RESET_KEYS(tsk, arg)	ptrauth_prctl_reset_keys(tsk, arg)
+ 
++/* PR_UNTAGGED_UADDR prctl */
++int untagged_uaddr_set_mode(unsigned long arg);
++#define SET_UNTAGGED_UADDR_MODE(arg)	untagged_uaddr_set_mode(arg)
++
+ /*
+  * For CONFIG_GCC_PLUGIN_STACKLEAK
+  *
+diff --git a/arch/arm64/include/asm/thread_info.h b/arch/arm64/include/asm/thread_info.h
+index c285d1ce7186..89ce77773c49 100644
+--- a/arch/arm64/include/asm/thread_info.h
++++ b/arch/arm64/include/asm/thread_info.h
+@@ -101,6 +101,7 @@ void arch_release_task_struct(struct task_struct *tsk);
+ #define TIF_SVE			23	/* Scalable Vector Extension in use */
+ #define TIF_SVE_VL_INHERIT	24	/* Inherit sve_vl_onexec across exec */
+ #define TIF_SSBD		25	/* Wants SSB mitigation */
++#define TIF_UNTAGGED_UADDR	26
+ 
+ #define _TIF_SIGPENDING		(1 << TIF_SIGPENDING)
+ #define _TIF_NEED_RESCHED	(1 << TIF_NEED_RESCHED)
+@@ -116,6 +117,7 @@ void arch_release_task_struct(struct task_struct *tsk);
+ #define _TIF_FSCHECK		(1 << TIF_FSCHECK)
+ #define _TIF_32BIT		(1 << TIF_32BIT)
+ #define _TIF_SVE		(1 << TIF_SVE)
++#define _TIF_UNTAGGED_UADDR	(1 << TIF_UNTAGGED_UADDR)
+ 
+ #define _TIF_WORK_MASK		(_TIF_NEED_RESCHED | _TIF_SIGPENDING | \
+ 				 _TIF_NOTIFY_RESUME | _TIF_FOREIGN_FPSTATE | \
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 9164ecb5feca..54f5bbaebbc4 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -73,6 +73,9 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ {
+ 	unsigned long ret, limit = current_thread_info()->addr_limit;
+ 
++	if (test_thread_flag(TIF_UNTAGGED_UADDR))
++		addr = untagged_addr(addr);
++
+ 	__chk_user_ptr(addr);
+ 	asm volatile(
+ 	// A + B <= C + 1 for all A,B,C, in four easy steps:
+@@ -94,7 +97,7 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ 	return ret;
+ }
+ 
+-#define access_ok(addr, size)	__range_ok(untagged_addr(addr), size)
++#define access_ok(addr, size)	__range_ok(addr, size)
+ #define user_addr_max			get_fs
+ 
+ #define _ASM_EXTABLE(from, to)						\
+diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+index 3767fb21a5b8..fd191c5b92aa 100644
+--- a/arch/arm64/kernel/process.c
++++ b/arch/arm64/kernel/process.c
+@@ -552,3 +552,18 @@ void arch_setup_new_exec(void)
+ 
+ 	ptrauth_thread_init_user(current);
+ }
++
++/*
++ * Enable the relaxed ABI allowing tagged user addresses into the kernel.
++ */
++int untagged_uaddr_set_mode(unsigned long arg)
++{
++	if (is_compat_task())
++		return -ENOTSUPP;
++	if (arg)
++		return -EINVAL;
++
++	set_thread_flag(TIF_UNTAGGED_UADDR);
++
++	return 0;
++}
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 094bb03b9cc2..4afd5e2980ee 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -229,4 +229,9 @@ struct prctl_mm_map {
+ # define PR_PAC_APDBKEY			(1UL << 3)
+ # define PR_PAC_APGAKEY			(1UL << 4)
+ 
++/* Untagged user addresses for arm64 */
++#define PR_UNTAGGED_UADDR		55
++# define PR_MTE_IMPRECISE_CHECK		0
++# define PR_MTE_PRECISE_CHECK		1
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 2969304c29fe..b1f67a8cffc4 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -124,6 +124,9 @@
+ #ifndef PAC_RESET_KEYS
+ # define PAC_RESET_KEYS(a, b)	(-EINVAL)
+ #endif
++#ifndef SET_UNTAGGED_UADDR_MODE
++# define SET_UNTAGGED_UADDR_MODE	(-EINVAL)
++#endif
+ 
+ /*
+  * this is where the system-wide overflow UID and GID are defined, for
+@@ -2492,6 +2495,11 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 			return -EINVAL;
+ 		error = PAC_RESET_KEYS(me, arg2);
+ 		break;
++	case PR_UNTAGGED_UADDR:
++		if (arg3 || arg4 || arg5)
++			return -EINVAL;
++		error = SET_UNTAGGED_UADDR_MODE(arg2);
++		break;
+ 	default:
+ 		error = -EINVAL;
+ 		break;
+------------------8<---------------------------------------------
 
-If that' the case, you are right.
+The tag_ptr() function in the test library would become:
 
-It looks like I'm missing some knowledge on V4L2 framework needed to provide a 
-valuable review of your change, please ignore my comments.
+static void *tag_ptr(void *ptr)
+{
+	static int tbi_enabled = 0;
+	unsigned long tag = 0;
 
-Thanks,
-Janusz
+	if (!tbi_enabled) {
+		if (prctl(PR_UNTAGGED_UADDR, 0, 0, 0, 0) == 0)
+			tbi_enabled = 1;
+	}
 
+	if (!ptr)
+		return ptr;
+	if (tbi_enabled)
+		tag = rand() & 0xff;
 
+	return (void *)((unsigned long)ptr | (tag << TAG_SHIFT));
+}
+
+-- 
+Catalin
