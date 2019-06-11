@@ -2,157 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 118B93D19D
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 18:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FB433D20F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 18:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405239AbfFKQBw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 12:01:52 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43854 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728264AbfFKQBw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 12:01:52 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 16so12172070ljv.10
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 09:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=26bbmtxXOJyY8N47HEW02fS/RJ36aAsn2edvgu3kR/Q=;
-        b=kxSAFUyXCR/ZITQ4nMHjx72+UcwqH6Em59goohv6EvmNVmO1iPWvQKrlj48FEaWjzF
-         HfWTfoSHrvqI2pueWXSMZH6jycHd7lF+btC2PWymdR/SKr12C1KnhbQd5QMcZshr6Xh7
-         BiB7KQjnvAx2yJbfD8rvyPIyMPB0LhgluCZmRwn10iW0uFEOZmkeaCj8HLNQRGpGqaKU
-         vMFtp0pWXYF/hSLGdgRRz/iM3gUG2b/se6Vsej8EBx7ab6E1qRhzZ5bhexwVvK17hHCI
-         QajxmMBKso5WuHHaJWHNqFdVQCzsQn5N8qjyoStQPyhgHtU133V1l9PiBYfYOme2qucF
-         se0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=26bbmtxXOJyY8N47HEW02fS/RJ36aAsn2edvgu3kR/Q=;
-        b=nv6onKBUGgylnGRMpWRec4vdNSskD+Kp42RcnmM6H7FkRS4VeR9M5WIwtCREj9WchQ
-         WRUS9ZKd+m/15pDmyU5cr1wD467iXSS8IypgsQMd1cq7AsCOxy4/Q/u1VW3Rl9gTHG90
-         QLmtCznmkKWFsYNa2ilXSeE4vPElLR+76rJ+juPJbuZ64sL0RkgE7VU+m1EPo/0jqKar
-         lJh3ArkJJrDxk9+XckiSRNbWyWA746zLkKcdV9njfa09bj7P4KYqcL5mqVdpwqkWMZ+K
-         aeQTstgC4amH87xKauDeHb+9XXqnSpCaqILjZIeBsK9BGE8N5X4tp7ATiloqiiDGhmop
-         f2nw==
-X-Gm-Message-State: APjAAAU/mrQnfX0HuMUkvYjcJ8UiPqBJU9y9drSNAGbEiEUz6+JXNQl8
-        H1fddLfDz3wbb2yZcF1hZo7lfQeK/qYTr7D7q4fbVw==
-X-Google-Smtp-Source: APXvYqx6Zyw6k7ktWfeFF2r+YwhlBxFZxaQiK+x6AhML42vVuWgezfZ5idk+Li58YpSowx4YLXEIM/M85D3+c+YcaXY=
-X-Received: by 2002:a2e:5c88:: with SMTP id q130mr11691520ljb.176.1560268910098;
- Tue, 11 Jun 2019 09:01:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190606094722.23816-1-anders.roxell@linaro.org>
- <d6b79ee0-07c6-ad81-16b0-8cf929cc214d@xs4all.nl> <CADYN=9KY5=FzrkC7MKj9QnG-eM1NVuL00w8Xv4yU2r05rhr7WQ@mail.gmail.com>
- <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com> <1560240943.13886.1.camel@pengutronix.de>
- <221c8ef8-7adc-4383-93c9-9031dca590f0@xs4all.nl>
-In-Reply-To: <221c8ef8-7adc-4383-93c9-9031dca590f0@xs4all.nl>
-From:   Anders Roxell <anders.roxell@linaro.org>
-Date:   Tue, 11 Jun 2019 18:01:39 +0200
-Message-ID: <CADYN=9K7GwPGM_Eh5q-OZ9rcEPAjXw4BXy-m3a=QxmGuVruCUw@mail.gmail.com>
-Subject: Re: [PATCH 5/8] drivers: media: coda: fix warning same module names
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Matt Redfearn <matt.redfearn@thinci.com>,
+        id S2391127AbfFKQTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 12:19:55 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:14648 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388744AbfFKQTz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jun 2019 12:19:55 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 2FB8C462;
+        Tue, 11 Jun 2019 18:19:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1560269989; x=1562084390; bh=jd33PblogwnWLIDaZOShdyjqjjSuTQqAQko
+        t8vC75Pw=; b=iFbBs9ZTjwDnj+uRfqy2EroR8YxHOufXYBddOoi8xMK3P2uPj8x
+        otdJk07VZYAYF6E2BUYaqtuU5CKvqvCGwqnh6mdJLQlcyCmC62U3Sp1pwWQvzuDd
+        Ah45hYbUNeryx2myNvJBatZ0jpSwXgZodA3ZTqD1hyZV+YD9ZqHxRZsL130ngJPn
+        T09+0dB72NJr4MJP4e/0/vxzk9Uvf/h7AHRkILSvqowd4FEqyS8N9ra6JqeSEsC5
+        uTMQe/s9FGCukjKq3G5iK8v/6WHf4slIOKFyCcjksUcGHAVeDtt7/WT+5cLm68Sv
+        s2Owu/CnlMOlNuCxayodOeXQCXPUFl8x46dItowzVCwuyQc3f56RRD6+exMbX/eo
+        CCA6YtkWQVuz5NibGFPtyLalchlgLTKupwL24aKvXik/CQ150sl7kgVi7MnZ6OTO
+        sjvD7c9ISxNv7H8nCItu7WWhRwFZas2ZkxBkUEtuPQD8X7/3ilAp8LQgwxZtK7z2
+        vhLZ8AYZ1RfLSX1lCpQcYhv6aJBoh/1U7+FV+DR99pWOpCTDbg6rJh0qfdSS6W/q
+        XCOmUxsTjKz3Pg68DOipObGpfpYApOR/rW/wEUdxmuV2FVCJ6pnZNdidc4U7NWse
+        a+x0wtD6Dsrn02YYUrQ913BobzzapoY2NYsysWAjS9yrhlk/2B0gxWFU=
+X-Virus-Scanned: amavisd-new at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -1.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 tagged_above=-10 required=5
+        tests=[BAYES_00=-1.9] autolearn=ham autolearn_force=no
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FjJqanaTseop; Tue, 11 Jun 2019 18:19:49 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7DD543D8;
+        Tue, 11 Jun 2019 18:19:49 +0200 (CEST)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 1F14A2660;
+        Tue, 11 Jun 2019 18:19:49 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     "Hans Verkuil (hansverk)" <hansverk@cisco.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "vivien.didelot@gmail.com" <vivien.didelot@gmail.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "marex@denx.de" <marex@denx.de>,
-        "stefan@agner.ch" <stefan@agner.ch>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andy Walls <awalls@md.metrocast.net>
+Subject: Re: [PATCH] media/pci: set device_caps in struct video_device
+Date:   Tue, 11 Jun 2019 18:19:47 +0200
+Message-ID: <5238064.QDOFyfcAAn@harkonnen>
+In-Reply-To: <6e6e5a52-fb5f-d11b-6fd9-aca7ecadbd31@cisco.com>
+References: <6e6e5a52-fb5f-d11b-6fd9-aca7ecadbd31@cisco.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 11 Jun 2019 at 10:21, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 6/11/19 10:15 AM, Philipp Zabel wrote:
-> > Hi,
-> >
-> > On Mon, 2019-06-10 at 13:14 +0000, Matt Redfearn wrote:
-> >>
-> >> On 10/06/2019 14:03, Anders Roxell wrote:
-> >>> On Thu, 6 Jun 2019 at 12:13, Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>>>
-> >>>> On 6/6/19 11:47 AM, Anders Roxell wrote:
-> >>>>> When building with CONFIG_VIDEO_CODA and CONFIG_CODA_FS enabled as
-> >>>>> loadable modules, we see the following warning:
-> >>>>>
-> >>>>> warning: same module names found:
-> >>>>>    fs/coda/coda.ko
-> >>>>>    drivers/media/platform/coda/coda.ko
-> >>>>>
-> >>>>> Rework so media coda matches the config fragment. Leaving CODA_FS as is
-> >>>>> since thats a well known module.
-> >>>>>
-> >>>>> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> >>>>> ---
-> >>>>>   drivers/media/platform/coda/Makefile | 4 ++--
-> >>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/media/platform/coda/Makefile b/drivers/media/platform/coda/Makefile
-> >>>>> index 54e9a73a92ab..588e6bf7c190 100644
-> >>>>> --- a/drivers/media/platform/coda/Makefile
-> >>>>> +++ b/drivers/media/platform/coda/Makefile
-> >>>>> @@ -1,6 +1,6 @@
-> >>>>>   # SPDX-License-Identifier: GPL-2.0-only
-> >>>>>
-> >>>>> -coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
-> >>>>> +video-coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
-> >>>>>
-> >>>>> -obj-$(CONFIG_VIDEO_CODA) += coda.o
-> >>>>> +obj-$(CONFIG_VIDEO_CODA) += video-coda.o
-> >>>>
-> >>>> How about imx-coda? video-coda suggests it is part of the video subsystem,
-> >>>> which it isn't.
-> >>>
-> >>> I'll resend a v2 shortly with imx-coda instead.
-> >
-> > I'd be in favor of calling it "coda-vpu" instead.
->
-> Fine by me!
->
-> >
-> >> What about other vendor SoCs implementing the Coda IP block which are
-> >> not an imx? I'd prefer a more generic name - maybe media-coda.
-> >
-> > Right, this driver can be used on other SoCs [1].
->
-> Good point.
+On Tuesday, June 11, 2019 2:08:23 PM CEST Hans Verkuil (hansverk) wrote:
+> Instead of filling in the struct v4l2_capability device_caps
+> field, fill in the struct video_device device_caps field.
+> 
+> That way the V4L2 core knows what the capabilities of the
+> video device are.
+> 
+> But this only really works if all drivers use this, so convert
+> all pci drivers in this patch.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/media/common/saa7146/saa7146_fops.c   |  9 ++++
+>  drivers/media/common/saa7146/saa7146_video.c  | 18 ++-----
+>  drivers/media/pci/bt8xx/bttv-driver.c         | 50 ++++++++-----------
+>  drivers/media/pci/cobalt/cobalt-v4l2.c        | 14 +++---
+>  drivers/media/pci/cx18/cx18-ioctl.c           |  5 +-
+>  drivers/media/pci/cx18/cx18-streams.c         |  1 +
+>  drivers/media/pci/cx23885/cx23885-417.c       | 13 +++--
+>  drivers/media/pci/cx23885/cx23885-video.c     | 22 ++++----
+>  drivers/media/pci/cx25821/cx25821-video.c     | 14 +++---
+>  drivers/media/pci/cx88/cx88-video.c           | 32 +++++-------
+>  drivers/media/pci/dt3155/dt3155.c             |  5 +-
+>  drivers/media/pci/ivtv/ivtv-ioctl.c           |  7 ---
+>  drivers/media/pci/ivtv/ivtv-streams.c         | 14 ++++--
+>  drivers/media/pci/ivtv/ivtvfb.c               | 10 ++++
+>  drivers/media/pci/meye/meye.c                 |  6 +--
+>  drivers/media/pci/saa7134/saa7134-core.c      | 15 ++++++
+>  drivers/media/pci/saa7134/saa7134-empress.c   |  4 ++
+>  drivers/media/pci/saa7134/saa7134-video.c     | 46 +++--------------
+>  drivers/media/pci/saa7164/saa7164-encoder.c   | 15 ++----
+>  drivers/media/pci/saa7164/saa7164-vbi.c       | 15 ++----
+>  .../media/pci/solo6x10/solo6x10-v4l2-enc.c    |  5 +-
+>  drivers/media/pci/solo6x10/solo6x10-v4l2.c    |  5 +-
+>  drivers/media/pci/sta2x11/sta2x11_vip.c       |  6 +--
 
-OK, so I'll change it to 'media-coda'.
+Limited to sta2x11_vip.c
 
-Cheers,
-Anders
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
->
-> Regards,
->
->         Hans
->
-> >
-> > [1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg146498.html
-> >
-> > regards
-> > Philipp
-> >
->
+>  drivers/media/pci/tw68/tw68-video.c           |  8 +--
+>  drivers/media/pci/tw686x/tw686x-video.c       |  5 +-
+>  25 files changed, 154 insertions(+), 190 deletions(-)
+
+
+
