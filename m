@@ -2,117 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2E93C5BC
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 10:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC2B53C5CC
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 10:17:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404418AbfFKIN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 04:13:58 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56529 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2403996AbfFKIN5 (ORCPT
+        id S2404694AbfFKIQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 04:16:09 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:35987 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404250AbfFKIQI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 04:13:57 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id abuhhfYv041bFabukhCs7H; Tue, 11 Jun 2019 10:13:55 +0200
-Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
- resolution switching
-To:     Maxime Jourdan <mjourdan@baylibre.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>
-References: <20190609143820.4662-1-mjourdan@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
-Date:   Tue, 11 Jun 2019 10:13:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190609143820.4662-1-mjourdan@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        Tue, 11 Jun 2019 04:16:08 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1habwb-0003K3-2W; Tue, 11 Jun 2019 10:15:49 +0200
+Message-ID: <1560240943.13886.1.camel@pengutronix.de>
+Subject: Re: [PATCH 5/8] drivers: media: coda: fix warning same module names
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Matt Redfearn <matt.redfearn@thinci.com>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "vivien.didelot@gmail.com" <vivien.didelot@gmail.com>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "marex@denx.de" <marex@denx.de>,
+        "stefan@agner.ch" <stefan@agner.ch>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
+        "a.hajda@samsung.com" <a.hajda@samsung.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Date:   Tue, 11 Jun 2019 10:15:43 +0200
+In-Reply-To: <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com>
+References: <20190606094722.23816-1-anders.roxell@linaro.org>
+         <d6b79ee0-07c6-ad81-16b0-8cf929cc214d@xs4all.nl>
+         <CADYN=9KY5=FzrkC7MKj9QnG-eM1NVuL00w8Xv4yU2r05rhr7WQ@mail.gmail.com>
+         <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHc1SPYjJMUDlr1fsf1LuOUlJ7XeDhcoHEFBRtgcGtraFegKRYSAH9yy2hybgmP5pMi3Ab2eNMLEKHvLsJh+DIiz6OarcTbuwK4gbLm7TpY5yy40o3Gm
- kL4qsOVhYQISYY8BJac2EaxWdCE0IAcWdPIWq3+6Vqn5c/fzXvmoTZ103kapusmPAuYCIBRHZOJzfI8E4QAyu8Wdb+og9gP+wiLgB2uvrElJkscAKv+Qj0Fe
- TMWTyAyN9yibKLaG0JOZg2v0/Ruy04EHHiAnzVf8A702DFQ2I+MilZpV1n8JWdKqmt1OLu7/dl6NOZPWPT43r/hiKLzU072IRq/cXQQTMLOUG7jccMWukLzH
- oihA9K4Pzxqshpk63J/rkWk6Xc1aWxWG0MXW7Fpb8Wkw1iRxAIG+c7C0sDLlEytZ5dqKqttZbrgBJ3ZY6vE7VFJiDFsIdYtV+kssoMDTj890madf4A/M1KV7
- h9hLTOZ0O89p7icECc0mf7icWqk+pg1LrQ7kH3u38xvphSYxa0upTAkua/Yuyyq5yqINpb+oll+YsKr+/QRarCPrzljJr68Li+jVM26XqYB2b+9mDnL4RAve
- 7gY=
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/9/19 4:38 PM, Maxime Jourdan wrote:
-> Hello,
-> 
-> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
-> to tag coded formats for which the device supports dynamic resolution
-> switching, via V4L2_EVENT_SOURCE_CHANGE.
-> This includes the initial "source change" where the device is able to
-> tell userspace about the coded resolution and the DPB size (which
-> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
+Hi,
 
-Shouldn't the initial source change still be there? The amlogic decoder
-is capable of determining the resolution of the stream, right? It just
-can't handle mid-stream changes.
+On Mon, 2019-06-10 at 13:14 +0000, Matt Redfearn wrote:
+> 
+> On 10/06/2019 14:03, Anders Roxell wrote:
+> > On Thu, 6 Jun 2019 at 12:13, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> > > 
+> > > On 6/6/19 11:47 AM, Anders Roxell wrote:
+> > > > When building with CONFIG_VIDEO_CODA and CONFIG_CODA_FS enabled as
+> > > > loadable modules, we see the following warning:
+> > > > 
+> > > > warning: same module names found:
+> > > >    fs/coda/coda.ko
+> > > >    drivers/media/platform/coda/coda.ko
+> > > > 
+> > > > Rework so media coda matches the config fragment. Leaving CODA_FS as is
+> > > > since thats a well known module.
+> > > > 
+> > > > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> > > > ---
+> > > >   drivers/media/platform/coda/Makefile | 4 ++--
+> > > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/platform/coda/Makefile b/drivers/media/platform/coda/Makefile
+> > > > index 54e9a73a92ab..588e6bf7c190 100644
+> > > > --- a/drivers/media/platform/coda/Makefile
+> > > > +++ b/drivers/media/platform/coda/Makefile
+> > > > @@ -1,6 +1,6 @@
+> > > >   # SPDX-License-Identifier: GPL-2.0-only
+> > > > 
+> > > > -coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
+> > > > +video-coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
+> > > > 
+> > > > -obj-$(CONFIG_VIDEO_CODA) += coda.o
+> > > > +obj-$(CONFIG_VIDEO_CODA) += video-coda.o
+> > > 
+> > > How about imx-coda? video-coda suggests it is part of the video subsystem,
+> > > which it isn't.
+> > 
+> > I'll resend a v2 shortly with imx-coda instead.
 
-Regards,
+I'd be in favor of calling it "coda-vpu" instead.
 
-	Hans
+> What about other vendor SoCs implementing the Coda IP block which are 
+> not an imx? I'd prefer a more generic name - maybe media-coda.
 
-> This flag is mainly aimed at stateful decoder drivers.
-> 
-> This RFC is motivated by my development on the amlogic video decoder
-> driver, which does not support dynamic resolution switching for older
-> coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
-> it for the newer formats (H264, HEVC, VP9).
-> 
-> The specification regarding stateful video decoders should be amended
-> to include that, in the absence of this flag for a certain format,
-> userspace is expected to extract the coded resolution and allocate
-> a sufficient amount of capture buffers on its own.
-> I understand that this point may be tricky, since older kernels with
-> close-to-spec drivers would not have this flag available, yet would
-> fully support dynamic resolution switching.
-> However, with the spec not merged in yet, I wanted to have your opinion
-> on this late addition.
-> 
-> The RFC patches also adds support for this flag for the 4 following
-> stateful decoder drivers:
->  - venus
->  - s5p-mfc
->  - mtk-vcodec
->  - vicodec
-> 
-> Maxime Jourdan (5):
->   media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
->   media: venus: vdec: flag OUTPUT formats with
->     V4L2_FMT_FLAG_DYN_RESOLUTION
->   media: s5p_mfc_dec: flag OUTPUT formats with
->     V4L2_FMT_FLAG_DYN_RESOLUTION
->   media: mtk-vcodec: flag OUTPUT formats with
->     V4L2_FMT_FLAG_DYN_RESOLUTION
->   media: vicodec: flag vdec/stateful OUTPUT formats with
->     V4L2_FMT_FLAG_DYN_RESOLUTION
-> 
->  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
->  drivers/media/platform/qcom/venus/core.h           |  1 +
->  drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
->  drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
->  drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
->  include/uapi/linux/videodev2.h                     |  5 +++--
->  9 files changed, 43 insertions(+), 2 deletions(-)
-> 
+Right, this driver can be used on other SoCs [1].
 
+[1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg146498.html
+
+regards
+Philipp
