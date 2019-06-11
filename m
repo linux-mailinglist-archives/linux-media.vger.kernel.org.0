@@ -2,98 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5DA3D493
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 19:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75FA43D69C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 21:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406681AbfFKRuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 13:50:46 -0400
-Received: from foss.arm.com ([217.140.110.172]:39188 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406260AbfFKRup (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 13:50:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D236337;
-        Tue, 11 Jun 2019 10:50:45 -0700 (PDT)
-Received: from mbp (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18BF83F73C;
-        Tue, 11 Jun 2019 10:50:39 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 18:50:37 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v16 16/16] selftests, arm64: add a selftest for passing
- tagged pointers to kernel
-Message-ID: <20190611175037.pflr6q6ob67zjj25@mbp>
-References: <cover.1559580831.git.andreyknvl@google.com>
- <9e1b5998a28f82b16076fc85ab4f88af5381cf74.1559580831.git.andreyknvl@google.com>
- <20190611150122.GB63588@arrakis.emea.arm.com>
- <CAAeHK+wZrVXxAnDXBjoUy8JK9iG553G2Bp8uPWQ0u1u5gts0vQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+wZrVXxAnDXBjoUy8JK9iG553G2Bp8uPWQ0u1u5gts0vQ@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S2407469AbfFKTVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 15:21:09 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.47.102]:37574 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404789AbfFKTVI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jun 2019 15:21:08 -0400
+Received: from mailhost.synopsys.com (unknown [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 320AFC014E;
+        Tue, 11 Jun 2019 19:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1560280868; bh=zJxgoewnRS3428npvD4zrvQ1ZwW2ket2Gxy5yCj5CDY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AtWq7JBO/dTeSnt7uLt6+IbErp++i5RJeKjnmz9D6o9nNZqwrT9LJMe6HxBB9MWw7
+         nHXSYY716giBXIKCfHNvVOfZ28YpCHNpd+TcY95dUn+uee5oO5h3CerYehQ9Ws9PEM
+         vm/RiVgtA1xblQCZp/CCEi7g9f3NNyqiiSnG09+sjWZEOagELY/Q+sw6N/bJ/Lfx8W
+         uPHV8GErKVZlL2ctI4BI/p8kVVmR8vDk06FJkdnRrNZZ9qWFL96LsBUAAPgWFwDsKw
+         BwQ1PbYFVadppsuRa+tllYgoy/M4A9McxAUkQYRaXNN9WjRp/Jlo2ARuLVHgvuX4I8
+         /0/0umjb/HPTQ==
+Received: from de02.synopsys.com (de02.internal.synopsys.com [10.225.17.21])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 245F0A022F;
+        Tue, 11 Jun 2019 19:21:03 +0000 (UTC)
+Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
+        by de02.synopsys.com (Postfix) with ESMTP id D16873F88F;
+        Tue, 11 Jun 2019 21:21:03 +0200 (CEST)
+From:   Luis Oliveira <Luis.Oliveira@synopsys.com>
+To:     mchehab@kernel.org, davem@davemloft.net,
+        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+        robh@kernel.org, nicolas.ferre@microchip.com,
+        paulmck@linux.ibm.com, mark.rutland@arm.com, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Joao.Pinto@synopsys.com, Luis Oliveira <Luis.Oliveira@synopsys.com>
+Subject: [v4 0/6] platform: dwc: Adding DesignWare MIPI CSI-2 Host and D-PHY
+Date:   Tue, 11 Jun 2019 21:20:49 +0200
+Message-Id: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 07:18:04PM +0200, Andrey Konovalov wrote:
-> On Tue, Jun 11, 2019 at 5:01 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > static void *tag_ptr(void *ptr)
-> > {
-> >         static int tagged_addr_err = 1;
-> >         unsigned long tag = 0;
-> >
-> >         if (tagged_addr_err == 1)
-> >                 tagged_addr_err = prctl(PR_SET_TAGGED_ADDR_CTRL,
-> >                                         PR_TAGGED_ADDR_ENABLE, 0, 0, 0);
-> 
-> I think this requires atomics. malloc() can be called from multiple threads.
+This adds support for Synopsys MIPI CSI-2 Host and MIPI D-PHY.
+The patch series include support for initialization/configuration of the
+DW MIPI CSI-2 controller and the DW MIPI D-PHY and both include a reference
+platform driver and the option to use platform data. The optional sysfs
+interface is used to re-configure the controller and the phy for
+prototyping purposes.
 
-It's slightly racy but I assume in a real libc it can be initialised
-earlier than the hook calls while still in single-threaded mode (I had
-a quick attempt with __attribute__((constructor)) but didn't get far).
+This series also documents the dt-bindings needed for the platform drivers.
+This will enable future SoCs to use this standard approach to Synopsys
+DesignWare CSI-2 and D-PHY and hopefully create a more clean environment.
 
-Even with the race, under normal circumstances calling the prctl() twice
-is not a problem. I think the risk here is that someone disables the ABI
-via sysctl and the ABI is enabled for some of the threads only.
+This series are following an old series submitted on v4.19.rc1 and are
+result of all the feedback received, please check the changelog per patch.
+
+This was applied in: https://git.linuxtv.org/media_tree.git
+
+Luis Oliveira (6):
+  dt-bindings: media: Document bindings for DW MIPI CSI-2 Host
+  media: platform: dwc: Add MIPI CSI-2 controller driver
+  media: platform: dwc: Add MIPI CSI-2 platform data
+  dt-bindings: phy: Document the Synopsys MIPI DPHY Rx bindings
+  media: platform: dwc: Add DW MIPI DPHY Rx driver
+  media: platform: dwc: Add platform data support to D-Phy
+
+ .../devicetree/bindings/media/snps,dw-csi.txt      |  41 ++
+ .../devicetree/bindings/phy/snps,dw-dphy-rx.txt    |  29 +
+ MAINTAINERS                                        |  11 +
+ drivers/media/platform/Kconfig                     |   1 +
+ drivers/media/platform/Makefile                    |   2 +
+ drivers/media/platform/dwc/Kconfig                 |  41 ++
+ drivers/media/platform/dwc/Makefile                |  15 +
+ drivers/media/platform/dwc/dw-csi-plat.c           | 516 +++++++++++++++++
+ drivers/media/platform/dwc/dw-csi-plat.h           |  97 ++++
+ drivers/media/platform/dwc/dw-csi-sysfs.c          | 624 +++++++++++++++++++++
+ drivers/media/platform/dwc/dw-dphy-plat.c          | 224 ++++++++
+ drivers/media/platform/dwc/dw-dphy-rx.c            | 611 ++++++++++++++++++++
+ drivers/media/platform/dwc/dw-dphy-rx.h            | 212 +++++++
+ drivers/media/platform/dwc/dw-dphy-sysfs.c         | 232 ++++++++
+ drivers/media/platform/dwc/dw-mipi-csi.c           | 569 +++++++++++++++++++
+ drivers/media/platform/dwc/dw-mipi-csi.h           | 287 ++++++++++
+ include/media/dwc/dw-csi-data.h                    |  26 +
+ include/media/dwc/dw-dphy-data.h                   |  32 ++
+ include/media/dwc/dw-mipi-csi-pltfrm.h             | 104 ++++
+ 19 files changed, 3674 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/snps,dw-csi.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt
+ create mode 100644 drivers/media/platform/dwc/Kconfig
+ create mode 100644 drivers/media/platform/dwc/Makefile
+ create mode 100644 drivers/media/platform/dwc/dw-csi-plat.c
+ create mode 100644 drivers/media/platform/dwc/dw-csi-plat.h
+ create mode 100644 drivers/media/platform/dwc/dw-csi-sysfs.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-plat.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-rx.c
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-rx.h
+ create mode 100644 drivers/media/platform/dwc/dw-dphy-sysfs.c
+ create mode 100644 drivers/media/platform/dwc/dw-mipi-csi.c
+ create mode 100644 drivers/media/platform/dwc/dw-mipi-csi.h
+ create mode 100644 include/media/dwc/dw-csi-data.h
+ create mode 100644 include/media/dwc/dw-dphy-data.h
+ create mode 100644 include/media/dwc/dw-mipi-csi-pltfrm.h
 
 -- 
-Catalin
+2.7.4
+
