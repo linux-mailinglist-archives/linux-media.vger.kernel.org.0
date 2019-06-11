@@ -2,243 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2D43D6A3
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 21:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F6B3D70F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 21:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407558AbfFKTVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 15:21:23 -0400
-Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:37398 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2407496AbfFKTVX (ORCPT
+        id S2406094AbfFKTmP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 15:42:15 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:39896 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391042AbfFKTmP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 15:21:23 -0400
-Received: from mailhost.synopsys.com (unknown [10.225.0.210])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 1031AC2895;
-        Tue, 11 Jun 2019 19:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1560280882; bh=hdrs6nb8YFpjV8r455lNnFiSQ5gn2vCaQC+RI3/H4dI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nj7pSWcfpO0RTASrcP7F9qps0UDhBDMaYwRe9i3FxBZD7cDp+XUFyacbSsQWlenyZ
-         4h2tMXG7E15+A0BUwvzbNlGQYSLaRMYDiDG+DIJ5dTrST4Lhc2t/+ngTxLKpjfbu1i
-         2mtHRfIEAkeyF4ckXa2epNcG1wOeE41Kh81w/wcaBlI5/gDrGhefBRliT+fcMSHFZD
-         rrj4HXteWPT/fTiX7+5VxWLEwWZRxMWLAZkqbXknkkPrCKpn5ElOXRkFxZ4U1GFgE2
-         9PyQhqAtMWCQ2m02IfrZNux6GKoGvQwg1RAmOM2Og4R/hNhW81bS1tE5veF3esePqO
-         8+0B/NRbqBw7A==
-Received: from de02.synopsys.com (germany.internal.synopsys.com [10.225.17.21])
-        by mailhost.synopsys.com (Postfix) with ESMTP id BEEFCA0230;
-        Tue, 11 Jun 2019 19:21:19 +0000 (UTC)
-Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by de02.synopsys.com (Postfix) with ESMTP id AACE13F8A8;
-        Tue, 11 Jun 2019 21:21:19 +0200 (CEST)
-From:   Luis Oliveira <Luis.Oliveira@synopsys.com>
-To:     mchehab@kernel.org, davem@davemloft.net,
-        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
-        robh@kernel.org, nicolas.ferre@microchip.com,
-        paulmck@linux.ibm.com, mark.rutland@arm.com, kishon@ti.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Joao.Pinto@synopsys.com, Luis Oliveira <Luis.Oliveira@synopsys.com>
-Subject: [v4 6/6] media: platform: dwc: Add platform data support to D-Phy
-Date:   Tue, 11 Jun 2019 21:20:55 +0200
-Message-Id: <1560280855-18085-7-git-send-email-luis.oliveira@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
-References: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
+        Tue, 11 Jun 2019 15:42:15 -0400
+Received: by mail-it1-f193.google.com with SMTP id j204so6745199ite.4
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 12:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EzEUes/1FRnA6401v5hqZqkDxseqr+IdiuMT9V28eeA=;
+        b=hTkzfwZzzYHmiAs6FC+gU8XBXndHXVMzlCkfNG/WsRGvoDN8aglSB7Vjv+wiIAZnaB
+         G9VB4lc2IB+RT2JHo52JDM2eOCqelXVGK3DIExhyQ40dEmOf4ihbA16dnBGwLLZMBRlc
+         OCMG4pgcAE6qLVwuxhua8GB1ScbcmIWJ8TPok=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EzEUes/1FRnA6401v5hqZqkDxseqr+IdiuMT9V28eeA=;
+        b=bVk1n5+DFdcBKnGcFxCfNuPMONa3nTTaUlvc+vXAhpEsdwqj2yO3dAboGWn7Q3Qn6r
+         RTF/wW3uhmqXH4/HSrMBNyDuTO/eeCIHd1S74xyJNXavt8xs5eonatzjz0qe4ylKDo+V
+         nJYryoeqrNZM9HKrSCw+pqzbFCJaH3rtWZjhz9ifi3MEQLhFOkjnJza+yuSHHEhW6GV+
+         vkSrqQ1OrOZIPd9eT9orV/0OZKkgNi94fdS0GfVd+yf6YOqf6QGw7xnl2yLlvmMo9hzS
+         WkyAmBDEHQCWwIUzPM60OAMObjt3tkonvyhclRuGwpKHLFBwf4cWE2bUp/igE7ifdlPj
+         1T/Q==
+X-Gm-Message-State: APjAAAVJFlr5seb1OrQo2dZuwW1TurkXLjzPbddo8wZBSJ7jtkK2dmQk
+        ZaSHecdVzDLrJncqitkO/ITT2Q==
+X-Google-Smtp-Source: APXvYqx3yCfALUBWWct0MgNdskfPGRKil/M941CdiPk8QH7gxmkxz8YHPDGsGyzZZ9GoRm9H/N28NQ==
+X-Received: by 2002:a02:ce50:: with SMTP id y16mr51430645jar.75.1560282133886;
+        Tue, 11 Jun 2019 12:42:13 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id e188sm5297500ioa.3.2019.06.11.12.42.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jun 2019 12:42:13 -0700 (PDT)
+Subject: Re: [PATCH 1/2] media: v4l2-core: Shifting signed 32-bit value by 31
+ bits error
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, ezequiel@collabora.com,
+        paul.kocialkowski@bootlin.com
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1559764506.git.skhan@linuxfoundation.org>
+ <bac3ee3b10de409b6cdf7286e0e84737e63662ee.1559764506.git.skhan@linuxfoundation.org>
+ <8cc03625-f41d-6009-d50c-823e5f498dca@infradead.org>
+ <7819cae4-58e5-cbe1-ac9d-bca00d390066@xs4all.nl>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <d5aea86a-b556-aae4-0b97-9add8878f99f@linuxfoundation.org>
+Date:   Tue, 11 Jun 2019 13:42:12 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <7819cae4-58e5-cbe1-ac9d-bca00d390066@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch allows the configuration via platform data. This allows
-the driver loading not devicetree dependent.
+On 6/6/19 12:33 AM, Hans Verkuil wrote:
+> On 6/6/19 5:22 AM, Randy Dunlap wrote:
+>> On 6/5/19 2:53 PM, Shuah Khan wrote:
+>>> Fix the following cppcheck error:
+>>>
+>>> Checking drivers/media/v4l2-core/v4l2-ioctl.c ...
+>>> [drivers/media/v4l2-core/v4l2-ioctl.c:1370]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+>>>
+>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>>> ---
+>>>   drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> index 6859bdac86fe..333e387bafeb 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>> @@ -1364,7 +1364,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>>   					(char)((fmt->pixelformat >> 8) & 0x7f),
+>>>   					(char)((fmt->pixelformat >> 16) & 0x7f),
+>>>   					(char)((fmt->pixelformat >> 24) & 0x7f),
+>>> -					(fmt->pixelformat & (1 << 31)) ? "-BE" : "");
+>>> +					(fmt->pixelformat & BIT(31)) ? "-BE" : "");
+>>>   			break;
+>>>   		}
+>>>   	}
+>>>
+>>
+>> If this builds, I guess #define BIT(x) got pulled in indirectly
+>> since bits.h nor bitops.h is currently #included in that source file.
+>>
 
-Signed-off-by: Luis Oliveira <luis.oliveira@synopsys.com>
----
-Changelog
-v3-v4
-- This patch was not in the v3. This enables pdata to configure the driver
+It does build. You are right that I should have included bitops.h
 
- drivers/media/platform/dwc/dw-dphy-plat.c | 87 ++++++++++++++++++++++---------
- drivers/media/platform/dwc/dw-dphy-rx.c   | 19 ++++---
- 2 files changed, 72 insertions(+), 34 deletions(-)
+>> Documentation/process/submit-checklist.rst rule #1 says:
+>> 1) If you use a facility then #include the file that defines/declares
+>>     that facility.  Don't depend on other header files pulling in ones
+>>     that you use.
+>>
+>> Please add #include <linux/bits or bitops.h>
+>>
+> 
+> I'm not sure about this patch. '1 << 31' is used all over in the kernel,
+> including in public headers (e.g. media.h, videodev2.h).
+> 
+> It seems arbitrary to change it only here, but not anywhere else.
+> 
 
-diff --git a/drivers/media/platform/dwc/dw-dphy-plat.c b/drivers/media/platform/dwc/dw-dphy-plat.c
-index 1f5113d..34d9caf 100644
---- a/drivers/media/platform/dwc/dw-dphy-plat.c
-+++ b/drivers/media/platform/dwc/dw-dphy-plat.c
-@@ -23,38 +23,50 @@ static struct phy_ops dw_dphy_ops = {
- 
- static struct phy_provider *phy_provider;
- 
-+#if IS_ENABLED(CONFIG_DWC_MIPI_TC_DPHY_GEN3)
- static u8 get_config_8l(struct device *dev, struct dw_dphy_rx *dphy)
- {
--	dphy->config_8l = of_get_gpio(dev->of_node, 0);
--	if (!gpio_is_valid(dphy->config_8l)) {
--		dev_warn(dev,
--			 "failed to parse 8l config, default is 0\n");
--		dphy->config_8l = 0;
--	}
-+	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
-+		dphy->config_8l = of_get_gpio(dev->of_node, 0);
-+		if (!gpio_is_valid(dphy->config_8l)) {
-+			dev_warn(dev,
-+				 "failed to parse 8l config, default is 0\n");
-+			dphy->config_8l = 0;
-+		}
-+	} else {
-+		struct dw_phy_pdata *pdata = dev->platform_data;
- 
-+		dphy->config_8l = pdata->config_8l;
-+	}
- 	return dphy->config_8l;
- }
--
-+#endif
- static int get_resources(struct device *dev, struct dw_dphy_rx *dphy)
- {
- 	int ret = 0;
- 
--	if (of_property_read_u32(dev->of_node, "snps,dphy-frequency",
--				 &dphy->dphy_freq)) {
--		dev_err(dev, "failed to find dphy frequency\n");
--		ret = -EINVAL;
--	}
--
--	if (of_property_read_u32(dev->of_node, "bus-width",
--				 &dphy->dphy_te_len)) {
--		dev_err(dev, "failed to find dphy te length\n");
--		ret = -EINVAL;
--	}
-+	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
-+		if (of_property_read_u32(dev->of_node, "snps,dphy-frequency",
-+					 &dphy->dphy_freq)) {
-+			dev_err(dev, "failed to find dphy frequency\n");
-+			ret = -EINVAL;
-+		}
-+		if (of_property_read_u32(dev->of_node, "bus-width",
-+					 &dphy->dphy_te_len)) {
-+			dev_err(dev, "failed to find dphy te length\n");
-+			ret = -EINVAL;
-+		}
-+		if (of_property_read_u32(dev->of_node, "snps,phy_type",
-+					 &dphy->phy_type)) {
-+			dev_err(dev, "failed to find dphy type\n");
-+			ret = -EINVAL;
-+		}
-+	} else {
-+		struct dw_phy_pdata *pdata = dev->platform_data;
- 
--	if (of_property_read_u32(dev->of_node, "snps,phy_type",
--				 &dphy->phy_type)) {
--		dev_err(dev, "failed to find dphy te length\n");
--		ret = -EINVAL;
-+		dphy->dphy_freq = pdata->dphy_frequency;
-+		dphy->dphy_te_len = pdata->dphy_te_len;
-+		dphy->dphy_gen = pdata->dphy_gen;
- 	}
- 	dev_set_drvdata(dev, dphy);
- 
-@@ -63,20 +75,39 @@ static int get_resources(struct device *dev, struct dw_dphy_rx *dphy)
- 
- static int phy_register(struct device *dev)
- {
--	if (dev->of_node) {
-+	int ret = 0;
-+
-+	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
- 		phy_provider = devm_of_phy_provider_register(dev,
- 							     dw_dphy_xlate);
- 		if (IS_ERR(phy_provider)) {
- 			dev_err(dev, "error getting phy provider\n");
--			return PTR_ERR(phy_provider);
-+			ret = PTR_ERR(phy_provider);
- 		}
-+	} else {
-+		struct dw_phy_pdata *pdata = dev->platform_data;
-+		struct dw_dphy_rx *dphy = dev_get_drvdata(dev);
-+
-+		ret = phy_create_lookup(dphy->phy,
-+					phys[pdata->id].name,
-+					csis[pdata->id].name);
-+		if (ret)
-+			dev_err(dev, "Failed to create dphy lookup\n");
-+		else
-+			dev_warn(dev,
-+				 "Created dphy lookup [%s] --> [%s]\n",
-+				 phys[pdata->id].name, csis[pdata->id].name);
- 	}
--	return 0;
-+	return ret;
- }
- 
- static void phy_unregister(struct device *dev)
- {
--	devm_of_phy_provider_unregister(dev, phy_provider);
-+	if (!dev->of_node) {
-+		struct dw_dphy_rx *dphy = dev_get_drvdata(dev);
-+
-+		phy_remove_lookup(dphy->phy, "dw-dphy", "dw-csi");
-+	}
- }
- 
- static int dw_dphy_rx_probe(struct platform_device *pdev)
-@@ -166,18 +197,22 @@ static int dw_dphy_rx_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+#if IS_ENABLED(CONFIG_OF)
- static const struct of_device_id dw_dphy_rx_of_match[] = {
- 	{ .compatible = "snps,dw-dphy-rx" },
- 	{},
- };
- 
- MODULE_DEVICE_TABLE(of, dw_dphy_rx_of_match);
-+#endif
- 
- static struct platform_driver dw_dphy_rx_driver = {
- 	.probe = dw_dphy_rx_probe,
- 	.remove = dw_dphy_rx_remove,
- 	.driver = {
-+#if IS_ENABLED(CONFIG_OF)
- 		.of_match_table = of_match_ptr(dw_dphy_rx_of_match),
-+#endif
- 		.name = "dw-dphy",
- 		.owner = THIS_MODULE,
- 	}
-diff --git a/drivers/media/platform/dwc/dw-dphy-rx.c b/drivers/media/platform/dwc/dw-dphy-rx.c
-index f57a814..a69cb3e 100644
---- a/drivers/media/platform/dwc/dw-dphy-rx.c
-+++ b/drivers/media/platform/dwc/dw-dphy-rx.c
-@@ -71,15 +71,18 @@ u8 dw_dphy_setup_config(struct dw_dphy_rx *dphy)
- 		dev_vdbg(&dphy->phy->dev, "CONFIG 4L\n");
- 		return CTRL_4_LANES;
- 	}
--
--	ret = gpio_request(dphy->config_8l, "config");
--	if (ret < 0) {
--		dev_vdbg(&dphy->phy->dev,
--			 "could not acquire config gpio (err=%d)\n", ret);
--		return ret;
-+	if (IS_ENABLED(CONFIG_OF)) {
-+		ret = gpio_request(dphy->config_8l, "config");
-+		if (ret < 0) {
-+			dev_vdbg(&dphy->phy->dev,
-+				 "could not acquire config (err=%d)\n", ret);
-+			return ret;
-+		}
-+		ret = gpio_get_value(dphy->config_8l);
-+		gpio_free(dphy->config_8l);
-+	} else {
-+		ret = dphy->config_8l;
- 	}
--	ret = gpio_get_value(dphy->config_8l);
--	gpio_free(dphy->config_8l);
- 
- 	dev_vdbg(&dphy->phy->dev,
- 		 "Booting in [%s] mode\n",
--- 
-2.7.4
+Right. We have several places in the kernel that do that.
+
+> In this particular example for the fourcc handling I would prefer to just
+> use '1U << 31', both in v4l2-ioctl.c and videodev2.h.
+>
+
+If you would like to take the patch, I can send v2 fixing it using
+1U << 31 - This is simpler since it doesn't nee additional includes.
+
+> A separate patch doing the same for MEDIA_ENT_ID_FLAG_NEXT in media.h would
+> probably be a good idea either: that way the public API at least will do
+> the right thing.
+> 
+
+I should have explained it better. I wanted to start with one or two
+places first to see if it is worth our time to fix these:
+
+The full kernel cppcheck log for "Shifting signed 32-bit value by 31 
+bits is undefined behaviour" can be found at:
+
+https://drive.google.com/file/d/19Xu7UqBGJ7BpzxEp92ZQYb6F8UPrk3z3/view
+
+thanks,
+-- Shuah
 
