@@ -2,172 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5319A41821
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 00:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3347A418A5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 01:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392070AbfFKW2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 18:28:01 -0400
-Received: from mail-it1-f193.google.com ([209.85.166.193]:37169 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391979AbfFKW2B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 18:28:01 -0400
-Received: by mail-it1-f193.google.com with SMTP id x22so7489068itl.2
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 15:28:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+X9der8NXdhTZrpKs7ARdC9UNxvkpwzf4UU4Vx5Hsq4=;
-        b=e4Npqn3VAgKiaPp80W37qxc1orZz3dpQR7luq/0MoHQ9azCxskb/8ERBGSD4AmvRpK
-         6a3YkPRDfCcxHlcoecJV8zMLhO4Ak8zIp+jFb+snV7+LH4GbZWI6J4MAX7JGcmLpMj9v
-         mGyCh53uPjlxb2gyL203LHr7bZyRI2Zf7dX7c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+X9der8NXdhTZrpKs7ARdC9UNxvkpwzf4UU4Vx5Hsq4=;
-        b=dhgljOK3j7tIJyaMuh50szBWm8dOrIbGIzvAkfWF/fK/ohLyNI18wqmD/2asjgPT/q
-         JWtnYlIdBBsPDUU2aLUItEtajJDf5lWfeT/q0lOBo2WzFRm0iW5iDpowIqE/LYgtnll8
-         nFZ382nb/80JYI2GdKsns21anFUNZkEMbNP77bC/s2KcBDZ/v+BFn25riWwZFNIYUPCC
-         sGo7sLQt1YQBatV19riVQ8fQSJ1DKgKNYEUHhwYU2ElO+y+xo4Hu1xgVmuGH+YhMUo8F
-         9LH6AX2yw/D03EwDYtKzTo1Is46p6uJeF043QApgPjQyDo6EteEHZtoRaBfDVmG7ElwT
-         2bew==
-X-Gm-Message-State: APjAAAVKjlRB8UyGGBMkhRaoHbJa68V9pUnSeAI8zHq9dq75prJLfAFw
-        8Naf8LacL0bdLQnrza8CASpXfzjlt/c=
-X-Google-Smtp-Source: APXvYqzY62xsZhPwvlwvKnXn2UnexiJcXOMLbaA2+xsHl+lom4K3vDxJ8RyO06LXn/4Y8oTp0K7J3w==
-X-Received: by 2002:a02:1a86:: with SMTP id 128mr52536525jai.95.1560292080103;
-        Tue, 11 Jun 2019 15:28:00 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e26sm4683086iod.10.2019.06.11.15.27.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 15:27:59 -0700 (PDT)
-Subject: Re: [PATCH 1/2] media: v4l2-core: Shifting signed 32-bit value by 31
- bits error
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, ezequiel@collabora.com,
-        paul.kocialkowski@bootlin.com
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1559764506.git.skhan@linuxfoundation.org>
- <bac3ee3b10de409b6cdf7286e0e84737e63662ee.1559764506.git.skhan@linuxfoundation.org>
- <8cc03625-f41d-6009-d50c-823e5f498dca@infradead.org>
- <7819cae4-58e5-cbe1-ac9d-bca00d390066@xs4all.nl>
- <d5aea86a-b556-aae4-0b97-9add8878f99f@linuxfoundation.org>
- <6b4654b1-7cd5-8fea-8c08-472ade8f3ebb@xs4all.nl>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <9f925e72-4d55-0cfc-ace6-dfe69bbc6903@linuxfoundation.org>
-Date:   Tue, 11 Jun 2019 16:27:58 -0600
+        id S2407942AbfFKXIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 19:08:47 -0400
+Received: from mail.kapsi.fi ([91.232.154.25]:36735 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404669AbfFKXIr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jun 2019 19:08:47 -0400
+X-Greylist: delayed 2406 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jun 2019 19:08:46 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=yMR+DCIazUHAQGeK8jMC+wSeEBeMPOGQMyGxytoRago=; b=DjuzoMYVwl3RogkL+yXz2czqZQ
+        SRl4Fladig0QRjNWhaLQUWUwqQQ2ndW0U1WxyKMklAaUdHyxXX0o50GoxB92Rg70/6MfJfaD3zzwV
+        3gxHPlUhPm0GcwnSKRjS8sXq08yPhy3OLZH9Wn32kfe033FH8uYlq6nOQ1GchHvInMYZ9/LBfphYj
+        smkHKK2wp74LuvJk3824/AiiQnCndWeuGjopKbPqW2Tuggvy2J6WXTbTIj9lDlQiCdUCh0oVZa6lp
+        15+owENlwWK7YxmcQj/ucQxuPG7iF97sT+TORoBVDYUBSqlwzgVHzE9LjdBVSVM4f5JXCUuyHUi6S
+        yEdaeqDg==;
+Received: from mobile-access-bceedc-73.dhcp.inet.fi ([188.238.220.73] helo=localhost.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <crope@iki.fi>)
+        id 1hapFs-0005Or-8s; Wed, 12 Jun 2019 01:28:36 +0300
+Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
+ version 2
+To:     JP <jp@jpvw.nl>, linux-media@vger.kernel.org
+Cc:     Jan Pieter <raslal@live.com>
+References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
+From:   Antti Palosaari <crope@iki.fi>
+Message-ID: <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
+Date:   Wed, 12 Jun 2019 01:28:35 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <6b4654b1-7cd5-8fea-8c08-472ade8f3ebb@xs4all.nl>
+In-Reply-To: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 188.238.220.73
+X-SA-Exim-Mail-From: crope@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/11/19 2:50 PM, Hans Verkuil wrote:
-> On 6/11/19 9:42 PM, Shuah Khan wrote:
->> On 6/6/19 12:33 AM, Hans Verkuil wrote:
->>> On 6/6/19 5:22 AM, Randy Dunlap wrote:
->>>> On 6/5/19 2:53 PM, Shuah Khan wrote:
->>>>> Fix the following cppcheck error:
->>>>>
->>>>> Checking drivers/media/v4l2-core/v4l2-ioctl.c ...
->>>>> [drivers/media/v4l2-core/v4l2-ioctl.c:1370]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
->>>>>
->>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->>>>> ---
->>>>>    drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
->>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>> index 6859bdac86fe..333e387bafeb 100644
->>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>>> @@ -1364,7 +1364,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>>>>    					(char)((fmt->pixelformat >> 8) & 0x7f),
->>>>>    					(char)((fmt->pixelformat >> 16) & 0x7f),
->>>>>    					(char)((fmt->pixelformat >> 24) & 0x7f),
->>>>> -					(fmt->pixelformat & (1 << 31)) ? "-BE" : "");
->>>>> +					(fmt->pixelformat & BIT(31)) ? "-BE" : "");
->>>>>    			break;
->>>>>    		}
->>>>>    	}
->>>>>
->>>>
->>>> If this builds, I guess #define BIT(x) got pulled in indirectly
->>>> since bits.h nor bitops.h is currently #included in that source file.
->>>>
->>
->> It does build. You are right that I should have included bitops.h
->>
->>>> Documentation/process/submit-checklist.rst rule #1 says:
->>>> 1) If you use a facility then #include the file that defines/declares
->>>>      that facility.  Don't depend on other header files pulling in ones
->>>>      that you use.
->>>>
->>>> Please add #include <linux/bits or bitops.h>
->>>>
->>>
->>> I'm not sure about this patch. '1 << 31' is used all over in the kernel,
->>> including in public headers (e.g. media.h, videodev2.h).
->>>
->>> It seems arbitrary to change it only here, but not anywhere else.
->>>
->>
->> Right. We have several places in the kernel that do that.
->>
->>> In this particular example for the fourcc handling I would prefer to just
->>> use '1U << 31', both in v4l2-ioctl.c and videodev2.h.
->>>
->>
->> If you would like to take the patch, I can send v2 fixing it using
->> 1U << 31 - This is simpler since it doesn't nee additional includes.
+On 6/8/19 5:49 AM, JP wrote:
+> I made the Mygica T230c2 work on kernel 5.1.7, but I have no idea
 > 
-> I would like to have this cleaned up in the public media APIs. Those can be
-> used by other compilers as well and it makes sense to me not to have
-> undefined behavior in those headers.
+> how to submit this. http://jpvw.nl/pub/test/dvb/linux-5.1.7-t230c2.patch
+> 
+> 
+> Please can someone help me out. It looks like the extra code in the
+> 
+> demodulator does not effect other drivers that use it. Tested with a
+> 
+> T230, they bothseem to work OK.
+> 
+> 
+> Jan Pieter van Woerkom
+> 
+> 
+> 
+> diff -ru a/drivers/media/dvb-frontends/si2168.c 
+> b/drivers/media/dvb-frontends/si2168.c
+> --- a/drivers/media/dvb-frontends/si2168.c    2019-06-04 
+> 07:59:45.000000000 +0200
+> +++ b/drivers/media/dvb-frontends/si2168.c    2019-06-07 
+> 22:49:21.226337473 +0200
+> @@ -91,8 +91,16 @@
+> 
+>       dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+> 
+> +    /* set ts clock freq to 10Mhz */
+> +       memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
+> +    cmd.wlen = 6;
+> +    cmd.rlen = 4;
+> +    ret = si2168_cmd_execute(client, &cmd);
+> +    if (ret) return ret;
+> +
+
+0x03e8 is 1000 and value used is 10 000Hz steps ==> 10 000 000 = 10MHz. 
+Which means 8bit parallel ts bus has capacity of 80Mbit/s which sounds 
+correct max for DVB-T2. What is default value set to that property? Many 
+times those default values are just correct.
+
+>       /* set TS_MODE property */
+> -    memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
+> +    memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
+> +    cmd.args[4] = dev->ts_mode & 0x30;
+>       if (acquire)
+>           cmd.args[4] |= dev->ts_mode;
+>       else
+
+And that enables use of own value.
+
+Anyhow, I don't like idea of piggybacking those "magic" bits on ts mode 
+configuration variable. It is better to define own configuration value 
+for ts clock on use it when it is set.
+
+
+> diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c 
+> b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-04 
+> 07:59:45.000000000 +0200
+> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c    2019-06-07 
+> 16:47:32.141530489 +0200
+> @@ -560,6 +560,9 @@
+>       si2168_config.i2c_adapter = &i2c_adapter;
+>       si2168_config.fe = &adap->fe[0];
+>       si2168_config.ts_mode = SI2168_TS_PARALLEL;
+> +    if (d->udev->descriptor.idProduct == USB_PID_MYGICA_T230C2)
+> +        si2168_config.ts_mode |= 0x20;
+>       si2168_config.ts_clock_inv = 1;
+> 
+>       state->i2c_client_demod = dvb_module_probe("si2168", NULL,
+> @@ -799,6 +802,9 @@
+>       { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
+>           &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
+>           RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> +    { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C2,
+> +        &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C2",
+> +        RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+>       { }
+>   };
+>   MODULE_DEVICE_TABLE(usb, dvbsky_id_table);
+> diff -ru a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+> --- a/include/media/dvb-usb-ids.h    2019-06-04 07:59:45.000000000 +0200
+> +++ b/include/media/dvb-usb-ids.h    2019-06-06 17:32:32.159187000 +0200
+> @@ -387,6 +387,7 @@
+>   #define USB_PID_MYGICA_D689                0xd811
+>   #define USB_PID_MYGICA_T230                0xc688
+>   #define USB_PID_MYGICA_T230C                0xc689
+> +#define USB_PID_MYGICA_T230C2                0xc68a
+>   #define USB_PID_ELGATO_EYETV_DIVERSITY            0x0011
+>   #define USB_PID_ELGATO_EYETV_DTT            0x0021
+>   #define USB_PID_ELGATO_EYETV_DTT_2            0x003f
 > 
 
-Great. That is a good point. I will start looking at the public media
-APIs.
+What is that T230C2 stick? Naming sounds like a DVB-C2 capable, but I 
+found only T230C model from MyGica site. Where I can get one?
 
->>
->>> A separate patch doing the same for MEDIA_ENT_ID_FLAG_NEXT in media.h would
->>> probably be a good idea either: that way the public API at least will do
->>> the right thing.
->>>
+And also patch should be split to two logical parts, first add manual ts 
+frequency support to si2168 and then other patch which adds device itself.
 
-Sounds good.
+And which are tuner and demod versions/revisions used for that device?
 
->>
->> I should have explained it better. I wanted to start with one or two
->> places first to see if it is worth our time to fix these:
->>
->> The full kernel cppcheck log for "Shifting signed 32-bit value by 31
->> bits is undefined behaviour" can be found at:
->>
->> https://drive.google.com/file/d/19Xu7UqBGJ7BpzxEp92ZQYb6F8UPrk3z3/view
-> 
-> I don't think it makes sense to fix this for drivers. If gcc would do this
-> wrong, we'd have noticed it ages ago.
+regards
+Antti
 
-Agreed. I am not concerned about it being incorrect. More for silencing
-cppcheck. I do agree that it isn't of a great value to us.
-
-> 
-> But I think it makes sense to fix this in public headers.
-> 
-
-Yes. This would definitely help.
-
-thanks,
--- Shuah
+-- 
+http://palosaari.fi/
