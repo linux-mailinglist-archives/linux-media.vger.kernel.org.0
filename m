@@ -2,154 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E5DD3CEF4
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 16:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 086E53CF0B
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 16:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391280AbfFKOih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 10:38:37 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:43306 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391213AbfFKOig (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 10:38:36 -0400
-Received: by mail-pl1-f196.google.com with SMTP id cl9so5201607plb.10
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 07:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Bb9evtnnpvJpDG7+k/xfmfwlxE7BAZZaECd7yQ/bgY=;
-        b=vFVLFZFyIF01TbjN+xeeME15qV8KkCRDccJHkbwPJnzYqntxAPPejl4UucLg68kkqb
-         BaObH7iQP83sFpaN8IH2/Yu4t4nwUDbwn3rb15fIHqVU7geywA3LRxp1p4GflSM3qTjJ
-         iWM19kJHA7FmF25W9uFiY1kMJbcO4WOESGJU61YywCA+i6Ylfs/3WF6YNj5xaMoYJ89L
-         XqlvBDrbDKlYUJNKkeiCJcKNhxFQvdK51GyYrA4cNM42eSbHTJc/2qrnnTIYWyQugg14
-         drUy2FSlkxzvJpoh5mj5M9w5F5osUe6J99CThZKFzYA/JvReekTQOE0mCFzBedDfUO6l
-         PqJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Bb9evtnnpvJpDG7+k/xfmfwlxE7BAZZaECd7yQ/bgY=;
-        b=Qzv6r5zz/B8RPhZut2UIYKQQDUszC/Mr7yfSeZ9+d8Ty1AA6qbFgX3N8UtHCkTanYe
-         ads6TUOccdSmxb9nXkvIc8/d7tWzaLWjJYdDEbUIs8c3GSiOb0QR/Nr8npdjXJSMSSQD
-         DzhAT5sxi841Nzif5sHzsEXwwpeNWivTpCFl6wCf+fOxfJzVdpH3I8Mp+nP52j1VitIP
-         vnoLtW0jK6FQu2V9lCFnY44L+qofj0d2j6/TymmLmWHoTN3gzsLY0x7z3B88ubwH1aBa
-         d8CDDJrtHgjOXpNlfCMHsb7zIbukYlaFJVD17kDXPjW1hPaJi/Wx0OIPBfhKny77bHmv
-         sM2Q==
-X-Gm-Message-State: APjAAAW/I6PD+o2WvjHEp8PEEau5Hpe+O85FKNJ1NpmvtJfv1d2czifK
-        v5kpys+KoyPj3FzSTFNeC8zLgqc3/ZoAqxGgg9VEIw==
-X-Google-Smtp-Source: APXvYqyIzOH5zo/01pYiY/WLl0OLwpsCvaKKuk+vDciT43wSxP3iXzYy6GsWF4y5D8CeYcDREH0+OmLOdYtg4cNrux0=
-X-Received: by 2002:a17:902:1566:: with SMTP id b35mr78131643plh.147.1560263915764;
- Tue, 11 Jun 2019 07:38:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1559580831.git.andreyknvl@google.com> <51f44a12c4e81c9edea8dcd268f820f5d1fad87c.1559580831.git.andreyknvl@google.com>
- <201906072101.58C919E@keescook>
-In-Reply-To: <201906072101.58C919E@keescook>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 11 Jun 2019 16:38:24 +0200
-Message-ID: <CAAeHK+y8CH4P3vheUDCEnPAuO-2L6mc-sz6wMA_hT=wC1Cy3KQ@mail.gmail.com>
-Subject: Re: [PATCH v16 08/16] fs, arm64: untag user pointers in copy_mount_options
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S2389777AbfFKOkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 10:40:41 -0400
+Received: from ps440452.dreamhost.com ([205.196.210.232]:53695 "EHLO
+        dbcdata.top" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388535AbfFKOkl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jun 2019 10:40:41 -0400
+To:     linux-media@vger.kernel.org
+From:   Martin Winkler <info@dbcdata.top>
+Subject: AW: Antwort
+Date:   Tue, 11 Jun 2019 07:40:40 -0700
+Message-ID: <20190611_144040_023002.info@dbcdata.top>
+X-Mailer: WEBMAIL
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jun 8, 2019 at 6:02 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Mon, Jun 03, 2019 at 06:55:10PM +0200, Andrey Konovalov wrote:
-> > This patch is a part of a series that extends arm64 kernel ABI to allow to
-> > pass tagged user pointers (with the top byte set to something else other
-> > than 0x00) as syscall arguments.
-> >
-> > In copy_mount_options a user address is being subtracted from TASK_SIZE.
-> > If the address is lower than TASK_SIZE, the size is calculated to not
-> > allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-> > However if the address is tagged, then the size will be calculated
-> > incorrectly.
-> >
-> > Untag the address before subtracting.
-> >
-> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->
-> One thing I just noticed in the commit titles... "arm64" is in the
-> prefix, but these are arch-indep areas. Should the ", arm64" be left
-> out?
->
-> I would expect, instead:
->
->         fs/namespace: untag user pointers in copy_mount_options
+Sehr geehrte Damen und Herren,
 
-Hm, I've added the arm64 tag in all of the patches because they are
-related to changes in arm64 kernel ABI. I can remove it from all the
-patches that only touch common code if you think that it makes sense.
+nach unserem Besuch Ihrer Homepage möchten wir Ihnen ein Angebot von Produkten vorstellen, das Ihnen ermöglichen wird, den Verkauf Ihrer Produkte sowie 
+Dienstleistungen deutlich zu erhöhen. 
 
-Thanks!
+Die Datenbanken der Firmen sind in für Sie interessante und relevante Zielgruppen untergliedert. 
 
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
->
-> -Kees
->
-> > ---
-> >  fs/namespace.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/fs/namespace.c b/fs/namespace.c
-> > index b26778bdc236..2e85712a19ed 100644
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -2993,7 +2993,7 @@ void *copy_mount_options(const void __user * data)
-> >        * the remainder of the page.
-> >        */
-> >       /* copy_from_user cannot cross TASK_SIZE ! */
-> > -     size = TASK_SIZE - (unsigned long)data;
-> > +     size = TASK_SIZE - (unsigned long)untagged_addr(data);
-> >       if (size > PAGE_SIZE)
-> >               size = PAGE_SIZE;
-> >
-> > --
-> > 2.22.0.rc1.311.g5d7573a151-goog
-> >
->
-> --
-> Kees Cook
+Die Firmenangaben beinhalten: Name der Firma, Ansprechpartner, E-mail Adresse, Tel. + Fax-Nr., PLZ, Ort, Straße etc. 
+
+--
+1. Gesamtpaket 2019 DE 1 Mio. Firmenadressen ( 1 457 620 ) - 190 EUR ( bis zum 11.06.2019 ) 
+2. Gesamtpaket 2019 DE,AT,CH ( 1 747 921 ) - 240 EUR ( bis zum 11.06.2019 ) 
+--
+
+Die Verwendungsmöglichkeiten der Datenbanken sind praktisch unbegrenzt und Sie können durch Verwendung der von uns entwickelten 
+Programme des personalisierten Versendens von Angeboten u.ä. mittels E-mailing bzw. Fax effektive und sichere Werbekampagnen damit durchführen. 
+
+Bitte informieren Sie sich über die weiteren Details einmal unverbindlich auf unseren Webseiten: 
+
+http://www.acdbmarketing.net/?p=1
+
+Mit freundlichen Grüßen
+Martin Winkler
+
