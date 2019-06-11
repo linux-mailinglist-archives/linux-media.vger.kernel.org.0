@@ -2,373 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0074B3CD21
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 15:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 856FB3C810
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 12:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403861AbfFKNjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 09:39:20 -0400
-Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:34385 "EHLO
-        14.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389298AbfFKNjU (ORCPT
+        id S2404575AbfFKKHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 06:07:37 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:27788 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727641AbfFKKHg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 09:39:20 -0400
-X-Greylist: delayed 19033 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jun 2019 09:39:19 EDT
-Received: from player774.ha.ovh.net (unknown [10.109.159.154])
-        by mo6.mail-out.ovh.net (Postfix) with ESMTP id F3D831D0703
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 12:03:35 +0200 (CEST)
-Received: from armadeus.com (lfbn-1-7591-179.w90-126.abo.wanadoo.fr [90.126.248.179])
-        (Authenticated sender: sebastien.szymanski@armadeus.com)
-        by player774.ha.ovh.net (Postfix) with ESMTPSA id EB6756AF51B5;
-        Tue, 11 Jun 2019 10:03:16 +0000 (UTC)
-Subject: Re: [PATCH v2 2/3] media: imx7-media-csi: add i.MX6UL support
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Tue, 11 Jun 2019 06:07:36 -0400
+X-UUID: bfe906f609b444aabed21c7d93bad1b8-20190611
+X-UUID: bfe906f609b444aabed21c7d93bad1b8-20190611
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        (envelope-from <frederic.chen@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 306734353; Tue, 11 Jun 2019 18:07:30 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 11 Jun 2019 18:07:28 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 11 Jun 2019 18:07:28 +0800
+Message-ID: <1560247648.23799.16.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V1 6/6] platform: mtk-isp: Add Mediatek DIP driver
+From:   Frederic Chen <frederic.chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>
-References: <20190606153825.8183-1-sebastien.szymanski@armadeus.com>
- <20190606153825.8183-2-sebastien.szymanski@armadeus.com>
- <m34l4xpweh.fsf@gmail.com>
- <722336d1-c7f7-1796-95d5-7bba1fac7968@armadeus.com>
- <m3zhmo1mux.fsf@gmail.com>
-From:   =?UTF-8?Q?S=c3=a9bastien_Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Openpgp: preference=signencrypt
-Message-ID: <df32fe2e-d9b1-8b09-686c-7f6970aa8e0c@armadeus.com>
-Date:   Tue, 11 Jun 2019 12:03:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        "Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?=" 
+        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Holmes Chiou =?UTF-8?Q?=28=E9=82=B1=E6=8C=BA=29?= 
+        <holmes.chiou@mediatek.com>,
+        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        "Linux Media Mailing List" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        <devicetree@vger.kernel.org>, Shik Chen <shik@chromium.org>,
+        <suleiman@chromium.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Date:   Tue, 11 Jun 2019 18:07:28 +0800
+In-Reply-To: <CAAFQd5CReiPOySyk-eFkgiQMDMoqB3Uhd=bcho2Qtsv74y8fmg@mail.gmail.com>
+References: <20190417104511.21514-1-frederic.chen@mediatek.com>
+         <20190417104511.21514-7-frederic.chen@mediatek.com>
+         <20190509094846.GA65444@google.com> <1558466055.15388.342.camel@mtksdccf07>
+         <1560242886.23799.13.camel@mtksdccf07>
+         <CAAFQd5CReiPOySyk-eFkgiQMDMoqB3Uhd=bcho2Qtsv74y8fmg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-In-Reply-To: <m3zhmo1mux.fsf@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 8968637183800988741
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehhedgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-TM-SNTS-SMTP: 5ED40D27C30423F39500EA588F8B6C4E721AD9EC0DC6044ED445B557EAC08DC62000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/11/19 11:40 AM, Rui Miguel Silva wrote:
-> Hi Sebastien,
-> On Tue 11 Jun 2019 at 09:16, Sébastien Szymanski wrote:
->> Hi Rui,
->>
->> thanks for the review!
->>
->> On 6/10/19 12:28 PM, Rui Miguel Silva wrote:
->>> Hi Sebastien,
->>> Thanks for the patch.
->>>
->>> On Thu 06 Jun 2019 at 16:38, Sébastien Szymanski wrote:
->>>> i.MX7 and i.MX6UL/L have the same CSI controller. So add i.MX6UL/L support
->>>> to imx7-media-csi driver.
->>>>
->>>> Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
->>>> ---
->>>>
->>>> Changes for v2:
->>>>  - rebase on top of linuxtv/master
->>>>  - mention i.MX6UL/L in header and Kconfig help text
->>>>  - rename csi_type to csi_soc_id
->>>>
->>>>  drivers/staging/media/imx/Kconfig          |  4 +-
->>>>  drivers/staging/media/imx/imx7-media-csi.c | 62 ++++++++++++++++------
->>>>  2 files changed, 49 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
->>>> index ad3d7df6bb3c..8b6dc42c39e0 100644
->>>> --- a/drivers/staging/media/imx/Kconfig
->>>> +++ b/drivers/staging/media/imx/Kconfig
->>>> @@ -22,11 +22,11 @@ config VIDEO_IMX_CSI
->>>>  	  A video4linux camera sensor interface driver for i.MX5/6.
->>>>
->>>>  config VIDEO_IMX7_CSI
->>>> -	tristate "i.MX7 Camera Sensor Interface driver"
->>>> +	tristate "i.MX6UL/L / i.MX7 Camera Sensor Interface driver"
->>>>  	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
->>>>  	default y
->>>>  	help
->>>>  	  Enable support for video4linux camera sensor interface driver for
->>>> -	  i.MX7.
->>>> +	  i.MX6UL/L or i.MX7.
->>>>  endmenu
->>>>  endif
->>>> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
->>>> index 9101566f3f67..902bdce594cf 100644
->>>> --- a/drivers/staging/media/imx/imx7-media-csi.c
->>>> +++ b/drivers/staging/media/imx/imx7-media-csi.c
->>>> @@ -1,6 +1,6 @@
->>>>  // SPDX-License-Identifier: GPL-2.0
->>>>  /*
->>>> - * V4L2 Capture CSI Subdev for Freescale i.MX7 SOC
->>>> + * V4L2 Capture CSI Subdev for Freescale i.MX6UL/L / i.MX7 SOC
->>>>   *
->>>>   * Copyright (c) 2019 Linaro Ltd
->>>>   *
->>>> @@ -152,6 +152,11 @@
->>>>  #define CSI_CSICR18		0x48
->>>>  #define CSI_CSICR19		0x4c
->>>>
->>>> +enum csi_soc_id {
->>>> +	IMX7,
->>>> +	IMX6UL
->>>> +};
->>>> +
->>>>  struct imx7_csi {
->>>>  	struct device *dev;
->>>>  	struct v4l2_subdev sd;
->>>> @@ -191,6 +196,7 @@ struct imx7_csi {
->>>>  	bool is_init;
->>>>  	bool is_streaming;
->>>>  	bool is_csi2;
->>>> +	enum csi_soc_id soc_id;
->>>>
->>>>  	struct completion last_eof_completion;
->>>>  };
->>>> @@ -548,6 +554,14 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
->>>>  	if (ret)
->>>>  		return ret;
->>>>
->>>> +	if (csi->soc_id == IMX6UL) {
->>>> +		mutex_lock(&csi->lock);
->>>> +		csi->is_csi2 = false;
->>>> +		mutex_unlock(&csi->lock);
->>>> +
->>>> +		return 0;
->>>> +	}
->>>> +
->>>>  	ret = imx7_csi_get_upstream_endpoint(csi, &upstream_ep, true);
->>>>  	if (ret) {
->>>>  		v4l2_err(&csi->sd, "failed to find upstream endpoint\n");
->>>> @@ -757,6 +771,7 @@ static int imx7_csi_configure(struct imx7_csi *csi)
->>>>  	struct v4l2_pix_format *out_pix = &vdev->fmt.fmt.pix;
->>>>  	__u32 in_code = csi->format_mbus[IMX7_CSI_PAD_SINK].code;
->>>>  	u32 cr1, cr18;
->>>> +	int width = out_pix->width;
->>>>
->>>>  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
->>>>  		imx7_csi_deinterlace_enable(csi, true);
->>>> @@ -766,15 +781,27 @@ static int imx7_csi_configure(struct imx7_csi *csi)
->>>>  		imx7_csi_buf_stride_set(csi, 0);
->>>>  	}
->>>>
->>>> -	imx7_csi_set_imagpara(csi, out_pix->width, out_pix->height);
->>>> +	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
->>>> +
->>>> +	if (!csi->is_csi2) {
->>>> +		if (out_pix->pixelformat == V4L2_PIX_FMT_UYVY ||
->>>> +		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
->>>> +			width *= 2;
->>>> +
->>>> +		imx7_csi_set_imagpara(csi, width, out_pix->height);
->>>> +
->>>> +		cr18 |= (BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
->>>> +			BIT_BASEADDR_CHG_ERR_EN);
->>>> +		imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
->>>>
->>>> -	if (!csi->is_csi2)
->>>>  		return 0;
->>>> +	}
->>>> +
->>>> +	imx7_csi_set_imagpara(csi, width, out_pix->height);
->>>>
->>>>  	cr1 = imx7_csi_reg_read(csi, CSI_CSICR1);
->>>>  	cr1 &= ~BIT_GCLK_MODE;
->>>>
->>>> -	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
->>>>  	cr18 &= BIT_MIPI_DATA_FORMAT_MASK;
->>>>  	cr18 |= BIT_DATA_FROM_MIPI;
->>>>
->>>> @@ -809,11 +836,9 @@ static void imx7_csi_enable(struct imx7_csi *csi)
->>>>  {
->>>>  	imx7_csi_sw_reset(csi);
->>>>
->>>> -	if (csi->is_csi2) {
->>>> -		imx7_csi_dmareq_rff_enable(csi);
->>>> -		imx7_csi_hw_enable_irq(csi);
->>>> -		imx7_csi_hw_enable(csi);
->>>> -	}
->>>> +	imx7_csi_dmareq_rff_enable(csi);
->>>> +	imx7_csi_hw_enable_irq(csi);
->>>> +	imx7_csi_hw_enable(csi);
->>>>  }
->>>>
->>>>  static void imx7_csi_disable(struct imx7_csi *csi)
->>>> @@ -1166,19 +1191,32 @@ static int imx7_csi_parse_endpoint(struct device *dev,
->>>>  	return fwnode_device_is_available(asd->match.fwnode) ? 0 : -EINVAL;
->>>>  }
->>>>
->>>> +static const struct of_device_id imx7_csi_of_match[] = {
->>>> +	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
->>>> +	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL },
->>>
->>> looking at this again I think we can do this is a different way.
->>> Instead data being the soc_id, just set here if it is_csi2 or not.
->>>
->>> This would avoid to add a soc_id  to the struct that it really it
->>> is used only to setup the is_csi2 var. I think this will make this
->>> patch a lot simpler.
->>
->> Well, I have added this soc_id because imx7_csi_get_upstream_endpoint in
->> imx7_csi_pad_link_validate fails:
->>
->> [  366.549768] csi: failed to find upstream endpoint
->> [  366.556274] csi: pipeline start failed with -19
->>
+Hi Tomasz,
+
+
+On Tue, 2019-06-11 at 17:59 +0900, Tomasz Figa wrote:
+> On Tue, Jun 11, 2019 at 5:48 PM Frederic Chen
+> <frederic.chen@mediatek.com> wrote:
+> >
+> > Dear Tomasz,
+> >
+> > I'd like to elaborate more about the tuning_data.va.
+> > Would you like to give us some advice about our improvement proposal inline?
+> >
+> > Thank you very much.
+> >
+> >
+> > On Wed, 2019-05-22 at 03:14 +0800, Frederic Chen wrote:
+> > > Dear Tomasz,
+> > >
+> > > I appreciate your comment. It is very helpful for us.
+> > >
+> > >
+> > > > > diff --git a/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c b/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..54d2b5f5b802
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c
+> > > > > @@ -0,0 +1,1384 @@
+> >
+> > [snip]
+> >
+> > > > > +static void dip_submit_worker(struct work_struct *work)
+> > > > > +{
+> > > > > +       struct mtk_dip_hw_submit_work *dip_submit_work =
+> > > > > +               container_of(work, struct mtk_dip_hw_submit_work, frame_work);
+> > > > > +       struct mtk_dip_hw *dip_hw = dip_submit_work->dip_hw;
+> > > > > +       struct mtk_dip_dev *dip_dev = mtk_dip_hw_to_dev(dip_hw);
+> > > > > +       struct mtk_dip_hw_work *dip_work;
+> > > > > +       struct mtk_dip_hw_subframe *buf;
+> > > > > +       u32 len, num;
+> > > > > +       int ret;
+> > > > > +
+> > > > > +       num  = atomic_read(&dip_hw->num_composing);
+> > > > > +
+> > > > > +       mutex_lock(&dip_hw->dip_worklist.queuelock);
+> > > > > +       dip_work = list_first_entry(&dip_hw->dip_worklist.queue,
+> >
+> > [snip]
+> >
+> > > > > +
+> > > > > +       if (dip_work->frameparams.tuning_data.pa == 0) {
+> > > > > +               dev_dbg(&dip_dev->pdev->dev,
+> > > > > +                       "%s: frame_no(%d) has no tuning_data\n",
+> > > > > +                       __func__, dip_work->frameparams.frame_no);
+> > > > > +
+> > > > > +               memcpy(&dip_work->frameparams.tuning_data,
+> > > > > +                      &buf->tuning_buf, sizeof(buf->tuning_buf));
+> > > >
+> > > > Ditto.
+> > > >
+> > >
+> > > I got it.
+> > >
+> > > > > +               memset((char *)buf->tuning_buf.va, 0, DIP_TUNING_SZ);
+> > > >
+> > > > Ditto.
+> > >
+> > > I got it.
+> > >
+> > > >
+> > > > > +               /*
+> > > > > +                * When user enqueued without tuning buffer,
+> > > > > +                * it would use driver internal buffer.
+> > > > > +                * So, tuning_data.va should be 0
+> > > > > +                */
+> > > > > +               dip_work->frameparams.tuning_data.va = 0;
+> > > >
+> > > > I don't understand this. We just zeroed the buffer via this kernel VA few
+> > > > lines above, so why would it have to be set to 0?
+> > > >
+> > >
+> > > I will remove this unnecessary line.
+> > >
+> > > > > +       }
+> >
+> > After confirming the firmware part, I found that we use this field
+> > (tuning_data.va) to notify firmware if there is no tuning data from
+> > user.
+> >
+> > - frameparams.tuning_data.va is 0: use the default tuning data in
+> >                                    SCP, but we still need to pass
+> >                                    frameparams.tuning_data.pa because
+> >                                    the buffer contains some working
+> >                                    buffer required.
+> > - frameparams.tuning_data.va is not 0: the tuning data was passed from
+> >                                        the user
+> >
+> > Since we should not pass cpu addres to SCP, could I rename tuning_data.va
+> > as tuning_data.cookie, and write a constant value to indicate if SCP
+> > should use its internal default setting or not here?
+> >
+> > For example,
+> > /* SCP uses tuning data passed from userspace*/
+> > dip_work->frameparams.tuning_data.cookie = MTK_DIP_USER_TUNING_DATA;
+> >
+> > /* SCP uses internal tuning data */
+> > dip_work->frameparams.tuning_data.cookie = MTK_DIP_DEFAULT_TUNING_DATA;
 > 
-> I think this fails because you do not define any endpoint for the
-> csi in your board dts file. I see in patch 1/3 the setup of csi,
-> disabled, but not the endpoint connecting csi with the ov5640 in
-> your board file (see the connection between mipi imx7 and ov2680
-> in the imx7-warp.dts, or the ov5640.txt file).
-
-I actually do, in the device tree of my board I have:
-
-&csi {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_csi>;
-	status = "okay";
-
-	port {
-		csi_ep: endpoint {
-			remote-endpoint = <&ov5640_ep>;
-			bus-type = <5>; // V4L2_FWNODE_BUS_TYPE_PARALLEL
-		};
-	};
-};
-
-and
-
-&i2c2 {
-..
-	ov5640: camera@3c {
-		...
-		port {
-                        ov5640_ep: endpoint {
-                                remote-endpoint = <&csi_ep>;
-                                bus-width = <8>;
-                                data-shift = <2>; /* lines 9:2 are used */
-                                hsync-active = <0>;
-                                vsync-active = <1>;
-                                pclk-sample = <0>;
-                        };
-                };
-	};
-};
-
-Regards,
-
-> 
-> ---
-> Cheers,
->         Rui
-> 
-> 
->>
->> My pipeline is:
->>
->> Device topology
->> - entity 1: csi (2 pads, 2 links)
->>             type V4L2 subdev subtype Unknown flags 0
->>             device node name /dev/v4l-subdev0
->>         pad0: Sink
->>                 [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
->> xfer:srgb ycbcr:601 quantization:full-range]
->>                 <- "ov5640 1-003c":0 [ENABLED]
->>         pad1: Source
->>                 [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
->> xfer:srgb ycbcr:601 quantization:full-range]
->>                 -> "csi capture":0 [ENABLED]
->>
->> - entity 4: csi capture (1 pad, 1 link)
->>             type Node subtype V4L flags 0
->>             device node name /dev/video1
->>         pad0: Sink
->>                 <- "csi":1 [ENABLED]
->>
->> - entity 10: ov5640 1-003c (1 pad, 1 link)
->>              type V4L2 subdev subtype Sensor flags 0
->>              device node name /dev/v4l-subdev1
->>         pad0: Source
->>                 [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb
->> xfer:srgb ycbcr:601 quantization:full-range]
->>                 -> "csi":0 [ENABLED]
->>
->>
->> Maybe we should fix this ?
->>
->> Regards,
->>
->>>
->>>> +	{ },
->>>> +};
->>>> +MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
->>>> +
->>>>  static int imx7_csi_probe(struct platform_device *pdev)
->>>>  {
->>>>  	struct device *dev = &pdev->dev;
->>>>  	struct device_node *node = dev->of_node;
->>>>  	struct imx_media_dev *imxmd;
->>>>  	struct imx7_csi *csi;
->>>> +	const struct of_device_id *of_id;
->>>>  	int ret;
->>>>
->>>> +	of_id = of_match_node(imx7_csi_of_match, node);
->>>
->>> With the above said, here I think we can use the of_match_device?
->>>
->>> hope this makes sense also to you.
->>>
->>> Once again thanks for the patches.
->>>
->>> ---
->>> Cheers,
->>>         Rui
->>>
->>>> +	if (!of_id)
->>>> +		return -ENODEV;
->>>> +
->>>>  	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
->>>>  	if (!csi)
->>>>  		return -ENOMEM;
->>>>
->>>>  	csi->dev = dev;
->>>> +	csi->soc_id = (enum csi_soc_id)of_id->data;
->>>>
->>>>  	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
->>>>  	if (IS_ERR(csi->mclk)) {
->>>> @@ -1294,12 +1332,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
->>>>  	return 0;
->>>>  }
->>>>
->>>> -static const struct of_device_id imx7_csi_of_match[] = {
->>>> -	{ .compatible = "fsl,imx7-csi" },
->>>> -	{ },
->>>> -};
->>>> -MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
->>>> -
->>>>  static struct platform_driver imx7_csi_driver = {
->>>>  	.probe = imx7_csi_probe,
->>>>  	.remove = imx7_csi_remove,
->>>
+> Perhaps we could just call it "present" and set to true or false?
 > 
 
+Yes. I would like to use "present" here.
 
--- 
-Sébastien Szymanski
-Software engineer, Armadeus Systems
-Tel: +33 (0)9 72 29 41 44
-Fax: +33 (0)9 72 28 79 26
+Original:
+  struct img_addr {
+      u64 va; /* Used by Linux OS access */
+      u32 pa; /* Used by CM4 access */
+      u32 iova; /* Used by IOMMU HW access */
+  } __attribute__ ((__packed__));
+
+  struct img_ipi_frameparam {
+      u32 index;
+      u32 frame_no;
+      u64 timestamp;
+      u8 type;	/* enum mdp_stream_type */
+      u8 state;
+      u8 num_inputs;
+      u8 num_outputs;
+      u64 drv_data;
+      struct img_input inputs[IMG_MAX_HW_INPUTS];
+      struct img_output	outputs[IMG_MAX_HW_OUTPUTS];
+      struct img_addr tuning_data;
+      struct img_addr subfrm_data;
+      struct img_sw_addr config_data;
+      struct img_sw_addr self_data;
+  } __attribute__ ((__packed__));
+
+
+Modified:
+  struct tuning_buf {
+      u8 present;
+      u32 pa;	/* Used by CM4 access */
+      u32 iova;	/* Used by IOMMU HW access */
+  } __attribute__ ((__packed__));
+	
+  struct img_ipi_frameparam {
+      /* ... */
+      struct tuning_buf	tuning_data;
+      /* ... */
+  } __attribute__ ((__packed__));
+
+
+> Best regards,
+> Tomasz
+
+
+Sincerely,
+
+Frederic Chen
+
+
