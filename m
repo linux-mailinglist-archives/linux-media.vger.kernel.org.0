@@ -2,141 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE8183DBC0
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 22:19:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D213DBC8
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 22:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406471AbfFKUTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 16:19:08 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:43658 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406133AbfFKUTI (ORCPT
+        id S2390614AbfFKUZk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 16:25:40 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44834 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388533AbfFKUZk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 16:19:08 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BKIG4j188569;
-        Tue, 11 Jun 2019 20:18:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=pbmzGiYbk5X7Ese6X3ZnPOdFp3xt858d68MV4hL41o8=;
- b=aNfZmQbNP69ST1fFgutdWgNsoHsdTrxkUj7frUiu18XSvo5ty/Pn14NuvBXeongSeXs5
- W+/X6Zg80mFm1wMWd+zVCPCrQRP9QFtEH+cG0F7+uHlQwGnz+OWpR52bZNKpwSlJXUqv
- nMKBQhJ5HrsIVS6xiQg2bgHXLgu1p42NoCzZ/6Z08/cyHiS+fbUmTJNnXs/64PEUCVDy
- LuWVBuquORM9Cl3ljZsvAUUgUitqLMYyHC0GQkhfk1XGzvDOaXFduSfm+GFL8dwtAmDt
- oSfpqPsaE2SKGUeznCaVKxrCypUl2tuyIAul53FQXJZOqETR2JQgxWtw699nf/W05RQb Uw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2t04etqhfn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jun 2019 20:18:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5BKIAf4177892;
-        Tue, 11 Jun 2019 20:18:28 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 2t04hyj648-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jun 2019 20:18:28 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5BKIMpX015673;
-        Tue, 11 Jun 2019 20:18:23 GMT
-Received: from [10.154.187.61] (/10.154.187.61)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 11 Jun 2019 13:18:22 -0700
-Subject: Re: [PATCH v16 04/16] mm: untag user pointers in do_pages_move
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-References: <cover.1559580831.git.andreyknvl@google.com>
- <e410843d00a4ecd7e525a7a949e605ffc6c394c4.1559580831.git.andreyknvl@google.com>
-From:   Khalid Aziz <khalid.aziz@oracle.com>
-Organization: Oracle Corp
-Message-ID: <d0dffcf8-d7bf-a7b4-5766-3a6f87437851@oracle.com>
-Date:   Tue, 11 Jun 2019 14:18:18 -0600
+        Tue, 11 Jun 2019 16:25:40 -0400
+Received: by mail-lf1-f66.google.com with SMTP id r15so10293592lfm.11
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 13:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=kEcAGbtoXSetomb8kRU1ptfOLVeYmQcuJOcAXFrPxeI=;
+        b=BI3HIrBd8f/6sRW8bjXJL1KYgJ1dxeGdrWnoa0LBhbbQs2t+F6oZQoJuvbvD+WWiFq
+         HA+T52a/8lYKsnXOXi5lZuIrVEtIscLjZeaECucy7IxdH+MAmL3JsOX1wZ4cqrcsWrYO
+         5MbEl9b8UkIcUeqs2nCmg4QI+Dythqo+v56a8p1JUx+x0fCv6ap6R2hFM9ekwmC1m+LL
+         akSW/iHQffeXdpEfye9eWlla2qk1Feer+9tkdHEs7S9BVn4LTgYGp0pRRzdrlJaFidvc
+         VNET/ODo3jkvyYqBf4I8zjM5PYvxNPhhfpJQeHivv8sCX+wdQoDYh1wBrhp9/gBKRUq6
+         PT/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kEcAGbtoXSetomb8kRU1ptfOLVeYmQcuJOcAXFrPxeI=;
+        b=aILoHcv57FYGBTQec+Pix92rj+nKJ/nj7tDBypRp7CEa2Vtg+8J7RCW3Yr6PFOyuSj
+         4WsLg8fJt7OJqIXnGF2yuyS1T1reKoY4gRwtYh4rKZYzG+lBUf+sQ4OjLNfl4T34kmDN
+         bxHNZcIkiZaPjC1INNDmY+TQjap87+RMTUgAT14tvlGm3qr/6ZP40ThOu+aP6Xj1I/2D
+         j/ztmnqDi3WDjCBwkEeoOS0w+wP84TdFuOCd1TeoQylJAdMHkXxWu4GrwYvVzq0BpxI9
+         MIy7xsybng2AqhxPc/RtHtQRJ+ukf/j7Akw9qHW4a4spW7DLGCmEEaGQlSk6R6EzmVkN
+         V4RA==
+X-Gm-Message-State: APjAAAVGlEFGLT/P2s9anOaOFr+ra+ACLM98ez2irMeSaOsg0Unc6adG
+        8DLw7GwmK/D9NZviD5+EkVk4cMk8r74=
+X-Google-Smtp-Source: APXvYqxXlCiHDQQ40wx4TFpvjRwgtJvPgBG1j8us1WGUVXfccyHspK4VJ6e8kIJ6ieO6lShpMkKFRQ==
+X-Received: by 2002:ac2:4a6e:: with SMTP id q14mr20315301lfp.154.1560284737448;
+        Tue, 11 Jun 2019 13:25:37 -0700 (PDT)
+Received: from [192.168.145.139] ([178.74.2.49])
+        by smtp.gmail.com with ESMTPSA id v12sm1400572ljk.22.2019.06.11.13.25.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jun 2019 13:25:36 -0700 (PDT)
+Subject: Re: [PATCH 7/8] media: vivid: add CEC support to display present ctrl
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+References: <20190528171912.3688-1-johan.korsnes@gmail.com>
+ <20190528171912.3688-8-johan.korsnes@gmail.com>
+ <021b02ca-9543-c921-d231-0864e045b3c9@xs4all.nl>
+From:   Johan Korsnes <johan.korsnes@gmail.com>
+Message-ID: <d934d0cc-dc86-b13c-a85a-e37adbef39c0@gmail.com>
+Date:   Tue, 11 Jun 2019 13:25:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e410843d00a4ecd7e525a7a949e605ffc6c394c4.1559580831.git.andreyknvl@google.com>
+In-Reply-To: <021b02ca-9543-c921-d231-0864e045b3c9@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906110131
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906110130
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/3/19 10:55 AM, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow=
- to
-> pass tagged user pointers (with the top byte set to something else othe=
-r
-> than 0x00) as syscall arguments.
->=20
-> do_pages_move() is used in the implementation of the move_pages syscall=
-=2E
->=20
-> Untag user pointers in this function.
->=20
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  mm/migrate.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index f2ecc2855a12..3930bb6fa656 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -1617,6 +1617,7 @@ static int do_pages_move(struct mm_struct *mm, no=
-demask_t task_nodes,
->  		if (get_user(node, nodes + i))
->  			goto out_flush;
->  		addr =3D (unsigned long)p;
-> +		addr =3D untagged_addr(addr);
+Thank you for the review Hans. My comments are inline. A v2 of this
+series is under way.
 
-Why not just "addr =3D (unsigned long)untagged_addr(p);"
+On 5/29/19 12:39 AM, Hans Verkuil wrote:
+> Hi Johan,
+> 
+> Thanks for this patch series!
+> 
+> The previous patches all look good, but this one needs a bit more work:
+> 
+> On 5/28/19 7:19 PM, johan.korsnes@gmail.com wrote:
+>> From: Johan Korsnes <johan.korsnes@gmail.com>
+>>
+>> Set/invalidate physical addresses based on the configuration of the
+>> display present control. This is relevant not only when the display
+>> present control is modified, but also when the Vivid instance EDID is
+>> set/cleared.
+>>
+>> Signed-off-by: Johan Korsnes <johan.korsnes@gmail.com>
+>> ---
+>>  drivers/media/platform/vivid/vivid-core.c     | 16 ++++++------
+>>  drivers/media/platform/vivid/vivid-ctrls.c    | 25 ++++++++++++++++---
+>>  drivers/media/platform/vivid/vivid-vid-cap.c  |  6 ++++-
+>>  .../media/platform/vivid/vivid-vid-common.c   |  2 ++
+>>  4 files changed, 36 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+>> index b2b4ee48cef0..ca46ac24f51e 100644
+>> --- a/drivers/media/platform/vivid/vivid-core.c
+>> +++ b/drivers/media/platform/vivid/vivid-core.c
+>> @@ -1060,14 +1060,6 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>>  	vivid_update_format_cap(dev, false);
+>>  	vivid_update_format_out(dev);
+>>  
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_out);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_cap);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_out);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_rx);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
+>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
+>> -
+>>  	/* initialize overlay */
+>>  	dev->fb_cap.fmt.width = dev->src_rect.width;
+>>  	dev->fb_cap.fmt.height = dev->src_rect.height;
+>> @@ -1488,6 +1480,14 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>>  	}
+>>  #endif
+>>  
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_out);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_cap);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_out);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_rx);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
+>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
+>> +
+>>  	/* Now that everything is fine, let's add it to device list */
+>>  	vivid_devs[inst] = dev;
+>>  
+> 
+> This change should be in a patch of its own.
+> 
+> It also needs more work. The reason for this change is that v4l2_ctrl_handler_setup()
+> expects that the cec adapters are up and running, so moving these calls until after
+> the creation of the adapters fixes that.
+> 
+> However, that now means that controls change after the creation of the video devices,
+> which isn't right.
+> 
+> If you look at the probe() function you'll see that things are done in two stages:
+> first all the vb2 queues are created, and only if that succeeded are the video devices
+> created.
+> 
+> The same should be done for the CEC adapters: they should be allocated (vivid_cec_alloc_adap)
+> in the first stage, then call v4l2_ctrl_handler_setup(), and finally create the actual
+> device nodes (cec_register_adapter).
+> 
+> That way the controls are configured correctly before any device nodes are created.
 
---
-Khalid
+I have split up the allocation and registration in v2. Why is this
+order important? Some race condition with user space?
 
+> 
+>> diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
+>> index ae3690fd1b52..e4758a2837e6 100644
+>> --- a/drivers/media/platform/vivid/vivid-ctrls.c
+>> +++ b/drivers/media/platform/vivid/vivid-ctrls.c
+>> @@ -18,6 +18,7 @@
+>>  #include "vivid-radio-common.h"
+>>  #include "vivid-osd.h"
+>>  #include "vivid-ctrls.h"
+>> +#include "vivid-cec.h"
+>>  
+>>  #define VIVID_CID_CUSTOM_BASE		(V4L2_CID_USER_BASE | 0xf000)
+>>  #define VIVID_CID_BUTTON		(VIVID_CID_CUSTOM_BASE + 0)
+>> @@ -923,7 +924,7 @@ static int vivid_vid_out_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  	struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_vid_out);
+>>  	struct v4l2_bt_timings *bt = &dev->dv_timings_out.bt;
+>>  	u32 display_present = 0;
+>> -	unsigned i, j;
+>> +	unsigned i, j, bus_idx;
+>>  
+>>  	switch (ctrl->id) {
+>>  	case VIVID_CID_HAS_CROP_OUT:
+>> @@ -962,15 +963,31 @@ static int vivid_vid_out_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  			break;
+>>  
+>>  		dev->display_present[dev->output] = ctrl->val;
+>> -
+>>  		for (i = 0, j = 0; i < dev->num_outputs; i++)
+>>  			if (dev->output_type[i] == HDMI)
+>>  				display_present |=
+>>  					dev->display_present[i] << j++;
+>>  
+>> -		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug, display_present);
+>>  		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_rxsense, display_present);
+>> -		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, display_present);
+>> +
+>> +		if (dev->edid_blocks) {
+>> +			__v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present,
+>> +					   display_present);
+>> +			__v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug,
+>> +					   display_present);
+>> +		}
+>> +
+>> +		if (dev->cec_tx_adap == NULL)
+>> +			break;
+>> +
+>> +		bus_idx = dev->cec_output2bus_map[dev->output];
+>> +		if (ctrl->val && dev->edid_blocks)
+>> +			cec_s_phys_addr(dev->cec_tx_adap[bus_idx],
+>> +					dev->cec_tx_adap[bus_idx]->phys_addr,
+>> +					false);
+>> +		else
+>> +			cec_phys_addr_invalidate(dev->cec_tx_adap[bus_idx]);
+>> +
+>>  		break;
+>>  	}
+>>  	return 0;
+>> diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
+>> index ca15c13abf6c..920be638da83 100644
+>> --- a/drivers/media/platform/vivid/vivid-vid-cap.c
+>> +++ b/drivers/media/platform/vivid/vivid-vid-cap.c
+>> @@ -1760,6 +1760,7 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>>  		return -EINVAL;
+>>  	if (edid->blocks == 0) {
+>>  		dev->edid_blocks = 0;
+>> +		v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, false);
+> 
+> false should be 0 (it's a bitmask control).
+> The tx_hotplug control should be set to 0 as well.
+> 
+>>  		phys_addr = CEC_PHYS_ADDR_INVALID;
+>>  		goto set_phys_addr;
+>>  	}
+>> @@ -1777,6 +1778,7 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>>  
+>>  	dev->edid_blocks = edid->blocks;
+>>  	memcpy(dev->edid, edid->edid, edid->blocks * 128);
+>> +	v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, true);
+> 
+> true should be a display_present mask. And the tx_hotplug control should
+> be set as well with the same mask.
+> 
+> It's probably best to just recalculate the display_present mask, just as
+> you did in vivid_vid_out_s_ctrl().
+
+Not sure what I was thinking here. Will fix!
+
+> 
+>>  
+>>  set_phys_addr:
+>>  	/* TODO: a proper hotplug detect cycle should be emulated here */
+>> @@ -1784,7 +1786,9 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>>  
+>>  	for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
+>>  		cec_s_phys_addr(dev->cec_tx_adap[i],
+>> -				v4l2_phys_addr_for_input(phys_addr, i + 1),
+>> +				dev->display_present[i] ?
+>> +				v4l2_phys_addr_for_input(phys_addr, i + 1) :
+>> +				CEC_PHYS_ADDR_INVALID,
+>>  				false);
+>>  	return 0;
+>>  }
+>> diff --git a/drivers/media/platform/vivid/vivid-vid-common.c b/drivers/media/platform/vivid/vivid-vid-common.c
+>> index b6882426fc12..0addf8ef7dbf 100644
+>> --- a/drivers/media/platform/vivid/vivid-vid-common.c
+>> +++ b/drivers/media/platform/vivid/vivid-vid-common.c
+>> @@ -907,6 +907,8 @@ int vidioc_g_edid(struct file *file, void *_fh,
+>>  			return -EINVAL;
+>>  		if (dev->output_type[edid->pad] != HDMI)
+>>  			return -EINVAL;
+>> +		if (!dev->display_present[dev->output])
+> 
+> dev->output should be edid->pad. VIDIOC_G_EDID gets the EDID of the specified
+> output, not of the current output.
+> 
+
+Will fix this in v2.
+
+>> +			return -ENODATA;
+>>  		bus_idx = dev->cec_output2bus_map[edid->pad];
+>>  		adap = dev->cec_tx_adap[bus_idx];
+>>  	}
+>>
+> 
+> Regards,
+> 
+> 	Hans
+>
