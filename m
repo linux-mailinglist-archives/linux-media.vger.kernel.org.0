@@ -2,117 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2B53C5CC
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 10:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E013C73C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 11:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404694AbfFKIQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 04:16:09 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:35987 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404250AbfFKIQI (ORCPT
+        id S1728981AbfFKJcI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 05:32:08 -0400
+Received: from 5.mo69.mail-out.ovh.net ([46.105.43.105]:32798 "EHLO
+        5.mo69.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727642AbfFKJcI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 04:16:08 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1habwb-0003K3-2W; Tue, 11 Jun 2019 10:15:49 +0200
-Message-ID: <1560240943.13886.1.camel@pengutronix.de>
-Subject: Re: [PATCH 5/8] drivers: media: coda: fix warning same module names
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Matt Redfearn <matt.redfearn@thinci.com>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "vivien.didelot@gmail.com" <vivien.didelot@gmail.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "marex@denx.de" <marex@denx.de>,
-        "stefan@agner.ch" <stefan@agner.ch>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Date:   Tue, 11 Jun 2019 10:15:43 +0200
-In-Reply-To: <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com>
-References: <20190606094722.23816-1-anders.roxell@linaro.org>
-         <d6b79ee0-07c6-ad81-16b0-8cf929cc214d@xs4all.nl>
-         <CADYN=9KY5=FzrkC7MKj9QnG-eM1NVuL00w8Xv4yU2r05rhr7WQ@mail.gmail.com>
-         <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        Tue, 11 Jun 2019 05:32:08 -0400
+Received: from player718.ha.ovh.net (unknown [10.109.146.175])
+        by mo69.mail-out.ovh.net (Postfix) with ESMTP id E14FF57FAA
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 10:16:51 +0200 (CEST)
+Received: from armadeus.com (lfbn-1-7591-179.w90-126.abo.wanadoo.fr [90.126.248.179])
+        (Authenticated sender: sebastien.szymanski@armadeus.com)
+        by player718.ha.ovh.net (Postfix) with ESMTPSA id D1BE369E1F92;
+        Tue, 11 Jun 2019 08:16:33 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] media: imx7-media-csi: add i.MX6UL support
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+References: <20190606153825.8183-1-sebastien.szymanski@armadeus.com>
+ <20190606153825.8183-2-sebastien.szymanski@armadeus.com>
+ <m34l4xpweh.fsf@gmail.com>
+From:   =?UTF-8?Q?S=c3=a9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>
+Openpgp: preference=signencrypt
+Message-ID: <722336d1-c7f7-1796-95d5-7bba1fac7968@armadeus.com>
+Date:   Tue, 11 Jun 2019 10:16:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <m34l4xpweh.fsf@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 7166071435811902533
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehgedgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Rui,
 
-On Mon, 2019-06-10 at 13:14 +0000, Matt Redfearn wrote:
+thanks for the review!
+
+On 6/10/19 12:28 PM, Rui Miguel Silva wrote:
+> Hi Sebastien,
+> Thanks for the patch.
 > 
-> On 10/06/2019 14:03, Anders Roxell wrote:
-> > On Thu, 6 Jun 2019 at 12:13, Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> > > 
-> > > On 6/6/19 11:47 AM, Anders Roxell wrote:
-> > > > When building with CONFIG_VIDEO_CODA and CONFIG_CODA_FS enabled as
-> > > > loadable modules, we see the following warning:
-> > > > 
-> > > > warning: same module names found:
-> > > >    fs/coda/coda.ko
-> > > >    drivers/media/platform/coda/coda.ko
-> > > > 
-> > > > Rework so media coda matches the config fragment. Leaving CODA_FS as is
-> > > > since thats a well known module.
-> > > > 
-> > > > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> > > > ---
-> > > >   drivers/media/platform/coda/Makefile | 4 ++--
-> > > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/platform/coda/Makefile b/drivers/media/platform/coda/Makefile
-> > > > index 54e9a73a92ab..588e6bf7c190 100644
-> > > > --- a/drivers/media/platform/coda/Makefile
-> > > > +++ b/drivers/media/platform/coda/Makefile
-> > > > @@ -1,6 +1,6 @@
-> > > >   # SPDX-License-Identifier: GPL-2.0-only
-> > > > 
-> > > > -coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
-> > > > +video-coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
-> > > > 
-> > > > -obj-$(CONFIG_VIDEO_CODA) += coda.o
-> > > > +obj-$(CONFIG_VIDEO_CODA) += video-coda.o
-> > > 
-> > > How about imx-coda? video-coda suggests it is part of the video subsystem,
-> > > which it isn't.
-> > 
-> > I'll resend a v2 shortly with imx-coda instead.
+> On Thu 06 Jun 2019 at 16:38, Sébastien Szymanski wrote:
+>> i.MX7 and i.MX6UL/L have the same CSI controller. So add i.MX6UL/L support
+>> to imx7-media-csi driver.
+>>
+>> Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+>> ---
+>>
+>> Changes for v2:
+>>  - rebase on top of linuxtv/master
+>>  - mention i.MX6UL/L in header and Kconfig help text
+>>  - rename csi_type to csi_soc_id
+>>
+>>  drivers/staging/media/imx/Kconfig          |  4 +-
+>>  drivers/staging/media/imx/imx7-media-csi.c | 62 ++++++++++++++++------
+>>  2 files changed, 49 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+>> index ad3d7df6bb3c..8b6dc42c39e0 100644
+>> --- a/drivers/staging/media/imx/Kconfig
+>> +++ b/drivers/staging/media/imx/Kconfig
+>> @@ -22,11 +22,11 @@ config VIDEO_IMX_CSI
+>>  	  A video4linux camera sensor interface driver for i.MX5/6.
+>>
+>>  config VIDEO_IMX7_CSI
+>> -	tristate "i.MX7 Camera Sensor Interface driver"
+>> +	tristate "i.MX6UL/L / i.MX7 Camera Sensor Interface driver"
+>>  	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
+>>  	default y
+>>  	help
+>>  	  Enable support for video4linux camera sensor interface driver for
+>> -	  i.MX7.
+>> +	  i.MX6UL/L or i.MX7.
+>>  endmenu
+>>  endif
+>> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+>> index 9101566f3f67..902bdce594cf 100644
+>> --- a/drivers/staging/media/imx/imx7-media-csi.c
+>> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+>> @@ -1,6 +1,6 @@
+>>  // SPDX-License-Identifier: GPL-2.0
+>>  /*
+>> - * V4L2 Capture CSI Subdev for Freescale i.MX7 SOC
+>> + * V4L2 Capture CSI Subdev for Freescale i.MX6UL/L / i.MX7 SOC
+>>   *
+>>   * Copyright (c) 2019 Linaro Ltd
+>>   *
+>> @@ -152,6 +152,11 @@
+>>  #define CSI_CSICR18		0x48
+>>  #define CSI_CSICR19		0x4c
+>>
+>> +enum csi_soc_id {
+>> +	IMX7,
+>> +	IMX6UL
+>> +};
+>> +
+>>  struct imx7_csi {
+>>  	struct device *dev;
+>>  	struct v4l2_subdev sd;
+>> @@ -191,6 +196,7 @@ struct imx7_csi {
+>>  	bool is_init;
+>>  	bool is_streaming;
+>>  	bool is_csi2;
+>> +	enum csi_soc_id soc_id;
+>>
+>>  	struct completion last_eof_completion;
+>>  };
+>> @@ -548,6 +554,14 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+>>  	if (ret)
+>>  		return ret;
+>>
+>> +	if (csi->soc_id == IMX6UL) {
+>> +		mutex_lock(&csi->lock);
+>> +		csi->is_csi2 = false;
+>> +		mutex_unlock(&csi->lock);
+>> +
+>> +		return 0;
+>> +	}
+>> +
+>>  	ret = imx7_csi_get_upstream_endpoint(csi, &upstream_ep, true);
+>>  	if (ret) {
+>>  		v4l2_err(&csi->sd, "failed to find upstream endpoint\n");
+>> @@ -757,6 +771,7 @@ static int imx7_csi_configure(struct imx7_csi *csi)
+>>  	struct v4l2_pix_format *out_pix = &vdev->fmt.fmt.pix;
+>>  	__u32 in_code = csi->format_mbus[IMX7_CSI_PAD_SINK].code;
+>>  	u32 cr1, cr18;
+>> +	int width = out_pix->width;
+>>
+>>  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
+>>  		imx7_csi_deinterlace_enable(csi, true);
+>> @@ -766,15 +781,27 @@ static int imx7_csi_configure(struct imx7_csi *csi)
+>>  		imx7_csi_buf_stride_set(csi, 0);
+>>  	}
+>>
+>> -	imx7_csi_set_imagpara(csi, out_pix->width, out_pix->height);
+>> +	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
+>> +
+>> +	if (!csi->is_csi2) {
+>> +		if (out_pix->pixelformat == V4L2_PIX_FMT_UYVY ||
+>> +		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
+>> +			width *= 2;
+>> +
+>> +		imx7_csi_set_imagpara(csi, width, out_pix->height);
+>> +
+>> +		cr18 |= (BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
+>> +			BIT_BASEADDR_CHG_ERR_EN);
+>> +		imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
+>>
+>> -	if (!csi->is_csi2)
+>>  		return 0;
+>> +	}
+>> +
+>> +	imx7_csi_set_imagpara(csi, width, out_pix->height);
+>>
+>>  	cr1 = imx7_csi_reg_read(csi, CSI_CSICR1);
+>>  	cr1 &= ~BIT_GCLK_MODE;
+>>
+>> -	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
+>>  	cr18 &= BIT_MIPI_DATA_FORMAT_MASK;
+>>  	cr18 |= BIT_DATA_FROM_MIPI;
+>>
+>> @@ -809,11 +836,9 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+>>  {
+>>  	imx7_csi_sw_reset(csi);
+>>
+>> -	if (csi->is_csi2) {
+>> -		imx7_csi_dmareq_rff_enable(csi);
+>> -		imx7_csi_hw_enable_irq(csi);
+>> -		imx7_csi_hw_enable(csi);
+>> -	}
+>> +	imx7_csi_dmareq_rff_enable(csi);
+>> +	imx7_csi_hw_enable_irq(csi);
+>> +	imx7_csi_hw_enable(csi);
+>>  }
+>>
+>>  static void imx7_csi_disable(struct imx7_csi *csi)
+>> @@ -1166,19 +1191,32 @@ static int imx7_csi_parse_endpoint(struct device *dev,
+>>  	return fwnode_device_is_available(asd->match.fwnode) ? 0 : -EINVAL;
+>>  }
+>>
+>> +static const struct of_device_id imx7_csi_of_match[] = {
+>> +	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
+>> +	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL },
+> 
+> looking at this again I think we can do this is a different way.
+> Instead data being the soc_id, just set here if it is_csi2 or not.
+> 
+> This would avoid to add a soc_id  to the struct that it really it
+> is used only to setup the is_csi2 var. I think this will make this
+> patch a lot simpler.
 
-I'd be in favor of calling it "coda-vpu" instead.
+Well, I have added this soc_id because imx7_csi_get_upstream_endpoint in
+imx7_csi_pad_link_validate fails:
 
-> What about other vendor SoCs implementing the Coda IP block which are 
-> not an imx? I'd prefer a more generic name - maybe media-coda.
+[  366.549768] csi: failed to find upstream endpoint
+[  366.556274] csi: pipeline start failed with -19
 
-Right, this driver can be used on other SoCs [1].
+My pipeline is:
 
-[1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg146498.html
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+        pad0: Sink
+                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:full-range]
+                <- "ov5640 1-003c":0 [ENABLED]
+        pad1: Source
+                [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:full-range]
+                -> "csi capture":0 [ENABLED]
 
-regards
-Philipp
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+        pad0: Sink
+                <- "csi":1 [ENABLED]
+
+- entity 10: ov5640 1-003c (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev1
+        pad0: Source
+                [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb
+xfer:srgb ycbcr:601 quantization:full-range]
+                -> "csi":0 [ENABLED]
+
+
+Maybe we should fix this ?
+
+Regards,
+
+> 
+>> +	{ },
+>> +};
+>> +MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+>> +
+>>  static int imx7_csi_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>>  	struct device_node *node = dev->of_node;
+>>  	struct imx_media_dev *imxmd;
+>>  	struct imx7_csi *csi;
+>> +	const struct of_device_id *of_id;
+>>  	int ret;
+>>
+>> +	of_id = of_match_node(imx7_csi_of_match, node);
+> 
+> With the above said, here I think we can use the of_match_device?
+> 
+> hope this makes sense also to you.
+> 
+> Once again thanks for the patches.
+> 
+> ---
+> Cheers,
+>         Rui
+> 
+>> +	if (!of_id)
+>> +		return -ENODEV;
+>> +
+>>  	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
+>>  	if (!csi)
+>>  		return -ENOMEM;
+>>
+>>  	csi->dev = dev;
+>> +	csi->soc_id = (enum csi_soc_id)of_id->data;
+>>
+>>  	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
+>>  	if (IS_ERR(csi->mclk)) {
+>> @@ -1294,12 +1332,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
+>>  	return 0;
+>>  }
+>>
+>> -static const struct of_device_id imx7_csi_of_match[] = {
+>> -	{ .compatible = "fsl,imx7-csi" },
+>> -	{ },
+>> -};
+>> -MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+>> -
+>>  static struct platform_driver imx7_csi_driver = {
+>>  	.probe = imx7_csi_probe,
+>>  	.remove = imx7_csi_remove,
+> 
+
+
+-- 
+Sébastien Szymanski
+Software engineer, Armadeus Systems
+Tel: +33 (0)9 72 29 41 44
+Fax: +33 (0)9 72 28 79 26
