@@ -2,182 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 072E03D240
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 18:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC9813D2E6
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 18:46:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391685AbfFKQ2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 12:28:51 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45560 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728264AbfFKQ2v (ORCPT
+        id S2405263AbfFKQqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 12:46:43 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35771 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390050AbfFKQqn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 12:28:51 -0400
-Received: by mail-lf1-f66.google.com with SMTP id u10so9777659lfm.12
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 09:28:49 -0700 (PDT)
+        Tue, 11 Jun 2019 12:46:43 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c6so3694587wml.0
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 09:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RgyPf7xhx0YF0w9Kty/80UkxGW/cNJhmecxkZGC4Svg=;
-        b=Wy6GLE/bRjVgzVg3lTBzcxvgONy0/gxFk0wNAyFPNhLKb1zkqgi7IORqDn/A5oMhNs
-         P1N7dtfcmcAozuWE5Eb3UlefyJfoLU/vDMgiMI3gdS0x+DBehpksepzE3rG6XpxcTQTL
-         dgguk5hn73V7XtY9m418kM424zKdGmSeZiwHBMjROl0RJXauPuHC4yXQZJhkON6lbL4x
-         8yP5dVjBuymlWB96zkGHGcjBVzztPUFGpPcNcVrKQyhj8zt9gsA+MYw/a7H4tw2+tBeS
-         72NhJJT+iv7ymfMLyx7RYScRS52teqvNNZh+H661tbd0KCYPYAwPMSB88JYKm6t07qyn
-         5NRA==
+        bh=2Oa1a0ha2VFWKL4hOl3AR5/JJhQBtK+rHv8OJZVYJOE=;
+        b=zmW43qJ1WbGXv9ft3x7s64Vnm+IeJNhxyK1UNtAGyfDZBlgtmu1Rm0AyqvpY8/TlAY
+         /eBz3dhQA3oze1sMtwh2BOoJHKdb0U74VMGDMScKzKramzHZvZs2ZPqLEe+gAXMTIiFp
+         8T7n6gd3gRrlnzmAGeEziIbbW36dCxAsrhn+Qc/NTeDt5mWZQpVAUxHI/BbKkautdA6h
+         ryIGpqj6qAKSXkg5ZxPLWnkSsCRxefPKB2O4ps8SDUv9JrCzYBoXommeqTGHEgSGsnNW
+         OqdIoNXF4KwwcHTB1P0+J+smx0kN1v4aRmZmwwCkwq8UOfgS5T5c8ltXTS98YneFg8WY
+         EWvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RgyPf7xhx0YF0w9Kty/80UkxGW/cNJhmecxkZGC4Svg=;
-        b=Dv6/n0rw78iVuCItMGgGjNmsaoj6oR+dS2Mvva6JIVyAAbbFYPr2cN+kTmW4/oBP4H
-         YyyEw+WgRrvxx3A1NZdYvFFErhUKTZ6M0H9lNV4kvgXy/xQ0llPj0pZC2h9J6vB3M91S
-         8q6X9F4USF4bsvgbrapVASzfwWsZFKafb/R8SIRxr/7lUee5bA2T0ghf6sVKKE2pgCXk
-         SE50/T5AqjBiVUHJ3dcmM+RaIGoGfnDavvQeUI/noqvCjTHbsGnsx9QFc6Ple7fJsoW7
-         RUA8Hsaty/g4079SOsomauiupIOo+HGFQlhV37B4XwQ82tOCiQk3Ya4VHl10Rtc+5zDi
-         UdxA==
-X-Gm-Message-State: APjAAAUd4WqHLP063AxaawHzyxDKNpDJBT+zv8EXbFej0fBLcwCG2Msa
-        LQTFWuEvWaW0xljhWL8ZJMWZw9y1ngIbwNvTJjawrw==
-X-Google-Smtp-Source: APXvYqz+8HsvC2fZeq6JGexwZBxWKw0IGtco6wwqGIYyL/OdqZf9E69/kPyFOQ1Wtpf5LQTIPeOKLiFAWfBQYsb8+YM=
-X-Received: by 2002:a19:c383:: with SMTP id t125mr31681402lff.89.1560270528359;
- Tue, 11 Jun 2019 09:28:48 -0700 (PDT)
+        bh=2Oa1a0ha2VFWKL4hOl3AR5/JJhQBtK+rHv8OJZVYJOE=;
+        b=CAMsekTUCLT73bUmpxUlHTtmmKdlS/hdunNBsDzMqgzC3Tt4QylMgUS090WBRaY9Bh
+         HC41/n1vePzgaSwzZz7tGnxHoRgqACO9W015A43sRf5dTjPqFvB801mjLNVdmfHJSvzA
+         eXg15Y7nw8aW81yruOyKQki7gh53ITcPk2Q+QwSRkqOyziahOe8LA/jULQt/TaYfzsfg
+         SS/W5cgu5W0QbaolgTxvEXLRLIZznq3/OnD0XStYVCgyZX86/In+Z7G0eQVYmAr2KiJw
+         oKLfrgnLS4EoL2VaN22DtnG6/eYciM3Txo//SGehHbi8epJEGQ09YSyBCxtpLt97ZrUp
+         OzHA==
+X-Gm-Message-State: APjAAAWgNSBBcFGNNBqBB5zfRNC9pMTf8+sxm3rP/W+bZ3yO2eLUiwjY
+        3AOpkqI9hm+KGka1Y8ywO6av4UMEVcCwF1v6bNWcfA==
+X-Google-Smtp-Source: APXvYqwOTBzax/Bo1qTWBfM1CDJxB5KQdXLtYfzeBs/j1zfJNjbpVse7cHa0fYLPcpz8C2kvJMABP1q9b5JMh4sV8Vs=
+X-Received: by 2002:a1c:ed07:: with SMTP id l7mr17182843wmh.148.1560271600864;
+ Tue, 11 Jun 2019 09:46:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606094722.23816-1-anders.roxell@linaro.org>
- <d6b79ee0-07c6-ad81-16b0-8cf929cc214d@xs4all.nl> <CADYN=9KY5=FzrkC7MKj9QnG-eM1NVuL00w8Xv4yU2r05rhr7WQ@mail.gmail.com>
- <c2ff2c77-5c14-4bc4-f59c-7012d272ec76@thinci.com> <1560240943.13886.1.camel@pengutronix.de>
- <221c8ef8-7adc-4383-93c9-9031dca590f0@xs4all.nl> <CADYN=9K7GwPGM_Eh5q-OZ9rcEPAjXw4BXy-m3a=QxmGuVruCUw@mail.gmail.com>
- <CAAEAJfC9vja5WwsNc5+MTVHLFg_P3zG=OZt_CuRR5eG-3iWD9Q@mail.gmail.com>
-In-Reply-To: <CAAEAJfC9vja5WwsNc5+MTVHLFg_P3zG=OZt_CuRR5eG-3iWD9Q@mail.gmail.com>
-From:   Anders Roxell <anders.roxell@linaro.org>
-Date:   Tue, 11 Jun 2019 18:28:37 +0200
-Message-ID: <CADYN=9L36CadXu2csbQhvey=20NTte-a+a8i08w=pP-+VdTuLA@mail.gmail.com>
-Subject: Re: [PATCH 5/8] drivers: media: coda: fix warning same module names
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Matt Redfearn <matt.redfearn@thinci.com>,
+References: <20190609143820.4662-1-mjourdan@baylibre.com> <20190609143820.4662-2-mjourdan@baylibre.com>
+ <CAAFQd5AR1SXdMp6xiCEksrmpF7qk+Tg2-w7Ogw47GZx1pU6T_Q@mail.gmail.com>
+In-Reply-To: <CAAFQd5AR1SXdMp6xiCEksrmpF7qk+Tg2-w7Ogw47GZx1pU6T_Q@mail.gmail.com>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Date:   Tue, 11 Jun 2019 18:46:29 +0200
+Message-ID: <CAMO6nayMpngjM0k5ZQ08WPDhE5z4gCCxjRGnAzUp7fbrJJd45w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/5] media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "vivien.didelot@gmail.com" <vivien.didelot@gmail.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "marex@denx.de" <marex@denx.de>,
-        "stefan@agner.ch" <stefan@agner.ch>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 11 Jun 2019 at 18:18, Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
+Hi Tomasz,
+On Mon, Jun 10, 2019 at 5:48 AM Tomasz Figa <tfiga@chromium.org> wrote:
 >
+> Hi Maxime,
 >
+> On Sun, Jun 9, 2019 at 11:38 PM Maxime Jourdan <mjourdan@baylibre.com> wrote:
+> >
+> > Add a enum_fmt format flag to specifically tag coded formats where
+> > dynamic resolution switching is supported by the device.
+> >
+> > This is useful for some codec drivers that can't support dynamic
+> > resolution switching for all their listed coded formats. It allows
+> > userspace to know whether it should extract the video parameters itself,
+> > or if it can rely on the device to send V4L2_EVENT_SOURCE_CHANGE when
+> > such changes are detected.
+> >
 >
-> On Tue, Jun 11, 2019, 1:01 PM Anders Roxell <anders.roxell@linaro.org> wrote:
->>
->> On Tue, 11 Jun 2019 at 10:21, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->> >
->> > On 6/11/19 10:15 AM, Philipp Zabel wrote:
->> > > Hi,
->> > >
->> > > On Mon, 2019-06-10 at 13:14 +0000, Matt Redfearn wrote:
->> > >>
->> > >> On 10/06/2019 14:03, Anders Roxell wrote:
->> > >>> On Thu, 6 Jun 2019 at 12:13, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->> > >>>>
->> > >>>> On 6/6/19 11:47 AM, Anders Roxell wrote:
->> > >>>>> When building with CONFIG_VIDEO_CODA and CONFIG_CODA_FS enabled as
->> > >>>>> loadable modules, we see the following warning:
->> > >>>>>
->> > >>>>> warning: same module names found:
->> > >>>>>    fs/coda/coda.ko
->> > >>>>>    drivers/media/platform/coda/coda.ko
->> > >>>>>
->> > >>>>> Rework so media coda matches the config fragment. Leaving CODA_FS as is
->> > >>>>> since thats a well known module.
->> > >>>>>
->> > >>>>> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
->> > >>>>> ---
->> > >>>>>   drivers/media/platform/coda/Makefile | 4 ++--
->> > >>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
->> > >>>>>
->> > >>>>> diff --git a/drivers/media/platform/coda/Makefile b/drivers/media/platform/coda/Makefile
->> > >>>>> index 54e9a73a92ab..588e6bf7c190 100644
->> > >>>>> --- a/drivers/media/platform/coda/Makefile
->> > >>>>> +++ b/drivers/media/platform/coda/Makefile
->> > >>>>> @@ -1,6 +1,6 @@
->> > >>>>>   # SPDX-License-Identifier: GPL-2.0-only
->> > >>>>>
->> > >>>>> -coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
->> > >>>>> +video-coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
->> > >>>>>
->> > >>>>> -obj-$(CONFIG_VIDEO_CODA) += coda.o
->> > >>>>> +obj-$(CONFIG_VIDEO_CODA) += video-coda.o
->> > >>>>
->> > >>>> How about imx-coda? video-coda suggests it is part of the video subsystem,
->> > >>>> which it isn't.
->> > >>>
->> > >>> I'll resend a v2 shortly with imx-coda instead.
->> > >
->> > > I'd be in favor of calling it "coda-vpu" instead.
->> >
->> > Fine by me!
->> >
->> > >
->> > >> What about other vendor SoCs implementing the Coda IP block which are
->> > >> not an imx? I'd prefer a more generic name - maybe media-coda.
->> > >
->> > > Right, this driver can be used on other SoCs [1].
->> >
->> > Good point.
->>
->> OK, so I'll change it to 'media-coda'.
->>
->>
->>
+> First of all, thanks for the patch!
 >
-> As suggested by Philipp, coda-vpu seems the most accurate name.
+> Given the aspect of compatibility and also the general preference for
+> the drivers to actually handle dynamic resolution changes, I'd suggest
+> inverting the meaning of this flag. With something like
+> "V4L2_FMT_FLAG_STATIC_RESOLUTION" it would be more of an exception
+> rather than the default behavior.
+>
 
-urgh, that correct.
+This is actually what I did to begin with [0], with the same
+reasoning: not supporting dynamic resolution for a certain coded
+format is more of an exception than the norm (for decoders).
+The patch was ultimately dropped from the meson vdec series after
+discussing with Hans, see [0] or the lkml link Hans provided in his
+answer.
 
-Thanks,
-Anders
+We have the chance today that stateful decoders in the kernel either
+support V4L2_EVENT_SOURCE_CHANGE and dynamic resolution switching for
+all their formats, or they don't expose V4L2_EVENT_SOURCE_CHANGE at
+all.
+While this flag would change the spec, it wouldn't break existing
+userspace using close-to-spec drivers like s5p-mfc or mtk-vcodec.
 
->
-> Thanks,
-> Ezequiel
->
->
->
->> Cheers,
->> Anders
->>
->> >
->> > Regards,
->> >
->> >         Hans
->> >
->> > >
->> > > [1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg146498.html
->> > >
->> > > regards
->> > > Philipp
->> > >
->> >
+Cheers,
+Maxime
+
+[0] https://patchwork.kernel.org/patch/10969829/
+
+> Best regards,
+> Tomasz
