@@ -2,136 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FD494164A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 22:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B20A4166D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 22:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436492AbfFKUpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 16:45:07 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33371 "EHLO
+        id S2406669AbfFKUuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 16:50:23 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47005 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2405843AbfFKUpH (ORCPT
+        by vger.kernel.org with ESMTP id S2406215AbfFKUuX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 16:45:07 -0400
+        Tue, 11 Jun 2019 16:50:23 -0400
 Received: from [192.168.2.10] ([46.9.252.75])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id andchmqRS41bFandghFqBB; Tue, 11 Jun 2019 22:45:04 +0200
-Subject: Re: [PATCH 7/8] media: vivid: add CEC support to display present ctrl
-To:     Johan Korsnes <johan.korsnes@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20190528171912.3688-1-johan.korsnes@gmail.com>
- <20190528171912.3688-8-johan.korsnes@gmail.com>
- <021b02ca-9543-c921-d231-0864e045b3c9@xs4all.nl>
- <d934d0cc-dc86-b13c-a85a-e37adbef39c0@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <88d71d36-abac-7f74-e842-565cecf87172@xs4all.nl>
-Date:   Tue, 11 Jun 2019 22:45:00 +0200
+        id aniihmt7M41bFanilhFqre; Tue, 11 Jun 2019 22:50:21 +0200
+Subject: Re: [PATCH 1/2] media: v4l2-core: Shifting signed 32-bit value by 31
+ bits error
+To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, ezequiel@collabora.com,
+        paul.kocialkowski@bootlin.com
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1559764506.git.skhan@linuxfoundation.org>
+ <bac3ee3b10de409b6cdf7286e0e84737e63662ee.1559764506.git.skhan@linuxfoundation.org>
+ <8cc03625-f41d-6009-d50c-823e5f498dca@infradead.org>
+ <7819cae4-58e5-cbe1-ac9d-bca00d390066@xs4all.nl>
+ <d5aea86a-b556-aae4-0b97-9add8878f99f@linuxfoundation.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <6b4654b1-7cd5-8fea-8c08-472ade8f3ebb@xs4all.nl>
+Date:   Tue, 11 Jun 2019 22:50:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <d934d0cc-dc86-b13c-a85a-e37adbef39c0@gmail.com>
+In-Reply-To: <d5aea86a-b556-aae4-0b97-9add8878f99f@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHyuzZ09Tl4bldqZ/kaE6j2tT+NS+4naQZ3RtDK5FFG63srNBKCfCZA3jdEDbLkX1SRqgpw2m3R/UFgzyXO7yQj0uHvkWrz9wqBCZ+JwlGMuQ4BOtW8s
- VFe/aHoA9pXyUAT417l5/aZA5OYhFJwC8fAj9xaTYvYcdOdsU8YtuN8tLkdUpHF9UdsRPu9H15zD7WctUygzA2IGh8EHxAY+jj4=
+X-CMAE-Envelope: MS4wfDqPdampvam9t1IRzB0iFELc7nEPX5OR/TF9QssU3HBs2KYkud1TLt9b109GhAPvLE53p88JAm+woywM+u645zJD/YfA8UkYGOxZDLwgwjZweqeV0xO1
+ t5gaPWld559PAdtOK2f9oA26Mymc6A/ITMeypImIZb3FY769jcbWGPlZjE/tV/Z4XIU3sK4A9FNoKRBJBNFNOlr+7c/hFJ561VqKTuzDNqa+j8R91UHuWEFl
+ doRRN6I3zjythBcykNWoHsAITIHf4nNgzuxfQsI6jf6A77ZF34L7TvGGEqGiQxuafXQGfwHB8Tg6eol3yH7oxbfekZ4nQdmIzMR+J27eOMeD3nVRifH7kmEn
+ jeJh5QXZUenJSXYGSkdEO6pJnHLQviiM9YN0wvj8k2FwhEcFyJBl7kb3n98uiizXyM3umuIQgm//BGXm198n67sNhBqM0TGzirCufTaZWbYeb6PhNJVqByWR
+ 1/I4Ew74pZyYKub+QKawTMqZ/JKO0n9SXXfoDA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/11/19 10:25 PM, Johan Korsnes wrote:
-> Thank you for the review Hans. My comments are inline. A v2 of this
-> series is under way.
+On 6/11/19 9:42 PM, Shuah Khan wrote:
+> On 6/6/19 12:33 AM, Hans Verkuil wrote:
+>> On 6/6/19 5:22 AM, Randy Dunlap wrote:
+>>> On 6/5/19 2:53 PM, Shuah Khan wrote:
+>>>> Fix the following cppcheck error:
+>>>>
+>>>> Checking drivers/media/v4l2-core/v4l2-ioctl.c ...
+>>>> [drivers/media/v4l2-core/v4l2-ioctl.c:1370]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+>>>>
+>>>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>>>> ---
+>>>>   drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> index 6859bdac86fe..333e387bafeb 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> @@ -1364,7 +1364,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>>>   					(char)((fmt->pixelformat >> 8) & 0x7f),
+>>>>   					(char)((fmt->pixelformat >> 16) & 0x7f),
+>>>>   					(char)((fmt->pixelformat >> 24) & 0x7f),
+>>>> -					(fmt->pixelformat & (1 << 31)) ? "-BE" : "");
+>>>> +					(fmt->pixelformat & BIT(31)) ? "-BE" : "");
+>>>>   			break;
+>>>>   		}
+>>>>   	}
+>>>>
+>>>
+>>> If this builds, I guess #define BIT(x) got pulled in indirectly
+>>> since bits.h nor bitops.h is currently #included in that source file.
+>>>
 > 
-> On 5/29/19 12:39 AM, Hans Verkuil wrote:
->> Hi Johan,
->>
->> Thanks for this patch series!
->>
->> The previous patches all look good, but this one needs a bit more work:
->>
->> On 5/28/19 7:19 PM, johan.korsnes@gmail.com wrote:
->>> From: Johan Korsnes <johan.korsnes@gmail.com>
->>>
->>> Set/invalidate physical addresses based on the configuration of the
->>> display present control. This is relevant not only when the display
->>> present control is modified, but also when the Vivid instance EDID is
->>> set/cleared.
->>>
->>> Signed-off-by: Johan Korsnes <johan.korsnes@gmail.com>
->>> ---
->>>  drivers/media/platform/vivid/vivid-core.c     | 16 ++++++------
->>>  drivers/media/platform/vivid/vivid-ctrls.c    | 25 ++++++++++++++++---
->>>  drivers/media/platform/vivid/vivid-vid-cap.c  |  6 ++++-
->>>  .../media/platform/vivid/vivid-vid-common.c   |  2 ++
->>>  4 files changed, 36 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
->>> index b2b4ee48cef0..ca46ac24f51e 100644
->>> --- a/drivers/media/platform/vivid/vivid-core.c
->>> +++ b/drivers/media/platform/vivid/vivid-core.c
->>> @@ -1060,14 +1060,6 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->>>  	vivid_update_format_cap(dev, false);
->>>  	vivid_update_format_out(dev);
->>>  
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_out);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_cap);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_out);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_rx);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
->>> -	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
->>> -
->>>  	/* initialize overlay */
->>>  	dev->fb_cap.fmt.width = dev->src_rect.width;
->>>  	dev->fb_cap.fmt.height = dev->src_rect.height;
->>> @@ -1488,6 +1480,14 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->>>  	}
->>>  #endif
->>>  
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_cap);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vid_out);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_cap);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_vbi_out);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_rx);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
->>> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
->>> +
->>>  	/* Now that everything is fine, let's add it to device list */
->>>  	vivid_devs[inst] = dev;
->>>  
->>
->> This change should be in a patch of its own.
->>
->> It also needs more work. The reason for this change is that v4l2_ctrl_handler_setup()
->> expects that the cec adapters are up and running, so moving these calls until after
->> the creation of the adapters fixes that.
->>
->> However, that now means that controls change after the creation of the video devices,
->> which isn't right.
->>
->> If you look at the probe() function you'll see that things are done in two stages:
->> first all the vb2 queues are created, and only if that succeeded are the video devices
->> created.
->>
->> The same should be done for the CEC adapters: they should be allocated (vivid_cec_alloc_adap)
->> in the first stage, then call v4l2_ctrl_handler_setup(), and finally create the actual
->> device nodes (cec_register_adapter).
->>
->> That way the controls are configured correctly before any device nodes are created.
+> It does build. You are right that I should have included bitops.h
 > 
-> I have split up the allocation and registration in v2. Why is this
-> order important? Some race condition with user space?
+>>> Documentation/process/submit-checklist.rst rule #1 says:
+>>> 1) If you use a facility then #include the file that defines/declares
+>>>     that facility.  Don't depend on other header files pulling in ones
+>>>     that you use.
+>>>
+>>> Please add #include <linux/bits or bitops.h>
+>>>
+>>
+>> I'm not sure about this patch. '1 << 31' is used all over in the kernel,
+>> including in public headers (e.g. media.h, videodev2.h).
+>>
+>> It seems arbitrary to change it only here, but not anywhere else.
+>>
+> 
+> Right. We have several places in the kernel that do that.
+> 
+>> In this particular example for the fourcc handling I would prefer to just
+>> use '1U << 31', both in v4l2-ioctl.c and videodev2.h.
+>>
+> 
+> If you would like to take the patch, I can send v2 fixing it using
+> 1U << 31 - This is simpler since it doesn't nee additional includes.
 
-Yes. Once a device node is created under /dev userspace can start to use it.
-And in fact something like systemd can open it immediately after creation.
+I would like to have this cleaned up in the public media APIs. Those can be
+used by other compilers as well and it makes sense to me not to have
+undefined behavior in those headers.
 
-So the complete state of the device should be ready before you create the
-device node. Still changing/adding things *after* device node creation
-indeed creates a race condition.
+> 
+>> A separate patch doing the same for MEDIA_ENT_ID_FLAG_NEXT in media.h would
+>> probably be a good idea either: that way the public API at least will do
+>> the right thing.
+>>
+> 
+> I should have explained it better. I wanted to start with one or two
+> places first to see if it is worth our time to fix these:
+> 
+> The full kernel cppcheck log for "Shifting signed 32-bit value by 31 
+> bits is undefined behaviour" can be found at:
+> 
+> https://drive.google.com/file/d/19Xu7UqBGJ7BpzxEp92ZQYb6F8UPrk3z3/view
 
-Note that a lot of (mostly older) drivers do this wrong, but vivid, being
-somewhat of a reference driver, should do this right.
+I don't think it makes sense to fix this for drivers. If gcc would do this
+wrong, we'd have noticed it ages ago.
+
+But I think it makes sense to fix this in public headers.
 
 Regards,
 
