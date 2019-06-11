@@ -2,159 +2,699 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E868E3C717
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 11:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C5463C71D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 11:20:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404282AbfFKJRY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 05:17:24 -0400
-Received: from mail-eopbgr150075.outbound.protection.outlook.com ([40.107.15.75]:37761
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727642AbfFKJRX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 05:17:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bz9pCRQ01idFb4/Nc+VtP2CnDNNFD9ZOixsPYCn5ADM=;
- b=PDe9q2NAKdXdurzu+w08rkhx7J5Ss0O+8BWjsoIacDRE/2euXFTjPZ0128xYQyzgSdWtn0W/8Z4k0rHutL3dVAPRPizw7Dze4KlkD9bX229M6xtFvlSsKCJgHVOG/NOa4K89L1tnxkFpWpwEcQp1AsE6/VTuh3S5xnJhczPYlhs=
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com (20.179.235.81) by
- VE1PR04MB6447.eurprd04.prod.outlook.com (20.179.232.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.17; Tue, 11 Jun 2019 09:17:19 +0000
-Received: from VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::a13e:6f61:e9e6:16d7]) by VE1PR04MB6638.eurprd04.prod.outlook.com
- ([fe80::a13e:6f61:e9e6:16d7%7]) with mapi id 15.20.1943.026; Tue, 11 Jun 2019
- 09:17:19 +0000
-From:   Robin Gong <yibin.gong@nxp.com>
-To:     Sven Van Asbroeck <thesven73@gmail.com>
-CC:     Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: RE: [v8] media: imx: add mem2mem device
-Thread-Topic: [v8] media: imx: add mem2mem device
-Thread-Index: AQHVFzWVi6WPXAEL2EqP2Yi5fqgD66aEYCyggAFpcACABWnKkIAAnBwAgAELFlCAAEKWAIAA0KFAgAC9AACABf084IAAcPIAgAEalRCAAAq3UA==
-Date:   Tue, 11 Jun 2019 09:17:19 +0000
-Message-ID: <VE1PR04MB6638EE24DC7A9297F40B1CDD89ED0@VE1PR04MB6638.eurprd04.prod.outlook.com>
-References: <20190418164414.29373-1-p.zabel@pengutronix.de>
- <20190529154431.11177-1-TheSven73@gmail.com>
- <CAOMZO5BeEMyEPUbPB8vAbJb1OoUuPxGLh=EBGif12uAMG4=qoQ@mail.gmail.com>
- <CAGngYiWdyzhmsRuAsH_35qdt1SLguh2sUxh=cAK58RWnhm2Y7A@mail.gmail.com>
- <4afffe3822026e23a55c05b7e18b43a2d6d0274e.camel@ndufresne.ca>
- <CAGngYiUZJCwg-VgOafU=gBgDtaSV++UVmNQawn6d5LunBFg1FQ@mail.gmail.com>
- <CAOMZO5AxL6MeOY=Pooq65B-Ly=t41JVp0Y_nXrYUKk03yh0KJQ@mail.gmail.com>
- <VE1PR04MB6638C5E75F797BD3114C467A89190@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <CAGngYiX3xOHYw97VU-buuLLwu7vuMk23HEatDpk6vgieE7ozXg@mail.gmail.com>
- <VE1PR04MB663874C6BDAE5ED7B5A36A3F89150@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <CAGngYiW9vqHXVt771P7tQvHwJ1ifr2qbtmxnVm7Ff6vY=DjKwg@mail.gmail.com>
- <VE1PR04MB663800AFCE7FF016DBE9EB7689160@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <CAGngYiWJ3u0NpP8Tji0oOJ4-9MFm1Ac1mzur_gL9+e8Jsj4EdA@mail.gmail.com>
- <VE1PR04MB66382A33B135E7A724D13C2F89170@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <CAGngYiWiQ1XRWSsgE5DbMZTiy9HkSvhvWNn3cPPw9p6HZZaBEw@mail.gmail.com>
- <VE1PR04MB6638ECD904CC0F9A6F95302F89130@VE1PR04MB6638.eurprd04.prod.outlook.com>
- <CAGngYiWa8o4hEFTZauTtb0mWnzusVcYakvMn84eg_Q=CugKUKg@mail.gmail.com>
- <VE1PR04MB6638B3BA8B924C327D0368E089ED0@VE1PR04MB6638.eurprd04.prod.outlook.com>
-In-Reply-To: <VE1PR04MB6638B3BA8B924C327D0368E089ED0@VE1PR04MB6638.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yibin.gong@nxp.com; 
-x-originating-ip: [119.31.174.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ecc176b6-9121-4d19-fd67-08d6ee4d9acf
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VE1PR04MB6447;
-x-ms-traffictypediagnostic: VE1PR04MB6447:
-x-microsoft-antispam-prvs: <VE1PR04MB644751735BFD6467FFA2D52689ED0@VE1PR04MB6447.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 006546F32A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(346002)(136003)(366004)(396003)(39860400002)(189003)(199004)(13464003)(102836004)(33656002)(74316002)(6246003)(6506007)(5660300002)(6116002)(86362001)(53546011)(7696005)(2906002)(14454004)(76176011)(3846002)(99286004)(305945005)(26005)(66446008)(478600001)(11346002)(446003)(81166006)(1411001)(81156014)(8936002)(486006)(476003)(66946007)(8676002)(66556008)(73956011)(186003)(66476007)(64756008)(76116006)(25786009)(52536014)(53936002)(7736002)(6916009)(54906003)(14444005)(66066001)(256004)(6436002)(9686003)(2940100002)(71200400001)(229853002)(4326008)(71190400001)(55016002)(316002)(68736007);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR04MB6447;H:VE1PR04MB6638.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jSGv85+g7oAxMQEfwIo1Cu4rzroVKxJYZ/tBMNWJG28yDKFFui9SU/6i9+wf43qRXe8Tkqw2mQ9Pjn5hvJ25kniALjVzwPPE7W4mJ/WbXpd7GobejrSH8SqUkDzM2i5voQjEV8KE1nul62ZjJzC9J/Ly2bz8sXF2luxj4dDuom3Kz/W7I3L1zzhFw1rjQxTMNi3PwMhxBQauoq+m1d2jM34kcdJXJGiWnS5piTGbIooBrcidnUuWfetCDckIicErZWYVmC6NhSwxdhVeHZbFxQLTYp3Gql+u+FsphIV1JYnjiFLX9ZNcefpnNGjKH4WusBhzVc+t6MLU/cMBzhxCnd+/pvIBxUhWoMzBN/2tppLpCAWAQPTc0IYtBXnSmznMfhp7U5p3+vo76x29+Q1G5bsJ0C5eqAXZkP7X3coYrPU=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S2404835AbfFKJUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 05:20:15 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:59692 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2404376AbfFKJUP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 11 Jun 2019 05:20:15 -0400
+X-UUID: a6322bfc3ff84a0ab7f87708c64cf140-20190611
+X-UUID: a6322bfc3ff84a0ab7f87708c64cf140-20190611
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <daoyuan.huang@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 58914045; Tue, 11 Jun 2019 17:20:05 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 11 Jun 2019 17:20:03 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 11 Jun 2019 17:20:03 +0800
+Message-ID: <1560244803.15624.6.camel@mtksdccf07>
+Subject: Re: [RFC v2 4/4] media: platform: mtk-mdp3: Add Mediatek MDP3 driver
+From:   Daoyuan Huang <daoyuan.huang@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
+        <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <holmes.chiou@mediatek.com>, <frederic.chen@mediatek.com>,
+        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
+        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        <acourbot@chromium.org>
+Date:   Tue, 11 Jun 2019 17:20:03 +0800
+In-Reply-To: <20190604112039.GA12168@chromium.org>
+References: <20190516032332.56844-1-daoyuan.huang@mediatek.com>
+         <20190516032332.56844-5-daoyuan.huang@mediatek.com>
+         <20190604112039.GA12168@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecc176b6-9121-4d19-fd67-08d6ee4d9acf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2019 09:17:19.5289
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yibin.gong@nxp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6447
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-U29ycnksIGZvcmdvdCBkaXNhYmxlIGlwdTE6DQoNCmRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290
-L2R0cy9pbXg2cWRsLmR0c2kgYi9hcmNoL2FybS9ib290L2R0cy9pbXg2cWRsLmR0c2kNCmluZGV4
-IGIzNTJlYTIuLmI4ODQ0OTAgMTAwNjQ0DQotLS0gYS9hcmNoL2FybS9ib290L2R0cy9pbXg2cWRs
-LmR0c2kNCisrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDZxZGwuZHRzaQ0KQEAgLTEyOTEsNyAr
-MTI5MSw3IEBADQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8JmNsa3MgSU1YNlFE
-TF9DTEtfSVBVMV9ESTE+Ow0KICAgICAgICAgICAgICAgICAgICAgICAgY2xvY2stbmFtZXMgPSAi
-YnVzIiwgImRpMCIsICJkaTEiOw0KICAgICAgICAgICAgICAgICAgICAgICAgcmVzZXRzID0gPCZz
-cmMgMj47DQotDQorICAgICAgICAgICAgICAgICAgICAgICBzdGF0dXMgPSAiZGlzYWJsZWQiOw0K
-ICAgICAgICAgICAgICAgICAgICAgICAgaXB1MV9jc2kwOiBwb3J0QDAgew0KICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICByZWcgPSA8MD47DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLQ0KPiBGcm9tOiBSb2JpbiBHb25nDQo+IFNlbnQ6IDIwMTnlubQ25pyIMTHml6UgMTc6
-MTANCj4gVG86ICdTdmVuIFZhbiBBc2Jyb2VjaycgPHRoZXN2ZW43M0BnbWFpbC5jb20+DQo+IENj
-OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+OyBsaW51eC1tZWRpYQ0KPiA8bGlu
-dXgtbWVkaWFAdmdlci5rZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBSRTogW3Y4XSBtZWRpYTogaW14
-OiBhZGQgbWVtMm1lbSBkZXZpY2UNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-Cj4gPiBGcm9tOiBTdmVuIFZhbiBBc2Jyb2VjayA8dGhlc3ZlbjczQGdtYWlsLmNvbT4NCj4gPiBT
-ZW50OiAyMDE55bm0NuaciDEw5pelIDIzOjQ3DQo+ID4gVG86IFJvYmluIEdvbmcgPHlpYmluLmdv
-bmdAbnhwLmNvbT4NCj4gPiBTdWJqZWN0OiBSZTogW3Y4XSBtZWRpYTogaW14OiBhZGQgbWVtMm1l
-bSBkZXZpY2UgT24gTW9uLCBKdW4gMTAsIDIwMTkNCj4gPiBhdCA1OjA5IEFNIFJvYmluIEdvbmcg
-PHlpYmluLmdvbmdAbnhwLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gSSBjYW4gcmVwcm9kdWNl
-IG9uY2UgZW5hYmxlIHlvdXIgY29uZmlnIHRvIGJ1aWxkIGZpcm13YXJlIGluIGtlcm5lbCwNCj4g
-PiA+IGJ1dCBubyBzdWNoIGlzc3VlIGlmIGxvYWQgc2RtYSBmaXJtd2FyZSBmcm9tIHJvb3RmcyBh
-cw0KPiA+ID4gaW14X3Y2X3Y3X2RlZmNvbmZpZy4gTWF5YmUgZmlybXdhcmUgYnVpbHQgaW4gZnVu
-Y3Rpb24gYnJva2VuIGJ5IHNvbWUNCj4gPiA+IHBhdGNoZXMuIENvdWxkIHlvdSB0cnkgd2l0aCB0
-aGUgZGVmYXVsdCBmaXJtd2FyZSBsb2FkaW5nIHdheSB3aGljaA0KPiA+ID4gaXMgZnJvbQ0KPiA+
-IHJvb3RmcygvbGliL2Zpcm13YXJlL2lteC9zZG1hL3NkbWEtaW14NnEuYmluKT8NCj4gPg0KPiA+
-IFRoaXMgaXMgaXQgISBJZiBJIGFkZCB0aGUgZmlybXdhcmUgdG8gdGhlIGtlcm5lbCBkaXJlY3Rs
-eSwgSSBzZWUgdGhlIGNyYXNoLg0KPiA+IEJ1dCBpZiBJIHVzZSB0aGUgZmlybXdhcmUgZmFsbC1i
-YWNrIG1lY2hhbmlzbSwgdGhlcmUgaXMgbm8gY3Jhc2guDQo+ID4gQW5kIGlmIEkgYnVpbGQgaW14
-LXNkbWEgYXMgYSBtb2R1bGUsIGFuZCBpbnNtb2QgaXQgbGF0ZXIsIHRoZXJlIGlzIGFsc28gbm8N
-Cj4gY3Jhc2guDQo+ID4NCj4gPiBJIHBhdGNoZWQgaW14LXNkbWEgc28gaXQgbG9ncyB0aGUgYWRs
-ZXIzMiBjaGVja3N1bSBvZiB0aGUgZmlybXdhcmUNCj4gPiBpdCdzIGxvYWRpbmcgKEkgdHJpZWQg
-dXNpbmcgdGhlIGtlcm5lbCBjcnlwdG8gQVBJLCBidXQgaXQgZG9lc24ndCB3b3JrDQo+ID4gdGhp
-cyBlYXJseSBpbiB0aGUgYm9vdCkuIEkgbm90aWNlIHRoYXQgdGhlIGZpcm13YXJlIGlzIGFsd2F5
-cyB0aGUNCj4gPiBzYW1lLCBjcmFzaCBvciBubw0KPiA+IGNyYXNoOg0KPiA+DQo+ID4gZmlybXdh
-cmUgaW4ta2VybmVsIChjcmFzaCk6DQo+ID4gWyAgICAxLjM3MDQyNF0gaW14LXNkbWEgMjBlYzAw
-MC5zZG1hOiBmaXJtd2FyZSBoYXNoOiA2OUJDMEYwOQ0KPiA+IGZpcm13YXJlIGZhbGxiYWNrIChu
-byBjcmFzaCk6DQo+ID4gWyAgICA2LjQ2NjM5NF0gaW14LXNkbWEgMjBlYzAwMC5zZG1hOiBmaXJt
-d2FyZSBoYXNoOiA2OUJDMEYwOQ0KPiA+DQo+ID4gTXkgZ3Vlc3M6IHRoaXMgY291bGQgYmUgYSB0
-aW1pbmcgaXNzdWUuIElmIHRoZSBzZG1hIGRyaXZlciBsb2FkcyAndG9vDQo+ID4gZWFybHknLCB0
-aGUgYm9vdCBjcmFzaCB3aWxsIGhhcHBlbi4gTWF5YmUgdGhlIGRyaXZlciBuZWVkcyB0byBjaGVj
-aw0KPiA+IGZvciBhIG1pc3NpbmcgZGVwZW5kZW5jeSBvbiBib290LCBhbmQgLUVQUk9CRV9ERUZF
-UiA/DQo+ID4NCj4gPiBSb2Jpbiwgc2hvdWxkIEkgbWFrZSBhIGJ1ZyByZXBvcnQ/IElmIHNvLCB3
-aG8gZG8gSSBzZW5kIHRoaXMgdG8/DQo+ID4NCj4gU3Zlbiwgbm8gYW55IGRlcGVuZGVuY3kgZnJv
-bSBzZG1hIGRyaXZlciB2aWV3LiBUaGUgb25seSBkaWZmZXJlbmNlIGJldHdlZW4NCj4gZGlyZWN0
-bHkgbG9hZGluZyBmaXJtd2FyZSBmcm9tIGtlcm5lbCBhbmQgcm9vdGZzIGlzIHRoZSBmb3JtZXIg
-c3BlbmQgbW9yZSB0aW1lDQo+IGR1cmluZyBrZXJuZWwgYm9vdCBhbmQgc3VjaCB0aW1pbmcgbWF5
-IGNhdXNlIHRoZSBjcmFzaC4gVGhlIGlzc3VlIGlzIG5vdCAxMDAlDQo+IGluIG15IHNpZGUsIGFi
-b3V0IDIwJSBwb3NzaWJpbGl0eSwgd2hpY2ggbG9va3MgbGlrZSAndGltaW5nIGlzc3VlJyAuIEFu
-b3RoZXINCj4gaW50ZXJlc3RpbmcgdGhpbmcgaXMgdGhhdCBldmVyeSB0aW1lIHRoZSBjcmFzaCBz
-dG9wIGF0IHNvbWV3aGVyZSBkcm0sIGFuZCBBZnRlcg0KPiBJIGRpc2FibGUgaXB1IGFuZCBkaXNw
-bGF5IHdoaWNoIHVzZSBkcm0gaW4gaS5teDZxLmR0c2ksIHRoZSBpc3N1ZSBpcyBnb25lIG9uIG15
-DQo+IGkubXg2cS1zYWJyZWF1dG8gYm9hcmQuDQo+IENvdWxkIHlvdSBoYXZlIGEgdHJ5IHdpdGgg
-YmVsb3cgcGF0Y2ggYXMgbWluZT8gSWYgdGhlIGlzc3VlIGlzIGdvbmUgb24geW91cg0KPiBzaWRl
-LCB3ZSBjb3VsZCBpbnZvbHZlIGRybSBndXlzIHRvIGxvb2sgaW50byBpdC4NCj4gDQo+IGRpZmYg
-LS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9pbXg2cS5kdHNpIGIvYXJjaC9hcm0vYm9vdC9kdHMv
-aW14NnEuZHRzaQ0KPiBpbmRleCA3MTc1ODk4Li41YjIxYjNmIDEwMDY0NA0KPiAtLS0gYS9hcmNo
-L2FybS9ib290L2R0cy9pbXg2cS5kdHNpDQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDZx
-LmR0c2kNCj4gQEAgLTIxNyw2ICsyMTcsNyBAQA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICA8JmNsa3MgSU1YNlFETF9DTEtfSVBVMl9ESTE+Ow0KPiAgICAgICAgICAgICAgICAg
-ICAgICAgICBjbG9jay1uYW1lcyA9ICJidXMiLCAiZGkwIiwgImRpMSI7DQo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgIHJlc2V0cyA9IDwmc3JjIDQ+Ow0KPiArICAgICAgICAgICAgICAgICAgICAg
-ICBzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgaXB1
-Ml9jc2kwOiBwb3J0QDAgew0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9
-IDwwPjsgQEAgLTMwMCw2ICszMDEsNyBAQA0KPiAgICAgICAgIGRpc3BsYXktc3Vic3lzdGVtIHsN
-Cj4gICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiZnNsLGlteC1kaXNwbGF5LXN1YnN5c3Rl
-bSI7DQo+ICAgICAgICAgICAgICAgICBwb3J0cyA9IDwmaXB1MV9kaTA+LCA8JmlwdTFfZGkxPiwg
-PCZpcHUyX2RpMD4sDQo+IDwmaXB1Ml9kaTE+Ow0KPiArICAgICAgICAgICAgICAgc3RhdHVzID0g
-ImRpc2FibGVkIjsNCj4gICAgICAgICB9Ow0KPiAgfTsNCg0K
+hi Tomasz:
+
+Thanks for your review comments, the corresponding modification
+& explanation is under preparation, will update soon.
+
+Thanks.
+
+BR
+Daoyuan
+
+On Tue, 2019-06-04 at 20:20 +0900, Tomasz Figa wrote:
+> Hi Daoyuan,
+> 
+> On Thu, May 16, 2019 at 11:23:32AM +0800, Daoyuan Huang wrote:
+> > From: daoyuan huang <daoyuan.huang@mediatek.com>
+> > 
+> > This patch adds driver for Media Data Path 3 (MDP3).
+> > Each modules' related operation control is sited in mtk-mdp3-comp.c
+> > Each modules' register table is defined in file with "mdp_reg_"
+> > and "mmsys_" prefix
+> > GCE related API, operation control  sited in mtk-mdp3-cmdq.c
+> > V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
+> > Probe, power, suspend/resume, system level functions are defined in
+> > mtk-mdp3-core.c
+> 
+> Thanks for the patch. Some initial comments inline.
+> 
+> [snip]
+> > +void mdp_comp_clock_on(struct device *dev, struct mdp_comp *comp)
+> > +{
+> > +	int i, err;
+> > +
+> > +	if (comp->larb_dev) {
+> > +		err = pm_runtime_get_sync(comp->larb_dev);
+> > +		if (err < 0)
+> > +			dev_err(dev,
+> > +				"Failed to get larb, err %d. type:%d id:%d\n",
+> > +				err, comp->type, comp->id);
+> 
+> There is no need to make this conditional. Actually, we always need to grab
+> a runtime PM enable count, otherwise the power domain would power off (if
+> this SoC has gate'able power domains).
+> 
+> > +	}
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
+> > +		if (IS_ERR(comp->clks[i]))
+> > +			break;
+> > +		err = clk_prepare_enable(comp->clks[i]);
+> > +		if (err)
+> > +			dev_err(dev,
+> > +				"Failed to enable clock %d, err %d. type:%d id:%d\n",
+> > +				i, err, comp->type, comp->id);
+> > +	}
+> > +}
+> > +
+> > +void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
+> > +		if (IS_ERR(comp->clks[i]))
+> > +			break;
+> > +		clk_disable_unprepare(comp->clks[i]);
+> > +	}
+> > +
+> > +	if (comp->larb_dev)
+> > +		pm_runtime_put_sync(comp->larb_dev);
+> 
+> Ditto. Also, it doesn't make sense to use the _sync variant here, we don't
+> care if it powers off before the function returns or a bit after.
+> 
+> [snip]
+> 
+> > +static int mdp_comp_init(struct device *dev, struct mdp_dev *mdp,
+> > +			 struct device_node *node, struct mdp_comp *comp,
+> > +			 enum mdp_comp_id id)
+> > +{
+> > +	struct device_node *larb_node;
+> > +	struct platform_device *larb_pdev;
+> > +	int i;
+> > +
+> > +	if (id < 0 || id >= MDP_MAX_COMP_COUNT) {
+> > +		dev_err(dev, "Invalid component id %d\n", id);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	__mdp_comp_init(mdp, node, comp);
+> > +	comp->type = mdp_comp_matches[id].type;
+> > +	comp->id = id;
+> > +	comp->alias_id = mdp_comp_matches[id].alias_id;
+> > +	comp->ops = mdp_comp_ops[comp->type];
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(comp->clks); i++) {
+> > +		comp->clks[i] = of_clk_get(node, i);
+> > +		if (IS_ERR(comp->clks[i]))
+> > +			break;
+> > +	}
+> > +
+> > +	mdp_get_subsys_id(dev, node, comp);
+> > +
+> > +	/* Only DMA capable components need the LARB property */
+> > +	comp->larb_dev = NULL;
+> > +	if (comp->type != MDP_COMP_TYPE_RDMA &&
+> > +	    comp->type != MDP_COMP_TYPE_WROT &&
+> > +		comp->type != MDP_COMP_TYPE_WDMA)
+> > +		return 0;
+> > +
+> > +	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
+> > +	if (!larb_node) {
+> > +		dev_err(dev, "Missing mediatek,larb phandle in %pOF node\n",
+> > +			node);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	larb_pdev = of_find_device_by_node(larb_node);
+> > +	if (!larb_pdev) {
+> > +		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
+> > +		of_node_put(larb_node);
+> > +		return -EPROBE_DEFER;
+> > +	}
+> > +	of_node_put(larb_node);
+> > +
+> > +	comp->larb_dev = &larb_pdev->dev;
+> 
+> Why do we need this larb_dev? I believe we already made the handling
+> transparent by using device links, so as long as the driver handles runtime
+> PM properly, it should automatically handle larbs.
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void mdp_comp_deinit(struct device *dev, struct mdp_comp *comp)
+> > +{
+> > +	iounmap(comp->regs);
+> > +	/* of_node_put(comp->dev_node); */
+> > +}
+> > +
+> > +void mdp_component_deinit(struct device *dev, struct mdp_dev *mdp)
+> > +{
+> > +	int i;
+> > +
+> > +	mdp_comp_deinit(dev, &mdp->mmsys);
+> > +	mdp_comp_deinit(dev, &mdp->mm_mutex);
+> > +	for (i = 0; i < ARRAY_SIZE(mdp->comp); i++) {
+> > +		if (mdp->comp[i]) {
+> > +			mdp_comp_deinit(dev, mdp->comp[i]);
+> > +			kfree(mdp->comp[i]);
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +int mdp_component_init(struct device *dev, struct mdp_dev *mdp)
+> > +{
+> > +	struct device_node *node, *parent;
+> > +	int i, ret;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(gce_event_names); i++) {
+> > +		s32 event_id;
+> > +
+> > +		event_id = cmdq_dev_get_event(dev, gce_event_names[i]);
+> > +		mdp->event[i] = (event_id < 0) ? -i : event_id;
+> > +		dev_info(dev, "Get event %s id:%d\n",
+> > +			 gce_event_names[i], mdp->event[i]);
+> > +	}
+> > +
+> > +	ret = mdp_mm_init(dev, mdp, &mdp->mmsys, "mediatek,mmsys");
+> > +	if (ret)
+> > +		goto err_init_mm;
+> > +
+> > +	ret = mdp_mm_init(dev, mdp, &mdp->mm_mutex, "mediatek,mm-mutex");
+> > +	if (ret)
+> > +		goto err_init_mm;
+> > +
+> > +	parent = dev->of_node->parent;
+> > +	/* Iterate over sibling MDP function blocks */
+> > +	for_each_child_of_node(parent, node) {
+> > +		const struct of_device_id *of_id;
+> > +		enum mdp_comp_type type;
+> > +		int id;
+> > +		struct mdp_comp *comp;
+> > +
+> > +		of_id = of_match_node(mdp_comp_dt_ids, node);
+> > +		if (!of_id)
+> > +			continue;
+> > +
+> > +		if (!of_device_is_available(node)) {
+> > +			dev_err(dev, "Skipping disabled component %pOF\n",
+> > +				node);
+> 
+> The function doesn't fail, so this doesn't look like error. Perhaps
+> dev_info()?
+> 
+> > +			continue;
+> > +		}
+> > +
+> > +		type = (enum mdp_comp_type)of_id->data;
+> > +		id = mdp_comp_get_id(dev, node, type);
+> > +		if (id < 0) {
+> > +			dev_warn(dev, "Skipping unknown component %pOF\n",
+> > +				 node);
+> > +			continue;
+> > +		}
+> > +
+> > +		comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
+> > +		if (!comp) {
+> > +			ret = -ENOMEM;
+> > +			goto err_init_comps;
+> > +		}
+> > +		mdp->comp[id] = comp;
+> > +
+> > +		ret = mdp_comp_init(dev, mdp, node, comp, id);
+> > +		if (ret)
+> > +			goto err_init_comps;
+> > +
+> > +		dev_info(dev, "%s type:%d alias:%d id:%d base:%#x regs:%p\n",
+> > +			 of_id->compatible, type, comp->alias_id, id,
+> > +			(u32)comp->reg_base, comp->regs);
+> > +	}
+> > +	return 0;
+> > +
+> > +err_init_comps:
+> > +	mdp_component_deinit(dev, mdp);
+> > +err_init_mm:
+> > +	return ret;
+> > +}
+> [snip]
+> > +static int mdp_probe(struct platform_device *pdev)
+> > +{
+> > +	struct device *dev = &pdev->dev;
+> > +	struct mdp_dev *mdp;
+> > +	phandle rproc_phandle;
+> > +	int ret;
+> > +
+> > +	mdp = devm_kzalloc(dev, sizeof(*mdp), GFP_KERNEL);
+> > +	if (!mdp)
+> > +		return -ENOMEM;
+> > +
+> > +	mdp->pdev = pdev;
+> > +	ret = mdp_component_init(dev, mdp);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to initialize mdp components\n");
+> > +		goto err_init_comp;
+> 
+> There should be no cleanup needed here.
+> 
+> Please always name the labels after the first cleanup step that is needed
+> after the jump. That helps avoiding such mistakes.
+> 
+> > +	}
+> > +
+> > +	mdp->job_wq = create_singlethread_workqueue(MDP_MODULE_NAME);
+> 
+> We should make it freezable.
+> 
+> > +	if (!mdp->job_wq) {
+> > +		dev_err(dev, "Unable to create job workqueue\n");
+> > +		ret = -ENOMEM;
+> > +		goto err_create_job_wq;
+> > +	}
+> > +
+> > +	mdp->vpu_dev = scp_get_pdev(pdev);
+> > +
+> > +	if (of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
+> > +				 &rproc_phandle))
+> > +		dev_err(&pdev->dev, "Could not get scp device\n");
+> 
+> This should fail the probe.
+> 
+> > +	else
+> > +		dev_info(&pdev->dev, "Find mediatek,scp phandle:%llx\n",
+> > +			 (unsigned long long)rproc_phandle);
+> 
+> No need for this positive log.
+> 
+> > +
+> > +	mdp->rproc_handle = rproc_get_by_phandle(rproc_phandle);
+> > +
+> > +	dev_info(&pdev->dev, "MDP rproc_handle: %llx",
+> > +		 (unsigned long long)mdp->rproc_handle);
+> > +
+> > +	if (!mdp->rproc_handle)
+> > +		dev_err(&pdev->dev, "Could not get MDP's rproc_handle\n");
+> 
+> This should fail the probe too.
+> 
+> > +
+> > +	/* vpu_wdt_reg_handler(mdp->vpu_dev, mdp_reset_handler, mdp,
+> > +	 *		       VPU_RST_MDP);
+> > +	 */
+> 
+> Please remove unnecessary code.
+> 
+> > +	mutex_init(&mdp->vpu_lock);
+> > +	mdp->vpu_count = 0;
+> > +	mdp->id_count = 0;
+> 
+> No need to explicitly initialize to 0, because we just allocated a zeroed
+> struct earlier in this function.
+> 
+> > +
+> > +	mdp->cmdq_clt = cmdq_mbox_create(dev, 0, 1200);
+> > +	if (IS_ERR(mdp->cmdq_clt))
+> > +		goto err_mbox_create;
+> > +
+> > +	ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to register v4l2 device\n");
+> > +		ret = -EINVAL;
+> > +		goto err_v4l2_register;
+> > +	}
+> > +
+> > +	ret = mdp_m2m_device_register(mdp);
+> > +	if (ret) {
+> > +		v4l2_err(&mdp->v4l2_dev, "Failed to register m2m device\n");
+> > +		goto err_m2m_register;
+> > +	}
+> > +	mutex_init(&mdp->m2m_lock);
+> > +
+> > +	platform_set_drvdata(pdev, mdp);
+> > +
+> > +	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> > +	pm_runtime_enable(dev);
+> 
+> This is racy, because mdp_m2m_device_register() already exposed the video
+> node to the userspace, before we ended the initialization. Please reorder the
+> initialization so that the device node is registered at the end, when the
+> driver is fully ready to accept userspace requests.
+> 
+> > +	dev_dbg(dev, "mdp-%d registered successfully\n", pdev->id);
+> > +	return 0;
+> > +
+> > +err_m2m_register:
+> > +	v4l2_device_unregister(&mdp->v4l2_dev);
+> > +err_v4l2_register:
+> 
+> Shouldn't we destroy the cmdq_mbox?
+> 
+> > +err_mbox_create:
+> > +	destroy_workqueue(mdp->job_wq);
+> > +err_create_job_wq:
+> > +err_init_comp:
+> > +	kfree(mdp);
+> 
+> This was allocated using devm_kzalloc(), so no need to free it explicitly.
+> 
+> > +
+> > +	dev_dbg(dev, "Errno %d\n", ret);
+> > +	return ret;
+> > +}
+> > +
+> > +static int mdp_remove(struct platform_device *pdev)
+> > +{
+> > +	struct mdp_dev *mdp = platform_get_drvdata(pdev);
+> > +
+> > +	pm_runtime_disable(&pdev->dev);
+> > +	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+> > +	mdp_m2m_device_unregister(mdp);
+> 
+> Same as in probe, removing must start with unregistering the userspace
+> interfaces.
+> 
+> > +	v4l2_device_unregister(&mdp->v4l2_dev);
+> > +
+> > +	flush_workqueue(mdp->job_wq);
+> > +	destroy_workqueue(mdp->job_wq);
+> 
+> destroy_workqueue() includes a flush (or drain specifically, which is
+> stricter than flush).
+> 
+> > +
+> > +	mdp_component_deinit(&pdev->dev, mdp);
+> > +	kfree(mdp);
+> 
+> Allocated by devm_kzalloc(), so no need to free here.
+> 
+> > +
+> > +	dev_dbg(&pdev->dev, "%s driver unloaded\n", pdev->name);
+> > +	return 0;
+> > +}
+> > +
+> > +static int __maybe_unused mdp_pm_suspend(struct device *dev)
+> > +{
+> > +	// TODO: mdp clock off
+> 
+> Is MDP inside a power domain that is controlled by genpd? If yes, runtime
+> suspend would be cover for the power domain sequencing latency, which would
+> cause the clock to be running unnecessarily for that time. To avoid that,
+> one would control the clocks separately, outside of runtime PM callbacks.
+> 
+> > +	return 0;
+> > +}
+> > +
+> > +static int __maybe_unused mdp_pm_resume(struct device *dev)
+> > +{
+> > +	// TODO: mdp clock on
+> > +	return 0;
+> > +}
+> > +
+> > +static int __maybe_unused mdp_suspend(struct device *dev)
+> > +{
+> > +	if (pm_runtime_suspended(dev))
+> > +		return 0;
+> > +
+> 
+> We need to ensure here that the hardware is not doing any processing
+> anymore.
+> 
+> Hint: Looks like mdp_m2m_worker() is synchronous, so we could make the
+> workqueue freezable and the PM core would wait for the current pending work
+> to complete and then freeze the workqueue.
+> 
+> > +	return mdp_pm_suspend(dev);
+> > +}
+> > +
+> > +static int __maybe_unused mdp_resume(struct device *dev)
+> > +{
+> > +	if (pm_runtime_suspended(dev))
+> > +		return 0;
+> > +
+> > +	return mdp_pm_resume(dev);
+> 
+> We need to resume any processing that was queued to the driver before the
+> system suspended. Should be possible to handle by switching the workqueue to
+> freezable too.
+> 
+> > +}
+> > +
+> > +static const struct dev_pm_ops mdp_pm_ops = {
+> > +	SET_SYSTEM_SLEEP_PM_OPS(mdp_suspend, mdp_resume)
+> > +	SET_RUNTIME_PM_OPS(mdp_pm_suspend, mdp_pm_resume, NULL)
+> > +};
+> > +
+> > +static struct platform_driver mdp_driver = {
+> > +	.probe		= mdp_probe,
+> > +	.remove		= mdp_remove,
+> > +	.driver = {
+> > +		.name	= MDP_MODULE_NAME,
+> > +		.pm	= &mdp_pm_ops,
+> > +		.of_match_table = mdp_of_ids,
+> 
+> Please use the of_match_ptr() wrapper.
+> 
+> [snip]
+> > +static int mdp_m2m_ctrls_create(struct mdp_m2m_ctx *ctx)
+> > +{
+> > +	v4l2_ctrl_handler_init(&ctx->ctrl_handler, MDP_MAX_CTRLS);
+> > +	ctx->ctrls.hflip = v4l2_ctrl_new_std(&ctx->ctrl_handler,
+> > +					     &mdp_m2m_ctrl_ops, V4L2_CID_HFLIP,
+> > +					     0, 1, 1, 0);
+> > +	ctx->ctrls.vflip = v4l2_ctrl_new_std(&ctx->ctrl_handler,
+> > +					     &mdp_m2m_ctrl_ops, V4L2_CID_VFLIP,
+> > +					     0, 1, 1, 0);
+> > +	ctx->ctrls.rotate = v4l2_ctrl_new_std(&ctx->ctrl_handler,
+> > +					      &mdp_m2m_ctrl_ops,
+> > +					      V4L2_CID_ROTATE, 0, 270, 90, 0);
+> > +
+> > +	if (ctx->ctrl_handler.error) {
+> > +		int err = ctx->ctrl_handler.error;
+> > +
+> > +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> > +		dev_err(&ctx->mdp_dev->pdev->dev,
+> > +			"Failed to create control handler\n");
+> 
+> Perhaps "Failed to register controls"?
+> 
+> > +		return err;
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> > +static int mdp_m2m_open(struct file *file)
+> > +{
+> > +	struct video_device *vdev = video_devdata(file);
+> > +	struct mdp_dev *mdp = video_get_drvdata(vdev);
+> > +	struct mdp_m2m_ctx *ctx;
+> > +	int ret;
+> > +
+> > +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+> > +	if (!ctx)
+> > +		return -ENOMEM;
+> > +
+> > +	if (mutex_lock_interruptible(&mdp->m2m_lock)) {
+> > +		ret = -ERESTARTSYS;
+> > +		goto err_lock;
+> > +	}
+> > +
+> > +	ctx->id = mdp->id_count++;
+> 
+> Hmm, wouldn't this leave holes in the id space after we close? Should we use
+> something like ida?
+> See: https://www.kernel.org/doc/htmldocs/kernel-api/idr.html
+> 
+> > +	ctx->mdp_dev = mdp;
+> > +
+> > +	v4l2_fh_init(&ctx->fh, vdev);
+> > +	file->private_data = &ctx->fh;
+> > +	ret = mdp_m2m_ctrls_create(ctx);
+> > +	if (ret)
+> > +		goto err_ctrls_create;
+> > +
+> > +	/* Use separate control handler per file handle */
+> > +	ctx->fh.ctrl_handler = &ctx->ctrl_handler;
+> > +	v4l2_fh_add(&ctx->fh);
+> > +
+> > +	ctx->m2m_ctx = v4l2_m2m_ctx_init(mdp->m2m_dev, ctx, mdp_m2m_queue_init);
+> > +	if (IS_ERR(ctx->m2m_ctx)) {
+> > +		dev_err(&mdp->pdev->dev, "Failed to initialize m2m context\n");
+> > +		ret = PTR_ERR(ctx->m2m_ctx);
+> > +		goto err_m2m_ctx;
+> > +	}
+> > +	ctx->fh.m2m_ctx = ctx->m2m_ctx;
+> > +
+> > +	INIT_WORK(&ctx->work, mdp_m2m_worker);
+> > +	ctx->frame_count = 0;
+> 
+> No need to explicitly initialize fields to 0, because we just allocated the
+> struct using kzalloc().
+> 
+> > +
+> > +	ctx->curr_param = mdp_frameparam_init();
+> > +	if (IS_ERR(ctx->curr_param)) {
+> > +		dev_err(&mdp->pdev->dev,
+> > +			"Failed to initialize mdp parameter\n");
+> > +		ret = PTR_ERR(ctx->curr_param);
+> > +		goto err_param_init;
+> > +	}
+> > +	ctx->curr_param->type = MDP_STREAM_TYPE_BITBLT;
+> 
+> Why not initialize this in mdp_frameparam_init()? We only seem to be using
+> this value in this driver.
+> 
+> > +
+> > +	INIT_LIST_HEAD(&ctx->param_list);
+> > +	list_add_tail(&ctx->curr_param->list, &ctx->param_list);
+> 
+> Why do we need this list? We only seem to have ctx->curr_param in this
+> driver.
+> 
+> > +
+> > +	ret = mdp_vpu_get_locked(mdp);
+> > +	if (ret < 0)
+> > +		goto err_load_vpu;
+> 
+> This shouldn't happen in open(), but rather the latest possible point in
+> time. If one needs to keep the VPU running for the time of streaming, then
+> it should be start_streaming. If one can safely turn the VPU off if there is
+> no frame queued for long time, it should be just in m2m job_run.
+> 
+> Generally the userspace should be able to
+> just open an m2m device for querying it, without any side effects like
+> actually powering on the hardware or grabbing a hardware instance (which
+> could block some other processes, trying to grab one too).
+> 
+> > +
+> > +	mutex_unlock(&mdp->m2m_lock);
+> > +
+> > +	mdp_dbg(0, "%s [%d]", dev_name(&mdp->pdev->dev), ctx->id);
+> > +
+> > +	return 0;
+> > +
+> > +err_load_vpu:
+> > +	mdp_frameparam_release(ctx->curr_param);
+> > +err_param_init:
+> > +	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+> > +err_m2m_ctx:
+> > +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> > +	v4l2_fh_del(&ctx->fh);
+> > +err_ctrls_create:
+> > +	v4l2_fh_exit(&ctx->fh);
+> > +	mutex_unlock(&mdp->m2m_lock);
+> > +err_lock:
+> 
+> Incorrect naming of all the error labels here.
+> 
+> > +	kfree(ctx);
+> > +
+> > +	return ret;
+> > +}
+> [snip]
+> > +enum mdp_ycbcr_profile mdp_map_ycbcr_prof_mplane(struct v4l2_format *f,
+> > +						 u32 mdp_color)
+> > +{
+> > +	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> > +
+> > +	if (MDP_COLOR_IS_RGB(mdp_color))
+> > +		return MDP_YCBCR_PROFILE_FULL_BT601;
+> > +
+> > +	switch (pix_mp->colorspace) {
+> > +	case V4L2_COLORSPACE_JPEG:
+> > +		return MDP_YCBCR_PROFILE_JPEG;
+> > +	case V4L2_COLORSPACE_REC709:
+> > +	case V4L2_COLORSPACE_DCI_P3:
+> > +		if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
+> > +			return MDP_YCBCR_PROFILE_FULL_BT709;
+> > +		return MDP_YCBCR_PROFILE_BT709;
+> > +	case V4L2_COLORSPACE_BT2020:
+> > +		if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
+> > +			return MDP_YCBCR_PROFILE_FULL_BT2020;
+> > +		return MDP_YCBCR_PROFILE_BT2020;
+> > +	}
+> > +	/* V4L2_COLORSPACE_SRGB or else */
+> > +	if (pix_mp->quantization == V4L2_QUANTIZATION_FULL_RANGE)
+> > +		return MDP_YCBCR_PROFILE_FULL_BT601;
+> > +	return MDP_YCBCR_PROFILE_BT601;
+> 
+> Putting this under the default clause of the switch statement would be
+> cleaner and the comment wouldn't be needed.
+> 
+> [snip]
+> > +struct mdp_frameparam *mdp_frameparam_init(void)
+> > +{
+> > +	struct mdp_frameparam *param;
+> > +	struct mdp_frame *frame;
+> > +
+> > +	param = kzalloc(sizeof(*param), GFP_KERNEL);
+> > +	if (!param)
+> > +		return ERR_PTR(-ENOMEM);
+> 
+> We could just embed mdp_frameparam into the mdp_m2m_ctx struct and then
+> wouldn't need any dynamic allocation here anymore. And as a side effect, the
+> function could be just made void, because it couldn't fail.
+> 
+> > +
+> > +	INIT_LIST_HEAD(&param->list);
+> > +	mutex_init(&param->lock);
+> > +	param->state = 0;
+> > +	param->limit = &mdp_def_limit;
+> > +	param->type = MDP_STREAM_TYPE_UNKNOWN;
+> 
+> We always seem to use MDP_STREAM_TYPE_BITBLT in this driver.
+> 
+> > +	param->frame_no = 0;
+> 
+> No need for explicit initialization to 0.
+> 
+> Best regards,
+> Tomasz
+> 
+
+
