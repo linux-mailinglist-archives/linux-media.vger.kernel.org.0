@@ -2,136 +2,373 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ADB93C7F1
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 12:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0074B3CD21
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2019 15:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404337AbfFKKAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jun 2019 06:00:16 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:41729 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727734AbfFKKAQ (ORCPT
+        id S2403861AbfFKNjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jun 2019 09:39:20 -0400
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:34385 "EHLO
+        14.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389298AbfFKNjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jun 2019 06:00:16 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20190611100014euoutp01a3825e92d3b75ebf91badc57b37e93b7~nHJNOX4CO1883418834euoutp01h
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 10:00:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20190611100014euoutp01a3825e92d3b75ebf91badc57b37e93b7~nHJNOX4CO1883418834euoutp01h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1560247214;
-        bh=DMPZzqhNW3jYYvKP6v+4Dy8sFNdg4mhxn6oDisfjVQo=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=uqZUZ9SU93FvDAQ0o7qA5I3rromxhI2tQ8Nka49GYTSVFXkxxUAFCcH5eS4PzpZBX
-         Q5Qa+sUrdWFJGDoWJvTtnjPrq6hAsdMjSTkvi8qj//mF5WT0uPR8nZ2dozik3sdV8J
-         PTkz/SAms/WODXYuIvDFyMnKg6m6387Kw4Tg5Tfc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20190611100014eucas1p18496883ad65b7a14cdd78354288264d7~nHJMrmuz93238632386eucas1p1f;
-        Tue, 11 Jun 2019 10:00:14 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id E6.BF.04377.DAB7FFC5; Tue, 11
-        Jun 2019 11:00:14 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20190611100013eucas1p229fae8dc62aac7cc8619c0bcf1740c2b~nHJL4x-hP0704907049eucas1p2B;
-        Tue, 11 Jun 2019 10:00:13 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190611100013eusmtrp10efc8e1d221b5c24a34ec203fac56a4f~nHJLpMg1f1968119681eusmtrp15;
-        Tue, 11 Jun 2019 10:00:13 +0000 (GMT)
-X-AuditID: cbfec7f4-12dff70000001119-cf-5cff7bad6a7d
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 76.61.04140.DAB7FFC5; Tue, 11
-        Jun 2019 11:00:13 +0100 (BST)
-Received: from [106.120.50.25] (unknown [106.120.50.25]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20190611100012eusmtip1d4dfa66a3c18f04d01ffd9351727b6e2~nHJKy4XE50583705837eusmtip1F;
-        Tue, 11 Jun 2019 10:00:12 +0000 (GMT)
-Subject: Re: [PATCH] MAINTAINERS: media: Add Tomasz Figa as a videobuf2
- reviewer
-To:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Tue, 11 Jun 2019 09:39:20 -0400
+X-Greylist: delayed 19033 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jun 2019 09:39:19 EDT
+Received: from player774.ha.ovh.net (unknown [10.109.159.154])
+        by mo6.mail-out.ovh.net (Postfix) with ESMTP id F3D831D0703
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2019 12:03:35 +0200 (CEST)
+Received: from armadeus.com (lfbn-1-7591-179.w90-126.abo.wanadoo.fr [90.126.248.179])
+        (Authenticated sender: sebastien.szymanski@armadeus.com)
+        by player774.ha.ovh.net (Postfix) with ESMTPSA id EB6756AF51B5;
+        Tue, 11 Jun 2019 10:03:16 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] media: imx7-media-csi: add i.MX6UL support
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?B?UGF3ZcWCIE/Fm2NpYWs=?= <posciak@chromium.org>,
-        Pawel Osciak <pawel@osciak.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <4acd9745-216b-8cd4-9f6f-bbfc870a6c0d@samsung.com>
-Date:   Tue, 11 Jun 2019 12:00:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
-        Thunderbird/60.7.0
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+References: <20190606153825.8183-1-sebastien.szymanski@armadeus.com>
+ <20190606153825.8183-2-sebastien.szymanski@armadeus.com>
+ <m34l4xpweh.fsf@gmail.com>
+ <722336d1-c7f7-1796-95d5-7bba1fac7968@armadeus.com>
+ <m3zhmo1mux.fsf@gmail.com>
+From:   =?UTF-8?Q?S=c3=a9bastien_Szymanski?= 
+        <sebastien.szymanski@armadeus.com>
+Openpgp: preference=signencrypt
+Message-ID: <df32fe2e-d9b1-8b09-686c-7f6970aa8e0c@armadeus.com>
+Date:   Tue, 11 Jun 2019 12:03:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190607083518.90078-1-tfiga@chromium.org>
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <m3zhmo1mux.fsf@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRju2zk7O4qz47zsRSNjVGCSZhc4YJmSwX4ERj+idJhTDyq5KZvT
-        1B8Ns7Ils1Qq18AMMhVvLNtMw1LRpeJIzTIvlDYUw4HkZWm2cjta/nve5708zwMviQlMXH8y
-        TZ7FKOTSdBHhjht71yyHG/P/SI4sFGJ0f9kshx4sWODRI216gi5ufsmlqw0bHLrctsajmyf7
-        CHrppoOIJMWP1UO42FB3hxB/W58nxNqWOiReMuwV968s8c4Tse4nk5n0tGxGERqR4J7aNDOB
-        ZdqJa/0ljRw1GuRqkBsJ1HGova3maJA7KaBqEHxsNnLZYhlB4Vg5xhZLCFZfvUDbKxOldpxt
-        PEeg7X2wNWVDMDpf6TrsTV2ASe0oz4l9qCjobZp2iWDUOoKpyQbC2SCoMNDYNC7MpyLAWF/t
-        WsCpA6Bvr3cd8qUksPJmFGNnvKCvwoo7sRtFw+znIo4TY1QgmGx6jMVCGLdWusSA6uBBaX8T
-        j/UdDT8/fMJY7A3fzS1b/B4YKCvG2YUbCKYtDTy2KEYwUvBoK3U4dJuHNi2RmxJB0NQWytJR
-        cL+nFXPSQHnCmM2LNeEJpcaHWzQfim4J2OmDoDM3/pPtfD+M3UMi3Y5ouh1xdDvi6P7rPkF4
-        HRIyKqUshVEelTM5IUqpTKmSp4QkZcgMaPOdBhzm5VbUtpHYhSgSiTz4l+IcEgFXmq3MlXUh
-        IDGRD19j36T4ydLcPEaRcUWhSmeUXSiAxEVCfv6ur3ECKkWaxVxlmExGsd3lkG7+auSXoy8+
-        kVZgTggPXE17dn24IjnSEVpNdyfZ875gBnvFZY92VdW4xW/mbM3CXNK67XTrXbeK4H3vfvl2
-        PAtQz60tDiVOTQfFWOOfWnbXXQzuGRE6ot/+eC2yW7hnYntjsjJNQ/FrJadmTSnaxf1SbWeI
-        pBaY3+dUxzix1ka/5SoRrkyVhh3CFErpXxNNGN5KAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xu7prq//HGOybx25xavIzJouzTW/Y
-        LS7vmsNm0bNhK6vFsk1/mCymvP3JbrHhzkk2i8+t/9gcODxmN1xk8di0qpPN4/Gvl2wefVtW
-        MXp83iTncerrZ/YAtig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TU
-        nMyy1CJ9uwS9jPWPbjMXfGerONW/jqmB8SxrFyMnh4SAicTtSd9Zuhi5OIQEljJKfNx0ESoh
-        I3FyWgOULSzx51oXG0TRa0aJBzf/MoEkhAWCJO70XWUHsUUEHCWOrX/IBFLELPCLUWLzwYtQ
-        Y7sZJSb+/ALWwSZgKNH1FmQUJwevgJ3EtjXLwLpZBFQl5uxeA7ZOVCBGoq9xBQtEjaDEyZlP
-        wGxOAQuJZzc7wOYwC5hJzNv8kBnClpfY/nYOlC0ucevJfKYJjEKzkLTPQtIyC0nLLCQtCxhZ
-        VjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgRG47ZjP7fsYOx6F3yIUYCDUYmHNyL6X4wQa2JZ
-        cWXuIUYJDmYlEd6u70Ah3pTEyqrUovz4otKc1OJDjKZAz01klhJNzgcmirySeENTQ3MLS0Nz
-        Y3NjMwslcd4OgYMxQgLpiSWp2ampBalFMH1MHJxSDYyle48Kb52X1JEmtUlz2UmHmQ9S68qe
-        z5hXavdfd620RJCt6NQWm/VPLyy/cnnxl2cTpfKeffOOU5DZoNRQtOppmmM40/bbbKyvE3j+
-        a3T0NPgl1n2s8WTMTbu6M5v5WsNZphP3JaQzfjOfuM14spRDdof2g9dyPRuqjHNWGp5YW9Ey
-        +8KX71uUWIozEg21mIuKEwHxnlQe3AIAAA==
-X-CMS-MailID: 20190611100013eucas1p229fae8dc62aac7cc8619c0bcf1740c2b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20190607083531epcas3p48cf46e033280d7e86ed1029707f2f373
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190607083531epcas3p48cf46e033280d7e86ed1029707f2f373
-References: <CGME20190607083531epcas3p48cf46e033280d7e86ed1029707f2f373@epcas3p4.samsung.com>
-        <20190607083518.90078-1-tfiga@chromium.org>
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 8968637183800988741
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehhedgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 6/11/19 11:40 AM, Rui Miguel Silva wrote:
+> Hi Sebastien,
+> On Tue 11 Jun 2019 at 09:16, Sébastien Szymanski wrote:
+>> Hi Rui,
+>>
+>> thanks for the review!
+>>
+>> On 6/10/19 12:28 PM, Rui Miguel Silva wrote:
+>>> Hi Sebastien,
+>>> Thanks for the patch.
+>>>
+>>> On Thu 06 Jun 2019 at 16:38, Sébastien Szymanski wrote:
+>>>> i.MX7 and i.MX6UL/L have the same CSI controller. So add i.MX6UL/L support
+>>>> to imx7-media-csi driver.
+>>>>
+>>>> Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+>>>> ---
+>>>>
+>>>> Changes for v2:
+>>>>  - rebase on top of linuxtv/master
+>>>>  - mention i.MX6UL/L in header and Kconfig help text
+>>>>  - rename csi_type to csi_soc_id
+>>>>
+>>>>  drivers/staging/media/imx/Kconfig          |  4 +-
+>>>>  drivers/staging/media/imx/imx7-media-csi.c | 62 ++++++++++++++++------
+>>>>  2 files changed, 49 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+>>>> index ad3d7df6bb3c..8b6dc42c39e0 100644
+>>>> --- a/drivers/staging/media/imx/Kconfig
+>>>> +++ b/drivers/staging/media/imx/Kconfig
+>>>> @@ -22,11 +22,11 @@ config VIDEO_IMX_CSI
+>>>>  	  A video4linux camera sensor interface driver for i.MX5/6.
+>>>>
+>>>>  config VIDEO_IMX7_CSI
+>>>> -	tristate "i.MX7 Camera Sensor Interface driver"
+>>>> +	tristate "i.MX6UL/L / i.MX7 Camera Sensor Interface driver"
+>>>>  	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
+>>>>  	default y
+>>>>  	help
+>>>>  	  Enable support for video4linux camera sensor interface driver for
+>>>> -	  i.MX7.
+>>>> +	  i.MX6UL/L or i.MX7.
+>>>>  endmenu
+>>>>  endif
+>>>> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+>>>> index 9101566f3f67..902bdce594cf 100644
+>>>> --- a/drivers/staging/media/imx/imx7-media-csi.c
+>>>> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+>>>> @@ -1,6 +1,6 @@
+>>>>  // SPDX-License-Identifier: GPL-2.0
+>>>>  /*
+>>>> - * V4L2 Capture CSI Subdev for Freescale i.MX7 SOC
+>>>> + * V4L2 Capture CSI Subdev for Freescale i.MX6UL/L / i.MX7 SOC
+>>>>   *
+>>>>   * Copyright (c) 2019 Linaro Ltd
+>>>>   *
+>>>> @@ -152,6 +152,11 @@
+>>>>  #define CSI_CSICR18		0x48
+>>>>  #define CSI_CSICR19		0x4c
+>>>>
+>>>> +enum csi_soc_id {
+>>>> +	IMX7,
+>>>> +	IMX6UL
+>>>> +};
+>>>> +
+>>>>  struct imx7_csi {
+>>>>  	struct device *dev;
+>>>>  	struct v4l2_subdev sd;
+>>>> @@ -191,6 +196,7 @@ struct imx7_csi {
+>>>>  	bool is_init;
+>>>>  	bool is_streaming;
+>>>>  	bool is_csi2;
+>>>> +	enum csi_soc_id soc_id;
+>>>>
+>>>>  	struct completion last_eof_completion;
+>>>>  };
+>>>> @@ -548,6 +554,14 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
+>>>>  	if (ret)
+>>>>  		return ret;
+>>>>
+>>>> +	if (csi->soc_id == IMX6UL) {
+>>>> +		mutex_lock(&csi->lock);
+>>>> +		csi->is_csi2 = false;
+>>>> +		mutex_unlock(&csi->lock);
+>>>> +
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>>>  	ret = imx7_csi_get_upstream_endpoint(csi, &upstream_ep, true);
+>>>>  	if (ret) {
+>>>>  		v4l2_err(&csi->sd, "failed to find upstream endpoint\n");
+>>>> @@ -757,6 +771,7 @@ static int imx7_csi_configure(struct imx7_csi *csi)
+>>>>  	struct v4l2_pix_format *out_pix = &vdev->fmt.fmt.pix;
+>>>>  	__u32 in_code = csi->format_mbus[IMX7_CSI_PAD_SINK].code;
+>>>>  	u32 cr1, cr18;
+>>>> +	int width = out_pix->width;
+>>>>
+>>>>  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
+>>>>  		imx7_csi_deinterlace_enable(csi, true);
+>>>> @@ -766,15 +781,27 @@ static int imx7_csi_configure(struct imx7_csi *csi)
+>>>>  		imx7_csi_buf_stride_set(csi, 0);
+>>>>  	}
+>>>>
+>>>> -	imx7_csi_set_imagpara(csi, out_pix->width, out_pix->height);
+>>>> +	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
+>>>> +
+>>>> +	if (!csi->is_csi2) {
+>>>> +		if (out_pix->pixelformat == V4L2_PIX_FMT_UYVY ||
+>>>> +		    out_pix->pixelformat == V4L2_PIX_FMT_YUYV)
+>>>> +			width *= 2;
+>>>> +
+>>>> +		imx7_csi_set_imagpara(csi, width, out_pix->height);
+>>>> +
+>>>> +		cr18 |= (BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
+>>>> +			BIT_BASEADDR_CHG_ERR_EN);
+>>>> +		imx7_csi_reg_write(csi, cr18, CSI_CSICR18);
+>>>>
+>>>> -	if (!csi->is_csi2)
+>>>>  		return 0;
+>>>> +	}
+>>>> +
+>>>> +	imx7_csi_set_imagpara(csi, width, out_pix->height);
+>>>>
+>>>>  	cr1 = imx7_csi_reg_read(csi, CSI_CSICR1);
+>>>>  	cr1 &= ~BIT_GCLK_MODE;
+>>>>
+>>>> -	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
+>>>>  	cr18 &= BIT_MIPI_DATA_FORMAT_MASK;
+>>>>  	cr18 |= BIT_DATA_FROM_MIPI;
+>>>>
+>>>> @@ -809,11 +836,9 @@ static void imx7_csi_enable(struct imx7_csi *csi)
+>>>>  {
+>>>>  	imx7_csi_sw_reset(csi);
+>>>>
+>>>> -	if (csi->is_csi2) {
+>>>> -		imx7_csi_dmareq_rff_enable(csi);
+>>>> -		imx7_csi_hw_enable_irq(csi);
+>>>> -		imx7_csi_hw_enable(csi);
+>>>> -	}
+>>>> +	imx7_csi_dmareq_rff_enable(csi);
+>>>> +	imx7_csi_hw_enable_irq(csi);
+>>>> +	imx7_csi_hw_enable(csi);
+>>>>  }
+>>>>
+>>>>  static void imx7_csi_disable(struct imx7_csi *csi)
+>>>> @@ -1166,19 +1191,32 @@ static int imx7_csi_parse_endpoint(struct device *dev,
+>>>>  	return fwnode_device_is_available(asd->match.fwnode) ? 0 : -EINVAL;
+>>>>  }
+>>>>
+>>>> +static const struct of_device_id imx7_csi_of_match[] = {
+>>>> +	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7 },
+>>>> +	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX6UL },
+>>>
+>>> looking at this again I think we can do this is a different way.
+>>> Instead data being the soc_id, just set here if it is_csi2 or not.
+>>>
+>>> This would avoid to add a soc_id  to the struct that it really it
+>>> is used only to setup the is_csi2 var. I think this will make this
+>>> patch a lot simpler.
+>>
+>> Well, I have added this soc_id because imx7_csi_get_upstream_endpoint in
+>> imx7_csi_pad_link_validate fails:
+>>
+>> [  366.549768] csi: failed to find upstream endpoint
+>> [  366.556274] csi: pipeline start failed with -19
+>>
+> 
+> I think this fails because you do not define any endpoint for the
+> csi in your board dts file. I see in patch 1/3 the setup of csi,
+> disabled, but not the endpoint connecting csi with the ov5640 in
+> your board file (see the connection between mipi imx7 and ov2680
+> in the imx7-warp.dts, or the ov5640.txt file).
 
-On 2019-06-07 10:35, Tomasz Figa wrote:
-> I tend to review most of the vb2 patches anyway and we need some active
-> reviewers, so let add me to the MAINTAINERS file as such.
->
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+I actually do, in the device tree of my board I have:
 
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+&csi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_csi>;
+	status = "okay";
 
+	port {
+		csi_ep: endpoint {
+			remote-endpoint = <&ov5640_ep>;
+			bus-type = <5>; // V4L2_FWNODE_BUS_TYPE_PARALLEL
+		};
+	};
+};
+
+and
+
+&i2c2 {
+..
+	ov5640: camera@3c {
+		...
+		port {
+                        ov5640_ep: endpoint {
+                                remote-endpoint = <&csi_ep>;
+                                bus-width = <8>;
+                                data-shift = <2>; /* lines 9:2 are used */
+                                hsync-active = <0>;
+                                vsync-active = <1>;
+                                pclk-sample = <0>;
+                        };
+                };
+	};
+};
+
+Regards,
+
+> 
 > ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 98cd84977350..b5f65f61becb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16758,6 +16758,7 @@ VIDEOBUF2 FRAMEWORK
->   M:	Pawel Osciak <pawel@osciak.com>
->   M:	Marek Szyprowski <m.szyprowski@samsung.com>
->   M:	Kyungmin Park <kyungmin.park@samsung.com>
-> +R:	Tomasz Figa <tfiga@chromium.org>
->   L:	linux-media@vger.kernel.org
->   S:	Maintained
->   F:	drivers/media/common/videobuf2/*
+> Cheers,
+>         Rui
+> 
+> 
+>>
+>> My pipeline is:
+>>
+>> Device topology
+>> - entity 1: csi (2 pads, 2 links)
+>>             type V4L2 subdev subtype Unknown flags 0
+>>             device node name /dev/v4l-subdev0
+>>         pad0: Sink
+>>                 [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+>> xfer:srgb ycbcr:601 quantization:full-range]
+>>                 <- "ov5640 1-003c":0 [ENABLED]
+>>         pad1: Source
+>>                 [fmt:UYVY8_2X8/640x480 field:none colorspace:srgb
+>> xfer:srgb ycbcr:601 quantization:full-range]
+>>                 -> "csi capture":0 [ENABLED]
+>>
+>> - entity 4: csi capture (1 pad, 1 link)
+>>             type Node subtype V4L flags 0
+>>             device node name /dev/video1
+>>         pad0: Sink
+>>                 <- "csi":1 [ENABLED]
+>>
+>> - entity 10: ov5640 1-003c (1 pad, 1 link)
+>>              type V4L2 subdev subtype Sensor flags 0
+>>              device node name /dev/v4l-subdev1
+>>         pad0: Source
+>>                 [fmt:UYVY8_2X8/640x480@1/30 field:none colorspace:srgb
+>> xfer:srgb ycbcr:601 quantization:full-range]
+>>                 -> "csi":0 [ENABLED]
+>>
+>>
+>> Maybe we should fix this ?
+>>
+>> Regards,
+>>
+>>>
+>>>> +	{ },
+>>>> +};
+>>>> +MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+>>>> +
+>>>>  static int imx7_csi_probe(struct platform_device *pdev)
+>>>>  {
+>>>>  	struct device *dev = &pdev->dev;
+>>>>  	struct device_node *node = dev->of_node;
+>>>>  	struct imx_media_dev *imxmd;
+>>>>  	struct imx7_csi *csi;
+>>>> +	const struct of_device_id *of_id;
+>>>>  	int ret;
+>>>>
+>>>> +	of_id = of_match_node(imx7_csi_of_match, node);
+>>>
+>>> With the above said, here I think we can use the of_match_device?
+>>>
+>>> hope this makes sense also to you.
+>>>
+>>> Once again thanks for the patches.
+>>>
+>>> ---
+>>> Cheers,
+>>>         Rui
+>>>
+>>>> +	if (!of_id)
+>>>> +		return -ENODEV;
+>>>> +
+>>>>  	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
+>>>>  	if (!csi)
+>>>>  		return -ENOMEM;
+>>>>
+>>>>  	csi->dev = dev;
+>>>> +	csi->soc_id = (enum csi_soc_id)of_id->data;
+>>>>
+>>>>  	csi->mclk = devm_clk_get(&pdev->dev, "mclk");
+>>>>  	if (IS_ERR(csi->mclk)) {
+>>>> @@ -1294,12 +1332,6 @@ static int imx7_csi_remove(struct platform_device *pdev)
+>>>>  	return 0;
+>>>>  }
+>>>>
+>>>> -static const struct of_device_id imx7_csi_of_match[] = {
+>>>> -	{ .compatible = "fsl,imx7-csi" },
+>>>> -	{ },
+>>>> -};
+>>>> -MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
+>>>> -
+>>>>  static struct platform_driver imx7_csi_driver = {
+>>>>  	.probe = imx7_csi_probe,
+>>>>  	.remove = imx7_csi_remove,
+>>>
+> 
 
-Best regards
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Sébastien Szymanski
+Software engineer, Armadeus Systems
+Tel: +33 (0)9 72 29 41 44
+Fax: +33 (0)9 72 28 79 26
