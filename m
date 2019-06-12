@@ -2,121 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBFD41E86
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE59F41EA1
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:07:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729880AbfFLIC0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 04:02:26 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:44612 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbfFLIC0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:02:26 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n2so8470581pgp.11;
-        Wed, 12 Jun 2019 01:02:25 -0700 (PDT)
+        id S2436788AbfFLIF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 04:05:57 -0400
+Received: from mail-eopbgr740059.outbound.protection.outlook.com ([40.107.74.59]:52032
+        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2436763AbfFLIF5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 04:05:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=SXiUTg8P9kKRgYZobjR73yxrvyBI+QR3gHSn3xV2sNk=;
-        b=P9M1dR9nnALM0dwbM3XxQXTmmeCHWxxCR3IdHx6vDUqJrBbj3MJw+iS5S5/t9RDNy8
-         VXM0Wep6hlSbFgGcCd4t1g+rTd06lxmB90ehFdzKpl/nfPQkkJaaLXID0bb++uh5ZRWb
-         4f+eIAuGIQnSryRWwgi45NBtdSPkdKegHBuGbZYbDgDdACaI3HsmF2yZ1mkdDte/HPTn
-         MA7CPzCi+udHsV8KE61Vy23DzLpjmpJlkHiXrnQzduJsR8hnjOL988mxO+N43knNyH4j
-         MEQOEY/QXxjH4Gk8+6G3M0peyt8kYn4YW85dLcb2p55BwVIImhoBA+TvMkPFoCTVvEj/
-         pTxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SXiUTg8P9kKRgYZobjR73yxrvyBI+QR3gHSn3xV2sNk=;
-        b=GxLjlLMYgpOA6Qz6FurumSFs4IUd923W9E8xGHu69CIOOKIE9ejvJof+1LFTds7eXh
-         GpiYerZ8E/mS3oTgyLsVQmJGRKZ8edIZsFGEXiPhHwyLEdL9DChXYGSs2zKdH3fFL/fT
-         tFfJ0+ML/fkgehd/kaUmMYiia7pnKt5QY/QC06WEUf2Ykoiws69zTuseMd76coqTFgaS
-         We7xjZ5eCOHc514qmBNVfrfAeNlLmumybEYxE99M0Wc4QHwBwck72a9llxjlOFIRnoDj
-         Ih6EWR23c9lUB+37SnNkrm99dBSFxMVn7WM3P/BV0ZNnLHqMRNlv0+LzZzSJs7Vz0Ixp
-         ianw==
-X-Gm-Message-State: APjAAAVJ0xNatyYpSGQ7EjMJfabqSzfqoYnr4GR5P0MLHEew8bcXb+SN
-        o2lY+x3NfzgUu9Smez4aYZTt0M2d
-X-Google-Smtp-Source: APXvYqyXLoIbAePeHwNO0OOIUhplzQIrUNiANS5SrI0lvbzh0NuVJupyWFCAT364ZRU/Gs+muPfmOQ==
-X-Received: by 2002:aa7:972a:: with SMTP id k10mr52413613pfg.116.1560326545252;
-        Wed, 12 Jun 2019 01:02:25 -0700 (PDT)
-Received: from Asurada (c-98-248-47-108.hsd1.ca.comcast.net. [98.248.47.108])
-        by smtp.gmail.com with ESMTPSA id w62sm18263465pfw.132.2019.06.12.01.02.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 12 Jun 2019 01:02:25 -0700 (PDT)
-Date:   Wed, 12 Jun 2019 01:02:14 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     "Koenig, Christian" <Christian.Koenig@amd.com>
-Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dAAInB1jCboraYln6qhWwaGHH1q1a7H+W+iRGdm1cLo=;
+ b=si9cIrUD8k7MksUqwBKRmuxFogLkrGgWn7rvSuzwZ/gLjj2h/Q0yEFtHnNVKcsyMLa7R+2dBiQBAKkAJNw+rjlDH538T76RHLQC0To9DB4cWxOy2sNBJSq/cdV1tN+WMvswPgbOcAkZaN+3Xc2hYNMIHnqYKtZycQbwSVvurQto=
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
+ DM5PR12MB1388.namprd12.prod.outlook.com (10.168.239.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Wed, 12 Jun 2019 08:05:53 +0000
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::e1b1:5b6f:b2df:afa5]) by DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::e1b1:5b6f:b2df:afa5%7]) with mapi id 15.20.1965.017; Wed, 12 Jun 2019
+ 08:05:53 +0000
+From:   "Koenig, Christian" <Christian.Koenig@amd.com>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
 Subject: Re: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Message-ID: <20190612080214.GA8876@Asurada>
+Thread-Topic: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
+Thread-Index: AQHVIL1FUykFich2jk+2KmuqNh9/V6aXpCSAgAAEqwCAAAD9AA==
+Date:   Wed, 12 Jun 2019 08:05:53 +0000
+Message-ID: <170c3828-115b-38e5-35fc-1b88c08c492a@amd.com>
 References: <20190612012219.21652-1-nicoleotsuka@gmail.com>
  <261b46c7-0c5e-4268-619d-f8381fbc3aeb@amd.com>
+ <20190612080214.GA8876@Asurada>
+In-Reply-To: <20190612080214.GA8876@Asurada>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+x-clientproxiedby: AM4PR05CA0001.eurprd05.prod.outlook.com (2603:10a6:205::14)
+ To DM5PR12MB1546.namprd12.prod.outlook.com (2603:10b6:4:8::23)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 70c279b8-86ec-487a-63a1-08d6ef0cca20
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1388;
+x-ms-traffictypediagnostic: DM5PR12MB1388:
+x-microsoft-antispam-prvs: <DM5PR12MB13887A515824140B3890EDD283EC0@DM5PR12MB1388.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0066D63CE6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(376002)(346002)(366004)(396003)(136003)(199004)(189003)(51914003)(102836004)(4326008)(8936002)(68736007)(81166006)(7736002)(5660300002)(25786009)(8676002)(305945005)(386003)(31696002)(6506007)(6116002)(64756008)(2906002)(73956011)(66476007)(66556008)(66946007)(66446008)(86362001)(65806001)(65956001)(1411001)(99286004)(81156014)(54906003)(6436002)(6246003)(14454004)(6512007)(52116002)(53936002)(6916009)(65826007)(31686004)(64126003)(316002)(72206003)(478600001)(6486002)(486006)(476003)(446003)(11346002)(2616005)(36756003)(186003)(46003)(71200400001)(76176011)(229853002)(256004)(14444005)(5024004)(71190400001)(58126008)(56590200001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1388;H:DM5PR12MB1546.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: sc8LEeDc2TUD8VS/FJ/vGqwhxVDA2PezAknAwPEjng3WA62opCHA+9ABvwyQcivs+vsndd+9CJaRSRBqhgekBgoA+J7DUugZi0UVW1DNdOQSGJtS2T7PIQKDRkYfpZqyl8swwbbiC+N/KIgrLMCL0aq3zJhWVehy4voXZcphbvz7iYjlhuqw/jWJWT7k1Oco3QXtNiO9afZSlUfnAdj1aACObR26+o+pTcBoq3xJ/teSw0SCAwfoVDSfHQp+WGXxuY7KWcSPVo/gxbwG3noLCt7aW2+J/yCIFAiGboZWRFTeLa5DzOAHpCocmGn8V4rLjodUJnuEZbg9jKk817p5XO03ZAKbqNipT1e5ynHFcgah6kVyI/O2tuqxnMdtLvHU5ZqzcdnHBq0Cc6lCZ1pxBtDxaAPYtUbolGT7KTAsIAw=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2E5F357D90811D49AA7DB9391BAE0AD0@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <261b46c7-0c5e-4268-619d-f8381fbc3aeb@amd.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70c279b8-86ec-487a-63a1-08d6ef0cca20
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2019 08:05:53.1622
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1388
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
-
-Thanks for the quick reply.
-
-On Wed, Jun 12, 2019 at 07:45:38AM +0000, Koenig, Christian wrote:
-> Am 12.06.19 um 03:22 schrieb Nicolin Chen:
-> > Commit f13e143e7444 ("dma-buf: start caching of sg_table objects v2")
-> > added a support of caching the sgt pointer into an attach pointer to
-> > let users reuse the sgt pointer without another mapping. However, it
-> > might not totally work as most of dma-buf callers are doing attach()
-> > and map_attachment() back-to-back, using drm_prime.c for example:
-> >      drm_gem_prime_import_dev() {
-> >          attach = dma_buf_attach() {
-> >              /* Allocating a new attach */
-> >              attach = kzalloc();
-> >              /* .... */
-> >              return attach;
-> >          }
-> >          dma_buf_map_attachment(attach, direction) {
-> >              /* attach->sgt would be always empty as attach is new */
-> >              if (attach->sgt) {
-> >                  /* Reuse attach->sgt */
-> >              }
-> >              /* Otherwise, map it */
-> >              attach->sgt = map();
-> >          }
-> >      }
-> >
-> > So, for a cache_sgt_mapping use case, it would need to get the same
-> > attachment pointer in order to reuse its sgt pointer. So this patch
-> > adds a refcount to the attach() function and lets it search for the
-> > existing attach pointer by matching the dev pointer.
-> 
-> I don't think that this is a good idea.
-> 
-> We use sgt caching as workaround for locking order problems and want to 
-> remove it again in the long term.
-
-Oh. I thought it was for a performance improving purpose. It may
-be a misunderstanding then.
-
-> So what is the actual use case of this?
-
-We have some similar downstream changes at dma_buf to reduce the
-overhead from multiple clients of the same device doing attach()
-and map_attachment() calls for the same dma_buf.
-
-We haven't used DRM/GRM_PRIME yet but I am also curious would it
-benefit DRM also if we reduce this overhead in the dma_buf?
-
-Thanks
-Nicolin
+QW0gMTIuMDYuMTkgdW0gMTA6MDIgc2NocmllYiBOaWNvbGluIENoZW46DQo+IEhpIENocmlzdGlh
+biwNCj4NCj4gVGhhbmtzIGZvciB0aGUgcXVpY2sgcmVwbHkuDQo+DQo+IE9uIFdlZCwgSnVuIDEy
+LCAyMDE5IGF0IDA3OjQ1OjM4QU0gKzAwMDAsIEtvZW5pZywgQ2hyaXN0aWFuIHdyb3RlOg0KPj4g
+QW0gMTIuMDYuMTkgdW0gMDM6MjIgc2NocmllYiBOaWNvbGluIENoZW46DQo+Pj4gQ29tbWl0IGYx
+M2UxNDNlNzQ0NCAoImRtYS1idWY6IHN0YXJ0IGNhY2hpbmcgb2Ygc2dfdGFibGUgb2JqZWN0cyB2
+MiIpDQo+Pj4gYWRkZWQgYSBzdXBwb3J0IG9mIGNhY2hpbmcgdGhlIHNndCBwb2ludGVyIGludG8g
+YW4gYXR0YWNoIHBvaW50ZXIgdG8NCj4+PiBsZXQgdXNlcnMgcmV1c2UgdGhlIHNndCBwb2ludGVy
+IHdpdGhvdXQgYW5vdGhlciBtYXBwaW5nLiBIb3dldmVyLCBpdA0KPj4+IG1pZ2h0IG5vdCB0b3Rh
+bGx5IHdvcmsgYXMgbW9zdCBvZiBkbWEtYnVmIGNhbGxlcnMgYXJlIGRvaW5nIGF0dGFjaCgpDQo+
+Pj4gYW5kIG1hcF9hdHRhY2htZW50KCkgYmFjay10by1iYWNrLCB1c2luZyBkcm1fcHJpbWUuYyBm
+b3IgZXhhbXBsZToNCj4+PiAgICAgICBkcm1fZ2VtX3ByaW1lX2ltcG9ydF9kZXYoKSB7DQo+Pj4g
+ICAgICAgICAgIGF0dGFjaCA9IGRtYV9idWZfYXR0YWNoKCkgew0KPj4+ICAgICAgICAgICAgICAg
+LyogQWxsb2NhdGluZyBhIG5ldyBhdHRhY2ggKi8NCj4+PiAgICAgICAgICAgICAgIGF0dGFjaCA9
+IGt6YWxsb2MoKTsNCj4+PiAgICAgICAgICAgICAgIC8qIC4uLi4gKi8NCj4+PiAgICAgICAgICAg
+ICAgIHJldHVybiBhdHRhY2g7DQo+Pj4gICAgICAgICAgIH0NCj4+PiAgICAgICAgICAgZG1hX2J1
+Zl9tYXBfYXR0YWNobWVudChhdHRhY2gsIGRpcmVjdGlvbikgew0KPj4+ICAgICAgICAgICAgICAg
+LyogYXR0YWNoLT5zZ3Qgd291bGQgYmUgYWx3YXlzIGVtcHR5IGFzIGF0dGFjaCBpcyBuZXcgKi8N
+Cj4+PiAgICAgICAgICAgICAgIGlmIChhdHRhY2gtPnNndCkgew0KPj4+ICAgICAgICAgICAgICAg
+ICAgIC8qIFJldXNlIGF0dGFjaC0+c2d0ICovDQo+Pj4gICAgICAgICAgICAgICB9DQo+Pj4gICAg
+ICAgICAgICAgICAvKiBPdGhlcndpc2UsIG1hcCBpdCAqLw0KPj4+ICAgICAgICAgICAgICAgYXR0
+YWNoLT5zZ3QgPSBtYXAoKTsNCj4+PiAgICAgICAgICAgfQ0KPj4+ICAgICAgIH0NCj4+Pg0KPj4+
+IFNvLCBmb3IgYSBjYWNoZV9zZ3RfbWFwcGluZyB1c2UgY2FzZSwgaXQgd291bGQgbmVlZCB0byBn
+ZXQgdGhlIHNhbWUNCj4+PiBhdHRhY2htZW50IHBvaW50ZXIgaW4gb3JkZXIgdG8gcmV1c2UgaXRz
+IHNndCBwb2ludGVyLiBTbyB0aGlzIHBhdGNoDQo+Pj4gYWRkcyBhIHJlZmNvdW50IHRvIHRoZSBh
+dHRhY2goKSBmdW5jdGlvbiBhbmQgbGV0cyBpdCBzZWFyY2ggZm9yIHRoZQ0KPj4+IGV4aXN0aW5n
+IGF0dGFjaCBwb2ludGVyIGJ5IG1hdGNoaW5nIHRoZSBkZXYgcG9pbnRlci4NCj4+IEkgZG9uJ3Qg
+dGhpbmsgdGhhdCB0aGlzIGlzIGEgZ29vZCBpZGVhLg0KPj4NCj4+IFdlIHVzZSBzZ3QgY2FjaGlu
+ZyBhcyB3b3JrYXJvdW5kIGZvciBsb2NraW5nIG9yZGVyIHByb2JsZW1zIGFuZCB3YW50IHRvDQo+
+PiByZW1vdmUgaXQgYWdhaW4gaW4gdGhlIGxvbmcgdGVybS4NCj4gT2guIEkgdGhvdWdodCBpdCB3
+YXMgZm9yIGEgcGVyZm9ybWFuY2UgaW1wcm92aW5nIHB1cnBvc2UuIEl0IG1heQ0KPiBiZSBhIG1p
+c3VuZGVyc3RhbmRpbmcgdGhlbi4NCj4NCj4+IFNvIHdoYXQgaXMgdGhlIGFjdHVhbCB1c2UgY2Fz
+ZSBvZiB0aGlzPw0KPiBXZSBoYXZlIHNvbWUgc2ltaWxhciBkb3duc3RyZWFtIGNoYW5nZXMgYXQg
+ZG1hX2J1ZiB0byByZWR1Y2UgdGhlDQo+IG92ZXJoZWFkIGZyb20gbXVsdGlwbGUgY2xpZW50cyBv
+ZiB0aGUgc2FtZSBkZXZpY2UgZG9pbmcgYXR0YWNoKCkNCj4gYW5kIG1hcF9hdHRhY2htZW50KCkg
+Y2FsbHMgZm9yIHRoZSBzYW1lIGRtYV9idWYuDQoNCkkgZG9uJ3QgdGhpbmsgdGhhdCB0aGlzIGlz
+IGEgZ29vZCBpZGVhIG92ZXIgYWxsLiBBIGRyaXZlciBjYWxsaW5nIGF0dGFjaCANCmZvciB0aGUg
+c2FtZSBidWZmZXIgaXMgZG9pbmcgc29tZXRoaW5nIHdyb25nIGluIHRoZSBmaXJzdCBwbGFjZSBh
+bmQgd2UgDQpzaG91bGQgbm90IHdvcmsgYXJvdW5kIHRoaXMgaW4gdGhlIERNQS1idWYgaGFuZGxp
+bmcuDQoNCj4gV2UgaGF2ZW4ndCB1c2VkIERSTS9HUk1fUFJJTUUgeWV0IGJ1dCBJIGFtIGFsc28g
+Y3VyaW91cyB3b3VsZCBpdA0KPiBiZW5lZml0IERSTSBhbHNvIGlmIHdlIHJlZHVjZSB0aGlzIG92
+ZXJoZWFkIGluIHRoZSBkbWFfYnVmPw0KDQpObywgbm90IGF0IGFsbC4NCg0KUmVnYXJkcywNCkNo
+cmlzdGlhbi4NCg0KPg0KPiBUaGFua3MNCj4gTmljb2xpbg0KDQo=
