@@ -2,200 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA193423F2
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 13:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D686423FF
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 13:30:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408959AbfFLLZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 07:25:15 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53158 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406101AbfFLLZP (ORCPT
+        id S2407929AbfFLLam (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 07:30:42 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:46188 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727352AbfFLLam (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 07:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=BUi1t7YRmAixbRwRjqsMqD3iniMSUAyJOwWKf84JW1w=; b=px2Q8wWPFHBHWITcipeaKID/NN
-        4a43C0swHjzm3uhvc0S3ur82oFBD9NVSoldQtLaP4Yum9TzLA2GA2pY5K4W6DOcpPwQBs53vvus8b
-        MZIhd5RhAdcbw3CDiYuSyjKu4ruItmDClEc7SmcNPd18CO9URVwmCsvjnBzPHZVYv/twpEeWAhiAn
-        zOfKSYAkPFRtQDm+dMXFtyoKU9q4rKuWgF7DX3EIoRLrCRMizEFf1EI8IDdEfOsaePimyPPnG1ywN
-        QpLg3Vjgk3MeDh7mUPHHEXrQ6dzYa+onjUvF8wtjgmZS+P8nX/WT++4ZnaX5Pb2mTfdZTppJkOTW1
-        mckely1w==;
-Received: from 177.41.119.178.dynamic.adsl.gvt.net.br ([177.41.119.178] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb1NS-000769-6J; Wed, 12 Jun 2019 11:25:14 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb1NO-0005nn-Bb; Wed, 12 Jun 2019 08:25:10 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ruslan Babayev <ruslan@babayev.com>,
-        Andrew de Quincey <adq_dvb@lidskialf.net>,
-        Michael Buesch <m@bues.ch>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] media: tua6100: Remove some ugly defines
-Date:   Wed, 12 Jun 2019 08:25:03 -0300
-Message-Id: <fa93fecaa9d8e33f7d3b335872e9082893b775ae.1560338665.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190612081929.GA1687@kunai>
-References: <20190612081929.GA1687@kunai>
+        Wed, 12 Jun 2019 07:30:42 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id D12CF634C7B;
+        Wed, 12 Jun 2019 14:30:05 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hb1S9-0001e5-VI; Wed, 12 Jun 2019 14:30:05 +0300
+Date:   Wed, 12 Jun 2019 14:30:05 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Eugen.Hristev@microchip.com
+Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] media: atmel: atmel-isc: fix and cleanup
+ potential bugs
+Message-ID: <20190612113005.44zvi4vgdl4pqlv7@valkosipuli.retiisi.org.uk>
+References: <1560336983-16843-1-git-send-email-eugen.hristev@microchip.com>
+ <1560336983-16843-3-git-send-email-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1560336983-16843-3-git-send-email-eugen.hristev@microchip.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As reported by Stephen:
+Hi Eugen,
 
-> After merging the i2c tree, today's linux-next build (x86_64 allmodconfig)
-> produced this warning:
->
-> drivers/media/dvb-frontends/tua6100.c: In function 'tua6100_set_params':
-> drivers/media/dvb-frontends/tua6100.c:71: warning: "_P" redefined
->  #define _P 32
->
-> In file included from include/acpi/platform/aclinux.h:54,
->                  from include/acpi/platform/acenv.h:152,
->                  from include/acpi/acpi.h:22,
->                  from include/linux/acpi.h:21,
->                  from include/linux/i2c.h:17,
->                  from drivers/media/dvb-frontends/tua6100.h:22,
->                  from drivers/media/dvb-frontends/tua6100.c:24:
-> include/linux/ctype.h:14: note: this is the location of the previous definition
->  #define _P 0x10 /* punct */
->
-> Exposed by commit
->
->   5213d7efc8ec ("i2c: acpi: export i2c_acpi_find_adapter_by_handle")
->
-> Since that included <linux/acpi.h> from <linux/i2c.h>
->
-> Originally introduced by commit
->
->   00be2e7c6415 ("V4L/DVB (4606): Add driver for TUA6100")
->
-> The _P in <linux/ctype.h> has existed since before git.
+On Wed, Jun 12, 2019 at 11:01:15AM +0000, Eugen.Hristev@microchip.com wrote:
+> From: Eugen Hristev <eugen.hristev@microchip.com>
+> 
+> Fixed issues that can lead to potential bugs.
+> Cleanup order in the driver
+> Taking into consideration std control creation can fail
+> mutex_destroy call
+> changing controller_formats with const specifier
+> some cosmetic cleanups
+> 
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
+> Changes in v5:
+> - new patch that fixes issues reviewed by Sakari
+> 
+>  drivers/media/platform/atmel/atmel-isc-base.c    | 28 +++++++++++++++---------
+>  drivers/media/platform/atmel/atmel-isc.h         |  2 +-
+>  drivers/media/platform/atmel/atmel-sama5d2-isc.c | 14 +++++++-----
+>  3 files changed, 28 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
+> index edfd7e0..678383e 100644
+> --- a/drivers/media/platform/atmel/atmel-isc-base.c
+> +++ b/drivers/media/platform/atmel/atmel-isc-base.c
+> @@ -45,7 +45,7 @@ MODULE_PARM_DESC(sensor_preferred,
+>  		 "Sensor is preferred to output the specified format (1-on 0-off), default 1");
+>  
+>  /* This is a list of the formats that the ISC can *output* */
+> -struct isc_format controller_formats[] = {
+> +const struct isc_format controller_formats[] = {
+>  	{
+>  		.fourcc		= V4L2_PIX_FMT_ARGB444,
+>  	},
+> @@ -231,7 +231,7 @@ static inline void isc_update_awb_ctrls(struct isc_device *isc)
+>  
+>  static inline void isc_reset_awb_ctrls(struct isc_device *isc)
+>  {
+> -	int c;
+> +	unsigned int c;
+>  
+>  	for (c = ISC_HIS_CFG_MODE_GR; c <= ISC_HIS_CFG_MODE_B; c++) {
+>  		/* gains have a fixed point at 9 decimals */
+> @@ -1456,7 +1456,7 @@ static int isc_enum_frameintervals(struct file *file, void *fh,
+>  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>  	};
+>  	int ret = -EINVAL;
+> -	int i;
+> +	unsigned int i;
+>  
+>  	for (i = 0; i < isc->num_user_formats; i++)
+>  		if (isc->user_formats[i]->fourcc == fival->pixel_format)
+> @@ -1883,6 +1883,12 @@ static int isc_ctrl_init(struct isc_device *isc)
+>  	isc->do_wb_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_DO_WHITE_BALANCE,
+>  					    0, 0, 0, 0);
+>  
+> +	if (!isc->do_wb_ctrl) {
+> +		ret = hdl->error;
+> +		v4l2_ctrl_handler_free(hdl);
+> +		return ret;
+> +	}
+> +
+>  	v4l2_ctrl_activate(isc->do_wb_ctrl, false);
+>  
+>  	v4l2_ctrl_handler_setup(hdl);
+> @@ -2010,7 +2016,7 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  					      struct isc_device, v4l2_dev);
+>  	struct video_device *vdev = &isc->video_dev;
+>  	struct vb2_queue *q = &isc->vb2_vidq;
+> -	int ret;
+> +	int ret = 0;
+>  
+>  	INIT_WORK(&isc->awb_work, isc_awb_work);
+>  
+> @@ -2041,7 +2047,7 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	if (ret < 0) {
+>  		v4l2_err(&isc->v4l2_dev,
+>  			 "vb2_queue_init() failed: %d\n", ret);
+> -		return ret;
+> +		goto isc_async_complete_err;
+>  	}
+>  
+>  	/* Init video dma queues */
+> @@ -2053,19 +2059,19 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	if (ret < 0) {
+>  		v4l2_err(&isc->v4l2_dev,
+>  			 "Init format failed: %d\n", ret);
+> -		return ret;
+> +		goto isc_async_complete_err;
+>  	}
+>  
+>  	ret = isc_set_default_fmt(isc);
+>  	if (ret) {
+>  		v4l2_err(&isc->v4l2_dev, "Could not set default format\n");
+> -		return ret;
+> +		goto isc_async_complete_err;
+>  	}
+>  
+>  	ret = isc_ctrl_init(isc);
+>  	if (ret) {
+>  		v4l2_err(&isc->v4l2_dev, "Init isc ctrols failed: %d\n", ret);
+> -		return ret;
+> +		goto isc_async_complete_err;
+>  	}
+>  
+>  	/* Register video device */
+> @@ -2085,10 +2091,12 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	if (ret < 0) {
+>  		v4l2_err(&isc->v4l2_dev,
+>  			 "video_register_device failed: %d\n", ret);
+> -		return ret;
+> +		goto isc_async_complete_err;
+>  	}
+>  
+> -	return 0;
 
-The addition of include <linux/ctype.h> at the I2C code caused a
-breakage at the tua6100 driver. The reason is that the code there
-used defines for 3 parameters used at the calculus for the
-divide ratio.
+I presume you did not intend to remove that line?
 
-In thesis, those are board-dependent, but, as there's just one
-driver using it (ttpci/budget-av), there was no need to make
-the code more generic. While it sounds unlikely that this old
-DVB-S frontend would ever be used on new projects, one might
-some day come with a variant using a different configuration. So,
-let's do the right thing and store those values at its private
-struct.
+The patch seems good apart from that.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/dvb-frontends/tua6100.c | 38 ++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+> +isc_async_complete_err:
+> +	mutex_destroy(&isc->lock);
+> +	return ret;
+>  }
+>  
+>  const struct v4l2_async_notifier_operations isc_async_ops = {
+> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+> index 5be5b09..f5f5932 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.h
+> +++ b/drivers/media/platform/atmel/atmel-isc.h
+> @@ -235,7 +235,7 @@ extern unsigned int debug;
+>  extern unsigned int sensor_preferred;
+>  
+>  extern struct isc_format formats_list[];
+> -extern struct isc_format controller_formats[];
+> +extern const struct isc_format controller_formats[];
+>  extern const u32 isc_gamma_table[GAMMA_MAX + 1][GAMMA_ENTRIES];
+>  extern const struct regmap_config isc_regmap_config;
+>  extern const struct v4l2_async_notifier_operations isc_async_ops;
+> diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> index 127e79c..266df14 100644
+> --- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> +++ b/drivers/media/platform/atmel/atmel-sama5d2-isc.c
+> @@ -122,8 +122,7 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+>  					ISC_PFE_CFG0_CCIR656;
+>  
+>  		subdev_entity->asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -		subdev_entity->asd->match.fwnode =
+> -			of_fwnode_handle(rem);
+> +		subdev_entity->asd->match.fwnode = of_fwnode_handle(rem);
+>  		list_add_tail(&subdev_entity->list, &isc->subdev_entities);
+>  	}
+>  
+> @@ -282,13 +281,14 @@ static int atmel_isc_remove(struct platform_device *pdev)
+>  	struct isc_device *isc = platform_get_drvdata(pdev);
+>  
+>  	pm_runtime_disable(&pdev->dev);
+> -	clk_disable_unprepare(isc->ispck);
+> -	clk_disable_unprepare(isc->hclock);
+>  
+>  	isc_subdev_cleanup(isc);
+>  
+>  	v4l2_device_unregister(&isc->v4l2_dev);
+>  
+> +	clk_disable_unprepare(isc->ispck);
+> +	clk_disable_unprepare(isc->hclock);
+> +
+>  	isc_clk_cleanup(isc);
+>  
+>  	return 0;
+> @@ -313,7 +313,11 @@ static int __maybe_unused isc_runtime_resume(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	return clk_prepare_enable(isc->ispck);
+> +	ret = clk_prepare_enable(isc->ispck);
+> +	if (ret)
+> +		clk_disable_unprepare(isc->hclock);
+> +
+> +	return ret;
+>  }
+>  
+>  static const struct dev_pm_ops atmel_isc_dev_pm_ops = {
+> -- 
+> 2.7.4
+> 
 
-diff --git a/drivers/media/dvb-frontends/tua6100.c b/drivers/media/dvb-frontends/tua6100.c
-index b233b7be0b84..2990eb3fd475 100644
---- a/drivers/media/dvb-frontends/tua6100.c
-+++ b/drivers/media/dvb-frontends/tua6100.c
-@@ -31,11 +31,24 @@
- 
- #include "tua6100.h"
- 
-+/**
-+ * struct tua6100_priv - tuner's private data
-+ *
-+ * @i2c_address:	I2C address
-+ * @i2c:		pointer to struct i2c_adapter
-+ * @frequency:		tuned frequency
-+ * @prescaler_div:	divide ratio of the prescaler (32 or 64)
-+ * @ref_div:		reference frequency divider
-+ * @ref_inp:		reference frequency input (XTAL osc)
-+ */
- struct tua6100_priv {
- 	/* i2c details */
- 	int i2c_address;
- 	struct i2c_adapter *i2c;
- 	u32 frequency;
-+	int prescaler_div;
-+	int ref_div;
-+	u32 ref_inp;
- };
- 
- static void tua6100_release(struct dvb_frontend *fe)
-@@ -75,10 +88,6 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	struct i2c_msg msg1 = { .addr = priv->i2c_address, .flags = 0, .buf = reg1, .len = 4 };
- 	struct i2c_msg msg2 = { .addr = priv->i2c_address, .flags = 0, .buf = reg2, .len = 3 };
- 
--#define _R 4
--#define _P 32
--#define _ri 4000000
--
- 	// setup register 0
- 	if (c->frequency < 2000000)
- 		reg0[1] = 0x03;
-@@ -91,14 +100,14 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	else
- 		reg1[1] = 0x0c;
- 
--	if (_P == 64)
-+	if (priv->prescaler_div == 64)
- 		reg1[1] |= 0x40;
- 	if (c->frequency >= 1525000)
- 		reg1[1] |= 0x80;
- 
- 	// register 2
--	reg2[1] = (_R >> 8) & 0x03;
--	reg2[2] = _R;
-+	reg2[1] = (priv->ref_div >> 8) & 0x03;
-+	reg2[2] = priv->ref_div;
- 	if (c->frequency < 1455000)
- 		reg2[1] |= 0x1c;
- 	else if (c->frequency < 1630000)
-@@ -110,19 +119,15 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	 * The N divisor ratio (note: c->frequency is in kHz, but we
- 	 * need it in Hz)
- 	 */
--	prediv = (c->frequency * _R) / (_ri / 1000);
--	div = prediv / _P;
-+	prediv = (c->frequency * priv->ref_div) / (priv->ref_inp / 1000);
-+	div = prediv / priv->prescaler_div;
- 	reg1[1] |= (div >> 9) & 0x03;
- 	reg1[2] = div >> 1;
- 	reg1[3] = (div << 7);
--	priv->frequency = ((div * _P) * (_ri / 1000)) / _R;
-+	priv->frequency = ((div * priv->prescaler_div) * (priv->ref_inp / 1000)) / priv->ref_div;
- 
- 	// Finally, calculate and store the value for A
--	reg1[3] |= (prediv - (div*_P)) & 0x7f;
--
--#undef _R
--#undef _P
--#undef _ri
-+	reg1[3] |= (prediv - (div * priv->prescaler_div)) & 0x7f;
- 
- 	if (fe->ops.i2c_gate_ctrl)
- 		fe->ops.i2c_gate_ctrl(fe, 1);
-@@ -189,6 +194,9 @@ struct dvb_frontend *tua6100_attach(struct dvb_frontend *fe, int addr, struct i2
- 
- 	priv->i2c_address = addr;
- 	priv->i2c = i2c;
-+	priv->ref_div = 4;
-+	priv->prescaler_div = 32;
-+	priv->ref_inp = 4000000;
- 
- 	memcpy(&fe->ops.tuner_ops, &tua6100_tuner_ops, sizeof(struct dvb_tuner_ops));
- 	fe->tuner_priv = priv;
 -- 
-2.21.0
-
+Sakari Ailus
