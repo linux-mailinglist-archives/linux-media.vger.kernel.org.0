@@ -2,53 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 576C942B99
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 18:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2E9A42B97
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 18:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440419AbfFLQAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 12:00:07 -0400
-Received: from jp.dhs.org ([62.251.46.73]:45924 "EHLO jpvw.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2440381AbfFLQAG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 12:00:06 -0400
-Received: from localhost ([127.0.0.1] helo=jpvw.nl)
-        by jpvw.nl with esmtp (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hb5fO-00016J-47; Wed, 12 Jun 2019 18:00:02 +0200
-Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
- version 2
-From:   JP <jp@jpvw.nl>
-To:     Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
-Cc:     Jan Pieter <raslal@live.com>
-References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
- <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
- <19441adb-1061-80f4-4ab1-1b12591425a7@jpvw.nl>
- <7722d8c1-90eb-2067-d711-4faf4c4851c3@iki.fi>
- <c8a135b1-a107-bd58-c1c0-4fce93a43b1e@jpvw.nl>
-Message-ID: <2147cc85-393a-c6cf-b275-3d3a59f4d842@jpvw.nl>
-Date:   Wed, 12 Jun 2019 18:00:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <c8a135b1-a107-bd58-c1c0-4fce93a43b1e@jpvw.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        id S2440407AbfFLQAC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 12:00:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55094 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2440381AbfFLQAC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 12:00:02 -0400
+Subject: Re: [GIT PULL for v5.2-rc1] media updates
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560355202;
+        bh=1kX0SjKOuIugm8qKiYSM4LCHqGtJ2yMFlEstCcq37SM=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=s0bf2wtKuKOtk+E1UhbdJPrsglXmxPEy15dZbTBvBqL2OldIldrntVJyXtV7UT8Qd
+         Q2/bnUvKHMdvRyJfi5dEVFU0BWksnHCI1pp/QgpKfXNPR5f4oA9HYBun1qAYn1R50h
+         7hAOP/iniLe4ARe6cU8FkpoVhQlU2ui/XF/rpnpE=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190612125002.66e84492@coco.lan>
+References: <20190612125002.66e84492@coco.lan>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190612125002.66e84492@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+ tags/media/v5.2-2
+X-PR-Tracked-Commit-Id: a200c721956ca026f44416acccc8efcca41109c5
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 35110e38e6c59b0db9618701d75c7c2a36f98d55
+Message-Id: <156035520195.8444.11059520836448082611.pr-tracker-bot@kernel.org>
+Date:   Wed, 12 Jun 2019 16:00:01 +0000
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The pull request you sent on Wed, 12 Jun 2019 12:50:02 -0300:
 
-> It is the default in all the si2168 drivers, but the signal is lost 
-> somehow in this hw version of the t230c v2. The clock is 0 (null) Mhz! 
-> So, no data *at all* without setting it manually. IMy best guess is 
-> that it was a design flaw.
->
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.2-2
 
-I meant it is the default value for the SI2168D. I'll get a frequency 
-counter and measure it on the TC_clock pin of the chip.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/35110e38e6c59b0db9618701d75c7c2a36f98d55
 
-Until then,
+Thank you!
 
-JP
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
