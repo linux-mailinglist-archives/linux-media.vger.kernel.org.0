@@ -2,147 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E926A41FEA
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6D3420E1
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 11:33:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437382AbfFLIyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 04:54:36 -0400
-Received: from butterbrot.org ([176.9.106.16]:47224 "EHLO butterbrot.org"
+        id S2437379AbfFLJcT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 05:32:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:48494 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731874AbfFLIyf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:54:35 -0400
-X-Greylist: delayed 508 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 04:54:33 EDT
-Received: from [141.54.178.119] (anna125.medien.uni-weimar.de [141.54.178.119])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id AD0264AE02E1;
-        Wed, 12 Jun 2019 10:46:04 +0200 (CEST)
-Subject: Re: [PATCH 5/7 RESEND] touchscreen/sur40: set device_caps in struct
- video_device
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        linux-input <linux-input@vger.kernel.org>
-References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
- <1e12bc3d-3cb3-1f3d-b3bc-b25e3bf95523@xs4all.nl>
- <20190604160650.GA226219@dtor-ws>
-From:   Florian Echtler <floe@butterbrot.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
- mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
- nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
- ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
- AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
- E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
- wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
- chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
- qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
- Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
- AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
- n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
- tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
- zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
- /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
- ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
- nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
- yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
- Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
- hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
- RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
- MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
- c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
-Message-ID: <f5596ce1-8941-361d-4ce5-0f9a9ddc8cd7@butterbrot.org>
-Date:   Wed, 12 Jun 2019 10:46:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S2436605AbfFLJcT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 05:32:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C99828;
+        Wed, 12 Jun 2019 02:32:18 -0700 (PDT)
+Received: from c02tf0j2hf1t.cambridge.arm.com (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C6AAD3F246;
+        Wed, 12 Jun 2019 02:32:04 -0700 (PDT)
+Date:   Wed, 12 Jun 2019 10:32:00 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        linux-kselftest@vger.kernel.org,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        linux-kernel@vger.kernel.org,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [PATCH v16 02/16] arm64: untag user pointers in access_ok and
+ __uaccess_mask_ptr
+Message-ID: <20190612093158.GG10165@c02tf0j2hf1t.cambridge.arm.com>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <4327b260fb17c4776a1e3c844f388e4948cfb747.1559580831.git.andreyknvl@google.com>
+ <20190610175326.GC25803@arrakis.emea.arm.com>
+ <20190611145720.GA63588@arrakis.emea.arm.com>
+ <d3dc2b1f-e8c9-c60d-f648-0bc9b08f20e4@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20190604160650.GA226219@dtor-ws>
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d3dc2b1f-e8c9-c60d-f648-0bc9b08f20e4@arm.com>
+User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8
-Content-Type: multipart/mixed; boundary="4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-input <linux-input@vger.kernel.org>
-Message-ID: <f5596ce1-8941-361d-4ce5-0f9a9ddc8cd7@butterbrot.org>
-Subject: Re: [PATCH 5/7 RESEND] touchscreen/sur40: set device_caps in struct
- video_device
-References: <20190604111958.22331-1-hverkuil-cisco@xs4all.nl>
- <1e12bc3d-3cb3-1f3d-b3bc-b25e3bf95523@xs4all.nl>
- <20190604160650.GA226219@dtor-ws>
-In-Reply-To: <20190604160650.GA226219@dtor-ws>
+Hi Vincenzo,
 
---4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 11, 2019 at 06:09:10PM +0100, Vincenzo Frascino wrote:
+> > diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> > index 3767fb21a5b8..69d0be1fc708 100644
+> > --- a/arch/arm64/kernel/process.c
+> > +++ b/arch/arm64/kernel/process.c
+> > @@ -30,6 +30,7 @@
+> >  #include <linux/kernel.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/stddef.h>
+> > +#include <linux/sysctl.h>
+> >  #include <linux/unistd.h>
+> >  #include <linux/user.h>
+> >  #include <linux/delay.h>
+> > @@ -323,6 +324,7 @@ void flush_thread(void)
+> >  	fpsimd_flush_thread();
+> >  	tls_thread_flush();
+> >  	flush_ptrace_hw_breakpoint(current);
+> > +	clear_thread_flag(TIF_TAGGED_ADDR);
+> 
+> Nit: in line we the other functions in thread_flush we could have something like
+> "tagged_addr_thread_flush", maybe inlined.
 
-Sorry, didn't realize you'd also need my feedback. No complaints.
+The other functions do a lot more than clearing a TIF flag, so they
+deserved their own place. We could do this when adding MTE support. I
+think we also need to check what other TIF flags we may inadvertently
+pass on execve(), maybe have a mask clearing.
 
-Acked-by: Florian Echtler <floe@butterbrot.org>
+> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> > index 094bb03b9cc2..2e927b3e9d6c 100644
+> > --- a/include/uapi/linux/prctl.h
+> > +++ b/include/uapi/linux/prctl.h
+> > @@ -229,4 +229,9 @@ struct prctl_mm_map {
+> >  # define PR_PAC_APDBKEY			(1UL << 3)
+> >  # define PR_PAC_APGAKEY			(1UL << 4)
+> >  
+> > +/* Tagged user address controls for arm64 */
+> > +#define PR_SET_TAGGED_ADDR_CTRL		55
+> > +#define PR_GET_TAGGED_ADDR_CTRL		56
+> > +# define PR_TAGGED_ADDR_ENABLE		(1UL << 0)
+> > +
+> >  #endif /* _LINUX_PRCTL_H */
+> > diff --git a/kernel/sys.c b/kernel/sys.c
+> > index 2969304c29fe..ec48396b4943 100644
+> > --- a/kernel/sys.c
+> > +++ b/kernel/sys.c
+> > @@ -124,6 +124,12 @@
+> >  #ifndef PAC_RESET_KEYS
+> >  # define PAC_RESET_KEYS(a, b)	(-EINVAL)
+> >  #endif
+> > +#ifndef SET_TAGGED_ADDR_CTRL
+> > +# define SET_TAGGED_ADDR_CTRL(a)	(-EINVAL)
+> > +#endif
+> > +#ifndef GET_TAGGED_ADDR_CTRL
+> > +# define GET_TAGGED_ADDR_CTRL()		(-EINVAL)
+> > +#endif
+> >  
+> >  /*
+> >   * this is where the system-wide overflow UID and GID are defined, for
+> > @@ -2492,6 +2498,16 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+> >  			return -EINVAL;
+> >  		error = PAC_RESET_KEYS(me, arg2);
+> >  		break;
+> > +	case PR_SET_TAGGED_ADDR_CTRL:
+> > +		if (arg3 || arg4 || arg5)
+> > +			return -EINVAL;
+> > +		error = SET_TAGGED_ADDR_CTRL(arg2);
+> > +		break;
+> > +	case PR_GET_TAGGED_ADDR_CTRL:
+> > +		if (arg2 || arg3 || arg4 || arg5)
+> > +			return -EINVAL;
+> > +		error = GET_TAGGED_ADDR_CTRL();
+> > +		break;
+> 
+> Why do we need two prctl here? We could have only one and use arg2 as set/get
+> and arg3 as a parameter. What do you think?
 
-Best, Florian
+This follows the other PR_* options, e.g. PR_SET_VL/GET_VL,
+PR_*_FP_MODE. We will use other bits in arg2, for example to set the
+precise vs imprecise MTE trapping.
 
-On 04.06.19 18:06, Dmitry Torokhov wrote:
-> Hi Hans,
->=20
-> On Tue, Jun 04, 2019 at 02:36:27PM +0200, Hans Verkuil wrote:
->> Instead of filling in the struct v4l2_capability device_caps
->> field, fill in the struct video_device device_caps field.
->>
->> That way the V4L2 core knows what the capabilities of the
->> video device are.
->>
->> But this only really works if all drivers use this, so convert
->> this touchscreen driver accordingly.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Cc: Florian Echtler <floe@butterbrot.org>
->> ---
->> Resend, adding Dmitry and linux-input to the CC list.
->>
->> Dmitry, if you want to take this through your tree, then that's OK by =
-me.
->>
->> Alternatively, it can go through the media tree, but then I need your =
-Ack.
->=20
-> I am fine with it going through media tree.
->=20
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->=20
-> Thanks.
->=20
-
-
---=20
-SENT FROM MY DEC VT50 TERMINAL
-
-
---4SmceJjmQKnaZWHePL2qzCp5HwBk4ToVg--
-
---OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXQC7yQAKCRDsLPKyEa9q
-2FXqAKCgwgvkY+GadEcjmhn3sGrRJFYm7ACgkCxEuabz4oErXr0FbnQr0Ry7Z0s=
-=kqrj
------END PGP SIGNATURE-----
-
---OmGGMxV5sU72RZx837H7iojT8jQpnxAZ8--
+-- 
+Catalin
