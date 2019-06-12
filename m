@@ -2,98 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EEF442104
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 11:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EFFA42108
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 11:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437511AbfFLJg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 05:36:56 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34333 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731691AbfFLJg4 (ORCPT
+        id S2408779AbfFLJha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 05:37:30 -0400
+Received: from casper.infradead.org ([85.118.1.10]:45994 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408577AbfFLJh3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 05:36:56 -0400
-Received: by mail-pl1-f196.google.com with SMTP id i2so6405656plt.1
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 02:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0HM5SoliJDA3x8dLqRFVSpErY9ZjZiu/7dZDibCRUD8=;
-        b=b5NRZZzXPxl6w5LwxAXkKuxZxHCocavnaojtqAEHIs6N4i7nDPLyLD58i1cyvDL8Oc
-         RWOwGw4rr9cfAgZHPk0O5X8/wXR0Okm742qRAazPUelI3Hz9knF4mslU2kgihImuw6gr
-         MRfXTfkKhmzsekl2p8UGUrZTXTf9aKDL4boY4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0HM5SoliJDA3x8dLqRFVSpErY9ZjZiu/7dZDibCRUD8=;
-        b=WD/I9Jkgl6ZxLNoMIHJ/7Wk2fed6wjFL4zwLFumMuLtaZ1HLFoUfEPb8Szxb3wNVqY
-         /OwWePwt3tLC2Tyjgb5pZ7d0KUdDabxJH2LAftw384rvQkJUKxn5YjwpPndEzYs90vmW
-         r2aHmxisedCqZR2e8MGNDELTnQaxe3UfTMYuoUTyPpIFaW/d6GDoYJOMSCz0BFpKv3J9
-         JN+18QH0YTvqo+C1NNGk7WJ/6JEBubMnz0pc2t9yT/pmoGNDzKl2md5uIaNdHSRi9aat
-         ac+s2nxqNRwrKqGPlIy2+EGOIu5c7QpIrdbm2oXynmcWJWlaWd1VX/7rjQy0pO7SQO9M
-         Fkog==
-X-Gm-Message-State: APjAAAWLeJFC0iCC+mR5IY/2peWHrAUo5oZukEENhNI9kr7DnrCviyFn
-        Pn22N4CBbqSuNW24pMrDEtcTdDp8R2vQ+w==
-X-Google-Smtp-Source: APXvYqzfN1W92Yom13ePXXUnOfpx/PPaFrT4AeV13Y9+7ejaBWM9SLtJUijheYJzWC+qlCzeOJZCQQ==
-X-Received: by 2002:a17:902:da4:: with SMTP id 33mr21908077plv.209.1560332215116;
-        Wed, 12 Jun 2019 02:36:55 -0700 (PDT)
-Received: from tfiga.tok.corp.google.com ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
-        by smtp.gmail.com with ESMTPSA id t4sm4521209pjq.19.2019.06.12.02.36.52
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 02:36:54 -0700 (PDT)
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH] media: Clarify the meaning of file descriptors in VIDIOC_DQBUF
-Date:   Wed, 12 Jun 2019 18:36:48 +0900
-Message-Id: <20190612093648.47412-1-tfiga@chromium.org>
-X-Mailer: git-send-email 2.22.0.rc2.383.gf4fbbf30c2-goog
+        Wed, 12 Jun 2019 05:37:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=04GCIstyKMujcBHa4O6zSpjG2Oz0E3c+JB6XSFE/UrI=; b=mu4uAjLNncFHGDGq4L4qZDo9wt
+        NsrMgf2WNt8yYLcUBfBCqqJ5qRlV7K2XZR20CBv9PM4ZzLdjwc7hpvOfnpX23SSj1M/KbK+6Qc1Ay
+        iXXoFcJxtG4o3fwbRzSJHZ6Wa9HCxObTuybjFsjVST3+ISYlEesSjhSU9WoBPW1aTYpDvp+vcrp8k
+        sWdNxkeY6U3J1Ury/o+wiAg8rxcMyjI2vsYwBgSa9ZdWtNZdxF73GtiaIDlXc/GbLbszm3ULwr20P
+        dScbq6e+TQBXi0RqRGvWXSGyENPNez5rN7S+iGF06x3utuGHkRSl0H7eM8P2PIHqk6foytMM9uZXN
+        lsAzhG+w==;
+Received: from 177.41.119.178.dynamic.adsl.gvt.net.br ([177.41.119.178] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hazgw-0004ue-4U; Wed, 12 Jun 2019 09:37:14 +0000
+Date:   Wed, 12 Jun 2019 06:37:08 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     YueHaibing <yuehaibing@huawei.com>, tglx@linutronix.de,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: ttpci: Fix build error without RC_CORE
+Message-ID: <20190612063708.64498b44@coco.lan>
+In-Reply-To: <20190612074254.eky2xo7bajorkhfy@gofer.mess.org>
+References: <20190612034310.4640-1-yuehaibing@huawei.com>
+        <20190612074254.eky2xo7bajorkhfy@gofer.mess.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the application calls VIDIOC_DQBUF with the DMABUF memory type, the
-v4l2_buffer structure (or v4l2_plane structures) are filled with DMA-buf
-file descriptors. However, the current documentation does not explain
-whether those are new file descriptors referring to the same DMA-bufs or
-just the same integers as passed to VIDIOC_QBUF back in time. Clarify
-the documentation that it's the latter.
+Em Wed, 12 Jun 2019 08:42:55 +0100
+Sean Young <sean@mess.org> escreveu:
 
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
----
- Documentation/media/uapi/v4l/vidioc-qbuf.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> On Wed, Jun 12, 2019 at 11:43:10AM +0800, YueHaibing wrote:
+> > If RC_CORE is not set, building fails:
+> > 
+> > drivers/media/pci/ttpci/av7110_ir.o: In function `av7110_ir_init':
+> > av7110_ir.c:(.text+0x1b0): undefined reference to `rc_allocate_device'
+> > av7110_ir.c:(.text+0x2c1): undefined reference to `rc_register_device'
+> > av7110_ir.c:(.text+0x2dc): undefined reference to `rc_free_device'
+> > 
+> > Reported-by: Hulk Robot <hulkci@huawei.com>
+> > Fixes: 71f49a8bf5c5 ("media: ttpci: use rc-core for the IR receiver")
+> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>  
+> 
+> Thank you for spotting this and writing a patch.
+> 
+> > ---
+> >  drivers/media/pci/ttpci/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/pci/ttpci/Kconfig b/drivers/media/pci/ttpci/Kconfig
+> > index d96d4fa..b705631 100644
+> > --- a/drivers/media/pci/ttpci/Kconfig
+> > +++ b/drivers/media/pci/ttpci/Kconfig
+> > @@ -7,7 +7,7 @@ config DVB_AV7110
+> >  	depends on DVB_CORE && PCI && I2C
+> >  	select TTPCI_EEPROM
+> >  	select VIDEO_SAA7146_VV
+> > -	select DVB_AV7110_IR if INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110  
+> 
+> This says if
+>  - select DVB_AV7110_IR if INPUT_EVDEV and DVB_AV7110 are both y or m
+>  - select DVB_AV7110_IR if INPUT_EVDEV=y
+>    This exists for the case when INPUT_EVDEV=y and DVB_AV7110=m, which is fine
+> 
+> > +	select DVB_AV7110_IR if RC_CORE=DVB_AV7110 && (INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110)  
+> 
+> That's not exactly the same. For one thing it should not longer depend on
+> INPUT_EVDEV=y.
+> 
+> Now if DVB_AV7110=m and RC_CORE=y is not allowed which should be (this is
+> the case in Fedora default kernel config for example).
 
-diff --git a/Documentation/media/uapi/v4l/vidioc-qbuf.rst b/Documentation/media/uapi/v4l/vidioc-qbuf.rst
-index dbf7b445a27b..407302d80684 100644
---- a/Documentation/media/uapi/v4l/vidioc-qbuf.rst
-+++ b/Documentation/media/uapi/v4l/vidioc-qbuf.rst
-@@ -139,6 +139,14 @@ may continue as normal, but should be aware that data in the dequeued
- buffer might be corrupted. When using the multi-planar API, the planes
- array must be passed in as well.
- 
-+If the application sets the ``memory`` field to ``V4L2_MEMORY_DMABUF`` to
-+dequeue a :ref:`DMABUF <dmabuf>` buffer, the driver fills the ``m.fd`` field
-+with a file descriptor numerically the same as the one given to ``VIDIOC_QBUF``
-+when the buffer was enqueued. No new file descriptor is created at dequeue time
-+and the value is only for the application convenience. When the multi-planar
-+API is used the ``m.fd`` fields of the passed array of struct
-+:c:type:`v4l2_plane` are filled instead.
-+
- By default ``VIDIOC_DQBUF`` blocks when no buffer is in the outgoing
- queue. When the ``O_NONBLOCK`` flag was given to the
- :ref:`open() <func-open>` function, ``VIDIOC_DQBUF`` returns
--- 
-2.22.0.rc2.383.gf4fbbf30c2-goog
+My suggestion here is to stop using select here, using, instead
+a depends on for DVB_AV7110_IR, e. g. something like (untested):
 
+config DVB_AV7110_IR
+	bool
+	depends on RC_CORE && DVB_AV7110
+	default DVB_AV7110
+
+
+> 
+> >  	depends on VIDEO_DEV	# dependencies of VIDEO_SAA7146_VV
+> >  	select DVB_VES1820 if MEDIA_SUBDRV_AUTOSELECT
+> >  	select DVB_VES1X93 if MEDIA_SUBDRV_AUTOSELECT
+> > -- 
+> > 2.7.4
+> >   
+> 
+> Thanks,
+> 
+> Sean
+
+
+
+Thanks,
+Mauro
