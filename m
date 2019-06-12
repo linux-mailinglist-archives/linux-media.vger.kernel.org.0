@@ -2,128 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE59F41EA1
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B156A41EB7
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436788AbfFLIF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 04:05:57 -0400
-Received: from mail-eopbgr740059.outbound.protection.outlook.com ([40.107.74.59]:52032
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2436763AbfFLIF5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:05:57 -0400
+        id S1730414AbfFLIMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 04:12:16 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:46781 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726716AbfFLIMO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 04:12:14 -0400
+Received: by mail-lf1-f67.google.com with SMTP id z15so8653316lfh.13
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 01:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dAAInB1jCboraYln6qhWwaGHH1q1a7H+W+iRGdm1cLo=;
- b=si9cIrUD8k7MksUqwBKRmuxFogLkrGgWn7rvSuzwZ/gLjj2h/Q0yEFtHnNVKcsyMLa7R+2dBiQBAKkAJNw+rjlDH538T76RHLQC0To9DB4cWxOy2sNBJSq/cdV1tN+WMvswPgbOcAkZaN+3Xc2hYNMIHnqYKtZycQbwSVvurQto=
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1388.namprd12.prod.outlook.com (10.168.239.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Wed, 12 Jun 2019 08:05:53 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5%7]) with mapi id 15.20.1965.017; Wed, 12 Jun 2019
- 08:05:53 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Thread-Topic: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Thread-Index: AQHVIL1FUykFich2jk+2KmuqNh9/V6aXpCSAgAAEqwCAAAD9AA==
-Date:   Wed, 12 Jun 2019 08:05:53 +0000
-Message-ID: <170c3828-115b-38e5-35fc-1b88c08c492a@amd.com>
-References: <20190612012219.21652-1-nicoleotsuka@gmail.com>
- <261b46c7-0c5e-4268-619d-f8381fbc3aeb@amd.com>
- <20190612080214.GA8876@Asurada>
-In-Reply-To: <20190612080214.GA8876@Asurada>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM4PR05CA0001.eurprd05.prod.outlook.com (2603:10a6:205::14)
- To DM5PR12MB1546.namprd12.prod.outlook.com (2603:10b6:4:8::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 70c279b8-86ec-487a-63a1-08d6ef0cca20
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1388;
-x-ms-traffictypediagnostic: DM5PR12MB1388:
-x-microsoft-antispam-prvs: <DM5PR12MB13887A515824140B3890EDD283EC0@DM5PR12MB1388.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0066D63CE6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(376002)(346002)(366004)(396003)(136003)(199004)(189003)(51914003)(102836004)(4326008)(8936002)(68736007)(81166006)(7736002)(5660300002)(25786009)(8676002)(305945005)(386003)(31696002)(6506007)(6116002)(64756008)(2906002)(73956011)(66476007)(66556008)(66946007)(66446008)(86362001)(65806001)(65956001)(1411001)(99286004)(81156014)(54906003)(6436002)(6246003)(14454004)(6512007)(52116002)(53936002)(6916009)(65826007)(31686004)(64126003)(316002)(72206003)(478600001)(6486002)(486006)(476003)(446003)(11346002)(2616005)(36756003)(186003)(46003)(71200400001)(76176011)(229853002)(256004)(14444005)(5024004)(71190400001)(58126008)(56590200001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1388;H:DM5PR12MB1546.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: sc8LEeDc2TUD8VS/FJ/vGqwhxVDA2PezAknAwPEjng3WA62opCHA+9ABvwyQcivs+vsndd+9CJaRSRBqhgekBgoA+J7DUugZi0UVW1DNdOQSGJtS2T7PIQKDRkYfpZqyl8swwbbiC+N/KIgrLMCL0aq3zJhWVehy4voXZcphbvz7iYjlhuqw/jWJWT7k1Oco3QXtNiO9afZSlUfnAdj1aACObR26+o+pTcBoq3xJ/teSw0SCAwfoVDSfHQp+WGXxuY7KWcSPVo/gxbwG3noLCt7aW2+J/yCIFAiGboZWRFTeLa5DzOAHpCocmGn8V4rLjodUJnuEZbg9jKk817p5XO03ZAKbqNipT1e5ynHFcgah6kVyI/O2tuqxnMdtLvHU5ZqzcdnHBq0Cc6lCZ1pxBtDxaAPYtUbolGT7KTAsIAw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2E5F357D90811D49AA7DB9391BAE0AD0@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ONQAntTAACJE0IJDBpBlglBaprB61LRkMC27jTtksx0=;
+        b=AXyNFWdIUMFiS8tUU/hhAXav92vQH5sxz/gb/odm7JFXZrvG/WYmyxxmOq6lSDjfSb
+         4+NZB0p4M9//5KX9rIwkAzsUMtyfgkGFwvrrxIMG1PD5SyzjenrkqgNRqo1P8mEhdIat
+         w9XEeD0oKOB/mTTrVNtgCbZURXDz2pPO3T9iBsyYxJzaPFeiydSCT6BKkmp+SQjuVn6d
+         qHgk+Oedx1x+9VrrO1GF0uiU+/2BoTWvFv6BtNXJLsbXto0AecieV51hGrRHApc0W0oK
+         AKDd5ccES9nCqkyb3sEOo9gGkt8t/JIUlhufDmDiKj42q3VSQgkOKio0j0D+QOvESTvR
+         vWzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ONQAntTAACJE0IJDBpBlglBaprB61LRkMC27jTtksx0=;
+        b=mlWNnWc0YqEkqSqqgx4kTSYT4Y7lCgCtxh1aTSW8OFXJTE834Jg+26o1LxB53I531u
+         7g4SMSmgBr+RTzebhhBkEsSmHbvH1iURywgmfQSe1/fPOLV/TcoDZ0wJYVI23go6BgFB
+         PwVrUuTxQnHtLHvpFL/qtvCUV6f/NiV32o7q31Q1oVWx4j/yt6XpcbS8+fPPR8AqQCo4
+         R2d7b5RiLXMudiVz/Bw9oEZ9LYgaN9xCLAo03fIMFSX/hM6jPAlSAnBZ8lVux1bYEvHR
+         /bPqYTSmDAAq29yGuBZ4WZtAS8+OZypBAMk4Aad3y59GToqKevhHuf0wfkbWRpd1T7O0
+         X2MA==
+X-Gm-Message-State: APjAAAXJlgx3Kh3yHZQhYdwuCQcV79+I0in99jp5wayTvfAxEUKhsUjA
+        brbmUXjQjFlbS5wm2Xz3D8yfVA==
+X-Google-Smtp-Source: APXvYqx7vlN0mt8dTaicMB4mPcru21xjCNakkthzCjeuNniouoxjWhyZuDTtm34L5t03+GaZ9w1NKA==
+X-Received: by 2002:ac2:52b7:: with SMTP id r23mr39832028lfm.120.1560327132871;
+        Wed, 12 Jun 2019 01:12:12 -0700 (PDT)
+Received: from localhost (c-1c3670d5.07-21-73746f28.bbcust.telenor.se. [213.112.54.28])
+        by smtp.gmail.com with ESMTPSA id z6sm3605218lfa.45.2019.06.12.01.12.12
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 12 Jun 2019 01:12:12 -0700 (PDT)
+From:   Anders Roxell <anders.roxell@linaro.org>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Anders Roxell <anders.roxell@linaro.org>
+Subject: [PATCH v2 1/3] drivers: media: i2c: fix warning same module names
+Date:   Wed, 12 Jun 2019 10:12:08 +0200
+Message-Id: <20190612081208.1550-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70c279b8-86ec-487a-63a1-08d6ef0cca20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2019 08:05:53.1622
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1388
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMTIuMDYuMTkgdW0gMTA6MDIgc2NocmllYiBOaWNvbGluIENoZW46DQo+IEhpIENocmlzdGlh
-biwNCj4NCj4gVGhhbmtzIGZvciB0aGUgcXVpY2sgcmVwbHkuDQo+DQo+IE9uIFdlZCwgSnVuIDEy
-LCAyMDE5IGF0IDA3OjQ1OjM4QU0gKzAwMDAsIEtvZW5pZywgQ2hyaXN0aWFuIHdyb3RlOg0KPj4g
-QW0gMTIuMDYuMTkgdW0gMDM6MjIgc2NocmllYiBOaWNvbGluIENoZW46DQo+Pj4gQ29tbWl0IGYx
-M2UxNDNlNzQ0NCAoImRtYS1idWY6IHN0YXJ0IGNhY2hpbmcgb2Ygc2dfdGFibGUgb2JqZWN0cyB2
-MiIpDQo+Pj4gYWRkZWQgYSBzdXBwb3J0IG9mIGNhY2hpbmcgdGhlIHNndCBwb2ludGVyIGludG8g
-YW4gYXR0YWNoIHBvaW50ZXIgdG8NCj4+PiBsZXQgdXNlcnMgcmV1c2UgdGhlIHNndCBwb2ludGVy
-IHdpdGhvdXQgYW5vdGhlciBtYXBwaW5nLiBIb3dldmVyLCBpdA0KPj4+IG1pZ2h0IG5vdCB0b3Rh
-bGx5IHdvcmsgYXMgbW9zdCBvZiBkbWEtYnVmIGNhbGxlcnMgYXJlIGRvaW5nIGF0dGFjaCgpDQo+
-Pj4gYW5kIG1hcF9hdHRhY2htZW50KCkgYmFjay10by1iYWNrLCB1c2luZyBkcm1fcHJpbWUuYyBm
-b3IgZXhhbXBsZToNCj4+PiAgICAgICBkcm1fZ2VtX3ByaW1lX2ltcG9ydF9kZXYoKSB7DQo+Pj4g
-ICAgICAgICAgIGF0dGFjaCA9IGRtYV9idWZfYXR0YWNoKCkgew0KPj4+ICAgICAgICAgICAgICAg
-LyogQWxsb2NhdGluZyBhIG5ldyBhdHRhY2ggKi8NCj4+PiAgICAgICAgICAgICAgIGF0dGFjaCA9
-IGt6YWxsb2MoKTsNCj4+PiAgICAgICAgICAgICAgIC8qIC4uLi4gKi8NCj4+PiAgICAgICAgICAg
-ICAgIHJldHVybiBhdHRhY2g7DQo+Pj4gICAgICAgICAgIH0NCj4+PiAgICAgICAgICAgZG1hX2J1
-Zl9tYXBfYXR0YWNobWVudChhdHRhY2gsIGRpcmVjdGlvbikgew0KPj4+ICAgICAgICAgICAgICAg
-LyogYXR0YWNoLT5zZ3Qgd291bGQgYmUgYWx3YXlzIGVtcHR5IGFzIGF0dGFjaCBpcyBuZXcgKi8N
-Cj4+PiAgICAgICAgICAgICAgIGlmIChhdHRhY2gtPnNndCkgew0KPj4+ICAgICAgICAgICAgICAg
-ICAgIC8qIFJldXNlIGF0dGFjaC0+c2d0ICovDQo+Pj4gICAgICAgICAgICAgICB9DQo+Pj4gICAg
-ICAgICAgICAgICAvKiBPdGhlcndpc2UsIG1hcCBpdCAqLw0KPj4+ICAgICAgICAgICAgICAgYXR0
-YWNoLT5zZ3QgPSBtYXAoKTsNCj4+PiAgICAgICAgICAgfQ0KPj4+ICAgICAgIH0NCj4+Pg0KPj4+
-IFNvLCBmb3IgYSBjYWNoZV9zZ3RfbWFwcGluZyB1c2UgY2FzZSwgaXQgd291bGQgbmVlZCB0byBn
-ZXQgdGhlIHNhbWUNCj4+PiBhdHRhY2htZW50IHBvaW50ZXIgaW4gb3JkZXIgdG8gcmV1c2UgaXRz
-IHNndCBwb2ludGVyLiBTbyB0aGlzIHBhdGNoDQo+Pj4gYWRkcyBhIHJlZmNvdW50IHRvIHRoZSBh
-dHRhY2goKSBmdW5jdGlvbiBhbmQgbGV0cyBpdCBzZWFyY2ggZm9yIHRoZQ0KPj4+IGV4aXN0aW5n
-IGF0dGFjaCBwb2ludGVyIGJ5IG1hdGNoaW5nIHRoZSBkZXYgcG9pbnRlci4NCj4+IEkgZG9uJ3Qg
-dGhpbmsgdGhhdCB0aGlzIGlzIGEgZ29vZCBpZGVhLg0KPj4NCj4+IFdlIHVzZSBzZ3QgY2FjaGlu
-ZyBhcyB3b3JrYXJvdW5kIGZvciBsb2NraW5nIG9yZGVyIHByb2JsZW1zIGFuZCB3YW50IHRvDQo+
-PiByZW1vdmUgaXQgYWdhaW4gaW4gdGhlIGxvbmcgdGVybS4NCj4gT2guIEkgdGhvdWdodCBpdCB3
-YXMgZm9yIGEgcGVyZm9ybWFuY2UgaW1wcm92aW5nIHB1cnBvc2UuIEl0IG1heQ0KPiBiZSBhIG1p
-c3VuZGVyc3RhbmRpbmcgdGhlbi4NCj4NCj4+IFNvIHdoYXQgaXMgdGhlIGFjdHVhbCB1c2UgY2Fz
-ZSBvZiB0aGlzPw0KPiBXZSBoYXZlIHNvbWUgc2ltaWxhciBkb3duc3RyZWFtIGNoYW5nZXMgYXQg
-ZG1hX2J1ZiB0byByZWR1Y2UgdGhlDQo+IG92ZXJoZWFkIGZyb20gbXVsdGlwbGUgY2xpZW50cyBv
-ZiB0aGUgc2FtZSBkZXZpY2UgZG9pbmcgYXR0YWNoKCkNCj4gYW5kIG1hcF9hdHRhY2htZW50KCkg
-Y2FsbHMgZm9yIHRoZSBzYW1lIGRtYV9idWYuDQoNCkkgZG9uJ3QgdGhpbmsgdGhhdCB0aGlzIGlz
-IGEgZ29vZCBpZGVhIG92ZXIgYWxsLiBBIGRyaXZlciBjYWxsaW5nIGF0dGFjaCANCmZvciB0aGUg
-c2FtZSBidWZmZXIgaXMgZG9pbmcgc29tZXRoaW5nIHdyb25nIGluIHRoZSBmaXJzdCBwbGFjZSBh
-bmQgd2UgDQpzaG91bGQgbm90IHdvcmsgYXJvdW5kIHRoaXMgaW4gdGhlIERNQS1idWYgaGFuZGxp
-bmcuDQoNCj4gV2UgaGF2ZW4ndCB1c2VkIERSTS9HUk1fUFJJTUUgeWV0IGJ1dCBJIGFtIGFsc28g
-Y3VyaW91cyB3b3VsZCBpdA0KPiBiZW5lZml0IERSTSBhbHNvIGlmIHdlIHJlZHVjZSB0aGlzIG92
-ZXJoZWFkIGluIHRoZSBkbWFfYnVmPw0KDQpObywgbm90IGF0IGFsbC4NCg0KUmVnYXJkcywNCkNo
-cmlzdGlhbi4NCg0KPg0KPiBUaGFua3MNCj4gTmljb2xpbg0KDQo=
+When building with CONFIG_VIDEO_ADV7511 and CONFIG_DRM_I2C_ADV7511
+enabled as loadable modules, we see the following warning:
+
+warning: same module names found:
+  drivers/gpu/drm/bridge/adv7511/adv7511.ko
+  drivers/media/i2c/adv7511.ko
+
+Rework so the names matches the config fragment.
+
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ drivers/media/i2c/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index d8ad9dad495d..b71a427a89fd 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -35,7 +35,8 @@ obj-$(CONFIG_VIDEO_ADV748X) += adv748x/
+ obj-$(CONFIG_VIDEO_ADV7604) += adv7604.o
+ obj-$(CONFIG_VIDEO_ADV7842) += adv7842.o
+ obj-$(CONFIG_VIDEO_AD9389B) += ad9389b.o
+-obj-$(CONFIG_VIDEO_ADV7511) += adv7511.o
++obj-$(CONFIG_VIDEO_ADV7511) += video-adv7511.o
++video-adv7511-objs          := adv7511.o
+ obj-$(CONFIG_VIDEO_VPX3220) += vpx3220.o
+ obj-$(CONFIG_VIDEO_VS6624)  += vs6624.o
+ obj-$(CONFIG_VIDEO_BT819) += bt819.o
+-- 
+2.20.1
+
