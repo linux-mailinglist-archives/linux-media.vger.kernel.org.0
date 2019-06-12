@@ -2,107 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC7A641EE7
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5736941EF2
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:23:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407156AbfFLIUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 04:20:48 -0400
-Received: from mail-eopbgr740050.outbound.protection.outlook.com ([40.107.74.50]:62496
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404384AbfFLIUs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:20:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4VWXqP48nG9DcEfa26o6/7LluAgO5TmF+a+6o/neJHU=;
- b=l5td3RfTHAR9bq0Ca3J9z5++MXRF1L8MQpLsIsVtKfiiHQUsx3gcNsEDe3v5o4iZMelPUtLqiXA+yj3os+o3/q7ZZX1Ks+ym5KjPQz5ZYZKsZ80bikMNEkyOry1EvdQJNqqeTxQdRJhmUeHd8kKPLj3fBSDIUA8KXbSBCCgw/Go=
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1707.namprd12.prod.outlook.com (10.175.86.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Wed, 12 Jun 2019 08:20:41 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5%7]) with mapi id 15.20.1965.017; Wed, 12 Jun 2019
- 08:20:41 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        id S2405360AbfFLIXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 04:23:22 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44406 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730856AbfFLIXV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 04:23:21 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 270E4263A20;
+        Wed, 12 Jun 2019 09:23:20 +0100 (BST)
+Date:   Wed, 12 Jun 2019 10:23:16 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Thread-Topic: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Thread-Index: AQHVIL1FUykFich2jk+2KmuqNh9/V6aXpCSAgAAEqwCAAAD9AIAAAtUAgAABTIA=
-Date:   Wed, 12 Jun 2019 08:20:41 +0000
-Message-ID: <c5e04bf7-d07e-9e26-df65-d7382d6051ba@amd.com>
-References: <20190612012219.21652-1-nicoleotsuka@gmail.com>
- <261b46c7-0c5e-4268-619d-f8381fbc3aeb@amd.com>
- <20190612080214.GA8876@Asurada>
- <170c3828-115b-38e5-35fc-1b88c08c492a@amd.com>
- <20190612081554.GB8876@Asurada>
-In-Reply-To: <20190612081554.GB8876@Asurada>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM6PR03CA0027.eurprd03.prod.outlook.com (2603:10a6:20b::40)
- To DM5PR12MB1546.namprd12.prod.outlook.com (2603:10b6:4:8::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3b6f6909-d3de-44a5-4719-08d6ef0edb64
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1707;
-x-ms-traffictypediagnostic: DM5PR12MB1707:
-x-microsoft-antispam-prvs: <DM5PR12MB1707FE39D9A2D26626971C2983EC0@DM5PR12MB1707.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0066D63CE6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(376002)(396003)(366004)(136003)(39860400002)(199004)(189003)(65806001)(46003)(102836004)(99286004)(52116002)(76176011)(86362001)(36756003)(186003)(31696002)(386003)(6506007)(5660300002)(31686004)(73956011)(66946007)(64756008)(66446008)(66556008)(66476007)(14454004)(478600001)(72206003)(2906002)(25786009)(4326008)(65956001)(6436002)(6486002)(54906003)(58126008)(316002)(6246003)(6916009)(229853002)(6512007)(65826007)(53936002)(2616005)(5024004)(68736007)(64126003)(1411001)(305945005)(7736002)(71190400001)(71200400001)(6116002)(256004)(81166006)(8936002)(81156014)(8676002)(486006)(476003)(446003)(11346002)(56590200001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1707;H:DM5PR12MB1546.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: yfFbgsyRrFnM5pSlBnIW31FHv1WmaBPGQ+crt6XJQxbrP4wzB2qc7iqzqFXLhqAeZ75ZVXz2XzPpspbmVjvex7OuisfZZdVCgv5iXrqVE5kPH1xo96DtjIIkridbRb2pjC6B7xlJdQj9FN9h695KnM1L8zVxQDYp6YRFfsy157AvJhndf0TWomre0xZzr6LhBZKmmWWlEfnOA2E2WK+854yJwSuHqdF/N7t7qOyUaxFbXUwuiELUm6V5V15AWKX/nJl7JgOxpCJv0WQkCcH5WC+UF+d56/FUKKIokEEF6ztUGGQnKZa7d7/KG6k7b0LwJA51BY+6x3O3LyrQSfyTpx4wdg6uhy4bPkCSYB0HwmQoQMesAoEd0gkOhms18j3YpNSFKOanSBrXMT/67bAFNDog71b91NobYDZEOuRpIYE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <10BD814C49D1534D8785E7E5D7E605A4@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>
+Subject: Re: [PATCH v4 01/10] rockchip/vpu: rename from rockchip to hantro
+Message-ID: <20190612102316.271e8d27@collabora.com>
+In-Reply-To: <VI1PR03MB4206D849E9815A7704D175DBACEC0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+References: <20190611125058.13470-1-p.zabel@pengutronix.de>
+        <20190611125058.13470-2-p.zabel@pengutronix.de>
+        <VI1PR03MB4206D849E9815A7704D175DBACEC0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b6f6909-d3de-44a5-4719-08d6ef0edb64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2019 08:20:41.2289
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1707
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMTIuMDYuMTkgdW0gMTA6MTUgc2NocmllYiBOaWNvbGluIENoZW46DQo+IEhpIENocmlzdGlh
-biwNCj4NCj4gT24gV2VkLCBKdW4gMTIsIDIwMTkgYXQgMDg6MDU6NTNBTSArMDAwMCwgS29lbmln
-LCBDaHJpc3RpYW4gd3JvdGU6DQo+PiBBbSAxMi4wNi4xOSB1bSAxMDowMiBzY2hyaWViIE5pY29s
-aW4gQ2hlbjoNCj4+IFtTTklQXQ0KPj4+IFdlIGhhdmVuJ3QgdXNlZCBEUk0vR1JNX1BSSU1FIHll
-dCBidXQgSSBhbSBhbHNvIGN1cmlvdXMgd291bGQgaXQNCj4+PiBiZW5lZml0IERSTSBhbHNvIGlm
-IHdlIHJlZHVjZSB0aGlzIG92ZXJoZWFkIGluIHRoZSBkbWFfYnVmPw0KPj4gTm8sIG5vdCBhdCBh
-bGwuDQo+ICBGcm9tIHlvdSByZXBsaWVzLCBpbiBhIHN1bW1hcnksIGRvZXMgaXQgbWVhbnMgdGhh
-dCB0aGVyZSB3b24ndCBiZSBhIGNhc2UNCj4gb2YgRFJNIGhhdmluZyBhIGRtYV9idWYgYXR0YWNo
-aW5nIHRvIHRoZSBzYW1lIGRldmljZSwgaS5lLiBtdWx0aXBsZSBjYWxscw0KPiBvZiBkcm1fZ2Vt
-X3ByaW1lX2ltcG9ydCgpIGZ1bmN0aW9uIHdpdGggc2FtZSBwYXJhbWV0ZXJzIG9mIGRldiArIGRt
-YV9idWY/DQoNCldlbGwsIHRoZXJlIGFyZSBzb21lIGNhc2VzIHdoZXJlIHRoaXMgaGFwcGVucy4g
-QnV0IGluIHRob3NlIGNhc2VzIHdlIA0KaW50ZW50aW9uYWxseSB3YW50IHRvIGdldCBhIG5ldyBh
-dHRhY2htZW50IDopDQoNClNvIHRoaW5raW5nIG1vcmUgYWJvdXQgaXQgeW91IHdvdWxkIGFjdHVh
-bGx5IGJyZWFrIHRob3NlIGFuZCB0aGF0IGlzIG5vdCANCnNvbWV0aGluZyB3ZSBjYW4gZG8uDQoN
-Cj4gSWYgc28sIHdlIGNhbiBqdXN0IGlnbm9yZS9kcm9wIHRoaXMgcGF0Y2guIFNvcnJ5IGZvciB0
-aGUgbWlzdW5kZXJzdGFuZGluZy4NCg0KSXQgbWlnaHQgYmUgaW50ZXJlc3RpbmcgZm9yIHRoaW5n
-cyBsaWtlIFAyUCwgYnV0IGV2ZW4gdGhlbiBpdCBtaWdodCBiZSANCmJldHRlciB0byBqdXN0IGNh
-Y2hlIHRoZSBQMlAgc2V0dGluZ3MgaW5zdGVhZCBvZiB0aGUgZnVsbCBhdHRhY2htZW50Lg0KDQpS
-ZWdhcmRzLA0KQ2hyaXN0aWFuLg0KDQo+DQo+IFRoYW5rcw0KPiBOaWNvbGluDQoNCg==
+On Wed, 12 Jun 2019 08:14:35 +0000
+Jonas Karlman <jonas@kwiboo.se> wrote:
+
+> On 2019-06-11 14:50, Philipp Zabel wrote:
+> > Rename the driver and all relevant identifiers from Rockchip to Hantro,
+> > as other Hantro IP based VPU implementations can be supported by the
+> > same driver.
+> > The RK3288 decoder is Hantro G1 based, the encoder is Hantro H1.  
+> 
+> The RK3288 has two VPU blocks that is described as a VPU combo in the datasheet,
+> VPU1 (the G1) and a HEVC decoder (not sharing the Hantro G2 hw regs).
+> Similarly the RK3399 has two VPU blocks, VPU2 based on G1 but with regs/fields re-ranged
+> and the RKVDPU (new generation of the HEVC block found in RK3288).
+> 
+> How can we expose these secondary blocks once rockchip vpu driver has transitioned
+> into a hantro driver? Should a new rockchip vpu driver be created for the HEVC/RKVDEC blocks?
+
+Yes, if those are not Hantro IPs a new driver should be created. I'm
+currently working on providing generic m2m helpers for stateless codecs
+to limit the code duplication incurred by this split. The good thing is
+that it should also help shrink the code of the cedrus driver (and more
+generally all stateless codec drivers).
+
