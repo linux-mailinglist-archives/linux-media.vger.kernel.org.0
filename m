@@ -2,198 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FF0447A3
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 19:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0B2447A2
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 19:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393220AbfFMRBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 13:01:08 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:47638 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729739AbfFLXqX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 19:46:23 -0400
-X-Halon-ID: 424e0b75-8d6c-11e9-8ab4-005056917a89
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [89.233.230.99])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id 424e0b75-8d6c-11e9-8ab4-005056917a89;
-        Thu, 13 Jun 2019 01:46:12 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S2392976AbfFMRBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 13:01:07 -0400
+Received: from jp.dhs.org ([62.251.46.73]:49022 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729741AbfFLXqm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 19:46:42 -0400
+Received: from localhost ([127.0.0.1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hbCwx-0002jz-5j; Thu, 13 Jun 2019 01:46:39 +0200
+Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
+ version 2
+To:     Antti Palosaari <crope@iki.fi>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>,
         linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH v3 8/8] rcar-vin: Merge Gen2 and Gen3 file operations
-Date:   Thu, 13 Jun 2019 01:45:47 +0200
-Message-Id: <20190612234547.14486-9-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190612234547.14486-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190612234547.14486-1-niklas.soderlund+renesas@ragnatech.se>
+References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
+ <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
+ <5D015B88.14600.5E1D99A@Frantisek.Rysanek.post.cz>
+ <38d8a697-3e3d-68e5-f3c6-e82588515f8b@iki.fi>
+From:   JP <jp@jpvw.nl>
+Message-ID: <d60a351b-9bed-fbf7-b164-70337ec73a66@jpvw.nl>
+Date:   Thu, 13 Jun 2019 01:46:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <38d8a697-3e3d-68e5-f3c6-e82588515f8b@iki.fi>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the rework of the Gen2 file operations it's now trivial to merge
-the Gen2 and Gen3 versions.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 100 ++++----------------
- 1 file changed, 18 insertions(+), 82 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index a84a07f1588cc818..0936bcd98df1f75d 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -781,16 +781,21 @@ static int rvin_open(struct file *file)
- 	if (ret)
- 		goto err_unlock;
- 
--	if (v4l2_fh_is_singular_file(file)) {
--		ret = rvin_power_parallel(vin, true);
-+	if (vin->info->use_mc) {
-+		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
- 		if (ret < 0)
- 			goto err_open;
-+	} else {
-+		if (v4l2_fh_is_singular_file(file)) {
-+			ret = rvin_power_parallel(vin, true);
-+			if (ret < 0)
-+				goto err_open;
- 
--		ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
--		if (ret)
--			goto err_parallel;
-+			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-+			if (ret)
-+				goto err_parallel;
-+		}
- 	}
--
- 	mutex_unlock(&vin->lock);
- 
- 	return 0;
-@@ -820,12 +825,12 @@ static int rvin_release(struct file *file)
- 	/* the release helper will cleanup any on-going streaming */
- 	ret = _vb2_fop_release(file, NULL);
- 
--	/*
--	 * If this was the last open file.
--	 * Then de-initialize hw module.
--	 */
--	if (fh_singular)
--		rvin_power_parallel(vin, false);
-+	if (vin->info->use_mc) {
-+		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-+	} else {
-+		if (fh_singular)
-+			rvin_power_parallel(vin, false);
-+	}
- 
- 	mutex_unlock(&vin->lock);
- 
-@@ -844,74 +849,6 @@ static const struct v4l2_file_operations rvin_fops = {
- 	.read		= vb2_fop_read,
- };
- 
--/* -----------------------------------------------------------------------------
-- * Media controller file operations
-- */
--
--static int rvin_mc_open(struct file *file)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	int ret;
--
--	ret = mutex_lock_interruptible(&vin->lock);
--	if (ret)
--		return ret;
--
--	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0)
--		goto err_unlock;
--
--	ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
--	if (ret < 0)
--		goto err_pm;
--
--	file->private_data = vin;
--
--	ret = v4l2_fh_open(file);
--	if (ret)
--		goto err_v4l2pm;
--
--	mutex_unlock(&vin->lock);
--
--	return 0;
--err_v4l2pm:
--	v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
--err_pm:
--	pm_runtime_put(vin->dev);
--err_unlock:
--	mutex_unlock(&vin->lock);
--
--	return ret;
--}
--
--static int rvin_mc_release(struct file *file)
--{
--	struct rvin_dev *vin = video_drvdata(file);
--	int ret;
--
--	mutex_lock(&vin->lock);
--
--	/* the release helper will cleanup any on-going streaming. */
--	ret = _vb2_fop_release(file, NULL);
--
--	v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
--	pm_runtime_put(vin->dev);
--
--	mutex_unlock(&vin->lock);
--
--	return ret;
--}
--
--static const struct v4l2_file_operations rvin_mc_fops = {
--	.owner		= THIS_MODULE,
--	.unlocked_ioctl	= video_ioctl2,
--	.open		= rvin_mc_open,
--	.release	= rvin_mc_release,
--	.poll		= vb2_fop_poll,
--	.mmap		= vb2_fop_mmap,
--	.read		= vb2_fop_read,
--};
--
- void rvin_v4l2_unregister(struct rvin_dev *vin)
- {
- 	if (!video_is_registered(&vin->vdev))
-@@ -952,6 +889,7 @@ int rvin_v4l2_register(struct rvin_dev *vin)
- 	snprintf(vdev->name, sizeof(vdev->name), "VIN%u output", vin->id);
- 	vdev->release = video_device_release_empty;
- 	vdev->lock = &vin->lock;
-+	vdev->fops = &rvin_fops;
- 	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
- 		V4L2_CAP_READWRITE;
- 
-@@ -963,10 +901,8 @@ int rvin_v4l2_register(struct rvin_dev *vin)
- 	vin->format.colorspace = RVIN_DEFAULT_COLORSPACE;
- 
- 	if (vin->info->use_mc) {
--		vdev->fops = &rvin_mc_fops;
- 		vdev->ioctl_ops = &rvin_mc_ioctl_ops;
- 	} else {
--		vdev->fops = &rvin_fops;
- 		vdev->ioctl_ops = &rvin_ioctl_ops;
- 		rvin_reset_format(vin);
- 	}
--- 
-2.21.0
+On 6/13/19 12:31 AM, Antti Palosaari wrote:
+> On 6/12/19 11:07 PM, Frantisek Rysanek wrote:
+>> On 12 Jun 2019 at 1:28, Antti Palosaari wrote:
+>> [...]
+>>>
+>>> What is that T230C2 stick?
+>> JP has already explained the details, how that name was arrived at.
+>> As previously suggested, I can call it T230C v2 in the descriptive
+>> texts. I'd suggest keeping T230C2 in the USB ID macro (or suggest
+>> a more appropriate name for the macro).
+>>
+>> Here in CZ, a company called Abacus imports and distributes consumer
+>> electronics gadgets under a private brand "EvolveO" - and this is how
+>> the "rebadged OEM Mygica" has reached me.
+>>    http://m.evolveo.com/cz/sigma-t2
+>> This particular T2 dongle is "allover the place" around here, no
+>> other dongle is this broadly available. (Well on our modest market.
+>> We're a nation of 10M people.)
+>>
+>>> Naming sounds like a DVB-C2 capable, but I
+>>> found only T230C model from MyGica site.
+>>>
+>> The local brand's site only mentions DVB-T2.
+>> The 2-page "brief datasheet" of the si2168 that's publically
+>> available only mentions DVB-C, apart from T/T2.
+>>
+>>> And also patch should be split to two logical parts, first add 
+>>> manual ts
+>>> frequency support to si2168 and then other patch which adds device 
+>>> itself.
+>>>
+>> I'll try to find some time and massage that approach into the code.
+>> I have read all the past attempts (example patches) and the
+>> maintainer's polite objections.
+>>
+>>> And which are tuner and demod versions/revisions used for that device?
+>>>
+>> That's reported in dmesg if memory serves... I'll try to find the
+>> answer.
+>>
+>> Frank Rysanek
+>>
+>
+> Yeah, all-in-all:
+> 1) name it T230C v2
+> 2) use manual ts clock speed
+>
+> And according to old usb sniffs from pctv 292e [Si2168B] default 
+> manual ts clock is set to 7.2MHz, which means 57.6Mbit/s datarate, it 
+> should be quite optimal for DVB-T2 max. In theory it could be a little 
+> higher only when 10MHz channel bandwidth and most less error 
+> correction FEC in use. And currently driver is using some config that 
+> uses dynamic ts clock which clocks only when there is data to feed. 
+> For some reason, usb-ts-bridge does not understand that and manual 
+> configuration is needed (ts valid or ts-sync connection?). If possible 
+> use 7.2MHz, if not: set to 10MHz.
+>
+That's perfectly alright with me. I'm now testing that 7.2Mhz value. 
+Hold on.
+And we were thinking in that same line of ts_sync connection.
+
+BTW this is the link for where that value of 10Mhz stems from:
+https://github.com/ljalves/linux_media/issues/164#issuecomment-335011689
 
