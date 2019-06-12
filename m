@@ -2,140 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EAC9B427AC
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 15:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42FC242825
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 15:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728555AbfFLNeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 09:34:10 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44653 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726747AbfFLNeK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 09:34:10 -0400
-Received: from [IPv6:2001:420:44c1:2579:6148:fbe2:6f51:a270] ([IPv6:2001:420:44c1:2579:6148:fbe2:6f51:a270])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id b3O8hCmAMbiAgb3OBhDI9R; Wed, 12 Jun 2019 15:34:08 +0200
-Subject: Re: [PATCH v3 2/2] media: v4l2-ctrl: Move compound control
- initialization
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     kernel@collabora.com,
-        Boris Brezillon <boris.brezillon@collabora.com>
-References: <20190606161254.17311-1-ezequiel@collabora.com>
- <20190606161254.17311-2-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d102e592-2f00-e28e-2956-6df6a47a125d@xs4all.nl>
-Date:   Wed, 12 Jun 2019 15:34:04 +0200
+        id S2409229AbfFLN4k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 09:56:40 -0400
+Received: from jp.dhs.org ([62.251.46.73]:45224 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2408676AbfFLN4k (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 09:56:40 -0400
+Received: from localhost ([127.0.0.1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hb3jv-0000tD-Fd; Wed, 12 Jun 2019 15:56:35 +0200
+Subject: Re: Unsupported Anysee version
+To:     "W. Talsma" <w.talsma@rug.nl>, linux-media@vger.kernel.org
+References: <71F3EE65-F9DA-4F8B-BC83-1AE483F2F655@rug.nl>
+Cc:     Antti Palosaari <crope@iki.fi>
+From:   JP <jp@jpvw.nl>
+Message-ID: <581928ad-560f-34ef-1341-6c014203777b@jpvw.nl>
+Date:   Wed, 12 Jun 2019 15:56:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190606161254.17311-2-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <71F3EE65-F9DA-4F8B-BC83-1AE483F2F655@rug.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLnx/CIFNwToeyLGiKlLE/WPS17PaDRZPS7zxHoLfjTrafUXi15zs8Rj+fp8vj4hXqit6FU7iAG259pGZONRrcjloa3q4KH76NakheZhlQ7xuE60c1+W
- lvKm6q+iqJ9OGg/RiT8ZP1KtRXxkAFbYOLUwuyTwd5vnMCgi5EiYNYSVNtbPIIkoDJpNT0p2TPoBxUWvV0Gbt4Mqu5PjFU5e+K04E3kLg6Bf8i4IZrS3oM3W
- rCCv8Q1l6u7YYPayB3v4il61nBuK5tjrCwVxRuhrmiNCNopcHtH3QJpNMiY3wFhcqMj0mT52sFFCgiwg9xVezfb9YrAGeOQ/wTF0+JOToooZi8zmjMekqM7E
- +VWziyUxW6ofJ0AOKO8H1AObwQi4vL7PCIsKxs4vmaRQNCxb49jFBnNGwVKA8GB4ag1fqSPRVV5Vd4N5h9uJRrm0ZZ5dlA==
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/6/19 6:12 PM, Ezequiel Garcia wrote:
-> Rework std_init adding an explicit initialization for
-> compound controls.
-> 
-> While here, make sure the control is initialized to zero,
-> before providing default values for all its fields.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
-> Changes from v2:
-> * Align parameters to parenthesis
-> * Drop unneeded zero initialization
-> 
-> Changes from v1:
-> * Drop the s/break/return replacements
-> * Drop unneeded default cases
-> * Fix memset to take account of the index
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 37 +++++++++++++++++-----------
->  1 file changed, 22 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 92a5521f6813..18c8d0c102d2 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -1506,17 +1506,36 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
->  	}
->  }
->  
-> -static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
-> -		     union v4l2_ctrl_ptr ptr)
-> +static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> +			      union v4l2_ctrl_ptr ptr)
->  {
->  	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
->  
-> +	idx *= ctrl->elem_size;
-> +	memset(ptr.p + idx, 0, ctrl->elem_size);
-> +
->  	/*
->  	 * The cast is needed to get rid of a gcc warning complaining that
->  	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS is not part of the
->  	 * v4l2_ctrl_type enum.
->  	 */
->  	switch ((u32)ctrl->type) {
-> +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> +		p_mpeg2_slice_params = ptr.p;
 
-This is wrong, it should be ptr.p + idx, just as is done in the memset.
-I'd add a 'void *p = ptr.p + idx * ctrl->elem_size;' variable at the beginning
-and use 'p' in the memset and in the line above.
 
-Regards,
+On 6/8/19 4:03 PM, W. Talsma wrote:
+> Dear,
+>
+> Today decided to dust off my Anysee E30 S2 Plus, and hope to get it to work with the Debian stretch tvheadend server.
+> Once I plug it in however, I see the following:
+> [27054.699829] usb 1-1.6: new high-speed USB device number 7 using ehci-pci
+> [27055.224303] usb 1-1.6: device descriptor read/all, error -71
+> [27056.187821] usb 1-1.6: new high-speed USB device number 8 using ehci-pci
+> [27057.180465] usb 1-1.6: config 1 interface 0 altsetting 0 bulk endpoint 0x1 has invalid maxpacket 64
+> [27057.180469] usb 1-1.6: config 1 interface 0 altsetting 0 bulk endpoint 0x81 has invalid maxpacket 64
+> [27057.180472] usb 1-1.6: config 1 interface 0 altsetting 1 bulk endpoint 0x1 has invalid maxpacket 64
+> [27057.180474] usb 1-1.6: config 1 interface 0 altsetting 1 bulk endpoint 0x81 has invalid maxpacket 64
+> [27057.180961] usb 1-1.6: New USB device found, idVendor=1c73, idProduct=861f, bcdDevice= 1.00
+> [27057.180964] usb 1-1.6: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [27057.180966] usb 1-1.6: Product: anysee-S2(LP)
+> [27057.180967] usb 1-1.6: Manufacturer: AMT.CO.KR
+> [27057.194507] usb 1-1.6: dvb_usb_v2: found a 'Anysee' in warm state
+> [27057.196058] usb 1-1.6: dvb_usb_anysee: firmware version 1.3 hardware id 11
+> [27057.197957] usb 1-1.6: dvb_usb_v2: will pass the complete MPEG2 transport stream to the software demuxer
+> [27057.197974] dvbdev: DVB: registering new adapter (Anysee)
+> [27057.197978] usb 1-1.6: media controller created
+> [27057.198256] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
+> [27057.204296] Invalid probe, probably not a CX24116 device
+> [27057.204304] usb 1-1.6: dvb_usb_anysee: Unsupported Anysee version. Please report to <linux-media@vger.kernel.org>.
+> [27057.204718] usbcore: registered new interface driver dvb_usb_anysee
+>
+> lsusb gives me the following:
+> Bus 001 Device 008: ID 1c73:861f AMT Anysee E30 USB 2.0 DVB-T Receiver
+>
+> uname -a
+> Linux linsrv03 4.19.45 #1 SMP Fri May 24 00:31:25 CEST 2019 x86_64 GNU/Linux
+>
+> This reminded me that in the past, I never actually got the drivers fully to work under Linux.
+> Since it states: Please report to <linux-media@vger.kernel.org>., here is my report.
+> Is it possible to get it working?
+>
+> Kind regards,
+> Wytse Talsma
+>
+This has been on this list before:
+https://www.mail-archive.com/linux-media@vger.kernel.org/msg42569.html
 
-	Hans
-
-> +		/* 4:2:0 */
-> +		p_mpeg2_slice_params->sequence.chroma_format = 1;
-> +		/* interlaced top field */
-> +		p_mpeg2_slice_params->picture.picture_structure = 1;
-> +		p_mpeg2_slice_params->picture.picture_coding_type =
-> +					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
-> +		break;
-> +	}
-> +}
-> +
-> +static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
-> +		     union v4l2_ctrl_ptr ptr)
-> +{
-> +	switch (ctrl->type) {
->  	case V4L2_CTRL_TYPE_STRING:
->  		idx *= ctrl->elem_size;
->  		memset(ptr.p_char + idx, ' ', ctrl->minimum);
-> @@ -1545,20 +1564,8 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_U32:
->  		ptr.p_u32[idx] = ctrl->default_value;
->  		break;
-> -	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> -		p_mpeg2_slice_params = ptr.p;
-> -		/* 4:2:0 */
-> -		p_mpeg2_slice_params->sequence.chroma_format = 1;
-> -		/* 8 bits */
-> -		p_mpeg2_slice_params->picture.intra_dc_precision = 0;
-> -		/* interlaced top field */
-> -		p_mpeg2_slice_params->picture.picture_structure = 1;
-> -		p_mpeg2_slice_params->picture.picture_coding_type =
-> -					V4L2_MPEG2_PICTURE_CODING_TYPE_I;
-> -		break;
->  	default:
-> -		idx *= ctrl->elem_size;
-> -		memset(ptr.p + idx, 0, ctrl->elem_size);
-> +		std_init_compound(ctrl, idx, ptr);
->  		break;
->  	}
->  }
-> 
-
+Jan Pieter
