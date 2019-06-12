@@ -2,99 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD10D42253
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 12:23:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E465422B6
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 12:40:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437988AbfFLKWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 06:22:00 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35426 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437611AbfFLKV7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 06:21:59 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c6so5954491wml.0
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 03:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AFoHMSEj9tVrWcEUPH5FAzB19SGdLo79LhrgprT3fB0=;
-        b=rulL1S3rudmYvANWuk91UMefuzuee5m+1kiBg/S4z4W6rohQIQJvVef0Ga8/kNwqJP
-         kQbz+GWJXFvKOlUq8wHsIOsVwPqBI6yU4JVUxy8FcXHzelpiTu0d9AnpLnqKnk6brVeP
-         0fI7UN+JLLjazssXG03F2xYy4RGi8lRQZddXYhMMtpv3pOhX4qKtG2S8uhFGlc+GLnT6
-         pvwprNWkUYEuVh6VpDMyqPFBM3B4d4BM96DCh7LGjxch5bvcQL2oQCAMKcd+OcUFDS/9
-         lerJBd9pWHPVwxh6CPJHbt3h+bxG3bzij0XlNY2uclYVY1/q+J8iyOw8VXcY4XYFT3kO
-         9meA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AFoHMSEj9tVrWcEUPH5FAzB19SGdLo79LhrgprT3fB0=;
-        b=M+N8nCHJNaDqtd/t21+nzSTLP1BwhrTPg0S1o7hHjU7C+xH0kt2XTmeqTaxmTXOxRO
-         F/bkE10EjHb3rkhDdRGhkm+O6wPb+O8CZmxfJs1x42kxD5qkgA/Itm1nb+Qmqv5Bc1ZU
-         ZVoOiYZZ066TNzCIsCTUpaF2gsFA4Qm3NpTyPx8pD/Y1ajS+vXOBCPYYyZLJCaFFZ8l3
-         oC+rB1NLd3DO5tC1TwBjrZttcf5O3dtgG0rBczBkKA3YeavPB2L0MGrT9M3UO98Uj+gY
-         pVtIudv4kRBmGU83DmgRHFaBP/8Df/Wk+1TOOD9Vm6DmNNXPzHfaJO30CTW8oTxgnqem
-         6I8Q==
-X-Gm-Message-State: APjAAAVYxDeouH7PKcCFvMaTO3TQBFzcQMNd1dJFaFkAY1Czrn7/JAd3
-        0ZgA3ByKHkMhm5luzyo1S2hEcGECFQz3gG40ggq7Qw==
-X-Google-Smtp-Source: APXvYqz6AjVcZoYHA6CdaGJpxS+2mtUzECSit9/BS1GTOdIOLeI2k4WuyT2w1sPbw2Vab/weDhNLTVi2+YFEotGwynw=
-X-Received: by 2002:a1c:ed07:: with SMTP id l7mr19968400wmh.148.1560334917880;
- Wed, 12 Jun 2019 03:21:57 -0700 (PDT)
+        id S2437100AbfFLKjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 06:39:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:49826 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437055AbfFLKjU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 06:39:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29FDA28;
+        Wed, 12 Jun 2019 03:39:19 -0700 (PDT)
+Received: from C02TF0J2HF1T.local (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0039F3F246;
+        Wed, 12 Jun 2019 03:40:38 -0700 (PDT)
+Date:   Wed, 12 Jun 2019 11:38:49 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v16 15/16] vfio/type1, arm64: untag user pointers in
+ vaddr_get_pfn
+Message-ID: <20190612103848.GA28951@C02TF0J2HF1T.local>
+References: <cover.1559580831.git.andreyknvl@google.com>
+ <c529e1eeea7700beff197c4456da6a882ce2efb7.1559580831.git.andreyknvl@google.com>
 MIME-Version: 1.0
-References: <20190612100536.22368-1-yuehaibing@huawei.com>
-In-Reply-To: <20190612100536.22368-1-yuehaibing@huawei.com>
-From:   Maxime Jourdan <mjourdan@baylibre.com>
-Date:   Wed, 12 Jun 2019 12:21:47 +0200
-Message-ID: <CAMO6nayiXiOkHSxgZU+oyPdSo5ugcV6XaCdy7P1Riutv+c7XRQ@mail.gmail.com>
-Subject: Re: [PATCH -next] media: meson: vdec: Add missing kthread.h
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        gregkh@linuxfoundation.org, Kevin Hilman <khilman@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devel@driverdev.osuosl.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-media@lists.freedesktop.org,
-        linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c529e1eeea7700beff197c4456da6a882ce2efb7.1559580831.git.andreyknvl@google.com>
+User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 12:05 PM YueHaibing <yuehaibing@huawei.com> wrote:
->
-> Fix building error:
->
-> drivers/staging/media/meson/vdec/vdec.c: In function vdec_recycle_thread:
-> drivers/staging/media/meson/vdec/vdec.c:59:10: error: implicit declaration
->  of function kthread_should_stop;
->  did you mean thread_saved_sp? [-Werror=implicit-function-declaration]
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/staging/media/meson/vdec/vdec.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 4e4f9d6..0a1a04f 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -12,6 +12,7 @@
->  #include <linux/mfd/syscon.h>
->  #include <linux/slab.h>
->  #include <linux/interrupt.h>
-> +#include <linux/kthread.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ctrls.h>
-> --
-> 2.7.4
->
->
+On Mon, Jun 03, 2019 at 06:55:17PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> vaddr_get_pfn() uses provided user pointers for vma lookups, which can
+> only by done with untagged pointers.
+> 
+> Untag user pointers in this function.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-Thanks for the patch, sorry that this one slipped through.
-
-Acked-by: Maxime Jourdan <mjourdan@baylibre.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
