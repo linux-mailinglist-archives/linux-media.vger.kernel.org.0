@@ -2,73 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E9641F08
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C349C41F14
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 10:30:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407641AbfFLI1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 04:27:05 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:34533 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405127AbfFLI1E (ORCPT
+        id S2437121AbfFLIac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 04:30:32 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44462 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405127AbfFLIac (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 04:27:04 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hayb1-0004pM-8f; Wed, 12 Jun 2019 10:27:03 +0200
-Message-ID: <1560328022.5160.0.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] drivers: media: coda: fix warning same module
- names
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Anders Roxell <anders.roxell@linaro.org>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 12 Jun 2019 10:27:02 +0200
-In-Reply-To: <20190612081550.2255-1-anders.roxell@linaro.org>
-References: <20190612081550.2255-1-anders.roxell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
+        Wed, 12 Jun 2019 04:30:32 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 30DD72808F4;
+        Wed, 12 Jun 2019 09:30:31 +0100 (BST)
+Date:   Wed, 12 Jun 2019 10:30:28 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v4 00/10] Rename Rockchip VPU driver to Hantro, add
+ initial i.MX8M support
+Message-ID: <20190612103028.47b8e129@collabora.com>
+In-Reply-To: <d6a0007c-72b9-f45d-2f4c-736dd1214dbd@xs4all.nl>
+References: <20190611125058.13470-1-p.zabel@pengutronix.de>
+        <aa108619-2c1b-56af-0db7-cf27b3e66c29@xs4all.nl>
+        <d6a0007c-72b9-f45d-2f4c-736dd1214dbd@xs4all.nl>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-06-12 at 10:15 +0200, Anders Roxell wrote:
-> When building with CONFIG_VIDEO_CODA and CONFIG_CODA_FS enabled as
-> loadable modules, we see the following warning:
-> 
-> warning: same module names found:
->   fs/coda/coda.ko
->   drivers/media/platform/coda/coda.ko
-> 
-> Rework so media/platform/coda is named coda-vpu. Leaving CODA_FS as is
-> since that's a well known module.
-> 
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  drivers/media/platform/coda/Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/coda/Makefile b/drivers/media/platform/coda/Makefile
-> index 54e9a73a92ab..5fd5efa35159 100644
-> --- a/drivers/media/platform/coda/Makefile
-> +++ b/drivers/media/platform/coda/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  
-> -coda-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
-> +coda-vpu-objs := coda-common.o coda-bit.o coda-gdi.o coda-h264.o coda-mpeg2.o coda-mpeg4.o coda-jpeg.o
->  
-> -obj-$(CONFIG_VIDEO_CODA) += coda.o
-> +obj-$(CONFIG_VIDEO_CODA) += coda-vpu.o
+On Wed, 12 Jun 2019 10:00:45 +0200
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
-Thanks,
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> On 6/12/19 9:55 AM, Hans Verkuil wrote:
+> > On 6/11/19 2:50 PM, Philipp Zabel wrote:  
+> >> There are several other SoCs that contain Hantro IP based VPUs, such as
+> >> NXP i.MX8MQ (Hantro G1 and G2) and i.MX8MM (Hantro G1, G2, and H1). To
+> >> maximize code sharing, add initial support for these SoCs to the
+> >> Rockchip VPU driver, after renaming it to Hantro VPU.
+> >>
+> >> This series is based on the br-v5.3g tag, commit e568d2cc1ef6
+> >> ("rockchip/vpu: Add support for MPEG-2 decoding on RK3288") with
+> >> https://patchwork.linuxtv.org/patch/56402/ ("rockchip/vpu: Add support
+> >> for MPEG-2 decoding on RK3328") applied on top. It supports MPEG-2
+> >> decoding on i.MX8MQ. MPEG-2 decoding and JPEG encoding on i.MX8MM may
+> >> or may not work, I don't have the hardware to test.
+> >>
+> >> Changes since v3:
+> >>  - Split rk3288_vpu_regs.h into hantro_g1_regs.h and hantro_h1_regs.h,
+> >>    rename VDPU register defines to G1 and VEPU register defines to H1.
+> >>  - Make Rockchip / i.MX8M support configurable.
+> >>  - Keep staging/media Kconfig in alphabetic order.
+> >>  - Rename bases to reg_bases
+> >>  - Move dynamic clocks before i.MX8M support.  
+> > 
+> > Can you please rebase this on top of the media_tree master? This series
+> > doesn't apply there.
+> > 
+> > I'd like to get this rename series in asap since keeping this out-of-tree
+> > is a pain.
+> > 
+> > It looks in good shape in general.  
+> 
+> In fact, I would like to hold off on applying any other rockchip patches
+> until this is in (and that means any pending rockchip patches probably
+> need rebasing).
 
-regards
-Philipp
+Ack. Actually, Ezequiel and I are waiting for this series to land
+before sending new patches, so that'd be nice to have at least patches
+1 to 7 applied really soon.
+
+> 
+> So if a v5 applies cleanly and doesn't throw up new sparse/smatch issues,
+> then I'll take it.
+
+Great!
