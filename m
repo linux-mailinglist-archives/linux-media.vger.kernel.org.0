@@ -2,119 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEA9042E9D
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 20:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E4C430CE
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 22:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbfFLSZo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 14:25:44 -0400
-Received: from casper.infradead.org ([85.118.1.10]:42340 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727087AbfFLSZn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 14:25:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=hgHfKrHPZmhynIjT/1ELxTDkoVco2rB8zT2L0wqDGdU=; b=JDbNDL5xQVrvu1OECyKE02I4F0
-        5nBVlamjATc+Duh9MWiuwDoWSCeK8ZlmeasCaLnbOEc/Ws1xYRS7Z+S2dac+a6/qFvRA3nxhCFqt4
-        Q6DDWrA9H7NLXS52779BgrxFNI19nUBtq1QU/ShtEN423eqpDuUqa3yjh+CDjFexiqgzPgYWGE2IZ
-        /1pYZuz7nyj37zCyuaoPtFut+lTXs0KYD3fn6SrewAM3Tx1OOMfTyrdBP9OUgly1Bp/YMd3H4P13/
-        lBGnWBFKuvOXtpK+mHFBptZYaqHY4SWF1cCz1BXQeIkVGt6VVofeiAxq0zLC8C2RIGDcosrcyP+nu
-        o2kYPSCA==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7wF-0002jr-IP; Wed, 12 Jun 2019 18:25:36 +0000
-Date:   Wed, 12 Jun 2019 15:25:31 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     YueHaibing <yuehaibing@huawei.com>, tglx@linutronix.de,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: ttpci: Fix build error without RC_CORE
-Message-ID: <20190612152531.624cfba4@coco.lan>
-In-Reply-To: <20190612175629.srfw7ybr256se5rt@gofer.mess.org>
-References: <20190612034310.4640-1-yuehaibing@huawei.com>
-        <20190612074254.eky2xo7bajorkhfy@gofer.mess.org>
-        <20190612063708.64498b44@coco.lan>
-        <20190612175629.srfw7ybr256se5rt@gofer.mess.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728328AbfFLUHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 16:07:55 -0400
+Received: from mxc2.seznam.cz ([77.75.77.23]:54642 "EHLO mxc2.seznam.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726735AbfFLUHy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 16:07:54 -0400
+Received: from email.seznam.cz
+        by email-smtpc14b.ng.seznam.cz (email-smtpc14b.ng.seznam.cz [10.23.14.165])
+        id 0aac394ddd1780280a04278a;
+        Wed, 12 Jun 2019 22:07:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=beta;
+        t=1560370064; bh=mDix+GRliULX6r9xUbILNQPdxBAYmlrqliKSR0YwRVc=;
+        h=Received:From:To:Date:MIME-Version:Subject:CC:Message-ID:Priority:
+         In-reply-to:References:X-mailer:Content-type:
+         Content-transfer-encoding:Content-description;
+        b=lMyJNskwQ4ac8bH8ejhEVLDjFeKnUcBotNPNaFKt7S/x6vvqZBJOEtL41LnSyX8H1
+         1+6J9d/xbBn/w+r74SVXYOiwgCHwTrZL+3IHw+e0+aXDySUyCMxC/vIP4OM+xj8D2d
+         w3J0JTvTbU9Zg5QLkfkwJr73Uxwwmq89/vgIgQdc=
+Received: from [192.168.12.172] (47.94.cust.tetanet.cz [109.202.94.47])
+        by email-relay10.ng.seznam.cz (Seznam SMTPD 1.3.106) with ESMTP;
+        Wed, 12 Jun 2019 22:07:40 +0200 (CEST)  
+From:   "Frantisek Rysanek" <Frantisek.Rysanek@post.cz>
+To:     linux-media@vger.kernel.org
+Date:   Wed, 12 Jun 2019 22:07:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw version 2
+CC:     Antti Palosaari <crope@iki.fi>, JP <jp@jpvw.nl>
+Message-ID: <5D015B88.14600.5E1D99A@Frantisek.Rysanek.post.cz>
+In-reply-to: <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
+References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>, <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
+X-mailer: Pegasus Mail for Windows (4.63)
+Content-type: text/plain; charset=US-ASCII
+Content-transfer-encoding: 7BIT
+Content-description: Mail message body
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 12 Jun 2019 18:56:29 +0100
-Sean Young <sean@mess.org> escreveu:
-
-> On Wed, Jun 12, 2019 at 06:37:08AM -0300, Mauro Carvalho Chehab wrote:
-> > Em Wed, 12 Jun 2019 08:42:55 +0100
-> > Sean Young <sean@mess.org> escreveu:
-> >   
-> > > On Wed, Jun 12, 2019 at 11:43:10AM +0800, YueHaibing wrote:  
-> > > > If RC_CORE is not set, building fails:
-> > > > 
-> > > > drivers/media/pci/ttpci/av7110_ir.o: In function `av7110_ir_init':
-> > > > av7110_ir.c:(.text+0x1b0): undefined reference to `rc_allocate_device'
-> > > > av7110_ir.c:(.text+0x2c1): undefined reference to `rc_register_device'
-> > > > av7110_ir.c:(.text+0x2dc): undefined reference to `rc_free_device'
-> > > > 
-> > > > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > > > Fixes: 71f49a8bf5c5 ("media: ttpci: use rc-core for the IR receiver")
-> > > > Signed-off-by: YueHaibing <yuehaibing@huawei.com>    
-> > > 
-> > > Thank you for spotting this and writing a patch.
-> > >   
-> > > > ---
-> > > >  drivers/media/pci/ttpci/Kconfig | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/media/pci/ttpci/Kconfig b/drivers/media/pci/ttpci/Kconfig
-> > > > index d96d4fa..b705631 100644
-> > > > --- a/drivers/media/pci/ttpci/Kconfig
-> > > > +++ b/drivers/media/pci/ttpci/Kconfig
-> > > > @@ -7,7 +7,7 @@ config DVB_AV7110
-> > > >  	depends on DVB_CORE && PCI && I2C
-> > > >  	select TTPCI_EEPROM
-> > > >  	select VIDEO_SAA7146_VV
-> > > > -	select DVB_AV7110_IR if INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110    
-> > > 
-> > > This says if
-> > >  - select DVB_AV7110_IR if INPUT_EVDEV and DVB_AV7110 are both y or m
-> > >  - select DVB_AV7110_IR if INPUT_EVDEV=y
-> > >    This exists for the case when INPUT_EVDEV=y and DVB_AV7110=m, which is fine
-> > >   
-> > > > +	select DVB_AV7110_IR if RC_CORE=DVB_AV7110 && (INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110)    
-> > > 
-> > > That's not exactly the same. For one thing it should not longer depend on
-> > > INPUT_EVDEV=y.
-> > > 
-> > > Now if DVB_AV7110=m and RC_CORE=y is not allowed which should be (this is
-> > > the case in Fedora default kernel config for example).  
-> > 
-> > My suggestion here is to stop using select here, using, instead
-> > a depends on for DVB_AV7110_IR, e. g. something like (untested):
-> > 
-> > config DVB_AV7110_IR
-> > 	bool
-> > 	depends on RC_CORE && DVB_AV7110
-> > 	default DVB_AV7110  
-
-As I said, this was untested.
-
-> Build will fail if RC_CORE=m && DVB_AV7110=y. So it should be
+On 12 Jun 2019 at 1:28, Antti Palosaari wrote:
+[...]
 > 
->         depends on RC_CORE=y || RC_CORE = DVB_AV7110
+> What is that T230C2 stick? 
+JP has already explained the details, how that name was arrived at.
+As previously suggested, I can call it T230C v2 in the descriptive 
+texts. I'd suggest keeping T230C2 in the USB ID macro (or suggest
+a more appropriate name for the macro).
 
-Works for me.
+Here in CZ, a company called Abacus imports and distributes consumer 
+electronics gadgets under a private brand "EvolveO" - and this is how 
+the "rebadged OEM Mygica" has reached me. 
+  http://m.evolveo.com/cz/sigma-t2
+This particular T2 dongle is "allover the place" around here, no 
+other dongle is this broadly available. (Well on our modest market. 
+We're a nation of 10M people.)
 
-That's a lot cleaner and easier to understand than what
-we currently have.
+> Naming sounds like a DVB-C2 capable, but I 
+> found only T230C model from MyGica site. 
+>
+The local brand's site only mentions DVB-T2.
+The 2-page "brief datasheet" of the si2168 that's publically 
+available only mentions DVB-C, apart from T/T2.
 
-Thanks,
-Mauro
+> And also patch should be split to two logical parts, first add manual ts 
+> frequency support to si2168 and then other patch which adds device itself.
+> 
+I'll try to find some time and massage that approach into the code.
+I have read all the past attempts (example patches) and the 
+maintainer's polite objections.
+
+> And which are tuner and demod versions/revisions used for that device?
+>
+That's reported in dmesg if memory serves... I'll try to find the 
+answer.
+
+Frank Rysanek
