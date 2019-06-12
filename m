@@ -2,86 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D91C442B42
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 17:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0461E42B8F
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 17:59:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437748AbfFLPuK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 11:50:10 -0400
-Received: from casper.infradead.org ([85.118.1.10]:55118 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437689AbfFLPuK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 11:50:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lZ7jhMBykRVdY/yQT29SU8tqCwPRLhDwhRSycURiLbk=; b=m49CucLekkneu5UkgnMxLwpfx6
-        BPrQAcXZDq8UNx3QIACIXQRjR9QX/JrtQmUujeYWHJQA/f/qA4PgFVXbMuYkshqL1s/vzP/qTwfS7
-        i96PGjwqNZ7nT65nEQGHB4jiCV31rK9GZ1Ualni7IcRFESMjVKP8BpfeJGdoODkUaxj5+0ZMm7W27
-        jd4N/ylZU3iF0J8G8r1MBApxhb/y3prNO5rxXzcOYQNwodyD28kILi0qV2eYSbbEqmR0GmZdIsVgw
-        FH55Cq4BYA/bT3wPHfZznyDKcjCcUzeBbpPLmWb/43eSo0JQJKZ8cDwSA4disskKSa9nh2W+IOpW/
-        VQYLzMcQ==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb5Vm-0002VI-Mr; Wed, 12 Jun 2019 15:50:07 +0000
-Date:   Wed, 12 Jun 2019 12:50:02 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S2440373AbfFLP7i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 11:59:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58036 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2436987AbfFLP7g (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 11:59:36 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B96E4223882;
+        Wed, 12 Jun 2019 15:59:17 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B463183FD;
+        Wed, 12 Jun 2019 15:59:01 +0000 (UTC)
+Subject: Re: [PATCH v17 14/15] vfio/type1, arm64: untag user pointers in
+ vaddr_get_pfn
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v5.2-rc1] media updates
-Message-ID: <20190612125002.66e84492@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <e86d8cd6bd0ade9cce6304594bcaf0c8e7f788b0.1560339705.git.andreyknvl@google.com>
+From:   Auger Eric <eric.auger@redhat.com>
+Message-ID: <ac482b04-94b1-ab29-97cc-3232fc44b3d1@redhat.com>
+Date:   Wed, 12 Jun 2019 17:58:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <e86d8cd6bd0ade9cce6304594bcaf0c8e7f788b0.1560339705.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Wed, 12 Jun 2019 15:59:28 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+Hi Andrey,
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.2-2
+On 6/12/19 1:43 PM, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> vaddr_get_pfn() uses provided user pointers for vma lookups, which can
+> only by done with untagged pointers.
+> 
+> Untag user pointers in this function.
+> 
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-For a couple patches:
+Thanks
 
-  - a debug warning for satellite tuning at dvb core was producing
-    too much noise;
-  - a regression at hfi_parser on Venus driver.
-
-Regards,
-Mauro
-
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
-
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.2-2
-
-for you to fetch changes up to a200c721956ca026f44416acccc8efcca41109c5:
-
-  media: venus: hfi_parser: fix a regression in parser (2019-05-29 10:20:06 -0400)
-
-----------------------------------------------------------------
-media updates for v5.2-rc1
-
-----------------------------------------------------------------
-Sean Young (1):
-      media: dvb: warning about dvb frequency limits produces too much noise
-
-Stanimir Varbanov (1):
-      media: venus: hfi_parser: fix a regression in parser
-
- drivers/media/dvb-core/dvb_frontend.c          | 2 +-
- drivers/media/platform/qcom/venus/hfi_helper.h | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
+Eric
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index 3ddc375e7063..528e39a1c2dd 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -384,6 +384,8 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
+>  
+>  	down_read(&mm->mmap_sem);
+>  
+> +	vaddr = untagged_addr(vaddr);
+> +
+>  	vma = find_vma_intersection(mm, vaddr, vaddr + 1);
+>  
+>  	if (vma && vma->vm_flags & VM_PFNMAP) {
+> 
