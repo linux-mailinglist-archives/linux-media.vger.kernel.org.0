@@ -2,112 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2524342BF5
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 18:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1136A42E1B
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 19:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730611AbfFLQTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 12:19:44 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38821 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729497AbfFLQTo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 12:19:44 -0400
-Received: by mail-lj1-f196.google.com with SMTP id o13so15648067lji.5
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 09:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Me1o0WCLHrdj4pGzYt4+EVkLIwsOiL3bGNYyI4+f4XA=;
-        b=sbA+R1YyTeJkOtusG+mONsqLMlCgE67N74LkOXMJSVZdc1ZcUyjp7BFrdnYC9unTY0
-         C2/FTSiAh8qCDuX1bUbS2ctJWPKUrL0q0fxQbblOIxqx+XWcwDW/Pw1N6PWmvhBTOw7G
-         wVOUlTHalXYSy5Pu28GzpCxIM68ijW/hBlcT6k5ronpBnUi0/kmkKorTTqzQSqb3GL+x
-         qa9RJ26zUAi0B9NFm8jnmODwJ268IwSL1wPMSpgAaX05fWZWwS7pG7S65CynDIZfmvkD
-         Ll+aTS+sq6csZ3YKF3eCWakpmWBXhAz/Gvqf5mX4cN/KVh9hStUT2QVhfRSaRzgR/oTW
-         udGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Me1o0WCLHrdj4pGzYt4+EVkLIwsOiL3bGNYyI4+f4XA=;
-        b=mS2th3B6Z830BmUYKZXvwF1IoZxX5wHkmUd25eBriUF3iti+0ExL5J09jMGUw0g4bX
-         lZG2jt4qtOhsnq+O9v2/df6XXq2/VmvceN8Oh74e8qDT2hwPu5iA6dOybsdIEgg+AXJI
-         XxUjoENY4ljW4O2cjNqxVCymWyTFgLHP0Jx1OaE712C6aoTQFcRu6a0N8rOmd+lV/qQH
-         yKgRtNm6DTD1lxIosCJ+OjKiMUZFgF4KuBpLiyUu/7qsWrD01x0lV2IC21xSIN5GMypO
-         aMWqYIPr+BQU0/O39GZ+nxCZS3z5YrvafGJ6o6u1OWO+NDaXdlIp+QnpHyMLKcIlrpXM
-         +jGg==
-X-Gm-Message-State: APjAAAUV/BPaBk8NZPsHGcb1xA/2yjgoX4I/g8gcMLPEyir//ve/VOnW
-        vbFA2a1ekY0hGMVheYh4BFpPuA==
-X-Google-Smtp-Source: APXvYqwKTZnFrwVKVT7cHr8poS62teJC/BsN6HcZCHUV+1IhNdTFRvrZ7N+49ciwBs18E0+L5bZ8WQ==
-X-Received: by 2002:a2e:989a:: with SMTP id b26mr15046522ljj.31.1560356382037;
-        Wed, 12 Jun 2019 09:19:42 -0700 (PDT)
-Received: from localhost (c-1c3670d5.07-21-73746f28.bbcust.telenor.se. [213.112.54.28])
-        by smtp.gmail.com with ESMTPSA id u128sm51319lja.23.2019.06.12.09.19.41
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 09:19:41 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH v3] media: i2c: fix warning same module names
-Date:   Wed, 12 Jun 2019 18:19:35 +0200
-Message-Id: <20190612161935.30264-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+        id S2404193AbfFLR4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 13:56:33 -0400
+Received: from gofer.mess.org ([88.97.38.141]:42583 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404183AbfFLR4c (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 13:56:32 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id BF6A860226; Wed, 12 Jun 2019 18:56:29 +0100 (BST)
+Date:   Wed, 12 Jun 2019 18:56:29 +0100
+From:   Sean Young <sean@mess.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     YueHaibing <yuehaibing@huawei.com>, tglx@linutronix.de,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: ttpci: Fix build error without RC_CORE
+Message-ID: <20190612175629.srfw7ybr256se5rt@gofer.mess.org>
+References: <20190612034310.4640-1-yuehaibing@huawei.com>
+ <20190612074254.eky2xo7bajorkhfy@gofer.mess.org>
+ <20190612063708.64498b44@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190612063708.64498b44@coco.lan>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When building with CONFIG_VIDEO_ADV7511 and CONFIG_DRM_I2C_ADV7511
-enabled as loadable modules, we see the following warning:
+On Wed, Jun 12, 2019 at 06:37:08AM -0300, Mauro Carvalho Chehab wrote:
+> Em Wed, 12 Jun 2019 08:42:55 +0100
+> Sean Young <sean@mess.org> escreveu:
+> 
+> > On Wed, Jun 12, 2019 at 11:43:10AM +0800, YueHaibing wrote:
+> > > If RC_CORE is not set, building fails:
+> > > 
+> > > drivers/media/pci/ttpci/av7110_ir.o: In function `av7110_ir_init':
+> > > av7110_ir.c:(.text+0x1b0): undefined reference to `rc_allocate_device'
+> > > av7110_ir.c:(.text+0x2c1): undefined reference to `rc_register_device'
+> > > av7110_ir.c:(.text+0x2dc): undefined reference to `rc_free_device'
+> > > 
+> > > Reported-by: Hulk Robot <hulkci@huawei.com>
+> > > Fixes: 71f49a8bf5c5 ("media: ttpci: use rc-core for the IR receiver")
+> > > Signed-off-by: YueHaibing <yuehaibing@huawei.com>  
+> > 
+> > Thank you for spotting this and writing a patch.
+> > 
+> > > ---
+> > >  drivers/media/pci/ttpci/Kconfig | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/pci/ttpci/Kconfig b/drivers/media/pci/ttpci/Kconfig
+> > > index d96d4fa..b705631 100644
+> > > --- a/drivers/media/pci/ttpci/Kconfig
+> > > +++ b/drivers/media/pci/ttpci/Kconfig
+> > > @@ -7,7 +7,7 @@ config DVB_AV7110
+> > >  	depends on DVB_CORE && PCI && I2C
+> > >  	select TTPCI_EEPROM
+> > >  	select VIDEO_SAA7146_VV
+> > > -	select DVB_AV7110_IR if INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110  
+> > 
+> > This says if
+> >  - select DVB_AV7110_IR if INPUT_EVDEV and DVB_AV7110 are both y or m
+> >  - select DVB_AV7110_IR if INPUT_EVDEV=y
+> >    This exists for the case when INPUT_EVDEV=y and DVB_AV7110=m, which is fine
+> > 
+> > > +	select DVB_AV7110_IR if RC_CORE=DVB_AV7110 && (INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110)  
+> > 
+> > That's not exactly the same. For one thing it should not longer depend on
+> > INPUT_EVDEV=y.
+> > 
+> > Now if DVB_AV7110=m and RC_CORE=y is not allowed which should be (this is
+> > the case in Fedora default kernel config for example).
+> 
+> My suggestion here is to stop using select here, using, instead
+> a depends on for DVB_AV7110_IR, e. g. something like (untested):
+> 
+> config DVB_AV7110_IR
+> 	bool
+> 	depends on RC_CORE && DVB_AV7110
+> 	default DVB_AV7110
 
-warning: same module names found:
-  drivers/gpu/drm/bridge/adv7511/adv7511.ko
-  drivers/media/i2c/adv7511.ko
+Build will fail if RC_CORE=m && DVB_AV7110=y. So it should be
 
-Rework so that the file is named adv7511-v4l2.c.
+        depends on RC_CORE=y || RC_CORE = DVB_AV7110
 
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- drivers/media/i2c/Makefile                      | 2 +-
- drivers/media/i2c/{adv7511.c => adv7511-v4l2.c} | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
- rename drivers/media/i2c/{adv7511.c => adv7511-v4l2.c} (99%)
 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index d8ad9dad495d..fd4ea86dedd5 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -35,7 +35,7 @@ obj-$(CONFIG_VIDEO_ADV748X) += adv748x/
- obj-$(CONFIG_VIDEO_ADV7604) += adv7604.o
- obj-$(CONFIG_VIDEO_ADV7842) += adv7842.o
- obj-$(CONFIG_VIDEO_AD9389B) += ad9389b.o
--obj-$(CONFIG_VIDEO_ADV7511) += adv7511.o
-+obj-$(CONFIG_VIDEO_ADV7511) += adv7511-v4l2.o
- obj-$(CONFIG_VIDEO_VPX3220) += vpx3220.o
- obj-$(CONFIG_VIDEO_VS6624)  += vs6624.o
- obj-$(CONFIG_VIDEO_BT819) += bt819.o
-diff --git a/drivers/media/i2c/adv7511.c b/drivers/media/i2c/adv7511-v4l2.c
-similarity index 99%
-rename from drivers/media/i2c/adv7511.c
-rename to drivers/media/i2c/adv7511-v4l2.c
-index cec5ebb1c9e6..2ad6bdf1a9fc 100644
---- a/drivers/media/i2c/adv7511.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -5,6 +5,11 @@
-  * Copyright 2013 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
- 
-+/*
-+ * This file is named adv7511-v4l2.c so it doesn't conflict with the Analog
-+ * Device ADV7511 (config fragment CONFIG_DRM_I2C_ADV7511).
-+ */
-+
- 
- #include <linux/kernel.h>
- #include <linux/module.h>
--- 
-2.20.1
+Thanks,
 
+Sean
