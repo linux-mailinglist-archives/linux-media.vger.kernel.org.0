@@ -2,151 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A22D441AE9
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 06:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81B4741C96
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2019 08:49:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726098AbfFLEIU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jun 2019 00:08:20 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48579 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725280AbfFLEIU (ORCPT
+        id S2390800AbfFLGtj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jun 2019 02:49:39 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39397 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390376AbfFLGtj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 00:08:20 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2070:454c:fc2f:2839])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id auYbhqFdl41bFauYchGRB4; Wed, 12 Jun 2019 06:08:18 +0200
-Message-ID: <19e898c7634e672529da3c4997f31df7@smtp-cloud8.xs4all.net>
-Date:   Wed, 12 Jun 2019 06:08:17 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfDOrbaSCzHdCI2DTCtqzO6j1QF1vU+Jgaqb6MHKEEP2VrGPIzeZNjZo4BgBdqkx3lanMPk0Nkvotlqb6daAgI7dwHn4u8WL/Jk+AGaFKWOzSzYfTZ/cE
- +EDIBzueJxRj385vJjkOQfyYRhKG3twHNv6tbGhIFZfDHvACcLA9yRo8fof0IJMH5t/MT2sPE3TRtjYQJvPFvTSW4wc1mNGz2j35YjxeDj52sD0O9pWmsKZk
+        Wed, 12 Jun 2019 02:49:39 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ax4dhACelbiAgax4ghBTsF; Wed, 12 Jun 2019 08:49:37 +0200
+Subject: Re: [PATCHv4 1/2] media: docs-rst: Document memory-to-memory video
+ decoder interface
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Maxime Jourdan <mjourdan@baylibre.com>
+References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
+ <20190603112835.19661-2-hverkuil-cisco@xs4all.nl>
+ <ffaad429bbdcf1a15049ec6df404618f4f2a9a36.camel@ndufresne.ca>
+ <9c19ece0-f980-62a6-f26e-a91930d117f3@xs4all.nl>
+ <3ced040be477ca0d17405157f919deee3cd4675d.camel@ndufresne.ca>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <f016182a-e7b8-2dc9-edde-e62e8aacc63b@xs4all.nl>
+Date:   Wed, 12 Jun 2019 08:49:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <3ced040be477ca0d17405157f919deee3cd4675d.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfDKin55+5JKQlwresyM7SGiB0viexchg1pco6TMLoagwhqMDZjJzGmKjHfWa+gWRIYMVMipsZRpelgmvWlXhlqSWYe58zwmdYqzQVHjx+Xv6TpkQo6Wt
+ qotjfnPjCTjQQod+LrBYIWFxuJxVRxFhdblbRBqL6R54xGlXBA/bH14lpHyyXwbhBr1hWbeZjza4lUHnfji5rekA53JLvA/Z8kPL3n//xW6FevpN2FvXxd8R
+ E4X9CnNsuTJZBhZsUoE7HdH1UMARnyYDk8yRpniw/wYxR1WDoOJNoB9aIui2K+sFsLPn9IdbLRyCbP8jjv2pVnAJkMHqLlmGZcyvrUMOAYYiihJc9MGfT2BR
+ BZ6k63N+TjprgNyGzoR7FlSf1nkudO+rzaJZsUeJUpngjPsV3SS3yBFD8xriXRhIPDRzYc/pN4G7GZrVI3YFpGU1jHH+KFJF+k/F3KubxPoS9eaGwCm6Fvrs
+ Q4IGtgg3erZlQS7zSLlDJO4lXy+1r+TmQzJAxFrqrUWpFbK6sCLEBI0txfI/Bh0J1CDva3IqgJc01Zs7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 6/12/19 2:25 AM, Nicolas Dufresne wrote:
+> Le mardi 11 juin 2019 à 10:29 +0200, Hans Verkuil a écrit :
+>> On 6/10/19 9:54 PM, Nicolas Dufresne wrote:
+>>> Hi Hans,
+>>>
+>>> I went through it, and I think we are close to ready. Unfortunately, I
+>>> believe the SOURCE_CHANGE event is still under specified. There was a
+>>> post recently to try and add a new flag for changes in color space
+>>> which is not included here. We are also missing a workflow for changes
+>>> that don't affect the allocation but will affect the rendering on a
+>>> display (like colorimetry). Userspace needs to know at which frames
+>>> these parameter changes in order to signal that to the following
+>>> processing block. I think we must have a plane for this.
+>>
+>> Yes, we need a new flag for the SOURCE_CHANGE event to indicate colorimetry
+>> changes. That's actually useful for e.g. HDMI receivers as well.
+>>
+>> But I don't see why that should make much of a change to the spec: you still
+>> have to drain the capture queue, the only difference is that you don't need
+>> to reallocate buffers, you can just restart the decoder.
+> 
+> I don't think you need to drain the queue if the change is just
+> metadata that have no impact on the buffers allocation or layout. I
+> think we should have a way to communicate these changed while
+> streaming. Basically, something like the event, but serialized.
 
-Results of the daily build of media_tree:
+I guess we can extend the struct v4l2_event_src_change and add a buffer
+index field to indicate at which capture buffer index the colorimetry
+change takes effect. Then there is no need for draining.
 
-date:			Wed Jun 12 05:00:13 CEST 2019
-media-tree git hash:	4e8c120de9268fc26f583268b9d22e7d37c4595f
-media_build git hash:	8c181825fa4b157679e600565c310841be9f1890
-v4l-utils git hash:	e8c9709f2dafe53f298cf929266ad45263993403
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: c827be7b2534f1333b5b563a6eda537c1120a104
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+In the future when we create replacement streaming ioctls and have a
+new, larger struct v4l2_buffer, then we can add the colorimetry information
+there as well.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 1963, Succeeded: 1963, Failed: 0, Warnings: 6
-sparse: OK
-smatch: WARNINGS
+Regards,
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Hans
