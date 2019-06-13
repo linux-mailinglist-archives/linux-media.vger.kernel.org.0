@@ -2,148 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6D2244672
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78AA844655
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387559AbfFMQvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:51:52 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:50373 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730137AbfFMDaV (ORCPT
+        id S1730364AbfFMQus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:50:48 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33349 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730170AbfFMDw5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 23:30:21 -0400
-X-UUID: c67f89450c2747fa8878c9e7fb56d5a9-20190613
-X-UUID: c67f89450c2747fa8878c9e7fb56d5a9-20190613
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1949280016; Thu, 13 Jun 2019 11:30:13 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Thu, 13 Jun
- 2019 11:30:12 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 13 Jun 2019 11:30:11 +0800
-Message-ID: <1560396611.9392.77.camel@mhfsdcap03>
-Subject: Re: [PATCH 3/3] media: dt-bindings: media: i2c: Add bindings for
- ov02a10
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <menghui.lin@mediatek.com>,
-        <shengnan.wang@mediatek.com>, <tfiga@google.com>
-Date:   Thu, 13 Jun 2019 11:30:11 +0800
-In-Reply-To: <20190531161658.2y2amfngbhfbllj7@valkosipuli.retiisi.org.uk>
-References: <20190523102204.24112-1-dongchun.zhu@mediatek.com>
-         <20190523102204.24112-4-dongchun.zhu@mediatek.com>
-         <20190531161658.2y2amfngbhfbllj7@valkosipuli.retiisi.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+        Wed, 12 Jun 2019 23:52:57 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a0cc:2184:136b:1386])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id bGnFhGOrYbiAgbGnGhFRqh; Thu, 13 Jun 2019 05:52:54 +0200
+Message-ID: <efab8fb2148bddf3dd099cf3783f0dc3@smtp-cloud9.xs4all.net>
+Date:   Thu, 13 Jun 2019 05:52:53 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGHpLonfVebah9+I1i6ihja4gJoq3OIGDendAIjlORDSIeTZ8B22fritP77bYem3rwGC12bDyErgHd6nkBAa62sF01hQRuWbc1CFdx9oetsBbldRfWaf
+ 4PL2Oou7vjn063m0LsiCYVtLpzTPMgllFKkhNW4CnfHLZllog3Lhz8Onwmv9Zz41Ei/qPcoHglf4A9oVuAuF/m2lTHn3u4xnKLUz95pvOw1cJD/pies4/NCJ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, 2019-05-31 at 19:16 +0300, Sakari Ailus wrote:
-> Hi Dongchun,
-> 
-> Thanks for the patch.
-> 
-> On Thu, May 23, 2019 at 06:22:04PM +0800, dongchun.zhu@mediatek.com wrote:
-> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > 
-> > Add device tree binding documentation for the OV02A10 CMOS image sensor.
-> > 
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/ov02a10.txt      | 43 ++++++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov02a10.txt b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> > new file mode 100644
-> > index 0000000..fdc2904
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> > @@ -0,0 +1,43 @@
-> > +* Omnivision OV02A10 MIPI CSI-2 sensor
-> > +
-> > +Required Properties:
-> > +- compatible: shall be "ovti,ov02a10"
-> > +- clocks: reference to the xvclk input clock
-> > +- clock-names: shall be "xvclk"
-> > +- avdd-supply: Analog voltage supply, 2.8 volts
-> > +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
-> > +- dvdd-supply: Digital core voltage supply, 1.8 volts
-> > +- reset-gpios: Low active reset gpio
-> > +
-> > +The device node shall contain one 'port' child node with an
-> > +'endpoint' subnode for its digital output video port,
-> > +in accordance with the video interface bindings defined in
-> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > +The endpoint optional property 'data-lanes' shall be "<1>".
-> 
-> If the sensor only supports a single lane configuration (one lane), you can
-> omit that property altogether. Is that the only possible configuration for
-> the sensor?
-> 
-> Please also wrap the text at 80 characters, not 65 or so.
-> 
+Results of the daily build of media_tree:
 
-Thanks for kind reminder. We would double confirm the lane nums that
-sensor can support.
-And the issue of text length one line would also be fixed in next
-release.
+date:			Thu Jun 13 05:00:11 CEST 2019
+media-tree git hash:	513dbd35b5d93c45fa7291147f21fc0227a9f999
+media_build git hash:	8c181825fa4b157679e600565c310841be9f1890
+v4l-utils git hash:	08fed4d0edb1492b91d9d1054c36fed95c372eaa
+edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 13935a7e5fc334611439324a8eb80dd57a3eae49
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-> > +
-> > +Example:
-> > +&i2c4 {
-> > +	sensor_sub: sensor_sub {
-> 
-> camera-sensor@3d {
-> 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 6
+sparse: OK
+smatch: WARNINGS
 
-Fixed in next release.
+Detailed results are available here:
 
-> > +		compatible = "ovti,ov02a10";
-> > +		reg = <0x3d>;
-> > +		pinctrl-names = "default";
-> > +		pinctrl-0 = <&camera_pins_cam1_mclk_on>;
-> > +
-> > +		clocks = <&topckgen CLK_TOP_MUX_CAMTG2>,
-> > +			<&topckgen CLK_TOP_UNIVP_192M_D8>;
-> > +		clock-names = "xvclk", "freq_mux";
-> > +
-> > +		avdd-supply = <&mt6358_vcama1_reg>;
-> > +		dvdd-supply = <&mt6358_vcn18_reg>;
-> > +		dovdd-supply = <&mt6358_vcamio_reg>;
-> > +		pwdn-gpios = <&pio 107 1>;
-> > +		reset-gpios = <&pio 109 1>;
-> > +
-> > +		port@0 {
-> > +		   ov02a10_core: endpoint {
-> > +		       remote-endpoint = <&ov02a10_0>;
-> > +			   data-lanes = <1>;
-> > +		   };
-> 
-> Tabs for indentation, please.
-> 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Fixed in next release.
+Detailed regression test results are available here:
 
-> > +		};
-> > +	};
-> > +};
-> 
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
