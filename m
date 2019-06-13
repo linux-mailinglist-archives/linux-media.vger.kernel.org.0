@@ -2,84 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09E504470C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD2E44707
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729960AbfFMQ4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:56:45 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:55343 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729959AbfFMBX5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 21:23:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=DABaQWMET7hLlW30alnuWEBb6Ywn8E2RV62Kj43JMGA=; b=vH1RYhhL40KJ+2XdpfZymHILxY
-        TsX8GAU/tesR41F8XoP6TbChE/zZLqZiyjnRlNQ/Lu1yfJdUPjoxahHtIutycoc4xIVsMiswHqKi0
-        Jq8s0sc5jb8FHutVu5kkG1O1uD9MUJzFZBkc2/nbVRoZrlb/creZU/zXrrKDRdcO/4vPdwjmv4cSQ
-        J84UR3+Jno4Lr1yMKqoGiZUaQh/HWCbht+hS8m1jiHhpNgQ76H6qvaqiZr0TKsGkBfQqF1CHM6Xik
-        FXhSWNd2wGRZqgU4KIyvnuJgtPwFXlL28zlY2S5BDI0sZL2M5mFnHem/hDOCImfnhfmg3wWUuV+Y7
-        kx+qPhVg==;
-Received: from mobile-access-bceedc-73.dhcp.inet.fi ([188.238.220.73] helo=localhost.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1hbET4-0000Hz-Kx; Thu, 13 Jun 2019 04:23:54 +0300
-Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
- version 2
-To:     JP <jp@jpvw.nl>, Frantisek Rysanek <Frantisek.Rysanek@post.cz>,
-        linux-media@vger.kernel.org
-References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
- <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
- <5D015B88.14600.5E1D99A@Frantisek.Rysanek.post.cz>
- <38d8a697-3e3d-68e5-f3c6-e82588515f8b@iki.fi>
- <d60a351b-9bed-fbf7-b164-70337ec73a66@jpvw.nl>
- <38250cff-c758-cac8-64bf-dce679e7c826@jpvw.nl>
-From:   Antti Palosaari <crope@iki.fi>
-Message-ID: <ca1eada3-82bd-f03a-9441-4e494899ec04@iki.fi>
-Date:   Thu, 13 Jun 2019 04:23:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1732092AbfFMQ4g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:56:36 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:53446 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729963AbfFMB1I (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 21:27:08 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 4BA17D24DE5DE46CF656;
+        Thu, 13 Jun 2019 09:27:05 +0800 (CST)
+Received: from [127.0.0.1] (10.133.213.239) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Thu, 13 Jun 2019
+ 09:27:01 +0800
+Subject: Re: [PATCH] media: ttpci: Fix build error without RC_CORE
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20190612034310.4640-1-yuehaibing@huawei.com>
+ <20190612074254.eky2xo7bajorkhfy@gofer.mess.org>
+ <20190612063708.64498b44@coco.lan>
+ <20190612175629.srfw7ybr256se5rt@gofer.mess.org>
+CC:     <tglx@linutronix.de>, <corbet@lwn.net>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+From:   Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <78f4a71f-8311-7c1b-c1a4-69624a92add4@huawei.com>
+Date:   Thu, 13 Jun 2019 09:27:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <38250cff-c758-cac8-64bf-dce679e7c826@jpvw.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <20190612175629.srfw7ybr256se5rt@gofer.mess.org>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 188.238.220.73
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/13/19 4:15 AM, JP wrote:
->>> And according to old usb sniffs from pctv 292e [Si2168B] default 
->>> manual ts clock is set to 7.2MHz, which means 57.6Mbit/s datarate, it 
->>> should be quite optimal for DVB-T2 max. In theory it could be a 
->>> little higher only when 10MHz channel bandwidth and most less error 
->>> correction FEC in use. And currently driver is using some config that 
->>> uses dynamic ts clock which clocks only when there is data to feed. 
->>> For some reason, usb-ts-bridge does not understand that and manual 
->>> configuration is needed (ts valid or ts-sync connection?). If 
->>> possible use 7.2MHz, if not: set to 10MHz.
+
+On 2019/6/13 1:56, Sean Young wrote:
+> On Wed, Jun 12, 2019 at 06:37:08AM -0300, Mauro Carvalho Chehab wrote:
+>> Em Wed, 12 Jun 2019 08:42:55 +0100
+>> Sean Young <sean@mess.org> escreveu:
+>>
+>>> On Wed, Jun 12, 2019 at 11:43:10AM +0800, YueHaibing wrote:
+>>>> If RC_CORE is not set, building fails:
+>>>>
+>>>> drivers/media/pci/ttpci/av7110_ir.o: In function `av7110_ir_init':
+>>>> av7110_ir.c:(.text+0x1b0): undefined reference to `rc_allocate_device'
+>>>> av7110_ir.c:(.text+0x2c1): undefined reference to `rc_register_device'
+>>>> av7110_ir.c:(.text+0x2dc): undefined reference to `rc_free_device'
+>>>>
+>>>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>>>> Fixes: 71f49a8bf5c5 ("media: ttpci: use rc-core for the IR receiver")
+>>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>  
 >>>
->> That's perfectly alright with me. I'm now testing that 7.2Mhz value. 
->> Hold on.
-> The driver crashes with the 7.2Mhz value! That was totally not what I 
-> ever expected.
-> Recompiled the whole kernel: crashes again. Then tried on debian kernel 
-> 4.19: same thing.
-> Food for thought?
+>>> Thank you for spotting this and writing a patch.
+>>>
+>>>> ---
+>>>>  drivers/media/pci/ttpci/Kconfig | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/media/pci/ttpci/Kconfig b/drivers/media/pci/ttpci/Kconfig
+>>>> index d96d4fa..b705631 100644
+>>>> --- a/drivers/media/pci/ttpci/Kconfig
+>>>> +++ b/drivers/media/pci/ttpci/Kconfig
+>>>> @@ -7,7 +7,7 @@ config DVB_AV7110
+>>>>  	depends on DVB_CORE && PCI && I2C
+>>>>  	select TTPCI_EEPROM
+>>>>  	select VIDEO_SAA7146_VV
+>>>> -	select DVB_AV7110_IR if INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110  
+>>>
+>>> This says if
+>>>  - select DVB_AV7110_IR if INPUT_EVDEV and DVB_AV7110 are both y or m
+>>>  - select DVB_AV7110_IR if INPUT_EVDEV=y
+>>>    This exists for the case when INPUT_EVDEV=y and DVB_AV7110=m, which is fine
+>>>
+>>>> +	select DVB_AV7110_IR if RC_CORE=DVB_AV7110 && (INPUT_EVDEV=y || INPUT_EVDEV=DVB_AV7110)  
+>>>
+>>> That's not exactly the same. For one thing it should not longer depend on
+>>> INPUT_EVDEV=y.
+>>>
+>>> Now if DVB_AV7110=m and RC_CORE=y is not allowed which should be (this is
+>>> the case in Fedora default kernel config for example).
+>>
+>> My suggestion here is to stop using select here, using, instead
+>> a depends on for DVB_AV7110_IR, e. g. something like (untested):
+>>
+>> config DVB_AV7110_IR
+>> 	bool
+>> 	depends on RC_CORE && DVB_AV7110
+>> 	default DVB_AV7110
+> 
+> Build will fail if RC_CORE=m && DVB_AV7110=y. So it should be
+> 
+>         depends on RC_CORE=y || RC_CORE = DVB_AV7110
 
-It should sure never crash the kernel. Changing a ts bitrate no, no, no, 
-you trapped a hidden bug. Found where it is :]
+Thanks, will test and send v2 as your suggestion.
 
-regards
-Antti
+> 
+> 
+> Thanks,
+> 
+> Sean
+> 
+> .
+> 
 
--- 
-http://palosaari.fi/
