@@ -2,17 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B7A43F0F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3249443F0C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732888AbfFMPyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 11:54:39 -0400
-Received: from sauhun.de ([88.99.104.3]:41940 "EHLO pokefinder.org"
+        id S2389962AbfFMPyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 11:54:32 -0400
+Received: from sauhun.de ([88.99.104.3]:41948 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731773AbfFMPy1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S2390102AbfFMPy1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 13 Jun 2019 11:54:27 -0400
 Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
-        by pokefinder.org (Postfix) with ESMTPSA id 6F2F24A12AA;
+        by pokefinder.org (Postfix) with ESMTPSA id F3DF44A12B1;
         Thu, 13 Jun 2019 17:54:25 +0200 (CEST)
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-media@vger.kernel.org
@@ -21,9 +21,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] media: mn88473: don't check retval after our own assignemt
-Date:   Thu, 13 Jun 2019 17:54:19 +0200
-Message-Id: <20190613155421.16408-4-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 4/4] media: zd1301_demod: don't check retval after our own assignemt
+Date:   Thu, 13 Jun 2019 17:54:20 +0200
+Message-Id: <20190613155421.16408-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
 References: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
@@ -38,33 +38,23 @@ No need to check a retval after we assigned a constant to it.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/media/dvb-frontends/mn88473.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/dvb-frontends/zd1301_demod.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/mn88473.c b/drivers/media/dvb-frontends/mn88473.c
-index 08118b38533b..d1b11909825c 100644
---- a/drivers/media/dvb-frontends/mn88473.c
-+++ b/drivers/media/dvb-frontends/mn88473.c
-@@ -661,8 +661,7 @@ static int mn88473_probe(struct i2c_client *client,
- 	if (dev->client[1] == NULL) {
- 		ret = -ENODEV;
- 		dev_err(&client->dev, "I2C registration failed\n");
+diff --git a/drivers/media/dvb-frontends/zd1301_demod.c b/drivers/media/dvb-frontends/zd1301_demod.c
+index 96adbba7a82b..bbabe6a2d4f4 100644
+--- a/drivers/media/dvb-frontends/zd1301_demod.c
++++ b/drivers/media/dvb-frontends/zd1301_demod.c
+@@ -421,8 +421,7 @@ static int zd1301_demod_i2c_master_xfer(struct i2c_adapter *adapter,
+ 	} else {
+ 		dev_dbg(&pdev->dev, "unknown msg[0].len=%u\n", msg[0].len);
+ 		ret = -EOPNOTSUPP;
 -		if (ret)
--			goto err_regmap_0_regmap_exit;
-+		goto err_regmap_0_regmap_exit;
+-			goto err;
++		goto err;
  	}
- 	dev->regmap[1] = regmap_init_i2c(dev->client[1], &regmap_config);
- 	if (IS_ERR(dev->regmap[1])) {
-@@ -675,8 +674,7 @@ static int mn88473_probe(struct i2c_client *client,
- 	if (dev->client[2] == NULL) {
- 		ret = -ENODEV;
- 		dev_err(&client->dev, "2nd I2C registration failed\n");
--		if (ret)
--			goto err_regmap_1_regmap_exit;
-+		goto err_regmap_1_regmap_exit;
- 	}
- 	dev->regmap[2] = regmap_init_i2c(dev->client[2], &regmap_config);
- 	if (IS_ERR(dev->regmap[2])) {
+ 
+ 	return num;
 -- 
 2.20.1
 
