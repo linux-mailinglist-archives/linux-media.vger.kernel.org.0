@@ -2,77 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C377844219
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D21EB4444D
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:37:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390845AbfFMQTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:19:25 -0400
-Received: from sauhun.de ([88.99.104.3]:42288 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731137AbfFMQTY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:19:24 -0400
-Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
-        by pokefinder.org (Postfix) with ESMTPSA id B46C24A127B;
-        Thu, 13 Jun 2019 18:19:22 +0200 (CEST)
-Date:   Thu, 13 Jun 2019 18:19:22 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+        id S2392550AbfFMQgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:36:05 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48700 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbfFMQfx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Jun 2019 12:35:53 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0CFE52B;
+        Thu, 13 Jun 2019 18:35:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560443751;
+        bh=xYJTnR0BQQsX9pSkqK7GIQ6uoOB+X60qJ0Nav0xrwYE=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=KyS1UsvAm48Ahvvu+6wlakTthmDnIYVISXTkkNlPky7ERMbQ1PMQXh6v0ldpM28nm
+         aIDWrWBjv/Pd6LtreDBJoFGhYFGnCv4BG852XXxKhNq8AXCGb4X4LpaxjbB8IYr2MB
+         NGeOj4EUmKkSGfBqRLqdpqUCITWZ2pZe2FM1qqug=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 1/4] media: cxd2820r: don't check retval after our own
+ assignemt
+To:     Wolfram Sang <wsa@the-dreams.de>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: cxd2820r: don't check retval after our own
- assignemt
-Message-ID: <20190613161922.GA5015@kunai>
 References: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
  <20190613155421.16408-2-wsa+renesas@sang-engineering.com>
  <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
+ <20190613161922.GA5015@kunai>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <cbf928b6-33d6-d412-87dd-05f1fb5f1b6c@ideasonboard.com>
+Date:   Thu, 13 Jun 2019 17:35:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MGYHOYXEY6WxJCY8"
-Content-Disposition: inline
-In-Reply-To: <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190613161922.GA5015@kunai>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Wolfram,
 
---MGYHOYXEY6WxJCY8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 13/06/2019 17:19, Wolfram Sang wrote:
+> 
+>> In the title/subject:
+>>
+>> media: cxd2820r: don't check retval after our own assignemt
+>>
+>> s/assignemt/assignment/
+> 
+> Eeeks, in deed :( Shall I resend? Sorry for the noise.
+> 
 
-
-> In the title/subject:
->=20
-> media: cxd2820r: don't check retval after our own assignemt
->=20
-> s/assignemt/assignment/
-
-Eeeks, in deed :( Shall I resend? Sorry for the noise.
-
-
---MGYHOYXEY6WxJCY8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0Cd4YACgkQFA3kzBSg
-KbZgow//aNxohRzQcF1sIHDVxMCgP1WbXbfoU0g5CY4c8lZ+/ythaFlCOQ7pa5OF
-3CYujuPha//WElGBiD1DME/qXmdwNAAH2U2QqxuER/14vXW0jpHEoX7TIf2zuoxV
-72dW5Mt9XvBKX4rXpxQO0qucIR+F4Us2ayN3UrhkuG2gPrvtV+hHnp6zKxVam21S
-uqiodFXng2fRMympaV8LYaV/oUj8qWCsWbp5q1hOkT2iKjEyCkMjwVMLFn/onpaA
-eAEQ9MlGKA+hJfDjqMF9gcqoFGn0FYtL2KsptwrPAy8KLgldVuma4eIFIDTp9iwb
-UZMUqHIs1Xpf3xQEs/FVwvols+rDPSIAg1515+heM66WbHU3mLq+fc79v4ZHBdii
-JjvoJFN4EgAzqy6FL57GLYIZEezfwJ5sC55Rp7mL/dUrDg7oqrOOZJiQRFxXfMeF
-T1ZIkeAsFglARaXwFUopVUD4hw8vxMqe/EKhLau6jyp8Pw60j0LBwREAFCmPCqN3
-F6zTeLvwJfuzmPlBbVkxH2AeTStxPDvOlZ2O2YBh8FyizNCEzMabds2wqbif5IF9
-xju81GoMANuzx9G/Rb/W873e8s0KBTunTEw8coznK/XPcrZtKxUnyaHsF7PdXWD6
-ckAffB5GgNDqA+8sp3E0i+atD/Ajf/nFPLfCnrNP/FlNtwd7I5A=
-=iAmu
------END PGP SIGNATURE-----
-
---MGYHOYXEY6WxJCY8--
+Not necessary for me, so I guess that's up to Mauro/Hans.
+Not sure who will pick these up and apply them.
+--
+Kieran
