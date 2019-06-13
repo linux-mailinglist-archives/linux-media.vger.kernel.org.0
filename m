@@ -2,59 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C69E4472C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5904C44715
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:57:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393141AbfFMQ5Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:57:25 -0400
-Received: from smtp2.ono.com ([62.42.230.179]:6902 "EHLO smtp2.ono.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729927AbfFMBCs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 21:02:48 -0400
-X-Junkmail-Premium-Raw: score=35/50,refid=2.7.2:2019.6.13.5416:17:35.434,ip=62.42.230.133,rules=__HAS_MSGID,
- __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
- FROM_NAME_PHRASE, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
- __PHISH_SPEAR_SUBJ_ALERT, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE,
- MISSING_HEADERS, __ANY_URI, __FRAUD_BODY_WEBMAIL, __URI_NO_WWW,
- __FRAUD_INTRO, __STOCK_PHRASE_7, __FRAUD_MONEY_BIG_COIN_DIG, __OEM_PRICE,
- __FRAUD_MONEY_CURRENCY_DOLLAR, __NO_HTML_TAG_RAW, BODYTEXTP_SIZE_400_LESS,
- BODYTEXTP_SIZE_3000_LESS, BODY_SIZE_300_399, __MIME_TEXT_P1,
- __MIME_TEXT_ONLY, __URI_NS, HTML_00_01, HTML_00_10, __FRAUD_MONEY_CURRENCY,
- __FRAUD_MONEY_BIG_COIN, __FRAUD_MONEY_VALUE, __PHISH_SPEAR_GREETING,
- __FRAUD_MONEY, FRAUD_X3, BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL,
- WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P,
- FRAUD_LITTLE_BODY, __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS,
- BODY_SIZE_2000_LESS, __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY,
- NO_URI_HTTPS, BODY_SIZE_7000_LESS, TO_MALFORMED
-Received: from resprs03 (62.42.230.133) by smtp2.ono.com (9.0.019.09-1)
-        id 5CAF0F5D0311C993; Thu, 13 Jun 2019 03:02:41 +0200
-Received: from (149.126.75.14) by webmailcpr03n.ono.com;  Thu, 13 Jun 2019 03:02:41 +0200
-Message-ID: <2263859.453591560387761564.JavaMail.defaultUser@defaultHost>
-Date:   Thu, 13 Jun 2019 03:02:41 +0200 (CEST)
-From:   Mrs Alice Johnson <o0fit@ono.com>
-Reply-To: mrsalicejohnson4@gmail.com
-Subject: Dear Friend,
+        id S2393121AbfFMQ4y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:56:54 -0400
+Received: from jp.dhs.org ([62.251.46.73]:43042 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729950AbfFMBPI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 12 Jun 2019 21:15:08 -0400
+Received: from localhost ([127.0.0.1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hbEKY-0005DN-2v; Thu, 13 Jun 2019 03:15:06 +0200
+Subject: Re: [PATCH] dvb_usb_dvbsky: Mygica T230C2 add support for T230C hw
+ version 2
+From:   JP <jp@jpvw.nl>
+To:     Antti Palosaari <crope@iki.fi>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>,
+        linux-media@vger.kernel.org
+References: <63814e94-2db2-b9b0-44c8-ba5b0511bfc2@jpvw.nl>
+ <8982b6eb-c9b1-2f41-ed80-c435b999333c@iki.fi>
+ <5D015B88.14600.5E1D99A@Frantisek.Rysanek.post.cz>
+ <38d8a697-3e3d-68e5-f3c6-e82588515f8b@iki.fi>
+ <d60a351b-9bed-fbf7-b164-70337ec73a66@jpvw.nl>
+Message-ID: <38250cff-c758-cac8-64bf-dce679e7c826@jpvw.nl>
+Date:   Thu, 13 Jun 2019 03:15:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <d60a351b-9bed-fbf7-b164-70337ec73a66@jpvw.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 6/13/19 1:46 AM, JP wrote:
+>
+>
+> On 6/13/19 12:31 AM, Antti Palosaari wrote:
+>> On 6/12/19 11:07 PM, Frantisek Rysanek wrote:
+>>> On 12 Jun 2019 at 1:28, Antti Palosaari wrote:
+>>> [...]
+>>>>
+>>>> What is that T230C2 stick?
+>>> JP has already explained the details, how that name was arrived at.
+>>> As previously suggested, I can call it T230C v2 in the descriptive
+>>> texts. I'd suggest keeping T230C2 in the USB ID macro (or suggest
+>>> a more appropriate name for the macro).
+>>>
+>>> Here in CZ, a company called Abacus imports and distributes consumer
+>>> electronics gadgets under a private brand "EvolveO" - and this is how
+>>> the "rebadged OEM Mygica" has reached me.
+>>>    http://m.evolveo.com/cz/sigma-t2
+>>> This particular T2 dongle is "allover the place" around here, no
+>>> other dongle is this broadly available. (Well on our modest market.
+>>> We're a nation of 10M people.)
+>>>
+>>>> Naming sounds like a DVB-C2 capable, but I
+>>>> found only T230C model from MyGica site.
+>>>>
+>>> The local brand's site only mentions DVB-T2.
+>>> The 2-page "brief datasheet" of the si2168 that's publically
+>>> available only mentions DVB-C, apart from T/T2.
+>>>
+>>>> And also patch should be split to two logical parts, first add 
+>>>> manual ts
+>>>> frequency support to si2168 and then other patch which adds device 
+>>>> itself.
+>>>>
+>>> I'll try to find some time and massage that approach into the code.
+>>> I have read all the past attempts (example patches) and the
+>>> maintainer's polite objections.
+>>>
+>>>> And which are tuner and demod versions/revisions used for that device?
+>>>>
+>>> That's reported in dmesg if memory serves... I'll try to find the
+>>> answer.
+>>>
+>>> Frank Rysanek
+>>>
+>>
+>> Yeah, all-in-all:
+>> 1) name it T230C v2
+>> 2) use manual ts clock speed
+>>
+>> And according to old usb sniffs from pctv 292e [Si2168B] default 
+>> manual ts clock is set to 7.2MHz, which means 57.6Mbit/s datarate, it 
+>> should be quite optimal for DVB-T2 max. In theory it could be a 
+>> little higher only when 10MHz channel bandwidth and most less error 
+>> correction FEC in use. And currently driver is using some config that 
+>> uses dynamic ts clock which clocks only when there is data to feed. 
+>> For some reason, usb-ts-bridge does not understand that and manual 
+>> configuration is needed (ts valid or ts-sync connection?). If 
+>> possible use 7.2MHz, if not: set to 10MHz.
+>>
+> That's perfectly alright with me. I'm now testing that 7.2Mhz value. 
+> Hold on.
+The driver crashes with the 7.2Mhz value! That was totally not what I 
+ever expected.
+Recompiled the whole kernel: crashes again. Then tried on debian kernel 
+4.19: same thing.
+Food for thought?
 
-
---
-Dear Friend,
-
-I am Mrs Alice Johnson.am sending you this brief letter to solicit your
-partnership to transfer $18.5 million US Dollars.I shall send you more
-information and procedures when I receive positive response from you.
-please send me a message in my Email box (mrsalicejohnson4@gmail.com)
-as i wait to hear from you.
-
-Best regard
-Mrs Alice Johnson
---
-
+> And we were thinking in that same line of ts_sync connection.
+>
+> BTW this is the link for where that value of 10Mhz stems from:
+> https://github.com/ljalves/linux_media/issues/164#issuecomment-335011689
+>
+JP
