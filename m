@@ -2,116 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FD9F43E5B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D773B43E48
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:48:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389085AbfFMPsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 11:48:52 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35076 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731719AbfFMJQq (ORCPT
+        id S1729330AbfFMPsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 11:48:43 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:39370 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731730AbfFMJSh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 05:16:46 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c6so9314135wml.0
-        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 02:16:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=P4N1UtPKJVcelijw7QBQ1XLSRt7ridPaKRyOBmFmp0w=;
-        b=zoB+I1qMrXW5msQjRKnTgAM/Hh9auE47o+cxvqiEVcyurJ9wsx1RAYtZBDnCaKqDof
-         m1Ka4fuQ842iFh57kWp7h+yZO+dKcLrZpYRtQolBfQ39M/3DG3mCMDtqhEsHLr6dNRla
-         y/Uc11TrqvR08utOekpguuKCeTIWNQmbKCYf+sSd2FAqk+FEFwpdJVTvb+qSjd7GAa/s
-         kBpbAdqYwmGMqkkI3YhCUFXD8oa+rDgIdLyeq5ym0FbmIKsEItDizEy0cX6vyncJePWp
-         BZ7zlU7oGjUbfvuB7MiLU354VdrVer90caAiU3wh9nfbR3emhxaBGhOhkrpW/MC3+Qus
-         KRYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=P4N1UtPKJVcelijw7QBQ1XLSRt7ridPaKRyOBmFmp0w=;
-        b=AUCMUsPKDAkohXhLzu/KBr8EBBqjyBJCbibCUUoQZk0tuwo3lUpgu5aEB1ay4Lr0M1
-         jmykMHWUaziF9i8jjlUnuLiGR0oqR1l2icBOCz5g3yrNSykN56UXBuW24loXB6zE++Gf
-         K5ZBitC3NxG3Qo5IrNtrNA28cfv8262Q/ayrywLAyERBEPQnmBbiU5iMhe6Ber/VIj9q
-         3c+xrGSs3g1YRqsG+zSwGtgXJ+fJK/CGFGtgBIuq3vyb1ByRDNJ5H951UH8EbBKTTJ1M
-         RKZ/GpP5LlkLYRyxEZLYuo9DC4uBZ587SEpMhPn0ouTX9nVx7PAal/yGw/OhSVwiDq2z
-         N9Lw==
-X-Gm-Message-State: APjAAAW6UiMuOfJ6rwi5mwp0LegSppCNntVmbdDz6vk+z2bFbepiStKS
-        sOOrDBKOEca4+nw31RF2mJoNPKgQIISnrso3KneRdA==
-X-Google-Smtp-Source: APXvYqya9k5qn89YYNprL6zry6x5KHz6UoRI9nvUtHBgDzPVPTHE/ALR4XfG2GiQ1hwNRfaH+VxDHQlRLeGVdjjdK7k=
-X-Received: by 2002:a1c:700b:: with SMTP id l11mr2827093wmc.106.1560417403085;
- Thu, 13 Jun 2019 02:16:43 -0700 (PDT)
+        Thu, 13 Jun 2019 05:18:37 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id B89B925B7FA;
+        Thu, 13 Jun 2019 19:18:34 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id B35A2940483; Thu, 13 Jun 2019 11:18:32 +0200 (CEST)
+Date:   Thu, 13 Jun 2019 11:18:32 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: Re: [PATCH v2] dt-bindings: rcar-{csi2,vin}: Rename bindings
+ documentation files
+Message-ID: <20190613091832.77g2ltnvd5o2hndh@verge.net.au>
+References: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20190612170027.13dbb84b@canb.auug.org.au> <c526a510-a08f-8b99-a396-4274590e904f@infradead.org>
-In-Reply-To: <c526a510-a08f-8b99-a396-4274590e904f@infradead.org>
-From:   Maxime Jourdan <mjourdan@baylibre.com>
-Date:   Thu, 13 Jun 2019 11:16:31 +0200
-Message-ID: <CAMO6nazLss_4cfAJZZLA+Ydrx0wPCxMYrZM2NQKDw1AmvSj_0Q@mail.gmail.com>
-Subject: Re: linux-next: Tree for Jun 12 (staging/media/meson/)
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
-On Wed, Jun 12, 2019 at 11:50 PM Randy Dunlap <rdunlap@infradead.org> wrote=
-:
->
-> On 6/12/19 12:00 AM, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > Changes since 20190611:
-> >
->
->
-> on i386:
->
-> ../drivers/staging/media/meson/vdec/vdec.c: In function =E2=80=98vdec_rec=
-ycle_thread=E2=80=99:
-> ../drivers/staging/media/meson/vdec/vdec.c:59:2: error: implicit declarat=
-ion of function =E2=80=98kthread_should_stop=E2=80=99 [-Werror=3Dimplicit-f=
-unction-declaration]
->   while (!kthread_should_stop()) {
->   ^
-> ../drivers/staging/media/meson/vdec/vdec.c: In function =E2=80=98vdec_sta=
-rt_streaming=E2=80=99:
-> ../drivers/staging/media/meson/vdec/vdec.c:324:3: error: implicit declara=
-tion of function =E2=80=98kthread_run=E2=80=99 [-Werror=3Dimplicit-function=
--declaration]
->    sess->recycle_thread =3D kthread_run(vdec_recycle_thread, sess,
->    ^
-> ../drivers/staging/media/meson/vdec/vdec.c:324:24: warning: assignment ma=
-kes pointer from integer without a cast [enabled by default]
->    sess->recycle_thread =3D kthread_run(vdec_recycle_thread, sess,
->                         ^
-> ../drivers/staging/media/meson/vdec/vdec.c: In function =E2=80=98vdec_sto=
-p_streaming=E2=80=99:
-> ../drivers/staging/media/meson/vdec/vdec.c:389:4: error: implicit declara=
-tion of function =E2=80=98kthread_stop=E2=80=99 [-Werror=3Dimplicit-functio=
-n-declaration]
->     kthread_stop(sess->recycle_thread);
->     ^
->
-> Full randconfig file is attached.
->
+On Wed, Jun 12, 2019 at 11:12:41PM +0200, Niklas Söderlund wrote:
+> Renesas media binding documentation files uses a naming schema of
+> 'renesas,<module>.txt'. Rename VIN and CSI-2 files to match this
+> pattern.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-This is fixed with "media: meson: vdec: Add missing kthread.h" from
-Yue Haibing [0]. The patch is sitting in media_tree/master.
 
-[0] https://patchwork.kernel.org/patch/10989333/
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-Regards,
-Maxime
+I wonder if, as a follow-up, renesas-wdt.txt and
+renesas-memory-controllers.txt should get similar treatment.
 
->
-> --
-> ~Randy
->
+
+> ---
+>  .../media/{renesas,rcar-csi2.txt => renesas,csi2.txt}         | 0
+>  .../bindings/media/{rcar_vin.txt => renesas,vin.txt}          | 0
+>  MAINTAINERS                                                   | 4 ++--
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{renesas,rcar-csi2.txt => renesas,csi2.txt} (100%)
+>  rename Documentation/devicetree/bindings/media/{rcar_vin.txt => renesas,vin.txt} (100%)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt b/Documentation/devicetree/bindings/media/renesas,csi2.txt
+> similarity index 100%
+> rename from Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
+> rename to Documentation/devicetree/bindings/media/renesas,csi2.txt
+> diff --git a/Documentation/devicetree/bindings/media/rcar_vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
+> similarity index 100%
+> rename from Documentation/devicetree/bindings/media/rcar_vin.txt
+> rename to Documentation/devicetree/bindings/media/renesas,vin.txt
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6a3bac28ebb47830..a0d21ff13c8e8989 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9807,8 +9807,8 @@ L:	linux-media@vger.kernel.org
+>  L:	linux-renesas-soc@vger.kernel.org
+>  T:	git git://linuxtv.org/media_tree.git
+>  S:	Supported
+> -F:	Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
+> -F:	Documentation/devicetree/bindings/media/rcar_vin.txt
+> +F:	Documentation/devicetree/bindings/media/renesas,csi2.txt
+> +F:	Documentation/devicetree/bindings/media/renesas,vin.txt
+>  F:	drivers/media/platform/rcar-vin/
+>  
+>  MEDIA DRIVERS FOR RENESAS - VSP1
+> -- 
+> 2.21.0
+> 
