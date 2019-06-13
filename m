@@ -2,82 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF2F0445CA
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18853445B2
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404095AbfFMQqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:46:39 -0400
-Received: from mail-qt1-f175.google.com ([209.85.160.175]:34859 "EHLO
-        mail-qt1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730281AbfFMFKF (ORCPT
+        id S1730323AbfFMQpy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:45:54 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47215 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730319AbfFMFoV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 01:10:05 -0400
-Received: by mail-qt1-f175.google.com with SMTP id d23so21156325qto.2
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 22:10:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6v0qjuPzO2HE72GVoc1kOy6XhlVRA18zPxAUBQbHC7E=;
-        b=USSYQR1HkIkJVpEAqgLAlgtCS+mpkQy/CWJhE4hbJbw/fwxzGw+attKZ40a3eSMG4Y
-         OQ2gARfJ645G2lPi5DnEMhHfM+4zsyun6ueakZ3sHJtQbKzV4PfbA11UCVtKLCmWsLYT
-         g1BC3UYV37xqVhWKbVDLQyNGqgmkBA9AIGj1LlT3uBtY9j95IaTj6OVWwllQ8lT49HgJ
-         v1zCAx1x3wIboLrihBOE3+9rekcltW+YmPbYjQXZ94QSSfqMUaQGg9FZNL0MIlwCskgh
-         p33K3E3n8uLaVbOpvunLOnLAJgL7k+SVv3UzLUMJlsd1K7cUKdCirDYx491cii2zX37L
-         Fz1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6v0qjuPzO2HE72GVoc1kOy6XhlVRA18zPxAUBQbHC7E=;
-        b=YE2BkdqfhSdLXjUxQ3aRedwT9k5yMX6VH2H30WQdP63J3yQphstx8TeP7HvD6sYjb8
-         BZCoRrBCXJvJBJt4qgF0sKwsD6+bcjXgfqm9+P/sqmiP2s/RShqEcTQOu/Zniw4tyyPr
-         PiCX58/muf43LPBCpxI1h+KldFoNjHE8BKWtzcWS5lHAxqEayFNjEiI6k33ca5mEI2nn
-         9mrfP0QZeoUxheba9ibOYNIAIovq5fvuowPBTQeqMR2YapnUAkB9vK00ZCF0iMaVT88x
-         GP06gKfxMN4IKn+Cztk8XiTjJgX9vMCMrrVKsD7TL/1+ZYjNOYSn74sSkqDZ8CNl5Voq
-         7hNg==
-X-Gm-Message-State: APjAAAX1/c5wadVZDyIffZsVYDsskTvaWSMoRh98N5WkgPUn0LOkEssz
-        /v1sAh2z4nC8FSF81Ia6M8FWsT3ZCDUiNEzpKoQFKue+
-X-Google-Smtp-Source: APXvYqzN86HSJwrXgzb5Wnfmt2SM6jhTNodgCRBLT7Yj+Qtww4vTtfBSiln8G/VUCBWLQtcrPf5xljXyr39q6M3my2w=
-X-Received: by 2002:a0c:ad7a:: with SMTP id v55mr1786272qvc.130.1560402604599;
- Wed, 12 Jun 2019 22:10:04 -0700 (PDT)
+        Thu, 13 Jun 2019 01:44:21 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id bIX1hL32N5qKabIX4hDxVJ; Thu, 13 Jun 2019 07:44:19 +0200
+Subject: Re: [PATCH 0/2] Use Media Dev Allocator to fix vimc dev lifetime bugs
+To:     helen.koike@collabora.com
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1558667245.git.skhan@linuxfoundation.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <c9160fe7-e880-4070-3959-b9e9177acf54@xs4all.nl>
+Date:   Thu, 13 Jun 2019 07:44:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <CAKL8oB_qPGVXd3MCj=f1Lzh02ifGzYTS2YAD77s2MY2LAnc+1A@mail.gmail.com>
- <20190612150132.iemhbronjjaonpt2@gofer.mess.org>
-In-Reply-To: <20190612150132.iemhbronjjaonpt2@gofer.mess.org>
-From:   Takashi Kanamaru <neuralassembly@gmail.com>
-Date:   Thu, 13 Jun 2019 14:09:51 +0900
-Message-ID: <CAKL8oB-KxsGxHAUac7sYBf-Gs4UkAPVkXg75LwwVbut9GkQ-sQ@mail.gmail.com>
-Subject: Re: The restricted number (LIRCBUF_SIZE) of pulse-spaces in IR
- sequences is too small
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <cover.1558667245.git.skhan@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDwxpIXPhJN75Jw4Kp1rhsRbTfMtOhFu8gNd1BX+22wfx+C4LbiSCZR9QW2IynSwuVRELuLWlzdy123Z9GqnH8K5Ut/QIsYFRlAz8e0zn4l6PAyDEFF/
+ 8e5YMZHzequKkwwJdLY6CDvGb6f67csd4nqD0iAmn5DG+zJOYvS2GJhtfMdwRNhsusrA9doOHJSgntKDjUYCKH3PYUxKW3v7DiivRZS2/2y5kkIK/M9krJ3w
+ nAjQl97buif4pFG7oZdhdmwC0o4QazU2MJ2AM5aYGV0Ex+YrIZPXv2BRycaklV+EvDc/9SX4cMhE95rGSGmURw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Sean Young,
+On 5/24/19 5:31 AM, Shuah Khan wrote:
+> media_device is embedded in struct vimc_device and when vimc is removed
+> vimc_device and the embedded media_device goes with it, while the active
+> stream and vimc_capture continue to access it.
+> 
+> Fix the media_device lifetime problem by changing vimc to create shared
+> media_device using Media Device Allocator API and vimc_capture getting
+> a reference to vimc module. With this change, vimc module can be removed
+> only when the references are gone. vimc can be removed after vimc_capture
+> is removed.
+> 
+> Media Device Allocator API supports just USB devices. Enhance it
+> adding a genetic device allocate interface to support other media
+> drivers.
+> 
+> The new interface takes pointer to struct device instead and creates
+> media device. This interface allows a group of drivers that have a
+> common root device to share media device resource and ensure media
+> device doesn't get deleted as long as one of the drivers holds its
+> reference.
+> 
+> The new interface has been tested with vimc component driver to fix
+> panics when vimc module is removed while streaming is in progress.
 
-> I don't see any reason why it can't be increased. For the record, it would
-> be interesting to know what your air conditioner model is and what the
-> IR signal looks like. I have not seen such a signal before.
+Helen, can you review this series? I'm not sure this is the right approach
+for a driver like vimc, and even if it is, then it is odd that vimc-capture
+is the only vimc module that's handled here.
 
-I observed the IR signals of my air conditioner (Panasoic ACXA75C00600)
-and TV (Belson DS16-11B) with the oscilloscope,
-and uploaded their graph as follows:
+My gut feeling is that this should be handled inside vimc directly and not
+using the media-dev-allocator.
 
-https://github.com/neuralassembly/raspi/blob/master/IRSignalGraph.png
+Regards,
 
-It is observed that the length of IR signal of air conditioner is long
-(about 250ms),
-and that of TV is short (about 60ms).
+	Hans
 
-It is difficult to count the number of pulses and spaces in this graph,
-so I counted them from the output of the "mode2" command.
-They had 439 pulse-spaces and 67 pulse-spaces, respectively.
+> 
+> Shuah Khan (2):
+>   media: add generic device allocate interface to media-dev-allocator
+>   vimc: fix BUG: unable to handle kernel NULL pointer dereference
+> 
+>  drivers/media/Makefile                     |  4 +-
+>  drivers/media/media-dev-allocator.c        | 39 ++++++++++++++
+>  drivers/media/platform/vimc/vimc-capture.c | 17 +++++-
+>  drivers/media/platform/vimc/vimc-core.c    | 60 ++++++++++++----------
+>  include/media/media-dev-allocator.h        | 46 ++++++++++++++---
+>  5 files changed, 130 insertions(+), 36 deletions(-)
+> 
 
-Sincerely,
-
-Takashi Kanamaru
