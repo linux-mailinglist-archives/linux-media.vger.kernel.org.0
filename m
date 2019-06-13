@@ -2,92 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D773B43E48
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C92143E42
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 17:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729330AbfFMPsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 11:48:43 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:39370 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731730AbfFMJSh (ORCPT
+        id S1731958AbfFMPs2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 11:48:28 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53288 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731737AbfFMJUU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 05:18:37 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id B89B925B7FA;
-        Thu, 13 Jun 2019 19:18:34 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id B35A2940483; Thu, 13 Jun 2019 11:18:32 +0200 (CEST)
-Date:   Thu, 13 Jun 2019 11:18:32 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: Re: [PATCH v2] dt-bindings: rcar-{csi2,vin}: Rename bindings
- documentation files
-Message-ID: <20190613091832.77g2ltnvd5o2hndh@verge.net.au>
-References: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
+        Thu, 13 Jun 2019 05:20:20 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so9369729wmj.3
+        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 02:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kotA5N9EoUxhGkMwLE3/QhHcmiICXj1ka23TDvB3rSM=;
+        b=FJ8biDWxyeoMYEpxvOrTcrucGhSnQZXA9kUvxSyUo6V4DerOufEcXA7Z1ssTQwCwpS
+         bsMvySOAoDvKrrCgCPIAOT9GsWHNT1Lp06Gmqoh0hYboenGzdtTEFPxoJI7TkX5RvpFv
+         Qcvq3eguvfL78hi5YEQeX5T+wEB4ZO5EMX3tN5H0VT6SIwcmPEmdzNfEDwT0AphM03M/
+         US3ZxjNlsuUuoZTu9OUJOUVj6a7Y5rBQuqnHbssIC91vYa45GPMIhTkUZ6g4Gi+1DhR9
+         DEx4zragsgMC8MkmxzjP2O2ZA9dE/1drWvrKZd1Z4kNecJK8UGR90l/mp7hMMVCxo5jS
+         lkwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kotA5N9EoUxhGkMwLE3/QhHcmiICXj1ka23TDvB3rSM=;
+        b=Vg8nskCXapmuPDhaGS6bZcO8pS+nzGsKJwjCVmmC6EoNeScM5XAoo0YQhJjdly0ym7
+         W5jRlFLa1tMSj2wvaFfCKcT5wrhCX51J9W41WJq78XKej2vdf6gBrxgfEXwJ/sd2rIUw
+         N+w70/i6BsdVRAOko8UYBm/AJWVTH2tbWo241LU0osOCJm6cgZ6Nx5WzPnFuu57za6NC
+         ZcXeJCwLHP+uWHOqCaTWc+ZwCjMj6sfIGJnGDQg/T60O6HjwIMfv42tQjtG9pEa13eDX
+         D7lBap4iEhZSzcsNgdIq/5qEp+USnVSzbAWtD8MNBQRIqj5CSR3PtNl+Wzjq4vimgRfK
+         FLWg==
+X-Gm-Message-State: APjAAAWmH6DVdKhOLrnFGMaDbi8Zx+02tn3Y1Bzgl1KSD4vS5sh+d1hK
+        /iNKY+aq2VeBhhbBvt8uv7KNm91y3TwfKQU0Q/ndRw==
+X-Google-Smtp-Source: APXvYqyF4beCFeHK+yRlaCF2vVGkbOQNCZTufPhtT/Uyk+odeT53Xmpq+5vVT2nuqZWItux6aLxsRUiBbqTIUkv7Yv8=
+X-Received: by 2002:a1c:6c08:: with SMTP id h8mr2990087wmc.62.1560417618124;
+ Thu, 13 Jun 2019 02:20:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190612144218.26149-1-colin.king@canonical.com>
+In-Reply-To: <20190612144218.26149-1-colin.king@canonical.com>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Date:   Thu, 13 Jun 2019 11:20:07 +0200
+Message-ID: <CAMO6naxDNmsqUVgAJ2uMBsQPUjsYK6zLhgubNfeEB-GEdD7sOw@mail.gmail.com>
+Subject: Re: [PATCH][next] staging: media: meson: remove redundant
+ initialization of mpeg12
+To:     Colin King <colin.king@canonical.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-media@lists.freedesktop.org,
+        linux-amlogic@lists.infradead.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 11:12:41PM +0200, Niklas Söderlund wrote:
-> Renesas media binding documentation files uses a naming schema of
-> 'renesas,<module>.txt'. Rename VIN and CSI-2 files to match this
-> pattern.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-
-
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-
-I wonder if, as a follow-up, renesas-wdt.txt and
-renesas-memory-controllers.txt should get similar treatment.
-
-
+Hi Colin,
+On Wed, Jun 12, 2019 at 4:42 PM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> The pointer mpeg12 is being initialized however that value is never
+> read and mpeg12 is being re-assigned almost immediately afterwards.
+> Remove the redundant initialization.
+>
+> Addresses-Coverity: ("Unused value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > ---
->  .../media/{renesas,rcar-csi2.txt => renesas,csi2.txt}         | 0
->  .../bindings/media/{rcar_vin.txt => renesas,vin.txt}          | 0
->  MAINTAINERS                                                   | 4 ++--
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename Documentation/devicetree/bindings/media/{renesas,rcar-csi2.txt => renesas,csi2.txt} (100%)
->  rename Documentation/devicetree/bindings/media/{rcar_vin.txt => renesas,vin.txt} (100%)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt b/Documentation/devicetree/bindings/media/renesas,csi2.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
-> rename to Documentation/devicetree/bindings/media/renesas,csi2.txt
-> diff --git a/Documentation/devicetree/bindings/media/rcar_vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/rcar_vin.txt
-> rename to Documentation/devicetree/bindings/media/renesas,vin.txt
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6a3bac28ebb47830..a0d21ff13c8e8989 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9807,8 +9807,8 @@ L:	linux-media@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Supported
-> -F:	Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
-> -F:	Documentation/devicetree/bindings/media/rcar_vin.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,csi2.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,vin.txt
->  F:	drivers/media/platform/rcar-vin/
->  
->  MEDIA DRIVERS FOR RENESAS - VSP1
-> -- 
-> 2.21.0
-> 
+>  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> index 5398fbf7ce20..48869cc3d973 100644
+> --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> @@ -63,7 +63,7 @@ static void codec_mpeg12_recycle(struct amvdec_core *core, u32 buf_idx)
+>  static int codec_mpeg12_start(struct amvdec_session *sess)
+>  {
+>         struct amvdec_core *core = sess->core;
+> -       struct codec_mpeg12 *mpeg12 = sess->priv;
+> +       struct codec_mpeg12 *mpeg12;
+>         int ret;
+>
+>         mpeg12 = kzalloc(sizeof(*mpeg12), GFP_KERNEL);
+> --
+> 2.20.1
+>
+
+Thank you for the patch.
+
+Acked-by: Maxime Jourdan <mjourdan@baylibre.com>
