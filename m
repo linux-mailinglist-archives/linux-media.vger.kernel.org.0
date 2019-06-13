@@ -2,341 +2,547 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFD9644768
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1762F4473C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730027AbfFMQ7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:59:20 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:33309 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729823AbfFMAVp (ORCPT
+        id S2389149AbfFMQ6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:58:09 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40843 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729910AbfFMAwi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 20:21:45 -0400
-Received: by mail-qt1-f195.google.com with SMTP id x2so19690887qtr.0
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 17:21:44 -0700 (PDT)
+        Wed, 12 Jun 2019 20:52:38 -0400
+Received: by mail-lf1-f68.google.com with SMTP id a9so13631103lff.7
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 17:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=DiQF+QAx3kil9aw/bPUrVwbqrWJtffgqguW/FAC9On8=;
-        b=rE8SIkjvNKBoI386WcmL53XgAoqgTNffbVdwYTZwpnZhWSsXCum/bWcQ/JZqE8aOXe
-         slwNUAuC+H2Sfkyg17uD2KoDN4BGPHMmXxFpGzQ2R0R5ea60zek5ZOe9b9qN53djn5ep
-         7x5DVmcnzoSThUSelLQufWuMSczfN1kXGzfTHrYnp8cPGLzPhovXR1k3wTsKRE+z2NuG
-         YhWcl1ZTHDnJRYOgrM1fVounDKiLWtx2CZQRwn2NjjBdBmcIG2hWWRXN+p1mbxGbU1h/
-         gFoKH0Wsj6j/i0wFls12PXGx7blYDTAY4Zfg3IAGMyEujwF+esVqJMNl9h4IaOudXgGx
-         0A6g==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=lr+rbduwpLX2cx/nTtPo/LUTeBAAXgYd3rqeqac2hQs=;
+        b=uuZJQgphF5Sj5iyF/hX42c2Do2uMfJCuHch+NikB2DxKWkUdyNncU4GSHsZLsR9PrS
+         Xgz7VsBca4GOuID3Ap+OBJcK7uQ0YyzXr7yJAIaXc9OYW7Yh0XPPSHmVSo72FuyCzziF
+         oRMza+EN1GDIEgfeB/lBPrkJxJn8mBXzZszFoEH40W/Tkn3Xs4vY3TwtKCE0qbCNvGdS
+         jKA/ZPU6TjbktH2MldEjQQyVBJfzOMcMlK2oduhyeQ8l2KixIy5kc5358wmL8rtsQwtA
+         RSRJmH6RtjI5mfwkxVhsXeVnAQRSiUIO2Bi/n0bZaN6jiktUaeCXvKSwBF3Z0pBLBfbb
+         RfIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DiQF+QAx3kil9aw/bPUrVwbqrWJtffgqguW/FAC9On8=;
-        b=r8RTMqKKREoM7vfK/jPGwnDZdplGXX6gF8zEY7pxTSYlxQLcYSeXWonALkr8COfq3L
-         VemBe22ni0iXj2MIIob3C36F4IHNSqt3FonFaSgJSjaMiBi3NS/BwKFeMxWiQP/8jXdH
-         9ygwSf2d2vSbCSg3+4ey/GFO/WnFCa/7pjJrP1KPB/NEfUaQT2zwILntrqaFV/8uuwR2
-         2q0PJmieB4vpOGgEVr/hbE3767+NqIp3J3r4j8k08ujXwKcNyvx8C8hNawnKeFoIzudz
-         omRzl/fFIQnmYMEshwJz5KsPNyfnkVOThusrQPBuNn5kyjOLtJlZj8OLRZbIDHZr6+ap
-         WdKA==
-X-Gm-Message-State: APjAAAX9icqJjlipepluaFMG09ApH7hWdxx6LeM1ANhMwErI3CZh8mnF
-        gYZMbAitRZsHou87wlIQfskTVw==
-X-Google-Smtp-Source: APXvYqxQzdmSFWXTUG+hawrY1XpqyxxQepuDGXfLwAldnwvEE/XCNUiUtNLqlohKexwWVi4r39luqg==
-X-Received: by 2002:ac8:431e:: with SMTP id z30mr72781954qtm.291.1560385304149;
-        Wed, 12 Jun 2019 17:21:44 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id y3sm699362qtj.46.2019.06.12.17.21.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=lr+rbduwpLX2cx/nTtPo/LUTeBAAXgYd3rqeqac2hQs=;
+        b=U4MMf0crc3uBZ83HnCo82YV1tiZ0rDo72yxDDET4B10ZrTL2DXAUk86XgH5xdPQXp8
+         6bu6vJcgxrNeaP930l0CQsZWuHP+dnHtYVuiWQcydTpiyAL44cF/DRNgyQ+KjszFB9qS
+         U+z3Do5wwGRtX+DaEEhjROPPyN/AnGBBI2H+Z5KArwuN3zfHiYkEz6eAO0IcRFQiviVE
+         EHzm5QNqjPZTmctQn8dYNDJtbjtClZTBkJ5RJD45+KwjWBRATDvvSNFkw/ju3phrM7Hk
+         yxvgY2px5dMb50N3H6wD9hzXZ3QDdsWfxTiWCYWS4ygCHzRRbEaPWK2uhsqx6o3pud8R
+         n5bQ==
+X-Gm-Message-State: APjAAAWL/+qCWbfIAgPuDYmMpWxjdMuhlJ4JtfW9wg78HQbPw8zprM0w
+        biusmnnTmPAhGwOURhiuggFt1g==
+X-Google-Smtp-Source: APXvYqyyvQpfrAKQ5ZtqNA8UjfSgV94LpDpUK02RWLU2onycbWdidxoGIXxjHZYQtB4svaHw22oDng==
+X-Received: by 2002:a19:4f50:: with SMTP id a16mr42246342lfk.24.1560387155159;
+        Wed, 12 Jun 2019 17:52:35 -0700 (PDT)
+Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
+        by smtp.gmail.com with ESMTPSA id i5sm270744lfo.55.2019.06.12.17.52.34
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 17:21:42 -0700 (PDT)
-Message-ID: <90c39a342ad8832546b12b522663732760b80cf4.camel@ndufresne.ca>
-Subject: Re: [PATCH for v5.2] videobuf2-core.c: always reacquire USERPTR
- memory
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Date:   Wed, 12 Jun 2019 20:21:31 -0400
-In-Reply-To: <20190612081746.GB5035@pendragon.ideasonboard.com>
-References: <cb129a47-e114-6841-44cc-ec34ffa562c7@xs4all.nl>
-         <e674539f-6b40-7b54-90bd-d1ed96ea5f55@samsung.com>
-         <6c3ffe98-9d64-b881-470a-bfef8b9280de@xs4all.nl>
-         <1f754020-296c-cf9b-1331-598bb774fa42@xs4all.nl>
-         <4e711a70-ef25-b9f2-e27a-ae6c80288388@xs4all.nl>
-         <ddacf8a1-61c4-bc04-8c52-cd56dfd13842@samsung.com>
-         <20190607135815.GN7593@pendragon.ideasonboard.com>
-         <675dc8c2985754f6c72c06ec36a00ebca4f49fc8.camel@ndufresne.ca>
-         <20190611102410.GD5016@pendragon.ideasonboard.com>
-         <af1a05ba549c82a672718821282fd5af4e560f5c.camel@ndufresne.ca>
-         <20190612081746.GB5035@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        Wed, 12 Jun 2019 17:52:34 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 02:52:33 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 2/9] v4l2-async: Use endpoint node, not device node, for
+ fwnode match
+Message-ID: <20190613005233.GA20196@bigcity.dyn.berto.se>
+References: <20190405094127.18975-1-sakari.ailus@linux.intel.com>
+ <20190405094127.18975-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190405094127.18975-4-sakari.ailus@linux.intel.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 12 juin 2019 à 11:17 +0300, Laurent Pinchart a écrit :
-> Hi Nicolas,
-> 
-> On Tue, Jun 11, 2019 at 08:09:13PM -0400, Nicolas Dufresne wrote:
-> > Le mardi 11 juin 2019 à 13:24 +0300, Laurent Pinchart a écrit :
-> > > On Fri, Jun 07, 2019 at 03:38:39PM -0400, Nicolas Dufresne wrote:
-> > > > Le vendredi 07 juin 2019 à 16:58 +0300, Laurent Pinchart a écrit :
-> > > > > On Fri, Jun 07, 2019 at 03:55:05PM +0200, Marek Szyprowski wrote:
-> > > > > > On 2019-06-07 15:40, Hans Verkuil wrote:
-> > > > > > > On 6/7/19 2:47 PM, Hans Verkuil wrote:
-> > > > > > > > On 6/7/19 2:23 PM, Hans Verkuil wrote:
-> > > > > > > > > On 6/7/19 2:14 PM, Marek Szyprowski wrote:
-> > > > > > > > > > On 2019-06-07 14:01, Hans Verkuil wrote:
-> > > > > > > > > > > On 6/7/19 1:16 PM, Laurent Pinchart wrote:
-> > > > > > > > > > > > Thank you for the patch.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > On Fri, Jun 07, 2019 at 10:45:31AM +0200, Hans Verkuil wrote:
-> > > > > > > > > > > > > The __prepare_userptr() function made the incorrect assumption that if the
-> > > > > > > > > > > > > same user pointer was used as the last one for which memory was acquired, then
-> > > > > > > > > > > > > there was no need to re-acquire the memory. This assumption was never properly
-> > > > > > > > > > > > > tested, and after doing that it became clear that this was in fact wrong.
-> > > > > > > > > > > > Could you explain in the commit message why the assumption is not
-> > > > > > > > > > > > correct ?
-> > > > > > > > > > > You can free the memory, then allocate it again and you can get the same pointer,
-> > > > > > > > > > > even though it is not necessarily using the same physical pages for the memory
-> > > > > > > > > > > that the kernel is still using for it.
-> > > > > > > > > > > 
-> > > > > > > > > > > Worse, you can free the memory, then allocate only half the memory you need and
-> > > > > > > > > > > get back the same pointer. vb2 wouldn't notice this. And it seems to work (since
-> > > > > > > > > > > the original mapping still remains), but this can corrupt userspace memory
-> > > > > > > > > > > causing the application to crash. It's not quite clear to me how the memory can
-> > > > > > > > > > > get corrupted. I don't know enough of those low-level mm internals to understand
-> > > > > > > > > > > the sequence of events.
-> > > > > > > > > > > 
-> > > > > > > > > > > I have test code for v4l2-compliance available if someone wants to test this.
-> > > > > > > > > > I'm interested, I would really like to know what happens in the mm
-> > > > > > > > > > subsystem in such case.
-> > > > > > > > > Here it is:
-> > > > > > > > > 
-> > > > > > > > > diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > > > > > > > > index be606e48..9abf41da 100644
-> > > > > > > > > --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > > > > > > > > +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> > > > > > > > > @@ -797,7 +797,7 @@ int testReadWrite(struct node *node)
-> > > > > > > > >   	return 0;
-> > > > > > > > >   }
-> > > > > > > > > 
-> > > > > > > > > -static int captureBufs(struct node *node, const cv4l_queue &q,
-> > > > > > > > > +static int captureBufs(struct node *node, cv4l_queue &q,
-> > > > > > > > >   		const cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
-> > > > > > > > >   		unsigned &capture_count)
-> > > > > > > > >   {
-> > > > > > > > > @@ -962,6 +962,21 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
-> > > > > > > > >   				buf.s_flags(V4L2_BUF_FLAG_REQUEST_FD);
-> > > > > > > > >   				buf.s_request_fd(buf_req_fds[req_idx]);
-> > > > > > > > >   			}
-> > > > > > > > > +			if (v4l_type_is_capture(buf.g_type()) && q.g_memory() == V4L2_MEMORY_USERPTR) {
-> > > > > > > > > +				printf("\nidx: %d", buf.g_index());
-> > > > > > > > > +				for (unsigned p = 0; p < q.g_num_planes(); p++) {
-> > > > > > > > > +					printf(" old buf[%d]: %p ", p, buf.g_userptr(p));
-> > > > > > > > > +					fflush(stdout);
-> > > > > > > > > +					free(buf.g_userptr(p));
-> > > > > > > > > +					void *m = calloc(1, q.g_length(p)/2);
-> > > > > > > > > +
-> > > > > > > > > +					fail_on_test(m == NULL);
-> > > > > > > > > +					q.s_userptr(buf.g_index(), p, m);
-> > > > > > > > > +					printf("new buf[%d]: %p", p, m);
-> > > > > > > > > +					buf.s_userptr(m, p);
-> > > > > > > > > +				}
-> > > > > > > > > +				printf("\n");
-> > > > > > > > > +			}
-> > > > > > > > >   			fail_on_test(buf.qbuf(node, q));
-> > > > > > > > >   			fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
-> > > > > > > > >   			if (buf.g_flags() & V4L2_BUF_FLAG_REQUEST_FD) {
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > Load the vivid driver and just run 'v4l2-compliance -s10' and you'll see:
-> > > > > > > > > 
-> > > > > > > > > ...
-> > > > > > > > > Streaming ioctls:
-> > > > > > > > >          test read/write: OK
-> > > > > > > > >          test blocking wait: OK
-> > > > > > > > >          test MMAP (no poll): OK
-> > > > > > > > >          test MMAP (select): OK
-> > > > > > > > >          test MMAP (epoll): OK
-> > > > > > > > >          Video Capture: Frame #000
-> > > > > > > > > idx: 0 old buf[0]: 0x7f71c6e7c010 new buf[0]: 0x7f71c6eb4010
-> > > > > > > > >          Video Capture: Frame #001
-> > > > > > > > > idx: 1 old buf[0]: 0x7f71c6e0b010 new buf[0]: 0x7f71c6e7b010
-> > > > > > > > >          Video Capture: Frame #002
-> > > > > > > > > idx: 0 old buf[0]: 0x7f71c6eb4010 free(): invalid pointer
-> > > > > > > > > Aborted
-> > > > > > > > To clarify: two full size buffers are allocated and queued (that happens in setupUserPtr()),
-> > > > > > > > then streaming starts and captureBufs is called which basically just calls dqbuf
-> > > > > > > > and qbuf.
-> > > > > > > > 
-> > > > > > > > Tomasz pointed out that all the pointers in this log are actually different. That's
-> > > > > > > > correct, but here is a log where the old and new buf ptr are the same:
-> > > > > > > > 
-> > > > > > > > Streaming ioctls:
-> > > > > > > >          test read/write: OK
-> > > > > > > >          test blocking wait: OK
-> > > > > > > >          test MMAP (no poll): OK
-> > > > > > > >          test MMAP (select): OK
-> > > > > > > >          test MMAP (epoll): OK
-> > > > > > > >          Video Capture: Frame #000
-> > > > > > > > idx: 0 old buf[0]: 0x7f1094e16010 new buf[0]: 0x7f1094e4e010
-> > > > > > > >          Video Capture: Frame #001
-> > > > > > > > idx: 1 old buf[0]: 0x7f1094da5010 new buf[0]: 0x7f1094e15010
-> > > > > > > >          Video Capture: Frame #002
-> > > > > > > > idx: 0 old buf[0]: 0x7f1094e4e010 new buf[0]: 0x7f1094e4e010
-> > > > > > > >          Video Capture: Frame #003
-> > > > > > > > idx: 1 old buf[0]: 0x7f1094e15010 free(): invalid pointer
-> > > > > > > > Aborted
-> > > > > > > > 
-> > > > > > > > It's weird that the first log fails that way: if the pointers are different,
-> > > > > > > > then vb2 will call get_userptr and it should discover that the buffer isn't
-> > > > > > > > large enough, causing qbuf to fail. That doesn't seem to happen.
-> > > > > > > I think that the reason for this corruption is that the memory pool used
-> > > > > > > by glibc is now large enough for vb2 to think it can map the full length
-> > > > > > > of the user pointer into memory, even though only the first half is actually
-> > > > > > > from the buffer that's allocated. When you capture a frame you just overwrite
-> > > > > > > a random part of the application's memory pool, causing this invalid pointer.
-> > > > > > > 
-> > > > > > > But that's a matter of garbage in, garbage out. So that's not the issue here.
-> > > > > > > 
-> > > > > > > The real question is what happens when you free the old buffer, allocate a
-> > > > > > > new buffer, end up with the same userptr, but it's using one or more different
-> > > > > > > pages for its memory compared to the mapping that the kernel uses.
-> > > > > > > 
-> > > > > > > I managed to reproduce this with v4l2-ctl:
-> > > > > > > 
-> > > > > > > diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > > > > > > index 28b2b3b9..8f2ed9b5 100644
-> > > > > > > --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > > > > > > +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> > > > > > > @@ -1422,6 +1422,24 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
-> > > > > > >   		 * has the size that fits the old resolution and might not
-> > > > > > >   		 * fit to the new one.
-> > > > > > >   		 */
-> > > > > > > +		if (q.g_memory() == V4L2_MEMORY_USERPTR) {
-> > > > > > > +			printf("\nidx: %d", buf.g_index());
-> > > > > > > +			for (unsigned p = 0; p < q.g_num_planes(); p++) {
-> > > > > > > +				unsigned *pb = (unsigned *)buf.g_userptr(p);
-> > > > > > > +				printf(" old buf[%d]: %p first pixel: 0x%x", p, buf.g_userptr(p), *pb);
-> > > > > > > +				fflush(stdout);
-> > > > > > > +				free(buf.g_userptr(p));
-> > > > > > > +				void *m = calloc(1, q.g_length(p));
-> > > > > > > +
-> > > > > > > +				if (m == NULL)
-> > > > > > > +					return QUEUE_ERROR;
-> > > > > > > +				q.s_userptr(buf.g_index(), p, m);
-> > > > > > > +				if (m == buf.g_userptr(p))
-> > > > > > > +					printf(" identical new buf");
-> > > > > > > +				buf.s_userptr(m, p);
-> > > > > > > +			}
-> > > > > > > +			printf("\n");
-> > > > > > > +		}
-> > > > > > >   		if (fd.qbuf(buf) && errno != EINVAL) {
-> > > > > > >   			fprintf(stderr, "%s: qbuf error\n", __func__);
-> > > > > > >   			return QUEUE_ERROR;
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Load vivid, setup a pure white test pattern:
-> > > > > > > 
-> > > > > > > v4l2-ctl -c test_pattern=6
-> > > > > > > 
-> > > > > > > Now run v4l2-ctl --stream-user and you'll see:
-> > > > > > > 
-> > > > > > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x80ea80ea identical new buf
-> > > > > > > <
-> > > > > > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x80ea80ea identical new buf
-> > > > > > > <
-> > > > > > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x80ea80ea identical new buf
-> > > > > > > <
-> > > > > > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x80ea80ea identical new buf
-> > > > > > > <
-> > > > > > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x0 identical new buf
-> > > > > > > <
-> > > > > > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x0 identical new buf
-> > > > > > > < 5.00 fps
-> > > > > > > 
-> > > > > > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x0 identical new buf
-> > > > > > > <
-> > > > > > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x0 identical new buf
-> > > > > > > 
-> > > > > > > The first four dequeued buffers are filled with data, after that the
-> > > > > > > returned buffer is empty because vivid is actually writing to different
-> > > > > > > memory pages.
-> > > > > > > 
-> > > > > > > With this patch the first pixel is always non-zero.
-> > > > > > 
-> > > > > > Good catch. The question is weather we treat that as undefined behavior 
-> > > > > > and keep the optimization for 'good applications' or assume that every 
-> > > > > > broken userspace code has to be properly handled.
-> > > > > 
-> > > > > Given how long we've been saying that USERPTR should be replaced by
-> > > > > DMABUF, I would consider that any userspace code using USERPTR is broken
-> > > > > :-) One could however question whether we were effective at getting that
-> > > > > message across...
-> > > > 
-> > > > Just a reminder that DMABuf is not a replacement for USERPTR. It only
-> > > > cover a subset in absence of an allocater for it. There is no clean way
-> > > > to allocate a DMAbuf. Notably, memfds (which could have filled the gap)
-> > > > are not DMABuf, even though they are they are similar to the buffers
-> > > > allocated by vivid or uvcvideo.
-> > > 
-> > > You always have the option to use MMAP to allocate buffers on the V4L2
-> > > device. What prevents you from doing so and forces usage of USERPTR ?
-> > 
-> > If you use MMAP on one v4l2 device, how do you import that into another
-> > v4l2 device ?
-> 
-> You can simply export the MMAP buffers on the V4L2 device that has
-> allocated them, and use DMABUF on the importing device.
-> 
-> > Now, let's say your source is not a v4l2 device, and uses virtual
-> > memory, how does DMABuf replaces such a use case if you want to avoid
-> > copies and you know your HW can support fast usage of these randomly
-> > allocated buffers ?
-> 
-> For this use case you should allocate buffers on the sink, mmap them,
-> and use the mapped memory on the source side. I agree that not all
-> sources may support this mode of operation, but that's a design issue
-> with the source. If we had a dmabuf allocator your problem wouldn't be
-> solved, as the source would still need to be modified to use it.
+Hi Sakari,
 
-I don't think any of this reflection covers the surface of the
-restrictions that V4L2 combined queue/allocation impose on userspace.
-One of our very common scenarios requires to capture from one source,
-and zero-copy that toward multiple sink. One source could be USB driven
-(non v4l2), or network socket. Allocating from one random sink isn't
-really working, in fact it would lead to ebusy prior to the orphaning
-mechanism that was added recently. Since as long as one buffer of a
-device is still active, the driver (and the HW behind) cannot be used
-anymore.
+Thanks for your work.
 
-Over your N sinks, you maybe have zero-copy for some of them, even if
-it's foreign allocation, while others will just fallback to mmap/copy,
-and that's could be all right for a specific application. But as the
-source does not always have a "dmabuf", USERPTR remains the only option
-one could try. I don't know how memfd works, but maybe memfd should be
-a memory type in replacement to USERPTR ? I'm really not sure what the
-replacement, but I'm quite clear that there is no zero-copy replacement
-for it atm.
+On 2019-04-05 12:41:20 +0300, Sakari Ailus wrote:
+> V4L2 async framework can use both device's fwnode and endpoints's fwnode
+> for matching the async sub-device with the sub-device. In order to proceed
+> moving towards endpoint matching assign the endpoint to the async
+> sub-device.
+> 
+> As most async sub-device drivers (and the related hardware) only supports
+> a single endpoint, use the first endpoint found. This works for all
+> current drivers --- we only ever supported a single async sub-device per
+> device to begin with.
+
+Unfortunately this breaks for rcar-vin and adv7604 on Koelsch :-(
+
+In DT we have the node:
+
+i2chdmi: i2c-13 {
+    hdmi-in@4c {
+	    compatible = "adi,adv7612";
+
+	    ports {
+		    #address-cells = <1>;
+		    #size-cells = <0>;
+
+		    port@0 {
+			    reg = <0>;
+			    adv7612_in: endpoint {
+				    remote-endpoint = <&hdmi_con_in>;
+			    };
+		    };
+
+		    port@2 {
+			    reg = <2>;
+			    adv7612_out: endpoint {
+				    remote-endpoint = <&vin0ep2>;
+			    };
+		    };
+	    };
+    };
+};
+
+- The rcar-vin in rvin_parallel_init() parses the DT using the 
+  v4l2_async_notifier_parse_fwnode_endpoints_by_port() helper and 
+  registers '/i2c-13/hdmi-in@4c/ports/port@2/endpoint' with the async 
+  framework.
+
+- The adv7604 register itself with async using 
+  '/i2c-13/hdmi-in@4c/ports/port@0/endpoint'.
+
+The result is that matching breaks and the two devices never find each 
+other. I'm not sure how to solve this :-( Maybe the subdevices could 
+register itself multiple times with the async framework, once for each 
+port described?
+
+That would open up for the same subdev to be bound multiple times, 
+possibly to different consumers. I think that is a direction that would 
+be useful but I fear there might be some work involved in allowing that 
+from a subdev point of view.
 
 > 
-> > > > > > The good thing is that 
-> > > > > > there is still imho no security issue. The physical pages gathered by 
-> > > > > > vb2 in worst case belongs to noone else (vb2 is their last user, they 
-> > > > > > are not yet returned to free pages pool).
-> > > > > > 
-> > > > > > > I wonder if it isn't possible to just check the physical address of
-> > > > > > > the received user pointer with the physical address of the previous
-> > > > > > > user pointer. Or something like that. I'll dig around a bit more.
-> > > > > > 
-> > > > > > Such check won't be so simple. Pages contiguous in the virtual memory 
-> > > > > > won't map to pages contiguous in the physical memory, so you would need 
-> > > > > > to check every single memory page. Make no sense. It is better to 
-> > > > > > reacquire buffer on every queue operation. This indeed show how broken 
-> > > > > > the USERPTR related part of v4l2 API is.
+> For async devices that have no endpoints, continue to use the fwnode
+> related to the device. This includes e.g. lens devices.
+> 
+> Depends-on: ("pxa-camera: Match with device node, not the port node")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/platform/am437x/am437x-vpfe.c   |  2 +-
+>  drivers/media/platform/atmel/atmel-isc.c      |  2 +-
+>  drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+>  drivers/media/platform/cadence/cdns-csi2rx.c  |  2 +-
+>  drivers/media/platform/davinci/vpif_capture.c | 20 +++++++++++++++-----
+>  drivers/media/platform/exynos4-is/media-dev.c | 14 ++++++++++----
+>  drivers/media/platform/pxa_camera.c           |  2 +-
+>  drivers/media/platform/qcom/camss/camss.c     | 10 +++++-----
+>  drivers/media/platform/rcar_drif.c            |  2 +-
+>  drivers/media/platform/renesas-ceu.c          |  2 +-
+>  drivers/media/platform/stm32/stm32-dcmi.c     |  2 +-
+>  drivers/media/platform/ti-vpe/cal.c           |  2 +-
+>  drivers/media/platform/xilinx/xilinx-vipp.c   | 13 ++++++++++---
+>  drivers/media/v4l2-core/v4l2-async.c          |  9 +++++++--
+>  drivers/media/v4l2-core/v4l2-fwnode.c         |  2 +-
+>  drivers/staging/media/soc_camera/soc_camera.c | 14 ++++++++------
+>  16 files changed, 65 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> index fe7b937eb5f2..db263c0ce48e 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> @@ -2495,7 +2495,7 @@ vpfe_get_pdata(struct vpfe_device *vpfe)
+>  		if (flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+>  			sdinfo->vpfe_param.vdpol = 1;
+>  
+> -		rem = of_graph_get_remote_port_parent(endpoint);
+> +		rem = of_graph_get_remote_endpoint(endpoint);
+>  		if (!rem) {
+>  			dev_err(dev, "Remote device at %pOF not found\n",
+>  				endpoint);
+> diff --git a/drivers/media/platform/atmel/atmel-isc.c b/drivers/media/platform/atmel/atmel-isc.c
+> index 9a399aa7ca92..d1f1085e334e 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.c
+> +++ b/drivers/media/platform/atmel/atmel-isc.c
+> @@ -2042,7 +2042,7 @@ static int isc_parse_dt(struct device *dev, struct isc_device *isc)
+>  		if (!epn)
+>  			return 0;
+>  
+> -		rem = of_graph_get_remote_port_parent(epn);
+> +		rem = of_graph_get_remote_endpoint(epn);
+>  		if (!rem) {
+>  			dev_notice(dev, "Remote device at %pOF not found\n",
+>  				   epn);
+> diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
+> index 08b8d5583080..e4e74454e016 100644
+> --- a/drivers/media/platform/atmel/atmel-isi.c
+> +++ b/drivers/media/platform/atmel/atmel-isi.c
+> @@ -1110,7 +1110,7 @@ static int isi_graph_parse(struct atmel_isi *isi, struct device_node *node)
+>  	if (!ep)
+>  		return -EINVAL;
+>  
+> -	remote = of_graph_get_remote_port_parent(ep);
+> +	remote = of_graph_get_remote_endpoint(ep);
+>  	of_node_put(ep);
+>  	if (!remote)
+>  		return -EINVAL;
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 31ace114eda1..2da34b93e8f4 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -395,7 +395,7 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+>  		return -EINVAL;
+>  	}
+>  
+> -	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_port_parent(fwh);
+> +	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_endpoint(fwh);
+>  	csi2rx->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  	of_node_put(ep);
+>  
+> diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+> index 72bdb3c10962..8fdea45ae090 100644
+> --- a/drivers/media/platform/davinci/vpif_capture.c
+> +++ b/drivers/media/platform/davinci/vpif_capture.c
+> @@ -1542,7 +1542,7 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+>  
+>  	for (i = 0; i < VPIF_CAPTURE_NUM_CHANNELS; i++) {
+>  		struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+> -		struct device_node *rem;
+> +		struct device_node *rem, *rem_ep;
+>  		unsigned int flags;
+>  		int err;
+>  
+> @@ -1551,13 +1551,22 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+>  		if (!endpoint)
+>  			break;
+>  
+> -		rem = of_graph_get_remote_port_parent(endpoint);
+> -		if (!rem) {
+> -			dev_dbg(&pdev->dev, "Remote device at %pOF not found\n",
+> +		rem_ep = of_graph_get_remote_endpoint(endpoint);
+> +		if (!rem_ep) {
+> +			dev_dbg(&pdev->dev, "Remote for endpoint %pOF not found\n",
+>  				endpoint);
+>  			goto done;
+>  		}
+>  
+> +		rem = of_graph_get_port_parent(rem_ep);
+> +		if (!rem) {
+> +			dev_dbg(&pdev->dev, "Remote endpoint at %pOF not found\n",
+> +				rem_ep);
+> +			of_node_put(rem_ep);
+> +			goto done;
+> +		}
+> +		of_node_put(rem_ep);
+> +
+>  		sdinfo = &pdata->subdev_info[i];
+>  		chan = &pdata->chan_config[i];
+>  		chan->inputs = devm_kcalloc(&pdev->dev,
+> @@ -1597,12 +1606,13 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+>  		sdinfo->name = rem->full_name;
+>  
+>  		pdata->asd[i] = v4l2_async_notifier_add_fwnode_subdev(
+> -			&vpif_obj.notifier, of_fwnode_handle(rem),
+> +			&vpif_obj.notifier, of_fwnode_handle(rem_ep),
+>  			sizeof(struct v4l2_async_subdev));
+>  		if (IS_ERR(pdata->asd[i])) {
+>  			of_node_put(rem);
+>  			goto err_cleanup;
+>  		}
+> +
+>  	}
+>  
+>  done:
+> diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+> index 463f2d84553e..2090a627b553 100644
+> --- a/drivers/media/platform/exynos4-is/media-dev.c
+> +++ b/drivers/media/platform/exynos4-is/media-dev.c
+> @@ -411,7 +411,7 @@ static int fimc_md_parse_port_node(struct fimc_md *fmd,
+>  
+>  	pd->mux_id = (endpoint.base.port - 1) & 0x1;
+>  
+> -	rem = of_graph_get_remote_port_parent(ep);
+> +	rem = of_graph_get_remote_endpoint(ep);
+>  	of_node_put(ep);
+>  	if (rem == NULL) {
+>  		v4l2_info(&fmd->v4l2_dev, "Remote device at %pOF not found\n",
+> @@ -1372,11 +1372,17 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+>  	int i;
+>  
+>  	/* Find platform data for this sensor subdev */
+> -	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
+> -		if (fmd->sensor[i].asd.match.fwnode ==
+> -		    of_fwnode_handle(subdev->dev->of_node))
+> +	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++) {
+> +		struct fwnode_handle *fwnode =
+> +			fwnode_graph_get_remote_port_parent(fmd->sensor[i].asd.
+> +							    match.fwnode);
+> +
+> +		if (fwnode == of_fwnode_handle(subdev->dev->of_node))
+>  			si = &fmd->sensor[i];
+>  
+> +		fwnode_handle_put(fwnode);
+> +	}
+> +
+>  	if (si == NULL)
+>  		return -EINVAL;
+>  
+> diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
+> index a632f06d9fff..2a1395d4f74d 100644
+> --- a/drivers/media/platform/pxa_camera.c
+> +++ b/drivers/media/platform/pxa_camera.c
+> @@ -2350,7 +2350,7 @@ static int pxa_camera_pdata_from_dt(struct device *dev,
+>  		pcdev->platform_flags |= PXA_CAMERA_PCLK_EN;
+>  
+>  	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -	remote = of_graph_get_remote_port_parent(np);
+> +	remote = of_graph_get_remote_endpoint(np);
+>  	if (remote)
+>  		asd->match.fwnode = of_fwnode_handle(remote);
+>  	else
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 63da18773d24..a979f210f441 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -466,7 +466,7 @@ static int camss_of_parse_ports(struct camss *camss)
+>  {
+>  	struct device *dev = camss->dev;
+>  	struct device_node *node = NULL;
+> -	struct device_node *remote = NULL;
+> +	struct fwnode_handle *remote = NULL;
+>  	int ret, num_subdevs = 0;
+>  
+>  	for_each_endpoint_of_node(dev->of_node, node) {
+> @@ -476,7 +476,8 @@ static int camss_of_parse_ports(struct camss *camss)
+>  		if (!of_device_is_available(node))
+>  			continue;
+>  
+> -		remote = of_graph_get_remote_port_parent(node);
+> +		remote = fwnode_graph_get_remote_endpoint(
+> +			of_fwnode_handle(node));
+>  		if (!remote) {
+>  			dev_err(dev, "Cannot get remote parent\n");
+>  			ret = -EINVAL;
+> @@ -484,11 +485,10 @@ static int camss_of_parse_ports(struct camss *camss)
+>  		}
+>  
+>  		asd = v4l2_async_notifier_add_fwnode_subdev(
+> -			&camss->notifier, of_fwnode_handle(remote),
+> -			sizeof(*csd));
+> +			&camss->notifier, remote, sizeof(*csd));
+>  		if (IS_ERR(asd)) {
+>  			ret = PTR_ERR(asd);
+> -			of_node_put(remote);
+> +			fwnode_handle_put(remote);
+>  			goto err_cleanup;
+>  		}
+>  
+> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+> index 608e5217ccd5..258e14c290e8 100644
+> --- a/drivers/media/platform/rcar_drif.c
+> +++ b/drivers/media/platform/rcar_drif.c
+> @@ -1222,7 +1222,7 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
+>  	if (!ep)
+>  		return 0;
+>  
+> -	fwnode = fwnode_graph_get_remote_port_parent(ep);
+> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+>  	if (!fwnode) {
+>  		dev_warn(sdr->dev, "bad remote port parent\n");
+>  		fwnode_handle_put(ep);
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index 150196f7cf96..a9553bc928fa 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -1581,7 +1581,7 @@ static int ceu_parse_dt(struct ceu_device *ceudev)
+>  		ceu_sd = &ceudev->subdevs[i];
+>  		INIT_LIST_HEAD(&ceu_sd->asd.list);
+>  
+> -		remote = of_graph_get_remote_port_parent(ep);
+> +		remote = of_graph_get_remote_endpoint(ep);
+>  		ceu_sd->mbus_flags = fw_ep.bus.parallel.flags;
+>  		ceu_sd->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  		ceu_sd->asd.match.fwnode = of_fwnode_handle(remote);
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index 098431d927ac..c5fca5a482af 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -1592,7 +1592,7 @@ static int dcmi_graph_parse(struct stm32_dcmi *dcmi, struct device_node *node)
+>  	if (!ep)
+>  		return -EINVAL;
+>  
+> -	remote = of_graph_get_remote_port_parent(ep);
+> +	remote = of_graph_get_remote_endpoint(ep);
+>  	of_node_put(ep);
+>  	if (!remote)
+>  		return -EINVAL;
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 8d075683e448..d7995e2f4c54 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -1693,7 +1693,7 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+>  		goto cleanup_exit;
+>  	}
+>  
+> -	sensor_node = of_graph_get_remote_port_parent(ep_node);
+> +	sensor_node = of_graph_get_remote_endpoint(ep_node);
+>  	if (!sensor_node) {
+>  		ctx_dbg(3, ctx, "can't get remote parent\n");
+>  		goto cleanup_exit;
+> diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
+> index edce0402155d..41df417153bd 100644
+> --- a/drivers/media/platform/xilinx/xilinx-vipp.c
+> +++ b/drivers/media/platform/xilinx/xilinx-vipp.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/of.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  
+>  #include <media/v4l2-async.h>
+> @@ -81,6 +82,8 @@ static int xvip_graph_build_one(struct xvip_composite_device *xdev,
+>  	dev_dbg(xdev->dev, "creating links for entity %s\n", local->name);
+>  
+>  	while (1) {
+> +		struct fwnode_handle *fwnode;
+> +
+>  		/* Get the next endpoint and parse its link. */
+>  		ep = fwnode_graph_get_next_endpoint(entity->asd.match.fwnode,
+>  						    ep);
+> @@ -116,11 +119,13 @@ static int xvip_graph_build_one(struct xvip_composite_device *xdev,
+>  			continue;
+>  		}
+>  
+> +		fwnode = fwnode_graph_get_port_parent(link.remote_node);
+> +		fwnode_handle_put(fwnode);
+> +
+>  		/* Skip DMA engines, they will be processed separately. */
+> -		if (link.remote_node == of_fwnode_handle(xdev->dev->of_node)) {
+> +		if (fwnode == dev_fwnode(xdev->dev)) {
+>  			dev_dbg(xdev->dev, "skipping DMA port %p:%u\n",
+>  				link.local_node, link.local_port);
+> -			v4l2_fwnode_put_link(&link);
+>  			continue;
+>  		}
+>  
+> @@ -374,9 +379,11 @@ static int xvip_graph_parse_one(struct xvip_composite_device *xdev,
+>  		}
+>  
+>  		fwnode_handle_put(ep);
+> +		fwnode = fwnode_graph_get_port_parent(remote);
+> +		fwnode_handle_put(fwnode);
+>  
+>  		/* Skip entities that we have already processed. */
+> -		if (remote == of_fwnode_handle(xdev->dev->of_node) ||
+> +		if (fwnode == dev_fwnode(xdev->dev) ||
+>  		    xvip_graph_find_entity(xdev, remote)) {
+>  			fwnode_handle_put(remote);
+>  			continue;
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 15b0c44a76e7..304969ff3191 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -670,8 +670,13 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  	 * (struct v4l2_subdev.dev), and async sub-device does not
+>  	 * exist independently of the device at any point of time.
+>  	 */
+> -	if (!sd->fwnode && sd->dev)
+> -		sd->fwnode = dev_fwnode(sd->dev);
+> +	if (!sd->fwnode && sd->dev) {
+> +		sd->fwnode = fwnode_graph_get_next_endpoint(
+> +			dev_fwnode(sd->dev), NULL);
+> +		fwnode_handle_put(sd->fwnode);
+> +		if (!sd->fwnode)
+> +			sd->fwnode = dev_fwnode(sd->dev);
+> +	}
+>  
+>  	mutex_lock(&list_lock);
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index ea1ed88f9dc8..014b3f11e1ba 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -617,7 +617,7 @@ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+>  
+>  	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  	asd->match.fwnode =
+> -		fwnode_graph_get_remote_port_parent(endpoint);
+> +		fwnode_graph_get_remote_endpoint(endpoint);
+>  	if (!asd->match.fwnode) {
+>  		dev_dbg(dev, "no remote endpoint found\n");
+>  		ret = -ENOTCONN;
+> diff --git a/drivers/staging/media/soc_camera/soc_camera.c b/drivers/staging/media/soc_camera/soc_camera.c
+> index 1ab86a7499b9..1b8344a2ea41 100644
+> --- a/drivers/staging/media/soc_camera/soc_camera.c
+> +++ b/drivers/staging/media/soc_camera/soc_camera.c
+> @@ -1518,6 +1518,7 @@ static int soc_of_bind(struct soc_camera_host *ici,
+>  	struct soc_camera_async_client *sasc;
+>  	struct soc_of_info *info;
+>  	struct i2c_client *client;
+> +	struct device_node *np;
+>  	char clk_name[V4L2_CLK_NAME_SIZE];
+>  	int ret;
+>  
+> @@ -1552,23 +1553,23 @@ static int soc_of_bind(struct soc_camera_host *ici,
+>  	v4l2_async_notifier_init(&sasc->notifier);
+>  
+>  	ret = v4l2_async_notifier_add_subdev(&sasc->notifier, info->subdev);
+> -	if (ret) {
+> -		of_node_put(remote);
+> +	if (ret)
+>  		goto eaddasd;
+> -	}
+>  
+>  	sasc->notifier.ops = &soc_camera_async_ops;
+>  
+>  	icd->sasc = sasc;
+>  	icd->parent = ici->v4l2_dev.dev;
+> +	np = of_graph_get_port_parent(remote);
+> +	of_node_put(remote);
+>  
+> -	client = of_find_i2c_device_by_node(remote);
+> +	client = of_find_i2c_device_by_node(np);
+>  
+>  	if (client)
+>  		v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
+>  				  client->adapter->nr, client->addr);
+>  	else
+> -		v4l2_clk_name_of(clk_name, sizeof(clk_name), remote);
+> +		v4l2_clk_name_of(clk_name, sizeof(clk_name), np);
+>  
+>  	icd->clk = v4l2_clk_register(&soc_camera_clk_ops, clk_name, icd);
+>  	if (IS_ERR(icd->clk)) {
+> @@ -1591,6 +1592,7 @@ static int soc_of_bind(struct soc_camera_host *ici,
+>  eallocpdev:
+>  	devm_kfree(ici->v4l2_dev.dev, info);
+>  	dev_err(ici->v4l2_dev.dev, "group probe failed: %d\n", ret);
+> +	of_node_put(np);
+>  
+>  	return ret;
+>  }
+> @@ -1607,7 +1609,7 @@ static void scan_of_host(struct soc_camera_host *ici)
+>  		if (!epn)
+>  			break;
+>  
+> -		rem = of_graph_get_remote_port_parent(epn);
+> +		rem = of_graph_get_remote_endpoint(epn);
+>  		if (!rem) {
+>  			dev_notice(dev, "no remote for %pOF\n", epn);
+>  			continue;
+> -- 
+> 2.11.0
+> 
 
+-- 
+Regards,
+Niklas S�derlund
