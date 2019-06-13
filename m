@@ -2,129 +2,341 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0ED4477B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 19:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFD9644768
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:59:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729799AbfFMRAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 13:00:07 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:19223 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729798AbfFMAEz (ORCPT
+        id S1730027AbfFMQ7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:59:20 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:33309 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729823AbfFMAVp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 20:04:55 -0400
-X-Halon-ID: c705cece-8d6e-11e9-8601-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [89.233.230.99])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id c705cece-8d6e-11e9-8601-0050569116f7;
-        Thu, 13 Jun 2019 02:04:13 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 3/3] rcar-vin: Add support for RGB formats with alpha component
-Date:   Thu, 13 Jun 2019 02:04:39 +0200
-Message-Id: <20190613000439.28746-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190613000439.28746-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190613000439.28746-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 12 Jun 2019 20:21:45 -0400
+Received: by mail-qt1-f195.google.com with SMTP id x2so19690887qtr.0
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 17:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=DiQF+QAx3kil9aw/bPUrVwbqrWJtffgqguW/FAC9On8=;
+        b=rE8SIkjvNKBoI386WcmL53XgAoqgTNffbVdwYTZwpnZhWSsXCum/bWcQ/JZqE8aOXe
+         slwNUAuC+H2Sfkyg17uD2KoDN4BGPHMmXxFpGzQ2R0R5ea60zek5ZOe9b9qN53djn5ep
+         7x5DVmcnzoSThUSelLQufWuMSczfN1kXGzfTHrYnp8cPGLzPhovXR1k3wTsKRE+z2NuG
+         YhWcl1ZTHDnJRYOgrM1fVounDKiLWtx2CZQRwn2NjjBdBmcIG2hWWRXN+p1mbxGbU1h/
+         gFoKH0Wsj6j/i0wFls12PXGx7blYDTAY4Zfg3IAGMyEujwF+esVqJMNl9h4IaOudXgGx
+         0A6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=DiQF+QAx3kil9aw/bPUrVwbqrWJtffgqguW/FAC9On8=;
+        b=r8RTMqKKREoM7vfK/jPGwnDZdplGXX6gF8zEY7pxTSYlxQLcYSeXWonALkr8COfq3L
+         VemBe22ni0iXj2MIIob3C36F4IHNSqt3FonFaSgJSjaMiBi3NS/BwKFeMxWiQP/8jXdH
+         9ygwSf2d2vSbCSg3+4ey/GFO/WnFCa/7pjJrP1KPB/NEfUaQT2zwILntrqaFV/8uuwR2
+         2q0PJmieB4vpOGgEVr/hbE3767+NqIp3J3r4j8k08ujXwKcNyvx8C8hNawnKeFoIzudz
+         omRzl/fFIQnmYMEshwJz5KsPNyfnkVOThusrQPBuNn5kyjOLtJlZj8OLRZbIDHZr6+ap
+         WdKA==
+X-Gm-Message-State: APjAAAX9icqJjlipepluaFMG09ApH7hWdxx6LeM1ANhMwErI3CZh8mnF
+        gYZMbAitRZsHou87wlIQfskTVw==
+X-Google-Smtp-Source: APXvYqxQzdmSFWXTUG+hawrY1XpqyxxQepuDGXfLwAldnwvEE/XCNUiUtNLqlohKexwWVi4r39luqg==
+X-Received: by 2002:ac8:431e:: with SMTP id z30mr72781954qtm.291.1560385304149;
+        Wed, 12 Jun 2019 17:21:44 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id y3sm699362qtj.46.2019.06.12.17.21.33
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 12 Jun 2019 17:21:42 -0700 (PDT)
+Message-ID: <90c39a342ad8832546b12b522663732760b80cf4.camel@ndufresne.ca>
+Subject: Re: [PATCH for v5.2] videobuf2-core.c: always reacquire USERPTR
+ memory
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Date:   Wed, 12 Jun 2019 20:21:31 -0400
+In-Reply-To: <20190612081746.GB5035@pendragon.ideasonboard.com>
+References: <cb129a47-e114-6841-44cc-ec34ffa562c7@xs4all.nl>
+         <e674539f-6b40-7b54-90bd-d1ed96ea5f55@samsung.com>
+         <6c3ffe98-9d64-b881-470a-bfef8b9280de@xs4all.nl>
+         <1f754020-296c-cf9b-1331-598bb774fa42@xs4all.nl>
+         <4e711a70-ef25-b9f2-e27a-ae6c80288388@xs4all.nl>
+         <ddacf8a1-61c4-bc04-8c52-cd56dfd13842@samsung.com>
+         <20190607135815.GN7593@pendragon.ideasonboard.com>
+         <675dc8c2985754f6c72c06ec36a00ebca4f49fc8.camel@ndufresne.ca>
+         <20190611102410.GD5016@pendragon.ideasonboard.com>
+         <af1a05ba549c82a672718821282fd5af4e560f5c.camel@ndufresne.ca>
+         <20190612081746.GB5035@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
-V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
-allow the alpha component to be changed while streaming using the
-V4L2_CID_ALPHA_COMPONENT control.
+Le mercredi 12 juin 2019 à 11:17 +0300, Laurent Pinchart a écrit :
+> Hi Nicolas,
+> 
+> On Tue, Jun 11, 2019 at 08:09:13PM -0400, Nicolas Dufresne wrote:
+> > Le mardi 11 juin 2019 à 13:24 +0300, Laurent Pinchart a écrit :
+> > > On Fri, Jun 07, 2019 at 03:38:39PM -0400, Nicolas Dufresne wrote:
+> > > > Le vendredi 07 juin 2019 à 16:58 +0300, Laurent Pinchart a écrit :
+> > > > > On Fri, Jun 07, 2019 at 03:55:05PM +0200, Marek Szyprowski wrote:
+> > > > > > On 2019-06-07 15:40, Hans Verkuil wrote:
+> > > > > > > On 6/7/19 2:47 PM, Hans Verkuil wrote:
+> > > > > > > > On 6/7/19 2:23 PM, Hans Verkuil wrote:
+> > > > > > > > > On 6/7/19 2:14 PM, Marek Szyprowski wrote:
+> > > > > > > > > > On 2019-06-07 14:01, Hans Verkuil wrote:
+> > > > > > > > > > > On 6/7/19 1:16 PM, Laurent Pinchart wrote:
+> > > > > > > > > > > > Thank you for the patch.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > On Fri, Jun 07, 2019 at 10:45:31AM +0200, Hans Verkuil wrote:
+> > > > > > > > > > > > > The __prepare_userptr() function made the incorrect assumption that if the
+> > > > > > > > > > > > > same user pointer was used as the last one for which memory was acquired, then
+> > > > > > > > > > > > > there was no need to re-acquire the memory. This assumption was never properly
+> > > > > > > > > > > > > tested, and after doing that it became clear that this was in fact wrong.
+> > > > > > > > > > > > Could you explain in the commit message why the assumption is not
+> > > > > > > > > > > > correct ?
+> > > > > > > > > > > You can free the memory, then allocate it again and you can get the same pointer,
+> > > > > > > > > > > even though it is not necessarily using the same physical pages for the memory
+> > > > > > > > > > > that the kernel is still using for it.
+> > > > > > > > > > > 
+> > > > > > > > > > > Worse, you can free the memory, then allocate only half the memory you need and
+> > > > > > > > > > > get back the same pointer. vb2 wouldn't notice this. And it seems to work (since
+> > > > > > > > > > > the original mapping still remains), but this can corrupt userspace memory
+> > > > > > > > > > > causing the application to crash. It's not quite clear to me how the memory can
+> > > > > > > > > > > get corrupted. I don't know enough of those low-level mm internals to understand
+> > > > > > > > > > > the sequence of events.
+> > > > > > > > > > > 
+> > > > > > > > > > > I have test code for v4l2-compliance available if someone wants to test this.
+> > > > > > > > > > I'm interested, I would really like to know what happens in the mm
+> > > > > > > > > > subsystem in such case.
+> > > > > > > > > Here it is:
+> > > > > > > > > 
+> > > > > > > > > diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > > > > > index be606e48..9abf41da 100644
+> > > > > > > > > --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > > > > > +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > > > > > > > > @@ -797,7 +797,7 @@ int testReadWrite(struct node *node)
+> > > > > > > > >   	return 0;
+> > > > > > > > >   }
+> > > > > > > > > 
+> > > > > > > > > -static int captureBufs(struct node *node, const cv4l_queue &q,
+> > > > > > > > > +static int captureBufs(struct node *node, cv4l_queue &q,
+> > > > > > > > >   		const cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
+> > > > > > > > >   		unsigned &capture_count)
+> > > > > > > > >   {
+> > > > > > > > > @@ -962,6 +962,21 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
+> > > > > > > > >   				buf.s_flags(V4L2_BUF_FLAG_REQUEST_FD);
+> > > > > > > > >   				buf.s_request_fd(buf_req_fds[req_idx]);
+> > > > > > > > >   			}
+> > > > > > > > > +			if (v4l_type_is_capture(buf.g_type()) && q.g_memory() == V4L2_MEMORY_USERPTR) {
+> > > > > > > > > +				printf("\nidx: %d", buf.g_index());
+> > > > > > > > > +				for (unsigned p = 0; p < q.g_num_planes(); p++) {
+> > > > > > > > > +					printf(" old buf[%d]: %p ", p, buf.g_userptr(p));
+> > > > > > > > > +					fflush(stdout);
+> > > > > > > > > +					free(buf.g_userptr(p));
+> > > > > > > > > +					void *m = calloc(1, q.g_length(p)/2);
+> > > > > > > > > +
+> > > > > > > > > +					fail_on_test(m == NULL);
+> > > > > > > > > +					q.s_userptr(buf.g_index(), p, m);
+> > > > > > > > > +					printf("new buf[%d]: %p", p, m);
+> > > > > > > > > +					buf.s_userptr(m, p);
+> > > > > > > > > +				}
+> > > > > > > > > +				printf("\n");
+> > > > > > > > > +			}
+> > > > > > > > >   			fail_on_test(buf.qbuf(node, q));
+> > > > > > > > >   			fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
+> > > > > > > > >   			if (buf.g_flags() & V4L2_BUF_FLAG_REQUEST_FD) {
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Load the vivid driver and just run 'v4l2-compliance -s10' and you'll see:
+> > > > > > > > > 
+> > > > > > > > > ...
+> > > > > > > > > Streaming ioctls:
+> > > > > > > > >          test read/write: OK
+> > > > > > > > >          test blocking wait: OK
+> > > > > > > > >          test MMAP (no poll): OK
+> > > > > > > > >          test MMAP (select): OK
+> > > > > > > > >          test MMAP (epoll): OK
+> > > > > > > > >          Video Capture: Frame #000
+> > > > > > > > > idx: 0 old buf[0]: 0x7f71c6e7c010 new buf[0]: 0x7f71c6eb4010
+> > > > > > > > >          Video Capture: Frame #001
+> > > > > > > > > idx: 1 old buf[0]: 0x7f71c6e0b010 new buf[0]: 0x7f71c6e7b010
+> > > > > > > > >          Video Capture: Frame #002
+> > > > > > > > > idx: 0 old buf[0]: 0x7f71c6eb4010 free(): invalid pointer
+> > > > > > > > > Aborted
+> > > > > > > > To clarify: two full size buffers are allocated and queued (that happens in setupUserPtr()),
+> > > > > > > > then streaming starts and captureBufs is called which basically just calls dqbuf
+> > > > > > > > and qbuf.
+> > > > > > > > 
+> > > > > > > > Tomasz pointed out that all the pointers in this log are actually different. That's
+> > > > > > > > correct, but here is a log where the old and new buf ptr are the same:
+> > > > > > > > 
+> > > > > > > > Streaming ioctls:
+> > > > > > > >          test read/write: OK
+> > > > > > > >          test blocking wait: OK
+> > > > > > > >          test MMAP (no poll): OK
+> > > > > > > >          test MMAP (select): OK
+> > > > > > > >          test MMAP (epoll): OK
+> > > > > > > >          Video Capture: Frame #000
+> > > > > > > > idx: 0 old buf[0]: 0x7f1094e16010 new buf[0]: 0x7f1094e4e010
+> > > > > > > >          Video Capture: Frame #001
+> > > > > > > > idx: 1 old buf[0]: 0x7f1094da5010 new buf[0]: 0x7f1094e15010
+> > > > > > > >          Video Capture: Frame #002
+> > > > > > > > idx: 0 old buf[0]: 0x7f1094e4e010 new buf[0]: 0x7f1094e4e010
+> > > > > > > >          Video Capture: Frame #003
+> > > > > > > > idx: 1 old buf[0]: 0x7f1094e15010 free(): invalid pointer
+> > > > > > > > Aborted
+> > > > > > > > 
+> > > > > > > > It's weird that the first log fails that way: if the pointers are different,
+> > > > > > > > then vb2 will call get_userptr and it should discover that the buffer isn't
+> > > > > > > > large enough, causing qbuf to fail. That doesn't seem to happen.
+> > > > > > > I think that the reason for this corruption is that the memory pool used
+> > > > > > > by glibc is now large enough for vb2 to think it can map the full length
+> > > > > > > of the user pointer into memory, even though only the first half is actually
+> > > > > > > from the buffer that's allocated. When you capture a frame you just overwrite
+> > > > > > > a random part of the application's memory pool, causing this invalid pointer.
+> > > > > > > 
+> > > > > > > But that's a matter of garbage in, garbage out. So that's not the issue here.
+> > > > > > > 
+> > > > > > > The real question is what happens when you free the old buffer, allocate a
+> > > > > > > new buffer, end up with the same userptr, but it's using one or more different
+> > > > > > > pages for its memory compared to the mapping that the kernel uses.
+> > > > > > > 
+> > > > > > > I managed to reproduce this with v4l2-ctl:
+> > > > > > > 
+> > > > > > > diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > > > > > > index 28b2b3b9..8f2ed9b5 100644
+> > > > > > > --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > > > > > > +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > > > > > > @@ -1422,6 +1422,24 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+> > > > > > >   		 * has the size that fits the old resolution and might not
+> > > > > > >   		 * fit to the new one.
+> > > > > > >   		 */
+> > > > > > > +		if (q.g_memory() == V4L2_MEMORY_USERPTR) {
+> > > > > > > +			printf("\nidx: %d", buf.g_index());
+> > > > > > > +			for (unsigned p = 0; p < q.g_num_planes(); p++) {
+> > > > > > > +				unsigned *pb = (unsigned *)buf.g_userptr(p);
+> > > > > > > +				printf(" old buf[%d]: %p first pixel: 0x%x", p, buf.g_userptr(p), *pb);
+> > > > > > > +				fflush(stdout);
+> > > > > > > +				free(buf.g_userptr(p));
+> > > > > > > +				void *m = calloc(1, q.g_length(p));
+> > > > > > > +
+> > > > > > > +				if (m == NULL)
+> > > > > > > +					return QUEUE_ERROR;
+> > > > > > > +				q.s_userptr(buf.g_index(), p, m);
+> > > > > > > +				if (m == buf.g_userptr(p))
+> > > > > > > +					printf(" identical new buf");
+> > > > > > > +				buf.s_userptr(m, p);
+> > > > > > > +			}
+> > > > > > > +			printf("\n");
+> > > > > > > +		}
+> > > > > > >   		if (fd.qbuf(buf) && errno != EINVAL) {
+> > > > > > >   			fprintf(stderr, "%s: qbuf error\n", __func__);
+> > > > > > >   			return QUEUE_ERROR;
+> > > > > > > 
+> > > > > > > 
+> > > > > > > Load vivid, setup a pure white test pattern:
+> > > > > > > 
+> > > > > > > v4l2-ctl -c test_pattern=6
+> > > > > > > 
+> > > > > > > Now run v4l2-ctl --stream-user and you'll see:
+> > > > > > > 
+> > > > > > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x80ea80ea identical new buf
+> > > > > > > <
+> > > > > > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x80ea80ea identical new buf
+> > > > > > > <
+> > > > > > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x80ea80ea identical new buf
+> > > > > > > <
+> > > > > > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x80ea80ea identical new buf
+> > > > > > > <
+> > > > > > > idx: 0 old buf[0]: 0x7f91551cb010 first pixel: 0x0 identical new buf
+> > > > > > > <
+> > > > > > > idx: 1 old buf[0]: 0x7f915515a010 first pixel: 0x0 identical new buf
+> > > > > > > < 5.00 fps
+> > > > > > > 
+> > > > > > > idx: 2 old buf[0]: 0x7f91550e9010 first pixel: 0x0 identical new buf
+> > > > > > > <
+> > > > > > > idx: 3 old buf[0]: 0x7f9155078010 first pixel: 0x0 identical new buf
+> > > > > > > 
+> > > > > > > The first four dequeued buffers are filled with data, after that the
+> > > > > > > returned buffer is empty because vivid is actually writing to different
+> > > > > > > memory pages.
+> > > > > > > 
+> > > > > > > With this patch the first pixel is always non-zero.
+> > > > > > 
+> > > > > > Good catch. The question is weather we treat that as undefined behavior 
+> > > > > > and keep the optimization for 'good applications' or assume that every 
+> > > > > > broken userspace code has to be properly handled.
+> > > > > 
+> > > > > Given how long we've been saying that USERPTR should be replaced by
+> > > > > DMABUF, I would consider that any userspace code using USERPTR is broken
+> > > > > :-) One could however question whether we were effective at getting that
+> > > > > message across...
+> > > > 
+> > > > Just a reminder that DMABuf is not a replacement for USERPTR. It only
+> > > > cover a subset in absence of an allocater for it. There is no clean way
+> > > > to allocate a DMAbuf. Notably, memfds (which could have filled the gap)
+> > > > are not DMABuf, even though they are they are similar to the buffers
+> > > > allocated by vivid or uvcvideo.
+> > > 
+> > > You always have the option to use MMAP to allocate buffers on the V4L2
+> > > device. What prevents you from doing so and forces usage of USERPTR ?
+> > 
+> > If you use MMAP on one v4l2 device, how do you import that into another
+> > v4l2 device ?
+> 
+> You can simply export the MMAP buffers on the V4L2 device that has
+> allocated them, and use DMABUF on the importing device.
+> 
+> > Now, let's say your source is not a v4l2 device, and uses virtual
+> > memory, how does DMABuf replaces such a use case if you want to avoid
+> > copies and you know your HW can support fast usage of these randomly
+> > allocated buffers ?
+> 
+> For this use case you should allocate buffers on the sink, mmap them,
+> and use the mapped memory on the source side. I agree that not all
+> sources may support this mode of operation, but that's a design issue
+> with the source. If we had a dmabuf allocator your problem wouldn't be
+> solved, as the source would still need to be modified to use it.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  | 30 +++++++++++++++++++++
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 ++++++
- 2 files changed, 38 insertions(+)
+I don't think any of this reflection covers the surface of the
+restrictions that V4L2 combined queue/allocation impose on userspace.
+One of our very common scenarios requires to capture from one source,
+and zero-copy that toward multiple sink. One source could be USB driven
+(non v4l2), or network socket. Allocating from one random sink isn't
+really working, in fact it would lead to ebusy prior to the orphaning
+mechanism that was added recently. Since as long as one buffer of a
+device is still active, the driver (and the HW behind) cannot be used
+anymore.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 4e991cce5fb56a90..5c0ed27c5d05dd45 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -111,8 +111,11 @@
- #define VNIE_EFE		(1 << 1)
- 
- /* Video n Data Mode Register bits */
-+#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
-+#define VNDMR_A8BIT_MASK	(0xff << 24)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
-+#define VNDMR_ABIT		(1 << 2)
- #define VNDMR_DTMD_YCSEP	(1 << 1)
- #define VNDMR_DTMD_ARGB		(1 << 0)
- 
-@@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
- 		/* Note: not supported on M1 */
- 		dmr = VNDMR_EXRGB;
- 		break;
-+	case V4L2_PIX_FMT_ARGB555:
-+		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
-+		break;
-+	case V4L2_PIX_FMT_ABGR32:
-+		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1346,5 +1355,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 
- void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
- {
-+	u32 dmr;
-+
- 	vin->alpha = alpha;
-+
-+	if (vin->state == STOPPED)
-+		return;
-+
-+	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_ARGB555:
-+		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
-+		if (vin->alpha)
-+			dmr |= VNDMR_ABIT;
-+		break;
-+	case V4L2_PIX_FMT_ABGR32:
-+		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
-+		dmr |= VNDMR_A8BIT(vin->alpha);
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	rvin_write(vin, dmr,  VNDMR_REG);
- }
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 7cbdcbf9b090c638..bb2900f5d000f9a6 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_XBGR32,
- 		.bpp			= 4,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_ARGB555,
-+		.bpp			= 2,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_ABGR32,
-+		.bpp			= 4,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
--- 
-2.21.0
+Over your N sinks, you maybe have zero-copy for some of them, even if
+it's foreign allocation, while others will just fallback to mmap/copy,
+and that's could be all right for a specific application. But as the
+source does not always have a "dmabuf", USERPTR remains the only option
+one could try. I don't know how memfd works, but maybe memfd should be
+a memory type in replacement to USERPTR ? I'm really not sure what the
+replacement, but I'm quite clear that there is no zero-copy replacement
+for it atm.
+
+> 
+> > > > > > The good thing is that 
+> > > > > > there is still imho no security issue. The physical pages gathered by 
+> > > > > > vb2 in worst case belongs to noone else (vb2 is their last user, they 
+> > > > > > are not yet returned to free pages pool).
+> > > > > > 
+> > > > > > > I wonder if it isn't possible to just check the physical address of
+> > > > > > > the received user pointer with the physical address of the previous
+> > > > > > > user pointer. Or something like that. I'll dig around a bit more.
+> > > > > > 
+> > > > > > Such check won't be so simple. Pages contiguous in the virtual memory 
+> > > > > > won't map to pages contiguous in the physical memory, so you would need 
+> > > > > > to check every single memory page. Make no sense. It is better to 
+> > > > > > reacquire buffer on every queue operation. This indeed show how broken 
+> > > > > > the USERPTR related part of v4l2 API is.
 
