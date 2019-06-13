@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E01974477E
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 19:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D0ED4477B
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 19:00:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729798AbfFMRAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 13:00:08 -0400
-Received: from bin-mail-out-05.binero.net ([195.74.38.228]:18345 "EHLO
-        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729796AbfFMAEy (ORCPT
+        id S1729799AbfFMRAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 13:00:07 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:19223 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729798AbfFMAEz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 20:04:54 -0400
-X-Halon-ID: c6b0ddc6-8d6e-11e9-8601-0050569116f7
+        Wed, 12 Jun 2019 20:04:55 -0400
+X-Halon-ID: c705cece-8d6e-11e9-8601-0050569116f7
 Authorized-sender: niklas@soderlund.pp.se
 Received: from bismarck.berto.se (unknown [89.233.230.99])
         by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id c6b0ddc6-8d6e-11e9-8601-0050569116f7;
+        id c705cece-8d6e-11e9-8601-0050569116f7;
         Thu, 13 Jun 2019 02:04:13 +0200 (CEST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
@@ -25,9 +25,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 2/3] rcar-vin: Add control for alpha component
-Date:   Thu, 13 Jun 2019 02:04:38 +0200
-Message-Id: <20190613000439.28746-3-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 3/3] rcar-vin: Add support for RGB formats with alpha component
+Date:   Thu, 13 Jun 2019 02:04:39 +0200
+Message-Id: <20190613000439.28746-4-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190613000439.28746-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20190613000439.28746-1-niklas.soderlund+renesas@ragnatech.se>
@@ -39,161 +39,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation to adding support for RGB pixel formats with an alpha
-component add a control to allow the user to control which alpha value
-should be used.
+The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
+V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
+allow the alpha component to be changed while streaming using the
+V4L2_CID_ALPHA_COMPONENT control.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++
- drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
- 3 files changed, 61 insertions(+), 2 deletions(-)
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 30 +++++++++++++++++++++
+ drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 ++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 64f9cf790445d14e..ee6e6cb39c749675 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -389,6 +389,28 @@ static void rvin_group_put(struct rvin_dev *vin)
- 	kref_put(&group->refcount, rvin_group_release);
- }
- 
-+/* -----------------------------------------------------------------------------
-+ * Controls
-+ */
-+
-+static int rvin_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct rvin_dev *vin =
-+		container_of(ctrl->handler, struct rvin_dev, ctrl_handler);
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ALPHA_COMPONENT:
-+		rvin_set_alpha(vin, ctrl->val);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
-+	.s_ctrl = rvin_s_ctrl,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * Async notifier
-  */
-@@ -478,6 +500,15 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
- 	if (ret < 0)
- 		return ret;
- 
-+	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-+			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-+
-+	if (vin->ctrl_handler.error) {
-+		ret = vin->ctrl_handler.error;
-+		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-+		return ret;
-+	}
-+
- 	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
- 				    NULL, true);
- 	if (ret < 0) {
-@@ -870,6 +901,21 @@ static int rvin_mc_init(struct rvin_dev *vin)
- 	if (ret)
- 		rvin_group_put(vin);
- 
-+	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
-+	if (ret < 0)
-+		return ret;
-+
-+	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-+			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-+
-+	if (vin->ctrl_handler.error) {
-+		ret = vin->ctrl_handler.error;
-+		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-+		return ret;
-+	}
-+
-+	vin->vdev.ctrl_handler = &vin->ctrl_handler;
-+
- 	return ret;
- }
- 
-@@ -1245,6 +1291,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 
- 	vin->dev = &pdev->dev;
- 	vin->info = of_device_get_match_data(&pdev->dev);
-+	vin->alpha = 0xff;
- 
- 	/*
- 	 * Special care is needed on r8a7795 ES1.x since it
-@@ -1288,6 +1335,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
- 	return 0;
- 
- error_group_unregister:
-+	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-+
- 	if (vin->info->use_mc) {
- 		mutex_lock(&vin->group->lock);
- 		if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
-@@ -1323,10 +1372,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
- 		}
- 		mutex_unlock(&vin->group->lock);
- 		rvin_group_put(vin);
--	} else {
--		v4l2_ctrl_handler_free(&vin->ctrl_handler);
- 	}
- 
-+	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-+
- 	rvin_dma_unregister(vin);
- 
- 	return 0;
 diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 2d146ecf93d66ad5..4e991cce5fb56a90 100644
+index 4e991cce5fb56a90..5c0ed27c5d05dd45 100644
 --- a/drivers/media/platform/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1343,3 +1343,8 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+@@ -111,8 +111,11 @@
+ #define VNIE_EFE		(1 << 1)
  
- 	return 0;
+ /* Video n Data Mode Register bits */
++#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
++#define VNDMR_A8BIT_MASK	(0xff << 24)
+ #define VNDMR_EXRGB		(1 << 8)
+ #define VNDMR_BPSM		(1 << 4)
++#define VNDMR_ABIT		(1 << 2)
+ #define VNDMR_DTMD_YCSEP	(1 << 1)
+ #define VNDMR_DTMD_ARGB		(1 << 0)
+ 
+@@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
+ 		/* Note: not supported on M1 */
+ 		dmr = VNDMR_EXRGB;
+ 		break;
++	case V4L2_PIX_FMT_ARGB555:
++		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
++		break;
++	case V4L2_PIX_FMT_ABGR32:
++		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
++		break;
+ 	default:
+ 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+ 			vin->format.pixelformat);
+@@ -1346,5 +1355,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+ 
+ void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+ {
++	u32 dmr;
++
+ 	vin->alpha = alpha;
++
++	if (vin->state == STOPPED)
++		return;
++
++	switch (vin->format.pixelformat) {
++	case V4L2_PIX_FMT_ARGB555:
++		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
++		if (vin->alpha)
++			dmr |= VNDMR_ABIT;
++		break;
++	case V4L2_PIX_FMT_ABGR32:
++		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
++		dmr |= VNDMR_A8BIT(vin->alpha);
++		break;
++	default:
++		return;
++	}
++
++	rvin_write(vin, dmr,  VNDMR_REG);
  }
-+
-+void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
-+{
-+	vin->alpha = alpha;
-+}
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 0b13b34d03e3dce4..365dfde06ec25add 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -178,6 +178,8 @@ struct rvin_info {
-  * @compose:		active composing
-  * @source:		active size of the video source
-  * @std:		active video standard of the video source
-+ *
-+ * @alpha:		Alpha component to fill in for supported pixel formats
-  */
- struct rvin_dev {
- 	struct device *dev;
-@@ -215,6 +217,8 @@ struct rvin_dev {
- 	struct v4l2_rect compose;
- 	struct v4l2_rect source;
- 	v4l2_std_id std;
-+
-+	unsigned int alpha;
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 7cbdcbf9b090c638..bb2900f5d000f9a6 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
+ 		.fourcc			= V4L2_PIX_FMT_XBGR32,
+ 		.bpp			= 4,
+ 	},
++	{
++		.fourcc			= V4L2_PIX_FMT_ARGB555,
++		.bpp			= 2,
++	},
++	{
++		.fourcc			= V4L2_PIX_FMT_ABGR32,
++		.bpp			= 4,
++	},
  };
  
- #define vin_to_source(vin)		((vin)->parallel->subdev)
-@@ -266,5 +270,6 @@ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat);
- void rvin_crop_scale_comp(struct rvin_dev *vin);
- 
- int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
-+void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha);
- 
- #endif
+ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
 -- 
 2.21.0
 
