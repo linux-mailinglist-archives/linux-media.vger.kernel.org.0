@@ -2,69 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D21EB4444D
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0E344A47
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 20:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392550AbfFMQgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:36:05 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48700 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbfFMQfx (ORCPT
+        id S1726967AbfFMSHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 14:07:06 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43632 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbfFMSHG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:35:53 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0CFE52B;
-        Thu, 13 Jun 2019 18:35:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560443751;
-        bh=xYJTnR0BQQsX9pSkqK7GIQ6uoOB+X60qJ0Nav0xrwYE=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=KyS1UsvAm48Ahvvu+6wlakTthmDnIYVISXTkkNlPky7ERMbQ1PMQXh6v0ldpM28nm
-         aIDWrWBjv/Pd6LtreDBJoFGhYFGnCv4BG852XXxKhNq8AXCGb4X4LpaxjbB8IYr2MB
-         NGeOj4EUmKkSGfBqRLqdpqUCITWZ2pZe2FM1qqug=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 1/4] media: cxd2820r: don't check retval after our own
- assignemt
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-References: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
- <20190613155421.16408-2-wsa+renesas@sang-engineering.com>
- <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
- <20190613161922.GA5015@kunai>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <cbf928b6-33d6-d412-87dd-05f1fb5f1b6c@ideasonboard.com>
-Date:   Thu, 13 Jun 2019 17:35:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Thu, 13 Jun 2019 14:07:06 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z24so10403692qtj.10;
+        Thu, 13 Jun 2019 11:07:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uJe8I8sTo6Wr3xUA8HaLUhp6Xh2YuZHCokF4ZHF76zg=;
+        b=DuemzGjRlKI744kbvrh6vaRQ337rkQzScCVdAK+yCWFe7OL191JvK7e0k23uXim6bf
+         5NRpgb4T8yLnkQk7iXU0PwOKkVEUoL8oPP2b5dEA1g/+Cs+XWabeLoKVkQ9JcpJ7q1oT
+         q6mpG/+6sSt/ubUjPXbXWS+5KC/DZ1rwVY/wK/jPi0QuyWVI64gRYCt5Qj0cpsXhebtr
+         4IpRCML351pBECL4hkZipgpGK2Mn8jySH6A7HOveMTcW6YeuyKk3OG2DtcacpeuXIzPD
+         ZOnbHe2cvfqDGnAia4ziFlVA5wn0IFoPQgBWoAPvT6U0CSm6rDrBceFZLQua4OsEcfy6
+         P+bg==
+X-Gm-Message-State: APjAAAU2LyYjiUz6rb7i3Wn226s+kq+P2NZO8i9VfGkdCUPf9LSs/aF2
+        mRRslHfImX41VXmHTDIm8A==
+X-Google-Smtp-Source: APXvYqyO+OUa9HVTaBjWtOfGsobWt9n1ovanms1shUpwuONVcUrxOzNlXAQ6/MruhodSsyvGKCM2vg==
+X-Received: by 2002:ac8:66d8:: with SMTP id m24mr76314466qtp.355.1560449225550;
+        Thu, 13 Jun 2019 11:07:05 -0700 (PDT)
+Received: from localhost ([64.188.179.243])
+        by smtp.gmail.com with ESMTPSA id k55sm277423qtf.68.2019.06.13.11.07.04
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 11:07:04 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 12:07:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     hverkuil-cisco@xs4all.nl, rui.silva@linaro.org,
+        slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        linux-media@vger.kernel.org, sebastien.szymanski@armadeus.com,
+        otavio@ossystems.com.br, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 1/8] media: dt-bindings: imx7-csi: Document a single CSI
+ clock
+Message-ID: <20190613180703.GA2190@bogus>
+References: <20190504144027.31920-1-festevam@gmail.com>
+ <20190504144027.31920-6-festevam@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190613161922.GA5015@kunai>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190504144027.31920-6-festevam@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
-
-On 13/06/2019 17:19, Wolfram Sang wrote:
+On Sat,  4 May 2019 11:40:25 -0300, Fabio Estevam wrote:
+> As per the i.MX7D Reference Manual only the MCLK is used for
+> the CSI block, so only document this single clock.
 > 
->> In the title/subject:
->>
->> media: cxd2820r: don't check retval after our own assignemt
->>
->> s/assignemt/assignment/
-> 
-> Eeeks, in deed :( Shall I resend? Sorry for the noise.
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/imx7-csi.txt | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
 
-Not necessary for me, so I guess that's up to Mauro/Hans.
-Not sure who will pick these up and apply them.
---
-Kieran
+Reviewed-by: Rob Herring <robh@kernel.org>
