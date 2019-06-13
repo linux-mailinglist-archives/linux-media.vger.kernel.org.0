@@ -2,151 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78AA844655
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2F0445CA
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2019 18:47:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730364AbfFMQus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 12:50:48 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33349 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730170AbfFMDw5 (ORCPT
+        id S2404095AbfFMQqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 12:46:39 -0400
+Received: from mail-qt1-f175.google.com ([209.85.160.175]:34859 "EHLO
+        mail-qt1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730281AbfFMFKF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jun 2019 23:52:57 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:a0cc:2184:136b:1386])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id bGnFhGOrYbiAgbGnGhFRqh; Thu, 13 Jun 2019 05:52:54 +0200
-Message-ID: <efab8fb2148bddf3dd099cf3783f0dc3@smtp-cloud9.xs4all.net>
-Date:   Thu, 13 Jun 2019 05:52:53 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGHpLonfVebah9+I1i6ihja4gJoq3OIGDendAIjlORDSIeTZ8B22fritP77bYem3rwGC12bDyErgHd6nkBAa62sF01hQRuWbc1CFdx9oetsBbldRfWaf
- 4PL2Oou7vjn063m0LsiCYVtLpzTPMgllFKkhNW4CnfHLZllog3Lhz8Onwmv9Zz41Ei/qPcoHglf4A9oVuAuF/m2lTHn3u4xnKLUz95pvOw1cJD/pies4/NCJ
+        Thu, 13 Jun 2019 01:10:05 -0400
+Received: by mail-qt1-f175.google.com with SMTP id d23so21156325qto.2
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2019 22:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6v0qjuPzO2HE72GVoc1kOy6XhlVRA18zPxAUBQbHC7E=;
+        b=USSYQR1HkIkJVpEAqgLAlgtCS+mpkQy/CWJhE4hbJbw/fwxzGw+attKZ40a3eSMG4Y
+         OQ2gARfJ645G2lPi5DnEMhHfM+4zsyun6ueakZ3sHJtQbKzV4PfbA11UCVtKLCmWsLYT
+         g1BC3UYV37xqVhWKbVDLQyNGqgmkBA9AIGj1LlT3uBtY9j95IaTj6OVWwllQ8lT49HgJ
+         v1zCAx1x3wIboLrihBOE3+9rekcltW+YmPbYjQXZ94QSSfqMUaQGg9FZNL0MIlwCskgh
+         p33K3E3n8uLaVbOpvunLOnLAJgL7k+SVv3UzLUMJlsd1K7cUKdCirDYx491cii2zX37L
+         Fz1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6v0qjuPzO2HE72GVoc1kOy6XhlVRA18zPxAUBQbHC7E=;
+        b=YE2BkdqfhSdLXjUxQ3aRedwT9k5yMX6VH2H30WQdP63J3yQphstx8TeP7HvD6sYjb8
+         BZCoRrBCXJvJBJt4qgF0sKwsD6+bcjXgfqm9+P/sqmiP2s/RShqEcTQOu/Zniw4tyyPr
+         PiCX58/muf43LPBCpxI1h+KldFoNjHE8BKWtzcWS5lHAxqEayFNjEiI6k33ca5mEI2nn
+         9mrfP0QZeoUxheba9ibOYNIAIovq5fvuowPBTQeqMR2YapnUAkB9vK00ZCF0iMaVT88x
+         GP06gKfxMN4IKn+Cztk8XiTjJgX9vMCMrrVKsD7TL/1+ZYjNOYSn74sSkqDZ8CNl5Voq
+         7hNg==
+X-Gm-Message-State: APjAAAX1/c5wadVZDyIffZsVYDsskTvaWSMoRh98N5WkgPUn0LOkEssz
+        /v1sAh2z4nC8FSF81Ia6M8FWsT3ZCDUiNEzpKoQFKue+
+X-Google-Smtp-Source: APXvYqzN86HSJwrXgzb5Wnfmt2SM6jhTNodgCRBLT7Yj+Qtww4vTtfBSiln8G/VUCBWLQtcrPf5xljXyr39q6M3my2w=
+X-Received: by 2002:a0c:ad7a:: with SMTP id v55mr1786272qvc.130.1560402604599;
+ Wed, 12 Jun 2019 22:10:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAKL8oB_qPGVXd3MCj=f1Lzh02ifGzYTS2YAD77s2MY2LAnc+1A@mail.gmail.com>
+ <20190612150132.iemhbronjjaonpt2@gofer.mess.org>
+In-Reply-To: <20190612150132.iemhbronjjaonpt2@gofer.mess.org>
+From:   Takashi Kanamaru <neuralassembly@gmail.com>
+Date:   Thu, 13 Jun 2019 14:09:51 +0900
+Message-ID: <CAKL8oB-KxsGxHAUac7sYBf-Gs4UkAPVkXg75LwwVbut9GkQ-sQ@mail.gmail.com>
+Subject: Re: The restricted number (LIRCBUF_SIZE) of pulse-spaces in IR
+ sequences is too small
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Dear Sean Young,
 
-Results of the daily build of media_tree:
+> I don't see any reason why it can't be increased. For the record, it would
+> be interesting to know what your air conditioner model is and what the
+> IR signal looks like. I have not seen such a signal before.
 
-date:			Thu Jun 13 05:00:11 CEST 2019
-media-tree git hash:	513dbd35b5d93c45fa7291147f21fc0227a9f999
-media_build git hash:	8c181825fa4b157679e600565c310841be9f1890
-v4l-utils git hash:	08fed4d0edb1492b91d9d1054c36fed95c372eaa
-edid-decode git hash:	dc763d7b1a95a74c6d109a03e34ba45315212195
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 13935a7e5fc334611439324a8eb80dd57a3eae49
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+I observed the IR signals of my air conditioner (Panasoic ACXA75C00600)
+and TV (Belson DS16-11B) with the oscilloscope,
+and uploaded their graph as follows:
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 6
-sparse: OK
-smatch: WARNINGS
+https://github.com/neuralassembly/raspi/blob/master/IRSignalGraph.png
 
-Detailed results are available here:
+It is observed that the length of IR signal of air conditioner is long
+(about 250ms),
+and that of TV is short (about 60ms).
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+It is difficult to count the number of pulses and spaces in this graph,
+so I counted them from the output of the "mode2" command.
+They had 439 pulse-spaces and 67 pulse-spaces, respectively.
 
-Detailed regression test results are available here:
+Sincerely,
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Takashi Kanamaru
