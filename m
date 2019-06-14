@@ -2,167 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C5245938
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 11:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BB8245950
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 11:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727130AbfFNJuB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 05:50:01 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:52005 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726900AbfFNJuB (ORCPT
+        id S1727149AbfFNJwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 05:52:23 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:41446 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727134AbfFNJwX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 05:50:01 -0400
-X-Originating-IP: 37.177.88.254
-Received: from uno.localdomain (unknown [37.177.88.254])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 2184FC000A;
-        Fri, 14 Jun 2019 09:49:45 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 11:50:58 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
-        Libin Yang <lbyang@marvell.com>,
-        Albert Wang <twang13@marvell.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v5 01/10] media: dt-bindings: marvell,mmp2-ccic: Add
- Marvell MMP2 camera
-Message-ID: <20190614094921.tf4nqgszhg7pxzft@uno.localdomain>
-References: <20190505140031.9636-1-lkundrak@v3.sk>
- <20190505140031.9636-2-lkundrak@v3.sk>
+        Fri, 14 Jun 2019 05:52:23 -0400
+Received: by mail-io1-f65.google.com with SMTP id w25so4371371ioc.8
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 02:52:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Pn38DY8J1erO/Ni+UtJJLUvRg8BLlsHN2F+J0ZWpAOM=;
+        b=GW9MAen8gRqwszjkoaJI6yHV2zWm1sb7wZXxcpp7R+B3nCjSxY100bf+eCRApVDDtl
+         mg4oWNu8Z3JEYg9CWMKSkQTpc4Eni5BzPHQZJARzcqB5VFSdZzzYgnWDQDJIbzc1RB2z
+         ahaEeJzz24dRU+YqZ6CHcSMMepqit8WERW6Fp+RVm9zCHETMOB/W8iuyKHoSsAeWljIJ
+         qYbOeH6N0wG2/ezSW6PKAF9sPJwhKz1ys1mUQt2DrlD9arVVbmDc2Ibh5a0TW7AfbgLT
+         igRMnwSZpyvShNbpevIGvp1K9OYWhXD556sO2xOO8Z8xKWu96+7Pu2PMMLfK2hz0jBGY
+         CvVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=Pn38DY8J1erO/Ni+UtJJLUvRg8BLlsHN2F+J0ZWpAOM=;
+        b=F85qWA6NEp3zprsHVubPCy3Yo4mc+/tuNfLrbMEUgvmS3nIohawEBx033ChHMbjvfJ
+         EPieHq+JRi1KwWCkenOG0OTMHcNbGipvFTAAsLUC6KahhuaVG21IFLX4quwfgASl7os6
+         /vrZ1jQ/o9TPijU0EH9uz4/5YkLTNRJb3DagIU7UqQEP2KSlz6LJ6HeniaQ70+QIpcPP
+         USbqQK7aBrdUIa8zGoIIZ6nlom3fqcVaEuxIPcfGYgmVOEuF8flQKZOCRe2kQQdb+b92
+         jtnqn7saaO1higLwYA02Fpkwhy8pA30z+p1OUoOovBF41N40m05qD8+RhMamLlPs4HHQ
+         MJlA==
+X-Gm-Message-State: APjAAAVgoYWJPJt3uXWLLw5ayQgjZhFmAMxPOug79pGHe48pMLcWBqwF
+        DFLoObG8eTJGE2Vkk0sXGCgEeM6UrTs3Bwu2qYQ=
+X-Google-Smtp-Source: APXvYqz1xpVKqjLE3gSbrRAorJ6iCAEbPAfaaNvny61i6q/leaEw0s56hRf1XJQD6oqMNS2aymzmPKOdbpKul/my4bA=
+X-Received: by 2002:a5e:9701:: with SMTP id w1mr2953869ioj.294.1560505942312;
+ Fri, 14 Jun 2019 02:52:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kj5s4had2x4icus2"
-Content-Disposition: inline
-In-Reply-To: <20190505140031.9636-2-lkundrak@v3.sk>
-User-Agent: NeoMutt/20180716
+Reply-To: zia412@outlook.com
+Received: by 2002:a92:9f96:0:0:0:0:0 with HTTP; Fri, 14 Jun 2019 02:52:21
+ -0700 (PDT)
+From:   Ahmed Ahmed <zaaama250@gmail.com>
+Date:   Fri, 14 Jun 2019 11:52:21 +0200
+X-Google-Sender-Auth: jvOK1adHUh89YUS5qQU_-VrHK6A
+Message-ID: <CAONac3HFyN7acJZEQjfxdub25RgmrMqSYrjzvqgKr53VJeRO0Q@mail.gmail.com>
+Subject: Request
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Dear Friend.
 
---kj5s4had2x4icus2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+  I am Mr. .Ahmed Zama .I am sending this brief letter to solicit your
+partnership to =E2=82=AC 15 MILLION Euros into your account. I shall send y=
+ou
+more information and procedures when I receive positive response from
+you. If you are interested, send to me the followings immediately
+Full Names
+Age
+Nationality
+Occupation
+Direct Telephone Lines
 
-Hi Lubomir,
-
-On Sun, May 05, 2019 at 04:00:22PM +0200, Lubomir Rintel wrote:
-> Add Marvell MMP2 camera host interface.
->
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
->
-> ---
-> Changes since v4:
-> - s/Nust/Must/
-> - Documented required endpoint properties; bus-type, hsync-active,
->   vsync-active and pclk-sample.
->
-> Changes since v3:
-> - Dropped the video-interfaces.txt reference
-> - Clarify "clocks", "clock-names" and "clock-output-names" descriptions
-> - Refer to other documentation by full path
->
-> Changes since v2:
-> - Added #clock-cells, clock-names, port
->
->  .../bindings/media/marvell,mmp2-ccic.txt      | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
->
-> diff --git a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
-> new file mode 100644
-> index 0000000000000..7ec2c8c8a3b98
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.txt
-> @@ -0,0 +1,50 @@
-> +Marvell MMP2 camera host interface
-> +
-> +Required properties:
-> + - compatible: Should be "marvell,mmp2-ccic".
-> + - reg: Register base and size.
-> + - interrupts: The interrupt number.
-> + - #clock-cells: Must be 0.
-> +
-> +Optional properties:
-> + - clocks: Reference to the input clock as specified by
-> +           Documentation/devicetree/bindings/clock/clock-bindings.txt.
-> + - clock-names: Names of the clocks used; "axi" for the AXI bus interface,
-> +                "func" for the peripheral clock and "phy" for the parallel
-> +                video bus interface.
-> + - clock-output-names: Optional clock source for sensors. Shall be "mclk".
-> +
-> +Required subnodes:
-> + - port: The parallel bus interface port with a single endpoint linked to
-> +         the sensor's endpoint as described in
-> +         Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +
-> +Required endpoint properties:
-> + - bus-type: data bus type, <5> or <6> for Parallel or Bt.656 respectively
-> + - pclk-sample: pixel clock polarity
-> + - hsync-active: horizontal synchronization polarity (only required for
-> +   parallel bus)
-> + - vsync-active: vertical synchronization polarity (only required for
-> +   parallel bus)
-
-Minor nit: if you don't want to specify what maps to 0/1 in the
-properties, could you add "as defined in video-interfaces.txt" after
-each property?
-
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-  j
-
-> +
-> +Example:
-> +
-> +	camera0: camera@d420a000 {
-> +		compatible = "marvell,mmp2-ccic";
-> +		reg = <0xd420a000 0x800>;
-> +		interrupts = <42>;
-> +		clocks = <&soc_clocks MMP2_CLK_CCIC0>;
-> +		clock-names = "axi";
-> +		#clock-cells = <0>;
-> +		clock-output-names = "mclk";
-> +
-> +		port {
-> +			camera0_0: endpoint {
-> +				remote-endpoint = <&ov7670_0>;
-> +                                bus-type = <5>;      /* Parallel */
-> +                                hsync-active = <1>;  /* Active high */
-> +                                vsync-active = <1>;  /* Active high */
-> +                                pclk-sample = <0>;   /* Falling */
-> +			};
-> +		};
-> +	};
-> --
-> 2.21.0
->
-
---kj5s4had2x4icus2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DbgIACgkQcjQGjxah
-Vjyzcg//clH4UtRYjsI86mItIoXCvJcGZTdFoZ/gLPd5Di9SslN9R2iMjN3VAY2f
-48IBTCCE9shwey6dCHak6yLlgvlH2DUaXG6o9E7t92ryxnYt3ydTEG4Jtq6X97MU
-xNRHPWcdBxpt3UNFUgkPol2iXX9mjltw9QhR+SNb2pBrOwHfU3JXQI1tTWvUkw8S
-7M1ajKUW3/fAVhaOKWKTfwU5Tov0IZaDBXLS7wRuQ5CI06ebk//yCjy/2dNTE1q4
-EWoXD/Fl/S0Z7nAmtn2eQG3H2ezlkIrEIi0wZXckgBOXHUe8D+8pqQE8Q6PQeFhA
-CxVXquKIa7MQfqY1Mybu7Wa9o99Xt0Jjaxtfp9Sy+mEb4gABA2WALwFn2SOscJbY
-YdN2wJmbr7+cwJ1720dDEA21/Vwc95S/UEiZji3BxnU+oEFOL1NUbxlDS6E8HMfp
-F0R7xUrCkjU1bcTfigzOJ/uGC4Mnm/vbgft18mK+uZSj4U6+sDvfMNYGMSLFzjmK
-7nA+8uOALWCoji7VMU+nlqAmxxxw7LL/T/mD8GA2n3S+wW2VIPZA2G6z3Xt59HYw
-neZJXsk/JaamauA4iIRAHi1nnOVSPVO2O0BE16tO+ALL/r7HJxUzgwjExmkEQHu6
-5lrtTA1XVqxWPndB0ODL/YTtzROZ5r7mCKC0uSVAMz8LEb1mggY=
-=ENUC
------END PGP SIGNATURE-----
-
---kj5s4had2x4icus2--
+Mr Ahmed Zama
