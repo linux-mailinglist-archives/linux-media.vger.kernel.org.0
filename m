@@ -2,169 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A141D4510B
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 03:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A5E6453DD
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 07:14:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbfFNBJk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 21:09:40 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43699 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbfFNBJk (ORCPT
+        id S1725985AbfFNFN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 01:13:57 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34156 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbfFNFN5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 21:09:40 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z24so623718qtj.10
-        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 18:09:39 -0700 (PDT)
+        Fri, 14 Jun 2019 01:13:57 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c85so685813pfc.1
+        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 22:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=aV94+7/kBRsQyxN3Ja8VvOedA1WaNneDPWTVpwe7CyY=;
-        b=YVL85hv7g+XaUVvZfWNaihsjyjWHHeHGgKHno+2IU60cESJj7RdWJMkITA1lS/EldF
-         hk1DCDZ9//kHrg6A/7/EKPOqUd39ad0EheyumdhKv5ZwL5Gk49k9zk1mHli6i8necM1H
-         884KIRQnaqYG7k0Fy0gH/z5Cef58BxBM7DvDvqOjUvITGwW7oAg6tHZo5EMOdyHHSwXp
-         7U86q/20gyD8J+t6H1wNC4mPMJYf65u2NhFePzu4VR3YU09EGvGSslT7d1isawZnDTvm
-         DjjwaXeCT/AxMLph5nlvjlTtzlnM6kspK08Q5P6XrTLsUzO/R7ENBQZBOF0ARn8Hih/+
-         raVQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7L7uajw4KCsbL/S4E35UjNUKEFnxH/l2jD/CiFHPlB4=;
+        b=iVgLfh3u2rK3LSidDHhJBtdtNtpSlz4dIEb1BDsj4Re2fjkTLPAq5VHIrDbtF7rfc6
+         5a9vwqPeA/oCez/a3NCM+60PRvHQV0ltptm4u18TbaZDEEEiYlVGWcXj0ugZtZMkqFnM
+         ltnmFCb7F68lK6w+sv8Frqic/ZXdf9np/Ivm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aV94+7/kBRsQyxN3Ja8VvOedA1WaNneDPWTVpwe7CyY=;
-        b=FYhU+BegPOfrQHJv5y0DOkt3aC6cSOwzrL4U+npIHYXtEGNiBbw+KG3kWuyNF65Fum
-         3D9DXGRRTmXjROCxAPYLrWscL69wfxmq9VP/3be/16wyL8dbFDOwlKqTuetIz8EdnJPv
-         FGyLynbBIf6udQD2KtRZyUUXuAFr50qSEG6HeHK1veRw8ZzQJUgkfEbd0f0D2CmKk3uc
-         ukGc4NdTLJokANqT2XujGhhCz4i6LiZVGz+F9wSGNaJMlWjaLJcnv4sGgQw0CeDzNezF
-         Ysat9pOuzn1uf2joVSjucbNxnzugv/G0amO/JI5l5b8CGCkk2LHHNKTliMm+5QXU3IQw
-         b0mQ==
-X-Gm-Message-State: APjAAAW3QN52E272d/ObXjvBA3WAgu59V7pJVaoFRb9eyFr/y/NV0TqP
-        mFOCKWIUjzqzpcAPH8P/Dtj2+qZW1U5fJgU3
-X-Google-Smtp-Source: APXvYqz6ksGWfgSrSgvSCZx0YJDaVIVR53q3HMUG5QpfLRMBpfV1uWKf9AArTa+bsVwjMZBJZFGHAA==
-X-Received: by 2002:a0c:d013:: with SMTP id u19mr5882260qvg.136.1560474578737;
-        Thu, 13 Jun 2019 18:09:38 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id z126sm915024qkb.7.2019.06.13.18.09.36
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 18:09:37 -0700 (PDT)
-Message-ID: <615f53383f8f65011d1ce3ec49f6d78b67b8ddea.camel@ndufresne.ca>
-Subject: Re: [PATCHv4 0/2] Document memory-to-memory video codec interfaces
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Pawel Osciak <posciak@chromium.org>
-Date:   Thu, 13 Jun 2019 21:09:35 -0400
-In-Reply-To: <259bb812-9cc9-8fe7-8fc6-2cbd5ef44ac3@xs4all.nl>
-References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
-         <259bb812-9cc9-8fe7-8fc6-2cbd5ef44ac3@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7L7uajw4KCsbL/S4E35UjNUKEFnxH/l2jD/CiFHPlB4=;
+        b=pMsMZn3JWyqS8tJ8jyGW5TFyaOs+8CZkT6VbScIkIMacTTF115XaNNEX5licWJV8AZ
+         hfZ0RDiwUYH0qsREIfLg/tvjoUyzaD8vn9h0p7Pk9bqM0Q4sXaI6xfMkQ3K/P60fnkhQ
+         Rj54aI1/6rPpx9g/s1/afkUANwKU20M/0pX0sZ4LVI1h8qWginfDUsBxWIuQOSXKjqjx
+         uDXTgHVkWZCpv0flpuVW60WhEUJv0WVOfdzwL0BJzjEXGHsdU9FpgAA4RYL4qcCHHRKl
+         tMaFlr9Zx/cT6l2gdD3W5n1Tcijm+DvxWqjcrqyAgvivIUbgDOmOlLX6m41z1reZkLIj
+         Xm6w==
+X-Gm-Message-State: APjAAAVWv1F4yyDWOPi3hmnIt3qF9fb8JN6vFlLNqC41/jrNz0q0GxTu
+        LEArkpWqUOrP9PXf2ntCra3crw==
+X-Google-Smtp-Source: APXvYqzTfasIXQ0R9bH+BHnjS/rxhZOCyiy3olY/JYV+P2HTQ7p4rEZDPtcIb7Np5EQm4YDFboUW8Q==
+X-Received: by 2002:a63:6948:: with SMTP id e69mr23166361pgc.441.1560489236782;
+        Thu, 13 Jun 2019 22:13:56 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f13sm1417022pje.11.2019.06.13.22.13.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 13 Jun 2019 22:13:55 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 22:13:54 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control
+ the tagged user addresses ABI
+Message-ID: <201906132209.FC65A3C771@keescook>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
+ <20190613110235.GW28398@e103592.cambridge.arm.com>
+ <20190613152632.GT28951@C02TF0J2HF1T.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613152632.GT28951@C02TF0J2HF1T.local>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 13 juin 2019 à 08:48 +0200, Hans Verkuil a écrit :
-> On 6/3/19 1:28 PM, Hans Verkuil wrote:
-> > Since Tomasz was very busy with other things, I've taken over this
-> > patch series. This v4 includes his draft changes and additional changes
-> > from me.
+On Thu, Jun 13, 2019 at 04:26:32PM +0100, Catalin Marinas wrote:
+> On Thu, Jun 13, 2019 at 12:02:35PM +0100, Dave P Martin wrote:
+> > On Wed, Jun 12, 2019 at 01:43:20PM +0200, Andrey Konovalov wrote:
+> > > +static int zero;
+> > > +static int one = 1;
 > > 
-> > This series attempts to add the documentation of what was discussed
-> > during Media Workshops at LinuxCon Europe 2012 in Barcelona and then
-> > later Embedded Linux Conference Europe 2014 in Düsseldorf and then
-> > eventually written down by Pawel Osciak and tweaked a bit by Chrome OS
-> > video team (but mostly in a cosmetic way or making the document more
-> > precise), during the several years of Chrome OS using the APIs in
-> > production.
+> > !!!
 > > 
-> > Note that most, if not all, of the API is already implemented in
-> > existing mainline drivers, such as s5p-mfc or mtk-vcodec. Intention of
-> > this series is just to formalize what we already have.
+> > And these can't even be const without a cast.  Yuk.
 > > 
-> > Thanks everyone for the huge amount of useful comments to previous
-> > versions of this series. Much of the credits should go to Pawel Osciak
-> > too, for writing most of the original text of the initial RFC.
-> > 
-> > This v4 incorporates all known comments (let me know if I missed
-> > something!) and should be complete for the decoder.
-> > 
-> > For the encoder there are two remaining TODOs for the API:
-> > 
-> > 1) Setting the frame rate so bitrate control can make sense, since
-> >    they need to know this information.
-> > 
-> >    Suggested solution: require support for ENUM_FRAMEINTERVALS for the
-> >    coded pixelformats and S_PARM(OUTPUT). Open question: some drivers
-> >    (mediatek, hva, coda) require S_PARM(OUTPUT), some (venus) allow both
-> >    S_PARM(CAPTURE) and S_PARM(OUTPUT). I am inclined to allow both since
-> >    this is not a CAPTURE vs OUTPUT thing, it is global to both queues.
+> > (Not your fault though, but it would be nice to have a proc_dobool() to
+> > avoid this.)
 > 
-> Alternative proposal:
-> 
-> 1) Add support for fractions (struct v4l2_fract) as a control type:
->    V4L2_CTRL_TYPE_FRACT.
-> 
-> 2) Add a new V4L2_CID_MPEG_FRAME_INTERVAL control.
+> I had the same reaction. Maybe for another patch sanitising this pattern
+> across the kernel.
 
-Is the MPEG namespace historical ? That might be confusing for users.
+That's actually already happening (via -mm tree last I looked). tl;dr:
+it ends up using a cast hidden in a macro. It's in linux-next already
+along with a checkpatch.pl addition to yell about doing what's being
+done here. ;)
 
-> 
-> Encoders shall support this control.
-> 
-> 3) For backwards compatibility reasons encoder drivers still have to
-> support G/S_PARM, but this can now be implemented by standard helpers
-> that query this control. Drivers also have to implement ENUM_FRAMEINTERVALS.
+https://lore.kernel.org/lkml/20190430180111.10688-1-mcroce@redhat.com/#r
 
-That's won't be very friendly for UI generator like qv4l2. Support for
-v4l2_fract as control should include a way to describe the supported
-values of that control the usual way I think.
-
-Also, long term, it would be nice to have two sets of frame rates. The
-one that the HW can handle "real-time" and the one that can be used for
-bitrate calculation. So staying away from ENUM_FRAMEINTERVALS for
-bitrate configuration would be nicer.
-
-> If the range of intervals is always the same regardless of the frame size,
-> then a helper can be used that queries the min/max/step of the control, but
-> if it is dependent on the frame size, then it has to be implemented in the
-> driver itself.
-> 
-> I'm sticking to frame intervals instead of frame rates for the simple reason
-> that that's what V4L2 has used since the beginning. I think it is too confusing
-> to change this to a frame rate. This is just my opinion, though.
-
-I suggested frame rate since this is what I saw implemented by HW
-registers (if you think it's worth it, I can try and make a list).
-Also, frame-interval steps are not compatible with frame-rate steps
-(something that was raised through a venus driver bug) last year. Even
-v4l2-ctl was displaying that in a very confusing way. Something as
-simple as 1 to 30 fps cannot be exposed through ENU_FRAMEINTERVALS. You
-are forced to expose the full fractional range of interval, from 1/30
-to 1/1. For Venus it was not that much of a trouble, since its stores a
-framerate as Q16..
-
-> 
-> I also chose to make this a codec control, not a generic user control: this
-> value together with the bit rate control(s) determine the compression size,
-> it does not determine the actual time it takes for the encoder to compress
-> the raw frames. Hence it is really not the same thing as the frame interval
-
-That's a good point.
-
-> of a video capture device. If we want to use a control for that as well in
-> the future as a replacement for G/S_PARM, then that should be a new control.
-> And we would like need per-pad controls as well in order to implement that.
-> Which is a lot more work.
-> 
-> Regards,
-> 
-> 	Hans
-
-
+-- 
+Kees Cook
