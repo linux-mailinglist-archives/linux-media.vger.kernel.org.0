@@ -2,73 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BB8245950
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 11:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69B86459C4
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 12:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbfFNJwX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 05:52:23 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:41446 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727134AbfFNJwX (ORCPT
+        id S1727260AbfFNKA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 06:00:27 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:56833 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726767AbfFNKA0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 05:52:23 -0400
-Received: by mail-io1-f65.google.com with SMTP id w25so4371371ioc.8
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 02:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Pn38DY8J1erO/Ni+UtJJLUvRg8BLlsHN2F+J0ZWpAOM=;
-        b=GW9MAen8gRqwszjkoaJI6yHV2zWm1sb7wZXxcpp7R+B3nCjSxY100bf+eCRApVDDtl
-         mg4oWNu8Z3JEYg9CWMKSkQTpc4Eni5BzPHQZJARzcqB5VFSdZzzYgnWDQDJIbzc1RB2z
-         ahaEeJzz24dRU+YqZ6CHcSMMepqit8WERW6Fp+RVm9zCHETMOB/W8iuyKHoSsAeWljIJ
-         qYbOeH6N0wG2/ezSW6PKAF9sPJwhKz1ys1mUQt2DrlD9arVVbmDc2Ibh5a0TW7AfbgLT
-         igRMnwSZpyvShNbpevIGvp1K9OYWhXD556sO2xOO8Z8xKWu96+7Pu2PMMLfK2hz0jBGY
-         CvVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=Pn38DY8J1erO/Ni+UtJJLUvRg8BLlsHN2F+J0ZWpAOM=;
-        b=F85qWA6NEp3zprsHVubPCy3Yo4mc+/tuNfLrbMEUgvmS3nIohawEBx033ChHMbjvfJ
-         EPieHq+JRi1KwWCkenOG0OTMHcNbGipvFTAAsLUC6KahhuaVG21IFLX4quwfgASl7os6
-         /vrZ1jQ/o9TPijU0EH9uz4/5YkLTNRJb3DagIU7UqQEP2KSlz6LJ6HeniaQ70+QIpcPP
-         USbqQK7aBrdUIa8zGoIIZ6nlom3fqcVaEuxIPcfGYgmVOEuF8flQKZOCRe2kQQdb+b92
-         jtnqn7saaO1higLwYA02Fpkwhy8pA30z+p1OUoOovBF41N40m05qD8+RhMamLlPs4HHQ
-         MJlA==
-X-Gm-Message-State: APjAAAVgoYWJPJt3uXWLLw5ayQgjZhFmAMxPOug79pGHe48pMLcWBqwF
-        DFLoObG8eTJGE2Vkk0sXGCgEeM6UrTs3Bwu2qYQ=
-X-Google-Smtp-Source: APXvYqz1xpVKqjLE3gSbrRAorJ6iCAEbPAfaaNvny61i6q/leaEw0s56hRf1XJQD6oqMNS2aymzmPKOdbpKul/my4bA=
-X-Received: by 2002:a5e:9701:: with SMTP id w1mr2953869ioj.294.1560505942312;
- Fri, 14 Jun 2019 02:52:22 -0700 (PDT)
+        Fri, 14 Jun 2019 06:00:26 -0400
+X-Originating-IP: 37.177.88.254
+Received: from uno.localdomain (unknown [37.177.88.254])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CD4C9C0002;
+        Fri, 14 Jun 2019 10:00:20 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 12:01:33 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
+        Libin Yang <lbyang@marvell.com>,
+        Albert Wang <twang13@marvell.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH v5 03/10] [media] marvell-ccic: don't generate EOF on
+ parallel bus
+Message-ID: <20190614100133.euxhdaktlemnd2ep@uno.localdomain>
+References: <20190505140031.9636-1-lkundrak@v3.sk>
+ <20190505140031.9636-4-lkundrak@v3.sk>
 MIME-Version: 1.0
-Reply-To: zia412@outlook.com
-Received: by 2002:a92:9f96:0:0:0:0:0 with HTTP; Fri, 14 Jun 2019 02:52:21
- -0700 (PDT)
-From:   Ahmed Ahmed <zaaama250@gmail.com>
-Date:   Fri, 14 Jun 2019 11:52:21 +0200
-X-Google-Sender-Auth: jvOK1adHUh89YUS5qQU_-VrHK6A
-Message-ID: <CAONac3HFyN7acJZEQjfxdub25RgmrMqSYrjzvqgKr53VJeRO0Q@mail.gmail.com>
-Subject: Request
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="mmzrrql2dydy5u5w"
+Content-Disposition: inline
+In-Reply-To: <20190505140031.9636-4-lkundrak@v3.sk>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Friend.
 
-  I am Mr. .Ahmed Zama .I am sending this brief letter to solicit your
-partnership to =E2=82=AC 15 MILLION Euros into your account. I shall send y=
-ou
-more information and procedures when I receive positive response from
-you. If you are interested, send to me the followings immediately
-Full Names
-Age
-Nationality
-Occupation
-Direct Telephone Lines
+--mmzrrql2dydy5u5w
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Mr Ahmed Zama
+Hi Lubomir,
+
+On Sun, May 05, 2019 at 04:00:24PM +0200, Lubomir Rintel wrote:
+> The commit 05fed81625bf ("[media] marvell-ccic: add MIPI support for
+> marvell-ccic driver") that claimed to add CSI2 turned on C0_EOF_VSYNC for
+> parallel bus without a very good explanation.
+>
+> That broke camera on OLPC XO-1.75 which precisely uses a sensor on a
+> parallel bus. Revert that chunk.
+>
+> Tested on an OLPC XO-1.75.
+>
+> Fixes: 05fed81625bf755cc67c5864cdfd18b69ea828d1
+
+Use the proper fixes format here
+Fixes: 05fed81625bf ("[media] marvell-ccic: add MIPI support for marvell-ccic driver")
+
+I have this simple entry in my git config:
+
+[pretty]
+	fixes = Fixes: %h (\"%s\")
+
+With
+        abbrev=12
+
+in the [core] section.
+
+You can now
+$git show 05fed81625bf755cc67c5864cdfd18b69ea828d1 --pretty=fixes
+
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  drivers/media/platform/marvell-ccic/mcam-core.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+> index d97f39bde9bd6..d24e5b7a3bc52 100644
+> --- a/drivers/media/platform/marvell-ccic/mcam-core.c
+> +++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+> @@ -792,12 +792,6 @@ static void mcam_ctlr_image(struct mcam_camera *cam)
+>  	 * Make sure it knows we want to use hsync/vsync.
+>  	 */
+>  	mcam_reg_write_mask(cam, REG_CTRL0, C0_SIF_HVSYNC, C0_SIFM_MASK);
+> -	/*
+> -	 * This field controls the generation of EOF(DVP only)
+> -	 */
+> -	if (cam->bus_type != V4L2_MBUS_CSI2_DPHY)
+> -		mcam_reg_set_bit(cam, REG_CTRL0,
+> -				C0_EOF_VSYNC | C0_VEDGE_CTRL);
+
+This change seems in facts unrelated to the original patch. As you
+remove all usages of C0_EOF_VSYNC and C0_VEDGE_CTRL you can drop their
+definition in mcam-core.h.
+
+As I've said, the change seems unrelated to CSI-2 support and could
+probably be salfey dropped, but pay attention, you're also dropping
+C0_VEDGE_CTRL, which seems to enable VSYNC detection on the signal
+falling edge. Is this intentional ?
+
+Thanks
+   j
+
+>  }
+>
+>
+> --
+> 2.21.0
+>
+
+--mmzrrql2dydy5u5w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DcH0ACgkQcjQGjxah
+VjyxcRAAoBs1nLSqKz9dDuh1ExoER+gBlhUSp11xMqI770WvPzLLiSgVImxYpd3f
+JfLjOEzypnmiitZ8+V6+erHY0uTNnQaVgeaZpkLSe+uLBNqxzcMioFWoxBEgPDSq
+Uo1GYLMJ/bXEb2gmgH2/5EOjLME6fGyOlsUbU//ft0eAvOmS8qTA3z1cmvpRfume
+a+e2qav1MUXZ5EoImgWSSjn6YS8Epr96uKWg+lmoYzUaSuFJ8MvY7dc9Cq+yn5lz
+EVDCHkA7JMvfA6j1sbiPMwN+kB1QCKp8c2+IfQFQAo2A/M7MyYOl9oz45YOkqNKL
+Ub6olMo3EN6ZRePt2ooFLOuUJNLwnbgB4g4TQ8QlNW1dMrT0D2eRZw01sw6Sh6Qu
+xqmfrf9Jgjei1epV1/8KPNBUOTs/tr/AJGn00SSgpd/TcSnXTguPGZbkhvxs/1Un
+8A2pF8y1pR8l3FDbGkwWg1HzcbReyVrPmpTG2F+Z72SGAVsDDmOfapRi9++1owNf
+DTNjRshLw2fjmjFvrTgdyKEPJ7ENv1I57CLC7OdkdPf4uISeXfvuMkU2OIgP5j9x
+3Wf2WGumaR8U1uMQy98V5JYJzA+pNKhgzSlK6TWQQDCdpUt+LwlWFVjv4LmT1EQ/
+BnSdMDXuA1rBQ32TtrBIqVk9oDOrk51uXGuo5c48wz7htS8Tu4M=
+=DOfD
+-----END PGP SIGNATURE-----
+
+--mmzrrql2dydy5u5w--
