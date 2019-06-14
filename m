@@ -2,121 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A5E6453DD
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 07:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C0645583
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 09:14:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbfFNFN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 01:13:57 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34156 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725944AbfFNFN5 (ORCPT
+        id S1726252AbfFNHOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 03:14:34 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56791 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725837AbfFNHOe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 01:13:57 -0400
-Received: by mail-pf1-f193.google.com with SMTP id c85so685813pfc.1
-        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 22:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7L7uajw4KCsbL/S4E35UjNUKEFnxH/l2jD/CiFHPlB4=;
-        b=iVgLfh3u2rK3LSidDHhJBtdtNtpSlz4dIEb1BDsj4Re2fjkTLPAq5VHIrDbtF7rfc6
-         5a9vwqPeA/oCez/a3NCM+60PRvHQV0ltptm4u18TbaZDEEEiYlVGWcXj0ugZtZMkqFnM
-         ltnmFCb7F68lK6w+sv8Frqic/ZXdf9np/Ivm0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7L7uajw4KCsbL/S4E35UjNUKEFnxH/l2jD/CiFHPlB4=;
-        b=pMsMZn3JWyqS8tJ8jyGW5TFyaOs+8CZkT6VbScIkIMacTTF115XaNNEX5licWJV8AZ
-         hfZ0RDiwUYH0qsREIfLg/tvjoUyzaD8vn9h0p7Pk9bqM0Q4sXaI6xfMkQ3K/P60fnkhQ
-         Rj54aI1/6rPpx9g/s1/afkUANwKU20M/0pX0sZ4LVI1h8qWginfDUsBxWIuQOSXKjqjx
-         uDXTgHVkWZCpv0flpuVW60WhEUJv0WVOfdzwL0BJzjEXGHsdU9FpgAA4RYL4qcCHHRKl
-         tMaFlr9Zx/cT6l2gdD3W5n1Tcijm+DvxWqjcrqyAgvivIUbgDOmOlLX6m41z1reZkLIj
-         Xm6w==
-X-Gm-Message-State: APjAAAVWv1F4yyDWOPi3hmnIt3qF9fb8JN6vFlLNqC41/jrNz0q0GxTu
-        LEArkpWqUOrP9PXf2ntCra3crw==
-X-Google-Smtp-Source: APXvYqzTfasIXQ0R9bH+BHnjS/rxhZOCyiy3olY/JYV+P2HTQ7p4rEZDPtcIb7Np5EQm4YDFboUW8Q==
-X-Received: by 2002:a63:6948:: with SMTP id e69mr23166361pgc.441.1560489236782;
-        Thu, 13 Jun 2019 22:13:56 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f13sm1417022pje.11.2019.06.13.22.13.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 13 Jun 2019 22:13:55 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 22:13:54 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control
- the tagged user addresses ABI
-Message-ID: <201906132209.FC65A3C771@keescook>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
- <20190613110235.GW28398@e103592.cambridge.arm.com>
- <20190613152632.GT28951@C02TF0J2HF1T.local>
+        Fri, 14 Jun 2019 03:14:34 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id bgPshVxU75qKabgPwhKdm7; Fri, 14 Jun 2019 09:14:32 +0200
+Subject: Re: [PATCH 1/9] media: docs: v4l2-controls: fix sentence rendered in
+ a nonsense way
+To:     Luca Ceresoli <luca@lucaceresoli.net>, linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20190613141826.26775-1-luca@lucaceresoli.net>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <069ac18c-7b9e-652a-1ff8-35fca09e6538@xs4all.nl>
+Date:   Fri, 14 Jun 2019 09:14:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190613152632.GT28951@C02TF0J2HF1T.local>
+In-Reply-To: <20190613141826.26775-1-luca@lucaceresoli.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLULx6w3UFhlf3J5JCexhb+m+iklOFzmIMMKYRDvzeNKBekzrOFhmeknJxOTmQMdjN9XXfrlhqBoDBMxyopKvpsduSm8E4ZnhyNOYzfyjOTCLMRf2gbJ
+ nFD/I3Y/uQGHROwU5W1NTsxyx+1m5iOUBgTnOppzJbh1+1gOeOOQg6USO0X3NrS4fTWpZtXCtO9D8675Hs8pBfZegACeBdsm++1XHnLzbsmjbwiIOVaAK/hW
+ vWl2Z6B5IOcq/K3hJbooxYhAHKWQuvMYoypRtPhRRzcU3Z30O0a1bW+zQ/R2mReAwhefEiXp/5f5DiZms7Yidg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 04:26:32PM +0100, Catalin Marinas wrote:
-> On Thu, Jun 13, 2019 at 12:02:35PM +0100, Dave P Martin wrote:
-> > On Wed, Jun 12, 2019 at 01:43:20PM +0200, Andrey Konovalov wrote:
-> > > +static int zero;
-> > > +static int one = 1;
-> > 
-> > !!!
-> > 
-> > And these can't even be const without a cast.  Yuk.
-> > 
-> > (Not your fault though, but it would be nice to have a proc_dobool() to
-> > avoid this.)
+On 6/13/19 4:18 PM, Luca Ceresoli wrote:
+> This sentence renders as:
 > 
-> I had the same reaction. Maybe for another patch sanitising this pattern
-> across the kernel.
+>> Since such compound controls need to expose more information about
+>> themselves than is possible with ioctls VIDIOC_QUERYCTRL,
+>> VIDIOC_QUERY_EXT_CTRL and VIDIOC_QUERYMENU the VIDIOC_QUERY_EXT_CTRL
+>   ^^^^^^^^^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^
+>> ioctl was added.
+> 
+> This does not make sense. Fix by providing an explicit link text. This
+> results in:
+> 
+>> Since such compound controls need to expose more information about
+>> themselves than is possible with VIDIOC_QUERYCTRL and VIDIOC_QUERYMENU
+>> the VIDIOC_QUERY_EXT_CTRL ioctl was added.
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+>  Documentation/media/uapi/v4l/extended-controls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
+> index 24274b398e63..0968aa9cd167 100644
+> --- a/Documentation/media/uapi/v4l/extended-controls.rst
+> +++ b/Documentation/media/uapi/v4l/extended-controls.rst
+> @@ -86,7 +86,7 @@ with compound types should only be used programmatically.
+>  
+>  Since such compound controls need to expose more information about
+>  themselves than is possible with
+> -:ref:`VIDIOC_QUERYCTRL` the
+> +:ref:`VIDIOC_QUERYCTRL and VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>` the
 
-That's actually already happening (via -mm tree last I looked). tl;dr:
-it ends up using a cast hidden in a macro. It's in linux-next already
-along with a checkpatch.pl addition to yell about doing what's being
-done here. ;)
+This should just refer to VIDIOC_QUERYCTRL, not QUERYMENU. So this
+becomes: :ref:`VIDIOC_QUERYCTRL <VIDIOC_QUERYCTRL>`
 
-https://lore.kernel.org/lkml/20190430180111.10688-1-mcroce@redhat.com/#r
+Regards,
 
--- 
-Kees Cook
+	Hans
+
+>  :ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>` ioctl was added. In
+>  particular, this ioctl gives the dimensions of the N-dimensional array
+>  if this control consists of more than one element.
+> 
+
