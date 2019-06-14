@@ -2,141 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B86459C4
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 12:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 115B245A32
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 12:18:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727260AbfFNKA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 06:00:27 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:56833 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726767AbfFNKA0 (ORCPT
+        id S1727289AbfFNKSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 06:18:24 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33752 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726832AbfFNKSX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 06:00:26 -0400
-X-Originating-IP: 37.177.88.254
-Received: from uno.localdomain (unknown [37.177.88.254])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CD4C9C0002;
-        Fri, 14 Jun 2019 10:00:20 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 12:01:33 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
-        Libin Yang <lbyang@marvell.com>,
-        Albert Wang <twang13@marvell.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v5 03/10] [media] marvell-ccic: don't generate EOF on
- parallel bus
-Message-ID: <20190614100133.euxhdaktlemnd2ep@uno.localdomain>
-References: <20190505140031.9636-1-lkundrak@v3.sk>
- <20190505140031.9636-4-lkundrak@v3.sk>
+        Fri, 14 Jun 2019 06:18:23 -0400
+Received: by mail-ot1-f66.google.com with SMTP id p4so2171182oti.0
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 03:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BluMzkCDQwyvUXl6lzhoZtoPJHAVNPhcRWOIM0TWe5A=;
+        b=CHPvPl+jUh7JA/rRQipbNvx2eeCXj4MzMMwsR5yCx/D03/DvrLCHOLgRsWofA1G48U
+         n4aIfJ3weW2OCpVKh2VRnG3ebK8M5ONtMEtIkC3fB3hNabi+ChyUQ9vYqqQbvssy8f4l
+         fpe34arGIzFmrKgaR8q/8j9Lx0H8qNOC6IU60=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BluMzkCDQwyvUXl6lzhoZtoPJHAVNPhcRWOIM0TWe5A=;
+        b=uHlTt+skDzt+I0xfHdJlOroJeYH1MGAwVH5XBb4mQMKMSk6JUC2x25JNZWRyQtFos5
+         MGMHfNtrLZYnVNSk1r8V6Cw5aeJnbkImmuK2WJ3ccsjlMzyl5QqA5HG/3pMWCQIp7sIL
+         oQ+v/9l92Jf+2yOH9UekpwKO1u9XEYLVqfeIQV3PmxICTIW1pIl6OShVXkS0yRF76wZQ
+         12ENVfwzlnyDyKnRN96McX8fM/3Fn9hRMaSDAYREuRgT0N/BVzeayZ8l91txRDXtIse0
+         8ZgVaE73lqp9JlR22CQdCruG/WOUuL3zsNfYxsbJHgVQAVVTAFDvStT56fQoiySo3QOx
+         82tg==
+X-Gm-Message-State: APjAAAVjBUgtGob6RhJ59oj/WMW8K+UD+38KiviuRnVFrkVVjYPt5sn5
+        b2f6uLo2e/rv8FpBEe5natDzRin1gWY=
+X-Google-Smtp-Source: APXvYqwYQr9y58DoVNkIbeRkgPq8ZxYT2gGbIiiNpdzF1jG1RhXquYt1vMQc6c2ZZFcTDNtwnLgkuQ==
+X-Received: by 2002:a9d:7d02:: with SMTP id v2mr3185666otn.112.1560507502751;
+        Fri, 14 Jun 2019 03:18:22 -0700 (PDT)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
+        by smtp.gmail.com with ESMTPSA id i8sm989273oth.24.2019.06.14.03.18.21
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
+Received: by mail-ot1-f53.google.com with SMTP id r6so2142520oti.3
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
+X-Received: by 2002:a9d:30c3:: with SMTP id r3mr9116550otg.141.1560507501049;
+ Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mmzrrql2dydy5u5w"
-Content-Disposition: inline
-In-Reply-To: <20190505140031.9636-4-lkundrak@v3.sk>
-User-Agent: NeoMutt/20180716
+References: <20190614075640.106709-1-acourbot@chromium.org> <9fd990d12ea1488592c5a590046f001a187b9c3f.camel@perches.com>
+In-Reply-To: <9fd990d12ea1488592c5a590046f001a187b9c3f.camel@perches.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Fri, 14 Jun 2019 19:18:09 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MVRA_tBwg_r-Z8Rx7pUkR8W47CN1dqWH5uk+_1ONhViog@mail.gmail.com>
+Message-ID: <CAPBb6MVRA_tBwg_r-Z8Rx7pUkR8W47CN1dqWH5uk+_1ONhViog@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mtk-vcodec: remove unneeded proxy functions
+To:     Joe Perches <joe@perches.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mediatek@lists.infradead.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---mmzrrql2dydy5u5w
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Lubomir,
-
-On Sun, May 05, 2019 at 04:00:24PM +0200, Lubomir Rintel wrote:
-> The commit 05fed81625bf ("[media] marvell-ccic: add MIPI support for
-> marvell-ccic driver") that claimed to add CSI2 turned on C0_EOF_VSYNC for
-> parallel bus without a very good explanation.
+On Fri, Jun 14, 2019 at 6:11 PM Joe Perches <joe@perches.com> wrote:
 >
-> That broke camera on OLPC XO-1.75 which precisely uses a sensor on a
-> parallel bus. Revert that chunk.
+> On Fri, 2019-06-14 at 16:56 +0900, Alexandre Courbot wrote:
+> > We were getting the codec interface through a proxy function that does
+> > not bring anything compared to just accessing the interface definition
+> > directly, so just do that. Also make the decoder interfaces const.
+> []
+> > diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+> []
+> > @@ -485,16 +485,9 @@ static int vdec_h264_get_param(void *h_vdec, enum vdec_get_param_type type,
+> >       return 0;
+> >  }
+> >
+> > -static struct vdec_common_if vdec_h264_if = {
+> > +const struct vdec_common_if vdec_h264_if = {
 >
-> Tested on an OLPC XO-1.75.
->
-> Fixes: 05fed81625bf755cc67c5864cdfd18b69ea828d1
+> probably better to fixup whatever chains prevent
+> this (if any) from being static const
 
-Use the proper fixes format here
-Fixes: 05fed81625bf ("[media] marvell-ccic: add MIPI support for marvell-ccic driver")
-
-I have this simple entry in my git config:
-
-[pretty]
-	fixes = Fixes: %h (\"%s\")
-
-With
-        abbrev=12
-
-in the [core] section.
-
-You can now
-$git show 05fed81625bf755cc67c5864cdfd18b69ea828d1 --pretty=fixes
-
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> ---
->  drivers/media/platform/marvell-ccic/mcam-core.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
-> index d97f39bde9bd6..d24e5b7a3bc52 100644
-> --- a/drivers/media/platform/marvell-ccic/mcam-core.c
-> +++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-> @@ -792,12 +792,6 @@ static void mcam_ctlr_image(struct mcam_camera *cam)
->  	 * Make sure it knows we want to use hsync/vsync.
->  	 */
->  	mcam_reg_write_mask(cam, REG_CTRL0, C0_SIF_HVSYNC, C0_SIFM_MASK);
-> -	/*
-> -	 * This field controls the generation of EOF(DVP only)
-> -	 */
-> -	if (cam->bus_type != V4L2_MBUS_CSI2_DPHY)
-> -		mcam_reg_set_bit(cam, REG_CTRL0,
-> -				C0_EOF_VSYNC | C0_VEDGE_CTRL);
-
-This change seems in facts unrelated to the original patch. As you
-remove all usages of C0_EOF_VSYNC and C0_VEDGE_CTRL you can drop their
-definition in mcam-core.h.
-
-As I've said, the change seems unrelated to CSI-2 support and could
-probably be salfey dropped, but pay attention, you're also dropping
-C0_VEDGE_CTRL, which seems to enable VSYNC detection on the signal
-falling edge. Is this intentional ?
-
-Thanks
-   j
-
->  }
->
->
-> --
-> 2.21.0
->
-
---mmzrrql2dydy5u5w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DcH0ACgkQcjQGjxah
-VjyxcRAAoBs1nLSqKz9dDuh1ExoER+gBlhUSp11xMqI770WvPzLLiSgVImxYpd3f
-JfLjOEzypnmiitZ8+V6+erHY0uTNnQaVgeaZpkLSe+uLBNqxzcMioFWoxBEgPDSq
-Uo1GYLMJ/bXEb2gmgH2/5EOjLME6fGyOlsUbU//ft0eAvOmS8qTA3z1cmvpRfume
-a+e2qav1MUXZ5EoImgWSSjn6YS8Epr96uKWg+lmoYzUaSuFJ8MvY7dc9Cq+yn5lz
-EVDCHkA7JMvfA6j1sbiPMwN+kB1QCKp8c2+IfQFQAo2A/M7MyYOl9oz45YOkqNKL
-Ub6olMo3EN6ZRePt2ooFLOuUJNLwnbgB4g4TQ8QlNW1dMrT0D2eRZw01sw6Sh6Qu
-xqmfrf9Jgjei1epV1/8KPNBUOTs/tr/AJGn00SSgpd/TcSnXTguPGZbkhvxs/1Un
-8A2pF8y1pR8l3FDbGkwWg1HzcbReyVrPmpTG2F+Z72SGAVsDDmOfapRi9++1owNf
-DTNjRshLw2fjmjFvrTgdyKEPJ7ENv1I57CLC7OdkdPf4uISeXfvuMkU2OIgP5j9x
-3Wf2WGumaR8U1uMQy98V5JYJzA+pNKhgzSlK6TWQQDCdpUt+LwlWFVjv4LmT1EQ/
-BnSdMDXuA1rBQ32TtrBIqVk9oDOrk51uXGuo5c48wz7htS8Tu4M=
-=DOfD
------END PGP SIGNATURE-----
-
---mmzrrql2dydy5u5w--
+These are defined in per-codec source files and selected at runtime by
+vdec_drv_if.c, so I don't think we can avoid declaring at least
+something? The previous approach was to declare a function, but as you
+can see we can remove quite some code by exporting the structs
+directly.
