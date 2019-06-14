@@ -2,102 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A6444F25
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 00:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A141D4510B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 03:09:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfFMWcK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jun 2019 18:32:10 -0400
-Received: from smtprelay0116.hostedemail.com ([216.40.44.116]:46495 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725616AbfFMWcK (ORCPT
+        id S1727556AbfFNBJk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jun 2019 21:09:40 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43699 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725616AbfFNBJk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jun 2019 18:32:10 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 0234B1822408D;
-        Thu, 13 Jun 2019 22:32:08 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 10,1,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::::::::::,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2559:2562:2691:2716:2828:3138:3139:3140:3141:3142:3352:3622:3865:3867:3871:3872:4321:5007:6742:7901:7974:9036:10004:10400:10450:10455:10848:10967:11026:11232:11473:11657:11658:11914:12043:12296:12438:12740:12760:12895:13069:13311:13357:13439:14659:14721:19904:19999:21080:21325:21451:21627:30045:30054:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:26,LUA_SUMMARY:none
-X-HE-Tag: bells74_f85ac43e0702
-X-Filterd-Recvd-Size: 3034
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf15.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 13 Jun 2019 22:31:46 +0000 (UTC)
-Message-ID: <39e6c0f7d7529da9906a17450a8bcdf416297520.camel@perches.com>
-Subject: Re: [PATCH 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx Subsystem
- driver
-From:   Joe Perches <joe@perches.com>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        Vishal Sagar <vishal.sagar@xilinx.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michals@xilinx.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>
-Date:   Thu, 13 Jun 2019 15:31:44 -0700
-In-Reply-To: <20190613220507.GA2473@smtp.xilinx.com>
-References: <1559656556-79174-1-git-send-email-vishal.sagar@xilinx.com>
-         <1559656556-79174-3-git-send-email-vishal.sagar@xilinx.com>
-         <20190613220507.GA2473@smtp.xilinx.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        Thu, 13 Jun 2019 21:09:40 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z24so623718qtj.10
+        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2019 18:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=aV94+7/kBRsQyxN3Ja8VvOedA1WaNneDPWTVpwe7CyY=;
+        b=YVL85hv7g+XaUVvZfWNaihsjyjWHHeHGgKHno+2IU60cESJj7RdWJMkITA1lS/EldF
+         hk1DCDZ9//kHrg6A/7/EKPOqUd39ad0EheyumdhKv5ZwL5Gk49k9zk1mHli6i8necM1H
+         884KIRQnaqYG7k0Fy0gH/z5Cef58BxBM7DvDvqOjUvITGwW7oAg6tHZo5EMOdyHHSwXp
+         7U86q/20gyD8J+t6H1wNC4mPMJYf65u2NhFePzu4VR3YU09EGvGSslT7d1isawZnDTvm
+         DjjwaXeCT/AxMLph5nlvjlTtzlnM6kspK08Q5P6XrTLsUzO/R7ENBQZBOF0ARn8Hih/+
+         raVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=aV94+7/kBRsQyxN3Ja8VvOedA1WaNneDPWTVpwe7CyY=;
+        b=FYhU+BegPOfrQHJv5y0DOkt3aC6cSOwzrL4U+npIHYXtEGNiBbw+KG3kWuyNF65Fum
+         3D9DXGRRTmXjROCxAPYLrWscL69wfxmq9VP/3be/16wyL8dbFDOwlKqTuetIz8EdnJPv
+         FGyLynbBIf6udQD2KtRZyUUXuAFr50qSEG6HeHK1veRw8ZzQJUgkfEbd0f0D2CmKk3uc
+         ukGc4NdTLJokANqT2XujGhhCz4i6LiZVGz+F9wSGNaJMlWjaLJcnv4sGgQw0CeDzNezF
+         Ysat9pOuzn1uf2joVSjucbNxnzugv/G0amO/JI5l5b8CGCkk2LHHNKTliMm+5QXU3IQw
+         b0mQ==
+X-Gm-Message-State: APjAAAW3QN52E272d/ObXjvBA3WAgu59V7pJVaoFRb9eyFr/y/NV0TqP
+        mFOCKWIUjzqzpcAPH8P/Dtj2+qZW1U5fJgU3
+X-Google-Smtp-Source: APXvYqz6ksGWfgSrSgvSCZx0YJDaVIVR53q3HMUG5QpfLRMBpfV1uWKf9AArTa+bsVwjMZBJZFGHAA==
+X-Received: by 2002:a0c:d013:: with SMTP id u19mr5882260qvg.136.1560474578737;
+        Thu, 13 Jun 2019 18:09:38 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id z126sm915024qkb.7.2019.06.13.18.09.36
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 18:09:37 -0700 (PDT)
+Message-ID: <615f53383f8f65011d1ce3ec49f6d78b67b8ddea.camel@ndufresne.ca>
+Subject: Re: [PATCHv4 0/2] Document memory-to-memory video codec interfaces
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Pawel Osciak <posciak@chromium.org>
+Date:   Thu, 13 Jun 2019 21:09:35 -0400
+In-Reply-To: <259bb812-9cc9-8fe7-8fc6-2cbd5ef44ac3@xs4all.nl>
+References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
+         <259bb812-9cc9-8fe7-8fc6-2cbd5ef44ac3@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-06-13 at 15:05 -0700, Hyun Kwon wrote:
-> On Tue, 2019-06-04 at 06:55:56 -0700, Vishal Sagar wrote:
-
-trivia:
-
-> > diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-[]
-> > +static int xsdirx_get_stream_properties(struct xsdirxss_state *state)
-> > +{
-[]
-> > +	if (valid & XSDIRX_ST352_VALID_DS1_MASK) {
-> > +		payload = xsdirxss_read(core, XSDIRX_ST352_DS1_REG);
-> > +		byte1 = (payload >> XST352_PAYLOAD_BYTE1_SHIFT) &
-> > +				XST352_PAYLOAD_BYTE_MASK;
-
-Is XST352_PAYLOAD_BYTE_MASK correct ?
-Should it be XST352_PAYLOAD_BYTE1_MASK ?
-
-> > +		active_luma = (payload & XST352_BYTE3_ACT_LUMA_COUNT_MASK) >>
-> > +				XST352_BYTE3_ACT_LUMA_COUNT_OFFSET;
-> > +		pic_type = (payload & XST352_BYTE2_PIC_TYPE_MASK) >>
-> > +				XST352_BYTE2_PIC_TYPE_OFFSET;
-> > +		framerate = (payload >> XST352_BYTE2_FPS_SHIFT) &
-> > +				XST352_BYTE2_FPS_MASK;
-> > +		tscan = (payload & XST352_BYTE2_TS_TYPE_MASK) >>
-> > +				XST352_BYTE2_TS_TYPE_OFFSET;
+Le jeudi 13 juin 2019 à 08:48 +0200, Hans Verkuil a écrit :
+> On 6/3/19 1:28 PM, Hans Verkuil wrote:
+> > Since Tomasz was very busy with other things, I've taken over this
+> > patch series. This v4 includes his draft changes and additional changes
+> > from me.
+> > 
+> > This series attempts to add the documentation of what was discussed
+> > during Media Workshops at LinuxCon Europe 2012 in Barcelona and then
+> > later Embedded Linux Conference Europe 2014 in Düsseldorf and then
+> > eventually written down by Pawel Osciak and tweaked a bit by Chrome OS
+> > video team (but mostly in a cosmetic way or making the document more
+> > precise), during the several years of Chrome OS using the APIs in
+> > production.
+> > 
+> > Note that most, if not all, of the API is already implemented in
+> > existing mainline drivers, such as s5p-mfc or mtk-vcodec. Intention of
+> > this series is just to formalize what we already have.
+> > 
+> > Thanks everyone for the huge amount of useful comments to previous
+> > versions of this series. Much of the credits should go to Pawel Osciak
+> > too, for writing most of the original text of the initial RFC.
+> > 
+> > This v4 incorporates all known comments (let me know if I missed
+> > something!) and should be complete for the decoder.
+> > 
+> > For the encoder there are two remaining TODOs for the API:
+> > 
+> > 1) Setting the frame rate so bitrate control can make sense, since
+> >    they need to know this information.
+> > 
+> >    Suggested solution: require support for ENUM_FRAMEINTERVALS for the
+> >    coded pixelformats and S_PARM(OUTPUT). Open question: some drivers
+> >    (mediatek, hva, coda) require S_PARM(OUTPUT), some (venus) allow both
+> >    S_PARM(CAPTURE) and S_PARM(OUTPUT). I am inclined to allow both since
+> >    this is not a CAPTURE vs OUTPUT thing, it is global to both queues.
 > 
-> Please align consistently throughout the patch. I believe the checkpatch
-> --strict warns on these.
+> Alternative proposal:
+> 
+> 1) Add support for fractions (struct v4l2_fract) as a control type:
+>    V4L2_CTRL_TYPE_FRACT.
+> 
+> 2) Add a new V4L2_CID_MPEG_FRAME_INTERVAL control.
 
-I believe not.
+Is the MPEG namespace historical ? That might be confusing for users.
 
-Another possibility would be to use a macro like:
+> 
+> Encoders shall support this control.
+> 
+> 3) For backwards compatibility reasons encoder drivers still have to
+> support G/S_PARM, but this can now be implemented by standard helpers
+> that query this control. Drivers also have to implement ENUM_FRAMEINTERVALS.
 
-#define mask_and_shift(val, type)	\
-	((val) & (XST352_ ## type ## _MASK)) >> (XST352_ ## type ## _OFFSET))
+That's won't be very friendly for UI generator like qv4l2. Support for
+v4l2_fract as control should include a way to describe the supported
+values of that control the usual way I think.
 
-> > +		sampling = (payload & XST352_BYTE3_COLOR_FORMAT_MASK) >>
-> > +			   XST352_BYTE3_COLOR_FORMAT_OFFSET;
+Also, long term, it would be nice to have two sets of frame rates. The
+one that the HW can handle "real-time" and the one that can be used for
+bitrate calculation. So staying away from ENUM_FRAMEINTERVALS for
+bitrate configuration would be nicer.
 
-So these could be something like:
+> If the range of intervals is always the same regardless of the frame size,
+> then a helper can be used that queries the min/max/step of the control, but
+> if it is dependent on the frame size, then it has to be implemented in the
+> driver itself.
+> 
+> I'm sticking to frame intervals instead of frame rates for the simple reason
+> that that's what V4L2 has used since the beginning. I think it is too confusing
+> to change this to a frame rate. This is just my opinion, though.
 
-		sampling = mask_and_shift(payload, BYTE3_COLOR_FORMAT);
+I suggested frame rate since this is what I saw implemented by HW
+registers (if you think it's worth it, I can try and make a list).
+Also, frame-interval steps are not compatible with frame-rate steps
+(something that was raised through a venus driver bug) last year. Even
+v4l2-ctl was displaying that in a very confusing way. Something as
+simple as 1 to 30 fps cannot be exposed through ENU_FRAMEINTERVALS. You
+are forced to expose the full fractional range of interval, from 1/30
+to 1/1. For Venus it was not that much of a trouble, since its stores a
+framerate as Q16..
+
+> 
+> I also chose to make this a codec control, not a generic user control: this
+> value together with the bit rate control(s) determine the compression size,
+> it does not determine the actual time it takes for the encoder to compress
+> the raw frames. Hence it is really not the same thing as the frame interval
+
+That's a good point.
+
+> of a video capture device. If we want to use a control for that as well in
+> the future as a replacement for G/S_PARM, then that should be a new control.
+> And we would like need per-pad controls as well in order to implement that.
+> Which is a lot more work.
+> 
+> Regards,
+> 
+> 	Hans
 
 
