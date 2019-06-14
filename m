@@ -2,67 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0C246225
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 17:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA404625B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 17:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726202AbfFNPJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 11:09:02 -0400
-Received: from verein.lst.de ([213.95.11.211]:47751 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725789AbfFNPJC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 11:09:02 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id EDC7268B05; Fri, 14 Jun 2019 17:08:27 +0200 (CEST)
-Date:   Fri, 14 Jun 2019 17:08:27 +0200
-From:   'Christoph Hellwig' <hch@lst.de>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     'Christoph Hellwig' <hch@lst.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sean Paul <sean@poorly.run>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 16/16] dma-mapping: use exact allocation in
- dma_alloc_contiguous
-Message-ID: <20190614150827.GA9460@lst.de>
-References: <20190614134726.3827-1-hch@lst.de> <20190614134726.3827-17-hch@lst.de> <a90cf7ec5f1c4166b53c40e06d4d832a@AcuMS.aculab.com> <20190614145001.GB9088@lst.de> <4113cd5f-5c13-e9c7-bc5e-dcf0b60e7054@arm.com>
+        id S1726486AbfFNPQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 11:16:30 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:39028 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726297AbfFNPQZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jun 2019 11:16:25 -0400
+Received: from [109.168.11.45] (port=44258 helo=pc-ceresoli.dev.aim)
+        by hostingweb31.netsons.net with esmtpa (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1hbnwE-000D1q-Qn; Fri, 14 Jun 2019 17:16:22 +0200
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+To:     linux-media@vger.kernel.org
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2] media: docs: v4l2-controls: fix sentence rendered in a nonsense way
+Date:   Fri, 14 Jun 2019 17:14:29 +0200
+Message-Id: <20190614151429.15191-1-luca@lucaceresoli.net>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4113cd5f-5c13-e9c7-bc5e-dcf0b60e7054@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 04:05:33PM +0100, Robin Murphy wrote:
-> That said, I don't believe this particular patch should make any 
-> appreciable difference - alloc_pages_exact() is still going to give back 
-> the same base address as the rounded up over-allocation would, and 
-> PAGE_ALIGN()ing the size passed to get_order() already seemed to be 
-> pointless.
+This sentence renders as:
 
-True, we actually do get the right alignment just about anywhere.
-Not 100% sure about the various static pool implementations, but we
-can make sure if any didn't we'll do that right thing once those
-get consolidated.
+> Since such compound controls need to expose more information about
+> themselves than is possible with ioctls VIDIOC_QUERYCTRL,
+> VIDIOC_QUERY_EXT_CTRL and VIDIOC_QUERYMENU the VIDIOC_QUERY_EXT_CTRL
+  ^^^^^^^^^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^
+> ioctl was added.
+
+This does not make sense. Fix by providing an explicit link text. This
+results in:
+
+> Since such compound controls need to expose more information about
+> themselves than is possible with VIDIOC_QUERYCTRL the
+> VIDIOC_QUERY_EXT_CTRL ioctl was added.
+
+Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+---
+ Documentation/media/uapi/v4l/extended-controls.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
+index 0e9787072a41..655362483730 100644
+--- a/Documentation/media/uapi/v4l/extended-controls.rst
++++ b/Documentation/media/uapi/v4l/extended-controls.rst
+@@ -85,11 +85,10 @@ be able to see such compound controls. In other words, these controls
+ with compound types should only be used programmatically.
+ 
+ Since such compound controls need to expose more information about
+-themselves than is possible with
+-:ref:`VIDIOC_QUERYCTRL` the
+-:ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>` ioctl was added. In
+-particular, this ioctl gives the dimensions of the N-dimensional array
+-if this control consists of more than one element.
++themselves than is possible with :ref:`VIDIOC_QUERYCTRL <VIDIOC_QUERYCTRL>`
++the :ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>` ioctl was added. In
++particular, this ioctl gives the dimensions of the N-dimensional array if
++this control consists of more than one element.
+ 
+ .. note::
+ 
+-- 
+2.21.0
+
