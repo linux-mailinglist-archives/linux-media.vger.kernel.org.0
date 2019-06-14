@@ -2,86 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB4045FE9
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 16:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14E7E46018
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 16:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728604AbfFNOCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 10:02:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728034AbfFNOCm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 10:02:42 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F10F42064A;
-        Fri, 14 Jun 2019 14:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560520961;
-        bh=yuQRJdK0c0k8QDLCPmaaUBPA4Gh5iMSc87ydddzUjLY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Adj/ubhVrddpf3XNZqH7bla3F/OQLtlWktGpnu78fRXaEWJVclE8EAVB7iVcwuXIj
-         MgEu3GKKHjwm4kv6V7mrBTfmdB65iAPolSabTzDn8Y8MigqQqnxVgShMq6aUvnqaEX
-         cqT5x9DBfftx8QKc8qPay9S9idxZcSOh+UlLdp+0=
-Date:   Fri, 14 Jun 2019 16:02:39 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mm@kvack.org, iommu@lists.linux-foundation.org,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 12/16] staging/comedi: mark as broken
-Message-ID: <20190614140239.GA7234@kroah.com>
-References: <20190614134726.3827-1-hch@lst.de>
- <20190614134726.3827-13-hch@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190614134726.3827-13-hch@lst.de>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+        id S1728300AbfFNOJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 10:09:24 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41498 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727382AbfFNOJX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jun 2019 10:09:23 -0400
+Received: by mail-pf1-f196.google.com with SMTP id m30so1526916pff.8
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 07:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=5jmyraFK+HefmSK/NzfY8rdu3D1WF3ChnNGRHtN7efw=;
+        b=b5zqLTqgnXaBkqzL8AeP2uTKHudm0JqxQf/fSE5u7YkjThPp7SeJ4oYbdq+bolWdAa
+         576U4jHd1wMqQxUFId6OIwmTRCFIYGLloGMDx5H/2SUP5IHPWDcB9BkhhfuXfpiMJ9gw
+         S0ArMiDRlIxez63HL/jU/ye+5JnpoeMVkvj9AUAd2Wopnh2il9fmLkGbsH0CQ+ZQfrW/
+         MpY1dV7XyKdTVWUz8vd2Efd/SuYbSm38hCujG7xKGJ0mgSsO8NJ7yU7JLf5q8EFZvkDS
+         rzKMRBJQ7G6xChikscci0Y1xrsEzUwZ8+wVgpL3JjOMLCBQg0fTqZmuz7NZTec1qqZ1d
+         dfvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=5jmyraFK+HefmSK/NzfY8rdu3D1WF3ChnNGRHtN7efw=;
+        b=PLiMxK+9zKHyhr54Jdpo8swg9q6OW1fPdlYxiSQCSdGVqXaknt1NDJzx41eioSqFQt
+         2dr9vC55zih6mL6jfglwYNBvICVi298bpKr+aYmoo5R7UxnHEiOac4Dgsfj5fgvm/wg/
+         iqtJ9RMiGpWsAoexAyDaijzcn6qt7YO8MRFRrkLgH6Ow34oCxq1skCaiW3k9cMCqNkUx
+         8w9WkGDNBGDiQK2acclQI4Fb51qTGbYy4baCMuzrX4Aw1Ey1AqzGetOxyoNZvuLOkENd
+         +RAsPRcXrMIMorz0CbYnjpFeyvvh+8jiiFcxrMp17cldmTdUKe85g7GA9q0qMVvDvH8A
+         3O+g==
+X-Gm-Message-State: APjAAAWVkQ7ztVFY2UdKjib6A1ocCoppATZ3F9q1z0iOLzzJWLvgCKYz
+        hij0gn4Y4vDF8AZkXwAXZrTLL6GPRqA=
+X-Google-Smtp-Source: APXvYqyXrFTCef/9QY8493OWXjMYtSF0X1Vv4kTLJLsHS/AmXzLTAraFZVZbI2dzrWEk7xhiTKJ40A==
+X-Received: by 2002:a63:1622:: with SMTP id w34mr36211600pgl.45.1560521362642;
+        Fri, 14 Jun 2019 07:09:22 -0700 (PDT)
+Received: from localhost.localdomain ([240f:34:212d:1:1b24:991b:df50:ea3f])
+        by smtp.gmail.com with ESMTPSA id i25sm3040932pfr.73.2019.06.14.07.09.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 14 Jun 2019 07:09:21 -0700 (PDT)
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: vivid: remove unnecessary min and max timeperframe constants
+Date:   Fri, 14 Jun 2019 23:09:06 +0900
+Message-Id: <1560521346-24668-1-git-send-email-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 03:47:22PM +0200, Christoph Hellwig wrote:
-> comedi_buf.c abuse the DMA API in gravely broken ways, as it assumes it
-> can call virt_to_page on the result, and the just remap it as uncached
-> using vmap.  Disable the driver until this API abuse has been fixed.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/staging/comedi/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/comedi/Kconfig b/drivers/staging/comedi/Kconfig
-> index 049b659fa6ad..e7c021d76cfa 100644
-> --- a/drivers/staging/comedi/Kconfig
-> +++ b/drivers/staging/comedi/Kconfig
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  config COMEDI
->  	tristate "Data acquisition support (comedi)"
-> +	depends on BROKEN
+The tpf_min (1/100) and tpf_max (100/1) are used as the lowest and the
+highest allowable value for the desired frame period in
+vivid_vid_cap_s_parm().
 
-Um, that's a huge sledgehammer.
+But the comparison between these values is unnecessary because the compared
+value is already chosen from webcam_intervals[] (from 1/60 to 1/1).
 
-Perhaps a hint as to how we can fix this up?  This is the first time
-I've heard of the comedi code not handling dma properly.
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+---
+ drivers/media/platform/vivid/vivid-core.h    | 12 ------------
+ drivers/media/platform/vivid/vivid-vid-cap.c |  7 -------
+ 2 files changed, 19 deletions(-)
 
-thanks,
+diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
+index 6697c70..18a9ba9 100644
+--- a/drivers/media/platform/vivid/vivid-core.h
++++ b/drivers/media/platform/vivid/vivid-core.h
+@@ -22,18 +22,6 @@
+ #define dprintk(dev, level, fmt, arg...) \
+ 	v4l2_dbg(level, vivid_debug, &dev->v4l2_dev, fmt, ## arg)
+ 
+-/* Maximum allowed frame rate
+- *
+- * vivid will allow setting timeperframe in [1/FPS_MAX - FPS_MAX/1] range.
+- *
+- * Ideally FPS_MAX should be infinity, i.e. practically UINT_MAX, but that
+- * might hit application errors when they manipulate these values.
+- *
+- * Besides, for tpf < 10ms image-generation logic should be changed, to avoid
+- * producing frames with equal content.
+- */
+-#define FPS_MAX 100
+-
+ /* The maximum number of clip rectangles */
+ #define MAX_CLIPS  16
+ /* The maximum number of inputs */
+diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
+index 530ac8d..6e8c6de 100644
+--- a/drivers/media/platform/vivid/vivid-vid-cap.c
++++ b/drivers/media/platform/vivid/vivid-vid-cap.c
+@@ -21,11 +21,6 @@
+ #include "vivid-kthread-cap.h"
+ #include "vivid-vid-cap.h"
+ 
+-/* timeperframe: min/max and default */
+-static const struct v4l2_fract
+-	tpf_min     = {.numerator = 1,		.denominator = FPS_MAX},
+-	tpf_max     = {.numerator = FPS_MAX,	.denominator = 1};
+-
+ static const struct vivid_fmt formats_ovl[] = {
+ 	{
+ 		.fourcc   = V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+@@ -1865,8 +1860,6 @@ int vivid_vid_cap_s_parm(struct file *file, void *priv,
+ 		i = ival_sz - 1;
+ 	dev->webcam_ival_idx = i;
+ 	tpf = webcam_intervals[dev->webcam_ival_idx];
+-	tpf = V4L2_FRACT_COMPARE(tpf, <, tpf_min) ? tpf_min : tpf;
+-	tpf = V4L2_FRACT_COMPARE(tpf, >, tpf_max) ? tpf_max : tpf;
+ 
+ 	/* resync the thread's timings */
+ 	dev->cap_seq_resync = true;
+-- 
+2.7.4
 
-greg k-h
