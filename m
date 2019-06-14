@@ -2,164 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F21F4581A
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 11:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57F824584E
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 11:12:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbfFNJCJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 05:02:09 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49159 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725812AbfFNJCJ (ORCPT
+        id S1726701AbfFNJL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 05:11:56 -0400
+Received: from smtprelay0199.hostedemail.com ([216.40.44.199]:57466 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725859AbfFNJL4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 05:02:09 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id bi5yhHgUf41bFbi61hPJiz; Fri, 14 Jun 2019 11:02:06 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        "Eugen.Hristev@microchip.com" <Eugen.Hristev@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] Various fixes/improvements
-Message-ID: <563d8e02-eae4-8090-8c4a-a4b5141f7220@xs4all.nl>
-Date:   Fri, 14 Jun 2019 11:02:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 14 Jun 2019 05:11:56 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 7610C182CF668;
+        Fri, 14 Jun 2019 09:11:54 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::,RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3867:3874:4321:5007:10004:10400:10848:11026:11232:11657:11658:11914:12043:12048:12740:12760:12895:13069:13311:13357:13439:14659:14721:21080:21627:30054:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:27,LUA_SUMMARY:none
+X-HE-Tag: eyes88_4aa5799cf532f
+X-Filterd-Recvd-Size: 1967
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf09.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 14 Jun 2019 09:11:52 +0000 (UTC)
+Message-ID: <9fd990d12ea1488592c5a590046f001a187b9c3f.camel@perches.com>
+Subject: Re: [PATCH v2] media: mtk-vcodec: remove unneeded proxy functions
+From:   Joe Perches <joe@perches.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 14 Jun 2019 02:11:51 -0700
+In-Reply-To: <20190614075640.106709-1-acourbot@chromium.org>
+References: <20190614075640.106709-1-acourbot@chromium.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfA3fCrLXAPqknSInNewbR3vx5pB3sURnXT37e/o9K4K8ayJJywHjtuYpMJdbB9YVdMa+Jy9bFldWaZNywRcwUjYadKsds5T1/+lPEhp0T+FY9KpP/601
- /is1tZIZY2Lp/+8oRDXcco36GoYBeQ0XTX90dNyiB+aym9FrymDVOL0Y5XqF04lONXTUbSLEpa6WgovI/sjrHJiLv8n1kIo5Jc/zf96C9SzXEG9bKwKblYua
- 6Xa0Hg792wzkyvfaMZ7uuDhezgjrQ1hVP49w8VLLo1AWyrhzV13+ojyxzgcDaml+jSYwuJ32j0vxW2F+fj6ejEQYLmyC7pB9M7ee6CwrNh4=
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 513dbd35b5d93c45fa7291147f21fc0227a9f999:
+On Fri, 2019-06-14 at 16:56 +0900, Alexandre Courbot wrote:
+> We were getting the codec interface through a proxy function that does
+> not bring anything compared to just accessing the interface definition
+> directly, so just do that. Also make the decoder interfaces const.
+[]
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
+[]
+> @@ -485,16 +485,9 @@ static int vdec_h264_get_param(void *h_vdec, enum vdec_get_param_type type,
+>  	return 0;
+>  }
+>  
+> -static struct vdec_common_if vdec_h264_if = {
+> +const struct vdec_common_if vdec_h264_if = {
 
-  media: add SPDX headers to some files (2019-06-12 11:42:27 -0400)
+probably better to fixup whatever chains prevent
+this (if any) from being static const
 
-are available in the Git repository at:
+>  	.init		= vdec_h264_init,
+>  	.decode		= vdec_h264_decode,
+>  	.get_param	= vdec_h264_get_param,
+>  	.deinit		= vdec_h264_deinit,
+>  };
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3q
 
-for you to fetch changes up to b18217be1085474960fa4b074b5d751a2a724775:
-
-  media: mtk-vcodec: remove unneeded proxy functions (2019-06-14 10:25:17 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexandre Courbot (2):
-      media: mtk-vcodec: avoid unneeded pointer-to-long conversions
-      media: mtk-vcodec: remove unneeded proxy functions
-
-Anders Roxell (1):
-      media: i2c: fix warning same module names
-
-André Almeida (2):
-      media: vimc: debayer: Fix typos
-      media: vimc: Makefile: file cleanup
-
-Colin Ian King (2):
-      staging: davinci: fix memory leaks and check for allocation failure
-      staging: media: meson: remove redundant initialization of mpeg12
-
-Dan Carpenter (1):
-      media: hantro: remove an unnecessary NULL check
-
-Eugen Hristev (2):
-      media: atmel: atmel-isc: split driver into driver base and isc
-      media: atmel: atmel-isc: fix and cleanup potential bugs
-
-Ezequiel Garcia (5):
-      media: v4l2-ctrl: Initialize _BUTTON and _CTRL_CLASS
-      media: vb2: Introduce a vb2_get_buffer accessor
-      media: mtk-jpeg: Use vb2_get_buffer
-      media: mtk-vcodec: Use vb2_get_buffer
-      media: sti: Use vb2_get_buffer
-
-Luca Ceresoli (8):
-      media: docs: v4l2-controls: remove repeated ioctl names
-      media: docs: v4l2-controls: fix indentation
-      media: docs: v4l2-controls: add links to structs
-      media: docs: v4l2-controls: rearrange control initialization sequence
-      media: docs: v4l2-controls: add links to functions
-      media: docs: v4l2-controls: convert code blocks to C
-      media: docs: v4l2-controls: document file to include
-      media: docs: v4l2-controls: remove outdated paragraph
-
-Marek Szyprowski (1):
-      media: s5p-mfc: Make additional clocks optional
-
-Maxime Jourdan (1):
-      media: MAINTAINERS: fix linux-media mailing list for meson drivers
-
-Niklas Söderlund (8):
-      rcar-vin: Do not call pm_runtime_{resume,suspend}()
-      rcar-vin: Remove unneeded calls to pm_runtime_{enable, disable}
-      rcar-vin: Allow interrupting lock when trying to open the video device
-      rcar-vin: Do not sync subdevice format when opening the video device
-      rcar-vin: Move pm_runtime_{get,put} out of helpers
-      rcar-vin: Merge helpers dealing with powering the parallel subdevice
-      rcar-vin: Fold rvin_initialize_device() into rvin_open()
-      rcar-vin: Merge Gen2 and Gen3 file operations
-
-Rui Miguel Silva (1):
-      media: imx7-media-csi: get csi upstream endpoint
-
-Shuah Khan (2):
-      media: media.h: Fix shifting signed 32-bit value by 31 bits problem
-      media: videodev2.h: Fix shifting signed 32-bit value by 31 bits problem
-
-Tomasz Figa (1):
-      media: Clarify the meaning of file descriptors in VIDIOC_DQBUF
-
- Documentation/media/kapi/v4l2-controls.rst                     | 206 +++++++-------
- Documentation/media/uapi/v4l/extended-controls.rst             |   6 +-
- Documentation/media/uapi/v4l/vidioc-qbuf.rst                   |   8 +
- MAINTAINERS                                                    |   8 +-
- drivers/media/i2c/Makefile                                     |   2 +-
- drivers/media/i2c/{adv7511.c => adv7511-v4l2.c}                |   5 +
- drivers/media/platform/atmel/Makefile                          |   4 +-
- drivers/media/platform/atmel/{atmel-isc.c => atmel-isc-base.c} | 548 +++----------------------------------
- drivers/media/platform/atmel/atmel-isc.h                       | 249 +++++++++++++++++
- drivers/media/platform/atmel/atmel-sama5d2-isc.c               | 348 +++++++++++++++++++++++
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c                |   2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h             |   2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c             |  14 +-
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c          |  21 +-
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c           |  21 +-
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c           |  23 +-
- drivers/media/platform/mtk-vcodec/vdec_drv_base.h              |   8 +-
- drivers/media/platform/mtk-vcodec/vdec_drv_if.c                |  20 +-
- drivers/media/platform/mtk-vcodec/vdec_drv_if.h                |   4 +
- drivers/media/platform/mtk-vcodec/venc/venc_h264_if.c          |  19 +-
- drivers/media/platform/mtk-vcodec/venc/venc_vp8_if.c           |  19 +-
- drivers/media/platform/mtk-vcodec/venc_drv_base.h              |   8 +-
- drivers/media/platform/mtk-vcodec/venc_drv_if.c                |  13 +-
- drivers/media/platform/mtk-vcodec/venc_drv_if.h                |   3 +
- drivers/media/platform/rcar-vin/rcar-v4l2.c                    | 190 +++----------
- drivers/media/platform/s5p-mfc/s5p_mfc_pm.c                    |   5 +
- drivers/media/platform/sti/hva/hva-v4l2.c                      |   4 +-
- drivers/media/platform/vimc/Makefile                           |  12 +-
- drivers/media/platform/vimc/vimc-common.c                      |   4 -
- drivers/media/platform/vimc/vimc-debayer.c                     |   6 +-
- drivers/media/platform/vimc/vimc-streamer.c                    |   4 -
- drivers/media/v4l2-core/v4l2-ctrls.c                           |   4 +
- drivers/staging/media/davinci_vpfe/dm365_ipipe.c               |  15 +-
- drivers/staging/media/hantro/hantro_v4l2.c                     |   2 +-
- drivers/staging/media/imx/imx7-media-csi.c                     |   8 +
- drivers/staging/media/meson/vdec/codec_mpeg12.c                |   2 +-
- include/media/videobuf2-core.h                                 |  18 ++
- include/uapi/linux/media.h                                     |   2 +-
- include/uapi/linux/videodev2.h                                 |   2 +-
- 39 files changed, 937 insertions(+), 902 deletions(-)
- rename drivers/media/i2c/{adv7511.c => adv7511-v4l2.c} (99%)
- rename drivers/media/platform/atmel/{atmel-isc.c => atmel-isc-base.c} (82%)
- create mode 100644 drivers/media/platform/atmel/atmel-isc.h
- create mode 100644 drivers/media/platform/atmel/atmel-sama5d2-isc.c
