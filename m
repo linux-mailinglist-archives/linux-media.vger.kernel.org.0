@@ -2,211 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32F0A464D1
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 18:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E27BE46526
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 18:56:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbfFNQp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 12:45:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:49994 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725846AbfFNQp5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:45:57 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2019 09:45:57 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by fmsmga007.fm.intel.com with SMTP; 14 Jun 2019 09:45:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 14 Jun 2019 19:45:49 +0300
-Date:   Fri, 14 Jun 2019 19:45:49 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>,
-        devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mm@kvack.org, iommu@lists.linux-foundation.org,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org,
-        Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [Intel-gfx] [PATCH 03/16] drm/i915: stop using drm_pci_alloc
-Message-ID: <20190614164549.GD5942@intel.com>
-References: <20190614134726.3827-1-hch@lst.de>
- <20190614134726.3827-4-hch@lst.de>
+        id S1726105AbfFNQ4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 12:56:07 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:33716 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbfFNQ4G (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:56:06 -0400
+Received: by mail-qt1-f195.google.com with SMTP id x2so3289459qtr.0;
+        Fri, 14 Jun 2019 09:56:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BW1xnYGWg+aoTF/Yaq1jahB+G0s53KZIsKdfCRLCS5M=;
+        b=uEcut09jaC8j2kkKPZHvfItobvM10u4m8o7PXc3kPe53zLrKIwZgef4flM1Q2WMvCM
+         POMvGSd3RQbWDAr8wCPe5McULBFXGaLIMa/3XcPxCFq7wP+kvH2qsQulicYQD87g+94D
+         iXDKOvCQpOs0O6/r+JodqTQzHXFT55EkpSA/SdOT8r/PY34fAjmEQtP5GiiziKasI2w1
+         RS/Bn78K2F6SpuUZqpsw3Rk5G7nxBBfc9qDc8gTdzniSU1QYroUr+s2NuglNhb8rW4+f
+         mSbCPUQd+iCTJpfCc8F+kQkv3k/RgZ+33/jri3WahNqCZGy6XaV0RLA8x26ZyWPISc2N
+         dGpw==
+X-Gm-Message-State: APjAAAXs6T0heDj96KQViNvIYlYO8WBuHSVsb6epLxP6iaqmi/oyRF5c
+        ioNVut3KbNVmitkSkGrMNA==
+X-Google-Smtp-Source: APXvYqwKw7gEikdDCeeVBg/sr7wzmaN+sPvOXjG11rUJ9NjiqHre30+rVmiZbgs/Z8FdHdOZJiRV0g==
+X-Received: by 2002:ac8:70d1:: with SMTP id g17mr37959971qtp.124.1560531365401;
+        Fri, 14 Jun 2019 09:56:05 -0700 (PDT)
+Received: from localhost ([64.188.179.243])
+        by smtp.gmail.com with ESMTPSA id e63sm1697857qkd.57.2019.06.14.09.56.04
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 14 Jun 2019 09:56:04 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 10:56:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
+        mark.rutland@arm.com, matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, menghui.lin@mediatek.com,
+        shengnan.wang@mediatek.com
+Subject: Re: [PATCH 3/3] media: dt-bindings: media: i2c: Add bindings for
+ ov02a10
+Message-ID: <20190614165603.GA30462@bogus>
+References: <20190523102204.24112-1-dongchun.zhu@mediatek.com>
+ <20190523102204.24112-4-dongchun.zhu@mediatek.com>
+ <20190531161658.2y2amfngbhfbllj7@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190614134726.3827-4-hch@lst.de>
+In-Reply-To: <20190531161658.2y2amfngbhfbllj7@valkosipuli.retiisi.org.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 03:47:13PM +0200, Christoph Hellwig wrote:
-> Remove usage of the legacy drm PCI DMA wrappers, and with that the
-> incorrect usage cocktail of __GFP_COMP, virt_to_page on DMA allocation
-> and SetPageReserved.
+On Fri, May 31, 2019 at 07:16:58PM +0300, Sakari Ailus wrote:
+> Hi Dongchun,
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/gpu/drm/i915/i915_gem.c        | 30 +++++++++++++-------------
->  drivers/gpu/drm/i915/i915_gem_object.h |  3 ++-
->  drivers/gpu/drm/i915/intel_display.c   |  2 +-
->  3 files changed, 18 insertions(+), 17 deletions(-)
+> Thanks for the patch.
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index ad01c92aaf74..8f2053c91aff 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -228,7 +228,6 @@ i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
->  static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
->  {
->  	struct address_space *mapping = obj->base.filp->f_mapping;
-> -	drm_dma_handle_t *phys;
->  	struct sg_table *st;
->  	struct scatterlist *sg;
->  	char *vaddr;
-> @@ -242,13 +241,13 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
->  	 * to handle all possible callers, and given typical object sizes,
->  	 * the alignment of the buddy allocation will naturally match.
->  	 */
-> -	phys = drm_pci_alloc(obj->base.dev,
-> -			     roundup_pow_of_two(obj->base.size),
-> -			     roundup_pow_of_two(obj->base.size));
-> -	if (!phys)
-> +	obj->phys_vaddr = dma_alloc_coherent(&obj->base.dev->pdev->dev,
-> +			roundup_pow_of_two(obj->base.size),
-> +			&obj->phys_handle, GFP_KERNEL);
-> +	if (!obj->phys_vaddr)
->  		return -ENOMEM;
->  
-> -	vaddr = phys->vaddr;
-> +	vaddr = obj->phys_vaddr;
->  	for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
->  		struct page *page;
->  		char *src;
-> @@ -286,18 +285,17 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
->  	sg->offset = 0;
->  	sg->length = obj->base.size;
->  
-> -	sg_dma_address(sg) = phys->busaddr;
-> +	sg_dma_address(sg) = obj->phys_handle;
->  	sg_dma_len(sg) = obj->base.size;
->  
-> -	obj->phys_handle = phys;
-> -
->  	__i915_gem_object_set_pages(obj, st, sg->length);
->  
->  	return 0;
->  
->  err_phys:
-> -	drm_pci_free(obj->base.dev, phys);
-> -
-> +	dma_free_coherent(&obj->base.dev->pdev->dev,
-> +			roundup_pow_of_two(obj->base.size), obj->phys_vaddr,
-> +			obj->phys_handle);
+> On Thu, May 23, 2019 at 06:22:04PM +0800, dongchun.zhu@mediatek.com wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > 
+> > Add device tree binding documentation for the OV02A10 CMOS image sensor.
+> > 
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov02a10.txt      | 43 ++++++++++++++++++++++
+> >  1 file changed, 43 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov02a10.txt b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > new file mode 100644
+> > index 0000000..fdc2904
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > @@ -0,0 +1,43 @@
+> > +* Omnivision OV02A10 MIPI CSI-2 sensor
+> > +
+> > +Required Properties:
+> > +- compatible: shall be "ovti,ov02a10"
+> > +- clocks: reference to the xvclk input clock
+> > +- clock-names: shall be "xvclk"
+> > +- avdd-supply: Analog voltage supply, 2.8 volts
+> > +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
+> > +- dvdd-supply: Digital core voltage supply, 1.8 volts
+> > +- reset-gpios: Low active reset gpio
+> > +
+> > +The device node shall contain one 'port' child node with an
+> > +'endpoint' subnode for its digital output video port,
+> > +in accordance with the video interface bindings defined in
+> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +The endpoint optional property 'data-lanes' shall be "<1>".
+> 
+> If the sensor only supports a single lane configuration (one lane), you can
+> omit that property altogether. Is that the only possible configuration for
+> the sensor?
+> 
+> Please also wrap the text at 80 characters, not 65 or so.
+> 
+> > +
+> > +Example:
+> > +&i2c4 {
+> > +	sensor_sub: sensor_sub {
+> 
+> camera-sensor@3d {
+> 
+> > +		compatible = "ovti,ov02a10";
+> > +		reg = <0x3d>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&camera_pins_cam1_mclk_on>;
+> > +
+> > +		clocks = <&topckgen CLK_TOP_MUX_CAMTG2>,
+> > +			<&topckgen CLK_TOP_UNIVP_192M_D8>;
+> > +		clock-names = "xvclk", "freq_mux";
+> > +
+> > +		avdd-supply = <&mt6358_vcama1_reg>;
+> > +		dvdd-supply = <&mt6358_vcn18_reg>;
+> > +		dovdd-supply = <&mt6358_vcamio_reg>;
+> > +		pwdn-gpios = <&pio 107 1>;
+> > +		reset-gpios = <&pio 109 1>;
+> > +
+> > +		port@0 {
 
-Need to undo the damage to obj->phys_vaddr here since
-i915_gem_pwrite_ioctl() will now use that to determine if it's
-dealing with a phys obj.
+Also, drop the unit-address as there is no 'reg' property. Building your 
+dts file will 'W=1' will tell you this.
 
->  	return err;
->  }
->  
-> @@ -335,7 +333,7 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
->  
->  	if (obj->mm.dirty) {
->  		struct address_space *mapping = obj->base.filp->f_mapping;
-> -		char *vaddr = obj->phys_handle->vaddr;
-> +		char *vaddr = obj->phys_vaddr;
->  		int i;
->  
->  		for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
-> @@ -363,7 +361,9 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
->  	sg_free_table(pages);
->  	kfree(pages);
->  
-> -	drm_pci_free(obj->base.dev, obj->phys_handle);
-> +	dma_free_coherent(&obj->base.dev->pdev->dev,
-> +			roundup_pow_of_two(obj->base.size), obj->phys_vaddr,
-> +			obj->phys_handle);
-
-This one is fine I think since the object remains a phys obj once
-turned into one. At least the current code isn't clearing
-phys_handle here. But my memory is a bit hazy on the details. Chris?
-
-Also maybe s/phys_handle/phys_busaddr/ all over?
-
->  }
->  
->  static void
-> @@ -603,7 +603,7 @@ i915_gem_phys_pwrite(struct drm_i915_gem_object *obj,
->  		     struct drm_i915_gem_pwrite *args,
->  		     struct drm_file *file)
->  {
-> -	void *vaddr = obj->phys_handle->vaddr + args->offset;
-> +	void *vaddr = obj->phys_vaddr + args->offset;
->  	char __user *user_data = u64_to_user_ptr(args->data_ptr);
->  
->  	/* We manually control the domain here and pretend that it
-> @@ -1431,7 +1431,7 @@ i915_gem_pwrite_ioctl(struct drm_device *dev, void *data,
->  		ret = i915_gem_gtt_pwrite_fast(obj, args);
->  
->  	if (ret == -EFAULT || ret == -ENOSPC) {
-> -		if (obj->phys_handle)
-> +		if (obj->phys_vaddr)
->  			ret = i915_gem_phys_pwrite(obj, args, file);
->  		else
->  			ret = i915_gem_shmem_pwrite(obj, args);
-> diff --git a/drivers/gpu/drm/i915/i915_gem_object.h b/drivers/gpu/drm/i915/i915_gem_object.h
-> index ca93a40c0c87..14bd2d61d0f6 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/i915_gem_object.h
-> @@ -290,7 +290,8 @@ struct drm_i915_gem_object {
->  	};
->  
->  	/** for phys allocated objects */
-> -	struct drm_dma_handle *phys_handle;
-> +	dma_addr_t phys_handle;
-> +	void *phys_vaddr;
->  
->  	struct reservation_object __builtin_resv;
->  };
-> diff --git a/drivers/gpu/drm/i915/intel_display.c b/drivers/gpu/drm/i915/intel_display.c
-> index 5098228f1302..4f8b368ac4e2 100644
-> --- a/drivers/gpu/drm/i915/intel_display.c
-> +++ b/drivers/gpu/drm/i915/intel_display.c
-> @@ -10066,7 +10066,7 @@ static u32 intel_cursor_base(const struct intel_plane_state *plane_state)
->  	u32 base;
->  
->  	if (INTEL_INFO(dev_priv)->display.cursor_needs_physical)
-> -		base = obj->phys_handle->busaddr;
-> +		base = obj->phys_handle;
->  	else
->  		base = intel_plane_ggtt_offset(plane_state);
->  
+> > +		   ov02a10_core: endpoint {
+> > +		       remote-endpoint = <&ov02a10_0>;
+> > +			   data-lanes = <1>;
+> > +		   };
+> 
+> Tabs for indentation, please.
+> 
+> > +		};
+> > +	};
+> > +};
+> 
 > -- 
-> 2.20.1
+> Kind regards,
 > 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- 
-Ville Syrjälä
-Intel
+> Sakari Ailus
