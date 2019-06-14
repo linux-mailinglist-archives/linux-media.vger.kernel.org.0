@@ -2,95 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 115B245A32
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 12:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6489745A89
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2019 12:39:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727289AbfFNKSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 06:18:24 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:33752 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726832AbfFNKSX (ORCPT
+        id S1726931AbfFNKii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jun 2019 06:38:38 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:34159 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726784AbfFNKii (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 06:18:23 -0400
-Received: by mail-ot1-f66.google.com with SMTP id p4so2171182oti.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 03:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BluMzkCDQwyvUXl6lzhoZtoPJHAVNPhcRWOIM0TWe5A=;
-        b=CHPvPl+jUh7JA/rRQipbNvx2eeCXj4MzMMwsR5yCx/D03/DvrLCHOLgRsWofA1G48U
-         n4aIfJ3weW2OCpVKh2VRnG3ebK8M5ONtMEtIkC3fB3hNabi+ChyUQ9vYqqQbvssy8f4l
-         fpe34arGIzFmrKgaR8q/8j9Lx0H8qNOC6IU60=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BluMzkCDQwyvUXl6lzhoZtoPJHAVNPhcRWOIM0TWe5A=;
-        b=uHlTt+skDzt+I0xfHdJlOroJeYH1MGAwVH5XBb4mQMKMSk6JUC2x25JNZWRyQtFos5
-         MGMHfNtrLZYnVNSk1r8V6Cw5aeJnbkImmuK2WJ3ccsjlMzyl5QqA5HG/3pMWCQIp7sIL
-         oQ+v/9l92Jf+2yOH9UekpwKO1u9XEYLVqfeIQV3PmxICTIW1pIl6OShVXkS0yRF76wZQ
-         12ENVfwzlnyDyKnRN96McX8fM/3Fn9hRMaSDAYREuRgT0N/BVzeayZ8l91txRDXtIse0
-         8ZgVaE73lqp9JlR22CQdCruG/WOUuL3zsNfYxsbJHgVQAVVTAFDvStT56fQoiySo3QOx
-         82tg==
-X-Gm-Message-State: APjAAAVjBUgtGob6RhJ59oj/WMW8K+UD+38KiviuRnVFrkVVjYPt5sn5
-        b2f6uLo2e/rv8FpBEe5natDzRin1gWY=
-X-Google-Smtp-Source: APXvYqwYQr9y58DoVNkIbeRkgPq8ZxYT2gGbIiiNpdzF1jG1RhXquYt1vMQc6c2ZZFcTDNtwnLgkuQ==
-X-Received: by 2002:a9d:7d02:: with SMTP id v2mr3185666otn.112.1560507502751;
-        Fri, 14 Jun 2019 03:18:22 -0700 (PDT)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
-        by smtp.gmail.com with ESMTPSA id i8sm989273oth.24.2019.06.14.03.18.21
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
-Received: by mail-ot1-f53.google.com with SMTP id r6so2142520oti.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
-X-Received: by 2002:a9d:30c3:: with SMTP id r3mr9116550otg.141.1560507501049;
- Fri, 14 Jun 2019 03:18:21 -0700 (PDT)
+        Fri, 14 Jun 2019 06:38:38 -0400
+X-Originating-IP: 37.177.88.254
+Received: from uno.localdomain (unknown [37.177.88.254])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3EA8240007;
+        Fri, 14 Jun 2019 10:38:26 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 12:39:40 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v6 5/7] [media] marvell-ccic/mmp: add devicetree support
+Message-ID: <20190614103940.4dg43fo7dmbwnpfs@uno.localdomain>
+References: <20190528090731.10341-1-lkundrak@v3.sk>
+ <20190528090731.10341-6-lkundrak@v3.sk>
 MIME-Version: 1.0
-References: <20190614075640.106709-1-acourbot@chromium.org> <9fd990d12ea1488592c5a590046f001a187b9c3f.camel@perches.com>
-In-Reply-To: <9fd990d12ea1488592c5a590046f001a187b9c3f.camel@perches.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Fri, 14 Jun 2019 19:18:09 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MVRA_tBwg_r-Z8Rx7pUkR8W47CN1dqWH5uk+_1ONhViog@mail.gmail.com>
-Message-ID: <CAPBb6MVRA_tBwg_r-Z8Rx7pUkR8W47CN1dqWH5uk+_1ONhViog@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mtk-vcodec: remove unneeded proxy functions
-To:     Joe Perches <joe@perches.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="afhe6fv3nxwqv4st"
+Content-Disposition: inline
+In-Reply-To: <20190528090731.10341-6-lkundrak@v3.sk>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 6:11 PM Joe Perches <joe@perches.com> wrote:
->
-> On Fri, 2019-06-14 at 16:56 +0900, Alexandre Courbot wrote:
-> > We were getting the codec interface through a proxy function that does
-> > not bring anything compared to just accessing the interface definition
-> > directly, so just do that. Also make the decoder interfaces const.
-> []
-> > diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c
-> []
-> > @@ -485,16 +485,9 @@ static int vdec_h264_get_param(void *h_vdec, enum vdec_get_param_type type,
-> >       return 0;
-> >  }
-> >
-> > -static struct vdec_common_if vdec_h264_if = {
-> > +const struct vdec_common_if vdec_h264_if = {
->
-> probably better to fixup whatever chains prevent
-> this (if any) from being static const
 
-These are defined in per-codec source files and selected at runtime by
-vdec_drv_if.c, so I don't think we can avoid declaring at least
-something? The previous approach was to declare a function, but as you
-can see we can remove quite some code by exporting the structs
-directly.
+--afhe6fv3nxwqv4st
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+On Tue, May 28, 2019 at 11:07:29AM +0200, Lubomir Rintel wrote:
+> The platform data is actually not used anywhere (along with the CSI
+> support) and should be safe to remove.
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+>
+> ---
+> Changes since v1:
+> - s/This are/These are/ in a comment
+>
+>  .../media/platform/marvell-ccic/mmp-driver.c  | 36 ++++++++++++++-----
+>  1 file changed, 27 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+> index 8f1d2a972bc9..54c2dd8c29d8 100644
+> --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
+> +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+> @@ -19,6 +19,8 @@
+>  #include <media/v4l2-device.h>
+>  #include <linux/platform_data/media/mmp-camera.h>
+>  #include <linux/device.h>
+> +#include <linux/of.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/gpio.h>
+>  #include <linux/io.h>
+> @@ -196,6 +198,9 @@ static void mmpcam_calc_dphy(struct mcam_camera *mcam)
+>  	struct device *dev = &cam->pdev->dev;
+>  	unsigned long tx_clk_esc;
+>
+> +	if (!pdata)
+> +		return;
+> +
+
+This seems a bit of an hack to me. The caller knows the mcam->bus_type
+and should not try to calc_dphy() if the bus type is not CSI2_DPHY.
+What do you think?
+
+>  	/*
+>  	 * If CSI2_DPHY3 is calculated dynamically,
+>  	 * pdata->lane_clk should be already set
+> @@ -314,10 +319,6 @@ static int mmpcam_probe(struct platform_device *pdev)
+>  	struct mmp_camera_platform_data *pdata;
+>  	int ret;
+>
+> -	pdata = pdev->dev.platform_data;
+> -	if (!pdata)
+> -		return -ENODEV;
+> -
+>  	cam = devm_kzalloc(&pdev->dev, sizeof(*cam), GFP_KERNEL);
+>  	if (cam == NULL)
+>  		return -ENOMEM;
+> @@ -330,17 +331,29 @@ static int mmpcam_probe(struct platform_device *pdev)
+>  	mcam->calc_dphy = mmpcam_calc_dphy;
+>  	mcam->dev = &pdev->dev;
+>  	mcam->use_smbus = 0;
+> -	mcam->mclk_src = pdata->mclk_src;
+> -	mcam->mclk_div = pdata->mclk_div;
+> -	mcam->bus_type = pdata->bus_type;
+> -	mcam->dphy = pdata->dphy;
+> +	pdata = pdev->dev.platform_data;
+> +	if (pdata) {
+> +		mcam->mclk_src = pdata->mclk_src;
+> +		mcam->mclk_div = pdata->mclk_div;
+> +		mcam->bus_type = pdata->bus_type;
+> +		mcam->dphy = pdata->dphy;
+> +		mcam->lane = pdata->lane;
+> +	} else {
+> +		/*
+> +		 * These are values that used to be hardcoded in mcam-core and
+> +		 * work well on a OLPC XO 1.75 with a parallel bus sensor.
+> +		 * If it turns out other setups make sense, the values should
+> +		 * be obtained from the device tree.
+> +		 */
+> +		mcam->mclk_src = 3;
+> +		mcam->mclk_div = 2;
+
+I see these only used in mcam_enable_mipi(). Am I wrong?
+
+Thanks
+   j
+
+> +	}
+>  	if (mcam->bus_type == V4L2_MBUS_CSI2_DPHY) {
+>  		cam->mipi_clk = devm_clk_get(mcam->dev, "mipi");
+>  		if ((IS_ERR(cam->mipi_clk) && mcam->dphy[2] == 0))
+>  			return PTR_ERR(cam->mipi_clk);
+>  	}
+>  	mcam->mipi_enabled = false;
+> -	mcam->lane = pdata->lane;
+>  	mcam->chip_id = MCAM_ARMADA610;
+>  	mcam->buffer_mode = B_DMA_sg;
+>  	strscpy(mcam->bus_info, "platform:mmp-camera", sizeof(mcam->bus_info));
+> @@ -475,6 +488,10 @@ static int mmpcam_resume(struct platform_device *pdev)
+>
+>  #endif
+>
+> +static const struct of_device_id mmpcam_of_match[] = {
+> +	{ .compatible = "marvell,mmp2-ccic", },
+> +	{},
+> +};
+>
+>  static struct platform_driver mmpcam_driver = {
+>  	.probe		= mmpcam_probe,
+> @@ -485,6 +502,7 @@ static struct platform_driver mmpcam_driver = {
+>  #endif
+>  	.driver = {
+>  		.name	= "mmp-camera",
+> +		.of_match_table = of_match_ptr(mmpcam_of_match),
+>  	}
+>  };
+>
+> --
+> 2.21.0
+>
+
+--afhe6fv3nxwqv4st
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DeWsACgkQcjQGjxah
+VjyN0w//eJaACnLIgd74jgfWMgGJrJO2ESYgEtFE/sPAVC2bg9CM93nN3/ucTwcd
+EM0efN3gDbUiL3pBvVD9Nqlpqd9CZOjZJxKT2bPSJvsTNG+zXgaf1Iu1imj4kPEw
+zfBr37DzBb5ldvcMv/VgOef4K0OtQIvXTZ2IxndL5jjj9n0qtTnWtMkIxwprRtjR
+2sX+quTJcKJqGQHx6thTM4TPIvgFCaSHpq/ivsKRTF9PnC9S7ij82GDKG8F/HJoi
+xCaLdbEw1SE+CYz65L2ze6TttX+YeWHfZT1ciLTmbE3f0idr897PaRL0Bo9mhc/x
+SOCv0VyxuOhNwO1lMfKiXwWuEnjmIyo6tv4tcFn8Az48YbTjYacEsiRwcPLrSV2/
+AX0N/zISxiPeOvESiNFZzRfhj4nx30DjMTVR0jRFWi2HtzbXBlcTBkH547yI7WlR
+Wir1fstvC3aY7AXeFlZ6efJNPsRgHRojaSbQoFGfebMgw00aust2fOAkJS4opEda
+e0OvH4IY0wgX6tJKauv2M/RNqhzmjPybtgcfwHYjktNjaaP5Rt8MxfeBRCHDMGxF
+FjxEEnzQMX4KIJSk86V24qbcEUehSkbkcy2yySKvRTsqules6CNeEVaLtRZtnr1L
+5es8YRDqM+q0IW7Obbf40CC9DNqkgGrWrjV7EviNStJ/2T7cQQc=
+=Dnfz
+-----END PGP SIGNATURE-----
+
+--afhe6fv3nxwqv4st--
