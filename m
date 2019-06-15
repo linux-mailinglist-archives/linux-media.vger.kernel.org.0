@@ -2,69 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12D6A46EBA
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2019 09:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AAE446ECE
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2019 09:47:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbfFOHcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jun 2019 03:32:47 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56877 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725828AbfFOHcr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jun 2019 03:32:47 -0400
-Received: from [IPv6:2001:983:e9a7:1:cc45:ac5:3048:e495] ([IPv6:2001:983:e9a7:1:cc45:ac5:3048:e495])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id c3B5hgTzv5qKac3B6hPsiJ; Sat, 15 Jun 2019 09:32:45 +0200
-Subject: Re: [PATCH 4/4] media: docs: create vimc documentation
-To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, helen.koike@collabora.com,
-        kernel@collabora.com, lkcamp@lists.libreplanetbr.org,
-        linux-kernel@vger.kernel.org
-References: <20190613150616.19336-1-andrealmeid@collabora.com>
- <20190613150616.19336-5-andrealmeid@collabora.com>
- <4359daf5-4a0c-64b4-46ad-75eba4e9016f@xs4all.nl>
- <244f7aaf-fc6c-8509-49d3-5b5d4ca067b9@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7adbf20f-2c8f-b78e-aaf9-419830a03b62@xs4all.nl>
-Date:   Sat, 15 Jun 2019 09:32:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726511AbfFOHr2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jun 2019 03:47:28 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:44118 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726236AbfFOHr2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 15 Jun 2019 03:47:28 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 087FB341C58551243794;
+        Sat, 15 Jun 2019 15:47:22 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Sat, 15 Jun 2019
+ 15:47:15 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <mchehab@kernel.org>, <ckeepax@opensource.wolfsonmicro.com>,
+        <gregkh@linuxfoundation.org>, <tiwai@suse.de>,
+        <sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH] media: meye: Fix build COMPILE_TEST error
+Date:   Sat, 15 Jun 2019 15:45:53 +0800
+Message-ID: <20190615074553.30084-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <244f7aaf-fc6c-8509-49d3-5b5d4ca067b9@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfBO+ieQHvEqc7/Y8yO6t/ihu+aqXmAIA1lpK8SUg6e4sgcGa1ojsnxVm7zx4J16eSPN7v0wdf9Q1ZD1+JA6nVmCPgzsxjcvcvxkY2c6KWeKpW2yOf5g5
- FzSsdarCABKAuC3xjk9ELARr5FefBQok4r78Zo7Wae3JeFUF63wjTsoYwW+26Q9R97suaExneINR9UEJURj0lhXxfeOMhObS+B7ge447Q8zJDtnXD62H4IOS
- VGbJ9KkmERUUQM+SmaTMdexI2jxvo0XZrweAdhkCa8MbQvBsxAYYPKmKK59S03mCEBQa7ZdkBmwAMFf7AoEx/soBhyscEyMq0OM9VyuyRIQ7b3zZwvTp3U0h
- OrM2SBB0Rd9oZFRQ6uqD8l07ujC7HOAsEQehK9p4TpEjxTV7dJQ92MkhWvLgb8LDzVltL9G2mzxZfyii0BeDRv31XsGywfrX0035F8xBSX27MOwCIY6OIqaM
- NPlCpItnmRm1dmIvfHrDnr2k+MaPdxXlHp7j9g==
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/14/19 4:14 PM, André Almeida wrote:
-> Hello Hans,
-> 
-> On 6/14/19 4:30 AM, Hans Verkuil wrote:
->> Hi André,
->>
->> Thanks for working one this, very nice to have this documentation.
->>
->> Some comments below:
->>
->> [...]
->>
->> Regards,
->>
->> 	Hans
-> Thanks for the feedback! I saw that 1/4 and 2/4 already are at your [GIT
-> PULL v5.3], so my v2 should only have 3/4 and 4/4, right?
+If COMPILE_TEST is y and SONY_LAPTOP is m,
+building fais as below:
 
-Yes please!
+drivers/media/pci/meye/meye.o: In function `meye_s_ctrl':
+meye.c:(.text+0xafa): undefined reference to `sony_pic_camera_command'
 
-Thanks,
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 6159e12e1177 ("media: meye: allow building it with COMPILE_TEST on non-x86")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/media/pci/meye/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-	Hans
+diff --git a/drivers/media/pci/meye/Kconfig b/drivers/media/pci/meye/Kconfig
+index b0ba78a..b37da61 100644
+--- a/drivers/media/pci/meye/Kconfig
++++ b/drivers/media/pci/meye/Kconfig
+@@ -2,7 +2,8 @@
+ config VIDEO_MEYE
+ 	tristate "Sony Vaio Picturebook Motion Eye Video For Linux"
+ 	depends on PCI && VIDEO_V4L2
+-	depends on SONY_LAPTOP || COMPILE_TEST
++	depends on SONY_LAPTOP
++	depends on X86 || COMPILE_TEST
+ 	help
+ 	  This is the video4linux driver for the Motion Eye camera found
+ 	  in the Vaio Picturebook laptops. Please read the material in
+-- 
+2.7.4
+
+
