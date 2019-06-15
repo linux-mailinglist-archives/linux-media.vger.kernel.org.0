@@ -2,151 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7606A46E07
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2019 05:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D6A46EBA
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2019 09:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfFODwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jun 2019 23:52:37 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46197 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726071AbfFODwh (ORCPT
+        id S1726073AbfFOHcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jun 2019 03:32:47 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56877 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbfFOHcr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jun 2019 23:52:37 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:cc45:ac5:3048:e495])
+        Sat, 15 Jun 2019 03:32:47 -0400
+Received: from [IPv6:2001:983:e9a7:1:cc45:ac5:3048:e495] ([IPv6:2001:983:e9a7:1:cc45:ac5:3048:e495])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id bzk1hezqw5qKabzk2hPI6h; Sat, 15 Jun 2019 05:52:34 +0200
-Message-ID: <7e29db78b929e7c3a71fc80b9f6b3686@smtp-cloud7.xs4all.net>
-Date:   Sat, 15 Jun 2019 05:52:33 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfInHQo5oL5eoJBS+OHb4VHQCjS6AB5iveKcdbdeTyB5OZ7FY14aTg6BwyAU1Ixms8QYmN1xqwGLhPufts1axm8itNqO0HDmXRL1fbgld4yQKfV/zKakj
- +u70mFlEGxwd+wGzrc6Uq3wslj4DpG1scIlKpaDjHaSJhSOWsERV9raaXejkiv/XCOGor9tTOOMJIoorfvKx0wUPCF3zdBR/AE6LAl1Mv53lEYZYAhubZEk3
+        id c3B5hgTzv5qKac3B6hPsiJ; Sat, 15 Jun 2019 09:32:45 +0200
+Subject: Re: [PATCH 4/4] media: docs: create vimc documentation
+To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, helen.koike@collabora.com,
+        kernel@collabora.com, lkcamp@lists.libreplanetbr.org,
+        linux-kernel@vger.kernel.org
+References: <20190613150616.19336-1-andrealmeid@collabora.com>
+ <20190613150616.19336-5-andrealmeid@collabora.com>
+ <4359daf5-4a0c-64b4-46ad-75eba4e9016f@xs4all.nl>
+ <244f7aaf-fc6c-8509-49d3-5b5d4ca067b9@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7adbf20f-2c8f-b78e-aaf9-419830a03b62@xs4all.nl>
+Date:   Sat, 15 Jun 2019 09:32:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <244f7aaf-fc6c-8509-49d3-5b5d4ca067b9@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfBO+ieQHvEqc7/Y8yO6t/ihu+aqXmAIA1lpK8SUg6e4sgcGa1ojsnxVm7zx4J16eSPN7v0wdf9Q1ZD1+JA6nVmCPgzsxjcvcvxkY2c6KWeKpW2yOf5g5
+ FzSsdarCABKAuC3xjk9ELARr5FefBQok4r78Zo7Wae3JeFUF63wjTsoYwW+26Q9R97suaExneINR9UEJURj0lhXxfeOMhObS+B7ge447Q8zJDtnXD62H4IOS
+ VGbJ9KkmERUUQM+SmaTMdexI2jxvo0XZrweAdhkCa8MbQvBsxAYYPKmKK59S03mCEBQa7ZdkBmwAMFf7AoEx/soBhyscEyMq0OM9VyuyRIQ7b3zZwvTp3U0h
+ OrM2SBB0Rd9oZFRQ6uqD8l07ujC7HOAsEQehK9p4TpEjxTV7dJQ92MkhWvLgb8LDzVltL9G2mzxZfyii0BeDRv31XsGywfrX0035F8xBSX27MOwCIY6OIqaM
+ NPlCpItnmRm1dmIvfHrDnr2k+MaPdxXlHp7j9g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 6/14/19 4:14 PM, André Almeida wrote:
+> Hello Hans,
+> 
+> On 6/14/19 4:30 AM, Hans Verkuil wrote:
+>> Hi André,
+>>
+>> Thanks for working one this, very nice to have this documentation.
+>>
+>> Some comments below:
+>>
+>> [...]
+>>
+>> Regards,
+>>
+>> 	Hans
+> Thanks for the feedback! I saw that 1/4 and 2/4 already are at your [GIT
+> PULL v5.3], so my v2 should only have 3/4 and 4/4, right?
 
-Results of the daily build of media_tree:
+Yes please!
 
-date:			Sat Jun 15 05:00:10 CEST 2019
-media-tree git hash:	513dbd35b5d93c45fa7291147f21fc0227a9f999
-media_build git hash:	8c181825fa4b157679e600565c310841be9f1890
-v4l-utils git hash:	a2fd05f084e674696e77b1846e35c77899d0157d
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 13935a7e5fc334611439324a8eb80dd57a3eae49
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Thanks,
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 6
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Hans
