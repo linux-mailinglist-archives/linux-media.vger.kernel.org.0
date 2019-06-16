@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A885547659
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2019 20:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D06F4765A
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2019 20:23:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbfFPSXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Jun 2019 14:23:12 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41262 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbfFPSXL (ORCPT
+        id S1726085AbfFPSXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Jun 2019 14:23:14 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:36378 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbfFPSXN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Jun 2019 14:23:11 -0400
-Received: by mail-lj1-f195.google.com with SMTP id s21so7120808lji.8
-        for <linux-media@vger.kernel.org>; Sun, 16 Jun 2019 11:23:09 -0700 (PDT)
+        Sun, 16 Jun 2019 14:23:13 -0400
+Received: by mail-lj1-f196.google.com with SMTP id i21so7140942ljj.3
+        for <linux-media@vger.kernel.org>; Sun, 16 Jun 2019 11:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sQ6+5mj42IjC/anMgUoOqlhIhRmJvKm44rJLhWb0UM4=;
-        b=ltnFIG++9y8cq9zSRfps4yjHnC/gFr1rKRqWe5ZX7cmEzU6Lzf8PFbWikBMOIL+Ngb
-         FEBs4zNgmnx6ouqaEzI1HD4zPgoBcaL0jxBUJDkV6PvLNO5k651cuEIkDLWNh1dR8ZAQ
-         4zrfCFunZwLCJSEYOMskztVkMb7Rz7/viK8+C8GZXgEYxPOTBbofryWqtDYbJ2moXg9H
-         GgG+vEZG6oJpX+guaRdsHrHtJB1fM5vLFtkYIyxlSWmmWgu+iVN2YITDaVS8aXNUu/WP
-         6i1xRG+q9qqCWCACPtgt8A7hI/gCHpYzLpFul+reKkBOoLCpz/Xtf6jbriaCiDvUImT6
-         AwNA==
+        bh=N54B7V3/crrHsYQ7XRe2UXjRltByFANOUdnJd0qI2Xs=;
+        b=iZ1PcCE9IrMEXVLD+ULCBjKrhBJH7ka09tdlzCN0au38KtV9YA9hlyl7DkODae6CG+
+         xhDBXgnIhKM+9v6XXDutO/hSibSZh3Z2cArum32rP+CsgFFn6OTbXZa1M82l9gpvzb/q
+         9rLWJLWUu0QwZZTIeYoKzBtg/tgb3e9cHMfmrFXO7C9mkQp29Zxt3GoitMJx6/ysrVjW
+         +dDrDvPX4204KHJXXRlgcxipaxo3ZN+rLDMJQkn4kU3Rmvf75q+9Y+TSIaw3s7/eOBM1
+         rFTJur2SIjjbmqT3sc5lF6MNk6Y+ZD/ZCVtKweqV1pzqUXd7Y0f1Zr0zf0gf9CukGiWD
+         dGqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sQ6+5mj42IjC/anMgUoOqlhIhRmJvKm44rJLhWb0UM4=;
-        b=ucQVOCUv2Z5Z81tuH5XWuzSshqifctR59bd5xYMrPaWPfoI3FzNYecLwxpH+S/uzHA
-         srfIZaRp2K3RE3O49unyXuN7FB+q2ftrLUgDpbtWUoMT5i0JMShZWcB+5vLhXozto3Ei
-         K0LmeIS25pAZCzJ3ZgV7PfA6mDMQviyKNvoQ6omSRmwr2zLFcWtsU+kuXN59XbiNxZoz
-         q7qxG44BL8hAIRgKPKjdUFV6l+Ew9r4+AobIpxeAhM+g6VOpPlAA0x295OGwzkAn7qgi
-         UQcd5lTJQWw85u4GkdWfd4zlwpk/a2YmidzLcC89vUpDHBfP6FBHqwDBFKIXGc9jD21q
-         jfCw==
-X-Gm-Message-State: APjAAAXrmoF//RR+o11A720/p0ZfLOa1TAQ1yrtrlXPQ9UY5k/1oKCe/
-        HezxN1L1CKUQcg9gB8m1triFqThucJE=
-X-Google-Smtp-Source: APXvYqycux7A4fRLgEUTtetNidp9ngXfDEPdkhVeKYwo20CUeWKG4XdqYSEz5BEVq/lrKTf5cIlC6A==
-X-Received: by 2002:a2e:2e18:: with SMTP id u24mr10959500lju.204.1560709388581;
-        Sun, 16 Jun 2019 11:23:08 -0700 (PDT)
+        bh=N54B7V3/crrHsYQ7XRe2UXjRltByFANOUdnJd0qI2Xs=;
+        b=s+UUKGymDPVWL/IMidNwDYN2zRynJI3ls5h1pRTq6jz77cbg5z6Gi/3Z9YeYyPvUtf
+         kIR8u9jdRlPAkmTWOChOHcppHcmw12nArsVTSUiivSh/nylRzVV+TVldrQh3yWnaqyPx
+         VYEeNUcuwz3aiwE6JshSwyXtPiBBY4JpEhd8EkeC0BApNn4CGz+dRL/OVgx5+iw0Mld5
+         29vuc7pzIBAKWCgrDh4kretgxvGmqTbCubQV+FM8YMeSR9P5j5XDX2VOu5i2D/cxox5J
+         S0SHMvNk3JRWrgKuQhEDxNOETqdkxjiS0mPkGXQZ2Zb1tmmer5MLau5Y0yu/USbGEAz1
+         hL+Q==
+X-Gm-Message-State: APjAAAVv/PSPBdQGxSN/+iTEuHfztNgh6GgAeQ024URdPevEVqoRYKxH
+        qrBR5ZNeQkEhgnOTDhfwh70fPQnOu1Y=
+X-Google-Smtp-Source: APXvYqzrleBzkWRS8rGpvT2UWblc5YYPlzX2YILkrSR5rjPQe7DXtzXWP+PYl97jCFJ8cXR/5zJkDw==
+X-Received: by 2002:a2e:b0d0:: with SMTP id g16mr45277295ljl.161.1560709390414;
+        Sun, 16 Jun 2019 11:23:10 -0700 (PDT)
 Received: from localhost.localdomain ([178.74.2.49])
-        by smtp.gmail.com with ESMTPSA id z85sm1714081ljb.101.2019.06.16.11.23.07
+        by smtp.gmail.com with ESMTPSA id z85sm1714081ljb.101.2019.06.16.11.23.09
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 16 Jun 2019 11:23:08 -0700 (PDT)
+        Sun, 16 Jun 2019 11:23:09 -0700 (PDT)
 From:   Johan Korsnes <johan.korsnes@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Johan Korsnes <johan.korsnes@gmail.com>
-Subject: [PATCH v2 1/9] media: vivid: make input dv_timings per-input
-Date:   Sun, 16 Jun 2019 11:22:10 -0700
-Message-Id: <20190616182218.37726-2-johan.korsnes@gmail.com>
+Subject: [PATCH v2 2/9] media: vivid: make input std_signal per-input
+Date:   Sun, 16 Jun 2019 11:22:11 -0700
+Message-Id: <20190616182218.37726-3-johan.korsnes@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190616182218.37726-1-johan.korsnes@gmail.com>
 References: <20190616182218.37726-1-johan.korsnes@gmail.com>
@@ -61,283 +61,388 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make the following properties per-input
+Make the following properties per-input:
 
--DV Timings Signal Mode
--DV Timings
+-Standard Signal Mode
+-Standard
 
-These properties need to be per-input in order to implement proper
-HDMI (dis)connect-behavior, where the signal mode will be used to
-signify whether or not there is an input device connected.
+These properties need to be per-input in order to implement proper HDMI
+(dis)connect-behavior, where the signal mode will be used to signify
+whether or not there is an inpute device connected.
 
 Signed-off-by: Johan Korsnes <johan.korsnes@gmail.com>
 ---
- drivers/media/platform/vivid/vivid-core.c     | 12 +++-
- drivers/media/platform/vivid/vivid-core.h     | 11 ++--
- drivers/media/platform/vivid/vivid-ctrls.c    | 13 ++--
- .../media/platform/vivid/vivid-kthread-cap.c  |  2 +-
- drivers/media/platform/vivid/vivid-vid-cap.c  | 63 ++++++++++++-------
- .../media/platform/vivid/vivid-vid-common.c   |  2 +-
- 6 files changed, 69 insertions(+), 34 deletions(-)
+ drivers/media/platform/vivid/vivid-core.c     |  5 +-
+ drivers/media/platform/vivid/vivid-core.h     | 10 ++--
+ drivers/media/platform/vivid/vivid-ctrls.c    | 13 +++--
+ .../media/platform/vivid/vivid-kthread-cap.c  |  6 +--
+ drivers/media/platform/vivid/vivid-vbi-cap.c  | 16 +++---
+ drivers/media/platform/vivid/vivid-vid-cap.c  | 50 +++++++++++--------
+ .../media/platform/vivid/vivid-vid-common.c   |  4 +-
+ 7 files changed, 59 insertions(+), 45 deletions(-)
 
 diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-index beb2e566a43c..f481f1768184 100644
+index f481f1768184..85e6aaf7bf0d 100644
 --- a/drivers/media/platform/vivid/vivid-core.c
 +++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -1005,7 +1005,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+@@ -999,14 +999,15 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	dev->webcam_size_idx = 1;
+ 	dev->webcam_ival_idx = 3;
+ 	tpg_s_fourcc(&dev->tpg, dev->fmt_cap->fourcc);
+-	dev->std_cap = V4L2_STD_PAL;
+ 	dev->std_out = V4L2_STD_PAL;
+ 	if (dev->input_type[0] == TV || dev->input_type[0] == SVID)
  		tvnorms_cap = V4L2_STD_ALL;
  	if (dev->output_type[0] == SVID)
  		tvnorms_out = V4L2_STD_ALL;
--	dev->dv_timings_cap = def_dv_timings;
-+	for (i = 0; i < MAX_INPUTS; i++)
-+		dev->dv_timings_cap[i] = def_dv_timings;
+-	for (i = 0; i < MAX_INPUTS; i++)
++	for (i = 0; i < MAX_INPUTS; i++) {
+ 		dev->dv_timings_cap[i] = def_dv_timings;
++		dev->std_cap[i] = V4L2_STD_PAL;
++	}
  	dev->dv_timings_out = def_dv_timings;
  	dev->tv_freq = 2804 /* 175.25 * 16 */;
  	dev->tv_audmode = V4L2_TUNER_MODE_STEREO;
-@@ -1035,6 +1036,15 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
- 	if (ret)
- 		goto unreg_dev;
- 
-+	/* enable/disable interface specific controls */
-+	if (dev->num_inputs && dev->input_type[0] != HDMI) {
-+		v4l2_ctrl_activate(dev->ctrl_dv_timings_signal_mode, false);
-+		v4l2_ctrl_activate(dev->ctrl_dv_timings, false);
-+	} else if (dev->num_inputs && dev->input_type[0] == HDMI) {
-+		v4l2_ctrl_activate(dev->ctrl_std_signal_mode, false);
-+		v4l2_ctrl_activate(dev->ctrl_standard, false);
-+	}
-+
- 	/*
- 	 * update the capture and output formats to do a proper initial
- 	 * configuration.
 diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
-index 6697c7009629..a77c548f47d8 100644
+index a77c548f47d8..a18fd19215b6 100644
 --- a/drivers/media/platform/vivid/vivid-core.h
 +++ b/drivers/media/platform/vivid/vivid-core.h
-@@ -304,18 +304,19 @@ struct vivid_dev {
- 	v4l2_std_id			query_std;
- 	enum tpg_video_aspect		std_aspect_ratio;
+@@ -299,10 +299,10 @@ struct vivid_dev {
+ 	bool				time_wrap;
+ 	u64				time_wrap_offset;
+ 	unsigned			perc_dropped_buffers;
+-	enum vivid_signal_mode		std_signal_mode;
+-	unsigned			query_std_last;
+-	v4l2_std_id			query_std;
+-	enum tpg_video_aspect		std_aspect_ratio;
++	enum vivid_signal_mode		std_signal_mode[MAX_INPUTS];
++	unsigned			query_std_last[MAX_INPUTS];
++	v4l2_std_id			query_std[MAX_INPUTS];
++	enum tpg_video_aspect		std_aspect_ratio[MAX_INPUTS];
  
--	enum vivid_signal_mode		dv_timings_signal_mode;
-+	enum vivid_signal_mode		dv_timings_signal_mode[MAX_INPUTS];
+ 	enum vivid_signal_mode		dv_timings_signal_mode[MAX_INPUTS];
  	char				**query_dv_timings_qmenu;
- 	char				*query_dv_timings_qmenu_strings;
- 	unsigned			query_dv_timings_size;
--	unsigned			query_dv_timings_last;
--	unsigned			query_dv_timings;
--	enum tpg_video_aspect		dv_timings_aspect_ratio;
-+	unsigned			query_dv_timings_last[MAX_INPUTS];
-+	unsigned			query_dv_timings[MAX_INPUTS];
-+	enum tpg_video_aspect		dv_timings_aspect_ratio[MAX_INPUTS];
+@@ -314,7 +314,7 @@ struct vivid_dev {
  
  	/* Input */
  	unsigned			input;
- 	v4l2_std_id			std_cap;
--	struct v4l2_dv_timings		dv_timings_cap;
-+	struct v4l2_dv_timings		dv_timings_cap[MAX_INPUTS];
-+	int				dv_timings_cap_sel[MAX_INPUTS];
+-	v4l2_std_id			std_cap;
++	v4l2_std_id			std_cap[MAX_INPUTS];
+ 	struct v4l2_dv_timings		dv_timings_cap[MAX_INPUTS];
+ 	int				dv_timings_cap_sel[MAX_INPUTS];
  	u32				service_set_cap;
- 	struct vivid_vbi_gen_data	vbi_gen;
- 	u8				*edid;
 diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
-index 4cd526ff248b..a3c9661caf95 100644
+index a3c9661caf95..74b2c92fbfa0 100644
 --- a/drivers/media/platform/vivid/vivid-ctrls.c
 +++ b/drivers/media/platform/vivid/vivid-ctrls.c
-@@ -467,16 +467,19 @@ static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -463,7 +463,7 @@ static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		tpg_s_show_square(&dev->tpg, ctrl->val);
+ 		break;
+ 	case VIVID_CID_STD_ASPECT_RATIO:
+-		dev->std_aspect_ratio = ctrl->val;
++		dev->std_aspect_ratio[dev->input] = ctrl->val;
  		tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
  		break;
  	case VIVID_CID_DV_TIMINGS_SIGNAL_MODE:
--		dev->dv_timings_signal_mode = dev->ctrl_dv_timings_signal_mode->val;
--		if (dev->dv_timings_signal_mode == SELECTED_DV_TIMINGS)
--			dev->query_dv_timings = dev->ctrl_dv_timings->val;
-+		dev->dv_timings_signal_mode[dev->input] =
-+			dev->ctrl_dv_timings_signal_mode->val;
-+		dev->query_dv_timings[dev->input] = dev->ctrl_dv_timings->val;
-+
- 		v4l2_ctrl_activate(dev->ctrl_dv_timings,
--				dev->dv_timings_signal_mode == SELECTED_DV_TIMINGS);
-+			dev->dv_timings_signal_mode[dev->input] ==
-+				SELECTED_DV_TIMINGS);
-+
+@@ -1130,10 +1130,13 @@ static int vivid_sdtv_cap_s_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	switch (ctrl->id) {
+ 	case VIVID_CID_STD_SIGNAL_MODE:
+-		dev->std_signal_mode = dev->ctrl_std_signal_mode->val;
+-		if (dev->std_signal_mode == SELECTED_STD)
+-			dev->query_std = vivid_standard[dev->ctrl_standard->val];
+-		v4l2_ctrl_activate(dev->ctrl_standard, dev->std_signal_mode == SELECTED_STD);
++		dev->std_signal_mode[dev->input] = dev->ctrl_std_signal_mode->val;
++		if (dev->std_signal_mode[dev->input] == SELECTED_STD)
++			dev->query_std[dev->input] =
++				vivid_standard[dev->ctrl_standard->val];
++		v4l2_ctrl_activate(dev->ctrl_standard,
++				   dev->std_signal_mode[dev->input] ==
++					SELECTED_STD);
  		vivid_update_quality(dev);
- 		vivid_send_source_change(dev, HDMI);
- 		break;
- 	case VIVID_CID_DV_TIMINGS_ASPECT_RATIO:
--		dev->dv_timings_aspect_ratio = ctrl->val;
-+		dev->dv_timings_aspect_ratio[dev->input] = ctrl->val;
- 		tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
- 		break;
- 	case VIVID_CID_TSTAMP_SRC:
+ 		vivid_send_source_change(dev, TV);
+ 		vivid_send_source_change(dev, SVID);
 diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
-index f8006a30c12f..b4eee952e1c9 100644
+index b4eee952e1c9..6cf495a7d5cc 100644
 --- a/drivers/media/platform/vivid/vivid-kthread-cap.c
 +++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
-@@ -421,7 +421,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
- 		((vivid_is_svid_cap(dev) &&
- 		!VIVID_INVALID_SIGNAL(dev->std_signal_mode)) ||
- 		(vivid_is_hdmi_cap(dev) &&
--		!VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode))))
-+		!VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode[dev->input]))))
- 		is_loop = true;
- 
- 	buf->vb.sequence = dev->vid_cap_seq_count;
-diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
-index 530ac8decb25..f4354c800088 100644
---- a/drivers/media/platform/vivid/vivid-vid-cap.c
-+++ b/drivers/media/platform/vivid/vivid-vid-cap.c
-@@ -299,7 +299,8 @@ void vivid_update_quality(struct vivid_dev *dev)
- 		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
- 		return;
- 	}
--	if (vivid_is_hdmi_cap(dev) && VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode)) {
-+	if (vivid_is_hdmi_cap(dev) &&
-+	    VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode[dev->input])) {
- 		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
- 		return;
- 	}
-@@ -361,7 +362,7 @@ enum tpg_video_aspect vivid_get_video_aspect(const struct vivid_dev *dev)
- 		return dev->std_aspect_ratio;
- 
- 	if (vivid_is_hdmi_cap(dev))
--		return dev->dv_timings_aspect_ratio;
-+		return dev->dv_timings_aspect_ratio[dev->input];
- 
- 	return TPG_VIDEO_ASPECT_IMAGE;
- }
-@@ -386,7 +387,7 @@ static enum tpg_pixel_aspect vivid_get_pixel_aspect(const struct vivid_dev *dev)
-  */
- void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
+@@ -43,7 +43,7 @@
+ static inline v4l2_std_id vivid_get_std_cap(const struct vivid_dev *dev)
  {
--	struct v4l2_bt_timings *bt = &dev->dv_timings_cap.bt;
-+	struct v4l2_bt_timings *bt = &dev->dv_timings_cap[dev->input].bt;
- 	unsigned size;
- 	u64 pixelclock;
- 
-@@ -486,8 +487,8 @@ static enum v4l2_field vivid_field_cap(struct vivid_dev *dev, enum v4l2_field fi
- 		}
- 	}
- 	if (vivid_is_hdmi_cap(dev))
--		return dev->dv_timings_cap.bt.interlaced ? V4L2_FIELD_ALTERNATE :
--						       V4L2_FIELD_NONE;
-+		return dev->dv_timings_cap[dev->input].bt.interlaced ?
-+			V4L2_FIELD_ALTERNATE : V4L2_FIELD_NONE;
- 	return V4L2_FIELD_NONE;
- }
- 
-@@ -1310,10 +1311,10 @@ int vidioc_enum_input(struct file *file, void *priv,
- 				dev->input_name_counter[inp->index]);
- 		inp->capabilities = V4L2_IN_CAP_DV_TIMINGS;
- 		if (dev->edid_blocks == 0 ||
--		    dev->dv_timings_signal_mode == NO_SIGNAL)
-+		    dev->dv_timings_signal_mode[dev->input] == NO_SIGNAL)
- 			inp->status |= V4L2_IN_ST_NO_SIGNAL;
--		else if (dev->dv_timings_signal_mode == NO_LOCK ||
--			 dev->dv_timings_signal_mode == OUT_OF_RANGE)
-+		else if (dev->dv_timings_signal_mode[dev->input] == NO_LOCK ||
-+			 dev->dv_timings_signal_mode[dev->input] == OUT_OF_RANGE)
- 			inp->status |= V4L2_IN_ST_NO_H_LOCK;
- 		break;
- 	}
-@@ -1353,7 +1354,7 @@ int vidioc_g_input(struct file *file, void *priv, unsigned *i)
- int vidioc_s_input(struct file *file, void *priv, unsigned i)
- {
- 	struct vivid_dev *dev = video_drvdata(file);
--	struct v4l2_bt_timings *bt = &dev->dv_timings_cap.bt;
-+	struct v4l2_bt_timings *bt = &dev->dv_timings_cap[dev->input].bt;
- 	unsigned brightness;
- 
- 	if (i >= dev->num_inputs)
-@@ -1407,6 +1408,20 @@ int vidioc_s_input(struct file *file, void *priv, unsigned i)
- 	v4l2_ctrl_modify_range(dev->brightness,
- 			128 * i, 255 + 128 * i, 1, 128 + 128 * i);
- 	v4l2_ctrl_s_ctrl(dev->brightness, brightness);
-+
-+	/* Restore per-input states. */
-+	v4l2_ctrl_activate(dev->ctrl_dv_timings_signal_mode,
-+			   vivid_is_hdmi_cap(dev));
-+	v4l2_ctrl_activate(dev->ctrl_dv_timings, vivid_is_hdmi_cap(dev) &&
-+			   dev->dv_timings_signal_mode[dev->input] ==
-+			   SELECTED_DV_TIMINGS);
-+	if (vivid_is_hdmi_cap(dev)) {
-+		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings_signal_mode,
-+				 dev->dv_timings_signal_mode[dev->input]);
-+		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings,
-+				 dev->query_dv_timings[dev->input]);
-+	}
-+
+ 	if (vivid_is_sdtv_cap(dev))
+-		return dev->std_cap;
++		return dev->std_cap[dev->input];
  	return 0;
  }
  
-@@ -1676,12 +1691,13 @@ int vivid_vid_cap_s_dv_timings(struct file *file, void *_fh,
- 	    !valid_cvt_gtf_timings(timings))
- 		return -EINVAL;
+@@ -408,7 +408,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
+ 	unsigned factor = V4L2_FIELD_HAS_T_OR_B(dev->field_cap) ? 2 : 1;
+ 	unsigned line_height = 16 / factor;
+ 	bool is_tv = vivid_is_sdtv_cap(dev);
+-	bool is_60hz = is_tv && (dev->std_cap & V4L2_STD_525_60);
++	bool is_60hz = is_tv && (dev->std_cap[dev->input] & V4L2_STD_525_60);
+ 	unsigned p;
+ 	int line = 1;
+ 	u8 *basep[TPG_MAX_PLANES][2];
+@@ -419,7 +419,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
  
--	if (v4l2_match_dv_timings(timings, &dev->dv_timings_cap, 0, false))
-+	if (v4l2_match_dv_timings(timings, &dev->dv_timings_cap[dev->input],
-+				  0, false))
+ 	if (dev->loop_video && dev->can_loop_video &&
+ 		((vivid_is_svid_cap(dev) &&
+-		!VIVID_INVALID_SIGNAL(dev->std_signal_mode)) ||
++		!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) ||
+ 		(vivid_is_hdmi_cap(dev) &&
+ 		!VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode[dev->input]))))
+ 		is_loop = true;
+diff --git a/drivers/media/platform/vivid/vivid-vbi-cap.c b/drivers/media/platform/vivid/vivid-vbi-cap.c
+index 40ecd7902b56..1a9348eea781 100644
+--- a/drivers/media/platform/vivid/vivid-vbi-cap.c
++++ b/drivers/media/platform/vivid/vivid-vbi-cap.c
+@@ -18,7 +18,7 @@
+ static void vivid_sliced_vbi_cap_fill(struct vivid_dev *dev, unsigned seqnr)
+ {
+ 	struct vivid_vbi_gen_data *vbi_gen = &dev->vbi_gen;
+-	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
++	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 
+ 	vivid_vbi_gen_sliced(vbi_gen, is_60hz, seqnr);
+ 
+@@ -65,7 +65,7 @@ static void vivid_sliced_vbi_cap_fill(struct vivid_dev *dev, unsigned seqnr)
+ 
+ static void vivid_g_fmt_vbi_cap(struct vivid_dev *dev, struct v4l2_vbi_format *vbi)
+ {
+-	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
++	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 
+ 	vbi->sampling_rate = 27000000;
+ 	vbi->offset = 24;
+@@ -93,7 +93,7 @@ void vivid_raw_vbi_cap_process(struct vivid_dev *dev, struct vivid_buffer *buf)
+ 
+ 	memset(vbuf, 0x10, vb2_plane_size(&buf->vb.vb2_buf, 0));
+ 
+-	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode))
++	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input]))
+ 		vivid_vbi_gen_raw(&dev->vbi_gen, &vbi, vbuf);
+ }
+ 
+@@ -111,7 +111,7 @@ void vivid_sliced_vbi_cap_process(struct vivid_dev *dev,
+ 	vivid_sliced_vbi_cap_fill(dev, buf->vb.sequence);
+ 
+ 	memset(vbuf, 0, vb2_plane_size(&buf->vb.vb2_buf, 0));
+-	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode)) {
++	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) {
+ 		unsigned i;
+ 
+ 		for (i = 0; i < 25; i++)
+@@ -124,7 +124,7 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
+ 		       unsigned sizes[], struct device *alloc_devs[])
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+-	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
++	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 	unsigned size = vq->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ?
+ 		36 * sizeof(struct v4l2_sliced_vbi_data) :
+ 		1440 * 2 * (is_60hz ? 12 : 18);
+@@ -144,7 +144,7 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
+ static int vbi_cap_buf_prepare(struct vb2_buffer *vb)
+ {
+ 	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+-	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
++	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 	unsigned size = vb->vb2_queue->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ?
+ 		36 * sizeof(struct v4l2_sliced_vbi_data) :
+ 		1440 * 2 * (is_60hz ? 12 : 18);
+@@ -302,7 +302,7 @@ int vidioc_try_fmt_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_forma
+ {
+ 	struct vivid_dev *dev = video_drvdata(file);
+ 	struct v4l2_sliced_vbi_format *vbi = &fmt->fmt.sliced;
+-	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
++	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 	u32 service_set = vbi->service_set;
+ 
+ 	if (!vivid_is_sdtv_cap(dev) || !dev->has_sliced_vbi_cap)
+@@ -337,7 +337,7 @@ int vidioc_g_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_sliced_vbi_
+ 	bool is_60hz;
+ 
+ 	if (vdev->vfl_dir == VFL_DIR_RX) {
+-		is_60hz = dev->std_cap & V4L2_STD_525_60;
++		is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
+ 		if (!vivid_is_sdtv_cap(dev) || !dev->has_sliced_vbi_cap ||
+ 		    cap->type != V4L2_BUF_TYPE_SLICED_VBI_CAPTURE)
+ 			return -EINVAL;
+diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
+index f4354c800088..ca15c13abf6c 100644
+--- a/drivers/media/platform/vivid/vivid-vid-cap.c
++++ b/drivers/media/platform/vivid/vivid-vid-cap.c
+@@ -196,7 +196,7 @@ static void vid_cap_buf_finish(struct vb2_buffer *vb)
+ 	 * test this.
+ 	 */
+ 	vbuf->flags |= V4L2_BUF_FLAG_TIMECODE;
+-	if (dev->std_cap & V4L2_STD_525_60)
++	if (dev->std_cap[dev->input] & V4L2_STD_525_60)
+ 		fps = 30;
+ 	tc->type = (fps == 30) ? V4L2_TC_TYPE_30FPS : V4L2_TC_TYPE_25FPS;
+ 	tc->flags = 0;
+@@ -304,7 +304,8 @@ void vivid_update_quality(struct vivid_dev *dev)
+ 		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
+ 		return;
+ 	}
+-	if (vivid_is_sdtv_cap(dev) && VIVID_INVALID_SIGNAL(dev->std_signal_mode)) {
++	if (vivid_is_sdtv_cap(dev) &&
++	    VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) {
+ 		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
+ 		return;
+ 	}
+@@ -359,7 +360,7 @@ static enum tpg_quality vivid_get_quality(struct vivid_dev *dev, s32 *afc)
+ enum tpg_video_aspect vivid_get_video_aspect(const struct vivid_dev *dev)
+ {
+ 	if (vivid_is_sdtv_cap(dev))
+-		return dev->std_aspect_ratio;
++		return dev->std_aspect_ratio[dev->input];
+ 
+ 	if (vivid_is_hdmi_cap(dev))
+ 		return dev->dv_timings_aspect_ratio[dev->input];
+@@ -370,7 +371,7 @@ enum tpg_video_aspect vivid_get_video_aspect(const struct vivid_dev *dev)
+ static enum tpg_pixel_aspect vivid_get_pixel_aspect(const struct vivid_dev *dev)
+ {
+ 	if (vivid_is_sdtv_cap(dev))
+-		return (dev->std_cap & V4L2_STD_525_60) ?
++		return (dev->std_cap[dev->input] & V4L2_STD_525_60) ?
+ 			TPG_PIXEL_ASPECT_NTSC : TPG_PIXEL_ASPECT_PAL;
+ 
+ 	if (vivid_is_hdmi_cap(dev) &&
+@@ -404,7 +405,7 @@ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
+ 	case SVID:
+ 		dev->field_cap = dev->tv_field_cap;
+ 		dev->src_rect.width = 720;
+-		if (dev->std_cap & V4L2_STD_525_60) {
++		if (dev->std_cap[dev->input] & V4L2_STD_525_60) {
+ 			dev->src_rect.height = 480;
+ 			dev->timeperframe_vid_cap = (struct v4l2_fract) { 1001, 30000 };
+ 			dev->service_set_cap = V4L2_SLICED_CAPTION_525;
+@@ -587,7 +588,7 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
+ 		h = sz->height;
+ 	} else if (vivid_is_sdtv_cap(dev)) {
+ 		w = 720;
+-		h = (dev->std_cap & V4L2_STD_525_60) ? 480 : 576;
++		h = (dev->std_cap[dev->input] & V4L2_STD_525_60) ? 480 : 576;
+ 	} else {
+ 		w = dev->src_rect.width;
+ 		h = dev->src_rect.height;
+@@ -1323,9 +1324,9 @@ int vidioc_enum_input(struct file *file, void *priv,
+ 	if (dev->sensor_vflip)
+ 		inp->status |= V4L2_IN_ST_VFLIP;
+ 	if (dev->input == inp->index && vivid_is_sdtv_cap(dev)) {
+-		if (dev->std_signal_mode == NO_SIGNAL) {
++		if (dev->std_signal_mode[dev->input] == NO_SIGNAL) {
+ 			inp->status |= V4L2_IN_ST_NO_SIGNAL;
+-		} else if (dev->std_signal_mode == NO_LOCK) {
++		} else if (dev->std_signal_mode[dev->input] == NO_LOCK) {
+ 			inp->status |= V4L2_IN_ST_NO_H_LOCK;
+ 		} else if (vivid_is_tv_cap(dev)) {
+ 			switch (tpg_g_quality(&dev->tpg)) {
+@@ -1415,11 +1416,20 @@ int vidioc_s_input(struct file *file, void *priv, unsigned i)
+ 	v4l2_ctrl_activate(dev->ctrl_dv_timings, vivid_is_hdmi_cap(dev) &&
+ 			   dev->dv_timings_signal_mode[dev->input] ==
+ 			   SELECTED_DV_TIMINGS);
++	v4l2_ctrl_activate(dev->ctrl_std_signal_mode, vivid_is_sdtv_cap(dev));
++	v4l2_ctrl_activate(dev->ctrl_standard, vivid_is_sdtv_cap(dev) &&
++			   dev->std_signal_mode[dev->input]);
++
+ 	if (vivid_is_hdmi_cap(dev)) {
+ 		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings_signal_mode,
+ 				 dev->dv_timings_signal_mode[dev->input]);
+ 		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings,
+ 				 dev->query_dv_timings[dev->input]);
++	} else if (vivid_is_sdtv_cap(dev)) {
++		v4l2_ctrl_s_ctrl(dev->ctrl_std_signal_mode,
++				 dev->std_signal_mode[dev->input]);
++		v4l2_ctrl_s_ctrl(dev->ctrl_standard,
++				 dev->std_signal_mode[dev->input]);
+ 	}
+ 
+ 	return 0;
+@@ -1515,7 +1525,7 @@ int vivid_video_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
+ 		vt->rxsubchans = V4L2_TUNER_SUB_MONO;
+ 	} else {
+ 		unsigned channel_nr = dev->tv_freq / (6 * 16);
+-		unsigned options = (dev->std_cap & V4L2_STD_NTSC_M) ? 4 : 3;
++		unsigned options = (dev->std_cap[dev->input] & V4L2_STD_NTSC_M) ? 4 : 3;
+ 
+ 		switch (channel_nr % options) {
+ 		case 0:
+@@ -1525,7 +1535,7 @@ int vivid_video_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
+ 			vt->rxsubchans = V4L2_TUNER_SUB_STEREO;
+ 			break;
+ 		case 2:
+-			if (dev->std_cap & V4L2_STD_NTSC_M)
++			if (dev->std_cap[dev->input] & V4L2_STD_NTSC_M)
+ 				vt->rxsubchans = V4L2_TUNER_SUB_MONO | V4L2_TUNER_SUB_SAP;
+ 			else
+ 				vt->rxsubchans = V4L2_TUNER_SUB_LANG1 | V4L2_TUNER_SUB_LANG2;
+@@ -1585,20 +1595,20 @@ int vidioc_querystd(struct file *file, void *priv, v4l2_std_id *id)
+ 
+ 	if (!vivid_is_sdtv_cap(dev))
+ 		return -ENODATA;
+-	if (dev->std_signal_mode == NO_SIGNAL ||
+-	    dev->std_signal_mode == NO_LOCK) {
++	if (dev->std_signal_mode[dev->input] == NO_SIGNAL ||
++	    dev->std_signal_mode[dev->input] == NO_LOCK) {
+ 		*id = V4L2_STD_UNKNOWN;
  		return 0;
- 	if (vb2_is_busy(&dev->vb_vid_cap_q))
- 		return -EBUSY;
+ 	}
+ 	if (vivid_is_tv_cap(dev) && tpg_g_quality(&dev->tpg) == TPG_QUAL_NOISE) {
+ 		*id = V4L2_STD_UNKNOWN;
+-	} else if (dev->std_signal_mode == CURRENT_STD) {
+-		*id = dev->std_cap;
+-	} else if (dev->std_signal_mode == SELECTED_STD) {
+-		*id = dev->query_std;
++	} else if (dev->std_signal_mode[dev->input] == CURRENT_STD) {
++		*id = dev->std_cap[dev->input];
++	} else if (dev->std_signal_mode[dev->input] == SELECTED_STD) {
++		*id = dev->query_std[dev->input];
+ 	} else {
+-		*id = vivid_standard[dev->query_std_last];
+-		dev->query_std_last = (dev->query_std_last + 1) % ARRAY_SIZE(vivid_standard);
++		*id = vivid_standard[dev->query_std_last[dev->input]];
++		dev->query_std_last[dev->input] = (dev->query_std_last[dev->input] + 1) % ARRAY_SIZE(vivid_standard);
+ 	}
  
--	dev->dv_timings_cap = *timings;
-+	dev->dv_timings_cap[dev->input] = *timings;
+ 	return 0;
+@@ -1610,11 +1620,11 @@ int vivid_vid_cap_s_std(struct file *file, void *priv, v4l2_std_id id)
+ 
+ 	if (!vivid_is_sdtv_cap(dev))
+ 		return -ENODATA;
+-	if (dev->std_cap == id)
++	if (dev->std_cap[dev->input] == id)
+ 		return 0;
+ 	if (vb2_is_busy(&dev->vb_vid_cap_q) || vb2_is_busy(&dev->vb_vbi_cap_q))
+ 		return -EBUSY;
+-	dev->std_cap = id;
++	dev->std_cap[dev->input] = id;
  	vivid_update_format_cap(dev, false);
  	return 0;
  }
-@@ -1690,26 +1706,31 @@ int vidioc_query_dv_timings(struct file *file, void *_fh,
- 				    struct v4l2_dv_timings *timings)
- {
- 	struct vivid_dev *dev = video_drvdata(file);
-+	unsigned input = dev->input;
- 
- 	if (!vivid_is_hdmi_cap(dev))
- 		return -ENODATA;
--	if (dev->dv_timings_signal_mode == NO_SIGNAL ||
-+	if (dev->dv_timings_signal_mode[input] == NO_SIGNAL ||
- 	    dev->edid_blocks == 0)
- 		return -ENOLINK;
--	if (dev->dv_timings_signal_mode == NO_LOCK)
-+	if (dev->dv_timings_signal_mode[input] == NO_LOCK)
- 		return -ENOLCK;
--	if (dev->dv_timings_signal_mode == OUT_OF_RANGE) {
-+	if (dev->dv_timings_signal_mode[input] == OUT_OF_RANGE) {
- 		timings->bt.pixelclock = vivid_dv_timings_cap.bt.max_pixelclock * 2;
- 		return -ERANGE;
- 	}
--	if (dev->dv_timings_signal_mode == CURRENT_DV_TIMINGS) {
--		*timings = dev->dv_timings_cap;
--	} else if (dev->dv_timings_signal_mode == SELECTED_DV_TIMINGS) {
--		*timings = v4l2_dv_timings_presets[dev->query_dv_timings];
-+	if (dev->dv_timings_signal_mode[input] == CURRENT_DV_TIMINGS) {
-+		*timings = dev->dv_timings_cap[input];
-+	} else if (dev->dv_timings_signal_mode[input] ==
-+		   SELECTED_DV_TIMINGS) {
-+		*timings =
-+			v4l2_dv_timings_presets[dev->query_dv_timings[input]];
- 	} else {
--		*timings = v4l2_dv_timings_presets[dev->query_dv_timings_last];
--		dev->query_dv_timings_last = (dev->query_dv_timings_last + 1) %
--						dev->query_dv_timings_size;
-+		*timings =
-+			v4l2_dv_timings_presets[dev->query_dv_timings_last[input]];
-+		dev->query_dv_timings_last[input] =
-+			(dev->query_dv_timings_last[input] + 1) %
-+			dev->query_dv_timings_size;
- 	}
- 	return 0;
- }
 diff --git a/drivers/media/platform/vivid/vivid-vid-common.c b/drivers/media/platform/vivid/vivid-vid-common.c
-index 9307ce1cdd16..98c0e5b4d391 100644
+index 98c0e5b4d391..10a344c29a1a 100644
 --- a/drivers/media/platform/vivid/vivid-vid-common.c
 +++ b/drivers/media/platform/vivid/vivid-vid-common.c
-@@ -823,7 +823,7 @@ int vidioc_g_dv_timings(struct file *file, void *_fh,
+@@ -645,7 +645,7 @@ bool vivid_vid_can_loop(struct vivid_dev *dev)
+ 	    dev->field_cap == V4L2_FIELD_SEQ_BT)
+ 		return false;
+ 	if (vivid_is_svid_cap(dev) && vivid_is_svid_out(dev)) {
+-		if (!(dev->std_cap & V4L2_STD_525_60) !=
++		if (!(dev->std_cap[dev->input] & V4L2_STD_525_60) !=
+ 		    !(dev->std_out & V4L2_STD_525_60))
+ 			return false;
+ 		return true;
+@@ -805,7 +805,7 @@ int vidioc_g_std(struct file *file, void *priv, v4l2_std_id *id)
  	if (vdev->vfl_dir == VFL_DIR_RX) {
- 		if (!vivid_is_hdmi_cap(dev))
+ 		if (!vivid_is_sdtv_cap(dev))
  			return -ENODATA;
--		*timings = dev->dv_timings_cap;
-+		*timings = dev->dv_timings_cap[dev->input];
+-		*id = dev->std_cap;
++		*id = dev->std_cap[dev->input];
  	} else {
- 		if (!vivid_is_hdmi_out(dev))
+ 		if (!vivid_is_svid_out(dev))
  			return -ENODATA;
 -- 
 2.19.1
