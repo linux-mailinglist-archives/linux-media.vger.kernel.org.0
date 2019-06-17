@@ -2,64 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DEFF47D3F
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 10:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D63847D42
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 10:37:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727800AbfFQIhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 04:37:08 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:43997 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725837AbfFQIhG (ORCPT
+        id S1727688AbfFQIh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 04:37:27 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46548 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727507AbfFQIh0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 04:37:06 -0400
-Received: by mail-lj1-f194.google.com with SMTP id 16so8404675ljv.10
-        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2019 01:37:04 -0700 (PDT)
+        Mon, 17 Jun 2019 04:37:26 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v24so8408373ljg.13
+        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2019 01:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1t397wHVI5ZNALcSXhk1nacawojdv2GANgE2+/C/lrk=;
-        b=TsdfradKQQ05GRFtFroQtR18VGuUsdZ8Ef4vutW+jvbv/tStv5tn9N7/CSI5qjdl1W
-         vq2EBs2sf7XmzSJkyeBUp1wh195LybQsjS7YCj5gJX6DVX8uwQ10FHPgSQ/9jBjvWtpB
-         soncHi954l+uz3w0t9xMwSUM/WrQ2ANZp07v5u/jYEb9DO0HB74PRYnx0LSkWg6073kN
-         1/zfgFNEgRSLkx6ETC4Jmly1hlazmgvK7Ml6Nkp4LEMl+I21vVKeiCjDCQswTlCSF6qT
-         Ot3/fOyzRUjD9SUhZF6Vc8t+GapYSm8wCOfZyeZ6xo1lUpNP4z23rUAkpWusfeI2tX8c
-         yamg==
+        bh=9UinEXsIbpK3wx3OqojQUNmGsRhZ0KY9zjpPR/n5vUE=;
+        b=PoscBMO/huTZRNmeybr5BrP6Sl6o4yayI1rLz/3zDwaVSZTdBTIQDug4SJZMvRo0XH
+         S3ywmEfy9OzDC5eqlkMAIL2tR4eEcWd4ckIJI7inPb3usK6zh5KLkCAtkJGfTGXaoDSe
+         1wzV4ltbrcqStTExOWDVnytCE03TaKn7ad0nhj6aaLY/ubltUbq3uyt4eJ3TnolPa3Jy
+         2kgtpwIMb4TfE8WrJt8Hpou8XU4VYBd/7UrffdDAsyFPxICYEVMeMeYh5RUNeOqpNHPv
+         N4tvPTPWGeVol8cFK+dyZKxmwL8qtMr+JUZ6iGmKQF9vwiJDE+zTzIcHea3dBeL+gtpW
+         +Lew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1t397wHVI5ZNALcSXhk1nacawojdv2GANgE2+/C/lrk=;
-        b=Lpn+Ns8rt3KGhXGxZh73IS/MjNRzHvqY+zvy5CJ18V1QvB+4suLDRNdi3R4mG3Pzwc
-         lhnBVzgHNnRQFlVZPFs07nYJDqPNhiYYzhXHU7MozFFSyvofzVD+c3LgwbaAHpmTSbKE
-         UCSwijYyrNu6coR9DvU7wX4xfv9+j1I7BlEOfp7YuVv97zyfgReIEM+xV+o1aAeta9IC
-         GjQ948J6JMUf8Csp+uMLUfP1Vd7Rw7Rc/1DzRb1gg6g97yu/9aI1x6QQktOsnTr8za1P
-         3WZgVL5vi03RnbjfAm2TRQbRxohQiHRsSKCaXhzHShPmW5mhgGoaZnNnIltre5XPBS+m
-         0xAQ==
-X-Gm-Message-State: APjAAAWQd8F8A+YwTWejU+8yHlMt1/Zq3bMX5zZ+n/6nVLkBRQiQEFiQ
-        Nh47TUy3y2klgEVLBQyUN5sE8g==
-X-Google-Smtp-Source: APXvYqwuI7QluNPFP2mma7scZggW3BzbiuTdonR73HjPRCl/98WoZfQEt+sDgHch0mQH0RQJlUsFRg==
-X-Received: by 2002:a2e:b047:: with SMTP id d7mr11082859ljl.8.1560760623861;
-        Mon, 17 Jun 2019 01:37:03 -0700 (PDT)
+        bh=9UinEXsIbpK3wx3OqojQUNmGsRhZ0KY9zjpPR/n5vUE=;
+        b=umNhQ284VKCtwt9OfomhQKPrsXsuJwlF8wc1sDMyEUlxhM49ASyGg03kU2ImOmzv+b
+         zmP9aF+o6ZKLSV2zbQnYC+aXaAaKTYlJexWwNA5zKFzZ0MAzNyI1/TzuRWZtZ5rq6PCA
+         nNf8CeudaC0XPU8ppeA4ETBg/yeLCXLHSUYKBPaFWp5x1kyB7aQ79bEk8fDyS/yAyZ0D
+         Re1NGA7TcatVSd8WIvLRL2Ef1NpfyJdLY4AslVL82vyGU8rv/bxGK4Jf9MKg0k+H0kEt
+         3nR3XbfJML/w7Jdlewzulq6ee7c1AQhf/8tZVmjWKdsjJiG6XnTAZKqTXUgVv+lvazFk
+         awjg==
+X-Gm-Message-State: APjAAAXs3OJnvZk8Wz3yElndqPrR6pwir3BRRAFc6U1Was0CkBFTIzx4
+        PNYuLTlxaD/r3+xUaD1unWwBKw==
+X-Google-Smtp-Source: APXvYqybk7Qtggv79wuZMqJx1e8wEyml7YAoNf9TF3Kg+1embvOJhQhXRmXdeEU0bfSWwxXElOVTrQ==
+X-Received: by 2002:a2e:9a19:: with SMTP id o25mr47105958lji.63.1560760643818;
+        Mon, 17 Jun 2019 01:37:23 -0700 (PDT)
 Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id p27sm1686189lfo.16.2019.06.17.01.37.02
+        by smtp.googlemail.com with ESMTPSA id b9sm2009833ljj.92.2019.06.17.01.37.22
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 01:37:03 -0700 (PDT)
-Subject: Re: [PATCH 1/5] media: venus: Add codec data table
+        Mon, 17 Jun 2019 01:37:23 -0700 (PDT)
+Subject: Re: [PATCH 2/5] media: venus: Initialize codec data
 To:     Aniket Masule <amasule@codeaurora.org>,
         linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org
 References: <1560233130-27264-1-git-send-email-amasule@codeaurora.org>
- <1560233130-27264-2-git-send-email-amasule@codeaurora.org>
+ <1560233130-27264-3-git-send-email-amasule@codeaurora.org>
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <bc6035d8-2688-f79a-068e-bf6630dd65ef@linaro.org>
-Date:   Mon, 17 Jun 2019 11:37:00 +0300
+Message-ID: <43e8022f-d231-8c36-0db8-9710a1adaabc@linaro.org>
+Date:   Mon, 17 Jun 2019 11:37:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560233130-27264-2-git-send-email-amasule@codeaurora.org>
+In-Reply-To: <1560233130-27264-3-git-send-email-amasule@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -71,104 +71,108 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Aniket,
 
 On 6/11/19 9:05 AM, Aniket Masule wrote:
-> Add vpp cycles for for different types of codec
-> It indicates the cycles required by video hardware
-> to process each macroblock.
+> Initialize the codec data with core resources.
+
+Please squash this patch in 1/5 patch.
+
 > 
 > Signed-off-by: Aniket Masule <amasule@codeaurora.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c | 13 +++++++++++++
->  drivers/media/platform/qcom/venus/core.h | 15 +++++++++++++++
->  2 files changed, 28 insertions(+)
+>  drivers/media/platform/qcom/venus/helpers.c | 30 +++++++++++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/helpers.h |  1 +
+>  drivers/media/platform/qcom/venus/vdec.c    |  4 ++++
+>  drivers/media/platform/qcom/venus/venc.c    |  4 ++++
+>  4 files changed, 39 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 7393667..43eb446 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -473,9 +473,22 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
->  	{  244800, 100000000 },	/* 1920x1080@30 */
->  };
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 5cad601..f7f724b 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -715,6 +715,36 @@ int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
+>  }
+>  EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
 >  
-> +static struct codec_data sdm845_codec_data[] =  {
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200 },
-> +};
-> +
->  static const struct venus_resources sdm845_res = {
->  	.freq_tbl = sdm845_freq_table,
->  	.freq_tbl_size = ARRAY_SIZE(sdm845_freq_table),
-> +	.codec_data = sdm845_codec_data,
-> +	.codec_data_size = ARRAY_SIZE(sdm845_codec_data),
->  	.clks = {"core", "iface", "bus" },
->  	.clks_num = 3,
->  	.max_load = 2563200,
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 7a3feb5..b1a9b43 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -35,12 +35,20 @@ struct reg_val {
->  	u32 value;
->  };
->  
-> +struct codec_data {
-
-The name is very generic, could you rename the structure to something
-like vpp_cycles_data?
-
-> +u32 pixfmt;
-> +u32 session_type;
-> +int vpp_cycles;
-
-please check your editor, those fields should have a tab to the right.
-
-> +};
-> +
->  struct venus_resources {
->  	u64 dma_mask;
->  	const struct freq_tbl *freq_tbl;
->  	unsigned int freq_tbl_size;
->  	const struct reg_val *reg_tbl;
->  	unsigned int reg_tbl_size;
+> +int venus_helper_init_codec_data(struct venus_inst *inst)
+> +{
 > +	const struct codec_data *codec_data;
-> +	unsigned int codec_data_size;
->  	const char * const clks[VIDC_CLKS_NUM_MAX];
->  	unsigned int clks_num;
->  	enum hfi_version hfi_version;
-> @@ -216,6 +224,12 @@ struct venus_buffer {
->  	struct list_head ref_list;
->  };
->  
-> +struct clock_data {
-> +	u32 core_id;
-> +	unsigned long freq;
+> +	unsigned int i, codec_data_size;
+> +	u32 pixfmt;
+> +	int ret = 0;
+> +
+> +	if (!IS_V4(inst->core))
+> +		return 0;
+> +
+> +	codec_data = inst->core->res->codec_data;
+> +	codec_data_size = inst->core->res->codec_data_size;
+> +	pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
+> +			inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+> +
+> +	for (i = 0; i < codec_data_size; i++) {
+> +		if (codec_data[i].pixfmt == pixfmt &&
+> +		    codec_data[i].session_type == inst->session_type) {
+> +			inst->clk_data.codec_data = &codec_data[i];
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!inst->clk_data.codec_data)
+> +		ret = -EINVAL;
 
-I cannot see how this 'freq' structure field is used? I can see that you
-fill it in 3/5 patch but you don't used nowhere.
-
-> +	struct codec_data *codec_data;
-> +};
-
-Having the fact that freq field seems not needed can we just merge the
-fields in venus_inst structure?
+just return -EINVAL
 
 > +
->  #define to_venus_buffer(ptr)	container_of(ptr, struct venus_buffer, vb)
+> +	return ret;
+
+return 0 is enough, and that will avoid ret variable.
+
+> +}
+> +EXPORT_SYMBOL_GPL(venus_helper_init_codec_data);
+> +
+>  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+>  			      unsigned int output_bufs,
+>  			      unsigned int output2_bufs)
+> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+> index 2475f284..f9360a8 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.h
+> +++ b/drivers/media/platform/qcom/venus/helpers.h
+> @@ -41,6 +41,7 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
+>  				       unsigned int width, unsigned int height,
+>  				       u32 buftype);
+>  int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+> +int venus_helper_init_codec_data(struct venus_inst *inst);
+>  int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage);
+>  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+>  			      unsigned int output_bufs,
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 282de21..51795fd 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -660,6 +660,10 @@ static int vdec_init_session(struct venus_inst *inst)
+>  	if (ret)
+>  		goto deinit;
 >  
->  /**
-> @@ -275,6 +289,7 @@ struct venus_inst {
->  	struct list_head list;
->  	struct mutex lock;
->  	struct venus_core *core;
-> +	struct clock_data clk_data;
->  	struct list_head dpbbufs;
->  	struct list_head internalbufs;
->  	struct list_head registeredbufs;
+> +	ret = venus_helper_init_codec_data(inst);
+> +	if (ret)
+> +		goto deinit;
+> +
+>  	return 0;
+>  deinit:
+>  	hfi_session_deinit(inst);
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 32cff29..792cdce 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -847,6 +847,10 @@ static int venc_init_session(struct venus_inst *inst)
+>  	if (ret)
+>  		goto deinit;
+>  
+> +	ret = venus_helper_init_codec_data(inst);
+> +	if (ret)
+> +		goto deinit;
+> +
+>  	ret = venc_set_properties(inst);
+>  	if (ret)
+>  		goto deinit;
 > 
 
 -- 
