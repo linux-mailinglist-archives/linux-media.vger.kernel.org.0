@@ -2,276 +2,736 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8DB0483D6
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 15:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87EB7483F4
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 15:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726432AbfFQNXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 09:23:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54092 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727763AbfFQNXW (ORCPT
+        id S1727502AbfFQNbH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 09:31:07 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47577 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725884AbfFQNbH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 09:23:22 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E9FA82639EE;
-        Mon, 17 Jun 2019 14:23:19 +0100 (BST)
-Date:   Mon, 17 Jun 2019 15:23:17 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Pawel Osciak <posciak@chromium.org>
-Subject: Re: [PATCH 1/2] media: uapi: Add VP8 stateless decoder API
-Message-ID: <20190617152310.299d60e8@collabora.com>
-In-Reply-To: <20190613151040.8971-2-ezequiel@collabora.com>
-References: <20190613151040.8971-1-ezequiel@collabora.com>
-        <20190613151040.8971-2-ezequiel@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 17 Jun 2019 09:31:07 -0400
+Received: from [IPv6:2001:983:e9a7:1:9450:c90a:3140:14fc] ([IPv6:2001:983:e9a7:1:9450:c90a:3140:14fc])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id crivhv9XC5qKacriwhX96Y; Mon, 17 Jun 2019 15:31:03 +0200
+Subject: Re: [PATCH v1 3/4] staging: media: tegra-vde: Add IOMMU support
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+References: <20190602213712.26857-1-digetx@gmail.com>
+ <20190602213712.26857-7-digetx@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5c274249-6c88-b4bd-70fe-0751f5bbfdfc@xs4all.nl>
+Date:   Mon, 17 Jun 2019 15:31:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190602213712.26857-7-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGO2sYsTtoUbdZyiLlFooBD6+IPAOTQMFVpn4QgvtveaGcUOR4S0O30PSjRTmyPmKTAbXYkYOmnP+4XHgXfw+bGcaDNBFdn4/waA9eEgP6d7AnZxjRL6
+ g0mIuYcDG7I+sPaKhqyjfctKmVXIxQYbBrhuxpaph9/K1R5gPpx5APPW2YPKy9BjVKOeJm1luk1BTXXHD4ZC+2BW8KhYhBk63zorVYn/BiWu6CzVyoaXsP9d
+ stGWa0x9xdg1n88hNVaU2Nkw+NMPS4RsvSZuMFlIRcycNYvJHculpOOtT7xS5G2jHOwR9lS+x9dwPJUJ2BG0wY605NpwU6Ac3PfT/5laryx4AqlXjxNm5wJ5
+ 5qBxxSWrceL0cL63JXtR0tmXfKH9yEjN41jynjg9ZS7xoI5S14rG5bXOJuoGHwYZ9nXUORKq0EpXRWKADb6EU/ArYx9p+/RPLEKFR7ed0lKpY6MsC9k7Ge4D
+ RjkeSNvIuZ3hapWFoBTSJ+ZLNZtpJgVflaBVVrVy5pWJhkkXjJGTYfsF7ojou5OvVseIzs6SzB5kSi/hVYEFn0krZT97Z5oNtR+dnQs15J4cbCLcPv9YbnbN
+ kXk=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 13 Jun 2019 12:10:39 -0300
-Ezequiel Garcia <ezequiel@collabora.com> wrote:
-
-> From: Pawel Osciak <posciak@chromium.org>
+On 6/2/19 11:37 PM, Dmitry Osipenko wrote:
+> All Tegra's could provide memory isolation for the video decoder
+> hardware using IOMMU, it is also required for Tegra30+ in order
+> to handle sparse dmabuf's which GPU exports in a default kernel
+> configuration.
 > 
-> Add the parsed VP8 frame pixel format and controls, to be used
-> with the new stateless decoder API for VP8 to provide parameters
-> for accelerator (aka stateless) codecs.
-> 
-> Signed-off-by: Pawel Osciak <posciak@chromium.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> --
-> Changes from RFC:
-> * Make sure the uAPI has the same size on x86, x86_64, arm and arm64.
-> * Move entropy coder state fields to a struct.
-> * Move key_frame field to the flags.
-> * Remove unneeded first_part_offset field.
-> * Add documentation.
+> Inspired-by: Thierry Reding <thierry.reding@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  Documentation/media/uapi/v4l/biblio.rst       |  10 +
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 311 ++++++++++++++++++
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  20 ++
->  drivers/media/v4l2-core/v4l2-ctrls.c          |   8 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  include/media/v4l2-ctrls.h                    |   3 +
->  include/media/vp8-ctrls.h                     | 110 +++++++
->  7 files changed, 463 insertions(+)
->  create mode 100644 include/media/vp8-ctrls.h
+>  drivers/staging/media/tegra-vde/Kconfig       |   1 +
+>  drivers/staging/media/tegra-vde/Makefile      |   1 +
+>  drivers/staging/media/tegra-vde/iommu.c       | 148 ++++++++++++++
+>  drivers/staging/media/tegra-vde/trace.h       |   1 +
+>  .../media/tegra-vde/{tegra-vde.c => vde.c}    | 188 +++++++++---------
+>  drivers/staging/media/tegra-vde/vde.h         |  89 +++++++++
+>  6 files changed, 335 insertions(+), 93 deletions(-)
+>  create mode 100644 drivers/staging/media/tegra-vde/iommu.c
+>  rename drivers/staging/media/tegra-vde/{tegra-vde.c => vde.c} (91%)
+>  create mode 100644 drivers/staging/media/tegra-vde/vde.h
 > 
-> diff --git a/Documentation/media/uapi/v4l/biblio.rst b/Documentation/media/uapi/v4l/biblio.rst
-> index 8f4eb8823d82..ad2ff258afa8 100644
-> --- a/Documentation/media/uapi/v4l/biblio.rst
-> +++ b/Documentation/media/uapi/v4l/biblio.rst
-> @@ -395,3 +395,13 @@ colimg
->  :title:     Color Imaging: Fundamentals and Applications
->  
->  :author:    Erik Reinhard et al.
-> +
-> +.. _vp8:
-> +
-> +VP8
-> +===
-> +
-> +
-> +:title:     RFC 6386: "VP8 Data Format and Decoding Guide"
-> +
-> +:author:    J. Bankoski et al.
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> index d6ea2ffd65c5..7a1947f5be96 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> @@ -2234,6 +2234,317 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      Quantization parameter for a P frame for FWHT. Valid range: from 1
->      to 31.
->  
-> +.. _v4l2-mpeg-vp8:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR (struct)``
-> +    Specifies the frame parameters for the associated VP8 parsed frame data.
-> +    This includes the necessary parameters for
-> +    configuring a stateless hardware decoding pipeline for VP8.
-> +    The bitstream parameters are defined according to :ref:`vp8`.
-> +
-> +    .. note::
-> +
-> +       This compound control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_ctrl_vp8_frame_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_vp8_frame_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``version``
-> +      - Bitstream version.
-> +    * - __u16
-> +      - ``width``
-> +      - The width of the frame
-
-Nit: sometimes you finish your description with a final dot sometimes
-not. It's probably better to make that consistent.
-
-
-[...]
-
-> diff --git a/include/media/vp8-ctrls.h b/include/media/vp8-ctrls.h
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ff8e846cd15d..2e7f644ae591 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -3,6 +3,7 @@ config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+>  	depends on ARCH_TEGRA || COMPILE_TEST
+>  	select DMA_SHARED_BUFFER
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> diff --git a/drivers/staging/media/tegra-vde/Makefile b/drivers/staging/media/tegra-vde/Makefile
+> index 7f9020e634f3..c11867e28233 100644
+> --- a/drivers/staging/media/tegra-vde/Makefile
+> +++ b/drivers/staging/media/tegra-vde/Makefile
+> @@ -1,2 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +tegra-vde-y := vde.o iommu.o
+>  obj-$(CONFIG_TEGRA_VDE)	+= tegra-vde.o
+> diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
 > new file mode 100644
-> index 000000000000..3b0dcc125e25
+> index 000000000000..295c3d7cccd3
 > --- /dev/null
-> +++ b/include/media/vp8-ctrls.h
-> @@ -0,0 +1,110 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +++ b/drivers/staging/media/tegra-vde/iommu.c
+> @@ -0,0 +1,148 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * These are the VP8 state controls for use with stateless VP8
-> + * codec drivers.
+> + * NVIDIA Tegra Video decoder driver
 > + *
-> + * It turns out that these structs are not stable yet and will undergo
-> + * more changes. So keep them private until they are stable and ready to
-> + * become part of the official public API.
+> + * Copyright (C) 2016-2019 GRATE-DRIVER project
 > + */
 > +
-> +#ifndef _VP8_CTRLS_H_
-> +#define _VP8_CTRLS_H_
+> +#include <linux/iommu.h>
+> +#include <linux/iova.h>
+> +#include <linux/kernel.h>
+> +#include <linux/platform_device.h>
 > +
-> +#include <linux/v4l2-controls.h>
-> +
-> +#define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F') /* VP8 parsed frames */
-> +
-> +#define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR (V4L2_CID_MPEG_BASE + 2000)
-> +#define V4L2_CTRL_TYPE_VP8_FRAME_HDR 0x301
-> +
-> +#define V4L2_VP8_SEGMNT_HDR_FLAG_ENABLED              0x01
-> +#define V4L2_VP8_SEGMNT_HDR_FLAG_UPDATE_MAP           0x02
-> +#define V4L2_VP8_SEGMNT_HDR_FLAG_UPDATE_FEATURE_DATA  0x04
-> +
-> +struct v4l2_vp8_segment_header {
-> +	__u8 segment_feature_mode;
-> +	__s8 quant_update[4];
-> +	__s8 lf_update[4];
-> +	__u8 segment_probs[3];
-> +	__u32 flags;
-> +};
-> +
-> +#define V4L2_VP8_LF_HDR_ADJ_ENABLE	0x01
-> +#define V4L2_VP8_LF_HDR_DELTA_UPDATE	0x02
-> +struct v4l2_vp8_loopfilter_header {
-> +	__u16 type;
-> +	__u8 level;
-> +	__u8 sharpness_level;
-> +	__s8 ref_frm_delta_magnitude[4];
-> +	__s8 mb_mode_delta_magnitude[4];
-> +	__u16 flags;
-> +};
-> +
-> +struct v4l2_vp8_quantization_header {
-> +	__u8 y_ac_qi;
-> +	__s8 y_dc_delta;
-> +	__s8 y2_dc_delta;
-> +	__s8 y2_ac_delta;
-> +	__s8 uv_dc_delta;
-> +	__s8 uv_ac_delta;
-
-Don't know what the policy in V4L, but it's usually a good thing to
-have structs used to exchange data with userspace aligned on 64-bits.
-Maybe you can add 2 padding bytes here. Note that the compiler might
-anyway add padding to align struct fields to their natural alignment in
-v4l2_ctrl_vp8_frame_header, so it's probably better to have these
-padding bytes explicitly defined and mandate that they be set to 0 so
-we can check them and complain when they're not 0.
-
-> +	__u16 dequant_factors[4][3][2];
-> +};
-> +
-> +struct v4l2_vp8_entropy_header {
-> +	__u8 coeff_probs[4][8][3][11];
-> +	__u8 y_mode_probs[4];
-> +	__u8 uv_mode_probs[3];
-> +	__u8 mv_probs[2][19];
-
-Same here
-
-> +};
-> +
-> +struct v4l2_vp8_entropy_coder_state {
-> +	__u8 range;
-> +	__u8 value;
-> +	__u8 bit_count;
-
-and here.
-
-> +};
-> +
-> +#define V4L2_VP8_FRAME_HDR_FLAG_KEY_FRAME		0x01
-> +#define V4L2_VP8_FRAME_HDR_FLAG_EXPERIMENTAL		0x02
-> +#define V4L2_VP8_FRAME_HDR_FLAG_SHOW_FRAME		0x04
-> +#define V4L2_VP8_FRAME_HDR_FLAG_MB_NO_SKIP_COEFF	0x08
-> +
-> +#define VP8_FRAME_IS_KEY_FRAME(hdr) (!!(hdr->flags & V4L2_VP8_FRAME_HDR_FLAG_KEY_FRAME))
-> +
-> +struct v4l2_ctrl_vp8_frame_header {
-> +	__u8 version;
-> +
-
-Maybe we should try to pack things so that the compiler does not
-implicitly add extra padding bytes. That implies trying to group u8
-fields by 2, 4 or 8 depending on what the next field natural alignment
-is.
-
-> +	/* Populated also if not a key frame */
-> +	__u16 width;
-> +	__u16 height;
-> +	__u8 horizontal_scale;
-> +	__u8 vertical_scale;
-> +
-> +	struct v4l2_vp8_segment_header segment_header;
-> +	struct v4l2_vp8_loopfilter_header lf_header;
-> +	struct v4l2_vp8_quantization_header quant_header;
-> +	struct v4l2_vp8_entropy_header entropy_header;
-> +
-> +	__u16 sign_bias_golden;
-> +	__u16 sign_bias_alternate;
-> +
-> +	__u8 prob_skip_false;
-> +	__u8 prob_intra;
-> +	__u8 prob_last;
-> +	__u8 prob_gf;
-> +
-> +	__u32 first_part_size;
-> +	__u32 macroblock_bit_offset;
-> +	__u32 dct_part_sizes[8];
-> +	__u8 num_dct_parts;
-> +
-> +	struct v4l2_vp8_entropy_coder_state coder_state;
-> +
-> +	__u64 last_frame_ts;
-> +	__u64 golden_frame_ts;
-> +	__u64 alt_frame_ts;
-> +
-> +	__u64 flags;
-> +};
-> +
+> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> +#include <asm/dma-iommu.h>
 > +#endif
+> +
+> +#include "vde.h"
+> +
+> +int tegra_vde_iommu_map(struct tegra_vde *vde,
+> +			struct sg_table *sgt,
+> +			struct iova **iovap,
+> +			dma_addr_t *addrp,
+> +			size_t size)
+> +{
+> +	struct iova *iova;
+> +	unsigned long shift;
+> +	unsigned long end;
+> +	dma_addr_t addr;
+> +
+> +	end = vde->domain->geometry.aperture_end;
+> +	size = iova_align(&vde->iova, size);
+> +	shift = iova_shift(&vde->iova);
+> +
+> +	iova = alloc_iova(&vde->iova, size >> shift, end >> shift, true);
+> +	if (!iova)
+> +		return -ENOMEM;
+> +
+> +	addr = iova_dma_addr(&vde->iova, iova);
+> +
+> +	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
+> +			    IOMMU_READ | IOMMU_WRITE);
+> +	if (!size) {
+> +		__free_iova(&vde->iova, iova);
+> +		return -ENXIO;
+> +	}
+> +
+> +	*iovap = iova;
+> +	*addrp = addr;
+> +
+> +	return 0;
+> +}
+> +
+> +void tegra_vde_iommu_unmap(struct tegra_vde *vde, struct iova *iova)
+> +{
+> +	unsigned long shift = iova_shift(&vde->iova);
+> +	unsigned long size = iova_size(iova) << shift;
+> +	dma_addr_t addr = iova_dma_addr(&vde->iova, iova);
+> +
+> +	iommu_unmap(vde->domain, addr, size);
+> +	__free_iova(&vde->iova, iova);
+> +}
+> +
+> +int tegra_vde_iommu_init(struct tegra_vde *vde)
+> +{
+> +	struct iova *iova;
+> +	unsigned long order;
+> +	unsigned long shift;
+> +	int err;
+> +
+> +	vde->group = iommu_group_get(vde->miscdev.parent);
+> +	if (!vde->group)
+> +		return 0;
+> +
+> +#if IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)
+> +	if (dev->archdata.mapping) {
+
+'dev' doesn't exist, so this fails to compile!
+
+Regards,
+
+	Hans
+
+> +		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
+> +
+> +		arm_iommu_detach_device(dev);
+> +		arm_iommu_release_mapping(mapping);
+> +	}
+> +#endif
+> +	vde->domain = iommu_domain_alloc(&platform_bus_type);
+> +	if (!vde->domain) {
+> +		err = -ENOMEM;
+> +		goto put_group;
+> +	}
+> +
+> +	err = iova_cache_get();
+> +	if (err)
+> +		goto free_domain;
+> +
+> +	order = __ffs(vde->domain->pgsize_bitmap);
+> +	init_iova_domain(&vde->iova, 1UL << order, 0);
+> +
+> +	err = iommu_attach_group(vde->domain, vde->group);
+> +	if (err)
+> +		goto put_iova;
+> +
+> +	/*
+> +	 * We're using some static addresses that are not accessible by VDE
+> +	 * to trap invalid memory accesses.
+> +	 */
+> +	shift = iova_shift(&vde->iova);
+> +	iova = reserve_iova(&vde->iova, 0x60000000 >> shift,
+> +			    0x70000000 >> shift);
+> +	if (!iova) {
+> +		err = -ENOMEM;
+> +		goto detach_group;
+> +	}
+> +
+> +	/*
+> +	 * BSEV's end addresses wraps around due to integer overflow on
+> +	 * hardware context set up if IOVA is allocated at the end of
+> +	 * address space and VDE can't handle that. Hence simply reserve
+> +	 * the last page to avoid the problem.
+> +	 */
+> +	iova = reserve_iova(&vde->iova, (0xffffffff >> shift) - 1,
+> +			    0xffffffff >> shift);
+> +	if (!iova) {
+> +		err = -ENOMEM;
+> +		goto detach_group;
+> +	}
+> +
+> +	return 0;
+> +
+> +detach_group:
+> +	iommu_detach_group(vde->domain, vde->group);
+> +put_iova:
+> +	put_iova_domain(&vde->iova);
+> +	iova_cache_put();
+> +free_domain:
+> +	iommu_domain_free(vde->domain);
+> +put_group:
+> +	iommu_group_put(vde->group);
+> +
+> +	return err;
+> +}
+> +
+> +void tegra_vde_iommu_deinit(struct tegra_vde *vde)
+> +{
+> +	if (vde->domain) {
+> +		iommu_detach_group(vde->domain, vde->group);
+> +		put_iova_domain(&vde->iova);
+> +		iova_cache_put();
+> +		iommu_domain_free(vde->domain);
+> +		iommu_group_put(vde->group);
+> +	}
+> +}
+> diff --git a/drivers/staging/media/tegra-vde/trace.h b/drivers/staging/media/tegra-vde/trace.h
+> index 85e2f7e2d4d0..c7e7d6f5fd4c 100644
+> --- a/drivers/staging/media/tegra-vde/trace.h
+> +++ b/drivers/staging/media/tegra-vde/trace.h
+> @@ -7,6 +7,7 @@
+>  #define TEGRA_VDE_TRACE_H
+>  
+>  #include <linux/tracepoint.h>
+> +#include "vde.h"
+>  
+>  DECLARE_EVENT_CLASS(register_access,
+>  	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
+> diff --git a/drivers/staging/media/tegra-vde/tegra-vde.c b/drivers/staging/media/tegra-vde/vde.c
+> similarity index 91%
+> rename from drivers/staging/media/tegra-vde/tegra-vde.c
+> rename to drivers/staging/media/tegra-vde/vde.c
+> index cc4244da2705..cbcdbfef072d 100644
+> --- a/drivers/staging/media/tegra-vde/tegra-vde.c
+> +++ b/drivers/staging/media/tegra-vde/vde.c
+> @@ -22,6 +22,10 @@
+>  #include <soc/tegra/pmc.h>
+>  
+>  #include "uapi.h"
+> +#include "vde.h"
+> +
+> +#define CREATE_TRACE_POINTS
+> +#include "trace.h"
+>  
+>  #define ICMDQUE_WR		0x00
+>  #define CMDQUE_CONTROL		0x08
+> @@ -33,6 +37,10 @@
+>  #define BSE_DMA_BUSY		BIT(23)
+>  
+>  struct video_frame {
+> +	struct iova *y_iova;
+> +	struct iova *cb_iova;
+> +	struct iova *cr_iova;
+> +	struct iova *aux_iova;
+>  	struct dma_buf_attachment *y_dmabuf_attachment;
+>  	struct dma_buf_attachment *cb_dmabuf_attachment;
+>  	struct dma_buf_attachment *cr_dmabuf_attachment;
+> @@ -49,63 +57,6 @@ struct video_frame {
+>  	u32 flags;
+>  };
+>  
+> -struct tegra_vde {
+> -	void __iomem *sxe;
+> -	void __iomem *bsev;
+> -	void __iomem *mbe;
+> -	void __iomem *ppe;
+> -	void __iomem *mce;
+> -	void __iomem *tfe;
+> -	void __iomem *ppb;
+> -	void __iomem *vdma;
+> -	void __iomem *frameid;
+> -	struct mutex lock;
+> -	struct miscdevice miscdev;
+> -	struct reset_control *rst;
+> -	struct reset_control *rst_mc;
+> -	struct gen_pool *iram_pool;
+> -	struct completion decode_completion;
+> -	struct clk *clk;
+> -	dma_addr_t iram_lists_addr;
+> -	u32 *iram;
+> -};
+> -
+> -static __maybe_unused char const *
+> -tegra_vde_reg_base_name(struct tegra_vde *vde, void __iomem *base)
+> -{
+> -	if (vde->sxe == base)
+> -		return "SXE";
+> -
+> -	if (vde->bsev == base)
+> -		return "BSEV";
+> -
+> -	if (vde->mbe == base)
+> -		return "MBE";
+> -
+> -	if (vde->ppe == base)
+> -		return "PPE";
+> -
+> -	if (vde->mce == base)
+> -		return "MCE";
+> -
+> -	if (vde->tfe == base)
+> -		return "TFE";
+> -
+> -	if (vde->ppb == base)
+> -		return "PPB";
+> -
+> -	if (vde->vdma == base)
+> -		return "VDMA";
+> -
+> -	if (vde->frameid == base)
+> -		return "FRAMEID";
+> -
+> -	return "???";
+> -}
+> -
+> -#define CREATE_TRACE_POINTS
+> -#include "trace.h"
+> -
+>  static void tegra_vde_writel(struct tegra_vde *vde,
+>  			     u32 value, void __iomem *base, u32 offset)
+>  {
+> @@ -543,28 +494,35 @@ static void tegra_vde_decode_frame(struct tegra_vde *vde,
+>  			 vde->sxe, 0x00);
+>  }
+>  
+> -static void tegra_vde_detach_and_put_dmabuf(struct dma_buf_attachment *a,
+> +static void tegra_vde_detach_and_put_dmabuf(struct tegra_vde *vde,
+> +					    enum dma_data_direction dma_dir,
+> +					    struct dma_buf_attachment *a,
+>  					    struct sg_table *sgt,
+> -					    enum dma_data_direction dma_dir)
+> +					    struct iova *iova)
+>  {
+>  	struct dma_buf *dmabuf = a->dmabuf;
+>  
+> +	if (vde->domain)
+> +		tegra_vde_iommu_unmap(vde, iova);
+> +
+>  	dma_buf_unmap_attachment(a, sgt, dma_dir);
+>  	dma_buf_detach(dmabuf, a);
+>  	dma_buf_put(dmabuf);
+>  }
+>  
+> -static int tegra_vde_attach_dmabuf(struct device *dev,
+> +static int tegra_vde_attach_dmabuf(struct tegra_vde *vde,
+>  				   int fd,
+>  				   unsigned long offset,
+>  				   size_t min_size,
+>  				   size_t align_size,
+>  				   struct dma_buf_attachment **a,
+> -				   dma_addr_t *addr,
+> +				   dma_addr_t *addrp,
+>  				   struct sg_table **s,
+> +				   struct iova **iovap,
+>  				   size_t *size,
+>  				   enum dma_data_direction dma_dir)
+>  {
+> +	struct device *dev = vde->miscdev.parent;
+>  	struct dma_buf_attachment *attachment;
+>  	struct dma_buf *dmabuf;
+>  	struct sg_table *sgt;
+> @@ -602,13 +560,23 @@ static int tegra_vde_attach_dmabuf(struct device *dev,
+>  		goto err_detach;
+>  	}
+>  
+> -	if (sgt->nents != 1) {
+> -		dev_err(dev, "Sparse DMA region is unsupported\n");
+> +	if (!vde->domain && sgt->nents > 1) {
+> +		dev_err(dev, "Sparse DMA region is unsupported, please enable IOMMU\n");
+>  		err = -EINVAL;
+>  		goto err_unmap;
+>  	}
+>  
+> -	*addr = sg_dma_address(sgt->sgl) + offset;
+> +	if (vde->domain) {
+> +		err = tegra_vde_iommu_map(vde, sgt, iovap, addrp, dmabuf->size);
+> +		if (err) {
+> +			dev_err(dev, "IOMMU mapping failed: %d\n", err);
+> +			goto err_unmap;
+> +		}
+> +	} else {
+> +		*addrp = sg_dma_address(sgt->sgl);
+> +	}
+> +
+> +	*addrp = *addrp + offset;
+>  	*a = attachment;
+>  	*s = sgt;
+>  
+> @@ -627,7 +595,7 @@ static int tegra_vde_attach_dmabuf(struct device *dev,
+>  	return err;
+>  }
+>  
+> -static int tegra_vde_attach_dmabufs_to_frame(struct device *dev,
+> +static int tegra_vde_attach_dmabufs_to_frame(struct tegra_vde *vde,
+>  					     struct video_frame *frame,
+>  					     struct tegra_vde_h264_frame *src,
+>  					     enum dma_data_direction dma_dir,
+> @@ -636,29 +604,32 @@ static int tegra_vde_attach_dmabufs_to_frame(struct device *dev,
+>  {
+>  	int err;
+>  
+> -	err = tegra_vde_attach_dmabuf(dev, src->y_fd,
+> +	err = tegra_vde_attach_dmabuf(vde, src->y_fd,
+>  				      src->y_offset, lsize, SZ_256,
+>  				      &frame->y_dmabuf_attachment,
+>  				      &frame->y_addr,
+>  				      &frame->y_sgt,
+> +				      &frame->y_iova,
+>  				      NULL, dma_dir);
+>  	if (err)
+>  		return err;
+>  
+> -	err = tegra_vde_attach_dmabuf(dev, src->cb_fd,
+> +	err = tegra_vde_attach_dmabuf(vde, src->cb_fd,
+>  				      src->cb_offset, csize, SZ_256,
+>  				      &frame->cb_dmabuf_attachment,
+>  				      &frame->cb_addr,
+>  				      &frame->cb_sgt,
+> +				      &frame->cb_iova,
+>  				      NULL, dma_dir);
+>  	if (err)
+>  		goto err_release_y;
+>  
+> -	err = tegra_vde_attach_dmabuf(dev, src->cr_fd,
+> +	err = tegra_vde_attach_dmabuf(vde, src->cr_fd,
+>  				      src->cr_offset, csize, SZ_256,
+>  				      &frame->cr_dmabuf_attachment,
+>  				      &frame->cr_addr,
+>  				      &frame->cr_sgt,
+> +				      &frame->cr_iova,
+>  				      NULL, dma_dir);
+>  	if (err)
+>  		goto err_release_cb;
+> @@ -668,11 +639,12 @@ static int tegra_vde_attach_dmabufs_to_frame(struct device *dev,
+>  		return 0;
+>  	}
+>  
+> -	err = tegra_vde_attach_dmabuf(dev, src->aux_fd,
+> +	err = tegra_vde_attach_dmabuf(vde, src->aux_fd,
+>  				      src->aux_offset, csize, SZ_256,
+>  				      &frame->aux_dmabuf_attachment,
+>  				      &frame->aux_addr,
+>  				      &frame->aux_sgt,
+> +				      &frame->aux_iova,
+>  				      NULL, dma_dir);
+>  	if (err)
+>  		goto err_release_cr;
+> @@ -680,34 +652,49 @@ static int tegra_vde_attach_dmabufs_to_frame(struct device *dev,
+>  	return 0;
+>  
+>  err_release_cr:
+> -	tegra_vde_detach_and_put_dmabuf(frame->cr_dmabuf_attachment,
+> -					frame->cr_sgt, dma_dir);
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->cr_dmabuf_attachment,
+> +					frame->cr_sgt,
+> +					frame->cr_iova);
+>  err_release_cb:
+> -	tegra_vde_detach_and_put_dmabuf(frame->cb_dmabuf_attachment,
+> -					frame->cb_sgt, dma_dir);
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->cb_dmabuf_attachment,
+> +					frame->cb_sgt,
+> +					frame->cb_iova);
+>  err_release_y:
+> -	tegra_vde_detach_and_put_dmabuf(frame->y_dmabuf_attachment,
+> -					frame->y_sgt, dma_dir);
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->y_dmabuf_attachment,
+> +					frame->y_sgt,
+> +					frame->y_iova);
+>  
+>  	return err;
+>  }
+>  
+> -static void tegra_vde_release_frame_dmabufs(struct video_frame *frame,
+> +static void tegra_vde_release_frame_dmabufs(struct tegra_vde *vde,
+> +					    struct video_frame *frame,
+>  					    enum dma_data_direction dma_dir,
+>  					    bool baseline_profile)
+>  {
+>  	if (!baseline_profile)
+> -		tegra_vde_detach_and_put_dmabuf(frame->aux_dmabuf_attachment,
+> -						frame->aux_sgt, dma_dir);
+> -
+> -	tegra_vde_detach_and_put_dmabuf(frame->cr_dmabuf_attachment,
+> -					frame->cr_sgt, dma_dir);
+> -
+> -	tegra_vde_detach_and_put_dmabuf(frame->cb_dmabuf_attachment,
+> -					frame->cb_sgt, dma_dir);
+> -
+> -	tegra_vde_detach_and_put_dmabuf(frame->y_dmabuf_attachment,
+> -					frame->y_sgt, dma_dir);
+> +		tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +						frame->aux_dmabuf_attachment,
+> +						frame->aux_sgt,
+> +						frame->aux_iova);
+> +
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->cr_dmabuf_attachment,
+> +					frame->cr_sgt,
+> +					frame->cr_iova);
+> +
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->cb_dmabuf_attachment,
+> +					frame->cb_sgt,
+> +					frame->cb_iova);
+> +
+> +	tegra_vde_detach_and_put_dmabuf(vde, dma_dir,
+> +					frame->y_dmabuf_attachment,
+> +					frame->y_sgt,
+> +					frame->y_iova);
+>  }
+>  
+>  static int tegra_vde_validate_frame(struct device *dev,
+> @@ -800,6 +787,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  	struct video_frame *dpb_frames;
+>  	struct dma_buf_attachment *bitstream_data_dmabuf_attachment;
+>  	struct sg_table *bitstream_sgt;
+> +	struct iova *bitstream_iova;
+>  	enum dma_data_direction dma_dir;
+>  	dma_addr_t bitstream_data_addr;
+>  	dma_addr_t bsev_ptr;
+> @@ -819,12 +807,13 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = tegra_vde_attach_dmabuf(dev, ctx.bitstream_data_fd,
+> +	ret = tegra_vde_attach_dmabuf(vde, ctx.bitstream_data_fd,
+>  				      ctx.bitstream_data_offset,
+>  				      SZ_16K, SZ_16K,
+>  				      &bitstream_data_dmabuf_attachment,
+>  				      &bitstream_data_addr,
+>  				      &bitstream_sgt,
+> +				      &bitstream_iova,
+>  				      &bitstream_data_size,
+>  				      DMA_TO_DEVICE);
+>  	if (ret)
+> @@ -866,7 +855,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  
+>  		dma_dir = (i == 0) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+>  
+> -		ret = tegra_vde_attach_dmabufs_to_frame(dev, &dpb_frames[i],
+> +		ret = tegra_vde_attach_dmabufs_to_frame(vde, &dpb_frames[i],
+>  							&frames[i], dma_dir,
+>  							ctx.baseline_profile,
+>  							lsize, csize);
+> @@ -954,7 +943,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  	while (i--) {
+>  		dma_dir = (i == 0) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
+>  
+> -		tegra_vde_release_frame_dmabufs(&dpb_frames[i], dma_dir,
+> +		tegra_vde_release_frame_dmabufs(vde, &dpb_frames[i], dma_dir,
+>  						ctx.baseline_profile);
+>  	}
+>  
+> @@ -965,8 +954,10 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  	kfree(frames);
+>  
+>  release_bitstream_dmabuf:
+> -	tegra_vde_detach_and_put_dmabuf(bitstream_data_dmabuf_attachment,
+> -					bitstream_sgt, DMA_TO_DEVICE);
+> +	tegra_vde_detach_and_put_dmabuf(vde, DMA_TO_DEVICE,
+> +					bitstream_data_dmabuf_attachment,
+> +					bitstream_sgt,
+> +					bitstream_iova);
+>  
+>  	return ret;
+>  }
+> @@ -1176,10 +1167,16 @@ static int tegra_vde_probe(struct platform_device *pdev)
+>  	vde->miscdev.fops = &tegra_vde_fops;
+>  	vde->miscdev.parent = dev;
+>  
+> +	err = tegra_vde_iommu_init(vde);
+> +	if (err) {
+> +		dev_err(dev, "Failed to initialize IOMMU: %d\n", err);
+> +		goto err_gen_free;
+> +	}
+> +
+>  	err = misc_register(&vde->miscdev);
+>  	if (err) {
+>  		dev_err(dev, "Failed to register misc device: %d\n", err);
+> -		goto err_gen_free;
+> +		goto err_deinit_iommu;
+>  	}
+>  
+>  	pm_runtime_enable(dev);
+> @@ -1197,6 +1194,9 @@ static int tegra_vde_probe(struct platform_device *pdev)
+>  err_misc_unreg:
+>  	misc_deregister(&vde->miscdev);
+>  
+> +err_deinit_iommu:
+> +	tegra_vde_iommu_deinit(vde);
+> +
+>  err_gen_free:
+>  	gen_pool_free(vde->iram_pool, (unsigned long)vde->iram,
+>  		      gen_pool_size(vde->iram_pool));
+> @@ -1221,6 +1221,8 @@ static int tegra_vde_remove(struct platform_device *pdev)
+>  
+>  	misc_deregister(&vde->miscdev);
+>  
+> +	tegra_vde_iommu_deinit(vde);
+> +
+>  	gen_pool_free(vde->iram_pool, (unsigned long)vde->iram,
+>  		      gen_pool_size(vde->iram_pool));
+>  
+> diff --git a/drivers/staging/media/tegra-vde/vde.h b/drivers/staging/media/tegra-vde/vde.h
+> new file mode 100644
+> index 000000000000..37414b7fdee1
+> --- /dev/null
+> +++ b/drivers/staging/media/tegra-vde/vde.h
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * NVIDIA Tegra Video decoder driver
+> + *
+> + * Copyright (C) 2016-2019 GRATE-DRIVER project
+> + */
+> +
+> +#ifndef TEGRA_VDE_H
+> +#define TEGRA_VDE_H
+> +
+> +#include <linux/completion.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/mutex.h>
+> +#include <linux/types.h>
+> +#include <linux/iova.h>
+> +
+> +struct clk;
+> +struct gen_pool;
+> +struct iommu_group;
+> +struct iommu_domain;
+> +struct reset_control;
+> +
+> +struct tegra_vde {
+> +	void __iomem *sxe;
+> +	void __iomem *bsev;
+> +	void __iomem *mbe;
+> +	void __iomem *ppe;
+> +	void __iomem *mce;
+> +	void __iomem *tfe;
+> +	void __iomem *ppb;
+> +	void __iomem *vdma;
+> +	void __iomem *frameid;
+> +	struct mutex lock;
+> +	struct miscdevice miscdev;
+> +	struct reset_control *rst;
+> +	struct reset_control *rst_mc;
+> +	struct gen_pool *iram_pool;
+> +	struct completion decode_completion;
+> +	struct clk *clk;
+> +	struct iommu_domain *domain;
+> +	struct iommu_group *group;
+> +	struct iova_domain iova;
+> +	dma_addr_t iram_lists_addr;
+> +	u32 *iram;
+> +};
+> +
+> +int tegra_vde_iommu_init(struct tegra_vde *vde);
+> +void tegra_vde_iommu_deinit(struct tegra_vde *vde);
+> +int tegra_vde_iommu_map(struct tegra_vde *vde,
+> +			struct sg_table *sgt,
+> +			struct iova **iovap,
+> +			dma_addr_t *addrp,
+> +			size_t size);
+> +void tegra_vde_iommu_unmap(struct tegra_vde *vde, struct iova *iova);
+> +
+> +static __maybe_unused char const *
+> +tegra_vde_reg_base_name(struct tegra_vde *vde, void __iomem *base)
+> +{
+> +	if (vde->sxe == base)
+> +		return "SXE";
+> +
+> +	if (vde->bsev == base)
+> +		return "BSEV";
+> +
+> +	if (vde->mbe == base)
+> +		return "MBE";
+> +
+> +	if (vde->ppe == base)
+> +		return "PPE";
+> +
+> +	if (vde->mce == base)
+> +		return "MCE";
+> +
+> +	if (vde->tfe == base)
+> +		return "TFE";
+> +
+> +	if (vde->ppb == base)
+> +		return "PPB";
+> +
+> +	if (vde->vdma == base)
+> +		return "VDMA";
+> +
+> +	if (vde->frameid == base)
+> +		return "FRAMEID";
+> +
+> +	return "???";
+> +}
+> +
+> +#endif /* TEGRA_VDE_H */
+> 
 
