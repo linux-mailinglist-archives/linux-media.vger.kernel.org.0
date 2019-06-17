@@ -2,117 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F174448470
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 15:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 672BB484AC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 15:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726065AbfFQNsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 09:48:22 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:2534 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725995AbfFQNsW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 09:48:22 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5HDl7pi016304;
-        Mon, 17 Jun 2019 15:48:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=eDS3m1/m7cQMnSvZloZA/F19hsKM8dODl3Z92+tcBNk=;
- b=d0CLqQV4e+zGqNoZ8KalFebH//QzXeAT7umMxlcHAhMXcQ2Xq4RazbqjcLQDFzQJmC2i
- ohL8wqImBXqQmwg0p2HRNR/dRR3GA92v5G8a21VmdS7wKOB1Ony3r1dDOH33nnZg50w2
- ZRY1NbOMI7MfLZbxH0b13Iv5ZqpzI8uLsY6sWibDbc4/puUHkmj5QDABmG3hYa+ntfQQ
- lCgjHD/NfP1KjJkdwyea21tbsPn/QnzR/vbB6NH59Vip4mcDniWUcXE19S1HzpD0Emjc
- 0JM7bV3Ig7dqAWUY2XEChqcrK2cVEi7XjruNPJdKZlLNNK+g/K86D2C0KXb7OFcWgjv+ tQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2t68n3h00v-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Mon, 17 Jun 2019 15:48:12 +0200
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 826D531;
-        Mon, 17 Jun 2019 13:48:11 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1829A2B47;
-        Mon, 17 Jun 2019 13:48:11 +0000 (GMT)
-Received: from SAFEX1HUBCAS24.st.com (10.75.90.95) by Safex1hubcas22.st.com
- (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 17 Jun
- 2019 15:48:10 +0200
-Received: from localhost (10.201.23.19) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 17 Jun 2019 15:48:10
- +0200
-From:   Hugues Fruchet <hugues.fruchet@st.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH] media: ov5640: add support of V4L2_CID_LINK_FREQ
-Date:   Mon, 17 Jun 2019 15:47:57 +0200
-Message-ID: <1560779277-32465-1-git-send-email-hugues.fruchet@st.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727806AbfFQN4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 09:56:46 -0400
+Received: from foss.arm.com ([217.140.110.172]:50924 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725906AbfFQN4p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 17 Jun 2019 09:56:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCD2D28;
+        Mon, 17 Jun 2019 06:56:44 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1625E3F246;
+        Mon, 17 Jun 2019 06:56:39 -0700 (PDT)
+Date:   Mon, 17 Jun 2019 14:56:37 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control
+ the tagged user addresses ABI
+Message-ID: <20190617135636.GC1367@arrakis.emea.arm.com>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.23.19]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-17_06:,,
- signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support of V4L2_CID_LINK_FREQ, this is needed
-by some CSI-2 receivers.
+On Wed, Jun 12, 2019 at 01:43:20PM +0200, Andrey Konovalov wrote:
+> From: Catalin Marinas <catalin.marinas@arm.com>
+> 
+> It is not desirable to relax the ABI to allow tagged user addresses into
+> the kernel indiscriminately. This patch introduces a prctl() interface
+> for enabling or disabling the tagged ABI with a global sysctl control
+> for preventing applications from enabling the relaxed ABI (meant for
+> testing user-space prctl() return error checking without reconfiguring
+> the kernel). The ABI properties are inherited by threads of the same
+> application and fork()'ed children but cleared on execve().
+> 
+> The PR_SET_TAGGED_ADDR_CTRL will be expanded in the future to handle
+> MTE-specific settings like imprecise vs precise exceptions.
+> 
+> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
 
-384MHz is exposed for the time being, corresponding
-to 96MHz pixel clock with 2 bytes per pixel on 2 data lanes.
+A question for the user-space folk: if an application opts in to this
+ABI, would you want the sigcontext.fault_address and/or siginfo.si_addr
+to contain the tag? We currently clear it early in the arm64 entry.S but
+we could find a way to pass it down if needed.
 
-This setup has been tested successfully with ST MIPID02
-CSI-2 to parallel bridge.
-
-Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
----
- drivers/media/i2c/ov5640.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 82d4ce9..79f8383 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -218,6 +218,7 @@ struct ov5640_ctrls {
- 	struct v4l2_ctrl *test_pattern;
- 	struct v4l2_ctrl *hflip;
- 	struct v4l2_ctrl *vflip;
-+	struct v4l2_ctrl *link_freq;
- };
- 
- struct ov5640_dev {
-@@ -2198,6 +2199,10 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static const s64 link_freq_menu_items[] = {
-+	384000000,
-+};
-+
- static int ov5640_set_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_pad_config *cfg,
- 			  struct v4l2_subdev_format *format)
-@@ -2703,6 +2708,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
- 				       V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0,
- 				       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
- 
-+	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-+						  0, 0, link_freq_menu_items);
-+	if (ctrls->link_freq)
-+		ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
- 	if (hdl->error) {
- 		ret = hdl->error;
- 		goto free_ctrls;
 -- 
-2.7.4
-
+Catalin
