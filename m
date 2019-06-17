@@ -2,440 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBB347EFC
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 11:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1746C47F00
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 11:59:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbfFQJ7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 05:59:25 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:44249 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727190AbfFQJ7Z (ORCPT
+        id S1728106AbfFQJ7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 05:59:34 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59657 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727545AbfFQJ7e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 05:59:25 -0400
+        Mon, 17 Jun 2019 05:59:34 -0400
 Received: from [IPv6:2001:983:e9a7:1:544b:e813:3dc0:55f6] ([IPv6:2001:983:e9a7:1:544b:e813:3dc0:55f6])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id coQ4hpWrT41bFcoQ6hcQT6; Mon, 17 Jun 2019 11:59:22 +0200
-Subject: Re: [PATCH v2 2/9] media: vivid: make input std_signal per-input
+        id coQFhpWxW41bFcoQGhcQXE; Mon, 17 Jun 2019 11:59:32 +0200
+Subject: Re: [PATCH v2 8/9] media: vivid: add CEC support to display present
+ ctrl
 To:     Johan Korsnes <johan.korsnes@gmail.com>,
         linux-media@vger.kernel.org
 References: <20190616182218.37726-1-johan.korsnes@gmail.com>
- <20190616182218.37726-3-johan.korsnes@gmail.com>
+ <20190616182218.37726-9-johan.korsnes@gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <dc9d6b0b-2ba3-b7f1-8a21-4b00677c0929@xs4all.nl>
-Date:   Mon, 17 Jun 2019 11:59:20 +0200
+Message-ID: <c2638253-8178-b0b5-84e2-9008608d09c0@xs4all.nl>
+Date:   Mon, 17 Jun 2019 11:59:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190616182218.37726-3-johan.korsnes@gmail.com>
+In-Reply-To: <20190616182218.37726-9-johan.korsnes@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIM4DPiz6x64MXcDjM1S8q1q78u+iI1CU7vCJR+Qv4LxSEK3Ghd/HatSka3Y3tKg3iN858nnDtYf+xUga2mx9H3wHjt84WF8Q6OgcM6aMh0fSEgN8q0B
- Ycf9+iNSsPPQkKWOp6v9uuOxfIKwt+n7sjxED5oGLzPJK5oC3d515W//93HTkMjCholBy+O+XrwghVkVpdLbJNmg0uc/8LdSWFApzfzEaPfaTP0HpngsyYIG
- BLMyIyNADlVoJM1QMBc+ywZgX6G+0ewxN7kb820qDiz9Dvq8fqK7hef02dNfFWHGN9hfud4wXAX6Pdpelwjsbw==
+X-CMAE-Envelope: MS4wfM/Pzx/IamGpx2dVUc9W9xLSRW3RQA04uQHb1rLXdv7goQJgv7Gr7oW1M1hcm5FInlgzDk8HcKMjBOEykv8a5tgOJlPpH/SuNTIEInonDXtNc+9ZBmRy
+ zRmUETRp1f8YCg+Dmb1v6axWjInGyMkACAsYiVJtopEA5GWArUVJib/nxr51vOJHeBoQIcrhMhyRyDurtaih1imbWn9g9GSKUUPHE02fIbdcGZDZyHLZbmEa
+ l0kSw1+2TWhdp8xURR7vkwO/gfhxeV8wEAYcE2T0DiTBrDUgnRXKzq8SHBg0jUVSe0h+oUfdCD7VF1x4w7SLVw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 6/16/19 8:22 PM, Johan Korsnes wrote:
-> Make the following properties per-input:
-> 
-> -Standard Signal Mode
-> -Standard
-> 
-> These properties need to be per-input in order to implement proper HDMI
-> (dis)connect-behavior, where the signal mode will be used to signify
-> whether or not there is an inpute device connected.
+> Set/invalidate physical addresses based on the configuration of the
+> display present control. This is relevant not only when the display
+> present control is modified, but also when the Vivid instance EDID is
+> set/cleared.
 > 
 > Signed-off-by: Johan Korsnes <johan.korsnes@gmail.com>
 > ---
->  drivers/media/platform/vivid/vivid-core.c     |  5 +-
->  drivers/media/platform/vivid/vivid-core.h     | 10 ++--
->  drivers/media/platform/vivid/vivid-ctrls.c    | 13 +++--
->  .../media/platform/vivid/vivid-kthread-cap.c  |  6 +--
->  drivers/media/platform/vivid/vivid-vbi-cap.c  | 16 +++---
->  drivers/media/platform/vivid/vivid-vid-cap.c  | 50 +++++++++++--------
->  .../media/platform/vivid/vivid-vid-common.c   |  4 +-
->  7 files changed, 59 insertions(+), 45 deletions(-)
+>  drivers/media/platform/vivid/vivid-ctrls.c    | 25 ++++++++++++++++---
+>  drivers/media/platform/vivid/vivid-vid-cap.c  | 17 +++++++++++--
+>  .../media/platform/vivid/vivid-vid-common.c   |  2 ++
+>  3 files changed, 38 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-> index f481f1768184..85e6aaf7bf0d 100644
-> --- a/drivers/media/platform/vivid/vivid-core.c
-> +++ b/drivers/media/platform/vivid/vivid-core.c
-> @@ -999,14 +999,15 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	dev->webcam_size_idx = 1;
->  	dev->webcam_ival_idx = 3;
->  	tpg_s_fourcc(&dev->tpg, dev->fmt_cap->fourcc);
-> -	dev->std_cap = V4L2_STD_PAL;
->  	dev->std_out = V4L2_STD_PAL;
->  	if (dev->input_type[0] == TV || dev->input_type[0] == SVID)
->  		tvnorms_cap = V4L2_STD_ALL;
->  	if (dev->output_type[0] == SVID)
->  		tvnorms_out = V4L2_STD_ALL;
-> -	for (i = 0; i < MAX_INPUTS; i++)
-> +	for (i = 0; i < MAX_INPUTS; i++) {
->  		dev->dv_timings_cap[i] = def_dv_timings;
-> +		dev->std_cap[i] = V4L2_STD_PAL;
-> +	}
->  	dev->dv_timings_out = def_dv_timings;
->  	dev->tv_freq = 2804 /* 175.25 * 16 */;
->  	dev->tv_audmode = V4L2_TUNER_MODE_STEREO;
-> diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
-> index a77c548f47d8..a18fd19215b6 100644
-> --- a/drivers/media/platform/vivid/vivid-core.h
-> +++ b/drivers/media/platform/vivid/vivid-core.h
-> @@ -299,10 +299,10 @@ struct vivid_dev {
->  	bool				time_wrap;
->  	u64				time_wrap_offset;
->  	unsigned			perc_dropped_buffers;
-> -	enum vivid_signal_mode		std_signal_mode;
-> -	unsigned			query_std_last;
-> -	v4l2_std_id			query_std;
-> -	enum tpg_video_aspect		std_aspect_ratio;
-> +	enum vivid_signal_mode		std_signal_mode[MAX_INPUTS];
-> +	unsigned			query_std_last[MAX_INPUTS];
-> +	v4l2_std_id			query_std[MAX_INPUTS];
-> +	enum tpg_video_aspect		std_aspect_ratio[MAX_INPUTS];
->  
->  	enum vivid_signal_mode		dv_timings_signal_mode[MAX_INPUTS];
->  	char				**query_dv_timings_qmenu;
-> @@ -314,7 +314,7 @@ struct vivid_dev {
->  
->  	/* Input */
->  	unsigned			input;
-> -	v4l2_std_id			std_cap;
-> +	v4l2_std_id			std_cap[MAX_INPUTS];
->  	struct v4l2_dv_timings		dv_timings_cap[MAX_INPUTS];
->  	int				dv_timings_cap_sel[MAX_INPUTS];
->  	u32				service_set_cap;
 > diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
-> index a3c9661caf95..74b2c92fbfa0 100644
+> index ae3690fd1b52..807c9e92e051 100644
 > --- a/drivers/media/platform/vivid/vivid-ctrls.c
 > +++ b/drivers/media/platform/vivid/vivid-ctrls.c
-> @@ -463,7 +463,7 @@ static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *ctrl)
->  		tpg_s_show_square(&dev->tpg, ctrl->val);
->  		break;
->  	case VIVID_CID_STD_ASPECT_RATIO:
-> -		dev->std_aspect_ratio = ctrl->val;
-> +		dev->std_aspect_ratio[dev->input] = ctrl->val;
->  		tpg_s_video_aspect(&dev->tpg, vivid_get_video_aspect(dev));
->  		break;
->  	case VIVID_CID_DV_TIMINGS_SIGNAL_MODE:
-> @@ -1130,10 +1130,13 @@ static int vivid_sdtv_cap_s_ctrl(struct v4l2_ctrl *ctrl)
+> @@ -18,6 +18,7 @@
+>  #include "vivid-radio-common.h"
+>  #include "vivid-osd.h"
+>  #include "vivid-ctrls.h"
+> +#include "vivid-cec.h"
+>  
+>  #define VIVID_CID_CUSTOM_BASE		(V4L2_CID_USER_BASE | 0xf000)
+>  #define VIVID_CID_BUTTON		(VIVID_CID_CUSTOM_BASE + 0)
+> @@ -923,7 +924,7 @@ static int vivid_vid_out_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_vid_out);
+>  	struct v4l2_bt_timings *bt = &dev->dv_timings_out.bt;
+>  	u32 display_present = 0;
+> -	unsigned i, j;
+> +	unsigned i, j, bus_idx;
 >  
 >  	switch (ctrl->id) {
->  	case VIVID_CID_STD_SIGNAL_MODE:
-> -		dev->std_signal_mode = dev->ctrl_std_signal_mode->val;
-> -		if (dev->std_signal_mode == SELECTED_STD)
-> -			dev->query_std = vivid_standard[dev->ctrl_standard->val];
-> -		v4l2_ctrl_activate(dev->ctrl_standard, dev->std_signal_mode == SELECTED_STD);
-> +		dev->std_signal_mode[dev->input] = dev->ctrl_std_signal_mode->val;
-> +		if (dev->std_signal_mode[dev->input] == SELECTED_STD)
-> +			dev->query_std[dev->input] =
-> +				vivid_standard[dev->ctrl_standard->val];
-> +		v4l2_ctrl_activate(dev->ctrl_standard,
-> +				   dev->std_signal_mode[dev->input] ==
-> +					SELECTED_STD);
->  		vivid_update_quality(dev);
->  		vivid_send_source_change(dev, TV);
->  		vivid_send_source_change(dev, SVID);
-> diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
-> index b4eee952e1c9..6cf495a7d5cc 100644
-> --- a/drivers/media/platform/vivid/vivid-kthread-cap.c
-> +++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
-> @@ -43,7 +43,7 @@
->  static inline v4l2_std_id vivid_get_std_cap(const struct vivid_dev *dev)
->  {
->  	if (vivid_is_sdtv_cap(dev))
-> -		return dev->std_cap;
-> +		return dev->std_cap[dev->input];
->  	return 0;
->  }
->  
-> @@ -408,7 +408,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
->  	unsigned factor = V4L2_FIELD_HAS_T_OR_B(dev->field_cap) ? 2 : 1;
->  	unsigned line_height = 16 / factor;
->  	bool is_tv = vivid_is_sdtv_cap(dev);
-> -	bool is_60hz = is_tv && (dev->std_cap & V4L2_STD_525_60);
-> +	bool is_60hz = is_tv && (dev->std_cap[dev->input] & V4L2_STD_525_60);
->  	unsigned p;
->  	int line = 1;
->  	u8 *basep[TPG_MAX_PLANES][2];
-> @@ -419,7 +419,7 @@ static void vivid_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
->  
->  	if (dev->loop_video && dev->can_loop_video &&
->  		((vivid_is_svid_cap(dev) &&
-> -		!VIVID_INVALID_SIGNAL(dev->std_signal_mode)) ||
-> +		!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) ||
->  		(vivid_is_hdmi_cap(dev) &&
->  		!VIVID_INVALID_SIGNAL(dev->dv_timings_signal_mode[dev->input]))))
->  		is_loop = true;
-> diff --git a/drivers/media/platform/vivid/vivid-vbi-cap.c b/drivers/media/platform/vivid/vivid-vbi-cap.c
-> index 40ecd7902b56..1a9348eea781 100644
-> --- a/drivers/media/platform/vivid/vivid-vbi-cap.c
-> +++ b/drivers/media/platform/vivid/vivid-vbi-cap.c
-> @@ -18,7 +18,7 @@
->  static void vivid_sliced_vbi_cap_fill(struct vivid_dev *dev, unsigned seqnr)
->  {
->  	struct vivid_vbi_gen_data *vbi_gen = &dev->vbi_gen;
-> -	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  
->  	vivid_vbi_gen_sliced(vbi_gen, is_60hz, seqnr);
->  
-> @@ -65,7 +65,7 @@ static void vivid_sliced_vbi_cap_fill(struct vivid_dev *dev, unsigned seqnr)
->  
->  static void vivid_g_fmt_vbi_cap(struct vivid_dev *dev, struct v4l2_vbi_format *vbi)
->  {
-> -	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  
->  	vbi->sampling_rate = 27000000;
->  	vbi->offset = 24;
-> @@ -93,7 +93,7 @@ void vivid_raw_vbi_cap_process(struct vivid_dev *dev, struct vivid_buffer *buf)
->  
->  	memset(vbuf, 0x10, vb2_plane_size(&buf->vb.vb2_buf, 0));
->  
-> -	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode))
-> +	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input]))
->  		vivid_vbi_gen_raw(&dev->vbi_gen, &vbi, vbuf);
->  }
->  
-> @@ -111,7 +111,7 @@ void vivid_sliced_vbi_cap_process(struct vivid_dev *dev,
->  	vivid_sliced_vbi_cap_fill(dev, buf->vb.sequence);
->  
->  	memset(vbuf, 0, vb2_plane_size(&buf->vb.vb2_buf, 0));
-> -	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode)) {
-> +	if (!VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) {
->  		unsigned i;
->  
->  		for (i = 0; i < 25; i++)
-> @@ -124,7 +124,7 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
->  		       unsigned sizes[], struct device *alloc_devs[])
->  {
->  	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> -	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  	unsigned size = vq->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ?
->  		36 * sizeof(struct v4l2_sliced_vbi_data) :
->  		1440 * 2 * (is_60hz ? 12 : 18);
-> @@ -144,7 +144,7 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
->  static int vbi_cap_buf_prepare(struct vb2_buffer *vb)
->  {
->  	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
-> -	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  	unsigned size = vb->vb2_queue->type == V4L2_BUF_TYPE_SLICED_VBI_CAPTURE ?
->  		36 * sizeof(struct v4l2_sliced_vbi_data) :
->  		1440 * 2 * (is_60hz ? 12 : 18);
-> @@ -302,7 +302,7 @@ int vidioc_try_fmt_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_forma
->  {
->  	struct vivid_dev *dev = video_drvdata(file);
->  	struct v4l2_sliced_vbi_format *vbi = &fmt->fmt.sliced;
-> -	bool is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +	bool is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  	u32 service_set = vbi->service_set;
->  
->  	if (!vivid_is_sdtv_cap(dev) || !dev->has_sliced_vbi_cap)
-> @@ -337,7 +337,7 @@ int vidioc_g_sliced_vbi_cap(struct file *file, void *fh, struct v4l2_sliced_vbi_
->  	bool is_60hz;
->  
->  	if (vdev->vfl_dir == VFL_DIR_RX) {
-> -		is_60hz = dev->std_cap & V4L2_STD_525_60;
-> +		is_60hz = dev->std_cap[dev->input] & V4L2_STD_525_60;
->  		if (!vivid_is_sdtv_cap(dev) || !dev->has_sliced_vbi_cap ||
->  		    cap->type != V4L2_BUF_TYPE_SLICED_VBI_CAPTURE)
->  			return -EINVAL;
-> diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
-> index f4354c800088..ca15c13abf6c 100644
-> --- a/drivers/media/platform/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/platform/vivid/vivid-vid-cap.c
-> @@ -196,7 +196,7 @@ static void vid_cap_buf_finish(struct vb2_buffer *vb)
->  	 * test this.
->  	 */
->  	vbuf->flags |= V4L2_BUF_FLAG_TIMECODE;
-> -	if (dev->std_cap & V4L2_STD_525_60)
-> +	if (dev->std_cap[dev->input] & V4L2_STD_525_60)
->  		fps = 30;
->  	tc->type = (fps == 30) ? V4L2_TC_TYPE_30FPS : V4L2_TC_TYPE_25FPS;
->  	tc->flags = 0;
-> @@ -304,7 +304,8 @@ void vivid_update_quality(struct vivid_dev *dev)
->  		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
->  		return;
->  	}
-> -	if (vivid_is_sdtv_cap(dev) && VIVID_INVALID_SIGNAL(dev->std_signal_mode)) {
-> +	if (vivid_is_sdtv_cap(dev) &&
-> +	    VIVID_INVALID_SIGNAL(dev->std_signal_mode[dev->input])) {
->  		tpg_s_quality(&dev->tpg, TPG_QUAL_NOISE, 0);
->  		return;
->  	}
-> @@ -359,7 +360,7 @@ static enum tpg_quality vivid_get_quality(struct vivid_dev *dev, s32 *afc)
->  enum tpg_video_aspect vivid_get_video_aspect(const struct vivid_dev *dev)
->  {
->  	if (vivid_is_sdtv_cap(dev))
-> -		return dev->std_aspect_ratio;
-> +		return dev->std_aspect_ratio[dev->input];
->  
->  	if (vivid_is_hdmi_cap(dev))
->  		return dev->dv_timings_aspect_ratio[dev->input];
-> @@ -370,7 +371,7 @@ enum tpg_video_aspect vivid_get_video_aspect(const struct vivid_dev *dev)
->  static enum tpg_pixel_aspect vivid_get_pixel_aspect(const struct vivid_dev *dev)
->  {
->  	if (vivid_is_sdtv_cap(dev))
-> -		return (dev->std_cap & V4L2_STD_525_60) ?
-> +		return (dev->std_cap[dev->input] & V4L2_STD_525_60) ?
->  			TPG_PIXEL_ASPECT_NTSC : TPG_PIXEL_ASPECT_PAL;
->  
->  	if (vivid_is_hdmi_cap(dev) &&
-> @@ -404,7 +405,7 @@ void vivid_update_format_cap(struct vivid_dev *dev, bool keep_controls)
->  	case SVID:
->  		dev->field_cap = dev->tv_field_cap;
->  		dev->src_rect.width = 720;
-> -		if (dev->std_cap & V4L2_STD_525_60) {
-> +		if (dev->std_cap[dev->input] & V4L2_STD_525_60) {
->  			dev->src_rect.height = 480;
->  			dev->timeperframe_vid_cap = (struct v4l2_fract) { 1001, 30000 };
->  			dev->service_set_cap = V4L2_SLICED_CAPTION_525;
-> @@ -587,7 +588,7 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  		h = sz->height;
->  	} else if (vivid_is_sdtv_cap(dev)) {
->  		w = 720;
-> -		h = (dev->std_cap & V4L2_STD_525_60) ? 480 : 576;
-> +		h = (dev->std_cap[dev->input] & V4L2_STD_525_60) ? 480 : 576;
->  	} else {
->  		w = dev->src_rect.width;
->  		h = dev->src_rect.height;
-> @@ -1323,9 +1324,9 @@ int vidioc_enum_input(struct file *file, void *priv,
->  	if (dev->sensor_vflip)
->  		inp->status |= V4L2_IN_ST_VFLIP;
->  	if (dev->input == inp->index && vivid_is_sdtv_cap(dev)) {
-> -		if (dev->std_signal_mode == NO_SIGNAL) {
-> +		if (dev->std_signal_mode[dev->input] == NO_SIGNAL) {
->  			inp->status |= V4L2_IN_ST_NO_SIGNAL;
-> -		} else if (dev->std_signal_mode == NO_LOCK) {
-> +		} else if (dev->std_signal_mode[dev->input] == NO_LOCK) {
->  			inp->status |= V4L2_IN_ST_NO_H_LOCK;
->  		} else if (vivid_is_tv_cap(dev)) {
->  			switch (tpg_g_quality(&dev->tpg)) {
-> @@ -1415,11 +1416,20 @@ int vidioc_s_input(struct file *file, void *priv, unsigned i)
->  	v4l2_ctrl_activate(dev->ctrl_dv_timings, vivid_is_hdmi_cap(dev) &&
->  			   dev->dv_timings_signal_mode[dev->input] ==
->  			   SELECTED_DV_TIMINGS);
-> +	v4l2_ctrl_activate(dev->ctrl_std_signal_mode, vivid_is_sdtv_cap(dev));
-> +	v4l2_ctrl_activate(dev->ctrl_standard, vivid_is_sdtv_cap(dev) &&
-> +			   dev->std_signal_mode[dev->input]);
-> +
->  	if (vivid_is_hdmi_cap(dev)) {
->  		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings_signal_mode,
->  				 dev->dv_timings_signal_mode[dev->input]);
->  		v4l2_ctrl_s_ctrl(dev->ctrl_dv_timings,
->  				 dev->query_dv_timings[dev->input]);
-> +	} else if (vivid_is_sdtv_cap(dev)) {
-> +		v4l2_ctrl_s_ctrl(dev->ctrl_std_signal_mode,
-> +				 dev->std_signal_mode[dev->input]);
-> +		v4l2_ctrl_s_ctrl(dev->ctrl_standard,
-> +				 dev->std_signal_mode[dev->input]);
->  	}
->  
->  	return 0;
-> @@ -1515,7 +1525,7 @@ int vivid_video_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
->  		vt->rxsubchans = V4L2_TUNER_SUB_MONO;
->  	} else {
->  		unsigned channel_nr = dev->tv_freq / (6 * 16);
-> -		unsigned options = (dev->std_cap & V4L2_STD_NTSC_M) ? 4 : 3;
-> +		unsigned options = (dev->std_cap[dev->input] & V4L2_STD_NTSC_M) ? 4 : 3;
->  
->  		switch (channel_nr % options) {
->  		case 0:
-> @@ -1525,7 +1535,7 @@ int vivid_video_g_tuner(struct file *file, void *fh, struct v4l2_tuner *vt)
->  			vt->rxsubchans = V4L2_TUNER_SUB_STEREO;
+>  	case VIVID_CID_HAS_CROP_OUT:
+> @@ -962,15 +963,31 @@ static int vivid_vid_out_s_ctrl(struct v4l2_ctrl *ctrl)
 >  			break;
->  		case 2:
-> -			if (dev->std_cap & V4L2_STD_NTSC_M)
-> +			if (dev->std_cap[dev->input] & V4L2_STD_NTSC_M)
->  				vt->rxsubchans = V4L2_TUNER_SUB_MONO | V4L2_TUNER_SUB_SAP;
->  			else
->  				vt->rxsubchans = V4L2_TUNER_SUB_LANG1 | V4L2_TUNER_SUB_LANG2;
-> @@ -1585,20 +1595,20 @@ int vidioc_querystd(struct file *file, void *priv, v4l2_std_id *id)
 >  
->  	if (!vivid_is_sdtv_cap(dev))
->  		return -ENODATA;
-> -	if (dev->std_signal_mode == NO_SIGNAL ||
-> -	    dev->std_signal_mode == NO_LOCK) {
-> +	if (dev->std_signal_mode[dev->input] == NO_SIGNAL ||
-> +	    dev->std_signal_mode[dev->input] == NO_LOCK) {
->  		*id = V4L2_STD_UNKNOWN;
->  		return 0;
->  	}
->  	if (vivid_is_tv_cap(dev) && tpg_g_quality(&dev->tpg) == TPG_QUAL_NOISE) {
->  		*id = V4L2_STD_UNKNOWN;
-> -	} else if (dev->std_signal_mode == CURRENT_STD) {
-> -		*id = dev->std_cap;
-> -	} else if (dev->std_signal_mode == SELECTED_STD) {
-> -		*id = dev->query_std;
-> +	} else if (dev->std_signal_mode[dev->input] == CURRENT_STD) {
-> +		*id = dev->std_cap[dev->input];
-> +	} else if (dev->std_signal_mode[dev->input] == SELECTED_STD) {
-> +		*id = dev->query_std[dev->input];
->  	} else {
-> -		*id = vivid_standard[dev->query_std_last];
-> -		dev->query_std_last = (dev->query_std_last + 1) % ARRAY_SIZE(vivid_standard);
-> +		*id = vivid_standard[dev->query_std_last[dev->input]];
-> +		dev->query_std_last[dev->input] = (dev->query_std_last[dev->input] + 1) % ARRAY_SIZE(vivid_standard);
+>  		dev->display_present[dev->output] = ctrl->val;
+> -
+>  		for (i = 0, j = 0; i < dev->num_outputs; i++)
+>  			if (dev->output_type[i] == HDMI)
+>  				display_present |=
+>  					dev->display_present[i] << j++;
+>  
+> -		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug, display_present);
+>  		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_rxsense, display_present);
+> -		__v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, display_present);
+> +
+> +		if (dev->edid_blocks) {
+> +			__v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present,
+> +					   display_present);
+> +			__v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug,
+> +					   display_present);
+> +		}
+> +
+> +		if (!dev->cec_tx_adap)
+> +			break;
 
-Please reformat this: this line is way too long :-)
+This isn't right: cec_tx_adap is an array of cec_adapter pointers, so
+dev->cec_tx_adap is always non-NULL.
 
-I suggest adding a temp variable:
+Just drop it.
 
-                unsigned int last = dev->query_std_last[dev->input];
+> +
+> +		bus_idx = dev->cec_output2bus_map[dev->output];
 
-                *id = vivid_standard[last];
-                dev->query_std_last[dev->input] =
-                        (last + 1) % ARRAY_SIZE(vivid_standard);
+Instead you need to do:
+
+		if (!dev->cec_tx_adap[bus_idx])
+			break;
+
+to ensure that the adapter for bus_idx is non-NULL.
 
 Regards,
 
 	Hans
 
+> +		if (ctrl->val && dev->edid_blocks)
+> +			cec_s_phys_addr(dev->cec_tx_adap[bus_idx],
+> +					dev->cec_tx_adap[bus_idx]->phys_addr,
+> +					false);
+> +		else
+> +			cec_phys_addr_invalidate(dev->cec_tx_adap[bus_idx]);
+> +
+>  		break;
 >  	}
->  
 >  	return 0;
-> @@ -1610,11 +1620,11 @@ int vivid_vid_cap_s_std(struct file *file, void *priv, v4l2_std_id id)
+> diff --git a/drivers/media/platform/vivid/vivid-vid-cap.c b/drivers/media/platform/vivid/vivid-vid-cap.c
+> index ca15c13abf6c..0d1ee9a221db 100644
+> --- a/drivers/media/platform/vivid/vivid-vid-cap.c
+> +++ b/drivers/media/platform/vivid/vivid-vid-cap.c
+> @@ -1750,7 +1750,8 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>  {
+>  	struct vivid_dev *dev = video_drvdata(file);
+>  	u16 phys_addr;
+> -	unsigned int i;
+> +	u32 display_present = 0;
+> +	unsigned int i, j;
+>  	int ret;
 >  
->  	if (!vivid_is_sdtv_cap(dev))
->  		return -ENODATA;
-> -	if (dev->std_cap == id)
-> +	if (dev->std_cap[dev->input] == id)
->  		return 0;
->  	if (vb2_is_busy(&dev->vb_vid_cap_q) || vb2_is_busy(&dev->vb_vbi_cap_q))
->  		return -EBUSY;
-> -	dev->std_cap = id;
-> +	dev->std_cap[dev->input] = id;
->  	vivid_update_format_cap(dev, false);
+>  	memset(edid->reserved, 0, sizeof(edid->reserved));
+> @@ -1760,6 +1761,8 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>  		return -EINVAL;
+>  	if (edid->blocks == 0) {
+>  		dev->edid_blocks = 0;
+> +		v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, 0);
+> +		v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug, 0);
+>  		phys_addr = CEC_PHYS_ADDR_INVALID;
+>  		goto set_phys_addr;
+>  	}
+> @@ -1778,13 +1781,23 @@ int vidioc_s_edid(struct file *file, void *_fh,
+>  	dev->edid_blocks = edid->blocks;
+>  	memcpy(dev->edid, edid->edid, edid->blocks * 128);
+>  
+> +	for (i = 0, j = 0; i < dev->num_outputs; i++)
+> +		if (dev->output_type[i] == HDMI)
+> +			display_present |=
+> +				dev->display_present[i] << j++;
+> +
+> +	v4l2_ctrl_s_ctrl(dev->ctrl_tx_edid_present, display_present);
+> +	v4l2_ctrl_s_ctrl(dev->ctrl_tx_hotplug, display_present);
+> +
+>  set_phys_addr:
+>  	/* TODO: a proper hotplug detect cycle should be emulated here */
+>  	cec_s_phys_addr(dev->cec_rx_adap, phys_addr, false);
+>  
+>  	for (i = 0; i < MAX_OUTPUTS && dev->cec_tx_adap[i]; i++)
+>  		cec_s_phys_addr(dev->cec_tx_adap[i],
+> -				v4l2_phys_addr_for_input(phys_addr, i + 1),
+> +				dev->display_present[i] ?
+> +				v4l2_phys_addr_for_input(phys_addr, i + 1) :
+> +				CEC_PHYS_ADDR_INVALID,
+>  				false);
 >  	return 0;
 >  }
 > diff --git a/drivers/media/platform/vivid/vivid-vid-common.c b/drivers/media/platform/vivid/vivid-vid-common.c
-> index 98c0e5b4d391..10a344c29a1a 100644
+> index 10a344c29a1a..1f33eb1a76b6 100644
 > --- a/drivers/media/platform/vivid/vivid-vid-common.c
 > +++ b/drivers/media/platform/vivid/vivid-vid-common.c
-> @@ -645,7 +645,7 @@ bool vivid_vid_can_loop(struct vivid_dev *dev)
->  	    dev->field_cap == V4L2_FIELD_SEQ_BT)
->  		return false;
->  	if (vivid_is_svid_cap(dev) && vivid_is_svid_out(dev)) {
-> -		if (!(dev->std_cap & V4L2_STD_525_60) !=
-> +		if (!(dev->std_cap[dev->input] & V4L2_STD_525_60) !=
->  		    !(dev->std_out & V4L2_STD_525_60))
->  			return false;
->  		return true;
-> @@ -805,7 +805,7 @@ int vidioc_g_std(struct file *file, void *priv, v4l2_std_id *id)
->  	if (vdev->vfl_dir == VFL_DIR_RX) {
->  		if (!vivid_is_sdtv_cap(dev))
->  			return -ENODATA;
-> -		*id = dev->std_cap;
-> +		*id = dev->std_cap[dev->input];
->  	} else {
->  		if (!vivid_is_svid_out(dev))
->  			return -ENODATA;
+> @@ -887,6 +887,8 @@ int vidioc_g_edid(struct file *file, void *_fh,
+>  			return -EINVAL;
+>  		if (dev->output_type[edid->pad] != HDMI)
+>  			return -EINVAL;
+> +		if (!dev->display_present[edid->pad])
+> +			return -ENODATA;
+>  		bus_idx = dev->cec_output2bus_map[edid->pad];
+>  		adap = dev->cec_tx_adap[bus_idx];
+>  	}
 > 
 
