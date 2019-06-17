@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD0F47DD4
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 11:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A7647DE7
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 11:07:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727821AbfFQJF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 05:05:28 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45318 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727806AbfFQJF2 (ORCPT
+        id S1727966AbfFQJHn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 05:07:43 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:45539 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726793AbfFQJHn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 05:05:28 -0400
-Received: by mail-lf1-f68.google.com with SMTP id u10so5898018lfm.12
-        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2019 02:05:27 -0700 (PDT)
+        Mon, 17 Jun 2019 05:07:43 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m23so8487552lje.12
+        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2019 02:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GRLI3Z2O8SkTky112/FI8HFAdykgQAeWvWkCXXseK+Y=;
-        b=RdH58kHwYUCFIYpWmi0PSzN/yHMgmUIkovI4RdHzwry6cuWPSahEcsB3lR8JNqPdIA
-         UhzSafN7pfojujjEzV5epj9HzM/lGDbJ3URm4Y+cLRihNhJ+Ii5vgF67zeG1jZLnx3AJ
-         AHihrBkPU0MZ9846/AdlG3rlQsxUeMVenkNTenJxGMuKaYdKbQq+Tzv4NZrDsG2uojND
-         w60td4Zxt/2/rC+L86PZgHg+8qsoZTxYVt4aOSf/gkJvJi4eoWS0nNnOGtn6TXqWk6Hb
-         omAiZODeoHBw8rs6vYti/WayTdrZU8whHlvDs72jv0eEIVLRHF5AGEfte5BzBFzXPH9R
-         NMPA==
+        bh=/TxligxYY+aC6zWv3opQDSxtXze7SE7PmAaCKTySTbw=;
+        b=OneVp8OoS59dMfuq/SVYMseCzQMdKItcQ9lOFapT7muQ91/cHSc9gI+mm1EskhPgWJ
+         GxqVIKdh4rtjOt5d7TxbpV0zqSy0zC/I+8yOGIJWzlnzMY/mMRIr/g36Ry9EGvTEiBn8
+         Q7JLH2gJMb3Jnmf/kG9LlXnb6KjRMOMwJbc+IAVbRwf600Y9OslI4zNgq1ZBclOalNVy
+         W4DPtpI690/UWbXIkguNC6uEyrXLAwEEDkC1aq6cS1Isj5l0PndwjSNeGfpPb8ES9aL2
+         Cec4hz3bXFPFVNsp4N0V6fpTHFN9/MeQhcXF5WIq7gdRVfTUsHymJyRUM9f+D8EKIb3Q
+         NWbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GRLI3Z2O8SkTky112/FI8HFAdykgQAeWvWkCXXseK+Y=;
-        b=LdCnLFoxt4WtxHVHB5tmfvhFtSFlfv2NDS8hxMnlW4I37dJuPtylSSrQ3XAWJb/ppI
-         ScjVJd6hmkRFiJSLviYw69Kvt99PIDH06HAmLL86eoVPWJy1A/PnmHWn/dAQJlb+Hnow
-         4BpcOag6scCuREwV0WHX6uWyRoM+moqMQ4cGwpRW8c/wstohTxoPi8LGTbhzDBBCyM1h
-         3AcoMuM6gsOmQlhSluXHe39N79rFNzyRnfGjSgFIvfJn8RfutL+2Ja/0uIEf07kK/T07
-         UZ3UqaVBUfrPBF9ANk+9dpW4EnwU7PHQnHVjVJwXTdjWM35WMEVN+FPNGtNlQ6cNee1J
-         Hm+A==
-X-Gm-Message-State: APjAAAUdUg3ZjRFgoo74G2DCt/MYhyTuD83Q9YzeoFVyl/xWq31hE02r
-        1xI5joLh0sKgLcPt3/xhSlaiBA==
-X-Google-Smtp-Source: APXvYqzf5ced+QJqjoZWOGh8R0yAqNwDIMornTW7Q+foDset57AyNfggHCWPYfIc+SySSGowX6zRqw==
-X-Received: by 2002:a05:6512:dc:: with SMTP id c28mr54082739lfp.105.1560762326347;
-        Mon, 17 Jun 2019 02:05:26 -0700 (PDT)
+        bh=/TxligxYY+aC6zWv3opQDSxtXze7SE7PmAaCKTySTbw=;
+        b=hTGj1aWaTvvZKQpSgokc7QuKgoMX9krLj4WMg8N9+EKfQAGXdD/AiwvGGYFf3NObcc
+         Uc1Jm3WXTVaq5lu/agKflad4YB4eqUI7beWV6PRDjwEvctX1stmXc8H96sjjrJ11Kmh3
+         qgZUW+7lBfOg3j4MgyEVSz6JFnvU2JPRxE1F4KZERMjOGpNCSrF4aBTuDTn/iHox7Stf
+         Fe6PVZNoqkAZ6qJIG85yhJhQcg4GJMGqa4iA+MV/n7ItKc2y/4tpyd6Y72cBCSrwnDL5
+         8puPlJpIyIlJ39O9G5adkJu4Ac1K+loI0GYL4Iv//UMLNrc5oAL2rDHpq8wRUAeHAgQq
+         OfWw==
+X-Gm-Message-State: APjAAAWnW0OV2dJl6pIvBSTBIwqV30oPLcVOIhPSjbfzayLrNekTEtAF
+        1VBhWangT7Npe51h8vtkU3nNvA==
+X-Google-Smtp-Source: APXvYqzT3vJzFja/mIdCxlpicnnkGB232vyK8CsXjU7jJNTIiyqc91dE/5odfcwqIBnVGt0bssu39Q==
+X-Received: by 2002:a2e:9610:: with SMTP id v16mr12037660ljh.229.1560762461168;
+        Mon, 17 Jun 2019 02:07:41 -0700 (PDT)
 Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id n1sm1653660lfl.77.2019.06.17.02.05.25
+        by smtp.googlemail.com with ESMTPSA id v2sm2024909ljb.65.2019.06.17.02.07.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 02:05:25 -0700 (PDT)
-Subject: Re: [PATCH 4/5] media: venus: Add interface for load per core
+        Mon, 17 Jun 2019 02:07:40 -0700 (PDT)
+Subject: Re: [PATCH 5/5] media: venus: Update core selection
 To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org
 References: <1560233130-27264-1-git-send-email-amasule@codeaurora.org>
- <1560233130-27264-5-git-send-email-amasule@codeaurora.org>
+ <1560233130-27264-6-git-send-email-amasule@codeaurora.org>
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <e8cbed4c-65f4-adfb-3c58-5c9773a01e0d@linaro.org>
-Date:   Mon, 17 Jun 2019 12:05:24 +0300
+Message-ID: <8f2e1cf4-9d9c-088b-740f-d8bf1c9028df@linaro.org>
+Date:   Mon, 17 Jun 2019 12:07:39 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560233130-27264-5-git-send-email-amasule@codeaurora.org>
+In-Reply-To: <1560233130-27264-6-git-send-email-amasule@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,76 +70,160 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Aniket,
 
 On 6/11/19 9:05 AM, Aniket Masule wrote:
-> Add and interface to calculate load per core. Also,
-> add an interface to get maximum cores available with
-> video. This interface is preparation for updating core
-> selection.
+> Present core assignment is static. Introduced load balancing
+> across the cores. Load on earch core is calculated and core
+> with minimum load is assigned to given instance.
 > 
 > Signed-off-by: Aniket Masule <amasule@codeaurora.org>
 > ---
->  drivers/media/platform/qcom/venus/helpers.c    | 18 ++++++++++++++++++
->  drivers/media/platform/qcom/venus/hfi_helper.h |  1 +
->  drivers/media/platform/qcom/venus/hfi_parser.h |  5 +++++
->  3 files changed, 24 insertions(+)
+>  drivers/media/platform/qcom/venus/helpers.c | 50 +++++++++++++++++++++++++----
+>  drivers/media/platform/qcom/venus/helpers.h |  2 +-
+>  drivers/media/platform/qcom/venus/vdec.c    |  5 +--
+>  drivers/media/platform/qcom/venus/venc.c    |  4 ++-
+>  4 files changed, 51 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 7bcc1e6..edb653e 100644
+> index edb653e..38d617b 100644
 > --- a/drivers/media/platform/qcom/venus/helpers.c
 > +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -331,6 +331,24 @@ static u32 load_per_instance(struct venus_inst *inst)
->  	return mbs * inst->fps;
+> @@ -497,6 +497,16 @@ static int load_scale_clocks(struct venus_inst *inst)
+>  		return scale_clocks_vpu4(inst);
 >  }
 >  
-> +static u32 load_per_core(struct venus_core *core, u32 core_id)
+> +int set_core_usage(struct venus_inst *inst, u32 usage)
 > +{
-> +	struct venus_inst *inst = NULL;
-> +	u32 mbs_per_sec = 0, load = 0;
+> +	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+> +	struct hfi_videocores_usage_type cu;
 > +
-> +	mutex_lock(&core->lock);
-> +	list_for_each_entry(inst, &core->instances, list) {
-> +		if (!(inst->clk_data.core_id == core_id))
-> +			continue;
+> +	cu.video_core_enable_mask = usage;
 > +
-> +		mbs_per_sec += load_per_instance(inst);
-> +		load += mbs_per_sec * inst->clk_data.codec_data->vpp_cycles;
-> +	}
-> +	mutex_unlock(&core->lock);
-> +
-> +	return load;
+> +	return hfi_session_set_property(inst, ptype, &cu);
 > +}
 > +
->  static u32 load_per_type(struct venus_core *core, u32 session_type)
+>  static void fill_buffer_desc(const struct venus_buffer *buf,
+>  			     struct hfi_buffer_desc *bd, bool response)
 >  {
->  	struct venus_inst *inst = NULL;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index 34ea503..3677e2e 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -559,6 +559,7 @@ struct hfi_bitrate {
->  #define HFI_CAPABILITY_LCU_SIZE				0x14
->  #define HFI_CAPABILITY_HIER_P_HYBRID_NUM_ENH_LAYERS	0x15
->  #define HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE		0x16
-> +#define HFI_CAPABILITY_MAX_VIDEOCORES          0x2B
-
-please use tabs instead of spaces.
-
->  
->  struct hfi_capability {
->  	u32 capability_type;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.h b/drivers/media/platform/qcom/venus/hfi_parser.h
-> index 3e931c7..264e6dd 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_parser.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_parser.h
-> @@ -107,4 +107,9 @@ static inline u32 frate_step(struct venus_inst *inst)
->  	return cap_step(inst, HFI_CAPABILITY_FRAMERATE);
+> @@ -800,19 +810,47 @@ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
 >  }
+>  EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
 >  
-> +static inline u32 core_num_max(struct venus_inst *inst)
-> +{
-> +	return cap_max(inst, HFI_CAPABILITY_MAX_VIDEOCORES);
-> +}
+> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
+> +int venus_helper_decide_core(struct venus_inst *inst, u32 cores_max)
+
+I think venus_helper_set_core is better?
+
+>  {
+> -	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+> -	struct hfi_videocores_usage_type cu;
+> +	struct venus_core *core = inst->core;
+> +	u32 min_core_id = 0, core0_load = 0, core1_load = 0;
+> +	unsigned long min_load, max_freq, cur_inst_load;
+> +	int ret;
+>  
+>  	if (!IS_V4(inst->core))
+>  		return 0;
+>  
+> -	cu.video_core_enable_mask = usage;
+> +	core0_load = load_per_core(core, VIDC_CORE_ID_1);
+> +	core1_load = load_per_core(core, VIDC_CORE_ID_2);
+>  
+> -	return hfi_session_set_property(inst, ptype, &cu);
+> +	min_core_id = core0_load < core1_load ? VIDC_CORE_ID_1 : VIDC_CORE_ID_2;
+> +	min_load = min(core0_load, core1_load);
 > +
->  #endif
+> +	if (cores_max < VIDC_CORE_ID_1) {
+> +		min_core_id = VIDC_CORE_ID_1;
+> +		min_load = core0_load;
+> +	}
+
+could you please move that fragment just after IS_V4 check and return an
+error if cores_max < VIDC_CORE_ID_1.
+
+> +
+> +	cur_inst_load = load_per_instance(inst) *
+> +		inst->clk_data.codec_data->vpp_cycles;
+> +	max_freq = core->res->freq_tbl[0].freq;
+> +
+> +	if ((cur_inst_load + min_load)	> max_freq) {
+> +		dev_warn(core->dev, "HW is overloaded, needed: %lu max: %lu\n",
+> +			 cur_inst_load, max_freq);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = set_core_usage(inst, min_core_id);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	inst->clk_data.core_id = min_core_id;
+> +
+> +	return 0;
+>  }
+> -EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
+> +EXPORT_SYMBOL_GPL(venus_helper_decide_core);
+>  
+>  int venus_helper_init_codec_data(struct venus_inst *inst)
+>  {
+> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+> index f9360a8..c41ceb3 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.h
+> +++ b/drivers/media/platform/qcom/venus/helpers.h
+> @@ -42,7 +42,7 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
+>  				       u32 buftype);
+>  int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+>  int venus_helper_init_codec_data(struct venus_inst *inst);
+> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage);
+> +int venus_helper_decide_core(struct venus_inst *inst, u32 cores_max);
+>  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+>  			      unsigned int output_bufs,
+>  			      unsigned int output2_bufs);
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 51795fd..9f988ba 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -544,14 +544,15 @@ static int vdec_output_conf(struct venus_inst *inst)
+>  	u32 height = inst->out_height;
+>  	u32 out_fmt, out2_fmt;
+>  	bool ubwc = false;
+> -	u32 ptype;
+> +	u32 ptype, cores_max;
+>  	int ret;
+>  
+>  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_1);
+> +	cores_max = core_num_max(inst);
+
+please move core_max calculation in the venus_helper_decide_core() here
+and below.
+
+> +	ret = venus_helper_decide_core(inst, cores_max);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 792cdce..ed39efd 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -654,13 +654,15 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	struct hfi_quantization quant;
+>  	struct hfi_quantization_range quant_range;
+>  	u32 ptype, rate_control, bitrate, profile = 0, level = 0;
+> +	u32 cores_max;
+>  	int ret;
+>  
+>  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_2);
+> +	cores_max = core_num_max(inst);
+> +	ret = venus_helper_decide_core(inst, cores_max);
+>  	if (ret)
+>  		return ret;
+>  
 > 
 
 -- 
