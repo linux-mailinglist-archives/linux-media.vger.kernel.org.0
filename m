@@ -2,112 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC684832C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 14:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FEB1483CB
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 15:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbfFQMxz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 08:53:55 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55911 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726028AbfFQMxy (ORCPT
+        id S1727417AbfFQNV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 09:21:56 -0400
+Received: from smtp114.ord1c.emailsrvr.com ([108.166.43.114]:37278 "EHLO
+        smtp114.ord1c.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727394AbfFQNVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 08:53:54 -0400
-Received: from [IPv6:2001:983:e9a7:1:9450:c90a:3140:14fc] ([IPv6:2001:983:e9a7:1:9450:c90a:3140:14fc])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id cr8whuvNH5qKacr8xhWxwg; Mon, 17 Jun 2019 14:53:52 +0200
-Subject: Re: [PATCH v7 0/3] media: v4l2-subdev: Verify arguments in
- v4l2_subdev_call()
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190520212747.368-1-jmkrzyszt@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <4e2951b6-2fa7-c0c0-9c3c-85a6b04c3691@xs4all.nl>
-Date:   Mon, 17 Jun 2019 14:53:50 +0200
+        Mon, 17 Jun 2019 09:21:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+        s=20190130-41we5z8j; t=1560777347;
+        bh=ZvJvYkjr7iE1RIXRXDlijzKzJL0BitvNBM9T5FqQAmw=;
+        h=Subject:To:From:Date:From;
+        b=Nl+Gx2+KTHlZUrgrlD4OPdHaDIh8UJfTuRA5MZVnySfiilIiWgnddpiJk4/aln5DA
+         OAo8bcON3aHKJNRIUHN2qprmbAq2BRvH2IUzshdVkvRvYeZuB2iOeftPYIjVWn6ziI
+         KuJnFj51kem220yEC5D7kahxijPjmtFu66j0THaY=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp7.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id D9002A01B2;
+        Mon, 17 Jun 2019 09:15:44 -0400 (EDT)
+X-Sender-Id: abbotti@mev.co.uk
+Received: from [10.0.0.62] (remote.quintadena.com [81.133.34.160])
+        (using TLSv1.2 with cipher AES128-SHA)
+        by 0.0.0.0:465 (trex/5.7.12);
+        Mon, 17 Jun 2019 09:15:47 -0400
+Subject: Re: [PATCH 12/16] staging/comedi: mark as broken
+To:     Christoph Hellwig <hch@lst.de>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
+References: <20190614134726.3827-1-hch@lst.de>
+ <20190614134726.3827-13-hch@lst.de> <20190614140239.GA7234@kroah.com>
+ <20190614144857.GA9088@lst.de> <20190614153032.GD18049@kroah.com>
+ <20190614153428.GA10008@lst.de>
+From:   Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <60c6af3d-d8e4-5745-8d2b-9791a2f4ff56@mev.co.uk>
+Date:   Mon, 17 Jun 2019 14:15:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190520212747.368-1-jmkrzyszt@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20190614153428.GA10008@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBSmRzw+70wJnkv0H2WIQ8akfhoXjb1lZzw4t7GNm4BMPzwyLgzgqgx+Fg4vk9x6UDtuL0Z3lkS4K+H+n3yqFYU5+Sjrtg8c/2DCDo9W1/MAnMm5YA+l
- keekHiLcWJD68JQX+/OBTCB2l5Lpn0Dg1q68uCSVApyw5vitFXjQyUVxSQW0h9CyWRhewJgFTbhiFUClStK4zB5W1ha9+Fy2CoNYKgHFPnUjnh9TIDII8MYa
- t4dg6jTzRi0vkkK3qBMeEIGLULLbddKGxeXhpLTc+XRGAZPOI8M5I3wcmzNbZbQWgN3dOMGZO9jsx/UVc2yCPrddweLVsdsbs8AV1Ay92I6p/DYy1W4OtoKA
- ou4BAU7S2lMw6tyogCb39iNwY2tH4ZfR+OW/imBdz5i0365azoIpGAApPwuGsYKMMftejhCZtGHmprCssdOkX4jfnkgd9g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sakari,
+On 14/06/2019 16:34, Christoph Hellwig wrote:
+> On Fri, Jun 14, 2019 at 05:30:32PM +0200, Greg KH wrote:
+>> On Fri, Jun 14, 2019 at 04:48:57PM +0200, Christoph Hellwig wrote:
+>>> On Fri, Jun 14, 2019 at 04:02:39PM +0200, Greg KH wrote:
+>>>> Perhaps a hint as to how we can fix this up?  This is the first time
+>>>> I've heard of the comedi code not handling dma properly.
+>>>
+>>> It can be fixed by:
+>>>
+>>>   a) never calling virt_to_page (or vmalloc_to_page for that matter)
+>>>      on dma allocation
+>>>   b) never remapping dma allocation with conflicting cache modes
+>>>      (no remapping should be doable after a) anyway).
+>>
+>> Ok, fair enough, have any pointers of drivers/core code that does this
+>> correctly?  I can put it on my todo list, but might take a week or so...
+> 
+> Just about everyone else.  They just need to remove the vmap and
+> either do one large allocation, or live with the fact that they need
+> helpers to access multiple array elements instead of one net vmap,
+> which most of the users already seem to do anyway, with just a few
+> using the vmap (which might explain why we didn't see blowups yet).
 
-Are you OK with this series? Please Ack if that's the case, so that I can
-merge it.
+Avoiding the vmap in comedi should be do-able as it already has other 
+means to get at the buffer pages.
 
-Regards,
+When comedi makes the buffer from DMA coherent memory, it currently 
+allocates it as a series of page-sized chunks.  That cannot be mmap'ed 
+in one go with dma_mmap_coherent(), so I see the following solutions.
 
-	Hans
+1. Change the buffer allocation to allocate a single chunk of DMA 
+coherent memory and use dma_mmap_coherent() to mmap it.
 
-On 5/20/19 11:27 PM, Janusz Krzysztofik wrote:
-> Correctness of format type (try or active) and pad ID parameters passed
-> to subdevice operation callbacks is now verified only for IOCTL calls.
-> However, those callbacks are also used by drivers, e.g., V4L2 host
-> interfaces.
-> 
-> Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
-> macro while calling subdevice operations, move those parameter checks
-> from subdev_do_ioctl() to v4l2_subdev_call().  Also, add check for
-> non-NULL pointers, including pad config if V4L2_SUBDEV_FORMAT_TRY is
-> requested.
-> 
-> Having that done, we can avoid taking care of those checks inside
-> drivers.
-> 
-> Janusz Krzysztofik (3):
->   media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
->   media: v4l2-subdev: Verify v4l2_subdev_call() pointer arguments
->   media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument
-> 
->  drivers/media/v4l2-core/v4l2-subdev.c | 268 +++++++++++++++++---------
->  include/media/v4l2-subdev.h           |   6 +
->  2 files changed, 188 insertions(+), 86 deletions(-)
-> 
-> Changelog:
-> v6->v7:
-> Changes suggested by Sakari - thanks!
-> - never succeed pad check on media entities with pad_num == 0,
-> - allow pad 0 on subdevies not registered as media entities.
-> 
-> v5->v6:
-> - rename wrappers to call_something() as suggested by Sakari - thanks!
-> - make check_ functions inline - also on Sakari's suggestion, thanks!
-> - drop patch 2/4 and remove WARN_ONs from remaining patches to avoid
->   kernel WARNs on non-kernel bugs - thanks Hans for pointing this out!
-> 
-> v4->v5:
-> - a few coding style and code formatting changes,
-> - require CONFIG_MEDIA_CONTROLLER, not CONFIG_VIDEO_V4L2_SUBDEV_API,
->   for a valid pad ID check,
-> - perform pad ID check only if at least one pad is configured so
->   drivers which don't configure pads are not affected if built with
->   CONFIG_MEDIA_CONTROLLER defined,
-> - issue kernel warnings on invalid parameters (new patch - 2/4),
-> - validate pointers before using them (new patch - 3/4).
-> 
-> v3->v4:
-> - fix 'struct' keyword missing from patch 2/2,
-> - fix checkpatch reported style issue in patch 2/2
-> Sorry for that.
-> 
-> v2->v3:
-> - add patch 2/2 with pad config check,
-> - adjust continuation line alignments in patch 1/2 to match those
->   used in 2/2.
-> 
-> v1->v2:
-> - replace the horrible macro with a structure of wrapper functions;
->   inspired by Hans' and Sakari's comments - thanks!
-> 
+2. Call dma_mmap_coherent() in a loop, adjusting vma->vm_start and 
+vma->vm_end for each iteration (vma->vm_pgoff will be 0), and restoring 
+the vma->vm_start and vma->vm_end at the end.
 
+I'm not sure if 2 is a legal option.
+
+-- 
+-=( Ian Abbott <abbotti@mev.co.uk> || Web: www.mev.co.uk )=-
+-=( MEV Ltd. is a company registered in England & Wales. )=-
+-=( Registered number: 02862268.  Registered address:    )=-
+-=( 15 West Park Road, Bramhall, STOCKPORT, SK7 3JZ, UK. )=-
