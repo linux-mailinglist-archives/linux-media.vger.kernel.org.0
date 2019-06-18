@@ -2,138 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B7AD494AE
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2019 23:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6249497CA
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 05:28:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727731AbfFQV7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jun 2019 17:59:42 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:32909 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726834AbfFQV7m (ORCPT
+        id S1726095AbfFRD2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jun 2019 23:28:49 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58288 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfFRD2t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jun 2019 17:59:42 -0400
-Received: by mail-ua1-f68.google.com with SMTP id f20so4142707ual.0
-        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2019 14:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EAhatab0HAVyw+PnT7+3nUVy3uXQEI6O1vd8Cnx2LKk=;
-        b=kvgoo1AWJ53ectZxNh7vumo7uHVF3ezzA+dmS6OCiyHy7q38adiyo8Mt48b9s1ecuS
-         8vbgSWAHi7F66ZbJb0OnnHkka0SZfIdhx44ptJvkStf7KSPyjOUktnOEWU+P5uVTHP64
-         eN+AH0Y198g5GhXwzgWWBTwbfohtVJT/rFQhRmBXLkxVDGhPtni3s7vOLmfSoppPuiMS
-         fw+6xL0t8nIg9W/VqAlmea2Xi/QAMj43r70NCnqPKdZOQ+k2pXu+G5fUMaRe8zFdt2fk
-         JWWQc2NJ/zMPTaMg9M5+VHQpiaQGfqqosa4YWPSG3qztsQIxZrsszWUCVKNg2vbMMWht
-         a6XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EAhatab0HAVyw+PnT7+3nUVy3uXQEI6O1vd8Cnx2LKk=;
-        b=HcKJCySq1cFcpjTXncTqc5KKk4leSBMENyNFZxD7gAYa4/cS8rigrdlB5vzTd+wDyg
-         C8/2yXM2qClFuciyTMsH5tapl9I9/SNSeIBt00ZLiJNQyS+coNpTrVNYlUT3uOKbANWf
-         qY4G0FV5UzlTRKn+zNOJwvwpx/PeQF8J4sdNvpTfm8UprreAo2MohIn3C8vaPseENHfx
-         JT/Z3HKHXCR4F/u+Jot9Gwl5Z51fT00XfIzXRi1f9Ns79K3rf+myTE+sN9dbWdcPUKFm
-         cBeNriFcCikMyIfyoqPxdIVvoB/GyPliVTrz4qKT05ZDPdfyH3ijRr1jfpcVOvfVyo/V
-         b6ug==
-X-Gm-Message-State: APjAAAUCVbCeTjrfcjnL7lOKVemQu/iqtRBtD3V2GWXLbhUDA9tS+sj/
-        4mwzY7YMaxXhfrGYDk31WEvbxnWZCbjFlSDcR1Kdsg==
-X-Google-Smtp-Source: APXvYqx2nWcd1UUVmxVOfqTdpy/EjWGEE63D+8CgDq6wsvkYXGUtTG/eldJ/84K4uXpb1xaJ0VQplOCTsiiUpsYmcEg=
-X-Received: by 2002:ab0:234e:: with SMTP id h14mr10788176uao.25.1560808781025;
- Mon, 17 Jun 2019 14:59:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560339705.git.andreyknvl@google.com> <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
- <20190617135636.GC1367@arrakis.emea.arm.com> <CAFKCwrjJ+0ijNKa3ioOP7xa91QmZU0NhkO=tNC-Q_ThC69vTug@mail.gmail.com>
- <20190617171813.GC34565@arrakis.emea.arm.com>
-In-Reply-To: <20190617171813.GC34565@arrakis.emea.arm.com>
-From:   Evgenii Stepanov <eugenis@google.com>
-Date:   Mon, 17 Jun 2019 14:59:29 -0700
-Message-ID: <CAFKCwrhuQ+x-KprJV=CPCrnQR9Ky9qL=M5q_pa3fGj27oo4mng@mail.gmail.com>
-Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control the
- tagged user addresses ABI
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+        Mon, 17 Jun 2019 23:28:49 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 37C452639AE
+Message-ID: <06161391ed2bbb0a2fc9085792b8db7c049d67db.camel@collabora.com>
+Subject: Re: [PATCH v2 0/4] vicodec: a couple fixes towards spec compliancy
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 18 Jun 2019 00:28:38 -0300
+In-Reply-To: <879d93cc-3777-bd61-5c14-34108fc8501a@xs4all.nl>
+References: <20181102155206.13681-1-ezequiel@collabora.com>
+         <879d93cc-3777-bd61-5c14-34108fc8501a@xs4all.nl>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 10:18 AM Catalin Marinas
-<catalin.marinas@arm.com> wrote:
->
-> On Mon, Jun 17, 2019 at 09:57:36AM -0700, Evgenii Stepanov wrote:
-> > On Mon, Jun 17, 2019 at 6:56 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > On Wed, Jun 12, 2019 at 01:43:20PM +0200, Andrey Konovalov wrote:
-> > > > From: Catalin Marinas <catalin.marinas@arm.com>
-> > > >
-> > > > It is not desirable to relax the ABI to allow tagged user addresses into
-> > > > the kernel indiscriminately. This patch introduces a prctl() interface
-> > > > for enabling or disabling the tagged ABI with a global sysctl control
-> > > > for preventing applications from enabling the relaxed ABI (meant for
-> > > > testing user-space prctl() return error checking without reconfiguring
-> > > > the kernel). The ABI properties are inherited by threads of the same
-> > > > application and fork()'ed children but cleared on execve().
-> > > >
-> > > > The PR_SET_TAGGED_ADDR_CTRL will be expanded in the future to handle
-> > > > MTE-specific settings like imprecise vs precise exceptions.
-> > > >
-> > > > Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-> > >
-> > > A question for the user-space folk: if an application opts in to this
-> > > ABI, would you want the sigcontext.fault_address and/or siginfo.si_addr
-> > > to contain the tag? We currently clear it early in the arm64 entry.S but
-> > > we could find a way to pass it down if needed.
-> >
-> > For HWASan this would not be useful because we instrument memory
-> > accesses with explicit checks anyway. For MTE, on the other hand, it
-> > would be very convenient to know the fault address tag without
-> > disassembling the code.
->
-> I could as this differently: does anything break if, once the user
-> opts in to TBI, fault_address and/or si_addr have non-zero top byte?
+On Mon, 2019-06-17 at 14:43 +0200, Hans Verkuil wrote:
+> Hi Ezequiel,
+> 
+> On 11/2/18 4:52 PM, Ezequiel Garcia wrote:
+> > Given the stateful codec specification is still a moving target,
+> > it doesn't make any sense to try to comply fully with it.
+> > 
+> > On the other side, we can still comply with some basic userspace
+> > expectations, with just a couple small changes.
+> > 
+> > This series implements proper resolution changes propagation,
+> > and fixes the CMD_STOP so it actually works.
+> > 
+> > The intention of this series is to be able to test this driver
+> > using already existing userspace, gstreamer in particular.
+> > With this changes, it's possible to construct variations of
+> > this pipeline:
+> > 
+> >   gst-launch-1.0 videotestsrc ! v4l2fwhtenc ! v4l2fwhtdec ! fakevideosink
+> > 
+> > Also, as discussed in v1 feedback [1,2], I'm including pixel format
+> > helpers, as RFC for now. Hans, Tomasz: is this what you had in mind?
+> > 
+> > [1] https://www.spinics.net/lists/linux-media/msg141912.html
+> > [2] https://www.spinics.net/lists/linux-media/msg142099.html
+> > 
+> > v2:
+> >   * Add more info to commit logs
+> >   * Propagate changes on both encoders and decoders
+> >   * Add pixel format helpers
+> > 
+> > Ezequiel Garcia (4):
+> >   media: Introduce helpers to fill pixel format structs
+> 
+> This one has been applied (or probably a later version) already.
+> 
+> >   vicodec: Use pixel format helpers
+> 
+> This doesn't apply anymore, but it would be useful to have.
+> 
+> If you can rebase it, then that would be nice.
+> 
 
-I think it would be fine.
+Sure.
 
-> Alternatively, we could present the original FAR_EL1 register as a
-> separate field as we do with ESR_EL1, independently of whether the user
-> opted in to TBI or not.
->
-> --
-> Catalin
+> >   vicodec: Propagate changes to the CAPTURE queue
+> >   vicodec: Implement spec-compliant stop command
+> 
+> This two are obsolete as far as I know. The vicodec driver should handle
+> this correctly now. If you think otherwise, please let me know.
+> 
+
+Sure, let me re-test it.
+
+Thanks,
+
