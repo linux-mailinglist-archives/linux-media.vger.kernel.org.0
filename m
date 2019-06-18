@@ -2,639 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1E749F9E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 13:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 077AF49FAD
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 13:51:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729845AbfFRLsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jun 2019 07:48:36 -0400
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:44450 "EHLO
-        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729841AbfFRLsg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jun 2019 07:48:36 -0400
-Received: by mail-vk1-f195.google.com with SMTP id w186so2732082vkd.11
-        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2019 04:48:34 -0700 (PDT)
+        id S1729881AbfFRLvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jun 2019 07:51:42 -0400
+Received: from mail-eopbgr680081.outbound.protection.outlook.com ([40.107.68.81]:50761
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729660AbfFRLvk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 18 Jun 2019 07:51:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Yn4pzIg4hZCmYmYBu0uWlHPLD5CVrUJDOUIsfyyt+Pk=;
-        b=QPggYLqa02a0llxIMIHsHS9jmySnda7OkAo+IrnQoVsxS5rv1l2S48jJtuXFe4pb8y
-         ZhBc6vx/RFcmC3RjAHpAa6TO2/BuOSj8xYkjGUqytcLU3Ip3Dkdyyf5h6RssyfhfAJy+
-         0hE4u8aqVG4PolgVrJndFkt7zGmqL9cJjKigk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Yn4pzIg4hZCmYmYBu0uWlHPLD5CVrUJDOUIsfyyt+Pk=;
-        b=qBLYXB9Sx76IBWOa7/xlfZUYq1bCCC3aEZMS+oYCE7L/GuEdKYRWRU1k5Jnk7dYuwG
-         lOvG+8lnS5OlLOePuFpyk7HXeXPTev94BZuTkuSa5fg+T5iQ+rsAHFOid90+buqLFE5i
-         PAG88MZj/4AC74uFegJRD2xshusRE22LaSujsXDGx4V1FIhtZvgmvHeGJTkk3nbnPJIQ
-         I+pRnk59+I2Vh3l0bzTr/JypAqfuNCmQHkqR5VbgdLLA3gX2ykD39RHbcHQVKd+4YtnN
-         ycDuatQ3D7oszcg7oKuAY/oJzhXE07bTyd3/SudrwJMrT/+eVlQRfBX4NC9CDLyxw+mo
-         nUoQ==
-X-Gm-Message-State: APjAAAVv+lwGInfbbQdK9vLXZWkfivsY5JgqMEiiPL6igJ1z9Ktcrs1k
-        q0rRH5CltWfr6lAol1tTVrjhCkr5HkB0RWnNen8TXg==
-X-Google-Smtp-Source: APXvYqyOtcm66EvQsqLQgwOwIMziEj0Gv7aUB7DByvPMmASXv+uhhoi+eDP49kab6KFFw1KZdJrEqmrCV2EUkyiwsKA=
-X-Received: by 2002:a1f:b20d:: with SMTP id b13mr1642610vkf.75.1560858513696;
- Tue, 18 Jun 2019 04:48:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190603043251.226549-1-cychiang@chromium.org>
- <20190603043251.226549-2-cychiang@chromium.org> <41e7052b-a58c-5a8c-5d94-37237e0c2070@xs4all.nl>
- <20190603080931.GG21222@phenom.ffwll.local> <CAFv8Nw+1sB8i1d87vLeKxRricZOi4gnXFSgOzW9k0sa_Tzybjg@mail.gmail.com>
- <20190604072411.GP21222@phenom.ffwll.local> <CAFv8NwKL9ZL=gNpDmdRV+R9eq22+Da_1kzuYBv8kMMyV3Hq14g@mail.gmail.com>
- <20190611123455.GD2458@phenom.ffwll.local>
-In-Reply-To: <20190611123455.GD2458@phenom.ffwll.local>
-From:   Cheng-yi Chiang <cychiang@chromium.org>
-Date:   Tue, 18 Jun 2019 19:48:06 +0800
-Message-ID: <CAFv8NwJxs-R=ehgeqyx=e+T5OmUBsk3uWnUb2t0cC-LDPS7G5w@mail.gmail.com>
-Subject: Re: [PATCH 1/7] video: add HDMI state notifier support
-To:     Cheng-yi Chiang <cychiang@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
+ d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UP0Iz5S+NUWB71Rv2yS4zDyohxll3blWglyV3trdIMc=;
+ b=vwagPgbtDUYLdANaSM+oSOQ0PKv1Zh/0LsjpTxxm9K6k7GxTMLY4uGP7SIkg99rLsMJKogiZ/k8ORS+CE6hDhidUgxFMQok+4D/0N2lBPEZcbxMTr5yQ76RIFDK78oL5LuVVjBrRs5XLZ9KrK9I+4fF5IQZQkCIIOkxF7Gmf10M=
+Received: from CH2PR02MB6088.namprd02.prod.outlook.com (52.132.228.94) by
+ CH2PR02MB6405.namprd02.prod.outlook.com (52.132.231.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Tue, 18 Jun 2019 11:51:32 +0000
+Received: from CH2PR02MB6088.namprd02.prod.outlook.com
+ ([fe80::d109:38a2:f2d5:b351]) by CH2PR02MB6088.namprd02.prod.outlook.com
+ ([fe80::d109:38a2:f2d5:b351%7]) with mapi id 15.20.1987.014; Tue, 18 Jun 2019
+ 11:51:32 +0000
+From:   Vishal Sagar <vsagar@xilinx.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michals@xilinx.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Doug Anderson <dianders@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>, tzungbi@chromium.org,
-        linux-media@vger.kernel.org,
-        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: RE: [PATCH 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx Subsystem
+ driver
+Thread-Topic: [PATCH 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx Subsystem
+ driver
+Thread-Index: AQHVGt1y9b6kdvITzkGymcoGfLMXzqaNBsMAgA4EhgCAAV5HgIAE6Gdg
+Date:   Tue, 18 Jun 2019 11:51:31 +0000
+Message-ID: <CH2PR02MB60883EDB9B3B2AED8A2555CBA7EA0@CH2PR02MB6088.namprd02.prod.outlook.com>
+References: <1559656556-79174-1-git-send-email-vishal.sagar@xilinx.com>
+ <1559656556-79174-3-git-send-email-vishal.sagar@xilinx.com>
+ <023cf8a6-6fbc-6425-8bca-798045d39e02@xs4all.nl>
+ <CH2PR02MB608838E59840F73F00534198A7EE0@CH2PR02MB6088.namprd02.prod.outlook.com>
+ <740f44cb-24af-72c4-f227-5323efcee8ac@xs4all.nl>
+In-Reply-To: <740f44cb-24af-72c4-f227-5323efcee8ac@xs4all.nl>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsagar@xilinx.com; 
+x-originating-ip: [149.199.50.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 21b20b01-1f3b-46d4-e8f5-08d6f3e34ea0
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:CH2PR02MB6405;
+x-ms-traffictypediagnostic: CH2PR02MB6405:
+x-microsoft-antispam-prvs: <CH2PR02MB64057E70CE579DBF90F917B9A7EA0@CH2PR02MB6405.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 007271867D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(39860400002)(136003)(346002)(376002)(366004)(396003)(51914003)(189003)(199004)(13464003)(26005)(53546011)(6506007)(256004)(8676002)(305945005)(66556008)(66446008)(64756008)(8936002)(76176011)(66476007)(11346002)(229853002)(3846002)(2906002)(86362001)(14444005)(478600001)(7736002)(476003)(7696005)(81166006)(14454004)(102836004)(186003)(81156014)(6116002)(53936002)(71190400001)(25786009)(6916009)(99286004)(54906003)(7416002)(4326008)(71200400001)(446003)(486006)(9686003)(55016002)(76116006)(66946007)(33656002)(73956011)(5660300002)(74316002)(6436002)(68736007)(316002)(6246003)(66066001)(52536014)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:CH2PR02MB6405;H:CH2PR02MB6088.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: LFITnW56u1/MUy3BU77jhQ07jxCpLCw6LagDDuP2lODJ2oTHhzBbMicRO5Hm8jEk76VAlzJVTlEX21FaO26elqbA/883hlAohVaIRdGYcdM5nqUvgJciFjq0x5tLPGH1jLtW5wamcmRqSrdasGd7hJkw6uhZt5RXgY7N+7805WCIP9DndO4pDS47v5ZVxK9fgIL65/MiYngYH+zsp6hFMgAw3pgE/njZsBrPhmIeK4pRw6LCwiOfZenZHsplEmpp0JtY4carqcIY51BTRenS07uj/OvRcQBxJa07uXafjB9afMhn4ufeKBuWxGDaMmVgYZnaYHhsENxqC2vYvg538nvIXTZS9LnchgKqV/USs9NBI8e9RpqmDnnRmx+UAsg2WngMHVR7W9WTHwQbUcnvAjTx77U7UMtez2ZOmQazzHo=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21b20b01-1f3b-46d4-e8f5-08d6f3e34ea0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2019 11:51:31.9669
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsagar@xilinx.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6405
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 8:35 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Jun 11, 2019 at 08:10:38PM +0800, Cheng-yi Chiang wrote:
-> > On Tue, Jun 4, 2019 at 3:24 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Tue, Jun 04, 2019 at 10:32:50AM +0800, Cheng-yi Chiang wrote:
-> > > > On Mon, Jun 3, 2019 at 4:09 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > On Mon, Jun 03, 2019 at 09:45:49AM +0200, Hans Verkuil wrote:
-> > > > > > On 6/3/19 6:32 AM, Cheng-Yi Chiang wrote:
-> > > > > > > From: Hans Verkuil <hans.verkuil@cisco.com>
-> > > > > > >
-> > > > > > > Add support for HDMI hotplug and EDID notifiers, which is used to convey
-> > > > > > > information from HDMI drivers to their CEC and audio counterparts.
-> > > > > > >
-> > > > > > > Based on an earlier version from Russell King:
-> > > > > > >
-> > > > > > > https://patchwork.kernel.org/patch/9277043/
-> > > > > > >
-> > > > > > > The hdmi_notifier is a reference counted object containing the HDMI state
-> > > > > > > of an HDMI device.
-> > > > > > >
-> > > > > > > When a new notifier is registered the current state will be reported to
-> > > > > > > that notifier at registration time.
-> > > > > > >
-> > > > > > > Based on Hans Verkuil's patch:
-> > > > > > >
-> > > > > > > https://patchwork.kernel.org/patch/9472521/
-> > > > > >
-> > > > > > Erm, you are aware that this patch morphed into a CEC-specific notifier
-> > > > > > found in drivers/media/cec/cec-notifier.c?
-> > > > > >
-> > > > > > I don't think it makes sense to have two notifier implementations in the kernel.
-> > > > > > The original intention was to have the notifier deal with both CEC and ASoC
-> > > > > > notifications, but there was not enough interest for the ASoC bits at the time
-> > > > > > and it was dropped.
-> > > > > >
-> > > > > > I am planning changes to the cec-notifier API, I hope to work on that this
-> > > > > > week. I'll CC you when I post those. Those might be a good starting point
-> > > > > > to convert the cec-notifier to an hdmi-notifier as was originally intended.
-> > > > > >
-> > > > > > I've added your colleague Dariusz Marcinkiewicz to the CC list since he's been
-> > > > > > working on some nice cec-notifier improvements as well.
-> > > > >
-> > > > > We also have some interfaces for drm/alsa interactions around hdmi
-> > > > > already in drm/drm_audio_component.h, but it's not used by anything
-> > > > > outside of i915. Imo we should extend that, not reinvent a new wheel.
-> > > > >
-> > > > Hi Daniel,
-> > > > Thank you for the pointer. Looking at the ops, it seems that it is
-> > > > specific to HDA.
-> > > > I am not familiar with drm and HDA. I am not sure how applicable it
-> > > > would be to report jack status to ASoC.
-> > > > There is a use case in sound/soc/codecs/hdac_hdmi.c though so it
-> > > > should be possible.
-> > >
-> > > Currently hda is the only user, but the idea was to make it more generic.
-> > > Jack status in alsa is what drm calls connector status btw.
-> > >
-> > > So if we can take that as a baseline and extend it (probably needs some
-> > > registration boilerplate and helpers to look up the right endpoint using
-> > > of/dt for soc systems, we use component.c in i915/hda for this), that
-> > > would be great I think.
-> > >
-> > > > > Another note: notifiers considered evil, imo. Gets the job done for one
-> > > > > case, as soon as you have multiple devices and need to make sure you get
-> > > > > the update for the right one it all comes crashing down. Please create an
-> > > > > api which registers for updates from a specific device only, plus
-> > > > > something that has real callbacks (like the drm_audio_component.h thing we
-> > > > > started already).
-> > > >
-> > > > To clarify a bit, this hdmi-notifier indeed supports updating from a
-> > > > specific device only.
-> > > > hdmi_notifier_get takes a device and return the notifier.
-> > >
-> > > Hm I missed that, I thought it's global, so one of my usual notifier
-> > > concerns addressed.
-> > >
-> > > > It seems that a major difference between drm_audio_components and
-> > > > hdmi-notifier is that
-> > > > drm_audio_components defines all supported ops in drm_audio_component_audio_ops.
-> > > > On the other hand, hdmi-notifier passes different events using an enum
-> > > > like HDMI_CONNECTED and let listener handle different events.
-> > > > In this regard I agree with you that drm_audio_component is cleaner.
-> > > > Anyway, I will look into it a bit more and see how it works.
-> > >
-> > > Yeah I think if we could combine the approach, i.e. notifier side for
-> > > registration, some _ops structure for the actual notifications, then
-> > > there's a solid interface. I just really don't like the opaque void *
-> > > interface notifier provides, it encourages abuse way too much.
-> > >
-> > > Ofc the registration side would then no longer be based on the notifier
-> > > datastructure, list_head (like cec-notifier.c) of registeres devices with
-> > > their _ops structure should be enough.
-> > > -Daniel
-> >
-> > Hi Daniel,
-> > Yes, I agree the above statement that we should have a more solid interface.
-> >
-> > Hi Hans,
-> > I am not sure if I missed the patch.
-> > Do you have a estimated timeline for new cec-notifier interface you
-> > are working on?
-> > It seems that your PoC patch needs Dariusz's patch to work.
-> > I would like to seek your advice on whether I can proceed without your
-> > patch and Dariusz's patch.
-> >
-> > I looked through the patch from Dariusz
-> >
-> > https://lkml.org/lkml/2019/5/21/389
-> >
-> > , and saw that you were thinking whether we should use cec-notifier
-> > for both HDMI and CEC.
-> >
-> > https://lkml.org/lkml/2019/5/24/298
-> >
-> > Could you please let me know your latest thought on whether we should
-> > reuse cec-notifier?
->
-> Nah, see later in that thread, I think cec and audio seem to be different
-> use-cases.
->
-Ack
-> But definitely a good idea to sync with Dariusz, I forgot to pull the two
-> threads together. Thanks for doing that.
->
-> > I agree with you that I should not proceed with hdmi-notifier. Reasons include:
-> > 1. Method like cec_notifier_parse_hdmi_phandle can be reused. It is
-> > error prone to memory leak if it is implemented by user, like the
-> > patch in hdmi-codec.c in this series did not handle the ref count.
-> > 2. cec-notifier has a simpler implementation of register / unregister
-> > because there is no call chain. I am not aware of the need for
-> > hdmi-notifier to support a chain of callbacks. So I think that call
-> > chain support can be removed.
-> >
-> > If I go ahead and add a new interface to register ops to handle
-> > connector status report from cec-notifer, based on current
-> > cec-notifier, do you think that would work ?
-> > I think it might work if I add another cec_notifier object inside
-> > dw-hdmi.c, but only for HDMI jack reporting, not for CEC related
-> > reporting.
-> >
-> > And after some investigation, I realize that my requirement is even
-> > simpler. I don't need hdmi_event_new_edid and hdmi_event_new_eld in my
-> > use case.
->
-> Yeah, connector status is how we started with the drm/alsa interface in
-> i915 too, but later on had to extend it. I think eventually we'll need it
-> all, that's why I suggested to use that as the interface between drm and
-> alsa side, but augmented with some register/unregister and bind logic.
->
-Hi Daniel,
-Sorry for the late reply.
-I spent some time investigating how drm_audio_component works.
-The coupling of HDA in drm_audio_component framework makes the
-register/unregister logic looks complicated to me as I don't use HDA
-in my use case.
-After some time, I found another patch series which also use component
-framework to communicate between drm and mei world.
-
-https://patchwork.kernel.org/patch/10824527/
-
-And from that patch, I realized that I can follow the similar approach
-to register a master component on ALSA side, a slave component on DRM
-side, and use device and subcomponent to match them.
-I should be able to do this without touching anything specific to HDA.
-After that, DRM world should be able to use the ops in
-drm_audio_component_audio_ops to notify ALSA world some event when
-there is something happen in DRM world.
-Currently the ops like pin_eld_notify, pin2port are too specific to HDA.
-I think I can add an ops to drm_audio_component_audio_ops to convey
-connector status.
-I will work toward this approach these days.
-If you have other thought please let me know.
-Thanks!
-
-> > I just need to report the connector status from synopsys/dw-hdmi.c to
-> > codecs/hdmi-codec.c for codec driver to update the jack status.
-> > Do you think I can proceed in this direction ? Or do you prefer I wait
-> > for a while and work on it based on your new patch.
->
-> I think most important part here is that we sync across all the different
-> people pushing for better drm/alsa integration. What the solution looks
-> like in the end doesn't matter much imo, as long as we don't end up with 3
-> different things :-)
-
-Totally agree.
-Thanks again!
-
->
-> Cheers, Daniel
->
-> >
-> > Thanks a lot!
-> >
-> >
-> > >
-> > > >
-> > > > Thanks again!
-> > > >
-> > > > > -Daniel
-> > > > >
-> > > > > >
-> > > > > > Regards,
-> > > > > >
-> > > > > >       Hans
-> > > > > >
-> > > > > > >
-> > > > > > > Modified by Cheng-Yi Chiang:
-> > > > > > >  - Add a section in MAINTAINER.
-> > > > > > >  - Changes connected and has_eld to bitfield of unsigned int.
-> > > > > > >  - Other minor fixes to pass checkpatch.pl --strict checks.
-> > > > > > >
-> > > > > > > Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> > > > > > > Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > > > > Signed-off-by: Cheng-Yi Chiang <cychiang@chromium.org>
-> > > > > > > ---
-> > > > > > > The original patch is at
-> > > > > > > https://lore.kernel.org/linux-arm-kernel/20161213150813.37966-2-hverkuil@xs4all.nl
-> > > > > > >
-> > > > > > >  MAINTAINERS                   |   6 ++
-> > > > > > >  drivers/video/Kconfig         |   3 +
-> > > > > > >  drivers/video/Makefile        |   1 +
-> > > > > > >  drivers/video/hdmi-notifier.c | 145 ++++++++++++++++++++++++++++++++++
-> > > > > > >  include/linux/hdmi-notifier.h | 112 ++++++++++++++++++++++++++
-> > > > > > >  5 files changed, 267 insertions(+)
-> > > > > > >  create mode 100644 drivers/video/hdmi-notifier.c
-> > > > > > >  create mode 100644 include/linux/hdmi-notifier.h
-> > > > > > >
-> > > > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > > > index 5cfbea4ce575..ffb7376f9509 100644
-> > > > > > > --- a/MAINTAINERS
-> > > > > > > +++ b/MAINTAINERS
-> > > > > > > @@ -16676,6 +16676,12 @@ W: https://linuxtv.org
-> > > > > > >  S: Maintained
-> > > > > > >  F: drivers/media/platform/vicodec/*
-> > > > > > >
-> > > > > > > +VIDEO FRAMEWORK
-> > > > > > > +M: Hans Verkuil <hverkuil@xs4all.nl>
-> > > > > > > +L: linux-media@vger.kernel.org
-> > > > > > > +F: drivers/video/hdmi-notifier.*
-> > > > > > > +S: Maintained
-> > > > > > > +
-> > > > > > >  VIDEO MULTIPLEXER DRIVER
-> > > > > > >  M: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > > > >  L: linux-media@vger.kernel.org
-> > > > > > > diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
-> > > > > > > index 83d3d271ca15..000ba9bc0ae7 100644
-> > > > > > > --- a/drivers/video/Kconfig
-> > > > > > > +++ b/drivers/video/Kconfig
-> > > > > > > @@ -34,6 +34,9 @@ config VIDEOMODE_HELPERS
-> > > > > > >  config HDMI
-> > > > > > >     bool
-> > > > > > >
-> > > > > > > +config HDMI_NOTIFIERS
-> > > > > > > +   bool
-> > > > > > > +
-> > > > > > >  endif # HAS_IOMEM
-> > > > > > >
-> > > > > > >  if VT
-> > > > > > > diff --git a/drivers/video/Makefile b/drivers/video/Makefile
-> > > > > > > index df7650adede9..eff4736102ca 100644
-> > > > > > > --- a/drivers/video/Makefile
-> > > > > > > +++ b/drivers/video/Makefile
-> > > > > > > @@ -1,6 +1,7 @@
-> > > > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > > >  obj-$(CONFIG_VGASTATE)            += vgastate.o
-> > > > > > >  obj-$(CONFIG_HDMI)                += hdmi.o
-> > > > > > > +obj-$(CONFIG_HDMI_NOTIFIERS)      += hdmi-notifier.o
-> > > > > > >
-> > > > > > >  obj-$(CONFIG_VT)             += console/
-> > > > > > >  obj-$(CONFIG_FB_STI)                 += console/
-> > > > > > > diff --git a/drivers/video/hdmi-notifier.c b/drivers/video/hdmi-notifier.c
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..d1eedf661648
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/drivers/video/hdmi-notifier.c
-> > > > > > > @@ -0,0 +1,145 @@
-> > > > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > > > +/* hdmi-notifier.c - notify interested parties of (dis)connect and EDID
-> > > > > > > + * events
-> > > > > > > + *
-> > > > > > > + * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> > > > > > > + * Copyright 2016 Cisco Systems, Inc. and/or its affiliates.
-> > > > > > > + * All rights reserved.
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +#include <linux/export.h>
-> > > > > > > +#include <linux/hdmi-notifier.h>
-> > > > > > > +#include <linux/string.h>
-> > > > > > > +#include <linux/slab.h>
-> > > > > > > +#include <linux/list.h>
-> > > > > > > +
-> > > > > > > +static LIST_HEAD(hdmi_notifiers);
-> > > > > > > +static DEFINE_MUTEX(hdmi_notifiers_lock);
-> > > > > > > +
-> > > > > > > +struct hdmi_notifier *hdmi_notifier_get(struct device *dev)
-> > > > > > > +{
-> > > > > > > +   struct hdmi_notifier *n;
-> > > > > > > +
-> > > > > > > +   mutex_lock(&hdmi_notifiers_lock);
-> > > > > > > +   list_for_each_entry(n, &hdmi_notifiers, head) {
-> > > > > > > +           if (n->dev == dev) {
-> > > > > > > +                   mutex_unlock(&hdmi_notifiers_lock);
-> > > > > > > +                   kref_get(&n->kref);
-> > > > > > > +                   return n;
-> > > > > > > +           }
-> > > > > > > +   }
-> > > > > > > +   n = kzalloc(sizeof(*n), GFP_KERNEL);
-> > > > > > > +   if (!n)
-> > > > > > > +           goto unlock;
-> > > > > > > +   n->dev = dev;
-> > > > > > > +   mutex_init(&n->lock);
-> > > > > > > +   BLOCKING_INIT_NOTIFIER_HEAD(&n->notifiers);
-> > > > > > > +   kref_init(&n->kref);
-> > > > > > > +   list_add_tail(&n->head, &hdmi_notifiers);
-> > > > > > > +unlock:
-> > > > > > > +   mutex_unlock(&hdmi_notifiers_lock);
-> > > > > > > +   return n;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_notifier_get);
-> > > > > > > +
-> > > > > > > +static void hdmi_notifier_release(struct kref *kref)
-> > > > > > > +{
-> > > > > > > +   struct hdmi_notifier *n =
-> > > > > > > +           container_of(kref, struct hdmi_notifier, kref);
-> > > > > > > +
-> > > > > > > +   mutex_lock(&hdmi_notifiers_lock);
-> > > > > > > +   list_del(&n->head);
-> > > > > > > +   mutex_unlock(&hdmi_notifiers_lock);
-> > > > > > > +   kfree(n->edid);
-> > > > > > > +   kfree(n);
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +void hdmi_notifier_put(struct hdmi_notifier *n)
-> > > > > > > +{
-> > > > > > > +   kref_put(&n->kref, hdmi_notifier_release);
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_notifier_put);
-> > > > > > > +
-> > > > > > > +int hdmi_notifier_register(struct hdmi_notifier *n, struct notifier_block *nb)
-> > > > > > > +{
-> > > > > > > +   int ret = blocking_notifier_chain_register(&n->notifiers, nb);
-> > > > > > > +
-> > > > > > > +   if (ret)
-> > > > > > > +           return ret;
-> > > > > > > +   kref_get(&n->kref);
-> > > > > > > +   mutex_lock(&n->lock);
-> > > > > > > +   if (n->connected) {
-> > > > > > > +           blocking_notifier_call_chain(&n->notifiers, HDMI_CONNECTED, n);
-> > > > > > > +           if (n->edid_size)
-> > > > > > > +                   blocking_notifier_call_chain(&n->notifiers,
-> > > > > > > +                                                HDMI_NEW_EDID, n);
-> > > > > > > +           if (n->has_eld)
-> > > > > > > +                   blocking_notifier_call_chain(&n->notifiers,
-> > > > > > > +                                                HDMI_NEW_ELD, n);
-> > > > > > > +   }
-> > > > > > > +   mutex_unlock(&n->lock);
-> > > > > > > +   return 0;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_notifier_register);
-> > > > > > > +
-> > > > > > > +int hdmi_notifier_unregister(struct hdmi_notifier *n, struct notifier_block *nb)
-> > > > > > > +{
-> > > > > > > +   int ret = blocking_notifier_chain_unregister(&n->notifiers, nb);
-> > > > > > > +
-> > > > > > > +   if (ret == 0)
-> > > > > > > +           hdmi_notifier_put(n);
-> > > > > > > +   return ret;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_notifier_unregister);
-> > > > > > > +
-> > > > > > > +void hdmi_event_connect(struct hdmi_notifier *n)
-> > > > > > > +{
-> > > > > > > +   mutex_lock(&n->lock);
-> > > > > > > +   n->connected = true;
-> > > > > > > +   blocking_notifier_call_chain(&n->notifiers, HDMI_CONNECTED, n);
-> > > > > > > +   mutex_unlock(&n->lock);
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_event_connect);
-> > > > > > > +
-> > > > > > > +void hdmi_event_disconnect(struct hdmi_notifier *n)
-> > > > > > > +{
-> > > > > > > +   mutex_lock(&n->lock);
-> > > > > > > +   n->connected = false;
-> > > > > > > +   n->has_eld = false;
-> > > > > > > +   n->edid_size = 0;
-> > > > > > > +   blocking_notifier_call_chain(&n->notifiers, HDMI_DISCONNECTED, n);
-> > > > > > > +   mutex_unlock(&n->lock);
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_event_disconnect);
-> > > > > > > +
-> > > > > > > +int hdmi_event_new_edid(struct hdmi_notifier *n, const void *edid, size_t size)
-> > > > > > > +{
-> > > > > > > +   mutex_lock(&n->lock);
-> > > > > > > +   if (n->edid_allocated_size < size) {
-> > > > > > > +           void *p = kmalloc(size, GFP_KERNEL);
-> > > > > > > +
-> > > > > > > +           if (!p) {
-> > > > > > > +                   mutex_unlock(&n->lock);
-> > > > > > > +                   return -ENOMEM;
-> > > > > > > +           }
-> > > > > > > +           kfree(n->edid);
-> > > > > > > +           n->edid = p;
-> > > > > > > +           n->edid_allocated_size = size;
-> > > > > > > +   }
-> > > > > > > +   memcpy(n->edid, edid, size);
-> > > > > > > +   n->edid_size = size;
-> > > > > > > +   blocking_notifier_call_chain(&n->notifiers, HDMI_NEW_EDID, n);
-> > > > > > > +   mutex_unlock(&n->lock);
-> > > > > > > +   return 0;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_event_new_edid);
-> > > > > > > +
-> > > > > > > +void hdmi_event_new_eld(struct hdmi_notifier *n, const u8 eld[128])
-> > > > > > > +{
-> > > > > > > +   mutex_lock(&n->lock);
-> > > > > > > +   memcpy(n->eld, eld, sizeof(n->eld));
-> > > > > > > +   n->has_eld = true;
-> > > > > > > +   blocking_notifier_call_chain(&n->notifiers, HDMI_NEW_ELD, n);
-> > > > > > > +   mutex_unlock(&n->lock);
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(hdmi_event_new_eld);
-> > > > > > > diff --git a/include/linux/hdmi-notifier.h b/include/linux/hdmi-notifier.h
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..c8f35110e3e3
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/include/linux/hdmi-notifier.h
-> > > > > > > @@ -0,0 +1,112 @@
-> > > > > > > +/* SPDX-License-Identifier: GPL-2.0
-> > > > > > > + * hdmi-notifier.h - notify interested parties of (dis)connect and EDID
-> > > > > > > + * events
-> > > > > > > + *
-> > > > > > > + * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> > > > > > > + * Copyright 2016 Cisco Systems, Inc. and/or its affiliates.
-> > > > > > > + * All rights reserved.
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +#ifndef LINUX_HDMI_NOTIFIER_H
-> > > > > > > +#define LINUX_HDMI_NOTIFIER_H
-> > > > > > > +
-> > > > > > > +#include <linux/types.h>
-> > > > > > > +#include <linux/notifier.h>
-> > > > > > > +#include <linux/kref.h>
-> > > > > > > +
-> > > > > > > +enum {
-> > > > > > > +   HDMI_CONNECTED,
-> > > > > > > +   HDMI_DISCONNECTED,
-> > > > > > > +   HDMI_NEW_EDID,
-> > > > > > > +   HDMI_NEW_ELD,
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +struct device;
-> > > > > > > +
-> > > > > > > +struct hdmi_notifier {
-> > > > > > > +   /* Lock to protect callback registration and notification. */
-> > > > > > > +   struct mutex lock;
-> > > > > > > +   struct list_head head;
-> > > > > > > +   struct kref kref;
-> > > > > > > +   struct blocking_notifier_head notifiers;
-> > > > > > > +   struct device *dev;
-> > > > > > > +
-> > > > > > > +   /* Current state */
-> > > > > > > +   unsigned int connected : 1;
-> > > > > > > +   unsigned int has_eld : 1;
-> > > > > > > +   unsigned char eld[128];
-> > > > > > > +   void *edid;
-> > > > > > > +   size_t edid_size;
-> > > > > > > +   size_t edid_allocated_size;
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_notifier_get - find or create a new hdmi_notifier for the given device.
-> > > > > > > + * @dev: device that sends the events.
-> > > > > > > + *
-> > > > > > > + * If a notifier for device @dev already exists, then increase the refcount
-> > > > > > > + * and return that notifier.
-> > > > > > > + *
-> > > > > > > + * If it doesn't exist, then allocate a new notifier struct and return a
-> > > > > > > + * pointer to that new struct.
-> > > > > > > + *
-> > > > > > > + * Return NULL if the memory could not be allocated.
-> > > > > > > + */
-> > > > > > > +struct hdmi_notifier *hdmi_notifier_get(struct device *dev);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_notifier_put - decrease refcount and delete when the refcount reaches 0.
-> > > > > > > + * @n: notifier
-> > > > > > > + */
-> > > > > > > +void hdmi_notifier_put(struct hdmi_notifier *n);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_notifier_register - register the notifier with the notifier_block.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + * @nb: the notifier_block
-> > > > > > > + */
-> > > > > > > +int hdmi_notifier_register(struct hdmi_notifier *n, struct notifier_block *nb);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_notifier_unregister - unregister the notifier with the notifier_block.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + * @nb: the notifier_block
-> > > > > > > + */
-> > > > > > > +int hdmi_notifier_unregister(struct hdmi_notifier *n,
-> > > > > > > +                        struct notifier_block *nb);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_event_connect - send a connect event.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + *
-> > > > > > > + * Send an HDMI_CONNECTED event to any registered parties.
-> > > > > > > + */
-> > > > > > > +void hdmi_event_connect(struct hdmi_notifier *n);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_event_disconnect - send a disconnect event.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + *
-> > > > > > > + * Send an HDMI_DISCONNECTED event to any registered parties.
-> > > > > > > + */
-> > > > > > > +void hdmi_event_disconnect(struct hdmi_notifier *n);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_event_new_edid - send a new EDID event.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + *
-> > > > > > > + * Send an HDMI_NEW_EDID event to any registered parties.
-> > > > > > > + * This function will make a copy the EDID so it can return -ENOMEM if
-> > > > > > > + * no memory could be allocated.
-> > > > > > > + */
-> > > > > > > +int hdmi_event_new_edid(struct hdmi_notifier *n, const void *edid, size_t size);
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * hdmi_event_new_eld - send a new ELD event.
-> > > > > > > + * @n: the HDMI notifier
-> > > > > > > + *
-> > > > > > > + * Send an HDMI_NEW_ELD event to any registered parties.
-> > > > > > > + */
-> > > > > > > +void hdmi_event_new_eld(struct hdmi_notifier *n, const u8 eld[128]);
-> > > > > > > +
-> > > > > > > +#endif
-> > > > > > >
-> > > > > >
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+SGkgSGFucywNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBIYW5zIFZl
+cmt1aWwgW21haWx0bzpodmVya3VpbEB4czRhbGwubmxdDQo+IFNlbnQ6IFNhdHVyZGF5LCBKdW5l
+IDE1LCAyMDE5IDE6MjUgUE0NCj4gVG86IFZpc2hhbCBTYWdhciA8dnNhZ2FyQHhpbGlueC5jb20+
+DQo+IENjOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1tZWRpYUB2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LWFybS0NCj4ga2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7IGRldmlj
+ZXRyZWVAdmdlci5rZXJuZWwub3JnOyBEaW5lc2ggS3VtYXINCj4gPGRpbmVzaGtAeGlsaW54LmNv
+bT47IFNhbmRpcCBLb3RoYXJpIDxzYW5kaXBrQHhpbGlueC5jb20+OyBWaXNoYWwgU2FnYXINCj4g
+PHZpc2hhbC5zYWdhckB4aWxpbnguY29tPjsgSHl1biBLd29uIDxoeXVua0B4aWxpbnguY29tPjsg
+TGF1cmVudCBQaW5jaGFydA0KPiA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPjsg
+TWF1cm8gQ2FydmFsaG8gQ2hlaGFiDQo+IDxtY2hlaGFiQGtlcm5lbC5vcmc+OyBNaWNoYWwgU2lt
+ZWsgPG1pY2hhbHNAeGlsaW54LmNvbT47IFJvYiBIZXJyaW5nDQo+IDxyb2JoK2R0QGtlcm5lbC5v
+cmc+OyBNYXJrIFJ1dGxhbmQgPG1hcmsucnV0bGFuZEBhcm0uY29tPjsgU2FrYXJpIEFpbHVzDQo+
+IDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDIv
+Ml0gbWVkaWE6IHY0bDogeGlsaW54OiBBZGQgWGlsaW54IFVIRC1TREkgUnggU3Vic3lzdGVtDQo+
+IGRyaXZlcg0KPiANCj4gT24gNi8xNC8xOSAxOjQ0IFBNLCBWaXNoYWwgU2FnYXIgd3JvdGU6DQo+
+ID4gSGkgSGFucywNCj4gPg0KPiA+IFRoYW5rcyBmb3IgcmV2aWV3aW5nIHRoaXMgcGF0Y2guDQo+
+ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogSGFucyBWZXJr
+dWlsIFttYWlsdG86aHZlcmt1aWxAeHM0YWxsLm5sXQ0KPiA+PiBTZW50OiBXZWRuZXNkYXksIEp1
+bmUgMDUsIDIwMTkgNjoyOCBQTQ0KPiA+PiBUbzogVmlzaGFsIFNhZ2FyIDx2aXNoYWwuc2FnYXJA
+eGlsaW54LmNvbT47IEh5dW4gS3dvbg0KPiA8aHl1bmtAeGlsaW54LmNvbT47DQo+ID4+IExhdXJl
+bnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IE1hdXJvIENh
+cnZhbGhvDQo+ID4+IENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPjsgTWljaGFsIFNpbWVrIDxt
+aWNoYWxzQHhpbGlueC5jb20+OyBSb2INCj4gPj4gSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3Jn
+PjsgTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT4NCj4gPj4gQ2M6IGxpbnV4LWtl
+cm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgbGludXgt
+YXJtLQ0KPiA+PiBrZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtl
+cm5lbC5vcmc7IERpbmVzaCBLdW1hcg0KPiA+PiA8ZGluZXNoa0B4aWxpbnguY29tPjsgU2FuZGlw
+IEtvdGhhcmkgPHNhbmRpcGtAeGlsaW54LmNvbT4NCj4gPj4gU3ViamVjdDogUmU6IFtQQVRDSCAy
+LzJdIG1lZGlhOiB2NGw6IHhpbGlueDogQWRkIFhpbGlueCBVSEQtU0RJIFJ4IFN1YnN5c3RlbQ0K
+PiA+PiBkcml2ZXINCj4gPj4NCj4gPj4gRVhURVJOQUwgRU1BSUwNCj4gPj4NCj4gPj4gT24gNi80
+LzE5IDM6NTUgUE0sIFZpc2hhbCBTYWdhciB3cm90ZToNCj4gPj4+IFRoZSBYaWxpbnggVUhELVNE
+SSBSeCBzdWJzeXN0ZW0gc29mdCBJUCBpcyB1c2VkIHRvIGNhcHR1cmUgbmF0aXZlIFNESQ0KPiA+
+Pj4gc3RyZWFtcyBmcm9tIFNESSBzb3VyY2VzIGxpa2UgU0RJIGJyb2FkY2FzdCBlcXVpcG1lbnQg
+bGlrZSBjYW1lcmFzIGFuZA0KPiA+Pj4gbWl4ZXJzLiBUaGlzIGJsb2NrIG91dHB1dHMgZWl0aGVy
+IG5hdGl2ZSBTREksIG5hdGl2ZSB2aWRlbyBvcg0KPiA+Pj4gQVhJNC1TdHJlYW0gY29tcGxpYW50
+IGRhdGEgc3RyZWFtIGZvciBmdXJ0aGVyIHByb2Nlc3NpbmcuIFBsZWFzZSByZWZlcg0KPiA+Pj4g
+dG8gUEcyOTAgZm9yIGRldGFpbHMuDQo+ID4+Pg0KPiA+Pj4gVGhlIGRyaXZlciBpcyB1c2VkIHRv
+IGNvbmZpZ3VyZSB0aGUgSVAgdG8gYWRkIGZyYW1lciwgc2VhcmNoIGZvcg0KPiA+Pj4gc3BlY2lm
+aWMgbW9kZXMsIGdldCB0aGUgZGV0ZWN0ZWQgbW9kZSwgc3RyZWFtIHBhcmFtZXRlcnMsIGVycm9y
+cywgZXRjLg0KPiA+Pj4gSXQgYWxzbyBnZW5lcmF0ZXMgZXZlbnRzIGZvciB2aWRlbyBsb2NrL3Vu
+bG9jaywgYnJpZGdlIG92ZXIvdW5kZXIgZmxvdy4NCj4gPj4+DQo+ID4+PiBUaGUgZHJpdmVyIHN1
+cHBvcnRzIG9ubHkgMTAgYnBjIFlVViA0MjIgbWVkaWEgYnVzIGZvcm1hdC4gSXQgYWxzbw0KPiA+
+Pj4gZGVjb2RlcyB0aGUgc3RyZWFtIHBhcmFtZXRlcnMgYmFzZWQgb24gdGhlIFNUMzUyIHBhY2tl
+dCBlbWJlZGRlZCBpbg0KPiB0aGUNCj4gPj4+IHN0cmVhbS4gSW4gY2FzZSB0aGUgU1QzNTIgcGFj
+a2V0IGlzbid0IHByZXNlbnQgaW4gdGhlIHN0cmVhbSwgdGhlIGNvcmUncw0KPiA+Pj4gZGV0ZWN0
+ZWQgcHJvcGVydGllcyBhcmUgdXNlZCB0byBzZXQgc3RyZWFtIHByb3BlcnRpZXMuDQo+ID4+Pg0K
+PiA+Pj4gVGhlIGRyaXZlciBjdXJyZW50bHkgc3VwcG9ydHMgb25seSB0aGUgQVhJNC1TdHJlYW0g
+Y29uZmlndXJhdGlvbi4NCj4gPj4+DQo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBWaXNoYWwgU2FnYXIg
+PHZpc2hhbC5zYWdhckB4aWxpbnguY29tPg0KPiA+Pj4gLS0tDQo+ID4+PiAgZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS94aWxpbngvS2NvbmZpZyAgICAgICAgICB8ICAgMTEgKw0KPiA+Pj4gIGRyaXZl
+cnMvbWVkaWEvcGxhdGZvcm0veGlsaW54L01ha2VmaWxlICAgICAgICAgfCAgICAxICsNCj4gPj4+
+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3hpbGlueC94aWxpbngtc2Rpcnhzcy5jIHwgMTg0Ng0K
+PiA+PiArKysrKysrKysrKysrKysrKysrKysrKysNCj4gPj4+ICBpbmNsdWRlL3VhcGkvbGludXgv
+eGlsaW54LXNkaXJ4c3MuaCAgICAgICAgICAgIHwgICA2MyArDQo+ID4+PiAgaW5jbHVkZS91YXBp
+L2xpbnV4L3hpbGlueC12NGwyLWNvbnRyb2xzLmggICAgICB8ICAgMzAgKw0KPiA+Pj4gIGluY2x1
+ZGUvdWFwaS9saW51eC94aWxpbngtdjRsMi1ldmVudHMuaCAgICAgICAgfCAgICA5ICsNCj4gDQo+
+IDxzbmlwPg0KPiANCj4gPj4gSSBhbSBjb25jZXJuZWQgYWJvdXQgdGhpcyBkcml2ZXI6IEkgc2Vl
+IHRoYXQgbm9uZSBvZiB0aGUgKl9kdl90aW1pbmdzDQo+IGNhbGxiYWNrcw0KPiA+PiBhcmUgaW1w
+bGVtZW50ZWQuIEkgd291bGQgZXhwZWN0IHRvIHNlZSB0aGF0IGZvciBhIHZpZGVvIHJlY2VpdmVy
+LiBUaGVyZSBpcw0KPiBhbHNvDQo+ID4+IG5vIGdfaW5wdXRfc3RhdHVzIGltcGxlbWVudGVkLg0K
+PiA+Pg0KPiA+PiBUYWtlIGEgbG9vayBhdCBhbm90aGVyIFNESSBkcml2ZXI6IGRyaXZlcnMvbWVk
+aWEvc3BpL2dzMTY2Mi5jDQo+ID4+DQo+ID4NCj4gPiBJIGhhZCBhIGxvb2sgYXQgdGhlIGdzMTY2
+MiBkcml2ZXIgZm9yIHRoZSBkdl90aW1pbmdzIGNhbGxiYWNrcy4gVGhlIGdzMTY2Mg0KPiBkcml2
+ZXINCj4gPiByZXF1aXJlcyB0aGUgdGltaW5ncyBiZWNhdXNlIGl0IGlzIGEgU0RJIFRyYW5zbWl0
+dGVyLg0KPiA+DQo+ID4gSGVyZSB0aGUgdGltaW5ncyBhcmUgbm90IHJlcXVpcmVkIGFzIHRoZSBJ
+UCBibG9jayBnZW5lcmF0ZXMgYSBBWEk0IFN0cmVhbS4NCj4gPiBJIHRoaW5rIGl0IG1heSBiZSBy
+ZXF1aXJlZCBvbmx5IGluIGNhc2Ugb2YgbmF0aXZlIC8gcGFyYWxsZWwgdmlkZW8gYmVpbmcNCj4g
+b3V0cHV0dGVkDQo+ID4gYXMgdGhlIG91dHB1dCBzdHJlYW0gbmVlZHMgdGltaW5nIGluZm9ybWF0
+aW9uIHRvIGJlIGRlY29kZWQuDQo+ID4NCj4gPiBQbGVhc2UgZmVlbCBmcmVlIHRvIGNvcnJlY3Qg
+bXkgdW5kZXJzdGFuZGluZyBpZiB3cm9uZy4NCj4gPg0KPiA+IEluIHRoZSBjdXJyZW50IGRyaXZl
+ciwgdGhlIGlucHV0IHN0cmVhbSBwcm9wZXJ0aWVzIGxpa2Ugd2lkdGgsIGhlaWdodCwgZnJhbWUN
+Cj4gcmF0ZSwNCj4gPiBwcm9ncmVzc2l2ZS9pbnRlcmxhY2VkICBhcmUgZGV0ZXJtaW5lZCBmcm9t
+IHRoZSBTVDM1MiBwYWNrZXQgcGF5bG9hZCBvcg0KPiBmcm9tIHRoZQ0KPiA+IHByb3BlcnRpZXMg
+ZGV0ZWN0ZWQgYnkgdGhlIGNvcmUuDQo+ID4NCj4gPiBTZWUgdGhlIHhzZGlyeF9nZXRfc3RyZWFt
+X3Byb3BlcnRpZXMoKSBmb3IgZGV0YWlscy4NCj4gDQo+IFlvdSdyZSB3cm9uZy4gSW4geHNkaXJ4
+X2dldF9zdHJlYW1fcHJvcGVydGllcygpIHlvdSBzZXQgdGhlIGZvcm1hdA0KPiBpbmZvcm1hdGlv
+bi4NCj4gQnV0IHlvdSBjYW4ndCBqdXN0IGNoYW5nZSB0aGF0OiBpZiB0aGUgdmlkZW8gcmVzb2x1
+dGlvbiBjaGFuZ2VzLCB0aGVuIHRoYXQgbWVhbnMNCj4gdGhhdCB1c2Vyc3BhY2UgbmVlZHMgdG8g
+YmUgaW5mb3JtZWQgdGhhdCBpdCBoYXMgY2hhbmdlZCBhdCB0aGUgc291cmNlLCBpdCBoYXMgdG8N
+Cj4gZmluZCBhbmQgc2V0IHRoZSBuZXcgdGltaW5ncywgdXBkYXRlIHRoZSBmb3JtYXRzLCBwb3Nz
+aWJseSByZWFsbG9jYXRlIG1lbW9yeQ0KPiBmb3INCj4gdGhlIGJ1ZmZlcnMsIHVwZGF0ZSBvdGhl
+ciBwYXJ0cyBvZiB0aGUgdmlkZW8gcGlwZWxpbmUgd2l0aCB0aGUgbmV3IHJlc29sdXRpb24NCj4g
+ZXRjLg0KPiANCj4gVGhlIG9uZSB0aGluZyB5b3UgY2Fubm90IGRvIGlzIGp1c3QgcGFzcyBvbiB0
+aGUgbmV3IHJlc29sdXRpb24gYW5kIGhvcGUgdGhhdA0KPiB0aGUNCj4gdmlkZW8gcGlwZWxpbmUg
+Y2FuIGhhbmRsZSBpdCBhbGwuDQo+IA0KPiBUaGUgcmlnaHQgc2VxdWVuY2Ugb2YgZXZlbnRzIGlz
+Og0KPiANCj4gMSkgV2hlbiBhIGNoYW5nZSBpcyBkZXRlY3RlZCBhdCB0aGUgc291cmNlIHRoZSBk
+cml2ZXIgc2VuZHMgdGhlDQo+IFNPVVJDRV9DSEFOR0UNCj4gZXZlbnQgYW5kIGVpdGhlciBzdG9w
+cyB0cmFuc21pdHRpbmcgdG8gdGhlIHZpZGVvIHBpcGVsaW5lIG9yIGtlZXBzIHNlbmRpbmcgdGhl
+DQo+IG9sZCByZXNvbHV0aW9uIChzb21lIGRldmljZXMgaGF2ZSBhIGZyZWV3aGVlbGluZyBtb2Rl
+IHdoZXJlIHRoZXkgY2FuIGRvDQo+IHRoYXQpLg0KPiANCj4gMikgVXNlcnNwYWNlIHNlZXMgdGhl
+IGV2ZW50LCBjYWxscyBRVUVSWV9EVl9USU1JTkdTIHRvIGZpbmQgYSBuZXcgdGltaW5ncyAoaWYN
+Cj4gYW55KSwgdXN1YWxseSBzdG9wcyBzdHJlYW1pbmcsIGFuZCBjYWxscyBTX0RWX1RJTUlOR1Mg
+dG8gc2V0IHRoZSBkZXRlY3RlZA0KPiB0aW1pbmdzOg0KPiBhdCB0aGF0IHBvaW50IHRoZSBkcml2
+ZXIgY2FuIGNvbmZpZ3VyZSB0aGUgb3V0cHV0IHRvd2FyZHMgdGhlIHZpZGVvIHBpcGVsaW5lDQo+
+IHdpdGgNCj4gdGhlIG5ldyB0aW1pbmdzLiBVc2Vyc3BhY2UgcmVhbGxvY2F0ZXMgYnVmZmVycyBh
+bmQgcmVzdW1lcyBzdHJlYW1pbmcgd2l0aCB0aGUNCj4gbmV3DQo+IHJlc29sdXRpb24uDQo+IA0K
+DQpUaGFua3MgZm9yIHRoZSBleHBsYW5hdGlvbiENCg0KSSB3aWxsIHJlbW92ZSB0aGUgZXh0cmFu
+ZW91cyB2aWRlbyB1bmxvY2sgZXZlbnQgYW5kIHN0b3AgdGhlIHN0cmVhbWluZyB3aGVuIHZpZGVv
+IGxvY2sgLyB1bmxvY2sgaW50ZXJydXB0IG9jY3Vycy4NCkkgd2lsbCBhbHNvIGltcGxlbWVudCB0
+aGUgZ19pbnB1dF9zdGF0dXMoKSB0byByZXR1cm4gVjRMMl9JTl9TVF9OT19TWU5DIHwgVjRMMl9J
+Tl9TVF9OT19TSUdOQUwgaW4gY2FzZSB2aWRlbyBpcyB1bmxvY2tlZC4NCg0KTXkgYXNzdW1wdGlv
+biBpcyB0aGF0IG9uIFNPVVJDRV9DSEFOR0UgZXZlbnQsIGFwcGxpY2F0aW9uIGNhbiBzdG9wIHRo
+ZSBwaXBlbGluZSBhbmQgdGhlbiANCmNhbGwgdGhlIEdfRk9STUFUIGFuZCBHX0ZSQU1FX0lOVEVS
+VkFMIHRvIGdldCBuZXcgZnJhbWUgc2l6ZSwgdHlwZSAocHJvZ3Jlc3NpdmUgLyBpbnRlcmxhY2Vk
+KSBhbmQgZnJhbWUgcmF0ZS4NCklzIHRoaXMgYXNzdW1wdGlvbiBjb3JyZWN0PyANCg0KSXMgaXQg
+bWFuZGF0b3J5IHRvIGltcGxlbWVudCBRVUVSWV9EVl9USU1JTkdTIHdpdGggU09VUkNFX0NIQU5H
+RSBldmVudD8NCg0KSSBhbHNvIGRvbid0IHNlZSBhbnkgVjRMMiBmcmFtZXdvcmsgc3VwcG9ydGVk
+IGV2ZW50cyBmb3Igb3ZlcmZsb3cgYW5kIHVuZGVyZmxvdy4NCklzIGl0IG9rIHRvIGtlZXAgdGhl
+c2Ugb3Igc2hvdWxkIHRoZXkgYmUgcmVtb3ZlZCB0b28/IA0KDQpSZWdhcmRzDQoNClZpc2hhbCBT
+YWdhcg0KDQo+IE5vdGUgdGhhdCBHX0RWX1RJTUlOR1MgcmV0dXJucyB0aGUgbGFzdCBjb25maWd1
+cmVkIHRpbWluZ3MsIG5vdCB0aGUgZGV0ZWN0ZWQNCj4gdGltaW5nczogb25seSBRVUVSWV9EVl9U
+SU1JTkdTIGRvZXMgdGhhdC4NCj4gDQo+IEluIG90aGVyIHdvcmRzOiB1c2Vyc3BhY2UgaGFzIHRv
+IHJldGFpbiBjb250cm9sIG9mIHRoZSBmdWxsIHBpcGVsaW5lLg0KPiANCj4gUmVnYXJkcywNCj4g
+DQo+IAlIYW5zDQo+IA0KPiA+DQo+ID4+IFNvbWUgb2YgdGhlIGNvbnRyb2xzIHlvdSBhZGQgaW4g
+dGhpcyBkcml2ZXIgY2FuIGxpa2VseSBiZSBkcm9wcGVkLiBFc3BlY2lhbGx5DQo+ID4+IHRob3Nl
+IGNvbnRyb2xzIHRoYXQgYXJlIG5vdCBzcGVjaWZpYyB0byB0aGUgWGlsaW54IGltcGxlbWVudGF0
+aW9uIGJ1dCBhcmUNCj4gPj4gZ2VuZXJpYyBmb3IgYW55IFNESSByZWNlaXZlciwgc2hvdWxkIGJl
+IGxvb2tlZCBhdCBjbG9zZWx5OiB0aG9zZSBhcmUNCj4gPj4gY2FuZGlkYXRlcyBmb3IgYmVjb21p
+bmcgc3RhbmRhcmQgY29udHJvbHMuDQo+ID4NCj4gPiBJIGRvbid0IGtub3cgaG93IG90aGVyIFNE
+SSBSZWNlaXZlciBkZXZpY2VzIGZ1bmN0aW9uLg0KPiA+IFNvIEkgYW0gYXNzdW1pbmcgYWxsIHRo
+ZXNlIGNvbnRyb2xzIGFyZSBYaWxpbnggc3BlY2lmaWMgaW1wbGVtZW50YXRpb25zLg0KPiA+DQo+
+ID4+DQo+ID4+IEJ1dCB0aGUgZG9jdW1lbnRhdGlvbiBhYm92ZSBpcyBzaW1wbHkgaW5zdWZmaWNp
+ZW50IGZvciBtZSB0byB0ZWxsIHdoYXQgaXMNCj4gPj4gU0RJIHNwZWNpZmljIGFuZCB3aGF0IGlz
+IGltcGxlbWVudGF0aW9uIHNwZWNpZmljLg0KPiA+Pg0KPiA+DQo+ID4gSSB3aWxsIGFkZCBtb3Jl
+IGRvY3VtZW50YXRpb24gZm9yIHRoZXNlIGNvbnRyb2xzLg0KPiA+DQo+ID4+IEFsc28sIEknbSBu
+byBTREkgZXhwZXJ0LCBjZXJ0YWlubHkgbm90IGZvciB0aGUgVUhELVNESS4NCj4gPj4NCj4gPj4g
+UmVnYXJkcywNCj4gPj4NCj4gPj4gICAgICAgICBIYW5zDQo+ID4NCj4gPiBSZWdhcmRzDQo+ID4g
+VmlzaGFsIFNhZ2FyDQo+ID4NCg0K
