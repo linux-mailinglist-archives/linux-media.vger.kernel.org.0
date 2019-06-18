@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B87454A67A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 18:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F8F4A67C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 18:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729955AbfFRQQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1729563AbfFRQQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 18 Jun 2019 12:16:34 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:46727 "EHLO
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35049 "EHLO
         mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729349AbfFRQQc (ORCPT
+        with ESMTP id S1729916AbfFRQQd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:16:32 -0400
-Received: by mail-lf1-f66.google.com with SMTP id z15so9720967lfh.13;
-        Tue, 18 Jun 2019 09:16:30 -0700 (PDT)
+        Tue, 18 Jun 2019 12:16:33 -0400
+Received: by mail-lf1-f66.google.com with SMTP id a25so9749818lfg.2;
+        Tue, 18 Jun 2019 09:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aTENqUuUBYWApOwcj0+zGB3BGdKRZd5T9KuuRhQDbmY=;
-        b=I6YpZ7ZHtcm5hSQG8Ua8Wk6A17jxGMnINa6x35Dg3pjaH4olB+eTfdU91gEqRQ4usx
-         37Rb2BLzEH0p3az3vtAy853J+c/TSaUfl33XhTazF1P472m6G5vnadBfxIEhsvQabg7C
-         t3fM4ZMXkqa4wVPYII6Ov4bDwFjMfa/IZAUgXXegyOQururHVyQBa+uR38EKWozFcgx4
-         w/XvcAbPHvbaDoz33K1Ay/0zVz8WE8gRIqgxsMTX5XKxn8s09arsAQrim9UQlGypDd/3
-         kxWeu21912ZzDJHOO0FnRz7XoGlnLftGLTh6pKj238bknCCgGZDfsb2lMEw1RKEANVA3
-         NYgQ==
+        bh=6bCoUgdAjlieVdbURwPlYalmssR6MihNiC0B3+iRako=;
+        b=PVwfTRABktYrQbA1EEWkz8UDWUkcYXqwJga1n/jSb+4/WAf3CKHIRkXaapjBceHLDX
+         WHW8JUggG3JkzoxjU/xg1TnACf4SQRFgTUzhtM1n/YkGcuCrGQhKlwRIMjNoFphkiI4+
+         X8bizwvX99TJbRXQ6CTOs2b1NwUmp8PJRbLYae7KtOM7+nfnumzKlJBgazOw2SAG7AeP
+         vv05qVHZeFiWy8abRcsTu/tPYiFqcn4pXdvj1Xc4ERSgAmZqw3I1qE4ZLI7rvpjDkZaq
+         DS2OewG6fRMNrP/LosGNRXQf0QYyQrG4/mnQnIdsaVMwkbVYfpuIGU4eGBalQIBHkP1O
+         3z/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aTENqUuUBYWApOwcj0+zGB3BGdKRZd5T9KuuRhQDbmY=;
-        b=HfkUiQV2NrlKI8b7yBHwNjKcISLo24DYfbEvqr6UsftIQJhE2f0WMswkeazHTvT6vv
-         sbb8sNXX1yaTsdrajZwevE3V1fP0paY2nVlMxE5UVFnw7n9hrW1b26/W3iyxRltxZqrC
-         Dj3ArvCd8Om4NMZKlAxLOPO/whiu1TkDc5hO6aeLBLW4obpvTM/ihxMFX2mrZ6HdUQVo
-         lkYpIsyCBPFCwDBy0U1Lm7lW/iShQGu2N7PvzKmgIIqR9t5VafuiRORxnukE14WPEJlJ
-         AGSbf5GwSAefpUDFQLv82OOLUWbsIBk010qcCEylmbvPwB5u2psjfFsoesHSxKl9UKnw
-         lFXQ==
-X-Gm-Message-State: APjAAAWLUQb7x0tQOJvByfcGgKTDn4UeVrlgiXdK1bPIWnC4M5qR1/ly
-        LElAs444i35qw4qinbS9oK4=
-X-Google-Smtp-Source: APXvYqzT3fMIiRDjxPt+eHvA9HGFNWma3wAcV+UAeLFcSuV0NFnHS8iEwi9nNF134e4XP7KGl7EHpw==
-X-Received: by 2002:ac2:52ac:: with SMTP id r12mr39291949lfm.126.1560874589798;
-        Tue, 18 Jun 2019 09:16:29 -0700 (PDT)
+        bh=6bCoUgdAjlieVdbURwPlYalmssR6MihNiC0B3+iRako=;
+        b=ncF5nK1EJQWra8lo7mC1eSYEOa1t1xjmD5Oo5IC+wx+oaPxA1iJY+Chd74EhUXNlTT
+         pulkpZJcc8S01pX9o4IVu/fpZMMA/qmkfKyvGwfj5nf4KeQcz6wv0lflbR9ZKNEhBCl+
+         GUM3+dWAJFcWD3xTmv6cGhaY2gs8tWF0LVEmrnzpKmbZAt7BMYTa8qHmaJhyMwbqHeWE
+         jh+L/W5aXKyX1dTJsOzv5DOwZbsNU88CRBTwnSEk927TEHTFrD/Hw807rzTuaLSMGx+R
+         037ciwAPdQ9j57Wm7BPiq4WOjTfAlpZ0tRWFoVApcXe3WWX81OAK5EFhJruYsFNVh1Px
+         8Qqg==
+X-Gm-Message-State: APjAAAUPb1g8x8XL5nrb6f9wXpYljS9AYqj2yYtY0xBQRG/IEYsOo7o/
+        L7InAfyn3xA84cSM5ue1jA8=
+X-Google-Smtp-Source: APXvYqxdrOPiY8cM1U1jT9ylZcRc2fxV0JtT47I+Bw9ekNdiHVK2JQhCwg+fUJP7N9HF5oa+S4eUkQ==
+X-Received: by 2002:a19:488e:: with SMTP id v136mr57485272lfa.192.1560874590847;
+        Tue, 18 Jun 2019 09:16:30 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id v15sm2273295lfd.53.2019.06.18.09.16.28
+        by smtp.gmail.com with ESMTPSA id v15sm2273295lfd.53.2019.06.18.09.16.29
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 09:16:29 -0700 (PDT)
+        Tue, 18 Jun 2019 09:16:30 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -54,9 +54,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ARM: dts: tegra30: Connect SMMU with Video Decoder Engine
-Date:   Tue, 18 Jun 2019 19:14:52 +0300
-Message-Id: <20190618161458.20499-2-digetx@gmail.com>
+Subject: [PATCH v2] ARM: tegra: Enable Tegra VDE driver in tegra_defconfig
+Date:   Tue, 18 Jun 2019 19:14:53 +0300
+Message-Id: <20190618161458.20499-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190618161458.20499-1-digetx@gmail.com>
 References: <20190618161458.20499-1-digetx@gmail.com>
@@ -67,25 +67,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable IOMMU support for the video decoder.
+The video decoder driver was tested by time and works absolutely fine.
+The reason why it is in staging is because it doesn't provide common V4L
+interface yet, this shouldn't stop driver enabling in the defconfig since
+our userspace (libvdpau-tegra) provides combined acceleration of decoding
+and displaying without use of V4L.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/configs/tegra_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 934caa83c8db..ce162125e7bf 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -424,6 +424,7 @@
- 		clocks = <&tegra_car TEGRA30_CLK_VDE>;
- 		reset-names = "vde", "mc";
- 		resets = <&tegra_car 61>, <&mc TEGRA30_MC_RESET_VDE>;
-+		iommus = <&mc TEGRA_SWGROUP_VDE>;
- 	};
- 
- 	apbmisc@70000800 {
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index 8f5c6a5b444c..a27592d3b1fa 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -250,6 +250,8 @@ CONFIG_KEYBOARD_NVEC=y
+ CONFIG_SERIO_NVEC_PS2=y
+ CONFIG_NVEC_POWER=y
+ CONFIG_NVEC_PAZ00=y
++CONFIG_STAGING_MEDIA=y
++CONFIG_TEGRA_VDE=y
+ CONFIG_TEGRA_IOMMU_GART=y
+ CONFIG_TEGRA_IOMMU_SMMU=y
+ CONFIG_ARCH_TEGRA_2x_SOC=y
 -- 
 2.22.0
 
