@@ -2,365 +2,407 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E198C4A26F
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 15:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E1A4A2A6
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2019 15:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729172AbfFRNgt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jun 2019 09:36:49 -0400
-Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.83]:25439 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbfFRNgL (ORCPT
+        id S1729386AbfFRNq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jun 2019 09:46:28 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54686 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbfFRNq2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:36:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1560864967;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=9ozTmPCWNkD85dxiLtzqCpUDP/EyYvgQQPmGjV1+QiY=;
-        b=BKWZ6lCf9dL5gnurSO9GJResztf/QZ9thCjxlDodRyWDAhBq/yFuZ6iHiJAEkRTXOW
-        O9M58t2vbIglJr2dtFCm69Jkn+TlkbXgqiecj1N25kz8WxcZSQRt9Hd3ptOm2lqLG2er
-        8zkToI4ktqjqwW6CSGVYKr+Xcb4xBJfSfFjsMex4NFRQr/a5eqFxMZtTDLB0ci+Z1xZm
-        +Zcy4JvaAH/zv/F6Yr+kbkl+LUA71XUkqLFNZwTKcA/1MmjJ5M8kBhjYCXMKA/jIX/tq
-        0LXiMeuOobDMkUkn4ZARHpgV9kFI5WPWMFQhxDhbfKRr+yiAWJ0zHtgwbVfsvHinFRTq
-        iREQ==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp03-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 44.24 AUTH)
-        with ESMTPSA id h0a328v5IDa61Ex
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Tue, 18 Jun 2019 15:36:06 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 15:36:06 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tue, 18 Jun 2019 09:46:28 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 988E5D5;
+        Tue, 18 Jun 2019 15:46:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560865585;
+        bh=boAtGIf2qHNlE6XrrLHndvrd+4b+xYRiYR+2bFIxjVQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kuWW12xjx87anZ6Onimp6Ot4kzg7lk0ErRRTzvwg4nv3TnaTfrfnD0rTbe7ZEjXRG
+         AIXQMm00yb6DD8ZM1lX61ZSmkKTxBG98G3c8Wt1SWbMVtLFWDh0Zq6RhI4OMzTbCBx
+         uztX9Rt5Ds+lCt/6HBor02wGD09N0V5b0o7bfMQM=
+Date:   Tue, 18 Jun 2019 16:46:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Message-ID: <2003798727.792594.1560864966711@webmail.strato.com>
-In-Reply-To: <20190617210930.6054-9-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 01/10] media: vsp1: drm: Split vsp1_du_setup_lif()
+Message-ID: <20190618134608.GD21105@pendragon.ideasonboard.com>
 References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190617210930.6054-9-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 08/10] drm: rcar-du: Create a group state object
+ <20190617210930.6054-2-laurent.pinchart+renesas@ideasonboard.com>
+ <55043232.787113.1560861133484@webmail.strato.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.8.4-Rev58
-X-Originating-IP: 85.212.220.45
-X-Originating-Client: open-xchange-appsuite
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <55043232.787113.1560861133484@webmail.strato.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ulrich,
 
-> On June 17, 2019 at 11:09 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+On Tue, Jun 18, 2019 at 02:32:13PM +0200, Ulrich Hecht wrote:
+> > On June 17, 2019 at 11:09 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+> > 
+> > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > 
+> > Break vsp1_du_setup_lif() into components more suited to the DRM Atomic
+> > API. The existing vsp1_du_setup_lif() API call is maintained as it is
+> > still used from the DU.
+> > 
+> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > Changes since v2:
+> > 
+> > - Minor formatting changes
+> > - Fix NULL pointer dereference in vsp1_du_setup_lif()
+> > ---
+> >  drivers/media/platform/vsp1/vsp1_drm.c | 220 ++++++++++++++++++-------
+> >  include/media/vsp1.h                   |  32 +++-
+> >  2 files changed, 189 insertions(+), 63 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+> > index a4a45d68a6ef..7957e1439de0 100644
+> > --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> > +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> > @@ -616,10 +616,10 @@ int vsp1_du_init(struct device *dev)
+> >  EXPORT_SYMBOL_GPL(vsp1_du_init);
+> >  
+> >  /**
+> > - * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
+> > + * vsp1_du_atomic_modeset - Configure the mode as part of an atomic update
+> >   * @dev: the VSP device
+> >   * @pipe_index: the DRM pipeline index
+> > - * @cfg: the LIF configuration
+> > + * @cfg: the mode configuration
+> >   *
+> >   * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
+> >   * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
+> > @@ -636,14 +636,12 @@ EXPORT_SYMBOL_GPL(vsp1_du_init);
+> >   *
+> >   * Return 0 on success or a negative error code on failure.
+> >   */
+> > -int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> > -		      const struct vsp1_du_lif_config *cfg)
+> > +int vsp1_du_atomic_modeset(struct device *dev, unsigned int pipe_index,
+> > +			   const struct vsp1_du_modeset_config *cfg)
+> >  {
+> >  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> >  	struct vsp1_drm_pipeline *drm_pipe;
+> >  	struct vsp1_pipeline *pipe;
+> > -	unsigned long flags;
+> > -	unsigned int i;
+> >  	int ret;
+> >  
+> >  	if (pipe_index >= vsp1->info->lif_count)
+> > @@ -652,60 +650,6 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >  	drm_pipe = &vsp1->drm->pipe[pipe_index];
+> >  	pipe = &drm_pipe->pipe;
+> >  
+> > -	if (!cfg) {
+> > -		struct vsp1_brx *brx;
+> > -
+> > -		mutex_lock(&vsp1->drm->lock);
+> > -
+> > -		brx = to_brx(&pipe->brx->subdev);
+> > -
+> > -		/*
+> > -		 * NULL configuration means the CRTC is being disabled, stop
+> > -		 * the pipeline and turn the light off.
+> > -		 */
+> > -		ret = vsp1_pipeline_stop(pipe);
+> > -		if (ret == -ETIMEDOUT)
+> > -			dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
+> > -
+> > -		for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
+> > -			struct vsp1_rwpf *rpf = pipe->inputs[i];
+> > -
+> > -			if (!rpf)
+> > -				continue;
+> > -
+> > -			/*
+> > -			 * Remove the RPF from the pipe and the list of BRx
+> > -			 * inputs.
+> > -			 */
+> > -			WARN_ON(!rpf->entity.pipe);
+> > -			rpf->entity.pipe = NULL;
+> > -			list_del(&rpf->entity.list_pipe);
+> > -			pipe->inputs[i] = NULL;
+> > -
+> > -			brx->inputs[rpf->brx_input].rpf = NULL;
+> > -		}
+> > -
+> > -		drm_pipe->du_complete = NULL;
+> > -		pipe->num_inputs = 0;
+> > -
+> > -		dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n",
+> > -			__func__, pipe->lif->index,
+> > -			BRX_NAME(pipe->brx));
+> > -
+> > -		list_del(&pipe->brx->list_pipe);
+> > -		pipe->brx->pipe = NULL;
+> > -		pipe->brx = NULL;
+> > -
+> > -		mutex_unlock(&vsp1->drm->lock);
+> > -
+> > -		vsp1_dlm_reset(pipe->output->dlm);
+> > -		vsp1_device_put(vsp1);
+> > -
+> > -		dev_dbg(vsp1->dev, "%s: pipeline disabled\n", __func__);
+> > -
+> > -		return 0;
+> > -	}
+> > -
+> >  	drm_pipe->width = cfg->width;
+> >  	drm_pipe->height = cfg->height;
+> >  	pipe->interlaced = cfg->interlaced;
+> > @@ -722,8 +666,43 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >  		goto unlock;
+> >  
+> >  	ret = vsp1_du_pipeline_setup_output(vsp1, pipe);
+> > -	if (ret < 0)
+> > -		goto unlock;
+> > +
+> > +unlock:
+> > +	mutex_unlock(&vsp1->drm->lock);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +/**
+> > + * vsp1_du_atomic_enable - Enable and start a DU pipeline
+> > + * @dev: the VSP device
+> > + * @pipe_index: the DRM pipeline index
+> > + * @cfg: the enablement configuration
+> > + *
+> > + * The @pipe_index argument selects which DRM pipeline to enable. The number of
+> > + * available pipelines depend on the VSP instance.
 > 
+> "depends".
 > 
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > + *
+> > + * The configuration passes a callback function to register notification of
+> > + * frame completion events.
+> > + *
+> > + * Return 0 on success or a negative error code on failure.
+> > + */
+> > +int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
+> > +			  const struct vsp1_du_enable_config *cfg)
+> > +{
+> > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> > +	struct vsp1_drm_pipeline *drm_pipe;
+> > +	struct vsp1_pipeline *pipe;
+> > +	unsigned long flags;
+> > +	int ret;
+> > +
+> > +	if (pipe_index >= vsp1->info->lif_count)
+> > +		return -EINVAL;
+> > +
+> > +	drm_pipe = &vsp1->drm->pipe[pipe_index];
+> > +	pipe = &drm_pipe->pipe;
+> > +
+> > +	mutex_lock(&vsp1->drm->lock);
+> >  
+> >  	/* Enable the VSP1. */
+> >  	ret = vsp1_device_get(vsp1);
+> > @@ -758,6 +737,123 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >  	dev_dbg(vsp1->dev, "%s: pipeline enabled\n", __func__);
+> >  
+> >  	return 0;
+> > +
+> > +}
+> > +EXPORT_SYMBOL_GPL(vsp1_du_atomic_enable);
+> > +
+> > +/**
+> > + * vsp1_du_atomic_disable - Disable and stop a DU pipeline
+> > + * @dev: the VSP device
+> > + * @pipe_index: the DRM pipeline index
+> > + *
+> > + * The @pipe_index argument selects which DRM pipeline to disable. The number
+> > + * of available pipelines depend on the VSP instance.
+> > + *
+> > + * Return 0 on success or a negative error code on failure.
+> > + */
+> > +int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
+> > +{
+> > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> > +	struct vsp1_drm_pipeline *drm_pipe;
+> > +	struct vsp1_pipeline *pipe;
+> > +	struct vsp1_brx *brx;
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	if (pipe_index >= vsp1->info->lif_count)
+> > +		return -EINVAL;
+> > +
+> > +	drm_pipe = &vsp1->drm->pipe[pipe_index];
+> > +	pipe = &drm_pipe->pipe;
+> > +
+> > +	mutex_lock(&vsp1->drm->lock);
+> > +
+> > +	brx = to_brx(&pipe->brx->subdev);
+> > +
+> > +	/* Stop the pipeline and turn the light off. */
 > 
-> Create a new private state object for the DU groups, and move the
-> initialisation of a group object to a new function rcar_du_group_init().
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v2:
-> 
-> - Call mutex_destroy() when cleaning up the group
-> - Include mutex.h and slab.h
-> - Squash "drm: rcar-du: Add rcar_du_get_{old,new}_group_state()"
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_group.c | 144 ++++++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_group.h |  29 +++++
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  27 +----
->  3 files changed, 177 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index 9eee47969e77..8e12bd42890e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -25,6 +25,11 @@
->  
->  #include <linux/clk.h>
->  #include <linux/io.h>
-> +#include <linux/slab.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_device.h>
->  
->  #include "rcar_du_drv.h"
->  #include "rcar_du_group.h"
-> @@ -351,3 +356,142 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
->  
->  	return rcar_du_set_dpad0_vsp1_routing(rgrp->dev);
->  }
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Group State Handling
-> + */
-> +
-> +static struct drm_private_state *
-> +rcar_du_group_atomic_duplicate_state(struct drm_private_obj *obj)
-> +{
-> +	struct rcar_du_group_state *state;
-> +
-> +	if (WARN_ON(!obj->state))
-> +		return NULL;
-> +
-> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (state == NULL)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->state);
-> +
-> +	return &state->state;
-> +}
-> +
-> +static void rcar_du_group_atomic_destroy_state(struct drm_private_obj *obj,
-> +					       struct drm_private_state *state)
-> +{
-> +	kfree(to_rcar_group_state(state));
-> +}
-> +
-> +static const struct drm_private_state_funcs rcar_du_group_state_funcs = {
-> +	.atomic_duplicate_state = rcar_du_group_atomic_duplicate_state,
-> +	.atomic_destroy_state = rcar_du_group_atomic_destroy_state,
-> +};
-> +
-> +/**
-> + * rcar_du_get_old_group_state - get old group state, if it exists
-> + * @state: global atomic state object
-> + * @rgrp: group to grab
-> + *
-> + * This function returns the old group state for the given group, or
-> + * NULL if the group is not part of the global atomic state.
-> + */
-> +struct rcar_du_group_state *
-> +rcar_du_get_old_group_state(struct drm_atomic_state *state,
-> +			    struct rcar_du_group *rgrp)
-> +{
-> +	struct drm_private_obj *obj = &rgrp->private;
-> +	struct drm_private_state *pstate;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < state->num_private_objs; i++) {
-> +		if (obj == state->private_objs[i].ptr) {
-> +			pstate = state->private_objs[i].old_state;
-> +			return to_rcar_group_state(pstate);
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * rcar_du_get_new_group_state - get new group state, if it exists
-> + * @state: global atomic state object
-> + * @rgrp: group to grab
-> + *
-> + * This function returns the new group state for the given group, or
-> + * NULL if the group is not part of the global atomic state.
-> + */
-> +struct rcar_du_group_state *
-> +rcar_du_get_new_group_state(struct drm_atomic_state *state,
-> +			    struct rcar_du_group *rgrp)
-> +{
-> +	struct drm_private_obj *obj = &rgrp->private;
-> +	struct drm_private_state *pstate;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < state->num_private_objs; i++) {
-> +		if (obj == state->private_objs[i].ptr) {
-> +			pstate = state->private_objs[i].new_state;
-> +			return to_rcar_group_state(pstate);
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Init and Cleanup
-> + */
-> +
-> +/*
-> + * rcar_du_group_init - Initialise and reset a group object
-> + *
-> + * Return 0 in case of success or a negative error code otherwise.
-> + */
-> +int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
-> +		       unsigned int index)
-> +{
-> +	static const unsigned int mmio_offsets[] = {
-> +		DU0_REG_OFFSET, DU2_REG_OFFSET
-> +	};
-> +
-> +	struct rcar_du_group_state *state;
-> +
-> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return -ENOMEM;
-> +
-> +	drm_atomic_private_obj_init(rcdu->ddev, &rgrp->private, &state->state,
-> +				    &rcar_du_group_state_funcs);
-> +
-> +	mutex_init(&rgrp->lock);
-> +
-> +	rgrp->dev = rcdu;
-> +	rgrp->mmio_offset = mmio_offsets[index];
-> +	rgrp->index = index;
-> +	/* Extract the channel mask for this group only. */
-> +	rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * index))
-> +			    & GENMASK(1, 0);
-> +	rgrp->num_crtcs = hweight8(rgrp->channels_mask);
-> +
-> +	/*
-> +	 * If we have more than one CRTC in this group pre-associate
-> +	 * the low-order planes with CRTC 0 and the high-order planes
-> +	 * with CRTC 1 to minimize flicker occurring when the
-> +	 * association is changed.
-> +	 */
-> +	rgrp->dptsr_planes = rgrp->num_crtcs > 1
-> +			   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
-> +			   : 0;
-> +
-> +	return 0;
-> +}
-> +
-> +void rcar_du_group_cleanup(struct rcar_du_group *rgrp)
-> +{
-> +	mutex_destroy(&rgrp->lock);
-> +
-> +	drm_atomic_private_obj_fini(&rgrp->private);
-> +}
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-> index 87950c1f6a52..f9961f89fd97 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
-> @@ -12,12 +12,15 @@
->  
->  #include <linux/mutex.h>
->  
-> +#include <drm/drm_atomic.h>
-> +
->  #include "rcar_du_plane.h"
->  
->  struct rcar_du_device;
->  
->  /*
->   * struct rcar_du_group - CRTCs and planes group
-> + * @private: The base drm private object
->   * @dev: the DU device
->   * @mmio_offset: registers offset in the device memory map
->   * @index: group index
-> @@ -32,6 +35,8 @@ struct rcar_du_device;
->   * @need_restart: the group needs to be restarted due to a configuration change
->   */
->  struct rcar_du_group {
-> +	struct drm_private_obj private;
-> +
->  	struct rcar_du_device *dev;
->  	unsigned int mmio_offset;
->  	unsigned int index;
-> @@ -49,6 +54,19 @@ struct rcar_du_group {
->  	bool need_restart;
->  };
->  
-> +#define to_rcar_group(s) container_of(s, struct rcar_du_group, private)
-> +
-> +/**
-> + * struct rcar_du_group_state - Driver-specific group state
-> + * @state: base DRM private state
-> + */
-> +struct rcar_du_group_state {
-> +	struct drm_private_state state;
-> +};
-> +
-> +#define to_rcar_group_state(s) \
-> +	container_of(s, struct rcar_du_group_state, state)
-> +
->  u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg);
->  void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
->  
-> @@ -60,4 +78,15 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp);
->  
->  int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu);
->  
-> +struct rcar_du_group_state *
-> +rcar_du_get_old_group_state(struct drm_atomic_state *state,
-> +			    struct rcar_du_group *rgrp);
-> +struct rcar_du_group_state *
-> +rcar_du_get_new_group_state(struct drm_atomic_state *state,
-> +			    struct rcar_du_group *rgrp);
-> +
-> +int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
-> +		       unsigned int index);
-> +void rcar_du_group_cleanup(struct rcar_du_group *rgrp);
-> +
->  #endif /* __RCAR_DU_GROUP_H__ */
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index c04136674e58..f57a035a94ee 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -23,6 +23,7 @@
->  #include "rcar_du_crtc.h"
->  #include "rcar_du_drv.h"
->  #include "rcar_du_encoder.h"
-> +#include "rcar_du_group.h"
->  #include "rcar_du_kms.h"
->  #include "rcar_du_regs.h"
->  #include "rcar_du_vsp.h"
-> @@ -621,10 +622,6 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
->  
->  int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  {
-> -	static const unsigned int mmio_offsets[] = {
-> -		DU0_REG_OFFSET, DU2_REG_OFFSET
-> -	};
-> -
->  	struct drm_device *dev = rcdu->ddev;
->  	struct drm_encoder *encoder;
->  	struct rcar_du_group *rgrp;
-> @@ -671,25 +668,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  
->  	/* Initialize the groups. */
->  	for_each_rcdu_group(rcdu, rgrp, i) {
-> -		mutex_init(&rgrp->lock);
-> -
-> -		rgrp->dev = rcdu;
-> -		rgrp->mmio_offset = mmio_offsets[i];
-> -		rgrp->index = i;
-> -		/* Extract the channel mask for this group only. */
-> -		rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * i))
-> -				   & GENMASK(1, 0);
-> -		rgrp->num_crtcs = hweight8(rgrp->channels_mask);
-> -
-> -		/*
-> -		 * If we have more than one CRTCs in this group pre-associate
-> -		 * the low-order planes with CRTC 0 and the high-order planes
-> -		 * with CRTC 1 to minimize flicker occurring when the
-> -		 * association is changed.
-> -		 */
-> -		rgrp->dptsr_planes = rgrp->num_crtcs > 1
-> -				   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
-> -				   : 0;
-> +		ret = rcar_du_group_init(rcdu, rgrp, i);
-> +		if (ret < 0)
-> +			return ret;
->  
->  		if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE)) {
->  			ret = rcar_du_planes_init(rgrp);
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
->
+> I may have missed something, but it is not clear to me what "light" refers to here.
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+It's a metaphor, meaning disable everything :-)
 
-CU
-Uli
+> > +	ret = vsp1_pipeline_stop(pipe);
+> > +	if (ret == -ETIMEDOUT)
+> > +		dev_err(vsp1->dev, "DRM pipeline stop timeout\n");
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(pipe->inputs); ++i) {
+> > +		struct vsp1_rwpf *rpf = pipe->inputs[i];
+> > +
+> > +		if (!rpf)
+> > +			continue;
+> > +
+> > +		/* Remove the RPF from the pipe and the list of BRx inputs. */
+> > +		WARN_ON(!rpf->entity.pipe);
+> > +		rpf->entity.pipe = NULL;
+> > +		list_del(&rpf->entity.list_pipe);
+> > +		pipe->inputs[i] = NULL;
+> > +
+> > +		brx->inputs[rpf->brx_input].rpf = NULL;
+> > +	}
+> > +
+> > +	drm_pipe->du_complete = NULL;
+> > +	pipe->num_inputs = 0;
+> > +
+> > +	dev_dbg(vsp1->dev, "%s: pipe %u: releasing %s\n", __func__,
+> > +		pipe->lif->index, BRX_NAME(pipe->brx));
+> > +
+> > +	list_del(&pipe->brx->list_pipe);
+> > +	pipe->brx->pipe = NULL;
+> > +	pipe->brx = NULL;
+> > +
+> > +	mutex_unlock(&vsp1->drm->lock);
+> > +
+> > +	vsp1_dlm_reset(pipe->output->dlm);
+> > +	vsp1_device_put(vsp1);
+> > +
+> > +	dev_dbg(vsp1->dev, "%s: pipeline disabled\n", __func__);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(vsp1_du_atomic_disable);
+> > +
+> > +/**
+> > + * vsp1_du_setup_lif - Setup the output part of the VSP pipeline
+> > + * @dev: the VSP device
+> > + * @pipe_index: the DRM pipeline index
+> > + * @cfg: the LIF configuration
+> > + *
+> > + * Configure the output part of VSP DRM pipeline for the given frame @cfg.width
+> > + * and @cfg.height. This sets up formats on the BRx source pad, the WPF sink and
+> > + * source pads, and the LIF sink pad.
+> > + *
+> > + * The @pipe_index argument selects which DRM pipeline to setup. The number of
+> > + * available pipelines depend on the VSP instance.
+> > + *
+> > + * As the media bus code on the blend unit source pad is conditioned by the
+> > + * configuration of its sink 0 pad, we also set up the formats on all blend unit
+> > + * sinks, even if the configuration will be overwritten later by
+> > + * vsp1_du_setup_rpf(). This ensures that the blend unit configuration is set to
+> > + * a well defined state.
+> > + *
+> > + * Return 0 on success or a negative error code on failure.
+> > + */
+> > +int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> > +		      const struct vsp1_du_lif_config *cfg)
+> > +{
+> > +	struct vsp1_du_modeset_config modes;
+> > +	struct vsp1_du_enable_config enable;
+> > +	int ret;
+> > +
+> > +	if (!cfg)
+> > +		return vsp1_du_atomic_disable(dev, pipe_index);
+> > +
+> > +	modes.width = cfg->width;
+> > +	modes.height = cfg->height;
+> > +	modes.interlaced = cfg->interlaced;
+> > +
+> > +	ret = vsp1_du_atomic_modeset(dev, pipe_index, &modes);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	enable.callback = cfg->callback;
+> > +	enable.callback_data = cfg->callback_data;
+> > +
+> > +	return vsp1_du_atomic_enable(dev, pipe_index, &enable);
+> >  }
+> >  EXPORT_SYMBOL_GPL(vsp1_du_setup_lif);
+> >  
+> > diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> > index cc1b0d42ce95..56643f97d4c9 100644
+> > --- a/include/media/vsp1.h
+> > +++ b/include/media/vsp1.h
+> > @@ -21,7 +21,7 @@ int vsp1_du_init(struct device *dev);
+> >  #define VSP1_DU_STATUS_WRITEBACK	BIT(1)
+> >  
+> >  /**
+> > - * struct vsp1_du_lif_config - VSP LIF configuration
+> > + * struct vsp1_du_lif_config - VSP LIF configuration - Deprecated
+> >   * @width: output frame width
+> >   * @height: output frame height
+> >   * @interlaced: true for interlaced pipelines
+> > @@ -42,6 +42,30 @@ struct vsp1_du_lif_config {
+> >  int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+> >  		      const struct vsp1_du_lif_config *cfg);
+> >  
+> > +/**
+> > + * struct vsp1_du_modeset_config - VSP display mode configuration
+> > + * @width: output frame width
+> > + * @height: output frame height
+> > + * @interlaced: true for interlaced pipelines
+> > + */
+> > +struct vsp1_du_modeset_config {
+> > +	unsigned int width;
+> > +	unsigned int height;
+> > +	bool interlaced;
+> > +};
+> > +
+> > +/**
+> > + * struct vsp1_du_enable_config - VSP enable configuration
+> > + * @callback: frame completion callback function (optional). When a callback
+> > + *	      is provided, the VSP driver guarantees that it will be called once
+> > + *	      and only once for each vsp1_du_atomic_flush() call.
+> > + * @callback_data: data to be passed to the frame completion callback
+> > + */
+> > +struct vsp1_du_enable_config {
+> > +	void (*callback)(void *data, unsigned int status, u32 crc);
+> > +	void *callback_data;
+> > +};
+> > +
+> >  /**
+> >   * struct vsp1_du_atomic_config - VSP atomic configuration parameters
+> >   * @pixelformat: plane pixel format (V4L2 4CC)
+> > @@ -106,6 +130,12 @@ struct vsp1_du_atomic_pipe_config {
+> >  	struct vsp1_du_writeback_config writeback;
+> >  };
+> >  
+> > +
+> > +int vsp1_du_atomic_modeset(struct device *dev, unsigned int pipe_index,
+> > +		    const struct vsp1_du_modeset_config *cfg);
+> > +int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
+> > +		   const struct vsp1_du_enable_config *cfg);
+> > +int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index);
+> >  void vsp1_du_atomic_begin(struct device *dev, unsigned int pipe_index);
+> >  int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+> >  			  unsigned int rpf,
+> 
+> With those minor issues fixed:
+> 
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+
+-- 
+Regards,
+
+Laurent Pinchart
