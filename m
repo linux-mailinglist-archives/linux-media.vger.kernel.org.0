@@ -2,48 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 690344AE6D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 01:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 598F44AE97
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 01:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730890AbfFRXGi convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 18 Jun 2019 19:06:38 -0400
-Received: from mail.wbhealth.gov.in ([125.22.76.8]:45102 "EHLO
-        mail.wbhealth.gov.in" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730908AbfFRXGh (ORCPT
+        id S1726037AbfFRXNq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jun 2019 19:13:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36588 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfFRXNq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jun 2019 19:06:37 -0400
-X-Greylist: delayed 683 seconds by postgrey-1.27 at vger.kernel.org; Tue, 18 Jun 2019 19:06:36 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.wbhealth.gov.in (Postfix) with ESMTP id B28DB6451D33;
-        Wed, 19 Jun 2019 04:25:01 +0530 (IST)
-Received: from mail.wbhealth.gov.in ([127.0.0.1])
-        by localhost (mail.wbhealth.gov.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id AJYN7ZfOWzH5; Wed, 19 Jun 2019 04:25:00 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.wbhealth.gov.in (Postfix) with ESMTP id 29A116451BCF;
-        Wed, 19 Jun 2019 04:24:56 +0530 (IST)
-X-Virus-Scanned: amavisd-new at wbhealth.gov.in
-Received: from mail.wbhealth.gov.in ([127.0.0.1])
-        by localhost (mail.wbhealth.gov.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id idx0U2QTwE3r; Wed, 19 Jun 2019 04:24:55 +0530 (IST)
-Received: from DESKTOP-LD307E1.www.huaweimobilewifi.com (unknown [41.13.228.94])
-        by mail.wbhealth.gov.in (Postfix) with ESMTPSA id D8C5D6451B2E;
-        Wed, 19 Jun 2019 04:24:43 +0530 (IST)
-Content-Type: text/plain; charset="iso-8859-1"
+        Tue, 18 Jun 2019 19:13:46 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 250AD2639EC
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH] media: hantro: Use vb2_get_buffer
+Date:   Tue, 18 Jun 2019 20:12:37 -0300
+Message-Id: <20190618231237.27466-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <12f39255-bae4-0382-740e-4de4802c374d@xs4all.nl>
+References: <12f39255-bae4-0382-740e-4de4802c374d@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: 4.800.000 Euro
-To:     Recipients <dme@wbhealth.gov.in>
-From:   dme@wbhealth.gov.in
-Date:   Wed, 19 Jun 2019 00:53:41 +0200
-Reply-To: shanemissler813@gmail.com
-Message-Id: <20190618225443.D8C5D6451B2E@mail.wbhealth.gov.in>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ich heiße SHANE MISSLER. Ich habe einen Lotto-Jackpot von 451 Millionen Dollar (330 Millionen Pfund) gewonnen. Im Januar 2018. Ich habe eine Spende von 4.800.000 Euro. Ich spende diese Spende aus Gründen der Liebe zur Menschheit und der Bedürftigen in der Gesellschaft. Bitte kontaktieren Siemich für dieses Geschenk, das Sie über diese E-Mail erhalten haben:(shanemissler813@gmail.com)
+Use the newly introduced vb2_get_buffer API and avoid
+accessing buffers in the queue directly.
 
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 1d3af881d088..c3665f0e87a2 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -45,12 +45,14 @@ void *hantro_get_ctrl(struct hantro_ctx *ctx, u32 id)
+ 
+ dma_addr_t hantro_get_ref(struct vb2_queue *q, u64 ts)
+ {
++	struct vb2_buffer *buf;
+ 	int index;
+ 
+ 	index = vb2_find_timestamp(q, ts, 0);
+-	if (index >= 0)
+-		return vb2_dma_contig_plane_dma_addr(q->bufs[index], 0);
+-	return 0;
++	if (index < 0)
++		return 0;
++	buf = vb2_get_buffer(q, index);
++	return vb2_dma_contig_plane_dma_addr(buf, 0);
+ }
+ 
+ static int
+-- 
+2.20.1
 
