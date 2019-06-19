@@ -2,73 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE3B4B38B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 10:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 683DC4B3CA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 10:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731215AbfFSIDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jun 2019 04:03:52 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:45124 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726142AbfFSIDw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:03:52 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 4498F634C7B;
-        Wed, 19 Jun 2019 11:03:24 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hdVYy-0000zL-A5; Wed, 19 Jun 2019 11:03:24 +0300
-Date:   Wed, 19 Jun 2019 11:03:24 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Eugen.Hristev@microchip.com
-Cc:     hverkuil@xs4all.nl, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atmel: atmel-isc: fix i386 build error
-Message-ID: <20190619080324.nc33gtuxzwpailmy@valkosipuli.retiisi.org.uk>
-References: <1560928828-31471-1-git-send-email-eugen.hristev@microchip.com>
+        id S1731209AbfFSIQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jun 2019 04:16:36 -0400
+Received: from shell.v3.sk ([90.176.6.54]:46808 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731064AbfFSIQf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Jun 2019 04:16:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 4D0BACA051;
+        Wed, 19 Jun 2019 10:16:32 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 6FoiRkUxAFLs; Wed, 19 Jun 2019 10:16:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id AB0BBCA044;
+        Wed, 19 Jun 2019 10:16:26 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id VuwPrubCZcNl; Wed, 19 Jun 2019 10:16:25 +0200 (CEST)
+Received: from belphegor (nat-pool-brq-t.redhat.com [213.175.37.10])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id C4553CA01B;
+        Wed, 19 Jun 2019 10:16:24 +0200 (CEST)
+Message-ID: <f70270d3d67b276bcde7caa6891d655c78ad128f.camel@v3.sk>
+Subject: Re: [PATCH v5 02/10] [media] marvell-ccic: fix DMA s/g desc number
+ calculation
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        James Cameron <quozl@laptop.org>, Pavel Machek <pavel@ucw.cz>,
+        Libin Yang <lbyang@marvell.com>,
+        Albert Wang <twang13@marvell.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Date:   Wed, 19 Jun 2019 10:16:23 +0200
+In-Reply-To: <20190614094128.miryq2wfzoewjoyn@uno.localdomain>
+References: <20190505140031.9636-1-lkundrak@v3.sk>
+         <20190505140031.9636-3-lkundrak@v3.sk>
+         <20190614094128.miryq2wfzoewjoyn@uno.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1560928828-31471-1-git-send-email-eugen.hristev@microchip.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
-
-On Wed, Jun 19, 2019 at 07:24:41AM +0000, Eugen.Hristev@microchip.com wrote:
-> From: Eugen Hristev <eugen.hristev@microchip.com>
+On Fri, 2019-06-14 at 11:41 +0200, Jacopo Mondi wrote:
+> Hi Lubomir,
 > 
-> ld: drivers/media/platform/atmel/atmel-isc-base.o:(.bss+0x0): multiple definition of `debug'; arch/x86/entry/entry_32.o:(.entry.text+0x21ac): first defined here
+> On Sun, May 05, 2019 at 04:00:23PM +0200, Lubomir Rintel wrote:
+> > The commit d790b7eda953 ("[media] vb2-dma-sg: move dma_(un)map_sg here")
+> > left dma_desc_nent unset. It previously contained the number of DMA
+> > descriptors as returned from dma_map_sg().
+> > 
+> > We can now (since the commit referred to above) obtain the same value from
+> > the sg_table and drop dma_desc_nent altogether.
+> > 
+> > Tested on OLPC XO-1.75 machine. Doesn't affect the OLPC XO-1's Cafe
+> > driver, since that one doesn't do DMA.
+> > 
+> > Fixes: d790b7eda953df474f470169ebdf111c02fa7a2d
 > 
-> Changed module parameters to static.
+> Could you use the proper 'fixes' format here?
+> Fixes: d790b7eda953 ("[media] vb2-dma-sg: move dma_(un)map_sg here")
 > 
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
+> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> > ---
+> >  drivers/media/platform/marvell-ccic/mcam-core.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+> > index f1b301810260a..d97f39bde9bd6 100644
+> > --- a/drivers/media/platform/marvell-ccic/mcam-core.c
+> > +++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+> > @@ -200,7 +200,6 @@ struct mcam_vb_buffer {
+> >  	struct list_head queue;
+> >  	struct mcam_dma_desc *dma_desc;	/* Descriptor virtual address */
+> >  	dma_addr_t dma_desc_pa;		/* Descriptor physical address */
+> > -	int dma_desc_nent;		/* Number of mapped descriptors */
+> >  };
+> > 
+> >  static inline struct mcam_vb_buffer *vb_to_mvb(struct vb2_v4l2_buffer *vb)
+> > @@ -608,9 +607,11 @@ static void mcam_dma_contig_done(struct mcam_camera *cam, int frame)
+> >  static void mcam_sg_next_buffer(struct mcam_camera *cam)
+> >  {
+> >  	struct mcam_vb_buffer *buf;
+> > +	struct sg_table *sg_table;
+> > 
+> >  	buf = list_first_entry(&cam->buffers, struct mcam_vb_buffer, queue);
+> >  	list_del_init(&buf->queue);
+> > +	sg_table = vb2_dma_sg_plane_desc(&buf->vb_buf.vb2_buf, 0);
+> >  	/*
+> >  	 * Very Bad Not Good Things happen if you don't clear
+> >  	 * C1_DESC_ENA before making any descriptor changes.
+> > @@ -618,7 +619,7 @@ static void mcam_sg_next_buffer(struct mcam_camera *cam)
+> >  	mcam_reg_clear_bit(cam, REG_CTRL1, C1_DESC_ENA);
+> >  	mcam_reg_write(cam, REG_DMA_DESC_Y, buf->dma_desc_pa);
+> >  	mcam_reg_write(cam, REG_DESC_LEN_Y,
+> > -			buf->dma_desc_nent*sizeof(struct mcam_dma_desc));
+> > +			sg_table->nents*sizeof(struct mcam_dma_desc));
 > 
-> Hello Hans,
+> Space betwen operators (it was there already, I know).
 > 
-> Sorry for this, it looks like i386 has a stray weird 'debug' symbol which
-> causes an error.
-> I changed the module parameters of the atmel-isc to 'static' but now they
-> cannot be accessed in the other module files.
-> Will have to create a get function to be used in the other files if needed
-> later. Any other way to make a symbol static to current module and not
-> current file ? It would be useful for other config variables as well.
-> I was not sure if you want to squash this over the faulty patch or add it
-> as a separate patch.
+> Apart for that, patch seems fine to me:
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Please consider using dev_dbg() instead of a driver specific parameter for
-debug.
+This has been already applied to media_tree.git, with the Fixes: tag
+corrected by Mauro Chehab.
 
-For the patch:
+I suppose I can't make changes anymore and the space-between-operators
+things is not worth fixing up in a separate commit?
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Thanks
+>    j
+> >  	mcam_reg_write(cam, REG_DESC_LEN_U, 0);
+> >  	mcam_reg_write(cam, REG_DESC_LEN_V, 0);
+> >  	mcam_reg_set_bit(cam, REG_CTRL1, C1_DESC_ENA);
+> > 
 
--- 
-Sakari Ailus
+Thank you
+Lubo
+
