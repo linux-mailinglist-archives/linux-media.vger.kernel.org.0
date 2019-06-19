@@ -2,113 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC3034BBF6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 16:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 203924BCB7
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 17:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729827AbfFSOpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jun 2019 10:45:15 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35132 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729701AbfFSOpO (ORCPT
+        id S1727250AbfFSPYN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jun 2019 11:24:13 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:51495 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbfFSPYN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jun 2019 10:45:14 -0400
-Received: by mail-pf1-f196.google.com with SMTP id d126so9897272pfd.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Jun 2019 07:45:14 -0700 (PDT)
+        Wed, 19 Jun 2019 11:24:13 -0400
+Received: by mail-qt1-f202.google.com with SMTP id a18so16191193qtj.18
+        for <linux-media@vger.kernel.org>; Wed, 19 Jun 2019 08:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8fT/vuEA7OU0dJVEYE3r7kPp1EiCp3ty74wiME2Ad6k=;
-        b=EvIEznAc2XDTlXpBOjY12Pc2q1rIxcWk6U40JWRUJTQeG8doG5XM7cV9g4/aAvpAbm
-         r3Vk1xob0ZSfzJTTT+FaHc9R0h1eLHkawgh+Y2HeR9XjGIs5zVJz5vVbm53lpriaFfb7
-         WLyV/uAQNAYVDSY/FjIXmEn/qRI4X4yYKhErVQMtfpicAASkyevJQubb5nypERO8S2Td
-         5b/ik5O20WuHwXvtTFgmOoa0CziwFqCIOtcjre2VZ/5fgyUl+9VVN5r0dUvXPdBUWYAX
-         74ptz4qqjfqvUzObFkRm/Ek6sICgg7UMvCYbjzj6hCVv3sQaFa6vMFhwyadaNP4W/A/J
-         GtIg==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=8JkBGLTmIvJ3qsE79AaFBP8DQoZLm77gpsr17OF6DbA=;
+        b=LfcUThih9a14fTjhWiK2T4bwmz+w0Twk6p4g4B+vyf/QxY73hWvRImoKSI6TQas9t5
+         lrCONVWXx/t8Gu8Ag9QO6bkt+GUHStvWCvV53z2hhA4QEVf+muQtZezlYMkxpV3gGMup
+         9AdYd5qPjYKO4+4iFYt4ZHf3i8CxutQU5EOQ7SemKJxaJ0tvSADEbKcaNQIcvp3eQxXa
+         2TlhU6OANOoAaCRuG8CWzNJn05El/MjdYvKGnkJaANrCfa3vPedp1RnZDKB9PnBVO/pc
+         XXmlWDF9ggjQ1n7fzipBcTpDPP3h4MtwlNB7mbrmLjEyFULNmKXLBKhidGc6KrGSCzCv
+         IG6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8fT/vuEA7OU0dJVEYE3r7kPp1EiCp3ty74wiME2Ad6k=;
-        b=uWmbFoT7rszZJVFBMGfNITJYp15wqTzqOlP5rvMoCemlq/peNPzwXXrWuvUdaOdt+J
-         0zczsjCeyL3qd8TdbU6ii84sFCVbkkPeMKB/EHkDvh4z86vM2xDTVR1C8UyeZtA9qAsV
-         oFow0RBJc8opzUEjEVYD/xmdsbCW1xzrf6Kb/drV/gkgm4aaydGnsFzfwbgIEj5LYTgc
-         /ymY9HK2kqLtHiqvKGiCycw/iWYPZopbkI+GZflww1OYvdwHL7id83gWlpVGqFen0rKN
-         SQqZDSzpSURE5ixmW+qeFfWqhWRrPdZaW/mQ47FWBhXRyV6Ij0CdekNMkyb0RgOKIKuB
-         TMIA==
-X-Gm-Message-State: APjAAAU4PkBjhlJWm5S5YHfbBibSFMh1/Bhg6kO9+n+20zNHLNTfbCbF
-        up6ZlhDtgxTiDs9lEkGR0+4YjAc86RYipEKT9VI6CQ==
-X-Google-Smtp-Source: APXvYqxml1AJCp6VXxhzIr0ScKXgidc4P55u7fkRG0uKH1TmixS7V2epvHYKLjz4L0moJR3Tz7zj8BeYkr14oUMqT1c=
-X-Received: by 2002:a17:90a:a116:: with SMTP id s22mr11521374pjp.47.1560955513903;
- Wed, 19 Jun 2019 07:45:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560339705.git.andreyknvl@google.com> <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
-In-Reply-To: <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=8JkBGLTmIvJ3qsE79AaFBP8DQoZLm77gpsr17OF6DbA=;
+        b=ASTb81zygwtQQqILux+Y7DZ+LYiH1P22GupB2jaBXifqwS6ET9B6Fbdz6H/AZnS+an
+         ZgNydUZb5v14xK5pyvlhQChmD7u3S8Xiv7n3g1cRf2DlKO6DF6MJ//aWjihWQ2GDoRjH
+         5AWWCeUxVaaPzxEkwvTY52uPdGqiVBDrEzQ6lieje6A8CBlxwMGKj1CudEJHGvdSLalh
+         IbxwEJdFPI8315xoGT7Q4GBuGUqs7giMzcC49njQ225b14vquX8xlMq15Ku8vV3+n12W
+         UTF8xkNlmQjtuPNqwphPb9aAySm2rgLyK0dkbmI187ywdpAaoFEfjxi84tIumtavbJOf
+         xSYw==
+X-Gm-Message-State: APjAAAV5QQ/XhDl2oikHUb/IPyPsZzYZpCBSx8V8nAQNK5scQzBaRgIB
+        k/Z7QM8vrPdA5Y808qg2WfkRJ0Ss4ZOvwOYd
+X-Google-Smtp-Source: APXvYqy0SZQS1AL6A/Ot5Mo5MT4g/NFmCrgVXvyqFGi3mhXJRMnt8rsSeUUIYH6SgI+DXkRVh75mFMrQRMwm7Akw
+X-Received: by 2002:ac8:2834:: with SMTP id 49mr88206358qtq.326.1560957851972;
+ Wed, 19 Jun 2019 08:24:11 -0700 (PDT)
+Date:   Wed, 19 Jun 2019 17:24:07 +0200
+Message-Id: <6d36cd9fd0a0102a438cafa903dcf3d6fc44937f.1560957802.git.andreyknvl@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH RESUBMIT] media: pvrusb2: use a different format for warnings
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 19 Jun 2019 16:45:02 +0200
-Message-ID: <CAAeHK+xvtqALY9DESF048mR17Po=W++QwWOUOOeSXKgriVTC-w@mail.gmail.com>
-Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control the
- tagged user addresses ABI
-To:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Mike Isely <isely@pobox.com>, linux-kernel@vger.kernel.org,
+        Andrey Konovalov <andreyknvl@google.com>,
+        syzbot+af8f8d2ac0d39b0ed3a0@syzkaller.appspotmail.com,
+        syzbot+170a86bf206dd2c6217e@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 1:43 PM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> From: Catalin Marinas <catalin.marinas@arm.com>
->
-> It is not desirable to relax the ABI to allow tagged user addresses into
-> the kernel indiscriminately. This patch introduces a prctl() interface
-> for enabling or disabling the tagged ABI with a global sysctl control
-> for preventing applications from enabling the relaxed ABI (meant for
-> testing user-space prctl() return error checking without reconfiguring
-> the kernel). The ABI properties are inherited by threads of the same
-> application and fork()'ed children but cleared on execve().
->
-> The PR_SET_TAGGED_ADDR_CTRL will be expanded in the future to handle
-> MTE-specific settings like imprecise vs precise exceptions.
->
-> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+When the pvrusb2 driver detects that there's something wrong with the
+device, it prints a warning message. Right now those message are
+printed in two different formats:
 
-Catalin, would you like to do the requested changes to this patch
-yourself and send it to me or should I do that?
+1. ***WARNING*** message here
+2. WARNING: message here
+
+There's an issue with the second format. Syzkaller recognizes it as a
+message produced by a WARN_ON(), which is used to indicate a bug in the
+kernel. However pvrusb2 prints those warnings to indicate an issue with
+the device, not the bug in the kernel.
+
+This patch changes the pvrusb2 driver to consistently use the first
+warning message format. This will unblock syzkaller testing of this
+driver.
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reported-by: syzbot+af8f8d2ac0d39b0ed3a0@syzkaller.appspotmail.com
+Reported-by: syzbot+170a86bf206dd2c6217e@syzkaller.appspotmail.com
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c      | 4 ++--
+ drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c | 6 +++---
+ drivers/media/usb/pvrusb2/pvrusb2-std.c      | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+index 816c85786c2a..191439109788 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+@@ -1680,7 +1680,7 @@ static int pvr2_decoder_enable(struct pvr2_hdw *hdw,int enablefl)
+ 	}
+ 	if (!hdw->flag_decoder_missed) {
+ 		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+-			   "WARNING: No decoder present");
++			   "***WARNING*** No decoder present");
+ 		hdw->flag_decoder_missed = !0;
+ 		trace_stbit("flag_decoder_missed",
+ 			    hdw->flag_decoder_missed);
+@@ -2366,7 +2366,7 @@ struct pvr2_hdw *pvr2_hdw_create(struct usb_interface *intf,
+ 	if (hdw_desc->flag_is_experimental) {
+ 		pvr2_trace(PVR2_TRACE_INFO, "**********");
+ 		pvr2_trace(PVR2_TRACE_INFO,
+-			   "WARNING: Support for this device (%s) is experimental.",
++			   "***WARNING*** Support for this device (%s) is experimental.",
+ 							      hdw_desc->description);
+ 		pvr2_trace(PVR2_TRACE_INFO,
+ 			   "Important functionality might not be entirely working.");
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c b/drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c
+index 8f023085c2d9..43e54bdbd4aa 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c
+@@ -343,11 +343,11 @@ static int i2c_hack_cx25840(struct pvr2_hdw *hdw,
+ 
+ 	if ((ret != 0) || (*rdata == 0x04) || (*rdata == 0x0a)) {
+ 		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+-			   "WARNING: Detected a wedged cx25840 chip; the device will not work.");
++			   "***WARNING*** Detected a wedged cx25840 chip; the device will not work.");
+ 		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+-			   "WARNING: Try power cycling the pvrusb2 device.");
++			   "***WARNING*** Try power cycling the pvrusb2 device.");
+ 		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+-			   "WARNING: Disabling further access to the device to prevent other foul-ups.");
++			   "***WARNING*** Disabling further access to the device to prevent other foul-ups.");
+ 		// This blocks all further communication with the part.
+ 		hdw->i2c_func[0x44] = NULL;
+ 		pvr2_hdw_render_useless(hdw);
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-std.c b/drivers/media/usb/pvrusb2/pvrusb2-std.c
+index 6b651f8b54df..37dc299a1ca2 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-std.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-std.c
+@@ -353,7 +353,7 @@ struct v4l2_standard *pvr2_std_create_enum(unsigned int *countptr,
+ 		bcnt = pvr2_std_id_to_str(buf,sizeof(buf),fmsk);
+ 		pvr2_trace(
+ 			PVR2_TRACE_ERROR_LEGS,
+-			"WARNING: Failed to classify the following standard(s): %.*s",
++			"***WARNING*** Failed to classify the following standard(s): %.*s",
+ 			bcnt,buf);
+ 	}
+ 
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
