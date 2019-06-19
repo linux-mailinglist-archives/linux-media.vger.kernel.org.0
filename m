@@ -2,149 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38DE14BEE9
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 18:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415BF4BF0C
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 18:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729061AbfFSQtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jun 2019 12:49:22 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:44334 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbfFSQtW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jun 2019 12:49:22 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JGmaMG059359;
-        Wed, 19 Jun 2019 16:48:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=LsU3zeuc/mQbMeWhWbxSsUGJ/a+JywecUJTpLD/kSKk=;
- b=FFTbHZpNpzyDwT0Eazo9mrp8/3iEXjHoS/+pgViSDegRiIT56LXTiOpOiVuZY+ZQJp61
- m4sxzqaSIXQJ/SNqXXdUE75HtjKtsGvWt+m0angb4oDvjsPt3ChVFepvLTUMeYu2AmQA
- KOIThCjgEPdAHaZQr8fjpYFx6RuSpFV664Ojvx7dJzjFYaZgZ8v+ut+4wPEKrogGjNl+
- i1EU20jY+j7nwoouOiJoyAdRJ+fRlBREi0LRdxAlvFYskldgAWupL25hV8oWKRFcveIM
- gaA0dcncPMEcbPFyAma5BHgtCt0ok39bxE3HWcxWo0yWTh+lwriwAD1pX2NKsRtjZpiB xg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 2t7809cjn6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jun 2019 16:48:44 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JGlKWG054029;
-        Wed, 19 Jun 2019 16:48:44 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 2t77yn71um-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jun 2019 16:48:43 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JGmfkY007697;
-        Wed, 19 Jun 2019 16:48:41 GMT
-Received: from [10.65.164.174] (/10.65.164.174)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 19 Jun 2019 09:48:41 -0700
-Subject: Re: [PATCH v17 06/15] mm, arm64: untag user pointers in
- get_vaddr_frames
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <4c0b9a258e794437a1c6cec97585b4b5bd2d3bba.1560339705.git.andreyknvl@google.com>
-From:   Khalid Aziz <khalid.aziz@oracle.com>
-Organization: Oracle Corp
-Message-ID: <39b03c1b-d09c-4b29-0f62-337bf2382eb5@oracle.com>
-Date:   Wed, 19 Jun 2019 10:48:38 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729908AbfFSQx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jun 2019 12:53:28 -0400
+Received: from sauhun.de ([88.99.104.3]:59822 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726479AbfFSQx1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Jun 2019 12:53:27 -0400
+Received: from localhost (p5486CF02.dip0.t-ipconnect.de [84.134.207.2])
+        by pokefinder.org (Postfix) with ESMTPSA id 508AC2C353A;
+        Wed, 19 Jun 2019 18:53:23 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC/RFT PATCH] i2c: replace i2c_new_secondary_device with an ERR_PTR variant
+Date:   Wed, 19 Jun 2019 18:53:11 +0200
+Message-Id: <20190619165311.27663-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <4c0b9a258e794437a1c6cec97585b4b5bd2d3bba.1560339705.git.andreyknvl@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906190135
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906190136
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/12/19 5:43 AM, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow=
- to
-> pass tagged user pointers (with the top byte set to something else othe=
-r
-> than 0x00) as syscall arguments.
->=20
-> get_vaddr_frames uses provided user pointers for vma lookups, which can=
+In the general move to have i2c_new_*_device functions which return
+ERR_PTR instead of NULL, this patch converts i2c_new_secondary_device().
 
-> only by done with untagged pointers. Instead of locating and changing
-> all callers of this function, perform untagging in it.
->=20
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
+There are only few users, so this patch converts the I2C core and all
+users in one go. The function gets renamed to i2c_new_ancillary_device()
+so out-of-tree users will get a build failure to understand they need to
+adapt their error checking code.
 
-With the suggested change to commit log in my previous email:
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Reviewed-by: Khalid Aziz <khalid.aziz@oracle.com>
+This patch is RFC for now because:
 
->  mm/frame_vector.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> index c64dca6e27c2..c431ca81dad5 100644
-> --- a/mm/frame_vector.c
-> +++ b/mm/frame_vector.c
-> @@ -46,6 +46,8 @@ int get_vaddr_frames(unsigned long start, unsigned in=
-t nr_frames,
->  	if (WARN_ON_ONCE(nr_frames > vec->nr_allocated))
->  		nr_frames =3D vec->nr_allocated;
-> =20
-> +	start =3D untagged_addr(start);
-> +
->  	down_read(&mm->mmap_sem);
->  	locked =3D 1;
->  	vma =3D find_vma_intersection(mm, start, start + 1);
->=20
+* there is one FIXME blob which I can only remove after a missing
+  header update which I will try to get into v5.2-rc6
 
+* I wanted to check if media-maintainers agree to let me apply
+  this via the I2C tree?
+
+* maybe someone with ADV HW is willing to test this?
+
+The patch is based on v5.2-rc5 and tested with a Renesas Lager board
+(R-Car H2) and a tweaked DA9063 driver. I don't have any of these ADV
+devices so the code is only build tested.
+
+If this is acceptable, I likely will add a patch adding a devm_ variant
+of this new function to the patch stack and convert the users, too.
+
+I think i2c_new_ancillary_device() should replace i2c_new_dummy() in
+quite some places. But we will see...
+
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 +++++++++---------
+ drivers/i2c/i2c-core-base.c                  | 10 +++++-----
+ drivers/media/i2c/adv748x/adv748x-core.c     |  6 +++---
+ drivers/media/i2c/adv7604.c                  | 12 ++++++++----
+ include/linux/i2c.h                          |  2 +-
+ 5 files changed, 26 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 0e3e868850d5..a4d23bd3e7c7 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -981,10 +981,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ {
+ 	int ret;
+ 
+-	adv->i2c_cec = i2c_new_secondary_device(adv->i2c_main, "cec",
++	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
+ 						ADV7511_CEC_I2C_ADDR_DEFAULT);
+-	if (!adv->i2c_cec)
+-		return -EINVAL;
++	if (IS_ERR(adv->i2c_cec))
++		return PTR_ERR(adv->i2c_cec);
+ 	i2c_set_clientdata(adv->i2c_cec, adv);
+ 
+ 	adv->regmap_cec = devm_regmap_init_i2c(adv->i2c_cec,
+@@ -1165,20 +1165,20 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 
+ 	adv7511_packet_disable(adv7511, 0xffff);
+ 
+-	adv7511->i2c_edid = i2c_new_secondary_device(i2c, "edid",
++	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
+ 					ADV7511_EDID_I2C_ADDR_DEFAULT);
+-	if (!adv7511->i2c_edid) {
+-		ret = -EINVAL;
++	if (IS_ERR(adv7511->i2c_edid)) {
++		ret = PTR_ERR(adv7511->i2c_edid);
+ 		goto uninit_regulators;
+ 	}
+ 
+ 	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
+ 		     adv7511->i2c_edid->addr << 1);
+ 
+-	adv7511->i2c_packet = i2c_new_secondary_device(i2c, "packet",
++	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
+ 					ADV7511_PACKET_I2C_ADDR_DEFAULT);
+-	if (!adv7511->i2c_packet) {
+-		ret = -EINVAL;
++	if (IS_ERR(adv7511->i2c_packet)) {
++		ret = PTR_ERR(adv7511->i2c_packet);
+ 		goto err_i2c_unregister_edid;
+ 	}
+ 
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 9e43508d4567..ee9a86534319 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -966,7 +966,7 @@ struct i2c_client *devm_i2c_new_dummy_device(struct device *dev,
+ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+ 
+ /**
+- * i2c_new_secondary_device - Helper to get the instantiated secondary address
++ * i2c_new_ancillary_device - Helper to get the instantiated secondary address
+  * and create the associated device
+  * @client: Handle to the primary client
+  * @name: Handle to specify which secondary address to get
+@@ -985,9 +985,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * cell whose "reg-names" value matches the slave name.
+  *
+  * This returns the new i2c client, which should be saved for later use with
+- * i2c_unregister_device(); or NULL to indicate an error.
++ * i2c_unregister_device(); or an ERR_PTR to describe the error.
+  */
+-struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
++struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+ 						const char *name,
+ 						u16 default_addr)
+ {
+@@ -1002,9 +1002,9 @@ struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
+ 	}
+ 
+ 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+-	return i2c_new_dummy(client->adapter, addr);
++	return i2c_new_dummy_device(client->adapter, addr);
+ }
+-EXPORT_SYMBOL_GPL(i2c_new_secondary_device);
++EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+ 
+ /* ------------------------------------------------------------------------- */
+ 
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index f57cd77a32fa..2567de2b0037 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -183,14 +183,14 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
+ 	int ret;
+ 
+ 	for (i = ADV748X_PAGE_DPLL; i < ADV748X_PAGE_MAX; ++i) {
+-		state->i2c_clients[i] = i2c_new_secondary_device(
++		state->i2c_clients[i] = i2c_new_ancillary_device(
+ 				state->client,
+ 				adv748x_default_addresses[i].name,
+ 				adv748x_default_addresses[i].default_addr);
+ 
+-		if (state->i2c_clients[i] == NULL) {
++		if (IS_ERR(state->i2c_clients[i])) {
+ 			adv_err(state, "failed to create i2c client %u\n", i);
+-			return -ENOMEM;
++			return PTR_ERR(state->i2c_clients[i]);
+ 		}
+ 
+ 		ret = adv748x_configure_regmap(state, i);
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 28a84bf9f8a9..ad68f24a369f 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -2881,11 +2881,15 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
+ 		new_client = i2c_new_dummy(client->adapter,
+ 					   pdata->i2c_addresses[page]);
+ 	else
+-		new_client = i2c_new_secondary_device(client,
++		new_client = i2c_new_ancillary_device(client,
+ 				adv76xx_default_addresses[page].name,
+ 				adv76xx_default_addresses[page].default_addr);
+ 
+-	if (new_client)
++	/* FIXME: can be removed once i2c_new_dummy_device hits upstream */
++	if (!new_client)
++		new_client = ERR_PTR(-ENOENT);
++
++	if (!IS_ERR(new_client))
+ 		io_write(sd, io_reg, new_client->addr << 1);
+ 
+ 	return new_client;
+@@ -3520,8 +3524,8 @@ static int adv76xx_probe(struct i2c_client *client,
+ 			continue;
+ 
+ 		state->i2c_clients[i] = adv76xx_dummy_client(sd, i);
+-		if (!state->i2c_clients[i]) {
+-			err = -EINVAL;
++		if (IS_ERR(state->i2c_clients[i])) {
++			err = PTR_ERR(state->i2c_clients[i]);
+ 			v4l2_err(sd, "failed to create i2c client %u\n", i);
+ 			goto err_i2c;
+ 		}
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index 1308126fc384..2d0e78a91912 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -461,7 +461,7 @@ extern struct i2c_client *
+ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 address);
+ 
+ extern struct i2c_client *
+-i2c_new_secondary_device(struct i2c_client *client,
++i2c_new_ancillary_device(struct i2c_client *client,
+ 				const char *name,
+ 				u16 default_addr);
+ 
+-- 
+2.20.1
 
