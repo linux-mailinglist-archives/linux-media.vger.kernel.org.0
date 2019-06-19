@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 709644B7DC
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 14:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 799C84B7DA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2019 14:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731713AbfFSMPs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jun 2019 08:15:48 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40472 "EHLO
+        id S1731703AbfFSMPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jun 2019 08:15:47 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40502 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727314AbfFSMPr (ORCPT
+        with ESMTP id S1727457AbfFSMPr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 19 Jun 2019 08:15:47 -0400
 Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 173A12606DF;
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B3B9C2607B4;
         Wed, 19 Jun 2019 13:15:45 +0100 (BST)
 From:   Boris Brezillon <boris.brezillon@collabora.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,9 +34,9 @@ Cc:     linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH 1/9] lib/sort.c: implement sort() variant taking context argument
-Date:   Wed, 19 Jun 2019 14:15:32 +0200
-Message-Id: <20190619121540.29320-2-boris.brezillon@collabora.com>
+Subject: [PATCH 2/9] media: hantro: Move copy_metadata() before doing a decode operation
+Date:   Wed, 19 Jun 2019 14:15:33 +0200
+Message-Id: <20190619121540.29320-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190619121540.29320-1-boris.brezillon@collabora.com>
 References: <20190619121540.29320-1-boris.brezillon@collabora.com>
@@ -47,157 +47,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Some decoders use intra slice/frame references. The capture buffer
+pointed by these references might be new and thus have invalid
+timestamp which prevents the decoder logic from retrieving the
+vb2_buffer object based on the output buf timestamp.
+Copy all metadata (including the timestamp) before starting the decode
+operation.
 
-Our list_sort() utility has always supported a context argument that
-is passed through to the comparison routine. Now there's a use case
-for the similar thing for sort().
-
-This implements sort_r by simply extending the existing sort function
-in the obvious way. To avoid code duplication, we want to implement
-sort() in terms of sort_r(). The naive way to do that is
-
-static int cmp_wrapper(const void *a, const void *b, const void *ctx)
-{
-  int (*real_cmp)(const void*, const void*) = ctx;
-  return real_cmp(a, b);
-}
-
-sort(..., cmp) { sort_r(..., cmp_wrapper, cmp) }
-
-but this would do two indirect calls for each comparison. Instead, do
-as is done for the default swap functions - that only adds a cost of a
-single easily predicted branch to each comparison call.
-
-Aside from introducing support for the context argument, this also
-serves as preparation for patches that will eliminate the indirect
-comparison calls in common cases.
-
-Requested-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Suggested-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
 ---
-Hi all,
+ drivers/staging/media/hantro/hantro_drv.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Andrew, you acked the first version of this patch, but Rasmus proposed
-a better solution and posted a v2. Can you review/ack this version.
-
-Hans, Mauro, Andrew suggested to have this patch applied along with
-its first user (the H264 backend of the hantro codec), so here it is.
-Note that, if possible, I'd like to have this patch queued for the next
-release even if the H264 bits don't get accepted as is. The rationale
-here being that Rasmus told me he was planning to further improve the
-sort() logic after the next -rc1 is out, and I fear his changes will
-conflict with this patch, which might involve some kind synchronisation
-(a topic branch) between the media maintainers and Andrew.
-
-Let me know how you want to proceed with that.
-
-Regards,
-
-Boris
----
- include/linux/sort.h |  5 +++++
- lib/sort.c           | 34 ++++++++++++++++++++++++++++------
- 2 files changed, 33 insertions(+), 6 deletions(-)
-
-diff --git a/include/linux/sort.h b/include/linux/sort.h
-index 2b99a5dd073d..61b96d0ebc44 100644
---- a/include/linux/sort.h
-+++ b/include/linux/sort.h
-@@ -4,6 +4,11 @@
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index ab0aa7408a7d..28b0fed89dcb 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -109,8 +109,6 @@ static void hantro_job_finish(struct hantro_dev *vpu,
+ 	src->sequence = ctx->sequence_out++;
+ 	dst->sequence = ctx->sequence_cap++;
  
- #include <linux/types.h>
- 
-+void sort_r(void *base, size_t num, size_t size,
-+	    int (*cmp)(const void *, const void *, const void *),
-+	    void (*swap)(void *, void *, int),
-+	    const void *priv);
-+
- void sort(void *base, size_t num, size_t size,
- 	  int (*cmp)(const void *, const void *),
- 	  void (*swap)(void *, void *, int));
-diff --git a/lib/sort.c b/lib/sort.c
-index cf408aec3733..d54cf97e9548 100644
---- a/lib/sort.c
-+++ b/lib/sort.c
-@@ -144,6 +144,18 @@ static void do_swap(void *a, void *b, size_t size, swap_func_t swap_func)
- 		swap_func(a, b, (int)size);
- }
- 
-+typedef int (*cmp_func_t)(const void *, const void *);
-+typedef int (*cmp_r_func_t)(const void *, const void *, const void *);
-+#define _CMP_WRAPPER ((cmp_r_func_t)0L)
-+
-+static int do_cmp(const void *a, const void *b,
-+		  cmp_r_func_t cmp, const void *priv)
-+{
-+	if (cmp == _CMP_WRAPPER)
-+		return ((cmp_func_t)(priv))(a, b);
-+	return cmp(a, b, priv);
-+}
-+
- /**
-  * parent - given the offset of the child, find the offset of the parent.
-  * @i: the offset of the heap element whose parent is sought.  Non-zero.
-@@ -171,12 +183,13 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
- }
- 
- /**
-- * sort - sort an array of elements
-+ * sort_r - sort an array of elements
-  * @base: pointer to data to sort
-  * @num: number of elements
-  * @size: size of each element
-  * @cmp_func: pointer to comparison function
-  * @swap_func: pointer to swap function or NULL
-+ * @priv: third argument passed to comparison function
-  *
-  * This function does a heapsort on the given array.  You may provide
-  * a swap_func function if you need to do something more than a memory
-@@ -188,9 +201,10 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
-  * O(n*n) worst-case behavior and extra memory requirements that make
-  * it less suitable for kernel use.
-  */
--void sort(void *base, size_t num, size_t size,
--	  int (*cmp_func)(const void *, const void *),
--	  void (*swap_func)(void *, void *, int size))
-+void sort_r(void *base, size_t num, size_t size,
-+	    int (*cmp_func)(const void *, const void *, const void *),
-+	    void (*swap_func)(void *, void *, int size),
-+	    const void *priv)
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
+-
+ 	ret = ctx->buf_finish(ctx, &dst->vb2_buf, bytesused);
+ 	if (ret)
+ 		result = VB2_BUF_STATE_ERROR;
+@@ -154,8 +152,12 @@ void hantro_watchdog(struct work_struct *work)
+ static void device_run(void *priv)
  {
- 	/* pre-scale counters for performance */
- 	size_t n = num * size, a = (num/2) * size;
-@@ -238,12 +252,12 @@ void sort(void *base, size_t num, size_t size,
- 		 * average, 3/4 worst-case.)
- 		 */
- 		for (b = a; c = 2*b + size, (d = c + size) < n;)
--			b = cmp_func(base + c, base + d) >= 0 ? c : d;
-+			b = do_cmp(base + c, base + d, cmp_func, priv) >= 0 ? c : d;
- 		if (d == n)	/* Special case last leaf with no sibling */
- 			b = c;
+ 	struct hantro_ctx *ctx = priv;
++	struct vb2_v4l2_buffer *src, *dst;
+ 	int ret;
  
- 		/* Now backtrack from "b" to the correct location for "a" */
--		while (b != a && cmp_func(base + a, base + b) >= 0)
-+		while (b != a && do_cmp(base + a, base + b, cmp_func, priv) >= 0)
- 			b = parent(b, lsbit, size);
- 		c = b;			/* Where "a" belongs */
- 		while (b != a) {	/* Shift it into place */
-@@ -252,4 +266,12 @@ void sort(void *base, size_t num, size_t size,
- 		}
- 	}
- }
-+EXPORT_SYMBOL(sort_r);
++	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
++	dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
 +
-+void sort(void *base, size_t num, size_t size,
-+	  int (*cmp_func)(const void *, const void *),
-+	  void (*swap_func)(void *, void *, int size))
-+{
-+	return sort_r(base, num, size, _CMP_WRAPPER, swap_func, cmp_func);
-+}
- EXPORT_SYMBOL(sort);
+ 	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+ 	if (ret)
+ 		goto err_cancel_job;
+@@ -163,6 +165,8 @@ static void device_run(void *priv)
+ 	if (ret < 0)
+ 		goto err_cancel_job;
+ 
++	v4l2_m2m_buf_copy_metadata(src, dst, true);
++
+ 	ctx->codec_ops->run(ctx);
+ 	return;
+ 
 -- 
 2.20.1
 
