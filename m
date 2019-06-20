@@ -2,117 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E8554CA1C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 10:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C2C14CA69
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 11:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfFTI5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jun 2019 04:57:48 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37659 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726072AbfFTI5r (ORCPT
+        id S1730759AbfFTJNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jun 2019 05:13:52 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:49193 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730583AbfFTJNv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:57:47 -0400
-Received: from [IPv6:2001:983:e9a7:1:bdf4:9145:f694:e7a2] ([IPv6:2001:983:e9a7:1:bdf4:9145:f694:e7a2])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id dst6hWZyGSfvXdst7htbE9; Thu, 20 Jun 2019 10:57:46 +0200
-Subject: Re: [PATCH] media: ov5640: add support of V4L2_CID_LINK_FREQ
-To:     Hugues Fruchet <hugues.fruchet@st.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+        Thu, 20 Jun 2019 05:13:51 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hdt8g-0006l7-IV; Thu, 20 Jun 2019 11:13:50 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hdt8f-0002u0-6D; Thu, 20 Jun 2019 11:13:49 +0200
+Date:   Thu, 20 Jun 2019 11:13:49 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-References: <1560779277-32465-1-git-send-email-hugues.fruchet@st.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6a5c05d1-889f-5099-e1ed-0e661f65d6d2@xs4all.nl>
-Date:   Thu, 20 Jun 2019 10:57:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH 2/2] mt9m111: Fix error handling in mt9m111_power_on
+Message-ID: <20190620091349.ejf6czjn2quvr77d@pengutronix.de>
+References: <20190618115910.17272-1-sakari.ailus@linux.intel.com>
+ <20190618115910.17272-3-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1560779277-32465-1-git-send-email-hugues.fruchet@st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHhNg8iOYmDxwkoqhtg/kbE1uiSLmyATFuMFYGdCCHGrcef0umY+xpDu3S2RzYjfVWZZgfozoL1MZ/HH+QHqcrdMXM2+9eHopHACkuDoY900n6jPnBkk
- KqoveJMYNmr5AMEu5EoFLaqyIhSrZXoGXweMCte/OssSaS2Ils2jLJQoMA0q5nR7ILOP1mNAV8hzUdNOJgj6W7qlEYJp+1ny52/pDbHo2hbCQy+TPxiCMqAM
- 8W9tJj8bZa+qCihY5YjOWaCoSkr9jbfmRmYTteLy81Zg3Wh2GKSowGptelCVvJfKVHaaDpUcYeFT+I03VujUg40JjSoNfCeF7CdmVuM1YeFw2RghdHAa+D2+
- zl7HFcnuPKAkXN9fJcpSBzC0uHhugO5KihuUB6UstvaeIIcT3DN8dzM8MyVZJq38UWyahgQP+BryC7X15XxRbf52nqJyR9rDKQfVrrCXDCfy0LVjpuW0o/6W
- HTGprztj3cxxXfDkljjldQZF+I0Z2mTuMn84zaExgUNz4CKt3Nzn9Kqdf1bgimT8FxO7hlYvM2SoY6nBXqZHAljYHBOMKpM0H46Wg5pipBO4HzIaiZMT11Tq
- joE=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190618115910.17272-3-sakari.ailus@linux.intel.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:09:47 up 33 days, 15:27, 46 users,  load average: 0.01, 0.05,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/17/19 3:47 PM, Hugues Fruchet wrote:
-> Add support of V4L2_CID_LINK_FREQ, this is needed
-> by some CSI-2 receivers.
+Hi Sakari,
+
+On 19-06-18 14:59, Sakari Ailus wrote:
+> The mt9m111_power_on function did not properly clean up whenever it
+> encountered an error. Do that now.
 > 
-> 384MHz is exposed for the time being, corresponding
-> to 96MHz pixel clock with 2 bytes per pixel on 2 data lanes.
-> 
-> This setup has been tested successfully with ST MIPID02
-> CSI-2 to parallel bridge.
-> 
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/i2c/ov5640.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 82d4ce9..79f8383 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -218,6 +218,7 @@ struct ov5640_ctrls {
->  	struct v4l2_ctrl *test_pattern;
->  	struct v4l2_ctrl *hflip;
->  	struct v4l2_ctrl *vflip;
-> +	struct v4l2_ctrl *link_freq;
->  };
->  
->  struct ov5640_dev {
-> @@ -2198,6 +2199,10 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static const s64 link_freq_menu_items[] = {
-> +	384000000,
-> +};
-> +
->  static int ov5640_set_fmt(struct v4l2_subdev *sd,
->  			  struct v4l2_subdev_pad_config *cfg,
->  			  struct v4l2_subdev_format *format)
-> @@ -2703,6 +2708,11 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
->  				       V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0,
->  				       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
->  
-> +	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-> +						  0, 0, link_freq_menu_items);
-> +	if (ctrls->link_freq)
-> +		ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  drivers/media/i2c/mt9m111.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
 
-I'd drop this. It's fine to set it, there is only one value here, so that's
-effectively a NOP.
+Looks good feel free to add
 
-I see more drivers that set this flag, even though it is not necessary.
-The problem is that some application might assume this control can be set, and then
-fails because this returns an error.
-
-You do need to add an entry to ov5640_s_ctrl:
-
-	case V4L2_CID_LINK_FREQ:
-		return 0;
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
 Regards,
+  Marco
 
-	Hans
-
+> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> index bb19f8c346cb..593ebe5e2cb6 100644
+> --- a/drivers/media/i2c/mt9m111.c
+> +++ b/drivers/media/i2c/mt9m111.c
+> @@ -986,13 +986,21 @@ static int mt9m111_power_on(struct mt9m111 *mt9m111)
+>  
+>  	ret = regulator_enable(mt9m111->regulator);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto out_clk_disable;
+>  
+>  	ret = mt9m111_resume(mt9m111);
+> -	if (ret < 0) {
+> -		dev_err(&client->dev, "Failed to resume the sensor: %d\n", ret);
+> -		v4l2_clk_disable(mt9m111->clk);
+> -	}
+> +	if (ret < 0)
+> +		goto out_regulator_disable;
 > +
->  	if (hdl->error) {
->  		ret = hdl->error;
->  		goto free_ctrls;
+> +	return 0;
+> +
+> +out_regulator_disable:
+> +	regulator_disable(mt9m111->regulator);
+> +
+> +out_clk_disable:
+> +	v4l2_clk_disable(mt9m111->clk);
+> +
+> +	dev_err(&client->dev, "Failed to resume the sensor: %d\n", ret);
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.11.0
+> 
 > 
 
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
