@@ -2,232 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FD9E4DB98
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 22:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894BB4DC43
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 23:12:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbfFTUss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jun 2019 16:48:48 -0400
-Received: from sauhun.de ([88.99.104.3]:45474 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725958AbfFTUsr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jun 2019 16:48:47 -0400
-Received: from localhost (p5486CFDE.dip0.t-ipconnect.de [84.134.207.222])
-        by pokefinder.org (Postfix) with ESMTPSA id E04712C376D;
-        Thu, 20 Jun 2019 22:48:45 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        id S1726132AbfFTVMN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jun 2019 17:12:13 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43741 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbfFTVMN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Jun 2019 17:12:13 -0400
+Received: by mail-ed1-f66.google.com with SMTP id e3so6636246edr.10
+        for <linux-media@vger.kernel.org>; Thu, 20 Jun 2019 14:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=959ru36WY2J0Xrly1vs1MXuZnqXsrreyoL0xoecTXQA=;
+        b=ZyyEIWc8g9qNg4ofLToKGhgAmro8fi/qsiplRDzzYnsQzgUBFe4c86Ee/wR4SebDjt
+         d63ZPlgcJxB1wYNf1eIPn3M3bB13fdEww4NsSF+uA3/ahauLDZUM1S12sFjWLoIzrkEq
+         HMbsASyI+4J0m7OfyVxoUW085H+KZiQlel8eY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=959ru36WY2J0Xrly1vs1MXuZnqXsrreyoL0xoecTXQA=;
+        b=iMomG7JikpB55PMvxlqP9ncA/CyfjziVFLFkAe8kKISVD/8yf9/syXVB9Y4Wg/kNxr
+         7hakMl++HTLNYHfNKJCJYU4+EXrSfe+CG12wJaUzfLGkvR0n7gIcV26qRhekYsWptu7Z
+         m1OfquWFz21D3so6Lz7kNBN45LFh7pQvadYaev8AjboJUSI7X9P0hoeckMQFYKw+bnCH
+         ZnIFZIIbvwqvsrgfmpDw04UNP2TmSkFbGN+jQCGuNGP2CesLQWrqJ2DgHBu99Soxnand
+         qunnooTRBpw+InL7GtujwzsRmOj0UQSSxDrCvMYDnYEMKnziycdiWMu/NfyoqO0JCftH
+         rbZQ==
+X-Gm-Message-State: APjAAAUgijScFQVpVMHKr8U2QNZfIHyvyWd2YhnswDbWsx+ngsoJvDI8
+        FM43UbfT2veV7giZrxTV09scDA==
+X-Google-Smtp-Source: APXvYqx3EnsHuhcIFTP2RIslvwoM3AQZ6N+bN+bCoN37PG+nA2hCPhd0nIWscWNoh843HbyPEoTJjw==
+X-Received: by 2002:a17:906:2510:: with SMTP id i16mr98153366ejb.130.1561065130725;
+        Thu, 20 Jun 2019 14:12:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id p18sm76849ejr.61.2019.06.20.14.12.08
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 20 Jun 2019 14:12:09 -0700 (PDT)
+Date:   Thu, 20 Jun 2019 23:12:04 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Cheng-yi Chiang <cychiang@chromium.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
         Andrzej Hajda <a.hajda@samsung.com>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [RFC/RFT PATCH RESEND] i2c: replace i2c_new_secondary_device with an ERR_PTR variant
-Date:   Thu, 20 Jun 2019 22:48:34 +0200
-Message-Id: <20190620204834.1575-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
+        Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Doug Anderson <dianders@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>, tzungbi@chromium.org,
+        linux-media@vger.kernel.org,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/7] video: add HDMI state notifier support
+Message-ID: <20190620211204.GW12905@phenom.ffwll.local>
+Mail-Followup-To: Cheng-yi Chiang <cychiang@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Doug Anderson <dianders@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>, tzungbi@chromium.org,
+        linux-media@vger.kernel.org,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <alsa-devel@alsa-project.org>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        Dariusz Marcinkiewicz <darekm@google.com>
+References: <20190603080931.GG21222@phenom.ffwll.local>
+ <CAFv8Nw+1sB8i1d87vLeKxRricZOi4gnXFSgOzW9k0sa_Tzybjg@mail.gmail.com>
+ <20190604072411.GP21222@phenom.ffwll.local>
+ <CAFv8NwKL9ZL=gNpDmdRV+R9eq22+Da_1kzuYBv8kMMyV3Hq14g@mail.gmail.com>
+ <20190611123455.GD2458@phenom.ffwll.local>
+ <CAFv8NwJxs-R=ehgeqyx=e+T5OmUBsk3uWnUb2t0cC-LDPS7G5w@mail.gmail.com>
+ <20190618121220.GU12905@phenom.ffwll.local>
+ <CAFv8NwLci2ALi3V-e=8jjatciHWOoOj-FeajwNLWRpWRtqgBdg@mail.gmail.com>
+ <20190620092506.GP12905@phenom.ffwll.local>
+ <CAFv8NwLbS_f4cfeorzqtmRzQSY0u1tgM7fitAokg_QfViPvq=Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFv8NwLbS_f4cfeorzqtmRzQSY0u1tgM7fitAokg_QfViPvq=Q@mail.gmail.com>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the general move to have i2c_new_*_device functions which return
-ERR_PTR instead of NULL, this patch converts i2c_new_secondary_device().
+Massively cutting this thread, since halfway through in my previous reply
+I realized that maybe hdmi_codec is a much better starting point.
 
-There are only few users, so this patch converts the I2C core and all
-users in one go. The function gets renamed to i2c_new_ancillary_device()
-so out-of-tree users will get a build failure to understand they need to
-adapt their error checking code.
+On Thu, Jun 20, 2019 at 09:23:23PM +0800, Cheng-yi Chiang wrote:
+> On Thu, Jun 20, 2019 at 5:25 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > Yeah fully agreeing that hdmi_audio_code is probably a better starting
+> > point. Problem is that becuase hdmi_codec is built on top of platform
+> > device it's quite a bit harder to extend with callbacks and things like
+> > that, without breaking the driver model.
+> >
+> > I need to think about this more, but if all we need to look at is
+> > hdmi_codec, then I think this becomes a lot easier. And we can ignore
+> > drm_audio_component.h completely.
+> 
+> 
+> It is surprising that you think this way.
+> Maybe the original patch before hdmi-notifier was introduced is the
+> better way to solve this issue, if we only need to look at hdmi_codec.
+> 
+> The history of hdmi_codec driver is in this patch series:
+> 
+> https://lore.kernel.org/patchwork/patch/539656/
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Hm, this doesn't seem to be the hdmi_codec driver I meant, but another,
+new one. I was talking about SND_SOC_HDMI_CODEC.
 
-Sorry for the resend. I missed to add quite some relevant ppl to cc.
+> There was a callback mechanism implemented between dw-hdmi and hdmi
+> codec driver.
+> It was later consolidated by Doug in this patch for better jack status
+> reporting:
+> 
+> https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/303573/
 
-This patch is RFC for now because:
+Hm that still seems entirely separate hdmi-codec specific to dw-hdmi only
+...
 
-* there is one FIXME blob which I can only remove after a missing
-  header update which I will try to get into v5.2-rc6
+> I am not sure why the original patch series did not get fully accepted
+> in the upstream.
+> It was quite long time ago.
+> 
+> But if you think this might be the right way to do, then it is even
+> better for us because the patch series and Doug's patch had been quite
+> stable
+> on our RK3288 products for about four years with plenty of users, so
+> we have much higher confidence in them.
+> I can rebase and clean up them and post another patch for review.
+> 
+> Please let me know what approach you feel is better.
+> Thanks again!
 
-* I wanted to check if media-maintainers agree to let me apply
-  this via the I2C tree?
+Not sure we're talking about the same. What I had in mind is to add jack
+status to the hdmi-codec.c stuff, which is used by multiple soc drm
+display drivers already. Looking at git grep output, there seems to be
+already some support for dw-hdmi synopsys drm_bridge driver. I thought of
+extending that. Does that not work for you?
 
-* maybe someone with ADV HW is willing to test this?
-
-The patch is based on v5.2-rc5 and tested with a Renesas Lager board
-(R-Car H2) and a tweaked DA9063 driver. I don't have any of these ADV
-devices properly set up so the code is only build tested.
-
-If this is acceptable, I likely will add a patch adding a devm_ variant
-of this new function to the patch stack and convert the users, too.
-
-I think this new i2c_new_ancillary_device() should replace
-i2c_new_dummy() in quite some places later. But we will see...
-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 +++++++++---------
- drivers/i2c/i2c-core-base.c                  | 10 +++++-----
- drivers/media/i2c/adv748x/adv748x-core.c     |  6 +++---
- drivers/media/i2c/adv7604.c                  | 12 ++++++++----
- include/linux/i2c.h                          |  2 +-
- 5 files changed, 26 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index f6d2681f6927..9e13e466e72c 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -981,10 +981,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
- {
- 	int ret;
- 
--	adv->i2c_cec = i2c_new_secondary_device(adv->i2c_main, "cec",
-+	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
- 						ADV7511_CEC_I2C_ADDR_DEFAULT);
--	if (!adv->i2c_cec)
--		return -EINVAL;
-+	if (IS_ERR(adv->i2c_cec))
-+		return PTR_ERR(adv->i2c_cec);
- 	i2c_set_clientdata(adv->i2c_cec, adv);
- 
- 	adv->regmap_cec = devm_regmap_init_i2c(adv->i2c_cec,
-@@ -1165,20 +1165,20 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 
- 	adv7511_packet_disable(adv7511, 0xffff);
- 
--	adv7511->i2c_edid = i2c_new_secondary_device(i2c, "edid",
-+	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
- 					ADV7511_EDID_I2C_ADDR_DEFAULT);
--	if (!adv7511->i2c_edid) {
--		ret = -EINVAL;
-+	if (IS_ERR(adv7511->i2c_edid)) {
-+		ret = PTR_ERR(adv7511->i2c_edid);
- 		goto uninit_regulators;
- 	}
- 
- 	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
- 		     adv7511->i2c_edid->addr << 1);
- 
--	adv7511->i2c_packet = i2c_new_secondary_device(i2c, "packet",
-+	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
- 					ADV7511_PACKET_I2C_ADDR_DEFAULT);
--	if (!adv7511->i2c_packet) {
--		ret = -EINVAL;
-+	if (IS_ERR(adv7511->i2c_packet)) {
-+		ret = PTR_ERR(adv7511->i2c_packet);
- 		goto err_i2c_unregister_edid;
- 	}
- 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index e77bab2fb467..8b7855f3a199 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -965,7 +965,7 @@ struct i2c_client *devm_i2c_new_dummy_device(struct device *dev,
- EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
- 
- /**
-- * i2c_new_secondary_device - Helper to get the instantiated secondary address
-+ * i2c_new_ancillary_device - Helper to get the instantiated secondary address
-  * and create the associated device
-  * @client: Handle to the primary client
-  * @name: Handle to specify which secondary address to get
-@@ -984,9 +984,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * cell whose "reg-names" value matches the slave name.
-  *
-  * This returns the new i2c client, which should be saved for later use with
-- * i2c_unregister_device(); or NULL to indicate an error.
-+ * i2c_unregister_device(); or an ERR_PTR to describe the error.
-  */
--struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
-+struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
- 						const char *name,
- 						u16 default_addr)
- {
-@@ -1001,9 +1001,9 @@ struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
- 	}
- 
- 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
--	return i2c_new_dummy(client->adapter, addr);
-+	return i2c_new_dummy_device(client->adapter, addr);
- }
--EXPORT_SYMBOL_GPL(i2c_new_secondary_device);
-+EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
- 
- /* ------------------------------------------------------------------------- */
- 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index f57cd77a32fa..2567de2b0037 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -183,14 +183,14 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
- 	int ret;
- 
- 	for (i = ADV748X_PAGE_DPLL; i < ADV748X_PAGE_MAX; ++i) {
--		state->i2c_clients[i] = i2c_new_secondary_device(
-+		state->i2c_clients[i] = i2c_new_ancillary_device(
- 				state->client,
- 				adv748x_default_addresses[i].name,
- 				adv748x_default_addresses[i].default_addr);
- 
--		if (state->i2c_clients[i] == NULL) {
-+		if (IS_ERR(state->i2c_clients[i])) {
- 			adv_err(state, "failed to create i2c client %u\n", i);
--			return -ENOMEM;
-+			return PTR_ERR(state->i2c_clients[i]);
- 		}
- 
- 		ret = adv748x_configure_regmap(state, i);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 28a84bf9f8a9..ad68f24a369f 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2881,11 +2881,15 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
- 		new_client = i2c_new_dummy(client->adapter,
- 					   pdata->i2c_addresses[page]);
- 	else
--		new_client = i2c_new_secondary_device(client,
-+		new_client = i2c_new_ancillary_device(client,
- 				adv76xx_default_addresses[page].name,
- 				adv76xx_default_addresses[page].default_addr);
- 
--	if (new_client)
-+	/* FIXME: can be removed once i2c_new_dummy_device hits upstream */
-+	if (!new_client)
-+		new_client = ERR_PTR(-ENOENT);
-+
-+	if (!IS_ERR(new_client))
- 		io_write(sd, io_reg, new_client->addr << 1);
- 
- 	return new_client;
-@@ -3520,8 +3524,8 @@ static int adv76xx_probe(struct i2c_client *client,
- 			continue;
- 
- 		state->i2c_clients[i] = adv76xx_dummy_client(sd, i);
--		if (!state->i2c_clients[i]) {
--			err = -EINVAL;
-+		if (IS_ERR(state->i2c_clients[i])) {
-+			err = PTR_ERR(state->i2c_clients[i]);
- 			v4l2_err(sd, "failed to create i2c client %u\n", i);
- 			goto err_i2c;
- 		}
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index fa5552c2307b..ebbe024dd9e0 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -473,7 +473,7 @@ extern struct i2c_client *
- devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 address);
- 
- extern struct i2c_client *
--i2c_new_secondary_device(struct i2c_client *client,
-+i2c_new_ancillary_device(struct i2c_client *client,
- 				const char *name,
- 				u16 default_addr);
- 
+Thanks, Daniel
 -- 
-2.20.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
