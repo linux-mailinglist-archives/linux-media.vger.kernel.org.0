@@ -2,21 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FCA4C5EA
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 05:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 489AA4C5ED
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 05:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbfFTDrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jun 2019 23:47:07 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45852 "EHLO
+        id S1726647AbfFTDrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jun 2019 23:47:41 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45866 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726419AbfFTDrG (ORCPT
+        with ESMTP id S1726389AbfFTDrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jun 2019 23:47:06 -0400
+        Wed, 19 Jun 2019 23:47:41 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 5693C260E5C
-Message-ID: <8ed2e1c55445b5d2ee1f99d773a1314c964bb636.camel@collabora.com>
-Subject: Re: [PATCH 1/2] media: uapi: Add VP8 stateless decoder API
+        with ESMTPSA id 442C0260E5C
+Message-ID: <94add735d542fcf9236869801303a446d4b19996.camel@collabora.com>
+Subject: Re: [PATCH 2/2] media: hantro: Add support for VP8 decoding on
+ rk3288
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Boris Brezillon <boris.brezillon@collabora.com>
 Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
@@ -27,12 +28,12 @@ Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
         Heiko Stuebner <heiko@sntech.de>,
         Jonas Karlman <jonas@kwiboo.se>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Pawel Osciak <posciak@chromium.org>
-Date:   Thu, 20 Jun 2019 00:46:54 -0300
-In-Reply-To: <20190617152310.299d60e8@collabora.com>
+        ZhiChao Yu <zhichao.yu@rock-chips.com>
+Date:   Thu, 20 Jun 2019 00:47:29 -0300
+In-Reply-To: <20190617154024.1fdb5d3c@collabora.com>
 References: <20190613151040.8971-1-ezequiel@collabora.com>
-         <20190613151040.8971-2-ezequiel@collabora.com>
-         <20190617152310.299d60e8@collabora.com>
+         <20190613151040.8971-3-ezequiel@collabora.com>
+         <20190617154024.1fdb5d3c@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
@@ -43,260 +44,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Boris,
-
-Thanks for the review.
-
-On Mon, 2019-06-17 at 15:23 +0200, Boris Brezillon wrote:
-> On Thu, 13 Jun 2019 12:10:39 -0300
+On Mon, 2019-06-17 at 15:40 +0200, Boris Brezillon wrote:
+> On Thu, 13 Jun 2019 12:10:40 -0300
 > Ezequiel Garcia <ezequiel@collabora.com> wrote:
 > 
-> > From: Pawel Osciak <posciak@chromium.org>
-> > 
-> > Add the parsed VP8 frame pixel format and controls, to be used
-> > with the new stateless decoder API for VP8 to provide parameters
-> > for accelerator (aka stateless) codecs.
-> > 
-> > Signed-off-by: Pawel Osciak <posciak@chromium.org>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > --
-> > Changes from RFC:
-> > * Make sure the uAPI has the same size on x86, x86_64, arm and arm64.
-> > * Move entropy coder state fields to a struct.
-> > * Move key_frame field to the flags.
-> > * Remove unneeded first_part_offset field.
-> > * Add documentation.
-> > ---
-> >  Documentation/media/uapi/v4l/biblio.rst       |  10 +
-> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 311 ++++++++++++++++++
-> >  .../media/uapi/v4l/pixfmt-compressed.rst      |  20 ++
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |   8 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
-> >  include/media/v4l2-ctrls.h                    |   3 +
-> >  include/media/vp8-ctrls.h                     | 110 +++++++
-> >  7 files changed, 463 insertions(+)
-> >  create mode 100644 include/media/vp8-ctrls.h
-> > 
-> > diff --git a/Documentation/media/uapi/v4l/biblio.rst b/Documentation/media/uapi/v4l/biblio.rst
-> > index 8f4eb8823d82..ad2ff258afa8 100644
-> > --- a/Documentation/media/uapi/v4l/biblio.rst
-> > +++ b/Documentation/media/uapi/v4l/biblio.rst
-> > @@ -395,3 +395,13 @@ colimg
-> >  :title:     Color Imaging: Fundamentals and Applications
-> >  
-> >  :author:    Erik Reinhard et al.
-> > +
-> > +.. _vp8:
-> > +
-> > +VP8
-> > +===
-> > +
-> > +
-> > +:title:     RFC 6386: "VP8 Data Format and Decoding Guide"
-> > +
-> > +:author:    J. Bankoski et al.
-> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > index d6ea2ffd65c5..7a1947f5be96 100644
-> > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > @@ -2234,6 +2234,317 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      Quantization parameter for a P frame for FWHT. Valid range: from 1
-> >      to 31.
-> >  
-> > +.. _v4l2-mpeg-vp8:
-> > +
-> > +``V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR (struct)``
-> > +    Specifies the frame parameters for the associated VP8 parsed frame data.
-> > +    This includes the necessary parameters for
-> > +    configuring a stateless hardware decoding pipeline for VP8.
-> > +    The bitstream parameters are defined according to :ref:`vp8`.
-> > +
-> > +    .. note::
-> > +
-> > +       This compound control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> > +
-> > +.. c:type:: v4l2_ctrl_vp8_frame_header
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-> > +
-> > +.. flat-table:: struct v4l2_ctrl_vp8_frame_header
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - __u8
-> > +      - ``version``
-> > +      - Bitstream version.
-> > +    * - __u16
-> > +      - ``width``
-> > +      - The width of the frame
 > 
-> Nit: sometimes you finish your description with a final dot sometimes
-> not. It's probably better to make that consistent.
+> > +static void cfg_parts(struct hantro_ctx *ctx,
+> > +		      const struct v4l2_ctrl_vp8_frame_header *hdr)
+> > +{
+> > +	struct hantro_dev *vpu = ctx->dev;
+> > +	struct vb2_v4l2_buffer *vb2_src;
+> > +	u32 first_part_offset = VP8_FRAME_IS_KEY_FRAME(hdr) ? 10 : 3;
+> > +	u32 dct_part_total_len = 0;
+> > +	u32 dct_size_part_size = 0;
+> > +	u32 dct_part_offset = 0;
+> > +	u32 mb_offset_bytes = 0;
+> > +	u32 mb_offset_bits = 0;
+> > +	u32 mb_start_bits = 0;
+> > +	struct vp8_dec_reg reg;
+> > +	dma_addr_t src_dma;
+> > +	u32 mb_size = 0;
+> > +	u32 count = 0;
+> > +	u32 i;
+> > +
+> > +	vb2_src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> > +	src_dma = vb2_dma_contig_plane_dma_addr(&vb2_src->vb2_buf, 0);
+> > +
+> > +	/*
+> > +	 * Calculate control partition mb data info
+> > +	 * @macroblock_bit_offset:	bits offset of mb data from first
+> > +	 *				part start pos
+> > +	 * @mb_offset_bits:		bits offset of mb data from src_dma
+> > +	 *				base addr
+> > +	 * @mb_offset_byte:		bytes offset of mb data from src_dma
+> > +	 *				base addr
+> > +	 * @mb_start_bits:		bits offset of mb data from mb data
+> > +	 *				64bits alignment addr
+> > +	 */
+> > +	mb_offset_bits = first_part_offset * 8
+> > +		+ hdr->macroblock_bit_offset + 8;
+> > +	mb_offset_bytes = mb_offset_bits / 8;
+> > +	mb_start_bits = mb_offset_bits
+> > +		- (mb_offset_bytes & (~DEC_8190_ALIGN_MASK)) * 8;
+> > +	mb_size = hdr->first_part_size
+> > +		- (mb_offset_bytes - first_part_offset)
+> > +		+ (mb_offset_bytes & DEC_8190_ALIGN_MASK);
 > 
-> 
+> Nit: can we have operators placed at the end of a line instead of
+> the beginning of the following line?
 
-Yes, this is an overlook on my side. I'll fix this.
+Sure.
 
-> [...]
-> 
-> > diff --git a/include/media/vp8-ctrls.h b/include/media/vp8-ctrls.h
-> > new file mode 100644
-> > index 000000000000..3b0dcc125e25
-> > --- /dev/null
-> > +++ b/include/media/vp8-ctrls.h
-> > @@ -0,0 +1,110 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * These are the VP8 state controls for use with stateless VP8
-> > + * codec drivers.
-> > + *
-> > + * It turns out that these structs are not stable yet and will undergo
-> > + * more changes. So keep them private until they are stable and ready to
-> > + * become part of the official public API.
-> > + */
-> > +
-> > +#ifndef _VP8_CTRLS_H_
-> > +#define _VP8_CTRLS_H_
-> > +
-> > +#include <linux/v4l2-controls.h>
-> > +
-> > +#define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F') /* VP8 parsed frames */
-> > +
-> > +#define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HDR (V4L2_CID_MPEG_BASE + 2000)
-> > +#define V4L2_CTRL_TYPE_VP8_FRAME_HDR 0x301
-> > +
-> > +#define V4L2_VP8_SEGMNT_HDR_FLAG_ENABLED              0x01
-> > +#define V4L2_VP8_SEGMNT_HDR_FLAG_UPDATE_MAP           0x02
-> > +#define V4L2_VP8_SEGMNT_HDR_FLAG_UPDATE_FEATURE_DATA  0x04
-> > +
-> > +struct v4l2_vp8_segment_header {
-> > +	__u8 segment_feature_mode;
-> > +	__s8 quant_update[4];
-> > +	__s8 lf_update[4];
-> > +	__u8 segment_probs[3];
-> > +	__u32 flags;
-> > +};
-> > +
-> > +#define V4L2_VP8_LF_HDR_ADJ_ENABLE	0x01
-> > +#define V4L2_VP8_LF_HDR_DELTA_UPDATE	0x02
-> > +struct v4l2_vp8_loopfilter_header {
-> > +	__u16 type;
-> > +	__u8 level;
-> > +	__u8 sharpness_level;
-> > +	__s8 ref_frm_delta_magnitude[4];
-> > +	__s8 mb_mode_delta_magnitude[4];
-> > +	__u16 flags;
-> > +};
-> > +
-> > +struct v4l2_vp8_quantization_header {
-> > +	__u8 y_ac_qi;
-> > +	__s8 y_dc_delta;
-> > +	__s8 y2_dc_delta;
-> > +	__s8 y2_ac_delta;
-> > +	__s8 uv_dc_delta;
-> > +	__s8 uv_ac_delta;
-> 
-> Don't know what the policy in V4L, but it's usually a good thing to
-> have structs used to exchange data with userspace aligned on 64-bits.
-> Maybe you can add 2 padding bytes here. Note that the compiler might
-> anyway add padding to align struct fields to their natural alignment in
-> v4l2_ctrl_vp8_frame_header, so it's probably better to have these
-> padding bytes explicitly defined and mandate that they be set to 0 so
-> we can check them and complain when they're not 0.
-> 
-
-AFAIK, there is no such requirement. There is however the requirement
-of making sure the structs layout is the same on 32 and 64 architectures [1].
-
-This is confirmed by these [2] tests which are based in Maxime's work.
-
-[1] http://lkml.iu.edu/hypermail/linux/kernel/1806.1/05059.html
-[2] https://gitlab.collabora.com/ezequiel/v4l2-ctrl-abi-check
-
-> > 
-> > +	__u16 dequant_factors[4][3][2];
-> > +};
-> > +
-> > +struct v4l2_vp8_entropy_header {
-> > +	__u8 coeff_probs[4][8][3][11];
-> > +	__u8 y_mode_probs[4];
-> > +	__u8 uv_mode_probs[3];
-> > +	__u8 mv_probs[2][19];
-> 
-> Same here
-> 
-> > +};
-> > +
-> > +struct v4l2_vp8_entropy_coder_state {
-> > +	__u8 range;
-> > +	__u8 value;
-> > +	__u8 bit_count;
-> 
-> and here.
-> 
-> > +};
-> > +
-> > +#define V4L2_VP8_FRAME_HDR_FLAG_KEY_FRAME		0x01
-> > +#define V4L2_VP8_FRAME_HDR_FLAG_EXPERIMENTAL		0x02
-> > +#define V4L2_VP8_FRAME_HDR_FLAG_SHOW_FRAME		0x04
-> > +#define V4L2_VP8_FRAME_HDR_FLAG_MB_NO_SKIP_COEFF	0x08
-> > +
-> > +#define VP8_FRAME_IS_KEY_FRAME(hdr) (!!(hdr->flags & V4L2_VP8_FRAME_HDR_FLAG_KEY_FRAME))
-> > +
-> > +struct v4l2_ctrl_vp8_frame_header {
-> > +	__u8 version;
-> > +
-> 
-> Maybe we should try to pack things so that the compiler does not
-> implicitly add extra padding bytes. That implies trying to group u8
-> fields by 2, 4 or 8 depending on what the next field natural alignment
-> is.
-> 
-
-Yes, I guess it makes sense to avoid implicit padding if possible.
-
-> > +	/* Populated also if not a key frame */
-
-Note to self, this comment should be dropped and moved to the documentation.
-
-> > +	__u16 width;
-> > +	__u16 height;
-> > +	__u8 horizontal_scale;
-> > +	__u8 vertical_scale;
-> > +
-> > +	struct v4l2_vp8_segment_header segment_header;
-> > +	struct v4l2_vp8_loopfilter_header lf_header;
-> > +	struct v4l2_vp8_quantization_header quant_header;
-> > +	struct v4l2_vp8_entropy_header entropy_header;
-> > +
-> > +	__u16 sign_bias_golden;
-> > +	__u16 sign_bias_alternate;
-> > +
-> > +	__u8 prob_skip_false;
-> > +	__u8 prob_intra;
-> > +	__u8 prob_last;
-> > +	__u8 prob_gf;
-> > +
-> > +	__u32 first_part_size;
-> > +	__u32 macroblock_bit_offset;
-> > +	__u32 dct_part_sizes[8];
-> > +	__u8 num_dct_parts;
-> > +
-> > +	struct v4l2_vp8_entropy_coder_state coder_state;
-> > +
-> > +	__u64 last_frame_ts;
-> > +	__u64 golden_frame_ts;
-> > +	__u64 alt_frame_ts;
-> > +
-> > +	__u64 flags;
-> > +};
-> > +
-> > +#endif
-
-Thanks,
-Ezequiel
+Thanks for the review,
+Eze
 
