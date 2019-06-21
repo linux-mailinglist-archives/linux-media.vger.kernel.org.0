@@ -2,93 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE924DC77
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2019 23:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E1134DF2E
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2019 04:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbfFTV0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jun 2019 17:26:34 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51636 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726008AbfFTV0e (ORCPT
+        id S1725958AbfFUCsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jun 2019 22:48:43 -0400
+Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.225]:37677 "EHLO
+        cdptpa-cmomta03.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725911AbfFUCsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jun 2019 17:26:34 -0400
-Received: from [IPv6:2804:431:d719:ae74:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:d719:ae74:d711:794d:1c68:5ed3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: tonyk)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2877C286270;
-        Thu, 20 Jun 2019 22:26:30 +0100 (BST)
-Subject: Re: [PATCH 1/1] staging: media: fix style problem
-To:     Aliasgar Surti <aliasgar.surti500@gmail.com>,
-        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-References: <1561008675-30224-1-git-send-email-aliasgar.surti500@gmail.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <f5789433-6403-db2b-48f5-732257f7be0d@collabora.com>
-Date:   Thu, 20 Jun 2019 18:25:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Thu, 20 Jun 2019 22:48:42 -0400
+Received: from [192.168.2.97] ([72.182.16.184])
+        by cmsmtp with ESMTP
+        id e9bShjPZMNkgMe9bUhoZl8; Fri, 21 Jun 2019 02:48:41 +0000
+Subject: Re: [PATCH] hdpvr: fix locking and a missing msleep
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <62ff556b-cc69-bcd0-b81d-06e4bdd0f7ff@xs4all.nl>
+From:   Keith Pyle <kpyle@austin.rr.com>
+Message-ID: <dfa147ae-f29a-2780-187f-2b266ea7389e@austin.rr.com>
+Date:   Thu, 20 Jun 2019 21:48:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.0
 MIME-Version: 1.0
-In-Reply-To: <1561008675-30224-1-git-send-email-aliasgar.surti500@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <62ff556b-cc69-bcd0-b81d-06e4bdd0f7ff@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+X-CMAE-Envelope: MS4wfIbpy666FIDcQe+AsOSxnNvKzvBqEWU/YZ/rC/KjeQg5Jhjt7TUvQN8yJBV5cNc60JP3+1hr6VcJ0ed/ASRNhwksp56GN+fxwVmqhQiQHRdAXXi+d92P
+ TMu5npC1z20vQUQMUi21ffp/fhksE8aBC0wL61UEWyRFjvDtSABUeMh1kR/gCTzhAX7yXxJNuuvkh46Xi7qMJ/1kJEu33+JbNrc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Alisgar,
+On 06/20/19 06:43, Hans Verkuil wrote:
+> This driver has three locking issues:
+>
+> - The wait_event_interruptible() condition calls hdpvr_get_next_buffer(dev)
+>    which uses a mutex, which is not allowed. Rewrite with list_empty_careful()
+>    that doesn't need locking.
+>
+> - In hdpvr_read() the call to hdpvr_stop_streaming() didn't lock io_mutex,
+>    but it should have since stop_streaming expects that.
+>
+> - In hdpvr_device_release() io_mutex was locked when calling flush_work(),
+>    but there it shouldn't take that mutex since the work done by flush_work()
+>    also wants to lock that mutex.
+>
+> There are also two other changes (suggested by Keith):
+>
+> - msecs_to_jiffies(4000); (a NOP) should have been msleep(4000).
+> - Change v4l2_dbg to v4l2_info to always log if streaming had to be restarted.
+>
+> Reported-by: Keith Pyle <kpyle@austin.rr.com>
+> Suggested-by: Keith Pyle <kpyle@austin.rr.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+This patch looks good.
 
-On 6/20/19 2:31 AM, Aliasgar Surti wrote:
-> From: Aliasgar Surti <aliasgar.surti500@gmail.com>
->
-> checkpatch reported "WARNING: line over 80 characters".
-> This patch fixes the warning for file davinci_vpfe/dm365_isif.c
->
-> Signed-off-by: Aliasgar Surti <aliasgar.surti500@gmail.com>
+I have repeated my tests and all passed (simple captures, capture with 
+HD-PVR restart streaming) .   There were no lockdep reports and no 
+process deadlocks.  The streaming restart now works and logs the restart 
+in kern.log.
+
+Keith
 > ---
->  drivers/staging/media/davinci_vpfe/dm365_isif.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
+> index 3786ddcc0d18..5b3e67b80627 100644
+> --- a/drivers/media/usb/hdpvr/hdpvr-video.c
+> +++ b/drivers/media/usb/hdpvr/hdpvr-video.c
+> @@ -435,7 +435,7 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
+>   	/* wait for the first buffer */
+>   	if (!(file->f_flags & O_NONBLOCK)) {
+>   		if (wait_event_interruptible(dev->wait_data,
+> -					     hdpvr_get_next_buffer(dev)))
+> +					     !list_empty_careful(&dev->rec_buff_list)))
+>   			return -ERESTARTSYS;
+>   	}
 >
-> diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-> index 46fd818..e9c8de1 100644
-> --- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
-> +++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-> @@ -532,7 +532,8 @@ static int isif_validate_dfc_params(const struct vpfe_isif_dfc *dfc)
->  #define DM365_ISIF_MAX_CLVSV			0x1fff
->  #define DM365_ISIF_MAX_HEIGHT_BLACK_REGION	0x1fff
->  
-> -static int isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
-> +static int
-> +isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
->  {
->  	int err = -EINVAL;
->  
-> @@ -593,7 +594,8 @@ isif_validate_raw_params(const struct vpfe_isif_raw_config *params)
->  	return isif_validate_bclamp_params(&params->bclamp);
->  }
->  
-> -static int isif_set_params(struct v4l2_subdev *sd, const struct vpfe_isif_raw_config *params)
-> +static int isif_set_params(struct v4l2_subdev *sd,
-> +			   const struct vpfe_isif_raw_config *params)
->  {
->  	struct vpfe_isif_device *isif = v4l2_get_subdevdata(sd);
->  	int ret = -EINVAL;
-
-
-When you resend a patch with some modifications you have done after
-receiving some feedback, don't forget to increase the version of your
-patch . One can do this by adding the `-v2` flag at `git format-patch`
-command. It is also a good practice to changelog what modifications you
-did bellow the `---` mark.
-
-Have a look at this v3[1]. And please read "Revising your patches"[2]
-for a complete documentation.
-
-Good hacking!
-    André
-
-[1] https://patchwork.kernel.org/patch/10999271/
-[2] https://kernelnewbies.org/FirstKernelPatch
+> @@ -461,10 +461,17 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
+>   				goto err;
+>   			}
+>   			if (!err) {
+> -				v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
+> -					"timeout: restart streaming\n");
+> +				v4l2_info(&dev->v4l2_dev,
+> +					  "timeout: restart streaming\n");
+> +				mutex_lock(&dev->io_mutex);
+>   				hdpvr_stop_streaming(dev);
+> -				msecs_to_jiffies(4000);
+> +				mutex_unlock(&dev->io_mutex);
+> +				/*
+> +				 * The FW needs about 4 seconds after streaming
+> +				 * stopped before it is ready to restart
+> +				 * streaming.
+> +				 */
+> +				msleep(4000);
+>   				err = hdpvr_start_streaming(dev);
+>   				if (err) {
+>   					ret = err;
+> @@ -1124,9 +1131,7 @@ static void hdpvr_device_release(struct video_device *vdev)
+>   	struct hdpvr_device *dev = video_get_drvdata(vdev);
+>
+>   	hdpvr_delete(dev);
+> -	mutex_lock(&dev->io_mutex);
+>   	flush_work(&dev->worker);
+> -	mutex_unlock(&dev->io_mutex);
+>
+>   	v4l2_device_unregister(&dev->v4l2_dev);
+>   	v4l2_ctrl_handler_free(&dev->hdl);
+>
 
