@@ -2,114 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1134DF2E
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2019 04:48:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7404D4DF31
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2019 04:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725958AbfFUCsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jun 2019 22:48:43 -0400
-Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.225]:37677 "EHLO
+        id S1726017AbfFUCur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jun 2019 22:50:47 -0400
+Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.230]:38641 "EHLO
         cdptpa-cmomta03.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725911AbfFUCsm (ORCPT
+        by vger.kernel.org with ESMTP id S1725911AbfFUCur (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jun 2019 22:48:42 -0400
+        Thu, 20 Jun 2019 22:50:47 -0400
 Received: from [192.168.2.97] ([72.182.16.184])
         by cmsmtp with ESMTP
-        id e9bShjPZMNkgMe9bUhoZl8; Fri, 21 Jun 2019 02:48:41 +0000
-Subject: Re: [PATCH] hdpvr: fix locking and a missing msleep
+        id e9dThjSeVNkgMe9dVhoaPW; Fri, 21 Jun 2019 02:50:45 +0000
+Subject: Re: hdpvr mutex deadlock on kernel 5.1.x
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <62ff556b-cc69-bcd0-b81d-06e4bdd0f7ff@xs4all.nl>
+References: <14d31c83-f48f-319d-6b3a-0753ea9d2c02@austin.rr.com>
+ <8e18508d-7c36-ead7-4c92-7335813895d0@xs4all.nl>
+ <1aa17133-342a-45e3-453d-896a1062ea21@austin.rr.com>
+ <857b40ad-d474-5a4c-e65b-99035fa1a50b@xs4all.nl>
+ <15f3c149-4597-2f45-06af-a668db4c694b@austin.rr.com>
+ <1c20ac29-d1d7-42b5-ad44-ae505be3ea3b@xs4all.nl>
 From:   Keith Pyle <kpyle@austin.rr.com>
-Message-ID: <dfa147ae-f29a-2780-187f-2b266ea7389e@austin.rr.com>
-Date:   Thu, 20 Jun 2019 21:48:38 -0500
+Message-ID: <5b031481-c751-c1d5-d65b-5a3d1d964c14@austin.rr.com>
+Date:   Thu, 20 Jun 2019 21:50:43 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.0
 MIME-Version: 1.0
-In-Reply-To: <62ff556b-cc69-bcd0-b81d-06e4bdd0f7ff@xs4all.nl>
+In-Reply-To: <1c20ac29-d1d7-42b5-ad44-ae505be3ea3b@xs4all.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CMAE-Envelope: MS4wfIbpy666FIDcQe+AsOSxnNvKzvBqEWU/YZ/rC/KjeQg5Jhjt7TUvQN8yJBV5cNc60JP3+1hr6VcJ0ed/ASRNhwksp56GN+fxwVmqhQiQHRdAXXi+d92P
- TMu5npC1z20vQUQMUi21ffp/fhksE8aBC0wL61UEWyRFjvDtSABUeMh1kR/gCTzhAX7yXxJNuuvkh46Xi7qMJ/1kJEu33+JbNrc=
+X-CMAE-Envelope: MS4wfDm4VdolWY9+MBY8R7gCi2fGAfkd3Y42M0H/e1+crLdOiRyl5g/fzkyCy02dvCcTmVwKSGin4wthThvkPujmK31vdPVYyyob2DQAm8fvhMSuQ/JUXOkL
+ TmGegeJi65MXc+x3xB42p/gUcoUQ5c9OUNMgIMMUhKSEFzvO9jueFvXny9Jy4UhTxJ/j06Ac/On0UvUBiT2HvX1ZI3Fq/arL8Uc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/20/19 06:43, Hans Verkuil wrote:
-> This driver has three locking issues:
+On 06/20/19 06:33, Hans Verkuil wrote:
+> On 6/19/19 4:29 AM, Keith Pyle wrote:
+>> On 06/18/19 02:16, Hans Verkuil wrote:
+>>> Hi Keith,
+>>>
+>>> On 6/18/19 6:17 AM, Keith Pyle wrote:
+>>>> We made the suggested change, compiled, installed, and rebooted. There was some progress - test 2 (turning the HD-PVR off) no longer produces a splat.  Test 1 (start capture) and test 3 (run capture
+>>>> and trigger HD-PVR to stop streaming) both still produce a traceback (see below).  Test 3 also still results in the unkillable process.
+>>> Try the following patch. Test 2 was caused by locking when it shouldn't, test 3 was caused by not
+>>> locking when it should :-) and I think test 1 was caused by locking when it is not allowed.
+>>>
+>>> Let me know if this works!
+>>>
+>>> Regards,
+>>>
+>>>      Hans
+>> Good news!  With these patches, lockdep does not report any of the prior problems and the capture process does not deadlock for my test3.
+>>
+>> There is one item I noted: hdpvr_read has the line
+>>
+>> msec_to_jiffies(4000);
+> Oops!
 >
-> - The wait_event_interruptible() condition calls hdpvr_get_next_buffer(dev)
->    which uses a mutex, which is not allowed. Rewrite with list_empty_careful()
->    that doesn't need locking.
+>> that doesn't really do anything.  This should be a 4 second sleep, based on our discussion back in 2014 (https://www.mail-archive.com/linux-media@vger.kernel.org/msg75163.html), since the restart will
+>> certainly fail unless the HD-PVR is given at least 3 seconds to reset after the stop.
+> I think a msleep(4000) at that point is solving only one use-case. I assume
+> the same problem will occur if you read() from the video device, then close()
+> it, re-open it and read() again, all within 4 seconds.
 >
-> - In hdpvr_read() the call to hdpvr_stop_streaming() didn't lock io_mutex,
->    but it should have since stop_streaming expects that.
+> The real fix would be to store a timestamp (jiffies) when you stop streaming,
+> and in start_streaming check if there are less than 4 seconds between the last
+> stop and new start, and then sleep until 4 seconds have passed.
 >
-> - In hdpvr_device_release() io_mutex was locked when calling flush_work(),
->    but there it shouldn't take that mutex since the work done by flush_work()
->    also wants to lock that mutex.
+> Is this something you can work on and provide a patch?
 >
-> There are also two other changes (suggested by Keith):
+> For now I'll post a patch fixing the deadlocks etc. so you can develop your
+> patch for this on top.
 >
-> - msecs_to_jiffies(4000); (a NOP) should have been msleep(4000).
-> - Change v4l2_dbg to v4l2_info to always log if streaming had to be restarted.
+> Regards,
 >
-> Reported-by: Keith Pyle <kpyle@austin.rr.com>
-> Suggested-by: Keith Pyle <kpyle@austin.rr.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-This patch looks good.
-
-I have repeated my tests and all passed (simple captures, capture with 
-HD-PVR restart streaming) .   There were no lockdep reports and no 
-process deadlocks.  The streaming restart now works and logs the restart 
-in kern.log.
+> 	Hans
+>
+I agree with your analysis that it would be better to have every 
+start_streaming make the check and sleep if needed.  Yes, I can work on it.
 
 Keith
-> ---
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
-> index 3786ddcc0d18..5b3e67b80627 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-video.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-video.c
-> @@ -435,7 +435,7 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
->   	/* wait for the first buffer */
->   	if (!(file->f_flags & O_NONBLOCK)) {
->   		if (wait_event_interruptible(dev->wait_data,
-> -					     hdpvr_get_next_buffer(dev)))
-> +					     !list_empty_careful(&dev->rec_buff_list)))
->   			return -ERESTARTSYS;
->   	}
->
-> @@ -461,10 +461,17 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
->   				goto err;
->   			}
->   			if (!err) {
-> -				v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
-> -					"timeout: restart streaming\n");
-> +				v4l2_info(&dev->v4l2_dev,
-> +					  "timeout: restart streaming\n");
-> +				mutex_lock(&dev->io_mutex);
->   				hdpvr_stop_streaming(dev);
-> -				msecs_to_jiffies(4000);
-> +				mutex_unlock(&dev->io_mutex);
-> +				/*
-> +				 * The FW needs about 4 seconds after streaming
-> +				 * stopped before it is ready to restart
-> +				 * streaming.
-> +				 */
-> +				msleep(4000);
->   				err = hdpvr_start_streaming(dev);
->   				if (err) {
->   					ret = err;
-> @@ -1124,9 +1131,7 @@ static void hdpvr_device_release(struct video_device *vdev)
->   	struct hdpvr_device *dev = video_get_drvdata(vdev);
->
->   	hdpvr_delete(dev);
-> -	mutex_lock(&dev->io_mutex);
->   	flush_work(&dev->worker);
-> -	mutex_unlock(&dev->io_mutex);
->
->   	v4l2_device_unregister(&dev->v4l2_dev);
->   	v4l2_ctrl_handler_free(&dev->hdl);
->
 
