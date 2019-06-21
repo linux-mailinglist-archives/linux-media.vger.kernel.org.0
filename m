@@ -2,89 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7404D4DF31
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2019 04:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC3274DFCA
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2019 06:35:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbfFUCur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jun 2019 22:50:47 -0400
-Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.230]:38641 "EHLO
-        cdptpa-cmomta03.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725911AbfFUCur (ORCPT
+        id S1726166AbfFUEfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Jun 2019 00:35:08 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34272 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbfFUEfH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jun 2019 22:50:47 -0400
-Received: from [192.168.2.97] ([72.182.16.184])
-        by cmsmtp with ESMTP
-        id e9dThjSeVNkgMe9dVhoaPW; Fri, 21 Jun 2019 02:50:45 +0000
-Subject: Re: hdpvr mutex deadlock on kernel 5.1.x
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <14d31c83-f48f-319d-6b3a-0753ea9d2c02@austin.rr.com>
- <8e18508d-7c36-ead7-4c92-7335813895d0@xs4all.nl>
- <1aa17133-342a-45e3-453d-896a1062ea21@austin.rr.com>
- <857b40ad-d474-5a4c-e65b-99035fa1a50b@xs4all.nl>
- <15f3c149-4597-2f45-06af-a668db4c694b@austin.rr.com>
- <1c20ac29-d1d7-42b5-ad44-ae505be3ea3b@xs4all.nl>
-From:   Keith Pyle <kpyle@austin.rr.com>
-Message-ID: <5b031481-c751-c1d5-d65b-5a3d1d964c14@austin.rr.com>
-Date:   Thu, 20 Jun 2019 21:50:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.0
-MIME-Version: 1.0
-In-Reply-To: <1c20ac29-d1d7-42b5-ad44-ae505be3ea3b@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfDm4VdolWY9+MBY8R7gCi2fGAfkd3Y42M0H/e1+crLdOiRyl5g/fzkyCy02dvCcTmVwKSGin4wthThvkPujmK31vdPVYyyob2DQAm8fvhMSuQ/JUXOkL
- TmGegeJi65MXc+x3xB42p/gUcoUQ5c9OUNMgIMMUhKSEFzvO9jueFvXny9Jy4UhTxJ/j06Ac/On0UvUBiT2HvX1ZI3Fq/arL8Uc=
+        Fri, 21 Jun 2019 00:35:07 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c85so2914286pfc.1;
+        Thu, 20 Jun 2019 21:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=A6hpEgoP1HI2YorrXleNsa6bGrxBTridY5fsAuWOnjU=;
+        b=CvxKvx3xNelgjCHpJ4YVwgMYvH7pIpFmcjBoqo+5hiBcck1xOmKIBU2sNZsPAHY3rn
+         ypMs2JdXApsw99Gci4FIdnWQA5BFZiUCaQZvGFpmvVij3FViQJ4Q4gSEWqDWe2aZvxxW
+         ItyN694Bucdwm3/8akBSS9gNF4s2AamaJ4q0tZwS5oBQOTwO4ofqIil/ysgTZ/6jn3lS
+         w/uzdz0DoyIqa1oIl9unuRGQje77Be28kTniBSEv+r5NO1Y2ZrC1NXIjwsP/Ga5ziTTj
+         5uOv+/27xPJSjccf83Zr6fSAx6JRvPC3mz3jAnqr4lGcr9hIVYHDfkGIreuu2jlvaORm
+         unnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=A6hpEgoP1HI2YorrXleNsa6bGrxBTridY5fsAuWOnjU=;
+        b=Y5nvBLz/MwZYmbaSGJHoAfTGAdXzsFKSq1NFrFeoBPiLd7c5dkxaiEXnTKB1TvmSOL
+         O/GcvfQHKx7lNit0S4N5jpydj0ErUovwyvKgmOO8EIUPgZ2H8+PCU7LSPQ/n7O33jC+3
+         MFZTxXgwChqCZW68iYMQvDz5SMBonyG7/p/Z/p7OkYBIgr8F/Z26RqqMDGzQ7CIvAyVa
+         xxICvNGVAOEPTMVHRWw56Soex8I4HyBeCaZ+tQstj0n6TKUQ2FCeQmNFIUOtmD7x6g+P
+         273EmPX+mjfz9FuicOIASJJci7sBl5Vysg3YmXDjJtW0JJJX1JNt8HwClGlOgU5GC830
+         1EsQ==
+X-Gm-Message-State: APjAAAUuuYFvrVI1SjZPQPc5UINLL0AG7PqIKMThMBN/1fi9uiZHxrNW
+        FWb5nsS6qYIANvXL9N3J4Q3CuVNimnHtpA==
+X-Google-Smtp-Source: APXvYqxHMHyhPdKQxCrGfvw9wAOrl15TkC2ds302Ew8Wn3SFF+bYxm8yb3RoY+JJegiIJ2gtpXYTgQ==
+X-Received: by 2002:a63:5247:: with SMTP id s7mr15570937pgl.29.1561091706357;
+        Thu, 20 Jun 2019 21:35:06 -0700 (PDT)
+Received: from AHMCPU1978.einfochips.com ([219.65.62.52])
+        by smtp.gmail.com with ESMTPSA id g13sm1015258pfi.93.2019.06.20.21.35.04
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 20 Jun 2019 21:35:05 -0700 (PDT)
+From:   Aliasgar Surti <aliasgar.surti500@gmail.com>
+X-Google-Original-From: Aliasgar Surti
+To:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+Cc:     Aliasgar Surti <aliasgar.surti500@gmail.com>
+Subject: [PATCH v2 1/1] staging: media: fix style problem
+Date:   Fri, 21 Jun 2019 10:04:53 +0530
+Message-Id: <1561091693-18427-1-git-send-email-aliasgar.surti500@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/20/19 06:33, Hans Verkuil wrote:
-> On 6/19/19 4:29 AM, Keith Pyle wrote:
->> On 06/18/19 02:16, Hans Verkuil wrote:
->>> Hi Keith,
->>>
->>> On 6/18/19 6:17 AM, Keith Pyle wrote:
->>>> We made the suggested change, compiled, installed, and rebooted. There was some progress - test 2 (turning the HD-PVR off) no longer produces a splat.  Test 1 (start capture) and test 3 (run capture
->>>> and trigger HD-PVR to stop streaming) both still produce a traceback (see below).  Test 3 also still results in the unkillable process.
->>> Try the following patch. Test 2 was caused by locking when it shouldn't, test 3 was caused by not
->>> locking when it should :-) and I think test 1 was caused by locking when it is not allowed.
->>>
->>> Let me know if this works!
->>>
->>> Regards,
->>>
->>>      Hans
->> Good news!  With these patches, lockdep does not report any of the prior problems and the capture process does not deadlock for my test3.
->>
->> There is one item I noted: hdpvr_read has the line
->>
->> msec_to_jiffies(4000);
-> Oops!
->
->> that doesn't really do anything.  This should be a 4 second sleep, based on our discussion back in 2014 (https://www.mail-archive.com/linux-media@vger.kernel.org/msg75163.html), since the restart will
->> certainly fail unless the HD-PVR is given at least 3 seconds to reset after the stop.
-> I think a msleep(4000) at that point is solving only one use-case. I assume
-> the same problem will occur if you read() from the video device, then close()
-> it, re-open it and read() again, all within 4 seconds.
->
-> The real fix would be to store a timestamp (jiffies) when you stop streaming,
-> and in start_streaming check if there are less than 4 seconds between the last
-> stop and new start, and then sleep until 4 seconds have passed.
->
-> Is this something you can work on and provide a patch?
->
-> For now I'll post a patch fixing the deadlocks etc. so you can develop your
-> patch for this on top.
->
-> Regards,
->
-> 	Hans
->
-I agree with your analysis that it would be better to have every 
-start_streaming make the check and sleep if needed.  Yes, I can work on it.
+From: Aliasgar Surti <aliasgar.surti500@gmail.com>
 
-Keith
+checkpatch reported "WARNING: line over 80 characters".
+This patch fixes the warning for file davinci_vpfe/dm365_isif.c
+
+Signed-off-by: Aliasgar Surti <aliasgar.surti500@gmail.com>
+---
+Changes in v2:
+	- Fixed styling as per suggestion in comments
+ 
+ drivers/staging/media/davinci_vpfe/dm365_isif.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+index 46fd818..e9c8de1 100644
+--- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
++++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+@@ -532,7 +532,8 @@ static int isif_validate_dfc_params(const struct vpfe_isif_dfc *dfc)
+ #define DM365_ISIF_MAX_CLVSV			0x1fff
+ #define DM365_ISIF_MAX_HEIGHT_BLACK_REGION	0x1fff
+ 
+-static int isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
++static int
++isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
+ {
+ 	int err = -EINVAL;
+ 
+@@ -593,7 +594,8 @@ isif_validate_raw_params(const struct vpfe_isif_raw_config *params)
+ 	return isif_validate_bclamp_params(&params->bclamp);
+ }
+ 
+-static int isif_set_params(struct v4l2_subdev *sd, const struct vpfe_isif_raw_config *params)
++static int isif_set_params(struct v4l2_subdev *sd,
++			   const struct vpfe_isif_raw_config *params)
+ {
+ 	struct vpfe_isif_device *isif = v4l2_get_subdevdata(sd);
+ 	int ret = -EINVAL;
+-- 
+2.7.4
 
