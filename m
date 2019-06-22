@@ -2,124 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3154E4F5C1
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 14:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B3A4F6FB
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 18:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbfFVMfW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 22 Jun 2019 08:35:22 -0400
-Received: from smtp4.rug.nl ([129.125.60.4]:50806 "EHLO smtp4.rug.nl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726112AbfFVMfW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jun 2019 08:35:22 -0400
-Received: from mail-ed1-f69.google.com ([172.23.16.207])
-        by smtp4.rug.nl (8.14.9/8.14.9) with ESMTP id x5MCZJ21014717
-        for <linux-media@vger.kernel.org>; Sat, 22 Jun 2019 14:35:19 +0200
-Received: by mail-ed1-f69.google.com with SMTP id c27so13132046edn.8
-        for <linux-media@vger.kernel.org>; Sat, 22 Jun 2019 05:35:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=Jj+6EMlHwfRrQN1+Y4Gzg73d+9RW9GCKvN2i4cLc/0M=;
-        b=rVeE170pwYExCu6nIAVHTYxaCIXxlMO/puxEyhEe5s7RjKcO1s98H7zb2M0/zHiPAx
-         2muKdWZ1SGb+xNrqjUYztB12A1u1N+rWrlChJHLzS81iUVbBdLGkSteA/EmA2QOVI2f8
-         C8RtTSdC9AKjXYDj7G6dvOj7FRuaez41rrvctuskEKIxWA1Nx2dNUVRCzW0Sk/nczq+G
-         m0PVhwIyjgFhLITyGvFgAJ2io3Ahcv+Xaoff02VGLGjkgVBLBhkuLIXUSiw39vptheo5
-         9Akctqw1lL7PlQYzt9KB8BlOeMRQQtx8EGyW8LyxH4thQN9VLbExX4nBeySks6eYc2eT
-         lHPg==
-X-Gm-Message-State: APjAAAWif6XHVxlGLipsBPIvKWk5UhmxzyY9oinzn01tiIm5+xd74QxT
-        Y/4xVxuzVzpiomHwPp+FI0jEw5YjB8hdKdqGpRAhtDGWJW7lUbllelonEI2dGX1rG4gV+wDQtBD
-        mU+hgd8ewL/sOO8imxFgSsz0=
-X-Received: by 2002:aa7:c754:: with SMTP id c20mr109621691eds.265.1561206918947;
-        Sat, 22 Jun 2019 05:35:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx6rNWUvNUC4FRWNgiw8DoB6oOe5CmIMlsDO3v4DNiQeFBfBXtFk5M0jeExF8fItGDiXJDfDw==
-X-Received: by 2002:aa7:c754:: with SMTP id c20mr109621676eds.265.1561206918692;
-        Sat, 22 Jun 2019 05:35:18 -0700 (PDT)
-Received: from wytses-mbp.lucaswolde.veehouderijtalsma.nl (ip565fd429.direct-adsl.nl. [86.95.212.41])
-        by smtp.gmail.com with ESMTPSA id j30sm1757049edb.8.2019.06.22.05.35.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Jun 2019 05:35:18 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: Unsupported Anysee version
-From:   "W. Talsma" <w.talsma@rug.nl>
-In-Reply-To: <581928ad-560f-34ef-1341-6c014203777b@jpvw.nl>
-Date:   Sat, 22 Jun 2019 14:35:15 +0200
-Cc:     linux-media@vger.kernel.org, Antti Palosaari <crope@iki.fi>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <BA6BCEAD-424F-4D51-B082-C405A26E55FB@rug.nl>
-References: <71F3EE65-F9DA-4F8B-BC83-1AE483F2F655@rug.nl>
- <581928ad-560f-34ef-1341-6c014203777b@jpvw.nl>
-To:     JP <jp@jpvw.nl>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Virus-Scanned: clamav-milter 0.101.1 at smtp4
-X-Virus-Status: Clean
+        id S1726484AbfFVQ3K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jun 2019 12:29:10 -0400
+Received: from sonic316-11.consmr.mail.bf2.yahoo.com ([74.6.130.121]:35854
+        "EHLO sonic316-11.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726482AbfFVQ3J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 22 Jun 2019 12:29:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220948; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=Sqmma7rQCC9csXbuiUU3W2/3JNoNH7S8264Vtax3p6vjP/GOy3xpD3wbU2PRR9kt9Hpkf+FIWW9PMCnOCaw1O79buHof/+e4XCSgtAjG8InDhCml6NU6QqPjKJ3zDc6ntgnpVqWtJnbhtjoUqIbv1W6GU8NTi8qVdCcmhrTc1IZ6aiOxpvBar7FQmN3jAwZcqruMWVYBgbk1LAoNqGvQ8jjOiTjNhCDJjpcLi94EE60gk+qIfYgu1AQDdd9wVo7X6i3XlVR9KCYw0l7ikZmlDSVkcSrrmJBlognD3+QlW4wko0RiyOGAXy+sEMAa8UXhFfxEEhf+A0WfqKBKwkVQbg==
+X-YMail-OSG: 3TA6aNEVM1mHk4tfSNROwYxIcekGBuzt5YSl8uAf.0_HHQ2LGDBhX2FGT2.Do_z
+ _0DV280q.YGRxDLoRDSJM82e2d5hsgoPZVcKxWsle6Z3oHX8Omo6hY9bu5QjJLY68zQNKFXygJQb
+ l1z62dHRy69xOFvl6tq.81EbMsOh1_cirrcCk2fMX_Jmwx0sebG__1rhE6wzzo_NDP9VbvIqZ9bR
+ 2icQk1E4jS_eT.9i5S8Sf0xsdShl9dMibpAXRU93yOYuHTQIa_P77tZTcStgCsIVxKiDvC3a0NxY
+ 8gZtRhwFdS641nFzLb368UTov.mB4xMHIDhTJv9NazaTg1j8sw18ET29s.TqlBmXHg8vLU94qBpd
+ 5PlUttniCcoNFEJpnLF3UUydECDiL8Z11cc18YJXwsIeDfFkYqHGX5XdA4jNj054mfKUIhoNEakn
+ WUKps59xvPMOhDCVBujS9v_vJClG4fXrBtjl.W_LQqwsSCutxIcdvaqHEtURhc6MkAEPdp4bTGI.
+ srA9smb.rYGHYAQmfGBYSrMpzCORaFwD3sLBOdwCdBjEVVdu.sBEOGddWsx2T8AZRYYy5nvR9Foz
+ bPsz41tE4__SqGjxrktEJ2_s2wIQAUza2deZFDGXc6T62eXwgZpA4Pp2nGTmGbFQ6h4nAMd51HJh
+ T3GzQn8s4GOn.0BKRwZDpwf7w10rv6JPk5nAgLZOaX7LfFs2yeq7fnFrg4OCOiG9MCMxrUNq6gf7
+ VomHdE0MTMCDmL3Ebk4K0YUhXaCTht27MRDaoJusaRVRGavzgn0vj3Z4n7xxu27l7AAqrNZTRmUI
+ n_b8fWLMzkIFoI7ZcmL_O5d2bYctv7x0WqIS4U6onMjRr4HtPSPFTejqwRtmzChG01EgeDt1Xu9J
+ 3fp8ciCxthupmhAtFqCrukMze7VttucN.DpeM8bKmVw1EDgn.s_L.L9fVdDwg2umGkLNazDxoP0_
+ dzbgtjASRdO1.JaxkowN5gRT6rna4oVoAmbHsjQ4rLTjBWSWz8ZqQDlV43apY.buigbJvn4Qmvf1
+ GxhsPAlHlnnGfjZ9pr3BSAVXKd_Qs83vYaBOYxWdXDlwxBl9.1.bnCTqFBLXCTND1BZASE2pli5W
+ fu842ttK3BMCdw5COU_fvmE4HTFnTUQ5tN2a6KHryWZiInkZpWdo8I9xFucw8IlPI3qY2rDSegZk
+ LLEiGCawsrUj04Yg3uv6LVIzJaVvTytAzboyOeQVTgoj.0EfkvEtgpXm3
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:29:08 +0000
+Date:   Sat, 22 Jun 2019 16:29:03 +0000 (UTC)
+From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
+Reply-To: miss.fmayusuf11@gmail.com
+Message-ID: <1743094696.311303.1561220943310@mail.yahoo.com>
+Subject: From:Miss: Fatima Yusuf.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Jan Pieter,
 
-Thanks for your reply.
-I see that this has been quite a while ago already.
 
-In that case, I cannot use the hardware in this point of time.
-I can think of a few options:
-Either I borrow the hardware to someone who can and is willing to write a driver (I’m willing to ship it)
-Or I set up an isolated development machine with this hardware attached, with ssh access for someone to develop it remotely.
-Or, in a few months, I’ll try to fiddle with the drivers myself.
-Or I discard of it.
+From:Miss: Fatima Yusuf.
 
-Kind regards,
-Wytse Talsma
+For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
 
-> On 12 Jun 2019, at 15:56, JP <jp@jpvw.nl> wrote:
-> 
-> 
-> 
-> On 6/8/19 4:03 PM, W. Talsma wrote:
->> Dear,
->> 
->> Today decided to dust off my Anysee E30 S2 Plus, and hope to get it to work with the Debian stretch tvheadend server.
->> Once I plug it in however, I see the following:
->> [27054.699829] usb 1-1.6: new high-speed USB device number 7 using ehci-pci
->> [27055.224303] usb 1-1.6: device descriptor read/all, error -71
->> [27056.187821] usb 1-1.6: new high-speed USB device number 8 using ehci-pci
->> [27057.180465] usb 1-1.6: config 1 interface 0 altsetting 0 bulk endpoint 0x1 has invalid maxpacket 64
->> [27057.180469] usb 1-1.6: config 1 interface 0 altsetting 0 bulk endpoint 0x81 has invalid maxpacket 64
->> [27057.180472] usb 1-1.6: config 1 interface 0 altsetting 1 bulk endpoint 0x1 has invalid maxpacket 64
->> [27057.180474] usb 1-1.6: config 1 interface 0 altsetting 1 bulk endpoint 0x81 has invalid maxpacket 64
->> [27057.180961] usb 1-1.6: New USB device found, idVendor=1c73, idProduct=861f, bcdDevice= 1.00
->> [27057.180964] usb 1-1.6: New USB device strings: Mfr=1, Product=2, SerialNumber=0
->> [27057.180966] usb 1-1.6: Product: anysee-S2(LP)
->> [27057.180967] usb 1-1.6: Manufacturer: AMT.CO.KR
->> [27057.194507] usb 1-1.6: dvb_usb_v2: found a 'Anysee' in warm state
->> [27057.196058] usb 1-1.6: dvb_usb_anysee: firmware version 1.3 hardware id 11
->> [27057.197957] usb 1-1.6: dvb_usb_v2: will pass the complete MPEG2 transport stream to the software demuxer
->> [27057.197974] dvbdev: DVB: registering new adapter (Anysee)
->> [27057.197978] usb 1-1.6: media controller created
->> [27057.198256] dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
->> [27057.204296] Invalid probe, probably not a CX24116 device
->> [27057.204304] usb 1-1.6: dvb_usb_anysee: Unsupported Anysee version. Please report to <linux-media@vger.kernel.org>.
->> [27057.204718] usbcore: registered new interface driver dvb_usb_anysee
->> 
->> lsusb gives me the following:
->> Bus 001 Device 008: ID 1c73:861f AMT Anysee E30 USB 2.0 DVB-T Receiver
->> 
->> uname -a
->> Linux linsrv03 4.19.45 #1 SMP Fri May 24 00:31:25 CEST 2019 x86_64 GNU/Linux
->> 
->> This reminded me that in the past, I never actually got the drivers fully to work under Linux.
->> Since it states: Please report to <linux-media@vger.kernel.org>., here is my report.
->> Is it possible to get it working?
->> 
->> Kind regards,
->> Wytse Talsma
->> 
-> This has been on this list before:
-> https://www.mail-archive.com/linux-media@vger.kernel.org/msg42569.html
-> 
-> Jan Pieter
+I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
 
+Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+
+I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
+
+I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
+
+My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+
+I am waiting to hear from you.
+Yours Sincerely,
+Miss.Fatima Yusuf.
