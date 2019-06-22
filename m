@@ -2,93 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8326B4F46C
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 10:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 652394F508
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 11:58:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbfFVIm4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Jun 2019 04:42:56 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:42939 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726114AbfFVImz (ORCPT
+        id S1726326AbfFVJ6t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jun 2019 05:58:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:46004 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbfFVJ6t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jun 2019 04:42:55 -0400
-Received: from [IPv6:2001:983:e9a7:1:c087:883d:6305:97f] ([IPv6:2001:983:e9a7:1:c087:883d:6305:97f])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ebbnhVRr37KeZebbohQweA; Sat, 22 Jun 2019 10:42:52 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] coda fixes and improvements
-Message-ID: <646bd896-77bc-8a7f-4c22-8b70499e91ad@xs4all.nl>
-Date:   Sat, 22 Jun 2019 10:42:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Sat, 22 Jun 2019 05:58:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SpegnDhLlD97cGHu+yfulQXPQhM2A6IXFd7CIMehSmk=; b=QZBduBPgRl4gH+cKiiRqV1fpm
+        4uT1AlBiK5c6XLjv28+81dJVazGOLJTlNhBjMbnJX2Qsamum3N/tkOEXZrrzFc8rjmIvNbAk5LrRL
+        LRW+h6HeMS7QLkO9JGsmKtl35yQwxbrT7a/IzOXD4Ng0vRhz981kYhizy/i8zuld1Qhwy+hq8HDGP
+        IAfkl7ezPxvXBn7jRTl8ycxBKV3OYbeWg38xd0vWJo1RUOF1vGNxjXdrg70Uwy6aeWAtW6tdMf4qM
+        k1cwTjGcNCBGqCk8YqTHuiXFp9db9e6nxdc2LGLlEIdjBFplATaKVXNLJDiti7R3Rebtk30tKFoDh
+        KJMAB6qkQ==;
+Received: from [177.97.20.138] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hecnI-0004Xv-FY; Sat, 22 Jun 2019 09:58:48 +0000
+Date:   Sat, 22 Jun 2019 06:58:44 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL for 5.3] More sensor and CSI-2 driver patches
+Message-ID: <20190622065844.45deb0f6@coco.lan>
+In-Reply-To: <20190622083909.kdm52xan2tgg7zro@valkosipuli.retiisi.org.uk>
+References: <20190622082912.knhtiwvwjreok55v@valkosipuli.retiisi.org.uk>
+        <20190622083909.kdm52xan2tgg7zro@valkosipuli.retiisi.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJvDAuxb9YJ8XWHT9jfLH6BAJlfRzaHSQvmNcU8PtN9inC1oGDU5yOeVgKptTnF9BOvs1ZBi1LgB9JyM2/NL8YSeMmPR9qrW7CN5zKjmVcUiI8PyN5UD
- vN6GIlX7UUBgWpY/99E4nQWOKlMc053KalBa3JKEzZ8WJFnLJ4xXWnlIWefYrln3XgfvNun7Hmuy9/M9q2DTf1LhfHJr775MP265k2FcRhAdsehXiiP3PpwF
- zhEN6TfeI/JwxC4hExs2e4urVIOh+uZanHzYyrdbNuoF20DPY+1d1poRdWk4o96MpedNmKgYoh8mVa0vhi8Qsg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3a959dcd11a4b1f55bbb4a37d3bac685c4e106b1:
+Em Sat, 22 Jun 2019 11:39:09 +0300
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-  media: mt9m111: add regulator support (2019-06-21 17:56:39 -0400)
+> On Sat, Jun 22, 2019 at 11:29:12AM +0300, Sakari Ailus wrote:
+> > Hi Mauro,
+> > 
+> > Here's another set of CSI-2 and sensor driver patches for 5.3.  
+> 
+> Oops! This should have been for 5.4, not 5.3!
+> 
 
-are available in the Git repository at:
+I already applied those yesterday. 
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3t
+Should them be reverted? If so, why?
 
-for you to fetch changes up to f109771a576144a048e234c93a01f0f17a9fbf0f:
-
-  media: coda: encoder parameter change support (2019-06-22 09:45:13 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Marco Felsch (2):
-      media: coda: fix last buffer handling in V4L2_ENC_CMD_STOP
-      media: coda: fix V4L2_DEC_CMD_STOP when all buffers are already consumed
-
-Michael Tretter (1):
-      media: coda: implement CMD_START to restart decoding
-
-Philipp Zabel (25):
-      media: coda: use mem2mem try_en/decoder_cmd helpers
-      media: coda: fix mpeg2 sequence number handling
-      media: coda: add coda_wake_up_capture_queue
-      media: coda: split decoder sequence initialization out of start decoding
-      media: coda: add sequence initialization work
-      media: coda: implement decoder source change event
-      media: coda: integrate internal frame metadata into a structure
-      media: coda: make coda_bitstream_queue more versatile
-      media: coda: pad first buffer with repeated MPEG headers to fix sequence init
-      media: coda: do not enforce 512-byte initial bitstream payload on CODA960
-      media: coda: flush bitstream ring buffer on decoder restart
-      media: coda: increment sequence offset for the last returned frame
-      media: coda: allow flagging last output buffer internally
-      media: coda: mark the last output buffer on decoder stop command
-      media: coda: only set the stream end flags if there are no more pending output buffers
-      media: coda: mark the last output buffer on encoder stop command
-      media: coda: retire coda_buf_is_end_of_stream
-      media: coda: only wake up capture queue if no pending buffers to encode
-      media: coda: flag the last encoded buffer
-      media: coda: lock capture queue wakeup against encoder stop command
-      media: coda: mark last pending buffer or last meta on decoder stop command
-      media: coda: mark last returned frame
-      media: coda: store device pointer in driver structure instead of pdev
-      media: coda: add coda_slice_mode() function
-      media: coda: encoder parameter change support
-
- drivers/media/platform/coda/coda-bit.c    | 403 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------
- drivers/media/platform/coda/coda-common.c | 244 +++++++++++++++++++++++++++++++++++-----------
- drivers/media/platform/coda/coda-mpeg2.c  |  43 +++++++++
- drivers/media/platform/coda/coda-mpeg4.c  |  38 ++++++++
- drivers/media/platform/coda/coda.h        |  33 ++++++-
- drivers/media/platform/coda/coda_regs.h   |  18 ++++
- 6 files changed, 637 insertions(+), 142 deletions(-)
+Thanks,
+Mauro
