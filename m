@@ -2,107 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 619564F79A
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 19:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 812274F857
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 23:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbfFVR4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Jun 2019 13:56:25 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:55399 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbfFVR4Y (ORCPT
+        id S1726339AbfFVVvq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jun 2019 17:51:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36956 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725844AbfFVVvq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jun 2019 13:56:24 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D9B4C80689; Sat, 22 Jun 2019 19:56:11 +0200 (CEST)
-Date:   Sat, 22 Jun 2019 19:56:21 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Remote "Mouse mode" buttons, Keycode choices, etc.
-Message-ID: <20190622175621.GC30317@amd>
-References: <e1c968df516b751769765e0b0947caea607e7b7f.camel@hadess.net>
- <20190616165818.GA23022@xo-6d-61-c0.localdomain>
- <212f7db1f2d0b88a749bf3378bfaf3185590b6db.camel@hadess.net>
+        Sat, 22 Jun 2019 17:51:46 -0400
+Received: from [IPv6:2804:431:d719:dd85:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:d719:dd85:d711:794d:1c68:5ed3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tonyk)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 73CC1260D60;
+        Sat, 22 Jun 2019 22:51:43 +0100 (BST)
+Subject: Re: [PATCH v3 1/2] media: vimc: stream: add missing function
+ documentation
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        helen.koike@collabora.com, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+References: <20190617133221.21246-1-andrealmeid@collabora.com>
+ <20190621181705.44415597@coco.lan>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <c9602b72-7dbb-47ad-97ef-9348d7e1c3e9@collabora.com>
+Date:   Sat, 22 Jun 2019 18:51:06 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Clx92ZfkiYIKRjnr"
-Content-Disposition: inline
-In-Reply-To: <212f7db1f2d0b88a749bf3378bfaf3185590b6db.camel@hadess.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190621181705.44415597@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Mauro,
 
---Clx92ZfkiYIKRjnr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/21/19 6:17 PM, Mauro Carvalho Chehab wrote:
+> Em Mon, 17 Jun 2019 10:32:20 -0300
+> André Almeida <andrealmeid@collabora.com> escreveu:
+>
+>> Add comments at vimc_streamer_s_stream and vimc_streamer_thread, making
+>> the vimc-stream totally documented.
+> I'm applying it right now.
+>
+> Yet, if this is fully documented, IMO you should add it to
+> Documentation/media/v4l-drivers, replacing the comments to kernel-doc
+> markups.
 
-On Fri 2019-06-21 13:39:39, Bastien Nocera wrote:
-> On Sun, 2019-06-16 at 18:58 +0200, Pavel Machek wrote:
-> > Hi!
-> >=20
-> > > I dug out a fair bunch of remote controls I got around 10 years
-> > > ago[1],
-> > > and started trying them all out.
-> > >=20
-> > > I bumped into a couple of problems:
-> > >=20
-> > > - the Snapstream Firefly remote ([2] using the rc-snapstream-
-> > > firefly
-> > > keymap and the ati_remote protocol) creates 2 input device nodes,
-> > > one
-> > > for the remote keys, one for the mouse mode. The mouse button on
-> > > the
-> > > remote just sends KEY_MODE, and doesn't change the mode, nothing is
-> > > ever sent on the mouse device node
-> > >=20
-> > > - the Streamzap remote ([3]) uses KEY_NUMERIC_[0-9] keycodes, just
-> > > like
-> > > a small minority of other devices. Is there any reason for them not
-> > > to
-> > > use KEY_[0-9] instead? Or for all of them to use KEY_NUMERIC_*, for
-> > > consistencies' sake. I can send patches for those.
-> >=20
-> > This may be a bit of fun; consistency is good but this will change
-> > behaviour for people,
-> > right?
-> >=20
-> > So.. be careful :-).
->=20
-> I'm not really sure how one can be "careful" doing that.
+This suggestion is a great improvement and it's simple to apply to the
+source. Where do you believe we can place this at[1]? Maybe something like
 
-You could do an config option and then pretend breakage is user
-decision, for example.
 
-Or better just change it and see what happens.
+Source code documentation
+-------------------------
 
-> You can check this patch to lirc from 2008 to see what it might end up
-> looking like ;)
-> https://people.redhat.com/bnocera/lirc-fix-remote-keycodes.patch
->=20
-> It doesn't really answer my question about whether this discrepancy was
-> intended though.
+vimc-streamer
+~~~~~~~~~~~~
 
-Probably not intended.
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+.. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.c
+   :internal:
 
---Clx92ZfkiYIKRjnr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+at the end of the file?
 
-iEYEARECAAYFAl0Oa8UACgkQMOfwapXb+vL7gACeLeEfDwPLq9fy2+jHciMJCu0r
-kxAAoK6oR1Pah2AuOfcEcdlF4pLXJbMm
-=Dukm
------END PGP SIGNATURE-----
+> That would make easier for the ones to read the comments and, if someone
+> changes a function call, warnings will be produced, and the developer
+> will be warned.
+> Thanks,
+> Mauro
 
---Clx92ZfkiYIKRjnr--
+Thanks,
+    André
+
+[1]
+https://git.linuxtv.org/media_tree.git/tree/Documentation/media/v4l-drivers/vimc.rst
+
