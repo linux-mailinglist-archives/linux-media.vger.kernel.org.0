@@ -2,65 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B3A4F6FB
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 18:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 619564F79A
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 19:56:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbfFVQ3K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Jun 2019 12:29:10 -0400
-Received: from sonic316-11.consmr.mail.bf2.yahoo.com ([74.6.130.121]:35854
-        "EHLO sonic316-11.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726482AbfFVQ3J (ORCPT
+        id S1726485AbfFVR4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jun 2019 13:56:25 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:55399 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbfFVR4Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jun 2019 12:29:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220948; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=Sqmma7rQCC9csXbuiUU3W2/3JNoNH7S8264Vtax3p6vjP/GOy3xpD3wbU2PRR9kt9Hpkf+FIWW9PMCnOCaw1O79buHof/+e4XCSgtAjG8InDhCml6NU6QqPjKJ3zDc6ntgnpVqWtJnbhtjoUqIbv1W6GU8NTi8qVdCcmhrTc1IZ6aiOxpvBar7FQmN3jAwZcqruMWVYBgbk1LAoNqGvQ8jjOiTjNhCDJjpcLi94EE60gk+qIfYgu1AQDdd9wVo7X6i3XlVR9KCYw0l7ikZmlDSVkcSrrmJBlognD3+QlW4wko0RiyOGAXy+sEMAa8UXhFfxEEhf+A0WfqKBKwkVQbg==
-X-YMail-OSG: 3TA6aNEVM1mHk4tfSNROwYxIcekGBuzt5YSl8uAf.0_HHQ2LGDBhX2FGT2.Do_z
- _0DV280q.YGRxDLoRDSJM82e2d5hsgoPZVcKxWsle6Z3oHX8Omo6hY9bu5QjJLY68zQNKFXygJQb
- l1z62dHRy69xOFvl6tq.81EbMsOh1_cirrcCk2fMX_Jmwx0sebG__1rhE6wzzo_NDP9VbvIqZ9bR
- 2icQk1E4jS_eT.9i5S8Sf0xsdShl9dMibpAXRU93yOYuHTQIa_P77tZTcStgCsIVxKiDvC3a0NxY
- 8gZtRhwFdS641nFzLb368UTov.mB4xMHIDhTJv9NazaTg1j8sw18ET29s.TqlBmXHg8vLU94qBpd
- 5PlUttniCcoNFEJpnLF3UUydECDiL8Z11cc18YJXwsIeDfFkYqHGX5XdA4jNj054mfKUIhoNEakn
- WUKps59xvPMOhDCVBujS9v_vJClG4fXrBtjl.W_LQqwsSCutxIcdvaqHEtURhc6MkAEPdp4bTGI.
- srA9smb.rYGHYAQmfGBYSrMpzCORaFwD3sLBOdwCdBjEVVdu.sBEOGddWsx2T8AZRYYy5nvR9Foz
- bPsz41tE4__SqGjxrktEJ2_s2wIQAUza2deZFDGXc6T62eXwgZpA4Pp2nGTmGbFQ6h4nAMd51HJh
- T3GzQn8s4GOn.0BKRwZDpwf7w10rv6JPk5nAgLZOaX7LfFs2yeq7fnFrg4OCOiG9MCMxrUNq6gf7
- VomHdE0MTMCDmL3Ebk4K0YUhXaCTht27MRDaoJusaRVRGavzgn0vj3Z4n7xxu27l7AAqrNZTRmUI
- n_b8fWLMzkIFoI7ZcmL_O5d2bYctv7x0WqIS4U6onMjRr4HtPSPFTejqwRtmzChG01EgeDt1Xu9J
- 3fp8ciCxthupmhAtFqCrukMze7VttucN.DpeM8bKmVw1EDgn.s_L.L9fVdDwg2umGkLNazDxoP0_
- dzbgtjASRdO1.JaxkowN5gRT6rna4oVoAmbHsjQ4rLTjBWSWz8ZqQDlV43apY.buigbJvn4Qmvf1
- GxhsPAlHlnnGfjZ9pr3BSAVXKd_Qs83vYaBOYxWdXDlwxBl9.1.bnCTqFBLXCTND1BZASE2pli5W
- fu842ttK3BMCdw5COU_fvmE4HTFnTUQ5tN2a6KHryWZiInkZpWdo8I9xFucw8IlPI3qY2rDSegZk
- LLEiGCawsrUj04Yg3uv6LVIzJaVvTytAzboyOeQVTgoj.0EfkvEtgpXm3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:29:08 +0000
-Date:   Sat, 22 Jun 2019 16:29:03 +0000 (UTC)
-From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
-Reply-To: miss.fmayusuf11@gmail.com
-Message-ID: <1743094696.311303.1561220943310@mail.yahoo.com>
-Subject: From:Miss: Fatima Yusuf.
+        Sat, 22 Jun 2019 13:56:24 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id D9B4C80689; Sat, 22 Jun 2019 19:56:11 +0200 (CEST)
+Date:   Sat, 22 Jun 2019 19:56:21 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Remote "Mouse mode" buttons, Keycode choices, etc.
+Message-ID: <20190622175621.GC30317@amd>
+References: <e1c968df516b751769765e0b0947caea607e7b7f.camel@hadess.net>
+ <20190616165818.GA23022@xo-6d-61-c0.localdomain>
+ <212f7db1f2d0b88a749bf3378bfaf3185590b6db.camel@hadess.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="Clx92ZfkiYIKRjnr"
+Content-Disposition: inline
+In-Reply-To: <212f7db1f2d0b88a749bf3378bfaf3185590b6db.camel@hadess.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+--Clx92ZfkiYIKRjnr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-From:Miss: Fatima Yusuf.
+On Fri 2019-06-21 13:39:39, Bastien Nocera wrote:
+> On Sun, 2019-06-16 at 18:58 +0200, Pavel Machek wrote:
+> > Hi!
+> >=20
+> > > I dug out a fair bunch of remote controls I got around 10 years
+> > > ago[1],
+> > > and started trying them all out.
+> > >=20
+> > > I bumped into a couple of problems:
+> > >=20
+> > > - the Snapstream Firefly remote ([2] using the rc-snapstream-
+> > > firefly
+> > > keymap and the ati_remote protocol) creates 2 input device nodes,
+> > > one
+> > > for the remote keys, one for the mouse mode. The mouse button on
+> > > the
+> > > remote just sends KEY_MODE, and doesn't change the mode, nothing is
+> > > ever sent on the mouse device node
+> > >=20
+> > > - the Streamzap remote ([3]) uses KEY_NUMERIC_[0-9] keycodes, just
+> > > like
+> > > a small minority of other devices. Is there any reason for them not
+> > > to
+> > > use KEY_[0-9] instead? Or for all of them to use KEY_NUMERIC_*, for
+> > > consistencies' sake. I can send patches for those.
+> >=20
+> > This may be a bit of fun; consistency is good but this will change
+> > behaviour for people,
+> > right?
+> >=20
+> > So.. be careful :-).
+>=20
+> I'm not really sure how one can be "careful" doing that.
 
-For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
+You could do an config option and then pretend breakage is user
+decision, for example.
 
-I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
+Or better just change it and see what happens.
 
-Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+> You can check this patch to lirc from 2008 to see what it might end up
+> looking like ;)
+> https://people.redhat.com/bnocera/lirc-fix-remote-keycodes.patch
+>=20
+> It doesn't really answer my question about whether this discrepancy was
+> intended though.
 
-I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
+Probably not intended.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
+--Clx92ZfkiYIKRjnr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-I am waiting to hear from you.
-Yours Sincerely,
-Miss.Fatima Yusuf.
+iEYEARECAAYFAl0Oa8UACgkQMOfwapXb+vL7gACeLeEfDwPLq9fy2+jHciMJCu0r
+kxAAoK6oR1Pah2AuOfcEcdlF4pLXJbMm
+=Dukm
+-----END PGP SIGNATURE-----
+
+--Clx92ZfkiYIKRjnr--
