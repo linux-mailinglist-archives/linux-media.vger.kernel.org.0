@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5BA54FD24
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2019 19:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C254FD1E
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2019 19:08:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbfFWRIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jun 2019 13:08:14 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:38983 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbfFWRIN (ORCPT
+        id S1726867AbfFWRIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jun 2019 13:08:18 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:38575 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726819AbfFWRIQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jun 2019 13:08:13 -0400
-Received: by mail-qk1-f194.google.com with SMTP id i125so8077029qkd.6;
-        Sun, 23 Jun 2019 10:08:13 -0700 (PDT)
+        Sun, 23 Jun 2019 13:08:16 -0400
+Received: by mail-qk1-f195.google.com with SMTP id a27so8072020qkk.5;
+        Sun, 23 Jun 2019 10:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DEscWWmNyD0k1ManLTEItc70FqDRXwSTSIeyQ9TNq+o=;
-        b=BsnTwcpCQh7Iv9eYzP+KWWfGWAEEG7cXV0RcKtGsbx5b21QtGsU8S6ghggb4jEhb6b
-         JaBTSyH44+9aWTZ2x3sOE4szIjzx9bBfRf+N0eaq7LBVV9LpNqgkW/fAJ1wdyjBx1M+r
-         glVepG/0/ithAZO2i7Ild5eOisiHn3MEW0Y4aeP0z0lqThK2LTrEKbgcwuyj3w/J6qYj
-         ASNQ9B2S4mk4pyQpcppI/jA0iTwfRyrYQjeYT7muZ2nSrbjgmHvJOhUJi+uKZj6bi2vW
-         d7Q2l90IhlqI3S7uj0CaVMuJ1ZmDEJVZw+UmO4A9/uHUuMiBDHubGSiEHNUHHAqSoW/F
-         fc3g==
+        bh=M9elc0PQ+TI8jbg2PmLg+UuOO6GjGx+5PwCXytaA0Wc=;
+        b=IhAuLaJF4p/Ij7jvNewOxVJ/KZgmy2R1Vv6RMRFzKePLzpQRrtXb/6Ocxrb/QaaVFO
+         9mvH+TCOnyIpw7OQEzPZ58+EtOP3CtqXqCuME0XLEC0XkcDQPf4omElc8/KNLhY/H2qV
+         6r8nsB39P7MoTHfGHJNAvJzZkXLdkHSnJakJbtBAhQ/SK+NTkp7zhgufqjJDYkTki46c
+         r6t2B24TANc2djX1kewd6hWOm8XOX60d2xpSKSPcMvmR7KdYERJ8ct6opayn9wkD9rOV
+         BI2xhmc0u59mnsxMbwsLBCbBRADgswLlUG+Sn/ogA9QKT0e1LMaMHi+zppTnmJLaFC9p
+         TqaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DEscWWmNyD0k1ManLTEItc70FqDRXwSTSIeyQ9TNq+o=;
-        b=C1R0Lh4H3ttkWUPOQzlsY25sRERb7cweuEV4SPUpQNgG34DI1yOCFUe4iH4TgW2ZQB
-         VtPtQCzpLOIr0f+1xMLcItUzw+FpaM3UYunMPiFnM0Ku2dxsisMoQXbKs1ZjGSFPfUfH
-         wt+bIDZi5N+qHkcnlBdVfv3OD2TZpJnPZZGNpYv+dRi7uA5UTWgRcgb+97V7UW0enaxL
-         Gd1NbEj3JQN/pr9BssrNnsg3nvrPxVaVQjSjQf1FelOJtP9FaSrbtcNywCzRbc/LDF4M
-         VFkfQBHw86R4nI9nYZST2TdfSQzD4WJJLHZnchNFJGDL15ioriu5JWiRESwfNBhjLTQW
-         4VYA==
-X-Gm-Message-State: APjAAAXWQceGP4MKhkyxlUN4Z3P28SKsKi061x3nVu/PSKKhD3JK7//O
-        4X2BTCwZFvgibqj8uqt3u3k=
-X-Google-Smtp-Source: APXvYqw6QcRfaqInl2aO/o81L9UytRsutBhH/KmYer/h86GtgLAINiUX1NwGFSyM867m0VXsUXoQNQ==
-X-Received: by 2002:a37:404f:: with SMTP id n76mr5315342qka.27.1561309693019;
-        Sun, 23 Jun 2019 10:08:13 -0700 (PDT)
+        bh=M9elc0PQ+TI8jbg2PmLg+UuOO6GjGx+5PwCXytaA0Wc=;
+        b=dznZYac/s1ozPgOEkHSVW6di61BfNlSqipiGR/6/OgYwXLqSxqZo1nzYjwQKd4QELN
+         lM+Gp8y0sotK3rUx95xW2Bn7i1vQCgICyFHT0bK24bPAQCWPDEkWLRknJYjSpn+6NpaZ
+         VI72Z5lGCd6lf8iFu79ZLnCEhD2ibMWd3IQkBDlcouI25QNDZuFtED/9mfdqi/zmokFs
+         kIzQWTKfNaaZgI3K5XflnbCSYHEG+Ns8HPn4q0BhCX9fU3HSIxOJUDPYPMJ9N8MpDLyQ
+         WWvd5YTl6XqOiWJKVa8duDH54POCAA73Uhx6qw/ujv1gv8gXwGVk1q1jQQSZtyoga6u1
+         M/Dg==
+X-Gm-Message-State: APjAAAVi3X2+VBbyLCDoZsQ0vR6Qd3C6yGL7vN1Vgc6xpsraSe753jM6
+        pv2/J+L7rKfvihhsrfuUt7o=
+X-Google-Smtp-Source: APXvYqyT/dhyY8beKLB+S5C2DTElYVyHUfi2XKiR44cnoiCe02r+rHBnMkyjjoblnPDYTakeNvfu7A==
+X-Received: by 2002:a37:6152:: with SMTP id v79mr13049899qkb.488.1561309695342;
+        Sun, 23 Jun 2019 10:08:15 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id o54sm5790756qtb.63.2019.06.23.10.08.10
+        by smtp.gmail.com with ESMTPSA id o54sm5790756qtb.63.2019.06.23.10.08.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jun 2019 10:08:12 -0700 (PDT)
+        Sun, 23 Jun 2019 10:08:14 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -54,9 +54,9 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/4] staging: media: tegra-vde: Remove BIT() macro from UAPI header
-Date:   Sun, 23 Jun 2019 20:07:27 +0300
-Message-Id: <20190623170730.5095-5-digetx@gmail.com>
+Subject: [PATCH v3 2/4] staging: media: tegra-vde: Manually pack UAPI structures
+Date:   Sun, 23 Jun 2019 20:07:28 +0300
+Message-Id: <20190623170730.5095-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190623170730.5095-1-digetx@gmail.com>
 References: <20190623170730.5095-1-digetx@gmail.com>
@@ -67,31 +67,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The BIT macro isn't available in userspace. Checkpatch complains about
-shifts being used instead of the macro and people are starting to send
-patches without realizing that it's a UAPI header file. Hence let's
-replace the BIT macro with a hex values to make everyone happy.
+The __packed macro isn't available in userspace with the kernel headers.
+Checkpatch asks to use the macro, which is unwanted in a case of a UAPI
+header. There is no much benefit in a tight packing of the structures,
+hence let's pack them manually to cleanup things a tad. Note that there
+is no old-stable userspace that will suffer from this change, hence it's
+fine to change the ABI. In a result also more space is reserved for a
+possible future expansion of the UAPI as it was already shown that more
+fields will be needed for a later SoC generations.
 
+Suggested-by: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/staging/media/tegra-vde/uapi.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/tegra-vde/tegra-vde.c | 13 +++++-
+ drivers/staging/media/tegra-vde/uapi.h      | 44 +++++++++++----------
+ 2 files changed, 34 insertions(+), 23 deletions(-)
 
+diff --git a/drivers/staging/media/tegra-vde/tegra-vde.c b/drivers/staging/media/tegra-vde/tegra-vde.c
+index a5020dbf6eef..cc4244da2705 100644
+--- a/drivers/staging/media/tegra-vde/tegra-vde.c
++++ b/drivers/staging/media/tegra-vde/tegra-vde.c
+@@ -795,7 +795,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ {
+ 	struct device *dev = vde->miscdev.parent;
+ 	struct tegra_vde_h264_decoder_ctx ctx;
+-	struct tegra_vde_h264_frame frames[17];
++	struct tegra_vde_h264_frame *frames;
+ 	struct tegra_vde_h264_frame __user *frames_user;
+ 	struct video_frame *dpb_frames;
+ 	struct dma_buf_attachment *bitstream_data_dmabuf_attachment;
+@@ -830,11 +830,17 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 	if (ret)
+ 		return ret;
+ 
++	frames = kmalloc_array(ctx.dpb_frames_nb, sizeof(*frames), GFP_KERNEL);
++	if (!frames) {
++		ret = -ENOMEM;
++		goto release_bitstream_dmabuf;
++	}
++
+ 	dpb_frames = kcalloc(ctx.dpb_frames_nb, sizeof(*dpb_frames),
+ 			     GFP_KERNEL);
+ 	if (!dpb_frames) {
+ 		ret = -ENOMEM;
+-		goto release_bitstream_dmabuf;
++		goto free_frames;
+ 	}
+ 
+ 	macroblocks_nb = ctx.pic_width_in_mbs * ctx.pic_height_in_mbs;
+@@ -955,6 +961,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ free_dpb_frames:
+ 	kfree(dpb_frames);
+ 
++free_frames:
++	kfree(frames);
++
+ release_bitstream_dmabuf:
+ 	tegra_vde_detach_and_put_dmabuf(bitstream_data_dmabuf_attachment,
+ 					bitstream_sgt, DMA_TO_DEVICE);
 diff --git a/drivers/staging/media/tegra-vde/uapi.h b/drivers/staging/media/tegra-vde/uapi.h
-index a0dad1ed94ef..dd3e4a8c9f7e 100644
+index dd3e4a8c9f7e..ffb4983e5bb6 100644
 --- a/drivers/staging/media/tegra-vde/uapi.h
 +++ b/drivers/staging/media/tegra-vde/uapi.h
-@@ -6,8 +6,8 @@
- #include <linux/types.h>
- #include <asm/ioctl.h>
+@@ -21,40 +21,42 @@ struct tegra_vde_h264_frame {
+ 	__u32 frame_num;
+ 	__u32 flags;
  
--#define FLAG_B_FRAME		BIT(0)
--#define FLAG_REFERENCE		BIT(1)
-+#define FLAG_B_FRAME		0x1
-+#define FLAG_REFERENCE		0x2
+-	__u32 reserved;
+-} __attribute__((packed));
++	// Must be zero'ed
++	__u32 reserved[6];
++};
  
- struct tegra_vde_h264_frame {
- 	__s32 y_fd;
+ struct tegra_vde_h264_decoder_ctx {
+ 	__s32 bitstream_data_fd;
+ 	__u32 bitstream_data_offset;
+ 
+ 	__u64 dpb_frames_ptr;
+-	__u8  dpb_frames_nb;
+-	__u8  dpb_ref_frames_with_earlier_poc_nb;
++	__u32 dpb_frames_nb;
++	__u32 dpb_ref_frames_with_earlier_poc_nb;
+ 
+ 	// SPS
+-	__u8  baseline_profile;
+-	__u8  level_idc;
+-	__u8  log2_max_pic_order_cnt_lsb;
+-	__u8  log2_max_frame_num;
+-	__u8  pic_order_cnt_type;
+-	__u8  direct_8x8_inference_flag;
+-	__u8  pic_width_in_mbs;
+-	__u8  pic_height_in_mbs;
++	__u32 baseline_profile;
++	__u32 level_idc;
++	__u32 log2_max_pic_order_cnt_lsb;
++	__u32 log2_max_frame_num;
++	__u32 pic_order_cnt_type;
++	__u32 direct_8x8_inference_flag;
++	__u32 pic_width_in_mbs;
++	__u32 pic_height_in_mbs;
+ 
+ 	// PPS
+-	__u8  pic_init_qp;
+-	__u8  deblocking_filter_control_present_flag;
+-	__u8  constrained_intra_pred_flag;
+-	__u8  chroma_qp_index_offset;
+-	__u8  pic_order_present_flag;
++	__u32 pic_init_qp;
++	__u32 deblocking_filter_control_present_flag;
++	__u32 constrained_intra_pred_flag;
++	__u32 chroma_qp_index_offset;
++	__u32 pic_order_present_flag;
+ 
+ 	// Slice header
+-	__u8  num_ref_idx_l0_active_minus1;
+-	__u8  num_ref_idx_l1_active_minus1;
++	__u32 num_ref_idx_l0_active_minus1;
++	__u32 num_ref_idx_l1_active_minus1;
+ 
+-	__u32 reserved;
+-} __attribute__((packed));
++	// Must be zero'ed
++	__u32 reserved[11];
++};
+ 
+ #define VDE_IOCTL_BASE			('v' + 0x20)
+ 
 -- 
 2.22.0
 
