@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E28704FD30
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2019 19:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF9EF4FD2D
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2019 19:08:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbfFWRIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Jun 2019 13:08:05 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:40265 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726417AbfFWRIE (ORCPT
+        id S1726677AbfFWRIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Jun 2019 13:08:07 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:45511 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726417AbfFWRIH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Jun 2019 13:08:04 -0400
-Received: by mail-qt1-f196.google.com with SMTP id a15so12104695qtn.7;
-        Sun, 23 Jun 2019 10:08:04 -0700 (PDT)
+        Sun, 23 Jun 2019 13:08:07 -0400
+Received: by mail-qk1-f194.google.com with SMTP id s22so8052304qkj.12;
+        Sun, 23 Jun 2019 10:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s6kjF5fXn7CUbLQsdln+pNA94ruY+IQSwhFY01H/Qs0=;
-        b=PgdexjanEdOhiC1e7XrrB0kACIXlVM4YPZNLusSVxV8F7FdKSyoaeGZUuzGLwol3hv
-         9jSCHyPbTgtJLupSe12qTtZLFZmYVv7WHAjSBbJwa9veh+3hSA4lOStXc1Vb6jTH6YE1
-         8IM5XrdHWpbbFJqawEjt2uFSCHnBbJdM0bcsPyDxYrWhnwIIPdtMDW5DgCLV1bkovRw/
-         ykU5WzMuEx+qSFwYP4ZLOqIAnYKQahoU2BxDPUot1kR+kBBlCe6c8vbLEJZlzqnUWBgC
-         CzHa/NvuP+R9HF55wfCXXs/w5TCh8fCSk3TindbHsnkNEVMPKeC0aFoIlBeVr53EdvZi
-         WPzQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EMFljB61wH3RBTPKWZ1GnJfV+sWdvfbnkWdZA5ukgAc=;
+        b=D+81I/pOASXIwEKTD0Yy9pX88RNbR5Bg/OIOH6Ff/5TkeLiyCYCO8uIVbiCQaVCXwY
+         orpo6w9lOto0hx+qd2n3MY7WikoN+1lYQD3dwMOGR08aU8eP0+Z1XlKCTV9gj2TTqRhU
+         j1UWXuXc6jKW5u5NKamohOuQG9l4horQKJr3ueFpgqxL5uQdlezmiTmdLsYyW1PEopPs
+         flAMuQg3cTydjyNcVHas2lYqlN3I/dkBjXDgKEzNzDcSuMveHY0OZWx8Sf5TTXIeAhx7
+         69uO/cJ6gmCrb8XNxCwHnlWd0m9g0d1ZiDl70xetLL4YCSRhEhkkcO5bK3rPFxuyZO+R
+         PZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s6kjF5fXn7CUbLQsdln+pNA94ruY+IQSwhFY01H/Qs0=;
-        b=DM6Gov4qHAQnKjnfqxni+qnaduHtk+8aqg+LdBV3nkhY2Y3yR+bbVtO2/yXmsEsgD3
-         zJs+9BOf8xayQ0jXlM4L07G4W20wfXMG569l3NYMI2bjg0A+mw7BjjEhCErB29ra93ih
-         FghVphyaWqrcK49V7+qSWrO09SUMl3dX7TAyzPHmus6dZXOSkrMU+I3C2nRvFL+1+6dx
-         iOmgfcO/l+P3V2Il00zvwxpik/rGy2XM1Nq2AGLMQfemL2w0FhkFUMj3T9ihlC4WeDee
-         VSEmZF3BQQuMrxjZ/pa8ZZyUbhJ1eaUCsYk7mw2WwZSsmXF19JUr6XvGrjRCaP2U0ihA
-         ZZVA==
-X-Gm-Message-State: APjAAAUAo1fE/DEKPTlQl3G0RjHz6NnxPM4f4glP/F1S2n+cLJ28hpQK
-        YJ9lLgsbx/mdsQD3AJsYYgU=
-X-Google-Smtp-Source: APXvYqxzaFsjcPSti6Fji5wNYEaAxx/IvO8JkiRdoec5MecyPJfs37elqCcHrmJjE1ZnPjcyqooRuw==
-X-Received: by 2002:ac8:2e14:: with SMTP id r20mr68598966qta.241.1561309683700;
-        Sun, 23 Jun 2019 10:08:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EMFljB61wH3RBTPKWZ1GnJfV+sWdvfbnkWdZA5ukgAc=;
+        b=NTsLMHIZui4a64XxeAq/M/i/hg417lzx4LV41hF7ns6crhADla87fwk5Kdx9gkS9ro
+         xa+R8IalwTULo+4bSxcxhX6N1PXf2nUymt6AZSp53Tcg9Mvbn6hwcHHqdjZNiVib4lFG
+         QFRMEUsqSwmL2Qe/puxfF+5eunwmm02gLyNd4O/xVkyirD6Vc4atBn4V8kFjTyfE6ezt
+         Ed235DGNifasPlFDhMEm0JU/QhtZr1eshuTEl6ZrFCIAU8V2VyWJM2l9EjLLdLB9oozG
+         xDFHLEhvw+fP5aaxx95aQQdk+X6+RQoDp6k+KhgcJfAd3hWs+TJZyhdsfsQQBpo6Za2E
+         V6LQ==
+X-Gm-Message-State: APjAAAU5YhwiDLorvK6oKdPR0UgplG0mYNiHoyNd2mwducJaqIC141y/
+        XkjKf3ydrEJ/1J+GbMvGMn0=
+X-Google-Smtp-Source: APXvYqygAqhU2nclhsb9tqgs7EEPC7l+G7UwtlBWitXR/rkvffzqte0tSuTPBOpvnDQ2N5h9zjPU7w==
+X-Received: by 2002:a37:48d8:: with SMTP id v207mr49250965qka.316.1561309686028;
+        Sun, 23 Jun 2019 10:08:06 -0700 (PDT)
 Received: from localhost.localdomain (ppp91-79-162-197.pppoe.mtu-net.ru. [91.79.162.197])
-        by smtp.gmail.com with ESMTPSA id o54sm5790756qtb.63.2019.06.23.10.08.00
+        by smtp.gmail.com with ESMTPSA id o54sm5790756qtb.63.2019.06.23.10.08.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jun 2019 10:08:02 -0700 (PDT)
+        Sun, 23 Jun 2019 10:08:05 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -54,10 +54,12 @@ To:     Thierry Reding <thierry.reding@gmail.com>,
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/4] NVIDIA Tegra Video Decoder driver improvements
-Date:   Sun, 23 Jun 2019 20:07:23 +0300
-Message-Id: <20190623170730.5095-1-digetx@gmail.com>
+Subject: [PATCH v3] ARM: dts: tegra30: Connect SMMU with Video Decoder Engine
+Date:   Sun, 23 Jun 2019 20:07:24 +0300
+Message-Id: <20190623170730.5095-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190623170730.5095-1-digetx@gmail.com>
+References: <20190623170730.5095-1-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -65,52 +67,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Enable IOMMU support for the video decoder.
 
-This series cleans up some of minor shortcomings that are caused by
-checkpatch recommendations that are not very applicable for the driver.
-Then IOMMU support is added to the driver and now it can handle sparse
-memory buffers that GPU hands to VDE in a default kernel configuration
-on Tegra30+.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
 
-Changelog:
+No changes since v1.
 
-v3: - Fixed memory leak on driver's module reload. For some reason I
-      erroneously assumed that IOVA reservations are released on IOVA
-      destruction themselves.
+ arch/arm/boot/dts/tegra30.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-    - Corrected PFN's for the last-page's IOVA reservation. We want to
-      reserve the last page, but a page before the last was reserved.
-
-v2: - Fixed use-after-free bug and uninitialized-variable warning that
-      were reported by smatch and pointed out by Hans Verkuil in the
-      review comment to v1.
-
-    - Fixed build failure when CONFIG_ARM_DMA_USE_IOMMU=y and tested this
-      case properly (multi-platform kernel config).
-
-    - Made some extra minor changes, prettifying code a tad more.
-
-Dmitry Osipenko (4):
-  staging: media: tegra-vde: Remove BIT() macro from UAPI header
-  staging: media: tegra-vde: Manually pack UAPI structures
-  staging: media: tegra-vde: Add IOMMU support
-  staging: media: tegra-vde: Defer dmabuf's unmapping
-
- drivers/staging/media/tegra-vde/Kconfig       |   1 +
- drivers/staging/media/tegra-vde/Makefile      |   1 +
- .../staging/media/tegra-vde/dmabuf-cache.c    | 226 ++++++++++++++++++
- drivers/staging/media/tegra-vde/iommu.c       | 157 ++++++++++++
- drivers/staging/media/tegra-vde/trace.h       |   2 +
- drivers/staging/media/tegra-vde/uapi.h        |  48 ++--
- .../media/tegra-vde/{tegra-vde.c => vde.c}    | 212 ++++++----------
- drivers/staging/media/tegra-vde/vde.h         | 107 +++++++++
- 8 files changed, 591 insertions(+), 163 deletions(-)
- create mode 100644 drivers/staging/media/tegra-vde/dmabuf-cache.c
- create mode 100644 drivers/staging/media/tegra-vde/iommu.c
- rename drivers/staging/media/tegra-vde/{tegra-vde.c => vde.c} (88%)
- create mode 100644 drivers/staging/media/tegra-vde/vde.h
-
+diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
+index 934caa83c8db..ce162125e7bf 100644
+--- a/arch/arm/boot/dts/tegra30.dtsi
++++ b/arch/arm/boot/dts/tegra30.dtsi
+@@ -424,6 +424,7 @@
+ 		clocks = <&tegra_car TEGRA30_CLK_VDE>;
+ 		reset-names = "vde", "mc";
+ 		resets = <&tegra_car 61>, <&mc TEGRA30_MC_RESET_VDE>;
++		iommus = <&mc TEGRA_SWGROUP_VDE>;
+ 	};
+ 
+ 	apbmisc@70000800 {
 -- 
 2.22.0
 
