@@ -2,103 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5CF44F85B
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2019 23:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA044F9AA
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2019 05:49:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbfFVV6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Jun 2019 17:58:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52898 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbfFVV6v (ORCPT
+        id S1726359AbfFWDtV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Jun 2019 23:49:21 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59665 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726296AbfFWDtV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Jun 2019 17:58:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=me29Zf11xoxFtU1yC8+ub+hR7h7A8THD7PgX16YAKdg=; b=MutIyoB/SRS6uVgqTcil8z4ed
-        crDdeYP/YtYk+I7x4Kw2tYS9fJ9BxKMduORjBY8dj2//x5H1uHnW6tM43sydwRznWC0wYG+DZYcRv
-        /V6YL5ZwEjTexaIupn1ku6aCs5ch/eazKRMhNvkkSNY8Cd7tTlZVXOZUZYqkGWLMaROSgxqVuULEc
-        NnEDedKYRuV8UjwQIaufGzmFuehqK0wd29GEaETlY86IHR61wBbjNFtXl72UvsT3iqeSo0OE+sTQz
-        XaDiGY0syDzEqiztfyo5SKd1fGLAh8XZT4s2uekN0qVlj2JL+ACkdo4544soNSdkCp7coq4eNRbhz
-        1kZ0Gs5Sg==;
-Received: from [179.95.45.115] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1heo24-0007cP-Hx; Sat, 22 Jun 2019 21:58:48 +0000
-Date:   Sat, 22 Jun 2019 18:58:44 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        helen.koike@collabora.com, kernel@collabora.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] media: vimc: stream: add missing function
- documentation
-Message-ID: <20190622185844.4b2392a3@coco.lan>
-In-Reply-To: <c9602b72-7dbb-47ad-97ef-9348d7e1c3e9@collabora.com>
-References: <20190617133221.21246-1-andrealmeid@collabora.com>
-        <20190621181705.44415597@coco.lan>
-        <c9602b72-7dbb-47ad-97ef-9348d7e1c3e9@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        Sat, 22 Jun 2019 23:49:21 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a1e4:ef2c:d1d7:65de])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id etVEh7nfGSfvXetVFh8Nro; Sun, 23 Jun 2019 05:49:18 +0200
+Message-ID: <8a04e4f24fd7173cd4f2b334c7db4508@smtp-cloud9.xs4all.net>
+Date:   Sun, 23 Jun 2019 05:49:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfFl2HP5p9KPKKtGPdWWZehRF8DCuCRXvSRpaiqPpW4/KpH3S/nIp0r/Sn8QRTwRthsthM4y3RV3jbWwjWue3NDh53KF4chOdvW2s48rKZfE4lUl4bKJr
+ XtI3Fxn5wPITaEzGMKmywXBR4KuN2a/Isu+YnYxIyGnTD5xpmJhGlwi7GaHVwod1FGNfHUE5LYYi9oX+ZigBHO1xYsGjgJU9MS6rLnE8dIbQ/St+rh9MPRyi
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 22 Jun 2019 18:51:06 -0300
-Andr=C3=A9 Almeida <andrealmeid@collabora.com> escreveu:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> Hello Mauro,
->=20
-> On 6/21/19 6:17 PM, Mauro Carvalho Chehab wrote:
-> > Em Mon, 17 Jun 2019 10:32:20 -0300
-> > Andr=C3=A9 Almeida <andrealmeid@collabora.com> escreveu:
-> > =20
-> >> Add comments at vimc_streamer_s_stream and vimc_streamer_thread, making
-> >> the vimc-stream totally documented. =20
-> > I'm applying it right now.
-> >
-> > Yet, if this is fully documented, IMO you should add it to
-> > Documentation/media/v4l-drivers, replacing the comments to kernel-doc
-> > markups. =20
->=20
-> This suggestion is a great improvement and it's simple to apply to the
-> source. Where do you believe we can place this at[1]? Maybe something like
->=20
->=20
-> Source code documentation
-> -------------------------
->=20
-> vimc-streamer
-> ~~~~~~~~~~~~
->=20
-> .. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.c
->    :internal:
->=20
->=20
-> at the end of the file?
->=20
-Yeah, this should be enough.
+Results of the daily build of media_tree:
 
-> > That would make easier for the ones to read the comments and, if someone
-> > changes a function call, warnings will be produced, and the developer
-> > will be warned.
-> > Thanks,
-> > Mauro =20
->=20
-> Thanks,
-> =C2=A0=C2=A0=C2=A0 Andr=C3=A9
->=20
-> [1]
-> https://git.linuxtv.org/media_tree.git/tree/Documentation/media/v4l-drive=
-rs/vimc.rst
->=20
+date:			Sun Jun 23 05:00:14 CEST 2019
+media-tree git hash:	3a959dcd11a4b1f55bbb4a37d3bac685c4e106b1
+media_build git hash:	8c181825fa4b157679e600565c310841be9f1890
+v4l-utils git hash:	070a4d421778c313f79d840bf400a7d60dfe7dc9
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5b7e41d5bee1ef9274d548f945fb9ae3d8bb208a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
 
-Thanks,
-Mauro
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
