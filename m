@@ -2,66 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CD150E48
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 16:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BB150F6A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 17:01:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729818AbfFXOeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jun 2019 10:34:02 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:49356 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729892AbfFXOdz (ORCPT
+        id S1729737AbfFXPBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jun 2019 11:01:00 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46618 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728365AbfFXPBA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jun 2019 10:33:55 -0400
-Received: by mail-qk1-f201.google.com with SMTP id c4so16292367qkd.16
-        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2019 07:33:54 -0700 (PDT)
+        Mon, 24 Jun 2019 11:01:00 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 81so7640856pfy.13
+        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2019 08:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=N5aQVQiWWtXi9gCv0ztW+dfvhd60giz7b6IoZ6u0OIQ=;
-        b=qjhPznbYLqEoUuOd+SbruTmLg2XmfpstnWtNL0BmQkS/9+yQT+WCgWslxOFvIMH1pv
-         mALN6TNaetS33pt/RVz6EBDIEWN2quqA6jv67UFd7koLos1e133OMWu359ZPg0J6bPcr
-         0XWlGuBxH86U+t+14QRd+rvD4clAF7jsa1nnvo0JS1ZiAdQXZxeWkV8d/rYp0KzGCh88
-         IiYVBvmMbwt07ocU9yE6vY4JutitBKtGPSxtSdK50DrOSaBmfZV7Ob9XJeo2Bom5V336
-         MrXYPuP6NQaYbAzK3Of68rTmuGoOGsh3GrYLnYHFg0fALTXz/unOR+Jpt7LYdYsFe3Zd
-         cEhg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZH0KsEpqEXiZL11grL/nW8IzWOxozO/nFecO0TNWzZg=;
+        b=KQ2654w6YgnMZs2At+Zd89XQIqIuYR8jlquNCWJJuIXpWD/HlSd4ZBjLxPQsxGeT2n
+         QOBGSpQkVzrAWhjdNm3L175i3EwkQyprQmoxs6iyZjw9hV5O7BunNQVJJ3RYGgog4Rsr
+         YQVv/8/84su3okC1IPWa+LhVmvUHm4bqUkhyE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=N5aQVQiWWtXi9gCv0ztW+dfvhd60giz7b6IoZ6u0OIQ=;
-        b=GBf3eoj1zScdH9ViuvWNEp7e/cU6OR4rcNqnshBGZAM9bW/N3T5Cya+LyAFybA6ybU
-         lB82OCB9JcDIxjRsqO+OIvkL2RyJIsIPexBgIuA+OkgpL9KAJ8sFjRj+iMOodax7IDsj
-         NEJ4yHoHEAQc2O4bSIjD43q2pBKLEjueRIk/6wuMMP2xTCxFO5dT61SjYJB5magIadsZ
-         WaAEZSS3NPC5TwVe3jvmO1BKi8ksHXnvdGlfZ7hx8S6kgTyaBtnvUpvQY8C9/KuomCHO
-         YfdvDBlxKnJOFQWTVVbG7+nmKxRCMgeSywLUe9CB5G+DEIlf16Uz2DRBHgb66jp7u307
-         nfdw==
-X-Gm-Message-State: APjAAAUhldsp1HN2kGybE+s7TMWZGvo6AISGLOgKHBTp4FcWGIKXpsBZ
-        MLHXejMZF/EHyS6FRr08UmCa9SB6foz2Y07+
-X-Google-Smtp-Source: APXvYqyNi91IprVlCjHeOaEl/XhVal8I6zy0NHm57SSOUiamYjJ/eflME47kK7EATSbEXYL1nBd99divk4S0n0PC
-X-Received: by 2002:ae9:e8ce:: with SMTP id a197mr16822243qkg.484.1561386833898;
- Mon, 24 Jun 2019 07:33:53 -0700 (PDT)
-Date:   Mon, 24 Jun 2019 16:33:00 +0200
-In-Reply-To: <cover.1561386715.git.andreyknvl@google.com>
-Message-Id: <0999c80cd639b78ae27c0674069d552833227564.1561386715.git.andreyknvl@google.com>
-Mime-Version: 1.0
-References: <cover.1561386715.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v18 15/15] selftests, arm64: add a selftest for passing tagged
- pointers to kernel
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZH0KsEpqEXiZL11grL/nW8IzWOxozO/nFecO0TNWzZg=;
+        b=JFPcw2VSzS0isU+yfO5KH4VC3kkff8NElKIbr4iYVJT8AkkbeFIjzlOYzD9VVL0VMo
+         IbZVEwSfmiHIyzOzJ9dNMzZPUDh7ehd0Vxw3rmkCjPXv1x0o1WF9iXU3sre16gxOdESP
+         +Q3U3GpxCNdRW5mmKClLTuxMmKP0H5B3XanzZ0z9vN+ZI6MnrBszoBJ2H7+6q7y4e9Ft
+         aWZPYkUXAet9n7e6ZFuM5yiwMpHOmikmimWvE4VnqPPWWjE8xoMb+dCrd23D+gjVpl1b
+         HgPWNv/8RTKjSmNmnbvjXf6dHWC3gB7MUx9R79qYURllLvC2/E0UuJ0AiPgIH7xpECFk
+         J8zw==
+X-Gm-Message-State: APjAAAXg1SduOps9I9wgnDEsO1jvLyVxYUch8CNlb2B0zG7d4GyWcePE
+        Q+z73QHKPAB5Glv7WgQ4car7/w==
+X-Google-Smtp-Source: APXvYqyXA9qWckeMWJ1FYgTNxW3Kl/SaHQcwWPkv+8Ov9g+q8rZ/yCmpPgqZaQwQyexxau4NGmLb3Q==
+X-Received: by 2002:a17:90a:338b:: with SMTP id n11mr24999228pjb.21.1561388459522;
+        Mon, 24 Jun 2019 08:00:59 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id e188sm1978374pfh.99.2019.06.24.08.00.58
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 24 Jun 2019 08:00:58 -0700 (PDT)
+Date:   Mon, 24 Jun 2019 08:00:57 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
         dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
         linux-media@vger.kernel.org, kvm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        linux-kselftest@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
         Yishai Hadas <yishaih@mellanox.com>,
         Felix Kuehling <Felix.Kuehling@amd.com>,
         Alexander Deucher <Alexander.Deucher@amd.com>,
@@ -84,111 +78,76 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v18 09/15] drm/amdgpu: untag user pointers
+Message-ID: <201906240800.5677E3CF@keescook>
+References: <cover.1561386715.git.andreyknvl@google.com>
+ <1d036fc5bec4be059ee7f4f42bf7417dc44651dd.1561386715.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d036fc5bec4be059ee7f4f42bf7417dc44651dd.1561386715.git.andreyknvl@google.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch is a part of a series that extends kernel ABI to allow to pass
-tagged user pointers (with the top byte set to something else other than
-0x00) as syscall arguments.
+On Mon, Jun 24, 2019 at 04:32:54PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends kernel ABI to allow to pass
+> tagged user pointers (with the top byte set to something else other than
+> 0x00) as syscall arguments.
+> 
+> In amdgpu_gem_userptr_ioctl() and amdgpu_amdkfd_gpuvm.c/init_user_pages()
+> an MMU notifier is set up with a (tagged) userspace pointer. The untagged
+> address should be used so that MMU notifiers for the untagged address get
+> correctly matched up with the right BO. This patch untag user pointers in
+> amdgpu_gem_userptr_ioctl() for the GEM case and in amdgpu_amdkfd_gpuvm_
+> alloc_memory_of_gpu() for the KFD case. This also makes sure that an
+> untagged pointer is passed to amdgpu_ttm_tt_get_user_pages(), which uses
+> it for vma lookups.
+> 
+> Suggested-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-This patch adds a simple test, that calls the uname syscall with a
-tagged user pointer as an argument. Without the kernel accepting tagged
-user pointers the test fails with EFAULT.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++
- tools/testing/selftests/arm64/tags_test.c     | 29 +++++++++++++++++++
- 4 files changed, 53 insertions(+)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
+-Kees
 
-diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
-new file mode 100644
-index 000000000000..e8fae8d61ed6
---- /dev/null
-+++ b/tools/testing/selftests/arm64/.gitignore
-@@ -0,0 +1 @@
-+tags_test
-diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
-new file mode 100644
-index 000000000000..a61b2e743e99
---- /dev/null
-+++ b/tools/testing/selftests/arm64/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# ARCH can be overridden by the user for cross compiling
-+ARCH ?= $(shell uname -m 2>/dev/null || echo not)
-+
-+ifneq (,$(filter $(ARCH),aarch64 arm64))
-+TEST_GEN_PROGS := tags_test
-+TEST_PROGS := run_tags_test.sh
-+endif
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
-new file mode 100755
-index 000000000000..745f11379930
---- /dev/null
-+++ b/tools/testing/selftests/arm64/run_tags_test.sh
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+echo "--------------------"
-+echo "running tags test"
-+echo "--------------------"
-+./tags_test
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+else
-+	echo "[PASS]"
-+fi
-diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
-new file mode 100644
-index 000000000000..22a1b266e373
---- /dev/null
-+++ b/tools/testing/selftests/arm64/tags_test.c
-@@ -0,0 +1,29 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <stdint.h>
-+#include <sys/prctl.h>
-+#include <sys/utsname.h>
-+
-+#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
-+#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
-+					SHIFT_TAG(tag))
-+
-+int main(void)
-+{
-+	static int tbi_enabled = 0;
-+	struct utsname *ptr, *tagged_ptr;
-+	int err;
-+
-+	if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0) == 0)
-+		tbi_enabled = 1;
-+	ptr = (struct utsname *)malloc(sizeof(*ptr));
-+	if (tbi_enabled)
-+		tagged_ptr = (struct utsname *)SET_TAG(ptr, 0x42);
-+	err = uname(tagged_ptr);
-+	free(ptr);
-+
-+	return err;
-+}
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c          | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index a6e5184d436c..5d476e9bbc43 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -1108,7 +1108,7 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+>  		alloc_flags = 0;
+>  		if (!offset || !*offset)
+>  			return -EINVAL;
+> -		user_addr = *offset;
+> +		user_addr = untagged_addr(*offset);
+>  	} else if (flags & ALLOC_MEM_FLAGS_DOORBELL) {
+>  		domain = AMDGPU_GEM_DOMAIN_GTT;
+>  		alloc_domain = AMDGPU_GEM_DOMAIN_CPU;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index d4fcf5475464..e91df1407618 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -287,6 +287,8 @@ int amdgpu_gem_userptr_ioctl(struct drm_device *dev, void *data,
+>  	uint32_t handle;
+>  	int r;
+>  
+> +	args->addr = untagged_addr(args->addr);
+> +
+>  	if (offset_in_page(args->addr | args->size))
+>  		return -EINVAL;
+>  
+> -- 
+> 2.22.0.410.gd8fdbe21b5-goog
+> 
+
 -- 
-2.22.0.410.gd8fdbe21b5-goog
-
+Kees Cook
