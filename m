@@ -2,83 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 848C350478
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 10:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D64A505F1
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 11:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727797AbfFXIYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jun 2019 04:24:51 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36419 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727610AbfFXIYv (ORCPT
+        id S1728294AbfFXJkJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jun 2019 05:40:09 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52196 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725881AbfFXJkJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jun 2019 04:24:51 -0400
-Received: by mail-oi1-f193.google.com with SMTP id w7so9133959oic.3;
-        Mon, 24 Jun 2019 01:24:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E3jCh9qUklT3VCdUR4q5N7iJlMFpI9mrn5VA3gt3u1Q=;
-        b=MnZu01btG3wcO2YMqLdoORJUAWYdRdKzZwY6jorkGpGZrJfHlyrfvPTQ/N7IjjA5i4
-         4N6FTMwOMwjeikBX+1SXXZVcK8GfgNxp7GnKn5EAM5+ibiXWhomVZUI9kHb5GZjWYoA6
-         AVAUXW/GrEscaOGQEZ5D/gNet0CMNEbruv7EJlsVRDE+8jue5TDybEAxKqUVgFKpTSKu
-         c8LtW+fKCblV3NDS6BzNX0XpIXPLZJHdhAwAEjrp1mhrcCeTR0O6AnARNNmF3vvAQvel
-         MjC0Q03SaPqLcMi9aBz9V4K9LFHX09kdpX/0J1SehBeZfog4ARHlwGe+6RmwQGK9P4SP
-         ZTCw==
-X-Gm-Message-State: APjAAAWAOV28HMzgCdf12WOmsLM/TeMuub/Z/LTwNHXV4yQQGMZfepxZ
-        E8iu7OKM79yRIXXO2OqwRuS/savWOsQBsNtWE0A=
-X-Google-Smtp-Source: APXvYqzihRzgJI6Da1fwwk1b1HGBA/zUomwyKzrCy+m8mKILFeJn7sVYCPUgKweMXBaGhKY1tN+WrtikhqcJ1qQV7kw=
-X-Received: by 2002:aca:5a41:: with SMTP id o62mr10256802oib.110.1561364690094;
- Mon, 24 Jun 2019 01:24:50 -0700 (PDT)
+        Mon, 24 Jun 2019 05:40:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SQGku99uBgbU7ma59D3XS3nWDVO1r+EpJl/3CtZ3/N0=; b=UXXV/FCTkYY4tDQstf35czmEu
+        HoKMp2KEqqW32I1D3m08tCAUVFTQdpB8EJJ7PALxvC10iL6GnkwQOupXW46r2Et8rLiCqgV6TjPge
+        pgUnWPKQjSlj8Zv1gcFk4AzmM+TV2MpY0k01uC5oNM4nSP6SkpVwYViVwK2n+I/SL2X3Q3jZr17ig
+        rDXf2S91eztUD7UmqtrN1OG5Lth3fgIp6g5hqatYrH5qEgLGODCQ2tw4LmPouM4BYhAkH7N71NR5C
+        /pQ+g6B5jUMuo2ABLKZcY3to968zK5+g13rM8+Fa3mgsO5GGge0OjhGK497rEfhtitCIedgHEx0eM
+        eQQszieKw==;
+Received: from [179.95.45.115] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hfLSJ-00062B-PH; Mon, 24 Jun 2019 09:40:08 +0000
+Date:   Mon, 24 Jun 2019 06:40:04 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        helen.koike@collabora.com, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] media: vimc: stream: format comments as kernel-doc
+Message-ID: <20190624064004.224cccfb@coco.lan>
+In-Reply-To: <a1973442-5ccb-5ba3-e508-132514b6e83e@collabora.com>
+References: <20190623164024.9836-1-andrealmeid@collabora.com>
+        <20190623164024.9836-3-andrealmeid@collabora.com>
+        <a1973442-5ccb-5ba3-e508-132514b6e83e@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190624035807.20628-1-standby24x7@gmail.com>
-In-Reply-To: <20190624035807.20628-1-standby24x7@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 24 Jun 2019 10:24:36 +0200
-Message-ID: <CAJZ5v0gsbLQz9-AD-891viTqxcuoDOZrrPUELXBsYgWExP3OgQ@mail.gmail.com>
-Subject: Re: [PATCH] node: Fix warning while make xmldocs
-To:     Masanari Iida <standby24x7@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 5:58 AM Masanari Iida <standby24x7@gmail.com> wrote:
->
-> This patch fixes following warning while make xmldocs.
-> ./drivers/base/node.c:690: warning: Excess function parameter
->  'mem_node' description in 'register_memory_node_under_compute_node'
-> ./drivers/base/node.c:690: warning: Excess function parameter
->  'cpu_node' description in 'register_memory_node_under_compute_node'
->
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+Em Sun, 23 Jun 2019 18:27:22 -0300
+Andr=C3=A9 Almeida <andrealmeid@collabora.com> escreveu:
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> On 6/23/19 1:40 PM, Andr=C3=A9 Almeida wrote:
 
-> ---
->  drivers/base/node.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/base/node.c b/drivers/base/node.c
-> index d8c02e65df68..944ee45d122f 100644
-> --- a/drivers/base/node.c
-> +++ b/drivers/base/node.c
-> @@ -673,8 +673,8 @@ int register_cpu_under_node(unsigned int cpu, unsigned int nid)
->  /**
->   * register_memory_node_under_compute_node - link memory node to its compute
->   *                                          node for a given access class.
-> - * @mem_node:  Memory node number
-> - * @cpu_node:  Cpu  node number
-> + * @mem_nid:   Memory node identifier
-> + * @cpu_nid:   Cpu  node identifier
->   * @access:    Access class to register
->   *
->   * Description:
-> --
-> 2.22.0.190.ga6a95cd1b46e
->
+> > - * Calls s_stream to enable stream in all entities of the pipeline.
+> > + * Calls ``vimc_streamer_s_stream`` to enable stream in all entities o=
+f =20
+> ``vimc_streamer_s_stream`` could also been written as
+> :c:func:`vimc_streamer_s_stream`. In this latest setup, the
+> Documentation output would display a nice hyperlink to the documentation
+> of=C2=A0 vimc_streamer_s_stream function. Is this a good improvement or it
+> will be too verbose?
+
+The best would be to use: vimc_streamer_s_stream(). Kernel-doc already
+handles it (don't remember if it uses :c:func:, but I guess it does),
+and this is the recommended way.
+
+Anyway, there's a patch under discussion right now at Linux docs ML that=20
+will auto-replace these to :c:func`` automatically, not only on kernel-doc
+tags, but also within the .rst files. It should be able to recognize
+existing :c:func: tags, so no harm done if it is there somewhere.
+
+Thanks,
+Mauro
