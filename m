@@ -2,75 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23FA151BE2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 22:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF09C51D7E
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 23:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731307AbfFXUDQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jun 2019 16:03:16 -0400
-Received: from smtp03.smtpout.orange.fr ([80.12.242.125]:37884 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731301AbfFXUDQ (ORCPT
+        id S1728365AbfFXV6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jun 2019 17:58:09 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54186 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726372AbfFXV6I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jun 2019 16:03:16 -0400
-Received: from belgarion ([86.210.207.101])
-        by mwinf5d57 with ME
-        id Uk3C2000K2BnxPa03k3CLv; Mon, 24 Jun 2019 22:03:14 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Mon, 24 Jun 2019 22:03:14 +0200
-X-ME-IP: 86.210.207.101
-From:   Robert Jarzmik <robert.jarzmik@free.fr>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: mt9m111: fix fw-node refactoring
-References: <20190603200155.24358-1-robert.jarzmik@free.fr>
-        <20190620101717.7h2hczachuk2rjr6@valkosipuli.retiisi.org.uk>
-        <20190620123509.7pssbcqjqcnh3kmc@valkosipuli.retiisi.org.uk>
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Mon, 24 Jun 2019 22:03:12 +0200
-In-Reply-To: <20190620123509.7pssbcqjqcnh3kmc@valkosipuli.retiisi.org.uk>
-        (Sakari Ailus's message of "Thu, 20 Jun 2019 15:35:09 +0300")
-Message-ID: <8736jyycn3.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+        Mon, 24 Jun 2019 17:58:08 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1hfWyS-0007FY-EG; Mon, 24 Jun 2019 21:58:04 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: vivid: fix potential integer overflow on left shift
+Date:   Mon, 24 Jun 2019 22:58:04 +0100
+Message-Id: <20190624215804.12122-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sakari Ailus <sakari.ailus@iki.fi> writes:
+From: Colin Ian King <colin.king@canonical.com>
 
-> On Thu, Jun 20, 2019 at 01:17:17PM +0300, Sakari Ailus wrote:
->> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
->> index bd3a51c3b081..9761a6105407 100644
->> --- a/drivers/media/i2c/mt9m111.c
->> +++ b/drivers/media/i2c/mt9m111.c
->> @@ -1263,9 +1263,11 @@ static int mt9m111_probe(struct i2c_client *client,
->>  	if (!mt9m111)
->>  		return -ENOMEM;
->>  
->> -	ret = mt9m111_probe_fw(client, mt9m111);
->> -	if (ret)
->> -		return ret;
->> +	if (dev_fwnode(client->dev)) {
->
-> &client->dev
->
->> +		ret = mt9m111_probe_fw(client, mt9m111);
->> +		if (ret)
->> +			return ret;
->> +	}
->>  
->>  	mt9m111->clk = v4l2_clk_get(&client->dev, "mclk");
->>  	if (IS_ERR(mt9m111->clk))
+There is a potential integer overflow when int 2 is left shifted
+as this is evaluated using 32 bit arithmetic but is being used in
+a context that expects an expression of type s64.  Fix this by
+shifting 2ULL to avoid a 32 bit overflow.
 
-Sure, you can take the patch as yours, or sign off my modified patch, whatever
-pleases you.
+Addresses-Coverity: ("Unintentional integer overflow")
+Fixes: 8a99e9faa131 ("media: vivid: add HDMI (dis)connect RX emulation")
+Fixes: 79a792dafac6 ("media: vivid: add HDMI (dis)connect TX emulation")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/media/platform/vivid/vivid-ctrls.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Cheers.
-
+diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
+index 3e916c8befb7..8f340cfd6993 100644
+--- a/drivers/media/platform/vivid/vivid-ctrls.c
++++ b/drivers/media/platform/vivid/vivid-ctrls.c
+@@ -1634,8 +1634,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 			0, V4L2_DV_RGB_RANGE_AUTO);
+ 		dev->ctrl_rx_power_present = v4l2_ctrl_new_std(hdl_vid_cap,
+ 			NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0,
+-			(2 << (dev->num_hdmi_inputs - 1)) - 1, 0,
+-			(2 << (dev->num_hdmi_inputs - 1)) - 1);
++			(2ULL << (dev->num_hdmi_inputs - 1)) - 1, 0,
++			(2ULL << (dev->num_hdmi_inputs - 1)) - 1);
+ 
+ 	}
+ 	if (dev->num_hdmi_outputs) {
+@@ -1653,16 +1653,16 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 			&vivid_ctrl_display_present, NULL);
+ 		dev->ctrl_tx_hotplug = v4l2_ctrl_new_std(hdl_vid_out,
+ 			NULL, V4L2_CID_DV_TX_HOTPLUG, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1);
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1, 0,
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1);
+ 		dev->ctrl_tx_rxsense = v4l2_ctrl_new_std(hdl_vid_out,
+ 			NULL, V4L2_CID_DV_TX_RXSENSE, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1);
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1, 0,
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1);
+ 		dev->ctrl_tx_edid_present = v4l2_ctrl_new_std(hdl_vid_out,
+ 			NULL, V4L2_CID_DV_TX_EDID_PRESENT, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
+-			(2 << (dev->num_hdmi_outputs - 1)) - 1);
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1, 0,
++			(2ULL << (dev->num_hdmi_outputs - 1)) - 1);
+ 	}
+ 	if ((dev->has_vid_cap && dev->has_vid_out) ||
+ 	    (dev->has_vbi_cap && dev->has_vbi_out))
 -- 
-Robert
+2.20.1
+
