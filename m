@@ -2,100 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 602C7509DA
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 13:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C2A50AA7
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 14:27:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbfFXLg6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jun 2019 07:36:58 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:39513 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727608AbfFXLg5 (ORCPT
+        id S1728204AbfFXM1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jun 2019 08:27:21 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48160 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726700AbfFXM1V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jun 2019 07:36:57 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 5961CC000E;
-        Mon, 24 Jun 2019 11:36:55 +0000 (UTC)
-Message-ID: <49c8fc2dade79b62a3e0cffc61c484f295cb3181.camel@hadess.net>
-Subject: Re: Remote "Mouse mode" buttons, Keycode choices, etc.
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-media@vger.kernel.org
-Date:   Mon, 24 Jun 2019 13:36:54 +0200
-In-Reply-To: <20190622175621.GC30317@amd>
-References: <e1c968df516b751769765e0b0947caea607e7b7f.camel@hadess.net>
-         <20190616165818.GA23022@xo-6d-61-c0.localdomain>
-         <212f7db1f2d0b88a749bf3378bfaf3185590b6db.camel@hadess.net>
-         <20190622175621.GC30317@amd>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        Mon, 24 Jun 2019 08:27:21 -0400
+Received: from [IPv6:2804:431:d719:dd85:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:d719:dd85:d711:794d:1c68:5ed3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tonyk)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DB2C6260FDB;
+        Mon, 24 Jun 2019 13:27:17 +0100 (BST)
+Subject: Re: [PATCH 3/5] media: vimc: stream: format comments as kernel-doc
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        helen.koike@collabora.com, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+References: <20190623164024.9836-1-andrealmeid@collabora.com>
+ <20190623164024.9836-3-andrealmeid@collabora.com>
+ <a1973442-5ccb-5ba3-e508-132514b6e83e@collabora.com>
+ <20190624064004.224cccfb@coco.lan>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <2f22c431-3de4-f25d-66b3-9a7ba69d1176@collabora.com>
+Date:   Mon, 24 Jun 2019 09:26:38 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190624064004.224cccfb@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 2019-06-22 at 19:56 +0200, Pavel Machek wrote:
-> On Fri 2019-06-21 13:39:39, Bastien Nocera wrote:
-> > On Sun, 2019-06-16 at 18:58 +0200, Pavel Machek wrote:
-> > > Hi!
-> > > 
-> > > > I dug out a fair bunch of remote controls I got around 10 years
-> > > > ago[1],
-> > > > and started trying them all out.
-> > > > 
-> > > > I bumped into a couple of problems:
-> > > > 
-> > > > - the Snapstream Firefly remote ([2] using the rc-snapstream-
-> > > > firefly
-> > > > keymap and the ati_remote protocol) creates 2 input device
-> > > > nodes,
-> > > > one
-> > > > for the remote keys, one for the mouse mode. The mouse button
-> > > > on
-> > > > the
-> > > > remote just sends KEY_MODE, and doesn't change the mode,
-> > > > nothing is
-> > > > ever sent on the mouse device node
-> > > > 
-> > > > - the Streamzap remote ([3]) uses KEY_NUMERIC_[0-9] keycodes,
-> > > > just
-> > > > like
-> > > > a small minority of other devices. Is there any reason for them
-> > > > not
-> > > > to
-> > > > use KEY_[0-9] instead? Or for all of them to use KEY_NUMERIC_*,
-> > > > for
-> > > > consistencies' sake. I can send patches for those.
-> > > 
-> > > This may be a bit of fun; consistency is good but this will
-> > > change
-> > > behaviour for people,
-> > > right?
-> > > 
-> > > So.. be careful :-).
-> > 
-> > I'm not really sure how one can be "careful" doing that.
-> 
-> You could do an config option and then pretend breakage is user
-> decision, for example.
-> 
-> Or better just change it and see what happens.
 
-Patch sent :)
+On 6/24/19 6:40 AM, Mauro Carvalho Chehab wrote:
+> Em Sun, 23 Jun 2019 18:27:22 -0300
+> André Almeida <andrealmeid@collabora.com> escreveu:
+>
+>> On 6/23/19 1:40 PM, André Almeida wrote:
+>>> - * Calls s_stream to enable stream in all entities of the pipeline.
+>>> + * Calls ``vimc_streamer_s_stream`` to enable stream in all entities of  
+>> ``vimc_streamer_s_stream`` could also been written as
+>> :c:func:`vimc_streamer_s_stream`. In this latest setup, the
+>> Documentation output would display a nice hyperlink to the documentation
+>> of  vimc_streamer_s_stream function. Is this a good improvement or it
+>> will be too verbose?
+> The best would be to use: vimc_streamer_s_stream(). Kernel-doc already
+> handles it (don't remember if it uses :c:func:, but I guess it does),
+> and this is the recommended way.
+Just tested here, and worked fine. I'll send a v2 using this style.
+>
+> Anyway, there's a patch under discussion right now at Linux docs ML that 
+> will auto-replace these to :c:func`` automatically, not only on kernel-doc
+> tags, but also within the .rst files. It should be able to recognize
+> existing :c:func: tags, so no harm done if it is there somewhere.
+>
+> Thanks,
+> Mauro
 
-> > You can check this patch to lirc from 2008 to see what it might end
-> > up
-> > looking like ;)
-> > https://people.redhat.com/bnocera/lirc-fix-remote-keycodes.patch
-> > 
-> > It doesn't really answer my question about whether this discrepancy
-> > was
-> > intended though.
-> 
-> Probably not intended.
-> 									
-> Pavel
+Thanks,
+    André
 
