@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C18950BB8
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 15:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38DDC50BFB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2019 15:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729059AbfFXNTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Jun 2019 09:19:09 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:16331 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728666AbfFXNTI (ORCPT
+        id S1729346AbfFXN0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Jun 2019 09:26:14 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:32847 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729145AbfFXN0O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Jun 2019 09:19:08 -0400
-X-UUID: 0a3b467b95cd41a09f5c64c244d5a09b-20190624
-X-UUID: 0a3b467b95cd41a09f5c64c244d5a09b-20190624
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        Mon, 24 Jun 2019 09:26:14 -0400
+X-UUID: a777dc52bea2418e912fc1a0167ce8fe-20190624
+X-UUID: a777dc52bea2418e912fc1a0167ce8fe-20190624
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
         (envelope-from <jerry-ch.chen@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 2126671364; Mon, 24 Jun 2019 21:18:55 +0800
+        with ESMTP id 275547609; Mon, 24 Jun 2019 21:25:57 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 24 Jun 2019 21:18:48 +0800
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 24 Jun 2019 21:25:50 +0800
 Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 24 Jun 2019 21:18:48 +0800
-Message-ID: <1561382328.15267.172.camel@mtksdccf07>
+ Transport; Mon, 24 Jun 2019 21:25:50 +0800
+Message-ID: <1561382750.15267.179.camel@mtksdccf07>
 Subject: Re: [RFC PATCH V1 6/6] platform: mtk-isp: Add Mediatek FD driver
 From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
 To:     Tomasz Figa <tfiga@chromium.org>
@@ -58,7 +58,7 @@ CC:     "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "shik@chromium.org" <shik@chromium.org>,
         "suleiman@chromium.org" <suleiman@chromium.org>
-Date:   Mon, 24 Jun 2019 21:18:48 +0800
+Date:   Mon, 24 Jun 2019 21:25:50 +0800
 In-Reply-To: <20190606104347.GA107267@chromium.org>
 References: <20190423104505.38778-1-Jerry-Ch.chen@mediatek.com>
          <20190423104505.38778-7-Jerry-Ch.chen@mediatek.com>
@@ -67,6 +67,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 4EF13F9E0776B529267AB16A15078EBC548C423219499B10D09D4C692D34FDAF2000:8
 X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -108,7 +109,6 @@ On Thu, 2019-06-06 at 18:43 +0800, Tomasz Figa wrote:
 > 
 > Also please see my comments inline.
 > 
-
 I appreciate your comments,
 
 FD driver will be implemented as a normal V4L2 m2m driver which has an
@@ -160,6 +160,7 @@ May we ask for your suggestions about this part?
 > the smem stuff, which should go away.)
 > 
 Ok, we will fix it.
+
 > >  9 files changed, 3355 insertions(+)
 > >  create mode 100644 drivers/media/platform/mtk-isp/Makefile
 > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Makefile
@@ -195,6 +196,8 @@ Ok, we will fix it.
 > There is no value in having "SUPPORT" in the Kconfig symbol name. It just
 > makes it unnecessarily long.
 > 
+Ok, we will fix it.
+
 > > +obj-y += fd/
 > > +endif
 > 
@@ -203,8 +206,6 @@ Ok, we will fix it.
 > 
 > Also, the driver should be compilable as a module too.
 > 
-Ok, we will fix it.
-
 > > diff --git a/drivers/media/platform/mtk-isp/fd/Makefile b/drivers/media/platform/mtk-isp/fd/Makefile
 > > new file mode 100644
 > > index 000000000000..f2b64cf53da9
@@ -370,8 +371,7 @@ Fixed.
 > This looks like a copy/paste from the DIP driver. Please merge the 3
 > structures above into 1 as suggested in review of that driver.
 > 
-Ok, we will fix it.
-
+Ok, will be fixed in next patch.
 > [snip]
 > > diff --git a/drivers/media/platform/mtk-isp/fd/mtk_fd-hw.h b/drivers/media/platform/mtk-isp/fd/mtk_fd-hw.h
 > > new file mode 100644
@@ -435,8 +435,6 @@ Ok, we will fix it.
 > 
 > Judging by the name, why not just use usecs_to_jiffies()?
 > 
-Fixed. Using usecs_to_jiffies() instead.
-
 > [snip]
 > > diff --git a/drivers/media/platform/mtk-isp/fd/mtk_fd-smem.h b/drivers/media/platform/mtk-isp/fd/mtk_fd-smem.h
 > > new file mode 100644
@@ -466,17 +464,12 @@ Fixed. Using usecs_to_jiffies() instead.
 > Please remove this custom smem thing as we should just use dma_alloc_*()
 > from the right struct device attached to the right reserved memory pool.
 > 
-FD driver may not need smem things after we use v4l2 control to replace
-the META_OUTPUT queuues.
-
 > [snip]
 > > +static int mtk_fd_videoc_enum_fmt(struct file *file, void *fh,
 > > +				  struct v4l2_fmtdesc *f)
 > 
 > It's "vidioc".
 > 
-Fixed.
-
 > > +{
 > > +	struct mtk_fd_video_device *node = mtk_fd_file_to_node(file);
 > > +
@@ -485,8 +478,6 @@ Fixed.
 > 
 > No need to check the type.
 > 
-Ok, we will fix it.
-
 > > +		return -EINVAL;
 > > +
 > > +	strscpy(f->description, node->desc->description,
@@ -504,8 +495,6 @@ Ok, we will fix it.
 > Please name the functions consistently. Above it has the vidioc prefix (with
 > typo) and enum_fmt, but here it doesn't have a prefix and is enum_format.
 > 
-Renamed to mtk_fd_vidioc_enum_meta_format.
-
 > > +{
 > > +	struct mtk_fd_video_device *node = mtk_fd_file_to_node(file);
 > > +
@@ -514,8 +503,6 @@ Renamed to mtk_fd_vidioc_enum_meta_format.
 > There is no need to check the type, as the core should already check it for
 > you.
 > 
-Ok, we will fix it.
-
 > > +		return -EINVAL;
 > > +
 > > +	strscpy(f->description, node->desc->description,
@@ -525,7 +512,6 @@ Ok, we will fix it.
 > 
 > Also set flags to 0.
 > 
-Fixed.
 > > +
 > > +	return 0;
 > > +}
