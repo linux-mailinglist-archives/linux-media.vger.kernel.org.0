@@ -2,238 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D64654DC8
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 13:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9702454DEC
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 13:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730827AbfFYLft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 07:35:49 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:21339 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727770AbfFYLft (ORCPT
+        id S1728527AbfFYLsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 07:48:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43754 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726524AbfFYLsc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 07:35:49 -0400
-X-UUID: b496fe072df747128483e8bbaa8a6713-20190625
-X-UUID: b496fe072df747128483e8bbaa8a6713-20190625
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <frederic.chen@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 241845985; Tue, 25 Jun 2019 19:35:40 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 25 Jun 2019 19:35:38 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 25 Jun 2019 19:35:38 +0800
-Message-ID: <1561462538.23799.19.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V1 6/6] platform: mtk-isp: Add Mediatek DIP driver
-From:   Frederic Chen <frederic.chen@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <yuzhao@chromium.org>, <zwisler@chromium.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        "Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?=" 
-        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Holmes Chiou =?UTF-8?Q?=28=E9=82=B1=E6=8C=BA=29?= 
-        <holmes.chiou@mediatek.com>,
-        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <Rynn.Wu@mediatek.com>,
-        "Linux Media Mailing List" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        <devicetree@vger.kernel.org>, Shik Chen <shik@chromium.org>,
-        <suleiman@chromium.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Date:   Tue, 25 Jun 2019 19:35:38 +0800
-In-Reply-To: <CAAFQd5Ai2JmwY+_inA-WkE1rKhTOyvJeLM8XG3E6BsYCrp4pnw@mail.gmail.com>
-References: <20190417104511.21514-1-frederic.chen@mediatek.com>
-         <20190417104511.21514-7-frederic.chen@mediatek.com>
-         <20190509094846.GA65444@google.com> <1558466055.15388.342.camel@mtksdccf07>
-         <1560242886.23799.13.camel@mtksdccf07>
-         <CAAFQd5CReiPOySyk-eFkgiQMDMoqB3Uhd=bcho2Qtsv74y8fmg@mail.gmail.com>
-         <1560247648.23799.16.camel@mtksdccf07>
-         <CAAFQd5Ai2JmwY+_inA-WkE1rKhTOyvJeLM8XG3E6BsYCrp4pnw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        Tue, 25 Jun 2019 07:48:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=hwfl45ANFHM3TXurUSVqZYEKWL59l7BrlEY6fMWf5p0=; b=IvONJ8NbKhjhLlhjw7TH76/ZF
+        jScOFAlXLSwLZsG8uA+JQh096RhUXDgTAi++Sn+Fukx7ijW7fxF7VjgItjSS8MkwWmuOjg6HvoDp8
+        /vPZhm4ZCKb4WQeEWngXzhuEaU3M7vRD+rx4DVru7sBVjbt9242tlstdRQ0T3ThFnVQ1z6j1EeV5l
+        Ao2UM4eD6jt4eCsFDlaX+gO2IDIqCQuHade5W1+ncUIw+Z0NkMd+U8d9PDcfi67to/a66Y+jMpee8
+        QidBkTbS9sRaQwO8zANAWwQYK9fHZNhqf2RpuSWtRpWe0pDkUZ7E8gToO3Cz/nHyopElYcHNYCQcN
+        Nk6j5RQQQ==;
+Received: from 177.205.71.220.dynamic.adsl.gvt.net.br ([177.205.71.220] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hfjw7-0002Of-JA; Tue, 25 Jun 2019 11:48:31 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hfjw4-00070R-Jn; Tue, 25 Jun 2019 08:48:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devel@driverdev.osuosl.org
+Subject: [PATCH] media: schedule removal for legacy staging drivers
+Date:   Tue, 25 Jun 2019 08:48:26 -0300
+Message-Id: <0fed8053f3f3a45762f2547c8ebc4e0d2728abd0.1561463295.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: A96D21B4832B5BB347BCC937165A0AD695ED92798361EA550FFEA438A530F48C2000:8
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Keeping legacy problematic code forever is not a good idea.
 
-On Tue, 2019-06-11 at 19:13 +0900, Tomasz Figa wrote:
-> On Tue, Jun 11, 2019 at 7:07 PM Frederic Chen
-> <frederic.chen@mediatek.com> wrote:
-> >
-> > Hi Tomasz,
-> >
-> >
-> > On Tue, 2019-06-11 at 17:59 +0900, Tomasz Figa wrote:
-> > > On Tue, Jun 11, 2019 at 5:48 PM Frederic Chen
-> > > <frederic.chen@mediatek.com> wrote:
-> > > >
-> > > > Dear Tomasz,
-> > > >
-> > > > I'd like to elaborate more about the tuning_data.va.
-> > > > Would you like to give us some advice about our improvement proposal inline?
-> > > >
-> > > > Thank you very much.
-> > > >
-> > > >
-> > > > On Wed, 2019-05-22 at 03:14 +0800, Frederic Chen wrote:
-> > > > > Dear Tomasz,
-> > > > >
-> > > > > I appreciate your comment. It is very helpful for us.
-> > > > >
-> > > > >
-> > > > > > > diff --git a/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c b/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..54d2b5f5b802
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c
-> > > > > > > @@ -0,0 +1,1384 @@
-> > > >
-> > > > [snip]
-> > > >
-> > > > > > > +static void dip_submit_worker(struct work_struct *work)
-> > > > > > > +{
-> > > > > > > +       struct mtk_dip_hw_submit_work *dip_submit_work =
-> > > > > > > +               container_of(work, struct mtk_dip_hw_submit_work, frame_work);
-> > > > > > > +       struct mtk_dip_hw *dip_hw = dip_submit_work->dip_hw;
-> > > > > > > +       struct mtk_dip_dev *dip_dev = mtk_dip_hw_to_dev(dip_hw);
-> > > > > > > +       struct mtk_dip_hw_work *dip_work;
-> > > > > > > +       struct mtk_dip_hw_subframe *buf;
-> > > > > > > +       u32 len, num;
-> > > > > > > +       int ret;
-> > > > > > > +
-> > > > > > > +       num  = atomic_read(&dip_hw->num_composing);
-> > > > > > > +
-> > > > > > > +       mutex_lock(&dip_hw->dip_worklist.queuelock);
-> > > > > > > +       dip_work = list_first_entry(&dip_hw->dip_worklist.queue,
-> > > >
-> > > > [snip]
-> > > >
-> > > > > > > +
-> > > > > > > +       if (dip_work->frameparams.tuning_data.pa == 0) {
-> > > > > > > +               dev_dbg(&dip_dev->pdev->dev,
-> > > > > > > +                       "%s: frame_no(%d) has no tuning_data\n",
-> > > > > > > +                       __func__, dip_work->frameparams.frame_no);
-> > > > > > > +
-> > > > > > > +               memcpy(&dip_work->frameparams.tuning_data,
-> > > > > > > +                      &buf->tuning_buf, sizeof(buf->tuning_buf));
-> > > > > >
-> > > > > > Ditto.
-> > > > > >
-> > > > >
-> > > > > I got it.
-> > > > >
-> > > > > > > +               memset((char *)buf->tuning_buf.va, 0, DIP_TUNING_SZ);
-> > > > > >
-> > > > > > Ditto.
-> > > > >
-> > > > > I got it.
-> > > > >
-> > > > > >
-> > > > > > > +               /*
-> > > > > > > +                * When user enqueued without tuning buffer,
-> > > > > > > +                * it would use driver internal buffer.
-> > > > > > > +                * So, tuning_data.va should be 0
-> > > > > > > +                */
-> > > > > > > +               dip_work->frameparams.tuning_data.va = 0;
-> > > > > >
-> > > > > > I don't understand this. We just zeroed the buffer via this kernel VA few
-> > > > > > lines above, so why would it have to be set to 0?
-> > > > > >
-> > > > >
-> > > > > I will remove this unnecessary line.
-> > > > >
-> > > > > > > +       }
-> > > >
-> > > > After confirming the firmware part, I found that we use this field
-> > > > (tuning_data.va) to notify firmware if there is no tuning data from
-> > > > user.
-> > > >
-> > > > - frameparams.tuning_data.va is 0: use the default tuning data in
-> > > >                                    SCP, but we still need to pass
-> > > >                                    frameparams.tuning_data.pa because
-> > > >                                    the buffer contains some working
-> > > >                                    buffer required.
-> > > > - frameparams.tuning_data.va is not 0: the tuning data was passed from
-> > > >                                        the user
-> > > >
-> > > > Since we should not pass cpu addres to SCP, could I rename tuning_data.va
-> > > > as tuning_data.cookie, and write a constant value to indicate if SCP
-> > > > should use its internal default setting or not here?
-> > > >
-> > > > For example,
-> > > > /* SCP uses tuning data passed from userspace*/
-> > > > dip_work->frameparams.tuning_data.cookie = MTK_DIP_USER_TUNING_DATA;
-> > > >
-> > > > /* SCP uses internal tuning data */
-> > > > dip_work->frameparams.tuning_data.cookie = MTK_DIP_DEFAULT_TUNING_DATA;
-> > >
-> > > Perhaps we could just call it "present" and set to true or false?
-> > >
-> >
-> > Yes. I would like to use "present" here.
-> >
-> > Original:
-> >   struct img_addr {
-> >       u64 va; /* Used by Linux OS access */
-> >       u32 pa; /* Used by CM4 access */
-> >       u32 iova; /* Used by IOMMU HW access */
-> >   } __attribute__ ((__packed__));
-> >
-> >   struct img_ipi_frameparam {
-> >       u32 index;
-> >       u32 frame_no;
-> >       u64 timestamp;
-> >       u8 type;  /* enum mdp_stream_type */
-> >       u8 state;
-> >       u8 num_inputs;
-> >       u8 num_outputs;
-> >       u64 drv_data;
-> >       struct img_input inputs[IMG_MAX_HW_INPUTS];
-> >       struct img_output outputs[IMG_MAX_HW_OUTPUTS];
-> >       struct img_addr tuning_data;
-> >       struct img_addr subfrm_data;
-> >       struct img_sw_addr config_data;
-> >       struct img_sw_addr self_data;
-> >   } __attribute__ ((__packed__));
-> >
-> >
-> > Modified:
-> >   struct tuning_buf {
-> >       u8 present;
-> 
-> I'd make this u32 to keep the other fields aligned.
-> 
-> >       u32 pa;   /* Used by CM4 access */
-> >       u32 iova; /* Used by IOMMU HW access */
-> >   } __attribute__ ((__packed__));
-> 
+So, let's schedule a date for those legacy stuff to rest in piece.
 
-We will use u32 to keep the fields aligned in next patch.
+If someone wants to steps up and take them from the staging ostracism
+and do give them a rejuvenation shower in order to address the
+isues pointed on their TODO lists, be our guest!
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/staging/media/bcm2048/TODO      | 6 ++++++
+ drivers/staging/media/davinci_vpfe/TODO | 7 +++++++
+ drivers/staging/media/omap4iss/TODO     | 7 +++++++
+ drivers/staging/media/soc_camera/TODO   | 9 +++++++++
+ 4 files changed, 29 insertions(+)
 
-> Best regards,
-> Tomasz
-
-
-Sincerely,
-
-Frederic Chen
+diff --git a/drivers/staging/media/bcm2048/TODO b/drivers/staging/media/bcm2048/TODO
+index 6bee2a2dad68..478984672c9b 100644
+--- a/drivers/staging/media/bcm2048/TODO
++++ b/drivers/staging/media/bcm2048/TODO
+@@ -1,3 +1,9 @@
++NOTE:
++   The bcm2048 driver fixes on this TODO were not addressed yet.
++   It has been a long time since the last related change.
++   Unless someone steps up addressing those, this driver is
++   scheduled to be removed for Kernel 5.4.
++
+ TODO:
+ 
+ From the initial code review:
+diff --git a/drivers/staging/media/davinci_vpfe/TODO b/drivers/staging/media/davinci_vpfe/TODO
+index cc8bd9306f2a..9d4577a911c9 100644
+--- a/drivers/staging/media/davinci_vpfe/TODO
++++ b/drivers/staging/media/davinci_vpfe/TODO
+@@ -1,3 +1,10 @@
++NOTE:
++   The davinci_vpfe driver fixes on this TODO were not addressed yet.
++   It has been a long time since the last related change.
++   Unless someone steps up addressing those, this driver is
++   scheduled to be removed for Kernel 5.4.
++
++
+ TODO (general):
+ ==================================
+ 
+diff --git a/drivers/staging/media/omap4iss/TODO b/drivers/staging/media/omap4iss/TODO
+index 4d220ef82653..fb90be3c1f32 100644
+--- a/drivers/staging/media/omap4iss/TODO
++++ b/drivers/staging/media/omap4iss/TODO
+@@ -1,3 +1,10 @@
++NOTE:
++   The omap4iss driver fixes on this TODO were not addressed yet.
++   It has been a long time since the last related change.
++   Unless someone steps up addressing those, this driver is
++   scheduled to be removed for Kernel 5.4.
++
++
+ * Fix FIFO/buffer overflows and underflows
+ * Replace dummy resizer code with a real implementation
+ * Fix checkpatch errors and warnings
+diff --git a/drivers/staging/media/soc_camera/TODO b/drivers/staging/media/soc_camera/TODO
+index 932af6443b67..677dcdc1de61 100644
+--- a/drivers/staging/media/soc_camera/TODO
++++ b/drivers/staging/media/soc_camera/TODO
+@@ -1,3 +1,12 @@
++NOTE:
++   The old drivers that depends on SoC camera framework require
++   conversion. We're not accepting any patches that are doing just
++   checkpatch or style fixes before such conversion.
++
++   If nobody steps up addressing those, this driver is scheduled to be
++   removed for Kernel 5.5.
++
++
+ The SoC camera framework is obsolete and scheduled for removal in the near
+ future. Developers are encouraged to convert the drivers to use the
+ regular V4L2 API if these drivers are still needed (and if someone has the
+-- 
+2.21.0
 
