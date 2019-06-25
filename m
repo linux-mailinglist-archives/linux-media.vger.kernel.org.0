@@ -2,126 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B48F523FA
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 09:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3E652429
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 09:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbfFYHHt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 03:07:49 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46299 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726397AbfFYHHt (ORCPT
+        id S1727034AbfFYHQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 03:16:02 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47693 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726779AbfFYHQB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 03:07:49 -0400
+        Tue, 25 Jun 2019 03:16:01 -0400
 Received: from [192.168.2.10] ([46.9.252.75])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id ffYOhO6AvF85OffYRhchmM; Tue, 25 Jun 2019 09:07:47 +0200
-Subject: [PATCHv8.1 01/13] cec-notifier: rename variables, check kstrdup and
- n->conn_name
-To:     linux-media@vger.kernel.org
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org,
-        Cheng-yi Chiang <cychiang@chromium.org>
-References: <20190624160330.38048-1-hverkuil-cisco@xs4all.nl>
- <20190624160330.38048-2-hverkuil-cisco@xs4all.nl>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <bb646980-1370-305f-4713-de3ce9a66f11@xs4all.nl>
-Date:   Tue, 25 Jun 2019 09:07:44 +0200
+        id ffgKhOAc3F85OffgNhckI0; Tue, 25 Jun 2019 09:16:00 +0200
+Subject: Re: [PATCH v2 1/1] staging: media: fix style problem
+To:     Aliasgar Surti <aliasgar.surti500@gmail.com>,
+        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+References: <1561091693-18427-1-git-send-email-aliasgar.surti500@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6da132f6-9dca-d340-b237-3aed580a8d3a@xs4all.nl>
+Date:   Tue, 25 Jun 2019 09:15:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190624160330.38048-2-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <1561091693-18427-1-git-send-email-aliasgar.surti500@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA1P0iasV3W6n3T4DHGY+SoAt8ggAAuDAuGnrH1xR4BJh/OIid1tz3Q+Ub7MdLY/3eaPrZtaunghFYQMSWw0+uzpxAcGt6d3zryKNUVpqIO9msWihqjy
- 0giwO0Q1HI0LSu9q4/A+28l+jjcs+jfwVctambJGemvIbt7UNiFMpOj8NrIl8AxPHSHmTBAhig7oA+32nAlbrdPvBZBc+5BepKFvTxWWdVcpvt1dpiROuR69
- xtWalsBOk1u0tBuYVJugf6Aex3rKnbVosteRzRLI8ekzLswOJ9mZRx0SRbd6URhG
+X-CMAE-Envelope: MS4wfBUVUrEucL4EH4258ivfjz5MGaJRgSBJZU9KXqoSotm9E/VjPeHVYQmf/5jZKHlZinHEtFrVCcZQzB+ogetz5EYgOp9636TAGfHk6gaRN9KigrZ8pEjF
+ sSBletQ44ikkegUqX0FcUY00B8Yr0Ozmlg92mRHZMclkHDFrmOtzNN/46ox+bU+R8jDA2beW1gsT8Uq33fXsEOM6rlyvwQgG1bc2rINGvu3BeU6ArURaN68v
+ OLFbTa3/q+0bHbbrlJRgJClBmycW6jKJqSSPTDgmavIPCAXGrr8Yj0KEn+Yo9X/Y
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dev -> hdmi_dev
-conn -> conn_name
+Hi Aliasgar,
 
-Check if n->conn_name is not NULL before calling strcmp.
-Check the result of kstrdup, and clean up on error.
+Please state the driver in question in the Subject. So:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Changes since v8:
+[PATCHv2] staging/media/davinci_vpfe: fix style problems
 
-- check n->conn_name before calling strcmp to make the code more robust
----
- drivers/media/cec/cec-notifier.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+That way it is clear to reviewers which driver is modified.
 
-diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
-index 9598c7778871..f72b19c351dd 100644
---- a/drivers/media/cec/cec-notifier.c
-+++ b/drivers/media/cec/cec-notifier.c
-@@ -21,8 +21,8 @@ struct cec_notifier {
- 	struct mutex lock;
- 	struct list_head head;
- 	struct kref kref;
--	struct device *dev;
--	const char *conn;
-+	struct device *hdmi_dev;
-+	const char *conn_name;
- 	struct cec_adapter *cec_adap;
- 	void (*callback)(struct cec_adapter *adap, u16 pa);
+Also there is no need for '1/1' if there is only one patch.
 
-@@ -32,14 +32,16 @@ struct cec_notifier {
- static LIST_HEAD(cec_notifiers);
- static DEFINE_MUTEX(cec_notifiers_lock);
+Regards,
 
--struct cec_notifier *cec_notifier_get_conn(struct device *dev, const char *conn)
-+struct cec_notifier *
-+cec_notifier_get_conn(struct device *hdmi_dev, const char *conn_name)
- {
- 	struct cec_notifier *n;
+	Hans
 
- 	mutex_lock(&cec_notifiers_lock);
- 	list_for_each_entry(n, &cec_notifiers, head) {
--		if (n->dev == dev &&
--		    (!conn || !strcmp(n->conn, conn))) {
-+		if (n->hdmi_dev == hdmi_dev &&
-+		    (!conn_name ||
-+		     (n->conn_name && !strcmp(n->conn_name, conn_name)))) {
- 			kref_get(&n->kref);
- 			mutex_unlock(&cec_notifiers_lock);
- 			return n;
-@@ -48,10 +50,17 @@ struct cec_notifier *cec_notifier_get_conn(struct device *dev, const char *conn)
- 	n = kzalloc(sizeof(*n), GFP_KERNEL);
- 	if (!n)
- 		goto unlock;
--	n->dev = dev;
--	if (conn)
--		n->conn = kstrdup(conn, GFP_KERNEL);
-+	n->hdmi_dev = hdmi_dev;
-+	if (conn_name) {
-+		n->conn_name = kstrdup(conn_name, GFP_KERNEL);
-+		if (!n->conn_name) {
-+			kfree(n);
-+			n = NULL;
-+			goto unlock;
-+		}
-+	}
- 	n->phys_addr = CEC_PHYS_ADDR_INVALID;
-+
- 	mutex_init(&n->lock);
- 	kref_init(&n->kref);
- 	list_add_tail(&n->head, &cec_notifiers);
-@@ -67,7 +76,7 @@ static void cec_notifier_release(struct kref *kref)
- 		container_of(kref, struct cec_notifier, kref);
-
- 	list_del(&n->head);
--	kfree(n->conn);
-+	kfree(n->conn_name);
- 	kfree(n);
- }
-
--- 
-2.20.1
-
+On 6/21/19 6:34 AM, Aliasgar Surti wrote:
+> From: Aliasgar Surti <aliasgar.surti500@gmail.com>
+> 
+> checkpatch reported "WARNING: line over 80 characters".
+> This patch fixes the warning for file davinci_vpfe/dm365_isif.c
+> 
+> Signed-off-by: Aliasgar Surti <aliasgar.surti500@gmail.com>
+> ---
+> Changes in v2:
+> 	- Fixed styling as per suggestion in comments
+>  
+>  drivers/staging/media/davinci_vpfe/dm365_isif.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+> index 46fd818..e9c8de1 100644
+> --- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
+> +++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+> @@ -532,7 +532,8 @@ static int isif_validate_dfc_params(const struct vpfe_isif_dfc *dfc)
+>  #define DM365_ISIF_MAX_CLVSV			0x1fff
+>  #define DM365_ISIF_MAX_HEIGHT_BLACK_REGION	0x1fff
+>  
+> -static int isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
+> +static int
+> +isif_validate_bclamp_params(const struct vpfe_isif_black_clamp *bclamp)
+>  {
+>  	int err = -EINVAL;
+>  
+> @@ -593,7 +594,8 @@ isif_validate_raw_params(const struct vpfe_isif_raw_config *params)
+>  	return isif_validate_bclamp_params(&params->bclamp);
+>  }
+>  
+> -static int isif_set_params(struct v4l2_subdev *sd, const struct vpfe_isif_raw_config *params)
+> +static int isif_set_params(struct v4l2_subdev *sd,
+> +			   const struct vpfe_isif_raw_config *params)
+>  {
+>  	struct vpfe_isif_device *isif = v4l2_get_subdevdata(sd);
+>  	int ret = -EINVAL;
+> 
 
