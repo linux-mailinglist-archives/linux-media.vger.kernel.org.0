@@ -2,91 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9440155435
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AD1E55470
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 18:27:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728997AbfFYQMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 12:12:46 -0400
-Received: from gofer.mess.org ([88.97.38.141]:50039 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732602AbfFYQMn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 12:12:43 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 07CF260739; Tue, 25 Jun 2019 17:12:41 +0100 (BST)
-Date:   Tue, 25 Jun 2019 17:12:41 +0100
-From:   Sean Young <sean@mess.org>
-To:     A Sun <as1033x@comcast.net>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 2/3] [media] mceusb: Reword messages referring to "urb"
-Message-ID: <20190625161241.u5v7fiegokwrzvey@gofer.mess.org>
-References: <999ae5cd-d72b-983f-2f96-5aaca72e8214@comcast.net>
- <43f4ef6e-2c64-cd7a-26f7-3c1309b68936@comcast.net>
- <20190606095337.jfhmc6jqgyhmxn4q@gofer.mess.org>
- <2548e827-1d11-4ce2-013f-bf36c9f5436e@comcast.net>
- <20190608083729.bw47vkplpf3r4e4b@gofer.mess.org>
- <7e0c816d-c7bf-a3bf-a9f3-8c61605dbb17@comcast.net>
- <20190625105127.qw73fwt6dku5736m@gofer.mess.org>
- <3c452b74-dc5b-f1d4-3c66-8acdb69da5da@comcast.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c452b74-dc5b-f1d4-3c66-8acdb69da5da@comcast.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S1729312AbfFYQ1n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 12:27:43 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:60980 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726740AbfFYQ1m (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Jun 2019 12:27:42 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id BB7BF608CE; Tue, 25 Jun 2019 16:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561480061;
+        bh=OQmDurrz4oeNBssRUIUWXCS8QrhdrRt1sbFPXIyNCxA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=K/4eFNIq4GRXMTG6YCm+xJUEsGKVok8IKCvSd7u7fwYRgRSH52ZIWBP4/S/KhB1F8
+         J1wk0dlzTZbUO7/4ercXe1fVz3MuJXfuk3ubHq3/2xMoIP4r+huj9pgmpt/I+gqCTT
+         f1lg6BviW+yDMiehBXM6I4yrkhAC+W+jF23nmwY4=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 147816025A;
+        Tue, 25 Jun 2019 16:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561480060;
+        bh=OQmDurrz4oeNBssRUIUWXCS8QrhdrRt1sbFPXIyNCxA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FYMt7zlKERj993qidX4lwevPK0RPksf8hE013NRIDOBprvkaXDsCqiw78IbcwU4Ws
+         EZ1XT2AsKTrSdkaCmk/1NDJB/tlDBfjj+h4LKeKWrT031B4bBFLowGn+9hfQlvjWri
+         VECFMwPqnSadJg1fgGL5MOKkn73KZEvVRALVfbzY=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 147816025A
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [PATCH v3 0/4] media: venus: Update clock scaling and core selection
+Date:   Tue, 25 Jun 2019 21:57:20 +0530
+Message-Id: <1561480044-11834-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+In this patch series, clock scaling and core selection methods are
+updated. Current clock scaling and core selection methods are same
+for vpu4 and previous versions. Introducing load calculations using
+vpp cycles, which indicates the cycles required by video hardware to
+process each macroblock. Clock scaling is now done more precisely using
+vpp cycles. Instance is assigned to core with minimum load, instead of
+of static assignment.
 
-On Tue, Jun 25, 2019 at 11:01:32AM -0400, A Sun wrote:
-> On 6/25/2019 6:51 AM, Sean Young wrote:
-> > On Wed, Jun 19, 2019 at 03:54:21AM -0400, A Sun wrote:
-> >>
-> 
-> >> -		dev_err(ir->dev, "Error: request urb status = %d (TX HALT)",
-> >> +		dev_err(ir->dev, "Error: tx urb status = %d (TX HALT)",
-> > 
-> > I am not sure this makes things clearer. Some of the code still refers
-> > to request, e.g. mce_request_packet.
-> > 
-> > Since this is an IR device, there is IR TX and RX; however this unrelated
-> > to that.
-> > 
-> > There is one urb/endpoint on which commands are sent; on the other, we
-> > receiver responses and IR data. Calling those TX and RX is not a good
-> > idea I think.
-> 
-> The tx urb described is also for IR data TX.
-> IR TX is one primary function/purpose of the device.
->
-> It happens that the urb/endpoint for IR TX is the same urb/endpoint for
-> mceusb device commands.
+Changes since v2 addressing the comments:
+ - Codec_data and vpp_cycles have renamed to codec_freq_data and
+   vpp_freq respectively.
+ - Conditional check in patch 4 for checking max cores available
+   is updated to VIDC_CORE_ID_2.
+ - venus_helper_decide_core renamed to venus_helper_set_core.
+ - scale_clocks_vpu4 renamed scale_clocks_v4.
 
-The outgoing urb is for command, e.g. get version, set IR Rx timeout,
-set IR Rx carrier report, set IR wakeup protocol/scancode, resume
-device after suspend. Not everything is IR Tx.
+For comment on freq fied in clk_data structure, it is getting initialized
+and used in scale_clocks_v4 function. 
 
-> The same is found for IR data RX.
-> The urb/endpoint for IR RX is the same urb/endpoint for mceusb device
-> responses (to commands).
 
-The response to get version, how many Tx ports are there etc. Responses
-to commands and IR data. Not everything is IR Rx here.
+Aniket Masule (4):
+  media: venus: Add codec data table
+  media: venus: Update clock scaling
+  media: venus: Add interface for load per core
+  media: venus: Update core selection
 
-> > The existing code refers to request and response, and also TX and RX in
-> > places. The microsoft documentation refers to "command and response" which
-> > would be consistent with the #define's we have (MCE_CMD_* and MCE_RSP_*).
-> > 
-> 
-> My intent is to try and better word several of the USB layer messages,
-> and avoid confusing Microsoft MCE terms in those messages.
-> 
-> The original "(request) urb" phrases expand to "request USB Request Block"
-> and "<blank> USB Request Block" which are particularly confusing, and
-> non-specific, respectively.
+ drivers/media/platform/qcom/venus/core.c       |  13 ++
+ drivers/media/platform/qcom/venus/core.h       |  15 ++
+ drivers/media/platform/qcom/venus/helpers.c    | 190 +++++++++++++++++++++++--
+ drivers/media/platform/qcom/venus/helpers.h    |   3 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h |   1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h |   5 +
+ drivers/media/platform/qcom/venus/vdec.c       |   6 +-
+ drivers/media/platform/qcom/venus/venc.c       |   6 +-
+ 8 files changed, 226 insertions(+), 13 deletions(-)
 
-How about command and response?
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Sean
