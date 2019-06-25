@@ -2,102 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0337C54D56
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 13:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0414C54D63
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 13:19:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729578AbfFYLQS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 07:16:18 -0400
-Received: from gofer.mess.org ([88.97.38.141]:56497 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728449AbfFYLQS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 07:16:18 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 50DFD60E3B; Tue, 25 Jun 2019 12:16:16 +0100 (BST)
-Date:   Tue, 25 Jun 2019 12:16:16 +0100
-From:   Sean Young <sean@mess.org>
-To:     Jan Pieter van Woerkom <jp@jpvw.nl>
-Cc:     linux-media@vger.kernel.org,
-        Michael Ira Krufky <mkrufky@linuxtv.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
-Subject: Re: [PATCH 1/2] dvbsky: add support for "Mygica T230C v2"
-Message-ID: <20190625111615.s5kifm6nb2lafiw4@gofer.mess.org>
-References: <20190616003929.GE4518@jpvw.nl>
+        id S1728507AbfFYLTg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 07:19:36 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:40726 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727227AbfFYLTg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Jun 2019 07:19:36 -0400
+Received: by mail-qk1-f195.google.com with SMTP id c70so12214014qkg.7;
+        Tue, 25 Jun 2019 04:19:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=64y1Jl3E54NVU84ingXkOpLnS+rsOVnSacEQOqg2J1w=;
+        b=sITr3gWmFmV/1WWOaIp5y6sCKtr6km7K3vakrQjKPJFKaY+00RSHnuzDLR1W7ObI5q
+         6Mpj6tXMx7IhlRb/z9Xb+1SDn6hqADI4/kjz1QZfjhaGzWVDKg4EJUmigicGjj2ESv3v
+         l5NbRnGBn/PYwG54oIiNCmjyru2OWPziqmu/uR+baryJdYjTN7qIfWbF3fIzLt4x3qSw
+         p0zqOto99gFBUaDyGX0W9YIRU8PSGukgtHLZIYbS+PKK2cvNfYe2H7mq8lHIzT0dA10R
+         1GHlRK0pP1Ysgs36yaXwHLUhab3p9w0aJ1aPqBLwhPKS3PZDjb7ZoDKDVPI8Ama20Fcs
+         B8jQ==
+X-Gm-Message-State: APjAAAVpi17ogyBrLXCu4S94X+AQAQ6oAhzQtZqChczdsTrYKU0tkzHy
+        XqpzuWMFhnaxpwEghpmcoQKusE4+H5qqPbsLmyI=
+X-Google-Smtp-Source: APXvYqw9dxyYhvOf0CehdbEXdFH0r5aphU3aqYN2yfOZgOz4pRBFGnfseg6WNMqky6w5nCWex/YYZ8R2T/XY4+uneMs=
+X-Received: by 2002:a37:ad12:: with SMTP id f18mr84085002qkm.3.1561461574892;
+ Tue, 25 Jun 2019 04:19:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190616003929.GE4518@jpvw.nl>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190617111718.2277220-1-arnd@arndb.de> <20190617111718.2277220-3-arnd@arndb.de>
+ <20190625105650.scnahq2e5xgdnt2c@gofer.mess.org>
+In-Reply-To: <20190625105650.scnahq2e5xgdnt2c@gofer.mess.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 25 Jun 2019 13:19:18 +0200
+Message-ID: <CAK8P3a2=wFMxLjNdTtHT9rDq8+xhwPmDJgbMCBqMjoSa9otk_A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: ttpci: add RC_CORE dependency
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jun 16, 2019 at 02:39:29AM +0200, Jan Pieter van Woerkom wrote:
-> From: Jan Pieter van Woerkom <jp@jpvw.nl>
-> 
-> Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
-> A small enhancement is also needed in the si2168 demodulator
-> driver, and a USB device ID in dvb-usb-ids.h .
-> 
-> This is v3.3 of the proposed patch, based on feedback from Sean
-> Young and Antti Palosaari.
-> Tested by patch author on a T230C v2.
-> Tested by Frank Rysanek on a T230C v2: can tune into locally
-> available DVB-T and DVB-T2 muxes, video and audio playback works.
-> Applies cleanly against Linux 5.1.10 .
-> 
-> The T230C v2 hardware needs a mode of the si2168 chip to be
-> set for which the si2168 driver previously had no support.
-> This patch uses a specific measure to configure this on the
-> T230C v2 hardware only - see the flag passed via the ts_mode
-> attribute and its dependency on USB_PID_MYGICA_T230C2. Other
-> devices using the si2168 demodulator driver are not affected
-> in any way.
-> 
-> Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
-> Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
-> ---
-> diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-> --- a/drivers/media/dvb-frontends/si2168.c	2019-06-04 07:59:45.000000000 +0200
-> +++ b/drivers/media/dvb-frontends/si2168.c	2019-06-08 19:47:32.385526558 +0200
-> @@ -91,8 +91,18 @@
->  
->  	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
->  
-> +	/* set manual value */
-> +	if (dev->ts_mode | SI2168_TS_CLK_MANUAL) {
+On Tue, Jun 25, 2019 at 12:56 PM Sean Young <sean@mess.org> wrote:
+>
+> On Mon, Jun 17, 2019 at 01:16:53PM +0200, Arnd Bergmann wrote:
+> > The ttpci driver now uses the rc-core, so we need to ensure it
+> > is enabled:
+> >
+> > ERROR: "rc_unregister_device" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> > ERROR: "rc_allocate_device" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> > ERROR: "rc_free_device" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> > ERROR: "rc_keydown" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> > ERROR: "rc_register_device" [drivers/media/pci/ttpci/dvb-ttpci.ko] undefined!
+> >
+> > Fixes: 71f49a8bf5c5 ("media: ttpci: use rc-core for the IR receiver")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Thank you for the patch, unfortunately this was already fixed in
+> commit 12e23ebb396e6ffea88b8c5e483059a297326afb (which was accepted
+> after you sent your patch).
 
-This looks wrong. Should it not be "dev->ts_mode & SI2168_TS_CLK_MANUAL"?
-Now the expression is always true.
+That seems like a better fix, thanks for addressing the issue!
 
-
-> +		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
-> +		cmd.wlen = 6;
-> +		cmd.rlen = 4;
-> +		ret = si2168_cmd_execute(client, &cmd);
-> +		if (ret)
-> +			return ret;
-> +		}
->  	/* set TS_MODE property */
-> -	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-> +	memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
-> +	cmd.args[4] = dev->ts_mode & (SI2168_TS_CLK_AUTO|SI2168_TS_CLK_MANUAL);
->  	if (acquire)
->  		cmd.args[4] |= dev->ts_mode;
->  	else
-> diff -ru a/drivers/media/dvb-frontends/si2168.h b/drivers/media/dvb-frontends/si2168.h
-> --- a/drivers/media/dvb-frontends/si2168.h	2019-06-04 07:59:45.000000000 +0200
-> +++ b/drivers/media/dvb-frontends/si2168.h	2019-06-08 19:32:52.400320490 +0200
-> @@ -39,6 +39,8 @@
->  #define SI2168_TS_PARALLEL	0x06
->  #define SI2168_TS_SERIAL	0x03
->  #define SI2168_TS_TRISTATE	0x00
-> +#define SI2168_TS_CLK_AUTO	0x10
-> +#define SI2168_TS_CLK_MANUAL	0x20
->  	u8 ts_mode;
->  
->  	/* TS clock inverted */
-
-Thanks,
-Sean
+      Arnd
