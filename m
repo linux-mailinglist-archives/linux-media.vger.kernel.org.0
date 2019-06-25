@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2963955256
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 16:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1AFD5525A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 16:45:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731171AbfFYOpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 10:45:20 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55205 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730991AbfFYOpS (ORCPT
+        id S1731214AbfFYOpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 10:45:22 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:44659 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731091AbfFYOpT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 10:45:18 -0400
+        Tue, 25 Jun 2019 10:45:19 -0400
 Received: from cobaltpc1.rd.cisco.com ([IPv6:2001:420:44c1:2579:b032:593c:25fc:ff9b])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id fmh4hQwJSSfvXfmhAhHp0I; Tue, 25 Jun 2019 16:45:17 +0200
+        id fmh4hQwJSSfvXfmhBhHp0S; Tue, 25 Jun 2019 16:45:17 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
         dri-devel@lists.freedesktop.org,
         Cheng-yi Chiang <cychiang@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv9 09/13] dw-hdmi: use cec_notifier_conn_(un)register
-Date:   Tue, 25 Jun 2019 16:45:06 +0200
-Message-Id: <20190625144510.122214-10-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv9 10/13] meson/ao-cec: use cec_notifier_cec_adap_(un)register
+Date:   Tue, 25 Jun 2019 16:45:07 +0200
+Message-Id: <20190625144510.122214-11-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190625144510.122214-1-hverkuil-cisco@xs4all.nl>
 References: <20190625144510.122214-1-hverkuil-cisco@xs4all.nl>
@@ -38,208 +38,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dariusz Marcinkiewicz <darekm@google.com>
+Use the new cec_notifier_cec_adap_(un)register() functions to
+(un)register the notifier for the CEC adapter.
 
-Use the new cec_notifier_conn_(un)register() functions to
-(un)register the notifier for the HDMI connector, and fill in
-the cec_connector_info.
-
-Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 104 ++++++++++++----------
- 1 file changed, 58 insertions(+), 46 deletions(-)
+ drivers/media/platform/meson/ao-cec.c | 37 +++++++++++++--------------
+ 1 file changed, 18 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 045b1b13fd0e..fc4d3b5f71d0 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -133,6 +133,8 @@ struct dw_hdmi {
- 	struct drm_connector connector;
- 	struct drm_bridge bridge;
+diff --git a/drivers/media/platform/meson/ao-cec.c b/drivers/media/platform/meson/ao-cec.c
+index facf9b029e79..b80eb8f9b422 100644
+--- a/drivers/media/platform/meson/ao-cec.c
++++ b/drivers/media/platform/meson/ao-cec.c
+@@ -616,20 +616,22 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
  
-+	int irq;
-+
- 	unsigned int version;
+ 	spin_lock_init(&ao_cec->cec_reg_lock);
  
- 	struct platform_device *audio;
-@@ -184,6 +186,7 @@ struct dw_hdmi {
- 	void (*enable_audio)(struct dw_hdmi *hdmi);
- 	void (*disable_audio)(struct dw_hdmi *hdmi);
+-	ao_cec->notify = cec_notifier_get(hdmi_dev);
+-	if (!ao_cec->notify)
+-		return -ENOMEM;
+-
+ 	ao_cec->adap = cec_allocate_adapter(&meson_ao_cec_ops, ao_cec,
+ 					    "meson_ao_cec",
+ 					    CEC_CAP_LOG_ADDRS |
+ 					    CEC_CAP_TRANSMIT |
+ 					    CEC_CAP_RC |
+-					    CEC_CAP_PASSTHROUGH,
++					    CEC_CAP_PASSTHROUGH |
++					    CEC_CAP_CONNECTOR_INFO,
+ 					    1); /* Use 1 for now */
+-	if (IS_ERR(ao_cec->adap)) {
+-		ret = PTR_ERR(ao_cec->adap);
+-		goto out_probe_notify;
++	if (IS_ERR(ao_cec->adap))
++		return PTR_ERR(ao_cec->adap);
++
++	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
++							ao_cec->adap);
++	if (!ao_cec->notify) {
++		ret = -ENOMEM;
++		goto out_probe_adapter;
+ 	}
  
-+	bool cec_configured;
- 	struct cec_notifier *cec_notifier;
- };
+ 	ao_cec->adap->owner = THIS_MODULE;
+@@ -638,7 +640,7 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 	ao_cec->base = devm_ioremap_resource(&pdev->dev, res);
+ 	if (IS_ERR(ao_cec->base)) {
+ 		ret = PTR_ERR(ao_cec->base);
+-		goto out_probe_adapter;
++		goto out_probe_notify;
+ 	}
  
-@@ -2108,11 +2111,35 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
- 	.get_modes = dw_hdmi_connector_get_modes,
- };
+ 	irq = platform_get_irq(pdev, 0);
+@@ -648,20 +650,20 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 					0, NULL, ao_cec);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "irq request failed\n");
+-		goto out_probe_adapter;
++		goto out_probe_notify;
+ 	}
  
-+static void dw_hdmi_cec_enable(struct dw_hdmi *hdmi)
-+{
-+	mutex_lock(&hdmi->mutex);
-+	hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CECCLK_DISABLE;
-+	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-+	mutex_unlock(&hdmi->mutex);
-+}
-+
-+static void dw_hdmi_cec_disable(struct dw_hdmi *hdmi)
-+{
-+	mutex_lock(&hdmi->mutex);
-+	hdmi->mc_clkdis |= HDMI_MC_CLKDIS_CECCLK_DISABLE;
-+	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
-+	mutex_unlock(&hdmi->mutex);
-+}
-+
-+static const struct dw_hdmi_cec_ops dw_hdmi_cec_ops = {
-+	.write = hdmi_writeb,
-+	.read = hdmi_readb,
-+	.enable = dw_hdmi_cec_enable,
-+	.disable = dw_hdmi_cec_disable,
-+};
-+
- static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 	struct drm_encoder *encoder = bridge->encoder;
- 	struct drm_connector *connector = &hdmi->connector;
-+	struct cec_connector_info conn_info;
+ 	ao_cec->core = devm_clk_get(&pdev->dev, "core");
+ 	if (IS_ERR(ao_cec->core)) {
+ 		dev_err(&pdev->dev, "core clock request failed\n");
+ 		ret = PTR_ERR(ao_cec->core);
+-		goto out_probe_adapter;
++		goto out_probe_notify;
+ 	}
  
- 	connector->interlace_allowed = 1;
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
-@@ -2124,6 +2151,33 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+ 	ret = clk_prepare_enable(ao_cec->core);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "core clock enable failed\n");
+-		goto out_probe_adapter;
++		goto out_probe_notify;
+ 	}
  
- 	drm_connector_attach_encoder(connector, encoder);
+ 	ret = clk_set_rate(ao_cec->core, CEC_CLK_RATE);
+@@ -685,19 +687,17 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 	writel_relaxed(CEC_GEN_CNTL_RESET,
+ 		       ao_cec->base + CEC_GEN_CNTL_REG);
  
-+	cec_fill_conn_info_from_drm(&conn_info, connector);
+-	cec_register_cec_notifier(ao_cec->adap, ao_cec->notify);
+-
+ 	return 0;
+ 
+ out_probe_clk:
+ 	clk_disable_unprepare(ao_cec->core);
+ 
++out_probe_notify:
++	cec_notifier_cec_adap_unregister(ao_cec->notify);
 +
-+	hdmi->cec_notifier = cec_notifier_conn_register(hdmi->dev, NULL,
-+							&conn_info);
-+	if (!hdmi->cec_notifier)
-+		return -ENOMEM;
-+
-+	if (hdmi->cec_configured) {
-+		struct platform_device_info pdevinfo;
-+		struct dw_hdmi_cec_data cec;
-+
-+		memset(&pdevinfo, 0, sizeof(pdevinfo));
-+		pdevinfo.parent = hdmi->dev;
-+		pdevinfo.id = PLATFORM_DEVID_AUTO;
-+
-+		cec.hdmi = hdmi;
-+		cec.ops = &dw_hdmi_cec_ops;
-+		cec.irq = hdmi->irq;
-+
-+		pdevinfo.name = "dw-hdmi-cec";
-+		pdevinfo.data = &cec;
-+		pdevinfo.size_data = sizeof(cec);
-+		pdevinfo.dma_mask = 0;
-+
-+		hdmi->cec = platform_device_register_full(&pdevinfo);
-+	}
-+
+ out_probe_adapter:
+ 	cec_delete_adapter(ao_cec->adap);
+ 
+-out_probe_notify:
+-	cec_notifier_put(ao_cec->notify);
+-
+ 	dev_err(&pdev->dev, "CEC controller registration failed\n");
+ 
+ 	return ret;
+@@ -709,10 +709,9 @@ static int meson_ao_cec_remove(struct platform_device *pdev)
+ 
+ 	clk_disable_unprepare(ao_cec->core);
+ 
++	cec_notifier_cec_adap_unregister(ao_cec->notify);
+ 	cec_unregister_adapter(ao_cec->adap);
+ 
+-	cec_notifier_put(ao_cec->notify);
+-
  	return 0;
  }
  
-@@ -2393,29 +2447,6 @@ static int dw_hdmi_detect_phy(struct dw_hdmi *hdmi)
- 	return -ENODEV;
- }
- 
--static void dw_hdmi_cec_enable(struct dw_hdmi *hdmi)
--{
--	mutex_lock(&hdmi->mutex);
--	hdmi->mc_clkdis &= ~HDMI_MC_CLKDIS_CECCLK_DISABLE;
--	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
--	mutex_unlock(&hdmi->mutex);
--}
--
--static void dw_hdmi_cec_disable(struct dw_hdmi *hdmi)
--{
--	mutex_lock(&hdmi->mutex);
--	hdmi->mc_clkdis |= HDMI_MC_CLKDIS_CECCLK_DISABLE;
--	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
--	mutex_unlock(&hdmi->mutex);
--}
--
--static const struct dw_hdmi_cec_ops dw_hdmi_cec_ops = {
--	.write = hdmi_writeb,
--	.read = hdmi_readb,
--	.enable = dw_hdmi_cec_enable,
--	.disable = dw_hdmi_cec_disable,
--};
--
- static const struct regmap_config hdmi_regmap_8bit_config = {
- 	.reg_bits	= 32,
- 	.val_bits	= 8,
-@@ -2438,7 +2469,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 	struct device_node *np = dev->of_node;
- 	struct platform_device_info pdevinfo;
- 	struct device_node *ddc_node;
--	struct dw_hdmi_cec_data cec;
- 	struct dw_hdmi *hdmi;
- 	struct resource *iores = NULL;
- 	int irq;
-@@ -2588,6 +2618,7 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		ret = irq;
- 		goto err_iahb;
- 	}
-+	hdmi->irq = irq;
- 
- 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
- 					dw_hdmi_irq, IRQF_SHARED,
-@@ -2595,12 +2626,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 	if (ret)
- 		goto err_iahb;
- 
--	hdmi->cec_notifier = cec_notifier_get(dev);
--	if (!hdmi->cec_notifier) {
--		ret = -ENOMEM;
--		goto err_iahb;
--	}
--
- 	/*
- 	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
- 	 * N and cts values before enabling phy
-@@ -2663,18 +2688,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->audio = platform_device_register_full(&pdevinfo);
- 	}
- 
--	if (config0 & HDMI_CONFIG0_CEC) {
--		cec.hdmi = hdmi;
--		cec.ops = &dw_hdmi_cec_ops;
--		cec.irq = irq;
--
--		pdevinfo.name = "dw-hdmi-cec";
--		pdevinfo.data = &cec;
--		pdevinfo.size_data = sizeof(cec);
--		pdevinfo.dma_mask = 0;
--
--		hdmi->cec = platform_device_register_full(&pdevinfo);
--	}
-+	if (config0 & HDMI_CONFIG0_CEC)
-+		hdmi->cec_configured = true;
- 
- 	/* Reset HDMI DDC I2C master controller and mute I2CM interrupts */
- 	if (hdmi->i2c)
-@@ -2688,9 +2703,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->ddc = NULL;
- 	}
- 
--	if (hdmi->cec_notifier)
--		cec_notifier_put(hdmi->cec_notifier);
--
- 	clk_disable_unprepare(hdmi->iahb_clk);
- 	if (hdmi->cec_clk)
- 		clk_disable_unprepare(hdmi->cec_clk);
-@@ -2713,7 +2725,7 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
- 	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
- 
- 	if (hdmi->cec_notifier)
--		cec_notifier_put(hdmi->cec_notifier);
-+		cec_notifier_conn_unregister(hdmi->cec_notifier);
- 
- 	clk_disable_unprepare(hdmi->iahb_clk);
- 	clk_disable_unprepare(hdmi->isfr_clk);
 -- 
 2.20.1
 
