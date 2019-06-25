@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1596455254
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 16:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A167055253
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 16:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731160AbfFYOpS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 10:45:18 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59381 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730928AbfFYOpR (ORCPT
+        id S1731118AbfFYOpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 10:45:17 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:37353 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730929AbfFYOpR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 25 Jun 2019 10:45:17 -0400
 Received: from cobaltpc1.rd.cisco.com ([IPv6:2001:420:44c1:2579:b032:593c:25fc:ff9b])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id fmh4hQwJSSfvXfmh8hHoyu; Tue, 25 Jun 2019 16:45:15 +0200
+        id fmh4hQwJSSfvXfmh9hHoz3; Tue, 25 Jun 2019 16:45:15 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
         dri-devel@lists.freedesktop.org,
         Cheng-yi Chiang <cychiang@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv9 02/13] cec: add struct cec_connector_info support
-Date:   Tue, 25 Jun 2019 16:44:59 +0200
-Message-Id: <20190625144510.122214-3-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv9 03/13] cec-notifier: add new notifier functions
+Date:   Tue, 25 Jun 2019 16:45:00 +0200
+Message-Id: <20190625144510.122214-4-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190625144510.122214-1-hverkuil-cisco@xs4all.nl>
 References: <20190625144510.122214-1-hverkuil-cisco@xs4all.nl>
@@ -38,333 +38,243 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dariusz Marcinkiewicz <darekm@google.com>
+In order to support multiple CEC devices for an HDMI connector,
+and to support cec_connector_info, drivers should use either a
+cec_notifier_conn_(un)register pair of functions (HDMI drivers)
+or a cec_notifier_cec_adap_(un)register pair (CEC adapter drivers).
 
-Define struct cec_connector_info in media/cec.h and define
-CEC_CAP_CONNECTOR_INFO. In a later patch this will be moved to
-uapi/linux/cec.h.
+This replaces cec_notifier_get_conn/cec_notifier_put.
 
-Due to these changes the seco-cec driver was changed as well: it
-should include cec-notifier.h, not cec.h.
+For CEC adapters it is also no longer needed to call cec_notifier_register,
+cec_register_cec_notifier and cec_notifier_unregister. This is now
+all handled internally by the new functions.
 
-The CEC_CAP_CONNECTOR_INFO capability can be set by drivers, but
-cec_allocate_adapter() will remove it again until the public API
-for this can be enabled once all drm drivers wire this up correctly.
+The 'called_cec_notifier_register' bool is needed to handle the case where
+a CEC adapter driver calls the old cec_notifier_register() function
+instead of cec_notifier_cec_adap_unregister().
 
-Also add the cec_fill_conn_info_from_drm and cec_s_conn_info functions,
-which are needed by drm drivers to fill in the cec_connector info
-based on a drm_connector.
+Once those old functions are removed in the future, that bool can also
+be removed.
 
-Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-Co-developed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/cec/cec-adap.c               | 29 +++++++
- drivers/media/cec/cec-core.c               |  5 ++
- drivers/media/platform/seco-cec/seco-cec.c |  2 +-
- include/media/cec-notifier.h               | 39 ---------
- include/media/cec.h                        | 98 +++++++++++++++++++++-
- 5 files changed, 132 insertions(+), 41 deletions(-)
+ drivers/media/cec/cec-notifier.c | 85 ++++++++++++++++++++++++++++++++
+ include/media/cec-notifier.h     | 78 +++++++++++++++++++++++++++++
+ 2 files changed, 163 insertions(+)
 
-diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
-index ac3683a7b2ab..451c61bde4d4 100644
---- a/drivers/media/cec/cec-adap.c
-+++ b/drivers/media/cec/cec-adap.c
-@@ -16,7 +16,10 @@
- #include <linux/string.h>
- #include <linux/types.h>
- 
-+#include <drm/drm_connector.h>
-+#include <drm/drm_device.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_file.h>
- 
- #include "cec-priv.h"
- 
-@@ -75,6 +78,16 @@ u16 cec_get_edid_phys_addr(const u8 *edid, unsigned int size,
+diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+index f72b19c351dd..52a867bde15f 100644
+--- a/drivers/media/cec/cec-notifier.c
++++ b/drivers/media/cec/cec-notifier.c
+@@ -22,6 +22,7 @@ struct cec_notifier {
+ 	struct list_head head;
+ 	struct kref kref;
+ 	struct device *hdmi_dev;
++	struct cec_connector_info conn_info;
+ 	const char *conn_name;
+ 	struct cec_adapter *cec_adap;
+ 	void (*callback)(struct cec_adapter *adap, u16 pa);
+@@ -88,6 +89,84 @@ void cec_notifier_put(struct cec_notifier *n)
  }
- EXPORT_SYMBOL_GPL(cec_get_edid_phys_addr);
+ EXPORT_SYMBOL_GPL(cec_notifier_put);
  
-+void cec_fill_conn_info_from_drm(struct cec_connector_info *conn_info,
-+				 const struct drm_connector *connector)
++struct cec_notifier *
++cec_notifier_conn_register(struct device *hdmi_dev, const char *conn_name,
++			   const struct cec_connector_info *conn_info)
 +{
-+	memset(conn_info, 0, sizeof(*conn_info));
-+	conn_info->type = CEC_CONNECTOR_TYPE_DRM;
-+	conn_info->drm.card_no = connector->dev->primary->index;
-+	conn_info->drm.connector_id = connector->base.id;
-+}
-+EXPORT_SYMBOL_GPL(cec_fill_conn_info_from_drm);
++	struct cec_notifier *n = cec_notifier_get_conn(hdmi_dev, conn_name);
 +
- /*
-  * Queue a new event for this filehandle. If ts == 0, then set it
-  * to the current time.
-@@ -1598,6 +1611,22 @@ void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
- }
- EXPORT_SYMBOL_GPL(cec_s_phys_addr_from_edid);
- 
-+void cec_s_conn_info(struct cec_adapter *adap,
-+		     const struct cec_connector_info *conn_info)
++	if (!n)
++		return n;
++
++	mutex_lock(&n->lock);
++	n->phys_addr = CEC_PHYS_ADDR_INVALID;
++	if (conn_info)
++		n->conn_info = *conn_info;
++	else
++		memset(&n->conn_info, 0, sizeof(n->conn_info));
++	if (n->cec_adap) {
++		cec_phys_addr_invalidate(n->cec_adap);
++		cec_s_conn_info(n->cec_adap, conn_info);
++	}
++	mutex_unlock(&n->lock);
++	return n;
++}
++EXPORT_SYMBOL_GPL(cec_notifier_conn_register);
++
++void cec_notifier_conn_unregister(struct cec_notifier *n)
 +{
-+	if (!(adap->capabilities & CEC_CAP_CONNECTOR_INFO))
++	if (!n)
 +		return;
 +
-+	mutex_lock(&adap->lock);
-+	if (conn_info)
-+		adap->conn_info = *conn_info;
-+	else
-+		memset(&adap->conn_info, 0, sizeof(adap->conn_info));
-+	cec_post_state_event(adap);
-+	mutex_unlock(&adap->lock);
++	mutex_lock(&n->lock);
++	memset(&n->conn_info, 0, sizeof(n->conn_info));
++	n->phys_addr = CEC_PHYS_ADDR_INVALID;
++	if (n->cec_adap) {
++		cec_phys_addr_invalidate(n->cec_adap);
++		cec_s_conn_info(n->cec_adap, NULL);
++	}
++	mutex_unlock(&n->lock);
++	cec_notifier_put(n);
 +}
-+EXPORT_SYMBOL_GPL(cec_s_conn_info);
++EXPORT_SYMBOL_GPL(cec_notifier_conn_unregister);
 +
- /*
-  * Called from either the ioctl or a driver to set the logical addresses.
-  *
-diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/cec-core.c
-index db7adffcdc76..9c610e1e99b8 100644
---- a/drivers/media/cec/cec-core.c
-+++ b/drivers/media/cec/cec-core.c
-@@ -257,6 +257,11 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
- 	struct cec_adapter *adap;
- 	int res;
++struct cec_notifier *
++cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
++			       struct cec_adapter *adap)
++{
++	struct cec_notifier *n;
++
++	if (WARN_ON(!adap))
++		return NULL;
++
++	n = cec_notifier_get_conn(hdmi_dev, conn_name);
++	if (!n)
++		return n;
++
++	mutex_lock(&n->lock);
++	n->cec_adap = adap;
++	adap->conn_info = n->conn_info;
++	adap->notifier = n;
++	cec_s_phys_addr(adap, n->phys_addr, false);
++	mutex_unlock(&n->lock);
++	return n;
++}
++EXPORT_SYMBOL_GPL(cec_notifier_cec_adap_register);
++
++void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
++{
++	if (!n)
++		return;
++
++	mutex_lock(&n->lock);
++	n->cec_adap->notifier = NULL;
++	n->cec_adap = NULL;
++	n->callback = NULL;
++	mutex_unlock(&n->lock);
++	cec_notifier_put(n);
++}
++EXPORT_SYMBOL_GPL(cec_notifier_cec_adap_unregister);
++
+ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
+ {
+ 	if (n == NULL)
+@@ -97,6 +176,8 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
+ 	n->phys_addr = pa;
+ 	if (n->callback)
+ 		n->callback(n->cec_adap, n->phys_addr);
++	else if (n->cec_adap)
++		cec_s_phys_addr(n->cec_adap, n->phys_addr, false);
+ 	mutex_unlock(&n->lock);
+ }
+ EXPORT_SYMBOL_GPL(cec_notifier_set_phys_addr);
+@@ -131,6 +212,10 @@ EXPORT_SYMBOL_GPL(cec_notifier_register);
  
-+	/*
-+	 * Disable this capability until the connector info public API
-+	 * is ready.
-+	 */
-+	caps &= ~CEC_CAP_CONNECTOR_INFO;
- #ifndef CONFIG_MEDIA_CEC_RC
- 	caps &= ~CEC_CAP_RC;
- #endif
-diff --git a/drivers/media/platform/seco-cec/seco-cec.c b/drivers/media/platform/seco-cec/seco-cec.c
-index e5080d6f5b2d..1d0133f01e00 100644
---- a/drivers/media/platform/seco-cec/seco-cec.c
-+++ b/drivers/media/platform/seco-cec/seco-cec.c
-@@ -18,7 +18,7 @@
- #include <linux/platform_device.h>
- 
- /* CEC Framework */
--#include <media/cec.h>
-+#include <media/cec-notifier.h>
- 
- #include "seco-cec.h"
- 
+ void cec_notifier_unregister(struct cec_notifier *n)
+ {
++	/* Do nothing unless cec_notifier_register was called first */
++	if (!n->callback)
++		return;
++
+ 	mutex_lock(&n->lock);
+ 	n->callback = NULL;
+ 	mutex_unlock(&n->lock);
 diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
-index 57b3a9f6ea1d..0e3bd3415724 100644
+index 0e3bd3415724..e8a677c90f6f 100644
 --- a/include/media/cec-notifier.h
 +++ b/include/media/cec-notifier.h
-@@ -63,30 +63,6 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa);
- void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
- 					  const struct edid *edid);
- 
--/**
-- * cec_notifier_register - register a callback with the notifier
-- * @n: the CEC notifier
-- * @adap: the CEC adapter, passed as argument to the callback function
-- * @callback: the callback function
-- */
--void cec_notifier_register(struct cec_notifier *n,
--			   struct cec_adapter *adap,
--			   void (*callback)(struct cec_adapter *adap, u16 pa));
--
--/**
-- * cec_notifier_unregister - unregister the callback from the notifier.
-- * @n: the CEC notifier
-- */
--void cec_notifier_unregister(struct cec_notifier *n);
--
--/**
-- * cec_register_cec_notifier - register the notifier with the cec adapter.
-- * @adap: the CEC adapter
-- * @notifier: the CEC notifier
-- */
--void cec_register_cec_notifier(struct cec_adapter *adap,
--			       struct cec_notifier *notifier);
--
- /**
-  * cec_notifier_parse_hdmi_phandle - find the hdmi device from "hdmi-phandle"
-  * @dev: the device with the "hdmi-phandle" device tree property
-@@ -119,21 +95,6 @@ static inline void cec_notifier_set_phys_addr_from_edid(struct cec_notifier *n,
- {
- }
- 
--static inline void cec_notifier_register(struct cec_notifier *n,
--			 struct cec_adapter *adap,
--			 void (*callback)(struct cec_adapter *adap, u16 pa))
--{
--}
--
--static inline void cec_notifier_unregister(struct cec_notifier *n)
--{
--}
--
--static inline void cec_register_cec_notifier(struct cec_adapter *adap,
--					     struct cec_notifier *notifier)
--{
--}
--
- static inline struct device *cec_notifier_parse_hdmi_phandle(struct device *dev)
- {
- 	return ERR_PTR(-ENODEV);
-diff --git a/include/media/cec.h b/include/media/cec.h
-index 707411ef8ba2..4d59387bc61b 100644
---- a/include/media/cec.h
-+++ b/include/media/cec.h
-@@ -17,7 +17,9 @@
- #include <linux/timer.h>
- #include <linux/cec-funcs.h>
- #include <media/rc-core.h>
--#include <media/cec-notifier.h>
-+
-+/* CEC_ADAP_G_CONNECTOR_INFO is available */
-+#define CEC_CAP_CONNECTOR_INFO	(1 << 8)
- 
- #define CEC_CAP_DEFAULTS (CEC_CAP_LOG_ADDRS | CEC_CAP_TRANSMIT | \
- 			  CEC_CAP_PASSTHROUGH | CEC_CAP_RC)
-@@ -53,6 +55,7 @@ struct cec_devnode {
- struct cec_adapter;
- struct cec_data;
- struct cec_pin;
-+struct cec_notifier;
- 
- struct cec_data {
- 	struct list_head list;
-@@ -144,6 +147,34 @@ struct cec_adap_ops {
+@@ -42,6 +42,60 @@ struct cec_notifier *cec_notifier_get_conn(struct device *dev,
   */
- #define CEC_MAX_MSG_TX_QUEUE_SZ		(18 * 1)
+ void cec_notifier_put(struct cec_notifier *n);
  
 +/**
-+ * struct cec_drm_connector_info - tells which drm connector is
-+ * associated with the CEC adapter.
-+ * @card_no: drm card number
-+ * @connector_id: drm connector ID
++ * cec_notifier_conn_register - find or create a new cec_notifier for the given
++ * HDMI device and connector tuple.
++ * @hdmi_dev: HDMI device that sends the events.
++ * @conn_name: the connector name from which the event occurs. May be NULL
++ * if there is always only one HDMI connector created by the HDMI device.
++ * @conn_info: the connector info from which the event occurs (may be NULL)
++ *
++ * If a notifier for device @dev and connector @conn_name already exists, then
++ * increase the refcount and return that notifier.
++ *
++ * If it doesn't exist, then allocate a new notifier struct and return a
++ * pointer to that new struct.
++ *
++ * Return NULL if the memory could not be allocated.
 + */
-+struct cec_drm_connector_info {
-+	__u32 card_no;
-+	__u32 connector_id;
-+};
-+
-+#define CEC_CONNECTOR_TYPE_NO_CONNECTOR	0
-+#define CEC_CONNECTOR_TYPE_DRM		1
++struct cec_notifier *
++cec_notifier_conn_register(struct device *hdmi_dev, const char *conn_name,
++			   const struct cec_connector_info *conn_info);
 +
 +/**
-+ * struct cec_connector_info - tells if and which connector is
-+ * associated with the CEC adapter.
-+ * @type: connector type (if any)
-+ * @drm: drm connector info
++ * cec_notifier_conn_unregister - decrease refcount and delete when the
++ * refcount reaches 0.
++ * @n: notifier
 + */
-+struct cec_connector_info {
-+	__u32 type;
-+	union {
-+		struct cec_drm_connector_info drm;
-+		__u32 raw[16];
-+	};
-+};
++void cec_notifier_conn_unregister(struct cec_notifier *n);
 +
- struct cec_adapter {
- 	struct module *owner;
- 	char name[32];
-@@ -182,6 +213,7 @@ struct cec_adapter {
- 	struct cec_fh *cec_initiator;
- 	bool passthrough;
- 	struct cec_log_addrs log_addrs;
-+	struct cec_connector_info conn_info;
- 
- 	u32 tx_timeouts;
- 
-@@ -233,6 +265,7 @@ static inline bool cec_is_registered(const struct cec_adapter *adap)
- 	((pa) >> 12), ((pa) >> 8) & 0xf, ((pa) >> 4) & 0xf, (pa) & 0xf
- 
- struct edid;
-+struct drm_connector;
- 
- #if IS_REACHABLE(CONFIG_CEC_CORE)
- struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
-@@ -247,6 +280,8 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr,
- 		     bool block);
- void cec_s_phys_addr_from_edid(struct cec_adapter *adap,
- 			       const struct edid *edid);
-+void cec_s_conn_info(struct cec_adapter *adap,
-+		     const struct cec_connector_info *conn_info);
- int cec_transmit_msg(struct cec_adapter *adap, struct cec_msg *msg,
- 		     bool block);
- 
-@@ -331,6 +366,9 @@ void cec_queue_pin_5v_event(struct cec_adapter *adap, bool is_high, ktime_t ts);
- u16 cec_get_edid_phys_addr(const u8 *edid, unsigned int size,
- 			   unsigned int *offset);
- 
-+void cec_fill_conn_info_from_drm(struct cec_connector_info *conn_info,
-+				 const struct drm_connector *connector);
++/**
++ * cec_notifier_cec_adap_register - find or create a new cec_notifier for the
++ * given device.
++ * @hdmi_dev: HDMI device that sends the events.
++ * @conn_name: the connector name from which the event occurs. May be NULL
++ * if there is always only one HDMI connector created by the HDMI device.
++ * @adap: the cec adapter that registered this notifier.
++ *
++ * If a notifier for device @dev and connector @conn_name already exists, then
++ * increase the refcount and return that notifier.
++ *
++ * If it doesn't exist, then allocate a new notifier struct and return a
++ * pointer to that new struct.
++ *
++ * Return NULL if the memory could not be allocated.
++ */
++struct cec_notifier *
++cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
++			       struct cec_adapter *adap);
 +
- #else
- 
- static inline int cec_register_adapter(struct cec_adapter *adap,
-@@ -365,6 +403,64 @@ static inline u16 cec_get_edid_phys_addr(const u8 *edid, unsigned int size,
- 	return CEC_PHYS_ADDR_INVALID;
++/**
++ * cec_notifier_cec_adap_unregister - decrease refcount and delete when the
++ * refcount reaches 0.
++ * @n: notifier
++ */
++void cec_notifier_cec_adap_unregister(struct cec_notifier *n);
++
+ /**
+  * cec_notifier_set_phys_addr - set a new physical address.
+  * @n: the CEC notifier
+@@ -86,6 +140,30 @@ static inline void cec_notifier_put(struct cec_notifier *n)
+ {
  }
  
-+static inline void cec_s_conn_info(struct cec_adapter *adap,
-+				   const struct cec_connector_info *conn_info)
++static inline struct cec_notifier *
++cec_notifier_conn_register(struct device *hdmi_dev, const char *conn_name,
++			   const struct cec_connector_info *conn_info)
++{
++	/* A non-NULL pointer is expected on success */
++	return (struct cec_notifier *)0xdeadfeed;
++}
++
++static inline void cec_notifier_conn_unregister(struct cec_notifier *n)
 +{
 +}
 +
-+static inline void
-+cec_fill_conn_info_from_drm(struct cec_connector_info *conn_info,
-+			    const struct drm_connector *connector)
++static inline struct cec_notifier *
++cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
++			       struct cec_adapter *adap)
 +{
-+	memset(conn_info, 0, sizeof(*conn_info));
++	/* A non-NULL pointer is expected on success */
++	return (struct cec_notifier *)0xdeadfeed;
 +}
 +
-+#endif
-+
-+#if IS_REACHABLE(CONFIG_CEC_CORE) && IS_ENABLED(CONFIG_CEC_NOTIFIER)
-+
-+/**
-+ * cec_notifier_register - register a callback with the notifier
-+ * @n: the CEC notifier
-+ * @adap: the CEC adapter, passed as argument to the callback function
-+ * @callback: the callback function
-+ */
-+void cec_notifier_register(struct cec_notifier *n,
-+			   struct cec_adapter *adap,
-+			   void (*callback)(struct cec_adapter *adap, u16 pa));
-+
-+/**
-+ * cec_notifier_unregister - unregister the callback from the notifier.
-+ * @n: the CEC notifier
-+ */
-+void cec_notifier_unregister(struct cec_notifier *n);
-+
-+/**
-+ * cec_register_cec_notifier - register the notifier with the cec adapter.
-+ * @adap: the CEC adapter
-+ * @notifier: the CEC notifier
-+ */
-+void cec_register_cec_notifier(struct cec_adapter *adap,
-+			       struct cec_notifier *notifier);
-+
-+#else
-+
-+static inline void
-+cec_notifier_register(struct cec_notifier *n,
-+		      struct cec_adapter *adap,
-+		      void (*callback)(struct cec_adapter *adap, u16 pa))
++static inline void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
 +{
 +}
 +
-+static inline void cec_notifier_unregister(struct cec_notifier *n)
-+{
-+}
-+
-+static inline void cec_register_cec_notifier(struct cec_adapter *adap,
-+					     struct cec_notifier *notifier)
-+{
-+}
-+
- #endif
- 
- /**
+ static inline void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
+ {
+ }
 -- 
 2.20.1
 
