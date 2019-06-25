@@ -2,62 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6142E5535B
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 17:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8628A5539B
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2019 17:41:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730811AbfFYP2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 11:28:00 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42095 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730469AbfFYP2A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 11:28:00 -0400
-Received: from [IPv6:2001:420:44c1:2579:b032:593c:25fc:ff9b] ([IPv6:2001:420:44c1:2579:b032:593c:25fc:ff9b])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id fnMPhRB6WSfvXfnMThHxET; Tue, 25 Jun 2019 17:27:58 +0200
-Subject: Re: [PATCHv9 04/13] cec: expose the new connector info API
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Cheng-yi Chiang <cychiang@chromium.org>
-References: <20190625144510.122214-1-hverkuil-cisco@xs4all.nl>
- <20190625144510.122214-5-hverkuil-cisco@xs4all.nl>
- <CALFZZQFH4Hr4NW6U9D9RhPSAnDGDkd_C83yXyn2A1CgPOTJqkw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <157b6cee-b0a6-3ca4-edd2-629374ecf508@xs4all.nl>
-Date:   Tue, 25 Jun 2019 17:27:52 +0200
+        id S1727005AbfFYPl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 11:41:28 -0400
+Received: from jpvw.nl ([80.127.100.2]:53016 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726788AbfFYPl2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Jun 2019 11:41:28 -0400
+Received: from localhost ([::1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hfnZU-0000Uy-T4; Tue, 25 Jun 2019 17:41:24 +0200
+Subject: Re: [PATCH 1/2] dvbsky: add support for "Mygica T230C v2"
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org,
+        Michael Ira Krufky <mkrufky@linuxtv.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+References: <20190616003929.GE4518@jpvw.nl>
+ <20190625111615.s5kifm6nb2lafiw4@gofer.mess.org>
+From:   JP <jp@jpvw.nl>
+Message-ID: <e87ac093-6466-4cd4-3346-1db17ae85495@jpvw.nl>
+Date:   Tue, 25 Jun 2019 17:41:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <CALFZZQFH4Hr4NW6U9D9RhPSAnDGDkd_C83yXyn2A1CgPOTJqkw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20190625111615.s5kifm6nb2lafiw4@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGX8u4thUeIZOm25MGNaUjluiYenQw0xgQw2eSkNgP0Ph2wd/YrmllBBP44/3+Mz/6FxGRT3EV1+Km0/BK5Y3Foh1x3uliNhHrX4KtDKDfIuCij2FL5q
- Musw+t3VDzpmhTgW8kmfRuibD5tAHZ/6lLZkE82yi9TYpheTx/n8Dz3xSMRHKt1EneT1xo8En/LVX+SPL/lS1R/J2uz8U7RgaecBaMW9m4XSb1/xdQ7tHOY6
- JKbs6SAGsYOySvsu5NSXY9OJz4He7y1ByqJSyci1wK4OxOCKuOVjmiP7cIbxPipIjBFAnuq2qVth3VPlVh9xOLj/sHkZhQkMFQV40EsjSmpSLTXMZBSuSYth
- 61jPy3Mu3cZuKwYE71mcP1PE32zUENcPHnm536Ms68PlVqyv23Y=
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/25/19 4:58 PM, Dariusz Marcinkiewicz wrote:
-> Hi again.
-> On Tue, Jun 25, 2019 at 4:45 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+
+
+On 6/25/19 1:16 PM, Sean Young wrote:
+> On Sun, Jun 16, 2019 at 02:39:29AM +0200, Jan Pieter van Woerkom wrote:
+>> From: Jan Pieter van Woerkom <jp@jpvw.nl>
 >>
->> +       mutex_lock(&adap->lock);
->> +       if (copy_to_user(parg, &adap->conn_info, sizeof(adap->conn_info)))
->> +               ret = -EFAULT;
->> +       mutex_unlock(&adap->lock);
->> +       return ret;
->> +}
-> Shouldn't the lock be released before calling copy_to_user? I guess
-> you need to make an extra copy of the conn_info, like it is done for
-> other ioctls.
+>> Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
+>> A small enhancement is also needed in the si2168 demodulator
+>> driver, and a USB device ID in dvb-usb-ids.h .
+>>
+>> This is v3.3 of the proposed patch, based on feedback from Sean
+>> Young and Antti Palosaari.
+>> Tested by patch author on a T230C v2.
+>> Tested by Frank Rysanek on a T230C v2: can tune into locally
+>> available DVB-T and DVB-T2 muxes, video and audio playback works.
+>> Applies cleanly against Linux 5.1.10 .
+>>
+>> The T230C v2 hardware needs a mode of the si2168 chip to be
+>> set for which the si2168 driver previously had no support.
+>> This patch uses a specific measure to configure this on the
+>> T230C v2 hardware only - see the flag passed via the ts_mode
+>> attribute and its dependency on USB_PID_MYGICA_T230C2. Other
+>> devices using the si2168 demodulator driver are not affected
+>> in any way.
+>>
+>> Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
+>> Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
+>> ---
+>> diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+>> --- a/drivers/media/dvb-frontends/si2168.c	2019-06-04 07:59:45.000000000 +0200
+>> +++ b/drivers/media/dvb-frontends/si2168.c	2019-06-08 19:47:32.385526558 +0200
+>> @@ -91,8 +91,18 @@
+>>   
+>>   	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+>>   
+>> +	/* set manual value */
+>> +	if (dev->ts_mode | SI2168_TS_CLK_MANUAL) {
+> This looks wrong. Should it not be "dev->ts_mode & SI2168_TS_CLK_MANUAL"?
+> Now the expression is always true.
+You're absolutely right. Silly me.
 
-There is no reason for doing that, it would just use additional stack
-space.
+What now? Correct and repost?
 
-Regards,
 
-	Hans
+>> +		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
+>> +		cmd.wlen = 6;
+>> +		cmd.rlen = 4;
+>> +		ret = si2168_cmd_execute(client, &cmd);
+>> +		if (ret)
+>> +			return ret;
+>> +		}
+>>   	/* set TS_MODE property */
+>> -	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
+>> +	memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
+>> +	cmd.args[4] = dev->ts_mode & (SI2168_TS_CLK_AUTO|SI2168_TS_CLK_MANUAL);
+>>   	if (acquire)
+>>   		cmd.args[4] |= dev->ts_mode;
+>>   	else
+>> diff -ru a/drivers/media/dvb-frontends/si2168.h b/drivers/media/dvb-frontends/si2168.h
+>> --- a/drivers/media/dvb-frontends/si2168.h	2019-06-04 07:59:45.000000000 +0200
+>> +++ b/drivers/media/dvb-frontends/si2168.h	2019-06-08 19:32:52.400320490 +0200
+>> @@ -39,6 +39,8 @@
+>>   #define SI2168_TS_PARALLEL	0x06
+>>   #define SI2168_TS_SERIAL	0x03
+>>   #define SI2168_TS_TRISTATE	0x00
+>> +#define SI2168_TS_CLK_AUTO	0x10
+>> +#define SI2168_TS_CLK_MANUAL	0x20
+>>   	u8 ts_mode;
+>>   
+>>   	/* TS clock inverted */
+> Thanks,
+> Sean
+>
+Thank you,
+Jan Pieter.
