@@ -2,165 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 072FC563EF
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 10:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0519563FF
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 10:06:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726006AbfFZIDA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 04:03:00 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45396 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfFZIC7 (ORCPT
+        id S1726077AbfFZIGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 04:06:15 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:51970 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725876AbfFZIGP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 04:02:59 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D434510;
-        Wed, 26 Jun 2019 10:02:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1561536177;
-        bh=kV1d/j+iweV8CSrc8sup5nRG+6WmjllrbAPFylvDkaM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HtLhF2a725qejGEgrb3dXF6CI/CarRiIAjzohRe0Uft+qLSrbi4eD/YmeMPXyai2j
-         gJZNOseX+Y7XlmmUpDzABWxBskp2Wu80BUf0FwYGrGOh3wRVBdV/fu2bLqE7Ld1xP3
-         xlbJ6gvW7LvZoxes0PagVXeFWUEZjbrwTqEwdhf4=
-Date:   Wed, 26 Jun 2019 11:00:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>, kernel@collabora.com,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-Message-ID: <20190626080027.GA4776@pendragon.ideasonboard.com>
-References: <20190625203945.28081-1-ezequiel@collabora.com>
+        Wed, 26 Jun 2019 04:06:15 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5Q82J0t030833;
+        Wed, 26 Jun 2019 10:06:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=inEu8AbbKzcYFvFSR64uR6HEknHjMaCpp82W9brg7X0=;
+ b=YqGTlUF+vF9Q+mKnRcAq//nq33gpmV1GMVLExf9WN1/7waciLFF4ewDgO95D06RSA1vk
+ z510tEo73O0Ctmud58/eE1a1omhQSLVmh78iqEUD+W7DnzRmHRkq8ZWIu6nX/T84a3/L
+ olA9KGpbYB1JqsrDcZRTgkt+UEabjR2ARNtpk3hQIJPFq5ZUfBQcBzJeVUDRlxSvkAPd
+ xbrffdbOk4SN14EFViSgF46+2P9uq76pLJVMdSM+DXT/+IqKaUs4nSFfhFkRH6Qvp/3b
+ EWDSFZjKxM8wz6dl9cmD/mdABUAYsEIBrdqPLmMKxQNKDbxRs2Pt2XHbvLG8Kl8b5AvN /w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2t9d2jpvjn-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 26 Jun 2019 10:06:12 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B14973A;
+        Wed, 26 Jun 2019 08:06:10 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag5node1.st.com [10.75.127.13])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8124F1651;
+        Wed, 26 Jun 2019 08:06:10 +0000 (GMT)
+Received: from SFHDAG5NODE3.st.com (10.75.127.15) by SFHDAG5NODE1.st.com
+ (10.75.127.13) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 26 Jun
+ 2019 10:06:10 +0200
+Received: from SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47]) by
+ SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47%20]) with mapi id
+ 15.00.1473.003; Wed, 26 Jun 2019 10:06:10 +0200
+From:   Fabien DESSENNE <fabien.dessenne@st.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 09/16] bdisp: set device_caps in struct video_device
+Thread-Topic: [PATCH 09/16] bdisp: set device_caps in struct video_device
+Thread-Index: AQHVK/L9E64wQuGWxkm57qqpEia6Y6atcpmA
+Date:   Wed, 26 Jun 2019 08:06:10 +0000
+Message-ID: <aa60863c-46d8-b029-69ea-13d827676957@st.com>
+References: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
+ <20190626074421.38739-10-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20190626074421.38739-10-hverkuil-cisco@xs4all.nl>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.44]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B277F17AC327E54FA0B38B9C8FA13E63@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190625203945.28081-1-ezequiel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-26_04:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-Thank you for the patch.
-
-On Tue, Jun 25, 2019 at 05:39:45PM -0300, Ezequiel Garcia wrote:
-> Not all sensors will be able to guarantee a proper initial state.
-> This may be either because the driver is not properly written,
-> or (probably unlikely) because the hardware won't support it.
-> 
-> While the right solution in the former case is to fix the sensor
-> driver, the real world not always allows right solutions, due to lack
-> of available documentation and support on these sensors.
-> 
-> Let's relax this requirement, and allow the driver to support stream start,
-> even if the sensor initial sequence wasn't the expected.
-> A warning is still emitted, so users should be hinted that something is off.
-
-I'm not sure this is a very good idea. Failure to detect the LP-11 state
-may mean that the sensor is completely powered off, but it may also mean
-that it is already streaming data. I don't know how the CSI-2 receiver
-state machine will operate in the first case, but in the second case it
-will not be able to synchronise to the incoming stream, so it won't work
-anyway.
-
-I think you should instead fix the problem in the sensor driver, as you
-hinted. Relaxing the requirement here will only make it more confusing,
-it's a hack, and isn't portable across CSI-2 receivers. The same buggy
-sensor driver won't work with other CSI-2 receivers whose internal state
-machine require starting in the LP-11 state.
-
-Which sensor are you using ?
-
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
->  1 file changed, 9 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index f29e28df36ed..10342434e797 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
->  }
->  
->  /* Waits for low-power LP-11 state on data and clock lanes. */
-> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->  {
->  	u32 mask, reg;
->  	int ret;
-> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->  
->  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->  				 (reg & mask) == mask, 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
->  }
->  
->  /* Wait for active clock on the clock lane. */
-> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
->  {
->  	u32 reg;
->  	int ret;
->  
->  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->  				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> -			 reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> +			  reg);
->  }
->  
->  /* Setup the i.MX CSI2IPU Gasket */
-> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
->  	csi2_enable(csi2, true);
->  
->  	/* Step 5 */
-> -	ret = csi2_dphy_wait_stopstate(csi2);
-> -	if (ret)
-> -		goto err_assert_reset;
-> +	csi2_dphy_wait_stopstate(csi2);
->  
->  	/* Step 6 */
->  	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
-> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
->  		goto err_assert_reset;
->  
->  	/* Step 7 */
-> -	ret = csi2_dphy_wait_clock_lane(csi2);
-> -	if (ret)
-> -		goto err_stop_upstream;
-> -
-> +	csi2_dphy_wait_clock_lane(csi2);
->  	return 0;
->  
-> -err_stop_upstream:
-> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
->  err_assert_reset:
->  	csi2_enable(csi2, false);
->  err_disable_clk:
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgSGFucywNCg0KDQpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4NCg0KDQpPbiAyNi8wNi8yMDE5
+IDk6NDQgQU0sIEhhbnMgVmVya3VpbCB3cm90ZToNCj4gSW5zdGVhZCBvZiBmaWxsaW5nIGluIHRo
+ZSBzdHJ1Y3QgdjRsMl9jYXBhYmlsaXR5IGRldmljZV9jYXBzDQo+IGZpZWxkLCBmaWxsIGluIHRo
+ZSBzdHJ1Y3QgdmlkZW9fZGV2aWNlIGRldmljZV9jYXBzIGZpZWxkLg0KPg0KPiBUaGF0IHdheSB0
+aGUgVjRMMiBjb3JlIGtub3dzIHdoYXQgdGhlIGNhcGFiaWxpdGllcyBvZiB0aGUNCj4gdmlkZW8g
+ZGV2aWNlIGFyZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogSGFucyBWZXJrdWlsIDxodmVya3VpbC1j
+aXNjb0B4czRhbGwubmw+DQo+IENjOiBGYWJpZW4gRGVzc2VubmUgPGZhYmllbi5kZXNzZW5uZUBz
+dC5jb20+DQoNCg0KUmV2aWV3ZWQtYnk6IEZhYmllbiBEZXNzZW5uZSA8ZmFiaWVuLmRlc3Nlbm5l
+QHN0LmNvbT4NCg0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2JkaXNw
+L2JkaXNwLXY0bDIuYyB8IDYgKy0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCA1IGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0
+Zm9ybS9zdGkvYmRpc3AvYmRpc3AtdjRsMi5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdGkv
+YmRpc3AvYmRpc3AtdjRsMi5jDQo+IGluZGV4IDc5ZjdkYjFhOWQxOC4uZTkwZjFiYTMwNTc0IDEw
+MDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9iZGlzcC9iZGlzcC12NGwy
+LmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdGkvYmRpc3AvYmRpc3AtdjRsMi5j
+DQo+IEBAIC02OTIsMTEgKzY5Miw2IEBAIHN0YXRpYyBpbnQgYmRpc3BfcXVlcnljYXAoc3RydWN0
+IGZpbGUgKmZpbGUsIHZvaWQgKmZoLA0KPiAgIAlzdHJzY3B5KGNhcC0+Y2FyZCwgYmRpc3AtPnBk
+ZXYtPm5hbWUsIHNpemVvZihjYXAtPmNhcmQpKTsNCj4gICAJc25wcmludGYoY2FwLT5idXNfaW5m
+bywgc2l6ZW9mKGNhcC0+YnVzX2luZm8pLCAicGxhdGZvcm06JXMlZCIsDQo+ICAgCQkgQkRJU1Bf
+TkFNRSwgYmRpc3AtPmlkKTsNCj4gLQ0KPiAtCWNhcC0+ZGV2aWNlX2NhcHMgPSBWNEwyX0NBUF9T
+VFJFQU1JTkcgfCBWNEwyX0NBUF9WSURFT19NMk07DQo+IC0NCj4gLQljYXAtPmNhcGFiaWxpdGll
+cyA9IGNhcC0+ZGV2aWNlX2NhcHMgfCBWNEwyX0NBUF9ERVZJQ0VfQ0FQUzsNCj4gLQ0KPiAgIAly
+ZXR1cm4gMDsNCj4gICB9DQo+ICAgDQo+IEBAIC0xMDU5LDYgKzEwNTQsNyBAQCBzdGF0aWMgaW50
+IGJkaXNwX3JlZ2lzdGVyX2RldmljZShzdHJ1Y3QgYmRpc3BfZGV2ICpiZGlzcCkNCj4gICAJYmRp
+c3AtPnZkZXYubG9jayAgICAgICAgPSAmYmRpc3AtPmxvY2s7DQo+ICAgCWJkaXNwLT52ZGV2LnZm
+bF9kaXIgICAgID0gVkZMX0RJUl9NMk07DQo+ICAgCWJkaXNwLT52ZGV2LnY0bDJfZGV2ICAgID0g
+JmJkaXNwLT52NGwyX2RldjsNCj4gKwliZGlzcC0+dmRldi5kZXZpY2VfY2FwcyA9IFY0TDJfQ0FQ
+X1NUUkVBTUlORyB8IFY0TDJfQ0FQX1ZJREVPX00yTTsNCj4gICAJc25wcmludGYoYmRpc3AtPnZk
+ZXYubmFtZSwgc2l6ZW9mKGJkaXNwLT52ZGV2Lm5hbWUpLCAiJXMuJWQiLA0KPiAgIAkJIEJESVNQ
+X05BTUUsIGJkaXNwLT5pZCk7DQo+ICAg
