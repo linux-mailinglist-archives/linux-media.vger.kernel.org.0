@@ -2,74 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16F5856CE8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 16:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E10E56D4F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 17:07:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727945AbfFZOzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 10:55:53 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59119 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726029AbfFZOzw (ORCPT
+        id S1728191AbfFZPH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 11:07:29 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:38149 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfFZPH2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 10:55:52 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g9KthYHHcSfvXg9KwhLLYN; Wed, 26 Jun 2019 16:55:51 +0200
-Subject: Re: [PATCH] drivers/media: don't set pix->priv = 0
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>
-References: <2269be5f-c57a-a63b-9603-63e02de6767e@xs4all.nl>
- <20190626135512.GB5015@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9e7a0dbc-1917-a562-83c1-26b9be09e4f8@xs4all.nl>
-Date:   Wed, 26 Jun 2019 16:55:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190626135512.GB5015@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        Wed, 26 Jun 2019 11:07:28 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hg9WB-0007jb-Qt; Wed, 26 Jun 2019 17:07:27 +0200
+Message-ID: <1561561646.4870.9.camel@pengutronix.de>
+Subject: Re: [PATCH] v4l2-ioctl: call v4l_pix_format_touch() for TRY_FMT
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Florian Echtler <floe@butterbrot.org>,
+        Nick Dyer <nick@shmanahar.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Nick Dyer <nick.dyer@itdev.co.uk>
+Date:   Wed, 26 Jun 2019 17:07:26 +0200
+In-Reply-To: <95437142-2935-0d3f-073e-333dab4e17c0@xs4all.nl>
+References: <95437142-2935-0d3f-073e-333dab4e17c0@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNFHC+hjstIRQSClRTrFllyCzJMVTICQ/kPx0unVObdeALXcG15GkLv4Eg0sCPKlx2gmORsJorddOs6bJlr1ixKwm5xgxLs3T0nm4Aor0anry/LwMOje
- Yh5zEnlDOP906yc2xm4FhUTzl3sYGDSeE1PlBBdsHwoyyRk1XB3Oz4JqeaBcX25qG57N2hrsBNhp0IVv/39YJuD2DSosWbxK+rZPdDP4DxGOUpCj4eMWfa1a
- D/NzM8Tfxs2Bjqbw9clfJD/JqWGFjaNosFYeNxx8d4k=
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/26/19 3:55 PM, Laurent Pinchart wrote:
-> Hi Hans,
+On Wed, 2019-06-26 at 11:48 +0200, Hans Verkuil wrote:
+> The function v4l_pix_format_touch() is called for S_FMT to set
+> v4l2_pix_format fields to default values for a v4l-touch device,
+> but it wasn't called for TRY_FMT. Add this.
 > 
-> Thank you for the patch.
-> 
-> On Wed, Jun 26, 2019 at 11:58:02AM +0200, Hans Verkuil wrote:
->> The priv field of struct v4l2_pix_format shouldn't be set by drivers,
->> it's set by the v4l2 core instead to V4L2_PIX_FMT_PRIV_MAGIC.
->>
->> Drop this from the few media drivers that still do this.
->>
->> Note that the gspca patch is slightly more involved since some of the
->> sub-gspca drivers use the priv field internally.
-> 
-> Do they use it in a non-standard way towards userspace, or just for
-> communication with the gspca driver within the kernel ? In the former
-> case, are you aware of applications using that ?
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index b1f4b991dba6..c5c8c8ab7cf6 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1661,6 +1661,8 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>  		ret = ops->vidioc_try_fmt_vid_cap(file, fh, arg);
+>  		/* just in case the driver zeroed it again */
+>  		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
+> +		if (vfd->vfl_type == VFL_TYPE_TOUCH)
+> +			v4l_pix_format_touch(&p->fmt.pix);
 
-It's totally internal to the gspca driver.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-In any case, priv is always overwritten with V4L2_PIX_FMT_PRIV_MAGIC
-by the v4l2 core so you can't use it in a public API anyway.
-
-Regards,
-
-	Hans
-
-> 
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> For everything but gspca,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+regards
+Philipp
