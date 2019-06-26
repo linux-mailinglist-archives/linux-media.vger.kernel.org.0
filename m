@@ -2,151 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18304560D1
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 05:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E105616B
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 06:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbfFZDsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 23:48:50 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59369 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726631AbfFZDst (ORCPT
+        id S1726442AbfFZEZL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 00:25:11 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33837 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfFZEZL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:48:49 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:cce7:b034:bc51:b016])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id fyvNh1ovA7KeZfyvOhgOdT; Wed, 26 Jun 2019 05:48:47 +0200
-Message-ID: <0ac8786eac82e23c598cf0a16cedb1da@smtp-cloud8.xs4all.net>
-Date:   Wed, 26 Jun 2019 05:48:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfJbpE+J/XVOEPa+76U17Yei/GeC3KNgCxAn4QLeiMMDRYVCSZmLAFFjo5Cn+1PqEVEPZ2lCsxsCB+JoOEsFwHkrFccHlYjawma1SnLBM5GmE8lKBa6tJ
- 94oI67yvVxZujAQ6m3/Q97Qo8Mcb1ff7yBhKKOqyd4v7dlv/4TRmlgDwgEdmcjUnuezNuNEcieQG81259eK47hsNVeh5wIMuqOLV2YELbgn79cHJajJgM2uf
+        Wed, 26 Jun 2019 00:25:11 -0400
+Received: by mail-ed1-f67.google.com with SMTP id s49so1234930edb.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2019 21:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JGn88fpcggP80EkMgEhpFVRWZldlC/S/PfPy9x+l7EY=;
+        b=hi8YC5l2qnHJT78/R3Yl+wiWfpyHlT9IXtzh1VS1PICGF31g3Sd4fkgIjvpsp8FRoa
+         WlqxY21l97Rs1fnUZYuObwB0GeRk1VP1/z8vP6UQmCvp04MzAgdWJ3ZXXSogouCRq06O
+         s597zeVBW3g4IN6wQn6Wu6HlR7dlexDixfOpQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JGn88fpcggP80EkMgEhpFVRWZldlC/S/PfPy9x+l7EY=;
+        b=YR01KewtpzG9zowlsO4DaKGuG3W74Ug9eBZyEmO/qMYZAmvHGjBQ3ibqkIIUY72SFG
+         reMdRixpZsmeHQts2h6BQXGzMtK3XdV0ZC0NB/BIObUdgnylKS/106OjqXoHT7JgF4DS
+         CDUgEq/ZYP9pfQQHs5v1/tv3J7rgLQXYuscfWqksLaZD68oTIzvw+npC9f+YQzbZhgqi
+         /9OvYO26EmA3Gf/c8p19Vh/P/lbeKsd27i6JNwD3ZZWt8rxpbrveuCM+jJ+ocBQC3Ghx
+         wJJ8gNHJEqLtc8HCMAwkFouYm3uQBe0zW3+/qQPccC5h01arOLk3WeCxI20uljL3Nw1T
+         fAeg==
+X-Gm-Message-State: APjAAAUaVx2frtDwx184L1f+KmlTJRMvRB7zCqCGDcUUxXxC006+YSUM
+        o42RysrZpFwYKogv/zvAh3gPX2oNujHcFA==
+X-Google-Smtp-Source: APXvYqxt0K11+gesI3JUSzxsZBNw6CyIirC7JMUa8D4aigyo6xICQxYo2BrLWosIci+tWrLfKVd4LQ==
+X-Received: by 2002:a17:906:3d69:: with SMTP id r9mr1980708ejf.28.1561523109135;
+        Tue, 25 Jun 2019 21:25:09 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
+        by smtp.gmail.com with ESMTPSA id m3sm5091783edi.33.2019.06.25.21.25.07
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Jun 2019 21:25:07 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id k11so999392wrl.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2019 21:25:07 -0700 (PDT)
+X-Received: by 2002:adf:f246:: with SMTP id b6mr1497996wrp.92.1561523106726;
+ Tue, 25 Jun 2019 21:25:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190417104511.21514-1-frederic.chen@mediatek.com>
+ <20190417104511.21514-7-frederic.chen@mediatek.com> <20190509094846.GA65444@google.com>
+ <1561464978.23799.37.camel@mtksdccf07>
+In-Reply-To: <1561464978.23799.37.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 26 Jun 2019 13:24:54 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D8WDQJaN8SYKwOXyC9-YPRC1U58HirPVzL5969MSvkgA@mail.gmail.com>
+Message-ID: <CAAFQd5D8WDQJaN8SYKwOXyC9-YPRC1U58HirPVzL5969MSvkgA@mail.gmail.com>
+Subject: Re: [RFC PATCH V1 6/6] platform: mtk-isp: Add Mediatek DIP driver
+To:     Frederic Chen <frederic.chen@mediatek.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        yuzhao@chromium.org, zwisler@chromium.org,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?SG9sbWVzIENoaW91ICjpgrHmjLop?= 
+        <holmes.chiou@mediatek.com>,
+        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        devicetree@vger.kernel.org, Shik Chen <shik@chromium.org>,
+        suleiman@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Frederic,
 
-Results of the daily build of media_tree:
+On Tue, Jun 25, 2019 at 9:16 PM Frederic Chen
+<frederic.chen@mediatek.com> wrote:
+>
+> Dear Tomasz,
+>
+> Would you comment on the following points in further? Thank you for the
+> review.
+>
+> On Thu, 2019-05-09 at 18:48 +0900, Tomasz Figa wrote:
+> > Hi Frederic,
+> >
+>
+> [snip]
+>
+> > > +int mtk_dip_pipe_job_start(struct mtk_dip_pipe *dip_pipe,
+> > > +                          struct mtk_dip_pipe_job_info *pipe_job_info)
+> > > +{
+> > > +       struct platform_device *pdev = dip_pipe->dip_dev->pdev;
+> > > +       int ret;
+> > > +       int out_img_buf_idx;
+> > > +       struct img_ipi_frameparam dip_param;
+> > > +       struct mtk_dip_dev_buffer *dev_buf_in;
+> > > +       struct mtk_dip_dev_buffer *dev_buf_out;
+> > > +       struct mtk_dip_dev_buffer *dev_buf_tuning;
+> > > +
+> > > +       if (!pipe_job_info) {
+> > > +               dev_err(&pdev->dev,
+> > > +                       "pipe_job_info(%p) in start can't be NULL\n",
+> > > +                       pipe_job_info);
+> > > +               return -EINVAL;
+> > > +       }
+> >
+> > This should be impossible to happen.
+> >
+> > > +
+> > > +       /* We need RAW and at least MDP0 or MDP 1 buffer */
+> > > +       if (!pipe_job_info->buf_map[MTK_DIP_VIDEO_NODE_ID_RAW_OUT] ||
+> > > +           (!pipe_job_info->buf_map[MTK_DIP_VIDEO_NODE_ID_MDP0_CAPTURE] &&
+> > > +                !pipe_job_info->buf_map[MTK_DIP_VIDEO_NODE_ID_MDP1_CAPTURE])){
+> > > +               struct mtk_dip_dev_buffer **map = pipe_job_info->buf_map;
+> > > +
+> > > +               dev_dbg(&pdev->dev,
+> > > +                       "can't trigger job: raw(%p), mdp0(%p), mdp1(%p)\n",
+> > > +                       map[MTK_DIP_VIDEO_NODE_ID_RAW_OUT],
+> > > +                       map[MTK_DIP_VIDEO_NODE_ID_MDP0_CAPTURE],
+> > > +                       map[MTK_DIP_VIDEO_NODE_ID_MDP1_CAPTURE]);
+> > > +               return -EINVAL;
+> >
+> > This must be validated at the time of request_validate. We can't fail at
+> > this stage anymore.
+>
+> After the modification about checking the required buffers in
+> req_validate(), we got failed in the following testRequests()
+> of V4L2 compliance test. The V4L2 compliance test case doesn't know
+> which buffers of the video devices are required and expects that the
+> MEDIA_REQUEST_IOC_QUEUE succeed when the request has any valid buffer.
+>
+> For example, when the request has MDP 0 buffer only, the DIP's
+> req_validate() should return an error since it also need a buffer
+> from RAW video device, but it make compliance test get failed.
+>
+> May I still check the required buffers in req_validate() in the next
+> patch? I will add some note to explain that the compliance test failed
+> item is related to the limitation?
+>
+> =======================================================
+> int testRequests(struct node *node, bool test_streaming)
+> // ......
+> if (i)
+>         fail_on_test(!buf.qbuf(node));
+> buf.s_flags(buf.g_flags() | V4L2_BUF_FLAG_REQUEST_FD);
+> buf.s_request_fd(buf_req_fds[i]);
+> buf.s_field(V4L2_FIELD_ANY);
+> fail_on_test(buf.qbuf(node));
+> if (v4l_type_is_video(buf.g_type()) && v4l_type_is_output(buf.g_type()))
+>         fail_on_test(buf.g_field() == V4L2_FIELD_ANY);
+> fail_on_test(buf.querybuf(node, i));
+>
+> // ......
+>
+> // LINE 1807 in v4l2-test-buffers.cpp, we will got the  failed here.
+> // Since we need one RAW and one MDP0 buffer at least.
+> // v4l2-test-buffers.cpp(1807): doioctl_fd(buf_req_fds[i],
+> // MEDIA_REQUEST_IOC_QUEUE, 0)
+> //      test Requests: FAIL
+> fail_on_test(doioctl_fd(buf_req_fds[i], MEDIA_REQUEST_IOC_QUEUE, 0));
+> =======================================================
+>
 
-date:			Wed Jun 26 05:00:10 CEST 2019
-media-tree git hash:	86d617d6c79d79288ca608b6fb0a2467b0e8ddbb
-media_build git hash:	ea1fe7761490eee9a84242305af8c4b20a4703e6
-v4l-utils git hash:	070a4d421778c313f79d840bf400a7d60dfe7dc9
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Sounds like a limitation of the compliance test. Request API testing
+there is still new and possibly just made for simple mem-to-mem
+devices.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Hans, the driver always requires some buffers to be given, like the
+raw frame input, while other, e.g. downscaled output, are optional.
+Any ideas?
 
-Detailed results are available here:
+> > > +
+> > > +static int mtk_dip_vb2_queue_setup(struct vb2_queue *vq,
+> > > +                                  unsigned int *num_buffers,
+> > > +                                  unsigned int *num_planes,
+> > > +                                  unsigned int sizes[],
+> > > +                                  struct device *alloc_devs[])
+> > > +{
+> > > +       struct mtk_dip_pipe *dip_pipe = vb2_get_drv_priv(vq);
+> > > +       struct mtk_dip_video_device *node =
+> > > +               mtk_dip_vbq_to_node(vq);
+> > > +       struct device *dev = &dip_pipe->dip_dev->pdev->dev;
+> > > +       struct device *buf_alloc_ctx;
+> > > +
+>
+> [snip]
+>
+> > > +
+> > > +       if (vq->type == V4L2_BUF_TYPE_META_CAPTURE ||
+> > > +           vq->type == V4L2_BUF_TYPE_META_OUTPUT)
+> > > +               size = fmt->fmt.meta.buffersize;
+> > > +       else
+> > > +               size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
+> > > +
+> > > +       if (*num_planes) {
+> > > +               if (sizes[0] < size) {
+> > > +                       dev_dbg(dev, "%s:%s:%s: size error(user:%d, max:%d)\n",
+> > > +                               __func__, dip_pipe->desc->name,
+> > > +                               node->desc->name, sizes[0], size);
+> > > +                       return -EINVAL;
+> > > +               }
+> >
+> > I don't think this is an error. This is for handling VIDIOC_CREATE_BUFS,
+> > which can allocate for any arbitrary format.
+> >
+> > Whether the size of the buffer is big enough for current format should be
+> > checked in .buf_prepare callback.
+>
+> When executing V4L2 compliance test, we need to check this image size to
+> pass the following q.create_bufs() test (LINE:709,
+> v4l2-test-buffers.cpp).
+>
+> ========================================================
+> node->g_fmt(fmt, q.g_type());
+> //....
+> fmt.s_height(fmt.g_height() / 2);
+> for (unsigned p = 0; p < fmt.g_num_planes(); p++)
+>         fmt.s_sizeimage(fmt.g_sizeimage(p) / 2, p);
+>
+> // LINE 709 in v4l2-test-buffers.cpp
+> // It seems that the driver needs to return EINVAL when the buffer
+> //size is smaller than the sizeimage required
+>         fail_on_test(q.create_bufs(node, 1, &fmt) != EINVAL);
+> ========================================================
+>
+> The kernel document has some similar description on VIDIOC_CREATE_BUFS.
+>
+> https://www.kernel.org/doc/html/latest/media/uapi/v4l/vidioc-create-bufs.html
+>
+> =======================================================
+> Usually if the format.pix.sizeimage field is less than the minimum
+> required for the given format, then an error will be returned since
+> drivers will typically not allow this.
+> =======================================================
+>
+> Should we check the image size of each plane here so that we can pass
+> the test?
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Note that "given format" there means the format field of
+structv4l2_create_buffers, _not_ the currently active format. That's
+really strange because we don't get that inside queue_setup.
 
-Detailed regression test results are available here:
+Hans, how should we handle this in the driver? Right now we just call
+vb2_create_bufs(), which doesn't care about anything else than
+sizeimage. Do we need to implement our own .vidioc_create_bufs()
+handler that validates the sizeimage wrt the other parts of the given
+format before calling vb2_create_bufs()?
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+Another thing is that the spec isn't very precise on this, especially
+given the "usually" and "typically" in the description quoted above.
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
