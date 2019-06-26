@@ -2,115 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FB7356276
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 08:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A560756389
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 09:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbfFZGkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 02:40:00 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60965 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725876AbfFZGj7 (ORCPT
+        id S1727005AbfFZHo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 03:44:27 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33505 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726076AbfFZHo1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 02:39:59 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g1azhV1GQSfvXg1b3hJErf; Wed, 26 Jun 2019 08:39:57 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.3] cec: improve notifier API, prepare for connector
- info
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>
-Message-ID: <c7dffb66-17a2-466d-bcd1-a1c5718b29be@xs4all.nl>
-Date:   Wed, 26 Jun 2019 08:39:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 26 Jun 2019 03:44:27 -0400
+Received: from tschai.fritz.box ([46.9.252.75])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id g2bNh3RUP7KeZg2bQhhHnQ; Wed, 26 Jun 2019 09:44:25 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 00/16] media/platform: set device_caps in struct video_device
+Date:   Wed, 26 Jun 2019 09:44:05 +0200
+Message-Id: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfORCWU8Sf0QB6imngYVpVfNr5daxm2sb6ojXfm0Bk1ZQk6XnTLGTQHfgWY14L7hDhgcBdIKFI/3atcowomaT2I0A7BpiDiOmCs4WRZbiAS0LwfceUxJY
- fVMwCH/w3CHBsrMKy0seCeYKdddSHzWloxSoSyYTZBOKsNYXTTFEinTtjiaj6hV0zs+p4BCMOBjoem1qWskPhyd+UcPQcfFMb4o=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfIj3dZgglss+tf4PXeuCKB+HXvyTYrUKj32m1X7tI6K/ziBELb3FaqsxZxhj9nnBA9jyIwHOfHA95IwCaWb+b4cHtz/EakH0fDudTLunc/74bVfrF/mB
+ BTuJt9wQXQHQXS4sv2zWxs6y5YWxHPbesfZcPLweMyN0bp5KXkxqddGXZtekGh/RkLpMWhFaU1kEOw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Instead of filling in the struct v4l2_capability device_caps
+field, fill in the struct video_device device_caps field.
 
-This pull request consists of the first three patches of this larger patch
-series: https://www.spinics.net/lists/linux-media/msg153276.html
+That way the V4L2 core knows what the capabilities of the
+video device are.
 
-This prepares the CEC core for a new ioctl: CEC_ADAP_G_CONNECTOR_INFO. This
-will help link the CEC adapter with the corresponding DRM connector. For this
-to work, DRM drivers will need to provide the connector info when they create
-the CEC adapter (through the new cec_s_conn_info() function) or when they
-create the cec_notifier (through the new cec_notifier_conn_register() function).
+But this only really works if all drivers use this, so convert
+all platform drivers in this patch series.
 
-Note that currently the connector info is only supported for HDMI output connectors
-(drm). The plan is to add support for HDMI input connectors as well, once I figure
-out how to specify that since we don't have a nice way of defining that in V4L2.
+Hans Verkuil (16):
+  am437x/davinci: set device_caps in struct video_device
+  coda: set device_caps in struct video_device
+  s3c-camif/s5p-g2d/s5p-jpeg: set device_caps in struct video_device
+  fsl-viu: set device_caps in struct video_device
+  m2m-deinterlace: set device_caps in struct video_device
+  mx2_emmaprp: set device_caps in struct video_device
+  marvell-ccic: set device_caps in struct video_device
+  pxa_camera: set device_caps in struct video_device
+  bdisp: set device_caps in struct video_device
+  via-camera: set device_caps in struct video_device
+  xilinx: set device_caps in struct video_device
+  sh_veu/sh_vou: set device_caps in struct video_device
+  vsp1: set device_caps in struct video_device
+  omap_vout: set device_caps in struct video_device
+  ti-vpe: set device_caps in struct video_device
+  omap3isp: set device_caps in struct video_device
 
-This series also implements replacement functions for the old cec_notifier_get_conn
-and cec_notifier_put functions: these were used both by drm and cec adapters, but
-that no longer works since drm now needs to pass the connector info, and in addition
-we will see in the future multiple cec adapters connected to the same HDMI connector.
+ drivers/media/platform/am437x/am437x-vpfe.c      |  6 ++----
+ drivers/media/platform/coda/coda-common.c        |  4 +---
+ drivers/media/platform/davinci/vpbe_display.c    |  3 +--
+ drivers/media/platform/davinci/vpfe_capture.c    |  3 +--
+ drivers/media/platform/davinci/vpif_capture.c    |  3 +--
+ drivers/media/platform/davinci/vpif_display.c    |  3 +--
+ drivers/media/platform/fsl-viu.c                 |  7 ++-----
+ drivers/media/platform/m2m-deinterlace.c         | 10 +---------
+ drivers/media/platform/marvell-ccic/mcam-core.c  |  5 ++---
+ drivers/media/platform/mx2_emmaprp.c             |  3 +--
+ drivers/media/platform/omap/omap_vout.c          |  6 ++----
+ drivers/media/platform/omap3isp/ispvideo.c       | 13 +++++++------
+ drivers/media/platform/pxa_camera.c              |  3 ---
+ drivers/media/platform/s3c-camif/camif-capture.c |  5 +----
+ drivers/media/platform/s5p-g2d/g2d.c             |  3 +--
+ drivers/media/platform/s5p-jpeg/jpeg-core.c      |  4 ++--
+ drivers/media/platform/sh_veu.c                  |  4 +---
+ drivers/media/platform/sh_vou.c                  |  5 ++---
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c    |  6 +-----
+ drivers/media/platform/ti-vpe/cal.c              |  5 ++---
+ drivers/media/platform/via-camera.c              |  5 ++---
+ drivers/media/platform/vsp1/vsp1_histo.c         |  3 +--
+ drivers/media/platform/vsp1/vsp1_video.c         | 12 ++++--------
+ drivers/media/platform/xilinx/xilinx-dma.c       | 16 +++++++---------
+ 24 files changed, 46 insertions(+), 91 deletions(-)
 
-A typical use-case for that is to have one CEC adapter with limited functionality
-used when the system is in a low-power mode, and one full-fledged CEC adapter used
-when the system is powered up.
+-- 
+2.20.1
 
-So besides the cec_notifier_get_conn and cec_notifier_put functions four new
-replacement functions are added:
-
-cec_notifier_conn_(un)register and cec_notifier_cec_adap_(un)register.
-
-That way the CEC framework will know if a notifier is registered for an HDMI
-connector or a CEC adapter, and that can be used to implement a 1-N relationship
-in the future.
-
-Once all drivers are converted to using these functions the old cec_notifier_get_conn
-and cec_notifier_put functions can be removed. Also the cec_notifier_(un)register and
-cec_register_cec_notifier() functions can be removed since that functionality is now
-done in the new cec_notifier_cec_adap_(un)register functions.
-
-For now the connector info uAPI is disabled, but these three patches provide the
-framework and will make it possible to convert the drm and media drivers independently
-from one another during the 5.4 cycle.
-
-Note that these three patches do not change any existing functionality. They just
-create the kernel APIs needed to implement the new features in drm and media drivers.
-
-Regards,
-
-	Hans
-
-The following changes since commit 86d617d6c79d79288ca608b6fb0a2467b0e8ddbb:
-
-  media: MAINTAINERS: Add maintainers for Media Controller (2019-06-24 15:07:51 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-cec-conn2
-
-for you to fetch changes up to 4c815c4b6564c76b4ca3af6af60a3cff50b0737e:
-
-  cec-notifier: add new notifier functions (2019-06-26 08:12:09 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dariusz Marcinkiewicz (1):
-      cec: add struct cec_connector_info support
-
-Hans Verkuil (2):
-      cec-notifier: rename variables, check kstrdup and n->conn_name
-      cec-notifier: add new notifier functions
-
- drivers/media/cec/cec-adap.c               |  29 +++++++++++++++
- drivers/media/cec/cec-core.c               |   5 +++
- drivers/media/cec/cec-notifier.c           | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++-----
- drivers/media/platform/seco-cec/seco-cec.c |   2 +-
- include/media/cec-notifier.h               | 105 ++++++++++++++++++++++++++++++++++++-----------------
- include/media/cec.h                        |  98 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 6 files changed, 307 insertions(+), 44 deletions(-)
