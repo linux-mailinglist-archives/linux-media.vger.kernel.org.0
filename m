@@ -2,161 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D879B567DE
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 13:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC4CC567E3
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 13:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbfFZLoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 07:44:30 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55357 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725930AbfFZLo3 (ORCPT
+        id S1726347AbfFZLsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 07:48:46 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36318 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfFZLsp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 07:44:29 -0400
-Received: from [IPv6:2001:420:44c1:2579:95e:6256:39de:52a6] ([IPv6:2001:420:44c1:2579:95e:6256:39de:52a6])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g6LfhWztlSfvXg6LjhKTME; Wed, 26 Jun 2019 13:44:27 +0200
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: reorder checks in
- v4l2_m2m_poll()
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de, pawel@osciak.com, mchehab@kernel.org
-References: <20190625141113.30301-1-m.tretter@pengutronix.de>
- <20190625141113.30301-3-m.tretter@pengutronix.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9a5acbab-587b-76aa-68eb-7989652f247a@xs4all.nl>
-Date:   Wed, 26 Jun 2019 13:44:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Wed, 26 Jun 2019 07:48:45 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3B822260641;
+        Wed, 26 Jun 2019 12:48:44 +0100 (BST)
+Date:   Wed, 26 Jun 2019 13:48:39 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v2 3/3] media: uapi: h264: Get rid of the p0/b0/b1
+ ref-lists
+Message-ID: <20190626134839.709be189@collabora.com>
+In-Reply-To: <4dec37e985d160d2fe5b3b5e28eff0e081a860fa.camel@bootlin.com>
+References: <20190610085250.3255-1-boris.brezillon@collabora.com>
+        <20190610085250.3255-4-boris.brezillon@collabora.com>
+        <4dec37e985d160d2fe5b3b5e28eff0e081a860fa.camel@bootlin.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190625141113.30301-3-m.tretter@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPtYrTVuZmKWMdtTaHw3Kp3rkUhwuO6iWB6MOmUMITbzkhK1tC169I1G3PX2oD4xFFx3ZRpHxxrYTnIWVgkOa90gk8DAkw5tzNdwp/gP/YeH+IU4NxI/
- U+L74UOU6xh/7E6g11HBHL96TxWsHuB2BvHyiupjwp6k27pSKYyk9SGSMiMt/Y1khrXAelGjGn5caae4lUArfw7YZ3Xb0IXXKypxu7wo18Q+YIPA1hJW1CPz
- 285eL1myP0l4yxNhpLrB8jFH/WsYtUyNoO32zCHpwkfqHf9lxBZWkCUscv5ekZXsbp2A7CoaQ9QKY78VOd/lvOYftaf6/yzBYkFCXK8rDRYo7xhx/gnmufTL
- yPX204UCC5952AMB6ODgaAe0HgYaNiXZjHeUa1UuTbNyuLZq3QwZB8wlBwG3/e5PMlEE+sIw
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/25/19 4:11 PM, Michael Tretter wrote:
-> When reaching the end of stream, V4L2 m2m clients may expect the
-> V4L2_EOS_EVENT. Although the V4L2_EOS_EVENT is deprecated behavior,
-> drivers must signal that event before dequeuing the buffer that has the
-> V4L2_BUF_FLAG_LAST flag set.
+On Wed, 26 Jun 2019 13:33:41 +0200
+Paul Kocialkowski <paul.kocialkowski@bootlin.com> wrote:
+
+> Hi,
 > 
-> If a driver queues the V4L2_EOS_EVENT event and returns the buffer after
-> the check for events but before the check for buffers, vb2_m2m_poll()
-> will signal that the buffer with V4L2_BUF_FLAG_LAST can be read but not
-> that the V4L2_EOS_EVENT is available.
+> On Mon, 2019-06-10 at 10:52 +0200, Boris Brezillon wrote:
+> > Those lists can be extracted from the dpb, let's simplify userspace
+> > life and build that list kernel-side (generic helpers will be provided
+> > for drivers that need this list).  
 > 
-> Split the check for buffers into a separate function and check for
-> available buffers before checking for events. This ensures that if
-> vb2_m2m_poll() signals POLLIN | POLLRDNORM for the V4L2_BUF_FLAG_LAST
-> buffer, it signals POLLPRI for the V4L2_EOS_EVENT, too.
+> I don't really have any clear idea about that, but there was a
+> discussion about DPB vs reference picture lists some weeks ago.
+
+What we call DPB right now is actually a list of reference pictures
+(each entry being flagged long or short term). When reading the spec,
+you said DPB was referring to something that's more implementation
+specific, and I think that's what motivated your initial suggestion to
+rename this field into something more appropriate (ref_pics?). TBH, I'm
+just guessing here, since you were the one initially proposing this
+change, and I must say that having to explain what you had in mind at
+that time is a bit weird :P.
+
 > 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 47 +++++++++++++++-----------
->  1 file changed, 27 insertions(+), 20 deletions(-)
+> Is there some mail thread with a rationale about it, some IRC logs I
+> could look at or could the people involved in the discussion provide
+> some additional background at this point?
+
+Well, you were part of the discussion, and I think most of it happened
+in the "Proposed updates and guidelines for MPEG-2, H.264 and H.265
+stateless support" thread you started.
+
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> index 4f5176702937..f18fdce31d6f 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -603,11 +603,10 @@ int v4l2_m2m_streamoff(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_m2m_streamoff);
->  
-> -__poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-> -			   struct poll_table_struct *wait)
-> +static __poll_t __v4l2_m2m_poll(struct file *file,
-> +				struct v4l2_m2m_ctx *m2m_ctx,
-> +				struct poll_table_struct *wait)
+> IIRC we also talked about removing the DPB or at least renaming it, but
+> I don't have a clear idea of the outcome as well.
 
-I agree with the patch, except for this function name.
-
-How about: v4l2_m2m_poll_for_data() or something along those lines?
-
-Regards,
-
-	Hans
-
->  {
-> -	struct video_device *vfd = video_devdata(file);
-> -	__poll_t req_events = poll_requested_events(wait);
->  	struct vb2_queue *src_q, *dst_q;
->  	struct vb2_buffer *src_vb = NULL, *dst_vb = NULL;
->  	__poll_t rc = 0;
-> @@ -619,16 +618,6 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  	poll_wait(file, &src_q->done_wq, wait);
->  	poll_wait(file, &dst_q->done_wq, wait);
->  
-> -	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags)) {
-> -		struct v4l2_fh *fh = file->private_data;
-> -
-> -		poll_wait(file, &fh->wait, wait);
-> -		if (v4l2_event_pending(fh))
-> -			rc = EPOLLPRI;
-> -		if (!(req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM)))
-> -			return rc;
-> -	}
-> -
->  	/*
->  	 * There has to be at least one buffer queued on each queued_list, which
->  	 * means either in driver already or waiting for driver to claim it
-> @@ -637,10 +626,8 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  	if ((!src_q->streaming || src_q->error ||
->  	     list_empty(&src_q->queued_list)) &&
->  	    (!dst_q->streaming || dst_q->error ||
-> -	     list_empty(&dst_q->queued_list))) {
-> -		rc |= EPOLLERR;
-> -		goto end;
-> -	}
-> +	     list_empty(&dst_q->queued_list)))
-> +		return EPOLLERR;
->  
->  	spin_lock_irqsave(&dst_q->done_lock, flags);
->  	if (list_empty(&dst_q->done_list)) {
-> @@ -650,7 +637,7 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  		 */
->  		if (dst_q->last_buffer_dequeued) {
->  			spin_unlock_irqrestore(&dst_q->done_lock, flags);
-> -			return rc | EPOLLIN | EPOLLRDNORM;
-> +			return EPOLLIN | EPOLLRDNORM;
->  		}
->  	}
->  	spin_unlock_irqrestore(&dst_q->done_lock, flags);
-> @@ -673,7 +660,27 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->  		rc |= EPOLLIN | EPOLLRDNORM;
->  	spin_unlock_irqrestore(&dst_q->done_lock, flags);
->  
-> -end:
-> +	return rc;
-> +}
-> +
-> +__poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-> +			   struct poll_table_struct *wait)
-> +{
-> +	struct video_device *vfd = video_devdata(file);
-> +	__poll_t req_events = poll_requested_events(wait);
-> +	__poll_t rc = 0;
-> +
-> +	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
-> +		rc = __v4l2_m2m_poll(file, m2m_ctx, wait);
-> +
-> +	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags)) {
-> +		struct v4l2_fh *fh = file->private_data;
-> +
-> +		poll_wait(file, &fh->wait, wait);
-> +		if (v4l2_event_pending(fh))
-> +			rc |= EPOLLPRI;
-> +	}
-> +
->  	return rc;
->  }
->  EXPORT_SYMBOL_GPL(v4l2_m2m_poll);
-> 
-
+The list of long/short refs has to be passed, and that's actually what
+we currently call "DPB", so we're just talking about a rename here,
+nothing more. The ordered P/B0/B1 reflists can easily be built from the
+un-ordered list of ref pics, so I'm just proposing to get rid of these
+fields and have a generic implementation kernel-side so that drivers
+that need it don't have to re-implement it.
