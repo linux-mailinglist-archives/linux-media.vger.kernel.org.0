@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F4055638B
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 09:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3266B56395
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 09:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727031AbfFZHo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 03:44:28 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57875 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727009AbfFZHo2 (ORCPT
+        id S1727077AbfFZHod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 03:44:33 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:57443 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727001AbfFZHo2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 26 Jun 2019 03:44:28 -0400
 Received: from tschai.fritz.box ([46.9.252.75])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id g2bNh3RUP7KeZg2bShhHoK; Wed, 26 Jun 2019 09:44:27 +0200
+        id g2bNh3RUP7KeZg2bThhHoO; Wed, 26 Jun 2019 09:44:27 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 05/16] m2m-deinterlace: set device_caps in struct video_device
-Date:   Wed, 26 Jun 2019 09:44:10 +0200
-Message-Id: <20190626074421.38739-6-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 06/16] mx2_emmaprp: set device_caps in struct video_device
+Date:   Wed, 26 Jun 2019 09:44:11 +0200
+Message-Id: <20190626074421.38739-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
 References: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
@@ -41,32 +41,25 @@ video device are.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/platform/m2m-deinterlace.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/media/platform/mx2_emmaprp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/m2m-deinterlace.c b/drivers/media/platform/m2m-deinterlace.c
-index beb7fd7442fb..485fcf36ce32 100644
---- a/drivers/media/platform/m2m-deinterlace.c
-+++ b/drivers/media/platform/m2m-deinterlace.c
-@@ -437,15 +437,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+diff --git a/drivers/media/platform/mx2_emmaprp.c b/drivers/media/platform/mx2_emmaprp.c
+index 333324c75027..a77fff122467 100644
+--- a/drivers/media/platform/mx2_emmaprp.c
++++ b/drivers/media/platform/mx2_emmaprp.c
+@@ -383,8 +383,6 @@ static int vidioc_querycap(struct file *file, void *priv,
+ {
  	strscpy(cap->driver, MEM2MEM_NAME, sizeof(cap->driver));
  	strscpy(cap->card, MEM2MEM_NAME, sizeof(cap->card));
- 	strscpy(cap->bus_info, MEM2MEM_NAME, sizeof(cap->card));
--	/*
--	 * This is only a mem-to-mem video device. The capture and output
--	 * device capability flags are left only for backward compatibility
--	 * and are scheduled for removal.
--	 */
--	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT |
--			   V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
+-	cap->device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
 -	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
--
  	return 0;
  }
  
-@@ -972,6 +963,7 @@ static const struct video_device deinterlace_videodev = {
+@@ -866,6 +864,7 @@ static const struct video_device emmaprp_videodev = {
  	.minor		= -1,
- 	.release	= video_device_release_empty,
+ 	.release	= video_device_release,
  	.vfl_dir	= VFL_DIR_M2M,
 +	.device_caps	= V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
  };
