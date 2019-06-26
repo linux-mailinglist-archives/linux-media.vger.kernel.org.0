@@ -2,188 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EFCD55B81
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 00:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0717455D0E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 02:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbfFYWrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 18:47:07 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:35753 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfFYWrG (ORCPT
+        id S1726223AbfFZApo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 20:45:44 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37226 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbfFZApn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 18:47:06 -0400
-Received: by mail-io1-f69.google.com with SMTP id w17so216285iom.2
-        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2019 15:47:06 -0700 (PDT)
+        Tue, 25 Jun 2019 20:45:43 -0400
+Received: by mail-wr1-f68.google.com with SMTP id v14so623500wrr.4
+        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2019 17:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=CcGx8nGGPgePvCK9a/1gq+R347fY4+PUfFITQmVv5zY=;
+        b=JTaeS6aYXUpkEOATqp4ttVLgMJHakd/Ab8kS4N8nwk6ilbxwPY/6WBJkHWeK8MSmnU
+         8bWqspwducw5+qVPRaP2AMyahVxqs5IJ89M+n9KaGdAtSNM8pWw0zt3jnEyO+dn6ZxrT
+         o5cC4a3Qx+SlQ4+0nT/DFVIk5vMRm2SYZpAcZTqCA8qf67dI9iBguYepuV/Sq5HTadiN
+         TeCJXSkl3/3KeWVAsn6BTqNMWrThAzl62j8RRP3wAodNoQxNZ+D3lecMAbly/l8EXwKZ
+         TdJ8pky2KpPT+XpcHY0S3bSywAk9p7ZHTxkkVpgcnTSRW3SGXSxE8hGfg6SauLYCfEqV
+         Zmqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Vw6MJY7BFxpWAU+MjwyOxPcnR+sho3N/M68uPuBFnGU=;
-        b=f8KJLRR75TNQCvPz58JlDbuyui8Y5WI19s4/2NQW+QQuQ2J7oYwKCzEpa8/I1Zh039
-         ri4+wfhw/7ulGzbcVv9MIU+a/eE2/p7T7TaBBLgFtZcHKx64VPtdVf76xMqzAyBjEVFq
-         zNA8PCfrE1rEk8uRTm28Rv2dTd3iK1oHPnMKe4uhv0Lv8XRstQ6GwvN3duH889g+COLQ
-         dckiFrdu2hNO6c7fZ6kxzJUCiz0ujFr+AhEqVFFBc9ns2VEnA5tDs1qqAPRZtqV27iaX
-         ZbgHptDQiFNzinMd2fupIVtBLqz8YBG/QsHM0cYckeBU8LDEu9ojiHo4Y79b730bM8A1
-         KvyA==
-X-Gm-Message-State: APjAAAWrgnIXS7Mh5VEYNgPELhYeZOCnWS64/zG2spdwL2CLmVffT/YH
-        lzuzBO4Etq+vojIgpz/ZBB0J7HSDPzF/zS8/303G3yFv3eLl
-X-Google-Smtp-Source: APXvYqw3FPGBs+xBmYD7Bm5K5bn6fZbFnVRr1zstkNRTrOudHW+rhnCoXXsHdhc0JAXMg8tPslu60h9QbiEUzTK10ICQwMYq5Whi
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=CcGx8nGGPgePvCK9a/1gq+R347fY4+PUfFITQmVv5zY=;
+        b=Ri34CJg9ZFIIaNSfL2GLEXvDi/qfcstgMJY6AZ38R6uv7pTMcRpoLujX/LYVaTml9o
+         yb7v34A/GD2s8bhfBUal8c9K3mHfWbY2BPSkKwrtH31ui/lNuXrrdj+f6yI1nXKPkEgT
+         aqiDsQOG7PTIKZ7O1QFPGSA08xzpdH3ObM2WCJhfhT52MoZusDZpQgmVx2p/bWzx0WU3
+         +N6Lcsau0kFwFRN40jWiz4y89wNAblK3fQ1dVi6OzqOhus4cNEe3XBnzKuw/MR6CGaYh
+         T44C08spm3zI4Excr9tpuvbynYl7xlT8eJvy/UvGbI9/H9wuuPvDL6uu+781xBRxmkXc
+         khtw==
+X-Gm-Message-State: APjAAAVDP+g0bfF0kL5IZ7qrqaF9tZpe2PSJ2GOk4EUP4I4+P7nSa/Z4
+        zspB7qBNFs6XfvhzXiB2G5I=
+X-Google-Smtp-Source: APXvYqwUyR+j9VUvWm/sk4FEn9TMVy+zD/xSa/ERgUsIR3R6FjOdsXJC3Z/acOyF7f1vHhQXUSFK3g==
+X-Received: by 2002:adf:9d4c:: with SMTP id o12mr647294wre.340.1561509941440;
+        Tue, 25 Jun 2019 17:45:41 -0700 (PDT)
+Received: from [172.30.89.88] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id f13sm5943214wrt.89.2019.06.25.17.45.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Jun 2019 17:45:40 -0700 (PDT)
+Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
+ times-out
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20190625203945.28081-1-ezequiel@collabora.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <9a2efc26-0f39-595c-a058-da54c42049e4@gmail.com>
+Date:   Tue, 25 Jun 2019 17:45:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-X-Received: by 2002:a02:3f0a:: with SMTP id d10mr909996jaa.23.1561502825823;
- Tue, 25 Jun 2019 15:47:05 -0700 (PDT)
-Date:   Tue, 25 Jun 2019 15:47:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003fc6ef058c2db557@google.com>
-Subject: KASAN: slab-out-of-bounds Read in hdpvr_probe
-From:   syzbot <syzbot+79d18aac4bf1770dd050@syzkaller.appspotmail.com>
-To:     allison@lohutok.net, andreyknvl@google.com,
-        gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+In-Reply-To: <20190625203945.28081-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Thanks, there was earlier talk of relaxing those CSI-2 bus startup 
+requirements, but somehow it fell through the cracks.
 
-syzbot found the following crash on:
+Acked-by: Steve Longerbeam <slongerbeam@gmail.com>
 
-HEAD commit:    9939f56e usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e0f72da00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=df134eda130bb43a
-dashboard link: https://syzkaller.appspot.com/bug?extid=79d18aac4bf1770dd050
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+On 6/25/19 1:39 PM, Ezequiel Garcia wrote:
+> Not all sensors will be able to guarantee a proper initial state.
+> This may be either because the driver is not properly written,
+> or (probably unlikely) because the hardware won't support it.
+>
+> While the right solution in the former case is to fix the sensor
+> driver, the real world not always allows right solutions, due to lack
+> of available documentation and support on these sensors.
+>
+> Let's relax this requirement, and allow the driver to support stream start,
+> even if the sensor initial sequence wasn't the expected.
+> A warning is still emitted, so users should be hinted that something is off.
+>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>   drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
+>   1 file changed, 9 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> index f29e28df36ed..10342434e797 100644
+> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
+>   }
+>   
+>   /* Waits for low-power LP-11 state on data and clock lanes. */
+> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
+> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
+>   {
+>   	u32 mask, reg;
+>   	int ret;
+> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
+>   
+>   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
+>   				 (reg & mask) == mask, 0, 500000);
+> -	if (ret) {
+> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> +	if (ret)
+> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
+>   }
+>   
+>   /* Wait for active clock on the clock lane. */
+> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
+> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
+>   {
+>   	u32 reg;
+>   	int ret;
+>   
+>   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
+>   				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
+> -	if (ret) {
+> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
+> -			 reg);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> +	if (ret)
+> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
+> +			  reg);
+>   }
+>   
+>   /* Setup the i.MX CSI2IPU Gasket */
+> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
+>   	csi2_enable(csi2, true);
+>   
+>   	/* Step 5 */
+> -	ret = csi2_dphy_wait_stopstate(csi2);
+> -	if (ret)
+> -		goto err_assert_reset;
+> +	csi2_dphy_wait_stopstate(csi2);
+>   
+>   	/* Step 6 */
+>   	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
+> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
+>   		goto err_assert_reset;
+>   
+>   	/* Step 7 */
+> -	ret = csi2_dphy_wait_clock_lane(csi2);
+> -	if (ret)
+> -		goto err_stop_upstream;
+> -
+> +	csi2_dphy_wait_clock_lane(csi2);
+>   	return 0;
+>   
+> -err_stop_upstream:
+> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
+>   err_assert_reset:
+>   	csi2_enable(csi2, false);
+>   err_disable_clk:
 
-Unfortunately, I don't have any reproducer for this crash yet.
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+79d18aac4bf1770dd050@syzkaller.appspotmail.com
-
-usb 2-1: config 0 descriptor??
-==================================================================
-BUG: KASAN: slab-out-of-bounds in string_nocheck+0x1d2/0x200  
-lib/vsprintf.c:605
-Read of size 1 at addr ffff8881cda45b20 by task kworker/0:0/5
-
-CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.2.0-rc5+ #11
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x67/0x231 mm/kasan/report.c:188
-  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
-  kasan_report+0xe/0x20 mm/kasan/common.c:614
-  string_nocheck+0x1d2/0x200 lib/vsprintf.c:605
-  string+0xe5/0xf0 lib/vsprintf.c:668
-  vsnprintf+0x7d3/0x14f0 lib/vsprintf.c:2503
-  vscnprintf+0x29/0x80 lib/vsprintf.c:2606
-  vprintk_store+0x40/0x4b0 kernel/printk/printk.c:1907
-  vprintk_emit+0xc8/0x3e0 kernel/printk/printk.c:1968
-  vprintk_func+0x75/0x113 kernel/printk/printk_safe.c:386
-  printk+0xba/0xed kernel/printk/printk.c:2046
-  device_authorization drivers/media/usb/hdpvr/hdpvr-core.c:140 [inline]
-  hdpvr_device_init drivers/media/usb/hdpvr/hdpvr-core.c:201 [inline]
-  hdpvr_probe.cold+0x194/0x1247 drivers/media/usb/hdpvr/hdpvr-core.c:342
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Allocated by task 5:
-  save_stack+0x1b/0x80 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_kmalloc mm/kasan/common.c:489 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:462
-  kmalloc include/linux/slab.h:547 [inline]
-  hdpvr_probe+0x1ce/0xac0 drivers/media/usb/hdpvr/hdpvr-core.c:297
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Freed by task 0:
-(stack is not available)
-
-The buggy address belongs to the object at ffff8881cda45ae0
-  which belongs to the cache kmalloc-64 of size 64
-The buggy address is located 0 bytes to the right of
-  64-byte region [ffff8881cda45ae0, ffff8881cda45b20)
-The buggy address belongs to the page:
-page:ffffea0007369140 refcount:1 mapcount:0 mapping:ffff8881dac03600  
-index:0x0
-flags: 0x200000000000200(slab)
-raw: 0200000000000200 dead000000000100 dead000000000200 ffff8881dac03600
-raw: 0000000000000000 00000000802a002a 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881cda45a00: fc fc fc fc fb fb fb fb fb fb fb fb fc fc fc fc
-  ffff8881cda45a80: fb fb fb fb fb fb fb fb fc fc fc fc 00 00 00 00
-> ffff8881cda45b00: 00 00 00 00 fc fc fc fc fb fb fb fb fb fb fb fb
-                                ^
-  ffff8881cda45b80: fc fc fc fc 00 00 00 00 00 00 00 00 fc fc fc fc
-  ffff8881cda45c00: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
