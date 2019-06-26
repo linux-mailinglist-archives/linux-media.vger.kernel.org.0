@@ -2,116 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D746570C3
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 20:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 758CE57107
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 20:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbfFZSfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 14:35:46 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52781 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfFZSfq (ORCPT
+        id S1726480AbfFZSwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 14:52:34 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43206 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfFZSwe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 14:35:46 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s3so3136055wms.2;
-        Wed, 26 Jun 2019 11:35:44 -0700 (PDT)
+        Wed, 26 Jun 2019 14:52:34 -0400
+Received: by mail-pl1-f195.google.com with SMTP id cl9so1909559plb.10;
+        Wed, 26 Jun 2019 11:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=JwwlhRes3eA1e/9Q/hAaa2AfY6tnj486mE1SbBlz0rU=;
-        b=fqEUFEYw9qv3t6ezbWG5URRezYfRHUtrM1lTZFignM+UEuk6nmumDvMNaEbwV8B6/U
-         a88d3u1uY3AW5HO8EX/hZ+2slvvCnfRIbnPSlcsmlmXRwSqLJKSSMw521Rcf/frdz8Ju
-         VCQlnrE3gKEwXtlFjm7d+FqSMzecYPrY0CbuPatlexyVySbprIjAZgJO1Fxmoh2IkP1c
-         76xAzTct5LXCtynhA/ro/Ue7Z5yg6qHLXPvOZe9FE32Juvcfc4YZcHpcbSYEugFCIW1D
-         5tP0QtmDMGKaIhWSfXuIlEQeHyjZrKrYIQpPDv5i2zTX5oqbc39/LKvxigMd6OIKPshr
-         DOTA==
+        h=from:to:cc:subject:date:message-id;
+        bh=jFUQd1a4KGSPHNAxPDeMNjxKEsd1P+Yd6RvsJx/5uQc=;
+        b=HOxVhJOTySx9Jybho1j8q1uMX5VGq6y0o6AXMcSjfoJ4/KBSXdAUO16s5x0IuDodcO
+         grpU9pElitmixZ3CWDWnBW34hExdqbMGOIBmLULt8SxkdS7SHtwoeMrvIIsirzIJQL+M
+         MVjzeShwpTCRnidbpUMiW37SwtuG3qMzyJTVzVBvdyLnMAzoox8jwmGyhUYkU0iLci5f
+         f9bOC2N6QrgG+yce5wqxaj9+uFqgB5PgfkKSkWlgHFNuunEPchYWVrNOdNoiK+43MdJQ
+         McYZFt03ftsZVRUmw9XVX2hQrWE+GZdrkeKSVoXr693OkHZAo/VQdoau2YyfuPBgtseg
+         2fpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=JwwlhRes3eA1e/9Q/hAaa2AfY6tnj486mE1SbBlz0rU=;
-        b=c08xaPzioTFxBcF6z13ICi6o9jLVJJkb20wGyKGRLYIVmd/ecj2ihSXHWINExA2b3O
-         UUC9nM8kKID734k+zAy+JQqDj4H9BTCPqeM89gcZgEJJUkJaiWfUCBrcW1wRLGnYOOk0
-         +rHJvd/M1XfapZAD+fP9msHhIkQhDnFm3IGkNNdaz36xgmChmmqreaILzwLY+eiSMSV6
-         oEx9q3IPjczuUKb6rgIjYsXiHK7ErVQgfLvJeW+Tt8PmLodXkrtW8lno3nGjDWGIzaJA
-         euIc4TMQJjWCcbxDPH3kAdvYDXxc2Iij4izubBTCYwUJnLG3fxAgv5j3k7COWcDulMBS
-         E6og==
-X-Gm-Message-State: APjAAAVNAtroP/WmGJgpDypPsrRdvJpyzKk0Om/M7dzyL5CGziX3fuC5
-        xMqU/hlBAHHI24sSTWMjX7QzLu7W
-X-Google-Smtp-Source: APXvYqyq7eim+ZRBTCdydue2wqc7N3iBFvdNRciIZbxjR7OLY0XqW731SSbiJw0uh41ze5RKeO5kEg==
-X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr287046wml.90.1561574143412;
-        Wed, 26 Jun 2019 11:35:43 -0700 (PDT)
-Received: from [172.30.90.108] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id c1sm36562604wrh.1.2019.06.26.11.35.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Jun 2019 11:35:42 -0700 (PDT)
-Subject: Re: media: staging/imx: Improve pipeline searching (bug report)
-To:     Colin Ian King <colin.king@canonical.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jFUQd1a4KGSPHNAxPDeMNjxKEsd1P+Yd6RvsJx/5uQc=;
+        b=PlO7+TvxBP39oLhTzQDGeyj5oV8PM3uERRlX8is2/lYHR0xCkaUyae7tmukVe+dtP8
+         ra9EvU2cYhMA5Rt2piA9nzZNUL6FjkcolKLw2DS+yXu+xLrc3XqgJpSwVzHip6DhxzOb
+         jFSchmPU+gEV/v94L9w1QILYXVYolx2IIQJw+bcuaxeLgQMIOSmF9RzaNyWFDfmqO4LF
+         NSLAHM7J2HGQ2cqjkXDMf/z0Bce7Hs3vDeeLDkUAjGrc/nu+DJmsZeTw7E4pVNc865+M
+         lxVvv61a+x3tto4eymCSTuN2RG0vkSMj1nZqKMvyaDqPLcXDBG4rgLgZ9i56TIn5gANC
+         +X6w==
+X-Gm-Message-State: APjAAAUXv7tUVoSH1B+drIxw8Mm9n/XeIA43yhx3owt8JcP4Dm36pShP
+        L4P80ltwFDr8elTzLknBaBTFWXhg
+X-Google-Smtp-Source: APXvYqx8xcuzPF+3Q1H4Ucd6o7WTHj8KA2X/LjdtxpnaqkwN20/DS8zjhdwPiDFcZDkNITcE2JX/jg==
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr7349836plp.18.1561575153144;
+        Wed, 26 Jun 2019 11:52:33 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.googlemail.com with ESMTPSA id y16sm24891832pff.89.2019.06.26.11.52.31
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 26 Jun 2019 11:52:32 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <9b6d7f0e-f191-e5d5-e20b-9244800678fe@canonical.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <fa12f7f7-c2c8-6777-0359-8bdd8290f517@gmail.com>
-Date:   Wed, 26 Jun 2019 11:35:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
-MIME-Version: 1.0
-In-Reply-To: <9b6d7f0e-f191-e5d5-e20b-9244800678fe@canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
+        / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: staging/imx: Fix NULL deref in find_pipeline_entity()
+Date:   Wed, 26 Jun 2019 11:52:25 -0700
+Message-Id: <20190626185225.11992-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for catching,
+Fix a cut&paste error in find_pipeline_entity(). The start entity must be
+passed to media_entity_to_video_device() in find_pipeline_entity(), not
+pad->entity. The pad is only put to use later, after determining the start
+entity is not the entity being searched for.
 
-On 6/26/19 11:27 AM, Colin Ian King wrote:
-> Hi,
->
-> Static analysis with Coverity on Linux next has found a potential issue
-> with the following commit:
->
-> commit 3ef46bc97ca2c918b7657a08220c7340a9bb07a2
-> Author: Steve Longerbeam <slongerbeam@gmail.com>
-> Date:   Fri May 10 17:50:11 2019 -0400
->
->      media: staging/imx: Improve pipeline searching
->
->
-> The issue is in drivers/staging/media/imx/imx-media-utils.c in function
-> find_pipeline_entity:
->
->          struct media_pad *pad = NULL;
->
-> pad is assigned a NULL
->
->          struct video_device *vfd;
->          struct v4l2_subdev *sd;
->
->          if (grp_id && is_media_entity_v4l2_subdev(start)) {
->                  sd = media_entity_to_v4l2_subdev(start);
->                  if (sd->grp_id & grp_id)
->                          return &sd->entity;
->          } else if (buftype && is_media_entity_v4l2_video_device(start)) {
->                  vfd = media_entity_to_video_device(pad->entity);
->
-> ..and above the null pad is being dereferenced causing a kernel oops.
+Fixes: 3ef46bc97ca2 ("media: staging/imx: Improve pipeline searching")
 
-yes, this is a typo and should be:
+Reported-by: Colin Ian King <colin.king@canonical.com>
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-vfd = media_entity_to_video_device(start);
-
-
-Sending a patch...
-
-Steve
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index b5b8a3b7730a..6fb88c22ee27 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -842,7 +842,7 @@ find_pipeline_entity(struct media_entity *start, u32 grp_id,
+ 		if (sd->grp_id & grp_id)
+ 			return &sd->entity;
+ 	} else if (buftype && is_media_entity_v4l2_video_device(start)) {
+-		vfd = media_entity_to_video_device(pad->entity);
++		vfd = media_entity_to_video_device(start);
+ 		if (buftype == vfd->queue->type)
+ 			return &vfd->entity;
+ 	}
+-- 
+2.17.1
 
