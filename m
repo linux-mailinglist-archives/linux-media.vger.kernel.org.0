@@ -2,209 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E53D157069
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 20:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B24915708D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 20:28:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfFZSQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 14:16:10 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35099 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfFZSQJ (ORCPT
+        id S1726401AbfFZS1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 14:27:55 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58425 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726223AbfFZS1y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 14:16:09 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c6so3058317wml.0
-        for <linux-media@vger.kernel.org>; Wed, 26 Jun 2019 11:16:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=+xm8omJjNN7PCk2pMNKkGxkebRmkM6KPwgFWHV3OHpE=;
-        b=kTPj+t4WWywCSbv08OpDD3/yAQnFdJpqIxYpjs+GSl6ZNII3xs3pVkZs+0obPNgfPJ
-         XUtb5kEn6ZgSD3XdyzTtcbQOFd5RZdooZXQeq0bBW1sFl8nPLrUtuL4eQvLcuWEYqdw7
-         pD2vugCkzQgHjHbEUfZiCWmbSHD1xfkl1ogGVOiLHsbOVrSBIJ0E21oFp3ayL1s2Sfn/
-         BC9wx7lJsbfD2HQzyw7HD65QZFH4M+Mk34mye8+hy/sqOF2YRaMr/f1e18WxSZR9+ioA
-         n7gc+kHxEnuETacUOsorXqG8IVOQ0/kGw/2kVg21DGN86G+rZtuwdoHAzVOUVi+51xBG
-         /eoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=+xm8omJjNN7PCk2pMNKkGxkebRmkM6KPwgFWHV3OHpE=;
-        b=eipS7GX+Ji8xwd4gviPMWHeV/RXUzbg6jwX15tGKYWLfIJq0JjF+354iwqJ3AsOBH4
-         mu4uXaaAOsqcLKBPCVRPfFJ6rpmWndXRNvSzeVXY8JBXRgyW0MsGQwgsgjicTb7ljKO5
-         83a58iz0HIHM2k5nF9eLblk8qgpCKlSl7gL7wEPuDx+Ff4WNuvb8SuVibkmZsNtZFJUI
-         VGuPXA4RxsHNJ3zC9f1qIOWJejTDCj+L/6inRTBjg1o9bSSUoewrEWQK/sQ+k0dJ2MFK
-         e0M27NlvitEYK42FTReOX+KYnAyL8zacbqxX+R+dZJ4HS/xWBEltd+BdI3EAoWkxVBzX
-         LVVQ==
-X-Gm-Message-State: APjAAAUIf5lTvzp+MYCwuPMk5zNXJp4U7lkNsqWNs/6X0Ioeud95+3oK
-        8D6xkabSBQDh1zqPCOEk8AQ=
-X-Google-Smtp-Source: APXvYqzwGRBJpbdEw+zK0RS7kHfAfANTue+F6iB2V6laZKMfsC4n8TkU/IpRw9qyTNKJzu/sPdmY3A==
-X-Received: by 2002:a1c:cb4d:: with SMTP id b74mr223214wmg.43.1561572967170;
-        Wed, 26 Jun 2019 11:16:07 -0700 (PDT)
-Received: from [172.30.90.108] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id t1sm24562618wra.74.2019.06.26.11.16.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Jun 2019 11:16:06 -0700 (PDT)
-Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>, kernel@collabora.com,
+        Wed, 26 Jun 2019 14:27:54 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1hgCe7-00050T-T2; Wed, 26 Jun 2019 18:27:51 +0000
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20190625203945.28081-1-ezequiel@collabora.com>
- <20190626080027.GA4776@pendragon.ideasonboard.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <39e3bea8-7150-33aa-74c1-75b1cf90a136@gmail.com>
-Date:   Wed, 26 Jun 2019 11:16:02 -0700
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+From:   Colin Ian King <colin.king@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: re: media: staging/imx: Improve pipeline searching (bug report)
+Message-ID: <9b6d7f0e-f191-e5d5-e20b-9244800678fe@canonical.com>
+Date:   Wed, 26 Jun 2019 19:27:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190626080027.GA4776@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On 6/26/19 1:00 AM, Laurent Pinchart wrote:
-> Hi Ezequiel,
->
-> Thank you for the patch.
->
-> On Tue, Jun 25, 2019 at 05:39:45PM -0300, Ezequiel Garcia wrote:
->> Not all sensors will be able to guarantee a proper initial state.
->> This may be either because the driver is not properly written,
->> or (probably unlikely) because the hardware won't support it.
->>
->> While the right solution in the former case is to fix the sensor
->> driver, the real world not always allows right solutions, due to lack
->> of available documentation and support on these sensors.
->>
->> Let's relax this requirement, and allow the driver to support stream start,
->> even if the sensor initial sequence wasn't the expected.
->> A warning is still emitted, so users should be hinted that something is off.
-> I'm not sure this is a very good idea. Failure to detect the LP-11 state
-> may mean that the sensor is completely powered off, but it may also mean
-> that it is already streaming data. I don't know how the CSI-2 receiver
-> state machine will operate in the first case, but in the second case it
-> will not be able to synchronise to the incoming stream, so it won't work
-> anyway.
+Static analysis with Coverity on Linux next has found a potential issue
+with the following commit:
 
- From my experience, at least with the OV5640 and the DS90Ux940, it can 
-be difficult to coax some CSI-2 transmitters into a quiescent LP-11 bus 
-state after power on, and yet the CSI-2 receiver state machine, at least 
-in the imx6, is able to move forward to stream on anyway. So I think it 
-makes sense to at least relax the LP-11 requirement at stream on for the 
-imx6 receiver driver, and print a warning. But on second thought I agree 
-the active clock lane requirement before stream on needs to remain.
+commit 3ef46bc97ca2c918b7657a08220c7340a9bb07a2
+Author: Steve Longerbeam <slongerbeam@gmail.com>
+Date:   Fri May 10 17:50:11 2019 -0400
 
-In the second case you point out above (sensor is already actively 
-streaming at stream on), why do you think that the receiver will not be 
-able to synchronize?
+    media: staging/imx: Improve pipeline searching
 
 
->
-> I think you should instead fix the problem in the sensor driver, as you
-> hinted. Relaxing the requirement here will only make it more confusing,
-> it's a hack, and isn't portable across CSI-2 receivers. The same buggy
-> sensor driver won't work with other CSI-2 receivers whose internal state
-> machine require starting in the LP-11 state.
+The issue is in drivers/staging/media/imx/imx-media-utils.c in function
+find_pipeline_entity:
 
-Agreed, if it's possible the sensor driver should be fixed to enter 
-LP-11 at power on.
+        struct media_pad *pad = NULL;
 
-Steve
+pad is assigned a NULL
 
-> Which sensor are you using ?
->
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> ---
->>   drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
->>   1 file changed, 9 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
->> index f29e28df36ed..10342434e797 100644
->> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
->> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
->> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
->>   }
->>   
->>   /* Waits for low-power LP-11 state on data and clock lanes. */
->> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->>   {
->>   	u32 mask, reg;
->>   	int ret;
->> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->>   
->>   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->>   				 (reg & mask) == mask, 0, 500000);
->> -	if (ret) {
->> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
->> -		return ret;
->> -	}
->> -
->> -	return 0;
->> +	if (ret)
->> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
->>   }
->>   
->>   /* Wait for active clock on the clock lane. */
->> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
->> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
->>   {
->>   	u32 reg;
->>   	int ret;
->>   
->>   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->>   				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
->> -	if (ret) {
->> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
->> -			 reg);
->> -		return ret;
->> -	}
->> -
->> -	return 0;
->> +	if (ret)
->> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
->> +			  reg);
->>   }
->>   
->>   /* Setup the i.MX CSI2IPU Gasket */
->> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
->>   	csi2_enable(csi2, true);
->>   
->>   	/* Step 5 */
->> -	ret = csi2_dphy_wait_stopstate(csi2);
->> -	if (ret)
->> -		goto err_assert_reset;
->> +	csi2_dphy_wait_stopstate(csi2);
->>   
->>   	/* Step 6 */
->>   	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
->> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
->>   		goto err_assert_reset;
->>   
->>   	/* Step 7 */
->> -	ret = csi2_dphy_wait_clock_lane(csi2);
->> -	if (ret)
->> -		goto err_stop_upstream;
->> -
->> +	csi2_dphy_wait_clock_lane(csi2);
->>   	return 0;
->>   
->> -err_stop_upstream:
->> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
->>   err_assert_reset:
->>   	csi2_enable(csi2, false);
->>   err_disable_clk:
+        struct video_device *vfd;
+        struct v4l2_subdev *sd;
 
+        if (grp_id && is_media_entity_v4l2_subdev(start)) {
+                sd = media_entity_to_v4l2_subdev(start);
+                if (sd->grp_id & grp_id)
+                        return &sd->entity;
+        } else if (buftype && is_media_entity_v4l2_video_device(start)) {
+                vfd = media_entity_to_video_device(pad->entity);
+
+..and above the null pad is being dereferenced causing a kernel oops.
+
+                if (buftype == vfd->queue->type)
+                        return &vfd->entity;
+        }
+
+
+Colin
