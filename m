@@ -2,173 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0717455D0E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 02:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18304560D1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 05:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726223AbfFZApo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Jun 2019 20:45:44 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37226 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfFZApn (ORCPT
+        id S1727070AbfFZDsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Jun 2019 23:48:50 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59369 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726631AbfFZDst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Jun 2019 20:45:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id v14so623500wrr.4
-        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2019 17:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=CcGx8nGGPgePvCK9a/1gq+R347fY4+PUfFITQmVv5zY=;
-        b=JTaeS6aYXUpkEOATqp4ttVLgMJHakd/Ab8kS4N8nwk6ilbxwPY/6WBJkHWeK8MSmnU
-         8bWqspwducw5+qVPRaP2AMyahVxqs5IJ89M+n9KaGdAtSNM8pWw0zt3jnEyO+dn6ZxrT
-         o5cC4a3Qx+SlQ4+0nT/DFVIk5vMRm2SYZpAcZTqCA8qf67dI9iBguYepuV/Sq5HTadiN
-         TeCJXSkl3/3KeWVAsn6BTqNMWrThAzl62j8RRP3wAodNoQxNZ+D3lecMAbly/l8EXwKZ
-         TdJ8pky2KpPT+XpcHY0S3bSywAk9p7ZHTxkkVpgcnTSRW3SGXSxE8hGfg6SauLYCfEqV
-         Zmqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=CcGx8nGGPgePvCK9a/1gq+R347fY4+PUfFITQmVv5zY=;
-        b=Ri34CJg9ZFIIaNSfL2GLEXvDi/qfcstgMJY6AZ38R6uv7pTMcRpoLujX/LYVaTml9o
-         yb7v34A/GD2s8bhfBUal8c9K3mHfWbY2BPSkKwrtH31ui/lNuXrrdj+f6yI1nXKPkEgT
-         aqiDsQOG7PTIKZ7O1QFPGSA08xzpdH3ObM2WCJhfhT52MoZusDZpQgmVx2p/bWzx0WU3
-         +N6Lcsau0kFwFRN40jWiz4y89wNAblK3fQ1dVi6OzqOhus4cNEe3XBnzKuw/MR6CGaYh
-         T44C08spm3zI4Excr9tpuvbynYl7xlT8eJvy/UvGbI9/H9wuuPvDL6uu+781xBRxmkXc
-         khtw==
-X-Gm-Message-State: APjAAAVDP+g0bfF0kL5IZ7qrqaF9tZpe2PSJ2GOk4EUP4I4+P7nSa/Z4
-        zspB7qBNFs6XfvhzXiB2G5I=
-X-Google-Smtp-Source: APXvYqwUyR+j9VUvWm/sk4FEn9TMVy+zD/xSa/ERgUsIR3R6FjOdsXJC3Z/acOyF7f1vHhQXUSFK3g==
-X-Received: by 2002:adf:9d4c:: with SMTP id o12mr647294wre.340.1561509941440;
-        Tue, 25 Jun 2019 17:45:41 -0700 (PDT)
-Received: from [172.30.89.88] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id f13sm5943214wrt.89.2019.06.25.17.45.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Jun 2019 17:45:40 -0700 (PDT)
-Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20190625203945.28081-1-ezequiel@collabora.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <9a2efc26-0f39-595c-a058-da54c42049e4@gmail.com>
-Date:   Tue, 25 Jun 2019 17:45:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
-MIME-Version: 1.0
-In-Reply-To: <20190625203945.28081-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        Tue, 25 Jun 2019 23:48:49 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:cce7:b034:bc51:b016])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id fyvNh1ovA7KeZfyvOhgOdT; Wed, 26 Jun 2019 05:48:47 +0200
+Message-ID: <0ac8786eac82e23c598cf0a16cedb1da@smtp-cloud8.xs4all.net>
+Date:   Wed, 26 Jun 2019 05:48:45 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfJbpE+J/XVOEPa+76U17Yei/GeC3KNgCxAn4QLeiMMDRYVCSZmLAFFjo5Cn+1PqEVEPZ2lCsxsCB+JoOEsFwHkrFccHlYjawma1SnLBM5GmE8lKBa6tJ
+ 94oI67yvVxZujAQ6m3/Q97Qo8Mcb1ff7yBhKKOqyd4v7dlv/4TRmlgDwgEdmcjUnuezNuNEcieQG81259eK47hsNVeh5wIMuqOLV2YELbgn79cHJajJgM2uf
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks, there was earlier talk of relaxing those CSI-2 bus startup 
-requirements, but somehow it fell through the cracks.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Acked-by: Steve Longerbeam <slongerbeam@gmail.com>
+Results of the daily build of media_tree:
 
-On 6/25/19 1:39 PM, Ezequiel Garcia wrote:
-> Not all sensors will be able to guarantee a proper initial state.
-> This may be either because the driver is not properly written,
-> or (probably unlikely) because the hardware won't support it.
->
-> While the right solution in the former case is to fix the sensor
-> driver, the real world not always allows right solutions, due to lack
-> of available documentation and support on these sensors.
->
-> Let's relax this requirement, and allow the driver to support stream start,
-> even if the sensor initial sequence wasn't the expected.
-> A warning is still emitted, so users should be hinted that something is off.
->
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->   drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
->   1 file changed, 9 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index f29e28df36ed..10342434e797 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
->   }
->   
->   /* Waits for low-power LP-11 state on data and clock lanes. */
-> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->   {
->   	u32 mask, reg;
->   	int ret;
-> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->   
->   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->   				 (reg & mask) == mask, 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
->   }
->   
->   /* Wait for active clock on the clock lane. */
-> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
->   {
->   	u32 reg;
->   	int ret;
->   
->   	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->   				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> -			 reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> +			  reg);
->   }
->   
->   /* Setup the i.MX CSI2IPU Gasket */
-> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
->   	csi2_enable(csi2, true);
->   
->   	/* Step 5 */
-> -	ret = csi2_dphy_wait_stopstate(csi2);
-> -	if (ret)
-> -		goto err_assert_reset;
-> +	csi2_dphy_wait_stopstate(csi2);
->   
->   	/* Step 6 */
->   	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
-> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
->   		goto err_assert_reset;
->   
->   	/* Step 7 */
-> -	ret = csi2_dphy_wait_clock_lane(csi2);
-> -	if (ret)
-> -		goto err_stop_upstream;
-> -
-> +	csi2_dphy_wait_clock_lane(csi2);
->   	return 0;
->   
-> -err_stop_upstream:
-> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
->   err_assert_reset:
->   	csi2_enable(csi2, false);
->   err_disable_clk:
+date:			Wed Jun 26 05:00:10 CEST 2019
+media-tree git hash:	86d617d6c79d79288ca608b6fb0a2467b0e8ddbb
+media_build git hash:	ea1fe7761490eee9a84242305af8c4b20a4703e6
+v4l-utils git hash:	070a4d421778c313f79d840bf400a7d60dfe7dc9
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
