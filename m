@@ -2,68 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64FF556478
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 10:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 313CD56474
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 10:23:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbfFZIYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 04:24:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56834 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725876AbfFZIYJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 04:24:09 -0400
-Received: from localhost (unknown [116.247.127.123])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726768AbfFZIXr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 04:23:47 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:57578 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfFZIXr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jun 2019 04:23:47 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id D919A60A0A; Wed, 26 Jun 2019 08:23:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561537425;
+        bh=RduO9xmvG3/0itXgBW05YQ0rOVZSvORHkd9+xMAZ6kg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oIXF96R00jZuxVf0qz4Wxd4KKlY0uxu2y5TqLZwTzypQyn5RCr8tV7RBP9ancTWcQ
+         tYDTJOy6PR4d7V/SRd8sYIvGZVrUlYAUV7qgb2M+f6IqGB8hdkQ2+bzRSFTkW0g4YW
+         rWA51XxAL3IZtAT4JvSwMjURLX4r/k5gfQN/2+OY=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69668208E3;
-        Wed, 26 Jun 2019 08:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561537449;
-        bh=1WdsFgJikFAYl4u2CkYUfSLxKdsbmM1t90h/alaycC0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mTq9qe2E8PKXYVMAk9K2o7KAfuiqPs1UXXOTR694JsjD7Y0PjWa3RyCjXhApn1Qnh
-         gtG2F6KRLmCUToMk977VYGp9Trm5yjt031PMGri4oLMTMLuiPK/4GZHVDMZiRgmSMO
-         jp+lIuib30jsOcRx6uM7gYWJE44SAR9+2ubFPVVU=
-Date:   Wed, 26 Jun 2019 16:19:42 +0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Andrey Shvetsov <andrey.shvetsov@k2l.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] staging/most/video: set device_caps in struct
- video_device
-Message-ID: <20190626081942.GA4605@kroah.com>
-References: <bf6e19b5-095c-ecac-fddb-91a1a65a2dee@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf6e19b5-095c-ecac-fddb-91a1a65a2dee@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 989416019D;
+        Wed, 26 Jun 2019 08:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561537425;
+        bh=RduO9xmvG3/0itXgBW05YQ0rOVZSvORHkd9+xMAZ6kg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oIXF96R00jZuxVf0qz4Wxd4KKlY0uxu2y5TqLZwTzypQyn5RCr8tV7RBP9ancTWcQ
+         tYDTJOy6PR4d7V/SRd8sYIvGZVrUlYAUV7qgb2M+f6IqGB8hdkQ2+bzRSFTkW0g4YW
+         rWA51XxAL3IZtAT4JvSwMjURLX4r/k5gfQN/2+OY=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 989416019D
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [PATCH] media: venus: Update to bitrate based clock scaling
+Date:   Wed, 26 Jun 2019 13:53:35 +0530
+Message-Id: <1561537416-2067-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 26, 2019 at 09:52:49AM +0200, Hans Verkuil wrote:
-> Instead of filling in the struct v4l2_capability device_caps
-> field, fill in the struct video_device device_caps field.
-> 
-> That way the V4L2 core knows what the capabilities of the
-> video device are.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> Hi Andrey,
-> 
-> I noticed this new staging V4L2 driver. FYI, please CC any future patches to
-> this driver to the linux-media@vger.kernel.org mailinglist as well so we can
-> review it. I'll post a review of this driver later today as well. In the
-> meantime, I'd like to get this patch in since during the upcoming 5.4 cycle
-> we will require that the device_caps field of struct video_device is set
-> correctly.
-> 
-> Greg, do you want to take this patch? After Andrey Acks it, of course.
+This patch introduces bitrate based clock scaling. Also, clock scaling is now
+triggered before buffer being queued to the device. This checks for frequency
+requirement throughout the session and updates clock with correct frequency only
+if requirement is changed.
 
-Yes, I will be glad to take it.
+Aniket Masule (1):
+  media: venus: Update to bitrate based clock scaling
 
-thanks,
+ drivers/media/platform/qcom/venus/core.c    | 16 +++++------
+ drivers/media/platform/qcom/venus/core.h    |  1 +
+ drivers/media/platform/qcom/venus/helpers.c | 43 +++++++++++++++++++++++++----
+ 3 files changed, 47 insertions(+), 13 deletions(-)
 
-greg k-h
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
