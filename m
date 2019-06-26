@@ -2,137 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F2A45669F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 12:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8E3356718
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 12:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbfFZKYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 06:24:20 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:44957 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726077AbfFZKYT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 06:24:19 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 8E70A1C0002;
-        Wed, 26 Jun 2019 10:24:10 +0000 (UTC)
-Date:   Wed, 26 Jun 2019 12:25:26 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 12/16] sh_veu/sh_vou: set device_caps in struct
- video_device
-Message-ID: <20190626102526.yusnuvc2plxwmbt3@uno.localdomain>
-References: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
- <20190626074421.38739-13-hverkuil-cisco@xs4all.nl>
+        id S1726462AbfFZKpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 06:45:40 -0400
+Received: from gofer.mess.org ([88.97.38.141]:56497 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726339AbfFZKpk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jun 2019 06:45:40 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 502E860AD1; Wed, 26 Jun 2019 11:45:38 +0100 (BST)
+Date:   Wed, 26 Jun 2019 11:45:38 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.3] Minor dvb and rc fixes
+Message-ID: <20190626104537.gs55wzt3pbs3k63j@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bucolxejzuowgef2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190626074421.38739-13-hverkuil-cisco@xs4all.nl>
-User-Agent: NeoMutt/20180716
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mauro,
 
---bucolxejzuowgef2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+These are the last changes for v5.3, I think.
 
-iHi Hans,
+Thanks,
+Sean
 
-On Wed, Jun 26, 2019 at 09:44:17AM +0200, Hans Verkuil wrote:
-> Instead of filling in the struct v4l2_capability device_caps
-> field, fill in the struct video_device device_caps field.
->
-> That way the V4L2 core knows what the capabilities of the
-> video device are.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Jacopo Mondi <jacopo@jmondi.org>
+The following changes since commit 86d617d6c79d79288ca608b6fb0a2467b0e8ddbb:
 
-Thanks for doing this.
+  media: MAINTAINERS: Add maintainers for Media Controller (2019-06-24 15:07:51 -0400)
 
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+are available in the Git repository at:
 
-Thanks
-   j
+  git://linuxtv.org/syoung/media_tree.git for-v5.3e
 
-> ---
->  drivers/media/platform/sh_veu.c | 4 +---
->  drivers/media/platform/sh_vou.c | 5 ++---
->  2 files changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/platform/sh_veu.c b/drivers/media/platform/sh_veu.c
-> index 5a9ba05c996e..ab39d6c80920 100644
-> --- a/drivers/media/platform/sh_veu.c
-> +++ b/drivers/media/platform/sh_veu.c
-> @@ -348,9 +348,6 @@ static int sh_veu_querycap(struct file *file, void *priv,
->  	strscpy(cap->driver, "sh-veu", sizeof(cap->driver));
->  	strscpy(cap->card, "sh-mobile VEU", sizeof(cap->card));
->  	strscpy(cap->bus_info, "platform:sh-veu", sizeof(cap->bus_info));
-> -	cap->device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
-> -	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
-> -
->  	return 0;
->  }
->
-> @@ -1039,6 +1036,7 @@ static const struct video_device sh_veu_videodev = {
->  	.minor		= -1,
->  	.release	= video_device_release_empty,
->  	.vfl_dir	= VFL_DIR_M2M,
-> +	.device_caps	= V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
->  };
->
->  static const struct v4l2_m2m_ops sh_veu_m2m_ops = {
-> diff --git a/drivers/media/platform/sh_vou.c b/drivers/media/platform/sh_vou.c
-> index 5799aa4b9323..1fe573a90f0d 100644
-> --- a/drivers/media/platform/sh_vou.c
-> +++ b/drivers/media/platform/sh_vou.c
-> @@ -381,9 +381,6 @@ static int sh_vou_querycap(struct file *file, void  *priv,
->  	strscpy(cap->card, "SuperH VOU", sizeof(cap->card));
->  	strscpy(cap->driver, "sh-vou", sizeof(cap->driver));
->  	strscpy(cap->bus_info, "platform:sh-vou", sizeof(cap->bus_info));
-> -	cap->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_READWRITE |
-> -			   V4L2_CAP_STREAMING;
-> -	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
->  	return 0;
->  }
->
-> @@ -1218,6 +1215,8 @@ static const struct video_device sh_vou_video_template = {
->  	.ioctl_ops	= &sh_vou_ioctl_ops,
->  	.tvnorms	= V4L2_STD_525_60, /* PAL only supported in 8-bit non-bt656 mode */
->  	.vfl_dir	= VFL_DIR_TX,
-> +	.device_caps	= V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_READWRITE |
-> +			  V4L2_CAP_STREAMING,
->  };
->
->  static int sh_vou_probe(struct platform_device *pdev)
-> --
-> 2.20.1
->
+for you to fetch changes up to 25e96a05d90dad52234ff9d52d8b1f47acbd045a:
 
---bucolxejzuowgef2
-Content-Type: application/pgp-signature; name="signature.asc"
+  media: stv0297: fix frequency range limit (2019-06-26 12:09:35 +0200)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+A Sun (1):
+      media: mceusb: disable "nonsensical irdata" messages
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0TSBYACgkQcjQGjxah
-VjygcQ//R+YsJo49gWcXmwVXZibjcO1WA6PVmNFsrgB8o0nUYf8F0ePSgYKdvIcI
-s0lMHRFWJgxm87QxXNEwSvEbOulm84ZQxXyGErUrl0Z2MT4CnuRhwvVAsd7+nmss
-jlfOdNker7RvuH1pyyZS1RM7ua21aFagymRQBeKfr/lEz+XVe2n+9+1cof1WAm98
-Iytkc6EitHWlG4efD3jcfRUiEAXgN9YhzaBtrZlUjAawYmFCltIURMAQ6X8HsOQH
-2S+9NyyQx3pCzwcaUpyQCHyWQk/7mel1XMOA9WPqNRnwop5bH0dw6CTRLr+KU0QN
-qCiIHBD/Fz/+ilTifjn/C3FsVAaiQr95bckyCqsRgXvQYCo7iREcRwF7EJdRpaMe
-E4fTD9A8Gd5bmmxAeAl/1DQXetOD1/EZ82NEaL+RdSMwLndh1MSW/tfzGbiESAOA
-wXvhDiuSH8p1QNgdwXOSHBTUGuxR1W0PEn5A6Ig+0/LI/mTaDoTWr15EoKIQTlei
-0s6kdals12h2r9lmcHAdozwma+fqz8v3RAV++0dYrihfunTyxs6+RQyjjPK93Xia
-kZIw999Eg1S+2Ej6l699jNEW2oQXTz9GtH0xU/VwowrKon9G/mTZQo94dOjFUf7p
-C41K9ZL4lWzI+MJ5Ube1vMWJOX3JHPipLH5lB/0xQCWSuQ6fbBI=
-=nRSL
------END PGP SIGNATURE-----
+Arnd Bergmann (1):
+      media: dvb_frontend: split dvb_frontend_handle_ioctl function
 
---bucolxejzuowgef2--
+Bastien Nocera (1):
+      media: rc: Prefer KEY_NUMERIC_* for number buttons on remotes
+
+Ding Xiang (1):
+      media: rc: remove redundant dev_err message
+
+Mauro Carvalho Chehab (1):
+      media: stv0297: fix frequency range limit
+
+ Documentation/media/uapi/rc/rc-tables.rst          |  20 +--
+ drivers/media/dvb-core/dvb_frontend.c              | 140 +++++++++++----------
+ drivers/media/dvb-frontends/stv0297.c              |   2 +-
+ drivers/media/rc/keymaps/rc-adstech-dvb-t-pci.c    |  20 +--
+ drivers/media/rc/keymaps/rc-alink-dtu-m.c          |  20 +--
+ drivers/media/rc/keymaps/rc-anysee.c               |  20 +--
+ drivers/media/rc/keymaps/rc-apac-viewcomp.c        |  20 +--
+ drivers/media/rc/keymaps/rc-astrometa-t2hybrid.c   |  20 +--
+ drivers/media/rc/keymaps/rc-asus-pc39.c            |  20 +--
+ drivers/media/rc/keymaps/rc-asus-ps3-100.c         |  20 +--
+ drivers/media/rc/keymaps/rc-ati-x10.c              |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia-a16d.c       |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia-cardbus.c    |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia-dvbt.c       |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia-m135a.c      |  40 +++---
+ .../media/rc/keymaps/rc-avermedia-m733a-rm-k6.c    |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia-rm-ks.c      |  20 +--
+ drivers/media/rc/keymaps/rc-avermedia.c            |  20 +--
+ drivers/media/rc/keymaps/rc-avertv-303.c           |  20 +--
+ drivers/media/rc/keymaps/rc-azurewave-ad-tu700.c   |  20 +--
+ drivers/media/rc/keymaps/rc-behold-columbus.c      |  20 +--
+ drivers/media/rc/keymaps/rc-behold.c               |  20 +--
+ drivers/media/rc/keymaps/rc-budget-ci-old.c        |  20 +--
+ drivers/media/rc/keymaps/rc-cinergy-1400.c         |  20 +--
+ drivers/media/rc/keymaps/rc-cinergy.c              |  20 +--
+ drivers/media/rc/keymaps/rc-d680-dmb.c             |  20 +--
+ drivers/media/rc/keymaps/rc-delock-61959.c         |  20 +--
+ drivers/media/rc/keymaps/rc-dib0700-nec.c          |  40 +++---
+ drivers/media/rc/keymaps/rc-dib0700-rc5.c          | 100 +++++++--------
+ drivers/media/rc/keymaps/rc-digitalnow-tinytwin.c  |  20 +--
+ drivers/media/rc/keymaps/rc-digittrade.c           |  20 +--
+ drivers/media/rc/keymaps/rc-dm1105-nec.c           |  20 +--
+ drivers/media/rc/keymaps/rc-dntv-live-dvb-t.c      |  20 +--
+ drivers/media/rc/keymaps/rc-dntv-live-dvbt-pro.c   |  20 +--
+ drivers/media/rc/keymaps/rc-dtt200u.c              |  20 +--
+ drivers/media/rc/keymaps/rc-dvbsky.c               |  20 +--
+ drivers/media/rc/keymaps/rc-dvico-mce.c            |  20 +--
+ drivers/media/rc/keymaps/rc-dvico-portable.c       |  20 +--
+ drivers/media/rc/keymaps/rc-em-terratec.c          |  20 +--
+ drivers/media/rc/keymaps/rc-encore-enltv-fm53.c    |  20 +--
+ drivers/media/rc/keymaps/rc-encore-enltv.c         |  20 +--
+ drivers/media/rc/keymaps/rc-encore-enltv2.c        |  20 +--
+ drivers/media/rc/keymaps/rc-eztv.c                 |  20 +--
+ drivers/media/rc/keymaps/rc-flydvb.c               |  20 +--
+ drivers/media/rc/keymaps/rc-flyvideo.c             |  20 +--
+ drivers/media/rc/keymaps/rc-fusionhdtv-mce.c       |  20 +--
+ drivers/media/rc/keymaps/rc-gadmei-rm008z.c        |  20 +--
+ drivers/media/rc/keymaps/rc-genius-tvgo-a11mce.c   |  20 +--
+ drivers/media/rc/keymaps/rc-gotview7135.c          |  20 +--
+ drivers/media/rc/keymaps/rc-hauppauge.c            | 100 +++++++--------
+ drivers/media/rc/keymaps/rc-hisi-poplar.c          |  20 +--
+ drivers/media/rc/keymaps/rc-hisi-tv-demo.c         |  20 +--
+ drivers/media/rc/keymaps/rc-iodata-bctv7e.c        |  20 +--
+ drivers/media/rc/keymaps/rc-it913x-v1.c            |  40 +++---
+ drivers/media/rc/keymaps/rc-it913x-v2.c            |  40 +++---
+ drivers/media/rc/keymaps/rc-kaiomy.c               |  20 +--
+ drivers/media/rc/keymaps/rc-kworld-315u.c          |  20 +--
+ drivers/media/rc/keymaps/rc-kworld-pc150u.c        |  20 +--
+ .../media/rc/keymaps/rc-kworld-plus-tv-analog.c    |  24 ++--
+ drivers/media/rc/keymaps/rc-leadtek-y04g0051.c     |  20 +--
+ drivers/media/rc/keymaps/rc-lme2510.c              |  60 ++++-----
+ drivers/media/rc/keymaps/rc-manli.c                |  20 +--
+ .../media/rc/keymaps/rc-medion-x10-digitainer.c    |  20 +--
+ drivers/media/rc/keymaps/rc-medion-x10-or2x.c      |  20 +--
+ drivers/media/rc/keymaps/rc-medion-x10.c           |  20 +--
+ drivers/media/rc/keymaps/rc-msi-digivox-ii.c       |  20 +--
+ drivers/media/rc/keymaps/rc-msi-digivox-iii.c      |  20 +--
+ drivers/media/rc/keymaps/rc-msi-tvanywhere-plus.c  |  20 +--
+ drivers/media/rc/keymaps/rc-msi-tvanywhere.c       |  20 +--
+ drivers/media/rc/keymaps/rc-nebula.c               |  20 +--
+ .../media/rc/keymaps/rc-nec-terratec-cinergy-xs.c  |  40 +++---
+ drivers/media/rc/keymaps/rc-norwood.c              |  20 +--
+ drivers/media/rc/keymaps/rc-npgtech.c              |  20 +--
+ drivers/media/rc/keymaps/rc-pctv-sedna.c           |  20 +--
+ drivers/media/rc/keymaps/rc-pinnacle-color.c       |  20 +--
+ drivers/media/rc/keymaps/rc-pinnacle-grey.c        |  20 +--
+ drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.c     |  20 +--
+ drivers/media/rc/keymaps/rc-pixelview-002t.c       |  20 +--
+ drivers/media/rc/keymaps/rc-pixelview-mk12.c       |  20 +--
+ drivers/media/rc/keymaps/rc-pixelview-new.c        |  20 +--
+ drivers/media/rc/keymaps/rc-pixelview.c            |  20 +--
+ .../media/rc/keymaps/rc-powercolor-real-angel.c    |  20 +--
+ drivers/media/rc/keymaps/rc-proteus-2309.c         |  20 +--
+ drivers/media/rc/keymaps/rc-purpletv.c             |  20 +--
+ drivers/media/rc/keymaps/rc-pv951.c                |  20 +--
+ .../media/rc/keymaps/rc-real-audio-220-32-keys.c   |  20 +--
+ drivers/media/rc/keymaps/rc-reddo.c                |  20 +--
+ drivers/media/rc/keymaps/rc-snapstream-firefly.c   |  20 +--
+ drivers/media/rc/keymaps/rc-su3000.c               |  20 +--
+ drivers/media/rc/keymaps/rc-tango.c                |  20 +--
+ drivers/media/rc/keymaps/rc-tbs-nec.c              |  20 +--
+ drivers/media/rc/keymaps/rc-technisat-ts35.c       |  20 +--
+ drivers/media/rc/keymaps/rc-technisat-usb2.c       |  20 +--
+ .../media/rc/keymaps/rc-terratec-cinergy-c-pci.c   |  20 +--
+ .../media/rc/keymaps/rc-terratec-cinergy-s2-hd.c   |  20 +--
+ drivers/media/rc/keymaps/rc-terratec-cinergy-xs.c  |  20 +--
+ drivers/media/rc/keymaps/rc-terratec-slim-2.c      |  20 +--
+ drivers/media/rc/keymaps/rc-terratec-slim.c        |  20 +--
+ drivers/media/rc/keymaps/rc-tevii-nec.c            |  20 +--
+ .../media/rc/keymaps/rc-total-media-in-hand-02.c   |  20 +--
+ drivers/media/rc/keymaps/rc-total-media-in-hand.c  |  20 +--
+ drivers/media/rc/keymaps/rc-trekstor.c             |  20 +--
+ drivers/media/rc/keymaps/rc-tt-1500.c              |  20 +--
+ drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.c   |  20 +--
+ drivers/media/rc/keymaps/rc-twinhan1027.c          |  20 +--
+ drivers/media/rc/keymaps/rc-videomate-m1f.c        |  20 +--
+ drivers/media/rc/keymaps/rc-videomate-s350.c       |  20 +--
+ drivers/media/rc/keymaps/rc-videomate-tv-pvr.c     |  20 +--
+ drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.c |  20 +--
+ drivers/media/rc/keymaps/rc-winfast.c              |  20 +--
+ drivers/media/rc/keymaps/rc-xbox-dvd.c             |  20 +--
+ drivers/media/rc/keymaps/rc-zx-irdec.c             |  20 +--
+ drivers/media/rc/mceusb.c                          |   4 +-
+ drivers/media/rc/meson-ir.c                        |   4 +-
+ drivers/media/rc/mtk-cir.c                         |   4 +-
+ drivers/media/rc/sunxi-cir.c                       |   1 -
+ 116 files changed, 1336 insertions(+), 1323 deletions(-)
