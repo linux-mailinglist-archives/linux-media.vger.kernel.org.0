@@ -2,180 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8E3356718
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 12:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C070156782
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 13:23:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbfFZKpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 06:45:40 -0400
-Received: from gofer.mess.org ([88.97.38.141]:56497 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726339AbfFZKpk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 06:45:40 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 502E860AD1; Wed, 26 Jun 2019 11:45:38 +0100 (BST)
-Date:   Wed, 26 Jun 2019 11:45:38 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.3] Minor dvb and rc fixes
-Message-ID: <20190626104537.gs55wzt3pbs3k63j@gofer.mess.org>
+        id S1727253AbfFZLXU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 07:23:20 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:56837 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfFZLXU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 26 Jun 2019 07:23:20 -0400
+X-Originating-IP: 86.250.200.211
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 7B06920002;
+        Wed, 26 Jun 2019 11:23:08 +0000 (UTC)
+Message-ID: <bba2714fbedda77fb46d0c55b7c89045d9c85dbd.camel@bootlin.com>
+Subject: Re: [PATCH v2 1/3] media: uapi: h264: Clarify our expectations
+ regarding NAL header format
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Date:   Wed, 26 Jun 2019 13:23:08 +0200
+In-Reply-To: <20190610085250.3255-2-boris.brezillon@collabora.com>
+References: <20190610085250.3255-1-boris.brezillon@collabora.com>
+         <20190610085250.3255-2-boris.brezillon@collabora.com>
+Organization: Bootlin
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi,
 
-These are the last changes for v5.3, I think.
+On Mon, 2019-06-10 at 10:52 +0200, Boris Brezillon wrote:
+> Looks like some stateless decoders expect slices to be prefixed with
+> ANNEX B start codes (they most likely do some kind of bitstream parsing
+> and/or need that to delimit slices when doing per frame decoding).
+> Since skipping those start codes for dummy stateless decoders (those
+> expecting all params to be passed through controls) should be pretty
+> easy, let's mandate that all slices be prepended with ANNEX B start
+> codes.
+> 
+> If we ever need to support AVC headers, we can add a new menu control
+> to select the type of NAL header to use.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Thanks,
-Sean
+Looks good to me:
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-The following changes since commit 86d617d6c79d79288ca608b6fb0a2467b0e8ddbb:
+Cheers,
 
-  media: MAINTAINERS: Add maintainers for Media Controller (2019-06-24 15:07:51 -0400)
+Paul
 
-are available in the Git repository at:
+> ---
+> Changes in v2:
+> * None
+> 
+> Note: we might want to add a nal_header_size field to allow drivers to
+> quickly find where the actual payload start. That'd be particularly
+> useful here since ANNEX B start codes can be of arbitrary size
+> (2+(0x00 bytes) + 1(0x01 byte)). The other option would be to enforce
+> the number of leading 0x00 bytes (a minimum of 2 is required).
+> ---
+>  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> index d6ea2ffd65c5..82547d5de250 100644
+> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> @@ -1726,6 +1726,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>      :ref:`h264`, section 7.4.3 "Slice Header Semantics". For further
+>      documentation, refer to the above specification, unless there is
+>      an explicit comment stating otherwise.
+> +    All slices should be prepended with an ANNEX B start code.
+>  
+>      .. note::
+>  
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-  git://linuxtv.org/syoung/media_tree.git for-v5.3e
-
-for you to fetch changes up to 25e96a05d90dad52234ff9d52d8b1f47acbd045a:
-
-  media: stv0297: fix frequency range limit (2019-06-26 12:09:35 +0200)
-
-----------------------------------------------------------------
-A Sun (1):
-      media: mceusb: disable "nonsensical irdata" messages
-
-Arnd Bergmann (1):
-      media: dvb_frontend: split dvb_frontend_handle_ioctl function
-
-Bastien Nocera (1):
-      media: rc: Prefer KEY_NUMERIC_* for number buttons on remotes
-
-Ding Xiang (1):
-      media: rc: remove redundant dev_err message
-
-Mauro Carvalho Chehab (1):
-      media: stv0297: fix frequency range limit
-
- Documentation/media/uapi/rc/rc-tables.rst          |  20 +--
- drivers/media/dvb-core/dvb_frontend.c              | 140 +++++++++++----------
- drivers/media/dvb-frontends/stv0297.c              |   2 +-
- drivers/media/rc/keymaps/rc-adstech-dvb-t-pci.c    |  20 +--
- drivers/media/rc/keymaps/rc-alink-dtu-m.c          |  20 +--
- drivers/media/rc/keymaps/rc-anysee.c               |  20 +--
- drivers/media/rc/keymaps/rc-apac-viewcomp.c        |  20 +--
- drivers/media/rc/keymaps/rc-astrometa-t2hybrid.c   |  20 +--
- drivers/media/rc/keymaps/rc-asus-pc39.c            |  20 +--
- drivers/media/rc/keymaps/rc-asus-ps3-100.c         |  20 +--
- drivers/media/rc/keymaps/rc-ati-x10.c              |  20 +--
- drivers/media/rc/keymaps/rc-avermedia-a16d.c       |  20 +--
- drivers/media/rc/keymaps/rc-avermedia-cardbus.c    |  20 +--
- drivers/media/rc/keymaps/rc-avermedia-dvbt.c       |  20 +--
- drivers/media/rc/keymaps/rc-avermedia-m135a.c      |  40 +++---
- .../media/rc/keymaps/rc-avermedia-m733a-rm-k6.c    |  20 +--
- drivers/media/rc/keymaps/rc-avermedia-rm-ks.c      |  20 +--
- drivers/media/rc/keymaps/rc-avermedia.c            |  20 +--
- drivers/media/rc/keymaps/rc-avertv-303.c           |  20 +--
- drivers/media/rc/keymaps/rc-azurewave-ad-tu700.c   |  20 +--
- drivers/media/rc/keymaps/rc-behold-columbus.c      |  20 +--
- drivers/media/rc/keymaps/rc-behold.c               |  20 +--
- drivers/media/rc/keymaps/rc-budget-ci-old.c        |  20 +--
- drivers/media/rc/keymaps/rc-cinergy-1400.c         |  20 +--
- drivers/media/rc/keymaps/rc-cinergy.c              |  20 +--
- drivers/media/rc/keymaps/rc-d680-dmb.c             |  20 +--
- drivers/media/rc/keymaps/rc-delock-61959.c         |  20 +--
- drivers/media/rc/keymaps/rc-dib0700-nec.c          |  40 +++---
- drivers/media/rc/keymaps/rc-dib0700-rc5.c          | 100 +++++++--------
- drivers/media/rc/keymaps/rc-digitalnow-tinytwin.c  |  20 +--
- drivers/media/rc/keymaps/rc-digittrade.c           |  20 +--
- drivers/media/rc/keymaps/rc-dm1105-nec.c           |  20 +--
- drivers/media/rc/keymaps/rc-dntv-live-dvb-t.c      |  20 +--
- drivers/media/rc/keymaps/rc-dntv-live-dvbt-pro.c   |  20 +--
- drivers/media/rc/keymaps/rc-dtt200u.c              |  20 +--
- drivers/media/rc/keymaps/rc-dvbsky.c               |  20 +--
- drivers/media/rc/keymaps/rc-dvico-mce.c            |  20 +--
- drivers/media/rc/keymaps/rc-dvico-portable.c       |  20 +--
- drivers/media/rc/keymaps/rc-em-terratec.c          |  20 +--
- drivers/media/rc/keymaps/rc-encore-enltv-fm53.c    |  20 +--
- drivers/media/rc/keymaps/rc-encore-enltv.c         |  20 +--
- drivers/media/rc/keymaps/rc-encore-enltv2.c        |  20 +--
- drivers/media/rc/keymaps/rc-eztv.c                 |  20 +--
- drivers/media/rc/keymaps/rc-flydvb.c               |  20 +--
- drivers/media/rc/keymaps/rc-flyvideo.c             |  20 +--
- drivers/media/rc/keymaps/rc-fusionhdtv-mce.c       |  20 +--
- drivers/media/rc/keymaps/rc-gadmei-rm008z.c        |  20 +--
- drivers/media/rc/keymaps/rc-genius-tvgo-a11mce.c   |  20 +--
- drivers/media/rc/keymaps/rc-gotview7135.c          |  20 +--
- drivers/media/rc/keymaps/rc-hauppauge.c            | 100 +++++++--------
- drivers/media/rc/keymaps/rc-hisi-poplar.c          |  20 +--
- drivers/media/rc/keymaps/rc-hisi-tv-demo.c         |  20 +--
- drivers/media/rc/keymaps/rc-iodata-bctv7e.c        |  20 +--
- drivers/media/rc/keymaps/rc-it913x-v1.c            |  40 +++---
- drivers/media/rc/keymaps/rc-it913x-v2.c            |  40 +++---
- drivers/media/rc/keymaps/rc-kaiomy.c               |  20 +--
- drivers/media/rc/keymaps/rc-kworld-315u.c          |  20 +--
- drivers/media/rc/keymaps/rc-kworld-pc150u.c        |  20 +--
- .../media/rc/keymaps/rc-kworld-plus-tv-analog.c    |  24 ++--
- drivers/media/rc/keymaps/rc-leadtek-y04g0051.c     |  20 +--
- drivers/media/rc/keymaps/rc-lme2510.c              |  60 ++++-----
- drivers/media/rc/keymaps/rc-manli.c                |  20 +--
- .../media/rc/keymaps/rc-medion-x10-digitainer.c    |  20 +--
- drivers/media/rc/keymaps/rc-medion-x10-or2x.c      |  20 +--
- drivers/media/rc/keymaps/rc-medion-x10.c           |  20 +--
- drivers/media/rc/keymaps/rc-msi-digivox-ii.c       |  20 +--
- drivers/media/rc/keymaps/rc-msi-digivox-iii.c      |  20 +--
- drivers/media/rc/keymaps/rc-msi-tvanywhere-plus.c  |  20 +--
- drivers/media/rc/keymaps/rc-msi-tvanywhere.c       |  20 +--
- drivers/media/rc/keymaps/rc-nebula.c               |  20 +--
- .../media/rc/keymaps/rc-nec-terratec-cinergy-xs.c  |  40 +++---
- drivers/media/rc/keymaps/rc-norwood.c              |  20 +--
- drivers/media/rc/keymaps/rc-npgtech.c              |  20 +--
- drivers/media/rc/keymaps/rc-pctv-sedna.c           |  20 +--
- drivers/media/rc/keymaps/rc-pinnacle-color.c       |  20 +--
- drivers/media/rc/keymaps/rc-pinnacle-grey.c        |  20 +--
- drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.c     |  20 +--
- drivers/media/rc/keymaps/rc-pixelview-002t.c       |  20 +--
- drivers/media/rc/keymaps/rc-pixelview-mk12.c       |  20 +--
- drivers/media/rc/keymaps/rc-pixelview-new.c        |  20 +--
- drivers/media/rc/keymaps/rc-pixelview.c            |  20 +--
- .../media/rc/keymaps/rc-powercolor-real-angel.c    |  20 +--
- drivers/media/rc/keymaps/rc-proteus-2309.c         |  20 +--
- drivers/media/rc/keymaps/rc-purpletv.c             |  20 +--
- drivers/media/rc/keymaps/rc-pv951.c                |  20 +--
- .../media/rc/keymaps/rc-real-audio-220-32-keys.c   |  20 +--
- drivers/media/rc/keymaps/rc-reddo.c                |  20 +--
- drivers/media/rc/keymaps/rc-snapstream-firefly.c   |  20 +--
- drivers/media/rc/keymaps/rc-su3000.c               |  20 +--
- drivers/media/rc/keymaps/rc-tango.c                |  20 +--
- drivers/media/rc/keymaps/rc-tbs-nec.c              |  20 +--
- drivers/media/rc/keymaps/rc-technisat-ts35.c       |  20 +--
- drivers/media/rc/keymaps/rc-technisat-usb2.c       |  20 +--
- .../media/rc/keymaps/rc-terratec-cinergy-c-pci.c   |  20 +--
- .../media/rc/keymaps/rc-terratec-cinergy-s2-hd.c   |  20 +--
- drivers/media/rc/keymaps/rc-terratec-cinergy-xs.c  |  20 +--
- drivers/media/rc/keymaps/rc-terratec-slim-2.c      |  20 +--
- drivers/media/rc/keymaps/rc-terratec-slim.c        |  20 +--
- drivers/media/rc/keymaps/rc-tevii-nec.c            |  20 +--
- .../media/rc/keymaps/rc-total-media-in-hand-02.c   |  20 +--
- drivers/media/rc/keymaps/rc-total-media-in-hand.c  |  20 +--
- drivers/media/rc/keymaps/rc-trekstor.c             |  20 +--
- drivers/media/rc/keymaps/rc-tt-1500.c              |  20 +--
- drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.c   |  20 +--
- drivers/media/rc/keymaps/rc-twinhan1027.c          |  20 +--
- drivers/media/rc/keymaps/rc-videomate-m1f.c        |  20 +--
- drivers/media/rc/keymaps/rc-videomate-s350.c       |  20 +--
- drivers/media/rc/keymaps/rc-videomate-tv-pvr.c     |  20 +--
- drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.c |  20 +--
- drivers/media/rc/keymaps/rc-winfast.c              |  20 +--
- drivers/media/rc/keymaps/rc-xbox-dvd.c             |  20 +--
- drivers/media/rc/keymaps/rc-zx-irdec.c             |  20 +--
- drivers/media/rc/mceusb.c                          |   4 +-
- drivers/media/rc/meson-ir.c                        |   4 +-
- drivers/media/rc/mtk-cir.c                         |   4 +-
- drivers/media/rc/sunxi-cir.c                       |   1 -
- 116 files changed, 1336 insertions(+), 1323 deletions(-)
