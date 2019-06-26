@@ -2,297 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A76056B56
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 15:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CFC56C10
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2019 16:33:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbfFZNzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 09:55:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57896 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726131AbfFZNzf (ORCPT
+        id S1727437AbfFZOdE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Jun 2019 10:33:04 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:41916 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725958AbfFZOdE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 09:55:35 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1ED8510;
-        Wed, 26 Jun 2019 15:55:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1561557332;
-        bh=+CC9ANi8/Ku0f/Ys9SGE2LCev3ajWW2zat4vq9Rbj9E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XPS8CEt1LclSnzTpUQSz8pUZazvbymw0/GSb+IhA6vcVCohDCC+uwuupWcCfYRaDO
-         HSOdtOISzB4CsJxQKqXlK9p2haBVM4qZXux3iIBRfyVZNBbnXH8rudwJfjZh+C8fQ7
-         9hU1PepZ/CKM2IFbDUlfDp+LBkRCPST1VM1f1UVA=
-Date:   Wed, 26 Jun 2019 16:55:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] drivers/media: don't set pix->priv = 0
-Message-ID: <20190626135512.GB5015@pendragon.ideasonboard.com>
-References: <2269be5f-c57a-a63b-9603-63e02de6767e@xs4all.nl>
+        Wed, 26 Jun 2019 10:33:04 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5QEX3pF097054;
+        Wed, 26 Jun 2019 09:33:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1561559583;
+        bh=xh6SvfiQLLidYLmaCOT6fWWKWUw82OMTp7l+jXmWfsw=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=smYrbpxwFDdrpV30vzj4Np+AwxNbnaq3HL5JCOiVUyuEj8ELz5bBg5sdrUpXBao+D
+         OqpxBQlvZgvCM1F04saVhu75pCIXtcxxdtz2hSLXQxErlCoEuWPFPSXEUv4M06Qqfe
+         E5dFUHlKJ/oMUPOLK4js+lUW50m4kYm+3TluLp94=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5QEX362050812
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 26 Jun 2019 09:33:03 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 26
+ Jun 2019 09:33:03 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 26 Jun 2019 09:33:03 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x5QEX38P130893;
+        Wed, 26 Jun 2019 09:33:03 -0500
+Date:   Wed, 26 Jun 2019 09:34:23 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 15/16] ti-vpe: set device_caps in struct video_device
+Message-ID: <20190626143423.d46uvkjtc4vuxjgf@ti.com>
+References: <20190626074421.38739-1-hverkuil-cisco@xs4all.nl>
+ <20190626074421.38739-16-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <2269be5f-c57a-a63b-9603-63e02de6767e@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190626074421.38739-16-hverkuil-cisco@xs4all.nl>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Acked-by: Benoit Parrot <bparrot@ti.com>
 
-Thank you for the patch.
-
-On Wed, Jun 26, 2019 at 11:58:02AM +0200, Hans Verkuil wrote:
-> The priv field of struct v4l2_pix_format shouldn't be set by drivers,
-> it's set by the v4l2 core instead to V4L2_PIX_FMT_PRIV_MAGIC.
+Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote on Wed [2019-Jun-26 09:44:20 +0200]:
+> Instead of filling in the struct v4l2_capability device_caps
+> field, fill in the struct video_device device_caps field.
 > 
-> Drop this from the few media drivers that still do this.
+> That way the V4L2 core knows what the capabilities of the
+> video device are.
 > 
-> Note that the gspca patch is slightly more involved since some of the
-> sub-gspca drivers use the priv field internally.
-
-Do they use it in a non-standard way towards userspace, or just for
-communication with the gspca driver within the kernel ? In the former
-case, are you aware of applications using that ?
-
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-For everything but gspca,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Cc: Benoit Parrot <bparrot@ti.com>
 > ---
-> diff --git a/drivers/media/pci/cobalt/cobalt-v4l2.c b/drivers/media/pci/cobalt/cobalt-v4l2.c
-> index 39dabd4da60f..c8cd4c407540 100644
-> --- a/drivers/media/pci/cobalt/cobalt-v4l2.c
-> +++ b/drivers/media/pci/cobalt/cobalt-v4l2.c
-> @@ -788,7 +788,6 @@ static int cobalt_try_fmt_vid_cap(struct file *file, void *priv_fh,
+>  drivers/media/platform/ti-vpe/cal.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
->  	pix->sizeimage = pix->bytesperline * pix->height;
->  	pix->field = V4L2_FIELD_NONE;
-> -	pix->priv = 0;
-> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 8d075683e448..3fa306a45787 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -916,9 +916,6 @@ static int cal_querycap(struct file *file, void *priv,
+>  
+>  	snprintf(cap->bus_info, sizeof(cap->bus_info),
+>  		 "platform:%s", ctx->v4l2_dev.name);
+> -	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+> -			    V4L2_CAP_READWRITE;
+> -	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
 >  	return 0;
 >  }
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> index 609100a46ff8..88e0cb0bf592 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> @@ -886,7 +886,6 @@ static int solo_enc_try_fmt_cap(struct file *file, void *priv,
->  	pix->colorspace = V4L2_COLORSPACE_SMPTE170M;
->  	pix->sizeimage = FRAME_BUF_SIZE;
->  	pix->bytesperline = 0;
-> -	pix->priv = 0;
+>  
+> @@ -1422,6 +1419,8 @@ static const struct video_device cal_videodev = {
+>  	.ioctl_ops	= &cal_ioctl_ops,
+>  	.minor		= -1,
+>  	.release	= video_device_release_empty,
+> +	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+> +			  V4L2_CAP_READWRITE,
+>  };
+>  
+>  /* -----------------------------------------------------------------
+> -- 
+> 2.20.1
 > 
->  	return 0;
->  }
-> @@ -941,7 +940,6 @@ static int solo_enc_get_fmt_cap(struct file *file, void *priv,
->  		     V4L2_FIELD_NONE;
->  	pix->sizeimage = FRAME_BUF_SIZE;
->  	pix->colorspace = V4L2_COLORSPACE_SMPTE170M;
-> -	pix->priv = 0;
-> 
->  	return 0;
->  }
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2.c b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> index a968f75920b5..a670fe8e4f9c 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> @@ -479,7 +479,6 @@ static int solo_try_fmt_cap(struct file *file, void *priv,
->  	pix->field = V4L2_FIELD_INTERLACED;
->  	pix->pixelformat = V4L2_PIX_FMT_UYVY;
->  	pix->colorspace = V4L2_COLORSPACE_SMPTE170M;
-> -	pix->priv = 0;
->  	return 0;
->  }
-> 
-> @@ -509,7 +508,6 @@ static int solo_get_fmt_cap(struct file *file, void *priv,
->  	pix->sizeimage = solo_image_size(solo_dev);
->  	pix->colorspace = V4L2_COLORSPACE_SMPTE170M;
->  	pix->bytesperline = solo_bytesperline(solo_dev);
-> -	pix->priv = 0;
-> 
->  	return 0;
->  }
-> diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
-> index 8e0952d65ad4..d0c2ec70f9cd 100644
-> --- a/drivers/media/pci/tw68/tw68-video.c
-> +++ b/drivers/media/pci/tw68/tw68-video.c
-> @@ -592,7 +592,6 @@ static int tw68_g_fmt_vid_cap(struct file *file, void *priv,
->  	f->fmt.pix.sizeimage =
->  		f->fmt.pix.height * f->fmt.pix.bytesperline;
->  	f->fmt.pix.colorspace	= V4L2_COLORSPACE_SMPTE170M;
-> -	f->fmt.pix.priv = 0;
->  	return 0;
->  }
-> 
-> diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
-> index f0f7ef638c56..21a2ba797d0a 100644
-> --- a/drivers/media/platform/davinci/vpif_capture.c
-> +++ b/drivers/media/platform/davinci/vpif_capture.c
-> @@ -979,7 +979,6 @@ static int vpif_try_fmt_vid_cap(struct file *file, void *priv,
->  		pixfmt->bytesperline = common->fmt.fmt.pix.width * 2;
->  		pixfmt->sizeimage = pixfmt->bytesperline * pixfmt->height;
->  	}
-> -	pixfmt->priv = 0;
-> 
->  	dev_dbg(vpif_dev, "%s: %d x %d; pitch=%d pixelformat=0x%08x, field=%d, size=%d\n", __func__,
->  		pixfmt->width, pixfmt->height,
-> diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
-> index 5e00019bce8a..37acfcb56822 100644
-> --- a/drivers/media/usb/au0828/au0828-video.c
-> +++ b/drivers/media/usb/au0828/au0828-video.c
-> @@ -1153,7 +1153,6 @@ static int au0828_set_format(struct au0828_dev *dev, unsigned int cmd,
->  	format->fmt.pix.sizeimage = width * height * 2;
->  	format->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
->  	format->fmt.pix.field = V4L2_FIELD_INTERLACED;
-> -	format->fmt.pix.priv = 0;
-> 
->  	if (cmd == VIDIOC_TRY_FMT)
->  		return 0;
-> @@ -1231,7 +1230,6 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *priv,
->  	f->fmt.pix.sizeimage = dev->frame_size;
->  	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M; /* NTSC/PAL */
->  	f->fmt.pix.field = V4L2_FIELD_INTERLACED;
-> -	f->fmt.pix.priv = 0;
->  	return 0;
->  }
-> 
-> diff --git a/drivers/media/usb/cpia2/cpia2_v4l.c b/drivers/media/usb/cpia2/cpia2_v4l.c
-> index 0feae825cebb..9232461669c8 100644
-> --- a/drivers/media/usb/cpia2/cpia2_v4l.c
-> +++ b/drivers/media/usb/cpia2/cpia2_v4l.c
-> @@ -338,7 +338,6 @@ static int cpia2_try_fmt_vid_cap(struct file *file, void *fh,
->  	f->fmt.pix.bytesperline = 0;
->  	f->fmt.pix.sizeimage = cam->frame_size;
->  	f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
-> -	f->fmt.pix.priv = 0;
-> 
->  	switch (cpia2_match_video_size(f->fmt.pix.width, f->fmt.pix.height)) {
->  	case VIDEOSIZE_VGA:
-> @@ -449,7 +448,6 @@ static int cpia2_g_fmt_vid_cap(struct file *file, void *fh,
->  	f->fmt.pix.bytesperline = 0;
->  	f->fmt.pix.sizeimage = cam->frame_size;
->  	f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
-> -	f->fmt.pix.priv = 0;
-> 
->  	return 0;
->  }
-> diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-> index 0512e1959394..9a6956813259 100644
-> --- a/drivers/media/usb/em28xx/em28xx-video.c
-> +++ b/drivers/media/usb/em28xx/em28xx-video.c
-> @@ -1517,7 +1517,6 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *priv,
->  	else
->  		f->fmt.pix.field = v4l2->interlaced_fieldmode ?
->  			   V4L2_FIELD_INTERLACED : V4L2_FIELD_TOP;
-> -	f->fmt.pix.priv = 0;
-> 
->  	return 0;
->  }
-> diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
-> index be11f7830bca..072d280c1824 100644
-> --- a/drivers/media/usb/gspca/gspca.c
-> +++ b/drivers/media/usb/gspca/gspca.c
-> @@ -1040,11 +1040,11 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *priv,
->  			    struct v4l2_format *fmt)
->  {
->  	struct gspca_dev *gspca_dev = video_drvdata(file);
-> +	u32 priv = fmt->fmt.pix.priv;
-> 
->  	fmt->fmt.pix = gspca_dev->pixfmt;
-> -	/* some drivers use priv internally, zero it before giving it back to
-> -	   the core */
-> -	fmt->fmt.pix.priv = 0;
-> +	/* some drivers use priv internally, so keep the original value */
-> +	fmt->fmt.pix.priv = priv;
->  	return 0;
->  }
-> 
-> @@ -1079,9 +1079,6 @@ static int try_fmt_vid_cap(struct gspca_dev *gspca_dev,
->  		fmt->fmt.pix.height = h;
->  		gspca_dev->sd_desc->try_fmt(gspca_dev, fmt);
->  	}
-> -	/* some drivers use priv internally, zero it before giving it back to
-> -	   the core */
-> -	fmt->fmt.pix.priv = 0;
->  	return mode;			/* used when s_fmt */
->  }
-> 
-> @@ -1090,9 +1087,12 @@ static int vidioc_try_fmt_vid_cap(struct file *file,
->  			      struct v4l2_format *fmt)
->  {
->  	struct gspca_dev *gspca_dev = video_drvdata(file);
-> +	u32 priv = fmt->fmt.pix.priv;
-> 
->  	if (try_fmt_vid_cap(gspca_dev, fmt) < 0)
->  		return -EINVAL;
-> +	/* some drivers use priv internally, so keep the original value */
-> +	fmt->fmt.pix.priv = priv;
->  	return 0;
->  }
-> 
-> @@ -1100,6 +1100,7 @@ static int vidioc_s_fmt_vid_cap(struct file *file, void *priv,
->  			    struct v4l2_format *fmt)
->  {
->  	struct gspca_dev *gspca_dev = video_drvdata(file);
-> +	u32 priv = fmt->fmt.pix.priv;
->  	int mode;
-> 
->  	if (vb2_is_busy(&gspca_dev->queue))
-> @@ -1115,6 +1116,8 @@ static int vidioc_s_fmt_vid_cap(struct file *file, void *priv,
->  		gspca_dev->pixfmt = fmt->fmt.pix;
->  	else
->  		gspca_dev->pixfmt = gspca_dev->cam.cam_mode[mode];
-> +	/* some drivers use priv internally, so keep the original value */
-> +	fmt->fmt.pix.priv = priv;
->  	return 0;
->  }
-> 
-> diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-> index aa90558479f7..1a5b46c6992b 100644
-> --- a/drivers/media/usb/s2255/s2255drv.c
-> +++ b/drivers/media/usb/s2255/s2255drv.c
-> @@ -759,7 +759,6 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *priv,
->  	f->fmt.pix.bytesperline = f->fmt.pix.width * (vc->fmt->depth >> 3);
->  	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
->  	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
-> -	f->fmt.pix.priv = 0;
->  	return 0;
->  }
-> 
-> @@ -811,7 +810,6 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *priv,
->  	f->fmt.pix.bytesperline = (f->fmt.pix.width * fmt->depth) >> 3;
->  	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
->  	f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
-> -	f->fmt.pix.priv = 0;
->  	dprintk(vc->dev, 50, "%s: set width %d height %d field %d\n", __func__,
->  		f->fmt.pix.width, f->fmt.pix.height, f->fmt.pix.field);
->  	return 0;
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 203329cadbc4..0335e69b70ab 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -253,7 +253,6 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
->  	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
->  	fmt->fmt.pix.sizeimage = probe->dwMaxVideoFrameSize;
->  	fmt->fmt.pix.colorspace = format->colorspace;
-> -	fmt->fmt.pix.priv = 0;
-> 
->  	if (uvc_format != NULL)
->  		*uvc_format = format;
-> @@ -290,7 +289,6 @@ static int uvc_v4l2_get_format(struct uvc_streaming *stream,
->  	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
->  	fmt->fmt.pix.sizeimage = stream->ctrl.dwMaxVideoFrameSize;
->  	fmt->fmt.pix.colorspace = format->colorspace;
-> -	fmt->fmt.pix.priv = 0;
-> 
->  done:
->  	mutex_unlock(&stream->mutex);
-
--- 
-Regards,
-
-Laurent Pinchart
