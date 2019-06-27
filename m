@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1FFF58AA5
+	by mail.lfdr.de (Postfix) with ESMTP id 8346E58AA4
 	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 21:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfF0THO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726506AbfF0THO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 27 Jun 2019 15:07:14 -0400
-Received: from mout.gmx.net ([212.227.17.21]:35263 "EHLO mout.gmx.net"
+Received: from mout.gmx.net ([212.227.17.22]:35127 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726384AbfF0THN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726497AbfF0THN (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 27 Jun 2019 15:07:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
         s=badeba3b8450; t=1561662412;
-        bh=yqq7RYAhnRBUGET7ItFqghQOuPnMkR/UpSH+qOl5n+4=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=WaGhzEXjY+wqWa7PSn38NDpZqD2AYifWeLC0inYxETkj86n+jvJmZBYUnui7iau0O
-         Izac6ZjuS85XersZNOwLyZ1mAOxzKoIo2k1pTP1Qqf/ni7My29ZSZ1hZk3/CjuS3DD
-         zpPKIQv53GfbLvl0lj2OvpHvBtdL/6FC/+gt9mNg=
+        bh=jDTS8viFYqrDbHal1MRfayty/onAySUVJktCMM7U9LA=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=boyR1b1cVnoKHMYAWqz5F14XVnOO+5f+PR5CnjctNVZzad1WK3Vy7CadjSAX0ljbH
+         O6Pk7QST70wbzg6ci6XpQ7XmQsQeBk2s1EDQ7PIn9caoY/6l/g8chMvCYxfyYKa1Qe
+         nXUBRA9lg6F9vG3GD28ROjT+q8WtCG8Ph6IZqkdM=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx101 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 0MLB89-1hgIcH02nR-000Nai; Thu, 27 Jun 2019 21:06:52 +0200
+ 0M6730-1iVuty1hPe-00y91P; Thu, 27 Jun 2019 21:06:52 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,32 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org
-Subject: [PATCH 20/31] staging: bcm2835-camera: Add multiple inclusion protection to headers
-Date:   Thu, 27 Jun 2019 21:06:15 +0200
-Message-Id: <1561662386-23045-1-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH 21/31] staging: bcm2835-camera: Unify header inclusion defines
+Date:   Thu, 27 Jun 2019 21:06:16 +0200
+Message-Id: <1561662386-23045-2-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
-X-Provags-ID: V03:K1:PJBl2hs3AQ4EP3SFhfIA7tzboj8+7feJbCUjaXtAD2tI8TZP5y9
- 1TrfJ6IoFS1cuG0qC/ACSo6Yg0KbMmTpsBDdMqRqUJrk2T6xPwzgqauR+TpXpxcPPci+YT0
- SS8nCvs59R6vzUhi/unJzHscK0EpHIwyNaXcqrQvUVSGvY9HnDFQhwM2Nlo3CrXmXKDalNb
- i3QClroEqRxyqkwUVDhPg==
+In-Reply-To: <1561662386-23045-1-git-send-email-wahrenst@gmx.net>
+References: <1561662386-23045-1-git-send-email-wahrenst@gmx.net>
+X-Provags-ID: V03:K1:u2byLpeY81owIOe0u0m7dsEbi1BMOnsvUw8J/3/4FrRXeaW/irC
+ LoXykJgzLFToxCJLBQfNgDO3MuvZJ78slALKTqVjV5Ln8lJCa+ONkMb4KLK03VBpkYLIPqV
+ waJKxhxujuJXV29xe7NALB9W7esBFPD46qUJ2wo6/K35MUpWRSo0Lub26e+9NpeIWqsv6ax
+ klNVgSeMRmS0FU3LTlYSg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YaI4J7jV4gw=:wHXzSVjhJlBreliQ4fwn1i
- 40EHq13B/jmrNcobHNiF0yCsv/7CQJKTaWzXabibvyZEqQ8kdAP/RdlfpioOh0pPDbApM77ke
- mHa7hOSq+VvO+Xo9gEsIoUiL2+eWEtDSE+1BUiC39TAmc0VvTORtCt/GxmShVpWLGVX0hB6oE
- eT83LuuKi6vlocfC0WkdGzm6QzgSXbQ7TdR1yFN1+MFvFodBhYEiuuDFgVuV1Upaqw/o1Wero
- qA/d35DZR4tPRJHYnG5mdHxhESljsYZeVoByETCU9p0X+shFB3+BrQdDy7qvie2n0etFdT58h
- BnrQJhrRH54S03dZqVIc8hAFdjK9YaUaoB5KFQpKLEB3dC8k2f/RmLyynXtL2Alm2x8Dzul9r
- gJq9OWaW75ReGrcwtKeSEC5HblUPbwjcr+Whkk77iIp1OOv/27snJswgj3ZvsRFJp6g8d6Xvx
- j9q4EGR3FRiJME1IzXeiEev8naCBKnzeBcd+f5nrO7ih6UrObHm5RiwWS0xdL1bOlFCBD7SnC
- yi9y2XdANio9qUJaZST1y+HLGKjtDOHZLMM9xhieWRicVOTJWFSYc2zOHO6Z8QNKYXviUgJAn
- /+yv+dM6IyMD807i+UYWcpKL3RrEdY+Cs0qB+/r7NcKvf6pYGBwpft1yFqFtLhUPICiPNriqk
- /SGCkeD66NsxaGpjgOrinX3LqHS6F6wiz5+6DlBVfAX8sAm7VS2kHLhyJGQrZmOjvUP43JOJW
- 2Pi3Mi5qrmgelpJj7cq2DL3nxHV1cuwk8NfkvKfNV6kVpKUvHEt5TzjW4HCQnQYRtiKttIb0I
- pbu0n4sCRMSO8zbRtb7fBOZCIs/0j0N3CtFk06tLXJLEn3dZu2+Url7q7hG7+JcqCxsPhrdkI
- ZafdHiIk4PVWJNt6KkPPnYFICMABjPIPRG9TfNgdUbv+7c25ojYqfA0xzxnBx1xlxUy5JT1z5
- rCJuZdWUQsf7MFP5G0UO2FNxDWnz/p6q0jSRYWkYSYLdhO4zhX89GZPzJwlRAF7kdw28pZ6us
- Kr6Z2lOIuTbqyI0Kob+ZcEyDoiKQdHu5o+HFm4cwhTifYcisKkMOTO3gIqYei/zOZRo9u9/R0
- y4XqR5IYgYt3Gg=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Dz6jkUEmH98=:d5Jk/boCMg8s1Sc0nJL9K3
+ 7TrzZunCtfiu8SMe6z4qS/qwMuGih7CpkVhHJEYspFnnOmcpIlWUAuYXbR8M7zMyCWqo3om+D
+ FLmBcTKDSiLvqdrGhi/X4Xvjtsd0xS3w07bPiN1ozjF/f0n5yE6eVPOJid1U6wAASNavjUpj/
+ CR7YbVBNyMp42Hqf8XKIUiTXFS/4VE0m1pfaCq1XavTj5VLhuzafPwXV9hJmR2E2OAy52MhlA
+ fZzg65dtHyahvFzYW6ynkl7XLJmYNw89JjC04300NJ6AwBuqAik6r9gdPctofRfU42x7K5cz1
+ j88PIsx4Is56WQhjskTfBlRnt/ZnQFrUkw0gAqtgWj29NrF5zHd2HLA40dWxfeUV5T31lG4OT
+ pWR+YpzY3FNQoiK6H0BfxOabM9p+9/OtZRIgG74EPRKFPSYX5NhPDZw4SHzTbLbdXANiNsb45
+ g2IJjijr72WX48pUWcK0M0Y0XaaH983wsXm+pCn0u5SYwy0CbyAL0aykZNF7AeA8M58U+ExTz
+ o0yb0VzKrqtVwqVz5Nmo4y7S1+eCUSo/UTAJA/RptPhfpm1RgUB0mIbDWEvaG6tvUAm7xBxjM
+ akVIGlzgI1KD2hJj9LHsJWSLDvgyvFh7Fsg85s2zluAYQgvJbNPmr5u0Ak+w1yQPvkknhB4u6
+ 49QoIoKiEhWJR0XzH+0htR3i24EvPG69+hfVug1pi1k5BL2sRhxMaaKYg7OYf0qS4xmfPHCKw
+ WvuCZfVTQ8nzaB3ehfiYDN71MjwY+RMy2qNEro8DUzpiE0rEd72vIP/N7HPrKFEYlpGgFoqA/
+ 7XFd8EGLrdyj3rfLN5AOrM+3xmBNWCCbrbFW6vWyoqcZ/jJ2CwmXyzjdSR2jcZSsT7h0UuwAe
+ KVj2bo5C9c/igB4fv5EtOgXYhBSCOMOu+J+7ozqGdxKhIuXZsbSs9B2Nr3EYmxpi/VUKH14Zm
+ wEXAcUsuIx83vHacAWD+pKiXNBTRi0LF7TPGZ9vFnNyZz3lhMf/BtSeyBJsAlOFruHPzPlDB4
+ kIPrfg1P/18XBzQzRvJ5RiZunT0pBQp9wdfskaK/GcKwvvTZX4zyedAsaksY+9veSBjYXxO7/
+ KSQppR5fjlZh00=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -65,54 +67,33 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-mmal-common.h and mmal-msg.h didn't have the normal
-ifndef FOO / define FOO / endif protection to stop it being
-included multiple times. Add it.
+Most of the headers use ifndef FOO_H, whilst mmal-parameters.h
+used ifndef __FOO_H.
+
+Revise mmal-parameters.h to drop the underscores and make the
+headers all consistent.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 =2D--
- drivers/staging/vc04_services/bcm2835-camera/mmal-common.h | 3 +++
- drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h    | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h b/=
-drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-index 858bdcd..6f56c51 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-@@ -13,6 +13,8 @@
-  * MMAL structures
-  *
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.=
+h b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
+index 6d21594..da21ec5 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
+@@ -19,8 +19,8 @@
+  * @{
   */
-+#ifndef MMAL_COMMON_H
-+#define MMAL_COMMON_H
 
- #define MMAL_FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
- #define MMAL_MAGIC MMAL_FOURCC('m', 'm', 'a', 'l')
-@@ -56,3 +58,4 @@ struct mmal_colourfx {
- 	u32 u;
- 	u32 v;
- };
-+#endif
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h b/dri=
-vers/staging/vc04_services/bcm2835-camera/mmal-msg.h
-index 8e0aee8..43cc593 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
-@@ -23,6 +23,8 @@
-  * implementation uses fixed size types and not the enums (though the
-  * comments have the actual enum type
-  */
-+#ifndef MMAL_MSG_H
-+#define MMAL_MSG_H
+-#ifndef __MMAL_PARAMETERS_H
+-#define __MMAL_PARAMETERS_H
++#ifndef MMAL_PARAMETERS_H
++#define MMAL_PARAMETERS_H
 
- #define VC_MMAL_VER 15
- #define VC_MMAL_MIN_VER 10
-@@ -401,3 +403,4 @@ struct mmal_msg {
- 		u8 payload[MMAL_MSG_MAX_PAYLOAD];
- 	} u;
- };
-+#endif
+ /** Common parameter ID group, used with many types of component. */
+ #define MMAL_PARAMETER_GROUP_COMMON            (0 << 16)
 =2D-
 2.7.4
 
