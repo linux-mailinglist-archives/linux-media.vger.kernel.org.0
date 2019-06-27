@@ -2,32 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F12E582C8
+	by mail.lfdr.de (Postfix) with ESMTP id 9A23C582C9
 	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 14:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbfF0Mog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726669AbfF0Mog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 27 Jun 2019 08:44:36 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:57485 "EHLO
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55857 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbfF0Mog (ORCPT
+        with ESMTP id S1726542AbfF0Mog (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 27 Jun 2019 08:44:36 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1hgTlS-0002h1-W6; Thu, 27 Jun 2019 14:44:34 +0200
+        id 1hgTlS-0002h2-W6; Thu, 27 Jun 2019 14:44:34 +0200
 Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.89)
         (envelope-from <mtr@pengutronix.de>)
-        id 1hgTlS-00086J-E8; Thu, 27 Jun 2019 14:44:34 +0200
+        id 1hgTlS-00086N-Eh; Thu, 27 Jun 2019 14:44:34 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de, pawel@osciak.com, hverkuil-cisco@xs4all.nl,
         mchehab@kernel.org, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v2 0/2] vb2: check for events before checking for buffers
-Date:   Thu, 27 Jun 2019 14:44:31 +0200
-Message-Id: <20190627124433.31051-1-m.tretter@pengutronix.de>
+Subject: [PATCH v2 1/2] media: vb2: reorder checks in vb2_poll()
+Date:   Thu, 27 Jun 2019 14:44:32 +0200
+Message-Id: <20190627124433.31051-2-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190627124433.31051-1-m.tretter@pengutronix.de>
+References: <20190627124433.31051-1-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -39,32 +41,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patches fix a race condition in the poll functions of v4l2 devices.
+When reaching the end of stream, V4L2 clients may expect the
+V4L2_EOS_EVENT before being able to dequeue the last buffer, which has
+the V4L2_BUF_FLAG_LAST flag set.
 
-Whenever a driver returns a buffer with the V4L2_BUF_FLAG_LAST flag set, it
-must also return a V4L2_EVENT_EOS. Checking for events before checking for
-buffers creates a race condition where drivers can return the buffer and event
-between the checks and thus only signal the buffer without the event.
-Reordering the checks avoids the race condition.
+If the vb2_poll() function first checks for events and afterwards if
+buffers are available, a driver can queue the V4L2_EOS_EVENT event and
+return the buffer after the check for events but before the check for
+buffers. This causes vb2_poll() to signal that the buffer with
+V4L2_BUF_FLAG_LAST can be read without the V4L2_EOS_EVENT being
+available.
 
-As suggested by Hans, I renamed __v4l2_m2m_poll() to v4l2_m2m_poll_for_data()
-in patch 2/2.
+First, check for available buffers and afterwards for events to ensure
+that if vb2_poll() signals POLLIN | POLLRDNORM for the
+V4L2_BUF_FLAG_LAST buffer, it also signals POLLPRI for the
+V4L2_EOS_EVENT.
 
-Michael
-
-Changelog:
-
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
 v1 -> v2:
-- rename __v4l2_m2m_poll() to v4l2_m2m_poll_for_data
+- none
+---
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Michael Tretter (2):
-  media: vb2: reorder checks in vb2_poll()
-  media: v4l2-mem2mem: reorder checks in v4l2_m2m_poll()
-
- .../media/common/videobuf2/videobuf2-v4l2.c   |  8 ++--
- drivers/media/v4l2-core/v4l2-mem2mem.c        | 47 +++++++++++--------
- 2 files changed, 32 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 40d76eb4c2fe..5a9ba3846f0a 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -872,17 +872,19 @@ EXPORT_SYMBOL_GPL(vb2_queue_release);
+ __poll_t vb2_poll(struct vb2_queue *q, struct file *file, poll_table *wait)
+ {
+ 	struct video_device *vfd = video_devdata(file);
+-	__poll_t res = 0;
++	__poll_t res;
++
++	res = vb2_core_poll(q, file, wait);
+ 
+ 	if (test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags)) {
+ 		struct v4l2_fh *fh = file->private_data;
+ 
+ 		poll_wait(file, &fh->wait, wait);
+ 		if (v4l2_event_pending(fh))
+-			res = EPOLLPRI;
++			res |= EPOLLPRI;
+ 	}
+ 
+-	return res | vb2_core_poll(q, file, wait);
++	return res;
+ }
+ EXPORT_SYMBOL_GPL(vb2_poll);
+ 
 -- 
 2.20.1
 
