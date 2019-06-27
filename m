@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51F9A58A4F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A469C58A52
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbfF0S5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 14:57:17 -0400
-Received: from mout.gmx.net ([212.227.15.19]:48029 "EHLO mout.gmx.net"
+        id S1726574AbfF0S5M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 14:57:12 -0400
+Received: from mout.gmx.net ([212.227.15.18]:52627 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726578AbfF0S5P (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 14:57:15 -0400
+        id S1726540AbfF0S5L (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 14:57:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561661811;
-        bh=k2UEBdPcXThZbOhK5It7fEganG4Iv+M4JDEYExz4Arc=;
+        s=badeba3b8450; t=1561661812;
+        bh=+Xoux4+s4j5YfHj784XnN033ix9y/7uzXcLlI87QcTo=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=OGx4Tbw/y43jBB3SXYzKOgCdXi7TgB8QtK4qlHpS0lBu8/cGVzg3feaiLShLOcKxn
-         RjdePa1kfltlkFL1KNkQHViViOstm8fZs+l/ITP/lZrCxdODnFPrj3SFDac3/L8Jsy
-         W/5gnZYa2kOWPKk/pg/ryO8mqztXqQdI28eiGrA8=
+        b=LH7hBHfikip12OU8QBcgEgaszTr76HWc/YfwfJTo8NpxtrAXcKFLBLVxtzAyrvLaP
+         OAdtZzE3UOjwcNADnR/l/mXCDFhM9yBahX8IqFab1cG7lPsDMjPijDaHbjsGBdUQXV
+         ERSq1NiGDWfsA9Yid2SRHOS22zyz8CEfGHOHIy7c=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx002 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 0LgZdt-1iIxBW14Zp-00nxIE; Thu, 27 Jun 2019 20:56:51 +0200
+ 0M7pI0-1iT9ut2oPA-00vPw3; Thu, 27 Jun 2019 20:56:51 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,37 +31,35 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org
-Subject: [PATCH 07/31] staging: bcm2835-camera: Remove dead email addresses
-Date:   Thu, 27 Jun 2019 20:56:04 +0200
-Message-Id: <1561661788-22744-8-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH 08/31] staging: bcm2835-camera: Fix comment style violations.
+Date:   Thu, 27 Jun 2019 20:56:05 +0200
+Message-Id: <1561661788-22744-9-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
 References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:G+kKgfFVzVlhR+oT6IRybHEGpRj6R6swZgtBkCia+xNyzsUjV39
- c6pALomWDH7aFBtGuFnr9OIC7Or25hpKL2Qtg+na7RcQCxtw4YUtCD4MnZlWjV3coW1ZSQ6
- S+A9OV/QP6vrZF0XVCIz4jLQlJsoHo8ZtLNgoRFzcV7o3UpBhx4ucdjmIKXf/MMQps5AIwX
- G70qd76F8vIFtfvqw6nFQ==
+X-Provags-ID: V03:K1:HEIL2nbb9HRBO7L+QEOZBb9r1MTTwvhZ8lsCOlo/UHeE06nJqom
+ /84bxrXMVRe7icOufelWDT1CGontoXgBUUkj/1v4jai6X3z0VMoosMkMd+Okz9p2W/dJkt3
+ wz530L++YdwuiIZlUE50dGKSYjtG++VyjcHI+ZYHejc3MFyQtwBP88eRpMlwbhYla2lmUcz
+ YZ+O6p3GaKjWKKkME9AVg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qQYJ98g6oYc=:d1q1GINSU4Wm++VBLDNd/i
- eorzI/ywX3fbqWU9ak99N+986WjUXalUERehv8eNow5Q0rJyOuLeQDNs28kiLgxu6YaP1hO37
- V/AWnXCTLSC2rQPCUsZssib/Oxu8FXZK3gX1zMxGWl+ttweaHcS2Y5W91LFhWkSLQ29qTjTkV
- pZUbesPWPj098WQfBlfsxB5HowmGx/pJcWiCkZOKvOxW9TsOUY5HEuiTMOphjQthNyC3b1+o6
- 6xC6Zvvm32l9nol7ntcyQyehYtXvizMSssD+uiwe3E2kqiYPdLCkpfDrj/W8CBu/1dzzKO7wb
- SporIm+zefFvj652QuvvF3oeLWj7fDDh+F1bQjHrUX2a0PO+sWYyoRH//1pLs/eNbiy+EBSpC
- VppFRRqzZAF97lOhzVor8iTdOOpJ35zOFWrRz1O8PBkjhZ5t2XuzzUrGK9mO3zN6s1k3jNKzT
- V6Vo3UBAJ7tVtR4DQCtT6F/lTaxfwyVzU3dcmBF4JtpR1WQaoaNUTMlx1qVWDVrMCj2BuZx2i
- OuTzvilyZ5P/dfLFeFYWTu2wpSK6ksoM37Pe4cV7QdwKBkZL603Oitk8B7SffFSfwHXw7Mbvd
- 7mzMv6GgJyB1uT6DRmsKKZWu5eAH63oXFKCDLsBUprAXSoV3B15Ak9B3GoXvi5fjvE9pIiYfE
- QDj33eaf+o94VJmXPMkZltFSHT9va84zCv9AsW9PCVrUln9F20hf/ohdUqVZcSmoh35tdw0v/
- IQWhhRVv3fFMpk/XDnRhAN91fENosU6/ArIx5y6hEzrBwh7PJGUN0khAjZ8mF6FJf6DrSRTd+
- UK3QU/DNcEZW7+oplCReDT5aH5eVHdxEDdrj3ZnRYviCFYrOQrbpuum+ZFKDoq43qVYyM6EEz
- 2Oruy5u3VnMyo9ez+n9Q9oCo9pDScoBBZoXHIGXUD2EaKQPuYitGLD+CskXPVyiBfEHp/WzVN
- OkAjGFPzFIOSzmN9420Gi9NA02c4bKUxzXnOcq79s+o+gFtS7votB7j0VmPrQ8KgYnFBK0PJk
- /IIw8tR1iuGpr6FwLvEOIg5fARHtjVu3krA1+WnOUd0EO84GeRxFFDVIzZgmd9lb1Zp4pKts9
- DzyF+kERUFLGfc=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pCyntWeZ/Rs=:bD1ZYN2h0bkABXGfLFMfL5
+ bn5OwUMgv+Jb8BOYLmM+e1Op5C7q8oiqP5Pgb0JDDN2m8FJ8bexYqTtiAOqDAr7NREha8C05T
+ I+2T68F7m0xYpqkQxGwo0rhstC7fofKnTP5V9iA68UIOWnqmMAKdIUlS7pF2d7yk+0UpQPWrm
+ q3XpTK/ro7sbR7b3G1GSHIVZuBpu9HLEdZLwqa0KBGIlm95j8AHSmFzBI7dfA0OvHrd0OMPxF
+ iGtkm7uWkjCGJHUjprT6TS5jdzzXGi9w1BvY1K5t/c2UF02GunccdAQSGzFDuLxBWZHIKdNL9
+ n6Np7kcsPTz91OfHkXqblRIwbobFcslDHayisWo+SPkslxL4YoflGtsDtXr7f+3CjPFaLC0a3
+ licLyi63RoMUIWYrIbhgM9XaVaKQ/DdKAzWqLLuZRO9Davii+GO3ucZCoMXGJ6PBY4/uSPV0b
+ PRRKsmreOxx23EOylCP/HJwd2nd5M998EaRyS52trSqVfmq8TdDO5cO4K2355FVFAyhTOpMjy
+ JwOiCv8eIsrt07sF4Ev3mElQ+bkPU6t0AX/l3fEWcaUqyvcaDT5Ghggtuquz4+C7XuVDIiQmQ
+ 1OWxU64525L33D1675ZupypOi07FvrT1bVHRCoUmVXPCtjI8fFoYuSJsw1isDD6vPNahnc8DK
+ nUmT315NYdidWo2T5sxhc+4BcpVm0YkCuT2iBq+laBDXzSMOT3I3jdHN0CiWaog3U1X+Nh6YU
+ 741nEqABhg4xRc8d/KD8c+DFof8fvst7dKUHsdrLgdYiazGbeAraIjfIhQX3ohurNZ5XlTR45
+ DMmO1m8Y3RH6AQdCIbUzanbNOjIIuPpgajG0nPyTNRV6h3ELQWIiJejMZJe6H6DzkbR5q6jJu
+ wXvWCWbMZAEJTy8Y3pxPdK9seyOd0HoKmsagFQ/7YnqiImz8VFkszwfZGHXqCSTvYaJ9GKm8j
+ TwgDjGjaWWoC9p2TPmzuoIhh9qtKMNwWLRjrTfc0tlYa73ww6J+LYPZ3Ps7ve/c/kPEwytUnA
+ l+t3G/v7lvpMH6dZGTe2E6ursYnSer+7iIyo72cDceGKk6vjD4awTLwsK7mpd9R56hlumIeHC
+ +kBohx6MgWMbrs=
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -69,290 +67,637 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-None of the listed author email addresses were valid.
-Keep list of authors and the companies they represented.
-Update my email address.
+Fix comment style violations in the header files.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 =2D--
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 9 +++++-=
+ .../vc04_services/bcm2835-camera/mmal-msg-format.h |  95 ++++++++-------
+ .../vc04_services/bcm2835-camera/mmal-msg-port.h   | 124 +++++++++-------=
 ---
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h  | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/controls.c        | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-common.h     | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h  | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h   | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h        | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c      | 9 +++++-=
----
- drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h      | 9 +++++-=
----
- 12 files changed, 60 insertions(+), 48 deletions(-)
+ .../vc04_services/bcm2835-camera/mmal-msg.h        | 135 +++++++++++-----=
+-----
+ 3 files changed, 185 insertions(+), 169 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c=
- b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index b597475..814deee 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
-
- #include <linux/errno.h>
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h=
- b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
-index 09273b0..9833828 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  *
-  * core driver device
-  */
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
-vers/staging/vc04_services/bcm2835-camera/controls.c
-index 133aa6e..b142130 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
-
- #include <linux/errno.h>
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h b/=
-drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-index a20bf27..858bdcd 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  *
-  * MMAL structures
-  *
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h=
- b/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
-index 1292035..2be9941 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
- #ifndef MMAL_ENCODINGS_H
- #define MMAL_ENCODINGS_H
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.=
-h b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
-index ec84556..342c9b6 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
-
- #ifndef MMAL_MSG_COMMON_H
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.=
 h b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
-index c9d6fbe..5ea1a1b 100644
+index 5ea1a1b..a118efd 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
 +++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
+@@ -19,22 +19,23 @@
+ /* MMAL_ES_FORMAT_T */
 
- #ifndef MMAL_MSG_FORMAT_H
+ struct mmal_audio_format {
+-	u32 channels;           /**< Number of audio channels */
+-	u32 sample_rate;        /**< Sample rate */
++	u32 channels;		/* Number of audio channels */
++	u32 sample_rate;	/* Sample rate */
+
+-	u32 bits_per_sample;    /**< Bits per sample */
+-	u32 block_align;        /**< Size of a block of data */
++	u32 bits_per_sample;	/* Bits per sample */
++	u32 block_align;	/* Size of a block of data */
+ };
+
+ struct mmal_video_format {
+-	u32 width;        /**< Width of frame in pixels */
+-	u32 height;       /**< Height of frame in rows of pixels */
+-	struct mmal_rect crop;         /**< Visible region of the frame */
+-	struct mmal_rational frame_rate;   /**< Frame rate */
+-	struct mmal_rational par;          /**< Pixel aspect ratio */
+-
+-	/* FourCC specifying the color space of the video stream. See the
+-	 * \ref MmalColorSpace "pre-defined color spaces" for some examples.
++	u32 width;		/* Width of frame in pixels */
++	u32 height;		/* Height of frame in rows of pixels */
++	struct mmal_rect crop;	/* Visible region of the frame */
++	struct mmal_rational frame_rate;	/* Frame rate */
++	struct mmal_rational par;		/* Pixel aspect ratio */
++
++	/*
++	 * FourCC specifying the color space of the video stream. See the
++	 * MmalColorSpace "pre-defined color spaces" for some examples.
+ 	 */
+ 	u32 color_space;
+ };
+@@ -50,48 +51,56 @@ union mmal_es_specific_format {
+ 	struct mmal_subpicture_format subpicture;
+ };
+
+-/** Definition of an elementary stream format (MMAL_ES_FORMAT_T) */
++/* Definition of an elementary stream format (MMAL_ES_FORMAT_T) */
+ struct mmal_es_format_local {
+-	u32 type;      /* enum mmal_es_type */
+-
+-	u32 encoding;  /* FourCC specifying encoding of the elementary stream.*/
+-	u32 encoding_variant; /* FourCC specifying the specific
+-			       * encoding variant of the elementary
+-			       * stream.
+-			       */
+-
+-	union mmal_es_specific_format *es;  /* Type specific
+-					     * information for the
+-					     * elementary stream
+-					     */
+-
+-	u32 bitrate;        /**< Bitrate in bits per second */
+-	u32 flags; /**< Flags describing properties of the elementary stream. */
+-
+-	u32 extradata_size;       /**< Size of the codec specific data */
+-	u8  *extradata;           /**< Codec specific data */
++	u32 type;	/* enum mmal_es_type */
++
++	u32 encoding;	/* FourCC specifying encoding of the elementary
++			 * stream.
++			 */
++	u32 encoding_variant;	/* FourCC specifying the specific
++				 * encoding variant of the elementary
++				 * stream.
++				 */
++
++	union mmal_es_specific_format *es;	/* Type specific
++						 * information for the
++						 * elementary stream
++						 */
++
++	u32 bitrate;	/* Bitrate in bits per second */
++	u32 flags;	/* Flags describing properties of the elementary
++			 * stream.
++			 */
++
++	u32 extradata_size;	/* Size of the codec specific data */
++	u8  *extradata;		/* Codec specific data */
+ };
+
+-/** Remote definition of an elementary stream format (MMAL_ES_FORMAT_T) *=
+/
++/* Remote definition of an elementary stream format (MMAL_ES_FORMAT_T) */
+ struct mmal_es_format {
+-	u32 type;      /* enum mmal_es_type */
++	u32 type;	/* enum mmal_es_type */
+
+-	u32 encoding;  /* FourCC specifying encoding of the elementary stream.*/
+-	u32 encoding_variant; /* FourCC specifying the specific
+-			       * encoding variant of the elementary
+-			       * stream.
+-			       */
++	u32 encoding;	/* FourCC specifying encoding of the elementary
++			 * stream.
++			 */
++	u32 encoding_variant;	/* FourCC specifying the specific
++				 * encoding variant of the elementary
++				 * stream.
++				 */
+
+-	u32 es; /* Type specific
++	u32 es;	/* Type specific
+ 		 * information for the
+ 		 * elementary stream
+ 		 */
+
+-	u32 bitrate;        /**< Bitrate in bits per second */
+-	u32 flags; /**< Flags describing properties of the elementary stream. */
++	u32 bitrate;	/* Bitrate in bits per second */
++	u32 flags;	/* Flags describing properties of the elementary
++			 * stream.
++			 */
+
+-	u32 extradata_size;       /**< Size of the codec specific data */
+-	u32 extradata;           /**< Codec specific data */
++	u32 extradata_size;	/* Size of the codec specific data */
++	u32 extradata;		/* Codec specific data */
+ };
+
+ #endif /* MMAL_MSG_FORMAT_H */
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h =
 b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
-index 3b3ed79..fe5768d 100644
+index fe5768d..3fa3f2a 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
 +++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
+@@ -13,28 +13,31 @@
 
  /* MMAL_PORT_TYPE_T */
+ enum mmal_port_type {
+-	MMAL_PORT_TYPE_UNKNOWN =3D 0,  /**< Unknown port type */
+-	MMAL_PORT_TYPE_CONTROL,      /**< Control port */
+-	MMAL_PORT_TYPE_INPUT,        /**< Input port */
+-	MMAL_PORT_TYPE_OUTPUT,       /**< Output port */
+-	MMAL_PORT_TYPE_CLOCK,        /**< Clock port */
++	MMAL_PORT_TYPE_UNKNOWN =3D 0,	/* Unknown port type */
++	MMAL_PORT_TYPE_CONTROL,		/* Control port */
++	MMAL_PORT_TYPE_INPUT,		/* Input port */
++	MMAL_PORT_TYPE_OUTPUT,		/* Output port */
++	MMAL_PORT_TYPE_CLOCK,		/* Clock port */
+ };
+
+-/** The port is pass-through and doesn't need buffer headers allocated */
++/* The port is pass-through and doesn't need buffer headers allocated */
+ #define MMAL_PORT_CAPABILITY_PASSTHROUGH                       0x01
+-/** The port wants to allocate the buffer payloads.
++/*
++ *The port wants to allocate the buffer payloads.
+  * This signals a preference that payload allocation should be done
+  * on this port for efficiency reasons.
+  */
+ #define MMAL_PORT_CAPABILITY_ALLOCATION                        0x02
+-/** The port supports format change events.
++/*
++ * The port supports format change events.
+  * This applies to input ports and is used to let the client know
+  * whether the port supports being reconfigured via a format
+  * change event (i.e. without having to disable the port).
+  */
+ #define MMAL_PORT_CAPABILITY_SUPPORTS_EVENT_FORMAT_CHANGE      0x04
+
+-/* mmal port structure (MMAL_PORT_T)
++/*
++ * mmal port structure (MMAL_PORT_T)
+  *
+  * most elements are informational only, the pointer values for
+  * interogation messages are generally provided as additional
+@@ -42,50 +45,50 @@ enum mmal_port_type {
+  * buffer_num, buffer_size and userdata parameters are writable.
+  */
+ struct mmal_port {
+-	u32 priv; /* Private member used by the framework */
+-	u32 name; /* Port name. Used for debugging purposes (RO) */
+-
+-	u32 type;      /* Type of the port (RO) enum mmal_port_type */
+-	u16 index;     /* Index of the port in its type list (RO) */
+-	u16 index_all; /* Index of the port in the list of all ports (RO) */
+-
+-	u32 is_enabled; /* Indicates whether the port is enabled or not (RO) */
+-	u32 format; /* Format of the elementary stream */
+-
+-	u32 buffer_num_min; /* Minimum number of buffers the port
+-			     *   requires (RO).  This is set by the
+-			     *   component.
+-			     */
+-
+-	u32 buffer_size_min; /* Minimum size of buffers the port
+-			      * requires (RO).  This is set by the
+-			      * component.
+-			      */
+-
+-	u32 buffer_alignment_min; /* Minimum alignment requirement for
+-				   * the buffers (RO).  A value of
+-				   * zero means no special alignment
+-				   * requirements.  This is set by the
+-				   * component.
+-				   */
+-
+-	u32 buffer_num_recommended;  /* Number of buffers the port
+-				      * recommends for optimal
+-				      * performance (RO).  A value of
+-				      * zero means no special
+-				      * recommendation.  This is set
+-				      * by the component.
+-				      */
+-
+-	u32 buffer_size_recommended; /* Size of buffers the port
+-				      * recommends for optimal
+-				      * performance (RO).  A value of
+-				      * zero means no special
+-				      * recommendation.  This is set
+-				      * by the component.
+-				      */
+-
+-	u32 buffer_num; /* Actual number of buffers the port will use.
++	u32 priv;	/* Private member used by the framework */
++	u32 name;	/* Port name. Used for debugging purposes (RO) */
++
++	u32 type;	/* Type of the port (RO) enum mmal_port_type */
++	u16 index;	/* Index of the port in its type list (RO) */
++	u16 index_all;	/* Index of the port in the list of all ports (RO) */
++
++	u32 is_enabled;	/* Indicates whether the port is enabled or not (RO) */
++	u32 format;	/* Format of the elementary stream */
++
++	u32 buffer_num_min;	/* Minimum number of buffers the port
++				 *   requires (RO).  This is set by the
++				 *   component.
++				 */
++
++	u32 buffer_size_min;	/* Minimum size of buffers the port
++				 * requires (RO).  This is set by the
++				 * component.
++				 */
++
++	u32 buffer_alignment_min;/* Minimum alignment requirement for
++				  * the buffers (RO).  A value of
++				  * zero means no special alignment
++				  * requirements.  This is set by the
++				  * component.
++				  */
++
++	u32 buffer_num_recommended;	/* Number of buffers the port
++					 * recommends for optimal
++					 * performance (RO).  A value of
++					 * zero means no special
++					 * recommendation.  This is set
++					 * by the component.
++					 */
++
++	u32 buffer_size_recommended;	/* Size of buffers the port
++					 * recommends for optimal
++					 * performance (RO).  A value of
++					 * zero means no special
++					 * recommendation.  This is set
++					 * by the component.
++					 */
++
++	u32 buffer_num;	/* Actual number of buffers the port will use.
+ 			 * This is set by the client.
+ 			 */
+
+@@ -94,14 +97,13 @@ struct mmal_port {
+ 			  * the client.
+ 			  */
+
+-	u32 component; /* Component this port belongs to (Read Only) */
+-
+-	u32 userdata; /* Field reserved for use by the client */
++	u32 component;	/* Component this port belongs to (Read Only) */
+
+-	u32 capabilities; /* Flags describing the capabilities of a
+-			   * port (RO).  Bitwise combination of \ref
+-			   * portcapabilities "Port capabilities"
+-			   * values.
+-			   */
++	u32 userdata;	/* Field reserved for use by the client */
+
++	u32 capabilities;	/* Flags describing the capabilities of a
++				 * port (RO).  Bitwise combination of \ref
++				 * portcapabilities "Port capabilities"
++				 * values.
++				 */
+ };
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h b/dri=
 vers/staging/vc04_services/bcm2835-camera/mmal-msg.h
-index 90793c9..332de57 100644
+index 332de57..f165ddf 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
 +++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
+@@ -11,7 +11,8 @@
+  *          Luke Diamand @ Broadcom
   */
 
- /* all the data structures which serialise the MMAL protocol. note
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.=
-h b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-index 184024d..96e987d 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-@@ -4,10 +4,11 @@
+-/* all the data structures which serialise the MMAL protocol. note
++/*
++ * all the data structures which serialise the MMAL protocol. note
+  * these are directly mapped onto the recived message data.
   *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  */
+  * BEWARE: They seem to *assume* pointers are u32 and that there is no
+@@ -41,51 +42,51 @@ enum mmal_msg_type {
+ 	MMAL_MSG_TYPE_SERVICE_CLOSED,
+ 	MMAL_MSG_TYPE_GET_VERSION,
+ 	MMAL_MSG_TYPE_COMPONENT_CREATE,
+-	MMAL_MSG_TYPE_COMPONENT_DESTROY, /* 5 */
++	MMAL_MSG_TYPE_COMPONENT_DESTROY,	/* 5 */
+ 	MMAL_MSG_TYPE_COMPONENT_ENABLE,
+ 	MMAL_MSG_TYPE_COMPONENT_DISABLE,
+ 	MMAL_MSG_TYPE_PORT_INFO_GET,
+ 	MMAL_MSG_TYPE_PORT_INFO_SET,
+-	MMAL_MSG_TYPE_PORT_ACTION, /* 10 */
++	MMAL_MSG_TYPE_PORT_ACTION,		/* 10 */
+ 	MMAL_MSG_TYPE_BUFFER_FROM_HOST,
+ 	MMAL_MSG_TYPE_BUFFER_TO_HOST,
+ 	MMAL_MSG_TYPE_GET_STATS,
+ 	MMAL_MSG_TYPE_PORT_PARAMETER_SET,
+-	MMAL_MSG_TYPE_PORT_PARAMETER_GET, /* 15 */
++	MMAL_MSG_TYPE_PORT_PARAMETER_GET,	/* 15 */
+ 	MMAL_MSG_TYPE_EVENT_TO_HOST,
+ 	MMAL_MSG_TYPE_GET_CORE_STATS_FOR_PORT,
+ 	MMAL_MSG_TYPE_OPAQUE_ALLOCATOR,
+ 	MMAL_MSG_TYPE_CONSUME_MEM,
+-	MMAL_MSG_TYPE_LMK, /* 20 */
++	MMAL_MSG_TYPE_LMK,			/* 20 */
+ 	MMAL_MSG_TYPE_OPAQUE_ALLOCATOR_DESC,
+ 	MMAL_MSG_TYPE_DRM_GET_LHS32,
+ 	MMAL_MSG_TYPE_DRM_GET_TIME,
+ 	MMAL_MSG_TYPE_BUFFER_FROM_HOST_ZEROLEN,
+-	MMAL_MSG_TYPE_PORT_FLUSH, /* 25 */
++	MMAL_MSG_TYPE_PORT_FLUSH,		/* 25 */
+ 	MMAL_MSG_TYPE_HOST_LOG,
+ 	MMAL_MSG_TYPE_MSG_LAST
+ };
 
- /* common parameters */
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c b/d=
-rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-index 1a343d8..5175e2c 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  *
-  * V4L2 driver MMAL vchiq interface code
+ /* port action request messages differ depending on the action type */
+ enum mmal_msg_port_action_type {
+-	MMAL_MSG_PORT_ACTION_TYPE_UNKNOWN =3D 0,      /* Unknown action */
+-	MMAL_MSG_PORT_ACTION_TYPE_ENABLE,           /* Enable a port */
+-	MMAL_MSG_PORT_ACTION_TYPE_DISABLE,          /* Disable a port */
+-	MMAL_MSG_PORT_ACTION_TYPE_FLUSH,            /* Flush a port */
+-	MMAL_MSG_PORT_ACTION_TYPE_CONNECT,          /* Connect ports */
+-	MMAL_MSG_PORT_ACTION_TYPE_DISCONNECT,       /* Disconnect ports */
++	MMAL_MSG_PORT_ACTION_TYPE_UNKNOWN =3D 0,	/* Unknown action */
++	MMAL_MSG_PORT_ACTION_TYPE_ENABLE,	/* Enable a port */
++	MMAL_MSG_PORT_ACTION_TYPE_DISABLE,	/* Disable a port */
++	MMAL_MSG_PORT_ACTION_TYPE_FLUSH,	/* Flush a port */
++	MMAL_MSG_PORT_ACTION_TYPE_CONNECT,	/* Connect ports */
++	MMAL_MSG_PORT_ACTION_TYPE_DISCONNECT,	/* Disconnect ports */
+ 	MMAL_MSG_PORT_ACTION_TYPE_SET_REQUIREMENTS, /* Set buffer requirements*/
+ };
+
+ struct mmal_msg_header {
+ 	u32 magic;
+-	u32 type; /** enum mmal_msg_type */
++	u32 type;	/* enum mmal_msg_type */
+
+ 	/* Opaque handle to the control service */
+ 	u32 control_service;
+
+-	u32 context; /** a u32 per message context */
+-	u32 status; /** The status of the vchiq operation */
++	u32 context;	/* a u32 per message context */
++	u32 status;	/* The status of the vchiq operation */
+ 	u32 padding;
+ };
+
+@@ -99,9 +100,9 @@ struct mmal_msg_version {
+
+ /* request to VC to create component */
+ struct mmal_msg_component_create {
+-	u32 client_component; /* component context */
++	u32 client_component;	/* component context */
+ 	char name[128];
+-	u32 pid;                /* For debug */
++	u32 pid;		/* For debug */
+ };
+
+ /* reply from VC to component creation request */
+@@ -121,7 +122,7 @@ struct mmal_msg_component_destroy {
+ };
+
+ struct mmal_msg_component_destroy_reply {
+-	u32 status; /** The component destruction status */
++	u32 status; /* The component destruction status */
+ };
+
+ /* request and reply to VC to enable a component */
+@@ -130,7 +131,7 @@ struct mmal_msg_component_enable {
+ };
+
+ struct mmal_msg_component_enable_reply {
+-	u32 status; /** The component enable status */
++	u32 status; /* The component enable status */
+ };
+
+ /* request and reply to VC to disable a component */
+@@ -139,7 +140,7 @@ struct mmal_msg_component_disable {
+ };
+
+ struct mmal_msg_component_disable_reply {
+-	u32 status; /** The component disable status */
++	u32 status; /* The component disable status */
+ };
+
+ /* request to VC to get port information */
+@@ -151,12 +152,12 @@ struct mmal_msg_port_info_get {
+
+ /* reply from VC to get port info request */
+ struct mmal_msg_port_info_get_reply {
+-	u32 status; /** enum mmal_msg_status */
+-	u32 component_handle;  /* component handle port is associated with */
+-	u32 port_type;         /* enum mmal_msg_port_type */
+-	u32 port_index;        /* port indexed in query */
+-	s32 found;             /* unused */
+-	u32 port_handle;               /**< Handle to use for this port */
++	u32 status;		/* enum mmal_msg_status */
++	u32 component_handle;	/* component handle port is associated with */
++	u32 port_type;		/* enum mmal_msg_port_type */
++	u32 port_index;		/* port indexed in query */
++	s32 found;		/* unused */
++	u32 port_handle;	/* Handle to use for this port */
+ 	struct mmal_port port;
+ 	struct mmal_es_format format; /* elementary stream format */
+ 	union mmal_es_specific_format es; /* es type specific data */
+@@ -166,8 +167,8 @@ struct mmal_msg_port_info_get_reply {
+ /* request to VC to set port information */
+ struct mmal_msg_port_info_set {
+ 	u32 component_handle;
+-	u32 port_type;         /* enum mmal_msg_port_type */
+-	u32 port_index;           /* port indexed in query */
++	u32 port_type;		/* enum mmal_msg_port_type */
++	u32 port_index;		/* port indexed in query */
+ 	struct mmal_port port;
+ 	struct mmal_es_format format;
+ 	union mmal_es_specific_format es;
+@@ -177,11 +178,11 @@ struct mmal_msg_port_info_set {
+ /* reply from VC to port info set request */
+ struct mmal_msg_port_info_set_reply {
+ 	u32 status;
+-	u32 component_handle;  /* component handle port is associated with */
+-	u32 port_type;         /* enum mmal_msg_port_type */
+-	u32 index;             /* port indexed in query */
+-	s32 found;             /* unused */
+-	u32 port_handle;               /**< Handle to use for this port */
++	u32 component_handle;	/* component handle port is associated with */
++	u32 port_type;		/* enum mmal_msg_port_type */
++	u32 index;		/* port indexed in query */
++	s32 found;		/* unused */
++	u32 port_handle;	/* Handle to use for this port */
+ 	struct mmal_port port;
+ 	struct mmal_es_format format;
+ 	union mmal_es_specific_format es;
+@@ -192,7 +193,7 @@ struct mmal_msg_port_info_set_reply {
+ struct mmal_msg_port_action_port {
+ 	u32 component_handle;
+ 	u32 port_handle;
+-	u32 action; /* enum mmal_msg_port_action_type */
++	u32 action;		/* enum mmal_msg_port_action_type */
+ 	struct mmal_port port;
+ };
+
+@@ -200,50 +201,53 @@ struct mmal_msg_port_action_port {
+ struct mmal_msg_port_action_handle {
+ 	u32 component_handle;
+ 	u32 port_handle;
+-	u32 action; /* enum mmal_msg_port_action_type */
++	u32 action;		/* enum mmal_msg_port_action_type */
+ 	u32 connect_component_handle;
+ 	u32 connect_port_handle;
+ };
+
+ struct mmal_msg_port_action_reply {
+-	u32 status; /** The port action operation status */
++	u32 status;	/* The port action operation status */
+ };
+
+ /* MMAL buffer transfer */
+
+-/** Size of space reserved in a buffer message for short messages. */
++/* Size of space reserved in a buffer message for short messages. */
+ #define MMAL_VC_SHORT_DATA 128
+
+-/** Signals that the current payload is the end of the stream of data */
++/* Signals that the current payload is the end of the stream of data */
+ #define MMAL_BUFFER_HEADER_FLAG_EOS                    BIT(0)
+-/** Signals that the start of the current payload starts a frame */
++/* Signals that the start of the current payload starts a frame */
+ #define MMAL_BUFFER_HEADER_FLAG_FRAME_START            BIT(1)
+-/** Signals that the end of the current payload ends a frame */
++/* Signals that the end of the current payload ends a frame */
+ #define MMAL_BUFFER_HEADER_FLAG_FRAME_END              BIT(2)
+-/** Signals that the current payload contains only complete frames (>1) *=
+/
++/* Signals that the current payload contains only complete frames (>1) */
+ #define MMAL_BUFFER_HEADER_FLAG_FRAME                  \
+ 	(MMAL_BUFFER_HEADER_FLAG_FRAME_START|MMAL_BUFFER_HEADER_FLAG_FRAME_END)
+-/** Signals that the current payload is a keyframe (i.e. self decodable) =
+*/
++/* Signals that the current payload is a keyframe (i.e. self decodable) *=
+/
+ #define MMAL_BUFFER_HEADER_FLAG_KEYFRAME               BIT(3)
+-/** Signals a discontinuity in the stream of data (e.g. after a seek).
++/*
++ * Signals a discontinuity in the stream of data (e.g. after a seek).
+  * Can be used for instance by a decoder to reset its state
   */
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h b/d=
-rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
-index 22b839e..0e5a81b 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
-@@ -4,10 +4,11 @@
-  *
-  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
-  *
-- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
-- *          Dave Stevenson <dsteve@broadcom.com>
-- *          Simon Mellor <simellor@broadcom.com>
-- *          Luke Diamand <luked@broadcom.com>
-+ * Authors: Vincent Sanders @ Collabora
-+ *          Dave Stevenson @ Broadcom
-+ *		(now dave.stevenson@raspberrypi.org)
-+ *          Simon Mellor @ Broadcom
-+ *          Luke Diamand @ Broadcom
-  *
-  * MMAL interface to VCHIQ message passing
+ #define MMAL_BUFFER_HEADER_FLAG_DISCONTINUITY          BIT(4)
+-/** Signals a buffer containing some kind of config data for the componen=
+t
++/*
++ * Signals a buffer containing some kind of config data for the component
+  * (e.g. codec config data)
   */
+ #define MMAL_BUFFER_HEADER_FLAG_CONFIG                 BIT(5)
+-/** Signals an encrypted payload */
++/* Signals an encrypted payload */
+ #define MMAL_BUFFER_HEADER_FLAG_ENCRYPTED              BIT(6)
+-/** Signals a buffer containing side information */
++/* Signals a buffer containing side information */
+ #define MMAL_BUFFER_HEADER_FLAG_CODECSIDEINFO          BIT(7)
+-/** Signals a buffer which is the snapshot/postview image from a stills
++/*
++ * Signals a buffer which is the snapshot/postview image from a stills
+  * capture
+  */
+ #define MMAL_BUFFER_HEADER_FLAGS_SNAPSHOT              BIT(8)
+-/** Signals a buffer which contains data known to be corrupted */
++/* Signals a buffer which contains data known to be corrupted */
+ #define MMAL_BUFFER_HEADER_FLAG_CORRUPTED              BIT(9)
+-/** Signals that a buffer failed to be transmitted */
++/* Signals that a buffer failed to be transmitted */
+ #define MMAL_BUFFER_HEADER_FLAG_TRANSMISSION_FAILED    BIT(10)
+
+ struct mmal_driver_buffer {
+@@ -255,8 +259,8 @@ struct mmal_driver_buffer {
+
+ /* buffer header */
+ struct mmal_buffer_header {
+-	u32 next; /* next header */
+-	u32 priv; /* framework private data */
++	u32 next;	/* next header */
++	u32 priv;	/* framework private data */
+ 	u32 cmd;
+ 	u32 data;
+ 	u32 alloc_size;
+@@ -281,7 +285,8 @@ struct mmal_buffer_header_type_specific {
+ };
+
+ struct mmal_msg_buffer_from_host {
+-	/* The front 32 bytes of the buffer header are copied
++	/*
++	 *The front 32 bytes of the buffer header are copied
+ 	 * back to us in the reply to allow for context. This
+ 	 * area is used to store two mmal_driver_buffer structures to
+ 	 * allow for multiple concurrent service users.
+@@ -296,7 +301,7 @@ struct mmal_msg_buffer_from_host {
+ 	s32 is_zero_copy;
+ 	s32 has_reference;
+
+-	/** allows short data to be xfered in control message */
++	/* allows short data to be xfered in control message */
+ 	u32 payload_in_message;
+ 	u8 short_data[MMAL_VC_SHORT_DATA];
+ };
+@@ -306,10 +311,10 @@ struct mmal_msg_buffer_from_host {
+ #define MMAL_WORKER_PORT_PARAMETER_SPACE      96
+
+ struct mmal_msg_port_parameter_set {
+-	u32 component_handle; /* component */
+-	u32 port_handle;      /* port */
+-	u32 id;     /* Parameter ID  */
+-	u32 size;      /* Parameter size */
++	u32 component_handle;	/* component */
++	u32 port_handle;	/* port */
++	u32 id;			/* Parameter ID  */
++	u32 size;		/* Parameter size */
+ 	u32 value[MMAL_WORKER_PORT_PARAMETER_SPACE];
+ };
+
+@@ -322,16 +327,16 @@ struct mmal_msg_port_parameter_set_reply {
+ /* port parameter getting */
+
+ struct mmal_msg_port_parameter_get {
+-	u32 component_handle; /* component */
+-	u32 port_handle;      /* port */
+-	u32 id;     /* Parameter ID  */
+-	u32 size;      /* Parameter size */
++	u32 component_handle;	/* component */
++	u32 port_handle;	/* port */
++	u32 id;			/* Parameter ID  */
++	u32 size;		/* Parameter size */
+ };
+
+ struct mmal_msg_port_parameter_get_reply {
+-	u32 status;           /* Status of mmal_port_parameter_get call */
+-	u32 id;     /* Parameter ID  */
+-	u32 size;      /* Parameter size */
++	u32 status;		/* Status of mmal_port_parameter_get call */
++	u32 id;			/* Parameter ID  */
++	u32 size;		/* Parameter size */
+ 	u32 value[MMAL_WORKER_PORT_PARAMETER_SPACE];
+ };
+
+@@ -339,7 +344,7 @@ struct mmal_msg_port_parameter_get_reply {
+ #define MMAL_WORKER_EVENT_SPACE 256
+
+ struct mmal_msg_event_to_host {
+-	u32 client_component; /* component context */
++	u32 client_component;	/* component context */
+
+ 	u32 port_type;
+ 	u32 port_num;
 =2D-
 2.7.4
 
