@@ -2,115 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 391DA57DDE
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 10:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C613457DFD
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 10:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbfF0IFq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 04:05:46 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:46097 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726101AbfF0IFq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 04:05:46 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hgPPZ-0002y3-DM; Thu, 27 Jun 2019 08:05:41 +0000
-From:   Colin King <colin.king@canonical.com>
+        id S1726620AbfF0IMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 04:12:55 -0400
+Received: from butterbrot.org ([176.9.106.16]:40901 "EHLO butterbrot.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726480AbfF0IMz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 04:12:55 -0400
+Received: from [141.54.178.119] (anna125.medien.uni-weimar.de [141.54.178.119])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by butterbrot.org (Postfix) with ESMTPSA id BDDEB4AE02B2;
+        Thu, 27 Jun 2019 10:12:52 +0200 (CEST)
+Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next][V3] media: vivid: fix potential integer overflow on left shift
-Date:   Thu, 27 Jun 2019 09:05:41 +0100
-Message-Id: <20190627080541.11122-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+From:   Florian Echtler <floe@butterbrot.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
+ mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
+ nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
+ ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
+ AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
+ E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
+ wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
+ chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
+ qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
+ Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
+ AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
+ n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
+ tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
+ zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
+ /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
+ ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
+ nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
+ yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
+ Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
+ hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
+ RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
+ MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
+ c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
+Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
+Date:   Thu, 27 Jun 2019 10:12:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
+Content-Type: multipart/mixed; boundary="F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO";
+ protected-headers="v1"
+From: Florian Echtler <floe@butterbrot.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linux-input <linux-input@vger.kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
+Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
+References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
 
-There is a potential integer overflow when int 2 is left shifted
-as this is evaluated using 32 bit arithmetic but is being used in
-a context that expects an expression of type s64.  Fix this by
-generating a mask using GENMASK to avoid a 32 bit overflow.
+--F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-Addresses-Coverity: ("Unintentional integer overflow")
-Fixes: 8a99e9faa131 ("media: vivid: add HDMI (dis)connect RX emulation")
-Fixes: 79a792dafac6 ("media: vivid: add HDMI (dis)connect TX emulation")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
-V2: use intermediate variables for the shifted expression to make code
-    a bit more readable.
-V3: use GENMASK rather than shifting logic, rename variables adding
-    _mask suffix.
----
+On 26.06.19 11:52, Hans Verkuil wrote:
+> This driver set the colorspace to SRGB, but that makes no sense for
+> a touchscreen. Use RAW instead. This also ensures consistency with the
+> v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/platform/vivid/vivid-ctrls.c | 24 +++++++++++-----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+One question for clarification: this will only affect userspace applicati=
+ons
+which explicitly request a certain colorspace, correct?
 
-diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
-index 3e916c8befb7..b04997569228 100644
---- a/drivers/media/platform/vivid/vivid-ctrls.c
-+++ b/drivers/media/platform/vivid/vivid-ctrls.c
-@@ -1613,6 +1613,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 	}
- 
- 	if (dev->num_hdmi_inputs) {
-+		s64 hdmi_input_mask = GENMASK(dev->num_hdmi_inputs - 1, 0);
-+
- 		dev->ctrl_dv_timings_signal_mode = v4l2_ctrl_new_custom(hdl_vid_cap,
- 					&vivid_ctrl_dv_timings_signal_mode, NULL);
- 
-@@ -1633,12 +1635,13 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 			V4L2_CID_DV_RX_RGB_RANGE, V4L2_DV_RGB_RANGE_FULL,
- 			0, V4L2_DV_RGB_RANGE_AUTO);
- 		dev->ctrl_rx_power_present = v4l2_ctrl_new_std(hdl_vid_cap,
--			NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0,
--			(2 << (dev->num_hdmi_inputs - 1)) - 1, 0,
--			(2 << (dev->num_hdmi_inputs - 1)) - 1);
-+			NULL, V4L2_CID_DV_RX_POWER_PRESENT, 0, hdmi_input_mask,
-+			0, hdmi_input_mask);
- 
- 	}
- 	if (dev->num_hdmi_outputs) {
-+		s64 hdmi_output_mask = GENMASK(dev->num_hdmi_outputs - 1, 0);
-+
- 		/*
- 		 * We aren't doing anything with this at the moment, but
- 		 * HDMI outputs typically have this controls.
-@@ -1652,17 +1655,14 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
- 		dev->ctrl_display_present = v4l2_ctrl_new_custom(hdl_vid_out,
- 			&vivid_ctrl_display_present, NULL);
- 		dev->ctrl_tx_hotplug = v4l2_ctrl_new_std(hdl_vid_out,
--			NULL, V4L2_CID_DV_TX_HOTPLUG, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1);
-+			NULL, V4L2_CID_DV_TX_HOTPLUG, 0, hdmi_output_mask,
-+			0, hdmi_output_mask);
- 		dev->ctrl_tx_rxsense = v4l2_ctrl_new_std(hdl_vid_out,
--			NULL, V4L2_CID_DV_TX_RXSENSE, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1);
-+			NULL, V4L2_CID_DV_TX_RXSENSE, 0, hdmi_output_mask,
-+			0, hdmi_output_mask);
- 		dev->ctrl_tx_edid_present = v4l2_ctrl_new_std(hdl_vid_out,
--			NULL, V4L2_CID_DV_TX_EDID_PRESENT, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1, 0,
--			(2 << (dev->num_hdmi_outputs - 1)) - 1);
-+			NULL, V4L2_CID_DV_TX_EDID_PRESENT, 0, hdmi_output_mask,
-+			0, hdmi_output_mask);
- 	}
- 	if ((dev->has_vid_cap && dev->has_vid_out) ||
- 	    (dev->has_vbi_cap && dev->has_vbi_out))
--- 
-2.20.1
+Best regards, Florian
+--=20
+SENT FROM MY DEC VT50 TERMINAL
 
+
+--F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO--
+
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXRR6gwAKCRDsLPKyEa9q
+2C+JAJ92ttrLtYWihQ0SGxDBI16wUorgiACeLapM9+s+dE09P2mGDbKgUEV2TdM=
+=tulV
+-----END PGP SIGNATURE-----
+
+--jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm--
