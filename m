@@ -2,182 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D9F557D41
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 09:38:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37A7157D6F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 09:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfF0His (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 03:38:48 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:53975 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbfF0His (ORCPT
+        id S1726370AbfF0HqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 03:46:18 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42561 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726059AbfF0HqS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 03:38:48 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 16A30240005;
-        Thu, 27 Jun 2019 07:38:41 +0000 (UTC)
-Date:   Thu, 27 Jun 2019 09:39:57 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-Message-ID: <20190627073957.z55pa24ih2xqw5pa@uno.localdomain>
-References: <20190625203945.28081-1-ezequiel@collabora.com>
+        Thu, 27 Jun 2019 03:46:18 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id gP6ihdi1JF85OgP6lhnC3c; Thu, 27 Jun 2019 09:46:16 +0200
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 RESEND] Media: Radio: Change
+ devm_k*alloc to k*alloc
+To:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20190622010438.GA10125@luke-XPS-13>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a573b294-a6e6-be8c-d5ec-1080166773d7@xs4all.nl>
+Date:   Thu, 27 Jun 2019 09:46:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bdzir2qwavwpd4vz"
-Content-Disposition: inline
-In-Reply-To: <20190625203945.28081-1-ezequiel@collabora.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190622010438.GA10125@luke-XPS-13>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH/BHMZiytsX8ZZmsaoJpkZqGXJfr/oG9F/51zmWhayYKT/X2vNqPqJBQwEJATluHP8UqtaeQ6fTKP7E40GwU1OGXpvAZrdWcOL7zYLLNzQaKWA70dRl
+ cAIl+6jSBRsWbrDBA0fwp8zhXPW4FAX/NT1eI1Ur6/5alUbbIAvrQ8Drun2422gy66EsVmLmorZgjmNEZsnhFy2qTOEL8qyZ3GB3OUEnvvsyFZ2kgBjsgRan
+ 7WH/KPkyevLORYHB0CBJXrtxzSLgz92wEl20tPJLJzkLcWIYeijqzob2cCStuhhc5JBGqsHay6xzL1QTE4ZWcMcPQ/NbyUYgxdnjghWBssKpilawMA/ej1Ic
+ MUkM8V/n
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Luke,
 
---bdzir2qwavwpd4vz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On 6/22/19 3:04 AM, Luke Nowakowski-Krijger wrote:
+> Change devm_k*alloc to k*alloc to manually allocate memory 
+> 
+> The manual allocation and freeing of memory is necessary because when
+> the USB radio is disconnected, the memory associated with devm_k*alloc
+> is freed. Meaning if we still have unresolved references to the radio
+> device, then we get use-after-free errors. 
+> 
+> This patch fixes this by manually allocating memory, and freeing it in 
+> the v4l2.release callback that gets called when the last radio device
+> exits. 
+> 
+> Reported-and-tested-by: syzbot+a4387f5b6b799f6becbf@syzkaller.appspotmail.com
+> Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
 
-Hi Ezequiel,
+I've tested this patch with my raremono (I must be the last person on earth
+to 1) have one, and 2) run it under linux!) and it works!
 
-On Tue, Jun 25, 2019 at 05:39:45PM -0300, Ezequiel Garcia wrote:
-> Not all sensors will be able to guarantee a proper initial state.
-> This may be either because the driver is not properly written,
-> or (probably unlikely) because the hardware won't support it.
->
-> While the right solution in the former case is to fix the sensor
-> driver, the real world not always allows right solutions, due to lack
-> of available documentation and support on these sensors.
->
+I'm accepting this patch, but I made some small changes, so for future reference:
 
-We hit this in the past with the ov5640 sensor, whose driver was not
-properly initializing its data lanes in LP-11 state, so yes, I'm not
-surprised other sensors might fail in the same way.
+1) The subject should have the driver name as prefix, so:
 
-Do you get frames after you hit the error? I recall it was not
-possible with ov5640, even with something similar to what you've done
-here in the CSI-2 receiver driver.
+   media: radio-raremono: change devm_k*alloc to k*alloc
 
-> Let's relax this requirement, and allow the driver to support stream start,
-> even if the sensor initial sequence wasn't the expected.
-> A warning is still emitted, so users should be hinted that something is off.
->
+   That way reviewers can see based on the prefix who should review the patch.
+   Radio driver are my responsibility, so that would be me.
 
-It seems you're also silencing errors related to clock lane detection.
-I would mention that.
+2) Always run 'checkpatch.pl --strict'. It reported some minor issues:
 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+CHECK: Please don't use multiple blank lines
+#17: FILE: drivers/media/radio/radio-raremono.c:280:
++
++
+
+CHECK: Prefer kzalloc(sizeof(*radio)...) over kzalloc(sizeof(struct raremono_device)...)
+#30: FILE: drivers/media/radio/radio-raremono.c:305:
++       radio = kzalloc(sizeof(struct raremono_device), GFP_KERNEL);
+
+
+I've fixed these issues, but next time remember to run checkpatch before submitting
+the patch.
+
+Regards,
+
+	Hans
+
 > ---
->  drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
->  1 file changed, 9 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index f29e28df36ed..10342434e797 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
->  }
->
->  /* Waits for low-power LP-11 state on data and clock lanes. */
-> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->  {
->  	u32 mask, reg;
->  	int ret;
-> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
->
->  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->  				 (reg & mask) == mask, 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
->  }
->
->  /* Wait for active clock on the clock lane. */
-> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
-> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
->  {
->  	u32 reg;
->  	int ret;
->
->  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
->  				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
-> -	if (ret) {
-> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> -			 reg);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	if (ret)
-> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
-> +			  reg);
->  }
->
->  /* Setup the i.MX CSI2IPU Gasket */
-> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
->  	csi2_enable(csi2, true);
->
->  	/* Step 5 */
-> -	ret = csi2_dphy_wait_stopstate(csi2);
-> -	if (ret)
-> -		goto err_assert_reset;
-> +	csi2_dphy_wait_stopstate(csi2);
->
->  	/* Step 6 */
->  	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
-> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
->  		goto err_assert_reset;
->
->  	/* Step 7 */
-> -	ret = csi2_dphy_wait_clock_lane(csi2);
-> -	if (ret)
-> -		goto err_stop_upstream;
-> -
-> +	csi2_dphy_wait_clock_lane(csi2);
+> Changes in RESEND: 
+> + Added reported-and-tested-by tag
+> + Further updated description
+> - Removed whitespace in patch description
+> Changes in v4:
+> - Removed whitespace to fix checkpatch.pl errors
+> Changes in v3:
+> + Update release method in v2 for v4l2.release callback 
+> + Assign v4l2.release callback to release method
+> - Remove vdev.release callback used in v2
+> Changes in v2:
+> + Create raremono_device_release method
+> + Assign vdev.release to release method
+> + Added gotos for better memory cleanup
+> - Removed incorrect kfrees in usb_release in v1
+> Changes in v1: 
+> + Added k*allocs to raremono_device struct, and buffs
+> + Added kfrees on error conditions in usb_probe
+> + Added kfrees in usb_release
+> - Removed devm_k*allocs
+> 
+>  drivers/media/radio/radio-raremono.c | 31 +++++++++++++++++++++-------
+>  1 file changed, 24 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/radio/radio-raremono.c b/drivers/media/radio/radio-raremono.c
+> index 5e782b3c2fa9..a5b12372eccb 100644
+> --- a/drivers/media/radio/radio-raremono.c
+> +++ b/drivers/media/radio/radio-raremono.c
+> @@ -271,6 +271,15 @@ static int vidioc_g_frequency(struct file *file, void *priv,
 >  	return 0;
->
-> -err_stop_upstream:
-> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
->  err_assert_reset:
->  	csi2_enable(csi2, false);
->  err_disable_clk:
-> --
-> 2.20.1
->
+>  }
+>  
+> +static void raremono_device_release(struct v4l2_device *v4l2_dev)
+> +{
+> +	struct raremono_device *radio = to_raremono_dev(v4l2_dev);
+> +
+> +	kfree(radio->buffer);
+> +	kfree(radio);
+> +}
+> +
+> +
+>  /* File system interface */
+>  static const struct v4l2_file_operations usb_raremono_fops = {
+>  	.owner		= THIS_MODULE,
+> @@ -295,12 +304,14 @@ static int usb_raremono_probe(struct usb_interface *intf,
+>  	struct raremono_device *radio;
+>  	int retval = 0;
+>  
+> -	radio = devm_kzalloc(&intf->dev, sizeof(struct raremono_device), GFP_KERNEL);
+> -	if (radio)
+> -		radio->buffer = devm_kmalloc(&intf->dev, BUFFER_LENGTH, GFP_KERNEL);
+> -
+> -	if (!radio || !radio->buffer)
+> +	radio = kzalloc(sizeof(struct raremono_device), GFP_KERNEL);
+> +	if (!radio)
+> +		return -ENOMEM;
+> +	radio->buffer = kmalloc(BUFFER_LENGTH, GFP_KERNEL);
+> +	if (!radio->buffer) {
+> +		kfree(radio);
+>  		return -ENOMEM;
+> +	}
+>  
+>  	radio->usbdev = interface_to_usbdev(intf);
+>  	radio->intf = intf;
+> @@ -324,7 +335,8 @@ static int usb_raremono_probe(struct usb_interface *intf,
+>  	if (retval != 3 ||
+>  	    (get_unaligned_be16(&radio->buffer[1]) & 0xfff) == 0x0242) {
+>  		dev_info(&intf->dev, "this is not Thanko's Raremono.\n");
+> -		return -ENODEV;
+> +		retval = -ENODEV;
+> +		goto free_mem;
+>  	}
+>  
+>  	dev_info(&intf->dev, "Thanko's Raremono connected: (%04X:%04X)\n",
+> @@ -333,7 +345,7 @@ static int usb_raremono_probe(struct usb_interface *intf,
+>  	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+>  	if (retval < 0) {
+>  		dev_err(&intf->dev, "couldn't register v4l2_device\n");
+> -		return retval;
+> +		goto free_mem;
+>  	}
+>  
+>  	mutex_init(&radio->lock);
+> @@ -345,6 +357,7 @@ static int usb_raremono_probe(struct usb_interface *intf,
+>  	radio->vdev.ioctl_ops = &usb_raremono_ioctl_ops;
+>  	radio->vdev.lock = &radio->lock;
+>  	radio->vdev.release = video_device_release_empty;
+> +	radio->v4l2_dev.release = raremono_device_release;
+>  
+>  	usb_set_intfdata(intf, &radio->v4l2_dev);
+>  
+> @@ -360,6 +373,10 @@ static int usb_raremono_probe(struct usb_interface *intf,
+>  	}
+>  	dev_err(&intf->dev, "could not register video device\n");
+>  	v4l2_device_unregister(&radio->v4l2_dev);
+> +
+> +free_mem:
+> +	kfree(radio->buffer);
+> +	kfree(radio);
+>  	return retval;
+>  }
+>  
+> 
 
---bdzir2qwavwpd4vz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0Ucs0ACgkQcjQGjxah
-Vjw9AQ//XyeBDHUkzW5v/hP3QjhExjfzvqrf020W3P6PglCFHO31JYzaOo3v5/t7
-33KrxrpFd5VTJzdrn7cSCaKo2hkKbAiODYPKJ1/ASvwbnOEIBtWZAJ70EMFv3ANB
-aH4tiFkJMYcvFTZMw60r5PExjIUmy2o8/In29Ob8Jmkl+wochKwe2UwmA/T2qwJo
-7VUW6qcWw8Hn9XToblKwZAO4ipTF3d9sGhqgrBGvBjJ1A1F5YKK5H52rsQQMUzdb
-1BLSvdvPQyPRzwJk8wz15xarNJ/Q+f6ZPPdJ1NLakHt9mPmDFfjD7LbatLbRK48a
-5MX826uz9+7mJdLsZVUX+WRhpColArCD8egfd1GQqODAY0/Ms0uLrLxUGeiFAq8Z
-3D53Zyg8FEz3nvxgCnyVv3STV7wa6MQfW+YyVwO62IydxaBPymvNOtwbneoOwRNm
-KEBir2kNBElWOEutU09ZRqoGqJsWi9Q/2AD/Ygh5wVjDDs7bXe4sRm01BhjuxOIF
-bIUVqYYPw+nsb6au/rSM/MDdO/6gUS5SDv4TB0UVJMcWcdxOOuzQ9lhSk1QnUVot
-Q95RCrjCbedjGlHVxKd+b5QqqaQ4mKzY8ZGISSwv/DgoQqa76axwW/4B9rydg9Wn
-thBaNCCJ22RbZF/UJZA6b1qRY39wCox+HHUfkfecsUnviBik/Kw=
-=BS/G
------END PGP SIGNATURE-----
-
---bdzir2qwavwpd4vz--
