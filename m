@@ -2,88 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 983BC582FD
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 14:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3006C58301
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 14:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbfF0M4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 08:56:17 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47713 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbfF0M4R (ORCPT
+        id S1726542AbfF0M53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 08:57:29 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:4158 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726059AbfF0M53 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 08:56:17 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hgTwk-0004EC-3z; Thu, 27 Jun 2019 14:56:14 +0200
-Message-ID: <1561640172.4216.16.camel@pengutronix.de>
-Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date:   Thu, 27 Jun 2019 14:56:12 +0200
-In-Reply-To: <CAOMZO5D1Lq7MuK55hydP3JNGki71iNeubzfUgAvVhEDuzDcZFA@mail.gmail.com>
-References: <20190625203945.28081-1-ezequiel@collabora.com>
-         <1561535121.4870.1.camel@pengutronix.de>
-         <CAOMZO5Be-5Em0DR5nCBfzsW4mKMz6ThF+kSukcG6WuFF-0vwaQ@mail.gmail.com>
-         <3797cdd2-f6c8-f23d-788c-b8efc3e75b21@gmail.com>
-         <CAOMZO5AGZcsrzogzxRo9UNauYgWZLdiVE8vJ3-FxU2X4K8Jwxg@mail.gmail.com>
-         <ba0f4a0f-cb61-6c5b-1db9-21536ae38c6f@gmail.com>
-         <1561624997.4216.11.camel@pengutronix.de>
-         <CAOMZO5D1Lq7MuK55hydP3JNGki71iNeubzfUgAvVhEDuzDcZFA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        Thu, 27 Jun 2019 08:57:29 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5RCshKq021292;
+        Thu, 27 Jun 2019 14:57:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=arNT3kHueZtPkqh5DU3MVQwqA8rvFeVHl3XFKrjrxPE=;
+ b=NSM31XfOHAbntPM73K8RWoG08h0DnAngtWGI2TfaqucnfLb5bubUPGBIxccw9PDVgFfG
+ qPhjNJmuF5RyoAUxv1dFuvmXZABOgiyLqZoszw3Pw9CMNJoiDDM/co0bWf1XhOnSsAQ8
+ 7hpUzVubDY+9rX8xKC8TSXFihIA10e8elBtwBvQnotTXp8+Ggw8UwnOsAeuBwcxqJFBm
+ PFPTpoiS6dpnrnVMGNCNu9imjIUea9DRW/ySh7c5PfdGjrMBfd3NM+f0n9JpkkDIHhUu
+ PUncJdg85ineWyA7rFc6sinx6iz/GS9qlzD+erWjzDoayzRpQD/C3xJlOvOFyUmJvaSQ mw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2t9d2wxw70-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Thu, 27 Jun 2019 14:57:18 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 480D434;
+        Thu, 27 Jun 2019 12:57:17 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F244127E0;
+        Thu, 27 Jun 2019 12:57:16 +0000 (GMT)
+Received: from SAFEX1HUBCAS24.st.com (10.75.90.95) by Safex1hubcas22.st.com
+ (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 27 Jun
+ 2019 14:57:16 +0200
+Received: from localhost (10.201.23.19) by webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 27 Jun 2019 14:57:16
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@st.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH v2] media: ov5640: add support of V4L2_CID_LINK_FREQ
+Date:   Thu, 27 Jun 2019 14:57:04 +0200
+Message-ID: <1561640224-24062-1-git-send-email-hugues.fruchet@st.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.201.23.19]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-27_07:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+Add support of V4L2_CID_LINK_FREQ, this is needed
+by some CSI-2 receivers.
 
-On Thu, 2019-06-27 at 09:38 -0300, Fabio Estevam wrote:
-> Hi Philipp,
-> 
-> On Thu, Jun 27, 2019 at 5:43 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> 
-> > Are there any visual artifacts in the first frame(s) in this case?
-> 
-> I do not observe visual artifacts when running gst-launch-1.0 v4l2src ! kmssink
-> 
-> > > So in my opinion the next version of this patch should make LP-11
-> > > timeout a warning only, but keep the error return on clock lane timeouts.
-> > 
-> > I agree.
-> 
-> Here is a reworked version of Ezequiel's patch as per the suggestions:
-> http://code.bulix.org/g5qap5-780475
-> 
-> Does this one look good?
+384MHz is exposed for the time being, corresponding
+to 96MHz pixel clock with 2 bytes per pixel on 2 data lanes.
 
-Limiting the change to wait_stopstate is fine, the actual message
-makes assumptions that could be misleading. How about:
+This setup has been tested successfully with ST MIPID02
+CSI-2 to parallel bridge.
 
-"Timeout waiting for LP-11 state on all active lanes.
- This is most likely caused by a bug in the sensor driver.
- Capture might fail or contain visual artifacts."
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+---
+version 2:
+  - do not set control read only as per Hans' comment:
+    See https://www.mail-archive.com/linux-media@vger.kernel.org/msg147910.html
 
-I'd like to keep the phy_state register output though, if only as
-dev_dbg(). It contains useful output for debugging, for example if only
-some of the lanes are in stop state, which could indicate an issue with
-connections or lane configuration.
+ drivers/media/i2c/ov5640.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-regards
-Philipp
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 82d4ce9..e6307f3 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -218,6 +218,7 @@ struct ov5640_ctrls {
+ 	struct v4l2_ctrl *test_pattern;
+ 	struct v4l2_ctrl *hflip;
+ 	struct v4l2_ctrl *vflip;
++	struct v4l2_ctrl *link_freq;
+ };
+ 
+ struct ov5640_dev {
+@@ -2198,6 +2199,10 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static const s64 link_freq_menu_items[] = {
++	384000000,
++};
++
+ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_pad_config *cfg,
+ 			  struct v4l2_subdev_format *format)
+@@ -2636,6 +2641,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_VFLIP:
+ 		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
+ 		break;
++	case V4L2_CID_LINK_FREQ:
++		return 0;
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -2703,6 +2710,9 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+ 				       V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0,
+ 				       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
+ 
++	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
++						  0, 0, link_freq_menu_items);
++
+ 	if (hdl->error) {
+ 		ret = hdl->error;
+ 		goto free_ctrls;
+-- 
+2.7.4
+
