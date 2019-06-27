@@ -2,678 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A26D57A44
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 05:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4B257C35
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 08:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbfF0DxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Jun 2019 23:53:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38156 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726640AbfF0DxT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Jun 2019 23:53:19 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F7532063F;
-        Thu, 27 Jun 2019 03:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561607595;
-        bh=S3Q9/A6fffv4M1Cef+uuvie/jTKdjWAwfXMc8XrIfWc=;
-        h=Date:From:To:Cc:Subject:From;
-        b=pJkJmKtF5ASjjJw82YQioBzS16z+OBWngZykseu/WKJdXY1AB2Qwmz2sjW7ZCoutz
-         I49imGhSAuvPsL+7kE7+XFtDSYB3TXUfILuiWxR05zyItBjm5Kusj8Uke9AV4eQCz2
-         7PDM3X+9nR9uUkNNri7WUO3Yzcc8X+CLmbHPZUic=
-Date:   Wed, 26 Jun 2019 20:53:14 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Reminder: 28 open syzbot bugs in media subsystem
-Message-ID: <20190627035314.GD721@sol.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        id S1726359AbfF0Gbh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 02:31:37 -0400
+Received: from mail-ua1-f74.google.com ([209.85.222.74]:56045 "EHLO
+        mail-ua1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbfF0Gbh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 02:31:37 -0400
+Received: by mail-ua1-f74.google.com with SMTP id 64so218956uam.22
+        for <linux-media@vger.kernel.org>; Wed, 26 Jun 2019 23:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=jyZnunSMPx1zmQdmYmhj6V0898AophubOZGZljdXBPs=;
+        b=S0UJxPVgTEIYz6aMKTRI9Ki88qB2iWgHDZldiQkHmeVz9RY6ie2xxN6Y2YeiW6VllU
+         mEZidV+oax49kppfXZDctcbC5TxnEfSu82oXAr6JMB4AdXsYJgxzd5g7lp8RP5a7keD0
+         GOUNe9y4hVz/6157LNc36ci3tK7yM46LYvtTmmY4bA2qnYC4rMD0f8okEf9g8kLj1kOy
+         WVGNH+15ed3q2KK7uzdL1U4QfNstIdO0QQFkMJtOzPAjaEnosN7e6q0SMlNX69lN7Ulc
+         xqZ+o9XU0IGmDuK7AZDXLQw/4KovFtLhGhaD673hGEFsMWrlrnS6xCw7sLb1MjyDKtdT
+         FhUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=jyZnunSMPx1zmQdmYmhj6V0898AophubOZGZljdXBPs=;
+        b=ZEBVsXKvzJfLk4BiF/yA6361Hwo7QnK9dNkoSOLgTxbFKsYcTbOiKfSbGyDzxOel0L
+         MSjsIH/ocLvPWP90dUGUmyvs0tpDaGO8uOh0VHqKKDkHQvpHLGU1R9S0LZl/lkkzugwd
+         UAvUo9w6653OQ9ak6WQ+9rrWasfJdF30feyYZWjgra3Tot0TgQVESEBbHBHsQ8Y+RBkU
+         M+CDhrLeAeq1vSDQJQYXPueYnmc37wctTAno6iVfmeKjlVlHLdsCnVfFpbahIUIdGDc6
+         zAkn+MXEgtZvhvIIktFF5QyAnPllz/sa7lazLR+JST4/J06stSLnG5RofFS/wFPGy6nv
+         G3iQ==
+X-Gm-Message-State: APjAAAW2iqEOQmsYycOwB6qJsQnOcA3DNvn0MlNn/NS5OD0kGxGyZSW7
+        tnqJU4f003ep/Syw5ijZRqiuhYTH4cqnVvqRe/YC7dGw2J5cVQaR2SRS4R5i5ifmClh4IBbfbYa
+        l0m7B2r2qeuuuk3gn8vVPSjt8TOxVdhEFxTir7wyb3UnJfmsR/VHmRQA9g830TNRd9B0w
+X-Google-Smtp-Source: APXvYqx2d1D8Ys/ZBgdijXrPMjZV8ASRB4/UbCmO1RiFdFdsPWrusECOwciKrc5vy7X7DBeCo3NfhaGSOoE=
+X-Received: by 2002:a1f:3244:: with SMTP id y65mr679329vky.77.1561617096080;
+ Wed, 26 Jun 2019 23:31:36 -0700 (PDT)
+Date:   Thu, 27 Jun 2019 08:31:16 +0200
+Message-Id: <20190627063116.89685-1-darekm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH] platform:media:cros-ec-cec: adapt to new notifier API
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+To:     linux-media@vger.kernel.org, narmstrong@baylibre.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[This email was generated by a script.  Let me know if you have any suggestions
-to make it better.]
-
-Of the currently open syzbot reports against the upstream kernel, I've manually
-marked 28 of them as possibly being bugs in the media subsystem.  I've listed
-these reports below, sorted by an algorithm that tries to list first the reports
-most likely to be still valid, important, and actionable.
-
-Of these 28 bugs, 9 were seen in mainline in the last week.
-
-Of these 28 bugs, 4 were bisected to commits from the following people:
-
-	Dafna Hirschfeld <dafna3@gmail.com>
-	Helen Koike <helen.koike@collabora.com>
-	Hans Verkuil <hans.verkuil@cisco.com>
-
-If you believe a bug is no longer valid, please close the syzbot report by
-sending a '#syz fix', '#syz dup', or '#syz invalid' command in reply to the
-original thread, as explained at https://goo.gl/tpsmEJ#status
-
-If you believe I misattributed a bug to the media subsystem, please let me know,
-and if possible forward the report to the correct people or mailing list.
-
-Here are the bugs:
-
---------------------------------------------------------------------------------
-Title:              WARNING in vb2_core_reqbufs
-Last occurred:      0 days ago
-Reported:           239 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=aaf17ca3f8ef677356e61bbe7e2c1af7f4398ec3
-Original thread:    https://lkml.kernel.org/lkml/00000000000069922505797781b0@google.com/T/#u
-
-This bug has a C reproducer.
-
-This bug was bisected to:
-
-	commit 3b15f68e19c28a76d175f61943a8c23224afce93
-	Author: Dafna Hirschfeld <dafna3@gmail.com>
-	Date:   Mon Jan 21 11:46:18 2019 +0000
-
-	  media: vicodec: Add support for resolution change event.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+f9966a25169b6d66d61f@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000069922505797781b0@google.com
-
---------------------------------------------------------------------------------
-Title:              BUG: unable to handle kernel paging request in tpg_fill_plane_buffer
-Last occurred:      1 day ago
-Reported:           211 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=f620d34965777e9d309c58394ade94dbd3e3b0a8
-Original thread:    https://lkml.kernel.org/lkml/0000000000005b7c64057ba003fb@google.com/T/#u
-
-This bug has a syzkaller reproducer only.
-
-This bug was bisected to:
-
-	commit f2fe89061d79706eca5c47e4efdc09bbc171e74a
-	Author: Helen Koike <helen.koike@collabora.com>
-	Date:   Fri Apr 7 17:55:19 2017 +0000
-
-	  [media] vimc: Virtual Media Controller core, capture and sensor
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+aa8212f63ea8ffaf3bfa@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000005b7c64057ba003fb@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in v4l2_release
-Last occurred:      1 day ago
-Reported:           72 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=775f90f43cfd6f8ac6c15251ce68e604453da226
-Original thread:    https://lkml.kernel.org/lkml/00000000000086f7f20586929239@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+a4387f5b6b799f6becbf@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000086f7f20586929239@google.com
-
---------------------------------------------------------------------------------
-Title:              WARNING in __vb2_queue_cancel
-Last occurred:      0 days ago
-Reported:           240 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=dd5aa153a2344f5f39e656692bc58dfe86e0423f
-Original thread:    https://lkml.kernel.org/lkml/0000000000002cf4a10579616456@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+736c3aae4af7b50d9683@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000002cf4a10579616456@google.com
-
---------------------------------------------------------------------------------
-Title:              general protection fault in flexcop_usb_probe
-Last occurred:      0 days ago
-Reported:           75 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=c0203bd72037d07493f4b7562411e4f5f4553a8f
-Original thread:    https://lkml.kernel.org/lkml/00000000000010fe260586536e86@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000010fe260586536e86@google.com
-
---------------------------------------------------------------------------------
-Title:              WARNING in spi_register_controller
-Last occurred:      0 days ago
-Reported:           75 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=c2f000b7826e712b064b66b32ed73e21ee09d7a5
-Original thread:    https://lkml.kernel.org/lkml/00000000000089dace058653b58e@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+c60ddb60b685777d9d59@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000089dace058653b58e@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: trying to register non-static key in mxl111sf_ctrl_msg
-Last occurred:      0 days ago
-Reported:           73 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=d7240bc21ef4b00a01e5ac7a7e616bdb7da26104
-Original thread:    https://lkml.kernel.org/lkml/000000000000f64e71058683105b@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+5ca0bf339f13c4243001@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000f64e71058683105b@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: global-out-of-bounds Read in hdpvr_probe
-Last occurred:      1 day ago
-Reported:           55 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=69bf3422c0eb7a37dec8c1a6c2d56ea40bf6bacf
-Original thread:    https://lkml.kernel.org/lkml/000000000000bc655f0587e6e01f@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+aac8d0d7205f112045d2@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000bc655f0587e6e01f@google.com
-
---------------------------------------------------------------------------------
-Title:              KMSAN: uninit-value in read_sensor_register
-Last occurred:      1 day ago
-Reported:           19 days ago
-Branches:           Mainline (with KMSAN patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=cd81ee9a4ef2297ef27f95a3637b3f8a3db71de2
-Original thread:    https://lkml.kernel.org/lkml/000000000000f8c953058ac2dae4@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+06ddf1788cfd048c5e82@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000f8c953058ac2dae4@google.com
-
---------------------------------------------------------------------------------
-Title:              KMSAN: uninit-value in sd_init
-Last occurred:      3 days ago
-Reported:           22 days ago
-Branches:           Mainline (with KMSAN patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=3fc6579f907ab3449adb030e8dc65fafdb8e09e4
-Original thread:    https://lkml.kernel.org/lkml/0000000000009bf1bd058a887277@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+1a35278dd0ebfb3a038a@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000009bf1bd058a887277@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in v4l2_fh_init
-Last occurred:      9 days ago
-Reported:           68 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=378c929b412e1ceac0d515df2156365827384ba4
-Original thread:    https://lkml.kernel.org/lkml/000000000000ec53de0586e309fc@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+c025d34b8eaa54c571b8@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000ec53de0586e309fc@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in v4l2_ioctl
-Last occurred:      9 days ago
-Reported:           73 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=ba05259158f35e969fff5418080482392e23ccf9
-Original thread:    https://lkml.kernel.org/lkml/00000000000003799c05868311b9@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+d587871cd33a9bc7c086@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000003799c05868311b9@google.com
-
---------------------------------------------------------------------------------
-Title:              BUG: unable to handle kernel paging request in au0828_usb_disconnect
-Last occurred:      2 days ago
-Reported:           58 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=4b76fcf12dea9e3aec69294b5d66b0831b60c627
-Original thread:    https://lkml.kernel.org/lkml/000000000000ffc8c80587aa1bb1@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+15e91d49c4c757c3d363@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000ffc8c80587aa1bb1@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: slab-out-of-bounds Read in technisat_usb2_rc_query
-Last occurred:      20 days ago
-Reported:           73 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=928bdd0e4f3f9b6b57b3772861c28da2382272e1
-
-This bug has a C reproducer.
-
-For some reason the syzbot dashboard doesn't contain a link to the original
-thread for this bug, so my script couldn't provide a link to it in this
-reminder.  Try searching for the bug title.
-
---------------------------------------------------------------------------------
-Title:              KMSAN: uninit-value in i2c_w
-Last occurred:      23 days ago
-Reported:           22 days ago
-Branches:           Mainline (with KMSAN patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=5b6be32aa55adc05444701e80c3b1eae5d9079d2
-Original thread:    https://lkml.kernel.org/lkml/000000000000a0a468058a88723d@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+397fd082ce5143e2f67d@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000a0a468058a88723d@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: null-ptr-deref Read in refcount_sub_and_test_checked (2)
-Last occurred:      23 days ago
-Reported:           224 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=17535f4bf5b322437f7c639b59161ce343fc55a9
-Original thread:    https://lkml.kernel.org/lkml/00000000000057e614057a9abcd3@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+0468b73bdbb243217224@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000057e614057a9abcd3@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Write in __vb2_cleanup_fileio
-Last occurred:      237 days ago
-Reported:           240 days ago
-Branches:           Mainline
-Dashboard link:     https://syzkaller.appspot.com/bug?id=0264f823322ea8600fbe3fb7e9e016569ca542d8
-Original thread:    https://lkml.kernel.org/lkml/000000000000204051057963c4dc@google.com/T/#u
-
-This bug has a C reproducer.
-
-syzbot has bisected this bug, but I think the bisection result is incorrect.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+4e12d2d56f8ccc65c180@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000204051057963c4dc@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: slab-out-of-bounds Read in hdpvr_probe
-Last occurred:      1 day ago
-Reported:           1 day ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=b1fc93b6998238f231f3eb1ea1cf29524e3d6e69
-Original thread:    https://lkml.kernel.org/lkml/0000000000003fc6ef058c2db557@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+79d18aac4bf1770dd050@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please reply to the original
-thread.  For the git send-email command to use, or tips on how to reply if the
-thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000003fc6ef058c2db557@google.com
-
---------------------------------------------------------------------------------
-Title:              INFO: task hung in vivid_stop_generating_vid_cap
-Last occurred:      237 days ago
-Reported:           240 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=4c0ccb254972cc51bdf6838cb1eff4fcc00de597
-Original thread:    https://lkml.kernel.org/lkml/00000000000080601805795ada2e@google.com/T/#u
-
-This bug has a C reproducer.
-
-This bug was bisected to:
-
-	commit f2fe89061d79706eca5c47e4efdc09bbc171e74a
-	Author: Helen Koike <helen.koike@collabora.com>
-	Date:   Fri Apr 7 17:55:19 2017 +0000
-
-	  [media] vimc: Virtual Media Controller core, capture and sensor
-
-The original thread for this bug received 2 replies; the last was 96 days ago.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+06283a66a648cd073885@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000080601805795ada2e@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in __video_do_ioctl
-Last occurred:      8 days ago
-Reported:           73 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=b723ac4eeadd7c7b8a881613a7f1a060fb6d3e22
-Original thread:    https://lkml.kernel.org/lkml/00000000000014c6b305868311d3@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000014c6b305868311d3@google.com
-
---------------------------------------------------------------------------------
-Title:              possible deadlock in v4l2_release
-Last occurred:      183 days ago
-Reported:           222 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=72dff36edffc3e8a3a0895aaf03b46d545a5dd5d
-Original thread:    https://lkml.kernel.org/lkml/0000000000005943f3057acf6a1e@google.com/T/#u
-
-This bug has a C reproducer.
-
-This bug was bisected to:
-
-	commit 757fdb51c14fda221ccb6999a865f7f895c79750
-	Author: Hans Verkuil <hans.verkuil@cisco.com>
-	Date:   Mon May 21 08:54:59 2018 +0000
-
-	  media: vivid: add request support
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+ea05c832a73d0615bf33@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000005943f3057acf6a1e@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Write in v4l2_prio_close
-Last occurred:      25 days ago
-Reported:           23 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=716a2d0ec0d1a591dfabca8a0d8b7f5bcaae2e31
-Original thread:    https://lkml.kernel.org/lkml/000000000000f7047d058a69d653@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+a6566701042e6e3e4ed1@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000f7047d058a69d653@google.com
-
---------------------------------------------------------------------------------
-Title:              general protection fault in vb2_mmap
-Last occurred:      183 days ago
-Reported:           228 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=4cf5ee79b52a4797c5bd40a58bd6ab243d40de48
-Original thread:    https://lkml.kernel.org/lkml/00000000000014008b057a598671@google.com/T/#u
-
-This bug has a C reproducer.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+52e5bf0ebfa66092937a@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/00000000000014008b057a598671@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Write in v4l2_device_release
-Last occurred:      48 days ago
-Reported:           58 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=8dbc8bd83de779b45f4a1d4cf3ba40c28207cae8
-Original thread:    https://lkml.kernel.org/lkml/000000000000fb811f0587aa1b7f@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000fb811f0587aa1b7f@google.com
-
---------------------------------------------------------------------------------
-Title:              KASAN: use-after-free Read in v4l2_fh_del
-Last occurred:      56 days ago
-Reported:           55 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=62eb6d89717b65b3f05b33bf7cf5b5dbf68f71a6
-Original thread:    https://lkml.kernel.org/lkml/000000000000c08c230587e6e01e@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+d53275bc1af5eb01bfff@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000c08c230587e6e01e@google.com
-
---------------------------------------------------------------------------------
-Title:              WARNING in dma_buf_vunmap
-Last occurred:      187 days ago
-Reported:           226 days ago
-Branches:           Mainline and others
-Dashboard link:     https://syzkaller.appspot.com/bug?id=163388d1fb80146cd3ba22a11a5a1995c3eaaafe
-Original thread:    https://lkml.kernel.org/lkml/000000000000aa8703057a7ea0bb@google.com/T/#u
-
-This bug has a C reproducer.
-
-syzbot has bisected this bug, but I think the bisection result is incorrect.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+a9317fe7ad261fc76b88@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000aa8703057a7ea0bb@google.com
-
---------------------------------------------------------------------------------
-Title:              BUG: unable to handle kernel paging request in osq_lock
-Last occurred:      65 days ago
-Reported:           69 days ago
-Branches:           Mainline (with usb-fuzzer patches)
-Dashboard link:     https://syzkaller.appspot.com/bug?id=541944363389fada3583295a3454a1eac5089fd6
-Original thread:    https://lkml.kernel.org/lkml/000000000000e9e1990586cd3e40@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one has replied to the original thread for this bug yet.
-
-This looks like a bug in a media USB driver.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+e5c9afc3e1eed1dfc2b0@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/000000000000e9e1990586cd3e40@google.com
-
---------------------------------------------------------------------------------
-Title:              divide error in vivid_thread_vid_cap
-Last occurred:      143 days ago
-Reported:           142 days ago
-Branches:           Mainline
-Dashboard link:     https://syzkaller.appspot.com/bug?id=794f27cf99870643a7e8429418b3a1093be4c363
-Original thread:    https://lkml.kernel.org/lkml/0000000000002ccf9905810b34a5@google.com/T/#u
-
-Unfortunately, this bug does not have a reproducer.
-
-No one replied to the original thread for this bug.
-
-If you fix this bug, please add the following tag to the commit:
-    Reported-by: syzbot+75293f834026a7e97684@syzkaller.appspotmail.com
-
-If you send any email or patch for this bug, please consider replying to the
-original thread.  For the git send-email command to use, or tips on how to reply
-if the thread isn't in your mailbox, see the "Reply instructions" at
-https://lkml.kernel.org/r/0000000000002ccf9905810b34a5@google.com
+Update ChromeOS CEC EC driver to the new notifier API.
+
+Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+---
+ .../media/platform/cros-ec-cec/cros-ec-cec.c  | 70 ++++++++++++-------
+ 1 file changed, 44 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+index 068df9888dbf0..d74795836e5c8 100644
+--- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
++++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+@@ -217,8 +217,9 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
+ };
+ 
+-static int cros_ec_cec_get_notifier(struct device *dev,
+-				    struct cec_notifier **notify)
++static int cros_ec_cec_get_hdmi_dev(struct device *dev,
++				    struct device **hdmi_dev,
++				    const char **conn_name)
+ {
+ 	int i;
+ 
+@@ -227,16 +228,13 @@ static int cros_ec_cec_get_notifier(struct device *dev,
+ 
+ 		if (dmi_match(DMI_SYS_VENDOR, m->sys_vendor) &&
+ 		    dmi_match(DMI_PRODUCT_NAME, m->product_name)) {
+-			struct device *d;
+-
+ 			/* Find the device, bail out if not yet registered */
+-			d = bus_find_device_by_name(&pci_bus_type, NULL,
+-						    m->devname);
+-			if (!d)
++			*hdmi_dev = bus_find_device_by_name(&pci_bus_type, NULL,
++							    m->devname);
++			if (*hdmi_dev == NULL)
+ 				return -EPROBE_DEFER;
+ 
+-			*notify = cec_notifier_get_conn(d, m->conn);
+-			put_device(d);
++			*conn_name = m->conn;
+ 			return 0;
+ 		}
+ 	}
+@@ -249,8 +247,9 @@ static int cros_ec_cec_get_notifier(struct device *dev,
+ 
+ #else
+ 
+-static int cros_ec_cec_get_notifier(struct device *dev,
+-				    struct cec_notifier **notify)
++static int cros_ec_cec_get_hdmi_dev(struct device *dev,
++				    struct cec_notifier **hdmi_dev,
++				    const char **conn_name)
+ {
+ 	return -ENODEV;
+ }
+@@ -262,6 +261,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
+ 	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
+ 	struct cros_ec_cec *cros_ec_cec;
++	struct device *hdmi_dev;
++	const char *conn_name;
+ 	int ret;
+ 
+ 	cros_ec_cec = devm_kzalloc(&pdev->dev, sizeof(*cros_ec_cec),
+@@ -272,20 +273,33 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, cros_ec_cec);
+ 	cros_ec_cec->cros_ec = cros_ec;
+ 
+-	ret = cros_ec_cec_get_notifier(&pdev->dev, &cros_ec_cec->notify);
++	ret = cros_ec_cec_get_hdmi_dev(&pdev->dev, &hdmi_dev, &conn_name);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = device_init_wakeup(&pdev->dev, 1);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+-		return ret;
++		goto err_put_hdmi_dev;
+ 	}
+ 
+ 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+-						 DRV_NAME, CEC_CAP_DEFAULTS, 1);
+-	if (IS_ERR(cros_ec_cec->adap))
+-		return PTR_ERR(cros_ec_cec->adap);
++						 DRV_NAME,
++						 CEC_CAP_DEFAULTS |
++						 CEC_CAP_CONNECTOR_INFO, 1);
++	if (IS_ERR(cros_ec_cec->adap)) {
++		ret = PTR_ERR(cros_ec_cec->adap);
++		goto err_put_hdmi_dev;
++	}
++
++	cros_ec_cec->notify =
++	    cec_notifier_cec_adap_register(hdmi_dev, conn_name,
++					   cros_ec_cec->adap);
++	if (!cros_ec_cec->notify) {
++		ret = -ENOMEM;
++		goto err_adap_del;
++	}
++
+ 
+ 	/* Get CEC events from the EC. */
+ 	cros_ec_cec->notifier.notifier_call = cros_ec_cec_event;
+@@ -293,19 +307,25 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 					       &cros_ec_cec->notifier);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to register notifier\n");
+-		cec_delete_adapter(cros_ec_cec->adap);
+-		return ret;
++		goto err_notifier_adap_unreg;
+ 	}
+ 
+ 	ret = cec_register_adapter(cros_ec_cec->adap, &pdev->dev);
+-	if (ret < 0) {
+-		cec_delete_adapter(cros_ec_cec->adap);
+-		return ret;
+-	}
++	if (ret < 0)
++		goto err_notifier_adap_unreg;
+ 
+-	cec_register_cec_notifier(cros_ec_cec->adap, cros_ec_cec->notify);
++	put_device(hdmi_dev);
+ 
+ 	return 0;
++
++err_notifier_adap_unreg:
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
++err_adap_del:
++	cec_delete_adapter(cros_ec_cec->adap);
++err_put_hdmi_dev:
++	put_device(hdmi_dev);
++
++	return ret;
+ }
+ 
+ static int cros_ec_cec_remove(struct platform_device *pdev)
+@@ -324,9 +344,7 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+ 	}
+ 
+ 	cec_unregister_adapter(cros_ec_cec->adap);
+-
+-	if (cros_ec_cec->notify)
+-		cec_notifier_put(cros_ec_cec->notify);
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
+ 
+ 	return 0;
+ }
+-- 
+2.18.1
 
