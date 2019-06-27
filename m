@@ -2,110 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C613457DFD
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 10:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 500B157E0F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 10:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbfF0IMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 04:12:55 -0400
-Received: from butterbrot.org ([176.9.106.16]:40901 "EHLO butterbrot.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726480AbfF0IMz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 04:12:55 -0400
-Received: from [141.54.178.119] (anna125.medien.uni-weimar.de [141.54.178.119])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id BDDEB4AE02B2;
-        Thu, 27 Jun 2019 10:12:52 +0200 (CEST)
-Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
-From:   Florian Echtler <floe@butterbrot.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
- mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
- nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
- ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
- AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
- E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
- wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
- chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
- qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
- Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
- AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
- n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
- tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
- zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
- /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
- ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
- nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
- yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
- Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
- hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
- RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
- MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
- c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
-Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
-Date:   Thu, 27 Jun 2019 10:12:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        id S1726514AbfF0IRY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 04:17:24 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:48383 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726375AbfF0IRY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 04:17:24 -0400
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id E599D24000E
+        for <linux-media@vger.kernel.org>; Thu, 27 Jun 2019 08:17:22 +0000 (UTC)
+Message-ID: <b6ffea1984f05adec9f52cd60902a95c82bf8666.camel@hadess.net>
+Subject: [PATCH v2] keytable: Add keymap test
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm"
+Date:   Thu, 27 Jun 2019 10:13:56 +0200
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
-Content-Type: multipart/mixed; boundary="F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linux-input <linux-input@vger.kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Message-ID: <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
-Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
-References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
-In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+This new test will try to parse all the ".toml" files in the directory
+path passed to it, error'ing out on the first parsing problem.
 
---F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+Run as "make check" in the keytable directory.
+---
+Changes since v1:
+- Fix patch formatting
 
-On 26.06.19 11:52, Hans Verkuil wrote:
-> This driver set the colorspace to SRGB, but that makes no sense for
-> a touchscreen. Use RAW instead. This also ensures consistency with the
-> v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
+At least 4 keymaps look broken in the current git:
+it913x_v2.toml
+pinnacle310e.toml
+hisi_poplar.toml
+imon_mce.toml
 
-One question for clarification: this will only affect userspace applicati=
-ons
-which explicitly request a certain colorspace, correct?
+Let me know if you want patches to remove the duplicate entries from
+those.
 
-Best regards, Florian
---=20
-SENT FROM MY DEC VT50 TERMINAL
+ utils/keytable/Makefile.am    |  6 ++++
+ utils/keytable/test_keymaps.c | 68 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 utils/keytable/test_keymaps.c
 
+diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
+index 148b9446..086d53c2 100644
+--- a/utils/keytable/Makefile.am
++++ b/utils/keytable/Makefile.am
+@@ -1,9 +1,12 @@
+ bin_PROGRAMS = ir-keytable
++noinst_PROGRAMS = test-keymaps
+ man_MANS = ir-keytable.1 rc_keymap.5
+ sysconf_DATA = rc_maps.cfg
+ keytablesystem_DATA = $(srcdir)/rc_keymaps/*
+ udevrules_DATA = 70-infrared.rules
+ 
++test_keymaps_SOURCES = toml.c toml.h test_keymaps.c
++
+ ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h
+ 
+ if WITH_BPF
+@@ -21,6 +24,9 @@ endif
+ EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
+ 
+ # custom target
++check: test-keymaps
++	$(builddir)/test-keymaps $(srcdir)/rc_keymaps/
++
+ install-data-local:
+ 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
+ 
+diff --git a/utils/keytable/test_keymaps.c b/utils/keytable/test_keymaps.c
+new file mode 100644
+index 00000000..23084331
+--- /dev/null
++++ b/utils/keytable/test_keymaps.c
+@@ -0,0 +1,68 @@
++#include <string.h>
++#include <errno.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <dirent.h>
++
++#include "toml.h"
++
++static int
++has_suffix(const char *str, const char *suffix)
++{
++	if (strlen(str) < strlen(suffix))
++		return 0;
++	if (strncmp(str + strlen(str) - strlen(suffix), suffix, strlen(suffix)) == 0)
++		return 1;
++	return 0;
++}
++
++int main (int argc, char **argv)
++{
++	DIR *dir;
++	struct dirent *entry;
++
++	if (argc != 2) {
++		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n", argv[0]);
++		return 1;
++	}
++
++	dir = opendir(argv[1]);
++	if (!dir) {
++		perror("Could not open directory");
++		return 1;
++	}
++
++	while ((entry = readdir(dir)) != NULL) {
++		struct toml_table_t *root;
++		FILE *fin;
++		char buf[200];
++		char path[2048];
++
++		if (!has_suffix(entry->d_name, ".toml")) {
++			/* Skipping file */
++			continue;
++		}
++
++		memset(path, 0, sizeof(path));
++		strcpy(path, argv[1]);
++		strcpy(path + strlen(argv[1]), "/");
++		strcpy(path + strlen(argv[1]) + 1, entry->d_name);
++		strcpy(path + strlen(argv[1]) + 1 + strlen(entry->d_name), "\0");
++
++		fin = fopen(path, "r");
++		if (!fin) {
++			fprintf(stderr, "Could not open file %s: %s", path, strerror(errno));
++			return 1;
++		}
++
++		root = toml_parse_file(fin, buf, sizeof(buf));
++		fclose(fin);
++		if (!root) {
++			fprintf(stderr, "Failed to parse %s: %s\n", path, buf);
++			return 1;
++		}
++		toml_free(root);
++	}
++
++	return 0;
++}
 
---F1TZa4LVVBkdKuZnYvsAFw93nHVD75JsO--
-
---jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXRR6gwAKCRDsLPKyEa9q
-2C+JAJ92ttrLtYWihQ0SGxDBI16wUorgiACeLapM9+s+dE09P2mGDbKgUEV2TdM=
-=tulV
------END PGP SIGNATURE-----
-
---jsaOSkhxGIjhH4GGhJOrNMBdOqPu2x1Jm--
