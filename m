@@ -2,520 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5D257D43
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 09:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D9F557D41
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 09:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbfF0HjF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 03:39:05 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40445 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726059AbfF0HjF (ORCPT
+        id S1726416AbfF0His (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 03:38:48 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:53975 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726059AbfF0His (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 03:39:05 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id gOzihdfOSF85OgOzlhnAke; Thu, 27 Jun 2019 09:39:02 +0200
-Subject: Re: [PATCH v3] media: v4l: ctrls: Add debug messages
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com
-References: <20190622102855.7932-1-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <000e9a2d-3a46-3075-20ba-11cb955d9757@xs4all.nl>
-Date:   Thu, 27 Jun 2019 09:38:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 27 Jun 2019 03:38:48 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 16A30240005;
+        Thu, 27 Jun 2019 07:38:41 +0000 (UTC)
+Date:   Thu, 27 Jun 2019 09:39:57 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
+ times-out
+Message-ID: <20190627073957.z55pa24ih2xqw5pa@uno.localdomain>
+References: <20190625203945.28081-1-ezequiel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20190622102855.7932-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCN0t7/lTEfl54liOh1dw34hk+hgrLPZXZPnMkSFMDmCdem9MvLR1nOCPhoZVZw1285R8d/NbfVm7xVJUGSa1dMDRdxX6D96njal7cGNf1uMem53JC1E
- sBuoWcpYk+ijJWWnmyzxzVCESRI8MqovQGtJ3Jl2jMhPzpjBhP2zteUlp3QzWKehuCQm9IT9foukykhR26+8WX36kmSqeVEo7hfBrx9FpIiy0ydpitQ4Q+aR
- xvLCug+nizrMtyF/91uMZ3WqjBgw0Ichu1urd9K7sQc=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bdzir2qwavwpd4vz"
+Content-Disposition: inline
+In-Reply-To: <20190625203945.28081-1-ezequiel@collabora.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+
+--bdzir2qwavwpd4vz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
 Hi Ezequiel,
 
-'checkpatch.pl --strict' finds way too many issues.
+On Tue, Jun 25, 2019 at 05:39:45PM -0300, Ezequiel Garcia wrote:
+> Not all sensors will be able to guarantee a proper initial state.
+> This may be either because the driver is not properly written,
+> or (probably unlikely) because the hardware won't support it.
+>
+> While the right solution in the former case is to fix the sensor
+> driver, the real world not always allows right solutions, due to lack
+> of available documentation and support on these sensors.
+>
 
-I'm pretty certain you didn't run it.
+We hit this in the past with the ov5640 sensor, whose driver was not
+properly initializing its data lanes in LP-11 state, so yes, I'm not
+surprised other sensors might fail in the same way.
 
-Please fix the issues and post a v4.
+Do you get frames after you hit the error? I recall it was not
+possible with ov5640, even with something similar to what you've done
+here in the CSI-2 receiver driver.
 
-A lot (but not all) of the warnings report lines that are too long
-and from what I can see most are easily fixed without reducing
-readability.
+> Let's relax this requirement, and allow the driver to support stream start,
+> even if the sensor initial sequence wasn't the expected.
+> A warning is still emitted, so users should be hinted that something is off.
+>
 
-Regards,
+It seems you're also silencing errors related to clock lane detection.
+I would mention that.
 
-	Hans
-
-On 6/22/19 12:28 PM, Ezequiel Garcia wrote:
-> Currently, the v4l2 control code is a bit silent on errors.
-> Add debug messages on (hopefully) most of the error paths.
-> 
 > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
-> Changes from v2:
-> * Check and noisy-warn if vdev is NULL.
-> 
-> Changes from v1:
-> * Drop changes in the debug parameter semantics.
-> * Drop new module debug parameter.
-> * Add documentation.
-> * Add a debug error in all places where control can fail.
-> * Reorder the vdev parameter, to make the patch less invasive.
-> ---
->  Documentation/media/kapi/v4l2-dev.rst      |   1 +
->  drivers/media/platform/omap3isp/ispvideo.c |   2 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c       | 106 ++++++++++++++++-----
->  drivers/media/v4l2-core/v4l2-ioctl.c       |  12 +--
->  drivers/media/v4l2-core/v4l2-subdev.c      |   6 +-
->  include/media/v4l2-ctrls.h                 |   9 +-
->  include/media/v4l2-ioctl.h                 |   2 +
->  7 files changed, 100 insertions(+), 38 deletions(-)
-> 
-> diff --git a/Documentation/media/kapi/v4l2-dev.rst b/Documentation/media/kapi/v4l2-dev.rst
-> index b359f1804bbe..4c5a15c53dbf 100644
-> --- a/Documentation/media/kapi/v4l2-dev.rst
-> +++ b/Documentation/media/kapi/v4l2-dev.rst
-> @@ -288,6 +288,7 @@ Mask  Description
->  0x08  Log the read and write file operations and the VIDIOC_QBUF and
->        VIDIOC_DQBUF ioctls.
->  0x10  Log the poll file operation.
-> +0x20  Log error and messages in the control operations.
->  ===== ================================================================
->  
->  Video device cleanup
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> index 175bbed9a235..abc945cc05c9 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> @@ -1028,7 +1028,7 @@ static int isp_video_check_external_subdevs(struct isp_video *video,
->  	ctrls.count = 1;
->  	ctrls.controls = &ctrl;
->  
-> -	ret = v4l2_g_ext_ctrls(pipe->external->ctrl_handler, NULL, &ctrls);
-> +	ret = v4l2_g_ext_ctrls(pipe->external->ctrl_handler, &video->video, NULL, &ctrls);
->  	if (ret < 0) {
->  		dev_warn(isp->dev, "no pixel rate control in subdev %s\n",
->  			 pipe->external->name);
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 2d7525e2d9eb..1c8ae4501870 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -6,6 +6,8 @@
->  
->   */
->  
-> +#define pr_fmt(fmt) "v4l2-ctrls: " fmt
-> +
->  #include <linux/ctype.h>
->  #include <linux/mm.h>
->  #include <linux/slab.h>
-> @@ -16,6 +18,12 @@
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-dev.h>
->  
-> +#define dprintk(vdev, fmt, arg...) do {					\
-> +	if (!WARN_ON(!vdev) && ((vdev)->dev_debug & V4L2_DEV_DEBUG_CTRL)) \
-> +		printk(KERN_DEBUG pr_fmt("%s: %s: " fmt),		\
-> +		       __func__, video_device_node_name(vdev), ##arg);	\
-> +} while (0)
-> +
->  #define has_op(master, op) \
->  	(master->ops && master->ops->op)
->  #define call_op(master, op) \
-> @@ -3211,6 +3219,7 @@ static int v4l2_ctrl_request_bind(struct media_request *req,
->  static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
->  			     struct v4l2_ext_controls *cs,
->  			     struct v4l2_ctrl_helper *helpers,
-> +			     struct video_device *vdev,
->  			     bool get)
->  {
->  	struct v4l2_ctrl_helper *h;
-> @@ -3228,20 +3237,28 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
->  		if (cs->which &&
->  		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
->  		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
-> -		    V4L2_CTRL_ID2WHICH(id) != cs->which)
-> +		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
-> +			dprintk(vdev, "invalid which 0x%x or control id 0x%x\n", cs->which, id);
->  			return -EINVAL;
-> +		}
->  
->  		/* Old-style private controls are not allowed for
->  		   extended controls */
-> -		if (id >= V4L2_CID_PRIVATE_BASE)
-> +		if (id >= V4L2_CID_PRIVATE_BASE) {
-> +			dprintk(vdev, "old-style private controls not allowed for extended controls\n");
->  			return -EINVAL;
-> +		}
->  		ref = find_ref_lock(hdl, id);
-> -		if (ref == NULL)
-> +		if (ref == NULL) {
-> +			dprintk(vdev, "cannot find control id 0x%x\n", id);
->  			return -EINVAL;
-> +		}
->  		h->ref = ref;
->  		ctrl = ref->ctrl;
-> -		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED)
-> +		if (ctrl->flags & V4L2_CTRL_FLAG_DISABLED) {
-> +			dprintk(vdev, "control id 0x%x is disabled\n", id);
->  			return -EINVAL;
-> +		}
->  
->  		if (ctrl->cluster[0]->ncontrols > 1)
->  			have_clusters = true;
-> @@ -3251,10 +3268,16 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
->  			unsigned tot_size = ctrl->elems * ctrl->elem_size;
->  
->  			if (c->size < tot_size) {
-> +				/*
-> +				 * In the get case the application first queries
-> +				 * to obtain the size of the control.
-> +				 */
->  				if (get) {
->  					c->size = tot_size;
->  					return -ENOSPC;
->  				}
-> +				dprintk(vdev, "pointer control id 0x%x size too small, %d bytes but %d bytes needed\n",
-> +					id, c->size, tot_size);
->  				return -EFAULT;
->  			}
->  			c->size = tot_size;
-> @@ -3315,7 +3338,8 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
->  
->  /* Get extended controls. Allocates the helpers array if needed. */
->  static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
-> -				   struct v4l2_ext_controls *cs)
-> +				   struct v4l2_ext_controls *cs,
-> +				   struct video_device *vdev)
->  {
->  	struct v4l2_ctrl_helper helper[4];
->  	struct v4l2_ctrl_helper *helpers = helper;
-> @@ -3341,7 +3365,7 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
->  			return -ENOMEM;
->  	}
->  
-> -	ret = prepare_ext_ctrls(hdl, cs, helpers, true);
-> +	ret = prepare_ext_ctrls(hdl, cs, helpers, vdev, true);
->  	cs->error_idx = cs->count;
->  
->  	for (i = 0; !ret && i < cs->count; i++)
-> @@ -3434,8 +3458,8 @@ v4l2_ctrls_find_req_obj(struct v4l2_ctrl_handler *hdl,
->  	return obj;
+>  drivers/staging/media/imx/imx6-mipi-csi2.c | 33 ++++++----------------
+>  1 file changed, 9 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> index f29e28df36ed..10342434e797 100644
+> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> @@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
 >  }
->  
-> -int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> -		     struct v4l2_ext_controls *cs)
-> +int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct video_device *vdev,
-> +		     struct media_device *mdev, struct v4l2_ext_controls *cs)
+>
+>  /* Waits for low-power LP-11 state on data and clock lanes. */
+> -static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
+> +static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
 >  {
->  	struct media_request_object *obj = NULL;
->  	struct media_request *req = NULL;
-> @@ -3471,7 +3495,7 @@ int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
->  				   req_obj);
->  	}
->  
-> -	ret = v4l2_g_ext_ctrls_common(hdl, cs);
-> +	ret = v4l2_g_ext_ctrls_common(hdl, cs, vdev);
->  
->  	if (obj) {
->  		media_request_unlock_for_access(req);
-> @@ -3614,7 +3638,9 @@ static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
->  
->  /* Validate controls. */
->  static int validate_ctrls(struct v4l2_ext_controls *cs,
-> -			  struct v4l2_ctrl_helper *helpers, bool set)
-> +			  struct v4l2_ctrl_helper *helpers,
-> +			  struct video_device *vdev,
-> +			  bool set)
->  {
->  	unsigned i;
->  	int ret = 0;
-> @@ -3626,16 +3652,20 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
->  
->  		cs->error_idx = i;
->  
-> -		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
-> +		if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY) {
-> +			dprintk(vdev, "control id 0x%x is read-only\n", ctrl->id);
->  			return -EACCES;
-> +		}
->  		/* This test is also done in try_set_control_cluster() which
->  		   is called in atomic context, so that has the final say,
->  		   but it makes sense to do an up-front check as well. Once
->  		   an error occurs in try_set_control_cluster() some other
->  		   controls may have been set already and we want to do a
->  		   best-effort to avoid that. */
-> -		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED))
-> +		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED)) {
-> +			dprintk(vdev, "control id 0x%x is grabbed, cannot set\n", ctrl->id);
->  			return -EBUSY;
-> +		}
->  		/*
->  		 * Skip validation for now if the payload needs to be copied
->  		 * from userspace into kernelspace. We'll validate those later.
-> @@ -3670,7 +3700,8 @@ static void update_from_auto_cluster(struct v4l2_ctrl *master)
->  /* Try or try-and-set controls */
->  static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
->  				    struct v4l2_ctrl_handler *hdl,
-> -				    struct v4l2_ext_controls *cs, bool set)
-> +				    struct v4l2_ext_controls *cs,
-> +				    struct video_device *vdev, bool set)
->  {
->  	struct v4l2_ctrl_helper helper[4];
->  	struct v4l2_ctrl_helper *helpers = helper;
-> @@ -3680,13 +3711,17 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
->  	cs->error_idx = cs->count;
->  
->  	/* Default value cannot be changed */
-> -	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL)
-> +	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
-> +		dprintk(vdev, "%s: cannot change default value\n", video_device_node_name(vdev));
->  		return -EINVAL;
-> +	}
->  
->  	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
->  
-> -	if (hdl == NULL)
-> +	if (hdl == NULL) {
-> +		dprintk(vdev, "%s: invalid null control handler\n", video_device_node_name(vdev));
->  		return -EINVAL;
-> +	}
->  
->  	if (cs->count == 0)
->  		return class_check(hdl, cs->which);
-> @@ -3697,9 +3732,9 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
->  		if (!helpers)
->  			return -ENOMEM;
->  	}
-> -	ret = prepare_ext_ctrls(hdl, cs, helpers, false);
-> +	ret = prepare_ext_ctrls(hdl, cs, helpers, vdev, false);
->  	if (!ret)
-> -		ret = validate_ctrls(cs, helpers, set);
-> +		ret = validate_ctrls(cs, helpers, vdev, set);
->  	if (ret && set)
->  		cs->error_idx = cs->count;
->  	for (i = 0; !ret && i < cs->count; i++) {
-> @@ -3784,7 +3819,8 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
->  }
->  
->  static int try_set_ext_ctrls(struct v4l2_fh *fh,
-> -			     struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> +			     struct v4l2_ctrl_handler *hdl,
-> +			     struct video_device *vdev, struct media_device *mdev,
->  			     struct v4l2_ext_controls *cs, bool set)
->  {
->  	struct media_request_object *obj = NULL;
-> @@ -3792,21 +3828,32 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
+>  	u32 mask, reg;
 >  	int ret;
->  
->  	if (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL) {
-> -		if (!mdev || cs->request_fd < 0)
-> +		if (!mdev) {
-> +			dprintk(vdev, "%s: missing media device\n", video_device_node_name(vdev));
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (cs->request_fd < 0) {
-> +			dprintk(vdev, "%s: invalid request fd %d\n", video_device_node_name(vdev), cs->request_fd);
->  			return -EINVAL;
-> +		}
->  
->  		req = media_request_get_by_fd(mdev, cs->request_fd);
-> -		if (IS_ERR(req))
-> +		if (IS_ERR(req)) {
-> +			dprintk(vdev, "%s: cannot find request fd %d\n", video_device_node_name(vdev), cs->request_fd);
->  			return PTR_ERR(req);
-> +		}
->  
->  		ret = media_request_lock_for_update(req);
->  		if (ret) {
-> +			dprintk(vdev, "%s: cannot lock request fd %d\n", video_device_node_name(vdev), cs->request_fd);
->  			media_request_put(req);
->  			return ret;
->  		}
->  
->  		obj = v4l2_ctrls_find_req_obj(hdl, req, set);
->  		if (IS_ERR(obj)) {
-> +			dprintk(vdev, "%s: cannot find request object for request fd %d\n", video_device_node_name(vdev), cs->request_fd);
->  			media_request_unlock_for_update(req);
->  			media_request_put(req);
->  			return PTR_ERR(obj);
-> @@ -3815,7 +3862,9 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
->  				   req_obj);
->  	}
->  
-> -	ret = try_set_ext_ctrls_common(fh, hdl, cs, set);
-> +	ret = try_set_ext_ctrls_common(fh, hdl, cs, vdev, set);
+> @@ -253,29 +253,21 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
+>
+>  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
+>  				 (reg & mask) == mask, 0, 500000);
+> -	if (ret) {
+> -		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
 > +	if (ret)
-> +		dprintk(vdev, "%s: try_set_ext_ctrls_common failed (%d)\n", video_device_node_name(vdev), ret);
->  
->  	if (obj) {
->  		media_request_unlock_for_update(req);
-> @@ -3826,17 +3875,22 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh,
->  	return ret;
+> +		v4l2_warn(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
 >  }
->  
-> -int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> +int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl,
-> +		       struct video_device *vdev,
-> +		       struct media_device *mdev,
->  		       struct v4l2_ext_controls *cs)
+>
+>  /* Wait for active clock on the clock lane. */
+> -static int csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
+> +static void csi2_dphy_wait_clock_lane(struct csi2_dev *csi2)
 >  {
-> -	return try_set_ext_ctrls(NULL, hdl, mdev, cs, false);
-> +	return try_set_ext_ctrls(NULL, hdl, vdev, mdev, cs, false);
+>  	u32 reg;
+>  	int ret;
+>
+>  	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
+>  				 (reg & PHY_RXCLKACTIVEHS), 0, 500000);
+> -	if (ret) {
+> -		v4l2_err(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
+> -			 reg);
+> -		return ret;
+> -	}
+> -
+> -	return 0;
+> +	if (ret)
+> +		v4l2_warn(&csi2->sd, "clock lane timeout, phy_state = 0x%08x\n",
+> +			  reg);
 >  }
->  EXPORT_SYMBOL(v4l2_try_ext_ctrls);
->  
-> -int v4l2_s_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
-> -		     struct media_device *mdev, struct v4l2_ext_controls *cs)
-> +int v4l2_s_ext_ctrls(struct v4l2_fh *fh,
-> +		     struct v4l2_ctrl_handler *hdl,
-> +		     struct video_device *vdev,
-> +		     struct media_device *mdev,
-> +		     struct v4l2_ext_controls *cs)
->  {
-> -	return try_set_ext_ctrls(fh, hdl, mdev, cs, true);
-> +	return try_set_ext_ctrls(fh, hdl, vdev, mdev, cs, true);
->  }
->  EXPORT_SYMBOL(v4l2_s_ext_ctrls);
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index b1f4b991dba6..e95efea1a9ca 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -2165,9 +2165,9 @@ static int v4l_g_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  
->  	p->error_idx = p->count;
->  	if (vfh && vfh->ctrl_handler)
-> -		return v4l2_g_ext_ctrls(vfh->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_g_ext_ctrls(vfh->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (vfd->ctrl_handler)
-> -		return v4l2_g_ext_ctrls(vfd->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_g_ext_ctrls(vfd->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_g_ext_ctrls == NULL)
->  		return -ENOTTY;
->  	return check_ext_ctrls(p, 0) ? ops->vidioc_g_ext_ctrls(file, fh, p) :
-> @@ -2184,9 +2184,9 @@ static int v4l_s_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  
->  	p->error_idx = p->count;
->  	if (vfh && vfh->ctrl_handler)
-> -		return v4l2_s_ext_ctrls(vfh, vfh->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_s_ext_ctrls(vfh, vfh->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (vfd->ctrl_handler)
-> -		return v4l2_s_ext_ctrls(NULL, vfd->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_s_ext_ctrls(NULL, vfd->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_s_ext_ctrls == NULL)
->  		return -ENOTTY;
->  	return check_ext_ctrls(p, 0) ? ops->vidioc_s_ext_ctrls(file, fh, p) :
-> @@ -2203,9 +2203,9 @@ static int v4l_try_ext_ctrls(const struct v4l2_ioctl_ops *ops,
->  
->  	p->error_idx = p->count;
->  	if (vfh && vfh->ctrl_handler)
-> -		return v4l2_try_ext_ctrls(vfh->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_try_ext_ctrls(vfh->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (vfd->ctrl_handler)
-> -		return v4l2_try_ext_ctrls(vfd->ctrl_handler, vfd->v4l2_dev->mdev, p);
-> +		return v4l2_try_ext_ctrls(vfd->ctrl_handler, vfd, vfd->v4l2_dev->mdev, p);
->  	if (ops->vidioc_try_ext_ctrls == NULL)
->  		return -ENOTTY;
->  	return check_ext_ctrls(p, 0) ? ops->vidioc_try_ext_ctrls(file, fh, p) :
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index f24978b80440..1b5edd3b1e6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -211,19 +211,19 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->  		if (!vfh->ctrl_handler)
->  			return -ENOTTY;
->  		return v4l2_g_ext_ctrls(vfh->ctrl_handler,
-> -					sd->v4l2_dev->mdev, arg);
-> +					vdev, sd->v4l2_dev->mdev, arg);
->  
->  	case VIDIOC_S_EXT_CTRLS:
->  		if (!vfh->ctrl_handler)
->  			return -ENOTTY;
->  		return v4l2_s_ext_ctrls(vfh, vfh->ctrl_handler,
-> -					sd->v4l2_dev->mdev, arg);
-> +					vdev, sd->v4l2_dev->mdev, arg);
->  
->  	case VIDIOC_TRY_EXT_CTRLS:
->  		if (!vfh->ctrl_handler)
->  			return -ENOTTY;
->  		return v4l2_try_ext_ctrls(vfh->ctrl_handler,
-> -					  sd->v4l2_dev->mdev, arg);
-> +					  vdev, sd->v4l2_dev->mdev, arg);
->  
->  	case VIDIOC_DQEVENT:
->  		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index b4433483af23..c08d6cc56743 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -1265,25 +1265,28 @@ int v4l2_s_ctrl(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
->   *	:ref:`VIDIOC_G_EXT_CTRLS <vidioc_g_ext_ctrls>` ioctl
->   *
->   * @hdl: pointer to &struct v4l2_ctrl_handler
-> + * @vdev: pointer to &struct video_device
->   * @mdev: pointer to &struct media_device
->   * @c: pointer to &struct v4l2_ext_controls
->   *
->   * If hdl == NULL then they will all return -EINVAL.
->   */
-> -int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct media_device *mdev,
-> -		     struct v4l2_ext_controls *c);
-> +int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct video_device *vdev,
-> +		     struct media_device *mdev, struct v4l2_ext_controls *c);
->  
->  /**
->   * v4l2_try_ext_ctrls - Helper function to implement
->   *	:ref:`VIDIOC_TRY_EXT_CTRLS <vidioc_g_ext_ctrls>` ioctl
->   *
->   * @hdl: pointer to &struct v4l2_ctrl_handler
-> + * @vdev: pointer to &struct video_device
->   * @mdev: pointer to &struct media_device
->   * @c: pointer to &struct v4l2_ext_controls
->   *
->   * If hdl == NULL then they will all return -EINVAL.
->   */
->  int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl,
-> +		       struct video_device *vdev,
->  		       struct media_device *mdev,
->  		       struct v4l2_ext_controls *c);
->  
-> @@ -1293,12 +1296,14 @@ int v4l2_try_ext_ctrls(struct v4l2_ctrl_handler *hdl,
->   *
->   * @fh: pointer to &struct v4l2_fh
->   * @hdl: pointer to &struct v4l2_ctrl_handler
-> + * @vdev: pointer to &struct video_device
->   * @mdev: pointer to &struct media_device
->   * @c: pointer to &struct v4l2_ext_controls
->   *
->   * If hdl == NULL then they will all return -EINVAL.
->   */
->  int v4l2_s_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
-> +		     struct video_device *vdev,
->  		     struct media_device *mdev,
->  		     struct v4l2_ext_controls *c);
->  
-> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-> index 400f2e46c108..4bba65a59d46 100644
-> --- a/include/media/v4l2-ioctl.h
-> +++ b/include/media/v4l2-ioctl.h
-> @@ -602,6 +602,8 @@ struct v4l2_ioctl_ops {
->  #define V4L2_DEV_DEBUG_STREAMING	0x08
->  /* Log poll() */
->  #define V4L2_DEV_DEBUG_POLL		0x10
-> +/* Log controls */
-> +#define V4L2_DEV_DEBUG_CTRL		0x20
->  
->  /*  Video standard functions  */
->  
-> 
+>
+>  /* Setup the i.MX CSI2IPU Gasket */
+> @@ -316,9 +308,7 @@ static int csi2_start(struct csi2_dev *csi2)
+>  	csi2_enable(csi2, true);
+>
+>  	/* Step 5 */
+> -	ret = csi2_dphy_wait_stopstate(csi2);
+> -	if (ret)
+> -		goto err_assert_reset;
+> +	csi2_dphy_wait_stopstate(csi2);
+>
+>  	/* Step 6 */
+>  	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
+> @@ -327,14 +317,9 @@ static int csi2_start(struct csi2_dev *csi2)
+>  		goto err_assert_reset;
+>
+>  	/* Step 7 */
+> -	ret = csi2_dphy_wait_clock_lane(csi2);
+> -	if (ret)
+> -		goto err_stop_upstream;
+> -
+> +	csi2_dphy_wait_clock_lane(csi2);
+>  	return 0;
+>
+> -err_stop_upstream:
+> -	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
+>  err_assert_reset:
+>  	csi2_enable(csi2, false);
+>  err_disable_clk:
+> --
+> 2.20.1
+>
 
+--bdzir2qwavwpd4vz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0Ucs0ACgkQcjQGjxah
+Vjw9AQ//XyeBDHUkzW5v/hP3QjhExjfzvqrf020W3P6PglCFHO31JYzaOo3v5/t7
+33KrxrpFd5VTJzdrn7cSCaKo2hkKbAiODYPKJ1/ASvwbnOEIBtWZAJ70EMFv3ANB
+aH4tiFkJMYcvFTZMw60r5PExjIUmy2o8/In29Ob8Jmkl+wochKwe2UwmA/T2qwJo
+7VUW6qcWw8Hn9XToblKwZAO4ipTF3d9sGhqgrBGvBjJ1A1F5YKK5H52rsQQMUzdb
+1BLSvdvPQyPRzwJk8wz15xarNJ/Q+f6ZPPdJ1NLakHt9mPmDFfjD7LbatLbRK48a
+5MX826uz9+7mJdLsZVUX+WRhpColArCD8egfd1GQqODAY0/Ms0uLrLxUGeiFAq8Z
+3D53Zyg8FEz3nvxgCnyVv3STV7wa6MQfW+YyVwO62IydxaBPymvNOtwbneoOwRNm
+KEBir2kNBElWOEutU09ZRqoGqJsWi9Q/2AD/Ygh5wVjDDs7bXe4sRm01BhjuxOIF
+bIUVqYYPw+nsb6au/rSM/MDdO/6gUS5SDv4TB0UVJMcWcdxOOuzQ9lhSk1QnUVot
+Q95RCrjCbedjGlHVxKd+b5QqqaQ4mKzY8ZGISSwv/DgoQqa76axwW/4B9rydg9Wn
+thBaNCCJ22RbZF/UJZA6b1qRY39wCox+HHUfkfecsUnviBik/Kw=
+=BS/G
+-----END PGP SIGNATURE-----
+
+--bdzir2qwavwpd4vz--
