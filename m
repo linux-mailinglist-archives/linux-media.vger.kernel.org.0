@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C6F58A4C
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D48458A47
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:57:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbfF0S5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 14:57:15 -0400
-Received: from mout.gmx.net ([212.227.15.18]:37311 "EHLO mout.gmx.net"
+        id S1726579AbfF0S5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 14:57:13 -0400
+Received: from mout.gmx.net ([212.227.15.19]:56599 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726587AbfF0S5O (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 14:57:14 -0400
+        id S1726561AbfF0S5M (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 14:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
         s=badeba3b8450; t=1561661809;
-        bh=lZmOeAftlgqo1vdHP3EjpsXSMad709JwC3ovNFUjiwQ=;
+        bh=jFtiONca1hdVFxm/usbMzIOKsZXNfYtIs0InExv49OQ=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=YlYRsrJx3moT3XGmZzynd1klvf22rerTxmigVrvdXQWeUPm0hCd/v2PaVgW3NzYLe
-         s2qmVG6OPIS/o3vh+X6K4xiE8QVzr+RzviwTjTZYPAlsXYEBWeEGKgKfEuxyHtldvU
-         DWJc6xDjkUpBtpljK/+sU26VeQzlFWdQtWaGur5k=
+        b=D2n/GfnRCEz2ywceZA/kKouLEZ8IkCehCjlO5aCmz5+tC8z030yAjvdqyB0woCQeN
+         H09IhGDFTlzXp9AbFu9SJX3i2YwAk1/NGSQ1+j+NCrJwtEvKmh9tgOeu+CTO3Renvy
+         fzrN02XCH8IWytAfITKVaxSZm8rhnIDEreVKRfko=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx002 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 0M9ra4-1hrcBl0tDc-00B3Zb; Thu, 27 Jun 2019 20:56:49 +0200
+ 0M92lh-1hqF922WeD-00CQcQ; Thu, 27 Jun 2019 20:56:49 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,34 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org
-Subject: [PATCH 02/31] staging: bcm2835-camera: Check the error for REPEAT_SEQ_HEADER
-Date:   Thu, 27 Jun 2019 20:55:59 +0200
-Message-Id: <1561661788-22744-3-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH 03/31] staging: bcm2835-camera: Replace spinlock protecting context_map with mutex
+Date:   Thu, 27 Jun 2019 20:56:00 +0200
+Message-Id: <1561661788-22744-4-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
 References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:xRoSxi74f4luJ+Wk+0kZTsX3xHfSkTrMrkgOD1IOPvxzVJjunLe
- uZ+aAlxUHYIg6CvrOviaV/iIGAl9mLUUr3noPuL5j2LLEUogEle+eM280eSTHoYX0PQE3O4
- K1AViH65lOMhThZSKZA5BRSUzVHQtv4k4wCA5YvrJsvrbd+0urJdyCWB61pL8szP6DZ/NFx
- ZrjMX6kZR6umiAFEOP7Eg==
+X-Provags-ID: V03:K1:D2AkJfxcnXtCj6sokPxOpiTqs4No+MBrwT2O1aUmi8Tnu7VKWpY
+ ZFyRQTMI7ZkQVPnbVGSo2fbjdP/sTozwpiHjpLkN4cGBYUtit3jU8k6ejuGXndm024u31kq
+ CEMvzZJtgy68BFC4kNFKSOKqeMU56wyUQr1OTrnVo/ptijmkU1vNNLav5iuMGT5yAsO/KKl
+ mOW8FQsL6mvuvLq2Hd5Wg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:L8WFhcwKCGs=:Ys1zgqTPTO+npU8LQsHmfC
- 1d48g2/7lNUJALcj5MPVIlqzwiV0dJcDISjgjozwjyoJcPdkJ602j+CUQ8DxPRl/VO9j0XPSB
- tOxdrTQK+Irfqkx1cWFMXNB4H3Bjam6DVLxPD8N4AKp8OY6nlbjzx6gAKMc9Cf6iEm4n2Vckk
- dDiiLeXYnhaphVOEzjOA5WxGtPSpuROzohdTRHE69Y8BxDvQ/5PVnT8md8hYg2jI1hXBgOQU3
- RMRDVeDbCvZ3lWHNgLGKc9xoVckFEojTXTpe++Kww0L93NhtGCCzEcDx2BeHZ2xDVIAkk+NAu
- 4JTJhHFKr7YzJFJrk2uoWop3R4E/YlZP18tKKx7VFfOM3D4I4yTsOK8qM04RbZ30dutE4AWww
- LNtrCz+qqYszluUR4WkjXnqtGkk4j/LzOqW4SpI5DFECQ/e7++x22lPJorQpRI3Sy5u32KN+b
- dlbts5kFLZMr6wsVG3Y3+KLxgHk3pP7VEyDCHKf2tLpZ2NC2QmZteTqS0mpuhbju0z9RyRSW9
- gFY8h5Jl1wYWHXWB8dMYONiU6foQbUkbjIm0ioO+G0q7+swx8rKdsIL9ZmZOL+zMbqHXlxVZ+
- UNUkpq34PifnperGy9ijc9nX1I07ZsjuGWV9E2NsX8Y4EBf8Pt/D2DCUgiWvVCdMcaeIb68ek
- FLn0R4kBlMSoRFk38lNN8AKEeO2MLvqLMsN4/QJZQ6B+iKhRFFjJ1JRmAPcHiWCrIUfVm/GYB
- CzL+oUEq+eu7Di9KxG0C3DqS4H1DIbIQydU7BrVmabeESvALAuwFD4MszV8lXMOkKRCcrhu7d
- K9iV5xY3TA/0N9ohy1x4z5+xN0UBfLbEanZXKIxn8MAH7TxcLTLb8/Yng3mFiVSPPkUhtuk85
- hp/g6vjkKFtF4QjM2I+/3D2gK5jNmeQtXooSfaxfFi0R3stSC569J8GIHS8TwhNZx1m8kkV0d
- SRTnsJ8FMdJAi6Udk7s99uqNGT7t8wW2bp71FkQ6tEidrnnPB1D9+TRJlxX3L1BZEr5089LJv
- YRxTp5ARi7MSfalo6ZbNbXawbN7fyYOD7Fe/xbJAycKkP4mMrSZehY9Kj+Eu0ylxvMvLQJGVy
- +ssb39vGj+6PBo=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YoEFoI43RE0=:uqiLpOzWe7CCbDvKSmvf4u
+ hv6fV2QWvbr6aOXQD1uX8MtNNg4lU2dk3lQFsfOA7Meu1Pn79kuJnEe08ilfhnMeQpwzmkbMD
+ TTdRUaCm0ntceexWCPrXahYEgeAzp7TeH2eEL9LHNHdh/Tm1fUupwq2Tzv4tZrBGX1bhRn0Kw
+ V2XOP0rE07+F8dS5YLd5nREB+Z4KqIG5Wny37p62GEK0lfyN/mIBLoq7R6m5IPJ3gPG26ienD
+ hJg9N9oyV4VhrKmTDEb4dCdfhQnIKCD9MWAAzA4jeSvN95bZ+aTRnTNpnRxWSkS4ZfvGUZet5
+ BernveDdnDGOR3W9W/nN+aH0zZnBITGvFNV0Ctnc0m0GJ3wciwIfZfYKNoV7TRuJKtH9G0dwm
+ Gf1Rsc96auPYWwGGw0qnBeY+nj5yZeSVNJoqfYutoSoYvFtIcwlfDtn6r0+KUH4NHfzYKFXDF
+ +QzjdCKEADgsVpF+w2J/m7pYLj+6NTCE536Qwf2ATTHxjeN2DK8PP0P0xdrtXW6J8ob6UQpzJ
+ aYVIXFUiw/KTdc94/LDrbwix9ehCsdtWfglwLjVEoZRjWe2M7/V9cXSKCAkCjRqqxABbKS//s
+ cFmgH7rLOo45JZQiDU3Ph0c9ZAOdt4tk5rrc4HMK4IA1/Y5OGb272uohTkfZc8+OsuzPsCwdU
+ JTZ+tJW9TKlMxcKqgoBPj2znffLz9ZkBReeFgxacfR8yEY48M6x7mLaybZZbMUyalldj56jGu
+ ugn05DtisHQ3NQtsAe7ExK5Ql4d1snFZKfXg2dipIzUv+ePlv/tsDSd/f4fYHjIr1BFf+ACA5
+ uUaQHjSfmPBEEXEdt9xoayihczLwsbDSFkPNtooeSWW68mcTdloMXaexBfMYY5RtzssS4KsHI
+ j/hVtzOa97dzujhsSCXqJ3xV+tETDYzIkC3tmmJkMSinxsJOEb8JDuGPRrM9MwZvSRMpHCIO9
+ Ne0uTNT5KJ/ilJVdNLXLCsqc1DIv1AG/ytGM6zhRVNGmvHB+0EnCoSyHIeMolWrbMaBcvn60x
+ pTdHScginuRG8EVT4wxqihbRRwPjOuAW1o7qExTSK98mJCmGFSJY8gmavl+8/K44NSBb6TYpj
+ BMG0VCs1qIKoKo=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -67,36 +67,78 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-When handling for V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER was added
-the firmware would reject the setting if H264 hadn't already been
-selected. This was fixed in the firmware at that point, but to
-enable backwards compatibility the returned error was ignored.
+The commit "staging: bcm2835-camera: Replace open-coded idr with a struct =
+idr."
+replaced an internal implementation of an idr with the standard functions
+and a spinlock. idr_alloc(GFP_KERNEL) can sleep whilst calling kmem_cache_=
+alloc
+to allocate the new node, but this is not valid whilst in an atomic contex=
+t
+due to the spinlock.
 
-That was Dec 2013, so the chances of having a firmware that still
-has that issue is so close to zero that the workaround can be
-removed.
+There is no need for this to be a spinlock as a standard mutex is
+sufficient.
 
-Link: https://github.com/raspberrypi/linux/pull/2782/
+Fixes: 950fd867c635 ("staging: bcm2835-camera: Replace open-coded idr with=
+ a struct idr.")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 =2D--
- drivers/staging/vc04_services/bcm2835-camera/controls.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c | 13 +++++++---=
+---
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
-vers/staging/vc04_services/bcm2835-camera/controls.c
-index c251164..133aa6e 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -1124,7 +1124,7 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
-[V4L2_CTRL_COUNT] =3D {
- 		0, 1, NULL,
- 		MMAL_PARAMETER_VIDEO_ENCODE_INLINE_HEADER,
- 		ctrl_set_video_encode_param_output,
--		true	/* Errors ignored as requires latest firmware to work */
-+		false
- 	},
- 	{
- 		V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c b/d=
+rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
+index 16af735..f1bb900 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
+@@ -161,7 +161,8 @@ struct vchiq_mmal_instance {
+ 	void *bulk_scratch;
+
+ 	struct idr context_map;
+-	spinlock_t context_map_lock;
++	/* protect accesses to context_map */
++	struct mutex context_map_lock;
+
+ 	/* component to use next */
+ 	int component_idx;
+@@ -184,10 +185,10 @@ get_msg_context(struct vchiq_mmal_instance *instance=
+)
+ 	 * that when we service the VCHI reply, we can look up what
+ 	 * message is being replied to.
+ 	 */
+-	spin_lock(&instance->context_map_lock);
++	mutex_lock(&instance->context_map_lock);
+ 	handle =3D idr_alloc(&instance->context_map, msg_context,
+ 			   0, 0, GFP_KERNEL);
+-	spin_unlock(&instance->context_map_lock);
++	mutex_unlock(&instance->context_map_lock);
+
+ 	if (handle < 0) {
+ 		kfree(msg_context);
+@@ -211,9 +212,9 @@ release_msg_context(struct mmal_msg_context *msg_conte=
+xt)
+ {
+ 	struct vchiq_mmal_instance *instance =3D msg_context->instance;
+
+-	spin_lock(&instance->context_map_lock);
++	mutex_lock(&instance->context_map_lock);
+ 	idr_remove(&instance->context_map, msg_context->handle);
+-	spin_unlock(&instance->context_map_lock);
++	mutex_unlock(&instance->context_map_lock);
+ 	kfree(msg_context);
+ }
+
+@@ -1849,7 +1850,7 @@ int vchiq_mmal_init(struct vchiq_mmal_instance **out=
+_instance)
+
+ 	instance->bulk_scratch =3D vmalloc(PAGE_SIZE);
+
+-	spin_lock_init(&instance->context_map_lock);
++	mutex_init(&instance->context_map_lock);
+ 	idr_init_base(&instance->context_map, 1);
+
+ 	params.callback_param =3D instance;
 =2D-
 2.7.4
 
