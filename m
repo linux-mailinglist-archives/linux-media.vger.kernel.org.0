@@ -2,129 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E458D58C7D
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 23:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EEAB58DC3
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 00:14:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbfF0VKL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 17:10:11 -0400
-Received: from mout.gmx.net ([212.227.15.15]:45505 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726506AbfF0VKL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 17:10:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561669792;
-        bh=ttpEs1jpLEZYuVPaNhB5NUXKeu5GWnJTmxgKtFVsZ/E=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=gMEVQ0kdpgS4z/iWG9q+I1R0jN91fex3/I9NMhsIyLNA4DvAPg18uQHUmWA6lGMOU
-         s1MuiUBiTtUHUm0epHAeNhyjQYbIoexjIsPugFdUieD3eF3YEO4RASFj191wx24Emx
-         yH9hcc2lChBPMTOASr1FlgTOwrrczltPTsc9S+IA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
- (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MzyuS-1iSeG93GZq-00x4FN; Thu, 27 Jun 2019 23:09:51 +0200
-From:   Stefan Wahren <wahrenst@gmx.net>
-To:     Eric Anholt <eric@anholt.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 31/31] staging: bcm2835-camera: Correct ctrl min/max/step/def to 64bit
-Date:   Thu, 27 Jun 2019 23:09:29 +0200
-Message-Id: <1561669769-2498-5-git-send-email-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561669769-2498-1-git-send-email-wahrenst@gmx.net>
-References: <1561669769-2498-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:r8Us6r3bVX5kevDTW9x6AqdZPb7soLP6SbFXLB/ALq4FGi16Z0q
- BLCqJ4aT6jj1Sc8pIg5fyywuHv53mbTvxkAV2npWu3TUECFUaIV9TKLny43YDpefXb7be9f
- X1wG6PmPL6UmMQWGqyOYwEiiphuxZQY1eIkEmvrgoS7pTp2x/aEZ/yZRKY6EsLz+5swW4Z9
- aq5gQcacPy3aT1BuWwRzg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:thW8iTalx6U=:uzQ9Jy4TB1gBUkNwErgS5W
- cwJdOoSd4G5duDcnifUJPU2BNYupQQCBlw/PuXukgk+aJBjFtW+4JwbrfX4w24d+NeHt2XcAq
- at/9WbfLsnsPrI1eIy3unyLpGZYCW1qBzO6fC+rj4HchNYCz5V/IzCdV6m50D01KctS/sLOrU
- DLWlmFUKgT7b42kQpv8xhWqUsjIJZgALT3p8an15C1fLUmmxCwTDH8sYzgMWULCCTfxDHyxIb
- 7BhT5sNquvvFFIPNP1tKPTfBsC/0NwmOSl9v/Ng+B3pUxJqY8EzTjBQfEO4D8CqpzGDjUDQcP
- z2oodm5POxmwSt7zrw0DlFT2KXe/1aUAD9Tw/xktmbroPwYy892Vj1zITsggBFh1YZUJAejTX
- 5yOcXSTVJ30iNiqYsIqzgEsBp6FUSg/Us5SGbafzAcE2LAnXVN6/ZDQBd/QR0qNtwlhd6+RmS
- k9mbHjpWlHFlR5NRiL61JY/7Z1Tuh1mYjOkW/RTasYXeB23e/kMIcgu8A/aicjPnYES40R0sa
- PJzie+8QyS3Gk9CVXxKCjDa7AFFhWHEAIM8hdYTPK+9bX9gUQd3B6oLhGsrVDPL/O+kw1XUUA
- Y1aMEGSr4uup9z0WQFG9CF9pvdjE0D+4xqv7zbAIfiFNm84UGk97e2q1P29u7Tbc8yD4zOER9
- ZJWyyF1VwyJxQkzdsFXJ0xuy2vaxPRExlEzIUXZzV8yCSvoYszPzYRgLWOJ0Dm6WGJt0Hky+R
- UmCrKLZhlOhGviqoAQ7yopCmfe3IgXNiQQ84Mi55uwq7YfLr3+XLv78XbgvnL8OMbQbFa5jcG
- btDad1pIjyE9RA13JKAzWkrmrfTUvaZTmEQR7SbZFn0DeiYC514ij7qNXsMnmmkjqc3BR6KUw
- SqyQSvHOf5sxmOe45pXJu5Q3Yo6MUD6NbNN/h6fO2QBVly++S/97pgazpwwQi6w6k8GyvFnwn
- B3KwSrEiWCbaUiGxPS//Aeh6wpTdB44N+3MEddgpGCXuJQGTcTa+/S5/bAi40Y6IaELDIfxJu
- LxqgQkWrZBlNqd9QX+eCJauRUV+VUEPrwlicjZe+wNOSqoIog+qSTrNZM61yn2LZ9vFQwCt9Q
- Oi2ZGXaFIKxYwc=
-Content-Transfer-Encoding: quoted-printable
+        id S1726597AbfF0WOn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 18:14:43 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51630 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726445AbfF0WOm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 18:14:42 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 207so7158580wma.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Jun 2019 15:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=Eef8D41PLjKSHdCiM7PwAp3fT3psPNoQPdTMNa31Hpc=;
+        b=Axu4xV2lGMCGNPB+GIUukRRgk9D4bMDXvh1IITBoutv0/+GBHA1DabEFC6fLesl2Mh
+         HZkP9hiVhbyw21PNDnanPvH7tSBbbM2frKiDmIqF1z4NTgSs9v31rtZ00msSOkx7vxH8
+         F5FVoMPfHHxc0ECdW449lWlLYgLBlP8E9eDPhhDkKBI0efkZmiTnwuhbWiFNrxsQIEQj
+         qx6803rZ2SQjZnhIjakbm3njCHVHVnfZ2+Wuvask8MF8p78rFdkQkPm4XFe0KmoX153m
+         xsItF+ZGhRwHeR/KbJoSS6VFSWpmmK1n834B810rgpH0y5WYBKt6M3vwTdBGS20pymsh
+         52qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=Eef8D41PLjKSHdCiM7PwAp3fT3psPNoQPdTMNa31Hpc=;
+        b=EXEnuylo0IG3knuAPOWwG+Y3+k4V6RMhQiYypVPgZZetw9vUX25lIssyL1OPcEHkoL
+         UubPbiGPh9hc4Kjqg04QT0DaAVRc1XeVFsxAdIxnaP2ZiN55uDAfMSTcYhIJsVWDB83O
+         AZ2IImR5TZSRnUPrpp2vZ406A9WtjfW+Wl7uvTb9dCsw8BCIWaFxIr2Eqh8IQU8EM1TG
+         i+d6SrRk2VCNk4M0hMcguZuJ8BfiNY1XTpRBX6E7dR3gDjLhVk0wV5hV2BmtRTnucPf9
+         xjsOJpkCRlH+jr05O5TKq0cCd0mFldW5dGFHgYAHtOcLTryjpSF5YJ2Xh9v8VqK5dwns
+         Zzjw==
+X-Gm-Message-State: APjAAAW9aZfhAD8BZk6vpTNG/F48NRfVpitNsBjp9FZ0yGUpeTaCMEu0
+        dnm2UOOmfVH7S8Mh1WHEODs=
+X-Google-Smtp-Source: APXvYqx6uWqiHMdeClEUDt+kr1i1QZkj+2msfvUpxQw7Xo2LGQUZurWyIAB+EqjnYrQiMJEmsEmu1g==
+X-Received: by 2002:a1c:5602:: with SMTP id k2mr3442371wmb.173.1561673680839;
+        Thu, 27 Jun 2019 15:14:40 -0700 (PDT)
+Received: from [172.30.89.46] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id x8sm883828wre.73.2019.06.27.15.14.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Jun 2019 15:14:40 -0700 (PDT)
+Subject: Re: [PATCH] media: imx: mipi csi-2: Don't fail if initial state
+ times-out
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20190625203945.28081-1-ezequiel@collabora.com>
+ <1561535121.4870.1.camel@pengutronix.de>
+ <CAOMZO5Be-5Em0DR5nCBfzsW4mKMz6ThF+kSukcG6WuFF-0vwaQ@mail.gmail.com>
+ <3797cdd2-f6c8-f23d-788c-b8efc3e75b21@gmail.com>
+ <CAOMZO5AGZcsrzogzxRo9UNauYgWZLdiVE8vJ3-FxU2X4K8Jwxg@mail.gmail.com>
+ <ba0f4a0f-cb61-6c5b-1db9-21536ae38c6f@gmail.com>
+ <1561624997.4216.11.camel@pengutronix.de>
+ <CAOMZO5D1Lq7MuK55hydP3JNGki71iNeubzfUgAvVhEDuzDcZFA@mail.gmail.com>
+ <1561640172.4216.16.camel@pengutronix.de>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <f5cd9e34-48c3-897a-2ac2-20d442932423@gmail.com>
+Date:   Thu, 27 Jun 2019 15:12:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
+MIME-Version: 1.0
+In-Reply-To: <1561640172.4216.16.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-The V4L2 control API was expanded to take 64 bit values in commit
-0ba2aeb6dab (Apr 16 2014), but as this driver wasn't in the mainline
-kernel at that point this was overlooked.
 
-Update to use 64 bit values. This also fixes a couple of warnings
-in 64 bit builds.
+On 6/27/19 5:56 AM, Philipp Zabel wrote:
+> Hi Fabio,
+>
+> On Thu, 2019-06-27 at 09:38 -0300, Fabio Estevam wrote:
+>> Hi Philipp,
+>>
+>> On Thu, Jun 27, 2019 at 5:43 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+>>
+>>> Are there any visual artifacts in the first frame(s) in this case?
+>> I do not observe visual artifacts when running gst-launch-1.0 v4l2src ! kmssink
+>>
+>>>> So in my opinion the next version of this patch should make LP-11
+>>>> timeout a warning only, but keep the error return on clock lane timeouts.
+>>> I agree.
+>> Here is a reworked version of Ezequiel's patch as per the suggestions:
+>> http://code.bulix.org/g5qap5-780475
+>>
+>> Does this one look good?
+> Limiting the change to wait_stopstate is fine, the actual message
+> makes assumptions that could be misleading. How about:
+>
+> "Timeout waiting for LP-11 state on all active lanes.
+>   This is most likely caused by a bug in the sensor driver.
+>   Capture might fail or contain visual artifacts."
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-=2D--
- drivers/staging/vc04_services/bcm2835-camera/controls.c | 14 +++++++-----=
---
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Yes I agree that is more descriptive, if a bit wordy for a kernel error 
+message. I think it could be reduced, something like:
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
-vers/staging/vc04_services/bcm2835-camera/controls.c
-index 848b14a..89786c2 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -78,10 +78,10 @@ struct bm2835_mmal_v4l2_ctrl {
- 	/* control minimum value or
- 	 * mask for MMAL_CONTROL_TYPE_STD_MENU
- 	 */
--	s32 min;
--	s32 max; /* maximum value of control */
--	s32 def;  /* default value of control */
--	s32 step; /* step size of the control */
-+	s64 min;
-+	s64 max; /* maximum value of control */
-+	s64 def;  /* default value of control */
-+	u64 step; /* step size of the control */
- 	const s64 *imenu; /* integer menu array */
- 	u32 mmal_id; /* mmal parameter id */
- 	bm2835_mmal_v4l2_ctrl_cb *setter;
-@@ -1250,7 +1250,7 @@ int bm2835_mmal_init_controls(struct bm2835_mmal_dev=
- *dev,
+"LP-11 wait timeout on all lanes, likely a sensor driver bug, expect 
+capture failures."
 
- 		case MMAL_CONTROL_TYPE_STD_MENU:
- 		{
--			int mask =3D ctrl->min;
-+			u64 mask =3D ctrl->min;
 
- 			if (ctrl->id =3D=3D V4L2_CID_SCENE_MODE) {
- 				/* Special handling to work out the mask
-@@ -1260,11 +1260,11 @@ int bm2835_mmal_init_controls(struct bm2835_mmal_d=
-ev *dev,
- 				 */
- 				int i;
+>
+> I'd like to keep the phy_state register output though, if only as
+> dev_dbg(). It contains useful output for debugging, for example if only
+> some of the lanes are in stop state, which could indicate an issue with
+> connections or lane configuration.
 
--				mask =3D 1 << V4L2_SCENE_MODE_NONE;
-+				mask =3D BIT(V4L2_SCENE_MODE_NONE);
- 				for (i =3D 0;
- 				     i < ARRAY_SIZE(scene_configs);
- 				     i++) {
--					mask |=3D 1 << scene_configs[i].v4l2_scene;
-+					mask |=3D BIT(scene_configs[i].v4l2_scene);
- 				}
- 				mask =3D ~mask;
- 			}
-=2D-
-2.7.4
+Agreed!
+
+Steve
 
