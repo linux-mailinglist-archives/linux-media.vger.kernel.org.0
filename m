@@ -2,58 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 134C057FFA
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 12:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E7DD5827A
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 14:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfF0KNu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 06:13:50 -0400
-Received: from smtp2.ono.com ([62.42.230.179]:30323 "EHLO smtp2.ono.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726187AbfF0KNu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 06:13:50 -0400
-X-Junkmail-Premium-Raw: score=26/50,refid=2.7.2:2019.6.27.94517:17:26.894,ip=62.42.230.144,rules=__HAS_MSGID,
- __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
- FROM_NAME_PHRASE, FROM_NAME_ALLCAPS, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
- __SUBJECT_NOLC, __SUBJECT_ALLCAPS, SUBJ_1WORD, __MIME_VERSION, __CT,
- __CT_TEXT_PLAIN, __CTE, MISSING_HEADERS, __ANY_URI, __FRAUD_BODY_WEBMAIL,
- __URI_NO_WWW, __NO_HTML_TAG_RAW, BODYTEXTP_SIZE_400_LESS, BODY_SIZE_200_299,
- BODYTEXTP_SIZE_3000_LESS, __MIME_TEXT_P1, __MIME_TEXT_ONLY, __URI_NS,
- HTML_00_01, HTML_00_10, BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL,
- WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P,
- FRAUD_LITTLE_BODY, __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS,
- BODY_SIZE_2000_LESS, SMALL_BODY, __PHISH_SPEAR_STRUCTURE_2,
- REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS, BODY_SIZE_7000_LESS, TO_MALFORMED
-Received: from resprs05 (62.42.230.144) by smtp2.ono.com (9.0.019.09-1)
-        id 5CAF0F5D03C867A2; Thu, 27 Jun 2019 12:13:45 +0200
-Received: from (149.126.75.7) by webmailcpr05n.ono.com;  Thu, 27 Jun 2019 12:13:44 +0200
-Message-ID: <21336663.1149931561630424807.JavaMail.defaultUser@defaultHost>
-Date:   Thu, 27 Jun 2019 12:13:44 +0200 (CEST)
-From:   DR ALBERT ZONGO <rjpd@ono.com>
-Reply-To: dralbertddzongo@gmail.com
-Subject: HI
+        id S1726990AbfF0MYV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 08:24:21 -0400
+Received: from faui03.informatik.uni-erlangen.de ([131.188.30.103]:52512 "EHLO
+        faui03.informatik.uni-erlangen.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726375AbfF0MYU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 08:24:20 -0400
+X-Greylist: delayed 520 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Jun 2019 08:24:20 EDT
+Received: from faui01a.informatik.uni-erlangen.de (faui01a.informatik.uni-erlangen.de [IPv6:2001:638:a000:4160:131:188:60:127])
+        by faui03.informatik.uni-erlangen.de (Postfix) with ESMTP id 6776F241589;
+        Thu, 27 Jun 2019 14:15:17 +0200 (CEST)
+Received: by faui01a.informatik.uni-erlangen.de (Postfix, from userid 30063)
+        id 56D19F40079; Thu, 27 Jun 2019 14:15:17 +0200 (CEST)
+From:   Lukas Schneider <lukas.s.schneider@fau.de>
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, st5pub@yandex.ru,
+        gabrielfanelli61@gmail.com, code@wizofe.uk,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Cc:     Lukas Schneider <lukas.s.schneider@fau.de>,
+        Jannik Moritz <jannik.moritz@fau.de>, linux-kernel@i4.cs.fau.de
+Subject: [PATCH] media: bcm2048: Macros with complex values should be enclosed in parentheses
+Date:   Thu, 27 Jun 2019 14:15:15 +0200
+Message-Id: <20190627121515.32029-1-lukas.s.schneider@fau.de>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain;charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Fix ERROR: Macros with complex values should be enclosed in parentheses,
+reported by checkpatch.
 
+Add a do {...} while (0) loop around the macro.
 
+Signed-off-by: Lukas Schneider <lukas.s.schneider@fau.de>
+Signed-off-by: Jannik Moritz <jannik.moritz@fau.de>
+Cc: <linux-kernel@i4.cs.fau.de>
+---
+ drivers/staging/media/bcm2048/radio-bcm2048.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
---
-
-Greetings,
-
-I have an intending proposal for you please i need you to contact my 
-private
-
- E-mail(dralbertddzongo@gmail.com) for more updates,
-
-Best Wishes.
-
-DR ALBERT ZONGO
---
+diff --git a/drivers/staging/media/bcm2048/radio-bcm2048.c b/drivers/staging/media/bcm2048/radio-bcm2048.c
+index 2c60a1fb6350..206f2a662f92 100644
+--- a/drivers/staging/media/bcm2048/radio-bcm2048.c
++++ b/drivers/staging/media/bcm2048/radio-bcm2048.c
+@@ -2001,8 +2001,10 @@ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
+ }
+ 
+ #define DEFINE_SYSFS_PROPERTY(prop, prop_type, mask, check)		\
+-property_write(prop, prop_type, mask, check)				\
+-property_read(prop, mask)						\
++do {									\
++	property_write(prop, prop_type, mask, check)			\
++	property_read(prop, mask)					\
++} while (0)								\
+ 
+ #define property_str_read(prop, size)					\
+ static ssize_t bcm2048_##prop##_read(struct device *dev,		\
+-- 
+2.22.0
 
