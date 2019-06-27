@@ -2,133 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A4B3589D5
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89845589CD
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2019 20:22:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbfF0SWo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 14:22:44 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:42209 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfF0SWn (ORCPT
+        id S1726712AbfF0SWq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 14:22:46 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43237 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbfF0SWq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 14:22:43 -0400
-Received: by mail-qk1-f193.google.com with SMTP id b18so2572150qkc.9
-        for <linux-media@vger.kernel.org>; Thu, 27 Jun 2019 11:22:42 -0700 (PDT)
+        Thu, 27 Jun 2019 14:22:46 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w17so3488751qto.10
+        for <linux-media@vger.kernel.org>; Thu, 27 Jun 2019 11:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=ynZRQipO11aEpMlGCD/4ADT0oFlH70svLV2USrw+Fss=;
-        b=GLfXCS9selXtL1cyV5HOpZnfE1evVnnGNTBN2EygrsET+bhQF6U2M1NTRGqafPUh5p
-         /i9+/vGOTgW51o3ew23shhA3XRi3dEymCbSHiIYvk2osxoc35aBuUXLVKk/oYrWXBybb
-         1t5JG5HRdDM2BUUnDCrV85ogQB9IPGUaqy+slFGxZ3e9vkePFq22xNIZzOld5T5yYWTR
-         y7wrkEI2eGJa3yKMhyjCMDkqbwvc05YSJQnE5jXXrUhU/O+XCcE13z8QfgQPou3KiWvR
-         Cc5j5nzlo9xXRodP+/LI2dwhOuBR0GMmVokkfhBPST9Y10lp8hgQfddG3GfLc9LA1vz5
-         u6/g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=vyQ6D0JdHOQKvn/W+MpALf6jQe/PU9B7lS9uUNLezSs=;
+        b=uK/Pa4MSQ22p1jjgCAn8SUBYYQQd3GfHFSLoj818MmjC5u+VCoLHWVURN/LiZ+lZTx
+         KPDeo1o9qKZd+64ntdiRMQ+Y1wvsJ+4e6/16HqUpAQE2pmh6PWtRMEcV47FOAz7Ku7Uw
+         3T6JUiasGTcuEnf9Z210PoPHy1SRqY0fu/PuRhpgbZRFi+tYmfCOvXLvpMsmQ0AfJzuT
+         Kcv+470pDH+zxxhm81kKf+g1p0MrRMqgT5Osi2PIJ/78DlF4On7oQ7rLispW6mRYfvCQ
+         3Kma1wZ5+e93oBr5oGVG6Q0r5+d8mXwXbhfCjpkgO9fWLPiZJzQawM93wrBM0llE0vxS
+         il5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=ynZRQipO11aEpMlGCD/4ADT0oFlH70svLV2USrw+Fss=;
-        b=qbZaBjHPACN3QT7dR4UGtFY2+bF2rcv6bbHYCk/obnK0Q+SoAmnF7xxR85zbjPvJdU
-         2oOMJ+/gduMy7zMW/YAHtZF4XXwvhuAneJ2Jz4k1RFjBqCDSGn59aYU6gVi0xJorPegv
-         3vuvowM4W0R5G4lFN5rQ8YKTbOEJwPTSP2i1937WSQ+uSQynEyujUxqSShjtQKyc/3s+
-         BQ8X4l2FCzP6Snaj9ER1pZ3R68/jH8EzeKNf3rmEKZgaDgRqFPiE93dt5D5hwTi4lJKd
-         v5MaI2DKIucoNqWU5lMSk9vRZ/VdMzS6kRcDeMfns70I2sPDI0eEFlMz0ekjgjE9XKdM
-         94mA==
-X-Gm-Message-State: APjAAAWcJeZ2IdnXlYwrfFMCkIE8cLumCoIMWn9ANZW4W5gr8eP5KQo0
-        JOb8i9Lwt/bF0tTNdrf+uCc=
-X-Google-Smtp-Source: APXvYqyCrEcIDZq/B7++Zl87b3sk6OwGa4n8IKme8LB+Qklvwje8D2875Q+/2rv3qrEd2roJDWDidQ==
-X-Received: by 2002:a05:620a:1519:: with SMTP id i25mr4850239qkk.331.1561659762097;
-        Thu, 27 Jun 2019 11:22:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=vyQ6D0JdHOQKvn/W+MpALf6jQe/PU9B7lS9uUNLezSs=;
+        b=tYUnbXkPGgH0RYIvRO65WyK6fiOl++bSY9BvVajjVFvAfihe/58LouBKwN+f0NRpfh
+         FEWwv++KTCYTTdchdLSBPN5CC4Y+S19hFrVsZx+y1T77EuNihqRWfEGYNX+ZUlXPMqkI
+         Mrg5WFbSYs/vHRdGSfzPRuzHDenLBYihLSOoHY143dly2SxXQvjmANOyhAkuRLPjUNot
+         g25eGXtvSQycXTepgPkwDnikHFImsvUKyO1fz07H6ffrHArbLeV152FH0XVVVOJ7ZxoM
+         DC/HcOW0HfuI7jdRCNT24mHUgS+Jy73loF3WAVlW/QYNi+t1KD7fcJc6EUZs6XZEVcKh
+         SOFw==
+X-Gm-Message-State: APjAAAV0ayQkCes+CInGlj48/SOk5adjymErugE62uta+pW/dRlE/oaK
+        aeCal1WyDmB9/ZsPZdVezPo=
+X-Google-Smtp-Source: APXvYqzYgB7fHzeFLnPaPWp/wRabVPCNWLsWT4a7VDo/IHteW5rFBHV+cMHUSN7c8mAMbGJfrB6mSg==
+X-Received: by 2002:ac8:3098:: with SMTP id v24mr4287554qta.47.1561659765068;
+        Thu, 27 Jun 2019 11:22:45 -0700 (PDT)
 Received: from fabio-Latitude-E5450.am.freescale.net ([177.221.114.206])
-        by smtp.gmail.com with ESMTPSA id 5sm1362170qkr.68.2019.06.27.11.22.39
+        by smtp.gmail.com with ESMTPSA id 5sm1362170qkr.68.2019.06.27.11.22.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jun 2019 11:22:41 -0700 (PDT)
+        Thu, 27 Jun 2019 11:22:44 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     sakari.ailus@iki.fi
 Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         todor.tomov@linaro.org, ezequiel@collabora.com,
         linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 1/2] media: ov5645: Remove unneeded regulator_set_voltage()
-Date:   Thu, 27 Jun 2019 15:22:30 -0300
-Message-Id: <20190627182231.11125-1-festevam@gmail.com>
+Subject: [PATCH v2 2/2] media: ov5645: Use regulator_bulk() functions
+Date:   Thu, 27 Jun 2019 15:22:31 -0300
+Message-Id: <20190627182231.11125-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190627182231.11125-1-festevam@gmail.com>
+References: <20190627182231.11125-1-festevam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no need to call regulator_set_voltage() for each regulator
-that powers the camera.
-
-The voltage value for each regulator should be retrieved from the
-device tree, so remove the unneeded regulator_set_voltage().
+The code can be simplified by using the regulator_bulk() functions,
+so switch to it.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
 Changes since v1:
-- None
+- Retain the regulator enable ordering (Sakari)
 
- drivers/media/i2c/ov5645.c | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+ drivers/media/i2c/ov5645.c | 94 +++++++++-----------------------------
+ 1 file changed, 21 insertions(+), 73 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 124c8df04633..4e302dc15177 100644
+index 4e302dc15177..9602b9201b3e 100644
 --- a/drivers/media/i2c/ov5645.c
 +++ b/drivers/media/i2c/ov5645.c
-@@ -34,10 +34,6 @@
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
+@@ -58,6 +58,15 @@
+ #define OV5645_SDE_SAT_U		0x5583
+ #define OV5645_SDE_SAT_V		0x5584
  
--#define OV5645_VOLTAGE_ANALOG               2800000
--#define OV5645_VOLTAGE_DIGITAL_CORE         1500000
--#define OV5645_VOLTAGE_DIGITAL_IO           1800000
++/* regulator supplies */
++static const char * const ov5645_supply_name[] = {
++	"vdddo", /* Digital I/O (1.8V) supply */
++	"vdda",  /* Analog (2.8V) supply */
++	"vddd",  /* Digital Core (1.5V) supply */
++};
++
++#define OV5645_NUM_SUPPLIES ARRAY_SIZE(ov5645_supply_name)
++
+ struct reg_value {
+ 	u16 reg;
+ 	u8 val;
+@@ -82,9 +91,7 @@ struct ov5645 {
+ 	struct v4l2_rect crop;
+ 	struct clk *xclk;
+ 
+-	struct regulator *io_regulator;
+-	struct regulator *core_regulator;
+-	struct regulator *analog_regulator;
++	struct regulator_bulk_data supplies[OV5645_NUM_SUPPLIES];
+ 
+ 	const struct ov5645_mode_info *current_mode;
+ 
+@@ -529,55 +536,6 @@ static const struct ov5645_mode_info ov5645_mode_info_data[] = {
+ 	},
+ };
+ 
+-static int ov5645_regulators_enable(struct ov5645 *ov5645)
+-{
+-	int ret;
 -
- #define OV5645_SYSTEM_CTRL0		0x3008
- #define		OV5645_SYSTEM_CTRL0_START	0x02
- #define		OV5645_SYSTEM_CTRL0_STOP	0x42
-@@ -1156,42 +1152,18 @@ static int ov5645_probe(struct i2c_client *client,
- 		return PTR_ERR(ov5645->io_regulator);
- 	}
- 
--	ret = regulator_set_voltage(ov5645->io_regulator,
--				    OV5645_VOLTAGE_DIGITAL_IO,
--				    OV5645_VOLTAGE_DIGITAL_IO);
+-	ret = regulator_enable(ov5645->io_regulator);
 -	if (ret < 0) {
--		dev_err(dev, "cannot set io voltage\n");
+-		dev_err(ov5645->dev, "set io voltage failed\n");
 -		return ret;
 -	}
 -
- 	ov5645->core_regulator = devm_regulator_get(dev, "vddd");
- 	if (IS_ERR(ov5645->core_regulator)) {
- 		dev_err(dev, "cannot get core regulator\n");
- 		return PTR_ERR(ov5645->core_regulator);
- 	}
- 
--	ret = regulator_set_voltage(ov5645->core_regulator,
--				    OV5645_VOLTAGE_DIGITAL_CORE,
--				    OV5645_VOLTAGE_DIGITAL_CORE);
--	if (ret < 0) {
--		dev_err(dev, "cannot set core voltage\n");
--		return ret;
+-	ret = regulator_enable(ov5645->analog_regulator);
+-	if (ret) {
+-		dev_err(ov5645->dev, "set analog voltage failed\n");
+-		goto err_disable_io;
 -	}
 -
- 	ov5645->analog_regulator = devm_regulator_get(dev, "vdda");
- 	if (IS_ERR(ov5645->analog_regulator)) {
- 		dev_err(dev, "cannot get analog regulator\n");
- 		return PTR_ERR(ov5645->analog_regulator);
- 	}
- 
--	ret = regulator_set_voltage(ov5645->analog_regulator,
--				    OV5645_VOLTAGE_ANALOG,
--				    OV5645_VOLTAGE_ANALOG);
--	if (ret < 0) {
--		dev_err(dev, "cannot set analog voltage\n");
--		return ret;
+-	ret = regulator_enable(ov5645->core_regulator);
+-	if (ret) {
+-		dev_err(ov5645->dev, "set core voltage failed\n");
+-		goto err_disable_analog;
 -	}
 -
+-	return 0;
+-
+-err_disable_analog:
+-	regulator_disable(ov5645->analog_regulator);
+-err_disable_io:
+-	regulator_disable(ov5645->io_regulator);
+-
+-	return ret;
+-}
+-
+-static void ov5645_regulators_disable(struct ov5645 *ov5645)
+-{
+-	int ret;
+-
+-	ret = regulator_disable(ov5645->core_regulator);
+-	if (ret < 0)
+-		dev_err(ov5645->dev, "core regulator disable failed\n");
+-
+-	ret = regulator_disable(ov5645->analog_regulator);
+-	if (ret < 0)
+-		dev_err(ov5645->dev, "analog regulator disable failed\n");
+-
+-	ret = regulator_disable(ov5645->io_regulator);
+-	if (ret < 0)
+-		dev_err(ov5645->dev, "io regulator disable failed\n");
+-}
+-
+ static int ov5645_write_reg(struct ov5645 *ov5645, u16 reg, u8 val)
+ {
+ 	u8 regbuf[3];
+@@ -676,15 +634,14 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
+ {
+ 	int ret;
+ 
+-	ret = ov5645_regulators_enable(ov5645);
+-	if (ret < 0) {
++	ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	ret = clk_prepare_enable(ov5645->xclk);
+ 	if (ret < 0) {
+ 		dev_err(ov5645->dev, "clk prepare enable failed\n");
+-		ov5645_regulators_disable(ov5645);
++		regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+ 		return ret;
+ 	}
+ 
+@@ -704,7 +661,7 @@ static void ov5645_set_power_off(struct ov5645 *ov5645)
+ 	gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+ 	gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+ 	clk_disable_unprepare(ov5645->xclk);
+-	ov5645_regulators_disable(ov5645);
++	regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+ }
+ 
+ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+@@ -1089,6 +1046,7 @@ static int ov5645_probe(struct i2c_client *client,
+ 	struct device_node *endpoint;
+ 	struct ov5645 *ov5645;
+ 	u8 chip_id_high, chip_id_low;
++	unsigned int i;
+ 	u32 xclk_freq;
+ 	int ret;
+ 
+@@ -1146,23 +1104,13 @@ static int ov5645_probe(struct i2c_client *client,
+ 		return ret;
+ 	}
+ 
+-	ov5645->io_regulator = devm_regulator_get(dev, "vdddo");
+-	if (IS_ERR(ov5645->io_regulator)) {
+-		dev_err(dev, "cannot get io regulator\n");
+-		return PTR_ERR(ov5645->io_regulator);
+-	}
+-
+-	ov5645->core_regulator = devm_regulator_get(dev, "vddd");
+-	if (IS_ERR(ov5645->core_regulator)) {
+-		dev_err(dev, "cannot get core regulator\n");
+-		return PTR_ERR(ov5645->core_regulator);
+-	}
++	for (i = 0; i < OV5645_NUM_SUPPLIES; i++)
++		ov5645->supplies[i].supply = ov5645_supply_name[i];
+ 
+-	ov5645->analog_regulator = devm_regulator_get(dev, "vdda");
+-	if (IS_ERR(ov5645->analog_regulator)) {
+-		dev_err(dev, "cannot get analog regulator\n");
+-		return PTR_ERR(ov5645->analog_regulator);
+-	}
++	ret = devm_regulator_bulk_get(dev, OV5645_NUM_SUPPLIES,
++				      ov5645->supplies);
++	if (ret < 0)
++		return ret;
+ 
  	ov5645->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_HIGH);
  	if (IS_ERR(ov5645->enable_gpio)) {
- 		dev_err(dev, "cannot get enable gpio\n");
 -- 
 2.17.1
 
