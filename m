@@ -2,221 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D5D5A0AA
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 18:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB3F05A127
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 18:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbfF1QSh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 12:18:37 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:44076 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726542AbfF1QSh (ORCPT
+        id S1726818AbfF1QlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 12:41:11 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:37040 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726687AbfF1QlK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 12:18:37 -0400
-Received: by mail-qt1-f196.google.com with SMTP id x47so6875217qtk.11
-        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 09:18:36 -0700 (PDT)
+        Fri, 28 Jun 2019 12:41:10 -0400
+Received: by mail-io1-f67.google.com with SMTP id e5so13862462iok.4
+        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 09:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version;
-        bh=G1o/8CAktliaI6C+GktSX9aIs3rAkT2b2ryD+3/MjeI=;
-        b=VTvuv//sIs99sdlu/JihvFd6gKp5w74BwxUFlW3Z9aPzzfRNsK79oW5OhD9807aoTK
-         mMxfLtjQX6zyP3jnSS059WQvOBKow68I/p/YlTlr0m1uqk1vrvWXgMtrqACK05lDaZae
-         Mz1WW3SwToPLfMJffu0A6d+be9JTVw80ddbe1Zyp861B1oPY8HImGWpLLras+yQRBPMy
-         tgPMQmKBa/9SysWydEsdM5N6xzex3//hgiGYNbNtdHO0I5cweleu+w7oTBxQHd83rfRX
-         +59qIVoodNXRMydvlzF7FkoNl5v8K1AtSEyIex1gi1gBfMP4hd2wP/A69bskJcOuJrXd
-         kfXQ==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KD/8y/gRnlN03Hv3M0VtEroiHNnBUv4QKMlPaJ6XTsg=;
+        b=cEvGoMioIr9xh9AyXW9bFHtQLhwJqaw0+UrmA+269AEaw86aRJkiIBTEU4cj4RUAx3
+         yKHsJH/7tKJrU0t11Jw3upLE3OCXf2mZf4XfQ91aCaAhP1SktqOW31XqCF5iI/sr7xUg
+         QHNjIxVWAQcl5K2dqLKgwX8aV1Y4VGEw9ZNRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=G1o/8CAktliaI6C+GktSX9aIs3rAkT2b2ryD+3/MjeI=;
-        b=ZSyQ5rSbFU1ELpXHRSSJyTe/QRk3Yq8bLc50Sa8SiPzuqDvwF+2AA7qyCGaJ3yyzJT
-         MXDeRmLtp87JXIteUAhniR3tQyJBpfNY29jvzknwHoGohqCl4AI0c2WwM4/s8fFlTXOB
-         DZ/TGHnNVFY88PEPw7OFVO0+IABHdsQHOl5NdLALVCZgQsE7E42rORnHTPSqBXtpPzaR
-         XZQRFEeLA5uhlFaeaK1g1tRfl8IPTPzkx0ANOYGHjFj88LkfrbdbvNx18owTtDFiqovk
-         LWWU/90hbOa8oy3JbM/IZ2tf2PLaCNLpniWibg03NW1Hz0aDgMSnf18MTdsueZJOie8q
-         ad7A==
-X-Gm-Message-State: APjAAAW8bgNwFI5DwOheKc8oTUmVtdW9lL1/w1WnCMD1IPflFR6yIphK
-        9xsyPR9v9Pt29YiGPfpHVtkH2A==
-X-Google-Smtp-Source: APXvYqz1yn3GFHpCoAUtimjS/3zS7mWpMOuQIER1aZkY62aCuFFxqOr/oI9DsuiI0/j3uy6IpB27Tw==
-X-Received: by 2002:a0c:b0ce:: with SMTP id p14mr8264756qvc.51.1561738716249;
-        Fri, 28 Jun 2019 09:18:36 -0700 (PDT)
-Received: from tpx230-nicolas.collaboramtl (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id o22sm1122685qkk.50.2019.06.28.09.18.34
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 28 Jun 2019 09:18:35 -0700 (PDT)
-Message-ID: <a7a20acb4672a13e2f1225d62e5d69baf5e7231d.camel@ndufresne.ca>
-Subject: Re: [RFC] Stateful codecs and requirements for compressed formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sylwester Nawrocki <snawrocki@kernel.org>
-Date:   Fri, 28 Jun 2019 12:18:33 -0400
-In-Reply-To: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
-References: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-VUUMoWrvctBiQzmjR6by"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KD/8y/gRnlN03Hv3M0VtEroiHNnBUv4QKMlPaJ6XTsg=;
+        b=RasWL+y55srjBg1Rd388GjNA6RHhBSKoxv+ebkHeKMaeHk+UUwkm2y29IQMNsTAl2e
+         iDRjjmPsvawP+D76H4QUAdYiiVbtI4RR9/pexLGexrBscATAav6N3R3gxlsFHBI6MY4D
+         K6dK6YwTKooQu0197FYtirsJ6RUr5sxmRPmGj9ZAhzexaZNvXNJHfPFSMnWYbLAN9RDF
+         ERa1ZpIhBiNnacDagFASpOJrJrBvEkAvkb3YN1bOA4rYrGK0F5lLoggIKydal1YTVFxq
+         9XcKUg5CinoJSoIdGv8Def50brd7V838ipmp/PUD0NckNdxWgX8mlXHu3isxjdN4X0SN
+         +0dA==
+X-Gm-Message-State: APjAAAVg+hWRSCuK26rq13K/DTKlekMSfsePJxLfnRGcXFBl8vPlD996
+        4tbov4A0KensdsTyJ4AGfc5MEg==
+X-Google-Smtp-Source: APXvYqwbPPnDRWt9w9SAx8KXS6VzZYt3bW6G3CDybafVH1596+3Uetpn0et4TRaezY7TOgoCJgmXmA==
+X-Received: by 2002:a6b:ba56:: with SMTP id k83mr12351213iof.105.1561740069558;
+        Fri, 28 Jun 2019 09:41:09 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id k26sm2149794ios.38.2019.06.28.09.41.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 28 Jun 2019 09:41:08 -0700 (PDT)
+Subject: Re: [PATCH 0/2] Use Media Dev Allocator to fix vimc dev lifetime bugs
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1558667245.git.skhan@linuxfoundation.org>
+ <c9160fe7-e880-4070-3959-b9e9177acf54@xs4all.nl>
+ <2862ebca-c58f-c265-cc74-8d0f9b943275@collabora.com>
+ <1c794ca1-5490-26a4-dc39-f86e05fadc46@linuxfoundation.org>
+ <20190616184506.GD5006@pendragon.ideasonboard.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <6e67ae76-6d37-cd70-c05f-1c6b6dd4af1a@linuxfoundation.org>
+Date:   Fri, 28 Jun 2019 10:41:07 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
+In-Reply-To: <20190616184506.GD5006@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
---=-VUUMoWrvctBiQzmjR6by
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 6/16/19 12:45 PM, Laurent Pinchart wrote:
+> Hi Shuah,
+> 
+> On Fri, Jun 14, 2019 at 05:26:46PM -0600, Shuah Khan wrote:
+>> On 6/13/19 7:24 AM, Helen Koike wrote:
+>>> On 6/13/19 2:44 AM, Hans Verkuil wrote:
+>>>> On 5/24/19 5:31 AM, Shuah Khan wrote:
+>>>>> media_device is embedded in struct vimc_device and when vimc is removed
+>>>>> vimc_device and the embedded media_device goes with it, while the active
+>>>>> stream and vimc_capture continue to access it.
+>>>>>
+>>>>> Fix the media_device lifetime problem by changing vimc to create shared
+>>>>> media_device using Media Device Allocator API and vimc_capture getting
+>>>>> a reference to vimc module. With this change, vimc module can be removed
+>>>>> only when the references are gone. vimc can be removed after vimc_capture
+>>>>> is removed.
+>>>>>
+>>>>> Media Device Allocator API supports just USB devices. Enhance it
+>>>>> adding a genetic device allocate interface to support other media
+>>>>> drivers.
+>>>>>
+>>>>> The new interface takes pointer to struct device instead and creates
+>>>>> media device. This interface allows a group of drivers that have a
+>>>>> common root device to share media device resource and ensure media
+>>>>> device doesn't get deleted as long as one of the drivers holds its
+>>>>> reference.
+>>>>>
+>>>>> The new interface has been tested with vimc component driver to fix
+>>>>> panics when vimc module is removed while streaming is in progress.
+>>>>
+>>>> Helen, can you review this series? I'm not sure this is the right approach
+>>>> for a driver like vimc, and even if it is, then it is odd that vimc-capture
+>>>> is the only vimc module that's handled here.
+>>>
+>>> Hi Hans,
+>>>
+>>> Yes, I can take a look. Sorry, I've been a bit busy these days but I'll
+>>> try to take a look at this patch series (and the others) asap.
+>>>
+>>> Helen
+>>>
+>>>> My gut feeling is that this should be handled inside vimc directly and not
+>>>> using the media-dev-allocator.
+>>
+>> Hi Hans and Helen,
+>>
+>> I explored fixing the problem within vimc before I went down the path to
+>> use Media Device Allocator API. I do think that it is cleaner to go this
+>> way and easier to maintain.
+>>
+>> vimc is a group pf component drivers that rely on the media device vimc
+>> in vimc and falls into the use-case Media Device Allocator API is added
+>> to address. The release and life-time management happens without vimc
+>> component drivers being changed other than using the API to get and put
+>> media device reference.
+> 
+> Our replies crossed each other, please see my reply to Hans. I would
+> just like to comment here that if having multiple kernel modules causes
+> issue, they can all be merged together. There's no need for vimc to be
+> handled through multiple modules (I actually think it's quite
+> counterproductive, it only makes it more complex, for no added value).
+> 
 
-Le vendredi 28 juin 2019 =C3=A0 16:34 +0200, Hans Verkuil a =C3=A9crit :
-> Hi all,
->=20
-> I hope I Cc-ed everyone with a stake in this issue.
->=20
-> One recurring question is how a stateful encoder fills buffers and how a =
-stateful
-> decoder consumes buffers.
->=20
-> The most generic case is that an encoder produces a bitstream and just fi=
-lls each
-> CAPTURE buffer to the brim before continuing with the next buffer.
->=20
-> I don't think there are drivers that do this, I believe that all drivers =
-just
-> output a single compressed frame. For interlaced formats I understand it =
-is either
-> one compressed field per buffer, or two compressed fields per buffer (thi=
-s is
-> what I heard, I don't know if this is true).
->=20
-> In any case, I don't think this is specified anywhere. Please correct me =
-if I am
-> wrong.
->=20
-> The latest stateful codec spec is here:
->=20
-> https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
->=20
-> Assuming what I described above is indeed the case, then I think this sho=
-uld
-> be documented. I don't know enough if a flag is needed somewhere to descr=
-ibe
-> the behavior for interlaced formats, or can we leave this open and have u=
-serspace
-> detect this?
->=20
-> For decoders it is more complicated. The stateful decoder spec is written=
- with
-> the assumption that userspace can just fill each OUTPUT buffer to the bri=
-m with
-> the compressed bitstream. I.e., no need to split at frame or other bounda=
-ries.
->=20
-> See section 4.5.1.7 in the spec.
->=20
-> But I understand that various HW decoders *do* have limitations. I would =
-really
-> like to know about those, since that needs to be exposed to userspace som=
-ehow.
+There are several problems in this group of drivers as far as lifetime
+management is concerned. I explained some of it in the patch 2/2
 
-So in "4.5.1.7. Decoding", there is a bit of confusion. The text speaks
-about ordered of frames in capture and output, but the bullet points
-stays that output buffers aren't frames. The following note about
-timestamps creates more confusion, since it says there is potentially,
-it's not very affirmative, timestamp matching that let you detect re-
-ordering done by the driver, but no clarification on how the timestamp
-are to be handle if the packing is random.
+If vimc module is removed while streaming is active, vimc_exit runs
+into NULL pointer dereference error when streaming thread tries to
+access and lock graph_mutex in the struct media_device.
 
-What seems entirely missing in what we discussed, is a per format
-clarification for the behaviour of codec. I was assuming the NAL
-alignment to be documented for H264 and HEVC format. It make sense to
-allow some more flexibility since these formats are bytestream with
-startcodes, but to be, full-frame behaviour is what existing userspace
-expects and we should make this the defacto default. And if the buffer
-size ends up too small (badly predicted), I believe we should use the
-source change event to allow handling that. That being said, we have
-been able to survive this for a long time.
+The primary reason for this is that:
 
-For VP8 and VP9, which don't really have a bytestream format, I do
-assume it's logical to enforce full frames always. But if not, special
-care is needed to ensure the driver can reconstruct the full frames,
-since a firmware won't be able to parse the frame boundaries. Now, when
-I saw you taking over, I thought it was clear that this was only the
-common bits of the spec and that a per format specification would be
-developed later.
+media_device is embedded in struct vimc_device and when vimc is removed
+vimc_device and the embedded media_device goes with it, while the active
+stream and vimc_capture continue to access it.
 
-> Specifically, the venus decoder needs to know the resolution of the coded=
- video
-> beforehand and it expects a single frame per buffer (how does that work f=
-or
-> interlaced formats?).
+If we chose to keep these drivers as component drivers, media device
+needs to stick around until all components stop using it. This is tricky
+because there is no tie between these set of drivers. vimc module can
+be deleted while others are still active. As vimc gets removed, other
+component drivers start wanting to access the media device tree.
 
-If the firmware works in a 1:1 behaviour, with H264 you may have two AU
-to compose 1 frame in interlaced stream (and that may change for each
-frame). In HEVC you'd always have two AU.
+This is classic media device lifetime problem which could be solved
+easily with the way I solved it with this series. I saw this as a
+variation on the same use-case we had with sound and media drivers
+sharing the media device.
 
->=20
-> Such requirements mean that some userspace parsing is still required, so =
-these
-> decoders are not completely stateful.
+I have a TODO request from you asking to extend Media Device Allocator
+API to generic case and not restrict it to USB devices. My thinking is
+that this gives a perfect test case to extend the API to be generic
+and use to solve this problem.
 
-There was a discussion about the meaning of the stateful/stateless.
-This is not strictly related to parsing, the amount of parsing being
-affected is a side effect. The stateful decoder HW (or firmware) offer
-an interface with streams. It hides the state of the decoded stream. As
-a side effect, the HW can only be multiplexed if the firmware handles
-that. On the other end, stateless decoder offer an API where you
-configure the decoding of a frame (and sometimes a slice). Two
-consecutive frames do not have to be part of the same stream, which has
-the side effect of allowing application to handle their own
-multiplexing.
+Collapsing the drivers into one might be lot more difficult and complex
+than solving this problem with Media Device Allocator API. This approach
+has an added benefit of extending the API to be generic and not just for
+USB.
 
->=20
-> Can every codec author give information about their decoder/encoder?
->=20
-> I'll start off with my virtual codec driver:
->=20
-> vicodec: the decoder fully parses the bitstream. The encoder produces a s=
-ingle
-> compressed frame per buffer. This driver doesn't yet support interlaced f=
-ormats,
-> but when that is added it will encode one field per buffer.
+I looked at this as a good way to add generic API and have a great test
+case for it. This patch series fixes the problem for the current vimc
+architecture.
 
-I just wanted to highlight that there is lot of behaviour specific to
-the formats here. Specially this last one, since it implies that
-capture format will be field =3D ALTERNATE for interlace decoding (this
-is a relatively rare format). So the behaviour here can already be
-inferred by the capture format (appart that interlace mode cannot be
-enumerated, so for encoding, it's a bit of a pain to guess). And there
-is already in the spec the information needed to match the pairs (or
-detect lost field).
+thanks,
+-- Shuah
 
->=20
-> Let's see what the results are.
->=20
-> Regards,
->=20
-> 	Hans
 
---=-VUUMoWrvctBiQzmjR6by
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXRY92QAKCRBxUwItrAao
-HOBeAJ92IB5rTO3kSQuZ2md4/hwFLFrUxgCg3WshfNzzSj3ofhFl2bdu8Tql+ag=
-=8DvX
------END PGP SIGNATURE-----
-
---=-VUUMoWrvctBiQzmjR6by--
 
