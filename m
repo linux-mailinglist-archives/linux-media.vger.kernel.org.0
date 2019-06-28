@@ -2,135 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7437C594AC
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 09:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E16E594DA
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 09:29:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbfF1HR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 03:17:57 -0400
-Received: from butterbrot.org ([176.9.106.16]:42439 "EHLO butterbrot.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726719AbfF1HR5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 03:17:57 -0400
-Received: from [192.168.178.26] (unknown [95.90.17.72])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id 87A554AE0266;
-        Fri, 28 Jun 2019 09:17:54 +0200 (CEST)
-Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
- <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
- <238edc67-1d4b-205a-64ce-2bef711bf43f@xs4all.nl>
-From:   Florian Echtler <floe@butterbrot.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=floe@butterbrot.org; prefer-encrypt=mutual; keydata=
- mQGiBDuvTgcRBAD3yCehD8VSv9/5ALV2PGNpRyPd/H7y4E0nh/fNHjOtq/Iy822ZQgPxP9+a
- nbtC7KMzT0JIr5ontFH4TuMxikeE92ID+h0a755FiHAtSACXzNcLY370YfRJuTQMBANEwf/T
- ozY7clf8uZc9emk0TLQJ7ZFksRAxd2Ql3lyGlM+jEQCg/6aPMk/pV3Jjfz01dckZH65DSb0E
- AKcZOV/KpQwPqRE1L7yEax19p1+38InBhGQg5ZORsPDXNDKAx5TovSM/4H68DzVjCTtb1Qig
- E2InSlT4qxOZq2hTIwsbUrl4YrOLG0msYeB+1avaVCxkjEs4e6fYX9VvJxUdgkYSmwWxzSGK
- wiEeRlbcNGdKeVKYezNyjRKO5OnSBACb3t89sJsqaotwh+CO4cwgKbjIgHnIjH5TminqiGt9
- chYXGA+IjkVef+Q/pWRzXj4IDC1gubW5GELuMa6WO+aMchJKfD4VDflvdUqWTuXKj6qjwxnY
- qtX/3O7QwVFoVgkPqsl8goAPSGk5lWHIvKJJUSMFgjWG+BafnppZs/R+BbQlRmxvcmlhbiBF
- Y2h0bGVyIDxmbG9lQGJ1dHRlcmJyb3Qub3JnPohjBBMRAgAjAhsDBgsJCAcDAgQVAggDBBYC
- AwECHgECF4AFAk47tRkCGQEACgkQ7CzyshGvatgVzgCg9kkfrcPWEmqSADhAX4Bj83gZQEgA
- n1PrIrMQE85069aGgJE/kuMyWUJcuQINBDuvTggQCAD2Qle3CH8IF3KiutapQvMF6PlTETlP
- tvFuuUs4INoBp1ajFOmPQFXz0AfGy0OplK33TGSGSfgMg71l6RfUodNQ+PVZX9x2Uk89PY3b
- zpnhV5JZzf24rnRPxfx2vIPFRzBhznzJZv8V+bv9kV7HAarTW56NoKVyOtQa8L9GAFgr5fSI
- /VhOSdvNILSd5JEHNmszbDgNRR0PfIizHHxbLY7288kjwEPwpVsYjY67VYy4XTjTNP18F1dD
- ox0YbN4zISy1Kv884bEpQBgRjXyEpwpy1obEAxnIByl6ypUM2Zafq9AKUJsCRtMIPWakXUGf
- nHy9iUsiGSa6q6Jew1XpMgs7AAICCACB1zq0sSVcye/cvwTnHZyGvILT6VU8+xUxvmG9ota2
- yuk9A+0GSnDpjNxyBkmDBVQkLLvW8lBErPYvaq9pFMeYntOhYwRP31e7rbsWh48QjfkL5M/X
- Q5kFCTO4jVXHXYJ034x0vXamDDzFbAdUg/V/zN+KRIcEZcs8foIgC7BR6i/TsCsFHN3OHAmk
- hZ8NRB//UIJXxq3CcBXLiu2OGFrfoSvpAp5OzMyrWneMCaySmN/i3wSYl6h3Nl4YRMH6Yx+E
- RnNF5/cy3xUZODG1JHnEw+owc0dl3ch+oQe0t3zN5LGAznf7hYmOYl27xvym/FVA/skTD1wM
- MZhfxLVyis75iFQEGBECAAwFAjuvTggFGwwAAAAAEgkQ7CzyshGvatgHZUdQRwABASUVAKC7
- c7SIc/xurEhWVpzt1wPPsPOQ2wCglsSZ1yg7JIMh4o+a178IK9ozwQY=
-Message-ID: <d2cd083f-0643-7064-3660-3f5307c1e310@butterbrot.org>
-Date:   Fri, 28 Jun 2019 09:17:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        id S1726315AbfF1H3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 03:29:13 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:46974 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725792AbfF1H3N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jun 2019 03:29:13 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5S7NpPT082922;
+        Fri, 28 Jun 2019 07:28:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=eVp0fj2a3CahJv1vtl/9w4CV52CUJKAT7WbuznAHrjU=;
+ b=z0NzqCAF+XcgQrMDawTZaxENcIXaVUAtO8SuL0lJ/LsoodFnFt2SmvAgpr9d0Rq12nC2
+ tV3XDOuHZ5iG4wte5EcWSB9D9wnsP8CRP1vNTD3/vuFCyaehSlwGkCNNxnVLKNNm9Yyt
+ n+zMBdhsAWbY9TvojHNUmSynRqWBoMSCUL8ejzMUwK4pdW5p4eSlCYjFGIkRQpt7kq3G
+ JvvKEfCewVrExB9qjLRsx49eupODpFNjS+zI3fSBZEWgjQpi4uHhW6prheNd/YO5MJBy
+ yj4St6qLV9/8aI3QE45Dm324IrksfJycOG3PwwlnC2mCduMM3Mzfs6wnzKSVzgh5w+dm KQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2t9c9q436f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 28 Jun 2019 07:28:46 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5S7Rlxp161109;
+        Fri, 28 Jun 2019 07:28:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2tat7dt0n2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 28 Jun 2019 07:28:45 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5S7ShQB015527;
+        Fri, 28 Jun 2019 07:28:44 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 28 Jun 2019 00:28:43 -0700
+Date:   Fri, 28 Jun 2019 10:28:34 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Stefan Wahren <wahrenst@gmx.net>
+Cc:     Eric Anholt <eric@anholt.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devel@driverdev.osuosl.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/31] staging: bcm2835-camera: Ensure H264 header bytes
+ get a sensible timestamp
+Message-ID: <20190628072834.GE19015@kadam>
+References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
+ <1561661788-22744-2-git-send-email-wahrenst@gmx.net>
 MIME-Version: 1.0
-In-Reply-To: <238edc67-1d4b-205a-64ce-2bef711bf43f@xs4all.nl>
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="KaJGdOWGe17E29lZuQDZBA5IXHHb3N01f"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561661788-22744-2-git-send-email-wahrenst@gmx.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301 signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=863
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906280085
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301 signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=915 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906280084
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KaJGdOWGe17E29lZuQDZBA5IXHHb3N01f
-Content-Type: multipart/mixed; boundary="s3MVDHHnQfEegMLrSYa33y3LTxJryEY2x";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linux-input <linux-input@vger.kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Message-ID: <d2cd083f-0643-7064-3660-3f5307c1e310@butterbrot.org>
-Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
-References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
- <add1e8aa-1b6c-b405-610f-585540835751@butterbrot.org>
- <238edc67-1d4b-205a-64ce-2bef711bf43f@xs4all.nl>
-In-Reply-To: <238edc67-1d4b-205a-64ce-2bef711bf43f@xs4all.nl>
+On Thu, Jun 27, 2019 at 08:55:58PM +0200, Stefan Wahren wrote:
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
+> index 2b5679e..09273b0 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
+> @@ -90,6 +90,8 @@ struct bm2835_mmal_dev {
+>  		s64         vc_start_timestamp;
+>  		/* Kernel start timestamp for streaming */
+>  		ktime_t kernel_start_ts;
+> +		/* Timestamp of last frame */
+> +		u64		last_timestamp;
 
---s3MVDHHnQfEegMLrSYa33y3LTxJryEY2x
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+Not directly related to this patch but the indenting in this .h file is
+all higgle-piggledy.
 
-On 27.06.19 10:20, Hans Verkuil wrote:
-> On 6/27/19 10:12 AM, Florian Echtler wrote:
->> On 26.06.19 11:52, Hans Verkuil wrote:
->>> This driver set the colorspace to SRGB, but that makes no sense for
->>> a touchscreen. Use RAW instead. This also ensures consistency with th=
-e
->>> v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
->>
->> One question for clarification: this will only affect userspace applic=
-ations
->> which explicitly request a certain colorspace, correct?
->=20
-> You can't request a colorspace from userspace. The driver sets it.
+regards,
+dan carpenter
 
-What I meant is: ... will only affect applications which explicitly searc=
-h for
-formats with a specific colorspace value.
-
-> In this case is it inconsistent anyway since VIDIOC_S_FMT will return R=
-AW
-> (due to the v4l_pix_format_touch() call), but G/TRY_FMT will return SRG=
-B
-> from the driver. TRY_FMT should return RAW as well, but it didn't call
-> v4l_pix_format_touch(), for which I posted a separate patch fixing that=
-=2E
-
-OK, understood.
-
-Acked-by: Florian Echtler <floe@butterbrot.org>
-
-Best regards, Florian
---=20
-SENT FROM MY DEC VT50 TERMINAL
-
-
---s3MVDHHnQfEegMLrSYa33y3LTxJryEY2x--
-
---KaJGdOWGe17E29lZuQDZBA5IXHHb3N01f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCXRW/HgAKCRDsLPKyEa9q
-2OnbAJ4yDhxmfMiF1JAxUNXFgAYFhd1v5QCdH+yR/TYvDcgrqpDlll6NJE51foE=
-=qMON
------END PGP SIGNATURE-----
-
---KaJGdOWGe17E29lZuQDZBA5IXHHb3N01f--
