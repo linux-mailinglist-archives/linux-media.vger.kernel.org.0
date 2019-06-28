@@ -2,77 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7586B591E6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 05:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C955559221
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 05:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbfF1DTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Jun 2019 23:19:14 -0400
-Received: from out1.zte.com.cn ([202.103.147.172]:37142 "EHLO mxct.zte.com.cn"
+        id S1727208AbfF1Dor (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Jun 2019 23:44:47 -0400
+Received: from cnc.isely.net ([75.149.91.89]:58911 "EHLO cnc.isely.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726565AbfF1DTO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Jun 2019 23:19:14 -0400
-Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
-        by Forcepoint Email with ESMTPS id 09FD3A5B0E6363CF63DF;
-        Fri, 28 Jun 2019 11:03:35 +0800 (CST)
-Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse-fl1.zte.com.cn with ESMTP id x5S32eB2063726;
-        Fri, 28 Jun 2019 11:02:40 +0800 (GMT-8)
-        (envelope-from wen.yang99@zte.com.cn)
-Received: from fox-host8.localdomain ([10.74.120.8])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2019062811031183-1800720 ;
-          Fri, 28 Jun 2019 11:03:11 +0800 
-From:   Wen Yang <wen.yang99@zte.com.cn>
-To:     linux-kernel@vger.kernel.org
-Cc:     wang.yi59@zte.com.cn, Wen Yang <wen.yang99@zte.com.cn>,
-        Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 3/3] media: ti-vpe: fix leaked of_node references
-Date:   Fri, 28 Jun 2019 11:01:16 +0800
-Message-Id: <1561690876-20977-4-git-send-email-wen.yang99@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1561690876-20977-1-git-send-email-wen.yang99@zte.com.cn>
-References: <1561690876-20977-1-git-send-email-wen.yang99@zte.com.cn>
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2019-06-28 11:03:11,
-        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2019-06-28 11:02:45,
-        Serialize complete at 2019-06-28 11:02:45
-X-MAIL: mse-fl1.zte.com.cn x5S32eB2063726
+        id S1726686AbfF1Dor (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Jun 2019 23:44:47 -0400
+Received: from lochley (lochley-lan.isely.net [::ffff:192.168.23.74])
+  (AUTH: PLAIN isely, TLS: TLSv1/SSLv3,256bits,DHE-RSA-AES256-GCM-SHA384)
+  by cnc.isely.net with ESMTPSA; Thu, 27 Jun 2019 22:44:45 -0500
+  id 000000000014259A.000000005D158D2D.00007183
+Date:   Thu, 27 Jun 2019 22:44:45 -0500 (CDT)
+From:   isely@isely.net
+To:     Fuqian Huang <huangfq.daxian@gmail.com>
+cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mike Isely at pobox <isely@pobox.com>
+Subject: Re: [PATCH 32/87] usb: pvrusb2: replace kmalloc and memset with
+ kzalloc in pvrusb2-eeprom.c
+In-Reply-To: <20190627173840.3519-1-huangfq.daxian@gmail.com>
+Message-ID: <alpine.DEB.2.20.1906272244210.22929@lochley.isely.net>
+References: <20190627173840.3519-1-huangfq.daxian@gmail.com>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The call to of_get_parent returns a node pointer with refcount
-incremented thus it must be explicitly decremented after the last
-usage.
 
-Detected by coccinelle with the following warnings:
-drivers/media/platform/ti-vpe/cal.c:1621:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 1607, but without a corresponding object release within this function.
+Acked-by: Mike Isely <isely@pobox.com>
 
-Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
-Cc: Benoit Parrot <bparrot@ti.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/media/platform/ti-vpe/cal.c | 1 +
- 1 file changed, 1 insertion(+)
+  -Mike
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 9e86d761..8e19974 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -1613,6 +1613,7 @@ of_get_next_port(const struct device_node *parent,
- 			}
- 			prev = port;
- 		} while (!of_node_name_eq(port, "port"));
-+		of_node_put(ports);
- 	}
- 
- 	return port;
+On Fri, 28 Jun 2019, Fuqian Huang wrote:
+
+> kmalloc + memset(0) -> kzalloc
+> 
+> Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
+> ---
+>  drivers/media/usb/pvrusb2/pvrusb2-eeprom.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-eeprom.c b/drivers/media/usb/pvrusb2/pvrusb2-eeprom.c
+> index 79f0e0c6df37..fac90af8b537 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-eeprom.c
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-eeprom.c
+> @@ -39,7 +39,7 @@ static u8 *pvr2_eeprom_fetch(struct pvr2_hdw *hdw)
+>  	int ret;
+>  	int mode16 = 0;
+>  	unsigned pcnt,tcnt;
+> -	eeprom = kmalloc(EEPROM_SIZE,GFP_KERNEL);
+> +	eeprom = kzalloc(EEPROM_SIZE,GFP_KERNEL);
+>  	if (!eeprom) {
+>  		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+>  			   "Failed to allocate memory required to read eeprom");
+> @@ -74,7 +74,6 @@ static u8 *pvr2_eeprom_fetch(struct pvr2_hdw *hdw)
+>  	   (1) we're only fetching part of the eeprom, and (2) if we were
+>  	   getting the whole thing our I2C driver can't grab it in one
+>  	   pass - which is what tveeprom is otherwise going to attempt */
+> -	memset(eeprom,0,EEPROM_SIZE);
+>  	for (tcnt = 0; tcnt < EEPROM_SIZE; tcnt += pcnt) {
+>  		pcnt = 16;
+>  		if (pcnt + tcnt > EEPROM_SIZE) pcnt = EEPROM_SIZE-tcnt;
+> 
+
 -- 
-2.9.5
 
+Mike Isely
+isely @ isely (dot) net
+PGP: 03 54 43 4D 75 E5 CC 92 71 16 01 E2 B5 F5 C1 E8
