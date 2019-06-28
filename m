@@ -2,142 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC73B59649
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 10:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09592597D1
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 11:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbfF1InU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 04:43:20 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46971 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726385AbfF1InU (ORCPT
+        id S1726506AbfF1Jpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 05:45:36 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:44537 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726470AbfF1Jpf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 04:43:20 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id gmTShkM8SSfvXgmTWhQzDe; Fri, 28 Jun 2019 10:43:18 +0200
-Subject: Re: [PATCH v5 08/10] media: dt-bindings: Document i.MX8MQ and i.MX8MM
- VPU bindings
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-References: <20190612093915.18973-1-p.zabel@pengutronix.de>
- <20190612093915.18973-9-p.zabel@pengutronix.de>
- <315a8cd5-76c5-7fd3-3cfe-8ef47a46b4b4@xs4all.nl>
-Message-ID: <a1a8dd40-a1b6-ce66-e4ad-fc130a551790@xs4all.nl>
-Date:   Fri, 28 Jun 2019 10:43:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 28 Jun 2019 05:45:35 -0400
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 593F12001E
+        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 09:45:33 +0000 (UTC)
+Message-ID: <069082521fe694247f44c0a80ce9b87ef756bf8e.camel@hadess.net>
+Subject: [PATCH v3] keytable: Add keymap test
+From:   Bastien Nocera <hadess@hadess.net>
+To:     linux-media@vger.kernel.org
+Date:   Fri, 28 Jun 2019 11:45:29 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <315a8cd5-76c5-7fd3-3cfe-8ef47a46b4b4@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBLXN/v6BbapYJSgpIwIx0GuSDLbcXscIlGHqgD1ISQWw6745q/4H/je6IccqX8ZLh1tXsOAaPg2Ok9PeIjm5O4ctJLCnVWSz47egcefu3opF7DuzPvQ
- xaZPseFE7Dhb9UT0U7sdZ9IItXLXoXQF+H1Q6/rDSrE0uqFunS/zA4TgOKCU00zOX34EOSu4UwR/vIeZZUnTrUzbOCwZTNOArLVO2lKsO09qjMyFBjN4juyh
- 2nyLI0LV1iNfw6JaFemsNfz1nRoUYq32KAN7rWXZCPZogwNmgvsUgBfCd2NDAO914BoF/9k2p687kAOod/LMF5QyyTfA6m9Uemd5UyzAsfilQ3sUreryvg6I
- F5V35pwIvlrY9rOp1HcFtSs86CPLuqYfEV8yj2xCCvYZ3cPzqxk4oSnfG1lfqf//54WUPXrJ0jB2sZTdENOdAI+EnVwIug==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/28/19 10:42 AM, Hans Verkuil wrote:
-> Two typos for imx8mm:
-> 
-> On 6/12/19 11:39 AM, Philipp Zabel wrote:
->> Add devicetree binding documentation for the Hantro G1/G2 VPU on i.MX8MQ
->> and for the Hantro G1/G2/H1 VPU on i.MX8MM.
->>
->> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->> ---
->>  .../devicetree/bindings/media/imx8m-vpu.txt   | 56 +++++++++++++++++++
->>  1 file changed, 56 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/imx8m-vpu.txt
->>
->> diff --git a/Documentation/devicetree/bindings/media/imx8m-vpu.txt b/Documentation/devicetree/bindings/media/imx8m-vpu.txt
->> new file mode 100644
->> index 000000000000..659bd28dd002
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/imx8m-vpu.txt
->> @@ -0,0 +1,56 @@
->> +device-tree bindings for Hantro G1/G2/H1 VPU codecs implemented on i.MX8M SoCs
->> +
->> +Required properties:
->> +- compatible: value should be one of the following
->> +		"nxp,imx8mq-vpu",
->> +		"nxp,imx8mm-vpu";
->> +- regs: VPU core and control block register ranges
->> +- reg-names: should be
->> +		"g1", "g2", "ctrl" on i.MX8MQ,
->> +		"g1", "g2", "h1", "ctrl" on i.MX8MM.
->> +- interrupts: encoding and decoding interrupt specifiers
->> +- interrupt-names: should be
->> +		"g1", "g2" on i.MX8MQ,
->> +		"g1", "g2", "h1" on i.MX8MM.
->> +- clocks: phandle to VPU core clocks and bus clock
->> +- clock-names: should be
->> +		"g1", "g2", "bus" on i.MX8MQ,
->> +		"g1", "g2", "h1", "bus" on i.MX8MM.
->> +- power-domains: phandle to power domain node
->> +
->> +Examples:
->> +
->> +	vpu: vpu@38300000 {
->> +		compatible = "nxp,imx8mq-vpu";
->> +		reg = <0x38300000 0x10000>,
->> +		      <0x38310000 0x10000>,
->> +		      <0x38320000 0x10000>;
->> +		reg-names = "g1", "g2", "ctrl";
->> +		interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
->> +			     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
->> +		interrupt-names = "g1", "g2";
->> +		clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
->> +			 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
->> +			 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
->> +		clock-names = "g1", "g2", "bus";
->> +		power-domains = <&pgc_vpu>;
->> +	};
->> +
->> +	vpu: vpu@38300000 {
->> +		compatible = "nxp,imx8mm-vpu";
->> +		reg = <0x38300000 0x10000>,
->> +		      <0x38310000 0x10000>,
->> +		      <0x38320000 0x10000>;
-> 
-> ; -> ,
-> 
->> +		      <0x38330000 0x10000>;
->> +		reg-names = "g1", "g2", "h1", "ctrl";
->> +		interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
->> +			     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> 
-> ; -> ,
-> 
->> +			     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
->> +		interrupt-names = "g1", "g2", "h1";
->> +		clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
->> +			 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
->> +			 <&clk IMX8MQ_CLK_VPU_H1_ROOT>,
->> +			 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+This new test will try to parse all the ".toml" files in the directory
+path passed to it, error'ing out on the first parsing problem.
 
-More typos: IMX8MQ -> IMX8MM for the 4 lines above.
+Run as "make check" in the keytable directory.
 
-Regards,
+Signed-off-by: Bastien Nocera <hadess@hadess.net>
+---
+Changes since v2:
+- Added SoB
 
-	Hans
+Changes since v1:
+- Fix patch formatting
 
->> +		clock-names = "g1", "g2", "h1", "bus";
->> +		power-domains = <&pgc_vpu>;
->> +	};
->>
-> 
-> Regards,
-> 
-> 	Hans
-> 
+At least 4 keymaps look broken in the current git:
+it913x_v2.toml
+pinnacle310e.toml
+hisi_poplar.toml
+imon_mce.toml
+
+Let me know if you want patches to remove the duplicate entries from
+those.
+
+ utils/keytable/Makefile.am    |  6 ++++
+ utils/keytable/test_keymaps.c | 68 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
+ create mode 100644 utils/keytable/test_keymaps.c
+
+diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
+index 148b9446..086d53c2 100644
+--- a/utils/keytable/Makefile.am
++++ b/utils/keytable/Makefile.am
+@@ -1,9 +1,12 @@
+ bin_PROGRAMS = ir-keytable
++noinst_PROGRAMS = test-keymaps
+ man_MANS = ir-keytable.1 rc_keymap.5
+ sysconf_DATA = rc_maps.cfg
+ keytablesystem_DATA = $(srcdir)/rc_keymaps/*
+ udevrules_DATA = 70-infrared.rules
+ 
++test_keymaps_SOURCES = toml.c toml.h test_keymaps.c
++
+ ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h
+ 
+ if WITH_BPF
+@@ -21,6 +24,9 @@ endif
+ EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
+ 
+ # custom target
++check: test-keymaps
++	$(builddir)/test-keymaps $(srcdir)/rc_keymaps/
++
+ install-data-local:
+ 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
+ 
+diff --git a/utils/keytable/test_keymaps.c b/utils/keytable/test_keymaps.c
+new file mode 100644
+index 00000000..23084331
+--- /dev/null
++++ b/utils/keytable/test_keymaps.c
+@@ -0,0 +1,68 @@
++#include <string.h>
++#include <errno.h>
++#include <stdio.h>
++#include <sys/types.h>
++#include <dirent.h>
++
++#include "toml.h"
++
++static int
++has_suffix(const char *str, const char *suffix)
++{
++	if (strlen(str) < strlen(suffix))
++		return 0;
++	if (strncmp(str + strlen(str) - strlen(suffix), suffix, strlen(suffix)) == 0)
++		return 1;
++	return 0;
++}
++
++int main (int argc, char **argv)
++{
++	DIR *dir;
++	struct dirent *entry;
++
++	if (argc != 2) {
++		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n", argv[0]);
++		return 1;
++	}
++
++	dir = opendir(argv[1]);
++	if (!dir) {
++		perror("Could not open directory");
++		return 1;
++	}
++
++	while ((entry = readdir(dir)) != NULL) {
++		struct toml_table_t *root;
++		FILE *fin;
++		char buf[200];
++		char path[2048];
++
++		if (!has_suffix(entry->d_name, ".toml")) {
++			/* Skipping file */
++			continue;
++		}
++
++		memset(path, 0, sizeof(path));
++		strcpy(path, argv[1]);
++		strcpy(path + strlen(argv[1]), "/");
++		strcpy(path + strlen(argv[1]) + 1, entry->d_name);
++		strcpy(path + strlen(argv[1]) + 1 + strlen(entry->d_name), "\0");
++
++		fin = fopen(path, "r");
++		if (!fin) {
++			fprintf(stderr, "Could not open file %s: %s", path, strerror(errno));
++			return 1;
++		}
++
++		root = toml_parse_file(fin, buf, sizeof(buf));
++		fclose(fin);
++		if (!root) {
++			fprintf(stderr, "Failed to parse %s: %s\n", path, buf);
++			return 1;
++		}
++		toml_free(root);
++	}
++
++	return 0;
++}
 
