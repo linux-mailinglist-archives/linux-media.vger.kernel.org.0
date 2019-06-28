@@ -2,94 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2764B598F1
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 13:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D381598F7
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 13:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfF1LBK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 07:01:10 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:39486 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726476AbfF1LBK (ORCPT
+        id S1726543AbfF1LFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 07:05:00 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:60732 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726514AbfF1LE7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 07:01:10 -0400
-Received: by mail-qt1-f196.google.com with SMTP id i34so5741800qta.6
-        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 04:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IXdo8o25DUwbkBOacyMkHs8NXaNzyi8ZQ44w0wRRY+k=;
-        b=oHgWFQqjFKlaKSTvkFPGNEOIIooE1+k51krQBpezd1aCYd5+uu/K1IbRuWGFNeRPp0
-         2wYV5lCq8slOC9ODsdug14Yi9RgWm1CVZPtCazI/5nRvr2SSniwvpSxEw7Nhy8OLo/r1
-         mlltnErzun3xetjAemWULwFddbumtzS5I4a1P7RYw0ypQNXej9YVtA3ODpI9psnE2VMw
-         sIPkPqjhyDag57JBv16C4b+ppyKAY7J4+OfFxR/bvz5bm6kv4QhrCDFclRxA3LO/PW9i
-         7e54rtciFgOlLyqSgYLEJD0bXQtHITO7D9p7JThvdrPK5HwCe/8w913DAGDCk10ctLIL
-         tXZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=IXdo8o25DUwbkBOacyMkHs8NXaNzyi8ZQ44w0wRRY+k=;
-        b=T52i7Y38llDIO/+UErUXBPXJMbBMJX8WY4UzSvdX3dzpvM7mAEr94GTXG81hlApopT
-         3EtW1Wfbi7p2QJ+YqTaFFOZG5yQI3zvNnOQlP6lelncVQaQwkh5GnUM50nP0riYCr2Sy
-         DqRBfeFoUAjz/qwlSWbTXN+lS555/KaX3Qk3HaLEf9kH0b6rYMYK2QHh1DNwVad8v8b3
-         3VJkvpCwRsG77QlSY9azjazSR8mjPmx53btE/jAbylLhiE86eQjPIZJLzQHYdMSeQScY
-         mWg2NANH/GOfuc7YVcB9vOgXnktCMF2SNBSLlTCPeMkKKpJRF7mBcyR+M12sOe+oZTXb
-         eH4g==
-X-Gm-Message-State: APjAAAUAoh7cPnv/hB5vA3FW8RdZcMf1QQvtchKmQaPc1S7eMU/mxVzI
-        EqGltpbGUc0uKDOZzunPw44=
-X-Google-Smtp-Source: APXvYqylk4MCnQYQArPkurO8zXexZPG2CA3+1OeEbDivIqMDER7dbtBBmUf8C/q/pg1nyMB3REu+pA==
-X-Received: by 2002:a0c:bd86:: with SMTP id n6mr7454973qvg.183.1561719669403;
-        Fri, 28 Jun 2019 04:01:09 -0700 (PDT)
-Received: from fabio-Latitude-E5450.am.freescale.net ([2804:14c:482:3c8:56cb:1049:60d2:137b])
-        by smtp.gmail.com with ESMTPSA id x205sm825971qka.56.2019.06.28.04.01.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Jun 2019 04:01:08 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     sakari.ailus@iki.fi
-Cc:     slongerbeam@gmail.com, jacopo@jmondi.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH 2/2] media: i2c: ov5640: Fix the order for enabling regulators
-Date:   Fri, 28 Jun 2019 08:00:35 -0300
-Message-Id: <20190628110035.23930-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190628110035.23930-1-festevam@gmail.com>
-References: <20190628110035.23930-1-festevam@gmail.com>
+        Fri, 28 Jun 2019 07:04:59 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id BF436634C7D;
+        Fri, 28 Jun 2019 14:04:42 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hgogM-0000kJ-13; Fri, 28 Jun 2019 14:04:42 +0300
+Date:   Fri, 28 Jun 2019 14:04:41 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Michael Allwright <michael.allwright@upb.de>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Arnd Bergmann <arnd@arndb.de>, Tero Kristo <t-kristo@ti.com>
+Subject: Re: [PATCH RFC] DT support for omap4-iss
+Message-ID: <20190628110441.42gdqidkg5csuxai@valkosipuli.retiisi.org.uk>
+References: <CALcgO_6UXp-Xqwim8WpLXz7XWAEpejipR7JNQc0TdH0ETL4JYQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALcgO_6UXp-Xqwim8WpLXz7XWAEpejipR7JNQc0TdH0ETL4JYQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the OV5640 datasheet the following sequence needs to be
-followed when powering the OV5640 supplies:
+Hi Michael,
 
-- DOVDD
-- AVDD
-- DVDD
+On Mon, Aug 10, 2015 at 05:16:30PM +0200, Michael Allwright wrote:
+> Hi All,
+> 
+> The following PRELIMINARY patch adds DT support to the OMAP4 ISS. It
+> also fixes some problems a have found along the way. It is tightly
+> modelled after the omap3-isp media platform driver. This patch is a
+> work in progress as I would like feedback. It contains debugging
+> messages that need to be removed, as well as disgusting abuses of the
+> C language as required (i.e. clk_core_fake and clk_fake).
 
-So follow this order inside the ov5640_supply_name[] array, so that
-the regulator_bulk() functions can enable the regulator in the
-correct sequence. 
+We'd like to restart the effort adding DT support for this driver. Would
+you be able to, if not address the comments, at least resend your old patch
+with your Signed-off-by: line so we could make use of what you've already
+done?
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/media/i2c/ov5640.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks.
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index afe7920557a8..4cd246812ae2 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -158,8 +158,8 @@ static const int ov5640_framerates[] = {
- /* regulator supplies */
- static const char * const ov5640_supply_name[] = {
- 	"DOVDD", /* Digital I/O (1.8V) supply */
--	"DVDD",  /* Digital Core (1.5V) supply */
- 	"AVDD",  /* Analog (2.8V) supply */
-+	"DVDD",  /* Digital Core (1.5V) supply */
- };
- 
- #define OV5640_NUM_SUPPLIES ARRAY_SIZE(ov5640_supply_name)
 -- 
-2.17.1
+Kind regards,
 
+Sakari Ailus
