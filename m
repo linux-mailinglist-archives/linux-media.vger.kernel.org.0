@@ -2,109 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2295959520
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 09:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 532AD5959F
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 10:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726470AbfF1HjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 03:39:06 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:54788 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbfF1HjG (ORCPT
+        id S1726770AbfF1IGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 04:06:42 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59721 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726734AbfF1IGm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 03:39:06 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5S7chF6094903;
-        Fri, 28 Jun 2019 07:38:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=R1rq9fMEaYE3cPLOb/Zu55GOyM3aBErGTTWM9neSg8I=;
- b=CeiLsr1BevMHP3a3PXhFgHw6n3CKbSRSYhdlkGiUBzF3iXa6BiQ0MkpEEPv5Qky2Idxb
- Ud0PNHwanJIj5LlxaJs49qAwsyOCVpTsuhj29yhT/lutu6FclqOjonsLQ/86X4VzwN/1
- xsKde3TgBO5KI7B9JsLaAR09BBfEeUqREgtruaViDlV5Q0izYgG+EFzK+iiddFGqx2xK
- js0uIDhluSB7kuBIa2Srf6+/BGCISIvVVMoosG7rxpEkScjC539nlR/1FjhQS6xB6A4L
- PkljfaS2RJtBQelPOFNwVEyTbqp+1dwSw5DjPCzLl3uT5V6FiHwxIeHnbjJx7izkSesd Cg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 2t9c9q44s5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 28 Jun 2019 07:38:53 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5S7blvW060944;
-        Fri, 28 Jun 2019 07:38:53 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2t9acdp1cr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 28 Jun 2019 07:38:53 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5S7clBG022393;
-        Fri, 28 Jun 2019 07:38:47 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 28 Jun 2019 00:38:46 -0700
-Date:   Fri, 28 Jun 2019 10:38:38 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Stefan Wahren <wahrenst@gmx.net>
-Cc:     Eric Anholt <eric@anholt.net>,
+        Fri, 28 Jun 2019 04:06:42 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id gltthk77qSfvXgltwhQpwi; Fri, 28 Jun 2019 10:06:40 +0200
+Subject: Re: [PATCH 00/31] staging: bcm2835-camera: Improvements
+To:     Stefan Wahren <wahrenst@gmx.net>, Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devel@driverdev.osuosl.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 06/31] staging: bcm2835-camera: Return early on errors
-Message-ID: <20190628073838.GF19015@kadam>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
+        linux-media@vger.kernel.org
 References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
- <1561661788-22744-7-git-send-email-wahrenst@gmx.net>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f4492041-2587-eedb-8ae5-ae610e90fde2@xs4all.nl>
+Date:   Fri, 28 Jun 2019 10:06:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1561661788-22744-7-git-send-email-wahrenst@gmx.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301 signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=919
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906280088
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301 signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=969 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906280088
+In-Reply-To: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH5mWIQQ+78Ft5mokEb9dqgknieKCSU+WaLX+MeaWiZ5p3zjqcmUvQBpisGm3LIy6d4crj85Wc9aM3vkZWInMAGi+qqQ4uW8d3ZIqHCHLGX/KnSPsl9M
+ vAduhvd2ME1dFsHoOmGryN8elr+I0oY5IdYFYmb9o1F4RuQtWM9z95P5jqkeplwDOtgSNMO23vOd4BK4OfsV8Z+D6V0CzES/Og6mI5xg+9j7njQxJ7zMGsaa
+ 6WkeXWbDSG8GPAmmgc7cjVbHpJMQaJ1WI29CzciOMfT8X2rKYrSYz6XMAqr1Vp5XZO+XbPemkoSC7UMlrOPKNcgbo7brPq3xN6giJSx+BDH8OeRgNhAtSPQI
+ 1u86xWxF2EPmMYnFIMdPYJypdPPSV05VUtctFPpEFW6XdV3mn7iDil/dTB9CZTOKBptAkqXpbjJqr//V8bCN2sHbMWyBqMXxRV1cBNsQlVTB1CFWZEccgNRS
+ VFxkIpiet0MUVI7p
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 08:56:03PM +0200, Stefan Wahren wrote:
->  	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev, "connecting %p to %p\n",
->  		 src, dst);
->  	ret = vchiq_mmal_port_connect_tunnel(dev->instance, src, dst);
->  	if (!ret)
->  		ret = vchiq_mmal_port_enable(dev->instance, src, NULL);
-> -error:
-> +
->  	return ret;
+Hi Stefan,
 
-In future patches, you probably want to flip this one around as well.
-Try to do error handling instead of success handling.  In other words,
-keep the success patch indented one tab and the failure path indented
-two tabs.  Don't make the last failure check in the function special.
+On 6/27/19 8:55 PM, Stefan Wahren wrote:
+> This is an attempt to help Dave Stevenson to get all the fixes and
+> improvements of the bcm2835-camera driver into mainline.
+> 
+> Mostly i only polished the commit logs for upstream.
+> 
+> The series based on the latest bugfix V2 of staging: bcm2835-camera: Resto=
+> re
+> return behavior of ctrl_set_bitrate().
 
-	ret = vchiq_mmal_port_connect_tunnel(dev->instance, src, dst);
-	if (ret)
-		return ret;
+Thank you for working on this.
 
-	ret = vchiq_mmal_port_enable(dev->instance, src, NULL);
-	if (ret)
-		return ret;
-	return 0;
+Three high-level questions:
 
-Or you can make the last check a little special if you want...
+1) Can you post the output of 'v4l2-compliance -s' using the latest v4l2-compliance
+   from https://git.linuxtv.org/v4l-utils.git ?  I'm interested to see what the
+   status is of this driver w.r.t. the compliance tests.
 
-	return vchiq_mmal_port_enable(dev->instance, src, NULL);
+2) What is the status of this driver from your point of view? What is needed to
+   get it out of staging?
 
-Either format is good.
+3) Out of curiosity: is this driver still valid for RPi4?
 
-regards,
-dan carpenter
+Regards,
+
+	Hans
+
+> 
+> Dave Stevenson (31):
+>   staging: bcm2835-camera: Ensure H264 header bytes get a sensible
+>     timestamp
+>   staging: bcm2835-camera: Check the error for REPEAT_SEQ_HEADER
+>   staging: bcm2835-camera: Replace spinlock protecting context_map with
+>     mutex
+>   staging: bcm2835-camera: Do not bulk receive from service thread
+>   staging: bcm2835-camera: Correctly denote key frames in encoded data
+>   staging: bcm2835-camera: Return early on errors
+>   staging: bcm2835-camera: Remove dead email addresses
+>   staging: bcm2835-camera: Fix comment style violations.
+>   staging: bcm2835-camera: Fix spacing around operators
+>   staging: bcm2835-camera: Reduce length of enum names
+>   staging: bcm2835-camera: Fix multiple line dereference errors
+>   staging: bcm2835-camera: Fix brace style issues.
+>   staging: bcm2835-camera: Fix missing lines between items
+>   staging: bcm2835-camera: Fix open parenthesis alignment
+>   staging: bcm2835-camera: Ensure all buffers are returned on disable
+>   staging: bcm2835-camera: Remove check of the number of buffers
+>     supplied
+>   staging: bcm2835-camera: Handle empty EOS buffers whilst streaming
+>   staging: bcm2835-camera: Set sequence number correctly
+>   staging: bcm2835-camera: Ensure timestamps never go backwards.
+>   staging: bcm2835-camera: Add multiple inclusion protection to headers
+>   staging: bcm2835-camera: Unify header inclusion defines
+>   staging: bcm2835-camera: Fix multiple assignments should be avoided
+>   staging: bcm2835-camera: Fix up mmal-parameters.h
+>   staging: bcm2835-camera: Use enums for max value in controls
+>   staging: bcm2835-camera: Correct V4L2_CID_COLORFX_CBCR behaviour
+>   staging: bcm2835-camera: Remove/amend some obsolete comments
+>   staging: mmal-vchiq: Avoid use of bool in structures
+>   staging: bcm2835-camera: Fix stride on RGB3/BGR3 formats
+>   staging: bcm2835-camera: Add sanity checks for queue_setup/CREATE_BUFS
+>   staging: bcm2835-camera: Set the field value within ach buffer
+>   staging: bcm2835-camera: Correct ctrl min/max/step/def to 64bit
+> 
+>  .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 378 ++++++++++++----=
+> -----
+>  .../vc04_services/bcm2835-camera/bcm2835-camera.h  |  34 +-
+>  .../vc04_services/bcm2835-camera/controls.c        | 184 +++++-----
+>  .../vc04_services/bcm2835-camera/mmal-common.h     |  12 +-
+>  .../vc04_services/bcm2835-camera/mmal-encodings.h  |   9 +-
+>  .../vc04_services/bcm2835-camera/mmal-msg-common.h |   9 +-
+>  .../vc04_services/bcm2835-camera/mmal-msg-format.h | 104 +++---
+>  .../vc04_services/bcm2835-camera/mmal-msg-port.h   | 133 ++++----
+>  .../vc04_services/bcm2835-camera/mmal-msg.h        | 150 ++++----
+>  .../vc04_services/bcm2835-camera/mmal-parameters.h | 286 +++++++++-------
+>  .../vc04_services/bcm2835-camera/mmal-vchiq.c      | 159 +++++----
+>  .../vc04_services/bcm2835-camera/mmal-vchiq.h      |  22 +-
+>  12 files changed, 826 insertions(+), 654 deletions(-)
+> 
+> =2D-
+> 2.7.4
+> 
+
