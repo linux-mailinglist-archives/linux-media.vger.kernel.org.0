@@ -2,146 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13ECE59CD3
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 15:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E496859D0C
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 15:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbfF1NSp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 09:18:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49584 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726616AbfF1NSp (ORCPT
+        id S1726729AbfF1NhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 09:37:19 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45915 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726664AbfF1NhT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 09:18:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=J3XH2sSbxtvC+4V51UkatTIdQ+KNsXEemy2VAPSpu5E=; b=d6bAGytRSohXn12z7v+0BI5vu
-        D0SVUGTJznmaC0+ar6JNgw+2dQfkxB7HOUhEIC76fmG72ZhYb2pFp+rvv5X12MPcq8q5OHEJ9QWsy
-        YpEUhLXnQM4dSZHdI5AVXqnloT+AEmWrTVZf61GhDWxmPMzV+C4xsaq3wugB/kK9mTv1Gpwsf+q8q
-        did2lXeyQpB7OlPkL/lyewyrSoofTBfMne20HGseReX0k14taUkYxBcFN6o8DaWEFzumBDzPRnKv/
-        xJIM4EIXpZXBU2++LZx6yqmsqVFGv9Q5gl8Kma9ah5Wah/YVMt4DPZVGDpzQ70NF27wHc/L9PFolg
-        JtyEhWb/w==;
-Received: from [186.213.242.156] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgqlx-0000R3-2b; Fri, 28 Jun 2019 13:18:37 +0000
-Date:   Fri, 28 Jun 2019 10:18:32 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Stefan Wahren <wahrenst@gmx.net>, Eric Anholt <eric@anholt.net>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
+        Fri, 28 Jun 2019 09:37:19 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id gr3vhmL0sSfvXgr3yhS9im; Fri, 28 Jun 2019 15:37:17 +0200
+Subject: Re: [PATCH v2 00/11] Venus stateful Codec API
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/31] staging: bcm2835-camera: Improvements
-Message-ID: <20190628101832.76403533@coco.lan>
-In-Reply-To: <a276361b-a111-aa2e-ce9b-37ad2c1646dc@xs4all.nl>
-References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
-        <a276361b-a111-aa2e-ce9b-37ad2c1646dc@xs4all.nl>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+References: <20190628130002.24293-1-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9c3399a8-4fc6-3117-10ee-3395cee034da@xs4all.nl>
+Date:   Fri, 28 Jun 2019 15:37:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190628130002.24293-1-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfK9Yvy8TSAOpVdctQbKSiaJLdA9YrUHCjxTdzggXbbTuxa7REtky8kGOIOb0Go0+ghoOFhwS6Sd+J15tIhOPYuG6KaD46wEG65xvFborgAFOOOuojzqe
+ f0k8c45tWPL0tji79rPDFc5usfkKvGzp6rVkp6TjCYuqYWLptx/W6m0x4y07y4k+XwUXjc9NyQGqgOnSIGP+WY0wOwA61KAHWqhS4n0Pmc9rKk3K2hF7XKAB
+ eeVoBlkv1c+GDBvdy9YCsLTei+5Wk4e9z7qwx/Vw4ZoRdebqJmCA7JWp2hn8NlpxW2hyIyu0+c9Te/GslgwaCEv1LcdChXm0AjLWnmVZ6+lgaw4VPfhTdOYd
+ wHOWhr7oK9yBfEPFHbzfaV/1QQlaISRQ3M+xqbiugi7arRhp1gc9wjCZQG4zNBq+DZ6xra5BbUmMTZf8izG5Rn6ssTJacw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 28 Jun 2019 15:13:03 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-
-> On 6/27/19 8:55 PM, Stefan Wahren wrote:
-> > This is an attempt to help Dave Stevenson to get all the fixes and
-> > improvements of the bcm2835-camera driver into mainline.
-> > 
-> > Mostly i only polished the commit logs for upstream.
-> > 
-> > The series based on the latest bugfix V2 of staging: bcm2835-camera: Resto=
-> > re
-> > return behavior of ctrl_set_bitrate().
-> > 
-> > Dave Stevenson (31):
-> >   staging: bcm2835-camera: Ensure H264 header bytes get a sensible
-> >     timestamp
-> >   staging: bcm2835-camera: Check the error for REPEAT_SEQ_HEADER
-> >   staging: bcm2835-camera: Replace spinlock protecting context_map with
-> >     mutex
-> >   staging: bcm2835-camera: Do not bulk receive from service thread
-> >   staging: bcm2835-camera: Correctly denote key frames in encoded data
-> >   staging: bcm2835-camera: Return early on errors
-> >   staging: bcm2835-camera: Remove dead email addresses
-> >   staging: bcm2835-camera: Fix comment style violations.
-> >   staging: bcm2835-camera: Fix spacing around operators
-> >   staging: bcm2835-camera: Reduce length of enum names
-> >   staging: bcm2835-camera: Fix multiple line dereference errors
-> >   staging: bcm2835-camera: Fix brace style issues.
-> >   staging: bcm2835-camera: Fix missing lines between items
-> >   staging: bcm2835-camera: Fix open parenthesis alignment
-> >   staging: bcm2835-camera: Ensure all buffers are returned on disable
-> >   staging: bcm2835-camera: Remove check of the number of buffers
-> >     supplied
-> >   staging: bcm2835-camera: Handle empty EOS buffers whilst streaming
-> >   staging: bcm2835-camera: Set sequence number correctly
-> >   staging: bcm2835-camera: Ensure timestamps never go backwards.
-> >   staging: bcm2835-camera: Add multiple inclusion protection to headers
-> >   staging: bcm2835-camera: Unify header inclusion defines
-> >   staging: bcm2835-camera: Fix multiple assignments should be avoided
-> >   staging: bcm2835-camera: Fix up mmal-parameters.h
-> >   staging: bcm2835-camera: Use enums for max value in controls
-> >   staging: bcm2835-camera: Correct V4L2_CID_COLORFX_CBCR behaviour
-> >   staging: bcm2835-camera: Remove/amend some obsolete comments
-> >   staging: mmal-vchiq: Avoid use of bool in structures
-> >   staging: bcm2835-camera: Fix stride on RGB3/BGR3 formats
-> >   staging: bcm2835-camera: Add sanity checks for queue_setup/CREATE_BUFS
-> >   staging: bcm2835-camera: Set the field value within ach buffer  
+On 6/28/19 2:59 PM, Stanimir Varbanov wrote:
+> Hello,
 > 
-> ach -> each
+> Here is v2 of the Venus transition to stateful codec API
+> compliance. The v2 can be found at [1].
 > 
-> >   staging: bcm2835-camera: Correct ctrl min/max/step/def to 64bit
-> > 
-> >  .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 378 ++++++++++++----=
-> > -----
-> >  .../vc04_services/bcm2835-camera/bcm2835-camera.h  |  34 +-
-> >  .../vc04_services/bcm2835-camera/controls.c        | 184 +++++-----
-> >  .../vc04_services/bcm2835-camera/mmal-common.h     |  12 +-
-> >  .../vc04_services/bcm2835-camera/mmal-encodings.h  |   9 +-
-> >  .../vc04_services/bcm2835-camera/mmal-msg-common.h |   9 +-
-> >  .../vc04_services/bcm2835-camera/mmal-msg-format.h | 104 +++---
-> >  .../vc04_services/bcm2835-camera/mmal-msg-port.h   | 133 ++++----
-> >  .../vc04_services/bcm2835-camera/mmal-msg.h        | 150 ++++----
-> >  .../vc04_services/bcm2835-camera/mmal-parameters.h | 286 +++++++++-------
-> >  .../vc04_services/bcm2835-camera/mmal-vchiq.c      | 159 +++++----
-> >  .../vc04_services/bcm2835-camera/mmal-vchiq.h      |  22 +-
-> >  12 files changed, 826 insertions(+), 654 deletions(-)
-> > 
-> > =2D-
-> > 2.7.4
-> >   
+> Changes since v1:
+>  * codec_state is now enum
+>  * dropped IS_OUT and IS_CAP macros and use vb2_start_streaming_called()
+>  * corrected g_fmt and reconfig logic
+>  * s/vdec_dst_buffers_done/vdec_cancel_dst_buffers
+>  * use v4l2_m2m_ioctl_try_decoder_cmd M2M helper
+>  * various fixes to make v4l2-compliance pass the streaming test
 > 
-> This series looks good. Others made some comments that should be addressed,
-> and the H264 changes should, I think, be dealt with in a separate patch
-> series.
+> To test the streaming with --stream-from-hdr v4l2-compliance option I have
+> to make the following hack (it is needed because the size of decoder input
+> buffers (OUTPUT queue) is not enough for the h264 bitstream, i.e the driver
+> default resolution is 64x64 but the h264 stream is 320x240):
 > 
-> I guess this should go in via Greg?
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index c71dcf65b721..dc0fcf20d3e4 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -1294,6 +1294,11 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+>                                         fmt.s_sizeimage(fmt.g_sizeimage(p) * 2, p);
+>                         }
+>                         fail_on_test(q.create_bufs(node, 1, &fmt));
+> +
+> +                       for (unsigned p = 0; p < fmt.g_num_planes(); p++)
+> +                               fmt.s_sizeimage(fmt.g_sizeimage(p) * 2, p);
+> +                       node->s_fmt(fmt);
+> +
+>                         fail_on_test(q.reqbufs(node, 2));
+>                 }
+>                 if (v4l_type_is_output(type))
 
-Works for me. I won't be able to handle this before the merge window,
-as I'll be on PTO next week.
+Does the venus driver set sizeimage based on the given output resolution?
 
-> When you make a v2 (excluding the H264
-> changes, and incorporating Dan's comments), then you can add my:
-> 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+E.g. if v4l2-compliance would first set the output resolution to 320x240,
+is the returned sizeimage value OK in that case?
 
-Greg, once the issues get fixed - and if you want to pick this for this
-merge window, feel fee to pick with my ack:
+And this also means that the venus driver requires each buffer to have
+a single compressed frame, right? I.e. it can't be spread over multiple
+OUTPUT buffers.
 
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+We really need to let userspace know about such restrictions.
 
-Otherwise, if too late for this merge window, It is probably better to
-apply those against the linux-media tree after -rc1.
+Stanimir, can you list the restrictions of the decoder for the various
+codecs?
 
-Thanks,
-Mauro
+Regards,
+
+	Hans
