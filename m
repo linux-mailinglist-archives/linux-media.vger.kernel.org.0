@@ -2,179 +2,342 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3F05A127
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 18:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9AF25A192
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 18:57:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbfF1QlL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 12:41:11 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:37040 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbfF1QlK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 12:41:10 -0400
-Received: by mail-io1-f67.google.com with SMTP id e5so13862462iok.4
-        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 09:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KD/8y/gRnlN03Hv3M0VtEroiHNnBUv4QKMlPaJ6XTsg=;
-        b=cEvGoMioIr9xh9AyXW9bFHtQLhwJqaw0+UrmA+269AEaw86aRJkiIBTEU4cj4RUAx3
-         yKHsJH/7tKJrU0t11Jw3upLE3OCXf2mZf4XfQ91aCaAhP1SktqOW31XqCF5iI/sr7xUg
-         QHNjIxVWAQcl5K2dqLKgwX8aV1Y4VGEw9ZNRs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KD/8y/gRnlN03Hv3M0VtEroiHNnBUv4QKMlPaJ6XTsg=;
-        b=RasWL+y55srjBg1Rd388GjNA6RHhBSKoxv+ebkHeKMaeHk+UUwkm2y29IQMNsTAl2e
-         iDRjjmPsvawP+D76H4QUAdYiiVbtI4RR9/pexLGexrBscATAav6N3R3gxlsFHBI6MY4D
-         K6dK6YwTKooQu0197FYtirsJ6RUr5sxmRPmGj9ZAhzexaZNvXNJHfPFSMnWYbLAN9RDF
-         ERa1ZpIhBiNnacDagFASpOJrJrBvEkAvkb3YN1bOA4rYrGK0F5lLoggIKydal1YTVFxq
-         9XcKUg5CinoJSoIdGv8Def50brd7V838ipmp/PUD0NckNdxWgX8mlXHu3isxjdN4X0SN
-         +0dA==
-X-Gm-Message-State: APjAAAVg+hWRSCuK26rq13K/DTKlekMSfsePJxLfnRGcXFBl8vPlD996
-        4tbov4A0KensdsTyJ4AGfc5MEg==
-X-Google-Smtp-Source: APXvYqwbPPnDRWt9w9SAx8KXS6VzZYt3bW6G3CDybafVH1596+3Uetpn0et4TRaezY7TOgoCJgmXmA==
-X-Received: by 2002:a6b:ba56:: with SMTP id k83mr12351213iof.105.1561740069558;
-        Fri, 28 Jun 2019 09:41:09 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id k26sm2149794ios.38.2019.06.28.09.41.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Jun 2019 09:41:08 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Use Media Dev Allocator to fix vimc dev lifetime bugs
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1558667245.git.skhan@linuxfoundation.org>
- <c9160fe7-e880-4070-3959-b9e9177acf54@xs4all.nl>
- <2862ebca-c58f-c265-cc74-8d0f9b943275@collabora.com>
- <1c794ca1-5490-26a4-dc39-f86e05fadc46@linuxfoundation.org>
- <20190616184506.GD5006@pendragon.ideasonboard.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <6e67ae76-6d37-cd70-c05f-1c6b6dd4af1a@linuxfoundation.org>
-Date:   Fri, 28 Jun 2019 10:41:07 -0600
+        id S1726836AbfF1Q51 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 12:57:27 -0400
+Received: from mout.gmx.net ([212.227.15.19]:56843 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbfF1Q51 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jun 2019 12:57:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1561741026;
+        bh=jQN9uQnWE9q4sKyUsBcJz7asKRCZXs1lpMEm+3SXt6o=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=Dc8KbwCSHaRPaaxaXCJ8vFOvc0vUxw/uLOo0r9uevGXKc8nkElFvxKTiiuygEzsub
+         OUEtLTJ0mVeQucXY/I5Faqe9oT0ss6h6zlwoAc3yvixsZXfC5AoBzW3iKDaaKyNBQ8
+         g7SaBBb2NQvq5SqmOqXlmeTq5fKO4Krs6efv9nSo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.1.162] ([37.4.249.111]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MKsjH-1hzoc83eFZ-00LJE2; Fri, 28
+ Jun 2019 18:57:05 +0200
+Subject: Re: [PATCH 00/31] staging: bcm2835-camera: Improvements
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Eric Anholt <eric@anholt.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
+        linux-media@vger.kernel.org
+References: <1561661788-22744-1-git-send-email-wahrenst@gmx.net>
+ <f4492041-2587-eedb-8ae5-ae610e90fde2@xs4all.nl>
+From:   Stefan Wahren <wahrenst@gmx.net>
+Message-ID: <24265b85-a12a-7a46-91d1-f20f5a133f8b@gmx.net>
+Date:   Fri, 28 Jun 2019 18:57:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190616184506.GD5006@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <f4492041-2587-eedb-8ae5-ae610e90fde2@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:Yf35tDsGnOPt9yOS+/i7y5kuy5UmZ0auV8VpO3ff8YYineCkeCX
+ DlXAgpLLJ9O8bmVc5Y4gWKl0ekRjXQsqs4ztlT+DI3YMdr66SEa6bb45GmgqmgvANzHtZPB
+ QFVJ3PKESD6efl/qNnoaJTlBNwgnPKWdCtpc23q0/iv1/Y1fmGPA1a3WTw/UFosGwrKVjjJ
+ sEbwhwDZv/pSjCBqE0+OQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Dapqhu54Jaw=:U6pDR0Fi9RH/1KKgQh6drE
+ S+LAHg58cJ8llRjzjwMoF+bXqUtyEgS14EpPu/h/FW7IiOxNioDJlc6PbzwvSeye1wf+RFZNg
+ ui/nMO9/hmHgW5Kae+/ZhMaAZoPWrtqjNzdNBybu389jaYvgXZUBqUHdwv5M8AEnzpfYvG9AZ
+ 6PHg23v0tBLOXJKO0oxsUak78Vm0Dn3UZyAmVQLvFbV1q73tSTRK4l3v59XPMyR3h120QZhCR
+ YP9jBNL4KrsDFEo1AYYtq3DcWPJDor6xN3Yvr9Pbi+UCkK8RJRw0O0IULjDqTyuCWlZYawl8T
+ lxts5t6vrgXgS8SAsLwBgZ6oV4M6dxP3nn8c4lw27H0RXTx7gPi1P1YsVqkT0cShgvuSnY0lc
+ 63XFwngzOmv0LvhlXXm6LNJe1EXAfBXOsPCbB0gAlPicIZJSE4yjrGTQR1Y3I2rgQut0JmDUa
+ qYSsW+RPLE5AEOc4Wnr/JtzA7bh3f15rPhTNzIo4VVEhDeoizBN5ADXgPHu6r3umKe+qVYwJp
+ l87FiFLZWVfqAYYWNaynPPzvpP/NV4Fu/RUUyAvvB+thw5XUHOVodKoc6LhH/+uwVkaw2tNHo
+ J1DXBt2dFG1wPHmJsdu0N/6qyOZ9TSuZmt5K/oLZCRheVXLGuyXK5WipF23XJYo+v+BRmCGSn
+ MXqNPH739r3ZXgkatdohpqETLyzYyWOhec9NY0zlM9Z+8qlrmigLCLvRJGextapdwUXy0aIkg
+ MAw/Gn5n1Fp6RhT8ksb7p8UZmw7jIpeCXU/HzWbquj3t2P61bPOLLi39bAAR0uw3UHxp6Tvb7
+ 5Yxt+x2LIyn0sDzHGDK/9w1MiRJv68gkOYFfmY8WOyIVMcN/+Vp9CJn7nQYQ+JJmMBLT2q53Y
+ E2JYYe4WzpiD1YYYLujjwB2HLMWcm1XH1YLCgXHpfbGGMt8Af3K0nbEfbldStCLyti9k1Okh3
+ eXl3i9JPZv4hwLczqL0SfQBQJGEe73s8r8DAOl1cxrn2aD6nPDezNzXeGN7mQS1IiAmNhEYiA
+ zaklv1zqrkaESlbFuvLssaI1D/BSvDUEU1a3wDKdVAqqVMd3kXF4W7B0/oSk/QqOLCj8l85IG
+ 5vQMMPeha1YlD4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Hans,
 
-On 6/16/19 12:45 PM, Laurent Pinchart wrote:
-> Hi Shuah,
-> 
-> On Fri, Jun 14, 2019 at 05:26:46PM -0600, Shuah Khan wrote:
->> On 6/13/19 7:24 AM, Helen Koike wrote:
->>> On 6/13/19 2:44 AM, Hans Verkuil wrote:
->>>> On 5/24/19 5:31 AM, Shuah Khan wrote:
->>>>> media_device is embedded in struct vimc_device and when vimc is removed
->>>>> vimc_device and the embedded media_device goes with it, while the active
->>>>> stream and vimc_capture continue to access it.
->>>>>
->>>>> Fix the media_device lifetime problem by changing vimc to create shared
->>>>> media_device using Media Device Allocator API and vimc_capture getting
->>>>> a reference to vimc module. With this change, vimc module can be removed
->>>>> only when the references are gone. vimc can be removed after vimc_capture
->>>>> is removed.
->>>>>
->>>>> Media Device Allocator API supports just USB devices. Enhance it
->>>>> adding a genetic device allocate interface to support other media
->>>>> drivers.
->>>>>
->>>>> The new interface takes pointer to struct device instead and creates
->>>>> media device. This interface allows a group of drivers that have a
->>>>> common root device to share media device resource and ensure media
->>>>> device doesn't get deleted as long as one of the drivers holds its
->>>>> reference.
->>>>>
->>>>> The new interface has been tested with vimc component driver to fix
->>>>> panics when vimc module is removed while streaming is in progress.
->>>>
->>>> Helen, can you review this series? I'm not sure this is the right approach
->>>> for a driver like vimc, and even if it is, then it is odd that vimc-capture
->>>> is the only vimc module that's handled here.
->>>
->>> Hi Hans,
->>>
->>> Yes, I can take a look. Sorry, I've been a bit busy these days but I'll
->>> try to take a look at this patch series (and the others) asap.
->>>
->>> Helen
->>>
->>>> My gut feeling is that this should be handled inside vimc directly and not
->>>> using the media-dev-allocator.
+Am 28.06.19 um 10:06 schrieb Hans Verkuil:
+> Hi Stefan,
+>
+> On 6/27/19 8:55 PM, Stefan Wahren wrote:
+>> This is an attempt to help Dave Stevenson to get all the fixes and
+>> improvements of the bcm2835-camera driver into mainline.
 >>
->> Hi Hans and Helen,
+>> Mostly i only polished the commit logs for upstream.
 >>
->> I explored fixing the problem within vimc before I went down the path to
->> use Media Device Allocator API. I do think that it is cleaner to go this
->> way and easier to maintain.
->>
->> vimc is a group pf component drivers that rely on the media device vimc
->> in vimc and falls into the use-case Media Device Allocator API is added
->> to address. The release and life-time management happens without vimc
->> component drivers being changed other than using the API to get and put
->> media device reference.
-> 
-> Our replies crossed each other, please see my reply to Hans. I would
-> just like to comment here that if having multiple kernel modules causes
-> issue, they can all be merged together. There's no need for vimc to be
-> handled through multiple modules (I actually think it's quite
-> counterproductive, it only makes it more complex, for no added value).
-> 
+>> The series based on the latest bugfix V2 of staging: bcm2835-camera: Re=
+sto=3D
+>> re
+>> return behavior of ctrl_set_bitrate().
+> Thank you for working on this.
+>
+> Three high-level questions:
+>
+> 1) Can you post the output of 'v4l2-compliance -s' using the latest v4l2=
+-compliance
+>    from https://git.linuxtv.org/v4l-utils.git ?  I'm interested to see w=
+hat the
+>    status is of this driver w.r.t. the compliance tests.
 
-There are several problems in this group of drivers as far as lifetime
-management is concerned. I explained some of it in the patch 2/2
+Before this series (Raspberry Pi 3, Camera 1.3, Linux
+5.2.0-rc3-next-20190607, multi_v7_defconfig):
 
-If vimc module is removed while streaming is active, vimc_exit runs
-into NULL pointer dereference error when streaming thread tries to
-access and lock graph_mutex in the struct media_device.
+v4l2-compliance SHA: b16f9e945d74aa552abdd6f873821cb77faaf13a, 32 bits
 
-The primary reason for this is that:
+Compliance test for bm2835 mmal device /dev/video0:
 
-media_device is embedded in struct vimc_device and when vimc is removed
-vimc_device and the embedded media_device goes with it, while the active
-stream and vimc_capture continue to access it.
+Driver Info:
+=C2=A0=C2=A0=C2=A0 Driver name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : bm2835 mmal
+=C2=A0=C2=A0=C2=A0 Card type=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : m=
+mal service 16.1
+=C2=A0=C2=A0=C2=A0 Bus info=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 : platform:bcm2835-v4l2
+=C2=A0=C2=A0=C2=A0 Driver version=C2=A0=C2=A0 : 5.2.0
+=C2=A0=C2=A0=C2=A0 Capabilities=C2=A0=C2=A0=C2=A0=C2=A0 : 0x85200005
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Capture
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Overlay
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Read/Write
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Streaming
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Extended Pix Format
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Device Capabilities
+=C2=A0=C2=A0=C2=A0 Device Caps=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : 0x05200005
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Capture
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Overlay
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Read/Write
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Streaming
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Extended Pix Format
 
-If we chose to keep these drivers as component drivers, media device
-needs to stick around until all components stop using it. This is tricky
-because there is no tie between these set of drivers. vimc module can
-be deleted while others are still active. As vimc gets removed, other
-component drivers start wanting to access the media device tree.
+Required ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCAP: OK
 
-This is classic media device lifetime problem which could be solved
-easily with the way I solved it with this series. I saw this as a
-variation on the same use-case we had with sound and media drivers
-sharing the media device.
+Allow for multiple opens:
+=C2=A0=C2=A0=C2=A0 test second /dev/video0 open: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCAP: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_PRIORITY: OK
+=C2=A0=C2=A0=C2=A0 test for unlimited opens: OK
 
-I have a TODO request from you asking to extend Media Device Allocator
-API to generic case and not restrict it to USB devices. My thinking is
-that this gives a perfect test case to extend the API to be generic
-and use to solve this problem.
+Debug ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_LOG_STATUS: OK
 
-Collapsing the drivers into one might be lot more difficult and complex
-than solving this problem with Media Device Allocator API. This approach
-has an added benefit of extending the API to be generic and not just for
-USB.
+Input ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supporte=
+d)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUMAUDIO: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/ENUMINPUT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_AUDIO: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Inputs: 1 Audio Inputs: 0 Tuners: 0
 
-I looked at this as a good way to add generic API and have a great test
-case for it. This patch series fixes the problem for the current vimc
-architecture.
+Output ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-thanks,
--- Shuah
+Input/Output configuration ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supporte=
+d)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_EDID: OK (Not Supported)
 
+Control ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCTRL: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_CTRL: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Standard Controls: 33 Private Controls: 0
 
+Format ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_PARM: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_FBUF: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_TRY_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_S_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Cropping: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Composing: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Scaling: OK
 
+Codec ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(715): q.=
+create_bufs(node, 1, &fmt)
+!=3D EINVAL
+=C2=A0=C2=A0=C2=A0 test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+=C2=A0=C2=A0=C2=A0 test VIDIOC_EXPBUF: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+=C2=A0=C2=A0=C2=A0 test read/write: OK
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(2145): n=
+ode->streamon(q.g_type())
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(2224): t=
+estBlockingDQBuf(node, q)
+=C2=A0=C2=A0=C2=A0 test blocking wait: FAIL
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(1294): q=
+.create_bufs(node, 1, &fmt)
+!=3D EINVAL
+=C2=A0=C2=A0=C2=A0 test MMAP (no poll): FAIL
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(1294): q=
+.create_bufs(node, 1, &fmt)
+!=3D EINVAL
+=C2=A0=C2=A0=C2=A0 test MMAP (select): FAIL
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 fail: v4l2-test-buffers.cpp(1294): q=
+.create_bufs(node, 1, &fmt)
+!=3D EINVAL
+=C2=A0=C2=A0=C2=A0 test MMAP (epoll): FAIL
+
+After this series:
+
+v4l2-compliance SHA: b16f9e945d74aa552abdd6f873821cb77faaf13a, 32 bits
+
+Compliance test for bm2835 mmal device /dev/video0:
+
+Driver Info:
+=C2=A0=C2=A0=C2=A0 Driver name=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : bm2835 mmal
+=C2=A0=C2=A0=C2=A0 Card type=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : m=
+mal service 16.1
+=C2=A0=C2=A0=C2=A0 Bus info=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 : platform:bcm2835-v4l2
+=C2=A0=C2=A0=C2=A0 Driver version=C2=A0=C2=A0 : 5.2.0
+=C2=A0=C2=A0=C2=A0 Capabilities=C2=A0=C2=A0=C2=A0=C2=A0 : 0x85200005
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Capture
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Overlay
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Read/Write
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Streaming
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Extended Pix Format
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Device Capabilities
+=C2=A0=C2=A0=C2=A0 Device Caps=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 : 0x05200005
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Capture
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Video Overlay
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Read/Write
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Streaming
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Extended Pix Format
+
+Required ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+=C2=A0=C2=A0=C2=A0 test second /dev/video0 open: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCAP: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_PRIORITY: OK
+=C2=A0=C2=A0=C2=A0 test for unlimited opens: OK
+
+Debug ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supporte=
+d)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUMAUDIO: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/ENUMINPUT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_AUDIO: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supporte=
+d)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_QUERYCTRL: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_CTRL: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 Standard Controls: 33 Private Controls: 0
+
+Format ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G/S_PARM: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_FBUF: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_TRY_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_S_FMT: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Cropping: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Composing: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Scaling: OK
+
+Codec ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+=C2=A0=C2=A0=C2=A0 test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+=C2=A0=C2=A0=C2=A0 test VIDIOC_EXPBUF: OK (Not Supported)
+=C2=A0=C2=A0=C2=A0 test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+=C2=A0=C2=A0=C2=A0 test read/write: OK
+=C2=A0=C2=A0=C2=A0 test blocking wait: OK
+
+Unfortunately in both cases the program hangs and never finish. This is
+the output of strace:
+
+ioctl(3, VIDIOC_DQBUF, {type=3DV4L2_BUF_TYPE_VIDEO_CAPTURE
+
+It is possible that this is a problem with the used linux-next version.
+Nevertheless the series is improvement.
+
+> 2) What is the status of this driver from your point of view?
+Sorry, i'm not a media expert. But i agree with Dan this needs
+improvement of error handling. For example mapping the MMAL error codes
+to Linux error codes would avoid confusion.
+> What is needed to get it out of staging?
+
+I think the driver needs more testing for 64 bit. Contrary to Raspbian a
+lot of the "mainline" distributions only concentrate on arm64. But
+currently i don't know of any 64 bit specific issues.
+
+I also can't say anything about the content of the TODO file.
+
+Regards
+Stefan
 
