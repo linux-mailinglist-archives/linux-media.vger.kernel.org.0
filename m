@@ -2,199 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 097E5599BC
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 14:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5025E59A60
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 14:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726966AbfF1MBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 08:01:00 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:32974 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726958AbfF1MA7 (ORCPT
+        id S1726673AbfF1MPD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 08:15:03 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:33211 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726542AbfF1MPC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 08:00:59 -0400
-Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1002])
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 601D2634C8A;
-        Fri, 28 Jun 2019 15:00:41 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        jacopo@jmondi.org, niklas.soderlund@ragnatech.se
-Subject: [PATCH v4 8/8] ipu3-cio2: Parse information from firmware without using callbacks
-Date:   Fri, 28 Jun 2019 15:00:54 +0300
-Message-Id: <20190628120054.11818-9-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190628120054.11818-1-sakari.ailus@linux.intel.com>
-References: <20190628120054.11818-1-sakari.ailus@linux.intel.com>
+        Fri, 28 Jun 2019 08:15:02 -0400
+Received: by mail-qk1-f196.google.com with SMTP id r6so4587553qkc.0;
+        Fri, 28 Jun 2019 05:15:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1TAwC61JS4eXqZ82OujM9dlobazLqVa1FIeOqHjXlt0=;
+        b=Yhs8q16ww190EQsZo2yQwQr8JXW0IK8KDmoshG9U73ABjiE+FENH8UCQH4MKnQnRzp
+         vUGK55+3w5xZMPiHlwxnIXWzYEsnLspqvchDdXAoQxk91klCmy+3peLowrsE3iqzrj3A
+         dgnBp/WuyJNTYIcv9PuEX9IcrKGhmvpj6pB/tT7SU6hBwRWfJQC/Qa//y5ZjCqCp82/f
+         9tjQ2pnBU8zJkhkP3DwIRYYB9rw9BL1ANvcoAZj/1uSSqlcigg28PufETdzUkVpFKLYf
+         0OMODFSWoj6w6ifhDW62rdNjjB1NoZ/ubZOuefC/3lVcGTAWcONuNEAA6qrLSvPMT6BJ
+         pWGg==
+X-Gm-Message-State: APjAAAU0qa7x1iyRAUMBISbgF33ea5/UCXbjgKeEYRV9pF04boZ6/cPQ
+        yDruNcCdlGNcnK1o41/ywn81Xaj7K9Mmpln6AjzZUr+N
+X-Google-Smtp-Source: APXvYqwNxgHRzw4z0Rr9Q4yX5hm7cI8WvoLsLEbd5pABPHANQdawqiZmtxqhSSYgYnw4qgfGuspgeXqzbjHf70WenTY=
+X-Received: by 2002:a37:ad12:: with SMTP id f18mr8197153qkm.3.1561724101537;
+ Fri, 28 Jun 2019 05:15:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190313211709.486583-1-arnd@arndb.de> <20190403163444.2psjymq5kb3c6ok6@gofer.mess.org>
+In-Reply-To: <20190403163444.2psjymq5kb3c6ok6@gofer.mess.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 28 Jun 2019 14:14:42 +0200
+Message-ID: <CAK8P3a0w0AWCotSSDpLORgOPHq-Cmy7u+AWzs1thU7V_bqNRNw@mail.gmail.com>
+Subject: Re: [PATCH] media: dib0700: fix link error for dibx000_i2c_set_speed
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of using the convenience function
-v4l2_async_notifier_parse_fwnode_endpoints(), parse the endpoints and set
-up the async sub-devices without using callbacks. While this adds a little
-bit of code, it makes parsing the endpoints quite a bit more simple and
-gives more control to the driver over the process. The parsing assumes
-D-PHY instead of letting the V4L2 fwnode framework guess it.
+On Wed, Apr 3, 2019 at 6:34 PM Sean Young <sean@mess.org> wrote:
+>
+> On Wed, Mar 13, 2019 at 10:16:53PM +0100, Arnd Bergmann wrote:
+> > When CONFIG_DVB_DIB9000 is disabled, we can still compile code that
+> > now fails to link against dibx000_i2c_set_speed:
+> >
+> > drivers/media/usb/dvb-usb/dib0700_devices.o: In function `dib01x0_pmu_update.constprop.7':
+> > dib0700_devices.c:(.text.unlikely+0x1c9c): undefined reference to `dibx000_i2c_set_speed'
+> >
+> > The call sites are both through dib01x0_pmu_update(), which gets
+> > passed an 'i2c' pointer from dib9000_get_i2c_master(), which has
+> > returned NULL. Checking this pointer seems to be a good idea
+> > anyway, and it avoids the link failure.
+>
+> So I reproduced the link failure with attached config, and your patch
+> does not fix it.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 93 +++++++++++++++++---------------
- 1 file changed, 50 insertions(+), 43 deletions(-)
+I ran into the old problem I reported once more, and checked my
+original patch, as well as your configuration file, which indeed shows
+the same symptom.
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 690d3bd08ddd..f4d71767be11 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -1475,36 +1475,52 @@ static const struct v4l2_async_notifier_operations cio2_async_ops = {
- 	.complete = cio2_notifier_complete,
- };
- 
--static int cio2_fwnode_parse(struct device *dev,
--			     struct v4l2_fwnode_endpoint *vep,
--			     struct v4l2_async_subdev *asd)
-+static int cio2_parse_firmware(struct cio2_device *cio2)
- {
--	struct sensor_async_subdev *s_asd =
--			container_of(asd, struct sensor_async_subdev, asd);
-+	unsigned int i;
-+	int ret;
- 
--	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
--		dev_err(dev, "Only CSI2 bus type is currently supported\n");
--		return -EINVAL;
--	}
-+	for (i = 0; i < CIO2_NUM_PORTS; i++) {
-+		struct v4l2_fwnode_endpoint vep = {
-+			.bus_type = V4L2_MBUS_CSI2_DPHY
-+		};
-+		struct sensor_async_subdev *s_asd = NULL;
-+		struct fwnode_handle *ep;
- 
--	s_asd->csi2.port = vep->base.port;
--	s_asd->csi2.lanes = vep->bus.mipi_csi2.num_data_lanes;
-+		ep = fwnode_graph_get_endpoint_by_id(
-+			dev_fwnode(&cio2->pci_dev->dev), i, 0,
-+			FWNODE_GRAPH_ENDPOINT_NEXT);
- 
--	return 0;
--}
-+		if (!ep)
-+			continue;
- 
--static int cio2_notifier_init(struct cio2_device *cio2)
--{
--	int ret;
-+		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-+		if (ret)
-+			goto err_parse;
- 
--	v4l2_async_notifier_init(&cio2->notifier);
-+		s_asd = kzalloc(sizeof(*s_asd), GFP_KERNEL);
-+		if (!s_asd) {
-+			ret = -ENOMEM;
-+			goto err_parse;
-+		}
- 
--	ret = v4l2_async_notifier_parse_fwnode_endpoints(
--		&cio2->pci_dev->dev, &cio2->notifier,
--		sizeof(struct sensor_async_subdev),
--		cio2_fwnode_parse);
--	if (ret < 0)
--		goto out;
-+		s_asd->csi2.port = vep.base.port;
-+		s_asd->csi2.lanes = vep.bus.mipi_csi2.num_data_lanes;
-+
-+		ret = v4l2_async_notifier_add_fwnode_remote_subdev(
-+			&cio2->notifier, ep, &s_asd->asd);
-+		if (ret)
-+			goto err_parse;
-+
-+		fwnode_handle_put(ep);
-+
-+		continue;
-+
-+err_parse:
-+		fwnode_handle_put(ep);
-+		kfree(s_asd);
-+		return ret;
-+	}
- 
- 	/*
- 	 * Proceed even without sensors connected to allow the device to
-@@ -1512,25 +1528,13 @@ static int cio2_notifier_init(struct cio2_device *cio2)
- 	 */
- 	cio2->notifier.ops = &cio2_async_ops;
- 	ret = v4l2_async_notifier_register(&cio2->v4l2_dev, &cio2->notifier);
--	if (ret) {
-+	if (ret)
- 		dev_err(&cio2->pci_dev->dev,
- 			"failed to register async notifier : %d\n", ret);
--		goto out;
--	}
--
--out:
--	if (ret)
--		v4l2_async_notifier_cleanup(&cio2->notifier);
- 
- 	return ret;
- }
- 
--static void cio2_notifier_exit(struct cio2_device *cio2)
--{
--	v4l2_async_notifier_unregister(&cio2->notifier);
--	v4l2_async_notifier_cleanup(&cio2->notifier);
--}
--
- /**************** Queue initialization ****************/
- static const struct media_entity_operations cio2_media_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
-@@ -1814,16 +1818,18 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 	if (r)
- 		goto fail_v4l2_device_unregister;
- 
-+	v4l2_async_notifier_init(&cio2->notifier);
-+
- 	/* Register notifier for subdevices we care */
--	r = cio2_notifier_init(cio2);
-+	r = cio2_parse_firmware(cio2);
- 	if (r)
--		goto fail_cio2_queue_exit;
-+		goto fail_clean_notifier;
- 
- 	r = devm_request_irq(&pci_dev->dev, pci_dev->irq, cio2_irq,
- 			     IRQF_SHARED, CIO2_NAME, cio2);
- 	if (r) {
- 		dev_err(&pci_dev->dev, "failed to request IRQ (%d)\n", r);
--		goto fail;
-+		goto fail_clean_notifier;
- 	}
- 
- 	pm_runtime_put_noidle(&pci_dev->dev);
-@@ -1831,9 +1837,9 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 
- 	return 0;
- 
--fail:
--	cio2_notifier_exit(cio2);
--fail_cio2_queue_exit:
-+fail_clean_notifier:
-+	v4l2_async_notifier_unregister(&cio2->notifier);
-+	v4l2_async_notifier_cleanup(&cio2->notifier);
- 	cio2_queues_exit(cio2);
- fail_v4l2_device_unregister:
- 	v4l2_device_unregister(&cio2->v4l2_dev);
-@@ -1852,7 +1858,8 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
- 	struct cio2_device *cio2 = pci_get_drvdata(pci_dev);
- 
- 	media_device_unregister(&cio2->media_dev);
--	cio2_notifier_exit(cio2);
-+	v4l2_async_notifier_unregister(&cio2->notifier);
-+	v4l2_async_notifier_cleanup(&cio2->notifier);
- 	cio2_queues_exit(cio2);
- 	cio2_fbpt_exit_dummy(cio2);
- 	v4l2_device_unregister(&cio2->v4l2_dev);
--- 
-2.11.0
+Interestingly, the link error after my patch appears to be the result
+of a compiler bug, as the function reference is from dead code that
+should have been eliminated. Sending a replacement patch now.
 
+        Arnd
