@@ -2,381 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5A7259994
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 13:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1B059995
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 13:57:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbfF1L5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 07:57:44 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39953 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726524AbfF1L5n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 07:57:43 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id gpVahleJdSfvXgpVdhRmCb; Fri, 28 Jun 2019 13:57:41 +0200
-Subject: Re: hdpvr mutex deadlock on kernel 5.1.x
-To:     Keith Pyle <kpyle@austin.rr.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <14d31c83-f48f-319d-6b3a-0753ea9d2c02@austin.rr.com>
- <8e18508d-7c36-ead7-4c92-7335813895d0@xs4all.nl>
- <1aa17133-342a-45e3-453d-896a1062ea21@austin.rr.com>
- <857b40ad-d474-5a4c-e65b-99035fa1a50b@xs4all.nl>
- <15f3c149-4597-2f45-06af-a668db4c694b@austin.rr.com>
- <1c20ac29-d1d7-42b5-ad44-ae505be3ea3b@xs4all.nl>
- <7f83b4c9-ea22-8034-ff46-8647be09ad3a@austin.rr.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <85916477-ef10-4929-90fe-eb4b456d7af9@xs4all.nl>
-Date:   Fri, 28 Jun 2019 13:57:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726887AbfF1L5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 07:57:46 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64478 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726524AbfF1L5q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 28 Jun 2019 07:57:46 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Jun 2019 04:57:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,427,1557212400"; 
+   d="scan'208";a="246147293"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001.jf.intel.com with ESMTP; 28 Jun 2019 04:57:42 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id DA4522071F; Fri, 28 Jun 2019 14:57:42 +0300 (EEST)
+Date:   Fri, 28 Jun 2019 14:57:42 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se
+Subject: Re: [PATCH v2 9/9] ipu3-cio2: Parse information from firmware
+ without using callbacks
+Message-ID: <20190628115742.iw3v2kh4crvquitf@paasikivi.fi.intel.com>
+References: <20190606130225.10751-1-sakari.ailus@linux.intel.com>
+ <20190606130225.10751-10-sakari.ailus@linux.intel.com>
+ <20190614163142.uoj6bg27js5gks3w@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <7f83b4c9-ea22-8034-ff46-8647be09ad3a@austin.rr.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPWRYFwC90GdiVkP34wybbpXZS7EUkmzwXapNoDMDJ1+NJKOIjMKV/fC1iAXWykxCfI0N+Z4rkuCOy3VCjwgWp/y15XFS7NizEypBR/LStHIocvBuaRv
- 6doqktIdR/wVs6mk7fb6kE0XI0m//HNvhWQrpmWmPv72bIERDbJXbVmHonqLPxNRkyElWOVTWgLx87zVKMOisAXGTS2rYhji0wc=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190614163142.uoj6bg27js5gks3w@uno.localdomain>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keith,
+Hi Jacopo,
 
-On 6/28/19 3:52 AM, Keith Pyle wrote:
-> On 06/20/19 06:33, Hans Verkuil wrote:
->> On 6/19/19 4:29 AM, Keith Pyle wrote:
->>> On 06/18/19 02:16, Hans Verkuil wrote:
->>>> Hi Keith,
->>>>
->>>> On 6/18/19 6:17 AM, Keith Pyle wrote:
->>>>> We made the suggested change, compiled, installed, and rebooted. There was some progress - test 2 (turning the HD-PVR off) no longer produces a splat.  Test 1 (start capture) and test 3 (run capture
->>>>> and trigger HD-PVR to stop streaming) both still produce a traceback (see below).  Test 3 also still results in the unkillable process.
->>>> Try the following patch. Test 2 was caused by locking when it shouldn't, test 3 was caused by not
->>>> locking when it should :-) and I think test 1 was caused by locking when it is not allowed.
->>>>
->>>> Let me know if this works!
->>>>
->>>> Regards,
->>>>
->>>>      Hans
->>> Good news!  With these patches, lockdep does not report any of the prior problems and the capture process does not deadlock for my test3.
->>>
->>> There is one item I noted: hdpvr_read has the line
->>>
->>> msec_to_jiffies(4000);
->> Oops!
->>
->>> that doesn't really do anything.  This should be a 4 second sleep, based on our discussion back in 2014 (https://www.mail-archive.com/linux-media@vger.kernel.org/msg75163.html), since the restart will
->>> certainly fail unless the HD-PVR is given at least 3 seconds to reset after the stop.
->> I think a msleep(4000) at that point is solving only one use-case. I assume
->> the same problem will occur if you read() from the video device, then close()
->> it, re-open it and read() again, all within 4 seconds.
->>
->> The real fix would be to store a timestamp (jiffies) when you stop streaming,
->> and in start_streaming check if there are less than 4 seconds between the last
->> stop and new start, and then sleep until 4 seconds have passed.
->>
->> Is this something you can work on and provide a patch?
->>
->> For now I'll post a patch fixing the deadlocks etc. so you can develop your
->> patch for this on top.
->>
->> Regards,
->>
->> 	Hans
->>
-> I've included below a proposed two-part patch for media/usb/hdpvr to be 
-> added on top of your commit 0fda628d1a97aec51e2120115f1a2adb7c56be5e. 
-> The proposed patch includes:
+On Fri, Jun 14, 2019 at 06:31:42PM +0200, Jacopo Mondi wrote:
+> Hi Sakari,
 > 
-> - Add the following module parameters:
+> On Thu, Jun 06, 2019 at 04:02:25PM +0300, Sakari Ailus wrote:
+> > Instead of using the convenience function
+> > v4l2_async_notifier_parse_fwnode_endpoints(), parse the endpoints and set
+> > up the async sub-devices without using callbacks. While this adds a little
+> > bit of code, it makes parsing the endpoints quite a bit more simple and
+> > gives more control to the driver over the process. The parsing assumes
+> > D-PHY instead of letting the V4L2 fwnode framework guess it.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 92 +++++++++++++++++---------------
+> >  1 file changed, 49 insertions(+), 43 deletions(-)
+> >
+> > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > index 690d3bd08ddd..40e8b8617f55 100644
+> > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > @@ -1475,36 +1475,51 @@ static const struct v4l2_async_notifier_operations cio2_async_ops = {
+> >  	.complete = cio2_notifier_complete,
+> >  };
+> >
+> > -static int cio2_fwnode_parse(struct device *dev,
+> > -			     struct v4l2_fwnode_endpoint *vep,
+> > -			     struct v4l2_async_subdev *asd)
+> > +static int cio2_parse_firmware(struct cio2_device *cio2)
+> >  {
+> > -	struct sensor_async_subdev *s_asd =
+> > -			container_of(asd, struct sensor_async_subdev, asd);
+> > +	unsigned int i;
+> > +	int ret;
+> >
+> > -	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
+> > -		dev_err(dev, "Only CSI2 bus type is currently supported\n");
+> > -		return -EINVAL;
+> > -	}
+> > +	for (i = 0; i < CIO2_NUM_PORTS; i++) {
+> > +		struct v4l2_fwnode_endpoint vep = {
+> > +			.bus_type = V4L2_MBUS_CSI2_DPHY
+> > +		};
+> > +		struct sensor_async_subdev *s_asd = NULL;
+> > +		struct fwnode_handle *ep;
+> >
+> > -	s_asd->csi2.port = vep->base.port;
+> > -	s_asd->csi2.lanes = vep->bus.mipi_csi2.num_data_lanes;
+> > +		ep = fwnode_graph_get_endpoint_by_id(
+> > +			dev_fwnode(&cio2->pci_dev->dev), i, 0,
+> > +			FWNODE_GRAPH_ENDPOINT_NEXT);
+> >
+> > -	return 0;
+> > -}
+> > +		if (!ep)
+> > +			continue;
+> >
+> > -static int cio2_notifier_init(struct cio2_device *cio2)
+> > -{
+> > -	int ret;
+> > +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > +		if (ret)
+> > +			goto err_parse;
+> >
+> > -	v4l2_async_notifier_init(&cio2->notifier);
+> > +		s_asd = kzalloc(sizeof(*s_asd), GFP_KERNEL);
+> > +		if (!s_asd) {
+> > +			ret = -ENOMEM;
+> > +			goto err_parse;
+> > +		}
+> >
+> > -	ret = v4l2_async_notifier_parse_fwnode_endpoints(
 > 
->    - hdpvr_close_to_open_ms_delay: specifies the amount of time that 
-> must elapse, in milliseconds,
->      between stopping streaming and starting streaming since the HD-PVR 
-> generally takes >3 seconds
->      to become ready for reads; defaults to 4000 ms.
+> How would you feel trying to remove this function completely? There
+> are only 2 users mainline (rcar-vin and sunxi) and this is 'yet
+> another way to parse an endpoint and add it to a notifier async list'.
 > 
->    - hdpvr_restart_streaming_max_tries: prevents the driver from getting 
-> into an out of control
->      restart loop; can be set to 0 to emulate the old driver behavior of 
-> no auto restarts; defaults to 1
-> 
->    - hdpvr_restart_streaming_ms_delay: after a streaming restart, the 
-> HD-PVR will not properly
->      respond for a brief time; this sets the delay applied after a 
-> restart; defaults to 100 milliseconds
-> 
-> - hdpvr_stop_streaming saves the stop time (in jiffies).
-> 
-> - hdpvr_start_streaming will sleep as needed to ensure that 
-> hdpvr_close_to_open_ms_delay has elapsed
->    since the last stop streaming.
-> 
-> - Remove the fixed sleep between the hdpvr_stop_streaming and 
-> hdpvr_start_streaming calls in hdpvr_read
->    since hdpvr_start_streaming now includes the necessary sleep for all 
-> starts.
-> 
-> - Fix bug where restarting streaming could incorrectly cause hdpvr_read 
-> to return 0 (EOF).
+> I would say, stabilizing on the use of one of the three
+> v4l2_async_notifier_add_ versions could be desirable...
 
-A quick review below.
-
-First of all, when you post the next version, just post each patch as a
-separate email. That's much easier to review.
+I agree. The reason I didn't do it in this patchset is that I have no
+hardware to test. I'd like to get in what I can test first.
 
 > 
->  From 38f265a0563a6aac16aea29f57d96fd2650d93e8 Mon Sep 17 00:00:00 2001
-> Date: Mon, 24 Jun 2019 22:04:48 -0500
-> Subject: [PATCH 1/2] Add adaptive sleeping in hdpvr_start_streaming
+> > -		&cio2->pci_dev->dev, &cio2->notifier,
+> > -		sizeof(struct sensor_async_subdev),
+> > -		cio2_fwnode_parse);
+> > -	if (ret < 0)
+> > -		goto out;
+> > +		s_asd->csi2.port = vep.base.port;
+> > +		s_asd->csi2.lanes = vep.bus.mipi_csi2.num_data_lanes;
+> > +
+> > +		ret = v4l2_async_notifier_add_fwnode_remote_subdev(
+> > +			&cio2->notifier, ep, &s_asd->asd);
+> > +		fwnode_handle_put(ep);
+> > +		if (ret)
+> > +			goto err_parse;
+> > +
+> > +		continue;
+> > +
+> > +err_parse:
+> > +		fwnode_handle_put(ep);
+> 
+> Won't the notifier cleanup put this device node for us?
 
-Add a description of what was changed here.
+There was an error so no. But we already did so before checking for the
+error. Good catch! ;)
 
-We also need a 'Signed-of-by:' line for each patch.
+> 
+> This apart, for the patch itself:
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> Thanks
+>   j
+> 
+> > +		kfree(s_asd);
+> > +		return ret;
+> > +	}
+> >
+> >  	/*
+> >  	 * Proceed even without sensors connected to allow the device to
+> > @@ -1512,25 +1527,13 @@ static int cio2_notifier_init(struct cio2_device *cio2)
+> >  	 */
+> >  	cio2->notifier.ops = &cio2_async_ops;
+> >  	ret = v4l2_async_notifier_register(&cio2->v4l2_dev, &cio2->notifier);
+> > -	if (ret) {
+> > +	if (ret)
+> >  		dev_err(&cio2->pci_dev->dev,
+> >  			"failed to register async notifier : %d\n", ret);
+> > -		goto out;
+> > -	}
+> > -
+> > -out:
+> > -	if (ret)
+> > -		v4l2_async_notifier_cleanup(&cio2->notifier);
+> >
+> >  	return ret;
+> >  }
+> >
+> > -static void cio2_notifier_exit(struct cio2_device *cio2)
+> > -{
+> > -	v4l2_async_notifier_unregister(&cio2->notifier);
+> > -	v4l2_async_notifier_cleanup(&cio2->notifier);
+> > -}
+> > -
+> >  /**************** Queue initialization ****************/
+> >  static const struct media_entity_operations cio2_media_ops = {
+> >  	.link_validate = v4l2_subdev_link_validate,
+> > @@ -1814,16 +1817,18 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+> >  	if (r)
+> >  		goto fail_v4l2_device_unregister;
+> >
+> > +	v4l2_async_notifier_init(&cio2->notifier);
+> > +
+> >  	/* Register notifier for subdevices we care */
+> > -	r = cio2_notifier_init(cio2);
+> > +	r = cio2_parse_firmware(cio2);
+> >  	if (r)
+> > -		goto fail_cio2_queue_exit;
+> > +		goto fail_clean_notifier;
+> >
+> >  	r = devm_request_irq(&pci_dev->dev, pci_dev->irq, cio2_irq,
+> >  			     IRQF_SHARED, CIO2_NAME, cio2);
+> >  	if (r) {
+> >  		dev_err(&pci_dev->dev, "failed to request IRQ (%d)\n", r);
+> > -		goto fail;
+> > +		goto fail_clean_notifier;
+> >  	}
+> >
+> >  	pm_runtime_put_noidle(&pci_dev->dev);
+> > @@ -1831,9 +1836,9 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+> >
+> >  	return 0;
+> >
+> > -fail:
+> > -	cio2_notifier_exit(cio2);
+> > -fail_cio2_queue_exit:
+> > +fail_clean_notifier:
+> > +	v4l2_async_notifier_unregister(&cio2->notifier);
+> > +	v4l2_async_notifier_cleanup(&cio2->notifier);
+> >  	cio2_queues_exit(cio2);
+> >  fail_v4l2_device_unregister:
+> >  	v4l2_device_unregister(&cio2->v4l2_dev);
+> > @@ -1852,7 +1857,8 @@ static void cio2_pci_remove(struct pci_dev *pci_dev)
+> >  	struct cio2_device *cio2 = pci_get_drvdata(pci_dev);
+> >
+> >  	media_device_unregister(&cio2->media_dev);
+> > -	cio2_notifier_exit(cio2);
+> > +	v4l2_async_notifier_unregister(&cio2->notifier);
+> > +	v4l2_async_notifier_cleanup(&cio2->notifier);
+> >  	cio2_queues_exit(cio2);
+> >  	cio2_fbpt_exit_dummy(cio2);
+> >  	v4l2_device_unregister(&cio2->v4l2_dev);
+> > --
+> > 2.11.0
+> >
 
-> 
-> ---
->   drivers/media/usb/hdpvr/hdpvr-core.c  |  4 ++++
->   drivers/media/usb/hdpvr/hdpvr-video.c | 18 ++++++++++++++++++
->   drivers/media/usb/hdpvr/hdpvr.h       |  5 +++++
->   3 files changed, 27 insertions(+)
-> 
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c 
-> b/drivers/media/usb/hdpvr/hdpvr-core.c
-> index 29ac7fc5b039..5f28174d409c 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-> @@ -39,6 +39,10 @@ int hdpvr_debug;
->   module_param(hdpvr_debug, int, S_IRUGO|S_IWUSR);
->   MODULE_PARM_DESC(hdpvr_debug, "enable debugging output");
-> 
-> +uint hdpvr_close_to_open_ms_delay = 4000;
-> +module_param(hdpvr_close_to_open_ms_delay, uint, S_IRUGO|S_IWUSR);
-> +MODULE_PARM_DESC(hdpvr_close_to_open_ms_delay, "delay restarting 
-> streaming by the specified number of milliseconds");
 
-Turn off line wrapping in your mail client!
 
-> +
->   static uint default_video_input = HDPVR_VIDEO_INPUTS;
->   module_param(default_video_input, uint, S_IRUGO|S_IWUSR);
->   MODULE_PARM_DESC(default_video_input, "default video input: 
-> 0=Component / 1=S-Video / 2=Composite");
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c 
-> b/drivers/media/usb/hdpvr/hdpvr-video.c
-> index 693c6169fc01..d114eff06469 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-video.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-video.c
-> @@ -276,6 +276,8 @@ static int hdpvr_start_streaming(struct hdpvr_device 
-> *dev)
->   {
->       int ret;
->       struct hdpvr_video_info vidinf;
-> +    u64 now_jiffies, delta_jiffies;
-> +    unsigned msec_to_sleep;
-> 
->       if (dev->status == STATUS_STREAMING)
->           return 0;
-> @@ -296,6 +298,19 @@ static int hdpvr_start_streaming(struct 
-> hdpvr_device *dev)
->       v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
->               "video signal: %dx%d@%dhz\n", vidinf.width,
->               vidinf.height, vidinf.fps);
-> +    now_jiffies = get_jiffies_64();
-
-No need to use get_jiffies_64();, just use 'jiffies'.
-
-> +    /* inline time_after64 since the result of the subtraction is needed
-> +     * for the sleep
-> +     */
-> +    delta_jiffies = dev->jiffies_next_start_streaming - now_jiffies;
-> +    if ((__s64)delta_jiffies > 0) {
-> +        /* device firmware may not be ready yet */
-> +        msec_to_sleep = jiffies_to_msecs(delta_jiffies);
-> +        v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev, "device 
-> firmware may not be ready yet, sleeping for %u milliseconds\n", 
-> msec_to_sleep);
-
-This line should be split over two lines since it is way too long.
-
-BTW, use hard TABs instead of spaces (just follow the existing coding
-style).
-
-You should also run scripts/checkpatch.pl --strict over your patch: it
-will check it for style errors.
-
-I've stopped reviewing here. The line wrapping and different coding style
-makes this too hard to review.
-
-Please clean it up first.
-
-Regards,
-
-	Hans
-
-> +        msleep(msec_to_sleep);
-> +    }
-> +    else
-> +        v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev, "device 
-> firmware assumed to be already stable, not sleeping\n");
-> 
->       /* start streaming 2 request */
->       ret = usb_control_msg(dev->udev,
-> @@ -328,6 +343,7 @@ static int hdpvr_stop_streaming(struct hdpvr_device 
-> *dev)
->       int actual_length;
->       uint c = 0;
->       u8 *buf;
-> +    u64 now_jiffies;
-> 
->       if (dev->status == STATUS_IDLE)
->           return 0;
-> @@ -364,6 +380,8 @@ static int hdpvr_stop_streaming(struct hdpvr_device 
-> *dev)
->       kfree(buf);
->       v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
->            "used %d urbs to empty device buffers\n", c-1);
-> +    now_jiffies = get_jiffies_64();
-> +    dev->jiffies_next_start_streaming = now_jiffies + 
-> msecs_to_jiffies(hdpvr_close_to_open_ms_delay);
->       msleep(10);
-> 
->       dev->status = STATUS_IDLE;
-> diff --git a/drivers/media/usb/hdpvr/hdpvr.h 
-> b/drivers/media/usb/hdpvr/hdpvr.h
-> index fa43e1d45ea9..a9d46fbeef9a 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr.h
-> +++ b/drivers/media/usb/hdpvr/hdpvr.h
-> @@ -43,6 +43,7 @@
->   /* #define HDPVR_DEBUG */
-> 
->   extern int hdpvr_debug;
-> +extern uint hdpvr_close_to_open_ms_delay;
-> 
->   #define MSG_INFO    1
->   #define MSG_BUFFER    2
-> @@ -95,6 +96,10 @@ struct hdpvr_device {
->       struct v4l2_dv_timings    cur_dv_timings;
-> 
->       uint            flags;
-> +    /* earliest jiffies at which the device firmware will be ready to
-> +     * start streaming
-> +     */
-> +    u64             jiffies_next_start_streaming;
-> 
->       /* synchronize I/O */
->       struct mutex        io_mutex;
-> 
-
->  From 83be5b523422fd39222368f977ab0c7981421aec Mon Sep 17 00:00:00 2001
-> Date: Thu, 27 Jun 2019 20:02:52 -0500
-> Subject: [PATCH 2/2] Add optional restart, with optional delay, after
->   restarting streaming
-> 
-> ---
->   drivers/media/usb/hdpvr/hdpvr-core.c  |  8 ++++++++
->   drivers/media/usb/hdpvr/hdpvr-video.c | 28 +++++++++++++++++++++++++++
->   drivers/media/usb/hdpvr/hdpvr.h       |  2 ++
->   3 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c 
-> b/drivers/media/usb/hdpvr/hdpvr-core.c
-> index 5f28174d409c..7cfd9ca6440b 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-> @@ -43,6 +43,14 @@ uint hdpvr_close_to_open_ms_delay = 4000;
->   module_param(hdpvr_close_to_open_ms_delay, uint, S_IRUGO|S_IWUSR);
->   MODULE_PARM_DESC(hdpvr_close_to_open_ms_delay, "delay restarting 
-> streaming by the specified number of milliseconds");
-> 
-> +uint hdpvr_restart_streaming_max_tries = 1;
-> +module_param(hdpvr_restart_streaming_max_tries, uint, S_IRUGO|S_IWUSR);
-> +MODULE_PARM_DESC(hdpvr_restart_streaming_max_tries, "restart streaming 
-> at most this many times within one read");
-> +
-> +uint hdpvr_restart_streaming_ms_delay = 100;
-> +module_param(hdpvr_restart_streaming_ms_delay, uint, S_IRUGO|S_IWUSR);
-> +MODULE_PARM_DESC(hdpvr_restart_streaming_ms_delay, "delay continue by 
-> the specified number of milliseconds after restarting streaming");
-> +
->   static uint default_video_input = HDPVR_VIDEO_INPUTS;
->   module_param(default_video_input, uint, S_IRUGO|S_IWUSR);
->   MODULE_PARM_DESC(default_video_input, "default video input: 
-> 0=Component / 1=S-Video / 2=Composite");
-> diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c 
-> b/drivers/media/usb/hdpvr/hdpvr-video.c
-> index d114eff06469..4feac0777a6c 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr-video.c
-> +++ b/drivers/media/usb/hdpvr/hdpvr-video.c
-> @@ -433,6 +433,7 @@ static ssize_t hdpvr_read(struct file *file, char 
-> __user *buffer, size_t count,
->       struct hdpvr_buffer *buf = NULL;
->       struct urb *urb;
->       unsigned int ret = 0;
-> +    unsigned int restarts_remaining = hdpvr_restart_streaming_max_tries;
->       int rem, cnt;
-> 
->       if (*pos)
-> @@ -483,6 +484,15 @@ static ssize_t hdpvr_read(struct file *file, char 
-> __user *buffer, size_t count,
->                   goto err;
->               }
->               if (!err) {
-> +                if (restarts_remaining == 0) {
-> +                    v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev, 
-> "timeout: no further restarts allowed by 
-> hdpvr_restart_streaming_max_tries; returning to caller with ret=%u", ret);
-> +                    /* This break will return the count of bytes copied
-> +                     * so far, which may be 0.  In that situation, the
-> +                     * user application will get an EOF.
-> +                     */
-> +                    break;
-> +                }
-> +                -- restarts_remaining;
->                   v4l2_info(&dev->v4l2_dev,
->                         "timeout: restart streaming\n");
->                   mutex_lock(&dev->io_mutex);
-> @@ -493,6 +503,24 @@ static ssize_t hdpvr_read(struct file *file, char 
-> __user *buffer, size_t count,
->                       ret = err;
->                       goto err;
->                   }
-> +                /* hdpvr_start_streaming instructs the device to stream,
-> +                 * but the device is usually not ready by the time
-> +                 * hdpvr_start_streaming returns.
-> +                 *
-> +                 * Without this continue, the loop would terminate.  If
-> +                 * no data had been copied by a prior iteration of the
-> +                 * loop, then hdpvr_read would return 0, closing the
-> +                 * file descriptor prematurely.  Continue back to the
-> +                 * top of the loop to avoid that.
-> +                 *
-> +                 * The device may not be ready within 1 second, so the
-> +                 * wait_event_interruptible_timeout would then restart
-> +                 * streaming a second time.  Delay here to give the
-> +                 * device time to stabilize first.
-> +                 */
-> +                if (hdpvr_restart_streaming_ms_delay)
-> +                    msleep(hdpvr_restart_streaming_ms_delay);
-> +                continue;
->               }
->           }
-> 
-> diff --git a/drivers/media/usb/hdpvr/hdpvr.h 
-> b/drivers/media/usb/hdpvr/hdpvr.h
-> index a9d46fbeef9a..2b3d92b2b639 100644
-> --- a/drivers/media/usb/hdpvr/hdpvr.h
-> +++ b/drivers/media/usb/hdpvr/hdpvr.h
-> @@ -44,6 +44,8 @@
-> 
->   extern int hdpvr_debug;
->   extern uint hdpvr_close_to_open_ms_delay;
-> +extern uint hdpvr_restart_streaming_max_tries;
-> +extern uint hdpvr_restart_streaming_ms_delay;
-> 
->   #define MSG_INFO    1
->   #define MSG_BUFFER    2
-
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
