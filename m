@@ -2,108 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B29A759873
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 12:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CD0659874
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2019 12:33:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbfF1Kd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726576AbfF1Kd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 28 Jun 2019 06:33:56 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:60328 "EHLO
+Received: from retiisi.org.uk ([95.216.213.190]:60340 "EHLO
         hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726484AbfF1Kd4 (ORCPT
+        by vger.kernel.org with ESMTP id S1726514AbfF1Kd4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 28 Jun 2019 06:33:56 -0400
 Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1002])
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 77045634C7B;
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id BE9AB634C7D;
         Fri, 28 Jun 2019 13:33:39 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         jacopo@jmondi.org, niklas.soderlund@ragnatech.se
-Subject: [PATCH v3 0/8] Rework V4L2 fwnode parsing; add defaults and avoid iteration
-Date:   Fri, 28 Jun 2019 13:33:46 +0300
-Message-Id: <20190628103354.5340-1-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 1/8] davinci-vpif: Don't dereference endpoint after putting it, fix refcounting
+Date:   Fri, 28 Jun 2019 13:33:47 +0300
+Message-Id: <20190628103354.5340-2-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190628103354.5340-1-sakari.ailus@linux.intel.com>
+References: <20190628103354.5340-1-sakari.ailus@linux.intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi folks,
+The davinci-vpif driver dereferences its local endpoints after releasing
+the reference to them.
 
-This patchset reworks V4L2 fwnode endpoint parsing. It enables the use of
-endpoint configuration defaults that is available sensors and other
-drivers that only use a single endpoint. Well, the functionality was
-available already but no driver used it likely because of two reasons:
-lack of any examples in a non-trivial problem area as well as lack of a
-needed functionality to obtain through non-iterative means in the fwnode
-graph API. Also the fwnode framework did not provide the most convenient
-APIs to perform this for drivers.
+The driver also puts its endpoints explicitly while the
+of_graph_get_next_endpoint() does that, too, leading to obtaining a
+reference once and releasing it twice.
 
-Conversion from the iterative API is done for the omap3isp and ipu3-cio2
-drivers. A downside here is that this adds code: what used to be done in
-the framework in a one-size-fits-all fashion is now the responsibility of
-the driver. The benefits (default settings and simplicity of the
-implementation from driver's point of view) are not really achievable
-without some of that.
+Both are fixed by this patch.
 
-I'll send a pull request on these soonish as they've been out for review
-for a long time with trivial changes in this version only.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/platform/davinci/vpif_capture.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-since v2:
-
-- Postpone fwnode matching by endpoints instead of device nodes.
-
-since v1:
-
-- Fix a typo in ipu3-cio2 driver --- it did not compile.
-
-- Remove unused ret variable.
-
-- Rework the code regarding ret variable in the 2nd patch. That code did
-  not compile until the 3rd patch fixed it.
-
-since RFC v1:
-
-- Add another patch to change fwnode refcounting for
-  v4l2_async_notifier_add_fwnode_subdev
-
-- Add a patch to fix OF node refcounting and use / put order for
-  davinci-vpif
-
-- Don't take endpoint reference in v4l2_async_register_subdev; that's not
-  intended
-
-- Fix kerneldoc documentation for
-  v4l2_async_notifier_add_fwnode_remote_subdev
-
-- Fix endpoint refcounting in the patch changing fwnode parsing for the
-  omap3isp driver
-
-- Fixed a compiler error in rcar_drif.c --- thanks, Niklas!
-
-Sakari Ailus (8):
-  davinci-vpif: Don't dereference endpoint after putting it, fix
-    refcounting
-  v4l2-async: Get fwnode reference when putting it to the notifier's
-    list
-  v4l2-async: Add v4l2_async_notifier_add_fwnode_remote_subdev
-  omap3isp: Rework OF endpoint parsing
-  v4l2-async: Safely clean up an uninitialised notifier
-  ipu3-cio2: Clean up notifier's subdev list if parsing endpoints fails
-  ipu3-cio2: Proceed with notifier init even if there are no subdevs
-  ipu3-cio2: Parse information from firmware without using callbacks
-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  96 ++++----
- drivers/media/platform/am437x/am437x-vpfe.c   |   5 +-
- drivers/media/platform/davinci/vpif_capture.c |  18 +-
- drivers/media/platform/omap3isp/isp.c         | 331 +++++++++++++++-----------
- drivers/media/platform/qcom/camss/camss.c     |   2 +-
- drivers/media/platform/xilinx/xilinx-vipp.c   |   2 +-
- drivers/media/v4l2-core/v4l2-async.c          |  28 ++-
- drivers/media/v4l2-core/v4l2-fwnode.c         |  23 +-
- include/media/v4l2-async.h                    |  30 ++-
- 9 files changed, 322 insertions(+), 213 deletions(-)
-
+diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+index f0f7ef638c56..394202c28b1a 100644
+--- a/drivers/media/platform/davinci/vpif_capture.c
++++ b/drivers/media/platform/davinci/vpif_capture.c
+@@ -1554,7 +1554,6 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+ 		if (!rem) {
+ 			dev_dbg(&pdev->dev, "Remote device at %pOF not found\n",
+ 				endpoint);
+-			of_node_put(endpoint);
+ 			goto done;
+ 		}
+ 
+@@ -1566,7 +1565,6 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+ 					    GFP_KERNEL);
+ 		if (!chan->inputs) {
+ 			of_node_put(rem);
+-			of_node_put(endpoint);
+ 			goto err_cleanup;
+ 		}
+ 
+@@ -1577,7 +1575,6 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+ 
+ 		err = v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint),
+ 						 &bus_cfg);
+-		of_node_put(endpoint);
+ 		if (err) {
+ 			dev_err(&pdev->dev, "Could not parse the endpoint\n");
+ 			of_node_put(rem);
+@@ -1608,6 +1605,7 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+ 	}
+ 
+ done:
++	of_node_put(endpoint);
+ 	pdata->asd_sizes[0] = i;
+ 	pdata->subdev_count = i;
+ 	pdata->card_name = "DA850/OMAP-L138 Video Capture";
+@@ -1615,6 +1613,7 @@ vpif_capture_get_pdata(struct platform_device *pdev)
+ 	return pdata;
+ 
+ err_cleanup:
++	of_node_put(endpoint);
+ 	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
+ 
+ 	return NULL;
 -- 
 2.11.0
 
