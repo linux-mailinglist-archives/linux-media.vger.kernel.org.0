@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E67F5AD1A
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 21:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 650865AD18
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 21:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727007AbfF2TdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727000AbfF2TdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sat, 29 Jun 2019 15:33:03 -0400
-Received: from mout.gmx.net ([212.227.15.15]:52727 "EHLO mout.gmx.net"
+Received: from mout.gmx.net ([212.227.15.15]:44279 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726946AbfF2TdC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726921AbfF2TdC (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sat, 29 Jun 2019 15:33:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561836762;
-        bh=EseqlfgzCuf/2Cl1h+E1XvwMILq15RJLvE3ijWYQ0lI=;
+        s=badeba3b8450; t=1561836763;
+        bh=rK8rvK0E2D7ZbAe4zS7pHvQrYn5x7ohLrrBKZLknkUU=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=FrJzy+5QBjbS3NLcmnI7cYCPjjhIKL0hWeZZ7tToTp1vlJ9zwD5t7XnaVVr9F2Nbi
-         SBb1VZI7azq0qiE7jiQUNbPYbBWx6sueV4Mkxwf5b7wn8NDcEgajVSIex2qzqULDPo
-         PD4JDSKI+5jqPcAh8mxQW7iKvtXAEqHCW9Z+r0t0=
+        b=ZsSBlnTDSZMEPKIUQfRD9f8auVzzQnnbvPImq8j0bJvhsuV5RyblYgAsmmpPW5k7+
+         +ZGkxNj5aVGN+PveqUip6qftjkiMLIzsFDyYNoTqzu0MBsdrSLWRZ9IzRH6dfAWhuT
+         d2Y+rnvlPP6kAO0/3w5fFlRKYakv7x1MQ2Yw2N5U=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx003 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 0MLfLH-1hgU8n1SuB-000x6C; Sat, 29 Jun 2019 21:32:42 +0200
+ 0MLOMM-1hgl7g3DrG-000fz3; Sat, 29 Jun 2019 21:32:42 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,34 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 26/29] staging: bcm2835-camera: Fix stride on RGB3/BGR3 formats
-Date:   Sat, 29 Jun 2019 21:31:40 +0200
-Message-Id: <1561836703-2528-2-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH V2 27/29] staging: bcm2835-camera: Add sanity checks for queue_setup/CREATE_BUFS
+Date:   Sat, 29 Jun 2019 21:31:41 +0200
+Message-Id: <1561836703-2528-3-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561836703-2528-1-git-send-email-wahrenst@gmx.net>
 References: <1561836703-2528-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:TYN5LMuAfpARE6vm8oAc8tSbskTP/sKRht8r6aUhwmgX2tUX6c1
- kfyokFTyrx6gBhZ7CbbZ2IcA8S4pFgWx/f4VAI+k9C0KB2GeZTGMgnk32f/G7Gm8mtFd6x7
- J1/SIis+6+YDvfNOWf4a7J/+nwUm9CmWf9UqCj3o33y0EGGfB+m7JRxErn2xP079uqLRMgI
- z4vtQQavPspjw5KNZphZw==
+X-Provags-ID: V03:K1:sDOOOORNsaWE+WMzRK4FSnZQ1bYVt3B2/9OPCk1Nghqhx6Vg08C
+ whJM09RSK77gyrEeJlCWCiqRQyKzXNEmEVCKKQB9emDR/jrRSNXjUo/R/2dEHlyvnOflWFI
+ wrnSRvFYi2nRBRjdTaa8OTpe25ngXRbpFcCSb6vEaDY0p/4jGsQ5AeSdpOQgou1rp3L6S6d
+ ilZ9Ie2P9fKd5/JdxxBdA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:52dxJ0fYAuI=:bSuUagRayxJ0o+uKxC1jME
- 0HU9BtwjJCXXO4BM6AtbYFqDaMi6V09fDjcO1s/JYaD2zitKu9csOegGZwqeMCZTbhmE2M/19
- tYUK0WglmxI7b0PJRyEHaI2jCloQQd0hlW86IhMcs/alSlQrQar6W5G63KydQCJ9SWrP1oXNr
- k9B/l1Z3xd/d1RTFfyxrjZC1GD2ZVcmPvynZlrqcElCptg2RFSJM+dTHvMjjeLbAi9b2buOvv
- XMcdIwEJ+hEFw+drq10Q2bpfDDbf/Q99I5jCtWJF9vmLhcntTQrRNqZeN5cV+QOAWtTjkS/gU
- B+xZFkFIIp8KaxJW9Z+cWm7GJxHuI6j8tDUWjkv/NEGSUmZGbM8oDAzMtj0cjgrqUaTEak/Fj
- d5JVT1Xnft2U0KsTp8BQ/dg3KS8hlewh3oNaU2zIP4ooZFMsxbmkLXpnbk2xrGScyU+GG+9AK
- /CjRFptToH5ZaVyi2srGVzjmucAG0BkltfGSNl97KODjht4Vjet2/TIA5rgDhcd4it5pEaTG3
- rrbh2P8U6VcF1EZZo0gv5cpu69InMkhbT7DBWMoDVOoqc52urMju+rRXnFgU+Chdk+ymzF5B5
- fynDK4Yj0HkFVBTBBRrjs1pHMLL5p60uHWi18eLAFi3Y5bb2Si2OE1rI1tj3mQJdKepiTC1g9
- YtDhE+8Ob5XVZPn64r8K3PiGpFejwfAk3BK/RwzG8820zk1oeOx3B3O85DZ+K8B+bZokgA99b
- 017NvElpjIuPDk1A9dUSrT3Y10WMZ4ZQFSZGEIYq4qvXHEuDUO2D18nqYlE7rJrfRYkkVk0od
- dKhvohD09LtSVkoBMkdUmqSI0WlfRgJOo9HL7uwg+a8Ge+9ZwIHwmsn/Jz+lsO8Xn2n+itnFB
- LfiXSZ1JvopsXBz68gQnkXnulippL5MmnocXlsY9L8JYP7FZhKMcHSxbnCPaM/lynZnMEXOtP
- Tb9NGyLEPkTNsWuUFrIexdtar3lIfyEiSBxwpS4tNtberAAkkoEVAvNb7126iilzDDj7SqdH0
- qJ/fJb7UOKyMJJjG2XlQgT1T3GN24GjxUa73yn2WMTL3YK1sEZg8sXacpwkO1TptXYyXhVxDT
- WaWxnxZgxt5kpE=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OBdmlzNyHJE=:V4tpvH6KCtlRVIuQuCx7N4
+ uIP4XdWgNZVSM5w4NnwMRBWObJBBy4wA8taWEJTf/rFK/0zPusAOuRT1YHCHQ9WaymbfQPHP1
+ dTBYbt8YxklwJYee53uOc5GHTVDExnfhOYSpjNWVnIl3KdgTzQhogP1iummvVnFx7Mw+ssucC
+ L4tlohDr83gk5JLPDCoteeJuN18NWBRTZcy54qxKnuKCNkzXgS7XPxU6E810k+KQENeKlDDfd
+ j25IgSeBMwC1Bhp0Q//PfSntR/wAzd6ohieB75X9baidQG82LqMNVhUo61P3jCm3gVd3UMncw
+ 7QgtXgArVmnnXe0BrP3fBtC/oX1XI12QLbZIUGQ6wF7UB7MzT9J0Hsj78IJUazjj1Mxrq2QUW
+ rNeSNdlmwMJANCgnMPj1VOLme08DN8LQP4AHyBW6s1m/G/YDB6X+CNAUchEb37iOhjRTdE9gQ
+ CpgVha+1npK+WnF27wR8pjuvrG0fX50/E3XwTsA0RI4SnG4ZflfPr13atf4ekraC/IGl51Yxr
+ f1qylPOTjfUj3tg7CI3bR3qBWNilmxg5RjdGymRikKseH3iT0QUmcMJuS3GPavBxJQXVLKC6T
+ 1uazOi/q6fMTsj1OxYqo1f/d7FGK1wYOPkiS7b845pN1OimL+onTEv4nIaDteajuiNgHBlaqD
+ Rtl8Ecpyk8gz6zEfxBQMf+1cQSoZTG1i3HhsfQE/g9mNavBiPEaALgvbzIUXazMEht11KNUpd
+ Nh7LBHq1iHbdtBBjV1BsqIddHJRA2NnxWOA7kQPM3HRqehQEUPzb+t47mmK00cAbY5ASGPioe
+ K/Yvyzf32tvkRpKnrSOfSNS0wd0UgcWOxhUfhTNJgbkgD5zMDgJaoqEW3fOzHljOkCdr2aEaI
+ 7yLNbZciqNTDAbaCkTGgPqWW+jfMmCPNybpWhkC2HJvwDveP9d+XLcVhPl/HgfJ4y6b4pLbqH
+ 9XuPmcqi7jd+7mL4jT1rbhhvKW7VUg06BA+VBZE2BzVerzSmFMaHRA2eFg4Iv6KU/EAalN8m4
+ ZwbCKOLaTpe4zLkRXOAxZ0hEYaAZQmrwjD59kOx/wam+hg5M5Mdki4ESsvYj7TcB75pMmbKML
+ 6bYYQ3HS7627i8=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -67,61 +67,52 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-RGB3/BGR3 end up being 3 bytes per pixel, which meant that
-the alignment code ended up trying to align using bitmasking
-with a mask of 96.
-That doesn't work, so switch to an arithmetic alignment for
-those formats.
+Fixes a v4l2-compliance failure when passed a buffer that is
+too small.
+queue_setup wasn't handling the case where *nplanes !=3D 0, as
+used from CREATE_BUFS and requiring the driver to sanity
+check the provided buffer parameters. It was assuming that
+it was always being used in the REQBUFS case where it provides
+the buffer properties.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 =2D--
- .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 26 +++++++++++++++++=
-=2D----
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c        | 16 +++++++++++=
++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c=
  b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 1aaae57..1ad65dd 100644
+index 1ad65dd..9c90d9b 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
 +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -960,13 +960,27 @@ static int vidioc_try_fmt_vid_cap(struct file *file,=
- void *priv,
- 			      1, 0);
- 	f->fmt.pix.bytesperline =3D f->fmt.pix.width * mfmt->ybbp;
- 	if (!mfmt->remove_padding) {
--		int align_mask =3D ((32 * mfmt->depth) >> 3) - 1;
--		/* GPU isn't removing padding, so stride is aligned to 32 */
--		f->fmt.pix.bytesperline =3D
--			(f->fmt.pix.bytesperline + align_mask) & ~align_mask;
-+		if (mfmt->depth =3D=3D 24) {
-+			/*
-+			 * 24bpp is a pain as we can't use simple masking.
-+			 * Min stride is width aligned to 16, times 24bpp.
-+			 */
-+			f->fmt.pix.bytesperline =3D
-+				((f->fmt.pix.width + 15) & ~15) * 3;
-+		} else {
-+			/*
-+			 * GPU isn't removing padding, so stride is aligned to
-+			 * 32
-+			 */
-+			int align_mask =3D ((32 * mfmt->depth) >> 3) - 1;
-+
-+			f->fmt.pix.bytesperline =3D
-+				(f->fmt.pix.bytesperline + align_mask) &
-+							~align_mask;
-+		}
- 		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
--			 "Not removing padding, so bytes/line =3D %d, (align_mask %d)\n",
--			 f->fmt.pix.bytesperline, align_mask);
-+			 "Not removing padding, so bytes/line =3D %d\n",
-+			 f->fmt.pix.bytesperline);
+@@ -236,6 +236,22 @@ static int queue_setup(struct vb2_queue *vq,
+ 		return -EINVAL;
  	}
 
- 	/* Image buffer has to be padded to allow for alignment, even though
++	/* Handle CREATE_BUFS situation - *nplanes !=3D 0 */
++	if (*nplanes) {
++		if (*nplanes !=3D 1 ||
++		    sizes[0] < dev->capture.port->current_buffer.size) {
++			v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
++				 "%s: dev:%p Invalid buffer request from CREATE_BUFS, size %u < %u, n=
+planes %u !=3D 1\n",
++				 __func__, dev, sizes[0],
++				 dev->capture.port->current_buffer.size,
++				 *nplanes);
++			return -EINVAL;
++		} else {
++			return 0;
++		}
++	}
++
++	/* Handle REQBUFS situation */
+ 	size =3D dev->capture.port->current_buffer.size;
+ 	if (size =3D=3D 0) {
+ 		v4l2_err(&dev->v4l2_dev,
 =2D-
 2.7.4
 
