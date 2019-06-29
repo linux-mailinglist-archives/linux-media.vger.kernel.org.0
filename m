@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C37315AAB5
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E695AABA
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:14:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727060AbfF2MOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 08:14:37 -0400
-Received: from mout.gmx.net ([212.227.17.21]:55295 "EHLO mout.gmx.net"
+        id S1727065AbfF2MOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 08:14:40 -0400
+Received: from mout.gmx.net ([212.227.17.21]:56933 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727043AbfF2MOg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 08:14:36 -0400
+        id S1727039AbfF2MOj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jun 2019 08:14:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561810446;
-        bh=XsCSZFtMGn8TEqXeoQWK7pBSlK9ZoMDMSNSPhL3eAqg=;
+        s=badeba3b8450; t=1561810447;
+        bh=xSZf4sshgnOGkIeYWvVPeHeJaQd7iBzaUFcewOT9zlM=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=dQe1gCjQZec8NuvQ8p5TxSq4dqcQ1a24W0+kR/ax6Qu3CAAUm4sCLlpWylvVpZeKf
-         5pCOzYH355TMyvFLCIY6WlnDoqF67sIqZLmO6/2L+dNkaROQue2kL3GmI37XMlTbX0
-         hnjXoUWscgtVy1yMz/ma79lNhaINqA13QPa3Pq7I=
+        b=S+KunKnAkvNNEiWt4AW8FiVkbSb9cwZfEXvJCA2WdvcPrHL0BCN8i61esY0nHXKff
+         Um/7xG3v61Z5qO3sQMORinTgHjlA6eB5qhVfLPPujGMRQDfNY1mXpGoQx4YJiZUe7S
+         F/k3vsR7ZlCe1iVErf9LdjLuuIaYVMcJkvz5EDzY=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx103 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 0LyEUz-1ib6MN2SAf-015cXP; Sat, 29 Jun 2019 14:14:06 +0200
+ 0LpbfG-1iASWP02li-00fOaa; Sat, 29 Jun 2019 14:14:07 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,35 +31,37 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 05/29] staging: bcm2835-camera: Return early on errors
-Date:   Sat, 29 Jun 2019 14:13:20 +0200
-Message-Id: <1561810410-8829-6-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH V2 06/29] staging: bcm2835-camera: Remove dead email addresses
+Date:   Sat, 29 Jun 2019 14:13:21 +0200
+Message-Id: <1561810410-8829-7-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
 References: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:uHemwYg13/jic9QLGpqUQIie5rCHxJoQET8DxwVg2MpLubY1wp2
- 8ohoUL3hv8zWd5L+p9BBdA0+nGuEbRwGZaY7wtFTyV4VgxNhMeVkZRhCnnH730vEpZ1V3lF
- 1tnOyMcVgY7rgMLtcyfoU2XAfNhsgSCGWVWXt5KKcnHmMRMx9oYNiNaDgVU3FBo6ILieaD7
- /xYqe/WOI+HFH6jhaj49A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HaRXCETBJO0=:MGe1Qp12avPevQPeXCtJUy
- tOqT2yE/R0QzP6Q6JQPU9aICM2esTj8rJsLG4kF1/r9cJnJQgKc4iA0F1hptBMYwdARIAsGzt
- seNbb2N6yD+eAg/lh0oFj0jXX3vyWO4wb6HZywmrr+tGGaXe2tzyk2C/pYgmrbvBPWbiZ+4Jj
- s016J4cy5ynY2q52JFBrelXfwpkWtDKs6lQwA7QlNsOlMXS6X/UayvDI9kUzO95Y969qWdvBM
- pI6WKcTv9tzqslZa4kueI/H5KBi1lPDFsMS8fgtzxm0bNDauosPXOXmy+R1wL+Y9JsUJI/4M9
- E0Uz8XB01MuD+5rq9I/ZMJk2JmyCDpaHVfVRydS1dRpclrfMv1FHCHZ0oPJfVowL22QE1js/c
- bqFkbinepocFKex7E7JAjgOKw4enytfXR+LCz50gS/fVfUFOLxevpCNEVDycHvtfFGJWoZ/ZY
- ELhjc5ss5Pm47pxYCfQRAv7xoM5/hoS9FF6BUw3J7z9jMisUDA91T83kLj24XgGq3z9+77kFG
- uu+83a82hqBSva+nPYzGsvjHmhRfkpvzgoogbWN9VcnTUyaCKQi5Nnz1v9AF8MCIC5AkjLX63
- 3Qz8cfWg+ptREsgJTsZipf8ZJfsWAMk7kpShe3BjVu0vuQ6krhuD3KgPPDPyVQ4/FgiW0N0c6
- lMfbwkT8NOx6Bt4lOpjuVVmNqbc0omEqCjC4BQEtWXzNjTSfb0yhwR5tdLzEt1RA9n+/cC90o
- 1qplWmbmG2Vlkro14R6JE2FxE4wKNkq0dPHMSnd5rokPoBX/NUuXW56p3RnJmV/JZTP+Hj/83
- YQ19PshzwvY3LCuTX8jVWa/aQtlXkMxOFx8Blv8qHP0HaIaIv4+SRqZA3/ZqZvTEmJ4qHh9oF
- 1sy7LVqWg5iZUpQqFEFREdWMyyJ/8HHPUmil0akZc+w0B9jKXDx4jDk+U01Yo5vHgufJnTRh+
- FLanyR9Q9z9lJdTl0DN1qMZYPjFA+vsqV9TlmONus0Z9MXMf4aWHktloxhwx/cRaDgBpORCwE
- f+DrEZkokpkdpksbKsNGyOrEdpB30pJii83FC/neYfFgDvhBeK2eXCZY6kyRS5zG9P3pd0GpI
- SCgDF+m2/ukeR4=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:u8dcX+uPWI8jZABOAZWV8959v75+wgTRZA+GL0NYeBiNO4JNFSI
+ O8CFXIef267l28FpxCc6gfHE7zQDg3Bf+rp9PxTlpGdvHPpdbnF7LU5zEIorRVs3/k+hQdl
+ lccYss5+ObL6t8Z7Vpb3AnfUkAMy5WqEbeOHUVgEh3nMcsnlYOX20kWwbIBIBMd7Oar8xSt
+ EJSlGqdeFwam1zLN81ykA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k4vywjo8ii4=:WGFAa+5MVPGtF9Ys6CGr31
+ vm5r5DuUKzJt6dfLqlVvJyi/f8p3W3VhfwDBBBmH+OtZ16/ErqBIT4WoyeLEkbMW6ziJSx2RU
+ +E3/ewZ8PrLcQnD6+qfGhIktOSKC/wP2pEnPNt2PhhQWAWd7Dd2TncHstece1jlbgOuL3MA5C
+ 77ObPR4B/Cn8TTCS6U7bSCkbSoi/hgmmAPaBPciAM8P+91CvhXcMMoMvQ4BCeax91abnI4+eB
+ PlaFBs2ZdCRtd4pYqmDSiDfxxpZRT2/GChULjmXKDqGgaz9UNQSWAk5gaYrbpNJjHeTeWRO+2
+ g/J5OW5nVZXB4n8MGj7ZYMoxpI8aefkWs6c7YUbr3d0XHVophXoSPXaXNcGAsvK5stiS8FvVn
+ i/Y0rAsN0eKTML6kY0CZIiSCaprCqZM8gtPo3FBzsmjNnsOj+fOb2btcV7/uEqIW9umA8eN3v
+ GVWqtVzqjymlqpDgAEi50cgUkOxXW1P0+UgqKi4qpTOLUyvGZOSwU2G+JB5U5VMPkhCe5xsqw
+ MdgQncPNCT8dLZ2FsoNTagFXa1PemeDQlixpvtvi2rpazrenIMSSCPabYcLlQ2Hrt36TQyzaL
+ Je9ohV382bXDg5oq+vGaYUieY0myBKWhmNw/6rhNJLtYmxknSv/fV+eaC0C39BHYsp5HWmCvc
+ Wr3DMN1Iq/dzp/bqhEJNS20rzjAWPXIZSNEd/UpxBditMD9F1egstn7a7N9cu3fz4A7chHl9e
+ lXDlwSGaQE0OW9dy4zN4Hi3EnFgHzzzgmoBQgL80cHMNQZN4fPRqlMWswQKWDjb5rE/uoJ0i0
+ 6Klmu3tqe3MKTcEUbFyNfHAOkOd/ev6e3YqtP0/yelP6/TUD1YAF+f/ACSH47u0yIDLDA/EDW
+ kUHQ3kOh+lQFLF4tRVGkW9Swas/6Najw2jfrGB4QalK1gJrOOqNfpftOxRyhmc52X1WlQEbCH
+ 55b7EvoHZ0qbME4t5qGbm16UIOcUNHVkfICaKVThDDWAuXDaQdDbQghU8g8lVeiSMQ4z5HZpF
+ LV3P5JBqlKBay7UvP7Z/PZgjNeFEoXdYoulK9VxBm+Kb/Wz3G1XBY05TcUN0rhOmR/MQ+NIhM
+ PZ21T3gt7DVaCs=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -67,160 +69,293 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Fix several instances where it is easier to return
-early on error conditions than handle it as an else
-clause. As requested by Mauro.
+None of the listed author email addresses were valid.
+Keep list of authors and the companies they represented.
+Update my email address.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 =2D--
- .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 94 +++++++++++------=
------
- 1 file changed, 49 insertions(+), 45 deletions(-)
+ drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h  | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/controls.c        | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-common.h     | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h  | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h   | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h        | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c      | 9 +++++-=
+---
+ drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h      | 9 +++++-=
+---
+ 12 files changed, 60 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c=
  b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index e81d4df..1e2b51b 100644
+index 1e2b51b..c9d3636 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
 +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -334,7 +334,9 @@ static void buffer_cb(struct vchiq_mmal_instance *inst=
-ance,
- 			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
- 		}
- 		return;
--	} else if (length =3D=3D 0) {
-+	}
-+
-+	if (length =3D=3D 0) {
- 		/* stream ended */
- 		if (buf) {
- 			/* this should only ever happen if the port is
-@@ -357,46 +359,48 @@ static void buffer_cb(struct vchiq_mmal_instance *in=
-stance,
- 			/* signal frame completion */
- 			complete(&dev->capture.frame_cmplt);
- 		}
-+		return;
-+	}
-+
-+	if (!dev->capture.frame_count) {
-+		/* signal frame completion */
-+		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+		complete(&dev->capture.frame_cmplt);
-+		return;
-+	}
-+
-+	if (dev->capture.vc_start_timestamp !=3D -1 && pts) {
-+		ktime_t timestamp;
-+		s64 runtime_us =3D pts -
-+		    dev->capture.vc_start_timestamp;
-+		timestamp =3D ktime_add_us(dev->capture.kernel_start_ts,
-+					 runtime_us);
-+		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
-+			 "Convert start time %llu and %llu with offset %llu to %llu\n",
-+			 ktime_to_ns(dev->capture.kernel_start_ts),
-+			 dev->capture.vc_start_timestamp, pts,
-+			 ktime_to_ns(timestamp));
-+		buf->vb.vb2_buf.timestamp =3D ktime_to_ns(timestamp);
- 	} else {
--		if (dev->capture.frame_count) {
--			if (dev->capture.vc_start_timestamp !=3D -1 && pts) {
--				ktime_t timestamp;
--				s64 runtime_us =3D pts -
--				    dev->capture.vc_start_timestamp;
--				timestamp =3D ktime_add_us(dev->capture.kernel_start_ts,
--							 runtime_us);
--				v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
--					 "Convert start time %llu and %llu with offset %llu to %llu\n",
--					 ktime_to_ns(dev->capture.kernel_start_ts),
--					 dev->capture.vc_start_timestamp, pts,
--					 ktime_to_ns(timestamp));
--				buf->vb.vb2_buf.timestamp =3D ktime_to_ns(timestamp);
--			} else {
--				buf->vb.vb2_buf.timestamp =3D ktime_get_ns();
--			}
-+		buf->vb.vb2_buf.timestamp =3D ktime_get_ns();
-+	}
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
--			vb2_set_plane_payload(&buf->vb.vb2_buf, 0, length);
--			if (mmal_flags & MMAL_BUFFER_HEADER_FLAG_KEYFRAME)
--				buf->vb.flags |=3D V4L2_BUF_FLAG_KEYFRAME;
-+	vb2_set_plane_payload(&buf->vb.vb2_buf, 0, length);
-+	if (mmal_flags & MMAL_BUFFER_HEADER_FLAG_KEYFRAME)
-+		buf->vb.flags |=3D V4L2_BUF_FLAG_KEYFRAME;
+ #include <linux/errno.h>
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h=
+ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
+index 2b5679e..9adbe93 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  *
+  * core driver device
+  */
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
+vers/staging/vc04_services/bcm2835-camera/controls.c
+index 133aa6e..b142130 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
--			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+ #include <linux/errno.h>
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h b/=
+drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
+index a20bf27..858bdcd 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-common.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  *
+  * MMAL structures
+  *
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h=
+ b/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
+index 1292035..2be9941 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-encodings.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
+ #ifndef MMAL_ENCODINGS_H
+ #define MMAL_ENCODINGS_H
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.=
+h b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
+index ec84556..342c9b6 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-common.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
--			if (mmal_flags & MMAL_BUFFER_HEADER_FLAG_EOS &&
--			    is_capturing(dev)) {
--				v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
--					 "Grab another frame as buffer has EOS");
--				vchiq_mmal_port_parameter_set(
--					instance,
--					dev->capture.camera_port,
--					MMAL_PARAMETER_CAPTURE,
--					&dev->capture.frame_count,
--					sizeof(dev->capture.frame_count));
--			}
--		} else {
--			/* signal frame completion */
--			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--			complete(&dev->capture.frame_cmplt);
--		}
-+	if (mmal_flags & MMAL_BUFFER_HEADER_FLAG_EOS &&
-+	    is_capturing(dev)) {
-+		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
-+			 "Grab another frame as buffer has EOS");
-+		vchiq_mmal_port_parameter_set(
-+			instance,
-+			dev->capture.camera_port,
-+			MMAL_PARAMETER_CAPTURE,
-+			&dev->capture.frame_count,
-+			sizeof(dev->capture.frame_count));
- 	}
- }
+ #ifndef MMAL_MSG_COMMON_H
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.=
+h b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
+index c9d6fbe..5ea1a1b 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-format.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
-@@ -775,28 +779,28 @@ static int vidioc_overlay(struct file *file, void *f=
-, unsigned int on)
+ #ifndef MMAL_MSG_FORMAT_H
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h =
+b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
+index 3b3ed79..fe5768d 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg-port.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
- 	ret =3D vchiq_mmal_port_set_format(dev->instance, src);
- 	if (ret < 0)
--		goto error;
-+		return ret;
+ /* MMAL_PORT_TYPE_T */
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h b/dri=
+vers/staging/vc04_services/bcm2835-camera/mmal-msg.h
+index 90793c9..332de57 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-msg.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
- 	ret =3D set_overlay_params(dev, dst);
- 	if (ret < 0)
--		goto error;
-+		return ret;
+ /* all the data structures which serialise the MMAL protocol. note
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.=
+h b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
+index 184024d..96e987d 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  */
 
- 	if (enable_camera(dev) < 0)
--		goto error;
-+		return -EINVAL;
-
- 	ret =3D vchiq_mmal_component_enable(
- 			dev->instance,
- 			dev->component[MMAL_COMPONENT_PREVIEW]);
- 	if (ret < 0)
--		goto error;
-+		return ret;
-
- 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev, "connecting %p to %p\n",
- 		 src, dst);
- 	ret =3D vchiq_mmal_port_connect_tunnel(dev->instance, src, dst);
--	if (!ret)
--		ret =3D vchiq_mmal_port_enable(dev->instance, src, NULL);
--error:
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	return vchiq_mmal_port_enable(dev->instance, src, NULL);
- }
-
- static int vidioc_g_fbuf(struct file *file, void *fh,
+ /* common parameters */
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c b/d=
+rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
+index 1a343d8..5175e2c 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  *
+  * V4L2 driver MMAL vchiq interface code
+  */
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h b/d=
+rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
+index 22b839e..0e5a81b 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
++++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
+@@ -4,10 +4,11 @@
+  *
+  * Copyright =C2=A9 2013 Raspberry Pi (Trading) Ltd.
+  *
+- * Authors: Vincent Sanders <vincent.sanders@collabora.co.uk>
+- *          Dave Stevenson <dsteve@broadcom.com>
+- *          Simon Mellor <simellor@broadcom.com>
+- *          Luke Diamand <luked@broadcom.com>
++ * Authors: Vincent Sanders @ Collabora
++ *          Dave Stevenson @ Broadcom
++ *		(now dave.stevenson@raspberrypi.org)
++ *          Simon Mellor @ Broadcom
++ *          Luke Diamand @ Broadcom
+  *
+  * MMAL interface to VCHIQ message passing
+  */
 =2D-
 2.7.4
 
