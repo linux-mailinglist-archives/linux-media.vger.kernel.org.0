@@ -2,121 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F1A5A8AE
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 05:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA555A8B3
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 05:46:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbfF2DeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 23:34:24 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:54917 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726719AbfF2DeY (ORCPT
+        id S1726766AbfF2Dqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 23:46:43 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:47755 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726708AbfF2Dqn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 23:34:24 -0400
-X-Halon-ID: e98c0dff-9a1d-11e9-8601-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from localhost (unknown [145.14.112.32])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPSA
-        id e98c0dff-9a1d-11e9-8601-0050569116f7;
-        Sat, 29 Jun 2019 05:28:08 +0200 (CEST)
-Date:   Sat, 29 Jun 2019 05:28:17 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@fsdn.se>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/3] media: v4l2-subdev: Verify arguments in
- v4l2_subdev_call()
-Message-ID: <20190629032817.GQ32581@bigcity.dyn.berto.se>
-References: <20190520212747.368-1-jmkrzyszt@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520212747.368-1-jmkrzyszt@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        Fri, 28 Jun 2019 23:46:43 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:84aa:3b19:7432:99a9])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id h4JzhWYavAOfNh4K0hf4Bh; Sat, 29 Jun 2019 05:46:40 +0200
+Message-ID: <4f9d9291c269ea90df38af6456a5a99c@smtp-cloud9.xs4all.net>
+Date:   Sat, 29 Jun 2019 05:46:39 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfJh0Vdyu1lSNI+s1JHVt+B7zGRl6+141dF+L89Ji5jENnjBM7XzGYklTKIYEoUSzknRlmT5FBLLJ8MZIIHdADek0AXR2Pi8y10RnPHgWyb4e48FRkSCo
+ 3NICBAQGSGRIWwj43pQInCp/s3AXbX1aCwNctrg6JQG4TEURljIOM7mNy5sEF3pbG9v+Q4F8aXyVF88UwvSUSMsIPbibwZtP4fVB4OXZIUsVJMuDOMeKq6/r
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This patch breaks rcar-vin. I'm sorry I did not find out before it was 
-merged as a8fa55078a7784a9 ("media: v4l2-subdev: Verify arguments in 
-v4l2_subdev_call()").
+Results of the daily build of media_tree:
 
-The problem is that rcar-vin calls enum_mbus_code in its bound callback.  
-At this point call_enum_mbus_code() is invoked which then calls 
-check_pad(). At this point sd->entity.graph_obj.mdev is not set so the 
-check if (pad > 0) fails and the binding of the subdevice in rcar-vin 
-fails.
+date:			Sat Jun 29 05:00:12 CEST 2019
+media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
+media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
+v4l-utils git hash:	b16f9e945d74aa552abdd6f873821cb77faaf13a
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I'm not sure how to best solve this, suggestions are appreciated. I see 
-two options, move the call to enum_mbus_code from the bound to the 
-complete callback or make sure the mdev is associated with the subdev 
-before the bound callback is invoked. I don't like the former as I think 
-the complete callback should be removed ;-)
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-On 2019-05-20 23:27:44 +0200, Janusz Krzysztofik wrote:
-> Correctness of format type (try or active) and pad ID parameters passed
-> to subdevice operation callbacks is now verified only for IOCTL calls.
-> However, those callbacks are also used by drivers, e.g., V4L2 host
-> interfaces.
-> 
-> Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
-> macro while calling subdevice operations, move those parameter checks
-> from subdev_do_ioctl() to v4l2_subdev_call().  Also, add check for
-> non-NULL pointers, including pad config if V4L2_SUBDEV_FORMAT_TRY is
-> requested.
-> 
-> Having that done, we can avoid taking care of those checks inside
-> drivers.
-> 
-> Janusz Krzysztofik (3):
->   media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
->   media: v4l2-subdev: Verify v4l2_subdev_call() pointer arguments
->   media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument
-> 
->  drivers/media/v4l2-core/v4l2-subdev.c | 268 +++++++++++++++++---------
->  include/media/v4l2-subdev.h           |   6 +
->  2 files changed, 188 insertions(+), 86 deletions(-)
-> 
-> Changelog:
-> v6->v7:
-> Changes suggested by Sakari - thanks!
-> - never succeed pad check on media entities with pad_num == 0,
-> - allow pad 0 on subdevies not registered as media entities.
-> 
-> v5->v6:
-> - rename wrappers to call_something() as suggested by Sakari - thanks!
-> - make check_ functions inline - also on Sakari's suggestion, thanks!
-> - drop patch 2/4 and remove WARN_ONs from remaining patches to avoid
->   kernel WARNs on non-kernel bugs - thanks Hans for pointing this out!
-> 
-> v4->v5:
-> - a few coding style and code formatting changes,
-> - require CONFIG_MEDIA_CONTROLLER, not CONFIG_VIDEO_V4L2_SUBDEV_API,
->   for a valid pad ID check,
-> - perform pad ID check only if at least one pad is configured so
->   drivers which don't configure pads are not affected if built with
->   CONFIG_MEDIA_CONTROLLER defined,
-> - issue kernel warnings on invalid parameters (new patch - 2/4),
-> - validate pointers before using them (new patch - 3/4).
-> 
-> v3->v4:
-> - fix 'struct' keyword missing from patch 2/2,
-> - fix checkpatch reported style issue in patch 2/2
-> Sorry for that.
-> 
-> v2->v3:
-> - add patch 2/2 with pad config check,
-> - adjust continuation line alignments in patch 1/2 to match those
->   used in 2/2.
-> 
-> v1->v2:
-> - replace the horrible macro with a structure of wrapper functions;
->   inspired by Hans' and Sakari's comments - thanks!
-> 
-> -- 
-> 2.21.0
-> 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
