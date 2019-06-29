@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F6775AAAF
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDF75AAB1
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:14:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbfF2MOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 08:14:33 -0400
-Received: from mout.gmx.net ([212.227.17.20]:60873 "EHLO mout.gmx.net"
+        id S1727047AbfF2MOf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 08:14:35 -0400
+Received: from mout.gmx.net ([212.227.17.22]:51089 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726965AbfF2MOd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 08:14:33 -0400
+        id S1727013AbfF2MOc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jun 2019 08:14:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
         s=badeba3b8450; t=1561810450;
-        bh=+MNg9Ng71wZ+upNb9jMR88EfmSYMRi5mPcFt4Zwi63A=;
+        bh=PsXPKTFlFy3F5v1GrxunrIbc0Yz6bQq+zN7/aiCfhr8=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=LE8tkjEcaptJ8W4ccljYqlcsvyIIoI2UsKbIe9UeqRmcwLq3BG7qVQWDOeSCcFwcC
-         Hbbbt3KkBI0beq5+0ePSw1xUgiQoqCtbM9yVnTsDeGPf0Sui8msUgEO3nvXCwBI1TL
-         HYJH/jXVvKwcm0ZSjem3ABi9jiTjroghPsh/sVRQ=
+        b=GGL2Cui21skezh03MLIAqtwX733RXjVzL25OHafdZFiP/lnXUEexKeljJZ/frWJGw
+         X/U2oguQkQyTskiVWF22rRPqGC2mjA6rPePYzjnb7oU+tQVeTKEDk8xUetq4LZ9NqD
+         jL97VwTqXUf3fUWgudrDCMa5iSXtS8FkU/YFIxyc=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx103 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 0MOwY7-1haqiT0bEV-006Kt3; Sat, 29 Jun 2019 14:14:10 +0200
+ 0LymjL-1iaY7h2Y23-016Alh; Sat, 29 Jun 2019 14:14:10 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,34 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 13/29] staging: bcm2835-camera: Fix open parenthesis alignment
-Date:   Sat, 29 Jun 2019 14:13:28 +0200
-Message-Id: <1561810410-8829-14-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH V2 14/29] staging: bcm2835-camera: Ensure all buffers are returned on disable
+Date:   Sat, 29 Jun 2019 14:13:29 +0200
+Message-Id: <1561810410-8829-15-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
 References: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:qnVbBMjKF9tsH/xeRV2gaNlIm6MhdhWQQPBaOhwQZWzfj7J7KDb
- A5PQICqF1gSkKG2lrCFARwgxCBhxgZmbTh04U+HklFrWzwXIZRSHgDn7gqoivAeajHr34rv
- Bg8YIoO92N5brREftQmfvRoEBSwFbRSpLHrtQCHsBSloGG2W27nWAa0uG+JweCNqRSsfw26
- 1Vt6W2kg2pimi90SWFgeA==
+X-Provags-ID: V03:K1:wyjbWJY8Q2242ZTH+m/0IHN6J/mB8YMeACQ9qibx2sJtIw+WokY
+ 7mCx/PHEVXIKhMLT7IlMRXaxgYIXpwGDMVjEPG6FfGQHfuIf/v/BUFKJE+o5kWBLZgN/VtU
+ oxY2Av5a0RtGwZ7eJ9d814JeFG+UitWBJoaBB1F0dY/jFXQMz8lNe3j9JZDZ1jIy14sq9rg
+ k6RAx/moRh5AoRPzuP6qw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GH6PcsME5uw=:YSpif96mUcCw/0tifg9tJ4
- XX00hZegr2q4OQubQBsQMO1gg7tGNJcFaVw1PL0RC9p6eXTxHoyfq5BcJHA/7V5G0xxjog+2c
- QSsLO+T2gQzYOuUythYdneZKLh+8rNzBzzRaifUcVDwmC0HXoHVWwSCg/6SBOzmfOor5+Q1Fw
- Iba013Z909/rE25Uzs+FQFkJ8saXKM7rlhy9ozRd07gAfKUlEaRxQSrFwjbOcAjx6SEsjBSOq
- o8B94O8nOGywrTmkjohaxh9s2G6vzBKJlHYm+OYKFJ4ONLKS3LlvDoZDwFCg/PJcrFCrqC8MO
- AdXbj6vCo2Ed6zb77pFRyjHNyPVpVzHKMBKiBzVP2yYwrKH75ko9NWVZkOC/Uic2X6cZVpLZ0
- PmLLfbp/RdwwOs+gp//BrnI9sTv+dzWXe78wSKMLbCCnQU1viRd0AUqCpk2N61OIq1S4KN0b/
- On51KLuL+0q7UztL+IyTPWTj+DfWtVJnMQDfGUX//sOQsrxzbbNtMovOSTBJzjfZSUWn5JsDs
- A7w7IlSQYYkt2RYPoI/XlS/1quT0oq7UZssCWLQvGIoZBaQmkIgqfJwpbtsPzTjF6qMB0lCHm
- EXCaFihuZI0/2191+3uOQ03w3L2YDFx7uED9NJFXkOeOgPl3h7rHcg7WyjrGh9XsdnelBqWld
- 3Tq9YQQrQ6O9T35NQj789sqtne1kuR9ycDhmDdun4HujlpgbBe1Gjot+ScWAPvHwm8pFYMKE5
- qJlS+IDS9XlJIoVA0XVMLPcdYdgwg6vxs3dnQkptjnLudoUvQVW9EqUlJum5lNxZi/lPuWX5g
- ekNCVMevwx2hf9LBD1GC+M86WkBa/KNLDF5RIs6u07YmvKDFu9RBkDsezF0qHgYEHKafULUkn
- hQUHjHB0nRUyXRenwQbeTdgQeO8ng2U6Aw6txfGrlsoagQRdCIfl+RFUznYPAcJcISr8lFjKa
- hxSWzULlL3pL+m5FpRNuIg4FtBXmhetl/8Kr1qJu68X4jR1nrI7e6xv/ny8yHInuTYwdI2k8d
- Y2jl6ADsAVaEBKMztJ2QFFcJsAjB7I9aa8eLAKVzksuOucbQWrLH0yt8U8zsylTUtKuzDhMry
- 6Z8jl3uCiT75sk=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LT2QB84/kq4=:8vlHi/aT3jOjYqLyYGym3L
+ LHJpVf59moRvH11N7E1MxS+r6L1EwAd0rQRwPzUv6KLx6b7tZE7ZUCfqWENr/skXle6emQaP6
+ pTizpwXDjLYHbIWz4fOjEhqJqEzfStD93aqIWX95DNObnwwgvQaF9kWj64pGSiS3DafSQ7Hhk
+ hy5lyKeisOrfsiXm35JKOI5RA3lobbSWBqiTT8pPd26LJX71hDjga2O/Z0rlRavxMMnwRPWhX
+ lWdOq2Y+5v5a4OlvMFKlk5ig9lpmc6nkcfnfbpUism0s9qBP9IgnXCjWwIyhTplQrbPIh7ldL
+ LSycy1RSb6PJInodBNMrV4d86kJkHMZPVzRUsr5voClqlytgjGj/YLOS2aPPG4XjyRxHMb5dz
+ VwJc6XcJH1D1P+xY9C3PdQRb8kifoWx/MAg/jIEFiIFyg74872VpdT7Ur8XSyKyq+0yx0lQT3
+ yNdDVzVyuRyWtKV5A4uYpFqy4lH2RoTwWnwRqu60rGiZ+MNRbepzkkBinkkzoFhY6XRz+l+2u
+ N0JZag31x7Wk+cLQN8CAStwSGIoUbUE9OI30v6cACXyJ3Use1+UthaZIp+SiQEBR+NskjGtaB
+ p1ZbuUHYPaclPemNqWuDRCaWh8/5NVgpwpMvacmqACC+WzGbk4cpxIh6Qk2404gOwEcZy395M
+ 6aV/zi8FPfFDC03e8k2Tg8uZLZaWOP2pm6ZJmwyYOl84TBWo86yVEDo0BIkLmaYbaTBGze8OF
+ jZz2lfdRIsLIoHMTMtJTGdvTku3RDDchWacU6vR+OrmM4ZVhqZXCA5NTbrc250yXkuS/9P+kv
+ TOLmpuMySlTSgxrTnoc52j2YO+fOS4/JxenTP1JneqT8XEKiNWEX66Kzgl2edC6KYNstERRUl
+ DASFXzngY3bWWLPybrvx+Cda57ASWp6m3eM/n3gR/3II+uInhF+uky364lm9tG9hvBLbHBTn1
+ /bopLBqahnpJMNK2mOkDezHCp3lvczZjk+/N+fx/cUvxYBWG3I71VJ1N1u4tpOviSQQDPpbUf
+ b/9fFIF+/mrL+CuLIjpcLLMgxtunk1pjLmSeLBctYpwmeaTp5m9CTjfXV2r15D4PCJfw69GIf
+ Tm0U00qxR8gOgg=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -67,152 +67,110 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Fix checkpatch "Alignment should match open parenthesis"
-errors.
+With the recent change to match MMAL and V4L2 buffers there
+is a need to wait for all MMAL buffers to be returned during
+stop_streaming.
 
+Fixes: 938416707071 ("staging: bcm2835-camera: Remove V4L2/MMAL buffer rem=
+apping")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 =2D--
- .../vc04_services/bcm2835-camera/bcm2835-camera.c  |  9 ++++----
- .../vc04_services/bcm2835-camera/controls.c        | 25 ++++++++++++++---=
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 22 ++++++++++++++++-=
 -----
- .../vc04_services/bcm2835-camera/mmal-vchiq.c      |  2 +-
- .../vc04_services/bcm2835-camera/mmal-vchiq.h      |  6 +++---
- 4 files changed, 24 insertions(+), 18 deletions(-)
+ .../vc04_services/bcm2835-camera/mmal-vchiq.c      |  4 ++++
+ .../vc04_services/bcm2835-camera/mmal-vchiq.h      |  3 +++
+ 3 files changed, 23 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c=
  b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 8813ffc..5ca644c 100644
+index 5ca644c..296f4f0 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
 +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -557,8 +557,8 @@ static int start_streaming(struct vb2_queue *vq, unsig=
-ned int count)
- 	    vchiq_mmal_port_enable(dev->instance, dev->capture.port, buffer_cb);
- 	if (ret) {
- 		v4l2_err(&dev->v4l2_dev,
--			"Failed to enable capture port - error %d. Disabling camera port again=
-\n",
--			ret);
-+			 "Failed to enable capture port - error %d. Disabling camera port agai=
-n\n",
-+			 ret);
+@@ -584,6 +584,7 @@ static void stop_streaming(struct vb2_queue *vq)
+ 	int ret;
+ 	unsigned long timeout;
+ 	struct bm2835_mmal_dev *dev =3D vb2_get_drv_priv(vq);
++	struct vchiq_mmal_port *port =3D dev->capture.port;
 
- 		vchiq_mmal_port_disable(dev->instance,
- 					dev->capture.camera_port);
-@@ -948,8 +948,7 @@ static int vidioc_try_fmt_vid_cap(struct file *file, v=
-oid *priv,
- 		f->fmt.pix.bytesperline =3D
- 			(f->fmt.pix.bytesperline + align_mask) & ~align_mask;
- 		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
--			 "Not removing padding, so bytes/line =3D %d, "
--			 "(align_mask %d)\n",
-+			 "Not removing padding, so bytes/line =3D %d, (align_mask %d)\n",
- 			 f->fmt.pix.bytesperline, align_mask);
+ 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev, "%s: dev:%p\n",
+ 		 __func__, dev);
+@@ -607,12 +608,6 @@ static void stop_streaming(struct vb2_queue *vq)
+ 				      &dev->capture.frame_count,
+ 				      sizeof(dev->capture.frame_count));
+
+-	/* wait for last frame to complete */
+-	timeout =3D wait_for_completion_timeout(&dev->capture.frame_cmplt, HZ);
+-	if (timeout =3D=3D 0)
+-		v4l2_err(&dev->v4l2_dev,
+-			 "timed out waiting for frame completion\n");
+-
+ 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
+ 		 "disabling connection\n");
+
+@@ -627,6 +622,21 @@ static void stop_streaming(struct vb2_queue *vq)
+ 			 ret);
  	}
 
-@@ -1295,7 +1294,7 @@ static int vidioc_s_fmt_vid_cap(struct file *file, v=
-oid *priv,
++	/* wait for all buffers to be returned */
++	while (atomic_read(&port->buffers_with_vpu)) {
++		v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
++			 "%s: Waiting for buffers to be returned - %d outstanding\n",
++			 __func__, atomic_read(&port->buffers_with_vpu));
++		timeout =3D wait_for_completion_timeout(&dev->capture.frame_cmplt,
++						      HZ);
++		if (timeout =3D=3D 0) {
++			v4l2_err(&dev->v4l2_dev, "%s: Timeout waiting for buffers to be return=
+ed - %d outstanding\n",
++				 __func__,
++				 atomic_read(&port->buffers_with_vpu));
++			break;
++		}
++	}
++
+ 	if (disable_camera(dev) < 0)
+ 		v4l2_err(&dev->v4l2_dev, "Failed to disable camera\n");
  }
-
- static int vidioc_enum_framesizes(struct file *file, void *fh,
--			   struct v4l2_frmsizeenum *fsize)
-+				  struct v4l2_frmsizeenum *fsize)
- {
- 	struct bm2835_mmal_dev *dev =3D video_drvdata(file);
- 	static const struct v4l2_frmsize_stepwise sizes =3D {
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
-vers/staging/vc04_services/bcm2835-camera/controls.c
-index 1a7588d..bc2f3f4 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -1260,9 +1260,12 @@ int bm2835_mmal_init_controls(struct bm2835_mmal_de=
-v *dev,
-
- 		switch (ctrl->type) {
- 		case MMAL_CONTROL_TYPE_STD:
--			dev->ctrls[c] =3D v4l2_ctrl_new_std(hdl,
--				&bm2835_mmal_ctrl_ops, ctrl->id,
--				ctrl->min, ctrl->max, ctrl->step, ctrl->def);
-+			dev->ctrls[c] =3D
-+				v4l2_ctrl_new_std(hdl,
-+						  &bm2835_mmal_ctrl_ops,
-+						  ctrl->id, ctrl->min,
-+						  ctrl->max, ctrl->step,
-+						  ctrl->def);
- 			break;
-
- 		case MMAL_CONTROL_TYPE_STD_MENU:
-@@ -1286,16 +1289,20 @@ int bm2835_mmal_init_controls(struct bm2835_mmal_d=
-ev *dev,
- 				mask =3D ~mask;
- 			}
-
--			dev->ctrls[c] =3D v4l2_ctrl_new_std_menu(hdl,
--			&bm2835_mmal_ctrl_ops, ctrl->id,
--			ctrl->max, mask, ctrl->def);
-+			dev->ctrls[c] =3D
-+				v4l2_ctrl_new_std_menu(hdl,
-+						       &bm2835_mmal_ctrl_ops,
-+						       ctrl->id, ctrl->max,
-+						       mask, ctrl->def);
- 			break;
- 		}
-
- 		case MMAL_CONTROL_TYPE_INT_MENU:
--			dev->ctrls[c] =3D v4l2_ctrl_new_int_menu(hdl,
--				&bm2835_mmal_ctrl_ops, ctrl->id,
--				ctrl->max, ctrl->def, ctrl->imenu);
-+			dev->ctrls[c] =3D
-+				v4l2_ctrl_new_int_menu(hdl,
-+						       &bm2835_mmal_ctrl_ops,
-+						       ctrl->id, ctrl->max,
-+						       ctrl->def, ctrl->imenu);
- 			break;
-
- 		case MMAL_CONTROL_TYPE_CLUSTER:
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c b/d=
 rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-index 73cb295..0b95723 100644
+index 0b95723..4d63176 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
 +++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-@@ -645,7 +645,7 @@ static int send_synchronous_mmal_msg(struct vchiq_mmal=
-_instance *instance,
- 	if (payload_len >
- 	    (MMAL_MSG_MAX_SIZE - sizeof(struct mmal_msg_header))) {
- 		pr_err("payload length %d exceeds max:%d\n", payload_len,
--		      (int)(MMAL_MSG_MAX_SIZE -
-+		       (int)(MMAL_MSG_MAX_SIZE -
- 			    sizeof(struct mmal_msg_header)));
- 		return -EINVAL;
- 	}
+@@ -246,6 +246,8 @@ static void buffer_work_cb(struct work_struct *work)
+ 	struct mmal_msg_context *msg_context =3D
+ 		container_of(work, struct mmal_msg_context, u.bulk.work);
+
++	atomic_dec(&msg_context->u.bulk.port->buffers_with_vpu);
++
+ 	msg_context->u.bulk.port->buffer_cb(msg_context->u.bulk.instance,
+ 					    msg_context->u.bulk.port,
+ 					    msg_context->u.bulk.status,
+@@ -389,6 +391,8 @@ buffer_from_host(struct vchiq_mmal_instance *instance,
+ 	INIT_WORK(&msg_context->u.bulk.buffer_to_host_work,
+ 		  buffer_to_host_work_cb);
+
++	atomic_inc(&port->buffers_with_vpu);
++
+ 	/* prep the buffer from host message */
+ 	memset(&m, 0xbc, sizeof(m));	/* just to make debug clearer */
+
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h b/d=
 rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
-index 0e5a81b..3498555 100644
+index 3498555..1750ff0 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
 +++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.h
-@@ -128,7 +128,7 @@ int vchiq_mmal_port_enable(
-  * disable a port will dequeue any pending buffers
-  */
- int vchiq_mmal_port_disable(struct vchiq_mmal_instance *instance,
--			   struct vchiq_mmal_port *port);
-+			    struct vchiq_mmal_port *port);
-
- int vchiq_mmal_port_parameter_set(struct vchiq_mmal_instance *instance,
- 				  struct vchiq_mmal_port *port,
-@@ -146,8 +146,8 @@ int vchiq_mmal_port_set_format(struct vchiq_mmal_insta=
-nce *instance,
- 			       struct vchiq_mmal_port *port);
-
- int vchiq_mmal_port_connect_tunnel(struct vchiq_mmal_instance *instance,
--			    struct vchiq_mmal_port *src,
--			    struct vchiq_mmal_port *dst);
-+				   struct vchiq_mmal_port *src,
-+				   struct vchiq_mmal_port *dst);
-
- int vchiq_mmal_version(struct vchiq_mmal_instance *instance,
- 		       u32 *major_out,
+@@ -72,6 +72,9 @@ struct vchiq_mmal_port {
+ 	struct list_head buffers;
+ 	/* lock to serialise adding and removing buffers from list */
+ 	spinlock_t slock;
++
++	/* Count of buffers the VPU has yet to return */
++	atomic_t buffers_with_vpu;
+ 	/* callback on buffer completion */
+ 	vchiq_mmal_buffer_cb buffer_cb;
+ 	/* callback context */
 =2D-
 2.7.4
 
