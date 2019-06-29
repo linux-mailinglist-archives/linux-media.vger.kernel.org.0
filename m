@@ -2,147 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ED735AB7B
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 15:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F3035AD14
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 21:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726828AbfF2NTq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 09:19:46 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:49441 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726723AbfF2NTp (ORCPT
+        id S1726968AbfF2Tbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 15:31:35 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33927 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbfF2Tbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 09:19:45 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id hDGWhZ0ZIAOfNhDGZhfnVJ; Sat, 29 Jun 2019 15:19:43 +0200
-Subject: Re: [PATCH for v5.3] v4l2-subdev: fix regression in check_pad()
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <5686be05-660e-ee01-06a0-5505479c34c8@xs4all.nl>
- <6794762.LFFAoRDyN6@z50> <afc93b30-f91a-2bf0-6793-08efca59a300@xs4all.nl>
- <1892813.ECJImQiLv2@z50>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <58a1ea38-622a-0ed1-2cd1-afe8b8268fbe@xs4all.nl>
-Date:   Sat, 29 Jun 2019 15:19:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Sat, 29 Jun 2019 15:31:34 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c85so4592951pfc.1;
+        Sat, 29 Jun 2019 12:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=iEb4hGSfpAqNO7uZJdmnXtOtykK8ClPPMPCbIhG1ON8=;
+        b=VE6wZ8VOd7l4Io/ncKSD6CinMJjB4mZxHgA4WLb71f4vdsPD/tg/FoKkOyU39Krhn3
+         V6CnxZGrAb2/ZxxFYKIaqRvcX8b12j211eeRgo2a1Y1V2q/HUGibGahSbbci9BUuKK5I
+         VJAzzgRhHaOzmPMoLZkAHsR541syfhcRDd3JodXCTNiuiKrfrMcqnZzVoJaowjYgQNa3
+         6AnB9yx57OpCacc4d6FSGgJA9oC3002/9pRooGVWcAZijtDootVX9mNn6FBpbotRAKZC
+         J1FkyqPnqNMJnddl5gY0YxlpTDveU3jQC2OscNOSMo0gy4RoqgPNxqGuj6IT90E4rNQh
+         dAeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=iEb4hGSfpAqNO7uZJdmnXtOtykK8ClPPMPCbIhG1ON8=;
+        b=PRYhvPPYrJ1KjdFjJ6Ip2AtcO9s2WdlPosYFSagZvSMNTy87HjxeBflMTdDgneilKw
+         s+3AAjkiBtBuvF9wxS7XlUth35PcC+oSU3T9/Pb08LjwIIOfJjDmwyOkrpRDU8FF/UgD
+         vaP59YaeGfZbJgaz38CFxE7GaCcfqzKjcqHpkbPxa/plprx+zJLrc+S2p9UehQjInEbs
+         7nHX1+Sh7RFnBUAZUfOu1zg/j8UInr1VbY/9ZdSTTdOVhw4mKB1mNQp37ATFIfU1+Cqn
+         5AHR917Ij2a85CdSB9vnwAR/rmX+GrYP/0WkVMuQVdFSwzUueBjQsJtrCC1toALxtPS3
+         iNZQ==
+X-Gm-Message-State: APjAAAXomADnn8btdGhMMzud7BTwFNxfeO8kvbp1zvWgTtQTCHxVf6oz
+        CCLH37K+m/LL2MfQpxYtQbw=
+X-Google-Smtp-Source: APXvYqxWdfae6MmNyb6yNZNYxp1WwWM3RZAWqKc1EHoSUIT7b+tkmplOTFpELAanOVtNMVpBcMhHdg==
+X-Received: by 2002:a63:df46:: with SMTP id h6mr15545778pgj.181.1561836694077;
+        Sat, 29 Jun 2019 12:31:34 -0700 (PDT)
+Received: from hari-Inspiron-1545 ([183.83.92.187])
+        by smtp.gmail.com with ESMTPSA id 133sm6017202pfa.92.2019.06.29.12.31.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 29 Jun 2019 12:31:33 -0700 (PDT)
+Date:   Sun, 30 Jun 2019 01:01:27 +0530
+From:   Hariprasad Kelam <hariprasad.kelam@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Irenge Jules Bashizi <jbi.octave@gmail.com>,
+        Ioannis Valasakis <code@wizofe.uk>,
+        Michelle Darcy <mdarcy137@gmail.com>,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Colin Ian King <colin.king@canonical.com>,
+        Hariprasad Kelam <hariprasad.kelam@gmail.com>,
+        Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging/media/davinci_vpfe: Add null check post kmalloc
+Message-ID: <20190629193127.GA18943@hari-Inspiron-1545>
 MIME-Version: 1.0
-In-Reply-To: <1892813.ECJImQiLv2@z50>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCfeqRhZo8XJKNfi41P1oUOKi3zvb8IhnBBy6+ZOpusRtK3Upw9AWltUvZi8ivoRQZK6x5Ucosij1Cer+P5WnZikXm2VO3q2NKnDPIaco/BSBcCmrWa6
- i3AEvv2Hh73fJ2kMaPE11jJl9wqd32r2q33SXlMljQW+PHx12PC4zc38jlpgb0m5yX1L5ilF/tyZijHCQn5b+pjjkKg0nnY/Hyq4vmwCZRAF8SnVeejMLqU0
- Y3d8uFSM/tjMDoxZKvOE9ioAR/IpPQ209TfQtM7E8LhFz0dzuVjWu4YT+AB3zXeh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/29/19 3:13 PM, Janusz Krzysztofik wrote:
-> On Saturday, June 29, 2019 2:57:09 P.M. CEST Hans Verkuil wrote:
->> On 6/29/19 2:06 PM, Janusz Krzysztofik wrote:
->>> Hi Hans,
->>>
->>> On Saturday, June 29, 2019 12:00:24 P.M. CEST Hans Verkuil wrote:
->>>> sd->entity.graph_obj.mdev can be NULL when this function is called, and
->>>> that breaks existing drivers (rcar-vin, but probably others as well).
->>>>
->>>> Check if sd->entity.num_pads is non-zero instead since that doesn't
->>>> depend
->>>> on mdev.
->>>>
->>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>> Reported-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>>> Fixes: a8fa55078a77 ("media: v4l2-subdev: Verify arguments in
->>>> v4l2_subdev_call()") ---
->>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> b/drivers/media/v4l2-core/v4l2-subdev.c index 21fb90d66bfc..bc32fc1e0c0b
->>>> 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>> @@ -124,16 +124,11 @@ static inline int check_which(__u32 which)
->>>>
->>>>  static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
->>>>  {
->>>>  #if defined(CONFIG_MEDIA_CONTROLLER)
->>>>
->>>> -	if (sd->entity.graph_obj.mdev) {
->>>> -		if (pad >= sd->entity.num_pads)
->>>> -			return -EINVAL;
->>>> -		return 0;
->>>> -	}
->>>> +	if (sd->entity.num_pads)
->>>
->>> This reverts a change introduced on Sakari's request in v7 of the series
->>> which is the source of the regression.  The intention was to fail if
->>> num_pads == 0 on a valid media entity. Maybe we should still keep that
->>> restriction and fail in case mdev is not NULL? In other words:
->>>
->>> -	if (sd->entity.num_pads)
->>> +	if (sd->entity.num_pads || sd->entity.graph_obj.mdev)
->>
->> If an entity has no pads, then it doesn't have pad ops either and this
->> function would never be called.
-> 
-> Unless this is a subdevice which doesn't support MC, was updated in the past 
-> to use pad ops instead of depreciated video ops, so it actually has pad ops 
-> even if it has num_pads == 0, and is built by a user with 
-> CONFIG_MEDIA_CONTROLLER=y for some reason.
+Add NULL check post memory operations
 
-That's fine. Then it just checks if pad == 0, which is OK for such drivers.
+Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+---
+ drivers/staging/media/davinci_vpfe/dm365_ipipe.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The issue here is a MC-enabled subdev with pad ops, but that really has no pads
-for some reason, so check_pad() would always have to return -EINVAL.
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> Janusz
-> 
->>
->>> Thanks,
->>> Janusz
->>>
->>>> +		return pad >= sd->entity.num_pads ? -EINVAL : 0;
->>>
->>> This and below look like coding style changes, not related strictly to the
->>> merit.  Shouldn't they rather be split into a separate patch?
->>
->> I'll post a v2, the diff is a lot smaller. I might post a follow-up patch
->> to use ? : since that's a lot shorter code.
->>
->> Regards,
->>
->> 	Hans
->>
->>> BTW, the current coding style follows original implementation of check_*
->>> functions present before that series was introduced.  Maybe it would be
->>> better to keep them unified, i.e., either as is or all updated with the
->>> new style.
->>>
->>> Thanks,
->>> Janusz
->>>
->>>>  #endif
->>>>  
->>>>  	/* allow pad 0 on subdevices not registered as media entities */
->>>>
->>>> -	if (pad > 0)
->>>> -		return -EINVAL;
->>>> -	return 0;
->>>> +	return pad ? -EINVAL : 0;
->>>>
->>>>  }
->>>>  
->>>>  static int check_cfg(__u32 which, struct v4l2_subdev_pad_config *cfg)
-> 
-> 
-> 
-> 
+diff --git a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+index 52397ad..5d8ba35 100644
+--- a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
++++ b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+@@ -1311,6 +1311,11 @@ static int ipipe_g_config(struct v4l2_subdev *sd, struct vpfe_ipipe_config *cfg)
+ 		to = *(void **)((void *)cfg + module_if->config_offset);
+ 
+ 		params = kmalloc(sizeof(*params), GFP_KERNEL);
++		if (!params) {
++			rval = -ENOMEM;
++			goto error;
++		}
++
+ 		from = (void *)params + module_if->param_offset;
+ 		size = module_if->param_size;
+ 
+-- 
+2.7.4
 
