@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FE465AB0C
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E30AC5AB0A
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727041AbfF2MtX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 08:49:23 -0400
-Received: from mout.gmx.net ([212.227.17.21]:50445 "EHLO mout.gmx.net"
+        id S1727035AbfF2MtU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 08:49:20 -0400
+Received: from mout.gmx.net ([212.227.17.20]:54777 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727017AbfF2MtW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 08:49:22 -0400
+        id S1726961AbfF2MtT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jun 2019 08:49:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
         s=badeba3b8450; t=1561812540;
-        bh=zIDxrGudFPMMsthCnbnUJqePqq4wZR0Ef4CLxj7NdbQ=;
+        bh=y9m97Wf190flRY/FkjssAEHMINPsT0DgpJSYt7gV5jk=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=eCIN+5R9BwgC2bqfiT1d0WhMwXSdEFtN3G1310OOCWmB9pZnGYVsRyCHhgXxqLx1I
-         sQ5usl/xjiiqHEP8CBSrdj+8oL55qxt6eB7Ag36N6FbvdcXRkJ3nL9Kl/W/Svnfece
-         nZCNkf/BywZhqPiiooxjt8KLgpuqgu3n+dSvfzZE=
+        b=SBVowYsxUrIPB3LmgQtaC4QKvIlrowGhIoEbXoPWy6xP+XFd9FkyxztiE5HZqWsQf
+         IyC9TfMSrOEzzMbhYlwrgMcLx5oROxhYByeFO9D83eHK4/4onMwzSKQmmBk+VRSKhR
+         ofnEcQ1r5bPDNYQKYIEIjKsR/j3LB0HjeOMmOJSI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MWigq-1i5LMa10hM-00X5FK; Sat, 29 Jun 2019 14:49:00 +0200
+ 1MYNNy-1i2bHC2lRy-00VRcW; Sat, 29 Jun 2019 14:49:00 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,34 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 21/29] staging: bcm2835-camera: Fix up mmal-parameters.h
-Date:   Sat, 29 Jun 2019 14:48:28 +0200
-Message-Id: <1561812516-9087-6-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH V2 22/29] staging: bcm2835-camera: Use enums for max value in controls
+Date:   Sat, 29 Jun 2019 14:48:29 +0200
+Message-Id: <1561812516-9087-7-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561812516-9087-1-git-send-email-wahrenst@gmx.net>
 References: <1561812516-9087-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:N7cWgk3xIU5ET+vZPb4lBamTe87E8lrkWHkd5ecDssIBjig1HV2
- /BIg1H04eqOL257YA7vY7zBTWjgznQMutG6d3iWXKyVyO25tGksjeYp1HzXZh4tFIcntFrJ
- /GygNO/eJ52VffymWGSpcKauWb7D1no7wFjqFaLi5kd2DEOw+aMmfX5XSvqOdRxdNLe2L8M
- unofru4J20+qeLqLByY7A==
+X-Provags-ID: V03:K1:xAm5i4guJHEE2OzWyqtVW+g+GY6h9CQ5fCfoYk7BWskckUgggKA
+ 1gd/Z1LbxBlTvCDkpeF6xhQPAlQ1P7AqRcK48LHPZQHWlFDjnwdvNLZAUwKuAfjxHn3/MTl
+ +vpkibuOvRWp23BvxnmSzB1+07VJWyGfF0t2sv1XG/U5XyN1/Hi1hSCrCvPRkvAT2anI77O
+ 3fy0Gn5aij+7gRm47P5hQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NIgd8vPi8xo=:EP7qb6oUS9ht1RK/hvndXY
- wezw5ZgpL2QdqcLMSfuk7oVYJbC/kzQon6yR6mhFAmbeHIitMGKbrA/s7H39vlJK4ejIcRQPO
- tycmjkgunuhjIlx8MZQ+DJt3HBFglSMJHRFED8mkDnV3P6s8x42LgynHvsLX1xHYWpkl6kTdF
- ZunXiCkiON6uXtlFfV/h4V08JM06fqRu0lPPyZzoBz5fK5VtH1OzT6VSkLOnQUX/CqMPsey0j
- 16jm2X0FApWnrf/W/AkYFxD38qae2fpKneZvX0HYjOkuCO1Nkw1MXvItzldPS/xkYSkVlSQDc
- RHShpznn1pWlQ8gelNc61P/0mSCOmJ2DVcMAiQ/WStzh0rMADExneULQJ2ec8Ii4duyg07LM5
- wtai5R3lNTo+CMULMTC49nfwTLJogb/vfAoM/6QcjLsLqa89LzCkfR1JprV1Da5BVALTNXx0I
- bEgujXLvmXB9jY4pRA6OIs7HGXNrr9tBsl9awgTIJOREQ7tPSHzFAjIhvkmesQLlzU4U3vcC0
- Alcuwi0SPnJMqD00ZoIuCZWA1CJ8FU3j2oO+EM4QnZjMRmOGahEZFFDDPlugDs+b5cJTniz6R
- gAtf7taXM4WE1u3D0+OyujbXJ9EGIq1B0tGoqgta+NxGUi1Ov6aggioGffjWkOmtVWoxFirnP
- TLk/KO/HBUFLv2wzinWIgOGMeTvvbCgt3tbzOksG/yXMx1T0n0ZLZLVF7R+MetTa4CbeYaivI
- PuTl9WY/3nlyoJVb9oBQwpANJiVSdAPyy3MBaGPnZ0oQ0/P/sdcS4nGvBroKOuPmWI6FgKsHD
- lYvcekwThpDjC3dR6+cTGefmSwfiXHQmy5BZtkX16SPYQcjaz1r6zfvOCfIEEdWaVa831xWAL
- liOX+Ka+EVNi8P/E7vbVHo5aCiMWef5X0JqQG9qQ08Pn2oldqZlijVLNdbqU12jlWDPlIhdCL
- MpwY8eLlmDY70HCRM19AuFSKNm+NQ5yC1/hwbBdlkxXHVFRekZDA7/oLSVE9L6SylDIzKgiBe
- RkPwdys+k2CX20zKde6VQd2T6nFJzDxyrgwWnZEf+jP03FacJulTAEaIY45Rv+f/M3VvE4JZw
- V6z5i31ox3Rqsc=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nlycN+a7BJ4=:flC5BhW5HIdydHoAOBxPCx
+ dQBMzEVxz8+He0UUfVqO+C+jpjxqwIjtUX9eZrOywqBteseMHyK5Af6APhFWDx15Z8nDYdT99
+ t4lj45U7ihpK3LqtHpJNeND76uU0WebYrzs+xbbQnpqs4VJ+aMe5lznzlbfmLcksdMziEXauQ
+ zMzapiyIy5y4IELHMQBpTvKK0d3nGK2+3agUD/72qBkAC123tdYBht8FzMOAxQt0ZgZNsdPnO
+ q16KGStT8zfJv/wumfM/9bYwTGS4nKWTfReEKORFCJu6z8fqn/gLZUd5XOTBoajtd0NpVIbcJ
+ uN9ON0/wCqsLfwmtTidPLoJoUl7XtVFJty52MSmneYGlmC2o0NuU+WH77y2lC+PN29yd9Ftfb
+ W4vzCVJY7URVnbWr1pypRbegj5IOz/cx+NGMOHvAIDKcxPSXywSxvLbrD1l4TcfoyJJWd6cn8
+ 7sUnJAEguAxsrK1Kx3b6UJIXP5Rs+OFMf1uENbJdpv9zOvWUPG8NQx9nUFJIIVfEXKHsaKwdV
+ cU0dTcWcNhk7qC/xLOs4Cmys0T47kbyyZMK2i7dOsyh3DfpOl3gKWUencvM5WDJA5krSNydGJ
+ 2XCfXpTXg8KKan9ZJlNbZeeb+EWlIkmG1f87pGPlBnVp9vGcYR4IJaEuREVg3CV9P+ihF2YQu
+ WzPC9OlDgRaNpznPwOyYE/QPv+xUh+V9ZUOjIIldMTPg4KDlEc1depMRf1p6bAwUeaNsQbd3r
+ FA2iFSMPKby/6r65KVe5oZFnFUmh4wejxB3MjLCXhyYuur6IC6U/WOEfSWn3MGWl5nsuEq/Vo
+ zGkHHSql3LncDosGvAmqMdpqiemAeUOs/N3gL8T7RH56SYq3haUQ6DKQYZiD+cabMhj+tVhyR
+ H5zKLX8qxNojG5H2QsmA9gmEivlR+OPk6wmxepGKWiCclIa8cUxddznBYHrMBbRv70Xs3zOfI
+ Fnc2xzkutT3WRq21T2d5hkZnmx4bn5hpTRsNRrf4Rt51sHYQ4/lK6XYUJfzM58ulNi+FGYFqE
+ n1cOTUN8R3JY45+6FfRfIfCg18LcMwPN7UFaRYS4IgbenYh7E3VIPx0nvP+TbeAhdnZtyKdB4
+ AiJY+ypyhvJEnA=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -67,342 +67,126 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Fixes up all the checkpatch error "line over 80 characters" in
-mmal-parameters.h
+Controls of type MMAL_CONTROL_TYPE_STD_MENU call v4l2_ctrl_new_std_menu
+with a max value and a mask. The max value is one of the defined
+values for the control, however in the config array there are several
+entries where raw numbers have been used instead. Replace these
+with the appropriate enum.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 =2D--
- .../vc04_services/bcm2835-camera/mmal-parameters.h | 261 +++++++++++++---=
+ .../vc04_services/bcm2835-camera/controls.c        | 37 ++++++++---------=
 -----
- 1 file changed, 159 insertions(+), 102 deletions(-)
+ 1 file changed, 13 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.=
-h b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-index da21ec5..80a9912 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-parameters.h
-@@ -37,134 +37,190 @@
-
- /* Common parameters */
- enum mmal_parameter_common_type {
--	MMAL_PARAMETER_UNUSED  /**< Never a valid parameter ID */
--		=3D MMAL_PARAMETER_GROUP_COMMON,
--	MMAL_PARAMETER_SUPPORTED_ENCODINGS, /**< MMAL_PARAMETER_ENCODING_T */
--	MMAL_PARAMETER_URI, /**< MMAL_PARAMETER_URI_T */
--
--	/** MMAL_PARAMETER_CHANGE_EVENT_REQUEST_T */
-+		/**< Never a valid parameter ID */
-+	MMAL_PARAMETER_UNUSED =3D MMAL_PARAMETER_GROUP_COMMON,
-+
-+		/**< MMAL_PARAMETER_ENCODING_T */
-+	MMAL_PARAMETER_SUPPORTED_ENCODINGS,
-+		/**< MMAL_PARAMETER_URI_T */
-+	MMAL_PARAMETER_URI,
-+		/** MMAL_PARAMETER_CHANGE_EVENT_REQUEST_T */
- 	MMAL_PARAMETER_CHANGE_EVENT_REQUEST,
--
--	/** MMAL_PARAMETER_BOOLEAN_T */
-+		/** MMAL_PARAMETER_BOOLEAN_T */
- 	MMAL_PARAMETER_ZERO_COPY,
--
--	/**< MMAL_PARAMETER_BUFFER_REQUIREMENTS_T */
-+		/**< MMAL_PARAMETER_BUFFER_REQUIREMENTS_T */
- 	MMAL_PARAMETER_BUFFER_REQUIREMENTS,
--
--	MMAL_PARAMETER_STATISTICS, /**< MMAL_PARAMETER_STATISTICS_T */
--	MMAL_PARAMETER_CORE_STATISTICS, /**< MMAL_PARAMETER_CORE_STATISTICS_T */
--	MMAL_PARAMETER_MEM_USAGE, /**< MMAL_PARAMETER_MEM_USAGE_T */
--	MMAL_PARAMETER_BUFFER_FLAG_FILTER, /**< MMAL_PARAMETER_UINT32_T */
--	MMAL_PARAMETER_SEEK, /**< MMAL_PARAMETER_SEEK_T */
--	MMAL_PARAMETER_POWERMON_ENABLE, /**< MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_LOGGING, /**< MMAL_PARAMETER_LOGGING_T */
--	MMAL_PARAMETER_SYSTEM_TIME, /**< MMAL_PARAMETER_UINT64_T */
--	MMAL_PARAMETER_NO_IMAGE_PADDING  /**< MMAL_PARAMETER_BOOLEAN_T */
-+		/**< MMAL_PARAMETER_STATISTICS_T */
-+	MMAL_PARAMETER_STATISTICS,
-+		/**< MMAL_PARAMETER_CORE_STATISTICS_T */
-+	MMAL_PARAMETER_CORE_STATISTICS,
-+		/**< MMAL_PARAMETER_MEM_USAGE_T */
-+	MMAL_PARAMETER_MEM_USAGE,
-+		/**< MMAL_PARAMETER_UINT32_T */
-+	MMAL_PARAMETER_BUFFER_FLAG_FILTER,
-+		/**< MMAL_PARAMETER_SEEK_T */
-+	MMAL_PARAMETER_SEEK,
-+		/**< MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_POWERMON_ENABLE,
-+		/**< MMAL_PARAMETER_LOGGING_T */
-+	MMAL_PARAMETER_LOGGING,
-+		/**< MMAL_PARAMETER_UINT64_T */
-+	MMAL_PARAMETER_SYSTEM_TIME,
-+		/**< MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_NO_IMAGE_PADDING,
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
+vers/staging/vc04_services/bcm2835-camera/controls.c
+index bc2f3f4..038b9b9 100644
+=2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+@@ -58,19 +58,6 @@ static const u32 iso_values[] =3D {
+ 	0, 100, 200, 400, 800,
  };
 
- /* camera parameters */
-
- enum mmal_parameter_camera_type {
- 	/* 0 */
--	/** @ref MMAL_PARAMETER_THUMBNAIL_CONFIG_T */
--	MMAL_PARAMETER_THUMBNAIL_CONFIGURATION
--		=3D MMAL_PARAMETER_GROUP_CAMERA,
--	MMAL_PARAMETER_CAPTURE_QUALITY, /**< Unused? */
--	MMAL_PARAMETER_ROTATION, /**< @ref MMAL_PARAMETER_INT32_T */
--	MMAL_PARAMETER_EXIF_DISABLE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_EXIF, /**< @ref MMAL_PARAMETER_EXIF_T */
--	MMAL_PARAMETER_AWB_MODE, /**< @ref MMAL_PARAM_AWBMODE_T */
--	MMAL_PARAMETER_IMAGE_EFFECT, /**< @ref MMAL_PARAMETER_IMAGEFX_T */
--	MMAL_PARAMETER_COLOUR_EFFECT, /**< @ref MMAL_PARAMETER_COLOURFX_T */
--	MMAL_PARAMETER_FLICKER_AVOID, /**< @ref MMAL_PARAMETER_FLICKERAVOID_T */
--	MMAL_PARAMETER_FLASH, /**< @ref MMAL_PARAMETER_FLASH_T */
--	MMAL_PARAMETER_REDEYE, /**< @ref MMAL_PARAMETER_REDEYE_T */
--	MMAL_PARAMETER_FOCUS, /**< @ref MMAL_PARAMETER_FOCUS_T */
--	MMAL_PARAMETER_FOCAL_LENGTHS, /**< Unused? */
--	MMAL_PARAMETER_EXPOSURE_COMP, /**< @ref MMAL_PARAMETER_INT32_T */
--	MMAL_PARAMETER_ZOOM, /**< @ref MMAL_PARAMETER_SCALEFACTOR_T */
--	MMAL_PARAMETER_MIRROR, /**< @ref MMAL_PARAMETER_MIRROR_T */
-+		/** @ref MMAL_PARAMETER_THUMBNAIL_CONFIG_T */
-+	MMAL_PARAMETER_THUMBNAIL_CONFIGURATION =3D
-+		MMAL_PARAMETER_GROUP_CAMERA,
-+		/**< Unused? */
-+	MMAL_PARAMETER_CAPTURE_QUALITY,
-+		/**< @ref MMAL_PARAMETER_INT32_T */
-+	MMAL_PARAMETER_ROTATION,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_EXIF_DISABLE,
-+		/**< @ref MMAL_PARAMETER_EXIF_T */
-+	MMAL_PARAMETER_EXIF,
-+		/**< @ref MMAL_PARAM_AWBMODE_T */
-+	MMAL_PARAMETER_AWB_MODE,
-+		/**< @ref MMAL_PARAMETER_IMAGEFX_T */
-+	MMAL_PARAMETER_IMAGE_EFFECT,
-+		/**< @ref MMAL_PARAMETER_COLOURFX_T */
-+	MMAL_PARAMETER_COLOUR_EFFECT,
-+		/**< @ref MMAL_PARAMETER_FLICKERAVOID_T */
-+	MMAL_PARAMETER_FLICKER_AVOID,
-+		/**< @ref MMAL_PARAMETER_FLASH_T */
-+	MMAL_PARAMETER_FLASH,
-+		/**< @ref MMAL_PARAMETER_REDEYE_T */
-+	MMAL_PARAMETER_REDEYE,
-+		/**< @ref MMAL_PARAMETER_FOCUS_T */
-+	MMAL_PARAMETER_FOCUS,
-+		/**< Unused? */
-+	MMAL_PARAMETER_FOCAL_LENGTHS,
-+		/**< @ref MMAL_PARAMETER_INT32_T */
-+	MMAL_PARAMETER_EXPOSURE_COMP,
-+		/**< @ref MMAL_PARAMETER_SCALEFACTOR_T */
-+	MMAL_PARAMETER_ZOOM,
-+		/**< @ref MMAL_PARAMETER_MIRROR_T */
-+	MMAL_PARAMETER_MIRROR,
-
- 	/* 0x10 */
--	MMAL_PARAMETER_CAMERA_NUM, /**< @ref MMAL_PARAMETER_UINT32_T */
--	MMAL_PARAMETER_CAPTURE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_EXPOSURE_MODE, /**< @ref MMAL_PARAMETER_EXPOSUREMODE_T */
--	MMAL_PARAMETER_EXP_METERING_MODE, /**< @ref MMAL_PARAMETER_EXPOSUREMETER=
-INGMODE_T */
--	MMAL_PARAMETER_FOCUS_STATUS, /**< @ref MMAL_PARAMETER_FOCUS_STATUS_T */
--	MMAL_PARAMETER_CAMERA_CONFIG, /**< @ref MMAL_PARAMETER_CAMERA_CONFIG_T *=
-/
--	MMAL_PARAMETER_CAPTURE_STATUS, /**< @ref MMAL_PARAMETER_CAPTURE_STATUS_T=
- */
--	MMAL_PARAMETER_FACE_TRACK, /**< @ref MMAL_PARAMETER_FACE_TRACK_T */
--	MMAL_PARAMETER_DRAW_BOX_FACES_AND_FOCUS, /**< @ref MMAL_PARAMETER_BOOLEA=
-N_T */
--	MMAL_PARAMETER_JPEG_Q_FACTOR, /**< @ref MMAL_PARAMETER_UINT32_T */
--	MMAL_PARAMETER_FRAME_RATE, /**< @ref MMAL_PARAMETER_FRAME_RATE_T */
--	MMAL_PARAMETER_USE_STC, /**< @ref MMAL_PARAMETER_CAMERA_STC_MODE_T */
--	MMAL_PARAMETER_CAMERA_INFO, /**< @ref MMAL_PARAMETER_CAMERA_INFO_T */
--	MMAL_PARAMETER_VIDEO_STABILISATION, /**< @ref MMAL_PARAMETER_BOOLEAN_T *=
-/
--	MMAL_PARAMETER_FACE_TRACK_RESULTS, /**< @ref MMAL_PARAMETER_FACE_TRACK_R=
-ESULTS_T */
--	MMAL_PARAMETER_ENABLE_RAW_CAPTURE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+		/**< @ref MMAL_PARAMETER_UINT32_T */
-+	MMAL_PARAMETER_CAMERA_NUM,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_CAPTURE,
-+		/**< @ref MMAL_PARAMETER_EXPOSUREMODE_T */
-+	MMAL_PARAMETER_EXPOSURE_MODE,
-+		/**< @ref MMAL_PARAMETER_EXPOSUREMETERINGMODE_T */
-+	MMAL_PARAMETER_EXP_METERING_MODE,
-+		/**< @ref MMAL_PARAMETER_FOCUS_STATUS_T */
-+	MMAL_PARAMETER_FOCUS_STATUS,
-+		/**< @ref MMAL_PARAMETER_CAMERA_CONFIG_T */
-+	MMAL_PARAMETER_CAMERA_CONFIG,
-+		/**< @ref MMAL_PARAMETER_CAPTURE_STATUS_T */
-+	MMAL_PARAMETER_CAPTURE_STATUS,
-+		/**< @ref MMAL_PARAMETER_FACE_TRACK_T */
-+	MMAL_PARAMETER_FACE_TRACK,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_DRAW_BOX_FACES_AND_FOCUS,
-+		/**< @ref MMAL_PARAMETER_UINT32_T */
-+	MMAL_PARAMETER_JPEG_Q_FACTOR,
-+		/**< @ref MMAL_PARAMETER_FRAME_RATE_T */
-+	MMAL_PARAMETER_FRAME_RATE,
-+		/**< @ref MMAL_PARAMETER_CAMERA_STC_MODE_T */
-+	MMAL_PARAMETER_USE_STC,
-+		/**< @ref MMAL_PARAMETER_CAMERA_INFO_T */
-+	MMAL_PARAMETER_CAMERA_INFO,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_VIDEO_STABILISATION,
-+		/**< @ref MMAL_PARAMETER_FACE_TRACK_RESULTS_T */
-+	MMAL_PARAMETER_FACE_TRACK_RESULTS,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_ENABLE_RAW_CAPTURE,
-
- 	/* 0x20 */
--	MMAL_PARAMETER_DPF_FILE, /**< @ref MMAL_PARAMETER_URI_T */
--	MMAL_PARAMETER_ENABLE_DPF_FILE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_DPF_FAIL_IS_FATAL, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_CAPTURE_MODE, /**< @ref MMAL_PARAMETER_CAPTUREMODE_T */
--	MMAL_PARAMETER_FOCUS_REGIONS, /**< @ref MMAL_PARAMETER_FOCUS_REGIONS_T *=
-/
--	MMAL_PARAMETER_INPUT_CROP, /**< @ref MMAL_PARAMETER_INPUT_CROP_T */
--	MMAL_PARAMETER_SENSOR_INFORMATION, /**< @ref MMAL_PARAMETER_SENSOR_INFOR=
-MATION_T */
--	MMAL_PARAMETER_FLASH_SELECT, /**< @ref MMAL_PARAMETER_FLASH_SELECT_T */
--	MMAL_PARAMETER_FIELD_OF_VIEW, /**< @ref MMAL_PARAMETER_FIELD_OF_VIEW_T *=
-/
--	MMAL_PARAMETER_HIGH_DYNAMIC_RANGE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_DYNAMIC_RANGE_COMPRESSION, /**< @ref MMAL_PARAMETER_DRC_T=
- */
--	MMAL_PARAMETER_ALGORITHM_CONTROL, /**< @ref MMAL_PARAMETER_ALGORITHM_CON=
-TROL_T */
--	MMAL_PARAMETER_SHARPNESS, /**< @ref MMAL_PARAMETER_RATIONAL_T */
--	MMAL_PARAMETER_CONTRAST, /**< @ref MMAL_PARAMETER_RATIONAL_T */
--	MMAL_PARAMETER_BRIGHTNESS, /**< @ref MMAL_PARAMETER_RATIONAL_T */
--	MMAL_PARAMETER_SATURATION, /**< @ref MMAL_PARAMETER_RATIONAL_T */
-+		/**< @ref MMAL_PARAMETER_URI_T */
-+	MMAL_PARAMETER_DPF_FILE,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_ENABLE_DPF_FILE,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_DPF_FAIL_IS_FATAL,
-+		/**< @ref MMAL_PARAMETER_CAPTUREMODE_T */
-+	MMAL_PARAMETER_CAPTURE_MODE,
-+		/**< @ref MMAL_PARAMETER_FOCUS_REGIONS_T */
-+	MMAL_PARAMETER_FOCUS_REGIONS,
-+		/**< @ref MMAL_PARAMETER_INPUT_CROP_T */
-+	MMAL_PARAMETER_INPUT_CROP,
-+		/**< @ref MMAL_PARAMETER_SENSOR_INFORMATION_T */
-+	MMAL_PARAMETER_SENSOR_INFORMATION,
-+		/**< @ref MMAL_PARAMETER_FLASH_SELECT_T */
-+	MMAL_PARAMETER_FLASH_SELECT,
-+		/**< @ref MMAL_PARAMETER_FIELD_OF_VIEW_T */
-+	MMAL_PARAMETER_FIELD_OF_VIEW,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_HIGH_DYNAMIC_RANGE,
-+		/**< @ref MMAL_PARAMETER_DRC_T */
-+	MMAL_PARAMETER_DYNAMIC_RANGE_COMPRESSION,
-+		/**< @ref MMAL_PARAMETER_ALGORITHM_CONTROL_T */
-+	MMAL_PARAMETER_ALGORITHM_CONTROL,
-+		/**< @ref MMAL_PARAMETER_RATIONAL_T */
-+	MMAL_PARAMETER_SHARPNESS,
-+		/**< @ref MMAL_PARAMETER_RATIONAL_T */
-+	MMAL_PARAMETER_CONTRAST,
-+		/**< @ref MMAL_PARAMETER_RATIONAL_T */
-+	MMAL_PARAMETER_BRIGHTNESS,
-+		/**< @ref MMAL_PARAMETER_RATIONAL_T */
-+	MMAL_PARAMETER_SATURATION,
-
- 	/* 0x30 */
--	MMAL_PARAMETER_ISO, /**< @ref MMAL_PARAMETER_UINT32_T */
--	MMAL_PARAMETER_ANTISHAKE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
+-static const s64 mains_freq_qmenu[] =3D {
+-	V4L2_CID_POWER_LINE_FREQUENCY_DISABLED,
+-	V4L2_CID_POWER_LINE_FREQUENCY_50HZ,
+-	V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+-	V4L2_CID_POWER_LINE_FREQUENCY_AUTO
+-};
 -
--	/** @ref MMAL_PARAMETER_IMAGEFX_PARAMETERS_T */
-+		/**< @ref MMAL_PARAMETER_UINT32_T */
-+	MMAL_PARAMETER_ISO,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_ANTISHAKE,
-+		/** @ref MMAL_PARAMETER_IMAGEFX_PARAMETERS_T */
- 	MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
+-/* Supported video encode modes */
+-static const s64 bitrate_mode_qmenu[] =3D {
+-	(s64)V4L2_MPEG_VIDEO_BITRATE_MODE_VBR,
+-	(s64)V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
+-};
 -
--	/** @ref MMAL_PARAMETER_BOOLEAN_T */
-+		/** @ref MMAL_PARAMETER_BOOLEAN_T */
- 	MMAL_PARAMETER_CAMERA_BURST_CAPTURE,
--
--	/** @ref MMAL_PARAMETER_UINT32_T */
-+		/** @ref MMAL_PARAMETER_UINT32_T */
- 	MMAL_PARAMETER_CAMERA_MIN_ISO,
--
--	/** @ref MMAL_PARAMETER_CAMERA_USE_CASE_T */
-+		/** @ref MMAL_PARAMETER_CAMERA_USE_CASE_T */
- 	MMAL_PARAMETER_CAMERA_USE_CASE,
--
--	/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
- 	MMAL_PARAMETER_CAPTURE_STATS_PASS,
--
--	/** @ref MMAL_PARAMETER_UINT32_T */
-+		/** @ref MMAL_PARAMETER_UINT32_T */
- 	MMAL_PARAMETER_CAMERA_CUSTOM_SENSOR_CONFIG,
--
--	/** @ref MMAL_PARAMETER_BOOLEAN_T */
-+		/** @ref MMAL_PARAMETER_BOOLEAN_T */
- 	MMAL_PARAMETER_ENABLE_REGISTER_FILE,
--
--	/** @ref MMAL_PARAMETER_BOOLEAN_T */
-+		/** @ref MMAL_PARAMETER_BOOLEAN_T */
- 	MMAL_PARAMETER_REGISTER_FAIL_IS_FATAL,
--
--	/** @ref MMAL_PARAMETER_CONFIGFILE_T */
-+		/** @ref MMAL_PARAMETER_CONFIGFILE_T */
- 	MMAL_PARAMETER_CONFIGFILE_REGISTERS,
--
--	/** @ref MMAL_PARAMETER_CONFIGFILE_CHUNK_T */
-+		/** @ref MMAL_PARAMETER_CONFIGFILE_CHUNK_T */
- 	MMAL_PARAMETER_CONFIGFILE_CHUNK_REGISTERS,
--	MMAL_PARAMETER_JPEG_ATTACH_LOG, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_ZERO_SHUTTER_LAG, /**< @ref MMAL_PARAMETER_ZEROSHUTTERLAG=
-_T */
--	MMAL_PARAMETER_FPS_RANGE, /**< @ref MMAL_PARAMETER_FPS_RANGE_T */
--	MMAL_PARAMETER_CAPTURE_EXPOSURE_COMP, /**< @ref MMAL_PARAMETER_INT32_T *=
-/
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_JPEG_ATTACH_LOG,
-+		/**< @ref MMAL_PARAMETER_ZEROSHUTTERLAG_T */
-+	MMAL_PARAMETER_ZERO_SHUTTER_LAG,
-+		/**< @ref MMAL_PARAMETER_FPS_RANGE_T */
-+	MMAL_PARAMETER_FPS_RANGE,
-+		/**< @ref MMAL_PARAMETER_INT32_T */
-+	MMAL_PARAMETER_CAPTURE_EXPOSURE_COMP,
-
- 	/* 0x40 */
--	MMAL_PARAMETER_SW_SHARPEN_DISABLE, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_FLASH_REQUIRED, /**< @ref MMAL_PARAMETER_BOOLEAN_T */
--	MMAL_PARAMETER_SW_SATURATION_DISABLE, /**< @ref MMAL_PARAMETER_BOOLEAN_T=
- */
--	MMAL_PARAMETER_SHUTTER_SPEED,             /**< Takes a @ref MMAL_PARAMET=
-ER_UINT32_T */
--	MMAL_PARAMETER_CUSTOM_AWB_GAINS,          /**< Takes a @ref MMAL_PARAMET=
-ER_AWB_GAINS_T */
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_SW_SHARPEN_DISABLE,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_FLASH_REQUIRED,
-+		/**< @ref MMAL_PARAMETER_BOOLEAN_T */
-+	MMAL_PARAMETER_SW_SATURATION_DISABLE,
-+		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
-+	MMAL_PARAMETER_SHUTTER_SPEED,
-+		/**< Takes a @ref MMAL_PARAMETER_AWB_GAINS_T */
-+	MMAL_PARAMETER_CUSTOM_AWB_GAINS,
- };
-
- struct mmal_parameter_rational {
-@@ -411,7 +467,8 @@ enum mmal_parameter_video_type {
- 	MMAL_PARAMETER_MINIMISE_FRAGMENTATION,
-
- 	/** @ref MMAL_PARAMETER_UINT32_T.
--	 * Setting the value to zero resets to the default (one slice per frame)=
-.
-+	 * Setting the value to zero resets to the default (one slice per
-+	 * frame).
- 	 */
- 	MMAL_PARAMETER_MB_ROWS_PER_SLICE,
-
+ enum bm2835_mmal_ctrl_type {
+ 	MMAL_CONTROL_TYPE_STD,
+ 	MMAL_CONTROL_TYPE_STD_MENU,
+@@ -972,8 +959,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls[V=
+4L2_CTRL_COUNT] =3D {
+ 	},
+ 	{
+ 		V4L2_CID_ISO_SENSITIVITY_AUTO, MMAL_CONTROL_TYPE_STD_MENU,
+-		0, 1, V4L2_ISO_SENSITIVITY_AUTO, 1, NULL,
+-		MMAL_PARAMETER_ISO,
++		0, V4L2_ISO_SENSITIVITY_AUTO, V4L2_ISO_SENSITIVITY_AUTO, 1,
++		NULL, MMAL_PARAMETER_ISO,
+ 		ctrl_set_iso,
+ 		false
+ 	},
+@@ -990,8 +977,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls[V=
+4L2_CTRL_COUNT] =3D {
+  */
+ 	{
+ 		V4L2_CID_EXPOSURE_AUTO, MMAL_CONTROL_TYPE_STD_MENU,
+-		~0x03, 3, V4L2_EXPOSURE_AUTO, 0, NULL,
+-		MMAL_PARAMETER_EXPOSURE_MODE,
++		~0x03, V4L2_EXPOSURE_APERTURE_PRIORITY, V4L2_EXPOSURE_AUTO, 0,
++		NULL, MMAL_PARAMETER_EXPOSURE_MODE,
+ 		ctrl_set_exposure,
+ 		false
+ 	},
+@@ -1027,7 +1014,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	{
+ 		V4L2_CID_EXPOSURE_METERING,
+ 		MMAL_CONTROL_TYPE_STD_MENU,
+-		~0x7, 2, V4L2_EXPOSURE_METERING_AVERAGE, 0, NULL,
++		~0x7, V4L2_EXPOSURE_METERING_SPOT,
++		V4L2_EXPOSURE_METERING_AVERAGE, 0, NULL,
+ 		MMAL_PARAMETER_EXP_METERING_MODE,
+ 		ctrl_set_metering_mode,
+ 		false
+@@ -1035,7 +1023,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	{
+ 		V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE,
+ 		MMAL_CONTROL_TYPE_STD_MENU,
+-		~0x3ff, 9, V4L2_WHITE_BALANCE_AUTO, 0, NULL,
++		~0x3ff, V4L2_WHITE_BALANCE_SHADE, V4L2_WHITE_BALANCE_AUTO, 0,
++		NULL,
+ 		MMAL_PARAMETER_AWB_MODE,
+ 		ctrl_set_awb_mode,
+ 		false
+@@ -1056,7 +1045,7 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	},
+ 	{
+ 		V4L2_CID_COLORFX, MMAL_CONTROL_TYPE_STD_MENU,
+-		0, 15, V4L2_COLORFX_NONE, 0, NULL,
++		0, V4L2_COLORFX_SET_CBCR, V4L2_COLORFX_NONE, 0, NULL,
+ 		MMAL_PARAMETER_IMAGE_EFFECT,
+ 		ctrl_set_image_effect,
+ 		false
+@@ -1091,8 +1080,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	},
+ 	{
+ 		V4L2_CID_MPEG_VIDEO_BITRATE_MODE, MMAL_CONTROL_TYPE_STD_MENU,
+-		0, ARRAY_SIZE(bitrate_mode_qmenu) - 1,
+-		0, 0, bitrate_mode_qmenu,
++		0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
++		0, 0, NULL,
+ 		MMAL_PARAMETER_RATECONTROL,
+ 		ctrl_set_bitrate_mode,
+ 		false
+@@ -1114,8 +1103,8 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	},
+ 	{
+ 		V4L2_CID_POWER_LINE_FREQUENCY, MMAL_CONTROL_TYPE_STD_MENU,
+-		0, ARRAY_SIZE(mains_freq_qmenu) - 1,
+-		1, 1, mains_freq_qmenu,
++		0, V4L2_CID_POWER_LINE_FREQUENCY_AUTO,
++		1, 1, NULL,
+ 		MMAL_PARAMETER_FLICKER_AVOID,
+ 		ctrl_set_flicker_avoidance,
+ 		false
 =2D-
 2.7.4
 
