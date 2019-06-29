@@ -2,75 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63F2B5A7F6
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 03:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15F1A5A8AE
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 05:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfF2BM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Jun 2019 21:12:28 -0400
-Received: from mail-lf1-f53.google.com ([209.85.167.53]:40482 "EHLO
-        mail-lf1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbfF2BM2 (ORCPT
+        id S1726754AbfF2DeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Jun 2019 23:34:24 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:54917 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726719AbfF2DeY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Jun 2019 21:12:28 -0400
-Received: by mail-lf1-f53.google.com with SMTP id a9so5106255lff.7
-        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2019 18:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C8Nau7rmd/HTQmdLOBOYeBE94Io0/E62ZoA93R7+Tts=;
-        b=AlHCfqI3wltStdOsjfdHMEilwLJrJqhkN0VERMiuhIGO1c25qn7tyic9UBzQivHJzm
-         K7DCoUZEypF9UFnC1V0ZZ4kW1OUDvpNYWpMB+kqKg3Ie6iT4x/dkMtH6a5nu8yR4qF6+
-         w2i31eYnXaAurvfTGrwhe0OCjC/GtGzoxMzLyZ98hiyYDAyhEngBdRDt6jPX/TGkktvJ
-         G+c/E2H0wHO3dqWrdim6m1Tr8Cdis1ILETctn1pk76hPex80rjWSFcOHBkGoX0tZLEzf
-         pcLbP2wRjCZy+IlIXbx7THFZ28+MAF/0a/G6URmALQh5qWcM7V1WiSfLUWe7PJ1kNj4y
-         9qVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C8Nau7rmd/HTQmdLOBOYeBE94Io0/E62ZoA93R7+Tts=;
-        b=qVBNvXHyz77FeuvbE8qGGvxv5BSls+XmOggJOmwmVNcaqOupqntCv1KYct0ORhuBjr
-         ulYsugrZpC4GDqD3sxOexuGe+oxEDNKwxf69lG0Zb9X1gFE6ByCQqt1FcER1NhMv+LHP
-         0zqBwCRh5weWbMaBEgW2XJLcnXbPgL2MI4rCpQXnAsezbYaYKjJrHMlHlA/V+QY1pgmW
-         Hdf5iIH6rApsVxFgLohG+Iy0D3rwBUY2ACFAuQZ3O1+OyBlZ9IgG6mYfkvhNC5Bq5kSf
-         ZJ6bIMhuGqtCvq1kslZrAO3WYT53VahCi2Hr/DwbMLDl6eR/l7qq6CcHgGR190EttSZj
-         MZ8Q==
-X-Gm-Message-State: APjAAAVZYiRm2x747VmkEBEr/LZ3hM/d9L3kN2u46i3SNjSbkGaw/12U
-        3dlzLFFLQE79Ki6pOh3niBJyi9npWpstEeszQUo=
-X-Google-Smtp-Source: APXvYqzrvVl0CEtu4NtCZ50G29N2fJKK6G+zGlKv2QJr1bZBsZnlc3KUOaMl5df5zAIKuSo37wx1kIdUeNALBNVOZPg=
-X-Received: by 2002:ac2:597c:: with SMTP id h28mr6273334lfp.90.1561770746548;
- Fri, 28 Jun 2019 18:12:26 -0700 (PDT)
+        Fri, 28 Jun 2019 23:34:24 -0400
+X-Halon-ID: e98c0dff-9a1d-11e9-8601-0050569116f7
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from localhost (unknown [145.14.112.32])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPSA
+        id e98c0dff-9a1d-11e9-8601-0050569116f7;
+        Sat, 29 Jun 2019 05:28:08 +0200 (CEST)
+Date:   Sat, 29 Jun 2019 05:28:17 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@fsdn.se>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/3] media: v4l2-subdev: Verify arguments in
+ v4l2_subdev_call()
+Message-ID: <20190629032817.GQ32581@bigcity.dyn.berto.se>
+References: <20190520212747.368-1-jmkrzyszt@gmail.com>
 MIME-Version: 1.0
-References: <CAOMZO5A4zhpxf7PQV17vpi43M743Q0R5+ONpSc05-fxFbQDG0Q@mail.gmail.com>
-In-Reply-To: <CAOMZO5A4zhpxf7PQV17vpi43M743Q0R5+ONpSc05-fxFbQDG0Q@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 28 Jun 2019 22:12:21 -0300
-Message-ID: <CAOMZO5DktjDM-YE7g-bu+DgOZT2SA+FAta_cj2PZV0SLbiXK3g@mail.gmail.com>
-Subject: Re: Setting up the links for imx7-mipi-csis
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190520212747.368-1-jmkrzyszt@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
+Hi,
 
-On Fri, Jun 28, 2019 at 7:03 PM Fabio Estevam <festevam@gmail.com> wrote:
+This patch breaks rcar-vin. I'm sorry I did not find out before it was 
+merged as a8fa55078a7784a9 ("media: v4l2-subdev: Verify arguments in 
+v4l2_subdev_call()").
 
-> The first command succeeds, but the second one fails:
->
-> # media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi_mux':1[1]"
-> Unable to parse link: Invalid argument (22)
+The problem is that rcar-vin calls enum_mbus_code in its bound callback.  
+At this point call_enum_mbus_code() is invoked which then calls 
+check_pad(). At this point sd->entity.graph_obj.mdev is not set so the 
+check if (pad > 0) fails and the binding of the subdevice in rcar-vin 
+fails.
 
-I have also tested it on a imx7s-warp and I got the same error.
+I'm not sure how to best solve this, suggestions are appreciated. I see 
+two options, move the call to enum_mbus_code from the bound to the 
+complete callback or make sure the mdev is associated with the subdev 
+before the bound callback is invoked. I don't like the former as I think 
+the complete callback should be removed ;-)
 
-Please let me know if you have any ideas on how to solve this problem.
-
-Thanks
+On 2019-05-20 23:27:44 +0200, Janusz Krzysztofik wrote:
+> Correctness of format type (try or active) and pad ID parameters passed
+> to subdevice operation callbacks is now verified only for IOCTL calls.
+> However, those callbacks are also used by drivers, e.g., V4L2 host
+> interfaces.
+> 
+> Since both subdev_do_ioctl() and drivers are using v4l2_subdev_call()
+> macro while calling subdevice operations, move those parameter checks
+> from subdev_do_ioctl() to v4l2_subdev_call().  Also, add check for
+> non-NULL pointers, including pad config if V4L2_SUBDEV_FORMAT_TRY is
+> requested.
+> 
+> Having that done, we can avoid taking care of those checks inside
+> drivers.
+> 
+> Janusz Krzysztofik (3):
+>   media: v4l2-subdev: Verify arguments in v4l2_subdev_call()
+>   media: v4l2-subdev: Verify v4l2_subdev_call() pointer arguments
+>   media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument
+> 
+>  drivers/media/v4l2-core/v4l2-subdev.c | 268 +++++++++++++++++---------
+>  include/media/v4l2-subdev.h           |   6 +
+>  2 files changed, 188 insertions(+), 86 deletions(-)
+> 
+> Changelog:
+> v6->v7:
+> Changes suggested by Sakari - thanks!
+> - never succeed pad check on media entities with pad_num == 0,
+> - allow pad 0 on subdevies not registered as media entities.
+> 
+> v5->v6:
+> - rename wrappers to call_something() as suggested by Sakari - thanks!
+> - make check_ functions inline - also on Sakari's suggestion, thanks!
+> - drop patch 2/4 and remove WARN_ONs from remaining patches to avoid
+>   kernel WARNs on non-kernel bugs - thanks Hans for pointing this out!
+> 
+> v4->v5:
+> - a few coding style and code formatting changes,
+> - require CONFIG_MEDIA_CONTROLLER, not CONFIG_VIDEO_V4L2_SUBDEV_API,
+>   for a valid pad ID check,
+> - perform pad ID check only if at least one pad is configured so
+>   drivers which don't configure pads are not affected if built with
+>   CONFIG_MEDIA_CONTROLLER defined,
+> - issue kernel warnings on invalid parameters (new patch - 2/4),
+> - validate pointers before using them (new patch - 3/4).
+> 
+> v3->v4:
+> - fix 'struct' keyword missing from patch 2/2,
+> - fix checkpatch reported style issue in patch 2/2
+> Sorry for that.
+> 
+> v2->v3:
+> - add patch 2/2 with pad config check,
+> - adjust continuation line alignments in patch 1/2 to match those
+>   used in 2/2.
+> 
+> v1->v2:
+> - replace the horrible macro with a structure of wrapper functions;
+>   inspired by Hans' and Sakari's comments - thanks!
+> 
+> -- 
+> 2.21.0
+> 
