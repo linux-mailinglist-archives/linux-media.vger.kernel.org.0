@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D56D5AB04
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A53365AB06
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbfF2MtR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 08:49:17 -0400
-Received: from mout.gmx.net ([212.227.17.22]:48877 "EHLO mout.gmx.net"
+        id S1726965AbfF2MtS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 08:49:18 -0400
+Received: from mout.gmx.net ([212.227.17.22]:57325 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726909AbfF2MtR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 08:49:17 -0400
+        id S1726906AbfF2MtS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jun 2019 08:49:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
         s=badeba3b8450; t=1561812541;
-        bh=W1MflUE2ESPxzCVc2ksRkn/5LFLvGtrfoI18ODdqjTU=;
+        bh=lyuo9ZZkk8hJypSXF5NF0dOT2zV+ssHAqTqmySO4UcA=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=j6oHip4fDJxBz4Cfpw3TvDorry3ot9uutoAWePjvLqne/Q/XfPndUoruMHLeZgphA
-         OaXauETJlOv9mL65Sd/tiBQyZxD+da9k0/OK33IreOBV3JMJeQfh2jlWg1ODepnuAW
-         z0Isu+uh2s5BFf3sD8GJG0QrVznd/cPUgWBzTszk=
+        b=k+6VOKVj2qROcEKKgv0F0RL2/U34jXzpl/hG8pDCJ9jmM3GhremFdcFusLokVI/xC
+         Kd8WGmVlZNaWEY/hEfQehD4na8/C3Lxe0rrKOpAh2d79qdS27Q02xoeY4c+jWryxXD
+         ygEqijkcAh/4VlyivWqFSUn482fpc/SH4ZwcUmKw=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
  (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1N1fmq-1ij6290GNM-01209a; Sat, 29 Jun 2019 14:49:01 +0200
+ 1N0XD2-1iSYAr1vjI-00wZB8; Sat, 29 Jun 2019 14:49:01 +0200
 From:   Stefan Wahren <wahrenst@gmx.net>
 To:     Eric Anholt <eric@anholt.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,34 +31,34 @@ To:     Eric Anholt <eric@anholt.net>,
 Cc:     linux-rpi-kernel@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 23/29] staging: bcm2835-camera: Correct V4L2_CID_COLORFX_CBCR behaviour
-Date:   Sat, 29 Jun 2019 14:48:30 +0200
-Message-Id: <1561812516-9087-8-git-send-email-wahrenst@gmx.net>
+Subject: [PATCH V2 24/29] staging: bcm2835-camera: Remove/amend some obsolete comments
+Date:   Sat, 29 Jun 2019 14:48:31 +0200
+Message-Id: <1561812516-9087-9-git-send-email-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561812516-9087-1-git-send-email-wahrenst@gmx.net>
 References: <1561812516-9087-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:786ToepF2m7Wy+UE0Lf7666a3lS0jC3ZKnna1dUe0y4fdCrlQU0
- 5SPltxnSJxpfd2z0Y4tOUB2PB+Bt/VEgVS93iChIKA0VkG5yirU4w32cA6xUIMfZxK/NX/R
- m9S6pVh0mb+ikIcBj6lreOmTV17Tz9z43fyjuIdiUPOHWs130kxoXX5JgcQKDcV8Gm0mNXs
- SihOaMzeeLTvkwLkUoXSw==
+X-Provags-ID: V03:K1:FQwLvaiFlhfDTE+wRxT7EaRSvUXaNO4hrSTyFF+HF6ZTQ3nMrUe
+ y4dJ8pXcRTY2FOq1XbeOfel3GQ0t4ssrzTQnuIdyzP2NcrkByH1mvayk8XEr+RoYafsXxHI
+ WUia9A+96a+QRyhyvTi6Sr6a+xeH5kc4gzDDEjAm2jzSnUXcA4JcYvanIATdv1JItdJ3hDV
+ aUMyRjtjW5ct9lWHk1Dhg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OJTqm4YfpBo=:kqfHQShJPKdNq1tMGD/PX1
- ZZRgdMZ1xLlhAD9cMAGiJDLcaeRqpjMjtVqDCjBDwN51rvz0l3/RXw52SWI4dZmJoSH69mLUD
- a8EBqGDJSn6fXrgnphZ7IeVa1ZGHSB6KnYNA7vnu9Mf3UNh1BB4p73LjbdbiwubZ9v3/8nNT5
- a6pRpCxh6ws/m7mRM6Kv9GSiEJqrfQWak58VHmIl6FfcHbAh5QwH99SORV6WW3sNT24wwhShe
- CmDx79aqLF79kPcBSqPxhQSdsvSzykHDxtzLrAEqCfyKihkkJd6EoBvrxTIOTYHvcY6Bci+GP
- 6eXyMYBb3LBrMwkDydN5/M8vBXdUl/tdCJgBreuDwwjdowSJbBee3PeHK17axvkHUfgNipVRt
- +aNEu+50770t6+c3eKb9rAfqmhQSS12sOu70A4pqYPBU2znBh6f1Xq+05doLZTtOf5TZRib6n
- D4K5Y8z4iitnI1L1y3wqlMia7ZZsjcguiyoCBGG9CY7R367aU3upIWY+NxuMM72IJtiKDPhiO
- fHgrp6GYiAu3tbRQ4vnDBdESwNJWmblKEBs6IobMkW4lVcJBBbXwL8vWo4pXCMUbWl5r8ngIf
- EJwI0PaDnf47eUjJJ60O5wcM+yODk3FrNQbgGxj7FGhinEJgo5zwAfZt+Y7I0slcxID35Zvhj
- bjIc+iS+If7zsmKXL7aOlQtak7x9b2Si6sWQ+oqZYAR2ifJYvFsDBuTN6gj1Ggo4a4IWI+loU
- vptYDt1Pc6j8WV1tZh4VkvUCQuDZQrHDgrsuyEa8Iz8RJ/jX4TucX1cWsrtcXr9PAIDoR7jGF
- xkoqnOSxNO/hri1O//nyi4Z2jLGEiYuuSyiwUcl7qeeTJ2XLZqs2CUWR5E5JK+RKUeceIGhq5
- H3+JMcdqNgSGlOSIBuLVY7ZYaDffsPgw4FzjUY7x2d/Nx8vSntZwTLdfx1T8dkwlUoOjW0ChV
- 6DxMxPqdMFD0I9jQ8E/B8VEDoqLxeGHMvthM8Snrra9XygsD5qrTiSCv4GD1G06LERyv6Qorn
- pPQoWFfJ/lRyXAUlbEf1847Mhm08QDEUpDab2+Hx8yfZqntdd1XT7b4Iy4dlc9264Qm9jcFo8
- Ic2ehgeFe8UGC0=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BkZiacC8RxI=:CQOgSGO9V1/El+0cq+9QKE
+ wF2J6I9eVr2MPJ93qCZBe7DOTp8+4dz37KZNiVLLrfwIvEjtDmh2O9eYVNQ+Uf9Z0koX3wWQC
+ oft6r/FTrYVKr5VuxuufOCqBTXrHPUyYvjr62wawDE+9fEKXRRAT2XXmkO1CDA29ZVAHRN2zU
+ JXqk3iHwtZxwW4Undw7z2klHLVSUpLqUAWNOn8SnCCR9aHynEOl3JTVYBrG8uYYghLblDSzZb
+ 76jD3FeFxejY433n5Z2modtnpDkjUAW9HS0wjVxF7m1rXENK42zze4N7uGy2C4Wtofdlb79Al
+ qOaWqwrbSiAtfwfNWKg8dbOl2wgKI62bKWW+hGFU+jZdhpC7ubu32CFEMztsmmRxQb6VgT74e
+ QO7GNc1s0S+ld54DinMcAqEpwkTTGSe68hzF+bo5+y7rtolkQH5EqJbp2iYGe0XQkZ93pXPwb
+ yOzyuSrdl8rH3P3uezRpAuDqEeatTxltARS9COm3VVCApE6YNOzLwNi3XARm5nMuuh/dVXu0E
+ Xo/Sc7dBzfttrZCTgy8O3K3sT9kUdDYkCm+KmQlcQZ1HuOCVvsJyjqJu3EJBZcu57vZ9k2Bes
+ JHZ5pZ0UTGH5BgK8VJrhzwE4/lEcCrKUN7Drrd2dg5Mh9Dl8BJBEkazz0quiVjqyoo/4fzLCb
+ L5r2KANGuzHLdvuucUj41tBJzZeOUciNoQGSWej3v9E7nG01wxeWDWmmOoqAbMVPAdowTm0fy
+ nA01RJECgMYWAcBgxqI+qnl6z8rlcWdoF0GjPaB7R0SDINsr6bbciR/rcPJNCPdZCHg4LeQER
+ jZ4Lie1F+eDntCmxxS0Iy7CrcrSgaLnqL12JRbvF/ZIEohd/XFyTc/51vOCyukAeH1GRYpY1m
+ yD7x6Wr8kYBPb+DnOwvNlnki1P1YzItXlpOQr9SCcDpGpXyMCe+SqN9V5WGE8a6w+fzrc5OhR
+ jperBTJktqdJYPImkV3/X33UjkpcyeuULrSI5il7OJK49AIqSprrFYyn0mJPN56tr6tjxW7hm
+ sgH4I+qP4i89Qtu2XlvAZYWPRymkJQY8V/dwMs4+7RwF81gzbbazqIBuTL3m520ncCzhPbY7Z
+ 1gAeaAKlw9R9c4=
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -67,40 +67,58 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-With V4L2_CID_COLORFX_CBCR calling ctrl_set_colfx it was incorrectly
-assigning the colour values to the enable field of dev->colourfx
-instead of the u and v fields.
+Remove a todo which has been done.
+Remove a template line that was redundant.
+Make a comment clearer as to the non-obvious meaning of a field.
 
-Correct the assignments.
-
-Reported as a Coverity issue
-Detected by CoverityScan CID#1419711 ("Unused value")
-
-Reported-by: Colin Ian King <colin.king@canonical.com>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 =2D--
- drivers/staging/vc04_services/bcm2835-camera/controls.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/vc04_services/bcm2835-camera/controls.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/dri=
 vers/staging/vc04_services/bcm2835-camera/controls.c
-index 038b9b9..b8aaedd 100644
+index b8aaedd..848b14a 100644
 =2D-- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
 +++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -574,8 +574,8 @@ static int ctrl_set_colfx(struct bm2835_mmal_dev *dev,
-
- 	control =3D &dev->component[COMP_CAMERA]->control;
-
--	dev->colourfx.enable =3D (ctrl->val & 0xff00) >> 8;
--	dev->colourfx.enable =3D ctrl->val & 0xff;
-+	dev->colourfx.u =3D (ctrl->val & 0xff00) >> 8;
-+	dev->colourfx.v =3D ctrl->val & 0xff;
-
- 	ret =3D vchiq_mmal_port_parameter_set(dev->instance, control,
- 					    MMAL_PARAMETER_COLOUR_EFFECT,
+@@ -971,10 +971,6 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls[=
+V4L2_CTRL_COUNT] =3D {
+ 		ctrl_set_value,
+ 		false
+ 	},
+-/*	{
+- *		0, MMAL_CONTROL_TYPE_CLUSTER, 3, 1, 0, NULL, 0, NULL
+- *	},
+- */
+ 	{
+ 		V4L2_CID_EXPOSURE_AUTO, MMAL_CONTROL_TYPE_STD_MENU,
+ 		~0x03, V4L2_EXPOSURE_APERTURE_PRIORITY, V4L2_EXPOSURE_AUTO, 0,
+@@ -982,11 +978,6 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls[=
+V4L2_CTRL_COUNT] =3D {
+ 		ctrl_set_exposure,
+ 		false
+ 	},
+-/* todo this needs mixing in with set exposure
+- *	{
+- *		V4L2_CID_SCENE_MODE, MMAL_CONTROL_TYPE_STD_MENU,
+- *	},
+- */
+ 	{
+ 		V4L2_CID_EXPOSURE_ABSOLUTE, MMAL_CONTROL_TYPE_STD,
+ 		/* Units of 100usecs */
+@@ -1152,7 +1143,7 @@ static const struct bm2835_mmal_v4l2_ctrl v4l2_ctrls=
+[V4L2_CTRL_COUNT] =3D {
+ 	},
+ 	{
+ 		V4L2_CID_SCENE_MODE, MMAL_CONTROL_TYPE_STD_MENU,
+-		-1,	/* Min is computed at runtime */
++		-1,	/* Min (mask) is computed at runtime */
+ 		V4L2_SCENE_MODE_TEXT,
+ 		V4L2_SCENE_MODE_NONE, 1, NULL,
+ 		MMAL_PARAMETER_PROFILE,
 =2D-
 2.7.4
 
