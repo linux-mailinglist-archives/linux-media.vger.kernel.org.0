@@ -2,113 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E6D75AAA9
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAC635AACD
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2019 14:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726993AbfF2MOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 08:14:30 -0400
-Received: from mout.gmx.net ([212.227.17.22]:34649 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726963AbfF2MOa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 08:14:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1561810451;
-        bh=rIM3Cz1WAKPV0BYtLr0jELwNn1BK7VirmbeWmMyEk3Q=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=AiKFmEsKy4deUoljE7ODH/oe/LorZoaNke4syWVP47iEzWjsVWIfv9JJiNkYP3huL
-         1yLYiMnL0m+cuHz5ZEekT4QciIaO6Hxr/rA8Fa/DuRWK9WIPEVB/SzaeytQBZdd0QR
-         ADVvdczRUmXXcY483JoVu6/+81VEUYq52m77urLE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([37.4.249.111]) by mail.gmx.com
- (mrgmx103 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 0M1FAK-1iaGs7066y-00tDwY; Sat, 29 Jun 2019 14:14:11 +0200
-From:   Stefan Wahren <wahrenst@gmx.net>
-To:     Eric Anholt <eric@anholt.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
-        linux-media@vger.kernel.org, Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 15/29] staging: bcm2835-camera: Remove check of the number of buffers supplied
-Date:   Sat, 29 Jun 2019 14:13:30 +0200
-Message-Id: <1561810410-8829-16-git-send-email-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
-References: <1561810410-8829-1-git-send-email-wahrenst@gmx.net>
-X-Provags-ID: V03:K1:tad7qdgkQl4RWv6RpdHYArIVesPr8zvsMAid0YbAv94c5hbQZFf
- Xd5Wce7JOaEknJSu9kRrrtJBpHF+eqb4DTfJL/pheuXLMQUPcGw43RRw5zLL6Omw2ur6bN4
- o70QIbb6S3xVJyz0iOiY5nhZ5CeI7GIeheQeNJh96uxLYWH4QCL5i9dEI7rpzCouTjXO8l3
- 21wAWCJJQvHAROw8zXW/Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J27WurzvVEU=:mKcxB0F3zxrgBpjD3Hm/Yh
- XrRWggz/+56tCDUSUgXhJU+XhsfVW0BzFp7s6Pd4Wr4lHdoH2px1FBtlJmTd2sjEd3paZ4TCW
- pW82mbDcNqgpCPkVZyXwLk6bq+PnIzW9lNXC3GPAVcYsl9jjB42yH1a7SwFr51PdVNEOTTOrs
- +yqWG6BpEk4wugZJJkBwjhdl7RU+segMOjTw4FiKUv6gZdXYI+iUP/ijP6LMHQXh1Mw+LOlD/
- ZAcdSD8sDWP0zhIM3F+hHRD1cTfgdBZFNSyN9ISWuKneK88I0mEUlr9in3o49cvtTQoaNLau8
- jWq/ckN7qTSkIvDOlZmOVAQOmpzy4j2qKX8ORLDV9kWCUadd0TSEynuhAkgvg/Bg2fFdm3IF6
- C+CUgtF+KB3uxOFOCrP07he/8Jcrty2QkvCp2f9Os6co50NJrHgeBfZMnU2SP5gCJjtZ09Mc7
- V7YGixvu/yd1u7K/IQXMs2EeEMuUJmbnrLgBgKDcx/X62NJEoctvBEPW9zyd7h1QwiIg3Bafe
- 8HHwNRXoiOEFA4ZAFzYAwM+yQD5XZh+xqx/7gVbZI1+7YATSp6HN1Zsk87xUd7OYJYCEaoW3i
- 3YaT7KdrMjkAHFjcXOnLSvoevtS7e2xeOT9TsGxC5bUsqdoLyJkevL1Ns0qfns1ynq8h0jsal
- B9BsmNNYpNkAE/0Sbl43Pu44FAiu9H37So6JVqgHkT2P+w/E8QLyg/T9x/1uBX5UfoOQndVPq
- Hg5e7rdJJECpG9DfESwFZaWEdX7VyMrw4UdJPKtGCCSfeBfPk0fBTEWmyOXAHdCOYNiz4XKbv
- UEAn8zUzAetnvjo3yLAL0dDWV5zOIFZetCSr8ylv3VlgMz/2tanDzqOtYKLH/BxePOabOpxc1
- o3/sJwcE0DvuhRkKW1B3FnkRJr5yv32qKd7f18oULfnh5aW+eIJcnT5WPgBbvhzqISQOrx0Rb
- LXlUalqil235FrDmg28UaBORWQTQOntFRdq2PvRpEAnLqMgvWO8ECCsGBjjEzet3fWJNkprp+
- 5vzRvOqScVxz89POZjl9bVnwyOu9Pd6QyBZUGAqvZdTsdNaOwDHW5a1okBvlCc7MKCBNZ4oHF
- dBlNoY721NWP+U=
-Content-Transfer-Encoding: quoted-printable
+        id S1727069AbfF2MQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 08:16:34 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:41220 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726916AbfF2MQd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 29 Jun 2019 08:16:33 -0400
+Received: by mail-qt1-f193.google.com with SMTP id d17so9464813qtj.8
+        for <linux-media@vger.kernel.org>; Sat, 29 Jun 2019 05:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=6vyR68aIFR5VQwG5aNCPKb1XJnuGkPINWUgL53vw6MM=;
+        b=o5O0s83X0UDaEVlelNF3x/g1wM6bDSzN7KonEO8Ige6RxcizVxwjbiKjZWe3w+wA2U
+         fnEI+z+J1lqicZ9beOiOR5NDQbDnHtXTiZstRgzd1SAJXHZUWB7+Cztho4HSmNTznFvo
+         wRNlrvAAw8Wdf+0EPg/FGw6NztnR68oFoKqAZxsrnmeoNULNF7wgmfLnRbE8rWloQJir
+         ZHpJd6Mg+udP7YWCzj6i4Opdxqqqgcp+WzaAOFm06D4nFmmfWwZJHlIpmrD4DtZuUlGj
+         XT1/HSfQEyYhfG+Tj8N2Ox4WejAPyJn0PVj1jwvjQi2/+DfBgVd0jlgj7AsF1hJY7xiO
+         7kMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6vyR68aIFR5VQwG5aNCPKb1XJnuGkPINWUgL53vw6MM=;
+        b=nf1FnJNEx82gCXSA7RJu4WfRyMmwLddDauus9dBAW0076XGbFhZ4ZltUAJ9AjRFocX
+         tUcggWjYjIKvKdUGjtjlXoTrB/u09cBe8R9AEaO0bRKGho+XEJtjMZRliJs+SKVsYN2A
+         GFy6DqKTWOzsceW7kJK6h0ACZ6JdJRsG2/kq+1iLmnUMv+HVWn5X1fvAyfjUONZVK9/t
+         tjX7rjHypEOBAjAhuF1zvfdGXP+qeMY2N87BSH7IhMeRoGrpTwqAzDzKL9WxlQ5sBy7n
+         ZdotgKnuyCnw1NfhVlWn3atuWWO2THIsN0AFpr6Lwjx5/8kak2nyl0iXQTPHMYCJchlg
+         sqhA==
+X-Gm-Message-State: APjAAAUp6B9hsBdXVcn6fL/mL6qoAuTr+4JhZLZDuueF3rCBqjp2Fraj
+        JDQjp+tPzeDHY+JVt36z4u4=
+X-Google-Smtp-Source: APXvYqwUnn34LPLue34g9BkLUGq+0dtX1u/pn63210p7Dn30nomxZweRAPXR/2hEBPX0v1+bSsm8Qg==
+X-Received: by 2002:ac8:768b:: with SMTP id g11mr12685114qtr.182.1561810592519;
+        Sat, 29 Jun 2019 05:16:32 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:3c8:56cb:1049:60d2:137b])
+        by smtp.gmail.com with ESMTPSA id l63sm2303845qkb.124.2019.06.29.05.16.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 29 Jun 2019 05:16:31 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil@xs4all.nl
+Cc:     sakari.ailus@iki.fi, rmfrfs@gmail.com, linux-media@vger.kernel.org,
+        slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] media: imx7.rst: Fix the references to the CSI multiplexer
+Date:   Sat, 29 Jun 2019 09:16:23 -0300
+Message-Id: <20190629121623.18069-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+In imx7s.dtsi the node name for the CSI multiplexer is "csi-mux", not
+"csi_mux", so fix all the references in the document.
 
-Before commit "staging: bcm2835-camera: Remove V4L2/MMAL buffer remapping"
-there was a need to ensure that there were sufficient buffers supplied fro=
-m
-the user to cover those being sent to the VPU (always 1).
+This fixes the following error when the instructions are followed:
 
-Now the buffers are linked 1:1 between MMAL and V4L2,
-therefore there is no need for that check, and indeed it is wrong
-as there is no need to submit all the buffers before starting streaming.
+# media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi_mux':1[1]"
+Unable to parse link: Invalid argument (22)
 
-Fixes: 938416707071 ("staging: bcm2835-camera: Remove V4L2/MMAL buffer rem=
-apping")
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-=2D--
- drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c | 10 ----------
- 1 file changed, 10 deletions(-)
+While at it, provide the "media-ctl -p" output from 5.2 kernel
+version, so that users can see a more updated output.
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c b/d=
-rivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-index 4d63176..59eb812 100644
-=2D-- a/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/mmal-vchiq.c
-@@ -1338,16 +1338,6 @@ static int port_enable(struct vchiq_mmal_instance *=
-instance,
- 	if (port->enabled)
- 		return 0;
+Fixes: fa88fbdafb4a ("media: imx7.rst: add documentation for i.MX7 media driver")
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ Documentation/media/v4l-drivers/imx7.rst | 127 +++++++++++------------
+ 1 file changed, 63 insertions(+), 64 deletions(-)
 
--	/* ensure there are enough buffers queued to cover the buffer headers */
--	if (port->buffer_cb) {
--		hdr_count =3D 0;
--		list_for_each(buf_head, &port->buffers) {
--			hdr_count++;
--		}
--		if (hdr_count < port->current_buffer.num)
--			return -ENOSPC;
--	}
+diff --git a/Documentation/media/v4l-drivers/imx7.rst b/Documentation/media/v4l-drivers/imx7.rst
+index fe411f65c01c..ab9e17d111bf 100644
+--- a/Documentation/media/v4l-drivers/imx7.rst
++++ b/Documentation/media/v4l-drivers/imx7.rst
+@@ -41,7 +41,7 @@ data from MIPI CSI-2 camera sensor. It has one source pad, corresponding to the
+ virtual channel 0. This module is compliant to previous version of Samsung
+ D-phy, and supports two D-PHY Rx Data lanes.
+ 
+-csi_mux
++csi-mux
+ -------
+ 
+ This is the video multiplexer. It has two sink pads to select from either camera
+@@ -56,7 +56,7 @@ can interface directly with Parallel and MIPI CSI-2 buses. It has 256 x 64 FIFO
+ to store received image pixel data and embedded DMA controllers to transfer data
+ from the FIFO through AHB bus.
+ 
+-This entity has one sink pad that receives from the csi_mux entity and a single
++This entity has one sink pad that receives from the csi-mux entity and a single
+ source pad that routes video frames directly to memory buffers. This pad is
+ routed to a capture device node.
+ 
+@@ -81,14 +81,14 @@ an output of 800x600, and BGGR 10 bit bayer format:
+ 
+    # Setup links
+    media-ctl -l "'ov2680 1-0036':0 -> 'imx7-mipi-csis.0':0[1]"
+-   media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi_mux':1[1]"
+-   media-ctl -l "'csi_mux':2 -> 'csi':0[1]"
++   media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi-mux':1[1]"
++   media-ctl -l "'csi-mux':2 -> 'csi':0[1]"
+    media-ctl -l "'csi':1 -> 'csi capture':0[1]"
+ 
+    # Configure pads for pipeline
+    media-ctl -V "'ov2680 1-0036':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+-   media-ctl -V "'csi_mux':1 [fmt:SBGGR10_1X10/800x600 field:none]"
+-   media-ctl -V "'csi_mux':2 [fmt:SBGGR10_1X10/800x600 field:none]"
++   media-ctl -V "'csi-mux':1 [fmt:SBGGR10_1X10/800x600 field:none]"
++   media-ctl -V "'csi-mux':2 [fmt:SBGGR10_1X10/800x600 field:none]"
+    media-ctl -V "'imx7-mipi-csis.0':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+    media-ctl -V "'csi':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+ 
+@@ -97,64 +97,63 @@ the resolutions supported by the sensor.
+ 
+ .. code-block:: none
+ 
+-    root@imx7s-warp:~# media-ctl -p
+-    Media controller API version 4.17.0
 -
- 	ret =3D port_action_port(instance, port,
- 			       MMAL_MSG_PORT_ACTION_TYPE_ENABLE);
- 	if (ret)
-=2D-
-2.7.4
+-    Media device information
+-    ------------------------
+-    driver          imx-media
+-    model           imx-media
+-    serial
+-    bus info
+-    hw revision     0x0
+-    driver version  4.17.0
+-
+-    Device topology
+-    - entity 1: csi (2 pads, 2 links)
+-		type V4L2 subdev subtype Unknown flags 0
+-		device node name /dev/v4l-subdev0
+-	    pad0: Sink
+-		    [fmt:SBGGR10_1X10/800x600 field:none]
+-		    <- "csi_mux":2 [ENABLED]
+-	    pad1: Source
+-		    [fmt:SBGGR10_1X10/800x600 field:none]
+-		    -> "csi capture":0 [ENABLED]
+-
+-    - entity 4: csi capture (1 pad, 1 link)
+-		type Node subtype V4L flags 0
+-		device node name /dev/video0
+-	    pad0: Sink
+-		    <- "csi":1 [ENABLED]
+-
+-    - entity 10: csi_mux (3 pads, 2 links)
+-		type V4L2 subdev subtype Unknown flags 0
+-		device node name /dev/v4l-subdev1
+-	    pad0: Sink
+-		    [fmt:unknown/0x0]
+-	    pad1: Sink
+-		    [fmt:unknown/800x600 field:none]
+-		    <- "imx7-mipi-csis.0":1 [ENABLED]
+-	    pad2: Source
+-		    [fmt:unknown/800x600 field:none]
+-		    -> "csi":0 [ENABLED]
+-
+-    - entity 14: imx7-mipi-csis.0 (2 pads, 2 links)
+-		type V4L2 subdev subtype Unknown flags 0
+-		device node name /dev/v4l-subdev2
+-	    pad0: Sink
+-		    [fmt:SBGGR10_1X10/800x600 field:none]
+-		    <- "ov2680 1-0036":0 [ENABLED]
+-	    pad1: Source
+-		    [fmt:SBGGR10_1X10/800x600 field:none]
+-		    -> "csi_mux":1 [ENABLED]
+-
+-    - entity 17: ov2680 1-0036 (1 pad, 1 link)
+-		type V4L2 subdev subtype Sensor flags 0
+-		device node name /dev/v4l-subdev3
+-	    pad0: Source
+-		    [fmt:SBGGR10_1X10/800x600 field:none]
+-		    -> "imx7-mipi-csis.0":0 [ENABLED]
+-
++# media-ctl -p
++Media controller API version 5.2.0
++
++Media device information
++------------------------
++driver          imx7-csi
++model           imx-media
++serial
++bus info
++hw revision     0x0
++driver version  5.2.0
++
++Device topology
++- entity 1: csi (2 pads, 2 links)
++            type V4L2 subdev subtype Unknown flags 0
++            device node name /dev/v4l-subdev0
++        pad0: Sink
++                [fmt:SBGGR10_1X10/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
++                <- "csi-mux":2 [ENABLED]
++        pad1: Source
++                [fmt:SBGGR10_1X10/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
++                -> "csi capture":0 [ENABLED]
++
++- entity 4: csi capture (1 pad, 1 link)
++            type Node subtype V4L flags 0
++            device node name /dev/video0
++        pad0: Sink
++                <- "csi":1 [ENABLED]
++
++- entity 10: csi-mux (3 pads, 2 links)
++             type V4L2 subdev subtype Unknown flags 0
++             device node name /dev/v4l-subdev1
++        pad0: Sink
++                [fmt:Y8_1X8/1x1 field:none]
++        pad1: Sink
++                [fmt:SBGGR10_1X10/800x600 field:none]
++                <- "imx7-mipi-csis.0":1 [ENABLED]
++        pad2: Source
++                [fmt:SBGGR10_1X10/800x600 field:none]
++                -> "csi":0 [ENABLED]
++
++- entity 14: imx7-mipi-csis.0 (2 pads, 2 links)
++             type V4L2 subdev subtype Unknown flags 0
++             device node name /dev/v4l-subdev2
++        pad0: Sink
++                [fmt:SBGGR10_1X10/800x600 field:none]
++                <- "ov2680 1-0036":0 [ENABLED]
++        pad1: Source
++                [fmt:SBGGR10_1X10/800x600 field:none]
++                -> "csi-mux":1 [ENABLED]
++
++- entity 17: ov2680 1-0036 (1 pad, 1 link)
++             type V4L2 subdev subtype Sensor flags 0
++             device node name /dev/v4l-subdev3
++        pad0: Source
++                [fmt:SBGGR10_1X10/800x600@1/30 field:none colorspace:srgb]
++                -> "imx7-mipi-csis.0":0 [ENABLED]
+ 
+ References
+ ----------
+-- 
+2.17.1
 
