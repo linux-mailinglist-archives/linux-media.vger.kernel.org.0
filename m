@@ -2,79 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CE575AE04
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2019 05:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561845AF38
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2019 09:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfF3D4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 23:56:33 -0400
-Received: from knopi.disroot.org ([178.21.23.139]:46712 "EHLO
-        knopi.disroot.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726445AbfF3D4d (ORCPT
+        id S1726547AbfF3HXa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Jun 2019 03:23:30 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33223 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfF3HXa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 23:56:33 -0400
-X-Greylist: delayed 397 seconds by postgrey-1.27 at vger.kernel.org; Sat, 29 Jun 2019 23:56:32 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by disroot.org (Postfix) with ESMTP id 82CE435AD1;
-        Sun, 30 Jun 2019 05:49:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
-        by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RcVaHcMZLjIq; Sun, 30 Jun 2019 05:49:53 +0200 (CEST)
-From:   Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-        t=1561866593; bh=9Ans4RlZn8dOH7qDF/10KOpQwK7T65Z7lmdyjzSs6EM=;
-        h=From:To:Cc:Subject:Date;
-        b=cxRkBFtLkJqF49ZKRJOmdQPn1WiL+0gAI0IbH2izNDvE48VmypAe/M+yVswDVcpFO
-         G0jOYvwIl4tfIuw0ErGts8jklgNnMtIWEvNlyZh8OcbO8t+B05MxH238awK/j5QT/v
-         nbXssB0o4AV839WeDkBIp/uhnTDe0fbi/XVVhvPViaoGK6bTFZNUFLBjloaQ5Di5dq
-         RXOmMjmDq8tGhSHt/U4rrmlPxmbRJOkNDNvw4+b26gcLLvKWHgsf5t5eQpesV8YC9v
-         zQX855x2+tPa8WxqO2WIhB0VOjyXG2m+5kjkuCm5D5k7o7pU+3BZF6rvzObA8kfsqZ
-         zhNvFdQA6TUqw==
-Cc:     Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: imx7-media-csi: Remove unneeded break after return
-Date:   Sat, 29 Jun 2019 22:49:04 -0500
-Message-Id: <20190630034905.7124-1-chinmaya.mahesh@disroot.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        Sun, 30 Jun 2019 03:23:30 -0400
+Received: by mail-pf1-f193.google.com with SMTP id x15so5014105pfq.0;
+        Sun, 30 Jun 2019 00:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=e52sskDaY8O7yqS5NxNuV7bUhO1cLfPhjc5I1rr6rnY=;
+        b=peE4X3XDICVXlJEtIvk/EL5Ewm6mvCDiPCOQaGFhZxr6zhAQmF4A5l0ngpIuY8Wif+
+         fcXG/GstSAyMLtaznvMlima8mZJVWSjl7HRAc8bN2NfrVgq/Y9B3sjTDRCpt//0D/Bl0
+         VBBtTZ9HMj6AHbbZ7CjOKt0aAYqhmoUf7WQ+WHK7AKg+Pit0mr3EGk4Z9dTEU/HC+VSv
+         iuL9li126wvQyzKgWgmEJObcRKiMFvn4mpX6y4ehKtksLpC5wyYm5CUF2O7ZcnLTYtmC
+         Gq3HXyHfjhiya9q8WKgtRQpxlZv1RlD0+YHvl6Oh16ssKuzyxH6Ycr4ASunurJk1a2Ke
+         o4PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=e52sskDaY8O7yqS5NxNuV7bUhO1cLfPhjc5I1rr6rnY=;
+        b=BKMPA7+O2ClnYz9Vnl2aQdD+thbWgRAV7CEDpM6yqCevqRGxnqHZ2F2k5wfyzbi4AA
+         HikfXWPm9dM497hBdTT/5uLGDadFyjOEdrPtSlmRzaSMUHaMimeD9Im2rOHdVMeHAPjb
+         AHNOhTH5pZXaM8+JOWD+cYUGkdAZNY8DN2iU2KAETGmr9rylsxrobV6gQGmdhETjrTrJ
+         rMywRGsGQvdSnDjR51PyFLEZNgwAqg9v6dTg4zCNrWdl2LmV5TLPBc9foxGaKu31tDRY
+         t4zJm+bBWvxkxJOTKqVnF+BrT3Qx5NkzhugqdMSt29c1V7Wmw6ypGuCoWEs4FC3JbSQP
+         AsWw==
+X-Gm-Message-State: APjAAAWiLPr911geHCOqNSmFQ5SuPG7RcpNLi35G+YecG+r7Pks0HXqu
+        KZjs1KbZgKA78vscUtZhgiE=
+X-Google-Smtp-Source: APXvYqxUz97jco4tSdj/sipvzahORyUn4kl9XgYeOQiAaWy3ISZP/v5bByDOX6kV+D16XiPr0ad3fQ==
+X-Received: by 2002:a65:4387:: with SMTP id m7mr17649851pgp.287.1561879409114;
+        Sun, 30 Jun 2019 00:23:29 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id 64sm9431145pfe.128.2019.06.30.00.23.28
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 30 Jun 2019 00:23:28 -0700 (PDT)
+Date:   Sun, 30 Jun 2019 00:23:26 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Florian Echtler <floe@butterbrot.org>
+Subject: Re: [PATCH] input/touchscreen/sur40: use COLORSPACE_RAW
+Message-ID: <20190630072326.GE91171@dtor-ws>
+References: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25bfb7ad-0c12-3d47-81b1-6feb1906cd42@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch fixes the checkpatch.pl warning:
+On Wed, Jun 26, 2019 at 11:52:16AM +0200, Hans Verkuil wrote:
+> This driver set the colorspace to SRGB, but that makes no sense for
+> a touchscreen. Use RAW instead. This also ensures consistency with the
+> v4l_pix_format_touch() call that's used in v4l2-ioctl.c.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> Dmitry, do you want to take this, or shall I? I have no preference.
 
-WARNING: break is not useful after a goto or return
+Please take it.
 
-Signed-off-by: Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
----
- drivers/staging/media/imx/imx7-media-csi.c | 1 -
- 1 file changed, 1 deletion(-)
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a708a0340eb1..c15acca1dc0d 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1021,7 +1021,6 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
- 		break;
- 	default:
- 		return -EINVAL;
--		break;
- 	}
- 	return 0;
- }
+> ---
+> diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+> index 00cb1ba2d364..3fd3e862269b 100644
+> --- a/drivers/input/touchscreen/sur40.c
+> +++ b/drivers/input/touchscreen/sur40.c
+> @@ -186,7 +186,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
+>  		.width  = SENSOR_RES_X / 2,
+>  		.height = SENSOR_RES_Y / 2,
+>  		.field = V4L2_FIELD_NONE,
+> -		.colorspace = V4L2_COLORSPACE_SRGB,
+> +		.colorspace = V4L2_COLORSPACE_RAW,
+>  		.bytesperline = SENSOR_RES_X / 2,
+>  		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
+>  	},
+> @@ -195,7 +195,7 @@ static const struct v4l2_pix_format sur40_pix_format[] = {
+>  		.width  = SENSOR_RES_X / 2,
+>  		.height = SENSOR_RES_Y / 2,
+>  		.field = V4L2_FIELD_NONE,
+> -		.colorspace = V4L2_COLORSPACE_SRGB,
+> +		.colorspace = V4L2_COLORSPACE_RAW,
+>  		.bytesperline = SENSOR_RES_X / 2,
+>  		.sizeimage = (SENSOR_RES_X/2) * (SENSOR_RES_Y/2),
+>  	}
+
 -- 
-2.22.0
-
+Dmitry
