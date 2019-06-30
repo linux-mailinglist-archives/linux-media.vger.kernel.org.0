@@ -2,151 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 731FA5AE03
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2019 05:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CE575AE04
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2019 05:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfF3DrI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Jun 2019 23:47:08 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:41153 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726467AbfF3DrI (ORCPT
+        id S1726513AbfF3D4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Jun 2019 23:56:33 -0400
+Received: from knopi.disroot.org ([178.21.23.139]:46712 "EHLO
+        knopi.disroot.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726445AbfF3D4d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Jun 2019 23:47:08 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2540:ac4c:2be0:64b])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id hQnwhC9BF2g2jhQnxhgR6e; Sun, 30 Jun 2019 05:47:05 +0200
-Message-ID: <39a609348c849df301c1bbc399c0c11f@smtp-cloud7.xs4all.net>
-Date:   Sun, 30 Jun 2019 05:47:04 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGdm2P0/J1JlDYknMMZe2H60MVRCWJRtq+iM1CYawX17X52qhg6lMy35+KjypiuVCRz3wCCqw6dF2wV3iZKymWWhcQIKzI9mz3SDcTGwcl5JkDVS1CdT
- DCXd6hcmZYZir/YEoswYn50r89IGRgd+G5BoYaXEklNThm3g+pouOIpAKj8RT5oLmHJQlFg6Ch/Yrk3svaP+jXkagQ0OvEJGJYWfrfbdAHTlhKHazIeolUQ/
+        Sat, 29 Jun 2019 23:56:33 -0400
+X-Greylist: delayed 397 seconds by postgrey-1.27 at vger.kernel.org; Sat, 29 Jun 2019 23:56:32 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by disroot.org (Postfix) with ESMTP id 82CE435AD1;
+        Sun, 30 Jun 2019 05:49:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+        by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RcVaHcMZLjIq; Sun, 30 Jun 2019 05:49:53 +0200 (CEST)
+From:   Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+        t=1561866593; bh=9Ans4RlZn8dOH7qDF/10KOpQwK7T65Z7lmdyjzSs6EM=;
+        h=From:To:Cc:Subject:Date;
+        b=cxRkBFtLkJqF49ZKRJOmdQPn1WiL+0gAI0IbH2izNDvE48VmypAe/M+yVswDVcpFO
+         G0jOYvwIl4tfIuw0ErGts8jklgNnMtIWEvNlyZh8OcbO8t+B05MxH238awK/j5QT/v
+         nbXssB0o4AV839WeDkBIp/uhnTDe0fbi/XVVhvPViaoGK6bTFZNUFLBjloaQ5Di5dq
+         RXOmMjmDq8tGhSHt/U4rrmlPxmbRJOkNDNvw4+b26gcLLvKWHgsf5t5eQpesV8YC9v
+         zQX855x2+tPa8WxqO2WIhB0VOjyXG2m+5kjkuCm5D5k7o7pU+3BZF6rvzObA8kfsqZ
+         zhNvFdQA6TUqw==
+Cc:     Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx7-media-csi: Remove unneeded break after return
+Date:   Sat, 29 Jun 2019 22:49:04 -0500
+Message-Id: <20190630034905.7124-1-chinmaya.mahesh@disroot.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This patch fixes the checkpatch.pl warning:
 
-Results of the daily build of media_tree:
+WARNING: break is not useful after a goto or return
 
-date:			Sun Jun 30 05:00:12 CEST 2019
-media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
-media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
-v4l-utils git hash:	b16f9e945d74aa552abdd6f873821cb77faaf13a
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Signed-off-by: Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
+---
+ drivers/staging/media/imx/imx7-media-csi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index a708a0340eb1..c15acca1dc0d 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1021,7 +1021,6 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
+ 		break;
+ 	default:
+ 		return -EINVAL;
+-		break;
+ 	}
+ 	return 0;
+ }
+-- 
+2.22.0
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
