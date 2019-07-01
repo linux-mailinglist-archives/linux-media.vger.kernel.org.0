@@ -2,113 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 597045B841
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 11:44:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DAEF5B900
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 12:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728477AbfGAJoN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 05:44:13 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:34966 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728470AbfGAJoN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 05:44:13 -0400
-Received: by mail-wm1-f67.google.com with SMTP id c6so15161423wml.0;
-        Mon, 01 Jul 2019 02:44:11 -0700 (PDT)
+        id S1727128AbfGAKaZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 06:30:25 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:41255 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfGAKaZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 06:30:25 -0400
+Received: by mail-vs1-f65.google.com with SMTP id 2so8548025vso.8
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 03:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=Wpl34t7pEEK79q3TGA4TYVX4j5sGst2FWPYV+cG9ZgQ=;
-        b=FqCGWxP07Zk0mb9fi11yD9qbrg46ZxDMf6TAAhLTryUorNkAmjegD69qSKZQzKeIAn
-         0s89ug6dEwg8L0+BEBBSAbCf3g7qTgsCUBh9aAp/nvNjGM8ZrPGOJ280HS1mn3PPt6Z7
-         FkiCK9ryGXe48hSKSavf2BCdkAKZu00flMMqEcqN/jFRxbVO3clzXy/B8lAGQZUlUVDO
-         n1l1VBVNK+FV3ZQJub7OuYXT9EBfLgwg2wubv9lMt4KR4F4cylnh2M6SjInEyoyQCXKW
-         kc8jNbl3hlbq5zuOc2yJ9EOknAXMTPdnQNsJSJxTTDIFVtpvdh3rG4ZzuKYfGwhpSLPD
-         afbQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=IHX+69SaG6p2yhg0r5EPi4ytgF/KynZ9G8D4StwVSO0=;
+        b=afu7G7C6mpvhxDgO0OcI3XQff47FGlklaawMSBNibU3Hewl91X/l0ee6gQHtAtl4W5
+         fxfOzC2AayhJFZ+Aebja7jtXD+ONOoLR7R6OV2u5wXitWaDeoKIGwM807dbweUUh4bO9
+         67Ho8GchaVZa7hAndMd/x+GXVv1mMQDtpIaBZrq3uPUDux54Hizya6X9jxmKyjNdllXF
+         LaTQcx1XqOuKRGemWjKeo4Ddf3ZGtjI6J0LQlXh/qVMFdEw0XNxnfxGLQ9SlCe/5bEgz
+         VlVkZo4Uh5xDsO+quOhcrdmjPQJWbOpwIk091zAf/FCgvxASosE842oMv7YEKw8vwDc4
+         Dj2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=Wpl34t7pEEK79q3TGA4TYVX4j5sGst2FWPYV+cG9ZgQ=;
-        b=j4HCLTnyg2ak2PqR5owt4JgNcxU4iNo7Ix6QVAS7OVSSaLOQOK4sz+bVo2UJ//QcJj
-         j3+SMoam8dqSyg03PWDa17FLdFaqRccqKAAjwsEJIKRpeuyvLpn1zaLZLsxxCJZG1D5R
-         deECgEK0OPeSS1rEizWuO6yitjBb3VymI3BXF7wke1ycbyp6NXoYmkVMphEcPpFh4ruG
-         forTCuwdinihQn700P2+hF6Ri//qSaqg76DVlHGDoedY95/gDp5710QcNTZG2c7XJOU5
-         05HMBTXXBt8di3WEy3giSa+kp5iKWnEtyDia1pqWuPhwk5Ea4Em6lx8L/Ww9w9NfFb31
-         /Zng==
-X-Gm-Message-State: APjAAAVHK20rQnuWOc2MrQzcN7HOMVLnSgRSqIicMDJySSb5wIprGCdd
-        vpzNCMUegFUriIkTsJIhLevLLF7UUD8=
-X-Google-Smtp-Source: APXvYqwE+Q7AnLDk4oMLFL/k5V2IsWF4NCm7kbDDvvTbUOZGjDlQHcN8+h+kh/QLkteSGPRbtaW/5w==
-X-Received: by 2002:a1c:9d86:: with SMTP id g128mr17778545wme.51.1561974250603;
-        Mon, 01 Jul 2019 02:44:10 -0700 (PDT)
-Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id f21sm9951878wmb.2.2019.07.01.02.44.08
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 01 Jul 2019 02:44:09 -0700 (PDT)
-References: <20190630034905.7124-1-chinmaya.mahesh@disroot.org>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx7-media-csi: Remove unneeded break after return
-In-reply-to: <20190630034905.7124-1-chinmaya.mahesh@disroot.org>
-Date:   Mon, 01 Jul 2019 10:44:07 +0100
-Message-ID: <m3o92egkd4.fsf@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=IHX+69SaG6p2yhg0r5EPi4ytgF/KynZ9G8D4StwVSO0=;
+        b=krzVSby4J53Sp3IMwpJLlgrFJh/QUVkNlUtZvrA5n1RHngiOZqBhmRf/+TB12visgu
+         HYHhJQW9mZn5DQmFJRoywXBzq/vDgDFRCObuVBQ0G6gx5I0yMK0c/8QnGPCqfFoBWLiw
+         bEO8kuP3zPHJQinZWiB/ewwAteTaiNy3y9d+jSK1Zymkv5E1UHPjHz2k2L1AJJgmYzBm
+         BGXyu2NrDNhrsyLgJwiM5hpOuSwTSgTKCLu+EIjrUwwLFqD6m6SqlNJNz1PUIjr1m/fz
+         y9xT3aB4PSJXksa/CnhZb4eVRHcbmD6/UDm4TL3q9uTT3u928xgBAZ171D8NPpl7HDMC
+         rnsA==
+X-Gm-Message-State: APjAAAUsgAywDLB+KvWMYCRw73UUchQwWWBapGQfN7XH+ThBsZa6JlNw
+        UehQ6NtswmS6wcRkmLxW+33GZX4zlt9iom7+5jM=
+X-Google-Smtp-Source: APXvYqxOWvMj6TeYGTd/zOOSNtF+Q+R/7RJSzdClfiO+1mjtfGTb9IzWhj05mXee9s7tjcDkT9cRV3jGLQDkT1c4nMM=
+X-Received: by 2002:a67:e244:: with SMTP id w4mr6362023vse.176.1561977024409;
+ Mon, 01 Jul 2019 03:30:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+From:   Dafna Hirschfeld <dafna3@gmail.com>
+Date:   Mon, 1 Jul 2019 12:30:12 +0200
+Message-ID: <CAJ1myNR7stUdFmnAnnWLdE008p5_BvXkHnr7au+TH3HW183X1w@mail.gmail.com>
+Subject: regarding commit "v4l2-ctl: get fmt after source change" in v4l-utils repository
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chinmaya,
-Thanks for your patch.
+commit 84219e2b5d013709ee5259621715966c46eec746
+Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Sat Mar 30 14:16:25 2019 +0100
 
-On Sun 30 Jun 2019 at 04:49, Chinmaya Krishnan Mahesh wrote:
-> This patch fixes the checkpatch.pl warning:
->
-> WARNING: break is not useful after a goto or return
+    v4l2-ctl: get fmt after source change
 
-but this is already fixed in the media subsystem tree, by a patch
-from Fabio:
+    When a source change event arrives during decoding get the new
+    format at that point instead of after restarting streaming.
 
-964fcacddf media: imx7-media-csi: Remove unneeded break
+    If there is another source change queued up, then when you call
+    streamon for CAPTURE again it might send the new source change
+    event and update the format for that one, so reading the format
+    after streamon might give the wrong format.
 
-It is better to use that tree as reference for media fixes,
-sometimes some are already fixed there.
+    Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Nevertheless many thanks for the patch.
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index bb656584..3695a027 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -2363,12 +2363,11 @@ static void stateful_m2m(cv4l_fd &fd,
+cv4l_queue &in, cv4l_queue &out,
+                        if (in_source_change_event) {
+                                in_source_change_event = false;
+                                last_buffer = false;
++                               fd.g_fmt(fmt_in, in.g_type());
+                                if (capture_setup(fd, in, exp_fd_p))
+                                        return;
+                                fps_ts[CAP].reset();
+                                fps_ts[OUT].reset();
+-                               fd.g_fmt(fmt_out, out.g_type());
+-                               fd.g_fmt(fmt_in, in.g_type());
+Removing those lines cause inconsistency when the user send the wanted
+capture pixel format when decoding with the `v4l2-ctl` command. In
+this case the value of `-v pixelformat=...` is updated in the kernel
+with the capture_setup function but it is not updated in the fmt_in
+variable and so the command will try to save the decoded video in a
+different format from what is configured in the kernel.
 
----
-Cheers,
-	Rui
+                                cap_streaming = true;
+                        } else {
+                                break;
 
 
->
-> Signed-off-by: Chinmaya Krishnan Mahesh <chinmaya.mahesh@disroot.org>
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index a708a0340eb1..c15acca1dc0d 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1021,7 +1021,6 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
->  		break;
->  	default:
->  		return -EINVAL;
-> -		break;
->  	}
->  	return 0;
->  }
-
+Dafna
