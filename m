@@ -2,178 +2,397 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DF1B5BAEE
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 13:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E843D5BAF3
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 13:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728623AbfGALnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 07:43:41 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:38436 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728610AbfGALnl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 07:43:41 -0400
-Received: by mail-lf1-f68.google.com with SMTP id b11so8574114lfa.5
-        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 04:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fgB0TjaeFr88KvhXx4bipObTa6TkqlAFEUSMdvck4Zk=;
-        b=SrGiNLfeGiOpYlqK27vCuumQEaX1IERqxpk1bEKh/09cofQu9/CzbAi0cu7Hxhz3wD
-         +vs05zNo/YOtfJCS8kR/yk2cab7zNC4hqxZNtN4wp0Co1jFXvDBMA17cgRmbcSbKqkwT
-         DP+FitOJ+fP27zcNwyJ/OoVJAa+yHjJsXbUvzU+s0J9JOvwGWqB1zWGT4M58FJbp7tDw
-         wGuDaB5nKp4Iz5lSBMVosFTolIfKBG6W6maxBvsjfFMN18lHU/h/GDEZQxvmJpxHNFtV
-         l4yjXb09QuloGm9d39O+RYU8bXTdz7wcgB9R1gBS0LUYlDDFkATO2kWGa//v0EBVJRru
-         KzXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fgB0TjaeFr88KvhXx4bipObTa6TkqlAFEUSMdvck4Zk=;
-        b=lZ3TYb9Oi5huSmVjH9R7JCnIFdCSteKzBy31Lj/X/wV2ABQsIFXN35ki9KEwkl8/BI
-         ZaAPz9v9vOHNc1VS8TAgKzsHipP1/ILfe3T/g8cj3RXoyAPPyOHjqwpg47z7twELQ4Qa
-         k4kJdhzHd9VGyKrt7s1QrUPtEr6cC0m6daPj75UnS3+hk/7hI5IIcUx8nMvNajomgRnd
-         PlYXzf5VCA4yuUr1t7EqMQB3UDbq4Nnwf2Y7ZG4una2EcaKkiohWLd/z+X+TCbnD33gI
-         9WZR4vO8EdPMxbo1owhoiXa9ss9x5gDSFvZLUv0pFwpYEgpXoOH/Of6oYvsDiYvVRRXF
-         C3qA==
-X-Gm-Message-State: APjAAAWT6ePMzIpaUiwZHWu2uqJNcvf5VYUoYy+gaRgIgZY1VF0bID5W
-        Q01EAyMgrkPv8jkKGn3eururqQ==
-X-Google-Smtp-Source: APXvYqx8bgCR50PABNzJVm3hh2lQIogC7fFVHSNV7zetPu1dJp4s+oyxuIZd4KKgf+4VH9+mjObiPg==
-X-Received: by 2002:ac2:54ae:: with SMTP id w14mr11361496lfk.124.1561981418228;
-        Mon, 01 Jul 2019 04:43:38 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id j77sm3185246ljb.55.2019.07.01.04.43.37
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Jul 2019 04:43:37 -0700 (PDT)
-Subject: Re: [PATCH v3 1/4] media: venus: Add codec data table
-To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1561480044-11834-1-git-send-email-amasule@codeaurora.org>
- <1561480044-11834-2-git-send-email-amasule@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <d7558a12-8c38-0c91-3cea-cc3b7604b7de@linaro.org>
-Date:   Mon, 1 Jul 2019 14:43:35 +0300
+        id S1728649AbfGALoO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 07:44:14 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:35882 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727128AbfGALoN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Jul 2019 07:44:13 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 4D56320A7E;
+        Mon,  1 Jul 2019 13:44:10 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id 36725204CE;
+        Mon,  1 Jul 2019 13:44:10 +0200 (CEST)
+To:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brad Love <brad@nextdimension.cc>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: [PATCH v1] media: si2168: Refactor command setup code
+Message-ID: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
+Date:   Mon, 1 Jul 2019 13:44:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1561480044-11834-2-git-send-email-amasule@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Mon Jul  1 13:44:10 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+By refactoring the command setup code, we can let the compiler
+determine the size of each command.
 
+Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+---
+ drivers/media/dvb-frontends/si2168.c | 142 ++++++++-------------------
+ 1 file changed, 41 insertions(+), 101 deletions(-)
 
-On 6/25/19 7:27 PM, Aniket Masule wrote:
-> Add vpp cycles for for different types of codec
-> It indicates the cycles required by video hardware
-> to process each macroblock. Initialize the codec
-> data with core resources.
-> 
-> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c    | 13 +++++++++++++
->  drivers/media/platform/qcom/venus/core.h    | 15 +++++++++++++++
->  drivers/media/platform/qcom/venus/helpers.c | 30 +++++++++++++++++++++++++++++
->  drivers/media/platform/qcom/venus/helpers.h |  1 +
->  drivers/media/platform/qcom/venus/vdec.c    |  4 ++++
->  drivers/media/platform/qcom/venus/venc.c    |  4 ++++
->  6 files changed, 67 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 7393667..f1597d6 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -473,9 +473,22 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
->  	{  244800, 100000000 },	/* 1920x1080@30 */
->  };
->  
-> +static struct codec_freq_data sdm845_codec_freq_data[] =  {
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675 },
-> +	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200 },
-> +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200 },
-> +};
-> +
->  static const struct venus_resources sdm845_res = {
->  	.freq_tbl = sdm845_freq_table,
->  	.freq_tbl_size = ARRAY_SIZE(sdm845_freq_table),
-> +	.codec_freq_data = sdm845_codec_freq_data,
-> +	.codec_freq_data_size = ARRAY_SIZE(sdm845_codec_freq_data),
->  	.clks = {"core", "iface", "bus" },
->  	.clks_num = 3,
->  	.max_load = 2563200,
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 7a3feb5..2ed6496 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -35,12 +35,20 @@ struct reg_val {
->  	u32 value;
->  };
->  
-> +struct codec_freq_data {
-> +	u32 pixfmt;
-> +	u32 session_type;
-> +	unsigned int vpp_freq;
-
-isn't unsigned long more suitable?
-
-> +};
-> +
->  struct venus_resources {
->  	u64 dma_mask;
->  	const struct freq_tbl *freq_tbl;
->  	unsigned int freq_tbl_size;
->  	const struct reg_val *reg_tbl;
->  	unsigned int reg_tbl_size;
-> +	const struct codec_freq_data *codec_freq_data;
-> +	unsigned int codec_freq_data_size;
->  	const char * const clks[VIDC_CLKS_NUM_MAX];
->  	unsigned int clks_num;
->  	enum hfi_version hfi_version;
-> @@ -216,6 +224,12 @@ struct venus_buffer {
->  	struct list_head ref_list;
->  };
->  
-> +struct clock_data {
-> +	u32 core_id;
-> +	unsigned long freq;
-> +	struct codec_freq_data *codec_freq_data;
-> +};
-> +
->  #define to_venus_buffer(ptr)	container_of(ptr, struct venus_buffer, vb)
->  
->  /**
-> @@ -275,6 +289,7 @@ struct venus_inst {
->  	struct list_head list;
->  	struct mutex lock;
->  	struct venus_core *core;
-> +	struct clock_data clk_data;
->  	struct list_head dpbbufs;
->  	struct list_head internalbufs;
->  	struct list_head registeredbufs;
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 5cad601..f7f724b 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -715,6 +715,36 @@ int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
->  }
->  EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
->  
-> +int venus_helper_init_codec_data(struct venus_inst *inst)
-> +{
-> +	const struct codec_data *codec_data;
-
-Something is wrong here, there is no prototype of struct codec_data.
-
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 168c503e9154..19398f041c79 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -11,6 +11,12 @@
+ 
+ static const struct dvb_frontend_ops si2168_ops;
+ 
++#define CMD_SETUP(cmd, __args, __rlen) do {	\
++	int wlen = sizeof(__args) - 1;		\
++	memcpy(cmd.args, __args, wlen);		\
++	cmd.wlen = wlen; cmd.rlen = __rlen;	\
++} while (0)
++
+ /* execute firmware command */
+ static int si2168_cmd_execute(struct i2c_client *client, struct si2168_cmd *cmd)
+ {
+@@ -83,15 +89,13 @@ static int si2168_ts_bus_ctrl(struct dvb_frontend *fe, int acquire)
+ 	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+ 
+ 	/* set TS_MODE property */
+-	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
++	CMD_SETUP(cmd, "\x14\x00\x01\x10\x10\x00", 4);
+ 	if (acquire)
+ 		cmd.args[4] |= dev->ts_mode;
+ 	else
+ 		cmd.args[4] |= SI2168_TS_TRISTATE;
+ 	if (dev->ts_clock_gapped)
+ 		cmd.args[4] |= 0x40;
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 
+ 	return ret;
+@@ -115,19 +119,13 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
+ 
+ 	switch (c->delivery_system) {
+ 	case SYS_DVBT:
+-		memcpy(cmd.args, "\xa0\x01", 2);
+-		cmd.wlen = 2;
+-		cmd.rlen = 13;
++		CMD_SETUP(cmd, "\xa0\x01", 13);
+ 		break;
+ 	case SYS_DVBC_ANNEX_A:
+-		memcpy(cmd.args, "\x90\x01", 2);
+-		cmd.wlen = 2;
+-		cmd.rlen = 9;
++		CMD_SETUP(cmd, "\x90\x01", 9);
+ 		break;
+ 	case SYS_DVBT2:
+-		memcpy(cmd.args, "\x50\x01", 2);
+-		cmd.wlen = 2;
+-		cmd.rlen = 14;
++		CMD_SETUP(cmd, "\x50\x01", 14);
+ 		break;
+ 	default:
+ 		ret = -EINVAL;
+@@ -164,9 +162,7 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
+ 
+ 	/* BER */
+ 	if (*status & FE_HAS_VITERBI) {
+-		memcpy(cmd.args, "\x82\x00", 2);
+-		cmd.wlen = 2;
+-		cmd.rlen = 3;
++		CMD_SETUP(cmd, "\x82\x00", 3);
+ 		ret = si2168_cmd_execute(client, &cmd);
+ 		if (ret)
+ 			goto err;
+@@ -197,9 +193,7 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
+ 
+ 	/* UCB */
+ 	if (*status & FE_HAS_SYNC) {
+-		memcpy(cmd.args, "\x84\x01", 2);
+-		cmd.wlen = 2;
+-		cmd.rlen = 3;
++		CMD_SETUP(cmd, "\x84\x01", 3);
+ 		ret = si2168_cmd_execute(client, &cmd);
+ 		if (ret)
+ 			goto err;
+@@ -285,22 +279,18 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
+ 			goto err;
+ 	}
+ 
+-	memcpy(cmd.args, "\x88\x02\x02\x02\x02", 5);
+-	cmd.wlen = 5;
+-	cmd.rlen = 5;
++	CMD_SETUP(cmd, "\x88\x02\x02\x02\x02", 5);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+ 	/* that has no big effect */
+ 	if (c->delivery_system == SYS_DVBT)
+-		memcpy(cmd.args, "\x89\x21\x06\x11\xff\x98", 6);
++		CMD_SETUP(cmd, "\x89\x21\x06\x11\xff\x98", 3);
+ 	else if (c->delivery_system == SYS_DVBC_ANNEX_A)
+-		memcpy(cmd.args, "\x89\x21\x06\x11\x89\xf0", 6);
++		CMD_SETUP(cmd, "\x89\x21\x06\x11\x89\xf0", 3);
+ 	else if (c->delivery_system == SYS_DVBT2)
+-		memcpy(cmd.args, "\x89\x21\x06\x11\x89\x20", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 3;
++		CMD_SETUP(cmd, "\x89\x21\x06\x11\x89\x20", 3);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -317,103 +307,77 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
+ 			goto err;
+ 	}
+ 
+-	memcpy(cmd.args, "\x51\x03", 2);
+-	cmd.wlen = 2;
+-	cmd.rlen = 12;
++	CMD_SETUP(cmd, "\x51\x03", 12);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x12\x08\x04", 3);
+-	cmd.wlen = 3;
+-	cmd.rlen = 3;
++	CMD_SETUP(cmd, "\x12\x08\x04", 3);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x0c\x10\x12\x00", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x0c\x10\x12\x00", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x06\x10\x24\x00", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x06\x10\x24\x00", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x07\x10\x00\x24", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x07\x10\x00\x24", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x0a\x10\x00\x00", 6);
++	CMD_SETUP(cmd, "\x14\x00\x0a\x10\x00\x00", 4);
+ 	cmd.args[4] = delivery_system | bandwidth;
+ 	if (dev->spectral_inversion)
+ 		cmd.args[5] |= 1;
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+ 	/* set DVB-C symbol rate */
+ 	if (c->delivery_system == SYS_DVBC_ANNEX_A) {
+-		memcpy(cmd.args, "\x14\x00\x02\x11", 4);
++		CMD_SETUP(cmd, "\x14\x00\x02\x11\x00\x00", 4);
+ 		cmd.args[4] = ((c->symbol_rate / 1000) >> 0) & 0xff;
+ 		cmd.args[5] = ((c->symbol_rate / 1000) >> 8) & 0xff;
+-		cmd.wlen = 6;
+-		cmd.rlen = 4;
+ 		ret = si2168_cmd_execute(client, &cmd);
+ 		if (ret)
+ 			goto err;
+ 	}
+ 
+-	memcpy(cmd.args, "\x14\x00\x0f\x10\x10\x00", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x0f\x10\x10\x00", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x09\x10\xe3\x08", 6);
++	CMD_SETUP(cmd, "\x14\x00\x09\x10\xe3\x08", 4);
+ 	cmd.args[5] |= dev->ts_clock_inv ? 0x00 : 0x10;
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x08\x10\xd7\x05", 6);
++	CMD_SETUP(cmd, "\x14\x00\x08\x10\xd7\x05", 4);
+ 	cmd.args[5] |= dev->ts_clock_inv ? 0x00 : 0x10;
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x01\x12\x00\x00", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x01\x12\x00\x00", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x14\x00\x01\x03\x0c\x00", 6);
+-	cmd.wlen = 6;
+-	cmd.rlen = 4;
++	CMD_SETUP(cmd, "\x14\x00\x01\x03\x0c\x00", 4);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+-	memcpy(cmd.args, "\x85", 1);
+-	cmd.wlen = 1;
+-	cmd.rlen = 1;
++	CMD_SETUP(cmd, "\x85", 1);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -443,26 +407,20 @@ static int si2168_init(struct dvb_frontend *fe)
+ 	dev_dbg(&client->dev, "\n");
+ 
+ 	/* initialize */
+-	memcpy(cmd.args, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 13);
+-	cmd.wlen = 13;
+-	cmd.rlen = 0;
++	CMD_SETUP(cmd, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 0);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+ 	if (dev->warm) {
+ 		/* resume */
+-		memcpy(cmd.args, "\xc0\x06\x08\x0f\x00\x20\x21\x01", 8);
+-		cmd.wlen = 8;
+-		cmd.rlen = 1;
++		CMD_SETUP(cmd, "\xc0\x06\x08\x0f\x00\x20\x21\x01", 1);
+ 		ret = si2168_cmd_execute(client, &cmd);
+ 		if (ret)
+ 			goto err;
+ 
+ 		udelay(100);
+-		memcpy(cmd.args, "\x85", 1);
+-		cmd.wlen = 1;
+-		cmd.rlen = 1;
++		CMD_SETUP(cmd, "\x85", 1);
+ 		ret = si2168_cmd_execute(client, &cmd);
+ 		if (ret)
+ 			goto err;
+@@ -471,9 +429,7 @@ static int si2168_init(struct dvb_frontend *fe)
+ 	}
+ 
+ 	/* power up */
+-	memcpy(cmd.args, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 8);
+-	cmd.wlen = 8;
+-	cmd.rlen = 1;
++	CMD_SETUP(cmd, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 1);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -541,17 +497,13 @@ static int si2168_init(struct dvb_frontend *fe)
+ 
+ 	release_firmware(fw);
+ 
+-	memcpy(cmd.args, "\x01\x01", 2);
+-	cmd.wlen = 2;
+-	cmd.rlen = 1;
++	CMD_SETUP(cmd, "\x01\x01", 1);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+ 
+ 	/* query firmware version */
+-	memcpy(cmd.args, "\x11", 1);
+-	cmd.wlen = 1;
+-	cmd.rlen = 10;
++	CMD_SETUP(cmd, "\x11", 10);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -609,9 +561,7 @@ static int si2168_sleep(struct dvb_frontend *fe)
+ 	if (dev->version > ('B' << 24 | 4 << 16 | 0 << 8 | 11 << 0))
+ 		dev->warm = false;
+ 
+-	memcpy(cmd.args, "\x13", 1);
+-	cmd.wlen = 1;
+-	cmd.rlen = 0;
++	CMD_SETUP(cmd, "\x13", 0);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -637,9 +587,7 @@ static int si2168_select(struct i2c_mux_core *muxc, u32 chan)
+ 	struct si2168_cmd cmd;
+ 
+ 	/* open I2C gate */
+-	memcpy(cmd.args, "\xc0\x0d\x01", 3);
+-	cmd.wlen = 3;
+-	cmd.rlen = 0;
++	CMD_SETUP(cmd, "\xc0\x0d\x01", 0);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -657,9 +605,7 @@ static int si2168_deselect(struct i2c_mux_core *muxc, u32 chan)
+ 	struct si2168_cmd cmd;
+ 
+ 	/* close I2C gate */
+-	memcpy(cmd.args, "\xc0\x0d\x00", 3);
+-	cmd.wlen = 3;
+-	cmd.rlen = 0;
++	CMD_SETUP(cmd, "\xc0\x0d\x00", 0);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
+@@ -730,25 +676,19 @@ static int si2168_probe(struct i2c_client *client,
+ 	mutex_init(&dev->i2c_mutex);
+ 
+ 	/* Initialize */
+-	memcpy(cmd.args, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 13);
+-	cmd.wlen = 13;
+-	cmd.rlen = 0;
++	CMD_SETUP(cmd, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 0);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+ 	/* Power up */
+-	memcpy(cmd.args, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 8);
+-	cmd.wlen = 8;
+-	cmd.rlen = 1;
++	CMD_SETUP(cmd, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 1);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err_kfree;
+ 
+ 	/* Query chip revision */
+-	memcpy(cmd.args, "\x02", 1);
+-	cmd.wlen = 1;
+-	cmd.rlen = 13;
++	CMD_SETUP(cmd, "\x02", 13);
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err_kfree;
 -- 
-regards,
-Stan
+2.17.1
