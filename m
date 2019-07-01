@@ -2,82 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E64B25B7E8
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 11:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 087D45B7ED
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 11:20:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728284AbfGAJTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 05:19:47 -0400
-Received: from gofer.mess.org ([88.97.38.141]:39841 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728184AbfGAJTq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Jul 2019 05:19:46 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7C32660897; Mon,  1 Jul 2019 10:19:45 +0100 (BST)
-Date:   Mon, 1 Jul 2019 10:19:45 +0100
-From:   Sean Young <sean@mess.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [ANN] Media summit in Lisbon at September
-Message-ID: <20190701091945.r52fjq545lqydksq@gofer.mess.org>
-References: <20190630134404.7ba170f0@coco.lan>
+        id S1728392AbfGAJUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 05:20:47 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:36103 "EHLO
+        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728184AbfGAJUq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 05:20:46 -0400
+Received: by mail-wr1-f50.google.com with SMTP id n4so12960747wrs.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 02:20:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=LLSPtTGOVlJaor/0jN6EAnEXPPpZwf3JG+8NK7WSmNg=;
+        b=flBbXznqWuxBEEhd2zGJVlYqg3tybEH3Ost+2aLX1B5Z/sLXFIKeAdYC80yTSgrYt+
+         5IuPdTTe0RvgoeCeU5zEUhaBu9/kcJGrwfaz/D7S/S9CSJQuLTs5WSZidmHLGlASDOC9
+         INfViy7cZc47+r1KDBNchFbJcRhVgKjzyR3x2iQCw26Ju9pl25qVxvRBTJhIwHbt2Hoe
+         d8102aEDMq/ylyBVTzGFozzh+J+7R3Cmwsx4/9wVpmRiyVvNVhIywm1V7QmxxcBIEvZf
+         QySwcdGlofKkgNQ4Ei1PS4hSXUcFD2A/qDZj21ZcF2PJWGV7krmYu7X/tWbpazdLgkcR
+         jIDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=LLSPtTGOVlJaor/0jN6EAnEXPPpZwf3JG+8NK7WSmNg=;
+        b=U5Es8A3iql24zw/QqG3t/RheKL2nudSSHywgYSeaIKLUVHMqaJwz6DFZBfcqWPA8G3
+         zazwF3Owg2zPt/bfFP1akjd9TenWdZHjgsH46j6K4o96PSiCeZODLLiQrERR2rcz+fvI
+         ylLJSviVibID8aNZefco5f95K3GefTPHdRb285hJojDYcr3JEPVPP7HmQrhxdUQ00b/W
+         O7W7epMDvXwwIiFCHeAmqGfYsePVFk8625fInuEUXcv2wDdgH6IghjbzoXBAfYlNZpji
+         v30dUZR7aGWpiZHeNml8oqGUVbQI29xwAKeANNw1GnNJAUXvwlvrFI1e1IjYUGtU+uJE
+         ZdAw==
+X-Gm-Message-State: APjAAAX6OzWhJnWrH6+aM1yT8CA1BUy+wsFH4DKFBKOIvWKfM4oEFY6T
+        JnXfo9sFocZcVsKTYxPXnPsCmMpB
+X-Google-Smtp-Source: APXvYqwNjSbcLevTuoNkJermO70qJVoc+I9NWr9M9iMMyaWGIxih5VOc+gCoVsHlIfXlVQF6iGXqfA==
+X-Received: by 2002:a5d:6a05:: with SMTP id m5mr16930300wru.161.1561972844387;
+        Mon, 01 Jul 2019 02:20:44 -0700 (PDT)
+Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id i16sm6335843wrm.37.2019.07.01.02.20.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 02:20:43 -0700 (PDT)
+References: <CAOMZO5A4zhpxf7PQV17vpi43M743Q0R5+ONpSc05-fxFbQDG0Q@mail.gmail.com> <CAOMZO5DktjDM-YE7g-bu+DgOZT2SA+FAta_cj2PZV0SLbiXK3g@mail.gmail.com> <20190629091239.yrjyxd56imytvedg@valkosipuli.retiisi.org.uk> <CAOMZO5BW3WJyKY1EnSFBstv_PehPJfHXDgyRqE4Wrxec_pzkyw@mail.gmail.com>
+User-agent: mu4e 1.2.0; emacs 27.0.50
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>
+Subject: Re: Setting up the links for imx7-mipi-csis
+In-reply-to: <CAOMZO5BW3WJyKY1EnSFBstv_PehPJfHXDgyRqE4Wrxec_pzkyw@mail.gmail.com>
+Date:   Mon, 01 Jul 2019 10:20:42 +0100
+Message-ID: <m3r27aglg5.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190630134404.7ba170f0@coco.lan>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Guys,
+On Sat 29 Jun 2019 at 12:42, Fabio Estevam wrote:
+> Hi Sakari,
+>
+> On Sat, Jun 29, 2019 at 6:13 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+>> What does media-ctp -p say?
+>
+> Thanks for this hint!
+>
+> I managed to fix the media-ctl failure by looking at media-ctl -p output.
+>
+> Documentation/media/v4l-drivers/imx7.rst mentions "csi_mux", but
+> media-ctl says "csi-mux", so I needed to change it to:
+>
+> media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi-mux':1[1]"
+>
+> and then I see no errors after the media-ctl command.
+>
+> I will send a patch fixing Documentation/media/v4l-drivers/imx7.rst .
+>
 
-On Sun, Jun 30, 2019 at 01:44:04PM -0300, Mauro Carvalho Chehab wrote:
-> Hi all,
-> 
-> We are organizing a media mini-summit in Lisbon to happen in September,
-> at the same week as the Linux Plumber Conference and the Kernel Summit.
-> 
-> We're still discussing the details about that.
-> 
-> In principle, it will be a free event for the ones registered
-> to Linux Plumbers Conference, happening between Sept 9-11.
-> They have a room available that we could use for the meeting on that
-> period of time, but we need to adjust to avoid conflicts with other
-> interesting micro-conferences that will happen in parallel (or
-> eventually do it outside that period, but that would be harder to
-> organize).
-> 
-> I'll let you know more details once we got it.
-> 
-> If you plan to attend, please let me know. It is open for all, but
-> we'll have a limited number of seats. So, the earliest we get the
-> number of interested people, the best.
+arriving late to the party. Thanks for the fix. yup, there is a
+typo in there. Thanks Sakari.
 
-I'd like to attend.
+---
+Cheers,
+	Rui
 
-> 
-> -
-> 
-> At the last summit, we were supposed to do a Key Signing Party, but
-> we end not doing it, due to lack of time. I suggest we add this again,
-> but doing it earlier, in order to avoid getting out of time for doing
-> it.
-> 
-> From my side, I'd like to discuss what criteria we should adopt for
-> the code that comes via /drivers/staging/media, in particular:
-> how much time should we keep a code there that doesn't receive any
-> patch addressing the drivers real issues (excluding codepatch,
-> cleanups and kAPI changes)?
-> 
-> What other themes should be discussed?
-
-Nothing from my side.
-
-I wouldn't mind a brief chat with you about possible dvb improvements.
-I have started a few things already but it would be great to hear your
-ideas. Not sure this is interesting for the wider audience.
-
-Thanks
-
-Sean
