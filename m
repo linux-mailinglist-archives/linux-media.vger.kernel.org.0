@@ -2,151 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E30E5B328
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 05:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D0F05B45E
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 07:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727216AbfGADrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Jun 2019 23:47:24 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:53391 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726652AbfGADrY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Jun 2019 23:47:24 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:71e7:de15:6d1c:ea52])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id hnHlhlSCvAOfNhnHmhk69V; Mon, 01 Jul 2019 05:47:22 +0200
-Message-ID: <db4cfc3764a981328b381b49f4289532@smtp-cloud9.xs4all.net>
-Date:   Mon, 01 Jul 2019 05:47:21 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfJbEZwFIwQX88b6HwhILYcrrEYZJtDM4cCex3SNbGJP9PDgcCNebe3N2sdsM4A1Ds6/2gDqyDoTZElj2rWRw9J3vr+KZdrDflmpoZqOFafRUtQEh2hGQ
- wOhlevVUilqI5RcutSu8W1qhGUf037YfWF17OuUrV/boS0NqGByMi+Q/sLJxasje615k8jgeVp4v549WbcdOHFr8+2ICgjVMxBLjj3eNY7/Y35icX62btC0B
+        id S1727393AbfGAFvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 01:51:00 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:39709 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727390AbfGAFvA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 01:51:00 -0400
+Received: by mail-pl1-f195.google.com with SMTP id b7so6727746pls.6
+        for <linux-media@vger.kernel.org>; Sun, 30 Jun 2019 22:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=A/bf03g2B0LFEMWFVuMqS52+scFCs4jGeSMIYZD/Yek=;
+        b=Iix6DCQErETbgO5HQHrWqtCbZiPADvJ2Zlncl2KylCIk8Cg93HCSVs81Bx75VxNm5Q
+         PP5sfNRFhvD+AqwURTKNnqfnR9cQYYSAPtqGAvDt1ETLY2Ewu0DYvu02sMU3MDbATy+n
+         pzDjHcXKRMZtzEjlxpPg31D7lH+UlA7Cy7fvA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=A/bf03g2B0LFEMWFVuMqS52+scFCs4jGeSMIYZD/Yek=;
+        b=QHt/lg5YITRTtCz2VZ3uzV1mg4HkAfkunCSpnY1Kysg36sR7SZp0SAiQaW9ebFqk6L
+         icJ/tN87DdYsm11F4iY51xQ0YfFxKF5lJ6ZMolJn4fuhEaL8yetZe+DQeUZAFplBMInT
+         yX//09Xf4Q0Dcf+gpsg0albaNp4EJahzKDSO8+8+3eakb87O5LZo5AFJER84S9s/c8RM
+         0un0sj7tg5NNi8w3AgidK7/Q+a7b7VoIEmoR7XbwkqkavcRaU7kfDZHjMqi2OhLiks08
+         OXf8FZW6Qf+GfyevlW7ZFGPgJFr0yAF/JHlpqk4NgGMnuyN89xkuK+LutjfTIVDsd+S8
+         gjhw==
+X-Gm-Message-State: APjAAAVkoU/VUEJyluwlz07RIlxRMkSXtrm5aX97ymeeNJ93ULJoRbF3
+        2GAJI9In7JxjU5o8RWQJb66Svg==
+X-Google-Smtp-Source: APXvYqzC+Op6oAeeU9AgUZ7d0ASyA+LyLyhKBUxNaOMz6Sx06gGxqMdsPUz/BBlKvF7i0lYhlvijjA==
+X-Received: by 2002:a17:902:9896:: with SMTP id s22mr15507737plp.4.1561960259568;
+        Sun, 30 Jun 2019 22:50:59 -0700 (PDT)
+Received: from chromium.org ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
+        by smtp.gmail.com with ESMTPSA id m11sm8243540pjv.21.2019.06.30.22.50.55
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 30 Jun 2019 22:50:58 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 14:50:53 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Jungo Lin <jungo.lin@mediatek.com>
+Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        matthias.bgg@gmail.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        srv_heupstream@mediatek.com, ddavenport@chromium.org,
+        robh@kernel.org, sean.cheng@mediatek.com, sj.huang@mediatek.com,
+        frederic.chen@mediatek.com, ryan.yu@mediatek.com,
+        rynn.wu@mediatek.com, frankie.chiu@mediatek.com
+Subject: Re: [RFC,v3 5/9] media: platform: Add Mediatek ISP P1 V4L2 control
+Message-ID: <20190701055053.GA137710@chromium.org>
+References: <jungo.lin@mediatek.com>
+ <20190611035344.29814-1-jungo.lin@mediatek.com>
+ <20190611035344.29814-6-jungo.lin@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190611035344.29814-6-jungo.lin@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Jungo,
 
-Results of the daily build of media_tree:
+On Tue, Jun 11, 2019 at 11:53:40AM +0800, Jungo Lin wrote:
+> Reserved Mediatek ISP P1 V4L2 control number with 16.
+> Moreover, add two V4L2 controls for ISP P1 user space
+> usage.
+> 
+> 1. V4L2_CID_MTK_GET_BIN_INFO
+> - Provide the image output width & height in case
+> camera binning mode is enabled.
 
-date:			Mon Jul  1 05:00:11 CEST 2019
-media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
-media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
-v4l-utils git hash:	b16f9e945d74aa552abdd6f873821cb77faaf13a
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Could you explain with a bit more details what these binned width and height
+would mean? How would they relate to the video CAPTURE node width and height?
+Isn't this something that should be rather exposed as an appropriate
+selection rectangle, instead of custom controls?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+> 
+> 2. V4L2_CID_MTK_RAW_PATH
+> - Export the path control of the main stream to user space.
+> One is pure raw and the other is processing raw.
+> The default value is 0 which outputs the pure raw bayer image
+> from sesnor, without image processing in ISP HW.
 
-Detailed results are available here:
+Is it just effectively a full processing bypass? The driver seems to only
+update the related configuration when the streaming starts. Can it be
+controlled per-frame?
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+Generally this sounds more like something that should be modelled using the
+media topology, similar to the example below.
 
-Detailed regression test results are available here:
+/----------------\   /-------------------\   /--------------\
+|                |---|                   |   |              |
+| Capture Subdev |   | Processing Subdev |-o-| CAPTURE node |
+|                |-\ |                   | | |              |
+\----------------/ | \-------------------/ | \--------------/
+                   |                       |
+                   \-----------------------/
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+Then the userspace can select whether it wants the image from the capture
+interface directly or procesed by the ISP by configuring the media links
+appropriately.
 
-Full logs are available here:
+The current limitation of this model is that it can't be easily configured
+per-frame, as media configurations are not included in the requests yet.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+[snip]
 
-The Media Infrastructure API from this daily build is here:
+> +static int handle_ctrl_get_bin_info(struct v4l2_ctrl *ctrl, int is_width)
+> +{
+> +	struct mtk_cam_dev *cam_dev = ctrl->priv;
+> +	struct v4l2_format *fmt;
+> +
+> +	fmt = &cam_dev->vdev_nodes[MTK_CAM_P1_MAIN_STREAM_OUT].vdev_fmt;
+> +
+> +	dev_dbg(&cam_dev->pdev->dev, "Get bin info w*h:%d*%d is_width:%d",
+> +		fmt->fmt.pix_mp.width, fmt->fmt.pix_mp.height, is_width);
+> +
+> +	if (is_width)
+> +		ctrl->val = fmt->fmt.pix_mp.width;
+> +	else
+> +		ctrl->val = fmt->fmt.pix_mp.height;
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+This seems to contradict to what the comment in the header says, because it just
+always returns the video node format and doesn't seem to care about whether
+binning is enabled or not.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int handle_ctrl_get_process_raw(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct mtk_cam_dev *cam_dev = ctrl->priv;
+> +	struct isp_p1_device *p1_dev = get_p1_device(&cam_dev->pdev->dev);
+> +
+> +	ctrl->val = (p1_dev->isp_ctx.isp_raw_path == ISP_PROCESS_RAW_PATH);
+> +
+> +	dev_dbg(&cam_dev->pdev->dev, "Get process raw:%d", ctrl->val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int handle_ctrl_set_process_raw(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct mtk_cam_dev *cam_dev = ctrl->priv;
+> +	struct isp_p1_device *p1_dev = get_p1_device(&cam_dev->pdev->dev);
+> +
+> +	p1_dev->isp_ctx.isp_raw_path = (ctrl->val) ?
+> +		ISP_PROCESS_RAW_PATH : ISP_PURE_RAW_PATH;
+> +	dev_dbg(&cam_dev->pdev->dev, "Set process raw:%d", ctrl->val);
+> +	return 0;
+> +}
+> +
+> +static int mtk_cam_dev_g_ctrl(struct v4l2_ctrl *ctrl)
+
+This is g_volatile_ctrl not, g_ctrl.
+
+> +{
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_MTK_PROCESSING_RAW:
+> +		handle_ctrl_get_process_raw(ctrl);
+> +		break;
+
+No need to provide getters for non-volatile controls. The
+framework manages them.
+
+> +	case V4L2_CID_MTK_GET_BIN_WIDTH:
+> +		handle_ctrl_get_bin_info(ctrl, 1);
+> +		break;
+> +	case V4L2_CID_MTK_GET_BIN_HEIGTH:
+> +		handle_ctrl_get_bin_info(ctrl, 0);
+
+It's trivial to get the value, so there isn't much benefit in having a
+function to do so, especially if one needs something like a is_width
+argument that further complicates the code.
+
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int mtk_cam_dev_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_MTK_PROCESSING_RAW:
+> +		return handle_ctrl_set_process_raw(ctrl);
+
+Same as above. The operation is too trivial to deserve a function.
+
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static const struct v4l2_ctrl_ops mtk_cam_dev_ctrl_ops = {
+> +	.g_volatile_ctrl = mtk_cam_dev_g_ctrl,
+> +	.s_ctrl = mtk_cam_dev_s_ctrl,
+> +};
+> +
+> +struct v4l2_ctrl_config mtk_cam_controls[] = {
+> +	{
+> +	.ops = &mtk_cam_dev_ctrl_ops,
+> +	.id = V4L2_CID_MTK_PROCESSING_RAW,
+> +	.name = "MTK CAM PROCESSING RAW",
+> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +	.min = 0,
+> +	.max = 1,
+> +	.step = 1,
+> +	.def = 1,
+> +	},
+> +	{
+> +	.ops = &mtk_cam_dev_ctrl_ops,
+> +	.id = V4L2_CID_MTK_GET_BIN_WIDTH,
+> +	.name = "MTK CAM GET BIN WIDTH",
+> +	.type = V4L2_CTRL_TYPE_INTEGER,
+> +	.min = IMG_MIN_WIDTH,
+> +	.max = IMG_MAX_WIDTH,
+> +	.step = 1,
+> +	.def = IMG_MAX_WIDTH,
+> +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE,
+> +	},
+> +	{
+> +	.ops = &mtk_cam_dev_ctrl_ops,
+> +	.id = V4L2_CID_MTK_GET_BIN_HEIGTH,
+> +	.name = "MTK CAM GET BIN HEIGHT",
+> +	.type = V4L2_CTRL_TYPE_INTEGER,
+> +	.min = IMG_MIN_HEIGHT,
+> +	.max = IMG_MAX_HEIGHT,
+> +	.step = 1,
+> +	.def = IMG_MAX_HEIGHT,
+> +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE,
+> +	},
+> +};
+> +
+> +int mtk_cam_ctrl_init(struct mtk_cam_dev *cam_dev,
+> +		      struct v4l2_ctrl_handler *hdl)
+> +{
+> +	unsigned int i;
+> +
+> +	/* Initialized HW controls, allow V4L2_CID_MTK_CAM_MAX ctrls */
+> +	v4l2_ctrl_handler_init(hdl, V4L2_CID_MTK_CAM_MAX);
+> +	if (hdl->error) {
+
+This should be checked at the end, after all the controls are added.
+
+Best regards,
+Tomasz
+
