@@ -2,209 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 251EA5BD72
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 15:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73AD85BE40
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 16:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728871AbfGAN6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 09:58:48 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40968 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728866AbfGAN6r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 09:58:47 -0400
-Received: by mail-lf1-f65.google.com with SMTP id 136so8861886lfa.8
-        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 06:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RYgtzP3dt/Qrug6nYBa8QkcAXzJmawtUUkX7/voB/EQ=;
-        b=sz7+x4QK/QK8sTSyvVZpoFFtDRJv8dEikYUpKolCPzUEDhlATMwpdIOp6iwENQdGeC
-         vQM8o7PG9RlQ9ZY1OrVSga+KgDHuQzAqwLTUqkFngrg59stcWvrBox6GHwKfpuHkp1gk
-         JoOQvrqjZkKTrfXHKXwM3bJ+SfvLmkLiupUpWoBxGQ61FZzWZL1kgl8UcHc06yqZapJd
-         teuw+V5mGuJIcGGizSTTFf816/uEWSYCv0tLksvjC5OFpP2hQOPIwrzTfqQylCAstlLX
-         5bvPgBFL9rPkZu+AcMaMhTbJk5qVzrUYPU/GxbA32RI5oCPHSnxSK2wBYG0iAk/qDhD4
-         EBKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RYgtzP3dt/Qrug6nYBa8QkcAXzJmawtUUkX7/voB/EQ=;
-        b=q3fucQGOw3zR85TKjIbOCh7RAPOTntErcRqwAaSw9lS38etQ6bXtgjgP+PNXRTFCja
-         DCbtJxK0I5fZBiDPh4Arcxf8izSi2yeiq9uoFaZwA0DYLtKL2FRFY4798vuwoL2RNcBI
-         6wdgCTO5KqpJN2Qa709CsY473DzW53/vqq5ZWd0p5zWu8MebpCwarRivyhPK+nsXmuYY
-         vcgU5PB3g+iim/LAiMekWh9AUniq26aUyMl+TaEEpgYxF/SGhQy6ebTfVi0HZLrKcgLk
-         D34XtAYNa4cxIaz110mlmkA/VNj7Q/xKRXYTnwCvxT1Sv7Te1rEM/7QCb4asqz5JSLA9
-         24Ww==
-X-Gm-Message-State: APjAAAVREXhGVvd/F31GMD8E+iwXP0UZkjIabGB0kFUEwXjOVdad18SR
-        bCrzt+d+qqnhDjRXQutWeqNm2j8XPQA=
-X-Google-Smtp-Source: APXvYqxy6aPi0pn0hFSol6tJgvWAwVmmETmhI0LK/v1G9o+JJREkF0d1y94g7Dz7ppUD+MQISWdA8g==
-X-Received: by 2002:ac2:5601:: with SMTP id v1mr11975581lfd.106.1561989525545;
-        Mon, 01 Jul 2019 06:58:45 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id c1sm2619562lfh.13.2019.07.01.06.58.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Jul 2019 06:58:45 -0700 (PDT)
-Subject: Re: [PATCH v3 4/4] media: venus: Update core selection
-To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1561480044-11834-1-git-send-email-amasule@codeaurora.org>
- <1561480044-11834-5-git-send-email-amasule@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <ac2170e6-6925-bfaf-523d-9e412d9ac1a7@linaro.org>
-Date:   Mon, 1 Jul 2019 16:58:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        id S1728291AbfGAO15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 10:27:57 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50273 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728171AbfGAO15 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 10:27:57 -0400
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 37233FF817;
+        Mon,  1 Jul 2019 14:27:53 +0000 (UTC)
+Message-ID: <3bbb2edc0b34a029c7514fdf67af70d5e7e514f3.camel@hadess.net>
+Subject: Re: [PATCH v2] keytable: Add keymap test
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Date:   Mon, 01 Jul 2019 16:27:52 +0200
+In-Reply-To: <20190627193348.d53sbpys32i7qyi3@gofer.mess.org>
+References: <b6ffea1984f05adec9f52cd60902a95c82bf8666.camel@hadess.net>
+         <20190627193348.d53sbpys32i7qyi3@gofer.mess.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
 MIME-Version: 1.0
-In-Reply-To: <1561480044-11834-5-git-send-email-amasule@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 6/25/19 7:27 PM, Aniket Masule wrote:
-> Present core assignment is static. Introduced load balancing
-> across the cores. Load on earch core is calculated and core
-> with minimum load is assigned to given instance.
+On Thu, 2019-06-27 at 20:33 +0100, Sean Young wrote:
+> On Thu, Jun 27, 2019 at 10:13:56AM +0200, Bastien Nocera wrote:
+> > This new test will try to parse all the ".toml" files in the
+> > directory
+> > path passed to it, error'ing out on the first parsing problem.
+> > 
+> > Run as "make check" in the keytable directory.
 > 
-> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c | 52 +++++++++++++++++++++++++----
->  drivers/media/platform/qcom/venus/helpers.h |  2 +-
->  drivers/media/platform/qcom/venus/vdec.c    |  2 +-
->  drivers/media/platform/qcom/venus/venc.c    |  2 +-
->  4 files changed, 49 insertions(+), 9 deletions(-)
+> Good catch, and I like your solution.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index b79e83a..ef35fd8 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -498,6 +498,16 @@ static int load_scale_clocks(struct venus_inst *inst)
->  	return scale_clocks(inst);
->  }
->  
-> +int set_core_usage(struct venus_inst *inst, u32 usage)
-> +{
-> +	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
-> +	struct hfi_videocores_usage_type cu;
-> +
-> +	cu.video_core_enable_mask = usage;
-> +
-> +	return hfi_session_set_property(inst, ptype, &cu);
-> +}
-> +
->  static void fill_buffer_desc(const struct venus_buffer *buf,
->  			     struct hfi_buffer_desc *bd, bool response)
->  {
-> @@ -801,19 +811,49 @@ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
->  }
->  EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
->  
-> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
-> +int venus_helper_set_core(struct venus_inst *inst)
->  {
-> -	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
-> -	struct hfi_videocores_usage_type cu;
-> +	struct venus_core *core = inst->core;
-> +	u32 min_core_id = 0, core0_load = 0, core1_load = 0;
-
-the same comment, please use the same counting scheme as for VIDC_CORE_ID_
-
-> +	unsigned long min_load, max_freq, cur_inst_load;
-> +	u32 cores_max;
-> +	int ret;
->  
->  	if (!IS_V4(inst->core))
->  		return 0;
->  
-> -	cu.video_core_enable_mask = usage;
-> +	core0_load = load_per_core(core, VIDC_CORE_ID_1);
-> +	core1_load = load_per_core(core, VIDC_CORE_ID_2);
->  
-> -	return hfi_session_set_property(inst, ptype, &cu);
-> +	min_core_id = core0_load < core1_load ? VIDC_CORE_ID_1 : VIDC_CORE_ID_2;
-> +	min_load = min(core0_load, core1_load);
-> +	cores_max = core_num_max(inst);
-> +
-> +	if (cores_max < VIDC_CORE_ID_2) {
-> +		min_core_id = VIDC_CORE_ID_1;
-> +		min_load = core0_load;
-> +	}
-> +
-> +	cur_inst_load = load_per_instance(inst) *
-> +		inst->clk_data.codec_freq_data->vpp_freq;
-> +	max_freq = core->res->freq_tbl[0].freq;
-> +
-> +	if ((cur_inst_load + min_load)	> max_freq) {
-> +		dev_warn(core->dev, "HW is overloaded, needed: %lu max: %lu\n",
-> +			 cur_inst_load, max_freq);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = set_core_usage(inst, min_core_id);
-> +
-
-please, delete this blank line
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	inst->clk_data.core_id = min_core_id;
-> +
-> +	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
-> +EXPORT_SYMBOL_GPL(venus_helper_set_core);
->  
->  int venus_helper_init_codec_freq_data(struct venus_inst *inst)
->  {
-> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-> index 2c13245..1034111 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.h
-> +++ b/drivers/media/platform/qcom/venus/helpers.h
-> @@ -42,7 +42,7 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
->  				       u32 buftype);
->  int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
->  int venus_helper_init_codec_freq_data(struct venus_inst *inst);
-> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage);
-> +int venus_helper_set_core(struct venus_inst *inst);
->  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
->  			      unsigned int output_bufs,
->  			      unsigned int output2_bufs);
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index d037f80..620e060 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -551,7 +551,7 @@ static int vdec_output_conf(struct venus_inst *inst)
->  	if (ret)
->  		return ret;
->  
-> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_1);
-> +	ret = venus_helper_set_core(inst);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index cdddc82..28e76cc 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -660,7 +660,7 @@ static int venc_set_properties(struct venus_inst *inst)
->  	if (ret)
->  		return ret;
->  
-> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_2);
-> +	ret = venus_helper_set_core(inst);
->  	if (ret)
->  		return ret;
->  
+> It needs a Signed-off-by.
 > 
+> > ---
+> > Changes since v1:
+> > - Fix patch formatting
+> > 
+> > At least 4 keymaps look broken in the current git:
+> > it913x_v2.toml
+> > pinnacle310e.toml
+> > hisi_poplar.toml
+> > imon_mce.toml
+> > 
+> > Let me know if you want patches to remove the duplicate entries
+> > from
+> > those.
+> 
+> That would be great. They have to be patched in the kernel tree, they
+> are generated from there.
 
--- 
-regards,
-Stan
+It's customary to put a comment at the top of generated files
+indicating that they shouldn't be modified and list the name and
+version of the tools used to generate that file.
+
+So, what's the name of the tool used, and where does it live? :)
+
+> >  utils/keytable/Makefile.am    |  6 ++++
+> >  utils/keytable/test_keymaps.c | 68
+> > +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 74 insertions(+)
+> >  create mode 100644 utils/keytable/test_keymaps.c
+> > 
+> > diff --git a/utils/keytable/Makefile.am
+> > b/utils/keytable/Makefile.am
+> > index 148b9446..086d53c2 100644
+> > --- a/utils/keytable/Makefile.am
+> > +++ b/utils/keytable/Makefile.am
+> > @@ -1,9 +1,12 @@
+> >  bin_PROGRAMS = ir-keytable
+> > +noinst_PROGRAMS = test-keymaps
+> >  man_MANS = ir-keytable.1 rc_keymap.5
+> >  sysconf_DATA = rc_maps.cfg
+> >  keytablesystem_DATA = $(srcdir)/rc_keymaps/*
+> >  udevrules_DATA = 70-infrared.rules
+> >  
+> > +test_keymaps_SOURCES = toml.c toml.h test_keymaps.c
+> > +
+> 
+> It could be called check keymaps in line with the make target.
+
+I usually call tests "test" as they aren't beholden to the "check"
+target to be run, but up to you.
+
+> >  ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h
+> > toml.c toml.h
+> >  
+> >  if WITH_BPF
+> > @@ -21,6 +24,9 @@ endif
+> >  EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace
+> > gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
+> >  
+> >  # custom target
+> > +check: test-keymaps
+> > +	$(builddir)/test-keymaps $(srcdir)/rc_keymaps/
+> > +
+> >  install-data-local:
+> >  	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
+> >  
+> > diff --git a/utils/keytable/test_keymaps.c
+> > b/utils/keytable/test_keymaps.c
+> > new file mode 100644
+> > index 00000000..23084331
+> > --- /dev/null
+> > +++ b/utils/keytable/test_keymaps.c
+> > @@ -0,0 +1,68 @@
+> > +#include <string.h>
+> > +#include <errno.h>
+> > +#include <stdio.h>
+> > +#include <sys/types.h>
+> > +#include <dirent.h>
+> > +
+> > +#include "toml.h"
+> > +
+> > +static int
+> > +has_suffix(const char *str, const char *suffix)
+> > +{
+> > +	if (strlen(str) < strlen(suffix))
+> > +		return 0;
+> > +	if (strncmp(str + strlen(str) - strlen(suffix), suffix,
+> > strlen(suffix)) == 0)
+> > +		return 1;
+> > +	return 0;
+> > +}
+> > +
+> > +int main (int argc, char **argv)
+> > +{
+> > +	DIR *dir;
+> > +	struct dirent *entry;
+> > +
+> > +	if (argc != 2) {
+> > +		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n",
+> > argv[0]);
+> > +		return 1;
+> > +	}
+> > +
+> > +	dir = opendir(argv[1]);
+> > +	if (!dir) {
+> > +		perror("Could not open directory");
+> > +		return 1;
+> > +	}
+> > +
+> > +	while ((entry = readdir(dir)) != NULL) {
+> > +		struct toml_table_t *root;
+> > +		FILE *fin;
+> > +		char buf[200];
+> > +		char path[2048];
+> > +
+> > +		if (!has_suffix(entry->d_name, ".toml")) {
+> > +			/* Skipping file */
+> > +			continue;
+> > +		}
+> > +
+> > +		memset(path, 0, sizeof(path));
+> > +		strcpy(path, argv[1]);
+> > +		strcpy(path + strlen(argv[1]), "/");
+> > +		strcpy(path + strlen(argv[1]) + 1, entry->d_name);
+> > +		strcpy(path + strlen(argv[1]) + 1 + strlen(entry-
+> > >d_name), "\0");
+> 
+> These five lines could be replaced with a single snprintf().
+
+You're right, it's marginally better.
+
+> > +
+> > +		fin = fopen(path, "r");
+> > +		if (!fin) {
+> > +			fprintf(stderr, "Could not open file %s: %s",
+> > path, strerror(errno));
+> > +			return 1;
+> > +		}
+> > +
+> > +		root = toml_parse_file(fin, buf, sizeof(buf));
+> > +		fclose(fin);
+> > +		if (!root) {
+> > +			fprintf(stderr, "Failed to parse %s: %s\n",
+> > path, buf);
+> > +			return 1;
+> > +		}
+> > +		toml_free(root);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> 
+> Great idea!
+> 
+> Thanks
+> Sean
+
