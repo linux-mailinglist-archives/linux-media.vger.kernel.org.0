@@ -2,61 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 087D45B7ED
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 11:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 138785B7F4
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 11:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbfGAJUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 05:20:47 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:36103 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728184AbfGAJUq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 05:20:46 -0400
-Received: by mail-wr1-f50.google.com with SMTP id n4so12960747wrs.3
-        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 02:20:45 -0700 (PDT)
+        id S1728284AbfGAJXx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 05:23:53 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39684 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727833AbfGAJXw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 05:23:52 -0400
+Received: by mail-wm1-f65.google.com with SMTP id z23so15060432wma.4
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 02:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=references:user-agent:from:to:cc:subject:in-reply-to:date
          :message-id:mime-version;
-        bh=LLSPtTGOVlJaor/0jN6EAnEXPPpZwf3JG+8NK7WSmNg=;
-        b=flBbXznqWuxBEEhd2zGJVlYqg3tybEH3Ost+2aLX1B5Z/sLXFIKeAdYC80yTSgrYt+
-         5IuPdTTe0RvgoeCeU5zEUhaBu9/kcJGrwfaz/D7S/S9CSJQuLTs5WSZidmHLGlASDOC9
-         INfViy7cZc47+r1KDBNchFbJcRhVgKjzyR3x2iQCw26Ju9pl25qVxvRBTJhIwHbt2Hoe
-         d8102aEDMq/ylyBVTzGFozzh+J+7R3Cmwsx4/9wVpmRiyVvNVhIywm1V7QmxxcBIEvZf
-         QySwcdGlofKkgNQ4Ei1PS4hSXUcFD2A/qDZj21ZcF2PJWGV7krmYu7X/tWbpazdLgkcR
-         jIDg==
+        bh=/al2hARGevxvuHWgnh2cKc+wEY7z5V6t7TmLV5f+DQI=;
+        b=puy1DTUHJg3edRD+2G5S8XQQXyL4UvpSTqRj1SRx+YPfT+lcyAFRxpZDH0hc9QWBaB
+         hYqWdoc3YHu9SofvK6xgFdaqg9LsHTLKH56IVYCjqBUexNFJ1MSYlHebdR1JFtVj7lDH
+         xWiH4wC/gKRjw4PetsVn5MNTf5ToaSuSs+J6wUHp0RS+63gzDDbjxo3XJqUII9KKhfBe
+         87Zi8hbsbwz6trvI3MVs/q8v53J6IPIxql3WLn0/+vRp3CvJrdc6rLmXXDp6nIIyqisj
+         JjjYvOX9f4gr7Fuijwfy6EtOTA9PGXA2d6Jmu0T2IWDp043CKO28K/ubfIJuBUMuXgWM
+         ne1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:references:user-agent:from:to:cc:subject
          :in-reply-to:date:message-id:mime-version;
-        bh=LLSPtTGOVlJaor/0jN6EAnEXPPpZwf3JG+8NK7WSmNg=;
-        b=U5Es8A3iql24zw/QqG3t/RheKL2nudSSHywgYSeaIKLUVHMqaJwz6DFZBfcqWPA8G3
-         zazwF3Owg2zPt/bfFP1akjd9TenWdZHjgsH46j6K4o96PSiCeZODLLiQrERR2rcz+fvI
-         ylLJSviVibID8aNZefco5f95K3GefTPHdRb285hJojDYcr3JEPVPP7HmQrhxdUQ00b/W
-         O7W7epMDvXwwIiFCHeAmqGfYsePVFk8625fInuEUXcv2wDdgH6IghjbzoXBAfYlNZpji
-         v30dUZR7aGWpiZHeNml8oqGUVbQI29xwAKeANNw1GnNJAUXvwlvrFI1e1IjYUGtU+uJE
-         ZdAw==
-X-Gm-Message-State: APjAAAX6OzWhJnWrH6+aM1yT8CA1BUy+wsFH4DKFBKOIvWKfM4oEFY6T
-        JnXfo9sFocZcVsKTYxPXnPsCmMpB
-X-Google-Smtp-Source: APXvYqwNjSbcLevTuoNkJermO70qJVoc+I9NWr9M9iMMyaWGIxih5VOc+gCoVsHlIfXlVQF6iGXqfA==
-X-Received: by 2002:a5d:6a05:: with SMTP id m5mr16930300wru.161.1561972844387;
-        Mon, 01 Jul 2019 02:20:44 -0700 (PDT)
+        bh=/al2hARGevxvuHWgnh2cKc+wEY7z5V6t7TmLV5f+DQI=;
+        b=AwvpD+btRfoe0fYnyo1LjGLLQz1sjQrNKI73K2CYqTnNDvqKQ3cMbotCN+hbPn9QhO
+         t/yB6npsSqVZ01UAgNlNfualHfxct7nr6SMgiQtx9adTSOJvmO/Pueoxr3pCSxrXp7Lu
+         UgdGJpMrfUVoRDCEXmNfQ2D7RL4I79ITSEGk3l+InZ5ZkSKAG+/I6E0BjwU1HurVtX05
+         g4cSpkFA6qbnVN6w8dOGYTgj89t/OUV0IGLDgb6gRz9G80wIIwOdHNdNAqlc6iqzeaWV
+         tw2ESgoeHrqIun8IBQGHXO/76gJOENX/oYfu2OSFwQwXcF0Qpg2OSDDtdL50PVzrjo19
+         jeWg==
+X-Gm-Message-State: APjAAAUV8l/AWGp1JCr0akXTJYpivPqtf+Pw9uFzaabQyrskZ9QFcmzl
+        q561oeGTc8u9swuOpaaQie0=
+X-Google-Smtp-Source: APXvYqxA0P3J6IOLN7yRqdV1Hoxfwm2ailiY/NG7uW/7Uf88auZedonbBFEozVIvXJX1qsxpodhKIg==
+X-Received: by 2002:a1c:7304:: with SMTP id d4mr16085792wmb.39.1561973029523;
+        Mon, 01 Jul 2019 02:23:49 -0700 (PDT)
 Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id i16sm6335843wrm.37.2019.07.01.02.20.42
+        by smtp.gmail.com with ESMTPSA id o20sm26296074wrh.8.2019.07.01.02.23.48
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 01 Jul 2019 02:20:43 -0700 (PDT)
-References: <CAOMZO5A4zhpxf7PQV17vpi43M743Q0R5+ONpSc05-fxFbQDG0Q@mail.gmail.com> <CAOMZO5DktjDM-YE7g-bu+DgOZT2SA+FAta_cj2PZV0SLbiXK3g@mail.gmail.com> <20190629091239.yrjyxd56imytvedg@valkosipuli.retiisi.org.uk> <CAOMZO5BW3WJyKY1EnSFBstv_PehPJfHXDgyRqE4Wrxec_pzkyw@mail.gmail.com>
+        Mon, 01 Jul 2019 02:23:48 -0700 (PDT)
+References: <20190629121623.18069-1-festevam@gmail.com>
 User-agent: mu4e 1.2.0; emacs 27.0.50
 From:   Rui Miguel Silva <rmfrfs@gmail.com>
 To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: Setting up the links for imx7-mipi-csis
-In-reply-to: <CAOMZO5BW3WJyKY1EnSFBstv_PehPJfHXDgyRqE4Wrxec_pzkyw@mail.gmail.com>
-Date:   Mon, 01 Jul 2019 10:20:42 +0100
-Message-ID: <m3r27aglg5.fsf@gmail.com>
+Cc:     hverkuil@xs4all.nl, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org, slongerbeam@gmail.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org
+Subject: Re: [PATCH] media: imx7.rst: Fix the references to the CSI multiplexer
+In-reply-to: <20190629121623.18069-1-festevam@gmail.com>
+Date:   Mon, 01 Jul 2019 10:23:46 +0100
+Message-ID: <m3pnmuglb1.fsf@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
@@ -64,32 +62,202 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guys,
-On Sat 29 Jun 2019 at 12:42, Fabio Estevam wrote:
-> Hi Sakari,
+Oi Fabio,
+On Sat 29 Jun 2019 at 13:16, Fabio Estevam wrote:
+> In imx7s.dtsi the node name for the CSI multiplexer is "csi-mux", not
+> "csi_mux", so fix all the references in the document.
 >
-> On Sat, Jun 29, 2019 at 6:13 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> This fixes the following error when the instructions are followed:
 >
->> What does media-ctp -p say?
+> # media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi_mux':1[1]"
+> Unable to parse link: Invalid argument (22)
+
+Yeah, it was a last minute rename that did not reflect in the
+documentation.
+
 >
-> Thanks for this hint!
+> While at it, provide the "media-ctl -p" output from 5.2 kernel
+> version, so that users can see a more updated output.
+
+Also thanks for this.
+
 >
-> I managed to fix the media-ctl failure by looking at media-ctl -p output.
->
-> Documentation/media/v4l-drivers/imx7.rst mentions "csi_mux", but
-> media-ctl says "csi-mux", so I needed to change it to:
->
-> media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi-mux':1[1]"
->
-> and then I see no errors after the media-ctl command.
->
-> I will send a patch fixing Documentation/media/v4l-drivers/imx7.rst .
+> Fixes: fa88fbdafb4a ("media: imx7.rst: add documentation for i.MX7 media driver")
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 >
 
-arriving late to the party. Thanks for the fix. yup, there is a
-typo in there. Thanks Sakari.
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
 ---
 Cheers,
 	Rui
+
+>
+> ---
+>  Documentation/media/v4l-drivers/imx7.rst | 127 +++++++++++------------
+>  1 file changed, 63 insertions(+), 64 deletions(-)
+>
+> diff --git a/Documentation/media/v4l-drivers/imx7.rst b/Documentation/media/v4l-drivers/imx7.rst
+> index fe411f65c01c..ab9e17d111bf 100644
+> --- a/Documentation/media/v4l-drivers/imx7.rst
+> +++ b/Documentation/media/v4l-drivers/imx7.rst
+> @@ -41,7 +41,7 @@ data from MIPI CSI-2 camera sensor. It has one source pad, corresponding to the
+>  virtual channel 0. This module is compliant to previous version of Samsung
+>  D-phy, and supports two D-PHY Rx Data lanes.
+>
+> -csi_mux
+> +csi-mux
+>  -------
+>
+>  This is the video multiplexer. It has two sink pads to select from either camera
+> @@ -56,7 +56,7 @@ can interface directly with Parallel and MIPI CSI-2 buses. It has 256 x 64 FIFO
+>  to store received image pixel data and embedded DMA controllers to transfer data
+>  from the FIFO through AHB bus.
+>
+> -This entity has one sink pad that receives from the csi_mux entity and a single
+> +This entity has one sink pad that receives from the csi-mux entity and a single
+>  source pad that routes video frames directly to memory buffers. This pad is
+>  routed to a capture device node.
+>
+> @@ -81,14 +81,14 @@ an output of 800x600, and BGGR 10 bit bayer format:
+>
+>     # Setup links
+>     media-ctl -l "'ov2680 1-0036':0 -> 'imx7-mipi-csis.0':0[1]"
+> -   media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi_mux':1[1]"
+> -   media-ctl -l "'csi_mux':2 -> 'csi':0[1]"
+> +   media-ctl -l "'imx7-mipi-csis.0':1 -> 'csi-mux':1[1]"
+> +   media-ctl -l "'csi-mux':2 -> 'csi':0[1]"
+>     media-ctl -l "'csi':1 -> 'csi capture':0[1]"
+>
+>     # Configure pads for pipeline
+>     media-ctl -V "'ov2680 1-0036':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+> -   media-ctl -V "'csi_mux':1 [fmt:SBGGR10_1X10/800x600 field:none]"
+> -   media-ctl -V "'csi_mux':2 [fmt:SBGGR10_1X10/800x600 field:none]"
+> +   media-ctl -V "'csi-mux':1 [fmt:SBGGR10_1X10/800x600 field:none]"
+> +   media-ctl -V "'csi-mux':2 [fmt:SBGGR10_1X10/800x600 field:none]"
+>     media-ctl -V "'imx7-mipi-csis.0':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+>     media-ctl -V "'csi':0 [fmt:SBGGR10_1X10/800x600 field:none]"
+>
+> @@ -97,64 +97,63 @@ the resolutions supported by the sensor.
+>
+>  .. code-block:: none
+>
+> -    root@imx7s-warp:~# media-ctl -p
+> -    Media controller API version 4.17.0
+> -
+> -    Media device information
+> -    ------------------------
+> -    driver          imx-media
+> -    model           imx-media
+> -    serial
+> -    bus info
+> -    hw revision     0x0
+> -    driver version  4.17.0
+> -
+> -    Device topology
+> -    - entity 1: csi (2 pads, 2 links)
+> -		type V4L2 subdev subtype Unknown flags 0
+> -		device node name /dev/v4l-subdev0
+> -	    pad0: Sink
+> -		    [fmt:SBGGR10_1X10/800x600 field:none]
+> -		    <- "csi_mux":2 [ENABLED]
+> -	    pad1: Source
+> -		    [fmt:SBGGR10_1X10/800x600 field:none]
+> -		    -> "csi capture":0 [ENABLED]
+> -
+> -    - entity 4: csi capture (1 pad, 1 link)
+> -		type Node subtype V4L flags 0
+> -		device node name /dev/video0
+> -	    pad0: Sink
+> -		    <- "csi":1 [ENABLED]
+> -
+> -    - entity 10: csi_mux (3 pads, 2 links)
+> -		type V4L2 subdev subtype Unknown flags 0
+> -		device node name /dev/v4l-subdev1
+> -	    pad0: Sink
+> -		    [fmt:unknown/0x0]
+> -	    pad1: Sink
+> -		    [fmt:unknown/800x600 field:none]
+> -		    <- "imx7-mipi-csis.0":1 [ENABLED]
+> -	    pad2: Source
+> -		    [fmt:unknown/800x600 field:none]
+> -		    -> "csi":0 [ENABLED]
+> -
+> -    - entity 14: imx7-mipi-csis.0 (2 pads, 2 links)
+> -		type V4L2 subdev subtype Unknown flags 0
+> -		device node name /dev/v4l-subdev2
+> -	    pad0: Sink
+> -		    [fmt:SBGGR10_1X10/800x600 field:none]
+> -		    <- "ov2680 1-0036":0 [ENABLED]
+> -	    pad1: Source
+> -		    [fmt:SBGGR10_1X10/800x600 field:none]
+> -		    -> "csi_mux":1 [ENABLED]
+> -
+> -    - entity 17: ov2680 1-0036 (1 pad, 1 link)
+> -		type V4L2 subdev subtype Sensor flags 0
+> -		device node name /dev/v4l-subdev3
+> -	    pad0: Source
+> -		    [fmt:SBGGR10_1X10/800x600 field:none]
+> -		    -> "imx7-mipi-csis.0":0 [ENABLED]
+> -
+> +# media-ctl -p
+> +Media controller API version 5.2.0
+> +
+> +Media device information
+> +------------------------
+> +driver          imx7-csi
+> +model           imx-media
+> +serial
+> +bus info
+> +hw revision     0x0
+> +driver version  5.2.0
+> +
+> +Device topology
+> +- entity 1: csi (2 pads, 2 links)
+> +            type V4L2 subdev subtype Unknown flags 0
+> +            device node name /dev/v4l-subdev0
+> +        pad0: Sink
+> +                [fmt:SBGGR10_1X10/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+> +                <- "csi-mux":2 [ENABLED]
+> +        pad1: Source
+> +                [fmt:SBGGR10_1X10/800x600 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+> +                -> "csi capture":0 [ENABLED]
+> +
+> +- entity 4: csi capture (1 pad, 1 link)
+> +            type Node subtype V4L flags 0
+> +            device node name /dev/video0
+> +        pad0: Sink
+> +                <- "csi":1 [ENABLED]
+> +
+> +- entity 10: csi-mux (3 pads, 2 links)
+> +             type V4L2 subdev subtype Unknown flags 0
+> +             device node name /dev/v4l-subdev1
+> +        pad0: Sink
+> +                [fmt:Y8_1X8/1x1 field:none]
+> +        pad1: Sink
+> +                [fmt:SBGGR10_1X10/800x600 field:none]
+> +                <- "imx7-mipi-csis.0":1 [ENABLED]
+> +        pad2: Source
+> +                [fmt:SBGGR10_1X10/800x600 field:none]
+> +                -> "csi":0 [ENABLED]
+> +
+> +- entity 14: imx7-mipi-csis.0 (2 pads, 2 links)
+> +             type V4L2 subdev subtype Unknown flags 0
+> +             device node name /dev/v4l-subdev2
+> +        pad0: Sink
+> +                [fmt:SBGGR10_1X10/800x600 field:none]
+> +                <- "ov2680 1-0036":0 [ENABLED]
+> +        pad1: Source
+> +                [fmt:SBGGR10_1X10/800x600 field:none]
+> +                -> "csi-mux":1 [ENABLED]
+> +
+> +- entity 17: ov2680 1-0036 (1 pad, 1 link)
+> +             type V4L2 subdev subtype Sensor flags 0
+> +             device node name /dev/v4l-subdev3
+> +        pad0: Source
+> +                [fmt:SBGGR10_1X10/800x600@1/30 field:none colorspace:srgb]
+> +                -> "imx7-mipi-csis.0":0 [ENABLED]
+>
+>  References
+>  ----------
 
