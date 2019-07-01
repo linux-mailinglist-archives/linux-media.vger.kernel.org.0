@@ -2,203 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73AD85BE40
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 16:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B120F5BE63
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 16:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728291AbfGAO15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 10:27:57 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50273 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728171AbfGAO15 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 10:27:57 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 37233FF817;
-        Mon,  1 Jul 2019 14:27:53 +0000 (UTC)
-Message-ID: <3bbb2edc0b34a029c7514fdf67af70d5e7e514f3.camel@hadess.net>
-Subject: Re: [PATCH v2] keytable: Add keymap test
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Date:   Mon, 01 Jul 2019 16:27:52 +0200
-In-Reply-To: <20190627193348.d53sbpys32i7qyi3@gofer.mess.org>
-References: <b6ffea1984f05adec9f52cd60902a95c82bf8666.camel@hadess.net>
-         <20190627193348.d53sbpys32i7qyi3@gofer.mess.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
+        id S1729724AbfGAOey (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 10:34:54 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:48534 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727064AbfGAOey (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 10:34:54 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x61EYeUV073343;
+        Mon, 1 Jul 2019 09:34:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1561991680;
+        bh=cyHop+GSfkh1vgGnTZxWTEXAnODsgbNOUZbNoREaWBk=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=H3tkKiHKfD6ud1lt5vFApjgzjfGno+OkXw3AKgEI3tyv3jA35s8m12VorgAgpurrf
+         hZP4sNJf+olbTEG2a1Sstz4TygkTAGhfxdLYwH5oADbGlIEDxsd1kCnS3YZ5BsIyND
+         E3kCaOOuOKLvMndMrQazA3YE75/KBs7gHPrGZFG0=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x61EYexg100699
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 1 Jul 2019 09:34:40 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 1 Jul
+ 2019 09:34:39 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 1 Jul 2019 09:34:39 -0500
+Received: from [172.24.190.172] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x61EYajr076737;
+        Mon, 1 Jul 2019 09:34:37 -0500
+Subject: Re: [PATCH] media: davinci-vpbe: remove obsolete includes
+To:     Arnd Bergmann <arnd@arndb.de>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20190628105131.3130257-1-arnd@arndb.de>
+From:   Sekhar Nori <nsekhar@ti.com>
+Message-ID: <77b1444b-6d37-28d4-50c3-3f9f79b7a1ea@ti.com>
+Date:   Mon, 1 Jul 2019 20:04:36 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
+In-Reply-To: <20190628105131.3130257-1-arnd@arndb.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-06-27 at 20:33 +0100, Sean Young wrote:
-> On Thu, Jun 27, 2019 at 10:13:56AM +0200, Bastien Nocera wrote:
-> > This new test will try to parse all the ".toml" files in the
-> > directory
-> > path passed to it, error'ing out on the first parsing problem.
-> > 
-> > Run as "make check" in the keytable directory.
+On 28/06/19 4:21 PM, Arnd Bergmann wrote:
+> The driver builds fine without these, and they cause build
+> problems once davinci multiplatform support is enabled.
 > 
-> Good catch, and I like your solution.
-> 
-> It needs a Signed-off-by.
-> 
-> > ---
-> > Changes since v1:
-> > - Fix patch formatting
-> > 
-> > At least 4 keymaps look broken in the current git:
-> > it913x_v2.toml
-> > pinnacle310e.toml
-> > hisi_poplar.toml
-> > imon_mce.toml
-> > 
-> > Let me know if you want patches to remove the duplicate entries
-> > from
-> > those.
-> 
-> That would be great. They have to be patched in the kernel tree, they
-> are generated from there.
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-It's customary to put a comment at the top of generated files
-indicating that they shouldn't be modified and list the name and
-version of the tools used to generate that file.
+Acked-by: Sekhar Nori <nsekhar@ti.com>
 
-So, what's the name of the tool used, and where does it live? :)
-
-> >  utils/keytable/Makefile.am    |  6 ++++
-> >  utils/keytable/test_keymaps.c | 68
-> > +++++++++++++++++++++++++++++++++++
-> >  2 files changed, 74 insertions(+)
-> >  create mode 100644 utils/keytable/test_keymaps.c
-> > 
-> > diff --git a/utils/keytable/Makefile.am
-> > b/utils/keytable/Makefile.am
-> > index 148b9446..086d53c2 100644
-> > --- a/utils/keytable/Makefile.am
-> > +++ b/utils/keytable/Makefile.am
-> > @@ -1,9 +1,12 @@
-> >  bin_PROGRAMS = ir-keytable
-> > +noinst_PROGRAMS = test-keymaps
-> >  man_MANS = ir-keytable.1 rc_keymap.5
-> >  sysconf_DATA = rc_maps.cfg
-> >  keytablesystem_DATA = $(srcdir)/rc_keymaps/*
-> >  udevrules_DATA = 70-infrared.rules
-> >  
-> > +test_keymaps_SOURCES = toml.c toml.h test_keymaps.c
-> > +
-> 
-> It could be called check keymaps in line with the make target.
-
-I usually call tests "test" as they aren't beholden to the "check"
-target to be run, but up to you.
-
-> >  ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h
-> > toml.c toml.h
-> >  
-> >  if WITH_BPF
-> > @@ -21,6 +24,9 @@ endif
-> >  EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace
-> > gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
-> >  
-> >  # custom target
-> > +check: test-keymaps
-> > +	$(builddir)/test-keymaps $(srcdir)/rc_keymaps/
-> > +
-> >  install-data-local:
-> >  	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
-> >  
-> > diff --git a/utils/keytable/test_keymaps.c
-> > b/utils/keytable/test_keymaps.c
-> > new file mode 100644
-> > index 00000000..23084331
-> > --- /dev/null
-> > +++ b/utils/keytable/test_keymaps.c
-> > @@ -0,0 +1,68 @@
-> > +#include <string.h>
-> > +#include <errno.h>
-> > +#include <stdio.h>
-> > +#include <sys/types.h>
-> > +#include <dirent.h>
-> > +
-> > +#include "toml.h"
-> > +
-> > +static int
-> > +has_suffix(const char *str, const char *suffix)
-> > +{
-> > +	if (strlen(str) < strlen(suffix))
-> > +		return 0;
-> > +	if (strncmp(str + strlen(str) - strlen(suffix), suffix,
-> > strlen(suffix)) == 0)
-> > +		return 1;
-> > +	return 0;
-> > +}
-> > +
-> > +int main (int argc, char **argv)
-> > +{
-> > +	DIR *dir;
-> > +	struct dirent *entry;
-> > +
-> > +	if (argc != 2) {
-> > +		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n",
-> > argv[0]);
-> > +		return 1;
-> > +	}
-> > +
-> > +	dir = opendir(argv[1]);
-> > +	if (!dir) {
-> > +		perror("Could not open directory");
-> > +		return 1;
-> > +	}
-> > +
-> > +	while ((entry = readdir(dir)) != NULL) {
-> > +		struct toml_table_t *root;
-> > +		FILE *fin;
-> > +		char buf[200];
-> > +		char path[2048];
-> > +
-> > +		if (!has_suffix(entry->d_name, ".toml")) {
-> > +			/* Skipping file */
-> > +			continue;
-> > +		}
-> > +
-> > +		memset(path, 0, sizeof(path));
-> > +		strcpy(path, argv[1]);
-> > +		strcpy(path + strlen(argv[1]), "/");
-> > +		strcpy(path + strlen(argv[1]) + 1, entry->d_name);
-> > +		strcpy(path + strlen(argv[1]) + 1 + strlen(entry-
-> > >d_name), "\0");
-> 
-> These five lines could be replaced with a single snprintf().
-
-You're right, it's marginally better.
-
-> > +
-> > +		fin = fopen(path, "r");
-> > +		if (!fin) {
-> > +			fprintf(stderr, "Could not open file %s: %s",
-> > path, strerror(errno));
-> > +			return 1;
-> > +		}
-> > +
-> > +		root = toml_parse_file(fin, buf, sizeof(buf));
-> > +		fclose(fin);
-> > +		if (!root) {
-> > +			fprintf(stderr, "Failed to parse %s: %s\n",
-> > path, buf);
-> > +			return 1;
-> > +		}
-> > +		toml_free(root);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> Great idea!
-> 
-> Thanks
-> Sean
-
+Thanks,
+Sekhar
