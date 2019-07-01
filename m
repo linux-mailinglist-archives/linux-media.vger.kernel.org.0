@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB9335BEEA
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 17:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BBD75BEEB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2019 17:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729974AbfGAPAC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jul 2019 11:00:02 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:41338 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729918AbfGAPAC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 11:00:02 -0400
-Received: by mail-vk1-f202.google.com with SMTP id r4so475141vkr.8
-        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 08:00:02 -0700 (PDT)
+        id S1729976AbfGAPAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jul 2019 11:00:06 -0400
+Received: from mail-ua1-f73.google.com ([209.85.222.73]:34257 "EHLO
+        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729918AbfGAPAG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jul 2019 11:00:06 -0400
+Received: by mail-ua1-f73.google.com with SMTP id d16so477003uaq.1
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2019 08:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=EfMlx6GMADkFklKqS7hiXAa2QgRT6SlWNKz+Nt5DciY=;
-        b=KhCHMthuAa3Ad0fC5RQYAfqO4vZFXU+p9Evc2/ZXVYRwG+4VVDzwwQ8XjhOJAMNtvq
-         jF49XK+Lj+cXtqLnpwieSOLPGFFOtUYiAVlgXFgNKIQd/5JUDci0BLUr0KXtJD4panui
-         VWhIYBy0PpIiSV8gBgVB+Sh4SCHKdjIhhUvbE3Frj0gZ6cwaBc3I01hqOJDQYU+w6eY6
-         nG9G3DJsDlGgsmXYq2VeF6zSNqUeXTDPlNemREzMJ4n0XP2+tXDVt+GkjRSQbFpueHaL
-         i7beyOfCoeI80W9xfTe26GpWigyDzLPQf/P+19dwLMMNbr4uQiy1wZj4xSQd8vFxdCAm
-         u8IA==
+        bh=IKkiC/lT0L1O6GfDiozfLquy2ieeWITZdP5/Q1/efTk=;
+        b=ReAHtgdYdfvxDJIL1ITRMt5pswCTSi/5SJbhKvnPztuZInaD6pRrHBSAEV/NjIqVUn
+         CzjPEfwizQsImtKLh7OjHLl3NaP6ThGEWi34WBjUCw+p23nparDlH9Ey9EmNrGg9c7hQ
+         Apd18Pm4wwSULewQ7Pw6KM/22W9BEEfwFb5uursISzmXQ6KXs2sf1JF4VpYviCpX9iV9
+         uJNBHXYPOPpch1nW45/1uiTl8ifRw51GGp8X6y+f7ACljzHWP7bDqiEurRTxbvxZJvhF
+         bbK+JWj77Uel+FKCq99I9oZDNDBrX9+Wrs2AuM8EfYOxMgj14xXgiv2l9qzPhF20j+bz
+         nFdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=EfMlx6GMADkFklKqS7hiXAa2QgRT6SlWNKz+Nt5DciY=;
-        b=N8JL9LzU7fdoL7DVZkRswKiaHoYOOCW176PeFKohTMhLOK+F3pSr9iRkbYOYk51QHy
-         zLPLh7koySkt5R3wfLW1Wui+njhRig0EYQORE+bIwaVrTzvF/S5OT+GoDJU3qHKp8u5S
-         q3LX0tGRKEZGQiAkTd7ZT2YArA6uYd4KlDukOg8vn0mnGcQxz1ivD0lwgTymPShU80HO
-         9MsQ3RfKvw6LuwvdhlXuhLvMohujFD0b+7Cq0xaC3XA0EA0FbbW87X8i9QfLgH9gTke6
-         bClXY0vNl1O2EN2+6WWoPSFlDnsAfVWn1HGR7UVzRyoTCUEcM81laNOCl/9d+KQNBvVM
-         f/4g==
-X-Gm-Message-State: APjAAAWTugKUGFh9airtKySN2WKnSx1S/AASCOdmxtWIdU8Sor5+Vl8i
-        c910z7P7jBvhLp18WhLmnaYo4hIKrLojMdBBvl6Hf3WgM4Zhe3mlAwX9JpEQWC5ej738Lyd3ikw
-        5/BRwxkchd2BwQ4KphF/uZPn3+Br076J5JAe4K5/SLSbf159KqhikFMqCu6XWhUFXE4Qr
-X-Google-Smtp-Source: APXvYqyXNaDe0/ET/f8d2c9rBsu/yyjYgVpZOO626VVBWZjLJak9WCPtJTYaLg6qCJzp+WnOpdMcSU+zcKk=
-X-Received: by 2002:a05:6102:105a:: with SMTP id h26mr15726249vsq.185.1561993201513;
- Mon, 01 Jul 2019 08:00:01 -0700 (PDT)
-Date:   Mon,  1 Jul 2019 16:59:41 +0200
+        bh=IKkiC/lT0L1O6GfDiozfLquy2ieeWITZdP5/Q1/efTk=;
+        b=T+8zWJz8Q4oT8PBK0ixW1l9Lai0GoymWM6CsiHm2BDPTdJnoCwU6V6nwW1R8Fgjehd
+         IawXA8XAn3zfe0/t9wEH5f73ELE/SVE5lk3zQlwKD9Yq6Lb00YOivLKFCluw+9U1JCxo
+         o46Oye0qFdGMsU1Sxjy7jqb2yeFFFYvxqWdk0J/EZnrdns0Gpk/s4eJmR8IK6iUTh/uo
+         O1G2wEZezh/GMrWGuM4LnV3zL91qD9nmf/7mHp9pgYzVE3iPWU0v4LqH+8pE5dGZxMwi
+         pomV5LPR0TgswUOEAuLt4i6gm79OWSnSsr3NSD/SIqjwx9uo/NNCrmGkAC9v3en/OSnj
+         hn1w==
+X-Gm-Message-State: APjAAAXsaSZHXM0D5xVfDCaSKYeFlxXe4NgcWv22n75vdhwcgzQ3YgHa
+        pdh40F+t4D8wEFmuQmQefeeX0yzgWIF2PO1+A9L+bGE4QlKtVFz9t95aCPMBwOqIw0z/tZJJhMS
+        t/83ZiPH30HsI4JsBIt7ip7cbcAJXmbkkNskI7NbauWi1jHS+5eOR2N5I9PCH1knInbYa
+X-Google-Smtp-Source: APXvYqwc/r9/xJTv5CL/wTOnfrs1a6Mo1/X7jTGSs25VIhm4UXWvzdfE2N357CUWt9FRZMdFDkQK2L+S6MI=
+X-Received: by 2002:a1f:5945:: with SMTP id n66mr2797486vkb.58.1561993205068;
+ Mon, 01 Jul 2019 08:00:05 -0700 (PDT)
+Date:   Mon,  1 Jul 2019 16:59:42 +0200
 In-Reply-To: <20190701145944.214098-1-darekm@google.com>
-Message-Id: <20190701145944.214098-3-darekm@google.com>
+Message-Id: <20190701145944.214098-4-darekm@google.com>
 Mime-Version: 1.0
 References: <20190701145944.214098-1-darekm@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v2 2/5] drm: sti: use cec_notifier_conn_(un)register
+Subject: [PATCH v2 3/5] drm: tegra: use cec_notifier_conn_(un)register
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         hverkuil@xs4all.nl
@@ -59,75 +59,66 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Use the new cec_notifier_conn_(un)register() functions to
-(un)register the notifier for the HDMI connector, and fill
-in the cec_connector_info.
+(un)register the notifier for the HDMI connector, and fill in
+the cec_connector_info.
 
 Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/tegra/output.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 6000df6249807..5519b0c397c72 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1250,6 +1250,7 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm_dev = data;
- 	struct drm_encoder *encoder;
- 	struct sti_hdmi_connector *connector;
-+	struct cec_connector_info conn_info;
- 	struct drm_connector *drm_connector;
- 	struct drm_bridge *bridge;
- 	int err;
-@@ -1310,6 +1311,14 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- 		goto err_sysfs;
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index 9c2b9dad55c30..ea92e72280868 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -80,6 +80,9 @@ tegra_output_connector_detect(struct drm_connector *connector, bool force)
+ 
+ void tegra_output_connector_destroy(struct drm_connector *connector)
+ {
++	struct tegra_output *output = connector_to_output(connector);
++
++	cec_notifier_conn_unregister(output->cec);
+ 	drm_connector_unregister(connector);
+ 	drm_connector_cleanup(connector);
+ }
+@@ -174,18 +177,11 @@ int tegra_output_probe(struct tegra_output *output)
+ 		disable_irq(output->hpd_irq);
  	}
  
-+	cec_fill_conn_info_from_drm(&conn_info, drm_connector);
-+	hdmi->notifier = cec_notifier_conn_register(&hdmi->dev, NULL,
-+						    &conn_info);
-+	if (!hdmi->notifier) {
-+		hdmi->drm_connector = NULL;
-+		return -ENOMEM;
-+	}
-+
- 	/* Enable default interrupts */
- 	hdmi_write(hdmi, HDMI_DEFAULT_INT, HDMI_INT_EN);
- 
-@@ -1323,6 +1332,10 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- static void sti_hdmi_unbind(struct device *dev,
- 		struct device *master, void *data)
- {
-+	struct sti_hdmi *hdmi = dev_get_drvdata(dev);
-+
-+	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
-+	cec_notifier_conn_unregister(hdmi->notifier);
+-	output->cec = cec_notifier_get(output->dev);
+-	if (!output->cec)
+-		return -ENOMEM;
+-
+ 	return 0;
  }
  
- static const struct component_ops sti_hdmi_ops = {
-@@ -1428,10 +1441,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
- 		goto release_adapter;
- 	}
- 
--	hdmi->notifier = cec_notifier_get(&pdev->dev);
--	if (!hdmi->notifier)
--		goto release_adapter;
--
- 	hdmi->reset = devm_reset_control_get(dev, "hdmi");
- 	/* Take hdmi out of reset */
- 	if (!IS_ERR(hdmi->reset))
-@@ -1451,14 +1460,11 @@ static int sti_hdmi_remove(struct platform_device *pdev)
+ void tegra_output_remove(struct tegra_output *output)
  {
- 	struct sti_hdmi *hdmi = dev_get_drvdata(&pdev->dev);
- 
--	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
+-	if (output->cec)
+-		cec_notifier_put(output->cec);
 -
- 	i2c_put_adapter(hdmi->ddc_adapt);
- 	if (hdmi->audio_pdev)
- 		platform_device_unregister(hdmi->audio_pdev);
- 	component_del(&pdev->dev, &sti_hdmi_ops);
+ 	if (gpio_is_valid(output->hpd_gpio)) {
+ 		free_irq(output->hpd_irq, output);
+ 		gpio_free(output->hpd_gpio);
+@@ -197,6 +193,7 @@ void tegra_output_remove(struct tegra_output *output)
  
--	cec_notifier_put(hdmi->notifier);
+ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+ {
++	struct cec_connector_info conn_info;
+ 	int err;
+ 
+ 	if (output->panel) {
+@@ -212,6 +209,13 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
+ 	if (gpio_is_valid(output->hpd_gpio))
+ 		enable_irq(output->hpd_irq);
+ 
++	cec_fill_conn_info_from_drm(&conn_info, &output->connector);
++
++	output->cec = cec_notifier_conn_register(output->dev, NULL, &conn_info);
++	if (!output->cec)
++		return -ENOMEM;
++
++
  	return 0;
  }
  
