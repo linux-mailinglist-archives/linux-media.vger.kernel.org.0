@@ -2,66 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0BD5CCB0
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 11:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6D165CCD4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 11:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725981AbfGBJd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 05:33:56 -0400
-Received: from mail-ed1-f51.google.com ([209.85.208.51]:44212 "EHLO
-        mail-ed1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfGBJd4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 05:33:56 -0400
-Received: by mail-ed1-f51.google.com with SMTP id k8so26567045edr.11
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 02:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to;
-        bh=R4iW/1wTW8dd+GxPaWC/3CdfCF8vBJEjhQQv9dha0aU=;
-        b=U7x7ut2Te2QB8jLTUUZTbUq5eoisk1JArtu1uzsr0z9Cou3cuiWQyOOSMXUbaKfvat
-         uHLBuH+4SHZkKHW+XrKkoAXoBPu7RYnSn78Kdf6y9/8SnCSVGUAH1tc7tTF4v7GHl+q0
-         Ca8/u6FsiJm6drcG2YhhrgPHzYOtM4ARe8Gu52D6K/593U0n0bW9+PoJbMzAP04xcct8
-         7AKX3hhrensJ7z9OUv3/eAMOkkzKF3PjjPkoRXMVXMgSGaYFp2IJOaA2tiuTT0+OsQKJ
-         Wlx/8g7bJNoBkdky04SPkXmliN53M67pzb0S0J2RhJpCxR0tRgfpD81oGpwvgP3U6aiG
-         aosw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to;
-        bh=R4iW/1wTW8dd+GxPaWC/3CdfCF8vBJEjhQQv9dha0aU=;
-        b=Q6xOUj0XwPOxzcqrXKuQX1K2uVLY3qcITErgqmGJhYfFfLMMyhPYsHJO0lxv02DUDQ
-         wDNef3vI4dHGayot2DKTzK7hglYSnuelKGlfQDq5tAj+T+My1XAsAiuXcbmOC3TjZ4/z
-         jp/UPoBkMUj5kkDdNw3ZesfDTkZkPSgIuyc28zBc/qc9lfkzGKC3vkm0TNfYtipbCwXF
-         DjWHWykg8SDhROwcCW7xh1CejWUXluQ4IxlugeHy9emlaHviV17Vff5cVHSrAF68UQbS
-         qRna72xznbttz6e3npcswl61lwnJkDduG8aeX5NzVqr4TCDJpy8EZiVfThgaTZdJU5Al
-         sk9w==
-X-Gm-Message-State: APjAAAWPgMogdDSZjhTI62waAOHhwp+Bnrhlnm4HijjHSWCXs81Uowyo
-        dORqm92K7xeZd9bjjn/7+tznROeIuhpyHEBb5h8I6g==
-X-Google-Smtp-Source: APXvYqxXh7CFVbrj1jr2kJWMONGxa7FU0jIKobLfxHJqkiXTOPiOns/oOwmqWVK+JHH7E9v9uZybb20+E/dRhv5LjoU=
-X-Received: by 2002:a50:ba28:: with SMTP id g37mr34507669edc.109.1562060034108;
- Tue, 02 Jul 2019 02:33:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <CABOqhrLv_2f2LNTi5x6YHKYS9a_e-FFsh5ABz7Wte8FGj0iC3w@mail.gmail.com>
-In-Reply-To: <CABOqhrLv_2f2LNTi5x6YHKYS9a_e-FFsh5ABz7Wte8FGj0iC3w@mail.gmail.com>
-Reply-To: stestacct@gmail.com
-From:   stest <stestacct@gmail.com>
-Date:   Tue, 2 Jul 2019 05:33:42 -0400
-Message-ID: <CABOqhr+UcV4rfDkKc2p-HqWN5Rs4j6KYhOGTQ8r9o2=6o8C_Sg@mail.gmail.com>
-Subject: Fwd: Twinhan 7240 support
-To:     linux-media@vger.kernel.org
+        id S1726283AbfGBJnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jul 2019 05:43:43 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:52959 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726011AbfGBJnn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 05:43:43 -0400
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 4A49024000A;
+        Tue,  2 Jul 2019 09:43:40 +0000 (UTC)
+Message-ID: <581e3110f91d8ef95945e90ab2ee3574dab7ab1c.camel@hadess.net>
+Subject: Re: [PATCH 2/2] keytable: Remove comments before processing keymaps
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
+Date:   Tue, 02 Jul 2019 11:43:39 +0200
+In-Reply-To: <20190702090804.lhxll6g7l6bdlmll@gofer.mess.org>
+References: <20190701163813.25032-1-hadess@hadess.net>
+         <20190701163813.25032-2-hadess@hadess.net>
+         <20190702090804.lhxll6g7l6bdlmll@gofer.mess.org>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I have a Twinhan 7240 USB tuner dongle that is unsupported for
-linuxtv, and I'd like to offer my efforts if anyone wants to help make
-it supported. I don't have a ton of experience with this work, but I
-can follow instructions and send back results. Please be in touch if
-you're interested, or if I missed somewhere that it's actually
-supported already. Thanks!
+On Tue, 2019-07-02 at 10:08 +0100, Sean Young wrote:
+> On Mon, Jul 01, 2019 at 06:38:13PM +0200, Bastien Nocera wrote:
+> > Do our best to remove comments from each line we process from the
+> > keymap
+> > sources, so as to avoid commented duplicates and false positives
+> > sneaking in to the keymap definitions.
+> > 
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > ---
+> >  utils/keytable/gen_keytables.pl | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/utils/keytable/gen_keytables.pl
+> > b/utils/keytable/gen_keytables.pl
+> > index 3dc74ba6..d73daf58 100755
+> > --- a/utils/keytable/gen_keytables.pl
+> > +++ b/utils/keytable/gen_keytables.pl
+> > @@ -138,6 +138,9 @@ sub parse_file($$)
+> >  		}
+> >  
+> >  		if ($read) {
+> > +			# Remove comments
+> > +			~ s#/\*.*?\*/##sg;
+> > +			~ s#.*\*/##sg;
+> 
+> This doesn't solve the
+> 
+> 	/* { 0x800ff40b, KEY_ENTER },
+> 	   not used */
 
-~$ lsusb -s 1:3
-Bus 001 Device 003: ID 13d3:3215 IMC Networks DTV-DVB UDAT7240 -
-ATSC/NTSC/PAL Driver(PCM4)
+This isn't in the current Linus kernel.
+
+> case. Or // comments.
+
+And this isn't used anywhere in the kernel either.
+
+Those are the 2 lines that would remove those comments but I can't test
+it. Note that if this was done properly, instead of fixing the bugs we
+encounter, the whole parsing would need to be redone.
+
++                       ~ s#/\*.*?##sg;
++                       ~ s#//.*##sg;
+
+> >  			if (m/(0x[\dA-Fa-
+> > f]+)[\s\,]+(KEY|BTN)(\_[^\s\,\}]+)/) {
+> >  				$out .= "$1 = \"$2$3\"\n";
+> >  				next;
+> > -- 
+> > 2.21.0
+
