@@ -2,127 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 800605D1A3
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 16:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B47EC5D1FD
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 16:47:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbfGBOX0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 10:23:26 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:47034 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726767AbfGBOX0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 10:23:26 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n4so18028109wrw.13
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 07:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=fYd2nLSJd2JtuXW4PvhhIc8hhI47lGgNieCsOyTTMr0=;
-        b=hJUf2C50kZgFGsrA5T0byl86DfevCCPZn4MqhTrIVgX4gvlXGnmRKs3FMRNHqyFSp+
-         6IVWVp6dgqLwZA3AvbRCC7/YxNhuYyWMeLXftCsawO8Siq2PzyZPNbIzyMnfUZAbhEcd
-         fv5C2x53P72r17ITIeLXXNxlJye7wUFmiLrGNdCtfAiM8EId0E35kVIXCgEBf6I8nuzQ
-         QJP2TWdcXNytr0zwQYmWklWkr+EbsMYlfQOLUzSIbjbooMiUphiMViB1X46QuWD4n28i
-         oAOJGR8grQLUjxu3lQ9QSxIyBUyV3kUcJpNnMyO2PoAvCf00+z+1zKOGqsB8TdbJJRfN
-         4CEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fYd2nLSJd2JtuXW4PvhhIc8hhI47lGgNieCsOyTTMr0=;
-        b=AXmutiAaCkgDm3IedhyGAdQDRD2TryhL1OuAACUqyVt8xvYNtmETlRUaVCfY/5wU8A
-         njvs1mePxPEAO3LtEyq6h5UX6zDIrWhvLsbSkLQ+S4xvBHmVSWLKpjhWficD176eFFuQ
-         sS48r3ZMJIPMWamkoYNd+3sO7M7LNBJY4rSVQQ55Fc9kNkMCAFthL1BMq8/6onstCnwa
-         uhy52RQEyzlaEgfu1Z4gKGpZ/W8b38ojilQxMlUmRrp4W62sy5KZzxKonyN2xfXNYGgM
-         pz7QGdEFRoOQboyFzv7MnDqx6ylpHIMPZA0jhyRfTPWcFhaReIada94o07Pnk1h+MXu7
-         y+2g==
-X-Gm-Message-State: APjAAAXypKQ09oslR07z9en+6/MKGqPin/sy6lAZ0COBzj+LWP+3TIBf
-        CGg069gsOybVNldt8Xt/PUMsodbz5Xsia5CKrfhrkg==
-X-Google-Smtp-Source: APXvYqwLMvAHfv1sTx1VayA6+S8cQcR7JuRg+X1Ptd3HNI8mYyOl8QVHTULib9r0UUHpDw87A4OVj6OpjaUTXjpkh2A=
-X-Received: by 2002:a5d:518f:: with SMTP id k15mr23509522wrv.321.1562077403779;
- Tue, 02 Jul 2019 07:23:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <000000000000089d7f058683115e@google.com> <20190702140211.28399-1-tranmanphong@gmail.com>
-In-Reply-To: <20190702140211.28399-1-tranmanphong@gmail.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Tue, 2 Jul 2019 16:23:11 +0200
-Message-ID: <CAG_fn=VHpZW69TfK35aqL7o6CvgsPazL5raeW1QmWpu9ReYkhw@mail.gmail.com>
-Subject: Re: [PATCH] media: usb: technisat-usb2: fix buffer overflow
-To:     Phong Tran <tranmanphong@gmail.com>
-Cc:     syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com,
-        Andrey Konovalov <andreyknvl@google.com>,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-        Kees Cook <keescook@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1726283AbfGBOqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jul 2019 10:46:55 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:45626 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbfGBOqz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 10:46:55 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id A9D786083E; Tue,  2 Jul 2019 14:46:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1562078814;
+        bh=GL5oxwciHlPA4OKTaH0DTDL7syhHG0cECRKJ9aG3R9M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a+Z9cFdlhKPQwzMIsRxLHEH3TpnV8NRbwR/8+QhI7YAn5uPsI0Jx424723D6+uFYh
+         nE9OcXG1Uag94sQ9ZwYNvw3t1wseLY1Enw5Sy/M9bcvqTP1e+MTzASeRzt8LT2+Ez0
+         DN2fs6orHEsIQAyCTceQiogti/BilIF43KrHvbtU=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 401436025A;
+        Tue,  2 Jul 2019 14:46:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1562078814;
+        bh=GL5oxwciHlPA4OKTaH0DTDL7syhHG0cECRKJ9aG3R9M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=a+Z9cFdlhKPQwzMIsRxLHEH3TpnV8NRbwR/8+QhI7YAn5uPsI0Jx424723D6+uFYh
+         nE9OcXG1Uag94sQ9ZwYNvw3t1wseLY1Enw5Sy/M9bcvqTP1e+MTzASeRzt8LT2+Ez0
+         DN2fs6orHEsIQAyCTceQiogti/BilIF43KrHvbtU=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 401436025A
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [PATCH v4 0/4] media: venus: Update clock scaling and core selection
+Date:   Tue,  2 Jul 2019 20:16:23 +0530
+Message-Id: <1562078787-516-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 2, 2019 at 4:02 PM Phong Tran <tranmanphong@gmail.com> wrote:
->
-> The buffer will be overflow in case of the while loop can not break.
-> Add the checking buffer condition in while loop for avoiding
-> overlooping index.
->
-> This issue was reported by syzbot
->
-> Reported-by: syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com
->
-> Tested by:
-> https://groups.google.com/d/msg/syzkaller-bugs/CySBCKuUOOs/0hKq1CdjCwAJ
->
-> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
-> ---
->  drivers/media/usb/dvb-usb/technisat-usb2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/u=
-sb/dvb-usb/technisat-usb2.c
-> index c659e18b358b..4e0b6185666a 100644
-> --- a/drivers/media/usb/dvb-usb/technisat-usb2.c
-> +++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> @@ -655,7 +655,7 @@ static int technisat_usb2_get_ir(struct dvb_usb_devic=
-e *d)
->  #endif
->
->         ev.pulse =3D 0;
-> -       while (1) {
-> +       while (b !=3D (buf + 63)) {
-I think it won't hurt to either use ARRAY_SIZE here, or define some
-magic constant for the buffer size in struct technisat_usb2_state.
+In this patch series, clock scaling and core selection methods are
+updated. Current clock scaling and core selection methods are same
+for vpu4 and previous versions. Introducing load calculations using
+vpp cycles, which indicates the cycles required by video hardware to
+process each macroblock. Also adding vsp cycles, cycles require by
+stream processor. Clock scaling is now done more precisely using vpp
+and vsp cycles. Instance is assigned to core with minimum load, instead
+of static assignment.
 
->                 ev.pulse =3D !ev.pulse;
->                 ev.duration =3D (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_C=
-LOCK_TICK) / 1000;
->                 ir_raw_event_store(d->rc_dev, &ev);
-> --
-> 2.11.0
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/syzkaller-bugs/20190702140211.28399-1-tranmanphong%40gmail.com.
-> For more options, visit https://groups.google.com/d/optout.
+Changes since v3:
+ - vsp_cycles and vpp_cyles are now unsigned long.
+ - Core number counting aligned with VIDC_CORE_ID_.
+ - Aligned hardware overload handling of scale_clocks_v4 with scale_clocks.
+ - Added bitrate based clock scaling patch in this patch series.
+ - Instance state check is now moved from scale_clocks to load_scale_clocks.
 
+Aniket Masule (4):
+  media: venus: Add codec data table
+  media: venus: Update clock scaling
+  media: venus: Update to bitrate based clock scaling
+  media: venus: Update core selection
 
+ drivers/media/platform/qcom/venus/core.c       |  13 ++
+ drivers/media/platform/qcom/venus/core.h       |  16 ++
+ drivers/media/platform/qcom/venus/helpers.c    | 213 +++++++++++++++++++++++--
+ drivers/media/platform/qcom/venus/helpers.h    |   3 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h |   1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h |   5 +
+ drivers/media/platform/qcom/venus/vdec.c       |   6 +-
+ drivers/media/platform/qcom/venus/venc.c       |   6 +-
+ 8 files changed, 250 insertions(+), 13 deletions(-)
 
---=20
-Alexander Potapenko
-Software Engineer
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
