@@ -2,115 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F9E5CCE1
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 11:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3125CCF6
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 11:51:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726793AbfGBJsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 05:48:55 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42392 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbfGBJsu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 05:48:50 -0400
-Received: by mail-wr1-f66.google.com with SMTP id x17so16991386wrl.9
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 02:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UdYCIZGQ7tAt7A88vWqWA422Qpx5IuQReKn9P3m3xX8=;
-        b=PZuM9EJbQb3YhMp+qaw+VF6BwkhSSyYMquhljCcVZSO+tjIcy06ofVIGPbwYNmREXi
-         pRcuGFWqgU+nSlEobDVIi97m26fD20LGHZVCL/m/+eGewb0yAO7NlvlF/9gBYN5Rgy0B
-         UVcUnIeulg2Ui8pzjNF76wVB55J/p/3pN/YrI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UdYCIZGQ7tAt7A88vWqWA422Qpx5IuQReKn9P3m3xX8=;
-        b=Q0lI3Fgqbe5Ed3TS0jCf3azjn9lMWo9KtP/gvZnAgKdOwfivF2tJcggCRIRcWuXlzX
-         WWE4Xks0Iq/La+ymmJqF0K4JzX7TkOIdrhyZBtf/lXWpUyH1G46/yUhCsxzKvM9j/iif
-         bWSUHSm1w7zh0URx3AIHLnZ53N7GpCb23zE7RVyJ/waqURFfX7SVniVwaslwFaPamptL
-         zVEdEH9RecKqN9rZ5Loudu1U5mmcDXzBs0QiUBnAbh1Q49NkJqys0rmdMoSpuigiIAqe
-         opc9SEfL7XmtvvsxsoZ2+P0Y1dDvQwoOOffEP1K8bS3Sy7OUjQoMq/Oc18M+EJKxrVS1
-         xofg==
-X-Gm-Message-State: APjAAAWd7rBREaRt+m8QiRDdw8juXVAKdU8N4ZJg8ARP+zreP0DODYDc
-        YL7fkla6PEMhdvnUJUm6vLsNf1+9nAgw66rKCwduZWCr+d/IoJw5ECDPbh3l8809NH2+q4a0cEd
-        a2F9HXLnmSh0RSTGDhi3RhgDcCq9B0ehEthS6zxQcN4DPOCG7Y3MFP10yckCAx3Gw8Z0pUqdxhy
-        IkLi4TdoXkug==
-X-Google-Smtp-Source: APXvYqw+cs3wphtlInYiqa/iYYLL5YBkbuaWsrCFwdpkqDK8kfUrPvl8YI8TNOvUo+26MvPNs1E1Ng==
-X-Received: by 2002:adf:9487:: with SMTP id 7mr9588274wrr.114.1562060928176;
-        Tue, 02 Jul 2019 02:48:48 -0700 (PDT)
-Received: from [10.176.68.244] ([192.19.248.250])
-        by smtp.gmail.com with ESMTPSA id l124sm2421987wmf.36.2019.07.02.02.48.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Jul 2019 02:48:47 -0700 (PDT)
-Subject: Re: use exact allocation for dma coherent memory
-To:     Christoph Hellwig <hch@lst.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ian Abbott <abbotti@mev.co.uk>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>
-Cc:     devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-mm@kvack.org, iommu@lists.linux-foundation.org,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-References: <20190614134726.3827-1-hch@lst.de> <20190701084833.GA22927@lst.de>
-From:   Arend Van Spriel <arend.vanspriel@broadcom.com>
-Message-ID: <74eb9d99-6aa6-d1ad-e66d-6cc9c496b2f3@broadcom.com>
-Date:   Tue, 2 Jul 2019 11:48:44 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726621AbfGBJvi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jul 2019 05:51:38 -0400
+Received: from mout.gmx.net ([212.227.15.19]:45561 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725868AbfGBJvh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Jul 2019 05:51:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1562061072;
+        bh=FGM5WXyOI1pXMifsCCwhO9soc1ANArWFrlQ2lZN8tTQ=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=CN/HkxfCLv1B4CD87a9WrW6LKKkgb0CwQ3XEaBmdDQ3ObqzNk5DLrG0kALBpaOjWw
+         uA043edWLxP62RdSCvDQjGDmwLeAzpWQ7IK0gJ2qFvait18MWgfcO2riRf9tz6gE31
+         5O31tl9G//BCar1XWX38JIf6kyd7An6k+1DLg4Wc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx003
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0Lvkwm-1icWvk2Pds-017RP0; Tue, 02
+ Jul 2019 11:51:12 +0200
+Date:   Tue, 2 Jul 2019 11:51:09 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brad Love <brad@nextdimension.cc>
+Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
+Message-ID: <20190702095109.GC22408@latitude>
+References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
 MIME-Version: 1.0
-In-Reply-To: <20190701084833.GA22927@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mojUlQ0s9EVzWg2t"
+Content-Disposition: inline
+In-Reply-To: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:meVnSL0vkDuUwFstQh5OanUzm5dthphT8V4mbTD14FxbGuHVDs6
+ FeqySYV+ms5Yw43+AuYlRt9/9CHHw4z1szwTYsUW2yemNKOomvosKKGm2dhcKMJs7cGyKfP
+ auUSUdQJsVEcZsmoiXExB6vQDesJoobtg2sy1Qd6IWVkKZUGtu4zzo3srS+11sQlEHN1qau
+ e+fzYIbkty7SjWbfhnRew==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1037Dn98csI=:xzpDmgYxeaJVGHc3FJvXiN
+ bJIQpn/qbD55TI5fpa4LXWOS78BYLi8v/denNJu9at/B5LpDuXSi1Rhfu+8G39yNyvkHr62zK
+ JD/Ozn1TKpuaJcMFzimWL6EzoMMnnqQH9rCdOfUOE4s3bw3jjSkpvC1qg9Cc0xXpDlmtPSNSP
+ 5zT5+BCxv08oZNjcxJF8deFxVnJ4PT9k20PM9pvq/lkFVDcXYy0e2ADXBDKu+Wrke0WqOiRrs
+ OLKxG5PfSHvtfqn2DZNeRiCVlk38kcnVnE7Dbtym5G7AJxZQAPe0tjnw+82tzReiardtZgU3f
+ QmLJWKCyhUTPI9QGjRTz2cXd6RSO7gp8/nS+wN4ipQj60KEgOUnvQVsUOouvvpD4djOGhSaUJ
+ 9h9Mzp0EuDV8ZMrSaMupvNLjMpHDpBQ5OpYYECOZEKWARmVfbn06B0xzI7/sVccFG/hr3AYl1
+ 8kASndiedP/ulQRncXEBKfYpOsFtJ9xIJB7Lr0LTPk01dWAXiA369L9n0B3GNVK98enOFkZyl
+ 1TFs6DPR2Iy98xIdShnZRcOKydA0+Nj4Wn4UkoU+ydp3AzsVogkb8n8l1hUQOmcuBSGHF2PKp
+ 5mSOPre4Jp32M8Zp5mU4YnPlOg6rLUqQvDECUPOdqaXB8QrzlsTtY2PGiVMSVz81uuFriZyD9
+ ulrJPwuM7gFZQP23+lRl1y7YV2Il+iX/6V9rFGb3XQ8bzqZQlNSrSurCds+OTSZ4EyRG1y5OA
+ /guTzcwqax9wu6zVE78ogzCyXiMU7BM2Jz4de7t4uAEPV0WZdN+LlTpKjpy8PO67/xDsvBxSB
+ YFo0afMkK7rmmcjwu1fIehylG0sWuA7gsTo3j6FBhj3HxTHIgI3+zEsnaEet1PDz4bYEKf1Gl
+ nEqIlAOP3XUxhAV8EYI1DrD7QAO+6SSlEBZskNR0padkK1UjX6mB7XIEduUcv/rSgNsxVC5mj
+ BWFAMNVtrJa3wpFScEdqpFJPxFxBP8UM+sDOpQEZfmbjIwmitPwlTJF8cOXSkalgEsyJswD+y
+ 88TGH8Sc5qzpn4mM6noKsJi0yqQE3tbxbY1Izo7mEutSWTmSm+N3q4bp3fmDXFbh4mBlIzj2j
+ YhlNUT6b/2ndtU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+--mojUlQ0s9EVzWg2t
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/1/2019 10:48 AM, Christoph Hellwig wrote:
-> On Fri, Jun 14, 2019 at 03:47:10PM +0200, Christoph Hellwig wrote:
->> Switching to a slightly cleaned up alloc_pages_exact is pretty easy,
->> but it turns out that because we didn't filter valid gfp_t flags
->> on the DMA allocator, a bunch of drivers were passing __GFP_COMP
->> to it, which is rather bogus in too many ways to explain.  Arm has
->> been filtering it for a while, but this series instead tries to fix
->> the drivers and warn when __GFP_COMP is passed, which makes it much
->> larger than just adding the functionality.
-> 
-> Dear driver maintainers,
-> 
-> can you look over the patches touching your drivers, please?  I'd
-> like to get as much as possible of the driver patches into this
-> merge window, so that it can you through your maintainer trees.
+Hi,
 
-You made me look ;-) Actually not touching my drivers so I'm off the 
-hook. However, I was wondering if drivers could know so I decided to 
-look into the DMA-API.txt documentation which currently states:
+On Mon, Jul 01, 2019 at 01:44:09PM +0200, Marc Gonzalez wrote:
+> By refactoring the command setup code, we can let the compiler
+> determine the size of each command.
 
-"""
-The flag parameter (dma_alloc_coherent() only) allows the caller to
-specify the ``GFP_`` flags (see kmalloc()) for the allocation (the
-implementation may choose to ignore flags that affect the location of
-the returned memory, like GFP_DMA).
-"""
+I like the idea, it definitely saves some code.
 
-I do expect you are going to change that description as well now that 
-you are going to issue a warning on __GFP_COMP. Maybe include that in 
-patch 15/16 where you introduce that warning.
+The conversion also looks correct.
 
-Regards,
-Arend
+> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+> ---
+>  drivers/media/dvb-frontends/si2168.c | 142 ++++++++-------------------
+>  1 file changed, 41 insertions(+), 101 deletions(-)
+>=20
+> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-fro=
+ntends/si2168.c
+> index 168c503e9154..19398f041c79 100644
+> --- a/drivers/media/dvb-frontends/si2168.c
+> +++ b/drivers/media/dvb-frontends/si2168.c
+> @@ -11,6 +11,12 @@
+> =20
+>  static const struct dvb_frontend_ops si2168_ops;
+> =20
+> +#define CMD_SETUP(cmd, __args, __rlen) do {	\
+> +	int wlen =3D sizeof(__args) - 1;		\
+> +	memcpy(cmd.args, __args, wlen);		\
+> +	cmd.wlen =3D wlen; cmd.rlen =3D __rlen;	\
+> +} while (0)
+
+It would be nice for casual readers to have a little comment here, that
+explains (briefly) what this macro does, and what the arguments mean,
+and their types.
+
+Why cmd rather than __cmd? This seems inconsistent.
+
+The wlen local variable can be avoided by a bit of suffling:
+
+	#define CMD_SETUP(cmd, __args, __rlen) do {	\
+		cmd.rlen =3D __rlen;			\
+		cmd.wlen =3D sizeof(__args) - 1;		\
+		memcpy(cmd.args, __args, cmd.wlen);	\
+	} while (0)
+
+
+[from the other mail]
+> I'm planning on sending a v2 where drivers/media/tuners/si2157.c
+> is refactored the same way.
+
+Makes sense.
+
+> Not sure where to store the macro. Maybe include/media/dvb_frontend.h?
+
+Then include/media/dvb_frontend.h would contain information about the
+private structs of a few (two) drivers. This doesn't seem like a good
+idea to me.
+
+
+Greetings,
+Jonathan Neusch=C3=A4fer
+
+--mojUlQ0s9EVzWg2t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl0bKMwACgkQCDBEmo7z
+X9v5PhAA0ywTpuolHgb0WWPyGBKYIBUbCWzyB7tfctjB1AIjKcW2/Y3pNYuAB/rQ
+AfguO8KOAP48SZD29BEYvlOIfY7xZ6MJs39cMfJbuV8YahtJZ79T6oEDFzblXo9o
+KB800d2BBB6O1tffQH465mOxHjsD32hTzRT+QZsPljNIi3x24ujBVhP6LqGjJI3z
+imBmoUuwk8RVoSFrrxWrhJuQ5OtbSxRn/oZ3A/GMXrx9RpOU62H63brSEDEv6vzw
+CpfqaIkEvpDPbbo7BZj37LYqUOWlbi/MnC5O5l0HbXbp7+xnJZcNdn6EsE+6E08S
+cbH1ySFBHp17zZdBtv4qu3zwULGNPCvM8iN1WNf3rI1U1iTjfqZmZcJkTHCRmdMh
+bSQ/EAQSEm5KTAIAvA2X62/x5SAsRursdejB7q8aLPJ6y6wKsQoN0wPGtJqT9DBQ
+I5FnKjJ7NbHpcBH8Fg2kyZxLJUVyiAcnoseKnvorRfJ+Au2TBlXc9k3NnCoZIAPs
+sP19WmTDeh3KLU24Otumut9qB5KveR763T9I0u2U9wBwgK3NJw/+S+6Y2XPUxrNW
+ArlOEtFaEi7Lznv9PmWfgyvKZz9WI24tpRPn0B//3OoYZ1la1ZboJICyeUJ8/sNc
+tZVA1Ylz3xlhzUnU2HaQ2sxwhvZzPFEv/I8EI80M90NHeCqPd5M=
+=aW/y
+-----END PGP SIGNATURE-----
+
+--mojUlQ0s9EVzWg2t--
