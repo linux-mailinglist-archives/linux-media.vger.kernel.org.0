@@ -2,73 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C10485CC1A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 10:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3E3B5CC3A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 10:51:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbfGBIhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 04:37:32 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:56440 "EHLO ns.iliad.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725940AbfGBIhc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Jul 2019 04:37:32 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id EC3B720BC5;
-        Tue,  2 Jul 2019 10:37:28 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id 74BF22079D;
-        Tue,  2 Jul 2019 10:37:28 +0200 (CEST)
-Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-To:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Brad Love <brad@nextdimension.cc>
-References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
-Message-ID: <5cdfcd0d-067b-16f0-1860-36997c1f04ee@free.fr>
-Date:   Tue, 2 Jul 2019 10:37:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726105AbfGBIvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jul 2019 04:51:53 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:35627 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbfGBIvx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 04:51:53 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4D38520011;
+        Tue,  2 Jul 2019 08:51:48 +0000 (UTC)
+Date:   Tue, 2 Jul 2019 10:53:04 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-vin: Clean up correct notifier in error path
+Message-ID: <20190702085304.qisp4d3hsyw5hdeo@uno.localdomain>
+References: <20190702012458.31828-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Tue Jul  2 10:37:28 2019 +0200 (CEST)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="olz4acqeb6axyovd"
+Content-Disposition: inline
+In-Reply-To: <20190702012458.31828-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/07/2019 13:44, Marc Gonzalez wrote:
 
-> By refactoring the command setup code, we can let the compiler
-> determine the size of each command.
-> 
-> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+--olz4acqeb6axyovd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Niklas,
+
+On Tue, Jul 02, 2019 at 03:24:58AM +0200, Niklas S=C3=B6derlund wrote:
+> When adding the v4l2_async_notifier_cleanup() callas the wrong notifier
+
+I would re-word this by removing "When adding" (and fix the 'callas'
+Sergei noticed here) with something along the lines of:
+
+"The parallel input initialization error path cleans up the wrong
+async notifier, leaking the resources associated with the one whose
+registration actually failed.
+
+Fix this by cleaning up the correct notifier in the parallel input
+registration error handling."
+
+What do you think?
+
+> was cleaned up if the parallel notifier registration failed. Fix this by
+> cleaning up the correct one.
+>
+> Fixes: 9863bc8695bc36e3 ("media: rcar-vin: Cleanup notifier in error path=
+")
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+
+The patch itself is good! Nice catch!
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
 > ---
->  drivers/media/dvb-frontends/si2168.c | 142 ++++++++-------------------
->  1 file changed, 41 insertions(+), 101 deletions(-)
-> 
-> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-> index 168c503e9154..19398f041c79 100644
-> --- a/drivers/media/dvb-frontends/si2168.c
-> +++ b/drivers/media/dvb-frontends/si2168.c
-> @@ -11,6 +11,12 @@
->  
->  static const struct dvb_frontend_ops si2168_ops;
->  
-> +#define CMD_SETUP(cmd, __args, __rlen) do {	\
-> +	int wlen = sizeof(__args) - 1;		\
-> +	memcpy(cmd.args, __args, wlen);		\
-> +	cmd.wlen = wlen; cmd.rlen = __rlen;	\
-> +} while (0)
-> +
+>  drivers/media/platform/rcar-vin/rcar-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/=
+platform/rcar-vin/rcar-core.c
+> index 64f9cf790445d14e..a6efe1a8099a6ae6 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -633,7 +633,7 @@ static int rvin_parallel_init(struct rvin_dev *vin)
+>  	ret =3D v4l2_async_notifier_register(&vin->v4l2_dev, &vin->notifier);
+>  	if (ret < 0) {
+>  		vin_err(vin, "Notifier registration failed\n");
+> -		v4l2_async_notifier_cleanup(&vin->group->notifier);
+> +		v4l2_async_notifier_cleanup(&vin->notifier);
+>  		return ret;
+>  	}
+>
+> --
+> 2.21.0
+>
 
-I'm planning on sending a v2 where drivers/media/tuners/si2157.c
-is refactored the same way. Not sure where to store the macro.
-Maybe include/media/dvb_frontend.h ?
+--olz4acqeb6axyovd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0bG3AACgkQcjQGjxah
+Vjxt+hAAnxIYsLLy6uo/ji4lZiE/4uxIOKBJJzz+TK9y9C3WO+F1SEAfgUQaFd++
+FeNJ6niBIi7jH+GhVfO/DvkCq3NxfHHCNQFY6EDaZGgZvNMfGtCmHvbpkJAVG4n4
+wfWXqPjsbBwngVq7jFbS1T5CehR3/J87QPcVUz3VkZsS7UU6XOjuqTcBbnHc/2Jc
+4dHzZ9uyGr9vzwTKC/Sv+6e6tSjUMyFKlZYuUGHMFCuu+I0N/f5RdjlDq3grxSnW
+zlVxddPythTSY8cE6g7axd511kRLHe67egivnmzRlyoPouizXMno98PQRvyH7J9Y
+T7vHa+F3fFwU41GprmLWWAWtXLX05hhZLUz5EsJi2ZaRRNj1A5zweGfv2TOjAIaS
+fveY4lOHf+rhe/zbzxcNfLexbfB3m70PCEvlpUX1Pm3m4hdFfSdp9fjnJwQCDSku
++uzt+QSvLtfNc88xK91iE053+YXUKt2j3zrjOaB+LwOwllZ54j4XZppXTnoyFa+v
+cc8758z2g/OpyHkTun9Gvdx7lMm76XLeHHlfK8q1/BT1FTrs/zwvgyAsaE8fB1Gt
+/aK2NfJ4N8rdv0o9jPE9Ht/0iGkoAA9cadyedjQsMkvRHjgLj6iTSASw61V0Mb0G
+zcZDPhDlRLHAkI4+N9A1No39OlU3eQDqm5t+fAHf+Ye46Dh+bmo=
+=IZal
+-----END PGP SIGNATURE-----
+
+--olz4acqeb6axyovd--
