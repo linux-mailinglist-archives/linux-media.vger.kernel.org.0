@@ -2,296 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8695CE75
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 13:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 292E95CEA4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 13:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbfGBLei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 07:34:38 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:38651 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725835AbfGBLei (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 07:34:38 -0400
-X-UUID: 2daf956da3294de5b005213141b0d2d2-20190702
-X-UUID: 2daf956da3294de5b005213141b0d2d2-20190702
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <jungo.lin@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 539351229; Tue, 02 Jul 2019 19:34:30 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 2 Jul 2019 19:34:27 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 2 Jul 2019 19:34:27 +0800
-Message-ID: <1562067267.1212.23.camel@mtksdccf07>
-Subject: Re: [RFC,v3 5/9] media: platform: Add Mediatek ISP P1 V4L2 control
-From:   Jungo Lin <jungo.lin@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     <hverkuil@xs4all.nl>, <laurent.pinchart@ideasonboard.com>,
-        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <srv_heupstream@mediatek.com>,
-        <ddavenport@chromium.org>, <robh@kernel.org>,
-        <sean.cheng@mediatek.com>, <sj.huang@mediatek.com>,
-        <frederic.chen@mediatek.com>, <ryan.yu@mediatek.com>,
-        <rynn.wu@mediatek.com>, <frankie.chiu@mediatek.com>
-Date:   Tue, 2 Jul 2019 19:34:27 +0800
-In-Reply-To: <20190701055053.GA137710@chromium.org>
-References: <jungo.lin@mediatek.com>
-         <20190611035344.29814-1-jungo.lin@mediatek.com>
-         <20190611035344.29814-6-jungo.lin@mediatek.com>
-         <20190701055053.GA137710@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        id S1726329AbfGBLm5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Jul 2019 07:42:57 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43702 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725767AbfGBLm5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 07:42:57 -0400
+Received: by mail-oi1-f193.google.com with SMTP id w79so12774096oif.10;
+        Tue, 02 Jul 2019 04:42:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bJI15M1lNesTntAXAM/ozuP5Ee6t6JIQ8B0NTdr6ieE=;
+        b=F/47u6PNIvhi3tgS3HK/OL68Q2MBHqoMxnznh+IWgIJf+ZIIKZx+1qc26l7T/5G7h5
+         gX84lencspLBchtCvCq428QVRDe1LTeaYPrQqku8dWIwd637//wfwXBC8vsGjPjjxycx
+         t6q6GscMil0Hso7qrXUfQMjSh2K5TIgtowXvprOv3Sf7hwMvo0h9fWLd7oZ4BUDE1FJR
+         FWFBdKhJfHUk+BTcj/Wc0cqTT4jwpDbuMdJf+BIZzGFs2bEXzwi0HpSUwkJKWHkUFfUo
+         x+HF6/+XdvIeTuO4FPWo4sAYbJX2uVZewCFa6H6MsAekNpf5TtBG37GGGbULJUKRLrwI
+         b1Tw==
+X-Gm-Message-State: APjAAAWv1wJmbQP3+sdomr8Z/pL4TGgPF5+oXrbYyq96llaqrfRKH+I7
+        ZnslErYLTs7l4NHGPg1NZhm/ppael4jTsgT+k/ZdBQZT
+X-Google-Smtp-Source: APXvYqwVEMx9Aretqzhmk+0YjG/If+fC6Y/QIzL8ZEUbzPTZtc+nWGFqjYfu6sgkbi8BsyCEtl+BLZP3XjW9Lbe8jnA=
+X-Received: by 2002:aca:bd43:: with SMTP id n64mr2510723oif.148.1562067776280;
+ Tue, 02 Jul 2019 04:42:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK:  N
+References: <20190702012458.31828-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190702012458.31828-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 2 Jul 2019 13:42:44 +0200
+Message-ID: <CAMuHMdUtVmmRNJCWnYHcNkxBCkV4xvbUBCNzhvxYuj4Vyx5Nsw@mail.gmail.com>
+Subject: Re: [PATCH] rcar-vin: Clean up correct notifier in error path
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Niklas,
 
-On Mon, 2019-07-01 at 14:50 +0900, Tomasz Figa wrote:
-> Hi Jungo,
-> 
-> On Tue, Jun 11, 2019 at 11:53:40AM +0800, Jungo Lin wrote:
-> > Reserved Mediatek ISP P1 V4L2 control number with 16.
-> > Moreover, add two V4L2 controls for ISP P1 user space
-> > usage.
-> > 
-> > 1. V4L2_CID_MTK_GET_BIN_INFO
-> > - Provide the image output width & height in case
-> > camera binning mode is enabled.
-> 
-> Could you explain with a bit more details what these binned width and height
-> would mean? How would they relate to the video CAPTURE node width and height?
-> Isn't this something that should be rather exposed as an appropriate
-> selection rectangle, instead of custom controls?
-> 
+On Tue, Jul 2, 2019 at 3:25 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When adding the v4l2_async_notifier_cleanup() callas the wrong notifier
+> was cleaned up if the parallel notifier registration failed. Fix this by
+> cleaning up the correct one.
+>
+> Fixes: 9863bc8695bc36e3 ("media: rcar-vin: Cleanup notifier in error path")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Frontal binning is Mediatek ISP P1 HW function and it is designed for
-low power saving. The input sensor resolution will be divided by 2
-including width & height in the source side of ISP HW and lower the
-overall ISP throughput. So the ISP clock could be running in the low
-speed for power saving. However, the image quality will be bad in this
-mode. If the frontal binning is enabled by ISP driver, user space 3A
-algorithm needs to know the new resolution of TG. Btw, current ISP
-driver doesn't support this function. We just export this V4L2 contorl
-for future support. But, after internal discussing, we will remove this
-v4l2 control in next patch.
+Thank you, this fixes the following boot regression on koelsch:
 
-> > 
-> > 2. V4L2_CID_MTK_RAW_PATH
-> > - Export the path control of the main stream to user space.
-> > One is pure raw and the other is processing raw.
-> > The default value is 0 which outputs the pure raw bayer image
-> > from sesnor, without image processing in ISP HW.
-> 
-> Is it just effectively a full processing bypass? The driver seems to only
-> update the related configuration when the streaming starts. Can it be
-> controlled per-frame?
-> 
-> Generally this sounds more like something that should be modelled using the
-> media topology, similar to the example below.
-> 
-> /----------------\   /-------------------\   /--------------\
-> |                |---|                   |   |              |
-> | Capture Subdev |   | Processing Subdev |-o-| CAPTURE node |
-> |                |-\ |                   | | |              |
-> \----------------/ | \-------------------/ | \--------------/
->                    |                       |
->                    \-----------------------/
-> 
-> Then the userspace can select whether it wants the image from the capture
-> interface directly or procesed by the ISP by configuring the media links
-> appropriately.
-> 
-> The current limitation of this model is that it can't be easily configured
-> per-frame, as media configurations are not included in the requests yet.
-> 
-> [snip]
-> 
+Unable to handle kernel NULL pointer dereference at virtual address 000001d8
+pgd = (ptrval)
+[000001d8] *pgd=00000000
+Internal error: Oops: 5 [#1] SMP ARM
+CPU: 1 PID: 1 Comm: swapper/0 Not tainted
+5.2.0-rc7-shmobile-07178-g1a639e48dea73e76 #280
+Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+PC is at __v4l2_async_notifier_cleanup+0xc/0x70
+LR is at v4l2_async_notifier_cleanup+0x1c/0x2c
+pc : [<c0556580>]    lr : [<c0556c78>]    psr: 20000013
+sp : eb08ddc8  ip : 00000000  fp : 00000018
+r10: 00000000  r9 : eb1a5410  r8 : c0c04c08
+r7 : eb1a5400  r6 : ffffffea  r5 : 000001c8  r4 : c0c61854
+r3 : eb08b740  r2 : 00000000  r1 : 00000000  r0 : 000001c8
+Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+Control: 10c5387d  Table: 4000406a  DAC: 00000051
+Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+Stack: (0xeb08ddc8 to 0xeb08e000)
+ddc0:                   c0c61854 000001c8 ffffffea eb1a5400 c0c04c08 c0556c78
+dde0: ea940040 ffffffea ffffffea c057661c c0575c9c c0ff7148 00000001 0286d9e6
+de00: 00000000 eb1a5410 00000000 c0c637bc c0cbe13c 00000000 c0c637bc 00000000
+de20: 00000018 c04408b4 eb1a5410 00000000 c0cbe24c c043ef0c eb1a5410 c0c637bc
+de40: c0c637bc c043f4f8 00000000 c0b54844 c0b6f4b0 c043f354 c0c637bc eb1a5410
+de60: 00000000 00000000 eb1a5410 c0c637bc c043f4f8 00000000 c0b54844 c043f4e0
+de80: 00000000 eb1a5410 c0c637bc c043f5a4 eb1a5410 c0c04c08 c0c637bc c043d6c4
+dea0: c0b6f4b0 eb150f58 eb1aefb4 0286d9e6 00000000 c0c637bc ea956f80 00000000
+dec0: c0c51c50 c043ddf4 c09c6620 c09c6621 00000072 c0c637bc c0c7c840 c0c04c08
+dee0: c0b34c88 c043ffc0 ffffe000 c0c7c840 c0c04c08 c0b01050 00000000 c09fa420
+df00: 00000000 c013ad00 00000000 c0b0078c c09f93a4 000000d4 00000006 00000006
+df20: 00000000 c09fa434 000000d3 c09fa434 c0b54820 ebfffbe9 ebfffbf1 0286d9e6
+df40: 00000000 0286d9e6 c0c7c840 00000007 c0c7c840 c0c83f00 c0b5483c c0c83f00
+df60: c0b54844 c0b013ec 00000006 00000006 00000000 c0b0078c c074a3d0 000000d4
+df80: 00000000 00000000 c074a3d0 00000000 00000000 00000000 00000000 00000000
+dfa0: 00000000 c074a3d8 00000000 c01010e8 00000000 00000000 00000000 00000000
+dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+dfe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
+[<c0556580>] (__v4l2_async_notifier_cleanup) from [<c0556c78>]
+(v4l2_async_notifier_cleanup+0x1c/0x2c)
+[<c0556c78>] (v4l2_async_notifier_cleanup) from [<c057661c>]
+(rcar_vin_probe+0x4f8/0x5a4)
+[<c057661c>] (rcar_vin_probe) from [<c04408b4>] (platform_drv_probe+0x48/0x94)
+[<c04408b4>] (platform_drv_probe) from [<c043ef0c>] (really_probe+0x1f0/0x2b8)
+[<c043ef0c>] (really_probe) from [<c043f354>] (driver_probe_device+0x140/0x15c)
+[<c043f354>] (driver_probe_device) from [<c043f4e0>]
+(device_driver_attach+0x44/0x5c)
+[<c043f4e0>] (device_driver_attach) from [<c043f5a4>]
+(__driver_attach+0xac/0xb4)
+[<c043f5a4>] (__driver_attach) from [<c043d6c4>] (bus_for_each_dev+0x64/0xa0)
+[<c043d6c4>] (bus_for_each_dev) from [<c043ddf4>] (bus_add_driver+0x148/0x1a8)
+[<c043ddf4>] (bus_add_driver) from [<c043ffc0>] (driver_register+0xac/0xf0)
+[<c043ffc0>] (driver_register) from [<c0b01050>] (do_one_initcall+0xa8/0x1d4)
+[<c0b01050>] (do_one_initcall) from [<c0b013ec>]
+(kernel_init_freeable+0x270/0x2cc)
+[<c0b013ec>] (kernel_init_freeable) from [<c074a3d8>] (kernel_init+0x8/0x10c)
+[<c074a3d8>] (kernel_init) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
 
-For this V4L2 control, it is designed for per stream, not per frame and
-just implemented for future usage. As the same conclusion with the above
-one, we will remove this, either in current version. If we have strong
-requirement on this, we could adopt your suggestion to use media
-topology to per stream control.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
 
-> > +static int handle_ctrl_get_bin_info(struct v4l2_ctrl *ctrl, int is_width)
-> > +{
-> > +	struct mtk_cam_dev *cam_dev = ctrl->priv;
-> > +	struct v4l2_format *fmt;
-> > +
-> > +	fmt = &cam_dev->vdev_nodes[MTK_CAM_P1_MAIN_STREAM_OUT].vdev_fmt;
-> > +
-> > +	dev_dbg(&cam_dev->pdev->dev, "Get bin info w*h:%d*%d is_width:%d",
-> > +		fmt->fmt.pix_mp.width, fmt->fmt.pix_mp.height, is_width);
-> > +
-> > +	if (is_width)
-> > +		ctrl->val = fmt->fmt.pix_mp.width;
-> > +	else
-> > +		ctrl->val = fmt->fmt.pix_mp.height;
-> 
-> This seems to contradict to what the comment in the header says, because it just
-> always returns the video node format and doesn't seem to care about whether
-> binning is enabled or not.
-> 
+                        Geert
 
-This is because binning mode is not supported in current driver's
-implementation and no request on this function. We just create this for
-future usage. In order to avoid confusion, we will remove this.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int handle_ctrl_get_process_raw(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	struct mtk_cam_dev *cam_dev = ctrl->priv;
-> > +	struct isp_p1_device *p1_dev = get_p1_device(&cam_dev->pdev->dev);
-> > +
-> > +	ctrl->val = (p1_dev->isp_ctx.isp_raw_path == ISP_PROCESS_RAW_PATH);
-> > +
-> > +	dev_dbg(&cam_dev->pdev->dev, "Get process raw:%d", ctrl->val);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int handle_ctrl_set_process_raw(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	struct mtk_cam_dev *cam_dev = ctrl->priv;
-> > +	struct isp_p1_device *p1_dev = get_p1_device(&cam_dev->pdev->dev);
-> > +
-> > +	p1_dev->isp_ctx.isp_raw_path = (ctrl->val) ?
-> > +		ISP_PROCESS_RAW_PATH : ISP_PURE_RAW_PATH;
-> > +	dev_dbg(&cam_dev->pdev->dev, "Set process raw:%d", ctrl->val);
-> > +	return 0;
-> > +}
-> > +
-> > +static int mtk_cam_dev_g_ctrl(struct v4l2_ctrl *ctrl)
-> 
-> This is g_volatile_ctrl not, g_ctrl.
-> 
-
-Ok, thanks for your correction.
-
-> > +{
-> > +	switch (ctrl->id) {
-> > +	case V4L2_CID_MTK_PROCESSING_RAW:
-> > +		handle_ctrl_get_process_raw(ctrl);
-> > +		break;
-> 
-> No need to provide getters for non-volatile controls. The
-> framework manages them.
-> 
-
-Ok, thanks for your correction.
-
-> > +	case V4L2_CID_MTK_GET_BIN_WIDTH:
-> > +		handle_ctrl_get_bin_info(ctrl, 1);
-> > +		break;
-> > +	case V4L2_CID_MTK_GET_BIN_HEIGTH:
-> > +		handle_ctrl_get_bin_info(ctrl, 0);
-> 
-> It's trivial to get the value, so there isn't much benefit in having a
-> function to do so, especially if one needs something like a is_width
-> argument that further complicates the code.
-> 
-
-Ok, we will pay attention in this of implementation next time.
-
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static int mtk_cam_dev_s_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	switch (ctrl->id) {
-> > +	case V4L2_CID_MTK_PROCESSING_RAW:
-> > +		return handle_ctrl_set_process_raw(ctrl);
-> 
-> Same as above. The operation is too trivial to deserve a function.
-> 
-
-Ok, got it.
-
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +}
-> > +
-> > +static const struct v4l2_ctrl_ops mtk_cam_dev_ctrl_ops = {
-> > +	.g_volatile_ctrl = mtk_cam_dev_g_ctrl,
-> > +	.s_ctrl = mtk_cam_dev_s_ctrl,
-> > +};
-> > +
-> > +struct v4l2_ctrl_config mtk_cam_controls[] = {
-> > +	{
-> > +	.ops = &mtk_cam_dev_ctrl_ops,
-> > +	.id = V4L2_CID_MTK_PROCESSING_RAW,
-> > +	.name = "MTK CAM PROCESSING RAW",
-> > +	.type = V4L2_CTRL_TYPE_BOOLEAN,
-> > +	.min = 0,
-> > +	.max = 1,
-> > +	.step = 1,
-> > +	.def = 1,
-> > +	},
-> > +	{
-> > +	.ops = &mtk_cam_dev_ctrl_ops,
-> > +	.id = V4L2_CID_MTK_GET_BIN_WIDTH,
-> > +	.name = "MTK CAM GET BIN WIDTH",
-> > +	.type = V4L2_CTRL_TYPE_INTEGER,
-> > +	.min = IMG_MIN_WIDTH,
-> > +	.max = IMG_MAX_WIDTH,
-> > +	.step = 1,
-> > +	.def = IMG_MAX_WIDTH,
-> > +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE,
-> > +	},
-> > +	{
-> > +	.ops = &mtk_cam_dev_ctrl_ops,
-> > +	.id = V4L2_CID_MTK_GET_BIN_HEIGTH,
-> > +	.name = "MTK CAM GET BIN HEIGHT",
-> > +	.type = V4L2_CTRL_TYPE_INTEGER,
-> > +	.min = IMG_MIN_HEIGHT,
-> > +	.max = IMG_MAX_HEIGHT,
-> > +	.step = 1,
-> > +	.def = IMG_MAX_HEIGHT,
-> > +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE,
-> > +	},
-> > +};
-> > +
-> > +int mtk_cam_ctrl_init(struct mtk_cam_dev *cam_dev,
-> > +		      struct v4l2_ctrl_handler *hdl)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	/* Initialized HW controls, allow V4L2_CID_MTK_CAM_MAX ctrls */
-> > +	v4l2_ctrl_handler_init(hdl, V4L2_CID_MTK_CAM_MAX);
-> > +	if (hdl->error) {
-> 
-> This should be checked at the end, after all the controls are added.
-> 
-
-Ok, got it.
-
-> Best regards,
-> Tomasz
-> 
-
-Based on above comments, we will remove mtk_cam_ctrl.h & mtk_cam_ctrl.c
-in next patch to avoid over design.
-
-Thanks for your comments.
-
-Jungo
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
