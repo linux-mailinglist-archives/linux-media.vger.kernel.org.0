@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC2605C88E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 06:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04FFD5C891
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2019 07:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725834AbfGBE7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 00:59:12 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:60652 "EHLO
+        id S1725858AbfGBFBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jul 2019 01:01:31 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:33060 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfGBE7M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 00:59:12 -0400
+        with ESMTP id S1725775AbfGBFBb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 01:01:31 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 13CE1607DF; Tue,  2 Jul 2019 04:59:11 +0000 (UTC)
+        id 2987360770; Tue,  2 Jul 2019 05:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1562043551;
-        bh=HlBgcWJfLH6tBKexfCh53i9VEnoSJ9mvKfmC1cDITKs=;
+        s=default; t=1562043690;
+        bh=MOZmCvb+bcIg5XJ8fWmeo5gbTeE4X7ygn6TBMbE8pUo=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EH5NTaxoWidpgrsa5p2PUhX+1WCW+kPGAKNEoP7PSryrrrpE6PInf02Vcb4Zbuf/U
-         zvz3SIMcOy6YVBdSjYLj2j0c4Zpw6fdqV8FIm7UxegeGxLwsC/TSG3TfSBJ8pirxPb
-         HWObzGNXlt9YlSSuM+oB/smBCJB1FP2GBkPYP3Vc=
+        b=kBSW2QiF6SlRIsPqJzwjzEcLTAaIViny/ZgBa18b56VEDzjCmzXJgMS0yrvQuPhSF
+         TaIxCiV1+N4dpyuZ460ocXcYWoqa2ro0qM8iWKkdOXG5QuXsknAPPrdoc+oH2sOg5r
+         Xr/hx8TKjkjoOGuMdTbJWqSzw7DAZyXz8S+lC+yk=
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
         pdx-caf-mail.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
         DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.codeaurora.org (Postfix) with ESMTP id 1C117602BC;
-        Tue,  2 Jul 2019 04:59:10 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTP id 92193602BC;
+        Tue,  2 Jul 2019 05:01:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1562043550;
-        bh=HlBgcWJfLH6tBKexfCh53i9VEnoSJ9mvKfmC1cDITKs=;
+        s=default; t=1562043689;
+        bh=MOZmCvb+bcIg5XJ8fWmeo5gbTeE4X7ygn6TBMbE8pUo=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=h3Ta2SLMWeJcOt6kXM0LCkvCwT046gOOmcB8bPxhDb7oHdaGIHLBbaopzG9R5/bN8
-         szxUy6shIdZfoqZuHDk8fUZzfZ81zKwVmkoJhDN9jEaN6Dnfz8gsUbIMG8pWKTzOP9
-         SPpL9zzykXmi0NUAT0cL01zJc/JHGkpGoatpD9So=
+        b=QHAdkRUjJNugmQ0ymxI0LeB3hAEv6dYqcabTxl2TLlu3jw7N2Diw4PoDiNA8WHJcx
+         YtlqMWmjfaeWzoWO10HnMZ03VELQOqG7F2Hrn/8FidQLDTVGfdxRglSiTUhCEvNA0L
+         JRgYRRoNbVwvvN/Y1DAFZaQZaRfDAGs1Xk8hTWkc=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date:   Tue, 02 Jul 2019 10:29:10 +0530
+Date:   Tue, 02 Jul 2019 10:31:29 +0530
 From:   amasule@codeaurora.org
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, vgarodia@codeaurora.org
-Subject: Re: [PATCH v3 2/4] media: venus: Update clock scaling
-In-Reply-To: <69610fc3-5333-ccc6-316f-aee96dc11150@linaro.org>
+Subject: Re: [PATCH v3 4/4] media: venus: Update core selection
+In-Reply-To: <ac2170e6-6925-bfaf-523d-9e412d9ac1a7@linaro.org>
 References: <1561480044-11834-1-git-send-email-amasule@codeaurora.org>
- <1561480044-11834-3-git-send-email-amasule@codeaurora.org>
- <69610fc3-5333-ccc6-316f-aee96dc11150@linaro.org>
-Message-ID: <84a42501461f4aee29815a0609fdef8d@codeaurora.org>
+ <1561480044-11834-5-git-send-email-amasule@codeaurora.org>
+ <ac2170e6-6925-bfaf-523d-9e412d9ac1a7@linaro.org>
+Message-ID: <7627ed02d907b6e03de895b38f82f1f3@codeaurora.org>
 X-Sender: amasule@codeaurora.org
 User-Agent: Roundcube Webmail/1.2.5
 Sender: linux-media-owner@vger.kernel.org
@@ -59,195 +59,159 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Stan,
 
-On 2019-07-01 18:41, Stanimir Varbanov wrote:
+On 2019-07-01 19:28, Stanimir Varbanov wrote:
+> Hi,
+> 
 > On 6/25/19 7:27 PM, Aniket Masule wrote:
->> Current clock scaling calculations are same for vpu4 and
->> previous versions. For vpu4, Clock scaling calculations
->> are updated with cycles/mb. This helps in getting precise
->> clock required.
+>> Present core assignment is static. Introduced load balancing
+>> across the cores. Load on earch core is calculated and core
+>> with minimum load is assigned to given instance.
 >> 
 >> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
 >> ---
->>  drivers/media/platform/qcom/venus/helpers.c | 111 
->> ++++++++++++++++++++++++----
->>  drivers/media/platform/qcom/venus/helpers.h |   2 +-
->>  drivers/media/platform/qcom/venus/vdec.c    |   2 +-
->>  drivers/media/platform/qcom/venus/venc.c    |   2 +-
->>  4 files changed, 99 insertions(+), 18 deletions(-)
+>>  drivers/media/platform/qcom/venus/helpers.c | 52 
+>> +++++++++++++++++++++++++----
+>>  drivers/media/platform/qcom/venus/helpers.h |  2 +-
+>>  drivers/media/platform/qcom/venus/vdec.c    |  2 +-
+>>  drivers/media/platform/qcom/venus/venc.c    |  2 +-
+>>  4 files changed, 49 insertions(+), 9 deletions(-)
 >> 
 >> diff --git a/drivers/media/platform/qcom/venus/helpers.c 
 >> b/drivers/media/platform/qcom/venus/helpers.c
->> index f7f724b..e1a0247 100644
+>> index b79e83a..ef35fd8 100644
 >> --- a/drivers/media/platform/qcom/venus/helpers.c
 >> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -348,8 +348,9 @@ static u32 load_per_type(struct venus_core *core, 
->> u32 session_type)
->>  	return mbs_per_sec;
+>> @@ -498,6 +498,16 @@ static int load_scale_clocks(struct venus_inst 
+>> *inst)
+>>  	return scale_clocks(inst);
 >>  }
 >> 
->> -static int load_scale_clocks(struct venus_core *core)
->> +static int scale_clocks(struct venus_inst *inst)
->>  {
->> +	struct venus_core *core = inst->core;
->>  	const struct freq_tbl *table = core->res->freq_tbl;
->>  	unsigned int num_rows = core->res->freq_tbl_size;
->>  	unsigned long freq = table[0].freq;
->> @@ -398,6 +399,86 @@ static int load_scale_clocks(struct venus_core 
->> *core)
->>  	return ret;
->>  }
->> 
->> +static unsigned long calculate_vpp_freq(struct venus_inst *inst)
+>> +int set_core_usage(struct venus_inst *inst, u32 usage)
 >> +{
->> +	unsigned long vpp_freq = 0;
->> +	u32 mbs_per_sec;
+>> +	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+>> +	struct hfi_videocores_usage_type cu;
 >> +
->> +	mbs_per_sec = load_per_instance(inst);
->> +	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
->> +	/* 21 / 20 is overhead factor */
->> +	vpp_freq += vpp_freq / 20;
+>> +	cu.video_core_enable_mask = usage;
 >> +
->> +	return vpp_freq;
->> +}
->> +
->> +static int scale_clocks_v4(struct venus_inst *inst)
->> +{
->> +	struct venus_core *core = inst->core;
->> +	const struct freq_tbl *table = core->res->freq_tbl;
->> +	unsigned int num_rows = core->res->freq_tbl_size;
->> +
-> 
-> please remove this blank line.
-> 
->> +	struct clk *clk = core->clks[0];
->> +	struct device *dev = core->dev;
->> +	unsigned int i;
->> +	unsigned long freq = 0, freq_core0 = 0, freq_core1 = 0;
-> 
-> could you count the cores as it is done for VIDC_CORE_ID_ ?
-> i.e. start counting from one.
-> 
-Sure, I was aligning it with clock handle name in core, but
-aligning it with VIDC_CORE_ID_ would give good readability.
->> +	int ret;
->> +
->> +	freq = calculate_vpp_freq(inst);
->> +
->> +	if (freq > table[0].freq)
->> +		goto err;
-> 
-> if the goto is triggered the error message will be wrong. Infact the
-> dev_err message is targeted for clk_set_rate failure.
-> 
-I will add separate exit for this.
->> +
->> +	for (i = 0; i < num_rows; i++) {
->> +		if (freq > table[i].freq)
->> +			break;
->> +		freq = table[i].freq;
->> +	}
->> +
->> +	inst->clk_data.freq = freq;
->> +
->> +	mutex_lock(&core->lock);
->> +	list_for_each_entry(inst, &core->instances, list) {
->> +		if (inst->clk_data.core_id == VIDC_CORE_ID_1) {
->> +			freq_core0 += inst->clk_data.freq;
->> +		} else if (inst->clk_data.core_id == VIDC_CORE_ID_2) {
->> +			freq_core1 += inst->clk_data.freq;
->> +		} else if (inst->clk_data.core_id == VIDC_CORE_ID_3) {
->> +			freq_core0 += inst->clk_data.freq;
->> +			freq_core1 += inst->clk_data.freq;
->> +		}
->> +	}
->> +	mutex_unlock(&core->lock);
->> +
->> +	freq = max(freq_core0, freq_core1);
->> +
->> +	ret = clk_set_rate(clk, freq);
->> +	if (ret)
->> +		goto err;
->> +
->> +	ret = clk_set_rate(core->core0_clk, freq);
->> +	if (ret)
->> +		goto err;
->> +
->> +	ret = clk_set_rate(core->core1_clk, freq);
->> +	if (ret)
->> +		goto err;
->> +
->> +	return 0;
->> +
->> +err:
->> +	dev_err(dev, "failed to set clock rate %lu (%d)\n", freq, ret);
->> +	return ret;
->> +}
->> +
->> +static int load_scale_clocks(struct venus_inst *inst)
->> +{
->> +	if (IS_V4(inst->core))
->> +		return scale_clocks_v4(inst);
->> +
->> +	return scale_clocks(inst);
+>> +	return hfi_session_set_property(inst, ptype, &cu);
 >> +}
 >> +
 >>  static void fill_buffer_desc(const struct venus_buffer *buf,
 >>  			     struct hfi_buffer_desc *bd, bool response)
 >>  {
->> @@ -715,35 +796,36 @@ int venus_helper_set_core_usage(struct 
->> venus_inst *inst, u32 usage)
+>> @@ -801,19 +811,49 @@ int venus_helper_set_work_mode(struct venus_inst 
+>> *inst, u32 mode)
 >>  }
->>  EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
+>>  EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
 >> 
->> -int venus_helper_init_codec_data(struct venus_inst *inst)
->> +int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+>> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
+>> +int venus_helper_set_core(struct venus_inst *inst)
 >>  {
->> -	const struct codec_data *codec_data;
->> -	unsigned int i, codec_data_size;
+>> -	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+>> -	struct hfi_videocores_usage_type cu;
+>> +	struct venus_core *core = inst->core;
+>> +	u32 min_core_id = 0, core0_load = 0, core1_load = 0;
 > 
-> those deletions shouldn't exist once you fix the git rebase issue.
+> the same comment, please use the same counting scheme as for 
+> VIDC_CORE_ID_
 > 
->> +	const struct codec_freq_data *codec_freq_data;
->> +	unsigned int i, codec_freq_data_size;
-> 
-> could you rename the variables to shorter?
-> 
-Yes
->>  	u32 pixfmt;
->>  	int ret = 0;
+Yes, I will align this with VIDC_CORE_ID_.
+>> +	unsigned long min_load, max_freq, cur_inst_load;
+>> +	u32 cores_max;
+>> +	int ret;
 >> 
 >>  	if (!IS_V4(inst->core))
 >>  		return 0;
 >> 
->> -	codec_data = inst->core->res->codec_data;
->> -	codec_data_size = inst->core->res->codec_data_size;
->> +	codec_freq_data = inst->core->res->codec_freq_data;
->> +	codec_freq_data_size = inst->core->res->codec_freq_data_size;
->>  	pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
->>  			inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+>> -	cu.video_core_enable_mask = usage;
+>> +	core0_load = load_per_core(core, VIDC_CORE_ID_1);
+>> +	core1_load = load_per_core(core, VIDC_CORE_ID_2);
 >> 
->> -	for (i = 0; i < codec_data_size; i++) {
->> -		if (codec_data[i].pixfmt == pixfmt &&
->> -		    codec_data[i].session_type == inst->session_type) {
->> -			inst->clk_data.codec_data = &codec_data[i];
->> +	for (i = 0; i < codec_freq_data_size; i++) {
->> +		if (codec_freq_data[i].pixfmt == pixfmt &&
->> +		    codec_freq_data[i].session_type == inst->session_type) {
->> +			inst->clk_data.codec_freq_data =
->> +				&codec_freq_data[i];
->>  			break;
->>  		}
->>  	}
->> 
->> -	if (!inst->clk_data.codec_data)
->> +	if (!inst->clk_data.codec_freq_data)
->>  		ret = -EINVAL;
->> 
->>  	return ret;
+>> -	return hfi_session_set_property(inst, ptype, &cu);
+>> +	min_core_id = core0_load < core1_load ? VIDC_CORE_ID_1 : 
+>> VIDC_CORE_ID_2;
+>> +	min_load = min(core0_load, core1_load);
+>> +	cores_max = core_num_max(inst);
+>> +
+>> +	if (cores_max < VIDC_CORE_ID_2) {
+>> +		min_core_id = VIDC_CORE_ID_1;
+>> +		min_load = core0_load;
+>> +	}
+>> +
+>> +	cur_inst_load = load_per_instance(inst) *
+>> +		inst->clk_data.codec_freq_data->vpp_freq;
+>> +	max_freq = core->res->freq_tbl[0].freq;
+>> +
+>> +	if ((cur_inst_load + min_load)	> max_freq) {
+>> +		dev_warn(core->dev, "HW is overloaded, needed: %lu max: %lu\n",
+>> +			 cur_inst_load, max_freq);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ret = set_core_usage(inst, min_core_id);
+>> +
+> 
+> please, delete this blank line
+> 
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	inst->clk_data.core_id = min_core_id;
+>> +
+>> +	return 0;
 >>  }
->> -EXPORT_SYMBOL_GPL(venus_helper_init_codec_data);
->> +EXPORT_SYMBOL_GPL(venus_helper_init_codec_freq_data);
+>> -EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
+>> +EXPORT_SYMBOL_GPL(venus_helper_set_core);
+>> 
+>>  int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+>>  {
+>> diff --git a/drivers/media/platform/qcom/venus/helpers.h 
+>> b/drivers/media/platform/qcom/venus/helpers.h
+>> index 2c13245..1034111 100644
+>> --- a/drivers/media/platform/qcom/venus/helpers.h
+>> +++ b/drivers/media/platform/qcom/venus/helpers.h
+>> @@ -42,7 +42,7 @@ int venus_helper_set_output_resolution(struct 
+>> venus_inst *inst,
+>>  				       u32 buftype);
+>>  int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+>>  int venus_helper_init_codec_freq_data(struct venus_inst *inst);
+>> -int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage);
+>> +int venus_helper_set_core(struct venus_inst *inst);
+>>  int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int 
+>> input_bufs,
+>>  			      unsigned int output_bufs,
+>>  			      unsigned int output2_bufs);
+>> diff --git a/drivers/media/platform/qcom/venus/vdec.c 
+>> b/drivers/media/platform/qcom/venus/vdec.c
+>> index d037f80..620e060 100644
+>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>> @@ -551,7 +551,7 @@ static int vdec_output_conf(struct venus_inst 
+>> *inst)
+>>  	if (ret)
+>>  		return ret;
+>> 
+>> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_1);
+>> +	ret = venus_helper_set_core(inst);
+>>  	if (ret)
+>>  		return ret;
+>> 
+>> diff --git a/drivers/media/platform/qcom/venus/venc.c 
+>> b/drivers/media/platform/qcom/venus/venc.c
+>> index cdddc82..28e76cc 100644
+>> --- a/drivers/media/platform/qcom/venus/venc.c
+>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>> @@ -660,7 +660,7 @@ static int venc_set_properties(struct venus_inst 
+>> *inst)
+>>  	if (ret)
+>>  		return ret;
+>> 
+>> -	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_2);
+>> +	ret = venus_helper_set_core(inst);
+>>  	if (ret)
+>>  		return ret;
+>> 
 >> 
 
-Thanks,
+Regards,
 Aniket
