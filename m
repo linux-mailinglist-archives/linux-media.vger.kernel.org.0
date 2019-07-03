@@ -2,84 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB715E63B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 16:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BC635E68F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 16:26:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbfGCOPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 10:15:37 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:54618 "EHLO ns.iliad.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725830AbfGCOPh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Jul 2019 10:15:37 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id DDF88201DB;
-        Wed,  3 Jul 2019 16:15:35 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id C5B9620119;
-        Wed,  3 Jul 2019 16:15:35 +0200 (CEST)
-Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Brad Love <brad@nextdimension.cc>
-References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
- <20190702095109.GC22408@latitude>
- <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
-Message-ID: <68ae0fde-ce8b-968d-853f-86eb5b1247aa@free.fr>
-Date:   Wed, 3 Jul 2019 16:15:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Wed Jul  3 16:15:35 2019 +0200 (CEST)
+        id S1726957AbfGCO0y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 10:26:54 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:53917 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbfGCO0x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 10:26:53 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1higDj-0002wO-OC; Wed, 03 Jul 2019 16:26:51 +0200
+Message-ID: <1562164006.4604.7.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] media: hantro: Add support for VP8 decoding on
+ rk3288
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
+        ZhiChao Yu <zhichao.yu@rock-chips.com>
+Date:   Wed, 03 Jul 2019 16:26:46 +0200
+In-Reply-To: <20190702170016.5210-3-ezequiel@collabora.com>
+References: <20190702170016.5210-1-ezequiel@collabora.com>
+         <20190702170016.5210-3-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/07/2019 14:47, Marc Gonzalez wrote:
+Hi Ezequiel
 
-> Come to think of it, I'm really not a fan of "large" macro functions.
-> I'll outline a different option in v2.
+On Tue, 2019-07-02 at 14:00 -0300, Ezequiel Garcia wrote:
+> From: ZhiChao Yu <zhichao.yu@rock-chips.com>
+> 
+> Introduce VP8 decoding support in RK3288.
+> 
+> Signed-off-by: ZhiChao Yu <zhichao.yu@rock-chips.com>
+> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-My idea is to use a trivial helper function to assign the 3 struct fields,
-and then a trivial macro to invoke the helper:
+I have just tried this (with broken userspace) and got a crash in
+cfg_parts, see below for details:
 
-static void cmd_setup(struct si2168_cmd *cmd, char *args, int wlen, int rlen)
-{
-	memcpy(cmd->args, args, wlen);
-	cmd->wlen = wlen;
-	cmd->rlen = rlen;
-}
+[  114.308757] Unable to handle kernel paging request at virtual address ffff0000112b0002
+[  114.316691] Mem abort info:
+[  114.319503]   ESR = 0x96000021
+[  114.322576]   Exception class = DABT (current EL), IL = 32 bits
+[  114.328513]   SET = 0, FnV = 0
+[  114.331586]   EA = 0, S1PTW = 0
+[  114.334744] Data abort info:
+[  114.337626]   ISV = 0, ISS = 0x00000021
+[  114.341479]   CM = 0, WnR = 0
+[  114.344466] swapper pgtable: 4k pages, 48-bit VAs, pgdp=0000000040d61000
+[  114.351185] [ffff0000112b0002] pgd=00000000dffff003, pud=00000000dfffe003, pmd=00000000dbf36003, pte=00e8000038300707
+[  114.361822] Internal error: Oops: 96000021 [#1] PREEMPT SMP
+[  114.367394] Modules linked in: crct10dif_ce hantro_vpu(C) videobuf2_dma_contig v4l2_mem2mem
+[  114.375749] Process ffmpeg (pid: 1871, stack limit = 0x0000000059d846e4)
+[  114.382450] CPU: 1 PID: 1871 Comm: ffmpeg Tainted: G         C        5.1.16-20190703-1 #2
+[  114.390710] Hardware name: NXP i.MX8MQ EVK (DT)
+[  114.395240] pstate: 40000005 (nZcv daif -PAN -UAO)
+[  114.400042] pc : hantro_g1_vp8_dec_run+0x1178/0x18a0 [hantro_vpu]
+[  114.406139] lr : hantro_g1_vp8_dec_run+0x1160/0x18a0 [hantro_vpu]
+[  114.412229] sp : ffff000011ae3c10
+[  114.415541] x29: ffff000011ae3c10 x28: ffff000008a154c8 
+[  114.420853] x27: 000000007033b039 x26: ffff000008a130f0 
+[  114.426164] x25: 000000000000000c x24: ffff000008a153f0 
+[  114.431474] x23: ffff800099a0d880 x22: ffff000008a13150 
+[  114.436785] x21: 000000000c5b88d0 x20: ffff80009b7d65a0 
+[  114.442096] x19: ffff800099bd3800 x18: 0000000000000010 
+[  114.447407] x17: 0000000000000001 x16: 0000000000000007 
+[  114.452717] x15: ffffffffffffffff x14: ffff000010e8c5c8 
+[  114.458028] x13: ffff000091ae3987 x12: ffff0000112b0002 
+[  114.463339] x11: ffff000010ea4000 x10: ffff000011ae3910 
+[  114.468649] x9 : 00000000ffffffd0 x8 : 00000000edcb88d0 
+[  114.473960] x7 : 0000000000000125 x6 : ffff000010e8cd60 
+[  114.479270] x5 : ffff000010e8c000 x4 : 0000000000000000 
+[  114.484580] x3 : 0000000000000002 x2 : 8127d140a3196d00 
+[  114.489891] x1 : 0000000000000000 x0 : 00000000e1700000 
+[  114.495201] Call trace:
+[  114.497652]  hantro_g1_vp8_dec_run+0x1178/0x18a0 [hantro_vpu]
+[  114.503401]  device_run+0xac/0xc0 [hantro_vpu]
+[  114.507849]  v4l2_m2m_try_run+0x9c/0x110 [v4l2_mem2mem]
+[  114.513077]  v4l2_m2m_request_queue+0xd4/0x130 [v4l2_mem2mem]
+[  114.518826]  media_request_ioctl+0x1e8/0x2d0
+[  114.523097]  do_vfs_ioctl+0xc4/0x870
+[  114.526671]  ksys_ioctl+0x84/0xc0
+[  114.529985]  __arm64_sys_ioctl+0x28/0x40
+[  114.533908]  el0_svc_common.constprop.0+0x98/0x170
+[  114.538698]  el0_svc_handler+0x2c/0x40
+[  114.542447]  el0_svc+0x8/0xc
+[  114.545328] Code: 0b150008 b94002c3 121d7108 8b23418c (b940018c) 
+[  114.551421] ---[ end trace b9ad6b0f72902ba5 ]---
 
-#define CMD_SETUP(cmd, args, rlen) \
-	cmd_setup(cmd, args, sizeof(args) - 1, rlen)
+> ---
+> Changes from v1:
+> * Place operators at the end of each line.
+> * Update to uAPI changes.
+> ---
+>  drivers/staging/media/hantro/Makefile         |   4 +-
+>  drivers/staging/media/hantro/hantro.h         |   5 +
+>  drivers/staging/media/hantro/hantro_drv.c     |   6 +
+>  .../staging/media/hantro/hantro_g1_vp8_dec.c  | 552 ++++++++++++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |  17 +
+>  drivers/staging/media/hantro/hantro_v4l2.c    |   1 +
+>  drivers/staging/media/hantro/hantro_vp8.c     | 188 ++++++
+>  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  22 +-
+>  8 files changed, 793 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_vp8.c
+> 
+[...]
+> diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> new file mode 100644
+> index 000000000000..31d31faae4aa
+> --- /dev/null
+> +++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> @@ -0,0 +1,552 @@
+[...]
+> +/* dct partition base address regs */
+> +static const struct vp8_dec_reg vp8_dec_dct_base[8] = {
+[...]
+> +/* dct partition start bits regs */
+> +static const struct vp8_dec_reg vp8_dec_dct_start_bits[8] = {
 
+So these arrays can be directly indexed with values smaller than 8 ...
 
-I think this way addresses all of your comments:
+[...]
+> +static void cfg_parts(struct hantro_ctx *ctx,
+> +		      const struct v4l2_ctrl_vp8_frame_header *hdr)
+> +{
+[...]
+> +	/* dct partitions base address */
+> +	for (i = 0; i < hdr->num_dct_parts; i++) {
+> +		u32 byte_offset = dct_part_offset + dct_size_part_size + count;
+> +		u32 base_addr = byte_offset + src_dma;
+> +
+> +		vp8_dec_reg_write(vpu, &vp8_dec_dct_base[i],
+> +				  base_addr & (~DEC_8190_ALIGN_MASK));
+> +
+> +		vp8_dec_reg_write(vpu, &vp8_dec_dct_start_bits[i],
+> +				  (byte_offset & DEC_8190_ALIGN_MASK) * 8);
 
-- since we're using a real function, the compiler can perform type-checking,
-and the function's prototype is self-documenting.
-- no more funky __args and __rlen arguments
-- no local variables
+... and here they are indexed with i, which is only guaranteed to be
+smaller than hdr->num_dct_parts. num_dct_parts is passed from userspace
+via v4l2-ctrl, it can be as large as 255.
 
-
-Note however, that drivers/media/tuners/si2157.c uses a different struct
-(struct si2157_cmd). Therefore, if we wanted to apply the same changes
-to si2157.c, we would have to define a common struct, and replace all
-the uses of struct si2157_cmd and struct si2168_cmd. That seemed too
-invasive to do without the maintainer's approval and guidance.
-
-Antti, do you Ack this new approach?
-
-It's not clear what HW is supported by drivers/media/dvb-frontends/si21xx.c
-(that's a very generic name).
-
-Regards.
+regards
+Philipp
