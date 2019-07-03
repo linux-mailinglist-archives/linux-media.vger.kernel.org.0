@@ -2,69 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9FC95E021
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 10:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70BEE5E072
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 11:04:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727019AbfGCIqp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 04:46:45 -0400
-Received: from mail-ed1-f41.google.com ([209.85.208.41]:43163 "EHLO
-        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727008AbfGCIqp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 04:46:45 -0400
-Received: by mail-ed1-f41.google.com with SMTP id e3so1234114edr.10
-        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:46:44 -0700 (PDT)
+        id S1727180AbfGCJEi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 05:04:38 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:45751 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727046AbfGCJEi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 05:04:38 -0400
+Received: by mail-ed1-f67.google.com with SMTP id a14so1281157edv.12
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 02:04:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=xBMaGP5NU59l3pJ9Sp1wal6+8J+WZ6rQ2kYjrt9pVpg=;
-        b=hM7ZWNJnzxqwwkuQOw0enmu0VkB0+AzbbkP3e41HPphSGT+UeZhT9XICPnqQHcfv4/
-         MBJu76DL7Mv/KQ0MxUNtNmdtd59ciRJmJCkfqmv8cpi7nqOqFWk8oTzlb3mSYBIJO9FD
-         xQwPmq6amxG/WYyt4ecQ0x5QFAetiNoYIHDO4=
+        bh=Q/EYz2rSpQqq5aTgZ1tZo0aZ4bOY/6+aI3OLsg1wExc=;
+        b=nncV+N97AgUiMkEcr3PyqwUVCi/flMy0shrmwVJcLqyjTsaytge8nr7U2CuCK2JDKG
+         dFZoJZ/ShU43HlX6Af1U/VfEr6YA0ExzbHURymZaLEVNkQ/1bpgsJirnRaFGE6M+eaSb
+         dmuxzpxzeN0PyN2G/AQG0qWQUYmTJ0Ormdd88=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xBMaGP5NU59l3pJ9Sp1wal6+8J+WZ6rQ2kYjrt9pVpg=;
-        b=qNgzsmbXCUC1NrHP/GAK1USdV4yCUWAYER/HORrVf6lNrDEYFmkxZFiwQndZPx3NlZ
-         vgCUijfilLMHeAPeRYdft8fW9idHiwOe73euYGVIesVA5u3V8MQN0pS+6eACvc8unUOF
-         t5iiDQzVxh24YHmJGGtVnnvziiYXx2b2tSpPsyh3Dwfde+2bAUrN1AmyKs6ADqhvs+cP
-         wQVpZ5PYAqvKV20BbVK7PJ+/F4OLkMkNrgtem/p6Ug4ANzjNp+ByCK05MwOJDKWGvKMn
-         ucPszKm/wr3+eWrgOkXyZ/fQIzvgcqNAosEaqDo/7YC+bF9TIqg6Zsg46xXx63aIEmc1
-         JTOA==
-X-Gm-Message-State: APjAAAXlspt5ZUOh4lCS8J1EwZySPI933vtrFLS39y/QpWoK1XOZRbQA
-        Sx/GThXXySCW/u5aOL1/eM3gPCsS0//RbA==
-X-Google-Smtp-Source: APXvYqyr9/aycQ7yicgEGdV+sDwIBAWAPd07AWM6NpzWnThUFfq4/pGscbQWPIRDvubSZ70Iut2y4Q==
-X-Received: by 2002:a50:92c4:: with SMTP id l4mr40960233eda.34.1562143603304;
-        Wed, 03 Jul 2019 01:46:43 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id b19sm316887eje.80.2019.07.03.01.46.42
+        bh=Q/EYz2rSpQqq5aTgZ1tZo0aZ4bOY/6+aI3OLsg1wExc=;
+        b=QZqI9qk/1khFbDDo88w/svgR9lb4xsO52kdNnSuaHe81vWt+rNXxFaASPoyiyi2gbz
+         CYMsArSd2MrNeJe6vhhxVO9mg2GRHbZJhIeQM0GG1TifMVD3PUTUAt74Rrzw7gcW1aSM
+         NlDKphWv2KcmdLqmUe5TFUo8hQjK8sxROw1JiAChmN++pgLha+dIyJab4quZyrjk700E
+         g3x9ocHl+w7RJKYr4hoHggjtOnVXj11Db0YTFDhoVnrqhK9pluhd9dYdTuK0lgROMvEQ
+         ZYiMCgSh23KlEocgxgALI/yqTUDml5f6rRpqqOQHT4BoacKxu/AC5SlXRIwPJZcX2IvZ
+         /2Qg==
+X-Gm-Message-State: APjAAAUhcKdqCDTMOvF3bL805sfjG3tklBtVU0zLOhQSJ71ult1GxjBx
+        FrbJGgtXTozA+Iv+QxAvG6Xzhvq9G9EHsg==
+X-Google-Smtp-Source: APXvYqywOpiQgbPmtQn+VZ+UUhh+UJNNtPlWw5PUtuPE70p8in1L0lGuA1s9SALvC/sXbs0Uq701pQ==
+X-Received: by 2002:aa7:ccd6:: with SMTP id y22mr41263192edt.274.1562144675373;
+        Wed, 03 Jul 2019 02:04:35 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id f36sm496891ede.47.2019.07.03.02.04.34
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jul 2019 01:46:42 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id u18so1802062wru.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:46:42 -0700 (PDT)
-X-Received: by 2002:a5d:6089:: with SMTP id w9mr18392676wrt.166.1562143601948;
- Wed, 03 Jul 2019 01:46:41 -0700 (PDT)
+        Wed, 03 Jul 2019 02:04:34 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id a10so746108wrp.9
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 02:04:34 -0700 (PDT)
+X-Received: by 2002:adf:f246:: with SMTP id b6mr29292267wrp.92.1562144674125;
+ Wed, 03 Jul 2019 02:04:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl> <5b1362779132c1a47c26cd5080d5eb9920e72db3.camel@ndufresne.ca>
-In-Reply-To: <5b1362779132c1a47c26cd5080d5eb9920e72db3.camel@ndufresne.ca>
+References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl> <1cb8cc0c89f0017962226fdb84ae11e763fdd233.camel@ndufresne.ca>
+In-Reply-To: <1cb8cc0c89f0017962226fdb84ae11e763fdd233.camel@ndufresne.ca>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 3 Jul 2019 17:46:30 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CW5=WUkGdv+=TiAM-x5zRFNrDFYVDfzf+En6xh6XUiMA@mail.gmail.com>
-Message-ID: <CAAFQd5CW5=WUkGdv+=TiAM-x5zRFNrDFYVDfzf+En6xh6XUiMA@mail.gmail.com>
-Subject: Re: [RFC] Stateful codecs and requirements for compressed formats
+Date:   Wed, 3 Jul 2019 18:04:21 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A0gg4RCKkPd-m2_5=ZyDzZ7hnH9AnTrt7ciXQPPHZU2Q@mail.gmail.com>
+Message-ID: <CAAFQd5A0gg4RCKkPd-m2_5=ZyDzZ7hnH9AnTrt7ciXQPPHZU2Q@mail.gmail.com>
+Subject: Re: [PATCHv4 0/2] Document memory-to-memory video codec interfaces
 To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Sylwester Nawrocki <snawrocki@kernel.org>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Pawel Osciak <posciak@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
@@ -72,140 +71,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 3:09 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+On Wed, Jun 5, 2019 at 12:19 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
 te:
 >
-> Le vendredi 28 juin 2019 =C3=A0 16:34 +0200, Hans Verkuil a =C3=A9crit :
-> > Hi all,
+> Le lundi 03 juin 2019 =C3=A0 13:28 +0200, Hans Verkuil a =C3=A9crit :
+> > Since Thomasz was very busy with other things, I've taken over this
+> > patch series. This v4 includes his draft changes and additional changes
+> > from me.
 > >
-> > I hope I Cc-ed everyone with a stake in this issue.
+> > This series attempts to add the documentation of what was discussed
+> > during Media Workshops at LinuxCon Europe 2012 in Barcelona and then
+> > later Embedded Linux Conference Europe 2014 in D=C3=BCsseldorf and then
+> > eventually written down by Pawel Osciak and tweaked a bit by Chrome OS
+> > video team (but mostly in a cosmetic way or making the document more
+> > precise), during the several years of Chrome OS using the APIs in
+> > production.
 > >
-> > One recurring question is how a stateful encoder fills buffers and how =
-a stateful
-> > decoder consumes buffers.
+> > Note that most, if not all, of the API is already implemented in
+> > existing mainline drivers, such as s5p-mfc or mtk-vcodec. Intention of
+> > this series is just to formalize what we already have.
 > >
-> > The most generic case is that an encoder produces a bitstream and just =
-fills each
-> > CAPTURE buffer to the brim before continuing with the next buffer.
+> > Thanks everyone for the huge amount of useful comments to previous
+> > versions of this series. Much of the credits should go to Pawel Osciak
+> > too, for writing most of the original text of the initial RFC.
 > >
-> > I don't think there are drivers that do this, I believe that all driver=
-s just
-> > output a single compressed frame. For interlaced formats I understand i=
-t is either
-> > one compressed field per buffer, or two compressed fields per buffer (t=
-his is
-> > what I heard, I don't know if this is true).
+> > This v4 incorporates all known comments (let me know if I missed
+> > something!) and should be complete for the decoder.
 > >
-> > In any case, I don't think this is specified anywhere. Please correct m=
-e if I am
-> > wrong.
+> > For the encoder there are two remaining TODOs for the API:
 > >
-> > The latest stateful codec spec is here:
+> > 1) Setting the frame rate so bitrate control can make sense, since
+> >    they need to know this information.
 > >
-> > https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
-> >
-> > Assuming what I described above is indeed the case, then I think this s=
-hould
-> > be documented. I don't know enough if a flag is needed somewhere to des=
-cribe
-> > the behavior for interlaced formats, or can we leave this open and have=
- userspace
-> > detect this?
-> >
-> >
-> > For decoders it is more complicated. The stateful decoder spec is writt=
-en with
-> > the assumption that userspace can just fill each OUTPUT buffer to the b=
-rim with
-> > the compressed bitstream. I.e., no need to split at frame or other boun=
-daries.
-> >
-> > See section 4.5.1.7 in the spec.
-> >
-> > But I understand that various HW decoders *do* have limitations. I woul=
-d really
-> > like to know about those, since that needs to be exposed to userspace s=
-omehow.
-> >
-> > Specifically, the venus decoder needs to know the resolution of the cod=
-ed video
-> > beforehand and it expects a single frame per buffer (how does that work=
- for
-> > interlaced formats?).
-> >
-> > Such requirements mean that some userspace parsing is still required, s=
-o these
-> > decoders are not completely stateful.
-> >
-> > Can every codec author give information about their decoder/encoder?
-> >
-> > I'll start off with my virtual codec driver:
-> >
-> > vicodec: the decoder fully parses the bitstream. The encoder produces a=
- single
-> > compressed frame per buffer. This driver doesn't yet support interlaced=
- formats,
-> > but when that is added it will encode one field per buffer.
-> >
-> > Let's see what the results are.
+> >    Suggested solution: require support for ENUM_FRAMEINTERVALS for the
+> >    coded pixelformats and S_PARM(OUTPUT). Open question: some drivers
+> >    (mediatek, hva, coda) require S_PARM(OUTPUT), some (venus) allow bot=
+h
+> >    S_PARM(CAPTURE) and S_PARM(OUTPUT). I am inclined to allow both sinc=
+e
+> >    this is not a CAPTURE vs OUTPUT thing, it is global to both queues.
 >
-> Hans though a summary of what existing userspace expects / assumes
-> would be nice.
+> I agree, as long as it's documented. I can imagine how this could be
+> confusing for new users.
 >
-> GStreamer:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Encodes:
->   fwht, h263, h264, hevc, jpeg, mpeg4, vp8, vp9
-> Decodes:
->   fwht, h263, h264, hevc, jpeg, mpeg2, mpeg4, vc1, vp8, vp9
+> >
+> > 2) Interactions between OUTPUT and CAPTURE formats.
+> >
+> >    The main problem is what to do if the capture sizeimage is too small
+> >    for the OUTPUT resolution when streaming starts.
+> >
+> >    Proposal: width and height of S_FMT(OUTPUT) are used to
+> >    calculate a minimum sizeimage (app may request more). This is
+> >    driver-specific.
+> >
+> >    V4L2_FMT_FLAG_FIXED_RESOLUTION is always set for codec formats
+> >    for the encoder (i.e. we don't support mid-stream resolution
+> >    changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
+> >    supported. See https://patchwork.linuxtv.org/patch/56478/ for
+> >    the patch adding this flag.
+> >
+> >    Of course, if we start to support mid-stream resolution
+> >    changes (or other changes that require a source change event),
+> >    then this flag should be dropped by the encoder driver and
+> >    documentation on how to handle the source change event should
+> >    be documented in the encoder spec. I prefer to postpone this
+> >    until we have an encoder than can actually do mid-stream
+> >    resolution changes.
+> >
+> >    If sizeimage of the OUTPUT is too small for the CAPTURE
+> >    resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
+> >    then the second STREAMON (either CAPTURE or OUTPUT) will
+> >    return -ENOMEM since there is not enough memory to do the
+> >    encode.
 >
-> It assumes that each encoded v4l2_buffer contains exactly one frame
-> (any format, two fields for interlaced content). It may still work
-> otherwise, but some issues will appear, timestamp shift, lost of
-> metadata (e.g. timecode, cc, etc.).
+> You seem confident that we will know immediately if it's too small. But
+> what I remember is that HW has an interrupt for this, allowing
+> userspace to allocate a larger buffer and resume.
 >
-> FFMpeg:
-> =3D=3D=3D=3D=3D=3D=3D
-> Encodes:
->   h263, h264, hevc, mpeg4, vp8
-> Decodes:
->   h263, h264, hevc, mpeg2, mpeg4, vc1, vp8, vp9
+> Should we make the capture queue independent of the streaming state, so
+> that we can streamoff/reqbufs/.../streamon to resume from an ENOMEM
+> error ? And shouldn't ENOMEM be returned by the following capture DQBUF
+> when such an interrupt is raised ?
 >
-> Similarly to GStreamer, it assumes that one AVPacket will fit one
-> v4l2_buffer. On the encoding side, it seems less of a problem, but they
-> don't fully implement the FFMPEG CODEC API for frame matching, which I
-> suspect would create some ambiguity if it was.
->
-> Chromium:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Decodes:
->   H264, VP8, VP9
-> Encodes:
->   H264
 
-VP8 too.
-
-It can in theory handle any format V4L2 could expose, but these 2 seem
-to be the only commonly used codecs used in practice and supported by
-hardware.
-
->
-> That is the code I know the less, but the encoder does not seem
-> affected by the nal alignment. The keyframe flag and timestamps seems
-> to be used and are likely expected to correlate with the input, so I
-> suspect that there exist some possible ambiguity if the output is not
-> full frame. For the decoder, I'll have to ask someone else to comment,
-> the code is hard to follow and I could not get to the place where
-> output buffers are filled. I thought the GStreamer code was tough, but
-> this is quite similarly a mess.
-
-Not sure what's so complicated there. There is a clearly isolated
-function that does the parsing:
-https://cs.chromium.org/chromium/src/media/gpu/v4l2/v4l2_video_decode_accel=
-erator.cc?rcl=3D2880fe4f6b246809f1be72c5a5698dced4cd85d1&l=3D984
-
-It puts special NALUs like SPS and PPS in separate buffers and for
-frames it's 1 frame (all slices of the frame) : 1 buffer.
+The idea was that stopping the CAPTURE queue would reset the encoder,
+i.e. start encoding a new, independent stream after the streaming
+starts again. Still, given that one would normally need to reallocate
+the buffers on some significant stream parameter change, that would
+normally require emitting all the relevant headers anyway, so it
+probably doesn't break anything?
 
 Best regards,
 Tomasz
