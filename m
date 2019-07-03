@@ -2,145 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2F935E4E6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 15:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24C1C5E50E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 15:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbfGCNKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 09:10:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39134 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbfGCNKy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 09:10:54 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id A85B628A9A6
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] media: i2c: ov5645: Fix power up sequence
-Date:   Wed,  3 Jul 2019 10:10:44 -0300
-Message-Id: <20190703131044.7656-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727016AbfGCNPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 09:15:13 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:33881 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbfGCNPN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 09:15:13 -0400
+Received: by mail-pl1-f193.google.com with SMTP id i2so1253384plt.1;
+        Wed, 03 Jul 2019 06:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=ZV4664A39G+E6xvODcM+DpAlzMdjGt2KYNEEeApEiuo=;
+        b=TAIXhbj93OUgU0AXbnRQRjMsXiEu4+duPzpDjw0soxo+pyTp3asGq7hqYEc4Jjg5l+
+         5RZIF/BU5RW5i2eyK49H0omuT93q6VuIljYrYgjvOaHdBCkaqijBC1cLoboC0I43x1bN
+         f1viIAwlyC4iUtQAaObduyS0s7RpFA+6p0KARKNNrNDh/AI1Gmv8BbtbDvrVL4jjeR0g
+         UleMGAh176TQcHWDkX/bAzetXT7ROpmbK6mJwOt1keJA6ThEdQQ37n2ngiXWlvukre+r
+         +xAu1nVTYhvDa4Vrwhn0WZAitEDjBUf11lMiz2oWjxwKyhRTyzoo3GQbXm60Q3ryvVFR
+         cUNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZV4664A39G+E6xvODcM+DpAlzMdjGt2KYNEEeApEiuo=;
+        b=sSMOXgL8VI7MFzoYyWrSfY/5Y2uwfVBVTFpah9U1lFPIrhiHn8mLHvmKsm6g729/km
+         dtFi2XGhBXHbHk5aLIm24Suc0BBahDEKD4Uif0d7h8sR4WVPybwk5uilU2aEhUd2lZ4R
+         l65JKCfOT6t0rLeFZQF564oNIH9j/LcLuMf8L/l4vjIp+4x9h2mR8gDpiInBhy5w6xQN
+         0RFh6B69a/LP5DrB+oULLY8z06IG0hzfkpWGooFOOSrQBPh2M7DSUx3uHPciy1aM4hyp
+         GGlZ+ur22o4JSx20mi4QXqMeduz/Dik+1t4hvlaMQVK0z2omPdDMpmoFT3SztpALi7uG
+         sOsw==
+X-Gm-Message-State: APjAAAU6c51LrBhLmwaVxtEL2tfr2SyJJ0NUkM2aOhjsaLDshT1L0m6K
+        gOYJYzwt37Dsl7mAHpoXT2k9dhOuwn0=
+X-Google-Smtp-Source: APXvYqy5UwsK5KUYxrgCBn17zr14APAmeMPwzlUYBI3ogGtYVO28cY5mMW8KYwDR8Q5+t3a5Udv3AA==
+X-Received: by 2002:a17:902:760a:: with SMTP id k10mr39098236pll.83.1562159712373;
+        Wed, 03 Jul 2019 06:15:12 -0700 (PDT)
+Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.googlemail.com with ESMTPSA id b3sm4615854pfp.65.2019.07.03.06.15.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 06:15:11 -0700 (PDT)
+From:   Fuqian Huang <huangfq.daxian@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fuqian Huang <huangfq.daxian@gmail.com>
+Subject: [PATCH 10/30] media/dvb: Use kmemdup rather than duplicating its implementation
+Date:   Wed,  3 Jul 2019 21:15:01 +0800
+Message-Id: <20190703131501.25131-1-huangfq.daxian@gmail.com>
+X-Mailer: git-send-email 2.11.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is mostly a port of Jacopo's fix:
+kmemdup is introduced to duplicate a region of memory in a neat way.
+Rather than kmalloc/kzalloc + memset, which the programmer needs to
+write the size twice (sometimes lead to mistakes), kmemdup improves
+readability, leads to smaller code and also reduce the chances of mistakes.
+Suggestion to use kmemdup rather than using kmalloc/kzalloc + memset.
 
-  commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
-  Author: Jacopo Mondi <jacopo@jmondi.org>
-  Date:   Fri Jul 6 05:51:52 2018 -0400
-
-  media: ov5640: Re-work MIPI startup sequence
-
-In the OV5645 case, the changes are:
-
-- Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
-- At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
-  LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
-- At set_power(0) time power down MIPI Tx/Rx (in addition to the current
-  power down of regulators and clock gating).
-- At s_stream time enable/disable the MIPI interface output.
-
-With this commit the sensor is able to enter LP-11 mode during power up,
-as expected by some CSI-2 controllers.
-
-Many thanks to Fabio Estevam for his help debugging this issue.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
 ---
- drivers/media/i2c/ov5645.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
+ drivers/media/dvb-core/dvbdev.c             | 3 +--
+ drivers/media/dvb-frontends/drx39xyj/drxj.c | 5 ++---
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 124c8df04633..05430a81c977 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -45,6 +45,8 @@
- #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
- #define OV5645_CHIP_ID_LOW		0x300b
- #define		OV5645_CHIP_ID_LOW_BYTE		0x45
-+#define OV5645_IO_MIPI_CTRL00		0x300e
-+#define OV5645_PAD_OUTPUT00		0x3019
- #define OV5645_AWB_MANUAL_CONTROL	0x3406
- #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
- #define OV5645_AEC_PK_MANUAL		0x3503
-@@ -55,6 +57,7 @@
- #define		OV5645_ISP_VFLIP		BIT(2)
- #define OV5645_TIMING_TC_REG21		0x3821
- #define		OV5645_SENSOR_MIRROR		BIT(1)
-+#define OV5645_MIPI_CTRL00		0x4800
- #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
- #define		OV5645_TEST_PATTERN_MASK	0x3
- #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
-@@ -121,7 +124,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
- 	{ 0x3503, 0x07 },
- 	{ 0x3002, 0x1c },
- 	{ 0x3006, 0xc3 },
--	{ 0x300e, 0x45 },
- 	{ 0x3017, 0x00 },
- 	{ 0x3018, 0x00 },
- 	{ 0x302e, 0x0b },
-@@ -737,13 +739,30 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
- 				goto exit;
- 			}
- 
--			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
--					       OV5645_SYSTEM_CTRL0_STOP);
-+			ret = ov5645_write_reg(ov5645,
-+					       OV5645_IO_MIPI_CTRL00, 0x40);
- 			if (ret < 0) {
- 				ov5645_set_power_off(ov5645);
- 				goto exit;
- 			}
-+
-+			ret = ov5645_write_reg(ov5645,
-+					       OV5645_MIPI_CTRL00, 0x24);
-+			if (ret < 0) {
-+				ov5645_set_power_off(ov5645);
-+				goto exit;
-+			}
-+
-+			ret = ov5645_write_reg(ov5645,
-+					       OV5645_PAD_OUTPUT00, 0x70);
-+			if (ret < 0) {
-+				ov5645_set_power_off(ov5645);
-+				goto exit;
-+			}
-+
-+			usleep_range(500, 1000);
- 		} else {
-+			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
- 			ov5645_set_power_off(ov5645);
- 		}
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index a3393cd4e584..e4abe8d34535 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -476,7 +476,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 		return -ENOMEM;
  	}
-@@ -1049,11 +1068,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
- 			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
- 			return ret;
- 		}
-+
-+		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-+		if (ret < 0)
-+			return ret;
-+
- 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
- 				       OV5645_SYSTEM_CTRL0_START);
- 		if (ret < 0)
- 			return ret;
- 	} else {
-+		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-+		if (ret < 0)
-+			return ret;
-+
- 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
- 				       OV5645_SYSTEM_CTRL0_STOP);
- 		if (ret < 0)
+ 
+-	dvbdevfops = kzalloc(sizeof(struct file_operations), GFP_KERNEL);
++	dvbdevfops = kmemdup(template->fops, sizeof(struct file_operations), GFP_KERNEL);
+ 
+ 	if (!dvbdevfops){
+ 		kfree (dvbdev);
+@@ -492,7 +492,6 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	dvbdev->fops = dvbdevfops;
+ 	init_waitqueue_head (&dvbdev->wait_queue);
+ 
+-	memcpy(dvbdevfops, template->fops, sizeof(struct file_operations));
+ 	dvbdevfops->owner = adap->module;
+ 
+ 	list_add_tail (&dvbdev->list_head, &adap->device_list);
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drxj.c b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+index a6876fa48753..2f5af4813a74 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drxj.c
++++ b/drivers/media/dvb-frontends/drx39xyj/drxj.c
+@@ -12287,7 +12287,8 @@ struct dvb_frontend *drx39xxj_attach(struct i2c_adapter *i2c)
+ 	if (state == NULL)
+ 		goto error;
+ 
+-	demod = kmalloc(sizeof(struct drx_demod_instance), GFP_KERNEL);
++	demod = kmemdup(&drxj_default_demod_g,
++			sizeof(struct drx_demod_instance), GFP_KERNEL);
+ 	if (demod == NULL)
+ 		goto error;
+ 
+@@ -12311,8 +12312,6 @@ struct dvb_frontend *drx39xxj_attach(struct i2c_adapter *i2c)
+ 	state->demod = demod;
+ 
+ 	/* setup the demod data */
+-	memcpy(demod, &drxj_default_demod_g, sizeof(struct drx_demod_instance));
+-
+ 	demod->my_i2c_dev_addr = demod_addr;
+ 	demod->my_common_attr = demod_comm_attr;
+ 	demod->my_i2c_dev_addr->user_data = state;
 -- 
-2.20.1
+2.11.0
 
