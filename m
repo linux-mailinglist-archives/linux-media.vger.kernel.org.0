@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E455E792
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 17:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27EEF5E798
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 17:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbfGCPPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 11:15:23 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:42786 "EHLO inva020.nxp.com"
+        id S1726841AbfGCPQp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 11:16:45 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:43628 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725847AbfGCPPX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Jul 2019 11:15:23 -0400
+        id S1726710AbfGCPQp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Jul 2019 11:16:45 -0400
 Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BF51C1A0DC6;
-        Wed,  3 Jul 2019 17:15:20 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id CF4CE1A03AA;
+        Wed,  3 Jul 2019 17:16:42 +0200 (CEST)
 Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id B1FD71A03AA;
-        Wed,  3 Jul 2019 17:15:20 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C300F1A016C;
+        Wed,  3 Jul 2019 17:16:42 +0200 (CEST)
 Received: from fsr-ub1664-134.ea.freescale.net (fsr-ub1664-134.ea.freescale.net [10.171.74.111])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 20571205F0;
-        Wed,  3 Jul 2019 17:15:20 +0200 (CEST)
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 3237F205F0;
+        Wed,  3 Jul 2019 17:16:42 +0200 (CEST)
 From:   Mirela Rabulea <mirela.rabulea@nxp.com>
 To:     mchehab@kernel.org
 Cc:     hverkuil-cisco@xs4all.nl, vivek.kasireddy@intel.com,
@@ -30,9 +30,11 @@ Cc:     hverkuil-cisco@xs4all.nl, vivek.kasireddy@intel.com,
         linux-kernel@vger.kernel.org, linux-imx@nxp.com,
         mirela.rabulea@nxp.com
 Subject: [PATCH] media: v4l: Add packed YUV444 24bpp pixel format
-Date:   Wed,  3 Jul 2019 18:15:10 +0300
-Message-Id: <1562166911-27454-1-git-send-email-mirela.rabulea@nxp.com>
+Date:   Wed,  3 Jul 2019 18:15:11 +0300
+Message-Id: <1562166911-27454-2-git-send-email-mirela.rabulea@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1562166911-27454-1-git-send-email-mirela.rabulea@nxp.com>
+References: <1562166911-27454-1-git-send-email-mirela.rabulea@nxp.com>
 X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
