@@ -2,39 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A435E6A5
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 16:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2163F5E70D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 16:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726628AbfGCO3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 10:29:11 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:39193 "EHLO
+        id S1726635AbfGCOqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 10:46:16 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:37429 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbfGCO3L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 10:29:11 -0400
+        with ESMTP id S1725944AbfGCOqQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 10:46:16 -0400
 Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1higFx-0003B7-Qx; Wed, 03 Jul 2019 16:29:09 +0200
-Message-ID: <1562164149.4604.9.camel@pengutronix.de>
-Subject: Re: [PATCH v2 1/2] media: uapi: Add VP8 stateless decoder API
+        id 1higWU-00058i-GC; Wed, 03 Jul 2019 16:46:14 +0200
+Message-ID: <1562165172.4604.11.camel@pengutronix.de>
+Subject: Re: [RFC] Stateful codecs and requirements for compressed formats
 From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
+To:     Tomasz Figa <tfiga@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Pawel Osciak <posciak@chromium.org>
-Date:   Wed, 03 Jul 2019 16:29:09 +0200
-In-Reply-To: <20190702170016.5210-2-ezequiel@collabora.com>
-References: <20190702170016.5210-1-ezequiel@collabora.com>
-         <20190702170016.5210-2-ezequiel@collabora.com>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Sylwester Nawrocki <snawrocki@kernel.org>
+Date:   Wed, 03 Jul 2019 16:46:12 +0200
+In-Reply-To: <CAAFQd5BqUS201QP4KHzmnKi5r+3P_KAa=L9CF3=zyQKypNyVuw@mail.gmail.com>
+References: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
+         <CAAFQd5BqUS201QP4KHzmnKi5r+3P_KAa=L9CF3=zyQKypNyVuw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.22.6-1+deb9u2 
 Mime-Version: 1.0
@@ -48,139 +45,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2019-07-02 at 14:00 -0300, Ezequiel Garcia wrote:
-> From: Pawel Osciak <posciak@chromium.org>
+On Wed, 2019-07-03 at 17:32 +0900, Tomasz Figa wrote:
+> Hi Hans,
 > 
-> Add the parsed VP8 frame pixel format and controls, to be used
-> with the new stateless decoder API for VP8 to provide parameters
-> for accelerator (aka stateless) codecs.
+> On Fri, Jun 28, 2019 at 11:34 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> > 
+> > Hi all,
+> > 
+> > I hope I Cc-ed everyone with a stake in this issue.
+> > 
+> > One recurring question is how a stateful encoder fills buffers and how a stateful
+> > decoder consumes buffers.
+> > 
+> > The most generic case is that an encoder produces a bitstream and just fills each
+> > CAPTURE buffer to the brim before continuing with the next buffer.
+> > 
+> > I don't think there are drivers that do this, I believe that all drivers just
+> > output a single compressed frame. For interlaced formats I understand it is either
+> > one compressed field per buffer, or two compressed fields per buffer (this is
+> > what I heard, I don't know if this is true).
+> > 
+> > In any case, I don't think this is specified anywhere. Please correct me if I am
+> > wrong.
+> > 
+> > The latest stateful codec spec is here:
+> > 
+> > https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
+> > 
+> > Assuming what I described above is indeed the case, then I think this should
+> > be documented. I don't know enough if a flag is needed somewhere to describe
+> > the behavior for interlaced formats, or can we leave this open and have userspace
+> > detect this?
+> > 
 > 
-> Signed-off-by: Pawel Osciak <posciak@chromium.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> --
-> Changes from v1:
-> * Move 1-bit fields to flags in the respective structures.
-> * Add padding fields to make all structures 8-byte aligned.
-> * Reorder fields where needed to avoid padding as much as possible.
-> * Fix documentation as needed.
+> From Chromium perspective, we don't have any use case for encoding
+> interlaced contents, so we'll be okay with whatever the interested
+> parties decide on. :)
 > 
-> Changes from RFC:
-> * Make sure the uAPI has the same size on x86, x86_64, arm and arm64.
-> * Move entropy coder state fields to a struct.
-> * Move key_frame field to the flags.
-> * Remove unneeded first_part_offset field.
-> * Add documentation.
-> ---
->  Documentation/media/uapi/v4l/biblio.rst       |  10 +
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 323 ++++++++++++++++++
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  20 ++
->  drivers/media/v4l2-core/v4l2-ctrls.c          |   8 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  include/media/v4l2-ctrls.h                    |   3 +
->  include/media/vp8-ctrls.h                     | 110 ++++++
->  7 files changed, 475 insertions(+)
->  create mode 100644 include/media/vp8-ctrls.h
+> > 
+> > For decoders it is more complicated. The stateful decoder spec is written with
+> > the assumption that userspace can just fill each OUTPUT buffer to the brim with
+> > the compressed bitstream. I.e., no need to split at frame or other boundaries.
+> > 
+> > See section 4.5.1.7 in the spec.
+> > 
+> > But I understand that various HW decoders *do* have limitations. I would really
+> > like to know about those, since that needs to be exposed to userspace somehow.
 > 
-> diff --git a/Documentation/media/uapi/v4l/biblio.rst b/Documentation/media/uapi/v4l/biblio.rst
-> index 8f4eb8823d82..ad2ff258afa8 100644
-> --- a/Documentation/media/uapi/v4l/biblio.rst
-> +++ b/Documentation/media/uapi/v4l/biblio.rst
-> @@ -395,3 +395,13 @@ colimg
->  :title:     Color Imaging: Fundamentals and Applications
->  
->  :author:    Erik Reinhard et al.
-> +
-> +.. _vp8:
-> +
-> +VP8
-> +===
-> +
-> +
-> +:title:     RFC 6386: "VP8 Data Format and Decoding Guide"
-> +
-> +:author:    J. Bankoski et al.
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> index d6ea2ffd65c5..aef335f175cd 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> @@ -2234,6 +2234,329 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      Quantization parameter for a P frame for FWHT. Valid range: from 1
->      to 31.
->  
-> +.. _v4l2-mpeg-vp8:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER (struct)``
-> +    Specifies the frame parameters for the associated VP8 parsed frame data.
-> +    This includes the necessary parameters for
-> +    configuring a stateless hardware decoding pipeline for VP8.
-> +    The bitstream parameters are defined according to :ref:`vp8`.
-> +
-> +    .. note::
-> +
-> +       This compound control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_ctrl_vp8_frame_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_vp8_frame_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - struct :c:type:`v4l2_vp8_segment_header`
-> +      - ``segment_header``
-> +      - Structure with segment-based adjustments metadata.
-> +    * - struct :c:type:`v4l2_vp8_loopfilter_header`
-> +      - ``loopfilter_header``
-> +      - Structure with loop filter level adjustments metadata.
-> +    * - struct :c:type:`v4l2_vp8_quantization_header`
-> +      - ``quant_header``
-> +      - Structure with VP8 dequantization indices metadata.
-> +    * - struct :c:type:`v4l2_vp8_entropy_header`
-> +      - ``entropy_header``
-> +      - Structure with VP8 entropy coder probabilities metadata.
-> +    * - struct :c:type:`v4l2_vp8_entropy_coder_state`
-> +      - ``coder_state``
-> +      - Structure with VP8 entropy coder state.
-> +    * - __u16
-> +      - ``width``
-> +      - The width of the frame. Must be set for all frames.
-> +    * - __u16
-> +      - ``height``
-> +      - The height of the frame. Must be set for all frames.
-> +    * - __u8
-> +      - ``horizontal_scale``
-> +      - Horizontal scaling factor.
-> +    * - __u8
-> +      - ``vertical_scaling factor``
-> +      - Vertical scale.
-> +    * - __u8
-> +      - ``version``
-> +      - Bitstream version.
-> +    * - __u8
-> +      - ``prob_skip_false``
-> +      - Indicates the probability that the macroblock is not skipped.
-> +    * - __u8
-> +      - ``prob_intra``
-> +      - Indicates the probability that a macroblock is intra-predicted.
-> +    * - __u8
-> +      - ``prob_last``
-> +      - Indicates the probability that the last reference frame is used
-> +        for inter-prediction
-> +    * - __u8
-> +      - ``prob_gf``
-> +      - Indicates the probability that the golden reference frame is used
-> +        for inter-prediction
-> +    * - __u8
-> +      - ``num_dct_parts``
-> +      - Number of DCT coefficients partitions.
+> AFAIK mtk-vcodec needs H.264 SPS and PPS to be split into their own
+> separate buffers. I believe it also needs 1 buffer to contain exactly
+> 1 frame and 1 frame to be fully contained inside 1 buffer.
+> 
+> Venus also needed 1 buffer to contain exactly 1 frame and 1 frame to
+> be fully contained inside 1 buffer. It used to have some specific
+> requirements regarding SPS and PPS too, but I think that was fixed in
+> the firmware.
+> 
+> > 
+> > Specifically, the venus decoder needs to know the resolution of the coded video
+> > beforehand
+> 
+> I don't think that's true for venus. It does parsing and can detect
+> the resolution.
+> 
+> However that's probably the case for coda...
 
-I assume this must be no larger than 8. Is this mandated by the spec? If
-so, should it be documented here and checked by v4l2-core?
+Yes, it is currently true for the coda driver. But I believe it is not
+actually necessary for coda hardware / firmware. I have already started
+to split sequence initialization (where the firmare parses the bitstream
+headers) from internal frame buffer allocation (which have to match
+capture buffers in size), and I think it should be possible to
+completely decouple the two and postpone buffer allocation far enough to
+allow output stream start without prior knowledge of the resolution.
+
+The decoder coda firmware fully parses the bitstream, but the driver has
+to copy it from the external output buffers into an internal bitstream
+ringbuffer anyway, and a few workarounds are necessary to make it always
+succeed regardless of whether the first buffer presented to it only
+contains headers, headers and a very small frame, or enough data to
+completely fill the bitstream reader's prefetch buffer. For this the
+driver has to parse the NAL start headers to a certain degree.
+
+Due to this bitstream copy in the driver, in theory there are no limits
+on how the input data is split into v4l2 buffers, but in practice only
+single frame per v4l2 output buffer use cases are actually tested
+regularly.
+
+The encoder produces a single compressed frame per buffer. There is no
+support for B frames in the firmware, as far as I can tell. There is no
+driver support for interlaced formats currently, I'm not sure whether
+the firmware supports interlacing.
 
 regards
 Philipp
