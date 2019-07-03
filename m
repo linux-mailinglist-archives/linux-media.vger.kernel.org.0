@@ -2,106 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3FC25DF5A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 10:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD36A5DFD0
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 10:32:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbfGCINf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 04:13:35 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46885 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727004AbfGCINe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 04:13:34 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 81so836622pfy.13
-        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:13:34 -0700 (PDT)
+        id S1727142AbfGCIcj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 04:32:39 -0400
+Received: from mail-ed1-f50.google.com ([209.85.208.50]:45736 "EHLO
+        mail-ed1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbfGCIcj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 04:32:39 -0400
+Received: by mail-ed1-f50.google.com with SMTP id a14so1186662edv.12
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jpedf64g2nGaIs7kgKn6od/wbXCzG2Hoh0kidvPp7dk=;
-        b=tOprpnLAEEu6fBkdjXEIJ34BuvWtKBDm5oEf54+Da+m50nWfaYSHHYYdb5/6Vg0El4
-         GJXh6N9s/2RFeP58PZSTqgYb2ZdhyQS2yTWrNvpC6u1D9qtX1/Qlc4cRYCxvCgbG0De5
-         jguuTe0m9jiGaF+yO+h2AMOilbpq1WM7maY29R5L9CrC/EYcCkNr9OWivOSCFOjuq69D
-         EczBnsIA5UnKpZuB9Ia+uJvA+97afMhGs5Rm1HCuUAZfMqJdl+6ll0oGKFfn9b2dITd7
-         BNZ2sm9qhOeUAIBRDu9q74BmWc5/WvUNz0KwH+MVw2Lb26Xh5Rqc3UaLLh7sTs8/xFit
-         RP8Q==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fJZN4T1wxhdeBjOAWLZm6RcRzgL4AXAvZbBVItk53do=;
+        b=Y7LYj0WmpcHTAG9Xp4kIF5h6euLpOd6Zvt1/bencnNTp3dLP2lXM1a2VKx4PfW9eht
+         x1u1b2llXRO00ucfdAXQY36ErmiLB56jgyyxObTvGIxbyiVzQEg+qQ/xo8/K5ZS8VIM3
+         3MIFsZKHphdVr9QgFmBk2a8N/dNHfymZpYSRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jpedf64g2nGaIs7kgKn6od/wbXCzG2Hoh0kidvPp7dk=;
-        b=hrVEW/u4S9Ge2WdI6BsdmDvh8Q5f0tniE0VNgztjHMe7cQi3h40fNYwFMKti513tUy
-         Z8jFnwp/hLc8FREf/M1C5+rhkinGMJFzvgIoDlD+KxqB+Cmr2Oc7egI0C6GnFqBcE3lr
-         k4/+V9t38ulsth/cVYhl5v65yz4gDbVhmW7MxJVMC6kdLB8dUv3wq4orlXCrp8AWqjxw
-         RGF69anxcHRlpjJVSDFiDprY2mjlEkAJHSgS6hOpsR97+N66cs7CIJ1960biYQ1mRDTZ
-         BkibnMxjClApLsKtSSjizyx4TJ2V4KF8eDM+p6lgWDQJDrOECA513dVBVPgivoOqa2Bq
-         84cw==
-X-Gm-Message-State: APjAAAUeb1OHAXOAqbdQolXeEteLATIO6wjaWuBVWgOkSRJPveWADLvC
-        eSHUi2SB7U77Am2tXGxKw8k=
-X-Google-Smtp-Source: APXvYqzNOnUDpfrEJM1ib6cYQUAiqJDL28YiIUT8L7BJ5nYJWLkdmVuLfk19mXffx4aXSbV1sHUrBQ==
-X-Received: by 2002:a17:90a:a116:: with SMTP id s22mr11066464pjp.47.1562141614267;
-        Wed, 03 Jul 2019 01:13:34 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.64.117])
-        by smtp.gmail.com with ESMTPSA id m6sm1176450pjl.18.2019.07.03.01.13.30
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 03 Jul 2019 01:13:33 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     maxime.ripard@bootlin.com, paul.kocialkowski@bootlin.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH 2/2] staging: media: sunxi: Replace function cedrus_check_format()
-Date:   Wed,  3 Jul 2019 13:43:17 +0530
-Message-Id: <20190703081317.22795-2-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190703081317.22795-1-nishkadg.linux@gmail.com>
-References: <20190703081317.22795-1-nishkadg.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fJZN4T1wxhdeBjOAWLZm6RcRzgL4AXAvZbBVItk53do=;
+        b=RCxhyaNInFCO6qKPGddUzwZbieiq1ZjA37jLAOlESK/Yh0drqTyKdVeXnBXmijDYTz
+         fwRgfayDSWqOQMotc1fGXQ2sZ7abO2FFlRT4tRR5n17RT0Y5DslZ3VqJmgQyahhEqA71
+         5zDVofWRukM0RoS+xUACJC/DrXs2rIEv01J8zh3vPmamw51+Q88BLN6T+0Bob8a5QB5i
+         HHk774Oo4ptSLVXI5ElIjCU/H9RimyUcI/npoNGF8pCWxGAISdEDIA4J0H75Qa60bAtt
+         A5H6MHeG3o+PMnTiEsZYjYzOqI4wboitWzSZAA/XoKUJCwk9C9hf38qgisoaaM2R97dt
+         5uNg==
+X-Gm-Message-State: APjAAAXd181h8Us3vtynjBmm1/YtXUJbw2kZ0ThHO29ptDb30gIIpwiU
+        kOWgpTujtsgUSCbou/KJyxH6FgfYvDj6tg==
+X-Google-Smtp-Source: APXvYqzDdQV0QVvMFO70EOEyJN8/jcH+hw/mt4nWyml5/lrEHNezRehRU/E4Vqg0/RqOeV7kV4DzRw==
+X-Received: by 2002:a50:ba19:: with SMTP id g25mr40993150edc.123.1562142757281;
+        Wed, 03 Jul 2019 01:32:37 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id p22sm313301ejm.38.2019.07.03.01.32.34
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 01:32:35 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id c2so1707185wrm.8
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:32:34 -0700 (PDT)
+X-Received: by 2002:a05:6000:1150:: with SMTP id d16mr3672075wrx.48.1562142754625;
+ Wed, 03 Jul 2019 01:32:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
+In-Reply-To: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 3 Jul 2019 17:32:23 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BqUS201QP4KHzmnKi5r+3P_KAa=L9CF3=zyQKypNyVuw@mail.gmail.com>
+Message-ID: <CAAFQd5BqUS201QP4KHzmnKi5r+3P_KAa=L9CF3=zyQKypNyVuw@mail.gmail.com>
+Subject: Re: [RFC] Stateful codecs and requirements for compressed formats
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Sylwester Nawrocki <snawrocki@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove function cedrus_check_format as all it does is call
-cedrus_find_format.
-Rename cedrus_find_format to cedrus_check_format to maintain
-compatibility with call sites.
-Issue found with Coccinelle.
+Hi Hans,
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+On Fri, Jun 28, 2019 at 11:34 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi all,
+>
+> I hope I Cc-ed everyone with a stake in this issue.
+>
+> One recurring question is how a stateful encoder fills buffers and how a stateful
+> decoder consumes buffers.
+>
+> The most generic case is that an encoder produces a bitstream and just fills each
+> CAPTURE buffer to the brim before continuing with the next buffer.
+>
+> I don't think there are drivers that do this, I believe that all drivers just
+> output a single compressed frame. For interlaced formats I understand it is either
+> one compressed field per buffer, or two compressed fields per buffer (this is
+> what I heard, I don't know if this is true).
+>
+> In any case, I don't think this is specified anywhere. Please correct me if I am
+> wrong.
+>
+> The latest stateful codec spec is here:
+>
+> https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
+>
+> Assuming what I described above is indeed the case, then I think this should
+> be documented. I don't know enough if a flag is needed somewhere to describe
+> the behavior for interlaced formats, or can we leave this open and have userspace
+> detect this?
+>
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 0ec31b9e0aea..d5cc9ed04fd2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -55,8 +55,8 @@ static inline struct cedrus_ctx *cedrus_file2ctx(struct file *file)
- 	return container_of(file->private_data, struct cedrus_ctx, fh);
- }
- 
--static bool cedrus_find_format(u32 pixelformat, u32 directions,
--			       unsigned int capabilities)
-+static bool cedrus_check_format(u32 pixelformat, u32 directions,
-+				unsigned int capabilities)
- {
- 	struct cedrus_format *fmt;
- 	unsigned int i;
-@@ -76,12 +76,6 @@ static bool cedrus_find_format(u32 pixelformat, u32 directions,
- 	return false;
- }
- 
--static bool cedrus_check_format(u32 pixelformat, u32 directions,
--				unsigned int capabilities)
--{
--	return cedrus_find_format(pixelformat, directions, capabilities);
--}
--
- static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
- {
- 	unsigned int width = pix_fmt->width;
--- 
-2.19.1
+From Chromium perspective, we don't have any use case for encoding
+interlaced contents, so we'll be okay with whatever the interested
+parties decide on. :)
 
+>
+> For decoders it is more complicated. The stateful decoder spec is written with
+> the assumption that userspace can just fill each OUTPUT buffer to the brim with
+> the compressed bitstream. I.e., no need to split at frame or other boundaries.
+>
+> See section 4.5.1.7 in the spec.
+>
+> But I understand that various HW decoders *do* have limitations. I would really
+> like to know about those, since that needs to be exposed to userspace somehow.
+
+AFAIK mtk-vcodec needs H.264 SPS and PPS to be split into their own
+separate buffers. I believe it also needs 1 buffer to contain exactly
+1 frame and 1 frame to be fully contained inside 1 buffer.
+
+Venus also needed 1 buffer to contain exactly 1 frame and 1 frame to
+be fully contained inside 1 buffer. It used to have some specific
+requirements regarding SPS and PPS too, but I think that was fixed in
+the firmware.
+
+>
+> Specifically, the venus decoder needs to know the resolution of the coded video
+> beforehand
+
+I don't think that's true for venus. It does parsing and can detect
+the resolution.
+
+However that's probably the case for coda...
+
+> and it expects a single frame per buffer (how does that work for
+> interlaced formats?).
+>
+> Such requirements mean that some userspace parsing is still required, so these
+> decoders are not completely stateful.
+>
+> Can every codec author give information about their decoder/encoder?
+>
+> I'll start off with my virtual codec driver:
+>
+> vicodec: the decoder fully parses the bitstream. The encoder produces a single
+> compressed frame per buffer. This driver doesn't yet support interlaced formats,
+> but when that is added it will encode one field per buffer.
+>
+> Let's see what the results are.
+
+s5p-mfc:
+ decoder: fully parses the bitstream,
+ encoder: produces a single frame per buffer (haven't tested interlaced stuff)
+
+mtk-vcodec:
+ decoder: expects separate buffers for SPS, PPS and full frames
+(including some random stuff like SEIMessage),
+ encoder: produces a single frame per buffer (haven't tested interlaced stuff)
+
+Best regards,
+Tomasz
