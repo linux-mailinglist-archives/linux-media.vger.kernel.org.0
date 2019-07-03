@@ -2,113 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB0D5E8E8
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 18:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3D225E939
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 18:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727260AbfGCQ3F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 12:29:05 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37213 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727076AbfGCQ3F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 12:29:05 -0400
-Received: by mail-pl1-f193.google.com with SMTP id bh12so1522472plb.4;
-        Wed, 03 Jul 2019 09:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WTPoqn8CSbIoCMVQ2nER3Fw2FFFBtKsXZetFkbEpLjQ=;
-        b=Fwv33z2RbQDYeP/BBRyfjMj18Q/gq19jPWitm//Ck+muhSMn3RePYHZuoMn2fmiofM
-         WOtLoznwgdhF7EYQYOFR6QZYWiSumAHxJPn18a8W2cWbgWn9o7DgzWxBKHAicFV6T4Fe
-         8yTP3cBaKpba/vLZCM77LR/B9/WjNlk/iKlWP6sC6+fIpTVU2Fke04qsVaIp43IuFi5q
-         S3yAxN3ERbDdPOqAjadQ32k7M5Wh45siiK/rktwDfUzP6TCC1SVhOpRE1RDvG6SFTAEx
-         25SUZQ841IPDQEKorMEEGwz9Xb9GxX2PMQERAVgAQN2E9OqySyONq2xKtokFKgmPTDuA
-         kkPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WTPoqn8CSbIoCMVQ2nER3Fw2FFFBtKsXZetFkbEpLjQ=;
-        b=Hsckt4aYI/oB0VuqT+QqoJgtU1YydWtXaW9J/7PaJnR6d5XGgJrdWtPVrmTTEEPpbj
-         uqGzgS/lF5NPJisbhaxFxclUI0UThsavnmtUT5BZ6K6Q/wHOW+feediC8fVuP4LaTjPG
-         KJuno9DcJp6ABToERZp5X6zGDGmezang4MYcqQPFyRKxS2LgOdtcsZtzstWSh2QsSXvZ
-         r1adxujVjxft9d6TGRPgV0k+/pTWYc3jwyOEQAERNl7QxNkGLNK8cXeFCHEnhSkY+LuU
-         x/92ZYnJ2VxDEE4irbaSu/M7QdTmVLlszjUVqRNqsf5guR0nrCxDcw6QVwqkTissOyeD
-         Kb+Q==
-X-Gm-Message-State: APjAAAVlfu16GD9J2ObQX8GLzvq2IomBoUSJTFtHFVIN3PJI2+NGeIOH
-        ynu0Kpt3y9NCmv5GsRVqd7k=
-X-Google-Smtp-Source: APXvYqx4RhzhvsPhhu2IsE3MGklbR4iTL9WJ66Wr86pl4WRq3FsjNXmqDGH99pfEyrSTD+j3sS8QYQ==
-X-Received: by 2002:a17:902:8c98:: with SMTP id t24mr44631754plo.320.1562171344636;
-        Wed, 03 Jul 2019 09:29:04 -0700 (PDT)
-Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.googlemail.com with ESMTPSA id z186sm3060038pfz.7.2019.07.03.09.29.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jul 2019 09:29:04 -0700 (PDT)
-From:   Fuqian Huang <huangfq.daxian@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Antoine Jacquet <royale@zerezo.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Fuqian Huang <huangfq.daxian@gmail.com>
-Subject: [PATCH v2 13/35] media/usb: Use kmemdup rather than duplicating its implementation
-Date:   Thu,  4 Jul 2019 00:28:57 +0800
-Message-Id: <20190703162857.32461-1-huangfq.daxian@gmail.com>
-X-Mailer: git-send-email 2.11.0
-To:     unlisted-recipients:; (no To-header on input)
+        id S1727011AbfGCQfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 12:35:20 -0400
+Received: from mout.gmx.net ([212.227.15.15]:56345 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726686AbfGCQfU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Jul 2019 12:35:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1562171702;
+        bh=8VzoVQDGFFnEz0ri0l+Y/Z3hothQojcZPEg+LYQvm6c=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=lsPQ/7+ACfxH4XJN0KAunTO1RYoDviygZKHIgsqoP5khHrEjnKAuLxeEBpzKDjsZw
+         URuvGbhwGn6R6GO6VV0nAC3IN/D/2Hi/yOEn/W9r0JmsOXsp1qjQFNvAz21BktspJ1
+         cqLlCT1s8shlOL/gHQfjByL8fFOYY+2yR92AOA0k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx002
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0MAyZg-1hqRyk0Q7A-009u5L; Wed, 03
+ Jul 2019 18:35:02 +0200
+Date:   Wed, 3 Jul 2019 18:35:00 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
+Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brad Love <brad@nextdimension.cc>
+Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
+Message-ID: <20190703163500.GF22408@latitude>
+References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
+ <20190702095109.GC22408@latitude>
+ <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+KJYzRxRHjYqLGl5"
+Content-Disposition: inline
+In-Reply-To: <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:WQd0V52qJoVeoLKv1xigM+RVdu80dTt+As10wjnu6CY7oqAbW/j
+ n+Kk1KT1MXMPotgGb1nZzxGqnfhL2GO6J8sXtvtJsiEHL7O7eYRzWcoE8gYWMH7H3Elm97K
+ eBMNAkdwxg1rEj/GijDvIFtkO54Cl5lupVW7Fn/nMjr64s+UAmiEq0Han85gyvYoHgbQXeL
+ FGye6kOzopyCJh/uotxFQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+6SDHD+wb8M=:YP2UxXWkEd7kPt4ksectbJ
+ wDbWyC4H3AISQTuMF5S4YWd9U9H63g47g1f7oOzqdUhg/yk2iu9eGWyE5fEf6q4VPakq+YnPf
+ JvGU0n9VOexJ2GaiOHjI5bEjoPFhjb0WvFgz7x8ithIKW9hC8QxczjFJLaKTFMl02/HU3mkPU
+ dvjTIYifN4sV9QAqm6vG6FhmQGLaoYfkO8ZIOKGT1mEgt5Fc+EDGXonGzR3ZFAGQZy4dDNEgm
+ x3M4oVYoSlgcfbLxz0gLgcO3UNRujcEZVe6KoA+Cz+7rYOnnXX+5RODln+4ZAQQk6Ljde+LuV
+ EqHMJjyaZ2ojQ+9JJa2kfMRsjk+EIFBrcOA02ydth9BrS/WnKXgZax+skGyKODXqjqSrK0bxH
+ GrL8hn3Rp56af7pjoGBKWE9Rc2gdhc1yeXzNfgWwu+8PBy1fvokGz4iHPRoK4Rt0i9WK02FUU
+ OLxYC18RkrKGTHT1ZtMxCRNzbbBIm8jd1GdYwO/Mm5Oi6Nnta7iYvD0NKcsdr5oR6eIcbkJ1b
+ O4Z219cloZnj2c/xAyDDJ7+UYh4LRUBfEiqBe/+jiF6rEUHriJV0d8kdPAiq+E3mq16mryqMj
+ 59n7nJCxEJXvK+e7ONOYic4mgFPh2mftXKargwDQaChRaec4yg0KY+Pkiyv94AWmSDzTDVfp9
+ j22lMQaVsCJU9AC1k13i1VFTxpO9Fi1Kxs0A19xfZya62eqAT9hIrN8CyDdGGZCM5uoIxmuRl
+ 5j8mE7onlBzpevbU82xf8eJFGL1DjtlHSEk84vhrLWYphafxOAXY1taad4+XtIvi/aRPe+tS/
+ vJeFRS2EmDPKdrK/O0QrQh1L+AKftZMLhXABOwN7feWNvaxUqgiKTH2ifJ36Ob7ru0L8qD/Xx
+ MOK5HE4G3pWuaGGQJ7M1CrJ/PBJY/BdYGIzZkazuNNMCQAKnLv6wv1qq+1+G+d60nfE81kQFh
+ YVZp9jFors8QjJ6ltkCiL78jUbR+uT/afzE0PRLBR8zYqR+ud7FYH+KS3g2YIEkf1lQkfBjIk
+ rDjUDytGdjbTXo5rZewV02y+Dki8C1EHiy9HVNowEeSuBS98ybiogU7TNMtLjLKKkeueC/iNm
+ yh0/CWaI8k9gaI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-kmemdup is introduced to duplicate a region of memory in a neat way.
-Rather than kmalloc/kzalloc + memcpy, which the programmer needs to
-write the size twice (sometimes lead to mistakes), kmemdup improves
-readability, leads to smaller code and also reduce the chances of mistakes.
-Suggestion to use kmemdup rather than using kmalloc/kzalloc + memcpy.
 
-Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
----
-Changes in v2:
-  - Fix a typo in commit message (memset -> memcpy)
+--+KJYzRxRHjYqLGl5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- drivers/media/usb/em28xx/em28xx-cards.c | 3 +--
- drivers/media/usb/zr364xx/zr364xx.c     | 4 +---
- 2 files changed, 2 insertions(+), 5 deletions(-)
+Hi again,
 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index 1283c7ca9ad5..6e33782c3ca6 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -3566,13 +3566,12 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- static int em28xx_duplicate_dev(struct em28xx *dev)
- {
- 	int nr;
--	struct em28xx *sec_dev = kzalloc(sizeof(*sec_dev), GFP_KERNEL);
-+	struct em28xx *sec_dev = kmemdup(dev, sizeof(*sec_dev), GFP_KERNEL);
- 
- 	if (!sec_dev) {
- 		dev->dev_next = NULL;
- 		return -ENOMEM;
- 	}
--	memcpy(sec_dev, dev, sizeof(*sec_dev));
- 	/* Check to see next free device and mark as used */
- 	do {
- 		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
-diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-index 37a7992585df..39df6bfece2c 100644
---- a/drivers/media/usb/zr364xx/zr364xx.c
-+++ b/drivers/media/usb/zr364xx/zr364xx.c
-@@ -199,12 +199,10 @@ static int send_control_msg(struct usb_device *udev, u8 request, u16 value,
- {
- 	int status;
- 
--	unsigned char *transfer_buffer = kmalloc(size, GFP_KERNEL);
-+	unsigned char *transfer_buffer = kmemdup(cp, size, GFP_KERNEL);
- 	if (!transfer_buffer)
- 		return -ENOMEM;
- 
--	memcpy(transfer_buffer, cp, size);
--
- 	status = usb_control_msg(udev,
- 				 usb_sndctrlpipe(udev, 0),
- 				 request,
--- 
-2.11.0
+On Wed, Jul 03, 2019 at 02:47:59PM +0200, Marc Gonzalez wrote:
+> On 02/07/2019 11:51, Jonathan Neusch=C3=A4fer wrote:
+> > On Mon, Jul 01, 2019 at 01:44:09PM +0200, Marc Gonzalez wrote:
+[...]
+> >>  static const struct dvb_frontend_ops si2168_ops;
+> >> =20
+> >> +#define CMD_SETUP(cmd, __args, __rlen) do {	\
+> >> +	int wlen =3D sizeof(__args) - 1;		\
+> >> +	memcpy(cmd.args, __args, wlen);		\
+> >> +	cmd.wlen =3D wlen; cmd.rlen =3D __rlen;	\
+> >> +} while (0)
+> >=20
+> > It would be nice for casual readers to have a little comment here, that
+> > explains (briefly) what this macro does, and what the arguments mean,
+> > and their types.
+>=20
+> Just a bit of background.
+>=20
+> A macro is required /at some point/ because arrays "decay" into pointers
+> when used as function arguments.
 
+*nod*
+
+[ I should have been more specific: By "here" I meant at that spot in
+  the code, and by casual readers I mostly meant casual readers of the
+  code once it's merged. ]
+
+> Come to think of it, I'm really not a fan of "large" macro functions.
+> I'll outline a different option in v2.
+
+The v2 approach looks nicer to me, thanks.
+
+> > Why cmd rather than __cmd? This seems inconsistent.
+>=20
+> Note: I hate using underscores in macro argument names, but they clashed
+> with the struct field names. There was no such clash for 'cmd'.
+
+Hmm, ok.
+
+> > The wlen local variable can be avoided by a bit of suffling:
+> >=20
+> > 	#define CMD_SETUP(cmd, __args, __rlen) do {	\
+> > 		cmd.rlen =3D __rlen;			\
+> > 		cmd.wlen =3D sizeof(__args) - 1;		\
+> > 		memcpy(cmd.args, __args, cmd.wlen);	\
+> > 	} while (0)
+>=20
+> Do you think it is important to avoid a local variable?
+
+Not exactly important, but wlen would be another name that can collide
+with the name spaces of the functions where the macro is used and
+trigger -Wshadow.
+
+
+Greetings,
+Jonathan Neusch=C3=A4fer
+
+--+KJYzRxRHjYqLGl5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl0c2QoACgkQCDBEmo7z
+X9vqIQ/9F6XYipBcpNCZYGQUrxmhVQAySFpGgnw4LXFN/OS1wwFkzq3dOEMQgCnf
+4hd7FvCcWKWnPOgMnbo9LcX6YulRh3WY44n4HF6d0HF3wGF91zvCn6Z7a9HieFhO
+BvrUfELL9/t1gC93iEnXeLBvz5gVUkLQfsHgIxlOuZ6/zej2ZiWvDh9c0jBix23Q
+0DqHwEWjjWkVTwm5m4G/pSzjAEUGoVjBK8r8Y8QhrDEm7y/FyZZXbdcXxka6OMYP
+Ij6PEb7SH8oLCuSpttWvjVVb0mcH6HY6frhpkO140iZ3gLe4THBbkPA+NCDIWN/c
+hx68+4FbnTif+k0Ds/hWRMmAzGvA2EnEi/cFOOSv3RWXh8D1op9p6PO/T5Urq22I
+hxgYhUeFTdONMRFPqjCP0nnmZQ1Bzf5TKFPKBjrGnX7tYy1F9QIDFcM7FXRz/7Fx
+zPO96Sh4/XiK6Cg+bL1rVAge8g85sjyIZgJpL9eF8lXmCqCoLXeI33nOuDaS5LnA
+N0tbwzXJAqM2aTF+nV+JMebRNFqzGnuA3bQgwx283fAO1P5jOOgqxNC+Y7jIO0lG
+3yEe07IqpP1d2z5Q5y8/XwBIpEYOThX64PH+09TpM3mmMkBqNy/WpSRnjtr/XuKK
+c0Fa4E4EDkwIDOmPmf7Nj6/MUny4Jmgo6vfa0Dlb4YSyV/VSMks=
+=gWpD
+-----END PGP SIGNATURE-----
+
+--+KJYzRxRHjYqLGl5--
