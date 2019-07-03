@@ -2,82 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B565E407
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 14:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C36205E45B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 14:48:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfGCMcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 08:32:48 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38700 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726486AbfGCMcs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 08:32:48 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2B7A828A928;
-        Wed,  3 Jul 2019 13:32:46 +0100 (BST)
-Date:   Wed, 3 Jul 2019 14:32:43 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        ZhiChao Yu <zhichao.yu@rock-chips.com>
-Subject: Re: [PATCH v2 2/2] media: hantro: Add support for VP8 decoding on
- rk3288
-Message-ID: <20190703143243.60174ead@collabora.com>
-In-Reply-To: <20190702170016.5210-3-ezequiel@collabora.com>
-References: <20190702170016.5210-1-ezequiel@collabora.com>
-        <20190702170016.5210-3-ezequiel@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727426AbfGCMsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 08:48:02 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:59666 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727415AbfGCMsB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Jul 2019 08:48:01 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 6C7B22079D;
+        Wed,  3 Jul 2019 14:47:59 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id 583F5206B9;
+        Wed,  3 Jul 2019 14:47:59 +0200 (CEST)
+Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
+To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brad Love <brad@nextdimension.cc>
+References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
+ <20190702095109.GC22408@latitude>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Message-ID: <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
+Date:   Wed, 3 Jul 2019 14:47:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190702095109.GC22408@latitude>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Wed Jul  3 14:47:59 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue,  2 Jul 2019 14:00:16 -0300
-Ezequiel Garcia <ezequiel@collabora.com> wrote:
+On 02/07/2019 11:51, Jonathan Neuschäfer wrote:
 
-> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> index bcacc4f51093..470e803e25a6 100644
-> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> @@ -74,6 +74,19 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
->  			.step_height = MPEG2_MB_DIM,
->  		},
->  	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_VP8_FRAME,
-> +		.codec_mode = HANTRO_MODE_VP8_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = 16,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = 16,
+> On Mon, Jul 01, 2019 at 01:44:09PM +0200, Marc Gonzalez wrote:
+>
+>> By refactoring the command setup code, we can let the compiler
+>> determine the size of each command.
+> 
+> I like the idea, it definitely saves some code.
+> 
+> The conversion also looks correct.
+> 
+>> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+>> ---
+>>  drivers/media/dvb-frontends/si2168.c | 142 ++++++++-------------------
+>>  1 file changed, 41 insertions(+), 101 deletions(-)
+>>
+>> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+>> index 168c503e9154..19398f041c79 100644
+>> --- a/drivers/media/dvb-frontends/si2168.c
+>> +++ b/drivers/media/dvb-frontends/si2168.c
+>> @@ -11,6 +11,12 @@
+>>  
+>>  static const struct dvb_frontend_ops si2168_ops;
+>>  
+>> +#define CMD_SETUP(cmd, __args, __rlen) do {	\
+>> +	int wlen = sizeof(__args) - 1;		\
+>> +	memcpy(cmd.args, __args, wlen);		\
+>> +	cmd.wlen = wlen; cmd.rlen = __rlen;	\
+>> +} while (0)
+> 
+> It would be nice for casual readers to have a little comment here, that
+> explains (briefly) what this macro does, and what the arguments mean,
+> and their types.
 
-Can you define VP8_MB_DIM and use if for step_{width,height} (as done
-for MPEG2 and H264)?
+Just a bit of background.
 
-Looks good otherwise:
+A macro is required /at some point/ because arrays "decay" into pointers
+when used as function arguments.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Come to think of it, I'm really not a fan of "large" macro functions.
+I'll outline a different option in v2.
 
-> +		},
-> +	},
->  };
+
+> Why cmd rather than __cmd? This seems inconsistent.
+
+Note: I hate using underscores in macro argument names, but they clashed
+with the struct field names. There was no such clash for 'cmd'.
+
+
+> The wlen local variable can be avoided by a bit of suffling:
+> 
+> 	#define CMD_SETUP(cmd, __args, __rlen) do {	\
+> 		cmd.rlen = __rlen;			\
+> 		cmd.wlen = sizeof(__args) - 1;		\
+> 		memcpy(cmd.args, __args, cmd.wlen);	\
+> 	} while (0)
+
+Do you think it is important to avoid a local variable?
+
+
+>> Not sure where to store the macro. Maybe include/media/dvb_frontend.h?
+> 
+> Then include/media/dvb_frontend.h would contain information about the
+> private structs of a few (two) drivers. This doesn't seem like a good
+> idea to me.
+
+You're right. I found a better place.
+
+Regards.
