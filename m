@@ -2,133 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C75DD5DC80
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 04:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 303275DDA0
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 06:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727387AbfGCC0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jul 2019 22:26:35 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40687 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfGCC0e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jul 2019 22:26:34 -0400
-Received: by mail-pg1-f196.google.com with SMTP id w10so355427pgj.7
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 19:26:34 -0700 (PDT)
+        id S1725944AbfGCE6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 00:58:54 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:39783 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbfGCE6y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 00:58:54 -0400
+Received: by mail-ed1-f47.google.com with SMTP id m10so695442edv.6
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 21:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9LSa6wcOyCAEFmmrefvYQyX7fTvyeHlG+veSDCcI4eE=;
-        b=ZGzQGMEI0xBc+6ht3TyJxLoqzKZvxKS3cyCqFs5aNkK82JwWf02bh1UI6nY7VvlV1d
-         uxCEdDgsuN+DEyiHLBmniA2W8TDStSwHNgznxmpeHL6R2gayEYEOJNRFT2roT+TZEonK
-         aegVewSeCatWM1lQmM9X0xcytloRWyF8MrjaU=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=uf5aCU6aY5t/9fyL90O/cqUCzIfpNsCzgBmR7PWCe0Y=;
+        b=kJASSwao08QQ12P0yrheKoob6wHDYCL0MeriSYWmYAymiP4LABpOrMNoNyF/wCA3kr
+         uYFEqJKV4aZsU7s8nJUFIWjf5HHdnAlnZ3xEyNpTUvFXTHaVcbC79gezsNkfl80hnR/g
+         fu07wEe13+Ad9Xzpx+1j3p/HXJlP2X2+GVKE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9LSa6wcOyCAEFmmrefvYQyX7fTvyeHlG+veSDCcI4eE=;
-        b=b1ExTIEMGNtlyVlVEVe22MqXGt+sIDixJeT6EMMAgYMRyds3E6lldVRXstzj4QqvuN
-         8U7lLI43Kd3M4geySsGrMKq/81AtraP3/mlq5eUiFJ7UVpwul5vBt3rVSiGDdRWJlA5c
-         rUWUoM+iX8YoAsmJoTYlVgw+QaBo32ZxxC5nWQ7jFR7Zh3ozJvY01tPHOLl+FMwpRxHV
-         nsx+f4pmMjjzO9m+na/hc+OEltFy8WKZxI0aLdVOT1GPQJYyCJT5AKulZolnmpsuriio
-         EfGV+ZSCJGdVOKLVOoXM9v7Q5XC7iy9T6nlDHJbGgsNo5msWxDgO5XkNyIdpJ1BENOGm
-         nTjQ==
-X-Gm-Message-State: APjAAAXI1A+AIa7pO6CKwVgMHG2HQn3IgxxUk6c5W2XNox8CcIr4bjib
-        Ofgq3mpBCqYaJmdaN5Hp92LDTw==
-X-Google-Smtp-Source: APXvYqzUnWHYQYw1cWjaDgpFIjT2QkKOSvq0HCjk5aFq7gXYzZR0rDEacBdmW9A7MSnrcYSG4GBVCQ==
-X-Received: by 2002:a63:d756:: with SMTP id w22mr33125752pgi.156.1562120794171;
-        Tue, 02 Jul 2019 19:26:34 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y133sm404949pfb.28.2019.07.02.19.26.33
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Jul 2019 19:26:33 -0700 (PDT)
-Date:   Tue, 2 Jul 2019 19:26:32 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Phong Tran <tranmanphong@gmail.com>
-Cc:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        hans.verkuil@cisco.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        skhan@linuxfoundation.org,
-        syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com,
-        syzkaller-bugs@googlegroups.com, glider@google.com
-Subject: Re: [PATCH V2] media: usb: technisat-usb2: fix buffer overflow
-Message-ID: <201907021925.1F24D6ADA3@keescook>
-References: <20190702140211.28399-1-tranmanphong@gmail.com>
- <20190703021444.19954-1-tranmanphong@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=uf5aCU6aY5t/9fyL90O/cqUCzIfpNsCzgBmR7PWCe0Y=;
+        b=Uwr80w8oBmQxqSleZmaYUKFwZWELGhcMGvh/rwU875MqOSoNwHTn1omg60Yl0+ZDug
+         Ob93Rbe10RnPwH4JeccL+sY3Lb9z3AzSjxH7E7eEncRK/xvQ0bZOohnI6BVqrACgtFBq
+         bhgXX4WHKkcIpbMyix1LxS2idbrfV6Ie1duZwEwSQXq59+g/KmRVNkR9Upfyq8jN8BfD
+         unC45rWXT4ODFEc8RReuEvMkmy879JN6t0O7sKOrphYozHMDpgxWVs8w74aNEE2hQzi4
+         JtPtltA8fBDHBFOfw7prIWb+F+yLlZz8YbQz2hlU06hunPqqjMkh6RqcrWC14sZMeY11
+         vPeQ==
+X-Gm-Message-State: APjAAAWyrazFfcV5+xTG1Irt+LbCaWvsmBxAsUst8aicJFS0n93wKyNF
+        ytP3ZoUHkSNxjkc2j6SYZtYvvJVGmLupKw==
+X-Google-Smtp-Source: APXvYqys36X7QpTduJZ0fXzmEcgS6G1rpcKnBCS23NVTiRZj/ZiBGpXXUs6TH6DzWA/tSCuQkPzq8Q==
+X-Received: by 2002:a17:906:9416:: with SMTP id q22mr32065569ejx.153.1562129932312;
+        Tue, 02 Jul 2019 21:58:52 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id e12sm327618edb.72.2019.07.02.21.58.50
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jul 2019 21:58:50 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id p13so1062605wru.10
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2019 21:58:50 -0700 (PDT)
+X-Received: by 2002:a05:6000:1150:: with SMTP id d16mr2514295wrx.48.1562129929689;
+ Tue, 02 Jul 2019 21:58:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190703021444.19954-1-tranmanphong@gmail.com>
+References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl> <20190603112835.19661-2-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20190603112835.19661-2-hverkuil-cisco@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 3 Jul 2019 13:58:38 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Aa-PQEakeg3sC_EDYdKy15hHx09Qmk6Jik4COeBe3xVA@mail.gmail.com>
+Message-ID: <CAAFQd5Aa-PQEakeg3sC_EDYdKy15hHx09Qmk6Jik4COeBe3xVA@mail.gmail.com>
+Subject: Re: [PATCHv4 1/2] media: docs-rst: Document memory-to-memory video
+ decoder interface
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Pawel Osciak <posciak@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 03, 2019 at 09:14:44AM +0700, Phong Tran wrote:
-> The buffer will be overflow in case of the while loop can not break.
-> Add the checking buffer condition in while loop for avoiding
-> overlooping index.
-> 
-> This issue was reported by syzbot
-> 
-> Reported-by: syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com
-> 
-> Tested-by:
-> https://groups.google.com/d/msg/syzkaller-bugs/CySBCKuUOOs/t3PvVheSAAAJ
-> 
+Hi Hans,
 
-Avoid these blank lines please. (More below...)
-
-> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+On Mon, Jun 3, 2019 at 8:28 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrot=
+e:
+>
+> From: Tomasz Figa <tfiga@chromium.org>
+>
+> Due to complexity of the video decoding process, the V4L2 drivers of
+> stateful decoder hardware require specific sequences of V4L2 API calls
+> to be followed. These include capability enumeration, initialization,
+> decoding, seek, pause, dynamic resolution change, drain and end of
+> stream.
+>
+> Specifics of the above have been discussed during Media Workshops at
+> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
+> Conference Europe 2014 in D=C3=BCsseldorf. The de facto Codec API that
+> originated at those events was later implemented by the drivers we alread=
+y
+> have merged in mainline, such as s5p-mfc or coda.
+>
+> The only thing missing was the real specification included as a part of
+> Linux Media documentation. Fix it now and document the decoder part of
+> the Codec API.
+>
+> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
-> Change Log:
->  * V2: add IR_MAX_BUFFER_INDEX and adjust the while loop condition as comments
-> ---
->  drivers/media/usb/dvb-usb/technisat-usb2.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> index c659e18b358b..cdabff97c1ea 100644
-> --- a/drivers/media/usb/dvb-usb/technisat-usb2.c
-> +++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> @@ -49,6 +49,7 @@ MODULE_PARM_DESC(disable_led_control,
->  		"disable LED control of the device (default: 0 - LED control is active).");
->  
->  /* device private data */
-> +#define IR_MAX_BUFFER_INDEX	63
+>  Documentation/media/uapi/v4l/dev-decoder.rst  | 1084 +++++++++++++++++
+>  Documentation/media/uapi/v4l/dev-mem2mem.rst  |    8 +-
+>  Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |    5 +
+>  Documentation/media/uapi/v4l/v4l2.rst         |   10 +-
+>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   41 +-
+>  5 files changed, 1132 insertions(+), 16 deletions(-)
+>  create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+>
 
-How does this map to the literal "62" used before the loop you're
-fixing?
+Thanks a lot for helping with remaining changes.
 
-Otherwise, it's looking good; thanks!
+Just one thing inline our team member found recently.
 
--Kees
+[snip]
+> +Capture setup
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+[snip]
+> +4.  **Optional.** Set the ``CAPTURE`` format via :c:func:`VIDIOC_S_FMT` =
+on the
+> +    ``CAPTURE`` queue. The client may choose a different format than
+> +    selected/suggested by the decoder in :c:func:`VIDIOC_G_FMT`.
+> +
+> +    * **Required fields:**
+> +
+> +      ``type``
+> +          a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
+> +
+> +      ``pixelformat``
+> +          a raw pixel format.
 
->  struct technisat_usb2_state {
->  	struct dvb_usb_device *dev;
->  	struct delayed_work green_led_work;
-> @@ -56,7 +57,7 @@ struct technisat_usb2_state {
->  
->  	u16 last_scan_code;
->  
-> -	u8 buf[64];
-> +	u8 buf[IR_MAX_BUFFER_INDEX + 1];
->  };
->  
->  /* debug print helpers */
-> @@ -655,7 +656,7 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
->  #endif
->  
->  	ev.pulse = 0;
-> -	while (1) {
-> +	while (b <= (buf + IR_MAX_BUFFER_INDEX)) {
->  		ev.pulse = !ev.pulse;
->  		ev.duration = (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_CLOCK_TICK) / 1000;
->  		ir_raw_event_store(d->rc_dev, &ev);
-> -- 
-> 2.11.0
-> 
+The client should be able to set the width and height as well. It's a
+quite frequent case, especially in DMA-buf import mode, that the
+buffers are actually bigger (e.g. more alignment) than what we could
+get from the decoder by default. For sane hardware platforms it's
+reasonable to expect that such bigger buffers could be handled as
+well, as long as we update the width and height here.
 
--- 
-Kees Cook
+It's more like a clarification anyway, so if you think it would be
+better to just merge the current revision, I could send a follow up
+patch.
+
+Regardless of that and FWIW:
+
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+
+Best regards,
+Tomasz
