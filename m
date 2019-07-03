@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74E975EC4D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 21:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45AB15EC52
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 21:09:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727129AbfGCTJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 15:09:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42266 "EHLO
+        id S1727207AbfGCTJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 15:09:51 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42290 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbfGCTJp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 15:09:45 -0400
+        with ESMTP id S1726473AbfGCTJv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 15:09:51 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 4799B28ABB7
+        with ESMTPSA id 69D0828AB67
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-rockchip@lists.infradead.org
 Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -24,16 +24,13 @@ Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
         sakari.ailus@linux.intel.com, kernel@collabora.com,
         ezequiel@collabora.com, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
+        Jacob Chen <jacob-chen@rock-chips.com>,
         Helen Koike <helen.koike@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v7 01/14] media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
-Date:   Wed,  3 Jul 2019 16:08:57 -0300
-Message-Id: <20190703190910.32633-2-helen.koike@collabora.com>
+        Yong Zhi <yong.zhi@intel.com>,
+        Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+Subject: [PATCH v7 02/14] media: doc: add document for rkisp1 meta buffer format
+Date:   Wed,  3 Jul 2019 16:08:58 -0300
+Message-Id: <20190703190910.32633-3-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190703190910.32633-1-helen.koike@collabora.com>
 References: <20190703190910.32633-1-helen.koike@collabora.com>
@@ -44,14 +41,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shunqian Zheng <zhengsq@rock-chips.com>
+From: Jacob Chen <jacob2.chen@rock-chips.com>
 
-Add the Rockchip ISP1 specific processing parameter format
-V4L2_META_FMT_RK_ISP1_PARAMS and metadata format
-V4L2_META_FMT_RK_ISP1_STAT_3A for 3A.
+This commit add document for rkisp1 meta buffer format
 
-Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+Signed-off-by: Jacob Chen <jacob-chen@rock-chips.com>
 Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
 [update for upstream]
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
@@ -59,40 +53,77 @@ Signed-off-by: Helen Koike <helen.koike@collabora.com>
 ---
 
 Changes in v7:
-- s/IPU3/RK_ISP1
+- s/correspond/corresponding
+- s/use/uses
+- s/docuemnt/document
 
- drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
- include/uapi/linux/videodev2.h       | 4 ++++
- 2 files changed, 6 insertions(+)
+ Documentation/media/uapi/v4l/meta-formats.rst |  2 ++
+ .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    | 20 +++++++++++++++++++
+ .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      | 18 +++++++++++++++++
+ 3 files changed, 40 insertions(+)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index b1f4b991dba6..248eb9d3bf42 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1308,6 +1308,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_VSP1_HGO:	descr = "R-Car VSP1 1-D Histogram"; break;
- 	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
- 	case V4L2_META_FMT_UVC:		descr = "UVC payload header metadata"; break;
-+	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A params"; break;
-+	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A statistics"; break;
- 
- 	default:
- 		/* Compressed formats */
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 9d9705ceda76..e1fa8e3089f8 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -750,6 +750,10 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
- 
-+/* Vendor specific - used for RK_ISP1 camera sub-system */
-+#define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
-+#define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
+index b10ca9ee3968..5de621fea3cc 100644
+--- a/Documentation/media/uapi/v4l/meta-formats.rst
++++ b/Documentation/media/uapi/v4l/meta-formats.rst
+@@ -24,3 +24,5 @@ These formats are used for the :ref:`metadata` interface only.
+     pixfmt-meta-uvc
+     pixfmt-meta-vsp1-hgo
+     pixfmt-meta-vsp1-hgt
++    pixfmt-meta-rkisp1-params
++    pixfmt-meta-rkisp1-stat
+diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+new file mode 100644
+index 000000000000..61b81331f820
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+@@ -0,0 +1,20 @@
++.. -*- coding: utf-8; mode: rst -*-
 +
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
- 
++.. _v4l2-meta-fmt-rkisp1-params:
++
++*******************************
++V4L2_META_FMT_RK_ISP1_PARAMS
++*******************************
++
++Rockchip ISP1 Parameters Data
++
++Description
++===========
++
++This format describes input parameters for the Rockchip ISP1.
++
++It uses c-struct :c:type:`rkisp1_isp_params_cfg`, which is defined in
++the ``linux/rkisp1-config.h`` header file, see it for details.
++
++The parameters consist of multiple modules.
++The module won't be updated if the corresponding bit was not set in module_*_update.
+diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+new file mode 100644
+index 000000000000..5496e1d42273
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+@@ -0,0 +1,18 @@
++.. -*- coding: utf-8; mode: rst -*-
++
++.. _v4l2-meta-fmt-rkisp1-stat:
++
++*******************************
++V4L2_META_FMT_RK_ISP1_STAT_3A
++*******************************
++
++Rockchip ISP1 Statistics Data
++
++Description
++===========
++
++This format describes image color statistics information generated by the Rockchip
++ISP1.
++
++It uses c-struct :c:type:`rkisp1_stat_buffer`, which is defined in
++the ``linux/cifisp_stat.h`` header file, see it for details.
 -- 
 2.20.1
 
