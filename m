@@ -2,113 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C36205E45B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 14:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2F935E4E6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 15:10:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbfGCMsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 08:48:02 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:59666 "EHLO ns.iliad.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727415AbfGCMsB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Jul 2019 08:48:01 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id 6C7B22079D;
-        Wed,  3 Jul 2019 14:47:59 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id 583F5206B9;
-        Wed,  3 Jul 2019 14:47:59 +0200 (CEST)
-Subject: Re: [PATCH v1] media: si2168: Refactor command setup code
-To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Brad Love <brad@nextdimension.cc>
-References: <6a8f9a5b-2e88-8c26-440b-76af0d91eda6@free.fr>
- <20190702095109.GC22408@latitude>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Message-ID: <6a644c94-f979-b656-472b-c7fe9303e08c@free.fr>
-Date:   Wed, 3 Jul 2019 14:47:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727013AbfGCNKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 09:10:55 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39134 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbfGCNKy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 09:10:54 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id A85B628A9A6
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, Todor Tomov <todor.tomov@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH] media: i2c: ov5645: Fix power up sequence
+Date:   Wed,  3 Jul 2019 10:10:44 -0300
+Message-Id: <20190703131044.7656-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190702095109.GC22408@latitude>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Wed Jul  3 14:47:59 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/07/2019 11:51, Jonathan Neuschäfer wrote:
+This is mostly a port of Jacopo's fix:
 
-> On Mon, Jul 01, 2019 at 01:44:09PM +0200, Marc Gonzalez wrote:
->
->> By refactoring the command setup code, we can let the compiler
->> determine the size of each command.
-> 
-> I like the idea, it definitely saves some code.
-> 
-> The conversion also looks correct.
-> 
->> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
->> ---
->>  drivers/media/dvb-frontends/si2168.c | 142 ++++++++-------------------
->>  1 file changed, 41 insertions(+), 101 deletions(-)
->>
->> diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
->> index 168c503e9154..19398f041c79 100644
->> --- a/drivers/media/dvb-frontends/si2168.c
->> +++ b/drivers/media/dvb-frontends/si2168.c
->> @@ -11,6 +11,12 @@
->>  
->>  static const struct dvb_frontend_ops si2168_ops;
->>  
->> +#define CMD_SETUP(cmd, __args, __rlen) do {	\
->> +	int wlen = sizeof(__args) - 1;		\
->> +	memcpy(cmd.args, __args, wlen);		\
->> +	cmd.wlen = wlen; cmd.rlen = __rlen;	\
->> +} while (0)
-> 
-> It would be nice for casual readers to have a little comment here, that
-> explains (briefly) what this macro does, and what the arguments mean,
-> and their types.
+  commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
+  Author: Jacopo Mondi <jacopo@jmondi.org>
+  Date:   Fri Jul 6 05:51:52 2018 -0400
 
-Just a bit of background.
+  media: ov5640: Re-work MIPI startup sequence
 
-A macro is required /at some point/ because arrays "decay" into pointers
-when used as function arguments.
+In the OV5645 case, the changes are:
 
-Come to think of it, I'm really not a fan of "large" macro functions.
-I'll outline a different option in v2.
+- Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
+- At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
+  LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
+- At set_power(0) time power down MIPI Tx/Rx (in addition to the current
+  power down of regulators and clock gating).
+- At s_stream time enable/disable the MIPI interface output.
 
+With this commit the sensor is able to enter LP-11 mode during power up,
+as expected by some CSI-2 controllers.
 
-> Why cmd rather than __cmd? This seems inconsistent.
+Many thanks to Fabio Estevam for his help debugging this issue.
 
-Note: I hate using underscores in macro argument names, but they clashed
-with the struct field names. There was no such clash for 'cmd'.
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/media/i2c/ov5645.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 124c8df04633..05430a81c977 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -45,6 +45,8 @@
+ #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
+ #define OV5645_CHIP_ID_LOW		0x300b
+ #define		OV5645_CHIP_ID_LOW_BYTE		0x45
++#define OV5645_IO_MIPI_CTRL00		0x300e
++#define OV5645_PAD_OUTPUT00		0x3019
+ #define OV5645_AWB_MANUAL_CONTROL	0x3406
+ #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
+ #define OV5645_AEC_PK_MANUAL		0x3503
+@@ -55,6 +57,7 @@
+ #define		OV5645_ISP_VFLIP		BIT(2)
+ #define OV5645_TIMING_TC_REG21		0x3821
+ #define		OV5645_SENSOR_MIRROR		BIT(1)
++#define OV5645_MIPI_CTRL00		0x4800
+ #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
+ #define		OV5645_TEST_PATTERN_MASK	0x3
+ #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
+@@ -121,7 +124,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
+ 	{ 0x3503, 0x07 },
+ 	{ 0x3002, 0x1c },
+ 	{ 0x3006, 0xc3 },
+-	{ 0x300e, 0x45 },
+ 	{ 0x3017, 0x00 },
+ 	{ 0x3018, 0x00 },
+ 	{ 0x302e, 0x0b },
+@@ -737,13 +739,30 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+ 				goto exit;
+ 			}
+ 
+-			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+-					       OV5645_SYSTEM_CTRL0_STOP);
++			ret = ov5645_write_reg(ov5645,
++					       OV5645_IO_MIPI_CTRL00, 0x40);
+ 			if (ret < 0) {
+ 				ov5645_set_power_off(ov5645);
+ 				goto exit;
+ 			}
++
++			ret = ov5645_write_reg(ov5645,
++					       OV5645_MIPI_CTRL00, 0x24);
++			if (ret < 0) {
++				ov5645_set_power_off(ov5645);
++				goto exit;
++			}
++
++			ret = ov5645_write_reg(ov5645,
++					       OV5645_PAD_OUTPUT00, 0x70);
++			if (ret < 0) {
++				ov5645_set_power_off(ov5645);
++				goto exit;
++			}
++
++			usleep_range(500, 1000);
+ 		} else {
++			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+ 			ov5645_set_power_off(ov5645);
+ 		}
+ 	}
+@@ -1049,11 +1068,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ 			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
+ 			return ret;
+ 		}
++
++		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
++		if (ret < 0)
++			return ret;
++
+ 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+ 				       OV5645_SYSTEM_CTRL0_START);
+ 		if (ret < 0)
+ 			return ret;
+ 	} else {
++		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
++		if (ret < 0)
++			return ret;
++
+ 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+ 				       OV5645_SYSTEM_CTRL0_STOP);
+ 		if (ret < 0)
+-- 
+2.20.1
 
-> The wlen local variable can be avoided by a bit of suffling:
-> 
-> 	#define CMD_SETUP(cmd, __args, __rlen) do {	\
-> 		cmd.rlen = __rlen;			\
-> 		cmd.wlen = sizeof(__args) - 1;		\
-> 		memcpy(cmd.args, __args, cmd.wlen);	\
-> 	} while (0)
-
-Do you think it is important to avoid a local variable?
-
-
->> Not sure where to store the macro. Maybe include/media/dvb_frontend.h?
-> 
-> Then include/media/dvb_frontend.h would contain information about the
-> private structs of a few (two) drivers. This doesn't seem like a good
-> idea to me.
-
-You're right. I found a better place.
-
-Regards.
