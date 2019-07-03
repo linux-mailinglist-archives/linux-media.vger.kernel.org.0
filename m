@@ -2,62 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2B7F5DF38
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 10:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D0715DF59
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 10:13:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbfGCIAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 04:00:40 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:48969 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbfGCIAj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 04:00:39 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hiaBv-0007oX-V5; Wed, 03 Jul 2019 08:00:36 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cobalt: remove redundant assignment to variable data
-Date:   Wed,  3 Jul 2019 09:00:35 +0100
-Message-Id: <20190703080035.13975-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S1727103AbfGCINb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 04:13:31 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42848 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727004AbfGCINb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 04:13:31 -0400
+Received: by mail-pl1-f193.google.com with SMTP id ay6so789030plb.9
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 01:13:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BvJNwkPS9MfNl5cMsC1QP7QkMzi/DuELy2LvBnmsMXs=;
+        b=lVKLv9ep+x4cUvfF60e2j506ilKkHO6GJ9kMGHlE16ajbL+aUPEEM5VQAC6ea0Bldg
+         JELTiHoLc+YIjPM+QPlPf3s6whkUv9WCjVkrb9BjMPoiXgeiwiQ1nTMFlgaks4IDjskG
+         0fgyOsK2vtV9xEHR7ZT0fOL/B2opBXSj2h5l+UdEpM1YuBjWJa0wPoV7ob8l3qqIAOTr
+         vFuyiv9yqqiITs5cpwC3l380edGBtpIjt3jVRO9ocbLYjW4xtkfe8V8K4+hlo8UCt1pt
+         7cv0tjmysRqss+du9MGt7dKW2lha1blcf4PAFNaJg4ObAmXj5Ld+TPmEAFnwdAc7oBYs
+         jc1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BvJNwkPS9MfNl5cMsC1QP7QkMzi/DuELy2LvBnmsMXs=;
+        b=UCU4zbJk+RFZxBgLaYfGcO2UUp8ST6qDBUZAyqhSeGafAJ0HJLlc6GU0r/RCSby49U
+         ON/TNSmhe+Hofrtdhjny4ffgND0fYhUUmZ6ONX3Ulw8uEMxOCxmsadUeULccJz2dAqAO
+         DdPB5YStN+5q2YhspIgo19qGtG/4OQHTAZJJG7iXe0mfB1xbzDsBlnOy1PNb8UhF+YmN
+         RXzzRqcyWHIEiGcqb3GIw3MMeI/bQba+45iCT0FYvhqV74SSjzMB66picZMRkRePu57G
+         dTnvij30ioqJ+CpIGMQ9WH3LkzwJiKBuesCDN95fjEi+OuE3ZRliA03MfO3d6eL34XOD
+         k5KA==
+X-Gm-Message-State: APjAAAV/h89oq2AvtCqyZx851EIn7Tu5GINrT6IEvkkade+B0ByCw1/k
+        0Rlga1Qp7ronaOInE6Jvddg=
+X-Google-Smtp-Source: APXvYqyU1k/W96dJNhLR99ByjoiAJ5wVF3nwNApkKn61Qi1jDrfWmGEXDoi1IdFinLjkKK+4fQ8R1Q==
+X-Received: by 2002:a17:902:b284:: with SMTP id u4mr42218344plr.36.1562141610635;
+        Wed, 03 Jul 2019 01:13:30 -0700 (PDT)
+Received: from localhost.localdomain ([122.163.64.117])
+        by smtp.gmail.com with ESMTPSA id m6sm1176450pjl.18.2019.07.03.01.13.27
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 03 Jul 2019 01:13:30 -0700 (PDT)
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+To:     maxime.ripard@bootlin.com, paul.kocialkowski@bootlin.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: [PATCH 1/2] staging: media: sunxi: Change return type of cedrus_find_format()
+Date:   Wed,  3 Jul 2019 13:43:16 +0530
+Message-Id: <20190703081317.22795-1-nishkadg.linux@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Change return type of cedrus_find_format to bool as it is only called
+once, by a function whose return value is bool, and the return value of
+cedrus_find_format is returned as-is at the call-site.
+Issue found with Coccinelle.
 
-The variable data is being initialized with a value that is never
-read and it is being updated later with a new value. The
-initialization is redundant and can be removed.
-
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 ---
- drivers/media/pci/cobalt/cobalt-flash.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/pci/cobalt/cobalt-flash.c b/drivers/media/pci/cobalt/cobalt-flash.c
-index ef96e0f956d2..1d3c64b4cf6d 100644
---- a/drivers/media/pci/cobalt/cobalt-flash.c
-+++ b/drivers/media/pci/cobalt/cobalt-flash.c
-@@ -69,7 +69,7 @@ static void flash_copy_to(struct map_info *map, unsigned long to,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 9673874ece10..0ec31b9e0aea 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -55,8 +55,8 @@ static inline struct cedrus_ctx *cedrus_file2ctx(struct file *file)
+ 	return container_of(file->private_data, struct cedrus_ctx, fh);
+ }
  
- 	pr_info("%s: offset 0x%x: length %zu\n", __func__, dest, len);
- 	while (len) {
--		u16 data = 0xffff;
-+		u16 data;
+-static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+-						unsigned int capabilities)
++static bool cedrus_find_format(u32 pixelformat, u32 directions,
++			       unsigned int capabilities)
+ {
+ 	struct cedrus_format *fmt;
+ 	unsigned int i;
+@@ -70,13 +70,10 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
  
- 		do {
- 			data = *src << (8 * (dest & 1));
+ 		if (fmt->pixelformat == pixelformat &&
+ 		    (fmt->directions & directions) != 0)
+-			break;
++			return true;
+ 	}
+ 
+-	if (i == CEDRUS_FORMATS_COUNT)
+-		return NULL;
+-
+-	return &cedrus_formats[i];
++	return false;
+ }
+ 
+ static bool cedrus_check_format(u32 pixelformat, u32 directions,
 -- 
-2.20.1
+2.19.1
 
