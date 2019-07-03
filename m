@@ -2,90 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7736E5EC22
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 21:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E975EC4D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2019 21:09:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbfGCTDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jul 2019 15:03:01 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:32784 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727241AbfGCTDA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 15:03:00 -0400
-Received: by mail-pg1-f195.google.com with SMTP id m4so1704365pgk.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2019 12:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=x1DRYxM4S/B7SoxMDhNxSzKMNHFlAjuQUN144vOww2A=;
-        b=EiT8BWbl+xHvb7JFvpcjaMBfzfBwNgp5IyVQl4JjzJ7b6sxwpmksLvde9vYcrpQreD
-         sRJqJbjhYOYJBEZompfAK7sofYrjSgbr3fdLQJ2n4MyEJ/tNP4N8IInWdCHMZ7wjDu6g
-         ofrPqbN6sZFxyvHDXBpRnX31lju59FJeiu5ao9NWIoOajR3+rnbMoO9tb6S1+cVNT5WK
-         HOUWSNdjAjNLEk8ssEXpuoRe33pQouijP6A8ueGkJJ7KeJNAmfDcfhq3SmmrXvFM0rIE
-         MWHD64RlAdRvOL/6ylNB8a9b9WZENN2Zn6wKnLQjbEys6SQJHq03eJP2+jKrOWhuJcPU
-         MAdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=x1DRYxM4S/B7SoxMDhNxSzKMNHFlAjuQUN144vOww2A=;
-        b=WhSRxTo7o/CzD9wPoDiucvsgNV+UMhSQWUHStoDUiUSkK073SuCXjMU8gfIWfXDOrU
-         GAozWDi5tEi9t6w+uVdw/iY4waddN9a8TEj5efoOXgEt0hiZVMPtY3XA1CskV/R/GNbH
-         cDyMrg0cqUleJYcQ6M8vK4fEhIoYcCQOKi1Q+KEfS50Rkrp5+YrH9BeqGOu6kN9dFznf
-         zQWaT2ZFNvcLV53uxiG3Mxw2IMKV8NDaqQCGd+RunvnwY3pYYz642s9Q6kdQUUBdmG8x
-         hoeqH7ztlukH/0k/v1GQy8FW0zFAKQ4N2sQfeIMJs+lT6zJRpJIIVQiVHoHqoPvoeEdX
-         HF5g==
-X-Gm-Message-State: APjAAAVSIx3mWiBSHPba7w8L3BsUcqXfAij43Z1+yOmm5WMsy+sr8uqG
-        SImcmAa+IROUyk23GAasP4fl
-X-Google-Smtp-Source: APXvYqy8mtloT40dRnY/gaVB9FpkscYftIb1iPR1fDiwsvm8UFmgRrDb0Wh22kBTCyQyQyviBDgDXw==
-X-Received: by 2002:a63:d04e:: with SMTP id s14mr13153497pgi.189.1562180579800;
-        Wed, 03 Jul 2019 12:02:59 -0700 (PDT)
-Received: from localhost.localdomain ([2409:4072:117:d72f:1d34:d0bb:bb4e:3065])
-        by smtp.gmail.com with ESMTPSA id j14sm3631503pfn.120.2019.07.03.12.02.54
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 03 Jul 2019 12:02:59 -0700 (PDT)
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     mchehab@kernel.org, robh+dt@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH 3/3] MAINTAINERS: Add entry for IMX290 CMOS image sensor driver
-Date:   Thu,  4 Jul 2019 00:32:30 +0530
-Message-Id: <20190703190230.12392-4-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190703190230.12392-1-manivannan.sadhasivam@linaro.org>
-References: <20190703190230.12392-1-manivannan.sadhasivam@linaro.org>
+        id S1727129AbfGCTJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 15:09:45 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42266 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726473AbfGCTJp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 15:09:45 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 4799B28ABB7
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-rockchip@lists.infradead.org
+Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
+        mchehab@kernel.org, heiko@sntech.de, jacob2.chen@rock-chips.com,
+        jeffy.chen@rock-chips.com, zyc@rock-chips.com,
+        linux-kernel@vger.kernel.org, tfiga@chromium.org,
+        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@linux.intel.com, kernel@collabora.com,
+        ezequiel@collabora.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
+        Helen Koike <helen.koike@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v7 01/14] media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
+Date:   Wed,  3 Jul 2019 16:08:57 -0300
+Message-Id: <20190703190910.32633-2-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190703190910.32633-1-helen.koike@collabora.com>
+References: <20190703190910.32633-1-helen.koike@collabora.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add MAINTAINERS entry for Sony IMX290 CMOS image sensor driver.
+From: Shunqian Zheng <zhengsq@rock-chips.com>
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Add the Rockchip ISP1 specific processing parameter format
+V4L2_META_FMT_RK_ISP1_PARAMS and metadata format
+V4L2_META_FMT_RK_ISP1_STAT_3A for 3A.
+
+Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+[update for upstream]
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d0ed735994a5..27e4c1f57b61 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14669,6 +14669,14 @@ S:	Maintained
- F:	drivers/media/i2c/imx274.c
- F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
+Changes in v7:
+- s/IPU3/RK_ISP1
+
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+ include/uapi/linux/videodev2.h       | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index b1f4b991dba6..248eb9d3bf42 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1308,6 +1308,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_VSP1_HGO:	descr = "R-Car VSP1 1-D Histogram"; break;
+ 	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
+ 	case V4L2_META_FMT_UVC:		descr = "UVC payload header metadata"; break;
++	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A params"; break;
++	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A statistics"; break;
  
-+SONY IMX290 SENSOR DRIVER
-+M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+L:	linux-media@vger.kernel.org
-+T:	git git://linuxtv.org/media_tree.git
-+S:	Maintained
-+F:	drivers/media/i2c/imx290.c
-+F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
+ 	default:
+ 		/* Compressed formats */
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 9d9705ceda76..e1fa8e3089f8 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -750,6 +750,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+ #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+ 
++/* Vendor specific - used for RK_ISP1 camera sub-system */
++#define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
++#define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
 +
- SONY IMX319 SENSOR DRIVER
- M:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
+ /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+ 
 -- 
-2.17.1
+2.20.1
 
