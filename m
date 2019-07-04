@@ -2,411 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C8E5F624
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 11:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B80F15F66C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 12:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727436AbfGDJ6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 05:58:48 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:39500 "EHLO ns.iliad.fr"
+        id S1727536AbfGDKOY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 06:14:24 -0400
+Received: from mout.gmx.net ([212.227.17.21]:38011 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727223AbfGDJ6s (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jul 2019 05:58:48 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id BE98820BD5;
-        Thu,  4 Jul 2019 11:58:45 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id A61FC205C8;
-        Thu,  4 Jul 2019 11:58:45 +0200 (CEST)
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Subject: [PATCH v2] media: si2168: Refactor command setup code
-To:     Antti Palosaari <crope@iki.fi>,
+        id S1727249AbfGDKOX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Jul 2019 06:14:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1562235242;
+        bh=QkCJpGFSgUNuFdvdF9lwK624srSCvigRjgWwmebE/P4=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=kRtRCk1NCtawiZKymneKJ1kr1gNqM/POpzAp1+WiyYsvkHS4ZVdXvgrSJE3Pmzvp7
+         Eds2d3AqppDTIvPO6CgXTL/jorARVApABLf9OalSK/oCCFV3m457vG/6D+hrp9Zxwe
+         sULfo90vdoATnobydHtTfVlvJlqoYtwNMNbGTtms=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx102
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0LiIgB-1iMjTm4Ai3-00nUMT; Thu, 04
+ Jul 2019 12:14:02 +0200
+Date:   Thu, 4 Jul 2019 12:14:01 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
+Cc:     Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
-Cc:     linux-media <linux-media@vger.kernel.org>,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-media <linux-media@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         MSM <linux-arm-msm@vger.kernel.org>,
         Brad Love <brad@nextdimension.cc>,
         Bjorn Andersson <bjorn.andersson@linaro.org>
-Message-ID: <c28a0da0-7264-4d23-94f1-3bd614383843@free.fr>
-Date:   Thu, 4 Jul 2019 11:58:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Subject: Re: [PATCH v2] media: si2168: Refactor command setup code
+Message-ID: <20190704101401.GG22408@latitude>
+References: <c28a0da0-7264-4d23-94f1-3bd614383843@free.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jul  4 11:58:45 2019 +0200 (CEST)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tVmo9FyGdCe4F4YN"
+Content-Disposition: inline
+In-Reply-To: <c28a0da0-7264-4d23-94f1-3bd614383843@free.fr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:wD0VADbn4aMPuFxFWljJEsbuN/IC/v2ewNlb0Sp1w9t1uRtQKl3
+ cvhxKK4wBETkDdq6Y8ZgRS/fa0scWKAqD2sPPrUK4q+Xv9x0obPXwNOVm2YIzX9p+K9eyuT
+ Q91UvOBKWoPckMerhMat7c6wV3ZyfmXnZFtckijopeHHXgprXs6EjcyGcfqO1aB07okex1f
+ k5WxyBlnR4owuDpxwCB+Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OuPds79/bws=:HUsAkxiPEFy5oWxjUPaiyL
+ Hg9RPnHZ0wpMLcuAcnhl4A2SJkU8S76p+j5m+QbMYj3+yZOg/tC8/5uMg4GxVQC2BahOrLb9m
+ sytMd5Hz84/vGHEzlCV422MYwgpI/G3v3mmMEImfkPZ7mgi9bBgvl6QLe3GDEPuSUTdzfKmIF
+ iD3X9lDgQBO+7wE4OMxpww3fY9k9QB1k74Rrm9hhECyWVZ9a8VpbrDuStPgLnHdjjvu/Pn4aX
+ 3a1GHbvLstOg35ZVAY/ZK2mKv7t0i1ZLQAG7VhsTTFZgaABugllIRCldHUactswXzTHrgVgRJ
+ O6cnk0h9w48Qw8LdhpWXO6p1TFCggF3fuMh4gO+rrLO3+FCl6I37Ked1bu+X5AKqHpeO43gam
+ lLlg3TRySGS+9VUVGuv+b2s3ZENVHxRihfdN5KI/Knd7A8h94e+P2ldiTLD5eYHwM5udHwpA8
+ GxfWaNr0Ezji3ziZXCZKQEJjfcu9IVXdRIEQCD/zm9a1OKsiPQpgUNYzYWJt5uUIiP4fnonSY
+ 1Iw42q8Fd+vesHFNnWZhFou/J/SC4eAp6NqqmrgZjkywM4WR4Q1AY8g/qXXY3oxM9t/DROV6W
+ kc0nsF+HSIcCbzdAKc+atBKQyU55wNr8UdNDUxErtG6rm/Kn9/kraNDKf8fnW4lDTELl+Fa94
+ wVSO/aoMrfYo4km71Y68YacQy1gkrVi9dKJZ3Ymdw1o4u8pk35zuTLRPpHakWzZRNSQY2Pdde
+ p7Cuc7fylRnNdiezaWTZ5wunvqOoR65Z4FYX2jt2pe7qNQdgN0zc5MgOXwGBCiQhdeKDPTveL
+ P0JCHnueUtsEHTEqVx2A/QEiBNj9v2BZQv3ODqofoZ9WTj4uXpsTRzvsGZF0jaYpdhQIE7ODn
+ DhM6r8bIMRm6+ZI0ZUKuqC0n1VpAhTZzxARETEVrG2fme71K1ENW7aXruuiSpR5VONbZzsXIt
+ 69L//JqR4ZD1B/xhlToHe7I++kpm9S31BOGaYtZlJb8S9wYenV5MUQuYoddaSP8E9lLk2Akwg
+ +uB+WpDPiJw8/UE0iE3szXJ4JnsszrH9EPy16p3e6v3ntYOQH7uYv4okRg6xMGU3iJSVt3whw
+ WgVZ9OjnRkWXKk=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From ceb5f687f3f7dab2fb9d5b34408d9cf83a0be228 Mon Sep 17 00:00:00 2001
-From: Marc Gonzalez <marc.w.gonzalez@free.fr>
-Date: Mon, 1 Jul 2019 12:58:31 +0200
-Subject: [PATCH v2] media: si2168: Refactor command setup code
 
-Refactor the command setup code, and let the compiler determine
-the size of each command.
+--tVmo9FyGdCe4F4YN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
----
-Changes from v1:
-- Use a real function to populate struct si2168_cmd *cmd, and a trivial
-macro wrapping it (macro because sizeof).
----
- drivers/media/dvb-frontends/si2168.c | 146 +++++++++------------------
- 1 file changed, 45 insertions(+), 101 deletions(-)
+On Thu, Jul 04, 2019 at 11:58:45AM +0200, Marc Gonzalez wrote:
+> >From ceb5f687f3f7dab2fb9d5b34408d9cf83a0be228 Mon Sep 17 00:00:00 2001
+> From: Marc Gonzalez <marc.w.gonzalez@free.fr>
+> Date: Mon, 1 Jul 2019 12:58:31 +0200
+> Subject: [PATCH v2] media: si2168: Refactor command setup code
+>=20
+> Refactor the command setup code, and let the compiler determine
+> the size of each command.
+>=20
+> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
 
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index c64b360ce6b5..5e81e076369c 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -12,6 +12,16 @@
- 
- static const struct dvb_frontend_ops si2168_ops;
- 
-+static void cmd_setup(struct si2168_cmd *cmd, char *args, int wlen, int rlen)
-+{
-+	memcpy(cmd->args, args, wlen);
-+	cmd->wlen = wlen;
-+	cmd->rlen = rlen;
-+}
-+
-+#define CMD_SETUP(cmd, args, rlen) \
-+	cmd_setup(cmd, args, sizeof(args) - 1, rlen)
-+
- /* execute firmware command */
- static int si2168_cmd_execute(struct i2c_client *client, struct si2168_cmd *cmd)
- {
-@@ -84,15 +94,13 @@ static int si2168_ts_bus_ctrl(struct dvb_frontend *fe, int acquire)
- 	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
- 
- 	/* set TS_MODE property */
--	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-+	CMD_SETUP(&cmd, "\x14\x00\x01\x10\x10\x00", 4);
- 	if (acquire)
- 		cmd.args[4] |= dev->ts_mode;
- 	else
- 		cmd.args[4] |= SI2168_TS_TRISTATE;
- 	if (dev->ts_clock_gapped)
- 		cmd.args[4] |= 0x40;
--	cmd.wlen = 6;
--	cmd.rlen = 4;
- 	ret = si2168_cmd_execute(client, &cmd);
- 
- 	return ret;
-@@ -116,19 +124,13 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 
- 	switch (c->delivery_system) {
- 	case SYS_DVBT:
--		memcpy(cmd.args, "\xa0\x01", 2);
--		cmd.wlen = 2;
--		cmd.rlen = 13;
-+		CMD_SETUP(&cmd, "\xa0\x01", 13);
- 		break;
- 	case SYS_DVBC_ANNEX_A:
--		memcpy(cmd.args, "\x90\x01", 2);
--		cmd.wlen = 2;
--		cmd.rlen = 9;
-+		CMD_SETUP(&cmd, "\x90\x01", 9);
- 		break;
- 	case SYS_DVBT2:
--		memcpy(cmd.args, "\x50\x01", 2);
--		cmd.wlen = 2;
--		cmd.rlen = 14;
-+		CMD_SETUP(&cmd, "\x50\x01", 14);
- 		break;
- 	default:
- 		ret = -EINVAL;
-@@ -165,9 +167,7 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 
- 	/* BER */
- 	if (*status & FE_HAS_VITERBI) {
--		memcpy(cmd.args, "\x82\x00", 2);
--		cmd.wlen = 2;
--		cmd.rlen = 3;
-+		CMD_SETUP(&cmd, "\x82\x00", 3);
- 		ret = si2168_cmd_execute(client, &cmd);
- 		if (ret)
- 			goto err;
-@@ -198,9 +198,7 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 
- 	/* UCB */
- 	if (*status & FE_HAS_SYNC) {
--		memcpy(cmd.args, "\x84\x01", 2);
--		cmd.wlen = 2;
--		cmd.rlen = 3;
-+		CMD_SETUP(&cmd, "\x84\x01", 3);
- 		ret = si2168_cmd_execute(client, &cmd);
- 		if (ret)
- 			goto err;
-@@ -286,22 +284,18 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
- 			goto err;
- 	}
- 
--	memcpy(cmd.args, "\x88\x02\x02\x02\x02", 5);
--	cmd.wlen = 5;
--	cmd.rlen = 5;
-+	CMD_SETUP(&cmd, "\x88\x02\x02\x02\x02", 5);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
- 	/* that has no big effect */
- 	if (c->delivery_system == SYS_DVBT)
--		memcpy(cmd.args, "\x89\x21\x06\x11\xff\x98", 6);
-+		CMD_SETUP(&cmd, "\x89\x21\x06\x11\xff\x98", 3);
- 	else if (c->delivery_system == SYS_DVBC_ANNEX_A)
--		memcpy(cmd.args, "\x89\x21\x06\x11\x89\xf0", 6);
-+		CMD_SETUP(&cmd, "\x89\x21\x06\x11\x89\xf0", 3);
- 	else if (c->delivery_system == SYS_DVBT2)
--		memcpy(cmd.args, "\x89\x21\x06\x11\x89\x20", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 3;
-+		CMD_SETUP(&cmd, "\x89\x21\x06\x11\x89\x20", 3);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -318,103 +312,77 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
- 			goto err;
- 	}
- 
--	memcpy(cmd.args, "\x51\x03", 2);
--	cmd.wlen = 2;
--	cmd.rlen = 12;
-+	CMD_SETUP(&cmd, "\x51\x03", 12);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x12\x08\x04", 3);
--	cmd.wlen = 3;
--	cmd.rlen = 3;
-+	CMD_SETUP(&cmd, "\x12\x08\x04", 3);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x0c\x10\x12\x00", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x0c\x10\x12\x00", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x06\x10\x24\x00", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x06\x10\x24\x00", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x07\x10\x00\x24", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x07\x10\x00\x24", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x0a\x10\x00\x00", 6);
-+	CMD_SETUP(&cmd, "\x14\x00\x0a\x10\x00\x00", 4);
- 	cmd.args[4] = delivery_system | bandwidth;
- 	if (dev->spectral_inversion)
- 		cmd.args[5] |= 1;
--	cmd.wlen = 6;
--	cmd.rlen = 4;
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
- 	/* set DVB-C symbol rate */
- 	if (c->delivery_system == SYS_DVBC_ANNEX_A) {
--		memcpy(cmd.args, "\x14\x00\x02\x11", 4);
-+		CMD_SETUP(&cmd, "\x14\x00\x02\x11\x00\x00", 4);
- 		cmd.args[4] = ((c->symbol_rate / 1000) >> 0) & 0xff;
- 		cmd.args[5] = ((c->symbol_rate / 1000) >> 8) & 0xff;
--		cmd.wlen = 6;
--		cmd.rlen = 4;
- 		ret = si2168_cmd_execute(client, &cmd);
- 		if (ret)
- 			goto err;
- 	}
- 
--	memcpy(cmd.args, "\x14\x00\x0f\x10\x10\x00", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x0f\x10\x10\x00", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x09\x10\xe3\x08", 6);
-+	CMD_SETUP(&cmd, "\x14\x00\x09\x10\xe3\x08", 4);
- 	cmd.args[5] |= dev->ts_clock_inv ? 0x00 : 0x10;
--	cmd.wlen = 6;
--	cmd.rlen = 4;
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x08\x10\xd7\x05", 6);
-+	CMD_SETUP(&cmd, "\x14\x00\x08\x10\xd7\x05", 4);
- 	cmd.args[5] |= dev->ts_clock_inv ? 0x00 : 0x10;
--	cmd.wlen = 6;
--	cmd.rlen = 4;
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x01\x12\x00\x00", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x01\x12\x00\x00", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x14\x00\x01\x03\x0c\x00", 6);
--	cmd.wlen = 6;
--	cmd.rlen = 4;
-+	CMD_SETUP(&cmd, "\x14\x00\x01\x03\x0c\x00", 4);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
--	memcpy(cmd.args, "\x85", 1);
--	cmd.wlen = 1;
--	cmd.rlen = 1;
-+	CMD_SETUP(&cmd, "\x85", 1);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -444,26 +412,20 @@ static int si2168_init(struct dvb_frontend *fe)
- 	dev_dbg(&client->dev, "\n");
- 
- 	/* initialize */
--	memcpy(cmd.args, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 13);
--	cmd.wlen = 13;
--	cmd.rlen = 0;
-+	CMD_SETUP(&cmd, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 0);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
- 	if (dev->warm) {
- 		/* resume */
--		memcpy(cmd.args, "\xc0\x06\x08\x0f\x00\x20\x21\x01", 8);
--		cmd.wlen = 8;
--		cmd.rlen = 1;
-+		CMD_SETUP(&cmd, "\xc0\x06\x08\x0f\x00\x20\x21\x01", 1);
- 		ret = si2168_cmd_execute(client, &cmd);
- 		if (ret)
- 			goto err;
- 
- 		udelay(100);
--		memcpy(cmd.args, "\x85", 1);
--		cmd.wlen = 1;
--		cmd.rlen = 1;
-+		CMD_SETUP(&cmd, "\x85", 1);
- 		ret = si2168_cmd_execute(client, &cmd);
- 		if (ret)
- 			goto err;
-@@ -472,9 +434,7 @@ static int si2168_init(struct dvb_frontend *fe)
- 	}
- 
- 	/* power up */
--	memcpy(cmd.args, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 8);
--	cmd.wlen = 8;
--	cmd.rlen = 1;
-+	CMD_SETUP(&cmd, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 1);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -542,17 +502,13 @@ static int si2168_init(struct dvb_frontend *fe)
- 
- 	release_firmware(fw);
- 
--	memcpy(cmd.args, "\x01\x01", 2);
--	cmd.wlen = 2;
--	cmd.rlen = 1;
-+	CMD_SETUP(&cmd, "\x01\x01", 1);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
- 
- 	/* query firmware version */
--	memcpy(cmd.args, "\x11", 1);
--	cmd.wlen = 1;
--	cmd.rlen = 10;
-+	CMD_SETUP(&cmd, "\x11", 10);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -610,9 +566,7 @@ static int si2168_sleep(struct dvb_frontend *fe)
- 	if (dev->version > ('B' << 24 | 4 << 16 | 0 << 8 | 11 << 0))
- 		dev->warm = false;
- 
--	memcpy(cmd.args, "\x13", 1);
--	cmd.wlen = 1;
--	cmd.rlen = 0;
-+	CMD_SETUP(&cmd, "\x13", 0);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -638,9 +592,7 @@ static int si2168_select(struct i2c_mux_core *muxc, u32 chan)
- 	struct si2168_cmd cmd;
- 
- 	/* open I2C gate */
--	memcpy(cmd.args, "\xc0\x0d\x01", 3);
--	cmd.wlen = 3;
--	cmd.rlen = 0;
-+	CMD_SETUP(&cmd, "\xc0\x0d\x01", 0);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -658,9 +610,7 @@ static int si2168_deselect(struct i2c_mux_core *muxc, u32 chan)
- 	struct si2168_cmd cmd;
- 
- 	/* close I2C gate */
--	memcpy(cmd.args, "\xc0\x0d\x00", 3);
--	cmd.wlen = 3;
--	cmd.rlen = 0;
-+	CMD_SETUP(&cmd, "\xc0\x0d\x00", 0);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-@@ -753,25 +703,19 @@ static int si2168_probe(struct i2c_client *client,
- 	mutex_init(&dev->i2c_mutex);
- 
- 	/* Initialize */
--	memcpy(cmd.args, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 13);
--	cmd.wlen = 13;
--	cmd.rlen = 0;
-+	CMD_SETUP(&cmd, "\xc0\x12\x00\x0c\x00\x0d\x16\x00\x00\x00\x00\x00\x00", 0);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err_kfree;
- 
- 	/* Power up */
--	memcpy(cmd.args, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 8);
--	cmd.wlen = 8;
--	cmd.rlen = 1;
-+	CMD_SETUP(&cmd, "\xc0\x06\x01\x0f\x00\x20\x20\x01", 1);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err_kfree;
- 
- 	/* Query chip revision */
--	memcpy(cmd.args, "\x02", 1);
--	cmd.wlen = 1;
--	cmd.rlen = 13;
-+	CMD_SETUP(&cmd, "\x02", 13);
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err_kfree;
--- 
-2.17.1
+Reviewed-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+
+
+Thanks,
+Jonathan Neusch=C3=A4fer
+
+--tVmo9FyGdCe4F4YN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl0d0UUACgkQCDBEmo7z
+X9u1Uw//VzQPr9Ez7Z8bLgzo9u7ElCsmMWEjQhAL05Zvk3O5fxZbwlQYuH4cI2Vl
+rfSwXqOyHoL+6IElX20nPNl4wx+QXMPNAVojH/swSbd2ImO36O/WyUB0DLJ3cdE5
+bUhDCIO/egGGQIlgZx5eqhYeFyhTCvcswMBJr5v3bDLyirf9/E+7EzrdR94c9WMW
+ggjlDcU9qh38wIUGS2kX+lZ6TZsP0O9YUV6Ya/K5lyJVJf/beFUSwD3czFFSdqt9
+agjdUJESv6v93VFodIl5TF2Ql8wFy1SwTzCBA4neZKRuCCZk2PdzXtAe1Nxuc0z/
+Id4U17o7bBuHz21MwNkE7E7C9TdEcZfbGUBdKkmlqpLl8vehD6tWVkbQj5EKWcxl
+ZPwKyEiNvPSfgkOQ/VS8TkcRGpjulMw3eglZchnHnkQR0ERON9R7L7eBqYhZm9g+
+USGrySA+1CA9hZ2B6nnZaYRahXshOCn577fHRXH87bGxOHgjaVDrNrIMJrUkDFJw
+IQfyaZk8GDkpf5LF+OBWKXrxg2vYGmzSu8lleY9cFWM1PTBp1M1CfqpiFbcWkDHl
+7SpK5kDRMWdkECunnE/nb3lQ5JlGbA9Tznqzwfna19bxKplc6k0WXtLGlqfAiHqu
+C6puCwGkaUP+i/YLbaWIG90WL8Ja/dQHRLxBgsOYxdTfERTYMKE=
+=0Q/E
+-----END PGP SIGNATURE-----
+
+--tVmo9FyGdCe4F4YN--
