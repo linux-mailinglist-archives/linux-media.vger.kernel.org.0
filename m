@@ -2,119 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F045FC31
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 19:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E86AE5FC29
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 19:04:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727287AbfGDREv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 13:04:51 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53626 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726966AbfGDREv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 13:04:51 -0400
-Received: from [IPv6:2804:431:c7f5:f63c:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:c7f5:f63c:d711:794d:1c68:5ed3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: tonyk)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B79B728B0E7;
-        Thu,  4 Jul 2019 18:04:43 +0100 (BST)
-Subject: Re: [PATCH v7 11/14] dt-bindings: Document the Rockchip MIPI RX D-PHY
- bindings
-To:     Helen Koike <helen.koike@collabora.com>,
-        linux-rockchip@lists.infradead.org
-Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
-        mchehab@kernel.org, heiko@sntech.de, jacob2.chen@rock-chips.com,
-        jeffy.chen@rock-chips.com, zyc@rock-chips.com,
-        linux-kernel@vger.kernel.org, tfiga@chromium.org,
-        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@linux.intel.com, kernel@collabora.com,
-        ezequiel@collabora.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
-        Rob Herring <robh@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-References: <20190703190910.32633-1-helen.koike@collabora.com>
- <20190703190910.32633-12-helen.koike@collabora.com>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <e9102ab5-3e79-bda5-fefc-0541958c215f@collabora.com>
-Date:   Thu, 4 Jul 2019 14:04:00 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726805AbfGDRE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 13:04:27 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:37124 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbfGDRE1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 13:04:27 -0400
+Received: by mail-lf1-f67.google.com with SMTP id c9so2906404lfh.4
+        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 10:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=eng.ucsd.edu; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=CkgDdHVaxcb9rT/2SredJkmJsQ+Tw2cxRbLdVs3ZeiA=;
+        b=EkpZ6CWGQaSkDtpNkWc7nrNsvAwSQkc2dO5ImphTS+aQsDRNZolMBeZOVh3qGTPyrh
+         hgWP7oT7ncgYt0y0JrnOI6Jzdk7OVEZiCRugORmj+zNXklvb8nVVGACdlE7f7xHtNcr5
+         NHb2XdBo4D4M5WFOmlQmnRjMgdej5qAxUyE7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=CkgDdHVaxcb9rT/2SredJkmJsQ+Tw2cxRbLdVs3ZeiA=;
+        b=PQl4jlrejuHx9ptlKRY5WZaU8I+FU29vjtWFIjMjhmHfhpmUu9nCaYZyrziPY1RUs8
+         1wosLrPaWOJODcK0o5DBr3cYJmoFFytjAPFsXHTXvVugkRZLLMtp88dnBQ7DoFH+QSVX
+         iApIsbYMLP2N5mtNN1WpUmZnmwdHn5sg9rizlTuemF6912ebjKgvijlwoVRARvqD8OXS
+         s5xTLEgkBqVA7SOSngV7LvdbqcHF75yuGOA+BgdyDLNv82fH6T3nftGsJ5pS7OFIWiLY
+         mFm1/5celmM9BBomWnh0L9GtFOwUVygsZ5eASHx4J6jI1fKzYcjFMiFH3mwTXYWL2YLN
+         9oHw==
+X-Gm-Message-State: APjAAAVBq9knmDSAAsVPRz42xqnT3sMqC1ynazC8Vh9FkQ1Dr9JatZFb
+        ZREpLYXjyq8j5mS3UZxWQajM+5EKtu8=
+X-Google-Smtp-Source: APXvYqyM1tPH60GaHk8KC0Ui0lZkB72TvGONCHNi4u7bt8iK1WTP4DnC3OKxHSeGvK1pepNKRfKHWg==
+X-Received: by 2002:a19:9104:: with SMTP id t4mr5013803lfd.179.1562259865614;
+        Thu, 04 Jul 2019 10:04:25 -0700 (PDT)
+Received: from luke-XPS-13 (77-255-206-190.adsl.inetia.pl. [77.255.206.190])
+        by smtp.gmail.com with ESMTPSA id g4sm985530lfb.31.2019.07.04.10.04.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 04 Jul 2019 10:04:25 -0700 (PDT)
+Date:   Thu, 4 Jul 2019 10:04:22 -0700
+From:   Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentee, PATCH] media: dvb_frontend.h: Fix shifting
+ signed 32-bit value problem
+Message-ID: <20190704170422.GA25633@luke-XPS-13>
 MIME-Version: 1.0
-In-Reply-To: <20190703190910.32633-12-helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Helen,
+Fix DVBFE_ALGO_RECOVERY and DVBFE_ALGO_SEARCH_ERROR to use U cast which
+fixes undefined behavior error by certain compilers. 
 
-On 7/3/19 4:09 PM, Helen Koike wrote:
-> From: Jacob Chen <jacob2.chen@rock-chips.com>
->
-> Add DT bindings documentation for Rockchip MIPI D-PHY RX
->
-> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> [update for upstream]
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->
-> ---
->
-> Changes in v7:
-> - updated doc with new design and tested example
->
->  .../bindings/media/rockchip-mipi-dphy.txt     | 38 +++++++++++++++++++
->  1 file changed, 38 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
->
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt b/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
-> new file mode 100644
-> index 000000000000..2305d44d92db
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
-> @@ -0,0 +1,38 @@
-> +Rockchip SoC MIPI RX D-PHY
-> +-------------------------------------------------------------
-Here I would also remove those extra `---`.
+Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+---
+ include/media/dvb_frontend.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-    André
-> +
-> +Required properties:
-> +- compatible: value should be one of the following
-> +	"rockchip,rk3288-mipi-dphy"
-> +	"rockchip,rk3399-mipi-dphy"
-> +- clocks : list of clock specifiers, corresponding to entries in
-> +	clock-names property;
-> +- clock-names: required clock name.
-> +- #phy-cells: Number of cells in a PHY specifier; Should be 0.
-> +
-> +MIPI RX D-PHY use registers in "general register files", it
-> +should be a child of the GRF.
-> +
-> +Optional properties:
-> +- reg: offset and length of the register set for the device.
-> +- rockchip,grf: MIPI TX1RX1 D-PHY not only has its own register but also
-> +		the GRF, so it is only necessary for MIPI TX1RX1 D-PHY.
-> +
-> +Device node example
-> +-------------------
-> +
-> +grf: syscon@ff770000 {
-> +	compatible = "rockchip,rk3399-grf", "syscon", "simple-mfd";
-> +
-> +...
-> +
-> +	dphy: mipi-dphy {
-> +		compatible = "rockchip,rk3399-mipi-dphy";
-> +		clocks = <&cru SCLK_MIPIDPHY_REF>,
-> +			<&cru SCLK_DPHY_RX0_CFG>,
-> +			<&cru PCLK_VIO_GRF>;
-> +		clock-names = "dphy-ref", "dphy-cfg", "grf";
-> +		power-domains = <&power RK3399_PD_VIO>;
-> +		#phy-cells = <0>;
-> +	};
-> +};
+diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+index f05cd7b94a2c..472fe5871d94 100644
+--- a/include/media/dvb_frontend.h
++++ b/include/media/dvb_frontend.h
+@@ -144,7 +144,7 @@ enum dvbfe_algo {
+ 	DVBFE_ALGO_HW			= (1 <<  0),
+ 	DVBFE_ALGO_SW			= (1 <<  1),
+ 	DVBFE_ALGO_CUSTOM		= (1 <<  2),
+-	DVBFE_ALGO_RECOVERY		= (1 << 31)
++	DVBFE_ALGO_RECOVERY		= (1U << 31)
+ };
+ 
+ /**
+@@ -175,7 +175,7 @@ enum dvbfe_search {
+ 	DVBFE_ALGO_SEARCH_FAILED	= (1 <<  2),
+ 	DVBFE_ALGO_SEARCH_INVALID	= (1 <<  3),
+ 	DVBFE_ALGO_SEARCH_AGAIN		= (1 <<  4),
+-	DVBFE_ALGO_SEARCH_ERROR		= (1 << 31),
++	DVBFE_ALGO_SEARCH_ERROR		= (1U << 31),
+ };
+ 
+ /**
+-- 
+2.20.1
+
