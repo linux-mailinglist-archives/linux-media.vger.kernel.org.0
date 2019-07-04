@@ -2,106 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0BBC5F953
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 15:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 880D55F9D2
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 16:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbfGDNtp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 09:49:45 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33434 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727044AbfGDNtp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 09:49:45 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x15so2999066pfq.0;
-        Thu, 04 Jul 2019 06:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=q57G3q5Jt82bTMu8+pXuQ4swwABbsqmtrU7b+V+udHQ=;
-        b=J89GIpdl9vKHz3FgttcdMCi4jN9+xe07Evf04UK3O7nzrBkjOVT5a5bO+/QHxY5qvj
-         cE4Qx8h49JdeORrNZx6evR57H8CrPJ08znX/iaN3hbAxJU6VJIInZrPk0wc+WSprOtAZ
-         jNdKQW56ZQvrAwCbVsPfzkc6rW+ZALqDAggA/FeOVcibuT7jHHePBaQ3Fb79+hny+VGT
-         adVgjqJUuiFxEV3be6nndLxV14iCNZUTtlPNxJL886YUS58gSCIITapMlKd5ABmlvxRf
-         1CrcdhQEhWDKemXCcl7xnaAIAX72rvW9fAWY599oFxRq+86HJTi0vV8jT74XCOrLjlV7
-         MGBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=q57G3q5Jt82bTMu8+pXuQ4swwABbsqmtrU7b+V+udHQ=;
-        b=fghlAxvvXu2hylvH96Eg7YXxUBSS4MOQaRZDOUUxTCSB8iOaRNV39BYEd4nHm/XwTL
-         0lhCsSQW0OMGgrt3N/quqFd4bqeD36VXOdYd105l6yRLd0A8hkOWW8FLsW4cdWe65njL
-         ewuew88h86lUVdQjxmzmGvOdV7vAb+604erc4UU4zhWAfdI/df98qaDgPMV9jUFAlkpq
-         v3bR0uOAHHerqoIhKMhN4vQifeuSyn5xV0vSDuCZly8frkjs9rBTNUNNKLodVaPqBYTc
-         0ajr3LCv2ri0z4aZukS4lMT4N7MbPRgsprd3aYJv22hXedG7Is1gJ54p+/8CHM+bM3cR
-         Z4aA==
-X-Gm-Message-State: APjAAAVpR7ctCckCFvWbwXnFC1nO6yTHlHUzxvNWMZrdmt6jdnQFcI/R
-        KmoF5gaZUxyOYLlYxXqph9RYCbNFmTHt5vJzh7BisjNO
-X-Google-Smtp-Source: APXvYqwvGhLTYCzCEeb37MdSjdnT4A0T7iNNbizQi4/kAir/H2MzjkbUVVzl5BbHHDxIQUGSP+Je4vUBg/AJBxE1f2w=
-X-Received: by 2002:a17:90a:d681:: with SMTP id x1mr19501121pju.13.1562248184725;
- Thu, 04 Jul 2019 06:49:44 -0700 (PDT)
+        id S1727487AbfGDONI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 10:13:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55302 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726875AbfGDONI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 10:13:08 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 842C824B;
+        Thu,  4 Jul 2019 16:13:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562249586;
+        bh=dglkbnfZ3C4DFXrB/Pn4L+daSveV7B4rpHo9mBsyZIo=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=qjlH+KyKYk9D/vHbZsp1H57YIHiAaaF5hpjWJklyuCt1HCjGyEbEiWwQhCS113LMG
+         4iTjDxv8mp9xyLqzVvBjaei80H2AjsrszwvZo60kfhRZzHBNbiVNm670oNtjNE+U+x
+         cah+yeFUvfru5GQ0F1jUyYEbKiLkBRu/o8XIetWk=
+Subject: Re: [PATCH v3 1/4] rcar-vin: Rename VNDMR_DTMD_ARGB1555 to
+ VNDMR_DTMD_ARGB
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190704015817.17083-2-niklas.soderlund+renesas@ragnatech.se>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <d234a4f4-2dfb-8840-43b0-01ea9d91314c@ideasonboard.com>
+Date:   Thu, 4 Jul 2019 15:13:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-References: <20190704093553.49904-1-yuehaibing@huawei.com>
-In-Reply-To: <20190704093553.49904-1-yuehaibing@huawei.com>
-From:   Akinobu Mita <akinobu.mita@gmail.com>
-Date:   Thu, 4 Jul 2019 22:49:33 +0900
-Message-ID: <CAC5umyi6S0eV2AOwpxmYh-HhNaMHEKZzgnG9PteVRR0i35rV4w@mail.gmail.com>
-Subject: Re: [PATCH] regmap: select CONFIG_REGMAP while REGMAP_SCCB is set
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rafael@kernel.org, wsa+renesas@sang-engineering.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>, khoroshilov@ispras.ru,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190704015817.17083-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2019=E5=B9=B47=E6=9C=884=E6=97=A5(=E6=9C=A8) 18:36 YueHaibing <yuehaibing@h=
-uawei.com>:
->
-> REGMAP_SCCB is selected by ov772x and ov9650 drivers,
-> but CONFIG_REGMAP may not, so building will fails:
->
-> rivers/media/i2c/ov772x.c: In function ov772x_probe:
-> drivers/media/i2c/ov772x.c:1360:22: error: variable ov772x_regmap_config =
-has initializer but incomplete type
->   static const struct regmap_config ov772x_regmap_config =3D {
->                       ^~~~~~~~~~~~~
-> drivers/media/i2c/ov772x.c:1361:4: error: const struct regmap_config has =
-no member named reg_bits
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 5bbf32217bf9 ("media: ov772x: use SCCB regmap")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Hi Niklas,
+
+On 04/07/2019 02:58, Niklas Söderlund wrote:
+> The value have nothing to do with ARGB1555, it controls if the alpha
+> component should be filled in for ARGB1555 or ARGB888. Rename it to
+> reflect this.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 > ---
->  drivers/base/regmap/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/base/regmap/Kconfig b/drivers/base/regmap/Kconfig
-> index c8bbf53..a498413 100644
-> --- a/drivers/base/regmap/Kconfig
-> +++ b/drivers/base/regmap/Kconfig
-> @@ -4,7 +4,7 @@
->  # subsystems should select the appropriate symbols.
->
->  config REGMAP
-> -       default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W=
-1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_I3C)
-> +       default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W=
-1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_SCCB || REGMAP_I3C)
->         select IRQ_DOMAIN if REGMAP_IRQ
->         bool
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 91ab064404a185af..2d146ecf93d66ad5 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -114,7 +114,7 @@
+>  #define VNDMR_EXRGB		(1 << 8)
+>  #define VNDMR_BPSM		(1 << 4)
+>  #define VNDMR_DTMD_YCSEP	(1 << 1)
+> -#define VNDMR_DTMD_ARGB1555	(1 << 0)
+> +#define VNDMR_DTMD_ARGB		(1 << 0)
+>  
+>  /* Video n Data Mode Register 2 bits */
+>  #define VNDMR2_VPS		(1 << 30)
+> @@ -721,7 +721,7 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		output_is_yuv = true;
+>  		break;
+>  	case V4L2_PIX_FMT_XRGB555:
+> -		dmr = VNDMR_DTMD_ARGB1555;
+> +		dmr = VNDMR_DTMD_ARGB;
+>  		break;
+>  	case V4L2_PIX_FMT_RGB565:
+>  		dmr = 0;
+> 
 
-Looks good.
-
-Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
-
-A similar problem exists for REGMAP_SOUNDWIRE. But I can't find any users
-of regmap_init_sdw (i.e. REGMAP_SOUNDWIRE).
