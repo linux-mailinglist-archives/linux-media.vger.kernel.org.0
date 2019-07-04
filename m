@@ -2,158 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A69E55FB9C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 18:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 964575FC09
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 18:43:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726085AbfGDQQQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 12:16:16 -0400
-Received: from gofer.mess.org ([88.97.38.141]:53775 "EHLO gofer.mess.org"
+        id S1727101AbfGDQno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 12:43:44 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:40418 "EHLO ns.iliad.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725882AbfGDQQQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jul 2019 12:16:16 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 39D0660991; Thu,  4 Jul 2019 17:16:15 +0100 (BST)
-Date:   Thu, 4 Jul 2019 17:16:15 +0100
-From:   Sean Young <sean@mess.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v3] keytable: Add keymap test
-Message-ID: <20190704161614.4dcukjcrqdgu4tzh@gofer.mess.org>
-References: <20190704132454.10566-1-hadess@hadess.net>
+        id S1725887AbfGDQno (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Jul 2019 12:43:44 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 1CA612077F;
+        Thu,  4 Jul 2019 18:43:42 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id A205820701;
+        Thu,  4 Jul 2019 18:43:39 +0200 (CEST)
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Peter Korsgaard <peter.korsgaard@barco.com>
+Cc:     I2C <linux-i2c@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: Generic get_something from an i2c_client
+Message-ID: <07aa1229-2b67-e191-5740-70e6ed2a8ce3@free.fr>
+Date:   Thu, 4 Jul 2019 18:43:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190704132454.10566-1-hadess@hadess.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jul  4 18:43:42 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 04, 2019 at 03:24:54PM +0200, Bastien Nocera wrote:
-> This new test will try to parse all the ".toml" files in the directory
-> path passed to it, error'ing out on the first parsing problem.
+Hello,
 
-That is no longer true. It reads all files and does not error out after
-the first parse problem.
+In media drivers, TS drivers typically hard-code their front-end (demod and tuner)
+init by loading the modules themselves.
 
-> 
-> Run as "make check" in the keytable directory.
-> 
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> ---
->  utils/keytable/Makefile.am     |  6 +++
->  utils/keytable/check_keymaps.c | 67 ++++++++++++++++++++++++++++++++++
->  2 files changed, 73 insertions(+)
->  create mode 100644 utils/keytable/check_keymaps.c
-> 
-> diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-> index 148b9446..eb296475 100644
-> --- a/utils/keytable/Makefile.am
-> +++ b/utils/keytable/Makefile.am
-> @@ -1,9 +1,12 @@
->  bin_PROGRAMS = ir-keytable
-> +noinst_PROGRAMS = check-keymaps
->  man_MANS = ir-keytable.1 rc_keymap.5
->  sysconf_DATA = rc_maps.cfg
->  keytablesystem_DATA = $(srcdir)/rc_keymaps/*
->  udevrules_DATA = 70-infrared.rules
->  
-> +check_keymaps_SOURCES = toml.c toml.h check_keymaps.c
-> +
->  ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h
->  
->  if WITH_BPF
-> @@ -21,6 +24,9 @@ endif
->  EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
->  
->  # custom target
-> +check: check-keymaps
-> +	$(builddir)/check-keymaps $(srcdir)/rc_keymaps/
-> +
->  install-data-local:
->  	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
->  
-> diff --git a/utils/keytable/check_keymaps.c b/utils/keytable/check_keymaps.c
-> new file mode 100644
-> index 00000000..eb8e3e8f
-> --- /dev/null
-> +++ b/utils/keytable/check_keymaps.c
-> @@ -0,0 +1,67 @@
-> +#include <string.h>
-> +#include <errno.h>
-> +#include <stdio.h>
-> +#include <sys/types.h>
-> +#include <dirent.h>
-> +
-> +#include "toml.h"
-> +
-> +static int
-> +has_suffix(const char *str, const char *suffix)
-> +{
-> +	if (strlen(str) < strlen(suffix))
-> +		return 0;
-> +	if (strncmp(str + strlen(str) - strlen(suffix), suffix, strlen(suffix)) == 0)
+I feel this is not a good solution for SoCs, where the TS HW might be on the SoC,
+and the front-end be on the board. So we may have different front-ends for
+different boards, and the driver would have to hard-code all of them.
 
-strcmp would work here.
+Am I making sense?
 
-> +		return 1;
-> +	return 0;
-> +}
-> +
-> +int main (int argc, char **argv)
-> +{
-> +	DIR *dir;
-> +	struct dirent *entry;
-> +	int ret = 0;
-> +
-> +	if (argc != 2) {
-> +		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n", argv[0]);
-> +		return 1;
-> +	}
-> +
-> +	dir = opendir(argv[1]);
-> +	if (!dir) {
-> +		perror("Could not open directory");
-> +		return 1;
-> +	}
-> +
-> +	while ((entry = readdir(dir)) != NULL) {
-> +		struct toml_table_t *root;
-> +		FILE *fin;
-> +		char buf[200];
-> +		char path[2048];
-> +
-> +		if (!has_suffix(entry->d_name, ".toml")) {
-> +			/* Skipping file */
-> +			continue;
-> +		}
-> +
-> +		snprintf(path, sizeof(path), "%s/%s", argv[1], entry->d_name);
-> +		path[sizeof(path) - 1] = '\0';
+Here's an example of what I mean:
+https://elixir.bootlin.com/linux/latest/source/drivers/media/usb/dvb-usb-v2/dvbsky.c#L466
 
-snprintf() always adds a zero terminator, so the last line is not needed. I
-know some implementations of snprintf() on platforms other than Linux are
-broken, but we don't care about that.
+I've been working on defining the demod in DT, and having a phandle
+to the demod in the TSIF node.
 
-> +
-> +		fin = fopen(path, "r");
-> +		if (!fin) {
-> +			fprintf(stderr, "Could not open file %s: %s", path, strerror(errno));
-> +			ret = 1;
-> +			continue;
-> +		}
-> +
-> +		root = toml_parse_file(fin, buf, sizeof(buf));
-> +		fclose(fin);
-> +		if (!root) {
-> +			fprintf(stderr, "Failed to parse %s: %s\n", path, buf);
-> +			ret = 1;
-> +		}
-> +		toml_free(root);
-> +	}
-> +
-> +	return ret;
-> +}
-> -- 
-> 2.21.0
+I've got everything working like I had hoped, but I have many ugly hacks.
+
+The TSIF driver needs to register the frontend, which is created in
+the demod driver.
+
+So I have:
+
+	struct device_node *toto = of_parse_phandle(np, "demod", 0);
+	if (!toto) panic("of_parse_phandle");
+	struct i2c_client *demod = of_find_i2c_device_by_node(toto);
+	if (!demod) panic("of_find_i2c_device_by_node");
+	printk("\tdemod=%px\n", demod);
+	struct dvb_frontend *get_fe(struct i2c_client *client);
+	my_dvb_frontend = get_fe(demod);
+
+The problem is get_fe(). It needs to be a call-back, so that every
+demod can implement his own version. But only a few i2c_client's
+have a dvb_frontend to return.
+
+Could we have a generic void *get_something() callback in struct i2c_client?
+(Seems like the wrong place)
+
+How can I solve this conundrum?
+
+Maybe look above i2c, in struct device?
+
+Regards.
+
