@@ -2,85 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D0D5F7CE
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 747905F7D6
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:18:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727682AbfGDMQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 08:16:50 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34910 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727667AbfGDMQu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:16:50 -0400
-Received: by mail-lf1-f65.google.com with SMTP id p197so4127051lfa.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 05:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1dBsomcaTZpQJ9SeOAJxw204HoA/Z9myB9VERBUW7xo=;
-        b=M2EsNG8RnOmH73jjYaIwqDbeWFO1dcuBmplZJM8qzqr3SNQ6KANVZQSu2Du66QOJjo
-         y7btstMzBCc55Khtw2GSkcEPzLUHJxIZ0NLE7WP7eOf0Kan3nAzIacMioqXgADatnLIN
-         zNZUUklbUva5svaMz4q+9n8C39wMxRi26O/RVOpTSgk+2FzyrLZltUX7l8b5wdcc7o4p
-         Em0m3UDTAUTcyZvE7zpUv5PS+fIhGd4EUjdObnbYMxagRLH8ds+CC002lAsKBOhEX41v
-         9CGy/QhL3+4n6ymAVhNvJ7EJ3HOX5mfQJb7CthLY4BNRn04C+8d0S8RKz/gREW28zn/7
-         aFNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1dBsomcaTZpQJ9SeOAJxw204HoA/Z9myB9VERBUW7xo=;
-        b=eMyMsVUmykFoiTu+ZW6j216vPBLwrSQndVjxy+/ca2nP/8zW2d4F7Ee9Hn4A1Sfull
-         3r7huIuKVc872xEXdypqq4BfX4e9GdT/xD213TC+WAv7kof2bhrIync831PVLSRdScgI
-         NvEnFExE83ozvkcSWXGcLSgZGefeoxRYsIeS66a4q9s4qSEVW3c6oRAGSSmqlgrpqva3
-         tONFYd/K+C4nFkU8OskCsxAmGd5MGLucEg6IoKi0ABCkWVrhyFg3rDVfm8jH+9Q5dIrt
-         0zU/1fBgX7VN3/RcftRvoiUEiTQIttgp5RDlmsP1WXweC5Kj7SscARg1BOGWVIhbG+9W
-         gYXQ==
-X-Gm-Message-State: APjAAAVOY7dpM/a8b2fPbSpZDYFn62mAvTDdq0JPoLiTMiw33GVnxT5Y
-        GCRqCkL5CVYLREwvLbivSC2cJlyWfNRiScDE4Fg=
-X-Google-Smtp-Source: APXvYqxeo7etUknd2C9mDvvHcEozat84KbKUPy9bEwBpAg8jwpvjNkA39Riy68BtWvwzwi0hn/DoLDpw1nlYPCngE4g=
-X-Received: by 2002:a05:6512:21e:: with SMTP id a30mr10398757lfo.107.1562242608401;
- Thu, 04 Jul 2019 05:16:48 -0700 (PDT)
+        id S1727684AbfGDMRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 08:17:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53482 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727675AbfGDMRO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:17:14 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82C1224B;
+        Thu,  4 Jul 2019 14:17:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562242632;
+        bh=eqWu4GVvTv6gURlzvDBaBF/isxMgPM/LQZarqxosd7c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=htdypw1q+crM4Val3UuLaMF12+KetfGJxYO1yGYea1tu0Uaa9kVHmPHyCQz5Xd/pT
+         Jwyvu77MX+SD2IvD4DPTs8oSOZbdeBA4QFLPn4sb3P9nYWRhSywusVeaie6CjcHqoL
+         jIfbc+CQa/P31tJFiKrKLxdbKtnkyWmZZUxU4aW0=
+Date:   Thu, 4 Jul 2019 15:16:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] rcar-vin: Always setup controls when opening
+ video device
+Message-ID: <20190704121652.GD6569@pendragon.ideasonboard.com>
+References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20190626235614.26587-1-festevam@gmail.com> <20190626235614.26587-2-festevam@gmail.com>
- <20190627162742.t2ehnbrqaorv7v6v@valkosipuli.retiisi.org.uk>
- <CAOMZO5B9KMtbc8WLfLQi6dMM-mTi3ca0WFHvEVJ6G0stEm3uWQ@mail.gmail.com> <CALrbgYGyLggYOvFjqWc84PXx=6ceubeducHvsrfvpc3w8MFP7g@mail.gmail.com>
-In-Reply-To: <CALrbgYGyLggYOvFjqWc84PXx=6ceubeducHvsrfvpc3w8MFP7g@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 4 Jul 2019 09:16:38 -0300
-Message-ID: <CAOMZO5BzTtUA+TxZ1j+j2te3DygOhu20Vh-XCsNX3Zik_C57Qg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: ov5645: Use regulator_bulk() functions
-To:     Todor Tomov <todor.too@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        hverkuil-cisco@xs4all.nl, Todor Tomov <todor.tomov@linaro.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Todor,
+Hi Niklas,
 
-On Mon, Jul 1, 2019 at 6:29 PM Todor Tomov <todor.too@gmail.com> wrote:
+Thank you for the patch.
 
-> Thank you for the patch.
-> The question about using the regulator_bulk API seems to come
-> regularly from time to time.
-> This has been discussed on [1] and I believe the conclusion has been
-> that the regulator_bulk API doesn't guarantee the order of enabling of
-> the regulators. So in theory this is possible to cause problems in
-> some corner cases and we have agreed to leave the order explicit.
+On Thu, Jul 04, 2019 at 03:58:17AM +0200, Niklas Söderlund wrote:
+> Now that both Gen2 (device centric) and Gen3 (media device centric)
+> modes of this driver have controls it make sens to call
 
-Thanks for the explanation.
+s/sens/sense/
 
-I was not aware that the regulator bulk API did not guarantee the
-order of enabling regulators, so this patch can be discarded.
+> v4l2_ctrl_handler_setup() unconditionally when opening the video device.
 
-I think we probably need to get rid of regulator bulk API in the
-ov5640 driver as well.
+Not only does it make sense, but it's required by 3/4. I think you
+should explain why in the commit message. Apart from that,
 
-Will prepare a patch for ov5640 soon.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thanks
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 30 ++++++++++-----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index f8b6ec4408b2f5fa..cbf5d8cd6db32d77 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -789,26 +789,26 @@ static int rvin_open(struct file *file)
+>  	if (ret)
+>  		goto err_unlock;
+>  
+> -	if (vin->info->use_mc) {
+> +	if (vin->info->use_mc)
+>  		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
+> -		if (ret < 0)
+> -			goto err_open;
+> -	} else {
+> -		if (v4l2_fh_is_singular_file(file)) {
+> -			ret = rvin_power_parallel(vin, true);
+> -			if (ret < 0)
+> -				goto err_open;
+> +	else if (v4l2_fh_is_singular_file(file))
+> +		ret = rvin_power_parallel(vin, true);
+> +
+> +	if (ret < 0)
+> +		goto err_open;
+> +
+> +	ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
+> +	if (ret)
+> +		goto err_power;
+>  
+> -			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
+> -			if (ret)
+> -				goto err_parallel;
+> -		}
+> -	}
+>  	mutex_unlock(&vin->lock);
+>  
+>  	return 0;
+> -err_parallel:
+> -	rvin_power_parallel(vin, false);
+> +err_power:
+> +	if (vin->info->use_mc)
+> +		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
+> +	else if (v4l2_fh_is_singular_file(file))
+> +		rvin_power_parallel(vin, false);
+>  err_open:
+>  	v4l2_fh_release(file);
+>  err_unlock:
+
+-- 
+Regards,
+
+Laurent Pinchart
