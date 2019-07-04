@@ -2,145 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 902FC5F914
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 15:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BBC5F953
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 15:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbfGDNY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 09:24:58 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:46055 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbfGDNY5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 09:24:57 -0400
-X-Originating-IP: 83.155.44.161
-Received: from classic.redhat.com (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id BD566C000C
-        for <linux-media@vger.kernel.org>; Thu,  4 Jul 2019 13:24:55 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v3] keytable: Add keymap test
-Date:   Thu,  4 Jul 2019 15:24:54 +0200
-Message-Id: <20190704132454.10566-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.21.0
+        id S1727242AbfGDNtp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 09:49:45 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33434 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727044AbfGDNtp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 09:49:45 -0400
+Received: by mail-pf1-f193.google.com with SMTP id x15so2999066pfq.0;
+        Thu, 04 Jul 2019 06:49:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=q57G3q5Jt82bTMu8+pXuQ4swwABbsqmtrU7b+V+udHQ=;
+        b=J89GIpdl9vKHz3FgttcdMCi4jN9+xe07Evf04UK3O7nzrBkjOVT5a5bO+/QHxY5qvj
+         cE4Qx8h49JdeORrNZx6evR57H8CrPJ08znX/iaN3hbAxJU6VJIInZrPk0wc+WSprOtAZ
+         jNdKQW56ZQvrAwCbVsPfzkc6rW+ZALqDAggA/FeOVcibuT7jHHePBaQ3Fb79+hny+VGT
+         adVgjqJUuiFxEV3be6nndLxV14iCNZUTtlPNxJL886YUS58gSCIITapMlKd5ABmlvxRf
+         1CrcdhQEhWDKemXCcl7xnaAIAX72rvW9fAWY599oFxRq+86HJTi0vV8jT74XCOrLjlV7
+         MGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=q57G3q5Jt82bTMu8+pXuQ4swwABbsqmtrU7b+V+udHQ=;
+        b=fghlAxvvXu2hylvH96Eg7YXxUBSS4MOQaRZDOUUxTCSB8iOaRNV39BYEd4nHm/XwTL
+         0lhCsSQW0OMGgrt3N/quqFd4bqeD36VXOdYd105l6yRLd0A8hkOWW8FLsW4cdWe65njL
+         ewuew88h86lUVdQjxmzmGvOdV7vAb+604erc4UU4zhWAfdI/df98qaDgPMV9jUFAlkpq
+         v3bR0uOAHHerqoIhKMhN4vQifeuSyn5xV0vSDuCZly8frkjs9rBTNUNNKLodVaPqBYTc
+         0ajr3LCv2ri0z4aZukS4lMT4N7MbPRgsprd3aYJv22hXedG7Is1gJ54p+/8CHM+bM3cR
+         Z4aA==
+X-Gm-Message-State: APjAAAVpR7ctCckCFvWbwXnFC1nO6yTHlHUzxvNWMZrdmt6jdnQFcI/R
+        KmoF5gaZUxyOYLlYxXqph9RYCbNFmTHt5vJzh7BisjNO
+X-Google-Smtp-Source: APXvYqwvGhLTYCzCEeb37MdSjdnT4A0T7iNNbizQi4/kAir/H2MzjkbUVVzl5BbHHDxIQUGSP+Je4vUBg/AJBxE1f2w=
+X-Received: by 2002:a17:90a:d681:: with SMTP id x1mr19501121pju.13.1562248184725;
+ Thu, 04 Jul 2019 06:49:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190704093553.49904-1-yuehaibing@huawei.com>
+In-Reply-To: <20190704093553.49904-1-yuehaibing@huawei.com>
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+Date:   Thu, 4 Jul 2019 22:49:33 +0900
+Message-ID: <CAC5umyi6S0eV2AOwpxmYh-HhNaMHEKZzgnG9PteVRR0i35rV4w@mail.gmail.com>
+Subject: Re: [PATCH] regmap: select CONFIG_REGMAP while REGMAP_SCCB is set
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rafael@kernel.org, wsa+renesas@sang-engineering.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>, khoroshilov@ispras.ru,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This new test will try to parse all the ".toml" files in the directory
-path passed to it, error'ing out on the first parsing problem.
+2019=E5=B9=B47=E6=9C=884=E6=97=A5(=E6=9C=A8) 18:36 YueHaibing <yuehaibing@h=
+uawei.com>:
+>
+> REGMAP_SCCB is selected by ov772x and ov9650 drivers,
+> but CONFIG_REGMAP may not, so building will fails:
+>
+> rivers/media/i2c/ov772x.c: In function ov772x_probe:
+> drivers/media/i2c/ov772x.c:1360:22: error: variable ov772x_regmap_config =
+has initializer but incomplete type
+>   static const struct regmap_config ov772x_regmap_config =3D {
+>                       ^~~~~~~~~~~~~
+> drivers/media/i2c/ov772x.c:1361:4: error: const struct regmap_config has =
+no member named reg_bits
+>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 5bbf32217bf9 ("media: ov772x: use SCCB regmap")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/base/regmap/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/regmap/Kconfig b/drivers/base/regmap/Kconfig
+> index c8bbf53..a498413 100644
+> --- a/drivers/base/regmap/Kconfig
+> +++ b/drivers/base/regmap/Kconfig
+> @@ -4,7 +4,7 @@
+>  # subsystems should select the appropriate symbols.
+>
+>  config REGMAP
+> -       default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W=
+1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_I3C)
+> +       default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W=
+1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_SCCB || REGMAP_I3C)
+>         select IRQ_DOMAIN if REGMAP_IRQ
+>         bool
 
-Run as "make check" in the keytable directory.
+Looks good.
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
- utils/keytable/Makefile.am     |  6 +++
- utils/keytable/check_keymaps.c | 67 ++++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 utils/keytable/check_keymaps.c
+Reviewed-by: Akinobu Mita <akinobu.mita@gmail.com>
 
-diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-index 148b9446..eb296475 100644
---- a/utils/keytable/Makefile.am
-+++ b/utils/keytable/Makefile.am
-@@ -1,9 +1,12 @@
- bin_PROGRAMS = ir-keytable
-+noinst_PROGRAMS = check-keymaps
- man_MANS = ir-keytable.1 rc_keymap.5
- sysconf_DATA = rc_maps.cfg
- keytablesystem_DATA = $(srcdir)/rc_keymaps/*
- udevrules_DATA = 70-infrared.rules
- 
-+check_keymaps_SOURCES = toml.c toml.h check_keymaps.c
-+
- ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h
- 
- if WITH_BPF
-@@ -21,6 +24,9 @@ endif
- EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
- 
- # custom target
-+check: check-keymaps
-+	$(builddir)/check-keymaps $(srcdir)/rc_keymaps/
-+
- install-data-local:
- 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
- 
-diff --git a/utils/keytable/check_keymaps.c b/utils/keytable/check_keymaps.c
-new file mode 100644
-index 00000000..eb8e3e8f
---- /dev/null
-+++ b/utils/keytable/check_keymaps.c
-@@ -0,0 +1,67 @@
-+#include <string.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <sys/types.h>
-+#include <dirent.h>
-+
-+#include "toml.h"
-+
-+static int
-+has_suffix(const char *str, const char *suffix)
-+{
-+	if (strlen(str) < strlen(suffix))
-+		return 0;
-+	if (strncmp(str + strlen(str) - strlen(suffix), suffix, strlen(suffix)) == 0)
-+		return 1;
-+	return 0;
-+}
-+
-+int main (int argc, char **argv)
-+{
-+	DIR *dir;
-+	struct dirent *entry;
-+	int ret = 0;
-+
-+	if (argc != 2) {
-+		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n", argv[0]);
-+		return 1;
-+	}
-+
-+	dir = opendir(argv[1]);
-+	if (!dir) {
-+		perror("Could not open directory");
-+		return 1;
-+	}
-+
-+	while ((entry = readdir(dir)) != NULL) {
-+		struct toml_table_t *root;
-+		FILE *fin;
-+		char buf[200];
-+		char path[2048];
-+
-+		if (!has_suffix(entry->d_name, ".toml")) {
-+			/* Skipping file */
-+			continue;
-+		}
-+
-+		snprintf(path, sizeof(path), "%s/%s", argv[1], entry->d_name);
-+		path[sizeof(path) - 1] = '\0';
-+
-+		fin = fopen(path, "r");
-+		if (!fin) {
-+			fprintf(stderr, "Could not open file %s: %s", path, strerror(errno));
-+			ret = 1;
-+			continue;
-+		}
-+
-+		root = toml_parse_file(fin, buf, sizeof(buf));
-+		fclose(fin);
-+		if (!root) {
-+			fprintf(stderr, "Failed to parse %s: %s\n", path, buf);
-+			ret = 1;
-+		}
-+		toml_free(root);
-+	}
-+
-+	return ret;
-+}
--- 
-2.21.0
-
+A similar problem exists for REGMAP_SOUNDWIRE. But I can't find any users
+of regmap_init_sdw (i.e. REGMAP_SOUNDWIRE).
