@@ -2,150 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CAED5F7BE
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D0D5F7CE
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727709AbfGDMOi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 08:14:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53456 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727615AbfGDMOi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:14:38 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1ABF24B;
-        Thu,  4 Jul 2019 14:14:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562242475;
-        bh=HEb3+MpUH+4ZkTQNuR07aMNqOT30m1zoi/vLiRlWUNY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CURfVrIcrldc2vDDxwHoZf92Va7Fzj/QdWKsazO3/T8xFij3BxV545lzbg9hSVWIs
-         9x5EmrhWJzJJ3up4NeAsZhhhueVDyYRlN/Yh+a+f+STHWJMoXL2YqZw6IdVWvyw+9n
-         jz5D+4gdg4dD10RfuUtDiomqgIZwD+5zgpgcNf4k=
-Date:   Thu, 4 Jul 2019 15:14:15 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] rcar-vin: Add support for RGB formats with alpha
- component
-Message-ID: <20190704121415.GC6569@pendragon.ideasonboard.com>
-References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
- <20190704015817.17083-4-niklas.soderlund+renesas@ragnatech.se>
+        id S1727682AbfGDMQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 08:16:50 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:34910 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727667AbfGDMQu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:16:50 -0400
+Received: by mail-lf1-f65.google.com with SMTP id p197so4127051lfa.2
+        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 05:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1dBsomcaTZpQJ9SeOAJxw204HoA/Z9myB9VERBUW7xo=;
+        b=M2EsNG8RnOmH73jjYaIwqDbeWFO1dcuBmplZJM8qzqr3SNQ6KANVZQSu2Du66QOJjo
+         y7btstMzBCc55Khtw2GSkcEPzLUHJxIZ0NLE7WP7eOf0Kan3nAzIacMioqXgADatnLIN
+         zNZUUklbUva5svaMz4q+9n8C39wMxRi26O/RVOpTSgk+2FzyrLZltUX7l8b5wdcc7o4p
+         Em0m3UDTAUTcyZvE7zpUv5PS+fIhGd4EUjdObnbYMxagRLH8ds+CC002lAsKBOhEX41v
+         9CGy/QhL3+4n6ymAVhNvJ7EJ3HOX5mfQJb7CthLY4BNRn04C+8d0S8RKz/gREW28zn/7
+         aFNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1dBsomcaTZpQJ9SeOAJxw204HoA/Z9myB9VERBUW7xo=;
+        b=eMyMsVUmykFoiTu+ZW6j216vPBLwrSQndVjxy+/ca2nP/8zW2d4F7Ee9Hn4A1Sfull
+         3r7huIuKVc872xEXdypqq4BfX4e9GdT/xD213TC+WAv7kof2bhrIync831PVLSRdScgI
+         NvEnFExE83ozvkcSWXGcLSgZGefeoxRYsIeS66a4q9s4qSEVW3c6oRAGSSmqlgrpqva3
+         tONFYd/K+C4nFkU8OskCsxAmGd5MGLucEg6IoKi0ABCkWVrhyFg3rDVfm8jH+9Q5dIrt
+         0zU/1fBgX7VN3/RcftRvoiUEiTQIttgp5RDlmsP1WXweC5Kj7SscARg1BOGWVIhbG+9W
+         gYXQ==
+X-Gm-Message-State: APjAAAVOY7dpM/a8b2fPbSpZDYFn62mAvTDdq0JPoLiTMiw33GVnxT5Y
+        GCRqCkL5CVYLREwvLbivSC2cJlyWfNRiScDE4Fg=
+X-Google-Smtp-Source: APXvYqxeo7etUknd2C9mDvvHcEozat84KbKUPy9bEwBpAg8jwpvjNkA39Riy68BtWvwzwi0hn/DoLDpw1nlYPCngE4g=
+X-Received: by 2002:a05:6512:21e:: with SMTP id a30mr10398757lfo.107.1562242608401;
+ Thu, 04 Jul 2019 05:16:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190704015817.17083-4-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190626235614.26587-1-festevam@gmail.com> <20190626235614.26587-2-festevam@gmail.com>
+ <20190627162742.t2ehnbrqaorv7v6v@valkosipuli.retiisi.org.uk>
+ <CAOMZO5B9KMtbc8WLfLQi6dMM-mTi3ca0WFHvEVJ6G0stEm3uWQ@mail.gmail.com> <CALrbgYGyLggYOvFjqWc84PXx=6ceubeducHvsrfvpc3w8MFP7g@mail.gmail.com>
+In-Reply-To: <CALrbgYGyLggYOvFjqWc84PXx=6ceubeducHvsrfvpc3w8MFP7g@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Thu, 4 Jul 2019 09:16:38 -0300
+Message-ID: <CAOMZO5BzTtUA+TxZ1j+j2te3DygOhu20Vh-XCsNX3Zik_C57Qg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: ov5645: Use regulator_bulk() functions
+To:     Todor Tomov <todor.too@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        hverkuil-cisco@xs4all.nl, Todor Tomov <todor.tomov@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Todor,
 
-Thank you for the patch.
+On Mon, Jul 1, 2019 at 6:29 PM Todor Tomov <todor.too@gmail.com> wrote:
 
-On Thu, Jul 04, 2019 at 03:58:16AM +0200, Niklas Söderlund wrote:
-> The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
-> V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
-> allow the alpha component to be changed while streaming using the
-> V4L2_CID_ALPHA_COMPONENT control.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Thank you for the patch.
+> The question about using the regulator_bulk API seems to come
+> regularly from time to time.
+> This has been discussed on [1] and I believe the conclusion has been
+> that the regulator_bulk API doesn't guarantee the order of enabling of
+> the regulators. So in theory this is possible to cause problems in
+> some corner cases and we have agreed to leave the order explicit.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks for the explanation.
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 35 +++++++++++++++++++++
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 +++++
->  2 files changed, 43 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 4e991cce5fb56a90..620976d173585694 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -111,8 +111,11 @@
->  #define VNIE_EFE		(1 << 1)
->  
->  /* Video n Data Mode Register bits */
-> +#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
-> +#define VNDMR_A8BIT_MASK	(0xff << 24)
->  #define VNDMR_EXRGB		(1 << 8)
->  #define VNDMR_BPSM		(1 << 4)
-> +#define VNDMR_ABIT		(1 << 2)
->  #define VNDMR_DTMD_YCSEP	(1 << 1)
->  #define VNDMR_DTMD_ARGB		(1 << 0)
->  
-> @@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
->  		/* Note: not supported on M1 */
->  		dmr = VNDMR_EXRGB;
->  		break;
-> +	case V4L2_PIX_FMT_ARGB555:
-> +		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
-> +		break;
-> +	case V4L2_PIX_FMT_ABGR32:
-> +		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
-> +		break;
->  	default:
->  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
->  			vin->format.pixelformat);
-> @@ -1346,5 +1355,31 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
->  
->  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
->  {
-> +	unsigned long flags;
-> +	u32 dmr;
-> +
-> +	spin_lock_irqsave(&vin->qlock, flags);
-> +
->  	vin->alpha = alpha;
-> +
-> +	if (vin->state == STOPPED)
-> +		goto out;
-> +
-> +	switch (vin->format.pixelformat) {
-> +	case V4L2_PIX_FMT_ARGB555:
-> +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
-> +		if (vin->alpha)
-> +			dmr |= VNDMR_ABIT;
-> +		break;
-> +	case V4L2_PIX_FMT_ABGR32:
-> +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
-> +		dmr |= VNDMR_A8BIT(vin->alpha);
-> +		break;
-> +	default:
-> +		goto out;
-> +	}
-> +
-> +	rvin_write(vin, dmr,  VNDMR_REG);
-> +out:
-> +	spin_unlock_irqrestore(&vin->qlock, flags);
->  }
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0936bcd98df1f75d..f8b6ec4408b2f5fa 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
->  		.fourcc			= V4L2_PIX_FMT_XBGR32,
->  		.bpp			= 4,
->  	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_ARGB555,
-> +		.bpp			= 2,
-> +	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_ABGR32,
-> +		.bpp			= 4,
-> +	},
->  };
->  
->  const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
-> -- 
-> 2.21.0
-> 
+I was not aware that the regulator bulk API did not guarantee the
+order of enabling regulators, so this patch can be discarded.
 
--- 
-Regards,
+I think we probably need to get rid of regulator bulk API in the
+ov5640 driver as well.
 
-Laurent Pinchart
+Will prepare a patch for ov5640 soon.
+
+Thanks
