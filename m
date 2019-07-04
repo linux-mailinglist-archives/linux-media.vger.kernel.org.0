@@ -2,20 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 527165F113
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 03:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46C8D5F116
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 03:58:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727236AbfGDB6a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727229AbfGDB6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jul 2019 21:58:31 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:50893 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727205AbfGDB6a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
         Wed, 3 Jul 2019 21:58:30 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:44232 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727076AbfGDB6a (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jul 2019 21:58:30 -0400
-X-Halon-ID: 36f2cd30-9dff-11e9-8ab4-005056917a89
+X-Halon-ID: 37709c7c-9dff-11e9-8ab4-005056917a89
 Authorized-sender: niklas@soderlund.pp.se
 Received: from bismarck.berto.se (unknown [145.14.112.32])
         by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id 36f2cd30-9dff-11e9-8ab4-005056917a89;
+        id 37709c7c-9dff-11e9-8ab4-005056917a89;
         Thu, 04 Jul 2019 03:58:28 +0200 (CEST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
@@ -24,9 +25,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 3/4] rcar-vin: Add support for RGB formats with alpha component
-Date:   Thu,  4 Jul 2019 03:58:16 +0200
-Message-Id: <20190704015817.17083-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 4/4] rcar-vin: Always setup controls when opening video device
+Date:   Thu,  4 Jul 2019 03:58:17 +0200
+Message-Id: <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
@@ -38,97 +39,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
-V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
-allow the alpha component to be changed while streaming using the
-V4L2_CID_ALPHA_COMPONENT control.
+Now that both Gen2 (device centric) and Gen3 (media device centric)
+modes of this driver have controls it make sens to call
+v4l2_ctrl_handler_setup() unconditionally when opening the video device.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/rcar-vin/rcar-dma.c  | 35 +++++++++++++++++++++
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 +++++
- 2 files changed, 43 insertions(+)
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 30 ++++++++++-----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 4e991cce5fb56a90..620976d173585694 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -111,8 +111,11 @@
- #define VNIE_EFE		(1 << 1)
- 
- /* Video n Data Mode Register bits */
-+#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
-+#define VNDMR_A8BIT_MASK	(0xff << 24)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
-+#define VNDMR_ABIT		(1 << 2)
- #define VNDMR_DTMD_YCSEP	(1 << 1)
- #define VNDMR_DTMD_ARGB		(1 << 0)
- 
-@@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
- 		/* Note: not supported on M1 */
- 		dmr = VNDMR_EXRGB;
- 		break;
-+	case V4L2_PIX_FMT_ARGB555:
-+		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
-+		break;
-+	case V4L2_PIX_FMT_ABGR32:
-+		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1346,5 +1355,31 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 
- void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
- {
-+	unsigned long flags;
-+	u32 dmr;
-+
-+	spin_lock_irqsave(&vin->qlock, flags);
-+
- 	vin->alpha = alpha;
-+
-+	if (vin->state == STOPPED)
-+		goto out;
-+
-+	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_ARGB555:
-+		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
-+		if (vin->alpha)
-+			dmr |= VNDMR_ABIT;
-+		break;
-+	case V4L2_PIX_FMT_ABGR32:
-+		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
-+		dmr |= VNDMR_A8BIT(vin->alpha);
-+		break;
-+	default:
-+		goto out;
-+	}
-+
-+	rvin_write(vin, dmr,  VNDMR_REG);
-+out:
-+	spin_unlock_irqrestore(&vin->qlock, flags);
- }
 diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 0936bcd98df1f75d..f8b6ec4408b2f5fa 100644
+index f8b6ec4408b2f5fa..cbf5d8cd6db32d77 100644
 --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
 +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_XBGR32,
- 		.bpp			= 4,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_ARGB555,
-+		.bpp			= 2,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_ABGR32,
-+		.bpp			= 4,
-+	},
- };
+@@ -789,26 +789,26 @@ static int rvin_open(struct file *file)
+ 	if (ret)
+ 		goto err_unlock;
  
- const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
+-	if (vin->info->use_mc) {
++	if (vin->info->use_mc)
+ 		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
+-		if (ret < 0)
+-			goto err_open;
+-	} else {
+-		if (v4l2_fh_is_singular_file(file)) {
+-			ret = rvin_power_parallel(vin, true);
+-			if (ret < 0)
+-				goto err_open;
++	else if (v4l2_fh_is_singular_file(file))
++		ret = rvin_power_parallel(vin, true);
++
++	if (ret < 0)
++		goto err_open;
++
++	ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
++	if (ret)
++		goto err_power;
+ 
+-			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
+-			if (ret)
+-				goto err_parallel;
+-		}
+-	}
+ 	mutex_unlock(&vin->lock);
+ 
+ 	return 0;
+-err_parallel:
+-	rvin_power_parallel(vin, false);
++err_power:
++	if (vin->info->use_mc)
++		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
++	else if (v4l2_fh_is_singular_file(file))
++		rvin_power_parallel(vin, false);
+ err_open:
+ 	v4l2_fh_release(file);
+ err_unlock:
 -- 
 2.21.0
 
