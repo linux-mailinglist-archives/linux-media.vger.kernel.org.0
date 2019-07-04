@@ -2,69 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B4F5F73B
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 13:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CAED5F7BE
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:14:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727560AbfGDLbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 07:31:34 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39604 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727553AbfGDLbd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 07:31:33 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v18so5811207ljh.6
-        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 04:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t/jCL0uglLG3waaTjHMMEPQrkGWkmt0TdWEoFBWOcnA=;
-        b=FlWM8KZg4oK6/w4JR6ryVfNOOwkP2LxyIlw/zrtDFCha86ABW2dpE0GphJHlCL48RU
-         dvxGKRAmwqhokNvIF3jGIS6LOM/DzP2IIyrkJfyzuwKYocpv5Jk7Kvtd2p1WLk1KL5A1
-         4waPs3ef5KozWtqKnUMiM1VjV3j3LllDSZOkKayrYfdN+l0jTw6KX5+cieOFWNVqTWRj
-         GD/rKXXsjzmpc/Z4KPTp7HZnalk8lmWP716ckWlMMOfTNWJDbUt393KzSJPCqyMbriL4
-         vogqE4DpQoRLCpd+2ihZ+y0WVPISfryF9KNUvVC0WQEFBkGZ4b9FnFW2x71JLPhJgDfG
-         NSAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t/jCL0uglLG3waaTjHMMEPQrkGWkmt0TdWEoFBWOcnA=;
-        b=qo/prO5cvxs3+f7MlRatblSYVe1XRHPlSNQ43rpgq++j7gIB1AjD4xRJAex6CTx8ia
-         q+mLEngemqiv75jdoSSgTD/pQSf7yHRb3W5AG8qLH3frFTeUuUsoDK+1vRWZN22IRpT5
-         7AEFoq9t4w7sgNojhRGZ6LjIwzpVS+1aI4GDr+hlfreguPKi+sayYdEOc8nm/PPscEkr
-         DVdXI46TqdcDcI8Q9sREOeQ3yPhJ/8wpRJeOK8OTBbdCvQDsmnrpqGz9aAVRpkn1LLrl
-         PocnckyxWjt9FyO2L0FIfdZR151wT8dFtFxV8se/jx/VWlq02q6DQstQI2qHlKgysEDF
-         mnpQ==
-X-Gm-Message-State: APjAAAUcTV6VTT17q0ECEPe7QkBYell9cgGQewiV6Ls7K5uITjuPrQBD
-        RFuvcOS/OO6ChoWFEoWvSOawAj+dMEpKn8u5SfU=
-X-Google-Smtp-Source: APXvYqzQSJVYWZ1WQTlGONeC9iuDdGMzyYNg0gxR5LtUcfv6gYjoBBPyaV1xsAPx2Py1mqctcg1NVSk7UbAlx9xecxA=
-X-Received: by 2002:a2e:970a:: with SMTP id r10mr18166551lji.115.1562239891641;
- Thu, 04 Jul 2019 04:31:31 -0700 (PDT)
+        id S1727709AbfGDMOi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 08:14:38 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53456 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727615AbfGDMOi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:14:38 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1ABF24B;
+        Thu,  4 Jul 2019 14:14:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562242475;
+        bh=HEb3+MpUH+4ZkTQNuR07aMNqOT30m1zoi/vLiRlWUNY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CURfVrIcrldc2vDDxwHoZf92Va7Fzj/QdWKsazO3/T8xFij3BxV545lzbg9hSVWIs
+         9x5EmrhWJzJJ3up4NeAsZhhhueVDyYRlN/Yh+a+f+STHWJMoXL2YqZw6IdVWvyw+9n
+         jz5D+4gdg4dD10RfuUtDiomqgIZwD+5zgpgcNf4k=
+Date:   Thu, 4 Jul 2019 15:14:15 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] rcar-vin: Add support for RGB formats with alpha
+ component
+Message-ID: <20190704121415.GC6569@pendragon.ideasonboard.com>
+References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190704015817.17083-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20190703131044.7656-1-ezequiel@collabora.com> <1562232849.6641.6.camel@pengutronix.de>
-In-Reply-To: <1562232849.6641.6.camel@pengutronix.de>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 4 Jul 2019 08:31:21 -0300
-Message-ID: <CAOMZO5BGr0mV0XtyrLjNqcBsJA07-+8Qdyue3hAC8BE5dF8-dQ@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ov5645: Fix power up sequence
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kernel@collabora.com, linux-media <linux-media@vger.kernel.org>,
-        Todor Tomov <todor.tomov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190704015817.17083-4-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hi Niklas,
 
-On Thu, Jul 4, 2019 at 6:34 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+Thank you for the patch.
 
-> Could this just be added to the end of ov5645_global_init_setting?
+On Thu, Jul 04, 2019 at 03:58:16AM +0200, Niklas Söderlund wrote:
+> The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
+> V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
+> allow the alpha component to be changed while streaming using the
+> V4L2_CID_ALPHA_COMPONENT control.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Just tested your suggestion and it also works.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thanks
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 35 +++++++++++++++++++++
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 +++++
+>  2 files changed, 43 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 4e991cce5fb56a90..620976d173585694 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -111,8 +111,11 @@
+>  #define VNIE_EFE		(1 << 1)
+>  
+>  /* Video n Data Mode Register bits */
+> +#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
+> +#define VNDMR_A8BIT_MASK	(0xff << 24)
+>  #define VNDMR_EXRGB		(1 << 8)
+>  #define VNDMR_BPSM		(1 << 4)
+> +#define VNDMR_ABIT		(1 << 2)
+>  #define VNDMR_DTMD_YCSEP	(1 << 1)
+>  #define VNDMR_DTMD_ARGB		(1 << 0)
+>  
+> @@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		/* Note: not supported on M1 */
+>  		dmr = VNDMR_EXRGB;
+>  		break;
+> +	case V4L2_PIX_FMT_ARGB555:
+> +		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
+> +		break;
+> +	case V4L2_PIX_FMT_ABGR32:
+> +		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+> +		break;
+>  	default:
+>  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+>  			vin->format.pixelformat);
+> @@ -1346,5 +1355,31 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+>  
+>  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+>  {
+> +	unsigned long flags;
+> +	u32 dmr;
+> +
+> +	spin_lock_irqsave(&vin->qlock, flags);
+> +
+>  	vin->alpha = alpha;
+> +
+> +	if (vin->state == STOPPED)
+> +		goto out;
+> +
+> +	switch (vin->format.pixelformat) {
+> +	case V4L2_PIX_FMT_ARGB555:
+> +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
+> +		if (vin->alpha)
+> +			dmr |= VNDMR_ABIT;
+> +		break;
+> +	case V4L2_PIX_FMT_ABGR32:
+> +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
+> +		dmr |= VNDMR_A8BIT(vin->alpha);
+> +		break;
+> +	default:
+> +		goto out;
+> +	}
+> +
+> +	rvin_write(vin, dmr,  VNDMR_REG);
+> +out:
+> +	spin_unlock_irqrestore(&vin->qlock, flags);
+>  }
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 0936bcd98df1f75d..f8b6ec4408b2f5fa 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
+>  		.fourcc			= V4L2_PIX_FMT_XBGR32,
+>  		.bpp			= 4,
+>  	},
+> +	{
+> +		.fourcc			= V4L2_PIX_FMT_ARGB555,
+> +		.bpp			= 2,
+> +	},
+> +	{
+> +		.fourcc			= V4L2_PIX_FMT_ABGR32,
+> +		.bpp			= 4,
+> +	},
+>  };
+>  
+>  const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
+> -- 
+> 2.21.0
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
