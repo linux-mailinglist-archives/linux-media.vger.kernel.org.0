@@ -2,116 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 747905F7D6
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F835F809
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2019 14:25:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727684AbfGDMRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 08:17:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53482 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727675AbfGDMRO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:17:14 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82C1224B;
-        Thu,  4 Jul 2019 14:17:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562242632;
-        bh=eqWu4GVvTv6gURlzvDBaBF/isxMgPM/LQZarqxosd7c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=htdypw1q+crM4Val3UuLaMF12+KetfGJxYO1yGYea1tu0Uaa9kVHmPHyCQz5Xd/pT
-         Jwyvu77MX+SD2IvD4DPTs8oSOZbdeBA4QFLPn4sb3P9nYWRhSywusVeaie6CjcHqoL
-         jIfbc+CQa/P31tJFiKrKLxdbKtnkyWmZZUxU4aW0=
-Date:   Thu, 4 Jul 2019 15:16:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] rcar-vin: Always setup controls when opening
- video device
-Message-ID: <20190704121652.GD6569@pendragon.ideasonboard.com>
-References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
- <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727868AbfGDMZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jul 2019 08:25:15 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35710 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727860AbfGDMZO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jul 2019 08:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=SDyZBgVgpBivHCPF+m1x0S7wJ18YA/zEjKyDZhRXAu0=; b=tUY6QW89WxBv
+        crMBIl0VnT5UzMboWJVQGLGTzokl+Ex5oJFmVgkojHpOmUOjj5ypKN9vYKwwksHbr82fM72wz8tKC
+        dGQeo2KVgV574zsDKNBIJnhdkaNEUfiqbwK3oqWPfxxc/PfplVHvqQVBYtahogPM4221Y894i89Qr
+        nKKPs=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hj0nM-0000jI-9w; Thu, 04 Jul 2019 12:25:00 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id CC975274388A; Thu,  4 Jul 2019 13:24:59 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     akinobu.mita@gmail.com, broonie@kernel.org,
+        gregkh@linuxfoundation.org, Hulk Robot <hulkci@huawei.com>,
+        jacopo@jmondi.org, khoroshilov@ispras.ru,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, mchehab+samsung@kernel.org,
+        rafael@kernel.org, sakari.ailus@linux.intel.com,
+        wsa+renesas@sang-engineering.com
+Subject: Applied "regmap: select CONFIG_REGMAP while REGMAP_SCCB is set" to the regmap tree
+In-Reply-To: <20190704093553.49904-1-yuehaibing@huawei.com>
+X-Patchwork-Hint: ignore
+Message-Id: <20190704122459.CC975274388A@ypsilon.sirena.org.uk>
+Date:   Thu,  4 Jul 2019 13:24:59 +0100 (BST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+The patch
 
-Thank you for the patch.
+   regmap: select CONFIG_REGMAP while REGMAP_SCCB is set
 
-On Thu, Jul 04, 2019 at 03:58:17AM +0200, Niklas Söderlund wrote:
-> Now that both Gen2 (device centric) and Gen3 (media device centric)
-> modes of this driver have controls it make sens to call
+has been applied to the regmap tree at
 
-s/sens/sense/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-5.3
 
-> v4l2_ctrl_handler_setup() unconditionally when opening the video device.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-Not only does it make sense, but it's required by 3/4. I think you
-should explain why in the commit message. Apart from that,
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 30 ++++++++++-----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index f8b6ec4408b2f5fa..cbf5d8cd6db32d77 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -789,26 +789,26 @@ static int rvin_open(struct file *file)
->  	if (ret)
->  		goto err_unlock;
->  
-> -	if (vin->info->use_mc) {
-> +	if (vin->info->use_mc)
->  		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
-> -		if (ret < 0)
-> -			goto err_open;
-> -	} else {
-> -		if (v4l2_fh_is_singular_file(file)) {
-> -			ret = rvin_power_parallel(vin, true);
-> -			if (ret < 0)
-> -				goto err_open;
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		ret = rvin_power_parallel(vin, true);
-> +
-> +	if (ret < 0)
-> +		goto err_open;
-> +
-> +	ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> +	if (ret)
-> +		goto err_power;
->  
-> -			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> -			if (ret)
-> -				goto err_parallel;
-> -		}
-> -	}
->  	mutex_unlock(&vin->lock);
->  
->  	return 0;
-> -err_parallel:
-> -	rvin_power_parallel(vin, false);
-> +err_power:
-> +	if (vin->info->use_mc)
-> +		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		rvin_power_parallel(vin, false);
->  err_open:
->  	v4l2_fh_release(file);
->  err_unlock:
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
+Thanks,
+Mark
+
+From eff5a850017193ae879948944be05cc814c29621 Mon Sep 17 00:00:00 2001
+From: YueHaibing <yuehaibing@huawei.com>
+Date: Thu, 4 Jul 2019 17:35:53 +0800
+Subject: [PATCH] regmap: select CONFIG_REGMAP while REGMAP_SCCB is set
+
+REGMAP_SCCB is selected by ov772x and ov9650 drivers,
+but CONFIG_REGMAP may not, so building will fails:
+
+rivers/media/i2c/ov772x.c: In function ov772x_probe:
+drivers/media/i2c/ov772x.c:1360:22: error: variable ov772x_regmap_config has initializer but incomplete type
+  static const struct regmap_config ov772x_regmap_config = {
+                      ^~~~~~~~~~~~~
+drivers/media/i2c/ov772x.c:1361:4: error: const struct regmap_config has no member named reg_bits
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 5bbf32217bf9 ("media: ov772x: use SCCB regmap")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Link: https://lore.kernel.org/r/20190704093553.49904-1-yuehaibing@huawei.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/base/regmap/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/regmap/Kconfig b/drivers/base/regmap/Kconfig
+index c8bbf5322720..a4984136c19d 100644
+--- a/drivers/base/regmap/Kconfig
++++ b/drivers/base/regmap/Kconfig
+@@ -4,7 +4,7 @@
+ # subsystems should select the appropriate symbols.
+ 
+ config REGMAP
+-	default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_I3C)
++	default y if (REGMAP_I2C || REGMAP_SPI || REGMAP_SPMI || REGMAP_W1 || REGMAP_AC97 || REGMAP_MMIO || REGMAP_IRQ || REGMAP_SCCB || REGMAP_I3C)
+ 	select IRQ_DOMAIN if REGMAP_IRQ
+ 	bool
+ 
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
