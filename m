@@ -2,96 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC4260ADC
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 19:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0700E60D6D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 23:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727918AbfGERRW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 5 Jul 2019 13:17:22 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37428 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727903AbfGERRW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 13:17:22 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D0F9928B61B;
-        Fri,  5 Jul 2019 18:17:19 +0100 (BST)
-Date:   Fri, 5 Jul 2019 19:17:16 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 3/9] media: hantro: Constify the control array
-Message-ID: <20190705191716.41ea819e@collabora.com>
-In-Reply-To: <1fdb3115e6f5903b55a915c45bbfdec484842e83.camel@collabora.com>
-References: <20190619121540.29320-1-boris.brezillon@collabora.com>
-        <20190619121540.29320-4-boris.brezillon@collabora.com>
-        <1fdb3115e6f5903b55a915c45bbfdec484842e83.camel@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727587AbfGEV7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 17:59:41 -0400
+Received: from out12.masterobox.work ([178.156.202.12]:41319 "EHLO
+        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1725882AbfGEV7l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 17:59:41 -0400
+X-Greylist: delayed 625 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 17:59:40 EDT
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
+ bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
+ b=euTUB7IiQ3zjfnWFG9CWDx0dzcZY/7t1jwHtzuZ8FXeGDQHkmzmoBPvNiLLqBue+L6zKZzs7m5d8
+   aPvFnMEXrQ8qga0WuJDKfZi9CHMT5B1dyUO3Ltipej1IGzdnj6oKe2P6PZEwg3EP6KEsHW4IV2iU
+   DD+vP+zByELg6X4ybA9PUTNrTnL+Wq1ikFmwh1lRjZc0gj5oNTGgS6bpSYttqdPixgkwqz+869RD
+   imd/00K6DKwx50fiB+9rMkOWSiiwmgUOuhZitIHXN2oqOPGNtrwPYuDhNh+ZubrVHH+CLFMOEKVI
+   UAGRVGZES0llN060+RmOqqjIqWLKEqIPzsgc1w==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
+ b=IN9fN5lnYjV18N7oX1yTBV26fDNM3gtqACQXKN0usI0hUM9RqDind4EqakyXAtZqdCJggnQqyX76
+   b4/k/zWCwqEZfKxHJkTmKdPDI4YhNO2Fn9+61G0LyHfgrAwZVxs2qIdSMJmYynkFNhK02udYqz/x
+   WX7RtiOi26MPXoO2M3778vc9gvIu6qfVb2c5XqKuxJNVfRkY6VTPGDS9EbOFCKYzwj9RGvxumGh8
+   KBdBTdKVDbYUihcSVjBU3WRlBDlcJp/8mePI2B4N9QucCiqC3SnVMS+pDtD0ereAyY0Tb1JH4z1B
+   q0kxJsaMfFS84l+Wowo8yp+RL/oW1qALRclbpA==;
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Quotes needed For July Shipments
+To:     Recipients <purchase@mathewsons.ga>
+From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
+Date:   Sat, 06 Jul 2019 00:39:10 +0300
+Reply-To: jpexcc@aol.com
+Message-ID: <0.0.34.5E8.1D53379E2C0CD88.0@slot0.mathewsons.ga>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 05 Jul 2019 13:05:10 -0300
-Ezequiel Garcia <ezequiel@collabora.com> wrote:
+Hello dear,
+ =
 
-> On Wed, 2019-06-19 at 14:15 +0200, Boris Brezillon wrote:
-> > controls[] is not supposed to be modified at runtime, let's make it
-> > explicit by adding a const specifier.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  drivers/staging/media/hantro/hantro_drv.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > index 28b0fed89dcb..db49d643ddb7 100644
-> > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > @@ -264,7 +264,7 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
-> >  	.s_ctrl = hantro_s_ctrl,
-> >  };
-> >  
-> > -static struct hantro_ctrl controls[] = {
-> > +static const struct hantro_ctrl controls[] = {
-> >  	{
-> >  		.id = V4L2_CID_JPEG_COMPRESSION_QUALITY,
-> >  		.codec = HANTRO_JPEG_ENCODER,  
-> 
-> This patch here breaks the build:
-> 
->   CC [M]  drivers/staging/media/hantro/hantro_drv.o
-> /home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c: In function ‘hantro_ctrls_setup’:
-> /home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c:319:23: error: assignment of member ‘id’ in read-only object
->     controls[i].cfg.id = controls[i].id;
->                        ^
+We are in the market for your products after meeting at your stand during l=
+ast expo.
+ =
 
-Oops, didn't check bisectability.
+Please kindly send us your latest catalog and price list so as to start a n=
+ew project/order as promised during the exhibition. =
 
-> You can fix it by simply moving it after:
-> 
-> [PATCH 4/9] media: hantro: Simplify the controls creation logic
+ =
 
-Yep, I'll do that.
+I would appreciate your response about the above details required so we can=
+ revert back to you asap.
+ =
 
-Thanks,
+Kind regards
+ =
 
-Boris
+Rhema Zoeh
