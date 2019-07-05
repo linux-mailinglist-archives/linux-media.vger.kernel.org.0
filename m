@@ -2,151 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 614835FFDA
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 05:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CCA76002F
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 06:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbfGEDrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jul 2019 23:47:02 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47481 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727115AbfGEDrC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jul 2019 23:47:02 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:1cca:9994:19a3:8e7f])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id jFBbhAr3p0SBqjFBchlsF6; Fri, 05 Jul 2019 05:47:00 +0200
-Message-ID: <ba6eec86ed128ed42fbf6a2bfc72642d@smtp-cloud7.xs4all.net>
-Date:   Fri, 05 Jul 2019 05:46:59 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfI2G9D48mLdptcGE0N/SdYqgRVeCuh5YD3W3OW6xS2DwogHvSlzJxn6i8TknrtoRqyLqVMx1mjdVaOEm36eqfbuAH+dFw/AQ12l1oCm1klmMCvNo85jq
- kCcTWRjF0yT8rEoeR2xuotMZBHJ4Qo/XQYM6RbgmfWfM6VTVeyGK0WZ5em50fOpRDgIhHX3OO7q0NVEzXqj/kn/15jY3nbpssJeTs1G9X/BV30FDE9acurru
+        id S1725730AbfGEE36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 00:29:58 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:44869 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbfGEE35 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 00:29:57 -0400
+Received: by mail-ed1-f66.google.com with SMTP id k8so7000614edr.11
+        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 21:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b/iqhNLUC3DokEFuYS2ehal98gCGJpPh7k8hIbKXDDw=;
+        b=eCBMkAPmVvNgy27u3o0KG3Uz3saN3rLfU/FKAqFJuiENWX8JF+Ftvzo2EXlRRTm4PQ
+         huvKuCGH85aUzOIG6N4hBoNZ71qFSrlQyPNxk4yolwmuEt5uj0c6mDyu/e5l8qQUAY90
+         BGLyW2N0gslxTr6Z9EBgQ5Sf0vCO6CNU7c/BQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b/iqhNLUC3DokEFuYS2ehal98gCGJpPh7k8hIbKXDDw=;
+        b=nHIPq3z5A0lYiOiKo84LuZIXLo57jLALYEuaORCWKcMscvsF0iqxQL7GQ7u+aUX/bZ
+         ZmkkaHVVaI9YojhwLpQzUwTaZJ/jArSx+SVWTBUbKwCrZhLWIyoWekP6R9u1lqWi0f89
+         192TcPyu06viK8rQg/4yOyaTFvAAld+KuODKKusPxkf9T8f5bSHrTxP8PHGmE5WUhReE
+         PytROvNqmNN17NFFx+Tpx+s9ZLbjScoKknCzt6+7CioXk+fIHLlR6y9RyGpuUTQDA14L
+         I0M7T1yJ9aW1eNadKb/mTvb3HE7GqBIvnTxWEsyCRtHQTQhT5aDkW61nHc9+qfSS3l4V
+         PAAg==
+X-Gm-Message-State: APjAAAW2fLoc1s+YnPFGXrCwo+njPsO3WxmSNbgPu8w269f5dXkdchRI
+        pegCjh+69DEEsUMjBV0HmliZQDMQpt8=
+X-Google-Smtp-Source: APXvYqzS5jVpabzjkgcm4KrzL++oHEL7taqb9tHHKT1a0JZPztPbY/WVebh1uDilQVCN+VZrepEcNg==
+X-Received: by 2002:a50:89a6:: with SMTP id g35mr2162173edg.145.1562300995377;
+        Thu, 04 Jul 2019 21:29:55 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id k15sm445868ejs.42.2019.07.04.21.29.55
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jul 2019 21:29:55 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id a15so7392794wmj.5
+        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 21:29:55 -0700 (PDT)
+X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr1236044wml.90.1562300561991;
+ Thu, 04 Jul 2019 21:22:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <jungo.lin@mediatek.com> <20190611035344.29814-1-jungo.lin@mediatek.com>
+ <20190611035344.29814-10-jungo.lin@mediatek.com> <20190701072532.GB137710@chromium.org>
+ <1562297618.1212.46.camel@mtksdccf07>
+In-Reply-To: <1562297618.1212.46.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 5 Jul 2019 13:22:28 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BaTQ-Q7gsE0X+d4_81OZq9WHaCYkmALt7_4A1JFo=_8g@mail.gmail.com>
+Message-ID: <CAAFQd5BaTQ-Q7gsE0X+d4_81OZq9WHaCYkmALt7_4A1JFo=_8g@mail.gmail.com>
+Subject: Re: [RFC,v3 9/9] media: platform: Add Mediatek ISP P1 shared memory device
+To:     Jungo Lin <jungo.lin@mediatek.com>
+Cc:     devicetree@vger.kernel.org,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <sean.cheng@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <frederic.chen@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <rynn.wu@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?B?UnlhbiBZdSAo5L2Z5a2f5L+uKQ==?= <ryan.yu@mediatek.com>,
+        =?UTF-8?B?RnJhbmtpZSBDaGl1ICjpgrHmloflh7Ep?= 
+        <frankie.chiu@mediatek.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+        ddavenport@chromium.org, Sj Huang <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Jungo,
 
-Results of the daily build of media_tree:
+On Fri, Jul 5, 2019 at 12:33 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
+>
+> Hi Tomasz,
+>
+> On Mon, 2019-07-01 at 16:25 +0900, Tomasz Figa wrote:
+> > Hi Jungo,
+> >
+> > On Tue, Jun 11, 2019 at 11:53:44AM +0800, Jungo Lin wrote:
+> > > The purpose of this child device is to provide shared
+> > > memory management for exchanging tuning data between co-processor
+> > > and the Pass 1 unit of the camera ISP system, including cache
+> > > buffer handling.
+> > >
+> >
+> > Looks like we haven't really progressed on getting this replaced with
+> > something that doesn't require so much custom code. Let me propose something
+> > better then.
+> >
+> > We already have a reserved memory mode in DT. If it has a compatible string
+> > of "shared-dma-pool", it would be registered in the coherent DMA framework
+> > [1]. That would make it available for consumer devices to look-up.
+> >
+> > Now if we add a "memory-region" property to the SCP device node and point it
+> > to our reserved memory node, the SCP driver could look it up and hook to the
+> > DMA mapping API using of_reserved_mem_device_init_by_idx[2].
+> >
+> > That basically makes any dma_alloc_*(), dma_map_*(), etc. calls on the SCP
+> > struct device use the coherent DMA ops, which operate on the assigned memory
+> > pool. With that, the P1 driver could just directly use those calls to
+> > manage the memory, without any custom code.
+> >
+> > There is an example how this setup works in the s5p-mfc driver[3], but it
+> > needs to be noted that it creates child nodes, because it can have more than
+> > 1 DMA port, which may need its own memory pool. In our case, we wouldn't
+> > need child nodes and could just use the SCP device directly.
+> >
+> > [1] https://elixir.bootlin.com/linux/v5.2-rc7/source/kernel/dma/coherent.c#L345
+> > [2] https://elixir.bootlin.com/linux/v5.2-rc7/source/drivers/of/of_reserved_mem.c#L312
+> > [3] https://elixir.bootlin.com/linux/v5.2-rc7/source/drivers/media/platform/s5p-mfc/s5p_mfc.c#L1075
+> >
+> > Let me also post some specific comments below, in case we end up still
+> > needing any of the code.
+> >
+>
+> Thanks your suggestions.
+>
+> After applying your suggestion in SCP device driver, we could remove
+> mtk_cam-smem.h/c. Currently, we use dma_alloc_coherent with SCP device
+> to get SCP address. We could touch the buffer with this SCP address in
+> SCP processor.
+>
+> After that, we use dma_map_page_attrs with P1 device which supports
+> IOMMU domain to get IOVA address. For this address, we will assign
+> it to our ISP HW device to proceed.
+>
+> Below is the snippet for ISP P1 compose buffer initialization.
+>
+>         ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
+>                                  MAX_COMPOSER_SIZE, &addr, GFP_KERNEL);
+>         if (!ptr) {
+>                 dev_err(dev, "failed to allocate compose memory\n");
+>                 return -ENOMEM;
+>         }
+>         isp_ctx->scp_mem_pa = addr;
 
-date:			Fri Jul  5 05:00:11 CEST 2019
-media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
-media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
-v4l-utils git hash:	2ff1e6b3d67dbbdde212c8cf0de603f9f52078ed
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+addr contains a DMA address, not a physical address. Could we call it
+scp_mem_dma instead?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+>         dev_dbg(dev, "scp addr:%pad\n", &addr);
+>
+>         /* get iova address */
+>         addr = dma_map_page_attrs(dev, phys_to_page(addr), 0,
 
-Detailed results are available here:
+addr is a DMA address, so phys_to_page() can't be called on it. The
+simplest thing here would be to use dma_map_single() with ptr as the
+CPU address expected.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+>                                   MAX_COMPOSER_SIZE, DMA_BIDIRECTIONAL,
+>                                   DMA_ATTR_SKIP_CPU_SYNC);
+>         if (dma_mapping_error(dev, addr)) {
+>                 isp_ctx->scp_mem_pa = 0;
 
-Detailed regression test results are available here:
+We also need to free the allocated memory.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+>                 dev_err(dev, "Failed to map scp iova\n");
+>                 return -ENOMEM;
+>         }
+>         isp_ctx->scp_mem_iova = addr;
+>
+> Moreover, we have another meta input buffer usage.
+> For this kind of buffer, it will be allocated by V4L2 framework
+> with dma_alloc_coherent with SCP device. In order to get IOVA,
+> we will add dma_map_page_attrs in vb2_ops' buf_init function.
+> In buf_cleanup function, we will call dma_unmap_page_attrs function.
 
-Full logs are available here:
+As per above, we don't have access to the struct page we want to map.
+We probably want to get the CPU VA using vb2_plane_vaddr() and call
+dma_map_single() instead.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+>
+> Based on these current implementation, do you think it is correct?
+> If we got any wrong, please let us know.
+>
+> Btw, we also DMA_ATTR_NO_KERNEL_MAPPING DMA attribte to
+> avoid dma_sync_sg_for_device. Othewise, it will hit the KE.
+> Maybe we could not get the correct sg_table.
+> Do you think it is a bug and need to fix?
 
-The Media Infrastructure API from this daily build is here:
+I think DMA_ATTR_NO_KERNEL_MAPPING is good to have for all the buffers
+that don't need to be accessed from the kernel anyway, to avoid
+unnecessary kernel mapping operations. However, for coherent memory
+pool, it doesn't change anything, because the memory always has a
+kernel mapping. We also need the kernel virtual address for
+dma_map_single(). Also the flag doesn't eliminate the need to do the
+sync, e.g. if the userspace accesses the buffer.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Could you give me more information about the failure you're seeing?
+Where is the dma_sync_sg_for_device() called from? Where do you get
+the sgtable from?
+
+Best regards,
+Tomasz
