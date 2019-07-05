@@ -2,115 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B788600DD
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 08:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881EF601D9
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 09:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbfGEGLw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jul 2019 02:11:52 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38621 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbfGEGLv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 02:11:51 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y15so3837622pfn.5
-        for <linux-media@vger.kernel.org>; Thu, 04 Jul 2019 23:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JKctE4K5sDxRFY6pqCAg221NxbFbk7BKe+3f3Vj/l/k=;
-        b=oLbTZ3dYRw04OLOoT0B1eslDirWqkSdQwltiuleECgUie7W9XpHl//Uyr+2LhffQKA
-         BLvwFStInVCYYNJgVCa24gsd7aUgr8AaSheoX7sJRMrNCqoWgmvwb6z49VjfighnrPW3
-         8HUmPEywsg6bbXs8Dv8YXG6mfP01fPivj9Vdy6Wy+X3w0aoYJ00yF2Xow2IxoZGcTehm
-         DpyInJ8dubeUygU5ZWjArMLgTZ6rmlPL6VNpT2Iu87s9FI5/lKcJvB9+zldr7vbh37Wf
-         9EApvPoPPQ1qQo0t2UKwuAJU2UZZOZT/+zirv7AteJgiU3vQPSQNtm745vobWbe10zfn
-         2SpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JKctE4K5sDxRFY6pqCAg221NxbFbk7BKe+3f3Vj/l/k=;
-        b=UwvfC06qcyoQ3MMVVfn9Dt6zW1+tYXO/0Vkp/2LQcreKu1kCmN8panRXAr4dJjrmIS
-         O3x1BtoA2iwKZzj14IGIrESNQZ17loPF6MkcvOz180RGssu+Hk11gGabziYkp0NMVWwh
-         Aw2c9ZIQGQtv8C4MeKB0gj6qemraQDb6dtSjYwqlbao0IaA71t3j2mHu5a8p72BnYud9
-         UaPwnFDincM/palWULQLi1/BdLz1NLO68geZLZEnFiQkBPlIyWQU6GjNRWtuz9Lt0ava
-         DHuo+ZQL3mR7kASXwCLSG6MBR3iog2FMTWpyLlapPyeJIIqFPStEEmleVozaWB+F4/4j
-         RNoA==
-X-Gm-Message-State: APjAAAUyOcmMgkl99dPCHlDQSKpg/2MUKgMBjlYaKuOTsr4CtdxOGnI3
-        sYUx1IMdn/3ibJmROpFSmuY=
-X-Google-Smtp-Source: APXvYqyjXWxWRbF+f1IiMf2HG1CrMv3CJOpcVh23+h/FcPYzswRd3WCeH3CaMUdSY38vaTAgjLo1Iw==
-X-Received: by 2002:a17:90a:3086:: with SMTP id h6mr2816224pjb.14.1562307111068;
-        Thu, 04 Jul 2019 23:11:51 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.64.117])
-        by smtp.gmail.com with ESMTPSA id p15sm12249707pjf.27.2019.07.04.23.11.43
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 04 Jul 2019 23:11:50 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH] staging: media: davinci_vpfe: Replace function vpfe_isif_cleanup()
-Date:   Fri,  5 Jul 2019 11:41:26 +0530
-Message-Id: <20190705061126.23876-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        id S1727053AbfGEHz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 03:55:27 -0400
+Received: from mga14.intel.com ([192.55.52.115]:53242 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725862AbfGEHz1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Jul 2019 03:55:27 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jul 2019 00:55:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,454,1557212400"; 
+   d="scan'208";a="187755810"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2019 00:55:23 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id EE1FA2036A; Fri,  5 Jul 2019 10:55:22 +0300 (EEST)
+Date:   Fri, 5 Jul 2019 10:55:22 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hugues FRUCHET <hugues.fruchet@st.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: Re: [PATCH v2 0/3] DCMI bridge support
+Message-ID: <20190705075522.o7kuptdy3p3o64l7@paasikivi.fi.intel.com>
+References: <1560242912-17138-1-git-send-email-hugues.fruchet@st.com>
+ <20190620161721.h3wn4nibomrvriw4@kekkonen.localdomain>
+ <ae097d67-58fe-82d7-78d6-2445664f28db@st.com>
+ <20190626172503.GB6118@pendragon.ideasonboard.com>
+ <b21efe64-7762-308b-c2e5-503589041c35@st.com>
+ <20190627133824.GC5021@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190627133824.GC5021@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename function isif_remove to vpfe_isif_cleanup, as
-vpfe_isif_cleanup does nothing but call isif_remove.
-Change type of new vpfe_isif_cleanup from static to non-static to match
-the old function definition.
-Remove the original vpfe_isif_cleanup.
-Modify calls to isif_remove to vpfe_isif_cleanup.
-Issue found with Coccinelle.
+Hi Laurent,
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
- .../staging/media/davinci_vpfe/dm365_isif.c   | 21 +++++++------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+On Thu, Jun 27, 2019 at 04:38:24PM +0300, Laurent Pinchart wrote:
+> Hi Hugues,
+> 
+> On Thu, Jun 27, 2019 at 12:38:40PM +0000, Hugues FRUCHET wrote:
+> > On 6/26/19 7:25 PM, Laurent Pinchart wrote:
+> > > On Mon, Jun 24, 2019 at 10:10:05AM +0000, Hugues FRUCHET wrote:
+> > >> Hi Sakari,
+> > >>
+> > >>> - Where's the sub-device representing the bridge itself?
+> > >>
+> > >> This is pointed by [1]: drivers/media/i2c/st-mipid02.c
+> > >>
+> > >>> - As the driver becomes MC-centric, crop configuration takes place through
+> > >>>   V4L2 sub-device interface, not through the video device node.
+> > >>> - Same goes for accessing sensor configuration: it does not take place
+> > >>>   through video node but through the sub-device nodes.
+> > >>
+> > >> Our objective is to be able to support either a simple parallel sensor
+> > >> or a CSI-2 sensor connected through a bridge without any changes on
+> > >> userspace side because no additional processing or conversion involved,
+> > >> only deserialisation is m.
+> > >> With the proposed set of patches, we succeeded to do so, the same
+> > >> non-regression tests campaign is passed with OV5640 parallel sensor
+> > >> (STM32MP1 evaluation board) or OV5640 CSI-2 sensor (Avenger96 board with
+> > >> D3 mezzanine board).
+> > >>
+> > >> We don't want driver to be MC-centric, media controller support was
+> > >> required only to get access to the set of functions needed to link and
+> > >> walk trough subdevices: media_create_pad_link(),
+> > >> media_entity_remote_pad(), etc...
+> > >>
+> > >> We did a try with the v1 version of this patchset, delegating subdevices
+> > >> handling to userspace, by using media-controller, but this require to
+> > >> configure first the pipeline for each single change of resolution and
+> > >> format before making any capture using v4l2-ctl or GStreamer, quite
+> > >> heavy in fact.
+> > >> Benjamin did another try using new libcamera codebase, but even for a
+> > >> basic capture use-case, negotiation code is quite tricky in order to
+> > >> match the right subdevices bus format to the required V4L2 format.
+> > > 
+> > > Why would it be trickier in userspace than in the kernel ? The V4L2
+> > > subdev operations are more or less expose verbatim through the subdev
+> > > userspace API.
+> > > 
+> > >> Moreover, it was not clear how to call libcamera library prior to any
+> > >> v4l2-ctl or GStreamer calls.
+> > > 
+> > > libcamera isn't meant to be called before v4l2-ctl or GStreamer.
+> > > Applications are supposed to be based directly on libcamera, or, for
+> > > existing userspace APIs such as V4L2 or GStreamer, compatibility layers
+> > > are supposed to be developed. For V4L2 it will take the form of a
+> > > LD_PRELOAD-able .so that will intercept the V4L2 API calls, making most
+> > > V4L2 applications work with libcamera unmodified (I said most as 100%
+> > > compatibility will likely not be achievable). For GStreamer it will take
+> > > the form of a GStreamer libcamera element that will replace the V4L2
+> > > source element.
+> > > 
+> > >> Adding 100 lines of code into DCMI to well configure resolution and
+> > >> formats fixes the point and allows us to keep backward compatibility
+> > >> as per our objective, so it seems far more reasonable to us to do so
+> > >> even if DCMI controls more than the subdevice it is connected to.
+> > >> Moreover we found similar code in other video interfaces code like
+> > >> qcom/camss/camss.c and xilinx/xilinx-dma.c, controlling the whole
+> > >> pipeline, so it seems to us quite natural to go this way.
+> > > 
+> > > I can't comment on the qcom-camss driver as I'm not aware of its
+> > > internals, but where have you found such code in the Xilinx V4L2 drivers
+> > > ?
+> > 
+> > For ex. in xilinx/xilinx-dma.c, stream on/off is propagated to all 
+> > subdevices within pipeline:
+> >   * Walk the entities chain starting at the pipeline output video node 
+> > static int xvip_pipeline_start_stop(struct xvip_pipeline *pipe, bool start)
+> > 
+> > Same for qcom/camss/camss-video.c:
+> > static int video_start_streaming(struct vb2_queue *q, unsigned int count)
+> 
+> For stream start/stop, that's expected. Userspace only controls the
+> stream start/stop on the video node, and the kernel propagates that
+> along the pipeline. There is no VIDIOC_STREAMON or VIDIOC_STREAMOFF
+> ioctl exposed to userspace for V4L2 subdevs. What is not propagated in
+> the kernel for MC-centric devices is the pipeline configuration (formats
+> and selection rectangles).
+> 
+> > For resolution/format, in exynos4-is/fimc-capture.c:
+> > static int fimc_pipeline_try_format(struct fimc_ctx *ctx,
+> > ...
+> > 	while (1) {
+> > ...
+> > 		/* set format on all pipeline subdevs */
+> > 		while (me != &fimc->vid_cap.subdev.entity) {
+> > ...
+> > 			ret = v4l2_subdev_call(sd, pad, set_fmt, NULL, &sfmt);
+> 
+> As explained below, propagating formats is fine for video node-centric
+> drivers, but comes with limitations.
+> 
+> > >> To summarize, if we cannot do the negotiation within kernel, delegating
+> > >> this to userspace implies far more complexity and breaks compatibility
+> > >> with existing applications without adding new functionalities.
+> > >>
+> > >> Having all that in mind, what should be reconsidered in your opinion
+> > >> Sakari ? Do you have some alternatives ?
+> > > 
+> > > First of all, let's note that your patch series performs to related but
+> > > still independent changes: it enables MC support, *and* enables the V4L2
+> > > subdev userspace API. The former is clearly needed and will allow you to
+> > > use the MC API internally in the kernel, simplifying pipeline traversal.
+> > > The latter then enables the V4L2 subdev userspace API, moving the
+> > > pipeline configuration responsibility to userspace.
+> > > 
+> > > You could in theory move to the MC API inside the kernel, without
+> > > enabling support for the V4L2 subdev userspace API. Configuring the
+> > > pipeline and propagating the formats would then be the responsibility of
+> > > the kernel driver.
+> > 
+> > Yes this is exactly what we want to do.
+> > If I understand well, to disable the V4L2 subdev userspace API, I just 
+> > have to remove the media device registry:
+> > 
+> > -	/* Register the media device */
+> > -	ret = media_device_register(&dcmi->mdev);
+> > -	if (ret) {
+> > -		dev_err(dcmi->dev, "Failed to register media device (%d)\n",
+> > -			ret);
+> > -		goto err_media_device_cleanup;
+> > -	}
+> > 
+> > Do you see any additional things to do ?
+> 
+> That should be it. Note that in that case pipeline configuration has to
+> be handled by the master driver (DCMI in this case), the external
+> subdevs involved (such as the CSI-2 to parallel bridge) must not handle
+> any propagation of formats or selection rectangles.
 
-diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-index 46fd8184fc77..c21106a5dc7b 100644
---- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
-+++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-@@ -1932,8 +1932,13 @@ static const struct v4l2_ctrl_config vpfe_isif_gain_offset = {
- 	.def = 0,
- };
- 
--static void isif_remove(struct vpfe_isif_device *isif,
--			struct platform_device *pdev)
-+/*
-+ * vpfe_isif_cleanup - isif module cleanup
-+ * @isif: pointer to isif subdevice
-+ * @dev: pointer to platform device structure
-+ */
-+void vpfe_isif_cleanup(struct vpfe_isif_device *isif,
-+		       struct platform_device *pdev)
- {
- 	struct resource *res;
- 	int i = 0;
-@@ -2081,17 +2086,7 @@ int vpfe_isif_init(struct vpfe_isif_device *isif, struct platform_device *pdev)
- 	return status;
- isif_fail:
- 	v4l2_ctrl_handler_free(&isif->ctrls);
--	isif_remove(isif, pdev);
-+	vpfe_isif_cleanup(isif, pdev);
- 	return status;
- }
- 
--/*
-- * vpfe_isif_cleanup - isif module cleanup
-- * @isif: pointer to isif subdevice
-- * @dev: pointer to platform device structure
-- */
--void
--vpfe_isif_cleanup(struct vpfe_isif_device *isif, struct platform_device *pdev)
--{
--	isif_remove(isif, pdev);
--}
+I wonder what we'd do in the case when someone needs to connect something
+else to the pipeline, such as a sensor with more than one sub-device, or a
+flash or a lens controller.
+
+For future-proofness, I'd just use MC for hardware that may be part of a
+complex pipeline. In this case, if you think backwards compatibility is
+important (and for most hardware it probably is), I don't think there are
+perfect solutions if your existing driver is not MC-enabled.
+
+A reasonable compromise would be to add a Kconfig option that allows
+enabling MC. This way you can provide backwards compatibility and allow
+making use of the full potential of the hardware. That's also why hardware
+that may be part of a non-trivial MC pipeline should start with MC-enabled
+so we wouldn't run into this.
+
 -- 
-2.19.1
+Kind regards,
 
+Sakari Ailus
+sakari.ailus@linux.intel.com
