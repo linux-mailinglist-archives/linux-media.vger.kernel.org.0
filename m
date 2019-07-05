@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3575A6093A
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 17:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F40AA609F0
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 18:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbfGEPYQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jul 2019 11:24:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:36562 "EHLO
+        id S1725884AbfGEQFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 12:05:21 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36898 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726978AbfGEPYQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 11:24:16 -0400
+        with ESMTP id S1725763AbfGEQFV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 12:05:21 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 55B3028B5F3
-Message-ID: <da614f606c50c0fcdd9fabe11650d76749530ab8.camel@collabora.com>
-Subject: Re: [PATCH v3 3/3] media: uapi: h264: Get rid of the p0/b0/b1
- ref-lists
+        with ESMTPSA id BF778263AA0
+Message-ID: <1fdb3115e6f5903b55a915c45bbfdec484842e83.camel@collabora.com>
+Subject: Re: [PATCH 3/9] media: hantro: Constify the control array
 From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+Cc:     linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
         Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Date:   Fri, 05 Jul 2019 12:24:00 -0300
-In-Reply-To: <26acb51f5d7d9e11ef34f8c2e2c92b1dc0809a00.camel@ndufresne.ca>
-References: <20190703122849.6316-1-boris.brezillon@collabora.com>
-         <20190703122849.6316-4-boris.brezillon@collabora.com>
-         <26acb51f5d7d9e11ef34f8c2e2c92b1dc0809a00.camel@ndufresne.ca>
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Date:   Fri, 05 Jul 2019 13:05:10 -0300
+In-Reply-To: <20190619121540.29320-4-boris.brezillon@collabora.com>
+References: <20190619121540.29320-1-boris.brezillon@collabora.com>
+         <20190619121540.29320-4-boris.brezillon@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
@@ -46,21 +45,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-07-03 at 13:18 -0400, Nicolas Dufresne wrote:
-> Le mercredi 03 juillet 2019 à 14:28 +0200, Boris Brezillon a écrit :
-> > Those lists can be extracted from the dpb, let's simplify userspace
-> > life and build that list kernel-side (generic helpers will be provided
-> > for drivers that need this list).
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Wed, 2019-06-19 at 14:15 +0200, Boris Brezillon wrote:
+> controls[] is not supposed to be modified at runtime, let's make it
+> explicit by adding a const specifier.
 > 
-> Those only existed for Rockchip/Hantro anyway.
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Reviewed-by: Nicolas Dufresne <nicolas­.dufresne@collabora.com>
-> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 28b0fed89dcb..db49d643ddb7 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -264,7 +264,7 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>  	.s_ctrl = hantro_s_ctrl,
+>  };
+>  
+> -static struct hantro_ctrl controls[] = {
+> +static const struct hantro_ctrl controls[] = {
+>  	{
+>  		.id = V4L2_CID_JPEG_COMPRESSION_QUALITY,
+>  		.codec = HANTRO_JPEG_ENCODER,
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+This patch here breaks the build:
 
-Thanks,
-Eze
+  CC [M]  drivers/staging/media/hantro/hantro_drv.o
+/home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c: In function ‘hantro_ctrls_setup’:
+/home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c:319:23: error: assignment of member ‘id’ in read-only object
+    controls[i].cfg.id = controls[i].id;
+                       ^
+You can fix it by simply moving it after:
+
+[PATCH 4/9] media: hantro: Simplify the controls creation logic
+
+Regards,
+Ezequiel
 
