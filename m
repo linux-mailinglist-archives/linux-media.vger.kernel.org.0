@@ -2,216 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 881EF601D9
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 09:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFEBA601E0
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 09:59:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbfGEHz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jul 2019 03:55:27 -0400
-Received: from mga14.intel.com ([192.55.52.115]:53242 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbfGEHz1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 5 Jul 2019 03:55:27 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jul 2019 00:55:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,454,1557212400"; 
-   d="scan'208";a="187755810"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2019 00:55:23 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id EE1FA2036A; Fri,  5 Jul 2019 10:55:22 +0300 (EEST)
-Date:   Fri, 5 Jul 2019 10:55:22 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hugues FRUCHET <hugues.fruchet@st.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
+        id S1728081AbfGEH7w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 03:59:52 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:12204 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727506AbfGEH7w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 03:59:52 -0400
+X-UUID: e2a2d1ea09994fbb828606ec42d8dc9c-20190705
+X-UUID: e2a2d1ea09994fbb828606ec42d8dc9c-20190705
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <jungo.lin@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 645243814; Fri, 05 Jul 2019 15:59:40 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 5 Jul 2019 15:59:39 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 5 Jul 2019 15:59:39 +0800
+Message-ID: <1562313579.1212.73.camel@mtksdccf07>
+Subject: Re: [RFC,v3 9/9] media: platform: Add Mediatek ISP P1 shared memory
+ device
+From:   Jungo Lin <jungo.lin@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     <devicetree@vger.kernel.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <sean.cheng@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <frederic.chen@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <rynn.wu@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Rob Herring <robh@kernel.org>,
+        Ryan Yu =?UTF-8?Q?=28=E4=BD=99=E5=AD=9F=E4=BF=AE=29?= 
+        <ryan.yu@mediatek.com>,
+        Frankie Chiu =?UTF-8?Q?=28=E9=82=B1=E6=96=87=E5=87=B1=29?= 
+        <frankie.chiu@mediatek.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+        <ddavenport@chromium.org>, Sj Huang <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick FERTRE <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v2 0/3] DCMI bridge support
-Message-ID: <20190705075522.o7kuptdy3p3o64l7@paasikivi.fi.intel.com>
-References: <1560242912-17138-1-git-send-email-hugues.fruchet@st.com>
- <20190620161721.h3wn4nibomrvriw4@kekkonen.localdomain>
- <ae097d67-58fe-82d7-78d6-2445664f28db@st.com>
- <20190626172503.GB6118@pendragon.ideasonboard.com>
- <b21efe64-7762-308b-c2e5-503589041c35@st.com>
- <20190627133824.GC5021@pendragon.ideasonboard.com>
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        "Linux Media Mailing List" <linux-media@vger.kernel.org>
+Date:   Fri, 5 Jul 2019 15:59:39 +0800
+In-Reply-To: <CAAFQd5BaTQ-Q7gsE0X+d4_81OZq9WHaCYkmALt7_4A1JFo=_8g@mail.gmail.com>
+References: <jungo.lin@mediatek.com>
+         <20190611035344.29814-1-jungo.lin@mediatek.com>
+         <20190611035344.29814-10-jungo.lin@mediatek.com>
+         <20190701072532.GB137710@chromium.org>
+         <1562297618.1212.46.camel@mtksdccf07>
+         <CAAFQd5BaTQ-Q7gsE0X+d4_81OZq9WHaCYkmALt7_4A1JFo=_8g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190627133824.GC5021@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Tomasz:
 
-On Thu, Jun 27, 2019 at 04:38:24PM +0300, Laurent Pinchart wrote:
-> Hi Hugues,
+On Fri, 2019-07-05 at 13:22 +0900, Tomasz Figa wrote:
+> Hi Jungo,
 > 
-> On Thu, Jun 27, 2019 at 12:38:40PM +0000, Hugues FRUCHET wrote:
-> > On 6/26/19 7:25 PM, Laurent Pinchart wrote:
-> > > On Mon, Jun 24, 2019 at 10:10:05AM +0000, Hugues FRUCHET wrote:
-> > >> Hi Sakari,
-> > >>
-> > >>> - Where's the sub-device representing the bridge itself?
-> > >>
-> > >> This is pointed by [1]: drivers/media/i2c/st-mipid02.c
-> > >>
-> > >>> - As the driver becomes MC-centric, crop configuration takes place through
-> > >>>   V4L2 sub-device interface, not through the video device node.
-> > >>> - Same goes for accessing sensor configuration: it does not take place
-> > >>>   through video node but through the sub-device nodes.
-> > >>
-> > >> Our objective is to be able to support either a simple parallel sensor
-> > >> or a CSI-2 sensor connected through a bridge without any changes on
-> > >> userspace side because no additional processing or conversion involved,
-> > >> only deserialisation is m.
-> > >> With the proposed set of patches, we succeeded to do so, the same
-> > >> non-regression tests campaign is passed with OV5640 parallel sensor
-> > >> (STM32MP1 evaluation board) or OV5640 CSI-2 sensor (Avenger96 board with
-> > >> D3 mezzanine board).
-> > >>
-> > >> We don't want driver to be MC-centric, media controller support was
-> > >> required only to get access to the set of functions needed to link and
-> > >> walk trough subdevices: media_create_pad_link(),
-> > >> media_entity_remote_pad(), etc...
-> > >>
-> > >> We did a try with the v1 version of this patchset, delegating subdevices
-> > >> handling to userspace, by using media-controller, but this require to
-> > >> configure first the pipeline for each single change of resolution and
-> > >> format before making any capture using v4l2-ctl or GStreamer, quite
-> > >> heavy in fact.
-> > >> Benjamin did another try using new libcamera codebase, but even for a
-> > >> basic capture use-case, negotiation code is quite tricky in order to
-> > >> match the right subdevices bus format to the required V4L2 format.
-> > > 
-> > > Why would it be trickier in userspace than in the kernel ? The V4L2
-> > > subdev operations are more or less expose verbatim through the subdev
-> > > userspace API.
-> > > 
-> > >> Moreover, it was not clear how to call libcamera library prior to any
-> > >> v4l2-ctl or GStreamer calls.
-> > > 
-> > > libcamera isn't meant to be called before v4l2-ctl or GStreamer.
-> > > Applications are supposed to be based directly on libcamera, or, for
-> > > existing userspace APIs such as V4L2 or GStreamer, compatibility layers
-> > > are supposed to be developed. For V4L2 it will take the form of a
-> > > LD_PRELOAD-able .so that will intercept the V4L2 API calls, making most
-> > > V4L2 applications work with libcamera unmodified (I said most as 100%
-> > > compatibility will likely not be achievable). For GStreamer it will take
-> > > the form of a GStreamer libcamera element that will replace the V4L2
-> > > source element.
-> > > 
-> > >> Adding 100 lines of code into DCMI to well configure resolution and
-> > >> formats fixes the point and allows us to keep backward compatibility
-> > >> as per our objective, so it seems far more reasonable to us to do so
-> > >> even if DCMI controls more than the subdevice it is connected to.
-> > >> Moreover we found similar code in other video interfaces code like
-> > >> qcom/camss/camss.c and xilinx/xilinx-dma.c, controlling the whole
-> > >> pipeline, so it seems to us quite natural to go this way.
-> > > 
-> > > I can't comment on the qcom-camss driver as I'm not aware of its
-> > > internals, but where have you found such code in the Xilinx V4L2 drivers
-> > > ?
-> > 
-> > For ex. in xilinx/xilinx-dma.c, stream on/off is propagated to all 
-> > subdevices within pipeline:
-> >   * Walk the entities chain starting at the pipeline output video node 
-> > static int xvip_pipeline_start_stop(struct xvip_pipeline *pipe, bool start)
-> > 
-> > Same for qcom/camss/camss-video.c:
-> > static int video_start_streaming(struct vb2_queue *q, unsigned int count)
-> 
-> For stream start/stop, that's expected. Userspace only controls the
-> stream start/stop on the video node, and the kernel propagates that
-> along the pipeline. There is no VIDIOC_STREAMON or VIDIOC_STREAMOFF
-> ioctl exposed to userspace for V4L2 subdevs. What is not propagated in
-> the kernel for MC-centric devices is the pipeline configuration (formats
-> and selection rectangles).
-> 
-> > For resolution/format, in exynos4-is/fimc-capture.c:
-> > static int fimc_pipeline_try_format(struct fimc_ctx *ctx,
-> > ...
-> > 	while (1) {
-> > ...
-> > 		/* set format on all pipeline subdevs */
-> > 		while (me != &fimc->vid_cap.subdev.entity) {
-> > ...
-> > 			ret = v4l2_subdev_call(sd, pad, set_fmt, NULL, &sfmt);
-> 
-> As explained below, propagating formats is fine for video node-centric
-> drivers, but comes with limitations.
-> 
-> > >> To summarize, if we cannot do the negotiation within kernel, delegating
-> > >> this to userspace implies far more complexity and breaks compatibility
-> > >> with existing applications without adding new functionalities.
-> > >>
-> > >> Having all that in mind, what should be reconsidered in your opinion
-> > >> Sakari ? Do you have some alternatives ?
-> > > 
-> > > First of all, let's note that your patch series performs to related but
-> > > still independent changes: it enables MC support, *and* enables the V4L2
-> > > subdev userspace API. The former is clearly needed and will allow you to
-> > > use the MC API internally in the kernel, simplifying pipeline traversal.
-> > > The latter then enables the V4L2 subdev userspace API, moving the
-> > > pipeline configuration responsibility to userspace.
-> > > 
-> > > You could in theory move to the MC API inside the kernel, without
-> > > enabling support for the V4L2 subdev userspace API. Configuring the
-> > > pipeline and propagating the formats would then be the responsibility of
-> > > the kernel driver.
-> > 
-> > Yes this is exactly what we want to do.
-> > If I understand well, to disable the V4L2 subdev userspace API, I just 
-> > have to remove the media device registry:
-> > 
-> > -	/* Register the media device */
-> > -	ret = media_device_register(&dcmi->mdev);
-> > -	if (ret) {
-> > -		dev_err(dcmi->dev, "Failed to register media device (%d)\n",
-> > -			ret);
-> > -		goto err_media_device_cleanup;
-> > -	}
-> > 
-> > Do you see any additional things to do ?
-> 
-> That should be it. Note that in that case pipeline configuration has to
-> be handled by the master driver (DCMI in this case), the external
-> subdevs involved (such as the CSI-2 to parallel bridge) must not handle
-> any propagation of formats or selection rectangles.
+> On Fri, Jul 5, 2019 at 12:33 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
+> >
+> > Hi Tomasz,
 
-I wonder what we'd do in the case when someone needs to connect something
-else to the pipeline, such as a sensor with more than one sub-device, or a
-flash or a lens controller.
+[snip]
 
-For future-proofness, I'd just use MC for hardware that may be part of a
-complex pipeline. In this case, if you think backwards compatibility is
-important (and for most hardware it probably is), I don't think there are
-perfect solutions if your existing driver is not MC-enabled.
+> > After applying your suggestion in SCP device driver, we could remove
+> > mtk_cam-smem.h/c. Currently, we use dma_alloc_coherent with SCP device
+> > to get SCP address. We could touch the buffer with this SCP address in
+> > SCP processor.
+> >
+> > After that, we use dma_map_page_attrs with P1 device which supports
+> > IOMMU domain to get IOVA address. For this address, we will assign
+> > it to our ISP HW device to proceed.
+> >
+> > Below is the snippet for ISP P1 compose buffer initialization.
+> >
+> >         ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
+> >                                  MAX_COMPOSER_SIZE, &addr, GFP_KERNEL);
+> >         if (!ptr) {
+> >                 dev_err(dev, "failed to allocate compose memory\n");
+> >                 return -ENOMEM;
+> >         }
+> >         isp_ctx->scp_mem_pa = addr;
+> 
+> addr contains a DMA address, not a physical address. Could we call it
+> scp_mem_dma instead?
+> 
+> >         dev_dbg(dev, "scp addr:%pad\n", &addr);
+> >
+> >         /* get iova address */
+> >         addr = dma_map_page_attrs(dev, phys_to_page(addr), 0,
+> 
+> addr is a DMA address, so phys_to_page() can't be called on it. The
+> simplest thing here would be to use dma_map_single() with ptr as the
+> CPU address expected.
+> 
 
-A reasonable compromise would be to add a Kconfig option that allows
-enabling MC. This way you can provide backwards compatibility and allow
-making use of the full potential of the hardware. That's also why hardware
-that may be part of a non-trivial MC pipeline should start with MC-enabled
-so we wouldn't run into this.
+We have changed to use ma_map_single() with ptr, but encounter IOMMU
+error. From the debug log of iommu_dma_map_page[3], we got
+0x0000000054800000 instead of expected address: 0x0000000050800000[2].
+There is a address offset(0x4000000). If we change to use
+dma_map_page_attrs with phys_to_page(addr), the address is correct as we
+expected[2]. Do you have any suggestion on this issue? Do we miss
+something?
 
--- 
-Kind regards,
+[1]
+[    1.344786] __dma_alloc_from_coherent: 0x800000 PAGE_SHIFT:12
+device_base:0x0000000050000000 dma:0x0000000050800000
+virt_base:ffffff8014000000 va:ffffff8014800000
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+[    1.346890] mtk-cam 1a000000.camisp: scp addr:0x0000000050800000
+va:ffffff8014800000
+
+[    1.347864] iommu_dma_map_page:0x0000000054800000 offset:0
+[    1.348562] mtk-cam 1a000000.camisp: iova addr:0x00000000fde00000
+
+[2]
+[    1.346738] __dma_alloc_from_coherent: 0x800000 PAGE_SHIFT:12
+device_base:0x0000000050000000 dma:0x0000000050800000
+virt_base:ffffff8014000000 va:ffffff8014800000
+[    1.348841] mtk-cam 1a000000.camisp: scp addr:0x0000000050800000
+va:ffffff8014800000
+[    1.349816] iommu_dma_map_page:0x0000000050800000 offset:0
+[    1.350514] mtk-cam 1a000000.camisp: iova addr:0x00000000fde00000
+
+
+[3]
+dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+		unsigned long offset, size_t size, int prot)
+{
+	phys_addr_t phys = page_to_phys(page);
+	pr_err("iommu_dma_map_page:%pa offset:%lu\n", &phys, offset);
+
+	return __iommu_dma_map(dev, page_to_phys(page) + offset, size, prot,
+			iommu_get_dma_domain(dev));
+}
+
+[snip]
+
+Best regards,
+
+Jungo
+
