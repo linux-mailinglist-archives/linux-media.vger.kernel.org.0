@@ -2,83 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F40AA609F0
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 18:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3442260A60
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2019 18:40:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbfGEQFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jul 2019 12:05:21 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:36898 "EHLO
+        id S1727090AbfGEQkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jul 2019 12:40:14 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37108 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbfGEQFV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 12:05:21 -0400
+        with ESMTP id S1726302AbfGEQkO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jul 2019 12:40:14 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id BF778263AA0
-Message-ID: <1fdb3115e6f5903b55a915c45bbfdec484842e83.camel@collabora.com>
-Subject: Re: [PATCH 3/9] media: hantro: Constify the control array
+        with ESMTPSA id 07F7828B64B
+Message-ID: <2f836ff0ce9ea68329a81e83109e53e24f7783c6.camel@collabora.com>
+Subject: Re: [PATCH v3 1/3] media: uapi: h264: Clarify our expectations
+ regarding NAL header format
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     Boris Brezillon <boris.brezillon@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+Cc:     Tomasz Figa <tfiga@chromium.org>,
         Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
         Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Date:   Fri, 05 Jul 2019 13:05:10 -0300
-In-Reply-To: <20190619121540.29320-4-boris.brezillon@collabora.com>
-References: <20190619121540.29320-1-boris.brezillon@collabora.com>
-         <20190619121540.29320-4-boris.brezillon@collabora.com>
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Date:   Fri, 05 Jul 2019 13:40:03 -0300
+In-Reply-To: <20190703122849.6316-2-boris.brezillon@collabora.com>
+References: <20190703122849.6316-1-boris.brezillon@collabora.com>
+         <20190703122849.6316-2-boris.brezillon@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-06-19 at 14:15 +0200, Boris Brezillon wrote:
-> controls[] is not supposed to be modified at runtime, let's make it
-> explicit by adding a const specifier.
+Hi Boris, Paul,
+
+On Wed, 2019-07-03 at 14:28 +0200, Boris Brezillon wrote:
+> Looks like some stateless decoders expect slices to be prefixed with
+> ANNEX B start codes (they most likely do some kind of bitstream parsing
+> and/or need that to delimit slices when doing per frame decoding).
+> Since skipping those start codes for dummy stateless decoders (those
+> expecting all params to be passed through controls) should be pretty
+> easy, let's mandate that all slices be prepended with ANNEX B start
+> codes.
+> 
+> If we ever need to support AVC headers, we can add a new menu control
+> to select the type of NAL header to use.
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  drivers/staging/media/hantro/hantro_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Changes in v3:
+> * Add Paul's R-b
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 28b0fed89dcb..db49d643ddb7 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -264,7 +264,7 @@ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
->  	.s_ctrl = hantro_s_ctrl,
->  };
+> Changes in v2:
+> * None
+> ---
+>  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> index 7a1947f5be96..3ae1367806cf 100644
+> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> @@ -1726,6 +1726,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+>      :ref:`h264`, section 7.4.3 "Slice Header Semantics". For further
+>      documentation, refer to the above specification, unless there is
+>      an explicit comment stating otherwise.
+> +    All slices should be prepended with an ANNEX B start code.
 >  
-> -static struct hantro_ctrl controls[] = {
-> +static const struct hantro_ctrl controls[] = {
->  	{
->  		.id = V4L2_CID_JPEG_COMPRESSION_QUALITY,
->  		.codec = HANTRO_JPEG_ENCODER,
 
-This patch here breaks the build:
+Currently, the H264 slice V4L2_PIX_FMT_H264_SLICE_RAW,
+is specified to _not_ contain the ANNEX B start code.
 
-  CC [M]  drivers/staging/media/hantro/hantro_drv.o
-/home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c: In function ‘hantro_ctrls_setup’:
-/home/zeta/repos/linux/media_tree/drivers/staging/media/hantro/hantro_drv.c:319:23: error: assignment of member ‘id’ in read-only object
-    controls[i].cfg.id = controls[i].id;
-                       ^
-You can fix it by simply moving it after:
+As you know, this is used in the cedrus driver, which is not
+expecting the start code.
 
-[PATCH 4/9] media: hantro: Simplify the controls creation logic
+What's the plan regarding that?
 
-Regards,
+Thanks,
 Ezequiel
 
