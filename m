@@ -2,179 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9D0617A1
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jul 2019 23:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4191A61A83
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 08:02:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727645AbfGGVQG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Jul 2019 17:16:06 -0400
-Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.230]:17327 "EHLO
-        cdptpa-cmomta02.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727636AbfGGVQG (ORCPT
+        id S1727775AbfGHGCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 02:02:45 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:38039 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727218AbfGHGCp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Jul 2019 17:16:06 -0400
-Received: from [192.168.2.97] ([72.182.16.184])
-        by cmsmtp with ESMTP
-        id kEVshGg0P3JQGkEVvh6H5s; Sun, 07 Jul 2019 21:16:03 +0000
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mon, 8 Jul 2019 02:02:45 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id A0350671;
+        Mon,  8 Jul 2019 02:02:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jul 2019 02:02:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=f1h8WjsdJ0PzZfOht
+        MZ0xUwI3eF+7OSG/WXp6wFIuDE=; b=GRhfyP7xxMCvVbIuNMaEcOlBqA4N7oVZa
+        k9XUOm97rc5fF6RRwch0QIiArQAK2rl7Qwq/C7dBkovwBRRmfpNsqOG5jqJo9MV0
+        ShhTksZQoBcbiVbQSslIyuUbhCGnZ2trtjpQ6ME5j4gN88jtKnv/CPq9kELyYd9q
+        h66u5VyTDzV/rhVQYcf4aVo0+NjcIj5SMFQUnHXfi2PLj5xfuI3M6hweRYf/1uvF
+        x9HAJfFoRD1D+BvuZzDHWxC68BVfccZOj3FlFMbban9LIoZ2mS+bdU7MDAx7bB2R
+        SXZ2WaXydKvV9cy8cflipybJ/5XBu6gPzDQHEOFOJ0cTQ1/MyfIqQ==
+X-ME-Sender: <xms:gtwiXTdSXWN3BrYMaCz4R-qdbgnpHcpfnTR3s8VwGHx93j-95_vrUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrfeelgddutddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefgughgrghrucfv
+    hhhivghruceoihhnfhhosegvughgrghrthhhihgvrhdrnhgvtheqnecuffhomhgrihhnpe
+    gvmhhvrgdrohhrghdpvhhishhiohhnohhnlhhinhgvrdhorhhgnecukfhppeefuddrvddt
+    ledrleehrddvgedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehinhhfohesvggughgrrh
+    hthhhivghrrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:gtwiXddgckRIWSFT1LJvkK0Pcq4aySiAgBOGTheSKMLLtsZpvCLI_Q>
+    <xmx:gtwiXXhSk2FVgWXjGsr0LOSI6fEB9SLS4KYQDLpHwc_BniA1kDcRKQ>
+    <xmx:gtwiXZT2cA0Q9f0h7ZSMdImr-RnSpCTgWxu0-aO1pm424peJTQJtLg>
+    <xmx:g9wiXWRFW97U6uetNYAVf0yM38ryOk-oFoIIgOi9-aD_uqJzAaOnQg>
+Received: from localhost.localdomain (unknown [31.209.95.242])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 960B980060;
+        Mon,  8 Jul 2019 02:02:41 -0400 (EDT)
+From:   Edgar Thier <info@edgarthier.net>
+To:     laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi
+Cc:     Edgar Thier <info@edgarthier.net>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Keith Pyle <kpyle@austin.rr.com>
-Subject: [PATCH 2/2]: media: hdpvr: Add optional restart, with optional delay,
- after restarting streaming
-Message-ID: <cdb26c96-39b6-47fc-5eca-0dc4dea4ead2@austin.rr.com>
-Date:   Sun, 7 Jul 2019 16:16:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.0
+Subject: [PATCH v2 1/2] v4l: Add 12-bit raw bayer linear packed formats
+Date:   Mon,  8 Jul 2019 08:02:25 +0200
+Message-Id: <20190708060225.5172-1-info@edgarthier.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfCxkdka6JNkU3XGXbBZmmszJuiYH+IHvRJiajkIl7kWkmO0ihi6FY9/vq8F5zLuiGsNw4wl0tNNGFXWQIxMWa0HYTvNkYVdRHxx7SCyD7dGeojmTfxp/
- HQ0piK+25WLM6Ikf8HTJe/VR3QegIagS9+xwCJtj/PRXWdwOFSLM4dQ3iBqetU2lPgzOA5RQOiBSzfrYfDpTGTMFHckrAg/AyNo=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-`hdpvr_read` attempts to restart streaming if the device is read while
-it is both not ready and not disconnected.  However, the device is often
-still not ready immediately after the call to `hdpvr_start_streaming`
-returns, causing the condition `if (buf->status != BUFSTAT_READY)` to
-exit the loop without reading any further data.  By itself, this would
-merely cause a short read, which should be easily recoverable.  However,
-if no data has been read so far, this causes `hdpvr_read` to return 0,
-which results in an end-of-file for the user application.
+These formats are compressed 12-bit raw bayer formats with four different
+pixel orders. The pixel follow one another without any padding,
+thus are packed in a 'linear' fashion.
 
-Compensate for this by adding the ability to delay after the call to
-`hdpvr_start_streaming`, then `continue;` back to the top, so that
-`hdpvr_read` can call `wait_event_interruptible_timeout` again to wait
-for the device to become ready.  This delay complements the prior patch.
-The prior patch delays before issuing the start-streaming command, to
-give the firmware time to stabilize before receiving the command.  This
-delay is after the start-streaming command, to give the firmware time to
-bring the device to a ready state.  This delay is configurable through a
-new module parameter, `hdpvr_restart_streaming_ms_delay`, which defaults
-to a 100 millisecond delay.
-
-To avoid an infinite loop in `hdpvr_read`, add a limit to how many times
-`hdpvr_read` can restart the device before returning.  This limit is
-configurable through a new module parameter,
-`hdpvr_restart_streaming_max_tries`, and defaults to one restart.
-Administrators may set the limit to 0 to request that `hdpvr_read` never
-attempt to restart streaming.  Previously, there was no way for
-administrators to opt out of an attempted restart.
-
-Signed-off-by: Keith Pyle <kpyle@austin.rr.com>
-Tested-by: Keith Pyle <kpyle@austin.rr.com>
+Signed-off-by: Edgar Thier <info@edgarthier.net>
 ---
-Changes since v1:
-- Rewrapped output at 80 columns, per request from Hans.  Literal strings
-still exceed 80 columns where necessary to keep an entire string together,
-since this makes it easier for grep to find the file and line that
-generates a given message.
----
- drivers/media/usb/hdpvr/hdpvr-core.c  |  8 ++++++
- drivers/media/usb/hdpvr/hdpvr-video.c | 40 +++++++++++++++++++++++++++
- drivers/media/usb/hdpvr/hdpvr.h       |  2 ++
- 3 files changed, 50 insertions(+)
+ Documentation/media/uapi/v4l/pixfmt-rgb.rst   |  1 +
+ .../media/uapi/v4l/pixfmt-srggb12lp.rst       | 76 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  4 +
+ include/uapi/linux/videodev2.h                |  7 ++
+ 4 files changed, 88 insertions(+)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-index fd7608e7e94c..b7ac63113ac0 100644
---- a/drivers/media/usb/hdpvr/hdpvr-core.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-@@ -43,6 +43,14 @@ uint hdpvr_close_to_open_ms_delay = 4000;
- module_param(hdpvr_close_to_open_ms_delay, uint, S_IRUGO|S_IWUSR);
- MODULE_PARM_DESC(hdpvr_close_to_open_ms_delay, "delay restarting streaming by the specified number of milliseconds");
- 
-+uint hdpvr_restart_streaming_max_tries = 1;
-+module_param(hdpvr_restart_streaming_max_tries, uint, S_IRUGO|S_IWUSR);
-+MODULE_PARM_DESC(hdpvr_restart_streaming_max_tries, "restart streaming at most this many times within one read");
+diff --git a/Documentation/media/uapi/v4l/pixfmt-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+index 48ab80024835..9efa500c02dc 100644
+--- a/Documentation/media/uapi/v4l/pixfmt-rgb.rst
++++ b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+@@ -26,5 +26,6 @@ RGB Formats
+     pixfmt-srggb10-ipu3
+     pixfmt-srggb12
+     pixfmt-srggb12p
++    pixfmt-srggb12lp
+     pixfmt-srggb14p
+     pixfmt-srggb16
+diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst b/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
+new file mode 100644
+index 000000000000..08d73cfdc42d
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-srggb12lp.rst
+@@ -0,0 +1,76 @@
++.. -*- coding: utf-8; mode: rst -*-
 +
-+uint hdpvr_restart_streaming_ms_delay = 100;
-+module_param(hdpvr_restart_streaming_ms_delay, uint, S_IRUGO|S_IWUSR);
-+MODULE_PARM_DESC(hdpvr_restart_streaming_ms_delay, "delay continue by the specified number of milliseconds after restarting streaming");
++.. _v4l2-pix-fmt-sbggr12lp:
++.. _v4l2-pix-fmt-sgbrg12lp:
++.. _v4l2-pix-fmt-sgrbg12lp:
++.. _v4l2-pix-fmt-srggb12lp:
 +
- static uint default_video_input = HDPVR_VIDEO_INPUTS;
- module_param(default_video_input, uint, S_IRUGO|S_IWUSR);
- MODULE_PARM_DESC(default_video_input, "default video input: 0=Component / 1=S-Video / 2=Composite");
-diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
-index 8a2b883d372e..e2ca5d955f4a 100644
---- a/drivers/media/usb/hdpvr/hdpvr-video.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-video.c
-@@ -441,6 +441,8 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
- 	struct hdpvr_buffer *buf = NULL;
- 	struct urb *urb;
- 	unsigned int ret = 0;
-+	unsigned int restarts_remaining = hdpvr_restart_streaming_max_tries;
-+	unsigned int delay;
- 	int rem, cnt;
- 
- 	if (*pos)
-@@ -491,6 +493,20 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
- 				goto err;
- 			}
- 			if (!err) {
-+				if (restarts_remaining == 0) {
-+					v4l2_dbg(MSG_BUFFER, hdpvr_debug,
-+						 &dev->v4l2_dev,
-+						 "timeout: no further restarts allowed by hdpvr_restart_streaming_max_tries; returning to caller with ret=%u",
-+						 ret);
-+					/* This break will return the
-+					 * count of bytes copied so far,
-+					 * which may be 0.  In that
-+					 * situation, the user
-+					 * application will get an EOF.
-+					 */
-+					break;
-+				}
-+				--restarts_remaining;
- 				v4l2_info(&dev->v4l2_dev,
- 					  "timeout: restart streaming\n");
- 				mutex_lock(&dev->io_mutex);
-@@ -501,6 +517,30 @@ static ssize_t hdpvr_read(struct file *file, char __user *buffer, size_t count,
- 					ret = err;
- 					goto err;
- 				}
-+				/* hdpvr_start_streaming instructs the
-+				 * device to stream, but the device is
-+				 * usually not ready by the time
-+				 * hdpvr_start_streaming returns.
-+				 *
-+				 * Without this continue, the loop would
-+				 * terminate.  If no data had been
-+				 * copied by a prior iteration of the
-+				 * loop, then hdpvr_read would return 0,
-+				 * closing the file descriptor
-+				 * prematurely.  Continue back to the
-+				 * top of the loop to avoid that.
-+				 *
-+				 * The device may not be ready within 1
-+				 * second, so the
-+				 * wait_event_interruptible_timeout
-+				 * would then restart streaming a second
-+				 * time.  Delay here to give the device
-+				 * time to stabilize first.
-+				 */
-+				delay = hdpvr_restart_streaming_ms_delay;
-+				if (delay)
-+					msleep(delay);
-+				continue;
- 			}
- 		}
- 
-diff --git a/drivers/media/usb/hdpvr/hdpvr.h b/drivers/media/usb/hdpvr/hdpvr.h
-index 9e5f88146827..b1568adca7f0 100644
---- a/drivers/media/usb/hdpvr/hdpvr.h
-+++ b/drivers/media/usb/hdpvr/hdpvr.h
-@@ -44,6 +44,8 @@
- 
- extern int hdpvr_debug;
- extern uint hdpvr_close_to_open_ms_delay;
-+extern uint hdpvr_restart_streaming_max_tries;
-+extern uint hdpvr_restart_streaming_ms_delay;
- 
- #define MSG_INFO	1
- #define MSG_BUFFER	2
++**********************************************************************************************************************************
++V4L2_PIX_FMT_SBGGR12LP ('BGCp'), V4L2_PIX_FMT_SGBRG12LP ('GBCp'), V4L2_PIX_FMT_SGRBG12LP ('GRCp'), V4L2_PIX_FMT_SRGGB12LP ('RGCp')
++**********************************************************************************************************************************
++
++12-bit Bayer formats
++
++Description
++===========
++
++These packed Bayer formats are used by industrial cameras, often in conjunction
++with UsbVision (see https://www.visiononline.org/userAssets/aiaUploads/file/USB3_Vision_Specification_v1-0-1.pdf).
++
++The formats are equal to the Genicam PFNC Bayer12p formats
++(see https://www.emva.org/wp-content/uploads/GenICam_PFNC_2_3.pdf).
++
++They are raw sRGB / Bayer formats with 12 bits
++per sample with 3 bytes for every 2 pixels.
++
++The format is little endian.
++
++Below is an example of a small image in V4L2_PIX_FMT_SBGGR12LP format.
++
++**Byte Order.**
++Each cell is one byte.
++
++.. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|p{4.0cm}|
++
++.. flat-table::
++
++    * - start + 0:
++      - B\ :sub:`00low`
++      - G\ :sub:`01low`\ (bits 7--4)
++        B\ :sub:`00high`\ (bits 0--3)
++      - G\ :sub:`01high`\
++      - B\ :sub:`02low`
++      - G\ :sub:`03low`\ (bits 7--4)
++        B\ :sub:`02high`\ (bits 0--3)
++      - G\ :sub:`03high`\
++
++    * - start + 6:
++      - G\ :sub:`10low`
++      - R\ :sub:`11low`\ (bits 7--4)
++        G\ :sub:`10high`\ (bits 0--3)
++      - R\ :sub:`11high`
++      - G\ :sub:`12low`
++      - R\ :sub:`13low`\ (bits 7--4)
++        G\ :sub:`12high`\ (bits 0--3)
++      - R\ :sub:`13high`
++
++    * - start + 12:
++      - B\ :sub:`20low`
++      - G\ :sub:`21low`\ (bits 7--4)
++        B\ :sub:`20high`\ (bits 0--3)
++      - G\ :sub:`21high`
++      - B\ :sub:`22low`
++      - G\ :sub:`21low`\ (bits 7--4)
++        B\ :sub:`22high`\ (bits 0--3)
++      - G\ :sub:`21high`
++
++    * - start + 18:
++      - G\ :sub:`30low`
++      - R\ :sub:`31low`\ (bits 7--4)
++        G\ :sub:`30high`\ (bits 0--3)
++      - R\ :sub:`31high`
++      - G\ :sub:`32low`
++      - R\ :sub:`33low`\ (bits 7--4)
++        G\ :sub:`32high`\ (bits 0--3)
++      - R\ :sub:`33high`
++
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index ac87c3e37280..0cef797e4989 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1275,6 +1275,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_SGBRG12:	descr = "12-bit Bayer GBGB/RGRG"; break;
+ 	case V4L2_PIX_FMT_SGRBG12:	descr = "12-bit Bayer GRGR/BGBG"; break;
+ 	case V4L2_PIX_FMT_SRGGB12:	descr = "12-bit Bayer RGRG/GBGB"; break;
++	case V4L2_PIX_FMT_SBGGR12LP:	descr = "12-bit Bayer BGGR Linear Packed"; break;
++	case V4L2_PIX_FMT_SGBRG12LP:	descr = "12-bit Bayer GBRG Linear Packed"; break;
++	case V4L2_PIX_FMT_SGRBG12LP:	descr = "12-bit Bayer GRBG Linear Packed"; break;
++	case V4L2_PIX_FMT_SRGGB12LP:	descr = "12-bit Bayer RGGB Linear Packed"; break;
+ 	case V4L2_PIX_FMT_SBGGR12P:	descr = "12-bit Bayer BGBG/GRGR Packed"; break;
+ 	case V4L2_PIX_FMT_SGBRG12P:	descr = "12-bit Bayer GBGB/RGRG Packed"; break;
+ 	case V4L2_PIX_FMT_SGRBG12P:	descr = "12-bit Bayer GRGR/BGBG Packed"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1050a75fb7ef..adee353d5913 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -646,6 +646,13 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_SGBRG12 v4l2_fourcc('G', 'B', '1', '2') /* 12  GBGB.. RGRG.. */
+ #define V4L2_PIX_FMT_SGRBG12 v4l2_fourcc('B', 'A', '1', '2') /* 12  GRGR.. BGBG.. */
+ #define V4L2_PIX_FMT_SRGGB12 v4l2_fourcc('R', 'G', '1', '2') /* 12  RGRG.. GBGB.. */
++
++	/* 12bit raw bayer linearly packed, 6 bytes for every 4 pixels */
++#define V4L2_PIX_FMT_SBGGR12LP v4l2_fourcc('B', 'G', 'C', 'p')
++#define V4L2_PIX_FMT_SGBRG12LP v4l2_fourcc('G', 'B', 'C', 'p')
++#define V4L2_PIX_FMT_SGRBG12LP v4l2_fourcc('G', 'R', 'C', 'p')
++#define V4L2_PIX_FMT_SRGGB12LP v4l2_fourcc('R', 'G', 'C', 'p')
++
+ 	/* 12bit raw bayer packed, 6 bytes for every 4 pixels */
+ #define V4L2_PIX_FMT_SBGGR12P v4l2_fourcc('p', 'B', 'C', 'C')
+ #define V4L2_PIX_FMT_SGBRG12P v4l2_fourcc('p', 'G', 'C', 'C')
 -- 
-2.22.0
-
+2.20.1
 
