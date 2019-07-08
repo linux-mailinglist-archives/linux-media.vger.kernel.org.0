@@ -2,105 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA3FE61F48
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 15:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C226A620C0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 16:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730971AbfGHNHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jul 2019 09:07:52 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:44205 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728581AbfGHNHw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 09:07:52 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1hkTMt-0001TW-Rz; Mon, 08 Jul 2019 15:07:43 +0200
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
+        id S1730173AbfGHOpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 10:45:06 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:56281 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbfGHOpG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 10:45:06 -0400
+Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N0X4c-1igq9K0K28-00wTJK; Mon, 08 Jul 2019 16:44:06 +0200
+Subject: Re: [RFC] SW connection between DVB Transport Stream demuxer and
+ I2C-based frontend
+To:     Marc Gonzalez <marc.w.gonzalez@free.fr>,
+        I2C <linux-i2c@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        GPIO <linux-gpio@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        patchwork-lst@pengutronix.de
-Subject: [PATCH v2] media: vb2-dc: skip CPU sync in map/unmap dma_buf
-Date:   Mon,  8 Jul 2019 15:07:42 +0200
-Message-Id: <20190708130742.11151-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+        Brad Love <brad@nextdimension.cc>,
+        Antti Palosaari <crope@iki.fi>,
+        Olli Salonen <olli.salonen@iki.fi>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <5e35b4fb-646d-6428-f372-ee47d7352cd6@free.fr>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <b6abf5a2-3151-29e5-8eb7-c960580fd4ea@metux.net>
+Date:   Mon, 8 Jul 2019 16:44:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <5e35b4fb-646d-6428-f372-ee47d7352cd6@free.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:2jvRaVlfIBbTWqmqs0v71/intYTyRlJx4arYouNLUMLImoa4JE8
+ Due+PYAz9HHlV+Oh+JGvJQEVWaMqdW8Uon8bE6aHmyP8jq9DMorJEvkmsLYY+Y0Qhs4zwbv
+ y7HQMEjNaeKMhE2X4e5YLDubhQW/BSnmjtMmJ0aTTdDAmP18wIi5s3lNhDqQs+e+WaQDOxX
+ AADgUj4XIC3nDfJfDfgyw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BNa//kL+MSA=:/U9k6JExtxUNSL7QQzrsVO
+ Qc/YmJFqFi09e6T66lH+eMgVWarfdks/PkAbhyQSktly45MzYnQ/s0DecPsTJhutefvm2VPNm
+ BCMRR7bsmjcQQjkDgIdf4xHk+1c6xMilKnXtdnfDMXpLyBXSFAbS+CeBEWLqwqg6IMvfOiEPG
+ TeXkmT31LlnLRirAyV21Ukz1h2ZNsLo/NAG7Ca6VcoSYx4Fjd1IfLON0F5/5SGTKjNV+HlgIU
+ 4MZSLWYhGjywPlPOdguG924KONrEzbE6D00X7MKuS0vvvmbsp2SN/+1ddSuFqOSO5YPToO7OO
+ z2WVRY1fPvJC9eyLIsKuLhWcNOxVnvMClIMPmNS58Nh/1nxhf0RJFOk1DL8e6T6CP4tcHvxx9
+ wSMXRQ/sohx+GsBr1KQRnKxEGky965NbmzBsFydKdioBZBH0wWf8cFDyvhjD/pTZmqEDrAwpb
+ j9XByJy8tLYTTeqk/Sv9OGOZ6KYW0dztaQ/JW52ntYX+VDhgkOVRha04v/DB9YXks9FbCUiWA
+ KNNcl3u9Fe8ag8l/GItK1aMpzTndlSInXTFhy4BsIkNmmL1gukAmSKU85++AM8Fodg4DDTpJh
+ DQVkgDKbnZUxRcYqx1NGSuT6tPyVLnSy6Hjc47WTUUqCD3IPgJyj+3SIIe3BmcO4CfbspoeRA
+ 9r4I7e9GvgSlCYfeS2jkSrc8ulDdK5oSWZxOso/tj52W1AzLqwfqf2+R51B1HtkS+WT55N6Hp
+ YnzujFdSNwMrvyhmlmWS9KPxKeBdKdw4o4yq+nokVHMPRqwhRrvgB9Crp5Kmz0fMfGIGHRXv1
+ jXVRq9ud3voStvHFMZCXWHqw49Vmwhds5x4uGs5GrIDnc5MS0B1CEjGDMSzp5Y59Mz0qyif
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is rougly equivalent to ca0e68e21aae (drm/prime: skip CPU sync
-in map/unmap dma_buf). The contig memory allocated is already device
-coherent memory, so there is no point in doing a CPU sync when
-mapping it to another deevice. Also most importers currently cache
-the mapping so the CPU sync would only happen on the first import,
-so we are better off with not pretending to do a cache synchronization
-at all.
+On 08.07.19 13:08, Marc Gonzalez wrote:
 
-This gets rid of a lot of CPU overhead in uses where those dma-bufs
-are regularily imported and detached again, like Weston is currently
-doing in the DRM compositor.
+> The tuner (si2157) is not on the i2c5 bus, instead it is on a private
+> i2c bus *behind* si2168, which routes requests to the proper client.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-v2: Add comments why it is safe to skip the CPU sync.
----
- .../common/videobuf2/videobuf2-dma-contig.c   | 23 +++++++++++++------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+Should the si2168 make up it's own i2c controller ?
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index ecbef266130b..1b8f86366290 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -267,8 +267,14 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		/*
-+		 * Cache sync can be skipped here, as the vb2_dc memory is
-+		 * allocated from device coherent memory, which means the
-+		 * memory locations do not require any explicit cache
-+		 * maintenance prior or after being used by the device.
-+		 */
-+		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+			attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -293,14 +299,17 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+			attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
--	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
-+	/*
-+	 * mapping to the client with new direction, no cache sync
-+	 * required see comment in vb2_dc_dmabuf_ops_detach()
-+	 */
-+	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-+				dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	if (!sgt->nents) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
+
+--mtx
+
 -- 
-2.20.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
