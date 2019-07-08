@@ -2,144 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9170261CAE
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 12:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34A8B61CB0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 12:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbfGHKDL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jul 2019 06:03:11 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:48677 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728596AbfGHKDL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 06:03:11 -0400
-Received: from classic.redhat.com (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 5E201100010
-        for <linux-media@vger.kernel.org>; Mon,  8 Jul 2019 10:03:10 +0000 (UTC)
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v4] keytable: Add keymap test
-Date:   Mon,  8 Jul 2019 12:03:09 +0200
-Message-Id: <20190708100309.26630-1-hadess@hadess.net>
-X-Mailer: git-send-email 2.21.0
+        id S1729289AbfGHKE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 06:04:57 -0400
+Received: from gofer.mess.org ([88.97.38.141]:34733 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728596AbfGHKE5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jul 2019 06:04:57 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 44C4760991; Mon,  8 Jul 2019 11:04:55 +0100 (BST)
+Date:   Mon, 8 Jul 2019 11:04:55 +0100
+From:   Sean Young <sean@mess.org>
+To:     JP <jp@jpvw.nl>
+Cc:     linux-media@vger.kernel.org,
+        Michael Ira Krufky <mkrufky@linuxtv.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+Subject: Re: [PATCH 1/2] dvbsky: add support for "Mygica T230C v2"
+Message-ID: <20190708100454.xwa4f64umoccwvca@gofer.mess.org>
+References: <20190616003929.GE4518@jpvw.nl>
+ <20190625111615.s5kifm6nb2lafiw4@gofer.mess.org>
+ <e87ac093-6466-4cd4-3346-1db17ae85495@jpvw.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e87ac093-6466-4cd4-3346-1db17ae85495@jpvw.nl>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This new test will try to parse all the ".toml" files in the directory
-path passed to it, error'ing out if there were parsing problems.
+Hallo Jan-Pieter,
 
-Run as "make check" in the keytable directory.
+> On 6/25/19 1:16 PM, Sean Young wrote:
+> > On Sun, Jun 16, 2019 at 02:39:29AM +0200, Jan Pieter van Woerkom wrote:
+> > > From: Jan Pieter van Woerkom <jp@jpvw.nl>
+> > > 
+> > > Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
+> > > A small enhancement is also needed in the si2168 demodulator
+> > > driver, and a USB device ID in dvb-usb-ids.h .
+> > > 
+> > > This is v3.3 of the proposed patch, based on feedback from Sean
+> > > Young and Antti Palosaari.
+> > > Tested by patch author on a T230C v2.
+> > > Tested by Frank Rysanek on a T230C v2: can tune into locally
+> > > available DVB-T and DVB-T2 muxes, video and audio playback works.
+> > > Applies cleanly against Linux 5.1.10 .
+> > > 
+> > > The T230C v2 hardware needs a mode of the si2168 chip to be
+> > > set for which the si2168 driver previously had no support.
+> > > This patch uses a specific measure to configure this on the
+> > > T230C v2 hardware only - see the flag passed via the ts_mode
+> > > attribute and its dependency on USB_PID_MYGICA_T230C2. Other
+> > > devices using the si2168 demodulator driver are not affected
+> > > in any way.
+> > > 
+> > > Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
+> > > Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
+> > > ---
+> > > diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+> > > --- a/drivers/media/dvb-frontends/si2168.c	2019-06-04 07:59:45.000000000 +0200
+> > > +++ b/drivers/media/dvb-frontends/si2168.c	2019-06-08 19:47:32.385526558 +0200
+> > > @@ -91,8 +91,18 @@
+> > >   	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+> > > +	/* set manual value */
+> > > +	if (dev->ts_mode | SI2168_TS_CLK_MANUAL) {
+> > This looks wrong. Should it not be "dev->ts_mode & SI2168_TS_CLK_MANUAL"?
+> > Now the expression is always true.
+> You're absolutely right. Silly me.
+> 
+> What now? Correct and repost?
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
----
- utils/keytable/Makefile.am     |  6 +++
- utils/keytable/check_keymaps.c | 67 ++++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 utils/keytable/check_keymaps.c
+Yes, please. I don't have the hardware to test so it would be great if
+you could repost a tested version, so we can merged that.
 
-diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-index 148b9446..eb296475 100644
---- a/utils/keytable/Makefile.am
-+++ b/utils/keytable/Makefile.am
-@@ -1,9 +1,12 @@
- bin_PROGRAMS = ir-keytable
-+noinst_PROGRAMS = check-keymaps
- man_MANS = ir-keytable.1 rc_keymap.5
- sysconf_DATA = rc_maps.cfg
- keytablesystem_DATA = $(srcdir)/rc_keymaps/*
- udevrules_DATA = 70-infrared.rules
- 
-+check_keymaps_SOURCES = toml.c toml.h check_keymaps.c
-+
- ir_keytable_SOURCES = keytable.c parse.h ir-encode.c ir-encode.h toml.c toml.h
- 
- if WITH_BPF
-@@ -21,6 +24,9 @@ endif
- EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
- 
- # custom target
-+check: check-keymaps
-+	$(builddir)/check-keymaps $(srcdir)/rc_keymaps/
-+
- install-data-local:
- 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
- 
-diff --git a/utils/keytable/check_keymaps.c b/utils/keytable/check_keymaps.c
-new file mode 100644
-index 00000000..eb8e3e8f
---- /dev/null
-+++ b/utils/keytable/check_keymaps.c
-@@ -0,0 +1,67 @@
-+#include <string.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <sys/types.h>
-+#include <dirent.h>
-+
-+#include "toml.h"
-+
-+static int
-+has_suffix(const char *str, const char *suffix)
-+{
-+	if (strlen(str) < strlen(suffix))
-+		return 0;
-+	if (strncmp(str + strlen(str) - strlen(suffix), suffix, strlen(suffix)) == 0)
-+		return 1;
-+	return 0;
-+}
-+
-+int main (int argc, char **argv)
-+{
-+	DIR *dir;
-+	struct dirent *entry;
-+	int ret = 0;
-+
-+	if (argc != 2) {
-+		fprintf(stderr, "Usage: %s KEYMAPS-DIRECTORY\n", argv[0]);
-+		return 1;
-+	}
-+
-+	dir = opendir(argv[1]);
-+	if (!dir) {
-+		perror("Could not open directory");
-+		return 1;
-+	}
-+
-+	while ((entry = readdir(dir)) != NULL) {
-+		struct toml_table_t *root;
-+		FILE *fin;
-+		char buf[200];
-+		char path[2048];
-+
-+		if (!has_suffix(entry->d_name, ".toml")) {
-+			/* Skipping file */
-+			continue;
-+		}
-+
-+		snprintf(path, sizeof(path), "%s/%s", argv[1], entry->d_name);
-+		path[sizeof(path) - 1] = '\0';
-+
-+		fin = fopen(path, "r");
-+		if (!fin) {
-+			fprintf(stderr, "Could not open file %s: %s", path, strerror(errno));
-+			ret = 1;
-+			continue;
-+		}
-+
-+		root = toml_parse_file(fin, buf, sizeof(buf));
-+		fclose(fin);
-+		if (!root) {
-+			fprintf(stderr, "Failed to parse %s: %s\n", path, buf);
-+			ret = 1;
-+		}
-+		toml_free(root);
-+	}
-+
-+	return ret;
-+}
--- 
-2.21.0
+Thanks,
 
+Sean
