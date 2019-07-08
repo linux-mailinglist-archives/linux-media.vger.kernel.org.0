@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1DD061D86
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 13:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1EE61D95
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 13:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730233AbfGHLFQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jul 2019 07:05:16 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:6792 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727625AbfGHLFQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 07:05:16 -0400
-X-UUID: 93a036b51f1a4d229457502ae060a8cc-20190708
-X-UUID: 93a036b51f1a4d229457502ae060a8cc-20190708
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
+        id S1729485AbfGHLFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 07:05:55 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:44079 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727625AbfGHLFz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 07:05:55 -0400
+X-UUID: acd4627ec3dc40aaa165a1963a1a8df0-20190708
+X-UUID: acd4627ec3dc40aaa165a1963a1a8df0-20190708
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
         (envelope-from <frederic.chen@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 704489793; Mon, 08 Jul 2019 19:05:10 +0800
+        with ESMTP id 1555606457; Mon, 08 Jul 2019 19:05:26 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 8 Jul 2019 19:05:08 +0800
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 8 Jul 2019 19:05:11 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 8 Jul 2019 19:05:08 +0800
+ Transport; Mon, 8 Jul 2019 19:05:11 +0800
 From:   <frederic.chen@mediatek.com>
 To:     <hans.verkuil@cisco.com>,
         <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
@@ -37,14 +37,15 @@ CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
         <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
         <shik@chromium.org>, <suleiman@chromium.org>,
         <Allan.Yang@mediatek.com>
-Subject: [RFC PATCH V2 2/6] dts: arm64: mt8183: Add DIP nodes
-Date:   Mon, 8 Jul 2019 19:04:56 +0800
-Message-ID: <20190708110500.7242-3-frederic.chen@mediatek.com>
+Subject: [RFC PATCH V2 3/6] media: platform: Add Mediatek DIP driver KConfig
+Date:   Mon, 8 Jul 2019 19:04:57 +0800
+Message-ID: <20190708110500.7242-4-frederic.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190708110500.7242-1-frederic.chen@mediatek.com>
 References: <20190708110500.7242-1-frederic.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: E2B9BCA9C78A31471D6E66FDD38C8EA85FA55EE481B47A72F6E097A06996EFEF2000:8
 X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -53,44 +54,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Frederic Chen <frederic.chen@mediatek.com>
 
-This patch adds nodes for Digital Image Processing (DIP). DIP is
-embedded in Mediatek SoCs and works with the co-processor to
-adjust image content according to tuning input data. It also
-provides image format conversion, resizing, and rotation
-features.
+This patch adds KConfig for Mediatek Digital Image Processing
+driver(DIP). DIP is embedded in Mediatek SoCs. It provides
+image format conversion, resizing, and rotation function.
 
 Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/media/platform/Kconfig         |  2 ++
+ drivers/media/platform/mtk-isp/Kconfig | 21 +++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+ create mode 100644 drivers/media/platform/mtk-isp/Kconfig
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index 0f2646c9eb65..d7b0fb8230f0 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -513,6 +513,22 @@
- 			#clock-cells = <1>;
- 		};
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 0c725d4dcf80..b8501e1b134f 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -32,6 +32,8 @@ source "drivers/media/platform/davinci/Kconfig"
  
-+		dip: dip@15022000 {
-+			compatible = "mediatek,mt8183-dip";
-+			mediatek,larb = <&larb5>;
-+			mediatek,mdp3 = <&mdp_rdma0>;
-+			mediatek,scp = <&scp>;
-+			iommus = <&iommu M4U_PORT_CAM_IMGI>;
-+			reg = <0 0x15022000 0 0x6000>;
-+			interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_LOW>;
-+			clocks =
-+					<&imgsys CLK_IMG_LARB5>,
-+					<&imgsys CLK_IMG_DIP>;
-+			clock-names =
-+					"larb5",
-+					"dip";
-+		};
+ source "drivers/media/platform/omap/Kconfig"
+ 
++source "drivers/media/platform/mtk-isp/Kconfig"
 +
- 		vdecsys: syscon@16000000 {
- 			compatible = "mediatek,mt8183-vdecsys", "syscon";
- 			reg = <0 0x16000000 0 0x1000>;
+ config VIDEO_ASPEED
+ 	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
+ 	depends on VIDEO_V4L2
+diff --git a/drivers/media/platform/mtk-isp/Kconfig b/drivers/media/platform/mtk-isp/Kconfig
+new file mode 100644
+index 000000000000..24a592022dd5
+--- /dev/null
++++ b/drivers/media/platform/mtk-isp/Kconfig
+@@ -0,0 +1,21 @@
++config VIDEO_MEDIATEK_ISP_DIP
++	bool "Mediatek Digital Image Processing function"
++	select DMA_SHARED_BUFFER
++	select VIDEO_V4L2_SUBDEV_API
++	select VIDEOBUF2_DMA_CONTIG
++	select VIDEOBUF2_CORE
++	select VIDEOBUF2_V4L2
++	select VIDEOBUF2_MEMOPS
++	select VIDEOBUF2_VMALLOC
++	select MEDIA_CONTROLLER
++
++	default n
++	help
++	    Support the basic Digital Image Processing (DIP) driver.
++
++	    DIP driver provides image format conversion, resizing,
++	    and rotation function through the low power hardware.
++	    DIP also supports multiple output feature. It can
++	    generate two or more output image with different effect
++	    based on a single input image at the same time.
++
 -- 
 2.18.0
 
