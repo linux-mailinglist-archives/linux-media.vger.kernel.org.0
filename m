@@ -2,760 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6866861B59
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 09:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C70261BCF
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2019 10:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729487AbfGHHpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jul 2019 03:45:46 -0400
-Received: from mga17.intel.com ([192.55.52.151]:1429 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726015AbfGHHpq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jul 2019 03:45:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jul 2019 00:45:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,465,1557212400"; 
-   d="scan'208";a="340375852"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.193]) ([10.238.232.193])
-  by orsmga005.jf.intel.com with ESMTP; 08 Jul 2019 00:45:39 -0700
-Subject: Re: [RFC,V2,2/2] media: i2c: Add Omnivision OV02A10 camera sensor
- driver
-To:     dongchun.zhu@mediatek.com, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, sakari.ailus@linux.intel.com,
-        --to=drinkcat@chromium.org, tfiga@chromium.org,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com
-Cc:     srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-References: <20190704084651.3105-1-dongchun.zhu@mediatek.com>
- <20190704084651.3105-3-dongchun.zhu@mediatek.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <a18d0cd6-ab6d-bc63-d818-188d5e54dd4d@linux.intel.com>
-Date:   Mon, 8 Jul 2019 15:52:54 +0800
+        id S1729527AbfGHInT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 04:43:19 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:44782 "EHLO
+        antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727189AbfGHInT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 04:43:19 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by antares.kleine-koenig.org (Postfix) with ESMTP id AE551714FFD;
+        Mon,  8 Jul 2019 10:43:15 +0200 (CEST)
+Received: from antares.kleine-koenig.org ([127.0.0.1])
+        by localhost (antares.kleine-koenig.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id cgCzf9JYqxoH; Mon,  8 Jul 2019 10:43:14 +0200 (CEST)
+Received: from [IPv6:2a02:8071:b5c2:53f8:5a:5ebe:44f8:d26c] (unknown [IPv6:2a02:8071:b5c2:53f8:5a:5ebe:44f8:d26c])
+        by antares.kleine-koenig.org (Postfix) with ESMTPSA;
+        Mon,  8 Jul 2019 10:43:14 +0200 (CEST)
+Subject: Re: [PATCH 1/3] si2157: get chip id during probing
+From:   =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+To:     Andreas Kemnade <andreas@kemnade.info>
+Cc:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20190707205846.22964-1-uwe@kleine-koenig.org>
+ <3ff87deb-9125-4696-8aa0-141ea7d773b9@kleine-koenig.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=uwe@kleine-koenig.org; prefer-encrypt=mutual; keydata=
+ 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
+ kC8vBDJg
+Message-ID: <545607da-accf-06c5-f5ae-43d28781f554@kleine-koenig.org>
+Date:   Mon, 8 Jul 2019 10:43:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190704084651.3105-3-dongchun.zhu@mediatek.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <3ff87deb-9125-4696-8aa0-141ea7d773b9@kleine-koenig.org>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="uVx9JLc67anIJDPjzX2cTpLb4ojpFKIAB"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uVx9JLc67anIJDPjzX2cTpLb4ojpFKIAB
+Content-Type: multipart/mixed; boundary="jxGw8MZ9q0nJ00jcl1iI2uO1LUW9JGfxe";
+ protected-headers="v1"
+From: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: Antti Palosaari <crope@iki.fi>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org
+Message-ID: <545607da-accf-06c5-f5ae-43d28781f554@kleine-koenig.org>
+Subject: Re: [PATCH 1/3] si2157: get chip id during probing
+References: <20190707205846.22964-1-uwe@kleine-koenig.org>
+ <3ff87deb-9125-4696-8aa0-141ea7d773b9@kleine-koenig.org>
+In-Reply-To: <3ff87deb-9125-4696-8aa0-141ea7d773b9@kleine-koenig.org>
+
+--jxGw8MZ9q0nJ00jcl1iI2uO1LUW9JGfxe
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hello Andreas,
+
+On 7/7/19 11:01 PM, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>=20
+> On 7/7/19 10:58 PM, Uwe Kleine-K=C3=B6nig wrote:
+>> From: Andreas Kemnade <andreas@kemnade.info>
+>>
+>> If the si2157 is behind a e.g. si2168, the si2157 will
+>> at least in some situations not be readable after the si268
+>> got the command 0101. It still accepts commands but the answer
+>> is just ffffff. So read the chip id before that so the
+>> information is not lost.
+>>
+>> The following line in kernel output is a symptome
+>> of that problem:
+>> si2157 7-0063: unknown chip version Si21255-\xffffffff\xffffffff\xffff=
+ffff
+>>
+>> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
+
+I wonder if you (or anyone else here reading this mail) has access to
+the datasheets of the involved chips? (i.e. si2168, si2157)
+I'd like to try understanding and eventually fix the addressed problem
+here properly.
+
+Best regards
+Uwe
 
 
-On 7/4/19 4:46 PM, dongchun.zhu@mediatek.com wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-> This patch adds a V4L2 sub-device driver for OV02A10 image sensor.
-> The OV02A10 is a 1/5" CMOS sensor from Omnivision.
-> Supports output format: 10-bit Raw.
-> The OV02A10 has a single MIPI lane interface and use the I2C bus for control and the CSI-2 bus for data.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-snip
-> +
-> +/* MIPI color bar enable output */
-> +static const struct regval ov02a10_test_pattern_enable_regs[] = {
-> +	{0xfd, 0x01},
-> +	{0x0d, 0x00},
-> +	{0xb6, 0x01},
-> +	{0x01, 0x01},
-> +	{0xfd, 0x01},
-> +	{0xac, 0x01},
-> +	{REG_NULL, 0x00}
-Actually, you can use ARRAY_SIZE to write the regs, the REG_NULL can be
-removed. However, it is not a problem.
-...
-snip...
-> +static int ov02a10_set_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *fmt)
-> +{
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&ov02a10->mutex);
-> +
-> +	if (ov02a10->streaming) {
-> +		ret = -EBUSY;
-> +		goto unlock;
-I like return -EBUSY directly after mutex_unlock here and return 0 below.
-> +	}
-> +
-> +	/* only one mode supported */
-> +	mbus_fmt->code = ov02a10->fmt.code;
-> +	ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
-> +	ov02a10->fmt = fmt->format;
-> +
-> +unlock:
-> +	mutex_unlock(&ov02a10->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov02a10_get_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *fmt)
-> +{
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-> +
-> +	mutex_lock(&ov02a10->mutex);
-> +
-> +	fmt->format = ov02a10->fmt;
-> +	mbus_fmt->code = ov02a10->fmt.code;
-> +	ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
-> +
-> +	mutex_unlock(&ov02a10->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov02a10_enum_mbus_code(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_pad_config *cfg,
-> +				  struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +
-> +	if (code->index >= ARRAY_SIZE(supported_modes) || !(code->index))
-> +		return -EINVAL;
-> +
-> +	code->code = ov02a10->fmt.code;
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov02a10_enum_frame_sizes(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_pad_config *cfg,
-> +				    struct v4l2_subdev_frame_size_enum *fse)
-> +{
-> +	if (fse->index >= ARRAY_SIZE(supported_modes) || !(fse->index))
-> +		return -EINVAL;
-> +
-> +	fse->min_width  = supported_modes[fse->index].width;
-> +	fse->max_width  = supported_modes[fse->index].width;
-> +	fse->max_height = supported_modes[fse->index].height;
-> +	fse->min_height = supported_modes[fse->index].height;
-> +
-> +	return 0;
-> +}
-> +
-> +static int __ov02a10_power_on(struct ov02a10 *ov02a10)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(ov02a10->xvclk);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable xvclk\n");
-> +		return ret;
-> +	}
-> +
-> +	/* note: set 0 is high, set 1 is low */
-> +	gpiod_set_value_cansleep(ov02a10->reset_gpio, 1);
-> +	gpiod_set_value_cansleep(ov02a10->pwdn_gpio, 0);
-> +
-> +	ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators\n");
-> +		goto disable_clk;
-> +	}
-> +	msleep_range(7);
-> +
-> +	gpiod_set_value_cansleep(ov02a10->pwdn_gpio, 1);
-> +	msleep_range(10);
-> +
-> +	gpiod_set_value_cansleep(ov02a10->reset_gpio, 0);
-> +	msleep_range(10);
-> +
-> +	return 0;
-> +
-> +disable_clk:
-> +	clk_disable_unprepare(ov02a10->xvclk);
-> +
-> +	return ret;
-> +}
-> +
-> +static void __ov02a10_power_off(struct ov02a10 *ov02a10)
-> +{
-> +	clk_disable_unprepare(ov02a10->xvclk);
-> +	gpiod_set_value_cansleep(ov02a10->reset_gpio, 1);
-> +	gpiod_set_value_cansleep(ov02a10->pwdn_gpio, 1);
-> +	regulator_bulk_disable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
-> +}
-> +
-> +static int __ov02a10_start_stream(struct ov02a10 *ov02a10)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	int ret;
-> +
-> +	/* Apply default values of current mode */
-> +	ret = ov02a10_write_array(ov02a10, ov02a10->cur_mode->reg_list);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Apply customized values from user */
-> +	ret = __v4l2_ctrl_handler_setup(ov02a10->subdev.ctrl_handler);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set Orientation be 180 degree */
-Set orientation to 180 degree
-> +	if (ov02a10->upside_down) {
-> +		ret = ov02a10_write_reg(ov02a10, REG_MIRROR_FLIP_CONTROL,
-> +					REG_CONFIG_MIRROR_FLIP);
-> +		if (ret) {
-> +			dev_err(&client->dev, "%s failed to set orientation\n",
-> +				__func__);
-> +			return ret;
-> +		}
-> +		ret = ov02a10_write_reg(ov02a10, REG_GLOBAL_EFFECTIVE,
-> +					REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	/* set stream on register */
-> +	return ov02a10_write_reg(ov02a10,
-> +				 REG_SC_CTRL_MODE, SC_CTRL_MODE_STREAMING);
-> +}
-> +
-> +static int __ov02a10_stop_stream(struct ov02a10 *ov02a10)
-> +{
-> +	return ov02a10_write_reg(ov02a10,
-> +				 REG_SC_CTRL_MODE, SC_CTRL_MODE_STANDBY);
-> +}
-> +
-> +static int ov02a10_entity_init_cfg(struct v4l2_subdev *subdev,
-> +				   struct v4l2_subdev_pad_config *cfg)
-> +{
-> +	struct v4l2_subdev_format fmt = { 0 };
-> +
-> +	fmt.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> +	fmt.format.width = 1600;
-> +	fmt.format.height = 1200;
-> +
-> +	ov02a10_set_fmt(subdev, cfg, &fmt);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
-> +{
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	int ret = 0;
-> +
-> +	dev_dbg(&client->dev, "ov02a10 s_stream (%d)\n", on);
-> +	mutex_lock(&ov02a10->mutex);
-> +
-> +	if (ov02a10->streaming == on)
-> +		goto unlock_and_return;
-> +
-> +	if (on) {
-> +		ret = pm_runtime_get_sync(&client->dev);
-> +		if (ret < 0) {
-> +			pm_runtime_put_noidle(&client->dev);
-> +			goto unlock_and_return;
-> +		}
-> +
-> +		ret = __ov02a10_start_stream(ov02a10);
-> +		if (ret) {
-> +			__ov02a10_stop_stream(ov02a10);
-> +			ov02a10->streaming = !on;
-> +			goto err_rpm_put;
-> +		}
-> +	} else {
-> +		__ov02a10_stop_stream(ov02a10);
-> +		pm_runtime_put(&client->dev);
-> +	}
-> +
-> +	ov02a10->streaming = on;
-> +	mutex_unlock(&ov02a10->mutex);
-> +
-> +	return ret;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +unlock_and_return:
-> +	mutex_unlock(&ov02a10->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov02a10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> +{
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +	struct v4l2_mbus_framefmt *try_fmt = v4l2_subdev_get_try_format(sd,
-> +									fh->pad,
-> +									0);
-> +
-> +	mutex_lock(&ov02a10->mutex);
-> +	/* Initialize try_fmt */
-> +	try_fmt->code = ov02a10->fmt.code;
-> +	ov02a10_fill_fmt(&supported_modes[0], try_fmt);
-> +
-> +	mutex_unlock(&ov02a10->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused ov02a10_runtime_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +
-> +	return __ov02a10_power_on(ov02a10);
-> +}
-> +
-> +static int __maybe_unused ov02a10_runtime_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +
-> +	__ov02a10_power_off(ov02a10);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops ov02a10_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(ov02a10_runtime_suspend,
-> +			   ov02a10_runtime_resume, NULL)
-> +};
-> +
-> +static int ov02a10_set_test_pattern(struct ov02a10 *ov02a10, s32 value)
-> +{
-> +	if (value)
-> +		return ov02a10_write_array(ov02a10,
-> +					   ov02a10_test_pattern_enable_regs);
-> +
-> +	return ov02a10_write_array(ov02a10,
-> +		ov02a10_test_pattern_disable_regs);
-> +}
-> +
-> +static int ov02a10_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct ov02a10 *ov02a10 = container_of(ctrl->handler,
-> +					     struct ov02a10, ctrl_handler);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	s64 max_expo;
-> +	int ret;
-> +
-> +	/* Propagate change of current control to all related controls */
-> +	if (ctrl->id == V4L2_CID_VBLANK) {
-> +		/* Update max exposure while meeting expected vblanking */
-> +		max_expo = ov02a10->cur_mode->height + ctrl->val - 4;
-> +		__v4l2_ctrl_modify_range(ov02a10->exposure,
-> +					 ov02a10->exposure->minimum, max_expo,
-> +					 ov02a10->exposure->step,
-> +					 ov02a10->exposure->default_value);
-> +	}
-> +
-> +	/* V4L2 controls values will be applied only when power is already up */
-> +	if (!pm_runtime_get_if_in_use(&client->dev))
-> +		return 0;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_EXPOSURE:
-> +		ret = ov02a10_write_reg(ov02a10, REG_PAGE_SWITCH, REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		ret = ov02a10_write_reg(ov02a10, OV02A10_REG_EXPOSURE_H,
-> +					((ctrl->val >> 8) & 0xFF));
-> +		if (!ret) {
-> +			ret = ov02a10_write_reg(ov02a10, OV02A10_REG_EXPOSURE_L,
-> +						(ctrl->val & 0xFF));
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +		ret = ov02a10_write_reg(ov02a10, REG_GLOBAL_EFFECTIVE,
-> +					REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		break;
-> +	case V4L2_CID_ANALOGUE_GAIN:
-> +		ret = ov02a10_write_reg(ov02a10, REG_PAGE_SWITCH, REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		ret = ov02a10_write_reg(ov02a10, OV02A10_REG_GAIN,
-> +					(ctrl->val & 0xFF));
-> +		if (ret < 0)
-> +			return ret;
-> +		ret = ov02a10_write_reg(ov02a10, REG_GLOBAL_EFFECTIVE,
-> +					REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		break;
-> +	case V4L2_CID_VBLANK:
-> +		ret = ov02a10_write_reg(ov02a10, REG_PAGE_SWITCH, REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		ret = ov02a10_write_reg(ov02a10, OV02A10_REG_VTS_H,
-> +					(((ctrl->val +
-> +					ov02a10->cur_mode->height - 1224) >> 8)
-> +					& 0xFF));
-1224 is hard-coded here, could you add some comments? Is it a sensor
-setting sensitive value?
-> +		if (!ret) {
-> +			ret = ov02a10_write_reg(ov02a10, OV02A10_REG_VTS_L,
-> +						((ctrl->val +
-> +						ov02a10->cur_mode->height -
-> +						1224) & 0xFF));
-ditto.
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +		ret = ov02a10_write_reg(ov02a10, REG_GLOBAL_EFFECTIVE,
-> +					REG_ENABLE);
-> +		if (ret < 0)
-> +			return ret;
-> +		break;
-> +	case V4L2_CID_TEST_PATTERN:
-> +		ret = ov02a10_set_test_pattern(ov02a10, ctrl->val);
-> +		if (ret < 0)
-> +			return ret;
-> +		break;
-> +	default:
-> +		dev_warn(&client->dev, "%s Unhandled id:0x%x, val:0x%x\n",
-> +			 __func__, ctrl->id, ctrl->val);
-> +		ret = -EINVAL;
-> +		break;
-> +	};
-> +
-> +	pm_runtime_put(&client->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops ov02a10_video_ops = {
-> +	.s_stream = ov02a10_s_stream,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops ov02a10_pad_ops = {
-> +	.init_cfg = ov02a10_entity_init_cfg,
-> +	.enum_mbus_code = ov02a10_enum_mbus_code,
-> +	.enum_frame_size = ov02a10_enum_frame_sizes,
-> +	.get_fmt = ov02a10_get_fmt,
-> +	.set_fmt = ov02a10_set_fmt,
-> +};
-> +
-> +static const struct v4l2_subdev_ops ov02a10_subdev_ops = {
-> +	.video	= &ov02a10_video_ops,
-> +	.pad	= &ov02a10_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations ov02a10_subdev_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops ov02a10_internal_ops = {
-> +	.open = ov02a10_open,
-> +};
-> +
-> +static const struct v4l2_ctrl_ops ov02a10_ctrl_ops = {
-> +	.s_ctrl = ov02a10_set_ctrl,
-> +};
-> +
-> +static int ov02a10_initialize_controls(struct ov02a10 *ov02a10)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	const struct ov02a10_mode *mode;
-> +	struct v4l2_ctrl_handler *handler;
-> +	struct v4l2_ctrl *ctrl;
-> +	u64 exposure_max;
-> +	u32 pixel_rate, h_blank;
-> +	int ret;
-> +
-> +	handler = &ov02a10->ctrl_handler;
-> +	mode = ov02a10->cur_mode;
-> +	ret = v4l2_ctrl_handler_init(handler, 10);
-> +	if (ret)
-> +		return ret;
-> +	handler->lock = &ov02a10->mutex;
-> +
-> +	ctrl = v4l2_ctrl_new_int_menu(handler, NULL, V4L2_CID_LINK_FREQ,
-> +				      0, 0, link_freq_menu_items);
-> +	if (ctrl)
-> +		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	pixel_rate = (link_freq_menu_items[0] * 2 * OV02A10_LANES) /
-> +		     OV02A10_BITS_PER_SAMPLE;
-> +	v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE,
-> +			  0, pixel_rate, 1, pixel_rate);
-> +
-> +	h_blank = mode->hts_def - mode->width;
-> +	ov02a10->hblank = v4l2_ctrl_new_std(handler, NULL, V4L2_CID_HBLANK,
-> +					    h_blank, h_blank, 1, h_blank);
-> +	if (ov02a10->hblank)
-> +		ov02a10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	ov02a10->vblank = v4l2_ctrl_new_std(handler, &ov02a10_ctrl_ops,
-> +					    V4L2_CID_VBLANK, mode->vts_def -
-> +					    mode->height,
-> +					    OV02A10_VTS_MAX - mode->height, 1,
-> +					    mode->vts_def - mode->height);
-> +
-> +	exposure_max = mode->vts_def - 4;
-> +	ov02a10->exposure = v4l2_ctrl_new_std(handler, &ov02a10_ctrl_ops,
-> +					      V4L2_CID_EXPOSURE,
-> +					      OV02A10_EXPOSURE_MIN,
-> +					      exposure_max,
-> +					      OV02A10_EXPOSURE_STEP,
-> +					      mode->exp_def);
-> +
-> +	ov02a10->anal_gain = v4l2_ctrl_new_std(handler, &ov02a10_ctrl_ops,
-> +					       V4L2_CID_ANALOGUE_GAIN,
-> +					       OV02A10_GAIN_MIN,
-> +					       OV02A10_GAIN_MAX,
-> +					       OV02A10_GAIN_STEP,
-> +					       OV02A10_GAIN_DEFAULT);
-> +
-> +	ov02a10->test_pattern =
-> +	   v4l2_ctrl_new_std_menu_items(handler,
-> +					&ov02a10_ctrl_ops,
-> +					V4L2_CID_TEST_PATTERN,
-> +					ARRAY_SIZE(ov02a10_test_pattern_menu) -
-> +					1, 0, 0, ov02a10_test_pattern_menu);
-> +
-> +	if (handler->error) {
-> +		ret = handler->error;
-> +		dev_err(&client->dev,
-> +			"Failed to init controls(%d)\n", ret);
-> +		goto err_free_handler;
-> +	}
-> +
-> +	ov02a10->subdev.ctrl_handler = handler;
-> +
-> +	return 0;
-> +
-> +err_free_handler:
-> +	v4l2_ctrl_handler_free(handler);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov02a10_check_sensor_id(struct ov02a10 *ov02a10)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	u16 id;
-> +	u8 pid = 0;
-> +	u8 ver = 0;
-> +	int ret;
-> +
-> +	/* Check sensor revision */
-> +	ret = ov02a10_read_reg(ov02a10, OV02A10_REG_CHIP_ID_H, &pid);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov02a10_read_reg(ov02a10, OV02A10_REG_CHIP_ID_L, &ver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	id = OV02A10_ID(pid, ver);
-> +	if (id != CHIP_ID) {
-> +		dev_err(&client->dev, "Unexpected sensor id(%04x)\n", id);
-> +		return ret;
-> +	}
-> +	dev_dbg(&client->dev, "Detected OV%04X sensor\n", id);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov02a10_configure_regulators(struct ov02a10 *ov02a10)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < OV02A10_NUM_SUPPLIES; i++)
-> +		ov02a10->supplies[i].supply = ov02a10_supply_names[i];
-> +
-> +	return devm_regulator_bulk_get(&client->dev,
-> +				       OV02A10_NUM_SUPPLIES,
-> +				       ov02a10->supplies);
-> +}
-> +
-> +static int ov02a10_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct ov02a10 *ov02a10;
-> +	u32 rotation;
-> +	u32 xclk_freq;
-> +	int ret;
-> +
-> +	dev_dbg(dev, "ov02a10 probe\n");
-I think this line is not needed at all.
-> +	ov02a10 = devm_kzalloc(dev, sizeof(*ov02a10), GFP_KERNEL);
-> +	if (!ov02a10)
-> +		return -ENOMEM;
-> +
-> +	v4l2_i2c_subdev_init(&ov02a10->subdev, client, &ov02a10_subdev_ops);
-> +	ov02a10->fmt.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +
-> +	/* optional indication of physical rotation of sensor */
-> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "rotation",
-> +				       &rotation);
-> +	if (!ret) {
-> +		switch (rotation) {
-> +		case 180:
-> +			ov02a10->upside_down = true;
-> +			ov02a10->fmt.code = MEDIA_BUS_FMT_SRGGB10_1X10;
-> +			break;
-> +		case 0:
-> +			break;
-> +		default:
-> +			dev_warn(dev, "%u degrees rotation is not supported, ignoring...\n",
-> +				 rotation);
-> +		}
-> +	}
-> +
-> +	/* get system clock (xvclk) */
-> +	ov02a10->xvclk = devm_clk_get(dev, "xvclk");
-> +	if (IS_ERR(ov02a10->xvclk)) {
-> +		dev_err(dev, "Failed to get xvclk\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to get xclk frequency\n");
-> +		return ret;
-> +	}
-> +
-> +	/* external clock must be 24MHz, allow 1% tolerance */
-> +	if (xclk_freq < 23760000 || xclk_freq > 24240000) {
-> +		dev_err(dev, "external clock frequency %u is not supported\n",
-> +			xclk_freq);
-> +		return -EINVAL;
-> +	}
-> +	dev_dbg(dev, "external clock frequency %u\n", xclk_freq);
-> +
-> +	ret = clk_set_rate(ov02a10->xvclk, xclk_freq);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to set xvclk frequency (24MHz)\n");
-> +		return ret;
-> +	}
-> +
-> +	ov02a10->pwdn_gpio = devm_gpiod_get(dev, "pwdn", GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov02a10->pwdn_gpio)) {
-> +		dev_err(dev, "Failed to get powerdown-gpios\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ov02a10->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(ov02a10->reset_gpio)) {
-> +		dev_err(dev, "Failed to get reset-gpios\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = ov02a10_configure_regulators(ov02a10);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to get power regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	mutex_init(&ov02a10->mutex);
-> +	ov02a10->cur_mode = &supported_modes[0];
-> +	ret = ov02a10_initialize_controls(ov02a10);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to initialize controls\n");
-> +		goto err_destroy_mutex;
-> +	}
-> +
-> +	ret = __ov02a10_power_on(ov02a10);
-> +	if (ret)
-> +		goto err_free_handler;
-> +
-> +	ret = ov02a10_check_sensor_id(ov02a10);
-> +	if (ret)
-> +		goto err_power_off;
-> +
-> +	ov02a10->subdev.internal_ops = &ov02a10_internal_ops;
-> +	ov02a10->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov02a10->subdev.entity.ops = &ov02a10_subdev_entity_ops;
-> +	ov02a10->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +	ov02a10->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&ov02a10->subdev.entity, 1, &ov02a10->pad);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to init entity pads: %d", ret);
-> +		goto err_power_off;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev(&ov02a10->subdev);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register V4L2 subdev: %d",
-> +			ret);
-> +		goto err_clean_entity;
-> +	}
-> +
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_idle(dev);
-> +
-> +	return 0;
-> +
-> +err_clean_entity:
-> +	media_entity_cleanup(&ov02a10->subdev.entity);
-> +err_power_off:
-> +	__ov02a10_power_off(ov02a10);
-> +err_free_handler:
-> +	v4l2_ctrl_handler_free(ov02a10->subdev.ctrl_handler);
-> +err_destroy_mutex:
-> +	mutex_destroy(&ov02a10->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov02a10_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> +
-> +	v4l2_async_unregister_subdev(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
-> +	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_status_suspended(&client->dev))
-> +		__ov02a10_power_off(ov02a10);
-> +	pm_runtime_set_suspended(&client->dev);
-> +	mutex_destroy(&ov02a10->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +static const struct of_device_id ov02a10_of_match[] = {
-> +	{ .compatible = "ovti,ov02a10" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, ov02a10_of_match);
-> +#endif
-> +
-> +static struct i2c_driver ov02a10_i2c_driver = {
-> +	.driver = {
-> +		.name = "ov02a10",
-> +		.pm = &ov02a10_pm_ops,
-> +		.of_match_table = ov02a10_of_match,
-> +	},
-> +	.probe_new	= &ov02a10_probe,
-> +	.remove		= &ov02a10_remove,
-> +};
-> +
-> +module_i2c_driver(ov02a10_i2c_driver);
-> +
-> +MODULE_AUTHOR("Dongchun Zhu <dongchun.zhu@mediatek.com>");
-> +MODULE_DESCRIPTION("OmniVision OV02A10 sensor driver");
-> +MODULE_LICENSE("GPL v2");
-> +
-> 
-Other part looks good to me.
+--jxGw8MZ9q0nJ00jcl1iI2uO1LUW9JGfxe--
+
+--uVx9JLc67anIJDPjzX2cTpLb4ojpFKIAB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl0jAh8ACgkQwfwUeK3K
+7AlD9wf+MfLat7UmJ1HxF1jT42hFAYoMdP1soGEwAuV0HOIBvPPuqZu95jaFgoEE
+brVMU34l+xFlPGIE9UjZwtN6rm2vK4p/wILF4hZRQcL+75vSKy2cH9RCA5s5B+6e
+oA7lqT8MmyDcw8THL6S77sVgNNz/9X6La1Ts64haUQoHCQN9xKYpy4l8W0nq+0p9
+iA4Ag86Ye5/iu/YMjwLYfdheYxGefABef9410yWR4YLBehYlsuhygkbunxpQjToN
+/qRcFSlD90IxRWFTfMHf95F7Q+qSZGPX/WCD2BWKxzy9Oo9sVFej6A42x7duxK2A
+3vWI+8cF/Qhf6DpjDlXbR6rJ6BM0JA==
+=Fahs
+-----END PGP SIGNATURE-----
+
+--uVx9JLc67anIJDPjzX2cTpLb4ojpFKIAB--
