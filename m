@@ -2,75 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED02563736
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 15:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E94637B3
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 16:20:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbfGINqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 09:46:15 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:35421 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725947AbfGINqP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jul 2019 09:46:15 -0400
-Received: from [IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea] ([IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kqRbhm0bA0SBqkqRch39E3; Tue, 09 Jul 2019 15:46:12 +0200
-Subject: Re: [PATCH 0/5]Add support for mt2701 JPEG ENC support
-To:     Xia Jiang <xia.jiang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>, srv_heupstream@mediatek.com
-References: <20190709032103.10291-1-xia.jiang@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <79316488-30fd-7ff3-7598-d29f85f663ab@xs4all.nl>
-Date:   Tue, 9 Jul 2019 15:46:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726251AbfGIOUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 10:20:04 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:46824 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726154AbfGIOUE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 10:20:04 -0400
+Received: by mail-io1-f66.google.com with SMTP id i10so43429633iol.13;
+        Tue, 09 Jul 2019 07:20:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=f2rYhg/DnEqI7oO9ihLyCMIa+DmpfPhe6CmZvRfBjfY=;
+        b=RFYT7bwKfCzsEl+RgjzSgVmE3xmwUf5TCseip+R+CHbyBHhnj0u6WwuYWran68UCOd
+         S3g4OOuHGNSNQSJ/0bq3icUn8GuzJ5a3aNXyknWYNzFuGQaftIMXGSP8elwJNeGIxW6m
+         mgIRkpzoL7Qq+wjfJqpbCHRAHZBhxC0qYp3a7YonYmTfJ2yB0zbhwhuZd6xGGf5hT4WM
+         FMx8LH0WE2zKHNXEgfMtVXkx6n8MGhaG/Co3vZ656ILqrfOvG2YUOR01LX3J8jcroiev
+         vsSms6eS/DgOyoWairWIHzEZDzdVLLhUBsUMmZ1SZTJj2J9rYoPRGrf6NKkJVmb0D4Ra
+         VVgw==
+X-Gm-Message-State: APjAAAVY1stULLF2AxOp5nBzCgV6jfqNO6xqrcmABVOI4QhORujg1nj+
+        sCTfLg09okgvSdNHxgkwEQ==
+X-Google-Smtp-Source: APXvYqw1WjCcN1aunVPm/TK1Ts7TfCgcpbAxxtxX/jK2MfStDyZ/tJCkQjlPTGKNQDZuFADZmjBdmQ==
+X-Received: by 2002:a02:69d1:: with SMTP id e200mr28763177jac.138.1562682003125;
+        Tue, 09 Jul 2019 07:20:03 -0700 (PDT)
+Received: from localhost ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id y20sm18421134iol.34.2019.07.09.07.20.02
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 09 Jul 2019 07:20:02 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 08:20:00 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Luis Oliveira <Luis.Oliveira@synopsys.com>
+Cc:     mchehab@kernel.org, davem@davemloft.net,
+        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+        nicolas.ferre@microchip.com, paulmck@linux.ibm.com,
+        mark.rutland@arm.com, kishon@ti.com, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joao.Pinto@synopsys.com
+Subject: Re: [v4 4/6] dt-bindings: phy: Document the Synopsys MIPI DPHY Rx
+ bindings
+Message-ID: <20190709142000.GA995@bogus>
+References: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
+ <1560280855-18085-5-git-send-email-luis.oliveira@synopsys.com>
 MIME-Version: 1.0
-In-Reply-To: <20190709032103.10291-1-xia.jiang@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJOEIUcU2sXWd9bC50a4eYZ5LTEqfEC1JRULW/bkWFrKdVBQ/lekp5KR2UKQdl9uV4VWVClgZWcLqUO4U/SIIm7ISiTjndpkJheBiYNaEAFvQfVeC1hE
- qDSQfIJmk/pjXs8utQp3DTtOqUIptglNMx5+x4W/J5vYwRdieV76rYwt1uzqXQP6js809vDQcbILwA5sHqYWI/2J/6a9b45DeDh3orTZ/MxP8kPO9df14mwJ
- S1MxCRveuwBZtb6R/KFayiMT4RsCwFGoULDHt6TnGD9ginkNVzqp/JANQXm3ffjpGyQ1B89xPCMKOXpqGVRCjFN5k+PEhwSEztmjFZeK0NzNE2i/wB5ClqDe
- RDVeE6Da5JzSxbV288V5nLRHHD6Iiw12bgt4gA4/tVRdbP21dSIhdfhVjemZJW0GaP9t/FwrwVa8YWaW5MKuFSuJDMJGTiu3OKl1FSShYw12gq2WUYai9KS5
- Uve2BsE7IGAhi4w20a4KGIzBzy/c++Y+EoLyagdfByRhV2fiHdnmHVYINifeHHB/H/FnuteLO9LZyev32Lf9q+ICby6ut90xUSvvun/Rww+WE7yrbYjgWhRf
- fU5md9AtQ7NlMAtoIsmAr3MWw3oCPUzteY4AB6RKmjSJLgbw/RSmV51M+EYKlibLPDQZJFw/AKh1dPHyyk0cHGJ4novIdqenBjG0Au0Zqz+D5aduPGNIgDoH
- 1Zb5Qe7V6I8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1560280855-18085-5-git-send-email-luis.oliveira@synopsys.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/9/19 5:20 AM, Xia Jiang wrote:
-> This patchset add support for mt2701 JPEG ENC support.
+On Tue, Jun 11, 2019 at 09:20:53PM +0200, Luis Oliveira wrote:
+> Add device-tree bindings documentation for SNPS DesignWare MIPI D-PHY in
+> RX mode.
 > 
-> This is the compliance test result for jpeg dec and enc.
+> Signed-off-by: Luis Oliveira <luis.oliveira@synopsys.com>
+> ---
+> Changelog
+> v3-v4
+> - @Laurent I know I told you I could remove the snps,dphy-frequency on V3 but
+>   it is really useful for me here. I removed all other the proprietary
+>   properties except this one. Do you still think it must be removed?
+> - Frequency units @Rob
+
+Frequency units means append '-khz' to the property name. That also 
+makes the 'frequency' part redundant, so maybe name it more around what 
+the frequency is. The frequency for what?
+
+Rob
+
 > 
-> The JPEG dec log:
-> ------------------------------------------------------------
-> v4l2-compliance -d /dev/video0
-> v4l2-compliance SHA: 08fed4d0edb1492b91d9d1054c36fed95c372eaa, 32 bits
-
-Hmm, the SHA indicates that you are using an old v4l2-compliance version.
-Please get the latest code from the v4l-utils git repo.
-
-<snip>
-
-> Buffer ioctls:
->                 fail: v4l2-test-buffers.cpp(713): q.create_bufs(node, 1, &fmt) != EINVAL
-
-This should be fixed: this test tries to create a buffer of half the minimum
-size, and the driver doesn't check that it is too small.
-
-Ditto for the encoder.
-
-Regards,
-
-	Hans
+>  .../devicetree/bindings/phy/snps,dw-dphy-rx.txt    | 29 ++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt b/Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt
+> new file mode 100644
+> index 0000000..50603e6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/snps,dw-dphy-rx.txt
+> @@ -0,0 +1,29 @@
+> +Synopsys DesignWare MIPI Rx D-PHY block details
+> +
+> +Description
+> +-----------
+> +
+> +The Synopsys MIPI D-PHY controller supports MIPI-DPHY in receiver mode.
+> +Please refer to phy-bindings.txt for more information.
+> +
+> +Required properties:
+> +- compatible		: Shall be "snps,dw-dphy-rx".
+> +- #phy-cells		: Must be 1.
+> +- bus-width		: Size of the test interface data bus (8 bits->8 or
+> +			  12bits->12).
+> +- snps,dphy-frequency	: Frequency at which D-PHY should start, configurable.
+> +			  Check Synopsys databook. (-kHz)
+> +- reg			: Test interface register. This correspondes to the
+> +			  physical base address of the controller and size of
+> +			  the device memory mapped registers; Check Synopsys
+> +			  databook.
+> +
+> +Example:
+> +
+> +	mipi_dphy_rx1: dphy@d00003040 {
+> +		compatible = "snps,dw-dphy-rx";
+> +		#phy-cells = <1>;
+> +		bus-width = <12>;
+> +		snps,dphy-frequency = <300000>;
+> +		reg = <0xd0003040 0x20>;
+> +	};
+> -- 
+> 2.7.4
+> 
