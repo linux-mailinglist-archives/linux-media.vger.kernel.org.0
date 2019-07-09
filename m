@@ -2,96 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8242063058
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 08:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C09D632EC
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 10:41:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbfGIGPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 02:15:21 -0400
-Received: from mail-ed1-f43.google.com ([209.85.208.43]:46782 "EHLO
-        mail-ed1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbfGIGPV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 02:15:21 -0400
-Received: by mail-ed1-f43.google.com with SMTP id d4so16578663edr.13
-        for <linux-media@vger.kernel.org>; Mon, 08 Jul 2019 23:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GDzjMWxwokXwvdx7TqR3+5NdbnOSDiEOotLEa/Zg7Nk=;
-        b=K8xZ2RJnipyWngJ53bOuctxIW7TEMd/MljxkcYd6t7879ub/ZQHx6ZxQZy8GuM0iwI
-         Q5Xa5YlgWnVqTQW6ZlzrLxzHSRhystAdkSKYbgzd6bTh6hbXMwUvVRiwdEvqPESnJnGH
-         9JJjZVW0WbeXMlXKAWelEJw+GYI5HoFrFU06k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GDzjMWxwokXwvdx7TqR3+5NdbnOSDiEOotLEa/Zg7Nk=;
-        b=mfYe3pe2F9rKJHjC0PnhsQk/abR9a5OaUnOJ4ZY1LaEX9Dd6kV5vs1gT2VV4CR2jE2
-         +TWAvY9BtNQ8XKTOJfkM24ovFO2IsnRoglKxE7z4Qw5j9jMlJBLgRPUM7lAUAna+FnGf
-         Zvj9GAsb48cacVi8EmeWGDBsGMcKSm7bfOYKtzKYsFjl4y88Z8PkNV4yIue8KEQNQKTZ
-         NtW+Nzg6zRR+gGapUD2V6iSE3VyzKyGsGmL9tDStPAUeLT/R9ikV47lBnVHY1ngF212o
-         L1zPCyzw11gtBqknCUY7c/r83jR/d72uEkyFjhfom9tl63JwyZiq1A+KE/mRHLhBuBi1
-         NEYA==
-X-Gm-Message-State: APjAAAVxKvPlaaMNE5HjsXU+/etVHUEXkCtuVyRBHGMdJwTalTRj8BtC
-        9NldpLHK4qE4ewXw2bjUx1dg8u3cYRE=
-X-Google-Smtp-Source: APXvYqwq4XFEjh4ObSx5x2UMvOfAOEU4R51GQOUWSH5NMenRE+YFmWXIhsH9FzhVcboJDu89E/LzAw==
-X-Received: by 2002:a17:906:4a0d:: with SMTP id w13mr20122326eju.103.1562652919105;
-        Mon, 08 Jul 2019 23:15:19 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
-        by smtp.gmail.com with ESMTPSA id j7sm6312224eda.97.2019.07.08.23.15.18
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Jul 2019 23:15:18 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id x4so19569191wrt.6
-        for <linux-media@vger.kernel.org>; Mon, 08 Jul 2019 23:15:18 -0700 (PDT)
-X-Received: by 2002:a5d:5012:: with SMTP id e18mr12159590wrt.166.1562652917666;
- Mon, 08 Jul 2019 23:15:17 -0700 (PDT)
+        id S1726241AbfGIIly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 04:41:54 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:61563 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725886AbfGIIlx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 04:41:53 -0400
+X-UUID: 83c4f04b34824bb5987266130009da0d-20190709
+X-UUID: 83c4f04b34824bb5987266130009da0d-20190709
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 1758016557; Tue, 09 Jul 2019 16:41:42 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 9 Jul 2019 16:41:40 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 9 Jul 2019 16:41:40 +0800
+From:   Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>
+To:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>
+CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <frederic.chen@mediatek.com>, <Jerry-ch.Chen@mediatek.com>,
+        <jungo.lin@mediatek.com>, <Rynn.Wu@mediatek.com>,
+        <po-yang.huang@mediatek.com>, <shik@chromium.org>,
+        <suleiman@chromium.org>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>
+Subject: [RFC PATCH V2 0/4] media: platform: Add support for Face Detection (FD) on mt8183 SoC
+Date:   Tue, 9 Jul 2019 16:41:08 +0800
+Message-ID: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-References: <20190620073505.33819-1-acourbot@chromium.org>
-In-Reply-To: <20190620073505.33819-1-acourbot@chromium.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 9 Jul 2019 15:15:05 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Cn9GzXEj+tBtJsL8GXouJEyj+HSUng5StqNsCxKZK9yw@mail.gmail.com>
-Message-ID: <CAAFQd5Cn9GzXEj+tBtJsL8GXouJEyj+HSUng5StqNsCxKZK9yw@mail.gmail.com>
-Subject: Re: [PATCH v5] media: docs-rst: Document m2m stateless video decoder interface
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 3ABE9780289E424823807A67299219B665119384ECA2E209DEDC6A857B5D82822000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 4:35 PM Alexandre Courbot <acourbot@chromium.org> wrote:
-[snip]
-> +Initialization
-> +==============
-> +
-[snip]
-> +5. *[optional]* Choose a different ``CAPTURE`` format than suggested via
-> +   :c:func:`VIDIOC_S_FMT` on ``CAPTURE`` queue. It is possible for the client to
-> +   choose a different format than selected/suggested by the driver in
-> +   :c:func:`VIDIOC_G_FMT`.
-> +
-> +    * **Required fields:**
-> +
-> +      ``type``
-> +          a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
-> +
-> +      ``pixelformat``
-> +          a raw pixel format.
+Hello,
 
-We should be able to set different width and height as well, to allow
-strided and padded frame buffers. Otherwise we wouldn't be able to
-import DMA-bufs allocated from some other sources.
+This RFC patch series is adding Face Detection (FD) driver on Mediatek
+mt8183 SoC. It belongs to the first Mediatek's camera driver series based
+on V4L2 and media controller framework. I posted the main part of the FD
+driver as RFC to discuss first and would like some review comments.
 
-(FYI, I've posted a similar comment to the stateful interface too.)
+==============
+Introduction
+==============
 
-Best regards,
-Tomasz
+Face Detection (FD) unit provides hardware accelerated face detection
+feature. It can detect different sizes of faces in a given image.
+
+The driver is implemented as a normal V4L2 memory-to-memory device and
+supports V4L2 controls for detection settings. It has two buffer queues.
+
+1. Video output buffer: RAW image for face detection.
+
+2. Meta capture buffer: Result of the detected faces.
+
+==================
+Changes in v2
+==================
+
+RFC v2 includes the following modification:
+1. Implement FD as a V4L2 mem2mem driver
+
+2. Replace meta input with V4L2 controls
+
+==================
+Changes in v1
+==================
+
+RFC v1 includes the following modification:
+1. Uses Request API instead of FD's buffer collection design
+
+2. removed unnecessary abstraction structurally, including mtk_fd_ctx and
+related ops
+
+3. removed the fd_smem node from device tree
+
+4. Fixed the common issues Tomasz commented on Mediatek ISP Pass 1's RFC v0
+patch series
+
+==================
+Dependent patch
+==================
+
+FD driver depends on SCP driver. The patches are as following:
+
+[1]. Add support for mt8183 SCP
+https://patchwork.kernel.org/cover/10991065/
+
+==================
+Compliance test
+==================
+
+* Version: https://git.linuxtv.org/v4l-utils.git/commit/?id=b16f9e945d74aa5
+* Note: Those 4 failures are caused by the implementation of FD driver,
+        whic is a m2m device with VIDEO_OUT and META_CAPTURE queues,
+        therefore we can't set V4L2_CAP_VIDEO_M2M in device capability, and
+        fail in some non-m2m v4l2 test cases.
+* Test command: v4l2-compliance -m 2
+* test output:
+
+v4l2-compliance SHA: not available, 32 bits
+
+Compliance test for mtk-fd-4.0 device /dev/media2:
+
+Media Driver Info:
+        Driver name      : mtk-fd-4.0
+        Model            : MTK-FD-V4L2
+        Serial           :
+        Bus info         : platform:1502b000.fd
+        Media version    : 4.19.56
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 4.19.56
+
+Required ioctls:
+        test MEDIA_IOC_DEVICE_INFO: OK
+
+Allow for multiple opens:
+        test second /dev/media2 open: OK
+        test MEDIA_IOC_DEVICE_INFO: OK
+        test for unlimited opens: OK
+
+Media Controller ioctls:
+        test MEDIA_IOC_G_TOPOLOGY: OK
+        Entities: 3 Interfaces: 1 Pads: 4 Links: 4
+        test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+        test MEDIA_IOC_SETUP_LINK: OK
+
+Total for mtk-fd-4.0 device /dev/media2: 7, Succeeded: 7, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mtk-fd-4.0 device /dev/video31:
+
+Driver Info:
+        Driver name      : mtk-fd-4.0
+        Card type        : MTK-FD-V4L2
+        Bus info         : platform:1502b000.fd
+        Driver version   : 4.19.56
+        Capabilities     : 0x84a02000
+                Video Output Multiplanar
+                Metadata Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04a02000
+                Video Output Multiplanar
+                Metadata Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : mtk-fd-4.0
+        Model            : MTK-FD-V4L2
+        Serial           :
+        Bus info         : platform:1502b000.fd
+        Media version    : 4.19.56
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 4.19.56
+Interface Info:
+        ID               : 0x0300000c
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : MTK-FD-V4L2-source
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Source
+          Link 0x02000008: to remote pad 0x1000005 of entity 'MTK-FD-V4L2-proc': Data, Enabled, Immutable
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+                fail: v4l2-compliance.cpp(668): dcaps & output_caps
+        test VIDIOC_QUERYCAP: FAIL
+
+Allow for multiple opens:
+        test second /dev/video31 open: OK
+                fail: v4l2-compliance.cpp(668): dcaps & output_caps
+        test VIDIOC_QUERYCAP: FAIL
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 1 Private Controls: 6
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+                fail: v4l2-test-formats.cpp(1014): Global format mismatch: 59555956(VYUY)/26x26 vs 56595559(YUYV)/26x26
+        test VIDIOC_S_FMT: FAIL
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+                fail: v4l2-test-buffers.cpp(667): q2.reqbufs(node->node2, 1) != EBUSY
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK
+
+Total for mtk-fd-4.0 device /dev/video31: 45, Succeeded: 41, Failed: 4, Warnings: 0
+
+Grand Total for mtk-fd-4.0 device /dev/media2: 52, Succeeded: 48, Failed: 4, Warnings: 0
+
+Jerry-ch Chen (4):
+  dt-bindings: mt8183: Added FD dt-bindings
+  dts: arm64: mt8183: Add FD nodes
+  media: platform: Add Mediatek FD driver KConfig
+  platform: mtk-isp: Add Mediatek FD driver
+
+ .../bindings/media/mediatek,mt8183-fd.txt     |   33 +
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   12 +
+ drivers/media/platform/Kconfig                |    2 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/mtk-isp/fd/Kconfig     |   17 +
+ drivers/media/platform/mtk-isp/fd/Makefile    |    5 +
+ drivers/media/platform/mtk-isp/fd/mtk_fd.h    |  157 ++
+ drivers/media/platform/mtk-isp/fd/mtk_fd_40.c | 1259 +++++++++++++++++
+ include/uapi/linux/v4l2-controls.h            |    4 +
+ 9 files changed, 1491 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt
+ create mode 100644 drivers/media/platform/mtk-isp/fd/Kconfig
+ create mode 100644 drivers/media/platform/mtk-isp/fd/Makefile
+ create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd.h
+ create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd_40.c
+
+-- 
+2.18.0
+
+
