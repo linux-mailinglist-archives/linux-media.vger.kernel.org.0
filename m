@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A52A632F0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 10:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB9B632F2
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 10:42:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726641AbfGIImC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 04:42:02 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:65016 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726031AbfGIImC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 04:42:02 -0400
-X-UUID: 31ab4c0b6094455d9369bdc005e3add7-20190709
-X-UUID: 31ab4c0b6094455d9369bdc005e3add7-20190709
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
+        id S1726658AbfGIImE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 04:42:04 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:40838 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726617AbfGIImD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 04:42:03 -0400
+X-UUID: 2b6f1438b0694273897fde2d8f4f1f06-20190709
+X-UUID: 2b6f1438b0694273897fde2d8f4f1f06-20190709
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
         (envelope-from <jerry-ch.chen@mediatek.com>)
         (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 916830263; Tue, 09 Jul 2019 16:41:55 +0800
+        with ESMTP id 1807405469; Tue, 09 Jul 2019 16:41:57 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 9 Jul 2019 16:41:54 +0800
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 9 Jul 2019 16:41:55 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 9 Jul 2019 16:41:54 +0800
+ Transport; Tue, 9 Jul 2019 16:41:55 +0800
 From:   Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>
 To:     <hans.verkuil@cisco.com>,
         <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
@@ -37,9 +37,9 @@ CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
         <suleiman@chromium.org>, <linux-media@vger.kernel.org>,
         <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
         Jerry-ch Chen <jerry-ch.chen@mediatek.com>
-Subject: [RFC PATCH V2 2/4] dts: arm64: mt8183: Add FD nodes
-Date:   Tue, 9 Jul 2019 16:41:10 +0800
-Message-ID: <1562661672-22439-3-git-send-email-Jerry-Ch.chen@mediatek.com>
+Subject: [RFC PATCH V2 3/4] media: platform: Add Mediatek FD driver KConfig
+Date:   Tue, 9 Jul 2019 16:41:11 +0800
+Message-ID: <1562661672-22439-4-git-send-email-Jerry-Ch.chen@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
 References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
@@ -53,38 +53,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
 
-This patch adds nodes for Face Detection (FD) unit. FD is embedded
-in Mediatek SoCs and works with the co-processor to perform face
-detection on the input data and image and output detected face result.
+This patch adds KConfig for Mediatek Face Detection driver (FD).
+FD is embedded in Mediatek SoCs. It can provide hardware
+accelerated face detection function.
 
 Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/media/platform/Kconfig            |  2 ++
+ drivers/media/platform/mtk-isp/fd/Kconfig | 17 +++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 drivers/media/platform/mtk-isp/fd/Kconfig
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index c3a516e..7c234a0 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -432,6 +432,18 @@
- 			#clock-cells = <1>;
- 		};
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index a505e9f..ae99258e 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -32,6 +32,8 @@ source "drivers/media/platform/davinci/Kconfig"
  
-+		fd: fd@1502b000 {
-+			compatible = "mediatek,mt8183-fd";
-+			mediatek,scp = <&scp>;
-+			iommus = <&iommu M4U_PORT_CAM_FDVT_RP>,
-+				 <&iommu M4U_PORT_CAM_FDVT_WR>,
-+				 <&iommu M4U_PORT_CAM_FDVT_RB>;
-+			reg = <0 0x1502b000 0 0x1000>;
-+			interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&imgsys CLK_IMG_FDVT>;
-+			clock-names = "FD_CLK_IMG_FD";
-+		};
+ source "drivers/media/platform/omap/Kconfig"
+ 
++source "drivers/media/platform/mtk-isp/fd/Kconfig"
 +
- 		vdecsys: syscon@16000000 {
- 			compatible = "mediatek,mt8183-vdecsys", "syscon";
- 			reg = <0 0x16000000 0 0x1000>;
+ config VIDEO_ASPEED
+ 	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
+ 	depends on VIDEO_V4L2
+diff --git a/drivers/media/platform/mtk-isp/fd/Kconfig b/drivers/media/platform/mtk-isp/fd/Kconfig
+new file mode 100644
+index 0000000..0c5eaf0
+--- /dev/null
++++ b/drivers/media/platform/mtk-isp/fd/Kconfig
+@@ -0,0 +1,17 @@
++config VIDEO_MEDIATEK_FD
++	bool "Mediatek face detection processing function"
++	select DMA_SHARED_BUFFER
++	select VIDEOBUF2_DMA_CONTIG
++	select VIDEOBUF2_CORE
++	select VIDEOBUF2_V4L2
++	select VIDEOBUF2_MEMOPS
++	select VIDEOBUF2_VMALLOC
++	select MEDIA_CONTROLLER
++
++	default n
++	help
++		Support the Face Detectioin (FD) feature.
++
++		FD driver is a V4L2 memory-to-memory device driver which
++		provides hardware accelerated face detection function,
++		it can detect different sizes of faces in a raw image.
 -- 
 1.9.1
 
