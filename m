@@ -2,135 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3139963AEA
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 20:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7729063B33
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 20:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbfGIS0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 14:26:05 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:52184 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726318AbfGIS0F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jul 2019 14:26:05 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 08634634C7B;
-        Tue,  9 Jul 2019 21:25:01 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.89)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hkunU-000294-9D; Tue, 09 Jul 2019 21:25:00 +0300
-Date:   Tue, 9 Jul 2019 21:25:00 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Luis de Oliveira <Luis.Oliveira@synopsys.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
-        "paulmck@linux.ibm.com" <paulmck@linux.ibm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "kishon@ti.com" <kishon@ti.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Joao.Pinto@synopsys.com" <Joao.Pinto@synopsys.com>
-Subject: Re: [v4 1/6] dt-bindings: media: Document bindings for DW MIPI CSI-2
- Host
-Message-ID: <20190709182500.3x544axnrgy72aje@valkosipuli.retiisi.org.uk>
-References: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
- <1560280855-18085-2-git-send-email-luis.oliveira@synopsys.com>
- <20190628141326.swgl3kg4fj5pmlqx@valkosipuli.retiisi.org.uk>
- <MN2PR12MB37109D7AADCE4823CB458CB9CBF60@MN2PR12MB3710.namprd12.prod.outlook.com>
+        id S1726585AbfGISje (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 14:39:34 -0400
+Received: from jpvw.nl ([80.127.100.2]:39694 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726133AbfGISje (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jul 2019 14:39:34 -0400
+Received: from jp by jpvw.nl with local (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hkv1Y-0000cF-VX; Tue, 09 Jul 2019 20:39:32 +0200
+Date:   Tue, 9 Jul 2019 20:39:32 +0200
+From:   Jan Pieter van Woerkom <jp@jpvw.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Michael Ira Krufky <mkrufky@linuxtv.org>,
+        Antti Palosaari <crope@iki.fi>, Sean Young <sean@mess.org>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+Subject: PATCH V3.5 1/2] dvbsky: add support for "Mygica T230C v2"
+Message-ID: <20190709183932.GA2311@jpvw.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MN2PR12MB37109D7AADCE4823CB458CB9CBF60@MN2PR12MB3710.namprd12.prod.outlook.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Luis,
+From: Jan Pieter van Woerkom <jp@jpvw.nl>
 
-On Mon, Jul 08, 2019 at 03:21:50PM +0000, Luis de Oliveira wrote:
-> Hi Sakari,
-> 
-> Thank you for your feedback.
-> I have my comments inline.
-> 
-> From: Sakari Ailus <sakari.ailus@iki.fi>
-> Date: Fri, Jun 28, 2019 at 15:13:26
-> 
-> > Hi Luis,
-> > 
-> > Thank you for the patchset.
-> > 
-> > On Tue, Jun 11, 2019 at 09:20:50PM +0200, Luis Oliveira wrote:
-> > > From: Luis Oliveira <lolivei@synopsys.com>
-> > > 
-> > > Add bindings for Synopsys DesignWare MIPI CSI-2 host.
-> > > 
-> > > Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
-> > > ---
-> > > Changelog
-> > > v3-v4
-> > > - remove "plat" from the block name @rob @laurent
-> > > - remove "phy-names" when single-entry @rob
-> > > - remove "snps,output-type" -> went to the driver config @laurent
-> > > 
-> > >  .../devicetree/bindings/media/snps,dw-csi.txt      | 41 ++++++++++++++++++++++
-> > >  1 file changed, 41 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-csi.txt
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/snps,dw-csi.txt b/Documentation/devicetree/bindings/media/snps,dw-csi.txt
-> > > new file mode 100644
-> > > index 0000000..613b7f9
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/snps,dw-csi.txt
-> > > @@ -0,0 +1,41 @@
-> > > +Synopsys DesignWare CSI-2 Host controller
-> > > +
-> > > +Description
-> > > +-----------
-> > > +
-> > > +This HW block is used to receive image coming from an MIPI CSI-2 compatible
-> > > +camera.
-> > > +
-> > > +Required properties:
-> > > +- compatible		: shall be "snps,dw-csi"
-> > > +- reg			: physical base address and size of the device memory
-> > > +			  mapped registers;
-> > > +- interrupts		: DW CSI-2 Host interrupts
-> > > +- phys			: List of one PHY specifier (as defined in
-> > > +			  Documentation/devicetree/bindings/phy/phy-bindings.txt).
-> > > +			  This PHY is a MIPI DPHY working in RX mode.
-> > > +- resets		: Reference to a reset controller (optional)
-> > > +
-> > > +The per-board settings:
-> > > + - port sub-node describing a single endpoint connected to the camera as
-> > > +   described in video-interfaces.txt[1].
-> > 
-> > Which endpoint properties in video-interfaces.txt are relevant for the
-> > hardware? Which values may they have?
-> > 
-> 
-> Currently I'm using only two properties "data-lanes" and "bus-width", but 
-> I have plans to add blanking info also.
-> I will add more info.
+Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
+A small enhancement is also needed in the si2168 demodulator
+driver, and a USB device ID in dvb-usb-ids.h .
 
-Isn't blanking defined by what the transmitter seneds? Or do you have
-hardware limitations on the receiver side?
+This is v3.5 of the proposed patch, based on feedback from Sean
+Young and Antti Palosaari.
+Tested by patch author on DVB(T/T2/C).
+Tested by Frank Rysanek on a T230C v2: can tune into locally
+available DVB-T and DVB-T2 muxes, video and audio playback works.
+Applies cleanly against Linux 5.2 .
 
-I've only heard of one such case before, and it was a very old parallel
-receiver.
+The T230C v2 hardware needs a mode of the si2168 chip to be
+set for which the si2168 driver previously had no support.
+This patch uses a specific measure to configure this on the
+T230C v2 hardware only - see the flag passed via the ts_mode
+attribute and its dependency on USB_PID_MYGICA_T230C2. Other
+devices using the si2168 demodulator driver are not affected.
 
-If you have a CSI-2 receiver, bus-width isn't relevant --- it's for paralle
-interfaces only. Please add data-lanes to required endpoint properties.
-
--- 
-Regards,
-
-Sakari Ailus
+Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
+Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
+---
+diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+--- a/drivers/media/dvb-frontends/si2168.c	2019-07-08 00:41:56.000000000 +0200
++++ b/drivers/media/dvb-frontends/si2168.c	2019-07-09 18:47:59.514873658 +0200
+@@ -82,8 +82,18 @@
+ 
+ 	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+ 
++	/* set manual value */
++	if (dev->ts_mode & SI2168_TS_CLK_MANUAL) {
++		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
++		cmd.wlen = 6;
++		cmd.rlen = 4;
++		ret = si2168_cmd_execute(client, &cmd);
++		if (ret)
++			return ret;
++	}
+ 	/* set TS_MODE property */
+-	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
++	memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
++	cmd.args[4] = dev->ts_mode & (SI2168_TS_CLK_AUTO|SI2168_TS_CLK_MANUAL);
+ 	if (acquire)
+ 		cmd.args[4] |= dev->ts_mode;
+ 	else
+diff -ru a/drivers/media/dvb-frontends/si2168.h b/drivers/media/dvb-frontends/si2168.h
+--- a/drivers/media/dvb-frontends/si2168.h	2019-07-08 00:41:56.000000000 +0200
++++ b/drivers/media/dvb-frontends/si2168.h	2019-07-09 18:47:59.514873658 +0200
+@@ -30,6 +30,8 @@
+ #define SI2168_TS_PARALLEL	0x06
+ #define SI2168_TS_SERIAL	0x03
+ #define SI2168_TS_TRISTATE	0x00
++#define SI2168_TS_CLK_AUTO	0x10
++#define SI2168_TS_CLK_MANUAL	0x20
+ 	u8 ts_mode;
+ 
+ 	/* TS clock inverted */
