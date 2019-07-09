@@ -2,74 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDBB362DEA
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 04:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B35BE62EC1
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 05:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727230AbfGICIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jul 2019 22:08:41 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46425 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbfGICIl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 22:08:41 -0400
-Received: by mail-io1-f65.google.com with SMTP id i10so39707184iol.13;
-        Mon, 08 Jul 2019 19:08:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=wW02jFZSaX8A4fbGCTcNYrXs8wdG93m32ZsgP4TKJAY=;
-        b=jI7QSZhTpwVUXjFXjn5lrzcBSe21pZtTlbeVw3pKle99gI1itxn0ZKJm5cPlqT5jKk
-         2QD3FliixHoJ4vMkX3Hg7yTZnMIDVwlzmTKTmxmxSPOyMyXKazQb2mD+mEkzuxJgbyDT
-         YFRqatC9ELVbUkH+HDcsW29gGCycw6pIhjjK2dkU/Yg6pz6lgej0zzyaHnL390GvLDuz
-         lBCPofWDblpiXVeE0hz7T9VkujyRbJfDTlxx/VWPbdSmBN4qw8zsr4ujVA4MMpLoxy7l
-         UOp8elV0VZizx+i6ls1kh6xOAQNqS+nRyRiNYKISVJwDjlgtr4vJOD/L5h70qWUUmJzz
-         gqBg==
-X-Gm-Message-State: APjAAAUTBmQyJSQh++tEm0wvfeQHk7FKrZLryrVUjb2pVCub4iIt34Gv
-        dQ/Ma5DRPKAHcsoIQPoc05Cx0K0=
-X-Google-Smtp-Source: APXvYqxcQQE5qQSk7Mm64m/hLZNPpvvL4cOTHW4gDvJJAiCHDSQbpnBAXAreRsYB2rcKBCJdwN/+Jg==
-X-Received: by 2002:a5d:91d7:: with SMTP id k23mr2335199ior.163.1562638120102;
-        Mon, 08 Jul 2019 19:08:40 -0700 (PDT)
-Received: from localhost ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id k2sm15537532iom.50.2019.07.08.19.08.39
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 08 Jul 2019 19:08:39 -0700 (PDT)
-Date:   Mon, 8 Jul 2019 20:08:38 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-        Sean Young <sean@mess.org>
-Subject: Re: [PATCH v5 10/13] dt-bindings: media: sunxi-ir: Add H6 compatible
-Message-ID: <20190709020838.GA23382@bogus>
-References: <20190607231100.5894-1-peron.clem@gmail.com>
- <20190607231100.5894-11-peron.clem@gmail.com>
+        id S1726133AbfGIDVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jul 2019 23:21:43 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:28777 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725886AbfGIDVn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jul 2019 23:21:43 -0400
+X-UUID: 49b1279f526341b69d02c7a513ae7f10-20190709
+X-UUID: 49b1279f526341b69d02c7a513ae7f10-20190709
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw02.mediatek.com
+        (envelope-from <xia.jiang@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 131233202; Tue, 09 Jul 2019 11:21:33 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 9 Jul 2019 11:21:32 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 9 Jul 2019 11:21:31 +0800
+From:   Xia Jiang <xia.jiang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>, <srv_heupstream@mediatek.com>
+Subject: [PATCH 0/5]Add support for mt2701 JPEG ENC support
+Date:   Tue, 9 Jul 2019 11:20:58 +0800
+Message-ID: <20190709032103.10291-1-xia.jiang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190607231100.5894-11-peron.clem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat,  8 Jun 2019 01:10:57 +0200, =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= wrote:
-> There are some minor differences between A31 or A64 with H6 IR peripheral.
-> 
-> But A31 IR driver is compatible with H6.
-> 
-> Signed-off-by: Clément Péron <peron.clem@gmail.com>
-> Acked-by: Sean Young <sean@mess.org>
-> ---
->  Documentation/devicetree/bindings/media/sunxi-ir.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+This patchset add support for mt2701 JPEG ENC support.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This is the compliance test result for jpeg dec and enc.
+
+The JPEG dec log:
+------------------------------------------------------------
+v4l2-compliance -d /dev/video0
+v4l2-compliance SHA: 08fed4d0edb1492b91d9d1054c36fed95c372eaa, 32 bits
+
+Compliance test for mtk-jpeg device /dev/video0:
+
+Driver Info:
+        Driver name      : mtk-jpeg
+        Card type        : mtk-jpeg decoder
+        Bus info         : platform:15004000.jpegdec
+        Driver version   : 5.2.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected JPEG Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+                fail: v4l2-test-buffers.cpp(713): q.create_bufs(node, 1, &fmt) != EINVAL
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mtk-jpeg device /dev/video0: 44, Succeeded: 43, Failed: 1, Warnings: 0
+------------------------------------------------------------
+
+The JPEG enc log:
+
+------------------------------------------------------------
+v4l2-compliance -d /dev/video1 
+v4l2-compliance SHA: 08fed4d0edb1492b91d9d1054c36fed95c372eaa, 32 bits
+
+Compliance test for mtk-jpeg device /dev/video1:
+
+Driver Info:
+        Driver name      : mtk-jpeg
+        Card type        : mtk-jpeg encoder
+        Bus info         : platform:1500a000.jpegenc
+        Driver version   : 5.2.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected JPEG Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 4 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+                fail: v4l2-test-buffers.cpp(713): q.create_bufs(node, 1, &fmt) != EINVAL
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mtk-jpeg device /dev/video1: 44, Succeeded: 43, Failed: 1, Warnings: 0
+------------------------------------------------------------
+
+Xia Jiang (5):
+  media: dt-bindings: Add JPEG ENC device tree node document
+  media: platform: Rename jpeg dec file name
+  media: platform: Add jpeg enc feature
+  media: platform: change GPLv2 license to SPDX
+  arm: dts: add jpeg enc device tree node
+
+ .../bindings/media/mediatek-jpeg-encoder.txt       |  33 +
+ arch/arm/boot/dts/mt2701.dtsi                      |  12 +
+ arch/arm/configs/multi_v7_defconfig                |  14 +-
+ drivers/media/platform/mtk-jpeg/Makefile           |   5 +-
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c    | 746 ++++++++++++++++-----
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h    | 123 +++-
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c  | 410 +++++++++++
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h  |  85 +++
+ .../media/platform/mtk-jpeg/mtk_jpeg_dec_parse.c   | 153 +++++
+ .../media/platform/mtk-jpeg/mtk_jpeg_dec_parse.h   |  18 +
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_reg.h |  51 ++
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c  | 175 +++++
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h  |  60 ++
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_reg.h |  49 ++
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_hw.c      | 417 ------------
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_hw.h      |  91 ---
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c   | 160 -----
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.h   |  25 -
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_reg.h     |  58 --
+ drivers/media/v4l2-core/v4l2-ctrls.c               |   1 +
+ include/uapi/linux/v4l2-controls.h                 |   2 +
+ 21 files changed, 1754 insertions(+), 934 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_parse.c
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_parse.h
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_reg.h
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_reg.h
+ delete mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_hw.c
+ delete mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_hw.h
+ delete mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c
+ delete mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.h
+ delete mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_reg.h
+
+-- 
+1.9.1 
+
+
