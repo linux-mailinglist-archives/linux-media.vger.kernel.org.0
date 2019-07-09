@@ -2,107 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66EB063A22
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 19:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F1D63A8A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2019 20:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726318AbfGIR0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 13:26:52 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40733 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726133AbfGIR0w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jul 2019 13:26:52 -0400
-Received: by mail-pl1-f194.google.com with SMTP id a93so10444962pla.7
-        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2019 10:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t74l/7Ho3KTfFf8z1bhKb84MMgKUqFU6cOGTXd0d22o=;
-        b=ayU203d+DAshrSBVZM+C+2OWO9YKDDltNwItjcUrszuGTiGmeEF14OKalCgnqmXBFq
-         ropOhJFlvNd9BBtiiFZtnXf+6cuz1tPzgAf2DEEZEK8v4Q+BFxL4gzHhxgB5wvh3LagX
-         HbF8oY1wCj6XBBKcaxD4NZl8x8eqnJt2yFNZgjrZKT3234zSHNoasitn9VtJEj/oTpyK
-         FO+BaeavFyBAvB2d5w2HXHi30ylaXdhG4IIHQkVDfG8458MnzzyBrP0g1z6OqySelLzn
-         KUrNNkTrZIZmd5/KxM1jOxEbpcAB59fgex1ImZgAqC9KTL0kVepV+oE9ggn+Vd8KXcBd
-         COwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t74l/7Ho3KTfFf8z1bhKb84MMgKUqFU6cOGTXd0d22o=;
-        b=MBzBFoq8hJ1T8oUcXf1OLrUvhwVJWKW2Vf5a9jZ/gP2ONuC0XqDv5jwthrcUqM8Ydf
-         oFG2ydAAUkM2JG+AgQ1bys4WfkcY91i3ICxydm9uzqa2pAxtzlyhljgS73UhASnNaNwI
-         pUC1ZYJPBxVfSq5mXCydYZ6XebkIHoxAjeLUiKnRUxL+i4lJpk4mk2H63/xhjh4544aR
-         fESGsQb3HHq/sUXEDa3lzgWKYg25nZilLBjh+INhxleNS5aZI1eXxFIR7iCRF4IOE/BV
-         qIJAQFchczg2OQ3T4eiM48yzuYbvGnhbNYJg+909oJo/8UGA0ylIoq5oUBzGSLS0ROB9
-         TlWQ==
-X-Gm-Message-State: APjAAAV0uZsRgYlnT1hPfU/Ma+HEF3nYF5v45Xj0rKXlky+IN+HutYL2
-        KgQTdThyK7RjgrtLqIsFkug=
-X-Google-Smtp-Source: APXvYqzagvQgxpkWBoGQ3221Xtk2wd6FuN3StqQ4TuWGwNS7AF7ExcYV2vfSrUta5JM9ztOvrP+21g==
-X-Received: by 2002:a17:902:6b07:: with SMTP id o7mr32761093plk.180.1562693211746;
-        Tue, 09 Jul 2019 10:26:51 -0700 (PDT)
-Received: from localhost.localdomain ([110.227.64.207])
-        by smtp.gmail.com with ESMTPSA id v184sm23353696pgd.34.2019.07.09.10.26.49
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 09 Jul 2019 10:26:51 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH] media: i2c: tvp5150: Add of_node_put() before goto
-Date:   Tue,  9 Jul 2019 22:56:40 +0530
-Message-Id: <20190709172640.13711-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727317AbfGISFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 14:05:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727305AbfGISFD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jul 2019 14:05:03 -0400
+Subject: Re: [GIT PULL for v5.3-rc1] media updates
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562695502;
+        bh=tQLIkCVsL/J5QqNbdtb5HHhnVyuLo2ONICaIVpCZ1LE=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=lNUx5ElQxidJzgtme7oyS3OcJFt/yi19y1gXDFzOBO8/woy32nhGOWaySBtjFPKXH
+         UMgau/fWLllIiMsI3Ejel6Z27dNbfxB4KqvRUl5Ttvvwx4A+fPzuNqzfiDOJ2Lxzan
+         egmLDAV+wVClwyy9biDf3N2JvPYlzM9r6sBkbE+A=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190709081735.3d642186@coco.lan>
+References: <20190709081735.3d642186@coco.lan>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190709081735.3d642186@coco.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+ tags/media/v5.3-1
+X-PR-Tracked-Commit-Id: f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ed63b9c873601ca113da5c7b1745e3946493e9f3
+Message-Id: <156269550241.14383.417129534534296641.pr-tracker-bot@kernel.org>
+Date:   Tue, 09 Jul 2019 18:05:02 +0000
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Each iteration of for_each_available_child_of_node puts the previous
-node, but in the case of a goto from the middle of the loop, there is
-no put, thus causing a memory leak. Hence add an of_node_put before the
-goto in four places.
-Issue found with Coccinelle.
+The pull request you sent on Tue, 9 Jul 2019 08:17:35 -0300:
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
- drivers/media/i2c/tvp5150.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.3-1
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index eaddd977ba40..dffe357e9f7a 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1636,11 +1636,13 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
- 			dev_err(decoder->sd.dev,
- 				 "missing type property in node %pOFn\n",
- 				 child);
-+			of_node_put(child);
- 			goto err_connector;
- 		}
- 
- 		if (input_type >= TVP5150_INPUT_NUM) {
- 			ret = -EINVAL;
-+			of_node_put(child);
- 			goto err_connector;
- 		}
- 
-@@ -1651,6 +1653,7 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
- 			dev_err(decoder->sd.dev,
- 				 "input %s with same type already exists\n",
- 				 input->name);
-+			of_node_put(child);
- 			ret = -EINVAL;
- 			goto err_connector;
- 		}
-@@ -1672,6 +1675,7 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
- 			dev_err(decoder->sd.dev,
- 				 "missing label property in node %pOFn\n",
- 				 child);
-+			of_node_put(child);
- 			goto err_connector;
- 		}
- 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ed63b9c873601ca113da5c7b1745e3946493e9f3
+
+Thank you!
+
 -- 
-2.19.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
