@@ -2,94 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0537364656
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 14:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D757A646F5
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 15:27:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727412AbfGJMhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 08:37:32 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34974 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725956AbfGJMhb (ORCPT
+        id S1726617AbfGJN1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 09:27:24 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33095 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbfGJN1Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 08:37:31 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E62731C;
-        Wed, 10 Jul 2019 14:37:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562762249;
-        bh=rXmN/ZP1jKpCFxlT6ZQ3Ed8fIwsZSXGnqlc6PGjlcj8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PkSp2haE0jZmJsqrMwJ1rxk/Cok03Jt0bZbMIZ/5e19X7e8fcGgs51dJLcALqvA41
-         pAADSeNs5/vyArQ7vyiqt+t1x9fpsh4GaUv4Dg1kTyXlMn3fWBwaGULBbfBJ0KNOY5
-         BprfaHdPT11bG4UE3ij96ouj+9QPnuVv5rNOY2C0=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
-Date:   Wed, 10 Jul 2019 13:37:19 +0100
-Message-Id: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
+        Wed, 10 Jul 2019 09:27:24 -0400
+Received: by mail-ot1-f68.google.com with SMTP id q20so2133312otl.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 06:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/YSglGHiA12BtO0E66BwuK5Fe8tXGD+iwHyoCdlMT9A=;
+        b=D2fbinEn9acHE13EMsnOgzJYwB5K1n71GZUqBP5JQuAzB7gZ6Hd3tCiL1Cmdua1Njj
+         NFrDXOyZQtLlkDINgRqjebR9dNcODPOSydUgkDcS61Qvo/JEU3l2JSx2N3bLQDDTzzuN
+         E0ogtGpgGSZscJ8bWx+NzKmHQhChAMyrIIkNPsWlaJ3dwJArYQhp7j+CskaijMOcplIt
+         zLMI3fAI4PCMp6CuEJmVv9JsLH6jjWA1lC+rMp4Y7aQ7tL/pbf7t8M/eP4dnBf0cqLtc
+         X/Jao/B8e42hunVaDlp7PyDjPixHwLz/deig7WDblBO+ZEarpTQ9/BByGOOeA1Axk5RS
+         o8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/YSglGHiA12BtO0E66BwuK5Fe8tXGD+iwHyoCdlMT9A=;
+        b=rIt3LeqOOg/w3jfJsuc6mvw5A/SQq1H/KyADJ5qetJ2dO/Ba3nqMOUPGb7fU3hFrj6
+         +lxpBF5wAm6gpISe2zKlHGa8K722bDkn2X8KOCX47i1zCJrNylLGF+Mg4ggYe1Vb6+cX
+         2/qbXkWyHdEE6KF2VsCIg0cOOh5tJpjOHDQBovjFaVVH3plp4Rw+rhoM3V5FP9zpc98V
+         ryyTAZRkHlJQtL40+y3zi8al+3Ttls7OD3vGjzYknGwy9QvTzRXcPehqVbqpnciqz2h8
+         q4anhTa8zsoKrUIxkoFVYq5wQY+vmAmHu35LeanA+/+XuP8Ytbh7x8eLxT9X2nG6muyR
+         ZQ/w==
+X-Gm-Message-State: APjAAAXf8sR8QCvr8XGL5eHxyxEUeZvMMc4IiapEoD3lsVN7IFF+WHIw
+        U24qFeD6Fl3KaohoeLNvEtlnxTgiPvdtoO1xqwI=
+X-Google-Smtp-Source: APXvYqzoab4gH+f3AFSK+VWAm5k7A52qwQ5LHSE+oznBOr+d+/U3YbDMJDeYve1n7NisC3+zGGVcWVC6TboD7wHfYos=
+X-Received: by 2002:a9d:72cb:: with SMTP id d11mr19786511otk.133.1562765243296;
+ Wed, 10 Jul 2019 06:27:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a8a:1d4:0:0:0:0:0 with HTTP; Wed, 10 Jul 2019 06:27:22 -0700 (PDT)
+Reply-To: fatimaibrahim67@yahoo.com
+From:   fatima ibrahim <fi644780@gmail.com>
+Date:   Wed, 10 Jul 2019 14:27:22 +0100
+Message-ID: <CAEhvXQ8vWg2fP5_Fym68r_Y6PdBARdxzHidWdx1zJK5uqHoC+w@mail.gmail.com>
+Subject: salam/////
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The I2C core framework provides a simplified probe framework from commit
-b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
-
-Convert the ADV748x to utilise this simplfied i2c driver registration.
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/i2c/adv748x/adv748x-core.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 097e94279cf7..ae2b6eb93e09 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -677,8 +677,7 @@ static void adv748x_dt_cleanup(struct adv748x_state *state)
- 		of_node_put(state->endpoints[i]);
- }
- 
--static int adv748x_probe(struct i2c_client *client,
--			 const struct i2c_device_id *id)
-+static int adv748x_probe(struct i2c_client *client)
- {
- 	struct adv748x_state *state;
- 	int ret;
-@@ -806,13 +805,6 @@ static int adv748x_remove(struct i2c_client *client)
- 	return 0;
- }
- 
--static const struct i2c_device_id adv748x_id[] = {
--	{ "adv7481", 0 },
--	{ "adv7482", 0 },
--	{ },
--};
--MODULE_DEVICE_TABLE(i2c, adv748x_id);
--
- static const struct of_device_id adv748x_of_table[] = {
- 	{ .compatible = "adi,adv7481", },
- 	{ .compatible = "adi,adv7482", },
-@@ -825,9 +817,8 @@ static struct i2c_driver adv748x_driver = {
- 		.name = "adv748x",
- 		.of_match_table = adv748x_of_table,
- 	},
--	.probe = adv748x_probe,
-+	.probe_new = adv748x_probe,
- 	.remove = adv748x_remove,
--	.id_table = adv748x_id,
- };
- 
- module_i2c_driver(adv748x_driver);
--- 
-2.20.1
-
+Attn
+am Mrs. Fatima , sorry for the delay to write you a friend  gave  me
+your contact that I should contact you   after I told her my interest
+to  relocate to your country for investment  purpose .
+get back to me so that I can give more details as what leads to this decision
+Fatima
