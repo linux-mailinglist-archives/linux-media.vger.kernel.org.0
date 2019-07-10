@@ -2,141 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CCB463E50
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 01:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B5963FB1
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 05:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbfGIXWs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 19:22:48 -0400
-Received: from mout.gmx.net ([212.227.15.15]:54177 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726133AbfGIXWs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jul 2019 19:22:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1562714508;
-        bh=u1FhKHCjpKKk4zGtZVctqypPyAO5EX3bGkmrsnhboZE=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=J3senOF5L3eWDp79uNdC/JL2KaUMb1y/vzOakiKZELSBLMNcEcdLsvi5mmQlZzBh4
-         c4Uy+vXNAS0X0EQnSeb2e05Wu9KHbMntKYhnLKY9hjNk4YhgME/WvX89U/c0eVLE6o
-         2vDAyrvtsZMLjguxoYsg1PBiaG0DPtXDwRmaHAKY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.233.87]) by mail.gmx.com (mrgmx001
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0M6BKc-1ijAb00RlC-00y83e; Wed, 10
- Jul 2019 01:21:48 +0200
-Date:   Wed, 10 Jul 2019 01:21:44 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Peter Rosin <peda@axentia.se>
-Cc:     Marc Gonzalez <marc.w.gonzalez@free.fr>,
-        I2C <linux-i2c@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        GPIO <linux-gpio@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Brad Love <brad@nextdimension.cc>,
-        Antti Palosaari <crope@iki.fi>,
-        Olli Salonen <olli.salonen@iki.fi>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC] SW connection between DVB Transport Stream demuxer and
- I2C-based frontend
-Message-ID: <20190709232144.GI22408@latitude>
-References: <5e35b4fb-646d-6428-f372-ee47d7352cd6@free.fr>
- <7d47a978-5307-a2c8-acc2-f29ce7567bd5@axentia.se>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wtjvnLv0o8UUzur2"
-Content-Disposition: inline
-In-Reply-To: <7d47a978-5307-a2c8-acc2-f29ce7567bd5@axentia.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:hPlL5u4HY5DqxoayKH7gTcS5JKbY7+HFTGMT5QDmJ4clt1D9fTR
- 7gdoI2SqD01BLqEZ5Ab2pZAWU+WFiW3xYSgLi3R6iXQaYrWrxCf6eXJR9pAMg5H4ybHmHj+
- XJt6a3PkuKvQoBqmf9kgizXNWgHr4YQx3xRKN4BfcxsGYB9s/frtlv+W+tDBEZeiW5Mhvu4
- IWoEpKF2TnXMcv4HR3kvQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vM1z5KBQ2zc=:IfTUzUMz0CjQH7/xwVYryM
- NiIYuZs8mygzWT8JKp4ReYk4EnmHYnxvl/IkOEsxbFaTXU4IyHY3XPRos/MDTx7BT1EcSYwFi
- Ky81PrqJv1rl1/nCYxte2q6HBruOHmI8bazxw+H+bmqH8Fd/Q+9EGdez5uEapv1JHPtU5Bw3D
- 8ys313aIX3x3amcPAl5WMwLgA/82/b8rQUY26MazUyth8SGrAM3a3BIyUPLJIT70elzpSyIG6
- CWO5CeZ5S8io0JEFB2C+EAaPRzTTuAW1DpRbUy0ulpp9c3Z17psH+Xu1vf6jCwpOq2U+7WK4T
- 89pi7ok8GlSCgUHP9edJxB0TJ/kKWo1ggUvjvlH6+jbUPf/i+7pzG3DOXV2zGo6zPOr0qjUtL
- TevWl5DAAUMy3SgOfftfH2MLDFU/XbRjj3bgSJXuOBjH85pS7goT/H3UmMZtXWpixkNm7/Xe1
- VPKS37Tn2Q9VGNvClf6AYYp0+TRBP7jpQvkrFNCxZzwJ7aGo6uXsLIKDfu9behmpa9WYlldjj
- lvVeNq2i6q4vaaQa3VjqHaIhtp+1ub1iYOWbdgb9Ucva5+nVzCOIYoJuX4UWI77YMeyvkzBpG
- 6dfXiOcTRaGGFUG5iVwOWxPZ50B5Nug+L7zwMePsMIJvmqPrCk0pxSRL1pszz4+KxQGnLiZcx
- Exgzia5Nx3NywWJO7DSLtBroYqse8gv/VpKTeMDs4gjZrY9mPsN2REL1854p6A8FuWtmhL8Ax
- SW2A8SjdJbUQ5HZe0nIENm9d+YbX0NhrOuCxW3ozAINSVrADAoNh4xXGAnHv+X1sABmFTWGC/
- F3nigLoFKVfYr2julFJGWFSnn5N7jKRxGY1XYxM7D0bDolVGLsO+oSMoYfLXysmIzjeRUUQ48
- cv8JbqQvorGqFJjPfrhlKSn9KZ02yzfOAvFsn+aj6OKo+SOAywep80hYdGCLlDMVzbmQpfTUc
- 2r0RiMhY0hwdyCJyC8e0qm9yL6+jgAgID4xBa87cdvisxQn7JfQOM+zj4uJB6pMxdq0mdeHBR
- F+tPjcttnl9CoJDrMYDuL130CWeRhmUgm+Blfu0H9ADEqMy9GTjLWlaUKW+imd1oVq8whNYbQ
- zuRE8j7ytbdMd4=
+        id S1725912AbfGJDr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jul 2019 23:47:29 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:43765 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725840AbfGJDr3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jul 2019 23:47:29 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id l3Zmhqhmk0SBql3Znh5TH4; Wed, 10 Jul 2019 05:47:27 +0200
+Message-ID: <595927adbcd97baf24aac6e4fe1b5e11@smtp-cloud7.xs4all.net>
+Date:   Wed, 10 Jul 2019 05:47:26 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfBBJyBOcdNz2mSFWG6OGmRlB5SZzpWpFtzIAxN70ucv39nvtacu8gHO5hKzyjH+qIMoT/MAR+sMkMDWzTZwe13rsK4Pz/YkOOhjx6IeFuGeyGtW2Buyw
+ GAWM9fIMX46Nm4ypyKDkKqc/5t8h64Eyrv03mGHbIOsTrzczkmbNZMRpw/xaYpEKhA4N+80P8lTtUb0mxiGUQ3e+TMwimal1StJNP41ZIke+y6Ge/pFTyiH2
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
---wtjvnLv0o8UUzur2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Results of the daily build of media_tree:
 
-On Mon, Jul 08, 2019 at 07:58:00PM +0000, Peter Rosin wrote:
-> On 2019-07-08 13:08, Marc Gonzalez wrote:
-[...]
-> > +	dvb_demod: si2168@64 {
-> > +		compatible =3D "silabs,si2168";
-> > +		reg =3D <0x64>;
-> > +		reset-gpios =3D <&tlmm 84 GPIO_ACTIVE_LOW>;
->=20
->=20
-> In principle, I think you should be able to add something like this here:
->=20
-> 		i2c-gate {
-> 			#address-cells =3D <1>;
-> 			#size-cells =3D <0>;
->=20
-> 			tuner@60 {
-> 				compatible =3D "silabs,si2157";
-> 				reg =3D <0x60>;
-> 				/* whatever else is needed */
-> 			};
-> 		};
->=20
-> But in practice, I don't know if the si2157 driver understands that or
-> if there is anything else that gets in the way. Totally untested...
+date:			Wed Jul 10 05:00:17 CEST 2019
+media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
+media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
+v4l-utils git hash:	7dc0eab5a54fedc9d31336891de15a1fe0b96a07
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-So far, both drivers don't deal with devicetree at all, and there are no
-bindings, so we have the chance to write the best bindings possible.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2-rc1-i686: OK
+linux-5.2-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-An i2c-gate subnode on the si2168 node looks good to me, FWIW.
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Greetings,
-Jonathan Neusch=C3=A4fer
+Detailed regression test results are available here:
 
---wtjvnLv0o8UUzur2
-Content-Type: application/pgp-signature; name="signature.asc"
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
------BEGIN PGP SIGNATURE-----
+Full logs are available here:
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAl0lIWIACgkQCDBEmo7z
-X9u4tQ//Uspzp7ZgorenRjW67VpJ2QDBh+TAxqGare8VptT6VuPpxAewaQcvuSoL
-TvyQPaFLfzRcpAWXLIUvLclYkJxXl5nTjvvrT0UAtiKMFvVG0dwz9TH+8BqMmaXp
-87C8/IKZhOslJbqKnSFWhnVs2PX+vQ0rpwX3GlrPXL+7a/QNQ5ElSupxJP77Mmfp
-uDyN1mV/G16KbD8dXvbx+cmHJClixxcpxQDzxG3rn+xpfRuRrNyhbKM3leo68n0p
-MuNyU97Hxr6WfNXfSXSzvMQfYzs8lKKk6W2z7cA3TIB47TbiARXf2THz01F+Mrbl
-lQfi89kYATuEyxGZflFg8TNM3aYUsZnDb7Z0oF6VfgoyrtCvaZ1LUBT2YJN+h1Y+
-g7lLcpk5p/iYettqg7Uw+TTVl4eEccrf+iQbe8mpllI1xdEJD9roci4ejazYfSPI
-SNA/O/Drt49Boyiln3NqikccL0ZIpFPg9wehe/OANsKIcKjMCcHi8ti5+uuNHWe5
-E7U3BDsRfSBHVC2GRLfIzaq9qyfibczB7xr7shuf6fVEjSDQo9qAfRmOmlT+WY8Q
-bCRJczQjOYcUrwQjXs+apNFleXm1cU0LAVzTFSwXhYjJpwrMZTojgxYvlmzoRkrL
-p982FJil2MjgYPZzVc+pHm2+V4QfRNEecxK7a7TaO0140eMOa4c=
-=KEcJ
------END PGP SIGNATURE-----
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
---wtjvnLv0o8UUzur2--
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
