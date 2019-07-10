@@ -2,94 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D32CF64A5D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 18:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63C8664B57
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 19:18:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728183AbfGJQBd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 12:01:33 -0400
-Received: from smtprelay0176.hostedemail.com ([216.40.44.176]:56551 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726333AbfGJQBd (ORCPT
+        id S1727517AbfGJRSK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 13:18:10 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:40554 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbfGJRSJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 12:01:33 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id A05E28368EF4;
-        Wed, 10 Jul 2019 16:01:31 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 
-X-HE-Tag: balls52_46dfd74d6cd5c
-X-Filterd-Recvd-Size: 2713
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 10 Jul 2019 16:01:26 +0000 (UTC)
-Message-ID: <c94a0a50c41c7530354b4a662ee945212424c8c7.camel@perches.com>
-Subject: Re: [PATCH 00/12] treewide: Fix GENMASK misuses
-From:   Joe Perches <joe@perches.com>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Johannes Berg <johannes@sipsolutions.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Andrew Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, netdev@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-wireless@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
-        alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Date:   Wed, 10 Jul 2019 09:01:25 -0700
-In-Reply-To: <b9c3b83c9be50286062ae8cefd5d38e2baa0fb22.camel@perches.com>
-References: <cover.1562734889.git.joe@perches.com>
-         <5fa1fa6998332642c49e2d5209193ffe2713f333.camel@sipsolutions.net>
-         <20190710094337.wf2lftxzfjq2etro@shell.armlinux.org.uk>
-         <b9c3b83c9be50286062ae8cefd5d38e2baa0fb22.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        Wed, 10 Jul 2019 13:18:09 -0400
+Received: by mail-io1-f69.google.com with SMTP id v11so3578262iop.7
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 10:18:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=N+nVQfn9OhvXMYxEbgglbdkopqMyXUoX5ywftFYxY8Q=;
+        b=aIQA/hBRD8VV+yV6t3tu5gdLZNLohXctDU2Nq7K7fm8HyAy0G/ctY3GWX+TRAff1TM
+         JwB4hMviDwCKw8mChLRQcqNhtnHdGwoeDpfQu4vieR0y9G47y8g3EzKAhAu0Do4Ovi8M
+         x2Xu9Sq1LB2Pse+J5c++VlEiJkm9SyDk4C6IFUEFPFczxD5INwFrfpiUua3hFXGPGgSB
+         //Q6Wr/iYXz2hYJ0IW5ECxOleL4apsyBOze5QJEKR71z0emNcj2q4gxFE/BvDZ43iOwt
+         8IPPFzgYub5VNeESUsK3gzu2pk1QlFah4wkK49mQ6XwaC8wB8ByV+0dfU6bzBTx4MDZI
+         ++Fg==
+X-Gm-Message-State: APjAAAVtDCsiQNJ8ZmCMgsCzVBv7TSLi11VviGt24tO2crzoeMpVI0uW
+        CuqbxEF8JES3uQX6wca8eClq2HU/JZzmMV5gsmIgKJdoruov
+X-Google-Smtp-Source: APXvYqx9OG26o/Opi8hTxF8cE4ksPs2QrbCxbRsjQZkqxriuSHOE56TCnRqkbB7yn5Alxt0l76sXjUV+00jZkxKfTfdJh7ZxKRJj
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a02:8a:: with SMTP id 132mr35327597jaa.89.1562779088676;
+ Wed, 10 Jul 2019 10:18:08 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 10:18:08 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000717347058d56dcc2@google.com>
+Subject: KASAN: global-out-of-bounds Read in dvb_pll_attach
+From:   syzbot <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com,
+        hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, rfontana@redhat.com,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
+        tskd08@gmail.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-07-10 at 08:45 -0700, Joe Perches wrote:
-> On Wed, 2019-07-10 at 10:43 +0100, Russell King - ARM Linux admin wrote:
-> > On Wed, Jul 10, 2019 at 11:17:31AM +0200, Johannes Berg wrote:
-> > > On Tue, 2019-07-09 at 22:04 -0700, Joe Perches wrote:
-> > > > These GENMASK uses are inverted argument order and the
-> > > > actual masks produced are incorrect.  Fix them.
-> > > > 
-> > > > Add checkpatch tests to help avoid more misuses too.
-> > > > 
-> > > > Joe Perches (12):
-> > > >   checkpatch: Add GENMASK tests
-> > > 
-> > > IMHO this doesn't make a lot of sense as a checkpatch test - just throw
-> > > in a BUILD_BUG_ON()?
-> 
-> I tried that.
-> 
-> It'd can't be done as it's used in declarations
-> and included in asm files and it uses the UL()
-> macro.
-> 
-> I also tried just making it do the right thing
-> whatever the argument order.
+Hello,
 
-I forgot.
+syzbot found the following crash on:
 
-I also made all those arguments when it was
-introduced in 2013.
+HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=150f8c47a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
+dashboard link: https://syzkaller.appspot.com/bug?extid=8a8f48672560c8ca59dd
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16384e27a00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16056038600000
 
-https://lore.kernel.org/patchwork/patch/414248/
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com
 
-> Oh well.
+usb 1-1: dvb_usb_v2: will pass the complete MPEG2 transport stream to the  
+software demuxer
+dvbdev: DVB: registering new adapter (774 Friio White ISDB-T USB2.0)
+usb 1-1: media controller created
+dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
+tc90522 0-0018: Toshiba TC90522 attached.
+usb 1-1: DVB: registering adapter 0 frontend 0 (Toshiba TC90522 ISDB-T  
+module)...
+dvbdev: dvb_create_media_entity: media entity 'Toshiba TC90522 ISDB-T  
+module' registered.
+==================================================================
+BUG: KASAN: global-out-of-bounds in dvb_pll_attach+0x6c5/0x830  
+drivers/media/dvb-frontends/dvb-pll.c:798
+Read of size 4 at addr ffffffff89c9e5e0 by task kworker/0:1/12
 
-yeah.
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc6+ #13
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description+0x67/0x231 mm/kasan/report.c:188
+  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
+  kasan_report+0xe/0x20 mm/kasan/common.c:614
+  dvb_pll_attach+0x6c5/0x830 drivers/media/dvb-frontends/dvb-pll.c:798
+  dvb_pll_probe+0xfe/0x174 drivers/media/dvb-frontends/dvb-pll.c:877
+  i2c_device_probe+0x790/0xaa0 drivers/i2c/i2c-core-base.c:389
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  i2c_new_client_device+0x5b3/0xc40 drivers/i2c/i2c-core-base.c:778
+  i2c_new_device+0x19/0x50 drivers/i2c/i2c-core-base.c:821
+  dvb_module_probe+0xf9/0x220 drivers/media/dvb-core/dvbdev.c:985
+  friio_tuner_attach+0x125/0x1d0 drivers/media/usb/dvb-usb-v2/gl861.c:536
+  dvb_usbv2_adapter_frontend_init  
+drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:675 [inline]
+  dvb_usbv2_adapter_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:804  
+[inline]
+  dvb_usbv2_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:865 [inline]
+  dvb_usbv2_probe.cold+0x24dc/0x255d  
+drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:980
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
+  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  kthread+0x30b/0x410 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the variable:
+  id+0x100/0x120
+
+Memory state around the buggy address:
+  ffffffff89c9e480: fa fa fa fa 00 00 fa fa fa fa fa fa 00 00 00 00
+  ffffffff89c9e500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ffffffff89c9e580: 00 00 00 00 00 00 00 00 00 00 00 00 fa fa fa fa
+                                                        ^
+  ffffffff89c9e600: 04 fa fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
+  ffffffff89c9e680: 04 fa fa fa fa fa fa fa 04 fa fa fa fa fa fa fa
+==================================================================
 
 
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
