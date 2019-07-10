@@ -2,29 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7636564C4D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 20:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CECE64E22
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 23:52:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbfGJSkL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 14:40:11 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:56344 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbfGJSkL (ORCPT
+        id S1727717AbfGJVwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 17:52:00 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39936 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbfGJVwA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 14:40:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D43D528AD89
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2] media: i2c: ov5645: Fix power sequence
-Date:   Wed, 10 Jul 2019 15:40:00 -0300
-Message-Id: <20190710184000.8995-1-ezequiel@collabora.com>
+        Wed, 10 Jul 2019 17:52:00 -0400
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F68B31C;
+        Wed, 10 Jul 2019 23:51:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562795517;
+        bh=yCre66/S0NmxK7EvPStcEWCQs8iwh4sKNiukq1nK/oM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iqI91jb/q2WWr0AutcKlt+HAMErhN4o26QT88YVclWMS8mVOzk9DbAWRVPaBkgG3W
+         VH46fxEci+MnvtP6Z4esoNS0eMkhe00tWaQcJ5om2sq2ebhxpfhfd2RoTq3RoW73Tt
+         KAKiTgq9b2Y+mBpZE3I6zRovz4go0i6LXzXAmTm4=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 0/6] media: i2c: Convert to probe_new()
+Date:   Wed, 10 Jul 2019 22:51:43 +0100
+Message-Id: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -33,116 +38,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is mostly a port of Jacopo's fix:
+The I2C driver framework aims to deprecate the current .probe() function which
+requires both an i2c_client structure, and an i2c_device_id structure in favour
+of a simpler probe_new() which takes only the i2c_client parameter.
 
-  commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
-  Author: Jacopo Mondi <jacopo@jmondi.org>
-  Date:   Fri Jul 6 05:51:52 2018 -0400
+Once all drivers are converted to the probe_new() a global rename can put this
+back to probe().
 
-  media: ov5640: Re-work MIPI startup sequence
+This small series aims to rekindle this effort by converting a selection of the
+media based drivers which do not utilise the i2c_device_id parameter and thus are
+straightforward renames.
 
-In the OV5645 case, the changes are:
+In a future series, these drivers could have their i2c_device_id tables
+removed; however doing so may affect their module auto-loading due to a change
+in their module alias representations.
 
-- Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
-- At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
-  LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
-- At set_power(0) time power down MIPI Tx/Rx (in addition to the current
-  power down of regulators and clock gating).
-- At s_stream time enable/disable the MIPI interface output.
+I have submitted an RFC patch [0] to discuss if this could be handled at the
+file2alias.c component of the modpost stage.
 
-With this commit the sensor is able to enter LP-11 mode during power up,
-as expected by some CSI-2 controllers.
+[0] https://lore.kernel.org/lkml/20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com/
 
-Many thanks to Fabio Estevam for his help debugging this issue.
+Kieran Bingham (6):
+  media: radio: si4713: Convert to new i2c device probe()
+  media: radio: si470x: Convert to new i2c device probe()
+  media: i2c: smiapp: Convert to new i2c device probe()
+  media: i2c: s5c73m3: Convert to new i2c device probe()
+  media: i2c: et8ek8: Convert to new i2c device probe()
+  media: i2c: Convert to new i2c device probe()
 
-Tested-by: Fabio Estevam <festevam@gmail.com>
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-Changes in v2:
-* As suggested by Philipp, move the initial configuration
-  to the ov5645_global_init_setting array.
----
- drivers/media/i2c/ov5645.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ drivers/media/i2c/adv7343.c                   | 5 ++---
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      | 5 ++---
+ drivers/media/i2c/imx274.c                    | 5 ++---
+ drivers/media/i2c/max2175.c                   | 5 ++---
+ drivers/media/i2c/mt9m001.c                   | 5 ++---
+ drivers/media/i2c/mt9m111.c                   | 5 ++---
+ drivers/media/i2c/ov2640.c                    | 5 ++---
+ drivers/media/i2c/ov2659.c                    | 5 ++---
+ drivers/media/i2c/ov5640.c                    | 5 ++---
+ drivers/media/i2c/ov5645.c                    | 5 ++---
+ drivers/media/i2c/ov5647.c                    | 5 ++---
+ drivers/media/i2c/ov772x.c                    | 5 ++---
+ drivers/media/i2c/ov7740.c                    | 5 ++---
+ drivers/media/i2c/ov9650.c                    | 5 ++---
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      | 5 ++---
+ drivers/media/i2c/s5k5baf.c                   | 5 ++---
+ drivers/media/i2c/s5k6a3.c                    | 5 ++---
+ drivers/media/i2c/smiapp/smiapp-core.c        | 5 ++---
+ drivers/media/i2c/tc358743.c                  | 5 ++---
+ drivers/media/i2c/ths8200.c                   | 5 ++---
+ drivers/media/i2c/tvp5150.c                   | 5 ++---
+ drivers/media/i2c/tvp7002.c                   | 4 ++--
+ drivers/media/radio/si470x/radio-si470x-i2c.c | 5 ++---
+ drivers/media/radio/si4713/si4713.c           | 5 ++---
+ 24 files changed, 48 insertions(+), 71 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 124c8df04633..58972c884705 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -45,6 +45,8 @@
- #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
- #define OV5645_CHIP_ID_LOW		0x300b
- #define		OV5645_CHIP_ID_LOW_BYTE		0x45
-+#define OV5645_IO_MIPI_CTRL00		0x300e
-+#define OV5645_PAD_OUTPUT00		0x3019
- #define OV5645_AWB_MANUAL_CONTROL	0x3406
- #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
- #define OV5645_AEC_PK_MANUAL		0x3503
-@@ -55,6 +57,7 @@
- #define		OV5645_ISP_VFLIP		BIT(2)
- #define OV5645_TIMING_TC_REG21		0x3821
- #define		OV5645_SENSOR_MIRROR		BIT(1)
-+#define OV5645_MIPI_CTRL00		0x4800
- #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
- #define		OV5645_TEST_PATTERN_MASK	0x3
- #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
-@@ -121,7 +124,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
- 	{ 0x3503, 0x07 },
- 	{ 0x3002, 0x1c },
- 	{ 0x3006, 0xc3 },
--	{ 0x300e, 0x45 },
- 	{ 0x3017, 0x00 },
- 	{ 0x3018, 0x00 },
- 	{ 0x302e, 0x0b },
-@@ -350,7 +352,10 @@ static const struct reg_value ov5645_global_init_setting[] = {
- 	{ 0x3a1f, 0x14 },
- 	{ 0x0601, 0x02 },
- 	{ 0x3008, 0x42 },
--	{ 0x3008, 0x02 }
-+	{ 0x3008, 0x02 },
-+	{ OV5645_IO_MIPI_CTRL00, 0x40 },
-+	{ OV5645_MIPI_CTRL00, 0x24 },
-+	{ OV5645_PAD_OUTPUT00, 0x70 }
- };
- 
- static const struct reg_value ov5645_setting_sxga[] = {
-@@ -737,13 +742,9 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
- 				goto exit;
- 			}
- 
--			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
--					       OV5645_SYSTEM_CTRL0_STOP);
--			if (ret < 0) {
--				ov5645_set_power_off(ov5645);
--				goto exit;
--			}
-+			usleep_range(500, 1000);
- 		} else {
-+			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
- 			ov5645_set_power_off(ov5645);
- 		}
- 	}
-@@ -1049,11 +1050,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
- 			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
- 			return ret;
- 		}
-+
-+		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-+		if (ret < 0)
-+			return ret;
-+
- 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
- 				       OV5645_SYSTEM_CTRL0_START);
- 		if (ret < 0)
- 			return ret;
- 	} else {
-+		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-+		if (ret < 0)
-+			return ret;
-+
- 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
- 				       OV5645_SYSTEM_CTRL0_STOP);
- 		if (ret < 0)
 -- 
 2.20.1
 
