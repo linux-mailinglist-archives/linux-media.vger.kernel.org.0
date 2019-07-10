@@ -2,151 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7B5963FB1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 05:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C61F63FD3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 06:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbfGJDr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jul 2019 23:47:29 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:43765 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725840AbfGJDr3 (ORCPT
+        id S1726129AbfGJEMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 00:12:17 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:43830 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbfGJEMR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jul 2019 23:47:29 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id l3Zmhqhmk0SBql3Znh5TH4; Wed, 10 Jul 2019 05:47:27 +0200
-Message-ID: <595927adbcd97baf24aac6e4fe1b5e11@smtp-cloud7.xs4all.net>
-Date:   Wed, 10 Jul 2019 05:47:26 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfBBJyBOcdNz2mSFWG6OGmRlB5SZzpWpFtzIAxN70ucv39nvtacu8gHO5hKzyjH+qIMoT/MAR+sMkMDWzTZwe13rsK4Pz/YkOOhjx6IeFuGeyGtW2Buyw
- GAWM9fIMX46Nm4ypyKDkKqc/5t8h64Eyrv03mGHbIOsTrzczkmbNZMRpw/xaYpEKhA4N+80P8lTtUb0mxiGUQ3e+TMwimal1StJNP41ZIke+y6Ge/pFTyiH2
+        Wed, 10 Jul 2019 00:12:17 -0400
+Received: by mail-vs1-f68.google.com with SMTP id j26so595892vsn.10
+        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2019 21:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jsT84thXZgrjljKWPHUjY7JeFgImc9+U4hEoxyiTJcc=;
+        b=bWsVGu9ZtrSBJl4JbELamsoGGvbUEuoJyLkzEdD/lBLkOe2SuDywqNJvjhLcdkFQIV
+         uQzhsHZfClHSSErFS8YngoK5icUK/zOzfk2MyJE77f/EpBtLGiDl5OLXwZaYMg1H4xvi
+         8bZw2KyzNEgXQhxeZxd3j43hSpSd9KAK3Vxwk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jsT84thXZgrjljKWPHUjY7JeFgImc9+U4hEoxyiTJcc=;
+        b=d7sms4b7Ec8ebRI+xdZwpR24fuQB7K3ABftajzo/Jj7lLJy5WW3oWLYX67veGawv9E
+         SF+Fz4tj7Z0KOdo9RzE0UVyChPkD1RROPaijeej78ytWQAT2PK5ALy7cWSfyF2ekeZ4X
+         ENHBfHtmHGc6BAhafZ74tC6FPqZJqY7wFFV1P3lfy96ZDDXCBuhPtStbxWAYRn4MUCjx
+         Il8KHxPumV0D3stvG13wcLPc5jvfZrZJOTGvDjiUhy5Rab6HaFBel6YS0+Hc/DbZ/kP1
+         KRJF/SRvXH2NV0vud8p2A2qI+mXaJSTg1pKAb0YY3ph55ucPmCPZiUSQteZ4XlWjJ+g3
+         z55Q==
+X-Gm-Message-State: APjAAAVdt2/WWh7Hpmg5AOtynn2oKvUMOJccyLXf2gXMBcc3TDWU0u0P
+        3ZdpAwhJimxw7hSZis4ew6/C75HOKgliJTymy7M/XA==
+X-Google-Smtp-Source: APXvYqwRDoiekjMfVg1dAkd95CbZGZ3jhAzyHEQ1N/LeXKKIJksHQNLAm0BnKpQtXYeH+ZnDwbVN+JmCCFjQkCNhqMc=
+X-Received: by 2002:a67:f7cd:: with SMTP id a13mr14190782vsp.163.1562731935844;
+ Tue, 09 Jul 2019 21:12:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190603043251.226549-1-cychiang@chromium.org>
+ <20190603043251.226549-6-cychiang@chromium.org> <20190709200121.GA19118@bogus>
+In-Reply-To: <20190709200121.GA19118@bogus>
+From:   Cheng-yi Chiang <cychiang@chromium.org>
+Date:   Wed, 10 Jul 2019 12:11:48 +0800
+Message-ID: <CAFv8NwLiKu055S7apzj+gTYh0neQ5rLmPYEYkEj6Zf3hikWWpA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] ASoC: rockchip: rockchip-max98090: Add node for HDMI
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Doug Anderson <dianders@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>, tzungbi@chromium.org,
+        linux-media@vger.kernel.org,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
-
-Results of the daily build of media_tree:
-
-date:			Wed Jul 10 05:00:17 CEST 2019
-media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
-media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
-v4l-utils git hash:	7dc0eab5a54fedc9d31336891de15a1fe0b96a07
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
-
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On Wed, Jul 10, 2019 at 4:01 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Jun 03, 2019 at 12:32:49PM +0800, Cheng-Yi Chiang wrote:
+> > Let user specify HDMI node so machine driver can use it to let codec
+> > driver register callback on correct hdmi-notifier.
+> >
+> > Signed-off-by: Cheng-Yi Chiang <cychiang@chromium.org>
+> > ---
+> >  Documentation/devicetree/bindings/sound/rockchip-max98090.txt | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt b/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
+> > index a805aa99ad75..dae57c14864e 100644
+> > --- a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
+> > +++ b/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
+> > @@ -7,6 +7,7 @@ Required properties:
+> >    connected to the CODEC
+> >  - rockchip,audio-codec: The phandle of the MAX98090 audio codec
+> >  - rockchip,headset-codec: The phandle of Ext chip for jack detection
+> > +- rockchip,hdmi: The phandle of HDMI node for HDMI jack detection
+> >
+> >  Example:
+> >
+> > @@ -16,4 +17,5 @@ sound {
+> >       rockchip,i2s-controller = <&i2s>;
+> >       rockchip,audio-codec = <&max98090>;
+> >       rockchip,headset-codec = <&headsetcodec>;
+> > +     rockchip,hdmi= <&hdmi>;
+>
+> space                ^
+>
+> With that,
+>
+> Acked-by: Rob Herring <robh@kernel.org>
+>
+Hi Rob,
+Thank you for the review.
+But I have changed the approach in v2 so there is no need for machine
+driver to expose this property.
+Thanks!
+> >  };
+> > --
+> > 2.22.0.rc1.257.g3120a18244-goog
+> >
