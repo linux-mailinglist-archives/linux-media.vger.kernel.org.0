@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28372644B7
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 11:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 743F8644C2
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 11:56:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727384AbfGJJyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 05:54:38 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43888 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbfGJJyi (ORCPT
+        id S1727426AbfGJJ4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 05:56:55 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37675 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbfGJJ4z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 05:54:38 -0400
-Received: by mail-pl1-f195.google.com with SMTP id cl9so957188plb.10
-        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 02:54:36 -0700 (PDT)
+        Wed, 10 Jul 2019 05:56:55 -0400
+Received: by mail-pg1-f193.google.com with SMTP id g15so1003747pgi.4
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 02:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=K06VA0ubeyqzOV2W90rqnXMD+OCY9ngLPNAC28wFGco=;
-        b=KE9KI9DBJWL6INGZlis36JtE90+SX6Sn/zerHstS43OYVSKcnli+QZJcqjeTUHHkgX
-         Zcho2It9aKpE2Qle1hOWNlOXmpBkltB31wx4OxrSR0zvIccN2E/xJdBGw44chVI752Hi
-         DtjJ6b6JGyTI4wb/yg4bY9DwO0T2OSjRehr0U=
+        bh=4oOaKXcn6ai2NejRMUckdMo5Yx/kE8NiHlh8XyjvB7I=;
+        b=HRMTOyKvuWei6KaBuM57FTnZg5PszQTTifoPt20zxRg8Mbl9zE2argSLOcc+4iyAsw
+         YaHVky7vsYCPijcq0jAWwvMcigZH4zHhAm4uSrhUlmBZaXD8ewa8jBdEAZVc7LSl+eko
+         TguiYhwdsJQvYKWCaWCFbjECBUHGYq4ehO8WM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=K06VA0ubeyqzOV2W90rqnXMD+OCY9ngLPNAC28wFGco=;
-        b=dvdLWrxc8f8HBfNZvaAr5aUQFMPSnuoHggc/cYF3NUTTuoczuZv5vb97Vbd+Wtlcl9
-         bU9a3bjMYWouaxOPtyaEOeW+HI0YAaZ1OCXLYb5H+CT73g4IVlUumzVNMUH1XLWy8HPy
-         uVHVU7NE48rYsmVCdUAOUiY9EaHoMiIaDjCakJ9/eyIsnTEJP85MSEzhCAje9zEDWr2H
-         Tx5bTmOc5TtsJ1JxN9HFXD5cpEZtOWUbyZDh8eXArouxm9QRWwK4gTPNCW7/7MmR2N2B
-         CJ9TmMVfgyoQsSRpc18V+JMbpjETquZz56mjHM53JXuzU8XNau4OSDEqSGORgGdJK+UC
-         SmaQ==
-X-Gm-Message-State: APjAAAXXEBk3u6ZwNDlJRgx8xWX+7Zyi3kV4qPHmWHroDVwAq3JdNAvn
-        gMa7Z4i7Qma3Y5PoQK1+I2+nkw==
-X-Google-Smtp-Source: APXvYqxOGwrqW2POLDxqNkuo/ZoaTZ6QcCZ1CbWjcAD/cGDnDzI8sDr5pbVNt8V0dRCMQLhR7B4xdA==
-X-Received: by 2002:a17:902:aa03:: with SMTP id be3mr37805767plb.240.1562752475882;
-        Wed, 10 Jul 2019 02:54:35 -0700 (PDT)
+        bh=4oOaKXcn6ai2NejRMUckdMo5Yx/kE8NiHlh8XyjvB7I=;
+        b=OHb2s+S29RYzEHdTCTKQ+v641/IX0UZwM/AphQKoqNzDvlFlfdPs5e4vaoL3NJtyF7
+         jy2sqWbZV2UTvLAI2KgdxZT2moKjj21HhHES/dHhok4JrxD3zsg3MBcDELmB6c7BOoeC
+         c4ZtVoDKrn+sLsTMiZTrMPm5r5HzMGaIUH7wrnoEC3gU+6r3KOUn1ccqrxOQj6cyzRoi
+         4iV9BAYLg2X5AkEwjas2/uuErx3HWhWMkSi5/EVgiWusAEwiDJjKt6PjyOlJhXBgCsVI
+         /NB37YwDbDUICF3Lntpipwrpy26ZkPlXFC8RjTnvxrbi43MH0BYbqYQKvttezUOhNK+C
+         alvw==
+X-Gm-Message-State: APjAAAUC//j3kXR0VYmJ6U8SGuWcTY9xTw9wQR8p4Zo1cwm3+2AkZnAw
+        EfwplWfGpYtRv2jgu7klWHP4Zw==
+X-Google-Smtp-Source: APXvYqx3Uuv39JNaUxQvVdUAx/yGb7LiLyHEsMOKRlvAV6CpN3uKmuXOXF7dSr7EKQjL79K1C08/dg==
+X-Received: by 2002:a65:6401:: with SMTP id a1mr36432496pgv.42.1562752613045;
+        Wed, 10 Jul 2019 02:56:53 -0700 (PDT)
 Received: from chromium.org ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
-        by smtp.gmail.com with ESMTPSA id 65sm1696833pff.148.2019.07.10.02.54.31
+        by smtp.gmail.com with ESMTPSA id p187sm2405797pfg.89.2019.07.10.02.56.48
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 10 Jul 2019 02:54:34 -0700 (PDT)
-Date:   Wed, 10 Jul 2019 18:54:29 +0900
+        Wed, 10 Jul 2019 02:56:52 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 18:56:46 +0900
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Jungo Lin <jungo.lin@mediatek.com>
 Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -53,15 +53,15 @@ Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         robh@kernel.org, sean.cheng@mediatek.com, sj.huang@mediatek.com,
         frederic.chen@mediatek.com, ryan.yu@mediatek.com,
         rynn.wu@mediatek.com, frankie.chiu@mediatek.com
-Subject: Re: [RFC,v3 6/9] media: platform: Add Mediatek ISP P1 V4L2 functions
-Message-ID: <20190710095429.GA181405@chromium.org>
+Subject: Re: [RFC,v3 7/9] media: platform: Add Mediatek ISP P1 device driver
+Message-ID: <20190710095646.GB181405@chromium.org>
 References: <jungo.lin@mediatek.com>
  <20190611035344.29814-1-jungo.lin@mediatek.com>
- <20190611035344.29814-7-jungo.lin@mediatek.com>
+ <20190611035344.29814-8-jungo.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190611035344.29814-7-jungo.lin@mediatek.com>
+In-Reply-To: <20190611035344.29814-8-jungo.lin@mediatek.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -70,12 +70,10 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jungo,
 
-On Tue, Jun 11, 2019 at 11:53:41AM +0800, Jungo Lin wrote:
-> Implement standard V4L2 video driver that utilizes V4L2
-> and media framework APIs. In this driver, supports one media
-> device, one sub-device and seven video devices during
-> initialization. Moreover, it also connects with sensor and
-> seninf drivers with V4L2 async APIs.
+On Tue, Jun 11, 2019 at 11:53:42AM +0800, Jungo Lin wrote:
+> This patch adds the Mediatek ISP P1 HW control device driver.
+> It handles the ISP HW configuration, provides interrupt handling and
+> initializes the V4L2 device nodes and other functions.
 > 
 > (The current metadata interface used in meta input and partial
 > meta nodes is only a temporary solution to kick off the driver
@@ -83,100 +81,877 @@ On Tue, Jun 11, 2019 at 11:53:41AM +0800, Jungo Lin wrote:
 > 
 > Signed-off-by: Jungo Lin <jungo.lin@mediatek.com>
 > ---
-> This patch depends on "media: support Mediatek sensor interface driver"[1].
-> 
-> ISP P1 sub-device communicates with seninf sub-device with CIO.
-> 
-> [1]. media: support Mediatek sensor interface driver
-> https://patchwork.kernel.org/cover/10979135/
-> ---
 >  .../platform/mtk-isp/isp_50/cam/Makefile      |    1 +
->  .../mtk-isp/isp_50/cam/mtk_cam-v4l2-util.c    | 1674 +++++++++++++++++
->  .../mtk-isp/isp_50/cam/mtk_cam-v4l2-util.h    |  173 ++
->  3 files changed, 1848 insertions(+)
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-v4l2-util.c
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-v4l2-util.h
+>  .../mtk-isp/isp_50/cam/mtk_cam-regs.h         |  126 ++
+>  .../platform/mtk-isp/isp_50/cam/mtk_cam.c     | 1087 +++++++++++++++++
+>  .../platform/mtk-isp/isp_50/cam/mtk_cam.h     |  243 ++++
+>  4 files changed, 1457 insertions(+)
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-regs.h
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.c
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.h
 > 
 
-Thanks for the patch. Please see my comments inline.
+Thanks for the patch! Please see my comments inline.
 
 [snip]
 
-> +static void mtk_cam_req_try_isp_queue(struct mtk_cam_dev *cam_dev,
-> +				      struct media_request *new_req)
+> diff --git a/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-regs.h b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-regs.h
+> new file mode 100644
+> index 000000000000..9e59a6bfc6b7
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-regs.h
+> @@ -0,0 +1,126 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2018 MediaTek Inc.
+> + */
+> +
+> +#ifndef _CAM_REGS_H
+> +#define _CAM_REGS_H
+> +
+> +/* TG Bit Mask */
+> +#define VFDATA_EN_BIT			BIT(0)
+> +#define CMOS_EN_BIT			BIT(0)
+> +
+> +/* normal signal bit */
+> +#define VS_INT_ST			BIT(0)
+> +#define HW_PASS1_DON_ST		BIT(11)
+> +#define SOF_INT_ST			BIT(12)
+> +#define SW_PASS1_DON_ST		BIT(30)
+> +
+> +/* err status bit */
+> +#define TG_ERR_ST			BIT(4)
+> +#define TG_GBERR_ST			BIT(5)
+> +#define CQ_CODE_ERR_ST			BIT(6)
+> +#define CQ_APB_ERR_ST			BIT(7)
+> +#define CQ_VS_ERR_ST			BIT(8)
+> +#define AMX_ERR_ST			BIT(15)
+> +#define RMX_ERR_ST			BIT(16)
+> +#define BMX_ERR_ST			BIT(17)
+> +#define RRZO_ERR_ST			BIT(18)
+> +#define AFO_ERR_ST			BIT(19)
+> +#define IMGO_ERR_ST			BIT(20)
+> +#define AAO_ERR_ST			BIT(21)
+> +#define PSO_ERR_ST			BIT(22)
+> +#define LCSO_ERR_ST			BIT(23)
+> +#define BNR_ERR_ST			BIT(24)
+> +#define LSCI_ERR_ST			BIT(25)
+> +#define DMA_ERR_ST			BIT(29)
+> +
+> +/* CAM DMA done status */
+> +#define FLKO_DONE_ST			BIT(4)
+> +#define AFO_DONE_ST			BIT(5)
+> +#define AAO_DONE_ST			BIT(7)
+> +#define PSO_DONE_ST			BIT(14)
+> +
+> +/* IRQ signal mask */
+> +#define INT_ST_MASK_CAM		( \
+> +					VS_INT_ST |\
+> +					SOF_INT_ST |\
+> +					HW_PASS1_DON_ST |\
+> +					SW_PASS1_DON_ST)
+> +
+> +/* IRQ Error Mask */
+> +#define INT_ST_MASK_CAM_ERR		( \
+> +					TG_ERR_ST |\
+> +					TG_GBERR_ST |\
+> +					CQ_CODE_ERR_ST |\
+> +					CQ_APB_ERR_ST |\
+> +					CQ_VS_ERR_ST |\
+> +					BNR_ERR_ST |\
+> +					RMX_ERR_ST |\
+> +					BMX_ERR_ST |\
+> +					BNR_ERR_ST |\
+> +					LSCI_ERR_ST |\
+> +					DMA_ERR_ST)
+> +
+> +/* IRQ Signal Log Mask */
+> +#define INT_ST_LOG_MASK_CAM		( \
+> +					SOF_INT_ST |\
+> +					SW_PASS1_DON_ST |\
+> +					HW_PASS1_DON_ST |\
+> +					VS_INT_ST |\
+> +					TG_ERR_ST |\
+> +					TG_GBERR_ST |\
+> +					RRZO_ERR_ST |\
+> +					AFO_ERR_ST |\
+> +					IMGO_ERR_ST |\
+> +					AAO_ERR_ST |\
+> +					DMA_ERR_ST)
+> +
+> +/* DMA Event Notification Mask */
+> +#define DMA_ST_MASK_CAM		( \
+> +					AAO_DONE_ST |\
+> +					AFO_DONE_ST)
+
+Could we define the values next to the addresses of registers they apply to?
+Also without the _BIT suffix and with the values prefixed with register
+names. For example:
+
+#define REG_TG_SEN_MODE		        0x0230
+#define TG_SEN_MODE_CMOS_EN		BIT(0)
+
+#define REG_TG_VF_CON			0x0234
+#define TG_VF_CON_VFDATA_EN		BIT(0)
+
+> +
+> +/* Status check */
+> +#define REG_CTL_EN			0x0004
+> +#define REG_CTL_DMA_EN			0x0008
+> +#define REG_CTL_FMT_SEL		0x0010
+> +#define REG_CTL_EN2			0x0018
+> +#define REG_CTL_RAW_INT_EN		0x0020
+> +#define REG_CTL_RAW_INT_STAT		0x0024
+> +#define REG_CTL_RAW_INT2_STAT		0x0034
+> +
+> +#define REG_TG_SEN_MODE		0x0230
+> +#define REG_TG_VF_CON			0x0234
+> +
+> +#define REG_IMGO_BASE_ADDR		0x1020
+> +#define REG_RRZO_BASE_ADDR		0x1050
+> +
+> +/* Error status log */
+> +#define REG_IMGO_ERR_STAT		0x1360
+> +#define REG_RRZO_ERR_STAT		0x1364
+> +#define REG_AAO_ERR_STAT		0x1368
+> +#define REG_AFO_ERR_STAT		0x136c
+> +#define REG_LCSO_ERR_STAT		0x1370
+> +#define REG_UFEO_ERR_STAT		0x1374
+> +#define REG_PDO_ERR_STAT		0x1378
+> +#define REG_BPCI_ERR_STAT		0x137c
+> +#define REG_LSCI_ERR_STAT		0x1384
+> +#define REG_PDI_ERR_STAT		0x138c
+> +#define REG_LMVO_ERR_STAT		0x1390
+> +#define REG_FLKO_ERR_STAT		0x1394
+> +#define REG_PSO_ERR_STAT		0x13a0
+> +
+> +/* ISP command */
+> +#define REG_CQ_THR0_BASEADDR		0x0198
+> +#define REG_HW_FRAME_NUM		0x13b8
+> +
+> +/* META */
+> +#define REG_META0_VB2_INDEX		0x14dc
+> +#define REG_META1_VB2_INDEX		0x151c
+
+I don't believe these registers are really for VB2 indexes.
+
+> +
+> +/* FBC */
+> +#define REG_AAO_FBC_STATUS		0x013c
+> +#define REG_AFO_FBC_STATUS		0x0134
+> +
+> +#endif	/* _CAM_REGS_H */
+> diff --git a/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.c b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.c
+> new file mode 100644
+> index 000000000000..c5a3babed69d
+> --- /dev/null
+> +++ b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.c
+> @@ -0,0 +1,1087 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright (c) 2018 MediaTek Inc.
+> +
+> +#include <linux/atomic.h>
+> +#include <linux/cdev.h>
+> +#include <linux/compat.h>
+> +#include <linux/fs.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/kernel.h>
+> +#include <linux/ktime.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/platform_data/mtk_scp.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/sched/clock.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/types.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/vmalloc.h>
+> +#include <media/v4l2-event.h>
+> +
+> +#include "mtk_cam.h"
+> +#include "mtk_cam-regs.h"
+> +#include "mtk_cam-smem.h"
+> +
+> +static const struct of_device_id mtk_isp_of_ids[] = {
+> +	{.compatible = "mediatek,mt8183-camisp",},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_isp_of_ids);
+
+Please move below. Just above the platform_driver struct where it's used.
+
+> +
+> +/* List of clocks required by isp cam */
+> +static const char * const mtk_isp_clks[] = {
+> +	"camsys_cam_cgpdn", "camsys_camtg_cgpdn"
+> +};
+
+Please move inside mtk_isp_probe, as a static const local variable. That
+could also let you shorten the name, to clk_names for example.
+
+> +
+> +static void isp_dump_dma_status(struct isp_device *isp_dev)
 > +{
-> +	struct mtk_cam_dev_request *req, *req_safe, *cam_dev_req;
-> +	struct device *dev = &cam_dev->pdev->dev;
+> +	dev_err(isp_dev->dev,
+> +		"IMGO:0x%x, RRZO:0x%x, AAO=0x%x, AFO=0x%x, LMVO=0x%x\n",
+> +		readl(isp_dev->regs + REG_IMGO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_RRZO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_AAO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_AFO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_LMVO_ERR_STAT));
+> +	dev_err(isp_dev->dev,
+> +		"LCSO=0x%x, PSO=0x%x, FLKO=0x%x, BPCI:0x%x, LSCI=0x%x\n",
+> +		readl(isp_dev->regs + REG_LCSO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_PSO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_FLKO_ERR_STAT),
+> +		readl(isp_dev->regs + REG_BPCI_ERR_STAT),
+> +		readl(isp_dev->regs + REG_LSCI_ERR_STAT));
+> +}
 > +
-> +	dev_dbg(dev, "%s new req:%d", __func__, !new_req);
+> +static void mtk_cam_dev_event_frame_sync(struct mtk_cam_dev *cam_dev,
+> +					 __u32 frame_seq_no)
+> +{
+> +	struct v4l2_event event;
 > +
-> +	if (!cam_dev->streaming) {
-> +		cam_dev_req = mtk_cam_req_to_dev_req(new_req);
-> +		spin_lock(&cam_dev->req_lock);
-> +		list_add_tail(&cam_dev_req->list, &cam_dev->req_list);
-> +		spin_unlock(&cam_dev->req_lock);
-> +		dev_dbg(dev, "%s: stream off, no ISP enqueue\n", __func__);
+> +	memset(&event, 0, sizeof(event));
+> +	event.type = V4L2_EVENT_FRAME_SYNC;
+> +	event.u.frame_sync.frame_sequence = frame_seq_no;
+
+nit: You can just initialize the structure in the declaration.
+
+> +	v4l2_event_queue(cam_dev->subdev.devnode, &event);
+> +}
+> +
+> +static void mtk_cam_dev_job_finish(struct mtk_isp_p1_ctx *isp_ctx,
+> +				   unsigned int request_fd,
+> +				   unsigned int frame_seq_no,
+> +				   struct list_head *list_buf,
+> +				   enum vb2_buffer_state state)
+> +{
+> +	struct isp_p1_device *p1_dev = p1_ctx_to_dev(isp_ctx);
+> +	struct mtk_cam_dev *cam_dev = &p1_dev->cam_dev;
+> +	struct mtk_cam_dev_buffer *buf, *b0;
+> +	u64    timestamp;
+
+Too many spaces between u64 and timestamp.
+
+> +
+> +	if (!cam_dev->streaming)
 > +		return;
-> +	}
 > +
-> +	/* Normal enqueue flow */
-> +	if (new_req) {
-> +		mtk_isp_req_enqueue(dev, new_req);
+> +	dev_dbg(&p1_dev->pdev->dev, "%s request fd:%d frame_seq:%d state:%d\n",
+> +		__func__, request_fd, frame_seq_no, state);
+> +
+> +	/*
+> +	 * Set the buffer's VB2 status so that the user can dequeue
+> +	 * the buffer.
+> +	 */
+> +	timestamp = ktime_get_ns();
+> +	list_for_each_entry_safe(buf, b0, list_buf, list) {
+
+nit: s/b0/buf_prev/
+
+> +		list_del(&buf->list);
+> +		buf->vbb.vb2_buf.timestamp = timestamp;
+> +		buf->vbb.sequence = frame_seq_no;
+> +		if (buf->vbb.vb2_buf.state == VB2_BUF_STATE_ACTIVE)
+
+Any buffer that is not active shouldn't be on this list. If it is then it's
+a bug somewhere else in the driver. Could be possibly related to the request
+handling issues I pointed out in another comment.
+
+> +			vb2_buffer_done(&buf->vbb.vb2_buf, state);
+> +	}
+> +}
+> +
+> +static void isp_deque_frame(struct isp_p1_device *p1_dev,
+
+dequeue
+
+> +			    unsigned int node_id, int vb2_index,
+> +			    int frame_seq_no)
+> +{
+> +	struct mtk_cam_dev *cam_dev = &p1_dev->cam_dev;
+> +	struct device *dev = &p1_dev->pdev->dev;
+> +	struct mtk_cam_video_device *node = &cam_dev->vdev_nodes[node_id];
+> +	struct mtk_cam_dev_buffer *b, *b0;
+> +	struct vb2_buffer *vb;
+> +
+> +	if (!cam_dev->vdev_nodes[node_id].enabled || !cam_dev->streaming)
 > +		return;
+> +
+> +	spin_lock(&node->slock);
+> +	b = list_first_entry(&node->pending_list,
+> +			     struct mtk_cam_dev_buffer,
+> +			     list);
+> +	list_for_each_entry_safe(b, b0, &node->pending_list, list) {
+> +		vb = &b->vbb.vb2_buf;
+> +		if (!vb->vb2_queue->uses_requests &&
+> +		    vb->index == vb2_index &&
+> +		    vb->state == VB2_BUF_STATE_ACTIVE) {
+> +			dev_dbg(dev, "%s:%d:%d", __func__, node_id, vb2_index);
+> +			vb->timestamp = ktime_get_ns();
+> +			b->vbb.sequence = frame_seq_no;
+> +			vb2_buffer_done(vb, VB2_BUF_STATE_DONE);
+> +			list_del(&b->list);
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock(&node->slock);
+> +}
+> +
+> +static void isp_deque_request_frame(struct isp_p1_device *p1_dev,
+
+dequeue
+
+> +				    int frame_seq_no)
+> +{
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct device *dev = &p1_dev->pdev->dev;
+> +	struct mtk_isp_queue_job *framejob, *tmp;
+> +	struct isp_queue *p1_enqueue_list = &isp_ctx->p1_enqueue_list;
+> +
+> +	/* Match dequeue work and enqueue frame */
+> +	spin_lock(&p1_enqueue_list->lock);
+> +	list_for_each_entry_safe(framejob, tmp, &p1_enqueue_list->queue,
+> +				 list_entry) {
+> +		dev_dbg(dev,
+> +			"%s frame_seq_no:%d, target frame_seq_no:%d\n",
+> +			__func__,
+> +			framejob->frame_seq_no, frame_seq_no);
+> +		/* Match by the en-queued request number */
+> +		if (framejob->frame_seq_no == frame_seq_no) {
+> +			/* Pass to user space */
+> +			mtk_cam_dev_job_finish(isp_ctx,
+> +					       framejob->request_fd,
+> +					       framejob->frame_seq_no,
+> +					       &framejob->list_buf,
+> +					       VB2_BUF_STATE_DONE);
+> +			atomic_dec(&p1_enqueue_list->queue_cnt);
+> +			dev_dbg(dev,
+> +				"frame_seq_no:%d is done, queue_cnt:%d\n",
+> +				framejob->frame_seq_no,
+> +				atomic_read(&p1_enqueue_list->queue_cnt));
+> +
+> +			/* Remove only when frame ready */
+> +			list_del(&framejob->list_entry);
+> +			kfree(framejob);
+> +			break;
+> +		} else if (framejob->frame_seq_no < frame_seq_no) {
+> +			/* Pass to user space for frame drop */
+> +			mtk_cam_dev_job_finish(isp_ctx,
+> +					       framejob->request_fd,
+> +					       framejob->frame_seq_no,
+> +					       &framejob->list_buf,
+> +					       VB2_BUF_STATE_ERROR);
+> +			atomic_dec(&p1_enqueue_list->queue_cnt);
+> +			dev_warn(dev,
+> +				 "frame_seq_no:%d drop, queue_cnt:%d\n",
+> +				 framejob->frame_seq_no,
+> +				 atomic_read(&p1_enqueue_list->queue_cnt));
+> +
+> +			/* Remove only drop frame */
+> +			list_del(&framejob->list_entry);
+> +			kfree(framejob);
+> +		} else {
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock(&p1_enqueue_list->lock);
+> +}
+> +
+> +static int isp_deque_work(void *data)
+
+dequeue
+
+> +{
+> +	struct isp_p1_device *p1_dev = (struct isp_p1_device *)data;
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct mtk_cam_dev_stat_event_data event_data;
+> +	atomic_t *irq_data_end = &isp_ctx->irq_data_end;
+> +	atomic_t *irq_data_start = &isp_ctx->irq_data_start;
+> +	unsigned long flags;
+> +	int ret, i;
+> +
+> +	while (1) {
+> +		ret = wait_event_interruptible(isp_ctx->isp_deque_thread.wq,
+> +					       (atomic_read(irq_data_end) !=
+> +					       atomic_read(irq_data_start)) ||
+> +					       kthread_should_stop());
+> +
+> +		if (kthread_should_stop())
+> +			break;
+> +
+> +		spin_lock_irqsave(&isp_ctx->irq_dequeue_lock, flags);
+> +		i = atomic_read(&isp_ctx->irq_data_start);
+> +		memcpy(&event_data, &isp_ctx->irq_event_datas[i],
+> +		       sizeof(event_data));
+> +		atomic_set(&isp_ctx->irq_data_start, ++i & 0x3);
+> +		spin_unlock_irqrestore(&isp_ctx->irq_dequeue_lock, flags);
+> +
+> +		if (event_data.irq_status_mask & HW_PASS1_DON_ST &&
+> +		    event_data.dma_status_mask & AAO_DONE_ST) {
+> +			isp_deque_frame(p1_dev,
+> +					MTK_CAM_P1_META_OUT_0,
+> +					event_data.meta0_vb2_index,
+> +					event_data.frame_seq_no);
+> +		}
+> +		if (event_data.dma_status_mask & AFO_DONE_ST) {
+> +			isp_deque_frame(p1_dev,
+> +					MTK_CAM_P1_META_OUT_1,
+> +					event_data.meta1_vb2_index,
+> +					event_data.frame_seq_no);
+> +		}
+> +		if (event_data.irq_status_mask & SW_PASS1_DON_ST) {
+> +			isp_deque_frame(p1_dev,
+> +					MTK_CAM_P1_META_OUT_0,
+> +					event_data.meta0_vb2_index,
+> +					event_data.frame_seq_no);
+> +			isp_deque_frame(p1_dev,
+> +					MTK_CAM_P1_META_OUT_1,
+> +					event_data.meta1_vb2_index,
+> +					event_data.frame_seq_no);
+> +			isp_deque_request_frame(p1_dev,
+> +						event_data.frame_seq_no);
+> +		}
 > +	}
 > +
-> +	/* Flush all media requests wehen first stream on */
-> +	list_for_each_entry_safe(req, req_safe, &cam_dev->req_list, list) {
-> +		list_del(&req->list);
-> +		mtk_isp_req_enqueue(dev, &req->req);
+> +	return 0;
+> +}
+> +
+> +static int irq_handle_sof(struct isp_device *isp_dev,
+> +			  dma_addr_t base_addr,
+> +			  unsigned int frame_num)
+> +{
+> +	unsigned int addr_offset;
+> +	struct isp_p1_device *p1_dev = get_p1_device(isp_dev->dev);
+> +	int cq_num = atomic_read(&p1_dev->isp_ctx.composed_frame_id);
+> +
+> +	isp_dev->sof_count += 1;
+> +
+> +	if (cq_num <= frame_num) {
+> +		dev_dbg(isp_dev->dev,
+> +			"SOF_INT_ST, wait next, cq_num:%d, frame_num:%d",
+> +			cq_num, frame_num);
+> +		atomic_set(&p1_dev->isp_ctx.composing_frame, 0);
+> +		return cq_num;
+> +	}
+> +	atomic_set(&p1_dev->isp_ctx.composing_frame, cq_num - frame_num);
+> +
+> +	addr_offset = CQ_ADDRESS_OFFSET * (frame_num % CQ_BUFFER_COUNT);
+> +	writel(base_addr + addr_offset, isp_dev->regs + REG_CQ_THR0_BASEADDR);
+> +	dev_dbg(isp_dev->dev,
+> +		"SOF_INT_ST, update next, cq_num:%d, frame_num:%d cq_addr:0x%x",
+> +		cq_num, frame_num, addr_offset);
+> +
+> +	return cq_num;
+> +}
+> +
+> +static void irq_handle_notify_event(struct isp_device *isp_dev,
+> +				    unsigned int irq_status,
+> +				    unsigned int dma_status,
+> +				    bool sof_only)
+> +{
+> +	struct isp_p1_device *p1_dev = get_p1_device(isp_dev->dev);
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct device *dev = isp_dev->dev;
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	if (irq_status & VS_INT_ST) {
+> +		/* Notify specific HW events to user space */
+> +		mtk_cam_dev_event_frame_sync(&p1_dev->cam_dev,
+> +					     isp_dev->current_frame);
+
+Shouldn't we call this at SOF_INT_ST and not VS? At least according to the
+definition of the V4L2_EVENT_FRAME_SYNC event at
+https://www.kernel.org/doc/html/latest/media/uapi/v4l/vidioc-dqevent.html
+
+> +		dev_dbg(dev,
+> +			"frame sync is sent:%d:%d\n",
+> +			isp_dev->sof_count,
+> +			isp_dev->current_frame);
+> +		if (sof_only)
+> +			return;
+
+If this function can be called only to perform this block, perhaps it should
+be split into two functions?
+
+Also, what happens if we get sof_only, but we don't get VS_INT_ST set in
+irq_status? Is it expected that in such case the other part of the function
+is executed?
+
+> +	}
+> +
+> +	if (irq_status & SW_PASS1_DON_ST) {
+> +		/* Notify TX thread to send if TX frame is blocked */
+> +		wake_up_interruptible(&isp_ctx->composer_tx_thread.wq);
+> +	}
+> +
+> +	spin_lock_irqsave(&isp_ctx->irq_dequeue_lock, flags);
+> +	i = atomic_read(&isp_ctx->irq_data_end);
+> +	isp_ctx->irq_event_datas[i].frame_seq_no = isp_dev->current_frame;
+> +	isp_ctx->irq_event_datas[i].meta0_vb2_index = isp_dev->meta0_vb2_index;
+> +	isp_ctx->irq_event_datas[i].meta1_vb2_index = isp_dev->meta1_vb2_index;
+> +	isp_ctx->irq_event_datas[i].irq_status_mask =
+> +		(irq_status & INT_ST_MASK_CAM);
+> +	isp_ctx->irq_event_datas[i].dma_status_mask =
+> +		(dma_status & DMA_ST_MASK_CAM);
+> +	atomic_set(&isp_ctx->irq_data_end, ++i & 0x3);
+> +	spin_unlock_irqrestore(&isp_ctx->irq_dequeue_lock, flags);
+> +
+> +	wake_up_interruptible(&isp_ctx->isp_deque_thread.wq);
+
+I can see that all isp_deque_work() does is returning buffers to vb2. I
+don't think we need this intricate system to do that, as we could just do
+it inside the interrupt handler, in isp_irq_cam() directly.
+
+> +
+> +	dev_dbg(dev,
+> +		"%s IRQ:0x%x DMA:0x%x seq:%d idx0:%d idx1:%d\n",
+> +		__func__,
+> +		(irq_status & INT_ST_MASK_CAM),
+> +		(dma_status & DMA_ST_MASK_CAM),
+> +		isp_dev->current_frame,
+> +		isp_dev->meta0_vb2_index,
+> +		isp_dev->meta1_vb2_index);
+> +}
+> +
+> +irqreturn_t isp_irq_cam(int irq, void *data)
+> +{
+> +	struct isp_device *isp_dev = (struct isp_device *)data;
+> +	struct isp_p1_device *p1_dev = get_p1_device(isp_dev->dev);
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct device *dev = isp_dev->dev;
+> +	unsigned int cam_idx, cq_num, hw_frame_num;
+> +	unsigned int meta0_vb2_index, meta1_vb2_index;
+> +	unsigned int irq_status, err_status, dma_status;
+> +	unsigned int aao_fbc, afo_fbc;
+> +	unsigned long flags;
+> +
+> +	/* Check the streaming is off or not */
+> +	if (!p1_dev->cam_dev.streaming)
+> +		return IRQ_HANDLED;
+
+This shouldn't be needed. The driver needs to unmask the interrupts in
+hardware registers when it starts streaming and mask them when it stops.
+Note that I mean the P1 hardware registers, not disable_irq(), which
+shouldn't be used.
+
+> +
+> +	cam_idx = isp_dev->isp_hw_module - ISP_CAM_A_IDX;
+> +	cq_num = 0;
+> +
+> +	spin_lock_irqsave(&isp_dev->spinlock_irq, flags);
+> +	irq_status = readl(isp_dev->regs + REG_CTL_RAW_INT_STAT);
+> +	dma_status = readl(isp_dev->regs + REG_CTL_RAW_INT2_STAT);
+> +	hw_frame_num = readl(isp_dev->regs + REG_HW_FRAME_NUM);
+> +	meta0_vb2_index = readl(isp_dev->regs + REG_META0_VB2_INDEX);
+> +	meta1_vb2_index = readl(isp_dev->regs + REG_META1_VB2_INDEX);
+
+Hmm, reading vb2 buffer index from hardware registers? Was this hardware
+designed exclusively for V4L2? ;)
+
+Jokes aside, how does the hardware know V4L2 buffer indexes?
+
+> +	aao_fbc = readl(isp_dev->regs + REG_AAO_FBC_STATUS);
+> +	afo_fbc = readl(isp_dev->regs + REG_AFO_FBC_STATUS);
+> +	spin_unlock_irqrestore(&isp_dev->spinlock_irq, flags);
+> +
+> +	/* Ignore unnecessary IRQ */
+> +	if (!irq_status && (!(dma_status & DMA_ST_MASK_CAM)))
+> +		return IRQ_HANDLED;
+
+Unnecessary IRQs should be masked in the hardware IRQ mask registers. If we
+get an interrupt without any unmasked hardware IRQs active in the status,
+that's an error somewhere and we should return IRQ_NONE.
+
+> +
+> +	err_status = irq_status & INT_ST_MASK_CAM_ERR;
+> +
+> +	/* Sof, done order check */
+> +	if ((irq_status & SOF_INT_ST) && (irq_status & HW_PASS1_DON_ST)) {
+> +		dev_dbg(dev, "sof_done block cnt:%d\n", isp_dev->sof_count);
+> +
+> +		/* Notify IRQ event and enqueue frame */
+> +		irq_handle_notify_event(isp_dev, irq_status, dma_status, 0);
+> +		isp_dev->current_frame = hw_frame_num;
+
+What exactly is hw_frame_num? Shouldn't we assign it before notifying the
+event?
+
+> +		isp_dev->meta0_vb2_index = meta0_vb2_index;
+> +		isp_dev->meta1_vb2_index = meta1_vb2_index;
+> +	} else {
+> +		if (irq_status & SOF_INT_ST) {
+> +			isp_dev->current_frame = hw_frame_num;
+> +			isp_dev->meta0_vb2_index = meta0_vb2_index;
+> +			isp_dev->meta1_vb2_index = meta1_vb2_index;
+> +		}
+> +		irq_handle_notify_event(isp_dev, irq_status, dma_status, 1);
+> +	}
+
+The if and else blocks do almost the same things just in different order. Is
+it really expected?
+
+> +
+> +	if (irq_status & SOF_INT_ST)
+> +		cq_num = irq_handle_sof(isp_dev, isp_ctx->scp_mem_iova,
+> +					hw_frame_num);
+> +
+> +	/* Check ISP error status */
+> +	if (err_status) {
+> +		dev_err(dev,
+> +			"raw_int_err:0x%x/0x%x\n",
+> +			irq_status, err_status);
+> +		/* Show DMA errors in detail */
+> +		if (err_status & DMA_ERR_ST)
+> +			isp_dump_dma_status(isp_dev);
+> +	}
+> +
+> +	if (irq_status & INT_ST_LOG_MASK_CAM)
+> +		dev_dbg(dev, IRQ_STAT_STR,
+
+Please just put that string here, otherwise the reader would have no idea
+what message is being printed here.
+
+> +			'A' + cam_idx,
+> +			isp_dev->sof_count,
+> +			irq_status,
+> +			dma_status,
+> +			hw_frame_num,
+> +			cq_num,
+> +			aao_fbc,
+> +			afo_fbc);
+
+nit: No need to put each argument in its own line.
+
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int isp_setup_scp_rproc(struct isp_p1_device *p1_dev)
+> +{
+> +	phandle rproc_phandle;
+> +	struct device *dev = &p1_dev->pdev->dev;
+> +	int ret;
+> +
+> +	p1_dev->scp_pdev = scp_get_pdev(p1_dev->pdev);
+> +	if (!p1_dev->scp_pdev) {
+> +		dev_err(dev, "Failed to get scp device\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = of_property_read_u32(dev->of_node, "mediatek,scp",
+> +				   &rproc_phandle);
+> +	if (ret) {
+> +		dev_err(dev, "fail to get rproc_phandle:%d\n", ret);
+> +		return -EINVAL;
+> +	}
+> +
+> +	p1_dev->rproc_handle = rproc_get_by_phandle(rproc_phandle);
+> +	dev_dbg(dev, "p1 rproc_phandle: 0x%pK\n\n", p1_dev->rproc_handle);
+> +	if (!p1_dev->rproc_handle) {
+> +		dev_err(dev, "fail to get rproc_handle\n");
+> +		return -EINVAL;
+> +	}
+
+This look-up should be done once in probe(). Only the rproc_boot() should
+happen dynamically.
+
+> +
+> +	ret = rproc_boot(p1_dev->rproc_handle);
+> +	if (ret) {
+> +		/*
+> +		 * Return 0 if downloading firmware successfully,
+> +		 * otherwise it is failed
+> +		 */
+> +		return -ENODEV;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int isp_init_context(struct isp_p1_device *p1_dev)
+> +{
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct device *dev = &p1_dev->pdev->dev;
+> +	unsigned int i;
+> +
+> +	dev_dbg(dev, "init irq work thread\n");
+> +	if (!isp_ctx->isp_deque_thread.thread) {
+> +		init_waitqueue_head(&isp_ctx->isp_deque_thread.wq);
+> +		isp_ctx->isp_deque_thread.thread =
+> +			kthread_run(isp_deque_work, (void *)p1_dev,
+> +				    "isp_deque_work");
+> +		if (IS_ERR(isp_ctx->isp_deque_thread.thread)) {
+> +			dev_err(dev, "unable to alloc kthread\n");
+> +			isp_ctx->isp_deque_thread.thread = NULL;
+> +			return -ENOMEM;
+> +		}
+> +	}
+> +	spin_lock_init(&isp_ctx->irq_dequeue_lock);
+> +	mutex_init(&isp_ctx->lock);
+> +
+> +	INIT_LIST_HEAD(&isp_ctx->p1_enqueue_list.queue);
+> +	atomic_set(&isp_ctx->p1_enqueue_list.queue_cnt, 0);
+> +
+> +	for (i = 0; i < ISP_DEV_NODE_NUM; i++)
+> +		spin_lock_init(&p1_dev->isp_devs[i].spinlock_irq);
+> +
+> +	spin_lock_init(&isp_ctx->p1_enqueue_list.lock);
+> +	spin_lock_init(&isp_ctx->composer_txlist.lock);
+> +
+> +	atomic_set(&isp_ctx->irq_data_end, 0);
+> +	atomic_set(&isp_ctx->irq_data_start, 0);
+> +
+> +	return 0;
+
+Everything here looks like something that should be done once in probe. I
+also don't see a point of having a separate mtk_isp_p1_ctx struct for the
+data above. It could be just located in p1_dev, at least for now.
+
+If we end up implementing support for multiple contexts, we could isolate
+per-context data then, once we know what's really per-context. For now,
+let's keep it simple.
+
+> +}
+> +
+> +static int isp_uninit_context(struct device *dev)
+> +{
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct mtk_isp_queue_job *framejob, *tmp_framejob;
+> +
+> +	spin_lock_irq(&isp_ctx->p1_enqueue_list.lock);
+> +	list_for_each_entry_safe(framejob, tmp_framejob,
+> +				 &isp_ctx->p1_enqueue_list.queue, list_entry) {
+> +		list_del(&framejob->list_entry);
+> +		kfree(framejob);
+> +	}
+> +	spin_unlock_irq(&isp_ctx->p1_enqueue_list.lock);
+> +
+> +	if (isp_ctx->isp_deque_thread.thread) {
+> +		kthread_stop(isp_ctx->isp_deque_thread.thread);
+> +		wake_up_interruptible(&isp_ctx->isp_deque_thread.wq);
+> +		isp_ctx->isp_deque_thread.thread = NULL;
+> +	}
+> +
+> +	mutex_destroy(&isp_ctx->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static unsigned int get_enabled_dma_ports(struct mtk_cam_dev *cam_dev)
+> +{
+> +	unsigned int enabled_dma_ports, i;
+> +
+> +	/* Get the enabled meta DMA ports */
+> +	enabled_dma_ports = 0;
+> +
+> +	for (i = 0; i < MTK_CAM_P1_TOTAL_NODES; i++)
+> +		if (cam_dev->vdev_nodes[i].enabled)
+> +			enabled_dma_ports |=
+> +				cam_dev->vdev_nodes[i].desc.dma_port;
+> +
+> +	dev_dbg(&cam_dev->pdev->dev, "%s :0x%x", __func__, enabled_dma_ports);
+> +
+> +	return enabled_dma_ports;
+> +}
+> +
+> +/* Utility functions */
+> +static unsigned int get_sensor_pixel_id(unsigned int fmt)
+> +{
+> +	switch (fmt) {
+> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> +	case MEDIA_BUS_FMT_SBGGR14_1X14:
+> +		return RAW_PXL_ID_B;
+> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> +	case MEDIA_BUS_FMT_SGBRG14_1X14:
+> +		return RAW_PXL_ID_GB;
+> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> +	case MEDIA_BUS_FMT_SGRBG14_1X14:
+> +		return RAW_PXL_ID_GR;
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> +	case MEDIA_BUS_FMT_SRGGB14_1X14:
+> +		return RAW_PXL_ID_R;
+> +	default:
+
+Could we fail here instead?
+
+> +		return RAW_PXL_ID_B;
 > +	}
 > +}
-
-This will have to be redone, as per the other suggestions, but generally one
-would have a function that tries to queue as much as possible from a list to
-the hardware and another function that adds a request to the list and calls
-the first function.
-
 > +
-> +static void mtk_cam_req_queue(struct media_request *req)
+> +static unsigned int get_sensor_fmt(unsigned int fmt)
 > +{
-> +	struct mtk_cam_dev *cam_dev = mtk_cam_mdev_to_dev(req->mdev);
-> +
-> +	vb2_request_queue(req);
-> +	mtk_cam_req_try_isp_queue(cam_dev, req);
-
-Looks like this driver is suffering from versy similar problems in request
-handling as the DIP driver used to.
-
-I'd prefer to save my time and avoid repeating the same comments, so please
-check my comments for the DIP driver and apply them to this one too:
-
-https://patchwork.kernel.org/patch/10905223/
-
+> +	switch (fmt) {
+> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +		return IMG_FMT_BAYER8;
+> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +		return IMG_FMT_BAYER10;
+> +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> +		return IMG_FMT_BAYER12;
+> +	case MEDIA_BUS_FMT_SBGGR14_1X14:
+> +	case MEDIA_BUS_FMT_SGBRG14_1X14:
+> +	case MEDIA_BUS_FMT_SGRBG14_1X14:
+> +	case MEDIA_BUS_FMT_SRGGB14_1X14:
+> +		return IMG_FMT_BAYER14;
+> +	default:
+> +		return IMG_FMT_UNKNOWN;
+> +	}
 > +}
 > +
-> +static struct media_request *mtk_cam_req_alloc(struct media_device *mdev)
+> +static unsigned int get_img_fmt(unsigned int fourcc)
 > +{
-> +	struct mtk_cam_dev_request *cam_dev_req;
-> +
-> +	cam_dev_req = kzalloc(sizeof(*cam_dev_req), GFP_KERNEL);
-> +
-> +	return &cam_dev_req->req;
+> +	switch (fourcc) {
+> +	case V4L2_PIX_FMT_MTISP_B8:
+> +		return IMG_FMT_BAYER8;
+> +	case V4L2_PIX_FMT_MTISP_F8:
+> +		return IMG_FMT_FG_BAYER8;
+> +	case V4L2_PIX_FMT_MTISP_B10:
+> +		return IMG_FMT_BAYER10;
+> +	case V4L2_PIX_FMT_MTISP_F10:
+> +		return IMG_FMT_FG_BAYER10;
+> +	case V4L2_PIX_FMT_MTISP_B12:
+> +		return IMG_FMT_BAYER12;
+> +	case V4L2_PIX_FMT_MTISP_F12:
+> +		return IMG_FMT_FG_BAYER12;
+> +	case V4L2_PIX_FMT_MTISP_B14:
+> +		return IMG_FMT_BAYER14;
+> +	case V4L2_PIX_FMT_MTISP_F14:
+> +		return IMG_FMT_FG_BAYER14;
+> +	default:
+> +		return IMG_FMT_UNKNOWN;
+> +	}
 > +}
 > +
-> +static void mtk_cam_req_free(struct media_request *req)
+> +static unsigned int get_pixel_byte(unsigned int fourcc)
 > +{
-> +	struct mtk_cam_dev_request *cam_dev_req = mtk_cam_req_to_dev_req(req);
-> +
-> +	kfree(cam_dev_req);
-> +}
-> +
-> +static __u32 img_get_pixel_byte_by_fmt(__u32 pix_fmt)
-
-Doesn't this function return bits not bytes?
-
-> +{
-> +	switch (pix_fmt) {
+> +	switch (fourcc) {
 > +	case V4L2_PIX_FMT_MTISP_B8:
 > +	case V4L2_PIX_FMT_MTISP_F8:
 > +		return 8;
@@ -190,2161 +965,946 @@ Doesn't this function return bits not bytes?
 > +	case V4L2_PIX_FMT_MTISP_F14:
 > +		return 14;
 > +	default:
-> +		return 0;
+
+Could we fail here instead, so that we don't mask some potential errors?
+
+> +		return 10;
 > +	}
 > +}
 > +
-> +static __u32 img_cal_main_stream_stride(struct device *dev, __u32 width,
-> +					__u32 pix_fmt)
+> +static void config_img_fmt(struct device *dev, struct p1_img_output *out_fmt,
+> +			   const struct v4l2_format *in_fmt,
+> +			   const struct v4l2_subdev_format *sd_format)
 > +{
-> +	__u32 stride;
-> +	__u32 pixel_byte = img_get_pixel_byte_by_fmt(pix_fmt);
+> +	out_fmt->img_fmt = get_img_fmt(in_fmt->fmt.pix_mp.pixelformat);
+> +	out_fmt->pixel_byte = get_pixel_byte(in_fmt->fmt.pix_mp.pixelformat);
+> +	out_fmt->size.w = in_fmt->fmt.pix_mp.width;
+> +	out_fmt->size.h = in_fmt->fmt.pix_mp.height;
+> +
+> +	out_fmt->size.stride = in_fmt->fmt.pix_mp.plane_fmt[0].bytesperline;
+> +	out_fmt->size.xsize = in_fmt->fmt.pix_mp.plane_fmt[0].bytesperline;
 
-The __ prefixed types should be used only inside UAPI. Please change the
-driver to use the normal ones.
+Please group operations on the same field together, i.e. remove the blank
+line above size.stride and add one blank line above size.w.
 
 > +
-> +	width = ALIGN(width, 4);
-
-If there is some alignment requirement for width, it should be handled by
-TRY_/S_FMT and here we should already assume everything properly aligned.
-
-> +	stride = ALIGN(DIV_ROUND_UP(width * pixel_byte, 8), 2);
+> +	out_fmt->crop.left = 0x0;
+> +	out_fmt->crop.top = 0x0;
 > +
-> +	dev_dbg(dev, "main width:%d, stride:%d\n", width, stride);
+
+Remove the blank line.
+
+> +	out_fmt->crop.width = sd_format->format.width;
+> +	out_fmt->crop.height = sd_format->format.height;
 > +
-> +	return stride;
+> +	WARN_ONCE(in_fmt->fmt.pix_mp.width > out_fmt->crop.width ||
+> +		  in_fmt->fmt.pix_mp.height > out_fmt->crop.height,
+> +		  "img out:%d:%d in:%d:%d",
+> +		  in_fmt->fmt.pix_mp.width, in_fmt->fmt.pix_mp.height,
+> +		  out_fmt->crop.width, out_fmt->crop.height);
+
+We should check this earlier and fail the streaming start if there is a
+mismatch between sensor and video node configuration.
+
+> +
+> +	dev_dbg(dev, "pixel_byte:%d img_fmt:0x%x\n",
+> +		out_fmt->pixel_byte,
+> +		out_fmt->img_fmt);
+> +	dev_dbg(dev,
+> +		"param:size=%0dx%0d, stride:%d, xsize:%d, crop=%0dx%0d\n",
+> +		out_fmt->size.w, out_fmt->size.h,
+> +		out_fmt->size.stride, out_fmt->size.xsize,
+> +		out_fmt->crop.width, out_fmt->crop.height);
 > +}
 > +
-> +static __u32 img_cal_packed_out_stride(struct device *dev, __u32 width,
-> +				       __u32 pix_fmt)
+> +/* ISP P1 interface functions */
+> +int mtk_isp_power_init(struct mtk_cam_dev *cam_dev)
 > +{
-> +	__u32 stride;
-> +	__u32 pixel_byte = img_get_pixel_byte_by_fmt(pix_fmt);
-> +
-> +	width = ALIGN(width, 4);
-
-Ditto.
-
-> +	stride = DIV_ROUND_UP(width * 3, 2);
-
-Could we introduce a local variable for this intermediate value, so that its
-name could explain what the value is?
-
-> +	stride = DIV_ROUND_UP(stride * pixel_byte, 8);
-> +
-> +	if (pix_fmt == V4L2_PIX_FMT_MTISP_F10)
-> +		stride = ALIGN(stride, 4);
-
-Is it expected that only the F10 format needs this alignment?
-
-> +
-> +	dev_dbg(dev, "packed width:%d, stride:%d\n", width, stride);
-> +
-> +	return stride;
-> +}
-> +
-> +static __u32 img_cal_stride(struct device *dev,
-> +			    int node_id,
-> +			    __u32 width,
-> +			    __u32 pix_fmt)
-> +{
-> +	__u32 bpl;
-> +
-> +	/* Currently, only support one_pixel_mode */
-> +	if (node_id == MTK_CAM_P1_MAIN_STREAM_OUT)
-> +		bpl = img_cal_main_stream_stride(dev, width, pix_fmt);
-> +	else if (node_id == MTK_CAM_P1_PACKED_BIN_OUT)
-> +		bpl = img_cal_packed_out_stride(dev, width, pix_fmt);
-> +
-> +	/* For DIP HW constrained, it needs 4 byte alignment */
-> +	bpl = ALIGN(bpl, 4);
-> +
-> +	return bpl;
-> +}
-> +
-> +static const struct v4l2_format *
-> +mtk_cam_dev_find_fmt(struct mtk_cam_dev_node_desc *desc, u32 format)
-> +{
-> +	unsigned int i;
-> +	const struct v4l2_format *dev_fmt;
-> +
-> +	for (i = 0; i < desc->num_fmts; i++) {
-> +		dev_fmt = &desc->fmts[i];
-> +		if (dev_fmt->fmt.pix_mp.pixelformat == format)
-> +			return dev_fmt;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/* Calcuate mplane pix format */
-> +static void
-> +mtk_cam_dev_cal_mplane_fmt(struct device *dev,
-> +			   struct v4l2_pix_format_mplane *dest_fmt,
-> +			   unsigned int node_id)
-> +{
-> +	unsigned int i;
-> +	__u32 bpl, sizeimage, imagsize;
-
-Perhaps s/sizeimage/plane_size/ and s/imagsize/total_size/?
-
-> +
-> +	imagsize = 0;
-> +	for (i = 0 ; i < dest_fmt->num_planes; ++i) {
-> +		bpl = img_cal_stride(dev,
-> +				     node_id,
-> +				     dest_fmt->width,
-> +				     dest_fmt->pixelformat);
-> +		sizeimage = bpl * dest_fmt->height;
-> +		imagsize += sizeimage;
-> +		dest_fmt->plane_fmt[i].bytesperline = bpl;
-> +		dest_fmt->plane_fmt[i].sizeimage = sizeimage;
-> +		memset(dest_fmt->plane_fmt[i].reserved,
-> +		       0, sizeof(dest_fmt->plane_fmt[i].reserved));
-
-This memset is not needed. The core clears the reserved fields
-automatically:
-
-https://elixir.bootlin.com/linux/v5.2/source/drivers/media/v4l2-core/v4l2-ioctl.c#L1559
-
-(We may want to backport the patch that added that to our 4.19 branch.)
-
-> +		dev_dbg(dev, "plane:%d,bpl:%d,sizeimage:%u\n",
-> +			i,  bpl, dest_fmt->plane_fmt[i].sizeimage);
-> +	}
-> +
-> +	if (dest_fmt->num_planes == 1)
-> +		dest_fmt->plane_fmt[0].sizeimage = imagsize;
-
-Hmm, we only seem to support 1 plane raw formats in this driver. Does the
-hardware support any formats with more than 1 plane? If not, all the code
-should be simplified to just assume 1 plane.
-
-> +}
-> +
-> +static void
-> +mtk_cam_dev_set_img_fmt(struct device *dev,
-> +			struct v4l2_pix_format_mplane *dest_fmt,
-> +			const struct v4l2_pix_format_mplane *src_fmt,
-> +			unsigned int node_id)
-> +{
-> +	dest_fmt->width = src_fmt->width;
-> +	dest_fmt->height = src_fmt->height;
-> +	dest_fmt->pixelformat = src_fmt->pixelformat;
-> +	dest_fmt->field = src_fmt->field;
-> +	dest_fmt->colorspace = src_fmt->colorspace;
-> +	dest_fmt->num_planes = src_fmt->num_planes;
-> +	/* Use default */
-> +	dest_fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +	dest_fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
-> +	dest_fmt->xfer_func =
-> +		V4L2_MAP_XFER_FUNC_DEFAULT(dest_fmt->colorspace);
-> +	memset(dest_fmt->reserved, 0, sizeof(dest_fmt->reserved));
-
-Given that src_fmt should already be validated and have any fields adjusted
-to match the driver requirements, wouldn't all the lines above be equivalent
-to *dest_fmt = *src_fmt?
-
-We probably want to move setting all the constant fields to
-mtk_cam_vidioc_try_fmt().
-
-> +
-> +	dev_dbg(dev, "%s: Dest Fmt:%c%c%c%c, w*h:%d*%d\n",
-> +		__func__,
-> +		(dest_fmt->pixelformat & 0xFF),
-> +		(dest_fmt->pixelformat >> 8) & 0xFF,
-> +		(dest_fmt->pixelformat >> 16) & 0xFF,
-> +		(dest_fmt->pixelformat >> 24) & 0xFF,
-> +		dest_fmt->width,
-> +		dest_fmt->height);
-> +
-> +	mtk_cam_dev_cal_mplane_fmt(dev, dest_fmt, node_id);
-
-This should have been called already before this function was called,
-because src_fmt should be already expected to contain valid settings. In
-fact, this is already called in mtk_cam_vidioc_try_fmt().
-
-> +}
-> +
-> +/* Get the default format setting */
-> +static void
-> +mtk_cam_dev_load_default_fmt(struct device *dev,
-
-Please don't pass struct device pointer around, but instead just the main
-driver data struct, which should be much more convenient for accessing
-various driver data. Please fix the other functions as well.
-
-> +			     struct mtk_cam_dev_node_desc *queue_desc,
-> +			     struct v4l2_format *dest)
-> +{
-> +	const struct v4l2_format *default_fmt =
-> +		&queue_desc->fmts[queue_desc->default_fmt_idx];
-> +
-> +	dest->type = queue_desc->buf_type;
-> +
-> +	/* Configure default format based on node type */
-> +	if (queue_desc->image) {
-> +		mtk_cam_dev_set_img_fmt(dev,
-> +					&dest->fmt.pix_mp,
-> +					&default_fmt->fmt.pix_mp,
-> +					queue_desc->id);
-
-We should probably just call mtk_cam_vidioc_s_fmt() here, with a dummy
-v4l2_format struct and have any incorrect fields replaced by
-mtk_cam_vidioc_try_fmt(), since it's the same logic, as if setting invalid
-v4l2_format at runtime.
-
-> +	} else {
-> +		dest->fmt.meta.dataformat = default_fmt->fmt.meta.dataformat;
-> +		dest->fmt.meta.buffersize = default_fmt->fmt.meta.buffersize;
-> +	}
-> +}
-> +
-> +static int mtk_cam_isp_open(struct file *file)
-> +{
-> +	struct mtk_cam_dev *cam_dev = video_drvdata(file);
 > +	struct device *dev = &cam_dev->pdev->dev;
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
 > +	int ret;
 > +
-> +	mutex_lock(&cam_dev->lock);
-> +	ret = v4l2_fh_open(file);
+> +	ret = isp_setup_scp_rproc(p1_dev);
 > +	if (ret)
-> +		goto unlock;
+> +		return ret;
 > +
-> +	ret = v4l2_pipeline_pm_use(&node->vdev.entity, 1);
-
-Please don't power on open. Normally applications keep the device nodes open
-all the time, so they would keep everything powered on.
-
-Normally this should be done as late as possible, ideally when starting the
-streaming.
-
+> +	ret = isp_init_context(p1_dev);
 > +	if (ret)
-> +		dev_err(dev, "%s fail:%d", __func__, ret);
+> +		return ret;
+
+The above function doesn't really seem to be related to power management.
+Should it be called from subdev stream on?
+
 > +
-> +unlock:
-> +	mutex_unlock(&cam_dev->lock);
+> +	ret = isp_composer_init(dev);
+> +	if (ret)
+> +		goto composer_err;
+
+This also doesn't seem to be related to power management.
+
+> +
+> +	pm_runtime_get_sync(dev);
+> +
+> +	/* ISP HW INIT */
+> +	isp_ctx->isp_hw_module = ISP_CAM_B_IDX;
+
+There is some amount of code handling various values of isp_hw_module in
+this driver. If we're hardcoding ISP_CAM_B_IDX here, it's basically dead
+code that can't be tested. Please either add support for all the indexes in
+the driver or simplify all the code to just handle CAM_B.
+
+> +	/* Use pure RAW as default HW path */
+> +	isp_ctx->isp_raw_path = ISP_PURE_RAW_PATH;
+> +	atomic_set(&p1_dev->cam_dev.streamed_node_count, 0);
+> +
+> +	isp_composer_hw_init(dev);
+> +	/* Check enabled DMAs which is configured by media setup */
+> +	isp_composer_meta_config(dev, get_enabled_dma_ports(cam_dev));
+
+Hmm, this seems to be also configured by isp_compoer_hw_config(). Are both
+necessary?
+
+> +
+> +	dev_dbg(dev, "%s done\n", __func__);
+> +
+> +	return 0;
+> +
+> +composer_err:
+> +	isp_uninit_context(dev);
 > +
 > +	return ret;
 > +}
 > +
-> +static int mtk_cam_isp_release(struct file *file)
+> +int mtk_isp_power_release(struct device *dev)
 > +{
-> +	struct mtk_cam_dev *cam_dev = video_drvdata(file);
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
+> +	isp_composer_hw_deinit(dev);
+> +	isp_uninit_context(dev);
+
+These two don't seem to be related to power either.
+
+Instead, I don't see anything that could undo the rproc_boot() operation
+here.
+
 > +
-> +	mutex_lock(&cam_dev->lock);
-> +	v4l2_pipeline_pm_use(&node->vdev.entity, 0);
-> +	vb2_fop_release(file);
-> +	mutex_unlock(&cam_dev->lock);
+> +	dev_dbg(dev, "%s done\n", __func__);
 > +
 > +	return 0;
 > +}
-
-If we remove power handling from open and release, we should be able to just
-use v4l2_fh_open() and vb2_fop_release() directly in the
-v4l2_file_operations struct.
-
 > +
-> +static struct v4l2_subdev *
-> +mtk_cam_cio_get_active_sensor(struct mtk_cam_dev *cam_dev)
+> +int mtk_isp_config(struct device *dev)
 > +{
-> +	struct media_device *mdev = cam_dev->seninf->entity.graph_obj.mdev;
-> +	struct media_entity *entity;
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	struct v4l2_subdev *sensor;
-
-This variable would be unitialized if there is no streaming sensor. Was
-there no compiler warning generated for this?
-
-> +
-> +	media_device_for_each_entity(entity, mdev) {
-> +		dev_dbg(dev, "media entity: %s:0x%x\n",
-> +			entity->name, entity->function);
-> +		if (entity->function == MEDIA_ENT_F_CAM_SENSOR &&
-> +		    entity->stream_count) {
-> +			sensor = media_entity_to_v4l2_subdev(entity);
-> +			dev_dbg(dev, "Sensor found: %s\n", entity->name);
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!sensor)
-> +		dev_err(dev, "Sensor is not connected\n");
-> +
-> +	return sensor;
-> +}
-> +
-> +static int mtk_cam_cio_stream_on(struct mtk_cam_dev *cam_dev)
-> +{
-> +	struct device *dev = &cam_dev->pdev->dev;
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct p1_config_param config_param;
+> +	struct mtk_cam_dev *cam_dev = &p1_dev->cam_dev;
+> +	struct v4l2_subdev_format sd_fmt;
+> +	unsigned int enabled_dma_ports;
+> +	struct v4l2_format *img_fmt;
 > +	int ret;
 > +
-> +	/* Align vb2_core_streamon design */
-> +	if (cam_dev->streaming) {
-> +		dev_warn(dev, "already streaming\n", dev);
-> +		return 0;
-> +	}
-
-Could we check this in the caller?
-
+> +	p1_dev->isp_devs[isp_ctx->isp_hw_module].current_frame = 0;
+> +	p1_dev->isp_devs[isp_ctx->isp_hw_module].sof_count = 0;
 > +
-> +	if (!cam_dev->seninf) {
-> +		dev_err(dev, "no seninf connected:%d\n", ret);
-> +		return -EPERM;
-
-I don't think -EPERM is a good error code here. It's about a missing seninf
-device, so perhaps -ENODEV?
-
-> +	}
+> +	isp_ctx->frame_seq_no = 1;
+> +	atomic_set(&isp_ctx->composed_frame_id, 0);
 > +
-> +	/* Get active sensor from graph topology */
-> +	cam_dev->sensor = mtk_cam_cio_get_active_sensor(cam_dev);
-> +	if (!cam_dev->sensor)
-> +		return -EPERM;
-
-> -ENODEV
-
+> +	/* Get the enabled DMA ports */
+> +	enabled_dma_ports = get_enabled_dma_ports(cam_dev);
+> +	dev_dbg(dev, "%s enable_dma_ports:0x%x", __func__, enabled_dma_ports);
 > +
-> +	ret = mtk_isp_config(dev);
-> +	if (ret)
-> +		return -EPERM;
-
-Maybe just return ret?
-
+> +	/* Sensor config */
+> +	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> +	ret = v4l2_subdev_call(cam_dev->sensor, pad, get_fmt, NULL, &sd_fmt);
 > +
-> +	/* Seninf must stream on first */
-> +	ret = v4l2_subdev_call(cam_dev->seninf, video, s_stream, 1);
+
+Unnecessary blank line.
+
 > +	if (ret) {
-> +		dev_err(dev, "%s stream on failed:%d\n",
-> +			cam_dev->seninf->entity.name, ret);
+> +		dev_dbg(dev, "sensor g_fmt on failed:%d\n", ret);
 > +		return -EPERM;
 
 return ret?
 
 > +	}
 > +
-> +	ret = v4l2_subdev_call(cam_dev->sensor, video, s_stream, 1);
-> +	if (ret) {
-> +		dev_err(dev, "%s stream on failed:%d\n",
-> +			cam_dev->sensor->entity.name, ret);
-> +		goto fail_sensor_on;
+> +	dev_dbg(dev,
+> +		"get_fmt ret=%d, w=%d, h=%d, code=0x%x, field=%d, color=%d\n",
+> +		ret, sd_fmt.format.width, sd_fmt.format.height,
+> +		sd_fmt.format.code, sd_fmt.format.field,
+> +		sd_fmt.format.colorspace);
+> +
+> +	config_param.cfg_in_param.continuous = 0x1;
+> +	config_param.cfg_in_param.subsample = 0x0;
+> +	/* Fix to one pixel mode in default */
+> +	config_param.cfg_in_param.pixel_mode = 0x1;
+> +	/* Support normal pattern in default */
+> +	config_param.cfg_in_param.data_pattern = 0x0;
+> +
+> +	config_param.cfg_in_param.crop.left = 0x0;
+> +	config_param.cfg_in_param.crop.top = 0x0;
+
+Why hexadecimal numerals? Also, what's the meaning of these values? For
+anything boolean, you could just use true and false as a substite of 0 and
+1. For anything that has more values, please define the values using macros.
+
+> +
+> +	config_param.cfg_in_param.raw_pixel_id =
+> +		get_sensor_pixel_id(sd_fmt.format.code);
+> +	config_param.cfg_in_param.img_fmt = get_sensor_fmt(sd_fmt.format.code);
+> +	config_param.cfg_in_param.crop.width = sd_fmt.format.width;
+> +	config_param.cfg_in_param.crop.height = sd_fmt.format.height;
+
+Move the other crop settings from above to here.
+
+> +
+> +	config_param.cfg_main_param.bypass = 1;
+> +	img_fmt = &cam_dev->vdev_nodes[MTK_CAM_P1_MAIN_STREAM_OUT].vdev_fmt;
+> +	if ((enabled_dma_ports & R_IMGO) == R_IMGO) {
+
+No need for the == R_IMGO part.
+
+> +		config_param.cfg_main_param.bypass = 0;
+> +		config_param.cfg_main_param.pure_raw = isp_ctx->isp_raw_path;
+> +		config_param.cfg_main_param.pure_raw_pack = 1;
+> +		config_img_fmt(dev, &config_param.cfg_main_param.output,
+> +			       img_fmt, &sd_fmt);
 > +	}
 > +
-> +	cam_dev->streaming = true;
-> +	mtk_cam_req_try_isp_queue(cam_dev, NULL);
-> +	isp_composer_stream(dev, 1);
-> +	dev_dbg(dev, "streamed on Pass 1\n");
-> +
-> +	return 0;
-> +
-> +fail_sensor_on:
-> +	v4l2_subdev_call(cam_dev->seninf, video, s_stream, 0);
-> +
-> +	return -EPERM;
+> +	config_param.cfg_resize_param.bypass = 1;
+> +	img_fmt = &cam_dev->vdev_nodes[MTK_CAM_P1_PACKED_BIN_OUT].vdev_fmt;
+> +	if ((enabled_dma_ports & R_RRZO) == R_RRZO) {
 
-return ret?
+Ditto.
 
-> +}
-> +
-> +static int mtk_cam_cio_stream_off(struct mtk_cam_dev *cam_dev)
-> +{
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	int ret;
-> +
-> +	if (!cam_dev->streaming) {
-> +		dev_warn(dev, "already stream off");
-> +		return 0;
-> +	}
-
-Could we check this in the caller?
-
-> +
-> +	ret = v4l2_subdev_call(cam_dev->sensor, video, s_stream, 0);
-> +	if (ret) {
-> +		dev_err(dev, "%s stream off failed:%d\n",
-> +			cam_dev->sensor->entity.name, ret);
-> +		return -EPERM;
+> +		config_param.cfg_resize_param.bypass = 0;
+> +		config_img_fmt(dev, &config_param.cfg_resize_param.output,
+> +			       img_fmt, &sd_fmt);
 > +	}
 > +
-> +	ret = v4l2_subdev_call(cam_dev->seninf, video, s_stream, 0);
-> +	if (ret) {
-> +		dev_err(dev, "%s stream off failed:%d\n",
-> +			cam_dev->seninf->entity.name, ret);
-> +		return -EPERM;
-> +	}
-> +
-> +	isp_composer_stream(dev, 0);
+> +	/* Configure meta DMAs info. */
+> +	config_param.cfg_meta_param.enabled_meta_dmas = enabled_dma_ports;
 
-Shouldn't we synchronously wait for the streaming to stop here? Otherwise we
-can't guarantee that the hardware releases all the memory that we're going
-to free once this function returns.
+Should image DMAs be masked out of this bitmap?
 
-> +	cam_dev->streaming = false;
-> +	dev_dbg(dev, "streamed off Pass 1\n");
 > +
-> +	return 0;
-> +}
+> +	isp_composer_hw_config(dev, &config_param);
 > +
-> +static int mtk_cam_sd_s_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +	struct mtk_cam_dev *cam_dev = mtk_cam_subdev_to_dev(sd);
-> +
-> +	if (enable)
-> +		return mtk_cam_cio_stream_on(cam_dev);
-> +	else
-> +		return mtk_cam_cio_stream_off(cam_dev);
-> +}
-> +
-> +static int mtk_cam_sd_subscribe_event(struct v4l2_subdev *subdev,
-> +				      struct v4l2_fh *fh,
-> +				      struct v4l2_event_subscription *sub)
-> +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_FRAME_SYNC:
-> +		return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int mtk_cam_sd_s_power(struct v4l2_subdev *sd, int on)
-> +{
-> +	struct mtk_cam_dev *cam_dev = mtk_cam_subdev_to_dev(sd);
-> +
-> +	dev_dbg(&cam_dev->pdev->dev, "%s:%d", __func__, on);
-> +
-> +	return on ? mtk_isp_power_init(cam_dev) :
-> +		    mtk_isp_power_release(&cam_dev->pdev->dev);
-
-s_power is a historical thing and we shouldn't be implementing it. Instead,
-we should use runtime PM and call pm_runtime_get_sync(), pm_runtime_put()
-whenever we start and stop streaming respectively.
-
-> +}
-> +
-> +static int mtk_cam_media_link_setup(struct media_entity *entity,
-> +				    const struct media_pad *local,
-> +				    const struct media_pad *remote, u32 flags)
-> +{
-> +	struct mtk_cam_dev *cam_dev =
-> +		container_of(entity, struct mtk_cam_dev, subdev.entity);
-> +	u32 pad = local->index;
-> +
-> +	dev_dbg(&cam_dev->pdev->dev, "%s: %d -> %d flags:0x%x\n",
-> +		__func__, pad, remote->index, flags);
-> +
-> +	if (pad < MTK_CAM_P1_TOTAL_NODES)
-
-I assume this check is needed, because the pads with higher indexes are not
-video nodes? If so, a comment would be helpful here.
-
-> +		cam_dev->vdev_nodes[pad].enabled =
-> +			!!(flags & MEDIA_LNK_FL_ENABLED);
+> +	dev_dbg(dev, "%s done\n", __func__);
 > +
 > +	return 0;
 > +}
 > +
-> +static void mtk_cam_vb2_buf_queue(struct vb2_buffer *vb)
+> +void mtk_isp_enqueue(struct device *dev, unsigned int dma_port,
+> +		     struct mtk_cam_dev_buffer *buffer)
 > +{
-> +	struct mtk_cam_dev *mtk_cam_dev = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vb->vb2_queue);
-> +	struct device *dev = &mtk_cam_dev->pdev->dev;
-> +	struct mtk_cam_dev_buffer *buf;
+> +	struct mtk_isp_scp_p1_cmd frameparams;
 > +
-> +	buf = mtk_cam_vb2_buf_to_dev_buf(vb);
-
-This can be folded into the declaration.
-
+> +	memset(&frameparams, 0, sizeof(frameparams));
+> +	frameparams.cmd_id = ISP_CMD_ENQUEUE_META;
+> +	frameparams.meta_frame.enabled_dma = dma_port;
+> +	frameparams.meta_frame.vb_index = buffer->vbb.vb2_buf.index;
+> +	frameparams.meta_frame.meta_addr.iova = buffer->daddr;
+> +	frameparams.meta_frame.meta_addr.scp_addr = buffer->scp_addr;
 > +
-> +	dev_dbg(dev, "%s: node:%d fd:%d idx:%d\n",
-> +		__func__,
-> +		node->id,
-> +		buf->vbb.request_fd,
-> +		buf->vbb.vb2_buf.index);
+> +	isp_composer_enqueue(dev, &frameparams, SCP_ISP_CMD);
+> +}
 > +
-> +	/* For request buffers en-queue, handled in mtk_cam_req_try_queue */
-> +	if (vb->vb2_queue->uses_requests)
+> +void mtk_isp_req_flush_buffers(struct device *dev)
+> +{
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	struct mtk_isp_queue_job *job, *j0;
+> +	struct mtk_cam_dev_buffer *buf, *b0;
+> +	struct isp_queue *p1_list = &p1_dev->isp_ctx.p1_enqueue_list;
+> +
+> +	if (!atomic_read(&p1_list->queue_cnt))
 > +		return;
 
-I'd suggest removing non-request support from this driver. Even if we end up
-with a need to provide compatibility for non-request mode, then it should be
-built on top of the requests mode, so that the driver itself doesn't have to
-deal with two modes.
+Do we need this explicit check? The code below wouldn't do anything if there
+isn't anything in the list. IMHO we could even remove queue_cnt completely.
 
 > +
-> +	/* Added the buffer into the tracking list */
-> +	spin_lock(&node->slock);
-> +	list_add_tail(&buf->list, &node->pending_list);
-> +	spin_unlock(&node->slock);
-> +
-> +	mtk_isp_enqueue(dev, node->desc.dma_port, buf);
-> +}
-> +
-> +static int mtk_cam_vb2_buf_init(struct vb2_buffer *vb)
-> +{
-> +	struct mtk_cam_dev *cam_dev = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct device *smem_dev = cam_dev->smem_dev;
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vb->vb2_queue);
-> +	struct mtk_cam_dev_buffer *buf;
-> +
-> +	buf = mtk_cam_vb2_buf_to_dev_buf(vb);
-> +	buf->node_id = node->id;
-> +	buf->daddr = vb2_dma_contig_plane_dma_addr(&buf->vbb.vb2_buf, 0);
-> +	buf->scp_addr = 0;
+> +	spin_lock(&p1_list->lock);
+> +	list_for_each_entry_safe(job, j0, &p1_list->queue, list_entry) {
 
-Just a reminder that this will have to be reworked according to my comments
-for the memory allocation patch.
+nit: s/j0/job_prev/
 
-> +
-> +	/* scp address is only valid for meta input buffer */
-> +	if (node->desc.smem_alloc)
-> +		buf->scp_addr = mtk_cam_smem_iova_to_scp_addr(smem_dev,
-> +							      buf->daddr);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vb2_buf_prepare(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb);
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vb->vb2_queue);
-> +	const struct v4l2_format *fmt = &node->vdev_fmt;
-> +	unsigned int size;
-> +
-> +	if (vb->vb2_queue->type == V4L2_BUF_TYPE_META_OUTPUT ||
-> +	    vb->vb2_queue->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		size = fmt->fmt.meta.buffersize;
-> +	else
-> +		size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
-> +
-> +	if (vb2_plane_size(vb, 0) < size)
-> +		return -EINVAL;
+> +		list_for_each_entry_safe(buf, b0, &job->list_buf, list) {
 
-For OUTPUT buffers we need to check if vb2_get_plane_payload() == size.
-Otherwise we could get not enough or invalid data.
+nit: s/b0/buf_pref/
 
-> +
-> +	v4l2_buf->field = V4L2_FIELD_NONE;
-> +	vb2_set_plane_payload(vb, 0, size);
+Also, we should be able to replace this with iterating over the generic list
+of request objects, rather than this internal list.
 
-This shouldn't be called on OUTPUT buffers.
+> +			list_del(&buf->list);
+> +			if (buf->vbb.vb2_buf.state == VB2_BUF_STATE_ACTIVE)
 
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vb2_queue_setup(struct vb2_queue *vq,
-> +				   unsigned int *num_buffers,
-> +				   unsigned int *num_planes,
-> +				   unsigned int sizes[],
-> +				   struct device *alloc_devs[])
-> +{
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vq);
-> +	unsigned int max_buffer_count = node->desc.max_buf_count;
-> +	const struct v4l2_format *fmt = &node->vdev_fmt;
-> +	unsigned int size;
-> +
-> +	/* Check the limitation of buffer size */
-> +	if (max_buffer_count)
-> +		*num_buffers = clamp_val(*num_buffers, 1, max_buffer_count);
-> +
-> +	if (vq->type == V4L2_BUF_TYPE_META_OUTPUT ||
-> +	    vq->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		size = fmt->fmt.meta.buffersize;
-> +	else
-> +		size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
-> +
-> +	/* Add for q.create_bufs with fmt.g_sizeimage(p) / 2 test */
-> +	if (*num_planes) {
+It shouldn't be possible to happen. If you see this check failing, that
+means a problem somewhere else in the driver.
 
-We should also verify that *num_planes == 1, as we don't support more
-planes in this driver.
-
-> +		if (sizes[0] < size)
-> +			return -EINVAL;
-> +	} else {
-> +		*num_planes = 1;
-> +		sizes[0] = size;
+> +				vb2_buffer_done(&buf->vbb.vb2_buf,
+> +						VB2_BUF_STATE_ERROR);
+> +		}
+> +		list_del(&job->list_entry);
+> +		atomic_dec(&p1_list->queue_cnt);
+> +		kfree(job);
 > +	}
-> +
-> +	return 0;
+> +	spin_unlock(&p1_list->lock);
 > +}
 > +
-> +static void mtk_cam_vb2_return_all_buffers(struct mtk_cam_dev *cam_dev,
-> +					   struct mtk_cam_video_device *node,
-> +					   enum vb2_buffer_state state)
+> +void mtk_isp_req_enqueue(struct device *dev, struct media_request *req)
 > +{
-> +	struct mtk_cam_dev_buffer *b, *b0;
-> +	struct mtk_cam_dev_request *req, *req0;
-> +	struct media_request_object *obj, *obj0;
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+
+Just pass p1_dev to this function instead of dev.
+
+> +	struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> +	struct p1_frame_param frameparams;
+> +	struct mtk_isp_queue_job *framejob;
+> +	struct media_request_object *obj, *obj_safe;
 > +	struct vb2_buffer *vb;
+> +	struct mtk_cam_dev_buffer *buf;
 > +
-> +	dev_dbg(&cam_dev->pdev->dev, "%s: node:%s", __func__, node->vdev.name);
+> +	framejob = kzalloc(sizeof(*framejob), GFP_ATOMIC);
+
+This allocation shouldn't be needed. The structure should be already a part
+of the mtk_cam_dev_request struct that wraps media_request. Actually. I'd
+even say that the contents of this struct should be just moved to that one
+to avoid overabstracting.
+
+> +	memset(framejob, 0, sizeof(*framejob));
+
+Putting the above comment aside, kzalloc() already zeroes the memory.
+
+> +	memset(&frameparams, 0, sizeof(frameparams));
+> +	INIT_LIST_HEAD(&framejob->list_buf);
 > +
-> +	/* Return all buffers */
-> +	spin_lock(&node->slock);
-> +	list_for_each_entry_safe(b, b0, &node->pending_list, list) {
+> +	frameparams.frame_seq_no = isp_ctx->frame_seq_no++;
+> +	frameparams.sof_idx =
+> +		p1_dev->isp_devs[isp_ctx->isp_hw_module].sof_count;
 
-nit: One would normally call the second argument "prev", or "b_prev".
+How is this synchronized with the sof_count increment in irq_handle_sof()?
 
-> +		vb = &b->vbb.vb2_buf;
-> +		if (vb->state == VB2_BUF_STATE_ACTIVE)
+> +	framejob->frame_seq_no = frameparams.frame_seq_no;
+> +
+> +	list_for_each_entry_safe(obj, obj_safe, &req->objects, list) {
+> +		vb = container_of(obj, struct vb2_buffer, req_obj);
 
-We shouldn't need to check the buffer state.
+We should check that the object type before assuming it's a vb2_buffer by
+calling vb2_request_object_is_buffer().
 
-> +			vb2_buffer_done(vb, state);
-> +		list_del(&b->list);
+> +		buf = container_of(vb, struct mtk_cam_dev_buffer, vbb.vb2_buf);
+> +		framejob->request_fd = buf->vbb.request_fd;
+
+We shouldn't use request_fd as the key here. We already have req here, which
+is the right key to use.
+
+That said, I can see framejob->request_fd only used for printing a debugging
+message in mtk_cam_dev_job_finish(). The request API core should already
+print something for us once a request is completed, so perhaps that isn't
+needed?
+
+> +		frameparams.dma_buffers[buf->node_id].iova = buf->daddr;
+> +		frameparams.dma_buffers[buf->node_id].scp_addr = buf->scp_addr;
+> +		list_add_tail(&buf->list, &framejob->list_buf);
+
+Why do we need this private list? We could just call exactly the same
+list_for_each() over the request objects.
+
 > +	}
-> +	spin_unlock(&node->slock);
 > +
-> +	spin_lock(&cam_dev->req_lock);
-> +	list_for_each_entry_safe(req, req0, &cam_dev->req_list, list) {
+> +	spin_lock(&isp_ctx->p1_enqueue_list.lock);
+> +	list_add_tail(&framejob->list_entry, &isp_ctx->p1_enqueue_list.queue);
 
-nit: Ditto.
+We already have a list head in mtk_cam_dev_request.
 
-> +		list_for_each_entry_safe(obj, obj0, &req->req.objects, list) {
+> +	atomic_inc(&isp_ctx->p1_enqueue_list.queue_cnt);
+> +	spin_unlock(&isp_ctx->p1_enqueue_list.lock);
+> +
+> +	isp_composer_enqueue(dev, &frameparams, SCP_ISP_FRAME);
+> +	dev_dbg(dev, "request fd:%d frame_seq_no:%d is queued cnt:%d\n",
+> +		framejob->request_fd,
+> +		frameparams.frame_seq_no,
+> +		atomic_read(&isp_ctx->p1_enqueue_list.queue_cnt));
+> +}
+> +
+> +static int enable_sys_clock(struct isp_p1_device *p1_dev)
+> +{
+> +	struct device *dev = &p1_dev->pdev->dev;
+> +	int ret;
+> +
+> +	dev_info(dev, "- %s\n", __func__);
 
-Need to check if the object is a buffer.
+dev_dbg()
 
-> +			vb = container_of(obj, struct vb2_buffer, req_obj);
-> +			if (vb->state == VB2_BUF_STATE_ACTIVE)
+> +
+> +	ret = clk_bulk_prepare_enable(p1_dev->isp_ctx.num_clks,
+> +				      p1_dev->isp_ctx.clk_list);
+> +	if (ret)
+> +		goto clk_err;
+> +
+> +	return 0;
+> +
+> +clk_err:
+> +	dev_err(dev, "cannot pre-en isp_cam clock:%d\n", ret);
+> +	clk_bulk_disable_unprepare(p1_dev->isp_ctx.num_clks,
+> +				   p1_dev->isp_ctx.clk_list);
 
-vb->state shouldn't be accessed directly from the drivers.
+clk_bulk_prepare_enable() returns without any clocks enabled if it fails, so
+this would disable the clocks second time.
 
-Generally, the need to check the state here would suggest that there is
-something wrong with how the driver manages the requests. The list that is
-being iterated here shouldn't contain any requests that have buffers that
-aren't active. That will be achieved if my comments for the request handling
-in the DIP driver are applied to this driver as well.
+> +	return ret;
+> +}
+> +
+> +static void disable_sys_clock(struct isp_p1_device *p1_dev)
+> +{
+> +	dev_info(&p1_dev->pdev->dev, "- %s\n", __func__);
 
-> +				vb2_buffer_done(vb, state);
+dev_dbg()
+
+> +	clk_bulk_disable_unprepare(p1_dev->isp_ctx.num_clks,
+> +				   p1_dev->isp_ctx.clk_list);
+> +}
+
+There is no point in having wrapper functions to just call one function
+inside. Please just call clk_bulk_*() directly.
+
+> +
+> +static int mtk_isp_suspend(struct device *dev)
+> +{
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	int module = p1_dev->isp_ctx.isp_hw_module;
+> +	struct isp_device *isp_dev = &p1_dev->isp_devs[module];
+> +	unsigned int reg_val;
+> +
+> +	dev_dbg(dev, "- %s\n", __func__);
+> +
+
+We need to check if the device isn't already runtime suspended. If it is, we
+don't have to do anything here and can just return.
+
+
+We also need to ensure that no new requests are queued to the hardware at
+this point. This could be done by replacing any of the kthreads with
+workqueues and making all of the workqueues freezable.
+
+> +	isp_dev = &p1_dev->isp_devs[module];
+> +	reg_val = readl(isp_dev->regs + REG_TG_VF_CON);
+> +	if (reg_val & VFDATA_EN_BIT) {
+> +		dev_dbg(dev, "Cam:%d suspend, disable VF\n", module);
+> +		/* Disable view finder */
+> +		writel((reg_val & (~VFDATA_EN_BIT)),
+> +		       isp_dev->regs + REG_TG_VF_CON);
+> +		/*
+> +		 * After VF enable, the TG frame count will be reset to 0;
+> +		 */
+> +		reg_val = readl(isp_dev->regs + REG_TG_SEN_MODE);
+> +		writel((reg_val & (~CMOS_EN_BIT)),
+> +		       isp_dev->regs +  + REG_TG_SEN_MODE);
+> +	}
+
+Are you sure this is the right handling? We need to make sure the hardware
+finishes processing the current frame and stops.
+
+> +
+> +	disable_sys_clock(p1_dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_isp_resume(struct device *dev)
+> +{
+> +	struct isp_p1_device *p1_dev = get_p1_device(dev);
+> +	int module = p1_dev->isp_ctx.isp_hw_module;
+> +	struct isp_device *isp_dev = &p1_dev->isp_devs[module];
+> +	unsigned int reg_val;
+> +
+> +	dev_dbg(dev, "- %s\n", __func__);
+> +
+
+We need to check runtime PM status here as well, because if the device was
+suspended, there is nothing to do here.
+
+> +	enable_sys_clock(p1_dev);
+> +
+> +	/* V4L2 stream-on phase & restore HW stream-on status */
+> +	if (p1_dev->cam_dev.streaming) {
+> +		dev_dbg(dev, "Cam:%d resume,enable VF\n", module);
+> +		/* Enable CMOS */
+> +		reg_val = readl(isp_dev->regs + REG_TG_SEN_MODE);
+> +		writel((reg_val | CMOS_EN_BIT),
+> +		       isp_dev->regs + REG_TG_SEN_MODE);
+> +		/* Enable VF */
+> +		reg_val = readl(isp_dev->regs + REG_TG_VF_CON);
+> +		writel((reg_val | VFDATA_EN_BIT),
+> +		       isp_dev->regs + REG_TG_VF_CON);
+> +	}
+
+Does the hardware keep all the state, e.g. queued buffers, during suspend?
+Would the code above continue all the capture from the next buffer, as
+queued by the userspace before the suspend?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_isp_probe(struct platform_device *pdev)
+> +{
+> +	struct isp_p1_device *p1_dev;
+> +	struct mtk_isp_p1_ctx *isp_ctx;
+> +	struct isp_device *isp_dev;
+> +	struct device *dev = &pdev->dev;
+> +	struct resource *res;
+> +	int irq;
+> +	int ret;
+> +	unsigned int i;
+> +
+> +	p1_dev = devm_kzalloc(dev, sizeof(*p1_dev), GFP_KERNEL);
+> +	if (!p1_dev)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, p1_dev);
+> +	isp_ctx = &p1_dev->isp_ctx;
+> +	p1_dev->pdev = pdev;
+
+Perhaps you want to store &pdev->dev instead of pdev? I'm not sure a
+reference to platform_device is very useful later in the code.
+
+> +
+> +	for (i = ISP_CAMSYS_CONFIG_IDX; i < ISP_DEV_NODE_NUM; i++) {
+
+I think we want to start from 0 here?
+
+> +		isp_dev = &p1_dev->isp_devs[i];
+> +		isp_dev->isp_hw_module = i;
+> +		isp_dev->dev = dev;
+
+p1_dev already includes a pointer to this.
+
+> +		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+> +		isp_dev->regs = devm_ioremap_resource(dev, res);
+> +
+> +		dev_dbg(dev, "cam%u, map_addr=0x%lx\n",
+> +			i, (unsigned long)isp_dev->regs);
+> +
+> +		if (!isp_dev->regs)
+
+devm_ioremap_resource() returns ERR_PTR() not NULL on error.
+
+> +			return PTR_ERR(isp_dev->regs);
+> +
+> +		/* Support IRQ from ISP_CAM_A_IDX */
+> +		if (i >= ISP_CAM_A_IDX) {
+> +			/* Reg & interrupts index is shifted with 1  */
+
+The reader can already see that it's shifted from the code below. The
+comment should say _why_ it is shifted.
+
+> +			irq = platform_get_irq(pdev, i - 1);
+
+The bindings have 3 IRQs, but we only seem to request 2 here. Is that
+expected?
+
+> +			if (irq) {
+
+Please invert this if, so that it bails out on error. Also, this should
+check for negative errors codes, not 0.
+
+> +				ret = devm_request_irq(dev, irq,
+> +						       isp_irq_cam,
+> +						       IRQF_SHARED,
+> +						       dev_driver_string(dev),
+
+Use dev_name().
+
+> +						       (void *)isp_dev);
+
+No need to cast to void *.
+
+> +				if (ret) {
+> +					dev_err(dev,
+> +						"req_irq fail, dev:%s irq=%d\n",
+> +						dev->of_node->name,
+> +						irq);
+> +					return ret;
+> +				}
+> +				dev_dbg(dev, "Registered irq=%d, ISR:%s\n",
+> +					irq, dev_driver_string(dev));
+> +			}
 > +		}
-> +		list_del(&req->list);
+> +		spin_lock_init(&isp_dev->spinlock_irq);
 > +	}
-> +	spin_unlock(&cam_dev->req_lock);
-> +
-> +	if (node->vbq.uses_requests)
-> +		mtk_isp_req_flush_buffers(&cam_dev->pdev->dev);
-> +}
-> +
-> +static int mtk_cam_vb2_start_streaming(struct vb2_queue *vq,
-> +				       unsigned int count)
-> +{
-> +	struct mtk_cam_dev *cam_dev = vb2_get_drv_priv(vq);
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vq);
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	unsigned int node_count = cam_dev->subdev.entity.use_count;
-> +	int ret;
-> +
-> +	if (!node->enabled) {
 
-How is this synchronized with mtk_cam_media_link_setup()?
-
-> +		dev_err(dev, "Node:%d is not enable\n", node->id);
-> +		ret = -ENOLINK;
-> +		goto fail_no_link;
-> +	}
-> +
-> +	dev_dbg(dev, "%s: count info:%d:%d", __func__,
-> +		atomic_read(&cam_dev->streamed_node_count), node_count);
-> +
-> +	if (atomic_inc_return(&cam_dev->streamed_node_count) < node_count)
-> +		return 0;
-
-How do we guarantee that cam_dev->subdev.entity.use_count doesn't change
-between calls to this function on different video nodes?
+We might want to move out the body of this loop to a separate function to
+keep this function shorter.
 
 > +
-> +	/* Start streaming of the whole pipeline now */
-> +	ret = media_pipeline_start(&node->vdev.entity, &cam_dev->pipeline);
+> +	p1_dev->isp_ctx.num_clks = ARRAY_SIZE(mtk_isp_clks);
+> +	p1_dev->isp_ctx.clk_list =
+
+nit: "list" is the term commonly used for the list data structure. There is
+also a convention to call the length of array XXX num_XXX, so how about
+clks and num_clks?
+
+> +		devm_kcalloc(dev,
+> +			     p1_dev->isp_ctx.num_clks,
+> +			     sizeof(*p1_dev->isp_ctx.clk_list),
+> +			     GFP_KERNEL);
+> +	if (!p1_dev->isp_ctx.clk_list)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < p1_dev->isp_ctx.num_clks; ++i)
+> +		p1_dev->isp_ctx.clk_list->id = mtk_isp_clks[i];
+
+Shouldn't this be clk_list[i].id?
+
+> +
+> +	ret = devm_clk_bulk_get(dev,
+> +				p1_dev->isp_ctx.num_clks,
+> +				p1_dev->isp_ctx.clk_list);
 > +	if (ret) {
-> +		dev_err(dev, "%s: Node:%d failed\n", __func__, node->id);
-> +		goto fail_start_pipeline;
-> +	}
-> +
-
-Related to the above comment: If we start the media pipeline when we start
-streaming on the first node, we would naturally prevent the link
-configuration changes until the last node stops streaming (as long as the
-link is not DYNAMIC). Note that it would only mark the entities as
-streaming, but it wouldn't call their s_stream, which I believe is exactly
-what we would need to solve the problem above.
-
-> +	/* Stream on sub-devices node */
-> +	ret = v4l2_subdev_call(&cam_dev->subdev, video, s_stream, 1);
-> +	if (ret) {
-> +		dev_err(dev, "Node:%d s_stream on failed:%d\n", node->id, ret);
-> +		goto fail_stream_on;
-> +	}
-> +
-> +	return 0;
-> +
-> +fail_stream_on:
-> +	media_pipeline_stop(&node->vdev.entity);
-> +fail_start_pipeline:
-> +	atomic_dec(&cam_dev->streamed_node_count);
-> +fail_no_link:
-> +	mtk_cam_vb2_return_all_buffers(cam_dev, node, VB2_BUF_STATE_QUEUED);
-> +
-> +	return ret;
-> +}
-> +
-> +static void mtk_cam_vb2_stop_streaming(struct vb2_queue *vq)
-> +{
-> +	struct mtk_cam_dev *cam_dev = vb2_get_drv_priv(vq);
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vq);
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +
-> +	if (!node->enabled)
-> +		return;
-
-It shouldn't be possible for this to happen, because nobody could have
-called start_streaming on a disabled node.
-
-> +
-> +	mtk_cam_vb2_return_all_buffers(cam_dev, node, VB2_BUF_STATE_ERROR);
-
-Shouldn't we stop streaming first, so that the hardware operation is
-cancelled and any buffers owned by the hardware are released?
-
-> +
-> +	dev_dbg(dev, "%s: count info:%d", __func__,
-> +		cam_dev->subdev.entity.stream_count);
-> +
-> +	/* Check the first node to stream-off */
-> +	if (!cam_dev->subdev.entity.stream_count)
-> +		return;
-> +
-> +	media_pipeline_stop(&node->vdev.entity);
-> +
-> +	if (v4l2_subdev_call(&cam_dev->subdev, video, s_stream, 0))
-> +		dev_err(dev, "failed to stop streaming\n");
-> +}
-> +
-> +static void mtk_cam_vb2_buf_request_complete(struct vb2_buffer *vb)
-> +{
-> +	struct mtk_cam_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
-> +
-> +	v4l2_ctrl_request_complete(vb->req_obj.req,
-> +				   dev->v4l2_dev.ctrl_handler);
-
-This would end up being called multiple times, once for each video node.
-Instead, this should be called explicitly by the driver when it completed
-the request - perhaps in the frame completion handler?
-
-With that, we probably wouldn't even need this callback.
-
-> +}
-> +
-> +static int mtk_cam_vidioc_querycap(struct file *file, void *fh,
-> +				   struct v4l2_capability *cap)
-> +{
-> +	struct mtk_cam_dev *cam_dev = video_drvdata(file);
-> +
-> +	strscpy(cap->driver, MTK_CAM_DEV_P1_NAME, sizeof(cap->driver));
-> +	strscpy(cap->card, MTK_CAM_DEV_P1_NAME, sizeof(cap->card));
-
-We could just use dev_driver_name(cam_dev->dev) for both.
-
-> +	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> +		 dev_name(cam_dev->media_dev.dev));
-
-We should just store dev in cam_dev.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_enum_fmt(struct file *file, void *fh,
-> +				   struct v4l2_fmtdesc *f)
-> +{
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +
-> +	if (f->index >= node->desc.num_fmts)
-> +		return -EINVAL;
-> +
-> +	f->pixelformat = node->desc.fmts[f->index].fmt.pix_mp.pixelformat;
-
-Is the set of formats available always the same regardless of the sensor
-format?
-
-> +	f->flags = 0;
-
-We need f->description too.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_g_fmt(struct file *file, void *fh,
-> +				struct v4l2_format *f)
-> +{
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +
-> +	if (!node->desc.num_fmts)
-> +		return -EINVAL;
-
-When would that condition happen?
-
-> +
-> +	f->fmt = node->vdev_fmt.fmt;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_try_fmt(struct file *file, void *fh,
-> +				  struct v4l2_format *in_fmt)
-> +{
-> +	struct mtk_cam_dev *cam_dev = video_drvdata(file);
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +	const struct v4l2_format *dev_fmt;
-> +	__u32  width, height;
-
-Don't use __ types in implementation, they are here for UAPI purposes. There
-is u32, which you could use instead, but for width and height you don't need
-explicit size, so unsigned int should be good.
-
-> +
-> +	dev_dbg(&cam_dev->pdev->dev, "%s: fmt:%c%c%c%c, w*h:%u*%u\n",
-> +		__func__,
-> +		(in_fmt->fmt.pix_mp.pixelformat & 0xFF),
-> +		(in_fmt->fmt.pix_mp.pixelformat >> 8) & 0xFF,
-> +		(in_fmt->fmt.pix_mp.pixelformat >> 16) & 0xFF,
-> +		(in_fmt->fmt.pix_mp.pixelformat >> 24) & 0xFF,
-> +		in_fmt->fmt.pix_mp.width, in_fmt->fmt.pix_mp.height);
-> +
-> +	width = in_fmt->fmt.pix_mp.width;
-> +	height = in_fmt->fmt.pix_mp.height;
-> +
-> +	dev_fmt = mtk_cam_dev_find_fmt(&node->desc,
-> +				       in_fmt->fmt.pix_mp.pixelformat);
-> +	if (dev_fmt) {
-> +		mtk_cam_dev_set_img_fmt(&cam_dev->pdev->dev,
-> +					&in_fmt->fmt.pix_mp,
-> +					&dev_fmt->fmt.pix_mp,
-> +					node->id);
-> +	} else {
-> +		mtk_cam_dev_load_default_fmt(&cam_dev->pdev->dev,
-> +					     &node->desc, in_fmt);
-
-We shouldn't just load a default format. This function should validate all
-the fields one by one and adjust them to something appropriate.
-
-> +	}
-
-CodingStyle: No braces if both if and else bodies have only 1 statement
-each.
-
-> +	in_fmt->fmt.pix_mp.width = clamp_t(u32,
-> +					   width,
-> +					   CAM_MIN_WIDTH,
-> +					   in_fmt->fmt.pix_mp.width);
-
-Shouldn't we clamp this with some maximum value too?
-
-> +	in_fmt->fmt.pix_mp.height = clamp_t(u32,
-> +					    height,
-> +					    CAM_MIN_HEIGHT,
-> +					    in_fmt->fmt.pix_mp.height);
-
-Ditto.
-
-> +	mtk_cam_dev_cal_mplane_fmt(&cam_dev->pdev->dev,
-> +				   &in_fmt->fmt.pix_mp, node->id);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_s_fmt(struct file *file, void *fh,
-> +				struct v4l2_format *f)
-> +{
-> +	struct mtk_cam_dev *cam_dev = video_drvdata(file);
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +
-> +	if (cam_dev->streaming)
-> +		return -EBUSY;
-
-I think this should rather be something like vb2_queue_is_busy(), which
-would prevent format changes if buffers are allocated.
-
-> +
-> +	/* Get the valid format */
-> +	mtk_cam_vidioc_try_fmt(file, fh, f);
-> +
-> +	/* Configure to video device */
-> +	mtk_cam_dev_set_img_fmt(&cam_dev->pdev->dev,
-> +				&node->vdev_fmt.fmt.pix_mp,
-> +				&f->fmt.pix_mp,
-> +				node->id);
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_enum_input(struct file *file, void *fh,
-> +				     struct v4l2_input *input)
-> +{
-> +	if (input->index)
-> +		return -EINVAL;
-> +
-> +	strscpy(input->name, "camera", sizeof(input->name));
-> +	input->type = V4L2_INPUT_TYPE_CAMERA;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_g_input(struct file *file, void *fh,
-> +				  unsigned int *input)
-> +{
-> +	*input = 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_s_input(struct file *file,
-> +				  void *fh, unsigned int input)
-> +{
-> +	return input == 0 ? 0 : -EINVAL;
-> +}
-> +
-> +static int mtk_cam_vidioc_enum_framesizes(struct file *filp, void *priv,
-> +					  struct v4l2_frmsizeenum *sizes)
-> +{
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(filp);
-> +	const struct v4l2_format *dev_fmt;
-> +
-> +	dev_fmt = mtk_cam_dev_find_fmt(&node->desc, sizes->pixel_format);
-> +	if (!dev_fmt || sizes->index)
-> +		return -EINVAL;
-> +
-> +	sizes->type = node->desc.frmsizes->type;
-> +	memcpy(&sizes->stepwise, &node->desc.frmsizes->stepwise,
-> +	       sizeof(sizes->stepwise));
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_meta_enum_fmt(struct file *file, void *fh,
-> +					struct v4l2_fmtdesc *f)
-> +{
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +
-> +	if (f->index)
-> +		return -EINVAL;
-> +
-> +	strscpy(f->description, node->desc.description,
-> +		sizeof(node->desc.description));
-> +	f->pixelformat = node->vdev_fmt.fmt.meta.dataformat;
-> +	f->flags = 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mtk_cam_vidioc_g_meta_fmt(struct file *file, void *fh,
-> +				     struct v4l2_format *f)
-> +{
-> +	struct mtk_cam_video_device *node = file_to_mtk_cam_node(file);
-> +
-> +	f->fmt.meta.dataformat = node->vdev_fmt.fmt.meta.dataformat;
-> +	f->fmt.meta.buffersize = node->vdev_fmt.fmt.meta.buffersize;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_core_ops mtk_cam_subdev_core_ops = {
-> +	.subscribe_event = mtk_cam_sd_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +	.s_power = mtk_cam_sd_s_power,
-> +};
-> +
-> +static const struct v4l2_subdev_video_ops mtk_cam_subdev_video_ops = {
-> +	.s_stream =  mtk_cam_sd_s_stream,
-> +};
-> +
-> +static const struct v4l2_subdev_ops mtk_cam_subdev_ops = {
-> +	.core = &mtk_cam_subdev_core_ops,
-> +	.video = &mtk_cam_subdev_video_ops,
-> +};
-> +
-> +static const struct media_entity_operations mtk_cam_media_ops = {
-
-nit: mtk_cam_media_entity_ops?
-
-> +	.link_setup = mtk_cam_media_link_setup,
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static const struct vb2_ops mtk_cam_vb2_ops = {
-> +	.queue_setup = mtk_cam_vb2_queue_setup,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
-> +	.buf_init = mtk_cam_vb2_buf_init,
-> +	.buf_prepare = mtk_cam_vb2_buf_prepare,
-> +	.start_streaming = mtk_cam_vb2_start_streaming,
-> +	.stop_streaming = mtk_cam_vb2_stop_streaming,
-> +	.buf_queue = mtk_cam_vb2_buf_queue,
-> +	.buf_request_complete = mtk_cam_vb2_buf_request_complete,
-> +};
-> +
-> +static const struct v4l2_file_operations mtk_cam_v4l2_fops = {
-> +	.unlocked_ioctl = video_ioctl2,
-> +	.open = mtk_cam_isp_open,
-> +	.release = mtk_cam_isp_release,
-> +	.poll = vb2_fop_poll,
-> +	.mmap = vb2_fop_mmap,
-> +#ifdef CONFIG_COMPAT
-> +	.compat_ioctl32 = v4l2_compat_ioctl32,
-> +#endif
-> +};
-> +
-> +static const struct media_device_ops mtk_cam_media_req_ops = {
-
-nit: Those are media ops, so perhaps just mtk_cam_media_ops?
-
-> +	.link_notify = v4l2_pipeline_link_notify,
-> +	.req_alloc = mtk_cam_req_alloc,
-> +	.req_free = mtk_cam_req_free,
-> +	.req_validate = vb2_request_validate,
-> +	.req_queue = mtk_cam_req_queue,
-> +};
-> +
-> +static int mtk_cam_media_register(struct device *dev,
-> +				  struct media_device *media_dev)
-> +{
-> +	media_dev->dev = dev;
-> +	strscpy(media_dev->model, MTK_CAM_DEV_P1_NAME,
-
-Could we replace any use of this macro with dev_driver_string(dev) and then
-delete the macro? The less name strings in the driver the better, as there
-is less change for confusing the userspace if few different names are used
-at the same time.
-
-> +		sizeof(media_dev->model));
-> +	snprintf(media_dev->bus_info, sizeof(media_dev->bus_info),
-> +		 "platform:%s", dev_name(dev));
-> +	media_dev->hw_revision = 0;
-> +	media_device_init(media_dev);
-> +	media_dev->ops = &mtk_cam_media_req_ops;
-> +
-> +	return media_device_register(media_dev);
-> +}
-> +
-> +static int mtk_cam_video_register_device(struct mtk_cam_dev *cam_dev, u32 i)
-> +{
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	struct mtk_cam_video_device *node = &cam_dev->vdev_nodes[i];
-
-Would it make sense to pass node as an argument to this function instead of
-(or in addition to) i?
-
-> +	struct video_device *vdev = &node->vdev;
-> +	struct vb2_queue *vbq = &node->vbq;
-> +	u32 output = !cam_dev->vdev_nodes[i].desc.capture;
-
-Why not call it capture instead and avoid the inversion?
-
-> +	u32 link_flags = cam_dev->vdev_nodes[i].desc.link_flags;
-> +	int ret;
-> +
-> +	cam_dev->subdev_pads[i].flags = output ?
-> +		MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-> +
-> +	/* Initialize media entities */
-> +	ret = media_entity_pads_init(&vdev->entity, 1, &node->vdev_pad);
-> +	if (ret) {
-> +		dev_err(dev, "failed initialize media pad:%d\n", ret);
+> +		dev_err(dev, "cannot get isp cam clock:%d\n", ret);
 > +		return ret;
 > +	}
-> +	node->enabled = false;
-
-Are all the nodes optional? If there is any required node, it should be
-always enabled and have the MEDIA_LNK_FL_IMMUTABLE flag set.
-
-> +	node->id = i;
-> +	node->vdev_pad.flags = cam_dev->subdev_pads[i].flags;
-
-Hmm, shouldn't the subdev pads have opposite directions (sink vs source)?
-
-> +	mtk_cam_dev_load_default_fmt(&cam_dev->pdev->dev,
-> +				     &node->desc,
-> +				     &node->vdev_fmt);
 > +
-> +	/* Initialize vbq */
-> +	vbq->type = node->vdev_fmt.type;
-> +	if (vbq->type == V4L2_BUF_TYPE_META_OUTPUT)
-> +		vbq->io_modes = VB2_MMAP;
-> +	else
-> +		vbq->io_modes = VB2_MMAP | VB2_DMABUF;
-> +
-> +	if (node->desc.smem_alloc) {
-> +		vbq->bidirectional = 1;
-> +		vbq->dev = cam_dev->smem_dev;
-> +	} else {
-> +		vbq->dev = &cam_dev->pdev->dev;
-> +	}
-> +
-> +	if (vbq->type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		vdev->entity.function =
-> +			MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
-
-This is a video node, so it's just a DMA, not a processing entity. I believe
-all the entities corresponding to video nodes should use MEDIA_ENT_F_IO_V4L.
-
-> +	vbq->ops = &mtk_cam_vb2_ops;
-> +	vbq->mem_ops = &vb2_dma_contig_memops;
-> +	vbq->buf_struct_size = sizeof(struct mtk_cam_dev_buffer);
-> +	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	vbq->min_buffers_needed = 0;	/* Can streamon w/o buffers */
-> +	/* Put the process hub sub device in the vb2 private data */
-
-What is "process hub" and what "sub device" is this about?
-
-> +	vbq->drv_priv = cam_dev;
-> +	vbq->lock = &node->lock;
-> +	vbq->supports_requests = true;
-> +
-> +	ret = vb2_queue_init(vbq);
+> +	/* Initialize reserved DMA memory */
+> +	ret = mtk_cam_reserved_memory_init(p1_dev);
 > +	if (ret) {
-> +		dev_err(dev, "failed to init. vb2 queue:%d\n", ret);
-> +		goto fail_vb2_queue;
+> +		dev_err(dev, "failed to configure DMA memory:%d\n", ret);
+> +		goto err_init;
 > +	}
 > +
-> +	/* Initialize vdev */
-> +	snprintf(vdev->name, sizeof(vdev->name), "%s %s",
-> +		 MTK_CAM_DEV_P1_NAME, node->desc.name);
-> +	/* set cap/type/ioctl_ops of the video device */
-> +	vdev->device_caps = node->desc.cap | V4L2_CAP_STREAMING;
-> +	vdev->ioctl_ops = node->desc.ioctl_ops;
-> +	vdev->fops = &mtk_cam_v4l2_fops;
-> +	vdev->release = video_device_release_empty;
-> +	vdev->lock = &node->lock;
-> +	vdev->v4l2_dev = &cam_dev->v4l2_dev;
-> +	vdev->queue = &node->vbq;
-> +	vdev->vfl_dir = output ? VFL_DIR_TX : VFL_DIR_RX;
-> +	vdev->entity.ops = NULL;
-> +	/* Enable private control for image video devices */
-> +	if (node->desc.image) {
-> +		mtk_cam_ctrl_init(cam_dev, &node->ctrl_handler);
-> +		vdev->ctrl_handler = &node->ctrl_handler;
-> +	}
-> +	video_set_drvdata(vdev, cam_dev);
-> +	dev_dbg(dev, "register vdev:%d:%s\n", i, vdev->name);
-> +
-> +	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register vde:%d\n", ret);
-> +		goto fail_vdev;
-> +	}
-> +
-> +	/* Create link between video node and the subdev pad */
-> +	if (output) {
-> +		ret = media_create_pad_link(&vdev->entity, 0,
-> +					    &cam_dev->subdev.entity,
-> +					    i, link_flags);
-> +	} else {
-> +		ret = media_create_pad_link(&cam_dev->subdev.entity,
-> +					    i, &vdev->entity, 0,
-> +					    link_flags);
-> +	}
+> +	/* Initialize the v4l2 common part */
+> +	ret = mtk_cam_dev_init(pdev, &p1_dev->cam_dev);
 > +	if (ret)
-> +		goto fail_link;
+> +		goto err_init;
 > +
-> +	/* Initialize miscellaneous variables */
-> +	mutex_init(&node->lock);
-> +	spin_lock_init(&node->slock);
-> +	INIT_LIST_HEAD(&node->pending_list);
-
-This should be all initialized before registering the video device.
-Otherwise userspace could open the device before these are initialized.
-
+> +	spin_lock_init(&isp_ctx->p1_enqueue_list.lock);
+> +	pm_runtime_enable(dev);
 > +
 > +	return 0;
 > +
-> +fail_link:
-> +	video_unregister_device(vdev);
-> +fail_vdev:
-> +	vb2_queue_release(vbq);
-> +fail_vb2_queue:
-> +	media_entity_cleanup(&vdev->entity);
+> +err_init:
+> +	if (p1_dev->cam_dev.smem_dev)
+> +		device_unregister(p1_dev->cam_dev.smem_dev);
 > +
 > +	return ret;
 > +}
 > +
-> +static int mtk_cam_mem2mem2_v4l2_register(struct mtk_cam_dev *cam_dev)
-
-This function doesn't have anything to do with mem2mem. How about
-mtk_cam_v4l2_register()?
-
-Perhaps it would make sense to move any media related code into into
-mtk_cam_media_register(), keep only V4L2 related code here and have the
-caller call the former first and then this one, rather than having such deep
-sequence of nested calls, which makes the driver harder to read.
-
+> +static int mtk_isp_remove(struct platform_device *pdev)
 > +{
-> +	struct device *dev = &cam_dev->pdev->dev;
-
-How about just storing dev, instead of pdev in the struct? Also, calling the
-argument "cam", would make it as short as cam->dev.
-
-> +	/* Total pad numbers is video devices + one seninf pad */
-> +	unsigned int num_subdev_pads = MTK_CAM_CIO_PAD_SINK + 1;
-> +	unsigned int i;
-> +	int ret;
+> +	struct device *dev = &pdev->dev;
+> +	struct isp_p1_device *p1_dev = dev_get_drvdata(dev);
 > +
-> +	ret = mtk_cam_media_register(dev,
-> +				     &cam_dev->media_dev);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register media device:%d\n", ret);
-> +		return ret;
-> +	}
-> +	dev_info(dev, "Register media device: %s, 0x%pK",
-> +		 MTK_CAM_DEV_P1_NAME, cam_dev->media_dev);
-
-An info message should be useful to the user in some way. Printing kernel
-pointers isn't useful. Something like "registered media0" could be useful to
-let the user know which media device is associated with this driver if there
-is more than one in the system.
-
-> +
-> +	/* Set up v4l2 device */
-> +	cam_dev->v4l2_dev.mdev = &cam_dev->media_dev;
-> +	ret = v4l2_device_register(dev, &cam_dev->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register V4L2 device:%d\n", ret);
-> +		goto fail_v4l2_dev;
-
-Please call the labels after the cleanup step that needs to be done. It
-makes it easier to spot any ordering errors.
-
-> +	}
-> +	dev_info(dev, "Register v4l2 device: 0x%pK", cam_dev->v4l2_dev);
-
-Same as above.
-
-> +
-> +	/* Initialize subdev media entity */
-> +	cam_dev->subdev_pads = devm_kcalloc(dev, num_subdev_pads,
-> +					    sizeof(*cam_dev->subdev_pads),
-> +					    GFP_KERNEL);
-> +	if (!cam_dev->subdev_pads) {
-> +		ret = -ENOMEM;
-> +		goto fail_subdev_pads;
-> +	}
-> +
-> +	ret = media_entity_pads_init(&cam_dev->subdev.entity,
-> +				     num_subdev_pads,
-> +				     cam_dev->subdev_pads);
-> +	if (ret) {
-> +		dev_err(dev, "failed initialize media pads:%d:\n", ret);
-
-Stray ":" at the end of the message.
-
-> +		goto fail_subdev_pads;
-> +	}
-> +
-> +	/* Initialize all pads with MEDIA_PAD_FL_SOURCE */
-> +	for (i = 0; i < num_subdev_pads; i++)
-> +		cam_dev->subdev_pads[i].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	/* Customize the last one pad as CIO sink pad. */
-> +	cam_dev->subdev_pads[MTK_CAM_CIO_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +
-> +	/* Initialize subdev */
-> +	v4l2_subdev_init(&cam_dev->subdev, &mtk_cam_subdev_ops);
-> +	cam_dev->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
-> +	cam_dev->subdev.entity.ops = &mtk_cam_media_ops;
-> +	cam_dev->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +				V4L2_SUBDEV_FL_HAS_EVENTS;
-> +	snprintf(cam_dev->subdev.name, sizeof(cam_dev->subdev.name),
-> +		 "%s", MTK_CAM_DEV_P1_NAME);
-> +	v4l2_set_subdevdata(&cam_dev->subdev, cam_dev);
-> +
-> +	ret = v4l2_device_register_subdev(&cam_dev->v4l2_dev, &cam_dev->subdev);
-> +	if (ret) {
-> +		dev_err(dev, "failed initialize subdev:%d\n", ret);
-> +		goto fail_subdev;
-> +	}
-> +	dev_info(dev, "register subdev: %s\n", cam_dev->subdev.name);
-> +
-> +	/* Create video nodes and links */
-> +	for (i = 0; i < MTK_CAM_P1_TOTAL_NODES; i++) {
-> +		ret = mtk_cam_video_register_device(cam_dev, i);
-> +		if (ret)
-> +			goto fail_video_register;
-> +	}
-> +
-> +	vb2_dma_contig_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> +
-> +	return 0;
-> +
-> +fail_video_register:
-> +	i--;
-
-This could be moved into the for clause, as the initialization statement.
-
-> +	for (; i >= 0; i--) {
-
-i is unsigned. Did this compile without warnings?
-
-> +		video_unregister_device(&cam_dev->vdev_nodes[i].vdev);
-> +		media_entity_cleanup(&cam_dev->vdev_nodes[i].vdev.entity);
-> +		mutex_destroy(&cam_dev->vdev_nodes[i].lock);
-
-Should we move this into mtk_cam_video_unregister_device() to be consistent
-with registration?
-
-> +	}
-> +fail_subdev:
-> +	media_entity_cleanup(&cam_dev->subdev.entity);
-> +fail_subdev_pads:
-> +	v4l2_device_unregister(&cam_dev->v4l2_dev);
-> +fail_v4l2_dev:
-> +	dev_err(dev, "fail_v4l2_dev mdev: 0x%pK:%d", &cam_dev->media_dev, ret);
-
-Please print errors only where they actually happen, not at the cleanup.
-
-> +	media_device_unregister(&cam_dev->media_dev);
-> +	media_device_cleanup(&cam_dev->media_dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mtk_cam_v4l2_unregister(struct mtk_cam_dev *cam_dev)
-> +{
-> +	unsigned int i;
-> +	struct mtk_cam_video_device *dev;
-
-nit: Move the declaration inside the for loop, since the variable is only
-used there.
-
-> +
-> +	for (i = 0; i < MTK_CAM_P1_TOTAL_NODES; i++) {
-> +		dev = &cam_dev->vdev_nodes[i];
-> +		video_unregister_device(&dev->vdev);
-> +		media_entity_cleanup(&dev->vdev.entity);
-> +		mutex_destroy(&dev->lock);
-> +		if (dev->desc.image)
-> +			v4l2_ctrl_handler_free(&dev->ctrl_handler);
-> +	}
-> +
-> +	vb2_dma_contig_clear_max_seg_size(&cam_dev->pdev->dev);
-> +
-> +	v4l2_device_unregister_subdev(&cam_dev->subdev);
-> +	media_entity_cleanup(&cam_dev->subdev.entity);
-> +	kfree(cam_dev->subdev_pads);
-
-This was allocated using devm_kcalloc(), so no need to free it explicitly.
-
-> +
-> +	v4l2_device_unregister(&cam_dev->v4l2_dev);
-> +	media_device_unregister(&cam_dev->media_dev);
-> +	media_device_cleanup(&cam_dev->media_dev);
+> +	pm_runtime_disable(dev);
+> +	mtk_cam_dev_release(pdev, &p1_dev->cam_dev);
 > +
 > +	return 0;
 > +}
 > +
-> +static int mtk_cam_dev_complete(struct v4l2_async_notifier *notifier)
-> +{
-> +	struct mtk_cam_dev *cam_dev =
-> +		container_of(notifier, struct mtk_cam_dev, notifier);
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	int ret;
+> +static const struct dev_pm_ops mtk_isp_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(mtk_isp_suspend, mtk_isp_resume)
+> +	SET_RUNTIME_PM_OPS(mtk_isp_suspend, mtk_isp_resume, NULL)
+
+For V4L2 drivers system and runtime PM ops would normally be completely
+different. Runtime PM ops would be called when the hardware is idle already
+or is about to become active. System PM ops would be called at system power
+state change and the hardware might be both idle or active. Please also see
+my comments to mtk_isp_suspend() and mtk_isp_resume() above.
+
+> +};
 > +
-> +	ret = media_create_pad_link(&cam_dev->seninf->entity,
-> +				    MTK_CAM_CIO_PAD_SRC,
-> +				    &cam_dev->subdev.entity,
-> +				    MTK_CAM_CIO_PAD_SINK,
-> +				    0);
-> +	if (ret) {
-> +		dev_err(dev, "fail to create pad link %s %s err:%d\n",
-> +			cam_dev->seninf->entity.name,
-> +			cam_dev->subdev.entity.name,
-> +			ret);
-> +		return ret;
+> +static struct platform_driver mtk_isp_driver = {
+> +	.probe   = mtk_isp_probe,
+> +	.remove  = mtk_isp_remove,
+> +	.driver  = {
+> +		.name  = "mtk-cam",
+
+Shouldn't this be something like mtk-cam-p1? Please make sure this
+reasonably consistent with other drivers.
+
+> +		.of_match_table = of_match_ptr(mtk_isp_of_ids),
+> +		.pm     = &mtk_isp_pm_ops,
 > +	}
-> +
-> +	dev_info(dev, "Complete the v4l2 registration\n");
-
-dev_dbg()
-
-> +
-> +	ret = v4l2_device_register_subdev_nodes(&cam_dev->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(dev, "failed initialize subdev nodes:%d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return ret;
-> +}
-
-Why not just put the contents of this function inside 
-mtk_cam_dev_notifier_complete()?
-
-> +
-> +static int mtk_cam_dev_notifier_bound(struct v4l2_async_notifier *notifier,
-> +				      struct v4l2_subdev *sd,
-> +				      struct v4l2_async_subdev *asd)
-> +{
-> +	struct mtk_cam_dev *cam_dev =
-> +		container_of(notifier, struct mtk_cam_dev, notifier);
-> +
-
-Should we somehow check that the entity we got is seninf indeed and there
-was no mistake in DT?
-
-> +	cam_dev->seninf = sd;
-> +	dev_info(&cam_dev->pdev->dev, "%s is bounded\n", sd->entity.name);
-
-bound
-
-Also please make this dev_dbg().
-
-> +	return 0;
-> +}
-> +
-> +static void mtk_cam_dev_notifier_unbind(struct v4l2_async_notifier *notifier,
-> +					struct v4l2_subdev *sd,
-> +					struct v4l2_async_subdev *asd)
-> +{
-> +	struct mtk_cam_dev *cam_dev =
-> +		container_of(notifier, struct mtk_cam_dev, notifier);
-> +
-> +	cam_dev->seninf = NULL;
-> +	dev_dbg(&cam_dev->pdev->dev, "%s is unbounded\n", sd->entity.name);
-
-unbound
-
-> +}
-> +
-> +static int mtk_cam_dev_notifier_complete(struct v4l2_async_notifier *notifier)
-> +{
-> +	return mtk_cam_dev_complete(notifier);
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations mtk_cam_async_ops = {
-> +	.bound = mtk_cam_dev_notifier_bound,
-> +	.unbind = mtk_cam_dev_notifier_unbind,
-> +	.complete = mtk_cam_dev_notifier_complete,
 > +};
 > +
-> +static int mtk_cam_v4l2_async_register(struct mtk_cam_dev *cam_dev)
-> +{
-> +	struct device *dev = &cam_dev->pdev->dev;
-> +	int ret;
+> +module_platform_driver(mtk_isp_driver);
 > +
-> +	ret = v4l2_async_notifier_parse_fwnode_endpoints(dev,
-> +		&cam_dev->notifier, sizeof(struct v4l2_async_subdev),
-> +		NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!cam_dev->notifier.num_subdevs)
-> +		return -ENODEV;
+> +MODULE_DESCRIPTION("Camera ISP driver");
 
-Could we print some error messages for the 2 cases above?
+Mediatek Camera P1 ISP driver? Please make sure this is reasonably
+consistent with other drivers (SenInf, DIP, FD).
 
-> +
-> +	cam_dev->notifier.ops = &mtk_cam_async_ops;
-> +	dev_info(&cam_dev->pdev->dev, "mtk_cam v4l2_async_notifier_register\n");
+> +MODULE_LICENSE("GPL");
 
-dev_dbg()
+GPL v2
 
-> +	ret = v4l2_async_notifier_register(&cam_dev->v4l2_dev,
-> +					   &cam_dev->notifier);
-> +	if (ret) {
-> +		dev_err(&cam_dev->pdev->dev,
-> +			"failed to register async notifier : %d\n", ret);
-> +		v4l2_async_notifier_cleanup(&cam_dev->notifier);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static void mtk_cam_v4l2_async_unregister(struct mtk_cam_dev *cam_dev)
-> +{
-> +	v4l2_async_notifier_unregister(&cam_dev->notifier);
-> +	v4l2_async_notifier_cleanup(&cam_dev->notifier);
-> +}
-> +
-> +static const struct v4l2_ioctl_ops mtk_cam_v4l2_vcap_ioctl_ops = {
-> +	.vidioc_querycap = mtk_cam_vidioc_querycap,
-> +	.vidioc_enum_framesizes = mtk_cam_vidioc_enum_framesizes,
-> +	.vidioc_enum_fmt_vid_cap_mplane = mtk_cam_vidioc_enum_fmt,
-> +	.vidioc_g_fmt_vid_cap_mplane = mtk_cam_vidioc_g_fmt,
-> +	.vidioc_s_fmt_vid_cap_mplane = mtk_cam_vidioc_s_fmt,
-> +	.vidioc_try_fmt_vid_cap_mplane = mtk_cam_vidioc_try_fmt,
-> +	.vidioc_enum_input = mtk_cam_vidioc_enum_input,
-> +	.vidioc_g_input = mtk_cam_vidioc_g_input,
-> +	.vidioc_s_input = mtk_cam_vidioc_s_input,
-
-I don't think we need vidioc_*_input. At least the current implementation in
-this patch doesn't seem to do anything useful.
-
-> +	/* buffer queue management */
-
-Drop this comment, as it's obvious that the callbacks with "buf" in the name
-are related to buffers, there are some non-buffer callbacks below too (e.g.
-vidioc_subscribe_event) and also the other ops structs below don't have such
-comment.
-
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_ioctl_ops mtk_cam_v4l2_meta_cap_ioctl_ops = {
-> +	.vidioc_querycap = mtk_cam_vidioc_querycap,
-> +	.vidioc_enum_fmt_meta_cap = mtk_cam_vidioc_meta_enum_fmt,
-> +	.vidioc_g_fmt_meta_cap = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_s_fmt_meta_cap = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_try_fmt_meta_cap = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +};
-> +
-> +static const struct v4l2_ioctl_ops mtk_cam_v4l2_meta_out_ioctl_ops = {
-> +	.vidioc_querycap = mtk_cam_vidioc_querycap,
-> +	.vidioc_enum_fmt_meta_out = mtk_cam_vidioc_meta_enum_fmt,
-> +	.vidioc_g_fmt_meta_out = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_s_fmt_meta_out = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_try_fmt_meta_out = mtk_cam_vidioc_g_meta_fmt,
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +};
-> +
-> +static const struct v4l2_format meta_fmts[] = {
-> +	{
-> +		.fmt.meta = {
-> +			.dataformat = V4L2_META_FMT_MTISP_PARAMS,
-> +			.buffersize = 128 * PAGE_SIZE,
-
-PAGE_SIZE is a weird unit for specifying generic buffer sizes. How about
-making it 512 * SZ_1K?
-
-That said, it should normally be just sizeof(struct some_struct_used_here).
-
-Same for the other entries below.
-
-> +		},
-> +	},
-> +	{
-> +		.fmt.meta = {
-> +			.dataformat = V4L2_META_FMT_MTISP_3A,
-> +			.buffersize = 300 * PAGE_SIZE,
-> +		},
-> +	},
-> +	{
-> +		.fmt.meta = {
-> +			.dataformat = V4L2_META_FMT_MTISP_AF,
-> +			.buffersize = 160 * PAGE_SIZE,
-> +		},
-> +	},
-> +	{
-> +		.fmt.meta = {
-> +			.dataformat = V4L2_META_FMT_MTISP_LCS,
-> +			.buffersize = 72 * PAGE_SIZE,
-> +		},
-> +	},
-> +	{
-> +		.fmt.meta = {
-> +			.dataformat = V4L2_META_FMT_MTISP_LMV,
-> +			.buffersize = 256,
-> +		},
-> +	},
-> +};
-> +
-> +static const struct v4l2_format stream_out_fmts[] = {
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = IMG_MAX_WIDTH,
-> +			.height = IMG_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_B8,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_SRGB,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = IMG_MAX_WIDTH,
-> +			.height = IMG_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_B10,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_SRGB,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = IMG_MAX_WIDTH,
-> +			.height = IMG_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_B12,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_SRGB,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = IMG_MAX_WIDTH,
-> +			.height = IMG_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_B14,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_SRGB,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +};
-> +
-> +static const struct v4l2_format bin_out_fmts[] = {
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = RRZ_MAX_WIDTH,
-> +			.height = RRZ_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_F8,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_RAW,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = RRZ_MAX_WIDTH,
-> +			.height = RRZ_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_F10,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_RAW,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = RRZ_MAX_WIDTH,
-> +			.height = RRZ_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_F12,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_RAW,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +	{
-> +		.fmt.pix_mp = {
-> +			.width = RRZ_MAX_WIDTH,
-> +			.height = RRZ_MAX_HEIGHT,
-> +			.pixelformat = V4L2_PIX_FMT_MTISP_F14,
-> +			.field = V4L2_FIELD_NONE,
-> +			.colorspace = V4L2_COLORSPACE_RAW,
-> +			.num_planes = 1,
-> +		},
-> +	},
-> +};
-> +
-> +static const struct v4l2_frmsizeenum img_frm_size_nums[] = {
-> +	{
-> +		.index = 0,
-> +		.type = V4L2_FRMSIZE_TYPE_CONTINUOUS,
-> +		.stepwise = {
-> +			.max_width = IMG_MAX_WIDTH,
-> +			.min_width = IMG_MIN_WIDTH,
-> +			.max_height = IMG_MAX_HEIGHT,
-> +			.min_height = IMG_MIN_HEIGHT,
-> +			.step_height = 1,
-> +			.step_width = 1,
-> +		},
-> +	},
-> +	{
-> +		.index = 0,
-> +		.type = V4L2_FRMSIZE_TYPE_CONTINUOUS,
-> +		.stepwise = {
-> +			.max_width = RRZ_MAX_WIDTH,
-> +			.min_width = RRZ_MIN_WIDTH,
-> +			.max_height = RRZ_MAX_HEIGHT,
-> +			.min_height = RRZ_MIN_HEIGHT,
-> +			.step_height = 1,
-> +			.step_width = 1,
-> +		},
-> +	},
-> +};
-> +
-> +static const struct
-> +mtk_cam_dev_node_desc output_queues[MTK_CAM_P1_TOTAL_OUTPUT] = {
-> +	{
-> +		.id = MTK_CAM_P1_META_IN_0,
-> +		.name = "meta input",
-> +		.description = "ISP tuning parameters",
-> +		.cap = V4L2_CAP_META_OUTPUT,
-> +		.buf_type = V4L2_BUF_TYPE_META_OUTPUT,
-> +		.link_flags = 0,
-> +		.capture = false,
-> +		.image = false,
-> +		.smem_alloc = true,
-> +		.fmts = meta_fmts,
-> +		.num_fmts = ARRAY_SIZE(meta_fmts),
-> +		.default_fmt_idx = 0,
-> +		.max_buf_count = 10,
-> +		.ioctl_ops = &mtk_cam_v4l2_meta_out_ioctl_ops,
-> +	},
-> +};
-> +
-> +static const struct
-> +mtk_cam_dev_node_desc capture_queues[MTK_CAM_P1_TOTAL_CAPTURE] = {
-> +	{
-> +		.id = MTK_CAM_P1_MAIN_STREAM_OUT,
-> +		.name = "main stream",
-> +		.cap = V4L2_CAP_VIDEO_CAPTURE_MPLANE,
-> +		.buf_type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-> +		.link_flags = 0,
-> +		.capture = true,
-> +		.image = true,
-> +		.smem_alloc = false,
-> +		.dma_port = R_IMGO,
-> +		.fmts = stream_out_fmts,
-> +		.num_fmts = ARRAY_SIZE(stream_out_fmts),
-> +		.default_fmt_idx = 1,
-
-Why not just make it always 0 and move the default format to the beginning
-of stream_out_fmts[]?
-
-> +		.ioctl_ops = &mtk_cam_v4l2_vcap_ioctl_ops,
-> +		.frmsizes = &img_frm_size_nums[0],
-
-nit: If you only need to point to these data once, you could define them in
-place, as a compound literal, like
-
->                 .frmsizes = &(struct v4l2_framesizeenum) {
->                         // initialize here
->                 },
-
-> +	},
-> +	{
-> +		.id = MTK_CAM_P1_PACKED_BIN_OUT,
-> +		.name = "packed out",
-> +		.cap = V4L2_CAP_VIDEO_CAPTURE_MPLANE,
-> +		.buf_type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-> +		.link_flags = 0,
-> +		.capture = true,
-> +		.image = true,
-> +		.smem_alloc = false,
-> +		.dma_port = R_RRZO,
-> +		.fmts = bin_out_fmts,
-> +		.num_fmts = ARRAY_SIZE(bin_out_fmts),
-> +		.default_fmt_idx = 1,
-> +		.ioctl_ops = &mtk_cam_v4l2_vcap_ioctl_ops,
-> +		.frmsizes = &img_frm_size_nums[1],
-> +	},
-> +	{
-> +		.id = MTK_CAM_P1_META_OUT_0,
-> +		.name = "partial meta 0",
-> +		.description = "AE/AWB histogram",
-> +		.cap = V4L2_CAP_META_CAPTURE,
-> +		.buf_type = V4L2_BUF_TYPE_META_CAPTURE,
-> +		.link_flags = 0,
-> +		.capture = true,
-> +		.image = false,
-> +		.smem_alloc = false,
-> +		.dma_port = R_AAO | R_FLKO | R_PSO,
-> +		.fmts = meta_fmts,
-> +		.num_fmts = ARRAY_SIZE(meta_fmts),
-> +		.default_fmt_idx = 1,
-> +		.max_buf_count = 5,
-> +		.ioctl_ops = &mtk_cam_v4l2_meta_cap_ioctl_ops,
-> +	},
-> +	{
-> +		.id = MTK_CAM_P1_META_OUT_1,
-> +		.name = "partial meta 1",
-> +		.description = "AF histogram",
-> +		.cap = V4L2_CAP_META_CAPTURE,
-> +		.buf_type = V4L2_BUF_TYPE_META_CAPTURE,
-> +		.link_flags = 0,
-> +		.capture = true,
-> +		.image = false,
-> +		.smem_alloc = false,
-> +		.dma_port = R_AFO,
-> +		.fmts = meta_fmts,
-> +		.num_fmts = ARRAY_SIZE(meta_fmts),
-> +		.default_fmt_idx = 2,
-> +		.max_buf_count = 5,
-> +		.ioctl_ops = &mtk_cam_v4l2_meta_cap_ioctl_ops,
-> +	},
-> +	{
-> +		.id = MTK_CAM_P1_META_OUT_2,
-> +		.name = "partial meta 2",
-> +		.description = "Local contrast enhanced statistics",
-> +		.cap = V4L2_CAP_META_CAPTURE,
-> +		.buf_type = V4L2_BUF_TYPE_META_CAPTURE,
-> +		.link_flags = 0,
-> +		.capture = true,
-> +		.image = false,
-> +		.smem_alloc = false,
-> +		.dma_port = R_LCSO,
-> +		.fmts = meta_fmts,
-> +		.num_fmts = ARRAY_SIZE(meta_fmts),
-> +		.default_fmt_idx = 3,
-> +		.max_buf_count = 10,
-> +		.ioctl_ops = &mtk_cam_v4l2_meta_cap_ioctl_ops,
-> +	},
-> +	{
-> +		.id = MTK_CAM_P1_META_OUT_3,
-> +		.name = "partial meta 3",
-> +		.description = "Local motion vector histogram",
-> +		.cap = V4L2_CAP_META_CAPTURE,
-> +		.buf_type = V4L2_BUF_TYPE_META_CAPTURE,
-> +		.link_flags = 0,
-
-link_flags seems to be 0 for all nodes.
-
-> +		.capture = true,
-
-We already know this from .buf_type. We can check using the
-V4L2_TYPE_IS_OUTPUT() macro.
-
-> +		.image = false,
-> +		.smem_alloc = false,
-> +		.dma_port = R_LMVO,
-> +		.fmts = meta_fmts,
-> +		.num_fmts = ARRAY_SIZE(meta_fmts),
-
-I don't think this is correct. The description suggests one specific format
-(local motion vector histogram), so the queue should probably be hardwired
-to that format?
-
-> +		.default_fmt_idx = 4,
-> +		.max_buf_count = 10,
-
-Where does this number come from?
-
-> +		.ioctl_ops = &mtk_cam_v4l2_meta_cap_ioctl_ops,
-> +	},
-> +};
-> +
-> +/* The helper to configure the device context */
-> +static void mtk_cam_dev_queue_setup(struct mtk_cam_dev *cam_dev)
-> +{
-> +	unsigned int i, node_idx;
-> +
-> +	node_idx = 0;
-> +
-> +	/* Setup the output queue */
-> +	for (i = 0; i < MTK_CAM_P1_TOTAL_OUTPUT; i++)
-
-< ARRAY_SIZE(output_queues)
-
-> +		cam_dev->vdev_nodes[node_idx++].desc = output_queues[i];
-> +
-> +	/* Setup the capture queue */
-> +	for (i = 0; i < MTK_CAM_P1_TOTAL_CAPTURE; i++)
-
-< ARRAY_SIZE(capture_queues)
-
-> +		cam_dev->vdev_nodes[node_idx++].desc = capture_queues[i];
-> +}
-> +
-> +int mtk_cam_dev_init(struct platform_device *pdev,
-> +		     struct mtk_cam_dev *cam_dev)
-> +{
-> +	int ret;
-> +
-> +	cam_dev->pdev = pdev;
-
-Do we need this additional mtk_cam_dev struct? Couldn't we just use
-mtk_isp_p1 here?
-
-> +	mtk_cam_dev_queue_setup(cam_dev);
-> +	/* v4l2 sub-device registration */
-> +
-> +	dev_dbg(&cam_dev->pdev->dev, "mem2mem2.name: %s\n",
-> +		MTK_CAM_DEV_P1_NAME);
-
-This debugging message doesn't seem very useful. Please remove.
-
-> +	ret = mtk_cam_mem2mem2_v4l2_register(cam_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mtk_cam_v4l2_async_register(cam_dev);
-> +	if (ret) {
-> +		mtk_cam_v4l2_unregister(cam_dev);
-
-Please use an error path on the bottom of the function instead. With goto
-labels named after the next clean-up step that needs to be performed.
-
-> +		return ret;
-> +	}
-> +
-> +	spin_lock_init(&cam_dev->req_lock);
-> +	INIT_LIST_HEAD(&cam_dev->req_list);
-> +	mutex_init(&cam_dev->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +int mtk_cam_dev_release(struct platform_device *pdev,
-
-"release" is normally used for file_operations. How about "cleanup"?
-
-> +			struct mtk_cam_dev *cam_dev)
-> +{
-> +	mtk_cam_v4l2_async_unregister(cam_dev);
-> +	mtk_cam_v4l2_unregister(cam_dev);
-> +
-> +	mutex_destroy(&cam_dev->lock);
-> +
-> +	return 0;
-> +}
-
-I'd suggest moving any generic API implementation code (platform_device,
-V4L2, VB2, Media Controller, etc.) to mtk_cam.c and then moving any low
-level hardware/firmware-related code from mtk_cam.c and mtk_cam-scp.c to
-mtk_cam_hw.c.
-
-> +
-diff --git a/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-v4l2-util.h b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-v4l2-util.h
+diff --git a/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.h b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.h
 new file mode 100644
-index 000000000000..825cdf20643a
+index 000000000000..6af3f569664c
 > --- /dev/null
-> +++ b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-v4l2-util.h
-@@ -0,0 +1,173 @@
+> +++ b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.h
+@@ -0,0 +1,243 @@
 > +/* SPDX-License-Identifier: GPL-2.0 */
 > +/*
 > + * Copyright (c) 2018 MediaTek Inc.
 > + */
 > +
-> +#ifndef __MTK_CAM_DEV_V4L2_H__
-> +#define __MTK_CAM_DEV_V4L2_H__
+> +#ifndef __CAMERA_ISP_H
+> +#define __CAMERA_ISP_H
 > +
-> +#include <linux/device.h>
-> +#include <linux/types.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/videodev2.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-subdev.h>
-> +#include <media/videobuf2-core.h>
-> +#include <media/videobuf2-v4l2.h>
+> +#include <linux/cdev.h>
+> +#include <linux/clk.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/ioctl.h>
+> +#include <linux/irqreturn.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/pm_qos.h>
+> +#include <linux/scatterlist.h>
 > +
-> +#define MTK_CAM_DEV_P1_NAME			"MTK-ISP-P1-V4L2"
-
-Maybe it's not a critical thing, but generally it's a good practice to just
-explicitly specific this name somewhere, e.g. struct
-platform_driver::driver::name and then just refer to dev_driver_name(). It
-makes it easier to make sure that the name stays the same everywhere.
-
+> +#include "mtk_cam-scp.h"
+> +#include "mtk_cam-v4l2-util.h"
 > +
-> +#define MTK_CAM_P1_META_IN_0			0
-> +#define MTK_CAM_P1_TOTAL_OUTPUT		1
-
-Since these are just some utility definitions, we can use enum instead of
-assigning the values by hand.
-
+> +#define CAM_A_MAX_WIDTH		3328
+> +#define CAM_A_MAX_HEIGHT		2496
+> +#define CAM_B_MAX_WIDTH		5376
+> +#define CAM_B_MAX_HEIGHT		4032
 > +
-> +#define MTK_CAM_P1_MAIN_STREAM_OUT		1
-> +#define MTK_CAM_P1_PACKED_BIN_OUT		2
-> +#define MTK_CAM_P1_META_OUT_0			3
-> +#define MTK_CAM_P1_META_OUT_1			4
-> +#define MTK_CAM_P1_META_OUT_2			5
-> +#define MTK_CAM_P1_META_OUT_3			6
-> +#define MTK_CAM_P1_TOTAL_CAPTURE		6
-
-Ditto.
-
+> +#define CAM_MIN_WIDTH			80
+> +#define CAM_MIN_HEIGHT			60
 > +
-> +#define MTK_CAM_P1_TOTAL_NODES			7
-
-Please just add the two totals together rather than manually specifying the
-value.
-
+> +#define IMG_MAX_WIDTH			CAM_B_MAX_WIDTH
+> +#define IMG_MAX_HEIGHT			CAM_B_MAX_HEIGHT
+> +#define IMG_MIN_WIDTH			CAM_MIN_WIDTH
+> +#define IMG_MIN_HEIGHT			CAM_MIN_HEIGHT
 > +
-> +struct mtk_cam_dev_request {
-> +	struct media_request	req;
-> +	struct list_head	list;
+> +#define RRZ_MAX_WIDTH			CAM_B_MAX_WIDTH
+> +#define RRZ_MAX_HEIGHT			CAM_B_MAX_HEIGHT
+> +#define RRZ_MIN_WIDTH			CAM_MIN_WIDTH
+> +#define RRZ_MIN_HEIGHT			CAM_MIN_HEIGHT
+> +
+> +#define R_IMGO				BIT(0)
+> +#define R_RRZO				BIT(1)
+> +#define R_AAO				BIT(3)
+> +#define R_AFO				BIT(4)
+> +#define R_LCSO				BIT(5)
+> +#define R_PDO				BIT(6)
+> +#define R_LMVO				BIT(7)
+> +#define R_FLKO				BIT(8)
+> +#define R_RSSO				BIT(9)
+> +#define R_PSO				BIT(10)
+> +
+> +#define CQ_BUFFER_COUNT		3
+> +#define IRQ_DATA_BUF_SIZE		4
+> +#define CQ_ADDRESS_OFFSET		0x640
+> +
+> +#define ISP_COMPOSING_MAX_NUM		4
+> +#define ISP_FRAME_COMPOSING_MAX_NUM	3
+> +
+> +#define IRQ_STAT_STR	"cam%c, SOF_%d irq(0x%x), " \
+> +			"dma(0x%x), frame_num(%d)/cq_num(%d), " \
+> +			"fbc1(0x%x), fbc2(0x%x)\n"
+> +
+> +/*
+> + * In order with the sequence of device nodes defined in dtsi rule,
+> + * one hardware module should be mapping to one node.
+> + */
+> +enum isp_dev_node_enum {
+> +	ISP_CAMSYS_CONFIG_IDX = 0,
+> +	ISP_CAM_UNI_IDX,
+> +	ISP_CAM_A_IDX,
+> +	ISP_CAM_B_IDX,
+> +	ISP_DEV_NODE_NUM
 > +};
 > +
-> +struct mtk_cam_dev_buffer {
-> +	struct vb2_v4l2_buffer	vbb;
-> +	struct list_head	list;
-> +	/* Intenal part */
-> +	dma_addr_t		daddr;
-> +	dma_addr_t		scp_addr;
-> +	unsigned int		node_id;
+> +/* Image RAW path for ISP P1 module. */
+> +enum isp_raw_path_enum {
+> +	ISP_PROCESS_RAW_PATH = 0,
+> +	ISP_PURE_RAW_PATH
+> +};
+> +
+> +/* State for struct mtk_isp_p1_ctx: composer_state */
+> +enum  {
+> +	SCP_ON = 0,
+> +	SCP_OFF
 > +};
 
-Could you add kerneldoc comments for the 2 structs?
+Hmm, looks like bool.
+
+> +
+> +enum {
+> +	IMG_FMT_UNKNOWN		= 0x0000,
+> +	IMG_FMT_RAW_START	= 0x2200,
+> +	IMG_FMT_BAYER8		= IMG_FMT_RAW_START,
+> +	IMG_FMT_BAYER10,
+> +	IMG_FMT_BAYER12,
+> +	IMG_FMT_BAYER14,
+> +	IMG_FMT_FG_BAYER8,
+> +	IMG_FMT_FG_BAYER10,
+> +	IMG_FMT_FG_BAYER12,
+> +	IMG_FMT_FG_BAYER14,
+> +};
+> +
+> +enum {
+> +	RAW_PXL_ID_B = 0,
+> +	RAW_PXL_ID_GB,
+> +	RAW_PXL_ID_GR,
+> +	RAW_PXL_ID_R
+> +};
+
+Please use macros with explicitly assigned values for hardware/firmware ABI
+definitions.
+
+> +
+> +struct isp_queue {
+> +	struct list_head queue;
+> +	atomic_t queue_cnt;
+> +	spinlock_t lock; /* queue attributes protection */
+> +};
+> +
+> +struct isp_thread {
+> +	struct task_struct *thread;
+> +	wait_queue_head_t wq;
+> +};
+> +
+> +struct mtk_isp_queue_work {
+> +	union {
+> +		struct mtk_isp_scp_p1_cmd cmd;
+> +		struct p1_frame_param frameparams;
+> +	};
+> +	struct list_head list_entry;
+> +	enum mtk_isp_scp_type type;
+> +};
+> +
+> +struct mtk_cam_dev_stat_event_data {
+> +	__u32 frame_seq_no;
+> +	__u32 meta0_vb2_index;
+> +	__u32 meta1_vb2_index;
+> +	__u32 irq_status_mask;
+> +	__u32 dma_status_mask;
+> +};
+> +
+> +struct mtk_isp_queue_job {
+> +	struct list_head list_entry;
+> +	struct list_head list_buf;
+> +	unsigned int request_fd;
+> +	unsigned int frame_seq_no;
+> +};
+
+Please document the structs above using kerneldoc.
 
 > +
 > +/*
-> + * struct mtk_cam_dev_node_desc - node attributes
+> + * struct isp_device - the ISP device information
 > + *
-> + * @id:		 id of the context queue
-> + * @name:	 media entity name
-> + * @description: descritpion of node
-> + * @cap:	 mapped to V4L2 capabilities
-> + * @buf_type:	 mapped to V4L2 buffer type
-> + * @dma_port:	 the dma port associated to the buffer
-> + * @link_flags:	 default media link flags
-> + * @smem_alloc:	 using the cam_smem_drv as alloc ctx or not
-> + * @capture:	 true for capture queue (device to user)
-> + *		 false for output queue (from user to device)
-> + * @image:	 true for image node, false for meta node
-> + * @num_fmts:	 the number of supported formats
-> + * @default_fmt_idx: default format of this node
-> + * @max_buf_count: maximum V4L2 buffer count
-> + * @ioctl_ops:  mapped to v4l2_ioctl_ops
-> + * @fmts:	supported format
-> + * @frmsizes:	supported frame size number
+> + * @dev: Pointer to struct device
+> + * @regs: Camera ISP base register address
+> + * @spinlock_irq: Used to protect register read/write data
+> + * @current_frame: Current frame sequence number, set when SOF
+> + * @meta0_vb2_index: Meta0 vb2 buffer index, set when SOF
+> + * @meta1_vb2_index: Meta1 vb2 buffer index, set when SOF
+> + * @sof_count: The accumulated SOF counter
+> + * @isp_hw_module: Identity camera A or B
 > + *
 > + */
-> +struct mtk_cam_dev_node_desc {
-> +	u8 id;
-> +	char *name;
-> +	char *description;
-> +	u32 cap;
-> +	u32 buf_type;
-> +	u32 dma_port;
-> +	u32 link_flags;
-> +	u8 smem_alloc:1;
-> +	u8 capture:1;
-> +	u8 image:1;
-> +	u8 num_fmts;
-> +	u8 default_fmt_idx;
-> +	u8 max_buf_count;
-> +	const struct v4l2_ioctl_ops *ioctl_ops;
-> +	const struct v4l2_format *fmts;
-> +	const struct v4l2_frmsizeenum *frmsizes;
+> +struct isp_device {
+
+mtk_isp_device?
+
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	spinlock_t spinlock_irq; /* ISP reg setting integrity */
+> +	unsigned int current_frame;
+> +	unsigned int meta0_vb2_index;
+> +	unsigned int meta1_vb2_index;
+> +	u8 sof_count;
+> +	u8 isp_hw_module;
 > +};
 > +
 > +/*
-> + * struct mtk_cam_video_device - Mediatek video device structure.
+> + * struct mtk_isp_p1_ctx - the ISP device information
 > + *
-> + * @id:		Id for mtk_cam_dev_node_desc or mem2mem2_nodes array
-> + * @enabled:	Indicate the device is enabled or not
-> + * @vdev_fmt:	The V4L2 format of video device
-> + * @vdev_apd:	The media pad graph object of video device
-
-vdev_pad?
-
-> + * @vbq:	A videobuf queue of video device
-> + * @desc:	The node attributes of video device
-> + * @ctrl_handler:	The control handler of video device
-> + * @pending_list:	List for pending buffers before enqueuing into driver
-> + * @lock:	Serializes vb2 queue and video device operations.
-> + * @slock:	Protect for pending_list.
+> + * @composer_txlist: Queue for SCP TX data including SCP_ISP_CMD & SCP_ISP_FRAME
+> + * @composer_tx_thread: TX Thread for SCP data tranmission
+> + * @cmd_queued: The number of SCP_ISP_CMD commands will be sent
+> + * @ipi_occupied: The total number of SCP TX data has beent sent
+> + * @scp_state: The state of SCP control
+> + * @composing_frame: The total number of SCP_ISP_FRAME has beent sent
+> + * @composed_frame_id: The ack. frame sequence by SCP
+> + * @composer_deinit_thread: The de-initialized thread
+> + * @p1_enqueue_list: Queue for ISP frame buffers
+> + * @isp_deque_thread: Thread for handling ISP frame buffers dequeue
+> + * @irq_event_datas: Ring buffer for struct mtk_cam_dev_stat_event_data data
+> + * @irq_data_start: Start index of irq_event_datas ring buffer
+> + * @irq_data_end: End index of irq_event_datas ring buffer
+> + * @irq_dequeue_lock: Lock to protect irq_event_datas ring buffer
+> + * @scp_mem_pa: DMA address for SCP device
+> + * @scp_mem_iova: DMA address for ISP HW DMA devices
+> + * @frame_seq_no: Sequence number for ISP frame buffer
+> + * @isp_hw_module: Active camera HW module
+> + * @num_clks: The number of driver's clock
+> + * @clk_list: The list of clock data
+> + * @lock: Lock to protect context operations
 > + *
-
-Please fix the order of the documentation to match the order of the struct.
-
 > + */
-> +struct mtk_cam_video_device {
-> +	unsigned int id;
-> +	unsigned int enabled;
-> +	struct v4l2_format vdev_fmt;
-> +	struct mtk_cam_dev_node_desc desc;
-> +	struct video_device vdev;
+> +struct mtk_isp_p1_ctx {
+> +	struct isp_queue composer_txlist;
+> +	struct isp_thread composer_tx_thread;
+> +	atomic_t cmd_queued;
+> +	atomic_t ipi_occupied;
+> +	atomic_t scp_state;
+> +	atomic_t composing_frame;
+> +	atomic_t composed_frame_id;
+> +	struct isp_thread composer_deinit_thread;
+> +	struct isp_queue p1_enqueue_list;
+> +	struct isp_thread isp_deque_thread;
+> +	struct mtk_cam_dev_stat_event_data irq_event_datas[IRQ_DATA_BUF_SIZE];
+> +	atomic_t irq_data_start;
+> +	atomic_t irq_data_end;
+> +	spinlock_t irq_dequeue_lock; /* ISP frame dequeuq protection */
+
+Already documented in kerneldoc.
+
+> +	dma_addr_t scp_mem_pa;
+> +	dma_addr_t scp_mem_iova;
+> +	int frame_seq_no;
+> +	unsigned int isp_hw_module;
+> +	unsigned int isp_raw_path;
 
 Not documented above.
 
-> +	struct media_pad vdev_pad;
-> +	struct vb2_queue vbq;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct list_head pending_list;
-> +	/* Used for vbq & vdev */
+> +	unsigned int num_clks;
+> +	struct clk_bulk_data *clk_list;
+> +	struct mutex lock; /* Protect context operations */
 
-It's already documented in the kerneldoc comment.
-
-> +	struct mutex lock;
-> +	/* protect for pending_list */
-
-It's already documented in the kerneldoc comment.
-
-> +	spinlock_t slock;
-
-How about calling it pending_list_lock?
+Already documented in kerneldoc.
 
 > +};
 > +
-> +/*
-> + * struct mtk_cam_dev - Mediatek camera device structure.
-> + *
-> + * @pdev:	Pointer to platform device
-> + * @smem_pdev:	Pointer to shared memory platform device
-> + * @pipeline:	Media pipeline information
-> + * @media_dev:	Media device
-> + * @subdev:	The V4L2 sub-device
-> + * @v4l2_dev:	The V4L2 device driver
-> + * @notifier:	The v4l2_device notifier data
-> + * @subdev_pads: Pointer to the number of media pads of this sub-device
-> + * @ctrl_handler: The control handler
-> + * @vdev_nodes: The array list of mtk_cam_video_device nodes
-> + * @seninf:	Pointer to the seninf sub-device
-> + * @sensor:	Pointer to the active sensor V4L2 sub-device when streaming on
-> + * @lock:       The mutex protecting video device open/release operations
-> + * @streaming:	Indicate the overall streaming status is on or off
-> + * @streamed_node_count: The number of V4L2 video device nodes are streaming on
-> + * @req_list:	Lins to keep media requests before streaming on
-> + * @req_lock:	Protect the req_list data
-> + *
-> + * Below is the graph topology for Camera IO connection.
-> + * sensor 1 (main) --> sensor IF --> P1 sub-device
-> + * sensor 2 (sub)  -->
-
-This probably isn't the best place for graph topology description. I think
-we actually want a separate documentation file for this, similar to
-Documentation/media/v4l-drivers/ipu3.rst.
-
-> + *
-> + */
-> +struct mtk_cam_dev {
+> +struct isp_p1_device {
 > +	struct platform_device *pdev;
-> +	struct device *smem_dev;
-> +	struct media_pipeline pipeline;
-> +	struct media_device media_dev;
-> +	struct v4l2_subdev subdev;
-> +	struct v4l2_device v4l2_dev;
-> +	struct v4l2_async_notifier notifier;
-> +	struct media_pad *subdev_pads;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct mtk_cam_video_device vdev_nodes[MTK_CAM_P1_TOTAL_NODES];
-> +	struct v4l2_subdev *seninf;
-> +	struct v4l2_subdev *sensor;
-> +	/* protect video device open/release operations */
+> +	struct platform_device *scp_pdev;
+> +	struct rproc *rproc_handle;
+> +	struct mtk_isp_p1_ctx isp_ctx;
+> +	struct mtk_cam_dev cam_dev;
+> +	struct isp_device isp_devs[ISP_DEV_NODE_NUM];
+> +};
 
-It's already documented in the kerneldoc comment.
+Please document in a kerneldoc comment.
 
-> +	struct mutex lock;
-> +	unsigned int streaming:1;
-> +	atomic_t streamed_node_count;
-> +	struct list_head req_list;
-> +	/* protect for req_list */
+> +
+> +static inline struct isp_p1_device *
+> +p1_ctx_to_dev(const struct mtk_isp_p1_ctx *__p1_ctx)
+> +{
+> +	return container_of(__p1_ctx, struct isp_p1_device, isp_ctx);
+> +}
+> +
+> +static inline struct isp_p1_device *get_p1_device(struct device *dev)
+> +{
+> +	return ((struct isp_p1_device *)dev_get_drvdata(dev));
 
-It's already documented in the kerneldoc comment.
-
-> +	spinlock_t req_lock;
-
-How about calling it req_list_lock?
+No need to cast. And, I don't think we need a function for this, just call
+dev_get_drvdata() directly.
 
 Best regards,
 Tomasz
