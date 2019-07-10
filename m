@@ -2,22 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FF0464360
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 10:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5034B6437C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 10:24:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbfGJIJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 04:09:33 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49885 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726097AbfGJIJc (ORCPT
+        id S1727546AbfGJIYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 04:24:08 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:45301 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726097AbfGJIYI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 04:09:32 -0400
-Received: from [IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea] ([IPv6:2001:983:e9a7:1:10f:829c:8d05:60ea])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id l7fMhsLbn0SBql7fOh6R3G; Wed, 10 Jul 2019 10:09:30 +0200
+        Wed, 10 Jul 2019 04:24:08 -0400
+Received: by mail-ed1-f67.google.com with SMTP id e2so1312155edi.12
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 01:24:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nVtz/RtjwCEYdQFLJCW6G4ORFWnvHXCMUmZJUUl1vhA=;
+        b=IXgXXgvXPtimF3q16gy1j+I8+arnl9Bg8UFUc7zPylYDNgUcqEsKezdXlSkr8TinyM
+         RP3PPF87dV6otolRQcTPjk7kghAfb6pWq1K46lzseOnIq4tZl7XjeLRTMmGa5VQ/E/I2
+         w9tPkxOIQyi2ZWBT0spXNJI/M92dIJI5K3O34=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nVtz/RtjwCEYdQFLJCW6G4ORFWnvHXCMUmZJUUl1vhA=;
+        b=MOhYOFlwTBB2w2IuzGwhEgbWXnD1lYB4jMmE67We3cNjHYYrF+G558qBD99w6JUpt8
+         j8L5ztfK62s1stNa/F7RpE3Q8Igc08Y07FL293lxKoC7ZTmEDuf1wxrPpRuIyQp1LtLB
+         HNuhqNq/R+KDlxeNdXFODYui2mf10/XvscQx7vsyRJE/ggZbJB3szToHfTKxWSb6BY86
+         qg1UCQY8i4Mq6dgA8KAdJI2MbSRvov34LTBfNy55AAyZ2n8wYiYKG+4+WMx+3bTUiie1
+         GclVab49Od4ojUWnT70wXlCubiFhfGxadkzkSaaUPoFJZULpJEZPzfvEsuKEFMH+/pHb
+         w+XA==
+X-Gm-Message-State: APjAAAVeWhToWpbD2mcDgmxSnwAXuWA7BXuOJ4/OdATI7yMmdAHgtib8
+        6eV5iujKB7yeV/L/ofieHMP8sLX1BmHifw==
+X-Google-Smtp-Source: APXvYqw7rxYNy6/Eo3QtG3Q6vSidtQ+JzuKbvCXTXgOMqCbMljw5TAsSDnG+oMSRQO1fnPk1bDjx0w==
+X-Received: by 2002:a05:6402:6d0:: with SMTP id n16mr30048755edy.168.1562747045602;
+        Wed, 10 Jul 2019 01:24:05 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com. [209.85.128.48])
+        by smtp.gmail.com with ESMTPSA id a9sm508192edc.44.2019.07.10.01.24.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 10 Jul 2019 01:24:04 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id p74so1262999wme.4
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 01:24:04 -0700 (PDT)
+X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr4020308wmk.10.1562747044241;
+ Wed, 10 Jul 2019 01:24:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
+ <20190603112835.19661-2-hverkuil-cisco@xs4all.nl> <CAAFQd5Aa-PQEakeg3sC_EDYdKy15hHx09Qmk6Jik4COeBe3xVA@mail.gmail.com>
+ <02da6340-3174-c03b-ffad-cc9a0a58afab@xs4all.nl>
+In-Reply-To: <02da6340-3174-c03b-ffad-cc9a0a58afab@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 10 Jul 2019 17:23:52 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A4+o9MZL8_TTdKOYa04O87GEi81PU2Kipa_Seeg98oMA@mail.gmail.com>
+Message-ID: <CAAFQd5A4+o9MZL8_TTdKOYa04O87GEi81PU2Kipa_Seeg98oMA@mail.gmail.com>
 Subject: Re: [PATCHv4 1/2] media: docs-rst: Document memory-to-memory video
  decoder interface
-To:     Tomasz Figa <tfiga@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Alexandre Courbot <acourbot@chromium.org>,
@@ -26,116 +67,105 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
         Pawel Osciak <posciak@chromium.org>
-References: <20190603112835.19661-1-hverkuil-cisco@xs4all.nl>
- <20190603112835.19661-2-hverkuil-cisco@xs4all.nl>
- <CAAFQd5Aa-PQEakeg3sC_EDYdKy15hHx09Qmk6Jik4COeBe3xVA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <02da6340-3174-c03b-ffad-cc9a0a58afab@xs4all.nl>
-Date:   Wed, 10 Jul 2019 10:09:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAAFQd5Aa-PQEakeg3sC_EDYdKy15hHx09Qmk6Jik4COeBe3xVA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfB8/NX8OMxDhoB5rNNb4Nrxp+O02fe8pwgh4uz7RNaRO/12CMe5NnBdik+t2PDdSBV9zwCfQtcO5GOvH/vCMdvuO4LREs1q/VcPyupkoSXNH/7GpTpy7
- /ds4jkR99tFUr+xaJ4FVxvt/mnjXlBEOUHF3cHktbSvNZmeoKH53nX6zQFIQEB4EblOgFmjzjJf8Iuo869qJsUVfty7EZJKO6P1S9NwmTXVQ2Wl7RFuLd6o9
- lch5JvNcALsRkSt75o0siIszLNfPOttuEwVy4yhW3D+0kmAnasTTTEx9KpWNJSUHHCdiQzB5ueOP/r1ScpriO8ftobRu1mfiZy1Ir00vLn9CToxs5SG7SaZW
- ugDgAYGV01aiMA7OX/Z+F4RWKTmlhe635iE0UhVoS4ET9obEWA4fNNHT8JoHU+QkFsAtL16dyt37uY/DHjKGF0UxrBZE2Q3gKqGlRAFxTZ4hkhP4H/yTt27c
- XurABG4XNozGVHjUMHWiXm+87KUAkfs4TFtdYkGzTCTixylt2PG9+UhO/+i92nhQvfJbrIZT9NfK5KcPsEL++82N3BLcfGGfSpHJCQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/3/19 6:58 AM, Tomasz Figa wrote:
-> Hi Hans,
-> 
-> On Mon, Jun 3, 2019 at 8:28 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> From: Tomasz Figa <tfiga@chromium.org>
->>
->> Due to complexity of the video decoding process, the V4L2 drivers of
->> stateful decoder hardware require specific sequences of V4L2 API calls
->> to be followed. These include capability enumeration, initialization,
->> decoding, seek, pause, dynamic resolution change, drain and end of
->> stream.
->>
->> Specifics of the above have been discussed during Media Workshops at
->> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
->> Conference Europe 2014 in Düsseldorf. The de facto Codec API that
->> originated at those events was later implemented by the drivers we already
->> have merged in mainline, such as s5p-mfc or coda.
->>
->> The only thing missing was the real specification included as a part of
->> Linux Media documentation. Fix it now and document the decoder part of
->> the Codec API.
->>
->> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  Documentation/media/uapi/v4l/dev-decoder.rst  | 1084 +++++++++++++++++
->>  Documentation/media/uapi/v4l/dev-mem2mem.rst  |    8 +-
->>  Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |    5 +
->>  Documentation/media/uapi/v4l/v4l2.rst         |   10 +-
->>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   41 +-
->>  5 files changed, 1132 insertions(+), 16 deletions(-)
->>  create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
->>
-> 
-> Thanks a lot for helping with remaining changes.
-> 
-> Just one thing inline our team member found recently.
-> 
-> [snip]
->> +Capture setup
->> +=============
->> +
-> [snip]
->> +4.  **Optional.** Set the ``CAPTURE`` format via :c:func:`VIDIOC_S_FMT` on the
->> +    ``CAPTURE`` queue. The client may choose a different format than
->> +    selected/suggested by the decoder in :c:func:`VIDIOC_G_FMT`.
->> +
->> +    * **Required fields:**
->> +
->> +      ``type``
->> +          a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
->> +
->> +      ``pixelformat``
->> +          a raw pixel format.
-> 
-> The client should be able to set the width and height as well. It's a
-> quite frequent case, especially in DMA-buf import mode, that the
-> buffers are actually bigger (e.g. more alignment) than what we could
-> get from the decoder by default. For sane hardware platforms it's
-> reasonable to expect that such bigger buffers could be handled as
-> well, as long as we update the width and height here.
+On Wed, Jul 10, 2019 at 5:09 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
+te:
+>
+> On 7/3/19 6:58 AM, Tomasz Figa wrote:
+> > Hi Hans,
+> >
+> > On Mon, Jun 3, 2019 at 8:28 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> =
+wrote:
+> >>
+> >> From: Tomasz Figa <tfiga@chromium.org>
+> >>
+> >> Due to complexity of the video decoding process, the V4L2 drivers of
+> >> stateful decoder hardware require specific sequences of V4L2 API calls
+> >> to be followed. These include capability enumeration, initialization,
+> >> decoding, seek, pause, dynamic resolution change, drain and end of
+> >> stream.
+> >>
+> >> Specifics of the above have been discussed during Media Workshops at
+> >> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
+> >> Conference Europe 2014 in D=C3=BCsseldorf. The de facto Codec API that
+> >> originated at those events was later implemented by the drivers we alr=
+eady
+> >> have merged in mainline, such as s5p-mfc or coda.
+> >>
+> >> The only thing missing was the real specification included as a part o=
+f
+> >> Linux Media documentation. Fix it now and document the decoder part of
+> >> the Codec API.
+> >>
+> >> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >> ---
+> >>  Documentation/media/uapi/v4l/dev-decoder.rst  | 1084 ++++++++++++++++=
++
+> >>  Documentation/media/uapi/v4l/dev-mem2mem.rst  |    8 +-
+> >>  Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |    5 +
+> >>  Documentation/media/uapi/v4l/v4l2.rst         |   10 +-
+> >>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   41 +-
+> >>  5 files changed, 1132 insertions(+), 16 deletions(-)
+> >>  create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+> >>
+> >
+> > Thanks a lot for helping with remaining changes.
+> >
+> > Just one thing inline our team member found recently.
+> >
+> > [snip]
+> >> +Capture setup
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> > [snip]
+> >> +4.  **Optional.** Set the ``CAPTURE`` format via :c:func:`VIDIOC_S_FM=
+T` on the
+> >> +    ``CAPTURE`` queue. The client may choose a different format than
+> >> +    selected/suggested by the decoder in :c:func:`VIDIOC_G_FMT`.
+> >> +
+> >> +    * **Required fields:**
+> >> +
+> >> +      ``type``
+> >> +          a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
+> >> +
+> >> +      ``pixelformat``
+> >> +          a raw pixel format.
+> >
+> > The client should be able to set the width and height as well. It's a
+> > quite frequent case, especially in DMA-buf import mode, that the
+> > buffers are actually bigger (e.g. more alignment) than what we could
+> > get from the decoder by default. For sane hardware platforms it's
+> > reasonable to expect that such bigger buffers could be handled as
+> > well, as long as we update the width and height here.
+>
+> I've added this:
+>
+>      ``width``, ``height``
+>          frame buffer resolution of the decoded stream; typically unchang=
+ed from
+>          what was returned with :c:func:`VIDIOC_G_FMT`, but it may be dif=
+ferent
+>          if the hardware supports composition and/or scaling.
+>
+> Is that what you were looking for?
+>
 
-I've added this:
+Not sure if composition is a requirement here, but I guess it depends
+on how we define composition. Most of the hardware today at least
+support arbitrary strides (+/- some alignment), but still write the
+pixels at (0,0)x(w,h).
 
-     ``width``, ``height``
-         frame buffer resolution of the decoded stream; typically unchanged from
-         what was returned with :c:func:`VIDIOC_G_FMT`, but it may be different
-         if the hardware supports composition and/or scaling.
+In fact, there would be already some composition happening, even
+without arbitrary strides, because G_FMT would return values aligned
+in some way, but only the visible rectangle would contain meaningful
+pixel data.
 
-Is that what you were looking for?
-
-> 
-> It's more like a clarification anyway, so if you think it would be
-> better to just merge the current revision, I could send a follow up
-> patch.
-> 
-> Regardless of that and FWIW:
-> 
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-
-Thanks!
-
-	Hans
-
-> 
-> Best regards,
-> Tomasz
-> 
-
+Best regards,
+Tomasz
