@@ -2,153 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48F0C64615
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 14:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0537364656
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 14:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfGJMQQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 08:16:16 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:56143 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725911AbfGJMQQ (ORCPT
+        id S1727412AbfGJMhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 08:37:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34974 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbfGJMhb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 08:16:16 -0400
-Received: from [IPv6:2001:983:e9a7:1:8d1:5ef:6c45:bece] ([IPv6:2001:983:e9a7:1:8d1:5ef:6c45:bece])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id lBW8huDrf0SBqlBW9h7hio; Wed, 10 Jul 2019 14:16:13 +0200
-Subject: Re: regarding commit "v4l2-ctl: get fmt after source change" in
- v4l-utils repository
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Dafna Hirschfeld <dafna3@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <CAJ1myNR7stUdFmnAnnWLdE008p5_BvXkHnr7au+TH3HW183X1w@mail.gmail.com>
- <946d0dc5-f039-f591-3e1f-484f5499dbe8@xs4all.nl>
-Message-ID: <e439d36c-ed53-c284-5dbf-99c932841a4c@xs4all.nl>
-Date:   Wed, 10 Jul 2019 14:16:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 10 Jul 2019 08:37:31 -0400
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E62731C;
+        Wed, 10 Jul 2019 14:37:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562762249;
+        bh=rXmN/ZP1jKpCFxlT6ZQ3Ed8fIwsZSXGnqlc6PGjlcj8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PkSp2haE0jZmJsqrMwJ1rxk/Cok03Jt0bZbMIZ/5e19X7e8fcGgs51dJLcALqvA41
+         pAADSeNs5/vyArQ7vyiqt+t1x9fpsh4GaUv4Dg1kTyXlMn3fWBwaGULBbfBJ0KNOY5
+         BprfaHdPT11bG4UE3ij96ouj+9QPnuVv5rNOY2C0=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
+Date:   Wed, 10 Jul 2019 13:37:19 +0100
+Message-Id: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <946d0dc5-f039-f591-3e1f-484f5499dbe8@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGSE8u73wF0V67cDk07p8cf0aFzriu5EI/hW7M8HgPqUeVSH8chtPGv1FTZ4AHT/9ajIbGvEO7plfQ6WmSXBczdaSQFWveD+tWSYlR+arZi08r8z6Uc3
- FCixkVxXhwwEBur8K3Ns4oveMglymcOcymLeHqNd9H28Z4RSDYh8lwo66F34HGDvAOst9zBpxdJnU7ZYfvJ9pdSggJeqw4eTEmQ6JpHa9MnGGfH6Xx6P7kYi
- j8iVFCf2vlIDlRTN1LDy0CTWYwKvvzgQaydbgrhf5bXeBLdgPfzjQGOPAoREPpby
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/10/19 12:12 PM, Hans Verkuil wrote:
-> Hi Dafna,
-> 
-> On 7/1/19 12:30 PM, Dafna Hirschfeld wrote:
->> commit 84219e2b5d013709ee5259621715966c46eec746
->> Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Date:   Sat Mar 30 14:16:25 2019 +0100
->>
->>     v4l2-ctl: get fmt after source change
->>
->>     When a source change event arrives during decoding get the new
->>     format at that point instead of after restarting streaming.
->>
->>     If there is another source change queued up, then when you call
->>     streamon for CAPTURE again it might send the new source change
->>     event and update the format for that one, so reading the format
->>     after streamon might give the wrong format.
->>
->>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>
->> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
->> b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
->> index bb656584..3695a027 100644
->> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
->> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
->> @@ -2363,12 +2363,11 @@ static void stateful_m2m(cv4l_fd &fd,
->> cv4l_queue &in, cv4l_queue &out,
->>                         if (in_source_change_event) {
->>                                 in_source_change_event = false;
->>                                 last_buffer = false;
->> +                               fd.g_fmt(fmt_in, in.g_type());
->>                                 if (capture_setup(fd, in, exp_fd_p))
->>                                         return;
->>                                 fps_ts[CAP].reset();
->>                                 fps_ts[OUT].reset();
->> -                               fd.g_fmt(fmt_out, out.g_type());
->> -                               fd.g_fmt(fmt_in, in.g_type());
->> Removing those lines cause inconsistency when the user send the wanted
->> capture pixel format when decoding with the `v4l2-ctl` command. In
->> this case the value of `-v pixelformat=...` is updated in the kernel
->> with the capture_setup function but it is not updated in the fmt_in
->> variable and so the command will try to save the decoded video in a
->> different format from what is configured in the kernel.
->>
->>                                 cap_streaming = true;
->>                         } else {
->>                                 break;
->>
->>
->> Dafna
->>
-> 
-> It looks like you are right. Can you try this v4l2-ctl patch?
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> [PATCH] v4l2-ctl: let capture_setup return the updated format
-> 
-> Just getting the new format after a source change event isn't
-> enough in the case that -v option was specified by the user.
-> 
-> Instead let capture_setup optionally return the new format after
-> any '-v' changes are applied.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: Dafna Hirschfeld <dafna3@gmail.com>
+The I2C core framework provides a simplified probe framework from commit
+b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
 
-I pushed this patch since your test with 'blog.sh' now works with this
-patch applied.
+Convert the ADV748x to utilise this simplfied i2c driver registration.
 
-Regards,
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ drivers/media/i2c/adv748x/adv748x-core.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-	Hans
-
-> ---
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 28b2b3b9..470fa766 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -2146,7 +2146,7 @@ enum stream_type {
->  	OUT,
->  };
-> 
-> -static int capture_setup(cv4l_fd &fd, cv4l_queue &in, cv4l_fd *exp_fd)
-> +static int capture_setup(cv4l_fd &fd, cv4l_queue &in, cv4l_fd *exp_fd, cv4l_fmt *new_fmt = NULL)
->  {
->  	if (fd.streamoff(in.g_type())) {
->  		fprintf(stderr, "%s: fd.streamoff error\n", __func__);
-> @@ -2168,6 +2168,10 @@ static int capture_setup(cv4l_fd &fd, cv4l_queue &in, cv4l_fd *exp_fd)
->  			return -1;
->  		}
->  		fd.s_fmt(fmt, in.g_type());
-> +		if (new_fmt)
-> +			*new_fmt = fmt;
-> +	} else if (new_fmt) {
-> +		fd.g_fmt(*new_fmt, in.g_type());
->  	}
->  	get_cap_compose_rect(fd);
-> 
-> @@ -2367,8 +2371,7 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
->  			if (in_source_change_event) {
->  				in_source_change_event = false;
->  				last_buffer = false;
-> -				fd.g_fmt(fmt_in, in.g_type());
-> -				if (capture_setup(fd, in, exp_fd_p))
-> +				if (capture_setup(fd, in, exp_fd_p, &fmt_in))
->  					return;
->  				fps_ts[CAP].reset();
->  				fps_ts[OUT].reset();
-> 
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 097e94279cf7..ae2b6eb93e09 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -677,8 +677,7 @@ static void adv748x_dt_cleanup(struct adv748x_state *state)
+ 		of_node_put(state->endpoints[i]);
+ }
+ 
+-static int adv748x_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int adv748x_probe(struct i2c_client *client)
+ {
+ 	struct adv748x_state *state;
+ 	int ret;
+@@ -806,13 +805,6 @@ static int adv748x_remove(struct i2c_client *client)
+ 	return 0;
+ }
+ 
+-static const struct i2c_device_id adv748x_id[] = {
+-	{ "adv7481", 0 },
+-	{ "adv7482", 0 },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(i2c, adv748x_id);
+-
+ static const struct of_device_id adv748x_of_table[] = {
+ 	{ .compatible = "adi,adv7481", },
+ 	{ .compatible = "adi,adv7482", },
+@@ -825,9 +817,8 @@ static struct i2c_driver adv748x_driver = {
+ 		.name = "adv748x",
+ 		.of_match_table = adv748x_of_table,
+ 	},
+-	.probe = adv748x_probe,
++	.probe_new = adv748x_probe,
+ 	.remove = adv748x_remove,
+-	.id_table = adv748x_id,
+ };
+ 
+ module_i2c_driver(adv748x_driver);
+-- 
+2.20.1
 
