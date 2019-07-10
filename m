@@ -2,120 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C61F63FD3
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 06:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF3864052
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 07:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726129AbfGJEMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 00:12:17 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:43830 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbfGJEMR (ORCPT
+        id S1726067AbfGJFEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 01:04:35 -0400
+Received: from smtprelay0012.hostedemail.com ([216.40.44.12]:43575 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725791AbfGJFEf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 00:12:17 -0400
-Received: by mail-vs1-f68.google.com with SMTP id j26so595892vsn.10
-        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2019 21:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jsT84thXZgrjljKWPHUjY7JeFgImc9+U4hEoxyiTJcc=;
-        b=bWsVGu9ZtrSBJl4JbELamsoGGvbUEuoJyLkzEdD/lBLkOe2SuDywqNJvjhLcdkFQIV
-         uQzhsHZfClHSSErFS8YngoK5icUK/zOzfk2MyJE77f/EpBtLGiDl5OLXwZaYMg1H4xvi
-         8bZw2KyzNEgXQhxeZxd3j43hSpSd9KAK3Vxwk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jsT84thXZgrjljKWPHUjY7JeFgImc9+U4hEoxyiTJcc=;
-        b=d7sms4b7Ec8ebRI+xdZwpR24fuQB7K3ABftajzo/Jj7lLJy5WW3oWLYX67veGawv9E
-         SF+Fz4tj7Z0KOdo9RzE0UVyChPkD1RROPaijeej78ytWQAT2PK5ALy7cWSfyF2ekeZ4X
-         ENHBfHtmHGc6BAhafZ74tC6FPqZJqY7wFFV1P3lfy96ZDDXCBuhPtStbxWAYRn4MUCjx
-         Il8KHxPumV0D3stvG13wcLPc5jvfZrZJOTGvDjiUhy5Rab6HaFBel6YS0+Hc/DbZ/kP1
-         KRJF/SRvXH2NV0vud8p2A2qI+mXaJSTg1pKAb0YY3ph55ucPmCPZiUSQteZ4XlWjJ+g3
-         z55Q==
-X-Gm-Message-State: APjAAAVdt2/WWh7Hpmg5AOtynn2oKvUMOJccyLXf2gXMBcc3TDWU0u0P
-        3ZdpAwhJimxw7hSZis4ew6/C75HOKgliJTymy7M/XA==
-X-Google-Smtp-Source: APXvYqwRDoiekjMfVg1dAkd95CbZGZ3jhAzyHEQ1N/LeXKKIJksHQNLAm0BnKpQtXYeH+ZnDwbVN+JmCCFjQkCNhqMc=
-X-Received: by 2002:a67:f7cd:: with SMTP id a13mr14190782vsp.163.1562731935844;
- Tue, 09 Jul 2019 21:12:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190603043251.226549-1-cychiang@chromium.org>
- <20190603043251.226549-6-cychiang@chromium.org> <20190709200121.GA19118@bogus>
-In-Reply-To: <20190709200121.GA19118@bogus>
-From:   Cheng-yi Chiang <cychiang@chromium.org>
-Date:   Wed, 10 Jul 2019 12:11:48 +0800
-Message-ID: <CAFv8NwLiKu055S7apzj+gTYh0neQ5rLmPYEYkEj6Zf3hikWWpA@mail.gmail.com>
-Subject: Re: [PATCH 5/7] ASoC: rockchip: rockchip-max98090: Add node for HDMI
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Doug Anderson <dianders@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>, tzungbi@chromium.org,
-        linux-media@vger.kernel.org,
-        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
-        <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+        Wed, 10 Jul 2019 01:04:35 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 2D69B181D3403;
+        Wed, 10 Jul 2019 05:04:33 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::::::::::::::::::::::,RULES_HIT:41:355:379:541:973:982:988:989:1260:1345:1437:1534:1541:1711:1730:1747:1777:1792:1801:2198:2199:2393:2559:2562:2731:3138:3139:3140:3141:3142:3352:3865:3866:3867:3868:4250:4605:5007:6261:6737:10004:10848:11026:11658:11914:12043:12048:12297:12679:12895:13069:13161:13229:13311:13357:14096:14181:14384:14394:14581:14721:21080:21220:21451:21627:30054,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:26,LUA_SUMMARY:none
+X-HE-Tag: help91_a3a1c1ec484c
+X-Filterd-Recvd-Size: 2833
+Received: from joe-laptop.perches.com (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf06.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 10 Jul 2019 05:04:30 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Andrew Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-amlogic@lists.infradead.org, netdev@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-wireless@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-mmc@vger.kernel.org, devel@driverdev.osuosl.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 00/12] treewide: Fix GENMASK misuses
+Date:   Tue,  9 Jul 2019 22:04:13 -0700
+Message-Id: <cover.1562734889.git.joe@perches.com>
+X-Mailer: git-send-email 2.15.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 10, 2019 at 4:01 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Jun 03, 2019 at 12:32:49PM +0800, Cheng-Yi Chiang wrote:
-> > Let user specify HDMI node so machine driver can use it to let codec
-> > driver register callback on correct hdmi-notifier.
-> >
-> > Signed-off-by: Cheng-Yi Chiang <cychiang@chromium.org>
-> > ---
-> >  Documentation/devicetree/bindings/sound/rockchip-max98090.txt | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt b/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
-> > index a805aa99ad75..dae57c14864e 100644
-> > --- a/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
-> > +++ b/Documentation/devicetree/bindings/sound/rockchip-max98090.txt
-> > @@ -7,6 +7,7 @@ Required properties:
-> >    connected to the CODEC
-> >  - rockchip,audio-codec: The phandle of the MAX98090 audio codec
-> >  - rockchip,headset-codec: The phandle of Ext chip for jack detection
-> > +- rockchip,hdmi: The phandle of HDMI node for HDMI jack detection
-> >
-> >  Example:
-> >
-> > @@ -16,4 +17,5 @@ sound {
-> >       rockchip,i2s-controller = <&i2s>;
-> >       rockchip,audio-codec = <&max98090>;
-> >       rockchip,headset-codec = <&headsetcodec>;
-> > +     rockchip,hdmi= <&hdmi>;
->
-> space                ^
->
-> With that,
->
-> Acked-by: Rob Herring <robh@kernel.org>
->
-Hi Rob,
-Thank you for the review.
-But I have changed the approach in v2 so there is no need for machine
-driver to expose this property.
-Thanks!
-> >  };
-> > --
-> > 2.22.0.rc1.257.g3120a18244-goog
-> >
+These GENMASK uses are inverted argument order and the
+actual masks produced are incorrect.  Fix them.
+
+Add checkpatch tests to help avoid more misuses too.
+
+Joe Perches (12):
+  checkpatch: Add GENMASK tests
+  clocksource/drivers/npcm: Fix misuse of GENMASK macro
+  drm: aspeed_gfx: Fix misuse of GENMASK macro
+  iio: adc: max9611: Fix misuse of GENMASK macro
+  irqchip/gic-v3-its: Fix misuse of GENMASK macro
+  mmc: meson-mx-sdio: Fix misuse of GENMASK macro
+  net: ethernet: mediatek: Fix misuses of GENMASK macro
+  net: stmmac: Fix misuses of GENMASK macro
+  rtw88: Fix misuse of GENMASK macro
+  phy: amlogic: G12A: Fix misuse of GENMASK macro
+  staging: media: cedrus: Fix misuse of GENMASK macro
+  ASoC: wcd9335: Fix misuse of GENMASK macro
+
+ drivers/clocksource/timer-npcm7xx.c               |  2 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx.h               |  2 +-
+ drivers/iio/adc/max9611.c                         |  2 +-
+ drivers/irqchip/irq-gic-v3-its.c                  |  2 +-
+ drivers/mmc/host/meson-mx-sdio.c                  |  2 +-
+ drivers/net/ethernet/mediatek/mtk_eth_soc.h       |  2 +-
+ drivers/net/ethernet/mediatek/mtk_sgmii.c         |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/descs.h       |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  4 ++--
+ drivers/net/wireless/realtek/rtw88/rtw8822b.c     |  2 +-
+ drivers/phy/amlogic/phy-meson-g12a-usb2.c         |  2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h  |  2 +-
+ scripts/checkpatch.pl                             | 15 +++++++++++++++
+ sound/soc/codecs/wcd-clsh-v2.c                    |  2 +-
+ 14 files changed, 29 insertions(+), 14 deletions(-)
+
+-- 
+2.15.0
+
