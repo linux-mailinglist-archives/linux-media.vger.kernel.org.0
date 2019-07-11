@@ -2,151 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07879650B1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 05:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 593C665128
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 06:35:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728015AbfGKDra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 23:47:30 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44113 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725977AbfGKDr3 (ORCPT
+        id S1726363AbfGKEfj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jul 2019 00:35:39 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33192 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726119AbfGKEfj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 23:47:29 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:8d1:5ef:6c45:bece])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id lQ3Ihzlbf0SBqlQ3JhAMtL; Thu, 11 Jul 2019 05:47:25 +0200
-Message-ID: <48984e9e4e5230b6ae32426b2a44a071@smtp-cloud7.xs4all.net>
-Date:   Thu, 11 Jul 2019 05:47:24 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfKs8Pjvg8W2N3qs7n1z6gZn6PEWJ37EPwNccD1YGhPa11GeBJyA6ox4WjkP4H0ldpZp2rYA+c+dxikr00mOlPfdSkUrIKk0xRNiBKcWsbmHbqD66bbe4
- CkSOake+aXdZ0LXkIqwjh0Gwl9JLu2dEVqYz6LIUJ5kSOJO31oVFvT/7WoTa3xTPaMdD7y5EyuDgyt16qj4DrekL+RK4sm9cHmvjkuLWxgHVfwONIlvxzTch
+        Thu, 11 Jul 2019 00:35:39 -0400
+Received: by mail-pl1-f194.google.com with SMTP id c14so2335500plo.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 21:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=pU7P7yE7e/99llRNxLivYPAsh+m/9reF8aJNc3CWtd4=;
+        b=WjtNpPHfUxJUuCzMspdN8H//cd7mysnA+JccZSzVIV3CBDH824qRn+/I48A1TgRgAq
+         /R5ETQj8YWV2ouBM10GlSYf8SoqCy4yLnkUfOwZBwI5d3Z1qRIXwd6FxspkTGS0ZnwFY
+         PjqDjKt5zS4YTBLZduCIztWJPKgXf1rTXMfBwSaow/6BclgcVv6kZgsR67ph/jyHSilZ
+         SxCqt3AF119mY4taO4kFExrGCmnfYMXsubQx0ZgNmFsAnXp75WFHXezrd3mwXyc6PfDF
+         CrFgdFpumWbdGpgjrRAscVzM7pl8z5BF8thc7G1YvB6K42JrFH0zu3WUDMJPL9QF8Cd/
+         0/hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=pU7P7yE7e/99llRNxLivYPAsh+m/9reF8aJNc3CWtd4=;
+        b=oWqyNB+ftCzVyW5z+Qb2P/ruBkOCUEV63vyJkt/OZ5DsMY/fAwe5EL05yy8KW/l2m/
+         cirQOZLy9MxvYy3omkjLMISZ0lIFcI4ASlrycXHuIhINCvirzRLNPD6fvCq7zZbb/VYy
+         We/1JeDYLRR+X2Rm5tUyII4sJhm9+ZH7h4Xo7I5jJIohX9ZV9KuLhjXZpNkXmn9jXxCf
+         U1um88U3hN9CUg4O3GykEu33hSYTZ/Ky/5ZK2X3glIk14dsmw5RhmHN+gDmJBrSGnYur
+         IgtSzhfmmeZxMBRQvnmFqzaoF6Av7gwWz26rnBXkcdf5NKgaf8ffL8JAhIvDRRKNPNil
+         eTtw==
+X-Gm-Message-State: APjAAAU2S/wdG49SF2qUV2xhP2wgMBJxJIEXDKea1IpsKgmSFrTe8Eyr
+        R3C+J10bwin1Y0mPLyI7ym1j0BFkaeU=
+X-Google-Smtp-Source: APXvYqyFDRbyPbN0nxmmrI8280KYNVA6NMw45C0+T/3n68qFswZJ1098oS/hjii8WMZ1nwfCPDjl4Q==
+X-Received: by 2002:a17:902:a607:: with SMTP id u7mr2287559plq.43.1562819739026;
+        Wed, 10 Jul 2019 21:35:39 -0700 (PDT)
+Received: from localhost (softbank126163157105.bbtec.net. [126.163.157.105])
+        by smtp.gmail.com with ESMTPSA id j20sm3774491pfr.113.2019.07.10.21.35.37
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 10 Jul 2019 21:35:37 -0700 (PDT)
+Date:   Thu, 11 Jul 2019 13:35:35 +0900
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Helen Koike <helen@koikeco.de>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 3/3] vimc: Join pipeline if one already exists
+Message-ID: <20190711043535.GF1557@wyvern>
+References: <20190518010744.15195-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190518010744.15195-4-niklas.soderlund+renesas@ragnatech.se>
+ <3369c4f6-d08b-efca-baed-e48cca2d4d87@koikeco.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3369c4f6-d08b-efca-baed-e48cca2d4d87@koikeco.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Helen,
 
-Results of the daily build of media_tree:
+Thanks for your feedback.
 
-date:			Thu Jul 11 05:00:12 CEST 2019
-media-tree git hash:	f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d
-media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
-v4l-utils git hash:	1b961f5e82b0805faea0ba68bfa8037213a02351
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+On 2019-07-09 15:24:10 -0300, Helen Koike wrote:
+> Hi Niklas,
+> 
+> Thanks for the patch (and sorry for my late reply).
+> 
+> On 5/17/19 10:07 PM, Niklas Söderlund wrote:
+> > A sensor which is running is already part of a pipeline and trying to
+> > start a new pipeline is not possible. This prevents two capture devices
+> > connected to the same sensor from running at the same time.
+> > 
+> > Instead of failing to start the second capture device allow it to join
+> > the already running pipeline by looking it up at the sensor. This allows
+> > two (or more) capture devices to independently be started and stopped
+> > while still being connected to the same sensor.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > ---
+> >  drivers/media/platform/vimc/vimc-capture.c | 35 +++++++++++++++++++++-
+> >  1 file changed, 34 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> > index e7d0fc2228a6f0c1..f9eb1e327e311b4a 100644
+> > --- a/drivers/media/platform/vimc/vimc-capture.c
+> > +++ b/drivers/media/platform/vimc/vimc-capture.c
+> > @@ -264,16 +264,49 @@ static void vimc_cap_return_all_buffers(struct vimc_cap_device *vcap,
+> >  	spin_unlock(&vcap->qlock);
+> >  }
+> >  
+> > +static struct media_entity *vimc_cap_get_sensor(struct vimc_cap_device *vcap)
+> > +{
+> > +	struct media_entity *entity = &vcap->vdev.entity;
+> > +	struct media_device *mdev = entity->graph_obj.mdev;
+> > +	struct media_graph graph;
+> > +
+> > +	mutex_lock(&mdev->graph_mutex);
+> > +	if (media_graph_walk_init(&graph, mdev)) {
+> > +		mutex_unlock(&mdev->graph_mutex);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	media_graph_walk_start(&graph, entity);
+> > +
+> > +	while ((entity = media_graph_walk_next(&graph)))
+> > +		if (entity->function == MEDIA_ENT_F_CAM_SENSOR)
+> > +			break;
+> 
+> I was wondering if it should search up to the sensor, or if it could just search the first entity with a pipe object, what do you think?
+> Like this it should work with an output device instead of a sensor.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2-rc1-i686: OK
-linux-5.2-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+I think that might be a good idea, I will see what I can do for v2.
 
-Detailed results are available here:
+> 
+> Regards,
+> Helen
+> 
+> > +
+> > +	mutex_unlock(&mdev->graph_mutex);
+> > +
+> > +	media_graph_walk_cleanup(&graph);
+> > +
+> > +	return entity;
+> > +}
+> > +
+> >  static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  {
+> >  	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
+> >  	struct media_entity *entity = &vcap->vdev.entity;
+> > +	struct media_pipeline *pipe = NULL;
+> > +	struct media_entity *sensorent;
+> >  	int ret;
+> >  
+> >  	vcap->sequence = 0;
+> >  
+> >  	/* Start the media pipeline */
+> > -	ret = media_pipeline_start(entity, &vcap->stream.pipe);
+> > +	sensorent = vimc_cap_get_sensor(vcap);
+> > +	if (sensorent && sensorent->pipe)
+> > +		pipe = sensorent->pipe;
+> > +	else
+> > +		pipe = &vcap->stream.pipe;
+> > +
+> > +	ret = media_pipeline_start(entity, pipe);
+> >  	if (ret) {
+> >  		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+> >  		return ret;
+> > 
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Regards,
+Niklas Söderlund
