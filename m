@@ -2,70 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA82A65141
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 06:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84C4E652CE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 10:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728286AbfGKEke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jul 2019 00:40:34 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38190 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728282AbfGKEkb (ORCPT
+        id S1728200AbfGKIHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jul 2019 04:07:04 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:46193 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727796AbfGKIHE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jul 2019 00:40:31 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y15so2129244pfn.5
-        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 21:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=s0bvr757x/HKgrr4SbWQu6+ri+feUWUbw08Pt9QAMgg=;
-        b=DYpUQkWdlDtQn6Fhy6+8tVMVE8yop90FkZt4Dtb69W5juQjpRM2mwMpVBKMc44Hyds
-         O//APATsYeHnfMQEcPtYlljgmsP+mcWKGpYTxoeKL63s1iuHt7lIngrC+J+LH4ibuKZq
-         S37m/GvoHuaxwaNzqwNza14matP7/YQlq+ZasImTcwEMj4EXtLcdNa0CUMyD6OTvYOCu
-         ytJTSIkh6qimYgWl/UJprVq3v8vQGm9nttmtoYGteQcYp4zpqdfZkJC1OJX3We6vo7d5
-         OjMUJXS0mRpNy3ZqWS+raPPQRsyfxzIIKvz7/YdV6ReaiAvXeqvetTolVo1diGiutqmk
-         rtGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=s0bvr757x/HKgrr4SbWQu6+ri+feUWUbw08Pt9QAMgg=;
-        b=X8Yu8svNBld/44AaLCzCkvTz6czuR3YUBrxugmiTgDA1V+YQGnkzRxmnkwrEnbYBpv
-         qR9D9drUuFbuT7yDb4je9zRAvJgmyeMwPHjjXIUcCqf2nGmaCDYooXYM7xMKCPD4WvTy
-         fqbG/mqH08ut+TeDfQjt/MhW1g+8mJ65kSq3nc9zkwWlt1SFSTXy7y+Ks5LeqvDoJPE/
-         zPQ0TtH6cVvJ4lBqptiyGNxZarL0wyy7xF3QH6AUDKv5/TN6woqsXh6O9hy9BZc91CR0
-         OwIRdh7E5WEGjFUyunobgpe8wrbxRPDCc2n8YhdGaL2GeN0qwioOzF68PAp+kWVMSdm6
-         RxPQ==
-X-Gm-Message-State: APjAAAVNqDVB6Frn/9RH97X6zAQxVw0pmV7MtQ+NDxOm2ELnZwfuxR1L
-        t2lOMHmiR1pZOVJrUCWJX4k=
-X-Google-Smtp-Source: APXvYqwlQpsbmXVpeN6NqHngMcXHiN6TsPBlygpq4xNU3S/XaZ+hBwUMo6avXye+V8k/sqLQkWu2kA==
-X-Received: by 2002:a63:6fc9:: with SMTP id k192mr2204626pgc.20.1562820031052;
-        Wed, 10 Jul 2019 21:40:31 -0700 (PDT)
-Received: from localhost (softbank126163157105.bbtec.net. [126.163.157.105])
-        by smtp.gmail.com with ESMTPSA id v8sm3363164pgs.82.2019.07.10.21.40.29
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 10 Jul 2019 21:40:30 -0700 (PDT)
-Date:   Thu, 11 Jul 2019 13:40:27 +0900
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
+        Thu, 11 Jul 2019 04:07:04 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hlU5Y-0008A6-U7; Thu, 11 Jul 2019 10:06:00 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hlU5O-00060U-8y; Thu, 11 Jul 2019 10:05:50 +0200
+Date:   Thu, 11 Jul 2019 10:05:50 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+Cc:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Wolfram Sang <wsa@the-dreams.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Mats Randgaard <matrandg@cisco.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Allison Randal <allison@lohutok.net>,
+        Richard Fontana <rfontana@redhat.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        Alexey Khoroshilov <khoroshilov@ispras.ru>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
-Message-ID: <20190711044027.GG1557@wyvern>
-References: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH 6/6] media: i2c: Convert to new i2c device probe()
+Message-ID: <20190711080550.r4i7atizllldvrut@pengutronix.de>
+References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190710215149.9208-7-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190710215149.9208-7-kieran.bingham+renesas@ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:04:26 up 54 days, 14:22, 51 users,  load average: 0.20, 0.65,
+ 0.46
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -73,67 +84,487 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kieran,
 
-Thanks for your patch.
-
-On 2019-07-10 13:37:19 +0100, Kieran Bingham wrote:
+On 19-07-10 22:51, Kieran Bingham wrote:
 > The I2C core framework provides a simplified probe framework from commit
 > b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
 > 
-> Convert the ADV748x to utilise this simplfied i2c driver registration.
+> These drivers do not utilise the i2c_device_id table in the probe, so we
+> can easily convert them to utilise the simplfied i2c driver
+> registration.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Looks good,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
 > ---
->  drivers/media/i2c/adv748x/adv748x-core.c | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
+>  drivers/media/i2c/adv7343.c  | 5 ++---
+>  drivers/media/i2c/imx274.c   | 5 ++---
+>  drivers/media/i2c/max2175.c  | 5 ++---
+>  drivers/media/i2c/mt9m001.c  | 5 ++---
+>  drivers/media/i2c/mt9m111.c  | 5 ++---
+>  drivers/media/i2c/ov2640.c   | 5 ++---
+>  drivers/media/i2c/ov2659.c   | 5 ++---
+>  drivers/media/i2c/ov5640.c   | 5 ++---
+>  drivers/media/i2c/ov5645.c   | 5 ++---
+>  drivers/media/i2c/ov5647.c   | 5 ++---
+>  drivers/media/i2c/ov772x.c   | 5 ++---
+>  drivers/media/i2c/ov7740.c   | 5 ++---
+>  drivers/media/i2c/ov9650.c   | 5 ++---
+>  drivers/media/i2c/s5k5baf.c  | 5 ++---
+>  drivers/media/i2c/s5k6a3.c   | 5 ++---
+>  drivers/media/i2c/tc358743.c | 5 ++---
+>  drivers/media/i2c/ths8200.c  | 5 ++---
+>  drivers/media/i2c/tvp5150.c  | 5 ++---
+>  drivers/media/i2c/tvp7002.c  | 4 ++--
+>  19 files changed, 38 insertions(+), 56 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index 097e94279cf7..ae2b6eb93e09 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -677,8 +677,7 @@ static void adv748x_dt_cleanup(struct adv748x_state *state)
->  		of_node_put(state->endpoints[i]);
+> diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
+> index 4a441ee99dd8..63e94dfcb5d3 100644
+> --- a/drivers/media/i2c/adv7343.c
+> +++ b/drivers/media/i2c/adv7343.c
+> @@ -428,8 +428,7 @@ adv7343_get_pdata(struct i2c_client *client)
+>  	return pdata;
 >  }
 >  
-> -static int adv748x_probe(struct i2c_client *client,
-> -			 const struct i2c_device_id *id)
-> +static int adv748x_probe(struct i2c_client *client)
+> -static int adv7343_probe(struct i2c_client *client,
+> -				const struct i2c_device_id *id)
+> +static int adv7343_probe(struct i2c_client *client)
 >  {
->  	struct adv748x_state *state;
->  	int ret;
-> @@ -806,13 +805,6 @@ static int adv748x_remove(struct i2c_client *client)
+>  	struct adv7343_state *state;
+>  	int err;
+> @@ -524,7 +523,7 @@ static struct i2c_driver adv7343_driver = {
+>  		.of_match_table = of_match_ptr(adv7343_of_match),
+>  		.name	= "adv7343",
+>  	},
+> -	.probe		= adv7343_probe,
+> +	.probe_new	= adv7343_probe,
+>  	.remove		= adv7343_remove,
+>  	.id_table	= adv7343_id,
+
+Can we remove the id_table too if it isn't required anymore? This
+applies to the other drivers as well.
+
+Regards,
+  Marco
+
+>  };
+> diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+> index f3ff1af209f9..6011cec5e351 100644
+> --- a/drivers/media/i2c/imx274.c
+> +++ b/drivers/media/i2c/imx274.c
+> @@ -1821,8 +1821,7 @@ static const struct i2c_device_id imx274_id[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, imx274_id);
+>  
+> -static int imx274_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int imx274_probe(struct i2c_client *client)
+>  {
+>  	struct v4l2_subdev *sd;
+>  	struct stimx274 *imx274;
+> @@ -1984,7 +1983,7 @@ static struct i2c_driver imx274_i2c_driver = {
+>  		.name	= DRIVER_NAME,
+>  		.of_match_table	= imx274_of_id_table,
+>  	},
+> -	.probe		= imx274_probe,
+> +	.probe_new	= imx274_probe,
+>  	.remove		= imx274_remove,
+>  	.id_table	= imx274_id,
+>  };
+> diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
+> index 7b226fadcdb8..19a3ceea3bc2 100644
+> --- a/drivers/media/i2c/max2175.c
+> +++ b/drivers/media/i2c/max2175.c
+> @@ -1271,8 +1271,7 @@ static int max2175_refout_load_to_bits(struct i2c_client *client, u32 load,
 >  	return 0;
 >  }
 >  
-> -static const struct i2c_device_id adv748x_id[] = {
-> -	{ "adv7481", 0 },
-> -	{ "adv7482", 0 },
-> -	{ },
-> -};
-> -MODULE_DEVICE_TABLE(i2c, adv748x_id);
-> -
->  static const struct of_device_id adv748x_of_table[] = {
->  	{ .compatible = "adi,adv7481", },
->  	{ .compatible = "adi,adv7482", },
-> @@ -825,9 +817,8 @@ static struct i2c_driver adv748x_driver = {
->  		.name = "adv748x",
->  		.of_match_table = adv748x_of_table,
+> -static int max2175_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int max2175_probe(struct i2c_client *client)
+>  {
+>  	bool master = true, am_hiz = false;
+>  	u32 refout_load, refout_bits = 0;	/* REFOUT disabled */
+> @@ -1433,7 +1432,7 @@ static struct i2c_driver max2175_driver = {
+>  		.name	= DRIVER_NAME,
+>  		.of_match_table = max2175_of_ids,
 >  	},
-> -	.probe = adv748x_probe,
-> +	.probe_new = adv748x_probe,
->  	.remove = adv748x_remove,
-> -	.id_table = adv748x_id,
+> -	.probe		= max2175_probe,
+> +	.probe_new	= max2175_probe,
+>  	.remove		= max2175_remove,
+>  	.id_table	= max2175_id,
+>  };
+> diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
+> index 2df743cbe09d..5613072908ac 100644
+> --- a/drivers/media/i2c/mt9m001.c
+> +++ b/drivers/media/i2c/mt9m001.c
+> @@ -726,8 +726,7 @@ static const struct v4l2_subdev_ops mt9m001_subdev_ops = {
+>  	.pad	= &mt9m001_subdev_pad_ops,
 >  };
 >  
->  module_i2c_driver(adv748x_driver);
+> -static int mt9m001_probe(struct i2c_client *client,
+> -			 const struct i2c_device_id *did)
+> +static int mt9m001_probe(struct i2c_client *client)
+>  {
+>  	struct mt9m001 *mt9m001;
+>  	struct i2c_adapter *adapter = client->adapter;
+> @@ -872,7 +871,7 @@ static struct i2c_driver mt9m001_i2c_driver = {
+>  		.pm = &mt9m001_pm_ops,
+>  		.of_match_table = mt9m001_of_match,
+>  	},
+> -	.probe		= mt9m001_probe,
+> +	.probe_new	= mt9m001_probe,
+>  	.remove		= mt9m001_remove,
+>  	.id_table	= mt9m001_id,
+>  };
+> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> index d10fe3712036..b5fa60068850 100644
+> --- a/drivers/media/i2c/mt9m111.c
+> +++ b/drivers/media/i2c/mt9m111.c
+> @@ -1246,8 +1246,7 @@ static int mt9m111_probe_fw(struct i2c_client *client, struct mt9m111 *mt9m111)
+>  	return ret;
+>  }
+>  
+> -static int mt9m111_probe(struct i2c_client *client,
+> -			 const struct i2c_device_id *did)
+> +static int mt9m111_probe(struct i2c_client *client)
+>  {
+>  	struct mt9m111 *mt9m111;
+>  	struct i2c_adapter *adapter = client->adapter;
+> @@ -1391,7 +1390,7 @@ static struct i2c_driver mt9m111_i2c_driver = {
+>  		.name = "mt9m111",
+>  		.of_match_table = of_match_ptr(mt9m111_of_match),
+>  	},
+> -	.probe		= mt9m111_probe,
+> +	.probe_new	= mt9m111_probe,
+>  	.remove		= mt9m111_remove,
+>  	.id_table	= mt9m111_id,
+>  };
+> diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
+> index 30e7e6b2b293..4df7ffa83217 100644
+> --- a/drivers/media/i2c/ov2640.c
+> +++ b/drivers/media/i2c/ov2640.c
+> @@ -1193,8 +1193,7 @@ static int ov2640_probe_dt(struct i2c_client *client,
+>  /*
+>   * i2c_driver functions
+>   */
+> -static int ov2640_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *did)
+> +static int ov2640_probe(struct i2c_client *client)
+>  {
+>  	struct ov2640_priv	*priv;
+>  	struct i2c_adapter	*adapter = client->adapter;
+> @@ -1305,7 +1304,7 @@ static struct i2c_driver ov2640_i2c_driver = {
+>  		.name = "ov2640",
+>  		.of_match_table = of_match_ptr(ov2640_of_match),
+>  	},
+> -	.probe    = ov2640_probe,
+> +	.probe_new = ov2640_probe,
+>  	.remove   = ov2640_remove,
+>  	.id_table = ov2640_id,
+>  };
+> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> index 5ed2413eac8a..18d996e90739 100644
+> --- a/drivers/media/i2c/ov2659.c
+> +++ b/drivers/media/i2c/ov2659.c
+> @@ -1386,8 +1386,7 @@ ov2659_get_pdata(struct i2c_client *client)
+>  	return pdata;
+>  }
+>  
+> -static int ov2659_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov2659_probe(struct i2c_client *client)
+>  {
+>  	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
+>  	struct v4l2_subdev *sd;
+> @@ -1515,7 +1514,7 @@ static struct i2c_driver ov2659_i2c_driver = {
+>  		.name	= DRIVER_NAME,
+>  		.of_match_table = of_match_ptr(ov2659_of_match),
+>  	},
+> -	.probe		= ov2659_probe,
+> +	.probe_new	= ov2659_probe,
+>  	.remove		= ov2659_remove,
+>  	.id_table	= ov2659_id,
+>  };
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 759d60c6d630..80d9c0060153 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -2936,8 +2936,7 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
+>  	return ret;
+>  }
+>  
+> -static int ov5640_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov5640_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+>  	struct fwnode_handle *endpoint;
+> @@ -3095,7 +3094,7 @@ static struct i2c_driver ov5640_i2c_driver = {
+>  		.of_match_table	= ov5640_dt_ids,
+>  	},
+>  	.id_table = ov5640_id,
+> -	.probe    = ov5640_probe,
+> +	.probe_new = ov5640_probe,
+>  	.remove   = ov5640_remove,
+>  };
+>  
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index 124c8df04633..42cf3ebd0831 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -1086,8 +1086,7 @@ static const struct v4l2_subdev_ops ov5645_subdev_ops = {
+>  	.pad = &ov5645_subdev_pad_ops,
+>  };
+>  
+> -static int ov5645_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov5645_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+>  	struct device_node *endpoint;
+> @@ -1355,7 +1354,7 @@ static struct i2c_driver ov5645_i2c_driver = {
+>  		.of_match_table = of_match_ptr(ov5645_of_match),
+>  		.name  = "ov5645",
+>  	},
+> -	.probe  = ov5645_probe,
+> +	.probe_new = ov5645_probe,
+>  	.remove = ov5645_remove,
+>  	.id_table = ov5645_id,
+>  };
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 4589631798c9..e7d2e5b4ad4b 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -547,8 +547,7 @@ static int ov5647_parse_dt(struct device_node *np)
+>  	return ret;
+>  }
+>  
+> -static int ov5647_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov5647_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+>  	struct ov5647 *sensor;
+> @@ -644,7 +643,7 @@ static struct i2c_driver ov5647_driver = {
+>  		.of_match_table = of_match_ptr(ov5647_of_match),
+>  		.name	= SENSOR_NAME,
+>  	},
+> -	.probe		= ov5647_probe,
+> +	.probe_new	= ov5647_probe,
+>  	.remove		= ov5647_remove,
+>  	.id_table	= ov5647_id,
+>  };
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 2e9a758736a1..2cc6a678069a 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -1352,8 +1352,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+>   * i2c_driver function
+>   */
+>  
+> -static int ov772x_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *did)
+> +static int ov772x_probe(struct i2c_client *client)
+>  {
+>  	struct ov772x_priv	*priv;
+>  	int			ret;
+> @@ -1486,7 +1485,7 @@ static struct i2c_driver ov772x_i2c_driver = {
+>  		.name = "ov772x",
+>  		.of_match_table = ov772x_of_match,
+>  	},
+> -	.probe    = ov772x_probe,
+> +	.probe_new = ov772x_probe,
+>  	.remove   = ov772x_remove,
+>  	.id_table = ov772x_id,
+>  };
+> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+> index 70bb870b1d08..181934c807c2 100644
+> --- a/drivers/media/i2c/ov7740.c
+> +++ b/drivers/media/i2c/ov7740.c
+> @@ -1066,8 +1066,7 @@ static const struct regmap_config ov7740_regmap_config = {
+>  	.max_register	= OV7740_MAX_REGISTER,
+>  };
+>  
+> -static int ov7740_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov7740_probe(struct i2c_client *client)
+>  {
+>  	struct ov7740 *ov7740;
+>  	struct v4l2_subdev *sd;
+> @@ -1229,7 +1228,7 @@ static struct i2c_driver ov7740_i2c_driver = {
+>  		.pm = &ov7740_pm_ops,
+>  		.of_match_table = of_match_ptr(ov7740_of_match),
+>  	},
+> -	.probe    = ov7740_probe,
+> +	.probe_new = ov7740_probe,
+>  	.remove   = ov7740_remove,
+>  	.id_table = ov7740_id,
+>  };
+> diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
+> index eefd57ec2a73..2262ee3e3687 100644
+> --- a/drivers/media/i2c/ov9650.c
+> +++ b/drivers/media/i2c/ov9650.c
+> @@ -1488,8 +1488,7 @@ static int ov965x_detect_sensor(struct v4l2_subdev *sd)
+>  	return ret;
+>  }
+>  
+> -static int ov965x_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int ov965x_probe(struct i2c_client *client)
+>  {
+>  	const struct ov9650_platform_data *pdata = client->dev.platform_data;
+>  	struct v4l2_subdev *sd;
+> @@ -1616,7 +1615,7 @@ static struct i2c_driver ov965x_i2c_driver = {
+>  		.name	= DRIVER_NAME,
+>  		.of_match_table = of_match_ptr(ov965x_of_match),
+>  	},
+> -	.probe		= ov965x_probe,
+> +	.probe_new	= ov965x_probe,
+>  	.remove		= ov965x_remove,
+>  	.id_table	= ov965x_id,
+>  };
+> diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+> index 727db7c0670a..1b912d2c1146 100644
+> --- a/drivers/media/i2c/s5k5baf.c
+> +++ b/drivers/media/i2c/s5k5baf.c
+> @@ -1949,8 +1949,7 @@ static int s5k5baf_configure_regulators(struct s5k5baf *state)
+>  	return ret;
+>  }
+>  
+> -static int s5k5baf_probe(struct i2c_client *c,
+> -			const struct i2c_device_id *id)
+> +static int s5k5baf_probe(struct i2c_client *c)
+>  {
+>  	struct s5k5baf *state;
+>  	int ret;
+> @@ -2049,7 +2048,7 @@ static struct i2c_driver s5k5baf_i2c_driver = {
+>  		.of_match_table = s5k5baf_of_match,
+>  		.name = S5K5BAF_DRIVER_NAME
+>  	},
+> -	.probe		= s5k5baf_probe,
+> +	.probe_new	= s5k5baf_probe,
+>  	.remove		= s5k5baf_remove,
+>  	.id_table	= s5k5baf_id,
+>  };
+> diff --git a/drivers/media/i2c/s5k6a3.c b/drivers/media/i2c/s5k6a3.c
+> index 2e140272794b..ebef5a1a372f 100644
+> --- a/drivers/media/i2c/s5k6a3.c
+> +++ b/drivers/media/i2c/s5k6a3.c
+> @@ -278,8 +278,7 @@ static const struct v4l2_subdev_ops s5k6a3_subdev_ops = {
+>  	.pad = &s5k6a3_pad_ops,
+>  };
+>  
+> -static int s5k6a3_probe(struct i2c_client *client,
+> -				const struct i2c_device_id *id)
+> +static int s5k6a3_probe(struct i2c_client *client)
+>  {
+>  	struct device *dev = &client->dev;
+>  	struct s5k6a3 *sensor;
+> @@ -381,7 +380,7 @@ static struct i2c_driver s5k6a3_driver = {
+>  		.of_match_table	= of_match_ptr(s5k6a3_of_match),
+>  		.name		= S5K6A3_DRV_NAME,
+>  	},
+> -	.probe		= s5k6a3_probe,
+> +	.probe_new	= s5k6a3_probe,
+>  	.remove		= s5k6a3_remove,
+>  	.id_table	= s5k6a3_ids,
+>  };
+> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+> index bc2e35e5ce61..dbbab75f135e 100644
+> --- a/drivers/media/i2c/tc358743.c
+> +++ b/drivers/media/i2c/tc358743.c
+> @@ -2026,8 +2026,7 @@ static inline int tc358743_probe_of(struct tc358743_state *state)
+>  }
+>  #endif
+>  
+> -static int tc358743_probe(struct i2c_client *client,
+> -			  const struct i2c_device_id *id)
+> +static int tc358743_probe(struct i2c_client *client)
+>  {
+>  	static struct v4l2_dv_timings default_timing =
+>  		V4L2_DV_BT_CEA_640X480P59_94;
+> @@ -2222,7 +2221,7 @@ static struct i2c_driver tc358743_driver = {
+>  		.name = "tc358743",
+>  		.of_match_table = of_match_ptr(tc358743_of_match),
+>  	},
+> -	.probe = tc358743_probe,
+> +	.probe_new = tc358743_probe,
+>  	.remove = tc358743_remove,
+>  	.id_table = tc358743_id,
+>  };
+> diff --git a/drivers/media/i2c/ths8200.c b/drivers/media/i2c/ths8200.c
+> index f5ee28058ea2..c52fe84cba1b 100644
+> --- a/drivers/media/i2c/ths8200.c
+> +++ b/drivers/media/i2c/ths8200.c
+> @@ -436,8 +436,7 @@ static const struct v4l2_subdev_ops ths8200_ops = {
+>  	.pad = &ths8200_pad_ops,
+>  };
+>  
+> -static int ths8200_probe(struct i2c_client *client,
+> -			 const struct i2c_device_id *id)
+> +static int ths8200_probe(struct i2c_client *client)
+>  {
+>  	struct ths8200_state *state;
+>  	struct v4l2_subdev *sd;
+> @@ -502,7 +501,7 @@ static struct i2c_driver ths8200_driver = {
+>  		.name = "ths8200",
+>  		.of_match_table = of_match_ptr(ths8200_of_match),
+>  	},
+> -	.probe = ths8200_probe,
+> +	.probe_new = ths8200_probe,
+>  	.remove = ths8200_remove,
+>  	.id_table = ths8200_id,
+>  };
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index eaddd977ba40..7f4f23f4c7ac 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -1691,8 +1691,7 @@ static const char * const tvp5150_test_patterns[2] = {
+>  	"Black screen"
+>  };
+>  
+> -static int tvp5150_probe(struct i2c_client *c,
+> -			 const struct i2c_device_id *id)
+> +static int tvp5150_probe(struct i2c_client *c)
+>  {
+>  	struct tvp5150 *core;
+>  	struct v4l2_subdev *sd;
+> @@ -1841,7 +1840,7 @@ static struct i2c_driver tvp5150_driver = {
+>  		.of_match_table = of_match_ptr(tvp5150_of_match),
+>  		.name	= "tvp5150",
+>  	},
+> -	.probe		= tvp5150_probe,
+> +	.probe_new	= tvp5150_probe,
+>  	.remove		= tvp5150_remove,
+>  	.id_table	= tvp5150_id,
+>  };
+> diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
+> index 1b8175cab017..de313b1306da 100644
+> --- a/drivers/media/i2c/tvp7002.c
+> +++ b/drivers/media/i2c/tvp7002.c
+> @@ -930,7 +930,7 @@ tvp7002_get_pdata(struct i2c_client *client)
+>   * Returns zero when successful, -EINVAL if register read fails or
+>   * -EIO if i2c access is not available.
+>   */
+> -static int tvp7002_probe(struct i2c_client *c, const struct i2c_device_id *id)
+> +static int tvp7002_probe(struct i2c_client *c)
+>  {
+>  	struct tvp7002_config *pdata = tvp7002_get_pdata(c);
+>  	struct v4l2_subdev *sd;
+> @@ -1075,7 +1075,7 @@ static struct i2c_driver tvp7002_driver = {
+>  		.of_match_table = of_match_ptr(tvp7002_of_match),
+>  		.name = TVP7002_MODULE_NAME,
+>  	},
+> -	.probe = tvp7002_probe,
+> +	.probe_new = tvp7002_probe,
+>  	.remove = tvp7002_remove,
+>  	.id_table = tvp7002_id,
+>  };
 > -- 
 > 2.20.1
 > 
+> 
 
 -- 
-Regards,
-Niklas Söderlund
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
