@@ -2,69 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C9264E36
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2019 23:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D4DE64FF3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 03:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbfGJVw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jul 2019 17:52:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40066 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727779AbfGJVw0 (ORCPT
+        id S1727773AbfGKBkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jul 2019 21:40:41 -0400
+Received: from mail-qt1-f172.google.com ([209.85.160.172]:38457 "EHLO
+        mail-qt1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727595AbfGKBkl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jul 2019 17:52:26 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEDCC31C;
-        Wed, 10 Jul 2019 23:52:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562795542;
-        bh=Oz+HaECAlw6JKbkv0Ua3m4RThG/QbVE8sGpYzIFhbj4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yw2YTTe77XEZsRHurhfIFr2RoecDcIygDIAM4fxpmLx4qgQj0KMZDnNn80NHwpZYS
-         3DJ/QRKGB1bVVHDQ+V1f50l6iPCobg5nV/v1BXBuUQhYP0XW/ay5uIKsoHMQjui/gf
-         odI7ZAhgr7lluOhqsKDz8ydIU6KuwQf+bdKhCdkA=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Richard Fontana <rfontana@redhat.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Alexey Khoroshilov <khoroshilov@ispras.ru>,
+        Wed, 10 Jul 2019 21:40:41 -0400
+Received: by mail-qt1-f172.google.com with SMTP id n11so4662982qtl.5
+        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2019 18:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=/IpgZ/neZ2aqqbkeJp9fUjDcT58qp+6d+BgJyOTjvG0=;
+        b=ezRiUI9Fpcsc7gihZ8V0KGIhWwzd33nBpyr8kL3Bx3EFN3ZEX+ofC5pFsloLj0hL6g
+         ADWuisivefOycT+m0fOQ7vBxZ0h4rjwW3lE76eClYzBuYRgRRl2qnyHKugoPe0FHQ2FR
+         ZOy21PQER1EsEmar/wh4yaDDXNOFamlqbBtHHgcBsPsyri11Hx6sbfse0fimdOa7nnz/
+         PIuZN0U7NwXyOgyDl72AVnboSwvHDNKfLDbD8YQhfrMbVey/shJpn16TTTvkDvmruPMt
+         Tt1RKUeK80hnT4TElS8eX6Zrl4sec8+ps9DcT7FOJObC4wsij28fQ6xGuxP27SqBgFlz
+         CnOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/IpgZ/neZ2aqqbkeJp9fUjDcT58qp+6d+BgJyOTjvG0=;
+        b=fyWuAA1TW5UhctXGp95UvmY2hT//l2y+0gzH5FZYUKAWcWERebTfnN7vqDeXBgojO7
+         G9eYL8H+7vNSLCMDN95zI9LlfUuXdp1f3iV/P4IsPigA0xOUalxFbUfACRYPvD2W+Ko9
+         YxQS+MOmUl88fyRoKPn6tZ8rd5XBLfJ76ZqBMZvw32nu404XVuE8gzTMyUifLJE/u/oM
+         jU/AY0y/zHU0URyGcJSfbh9eL1J9a/Vq3DXKX1qg/nHJh7vnZSlNewJSX/BiPGJaly77
+         V3XCKVAySPOqS7AhOuHpiev8m9e/4fZsyKtb8qy7CEJeMo0ZX8cEZ8WHk8ZI+6yWDuZV
+         omsg==
+X-Gm-Message-State: APjAAAWLfT/zna2VWKeG+e4b8jyv9UeX0s6lFlyLJInu64tyt5fqFVxK
+        SihDN8qITkg5sFhocLz5U/w=
+X-Google-Smtp-Source: APXvYqx2aATbyGevH08RS9H2awfebMo52fus/CnUJ/a1Pk28Qxr3gCuIldiNPUCOI5NZ0wOgCOjVww==
+X-Received: by 2002:ac8:2e59:: with SMTP id s25mr925470qta.94.1562809239841;
+        Wed, 10 Jul 2019 18:40:39 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id z33sm1709154qtc.56.2019.07.10.18.40.36
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 10 Jul 2019 18:40:38 -0700 (PDT)
+Message-ID: <a5f66bf147aa0e095a97ab1e3f138b232ddf5de4.camel@ndufresne.ca>
+Subject: Re: [RFC] Stateful codecs and requirements for compressed formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 6/6] media: i2c: Convert to new i2c device probe()
-Date:   Wed, 10 Jul 2019 22:51:49 +0100
-Message-Id: <20190710215149.9208-7-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sylwester Nawrocki <snawrocki@kernel.org>
+Date:   Wed, 10 Jul 2019 21:40:35 -0400
+In-Reply-To: <a2fb2846-2c29-d4ec-f3d9-9dedf497dd87@xs4all.nl>
+References: <530f28e9-f686-6222-c6cc-9a5207b151f7@xs4all.nl>
+         <5b1362779132c1a47c26cd5080d5eb9920e72db3.camel@ndufresne.ca>
+         <a2fb2846-2c29-d4ec-f3d9-9dedf497dd87@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -72,472 +73,131 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The I2C core framework provides a simplified probe framework from commit
-b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
+Le mercredi 10 juillet 2019 à 10:43 +0200, Hans Verkuil a écrit :
+> On 6/28/19 8:09 PM, Nicolas Dufresne wrote:
+> > Le vendredi 28 juin 2019 à 16:34 +0200, Hans Verkuil a écrit :
+> > > Hi all,
+> > > 
+> > > I hope I Cc-ed everyone with a stake in this issue.
+> > > 
+> > > One recurring question is how a stateful encoder fills buffers and how a stateful
+> > > decoder consumes buffers.
+> > > 
+> > > The most generic case is that an encoder produces a bitstream and just fills each
+> > > CAPTURE buffer to the brim before continuing with the next buffer.
+> > > 
+> > > I don't think there are drivers that do this, I believe that all drivers just
+> > > output a single compressed frame. For interlaced formats I understand it is either
+> > > one compressed field per buffer, or two compressed fields per buffer (this is
+> > > what I heard, I don't know if this is true).
+> > > 
+> > > In any case, I don't think this is specified anywhere. Please correct me if I am
+> > > wrong.
+> > > 
+> > > The latest stateful codec spec is here:
+> > > 
+> > > https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-mem2mem.html
+> > > 
+> > > Assuming what I described above is indeed the case, then I think this should
+> > > be documented. I don't know enough if a flag is needed somewhere to describe
+> > > the behavior for interlaced formats, or can we leave this open and have userspace
+> > > detect this?
+> > > 
+> > > 
+> > > For decoders it is more complicated. The stateful decoder spec is written with
+> > > the assumption that userspace can just fill each OUTPUT buffer to the brim with
+> > > the compressed bitstream. I.e., no need to split at frame or other boundaries.
+> > > 
+> > > See section 4.5.1.7 in the spec.
+> > > 
+> > > But I understand that various HW decoders *do* have limitations. I would really
+> > > like to know about those, since that needs to be exposed to userspace somehow.
+> > > 
+> > > Specifically, the venus decoder needs to know the resolution of the coded video
+> > > beforehand and it expects a single frame per buffer (how does that work for
+> > > interlaced formats?).
+> > > 
+> > > Such requirements mean that some userspace parsing is still required, so these
+> > > decoders are not completely stateful.
+> > > 
+> > > Can every codec author give information about their decoder/encoder?
+> > > 
+> > > I'll start off with my virtual codec driver:
+> > > 
+> > > vicodec: the decoder fully parses the bitstream. The encoder produces a single
+> > > compressed frame per buffer. This driver doesn't yet support interlaced formats,
+> > > but when that is added it will encode one field per buffer.
+> > > 
+> > > Let's see what the results are.
+> > 
+> > Hans though a summary of what existing userspace expects / assumes
+> > would be nice.
+> > 
+> > GStreamer:
+> > ==========
+> > Encodes:
+> >   fwht, h263, h264, hevc, jpeg, mpeg4, vp8, vp9
+> > Decodes:
+> >   fwht, h263, h264, hevc, jpeg, mpeg2, mpeg4, vc1, vp8, vp9
+> > 
+> > It assumes that each encoded v4l2_buffer contains exactly one frame
+> > (any format, two fields for interlaced content). It may still work
+> > otherwise, but some issues will appear, timestamp shift, lost of
+> > metadata (e.g. timecode, cc, etc.).
+> 
+> When you say 'each encoded v4l2_buffer contains exactly on frame',
+> does that include H.264 SPS/PPS headers? Or are those passed in
+> a separate v4l2_buffer? 
 
-These drivers do not utilise the i2c_device_id table in the probe, so we
-can easily convert them to utilise the simplfied i2c driver
-registration.
+Yes, the SPS/PPS is assumed to be in the same buffer. In the case of
+the decoder it's guarantied to be, if the decoder does not do that, it
+will still work with a timestamp shift.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/i2c/adv7343.c  | 5 ++---
- drivers/media/i2c/imx274.c   | 5 ++---
- drivers/media/i2c/max2175.c  | 5 ++---
- drivers/media/i2c/mt9m001.c  | 5 ++---
- drivers/media/i2c/mt9m111.c  | 5 ++---
- drivers/media/i2c/ov2640.c   | 5 ++---
- drivers/media/i2c/ov2659.c   | 5 ++---
- drivers/media/i2c/ov5640.c   | 5 ++---
- drivers/media/i2c/ov5645.c   | 5 ++---
- drivers/media/i2c/ov5647.c   | 5 ++---
- drivers/media/i2c/ov772x.c   | 5 ++---
- drivers/media/i2c/ov7740.c   | 5 ++---
- drivers/media/i2c/ov9650.c   | 5 ++---
- drivers/media/i2c/s5k5baf.c  | 5 ++---
- drivers/media/i2c/s5k6a3.c   | 5 ++---
- drivers/media/i2c/tc358743.c | 5 ++---
- drivers/media/i2c/ths8200.c  | 5 ++---
- drivers/media/i2c/tvp5150.c  | 5 ++---
- drivers/media/i2c/tvp7002.c  | 4 ++--
- 19 files changed, 38 insertions(+), 56 deletions(-)
+> Ditto for FFMPEG.
 
-diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
-index 4a441ee99dd8..63e94dfcb5d3 100644
---- a/drivers/media/i2c/adv7343.c
-+++ b/drivers/media/i2c/adv7343.c
-@@ -428,8 +428,7 @@ adv7343_get_pdata(struct i2c_client *client)
- 	return pdata;
- }
- 
--static int adv7343_probe(struct i2c_client *client,
--				const struct i2c_device_id *id)
-+static int adv7343_probe(struct i2c_client *client)
- {
- 	struct adv7343_state *state;
- 	int err;
-@@ -524,7 +523,7 @@ static struct i2c_driver adv7343_driver = {
- 		.of_match_table = of_match_ptr(adv7343_of_match),
- 		.name	= "adv7343",
- 	},
--	.probe		= adv7343_probe,
-+	.probe_new	= adv7343_probe,
- 	.remove		= adv7343_remove,
- 	.id_table	= adv7343_id,
- };
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index f3ff1af209f9..6011cec5e351 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -1821,8 +1821,7 @@ static const struct i2c_device_id imx274_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, imx274_id);
- 
--static int imx274_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int imx274_probe(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd;
- 	struct stimx274 *imx274;
-@@ -1984,7 +1983,7 @@ static struct i2c_driver imx274_i2c_driver = {
- 		.name	= DRIVER_NAME,
- 		.of_match_table	= imx274_of_id_table,
- 	},
--	.probe		= imx274_probe,
-+	.probe_new	= imx274_probe,
- 	.remove		= imx274_remove,
- 	.id_table	= imx274_id,
- };
-diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
-index 7b226fadcdb8..19a3ceea3bc2 100644
---- a/drivers/media/i2c/max2175.c
-+++ b/drivers/media/i2c/max2175.c
-@@ -1271,8 +1271,7 @@ static int max2175_refout_load_to_bits(struct i2c_client *client, u32 load,
- 	return 0;
- }
- 
--static int max2175_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int max2175_probe(struct i2c_client *client)
- {
- 	bool master = true, am_hiz = false;
- 	u32 refout_load, refout_bits = 0;	/* REFOUT disabled */
-@@ -1433,7 +1432,7 @@ static struct i2c_driver max2175_driver = {
- 		.name	= DRIVER_NAME,
- 		.of_match_table = max2175_of_ids,
- 	},
--	.probe		= max2175_probe,
-+	.probe_new	= max2175_probe,
- 	.remove		= max2175_remove,
- 	.id_table	= max2175_id,
- };
-diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-index 2df743cbe09d..5613072908ac 100644
---- a/drivers/media/i2c/mt9m001.c
-+++ b/drivers/media/i2c/mt9m001.c
-@@ -726,8 +726,7 @@ static const struct v4l2_subdev_ops mt9m001_subdev_ops = {
- 	.pad	= &mt9m001_subdev_pad_ops,
- };
- 
--static int mt9m001_probe(struct i2c_client *client,
--			 const struct i2c_device_id *did)
-+static int mt9m001_probe(struct i2c_client *client)
- {
- 	struct mt9m001 *mt9m001;
- 	struct i2c_adapter *adapter = client->adapter;
-@@ -872,7 +871,7 @@ static struct i2c_driver mt9m001_i2c_driver = {
- 		.pm = &mt9m001_pm_ops,
- 		.of_match_table = mt9m001_of_match,
- 	},
--	.probe		= mt9m001_probe,
-+	.probe_new	= mt9m001_probe,
- 	.remove		= mt9m001_remove,
- 	.id_table	= mt9m001_id,
- };
-diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-index d10fe3712036..b5fa60068850 100644
---- a/drivers/media/i2c/mt9m111.c
-+++ b/drivers/media/i2c/mt9m111.c
-@@ -1246,8 +1246,7 @@ static int mt9m111_probe_fw(struct i2c_client *client, struct mt9m111 *mt9m111)
- 	return ret;
- }
- 
--static int mt9m111_probe(struct i2c_client *client,
--			 const struct i2c_device_id *did)
-+static int mt9m111_probe(struct i2c_client *client)
- {
- 	struct mt9m111 *mt9m111;
- 	struct i2c_adapter *adapter = client->adapter;
-@@ -1391,7 +1390,7 @@ static struct i2c_driver mt9m111_i2c_driver = {
- 		.name = "mt9m111",
- 		.of_match_table = of_match_ptr(mt9m111_of_match),
- 	},
--	.probe		= mt9m111_probe,
-+	.probe_new	= mt9m111_probe,
- 	.remove		= mt9m111_remove,
- 	.id_table	= mt9m111_id,
- };
-diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
-index 30e7e6b2b293..4df7ffa83217 100644
---- a/drivers/media/i2c/ov2640.c
-+++ b/drivers/media/i2c/ov2640.c
-@@ -1193,8 +1193,7 @@ static int ov2640_probe_dt(struct i2c_client *client,
- /*
-  * i2c_driver functions
-  */
--static int ov2640_probe(struct i2c_client *client,
--			const struct i2c_device_id *did)
-+static int ov2640_probe(struct i2c_client *client)
- {
- 	struct ov2640_priv	*priv;
- 	struct i2c_adapter	*adapter = client->adapter;
-@@ -1305,7 +1304,7 @@ static struct i2c_driver ov2640_i2c_driver = {
- 		.name = "ov2640",
- 		.of_match_table = of_match_ptr(ov2640_of_match),
- 	},
--	.probe    = ov2640_probe,
-+	.probe_new = ov2640_probe,
- 	.remove   = ov2640_remove,
- 	.id_table = ov2640_id,
- };
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 5ed2413eac8a..18d996e90739 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1386,8 +1386,7 @@ ov2659_get_pdata(struct i2c_client *client)
- 	return pdata;
- }
- 
--static int ov2659_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov2659_probe(struct i2c_client *client)
- {
- 	const struct ov2659_platform_data *pdata = ov2659_get_pdata(client);
- 	struct v4l2_subdev *sd;
-@@ -1515,7 +1514,7 @@ static struct i2c_driver ov2659_i2c_driver = {
- 		.name	= DRIVER_NAME,
- 		.of_match_table = of_match_ptr(ov2659_of_match),
- 	},
--	.probe		= ov2659_probe,
-+	.probe_new	= ov2659_probe,
- 	.remove		= ov2659_remove,
- 	.id_table	= ov2659_id,
- };
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 759d60c6d630..80d9c0060153 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -2936,8 +2936,7 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
- 	return ret;
- }
- 
--static int ov5640_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov5640_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct fwnode_handle *endpoint;
-@@ -3095,7 +3094,7 @@ static struct i2c_driver ov5640_i2c_driver = {
- 		.of_match_table	= ov5640_dt_ids,
- 	},
- 	.id_table = ov5640_id,
--	.probe    = ov5640_probe,
-+	.probe_new = ov5640_probe,
- 	.remove   = ov5640_remove,
- };
- 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 124c8df04633..42cf3ebd0831 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -1086,8 +1086,7 @@ static const struct v4l2_subdev_ops ov5645_subdev_ops = {
- 	.pad = &ov5645_subdev_pad_ops,
- };
- 
--static int ov5645_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov5645_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct device_node *endpoint;
-@@ -1355,7 +1354,7 @@ static struct i2c_driver ov5645_i2c_driver = {
- 		.of_match_table = of_match_ptr(ov5645_of_match),
- 		.name  = "ov5645",
- 	},
--	.probe  = ov5645_probe,
-+	.probe_new = ov5645_probe,
- 	.remove = ov5645_remove,
- 	.id_table = ov5645_id,
- };
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 4589631798c9..e7d2e5b4ad4b 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -547,8 +547,7 @@ static int ov5647_parse_dt(struct device_node *np)
- 	return ret;
- }
- 
--static int ov5647_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov5647_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct ov5647 *sensor;
-@@ -644,7 +643,7 @@ static struct i2c_driver ov5647_driver = {
- 		.of_match_table = of_match_ptr(ov5647_of_match),
- 		.name	= SENSOR_NAME,
- 	},
--	.probe		= ov5647_probe,
-+	.probe_new	= ov5647_probe,
- 	.remove		= ov5647_remove,
- 	.id_table	= ov5647_id,
- };
-diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-index 2e9a758736a1..2cc6a678069a 100644
---- a/drivers/media/i2c/ov772x.c
-+++ b/drivers/media/i2c/ov772x.c
-@@ -1352,8 +1352,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-  * i2c_driver function
-  */
- 
--static int ov772x_probe(struct i2c_client *client,
--			const struct i2c_device_id *did)
-+static int ov772x_probe(struct i2c_client *client)
- {
- 	struct ov772x_priv	*priv;
- 	int			ret;
-@@ -1486,7 +1485,7 @@ static struct i2c_driver ov772x_i2c_driver = {
- 		.name = "ov772x",
- 		.of_match_table = ov772x_of_match,
- 	},
--	.probe    = ov772x_probe,
-+	.probe_new = ov772x_probe,
- 	.remove   = ov772x_remove,
- 	.id_table = ov772x_id,
- };
-diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-index 70bb870b1d08..181934c807c2 100644
---- a/drivers/media/i2c/ov7740.c
-+++ b/drivers/media/i2c/ov7740.c
-@@ -1066,8 +1066,7 @@ static const struct regmap_config ov7740_regmap_config = {
- 	.max_register	= OV7740_MAX_REGISTER,
- };
- 
--static int ov7740_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov7740_probe(struct i2c_client *client)
- {
- 	struct ov7740 *ov7740;
- 	struct v4l2_subdev *sd;
-@@ -1229,7 +1228,7 @@ static struct i2c_driver ov7740_i2c_driver = {
- 		.pm = &ov7740_pm_ops,
- 		.of_match_table = of_match_ptr(ov7740_of_match),
- 	},
--	.probe    = ov7740_probe,
-+	.probe_new = ov7740_probe,
- 	.remove   = ov7740_remove,
- 	.id_table = ov7740_id,
- };
-diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
-index eefd57ec2a73..2262ee3e3687 100644
---- a/drivers/media/i2c/ov9650.c
-+++ b/drivers/media/i2c/ov9650.c
-@@ -1488,8 +1488,7 @@ static int ov965x_detect_sensor(struct v4l2_subdev *sd)
- 	return ret;
- }
- 
--static int ov965x_probe(struct i2c_client *client,
--			const struct i2c_device_id *id)
-+static int ov965x_probe(struct i2c_client *client)
- {
- 	const struct ov9650_platform_data *pdata = client->dev.platform_data;
- 	struct v4l2_subdev *sd;
-@@ -1616,7 +1615,7 @@ static struct i2c_driver ov965x_i2c_driver = {
- 		.name	= DRIVER_NAME,
- 		.of_match_table = of_match_ptr(ov965x_of_match),
- 	},
--	.probe		= ov965x_probe,
-+	.probe_new	= ov965x_probe,
- 	.remove		= ov965x_remove,
- 	.id_table	= ov965x_id,
- };
-diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-index 727db7c0670a..1b912d2c1146 100644
---- a/drivers/media/i2c/s5k5baf.c
-+++ b/drivers/media/i2c/s5k5baf.c
-@@ -1949,8 +1949,7 @@ static int s5k5baf_configure_regulators(struct s5k5baf *state)
- 	return ret;
- }
- 
--static int s5k5baf_probe(struct i2c_client *c,
--			const struct i2c_device_id *id)
-+static int s5k5baf_probe(struct i2c_client *c)
- {
- 	struct s5k5baf *state;
- 	int ret;
-@@ -2049,7 +2048,7 @@ static struct i2c_driver s5k5baf_i2c_driver = {
- 		.of_match_table = s5k5baf_of_match,
- 		.name = S5K5BAF_DRIVER_NAME
- 	},
--	.probe		= s5k5baf_probe,
-+	.probe_new	= s5k5baf_probe,
- 	.remove		= s5k5baf_remove,
- 	.id_table	= s5k5baf_id,
- };
-diff --git a/drivers/media/i2c/s5k6a3.c b/drivers/media/i2c/s5k6a3.c
-index 2e140272794b..ebef5a1a372f 100644
---- a/drivers/media/i2c/s5k6a3.c
-+++ b/drivers/media/i2c/s5k6a3.c
-@@ -278,8 +278,7 @@ static const struct v4l2_subdev_ops s5k6a3_subdev_ops = {
- 	.pad = &s5k6a3_pad_ops,
- };
- 
--static int s5k6a3_probe(struct i2c_client *client,
--				const struct i2c_device_id *id)
-+static int s5k6a3_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct s5k6a3 *sensor;
-@@ -381,7 +380,7 @@ static struct i2c_driver s5k6a3_driver = {
- 		.of_match_table	= of_match_ptr(s5k6a3_of_match),
- 		.name		= S5K6A3_DRV_NAME,
- 	},
--	.probe		= s5k6a3_probe,
-+	.probe_new	= s5k6a3_probe,
- 	.remove		= s5k6a3_remove,
- 	.id_table	= s5k6a3_ids,
- };
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index bc2e35e5ce61..dbbab75f135e 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -2026,8 +2026,7 @@ static inline int tc358743_probe_of(struct tc358743_state *state)
- }
- #endif
- 
--static int tc358743_probe(struct i2c_client *client,
--			  const struct i2c_device_id *id)
-+static int tc358743_probe(struct i2c_client *client)
- {
- 	static struct v4l2_dv_timings default_timing =
- 		V4L2_DV_BT_CEA_640X480P59_94;
-@@ -2222,7 +2221,7 @@ static struct i2c_driver tc358743_driver = {
- 		.name = "tc358743",
- 		.of_match_table = of_match_ptr(tc358743_of_match),
- 	},
--	.probe = tc358743_probe,
-+	.probe_new = tc358743_probe,
- 	.remove = tc358743_remove,
- 	.id_table = tc358743_id,
- };
-diff --git a/drivers/media/i2c/ths8200.c b/drivers/media/i2c/ths8200.c
-index f5ee28058ea2..c52fe84cba1b 100644
---- a/drivers/media/i2c/ths8200.c
-+++ b/drivers/media/i2c/ths8200.c
-@@ -436,8 +436,7 @@ static const struct v4l2_subdev_ops ths8200_ops = {
- 	.pad = &ths8200_pad_ops,
- };
- 
--static int ths8200_probe(struct i2c_client *client,
--			 const struct i2c_device_id *id)
-+static int ths8200_probe(struct i2c_client *client)
- {
- 	struct ths8200_state *state;
- 	struct v4l2_subdev *sd;
-@@ -502,7 +501,7 @@ static struct i2c_driver ths8200_driver = {
- 		.name = "ths8200",
- 		.of_match_table = of_match_ptr(ths8200_of_match),
- 	},
--	.probe = ths8200_probe,
-+	.probe_new = ths8200_probe,
- 	.remove = ths8200_remove,
- 	.id_table = ths8200_id,
- };
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index eaddd977ba40..7f4f23f4c7ac 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1691,8 +1691,7 @@ static const char * const tvp5150_test_patterns[2] = {
- 	"Black screen"
- };
- 
--static int tvp5150_probe(struct i2c_client *c,
--			 const struct i2c_device_id *id)
-+static int tvp5150_probe(struct i2c_client *c)
- {
- 	struct tvp5150 *core;
- 	struct v4l2_subdev *sd;
-@@ -1841,7 +1840,7 @@ static struct i2c_driver tvp5150_driver = {
- 		.of_match_table = of_match_ptr(tvp5150_of_match),
- 		.name	= "tvp5150",
- 	},
--	.probe		= tvp5150_probe,
-+	.probe_new	= tvp5150_probe,
- 	.remove		= tvp5150_remove,
- 	.id_table	= tvp5150_id,
- };
-diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
-index 1b8175cab017..de313b1306da 100644
---- a/drivers/media/i2c/tvp7002.c
-+++ b/drivers/media/i2c/tvp7002.c
-@@ -930,7 +930,7 @@ tvp7002_get_pdata(struct i2c_client *client)
-  * Returns zero when successful, -EINVAL if register read fails or
-  * -EIO if i2c access is not available.
-  */
--static int tvp7002_probe(struct i2c_client *c, const struct i2c_device_id *id)
-+static int tvp7002_probe(struct i2c_client *c)
- {
- 	struct tvp7002_config *pdata = tvp7002_get_pdata(c);
- 	struct v4l2_subdev *sd;
-@@ -1075,7 +1075,7 @@ static struct i2c_driver tvp7002_driver = {
- 		.of_match_table = of_match_ptr(tvp7002_of_match),
- 		.name = TVP7002_MODULE_NAME,
- 	},
--	.probe = tvp7002_probe,
-+	.probe_new = tvp7002_probe,
- 	.remove = tvp7002_remove,
- 	.id_table = tvp7002_id,
- };
--- 
-2.20.1
+I believe it's the same, but I'd need to re-read that code to confirm.
+The thing about FFMPEG is that the internal format is always AVC
+instead of bytestream. And the PPS/SPS travels out-of-band, which means
+it's not inside an AVPacket internally.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > FFMpeg:
+> > =======
+> > Encodes:
+> >   h263, h264, hevc, mpeg4, vp8
+> > Decodes:
+> >   h263, h264, hevc, mpeg2, mpeg4, vc1, vp8, vp9
+> > 
+> > Similarly to GStreamer, it assumes that one AVPacket will fit one
+> > v4l2_buffer. On the encoding side, it seems less of a problem, but they
+> > don't fully implement the FFMPEG CODEC API for frame matching, which I
+> > suspect would create some ambiguity if it was.
+> > 
+> > Chromium:
+> > =========
+> > Decodes:
+> >   H264, VP8, VP9
+> > Encodes:
+> >   H264
+> > 
+> > That is the code I know the less, but the encoder does not seem
+> > affected by the nal alignment. The keyframe flag and timestamps seems
+> > to be used and are likely expected to correlate with the input, so I
+> > suspect that there exist some possible ambiguity if the output is not
+> > full frame. For the decoder, I'll have to ask someone else to comment,
+> > the code is hard to follow and I could not get to the place where
+> > output buffers are filled. I thought the GStreamer code was tough, but
+> > this is quite similarly a mess.
+> > 
+> > Nicolas
+> > 
+> > 
+> > 
+> > 
+> > 
+> > 
 
