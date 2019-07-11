@@ -2,698 +2,529 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 013486590C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 16:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F90565B65
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2019 18:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729076AbfGKOan (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jul 2019 10:30:43 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59979 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728754AbfGKOan (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jul 2019 10:30:43 -0400
-Received: from [IPv6:2001:983:e9a7:1:1579:d284:7580:63e0] ([IPv6:2001:983:e9a7:1:1579:d284:7580:63e0])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id la5jhENmuuEBxla5lhByVu; Thu, 11 Jul 2019 16:30:40 +0200
-Subject: Re: [PATCH v3 2/4] media: uapi: Add VP8 stateless decoder API
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Pawel Osciak <posciak@chromium.org>
-References: <20190705145050.25911-1-ezequiel@collabora.com>
- <20190705145050.25911-3-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1e22741f-1616-fe01-e5d8-aad73ef974ff@xs4all.nl>
-Date:   Thu, 11 Jul 2019 16:30:35 +0200
+        id S1728588AbfGKQVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jul 2019 12:21:22 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:60986 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728045AbfGKQVV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Jul 2019 12:21:21 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id D81E020315;
+        Thu, 11 Jul 2019 18:21:18 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id A5A6B202E0;
+        Thu, 11 Jul 2019 18:21:16 +0200 (CEST)
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: [RFC v2] DT-based tuner/demod init
+To:     linux-media <linux-media@vger.kernel.org>,
+        I2C <linux-i2c@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+        Brad Love <brad@nextdimension.cc>,
+        Antti Palosaari <crope@iki.fi>,
+        Olli Salonen <olli.salonen@iki.fi>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        Peter Rosin <peda@axentia.se>, DT <devicetree@vger.kernel.org>
+Message-ID: <6d38f9b1-a8cd-803d-b330-f92f7bcf08ca@free.fr>
+Date:   Thu, 11 Jul 2019 18:21:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190705145050.25911-3-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO4khoTdLtHXJLwQPKwOLQSIlF8hZATj3Zwar6HSmJcTXF1XT0ojqUsNATmLfgDr60TQk38ByYNhajh2DFD1RRd6u7TgEpkn87LfJuWFzR0ovFC0qyog
- 0+17k3XM/4k196WbkBj3BZ/l8004el4kztlBpmuQX1F3CyaR4u1lCDxuBO/xaIpdjIuo/v8WOi+vHPFtlFnW75kl6ecNlFGX0h5LPsCwTUbcgoSQFPf3wjg+
- DqrbpRFrlvrOvnyNwldvc+HtIsR6cIhRaoSCOdARF+e8hdbZPrBTOXsZKnK2YkdFWxsSwYyftIVp6B1ZFl3jmg+jyB1WcjlbAXu/Dk8lOhpWMmvYjV+bAe7M
- KRJl7sUns1sa1Ydcoqj6DtrEL35jU3W+wIJdMzmQ9yI93yw4Feed4WM0UsKe3Y/G5N2jvMKXu5ClZojPHY6VxyvLT0x69l/Lq7hrOJOuxkwBPVR6Ker5qL6h
- dl2b8u9ZmgXB4JApWjsJdxJLi71WmJkxbGd/TX+kZfj9LmZQJBoSEz1M15aEjtZsbJW41L9HnLT5RAU0RFEqnuwDB4OdJwfWZ6Yym93+AaMszYen5eW3WcBY
- IhFB6ASjf5s5Zc4MY/Ki07UWziEEcfgnjvE0A7+aoW0wgyzLhF7l/jzJOJr4i1RxNjZm9lC9F26Yip++yIr3ORjslhf0uIOVJyLeNhjkPqjZPfICoLHce49j
- 4zLZqP2iRQLvN4gI6Fli9hTxFqMTPIrwggAj0clgFqS+HRcJGi0eyQCB1vdrDuSyhQeANpul89JcJaqp/SRacTajktwlPqW7OJUgsDLjl+SBPBoxIakGpg==
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jul 11 18:21:18 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hello everyone,
 
-Just a few small points:
+This is a follow-up RFC to my first request for comments:
+"[RFC] SW connection between DVB Transport Stream demuxer and I2C-based frontend"
+https://www.spinics.net/lists/arm-kernel/msg739972.html
 
-On 7/5/19 4:50 PM, Ezequiel Garcia wrote:
-> From: Pawel Osciak <posciak@chromium.org>
-> 
-> Add the parsed VP8 frame pixel format and controls, to be used
-> with the new stateless decoder API for VP8 to provide parameters
-> for accelerator (aka stateless) codecs.
-> 
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Pawel Osciak <posciak@chromium.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> --
-> Changes from v2:
-> * Rename and document macroblock_bit_offset to first_part_header_bits.
-> * Document num_dct_part constraints.
-> 
-> Changes from v1:
-> * Move 1-bit fields to flags in the respective structures.
-> * Add padding fields to make all structures 8-byte aligned.
-> * Reorder fields where needed to avoid padding as much as possible.
-> * Fix documentation as needed.
-> 
-> Changes from RFC:
-> * Make sure the uAPI has the same size on x86, x86_64, arm and arm64.
-> * Move entropy coder state fields to a struct.
-> * Move key_frame field to the flags.
-> * Remove unneeded first_part_offset field.
-> * Add documentation.
-> ---
->  Documentation/media/uapi/v4l/biblio.rst       |  10 +
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 323 ++++++++++++++++++
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  20 ++
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  10 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  include/media/v4l2-ctrls.h                    |   3 +
->  include/media/vp8-ctrls.h                     | 110 ++++++
->  7 files changed, 477 insertions(+)
->  create mode 100644 include/media/vp8-ctrls.h
-> 
-> diff --git a/Documentation/media/uapi/v4l/biblio.rst b/Documentation/media/uapi/v4l/biblio.rst
-> index 8f4eb8823d82..ad2ff258afa8 100644
-> --- a/Documentation/media/uapi/v4l/biblio.rst
-> +++ b/Documentation/media/uapi/v4l/biblio.rst
-> @@ -395,3 +395,13 @@ colimg
->  :title:     Color Imaging: Fundamentals and Applications
->  
->  :author:    Erik Reinhard et al.
-> +
-> +.. _vp8:
-> +
-> +VP8
-> +===
-> +
-> +
-> +:title:     RFC 6386: "VP8 Data Format and Decoding Guide"
-> +
-> +:author:    J. Bankoski et al.
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> index d6ea2ffd65c5..271c1e185cdf 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> @@ -2234,6 +2234,329 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      Quantization parameter for a P frame for FWHT. Valid range: from 1
->      to 31.
->  
-> +.. _v4l2-mpeg-vp8:
-> +
-> +``V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER (struct)``
-> +    Specifies the frame parameters for the associated VP8 parsed frame data.
-> +    This includes the necessary parameters for
-> +    configuring a stateless hardware decoding pipeline for VP8.
-> +    The bitstream parameters are defined according to :ref:`vp8`.
-> +
-> +    .. note::
-> +
-> +       This compound control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_ctrl_vp8_frame_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{5.8cm}|p{4.8cm}|p{6.6cm}|
-> +
-> +.. flat-table:: struct v4l2_ctrl_vp8_frame_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - struct :c:type:`v4l2_vp8_segment_header`
-> +      - ``segment_header``
-> +      - Structure with segment-based adjustments metadata.
-> +    * - struct :c:type:`v4l2_vp8_loopfilter_header`
-> +      - ``loopfilter_header``
-> +      - Structure with loop filter level adjustments metadata.
-> +    * - struct :c:type:`v4l2_vp8_quantization_header`
-> +      - ``quant_header``
-> +      - Structure with VP8 dequantization indices metadata.
-> +    * - struct :c:type:`v4l2_vp8_entropy_header`
-> +      - ``entropy_header``
-> +      - Structure with VP8 entropy coder probabilities metadata.
-> +    * - struct :c:type:`v4l2_vp8_entropy_coder_state`
-> +      - ``coder_state``
-> +      - Structure with VP8 entropy coder state.
-> +    * - __u16
-> +      - ``width``
-> +      - The width of the frame. Must be set for all frames.
-> +    * - __u16
-> +      - ``height``
-> +      - The height of the frame. Must be set for all frames.
-> +    * - __u8
-> +      - ``horizontal_scale``
-> +      - Horizontal scaling factor.
-> +    * - __u8
-> +      - ``vertical_scaling factor``
-> +      - Vertical scale.
-> +    * - __u8
-> +      - ``version``
-> +      - Bitstream version.
-> +    * - __u8
-> +      - ``prob_skip_false``
-> +      - Indicates the probability that the macroblock is not skipped.
-> +    * - __u8
-> +      - ``prob_intra``
-> +      - Indicates the probability that a macroblock is intra-predicted.
-> +    * - __u8
-> +      - ``prob_last``
-> +      - Indicates the probability that the last reference frame is used
-> +        for inter-prediction
-> +    * - __u8
-> +      - ``prob_gf``
-> +      - Indicates the probability that the golden reference frame is used
-> +        for inter-prediction
-> +    * - __u8
-> +      - ``num_dct_parts``
-> +      - Number of DCT coefficients partitions. Must be one of: 1, 2, 4, or 8.
-> +    * - __u32
-> +      - ``first_part_size``
-> +      - Size of the first partition, i.e. the control partition.
-> +    * - __u32
-> +      - ``first_part_header_bits``
-> +      - Size in bits of the first partition header portion.
-> +    * - __u32
-> +      - ``dct_part_sizes[8]``
-> +      - DCT coefficients sizes.
-> +    * - __u64
-> +      - ``last_frame_ts``
-> +      - Timestamp for the V4L2 capture buffer to use as last reference frame, used
-> +        with inter-coded frames. The timestamp refers to the ``timestamp`` field in
-> +	struct :c:type:`v4l2_buffer`. Use the :c:func:`v4l2_timeval_to_ns()`
-> +	function to convert the struct :c:type:`timeval` in struct
-> +	:c:type:`v4l2_buffer` to a __u64.
-> +    * - __u64
-> +      - ``golden_frame_ts``
-> +      - Timestamp for the V4L2 capture buffer to use as last reference frame, used
-> +        with inter-coded frames. The timestamp refers to the ``timestamp`` field in
-> +	struct :c:type:`v4l2_buffer`. Use the :c:func:`v4l2_timeval_to_ns()`
-> +	function to convert the struct :c:type:`timeval` in struct
-> +	:c:type:`v4l2_buffer` to a __u64.
-> +    * - __u64
-> +      - ``alt_frame_ts``
-> +      - Timestamp for the V4L2 capture buffer to use as alternate reference frame, used
-> +        with inter-coded frames. The timestamp refers to the ``timestamp`` field in
-> +	struct :c:type:`v4l2_buffer`. Use the :c:func:`v4l2_timeval_to_ns()`
-> +	function to convert the struct :c:type:`timeval` in struct
-> +	:c:type:`v4l2_buffer` to a __u64.
-> +    * - __u64
-> +      - ``flags``
-> +      - See :ref:`Frame Header Flags <vp8_frame_header_flags>`
-> +
-> +.. _vp8_frame_header_flags:
-> +
-> +``Frame Header Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_KEY_FRAME``
-> +      - 0x01
-> +      - Inidicates if the frame is a key frame.
+Background: my SoC provides a "Transport Stream Interface" on-chip
+(for which I wrote a small driver, tsif.c) as well as a tuner/demod combo
+(si2141/si2168) on the board.
 
-Typo: Indicates
+My original goal was: being able to link the tuner/demod from the device tree,
+instead of hard-coding them in the TSIF driver.
 
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_EXPERIMENTAL``
-> +      - 0x02
-> +      - Experimental bitstream.
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_SHOW_FRAME``
-> +      - 0x04
-> +      - Show frame flag, indicates if the frame is for display.
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_MB_NO_SKIP_COEFF``
-> +      - 0x08
-> +      - Enable/disable skipping of macroblocks with no non-zero coefficients.
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN``
-> +      - 0x10
-> +      - Sign of motion vectors when the golden frame is referenced.
-> +    * - ``V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT``
-> +      - 0x20
-> +      - Sign of motion vectors when the alt frame is referenced.
-> +
-> +.. c:type:: v4l2_vp8_entropy_coder_state
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp8_entropy_coder_state
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``range``
-> +      -
-> +    * - __u8
-> +      - ``value``
-> +      -
-> +    * - __u8
-> +      - ``bit_count``
-> +      -
-> +    * - __u8
-> +      - ``padding``
-> +      -
+(Please see the resulting code at the end of this message)
 
-I prefer that this text is added to padding fields:
+Aside from the tsif driver itself (I would appreciate if someone could answer
+some questions and TODOs in that part as well), there were two hurdles that
+had to be solved for this to work:
 
-Applications and drivers must set this to zero.
+PROBLEM #1
 
-And in patch 3/4 all the padding fields should be zeroed.
+The dvb_adapter and the tuner need to "see" the dvb_frontend struct filled
+by the demod driver. In order to do this (in a generic, OO-like way), Brad
+suggested that I could make 'struct dvb_frontend' the first field of a
+demod's clientdata. That way, dvb_get_demod_fe() callers don't need to
+know which demod they are tied to.
 
-> +
-> +.. c:type:: v4l2_vp8_segment_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp8_segment_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __s8
-> +      - ``quant_update[4]``
-> +      - Signed quantizer value update.
-> +    * - __s8
-> +      - ``lf_update[4]``
-> +      - Signed loop filter level value update.
-> +    * - __u8
-> +      - ``segment_probs[3]``
-> +      - Segment probabilities.
-> +    * - __u8
-> +      - ``padding``
-> +      -
-> +    * - __u32
-> +      - ``flags``
-> +      - See :ref:`Segment Header Flags <vp8_segment_header_flags>`
-> +
-> +.. _vp8_segment_header_flags:
-> +
-> +``Segment Header Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_VP8_SEGMENT_HEADER_FLAG_ENABLED``
-> +      - 0x01
-> +      - Enable/disable segment-based adjustments.
-> +    * - ``V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_MAP``
-> +      - 0x02
-> +      - Indicates if the macroblock segmentation map is updated in this frame.
-> +    * - ``V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_FEATURE_DATA``
-> +      - 0x04
-> +      - Indicates if the segment feature data is updated in this frame.
-> +    * - ``V4L2_VP8_SEGMENT_HEADER_FLAG_DELTA_VALUE_MODE``
-> +      - 0x08
-> +      - If is set, the segment feature data mode is delta-value.
-> +        If cleared, it's absolute-value.
-> +
-> +.. c:type:: v4l2_vp8_loopfilter_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp8_loopfilter_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __s8
-> +      - ``ref_frm_delta[4]``
-> +      - Reference adjustment (signed) delta value.
-> +    * - __s8
-> +      - ``mb_mode_delta[4]``
-> +      - Macroblock prediction mode adjustment (signed) delta value.
-> +    * - __u8
-> +      - ``sharpness_level``
-> +      - Sharpness level
-> +    * - __u8
-> +      - ``level``
-> +      - Filter level
-> +    * - __u16
-> +      - ``padding``
-> +      -
-> +    * - __u32
-> +      - ``flags``
-> +      - See :ref:`Loopfilter Header Flags <vp8_loopfilter_header_flags>`
-> +
-> +.. _vp8_loopfilter_header_flags:
-> +
-> +``Loopfilter Header Flags``
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_VP8_LF_HEADER_ADJ_ENABLE``
-> +      - 0x01
-> +      - Enable/disable macroblock-level loop filter adjustment.
-> +    * - ``V4L2_VP8_LF_HEADER_DELTA_UPDATE``
-> +      - 0x02
-> +      - Indicates if the delta values used in an adjustment are updated.
-> +    * - ``V4L2_VP8_LF_FILTER_TYPE_SIMPLE``
-> +      - 0x04
-> +      - If set, indicates the filter type is simple.
-> +        If cleared, the filter type is normal.
-> +
-> +.. c:type:: v4l2_vp8_quantization_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp8_quantization_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``y_ac_qi``
-> +      - Luma AC coefficient table index.
-> +    * - __s8
-> +      - ``y_dc_delta``
-> +      - Luma DC delta vaue.
-> +    * - __s8
-> +      - ``y2_dc_delta``
-> +      - Y2 block DC delta value.
-> +    * - __s8
-> +      - ``y2_ac_delta``
-> +      - Y2 block AC delta value.
-> +    * - __s8
-> +      - ``uv_dc_delta``
-> +      - Chroma DC delta value.
-> +    * - __s8
-> +      - ``uv_ac_delta``
-> +      - Chroma AC delta value.
-> +    * - __u16
-> +      - ``padding``
-> +      -
-> +
-> +.. c:type:: v4l2_vp8_entropy_header
-> +
-> +.. cssclass:: longtable
-> +
-> +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> +
-> +.. flat-table:: struct v4l2_vp8_entropy_header
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u8
-> +      - ``coeff_probs[4][8][3][11]``
-> +      - Coefficient update probabilities.
-> +    * - __u8
-> +      - ``y_mode_probs[4]``
-> +      - Luma mode update probabilities.
-> +    * - __u8
-> +      - ``uv_mode_probs[3]``
-> +      - Chroma mode update probabilities.
-> +    * - __u8
-> +      - ``mv_probs[2][19]``
-> +      - MV decoding update probabilities.
-> +    * - __u8
-> +      - ``padding[3]``
-> +      -
-> +
->  .. raw:: latex
->  
->      \normalsize
-> diff --git a/Documentation/media/uapi/v4l/pixfmt-compressed.rst b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
-> index 4b701fc7653e..f52a7b67023d 100644
-> --- a/Documentation/media/uapi/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
-> @@ -133,6 +133,26 @@ Compressed Formats
->        - ``V4L2_PIX_FMT_VP8``
->        - 'VP80'
->        - VP8 video elementary stream.
-> +    * .. _V4L2-PIX-FMT-VP8-FRAME:
-> +
-> +      - ``V4L2_PIX_FMT_VP8_FRAME``
-> +      - 'VP8F'
-> +      - VP8 parsed frame, as extracted from the container.
-> +	This format is adapted for stateless video decoders that implement a
-> +	VP8 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
-> +	Metadata associated with the frame to decode is required to be passed
-> +	through the ``V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER`` control.
-> +	See the :ref:`associated Codec Control IDs <v4l2-mpeg-vp8>`.
-> +	Exactly one output and one capture buffer must be provided for use with
-> +	this pixel format. The output buffer must contain the appropriate number
-> +	of macroblocks to decode a full corresponding frame to the matching
-> +	capture buffer.
-> +
-> +	.. note::
-> +
-> +	   This format is not yet part of the public kernel API and it
-> +	   is expected to change.
-> +
->      * .. _V4L2-PIX-FMT-VP9:
->  
->        - ``V4L2_PIX_FMT_VP9``
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 739418aa9108..b2c9f5816c4a 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -885,6 +885,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_VPX_P_FRAME_QP:		return "VPX P-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:			return "VP8 Profile";
->  	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:			return "VP9 Profile";
-> +	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:		return "VP8 Frame Header";
->  
->  	/* HEVC controls */
->  	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:		return "HEVC I-Frame QP Value";
-> @@ -1345,6 +1346,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_H264_DECODE_PARAMS;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
-> +		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
-> +		break;
->  	default:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
-> @@ -1690,6 +1694,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
->  	case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
->  		break;
-> +
-> +	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -2360,6 +2367,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
->  		elem_size = sizeof(struct v4l2_ctrl_h264_decode_params);
->  		break;
-> +	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
-> +		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
-> +		break;
->  	default:
->  		if (type < V4L2_CTRL_COMPOUND_TYPES)
->  			elem_size = sizeof(s32);
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index b1f4b991dba6..436a13204921 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1331,6 +1331,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  		case V4L2_PIX_FMT_VC1_ANNEX_G:	descr = "VC-1 (SMPTE 412M Annex G)"; break;
->  		case V4L2_PIX_FMT_VC1_ANNEX_L:	descr = "VC-1 (SMPTE 412M Annex L)"; break;
->  		case V4L2_PIX_FMT_VP8:		descr = "VP8"; break;
-> +		case V4L2_PIX_FMT_VP8_FRAME:    descr = "VP8 FRAME"; break;
+I'd like to hear comments on dvb_get_demod_fe() because
+A. It is an essential part of the patch series, and
+B. I have no better way to do this.
 
-I prefer "VP8 Frame", unless there is some special reason to keep it all caps?
 
->  		case V4L2_PIX_FMT_VP9:		descr = "VP9"; break;
->  		case V4L2_PIX_FMT_HEVC:		descr = "HEVC"; break; /* aka H.265 */
->  		case V4L2_PIX_FMT_FWHT:		descr = "FWHT"; break; /* used in vicodec */
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index b4433483af23..6e9dc9c44bb1 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -20,6 +20,7 @@
->  #include <media/mpeg2-ctrls.h>
->  #include <media/fwht-ctrls.h>
->  #include <media/h264-ctrls.h>
-> +#include <media/vp8-ctrls.h>
->  
->  /* forward references */
->  struct file;
-> @@ -48,6 +49,7 @@ struct poll_table_struct;
->   * @p_h264_scaling_matrix:	Pointer to a struct v4l2_ctrl_h264_scaling_matrix.
->   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
->   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
-> + * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
->   * @p:				Pointer to a compound value.
->   */
->  union v4l2_ctrl_ptr {
-> @@ -65,6 +67,7 @@ union v4l2_ctrl_ptr {
->  	struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
->  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
->  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
-> +	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
->  	void *p;
->  };
->  
-> diff --git a/include/media/vp8-ctrls.h b/include/media/vp8-ctrls.h
-> new file mode 100644
-> index 000000000000..6cc2eeea4c90
-> --- /dev/null
-> +++ b/include/media/vp8-ctrls.h
-> @@ -0,0 +1,110 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * These are the VP8 state controls for use with stateless VP8
-> + * codec drivers.
-> + *
-> + * It turns out that these structs are not stable yet and will undergo
-> + * more changes. So keep them private until they are stable and ready to
-> + * become part of the official public API.
-> + */
-> +
-> +#ifndef _VP8_CTRLS_H_
-> +#define _VP8_CTRLS_H_
-> +
-> +#define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F')
-> +
-> +#define V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER (V4L2_CID_MPEG_BASE + 2000)
-> +#define V4L2_CTRL_TYPE_VP8_FRAME_HEADER 0x301
-> +
-> +#define V4L2_VP8_SEGMENT_HEADER_FLAG_ENABLED              0x01
-> +#define V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_MAP           0x02
-> +#define V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_FEATURE_DATA  0x04
-> +#define V4L2_VP8_SEGMENT_HEADER_FLAG_DELTA_VALUE_MODE     0x08
-> +
-> +struct v4l2_vp8_segment_header {
-> +	__s8 quant_update[4];
-> +	__s8 lf_update[4];
-> +	__u8 segment_probs[3];
-> +	__u8 padding;
-> +	__u32 flags;
-> +};
-> +
-> +#define V4L2_VP8_LF_HEADER_ADJ_ENABLE	0x01
-> +#define V4L2_VP8_LF_HEADER_DELTA_UPDATE	0x02
-> +#define V4L2_VP8_LF_FILTER_TYPE_SIMPLE	0x04
-> +struct v4l2_vp8_loopfilter_header {
-> +	__s8 ref_frm_delta[4];
-> +	__s8 mb_mode_delta[4];
-> +	__u8 sharpness_level;
-> +	__u8 level;
-> +	__u16 padding;
-> +	__u32 flags;
-> +};
-> +
-> +struct v4l2_vp8_quantization_header {
-> +	__u8 y_ac_qi;
-> +	__s8 y_dc_delta;
-> +	__s8 y2_dc_delta;
-> +	__s8 y2_ac_delta;
-> +	__s8 uv_dc_delta;
-> +	__s8 uv_ac_delta;
-> +	__u16 padding;
-> +};
-> +
-> +struct v4l2_vp8_entropy_header {
-> +	__u8 coeff_probs[4][8][3][11];
-> +	__u8 y_mode_probs[4];
-> +	__u8 uv_mode_probs[3];
-> +	__u8 mv_probs[2][19];
-> +	__u8 padding[3];
-> +};
-> +
-> +struct v4l2_vp8_entropy_coder_state {
-> +	__u8 range;
-> +	__u8 value;
-> +	__u8 bit_count;
-> +	__u8 padding;
-> +};
-> +
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_KEY_FRAME		0x01
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_EXPERIMENTAL		0x02
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_SHOW_FRAME		0x04
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_MB_NO_SKIP_COEFF	0x08
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN	0x10
-> +#define V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT	0x20
-> +
-> +#define VP8_FRAME_IS_KEY_FRAME(hdr) \
-> +	(!!((hdr)->flags & V4L2_VP8_FRAME_HEADER_FLAG_KEY_FRAME))
-> +
-> +struct v4l2_ctrl_vp8_frame_header {
-> +	struct v4l2_vp8_segment_header segment_header;
-> +	struct v4l2_vp8_loopfilter_header lf_header;
-> +	struct v4l2_vp8_quantization_header quant_header;
-> +	struct v4l2_vp8_entropy_header entropy_header;
-> +	struct v4l2_vp8_entropy_coder_state coder_state;
-> +
-> +	__u16 width;
-> +	__u16 height;
-> +
-> +	__u8 horizontal_scale;
-> +	__u8 vertical_scale;
-> +
-> +	__u8 version;
-> +	__u8 prob_skip_false;
-> +	__u8 prob_intra;
-> +	__u8 prob_last;
-> +	__u8 prob_gf;
-> +	__u8 num_dct_parts;
-> +
-> +	__u32 first_part_size;
-> +	__u32 first_part_header_bits;
-> +	__u32 dct_part_sizes[8];
-> +
-> +	__u64 last_frame_ts;
-> +	__u64 golden_frame_ts;
-> +	__u64 alt_frame_ts;
-> +
-> +	__u64 flags;
-> +};
-> +
-> +#endif
-> 
+PROBLEM #2
 
-Regards,
+Peter Rosin suggested a great way to get the demod instantiate the tuner
+via DT (by using an i2c-gate node. I think we can all agree that this
+solution is good to go?
 
-	Hans
+
+So basically, I need an amen on solution for Problem #1, and ideally a few
+comments on the driver itself. Then I can spin an actual patch series.
+
+Regards.
+
+
+
+diff --git a/arch/arm64/boot/dts/qcom/apq8098-batfish.dts b/arch/arm64/boot/dts/qcom/apq8098-batfish.dts
+index 29d59ecad138..06cd2663e089 100644
+--- a/arch/arm64/boot/dts/qcom/apq8098-batfish.dts
++++ b/arch/arm64/boot/dts/qcom/apq8098-batfish.dts
+@@ -30,6 +30,48 @@
+ 	status = "ok";
+ };
+ 
++&blsp1_i2c5 {
++	status = "ok";
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c5_default>;
++
++	demod: demod@64 {
++		compatible = "silabs,si2168";
++		reg = <0x64>;
++		reset-gpios = <&tlmm 84 GPIO_ACTIVE_LOW>;
++		i2c-gate {
++			tuner@60 {
++				compatible = "silabs,si2141";
++				reg = <0x60>;
++				demod = <&demod>;
++			};
++		};
++	};
++};
++
++&tlmm {
++	i2c5_default: i2c5-default {
++		pins = "gpio87", "gpio88";
++		function = "blsp_i2c5";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
++	tsif0_default: tsif0-default {
++		pins = "gpio89", "gpio90", "gpio91";
++		function = "tsif0";
++		drive-strength = <2>;
++		bias-pull-down;
++	};
++};
++
++&tsif {
++	demod = <&demod>;
++	pinctrl-0 = <&tsif0_default>;
++	pinctrl-names = "default";
++};
++
+ &qusb2phy {
+ 	status = "ok";
+ 	vdda-pll-supply = <&vreg_l12a_1p8>;
+diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+index f8671a46392d..62518dcbe2a3 100644
+--- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
+@@ -1206,6 +1206,16 @@
+ 			status = "disabled";
+ 		};
+ 
++		tsif: tsif@c1e7000 {
++			compatible = "qcom,msm8998-tsif";
++			reg = <0x0c1e7000 0x104>;
++			reg-names = "tsif0";
++			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "tsif0";
++			clocks = <&gcc GCC_TSIF_AHB_CLK>;
++			clock-names = "iface";
++		};
++
+ 		timer@17920000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 6351a97f3d18..5a55c6bd0bd2 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -3030,3 +3030,17 @@ void dvb_frontend_detach(struct dvb_frontend *fe)
+ 	dvb_frontend_put(fe);
+ }
+ EXPORT_SYMBOL(dvb_frontend_detach);
++
++/*
++ * DT-enabled demodulator drivers are required to have 'struct dvb_frontend'
++ * as the first field of their state struct (stored as clientdata) in order
++ * to allow this function to return 'struct dvb_frontend' generically.
++ */
++struct dvb_frontend *dvb_get_demod_fe(struct device_node *np)
++{
++	struct device_node *demod_node = of_parse_phandle(np, "demod", 0);
++	struct i2c_client *demod = of_find_i2c_device_by_node(demod_node);
++	of_node_put(demod_node);
++	return demod ? i2c_get_clientdata(demod) : NULL;
++}
++EXPORT_SYMBOL(dvb_get_demod_fe);
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 48e8a376766e..09e1382ed128 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
+ 
+ #include "si2168_priv.h"
+ 
+@@ -663,6 +664,8 @@ static const struct dvb_frontend_ops si2168_ops = {
+ static int si2168_probe(struct i2c_client *client,
+ 		const struct i2c_device_id *id)
+ {
++	struct device *cdev = &client->dev;
++	struct si2168_config defconfig = { .ts_mode = SI2168_TS_SERIAL };
+ 	struct si2168_config *config = client->dev.platform_data;
+ 	struct si2168_dev *dev;
+ 	int ret;
+@@ -670,6 +673,13 @@ static int si2168_probe(struct i2c_client *client,
+ 
+ 	dev_dbg(&client->dev, "\n");
+ 
++	if (cdev->of_node) {
++		struct gpio_desc *desc;
++		desc = devm_gpiod_get_optional(cdev, "reset", GPIOD_OUT_LOW);
++		if (IS_ERR(desc)) return PTR_ERR(desc);
++		config = &defconfig;
++	}
++
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (!dev) {
+ 		ret = -ENOMEM;
+@@ -723,9 +733,21 @@ static int si2168_probe(struct i2c_client *client,
+ 	dev->version = (cmd.args[1]) << 24 | (cmd.args[3] - '0') << 16 |
+ 		       (cmd.args[4] - '0') << 8 | (cmd.args[5]) << 0;
+ 
++	/* create dvb_frontend */
++	memcpy(&dev->fe.ops, &si2168_ops, sizeof(si2168_ops));
++	dev->fe.demodulator_priv = client;
++	if (config->i2c_adapter)
++		*config->i2c_adapter = dev->muxc->adapter[0];
++	if (config->fe)
++		*config->fe = &dev->fe;
++	dev->ts_mode = config->ts_mode;
++	dev->ts_clock_inv = config->ts_clock_inv;
++	dev->ts_clock_gapped = config->ts_clock_gapped;
++	dev->spectral_inversion = config->spectral_inversion;
++
+ 	/* create mux i2c adapter for tuner */
+ 	dev->muxc = i2c_mux_alloc(client->adapter, &client->dev,
+-				  1, 0, I2C_MUX_LOCKED,
++				  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
+ 				  si2168_select, si2168_deselect);
+ 	if (!dev->muxc) {
+ 		ret = -ENOMEM;
+@@ -736,16 +758,6 @@ static int si2168_probe(struct i2c_client *client,
+ 	if (ret)
+ 		goto err_kfree;
+ 
+-	/* create dvb_frontend */
+-	memcpy(&dev->fe.ops, &si2168_ops, sizeof(struct dvb_frontend_ops));
+-	dev->fe.demodulator_priv = client;
+-	*config->i2c_adapter = dev->muxc->adapter[0];
+-	*config->fe = &dev->fe;
+-	dev->ts_mode = config->ts_mode;
+-	dev->ts_clock_inv = config->ts_clock_inv;
+-	dev->ts_clock_gapped = config->ts_clock_gapped;
+-	dev->spectral_inversion = config->spectral_inversion;
+-
+ 	dev_info(&client->dev, "Silicon Labs Si2168-%c%d%d successfully identified\n",
+ 		 dev->version >> 24 & 0xff, dev->version >> 16 & 0xff,
+ 		 dev->version >> 8 & 0xff);
+diff --git a/drivers/media/dvb-frontends/si2168_priv.h b/drivers/media/dvb-frontends/si2168_priv.h
+index 804d5b30c697..1e3cac3b8381 100644
+--- a/drivers/media/dvb-frontends/si2168_priv.h
++++ b/drivers/media/dvb-frontends/si2168_priv.h
+@@ -22,9 +22,9 @@
+ 
+ /* state struct */
+ struct si2168_dev {
++	struct dvb_frontend fe; /* see dvb_get_demod_fe() */
+ 	struct mutex i2c_mutex;
+ 	struct i2c_mux_core *muxc;
+-	struct dvb_frontend fe;
+ 	enum fe_delivery_system delivery_system;
+ 	enum fe_status fe_status;
+ 	#define SI2168_CHIP_ID_A20 ('A' << 24 | 68 << 16 | '2' << 8 | '0' << 0)
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 7cbbd925124c..6a522e647a9d 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -101,3 +101,5 @@ obj-y					+= meson/
+ obj-y					+= cros-ec-cec/
+ 
+ obj-$(CONFIG_VIDEO_SUN6I_CSI)		+= sunxi/sun6i-csi/
++
++obj-y += tsif.o
+diff --git a/drivers/media/platform/tsif.c b/drivers/media/platform/tsif.c
+new file mode 100644
+index 000000000000..b136f334e9c6
+--- /dev/null
++++ b/drivers/media/platform/tsif.c
+@@ -0,0 +1,185 @@
++#include <linux/clk.h>
++#include <linux/interrupt.h>
++#include <linux/platform_device.h>
++#include <media/dvb_frontend.h>
++#include <media/dvb_demux.h>
++#include <media/dmxdev.h>
++
++/* TSIF register offsets */
++#define TSIF_STS_CTL	0x0	/* status and control */
++#define TSIF_DATA_PORT	0x100
++
++/* TSIF_STS_CTL bits */
++#define ENABLE_IRQ	BIT(28)
++#define TSIF_STOP	BIT(3)
++#define TSIF_START	BIT(0)
++
++struct tsif {
++	void __iomem *base;
++	struct clk *clk;
++	int ref_count; /*** TODO: use atomic_t ??? or refcount_t ??? or kref ??? ***/
++	u32 buf[48];
++	struct dvb_frontend *fe;
++	/*** DO I NEED ALL 4 ***/
++	//struct dmx_frontend dmx_frontend;
++	struct dvb_adapter dvb_adapter;
++	struct dvb_demux dvb_demux;
++	struct dmxdev dmxdev;
++};
++
++static int start_tsif(struct dvb_demux_feed *feed)
++{
++	struct tsif *tsif = feed->demux->priv;
++	printk("%s: feed PID=%u\n", __func__, feed->pid);
++
++	if (tsif->ref_count++ == 0) {
++		u32 val = TSIF_START | ENABLE_IRQ | BIT(29);
++		writel_relaxed(val, tsif->base + TSIF_STS_CTL);
++	}
++
++	return 0;
++}
++
++static int stop_tsif(struct dvb_demux_feed *feed)
++{
++	struct tsif *tsif = feed->demux->priv;
++	printk("%s: feed PID=%u\n", __func__, feed->pid);
++
++	if (--tsif->ref_count == 0) {
++		writel_relaxed(TSIF_STOP, tsif->base + TSIF_STS_CTL);
++	}
++
++	return 0;
++}
++
++static irqreturn_t tsif_isr(int irq, void *arg)
++{
++	int i;
++	u32 status;
++	struct tsif *tsif = arg;
++
++	status = readl_relaxed(tsif->base + TSIF_STS_CTL);
++	writel_relaxed(status, tsif->base + TSIF_STS_CTL);
++
++	for (i = 0; i < 48; ++i)
++		tsif->buf[i] = readl_relaxed(tsif->base + TSIF_DATA_PORT);
++
++	dvb_dmx_swfilter_packets(&tsif->dvb_demux, (void *)tsif->buf, 1);
++
++	return IRQ_HANDLED;
++}
++
++static int tsif_probe(struct platform_device *pdev)
++{
++	int err, virq;
++	struct tsif *tsif;
++	struct resource *res;
++	struct device *dev = &pdev->dev;
++
++	tsif = devm_kzalloc(dev, sizeof(*tsif), GFP_KERNEL);
++	if (!tsif)
++		return -ENOMEM;
++
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsif0");
++	tsif->base = devm_ioremap_resource(dev, res);
++	if (IS_ERR(tsif->base))
++		return PTR_ERR(tsif->base);
++
++	virq = platform_get_irq_byname(pdev, "tsif0");
++	err = devm_request_irq(dev, virq, tsif_isr, IRQF_SHARED, "tsif", tsif);
++	if (err)
++		return err;
++
++	tsif->clk = devm_clk_get(dev, "iface");
++	if (IS_ERR(tsif->clk))
++		return PTR_ERR(tsif->clk);
++
++	tsif->fe = dvb_get_demod_fe(dev->of_node);
++	if (!tsif->fe)
++		return -ENXIO;
++
++	/*** TODO: use devm version ***/
++	clk_prepare_enable(tsif->clk);
++
++	{
++	int ret;
++	short any = DVB_UNSET;
++
++	ret = dvb_register_adapter(&tsif->dvb_adapter, "tsif", THIS_MODULE, dev, &any);
++	if (ret < 0) panic("dvb_register_adapter");
++
++	tsif->dvb_demux.priv = tsif;
++	/* Not sure the diff between filter and feed? */
++	tsif->dvb_demux.filternum = 16; /*** Dunno what to put here ***/
++	tsif->dvb_demux.feednum = 16;	/*** Dunno what to put here ***/
++	tsif->dvb_demux.start_feed = start_tsif;
++	tsif->dvb_demux.stop_feed = stop_tsif;
++
++	ret = dvb_dmx_init(&tsif->dvb_demux);
++	if (ret < 0) panic("dvb_dmx_init");
++
++	/* What relation to dvb_demux.filternum??? */
++	/* Do I need this object?? */
++	tsif->dmxdev.filternum = 16;
++	tsif->dmxdev.demux = &tsif->dvb_demux.dmx;
++
++	ret = dvb_dmxdev_init(&tsif->dmxdev, &tsif->dvb_adapter);
++	if (ret < 0) panic("dvb_dmxdev_init");
++
++#if 0
++	/*** These calls don't seem required??? ***/
++	/*** Who reads this? Do I need to set it? ***/
++	tsif->dmx_frontend.source = DMX_FRONTEND_0;
++
++	/* Required or done elsewhere? */
++	ret = tsif->dvb_demux.dmx.add_frontend(&tsif->dvb_demux.dmx, &tsif->dmx_frontend);
++	if (ret < 0) panic("add_frontend");
++
++	/* Required or done elsewhere? */
++	ret = tsif->dvb_demux.dmx.connect_frontend(&tsif->dvb_demux.dmx, &tsif->dmx_frontend);
++	if (ret < 0) panic("connect_frontend");
++#endif
++
++	ret = dvb_register_frontend(&tsif->dvb_adapter, tsif->fe);
++	if (ret < 0) panic("dvb_register_frontend");
++	}
++
++	platform_set_drvdata(pdev, tsif);
++	return 0;
++}
++
++/*** TODO: Double check .remove callback ***/
++static int tsif_remove(struct platform_device *pdev)
++{
++	struct tsif *tsif = platform_get_drvdata(pdev);
++
++	clk_disable_unprepare(tsif->clk);
++
++	dvb_unregister_frontend(tsif->fe);
++	//tsif->dvb_demux.dmx.remove_frontend(&tsif->dvb_demux.dmx, &tsif->dmx_frontend);
++	dvb_dmxdev_release(&tsif->dmxdev);
++	dvb_dmx_release(&tsif->dvb_demux);
++	dvb_unregister_adapter(&tsif->dvb_adapter);
++
++	return 0;
++}
++
++static const struct of_device_id tsif_of_ids[] = {
++	{ .compatible = "qcom,msm8998-tsif" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, tsif_of_ids);
++
++static struct platform_driver qcom_tsif_driver = {
++	.probe  = tsif_probe,
++	.remove = tsif_remove,
++	.driver = {
++		.name = "qcom-tsif",
++		.of_match_table = tsif_of_ids,
++	},
++};
++
++module_platform_driver(qcom_tsif_driver);
++
++MODULE_DESCRIPTION("Qualcomm TSIF driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
+index 7be893def190..9d2ca775ada9 100644
+--- a/drivers/media/tuners/si2157.c
++++ b/drivers/media/tuners/si2157.c
+@@ -420,12 +420,18 @@ static void si2157_stat_work(struct work_struct *work)
+ static int si2157_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+ {
++	struct device *cdev = &client->dev;
++	struct si2157_config defconfig = { 0 };
+ 	struct si2157_config *cfg = client->dev.platform_data;
+-	struct dvb_frontend *fe = cfg->fe;
+ 	struct si2157_dev *dev;
+ 	struct si2157_cmd cmd;
+ 	int ret;
+ 
++	if (cdev->of_node) {
++		cfg = &defconfig;
++		cfg->fe = dvb_get_demod_fe(cdev->of_node);
++	}
++
+ 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+ 	if (!dev) {
+ 		ret = -ENOMEM;
+@@ -449,8 +455,8 @@ static int si2157_probe(struct i2c_client *client,
+ 	if (ret)
+ 		goto err_kfree;
+ 
+-	memcpy(&fe->ops.tuner_ops, &si2157_ops, sizeof(struct dvb_tuner_ops));
+-	fe->tuner_priv = client;
++	memcpy(&dev->fe->ops.tuner_ops, &si2157_ops, sizeof(si2157_ops));
++	dev->fe->tuner_priv = client;
+ 
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 	if (cfg->mdev) {
+diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+index f05cd7b94a2c..f8ea4839095f 100644
+--- a/include/media/dvb_frontend.h
++++ b/include/media/dvb_frontend.h
+@@ -821,4 +821,6 @@ void dvb_frontend_reinitialise(struct dvb_frontend *fe);
+  */
+ void dvb_frontend_sleep_until(ktime_t *waketime, u32 add_usec);
+ 
++struct dvb_frontend *dvb_get_demod_fe(struct device_node *np);
++
+ #endif
+
