@@ -2,197 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 448A466A99
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 12:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3430466ADE
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 12:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726198AbfGLKEY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 06:04:24 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34828 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbfGLKEY (ORCPT
+        id S1726449AbfGLK1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 06:27:51 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:51428 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfGLK1v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 06:04:24 -0400
-Received: by mail-wm1-f66.google.com with SMTP id l2so8384089wmg.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 03:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aceP9kjyXm7x6EkIi94z9JjrrELig2Itw99t0CcBiFc=;
-        b=siw08+NSiQ0rthjmqt/zmWdloCEliwl4BBDTkNRHhv9fxfAdLo2HN+wZcXHaSwdB9H
-         8CXqLC5681o6tsfGAtP4zKvOjnVdZh9RtI7Vy5fJaiUSfhHy7RkRYr7dU+DbG9P0+UHa
-         4yG3C10GFkKEDcf1cwPiRVpRcdMHoI0VpO0oewfBYnYQ2cvaATO5G+NHO30ykEVZrBuQ
-         kYA6CzuLQOwSIN2+1Ft7t9TScxMkGmEChZllVZilLcupK1m2WRIqO3lCWgFYcKueATXJ
-         Sj5TbXeVzSUvsNOfyhq4jOguOBOmu3ZAabcZY/s6DBuOQD124RHfpu5tgrkxvbjS9qWp
-         xkGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aceP9kjyXm7x6EkIi94z9JjrrELig2Itw99t0CcBiFc=;
-        b=rfwuUm/6ALZQ018hq/0muMpijFUPkY6DYP3hL249QnLch6UDu74tXfGnHQKwepx4Hg
-         TjygGf+Pby1U8RfW0ZQFZirH5Du9Hly0hV5zxNzSMlXQVw+o8QExGu5jzyVpszEh6dQk
-         qIiESQS6YXV1pUDLBBMtx7LJAFiUpfsxUeFtXKEeVir6xT50EfcwICNn1YpbCdBympsd
-         vwv3hRi72/vYtkkLYxrSlhhtKdFdnCyhinGbEXZ8LiG8kFJRPmmq6RmKpW9slzdtbOqH
-         Io90nYen+i0MZnhsmCrhGePQG23B9hM7V7BzRali4w9WAVYLdfUcmMV+zuZEQmJN184d
-         7O4g==
-X-Gm-Message-State: APjAAAUDZ4r2TXk92TsNBwQUO//yFGLYOCZtL26DG/RXcEjWcFRJXfrM
-        9cyQX/ApYeOX4pgALLUTM1bZcRWNPrfqGVAlPWI=
-X-Google-Smtp-Source: APXvYqxv5ZK3q+Ho609Z7L6t2pdwTgmRAFZR7b0aXQkyr4OhuApd/oEVm5NDw8m32sjM2MghzD8sWt8yWb8WUeHxGrg=
-X-Received: by 2002:a05:600c:21d4:: with SMTP id x20mr8285998wmj.61.1562925860938;
- Fri, 12 Jul 2019 03:04:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGb2v65AHjF4oNBixiEb=yqHF_gZyz91K_65U7kUAPGd6_cOkg@mail.gmail.com>
- <20190711093842.GB15882@aptenodytes> <CAGb2v67sq16Btmk_bFFUjV7tuish+Q3uOVvcOiqOtT6TwrV+WA@mail.gmail.com>
- <20190711121909.GD15882@aptenodytes> <CAGb2v65GqitdW82MKN-U-Gr_YNYj99zbJLZMwFrvMQ2t8hTPvQ@mail.gmail.com>
- <20190712093705.GH15882@aptenodytes>
-In-Reply-To: <20190712093705.GH15882@aptenodytes>
-From:   wens Tsai <wens213@gmail.com>
-Date:   Fri, 12 Jul 2019 18:04:06 +0800
-Message-ID: <CAGb2v66qCGzzavNrLgvjzYh1fkkMFiFD1Cx9mTAV87eHyfX_JA@mail.gmail.com>
-Subject: Re: Single- vs Multi-planar APIs for mem2mem devices
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+        Fri, 12 Jul 2019 06:27:51 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190712102748euoutp02dbd887a6909c56927e63365933cb263e~wohH50G-I1011010110euoutp02V
+        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 10:27:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190712102748euoutp02dbd887a6909c56927e63365933cb263e~wohH50G-I1011010110euoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1562927268;
+        bh=lakT5IvZPewFHKpfWnaitlRRseevezRjb/QpbnwhAUc=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=dvbQz8jWPKxRtA4MXKNK1AzzAoj8AkcYyDLBXaYSbDWLsqKedshMx8YKLOz1Wws9R
+         p37XuvUIolIKVV9QAW86F3blj+TipgaN4VkHOFkfUhQlyqfxljvUvyYYAoV8EDW33J
+         YVI0YzEqgXfRuNmAcNkvJJMJs2QINFC42IzaH+sQ=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190712102748eucas1p2bdeba0118252ef40fcce73154d5f9b57~wohHRqixq2376623766eucas1p2v;
+        Fri, 12 Jul 2019 10:27:48 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id B1.95.04298.3A0682D5; Fri, 12
+        Jul 2019 11:27:47 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190712102747eucas1p25e29b56e7b4fd11b403a3bb8fc9a0263~wohGmNJUK1562615626eucas1p2i;
+        Fri, 12 Jul 2019 10:27:47 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190712102747eusmtrp1431636753e0ec0443454243e7aa5b0bc~wohGYIv5-1664416644eusmtrp1-;
+        Fri, 12 Jul 2019 10:27:47 +0000 (GMT)
+X-AuditID: cbfec7f2-f2dff700000010ca-d2-5d2860a37247
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id B1.AB.04146.2A0682D5; Fri, 12
+        Jul 2019 11:27:47 +0100 (BST)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20190712102746eusmtip2dedd242a5f8feec072425ccd54395f32~wohF7uOuv0703007030eusmtip27;
+        Fri, 12 Jul 2019 10:27:46 +0000 (GMT)
+Subject: Re: [PATCH 4/6] media: i2c: s5c73m3: Convert to new i2c device
+ probe()
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+        open list <linux-kernel@vger.kernel.org>
+From:   Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <4c343c7b-5c43-7234-fae4-4f384c6d09ed@samsung.com>
+Date:   Fri, 12 Jul 2019 12:27:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+        Thunderbird/68.0
+MIME-Version: 1.0
+In-Reply-To: <20190710215149.9208-5-kieran.bingham+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPKsWRmVeSWpSXmKPExsWy7djPc7qLEzRiDeY9Mrb4dK2b0eJs0xt2
+        i46/XxgtLu+aw2bRs2Erq8XWl++YLJZt+sNksfLELGYHDo/ZHTNZPTat6mTz6NuyitHj5Kkn
+        LB6fN8kFsEZx2aSk5mSWpRbp2yVwZXx5to+14C9zxc1HX1gaGBcxdzFyckgImEicfTaVrYuR
+        i0NIYAWjxP75c1khnC+MEjNv9rOBVAkJfGaUWPcqFKbj2OoZTBBFyxklLjZfZYEoessosWau
+        NogtLBAo8WLxG0aQIhGB2YwScw9PBtvBLLCSUeLtkmtMIFVsApoSfzffBEpwcPAK2Ek8PWAL
+        EmYRUJXourkArERUIEzi54JOsCt4BQQlTs58AraMU8BHYu+uHrA4s4C8RPPW2cwQtrjErSfz
+        wa6TENjFLtHx8j87xNkuEktWP2GEsIUlXh3fAhWXkTg9uYcFwq6XuL+ihRmiuYNRYuuGndBQ
+        spY4fPwiK8ihzEBHr9+lDxF2lOhbvIARJCwhwCdx460gxA18EpO2TWeGCPNKdLQJQVQrStw/
+        uxVqoLjE0gtf2SYwKs1C8tksJN/MQvLNLIS9CxhZVjGKp5YW56anFhvmpZbrFSfmFpfmpesl
+        5+duYgQmo9P/jn/awfj1UtIhRgEORiUe3huW6rFCrIllxZW5hxglOJiVRHhX/QcK8aYkVlal
+        FuXHF5XmpBYfYpTmYFES561meBAtJJCeWJKanZpakFoEk2Xi4JRqYNTStgkLubftsfCnvBRn
+        cSu1ubrnmZr0PI57GUca/qk8sPGxj37emW1sb+bPTuad9HCtpRmL1JmNtozbrR8urajxPbrQ
+        yPOxr7hH01Vfq8835T5wztSeJ1GX6fErIHjNZyF7RxP9LYq/zgm2edlP3iU5K3UDb/Wq+M6v
+        f1Z3numewFa48tgTbyWW4oxEQy3mouJEAKf9MIhCAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIIsWRmVeSWpSXmKPExsVy+t/xe7qLEzRiDZasYrL4dK2b0eJs0xt2
+        i46/XxgtLu+aw2bRs2Erq8XWl++YLJZt+sNksfLELGYHDo/ZHTNZPTat6mTz6NuyitHj5Kkn
+        LB6fN8kFsEbp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp
+        2yXoZXx5to+14C9zxc1HX1gaGBcxdzFyckgImEgcWz2DqYuRi0NIYCmjxMP9P6AS4hK757+F
+        soUl/lzrYgOxhQReM0rMWZQKYgsLBEq8WPyGEaRZRGA2o8TOU6vAipgFVjNKHDoSADH1IaPE
+        0X37WEASbAKaEn833wQq4uDgFbCTeHrAFiTMIqAq0XVzARNIWFQgTOLoiTyQMK+AoMTJmU/A
+        OjkFfCT27uqBGq8u8WfeJWYIW16ieetsKFtc4taT+UwTGIVmIWmfhaRlFpKWWUhaFjCyrGIU
+        SS0tzk3PLTbUK07MLS7NS9dLzs/dxAiMvm3Hfm7ewXhpY/AhRgEORiUe3huW6rFCrIllxZW5
+        hxglOJiVRHhX/QcK8aYkVlalFuXHF5XmpBYfYjQF+m0is5Rocj4wMeSVxBuaGppbWBqaG5sb
+        m1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamDsMp1W8lzr/SqLC7xBN0Ue7fv9P89qw4Jl
+        EhyzGLevNF1kuD27W4TLfdK6+exr9tqe/pCvP/Ebw/fLa/R6nrsGlJ2L4zz6x3z3v4wdnVFi
+        s9oLL8/oWy1/MU6P/ciL7MsdP1u+NHkKRX03/cRXEZp6NWJGbW675k7fi0cuisy+rm3Qfub8
+        7EOcSizFGYmGWsxFxYkAEE9P49QCAAA=
+X-CMS-MailID: 20190712102747eucas1p25e29b56e7b4fd11b403a3bb8fc9a0263
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190710215208epcas2p4a00565b70691c0afb0c3a04f9c43f6cd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190710215208epcas2p4a00565b70691c0afb0c3a04f9c43f6cd
+References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
+        <CGME20190710215208epcas2p4a00565b70691c0afb0c3a04f9c43f6cd@epcas2p4.samsung.com>
+        <20190710215149.9208-5-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 5:37 PM Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
+On 10.07.2019 23:51, Kieran Bingham wrote:
+> The I2C core framework provides a simplified probe framework from commit
+> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
 >
-> Hi,
+> This driver does not utilise the i2c_device_id table in the probe, so we can
+> easily convert it to utilise the simplfied i2c driver registration.
 >
-> On Fri 12 Jul 19, 12:26, wens Tsai wrote:
-> > On Thu, Jul 11, 2019 at 8:19 PM Paul Kocialkowski
-> > <paul.kocialkowski@bootlin.com> wrote:
-> > >
-> > > On Thu 11 Jul 19, 19:51, wens Tsai wrote:
-> > > > On Thu, Jul 11, 2019 at 5:39 PM Paul Kocialkowski
-> > > > <paul.kocialkowski@bootlin.com> wrote:
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > On Thu 11 Jul 19, 17:21, wens Tsai wrote:
-> > > > > > I noticed that recent codec driver additions, such as hantro, meson/vdec,
-> > > > > > mtk, used the multi-planar API (mplane) instead of the single-planar API.
-> > > > > >
-> > > > > > Is there a preference for moving towards mplane?
-> > > > >
-> > > > > Well, there is strict technical requirement for using the single-planar API
-> > > > > instead of the multi-planar one in cedrus.
-> > > > >
-> > > > > Historically, we started with mplane because we can definitely pass
-> > > > > different addresses for luma and chroma to our decoder. However, we found
-> > > > > out that there are some internal limitations of the decoder block and the
-> > > > > addresses cannot be "too far apart". This means that if we allocate luma
-> > > > > at the begging of our pool and chroma at the end, the gap was too big
-> > > > > and the resulting decoded frame was not stored at the right address.
-> > > > >
-> > > > > We found out about this purely by accident, where one particular sequence of
-> > > > > events lead to such a gap and showed the issue. One possible explanation
-> > > > > would be that the decoder uses an offset from the luma address for chroma
-> > > > > internally, on a limited number of bits.
-> > > > >
-> > > > > So unfortunately, this means we're stuck with having our multi-planar
-> > > > > (in the YUV sense) buffers allocated in a single chunk (the single-plane
-> > > > > V4L2 API). I don't have any better answer than "userspace should cope with both
-> > > > > APIs as it reflects a hardware constraint", which is indeed what ffmpeg is
-> > > > > already doing.
-> > > >
-> > > > If I understand the API correctly, using the multi-planar API doesn't mean
-> > > > you have to actually support multi-planar formats such as NVxyM and YUVxyzM.
-> > > > AFAICT these are the only two families that have non contiguous planes.
-> > >
-> > > That is indeed quite right and maybe switching away from mplane was unnecessary.
-> > > In practice, we can only use single-planar (non-M formats) but we could totally
-> > > support the mplane semantics for these formats as well.
-> > >
-> > > What I was thinking probably boiled down to the idea that without mplane
-> > > supported, userspace wouldn't be able to allocate multiple planes and then
-> > > try to use them with a single-planar format. I think this is what I had
-> > > implemented before and something that "worked" although being totally wrong
-> > > regarding the API. It looks like the core doesn't check that single-planar
-> > > formats are only given one plane by userspace and, as long as the driver goes
-> > > with it, it can still operate like this. Could be nice to have this kind of
-> > > checking around.
-> > >
-> > > So in the end, it looks like we can safely bring back mplane support :)
-> >
-> > This brings me to another question: is there anything (policy or technical)
-> > preventing us from supporting both APIs? I haven't seen any drivers do this,
-> > and with the compatibility plugin in libv4l2, I suppose it isn't necessary.
->
-> So according to Hans, this makes drivers particuarly more complex to write,
-> so we might want to fully switch over to mplane for the time being.
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-For cedrus it doesn't seem to be particularly hard, given the hardware can only
-do single-planar style actions. The complexity is only in translating between
-"struct v4l2_pix_format" and "struct v4l2_pix_format_mplane".
 
-> I'm not sure there are common cases where that would really be beneficial, and
-> as you said, it's probably not necessary.
+Acked-by: Andrzej Hajda <a.hajda@samsung.com>
 
-I started adding some code to cedrus to cover both. When I'm done I'll remove
-the old single-planar bits. That way I have some idea about what needs to be
-done for other drivers, such as bcm2835_codec, which was my original goal.
-We can also see if it's actually complicated or not.
 
-ChenYu
+ --
+Regards
+Andrzej
 
-> Paul
->
-> > ChenYu
-> >
-> > > > So for all the other existing formats, the buffers will still be contiguous,
-> > > > which means cedrus can actually support the multi-planar API, right?
-> > >
-> > > Thinking twice about it, I think you're right yes.
-> > >
-> > > Cheers,
-> > >
-> > > Paul
-> > >
-> > > > ChenYu
-> > > >
-> > > > > Cheers,
-> > > > >
-> > > > > Paul
-> > > > >
-> > > > > > Also I noticed that v4l-utils has a plugin that seamlessly adapts mplane
-> > > > > > devices to work with single-planar API calls, but there isn't one the
-> > > > > > other way around. Would that be something worthwhile working on? To me
-> > > > > > it seems having one central adapter is better than having applications
-> > > > > > try to use both APIs, though some such as FFmpeg already do so.
-> > > > > >
-> > > > > > My interest in this is trying to get Chromium's v4l2 video decode
-> > > > > > accelerator to work on the Raspberry Pi 3 with their downstream kernel,
-> > > > > > which has the bcm2835-v4l2 driver. It would also benefit other platforms
-> > > > > > that have a stateful VPU, such as Amlogic (meson) or Mediatek SoCs.
-> > > > > > Chromium's code uses MPLANE exclusively, and it's geared towards ChromeOS,
-> > > > > > not standard Linux, but still it might be interesting to get it to work.
-> > > > > >
-> > > > > > There's also the v4l2 slice video decode accelerator which uses the
-> > > > > > request API which has the same issue, but lets not get ahead of ourselves.
-> > > > > >
-> > > > > > Regards
-> > > > > > ChenYu
-> > > > >
-> > > > > --
-> > > > > Paul Kocialkowski, Bootlin
-> > > > > Embedded Linux and kernel engineering
-> > > > > https://bootlin.com
-> > >
-> > > --
-> > > Paul Kocialkowski, Bootlin
-> > > Embedded Linux and kernel engineering
-> > > https://bootlin.com
->
-> --
-> Paul Kocialkowski, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
+
