@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 698C5672E9
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 18:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 562AD672EA
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 18:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfGLQB2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 12:01:28 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37084 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726984AbfGLQB2 (ORCPT
+        id S1727124AbfGLQBf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 12:01:35 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45040 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727079AbfGLQBf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 12:01:28 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n9so10525418wrr.4
-        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 09:01:27 -0700 (PDT)
+        Fri, 12 Jul 2019 12:01:35 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p17so10487344wrf.11
+        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 09:01:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gIFN29Lw2OTtfs+8Ni3gwQuTIENWhJTKg8giXiXIn/Y=;
-        b=Auf21Z88mR1z5pDqWakKbf7lcbcqlUkOHHfkzjoC6wNdFIyK/K/oaXcMU0892TzEIZ
-         c435z0pg1Iu1DZ1XN1KpX5pP1ugSD6tHlW3/61MgQRzGRBGr00/5E2E2rQyBC71jK9fZ
-         wHn0Vvg3bIv3xN6FELIclVCmBXEmDbKHcEI+BmYYQp+COR/hbkAArtVaZcBbXpEKTYxt
-         g7+QUx2AUnJMSohu9yN2lXWW39X1MlfM846dzwQPIDY9JH5uCq+/+bzK1bd/eTZD4blM
-         ZEQX1wPUG21M4nG9DIZ+dUB1pqiC0vYXY8n4LkHb7pP6Lcayjr9mxQFYpLFzH0/EVk5X
-         Gi/w==
+        bh=2MSWjLljBUSBsJc/SxR+9Uhlpk5n/uQpeLTYwjB+DYU=;
+        b=kelY2o9XW+2P+SCZp8+ktee0piKtK/xjI7/Ra0LP3DFFSuAZcG4mgyaQcTfQBKOn8u
+         U1BrU63UfX7yxPzudqZSKg/tm6BvL8GY71AIG5LhEkTfwNkLE7g39GWP1Q6qDwepS07T
+         NWRFyWhzyHMlOACY0X899cUxjAPbGv93iAWSkiAxGBawJ2kjq/3b8Qanvx31q24NyjuN
+         Wcp2ic4EqClBYbjWGgo8yB5Co3/6tF/S1XaSjL2Q1Ot22jr4XKPQzKIhN5RlDYCDHOIN
+         3n21RvupAdoseugDIkZ2uAFZVbdGBQ64FgcUnyOuh+6uuec9pTbB+S3XR9ahAz+Z8I6T
+         k8Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gIFN29Lw2OTtfs+8Ni3gwQuTIENWhJTKg8giXiXIn/Y=;
-        b=blpqX11eu9/pqXLQ1wcGwwRakfKGdCJ0Jb/zGP2zYIsDH8XG3eCX1gjRLmSuJZ6rlW
-         l3QaNNjA6LMqCv252Qi/s+/4m0TNiqpc+YM1RhakVC4ls9MYXUG+aBYFl23n16y/4Lez
-         nIWkszHyGR4OpEWZCQsqu4h76vh4L12PENJ2g0LBANHI2sZwgKqCHi7XXHl1tcgV1Lpm
-         fO+EfQc11UsPPquwBtbfHIEz7RDRgnjwl0ARerRQuHLfdYpxNayMOa+gsuev25XeCWOz
-         0S0j9m7Pi1/SDqi7+O9G95VuMAUrA0pfZnfQLSEwfBFsvSdfbnIPvF3Nbm3p39BCa53s
-         /5qg==
-X-Gm-Message-State: APjAAAWyaQUeeKQ8ZEERTq+lBwKIjJQWbww5e/VWbjen/stw58LWtqGf
-        AOCaJzIvH9VlBmGuo3QROUavltvL
-X-Google-Smtp-Source: APXvYqxVoBYA4A2KpR5X7Q5432kJ8yzDKqbeiGwIptzvcmU0N2qXehTUC2+G60K/CcIP04L1d/fi7g==
-X-Received: by 2002:adf:a341:: with SMTP id d1mr12314479wrb.260.1562947286265;
-        Fri, 12 Jul 2019 09:01:26 -0700 (PDT)
+        bh=2MSWjLljBUSBsJc/SxR+9Uhlpk5n/uQpeLTYwjB+DYU=;
+        b=MScFDXRmieCoeQLGn/Vprj/7ZZVtCMgexB/ZniEifltQ9E4k39M2gfJUN4NPcgQ1m7
+         bf78nBNHXGdT8ySB1ticy62lSu7mGoafd6b9cQMI81JQZZJZWVxLOg1aJFb39FTVVNPR
+         kmY1J99e34mtpuGKkdSs5SsCDjEjAK+hqusc7pPZaAK1GgCy6EGkWBJXdh3VqE8MO7j3
+         xUqjdtCNOKWaKgnM4mndxywtJJ/WsKn2FF7kR1VLdYMZ/Z3GLdfT6wMd7pigyPVmkDKE
+         zkMC16cw+Ul35sJMHpFgSUqIq/tn2vhKXlfUF5RqV3ruXtIlrU1WJFoS1Bq21ZH27MlB
+         J3LA==
+X-Gm-Message-State: APjAAAUXfdRM9bvNaisx36EFF7pxmRJlqCQ/nEM5IOzKNYcT8f0m6rhs
+        069lgLWjYKziPJPlzowOBY0z66q3
+X-Google-Smtp-Source: APXvYqy0VAsMS89FOsqVHzzU4xmW8HGvTS5aNBrn+Trd6pGTGUagqGAjDT7QKNqriW2hemGM2/VhNw==
+X-Received: by 2002:adf:f005:: with SMTP id j5mr11689683wro.251.1562947294165;
+        Fri, 12 Jul 2019 09:01:34 -0700 (PDT)
 Received: from speedcore.iliad.local (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id o26sm5101696wro.53.2019.07.12.09.01.25
+        by smtp.gmail.com with ESMTPSA id a84sm9571195wmf.29.2019.07.12.09.01.33
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 09:01:25 -0700 (PDT)
+        Fri, 12 Jul 2019 09:01:33 -0700 (PDT)
 From:   rawoul@gmail.com
 To:     linux-media@vger.kernel.org
-Subject: [PATCH] data: add LG55C8 TV EDID
-Date:   Fri, 12 Jul 2019 17:59:07 +0200
-Message-Id: <20190712155907.13412-1-rawoul@gmail.com>
+Subject: [PATCH] edid-decode: add support for DD+ JOC flags
+Date:   Fri, 12 Jul 2019 18:01:31 +0200
+Message-Id: <20190712160131.13578-1-rawoul@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,26 +61,30 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Arnaud Vrac <avrac@freebox.fr>
 
+Used to signal Joint Object Coding support, used in particular for
+Atmos streams.
+
 Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
 ---
- data/lg-55c8 | Bin 0 -> 256 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 data/lg-55c8
+ edid-decode.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/data/lg-55c8 b/data/lg-55c8
-new file mode 100644
-index 0000000000000000000000000000000000000000..34d2ec94f363f9dd802be98827ab52137eccacb6
-GIT binary patch
-literal 256
-zcmZSh4+ac!xr_{qARxoY+^`_3g6rMH#UVa3)%XKK7IH8cI=DI{IutrIHh|SIa=c(L
-z_*4+pupy$0!J#FYfkBSRszIXALf0We#}z8Vz`*dA!KzZO!-j!N0Stg5e;9n+6+*(G
-z0t$>tOw7q2qY@JY<kM1Fgjq$HnS>M+l|&h1<KmN&Q|uj#IK$aR*#pAa8Pi#qZRHNc
-z*D>ZX^Drnd?66T_XkcVwW=X#hdxWu~f%y@``NymW7#_3nGCtxre$D81fk91zd16y$
-XO`2lBhCl{s1BU`Lgwud-0fCJGyrMw?
-
-literal 0
-HcmV?d00001
-
+diff --git a/edid-decode.c b/edid-decode.c
+index 940bcb5..197b78d 100644
+--- a/edid-decode.c
++++ b/edid-decode.c
+@@ -1165,6 +1165,11 @@ static void cta_audio_block(const unsigned char *x, unsigned int length)
+ 			       (x[i+2] & 0x01) ? " 16" : "");
+ 		} else if (format <= 8) {
+ 			printf("      Maximum bit rate: %d kb/s\n", x[i+2] * 8);
++		} else if (format == 10) {
++			if(x[i+2] & 1)
++				printf("      Supports JOC\n");
++			if(x[i+2] & 2)
++				printf("      Supports JOC with ACMOD28\n");
+ 		} else if (format == 14) {
+ 			printf("      Profile: %d\n", x[i+2] & 7);
+ 		} else if (ext_format == 11 && (x[i+2] & 1)) {
 -- 
 2.20.1
 
