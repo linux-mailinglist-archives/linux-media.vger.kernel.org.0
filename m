@@ -2,91 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB3767671
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2019 00:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8049A676A4
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2019 00:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727790AbfGLWLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 18:11:31 -0400
-Received: from smtp4-g21.free.fr ([212.27.42.4]:8534 "EHLO smtp4-g21.free.fr"
+        id S1728157AbfGLWrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 18:47:02 -0400
+Received: from gofer.mess.org ([88.97.38.141]:57605 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727362AbfGLWLb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 18:11:31 -0400
-Received: from [192.168.1.91] (unknown [77.207.133.132])
-        (Authenticated sender: marc.w.gonzalez)
-        by smtp4-g21.free.fr (Postfix) with ESMTPSA id 542C419F574;
-        Sat, 13 Jul 2019 00:11:12 +0200 (CEST)
-Subject: Re: [PATCH v3] media: si2168: Refactor command setup code
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Brad Love <brad@nextdimension.cc>
-Cc:     Antti Palosaari <crope@iki.fi>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <544859b5-108a-1909-d612-64f67a02aeec@free.fr>
- <bde6e367-61a4-7501-2459-eecad5db1d1b@nextdimension.cc>
- <20190712144537.2bad2482@coco.lan>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Message-ID: <10f064c5-1634-c9f9-fcc9-6ab51b7f8f0b@free.fr>
-Date:   Sat, 13 Jul 2019 00:11:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190712144537.2bad2482@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1727994AbfGLWrC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Jul 2019 18:47:02 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id ABB956047B; Fri, 12 Jul 2019 23:47:00 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        Sean Wang <sean.wang@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Ryder Lee <ryder.lee@mediatek.com>
+Subject: [PATCH 1/3] media: mtk-cir: only allow protocols that have software decoders
+Date:   Fri, 12 Jul 2019 23:46:58 +0100
+Message-Id: <20190712224700.11285-1-sean@mess.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/07/2019 19:45, Mauro Carvalho Chehab wrote:
+RC_PROTO_BIT_ALL includes protocols like unknown and other that do not
+have IR decoders by definition. If these protocols are set in the
+allowed_protocols, they will show in the protocols sysfs file but cannot
+be enabled.
 
-> Brad Love <brad@nextdimension.cc> escreveu:
-> 
->> On 04/07/2019 05.33, Marc Gonzalez wrote:
->>
->>> +#define CMD_SETUP(cmd, args, rlen) \
->>> +	cmd_setup(cmd, args, sizeof(args) - 1, rlen)
->>> +  
->>
->> This is only a valid helper if args is a null terminated string. It just
->> so happens that every instance in this driver is, but that could be a
->> silent pitfall if someone used a u8 array with this macro.
-> 
-> Actually, it is uglier than that. If one writes something like:
-> 
-> 	char buf[20];
-> 
-> 	buf[0] = 0x20;
-> 	buf[1] = 0x03;
-> 
-> 	CMD_SETUP(cmd, buf, 0);
-> 
-> 	// some other init, up to 5 values, then another CMD_SETUP()
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/mtk-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm not sure what you mean in the // comment.
-What kind of init? Why up to 5 values? Why another CMD_SETUP?
+diff --git a/drivers/media/rc/mtk-cir.c b/drivers/media/rc/mtk-cir.c
+index 46101efe017b..9dc467ebae24 100644
+--- a/drivers/media/rc/mtk-cir.c
++++ b/drivers/media/rc/mtk-cir.c
+@@ -342,7 +342,7 @@ static int mtk_ir_probe(struct platform_device *pdev)
+ 	ir->rc->map_name = map_name ?: RC_MAP_EMPTY;
+ 	ir->rc->dev.parent = dev;
+ 	ir->rc->driver_name = MTK_IR_DEV;
+-	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL;
++	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
+ 	ir->rc->rx_resolution = MTK_IR_SAMPLE;
+ 	ir->rc->timeout = MTK_MAX_SAMPLES * (MTK_IR_SAMPLE + 1);
+ 
+-- 
+2.21.0
 
-> sizeof() will evaluate to 20, and not to 2, with would be the
-> expected buffer size, and it will pass 18 random values.
-> 
-> IMHO, using sizeof() here is a very bad idea.
-
-You may have a point...
-(Though I'm not proposing a kernel API function, merely code
-refactoring for a single file that's unlikely to change going
-forward.)
-
-It's also bad form to repeat the cmd size (twice) when the compiler
-can figure it out automatically for string literals (which is 95%
-of the use-cases).
-
-I can drop the macro, and just use the helper...
-
-Or maybe there's a GCC extension to test that an argument is a
-string literal...
-
-Regards.
