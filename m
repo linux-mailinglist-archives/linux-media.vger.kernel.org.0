@@ -2,122 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46AAD66799
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 09:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D59667B8
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 09:23:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726216AbfGLHRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 03:17:09 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46442 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbfGLHRI (ORCPT
+        id S1726182AbfGLHXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 03:23:46 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:56797 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726033AbfGLHXq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 03:17:08 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c2so4315858plz.13
-        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 00:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=cxBqPR88LFiqME/AqLaR3oh7wXhh5vtct9RycoXYWUI=;
-        b=iQghWGOWf/AlnfX01xNyoRFLFvM47uNROXp+eEvyhr4RFS4Zj8V7zZcBLWt3Yhh3Ky
-         74jzinO8RCM/H9aZR5BJN95/8HMlcdjVQJWEAq1GuPJAhDZoZ6hN1Fr+H3KPE1GbMFZt
-         Jut5hcTop0pW9WrdS5KY+hvYpfWB7D91nBgW/ab4P5oK2D53vnYs0cb/rkfe0206BObM
-         O+Mln2hJXkKIAtLxJ8gDYhzH1zt4OpsICimasIOyq2odUIc7cuolV0tJG6ZQU9SOwv06
-         N3Kjmi9HGd/r27tEBo4ZoAoAPsZrNM1PisgLmNvrYwtmKlcZXK2d9ZCVOOpc8gkLPdp1
-         TNmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=cxBqPR88LFiqME/AqLaR3oh7wXhh5vtct9RycoXYWUI=;
-        b=sK+U8oLlgt3MSPgLqQp05TB2/8KyWoYVZHZDejhycZ2pjEl+6Hyej9oV8g0U/2mTyw
-         2hz77q7TbTd0tb45fbvYaCyZ1ytmMJOd0P5IfH6fiYGVfg9IFXh/YdQ+nlVrPYnIFVWO
-         jsANTExjxZ9ME52gBA02CXwSSdHUVs74RxfEjuN5ziM2umBIUV2UdBb9sGiTQIbqysaq
-         kXxnrzT7bbkNBCyO7EjQxU3ClyAl+EK/tdqQY05bKG96urZTMCjdt5HKiv0MbLYLDpLI
-         9R9B18E8SUab/stKeShfU1WINAartVB2ULzsQfuYxpbk+Ch/d4F3DpIkHdmhGmCNtCZQ
-         DGxA==
-X-Gm-Message-State: APjAAAVSNmUKV5QznNbLPkOGFe87uR5fsBH/NjNYK+/4UUWilYw/hhLi
-        U+H/JwmtHB1/XtLD88GfDtU=
-X-Google-Smtp-Source: APXvYqyrY35iZT2Ei9n2xXBPdgfRT4g1NnFeW/HPzKJ6E1WuUVFdR7cHTuQ9sIWRmH4yQbiLYxONhw==
-X-Received: by 2002:a17:902:8a94:: with SMTP id p20mr9568214plo.312.1562915827712;
-        Fri, 12 Jul 2019 00:17:07 -0700 (PDT)
-Received: from localhost (softbank126209254147.bbtec.net. [126.209.254.147])
-        by smtp.gmail.com with ESMTPSA id l15sm7674193pgf.5.2019.07.12.00.17.05
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 00:17:06 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 16:17:03 +0900
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: Re: [PATCH v2] dt-bindings: rcar-{csi2,vin}: Rename bindings
- documentation files
-Message-ID: <20190712071703.GE9317@wyvern>
-References: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 12 Jul 2019 03:23:46 -0400
+X-UUID: bdd7fe42907544eebcbbb88dcb5f0f9e-20190712
+X-UUID: bdd7fe42907544eebcbbb88dcb5f0f9e-20190712
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        (envelope-from <houlong.wei@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 1226092318; Fri, 12 Jul 2019 15:23:40 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs08n1.mediatek.inc
+ (172.21.101.55) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 12 Jul
+ 2019 15:23:38 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 12 Jul 2019 15:23:38 +0800
+Message-ID: <1562916217.29653.4.camel@mhfsdcap03>
+Subject: Re: [PATCH] [media] media: mtk-mdp: fix reference count on old
+ device tree
+From:   houlong wei <houlong.wei@mediatek.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
+        <Minghsiu.Tsai@mediatek.com>,
+        Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?= 
+        <Andrew-CT.Chen@mediatek.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "djkurtz@chromium.org" <djkurtz@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Date:   Fri, 12 Jul 2019 15:23:37 +0800
+In-Reply-To: <e4d178ae-f43e-21d0-b0ab-78cc2ac71e7e@gmail.com>
+References: <20190621113250.4946-1-matthias.bgg@gmail.com>
+         <e4d178ae-f43e-21d0-b0ab-78cc2ac71e7e@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612211241.1455-1-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-A gentle ping on this patch. I assume if it could get a ack from Rob it 
-could be taken in thru the media-tree?
 
-On 2019-06-12 23:12:41 +0200, Niklas Söderlund wrote:
-> Renesas media binding documentation files uses a naming schema of
-> 'renesas,<module>.txt'. Rename VIN and CSI-2 files to match this
-> pattern.
+On Mon, 2019-07-08 at 17:06 +0800, Matthias Brugger wrote:
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> ---
->  .../media/{renesas,rcar-csi2.txt => renesas,csi2.txt}         | 0
->  .../bindings/media/{rcar_vin.txt => renesas,vin.txt}          | 0
->  MAINTAINERS                                                   | 4 ++--
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename Documentation/devicetree/bindings/media/{renesas,rcar-csi2.txt => renesas,csi2.txt} (100%)
->  rename Documentation/devicetree/bindings/media/{rcar_vin.txt => renesas,vin.txt} (100%)
+> On 21/06/2019 13:32, Matthias Brugger wrote:
+> > of_get_next_child() increments the reference count of the returning
+> > device_node. Decrement it in the check if we are using the old or the
+> > new DTB.
+> > 
+> > Fixes: ba1f1f70c2c0 ("[media] media: mtk-mdp: Fix mdp device tree")
+> > Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt b/Documentation/devicetree/bindings/media/renesas,csi2.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
-> rename to Documentation/devicetree/bindings/media/renesas,csi2.txt
-> diff --git a/Documentation/devicetree/bindings/media/rcar_vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/rcar_vin.txt
-> rename to Documentation/devicetree/bindings/media/renesas,vin.txt
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6a3bac28ebb47830..a0d21ff13c8e8989 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9807,8 +9807,8 @@ L:	linux-media@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Supported
-> -F:	Documentation/devicetree/bindings/media/renesas,rcar-csi2.txt
-> -F:	Documentation/devicetree/bindings/media/rcar_vin.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,csi2.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,vin.txt
->  F:	drivers/media/platform/rcar-vin/
->  
->  MEDIA DRIVERS FOR RENESAS - VSP1
-> -- 
-> 2.21.0
+> Any comments on that?
 > 
 
--- 
-Regards,
-Niklas Söderlund
+Hi Matthias,
+Thanks for fixing the bug. Sorry to reply late~
+
+Acked-by: Houlong Wei <houlong.wei@mediatek.com>
+
+
+> > ---
+> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> > index bbb24fb95b95..bafe53c5d54a 100644
+> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> > @@ -118,7 +118,9 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+> >  	mutex_init(&mdp->vpulock);
+> >  
+> >  	/* Old dts had the components as child nodes */
+> > -	if (of_get_next_child(dev->of_node, NULL)) {
+> > +	parent = of_get_next_child(dev->of_node, NULL);
+> > +	if (parent) {
+> > +		of_node_put(parent);
+> >  		parent = dev->of_node;
+> >  		dev_warn(dev, "device tree is out of date\n");
+> >  	} else {
+> > 
+
+
