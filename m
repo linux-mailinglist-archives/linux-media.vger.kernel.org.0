@@ -2,166 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9977B665C0
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 06:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD5D966795
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 09:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729418AbfGLE0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 00:26:50 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53143 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbfGLE0u (ORCPT
+        id S1726200AbfGLHRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 03:17:08 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:15028 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726057AbfGLHRH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 00:26:50 -0400
-Received: by mail-wm1-f66.google.com with SMTP id s3so7551332wms.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2019 21:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DTB2LX1XBzZAeFTixgHALe4R5+d00X2SsWL0x3WblzA=;
-        b=Aihpq+40Hdl050BhtvPbandfe0rz9w6XxQxqAQlNpsi9j1EMxr6WQXWn9AK27kLMTT
-         o67Sj7+ndTROVsRjr/UtNq7VJiiPRlcw/Lg/5bhVvWzKRzduApPwNw3nx0yMY3eZ8w2T
-         ilSqyI80b4xgARaqHG/jn9g0FpgunuURJTqB7kNvZpyUPxJiEdWrLrSNt8h4NJeyPDMk
-         qNq90x4tRNLOewriORjYF045h9h76QldnINkBLImqTiRbioyDeigVsNmGGO+TjuJ0YQX
-         Gfv6XKfftuzqiI0BZy7lyD+JCl4cstryE/Qnve9OVC0z/SG6zO+/yd7JwajH5ZBPwuh9
-         sM3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DTB2LX1XBzZAeFTixgHALe4R5+d00X2SsWL0x3WblzA=;
-        b=RaliemSIIUomOUjuTjtIegU+8nYoOsY2BXnwnI8ZA899MRlPGbguzKn0SY86melNNI
-         5e47fX2trZjH7MqNRIXP/rdrI/rhZpbniwTkgVtgop6Zc2rPsli774fQ8M02VF9rMSnS
-         Bj/co4vdOGZDQYwHiQi5j6L2rviY2AghVQ7Uwl8u0zf1KgwBXYB/AzWMHscdzLQ3k/GZ
-         Ob6PwxgfgjleU3dM0RYvTn+OjJ7TyuBH2t/Ux4B7Op+nm//51E51NwpAzoO0LButZId8
-         Ox77i9NABXLi4H8wpzIVuXisx6NqFNIZUMiJWYZiXuFE80EpKxYI3Xi4svKNLmk7dwaI
-         FW/Q==
-X-Gm-Message-State: APjAAAUDVKRPTZNZ+oPIrEE4fNSEvd1QTKQTV4qN4fn11xI9hhWfhR0G
-        zuJRvk++10cN1/sUp37ZSyTqSXqQQ1rKWD7r8tQ=
-X-Google-Smtp-Source: APXvYqyQ+kBQvq7o+L2E34QoAx5cpbhF5oq9GVt1AmQ1QULGtXtd5m+qOUfJz6wBBIOJY644CJ4IBWIBvGq7mPrmYJ4=
-X-Received: by 2002:a7b:c051:: with SMTP id u17mr6975792wmc.25.1562905607453;
- Thu, 11 Jul 2019 21:26:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGb2v65AHjF4oNBixiEb=yqHF_gZyz91K_65U7kUAPGd6_cOkg@mail.gmail.com>
- <20190711093842.GB15882@aptenodytes> <CAGb2v67sq16Btmk_bFFUjV7tuish+Q3uOVvcOiqOtT6TwrV+WA@mail.gmail.com>
- <20190711121909.GD15882@aptenodytes>
-In-Reply-To: <20190711121909.GD15882@aptenodytes>
-From:   wens Tsai <wens213@gmail.com>
-Date:   Fri, 12 Jul 2019 12:26:34 +0800
-Message-ID: <CAGb2v65GqitdW82MKN-U-Gr_YNYj99zbJLZMwFrvMQ2t8hTPvQ@mail.gmail.com>
-Subject: Re: Single- vs Multi-planar APIs for mem2mem devices
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
+        Fri, 12 Jul 2019 03:17:07 -0400
+X-UUID: 268a7e11777f4c9c8ce4896cc5248063-20190712
+X-UUID: 268a7e11777f4c9c8ce4896cc5248063-20190712
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw01.mediatek.com
+        (envelope-from <ck.hu@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 2031538665; Fri, 12 Jul 2019 15:16:58 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 12 Jul 2019 15:16:54 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 12 Jul 2019 15:16:55 +0800
+Message-ID: <1562915814.27825.2.camel@mtksdaap41>
+Subject: Re: [RFC PATCH V2 1/4] dt-bindings: mt8183: Added FD dt-bindings
+From:   CK Hu <ck.hu@mediatek.com>
+To:     Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>
+CC:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
+        <shik@chromium.org>, <devicetree@vger.kernel.org>,
+        <Sean.Cheng@mediatek.com>, <Rynn.Wu@mediatek.com>,
+        <srv_heupstream@mediatek.com>, <po-yang.huang@mediatek.com>,
+        <suleiman@chromium.org>, <jungo.lin@mediatek.com>,
+        <sj.huang@mediatek.com>, <yuzhao@chromium.org>,
+        <linux-mediatek@lists.infradead.org>, <zwisler@chromium.org>,
+        <christie.yu@mediatek.com>, <frederic.chen@mediatek.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>
+Date:   Fri, 12 Jul 2019 15:16:54 +0800
+In-Reply-To: <1562661672-22439-2-git-send-email-Jerry-Ch.chen@mediatek.com>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <1562661672-22439-2-git-send-email-Jerry-Ch.chen@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 01D485D90E4193B16D3DAB4E8F27AE66C4A63D8F503F77DC805346543E9061B22000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 8:19 PM Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
->
-> On Thu 11 Jul 19, 19:51, wens Tsai wrote:
-> > On Thu, Jul 11, 2019 at 5:39 PM Paul Kocialkowski
-> > <paul.kocialkowski@bootlin.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Thu 11 Jul 19, 17:21, wens Tsai wrote:
-> > > > I noticed that recent codec driver additions, such as hantro, meson/vdec,
-> > > > mtk, used the multi-planar API (mplane) instead of the single-planar API.
-> > > >
-> > > > Is there a preference for moving towards mplane?
-> > >
-> > > Well, there is strict technical requirement for using the single-planar API
-> > > instead of the multi-planar one in cedrus.
-> > >
-> > > Historically, we started with mplane because we can definitely pass
-> > > different addresses for luma and chroma to our decoder. However, we found
-> > > out that there are some internal limitations of the decoder block and the
-> > > addresses cannot be "too far apart". This means that if we allocate luma
-> > > at the begging of our pool and chroma at the end, the gap was too big
-> > > and the resulting decoded frame was not stored at the right address.
-> > >
-> > > We found out about this purely by accident, where one particular sequence of
-> > > events lead to such a gap and showed the issue. One possible explanation
-> > > would be that the decoder uses an offset from the luma address for chroma
-> > > internally, on a limited number of bits.
-> > >
-> > > So unfortunately, this means we're stuck with having our multi-planar
-> > > (in the YUV sense) buffers allocated in a single chunk (the single-plane
-> > > V4L2 API). I don't have any better answer than "userspace should cope with both
-> > > APIs as it reflects a hardware constraint", which is indeed what ffmpeg is
-> > > already doing.
-> >
-> > If I understand the API correctly, using the multi-planar API doesn't mean
-> > you have to actually support multi-planar formats such as NVxyM and YUVxyzM.
-> > AFAICT these are the only two families that have non contiguous planes.
->
-> That is indeed quite right and maybe switching away from mplane was unnecessary.
-> In practice, we can only use single-planar (non-M formats) but we could totally
-> support the mplane semantics for these formats as well.
->
-> What I was thinking probably boiled down to the idea that without mplane
-> supported, userspace wouldn't be able to allocate multiple planes and then
-> try to use them with a single-planar format. I think this is what I had
-> implemented before and something that "worked" although being totally wrong
-> regarding the API. It looks like the core doesn't check that single-planar
-> formats are only given one plane by userspace and, as long as the driver goes
-> with it, it can still operate like this. Could be nice to have this kind of
-> checking around.
->
-> So in the end, it looks like we can safely bring back mplane support :)
+Hi, Jerry:
 
-This brings me to another question: is there anything (policy or technical)
-preventing us from supporting both APIs? I haven't seen any drivers do this,
-and with the compatibility plugin in libv4l2, I suppose it isn't necessary.
+On Tue, 2019-07-09 at 16:41 +0800, Jerry-ch Chen wrote:
+> From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> 
+> This patch adds DT binding documentation for the Face Detection (FD)
+> unit of the Mediatek's mt8183 SoC.
+> 
+> Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mt8183-fd.txt          | 33 ++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt b/Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt
+> new file mode 100644
+> index 0000000..0837223
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt
+> @@ -0,0 +1,33 @@
+> +* Mediatek Face Detection Unit (FD)
+> +
+> +Face Detection (FD) unit is a typical memory-to-memory HW device.
+> +It provides hardware accelerated face detection function, and it
+> +is able to detect different poses of faces. FD will writre result
+> +of detected face into memory as output.
+> +
+> +Required properties:
+> +- compatible: "mediatek,mt8183-fd"
+> +- mediatek,scp : the node of system control processor (SCP), see
+> +  Documentation/devicetree/bindings/remoteproc/mtk,scp.txt for details.
+> +- iommus: should point to the 3 entries:  M4U_PORT_CAM_FDVT_RP,
+> +  M4U_PORT_CAM_FDVT_WR and M4U_PORT_CAM_FDVT_RB.  (Please see
+> +  Documentation/devicetree/bindings/iommu/mediatek,iommu.txt for details.)
+> +- reg: Physical base address and length of the register space.
+> +- interrupts: interrupt number to the cpu.
+> +- clocks : must contain the FDVT clock, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> +- clock-names: must be "fd".
+> +
+> +Example:
+> +	fd: fd@1502b000 {
+> +		compatible = "mediatek,mt8183-fd";
+> +		mediatek,scp = <&scp>;
+> +		iommus = <&iommu M4U_PORT_CAM_FDVT_RP>,
+> +			 <&iommu M4U_PORT_CAM_FDVT_WR>,
+> +			 <&iommu M4U_PORT_CAM_FDVT_RB>;
+> +		reg = <0 0x1502b000 0 0x1000>;
+> +		interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks = <&imgsys CLK_IMG_FDVT>;
+> +		clock-names = "fd";
 
-ChenYu
+This device has no power-domain?
 
-> > So for all the other existing formats, the buffers will still be contiguous,
-> > which means cedrus can actually support the multi-planar API, right?
->
-> Thinking twice about it, I think you're right yes.
->
-> Cheers,
->
-> Paul
->
-> > ChenYu
-> >
-> > > Cheers,
-> > >
-> > > Paul
-> > >
-> > > > Also I noticed that v4l-utils has a plugin that seamlessly adapts mplane
-> > > > devices to work with single-planar API calls, but there isn't one the
-> > > > other way around. Would that be something worthwhile working on? To me
-> > > > it seems having one central adapter is better than having applications
-> > > > try to use both APIs, though some such as FFmpeg already do so.
-> > > >
-> > > > My interest in this is trying to get Chromium's v4l2 video decode
-> > > > accelerator to work on the Raspberry Pi 3 with their downstream kernel,
-> > > > which has the bcm2835-v4l2 driver. It would also benefit other platforms
-> > > > that have a stateful VPU, such as Amlogic (meson) or Mediatek SoCs.
-> > > > Chromium's code uses MPLANE exclusively, and it's geared towards ChromeOS,
-> > > > not standard Linux, but still it might be interesting to get it to work.
-> > > >
-> > > > There's also the v4l2 slice video decode accelerator which uses the
-> > > > request API which has the same issue, but lets not get ahead of ourselves.
-> > > >
-> > > > Regards
-> > > > ChenYu
-> > >
-> > > --
-> > > Paul Kocialkowski, Bootlin
-> > > Embedded Linux and kernel engineering
-> > > https://bootlin.com
->
-> --
-> Paul Kocialkowski, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
+Regards,
+CK
+
+> +	};
+> +
+
+
