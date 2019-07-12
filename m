@@ -2,101 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D59667B8
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 09:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDC36667D6
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2019 09:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726182AbfGLHXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 03:23:46 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:56797 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726033AbfGLHXq (ORCPT
+        id S1726130AbfGLHhW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jul 2019 03:37:22 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:2655 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725877AbfGLHhW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 03:23:46 -0400
-X-UUID: bdd7fe42907544eebcbbb88dcb5f0f9e-20190712
-X-UUID: bdd7fe42907544eebcbbb88dcb5f0f9e-20190712
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        Fri, 12 Jul 2019 03:37:22 -0400
+X-UUID: 05fbbb4b28594fa69adb835a9a3aed10-20190712
+X-UUID: 05fbbb4b28594fa69adb835a9a3aed10-20190712
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <houlong.wei@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1226092318; Fri, 12 Jul 2019 15:23:40 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs08n1.mediatek.inc
- (172.21.101.55) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 12 Jul
- 2019 15:23:38 +0800
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 415586906; Fri, 12 Jul 2019 15:37:14 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 12 Jul
+ 2019 15:37:12 +0800
 Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 12 Jul 2019 15:23:38 +0800
-Message-ID: <1562916217.29653.4.camel@mhfsdcap03>
-Subject: Re: [PATCH] [media] media: mtk-mdp: fix reference count on old
- device tree
+ Transport; Fri, 12 Jul 2019 15:37:12 +0800
+Message-ID: <1562917032.29653.7.camel@mhfsdcap03>
+Subject: Re: [PATCH] media: platform: mtk-mdp: mtk_mdp_core: Add
+ of_node_put() before goto
 From:   houlong wei <houlong.wei@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>
-CC:     Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+CC:     <houlong.wei@mediatek.com>,
+        Minghsiu Tsai =?UTF-8?Q?=28=E8=94=A1=E6=98=8E=E4=BF=AE=29?= 
         <Minghsiu.Tsai@mediatek.com>,
         Andrew-CT Chen =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?= 
         <Andrew-CT.Chen@mediatek.com>,
         "mchehab@kernel.org" <mchehab@kernel.org>,
-        "djkurtz@chromium.org" <djkurtz@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
         "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Date:   Fri, 12 Jul 2019 15:23:37 +0800
-In-Reply-To: <e4d178ae-f43e-21d0-b0ab-78cc2ac71e7e@gmail.com>
-References: <20190621113250.4946-1-matthias.bgg@gmail.com>
-         <e4d178ae-f43e-21d0-b0ab-78cc2ac71e7e@gmail.com>
+        <linux-mediatek@lists.infradead.org>
+Date:   Fri, 12 Jul 2019 15:37:12 +0800
+In-Reply-To: <20190709172454.13648-1-nishkadg.linux@gmail.com>
+References: <20190709172454.13648-1-nishkadg.linux@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 79F4A719342E98B201861EFA9EC14351327E4D4119A09EDE5AA191DCE970379F2000:8
 X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On Mon, 2019-07-08 at 17:06 +0800, Matthias Brugger wrote:
+On Wed, 2019-07-10 at 01:24 +0800, Nishka Dasgupta wrote:
+> Each iteration of for_each_child_of_node puts the previous node, but in
+> the case of a goto from the middle of the loop, there is no put, thus
+> causing a memory leak. Hence add an of_node_put before the goto in two
+> places.
+> Issue found with Coccinelle.
 > 
-> On 21/06/2019 13:32, Matthias Brugger wrote:
-> > of_get_next_child() increments the reference count of the returning
-> > device_node. Decrement it in the check if we are using the old or the
-> > new DTB.
-> > 
-> > Fixes: ba1f1f70c2c0 ("[media] media: mtk-mdp: Fix mdp device tree")
-> > Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
+> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> ---
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> Any comments on that?
-> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index fc9faec85edb..d0a3f06ad83d 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -145,13 +145,16 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>  		comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
+>  		if (!comp) {
+>  			ret = -ENOMEM;
+> +			of_node_put(node);
+>  			goto err_comp;
+>  		}
+>  		mdp->comp[comp_id] = comp;
+>  
+>  		ret = mtk_mdp_comp_init(dev, node, comp, comp_id);
+> -		if (ret)
+> +		if (ret) {
+> +			of_node_put(node);
+>  			goto err_comp;
+> +		}
+>  	}
+>  
+>  	mdp->job_wq = create_singlethread_workqueue(MTK_MDP_MODULE_NAME);
 
-Hi Matthias,
-Thanks for fixing the bug. Sorry to reply late~
+Thanks Nishka for fixing the bug.
 
 Acked-by: Houlong Wei <houlong.wei@mediatek.com>
-
-
-> > ---
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > index bbb24fb95b95..bafe53c5d54a 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > @@ -118,7 +118,9 @@ static int mtk_mdp_probe(struct platform_device *pdev)
-> >  	mutex_init(&mdp->vpulock);
-> >  
-> >  	/* Old dts had the components as child nodes */
-> > -	if (of_get_next_child(dev->of_node, NULL)) {
-> > +	parent = of_get_next_child(dev->of_node, NULL);
-> > +	if (parent) {
-> > +		of_node_put(parent);
-> >  		parent = dev->of_node;
-> >  		dev_warn(dev, "device tree is out of date\n");
-> >  	} else {
-> > 
-
 
