@@ -2,183 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DAAA677D6
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2019 05:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D8767859
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2019 06:26:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727547AbfGMDqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jul 2019 23:46:19 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:33482 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727466AbfGMDqS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jul 2019 23:46:18 -0400
-Received: by mail-yb1-f193.google.com with SMTP id c202so3123283ybf.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Jul 2019 20:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=bMd7HHsAjEQOyW99KuCvbUdKLczvmv6whfGxu4VFjtU=;
-        b=d8jfj+cNkHuPbOCdPLRGF1iycYKX3Skeheh03CDUkE5+Sv/WBpcinskivnk3/fXB+w
-         mEcIeanoYHBu/0AWhEDAJt3yGZv7lsOiufd2q5yedpfa7YAwI9hUF8mm7zRXhXvJnmrm
-         rF8lCxpMbZR9oFokj0TU17lvEhW3NRexl66EHjxcxUlcjfnxxMQBcxcgay5GDEgFGBOO
-         Zu4LXtsPFZzdVPr3XxiPiW4DBnC4xyZx9BIX1+eOB/17OzcjP5lABwdl0KP/6sMoCIaL
-         D3Q1AqWsiZk4tVboK9h8RqKprif0tQDRudMEdQDnZt3oBeyutNe075s9S4p+NE2FfL0b
-         QhEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=bMd7HHsAjEQOyW99KuCvbUdKLczvmv6whfGxu4VFjtU=;
-        b=g5gGdWJjk9mDT64nbS1GsvCzn+iDlWPRhw0TlHZrdDgob5ZYPLGFIiHojElcdctYjU
-         /kKXjDNIynBOa0A3p1oxsqhzK/aNBPKmGgr3N1qdLBAO/TJDhxzXpq6L/qruOtPnv6XX
-         KgQvG2O3VUgArGLgZcXkSzlPVt4l4QIFc2Dy+gQlSvjgVQxhEJxp8dTrdNfQN712kKuN
-         8T6ZrIjAdn5eB5Gzm6uCJbqh3ZokEM6yeFbKvmpnvJ/W//qpl4xRw5mR9SwAmPLtGs34
-         BxsN6ZaUNzyol+dI7s8G+4M+N6hd4ARhJoQfD/Bj3Oxc0BuBqd43PgqngdU04Zv6c9w2
-         cNzQ==
-X-Gm-Message-State: APjAAAUoMhu/OH35NnE9rTjfk6+WOkDPF0Jsxj5fv1IOmOj19kREl7L/
-        s9SYqIaPE+ByMFaG5HTNHD4xHVoS8QtbHAHPufMXWmc=
-X-Google-Smtp-Source: APXvYqw2ws8WJTlBr8HT/4LsKZlfDXfpNwjqYkJRWeU40fr29NcWcmgmxTjA3afvaRf9gZt1hKbvOduxDLStupToD7g=
-X-Received: by 2002:a5b:308:: with SMTP id j8mr7936469ybp.2.1562989577190;
- Fri, 12 Jul 2019 20:46:17 -0700 (PDT)
+        id S1725936AbfGME0H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jul 2019 00:26:07 -0400
+Received: from mga05.intel.com ([192.55.52.43]:33301 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725914AbfGME0H (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 13 Jul 2019 00:26:07 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2019 21:26:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,485,1557212400"; 
+   d="scan'208";a="168480923"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2019 21:26:05 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hm9bp-00076v-2I; Sat, 13 Jul 2019 12:26:05 +0800
+Date:   Sat, 13 Jul 2019 12:26:02 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD INCOMPLETE
+ 22be8233b34f4f468934c5fefcbe6151766fb8f2
+Message-ID: <5d295d5a.1esOSZYTZT20HKpT%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-From:   Turritopsis Dohrnii Teo En Ming <tdteoenming@gmail.com>
-Date:   Sat, 13 Jul 2019 11:46:03 +0800
-Message-ID: <CANnei0Grbb2TwyZfK2zzC8VXviqNrAwX9qnTgsXDko60owdxTA@mail.gmail.com>
-Subject: Facts in the Singapore Political Context
-To:     linux-media@vger.kernel.org
-Cc:     Turritopsis Dohrnii Teo En Ming <tdteoenming@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subject/Topic: Facts in the Singapore Political Context
+tree/branch: git://git.ragnatech.se/linux  media-next
+branch HEAD: 22be8233b34f4f468934c5fefcbe6151766fb8f2  media: videodev2.h: change V4L2_PIX_FMT_BGRA444 define: fourcc was already in use
 
-13 JULY 2019 Saturday Singapore Time
-
-Article: Why Singapore voters are asking for Santas Claus as their
-ideal politician to challenge the ruling party
-Online Platform: The Online Citizen (TOC)
-Author: Terry Xu (Singaporean, Chief Editor of The Online Citizen)
-Date Published: 25 June 2019
-URL: https://www.theonlinecitizen.com/2019/06/25/why-singapore-voters-are-a=
-sking-for-a-santas-claus-as-their-ideal-politician-to-challenge-the-ruling-=
-party/
-
-Excerpts from the above news article:
-
-"...we should set out the following facts in the Singapore political contex=
-t.
-
-- Majority of Singaporeans will not fork out money to support
-political causes or parties for change (even if it is a change that
-they desire)
-
-- Most if not all Singapore businesses are beholden to the Government
-Linked Companies and those associated with it such as NTUC.
-
-- Singapore was ranked fourth on Economist=E2=80=99s crony-capitalism index=
- in 2016.
-
-- Most Singaporeans will not stick their neck out for anyone penalised
-by the system. Forget what you know about the solidarity of citizens
-in Hong Kong, Taiwan or any other democratic country.
-
-(Notes: Mr. Turritopsis Dohrnii Teo En Ming is a 41-year old
-Singaporean Targeted Individual (TI) living in Singapore. After
-graduating from the National University of Singapore (NUS) 13 years
-ago in the year 2007, Mr. Teo En Ming did not have any stable job for
-the past 13 years. His employment history is extremely sparse for the
-past 13 years. In fact, he is not allowed to work for the past 13
-years due to political pressure. In what subtle ways? He keeps getting
-fired or is forced to resign for the past 13 years due to political
-pressure. Many times he has to accept a job way under his
-specialization (university degree and computer networking diploma).
-His total Central Provident Fund (CPF) (CPF is a compulsory government
-"pension fund" which cannot be withdrawn) savings of SGD$56,969 (as at
-27 Jun 2019) shows that he is extremely under-employed and
-under-achieved for the past 13 years as compared to his
-contemporaries. He has no career progression for the past 13 years,
-leading to stagnation or should I even say regression. He is always
-forced to accept an entry level/fresh university graduate salary of
-SGD$2800 (for IT professionals) or way lower (for mediocre jobs) for
-the past 13 years. His longest held job is only 12 months (1 year) in
-a small IT company in Singapore from Nov 2017 to Nov 2018. Compared to
-his contemporaries, Mr. Teo En Ming has the lowest Socio-Economic
-Status (SES) in Singapore and the poorest, even though he has a
-Bacheor's degree in Mechanical Engineering (with honors) from NUS, a
-diploma in Mechatronics Engineering (with Merit) from Singapore
-Polytechnic, and another diploma in Computer Networking (based on
-Cisco CCNA curriculum) from Singapore Polytechnic. What an irony! He
-lives in a HDB One-Room Rental Flat meant for the extremely poor in
-Singapore and he does not have any residential property, not even the
-most basic HDB 3-room flat. He has no car and not even a bicycle.
-Maybe he will also face difficulties buying toy cars as well. He has
-no credit cards at all for the past 13 years. Compared to other
-Singaporeans, he travels out of Singapore extremely infrequently due
-to a limited purse. Mr. Teo En Ming is an under-privileged
-Singaporean. He is a third class citizen in his own country. Maybe he
-is worse than third class. 1000th class??)
-
-- Most Singaporeans are grateful to the People=E2=80=99s Action Party for
-monetary handouts especially during election year even though the
-handouts are financed through the government and not the party.
-
-So what this essentially means =E2=80=93 should the complaints of the avera=
-ge
-voters be valid =E2=80=93 that an ideal political party or politician befor=
-e
-considering its political ideology, should:
-
-- be able to self fund the party=E2=80=99s activities between elections
-because Singaporeans will not donate to political parties and neither
-will businesses because Prime Minister Office will be told who are the
-supporters."
-
-"Even the esteemed Dr Tan Cheng Bock will find it hard to please their
-standards as a running-candidate in the General Election for his party
-does not have the same war chest and the support from the business
-community as what his former political party has."
-
-"Most Singaporeans will not stick their neck out for anyone penalised
-by the system. Forget what you know about the solidarity of citizens
-in Hong Kong, Taiwan or any other democratic country."
-
-The following photos illustrate the stark contrast between a protest
-in Hong Kong and a protest in Singapore.
-
-[1] http://i67.tinypic.com/2lc63cw.png
-
-[2] https://i.imgur.com/nfOGSVT.png
-
-[3] https://i.postimg.cc/bJYLqn7p/HK-protest-vs-SG-protest.png
+TIMEOUT after 2344m
 
 
+Sorry we cannot finish the testset for your branch within a reasonable time.
+It's our fault -- either some build server is down or some build worker is busy
+doing bisects for _other_ trees. The branch will get more complete coverage and
+possible error reports when our build infrastructure is restored or catches up.
+There will be no more build success notification for this branch head, but you
+can expect reasonably good test coverage after waiting for 1 day.
 
+configs timed out: 220
 
------BEGIN EMAIL SIGNATURE-----
+alpha                            allmodconfig
+alpha                            allyesconfig
+alpha                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+i386                             alldefconfig
+i386                             allmodconfig
+i386                              allnoconfig
+i386                                defconfig
+i386                          randconfig-a001
+i386                          randconfig-a002
+i386                          randconfig-a003
+i386                          randconfig-a004
+i386                          randconfig-b001
+i386                          randconfig-b002
+i386                          randconfig-b003
+i386                          randconfig-b004
+i386                          randconfig-c001
+i386                          randconfig-c002
+i386                          randconfig-c003
+i386                          randconfig-c004
+i386                          randconfig-d001
+i386                          randconfig-d002
+i386                          randconfig-d003
+i386                          randconfig-d004
+i386                          randconfig-e001
+i386                          randconfig-e002
+i386                          randconfig-e003
+i386                          randconfig-e004
+i386                          randconfig-f001
+i386                          randconfig-f002
+i386                          randconfig-f003
+i386                          randconfig-f004
+i386                          randconfig-g001
+i386                          randconfig-g002
+i386                          randconfig-g003
+i386                          randconfig-g004
+i386                          randconfig-h001
+i386                          randconfig-h002
+i386                          randconfig-h003
+i386                          randconfig-h004
+i386                          randconfig-x000
+i386                          randconfig-x001
+i386                          randconfig-x002
+i386                          randconfig-x003
+i386                          randconfig-x004
+i386                          randconfig-x005
+i386                          randconfig-x006
+i386                          randconfig-x007
+i386                          randconfig-x008
+i386                          randconfig-x009
+i386                          randconfig-x010
+i386                          randconfig-x011
+i386                          randconfig-x012
+i386                          randconfig-x013
+i386                          randconfig-x014
+i386                          randconfig-x015
+i386                          randconfig-x016
+i386                          randconfig-x017
+i386                          randconfig-x018
+i386                          randconfig-x019
+i386                          randconfig-x070
+i386                          randconfig-x071
+i386                          randconfig-x072
+i386                          randconfig-x073
+i386                          randconfig-x074
+i386                          randconfig-x075
+i386                          randconfig-x076
+i386                          randconfig-x077
+i386                          randconfig-x078
+i386                          randconfig-x079
+i386                               tinyconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                                   jz4740
+mips                      malta_kvm_defconfig
+mips                                     txx9
+nds32                            allmodconfig
+nds32                             allnoconfig
+nds32                            allyesconfig
+nds32                               defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+parisc                           allmodconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                         b180_defconfig
+parisc                        c3000_defconfig
+parisc                              defconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                          allyesconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+riscv                              tinyconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                               allyesconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                            allmodconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                             acpi-redef
+x86_64                           allmodconfig
+x86_64                           allyesconfig
+x86_64                           allyesdebian
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                nfsroot
+x86_64                        randconfig-a001
+x86_64                        randconfig-a002
+x86_64                        randconfig-a003
+x86_64                        randconfig-a004
+x86_64                        randconfig-b001
+x86_64                        randconfig-b002
+x86_64                        randconfig-b003
+x86_64                        randconfig-b004
+x86_64                        randconfig-c001
+x86_64                        randconfig-c002
+x86_64                        randconfig-c003
+x86_64                        randconfig-c004
+x86_64                        randconfig-d001
+x86_64                        randconfig-d002
+x86_64                        randconfig-d003
+x86_64                        randconfig-d004
+x86_64                        randconfig-e001
+x86_64                        randconfig-e002
+x86_64                        randconfig-e003
+x86_64                        randconfig-e004
+x86_64                        randconfig-f001
+x86_64                        randconfig-f002
+x86_64                        randconfig-f003
+x86_64                        randconfig-f004
+x86_64                        randconfig-g001
+x86_64                        randconfig-g002
+x86_64                        randconfig-g003
+x86_64                        randconfig-g004
+x86_64                        randconfig-h001
+x86_64                        randconfig-h002
+x86_64                        randconfig-h003
+x86_64                        randconfig-h004
+x86_64                        randconfig-x000
+x86_64                        randconfig-x001
+x86_64                        randconfig-x002
+x86_64                        randconfig-x003
+x86_64                        randconfig-x004
+x86_64                        randconfig-x005
+x86_64                        randconfig-x006
+x86_64                        randconfig-x007
+x86_64                        randconfig-x008
+x86_64                        randconfig-x009
+x86_64                        randconfig-x010
+x86_64                        randconfig-x011
+x86_64                        randconfig-x012
+x86_64                        randconfig-x013
+x86_64                        randconfig-x014
+x86_64                        randconfig-x015
+x86_64                        randconfig-x016
+x86_64                        randconfig-x017
+x86_64                        randconfig-x018
+x86_64                        randconfig-x019
+x86_64                                   rhel
+x86_64                               rhel-7.6
+xtensa                           allmodconfig
+xtensa                           allyesconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
 
-The Gospel for all Targeted Individuals (TIs):
+configs tested: 2
 
-[The New York Times] Microwave Weapons Are Prime Suspect in Ills of
-U.S. Embassy Workers
+riscv                             allnoconfig
+riscv                               defconfig
 
-Link: https://www.nytimes.com/2018/09/01/science/sonic-attack-cuba-microwav=
-e.html
-
-***************************************************************************=
-*****************
-
-Singaporean Mr. Turritopsis Dohrnii Teo En Ming's Academic
-Qualifications as at 14 Feb 2019
-
-[1] https://tdtemcerts.wordpress.com/
-
-[2] https://tdtemcerts.blogspot.sg/
-
-[3] https://www.scribd.com/user/270125049/Teo-En-Ming
-
------END EMAIL SIGNATURE-----
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
