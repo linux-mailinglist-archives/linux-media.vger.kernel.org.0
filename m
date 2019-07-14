@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE06D67DD4
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2019 08:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA16267DD7
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2019 09:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbfGNG6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jul 2019 02:58:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34998 "EHLO mail.kernel.org"
+        id S1726227AbfGNHBE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jul 2019 03:01:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35434 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726381AbfGNG6x (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jul 2019 02:58:53 -0400
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+        id S1725958AbfGNHBE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 14 Jul 2019 03:01:04 -0400
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B72572064A
-        for <linux-media@vger.kernel.org>; Sun, 14 Jul 2019 06:58:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 65C9A2064A
+        for <linux-media@vger.kernel.org>; Sun, 14 Jul 2019 07:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563087533;
-        bh=zKf8zOTbNEkJeWxR2L5x+aUe18MAd+GlbNHFKT3IklE=;
+        s=default; t=1563087663;
+        bh=adBrjHSpkk22mnLLbl/iv2929KizSrVFZ5lreBod0hA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=F0CL7/fOf4I0dfT9nkKTVl0hequOYYgagU3kIN6PI72d03PXP/k9dZjMhhfQIXe5/
-         6rFm9aZyIz2l/rWtR7TFs95IFtq4qCqRPZeaw2RCOs71l8nU3fTPVEHybvyaceaTVe
-         hlKNDxLGX9njz857e5WWdEsDbXW6/KF0ECyts8Bk=
-Received: by mail-wm1-f47.google.com with SMTP id l2so12215507wmg.0
-        for <linux-media@vger.kernel.org>; Sat, 13 Jul 2019 23:58:52 -0700 (PDT)
-X-Gm-Message-State: APjAAAVYpTVzjl5h4QoR6CXZBrgdnxYT/iVywhfbndOyY90+jPg6XFXZ
-        6EH/26JUiNPBYC9NKazYq+0fLkfYSS8Ztq4q0s0=
-X-Google-Smtp-Source: APXvYqza6QMmdfCOUlCkE/k1A3puE3espph5WDClbPv/gPN9SBkDRuznnEDTsIdSTaUndJF9LPH/eVlUPrKxDPQxYus=
-X-Received: by 2002:a05:600c:20c3:: with SMTP id y3mr18302011wmm.3.1563087531365;
- Sat, 13 Jul 2019 23:58:51 -0700 (PDT)
+        b=ZaiE02rqd6G1ZfKrkA/mfUKEUS+ISsBIh9IAg0HongEUxTgbx2ozIkv0Nvq7WspTu
+         lOgaoK0tgxoXP+EwKXh0POA16C6XUD/lEK1EksJZEVNE75FnTKaH91nIcllyFQBg+V
+         dD38LXjoJ9h0iaF81Wqt6jtJhvnPEKXtCJfkASaU=
+Received: by mail-wr1-f45.google.com with SMTP id g17so13809676wrr.5
+        for <linux-media@vger.kernel.org>; Sun, 14 Jul 2019 00:01:03 -0700 (PDT)
+X-Gm-Message-State: APjAAAXAQ5ud6VqpbqILb7Y9ryyOF/nxB2qH9kQbdaQQUcTg7vPMpcHh
+        g0yPhEpv5pjHKZeOvPnuyHExmUrRFjgKgXuup2Q=
+X-Google-Smtp-Source: APXvYqwvuEQL8FEpumbvIIJm+cxQ5xe4+F60oXxmbyI8CcmjYg+8gQiJWbyNuLyDYFCJyMYz7zY5tM//mPwRq4LcVkY=
+X-Received: by 2002:a5d:50d1:: with SMTP id f17mr19352083wrt.124.1563087662038;
+ Sun, 14 Jul 2019 00:01:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712224700.11285-1-sean@mess.org>
-In-Reply-To: <20190712224700.11285-1-sean@mess.org>
+References: <20190712224700.11285-1-sean@mess.org> <20190712224700.11285-3-sean@mess.org>
+In-Reply-To: <20190712224700.11285-3-sean@mess.org>
 From:   Sean Wang <sean.wang@kernel.org>
-Date:   Sat, 13 Jul 2019 23:58:40 -0700
-X-Gmail-Original-Message-ID: <CAGp9LzpVUExzvNZM2U2EcbTKg016xx3q0CGYXxqgaD+Y+UoRFA@mail.gmail.com>
-Message-ID: <CAGp9LzpVUExzvNZM2U2EcbTKg016xx3q0CGYXxqgaD+Y+UoRFA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: mtk-cir: only allow protocols that have
- software decoders
+Date:   Sun, 14 Jul 2019 00:00:50 -0700
+X-Gmail-Original-Message-ID: <CAGp9Lzq+RcizFgP4LJMxaH3K6Jcbk8jit8bv+3M2fwqwwV4NvA@mail.gmail.com>
+Message-ID: <CAGp9Lzq+RcizFgP4LJMxaH3K6Jcbk8jit8bv+3M2fwqwwV4NvA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: mtk-cir: lower de-glitch counter for rc-mm protocol
 To:     Sean Young <sean@mess.org>
 Cc:     linux-media@vger.kernel.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -55,32 +54,48 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Fri, Jul 12, 2019 at 3:47 PM Sean Young <sean@mess.org> wrote:
 >
-> RC_PROTO_BIT_ALL includes protocols like unknown and other that do not
-> have IR decoders by definition. If these protocols are set in the
-> allowed_protocols, they will show in the protocols sysfs file but cannot
-> be enabled.
+> The rc-mm protocol can't be decoded by the mtk-cir since the de-glitch
+> filter removes pulses/spaces shorter than 294 microseconds.
+>
+> Tested on a BananaPi R2.
+
+Thanks for grabbing the board and do the test voluntarily.
+
 >
 > Signed-off-by: Sean Young <sean@mess.org>
 
 Acked-by: Sean Wang <sean.wang@kernel.org>
 
 > ---
->  drivers/media/rc/mtk-cir.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/rc/mtk-cir.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
 > diff --git a/drivers/media/rc/mtk-cir.c b/drivers/media/rc/mtk-cir.c
-> index 46101efe017b..9dc467ebae24 100644
+> index 9dc467ebae24..8027181de985 100644
 > --- a/drivers/media/rc/mtk-cir.c
 > +++ b/drivers/media/rc/mtk-cir.c
-> @@ -342,7 +342,7 @@ static int mtk_ir_probe(struct platform_device *pdev)
->         ir->rc->map_name = map_name ?: RC_MAP_EMPTY;
->         ir->rc->dev.parent = dev;
->         ir->rc->driver_name = MTK_IR_DEV;
-> -       ir->rc->allowed_protocols = RC_PROTO_BIT_ALL;
-> +       ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
->         ir->rc->rx_resolution = MTK_IR_SAMPLE;
->         ir->rc->timeout = MTK_MAX_SAMPLES * (MTK_IR_SAMPLE + 1);
+> @@ -35,6 +35,11 @@
+>  /* Fields containing pulse width data */
+>  #define MTK_WIDTH_MASK           (GENMASK(7, 0))
 >
+> +/* IR threshold */
+> +#define MTK_IRTHD               0x14
+> +#define MTK_DG_CNT_MASK                 (GENMASK(12, 8))
+> +#define MTK_DG_CNT(x)           ((x) << 8)
+> +
+>  /* Bit to enable interrupt */
+>  #define MTK_IRINT_EN             BIT(0)
+>
+> @@ -400,6 +405,9 @@ static int mtk_ir_probe(struct platform_device *pdev)
+>         mtk_w32_mask(ir, val, ir->data->fields[MTK_HW_PERIOD].mask,
+>                      ir->data->fields[MTK_HW_PERIOD].reg);
+>
+> +       /* Set de-glitch counter */
+> +       mtk_w32_mask(ir, MTK_DG_CNT(1), MTK_DG_CNT_MASK, MTK_IRTHD);
+> +
+>         /* Enable IR and PWM */
+>         val = mtk_r32(ir, MTK_CONFIG_HIGH_REG);
+>         val |= MTK_OK_COUNT(ir->data->ok_count) |  MTK_PWM_EN | MTK_IR_EN;
 > --
 > 2.21.0
 >
