@@ -2,101 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5CC9680B7
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2019 20:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C570680F2
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2019 21:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728654AbfGNSbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jul 2019 14:31:18 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:48000 "EHLO smtp.gentoo.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728218AbfGNSbS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jul 2019 14:31:18 -0400
-Received: from [IPv6:2001:a62:1aa0:1f01:8bef:1c55:1564:aa8] (unknown [IPv6:2001:a62:1aa0:1f01:8bef:1c55:1564:aa8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: zzam)
-        by smtp.gentoo.org (Postfix) with ESMTPSA id DEB7A347B24;
-        Sun, 14 Jul 2019 18:31:15 +0000 (UTC)
-Subject: Re: [PATCH v3] media: si2168: Refactor command setup code
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Marc Gonzalez <marc.w.gonzalez@free.fr>
-Cc:     Brad Love <brad@nextdimension.cc>, Antti Palosaari <crope@iki.fi>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <544859b5-108a-1909-d612-64f67a02aeec@free.fr>
- <bde6e367-61a4-7501-2459-eecad5db1d1b@nextdimension.cc>
- <20190712144537.2bad2482@coco.lan>
- <10f064c5-1634-c9f9-fcc9-6ab51b7f8f0b@free.fr>
- <20190713070256.3495de51@coco.lan>
-From:   Matthias Schwarzott <zzam@gentoo.org>
-Message-ID: <13f74614-69b8-00e1-2072-ba390d5aa2cb@gentoo.org>
-Date:   Sun, 14 Jul 2019 20:31:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190713070256.3495de51@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        id S1728783AbfGNTL1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jul 2019 15:11:27 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40682 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728125AbfGNTL0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 14 Jul 2019 15:11:26 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p184so6417374pfp.7;
+        Sun, 14 Jul 2019 12:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=wTnR4jFSZHgDyQlzGAnxJLHPwWt9ff7eR4/YXCAXskI=;
+        b=J6HG5WoHErAl5v76PYLUAOefrG8S1mG5ji2ajAmi5iUq3zdhofWNi8R7FD/ZClvCkS
+         YZRIbPxD9g4+z4/DKU3BnFzdBGd4B6hqacPQJCYiMAyTsjeQD0VnMRdVjMwT5iXX3Wf8
+         K+dbgDP1QPuW9rFsXWNsx8mrnpo7er2XDn6BWvY/4l765HNnJzRdfTLFd1FC4ox/btui
+         ANCUJV2jLkQANmaHn5GDebVXYHTnQ3iJntGgl9m+NUdNzEI4foq7AImezy1e0F0aWScj
+         VTeFTRsX3XhDhFo4Vbx8wmcHarhMhRhIWCsne9M3/awdd48pqQRhjBDTphYabLqRYTaO
+         N99A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wTnR4jFSZHgDyQlzGAnxJLHPwWt9ff7eR4/YXCAXskI=;
+        b=nxQSYNkJOc1wNLQfY3X+GYLn1XTJHbnHvpHezIMjxbmj9yrF6+X8kB/RTLnENrkqir
+         1Wz1tSz1piYmZHhb+87mllrR8q7xMmYUofc+5guLbqBI898cTipGLjhIbg7U9I4LrMi9
+         IWPlfPS/RA4vZfJQf4PQeZxdf4SAMso4UkJpbz2sqJ4BtXWvLgoqNtkdxqoxV3gxqyBj
+         vd+0m0kM7h27A44pVnuE5VlKey9No9yfBVWxtLHOu8XhweEPNGtkBBu/bl/K1DhVXh1m
+         t9hDZw8IdsZKIFcdUeIdtuSpogOVOy7PjzEYTULEhS1/rjM9qxX4jNXir6WgYlExRNFV
+         mq7w==
+X-Gm-Message-State: APjAAAUNo9lh8RxDvrDCJnAHngqRI1Tp7f4eV7551CFuidqB3os5QXEK
+        3whkAA3LmtzPBPeaua6RiPu906NLj2s=
+X-Google-Smtp-Source: APXvYqyoHwB+daqurf2TSePudMpL8bWbCxyh/0egoU2EbeU8TkfMkMtKnPM0Ke06j90ArJCf2o75Kg==
+X-Received: by 2002:a63:bf01:: with SMTP id v1mr22482786pgf.278.1563131484751;
+        Sun, 14 Jul 2019 12:11:24 -0700 (PDT)
+Received: from bharath12345-Inspiron-5559 ([103.110.42.34])
+        by smtp.gmail.com with ESMTPSA id m6sm15239358pfb.151.2019.07.14.12.11.22
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 14 Jul 2019 12:11:24 -0700 (PDT)
+From:   Bharath Vedartham <linux.bhar@gmail.com>
+To:     akpm@linux-foundation.org, ira.weiny@intel.com, jhubbard@nvidia.com
+Cc:     Bharath Vedartham <linux.bhar@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dimitri Sivanich <sivanich@sgi.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Enrico Weigelt <info@metux.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Matt Sickler <Matt.Sickler@daktronics.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Keith Busch <keith.busch@intel.com>,
+        YueHaibing <yuehaibing@huawei.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        kvm@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        xdp-newbies@vger.kernel.org
+Subject: [PATCH] mm/gup: Use put_user_page*() instead of put_page*()
+Date:   Mon, 15 Jul 2019 00:38:34 +0530
+Message-Id: <1563131456-11488-1-git-send-email-linux.bhar@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.07.19 um 12:02 schrieb Mauro Carvalho Chehab:
-> Em Sat, 13 Jul 2019 00:11:12 +0200
-> Marc Gonzalez <marc.w.gonzalez@free.fr> escreveu:
-> 
->> On 12/07/2019 19:45, Mauro Carvalho Chehab wrote:
->>
->>> Brad Love <brad@nextdimension.cc> escreveu:
->>>   
->>> IMHO, using sizeof() here is a very bad idea.  
->>
->> You may have a point...
->> (Though I'm not proposing a kernel API function, merely code
->> refactoring for a single file that's unlikely to change going
->> forward.)
-> 
-> Yes, I know, but we had already some bugs due to the usage of
-> sizeof() on similar macros at drivers in the past.
-> 
->> It's also bad form to repeat the cmd size (twice) when the compiler
->> can figure it out automatically for string literals (which is 95%
->> of the use-cases).
->>
->> I can drop the macro, and just use the helper...
-> 
-> The helper function sounds fine.
-> 
->>
->> Or maybe there's a GCC extension to test that an argument is a
->> string literal...
-> 
-> If this could be evaluated by some advanced macro logic that
-> would work not only with gcc but also with clang, then a
-> macro that does what you proposed could be useful.
-> 
-> There are some ways to check the type of a macro argument, but I'm
-> not sure if are there any way for it to distinguish between a
-> string constant from a char * array.
-> 
-Maybe something like this will prevent compilation if the argument is no
-string literal:
+This patch converts all call sites of get_user_pages
+to use put_user_page*() instead of put_page*() functions to
+release reference to gup pinned pages.
 
-#define CMD_SETUP(cmd, args, rlen) \
-	cmd_setup(cmd, args "", sizeof(args) - 1, rlen)
+This is a bunch of trivial conversions which is a part of an effort
+by John Hubbard to solve issues with gup pinned pages and 
+filesystem writeback.
 
-Another idea is a check like:
+The issue is more clearly described in John Hubbard's patch[1] where
+put_user_page*() functions are introduced.
 
-#define CMD_SETUP(cmd, args, rlen) \
-	do { \
-		BUILD_BUG_ON(#args[0] != "\""); \
-		cmd_setup(cmd, args "", sizeof(args) - 1, rlen) \
-	} while(0)
+Currently put_user_page*() simply does put_page but future implementations
+look to change that once treewide change of put_page callsites to 
+put_user_page*() is finished.
 
-Regards
-Matthias
+The lwn article describing the issue with gup pinned pages and filesystem 
+writeback [2].
+
+This patch has been tested by building and booting the kernel as I don't
+have the required hardware to test the device drivers.
+
+I did not modify gpu/drm drivers which use release_pages instead of
+put_page() to release reference of gup pinned pages as I am not clear
+whether release_pages and put_page are interchangable. 
+
+[1] https://lkml.org/lkml/2019/3/26/1396
+
+[2] https://lwn.net/Articles/784574/
+
+Signed-off-by: Bharath Vedartham <linux.bhar@gmail.com>
+---
+ drivers/media/v4l2-core/videobuf-dma-sg.c | 3 +--
+ drivers/misc/sgi-gru/grufault.c           | 2 +-
+ drivers/staging/kpc2000/kpc_dma/fileops.c | 4 +---
+ drivers/vfio/vfio_iommu_type1.c           | 2 +-
+ fs/io_uring.c                             | 7 +++----
+ mm/gup_benchmark.c                        | 6 +-----
+ net/xdp/xdp_umem.c                        | 7 +------
+ 7 files changed, 9 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
+index 66a6c6c..d6eeb43 100644
+--- a/drivers/media/v4l2-core/videobuf-dma-sg.c
++++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
+@@ -349,8 +349,7 @@ int videobuf_dma_free(struct videobuf_dmabuf *dma)
+ 	BUG_ON(dma->sglen);
+ 
+ 	if (dma->pages) {
+-		for (i = 0; i < dma->nr_pages; i++)
+-			put_page(dma->pages[i]);
++		put_user_pages(dma->pages, dma->nr_pages);
+ 		kfree(dma->pages);
+ 		dma->pages = NULL;
+ 	}
+diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+index 4b713a8..61b3447 100644
+--- a/drivers/misc/sgi-gru/grufault.c
++++ b/drivers/misc/sgi-gru/grufault.c
+@@ -188,7 +188,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
+ 	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
+ 		return -EFAULT;
+ 	*paddr = page_to_phys(page);
+-	put_page(page);
++	put_user_page(page);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/staging/kpc2000/kpc_dma/fileops.c b/drivers/staging/kpc2000/kpc_dma/fileops.c
+index 6166587..26dceed 100644
+--- a/drivers/staging/kpc2000/kpc_dma/fileops.c
++++ b/drivers/staging/kpc2000/kpc_dma/fileops.c
+@@ -198,9 +198,7 @@ int  kpc_dma_transfer(struct dev_private_data *priv, struct kiocb *kcb, unsigned
+ 	sg_free_table(&acd->sgt);
+  err_dma_map_sg:
+  err_alloc_sg_table:
+-	for (i = 0 ; i < acd->page_count ; i++){
+-		put_page(acd->user_pages[i]);
+-	}
++	put_user_pages(acd->user_pages, acd->page_count);
+  err_get_user_pages:
+ 	kfree(acd->user_pages);
+  err_alloc_userpages:
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index add34ad..c491524 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -369,7 +369,7 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
+ 		 */
+ 		if (ret > 0 && vma_is_fsdax(vmas[0])) {
+ 			ret = -EOPNOTSUPP;
+-			put_page(page[0]);
++			put_user_page(page[0]);
+ 		}
+ 	}
+ 	up_read(&mm->mmap_sem);
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 4ef62a4..b4a4549 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -2694,10 +2694,9 @@ static int io_sqe_buffer_register(struct io_ring_ctx *ctx, void __user *arg,
+ 			 * if we did partial map, or found file backed vmas,
+ 			 * release any pages we did get
+ 			 */
+-			if (pret > 0) {
+-				for (j = 0; j < pret; j++)
+-					put_page(pages[j]);
+-			}
++			if (pret > 0)
++				put_user_pages(pages, pret);
++
+ 			if (ctx->account_mem)
+ 				io_unaccount_mem(ctx->user, nr_pages);
+ 			kvfree(imu->bvec);
+diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
+index 7dd602d..15fc7a2 100644
+--- a/mm/gup_benchmark.c
++++ b/mm/gup_benchmark.c
+@@ -76,11 +76,7 @@ static int __gup_benchmark_ioctl(unsigned int cmd,
+ 	gup->size = addr - gup->addr;
+ 
+ 	start_time = ktime_get();
+-	for (i = 0; i < nr_pages; i++) {
+-		if (!pages[i])
+-			break;
+-		put_page(pages[i]);
+-	}
++	put_user_pages(pages, nr_pages);
+ 	end_time = ktime_get();
+ 	gup->put_delta_usec = ktime_us_delta(end_time, start_time);
+ 
+diff --git a/net/xdp/xdp_umem.c b/net/xdp/xdp_umem.c
+index 9c6de4f..6103e19 100644
+--- a/net/xdp/xdp_umem.c
++++ b/net/xdp/xdp_umem.c
+@@ -173,12 +173,7 @@ static void xdp_umem_unpin_pages(struct xdp_umem *umem)
+ {
+ 	unsigned int i;
+ 
+-	for (i = 0; i < umem->npgs; i++) {
+-		struct page *page = umem->pgs[i];
+-
+-		set_page_dirty_lock(page);
+-		put_page(page);
+-	}
++	put_user_pages_dirty_lock(umem->pgs, umem->npgs);
+ 
+ 	kfree(umem->pgs);
+ 	umem->pgs = NULL;
+-- 
+1.8.3.1
+
