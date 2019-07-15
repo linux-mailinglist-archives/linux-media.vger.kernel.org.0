@@ -2,139 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E97CB688DE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 14:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7238688F9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 14:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729983AbfGOM2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 08:28:30 -0400
-Received: from gofer.mess.org ([88.97.38.141]:60843 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728933AbfGOM2a (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 08:28:30 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 3EFC360523; Mon, 15 Jul 2019 13:28:28 +0100 (BST)
-Date:   Mon, 15 Jul 2019 13:28:28 +0100
-From:   Sean Young <sean@mess.org>
-To:     A Sun <as1033x@comcast.net>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 2/3] [media] mceusb: Reword messages referring to "urb"
-Message-ID: <20190715122827.picgfztheuklfl64@gofer.mess.org>
-References: <999ae5cd-d72b-983f-2f96-5aaca72e8214@comcast.net>
- <43f4ef6e-2c64-cd7a-26f7-3c1309b68936@comcast.net>
- <20190606095337.jfhmc6jqgyhmxn4q@gofer.mess.org>
- <2548e827-1d11-4ce2-013f-bf36c9f5436e@comcast.net>
- <20190608083729.bw47vkplpf3r4e4b@gofer.mess.org>
- <7e0c816d-c7bf-a3bf-a9f3-8c61605dbb17@comcast.net>
- <20190625105127.qw73fwt6dku5736m@gofer.mess.org>
- <3c452b74-dc5b-f1d4-3c66-8acdb69da5da@comcast.net>
- <20190625161241.u5v7fiegokwrzvey@gofer.mess.org>
- <44516839-3c00-1f1e-30c6-3638e45e8d2d@comcast.net>
+        id S1730065AbfGOMh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 08:37:29 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47691 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728933AbfGOMh3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 08:37:29 -0400
+Received: from [IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc] ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id n0EOhd91P0SBqn0EPhS7Te; Mon, 15 Jul 2019 14:37:26 +0200
+Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
+ resolution switching
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Maxime Jourdan <mjourdan@baylibre.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+References: <20190609143820.4662-1-mjourdan@baylibre.com>
+ <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
+Message-ID: <3dc4d551-0628-5c74-c223-4afe64a701d8@xs4all.nl>
+Date:   Mon, 15 Jul 2019 14:37:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <44516839-3c00-1f1e-30c6-3638e45e8d2d@comcast.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKF5t4WkYmi9WsxkoKK90Lt86iAOk3GF4x0iKwvy3SkR9pJcRlyWdp8Uwv6NvJtr7eAvkcChWvJi1CPYYT1wpglz7AER7pZG2HrhstUHGuBQTEip6YaN
+ Q5kYFATkEHug7Mv8Za2Sa+fOohx/SMHvywN5tS3nOo10j23V88dPZCJnDJ9Nkrqlps0Lk6iOGmR6chQk6WpE0YlVVWzRNOG/bYhiyEJu5KfoLGOZRmYUOjkT
+ ONMkiveVl/DpOw5/P8zcaTW5VL3z3AxvKvrZm4dLBVs1dLes49o7xpUzNZflCKERqIPyZ8NyDpOjzvTw9hopjPL7+gDMajb/AQbiqOH9HW6WW64bJW7YOP9p
+ Ddeagrc4uoeUKRSsmbqlJy4KNYS/U+aDAQ27PbiZdCXmfCY2XZx/saFBRD26HKCOODJIjR5GivhH+Q2wVtijRXpZkUnRR1uONRrwm6NkIjDL+5xrbvrSsP+w
+ c8IiOxzBdzpx9FU+UKK+ofXhj+Gfsla8JgAELgGKHY/IBddud0/nZNuJ6XEzfuc6cYoLPwNSOWibEI/E58JL0Y0RwuMThuhHS1kJPsH7YD8yHHJTHIvY/Xtk
+ qnhQaAgoPa7UxWXpfU1ZX9tx96tWu/98y+YnWEfQviWGnwuq0zcrKYDTp+MNdE6ZHHpgQvr4Hb3K6nUbpLOBWYcoN0H6m6ArxtkxurPkd2Q+7w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 6/11/19 10:13 AM, Hans Verkuil wrote:
+> On 6/9/19 4:38 PM, Maxime Jourdan wrote:
+>> Hello,
+>>
+>> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
+>> to tag coded formats for which the device supports dynamic resolution
+>> switching, via V4L2_EVENT_SOURCE_CHANGE.
+>> This includes the initial "source change" where the device is able to
+>> tell userspace about the coded resolution and the DPB size (which
+>> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
+> 
+> Shouldn't the initial source change still be there? The amlogic decoder
+> is capable of determining the resolution of the stream, right? It just
+> can't handle mid-stream changes.
 
-On Tue, Jun 25, 2019 at 05:29:02PM -0400, A Sun wrote:
-> 
-> Hi again,
-> 
-> On 6/25/2019 12:12 PM, Sean Young wrote:
-> > Hello,
-> > 
-> > On Tue, Jun 25, 2019 at 11:01:32AM -0400, A Sun wrote:
-> >> On 6/25/2019 6:51 AM, Sean Young wrote:
-> >>> On Wed, Jun 19, 2019 at 03:54:21AM -0400, A Sun wrote:
-> >>>>
-> >>
-> >>>> -		dev_err(ir->dev, "Error: request urb status = %d (TX HALT)",
-> >>>> +		dev_err(ir->dev, "Error: tx urb status = %d (TX HALT)",
-> >>>
-> >>> I am not sure this makes things clearer. Some of the code still refers
-> >>> to request, e.g. mce_request_packet.
-> >>>
-> >>> Since this is an IR device, there is IR TX and RX; however this unrelated
-> >>> to that.
-> >>>
-> >>> There is one urb/endpoint on which commands are sent; on the other, we
-> >>> receiver responses and IR data. Calling those TX and RX is not a good
-> >>> idea I think.
-> >>
-> >> The tx urb described is also for IR data TX.
-> >> IR TX is one primary function/purpose of the device.
-> >>
-> >> It happens that the urb/endpoint for IR TX is the same urb/endpoint for
-> >> mceusb device commands.
-> > 
-> > The outgoing urb is for command, e.g. get version, set IR Rx timeout,
-> > set IR Rx carrier report, set IR wakeup protocol/scancode, resume
-> > device after suspend. Not everything is IR Tx.
-> > 
-> 
-> Right. Not everything is command either.
-> The subject USB interface endpoint-out (and -in) is intended for data
-> (interrupt/bulk) transfer. The only true data here is IR data.
-> 
-> It's a quirk of mceusb devices to use endpoint-out as a command channel too,
-> where commands masquerade as data.
-> 
-> A quick sampling of other USB devices, I'm seeing they customarily use
-> USB default endpoint 0 and control transfers (rather than data transfers)
-> for device management commands.
-> 
-> >>> The existing code refers to request and response, and also TX and RX in
-> >>> places. The microsoft documentation refers to "command and response" which
-> >>> would be consistent with the #define's we have (MCE_CMD_* and MCE_RSP_*).
-> >>>
-> >>
-> >> My intent is to try and better word several of the USB layer messages,
-> >> and avoid confusing Microsoft MCE terms in those messages.
-> >>
-> >> The original "(request) urb" phrases expand to "request USB Request Block"
-> >> and "<blank> USB Request Block" which are particularly confusing, and
-> >> non-specific, respectively.
-> > 
-> > How about command and response?
-> > 
-> 
-> Still seem confusing and awkward to me, as in "response USB Request Block",
-> or "command USB Request Block" that might be IR data. "Command" also suggests
-> to me USB interface endpoint 0, which isn't the case with mceusb.
-> 
-> Again, my intent is to avoid Microsoft MCE specific terms in messages pertaining
-> to USB.
+I've been thinking about this a bit more: there are three different HW capabilities:
 
-You are right. Command and response isn't great.
+1) The hardware cannot parse the resolution at all and userspace has to tell it
+via S_FMT.
 
-> In a quick look though other USB drivers, here are some other possibilities:
+2) The hardware can parse the initial resolution, but is not able to handle
+mid-stream resolution changes.
+
+3) The hardware can parse the initial resolution and all following mid-stream
+resolution changes.
+
+We can consider 2 the default situation.
+
+In case of 1 the SOURCE_CHANGE event is absent and userspace cannot subscribe
+to it. Question: do we want to flag this with the format as well? I.e. with a
+V4L2_FMT_FLAG_MANUAL_RESOLUTION? I think just not implementing the SOURCE_CHANGE
+event (and documenting this) is sufficient.
+
+In case of 3 the format sets the V4L2_FMT_FLAG_DYN_RESOLUTION flag.
+
+What do you think?
+
+Regards,
+
+	Hans
+
 > 
-> Endpoint-in / Endpoint-out	(not concise)
-> ep-in / ep-out			(abbrev may be too obscure)
-> in / out			("Error: in urb status.." confusing,
-> 				 "in" is noun, adj, or verb?)
-> read / write			(confusing, "read" is noun, adj, verb?)
-> RD / WR
-> RX / TX
+> Regards,
 > 
-> I suggest RX/TX. However, I'll have to leave it up to you to make a choice.
+> 	Hans
+> 
+>> This flag is mainly aimed at stateful decoder drivers.
+>>
+>> This RFC is motivated by my development on the amlogic video decoder
+>> driver, which does not support dynamic resolution switching for older
+>> coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
+>> it for the newer formats (H264, HEVC, VP9).
+>>
+>> The specification regarding stateful video decoders should be amended
+>> to include that, in the absence of this flag for a certain format,
+>> userspace is expected to extract the coded resolution and allocate
+>> a sufficient amount of capture buffers on its own.
+>> I understand that this point may be tricky, since older kernels with
+>> close-to-spec drivers would not have this flag available, yet would
+>> fully support dynamic resolution switching.
+>> However, with the spec not merged in yet, I wanted to have your opinion
+>> on this late addition.
+>>
+>> The RFC patches also adds support for this flag for the 4 following
+>> stateful decoder drivers:
+>>  - venus
+>>  - s5p-mfc
+>>  - mtk-vcodec
+>>  - vicodec
+>>
+>> Maxime Jourdan (5):
+>>   media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+>>   media: venus: vdec: flag OUTPUT formats with
+>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>   media: s5p_mfc_dec: flag OUTPUT formats with
+>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>   media: mtk-vcodec: flag OUTPUT formats with
+>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>   media: vicodec: flag vdec/stateful OUTPUT formats with
+>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>
+>>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
+>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
+>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
+>>  drivers/media/platform/qcom/venus/core.h           |  1 +
+>>  drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
+>>  drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
+>>  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
+>>  drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
+>>  include/uapi/linux/videodev2.h                     |  5 +++--
+>>  9 files changed, 43 insertions(+), 2 deletions(-)
+>>
+> 
 
-TBH I've been mulling this over. I think you're right that the terms should
-be usb centric. TX seems confusing, there are mceusb devices with no IR 
-transmit ports, so it would be surprising to see errors about TX. Your
-first option is usb centric and can be wordy in errors messages and concise
-in code (option #2).
-
-However as you're writing patches I'll leave it up to you. It would be nice
-if the usage is consistent in the driver code.
-
-
-Thanks
-
-Sean
