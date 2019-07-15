@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F06766906D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC40B6916B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390381AbfGOOVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:21:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48000 "EHLO mail.kernel.org"
+        id S2391527AbfGOO3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:29:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390353AbfGOOVk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:21:40 -0400
+        id S2391346AbfGOO3L (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:29:11 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C5EFF206B8;
-        Mon, 15 Jul 2019 14:21:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 15E1120868;
+        Mon, 15 Jul 2019 14:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563200499;
-        bh=rVWg3oKKFb4E1pAZN5rWGwPzMZIurk1py9w3asMvb1o=;
+        s=default; t=1563200950;
+        bh=XekN5yNdI6d8WL9nQDronZerRlpkwx+eGTn6Je99fWg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CA2GqQBdf2qXrOEvXjVPs3FEA96KhLK0UHKpoZMg8PAeyI5SNlxztM1yrk+AbA0MM
-         OFxATsWeCtAjE3J+tGfBwAYcnGa8bXCiF6qvqSE5t5xtCBejckME2gxRxUkBeOPQQk
-         5+DGcmAhVWIRpoXtv8EeROpSR81I+Fkr2f12BUpQ=
+        b=sdJKOrlX2Xb/5MQawwaEZGzsAmQ7uJeVzMmkqpwcBfN1Fo6imDWCUV5Shd7qlT/Tp
+         TCMQoS3mUu8YFis5IVKGqI2oYyLN74um4vV4EvHBoXJaVBBHzp8Yf9cNe36MKHbO0G
+         pjRi2JHs1/o/y5CCDywfZzxBYVsTwuUqvhP748gY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 063/158] media: s5p-mfc: fix reading min scratch buffer size on MFC v6/v7
-Date:   Mon, 15 Jul 2019 10:16:34 -0400
-Message-Id: <20190715141809.8445-63-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 008/105] media: dvb: usb: fix use after free in dvb_usb_device_exit
+Date:   Mon, 15 Jul 2019 10:27:02 -0400
+Message-Id: <20190715142839.9896-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
-References: <20190715141809.8445-1-sashal@kernel.org>
+In-Reply-To: <20190715142839.9896-1-sashal@kernel.org>
+References: <20190715142839.9896-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,74 +45,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Marek Szyprowski <m.szyprowski@samsung.com>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit be22203aec440c1761ce8542c2636ac6c8951e3a ]
+[ Upstream commit 6cf97230cd5f36b7665099083272595c55d72be7 ]
 
-MFC v6 and v7 has no register to read min scratch buffer size, so it has
-to be read conditionally only if hardware supports it. This fixes following
-NULL pointer exception on SoCs with MFC v6/v7:
+dvb_usb_device_exit() frees and uses the device name in that order.
+Fix by storing the name in a buffer before freeing it.
 
-8<--- cut here ---
-Unable to handle kernel NULL pointer dereference at virtual address 00000000
-pgd = f25837f9
-[00000000] *pgd=bd93d835
-Internal error: Oops: 17 [#1] PREEMPT SMP ARM
-Modules linked in: btmrvl_sdio btmrvl bluetooth mwifiex_sdio mwifiex ecdh_generic ecc
-Hardware name: SAMSUNG EXYNOS (Flattened Device Tree)
-PC is at s5p_mfc_get_min_scratch_buf_size+0x30/0x3c
-LR is at s5p_mfc_get_min_scratch_buf_size+0x28/0x3c
-...
-[<c074f998>] (s5p_mfc_get_min_scratch_buf_size) from [<c0745bc0>] (s5p_mfc_irq+0x814/0xa5c)
-[<c0745bc0>] (s5p_mfc_irq) from [<c019a218>] (__handle_irq_event_percpu+0x64/0x3f8)
-[<c019a218>] (__handle_irq_event_percpu) from [<c019a5d8>] (handle_irq_event_percpu+0x2c/0x7c)
-[<c019a5d8>] (handle_irq_event_percpu) from [<c019a660>] (handle_irq_event+0x38/0x5c)
-[<c019a660>] (handle_irq_event) from [<c019ebc4>] (handle_fasteoi_irq+0xc4/0x180)
-[<c019ebc4>] (handle_fasteoi_irq) from [<c0199270>] (generic_handle_irq+0x24/0x34)
-[<c0199270>] (generic_handle_irq) from [<c0199888>] (__handle_domain_irq+0x7c/0xec)
-[<c0199888>] (__handle_domain_irq) from [<c04ac298>] (gic_handle_irq+0x58/0x9c)
-[<c04ac298>] (gic_handle_irq) from [<c0101ab0>] (__irq_svc+0x70/0xb0)
-Exception stack(0xe73ddc60 to 0xe73ddca8)
-...
-[<c0101ab0>] (__irq_svc) from [<c01967d8>] (console_unlock+0x5a8/0x6a8)
-[<c01967d8>] (console_unlock) from [<c01981d0>] (vprintk_emit+0x118/0x2d8)
-[<c01981d0>] (vprintk_emit) from [<c01983b0>] (vprintk_default+0x20/0x28)
-[<c01983b0>] (vprintk_default) from [<c01989b4>] (printk+0x30/0x54)
-[<c01989b4>] (printk) from [<c07500b8>] (s5p_mfc_init_decode_v6+0x1d4/0x284)
-[<c07500b8>] (s5p_mfc_init_decode_v6) from [<c07230d0>] (vb2_start_streaming+0x24/0x150)
-[<c07230d0>] (vb2_start_streaming) from [<c0724e4c>] (vb2_core_streamon+0x11c/0x15c)
-[<c0724e4c>] (vb2_core_streamon) from [<c07478b8>] (vidioc_streamon+0x64/0xa0)
-[<c07478b8>] (vidioc_streamon) from [<c0709640>] (__video_do_ioctl+0x28c/0x45c)
-[<c0709640>] (__video_do_ioctl) from [<c0709bc8>] (video_usercopy+0x260/0x8a4)
-[<c0709bc8>] (video_usercopy) from [<c02b3820>] (do_vfs_ioctl+0xb0/0x9fc)
-[<c02b3820>] (do_vfs_ioctl) from [<c02b41a0>] (ksys_ioctl+0x34/0x58)
-[<c02b41a0>] (ksys_ioctl) from [<c0101000>] (ret_fast_syscall+0x0/0x28)
-Exception stack(0xe73ddfa8 to 0xe73ddff0)
-...
----[ end trace 376cf5ba6e0bee93 ]---
-
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/s5p-mfc/s5p_mfc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-index ca11f8a7569d..4b8516c35bc2 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-@@ -527,7 +527,8 @@ static void s5p_mfc_handle_seq_done(struct s5p_mfc_ctx *ctx,
- 				dev);
- 		ctx->mv_count = s5p_mfc_hw_call(dev->mfc_ops, get_mv_count,
- 				dev);
--		ctx->scratch_buf_size = s5p_mfc_hw_call(dev->mfc_ops,
-+		if (FW_HAS_E_MIN_SCRATCH_BUF(dev))
-+			ctx->scratch_buf_size = s5p_mfc_hw_call(dev->mfc_ops,
- 						get_min_scratch_buf_size, dev);
- 		if (ctx->img_width == 0 || ctx->img_height == 0)
- 			ctx->state = MFCINST_ERROR;
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 84308569e7dc..b3413404f91a 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -287,12 +287,15 @@ EXPORT_SYMBOL(dvb_usb_device_init);
+ void dvb_usb_device_exit(struct usb_interface *intf)
+ {
+ 	struct dvb_usb_device *d = usb_get_intfdata(intf);
+-	const char *name = "generic DVB-USB module";
++	const char *default_name = "generic DVB-USB module";
++	char name[40];
+ 
+ 	usb_set_intfdata(intf, NULL);
+ 	if (d != NULL && d->desc != NULL) {
+-		name = d->desc->name;
++		strscpy(name, d->desc->name, sizeof(name));
+ 		dvb_usb_exit(d);
++	} else {
++		strscpy(name, default_name, sizeof(name));
+ 	}
+ 	info("%s successfully deinitialized and disconnected.", name);
+ 
 -- 
 2.20.1
 
