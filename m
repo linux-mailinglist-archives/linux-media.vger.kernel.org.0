@@ -2,154 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA94C698B2
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 17:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6362698BC
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 18:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730650AbfGOP7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 11:59:05 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36603 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730296AbfGOP7E (ORCPT
+        id S1731126AbfGOQAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 12:00:17 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:46732 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730569AbfGOQAR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 11:59:04 -0400
-Received: by mail-lj1-f195.google.com with SMTP id i21so16794137ljj.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 08:59:03 -0700 (PDT)
+        Mon, 15 Jul 2019 12:00:17 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c73so7608494pfb.13
+        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 09:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HjbeDhOV51A8sdpXnqafwlfJ9iwiNhonhrxyNQUI16E=;
-        b=N+eU86f/1K4jXpLed142Olwx09e8H8Iivx69wTDwzoqwqFbC8Pe3Y7pdRrF6bmBl1f
-         JhdQC7tAw/WwyEYSmz5ltzaNJ2xL7+fD+UmUOm4E4KvTPROstgSY6AXe9Tm8qYYPrS2K
-         c9J9vJzxL6CrmTWBVQwLKPD9vYqRpjkpgcdwY/4H4sO7/+cMGdHMI64j+DBSE+dvsFc5
-         xTJlfTlD5s0iyTDoz9gh5jLj5fLF4b2spjq3k7oowVEbmTqoKHcNx483USXg1drtBEFk
-         buTzA7D5lMjlsRhVlWy3p5a+YlYB7pORyFDmytvW9qASNVxT/sQoj7DRdWrapqSeaqXn
-         F8dw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1pf3WGwA9D7m+i0fi13et95NxKX1fwC73+4IJDRPguM=;
+        b=CUwZ43K9ybSDvf08eErRqtarzGQdiyDymnpU0KIK2JQh0T9Sup32mLmqjhs/VSqLrM
+         MYwEWnD1tZLcOi15wredI/8U9xLO31vPqZvI1nsgvE8QGayvfGS4zJ8DFpd8xTqTB2Uu
+         X0XI38pv45yv7xUlijhdFuvP2joPIHdZCt3wPU6yGKh7zI1+RsRJeph15u1MMAsHXsmU
+         N/CNSsdTxOBDr+vJzIQZq74ITN4H5tRoqeyXjfz14O98vHdJyS9nZdunI9ZY16WRAzUr
+         aDjqrcEfrIeCTuDiF5a0mq44jqMLnJJxVYJo2ivJup10466XLsZAPQUB28/H/OHw+0N1
+         yN/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HjbeDhOV51A8sdpXnqafwlfJ9iwiNhonhrxyNQUI16E=;
-        b=jUNIS4vL0t4sUz9T1X1j70uaB2V0t/+w9YVD1NfjncODJRIcfUH29ZnPXLiWbh9MfO
-         aiSMPWAflD7El8wO0fLcfsoEgiao3w3Vqu89xlncuN9tlEVkmbKc1ByhcExXJkrKIsih
-         VEP2szG+26wluDCkmuprGU0Q4p91vVI1RGlcB4V/okdT2QJ6jVICBB5s4KZQP+eZVkJt
-         YSygO8Myo9VHT6Luizmkh8EUHlucV+HKO6RSpSdHNIId1CVLex9cr3qUOvnDkOsmD5a+
-         osVlj3pFy/z00+zoGms8QOCaOCdvByCi3kp5/DQIT6aNKXXQsKoN00mjLjpreT8N/3nr
-         4C1w==
-X-Gm-Message-State: APjAAAX+zZnVfPgtuwxTbLjNyvsCWMv1ShMgD3tWmNfwpXbAqcXMKlRg
-        i6svvGiGo3G/bj82PoZOp2ifbg==
-X-Google-Smtp-Source: APXvYqzV20YelwwZmVujNBOuf0KewDUAlMY5R7oPdGUPxlJpzk4n5D9ibscxmdTuGZoa2l4u193jag==
-X-Received: by 2002:a2e:3e01:: with SMTP id l1mr11682242lja.208.1563206342726;
-        Mon, 15 Jul 2019 08:59:02 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id f24sm2633350lfk.72.2019.07.15.08.59.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 08:59:01 -0700 (PDT)
-Subject: Re: [PATCH v4 3/4] media: venus: Update to bitrate based clock
- scaling
-To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1562078787-516-1-git-send-email-amasule@codeaurora.org>
- <1562078787-516-4-git-send-email-amasule@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <06248dce-2c01-279b-20be-4dfcafbd792f@linaro.org>
-Date:   Mon, 15 Jul 2019 18:58:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1pf3WGwA9D7m+i0fi13et95NxKX1fwC73+4IJDRPguM=;
+        b=UNozHmH9vTGYnU6LkXTXK03XP0PA/B94KK5rP77Agl2rjZYfV5hKgu9mjOynm7DIMr
+         +b0a1pig7zph2Z4Zz5fbxYbuWfItOg1QoB3svxjuKUv+1e3aA5Rul26iXBM7+M0uRByO
+         ThGLg9T+5DrbmhVpj9vTOS8Q+sl3QMPaxwCQBBh/w+G85pyq87DKJbWW4ciWtIZVv7y4
+         G8XWN3E20Hftj7rwTIo9I0fCfLgsnQHK9bzPcJfUvQ7OPckgt8/1NI2m3jvTEpdOf5v0
+         LmQv4N4U5BzOFA+Kh7db7lVMgz57rc53wj16yt67Q5bG3NHfVzZ6Xuu9g/4zY3+8TBma
+         LIPQ==
+X-Gm-Message-State: APjAAAV7RHxRtXpmmhXIajuNc4NJIZeZpRwUGZAB/+YM0ze1wLZ1LsHE
+        rxqufcs6s5XAz19yfpTnKIDhjwdPC4kNZXS/FzfTjA==
+X-Google-Smtp-Source: APXvYqxUxnVJIFmSjF/fduDJIdHHtTu2E7rs0M1v5DQsmsjwZzuX9klo19X53kLCG4pNPCe3wIEdLnHCwqNb7FnoP6U=
+X-Received: by 2002:a17:90a:a116:: with SMTP id s22mr29852919pjp.47.1563206415768;
+ Mon, 15 Jul 2019 09:00:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1562078787-516-4-git-send-email-amasule@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1561386715.git.andreyknvl@google.com> <41e0a911e4e4d533486a1468114e6878e21f9f84.1561386715.git.andreyknvl@google.com>
+ <20190624175009.GM29120@arrakis.emea.arm.com>
+In-Reply-To: <20190624175009.GM29120@arrakis.emea.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 15 Jul 2019 18:00:04 +0200
+Message-ID: <CAAeHK+x2TL057Fr0K7FZBTYgeEPVU3cC6scEeiSYk-Jkb3xgfg@mail.gmail.com>
+Subject: Re: [PATCH v18 07/15] fs/namespace: untag user pointers in copy_mount_options
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Jun 24, 2019 at 7:50 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, Jun 24, 2019 at 04:32:52PM +0200, Andrey Konovalov wrote:
+> > This patch is a part of a series that extends kernel ABI to allow to pass
+> > tagged user pointers (with the top byte set to something else other than
+> > 0x00) as syscall arguments.
+> >
+> > In copy_mount_options a user address is being subtracted from TASK_SIZE.
+> > If the address is lower than TASK_SIZE, the size is calculated to not
+> > allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
+> > However if the address is tagged, then the size will be calculated
+> > incorrectly.
+> >
+> > Untag the address before subtracting.
+> >
+> > Reviewed-by: Khalid Aziz <khalid.aziz@oracle.com>
+> > Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > ---
+> >  fs/namespace.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/fs/namespace.c b/fs/namespace.c
+> > index 7660c2749c96..ec78f7223917 100644
+> > --- a/fs/namespace.c
+> > +++ b/fs/namespace.c
+> > @@ -2994,7 +2994,7 @@ void *copy_mount_options(const void __user * data)
+> >        * the remainder of the page.
+> >        */
+> >       /* copy_from_user cannot cross TASK_SIZE ! */
+> > -     size = TASK_SIZE - (unsigned long)data;
+> > +     size = TASK_SIZE - (unsigned long)untagged_addr(data);
+> >       if (size > PAGE_SIZE)
+> >               size = PAGE_SIZE;
+>
+> I think this patch needs an ack from Al Viro (cc'ed).
+>
+> --
+> Catalin
 
-On 7/2/19 5:46 PM, Aniket Masule wrote:
-> Introduced clock scaling using bitrate, preavious
-> calculations consider only the cycles per mb.
-> Also, clock scaling is now triggered before every
-> buffer being queued to the device. This helps in
-> deciding precise clock cycles required.
-> 
-> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c | 31 +++++++++++++++++++++++++----
->  1 file changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 2c976e4..5726d86 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -399,17 +399,26 @@ static int scale_clocks(struct venus_inst *inst)
->  	return ret;
->  }
->  
-> -static unsigned long calculate_vpp_freq(struct venus_inst *inst)
-> +static unsigned long calculate_inst_freq(struct venus_inst *inst,
-> +					 unsigned long filled_len)
->  {
-> -	unsigned long vpp_freq = 0;
-> +	unsigned long vpp_freq = 0, vsp_freq = 0;
-> +	u64 fps = inst->fps;
->  	u32 mbs_per_sec;
->  
->  	mbs_per_sec = load_per_instance(inst);
->  	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
->  	/* 21 / 20 is overhead factor */
->  	vpp_freq += vpp_freq / 20;
-> +	vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
->  
-> -	return vpp_freq;
-> +	/* 10 / 7 is overhead factor */
-> +	if (inst->session_type == VIDC_SESSION_TYPE_ENC)
-> +		vsp_freq += (inst->controls.enc.bitrate * 10) / 7;
-> +	else
-> +		vsp_freq += ((fps * filled_len * 8) * 10) / 7;
-> +
-> +	return max(vpp_freq, vsp_freq);
->  }
->  
->  static int scale_clocks_v4(struct venus_inst *inst)
-> @@ -417,13 +426,27 @@ static int scale_clocks_v4(struct venus_inst *inst)
->  	struct venus_core *core = inst->core;
->  	const struct freq_tbl *table = core->res->freq_tbl;
->  	unsigned int num_rows = core->res->freq_tbl_size;
-> +	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
->  	struct clk *clk = core->clks[0];
->  	struct device *dev = core->dev;
->  	unsigned int i;
->  	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
-> +	unsigned long filled_len = 0;
-> +	struct venus_buffer *buf, *n;
-> +	struct vb2_buffer *vb;
->  	int ret;
->  
-> -	freq = calculate_vpp_freq(inst);
-> +	mutex_lock(&inst->lock);
-> +	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
-> +		vb = &buf->vb.vb2_buf;
-> +		filled_len = max(filled_len, vb2_get_plane_payload(vb, 0));
-> +	}
-> +	mutex_unlock(&inst->lock);
-> +
-> +	if (inst->session_type == VIDC_SESSION_TYPE_DEC && !filled_len)
-> +		return 0;
-> +
-> +	freq = calculate_inst_freq(inst, filled_len);
->  
->  	if (freq > table[0].freq)
->  		dev_warn(dev, "HW is overloaded, needed: %lu max: %lu\n",
-> 
+Hi Al,
 
-The original patch has a call to load_scale_clocks from
-venus_helper_vb2_buf_queue, why it is not included here?
+Could you take a look and give your acked-by?
 
--- 
-regards,
-Stan
+Thanks!
