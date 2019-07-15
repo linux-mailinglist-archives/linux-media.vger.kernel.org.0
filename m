@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D8CE68715
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C0B568713
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:32:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729762AbfGOKbA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 06:31:00 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42635 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729428AbfGOKa6 (ORCPT
+        id S1729757AbfGOKa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 06:30:59 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49891 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729695AbfGOKa6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 15 Jul 2019 06:30:58 -0400
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id myFyhc6VO0SBqmyFzhRPKG; Mon, 15 Jul 2019 12:30:56 +0200
+        id myFyhc6VO0SBqmyG0hRPKR; Mon, 15 Jul 2019 12:30:56 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 1/6] meson/ao-cec: use cec_notifier_cec_adap_(un)register
-Date:   Mon, 15 Jul 2019 12:30:49 +0200
-Message-Id: <20190715103054.84849-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/6] cros-ec-cec: use cec_notifier_cec_adap_(un)register
+Date:   Mon, 15 Jul 2019 12:30:50 +0200
+Message-Id: <20190715103054.84849-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715103054.84849-1-hverkuil-cisco@xs4all.nl>
 References: <20190715103054.84849-1-hverkuil-cisco@xs4all.nl>
@@ -37,255 +37,164 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the new cec_notifier_cec_adap_(un)register() functions to
-(un)register the notifier for the CEC adapter.
+Use cec_notifier_cec_adap_(un)register instead of
+cec_notifier_get_conn, cec_notifier_put and cec_register_cec_notifier.
+
+Also enable the CEC_CAP_CONNECTOR_INFO capability.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/media/platform/meson/ao-cec-g12a.c | 48 +++++++++++-----------
- drivers/media/platform/meson/ao-cec.c      | 44 +++++++++-----------
- 2 files changed, 42 insertions(+), 50 deletions(-)
+ .../media/platform/cros-ec-cec/cros-ec-cec.c  | 68 +++++++++++--------
+ 1 file changed, 38 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
-index fb52e5dd044a..c99d01926673 100644
---- a/drivers/media/platform/meson/ao-cec-g12a.c
-+++ b/drivers/media/platform/meson/ao-cec-g12a.c
-@@ -635,17 +635,19 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
- 	spin_lock_init(&ao_cec->cec_reg_lock);
- 	ao_cec->pdev = pdev;
+diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+index 068df9888dbf..05463e4d76c2 100644
+--- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
++++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+@@ -206,10 +206,10 @@ static SIMPLE_DEV_PM_OPS(cros_ec_cec_pm_ops,
+  */
  
--	ao_cec->notify = cec_notifier_get(hdmi_dev);
--	if (!ao_cec->notify)
--		return -ENOMEM;
+ struct cec_dmi_match {
+-	char *sys_vendor;
+-	char *product_name;
+-	char *devname;
+-	char *conn;
++	const char *sys_vendor;
++	const char *product_name;
++	const char *devname;
++	const char *conn;
+ };
+ 
+ static const struct cec_dmi_match cec_dmi_match_table[] = {
+@@ -217,8 +217,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Fizz", "0000:00:02.0", "Port B" },
+ };
+ 
+-static int cros_ec_cec_get_notifier(struct device *dev,
+-				    struct cec_notifier **notify)
++static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
++						const char **conn)
+ {
+ 	int i;
+ 
+@@ -233,26 +233,24 @@ static int cros_ec_cec_get_notifier(struct device *dev,
+ 			d = bus_find_device_by_name(&pci_bus_type, NULL,
+ 						    m->devname);
+ 			if (!d)
+-				return -EPROBE_DEFER;
 -
- 	ao_cec->adap = cec_allocate_adapter(&meson_ao_cec_g12a_ops, ao_cec,
- 					    "meson_g12a_ao_cec",
--					    CEC_CAP_DEFAULTS,
-+					    CEC_CAP_DEFAULTS |
-+					    CEC_CAP_CONNECTOR_INFO,
- 					    CEC_MAX_LOG_ADDRS);
--	if (IS_ERR(ao_cec->adap)) {
--		ret = PTR_ERR(ao_cec->adap);
--		goto out_probe_notify;
-+	if (IS_ERR(ao_cec->adap))
-+		return PTR_ERR(ao_cec->adap);
-+
-+	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
-+							ao_cec->adap);
-+	if (!ao_cec->notify) {
-+		ret = -ENOMEM;
-+		goto out_probe_adapter;
+-			*notify = cec_notifier_get_conn(d, m->conn);
++				return ERR_PTR(-EPROBE_DEFER);
+ 			put_device(d);
+-			return 0;
++			*conn = m->conn;
++			return d;
+ 		}
  	}
  
- 	ao_cec->adap->owner = THIS_MODULE;
-@@ -654,21 +656,21 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
- 	base = devm_ioremap_resource(&pdev->dev, res);
- 	if (IS_ERR(base)) {
- 		ret = PTR_ERR(base);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
+ 	/* Hardware support must be added in the cec_dmi_match_table */
+ 	dev_warn(dev, "CEC notifier not configured for this hardware\n");
  
- 	ao_cec->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 					       &meson_ao_cec_g12a_regmap_conf);
- 	if (IS_ERR(ao_cec->regmap)) {
- 		ret = PTR_ERR(ao_cec->regmap);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ao_cec->regmap_cec = devm_regmap_init(&pdev->dev, NULL, ao_cec,
- 					   &meson_ao_cec_g12a_cec_regmap_conf);
- 	if (IS_ERR(ao_cec->regmap_cec)) {
- 		ret = PTR_ERR(ao_cec->regmap_cec);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	irq = platform_get_irq(pdev, 0);
-@@ -678,24 +680,24 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
- 					0, NULL, ao_cec);
- 	if (ret) {
- 		dev_err(&pdev->dev, "irq request failed\n");
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ao_cec->oscin = devm_clk_get(&pdev->dev, "oscin");
- 	if (IS_ERR(ao_cec->oscin)) {
- 		dev_err(&pdev->dev, "oscin clock request failed\n");
- 		ret = PTR_ERR(ao_cec->oscin);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ret = meson_ao_cec_g12a_setup_clk(ao_cec);
- 	if (ret)
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 
- 	ret = clk_prepare_enable(ao_cec->core);
- 	if (ret) {
- 		dev_err(&pdev->dev, "core clock enable failed\n");
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	device_reset_optional(&pdev->dev);
-@@ -703,27 +705,23 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, ao_cec);
- 
- 	ret = cec_register_adapter(ao_cec->adap, &pdev->dev);
--	if (ret < 0) {
--		cec_notifier_put(ao_cec->notify);
-+	if (ret < 0)
- 		goto out_probe_core_clk;
--	}
- 
- 	/* Setup Hardware */
- 	regmap_write(ao_cec->regmap, CECB_GEN_CNTL_REG, CECB_GEN_CNTL_RESET);
- 
--	cec_register_cec_notifier(ao_cec->adap, ao_cec->notify);
--
- 	return 0;
- 
- out_probe_core_clk:
- 	clk_disable_unprepare(ao_cec->core);
- 
-+out_probe_notify:
-+	cec_notifier_cec_adap_unregister(ao_cec->notify);
-+
- out_probe_adapter:
- 	cec_delete_adapter(ao_cec->adap);
- 
--out_probe_notify:
--	cec_notifier_put(ao_cec->notify);
--
- 	dev_err(&pdev->dev, "CEC controller registration failed\n");
- 
- 	return ret;
-@@ -735,9 +733,9 @@ static int meson_ao_cec_g12a_remove(struct platform_device *pdev)
- 
- 	clk_disable_unprepare(ao_cec->core);
- 
--	cec_unregister_adapter(ao_cec->adap);
-+	cec_notifier_cec_adap_unregister(ao_cec->notify);
- 
--	cec_notifier_put(ao_cec->notify);
-+	cec_unregister_adapter(ao_cec->adap);
- 
- 	return 0;
+-	return -ENODEV;
++	return ERR_PTR(-ENODEV);
  }
-diff --git a/drivers/media/platform/meson/ao-cec.c b/drivers/media/platform/meson/ao-cec.c
-index facf9b029e79..64ed549bf012 100644
---- a/drivers/media/platform/meson/ao-cec.c
-+++ b/drivers/media/platform/meson/ao-cec.c
-@@ -616,20 +616,19 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
  
- 	spin_lock_init(&ao_cec->cec_reg_lock);
+ #else
  
--	ao_cec->notify = cec_notifier_get(hdmi_dev);
--	if (!ao_cec->notify)
--		return -ENOMEM;
--
- 	ao_cec->adap = cec_allocate_adapter(&meson_ao_cec_ops, ao_cec,
- 					    "meson_ao_cec",
--					    CEC_CAP_LOG_ADDRS |
--					    CEC_CAP_TRANSMIT |
--					    CEC_CAP_RC |
--					    CEC_CAP_PASSTHROUGH,
-+					    CEC_CAP_DEFAULTS |
-+					    CEC_CAP_CONNECTOR_INFO,
- 					    1); /* Use 1 for now */
--	if (IS_ERR(ao_cec->adap)) {
--		ret = PTR_ERR(ao_cec->adap);
--		goto out_probe_notify;
-+	if (IS_ERR(ao_cec->adap))
-+		return PTR_ERR(ao_cec->adap);
+-static int cros_ec_cec_get_notifier(struct device *dev,
+-				    struct cec_notifier **notify)
++static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev)
+ {
+-	return -ENODEV;
++	return ERR_PTR(-ENODEV);
+ }
+ 
+ #endif
+@@ -262,8 +260,14 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
+ 	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
+ 	struct cros_ec_cec *cros_ec_cec;
++	struct device *hdmi_dev;
++	const char *conn = NULL;
+ 	int ret;
+ 
++	hdmi_dev = cros_ec_cec_find_hdmi_dev(&pdev->dev, &conn);
++	if (IS_ERR(hdmi_dev))
++		return PTR_ERR(hdmi_dev);
 +
-+	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
-+							ao_cec->adap);
-+	if (!ao_cec->notify) {
+ 	cros_ec_cec = devm_kzalloc(&pdev->dev, sizeof(*cros_ec_cec),
+ 				   GFP_KERNEL);
+ 	if (!cros_ec_cec)
+@@ -272,10 +276,6 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, cros_ec_cec);
+ 	cros_ec_cec->cros_ec = cros_ec;
+ 
+-	ret = cros_ec_cec_get_notifier(&pdev->dev, &cros_ec_cec->notify);
+-	if (ret)
+-		return ret;
+-
+ 	ret = device_init_wakeup(&pdev->dev, 1);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+@@ -283,29 +283,39 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+-						 DRV_NAME, CEC_CAP_DEFAULTS, 1);
++						 DRV_NAME,
++						 CEC_CAP_DEFAULTS |
++						 CEC_CAP_CONNECTOR_INFO, 1);
+ 	if (IS_ERR(cros_ec_cec->adap))
+ 		return PTR_ERR(cros_ec_cec->adap);
+ 
++	cros_ec_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, conn,
++							     cros_ec_cec->adap);
++	if (!cros_ec_cec->notify) {
 +		ret = -ENOMEM;
 +		goto out_probe_adapter;
- 	}
- 
- 	ao_cec->adap->owner = THIS_MODULE;
-@@ -638,7 +637,7 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
- 	ao_cec->base = devm_ioremap_resource(&pdev->dev, res);
- 	if (IS_ERR(ao_cec->base)) {
- 		ret = PTR_ERR(ao_cec->base);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	irq = platform_get_irq(pdev, 0);
-@@ -648,20 +647,20 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
- 					0, NULL, ao_cec);
- 	if (ret) {
- 		dev_err(&pdev->dev, "irq request failed\n");
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ao_cec->core = devm_clk_get(&pdev->dev, "core");
- 	if (IS_ERR(ao_cec->core)) {
- 		dev_err(&pdev->dev, "core clock request failed\n");
- 		ret = PTR_ERR(ao_cec->core);
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ret = clk_prepare_enable(ao_cec->core);
- 	if (ret) {
- 		dev_err(&pdev->dev, "core clock enable failed\n");
--		goto out_probe_adapter;
-+		goto out_probe_notify;
- 	}
- 
- 	ret = clk_set_rate(ao_cec->core, CEC_CLK_RATE);
-@@ -676,28 +675,24 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, ao_cec);
- 
- 	ret = cec_register_adapter(ao_cec->adap, &pdev->dev);
--	if (ret < 0) {
--		cec_notifier_put(ao_cec->notify);
-+	if (ret < 0)
- 		goto out_probe_clk;
--	}
- 
- 	/* Setup Hardware */
- 	writel_relaxed(CEC_GEN_CNTL_RESET,
- 		       ao_cec->base + CEC_GEN_CNTL_REG);
- 
--	cec_register_cec_notifier(ao_cec->adap, ao_cec->notify);
--
- 	return 0;
- 
- out_probe_clk:
- 	clk_disable_unprepare(ao_cec->core);
- 
-+out_probe_notify:
-+	cec_notifier_cec_adap_unregister(ao_cec->notify);
++	}
 +
- out_probe_adapter:
- 	cec_delete_adapter(ao_cec->adap);
+ 	/* Get CEC events from the EC. */
+ 	cros_ec_cec->notifier.notifier_call = cros_ec_cec_event;
+ 	ret = blocking_notifier_chain_register(&cros_ec->event_notifier,
+ 					       &cros_ec_cec->notifier);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to register notifier\n");
+-		cec_delete_adapter(cros_ec_cec->adap);
+-		return ret;
++		goto out_probe_notify;
+ 	}
  
--out_probe_notify:
--	cec_notifier_put(ao_cec->notify);
+ 	ret = cec_register_adapter(cros_ec_cec->adap, &pdev->dev);
+-	if (ret < 0) {
+-		cec_delete_adapter(cros_ec_cec->adap);
+-		return ret;
+-	}
 -
- 	dev_err(&pdev->dev, "CEC controller registration failed\n");
+-	cec_register_cec_notifier(cros_ec_cec->adap, cros_ec_cec->notify);
++	if (ret < 0)
++		goto out_probe_notify;
  
- 	return ret;
-@@ -709,10 +704,9 @@ static int meson_ao_cec_remove(struct platform_device *pdev)
+ 	return 0;
++
++out_probe_notify:
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
++out_probe_adapter:
++	cec_delete_adapter(cros_ec_cec->adap);
++	return ret;
+ }
  
- 	clk_disable_unprepare(ao_cec->core);
+ static int cros_ec_cec_remove(struct platform_device *pdev)
+@@ -323,11 +333,9 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
-+	cec_notifier_cec_adap_unregister(ao_cec->notify);
- 	cec_unregister_adapter(ao_cec->adap);
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
+ 	cec_unregister_adapter(cros_ec_cec->adap);
  
--	cec_notifier_put(ao_cec->notify);
+-	if (cros_ec_cec->notify)
+-		cec_notifier_put(cros_ec_cec->notify);
 -
  	return 0;
  }
