@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8320F697C8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 17:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BECD69764
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 17:10:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732023AbfGONuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 09:50:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41290 "EHLO mail.kernel.org"
+        id S1732227AbfGOPKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 11:10:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730286AbfGONuu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 09:50:50 -0400
+        id S1732103AbfGONza (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 09:55:30 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 837282067C;
-        Mon, 15 Jul 2019 13:50:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1612C217F9;
+        Mon, 15 Jul 2019 13:55:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563198649;
-        bh=YkM8ZYn63XFy0CTvVK4KJbRkmbMTsQ2YxmnYXtb17BY=;
+        s=default; t=1563198929;
+        bh=vMM+DidbLUbkbkXwZDyK9ry41O7bb/cL16ENjR6sUnU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HS/rn4R3jCKSSJEfkMYTi6djyNFy2U7iroe9TSSARk7e6WokyZ3FCJGRdnt+dTcBT
-         /a0uSMz3Rz/YSs2nQafNdhTBsESAr69TLWSx97dX6cf50yUJDBiTcuTsC+8PoPivGN
-         fM34c5gEgJrbvXZeU5ImQMxfI0KhtwtkSPiFlG5U=
+        b=Dexlxot306ehKWUZa/dg34Aw9QKdA6VjK3ldC4trG8njRAREdRo86crJEPpTYAmMo
+         NzdFLXmyTmk2pVx5c9YyT+pe5Xt2x8ON2Dd2djg7T1faakMVnhvRzcGMzCyAbkYOyN
+         zAAqFoLPRLRTpigdZAp63ChG+3Cq/SNFAlljjQZ8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 070/249] media: aspeed: change irq to threaded irq
-Date:   Mon, 15 Jul 2019 09:43:55 -0400
-Message-Id: <20190715134655.4076-70-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 144/249] media: s5p-mfc: Make additional clocks optional
+Date:   Mon, 15 Jul 2019 09:45:09 -0400
+Message-Id: <20190715134655.4076-144-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
 References: <20190715134655.4076-1-sashal@kernel.org>
@@ -45,43 +45,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[ Upstream commit 12ae1c1bf5db2f33fcd9092a96f630291c4b181a ]
+[ Upstream commit e08efef8fe7db87206314c19b341612c719f891a ]
 
-Differently from other Aspeed drivers, this driver calls clock
-control APIs in interrupt context. Since ECLK is coupled with a
-reset bit in clk-aspeed module, aspeed_clk_enable will make 10ms of
-busy waiting delay for triggering the reset and it will eventually
-disturb other drivers' interrupt handling. To fix this issue, this
-commit changes this driver's irq to threaded irq so that the delay
-can be happened in a thread context.
+Since the beginning the second clock ('special', 'sclk') was optional and
+it is not available on some variants of Exynos SoCs (i.e. Exynos5420 with
+v7 of MFC hardware).
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+However commit 1bce6fb3edf1 ("[media] s5p-mfc: Rework clock handling")
+made handling of all specified clocks mandatory. This patch restores
+original behavior of the driver and fixes its operation on
+Exynos5420 SoCs.
+
+Fixes: 1bce6fb3edf1 ("[media] s5p-mfc: Rework clock handling")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/aspeed-video.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/s5p-mfc/s5p_mfc_pm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 8144fe36ad48..76d7512c82a3 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -1589,8 +1589,9 @@ static int aspeed_video_init(struct aspeed_video *video)
- 		return -ENODEV;
- 	}
- 
--	rc = devm_request_irq(dev, irq, aspeed_video_irq, IRQF_SHARED,
--			      DEVICE_NAME, video);
-+	rc = devm_request_threaded_irq(dev, irq, NULL, aspeed_video_irq,
-+				       IRQF_ONESHOT | IRQF_SHARED, DEVICE_NAME,
-+				       video);
- 	if (rc < 0) {
- 		dev_err(dev, "Unable to request IRQ %d\n", irq);
- 		return rc;
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+index 2e62f8721fa5..7d52431c2c83 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_pm.c
+@@ -34,6 +34,11 @@ int s5p_mfc_init_pm(struct s5p_mfc_dev *dev)
+ 	for (i = 0; i < pm->num_clocks; i++) {
+ 		pm->clocks[i] = devm_clk_get(pm->device, pm->clk_names[i]);
+ 		if (IS_ERR(pm->clocks[i])) {
++			/* additional clocks are optional */
++			if (i && PTR_ERR(pm->clocks[i]) == -ENOENT) {
++				pm->clocks[i] = NULL;
++				continue;
++			}
+ 			mfc_err("Failed to get clock: %s\n",
+ 				pm->clk_names[i]);
+ 			return PTR_ERR(pm->clocks[i]);
 -- 
 2.20.1
 
