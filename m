@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F90F69454
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9E456942B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404682AbfGOOqL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:46:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35000 "EHLO mail.kernel.org"
+        id S2392289AbfGOOsD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:48:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44258 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404813AbfGOOqH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:46:07 -0400
+        id S2392268AbfGOOsD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:48:03 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B42062067C;
-        Mon, 15 Jul 2019 14:46:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F3612067C;
+        Mon, 15 Jul 2019 14:47:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563201966;
-        bh=394QZhcBDh/8/E31jIj293uxy+K5rhXIyIdJ1VMo2n8=;
+        s=default; t=1563202082;
+        bh=fq/MPZIx0z5KXbbjCvlvlneSshpRgVCO7AGwdjNcO8Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NtP0JdQ87iGGqvD3r6evM4XGEu4WKThq5PuezIy2NyqvLjcJ2KjBy3Jj5WSfQS7vh
-         uMoJGZVPx6XiB6PMrMBRk0fqC58JGV7EVoL/Ig+52qYTz6SMmZC5AMjsrkQQ6kwQfF
-         XyAlOnX1tb9I8tL61yolfbqV0BK8n3/papxYFWmk=
+        b=wmqmxHmEIrEYb/hH8GirplxoFz9p/cB3dUxyOAk8Dq2WqGWxsfGmbVHac1tKPm6+/
+         CNbdJeQ438ec9c+DlB3IJIyQguneC56/BLkJehqsWA+yqEKpvmgEd3aqyib7xwfEcr
+         m0cCgXm/jjGK6VvsUYujCxxMaBCeKdN58ZgkwJAA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kangjie Lu <kjlu@umn.edu>, Mukesh Ojha <mojha@codeaurora.org>,
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 09/53] media: vpss: fix a potential NULL pointer dereference
-Date:   Mon, 15 Jul 2019 10:44:51 -0400
-Message-Id: <20190715144535.11636-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 40/53] media: coda: increment sequence offset for the last returned frame
+Date:   Mon, 15 Jul 2019 10:45:22 -0400
+Message-Id: <20190715144535.11636-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715144535.11636-1-sashal@kernel.org>
 References: <20190715144535.11636-1-sashal@kernel.org>
@@ -43,37 +44,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kangjie Lu <kjlu@umn.edu>
+From: Philipp Zabel <p.zabel@pengutronix.de>
 
-[ Upstream commit e08f0761234def47961d3252eac09ccedfe4c6a0 ]
+[ Upstream commit b3b7d96817cdb8b6fc353867705275dce8f41ccc ]
 
-In case ioremap fails, the fix returns -ENOMEM to avoid NULL
-pointer dereference.
+If no more frames are decoded in bitstream end mode, and a previously
+decoded frame has been returned, the firmware still increments the frame
+number. To avoid a sequence number mismatch after decoder restart,
+increment the sequence_offset correction parameter.
 
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/davinci/vpss.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/platform/coda/coda-bit.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/platform/davinci/vpss.c b/drivers/media/platform/davinci/vpss.c
-index fce86f17dffc..c2c68988e38a 100644
---- a/drivers/media/platform/davinci/vpss.c
-+++ b/drivers/media/platform/davinci/vpss.c
-@@ -523,6 +523,11 @@ static int __init vpss_init(void)
- 		return -EBUSY;
- 
- 	oper_cfg.vpss_regs_base2 = ioremap(VPSS_CLK_CTRL, 4);
-+	if (unlikely(!oper_cfg.vpss_regs_base2)) {
-+		release_mem_region(VPSS_CLK_CTRL, 4);
-+		return -ENOMEM;
-+	}
-+
- 	writel(VPSS_CLK_CTRL_VENCCLKEN |
- 		     VPSS_CLK_CTRL_DACCLKEN, oper_cfg.vpss_regs_base2);
- 
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index a7ed2dba7a0e..b19e70b83f4a 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -1967,6 +1967,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 		else if (ctx->display_idx < 0)
+ 			ctx->hold = true;
+ 	} else if (decoded_idx == -2) {
++		if (ctx->display_idx >= 0 &&
++		    ctx->display_idx < ctx->num_internal_frames)
++			ctx->sequence_offset++;
+ 		/* no frame was decoded, we still return remaining buffers */
+ 	} else if (decoded_idx < 0 || decoded_idx >= ctx->num_internal_frames) {
+ 		v4l2_err(&dev->v4l2_dev,
 -- 
 2.20.1
 
