@@ -2,67 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4E2687CE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 13:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D65A568809
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 13:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729955AbfGOLEX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 07:04:23 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37612 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729905AbfGOLER (ORCPT
+        id S1729843AbfGOLSV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 07:18:21 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47171 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729756AbfGOLSV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 07:04:17 -0400
-Received: by mail-pg1-f195.google.com with SMTP id g15so7549366pgi.4
-        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 04:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=Iux65787KeJtZlk/UWQ8a71sdq3L+JuOBHwZwxVHUOu0Hal0brUmaUtWDT+1EakAhq
-         MtJF/vbEQagCDLqdjzXV0tE8x5YNwPsclB57z/jA+URpkAaidKGibNAiJ897B2Q2rv9p
-         uYOBtZylJRmtRio8wDP4GwRiBknU84/FmWsMFw620mFEJwR9vSM1QlmEIUdghWeLiQPg
-         3/o6A/ASY/U2XQTJeOVMsZoeyZcCfYvLw2Rbw2pE/fk67uX5NyEzWB6tv7TG5MeHZvc/
-         X3yp2nduS0Os162TiWKhkMGOmC5wMIt1cVEoe4V7hwUEXyYLehvgYaVidvFk20QbqjFn
-         kL9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=Mxn3t1LVG2JEoeJ/7kyPpIZeQ9G1NmQu+I4S9u9jd4IUIk1+QVtxqOwEJ4k6ZRkru5
-         NDb61VDy3p+uVicUR3UzUaF0JACFaNUjP/W00gGR8JgI19+ZZ3brgp6aHB5cR3Ul8DZK
-         zfcmHo69rKbITVfBMcBBMhNIWKVIK7gu4Jt6E8LCKh4yPP7iZxrCLiTUXouwwU1ftW5t
-         2XLm8cBS+4LcGYErz1L3H4kqfq9zNDGrPRT51b6k2+zPGLsgCG864yR3goVD0FhwKgnP
-         UiN0FiejaHm4jzquKl63MqLof2YJMyCzv8aoZ9wJ1DbmMfxWuXigorSV+HAcfhldxPqB
-         lnYw==
-X-Gm-Message-State: APjAAAWEV3at7GMBbgcGuZvPub0KZBIO3ivQftG+K3HljKX4IRExxpic
-        f1iMYhoHD/SyE6vP7SyEcc3lwp62roboWP8rlZA=
-X-Google-Smtp-Source: APXvYqwI9SCHvCHLnvHckfwL+oW1shcNAvZVS/wk3iQ3LTmyEMELfYQBoBiEv/cUvggIHp2fQao9ul2L5mSBnKj2EDA=
-X-Received: by 2002:a63:ad07:: with SMTP id g7mr24480194pgf.405.1563188657092;
- Mon, 15 Jul 2019 04:04:17 -0700 (PDT)
+        Mon, 15 Jul 2019 07:18:21 -0400
+Received: from [IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc] ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id myzqhcT8c0SBqmyzrhReOr; Mon, 15 Jul 2019 13:18:19 +0200
+Subject: Re: [PATCH v2 0/5] cec: convert remaining drivers to the new notifier
+ API
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+References: <20190701145944.214098-1-darekm@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <b963102f-b318-a6ee-6762-23bd0da84010@xs4all.nl>
+Date:   Mon, 15 Jul 2019 13:18:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Received: by 2002:a17:90a:b78d:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:04:16
- -0700 (PDT)
-From:   Donald Douglas <ddouglasng@gmail.com>
-Date:   Mon, 15 Jul 2019 04:04:16 -0700
-Message-ID: <CALVR28EP4VMYZDqzau6uFTJmxHs6we+nYre3JstaZ5qSsvppFQ@mail.gmail.com>
-Subject: Kindly Respond
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190701145944.214098-1-darekm@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHN/VGvGy8kCBjdfu05zsnXCuQiiq7eI4WY41/9kDIhS4kQ9yu91HuE5wjiua6LOi7z+Zf88M6u8vOi+8wMEIAhIU3z8lIjCIvjMth3se+uUJZQn7nkl
+ VlRiBsuQ2Zzg8V++3IWcjqjMtyPJ3uGm81nw1x0ClFOhd+en5EUYlEiK2/ET12IbL0jXMxPvtPrK6rZLzTlCNy3eURpTded0p39QVZF5kWpUGfj2/RVrFJ31
+ 9AemonpRFQasc1l+Gms8xEWBARhyd5SYCZa64iN63hncIWkAtiLgKH3OtmYh0i4MhVV/y2T75ED71pLxLnc12lC7jSzoOVnvAn36cCNaoLo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-I am Barr Fredrick Mbogo a business consultant i have a lucrative
-business to discuss with you from the Eastern part of Africa Uganda to
-be precise aimed at agreed percentage upon your acceptance of my hand
-in business and friendship. Kindly respond to me if you are interested
-to partner with me for an update. Very important.
+Hi Dariusz,
 
-Yours Sincerely,
-Donald Douglas,
-For,
-Barr Frederick Mbogo
-Legal Consultant.
-Reply to: barrfredmbogo@consultant.com
+On 7/1/19 4:59 PM, Dariusz Marcinkiewicz wrote:
+> This series updates remaining drivers in DRM to use new CEC notifier API.
+> 
+> Those complement the "cec: improve notifier support, add
+> connector info" patch series and also replace 2 following patches from
+> there:
+> - [PATCHv8 09/13] dw-hdmi: use cec_notifier_conn_(un)register
+> - [PATCHv9 12/13] tda998x: use cec_notifier_conn_(un)register
+> 
+> None of those changes were not tested on a real hardware.
+
+I assume you meant 'None of those changes were tested'?
+
+I just reviewed this series. Apologies for the delay, I was out for a week and
+then had to take care of other things.
+
+When you post v3, can you include all older drm patches (i.e. tda9950, dw-hdmi-cec,
+and the drm-dp-cec changes)?
+
+That way there is only one patch series that I have to review.
+
+Regards,
+
+	Hans
+
+> 
+> Changes since v1:
+> 	Those patches delay creation of notifiers until respective
+> 	connectors are constructed. It seems that those patches, for a
+> 	couple of drivers, by adding the delay, introduce a race between
+> 	notifiers' creation and the IRQs handling threads - at least I
+> 	don't see anything obvious in there that would explicitly forbid
+> 	such races to occur. v2 adds a write barrier to make sure IRQ
+> 	threads see the notifier once it is created (replacing the
+> 	WRITE_ONCE I put in v1). The best thing to do here, I believe,
+> 	would be not to have any synchronization and make sure that an IRQ
+> 	only gets enabled after the notifier is created.
+> 
+> 
+> Dariusz Marcinkiewicz (5):
+>   drm: tda998x: use cec_notifier_conn_(un)register
+>   drm: sti: use cec_notifier_conn_(un)register
+>   drm: tegra: use cec_notifier_conn_(un)register
+>   drm: dw-hdmi: use cec_notifier_conn_(un)register
+>   drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
+> 
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 37 +++++++++++++++--------
+>  drivers/gpu/drm/exynos/exynos_hdmi.c      | 33 ++++++++++++--------
+>  drivers/gpu/drm/i2c/tda998x_drv.c         | 32 ++++++++++++++------
+>  drivers/gpu/drm/sti/sti_hdmi.c            | 20 +++++++-----
+>  drivers/gpu/drm/tegra/output.c            | 18 ++++++-----
+>  5 files changed, 91 insertions(+), 49 deletions(-)
+> 
+
