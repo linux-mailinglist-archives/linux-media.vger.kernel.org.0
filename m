@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9E456942B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D92696D8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 17:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392289AbfGOOsD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:48:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44258 "EHLO mail.kernel.org"
+        id S2388106AbfGOPGV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 11:06:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51142 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392268AbfGOOsD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:48:03 -0400
+        id S2388060AbfGOOFA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:05:00 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F3612067C;
-        Mon, 15 Jul 2019 14:47:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 64C1A2086C;
+        Mon, 15 Jul 2019 14:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563202082;
-        bh=fq/MPZIx0z5KXbbjCvlvlneSshpRgVCO7AGwdjNcO8Q=;
+        s=default; t=1563199499;
+        bh=mhXhduWJaO04kawnAw5A60pE1lbweTRh4KXfbSeGtIQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wmqmxHmEIrEYb/hH8GirplxoFz9p/cB3dUxyOAk8Dq2WqGWxsfGmbVHac1tKPm6+/
-         CNbdJeQ438ec9c+DlB3IJIyQguneC56/BLkJehqsWA+yqEKpvmgEd3aqyib7xwfEcr
-         m0cCgXm/jjGK6VvsUYujCxxMaBCeKdN58ZgkwJAA=
+        b=XCdcMEFhxXbxZjZybrKJlKIyM3J25Ka+3lkLAjvLCCx3mMoheQBN/DDWaCH30JcnS
+         bNBSZQAQ8puvnSn1ODt9n0Vq9qrX3FmaJ65Coxt9pTS9qMf8Hd/cbP2yLXlWlLa4QG
+         wFGkjmbGFeKNoD4himKSk0QPYHv+PVPZ6uSDWmZ8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 40/53] media: coda: increment sequence offset for the last returned frame
-Date:   Mon, 15 Jul 2019 10:45:22 -0400
-Message-Id: <20190715144535.11636-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.1 022/219] media: ov7740: avoid invalid framesize setting
+Date:   Mon, 15 Jul 2019 10:00:23 -0400
+Message-Id: <20190715140341.6443-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715144535.11636-1-sashal@kernel.org>
-References: <20190715144535.11636-1-sashal@kernel.org>
+In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
+References: <20190715140341.6443-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,37 +46,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+From: Akinobu Mita <akinobu.mita@gmail.com>
 
-[ Upstream commit b3b7d96817cdb8b6fc353867705275dce8f41ccc ]
+[ Upstream commit 6e4ab830ac6d6a0d7cd7f87dc5d6536369bf24a8 ]
 
-If no more frames are decoded in bitstream end mode, and a previously
-decoded frame has been returned, the firmware still increments the frame
-number. To avoid a sequence number mismatch after decoder restart,
-increment the sequence_offset correction parameter.
+If the requested framesize by VIDIOC_SUBDEV_S_FMT is larger than supported
+framesizes, it causes an out of bounds array access and the resulting
+framesize is unexpected.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Avoid out of bounds array access and select the default framesize.
+
+Cc: Wenyou Yang <wenyou.yang@microchip.com>
+Cc: Eugen Hristev <eugen.hristev@microchip.com>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/coda/coda-bit.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/i2c/ov7740.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index a7ed2dba7a0e..b19e70b83f4a 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -1967,6 +1967,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 		else if (ctx->display_idx < 0)
- 			ctx->hold = true;
- 	} else if (decoded_idx == -2) {
-+		if (ctx->display_idx >= 0 &&
-+		    ctx->display_idx < ctx->num_internal_frames)
-+			ctx->sequence_offset++;
- 		/* no frame was decoded, we still return remaining buffers */
- 	} else if (decoded_idx < 0 || decoded_idx >= ctx->num_internal_frames) {
- 		v4l2_err(&dev->v4l2_dev,
+diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+index dfece91ce96b..8207e7cf9923 100644
+--- a/drivers/media/i2c/ov7740.c
++++ b/drivers/media/i2c/ov7740.c
+@@ -761,7 +761,11 @@ static int ov7740_try_fmt_internal(struct v4l2_subdev *sd,
+ 
+ 		fsize++;
+ 	}
+-
++	if (i >= ARRAY_SIZE(ov7740_framesizes)) {
++		fsize = &ov7740_framesizes[0];
++		fmt->width = fsize->width;
++		fmt->height = fsize->height;
++	}
+ 	if (ret_frmsize != NULL)
+ 		*ret_frmsize = fsize;
+ 
 -- 
 2.20.1
 
