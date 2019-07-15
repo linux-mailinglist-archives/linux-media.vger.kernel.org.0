@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCABB693ED
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C5F6958B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392272AbfGOOsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:48:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
+        id S2390162AbfGOOTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:19:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392267AbfGOOr7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:47:59 -0400
+        id S2390154AbfGOOTl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:19:41 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E72C720861;
-        Mon, 15 Jul 2019 14:47:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC34521530;
+        Mon, 15 Jul 2019 14:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563202078;
-        bh=8YcXw0niz+6WuN+SPHBfEf9YKvNfEfOcWw0rDR0CvJE=;
+        s=default; t=1563200381;
+        bh=h5Hu998g97hcNXSmjTljqkWcR9/8vHHR6+g6JUfiGec=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iBQHH92K7xarcLSvzuCH+kZ5n7mISAH3a2uVaFy71e9K4KmCCVLwDF6WovqOrfwSA
-         /tDUE/3Nvksi1omYTWd9uE449Q8Ma3FeWPELuTXIWttkiT1yUhsb4dXOYUb1JAOt1d
-         DRC4oxN1sT+TkfgfXn+HVTBm1dI99R5uTEv02cIU=
+        b=gAlnIPgGi6cLWtsAu7jdAGWjlxD3c8shETLlLzKOofIiVWx8yzqlHwKn+fJL5Whcn
+         PSPDItTyQRwBkXzPoBxsvX41iXQN8BPTcrLJqSJJOD2CRWrgQZQc9OWSR0oAyOkX42
+         RgEN/hiO5lLFlEA04wv7ArPWb9mmtevhPeG2AuVw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Shailendra Verma <shailendra.v@samsung.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 39/53] media: coda: fix mpeg2 sequence number handling
-Date:   Mon, 15 Jul 2019 10:45:21 -0400
-Message-Id: <20190715144535.11636-39-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: [PATCH AUTOSEL 4.19 031/158] media: staging: media: davinci_vpfe: - Fix for memory leak if decoder initialization fails.
+Date:   Mon, 15 Jul 2019 10:16:02 -0400
+Message-Id: <20190715141809.8445-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715144535.11636-1-sashal@kernel.org>
-References: <20190715144535.11636-1-sashal@kernel.org>
+In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
+References: <20190715141809.8445-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,46 +44,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+From: Shailendra Verma <shailendra.v@samsung.com>
 
-[ Upstream commit 56d159a4ec6d8da7313aac6fcbb95d8fffe689ba ]
+[ Upstream commit 6995a659101bd4effa41cebb067f9dc18d77520d ]
 
-Sequence number handling assumed that the BIT processor frame number
-starts counting at 1, but this is not true for the MPEG-2 decoder,
-which starts at 0. Fix the sequence counter offset detection to handle
-this.
+Fix to avoid possible memory leak if the decoder initialization
+got failed.Free the allocated memory for file handle object
+before return in case decoder initialization fails.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Shailendra Verma <shailendra.v@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/coda/coda-bit.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/media/davinci_vpfe/vpfe_video.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index a4639813cf35..a7ed2dba7a0e 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -1581,6 +1581,7 @@ static int __coda_start_decoding(struct coda_ctx *ctx)
- 		coda_write(dev, 0, CODA_REG_BIT_BIT_STREAM_PARAM);
- 		return -ETIMEDOUT;
+diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
+index 1269a983455e..13b890b9ef18 100644
+--- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
++++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
+@@ -422,6 +422,9 @@ static int vpfe_open(struct file *file)
+ 	/* If decoder is not initialized. initialize it */
+ 	if (!video->initialized && vpfe_update_pipe_state(video)) {
+ 		mutex_unlock(&video->lock);
++		v4l2_fh_del(&handle->vfh);
++		v4l2_fh_exit(&handle->vfh);
++		kfree(handle);
+ 		return -ENODEV;
  	}
-+	ctx->sequence_offset = ~0U;
- 	ctx->initialized = 1;
- 
- 	/* Update kfifo out pointer from coda bitstream read pointer */
-@@ -1971,7 +1972,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 		v4l2_err(&dev->v4l2_dev,
- 			 "decoded frame index out of range: %d\n", decoded_idx);
- 	} else {
--		val = coda_read(dev, CODA_RET_DEC_PIC_FRAME_NUM) - 1;
-+		val = coda_read(dev, CODA_RET_DEC_PIC_FRAME_NUM);
-+		if (ctx->sequence_offset == -1)
-+			ctx->sequence_offset = val;
- 		val -= ctx->sequence_offset;
- 		spin_lock_irqsave(&ctx->buffer_meta_lock, flags);
- 		if (!list_empty(&ctx->buffer_meta_list)) {
+ 	/* Increment device users counter */
 -- 
 2.20.1
 
