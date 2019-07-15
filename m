@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 909766875B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E00EE68766
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:54:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729749AbfGOKvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 06:51:11 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:39939 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729641AbfGOKvL (ORCPT
+        id S1729726AbfGOKwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 06:52:25 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59185 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729530AbfGOKwY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 06:51:11 -0400
+        Mon, 15 Jul 2019 06:52:24 -0400
 Received: from [IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc] ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id myZYhcFv20SBqmyZZhRVS8; Mon, 15 Jul 2019 12:51:09 +0200
-Subject: Re: [PATCH v2 3/5] drm: tegra: use cec_notifier_conn_(un)register
+        id myajhcGWO0SBqmyakhRVqp; Mon, 15 Jul 2019 12:52:22 +0200
+Subject: Re: [PATCH v2 4/5] drm: dw-hdmi: use cec_notifier_conn_(un)register
 To:     Dariusz Marcinkiewicz <darekm@google.com>,
         linux-media@vger.kernel.org, hverkuil@xs4all.nl
 References: <20190701145944.214098-1-darekm@google.com>
- <20190701145944.214098-4-darekm@google.com>
+ <20190701145944.214098-5-darekm@google.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <1830cadb-71d2-de56-fa1c-7897ad38ed15@xs4all.nl>
-Date:   Mon, 15 Jul 2019 12:51:08 +0200
+Message-ID: <83b975d1-7654-1ebb-772a-e5df368bb90f@xs4all.nl>
+Date:   Mon, 15 Jul 2019 12:52:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190701145944.214098-4-darekm@google.com>
+In-Reply-To: <20190701145944.214098-5-darekm@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF13ai5jI8AMNsBHEhLI9no6+AYE/R1OnoBhwPBuYORXlXI7XlDeCqJVqgkIoOMsvu73+nZv8x6hopOxZccU1Lt1vutjyPFyS7MzCCItAzY997iRAFuW
- /YnG6PwUH26fPi3cQvLrbYPPGfFHWrq5G3fDLXgqINnsu2So6D/ixOzScC7mgNDd9EZQ39zIuzqG13QUjPbGeScKzf3N75lEkD3UfQiGxCzMksPYYXbRPe7J
- 6RIhDciZf5iil56VE3LwLCO5bPypUyXV8XEB/zRcIaZOS5F63ht1SD3uTMkwCF/OWBSEHQXD6Z4x6vrHvkgDDE7nk1ptT4gnlSKHLHWaat0=
+X-CMAE-Envelope: MS4wfH812tuLdlq78ijf0Khql3HIGYNleLo87fdriENI7o2BWkdxdIG7xKv9WiAbccPN4zMS1XgvOrvXvu1HIaEMpkhApDXitbYA3tdJIhUsx+Kn0cLY7+ZS
+ i7y040mFvn9VB1oLj44ntEd7zFkHAUielHBLJFedDm2UyvmNPwa4th8Q2pq3Rw5RHyXZ/RDx+SxWWtPlwELvvbjZZrO0BU0Vr9bjtQ+T/opAhV7u7DWrjR+r
+ 0IVeARHH0XzRuOFFpZ8eZWlJp1yFl6N2kdrpfHYFHJ1GC6H7aMeqw2IOwa8VGWco8wOoyKqE+RpXgjzmqIkqwbZrZ/M33yuiXJnkMzsFi6U=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -43,70 +43,109 @@ On 7/1/19 4:59 PM, Dariusz Marcinkiewicz wrote:
 > (un)register the notifier for the HDMI connector, and fill in
 > the cec_connector_info.
 > 
+> Changes since v1:
+> 	Add memory barrier to make sure that the notifier
+> 	becomes visible to the irq thread once it is fully
+> 	constructed.
+> 
 > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 > ---
->  drivers/gpu/drm/tegra/output.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 37 +++++++++++++++--------
+>  1 file changed, 24 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-> index 9c2b9dad55c30..ea92e72280868 100644
-> --- a/drivers/gpu/drm/tegra/output.c
-> +++ b/drivers/gpu/drm/tegra/output.c
-> @@ -80,6 +80,9 @@ tegra_output_connector_detect(struct drm_connector *connector, bool force)
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index ab7968c8f6a29..c0f4eb3c12b18 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2118,6 +2118,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+>  	struct dw_hdmi *hdmi = bridge->driver_private;
+>  	struct drm_encoder *encoder = bridge->encoder;
+>  	struct drm_connector *connector = &hdmi->connector;
+> +	struct cec_connector_info conn_info;
+> +	struct cec_notifier *notifier;
 >  
->  void tegra_output_connector_destroy(struct drm_connector *connector)
->  {
-> +	struct tegra_output *output = connector_to_output(connector);
+>  	connector->interlace_allowed = 1;
+>  	connector->polled = DRM_CONNECTOR_POLL_HPD;
+> @@ -2129,6 +2131,18 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
+>  
+>  	drm_connector_attach_encoder(connector, encoder);
+>  
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
 > +
-> +	cec_notifier_conn_unregister(output->cec);
->  	drm_connector_unregister(connector);
->  	drm_connector_cleanup(connector);
+> +	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
+> +	if (!notifier)
+> +		return -ENOMEM;
+> +	/*
+> +	 * Make sure that dw_hdmi_irq thread does see the notifier
+> +	 * when it fully constructed.
+> +	 */
+> +	smp_wmb();
+> +	hdmi->cec_notifier = notifier;
+> +
+>  	return 0;
 >  }
-> @@ -174,18 +177,11 @@ int tegra_output_probe(struct tegra_output *output)
->  		disable_irq(output->hpd_irq);
+>  
+> @@ -2295,9 +2309,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+>  				       phy_stat & HDMI_PHY_HPD,
+>  				       phy_stat & HDMI_PHY_RX_SENSE);
+>  
+> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0)
+> -			cec_notifier_set_phys_addr(hdmi->cec_notifier,
+> -						   CEC_PHYS_ADDR_INVALID);
+> +		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
+> +			struct cec_notifier *notifer;
+> +
+> +			notifer = READ_ONCE(hdmi->cec_notifier);
+> +			if (notifer)
+> +				cec_notifier_set_phys_addr(
+> +						notifer,
+> +						CEC_PHYS_ADDR_INVALID);
+
+Please replace with cec_notifier_phys_addr_invalidate().
+
+> +		}
 >  	}
 >  
-> -	output->cec = cec_notifier_get(output->dev);
-> -	if (!output->cec)
-> -		return -ENOMEM;
+>  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
+> @@ -2600,12 +2620,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	if (ret)
+>  		goto err_iahb;
+>  
+> -	hdmi->cec_notifier = cec_notifier_get(dev);
+> -	if (!hdmi->cec_notifier) {
+> -		ret = -ENOMEM;
+> -		goto err_iahb;
+> -	}
 > -
->  	return 0;
->  }
+>  	/*
+>  	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
+>  	 * N and cts values before enabling phy
+> @@ -2693,9 +2707,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  		hdmi->ddc = NULL;
+>  	}
 >  
->  void tegra_output_remove(struct tegra_output *output)
->  {
-> -	if (output->cec)
-> -		cec_notifier_put(output->cec);
+> -	if (hdmi->cec_notifier)
+> -		cec_notifier_put(hdmi->cec_notifier);
 > -
->  	if (gpio_is_valid(output->hpd_gpio)) {
->  		free_irq(output->hpd_irq, output);
->  		gpio_free(output->hpd_gpio);
-> @@ -197,6 +193,7 @@ void tegra_output_remove(struct tegra_output *output)
+>  	clk_disable_unprepare(hdmi->iahb_clk);
+>  	if (hdmi->cec_clk)
+>  		clk_disable_unprepare(hdmi->cec_clk);
+> @@ -2718,7 +2729,7 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
+>  	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
 >  
->  int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
->  {
-> +	struct cec_connector_info conn_info;
->  	int err;
->  
->  	if (output->panel) {
-> @@ -212,6 +209,13 @@ int tegra_output_init(struct drm_device *drm, struct tegra_output *output)
->  	if (gpio_is_valid(output->hpd_gpio))
->  		enable_irq(output->hpd_irq);
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, &output->connector);
-> +
-> +	output->cec = cec_notifier_conn_register(output->dev, NULL, &conn_info);
-> +	if (!output->cec)
-> +		return -ENOMEM;
-> +
-> +
->  	return 0;
->  }
->  
-> 
+>  	if (hdmi->cec_notifier)
+> -		cec_notifier_put(hdmi->cec_notifier);
+> +		cec_notifier_conn_unregister(hdmi->cec_notifier);
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+No need for the 'if', cec_notifier_conn_unregister() already checks for a NULL
+notifier.
 
 Regards,
 
 	Hans
+
+>  
+>  	clk_disable_unprepare(hdmi->iahb_clk);
+>  	clk_disable_unprepare(hdmi->isfr_clk);
+> 
+
