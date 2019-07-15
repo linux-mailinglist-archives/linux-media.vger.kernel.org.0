@@ -2,113 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C9976884C
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 13:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F2068850
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 13:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729803AbfGOLnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 07:43:05 -0400
-Received: from mail-wm1-f41.google.com ([209.85.128.41]:39015 "EHLO
-        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729725AbfGOLnE (ORCPT
+        id S1729916AbfGOLoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 07:44:23 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:56113 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729910AbfGOLoX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 07:43:04 -0400
-Received: by mail-wm1-f41.google.com with SMTP id u25so4492246wmc.4
-        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 04:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=XPCXx/kUFxiW4QK/2soI6ZDjTxSuFpp9vmj8ZS1qtmM=;
-        b=g3SphlvuJ80qwBKuvsGX0Dl1ql+KfYOUuvf3flBGD9GvkPisHj+DXQ+6mUMkstol8H
-         pUSVOD1Fa+Lf/vJrwKuJuD0MX8nvG6JR2avPhKPjtV6shz0BgvYgULaTrruQCHJ4nxCp
-         EnBb5nKonVDw0slMHMhXPtunDv0BVBb8bc5rLzgj2djpx6hEAwqut2yImxWpps8V9l1Y
-         ZelRaMsouq1FtPZsqwu7o+5VZHAztwRtunpDt4x/UzsSDoxQ8LNPi68iwwGNRfRcaJQS
-         bxt7SgHRsYKLmU/30seMCuk2zeZs5S3jSowJftT9cN+UMfQeLFP7YSW/saz3mnliKZP2
-         ZJsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=XPCXx/kUFxiW4QK/2soI6ZDjTxSuFpp9vmj8ZS1qtmM=;
-        b=ZhM+cFIi2RXsKDBe6ZBXqKchgvTTqCfCP+THevy6VBvJZZD7dAFvZr4K4CTudlfr1t
-         tsTNZeqXq3keDEJLAhT9OwYAFd7ZPLUC7ilIuX5HzsM4GGT7DptuATQocMTeC7kMwkgw
-         vNoZoWlRWAekeR16uJBUtl0+hYZT3wLMNwNNjGcDb2W3nl73KDWagYUjdxjILiOWPxls
-         /KYoOg0jOc9ZikSbVT5b3Vm1jIdiSZkHgI7+et2C27vA9AjVC9m4keuK3VYgwp1+P4RD
-         FCH9Z51MbSgo+pHfMMsF9VnEFpJx10I4URW2lRL+aiSZfztLvdNhEQWPl+CV0RsrhDE6
-         AJdw==
-X-Gm-Message-State: APjAAAUHlnjGwIjLzyfBe3MyH06SMQ/GtGpc/s7P+cvsbRLhCO6ocudk
-        NjkLrL7Wm8msEn83HVDlcjOGNaAQ
-X-Google-Smtp-Source: APXvYqxsj/B11y3mehvjxvBSJDYGiq83XzOSvXZd+zdw3pdfKtwXMj+GILBI9/g4TnW/V3k38i0eJg==
-X-Received: by 2002:a05:600c:2385:: with SMTP id m5mr22703514wma.4.1563190982023;
-        Mon, 15 Jul 2019 04:43:02 -0700 (PDT)
-Received: from [192.168.197.233] (217-133-17-98.static.clienti.tiscali.it. [217.133.17.98])
-        by smtp.gmail.com with ESMTPSA id i12sm7633965wrx.61.2019.07.15.04.43.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 04:43:01 -0700 (PDT)
-From:   Laura Nao <laura.nao@kynetics.com>
-To:     linux-media@vger.kernel.org
-Subject: Help with OV5640 camera and Bayer format
-Message-ID: <72d64ea4-1cf1-bce2-1ae4-1f0077a961dc@kynetics.com>
-Date:   Mon, 15 Jul 2019 13:43:00 +0200
+        Mon, 15 Jul 2019 07:44:23 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190715114421euoutp02bdd8c5e7175f8168b237988c3f2e853f~xkf0S64GK0459004590euoutp02Z
+        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 11:44:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190715114421euoutp02bdd8c5e7175f8168b237988c3f2e853f~xkf0S64GK0459004590euoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1563191061;
+        bh=AwKQQepnCnmb88Wi6ptLbfbyKlASrHTT4QV8bbPXfpI=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=O0Vb5zf5wLDPDGFSBrUSu+KdIp6EYTOjjt2Q/s3PeP/nrfvHY59mr7dciwoht0go/
+         Xyn8UH+40eP/jGFy/orUeg57TWaeFB4JStlZa/Sp8eiM0c4fItB7bguEidxewCmiwb
+         vBFBO7pLrn+eCvrwilI9UpggCQ5Ahp70kkprEr8Q=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190715114421eucas1p213669de44f9e9b06b2c2b8f811ec8f91~xkfzqES9Y0781407814eucas1p2P;
+        Mon, 15 Jul 2019 11:44:21 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 19.0D.04298.4176C2D5; Mon, 15
+        Jul 2019 12:44:20 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190715114420eucas1p28a118f4655551e1030df35799f911ba9~xkfy6Cy9X1570915709eucas1p2x;
+        Mon, 15 Jul 2019 11:44:20 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20190715114420eusmtrp2ddfbc3b00f16264a6859da595d45c4f1~xkfyr9GIZ2170321703eusmtrp2d;
+        Mon, 15 Jul 2019 11:44:20 +0000 (GMT)
+X-AuditID: cbfec7f2-f2dff700000010ca-5e-5d2c67149f4e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id A0.88.04146.3176C2D5; Mon, 15
+        Jul 2019 12:44:20 +0100 (BST)
+Received: from [106.120.51.75] (unknown [106.120.51.75]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190715114419eusmtip1f0fbf70115617422cab814a310162408~xkfySZ4Hw0464504645eusmtip15;
+        Mon, 15 Jul 2019 11:44:19 +0000 (GMT)
+Subject: Re: [PATCH v3 15/24] media: exynos4-is: Remove call to memset after
+ dma_alloc_coherent
+To:     Fuqian Huang <huangfq.daxian@gmail.com>
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <189ad2a0-c8ba-54f5-af34-5a0e8efee8fe@samsung.com>
+Date:   Mon, 15 Jul 2019 13:44:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <CABXRUiQ_N=N=weMnRea4d6PXjfghta=U1xhdv-tZpSvaGBnXGg@mail.gmail.com>
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIKsWRmVeSWpSXmKPExsWy7djP87oi6TqxBkvWGFssO3WS1aL/8Wtm
+        i/PnN7BbnG16w26x6fE1VovLu+awWfRs2MpqMeP8PiaLZZv+MDlweuycdZfdY9OqTjaPzUvq
+        Pfq2rGL0+LxJLoA1issmJTUnsyy1SN8ugStj+fZzrAXtzBVN96axNjDuYupi5OCQEDCRuPbW
+        rYuRi0NIYAWjRPP2/8wQzhdGiclzt7F3MXICOZ8ZJe5/FYdpOLfMG6JmOaPE8c2f2CGct4wS
+        Z9oOMYM0CAskSvRM+8IEYosIaEt8PN0CNpVZ4AGTxIwPx9hAEmwChhK9R/sYQWxeATuJ6xv2
+        gNksAqoSL86vA7NFBSIkTh2ZxwJRIyhxcuYTMJtTIFDiX+dzsOuYBcQlmr6sZIWw5SW2v50D
+        doSEwCF2ick3eSBsF4lTz34yQdjCEq+Ob2GHsGUk/u+czwRynIRAM6NEz+7b7BDOBKCXjy9g
+        hKiyljh8/CIryP/MApoS63fpQ4LCUeLKLRMIk0/ixltBiBP4JCZtm84MEeaV6GgTgpihIvF7
+        1XSoC6Qkup/8Z5nAqDQLyWOzkDwzC8kzsxDWLmBkWcUonlpanJueWmyYl1quV5yYW1yal66X
+        nJ+7iRGYkE7/O/5pB+PXS0mHGAU4GJV4eB1StGOFWBPLiitzDzFKcDArifDafgUK8aYkVlal
+        FuXHF5XmpBYfYpTmYFES561meBAtJJCeWJKanZpakFoEk2Xi4JRqYFwetnhH8oqT5c8fqO9e
+        OV2e+bKq3LFVEY7cerLT5hQdvxdxlk+qV/VD/Qn5jLVTJ/kHvY9Lr0pov1hoejjtWnDjt7Xe
+        Easv7p35+1tpvsh0nhOTtY953udMSVPd3MjiuJJfaKnDdRm74Cv5HWEr3jvYqIfcqpiZeP3/
+        Do4HYuePaao3TrsVn67EUpyRaKjFXFScCABuwyNCRAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRmVeSWpSXmKPExsVy+t/xu7oi6TqxBk9OMlksO3WS1aL/8Wtm
+        i/PnN7BbnG16w26x6fE1VovLu+awWfRs2MpqMeP8PqC6TX+YHDg9ds66y+6xaVUnm8fmJfUe
+        fVtWMXp83iQXwBqlZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2VkqqRvZ5OSmpNZ
+        llqkb5egl7F8+znWgnbmiqZ701gbGHcxdTFycEgImEicW+bdxcjFISSwlFFiz+FOdoi4lMT8
+        FqUuRk4gU1jiz7UuNoia14wSq06/YwdJCAskSvRM+8IEYosIaEt8PN3CDFLELPCISeJfz3d2
+        iI4eJom7F54zg1SxCRhK9B7tYwSxeQXsJK5v2ANmswioSrw4vw7MFhWIkJh0bScLRI2gxMmZ
+        T8BsToFAiX+dz8E2MwuoS/yZd4kZwhaXaPqykhXClpfY/nYO8wRGoVlI2mchaZmFpGUWkpYF
+        jCyrGEVSS4tz03OLDfWKE3OLS/PS9ZLzczcxAuNw27Gfm3cwXtoYfIhRgINRiYfXIUU7Vog1
+        say4MvcQowQHs5IIr+1XoBBvSmJlVWpRfnxRaU5q8SFGU6DnJjJLiSbnA1NEXkm8oamhuYWl
+        obmxubGZhZI4b4fAwRghgfTEktTs1NSC1CKYPiYOTqkGxhmXq1g439pfk2dV2FtdNOnFr+9e
+        IomnZn87uXDWiolzvn4+f3bNyyuTzlpvsnz2R/zRrlUfNybumKm4c/rbo0oBrh6akVrfshoc
+        b7V6T1kiocb/tSRi0wrJaU/lmaUP1pRFaa1M9njotu8/96/OffGbv26TyTqoEhx3eQ+bVQWj
+        mnt4TMN+zu1KLMUZiYZazEXFiQAo7uLT2QIAAA==
+X-CMS-MailID: 20190715114420eucas1p28a118f4655551e1030df35799f911ba9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190715090023eucas1p2ab541c5d4b4debe766295d3c6efbd1cd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190715090023eucas1p2ab541c5d4b4debe766295d3c6efbd1cd
+References: <CGME20190715090023eucas1p2ab541c5d4b4debe766295d3c6efbd1cd@eucas1p2.samsung.com>
+        <20190715031851.6890-1-huangfq.daxian@gmail.com>
+        <37046e7b-fdde-c10f-4850-0b3efd4a00cd@samsung.com>
+        <CABXRUiQ_N=N=weMnRea4d6PXjfghta=U1xhdv-tZpSvaGBnXGg@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+On 7/15/19 11:43, Fuqian Huang wrote:
+> Should I rewrite the commit log? Just mention that dma_alloc_coherent
+> has already zeroed the memory and not to reference the commit?
 
-I'm trying to enable RAW format on a ov5640 camera. I'm using a custom 
-imx8mm based board, with a 4.14 kernel based on the 
-rel_imx_4.14.98_2.0.0_ga branch from nxp. I tried capturing some RAW 
-frames using v4l-utils using the following commands:
+I don't think it is really needed, since at hash 518a2f1925c3 dma_alloc_coherent() 
+already zeroes the memory, so in fact all statements in your current commit 
+message are true. 
 
-- RAW8: v4l2-ctl -d /dev/video0 --verbose 
---set-fmt--video=width=2592,height=1944,pixelformat=BA81 --stream-mmap 
---stream-count=1 --stream-to=raw8_2592x1944.raw
-
-- RAW10: v4l2-ctl -d /dev/video0 --verbose 
---set-fmt-video=width=2592,height=1944,pixelformat=BG10 --stream-mmap 
---stream-count=1 --stream-to=raw10_2592x1944.raw
-
-When a RAW frame is captured, a bunch of CRC errors shows up in the 
-kernel log, like the ones below:
-
-     6,15197,289730726,-;mxc_mipi-csi.0: CRC Error: 1
-     6,15198,289730734,-;mxc_mipi-csi.0: Frame Start: 1
-     6,15199,289730738,-;mxc_mipi-csi.0: status: 01000002
-     6,15200,289730773,-;mxc_mipi-csi.0: CRC Error: 2
-     6,15201,289730778,-;mxc_mipi-csi.0: status: 00000002
-     6,15202,289730795,-;mxc_mipi-csi.0: CRC Error: 3
-     6,15203,289730799,-;mxc_mipi-csi.0: status: 00000002
-     6,15204,289730809,-;mxc_mipi-csi.0: CRC Error: 4
-
-Resulting images are completely garbled. This happens for both 8-bit and 
-10-bit formats. Currently I'm trying to get this working with 8-bit 
-mode, before moving on to 10-bit. Capture in YUV format works fine.
-
-For reference, I'm using ov5640_mipi_v2 driver for the camera, which I 
-modified to add register configuration for RAW mode and support for the 
-MEDIA_BUS_FMT_SBGGR8_1X8 format. The ov5640 registers I set for enabling 
-RAW mode are:
-
-0x3034 = 0x18  // 8-bit mode
-0x4300 = 0x00  // Output data format: RAW BGGR
-0x501F = 0x03  // ISP Format: ISP RAW (DPC)
-
-Drivers used on the board for the MIPI CSI layer are mx6s_capture.c and 
-mxc_mipi_csi.c .
-
-Does anyone have any insight on what might be causing these errors?
-
-Any help would be appreciated!
-
-Best,
-
-Laura
+-- 
+Regards,
+Sylwester
