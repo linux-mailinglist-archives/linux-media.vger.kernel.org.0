@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B9A68E43
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2465168E49
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:05:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387484AbfGOOFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:05:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51042 "EHLO mail.kernel.org"
+        id S2387474AbfGOOFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:05:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51306 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387969AbfGOOEy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:04:54 -0400
+        id S2388097AbfGOOFI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:05:08 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 52BA02086C;
-        Mon, 15 Jul 2019 14:04:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D1352081C;
+        Mon, 15 Jul 2019 14:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199494;
-        bh=VRgrytHTVCFlT5csoh3aKEF0uzbhluzYmPoRtKfok/0=;
+        s=default; t=1563199508;
+        bh=qhF90JaRN9H/Mne/RCsZbQjhkZdpVTzKKYmO16uQJ0s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EOSligl1zk2ex/HR3TFRFUxHxiCJwVknqMsa6MlYtwjnnecSokkPlWQOPqivE0Z3J
-         E0IZSp/0SwPVYQSktJuFHRshNqq49DE8+1WjerfdySeN2iUiX7f+uIH5XwcP8/3hp+
-         0wDbpfDkAp+3wlnkvwVRDwQ0XQkEHg7KhhqbQGq0=
+        b=kukJPrLra4Z1yMxFlUEwL6GtGFFjW8i++vPXMH/LKFkdT/q/21Xa/un1FiBoELseb
+         /yVfoJwEcQIDWYBcI9yILudMtS6+MxJnmtn+/1ySUtTtGUoBkeEBai/FP6939bQ8oR
+         Sp8InhZhyAXo4rv7lfkpJiWsAAEVezd8TmnYP4TM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniel Gomez <dagmcr@gmail.com>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Sean Young <sean@mess.org>,
+Cc:     Wen Yang <wen.yang99@zte.com.cn>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 020/219] media: spi: IR LED: add missing of table registration
-Date:   Mon, 15 Jul 2019 10:00:21 -0400
-Message-Id: <20190715140341.6443-20-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 026/219] media: venus: firmware: fix leaked of_node references
+Date:   Mon, 15 Jul 2019 10:00:27 -0400
+Message-Id: <20190715140341.6443-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
 References: <20190715140341.6443-1-sashal@kernel.org>
@@ -45,42 +45,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel Gomez <dagmcr@gmail.com>
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-[ Upstream commit 24e4cf770371df6ad49ed873f21618d9878f64c8 ]
+[ Upstream commit 2c41cc0be07b5ee2f1167f41cd8a86fc5b53d82c ]
 
-MODULE_DEVICE_TABLE(of, <of_match_table> should be called to complete DT
-OF mathing mechanism and register it.
+The call to of_parse_phandle returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
 
-Before this patch:
-modinfo drivers/media/rc/ir-spi.ko  | grep alias
+Detected by coccinelle with the following warnings:
+drivers/media/platform/qcom/venus/firmware.c:90:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
+drivers/media/platform/qcom/venus/firmware.c:94:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
+drivers/media/platform/qcom/venus/firmware.c:128:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 82, but without a corresponding object release within this function.
 
-After this patch:
-modinfo drivers/media/rc/ir-spi.ko  | grep alias
-alias:          of:N*T*Cir-spi-ledC*
-alias:          of:N*T*Cir-spi-led
-
-Reported-by: Javier Martinez Canillas <javier@dowhile0.org>
-Signed-off-by: Daniel Gomez <dagmcr@gmail.com>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/rc/ir-spi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/qcom/venus/firmware.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-index 66334e8d63ba..c58f2d38a458 100644
---- a/drivers/media/rc/ir-spi.c
-+++ b/drivers/media/rc/ir-spi.c
-@@ -161,6 +161,7 @@ static const struct of_device_id ir_spi_of_match[] = {
- 	{ .compatible = "ir-spi-led" },
- 	{},
- };
-+MODULE_DEVICE_TABLE(of, ir_spi_of_match);
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 6cfa8021721e..f81449b400c4 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -87,11 +87,11 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
  
- static struct spi_driver ir_spi_driver = {
- 	.probe = ir_spi_probe,
+ 	ret = of_address_to_resource(node, 0, &r);
+ 	if (ret)
+-		return ret;
++		goto err_put_node;
+ 
+ 	ret = request_firmware(&mdt, fwname, dev);
+ 	if (ret < 0)
+-		return ret;
++		goto err_put_node;
+ 
+ 	fw_size = qcom_mdt_get_size(mdt);
+ 	if (fw_size < 0) {
+@@ -125,6 +125,8 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+ 	memunmap(mem_va);
+ err_release_fw:
+ 	release_firmware(mdt);
++err_put_node:
++	of_node_put(node);
+ 	return ret;
+ }
+ 
 -- 
 2.20.1
 
