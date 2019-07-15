@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DF856918F
+	by mail.lfdr.de (Postfix) with ESMTP id CB2F369190
 	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:30:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391690AbfGOOaY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:30:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42920 "EHLO mail.kernel.org"
+        id S2403842AbfGOOad (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:30:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391682AbfGOOaV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:30:21 -0400
+        id S2391496AbfGOOac (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:30:32 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 847DA205ED;
-        Mon, 15 Jul 2019 14:30:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A791B20868;
+        Mon, 15 Jul 2019 14:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563201020;
-        bh=qz9CsNsbFSu36BRWAWY19wOOtHKFI7s6n/OnAkkMq8M=;
+        s=default; t=1563201031;
+        bh=WaQJ4w1G/4/4mf18m/yOUo3K4h4XN4e8RUmCfgx4ICI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C8cQvU/iBkETuKMln2ySbwEUJU4Ne6KjSLx8GVpLbPQVSW+yQumdcSv82LN8+Yvg3
-         0yMrH7JQ46CB7EkPSOlUy0jlh79vo7Yk+G/Qmi4jgJ6MMKnE/3AKL2kitv9MPmae9G
-         AFgzXN2fILXwY3N+LQYejFcr0QM4+upKBxfwoJ0I=
+        b=Ece+GiTFMpVPxDz76H40fPILQ2WA78V3FSMtmOaJUL3XVy0kp/VxAFLf/DkgV+F7g
+         8tc4/TkQ4iJpf/vMtOoftMDikxTd6Tbu/GWXi2rFVBcEipUeYbwR3qVT3p9IUlzmf/
+         UMctnqwz7vou5KkbZ13o0OYO0ECvqd1MxlrcPxgc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
+Cc:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Hulk Robot <hulkci@huawei.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 029/105] tua6100: Avoid build warnings.
-Date:   Mon, 15 Jul 2019 10:27:23 -0400
-Message-Id: <20190715142839.9896-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 031/105] media: wl128x: Fix some error handling in fm_v4l2_init_video_device()
+Date:   Mon, 15 Jul 2019 10:27:25 -0400
+Message-Id: <20190715142839.9896-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715142839.9896-1-sashal@kernel.org>
 References: <20190715142839.9896-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -43,91 +45,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "David S. Miller" <davem@davemloft.net>
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
 
-[ Upstream commit 621ccc6cc5f8d6730b740d31d4818227866c93c9 ]
+[ Upstream commit 69fbb3f47327d959830c94bf31893972b8c8f700 ]
 
-Rename _P to _P_VAL and _R to _R_VAL to avoid global
-namespace conflicts:
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
+The fm_v4l2_init_video_device() forget to unregister v4l2/video device
+in the error path, it could lead to UAF issue, eg,
 
-drivers/media/dvb-frontends/tua6100.c: In function ‘tua6100_set_params’:
-drivers/media/dvb-frontends/tua6100.c:79: warning: "_P" redefined
- #define _P 32
+  BUG: KASAN: use-after-free in atomic64_read include/asm-generic/atomic-instrumented.h:836 [inline]
+  BUG: KASAN: use-after-free in atomic_long_read include/asm-generic/atomic-long.h:28 [inline]
+  BUG: KASAN: use-after-free in __mutex_unlock_slowpath+0x92/0x690 kernel/locking/mutex.c:1206
+  Read of size 8 at addr ffff8881e84a7c70 by task v4l_id/3659
 
-In file included from ./include/acpi/platform/aclinux.h:54,
-                 from ./include/acpi/platform/acenv.h:152,
-                 from ./include/acpi/acpi.h:22,
-                 from ./include/linux/acpi.h:34,
-                 from ./include/linux/i2c.h:17,
-                 from drivers/media/dvb-frontends/tua6100.h:30,
-                 from drivers/media/dvb-frontends/tua6100.c:32:
-./include/linux/ctype.h:14: note: this is the location of the previous definition
- #define _P 0x10 /* punct */
+  CPU: 1 PID: 3659 Comm: v4l_id Not tainted 5.1.0 #8
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+  Call Trace:
+   __dump_stack lib/dump_stack.c:77 [inline]
+   dump_stack+0xa9/0x10e lib/dump_stack.c:113
+   print_address_description+0x65/0x270 mm/kasan/report.c:187
+   kasan_report+0x149/0x18d mm/kasan/report.c:317
+   atomic64_read include/asm-generic/atomic-instrumented.h:836 [inline]
+   atomic_long_read include/asm-generic/atomic-long.h:28 [inline]
+   __mutex_unlock_slowpath+0x92/0x690 kernel/locking/mutex.c:1206
+   fm_v4l2_fops_open+0xac/0x120 [fm_drv]
+   v4l2_open+0x191/0x390 [videodev]
+   chrdev_open+0x20d/0x570 fs/char_dev.c:417
+   do_dentry_open+0x700/0xf30 fs/open.c:777
+   do_last fs/namei.c:3416 [inline]
+   path_openat+0x7c4/0x2a90 fs/namei.c:3532
+   do_filp_open+0x1a5/0x2b0 fs/namei.c:3563
+   do_sys_open+0x302/0x490 fs/open.c:1069
+   do_syscall_64+0x9f/0x450 arch/x86/entry/common.c:290
+   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+  RIP: 0033:0x7f8180c17c8e
+  ...
+  Allocated by task 3642:
+   set_track mm/kasan/common.c:87 [inline]
+   __kasan_kmalloc.constprop.3+0xa0/0xd0 mm/kasan/common.c:497
+   fm_drv_init+0x13/0x1000 [fm_drv]
+   do_one_initcall+0xbc/0x47d init/main.c:901
+   do_init_module+0x1b5/0x547 kernel/module.c:3456
+   load_module+0x6405/0x8c10 kernel/module.c:3804
+   __do_sys_finit_module+0x162/0x190 kernel/module.c:3898
+   do_syscall_64+0x9f/0x450 arch/x86/entry/common.c:290
+   entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-Signed-off-by: David S. Miller <davem@davemloft.net>
+  Freed by task 3642:
+   set_track mm/kasan/common.c:87 [inline]
+   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+   slab_free_hook mm/slub.c:1429 [inline]
+   slab_free_freelist_hook mm/slub.c:1456 [inline]
+   slab_free mm/slub.c:3003 [inline]
+   kfree+0xe1/0x270 mm/slub.c:3958
+   fm_drv_init+0x1e6/0x1000 [fm_drv]
+   do_one_initcall+0xbc/0x47d init/main.c:901
+   do_init_module+0x1b5/0x547 kernel/module.c:3456
+   load_module+0x6405/0x8c10 kernel/module.c:3804
+   __do_sys_finit_module+0x162/0x190 kernel/module.c:3898
+   do_syscall_64+0x9f/0x450 arch/x86/entry/common.c:290
+   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Add relevant unregister functions to fix it.
+
+Cc: Hans Verkuil <hans.verkuil@cisco.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/dvb-frontends/tua6100.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/media/radio/wl128x/fmdrv_v4l2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/dvb-frontends/tua6100.c b/drivers/media/dvb-frontends/tua6100.c
-index 18e6d4c5be21..859fa14b319c 100644
---- a/drivers/media/dvb-frontends/tua6100.c
-+++ b/drivers/media/dvb-frontends/tua6100.c
-@@ -75,8 +75,8 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	struct i2c_msg msg1 = { .addr = priv->i2c_address, .flags = 0, .buf = reg1, .len = 4 };
- 	struct i2c_msg msg2 = { .addr = priv->i2c_address, .flags = 0, .buf = reg2, .len = 3 };
+diff --git a/drivers/media/radio/wl128x/fmdrv_v4l2.c b/drivers/media/radio/wl128x/fmdrv_v4l2.c
+index fc5a7abc83d2..77778c86e04d 100644
+--- a/drivers/media/radio/wl128x/fmdrv_v4l2.c
++++ b/drivers/media/radio/wl128x/fmdrv_v4l2.c
+@@ -549,6 +549,7 @@ int fm_v4l2_init_video_device(struct fmdev *fmdev, int radio_nr)
  
--#define _R 4
--#define _P 32
-+#define _R_VAL 4
-+#define _P_VAL 32
- #define _ri 4000000
+ 	/* Register with V4L2 subsystem as RADIO device */
+ 	if (video_register_device(&gradio_dev, VFL_TYPE_RADIO, radio_nr)) {
++		v4l2_device_unregister(&fmdev->v4l2_dev);
+ 		fmerr("Could not register video device\n");
+ 		return -ENOMEM;
+ 	}
+@@ -562,6 +563,8 @@ int fm_v4l2_init_video_device(struct fmdev *fmdev, int radio_nr)
+ 	if (ret < 0) {
+ 		fmerr("(fmdev): Can't init ctrl handler\n");
+ 		v4l2_ctrl_handler_free(&fmdev->ctrl_handler);
++		video_unregister_device(fmdev->radio_dev);
++		v4l2_device_unregister(&fmdev->v4l2_dev);
+ 		return -EBUSY;
+ 	}
  
- 	// setup register 0
-@@ -91,14 +91,14 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	else
- 		reg1[1] = 0x0c;
- 
--	if (_P == 64)
-+	if (_P_VAL == 64)
- 		reg1[1] |= 0x40;
- 	if (c->frequency >= 1525000)
- 		reg1[1] |= 0x80;
- 
- 	// register 2
--	reg2[1] = (_R >> 8) & 0x03;
--	reg2[2] = _R;
-+	reg2[1] = (_R_VAL >> 8) & 0x03;
-+	reg2[2] = _R_VAL;
- 	if (c->frequency < 1455000)
- 		reg2[1] |= 0x1c;
- 	else if (c->frequency < 1630000)
-@@ -110,18 +110,18 @@ static int tua6100_set_params(struct dvb_frontend *fe)
- 	 * The N divisor ratio (note: c->frequency is in kHz, but we
- 	 * need it in Hz)
- 	 */
--	prediv = (c->frequency * _R) / (_ri / 1000);
--	div = prediv / _P;
-+	prediv = (c->frequency * _R_VAL) / (_ri / 1000);
-+	div = prediv / _P_VAL;
- 	reg1[1] |= (div >> 9) & 0x03;
- 	reg1[2] = div >> 1;
- 	reg1[3] = (div << 7);
--	priv->frequency = ((div * _P) * (_ri / 1000)) / _R;
-+	priv->frequency = ((div * _P_VAL) * (_ri / 1000)) / _R_VAL;
- 
- 	// Finally, calculate and store the value for A
--	reg1[3] |= (prediv - (div*_P)) & 0x7f;
-+	reg1[3] |= (prediv - (div*_P_VAL)) & 0x7f;
- 
--#undef _R
--#undef _P
-+#undef _R_VAL
-+#undef _P_VAL
- #undef _ri
- 
- 	if (fe->ops.i2c_gate_ctrl)
 -- 
 2.20.1
 
