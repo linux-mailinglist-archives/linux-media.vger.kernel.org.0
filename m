@@ -2,121 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5712268758
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E3DE68759
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729755AbfGOKt5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 06:49:57 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51225 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729530AbfGOKt4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 06:49:56 -0400
-Received: from [IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc] ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id myYMhcFMy0SBqmyYNhRV8R; Mon, 15 Jul 2019 12:49:55 +0200
-Subject: Re: [PATCH v2 2/5] drm: sti: use cec_notifier_conn_(un)register
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-References: <20190701145944.214098-1-darekm@google.com>
- <20190701145944.214098-3-darekm@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <34928aee-7d88-1215-558c-7a37fc3a3baf@xs4all.nl>
-Date:   Mon, 15 Jul 2019 12:49:54 +0200
+        id S1729803AbfGOKuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 06:50:18 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:46052 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729530AbfGOKuS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 06:50:18 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 193C0205CA;
+        Mon, 15 Jul 2019 12:50:17 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id 0227920127;
+        Mon, 15 Jul 2019 12:50:17 +0200 (CEST)
+Subject: Re: [PATCH v1] media: dvb: Add devm_dvb_register_adapter
+To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
+Cc:     Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <a69ec163-8515-2e86-e2e7-0da61beda6e1@free.fr>
+ <20190712162618.GK22408@latitude>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Message-ID: <9be0aa28-46c2-dac0-19c4-21be4098da1e@free.fr>
+Date:   Mon, 15 Jul 2019 12:50:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190701145944.214098-3-darekm@google.com>
+In-Reply-To: <20190712162618.GK22408@latitude>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLs3vDOzQUwcOWDJ1jeeyoiFWyNEPkKZeWow4IOkdh3oP/JzqjGZyUY5Q2aER0YNF96wGxN86d3mPid/TC+CpDmL10X7g7FrNmSdMAYwUoULE4JXPQEy
- E+gzK/z4SRHzBZANiBzNu5Q+/2gpS0zcQHMxMa/r+lDidMBzYhQJZSKMKmWr3bwv9PEGtSQinLWBLlsc8ywCBkFGAAf94XY6HGVfSwNGhTEheQsh+Vsw8K4m
- NGmRxNvlzwMD22gaYoSA9iinlLDnOS5PbFk2dOOtystXdaxOeVS1JZXvFTNW4lJna/yGBIExIx93kxipoRUiWl69k9eLgyRdpqpMz8wYYrU=
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Mon Jul 15 12:50:17 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/1/19 4:59 PM, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill
-> in the cec_connector_info.
+On 12/07/2019 18:26, Jonathan Neuschäfer wrote:
+
+> On Fri, Jul 12, 2019 at 04:19:20PM +0200, Marc Gonzalez wrote:
+>
+>> Add devm* variant for automagic resource release.
 > 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> ---
->  drivers/gpu/drm/sti/sti_hdmi.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+> S-o-b missing.
 > 
-> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-> index 6000df6249807..5519b0c397c72 100644
-> --- a/drivers/gpu/drm/sti/sti_hdmi.c
-> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-> @@ -1250,6 +1250,7 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
->  	struct drm_device *drm_dev = data;
->  	struct drm_encoder *encoder;
->  	struct sti_hdmi_connector *connector;
-> +	struct cec_connector_info conn_info;
->  	struct drm_connector *drm_connector;
->  	struct drm_bridge *bridge;
->  	int err;
-> @@ -1310,6 +1311,14 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
->  		goto err_sysfs;
->  	}
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, drm_connector);
-> +	hdmi->notifier = cec_notifier_conn_register(&hdmi->dev, NULL,
-> +						    &conn_info);
-> +	if (!hdmi->notifier) {
-> +		hdmi->drm_connector = NULL;
-> +		return -ENOMEM;
-> +	}
-> +
->  	/* Enable default interrupts */
->  	hdmi_write(hdmi, HDMI_DEFAULT_INT, HDMI_INT_EN);
->  
-> @@ -1323,6 +1332,10 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
->  static void sti_hdmi_unbind(struct device *dev,
->  		struct device *master, void *data)
->  {
-> +	struct sti_hdmi *hdmi = dev_get_drvdata(dev);
-> +
-> +	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
-
-No need to do this, cec_notifier_conn_unregister() takes care of this.
-
-> +	cec_notifier_conn_unregister(hdmi->notifier);
->  }
->  
->  static const struct component_ops sti_hdmi_ops = {
-> @@ -1428,10 +1441,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
->  		goto release_adapter;
->  	}
->  
-> -	hdmi->notifier = cec_notifier_get(&pdev->dev);
-> -	if (!hdmi->notifier)
-> -		goto release_adapter;
-> -
->  	hdmi->reset = devm_reset_control_get(dev, "hdmi");
->  	/* Take hdmi out of reset */
->  	if (!IS_ERR(hdmi->reset))
-> @@ -1451,14 +1460,11 @@ static int sti_hdmi_remove(struct platform_device *pdev)
->  {
->  	struct sti_hdmi *hdmi = dev_get_drvdata(&pdev->dev);
->  
-> -	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
-> -
->  	i2c_put_adapter(hdmi->ddc_adapt);
->  	if (hdmi->audio_pdev)
->  		platform_device_unregister(hdmi->audio_pdev);
->  	component_del(&pdev->dev, &sti_hdmi_ops);
->  
-> -	cec_notifier_put(hdmi->notifier);
->  	return 0;
->  }
->  
+>> +int devm_dvb_register_adapter(struct device *dev, struct dvb_adapter *adap,
+>> +		const char *name, struct module *module, short *adapter_nums)
+>> +{
+>> +	int v1, v2;
+>> +
+>> +	v1 = dvb_register_adapter(adap, name, module, dev, adapter_nums);
+>> +	if (v1 < 0)
+>> +		return v1;
+>> +
+>> +	v2 = devm_add_action_or_reset(dev, unregister_adapter, adap);
+>> +	if (v2 < 0)
+>> +		return v2;
+>> +
+>> +	return v1;
+>> +}
+>> +EXPORT_SYMBOL(devm_dvb_register_adapter);
 > 
+> What non-negative numbers can dvb_register_adapter and
+> devm_add_action_or_reset return, and what are their meanings? Why should
+> devm_dvb_register_adapter return the (non-negative) return value of
+> dvb_register_adapter?
+> (I really don't know, because I'm not familiar with the media/DVB subsystem)
 
-Regards,
+It seems the return values of dvb_register_adapter() are not documented in
+include/media/dvbdev.h -- Oh well...
 
-	Hans
+Based on my reading of the implementation, dvb_register_adapter() returns
+- either -ENFILE on error, or
+- an index >= 0 in the dvb_adapter_list
+
+Based on a small sampling of callers, it seems like most don't care about
+the index. I'll spin a v2 that returns only 0 on success as you suggested.
+
+I'll update Documentation/driver-model/devres.rst as you pointed out.
+
+Regards.
