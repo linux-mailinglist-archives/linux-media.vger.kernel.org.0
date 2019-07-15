@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7B869032
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C5A69040
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390142AbfGOOTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:19:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41498 "EHLO mail.kernel.org"
+        id S2390199AbfGOOT4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:19:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42400 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389373AbfGOOTh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:19:37 -0400
+        id S2389706AbfGOOTw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:19:52 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBDB1206B8;
-        Mon, 15 Jul 2019 14:19:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C18B92083D;
+        Mon, 15 Jul 2019 14:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563200376;
-        bh=E5YlYlGiyPQNsE6g706UKT5/d8qnv9Gvp3MhPhRLIPU=;
+        s=default; t=1563200391;
+        bh=1BP7zLJgItJyjAFPi5zPirlSmCu7VB9XYI7DzUuL87s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QqCRb/6ywC/FAG0mwqB6XwvgUDlGwNUm0gy6c5B6mOHTJkAZcIw+zkssmPb1EQ7wr
-         o1n4LKMyZ9I+YDFytQqoZO5ZF9Vts8KWYAhQv6VaAQFzYTKr9htZ62EQjv5lqnM5cd
-         r6HPEYmwoTwf3BE+uFs/+H5JQM3sAoWHgED8zRXw=
+        b=Hnj4an70b2igQzsDkeuLt1Ft8SVpGEeuYuYo74H6JsIO/Hrp6z7/dKjC076bZ4t9K
+         KNlHh2tOi8hXaqG471QmJSwWYHDMvUts+/0IB8NObiOL+uMbO3CQoSiZP6ViNsgWcW
+         gkWvi1iEgVzZG1bm95bZ7QUOdNbnzGnSbdfET9HY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 030/158] media: saa7164: fix remove_proc_entry warning
-Date:   Mon, 15 Jul 2019 10:16:01 -0400
-Message-Id: <20190715141809.8445-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 035/158] tua6100: Avoid build warnings.
+Date:   Mon, 15 Jul 2019 10:16:06 -0400
+Message-Id: <20190715141809.8445-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
 References: <20190715141809.8445-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,104 +43,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+From: "David S. Miller" <davem@davemloft.net>
 
-[ Upstream commit 50710eeefbc1ed25375942aad0c4d1eb4af0f330 ]
+[ Upstream commit 621ccc6cc5f8d6730b740d31d4818227866c93c9 ]
 
-if saa7164_proc_create() fails, saa7164_fini() will trigger a warning,
+Rename _P to _P_VAL and _R to _R_VAL to avoid global
+namespace conflicts:
 
-name 'saa7164'
-WARNING: CPU: 1 PID: 6311 at fs/proc/generic.c:672 remove_proc_entry+0x1e8/0x3a0
-  ? remove_proc_entry+0x1e8/0x3a0
-  ? try_stop_module+0x7b/0x240
-  ? proc_readdir+0x70/0x70
-  ? rcu_read_lock_sched_held+0xd7/0x100
-  saa7164_fini+0x13/0x1f [saa7164]
-  __x64_sys_delete_module+0x30c/0x480
-  ? __ia32_sys_delete_module+0x480/0x480
-  ? __x64_sys_clock_gettime+0x11e/0x1c0
-  ? __x64_sys_timer_create+0x1a0/0x1a0
-  ? trace_hardirqs_off_caller+0x40/0x180
-  ? do_syscall_64+0x18/0x450
-  do_syscall_64+0x9f/0x450
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+drivers/media/dvb-frontends/tua6100.c: In function ‘tua6100_set_params’:
+drivers/media/dvb-frontends/tua6100.c:79: warning: "_P" redefined
+ #define _P 32
 
-Fix it by checking the return of proc_create_single() before
-calling remove_proc_entry().
+In file included from ./include/acpi/platform/aclinux.h:54,
+                 from ./include/acpi/platform/acenv.h:152,
+                 from ./include/acpi/acpi.h:22,
+                 from ./include/linux/acpi.h:34,
+                 from ./include/linux/i2c.h:17,
+                 from drivers/media/dvb-frontends/tua6100.h:30,
+                 from drivers/media/dvb-frontends/tua6100.c:32:
+./include/linux/ctype.h:14: note: this is the location of the previous definition
+ #define _P 0x10 /* punct */
 
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: use 0444 instead of S_IRUGO]
-[hverkuil-cisco@xs4all.nl: use pr_info instead of KERN_INFO]
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/saa7164/saa7164-core.c | 33 ++++++++++++++++--------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ drivers/media/dvb-frontends/tua6100.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index d697e1ad929c..5102519df108 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -1122,16 +1122,25 @@ static int saa7164_proc_show(struct seq_file *m, void *v)
- 	return 0;
- }
+diff --git a/drivers/media/dvb-frontends/tua6100.c b/drivers/media/dvb-frontends/tua6100.c
+index b233b7be0b84..e6aaf4973aef 100644
+--- a/drivers/media/dvb-frontends/tua6100.c
++++ b/drivers/media/dvb-frontends/tua6100.c
+@@ -75,8 +75,8 @@ static int tua6100_set_params(struct dvb_frontend *fe)
+ 	struct i2c_msg msg1 = { .addr = priv->i2c_address, .flags = 0, .buf = reg1, .len = 4 };
+ 	struct i2c_msg msg2 = { .addr = priv->i2c_address, .flags = 0, .buf = reg2, .len = 3 };
  
-+static struct proc_dir_entry *saa7164_pe;
-+
- static int saa7164_proc_create(void)
- {
--	struct proc_dir_entry *pe;
--
--	pe = proc_create_single("saa7164", S_IRUGO, NULL, saa7164_proc_show);
--	if (!pe)
-+	saa7164_pe = proc_create_single("saa7164", 0444, NULL, saa7164_proc_show);
-+	if (!saa7164_pe)
- 		return -ENOMEM;
+-#define _R 4
+-#define _P 32
++#define _R_VAL 4
++#define _P_VAL 32
+ #define _ri 4000000
  
- 	return 0;
- }
-+
-+static void saa7164_proc_destroy(void)
-+{
-+	if (saa7164_pe)
-+		remove_proc_entry("saa7164", NULL);
-+}
-+#else
-+static int saa7164_proc_create(void) { return 0; }
-+static void saa7164_proc_destroy(void) {}
- #endif
+ 	// setup register 0
+@@ -91,14 +91,14 @@ static int tua6100_set_params(struct dvb_frontend *fe)
+ 	else
+ 		reg1[1] = 0x0c;
  
- static int saa7164_thread_function(void *data)
-@@ -1503,19 +1512,21 @@ static struct pci_driver saa7164_pci_driver = {
+-	if (_P == 64)
++	if (_P_VAL == 64)
+ 		reg1[1] |= 0x40;
+ 	if (c->frequency >= 1525000)
+ 		reg1[1] |= 0x80;
  
- static int __init saa7164_init(void)
- {
--	printk(KERN_INFO "saa7164 driver loaded\n");
-+	int ret = pci_register_driver(&saa7164_pci_driver);
-+
-+	if (ret)
-+		return ret;
+ 	// register 2
+-	reg2[1] = (_R >> 8) & 0x03;
+-	reg2[2] = _R;
++	reg2[1] = (_R_VAL >> 8) & 0x03;
++	reg2[2] = _R_VAL;
+ 	if (c->frequency < 1455000)
+ 		reg2[1] |= 0x1c;
+ 	else if (c->frequency < 1630000)
+@@ -110,18 +110,18 @@ static int tua6100_set_params(struct dvb_frontend *fe)
+ 	 * The N divisor ratio (note: c->frequency is in kHz, but we
+ 	 * need it in Hz)
+ 	 */
+-	prediv = (c->frequency * _R) / (_ri / 1000);
+-	div = prediv / _P;
++	prediv = (c->frequency * _R_VAL) / (_ri / 1000);
++	div = prediv / _P_VAL;
+ 	reg1[1] |= (div >> 9) & 0x03;
+ 	reg1[2] = div >> 1;
+ 	reg1[3] = (div << 7);
+-	priv->frequency = ((div * _P) * (_ri / 1000)) / _R;
++	priv->frequency = ((div * _P_VAL) * (_ri / 1000)) / _R_VAL;
  
--#ifdef CONFIG_PROC_FS
- 	saa7164_proc_create();
--#endif
--	return pci_register_driver(&saa7164_pci_driver);
-+
-+	pr_info("saa7164 driver loaded\n");
-+
-+	return 0;
- }
+ 	// Finally, calculate and store the value for A
+-	reg1[3] |= (prediv - (div*_P)) & 0x7f;
++	reg1[3] |= (prediv - (div*_P_VAL)) & 0x7f;
  
- static void __exit saa7164_fini(void)
- {
--#ifdef CONFIG_PROC_FS
--	remove_proc_entry("saa7164", NULL);
--#endif
-+	saa7164_proc_destroy();
- 	pci_unregister_driver(&saa7164_pci_driver);
- }
+-#undef _R
+-#undef _P
++#undef _R_VAL
++#undef _P_VAL
+ #undef _ri
  
+ 	if (fe->ops.i2c_gate_ctrl)
 -- 
 2.20.1
 
