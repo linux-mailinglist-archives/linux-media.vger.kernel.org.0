@@ -2,130 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D08A7698CA
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 18:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EFF3698CF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 18:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731218AbfGOQBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 12:01:00 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40057 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731212AbfGOQBA (ORCPT
+        id S1731313AbfGOQBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 12:01:42 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34504 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731074AbfGOQBl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 12:01:00 -0400
-Received: by mail-lf1-f67.google.com with SMTP id b17so11386817lff.7
-        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 09:00:59 -0700 (PDT)
+        Mon, 15 Jul 2019 12:01:41 -0400
+Received: by mail-pg1-f193.google.com with SMTP id n9so1701823pgc.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Jul 2019 09:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jG4VdXmMyoFpVc6NE61bUixbe9slfFe01xROPhYpMig=;
-        b=e5PTHPzJ994GNrOlaHnu48Kx8anQPqPS+EE773SxOJVUZ/SYAuvGcwf8gdsTmOC+uW
-         6pQdRNNPUSnorHQJeyfyIJ4SQyRQhrT6N6HVWQoa8NYljURxsNcAUd8rnlkJVPsT2V7Y
-         adM/O1IBhBvTw/kJxUc+/sHbrAaqXuqtvDRI8UN74N1+AGDrUiecIXZRqsVY02GuP9Sm
-         Gbe67YjBkXNaTkWph3pf7vm01CpMn4DNnOHYqwbW1A9mA5NXdpI9RWf0GAxjuoDNKh4V
-         npdUlFUBKhNyUms2UrEFu+XvmGG3ySH5mCdHydaDo07riYRjgGalP3VlGFU5edXYrKbi
-         Ibrg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lChEEghQFkJA0ae9eAwhZ0QJmvdqy/WLUOFz361BXCQ=;
+        b=m3ylaWA1nfDKOLFQBZbi5lVR91/hvH9n6ddTo7/UGe/KLQTke6nfJGGnTYTOxi8VCA
+         HfS0hKS7p+bVQo6gCnikJZrIRnFAsBOo76vo66MNNR76VN9RpCPaB5uiN9mXzb/wKBaC
+         2YPMCtyHAVUy8c0n2Hy0noVhGDDAso8pOP+OWaQofcmHPvFQjxyIKXwz5wkCf0bTrn7S
+         NzX5/+eAUp4zqkWQrLjg7UELrWGHhufD8/uShStHD6i3q1aY9KquzAKDzGkmcTnssS5F
+         Z3nCiKnfqdcqBaEFScvEV6fXgwg7XscQvG1/2qeAbDEIc8Yoj5aguZfuLCcnlHXlWZQG
+         m73g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jG4VdXmMyoFpVc6NE61bUixbe9slfFe01xROPhYpMig=;
-        b=hPeG/Dsd6coYG02Gz3KLQmzdW5n8CcqxxzTmA9dXaynnpB5jtHOYLYWVTSoTuo5j10
-         Us/UFWKMK1XFiL6OjFhafbR91T/njFslV1jiZdXLln1xlKme9lBzI1RLib1Q627xPeTX
-         3OpDMbEr8H75XOoFupnWRSKeYZHzYdkGDdKZjzk4nUfX6y5ihtuQx64Ixhvq2mSbcwAw
-         VE/XQNL0/GPkOTr2T5HE8OWjLh5an36C15HTv/yKzTHm0e2GgE1veEG6ySPAhflxGSka
-         EpvWtFZLEKOtIqjkHW9kTwEeQL8GWeUk5GzHTWokl1kgJTtOiKcMt/bnmiVRxIJwbFme
-         3Ekw==
-X-Gm-Message-State: APjAAAU3BPrHat/i7gXOpFCijCGdnEM0HPA31s9VVqOUB9iW+KDH+Gyv
-        k99fKNiySjjsJJDNT+KQSTIt2w==
-X-Google-Smtp-Source: APXvYqzpO/d721H8WmEWknLzWu8P2CBGQsu+CdgDvcYjaeYxVVcvsWqTCVaZyda1gLViNxrDs++qQQ==
-X-Received: by 2002:ac2:5b49:: with SMTP id i9mr11725604lfp.116.1563206458930;
-        Mon, 15 Jul 2019 09:00:58 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id w1sm2408001lfe.50.2019.07.15.09.00.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 09:00:58 -0700 (PDT)
-Subject: Re: [PATCH v4 4/4] media: venus: Update core selection
-To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1562078787-516-1-git-send-email-amasule@codeaurora.org>
- <1562078787-516-5-git-send-email-amasule@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <66c52577-fae8-9b3d-ec1d-886b97897729@linaro.org>
-Date:   Mon, 15 Jul 2019 19:00:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lChEEghQFkJA0ae9eAwhZ0QJmvdqy/WLUOFz361BXCQ=;
+        b=EghGp6yi+6mfMa9k8xMxksb/flo/T2zN+CbUfZ6Ug0xKYscKl22sCc8vy9YzMDIZ65
+         nSnTmb4to8Qifa85Ok3qYwZ5p3rNqqsZWtQn3iBkGh9KGdlIqyC0yzzBqK3Ekf3QHaIi
+         9wfy5MgN66qCitWA2dDacWrzHWB/tk1c4jxQ6+812h7lPJUGQqlV7Yvf4roYwc5V873W
+         cl+DQWU63+bb77P1gRMtRiEt6N5u/izbjN6ZtOzcQR89fJwoFjZc4V1VHrIcXCAqEqSM
+         l7vGoQoBMbUsDl837Ud2hzacnZvme91DPn+8tJWohSBduPlG34uyFxDSj8aZIjHU3xBW
+         nwKg==
+X-Gm-Message-State: APjAAAW4G96axabDtZS2eHPvWB7EUZQUyqvlhDrRhDjmDHHl2BjnUamN
+        QmKsL5oQK0l6BhmQ3yYKVAHynP2LKFt+Togbui3tjA==
+X-Google-Smtp-Source: APXvYqyLZ0wS0QgBngEcy3YbbCLzw5RatJ3FtyfhyqUYHKhFv456jIze9R6yuxvC6+RP9cmNsJEN8HfxXPuILyhJ/1w=
+X-Received: by 2002:a17:90a:a116:: with SMTP id s22mr29861239pjp.47.1563206500702;
+ Mon, 15 Jul 2019 09:01:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1562078787-516-5-git-send-email-amasule@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1561386715.git.andreyknvl@google.com> <ea0ff94ef2b8af12ea6c222c5ebd970e0849b6dd.1561386715.git.andreyknvl@google.com>
+ <20190624174015.GL29120@arrakis.emea.arm.com>
+In-Reply-To: <20190624174015.GL29120@arrakis.emea.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 15 Jul 2019 18:01:29 +0200
+Message-ID: <CAAeHK+y8vE=G_odK6KH=H064nSQcVgkQkNwb2zQD9swXxKSyUQ@mail.gmail.com>
+Subject: Re: [PATCH v18 11/15] IB/mlx4: untag user pointers in mlx4_get_umem_mr
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Jun 24, 2019 at 7:40 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, Jun 24, 2019 at 04:32:56PM +0200, Andrey Konovalov wrote:
+> > This patch is a part of a series that extends kernel ABI to allow to pass
+> > tagged user pointers (with the top byte set to something else other than
+> > 0x00) as syscall arguments.
+> >
+> > mlx4_get_umem_mr() uses provided user pointers for vma lookups, which can
+> > only by done with untagged pointers.
+> >
+> > Untag user pointers in this function.
+> >
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > ---
+> >  drivers/infiniband/hw/mlx4/mr.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+>
+> This patch also needs an ack from the infiniband maintainers (Jason).
 
-On 7/2/19 5:46 PM, Aniket Masule wrote:
-> Present core assignment is static. Introduced load balancing
-> across the cores. Load on earch core is calculated and core
-> with minimum load is assigned to given instance.
-> 
-> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/helpers.c    | 69 +++++++++++++++++++++++---
->  drivers/media/platform/qcom/venus/helpers.h    |  2 +-
->  drivers/media/platform/qcom/venus/hfi_helper.h |  1 +
->  drivers/media/platform/qcom/venus/hfi_parser.h |  5 ++
->  drivers/media/platform/qcom/venus/vdec.c       |  2 +-
->  drivers/media/platform/qcom/venus/venc.c       |  2 +-
->  6 files changed, 72 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 5726d86..321e9f7 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -26,6 +26,7 @@
->  #include "helpers.h"
->  #include "hfi_helper.h"
->  #include "hfi_venus_io.h"
-> +#include "hfi_parser.h"
->  
->  struct intbuf {
->  	struct list_head list;
-> @@ -331,6 +332,24 @@ static u32 load_per_instance(struct venus_inst *inst)
->  	return mbs * inst->fps;
->  }
->  
-> +static u32 load_per_core(struct venus_core *core, u32 core_id)
-> +{
-> +	struct venus_inst *inst = NULL;
-> +	u32 mbs_per_sec = 0, load = 0;
-> +
-> +	mutex_lock(&core->lock);
-> +	list_for_each_entry(inst, &core->instances, list) {
-> +		if (!(inst->clk_data.core_id == core_id))
+Hi Jason,
 
-		if (inst->clk_data.core_id != core_id)
+Could you take a look and give your acked-by?
 
-I guess will be more readable?
+Thanks!
 
-> +			continue;
-> +
-> +		mbs_per_sec = load_per_instance(inst);
-> +		load = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
-> +	}
-> +	mutex_unlock(&core->lock);
-> +
-> +	return load;
-> +}
-> +
-
-<cut>
-
--- 
-regards,
-Stan
+>
+> --
+> Catalin
