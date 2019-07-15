@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D8E692DE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0900693AF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 16:46:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404369AbfGOOjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 10:39:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40282 "EHLO mail.kernel.org"
+        id S2404694AbfGOOqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 10:46:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34348 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731651AbfGOOjx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:39:53 -0400
+        id S2391958AbfGOOp7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:45:59 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8A4E220896;
-        Mon, 15 Jul 2019 14:39:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 067D72067C;
+        Mon, 15 Jul 2019 14:45:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563201592;
-        bh=5XfmVxC2Bggz6JYuquCZyMix+fDR+5L8yn27Jb1F98Q=;
+        s=default; t=1563201958;
+        bh=srTrjVb/NproGDBZrf7xjQbLlk9QFUoeK/lvEq8QG9k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gqXbjn6kP5LGwgVDf69XBy7bmcw2Pdc5DRY3qCyxDvLvE6mURYKepj7OLHKuMARZ8
-         YaJeCFGSwbCVbsJVtZ2Ix/RDHhhz2oTEG2x+w9oLiesgyPSBnsQ+KB7qMLhunonRx/
-         HSqF48bLeM6W3N7EsxvoUTv7mGFXW+TvjZRz9n+A=
+        b=np2FQ6MigVgReInjJ5374MSIA+XbA5l0llDNcDgjaJG0VZxXVok8JC/iYkctimQYL
+         fObFvoiHtwh7AzDUjkiA17n0HwTt+hwx0Bc52G7gHRPNHPH7W8rB5I41os7UiOc5J6
+         V8baNULCLaezAgdrzrUkAswiSDkBq9XMI0nheW5w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 50/73] media: coda: increment sequence offset for the last returned frame
-Date:   Mon, 15 Jul 2019 10:36:06 -0400
-Message-Id: <20190715143629.10893-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 06/53] media: dvb: usb: fix use after free in dvb_usb_device_exit
+Date:   Mon, 15 Jul 2019 10:44:48 -0400
+Message-Id: <20190715144535.11636-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715143629.10893-1-sashal@kernel.org>
-References: <20190715143629.10893-1-sashal@kernel.org>
+In-Reply-To: <20190715144535.11636-1-sashal@kernel.org>
+References: <20190715144535.11636-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,37 +45,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit b3b7d96817cdb8b6fc353867705275dce8f41ccc ]
+[ Upstream commit 6cf97230cd5f36b7665099083272595c55d72be7 ]
 
-If no more frames are decoded in bitstream end mode, and a previously
-decoded frame has been returned, the firmware still increments the frame
-number. To avoid a sequence number mismatch after decoder restart,
-increment the sequence_offset correction parameter.
+dvb_usb_device_exit() frees and uses the device name in that order.
+Fix by storing the name in a buffer before freeing it.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/coda/coda-bit.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index 1b8024f86b0f..df4643956c96 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -1967,6 +1967,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 		else if (ctx->display_idx < 0)
- 			ctx->hold = true;
- 	} else if (decoded_idx == -2) {
-+		if (ctx->display_idx >= 0 &&
-+		    ctx->display_idx < ctx->num_internal_frames)
-+			ctx->sequence_offset++;
- 		/* no frame was decoded, we still return remaining buffers */
- 	} else if (decoded_idx < 0 || decoded_idx >= ctx->num_internal_frames) {
- 		v4l2_err(&dev->v4l2_dev,
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 1adf325012f7..97a89ef7e4c1 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -286,12 +286,15 @@ EXPORT_SYMBOL(dvb_usb_device_init);
+ void dvb_usb_device_exit(struct usb_interface *intf)
+ {
+ 	struct dvb_usb_device *d = usb_get_intfdata(intf);
+-	const char *name = "generic DVB-USB module";
++	const char *default_name = "generic DVB-USB module";
++	char name[40];
+ 
+ 	usb_set_intfdata(intf, NULL);
+ 	if (d != NULL && d->desc != NULL) {
+-		name = d->desc->name;
++		strscpy(name, d->desc->name, sizeof(name));
+ 		dvb_usb_exit(d);
++	} else {
++		strscpy(name, default_name, sizeof(name));
+ 	}
+ 	info("%s successfully deinitialized and disconnected.", name);
+ 
 -- 
 2.20.1
 
