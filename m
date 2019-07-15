@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5A268C76
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 15:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07AA868C94
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 15:52:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732143AbfGONvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 09:51:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43872 "EHLO mail.kernel.org"
+        id S1729914AbfGONwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 09:52:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731709AbfGONvq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 09:51:46 -0400
+        id S1731945AbfGONwb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 09:52:31 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1CD7020896;
-        Mon, 15 Jul 2019 13:51:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A9BB520651;
+        Mon, 15 Jul 2019 13:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563198705;
-        bh=Ffp64TdZCsIwXhtYCKk22WhWHY0Yl/3XVhpzg9tgNA0=;
+        s=default; t=1563198751;
+        bh=KzOSdrebX3KMW/gaQ5FM80gPMnZS1CDMWI74NLOCh6g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xiRcM0fFBWSU0dpsFoJr/YiPPOCfy4AGDYn32e4HQ4ajFM+5MbX0kEjLGeS1secsp
-         z7hvbb19ySyzu8411ucabEfmYK7ySBHNgVYTMvLi9ZY1uc99xrxn9IADZWx5k87S/5
-         yxRuLGf+HW3r41pa28tnmhCtODSa0v0Uv4RAzHnY=
+        b=Rn30hy8HIDnXDCY2X3fa8WmVJbLr88zacguG5AAwK1SjrtjgueqcArVnD+uWOjQGz
+         OUhRKDFITlSqJKCJEn9pIn0p7054H4nvEF/uxHA1jIlSBixNo/n/ilY9pUyzVpSGyo
+         jij3L+rK3ttUBU8x4cR2AgYNqyaOBT6GdKBOgcJQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Cc:     Young Xiao <92siuyang@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 088/249] media: fdp1: Support M3N and E3 platforms
-Date:   Mon, 15 Jul 2019 09:44:13 -0400
-Message-Id: <20190715134655.4076-88-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 094/249] media: davinci: vpif_capture: fix memory leak in vpif_probe()
+Date:   Mon, 15 Jul 2019 09:44:19 -0400
+Message-Id: <20190715134655.4076-94-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
 References: <20190715134655.4076-1-sashal@kernel.org>
@@ -45,51 +44,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+From: Young Xiao <92siuyang@gmail.com>
 
-[ Upstream commit 4e8c120de9268fc26f583268b9d22e7d37c4595f ]
+[ Upstream commit 64f883cd98c6d43013fb0cea788b63e50ebc068c ]
 
-New Gen3 R-Car platforms incorporate the FDP1 with an updated version
-register. No code change is required to support these targets, but they
-will currently report an error stating that the device can not be
-identified.
+If vpif_probe() fails on v4l2_device_register() and vpif_probe_complete(),
+then memory allocated at initialize_vpif() for global vpif_obj.dev[i]
+become unreleased.
 
-Update the driver to match against the new device types.
+The patch adds deallocation of vpif_obj.dev[i] on the error path.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Young Xiao <92siuyang@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar_fdp1.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/platform/davinci/vpif_capture.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-index 6a90bc4c476e..b8615a288e2b 100644
---- a/drivers/media/platform/rcar_fdp1.c
-+++ b/drivers/media/platform/rcar_fdp1.c
-@@ -257,6 +257,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
- #define FD1_IP_H3_ES1			0x02010101
- #define FD1_IP_M3W			0x02010202
- #define FD1_IP_H3			0x02010203
-+#define FD1_IP_M3N			0x02010204
-+#define FD1_IP_E3			0x02010205
+diff --git a/drivers/media/platform/davinci/vpif_capture.c b/drivers/media/platform/davinci/vpif_capture.c
+index 61809d2050fa..f0f7ef638c56 100644
+--- a/drivers/media/platform/davinci/vpif_capture.c
++++ b/drivers/media/platform/davinci/vpif_capture.c
+@@ -1376,6 +1376,14 @@ static int initialize_vpif(void)
+ 	return err;
+ }
  
- /* LUTs */
- #define FD1_LUT_DIF_ADJ			0x1000
-@@ -2365,6 +2367,12 @@ static int fdp1_probe(struct platform_device *pdev)
- 	case FD1_IP_H3:
- 		dprintk(fdp1, "FDP1 Version R-Car H3\n");
- 		break;
-+	case FD1_IP_M3N:
-+		dprintk(fdp1, "FDP1 Version R-Car M3N\n");
-+		break;
-+	case FD1_IP_E3:
-+		dprintk(fdp1, "FDP1 Version R-Car E3\n");
-+		break;
- 	default:
- 		dev_err(fdp1->dev, "FDP1 Unidentifiable (0x%08x)\n",
- 			hw_version);
++static inline void free_vpif_objs(void)
++{
++	int i;
++
++	for (i = 0; i < VPIF_CAPTURE_MAX_DEVICES; i++)
++		kfree(vpif_obj.dev[i]);
++}
++
+ static int vpif_async_bound(struct v4l2_async_notifier *notifier,
+ 			    struct v4l2_subdev *subdev,
+ 			    struct v4l2_async_subdev *asd)
+@@ -1645,7 +1653,7 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 	err = v4l2_device_register(vpif_dev, &vpif_obj.v4l2_dev);
+ 	if (err) {
+ 		v4l2_err(vpif_dev->driver, "Error registering v4l2 device\n");
+-		goto cleanup;
++		goto vpif_free;
+ 	}
+ 
+ 	while ((res = platform_get_resource(pdev, IORESOURCE_IRQ, res_idx))) {
+@@ -1692,7 +1700,9 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 				  "registered sub device %s\n",
+ 				   subdevdata->name);
+ 		}
+-		vpif_probe_complete();
++		err = vpif_probe_complete();
++		if (err)
++			goto probe_subdev_out;
+ 	} else {
+ 		vpif_obj.notifier.ops = &vpif_async_ops;
+ 		err = v4l2_async_notifier_register(&vpif_obj.v4l2_dev,
+@@ -1711,6 +1721,8 @@ static __init int vpif_probe(struct platform_device *pdev)
+ 	kfree(vpif_obj.sd);
+ vpif_unregister:
+ 	v4l2_device_unregister(&vpif_obj.v4l2_dev);
++vpif_free:
++	free_vpif_objs();
+ cleanup:
+ 	v4l2_async_notifier_cleanup(&vpif_obj.notifier);
+ 
 -- 
 2.20.1
 
