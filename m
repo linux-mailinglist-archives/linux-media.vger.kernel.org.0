@@ -2,36 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D93868C31
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 15:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF5F68C4D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 15:50:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731329AbfGONt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 09:49:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36928 "EHLO mail.kernel.org"
+        id S1732003AbfGONun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 09:50:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40896 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731886AbfGONty (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 09:49:54 -0400
+        id S1730286AbfGONum (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 09:50:42 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 167F020651;
-        Mon, 15 Jul 2019 13:49:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1FFC2083D;
+        Mon, 15 Jul 2019 13:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563198593;
-        bh=lGlfXHAiLZJovgA4DCHybcCib4O3ArvHEh86TD1QZiY=;
+        s=default; t=1563198641;
+        bh=9RWCdpj4FaAC0utpfRuO4Yp0UWaH+OBlUkFuQKg44D8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Iiz1ZY4rp3N898lKSS/Xd5wM0eXzeeuYmhtTHK2+5CF5/5xU80Q1SwvtsLLjFbghG
-         Y2WII6iAsH6S9FJ+rd9UUR2vAtk5SK/adeSa3AzOk+9mT32kmXUQUuNtUH0LNsXkho
-         QTeH6T8M/8Lvr0ryDaUqFDZPIbrU4zyYkIqD1KhY=
+        b=N6XUR3gc5Qada/QD19H9qJn4KCmHCMzXbpIjjeHiKs8vyEB38pQTsphYv66J0BOMw
+         nTGtXP+UDwP+E1uakAZIUHhuGZ+6n6qfG4XbHwXNvOx/Wi41BVMGkEmiiHKIvKQzxn
+         qyXdr+cIzwHDfMFG0UXeKgbJUufqV1rb80cuZRzo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Shailendra Verma <shailendra.v@samsung.com>,
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 5.2 053/249] media: staging: media: davinci_vpfe: - Fix for memory leak if decoder initialization fails.
-Date:   Mon, 15 Jul 2019 09:43:38 -0400
-Message-Id: <20190715134655.4076-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 068/249] media: imx7-mipi-csis: Propagate the error if clock enabling fails
+Date:   Mon, 15 Jul 2019 09:43:53 -0400
+Message-Id: <20190715134655.4076-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
 References: <20190715134655.4076-1-sashal@kernel.org>
@@ -44,35 +46,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shailendra Verma <shailendra.v@samsung.com>
+From: Fabio Estevam <festevam@gmail.com>
 
-[ Upstream commit 6995a659101bd4effa41cebb067f9dc18d77520d ]
+[ Upstream commit 2b393f91c651c16d5c09f5c7aa689e58a79df34e ]
 
-Fix to avoid possible memory leak if the decoder initialization
-got failed.Free the allocated memory for file handle object
-before return in case decoder initialization fails.
+Currently the return value from clk_bulk_prepare_enable() is checked,
+but it is not propagate it in the case of failure.
 
-Signed-off-by: Shailendra Verma <shailendra.v@samsung.com>
+Fix it and also move the error message to the caller of
+mipi_csis_clk_enable().
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/davinci_vpfe/vpfe_video.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/davinci_vpfe/vpfe_video.c b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-index 510202a3b091..84cca18e3e9d 100644
---- a/drivers/staging/media/davinci_vpfe/vpfe_video.c
-+++ b/drivers/staging/media/davinci_vpfe/vpfe_video.c
-@@ -419,6 +419,9 @@ static int vpfe_open(struct file *file)
- 	/* If decoder is not initialized. initialize it */
- 	if (!video->initialized && vpfe_update_pipe_state(video)) {
- 		mutex_unlock(&video->lock);
-+		v4l2_fh_del(&handle->vfh);
-+		v4l2_fh_exit(&handle->vfh);
-+		kfree(handle);
- 		return -ENODEV;
- 	}
- 	/* Increment device users counter */
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 19455f425416..7d7bdfdd852a 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -456,13 +456,9 @@ static void mipi_csis_set_params(struct csi_state *state)
+ 			MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL);
+ }
+ 
+-static void mipi_csis_clk_enable(struct csi_state *state)
++static int mipi_csis_clk_enable(struct csi_state *state)
+ {
+-	int ret;
+-
+-	ret = clk_bulk_prepare_enable(state->num_clks, state->clks);
+-	if (ret < 0)
+-		dev_err(state->dev, "failed to enable clocks\n");
++	return clk_bulk_prepare_enable(state->num_clks, state->clks);
+ }
+ 
+ static void mipi_csis_clk_disable(struct csi_state *state)
+@@ -973,7 +969,11 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	mipi_csis_clk_enable(state);
++	ret = mipi_csis_clk_enable(state);
++	if (ret < 0) {
++		dev_err(state->dev, "failed to enable clocks: %d\n", ret);
++		return ret;
++	}
+ 
+ 	ret = devm_request_irq(dev, state->irq, mipi_csis_irq_handler,
+ 			       0, dev_name(dev), state);
 -- 
 2.20.1
 
