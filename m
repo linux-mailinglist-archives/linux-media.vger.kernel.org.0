@@ -2,122 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E65CC68716
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1017E68750
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 12:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729763AbfGOKbB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 06:31:01 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:36665 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729748AbfGOKa6 (ORCPT
+        id S1729698AbfGOKrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 06:47:20 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:53771 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729530AbfGOKrU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 06:30:58 -0400
-Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
+        Mon, 15 Jul 2019 06:47:20 -0400
+Received: from [IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc] ([IPv6:2001:983:e9a7:1:3de9:fbf:e548:c8fc])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id myFyhc6VO0SBqmyG0hRPLH; Mon, 15 Jul 2019 12:30:56 +0200
+        id myVohcE9a0SBqmyVphRUIy; Mon, 15 Jul 2019 12:47:18 +0200
+Subject: Re: [PATCH v2 1/5] drm: tda998x: use cec_notifier_conn_(un)register
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+References: <20190701145944.214098-1-darekm@google.com>
+ <20190701145944.214098-2-darekm@google.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 6/6] tegra-cec: use cec_notifier_cec_adap_(un)register
-Date:   Mon, 15 Jul 2019 12:30:54 +0200
-Message-Id: <20190715103054.84849-7-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715103054.84849-1-hverkuil-cisco@xs4all.nl>
-References: <20190715103054.84849-1-hverkuil-cisco@xs4all.nl>
+Message-ID: <ee8a2464-0b23-9cfe-1a56-19da8cf36fdc@xs4all.nl>
+Date:   Mon, 15 Jul 2019 12:47:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCTcJt3rxHkjQpagPVH5KJO+2Zhdc6fLS2Qk5ffpGryCY7yPTlItemOGsDeAuXkVkWmxibR4L0JYi/hnl6iFc0+tzI4soVE59rJTIM+E1ZbhNmIWagWh
- uzvRkU0CIL2Gmhz5BgyDa6uY1MPxn1jeqiLWJ59rbYeMuIkcDbcmdoiAqNiBBn8tqBrbYn/O5uYp6gfLV8blEcjill/Jefyb69ntaqW+54fLhFBrI2NScsdy
- xqyaYHkETC4rFrkFKXhBVzbB3Z0Te+fWl+6cDYIWcyBskUzE6dNyZKUOssA4Ei4mYVnz7Fv+sg7KmzVsoAuF1Q19a4wZrm8QzfyhBYgldLlX5lL2f4+kvkGU
- iXtllfVq
+In-Reply-To: <20190701145944.214098-2-darekm@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCw4j1xueRILyZMgSz1c1UaxYmkeuJgmuDzRmJZnu4KkH70OLrgUs4u195/Rt8llcpUcP/hfYvhBc7sbWzJG20lWYLnO8Qf74dOg0YFIW/m0TUJgUsir
+ iZ8Kcb8yeNb3lXijZc9y3qGWPOAofoFJFRHA+5HGNShcZ3GFSSW+7t/K+9pHbM4Z+pg/ZnDQzpD+zdaSKTlhbu2c31r5A2r/g4v0Fk6GmSEh4jK002ormLQU
+ fxoL1rXKwWJmpzvnijUk9kxSmbyTSceXxK1lSoL4wFAphkgxHcvJqi5QP+h+0BuPnCMQ52V/+Lq3Vp+p3Wqs0Bs/biKhxgA7gCPSoI7/mhg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use cec_notifier_cec_adap_(un)register instead of
-cec_notifier_get, cec_notifier_put and cec_register_cec_notifier.
+On 7/1/19 4:59 PM, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_conn_(un)register() functions to
+> (un)register the notifier for the HDMI connector, and fill
+> in the cec_connector_info.
+> 
+> Changes since v1:
+> 	Add memory barrier to make sure that the notifier
+> 	becomes visible to the irq thread once it is
+> 	fully constructed.
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> ---
+>  drivers/gpu/drm/i2c/tda998x_drv.c | 32 ++++++++++++++++++++++---------
+>  1 file changed, 23 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+> index 7f34601bb5155..7844f4113a839 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -794,9 +794,14 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
+>  			if (lvl & CEC_RXSHPDLEV_HPD) {
+>  				tda998x_edid_delay_start(priv);
+>  			} else {
+> +				struct cec_notifier *notify;
+> +
+>  				schedule_work(&priv->detect_work);
+> -				cec_notifier_set_phys_addr(priv->cec_notify,
+> -						   CEC_PHYS_ADDR_INVALID);
+> +
+> +				notify = READ_ONCE(priv->cec_notify);
+> +				if (notify)
+> +					cec_notifier_set_phys_addr(notify,
+> +							CEC_PHYS_ADDR_INVALID);
 
-Also enable the CEC_CAP_CONNECTOR_INFO capability.
+Can you replace this with cec_notifier_phys_addr_invalidate()?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Thierry Reding <thierry.reding@gmail.com>
----
- drivers/media/platform/tegra-cec/tegra_cec.c | 35 ++++++++++----------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+>  			}
+>  
+>  			handled = true;
+> @@ -1253,6 +1258,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+>  				  struct drm_device *drm)
+>  {
+>  	struct drm_connector *connector = &priv->connector;
+> +	struct cec_connector_info conn_info;
+> +	struct cec_notifier *notifier;
+>  	int ret;
+>  
+>  	connector->interlace_allowed = 1;
+> @@ -1269,6 +1276,19 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+>  	if (ret)
+>  		return ret;
+>  
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> +
+> +	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
+> +					      NULL, &conn_info);
+> +	if (!notifier)
+> +		return -ENOMEM;
+> +	/*
+> +	 * Make sure that tda998x_irq_thread does see the notifier
+> +	 * when it fully constructed.
+> +	 */
+> +	smp_wmb();
+> +	priv->cec_notify = notifier;
+> +
+>  	drm_connector_attach_encoder(&priv->connector,
+>  				     priv->bridge.encoder);
+>  
+> @@ -1651,7 +1671,7 @@ static void tda998x_destroy(struct device *dev)
+>  	i2c_unregister_device(priv->cec);
+>  
+>  	if (priv->cec_notify)
+> -		cec_notifier_put(priv->cec_notify);
+> +		cec_notifier_conn_unregister(priv->cec_notify);
 
-diff --git a/drivers/media/platform/tegra-cec/tegra_cec.c b/drivers/media/platform/tegra-cec/tegra_cec.c
-index 6498b2d0492e..a632602131f2 100644
---- a/drivers/media/platform/tegra-cec/tegra_cec.c
-+++ b/drivers/media/platform/tegra-cec/tegra_cec.c
-@@ -380,38 +380,39 @@ static int tegra_cec_probe(struct platform_device *pdev)
- 	if (ret) {
- 		dev_err(&pdev->dev,
- 			"Unable to request interrupt for device\n");
--		goto clk_error;
--	}
--
--	cec->notifier = cec_notifier_get(hdmi_dev);
--	if (!cec->notifier) {
--		ret = -ENOMEM;
--		goto clk_error;
-+		goto err_clk;
- 	}
- 
- 	cec->adap = cec_allocate_adapter(&tegra_cec_ops, cec, TEGRA_CEC_NAME,
--			CEC_CAP_DEFAULTS | CEC_CAP_MONITOR_ALL,
-+			CEC_CAP_DEFAULTS | CEC_CAP_MONITOR_ALL |
-+			CEC_CAP_CONNECTOR_INFO,
- 			CEC_MAX_LOG_ADDRS);
- 	if (IS_ERR(cec->adap)) {
- 		ret = -ENOMEM;
- 		dev_err(&pdev->dev, "Couldn't create cec adapter\n");
--		goto cec_error;
-+		goto err_clk;
-+	}
-+
-+	cec->notifier = cec_notifier_cec_adap_register(hdmi_dev, NULL,
-+						       cec->adap);
-+	if (!cec->notifier) {
-+		ret = -ENOMEM;
-+		goto err_adapter;
- 	}
-+
- 	ret = cec_register_adapter(cec->adap, &pdev->dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Couldn't register device\n");
--		goto cec_error;
-+		goto err_notifier;
- 	}
- 
--	cec_register_cec_notifier(cec->adap, cec->notifier);
--
- 	return 0;
- 
--cec_error:
--	if (cec->notifier)
--		cec_notifier_put(cec->notifier);
-+err_notifier:
-+	cec_notifier_cec_adap_unregister(cec->notifier);
-+err_adapter:
- 	cec_delete_adapter(cec->adap);
--clk_error:
-+err_clk:
- 	clk_disable_unprepare(cec->clk);
- 	return ret;
- }
-@@ -422,8 +423,8 @@ static int tegra_cec_remove(struct platform_device *pdev)
- 
- 	clk_disable_unprepare(cec->clk);
- 
-+	cec_notifier_cec_adap_unregister(cec->notifier);
- 	cec_unregister_adapter(cec->adap);
--	cec_notifier_put(cec->notifier);
- 
- 	return 0;
- }
--- 
-2.20.1
+You can drop the 'if': cec_notifier_conn_unregister() does nothing if
+the notifier is NULL.
 
+>  }
+>  
+>  static int tda998x_create(struct device *dev)
+> @@ -1776,12 +1796,6 @@ static int tda998x_create(struct device *dev)
+>  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+>  	}
+>  
+> -	priv->cec_notify = cec_notifier_get(dev);
+> -	if (!priv->cec_notify) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+>  	priv->cec_glue.parent = dev;
+>  	priv->cec_glue.data = priv;
+>  	priv->cec_glue.init = tda998x_cec_hook_init;
+> 
+
+Regards,
+
+	Hans
