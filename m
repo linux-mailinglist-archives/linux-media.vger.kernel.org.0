@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B08186A1BF
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 07:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D596A1C4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 07:10:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733209AbfGPFJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jul 2019 01:09:42 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:58526 "EHLO
+        id S1733232AbfGPFJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jul 2019 01:09:46 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:58636 "EHLO
         smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726487AbfGPFJm (ORCPT
+        with ESMTP id S1726487AbfGPFJp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jul 2019 01:09:42 -0400
+        Tue, 16 Jul 2019 01:09:45 -0400
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id DDF1E618EF; Tue, 16 Jul 2019 05:09:40 +0000 (UTC)
+        id D306A618E1; Tue, 16 Jul 2019 05:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1563253780;
-        bh=pPd3WTwY7870EasNoe5YLiqpf057/4E2YiY+ke5Oj8A=;
+        s=default; t=1563253784;
+        bh=vCDfLBQi0vOEE29uCHWzBtitQ7FOpbXrCftD/mU+WEY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZiSMhxwt1EX16Rp4WmsYJr5mtyyz1HmXyP3uRuvIn70JLdvCDm5vL4oCJDtXRwgz4
-         wZk2SkD2MiaJjO1pqJqkvQQWNZ02RjxvsoQ5jwTrxR/onc572LJpnnbU3s3s8tJJrc
-         SQjjjc18SaZK9nn3h0bi4nhbEwMV17H5nATeHRwU=
+        b=gzfof5Pi4FdmI4VHWsn9WOZU6tmkNq9FJuRbs3NqaepTdVOl90LAAoGzDkQKVPVpS
+         lBCHWO+NAN36hZa5dgvgrnPBfhYCyfQKekHK93VTA6TiuwM2Lz27kDVFCAdRT6Burx
+         V3Uejek6bITyoUSUFVsQI2ssAd9BvpqtmTR6TB1U=
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
         pdx-caf-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -31,25 +31,25 @@ Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-ou
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: amasule@codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 8D048618DA;
-        Tue, 16 Jul 2019 05:09:38 +0000 (UTC)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 58306618DA;
+        Tue, 16 Jul 2019 05:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1563253780;
-        bh=pPd3WTwY7870EasNoe5YLiqpf057/4E2YiY+ke5Oj8A=;
+        s=default; t=1563253784;
+        bh=vCDfLBQi0vOEE29uCHWzBtitQ7FOpbXrCftD/mU+WEY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZiSMhxwt1EX16Rp4WmsYJr5mtyyz1HmXyP3uRuvIn70JLdvCDm5vL4oCJDtXRwgz4
-         wZk2SkD2MiaJjO1pqJqkvQQWNZ02RjxvsoQ5jwTrxR/onc572LJpnnbU3s3s8tJJrc
-         SQjjjc18SaZK9nn3h0bi4nhbEwMV17H5nATeHRwU=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8D048618DA
+        b=gzfof5Pi4FdmI4VHWsn9WOZU6tmkNq9FJuRbs3NqaepTdVOl90LAAoGzDkQKVPVpS
+         lBCHWO+NAN36hZa5dgvgrnPBfhYCyfQKekHK93VTA6TiuwM2Lz27kDVFCAdRT6Burx
+         V3Uejek6bITyoUSUFVsQI2ssAd9BvpqtmTR6TB1U=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 58306618DA
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
 From:   Aniket Masule <amasule@codeaurora.org>
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
-Subject: [PATCH v5 3/4] media: venus: Update to bitrate based clock scaling
-Date:   Tue, 16 Jul 2019 10:39:13 +0530
-Message-Id: <1563253754-12003-4-git-send-email-amasule@codeaurora.org>
+Subject: [PATCH v5 4/4] media: venus: Update core selection
+Date:   Tue, 16 Jul 2019 10:39:14 +0530
+Message-Id: <1563253754-12003-5-git-send-email-amasule@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1563253754-12003-1-git-send-email-amasule@codeaurora.org>
 References: <1563253754-12003-1-git-send-email-amasule@codeaurora.org>
@@ -58,89 +58,193 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Introduced clock scaling using bitrate, preavious
-calculations consider only the cycles per mb.
-Also, clock scaling is now triggered before every
-buffer being queued to the device. This helps in
-deciding precise clock cycles required.
+Present core assignment is static. Introduced load balancing
+across the cores. Load on earch core is calculated and core
+with minimum load is assigned to given instance.
 
 Signed-off-by: Aniket Masule <amasule@codeaurora.org>
 ---
- drivers/media/platform/qcom/venus/helpers.c | 33 +++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/venus/helpers.c    | 69 +++++++++++++++++++++++---
+ drivers/media/platform/qcom/venus/helpers.h    |  2 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h |  1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h |  5 ++
+ drivers/media/platform/qcom/venus/vdec.c       |  2 +-
+ drivers/media/platform/qcom/venus/venc.c       |  2 +-
+ 6 files changed, 72 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 2c976e4..edf403d 100644
+index edf403d..d479793 100644
 --- a/drivers/media/platform/qcom/venus/helpers.c
 +++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -399,17 +399,26 @@ static int scale_clocks(struct venus_inst *inst)
- 	return ret;
+@@ -26,6 +26,7 @@
+ #include "helpers.h"
+ #include "hfi_helper.h"
+ #include "hfi_venus_io.h"
++#include "hfi_parser.h"
+ 
+ struct intbuf {
+ 	struct list_head list;
+@@ -331,6 +332,24 @@ static u32 load_per_instance(struct venus_inst *inst)
+ 	return mbs * inst->fps;
  }
  
--static unsigned long calculate_vpp_freq(struct venus_inst *inst)
-+static unsigned long calculate_inst_freq(struct venus_inst *inst,
-+					 unsigned long filled_len)
- {
--	unsigned long vpp_freq = 0;
-+	unsigned long vpp_freq = 0, vsp_freq = 0;
-+	u64 fps = inst->fps;
- 	u32 mbs_per_sec;
- 
- 	mbs_per_sec = load_per_instance(inst);
- 	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
- 	/* 21 / 20 is overhead factor */
- 	vpp_freq += vpp_freq / 20;
-+	vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
- 
--	return vpp_freq;
-+	/* 10 / 7 is overhead factor */
-+	if (inst->session_type == VIDC_SESSION_TYPE_ENC)
-+		vsp_freq += (inst->controls.enc.bitrate * 10) / 7;
-+	else
-+		vsp_freq += ((fps * filled_len * 8) * 10) / 7;
++static u32 load_per_core(struct venus_core *core, u32 core_id)
++{
++	struct venus_inst *inst = NULL;
++	u32 mbs_per_sec = 0, load = 0;
 +
-+	return max(vpp_freq, vsp_freq);
- }
- 
- static int scale_clocks_v4(struct venus_inst *inst)
-@@ -417,13 +426,27 @@ static int scale_clocks_v4(struct venus_inst *inst)
- 	struct venus_core *core = inst->core;
- 	const struct freq_tbl *table = core->res->freq_tbl;
- 	unsigned int num_rows = core->res->freq_tbl_size;
-+	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
- 	struct clk *clk = core->clks[0];
- 	struct device *dev = core->dev;
- 	unsigned int i;
- 	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
-+	unsigned long filled_len = 0;
-+	struct venus_buffer *buf, *n;
-+	struct vb2_buffer *vb;
- 	int ret;
- 
--	freq = calculate_vpp_freq(inst);
-+	mutex_lock(&inst->lock);
-+	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
-+		vb = &buf->vb.vb2_buf;
-+		filled_len = max(filled_len, vb2_get_plane_payload(vb, 0));
++	mutex_lock(&core->lock);
++	list_for_each_entry(inst, &core->instances, list) {
++		if (inst->clk_data.core_id != core_id)
++			continue;
++
++		mbs_per_sec = load_per_instance(inst);
++		load = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
 +	}
-+	mutex_unlock(&inst->lock);
++	mutex_unlock(&core->lock);
 +
-+	if (inst->session_type == VIDC_SESSION_TYPE_DEC && !filled_len)
-+		return 0;
++	return load;
++}
 +
-+	freq = calculate_inst_freq(inst, filled_len);
+ static u32 load_per_type(struct venus_core *core, u32 session_type)
+ {
+ 	struct venus_inst *inst = NULL;
+@@ -505,6 +524,16 @@ static int load_scale_clocks(struct venus_inst *inst)
+ 	return scale_clocks(inst);
+ }
  
- 	if (freq > table[0].freq)
- 		dev_warn(dev, "HW is overloaded, needed: %lu max: %lu\n",
-@@ -1093,6 +1116,8 @@ void venus_helper_vb2_buf_queue(struct vb2_buffer *vb)
- 	if (ret)
- 		goto unlock;
- 
-+	load_scale_clocks(inst);
++int set_core_usage(struct venus_inst *inst, u32 usage)
++{
++	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
++	struct hfi_videocores_usage_type cu;
 +
- 	ret = session_process_buf(inst, vbuf);
++	cu.video_core_enable_mask = usage;
++
++	return hfi_session_set_property(inst, ptype, &cu);
++}
++
+ static void fill_buffer_desc(const struct venus_buffer *buf,
+ 			     struct hfi_buffer_desc *bd, bool response)
+ {
+@@ -808,19 +837,47 @@ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode)
+ }
+ EXPORT_SYMBOL_GPL(venus_helper_set_work_mode);
+ 
+-int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage)
++int venus_helper_set_core(struct venus_inst *inst)
+ {
+-	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+-	struct hfi_videocores_usage_type cu;
++	struct venus_core *core = inst->core;
++	u32 min_core_id = 0, core1_load = 0, core2_load = 0;
++	unsigned long min_load, max_freq, cur_inst_load;
++	u32 cores_max;
++	int ret;
+ 
+ 	if (!IS_V4(inst->core))
+ 		return 0;
+ 
+-	cu.video_core_enable_mask = usage;
++	core1_load = load_per_core(core, VIDC_CORE_ID_1);
++	core2_load = load_per_core(core, VIDC_CORE_ID_2);
++	min_core_id = core1_load < core2_load ? VIDC_CORE_ID_1 : VIDC_CORE_ID_2;
++	min_load = min(core1_load, core2_load);
++	cores_max = core_num_max(inst);
+ 
+-	return hfi_session_set_property(inst, ptype, &cu);
++	if (cores_max < VIDC_CORE_ID_2) {
++		min_core_id = VIDC_CORE_ID_1;
++		min_load = core1_load;
++	}
++
++	cur_inst_load = load_per_instance(inst) *
++		inst->clk_data.codec_freq_data->vpp_freq;
++	max_freq = core->res->freq_tbl[0].freq;
++
++	if ((cur_inst_load + min_load)	> max_freq) {
++		dev_warn(core->dev, "HW is overloaded, needed: %lu max: %lu\n",
++			 cur_inst_load, max_freq);
++		return -EINVAL;
++	}
++
++	ret = set_core_usage(inst, min_core_id);
++	if (ret)
++		return ret;
++
++	inst->clk_data.core_id = min_core_id;
++
++	return 0;
+ }
+-EXPORT_SYMBOL_GPL(venus_helper_set_core_usage);
++EXPORT_SYMBOL_GPL(venus_helper_set_core);
+ 
+ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+ {
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index 2c13245..1034111 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -42,7 +42,7 @@ int venus_helper_set_output_resolution(struct venus_inst *inst,
+ 				       u32 buftype);
+ int venus_helper_set_work_mode(struct venus_inst *inst, u32 mode);
+ int venus_helper_init_codec_freq_data(struct venus_inst *inst);
+-int venus_helper_set_core_usage(struct venus_inst *inst, u32 usage);
++int venus_helper_set_core(struct venus_inst *inst);
+ int venus_helper_set_num_bufs(struct venus_inst *inst, unsigned int input_bufs,
+ 			      unsigned int output_bufs,
+ 			      unsigned int output2_bufs);
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 34ea503..f3d1018 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -559,6 +559,7 @@ struct hfi_bitrate {
+ #define HFI_CAPABILITY_LCU_SIZE				0x14
+ #define HFI_CAPABILITY_HIER_P_HYBRID_NUM_ENH_LAYERS	0x15
+ #define HFI_CAPABILITY_MBS_PER_SECOND_POWERSAVE		0x16
++#define HFI_CAPABILITY_MAX_VIDEOCORES		0x2B
+ 
+ struct hfi_capability {
+ 	u32 capability_type;
+diff --git a/drivers/media/platform/qcom/venus/hfi_parser.h b/drivers/media/platform/qcom/venus/hfi_parser.h
+index 3e931c7..264e6dd 100644
+--- a/drivers/media/platform/qcom/venus/hfi_parser.h
++++ b/drivers/media/platform/qcom/venus/hfi_parser.h
+@@ -107,4 +107,9 @@ static inline u32 frate_step(struct venus_inst *inst)
+ 	return cap_step(inst, HFI_CAPABILITY_FRAMERATE);
+ }
+ 
++static inline u32 core_num_max(struct venus_inst *inst)
++{
++	return cap_max(inst, HFI_CAPABILITY_MAX_VIDEOCORES);
++}
++
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index d037f80..620e060 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -551,7 +551,7 @@ static int vdec_output_conf(struct venus_inst *inst)
  	if (ret)
- 		return_buf_error(inst, vbuf);
+ 		return ret;
+ 
+-	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_1);
++	ret = venus_helper_set_core(inst);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index cdddc82..28e76cc 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -660,7 +660,7 @@ static int venc_set_properties(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = venus_helper_set_core_usage(inst, VIDC_CORE_ID_2);
++	ret = venus_helper_set_core(inst);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
