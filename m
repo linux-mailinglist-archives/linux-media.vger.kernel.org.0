@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CB86A363
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 09:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3826A364
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 09:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730750AbfGPH6t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jul 2019 03:58:49 -0400
-Received: from mail-vk1-f201.google.com ([209.85.221.201]:48228 "EHLO
-        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbfGPH6s (ORCPT
+        id S1730981AbfGPH6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jul 2019 03:58:52 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:33645 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726539AbfGPH6w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jul 2019 03:58:48 -0400
-Received: by mail-vk1-f201.google.com with SMTP id x71so652090vkd.15
-        for <linux-media@vger.kernel.org>; Tue, 16 Jul 2019 00:58:48 -0700 (PDT)
+        Tue, 16 Jul 2019 03:58:52 -0400
+Received: by mail-qt1-f201.google.com with SMTP id y19so17314498qtm.0
+        for <linux-media@vger.kernel.org>; Tue, 16 Jul 2019 00:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=Y0eJ4pSh22lZlPekVxJNJZYe8l8R+Qjf/bJaf0Pgidw=;
-        b=PNkJ+YkiNvIQD2mvldrWYlCL7lNP6694Ggzk5e3oE6YDCL1N2JjEfV5VIa0Tw2fP0M
-         ZG7Knm2w7R7DkAbG7khbXIRMV41L5zYO1HqIBPTu08+KHY0phDKkXtOE0pDUx/g3VhVj
-         9rC6ewSWZiGK0d4LlSTyJcAhRfHwO7XaNJAAmZYnoR5Qvb9KcveR0muxwofBNGB870kA
-         S7HAFwcKjhZbbMYUOEPUbb6uDZMbXyR3ccdWnNHpVdeRCTYHtUpnCxDr63B9P4rF8B2F
-         8zul72whS7N2ZhwURaUuBgpZ9zsFQRuHdCUy5rSpyvSglYa6fwJUHmQQqOEkcYdhFHss
-         Cjqw==
+        bh=m7n3rFhmx+idK8s3ajEqgLAszpk7xnK8xQBqwfMuZS0=;
+        b=JUPkX7edG6+p/s9IQSNg9SGTpFLoIqZCOU0TiuVJtVwnTlZbQJZD5vR6nbcT1EdFOW
+         ddGIPdndrC8nwb6+77ajD/9duW4odBRvlIBfmW8jVoHYtItReKR7epjKC7sMyQMQ/ETe
+         EQSWpZESasuzpowjYFHBXqkXQDXxz6stbOXzOXWUI5Xqi8fOkR9dl+tFh2POvKieQ2vd
+         NUhjpm79Gvd52Uh8plNxwdwKn1hzMzRmD5encfIeeNW5Yuw8cogjFp21a9uIVj6K1E3o
+         qL2rE6F9RijKN2h3Gr7P+HIYPggEKHdZhYZVZM1IzQJ1BLJkERx8h+lOx69fa721QX0N
+         b/Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=Y0eJ4pSh22lZlPekVxJNJZYe8l8R+Qjf/bJaf0Pgidw=;
-        b=oW4OO7d3sPgYBGloP2rE4RFMOS6UPcN5eIbw10zTqUo2Zg7Q0CsnJG6D4caH4io+qV
-         an/XzdSYjkKbYANuNU95bCGnsZPrVKKBw27JuSdN7Eq31WDXYqaJfYWrpEmNOe3KGT/a
-         9h5yjab2L7DVhjB9WHWNm5IoG8bFoI+VPOI8ILAE1GgSFqaZvuDfAv+nYa5CYEi+wPnO
-         mCuCfGJwxc53UG47QPeSQD8Pe4023P96j+lZj/6i/PAaG3F3h6Q2M/XXwmQxtoFRhmlm
-         OxkAEUP98YGSaZAe3ZzHG+lBYQKvDqeLp4HH8HcyvPkyV/mqLYiAM/hRvPaazW8x31pC
-         gWlg==
-X-Gm-Message-State: APjAAAUEhj9HNaPKpnirXbowrtd1F2P9dztfWDjJkq/mruPfQKCXLqtj
-        zXGfAwdfZt5ZzxjHtk9U8tgeECp5GVgF26v+RNshAPhaRWHq/nf92xoQKolMomJuprfsJGwpExM
-        FNAe1PvRkfdOxYNPRBUwC8p14y2RrO5jqjJlV9O54auzNFwWE68K7Qo3J830T40b+oYb7
-X-Google-Smtp-Source: APXvYqx6AKau+vn76nt+tDEomvC0J8yQHoYI6Azbuv9I7RS+SsZ6iEIlD6Z9IfJjOrOPRh5Mctx7/fliBHw=
-X-Received: by 2002:a1f:3244:: with SMTP id y65mr11465917vky.77.1563263927514;
- Tue, 16 Jul 2019 00:58:47 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 09:58:14 +0200
+        bh=m7n3rFhmx+idK8s3ajEqgLAszpk7xnK8xQBqwfMuZS0=;
+        b=TQeQ/cB6edu/p7zfr7ly+unSe1Fek3iqEyMTkPPGWHdAmuAEKTj26rUICGeubVfwVa
+         UoY2A+UdfSVbbB9Py7ZBl7G42ESGe+JxHUUohkMycZ+4fzxo0MxRvSIziwgqRRZgNGTl
+         MXGLdTPvEj2vURVvN6z9UTQYjTXjpwFstAtxuVGSu0ao4YhfX3Yi8hzKxnuvaeez2SV0
+         PDc7I2HF00/loWTeGRXps5PDlMGI8rPmKBROKX/IPZLf6s/ps2Qh97PFXIYIEKHQRUj1
+         OR31qYI65KIxNMv8Mb8ZpzUl1BnjfsG84osJyDR80jLlAQ+soa16ciJ6SdJaZcRyyzVQ
+         VOqQ==
+X-Gm-Message-State: APjAAAUFFvFOsBsiOUy3Be35wCu/i7TjVF7FESwft3qvotGgoSIOwX25
+        dD647mO7y844msoetwWD97q2r/1nXPdjaM39UHebOHI9TOT3XFW8iV78n4qaacQryGRkYFmf5xZ
+        wsIKT2NN1fggXR3URik7mKOmMyxxoUi2GsJSfg6uoOQCyfu5lNry5KAqL8Dj4ZgVlqgAD
+X-Google-Smtp-Source: APXvYqwnM++ODBWgq6EIIxe/BhJrIB6UhcG4c6OaOINg0Qfpf9IPpQbXL6qeAIOlwm6ZiqE9HmF2TMc5GbY=
+X-Received: by 2002:aed:3f10:: with SMTP id p16mr21590946qtf.110.1563263931255;
+ Tue, 16 Jul 2019 00:58:51 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 09:58:15 +0200
 In-Reply-To: <20190716075820.260202-1-darekm@google.com>
-Message-Id: <20190716075820.260202-4-darekm@google.com>
+Message-Id: <20190716075820.260202-5-darekm@google.com>
 Mime-Version: 1.0
 References: <20190716075820.260202-1-darekm@google.com>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH v3 3/9] dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
+Subject: [PATCH v3 4/9] tda9950: use cec_notifier_cec_adap_(un)register
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         hverkuil@xs4all.nl
@@ -65,46 +65,56 @@ Use the new cec_notifier_cec_adap_(un)register() functions to
 Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i2c/tda9950.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-index 6c323510f1288..6f7ecacb7d1fb 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-@@ -281,13 +281,14 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index 250b5e02a314a..e9f6171c47792 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -423,7 +423,8 @@ static int tda9950_probe(struct i2c_client *client,
+ 		priv->hdmi = glue->parent;
+ 
+ 	priv->adap = cec_allocate_adapter(&tda9950_cec_ops, priv, "tda9950",
+-					  CEC_CAP_DEFAULTS,
++					  CEC_CAP_DEFAULTS |
++					  CEC_CAP_CONNECTOR_INFO,
+ 					  CEC_MAX_LOG_ADDRS);
+ 	if (IS_ERR(priv->adap))
+ 		return PTR_ERR(priv->adap);
+@@ -460,13 +461,14 @@ static int tda9950_probe(struct i2c_client *client,
  	if (ret < 0)
  		return ret;
  
--	cec->notify = cec_notifier_get(pdev->dev.parent);
-+	cec->notify = cec_notifier_cec_adap_register(pdev->dev.parent,
-+						     NULL, cec->adap);
- 	if (!cec->notify)
+-	priv->notify = cec_notifier_get(priv->hdmi);
++	priv->notify = cec_notifier_cec_adap_register(priv->hdmi, NULL,
++						      priv->adap);
+ 	if (!priv->notify)
  		return -ENOMEM;
  
- 	ret = cec_register_adapter(cec->adap, pdev->dev.parent);
+ 	ret = cec_register_adapter(priv->adap, priv->hdmi);
  	if (ret < 0) {
--		cec_notifier_put(cec->notify);
-+		cec_notifier_cec_adap_unregister(cec->notify);
+-		cec_notifier_put(priv->notify);
++		cec_notifier_cec_adap_unregister(priv->notify);
  		return ret;
  	}
  
-@@ -297,8 +298,6 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+@@ -476,8 +478,6 @@ static int tda9950_probe(struct i2c_client *client,
  	 */
- 	devm_remove_action(&pdev->dev, dw_hdmi_cec_del, cec);
+ 	devm_remove_action(dev, tda9950_cec_del, priv);
  
--	cec_register_cec_notifier(cec->adap, cec->notify);
+-	cec_register_cec_notifier(priv->adap, priv->notify);
 -
  	return 0;
  }
  
-@@ -306,8 +305,8 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
+@@ -485,8 +485,8 @@ static int tda9950_remove(struct i2c_client *client)
  {
- 	struct dw_hdmi_cec *cec = platform_get_drvdata(pdev);
+ 	struct tda9950_priv *priv = i2c_get_clientdata(client);
  
-+	cec_notifier_cec_adap_unregister(cec->notify);
- 	cec_unregister_adapter(cec->adap);
--	cec_notifier_put(cec->notify);
++	cec_notifier_cec_adap_unregister(priv->notify);
+ 	cec_unregister_adapter(priv->adap);
+-	cec_notifier_put(priv->notify);
  
  	return 0;
  }
