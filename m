@@ -2,106 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E85469DF4
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2019 23:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C416A0C0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 05:11:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731555AbfGOVYN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jul 2019 17:24:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52814 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730076AbfGOVYM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jul 2019 17:24:12 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id E56E328B679
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     kernel@collabora.com, linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers autoselect" is enabled
-Date:   Mon, 15 Jul 2019 18:23:16 -0300
-Message-Id: <20190715212316.352-3-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190715212316.352-1-ezequiel@collabora.com>
-References: <20190715212316.352-1-ezequiel@collabora.com>
+        id S1730754AbfGPDL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jul 2019 23:11:57 -0400
+Received: from jpvw.nl ([80.127.100.2]:42514 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730688AbfGPDL4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jul 2019 23:11:56 -0400
+Received: from localhost ([::1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1hnDse-0007xf-7C; Tue, 16 Jul 2019 05:11:52 +0200
+Subject: Re: PATCH V3.5 1/2] dvbsky: add support for "Mygica T230C v2"
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org,
+        Michael Ira Krufky <mkrufky@linuxtv.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+References: <20190709183932.GA2311@jpvw.nl>
+ <20190715212131.egehgb73qxw7eueb@gofer.mess.org>
+From:   JP <jp@jpvw.nl>
+Message-ID: <a541542c-110d-0cd9-d269-e1cb34b4fb54@jpvw.nl>
+Date:   Tue, 16 Jul 2019 05:11:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190715212131.egehgb73qxw7eueb@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Many users have been complaining about not being able to find
-certain menu options. One such example are camera sensor drivers
-(e.g IMX219, OV5645, etc) which are common on embedded platforms
-and not always ancillary devices.
 
-The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-to the fact that it uses the "visible" kbuild syntax to hide
-entire group of drivers.
 
-This is not obvious and, as explained above, not always desired.
+On 7/15/19 11:21 PM, Sean Young wrote:
+> On Tue, Jul 09, 2019 at 08:39:32PM +0200, Jan Pieter van Woerkom wrote:
+>> From: Jan Pieter van Woerkom <jp@jpvw.nl>
+>>
+>> Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
+>> A small enhancement is also needed in the si2168 demodulator
+>> driver, and a USB device ID in dvb-usb-ids.h .
+>>
+>> This is v3.5 of the proposed patch, based on feedback from Sean
+>> Young and Antti Palosaari.
+>> Tested by patch author on DVB(T/T2/C).
+>> Tested by Frank Rysanek on a T230C v2: can tune into locally
+>> available DVB-T and DVB-T2 muxes, video and audio playback works.
+>> Applies cleanly against Linux 5.2 .
+>>
+>> The T230C v2 hardware needs a mode of the si2168 chip to be
+>> set for which the si2168 driver previously had no support.
+>> This patch uses a specific measure to configure this on the
+>> T230C v2 hardware only - see the flag passed via the ts_mode
+>> attribute and its dependency on USB_PID_MYGICA_T230C2. Other
+>> devices using the si2168 demodulator driver are not affected.
+>>
+>> Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
+>> Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
+>> ---
+>> diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+>> --- a/drivers/media/dvb-frontends/si2168.c	2019-07-08 00:41:56.000000000 +0200
+>> +++ b/drivers/media/dvb-frontends/si2168.c	2019-07-09 18:47:59.514873658 +0200
+>> @@ -82,8 +82,18 @@
+>>   
+>>   	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
+>>   
+>> +	/* set manual value */
+>> +	if (dev->ts_mode & SI2168_TS_CLK_MANUAL) {
+>> +		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
+>> +		cmd.wlen = 6;
+>> +		cmd.rlen = 4;
+>> +		ret = si2168_cmd_execute(client, &cmd);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>>   	/* set TS_MODE property */
+>> -	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
+>> +	memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
+> Here byte at offset 4 is now 0 rather than 0x10.
+>
+>> +	cmd.args[4] = dev->ts_mode & (SI2168_TS_CLK_AUTO|SI2168_TS_CLK_MANUAL);
+> The many existing frontends which use the si2168 do have not have ts_mode
+> bit SI2168_TS_CLK_AUTO (0x010) set. So, this changes what is sent for
+> those drivers. Is that intended?
+At least 2 other drivers I tested (T230 in cxusb.c and 1 anysee)
+work with this bit set or clear. My guess was that it would be OK
+to use 0x00. So sort of intended. I couldn't think of a simple
+operation to set one bit and clear the other. I will think again. :-)
 
-To fix the problem, drop the "visible" and stop hiding any menu
-options. Users skilled enough to configure their kernel are expected
-to be skilled enough to know what (not) to configure anyway.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/media/dvb-frontends/Kconfig | 1 -
- drivers/media/i2c/Kconfig           | 1 -
- drivers/media/spi/Kconfig           | 1 -
- drivers/media/tuners/Kconfig        | 1 -
- 4 files changed, 4 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index dc43749177df..2d1fea3bf546 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -1,5 +1,4 @@
- menu "Customise DVB Frontends"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
- 
- comment "Multistandard (satellite) frontends"
- 	depends on DVB_CORE
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 79ce9ec6fc1b..475072bb67d6 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -23,7 +23,6 @@ config VIDEO_IR_I2C
- #
- 
- menu "I2C Encoders, decoders, sensors and other helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
- 
- comment "Audio decoders, processors and mixers"
- 
-diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-index 08386abb9bbc..d94921fe3db5 100644
---- a/drivers/media/spi/Kconfig
-+++ b/drivers/media/spi/Kconfig
-@@ -2,7 +2,6 @@
- if VIDEO_V4L2
- 
- menu "SPI helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
- 
- config VIDEO_GS1662
- 	tristate "Gennum Serializers video"
-diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-index a7108e575e9b..01212df505ae 100644
---- a/drivers/media/tuners/Kconfig
-+++ b/drivers/media/tuners/Kconfig
-@@ -16,7 +16,6 @@ config MEDIA_TUNER
- 	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
- 
- menu "Customize TV tuners"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
- 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
- 
- config MEDIA_TUNER_SIMPLE
--- 
-2.22.0
+>
+> Thanks,
+>
+> Sean
+>
+>>   	if (acquire)
+>>   		cmd.args[4] |= dev->ts_mode;
+>>   	else
+>> diff -ru a/drivers/media/dvb-frontends/si2168.h b/drivers/media/dvb-frontends/si2168.h
+>> --- a/drivers/media/dvb-frontends/si2168.h	2019-07-08 00:41:56.000000000 +0200
+>> +++ b/drivers/media/dvb-frontends/si2168.h	2019-07-09 18:47:59.514873658 +0200
+>> @@ -30,6 +30,8 @@
+>>   #define SI2168_TS_PARALLEL	0x06
+>>   #define SI2168_TS_SERIAL	0x03
+>>   #define SI2168_TS_TRISTATE	0x00
+>> +#define SI2168_TS_CLK_AUTO	0x10
+>> +#define SI2168_TS_CLK_MANUAL	0x20
+>>   	u8 ts_mode;
+>>   
+>>   	/* TS clock inverted */
 
