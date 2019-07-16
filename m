@@ -2,93 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5EE6A39A
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 10:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B6276A42B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 10:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbfGPIMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jul 2019 04:12:50 -0400
-Received: from gofer.mess.org ([88.97.38.141]:49471 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726487AbfGPIMu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jul 2019 04:12:50 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id EBA5C60708; Tue, 16 Jul 2019 09:12:48 +0100 (BST)
-Date:   Tue, 16 Jul 2019 09:12:48 +0100
-From:   Sean Young <sean@mess.org>
-To:     JP <jp@jpvw.nl>
-Cc:     linux-media@vger.kernel.org,
-        Michael Ira Krufky <mkrufky@linuxtv.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
-Subject: Re: PATCH V3.5 1/2] dvbsky: add support for "Mygica T230C v2"
-Message-ID: <20190716081248.75274wv2l747tnri@gofer.mess.org>
-References: <20190709183932.GA2311@jpvw.nl>
- <20190715212131.egehgb73qxw7eueb@gofer.mess.org>
- <a541542c-110d-0cd9-d269-e1cb34b4fb54@jpvw.nl>
+        id S1728136AbfGPIsH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jul 2019 04:48:07 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45043 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726465AbfGPIsH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Jul 2019 04:48:07 -0400
+Received: from [IPv6:2001:420:44c1:2579:85b3:c250:4b65:7bea] ([IPv6:2001:420:44c1:2579:85b3:c250:4b65:7bea])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id nJ7xhl1EYuEBxnJ80hNpTS; Tue, 16 Jul 2019 10:48:05 +0200
+Subject: Re: [PATCH v3 3/9] dw-hdmi-cec: use
+ cec_notifier_cec_adap_(un)register
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl
+References: <20190716075820.260202-1-darekm@google.com>
+ <20190716075820.260202-4-darekm@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <7055d5ca-95cd-2cae-9d88-fff16a51285c@xs4all.nl>
+Date:   Tue, 16 Jul 2019 10:48:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a541542c-110d-0cd9-d269-e1cb34b4fb54@jpvw.nl>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190716075820.260202-4-darekm@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfC/u/plYKCclXzhaRPg0LWMtw2SD+/QUrgpLHvcIH5m37AvSLdBA/T2gmfJqhpyZsyu2r1TJ+xfzxEqCCTR5eNcItnqOZrqDyfWboP4Dxf9vYHoqdZx+
+ +sHK485li3R6ugijharLax7Mc9PV6zE1c1SEN+x/Cn+J2dXGxuPehkdwgj+9pYcersI3CZ4FwbJbdTKAPrK6BKRWtN0enz6DHIXSuQHDhn1j3rs8Mue9ppZa
+ o7EyKEm6VtKNohxuCL3cQbnXhbcLUCYmMyECMBm54x8So6F7GCZbAtpZKpFQlLUo8MspFUlLtfBA5NOEzc9GyrpjhO2CXowXcOQZQCfft5fY9Id3isKIfgWA
+ Iujo8XyM
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 05:11:52AM +0200, JP wrote:
-> On 7/15/19 11:21 PM, Sean Young wrote:
-> > On Tue, Jul 09, 2019 at 08:39:32PM +0200, Jan Pieter van Woerkom wrote:
-> > > From: Jan Pieter van Woerkom <jp@jpvw.nl>
-> > > 
-> > > Adds support for the "Mygica T230C v2" into the "dvbsky" driver.
-> > > A small enhancement is also needed in the si2168 demodulator
-> > > driver, and a USB device ID in dvb-usb-ids.h .
-> > > 
-> > > This is v3.5 of the proposed patch, based on feedback from Sean
-> > > Young and Antti Palosaari.
-> > > Tested by patch author on DVB(T/T2/C).
-> > > Tested by Frank Rysanek on a T230C v2: can tune into locally
-> > > available DVB-T and DVB-T2 muxes, video and audio playback works.
-> > > Applies cleanly against Linux 5.2 .
-> > > 
-> > > The T230C v2 hardware needs a mode of the si2168 chip to be
-> > > set for which the si2168 driver previously had no support.
-> > > This patch uses a specific measure to configure this on the
-> > > T230C v2 hardware only - see the flag passed via the ts_mode
-> > > attribute and its dependency on USB_PID_MYGICA_T230C2. Other
-> > > devices using the si2168 demodulator driver are not affected.
-> > > 
-> > > Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
-> > > Tested-by: Frank Rysanek <Frantisek.Rysanek@post.cz>
-> > > ---
-> > > diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-> > > --- a/drivers/media/dvb-frontends/si2168.c	2019-07-08 00:41:56.000000000 +0200
-> > > +++ b/drivers/media/dvb-frontends/si2168.c	2019-07-09 18:47:59.514873658 +0200
-> > > @@ -82,8 +82,18 @@
-> > >   	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
-> > > +	/* set manual value */
-> > > +	if (dev->ts_mode & SI2168_TS_CLK_MANUAL) {
-> > > +		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
-> > > +		cmd.wlen = 6;
-> > > +		cmd.rlen = 4;
-> > > +		ret = si2168_cmd_execute(client, &cmd);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > >   	/* set TS_MODE property */
-> > > -	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-> > > +	memcpy(cmd.args, "\x14\x00\x01\x10\x00\x00", 6);
-> > Here byte at offset 4 is now 0 rather than 0x10.
-> > 
-> > > +	cmd.args[4] = dev->ts_mode & (SI2168_TS_CLK_AUTO|SI2168_TS_CLK_MANUAL);
-> > The many existing frontends which use the si2168 do have not have ts_mode
-> > bit SI2168_TS_CLK_AUTO (0x010) set. So, this changes what is sent for
-> > those drivers. Is that intended?
-> At least 2 other drivers I tested (T230 in cxusb.c and 1 anysee)
-> work with this bit set or clear. My guess was that it would be OK
-> to use 0x00. So sort of intended. I couldn't think of a simple
-> operation to set one bit and clear the other. I will think again. :-)
+On 7/16/19 9:58 AM, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_cec_adap_(un)register() functions to
+> (un)register the notifier for the CEC adapter.
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index 6c323510f1288..6f7ecacb7d1fb 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -281,13 +281,14 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	cec->notify = cec_notifier_get(pdev->dev.parent);
+> +	cec->notify = cec_notifier_cec_adap_register(pdev->dev.parent,
+> +						     NULL, cec->adap);
+>  	if (!cec->notify)
+>  		return -ENOMEM;
+>  
+>  	ret = cec_register_adapter(cec->adap, pdev->dev.parent);
+>  	if (ret < 0) {
+> -		cec_notifier_put(cec->notify);
+> +		cec_notifier_cec_adap_unregister(cec->notify);
+>  		return ret;
+>  	}
+>  
+> @@ -297,8 +298,6 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+>  	 */
+>  	devm_remove_action(&pdev->dev, dw_hdmi_cec_del, cec);
 
-Great, thank you! :)
+I have to say that I find this remove action very confusing since it is
+not obvious that this deletes the adapter on error. I would prefer that
+the action is dropped and the normal 'goto' pattern is used for error
+handling. Much easier to review.
 
-Sean
+What do you think?
+
+Regards,
+
+	Hans
+
+>  
+> -	cec_register_cec_notifier(cec->adap, cec->notify);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -306,8 +305,8 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
+>  {
+>  	struct dw_hdmi_cec *cec = platform_get_drvdata(pdev);
+>  
+> +	cec_notifier_cec_adap_unregister(cec->notify);
+>  	cec_unregister_adapter(cec->adap);
+> -	cec_notifier_put(cec->notify);
+>  
+>  	return 0;
+>  }
+> 
+
