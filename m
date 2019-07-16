@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0E76A368
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 09:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 670EE6A369
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2019 09:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731042AbfGPH7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jul 2019 03:59:07 -0400
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:43688 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726465AbfGPH7H (ORCPT
+        id S1726487AbfGPH7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jul 2019 03:59:11 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:56375 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727862AbfGPH7L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jul 2019 03:59:07 -0400
-Received: by mail-yw1-f74.google.com with SMTP id b188so15480947ywb.10
-        for <linux-media@vger.kernel.org>; Tue, 16 Jul 2019 00:59:06 -0700 (PDT)
+        Tue, 16 Jul 2019 03:59:11 -0400
+Received: by mail-qt1-f202.google.com with SMTP id x11so12909524qto.23
+        for <linux-media@vger.kernel.org>; Tue, 16 Jul 2019 00:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=T8TalvmLrtZ0fzDRhYayjujQxy4L4gy0LZKADKi+6tE=;
-        b=GGytpziiJqb6dHQuAs1KJaAXycwvDOr87Z/yhd8DewdUAdfC50RsVsXf56sB5de0zK
-         OBx359g7oU3CkWKe0DouhO4bKjagDjVdFk93YPrdvxx8nVdO894dsGQiD34gZrx7iDaC
-         o9p57plXDC4xc8kb4owlBvDc0CkV6qX5AHuLM/6G22jp6/lHGDs/bkFisSNju6Av7Cv6
-         sXaY1wjJ8UF0FLGvTOBOWzNboiXHl7KxwZNz03t5y5Vv9LmYm2laqTdWzafZQW84jwmU
-         2QgytGqtAWyK3SbRwbkcEKkV49/bBBvai/7OuEq5v/pviA+RCa4/fpMO1c1quxAmJ2Az
-         8x/g==
+        bh=LcyxD0jadNcdSb7X2PuAiJWDefUY+UWHf/7pqMNmvYo=;
+        b=U77iCosxrsg3OgIkMic+Uau0MQaXSCb+1ncJPy1T/AX7fvlYvJnKs9xyuu+etzhOtJ
+         KCcGE3XqEWllx7UX3tm/aV09a9YXPOIygZIPnUq5JtTRTcQ3qxLcBt0bT1PAqoHF+4t8
+         ALC6lIrVe/TthFXDpW265auBuSPaP2ytNCplhcsjyEP6g76GOEsWogtMvepYo7+S85s9
+         r6LHwBzukjOFXxAw2AV6gxfSJyxAN6MWkWfA95VHe3OXl+9u0UM9YVUNqnpza7q7NyKA
+         pGFIfvM5g/4byANLaUioTN6jSuXYLDoc2JlRxSEeUKleWooEy/ASLH4jM6HU74TfC1R2
+         vRJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=T8TalvmLrtZ0fzDRhYayjujQxy4L4gy0LZKADKi+6tE=;
-        b=W0uJGUJ2xOgIKxkIRPoDCdYMUwvoiYyLmS8bLXOu3I9RCj57J4Z6hvpxO6NHb9ePX7
-         Sz9BBZ+GIMaVTAdpGnmf6iXLKGTK28CeJ3M+Hfgt3qVT4C8WB/P30v3fNyMK2U+VKiqQ
-         vwseYNyq8cZ07oFyuoC2WfP2M3gFOTw2nam7nsrug1dUTXlGAn9i0FGMkQzs6x9KUX/v
-         WLfQde+8qKJjEIRXmzQnuqh5UzlYwk/0shy36x49YMMv/cVDKTTc4H1NTeHSd6px3SGV
-         /xCBTfm1WGL5SM1BC+Busatro21xSf7DEU6+VJx5qVjBJoF+w1615DrxwfdjbjSv3aIk
-         KRXQ==
-X-Gm-Message-State: APjAAAVntFiQbo9vNAP60kekLHR79PKCK1nFIaQag/n42L6Qo6XnmnfM
-        4Zu9CTiQNw2t5OO+hlxxhWxkBZ6CdtTMCfE+JtIXdQGhxWwgKqHUgpOCgX1wplwP2PHljnPgeOp
-        kIpBZrK3yBdFlMfSUdN1gFDblA9u1/R4o+q36DNedJmg3zgbKhFkXUYKLHtunuxDkYy2J
-X-Google-Smtp-Source: APXvYqwK8aZhMf7FpkawYxaahFLBvjLt2oGwF/sHPu3k8FRm4aFxHel7UuSupek3WykwFkywcnrSvLMS0Co=
-X-Received: by 2002:a0d:d410:: with SMTP id w16mr18242925ywd.125.1563263946379;
- Tue, 16 Jul 2019 00:59:06 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 09:58:19 +0200
+        bh=LcyxD0jadNcdSb7X2PuAiJWDefUY+UWHf/7pqMNmvYo=;
+        b=UsrUvF5ttE1/4+SJIF4o7BUdEau0hr4bRCn55sk0GcEYlMJdxL/HUkYu62Toawzz6+
+         leWhnvS2XItdNl8bMtGCxkMFp4p4TyS5a5Hit3gGOCCvTCaUbcW0usUuveTB6w71MzEM
+         jTmY9Wte59sVVqke6wmUOdZJ8sSt4e7PL3XQqw9OuyMiin7KpMw64en+/d/40rohNyZy
+         /V4mpXU1keVUWAUiYb9JwXWFZbsqGHs8/MBySTfsFYQzvQtjFdNWYCjVFCS/XUagerLn
+         WujX0twm1QnN/uEX/gMurXqiHnrkdEUFkMneEX39YsY8Y3hd/eL7CZjJFuj4qYYdwGWo
+         MULA==
+X-Gm-Message-State: APjAAAU5IpRZSFTVYaYOMiFdKV1KAjPjEzCIQWY1MHJOIGXtcJQ8ST/i
+        xEPeSSkQy5gkEGyN4rlIWhsgES3Agqi95LrYgDWsfIhPtceRElj1Ijz0nEyKy+N6gx/hK/ZNuav
+        +4lse15y9sO8Umycb6HMDNq92M0NKoS2NjY2EZCvlOmF4lLRpDD7QaekaCTNhz+FSUsar
+X-Google-Smtp-Source: APXvYqywgok42NUsewsRN+aIkY28P0KnyOf1vx4L3J7Jbx4kJXo6QY8bwUWKPeJnIuh2dy1zHvJ9qLxH2Cc=
+X-Received: by 2002:a37:9944:: with SMTP id b65mr20950749qke.105.1563263949957;
+ Tue, 16 Jul 2019 00:59:09 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 09:58:20 +0200
 In-Reply-To: <20190716075820.260202-1-darekm@google.com>
-Message-Id: <20190716075820.260202-9-darekm@google.com>
+Message-Id: <20190716075820.260202-10-darekm@google.com>
 Mime-Version: 1.0
 References: <20190716075820.260202-1-darekm@google.com>
 X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
-Subject: [PATCH v3 8/9] drm: dw-hdmi: use cec_notifier_conn_(un)register
+Subject: [PATCH v3 9/9] drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         hverkuil@xs4all.nl
@@ -64,102 +64,111 @@ Use the new cec_notifier_conn_(un)register() functions to
 the cec_connector_info.
 
 Changes since v2:
-	- removed unnecessary NULL check before a call to
-	cec_notifier_conn_unregister,
-	- use cec_notifier_phys_addr_invalidate to invalidate physical
-	address.
-Changes since v1:
-	Add memory barrier to make sure that the notifier
-	becomes visible to the irq thread once it is fully
-	constructed.
+	- removed unnecessary call to invalidate phys address before
+	deregistering the notifier,
+	- use cec_notifier_phys_addr_invalidate instead of setting
+	invalid address on a notifier.
 
 Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 36 ++++++++++++++---------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 31 ++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index ab7968c8f6a29..1e183af0e1ab1 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2118,6 +2118,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 	struct drm_encoder *encoder = bridge->encoder;
- 	struct drm_connector *connector = &hdmi->connector;
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 19c252f659dd0..5fd2551a93567 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -858,6 +858,10 @@ static enum drm_connector_status hdmi_detect(struct drm_connector *connector,
+ 
+ static void hdmi_connector_destroy(struct drm_connector *connector)
+ {
++	struct hdmi_context *hdata = connector_to_hdmi(connector);
++
++	cec_notifier_conn_unregister(hdata->notifier);
++
+ 	drm_connector_unregister(connector);
+ 	drm_connector_cleanup(connector);
+ }
+@@ -941,6 +945,7 @@ static int hdmi_create_connector(struct drm_encoder *encoder)
+ {
+ 	struct hdmi_context *hdata = encoder_to_hdmi(encoder);
+ 	struct drm_connector *connector = &hdata->connector;
 +	struct cec_connector_info conn_info;
-+	struct cec_notifier *notifier;
+ 	int ret;
  
- 	connector->interlace_allowed = 1;
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
-@@ -2129,6 +2131,18 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
- 
- 	drm_connector_attach_encoder(connector, encoder);
+ 	connector->interlace_allowed = true;
+@@ -963,6 +968,15 @@ static int hdmi_create_connector(struct drm_encoder *encoder)
+ 			DRM_DEV_ERROR(hdata->dev, "Failed to attach bridge\n");
+ 	}
  
 +	cec_fill_conn_info_from_drm(&conn_info, connector);
 +
-+	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
-+	if (!notifier)
-+		return -ENOMEM;
-+	/*
-+	 * Make sure that dw_hdmi_irq thread does see the notifier
-+	 * when it fully constructed.
-+	 */
-+	smp_wmb();
-+	hdmi->cec_notifier = notifier;
++	hdata->notifier = cec_notifier_conn_register(hdata->dev, NULL,
++						     &conn_info);
++	if (hdata->notifier == NULL) {
++		ret = -ENOMEM;
++		DRM_DEV_ERROR(hdata->dev, "Failed to allocate CEC notifier\n");
++	}
 +
- 	return 0;
+ 	return ret;
  }
  
-@@ -2295,9 +2309,13 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
- 				       phy_stat & HDMI_PHY_HPD,
- 				       phy_stat & HDMI_PHY_RX_SENSE);
- 
--		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0)
--			cec_notifier_set_phys_addr(hdmi->cec_notifier,
--						   CEC_PHYS_ADDR_INVALID);
-+		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
-+			struct cec_notifier *notifer;
-+
-+			notifer = READ_ONCE(hdmi->cec_notifier);
-+			if (notifer)
-+				cec_notifier_phys_addr_invalidate(notifer);
-+		}
+@@ -1534,8 +1548,8 @@ static void hdmi_disable(struct drm_encoder *encoder)
+ 		 */
+ 		mutex_unlock(&hdata->mutex);
+ 		cancel_delayed_work(&hdata->hotplug_work);
+-		cec_notifier_set_phys_addr(hdata->notifier,
+-					   CEC_PHYS_ADDR_INVALID);
++		if (hdata->notifier)
++			cec_notifier_phys_addr_invalidate(hdata->notifier);
+ 		return;
  	}
  
- 	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-@@ -2600,12 +2618,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 	if (ret)
- 		goto err_iahb;
+@@ -2012,12 +2026,6 @@ static int hdmi_probe(struct platform_device *pdev)
+ 		}
+ 	}
  
--	hdmi->cec_notifier = cec_notifier_get(dev);
--	if (!hdmi->cec_notifier) {
+-	hdata->notifier = cec_notifier_get(&pdev->dev);
+-	if (hdata->notifier == NULL) {
 -		ret = -ENOMEM;
--		goto err_iahb;
+-		goto err_hdmiphy;
 -	}
 -
- 	/*
- 	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
- 	 * N and cts values before enabling phy
-@@ -2693,9 +2705,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 		hdmi->ddc = NULL;
- 	}
+ 	pm_runtime_enable(dev);
  
--	if (hdmi->cec_notifier)
--		cec_notifier_put(hdmi->cec_notifier);
--
- 	clk_disable_unprepare(hdmi->iahb_clk);
- 	if (hdmi->cec_clk)
- 		clk_disable_unprepare(hdmi->cec_clk);
-@@ -2717,8 +2726,7 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
- 	/* Disable all interrupts */
- 	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
+ 	audio_infoframe = &hdata->audio.infoframe;
+@@ -2029,7 +2037,7 @@ static int hdmi_probe(struct platform_device *pdev)
  
--	if (hdmi->cec_notifier)
--		cec_notifier_put(hdmi->cec_notifier);
-+	cec_notifier_conn_unregister(hdmi->cec_notifier);
+ 	ret = hdmi_register_audio_device(hdata);
+ 	if (ret)
+-		goto err_notifier_put;
++		goto err_runtime_disable;
  
- 	clk_disable_unprepare(hdmi->iahb_clk);
- 	clk_disable_unprepare(hdmi->isfr_clk);
+ 	ret = component_add(&pdev->dev, &hdmi_component_ops);
+ 	if (ret)
+@@ -2040,8 +2048,7 @@ static int hdmi_probe(struct platform_device *pdev)
+ err_unregister_audio:
+ 	platform_device_unregister(hdata->audio.pdev);
+ 
+-err_notifier_put:
+-	cec_notifier_put(hdata->notifier);
++err_runtime_disable:
+ 	pm_runtime_disable(dev);
+ 
+ err_hdmiphy:
+@@ -2060,12 +2067,10 @@ static int hdmi_remove(struct platform_device *pdev)
+ 	struct hdmi_context *hdata = platform_get_drvdata(pdev);
+ 
+ 	cancel_delayed_work_sync(&hdata->hotplug_work);
+-	cec_notifier_set_phys_addr(hdata->notifier, CEC_PHYS_ADDR_INVALID);
+ 
+ 	component_del(&pdev->dev, &hdmi_component_ops);
+ 	platform_device_unregister(hdata->audio.pdev);
+ 
+-	cec_notifier_put(hdata->notifier);
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	if (!IS_ERR(hdata->reg_hdmi_en))
 -- 
 2.22.0.510.g264f2c817a-goog
 
