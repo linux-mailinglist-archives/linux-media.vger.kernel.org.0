@@ -2,269 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B52BD6BD02
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 15:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BD406BD17
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 15:35:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725936AbfGQN3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 09:29:15 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58555 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725799AbfGQN3P (ORCPT
+        id S1726598AbfGQNe2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 09:34:28 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40244 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfGQNe2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 09:29:15 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id njzZhwPtB0SBqnjzchaLa9; Wed, 17 Jul 2019 15:29:12 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 5/6] omap_vout: use struct v4l2_fh
-Message-ID: <26e4e34d-c148-271d-be13-77fc8d15a646@xs4all.nl>
-Date:   Wed, 17 Jul 2019 15:29:09 +0200
+        Wed, 17 Jul 2019 09:34:28 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A6FB33C;
+        Wed, 17 Jul 2019 15:34:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1563370466;
+        bh=jncdj1nJCCU+MwGY1kMmVxVoCFCQYDt1Wi2FHRMyjoY=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=YPsEsnaSh3pnOebQ8+nnmD4y39ereXKRXZqJ6+9pKXgrwB8Bsu4chak4yf4Q//O2a
+         5P/DXv/0Zz7U94HBaMME3xZZNDCaG2jk/Py92aaqgma0NTAomTDlnOgUJ0BOnn4bB7
+         JwzNxczYOQZYfz+X7iO1VqG2vMtsQ+Vw8d7Yf8JQ=
+Subject: Re: [PATCH v2] rcar-vin: Clean up correct notifier in error path
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <fa6f9b8a-42a8-88be-de7b-878dac131627@ideasonboard.com>
+Date:   Wed, 17 Jul 2019 14:34:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIN3K6PGmzjYte7ZFzb7/1e29qsyQinjjZn/QaEz3mjYhO95gBqWKL9OnWt79viCJXyBxFl8XM8iBEnceGsLdAaLarHwy0OVEgaYj9At52IUPnRjC9vM
- +xIB2+NQwwu9Al4Ix0oCNvrFBH5c1RbmyRWPMMsI8/TwHjbRpoGRt9X3zpjAMq+XyQGmmk1yzcewDyP+fvajnDfJhwpspbAOMndPKivTJMVTzQ/VEYJPWxnA
- 5aX7Kb8/+k11O1LMwJOu8QCGmfzzaZgzplk8hiW8W+U=
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This driver is one of the few that is still not using struct
-v4l2_fh. Convert it.
+Hi Niklas,
 
-Tested on a Pandaboard.
+On 02/07/2019 18:42, Niklas Söderlund wrote:
+> The parallel input initialization error path cleans up the wrong
+> async notifier, fix this by cleaning up the correct notifier.
+> 
+> Fixes: 9863bc8695bc36e3 ("media: rcar-vin: Cleanup notifier in error path")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/platform/omap/omap_vout.c | 53 +++++++++++++------------
- 1 file changed, 27 insertions(+), 26 deletions(-)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/omap/omap_vout.c
-index cb6a9e3946b6..94d0e04fa69b 100644
---- a/drivers/media/platform/omap/omap_vout.c
-+++ b/drivers/media/platform/omap/omap_vout.c
-@@ -841,7 +841,7 @@ static void omap_vout_buffer_release(struct videobuf_queue *q,
- static __poll_t omap_vout_poll(struct file *file,
- 				   struct poll_table_struct *wait)
- {
--	struct omap_vout_device *vout = file->private_data;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
-
- 	return videobuf_poll_stream(file, q, wait);
-@@ -876,7 +876,7 @@ static int omap_vout_mmap(struct file *file, struct vm_area_struct *vma)
- 	void *pos;
- 	unsigned long start = vma->vm_start;
- 	unsigned long size = (vma->vm_end - vma->vm_start);
--	struct omap_vout_device *vout = file->private_data;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
-
- 	v4l2_dbg(1, debug, &vout->vid_dev->v4l2_dev,
-@@ -935,7 +935,7 @@ static int omap_vout_release(struct file *file)
- 	unsigned int ret, i;
- 	struct videobuf_queue *q;
- 	struct omapvideo_info *ovid;
--	struct omap_vout_device *vout = file->private_data;
-+	struct omap_vout_device *vout = video_drvdata(file);
-
- 	v4l2_dbg(1, debug, &vout->vid_dev->v4l2_dev, "Entering %s\n", __func__);
- 	ovid = &vout->vid_info;
-@@ -988,7 +988,7 @@ static int omap_vout_release(struct file *file)
- 		vout->mmap_count = 0;
-
- 	vout->opened -= 1;
--	file->private_data = NULL;
-+	v4l2_fh_release(file);
-
- 	if (vout->buffer_allocated)
- 		videobuf_mmap_free(q);
-@@ -1000,9 +1000,8 @@ static int omap_vout_release(struct file *file)
- static int omap_vout_open(struct file *file)
- {
- 	struct videobuf_queue *q;
--	struct omap_vout_device *vout = NULL;
--
--	vout = video_drvdata(file);
-+	struct omap_vout_device *vout = video_drvdata(file);
-+	int ret;
-
- 	if (vout == NULL)
- 		return -ENODEV;
-@@ -1013,9 +1012,11 @@ static int omap_vout_open(struct file *file)
- 	if (vout->opened)
- 		return -EBUSY;
-
--	vout->opened += 1;
-+	ret = v4l2_fh_open(file);
-+	if (ret)
-+		return ret;
-
--	file->private_data = vout;
-+	vout->opened += 1;
- 	vout->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-
- 	q = &vout->vbq;
-@@ -1039,7 +1040,7 @@ static int omap_vout_open(struct file *file)
- static int vidioc_querycap(struct file *file, void *fh,
- 		struct v4l2_capability *cap)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
-
- 	strscpy(cap->driver, VOUT_NAME, sizeof(cap->driver));
- 	strscpy(cap->card, vout->vfd->name, sizeof(cap->card));
-@@ -1070,7 +1071,7 @@ static int vidioc_enum_fmt_vid_out(struct file *file, void *fh,
- static int vidioc_g_fmt_vid_out(struct file *file, void *fh,
- 			struct v4l2_format *f)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
-
- 	f->fmt.pix = vout->pix;
- 	return 0;
-@@ -1083,7 +1084,7 @@ static int vidioc_try_fmt_vid_out(struct file *file, void *fh,
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
- 	struct omap_video_timings *timing;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_dss_device *dssdev;
-
- 	ovid = &vout->vid_info;
-@@ -1110,7 +1111,7 @@ static int vidioc_s_fmt_vid_out(struct file *file, void *fh,
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
- 	struct omap_video_timings *timing;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_dss_device *dssdev;
-
- 	if (vout->streaming)
-@@ -1176,7 +1177,7 @@ static int vidioc_try_fmt_vid_overlay(struct file *file, void *fh,
- 			struct v4l2_format *f)
- {
- 	int ret = 0;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
- 	struct v4l2_window *win = &f->fmt.win;
-@@ -1202,7 +1203,7 @@ static int vidioc_s_fmt_vid_overlay(struct file *file, void *fh,
- 	int ret = 0;
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct v4l2_window *win = &f->fmt.win;
-
- 	mutex_lock(&vout->lock);
-@@ -1229,7 +1230,7 @@ static int vidioc_g_fmt_vid_overlay(struct file *file, void *fh,
- 	u32 key_value =  0;
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_overlay_manager_info info;
- 	struct v4l2_window *win = &f->fmt.win;
-
-@@ -1250,7 +1251,7 @@ static int vidioc_g_fmt_vid_overlay(struct file *file, void *fh,
-
- static int vidioc_g_selection(struct file *file, void *fh, struct v4l2_selection *sel)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct v4l2_pix_format *pix = &vout->pix;
-
- 	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-@@ -1277,7 +1278,7 @@ static int vidioc_g_selection(struct file *file, void *fh, struct v4l2_selection
- static int vidioc_s_selection(struct file *file, void *fh, struct v4l2_selection *sel)
- {
- 	int ret = -EINVAL;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omapvideo_info *ovid;
- 	struct omap_overlay *ovl;
- 	struct omap_video_timings *timing;
-@@ -1419,7 +1420,7 @@ static int vidioc_reqbufs(struct file *file, void *fh,
- {
- 	int ret = 0;
- 	unsigned int i, num_buffers = 0;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
-
- 	if (req->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-@@ -1484,7 +1485,7 @@ static int vidioc_reqbufs(struct file *file, void *fh,
- static int vidioc_querybuf(struct file *file, void *fh,
- 			struct v4l2_buffer *b)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
-
- 	return videobuf_querybuf(&vout->vbq, b);
- }
-@@ -1492,7 +1493,7 @@ static int vidioc_querybuf(struct file *file, void *fh,
- static int vidioc_qbuf(struct file *file, void *fh,
- 			struct v4l2_buffer *buffer)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
-
- 	if ((V4L2_BUF_TYPE_VIDEO_OUTPUT != buffer->type) ||
-@@ -1519,7 +1520,7 @@ static int vidioc_qbuf(struct file *file, void *fh,
-
- static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *b)
- {
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
-
- 	int ret;
-@@ -1547,7 +1548,7 @@ static int vidioc_streamon(struct file *file, void *fh, enum v4l2_buf_type i)
- {
- 	int ret = 0, j;
- 	u32 addr = 0, mask = 0;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct videobuf_queue *q = &vout->vbq;
- 	struct omapvideo_info *ovid = &vout->vid_info;
-
-@@ -1632,7 +1633,7 @@ static int vidioc_streamoff(struct file *file, void *fh, enum v4l2_buf_type i)
- {
- 	u32 mask = 0;
- 	int ret = 0, j;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omapvideo_info *ovid = &vout->vid_info;
-
- 	if (!vout->streaming)
-@@ -1670,7 +1671,7 @@ static int vidioc_s_fbuf(struct file *file, void *fh,
- 	int enable = 0;
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_overlay_manager_info info;
- 	enum omap_dss_trans_key_type key_type = OMAP_DSS_COLOR_KEY_GFX_DST;
-
-@@ -1741,7 +1742,7 @@ static int vidioc_g_fbuf(struct file *file, void *fh,
- {
- 	struct omap_overlay *ovl;
- 	struct omapvideo_info *ovid;
--	struct omap_vout_device *vout = fh;
-+	struct omap_vout_device *vout = video_drvdata(file);
- 	struct omap_overlay_manager_info info;
-
- 	ovid = &vout->vid_info;
--- 
-2.20.1
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 64f9cf790445d14e..a6efe1a8099a6ae6 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -633,7 +633,7 @@ static int rvin_parallel_init(struct rvin_dev *vin)
+>  	ret = v4l2_async_notifier_register(&vin->v4l2_dev, &vin->notifier);
+>  	if (ret < 0) {
+>  		vin_err(vin, "Notifier registration failed\n");
+> -		v4l2_async_notifier_cleanup(&vin->group->notifier);
+> +		v4l2_async_notifier_cleanup(&vin->notifier);
+>  		return ret;
+>  	}
+>  
+> 
 
