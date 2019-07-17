@@ -2,88 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3A066BE22
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 16:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E54576BF3F
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 17:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbfGQOX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 10:23:29 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33156 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbfGQOX2 (ORCPT
+        id S1726620AbfGQPni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 11:43:38 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36228 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726494AbfGQPnh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 10:23:28 -0400
-Received: by mail-pg1-f195.google.com with SMTP id f20so2013746pgj.0
-        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 07:23:28 -0700 (PDT)
+        Wed, 17 Jul 2019 11:43:37 -0400
+Received: by mail-lj1-f193.google.com with SMTP id i21so24124191ljj.3
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 08:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XpT+hyHQLrqTrk2x0mHRYSE52sz59GDyA66hoyA5DA8=;
-        b=cR9ZpfCpxkVPqyp15+rlsfv0Uo19LMdW46Mtd25oPGRpue1omqQnENfn4j2eRm9ude
-         skJnLsFyEw3cyE/jFOdpetpR8xKckZyVQpYuGkbOMelnKMLFFxPmWrC/bYDw5WKzqsw+
-         bjYAZk8DOU5BKHGZZ1RfX2dzKqyBfSX7CF97Yu9uuYX9L3gAuehEkm0jD5F6H3wAbxKF
-         Esy/Nfe6owVBjicH1/ZRvt525HyUXAuQtA/BpebfvNzQ5fGjRWNp2DynMWeYqI4P+dE5
-         lcAvHd8VxlZH7qpQvdPGkP63uKHcEjFXLj15q1BPmiXpenaKKjFXrKL+vDtkw8TBYDor
-         363A==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3jbOpJGViEoMZ/z1uklXsD0i54r1S51I050v7ZKNFBk=;
+        b=q5qzlnCIimWC3UjOSITeeOXZCWpKBXlqKRVFQtULyVwTJBMXe291radTFmBCIOilo2
+         rdufUMyO5g6sAT8Hny4/l/4T3ClB9Ox0fRDYQXzp+22fH24Xy/LfnWjZDlZOvtZx+s6t
+         TdaZ9T6zjMZSU//SZ4bpGc37NhFZv/gpXGsZerE1y5w12nSA9savGldFQhS/x1c3DKM5
+         q2DEO2JT52mEPuNlJwMtQNpepUdYfiytpmtMazVZ+7m9Hx23a7wioBqqEh6C57wftVfs
+         oBxa4smkhe+cX+SXaTHhdRrm7gDnWqscQGkgAOM7YrCK5dJ//s0hNZZCKNloaYU9Eh6G
+         MeCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=XpT+hyHQLrqTrk2x0mHRYSE52sz59GDyA66hoyA5DA8=;
-        b=cIQsUILRI3uXKLK7dFJunrcgFIRcD9yYwmpaNpTA2CPdMIF7S47bWVO8+Ng02J0ZSp
-         ViG4rGEJQLsUt7F6tdwt3u8OGy57BZD9lQiJ/81Yk2uWWpVDBMrAEG7Qhs5LPcsoUk63
-         ACHkGHQqF0ERUTUT9kLlXKQ5WnKk3n4BZZTqtK/jK/KvBTpl83uCxrpgKcOGAnxu4x7f
-         kGaFI0eCMTU3ug4Fz9kDR0bkQv4jNctopWJPQYI+ytwFevxJ6xPAHIvZnI5TLzH/8ifL
-         WbjxOEsG0UiBbXAo49jnVmyF5MO9EiY7VW7SgF2Ncg3ZFxmHF/auiXgHvsq8nXRAC2k5
-         l4vg==
-X-Gm-Message-State: APjAAAXnqvB9A+j4DT2arw7Mty+u1OlZe3nXdTjSthkhSOOVHCJbQ3gA
-        pNHPjAztOudsT3TwKFlEGjs=
-X-Google-Smtp-Source: APXvYqzMGbB7T5JbwWo8Ni2OiTookhu2ITf9hLjDGQPrn3tlis2UqVAOlnIZx35dPi6C0KPX3tPMiA==
-X-Received: by 2002:a17:90a:9b08:: with SMTP id f8mr44498517pjp.103.1563373408094;
-        Wed, 17 Jul 2019 07:23:28 -0700 (PDT)
-Received: from localhost.localdomain ([110.227.64.207])
-        by smtp.gmail.com with ESMTPSA id l27sm2324253pgn.19.2019.07.17.07.23.24
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 17 Jul 2019 07:23:27 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     paul.kocialkowski@bootlin.com, maxime.ripard@bootlin.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH] staging: media: sunxi: Add bool cast to value
-Date:   Wed, 17 Jul 2019 19:53:15 +0530
-Message-Id: <20190717142315.3119-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        bh=3jbOpJGViEoMZ/z1uklXsD0i54r1S51I050v7ZKNFBk=;
+        b=ibuMyt5yodg7pveS5Cl763UvGyXwREgmlidosuAS7O6KrhEFRyuA8jXlFQBWVPMger
+         ohA6n5F3L7IehOzYyts2IBhfFlRxzs7mYuCfSrZ3Kd0ILce6vQJOKI10yvTHnzILl+GF
+         qeD0RfNh/1gyGPVBqEx8m4y3pd0yWsqP2bEalndey4l1QJzDW4CQCzICK+jZbaEZSUHj
+         GlD2xgPYkzU0mB2L8cbaNg0yC3PgcAFV5UdY2K7wPIlWffNa/gERUK+7yQnXojT9RL2b
+         Yk9XFmtH2+A4VBswf2BuXHMHIIousWoek6/Y1PLmgqx3S/geUGuWl1gYlimvZ3TyldJa
+         auUA==
+X-Gm-Message-State: APjAAAVwMjHFENdIDH/EPqD3Mq1nqVzJ8TNswfyJc0McyOBhWMrzHOSk
+        FQrj9RbMuuA8V2GJG/C0KxlVdw==
+X-Google-Smtp-Source: APXvYqyZAR4Yyv15+5pV6jQjFoFXs2SGDZkyijDlK7U2XKITXcR4+JjlldiqrmNTezn72knRlJTbvQ==
+X-Received: by 2002:a2e:800c:: with SMTP id j12mr21250044ljg.22.1563378215666;
+        Wed, 17 Jul 2019 08:43:35 -0700 (PDT)
+Received: from [192.168.28.181] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id g5sm4578700ljj.69.2019.07.17.08.43.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 17 Jul 2019 08:43:34 -0700 (PDT)
+Subject: Re: [PATCH v5 4/4] media: venus: Update core selection
+To:     Aniket Masule <amasule@codeaurora.org>, linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1563253754-12003-1-git-send-email-amasule@codeaurora.org>
+ <1563253754-12003-5-git-send-email-amasule@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <d9584a56-41a5-3e52-55d0-a02c5d59b823@linaro.org>
+Date:   Wed, 17 Jul 2019 18:43:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1563253754-12003-5-git-send-email-amasule@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Typecast as bool the return value of cedrus_find_format in
-cedrus_check_format as the return value of cedrus_check_format is always
-treated like a boolean value.
+Hi,
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/16/19 8:09 AM, Aniket Masule wrote:
+> Present core assignment is static. Introduced load balancing
+> across the cores. Load on earch core is calculated and core
+> with minimum load is assigned to given instance.
+> 
+> Signed-off-by: Aniket Masule <amasule@codeaurora.org>
+> ---
+>  drivers/media/platform/qcom/venus/helpers.c    | 69 +++++++++++++++++++++++---
+>  drivers/media/platform/qcom/venus/helpers.h    |  2 +-
+>  drivers/media/platform/qcom/venus/hfi_helper.h |  1 +
+>  drivers/media/platform/qcom/venus/hfi_parser.h |  5 ++
+>  drivers/media/platform/qcom/venus/vdec.c       |  2 +-
+>  drivers/media/platform/qcom/venus/venc.c       |  2 +-
+>  6 files changed, 72 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index edf403d..d479793 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -26,6 +26,7 @@
+>  #include "helpers.h"
+>  #include "hfi_helper.h"
+>  #include "hfi_venus_io.h"
+> +#include "hfi_parser.h"
+>  
+>  struct intbuf {
+>  	struct list_head list;
+> @@ -331,6 +332,24 @@ static u32 load_per_instance(struct venus_inst *inst)
+>  	return mbs * inst->fps;
+>  }
+>  
+> +static u32 load_per_core(struct venus_core *core, u32 core_id)
+> +{
+> +	struct venus_inst *inst = NULL;
+> +	u32 mbs_per_sec = 0, load = 0;
+> +
+> +	mutex_lock(&core->lock);
+> +	list_for_each_entry(inst, &core->instances, list) {
+> +		if (inst->clk_data.core_id != core_id)
+> +			continue;
+> +
+> +		mbs_per_sec = load_per_instance(inst);
+> +		load = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index e2b530b1a956..f00a048a0a01 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
- static bool cedrus_check_format(u32 pixelformat, u32 directions,
- 				unsigned int capabilities)
- {
--	return cedrus_find_format(pixelformat, directions, capabilities);
-+	return (bool)cedrus_find_format(pixelformat, directions, capabilities);
- }
- 
- static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+shouldn't this be load +=  mbs_per_sec * vpp_freq ? We need to calculate
+load for every instance on this core_id.
+
+> +	}
+> +	mutex_unlock(&core->lock);
+> +
+> +	return load;
+> +}
+> +
+
+<cut>
+
 -- 
-2.19.1
-
+regards,
+Stan
