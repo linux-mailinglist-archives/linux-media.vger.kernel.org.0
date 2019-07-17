@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB1E66BBAD
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 13:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2B16BBB2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 13:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731410AbfGQLnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 07:43:09 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38217 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730979AbfGQLnD (ORCPT
+        id S1732033AbfGQLoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 07:44:19 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42982 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731745AbfGQLoT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 07:43:03 -0400
-Received: by mail-pl1-f196.google.com with SMTP id az7so11834536plb.5
-        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 04:43:02 -0700 (PDT)
+        Wed, 17 Jul 2019 07:44:19 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so10709748pff.9
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 04:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Grx9Ph9cpPxnp5U6FBRGOs65Gt1iaoMhcGq5W71SZXw=;
-        b=dPqGbc0mQ4L1HVZkSH8ToVI8fJKg/9UNHDO/j/ERbXAicYMzOFznsbpKlaHUysv6li
-         HI+ov6aZkI81aTTtxCqQqgB/bUVOpQn9oyTV62JlPhH7/hgOpXEwCdWu9ddqQHOpZpdv
-         vvSbjVE/k6KiaC4iA854H6gt6BntwHIeZhW6TlwY6wZ/6+elD6DGPCHZxZrxLz2uCTHc
-         8iFhpa9H1Y4EYvcxgufIOEc+0j2fY1DuwRMYeLwfiF/zvSCA0YG2Xctd4B7QhffRyXW7
-         79B+/AUSAWe5ZZuaO+yAHuZlFSQxsBpNhxsDDOkk9SiW6k2AqHelqnkNry2oBYROn4ta
-         qk0g==
+        bh=s96tbUHAJa/3W+S33QuecksVNxzPE4B+rwrtGBTPIRg=;
+        b=YNTzEvLokDKfBiND0F2uTRtNbbscQoeYlRAIZ4D4gm+fPunaVpSxT9yFu1P0pJ6lio
+         xWTqHSLTx3ZiQsVVIdfvcsAEZX+UwZ3GwnRk6z/9j+jj49uvH9o3OWPLDccY+IbVHGze
+         VX/w7SlL3Vzx+t0xrwbctuweCHGIlBKbcd05Q0zBlUJIzL3VkiYxJwnzmtUL5R2SnxIl
+         RhMYnRo7T8e4Wl/4YHx7n44SfOzOXvvpPCN5gZKipQVyiczav3qSb50tsdB3ZZ0CfrCh
+         dofC27Pihb8FLt/R6YXAogt8ZfxAC6UrwAQzPlEU0+w5SGEaRflsRUqY/qTdnOsoVA2h
+         liiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Grx9Ph9cpPxnp5U6FBRGOs65Gt1iaoMhcGq5W71SZXw=;
-        b=j+B/uQxhqXiJDlmh7s9766N1EzzSAsQ/22iK7YbasLaw92pkRCDxWtW932G3IayBJC
-         yOoximkdnwl7ul3xAS7R15cCcmA7cJj63RSqKl9MzXPX3jGgTTVKouHtEkZ9e6TjDwtj
-         smPyO+kriIJF3AP/10fho8b+5tQWRTaLzFqZxNJz3sdHglm5/2r0IwKFYcVU8+xkGkUI
-         NVNuCOC+giu0ZbvTvMDZT7PVwsIHnEKJdhOt7aTUw/GwcIQhOtJ7p1Ka9ioVa4Fan9o5
-         qOudjL33FoTLyNLsnI6uvq4O0oE7fC62wPowm1qfn+VDxJU0BL7qDYj8hy4nHQDWjoQ3
-         /idA==
-X-Gm-Message-State: APjAAAXaUVLII17j5XMqXpPuH9ZBvcyiYHVtQf0rv5cbFnLcIovh2Uj2
-        7lcCZ1h26fTpK0BkuVxBu/VSeZQd9iCacFCWQep05A==
-X-Google-Smtp-Source: APXvYqwmLG+YoWbUJiFaN+0PkmRQxPro9175aUMwlEodu495a+iL+q6DhBuBElFNfaLl03HSknMS7Mny75X+YTtbitI=
-X-Received: by 2002:a17:902:8689:: with SMTP id g9mr39719354plo.252.1563363782037;
- Wed, 17 Jul 2019 04:43:02 -0700 (PDT)
+        bh=s96tbUHAJa/3W+S33QuecksVNxzPE4B+rwrtGBTPIRg=;
+        b=aiacDHXYvcjcyEn0nzJWbd9TXYHmFUEgi9oW/L8BcXSMQkRnlSUq4h28hWni116rNB
+         5CQvPFg1wAho1T3ivmCm0ECvfU1t9MAihO8sVYJF4DnVFlt/jdopLrnEvTSMBQqd0PQ4
+         qcFTrvg6zwYj9xKL10bIzshhVB5KDlsVHRJzFyh1d35sB4g22wbrKUy/0dTFiSd6k4Un
+         CzaU86Jc2e2NnNfSN3bB7cw0TWt0q+C30YLPJnTxDIwd6fx94gz9/v7T4OEj+IDV9+jH
+         Wi/s0eXO1U2wOsw3LPdn/a/39yWaiMdnXzva13LYGjnymPbesDYCj0yvnurbRLbyjBkf
+         I3aQ==
+X-Gm-Message-State: APjAAAUKOCoxisuoozS+RRtTJLpTtkoaU3H/QxM+qej4P8MIp6Z3lIR+
+        sC980iNiuzaYfxbRcALBMGxoSWhGqOOR3oG8hSqxqQ==
+X-Google-Smtp-Source: APXvYqxCr99MNxoD8F3ipCKfGH5Ic+wArEB2kJiBZjN+Ft8BlSUogLYhlY5cWCf0y3NDyGKfQgFMQFiKtGoY4M7YZGQ=
+X-Received: by 2002:a63:c442:: with SMTP id m2mr41068862pgg.286.1563363858315;
+ Wed, 17 Jul 2019 04:44:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1561386715.git.andreyknvl@google.com> <ea0ff94ef2b8af12ea6c222c5ebd970e0849b6dd.1561386715.git.andreyknvl@google.com>
  <20190624174015.GL29120@arrakis.emea.arm.com> <CAAeHK+y8vE=G_odK6KH=H064nSQcVgkQkNwb2zQD9swXxKSyUQ@mail.gmail.com>
@@ -48,8 +48,8 @@ References: <cover.1561386715.git.andreyknvl@google.com> <ea0ff94ef2b8af12ea6c22
  <20190716120624.GA29727@ziepe.ca>
 In-Reply-To: <20190716120624.GA29727@ziepe.ca>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 17 Jul 2019 13:42:50 +0200
-Message-ID: <CAAeHK+xGfCSNgJ1FA1Bi3-6iVZNa5-cPJF54SY9rETqSqnrOTw@mail.gmail.com>
+Date:   Wed, 17 Jul 2019 13:44:07 +0200
+Message-ID: <CAAeHK+xPPQ9QjAksbfWG-Zmnawt-cdw9eO_6GVxjEYcaDGvaRA@mail.gmail.com>
 Subject: Re: [PATCH v18 11/15] IB/mlx4: untag user pointers in mlx4_get_umem_mr
 To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
@@ -136,5 +136,11 @@ On Tue, Jul 16, 2019 at 2:06 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
 > No.. I mean who send it to Linus's tree? ie do you want me to take
 > this patch into rdma?
+
+I think the plan was to merge the whole series through the mm tree.
+But I don't mind if you want to take this patch into your tree. It's
+just that this patch doesn't make much sense without the rest of the
+series.
+
 >
 > Jason
