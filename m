@@ -2,85 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 280B66B954
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 11:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 707816B957
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 11:34:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729436AbfGQJcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 05:32:51 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:19411 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726075AbfGQJcv (ORCPT
+        id S1726580AbfGQJdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 05:33:52 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:43019 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725941AbfGQJdv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 05:32:51 -0400
-X-UUID: 1c3d93526d5547248bd5914bc764d675-20190717
-X-UUID: 1c3d93526d5547248bd5914bc764d675-20190717
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw02.mediatek.com
-        (envelope-from <xia.jiang@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 2021189479; Wed, 17 Jul 2019 17:32:29 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 17 Jul 2019 17:32:28 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 17 Jul 2019 17:32:27 +0800
-From:   Xia Jiang <xia.jiang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        <srv_heupstream@mediatek.com>, Xia Jiang <xia.jiang@mediatek.com>
-Subject: [PATCH 5/5] arm: dts: add jpeg enc device tree node
-Date:   Wed, 17 Jul 2019 17:30:34 +0800
-Message-ID: <20190717093034.22826-6-xia.jiang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190717093034.22826-1-xia.jiang@mediatek.com>
-References: <20190717093034.22826-1-xia.jiang@mediatek.com>
+        Wed, 17 Jul 2019 05:33:51 -0400
+X-Originating-IP: 86.250.200.211
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id A14BAC000D;
+        Wed, 17 Jul 2019 09:33:48 +0000 (UTC)
+Date:   Wed, 17 Jul 2019 11:33:48 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Cc:     maxime.ripard@bootlin.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] staging: media: sunxi: Replace function
+ cedrus_check_format()
+Message-ID: <20190717093348.GB26951@aptenodytes>
+References: <20190703081317.22795-1-nishkadg.linux@gmail.com>
+ <20190703081317.22795-2-nishkadg.linux@gmail.com>
+ <20190705102650.GB1645@aptenodytes>
+ <1c5bd5a6-757e-2bce-6adf-6dafbf6956a6@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1c5bd5a6-757e-2bce-6adf-6dafbf6956a6@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-add jpeg enc device tree node
+Hi,
 
-Change-Id: I901602f04540d619a490746ed61c8cd8b420b051
-Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
----
- arch/arm/boot/dts/mt2701.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On Fri 05 Jul 19, 17:43, Nishka Dasgupta wrote:
+> On 05/07/19 3:56 PM, Paul Kocialkowski wrote:
+> > Hi,
+> > 
+> > On Wed 03 Jul 19, 13:43, Nishka Dasgupta wrote:
+> > > Remove function cedrus_check_format as all it does is call
+> > > cedrus_find_format.
+> > > Rename cedrus_find_format to cedrus_check_format to maintain
+> > > compatibility with call sites.
+> > > Issue found with Coccinelle.
+> > 
+> > Maybe we could have a !! or a bool cast to make coccinelle happy here?
+> 
+> Coccinelle didn't flag the type mismatch, just the single-line functions. I
+> could add the bool cast then?
 
-diff --git a/arch/arm/boot/dts/mt2701.dtsi b/arch/arm/boot/dts/mt2701.dtsi
-index 51e1305c6471..560f27fd9d9e 100644
---- a/arch/arm/boot/dts/mt2701.dtsi
-+++ b/arch/arm/boot/dts/mt2701.dtsi
-@@ -569,6 +569,18 @@
- 			 <&iommu MT2701_M4U_PORT_JPGDEC_BSDMA>;
- 	};
- 
-+	jpegenc: jpegenc@1500a000 {
-+		compatible = "mediatek,mt2701-jpgenc", "mediatek,mtk-jpgenc";
-+		reg = <0 0x1500a000 0 0x1000>;
-+		interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_LOW>;
-+		clocks =  <&imgsys CLK_IMG_VENC>;
-+		clock-names = "jpgenc";
-+		power-domains = <&scpsys MT2701_POWER_DOMAIN_ISP>;
-+		mediatek,larb = <&larb2>;
-+		iommus = <&iommu MT2701_M4U_PORT_JPGENC_RDMA>,
-+			<&iommu MT2701_M4U_PORT_JPGENC_BSDMA>;
-+	};
-+
- 	vdecsys: syscon@16000000 {
- 		compatible = "mediatek,mt2701-vdecsys", "syscon";
- 		reg = <0 0x16000000 0 0x1000>;
+Looks like I failed to follow-up on this in due time, sorry.
+
+Yes a bool cast would definitely be welcome :)
+
+Cheers,
+
+Paul
+
+> Thanking you,
+> Nishka
+> 
+> > Cheers,
+> > 
+> > Paul
+> > 
+> > > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> > > ---
+> > >   drivers/staging/media/sunxi/cedrus/cedrus_video.c | 10 ++--------
+> > >   1 file changed, 2 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > index 0ec31b9e0aea..d5cc9ed04fd2 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > @@ -55,8 +55,8 @@ static inline struct cedrus_ctx *cedrus_file2ctx(struct file *file)
+> > >   	return container_of(file->private_data, struct cedrus_ctx, fh);
+> > >   }
+> > > -static bool cedrus_find_format(u32 pixelformat, u32 directions,
+> > > -			       unsigned int capabilities)
+> > > +static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> > > +				unsigned int capabilities)
+> > >   {
+> > >   	struct cedrus_format *fmt;
+> > >   	unsigned int i;
+> > > @@ -76,12 +76,6 @@ static bool cedrus_find_format(u32 pixelformat, u32 directions,
+> > >   	return false;
+> > >   }
+> > > -static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> > > -				unsigned int capabilities)
+> > > -{
+> > > -	return cedrus_find_format(pixelformat, directions, capabilities);
+> > > -}
+> > > -
+> > >   static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+> > >   {
+> > >   	unsigned int width = pix_fmt->width;
+> > > -- 
+> > > 2.19.1
+> > > 
+> > 
+> 
+
 -- 
-2.18.0
-
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
