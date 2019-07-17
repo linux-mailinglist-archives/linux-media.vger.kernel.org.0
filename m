@@ -2,317 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19C876B95E
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 11:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED6E76BB1B
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 13:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbfGQJgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 05:36:16 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55855 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725893AbfGQJgQ (ORCPT
+        id S1730629AbfGQLJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 07:09:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60506 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726844AbfGQLJe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 05:36:16 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ngM6hv11j0SBqngM9hZXyX; Wed, 17 Jul 2019 11:36:13 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] m2m-deinterlace: use struct v4l2_fh
-Message-ID: <8975a874-cbc4-402c-2b21-4ee9febfa18f@xs4all.nl>
-Date:   Wed, 17 Jul 2019 11:36:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 17 Jul 2019 07:09:34 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6HB4xKC077916
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 07:09:33 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tt1mfam61-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 07:09:32 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-media@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 17 Jul 2019 12:09:29 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 17 Jul 2019 12:09:19 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x6HB9I7C39190742
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 17 Jul 2019 11:09:18 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0C29152063;
+        Wed, 17 Jul 2019 11:09:18 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.168])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 366B052050;
+        Wed, 17 Jul 2019 11:09:15 +0000 (GMT)
+Date:   Wed, 17 Jul 2019 14:09:13 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v18 08/15] userfaultfd: untag user pointers
+References: <cover.1561386715.git.andreyknvl@google.com>
+ <d8e3b9a819e98d6527e506027b173b128a148d3c.1561386715.git.andreyknvl@google.com>
+ <20190624175120.GN29120@arrakis.emea.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMxYPLpDJ/S33gBwdEy6cBzQLC5wGiurbY8MeXL+nlVa5TIx8Q1dwQP9MwryqSCxox24KsD4bd+IXCSFQ/DqK19MHyl8ngvwkCbI21cn2qzqY9oG6naW
- gv11TW5PSMlsLfzzVIniGCKM2HMErwOkO1+Rh+R2+uiLH4FGBSSdrkvHzVcQOL43mOHYmofBsUHFww==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624175120.GN29120@arrakis.emea.arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19071711-0020-0000-0000-00000354AA32
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071711-0021-0000-0000-000021A87C56
+Message-Id: <20190717110910.GA12017@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-17_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907170135
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert this driver to use struct v4l2_fh and as a result switch to
-using vb2/v4l2_mem2mem helper functions as well.
+On Mon, Jun 24, 2019 at 06:51:21PM +0100, Catalin Marinas wrote:
+> On Mon, Jun 24, 2019 at 04:32:53PM +0200, Andrey Konovalov wrote:
+> > This patch is a part of a series that extends kernel ABI to allow to pass
+> > tagged user pointers (with the top byte set to something else other than
+> > 0x00) as syscall arguments.
+> > 
+> > userfaultfd code use provided user pointers for vma lookups, which can
+> > only by done with untagged pointers.
+> > 
+> > Untag user pointers in validate_range().
+> > 
+> > Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> > Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > ---
+> >  fs/userfaultfd.c | 22 ++++++++++++----------
+> >  1 file changed, 12 insertions(+), 10 deletions(-)
+> 
+> Same here, it needs an ack from Al Viro.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Tested on an omap4 board, after additional hacking of this driver to
-make it work on omap4.
----
- drivers/media/platform/m2m-deinterlace.c | 124 +++++++----------------
- 1 file changed, 36 insertions(+), 88 deletions(-)
+The userfault patches usually go via -mm tree, not sure if Al looks at them :) 
+ 
+FWIW, you can add 
 
-diff --git a/drivers/media/platform/m2m-deinterlace.c b/drivers/media/platform/m2m-deinterlace.c
-index beb7fd7442fb..684346136fcb 100644
---- a/drivers/media/platform/m2m-deinterlace.c
-+++ b/drivers/media/platform/m2m-deinterlace.c
-@@ -135,13 +135,13 @@ struct deinterlace_dev {
- };
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
- struct deinterlace_ctx {
-+	struct v4l2_fh		fh;
- 	struct deinterlace_dev	*dev;
+> > diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> > index ae0b8b5f69e6..c2be36a168ca 100644
+> > --- a/fs/userfaultfd.c
+> > +++ b/fs/userfaultfd.c
+> > @@ -1261,21 +1261,23 @@ static __always_inline void wake_userfault(struct userfaultfd_ctx *ctx,
+> >  }
+> >  
+> >  static __always_inline int validate_range(struct mm_struct *mm,
+> > -					  __u64 start, __u64 len)
+> > +					  __u64 *start, __u64 len)
+> >  {
+> >  	__u64 task_size = mm->task_size;
+> >  
+> > -	if (start & ~PAGE_MASK)
+> > +	*start = untagged_addr(*start);
+> > +
+> > +	if (*start & ~PAGE_MASK)
+> >  		return -EINVAL;
+> >  	if (len & ~PAGE_MASK)
+> >  		return -EINVAL;
+> >  	if (!len)
+> >  		return -EINVAL;
+> > -	if (start < mmap_min_addr)
+> > +	if (*start < mmap_min_addr)
+> >  		return -EINVAL;
+> > -	if (start >= task_size)
+> > +	if (*start >= task_size)
+> >  		return -EINVAL;
+> > -	if (len > task_size - start)
+> > +	if (len > task_size - *start)
+> >  		return -EINVAL;
+> >  	return 0;
+> >  }
+> > @@ -1325,7 +1327,7 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+> >  		goto out;
+> >  	}
+> >  
+> > -	ret = validate_range(mm, uffdio_register.range.start,
+> > +	ret = validate_range(mm, &uffdio_register.range.start,
+> >  			     uffdio_register.range.len);
+> >  	if (ret)
+> >  		goto out;
+> > @@ -1514,7 +1516,7 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+> >  	if (copy_from_user(&uffdio_unregister, buf, sizeof(uffdio_unregister)))
+> >  		goto out;
+> >  
+> > -	ret = validate_range(mm, uffdio_unregister.start,
+> > +	ret = validate_range(mm, &uffdio_unregister.start,
+> >  			     uffdio_unregister.len);
+> >  	if (ret)
+> >  		goto out;
+> > @@ -1665,7 +1667,7 @@ static int userfaultfd_wake(struct userfaultfd_ctx *ctx,
+> >  	if (copy_from_user(&uffdio_wake, buf, sizeof(uffdio_wake)))
+> >  		goto out;
+> >  
+> > -	ret = validate_range(ctx->mm, uffdio_wake.start, uffdio_wake.len);
+> > +	ret = validate_range(ctx->mm, &uffdio_wake.start, uffdio_wake.len);
+> >  	if (ret)
+> >  		goto out;
+> >  
+> > @@ -1705,7 +1707,7 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
+> >  			   sizeof(uffdio_copy)-sizeof(__s64)))
+> >  		goto out;
+> >  
+> > -	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
+> > +	ret = validate_range(ctx->mm, &uffdio_copy.dst, uffdio_copy.len);
+> >  	if (ret)
+> >  		goto out;
+> >  	/*
+> > @@ -1761,7 +1763,7 @@ static int userfaultfd_zeropage(struct userfaultfd_ctx *ctx,
+> >  			   sizeof(uffdio_zeropage)-sizeof(__s64)))
+> >  		goto out;
+> >  
+> > -	ret = validate_range(ctx->mm, uffdio_zeropage.range.start,
+> > +	ret = validate_range(ctx->mm, &uffdio_zeropage.range.start,
+> >  			     uffdio_zeropage.range.len);
+> >  	if (ret)
+> >  		goto out;
+> > -- 
+> > 2.22.0.410.gd8fdbe21b5-goog
 
- 	/* Abort requested by m2m */
- 	int			aborting;
- 	enum v4l2_colorspace	colorspace;
- 	dma_cookie_t		cookie;
--	struct v4l2_m2m_ctx	*m2m_ctx;
- 	struct dma_interleaved_template *xt;
- };
-
-@@ -153,9 +153,9 @@ static int deinterlace_job_ready(void *priv)
- 	struct deinterlace_ctx *ctx = priv;
- 	struct deinterlace_dev *pcdev = ctx->dev;
-
--	if ((v4l2_m2m_num_src_bufs_ready(ctx->m2m_ctx) > 0)
--	    && (v4l2_m2m_num_dst_bufs_ready(ctx->m2m_ctx) > 0)
--	    && (atomic_read(&ctx->dev->busy) == 0)) {
-+	if (v4l2_m2m_num_src_bufs_ready(ctx->fh.m2m_ctx) > 0 &&
-+	    v4l2_m2m_num_dst_bufs_ready(ctx->fh.m2m_ctx) > 0 &&
-+	    !atomic_read(&ctx->dev->busy)) {
- 		dprintk(pcdev, "Task ready\n");
- 		return 1;
- 	}
-@@ -174,7 +174,7 @@ static void deinterlace_job_abort(void *priv)
-
- 	dprintk(pcdev, "Aborting task\n");
-
--	v4l2_m2m_job_finish(pcdev->m2m_dev, ctx->m2m_ctx);
-+	v4l2_m2m_job_finish(pcdev->m2m_dev, ctx->fh.m2m_ctx);
- }
-
- static void dma_callback(void *data)
-@@ -185,8 +185,8 @@ static void dma_callback(void *data)
-
- 	atomic_set(&pcdev->busy, 0);
-
--	src_vb = v4l2_m2m_src_buf_remove(curr_ctx->m2m_ctx);
--	dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->m2m_ctx);
-+	src_vb = v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-+	dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-
- 	dst_vb->vb2_buf.timestamp = src_vb->vb2_buf.timestamp;
- 	dst_vb->flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
-@@ -197,7 +197,7 @@ static void dma_callback(void *data)
- 	v4l2_m2m_buf_done(src_vb, VB2_BUF_STATE_DONE);
- 	v4l2_m2m_buf_done(dst_vb, VB2_BUF_STATE_DONE);
-
--	v4l2_m2m_job_finish(pcdev->m2m_dev, curr_ctx->m2m_ctx);
-+	v4l2_m2m_job_finish(pcdev->m2m_dev, curr_ctx->fh.m2m_ctx);
-
- 	dprintk(pcdev, "dma transfers completed.\n");
- }
-@@ -216,8 +216,8 @@ static void deinterlace_issue_dma(struct deinterlace_ctx *ctx, int op,
- 	dma_addr_t p_in, p_out;
- 	enum dma_ctrl_flags flags;
-
--	src_buf = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
--	dst_buf = v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
-+	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-+	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-
- 	s_q_data = get_q_data(V4L2_BUF_TYPE_VIDEO_OUTPUT);
- 	s_width	= s_q_data->width;
-@@ -496,7 +496,7 @@ static int vidioc_g_fmt(struct deinterlace_ctx *ctx, struct v4l2_format *f)
- 	struct vb2_queue *vq;
- 	struct deinterlace_q_data *q_data;
-
--	vq = v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
- 	if (!vq)
- 		return -EINVAL;
-
-@@ -593,7 +593,7 @@ static int vidioc_s_fmt(struct deinterlace_ctx *ctx, struct v4l2_format *f)
- 	struct deinterlace_q_data *q_data;
- 	struct vb2_queue *vq;
-
--	vq = v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
- 	if (!vq)
- 		return -EINVAL;
-
-@@ -666,36 +666,6 @@ static int vidioc_s_fmt_vid_out(struct file *file, void *priv,
- 	return ret;
- }
-
--static int vidioc_reqbufs(struct file *file, void *priv,
--			  struct v4l2_requestbuffers *reqbufs)
--{
--	struct deinterlace_ctx *ctx = priv;
--
--	return v4l2_m2m_reqbufs(file, ctx->m2m_ctx, reqbufs);
--}
--
--static int vidioc_querybuf(struct file *file, void *priv,
--			   struct v4l2_buffer *buf)
--{
--	struct deinterlace_ctx *ctx = priv;
--
--	return v4l2_m2m_querybuf(file, ctx->m2m_ctx, buf);
--}
--
--static int vidioc_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
--{
--	struct deinterlace_ctx *ctx = priv;
--
--	return v4l2_m2m_qbuf(file, ctx->m2m_ctx, buf);
--}
--
--static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
--{
--	struct deinterlace_ctx *ctx = priv;
--
--	return v4l2_m2m_dqbuf(file, ctx->m2m_ctx, buf);
--}
--
- static int vidioc_streamon(struct file *file, void *priv,
- 			   enum v4l2_buf_type type)
- {
-@@ -736,15 +706,7 @@ static int vidioc_streamon(struct file *file, void *priv,
- 		return -EINVAL;
- 	}
-
--	return v4l2_m2m_streamon(file, ctx->m2m_ctx, type);
--}
--
--static int vidioc_streamoff(struct file *file, void *priv,
--			    enum v4l2_buf_type type)
--{
--	struct deinterlace_ctx *ctx = priv;
--
--	return v4l2_m2m_streamoff(file, ctx->m2m_ctx, type);
-+	return v4l2_m2m_streamon(file, ctx->fh.m2m_ctx, type);
- }
-
- static const struct v4l2_ioctl_ops deinterlace_ioctl_ops = {
-@@ -760,14 +722,15 @@ static const struct v4l2_ioctl_ops deinterlace_ioctl_ops = {
- 	.vidioc_try_fmt_vid_out	= vidioc_try_fmt_vid_out,
- 	.vidioc_s_fmt_vid_out	= vidioc_s_fmt_vid_out,
-
--	.vidioc_reqbufs		= vidioc_reqbufs,
--	.vidioc_querybuf	= vidioc_querybuf,
--
--	.vidioc_qbuf		= vidioc_qbuf,
--	.vidioc_dqbuf		= vidioc_dqbuf,
-+	.vidioc_reqbufs		= v4l2_m2m_ioctl_reqbufs,
-+	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
-+	.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
-+	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
-+	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
-+	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-
- 	.vidioc_streamon	= vidioc_streamon,
--	.vidioc_streamoff	= vidioc_streamoff,
-+	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
- };
-
-
-@@ -831,7 +794,7 @@ static void deinterlace_buf_queue(struct vb2_buffer *vb)
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 	struct deinterlace_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-
--	v4l2_m2m_buf_queue(ctx->m2m_ctx, vbuf);
-+	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
- }
-
- static const struct vb2_ops deinterlace_qops = {
-@@ -849,7 +812,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	int ret;
-
- 	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
--	src_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-+	src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
- 	src_vq->drv_priv = ctx;
- 	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
- 	src_vq->ops = &deinterlace_qops;
-@@ -868,7 +831,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 		return ret;
-
- 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-+	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
- 	dst_vq->drv_priv = ctx;
- 	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
- 	dst_vq->ops = &deinterlace_qops;
-@@ -897,12 +860,13 @@ static int deinterlace_open(struct file *file)
- 	if (!ctx)
- 		return -ENOMEM;
-
--	file->private_data = ctx;
-+	v4l2_fh_init(&ctx->fh, video_devdata(file));
-+	file->private_data = &ctx->fh;
- 	ctx->dev = pcdev;
-
--	ctx->m2m_ctx = v4l2_m2m_ctx_init(pcdev->m2m_dev, ctx, &queue_init);
--	if (IS_ERR(ctx->m2m_ctx)) {
--		int ret = PTR_ERR(ctx->m2m_ctx);
-+	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(pcdev->m2m_dev, ctx, &queue_init);
-+	if (IS_ERR(ctx->fh.m2m_ctx)) {
-+		int ret = PTR_ERR(ctx->fh.m2m_ctx);
-
- 		kfree(ctx);
- 		return ret;
-@@ -916,8 +880,10 @@ static int deinterlace_open(struct file *file)
- 	}
-
- 	ctx->colorspace = V4L2_COLORSPACE_REC709;
-+	v4l2_fh_add(&ctx->fh);
-
--	dprintk(pcdev, "Created instance %p, m2m_ctx: %p\n", ctx, ctx->m2m_ctx);
-+	dprintk(pcdev, "Created instance %p, m2m_ctx: %p\n",
-+		ctx, ctx->fh.m2m_ctx);
-
- 	return 0;
- }
-@@ -929,40 +895,22 @@ static int deinterlace_release(struct file *file)
-
- 	dprintk(pcdev, "Releasing instance %p\n", ctx);
-
--	v4l2_m2m_ctx_release(ctx->m2m_ctx);
-+	v4l2_fh_del(&ctx->fh);
-+	v4l2_fh_exit(&ctx->fh);
-+	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
- 	kfree(ctx->xt);
- 	kfree(ctx);
-
- 	return 0;
- }
-
--static __poll_t deinterlace_poll(struct file *file,
--				 struct poll_table_struct *wait)
--{
--	struct deinterlace_ctx *ctx = file->private_data;
--	__poll_t ret;
--
--	mutex_lock(&ctx->dev->dev_mutex);
--	ret = v4l2_m2m_poll(file, ctx->m2m_ctx, wait);
--	mutex_unlock(&ctx->dev->dev_mutex);
--
--	return ret;
--}
--
--static int deinterlace_mmap(struct file *file, struct vm_area_struct *vma)
--{
--	struct deinterlace_ctx *ctx = file->private_data;
--
--	return v4l2_m2m_mmap(file, ctx->m2m_ctx, vma);
--}
--
- static const struct v4l2_file_operations deinterlace_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= deinterlace_open,
- 	.release	= deinterlace_release,
--	.poll		= deinterlace_poll,
-+	.poll		= v4l2_m2m_fop_poll,
- 	.unlocked_ioctl	= video_ioctl2,
--	.mmap		= deinterlace_mmap,
-+	.mmap		= v4l2_m2m_fop_mmap,
- };
-
- static const struct video_device deinterlace_videodev = {
 -- 
-2.20.1
+Sincerely yours,
+Mike.
 
