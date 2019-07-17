@@ -2,81 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BD406BD17
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 15:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E4C6BD32
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 15:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfGQNe2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 09:34:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40244 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbfGQNe2 (ORCPT
+        id S1728234AbfGQNgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 09:36:54 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:44256 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727954AbfGQNgu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 09:34:28 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A6FB33C;
-        Wed, 17 Jul 2019 15:34:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1563370466;
-        bh=jncdj1nJCCU+MwGY1kMmVxVoCFCQYDt1Wi2FHRMyjoY=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=YPsEsnaSh3pnOebQ8+nnmD4y39ereXKRXZqJ6+9pKXgrwB8Bsu4chak4yf4Q//O2a
-         5P/DXv/0Zz7U94HBaMME3xZZNDCaG2jk/Py92aaqgma0NTAomTDlnOgUJ0BOnn4bB7
-         JwzNxczYOQZYfz+X7iO1VqG2vMtsQ+Vw8d7Yf8JQ=
-Subject: Re: [PATCH v2] rcar-vin: Clean up correct notifier in error path
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <fa6f9b8a-42a8-88be-de7b-878dac131627@ideasonboard.com>
-Date:   Wed, 17 Jul 2019 14:34:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Wed, 17 Jul 2019 09:36:50 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i18so11184028pgl.11
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 06:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=upJur9hX33jRa5ZDAABYWCcVNIU4OKrA323sUj0kiJ0=;
+        b=jU/Zat9i+mrs8cSnCYXrBiEONUz0WXxyKyOECIIPiTvG8WEhtGZGjK61290IX8o36U
+         OrHTHQ7Woyg/qn3+sukX8RWKFmT/Ab3vSFlM0FM2BRuiucJNWXV94DF4e2NhGQgdA44A
+         dT08TPfZUZgkz0of54cXYItyNEHlQbHBkArsYbqcDoUXDHAB+kz50O9ewS939NtAQV8u
+         N3pg+MG4dZM9J1oQTBELA9KEuGXZuE94dTh2nx4VJ6oW11nUXuKKdq/o5lVXbnas7dEB
+         7eGFT9GZTTNoP+bU6YviC4h7qnZidfElkMDjIpsDOMoPQb/nzifgWXLs7MlD24BgMlQq
+         Xslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=upJur9hX33jRa5ZDAABYWCcVNIU4OKrA323sUj0kiJ0=;
+        b=GQ2YZSF0cweOtxWAtzSOhswmJEvHtyFt2x1VO/fTFcIUCEL6pYuh97pE477NAFcmiU
+         BhDhZL9TtKVQ/YaOD4NlcveeHilK4UH6J1+uNoZymJWThXbTL8EwXmPgQ7X1FuUXrreV
+         EtuUC3YxHHOMpajORw2iYM9HsL5mqUIDFzo+rhuwIlIAPsxmNq23y7y5bvCw+CKegtgw
+         JOzV5nc0O7Hb003Wl1PyDWkVLCtPIG6mj6laZXKU5Gz0Rs6N+Lbv+wvYvIRkzd3qe0Vp
+         prjZvvI4FcNwHoe9RkZ8xbPXWd24LlzqPKrQ576IWIXCEhStPNVMQJGCS5+tAcT8Nv3w
+         GCYQ==
+X-Gm-Message-State: APjAAAWvzMlS269IMA4NQaR3scfi0rjXRTCRLPl/PRtwUa8vciJZE7r8
+        MOOvBzzG4AVFCOhxTI8zlPdGP5j0H4kGUl1f01UylQ==
+X-Google-Smtp-Source: APXvYqz7m/UfmCxQEvGyEZmLKWfGDEQqrP2qzxF/oMVv3Ek5NDX+f4ncbRdtOgqzhkxO4Lp3vwbZe7MPyGJ1vZM4Wx0=
+X-Received: by 2002:a17:90a:2488:: with SMTP id i8mr43162554pje.123.1563370608796;
+ Wed, 17 Jul 2019 06:36:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <cover.1561386715.git.andreyknvl@google.com> <ea0ff94ef2b8af12ea6c222c5ebd970e0849b6dd.1561386715.git.andreyknvl@google.com>
+ <20190624174015.GL29120@arrakis.emea.arm.com> <CAAeHK+y8vE=G_odK6KH=H064nSQcVgkQkNwb2zQD9swXxKSyUQ@mail.gmail.com>
+ <20190715180510.GC4970@ziepe.ca> <CAAeHK+xPQqJP7p_JFxc4jrx9k7N0TpBWEuB8Px7XHvrfDU1_gw@mail.gmail.com>
+ <20190716120624.GA29727@ziepe.ca> <CAAeHK+xPPQ9QjAksbfWG-Zmnawt-cdw9eO_6GVxjEYcaDGvaRA@mail.gmail.com>
+ <20190717115828.GE12119@ziepe.ca>
+In-Reply-To: <20190717115828.GE12119@ziepe.ca>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 17 Jul 2019 15:36:37 +0200
+Message-ID: <CAAeHK+yyQpc6cxyVeUUWUwiQYy8iAgVXmOVO=EQYSNzy9G8Q0A@mail.gmail.com>
+Subject: Re: [PATCH v18 11/15] IB/mlx4: untag user pointers in mlx4_get_umem_mr
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On Wed, Jul 17, 2019 at 1:58 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Jul 17, 2019 at 01:44:07PM +0200, Andrey Konovalov wrote:
+> > On Tue, Jul 16, 2019 at 2:06 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Tue, Jul 16, 2019 at 12:42:07PM +0200, Andrey Konovalov wrote:
+> > > > On Mon, Jul 15, 2019 at 8:05 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > >
+> > > > > On Mon, Jul 15, 2019 at 06:01:29PM +0200, Andrey Konovalov wrote:
+> > > > > > On Mon, Jun 24, 2019 at 7:40 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > > > > > >
+> > > > > > > On Mon, Jun 24, 2019 at 04:32:56PM +0200, Andrey Konovalov wrote:
+> > > > > > > > This patch is a part of a series that extends kernel ABI to allow to pass
+> > > > > > > > tagged user pointers (with the top byte set to something else other than
+> > > > > > > > 0x00) as syscall arguments.
+> > > > > > > >
+> > > > > > > > mlx4_get_umem_mr() uses provided user pointers for vma lookups, which can
+> > > > > > > > only by done with untagged pointers.
+> > > > > > > >
+> > > > > > > > Untag user pointers in this function.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> > > > > > > >  drivers/infiniband/hw/mlx4/mr.c | 7 ++++---
+> > > > > > > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > > > > >
+> > > > > > > Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> > > > > > >
+> > > > > > > This patch also needs an ack from the infiniband maintainers (Jason).
+> > > > > >
+> > > > > > Hi Jason,
+> > > > > >
+> > > > > > Could you take a look and give your acked-by?
+> > > > >
+> > > > > Oh, I think I did this a long time ago. Still looks OK.
+> > > >
+> > > > Hm, maybe that was we who lost it. Thanks!
+> > > >
+> > > > > You will send it?
+> > > >
+> > > > I will resend the patchset once the merge window is closed, if that's
+> > > > what you mean.
+> > >
+> > > No.. I mean who send it to Linus's tree? ie do you want me to take
+> > > this patch into rdma?
+> >
+> > I think the plan was to merge the whole series through the mm tree.
+> > But I don't mind if you want to take this patch into your tree. It's
+> > just that this patch doesn't make much sense without the rest of the
+> > series.
+>
+> Generally I prefer if subsystem changes stay in subsystem trees. If
+> the patch is good standalone, and the untag API has already been
+> merged, this is a better strategy.
 
-On 02/07/2019 18:42, Niklas Söderlund wrote:
-> The parallel input initialization error path cleans up the wrong
-> async notifier, fix this by cleaning up the correct notifier.
-> 
-> Fixes: 9863bc8695bc36e3 ("media: rcar-vin: Cleanup notifier in error path")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+OK, feel free to take this into your tree, this works for me.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 64f9cf790445d14e..a6efe1a8099a6ae6 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -633,7 +633,7 @@ static int rvin_parallel_init(struct rvin_dev *vin)
->  	ret = v4l2_async_notifier_register(&vin->v4l2_dev, &vin->notifier);
->  	if (ret < 0) {
->  		vin_err(vin, "Notifier registration failed\n");
-> -		v4l2_async_notifier_cleanup(&vin->group->notifier);
-> +		v4l2_async_notifier_cleanup(&vin->notifier);
->  		return ret;
->  	}
->  
-> 
-
+>
+> Jason
