@@ -2,202 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BED626B8CC
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 11:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AFBF6B925
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 11:25:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfGQJDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 05:03:53 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49431 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726182AbfGQJDw (ORCPT
+        id S1726063AbfGQJYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 05:24:20 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59429 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725906AbfGQJYT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 05:03:52 -0400
-Received: from tschai.fritz.box ([46.9.252.75])
+        Wed, 17 Jul 2019 05:24:19 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id nfqjhuob40SBqnfqohZQVw; Wed, 17 Jul 2019 11:03:50 +0200
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 4/4] via-camera: fix v4l2-compliance fails
-Date:   Wed, 17 Jul 2019 11:03:45 +0200
-Message-Id: <20190717090345.26521-5-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190717090345.26521-1-hverkuil-cisco@xs4all.nl>
-References: <20190717090345.26521-1-hverkuil-cisco@xs4all.nl>
+        id ngAXhuwPc0SBqngAahZVCs; Wed, 17 Jul 2019 11:24:17 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media/i2c: don't return ENOTTY if SUBDEV_API is not set
+Message-ID: <854769c0-c933-0919-2798-e8286e1694fb@xs4all.nl>
+Date:   Wed, 17 Jul 2019 11:24:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfK4r2Y09IVqQUIu98/siE+sfNhBLRnTg9JWdEf/rzV/0IGuSyiGzdsOXtv0kojlf5QJu417UZIdNVrHBh0auOGJTpCI7EhpejY/vhHm86FekM6Q//xz4
- luPBedxA6GT+mqQD7O4BmE4NCIwlwG9MqCZNPBH5nLqFHkDyQFQ0q1y7ASiSC1TO2FMqBijdgPaTC92HaNtTXcBc1bgdAmXig+UCY9MsuFEczLJTKwD5j/MJ
- 1czN6KF1KVI/qKO1BN5Ciw==
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHO5GL5IHDCkGkF/uOztHSrXtlVRRWhrY2jWrQFoS+6sx2SaKcKN53Phc3T3HJ+F3gnJ3E0MwwifQ7MHGe5iMOF+tAgg9qh2/tWW4J98rdCogp711doL
+ m5iIVZxibCtQ05E8NeqIt9UFfihivhNZBTy63YO1zttjfBx2dL0yR+cwPqS10+/BfH9dbZxZSXNtyouVmt8bE/oYgehIibfAmSwXxLbOWtFFqApqJTdKXSGQ
+ 2+qKdb+WX4RyRGzu11EPNkecOWqdD3qb7iIPwPGJIMbzXRO33O/T7YqTPmPsy1ybaDiLGJPZTBnQxe+sc1ziK4xHF42ie2yu951OMLs5HQXo2/fBqUvmai63
+ NgCl7ezOS+79D25HCxd+8TmbsDFmJZzlcwACnzwzEJ80u03AYcX4mfGEUE9dKPlHlKaO2R+W
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patch fixes various v4l2-compliance failures:
+If CONFIG_VIDEO_V4L2_SUBDEV_API is not set, then it is still possible
+to call set_fmt for V4L2_SUBDEV_FORMAT_TRY, the result is just not
+stored. So return 0 instead of -ENOTTY.
 
-- missing support for control events
-- support of s/g_std even though this doesn't apply to a webcam
-- missing colorspace reporting
-- bus_info wasn't filled in by VIDIOC_QUERYCAP
-- parm.capture.readbuffers was overridden with wrong value
-- viacam_enum_framesizes/intervals didn't check the arguments
+Calling get_fmt with V4L2_SUBDEV_FORMAT_TRY should return -EINVAL
+instead of -ENOTTY, after all the get_fmt functionality is still
+present, just not supported for TRY.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/platform/via-camera.c | 44 +++++++++++++++++------------
- 1 file changed, 26 insertions(+), 18 deletions(-)
+This was fixed for the ov7670 (https://patchwork.linuxtv.org/patch/57584/) when
+working on the via-camera driver, but the same pattern is found in other drivers,
+and those are fixed in this patch.
+---
+ drivers/media/i2c/mt9m111.c | 2 +-
+ drivers/media/i2c/ov2640.c  | 2 +-
+ drivers/media/i2c/ov2659.c  | 4 +---
+ drivers/media/i2c/ov2680.c  | 5 +----
+ drivers/media/i2c/ov5695.c  | 5 +----
+ drivers/media/i2c/ov7740.c  | 8 ++------
+ 6 files changed, 7 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/platform/via-camera.c b/drivers/media/platform/via-camera.c
-index 49e51feebc7d..70da662b9241 100644
---- a/drivers/media/platform/via-camera.c
-+++ b/drivers/media/platform/via-camera.c
-@@ -18,6 +18,7 @@
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
- #include <media/v4l2-image-sizes.h>
- #include <media/i2c/ov7670.h>
- #include <media/videobuf-dma-sg.h>
-@@ -780,7 +781,7 @@ static __poll_t viacam_poll(struct file *filp, struct poll_table_struct *pt)
- {
- 	struct via_camera *cam = video_drvdata(filp);
- 
--	return videobuf_poll_stream(filp, &cam->vb_queue, pt);
-+	return v4l2_ctrl_poll(filp, pt) | videobuf_poll_stream(filp, &cam->vb_queue, pt);
- }
- 
- 
-@@ -818,7 +819,6 @@ static int viacam_enum_input(struct file *filp, void *priv,
- 		return -EINVAL;
- 
- 	input->type = V4L2_INPUT_TYPE_CAMERA;
--	input->std = V4L2_STD_ALL; /* Not sure what should go here */
- 	strscpy(input->name, "Camera", sizeof(input->name));
- 	return 0;
- }
-@@ -836,17 +836,6 @@ static int viacam_s_input(struct file *filp, void *priv, unsigned int i)
- 	return 0;
- }
- 
--static int viacam_s_std(struct file *filp, void *priv, v4l2_std_id std)
--{
--	return 0;
--}
+diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+index d10fe3712036..d4864d155f0b 100644
+--- a/drivers/media/i2c/mt9m111.c
++++ b/drivers/media/i2c/mt9m111.c
+@@ -536,7 +536,7 @@ static int mt9m111_get_fmt(struct v4l2_subdev *sd,
+ 		format->format = *mf;
+ 		return 0;
+ #else
+-		return -ENOTTY;
++		return -EINVAL;
+ #endif
+ 	}
+
+diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
+index 30e7e6b2b293..39474b287bb2 100644
+--- a/drivers/media/i2c/ov2640.c
++++ b/drivers/media/i2c/ov2640.c
+@@ -932,7 +932,7 @@ static int ov2640_get_fmt(struct v4l2_subdev *sd,
+ 		format->format = *mf;
+ 		return 0;
+ #else
+-		return -ENOTTY;
++		return -EINVAL;
+ #endif
+ 	}
+
+diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+index 5ed2413eac8a..a71277e361ff 100644
+--- a/drivers/media/i2c/ov2659.c
++++ b/drivers/media/i2c/ov2659.c
+@@ -1055,7 +1055,7 @@ static int ov2659_get_fmt(struct v4l2_subdev *sd,
+ 		mutex_unlock(&ov2659->lock);
+ 		return 0;
+ #else
+-	return -ENOTTY;
++		return -EINVAL;
+ #endif
+ 	}
+
+@@ -1131,8 +1131,6 @@ static int ov2659_set_fmt(struct v4l2_subdev *sd,
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+ 		mf = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+ 		*mf = fmt->format;
+-#else
+-		ret = -ENOTTY;
+ #endif
+ 	} else {
+ 		s64 val;
+diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+index b10bcfabaeeb..164f983c1814 100644
+--- a/drivers/media/i2c/ov2680.c
++++ b/drivers/media/i2c/ov2680.c
+@@ -675,7 +675,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+ 		fmt = v4l2_subdev_get_try_format(&sensor->sd, cfg, format->pad);
+ #else
+-		ret = -ENOTTY;
++		ret = -EINVAL;
+ #endif
+ 	} else {
+ 		fmt = &sensor->fmt;
+@@ -723,10 +723,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+ 		try_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+ 		format->format = *try_fmt;
+-#else
+-		ret = -ENOTTY;
+ #endif
 -
--static int viacam_g_std(struct file *filp, void *priv, v4l2_std_id *std)
--{
--	*std = V4L2_STD_NTSC_M;
--	return 0;
--}
+ 		goto unlock;
+ 	}
+
+diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+index e65a94353175..34b7046d9702 100644
+--- a/drivers/media/i2c/ov5695.c
++++ b/drivers/media/i2c/ov5695.c
+@@ -823,9 +823,6 @@ static int ov5695_set_fmt(struct v4l2_subdev *sd,
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+ 		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+-#else
+-		mutex_unlock(&ov5695->mutex);
+-		return -ENOTTY;
+ #endif
+ 	} else {
+ 		ov5695->cur_mode = mode;
+@@ -856,7 +853,7 @@ static int ov5695_get_fmt(struct v4l2_subdev *sd,
+ 		fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+ #else
+ 		mutex_unlock(&ov5695->mutex);
+-		return -ENOTTY;
++		return -EINVAL;
+ #endif
+ 	} else {
+ 		fmt->format.width = mode->width;
+diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+index 70bb870b1d08..a2f8f19bca7c 100644
+--- a/drivers/media/i2c/ov7740.c
++++ b/drivers/media/i2c/ov7740.c
+@@ -827,13 +827,9 @@ static int ov7740_set_fmt(struct v4l2_subdev *sd,
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+ 		mbus_fmt = v4l2_subdev_get_try_format(sd, cfg, format->pad);
+ 		*mbus_fmt = format->format;
 -
- /*
-  * Video format stuff.	Here is our default format until
-  * user space messes with things.
-@@ -858,6 +847,7 @@ static const struct v4l2_pix_format viacam_def_pix_format = {
- 	.field		= V4L2_FIELD_NONE,
- 	.bytesperline	= VGA_WIDTH * 2,
- 	.sizeimage	= VGA_WIDTH * VGA_HEIGHT * 2,
-+	.colorspace	= V4L2_COLORSPACE_SRGB,
- };
- 
- static const u32 via_def_mbus_code = MEDIA_BUS_FMT_YUYV8_2X8;
-@@ -904,6 +894,10 @@ static void viacam_fmt_post(struct v4l2_pix_format *userfmt,
- 	userfmt->field = sensorfmt->field;
- 	userfmt->bytesperline = 2 * userfmt->width;
- 	userfmt->sizeimage = userfmt->bytesperline * userfmt->height;
-+	userfmt->colorspace = sensorfmt->colorspace;
-+	userfmt->ycbcr_enc = sensorfmt->ycbcr_enc;
-+	userfmt->quantization = sensorfmt->quantization;
-+	userfmt->xfer_func = sensorfmt->xfer_func;
- }
- 
- 
-@@ -999,6 +993,7 @@ static int viacam_querycap(struct file *filp, void *priv,
- {
- 	strscpy(cap->driver, "via-camera", sizeof(cap->driver));
- 	strscpy(cap->card, "via-camera", sizeof(cap->card));
-+	strscpy(cap->bus_info, "platform:via-camera", sizeof(cap->bus_info));
- 	cap->device_caps = V4L2_CAP_VIDEO_CAPTURE |
- 		V4L2_CAP_READWRITE | V4L2_CAP_STREAMING;
- 	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
-@@ -1126,7 +1121,6 @@ static int viacam_g_parm(struct file *filp, void *priv,
- 	mutex_lock(&cam->lock);
- 	ret = v4l2_g_parm_cap(video_devdata(filp), cam->sensor, parm);
- 	mutex_unlock(&cam->lock);
--	parm->parm.capture.readbuffers = cam->n_cap_bufs;
- 	return ret;
- }
- 
-@@ -1139,15 +1133,21 @@ static int viacam_s_parm(struct file *filp, void *priv,
- 	mutex_lock(&cam->lock);
- 	ret = v4l2_s_parm_cap(video_devdata(filp), cam->sensor, parm);
- 	mutex_unlock(&cam->lock);
--	parm->parm.capture.readbuffers = cam->n_cap_bufs;
- 	return ret;
- }
- 
- static int viacam_enum_framesizes(struct file *filp, void *priv,
- 		struct v4l2_frmsizeenum *sizes)
- {
-+	unsigned int i;
-+
- 	if (sizes->index != 0)
- 		return -EINVAL;
-+	for (i = 0; i < N_VIA_FMTS; i++)
-+		if (sizes->pixel_format == via_formats[i].pixelformat)
-+			break;
-+	if (i >= N_VIA_FMTS)
-+		return -EINVAL;
- 	sizes->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
- 	sizes->stepwise.min_width = QCIF_WIDTH;
- 	sizes->stepwise.min_height = QCIF_HEIGHT;
-@@ -1168,8 +1168,17 @@ static int viacam_enum_frameintervals(struct file *filp, void *priv,
- 		.height = cam->sensor_format.height,
- 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
- 	};
-+	unsigned int i;
- 	int ret;
- 
-+	for (i = 0; i < N_VIA_FMTS; i++)
-+		if (interval->pixel_format == via_formats[i].pixelformat)
-+			break;
-+	if (i >= N_VIA_FMTS)
-+		return -EINVAL;
-+	if (interval->width < QCIF_WIDTH || interval->width > VGA_WIDTH ||
-+	    interval->height < QCIF_HEIGHT || interval->height > VGA_HEIGHT)
-+		return -EINVAL;
- 	mutex_lock(&cam->lock);
- 	ret = sensor_call(cam, pad, enum_frame_interval, NULL, &fie);
- 	mutex_unlock(&cam->lock);
-@@ -1186,8 +1195,6 @@ static const struct v4l2_ioctl_ops viacam_ioctl_ops = {
- 	.vidioc_enum_input	= viacam_enum_input,
- 	.vidioc_g_input		= viacam_g_input,
- 	.vidioc_s_input		= viacam_s_input,
--	.vidioc_s_std		= viacam_s_std,
--	.vidioc_g_std		= viacam_g_std,
- 	.vidioc_enum_fmt_vid_cap = viacam_enum_fmt_vid_cap,
- 	.vidioc_try_fmt_vid_cap = viacam_try_fmt_vid_cap,
- 	.vidioc_g_fmt_vid_cap	= viacam_g_fmt_vid_cap,
-@@ -1203,6 +1210,8 @@ static const struct v4l2_ioctl_ops viacam_ioctl_ops = {
- 	.vidioc_s_parm		= viacam_s_parm,
- 	.vidioc_enum_framesizes = viacam_enum_framesizes,
- 	.vidioc_enum_frameintervals = viacam_enum_frameintervals,
-+	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
-+	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
- };
- 
- /*----------------------------------------------------------------------------*/
-@@ -1274,7 +1283,6 @@ static struct viafb_pm_hooks viacam_pm_hooks = {
- static const struct video_device viacam_v4l_template = {
- 	.name		= "via-camera",
- 	.minor		= -1,
--	.tvnorms	= V4L2_STD_NTSC_M,
- 	.fops		= &viacam_fops,
- 	.ioctl_ops	= &viacam_ioctl_ops,
- 	.release	= video_device_release_empty, /* Check this */
++#endif
+ 		mutex_unlock(&ov7740->mutex);
+ 		return 0;
+-#else
+-		ret = -ENOTTY;
+-		goto error;
+-#endif
+ 	}
+
+ 	ret = ov7740_try_fmt_internal(sd, &format->format, &ovfmt, &fsize);
+@@ -868,7 +864,7 @@ static int ov7740_get_fmt(struct v4l2_subdev *sd,
+ 		format->format = *mbus_fmt;
+ 		ret = 0;
+ #else
+-		ret = -ENOTTY;
++		ret = -EINVAL;
+ #endif
+ 	} else {
+ 		format->format = ov7740->format;
 -- 
 2.20.1
 
