@@ -2,68 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C85C6BC58
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 14:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B52BD6BD02
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2019 15:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbfGQM3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 08:29:02 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:52037 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbfGQM3B (ORCPT
+        id S1725936AbfGQN3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 09:29:15 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58555 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725799AbfGQN3P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 08:29:01 -0400
-Received: by mail-io1-f71.google.com with SMTP id c5so26763314iom.18
-        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 05:29:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=AByShyV8MxugdrVAP52bTC11/zp2agBi1wk+fUcF/g8=;
-        b=McaL+dWsB25Mlbn3ZpOS5WUwUPXvWSDjrOitcDy7B0ud0KQE1Yw7uNIRwPxnEGjNWi
-         JMp3zvjs9Lh9kabDMQrajCboVnwfOV4bNcOkP9wF5euxRjESRdyfb2L3z3Ugf5ACoHP7
-         N52AvoX99dnqVPa1dE+9z3FQO8RXbH/eWLvRBUDpO0zQdb6l6vXriLWdOsvnEzyEdgKK
-         O52c1np9+w6c4u6CKX6FhH12s6WDzS98cNQRAFAD8ulSCvFYCHq+2EuzWyxqP5Aed3PA
-         tdHNMnrnU7aSktuctUBY31g+fZQwIzEWkKpvQ3Oeza7Apao0r+l80q39xk426C9J4Ga/
-         eKLg==
-X-Gm-Message-State: APjAAAXkNhgCNrkvZ2Ku4/ZLK9tex1gJ6DWOY4TzYjR3cpYUoiOxOk5h
-        nfBVDzM4R/V/GklS3lX61qCP2mJX2SR765WV0odNxIotNAbq
-X-Google-Smtp-Source: APXvYqxoVSLYclq8vROH6mYIXxVdmTx0TM+Zs7tz/C19ac1rQJfL74aTHycQ78ufw/LQNLLowRXhr3VuOu/dGV+La6CLKhQSGzQp
+        Wed, 17 Jul 2019 09:29:15 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id njzZhwPtB0SBqnjzchaLa9; Wed, 17 Jul 2019 15:29:12 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 5/6] omap_vout: use struct v4l2_fh
+Message-ID: <26e4e34d-c148-271d-be13-77fc8d15a646@xs4all.nl>
+Date:   Wed, 17 Jul 2019 15:29:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Received: by 2002:a6b:90c1:: with SMTP id s184mr1909577iod.244.1563366541028;
- Wed, 17 Jul 2019 05:29:01 -0700 (PDT)
-Date:   Wed, 17 Jul 2019 05:29:01 -0700
-In-Reply-To: <CAAeHK+zPDgvDr_Bao9dz_7hGEg+Ud6-tj7pZaihKeYHJ8M386Q@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000054f8bd058ddfa341@google.com>
-Subject: Re: KASAN: global-out-of-bounds Read in dvb_pll_attach
-From:   syzbot <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com>
-To:     allison@lohutok.net, andreyknvl@google.com, bnvandana@gmail.com,
-        hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, rfontana@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        tskd08@gmail.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIN3K6PGmzjYte7ZFzb7/1e29qsyQinjjZn/QaEz3mjYhO95gBqWKL9OnWt79viCJXyBxFl8XM8iBEnceGsLdAaLarHwy0OVEgaYj9At52IUPnRjC9vM
+ +xIB2+NQwwu9Al4Ix0oCNvrFBH5c1RbmyRWPMMsI8/TwHjbRpoGRt9X3zpjAMq+XyQGmmk1yzcewDyP+fvajnDfJhwpspbAOMndPKivTJMVTzQ/VEYJPWxnA
+ 5aX7Kb8/+k11O1LMwJOu8QCGmfzzaZgzplk8hiW8W+U=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This driver is one of the few that is still not using struct
+v4l2_fh. Convert it.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+Tested on a Pandaboard.
 
-Reported-and-tested-by:  
-syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/platform/omap/omap_vout.c | 53 +++++++++++++------------
+ 1 file changed, 27 insertions(+), 26 deletions(-)
 
-Tested on:
+diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/omap/omap_vout.c
+index cb6a9e3946b6..94d0e04fa69b 100644
+--- a/drivers/media/platform/omap/omap_vout.c
++++ b/drivers/media/platform/omap/omap_vout.c
+@@ -841,7 +841,7 @@ static void omap_vout_buffer_release(struct videobuf_queue *q,
+ static __poll_t omap_vout_poll(struct file *file,
+ 				   struct poll_table_struct *wait)
+ {
+-	struct omap_vout_device *vout = file->private_data;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
 
-commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d90745bdf884fc0a
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1454f4d0600000
+ 	return videobuf_poll_stream(file, q, wait);
+@@ -876,7 +876,7 @@ static int omap_vout_mmap(struct file *file, struct vm_area_struct *vma)
+ 	void *pos;
+ 	unsigned long start = vma->vm_start;
+ 	unsigned long size = (vma->vm_end - vma->vm_start);
+-	struct omap_vout_device *vout = file->private_data;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
 
-Note: testing is done by a robot and is best-effort only.
+ 	v4l2_dbg(1, debug, &vout->vid_dev->v4l2_dev,
+@@ -935,7 +935,7 @@ static int omap_vout_release(struct file *file)
+ 	unsigned int ret, i;
+ 	struct videobuf_queue *q;
+ 	struct omapvideo_info *ovid;
+-	struct omap_vout_device *vout = file->private_data;
++	struct omap_vout_device *vout = video_drvdata(file);
+
+ 	v4l2_dbg(1, debug, &vout->vid_dev->v4l2_dev, "Entering %s\n", __func__);
+ 	ovid = &vout->vid_info;
+@@ -988,7 +988,7 @@ static int omap_vout_release(struct file *file)
+ 		vout->mmap_count = 0;
+
+ 	vout->opened -= 1;
+-	file->private_data = NULL;
++	v4l2_fh_release(file);
+
+ 	if (vout->buffer_allocated)
+ 		videobuf_mmap_free(q);
+@@ -1000,9 +1000,8 @@ static int omap_vout_release(struct file *file)
+ static int omap_vout_open(struct file *file)
+ {
+ 	struct videobuf_queue *q;
+-	struct omap_vout_device *vout = NULL;
+-
+-	vout = video_drvdata(file);
++	struct omap_vout_device *vout = video_drvdata(file);
++	int ret;
+
+ 	if (vout == NULL)
+ 		return -ENODEV;
+@@ -1013,9 +1012,11 @@ static int omap_vout_open(struct file *file)
+ 	if (vout->opened)
+ 		return -EBUSY;
+
+-	vout->opened += 1;
++	ret = v4l2_fh_open(file);
++	if (ret)
++		return ret;
+
+-	file->private_data = vout;
++	vout->opened += 1;
+ 	vout->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+
+ 	q = &vout->vbq;
+@@ -1039,7 +1040,7 @@ static int omap_vout_open(struct file *file)
+ static int vidioc_querycap(struct file *file, void *fh,
+ 		struct v4l2_capability *cap)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+
+ 	strscpy(cap->driver, VOUT_NAME, sizeof(cap->driver));
+ 	strscpy(cap->card, vout->vfd->name, sizeof(cap->card));
+@@ -1070,7 +1071,7 @@ static int vidioc_enum_fmt_vid_out(struct file *file, void *fh,
+ static int vidioc_g_fmt_vid_out(struct file *file, void *fh,
+ 			struct v4l2_format *f)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+
+ 	f->fmt.pix = vout->pix;
+ 	return 0;
+@@ -1083,7 +1084,7 @@ static int vidioc_try_fmt_vid_out(struct file *file, void *fh,
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+ 	struct omap_video_timings *timing;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_dss_device *dssdev;
+
+ 	ovid = &vout->vid_info;
+@@ -1110,7 +1111,7 @@ static int vidioc_s_fmt_vid_out(struct file *file, void *fh,
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+ 	struct omap_video_timings *timing;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_dss_device *dssdev;
+
+ 	if (vout->streaming)
+@@ -1176,7 +1177,7 @@ static int vidioc_try_fmt_vid_overlay(struct file *file, void *fh,
+ 			struct v4l2_format *f)
+ {
+ 	int ret = 0;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+ 	struct v4l2_window *win = &f->fmt.win;
+@@ -1202,7 +1203,7 @@ static int vidioc_s_fmt_vid_overlay(struct file *file, void *fh,
+ 	int ret = 0;
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct v4l2_window *win = &f->fmt.win;
+
+ 	mutex_lock(&vout->lock);
+@@ -1229,7 +1230,7 @@ static int vidioc_g_fmt_vid_overlay(struct file *file, void *fh,
+ 	u32 key_value =  0;
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_overlay_manager_info info;
+ 	struct v4l2_window *win = &f->fmt.win;
+
+@@ -1250,7 +1251,7 @@ static int vidioc_g_fmt_vid_overlay(struct file *file, void *fh,
+
+ static int vidioc_g_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct v4l2_pix_format *pix = &vout->pix;
+
+ 	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+@@ -1277,7 +1278,7 @@ static int vidioc_g_selection(struct file *file, void *fh, struct v4l2_selection
+ static int vidioc_s_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ {
+ 	int ret = -EINVAL;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omapvideo_info *ovid;
+ 	struct omap_overlay *ovl;
+ 	struct omap_video_timings *timing;
+@@ -1419,7 +1420,7 @@ static int vidioc_reqbufs(struct file *file, void *fh,
+ {
+ 	int ret = 0;
+ 	unsigned int i, num_buffers = 0;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
+
+ 	if (req->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+@@ -1484,7 +1485,7 @@ static int vidioc_reqbufs(struct file *file, void *fh,
+ static int vidioc_querybuf(struct file *file, void *fh,
+ 			struct v4l2_buffer *b)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+
+ 	return videobuf_querybuf(&vout->vbq, b);
+ }
+@@ -1492,7 +1493,7 @@ static int vidioc_querybuf(struct file *file, void *fh,
+ static int vidioc_qbuf(struct file *file, void *fh,
+ 			struct v4l2_buffer *buffer)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
+
+ 	if ((V4L2_BUF_TYPE_VIDEO_OUTPUT != buffer->type) ||
+@@ -1519,7 +1520,7 @@ static int vidioc_qbuf(struct file *file, void *fh,
+
+ static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ {
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
+
+ 	int ret;
+@@ -1547,7 +1548,7 @@ static int vidioc_streamon(struct file *file, void *fh, enum v4l2_buf_type i)
+ {
+ 	int ret = 0, j;
+ 	u32 addr = 0, mask = 0;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct videobuf_queue *q = &vout->vbq;
+ 	struct omapvideo_info *ovid = &vout->vid_info;
+
+@@ -1632,7 +1633,7 @@ static int vidioc_streamoff(struct file *file, void *fh, enum v4l2_buf_type i)
+ {
+ 	u32 mask = 0;
+ 	int ret = 0, j;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omapvideo_info *ovid = &vout->vid_info;
+
+ 	if (!vout->streaming)
+@@ -1670,7 +1671,7 @@ static int vidioc_s_fbuf(struct file *file, void *fh,
+ 	int enable = 0;
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_overlay_manager_info info;
+ 	enum omap_dss_trans_key_type key_type = OMAP_DSS_COLOR_KEY_GFX_DST;
+
+@@ -1741,7 +1742,7 @@ static int vidioc_g_fbuf(struct file *file, void *fh,
+ {
+ 	struct omap_overlay *ovl;
+ 	struct omapvideo_info *ovid;
+-	struct omap_vout_device *vout = fh;
++	struct omap_vout_device *vout = video_drvdata(file);
+ 	struct omap_overlay_manager_info info;
+
+ 	ovid = &vout->vid_info;
+-- 
+2.20.1
+
