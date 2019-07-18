@@ -2,124 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7F86CDD4
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 14:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91C5A6CE86
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 15:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727854AbfGRMHQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jul 2019 08:07:16 -0400
-Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:12700 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726715AbfGRMHQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jul 2019 08:07:16 -0400
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-        by mx0b-0014ca01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6IC43Vb032713;
-        Thu, 18 Jul 2019 05:07:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=proofpoint;
- bh=EZJeBTVR2eK/S8AamVrzFbA3W8V1j26PA4cJalCC+V4=;
- b=LeyNW4RVGgPxtUbMagKk1Sm+i1vd2s8nb9DI2PVpusg8Wo6hD0CfnbVtzwYyQWl7B45E
- r/PHqnrcppMx6Zsag7RhOy46zhH6HdtM+sD4IL9J1U5NL0ydZtOxauCMc/B6uFK+JQnM
- WOzUMg24U9N8ZG5HaD3CDcy7HUZo61R7cAnt0p3Y5E1zSIgxUjBy6A8cH58ds96dF7vV
- G+1CXFchv5jU2RBhvhjT55UfyZorVH6QIq4GV2SqAtx/X2sFGd6txz0935ilubayM8c0
- Jvg4sRjfROZp86ri0a0GIWOXGiZVwyl1HJmHpb76Wkax64zoKzpgDrA6Xhe146EKkCl4 cg== 
-Authentication-Results: cadence.com;
-        spf=pass smtp.mailfrom=jank@cadence.com
-Received: from nam03-by2-obe.outbound.protection.outlook.com (mail-by2nam03lp2050.outbound.protection.outlook.com [104.47.42.50])
-        by mx0b-0014ca01.pphosted.com with ESMTP id 2tqavwv732-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 18 Jul 2019 05:07:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cq+cIGYLfa60tqeDhdwv0Y2KOsVBLjqF49FbdEflDwEDYNlH4QlXvkPgjFfqW9cIbccCiZBYjrBepOxpb3KlgFkNwKGhCJKXiiWUmuzNubprmjJG/ZixZNdXN2QOXWbmDabvSkLdn7T10aQPKZlmQZTcUUjNCwAvx0dNW+q9+0T0Mn9Jf5pujvPS5KsFR4WkkEGT+B1BaGI2+NgVqW/XgoHsBb3QymkbdGWa5kGEF44mRScPVlB7zgdfbVC2MB6PpMrumbvYPOZf3CYn4MsAydFYqSUCJo7gn8iHDTgU/6f8LT3uUsP/1+R+cQlXIgDbMVh2lPq+BS9KpG2gzc8ZUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EZJeBTVR2eK/S8AamVrzFbA3W8V1j26PA4cJalCC+V4=;
- b=StoFDr5J1muYVdKZDugHHvAxXuM7PWOK0JteAbDMRkcVita+iKVG2D62buAlTgl43wnlQjC4g68Nw20GDhw1PbDjHHYspZJRu1gsIprtB1BiSrGagNZqglz5Gtj7oFwzOVwBY4w+0hJ2lMSrmklmABAYqx23cIevPa2xaOOWsSA9M6n9pfbzIcPu2H1KpfRsc772nxtKoSONzMvgIhhYXSPoOr1UhtfwNfYeXfxNpLdL1kQnbxSK8CkEveo+lEuHtwdXJfKsG6N526li6IlnMqjs+Gd8+F02e+eDY+qxFTQKGndAUSKVVrdHVcK7s3NxqRDSD57NszXX7QUfcMQ6rQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=cadence.com;dmarc=pass action=none
- header.from=cadence.com;dkim=pass header.d=cadence.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EZJeBTVR2eK/S8AamVrzFbA3W8V1j26PA4cJalCC+V4=;
- b=ZIoHSOre0iSoMbncC1T0NBZ0NfYo5x+2rOgNwQsE4Lrged4JoioAyzuAc2i8aTPlEE8sLsTOOluco7GMHGtopV/nRTHv0RoTYmTCJriNT8ektQ6jxPpHMypWReLzgdBl4xvTsrLfMz73HERyFMumCb4XE6/cW/101M4ciKxdBos=
-Received: from CY1PR07MB2521.namprd07.prod.outlook.com (10.167.16.12) by
- CY1PR07MB2586.namprd07.prod.outlook.com (10.166.206.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.14; Thu, 18 Jul 2019 12:07:09 +0000
-Received: from CY1PR07MB2521.namprd07.prod.outlook.com
- ([fe80::fdfa:c66c:60e5:9b07]) by CY1PR07MB2521.namprd07.prod.outlook.com
- ([fe80::fdfa:c66c:60e5:9b07%10]) with mapi id 15.20.2094.011; Thu, 18 Jul
- 2019 12:07:09 +0000
-From:   Jan Kotas <jank@cadence.com>
-To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
-CC:     Jan Kotas <jank@cadence.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] media: Add lane checks for Cadence CSI2TX
-Thread-Topic: [PATCH 2/3] media: Add lane checks for Cadence CSI2TX
-Thread-Index: AQHVPVokB1lRWRlUyU+zijqVl4MU4KbQQ/WAgAAD+wA=
-Date:   Thu, 18 Jul 2019 12:07:09 +0000
-Message-ID: <9CAC42FF-30B1-4540-B58B-82A81353D37C@global.cadence.com>
-References: <20190718111509.29924-1-jank@cadence.com>
- <20190718111509.29924-3-jank@cadence.com>
- <0fea09d4-1e8a-b9bf-b549-ee7cd72bd814@free.fr>
-In-Reply-To: <0fea09d4-1e8a-b9bf-b549-ee7cd72bd814@free.fr>
-Accept-Language: en-US, pl-PL
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 395807ea-7461-4826-4c37-08d70b7875a1
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY1PR07MB2586;
-x-ms-traffictypediagnostic: CY1PR07MB2586:
-x-microsoft-antispam-prvs: <CY1PR07MB25864275C1A3679162872107D0C80@CY1PR07MB2586.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:513;
-x-forefront-prvs: 01026E1310
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(199004)(189003)(36092001)(7736002)(6486002)(102836004)(25786009)(99286004)(6916009)(305945005)(6246003)(446003)(53936002)(229853002)(4744005)(11346002)(476003)(6506007)(478600001)(53546011)(6436002)(76176011)(14454004)(54906003)(8676002)(33656002)(76116006)(4326008)(71200400001)(256004)(486006)(81166006)(316002)(81156014)(3846002)(6116002)(71190400001)(66066001)(26005)(186003)(68736007)(6512007)(86362001)(8936002)(66556008)(66476007)(66946007)(91956017)(64756008)(2906002)(66446008)(5660300002)(15866825006);DIR:OUT;SFP:1101;SCL:1;SRVR:CY1PR07MB2586;H:CY1PR07MB2521.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: bsYDt6s9UG4VgDgdYkT9IKKzGWQttqtTMl6M9TuwrVW5ZYpIVoGFRAZQc5BT7iqeMQkvzdGFwVU+M5GQhJMyY+TLOb/nvaKIpdFW0E0KwFsNPUhTcxGIkA9dbr5sy0088BOD/i/tnafapo/rby3VbECd6O/ZF+GpkjJa0XV4djHur8OYOeezZNLC4evus6TXalGrcYv3aoDB/Akb+G1Er2/wW61qQeG5cGR1krczKoS0R/d5AJJ32c/t5TCi2z/s/IhLXy9/iJfuiLQktqKs1ZxZop23ia7N4X82/wiBdY1LmbEu1P9sYYhkm3Q+ncqCaJKRlVRZlAjyvsbNqkG71XFV4piks1e8iFLNnB+OQK9bPRYb2LvTFbPpePrzWE230ZuzpupvNAPcx6qLwUJ7/DZSq4xGgtTiTks93gHt0v4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7B8C9BE056C7674682D4F18DFC3F4EF7@namprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S2390458AbfGRNDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jul 2019 09:03:32 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:57986 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727767AbfGRNDc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Jul 2019 09:03:32 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 8EB7E2070A;
+        Thu, 18 Jul 2019 15:03:30 +0200 (CEST)
+Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id 73348206B8;
+        Thu, 18 Jul 2019 15:03:30 +0200 (CEST)
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: [PATCH v3] media: dvb: Provide 4 devm variants
+To:     Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Message-ID: <068836c7-a116-7e6f-cbb2-f2176fbb9a38@free.fr>
+Date:   Thu, 18 Jul 2019 15:03:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 395807ea-7461-4826-4c37-08d70b7875a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2019 12:07:09.2219
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jank@global.cadence.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR07MB2586
-X-Proofpoint-SPF-Result: pass
-X-Proofpoint-SPF-Record: v=spf1 include:spf.smktg.jp include:_spf.salesforce.com
- include:mktomail.com include:spf-0014ca01.pphosted.com
- include:spf.protection.outlook.com include:auth.msgapp.com
- include:spf.mandrillapp.com ~all
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-18_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- spamscore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=555 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907180129
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jul 18 15:03:30 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQo+IE9uIDE4IEp1bCAyMDE5LCBhdCAxMzo1MiwgTWFyYyBHb256YWxleiA8bWFyYy53Lmdvbnph
-bGV6QGZyZWUuZnI+IHdyb3RlOg0KPiANCj4gRVhURVJOQUwgTUFJTA0KPiANCj4gDQo+IE9uIDE4
-LzA3LzIwMTkgMTM6MTUsIEphbiBLb3RhcyB3cm90ZToNCj4gDQo+PiBUaGlzIHBhdGNoIGFkZHMg
-bGluZSBjaGVja3MgZm9yIENTSTJUWCwgdG8gcHJldmVudA0KPj4gY2xvY2sgbGFuZSBiZWluZyB1
-c2VkIGFzIGEgZGF0YSBsYW5lLg0KPiANCj4gImxpbmUgY2hlY2tzIiBvciAibGFuZSBjaGVja3M/
-IF5fXg0KDQpZZXMsIHlvdeKAmXJlIHJpZ2h0LCBzaG91bGQgYmUgbGFuZSBjaGVja3MgOikNCg0K
-UmVnYXJkcywNCkphbg0KDQo+IA0KPiBOQjogY29tbWl0IG1lc3NhZ2VzIG1heSBiZSB1cCB0byA3
-Mi1jaGFyYWN0ZXItd2lkZSA7LSkNCj4gKE5vIG5lZWQgdG8gbGluZS13cmFwIGF0IDUwKQ0KPiAN
-Cj4gUmVnYXJkcy4NCg0K
+Provide devm variants for automatic resource release on device removal.
+Makes error-handling in probe() simpler, thus less error-prone.
+Once all resources are devmanaged, remove() is no longer needed.
+
+Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+---
+Changes from v2:
+x Handle dvb_register_adapter() return code correctly
+Changes from v1:
+x Simplify devm_dvb_register_adapter() implementation
+x Add 3 more devm APIs
+x Document them in devres.rst
+---
+ Documentation/driver-model/devres.rst |  6 ++++++
+ drivers/media/dvb-core/dmxdev.c       | 13 +++++++++++++
+ drivers/media/dvb-core/dvb_demux.c    | 13 +++++++++++++
+ drivers/media/dvb-core/dvb_frontend.c | 13 +++++++++++++
+ drivers/media/dvb-core/dvbdev.c       | 12 ++++++++++++
+ include/media/dmxdev.h                |  3 +++
+ include/media/dvb_demux.h             |  2 ++
+ include/media/dvb_frontend.h          |  3 +++
+ include/media/dvbdev.h                |  3 +++
+ 9 files changed, 68 insertions(+)
+
+diff --git a/Documentation/driver-model/devres.rst b/Documentation/driver-model/devres.rst
+index 6af41a6a4bb6..84bdb61f27a3 100644
+--- a/Documentation/driver-model/devres.rst
++++ b/Documentation/driver-model/devres.rst
+@@ -268,6 +268,12 @@ DMA
+ DRM
+   devm_drm_dev_init()
+ 
++DVB
++  devm_dvb_dmx_init()
++  devm_dvb_dmxdev_init()
++  devm_dvb_register_adapter()
++  devm_dvb_register_frontend()
++
+ GPIO
+   devm_gpiod_get()
+   devm_gpiod_get_index()
+diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+index f14a872d1268..f38b65d1b430 100644
+--- a/drivers/media/dvb-core/dmxdev.c
++++ b/drivers/media/dvb-core/dmxdev.c
+@@ -1444,6 +1444,19 @@ int dvb_dmxdev_init(struct dmxdev *dmxdev, struct dvb_adapter *dvb_adapter)
+ 
+ EXPORT_SYMBOL(dvb_dmxdev_init);
+ 
++static void dmxdev_release(void *dmxdev)
++{
++	dvb_dmxdev_release(dmxdev);
++}
++
++int devm_dvb_dmxdev_init(struct device *dev, struct dmxdev *dmxdev,
++		struct dvb_adapter *dvb_adapter)
++{
++	int rc = dvb_dmxdev_init(dmxdev, dvb_adapter);
++	return rc ? : devm_add_action_or_reset(dev, dmxdev_release, dmxdev);
++}
++EXPORT_SYMBOL(devm_dvb_dmxdev_init);
++
+ void dvb_dmxdev_release(struct dmxdev *dmxdev)
+ {
+ 	dmxdev->exit = 1;
+diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+index 39a2c6ccf31d..55b9675b99c5 100644
+--- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -28,6 +28,7 @@
+ #include <linux/string.h>
+ #include <linux/crc32.h>
+ #include <linux/uaccess.h>
++#include <linux/device.h>
+ #include <asm/div64.h>
+ 
+ #include <media/dvb_demux.h>
+@@ -1317,6 +1318,18 @@ int dvb_dmx_init(struct dvb_demux *dvbdemux)
+ 
+ EXPORT_SYMBOL(dvb_dmx_init);
+ 
++static void dmx_release(void *dvbdemux)
++{
++	dvb_dmx_release(dvbdemux);
++}
++
++int devm_dvb_dmx_init(struct device *dev, struct dvb_demux *dvbdemux)
++{
++	int rc = dvb_dmx_init(dvbdemux);
++	return rc ? : devm_add_action_or_reset(dev, dmx_release, dvbdemux);
++}
++EXPORT_SYMBOL(devm_dvb_dmx_init);
++
+ void dvb_dmx_release(struct dvb_demux *dvbdemux)
+ {
+ 	vfree(dvbdemux->cnt_storage);
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 209186c5cd9b..4a281cd8c064 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -3007,6 +3007,19 @@ int dvb_register_frontend(struct dvb_adapter *dvb,
+ }
+ EXPORT_SYMBOL(dvb_register_frontend);
+ 
++static void unregister_frontend(void *fe)
++{
++	dvb_unregister_frontend(fe);
++}
++
++int devm_dvb_register_frontend(struct device *dev,
++		struct dvb_adapter *dvb, struct dvb_frontend *fe)
++{
++	int rc = dvb_register_frontend(dvb, fe);
++	return rc ? : devm_add_action_or_reset(dev, unregister_frontend, fe);
++}
++EXPORT_SYMBOL(devm_dvb_register_frontend);
++
+ int dvb_unregister_frontend(struct dvb_frontend *fe)
+ {
+ 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index a3393cd4e584..0fc8dbf65045 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -885,6 +885,18 @@ int dvb_register_adapter(struct dvb_adapter *adap, const char *name,
+ }
+ EXPORT_SYMBOL(dvb_register_adapter);
+ 
++static void unreg_adapter(void *adap)
++{
++	dvb_unregister_adapter(adap);
++}
++
++int devm_dvb_register_adapter(struct device *dev, struct dvb_adapter *adap,
++		const char *name, struct module *module, short *adapter_nums)
++{
++	int rc = dvb_register_adapter(adap, name, module, dev, adapter_nums);
++	return rc < 0 ? rc : devm_add_action_or_reset(dev, unreg_adapter, adap);
++}
++EXPORT_SYMBOL(devm_dvb_register_adapter);
+ 
+ int dvb_unregister_adapter(struct dvb_adapter *adap)
+ {
+diff --git a/include/media/dmxdev.h b/include/media/dmxdev.h
+index baafa3b8aca4..0300d829aeea 100644
+--- a/include/media/dmxdev.h
++++ b/include/media/dmxdev.h
+@@ -204,6 +204,9 @@ struct dmxdev {
+  */
+ int dvb_dmxdev_init(struct dmxdev *dmxdev, struct dvb_adapter *adap);
+ 
++int devm_dvb_dmxdev_init(struct device *dev, struct dmxdev *dmxdev,
++		struct dvb_adapter *dvb_adapter);
++
+ /**
+  * dvb_dmxdev_release - releases a digital TV demux and unregisters it.
+  *
+diff --git a/include/media/dvb_demux.h b/include/media/dvb_demux.h
+index 3b6aeca7a49e..95fe901076d7 100644
+--- a/include/media/dvb_demux.h
++++ b/include/media/dvb_demux.h
+@@ -266,6 +266,8 @@ struct dvb_demux {
+  */
+ int dvb_dmx_init(struct dvb_demux *demux);
+ 
++int devm_dvb_dmx_init(struct device *dev, struct dvb_demux *demux);
++
+ /**
+  * dvb_dmx_release - releases a digital TV demux internal buffers.
+  *
+diff --git a/include/media/dvb_frontend.h b/include/media/dvb_frontend.h
+index f05cd7b94a2c..56dbaf3cc7a9 100644
+--- a/include/media/dvb_frontend.h
++++ b/include/media/dvb_frontend.h
+@@ -713,6 +713,9 @@ struct dvb_frontend {
+ int dvb_register_frontend(struct dvb_adapter *dvb,
+ 				 struct dvb_frontend *fe);
+ 
++int devm_dvb_register_frontend(struct device *dev,
++		struct dvb_adapter *dvb, struct dvb_frontend *fe);
++
+ /**
+  * dvb_unregister_frontend() - Unregisters a DVB frontend
+  *
+diff --git a/include/media/dvbdev.h b/include/media/dvbdev.h
+index 551325858de3..32f8d1626319 100644
+--- a/include/media/dvbdev.h
++++ b/include/media/dvbdev.h
+@@ -202,6 +202,9 @@ int dvb_register_adapter(struct dvb_adapter *adap, const char *name,
+ 			 struct module *module, struct device *device,
+ 			 short *adapter_nums);
+ 
++int devm_dvb_register_adapter(struct device *dev, struct dvb_adapter *adap,
++		const char *name, struct module *module, short *adapter_nums);
++
+ /**
+  * dvb_unregister_adapter - Unregisters a DVB adapter
+  *
+-- 
+2.17.1
