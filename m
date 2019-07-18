@@ -2,109 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D926CB90
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 11:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1D5E6CBCB
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 11:22:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbfGRJKV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jul 2019 05:10:21 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38393 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbfGRJKU (ORCPT
+        id S2389490AbfGRJWJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jul 2019 05:22:09 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35567 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726495AbfGRJWJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jul 2019 05:10:20 -0400
-Received: by mail-pl1-f193.google.com with SMTP id az7so13538877plb.5
-        for <linux-media@vger.kernel.org>; Thu, 18 Jul 2019 02:10:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=QxYdSERVMnEWiEqWF2R4jP8/W2xB2vltKcv+ZyYkY4E=;
-        b=QYg8HBvtHh7dvPfhGa7UrXmKAJxFN7ds4XtAuAchIXlsrbtVG6ZWzd9jYnvDt/YKdC
-         dYZYz6wy4cQwoURf8WmisB3cyc7PsJLVXqu/jLTe0xjI7TRjm+b2GaYENS0c7Q0YUoYW
-         qd0T86phUPym/sQpYL79ms7qX4i6bWGvRm7VOE3OMH7z6ZbqtLTObWHd+vofKkUg+KVb
-         CO/WgCQQ/09RKJDZ9UhB7h9WvBVPu++Ybx6fa8ekjznA/OJPEI4jnt8oZM2Pb7/yHFVR
-         2rbAUIIAcCkxwifFQPhDYllli02U9l50m7AQj5nmJS3tjLjh9q1dBCqfEEmjFppdKegV
-         TJjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=QxYdSERVMnEWiEqWF2R4jP8/W2xB2vltKcv+ZyYkY4E=;
-        b=Z/z7nKegvFB29ftXA9hNt9JlPWnKYQXbIQTJ8ajJgWmzg/w28vxXFxVDuQVQpKHJni
-         d7KNrLkp2EM41XSYkqx2clmeKI2hCqTqLuezC99DhwqWbYEKNUUrCZy32x9D9pE3wVPr
-         RFwSPfrGD0DeypoiEnydz523uCe8H4nPFzd4hQ33vOYA8Ht4zFuERM0S36VtpjQ32Rfz
-         KwY7FseCik46mvEMvQJmGKsYrCcAVrkfh7mvD9Juo0QO+6G0yUTxMm1A7ly4ooz2z5b3
-         /wiQHnv9bumI+u5BH0WghUiSUEhuieh8Mv8DGU4Y/hy9FTs2J3qxM1kYkikYWWF0Rspf
-         mGxw==
-X-Gm-Message-State: APjAAAXu5e8mOjSNL9EFHxfW0jktoa3/PmE1T9h/mVYGQlT0+R40Wx5I
-        xo+xrIeMo80+TpXPywZzUIbhkTiRyKw=
-X-Google-Smtp-Source: APXvYqz6/0o8xmBGXDckIykXFqZmvJ67PfDzO3KP5cDURFw2Ehl8N5QNJU5t2esnB9SoMDGewLRNuw==
-X-Received: by 2002:a17:902:f81:: with SMTP id 1mr48343731plz.191.1563441019841;
-        Thu, 18 Jul 2019 02:10:19 -0700 (PDT)
-Received: from [192.168.43.135] ([223.186.230.176])
-        by smtp.gmail.com with ESMTPSA id g18sm46849922pgm.9.2019.07.18.02.10.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2019 02:10:19 -0700 (PDT)
-Subject: Re: [PATCH] media:dvb-frontends:Return if Max devices are added in
- dvb_pll_attach().
-To:     Akihiro TSUKADA <tskd08@gmail.com>,
+        Thu, 18 Jul 2019 05:22:09 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id o2byh2AF60SBqo2c1hdPAD; Thu, 18 Jul 2019 11:22:06 +0200
+Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
+ resolution switching
+To:     Maxime Jourdan <mjourdan@baylibre.com>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20190717141204.19433-1-bnvandana@gmail.com>
- <f8d9af33-d7d8-22d1-428f-b7b7c1d84062@gmail.com>
-From:   Vandana BN <bnvandana@gmail.com>
-Message-ID: <1c150bc5-0b15-23bf-2170-758c9cc046e3@gmail.com>
-Date:   Thu, 18 Jul 2019 14:40:14 +0530
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+References: <20190609143820.4662-1-mjourdan@baylibre.com>
+ <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
+ <3dc4d551-0628-5c74-c223-4afe64a701d8@xs4all.nl>
+ <CAMO6nawAyxV=kK5PWOM2658DQqyoPZGYaSGbwfn6ReiDbOW1DQ@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6450d9d6-70bf-6a8d-5f73-e4fe57557539@xs4all.nl>
+Date:   Thu, 18 Jul 2019 11:22:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <f8d9af33-d7d8-22d1-428f-b7b7c1d84062@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMO6nawAyxV=kK5PWOM2658DQqyoPZGYaSGbwfn6ReiDbOW1DQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPnaP6BwAChEqqBeC69oW8IDfOfLK4YsMJG60DMjcHt/81IIDgaP3Z2ag2G81Ait2+nKjwjRTfx/aXBORShIltue9fRBIBacLmOlAnKYaqatF1YZN2xF
+ 1z1EUqlPgmPdjwZHNa9kueMC+/eVX6jA+FnIA2lvZs3eQeicjZyXW4papmtLuogQRRaZnd6zdugWt99ye1cWztGOem3P8obBv9sVUGXzPO8Oq8V1YxwZmlg/
+ 2/Bzt9DtJpt3496NUCIZqOjFEZIibzb8tWzZLe0HMNs5NC4suBTk68/bOcvBYbRodkT/amfr2GkDdva9sSZhx8yYIDSX0bwgvSr14IPcGGZP1NfUNKO36Nvk
+ 9eU3XJfeEZ3yW4JPC2rABXGljN7BGM71RTghYQlLiX24Z1gmQmRjcNXSWdux3hVL6y4HT7PsHf3+wghgv0EYNyFdVZvYX8lB4QPQPLB5246dGyWftsEuOTor
+ nqXefZLTRiYTzAIvYc9I07Mmraf6RAX7WWt3p7Tpvuw69IFcgyZMjzOt5crvG/02HQwQ2fdOz+yg+NsOOuH8mq4ANACxVI4C7uMb5xVqgSiIHKIfW7tpV71D
+ YIA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 18/07/19 6:05 AM, Akihiro TSUKADA wrote:
-> Hi,
->
->> diff --git a/drivers/media/dvb-frontends/dvb-pll.c b/drivers/media/dvb-frontends/dvb-pll.c
->> index ba0c49107bd2..c850f1d69bce 100644
->> --- a/drivers/media/dvb-frontends/dvb-pll.c
->> +++ b/drivers/media/dvb-frontends/dvb-pll.c
->> @@ -788,6 +788,9 @@ struct dvb_frontend *dvb_pll_attach(struct dvb_frontend *fe, int pll_addr,
->>  	int ret;
->>  	const struct dvb_pll_desc *desc;
+On 7/18/19 10:39 AM, Maxime Jourdan wrote:
+> On Mon, Jul 15, 2019 at 2:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >>
->> +	if (dvb_pll_devcount > DVB_PLL_MAX - 1)
->> +		return NULL;
->> +
->>  	b1 = kmalloc(1, GFP_KERNEL);
->>  	if (!b1)
->>  		return NULL;
+>> On 6/11/19 10:13 AM, Hans Verkuil wrote:
+>>> On 6/9/19 4:38 PM, Maxime Jourdan wrote:
+>>>> Hello,
+>>>>
+>>>> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
+>>>> to tag coded formats for which the device supports dynamic resolution
+>>>> switching, via V4L2_EVENT_SOURCE_CHANGE.
+>>>> This includes the initial "source change" where the device is able to
+>>>> tell userspace about the coded resolution and the DPB size (which
+>>>> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
+>>>
+>>> Shouldn't the initial source change still be there? The amlogic decoder
+>>> is capable of determining the resolution of the stream, right? It just
+>>> can't handle mid-stream changes.
 >>
-> Wouldn't it put a limit on the number of attachment of devices?
-> I'm afraid that an user may repeatedly plugs in and off a device
-> using this driver (for some reason), and finally gets an error.
->
-> Since dvb_pll_devcount and "id" module parameter are just used
-> for debugging purpose to override/force PLL type,
-> removing them totally would be better, IMHO.
+>> I've been thinking about this a bit more: there are three different HW capabilities:
+>>
+>> 1) The hardware cannot parse the resolution at all and userspace has to tell it
+>> via S_FMT.
+>>
+>> 2) The hardware can parse the initial resolution, but is not able to handle
+>> mid-stream resolution changes.
+>>
+>> 3) The hardware can parse the initial resolution and all following mid-stream
+>> resolution changes.
+>>
+>> We can consider 2 the default situation.
+>>
+>> In case of 1 the SOURCE_CHANGE event is absent and userspace cannot subscribe
+>> to it. Question: do we want to flag this with the format as well? I.e. with a
+>> V4L2_FMT_FLAG_MANUAL_RESOLUTION? I think just not implementing the SOURCE_CHANGE
+>> event (and documenting this) is sufficient.
+>>
+> 
+> I think that not implementing SOURCE_CHANGE is sufficient as well. The
+> issue (in my case), is that the amlogic decoder _does_ support the
+> event (case 3) for anything recent (H264, HEVC, VP9), but not for e.g
+> MPEG 1/2 (case 1).
+> 
+> A possible solution would be to create 2 separate devices, one
+> implementing the event, the other not. Do you think this is reasonable
+> ? This would discard the need for all the proposed flags, unless there
+> are other decoder drivers that fall in case 2.
 
-Hi,
+I don't think it is a good idea to create two device nodes, that's really
+confusing. Instead I think we just need a V4L2_FMT_FLAG_MANUAL_RESOLUTION
+flag.
 
-Thanks for reviewing the patch.
+BTW, what happens if the application sets the format to e.g. 640x480 but
+the MPEG file is a different resolution? Does the decoder fail to produce
+anything? Or does it internally parse the resolution from the bitstream
+and start decoding it? What if the bitstream resolution is larger than the
+resolution set with S_FMT? Does it check for the buffer size?
 
-Will it be better, if dvb_pll_devcount is decremented in dvb_pll_release(),  instead of removing module params?
+I just want to make sure it won't write past the end of the buffer.
 
 Regards,
 
-Vandana.
+	Hans
 
->
-> regards,
-> Akihiro
+> 
+>> In case of 3 the format sets the V4L2_FMT_FLAG_DYN_RESOLUTION flag.
+>>
+>> What do you think?
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> Regards,
+>>>
+>>>       Hans
+>>>
+>>>> This flag is mainly aimed at stateful decoder drivers.
+>>>>
+>>>> This RFC is motivated by my development on the amlogic video decoder
+>>>> driver, which does not support dynamic resolution switching for older
+>>>> coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
+>>>> it for the newer formats (H264, HEVC, VP9).
+>>>>
+>>>> The specification regarding stateful video decoders should be amended
+>>>> to include that, in the absence of this flag for a certain format,
+>>>> userspace is expected to extract the coded resolution and allocate
+>>>> a sufficient amount of capture buffers on its own.
+>>>> I understand that this point may be tricky, since older kernels with
+>>>> close-to-spec drivers would not have this flag available, yet would
+>>>> fully support dynamic resolution switching.
+>>>> However, with the spec not merged in yet, I wanted to have your opinion
+>>>> on this late addition.
+>>>>
+>>>> The RFC patches also adds support for this flag for the 4 following
+>>>> stateful decoder drivers:
+>>>>  - venus
+>>>>  - s5p-mfc
+>>>>  - mtk-vcodec
+>>>>  - vicodec
+>>>>
+>>>> Maxime Jourdan (5):
+>>>>   media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: venus: vdec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: s5p_mfc_dec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: mtk-vcodec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: vicodec: flag vdec/stateful OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>
+>>>>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
+>>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
+>>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
+>>>>  drivers/media/platform/qcom/venus/core.h           |  1 +
+>>>>  drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
+>>>>  drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
+>>>>  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
+>>>>  drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
+>>>>  include/uapi/linux/videodev2.h                     |  5 +++--
+>>>>  9 files changed, 43 insertions(+), 2 deletions(-)
+>>>>
+>>>
+>>
+
