@@ -2,111 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B39626D4B8
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 21:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15BC86D666
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 23:25:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403817AbfGRTY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jul 2019 15:24:59 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:44375 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403800AbfGRTY7 (ORCPT
+        id S2391431AbfGRVXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jul 2019 17:23:42 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:42088 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728022AbfGRVXm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jul 2019 15:24:59 -0400
-X-Originating-IP: 91.163.65.175
-Received: from localhost (91-163-65-175.subs.proxad.net [91.163.65.175])
-        (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 4AAE660007;
-        Thu, 18 Jul 2019 19:24:56 +0000 (UTC)
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: Update my email address
-Date:   Thu, 18 Jul 2019 21:24:55 +0200
-Message-Id: <20190718192455.31244-1-maxime.ripard@bootlin.com>
-X-Mailer: git-send-email 2.21.0
+        Thu, 18 Jul 2019 17:23:42 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q10so13176219pff.9
+        for <linux-media@vger.kernel.org>; Thu, 18 Jul 2019 14:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qMusGExo/4n7tjYsdiRBxr2+eOsOxIvhg6GNsS6h/VU=;
+        b=A/Jgq0UAId/tqrsgZ3n1oD1nwV+a4MytDfdNUhZbeJiRzMgPMGwA7oTedadzpGMHCT
+         I9avxhIhWrbv0g09wgtISjzsthyBB5qsmvMPQJhsBvcYgvCqtldjQ8chLXFhrm/bFlz+
+         NQQOdK26pfln6Kk9uL8zfFiEyh3jl2dasIFvzdjLMuCjLxhc0Moh2XgiPUje/ijlixiT
+         CDeiyvWJDxMF3HYysXZ134jGDPkxu83cgTNMMUMeHDbFFpQ06cy12c47RUzxUGliIYCM
+         Xcbn7WQGW/+UKVFoE0g5CM3TOO8EM6oMCoHr5t1mdBCyLdw+8YzvcG9fv3Kc0PCO2Ib5
+         9FPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qMusGExo/4n7tjYsdiRBxr2+eOsOxIvhg6GNsS6h/VU=;
+        b=CbKS5az9NS1JU6l10tg8kLWMfNrSg4BXWhk5GgBSZsGnS/ZZ9M/lD2QLGg6QeSn4wO
+         5FMMPAo4I1cNAAhvNG3TSp7I6zTmYv1GwEZVJC30HB7Qqc4amfZ9obxA3uKXODFuVkZb
+         WgyC7YfXCR3/HU42TjmcYvlTS3yIPGSO4fzgd2Ku9jHlNOT08d83vH3TmbR+AL2s8003
+         BKSm4/ZH3xbBZj01521+anI5wR8MYue9M/4u0e0jSaosh8guEi5RIbB3NznI7NUtw/QU
+         iSZvBj8MXXL88rQFX/fNtUBut7mQZh1OqFcMtNRG12PjRpduUhMk9C4hzVwFf8DCfZ5H
+         SVfw==
+X-Gm-Message-State: APjAAAXRS7S7CcwjkmBuFPE4LcHk7z2sAfhNQ0cvlWJLTgSI8oGv6obn
+        iDa73dbw3knEgD+YTCbdgm0JLmVlZO62CF4cEBxc/g==
+X-Google-Smtp-Source: APXvYqxDZUBzH3HKrxpUAhL/zKBxCHCsy2uwkURdpVBA6Sf7UmRSy+3v2QdQc9xur5HS5uQ+FGNdozTxhr5JyvPEtK0=
+X-Received: by 2002:a63:2cd1:: with SMTP id s200mr46339342pgs.10.1563485021175;
+ Thu, 18 Jul 2019 14:23:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190718141652.3323402-1-arnd@arndb.de>
+In-Reply-To: <20190718141652.3323402-1-arnd@arndb.de>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 18 Jul 2019 14:23:30 -0700
+Message-ID: <CAKwvOdnEnsVOu+kJUF8=pppAZ7=nSBe6a-nZdnChH_YmhA-jcg@mail.gmail.com>
+Subject: Re: [PATCH] media: vivid: work around high stack usage with clang
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Johan Korsnes <johan.korsnes@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Gabriel Francisco Mandaji <gfmandaji@gmail.com>,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use my kernel.org address instead of the bootlin one.
+On Thu, Jul 18, 2019 at 7:16 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> Building a KASAN-enabled kernel with clang ends up in a case where too
+> much is inlined into vivid_thread_vid_cap() and the stack usage grows
+> a lot, possibly when the register allocation fails to produce efficient
+> code and spills a lot of temporaries to the stack. This uses more
+> than twice the amount of stack than the sum of the individual functions
+> when they are not inlined:
+>
+> drivers/media/platform/vivid/vivid-kthread-cap.c:766:12: error: stack frame size of 2208 bytes in function 'vivid_thread_vid_cap' [-Werror,-Wframe-larger-than=]
+>
+> Marking two of the key functions in here as 'noinline_for_stack' avoids
+> the pathological case in clang without any apparent downside for gcc.
 
-Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
----
- .mailmap    |  2 ++
- MAINTAINERS | 10 +++++-----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+Thanks for the patch, should be one less warning for CI.
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 
-diff --git a/.mailmap b/.mailmap
-index 0fef932de3db..509d258a9e77 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -157,6 +157,8 @@ Matt Ranostay <mranostay@gmail.com> Matthew Ranostay <mranostay@embeddedalley.co
- Matt Ranostay <mranostay@gmail.com> <matt.ranostay@intel.com>
- Matt Ranostay <matt.ranostay@konsulko.com> <matt@ranostay.consulting>
- Matt Redfearn <matt.redfearn@mips.com> <matt.redfearn@imgtec.com>
-+Maxime Ripard <mripard@kernel.org> <maxime.ripard@bootlin.com>
-+Maxime Ripard <mripard@kernel.org> <maxime.ripard@free-electrons.com>
- Mayuresh Janorkar <mayur@ti.com>
- Michael Buesch <m@bues.ch>
- Michel Dänzer <michel@tungstengraphics.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6743ce648118..0f9e0c458717 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -683,7 +683,7 @@ S:	Maintained
- F:	drivers/crypto/sunxi-ss/
- 
- ALLWINNER VPU DRIVER
--M:	Maxime Ripard <maxime.ripard@bootlin.com>
-+M:	Maxime Ripard <mripard@kernel.org>
- M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -1408,7 +1408,7 @@ S:	Maintained
- F:	drivers/clk/sunxi/
- 
- ARM/Allwinner sunXi SoC support
--M:	Maxime Ripard <maxime.ripard@bootlin.com>
-+M:	Maxime Ripard <mripard@kernel.org>
- M:	Chen-Yu Tsai <wens@csie.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
-@@ -3573,7 +3573,7 @@ F:	Documentation/filesystems/caching/cachefiles.txt
- F:	fs/cachefiles/
- 
- CADENCE MIPI-CSI2 BRIDGES
--M:	Maxime Ripard <maxime.ripard@bootlin.com>
-+M:	Maxime Ripard <mripard@kernel.org>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/cdns,*.txt
-@@ -5291,7 +5291,7 @@ F:	include/linux/vga*
- 
- DRM DRIVERS AND MISC GPU PATCHES
- M:	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
--M:	Maxime Ripard <maxime.ripard@bootlin.com>
-+M:	Maxime Ripard <mripard@kernel.org>
- M:	Sean Paul <sean@poorly.run>
- W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
- S:	Maintained
-@@ -5304,7 +5304,7 @@ F:	include/uapi/drm/drm*
- F:	include/linux/vga*
- 
- DRM DRIVERS FOR ALLWINNER A10
--M:	Maxime Ripard  <maxime.ripard@bootlin.com>
-+M:	Maxime Ripard <mripard@kernel.org>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- F:	drivers/gpu/drm/sun4i/
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> Not sure how much effort we want to put into fixing clang to not
+> get into this case. I could open an llvm bug report if something
+> thinks this has a chance of getting fixed there.
+> ---
+>  drivers/media/platform/vivid/vivid-kthread-cap.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
+> index 6cf495a7d5cc..4f94897e6303 100644
+> --- a/drivers/media/platform/vivid/vivid-kthread-cap.c
+> +++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
+> @@ -232,8 +232,8 @@ static void *plane_vaddr(struct tpg_data *tpg, struct vivid_buffer *buf,
+>         return vbuf;
+>  }
+>
+> -static int vivid_copy_buffer(struct vivid_dev *dev, unsigned p, u8 *vcapbuf,
+> -               struct vivid_buffer *vid_cap_buf)
+> +static noinline_for_stack int vivid_copy_buffer(struct vivid_dev *dev, unsigned p,
+> +               u8 *vcapbuf, struct vivid_buffer *vid_cap_buf)
+>  {
+>         bool blank = dev->must_blank[vid_cap_buf->vb.vb2_buf.index];
+>         struct tpg_data *tpg = &dev->tpg;
+> @@ -670,7 +670,8 @@ static void vivid_cap_update_frame_period(struct vivid_dev *dev)
+>         dev->cap_frame_period = f_period;
+>  }
+>
+> -static void vivid_thread_vid_cap_tick(struct vivid_dev *dev, int dropped_bufs)
+> +static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+> +                                                        int dropped_bufs)
+>  {
+>         struct vivid_buffer *vid_cap_buf = NULL;
+>         struct vivid_buffer *vbi_cap_buf = NULL;
+> --
+> 2.20.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20190718141652.3323402-1-arnd%40arndb.de.
+
+
+
 -- 
-2.21.0
-
+Thanks,
+~Nick Desaulniers
