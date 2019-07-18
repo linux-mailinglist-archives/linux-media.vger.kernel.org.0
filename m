@@ -2,67 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A37D6C6D2
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 05:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6172F6C81F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 05:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403772AbfGRDTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 23:19:45 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:36347 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2391350AbfGRDTp (ORCPT
+        id S1728127AbfGRDrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 23:47:41 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60285 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728087AbfGRDrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 23:19:45 -0400
-X-UUID: ac384d41e70c43c7a6dc458b2e91b1de-20190718
-X-UUID: ac384d41e70c43c7a6dc458b2e91b1de-20190718
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <xia.jiang@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 884264207; Thu, 18 Jul 2019 11:19:41 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 18 Jul 2019 11:19:40 +0800
-Received: from [10.17.3.153] (10.17.3.153) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 18 Jul 2019 11:19:39 +0800
-Message-ID: <1563419979.20220.12.camel@mhfsdcap03>
-Subject: Re: [PATCH 0/5]Add support for mt2701 JPEG ENC support
-From:   mtk12025 <xia.jiang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>, <srv_heupstream@mediatek.com>
-Date:   Thu, 18 Jul 2019 11:19:39 +0800
-In-Reply-To: <79316488-30fd-7ff3-7598-d29f85f663ab@xs4all.nl>
-References: <20190709032103.10291-1-xia.jiang@mediatek.com>
-         <79316488-30fd-7ff3-7598-d29f85f663ab@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+        Wed, 17 Jul 2019 23:47:41 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:b5c6:887:7f96:9412])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id nxOLhztpvuEBxnxOMhVgbn; Thu, 18 Jul 2019 05:47:38 +0200
+Message-ID: <51b8f08872af907608a1992922c323b9@smtp-cloud9.xs4all.net>
+Date:   Thu, 18 Jul 2019 05:47:37 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfHBvPxpb8wAyq/MFBaUAMZMCvZIakquMUvdRZwkO/E8EunBgJY9w77YAQqDT5BnfOfIKFfUd3vtcKu5vOFCUNIQoT9GGmuZ0nS/dxJ1GxGFFIRcPWc6h
+ HXJgm8lNVo+MLT9X/FVtxJ4/P/g2cm9ExEuOU2UxQSvsp1HenUCgMlRErNTGuasxZ5AzEkbJt2pPrSeLG413CuSK/ysRV5ugSMLjfPJJvUDBOR9KTLRUOufn
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans,
-Thank you for your reply.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-PATCH v2 has used the latest v4l2-compliance version for test.
+Results of the daily build of media_tree:
 
-PATCH v2 has fixed the compliance test fail, and the driver checked the
-buffer size in queue_setup function.
+date:			Thu Jul 18 05:00:15 CEST 2019
+media-tree git hash:	22be8233b34f4f468934c5fefcbe6151766fb8f2
+media_build git hash:	0f25e6fb13b6bc345218800ad9ac863deb2ee9c8
+v4l-utils git hash:	2d10b5d6dfbb2c831332941c00633ea1688d72db
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 47a36aaa2c369059ec7edef9ab87bbcdafb4bb79
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I am sorry for existence of change-id caused by my mistake in the new
-patch.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-Best Regards,
-Xia Jiang
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
