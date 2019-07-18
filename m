@@ -2,75 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B48536D238
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 18:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39626D4B8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 21:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732371AbfGRQnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jul 2019 12:43:23 -0400
-Received: from sauhun.de ([88.99.104.3]:46020 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726040AbfGRQnX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jul 2019 12:43:23 -0400
-Received: from localhost (p54B330C7.dip0.t-ipconnect.de [84.179.48.199])
-        by pokefinder.org (Postfix) with ESMTPSA id C66C62C2868;
-        Thu, 18 Jul 2019 18:43:21 +0200 (CEST)
-Date:   Thu, 18 Jul 2019 18:43:21 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
-Message-ID: <20190718164321.GB849@kunai>
-References: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+        id S2403817AbfGRTY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jul 2019 15:24:59 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:44375 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403800AbfGRTY7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Jul 2019 15:24:59 -0400
+X-Originating-IP: 91.163.65.175
+Received: from localhost (91-163-65-175.subs.proxad.net [91.163.65.175])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 4AAE660007;
+        Thu, 18 Jul 2019 19:24:56 +0000 (UTC)
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH] MAINTAINERS: Update my email address
+Date:   Thu, 18 Jul 2019 21:24:55 +0200
+Message-Id: <20190718192455.31244-1-maxime.ripard@bootlin.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
-Content-Disposition: inline
-In-Reply-To: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Use my kernel.org address instead of the bootlin one.
 
---TRYliJ5NKNqkz5bu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+---
+ .mailmap    |  2 ++
+ MAINTAINERS | 10 +++++-----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-On Wed, Jul 10, 2019 at 01:37:19PM +0100, Kieran Bingham wrote:
-> The I2C core framework provides a simplified probe framework from commit
-> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
->=20
-> Convert the ADV748x to utilise this simplfied i2c driver registration.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+diff --git a/.mailmap b/.mailmap
+index 0fef932de3db..509d258a9e77 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -157,6 +157,8 @@ Matt Ranostay <mranostay@gmail.com> Matthew Ranostay <mranostay@embeddedalley.co
+ Matt Ranostay <mranostay@gmail.com> <matt.ranostay@intel.com>
+ Matt Ranostay <matt.ranostay@konsulko.com> <matt@ranostay.consulting>
+ Matt Redfearn <matt.redfearn@mips.com> <matt.redfearn@imgtec.com>
++Maxime Ripard <mripard@kernel.org> <maxime.ripard@bootlin.com>
++Maxime Ripard <mripard@kernel.org> <maxime.ripard@free-electrons.com>
+ Mayuresh Janorkar <mayur@ti.com>
+ Michael Buesch <m@bues.ch>
+ Michel Dänzer <michel@tungstengraphics.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6743ce648118..0f9e0c458717 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -683,7 +683,7 @@ S:	Maintained
+ F:	drivers/crypto/sunxi-ss/
+ 
+ ALLWINNER VPU DRIVER
+-M:	Maxime Ripard <maxime.ripard@bootlin.com>
++M:	Maxime Ripard <mripard@kernel.org>
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+@@ -1408,7 +1408,7 @@ S:	Maintained
+ F:	drivers/clk/sunxi/
+ 
+ ARM/Allwinner sunXi SoC support
+-M:	Maxime Ripard <maxime.ripard@bootlin.com>
++M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+@@ -3573,7 +3573,7 @@ F:	Documentation/filesystems/caching/cachefiles.txt
+ F:	fs/cachefiles/
+ 
+ CADENCE MIPI-CSI2 BRIDGES
+-M:	Maxime Ripard <maxime.ripard@bootlin.com>
++M:	Maxime Ripard <mripard@kernel.org>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/cdns,*.txt
+@@ -5291,7 +5291,7 @@ F:	include/linux/vga*
+ 
+ DRM DRIVERS AND MISC GPU PATCHES
+ M:	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+-M:	Maxime Ripard <maxime.ripard@bootlin.com>
++M:	Maxime Ripard <mripard@kernel.org>
+ M:	Sean Paul <sean@poorly.run>
+ W:	https://01.org/linuxgraphics/gfx-docs/maintainer-tools/drm-misc.html
+ S:	Maintained
+@@ -5304,7 +5304,7 @@ F:	include/uapi/drm/drm*
+ F:	include/linux/vga*
+ 
+ DRM DRIVERS FOR ALLWINNER A10
+-M:	Maxime Ripard  <maxime.ripard@bootlin.com>
++M:	Maxime Ripard <mripard@kernel.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ F:	drivers/gpu/drm/sun4i/
+-- 
+2.21.0
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---TRYliJ5NKNqkz5bu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0woakACgkQFA3kzBSg
-KbYneg//fSlJtOH8ItBrldDL6WPqMbWwRPXDmma1bYkEhvxqiaDKjgrDKfvGV80Z
-Rzcw9MlPwQlgSYd5OjpzbgWHa/54n424QHVG5e6NbZ35ajRvejBQ5otnl5WYEXMJ
-2PrvXmHcCwxs2xMa5CH+jda6ODfRuY1QDceTQSCzN2CXwcqT8cFoxrSQ24ONO72a
-/XQRMpvT/BBR+Wwz9DFOt/QjJ1hOadQO001ufa5cMx3lk261AFLBysRqsC/6zwvL
-4YsJF3+yZT5pR4TTTW/5DYxY7/7q6ACB18EzPXMYel73e1bePrHiB+P0hOZethA+
-9VA4a/FTDDDWiZOvyL6ph6nb0ZHLtwZY7vjs34v2cRx079I5Hq05Nm3KtgiuG+k3
-8ooJlgQuqp9sgqT0aZwaWLXbIiit3nMcSwP/pK0f6FShkJFxsb5+SJVrm7NwgfO1
-rMDorKzWf6qxEzvDJLyc+tXqMKejuK+s4oBiTSIgy4TIwWnzDkDMNiO3WnoF0j8B
-L1n6Us2WqoSFSThbzwROF2hBb8dU1q/3slzyGr7MVi3D5bFuLA4g6N24iSrFIwtQ
-uLPnVxM45JkeOgu85Q3c/gaB0sQ3gjal5eyT9wOUGk+zB8DPEe+5zke4BGmdEMlI
-ZvQyy12Mrxy3ROlxczbDCK754cAH/u+RGDE78/gzQ8GGaLXZiyU=
-=h6Dy
------END PGP SIGNATURE-----
-
---TRYliJ5NKNqkz5bu--
