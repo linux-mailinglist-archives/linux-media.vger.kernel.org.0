@@ -2,77 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B7BD6C3D0
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 02:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 849E56C3E0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2019 02:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbfGRAg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jul 2019 20:36:56 -0400
-Received: from jpvw.nl ([80.127.100.2]:34508 "EHLO jpvw.nl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727792AbfGRAg4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jul 2019 20:36:56 -0400
-Received: from jp by jpvw.nl with local (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hnuPm-0002ri-J0; Thu, 18 Jul 2019 02:36:54 +0200
-Date:   Thu, 18 Jul 2019 02:36:54 +0200
-From:   Jan Pieter van Woerkom <jp@jpvw.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Michael Ira Krufky <mkrufky@linuxtv.org>,
-        Antti Palosaari <crope@iki.fi>, Sean Young <sean@mess.org>,
-        Frantisek Rysanek <Frantisek.Rysanek@post.cz>
-Subject: Re: [PATCH V3.6.1 2/2] linux-media: dvbsky: add support for Mygica
- T230C v2
-Message-ID: <20190718003654.GA10710@jpvw.nl>
-References: <20190717180544.GA5356@jpvw.nl>
+        id S1731350AbfGRAsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jul 2019 20:48:01 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41488 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727557AbfGRAsB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jul 2019 20:48:01 -0400
+Received: by mail-pg1-f196.google.com with SMTP id x15so1647897pgg.8
+        for <linux-media@vger.kernel.org>; Wed, 17 Jul 2019 17:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=UqjHuPLH0DGHGIeJoOhTUdPrJYPfda0I3skXrEX20AM=;
+        b=rpi3oYSKX9SYXDr2nz2le9/I+lnBqEH5/qIfh6JEf4uhfNa7oAoFgQkeRjMFYqGZ2D
+         aOavLLn1EutBGKVapasXVb4f98ACIWsgxLNgRs2pEPWqbmQydywedQPTvY8glrFc8efy
+         GcYqIZcYsC2oHbP7HsM4feykb3xdAyAupG9js4hnZkTYpGy7nfNDf1SRuT1te8ClFUC9
+         dI0Oh5PivcSh9sx4VN2fkVR/CmSITRGEmMS2be5VXEq6b2OxqstspcwOAEvuAEOmioj7
+         LNXG/bXRl0iB/YKoiyBPvCeavpvjJdvNly48C/pkJRblime/YXdXeGVGLHXxdOGknjiC
+         mYGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UqjHuPLH0DGHGIeJoOhTUdPrJYPfda0I3skXrEX20AM=;
+        b=Y2HsuzvHbl63zrHxTTzVrFlEA1/FMAw9940FHPmXz8xMWfh+ZpB4DmG7J7Za8lrwSw
+         6w5H19LoK4xQLJf+QTAOimyni4OfnZYjOkxMI+kRn6JnDu6g44mIRC1SFoprcIqTsFb6
+         k4oB0Ae/ofsd17ueNrVfON5Oqxt+c/Hp2IWvKmNhHrh2KKorVA8UecU0klpIdhbey0dz
+         +kUCBnrqI/6j/LLbOiCdSuGvGVNY3/GT9YpyHod/FmKo77l6tVuiPpXYby1JC5OhZbKW
+         7YYPmHCMKncrd8FP/npNAr4PZwTsLnFsxgbwJeJ/1sTZKlVUhiQZQNIiXuNxJx8c1UxN
+         dWHA==
+X-Gm-Message-State: APjAAAVtiuxRnSIBz/oOiuBmoOqnTu9HFaZ3D6MJ91aStKvHlRh0cY8M
+        u3l36jsfYPJU4FcyVj5pdhzVdziNgKE=
+X-Google-Smtp-Source: APXvYqx2MWvOq3w3TiK8ZRNoI/ETJAjc8IHLPyknPGojX7XITi6F3mZ116XsltNojLBqvpdusNJDCQ==
+X-Received: by 2002:a63:130f:: with SMTP id i15mr43541882pgl.158.1563410880443;
+        Wed, 17 Jul 2019 17:48:00 -0700 (PDT)
+Received: from [192.168.3.4] (softbank219203027033.bbtec.net. [219.203.27.33])
+        by smtp.gmail.com with ESMTPSA id h1sm19456455pgv.93.2019.07.17.17.47.58
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 17 Jul 2019 17:47:59 -0700 (PDT)
+Subject: Re: [PATCH] media:dvb-frontends:Return if Max devices are added in
+ dvb_pll_attach().
+To:     Vandana BN <bnvandana@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20190717141204.19433-1-bnvandana@gmail.com>
+From:   Akihiro TSUKADA <tskd08@gmail.com>
+Message-ID: <f8d9af33-d7d8-22d1-428f-b7b7c1d84062@gmail.com>
+Date:   Thu, 18 Jul 2019 09:35:58 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190717180544.GA5356@jpvw.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190717141204.19433-1-bnvandana@gmail.com>
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The T230C v2 hardware needs a mode of the si2168 chip to be
-set for which the si2168 driver previously had no support.
-This patch uses a specific measure to configure this on the
-T230C v2 hardware only - see the flag passed via the ts_mode
-attribute and its dependency on USB_PID_MYGICA_T230C2.
+Hi,
 
-Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
----
-diff -ru a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
---- a/drivers/media/dvb-frontends/si2168.c	2019-07-08 00:41:56.000000000 +0200
-+++ b/drivers/media/dvb-frontends/si2168.c	2019-07-18 01:57:35.036592424 +0200
-@@ -82,8 +82,19 @@
- 
- 	dev_dbg(&client->dev, "%s acquire: %d\n", __func__, acquire);
- 
-+	/* set manual value */
-+	if (dev->ts_mode & SI2168_TS_CLK_MANUAL) {
-+		memcpy(cmd.args, "\x14\x00\x0d\x10\xe8\x03", 6);
-+		cmd.wlen = 6;
-+		cmd.rlen = 4;
-+		ret = si2168_cmd_execute(client, &cmd);
-+		if (ret)
-+			return ret;
-+	}
- 	/* set TS_MODE property */
- 	memcpy(cmd.args, "\x14\x00\x01\x10\x10\x00", 6);
-+	if (dev->ts_mode & SI2168_TS_CLK_MANUAL)
-+		cmd.args[4] = SI2168_TS_CLK_MANUAL;
- 	if (acquire)
- 		cmd.args[4] |= dev->ts_mode;
- 	else
-diff -ru a/drivers/media/dvb-frontends/si2168.h b/drivers/media/dvb-frontends/si2168.h
---- a/drivers/media/dvb-frontends/si2168.h	2019-07-08 00:41:56.000000000 +0200
-+++ b/drivers/media/dvb-frontends/si2168.h	2019-07-16 06:29:53.913009262 +0200
-@@ -30,6 +30,7 @@
- #define SI2168_TS_PARALLEL	0x06
- #define SI2168_TS_SERIAL	0x03
- #define SI2168_TS_TRISTATE	0x00
-+#define SI2168_TS_CLK_MANUAL	0x20
- 	u8 ts_mode;
- 
- 	/* TS clock inverted */
+> diff --git a/drivers/media/dvb-frontends/dvb-pll.c b/drivers/media/dvb-frontends/dvb-pll.c
+> index ba0c49107bd2..c850f1d69bce 100644
+> --- a/drivers/media/dvb-frontends/dvb-pll.c
+> +++ b/drivers/media/dvb-frontends/dvb-pll.c
+> @@ -788,6 +788,9 @@ struct dvb_frontend *dvb_pll_attach(struct dvb_frontend *fe, int pll_addr,
+>  	int ret;
+>  	const struct dvb_pll_desc *desc;
+> 
+> +	if (dvb_pll_devcount > DVB_PLL_MAX - 1)
+> +		return NULL;
+> +
+>  	b1 = kmalloc(1, GFP_KERNEL);
+>  	if (!b1)
+>  		return NULL;
+> 
+
+Wouldn't it put a limit on the number of attachment of devices?
+I'm afraid that an user may repeatedly plugs in and off a device
+using this driver (for some reason), and finally gets an error.
+
+Since dvb_pll_devcount and "id" module parameter are just used
+for debugging purpose to override/force PLL type,
+removing them totally would be better, IMHO.
+
+regards,
+Akihiro
