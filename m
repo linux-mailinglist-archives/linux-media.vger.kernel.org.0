@@ -2,224 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A182D6E1FC
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 09:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEDDD6E2B0
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 10:42:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726239AbfGSHw5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jul 2019 03:52:57 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33082 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726076AbfGSHw5 (ORCPT
+        id S1726320AbfGSIln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jul 2019 04:41:43 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43357 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725794AbfGSIlm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jul 2019 03:52:57 -0400
-Received: by mail-wm1-f68.google.com with SMTP id h19so23127717wme.0
-        for <linux-media@vger.kernel.org>; Fri, 19 Jul 2019 00:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=MS526RM6cOro9BioQ/3mnBdhtpOHSbh595z8uGfOaiw=;
-        b=fD9Z3HsDps0J8jHUd8M1mY05N+unMLVeXsuZtf3fKMWuLDPiWvGsAxmO7kK/jNipGt
-         cugiBqNcCcm2wCE8KsyEpAxmt1yOIN0FmA4p97HmEjSJo/CJsAewbCNI3VLMYVW8CZ6V
-         LZVyB+VOq1LzdUuJumq+CqBRfVE9c5lVvWMJlS7hSyyUjexIGBbLP/oc6MBMaqopv63R
-         gzpags5rv6p2PMPMG34y6hiJMxputu/sQoK7n7B1xG0hipM1GUfhI3jOJGnR/hX6Akpf
-         7Z+xewLvrJ0+xc+nvgQ5DsHQXXZcZqyzIDRktyT0Fy3uSTJt7JFJrb1RjrRpXijaLjk6
-         TeCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=MS526RM6cOro9BioQ/3mnBdhtpOHSbh595z8uGfOaiw=;
-        b=fLr2iK1bE8F54/Q6BU+aRZ4O24F5FzJjxDw3y6GYEnTbL1TIQNcInDlHjMr9m4Jnqg
-         41POE6/uAcsNw4x0rr1RvJFuDBPM2N33KVz3MLEDBwp1BfggyIwt8G6zjHI0mC6D7Rkr
-         EYI8F2T4m8SlRCEh3hzK/QuZtWAQwZIkYnB20MOncLTCEMcDQlgLqOncSPu2/3VfQq9l
-         /O6yPdlW+MjOnYFxgL99WAWzvlU0HQoT00uR1fpUBlAm2kNliqon0+yeFsjv/eTufF2O
-         u61AY+zhKKHAIWgKe6tB+hRQVQoWjsn280aZ+N32RX9yvcLZ0ol3ueICAeix3H/hajO2
-         2xlA==
-X-Gm-Message-State: APjAAAX4fucDz02bA2ejmGs4sSlwf4Lbi5JCwIfjoi2zyLgQfiAAzqCA
-        4ToIswoa8uv+W6eipI1qzGa7sQ==
-X-Google-Smtp-Source: APXvYqwOewNnQRDDmR+9DduxAaSo3r2RHXllhaws/df0eE9/9T92k+dTPfGORvwHnAC6SbrsakFNyA==
-X-Received: by 2002:a7b:c0d0:: with SMTP id s16mr34909816wmh.136.1563522775280;
-        Fri, 19 Jul 2019 00:52:55 -0700 (PDT)
-Received: from arch-late (87-196-80-194.net.novis.pt. [87.196.80.194])
-        by smtp.gmail.com with ESMTPSA id v5sm31433566wre.50.2019.07.19.00.52.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 19 Jul 2019 00:52:54 -0700 (PDT)
-References: <854769c0-c933-0919-2798-e8286e1694fb@xs4all.nl>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rui.silva@linaro.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Fri, 19 Jul 2019 04:41:42 -0400
+Received: from [192.168.2.10] ([46.9.252.75])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id oOSMhBd4T0SBqoOSPhhkz7; Fri, 19 Jul 2019 10:41:40 +0200
+Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
+ resolution switching
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: Re: [PATCH] media/i2c: don't return ENOTTY if SUBDEV_API is not set
-In-reply-to: <854769c0-c933-0919-2798-e8286e1694fb@xs4all.nl>
-Date:   Fri, 19 Jul 2019 08:52:52 +0100
-Message-ID: <m3zhla5uln.fsf@linaro.org>
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Jeongtae Park <jtp.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+References: <20190609143820.4662-1-mjourdan@baylibre.com>
+ <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
+ <3dc4d551-0628-5c74-c223-4afe64a701d8@xs4all.nl>
+ <CAAFQd5BekdTTXjO8tS3aVK3=pg_YZYCQieTxcUWByuMqhWL=dg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a82fc60a-f18d-c7d3-299e-b3f68a09eccf@xs4all.nl>
+Date:   Fri, 19 Jul 2019 10:41:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAAFQd5BekdTTXjO8tS3aVK3=pg_YZYCQieTxcUWByuMqhWL=dg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH5JePnVydCfV/NI1CvuNEA/RVzM99X6Tg6r1hY+1JMgMh2k1ugZwCr72zU2kQeD6DIZCIIWOyQwkFap6Gv2a6fZRxevepTn+GiMIfL2Lf/fByYhSdwb
+ xdIPH/M/H8/NgBLXTXrQUeYqBBJevo7StZighjg8Jv8YbocCjhD01Gp2fFPgFBJX7oSfTU+UxFq/WBMyb3xjpb+8f0+5HPhxtYyIRp+8QQkD6ijMoEVrGfin
+ xL9S7z43b0zm0izdL0ZamDm+w9QtXW+GWLOy5/ThszSBNkwq7qgwhuOut8+s2qxjZcr/Ky63UJx5tBeSXrdDpik2Iocs7d5+qjUV2jopiSS44HxCbJKi53YJ
+ ftokPvklSModHPeZgqy7GfimfXSQD9RolixCbFmrWm6aqfTwxR4sEZjfg0SMzxd78eoXAR+4kWnw7hHl3uCWQECrW+5CWLfxXQtXV0uE9B8MXWcwfuywi6/N
+ 20RvLsTfpKWhNodQB1zTGoVSaj7pr0QR63sJvYhnKgonJG6dxtLMHRxIRRvZhyBFMhjZRU33IXMYVO9qyCiZe76fA1XJEVv0+ZzRy7R4JY459I1tL7GVfTAr
+ tTQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-On Wed 17 Jul 2019 at 10:24, Hans Verkuil wrote:
-> If CONFIG_VIDEO_V4L2_SUBDEV_API is not set, then it is still possible
-> to call set_fmt for V4L2_SUBDEV_FORMAT_TRY, the result is just not
-> stored. So return 0 instead of -ENOTTY.
->
-> Calling get_fmt with V4L2_SUBDEV_FORMAT_TRY should return -EINVAL
-> instead of -ENOTTY, after all the get_fmt functionality is still
-> present, just not supported for TRY.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> This was fixed for the ov7670 (https://patchwork.linuxtv.org/patch/57584/) when
-> working on the via-camera driver, but the same pattern is found in other drivers,
-> and those are fixed in this patch.
-> ---
->  drivers/media/i2c/mt9m111.c | 2 +-
->  drivers/media/i2c/ov2640.c  | 2 +-
->  drivers/media/i2c/ov2659.c  | 4 +---
->  drivers/media/i2c/ov2680.c  | 5 +----
->  drivers/media/i2c/ov5695.c  | 5 +----
->  drivers/media/i2c/ov7740.c  | 8 ++------
->  6 files changed, 7 insertions(+), 19 deletions(-)
->
+On 7/19/19 4:45 AM, Tomasz Figa wrote:
+> On Mon, Jul 15, 2019 at 9:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 6/11/19 10:13 AM, Hans Verkuil wrote:
+>>> On 6/9/19 4:38 PM, Maxime Jourdan wrote:
+>>>> Hello,
+>>>>
+>>>> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
+>>>> to tag coded formats for which the device supports dynamic resolution
+>>>> switching, via V4L2_EVENT_SOURCE_CHANGE.
+>>>> This includes the initial "source change" where the device is able to
+>>>> tell userspace about the coded resolution and the DPB size (which
+>>>> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
+>>>
+>>> Shouldn't the initial source change still be there? The amlogic decoder
+>>> is capable of determining the resolution of the stream, right? It just
+>>> can't handle mid-stream changes.
+>>
+>> I've been thinking about this a bit more: there are three different HW capabilities:
+>>
+>> 1) The hardware cannot parse the resolution at all and userspace has to tell it
+>> via S_FMT.
+>>
+>> 2) The hardware can parse the initial resolution, but is not able to handle
+>> mid-stream resolution changes.
+>>
+>> 3) The hardware can parse the initial resolution and all following mid-stream
+>> resolution changes.
+>>
+>> We can consider 2 the default situation.
+> 
+> Any particular reason for 2 being the default? I'm especially
+> wondering about that as most of the drivers actually provide 3.
 
-for the ov2680:
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Various reasons:
 
----
-Cheers,
-	Rui
+1) I prefer to have a flag indicating what IS supported rather than what
+   isn't.
+2) An application that checks this flag and doesn't see it (i.e. if a
+   flag-aware application is used with an older kernel where these flags
+   aren't set) will still work, but with possibly reduced functionality.
+   If the flag would indicate that something is NOT supported, then they
+   would fail when combined with an older kernel and a driver that doesn't
+   support dynamic resolution changes.
+3) None of the encoders support it, so there too it makes sense to have
+   'no dynamic resolution change' as the default. It's nicely symmetrical
+   for encoders and decoders.
+4) Some formats do not support it, so again, having no dynamic res changes
+   as the default makes sense.
 
+Regards,
 
-> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-> index d10fe3712036..d4864d155f0b 100644
-> --- a/drivers/media/i2c/mt9m111.c
-> +++ b/drivers/media/i2c/mt9m111.c
-> @@ -536,7 +536,7 @@ static int mt9m111_get_fmt(struct v4l2_subdev *sd,
->  		format->format = *mf;
->  		return 0;
->  #else
-> -		return -ENOTTY;
-> +		return -EINVAL;
->  #endif
->  	}
->
-> diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
-> index 30e7e6b2b293..39474b287bb2 100644
-> --- a/drivers/media/i2c/ov2640.c
-> +++ b/drivers/media/i2c/ov2640.c
-> @@ -932,7 +932,7 @@ static int ov2640_get_fmt(struct v4l2_subdev *sd,
->  		format->format = *mf;
->  		return 0;
->  #else
-> -		return -ENOTTY;
-> +		return -EINVAL;
->  #endif
->  	}
->
-> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-> index 5ed2413eac8a..a71277e361ff 100644
-> --- a/drivers/media/i2c/ov2659.c
-> +++ b/drivers/media/i2c/ov2659.c
-> @@ -1055,7 +1055,7 @@ static int ov2659_get_fmt(struct v4l2_subdev *sd,
->  		mutex_unlock(&ov2659->lock);
->  		return 0;
->  #else
-> -	return -ENOTTY;
-> +		return -EINVAL;
->  #endif
->  	}
->
-> @@ -1131,8 +1131,6 @@ static int ov2659_set_fmt(struct v4l2_subdev *sd,
->  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->  		mf = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
->  		*mf = fmt->format;
-> -#else
-> -		ret = -ENOTTY;
->  #endif
->  	} else {
->  		s64 val;
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index b10bcfabaeeb..164f983c1814 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -675,7 +675,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
->  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->  		fmt = v4l2_subdev_get_try_format(&sensor->sd, cfg, format->pad);
->  #else
-> -		ret = -ENOTTY;
-> +		ret = -EINVAL;
->  #endif
->  	} else {
->  		fmt = &sensor->fmt;
-> @@ -723,10 +723,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->  		try_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
->  		format->format = *try_fmt;
-> -#else
-> -		ret = -ENOTTY;
->  #endif
-> -
->  		goto unlock;
->  	}
->
-> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> index e65a94353175..34b7046d9702 100644
-> --- a/drivers/media/i2c/ov5695.c
-> +++ b/drivers/media/i2c/ov5695.c
-> @@ -823,9 +823,6 @@ static int ov5695_set_fmt(struct v4l2_subdev *sd,
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
->  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->  		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
-> -#else
-> -		mutex_unlock(&ov5695->mutex);
-> -		return -ENOTTY;
->  #endif
->  	} else {
->  		ov5695->cur_mode = mode;
-> @@ -856,7 +853,7 @@ static int ov5695_get_fmt(struct v4l2_subdev *sd,
->  		fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
->  #else
->  		mutex_unlock(&ov5695->mutex);
-> -		return -ENOTTY;
-> +		return -EINVAL;
->  #endif
->  	} else {
->  		fmt->format.width = mode->width;
-> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-> index 70bb870b1d08..a2f8f19bca7c 100644
-> --- a/drivers/media/i2c/ov7740.c
-> +++ b/drivers/media/i2c/ov7740.c
-> @@ -827,13 +827,9 @@ static int ov7740_set_fmt(struct v4l2_subdev *sd,
->  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->  		mbus_fmt = v4l2_subdev_get_try_format(sd, cfg, format->pad);
->  		*mbus_fmt = format->format;
-> -
-> +#endif
->  		mutex_unlock(&ov7740->mutex);
->  		return 0;
-> -#else
-> -		ret = -ENOTTY;
-> -		goto error;
-> -#endif
->  	}
->
->  	ret = ov7740_try_fmt_internal(sd, &format->format, &ovfmt, &fsize);
-> @@ -868,7 +864,7 @@ static int ov7740_get_fmt(struct v4l2_subdev *sd,
->  		format->format = *mbus_fmt;
->  		ret = 0;
->  #else
-> -		ret = -ENOTTY;
-> +		ret = -EINVAL;
->  #endif
->  	} else {
->  		format->format = ov7740->format;
+	Hans
+
+> 
+>>
+>> In case of 1 the SOURCE_CHANGE event is absent and userspace cannot subscribe
+>> to it. Question: do we want to flag this with the format as well? I.e. with a
+>> V4L2_FMT_FLAG_MANUAL_RESOLUTION? I think just not implementing the SOURCE_CHANGE
+>> event (and documenting this) is sufficient.
+>>
+>> In case of 3 the format sets the V4L2_FMT_FLAG_DYN_RESOLUTION flag.
+>>
+>> What do you think?
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> Regards,
+>>>
+>>>       Hans
+>>>
+>>>> This flag is mainly aimed at stateful decoder drivers.
+>>>>
+>>>> This RFC is motivated by my development on the amlogic video decoder
+>>>> driver, which does not support dynamic resolution switching for older
+>>>> coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
+>>>> it for the newer formats (H264, HEVC, VP9).
+>>>>
+>>>> The specification regarding stateful video decoders should be amended
+>>>> to include that, in the absence of this flag for a certain format,
+>>>> userspace is expected to extract the coded resolution and allocate
+>>>> a sufficient amount of capture buffers on its own.
+>>>> I understand that this point may be tricky, since older kernels with
+>>>> close-to-spec drivers would not have this flag available, yet would
+>>>> fully support dynamic resolution switching.
+>>>> However, with the spec not merged in yet, I wanted to have your opinion
+>>>> on this late addition.
+>>>>
+>>>> The RFC patches also adds support for this flag for the 4 following
+>>>> stateful decoder drivers:
+>>>>  - venus
+>>>>  - s5p-mfc
+>>>>  - mtk-vcodec
+>>>>  - vicodec
+>>>>
+>>>> Maxime Jourdan (5):
+>>>>   media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: venus: vdec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: s5p_mfc_dec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: mtk-vcodec: flag OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>   media: vicodec: flag vdec/stateful OUTPUT formats with
+>>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
+>>>>
+>>>>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
+>>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
+>>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
+>>>>  drivers/media/platform/qcom/venus/core.h           |  1 +
+>>>>  drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
+>>>>  drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
+>>>>  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
+>>>>  drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
+>>>>  include/uapi/linux/videodev2.h                     |  5 +++--
+>>>>  9 files changed, 43 insertions(+), 2 deletions(-)
+>>>>
+>>>
+>>
 
