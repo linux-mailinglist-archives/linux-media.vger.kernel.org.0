@@ -2,179 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEDDD6E2B0
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 10:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C746E4DC
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 13:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbfGSIln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jul 2019 04:41:43 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43357 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725794AbfGSIlm (ORCPT
+        id S1727952AbfGSLNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jul 2019 07:13:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42488 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727486AbfGSLNg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jul 2019 04:41:42 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id oOSMhBd4T0SBqoOSPhhkz7; Fri, 19 Jul 2019 10:41:40 +0200
-Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
- resolution switching
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Fri, 19 Jul 2019 07:13:36 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 398E631C;
+        Fri, 19 Jul 2019 13:13:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1563534813;
+        bh=EqNaxrCSQse1jkAajeLes8Tq1EhXDA+QGPqmVawruqk=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=Qy2qOZdSp6lHroJ1p8VjpQKIxnj+ieLN3R+8yuO3thrhy7dKE0g/lO9yhqJr3KVY0
+         FWKH0FolDzW1UAPgY2WAv82HD+a8lpzRBq1SJo2eIRDbwB07wD8WTUQxcRquQnoz8i
+         pBYTsJHtLi+TAzGWeXsEt5RWMRmmXybMNf0qkZo4=
+Subject: Re: [PATCH 3/4] rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>
-References: <20190609143820.4662-1-mjourdan@baylibre.com>
- <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
- <3dc4d551-0628-5c74-c223-4afe64a701d8@xs4all.nl>
- <CAAFQd5BekdTTXjO8tS3aVK3=pg_YZYCQieTxcUWByuMqhWL=dg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a82fc60a-f18d-c7d3-299e-b3f68a09eccf@xs4all.nl>
-Date:   Fri, 19 Jul 2019 10:41:34 +0200
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190705045557.25463-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <f79a9674-a6e0-7695-0542-ac1e55d50a97@ideasonboard.com>
+Date:   Fri, 19 Jul 2019 12:13:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5BekdTTXjO8tS3aVK3=pg_YZYCQieTxcUWByuMqhWL=dg@mail.gmail.com>
+In-Reply-To: <20190705045557.25463-4-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH5JePnVydCfV/NI1CvuNEA/RVzM99X6Tg6r1hY+1JMgMh2k1ugZwCr72zU2kQeD6DIZCIIWOyQwkFap6Gv2a6fZRxevepTn+GiMIfL2Lf/fByYhSdwb
- xdIPH/M/H8/NgBLXTXrQUeYqBBJevo7StZighjg8Jv8YbocCjhD01Gp2fFPgFBJX7oSfTU+UxFq/WBMyb3xjpb+8f0+5HPhxtYyIRp+8QQkD6ijMoEVrGfin
- xL9S7z43b0zm0izdL0ZamDm+w9QtXW+GWLOy5/ThszSBNkwq7qgwhuOut8+s2qxjZcr/Ky63UJx5tBeSXrdDpik2Iocs7d5+qjUV2jopiSS44HxCbJKi53YJ
- ftokPvklSModHPeZgqy7GfimfXSQD9RolixCbFmrWm6aqfTwxR4sEZjfg0SMzxd78eoXAR+4kWnw7hHl3uCWQECrW+5CWLfxXQtXV0uE9B8MXWcwfuywi6/N
- 20RvLsTfpKWhNodQB1zTGoVSaj7pr0QR63sJvYhnKgonJG6dxtLMHRxIRRvZhyBFMhjZRU33IXMYVO9qyCiZe76fA1XJEVv0+ZzRy7R4JY459I1tL7GVfTAr
- tTQ=
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/19/19 4:45 AM, Tomasz Figa wrote:
-> On Mon, Jul 15, 2019 at 9:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 6/11/19 10:13 AM, Hans Verkuil wrote:
->>> On 6/9/19 4:38 PM, Maxime Jourdan wrote:
->>>> Hello,
->>>>
->>>> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
->>>> to tag coded formats for which the device supports dynamic resolution
->>>> switching, via V4L2_EVENT_SOURCE_CHANGE.
->>>> This includes the initial "source change" where the device is able to
->>>> tell userspace about the coded resolution and the DPB size (which
->>>> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
->>>
->>> Shouldn't the initial source change still be there? The amlogic decoder
->>> is capable of determining the resolution of the stream, right? It just
->>> can't handle mid-stream changes.
->>
->> I've been thinking about this a bit more: there are three different HW capabilities:
->>
->> 1) The hardware cannot parse the resolution at all and userspace has to tell it
->> via S_FMT.
->>
->> 2) The hardware can parse the initial resolution, but is not able to handle
->> mid-stream resolution changes.
->>
->> 3) The hardware can parse the initial resolution and all following mid-stream
->> resolution changes.
->>
->> We can consider 2 the default situation.
+Hi Niklas,
+
+On 05/07/2019 05:55, Niklas Söderlund wrote:
+> The hardware is capable to passing V4L2_FIELD_ALTERNATE to user-space.
+> Allow users to request this field format but still default to using the
+> hardware interlacer if alternating is not explicitly requested.
+
+I'm afraid I have found this patch quite difficult to review accurately ...
+
+I think I can infer that we are removing an existing workaround where
+V4L2_FIELD_ALTERNATE was converted to V4L2_FIELD_INTERLACED_xx formats,
+and also now where we used to store 'frame' heights, we store 'field'
+heights...
+
+Is that somewhere close as an approximation? (Perhaps it might be good
+to detail some of that in the commit message, at least any bits that are
+accurate of course)
+
+
+I might have to look at this again later, or let some other eyeballs
+look as I'm afraid I don't feel that I've got a good overview of it yet.
+
+I wonder if it could be split in anyway to be clearer, but it's hard to
+tell :-)
+
+Perhaps it's just me being unable to see all the changes at once.
+
+
+< Some of my discussion comments below might seem out of order, as I've
+made multiple passes through this :-D >
+
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 54 +++++++++++----------
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 31 +++++-------
+>  2 files changed, 42 insertions(+), 43 deletions(-)
 > 
-> Any particular reason for 2 being the default? I'm especially
-> wondering about that as most of the drivers actually provide 3.
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 372d6b106b9970d2..7ac1733455221fe0 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -526,12 +526,17 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
+>  
+>  static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  {
+> +	unsigned int crop_height;
+>  	u32 xs, ys;
+>  
+>  	/* Set scaling coefficient */
+> +	crop_height = vin->crop.height;
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
+> +		crop_height *= 2;
+> +
+>  	ys = 0;
+> -	if (vin->crop.height != vin->compose.height)
+> -		ys = (4096 * vin->crop.height) / vin->compose.height;
+> +	if (crop_height != vin->compose.height)
+> +		ys = (4096 * crop_height) / vin->compose.height;
+>  	rvin_write(vin, ys, VNYS_REG);
+>  
+>  	xs = 0;
+> @@ -554,16 +559,11 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  	rvin_write(vin, 0, VNSPPOC_REG);
+>  	rvin_write(vin, 0, VNSLPOC_REG);
+>  	rvin_write(vin, vin->format.width - 1, VNEPPOC_REG);
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> +
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
 
-Various reasons:
+Ok, so I had to go check - V4L2_FIELD_IS_INTERLACED() does not include
+'_ALTERNATE' - so this hunk is an improvement, but a somewhat unrelated
+change.
 
-1) I prefer to have a flag indicating what IS supported rather than what
-   isn't.
-2) An application that checks this flag and doesn't see it (i.e. if a
-   flag-aware application is used with an older kernel where these flags
-   aren't set) will still work, but with possibly reduced functionality.
-   If the flag would indicate that something is NOT supported, then they
-   would fail when combined with an older kernel and a driver that doesn't
-   support dynamic resolution changes.
-3) None of the encoders support it, so there too it makes sense to have
-   'no dynamic resolution change' as the default. It's nicely symmetrical
-   for encoders and decoders.
-4) Some formats do not support it, so again, having no dynamic res changes
-   as the default makes sense.
+Perhaps this could be split out to before this patch, anything to
+simplify this patch would be good.
 
-Regards,
+>  		rvin_write(vin, vin->format.height / 2 - 1, VNELPOC_REG);
+> -		break;
+> -	default:
+> +	else
+>  		rvin_write(vin, vin->format.height - 1, VNELPOC_REG);
+> -		break;
+> -	}
+>  
+>  	vin_dbg(vin,
+>  		"Pre-Clip: %ux%u@%u:%u YS: %d XS: %d Post-Clip: %ux%u@%u:%u\n",
+> @@ -577,21 +577,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	/* Set Start/End Pixel/Line Pre-Clip */
+>  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
+>  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
+> +	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> +	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
 
-	Hans
+Should those be s/vin->crop.height/crop_height/ ? <edit - no>
 
+How come there's no comparable if (V4L2_FIELD_IS_INTERLACED... in this
+function?
+
+Oh - because actually rvin_crop_scale_comp_gen2() is called from within
+this function. They are not parallel functions for two implementations.
+
+
+>  
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> -		rvin_write(vin, vin->crop.top / 2, VNSLPRC_REG);
+> -		rvin_write(vin, (vin->crop.top + vin->crop.height) / 2 - 1,
+> -			   VNELPRC_REG);
+> -		break;
+
+So - I think if i understand correctly - we used to store the
+frame-height in vin->crop, and now we store the field height.
+
+Is that right ?
+ (where field-height == frame-height on progressive frames)
+
+
+
+> -	default:
+> -		rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> -		rvin_write(vin, vin->crop.top + vin->crop.height - 1,
+> -			   VNELPRC_REG);
+> -		break;
+> -	}
+>  
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+> @@ -636,6 +624,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		vnmc = VNMC_IM_ODD_EVEN;
+>  		progressive = true;
+>  		break;
+> +	case V4L2_FIELD_ALTERNATE:
+> +		vnmc = VNMC_IM_ODD_EVEN;
+> +		break;
+>  	default:
+>  		vnmc = VNMC_IM_ODD;
+>  		break;
+> @@ -788,6 +779,18 @@ static bool rvin_capture_active(struct rvin_dev *vin)
+>  	return rvin_read(vin, VNMS_REG) & VNMS_CA;
+>  }
+>  
+> +static enum v4l2_field rvin_get_active_field(struct rvin_dev *vin, u32 vnms)
+> +{
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		/* If FS is set it is an Even field. */
+> +		if (vnms & VNMS_FS)
+> +			return V4L2_FIELD_BOTTOM;
+> +		return V4L2_FIELD_TOP;
+> +	}
+> +
+> +	return vin->format.field;
+> +}
+> +
+>  static void rvin_set_slot_addr(struct rvin_dev *vin, int slot, dma_addr_t addr)
+>  {
+>  	const struct rvin_video_format *fmt;
+> @@ -937,7 +940,7 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  
+>  	/* Capture frame */
+>  	if (vin->queue_buf[slot]) {
+> -		vin->queue_buf[slot]->field = vin->format.field;
+> +		vin->queue_buf[slot]->field = rvin_get_active_field(vin, vnms);
+>  		vin->queue_buf[slot]->sequence = vin->sequence;
+>  		vin->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+>  		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> @@ -1064,6 +1067,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  		case V4L2_FIELD_TOP:
+>  		case V4L2_FIELD_BOTTOM:
+>  		case V4L2_FIELD_NONE:
+> +		case V4L2_FIELD_ALTERNATE:
+>  			break;
+>  		case V4L2_FIELD_INTERLACED_TB:
+>  		case V4L2_FIELD_INTERLACED_BT:
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index d5e860ba6d9a2409..bc96ed563e365448 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -106,15 +106,7 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+>  	case V4L2_FIELD_INTERLACED_TB:
+>  	case V4L2_FIELD_INTERLACED_BT:
+>  	case V4L2_FIELD_INTERLACED:
+> -		break;
+>  	case V4L2_FIELD_ALTERNATE:
+> -		/*
+> -		 * Driver does not (yet) support outputting ALTERNATE to a
+> -		 * userspace. It does support outputting INTERLACED so use
+> -		 * the VIN hardware to combine the two fields.
+> -		 */
+> -		pix->field = V4L2_FIELD_INTERLACED;
+> -		pix->height *= 2;
+
+Ok - now I get it, this used to double the format height to work around
+the lack of _ALTERNATE implementation on the sink pad/device...
+
+So this part is removal of the existing workaround.
+
+
+>  		break;
+>  	default:
+>  		pix->field = RVIN_DEFAULT_FIELD;
+> @@ -153,15 +145,25 @@ static int rvin_reset_format(struct rvin_dev *vin)
+>  
+>  	v4l2_fill_pix_format(&vin->format, &fmt.format);
+
+This call v4l2_fill_pix_format() does the following:
+ "vin->format.field = fmt.format.field;"
+
+Ok - so that's obtaining the *source pad format*
+
+>  
+> -	rvin_format_align(vin, &vin->format);
+> -
+>  	vin->src_rect.top = 0;
+>  	vin->src_rect.left = 0;
+>  	vin->src_rect.width = vin->format.width;
+>  	vin->src_rect.height = vin->format.height;
+>  
+> +	/*  Make use of the hardware interlacer by default. */
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		vin->format.field = V4L2_FIELD_INTERLACED;
+> +		vin->format.height *= 2;
+> +	}
+
+And here we are resetting the vin->format which looks like it represents
+the VIN sink device right?
+
+I guess we are changing alternate-fields to interlaced frames to prevent
+the driver from 'passing through' alternate formats to maintain the
+user-space experience here?
+
+
+> +
+> +	rvin_format_align(vin, &vin->format);
+> +
+>  	vin->crop = vin->src_rect;
+> -	vin->compose = vin->src_rect;
+> +
+> +	vin->compose.top = 0;
+> +	vin->compose.left = 0;
+> +	vin->compose.width = vin->format.width;
+> +	vin->compose.height = vin->format.height;
+>  
+>  	return 0;
+>  }
+> @@ -205,13 +207,6 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  		crop->left = 0;
+>  		crop->width = pix->width;
+>  		crop->height = pix->height;
+> -
+> -		/*
+> -		 * If source is ALTERNATE the driver will use the VIN hardware
+> -		 * to INTERLACE it. The crop height then needs to be doubled.
+> -		 */
+> -		if (pix->field == V4L2_FIELD_ALTERNATE)
+> -			crop->height *= 2;
+
+And this part is just removing of the previous workaround right?
+
+
+>  	}
+>  
+>  	if (field != V4L2_FIELD_ANY)
 > 
->>
->> In case of 1 the SOURCE_CHANGE event is absent and userspace cannot subscribe
->> to it. Question: do we want to flag this with the format as well? I.e. with a
->> V4L2_FMT_FLAG_MANUAL_RESOLUTION? I think just not implementing the SOURCE_CHANGE
->> event (and documenting this) is sufficient.
->>
->> In case of 3 the format sets the V4L2_FMT_FLAG_DYN_RESOLUTION flag.
->>
->> What do you think?
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> Regards,
->>>
->>>       Hans
->>>
->>>> This flag is mainly aimed at stateful decoder drivers.
->>>>
->>>> This RFC is motivated by my development on the amlogic video decoder
->>>> driver, which does not support dynamic resolution switching for older
->>>> coded formats (MPEG 1/2, MPEG 4 part II, H263). It does however support
->>>> it for the newer formats (H264, HEVC, VP9).
->>>>
->>>> The specification regarding stateful video decoders should be amended
->>>> to include that, in the absence of this flag for a certain format,
->>>> userspace is expected to extract the coded resolution and allocate
->>>> a sufficient amount of capture buffers on its own.
->>>> I understand that this point may be tricky, since older kernels with
->>>> close-to-spec drivers would not have this flag available, yet would
->>>> fully support dynamic resolution switching.
->>>> However, with the spec not merged in yet, I wanted to have your opinion
->>>> on this late addition.
->>>>
->>>> The RFC patches also adds support for this flag for the 4 following
->>>> stateful decoder drivers:
->>>>  - venus
->>>>  - s5p-mfc
->>>>  - mtk-vcodec
->>>>  - vicodec
->>>>
->>>> Maxime Jourdan (5):
->>>>   media: videodev2: add V4L2_FMT_FLAG_DYN_RESOLUTION
->>>>   media: venus: vdec: flag OUTPUT formats with
->>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
->>>>   media: s5p_mfc_dec: flag OUTPUT formats with
->>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
->>>>   media: mtk-vcodec: flag OUTPUT formats with
->>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
->>>>   media: vicodec: flag vdec/stateful OUTPUT formats with
->>>>     V4L2_FMT_FLAG_DYN_RESOLUTION
->>>>
->>>>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst   |  7 +++++++
->>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c |  4 ++++
->>>>  drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  1 +
->>>>  drivers/media/platform/qcom/venus/core.h           |  1 +
->>>>  drivers/media/platform/qcom/venus/vdec.c           | 11 +++++++++++
->>>>  drivers/media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
->>>>  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c       | 13 +++++++++++++
->>>>  drivers/media/platform/vicodec/vicodec-core.c      |  2 ++
->>>>  include/uapi/linux/videodev2.h                     |  5 +++--
->>>>  9 files changed, 43 insertions(+), 2 deletions(-)
->>>>
->>>
->>
 
