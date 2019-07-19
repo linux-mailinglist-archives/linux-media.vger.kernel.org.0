@@ -2,90 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 880656E154
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 09:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DD46E1A6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2019 09:25:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfGSHCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jul 2019 03:02:20 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42683 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbfGSHCU (ORCPT
+        id S1726243AbfGSHZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jul 2019 03:25:13 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33517 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfGSHZN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jul 2019 03:02:20 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q10so13745983pff.9
-        for <linux-media@vger.kernel.org>; Fri, 19 Jul 2019 00:02:19 -0700 (PDT)
+        Fri, 19 Jul 2019 03:25:13 -0400
+Received: by mail-ot1-f68.google.com with SMTP id q20so31760842otl.0
+        for <linux-media@vger.kernel.org>; Fri, 19 Jul 2019 00:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=KtGfxMvpEldrgQj9ma7A+9ulqI+LPdWDrlkqFw7DP3Y=;
-        b=H3LlCQmC5y0pJI3k/kvaomLvI7DCcVu1LuZ+uqQaDhJi1jp5Dc4O1/hCKu/aYvymvI
-         cLegq9VyqW2a/UHTSqnCHamptiALJLc+fjqLKAJ4Y2Trsr113H78ThSLLOuYazi2ihIz
-         wDIka56WIfft0exGESh5gviE2TNrIQwYXR05J1tO1rCCLEdKiB3xprXLofNoESEjrtjf
-         znS+ubN2DDB4/b1iSkwA8R2AkkX9ecaliTf93Bq1hv61bugz+vkvJamvNpMfdgH/8/6s
-         Nc1VHto24+p/QsDf/SaFevx01syMLePClmM3GpxyzF/B2xQSb3Gal3E5prmrkIaemTIE
-         7+mA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zE/a1KbzeG8hrEZenxQ0lLrtjmciWvLlvHoD1SQWCy4=;
+        b=vbVf4sDxTlsEB6AqA7T0B13EViouL/92a/514yfZ23GkQOnDYigmsvwjs5MViqw0gr
+         LFbCGP4+YWIRax4L2DzOCCBCltG7ToF2cOpn27vSFE9P/DKVhgwProo0gdMjmO5iEjgA
+         6S2ObgjlfYtxFkvTRZSMH9gJQyzBlhY80Bc03kSd7KLbs2medPr4hOcJngkcxvYAT59R
+         Ea0dteOCojta8C64fV2RCTs0ZoPF+4WV10rImlhysOO+pIN2AHFF61U2c36qMB2GseKB
+         pHMbLi2Nl+gOB1l0EdEo1IIULVNFlp0uIX0LpWlZD7wfrl/BD9D1UqpYKYn5zHD3R1KX
+         Mn+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=KtGfxMvpEldrgQj9ma7A+9ulqI+LPdWDrlkqFw7DP3Y=;
-        b=G+YJJxEAR1udA4/1LxLscvmJ7qdfkLm8xPOIKs68XN+GHbo2igveEZKDoixKzp1PGk
-         05KDkvQNkt61Yrxwoi+yn7BpruuYA4uK0Hfc4gipJihOYuXZadcA+boyyQmecAfaFTc5
-         lS1TMqBXbj3Jj6mLDGYWEvQDxeHaOhxClesbIzd7NO/rcPZIAUpVJTM7FmJYnTGDRCqP
-         44FiSxBVR8KJqxdUyG7MM8WPU2Grf3/KmIhoNqkgu8mjF18Rkn7IGkQKzImwwbmbCWdc
-         wjk7hP4CFzfOS6y4V5rYYsRDX23SilvyCmd4SWWxLZKFyLJZAK8DXGvk+Y4Ge4balFDU
-         MXvQ==
-X-Gm-Message-State: APjAAAUS/jiZKzMxz6GHFbwkxoUgtNp125tjRqVSRT0VpVP1qSw0AKeY
-        HqMjUmTIF/Him4KmQMQtw7sVO/n3
-X-Google-Smtp-Source: APXvYqywUb39/1RPRGcCcqZCFcnMUOb/hkbgYaWTZJM5xyNtISoeL7jWkdC6EIiE5FiKaHrtF1dIww==
-X-Received: by 2002:a63:ff20:: with SMTP id k32mr52558808pgi.445.1563519739148;
-        Fri, 19 Jul 2019 00:02:19 -0700 (PDT)
-Received: from [192.168.1.10] ([117.248.75.47])
-        by smtp.gmail.com with ESMTPSA id b16sm44757290pfo.54.2019.07.19.00.02.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Jul 2019 00:02:18 -0700 (PDT)
-Subject: Re: [PATCH] media:dvb-frontends:Return if Max devices are added in
- dvb_pll_attach().
-To:     Akihiro TSUKADA <tskd08@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20190717141204.19433-1-bnvandana@gmail.com>
- <f8d9af33-d7d8-22d1-428f-b7b7c1d84062@gmail.com>
- <1c150bc5-0b15-23bf-2170-758c9cc046e3@gmail.com>
- <2912b5af-ae8f-e6c9-0e74-8790f5762997@gmail.com>
-From:   Vandana BN <bnvandana@gmail.com>
-Message-ID: <0cfa5617-7517-fc7c-0630-46cf854bf8d2@gmail.com>
-Date:   Fri, 19 Jul 2019 12:32:14 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zE/a1KbzeG8hrEZenxQ0lLrtjmciWvLlvHoD1SQWCy4=;
+        b=DpMsIJTtKTXIzbUpSeMhZLCRHjosnq9fPGJfGhtx7IDmVdAaMMDwFbWrdtGK2ZSriP
+         D/IiqoZxD9kaxjytWa0xUkKron2XNTCf8SN+1ObBmorvzNBlWR9oNIjxp2uNwidhQ9m4
+         QuTkQSXZeIUixr+Tqq//yREPOeHGqNd9vTUDdzgvuviB5wFtlTm3TIsDnpon0KfPiDjO
+         4Ux2b3JhiLa2VOWEgR5ISGIKtKF2dpCcGHSLwXZWgVBenbWq4jSqt9p9VQib3omH7H1n
+         OBc4kOMvbD8+44QfU2TB3Kvl2yJZqP4s59MvkRXe2DQeyqQb+IEiwJyO4AEtTEwSwxD7
+         soOQ==
+X-Gm-Message-State: APjAAAUn9YUgnEXte7avBy6B8zs/vSYzNnITwsVmFyt0nR9rURSbFJ3U
+        vnSJs70D85t+tsE6j6FZUJR4I7ePHxzq0SxEsnc=
+X-Google-Smtp-Source: APXvYqwY1GvonGVK2goHq4P3UZXDlrmjbGwo7Q1PWbrignHtTmC9B7OiFeGkYmrI/LJSHUS9gwXS4Qiz2M18nmp5UaQ=
+X-Received: by 2002:a9d:65cb:: with SMTP id z11mr17325533oth.325.1563521112163;
+ Fri, 19 Jul 2019 00:25:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2912b5af-ae8f-e6c9-0e74-8790f5762997@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <854769c0-c933-0919-2798-e8286e1694fb@xs4all.nl>
+In-Reply-To: <854769c0-c933-0919-2798-e8286e1694fb@xs4all.nl>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 19 Jul 2019 08:24:45 +0100
+Message-ID: <CA+V-a8tPC3YA9SY_9FtEa7QHhBHWcG5w8t3a4cs1XBT_VX5u7g@mail.gmail.com>
+Subject: Re: [PATCH] media/i2c: don't return ENOTTY if SUBDEV_API is not set
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Rui Miguel Silva <rui.silva@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
-On 19/07/19 7:11 AM, Akihiro TSUKADA wrote:
->> Will it be better, if dvb_pll_devcount is decremented in dvb_pll_release(),  instead of removing module params?
-> But you cannot know deterministically which device corrensponds to
-> what "id" (when you have multiple dvb_pll devices),
-> since "id" is dependent on the history of register and unregister
-> of dvb_pll devices.
-dvb_pll_release() frees  fe->tuner_priv, and priv->nr is dvb_pll_devcount, but, decrementing  count will only tell array has a free slot, and now if that free slot needs to be used it will have to either maintain free index list to be consumed next or convert array id to a list.
-> So I wonder about the benefit / practical usecase of "id" parameter.
+Thank you for the patch.
 
-Ok, I will remove the module parameters and send a patch.
-
-Thanks,
-
-Vandana.
-
+On Wed, Jul 17, 2019 at 10:24 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
+> If CONFIG_VIDEO_V4L2_SUBDEV_API is not set, then it is still possible
+> to call set_fmt for V4L2_SUBDEV_FORMAT_TRY, the result is just not
+> stored. So return 0 instead of -ENOTTY.
+>
+> Calling get_fmt with V4L2_SUBDEV_FORMAT_TRY should return -EINVAL
+> instead of -ENOTTY, after all the get_fmt functionality is still
+> present, just not supported for TRY.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> This was fixed for the ov7670 (https://patchwork.linuxtv.org/patch/57584/) when
+> working on the via-camera driver, but the same pattern is found in other drivers,
+> and those are fixed in this patch.
+> ---
+>  drivers/media/i2c/mt9m111.c | 2 +-
+>  drivers/media/i2c/ov2640.c  | 2 +-
+>  drivers/media/i2c/ov2659.c  | 4 +---
+
+for ov2659 changes,
+
+Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+
+Cheers,
+--Prabhakar Lad
+
+>  drivers/media/i2c/ov2680.c  | 5 +----
+>  drivers/media/i2c/ov5695.c  | 5 +----
+>  drivers/media/i2c/ov7740.c  | 8 ++------
+>  6 files changed, 7 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> index d10fe3712036..d4864d155f0b 100644
+> --- a/drivers/media/i2c/mt9m111.c
+> +++ b/drivers/media/i2c/mt9m111.c
+> @@ -536,7 +536,7 @@ static int mt9m111_get_fmt(struct v4l2_subdev *sd,
+>                 format->format = *mf;
+>                 return 0;
+>  #else
+> -               return -ENOTTY;
+> +               return -EINVAL;
+>  #endif
+>         }
+>
+> diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
+> index 30e7e6b2b293..39474b287bb2 100644
+> --- a/drivers/media/i2c/ov2640.c
+> +++ b/drivers/media/i2c/ov2640.c
+> @@ -932,7 +932,7 @@ static int ov2640_get_fmt(struct v4l2_subdev *sd,
+>                 format->format = *mf;
+>                 return 0;
+>  #else
+> -               return -ENOTTY;
+> +               return -EINVAL;
+>  #endif
+>         }
+>
+> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> index 5ed2413eac8a..a71277e361ff 100644
+> --- a/drivers/media/i2c/ov2659.c
+> +++ b/drivers/media/i2c/ov2659.c
+> @@ -1055,7 +1055,7 @@ static int ov2659_get_fmt(struct v4l2_subdev *sd,
+>                 mutex_unlock(&ov2659->lock);
+>                 return 0;
+>  #else
+> -       return -ENOTTY;
+> +               return -EINVAL;
+>  #endif
+>         }
+>
+> @@ -1131,8 +1131,6 @@ static int ov2659_set_fmt(struct v4l2_subdev *sd,
+>  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>                 mf = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+>                 *mf = fmt->format;
+> -#else
+> -               ret = -ENOTTY;
+>  #endif
+>         } else {
+>                 s64 val;
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index b10bcfabaeeb..164f983c1814 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -675,7 +675,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+>  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>                 fmt = v4l2_subdev_get_try_format(&sensor->sd, cfg, format->pad);
+>  #else
+> -               ret = -ENOTTY;
+> +               ret = -EINVAL;
+>  #endif
+>         } else {
+>                 fmt = &sensor->fmt;
+> @@ -723,10 +723,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>                 try_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+>                 format->format = *try_fmt;
+> -#else
+> -               ret = -ENOTTY;
+>  #endif
+> -
+>                 goto unlock;
+>         }
+>
+> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+> index e65a94353175..34b7046d9702 100644
+> --- a/drivers/media/i2c/ov5695.c
+> +++ b/drivers/media/i2c/ov5695.c
+> @@ -823,9 +823,6 @@ static int ov5695_set_fmt(struct v4l2_subdev *sd,
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+>  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>                 *v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> -#else
+> -               mutex_unlock(&ov5695->mutex);
+> -               return -ENOTTY;
+>  #endif
+>         } else {
+>                 ov5695->cur_mode = mode;
+> @@ -856,7 +853,7 @@ static int ov5695_get_fmt(struct v4l2_subdev *sd,
+>                 fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+>  #else
+>                 mutex_unlock(&ov5695->mutex);
+> -               return -ENOTTY;
+> +               return -EINVAL;
+>  #endif
+>         } else {
+>                 fmt->format.width = mode->width;
+> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+> index 70bb870b1d08..a2f8f19bca7c 100644
+> --- a/drivers/media/i2c/ov7740.c
+> +++ b/drivers/media/i2c/ov7740.c
+> @@ -827,13 +827,9 @@ static int ov7740_set_fmt(struct v4l2_subdev *sd,
+>  #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>                 mbus_fmt = v4l2_subdev_get_try_format(sd, cfg, format->pad);
+>                 *mbus_fmt = format->format;
+> -
+> +#endif
+>                 mutex_unlock(&ov7740->mutex);
+>                 return 0;
+> -#else
+> -               ret = -ENOTTY;
+> -               goto error;
+> -#endif
+>         }
+>
+>         ret = ov7740_try_fmt_internal(sd, &format->format, &ovfmt, &fsize);
+> @@ -868,7 +864,7 @@ static int ov7740_get_fmt(struct v4l2_subdev *sd,
+>                 format->format = *mbus_fmt;
+>                 ret = 0;
+>  #else
+> -               ret = -ENOTTY;
+> +               ret = -EINVAL;
+>  #endif
+>         } else {
+>                 format->format = ov7740->format;
 > --
-> Akihiro
+> 2.20.1
+>
