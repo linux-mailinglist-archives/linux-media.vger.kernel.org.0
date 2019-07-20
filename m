@@ -2,55 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B186F01E
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2019 19:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0793F6F037
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2019 19:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728763AbfGTRCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Jul 2019 13:02:40 -0400
-Received: from fallback18.mail.ru ([185.5.136.250]:50010 "EHLO
-        fallback18.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728743AbfGTRCk (ORCPT
+        id S1726516AbfGTRdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Jul 2019 13:33:11 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:42644 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726200AbfGTRdK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Jul 2019 13:02:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
-        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:To:From; bh=Kyq7WTqpwbZXutyp+wPsMyk7LeyVrZOukxi2TlugSEk=;
-        b=JNOLQhuECs3ErZizH/+ajL9pZHmSBW6TqK3SZMhsTWKx270nJCsm+2pZvd57fYw8xa0LjYpIZICtp++6q+g6xr+qDNpq+xKdmG85qQ747Vlvq4426Zfp5eW58djMjnnAmSKShTihjyxgXZ4vvdw1EsBBl/i89tD/Cr/Niarrvvk=;
-Received: from [10.161.64.11] (port=39514 helo=f421.i.mail.ru)
-        by fallback18.m.smailru.net with esmtp (envelope-from <9213808424tel@mail.ru>)
-        id 1hoskn-0005uE-Qe
-        for linux-media@vger.kernel.org; Sat, 20 Jul 2019 20:02:38 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail2;
-        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:To:From; bh=Kyq7WTqpwbZXutyp+wPsMyk7LeyVrZOukxi2TlugSEk=;
-        b=JNOLQhuECs3ErZizH/+ajL9pZHmSBW6TqK3SZMhsTWKx270nJCsm+2pZvd57fYw8xa0LjYpIZICtp++6q+g6xr+qDNpq+xKdmG85qQ747Vlvq4426Zfp5eW58djMjnnAmSKShTihjyxgXZ4vvdw1EsBBl/i89tD/Cr/Niarrvvk=;
-Received: by f421.i.mail.ru with local (envelope-from <9213808424tel@mail.ru>)
-        id 1hoskm-00058I-5L
-        for linux-media@vger.kernel.org; Sat, 20 Jul 2019 20:02:36 +0300
-Received: by e.mail.ru with HTTP;
-        Sat, 20 Jul 2019 20:02:36 +0300
-From:   =?UTF-8?B?0JLQuNC60YLQvtGAINCh0YLQtdC/0LDQvdC+0LI=?= 
-        <9213808424tel@mail.ru>
-To:     linux-media@vger.kernel.org
+        Sat, 20 Jul 2019 13:33:10 -0400
+Received: by mail-qt1-f195.google.com with SMTP id h18so34327394qtm.9
+        for <linux-media@vger.kernel.org>; Sat, 20 Jul 2019 10:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=YKexDKGQ6/CHj7BLf54IacsXIIn6UknCQ6TzJFmSWBI=;
+        b=UciSP5YUvdUBVKzNMCBxRVuIwo8V2yR+hrhY45L/ds30dAR2wSblwqaayoWGnDfB7U
+         pCS/WOuSZfSq7gtRBMvqUxVOY+rJzgdh+cjQewQUHwqZhTGv9RjExfVgok7STGPjuK9o
+         5AhYoZ0CGe+4vOb5Zmiah3SqeSGj0tpKTGXNsrrEZMuqxWTkMTrewe3eT/L1LtmvlWZa
+         1yykHw/zPSEDM2CtspyIaLZyPyfMkgqLJxKAxtLclwub/kbFHYIdkUMl7FAS16p07I3C
+         bzQ/F1LdAuRrGFL4ryrO/ztp1EPDqxiPbZR/E1V+RHdQjnnprMDpWe0XhhzdL7V7h4Cs
+         Eygg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=YKexDKGQ6/CHj7BLf54IacsXIIn6UknCQ6TzJFmSWBI=;
+        b=MjZugfVwb+blXrDqXrIgZe+xy6oJccRpvRE2kXCUdhabCqepC+yX6DPJimmrsPdM6F
+         ChDxt0RFwljNCLZnbV+192snk55gMzszxOn/G4L1NKjuxpW3vpi/rYfmuIzemxmqePhF
+         D+kUxc2Lr8Z3+G2CrPiifKNv8EEvMMYfw9k5A+v6Kktw/cVz1A3GF8GttJuw3DdK4gCl
+         QkDKzY7/H98f7esUH33IdNUWbgDGYCT62wEwQC3895kN8lpv6rx/qoUvqpMxJF1A0V0M
+         ARCBhSjl+Hr4B/UGbZxgJBoYDR89psaDTwcvsV43Vaj7uM12hHqZBCcoV/Poo22RGWXo
+         AKzA==
+X-Gm-Message-State: APjAAAW5lL3uaNAYGTeClOj/5AS0IzW3tm6/y/4AA/G7KaLMTnCL93Wr
+        W4UpPlWIfCMiKVqF4HRjcg9QJ55XS9BvtEH3/dA=
+X-Google-Smtp-Source: APXvYqztkNZXldMRATq7qC0GO1Ts8mBEImGUbFNBfLWp8iTqnej3wQdenfjcoe0wyYrRXMrXJ4RvzwV/CgW9bSmPpC0=
+X-Received: by 2002:ac8:1c2d:: with SMTP id a42mr41846499qtk.311.1563643989821;
+ Sat, 20 Jul 2019 10:33:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Mail.Ru Mailer 1.0
-Date:   Sat, 20 Jul 2019 20:02:36 +0300
-Reply-To: =?UTF-8?B?0JLQuNC60YLQvtGAINCh0YLQtdC/0LDQvdC+0LI=?= 
-          <9213808424tel@mail.ru>
-X-Priority: 3 (Normal)
-Message-ID: <1563642156.607689361@f421.i.mail.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-X-77F55803: 651E9893568091D89110AD76CAB125BE988784FC6C4AE31FD83AEAAA5AB5EB8EDD488620A5AF36FD19F1757AFCAD1B3B9346A8636164D4A5
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7D11FE541CB6B4ECFEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063785E96BB149902AD28638F802B75D45FF5571747095F342E8C7A0BC55FA0FE5FC032F38D1359F54595338342935AE0BD0BB103605AC7F62F6389733CBF5DBD5E913377AFFFEAFD269A417C69337E82CC2CC7F00164DA146DAFE8445B8C89999725571747095F342E8C26CFBAC0749D213D2E47CDBA5A9658359CC434672EE6371117882F4460429728AD0CFFFB425014E40A5AABA2AD3711975ECD9A6C639B01B78DA827A17800CE701AA0EF40924F6F4C8F8A7D7190A078475ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC852301B74F4230CB91AA1DF4CB901976EF00306258E7E6ABB4E4A6367B16DE6309
-X-Mailru-Sender: 00097D31F91C944BE632B4B4B972F135450456757EFADE0B4CD7F71C2814794F6B4BD4AAD94E029606CD02445D2D9C8FA2BFD6D8330F0C2DAE541F4F0AF2CF9157FECF562B32D25F38D8084DD75157900514B1D546735825E277B10392F2CFAA4ADA3AD73091CAD2B39E480BB92AD75B4660E411638ACB943453F38A29522196
-X-Mras: OK
-X-Spam: undefined
-X-77F55803: 6AF0DA0BABFA9FDB7F9F52485CB584D7271FD7DF62800FDCEBD801CA440DD4087CFC7E1DDC4130C4B05ED21BD5CC8CA2EB49CD522201A816
-X-7FA49CB5: 0D63561A33F958A566EED2398A56B5C59705AA19E4F3A006A777E1550A214CAE8941B15DA834481FA18204E546F3947CEDCF5861DED71B2F389733CBF5DBD5E9C8A9BA7A39EFB7666BA297DBC24807EA117882F44604297287769387670735209ECD01F8117BC8BEA471835C12D1D977C4224003CC836476C0CAF46E325F83A50BF2EBBBDD9D6B0F8372B2C5506EF0A43B503F486389A921A5CC5B56E945C8DA
-X-Mras: OK
+Received: by 2002:a0c:c246:0:0:0:0:0 with HTTP; Sat, 20 Jul 2019 10:33:09
+ -0700 (PDT)
+Reply-To: mrsgracezinsou@gmail.com
+From:   "Mrs.Grace Zinsou" <lanemrjames@gmail.com>
+Date:   Sat, 20 Jul 2019 10:33:09 -0700
+Message-ID: <CA++3H6OyAMJDVsTsDHZfVB4T2xbrcxYh5Kf4vQyff3R0z+nFkQ@mail.gmail.com>
+Subject: Your urgent reply is needed..
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-0KHQsNC50YIg0JLQuNC30LjRgtC60LAg0JfQkCA1IDAwMNGA0YPQsS4g0J7Qv9C70LDRgtCwINC/
-0L4g0YTQsNC60YLRgyEgKzc5MjYxMzkzNTMw
+--=20
+Dear Beloved,
+
+Greetings in the name of our Lord Jesus Christ, I am Mrs.Grace Zinsou,
+a widow to Late Chief.=C3=89mile D. Zinsou,I am 58 years old,and a born
+again Christian convert,suffering from long time cancer of the
+breast.From all indications, my condition is really deteriorating and
+is quite obvious that I may not live more than four months,because the
+cancer stage has gotten to a very severe stage.
+
+My late husband was very wealthy and after his death,I inherited all
+his business and wealth because we have no child.My personal physician
+told me that I may not live for more than four months and I am so
+scared about this,So I now decided to divide part of this wealth,by
+contributing to the development of evangelism and charity in Africa,
+America, Europe and Asian. I am willing to donate the sum of
+(USD$2.500,000.00 ) to your Orphanage and Ministry for the development
+of evangelism,also as aids for the less privileged.
+
+This fund is deposited in my late husband bank account,therefore, my
+lawyer will file an immediate application for the transfer of the
+money in the name of your ministry. Do not reply me if you have the
+intention of using this fund for personal purpose other than
+enhancement of evangelism.Finally,I want you to be praying for me as
+regards my entire life and my health.
+
+May the Grace of our Lord Jesus Christ, the love of God, and the sweet
+fellowship of the Holy Spirit be with you.I await your urgent reply on
+my private email address ( mrsgracezinsou@gmail.com )
+
+Yours in Christ
+Mrs.Grace Zinsou.
