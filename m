@@ -2,83 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79D2D6FF1E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 13:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43DA16FF86
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 14:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729830AbfGVL6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 07:58:14 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46766 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728831AbfGVL6O (ORCPT
+        id S1727594AbfGVMYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 08:24:43 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:50447 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727040AbfGVMYn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 07:58:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=v7td3nWWRNlG2HczAYW9Qi9YQ6NEWJchNTHfCGIb9jo=; b=k8BPbqykZ8jqta8HU9VrbasPP
-        D3kewB08EtEDlnJtWoST5SfghSlxQborttFcItcRdPgN9VVlzdlyYkZtrDxUiurI/U7DOKxyhy8c5
-        PuumwvIOtXE3Cay4bwX44NS9mA4sZBkWh72UH7GicAD5Wm7oOBwH1+Knjgoy1AtdIMwbH9PtO3JCh
-        khQBua+WeocH9Qx4eIEn0d7ik31MU5s7Nxpf+xhRguqxZSc4KmW8j4QxUfmyJ8V5VawYLCHAE9ZXu
-        Hhn0Wv592z5grVqn7u+s1jtn1QGEevASp9jz49l70UpShQKabsI+5yL2/RwCiBOmLY8rWe8Yo9qwq
-        RhpsivLAw==;
-Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpWxG-000410-84; Mon, 22 Jul 2019 11:58:11 +0000
-Date:   Mon, 22 Jul 2019 08:58:06 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v5.3-rc1] media updates
-Message-ID: <20190722085806.2e775cd6@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 22 Jul 2019 08:24:43 -0400
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id C6615100005;
+        Mon, 22 Jul 2019 12:24:38 +0000 (UTC)
+Date:   Mon, 22 Jul 2019 14:24:38 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jeremy Sowden <jeremy@azazel.net>
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>,
+        maxime.ripard@bootlin.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] staging: media: sunxi: Add bool cast to value
+Message-ID: <20190722122438.GA1908@aptenodytes>
+References: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+ <20190722111225.GA2695@azazel.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190722111225.GA2695@azazel.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+Hi,
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.3-2
+On Mon 22 Jul 19, 12:12, Jeremy Sowden wrote:
+> On 2019-07-22, at 11:36:51 +0530, Nishka Dasgupta wrote:
+> > Typecast as bool the return value of cedrus_find_format in
+> > cedrus_check_format as the return value of cedrus_check_format is
+> > always treated like a boolean value.
+> >
+> > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> > ---
+> > Changes in v2:
+> > - Add !! to the returned pointer to ensure that the return value is
+> >   always either true or false, and never a non-zero value other than
+> >   true.
+> >
+> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > index e2b530b1a956..b731745f21f8 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+> >  static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> >  				unsigned int capabilities)
+> >  {
+> > -	return cedrus_find_format(pixelformat, directions, capabilities);
+> > +	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
+> >  }
+> 
+> I think the original was fine.  The return value of cedrus_find_format
+> will be automatically converted to bool before being returned from
+> cedrus_check_format since that is the return-type of the function, and
+> the result of converting any non-zero value to bool is 1.
 
-For two regressions at media core:
+Okay I was a bit unsure about that and wanted to play it on the safe side
+without really looking it up, but that gave me the occasion to verify.
 
-  - v4l2-subdev: fix regression in check_pad()
-  - videodev2.h: change V4L2_PIX_FMT_BGRA444 define: fourcc was already in use
+From what I could find (from my GNU system's /usr/include/unistring/stdbool.h):
 
-Regards,
-Mauro
+   Limitations of this substitute, when used in a C89 environment:
 
-The following changes since commit f81cbfc4f82a75ca0a2dc181a9c93b88f0e6509d:
+       - In C99, casts and automatic conversions to '_Bool' or 'bool' are
+         performed in such a way that every nonzero value gets converted
+         to 'true', and zero gets converted to 'false'.  This doesn't work
+         with this substitute.  With this substitute, only the values 0 and 1
+         give the expected result when converted to _Bool' or 'bool'.
 
-  media: allegro: use new v4l2_m2m_ioctl_try_encoder_cmd funcs (2019-06-27 07:36:06 -0400)
+So since the kernel is built for C89 (unless I'm mistaken), I don't think the
+compiler provides any guarantee about bool values being converted to 1 when
+they are non-zero. As a result, I think it's best to be careful.
 
-are available in the Git repository at:
+However, I'm not sure I really see what cocinelle was unhappy about. You
+mentionned single-line functions, but I don't see how that can be a problem.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.3-2
+So in the end, I think we should keep the !! and drop the (bool) cast if there's
+no particular warning about it.
 
-for you to fetch changes up to 22be8233b34f4f468934c5fefcbe6151766fb8f2:
+What do you think?
 
-  media: videodev2.h: change V4L2_PIX_FMT_BGRA444 define: fourcc was already in use (2019-07-11 09:00:38 -0400)
+Cheers,
 
-----------------------------------------------------------------
-media updates for v5.3-rc1
+Paul
 
-----------------------------------------------------------------
-Hans Verkuil (2):
-      media: v4l2-subdev: fix regression in check_pad()
-      media: videodev2.h: change V4L2_PIX_FMT_BGRA444 define: fourcc was already in use
+> >  static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+> > --
+> > 2.19.1
 
- drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
- include/uapi/linux/videodev2.h        | 8 +++++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
