@@ -2,182 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8C40701E0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 16:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 845837021C
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 16:20:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728671AbfGVOGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 10:06:08 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48743 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728405AbfGVOGH (ORCPT
+        id S1729446AbfGVOUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 10:20:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35708 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728228AbfGVOUW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 10:06:07 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id pYwzhc1q10SBqpYx2hrfx4; Mon, 22 Jul 2019 16:06:04 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Fix device_caps, don't set fmt description
-Message-ID: <9064bb69-03f1-02a3-fcc8-5010a506e0e5@xs4all.nl>
-Date:   Mon, 22 Jul 2019 16:06:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 22 Jul 2019 10:20:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=RRkg62vrm2QNfVhgLDXu0pufIRiZ8Lp3UvnAuyYJelU=; b=aV2N4iY7b925zhAui/9ooWC7P
+        +wHB07UPrcH2Njr5HamScaNQS6El1AJ19jAJla4bpYYfb3jvGWY2vRqKb9sMTUdPwxbQb07YJ/eHP
+        XFgrRju768R+0udhocSPWkHW8NiQLw0FSIWPG8KBxwErkH9vGMgQ3nxyKrAYLx69rM8mwVCweg1X7
+        N1FZ69kqzghVW/3qRf1k0mYGnNfdoKqWn/M2fRVuyM8DbHqAZy8dzVKXz6zYgxYruMr8k46zsDeZu
+        dCTvZGuKHOzbrOILJgJ6GA/6P+9Rxh+w+PiRnTeim1/WWDrf3sSumqb0R4KoUBB/mzHJbgqUBo0tu
+        7NCwCfHgQ==;
+Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hpZAr-0005HG-IC; Mon, 22 Jul 2019 14:20:21 +0000
+Date:   Mon, 22 Jul 2019 11:20:18 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Georgi Djakov <georgi.djakov@linaro.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [git:media_tree/master] docs: interconnect.rst: add it to the
+ driver-api guide
+Message-ID: <20190722112018.42df9cc0@coco.lan>
+In-Reply-To: <19f6ec1c-9ae9-db94-6080-37d751dd5d22@linaro.org>
+References: <E1hpWim-0008Ff-Q7@www.linuxtv.org>
+        <19f6ec1c-9ae9-db94-6080-37d751dd5d22@linaro.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfB6LO6RrEQfDv/HbgKxowNK4W92rJc0FyRwM/zNZbGZgZoiH7uI8/PiM1NLWP+e8AOWPaU86og56OwdwjCnOvdwfEkleT8xKl71HZ03I0e06DN3AcvNq
- IFr8F5OAGNlrnSnq+RsEM8Ni5UpDaaBfgmk1y5y+WfSO1INsMj+gNfENYbNCjdLZFPZVFW54rX1N4w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Contains these two patch series, rebased on top of v5.3-rc1:
+Em Mon, 22 Jul 2019 16:07:23 +0300
+Georgi Djakov <georgi.djakov@linaro.org> escreveu:
 
-https://patchwork.linuxtv.org/project/linux-media/list/?series=240
-https://patchwork.linuxtv.org/project/linux-media/list/?series=232
+> On 7/15/19 15:20, Mauro Carvalho Chehab wrote:
+> > This is an automatic generated email to let you know that the following patch were queued:
+> > 
+> > Subject: docs: interconnect.rst: add it to the driver-api guide
+> > Author:  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Date:    Tue Jun 18 17:15:10 2019 -0300
+> > 
+> > This is intended for Kernel hackers audience.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Reviewed-by: Georgi Djakov <georgi.djakov@linaro.org>
+> > 
+> >  Documentation/driver-api/index.rst          |  1 +
+> >  Documentation/driver-api/interconnect.rst   | 93 ++++++++++++++++++++++++++++
+> >  Documentation/interconnect/interconnect.rst | 95 -----------------------------
+> >  MAINTAINERS                                 |  2 +-
+> >  4 files changed, 95 insertions(+), 96 deletions(-)  
+> 
+> Hi Mauro,
+> 
+> Maybe the script that generated this email can be improved a bit, as it does not
+> show the renames. So the diffstat here looks a bit different compared with the
+> original git commit:
+> https://git.linuxtv.org/media_tree.git/commit/?id=9b1f44028ff2e051816517781153e10a2d748dc3
 
-Regards,
+Thanks for the hint. I changed the post-receive script to do:
 
-	Hans
+	$ git show -M -C -D
 
-The following changes since commit 3f98538c7673e5306a126fd3cb7e0a84abc170ee:
+instead of just git show.
 
-  Merge tag 'v5.3-rc1' into patchwork (2019-07-22 07:40:55 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4a2
-
-for you to fetch changes up to 301a12dedf2a4547b2a3d8f5e06e70a15acdd2f6:
-
-  omap3isp: set device_caps in struct video_device (2019-07-22 14:19:57 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (21):
-      v4l2-ioctl: add missing pixelformats
-      media/usb: don't set description in ENUM_FMT
-      media/pci: don't set description for ENUM_FMT
-      drivers/staging/media: don't set description for ENUM_FMT
-      media/platform: don't set description in ENUM_FMT
-      am437x/davinci: set device_caps in struct video_device
-      coda: set device_caps in struct video_device
-      s3c-camif/s5p-g2d/s5p-jpeg: set device_caps in struct video_device
-      fsl-viu: set device_caps in struct video_device
-      m2m-deinterlace: set device_caps in struct video_device
-      mx2_emmaprp: set device_caps in struct video_device
-      marvell-ccic: set device_caps in struct video_device
-      pxa_camera: don't set caps in querycap
-      bdisp: set device_caps in struct video_device
-      via-camera: set device_caps in struct video_device
-      xilinx: set device_caps in struct video_device
-      sh_veu/sh_vou: set device_caps in struct video_device
-      vsp1: set device_caps in struct video_device
-      omap_vout: set device_caps in struct video_device
-      ti-vpe: set device_caps in struct video_device
-      omap3isp: set device_caps in struct video_device
-
- drivers/media/common/saa7146/saa7146_video.c                  | 16 ++--------------
- drivers/media/dvb-frontends/rtl2832_sdr.c                     |  3 ---
- drivers/media/pci/bt8xx/bttv-driver.c                         | 19 -------------------
- drivers/media/pci/bt8xx/bttv-risc.c                           |  8 ++++----
- drivers/media/pci/bt8xx/bttvp.h                               |  1 -
- drivers/media/pci/cobalt/cobalt-v4l2.c                        |  5 -----
- drivers/media/pci/cx23885/cx23885-417.c                       |  1 -
- drivers/media/pci/cx23885/cx23885-video.c                     |  7 ++-----
- drivers/media/pci/cx23885/cx23885.h                           |  1 -
- drivers/media/pci/cx25821/cx25821-video.c                     |  7 ++-----
- drivers/media/pci/cx25821/cx25821.h                           |  1 -
- drivers/media/pci/cx88/cx88-blackbird.c                       |  2 --
- drivers/media/pci/cx88/cx88-video.c                           | 17 +++--------------
- drivers/media/pci/cx88/cx88.h                                 |  1 -
- drivers/media/pci/dt3155/dt3155.c                             |  1 -
- drivers/media/pci/meye/meye.c                                 |  3 ---
- drivers/media/pci/saa7134/saa7134-empress.c                   |  2 --
- drivers/media/pci/saa7134/saa7134-video.c                     | 28 ++++-----------------------
- drivers/media/pci/saa7134/saa7134.h                           |  1 -
- drivers/media/pci/saa7164/saa7164-encoder.c                   |  1 -
- drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c                |  7 -------
- drivers/media/pci/solo6x10/solo6x10-v4l2.c                    |  2 --
- drivers/media/pci/sta2x11/sta2x11_vip.c                       |  2 --
- drivers/media/pci/tw68/tw68-video.c                           | 13 -------------
- drivers/media/pci/tw68/tw68.h                                 |  1 -
- drivers/media/platform/am437x/am437x-vpfe.c                   | 24 ++++-------------------
- drivers/media/platform/coda/coda-common.c                     |  4 +---
- drivers/media/platform/davinci/vpbe_display.c                 | 17 +++--------------
- drivers/media/platform/davinci/vpfe_capture.c                 |  3 +--
- drivers/media/platform/davinci/vpif_capture.c                 | 14 +++-----------
- drivers/media/platform/davinci/vpif_display.c                 |  7 +------
- drivers/media/platform/exynos-gsc/gsc-core.c                  | 22 ---------------------
- drivers/media/platform/exynos-gsc/gsc-core.h                  |  2 --
- drivers/media/platform/exynos4-is/fimc-capture.c              |  3 ---
- drivers/media/platform/exynos4-is/fimc-core.c                 | 20 --------------------
- drivers/media/platform/exynos4-is/fimc-isp-video.c            |  1 -
- drivers/media/platform/exynos4-is/fimc-isp.c                  |  3 ---
- drivers/media/platform/exynos4-is/fimc-lite.c                 |  8 --------
- drivers/media/platform/exynos4-is/fimc-m2m.c                  |  1 -
- drivers/media/platform/fsl-viu.c                              |  7 ++-----
- drivers/media/platform/m2m-deinterlace.c                      | 14 +-------------
- drivers/media/platform/marvell-ccic/mcam-core.c               | 15 ++-------------
- drivers/media/platform/mx2_emmaprp.c                          |  7 +------
- drivers/media/platform/omap/omap_vout.c                       | 13 ++-----------
- drivers/media/platform/omap3isp/ispvideo.c                    | 11 +++++++----
- drivers/media/platform/pxa_camera.c                           |  3 ---
- drivers/media/platform/s3c-camif/camif-capture.c              | 16 +++++-----------
- drivers/media/platform/s3c-camif/camif-core.c                 |  6 ------
- drivers/media/platform/s3c-camif/camif-core.h                 |  1 -
- drivers/media/platform/s5p-g2d/g2d.c                          | 13 ++-----------
- drivers/media/platform/s5p-g2d/g2d.h                          |  1 -
- drivers/media/platform/s5p-jpeg/jpeg-core.c                   | 31 ++----------------------------
- drivers/media/platform/s5p-jpeg/jpeg-core.h                   |  2 --
- drivers/media/platform/s5p-mfc/s5p_mfc_common.h               |  1 -
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c                  | 19 +------------------
- drivers/media/platform/s5p-mfc/s5p_mfc_enc.c                  | 14 +-------------
- drivers/media/platform/sh_veu.c                               | 23 +++++++++-------------
- drivers/media/platform/sh_vou.c                               | 17 ++++-------------
- drivers/media/platform/sti/bdisp/bdisp-v4l2.c                 |  6 +-----
- drivers/media/platform/ti-vpe/cal.c                           |  5 ++---
- drivers/media/platform/ti-vpe/vpe.c                           | 12 ------------
- drivers/media/platform/via-camera.c                           |  9 ++-------
- drivers/media/platform/vsp1/vsp1_histo.c                      |  3 +--
- drivers/media/platform/vsp1/vsp1_video.c                      | 10 ++++------
- drivers/media/platform/xilinx/xilinx-dma.c                    | 18 +++++++-----------
- drivers/media/platform/xilinx/xilinx-vip.c                    | 16 ++++++++--------
- drivers/media/platform/xilinx/xilinx-vip.h                    |  2 --
- drivers/media/usb/airspy/airspy.c                             |  3 ---
- drivers/media/usb/au0828/au0828-video.c                       |  4 ----
- drivers/media/usb/cpia2/cpia2_v4l.c                           | 23 ++++------------------
- drivers/media/usb/cx231xx/cx231xx-417.c                       |  1 -
- drivers/media/usb/cx231xx/cx231xx-video.c                     |  2 --
- drivers/media/usb/cx231xx/cx231xx.h                           |  1 -
- drivers/media/usb/em28xx/em28xx-video.c                       |  8 --------
- drivers/media/usb/em28xx/em28xx.h                             |  2 --
- drivers/media/usb/go7007/go7007-v4l2.c                        | 11 -----------
- drivers/media/usb/gspca/gspca.c                               |  9 ---------
- drivers/media/usb/hdpvr/hdpvr-video.c                         |  3 ---
- drivers/media/usb/msi2500/msi2500.c                           |  8 --------
- drivers/media/usb/pwc/pwc-v4l.c                               |  5 -----
- drivers/media/usb/s2255/s2255drv.c                            |  8 --------
- drivers/media/usb/stk1160/stk1160-v4l.c                       |  2 --
- drivers/media/usb/stk1160/stk1160.h                           |  1 -
- drivers/media/usb/stkwebcam/stk-webcam.c                      |  5 -----
- drivers/media/usb/tm6000/tm6000-video.c                       |  4 ----
- drivers/media/usb/tm6000/tm6000.h                             |  1 -
- drivers/media/usb/usbtv/usbtv-video.c                         |  2 --
- drivers/media/usb/usbvision/usbvision-video.c                 | 18 ++++++++----------
- drivers/media/usb/usbvision/usbvision.h                       |  1 -
- drivers/media/usb/zr364xx/zr364xx.c                           |  7 +------
- drivers/media/v4l2-core/v4l2-ioctl.c                          | 29 ++++++++++++++++++++++------
- drivers/staging/media/omap4iss/iss_video.c                    | 40 +++++++++++++++++++--------------------
- drivers/staging/media/omap4iss/iss_video.h                    |  2 --
- drivers/staging/media/soc_camera/soc_camera.c                 |  2 --
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 29 ----------------------------
- drivers/staging/vc04_services/bcm2835-camera/mmal-common.h    |  1 -
- include/media/drv-intf/exynos-fimc.h                          |  2 --
- include/media/drv-intf/saa7146_vv.h                           |  1 -
- include/media/drv-intf/soc_mediabus.h                         |  2 --
- 99 files changed, 149 insertions(+), 662 deletions(-)
+Thanks,
+Mauro
