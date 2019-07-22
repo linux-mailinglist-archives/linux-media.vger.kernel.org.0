@@ -2,253 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76D6770553
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 18:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACE3C70564
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 18:25:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729171AbfGVQW3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 12:22:29 -0400
-Received: from jpvw.nl ([80.127.100.2]:44160 "EHLO jpvw.nl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727743AbfGVQW3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 12:22:29 -0400
-Received: from jp by jpvw.nl with local (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hpb4z-0001oi-Qd; Mon, 22 Jul 2019 18:22:25 +0200
-Date:   Mon, 22 Jul 2019 18:22:25 +0200
-From:   Jan Pieter van Woerkom <jp@jpvw.nl>
-To:     James Hutchinson <jahutchinson99@googlemail.com>
-Cc:     Antti Palosaari <crope@iki.fi>, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org
-Subject: Re: MyGica T230 dvb-t2 data corruption since commit 5fa8815
-Message-ID: <20190722162225.GA6919@jpvw.nl>
-References: <CAD+OKUpCVHUO1=mEGCx8Mx7TJLc4rJZjV8+Rgd_fRFrwpBDExA@mail.gmail.com>
- <20190719183542.GA25609@jpvw.nl>
- <20190721182940.kclp27faukxxfc4d@gofer.mess.org>
- <62bc916f-a586-17b5-b9f8-f543d56ea76b@jpvw.nl>
- <CAD+OKUre40kQiucuryJC0uYrvBSqL5M=pAkmi7QxgOoKUWt0bg@mail.gmail.com>
- <70cb09ed-1ae4-6626-643d-c9e1c9ae47c6@jpvw.nl>
- <CAD+OKUr-f_a8dcPVp24d4wPhRAE80tf10_kt5s3_WvVmfWu9JQ@mail.gmail.com>
+        id S1730257AbfGVQZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 12:25:31 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37125 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730116AbfGVQZb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Jul 2019 12:25:31 -0400
+Received: by mail-pl1-f193.google.com with SMTP id b3so19414476plr.4
+        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2019 09:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nelint-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0xov5xCWoyMJjvfdeeH5jTfYxH36JzW9nh1b9Lz5GCI=;
+        b=scywFhsWAHs4bbMQs9q7Ro/1+yY+FZRdSAyDICEsVOgIof92UT3nhbBNDhZ33jKZlq
+         ABB/mThCO4l/OgQG9XFTeduKe/vNFBYDPkE21SB3LPoE6OhkgUmYi8hHU0/GXq7F+zc3
+         g633WBCgjxtCfyXxGaLXc69hOhJyuSr9NTVgdff9+mCGBjTVsm9X/9HPIYtgoJI0L6xG
+         ezu5znXonWweO4bqKZm0e0D5M+A37fFNUgvsDipZhFCTMbMEGgXd7HFqO89RYp1yte87
+         YGb/YZYSs7A4KbA8efxDZgU3VXzBh8adzrxsSnO2X1xvNjjmv4K0M8uwwmBM6QYXxjL1
+         2GKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0xov5xCWoyMJjvfdeeH5jTfYxH36JzW9nh1b9Lz5GCI=;
+        b=TFKGC8rM7c2MTpz1yylq5DBowTO7dOljQ6vZf9DUytFdI3FkrSbayCYHg8lDh/4SEh
+         jdJe6vrAlh2yj5VCzXIFqBCL7PDe9iBSieYQJ0h0uM5F1knFSQjVJlvXKEOgDu7bZ/k6
+         qDzMAP1R9vq2fEANG8xUTMGEBTK5rG1pTq1nXhYriLlvhcMHNIsw992rKe1jHE0zItWz
+         YYlm9u2THHfyYUT+maMlzpK/sRD1HfA7e3f9QWJwTlpAXmAGJ/tOs3/Rd2s6royaAy6O
+         scfLeU8ismBpFjitt+N/VXtdc1FYOJhIhaTxFv5FtQT+S4qO7EhGEuiLnTs8cc7k0ihX
+         AGOA==
+X-Gm-Message-State: APjAAAUEbwrM2OWygGV5dFGgqruPpfFJ9DwLpdd9pRd++QY9YIVy1671
+        x6VkMmCBEJrF/b865HUp1HIjxG3r
+X-Google-Smtp-Source: APXvYqxYnUbAA6HNjEwhb40JydSpiJ9M6dUXwfEROUpoHKETZVAHAwvGkfKZh9LLXUUaOzbeolsGLw==
+X-Received: by 2002:a17:902:b28b:: with SMTP id u11mr72824633plr.11.1563812730533;
+        Mon, 22 Jul 2019 09:25:30 -0700 (PDT)
+Received: from ?IPv6:2600:8800:1300:1920:e022:5d93:c8b0:4502? ([2600:8800:1300:1920:e022:5d93:c8b0:4502])
+        by smtp.gmail.com with ESMTPSA id r1sm45265818pfq.100.2019.07.22.09.25.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Jul 2019 09:25:30 -0700 (PDT)
+Subject: Re: Issues with ov5640 camera on i.MX6Q
+To:     Laura Nao <laura.nao@kynetics.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     loic.poulain@linaro.org, linux-media <linux-media@vger.kernel.org>
+References: <890e6dbe-2d8e-d674-b17e-2421a38e7acd@kynetics.com>
+ <CAOMZO5B3GV8fPLAdsxx2F+dyH68xPn6MN5rehEvwDvjJmirZrg@mail.gmail.com>
+ <9785bc82-b741-b60c-ccd7-efdd2b507c6f@kynetics.com>
+From:   Eric Nelson <eric@nelint.com>
+Message-ID: <913336b5-c2a1-5c2c-f893-6a28ccfedd63@nelint.com>
+Date:   Mon, 22 Jul 2019 09:25:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD+OKUr-f_a8dcPVp24d4wPhRAE80tf10_kt5s3_WvVmfWu9JQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <9785bc82-b741-b60c-ccd7-efdd2b507c6f@kynetics.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-remove t230 from cxusb
+Hi Laura,
 
-Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
----
-diff -ru a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
---- a/drivers/media/usb/dvb-usb/cxusb.c	2019-07-08 00:41:56.000000000 +0200
-+++ b/drivers/media/usb/dvb-usb/cxusb.c	2019-07-22 17:34:51.550698820 +0200
-@@ -369,26 +369,6 @@
- 	return 0;
- }
- 
--static int cxusb_read_status(struct dvb_frontend *fe,
--				  enum fe_status *status)
--{
--	struct dvb_usb_adapter *adap = (struct dvb_usb_adapter *)fe->dvb->priv;
--	struct cxusb_state *state = (struct cxusb_state *)adap->dev->priv;
--	int ret;
--
--	ret = state->fe_read_status(fe, status);
--
--	/* it need resync slave fifo when signal change from unlock to lock.*/
--	if ((*status & FE_HAS_LOCK) && (!state->last_lock)) {
--		mutex_lock(&state->stream_mutex);
--		cxusb_streaming_ctrl(adap, 1);
--		mutex_unlock(&state->stream_mutex);
--	}
--
--	state->last_lock = (*status & FE_HAS_LOCK) ? 1 : 0;
--	return ret;
--}
--
- static void cxusb_d680_dmb_drain_message(struct dvb_usb_device *d)
- {
- 	int       ep = d->props.generic_bulk_ctrl_endpoint;
-@@ -1164,83 +1144,6 @@
- 	return 0;
- }
- 
--static int cxusb_mygica_t230_frontend_attach(struct dvb_usb_adapter *adap)
--{
--	struct dvb_usb_device *d = adap->dev;
--	struct cxusb_state *st = d->priv;
--	struct i2c_adapter *adapter;
--	struct i2c_client *client_demod;
--	struct i2c_client *client_tuner;
--	struct i2c_board_info info;
--	struct si2168_config si2168_config;
--	struct si2157_config si2157_config;
--
--	/* Select required USB configuration */
--	if (usb_set_interface(d->udev, 0, 0) < 0)
--		err("set interface failed");
--
--	/* Unblock all USB pipes */
--	usb_clear_halt(d->udev,
--		usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
--	usb_clear_halt(d->udev,
--		usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
--	usb_clear_halt(d->udev,
--		usb_rcvbulkpipe(d->udev, d->props.adapter[0].fe[0].stream.endpoint));
--
--	/* attach frontend */
--	si2168_config.i2c_adapter = &adapter;
--	si2168_config.fe = &adap->fe_adap[0].fe;
--	si2168_config.ts_mode = SI2168_TS_PARALLEL;
--	si2168_config.ts_clock_inv = 1;
--	memset(&info, 0, sizeof(struct i2c_board_info));
--	strscpy(info.type, "si2168", I2C_NAME_SIZE);
--	info.addr = 0x64;
--	info.platform_data = &si2168_config;
--	request_module(info.type);
--	client_demod = i2c_new_device(&d->i2c_adap, &info);
--	if (client_demod == NULL || client_demod->dev.driver == NULL)
--		return -ENODEV;
--
--	if (!try_module_get(client_demod->dev.driver->owner)) {
--		i2c_unregister_device(client_demod);
--		return -ENODEV;
--	}
--
--	st->i2c_client_demod = client_demod;
--
--	/* attach tuner */
--	memset(&si2157_config, 0, sizeof(si2157_config));
--	si2157_config.fe = adap->fe_adap[0].fe;
--	si2157_config.if_port = 1;
--	memset(&info, 0, sizeof(struct i2c_board_info));
--	strscpy(info.type, "si2157", I2C_NAME_SIZE);
--	info.addr = 0x60;
--	info.platform_data = &si2157_config;
--	request_module(info.type);
--	client_tuner = i2c_new_device(adapter, &info);
--	if (client_tuner == NULL || client_tuner->dev.driver == NULL) {
--		module_put(client_demod->dev.driver->owner);
--		i2c_unregister_device(client_demod);
--		return -ENODEV;
--	}
--	if (!try_module_get(client_tuner->dev.driver->owner)) {
--		i2c_unregister_device(client_tuner);
--		module_put(client_demod->dev.driver->owner);
--		i2c_unregister_device(client_demod);
--		return -ENODEV;
--	}
--
--	st->i2c_client_tuner = client_tuner;
--
--	/* hook fe: need to resync the slave fifo when signal locks. */
--	mutex_init(&st->stream_mutex);
--	st->last_lock = 0;
--	st->fe_read_status = adap->fe_adap[0].fe->ops.read_status;
--	adap->fe_adap[0].fe->ops.read_status = cxusb_read_status;
--
--	return 0;
--}
--
- /*
-  * DViCO has shipped two devices with the same USB ID, but only one of them
-  * needs a firmware download.  Check the device class details to see if they
-@@ -1322,7 +1225,6 @@
- static struct dvb_usb_device_properties cxusb_aver_a868r_properties;
- static struct dvb_usb_device_properties cxusb_d680_dmb_properties;
- static struct dvb_usb_device_properties cxusb_mygica_d689_properties;
--static struct dvb_usb_device_properties cxusb_mygica_t230_properties;
- 
- static int cxusb_probe(struct usb_interface *intf,
- 		       const struct usb_device_id *id)
-@@ -1353,8 +1255,6 @@
- 				     THIS_MODULE, NULL, adapter_nr) ||
- 	    0 == dvb_usb_device_init(intf, &cxusb_mygica_d689_properties,
- 				     THIS_MODULE, NULL, adapter_nr) ||
--	    0 == dvb_usb_device_init(intf, &cxusb_mygica_t230_properties,
--				     THIS_MODULE, NULL, adapter_nr) ||
- 	    0)
- 		return 0;
- 
-@@ -1405,7 +1305,6 @@
- 	DVICO_BLUEBIRD_DUAL_4_REV_2,
- 	CONEXANT_D680_DMB,
- 	MYGICA_D689,
--	MYGICA_T230,
- 	NR__cxusb_table_index
- };
- 
-@@ -1470,9 +1369,6 @@
- 	[MYGICA_D689] = {
- 		USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_D689)
- 	},
--	[MYGICA_T230] = {
--		USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230)
--	},
- 	{}		/* Terminating entry */
- };
- MODULE_DEVICE_TABLE (usb, cxusb_table);
-@@ -2128,60 +2024,6 @@
- 		},
- 	}
- };
--
--static struct dvb_usb_device_properties cxusb_mygica_t230_properties = {
--	.caps = DVB_USB_IS_AN_I2C_ADAPTER,
--
--	.usb_ctrl         = CYPRESS_FX2,
--
--	.size_of_priv     = sizeof(struct cxusb_state),
--
--	.num_adapters = 1,
--	.adapter = {
--		{
--		.num_frontends = 1,
--		.fe = {{
--			.streaming_ctrl   = cxusb_streaming_ctrl,
--			.frontend_attach  = cxusb_mygica_t230_frontend_attach,
--
--			/* parameter for the MPEG2-data transfer */
--			.stream = {
--				.type = USB_BULK,
--				.count = 5,
--				.endpoint = 0x02,
--				.u = {
--					.bulk = {
--						.buffersize = 8192,
--					}
--				}
--			},
--		} },
--		},
--	},
--
--	.power_ctrl       = cxusb_d680_dmb_power_ctrl,
--
--	.i2c_algo         = &cxusb_i2c_algo,
--
--	.generic_bulk_ctrl_endpoint = 0x01,
--
--	.rc.core = {
--		.rc_interval	= 100,
--		.rc_codes	= RC_MAP_D680_DMB,
--		.module_name	= KBUILD_MODNAME,
--		.rc_query       = cxusb_d680_dmb_rc_query,
--		.allowed_protos = RC_PROTO_BIT_UNKNOWN,
--	},
--
--	.num_device_descs = 1,
--	.devices = {
--		{
--			"Mygica T230 DVB-T/T2/C",
--			{ NULL },
--			{ &cxusb_table[MYGICA_T230], NULL },
--		},
--	}
--};
- 
- static struct usb_driver cxusb_driver = {
- 	.name		= "dvb_usb_cxusb",
+On 7/22/19 8:50 AM, Laura Nao wrote:
+> Thanks Fabio!
+> 
+> I tried tweaking the PLL configuration in the driver and did some 
+> further tests on 5.2 kernel.
+> 
+> I was finally able to capture RAW frames that match the test pattern for 
+> 1280x720 and 1920x1080 resolutions. The 2592x1944 frame is still not 
+> perfectly aligned, but it looks much closer to the test pattern.
+> 
+> I uploaded the images here:
+> 
+> https://imgur.com/a/ywHokMf
+> 
+> The changes I made in the driver are below. Not sure these changes make 
+> much sense, but they seem to fix 1280x720 and 1920x1080 frames.
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 759d60c6..cfa678e 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -795,13 +795,13 @@ static int ov5640_mod_reg(struct ov5640_dev 
+> *sensor, u16 reg,
+>    * FIXME: to be re-calcualted for 1 data lanes setups
+>    */
+>   #define OV5640_MIPI_DIV_PCLK    2
+> -#define OV5640_MIPI_DIV_SCLK    1
+> +#define OV5640_MIPI_DIV_SCLK    2
+> 
+>   /*
+>    * This is supposed to be ranging from 1 to 2, but the value is always
+>    * set to 2 in the vendor kernels.
+>    */
+> -#define OV5640_PLL_ROOT_DIV            2
+> +#define OV5640_PLL_ROOT_DIV            1
+>   #define OV5640_PLL_CTRL3_PLL_ROOT_DIV_2        BIT(4)
+> 
+>   /*
+> @@ -836,8 +836,8 @@ static unsigned long ov5640_compute_sys_clk(struct 
+> ov5640_dev *sensor,
+>       unsigned long sysclk = sensor->xclk_freq / pll_prediv * pll_mult;
+> 
+>       /* PLL1 output cannot exceed 1GHz. */
+> -    if (sysclk / 1000000 > 1000)
+> -        return 0;
+> +    // if (sysclk / 1000000 > 1000)
+> +    //     return 0;
+> 
+>       return sysclk / sysdiv;
+>   }
+> @@ -1818,7 +1824,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
+>        * All the formats we support have 16 bits per pixel, seems to 
+> require
+>        * the same rate than YUV, so we can just use 16 bpp all the time.
+>        */
+> -    rate = mode->vtot * mode->htot * 16;
+> +    rate = mode->vtot * mode->htot * 8;
+>       rate *= ov5640_framerates[sensor->current_fr];
+>       if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
+>           rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
+> 
+
+How many frames per second are you getting out of this?
+
+If I'm reading this right, the change to ov5640_set_mode is reducing
+the frame rate (to 7.5 fps?), but I don't follow how the changes
+to OV5640_MIPI_DIV_SCLK and OV5640_PLL_ROOT_DIV are affecting things
+and the data sheet isn't very clear.
