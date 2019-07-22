@@ -2,100 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2671702A0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 16:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E631970315
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 17:05:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfGVOtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 10:49:01 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57391 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726084AbfGVOtA (ORCPT
+        id S1727482AbfGVPFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 11:05:19 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:35503 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726516AbfGVPFT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 10:49:00 -0400
-Received: from [192.168.2.10] ([46.9.252.75])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id pZcVhcJVB0SBqpZcYhrpzj; Mon, 22 Jul 2019 16:48:59 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Add VP8/MPEG-2 support for rk3328
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>
-Message-ID: <7fdffe00-743a-e60d-b0da-561fd2c7e76d@xs4all.nl>
-Date:   Mon, 22 Jul 2019 16:48:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 22 Jul 2019 11:05:19 -0400
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D960C20001D;
+        Mon, 22 Jul 2019 15:05:16 +0000 (UTC)
+Date:   Mon, 22 Jul 2019 17:05:16 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Cc:     Jeremy Sowden <jeremy@azazel.net>, maxime.ripard@bootlin.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] staging: media: sunxi: Add bool cast to value
+Message-ID: <20190722150516.GB31695@aptenodytes>
+References: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+ <20190722111225.GA2695@azazel.net>
+ <20190722122438.GA1908@aptenodytes>
+ <45555499-57f3-a315-6f84-f878c3aa0130@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO4tmnp4h4m+oxSC7AZfiqml0JfDBIdFtmXhhWcUnAem5J4DaEpKvVh70AYbRmkZVIS9VyyaA0EXzzjou2ux2wCCF3kYsiP7d1XZuNYe5cRjROgMHRQO
- 2TY/tJ/WXH1TCtsSHfgUePw/QfNNT6PYYzLKXKqV3sbPNsUtyDlGdTyt1eIEuBAO4Of4GFMKSqse02SSMhFOU4V4ri1NJkoYO8w=
+Content-Disposition: inline
+In-Reply-To: <45555499-57f3-a315-6f84-f878c3aa0130@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This PR merges:
+Hi,
 
-https://patchwork.linuxtv.org/project/linux-media/list/?series=354
-https://patchwork.linuxtv.org/patch/56427/
-https://patchwork.linuxtv.org/patch/56836/
+On Mon 22 Jul 19, 19:14, Nishka Dasgupta wrote:
+> On 22/07/19 5:54 PM, Paul Kocialkowski wrote:
+> > Hi,
+> > 
+> > On Mon 22 Jul 19, 12:12, Jeremy Sowden wrote:
+> > > On 2019-07-22, at 11:36:51 +0530, Nishka Dasgupta wrote:
+> > > > Typecast as bool the return value of cedrus_find_format in
+> > > > cedrus_check_format as the return value of cedrus_check_format is
+> > > > always treated like a boolean value.
+> > > > 
+> > > > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> > > > ---
+> > > > Changes in v2:
+> > > > - Add !! to the returned pointer to ensure that the return value is
+> > > >    always either true or false, and never a non-zero value other than
+> > > >    true.
+> > > > 
+> > > >   drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > index e2b530b1a956..b731745f21f8 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > @@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+> > > >   static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> > > >   				unsigned int capabilities)
+> > > >   {
+> > > > -	return cedrus_find_format(pixelformat, directions, capabilities);
+> > > > +	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
+> > > >   }
+> > > 
+> > > I think the original was fine.  The return value of cedrus_find_format
+> > > will be automatically converted to bool before being returned from
+> > > cedrus_check_format since that is the return-type of the function, and
+> > > the result of converting any non-zero value to bool is 1.
+> > 
+> > Okay I was a bit unsure about that and wanted to play it on the safe side
+> > without really looking it up, but that gave me the occasion to verify.
+> > 
+> >  From what I could find (from my GNU system's /usr/include/unistring/stdbool.h):
+> > 
+> >     Limitations of this substitute, when used in a C89 environment:
+> > 
+> >         - In C99, casts and automatic conversions to '_Bool' or 'bool' are
+> >           performed in such a way that every nonzero value gets converted
+> >           to 'true', and zero gets converted to 'false'.  This doesn't work
+> >           with this substitute.  With this substitute, only the values 0 and 1
+> >           give the expected result when converted to _Bool' or 'bool'.
+> > 
+> > So since the kernel is built for C89 (unless I'm mistaken), I don't think the
+> > compiler provides any guarantee about bool values being converted to 1 when
+> > they are non-zero. As a result, I think it's best to be careful.
+> > 
+> > However, I'm not sure I really see what cocinelle was unhappy about. You
+> > mentionned single-line functions, but I don't see how that can be a problem.
+> 
+> It's not a problem per se. I'm just working on a cleanup project for which I
+> went through all of staging replacing single-line functions with what they
+> were calling. In some cases that makes it easier to figure out what a
+> particular function call does, since the called function actually does
+> something itself instead of just calling a different function?
+> This function was also flagged as one such potentially-removable function by
+> Coccinelle; but in order to do the same replacement that I'd done in other
+> staging drivers, I thought I would do something about the type mismatch
+> first, especially since find_format doesn't appear to be used anywhere else.
+> However, now I won't remove check_format and replace it with find_format as
+> I'd originally planned, since you've said that isn't necessary here. That
+> leaves the return type issue.
 
-Main claim to fame is the new VP8 support for stateless decoders.
+Is that an issue reported by coccinelle?
+If so, could you provide details about it?
+ 
+> > So in the end, I think we should keep the !! and drop the (bool) cast if there's
+> > no particular warning about it.
+> 
+> Should I send a version 3 that does this?
 
-Regards,
+Yes I think !! would work out fine either way. Apparently we don't need any
+explicit (bool) cast from a pointer anyway.
 
-	Hans
+Cheers,
 
+Paul
 
-The following changes since commit 3f98538c7673e5306a126fd3cb7e0a84abc170ee:
+> Thanking you,
+> Nishka
+> 
+> > What do you think?
+> > 
+> > Cheers,
+> > 
+> > Paul
+> > 
+> > > >   static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+> > > > --
+> > > > 2.19.1
+> > 
+> 
 
-  Merge tag 'v5.3-rc1' into patchwork (2019-07-22 07:40:55 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4b
-
-for you to fetch changes up to 3e28925c22fb2a4b8b5964dd5f39e2d515da136a:
-
-  media: hantro: Add support for MPEG-2 decoding on RK3328 (2019-07-22 16:29:09 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Ezequiel Garcia (2):
-      media: v4l2-ctrl: Move compound control validation
-      media: v4l2-ctrl: Validate VP8 stateless decoder controls
-
-Jonas Karlman (2):
-      media: dt-bindings: rockchip: Document RK3328 VPU binding
-      media: hantro: Add support for MPEG-2 decoding on RK3328
-
-Pawel Osciak (1):
-      media: uapi: Add VP8 stateless decoder API
-
-ZhiChao Yu (1):
-      media: hantro: Add support for VP8 decoding on rk3288
-
- Documentation/devicetree/bindings/media/rockchip-vpu.txt |  18 +-
- Documentation/media/uapi/v4l/biblio.rst                  |  10 +
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst         | 323 ++++++++++++++++++++++++++
- Documentation/media/uapi/v4l/pixfmt-compressed.rst       |  20 ++
- drivers/media/v4l2-core/v4l2-ctrls.c                     | 157 ++++++++-----
- drivers/media/v4l2-core/v4l2-ioctl.c                     |   1 +
- drivers/staging/media/hantro/Kconfig                     |   2 +-
- drivers/staging/media/hantro/Makefile                    |   4 +-
- drivers/staging/media/hantro/hantro.h                    |  27 +++
- drivers/staging/media/hantro/hantro_drv.c                |   7 +
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c         | 526 +++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/hantro/hantro_hw.h                 |  17 ++
- drivers/staging/media/hantro/hantro_v4l2.c               |   1 +
- drivers/staging/media/hantro/hantro_vp8.c                | 188 ++++++++++++++++
- drivers/staging/media/hantro/rk3288_vpu_hw.c             |  22 +-
- drivers/staging/media/hantro/rk3399_vpu_hw.c             |  17 ++
- include/media/v4l2-ctrls.h                               |   3 +
- include/media/vp8-ctrls.h                                | 110 +++++++++
- 18 files changed, 1391 insertions(+), 62 deletions(-)
- create mode 100644 drivers/staging/media/hantro/hantro_g1_vp8_dec.c
- create mode 100644 drivers/staging/media/hantro/hantro_vp8.c
- create mode 100644 include/media/vp8-ctrls.h
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
