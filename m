@@ -2,118 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AEE56FBA5
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 10:54:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 416236FBB7
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 11:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728554AbfGVIye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 04:54:34 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36764 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbfGVIye (ORCPT
+        id S1728523AbfGVJGN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 05:06:13 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:38880 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbfGVJGN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 04:54:34 -0400
-Received: by mail-pg1-f195.google.com with SMTP id l21so17344297pgm.3
-        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=biM0OSNS5ZGpRpAgnAVdTqKaXhBNpNIPHYCeUlAsDXo=;
-        b=J3F1dnC/ZFg2XPia01dmjicHZLH6vHlWaKqphRc4EVU9k8NuQmdSQtNcFq3xlrCUKF
-         90Lw6ZwJiMBNPbkAZjTSXDqkmdKC8Hf7hpYpUBTbWxuBIeqWzJcGy1IVr7woksYgOtp6
-         zPw7KwySYfsNCVZ45yNTuAfY/EGdXoZam8Ke4ThTVVeDH/V8QAzr38y+MqFODoDhkLrU
-         K7FLg9ySAvF9OHN72uKzG2mifcKYRCYLGKzDOerJKs9haMZEJqtrV0eJoHIJ0ulkx0kS
-         C5d+TimIxfM9YwX8gHjjdbM3WNvfQYoNvJFtcoGxEKeYF9vjesSHqanWj2Ly5DlTo1hq
-         BSUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=biM0OSNS5ZGpRpAgnAVdTqKaXhBNpNIPHYCeUlAsDXo=;
-        b=Qo1nQCMbWqN3mtnISo/AR6tsrEykbiDI9ZaKTvA0JrQEbDKZcUmE/17e4rfmJdVXlc
-         6NvPmvS8mO63HWc0p4Ebscemx11g53gEyATdCUtE9LadwnE8cPXzziZ5H23psDvTbARK
-         hboyjVQ60u039lyCpKENudt1USV0lYineanofuSYrvvTHrZZyKNgzSUsp1SlM+53JWxU
-         iSTt3G2cDgm+0Hx8/UlY5wq64wWMbmNSCzmnSrCyZ7xrtWUXYesFI4cLX429x1A556+k
-         nY3X1csCeqR7szcTCrU4InEwsORDiA4ebqbwe/jTxlRtFxNWG4tFbtiiOXM3jcH5XZiG
-         AgQw==
-X-Gm-Message-State: APjAAAXDygkIDysfiBkOPsrAo4e7j3C7xAw8ebt46LcmkXkTNMKVi0pd
-        0ZrUo0V3a1lFDiSNMGXC+7o=
-X-Google-Smtp-Source: APXvYqw4NAMsN7QtS8azeL5m5K/spvFcnwQ2npwNGaA3WlUAzpUuuuj1y5plZArSatdp9cta3HhzbQ==
-X-Received: by 2002:a63:eb56:: with SMTP id b22mr71136439pgk.355.1563785673534;
-        Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.0.39])
-        by smtp.gmail.com with ESMTPSA id v27sm52537557pgn.76.2019.07.22.01.54.31
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     gregkh@linuxfoundation.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH RESEND] staging: media: davinci_vpfe: Replace function vpfe_isif_cleanup()
-Date:   Mon, 22 Jul 2019 14:24:20 +0530
-Message-Id: <20190722085420.20294-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 22 Jul 2019 05:06:13 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 3010A61639; Mon, 22 Jul 2019 09:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1563786372;
+        bh=Skk8yN1BQ/FRV8haTYnRCNUnzZEfrYwlXcy3MNbPGTc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V8ICTnG6m2z6JRboxwzE2LEsEW0LyBtM703/KrzBvKuhL3jRIxknD6rSZKhg8+ZG4
+         +BWbQE64bPivYzwUvJyWGz6eOzI1UPuwqyGdY2F6jZcRkfF40y1DEpeb/62Hpf62XE
+         VUX0H3jqxxzjHHl7vEx8HmFYzpT7RRU9zzdIlYAk=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id AC3A0604BE;
+        Mon, 22 Jul 2019 09:06:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1563786371;
+        bh=Skk8yN1BQ/FRV8haTYnRCNUnzZEfrYwlXcy3MNbPGTc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dym/B+E1dILyC4VTJuwmchUxq0cdrAFuk1RNAuZxJLKAVSEblp1dYGB+42NZduvaw
+         2WltOhXE9aEL4JAadwqDXkn1ecvvNZDAo7rGedykj0qgHPqjwnGLHfjwh8IKL9CjTP
+         gGXDDVsJL9Sk6RgYZqrzL7xGbFY+KyhvWaRRro2Y=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC3A0604BE
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [PATCH v6 0/4] media: venus: Update clock scaling and core selection
+Date:   Mon, 22 Jul 2019 14:35:56 +0530
+Message-Id: <1563786360-16467-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename function isif_remove to vpfe_isif_cleanup, as
-vpfe_isif_cleanup does nothing but call isif_remove.
-Change type of new vpfe_isif_cleanup from static to non-static to match
-the old function definition.
-Remove the original vpfe_isif_cleanup.
-Modify calls to isif_remove to vpfe_isif_cleanup.
-Issue found with Coccinelle.
+In this patch series, clock scaling and core selection methods are
+updated. Current clock scaling and core selection methods are same
+for vpu4 and previous versions. Introducing load calculations using
+vpp cycles, which indicates the cycles required by video hardware to
+process each macroblock. Also adding vsp cycles, cycles require by
+stream processor. Clock scaling is now done more precisely using vpp
+and vsp cycles. Instance is assigned to core with minimum load, instead
+of static assignment.
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
-Sorry, I think this may have gotten lost the last time I sent it?
+Changes since v5:
+ - Corrected load_per_core calculations.
 
- .../staging/media/davinci_vpfe/dm365_isif.c   | 21 +++++++------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+Changes since v4:
+ - Added call to load_scale_clocks from venus_helper_vb2_buf_queue.
+ - Modified check to match core_id in core_selection.
 
-diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-index 05a997f7aa5d..632a51cf2e4a 100644
---- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
-+++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
-@@ -1932,8 +1932,13 @@ static const struct v4l2_ctrl_config vpfe_isif_gain_offset = {
- 	.def = 0,
- };
- 
--static void isif_remove(struct vpfe_isif_device *isif,
--			struct platform_device *pdev)
-+/*
-+ * vpfe_isif_cleanup - isif module cleanup
-+ * @isif: pointer to isif subdevice
-+ * @dev: pointer to platform device structure
-+ */
-+void vpfe_isif_cleanup(struct vpfe_isif_device *isif,
-+		       struct platform_device *pdev)
- {
- 	struct resource *res;
- 	int i = 0;
-@@ -2081,17 +2086,7 @@ int vpfe_isif_init(struct vpfe_isif_device *isif, struct platform_device *pdev)
- 	return status;
- isif_fail:
- 	v4l2_ctrl_handler_free(&isif->ctrls);
--	isif_remove(isif, pdev);
-+	vpfe_isif_cleanup(isif, pdev);
- 	return status;
- }
- 
--/*
-- * vpfe_isif_cleanup - isif module cleanup
-- * @isif: pointer to isif subdevice
-- * @dev: pointer to platform device structure
-- */
--void
--vpfe_isif_cleanup(struct vpfe_isif_device *isif, struct platform_device *pdev)
--{
--	isif_remove(isif, pdev);
--}
+Changes since v3:
+ - vsp_cycles and vpp_cyles are now unsigned long.
+ - Core number counting aligned with VIDC_CORE_ID_.
+ - Aligned hardware overload handling of scale_clocks_v4 with scale_clocks.
+ - Added bitrate based clock scaling patch in this patch series.
+ - Instance state check is now moved from scale_clocks to load_scale_clocks.
+
+Aniket Masule (4):
+  media: venus: Add codec data table
+  media: venus: Update clock scaling
+  media: venus: Update to bitrate based clock scaling
+  media: venus: Update core selection
+
+ drivers/media/platform/qcom/venus/core.c       |  13 ++
+ drivers/media/platform/qcom/venus/core.h       |  16 ++
+ drivers/media/platform/qcom/venus/helpers.c    | 215 +++++++++++++++++++++++--
+ drivers/media/platform/qcom/venus/helpers.h    |   3 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h |   1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h |   5 +
+ drivers/media/platform/qcom/venus/vdec.c       |   6 +-
+ drivers/media/platform/qcom/venus/venc.c       |   6 +-
+ 8 files changed, 252 insertions(+), 13 deletions(-)
+
 -- 
-2.19.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
