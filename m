@@ -2,163 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7ADC700C1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 15:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DF3700DE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 15:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728728AbfGVNRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 09:17:39 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:44887 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727903AbfGVNRj (ORCPT
+        id S1728907AbfGVNTU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 09:19:20 -0400
+Received: from kadath.azazel.net ([81.187.231.250]:37486 "EHLO
+        kadath.azazel.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728529AbfGVNTU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 09:17:39 -0400
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 85055100009;
-        Mon, 22 Jul 2019 13:17:35 +0000 (UTC)
-Date:   Mon, 22 Jul 2019 15:17:34 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@googlegroups.com
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v6 0/5] HEVC/H.265 stateless support for V4L2 and Cedrus
-Message-ID: <20190722131734.GD1908@aptenodytes>
-References: <20190614143837.15605-1-paul.kocialkowski@bootlin.com>
+        Mon, 22 Jul 2019 09:19:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=azazel.net;
+         s=20190108; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=BJZaPv+ZzOIR8B7tw6DrhELBhHNpgCujcs9EdlLvffI=; b=HCEqoqhwpCNV9mX4vPh3vjc+aa
+        o0AmZ8zyOinCSarqcysgs9v+lhMgPR6RX8NrzyDcKekfw6OHHA/cW6IkoaBuJfj8jCrSaPAuM1jvS
+        nmdiEG9FGEMXKMVSTRclxkKl5xVy7qXnofRqccb/QJgrAGmiBw1TwYLNHSVzucbDPWckjj9M47Dy+
+        erPO4HnEnZg2g+/ucJinCyGpDZSm30IXzn8XVZmNCfhfJey0UcwT8iNNsEsvQixeXnWODNC5jr4zf
+        dDN9Adf9fQeJycJ9CIFFLyC+DGrBQ4l7LwCuucpeFQa8T4E4ejR0DGJyHjRM8gcQhWzodJLnAzO4Q
+        q+nplM8A==;
+Received: from pnakotus.dreamlands ([192.168.96.5] helo=azazel.net)
+        by kadath.azazel.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jeremy@azazel.net>)
+        id 1hpYDe-0007Bw-TS; Mon, 22 Jul 2019 14:19:10 +0100
+Date:   Mon, 22 Jul 2019 14:19:11 +0100
+From:   Jeremy Sowden <jeremy@azazel.net>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>,
+        maxime.ripard@bootlin.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] staging: media: sunxi: Add bool cast to value
+Message-ID: <20190722131910.GC2695@azazel.net>
+References: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+ <20190722111225.GA2695@azazel.net>
+ <20190722122438.GA1908@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="KDt/GgjP6HVcx58l"
 Content-Disposition: inline
-In-Reply-To: <20190614143837.15605-1-paul.kocialkowski@bootlin.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190722122438.GA1908@aptenodytes>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 192.168.96.5
+X-SA-Exim-Mail-From: jeremy@azazel.net
+X-SA-Exim-Scanned: No (on kadath.azazel.net); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-Any feedback on this series? I think it was pretty much ready for merge
-regarding the comments received so far.
+--KDt/GgjP6HVcx58l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I could craft a rebased v7, with or without additional changes, if needed.
+On 2019-07-22, at 14:24:38 +0200, Paul Kocialkowski wrote:
+> On Mon 22 Jul 19, 12:12, Jeremy Sowden wrote:
+> > On 2019-07-22, at 11:36:51 +0530, Nishka Dasgupta wrote:
+> > > Typecast as bool the return value of cedrus_find_format in
+> > > cedrus_check_format as the return value of cedrus_check_format is
+> > > always treated like a boolean value.
+> > >
+> > > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> > > ---
+> > > Changes in v2:
+> > > - Add !! to the returned pointer to ensure that the return value
+> > >   is always either true or false, and never a non-zero value other
+> > >   than true.
+> > >
+> > >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > index e2b530b1a956..b731745f21f8 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > @@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+> > >  static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> > >  				unsigned int capabilities)
+> > >  {
+> > > -	return cedrus_find_format(pixelformat, directions, capabilities);
+> > > +	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
+> > >  }
+> >
+> > I think the original was fine.  The return value of
+> > cedrus_find_format will be automatically converted to bool before
+> > being returned from cedrus_check_format since that is the
+> > return-type of the function, and the result of converting any
+> > non-zero value to bool is 1.
+>
+> Okay I was a bit unsure about that and wanted to play it on the safe
+> side without really looking it up, but that gave me the occasion to
+> verify.
+>
+> From what I could find (from my GNU system's
+> /usr/include/unistring/stdbool.h):
+>
+>    Limitations of this substitute, when used in a C89 environment:
+>
+>        - In C99, casts and automatic conversions to '_Bool' or 'bool'
+>          are performed in such a way that every nonzero value gets
+>          converted to 'true', and zero gets converted to 'false'.
+>          This doesn't work with this substitute.  With this
+>          substitute, only the values 0 and 1 give the expected result
+>          when converted to _Bool' or 'bool'.
+>
+> So since the kernel is built for C89 (unless I'm mistaken), I don't
+> think the compiler provides any guarantee about bool values being
+> converted to 1 when they are non-zero.
 
-What do you think?
+Ick.  I checked the C99 standard and assumed that GCC would use the same
+semantics.  I've just tested with "gcc-8 -std=gnu89" and it appears to
+do the right thing:
 
-Cheers,
+  [azazel@ulthar:/space/azazel/tmp] $ cat test.c
+  #include <stdbool.h>
+  #include <stdio.h>
 
-Paul
+  int
+  main (void)
+    {
+    char *p = "test";
+    bool b = p;
 
-On Fri 14 Jun 19, 16:38, Paul Kocialkowski wrote:
-> This is early support for HEVC/H.265 stateless decoding in V4L2,
-> including both definitions and driver support for the Cedrus VPU
-> driver, which concerns Allwinner devices.
-> 
-> A specific pixel format is introduced for the HEVC slice format and
-> controls are provided to pass the bitstream metadata to the decoder.
-> Some bitstream extensions are intentionally not supported at this point.
-> 
-> Since this is the first proposal for stateless HEVC/H.265 support in
-> V4L2, reviews and comments about the controls definitions are
-> particularly welcome.
-> 
-> On the Cedrus side, the H.265 implementation covers frame pictures
-> with both uni-directional and bi-direction prediction modes (P/B
-> slices). Field pictures (interleaved), scaling lists and 10-bit output
-> are not supported at this point.
-> 
-> This series is based upon the following series:
-> * media: cedrus: Add H264 decoding support
-> 
-> Changes since v5:
-> * Rebased atop latest next media tree;
-> * Moved to flags instead of u8 fields;
-> * Added padding to ensure 64-bit alignment
->   (tested with GDB on 32 and 64-bit architectures);
-> * Reworked cedrus H.265 driver support a bit for flags;
-> * Split off codec-specific control validation and init;
-> * Added HEVC controls fields cleanup at std_validate to allow reliable
->   control comparison with memcmp;
-> * Fixed various misc reported mistakes.
-> 
-> Changes since v4:
-> * Rebased atop latest H.254 series.
-> 
-> Changes since v3:
-> * Updated commit messages;
-> * Updated CID base to avoid conflicts;
-> * Used cpu_to_le32 for packed le32 data;
-> * Fixed misc minor issues in the drive code;
-> * Made it clear in the docs that the API will evolve;
-> * Made the pixfmt private and split commits about it.
-> 
-> Changes since v2:
-> * Moved headers to non-public API;
-> * Added H265 capability for A64 and H5;
-> * Moved docs to ext-ctrls-codec.rst;
-> * Mentionned sections of the spec in the docs;
-> * Added padding to control structures for 32-bit alignment;
-> * Made write function use void/size in bytes;
-> * Reduced the number of arguments to helpers when possible;
-> * Removed PHYS_OFFSET since we already set PFN_OFFSET;
-> * Added comments where suggested;
-> * Moved to timestamp for references instead of index;
-> * Fixed some style issues reported by checkpatch.
-> 
-> Changes since v1:
-> * Added a H.265 capability to whitelist relevant platforms;
-> * Switched over to tags instead of buffer indices in the DPB
-> * Declared variable in their reduced scope as suggested;
-> * Added the H.265/HEVC spec to the biblio;
-> * Used in-doc references to the spec and the required APIs;
-> * Removed debugging leftovers.
-> 
-> Cheers!
-> 
-> Paul Kocialkowski (5):
->   media: v4l2-ctrls: Split off MPEG-2 controls validation
->   media: v4l2-ctrls: Split off MPEG-2 controls initialization
->   media: v4l: Add definitions for the HEVC slice controls
->   media: pixfmt: Document the HEVC slice pixel format
->   media: cedrus: Add HEVC/H.265 decoding support
-> 
->  Documentation/media/uapi/v4l/biblio.rst       |   9 +
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 474 +++++++++++++-
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  21 +
->  .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
->  .../media/videodev2.h.rst.exceptions          |   3 +
->  drivers/media/v4l2-core/v4l2-ctrls.c          | 231 +++++--
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
->  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  31 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++++
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
->  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 271 ++++++++
->  .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
->  include/media/hevc-ctrls.h                    | 197 ++++++
->  include/media/v4l2-ctrls.h                    |   7 +
->  17 files changed, 1860 insertions(+), 62 deletions(-)
->  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->  create mode 100644 include/media/hevc-ctrls.h
-> 
-> -- 
-> 2.21.0
-> 
+    fprintf (stderr, "%p, %d\n", (void *) p, b);
 
--- 
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+    return 0;
+    }
+  [azazel@ulthar:/space/azazel/tmp] $ gcc-8 -O2 -std=gnu89 -Wall -Wextra
+  test.c -o test
+  [azazel@ulthar:/space/azazel/tmp] $ ./test
+  0x55d984e0e004, 1
+
+> As a result, I think it's best to be careful.
+
+Fair enough.
+
+> However, I'm not sure I really see what cocinelle was unhappy about.
+> You mentionned single-line functions, but I don't see how that can be
+> a problem.
+>
+> So in the end, I think we should keep the !! and drop the (bool) cast
+> if there's no particular warning about it.
+>
+> What do you think?
+
+Seems sensible.
+
+J.
+
+--KDt/GgjP6HVcx58l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEZ8d+2N/NBLDbUxIF0Z7UzfnX9sMFAl01t8oACgkQ0Z7UzfnX
+9sM6EBAAkkQYvSH24qMbABICcjH8XzSNpn+DAmj5ODDs0l9jFd+hNMLROg3zffgx
+nS8+BuuBmBbI0Ds5XOWj9fbRcCB0J1FxmjotL3msjVORITaHs/IiEllgiZw0ab0v
+Skbzu3XG6dcCRtKiHBR9iGRLuuZfubS9+19qAmKrMARtl07mtMGyvEwkJbRybgk1
+EAmGKwKx6aY8XHnd10IXXV5JpYxi+MEja98yrIEwrAmFcfvPZtF2JVbU3liekq8r
+NJ8eGDpchmICX3oqi7zjewPbu5zG7zOw/pAg5lciF/nGU6Y9r+sNBcbA+dFkIPfa
+Zd8tfvHn//bHn9yUTLpQOW1bm6QgIP7//dSFHzYV0C+6N2esOR6L1xpTh7+uH1sT
+lc0MsZ3qrdk50uCBNXSMgb5eYzUUW18FneKf7uBBlXDXOU1PF3LpCExukftddEGZ
+lCZXTvtCSKpduxc8hNZ83F0eySr+mZ/5/lv7Tm5gD6irapyLxLfYFfcWkVp2Jqoq
+X0IqbyPV+UKL8i4yUz6S1qje5cZs4OUlCnAX6r/65syBAlYt4R5pj0DFiw5avicd
+MMGrj39m5EKetc+7g0aVs8C60hmYfx0qXQkwrw4lz8ca68mEgDJcYYHlfTx8lU5x
+yOL1dsoVDw18MAB9T6pBg/OYIzKsBSj9Nl60M+u5qo+QuIooh9Q=
+=NPHQ
+-----END PGP SIGNATURE-----
+
+--KDt/GgjP6HVcx58l--
