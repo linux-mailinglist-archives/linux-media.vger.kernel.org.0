@@ -2,277 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C695707F1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 19:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E97708DD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 20:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730698AbfGVRyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 13:54:39 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38646 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730640AbfGVRyj (ORCPT
+        id S1730747AbfGVSsA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 14:48:00 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:35980 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727821AbfGVSsA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 13:54:39 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3D47D28A940;
-        Mon, 22 Jul 2019 18:54:36 +0100 (BST)
-Date:   Mon, 22 Jul 2019 19:54:32 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v3 2/3] media: uapi: h264: Add the concept of decoding
- mode
-Message-ID: <20190722195432.09667355@collabora.com>
-In-Reply-To: <41031ffb-3c40-9492-5aa2-8c7b738fbc65@xs4all.nl>
-References: <20190703122849.6316-1-boris.brezillon@collabora.com>
-        <20190703122849.6316-3-boris.brezillon@collabora.com>
-        <41031ffb-3c40-9492-5aa2-8c7b738fbc65@xs4all.nl>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 22 Jul 2019 14:48:00 -0400
+Received: by mail-yw1-f65.google.com with SMTP id x67so14826907ywd.3;
+        Mon, 22 Jul 2019 11:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lnE336ol7UtWWyvT7pstYIwsA7GlNHlOv0FUk0/J68Y=;
+        b=BURfqZq7P/O/sG44ork/tTKY1izQw7U9rjQEfM/z1B77XiJamgEIBCWQ0OxEtHl0s0
+         f0y2qGZE6pl91DrsChbghyv2ENPnN7X1qm1HtcQFkywwf+QvYPBPa8TQb7xV9LdsRaKg
+         NpZGST16ISEdIFvk7GiT1k4LrvHK1rZJtpMiWsnrYTTvSm9+NsccBRd1fXZ6vxsF0Vwa
+         +2FQFcJSgKuB3Fvs5TGUooQ27UgvqUxXes+rpgPNWYuBPu36CFFQHFVPEApr/U16u6JW
+         Se0+gfnHFgrmm8PSp/xN9JvirgBNC9Q4JHfiprsPBJb/jNIMYKd9JrIuXe09cIPALkb8
+         EAxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lnE336ol7UtWWyvT7pstYIwsA7GlNHlOv0FUk0/J68Y=;
+        b=pKF/Occ3sBX500ZDAxVJ1VScfLrvt5s12EFmTlrhNrxoUwEm7meargCKsVBaGYi3rL
+         Zs44iwtSB7TB7zmCIsf78quI1ehXXQfezGwYlWIPoZrTYWAQaWM/C2e7+t2UDRF5Q4B6
+         SRDOw4D3fBM8TFZYhDhIMC/fHWxaPlvJVMa09W8kzxiCbgrQ+eJPpVdIupKoqTVrzlhs
+         O5xjED5cvBiccdEaRuBn95vsNpu1HyRE90CJlP7WpW/By+HRobUCqBLrsREiHsiMrHzV
+         nNtr33stOH0GARfvn7berRYzVxVSJdhWgCbPxAAmVlDLJJ0d5JNrNUPfFfkQZJOQVdAO
+         mD0Q==
+X-Gm-Message-State: APjAAAV3ZVq4+eNH2mqE5Xl4HAD8T4fdxByJq/7xgPxIj5DLwEyp7Qoj
+        zI4CYEnW5pKIKcEPznMJpQac6Tv8QID8L5mzv0s=
+X-Google-Smtp-Source: APXvYqx/tuXnxs2Gu9sEhEFXA6paSQTqA/Ul5WtWTjJWRdhdJzhu+zXmbi8TUw0r6bbvPPDpILKJ8v+oDhe9S7MbBtw=
+X-Received: by 2002:a81:5957:: with SMTP id n84mr41206570ywb.234.1563821278770;
+ Mon, 22 Jul 2019 11:47:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190607231100.5894-1-peron.clem@gmail.com>
+In-Reply-To: <20190607231100.5894-1-peron.clem@gmail.com>
+From:   =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date:   Mon, 22 Jul 2019 20:48:47 +0200
+Message-ID: <CAJiuCcetkGEpD_BrOvipi3yhy_TWgFYSVuLoExcw5=7nyPhY7A@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] Allwinner A64/H6 IR support
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     devicetree <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-sunxi <linux-sunxi@googlegroups.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-On Mon, 22 Jul 2019 17:29:21 +0200
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+This series received ack from device-tree, media and sunxi maintainers.
 
-> On 7/3/19 2:28 PM, Boris Brezillon wrote:
-> > Some stateless decoders don't support per-slice decoding (or at least
-> > not in a way that would make them efficient or easy to use).
-> > Let's expose a menu to control and expose the supported decoding modes.
-> > Drivers are allowed to support only one decoding but they can support
-> > both too.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> > Changes in v3:
-> > * s/per-{slice,frame} decoding/{slice,frame}-based decoding/
-> > * Add Paul's R-b
-> > 
-> > Changes in v2:
-> > * Allow decoding multiple slices in per-slice decoding mode
-> > * Minor doc improvement/fixes
-> > ---
-> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 47 ++++++++++++++++++-
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 ++++
-> >  include/media/h264-ctrls.h                    | 13 +++++
-> >  3 files changed, 68 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > index 3ae1367806cf..47ba2d057a92 100644
-> > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > @@ -1748,6 +1748,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      * - __u32
-> >        - ``size``
-> >        -
-> > +    * - __u32
-> > +      - ``start_byte_offset``
-> > +      - Where the slice payload starts in the output buffer. Useful when
-> > +        operating in frame-based decoding mode and decoding multi-slice
-> > +        content. In this case, the output buffer will contain more than one
-> > +        slice and some codecs need to know where each slice starts. Note that
-> > +        this offsets points to the beginning of the slice which is supposed to  
-> 
-> offsets -> offset
-> 
-> > +        contain an ANNEX B start code  
-> 
-> Add . at the end of the sentence.
-> 
-> I think this is a bit awkward. How about:
-> 
-> "Note that the slice at this offset shall start with an ANNEX B start code."
+Can patch 2/3/4 goes to linux-media and the rest to linux-sunxi ?
 
-Definitely better.
+Thanks,
+Cl=C3=A9ment
 
-> 
-> I'm assuming it has to actually start with an ANNEX B code? Or should it
-> just 'contain' an ANNEX B code?
-
-It has to start with an ANNEX B code.
-
-> 
-> When in sliced-based decoding mode, what should be used here? I assume that in
-> that case start_byte_offset would be 0, and that the slice shall still begin
-> with an ANNEX B start code?
-
-The first slice should have start_byte_offset set to 0 and should start
-with an ANNEX B start code, but even in slice-based decoding mode, the
-driver can be passed several slices in the same buffer, in which case,
-the second slice will have start_byte_offset > 0.
-
-
-> 
-> >      * - __u32
-> >        - ``header_bit_size``
-> >        -
-> > @@ -1931,7 +1939,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        -
-> >      * - __u16
-> >        - ``num_slices``
-> > -      - Number of slices needed to decode the current frame
-> > +      - Number of slices needed to decode the current frame/field. When
-> > +        operating in slice-based decoding mode (see
-> > +        :c:type:`v4l2_mpeg_video_h264_decoding_mode`), this field
-> > +        should always be set to one  
-> 
-> Add . at the end of the sentence.
-> 
-> >      * - __u16
-> >        - ``nal_ref_idc``
-> >        - NAL reference ID value coming from the NAL Unit header
-> > @@ -2022,6 +2033,40 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - 0x00000004
-> >        - The DPB entry is a long term reference frame
-> >  
-> > +``V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE (enum)``
-> > +    Specifies the decoding mode to use. Currently exposes slice-based and
-> > +    frame-based decoding but new modes might be added later on.
-> > +
-> > +    .. note::
-> > +
-> > +       This menu control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> > +
-> > +.. c:type:: v4l2_mpeg_video_h264_decoding_mode
-> > +
-> > +.. cssclass:: longtable
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths:       1 1 2
-> > +
-> > +    * - ``V4L2_MPEG_VIDEO_H264_SLICE_BASED_DECODING``
-> > +      - 0
-> > +      - The decoding is done at the slice granularity.
-> > +        v4l2_ctrl_h264_decode_params->num_slices can be set to anything between
-> > +        1 and then number of slices that remain to fully decode the  
-> 
-> then -> the
-> 
-> > +        frame/field.
-> > +        The output buffer should contain
-> > +        v4l2_ctrl_h264_decode_params->num_slices slices.
-> > +    * - ``V4L2_MPEG_VIDEO_H264_FRAME_BASED_DECODING``
-> > +      - 1
-> > +      - The decoding is done at the frame granularity.
-> > +        v4l2_ctrl_h264_decode_params->num_slices should be set to the number of
-> > +        slices forming a frame.
-> > +        The output buffer should contain all slices needed to decode the
-> > +        frame/field.
-> > +
-> >  .. _v4l2-mpeg-mpeg2:
-> >  
-> >  ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS (struct)``
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > index 471ff5c91f43..70d994be27e1 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > @@ -394,6 +394,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
-> >  		"Explicit",
-> >  		NULL,
-> >  	};
-> > +	static const char * const h264_decoding_mode[] = {
-> > +		"Slice-based",
-> > +		"Frame-based",  
-> 
-> based -> Based
-> 
-> > +		NULL,
-> > +	};
-> >  	static const char * const mpeg_mpeg2_level[] = {
-> >  		"Low",
-> >  		"Main",
-> > @@ -625,6 +630,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
-> >  		return h264_fp_arrangement_type;
-> >  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
-> >  		return h264_fmo_map_type;
-> > +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:
-> > +		return h264_decoding_mode;
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
-> >  		return mpeg_mpeg2_level;
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
-> > @@ -844,6 +851,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >  	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
-> >  	case V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
-> >  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
-> > +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:		return "H264 Decoding Mode";
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:			return "MPEG2 Level";
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:			return "MPEG2 Profile";
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:		return "MPEG4 I-Frame QP Value";
-> > @@ -1212,6 +1220,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_IDC:
-> >  	case V4L2_CID_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE:
-> >  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
-> > +	case V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE:
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
-> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index e1404d78d6ff..206fd5ada620 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/media/h264-ctrls.h
-> > @@ -26,6 +26,7 @@
-> >  #define V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX	(V4L2_CID_MPEG_BASE+1002)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+1004)
-> > +#define V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE	(V4L2_CID_MPEG_BASE+1005)
-> >  
-> >  /* enum v4l2_ctrl_type type values */
-> >  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> > @@ -33,6 +34,12 @@
-> >  #define V4L2_CTRL_TYPE_H264_SCALING_MATRIX	0x0112
-> >  #define V4L2_CTRL_TYPE_H264_SLICE_PARAMS	0x0113
-> >  #define V4L2_CTRL_TYPE_H264_DECODE_PARAMS	0x0114
-> > +#define V4L2_CTRL_TYPE_H264_DECODING_MODE	0x0115
-> > +
-> > +enum v4l2_mpeg_video_h264_decoding_mode {
-> > +	V4L2_MPEG_VIDEO_H264_SLICE_BASED_DECODING,
-> > +	V4L2_MPEG_VIDEO_H264_FRAME_BASED_DECODING,
-> > +};
-> >  
-> >  #define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
-> >  #define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
-> > @@ -111,6 +118,8 @@ struct v4l2_h264_pred_weight_table {
-> >  	struct v4l2_h264_weight_factors weight_factors[2];
-> >  };
-> >  
-> > +#define V4L2_H264_MAX_SLICES_PER_FRAME			16  
-> 
-> Are there arrays in these compound control structs where this define can be used?
-
-No, slices_params is a separate control, but I initialize
-slices_params_ctrl_cfg.dims[0] to this value.
-
-> Is this define standards-based or a restriction of V4L2?
-
-It's defined by the standard.
-
-Will fix the other typos you reported.
-
-Thanks for the review.
-
-Boris
+On Sat, 8 Jun 2019 at 01:11, Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>=
+ wrote:
+>
+> Hi,
+>
+> A64 IR support series[1] pointed out that an A31 bindings should be
+> introduced.
+>
+> This series introduce the A31 compatible bindings, then switch it on
+> the already existing board.
+>
+> Finally introduce A64 and H6 support.
+>
+> I have reenable the other H6 boards IR support as Ondrej solve the issue.
+>
+> Regards,
+> Cl=C3=A9ment
+>
+> [1] https://lore.kernel.org/patchwork/patch/1031390/#1221464
+> [2] https://lkml.org/lkml/2019/5/27/321
+> [3] https://patchwork.kernel.org/patch/10975563/
+>
+> Changes since v4:
+>  - Reuse defines for RXSTA bits definition
+>
+> Changes since v3:
+>  - Reenable IR for other H6 boards
+>  - Add RXSTA bits definition
+>  - Add Sean Young's "Acked-by" tags
+>
+> Changes since v2:
+>  - Disable IR for other H6 boards
+>  - Split DTS patch for H3/H5
+>  - Introduce IR quirks
+>
+> Cl=C3=A9ment P=C3=A9ron (11):
+>   dt-bindings: media: sunxi-ir: Add A31 compatible
+>   media: rc: Introduce sunxi_ir_quirks
+>   media: rc: sunxi: Add A31 compatible
+>   media: rc: sunxi: Add RXSTA bits definition
+>   ARM: dts: sunxi: Prefer A31 bindings for IR
+>   ARM: dts: sunxi: Prefer A31 bindings for IR
+>   dt-bindings: media: sunxi-ir: Add A64 compatible
+>   dt-bindings: media: sunxi-ir: Add H6 compatible
+>   arm64: dts: allwinner: h6: Add IR receiver node
+>   arm64: dts: allwinner: h6: Enable IR on H6 boards
+>   arm64: defconfig: Enable IR SUNXI option
+>
+> Igors Makejevs (1):
+>   arm64: dts: allwinner: a64: Add IR node
+>
+> Jernej Skrabec (1):
+>   arm64: dts: allwinner: a64: Enable IR on Orange Pi Win
+>
+>  .../devicetree/bindings/media/sunxi-ir.txt    | 11 ++-
+>  arch/arm/boot/dts/sun6i-a31.dtsi              |  2 +-
+>  arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+>  arch/arm/boot/dts/sun9i-a80.dtsi              |  2 +-
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  2 +-
+>  .../dts/allwinner/sun50i-a64-orangepi-win.dts |  4 +
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 18 ++++
+>  .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  4 +
+>  .../dts/allwinner/sun50i-h6-orangepi.dtsi     |  4 +
+>  .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  4 +
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 19 ++++
+>  arch/arm64/configs/defconfig                  |  1 +
+>  drivers/media/rc/sunxi-cir.c                  | 88 ++++++++++++++-----
+>  13 files changed, 135 insertions(+), 26 deletions(-)
+>
+> --
+> 2.20.1
+>
