@@ -2,93 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 165E76F94C
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 08:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 479926F9C2
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 08:56:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725920AbfGVGHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 02:07:06 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:44102 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725879AbfGVGHG (ORCPT
+        id S1727252AbfGVG4N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 02:56:13 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46921 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfGVG4N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 02:07:06 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t14so18657876plr.11
-        for <linux-media@vger.kernel.org>; Sun, 21 Jul 2019 23:07:06 -0700 (PDT)
+        Mon, 22 Jul 2019 02:56:13 -0400
+Received: by mail-wr1-f66.google.com with SMTP id z1so38083028wru.13
+        for <linux-media@vger.kernel.org>; Sun, 21 Jul 2019 23:56:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nJXrgrSN2Tlu02tkqLNuQE/VhMtIboN1RIqkDuAB2P8=;
-        b=rv3mTh5ZiJppYaMjbz2Kd983X1vNPC07xgeWpCrm3uLSWI4w43fHI9rEHIx+fXNnhh
-         Gp6FUgfPY1t+co4YQPixNOVgTgjUZ2QbthzWmGRYjMKcKysQioE0LCZ1eQWfMbgzekdr
-         wwGHWIMgB/uDgHVNZy4dteV/sM26uIAS2iZqjd7+tTeENLooPnhaPtv8UE/1AMajbI9B
-         9Lh+Epd7kxdEC0bwJhS9dv4D37wL2A4hVz4rbW/EBHIpHErrpl4cBVfTbEHu8R2HSQxl
-         ElKqY7z12d/6qnk6eG9M6e/p9NQqBQ9ZclUDjZ3DmcfFT0C2SM9vgED271a8UmS7VY/M
-         7jPw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1scnAc3sjeh3WnhlFA65T1sb9Wb1g8NqJ7QEYKWinXI=;
+        b=dcq8pFqd4whWmN0hnHjTTI8gBlxfAFygZQYCUnkKG6l5Dnep7c1/qbOjMP1b8376Rg
+         xHUZOwwOLr3SuWX+LHjx1Gunrx3InG2MC335OZ9KQON3Q/+xtzeZI5b2V7BkvV19N4s6
+         D9w1mNn8rrFiGVPbDFWx2F8bROD6olINKM7DA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nJXrgrSN2Tlu02tkqLNuQE/VhMtIboN1RIqkDuAB2P8=;
-        b=j0Gi6nybFg7mG89UH40J2kzn9DmI0ii30VjTwu5YmpEzsFRZ1XbJ3odMd9xPRYTlsu
-         zAOgwkjUCtlhjoxmeaullVXkA/uva2ADZhDfDBGQPHS6Bqe2AWluzxYm1lOTpo+R8U1R
-         0oqwUjXc0NM/sD6Qr8wqoNqBAhviIK2kd43b9L9vS76TPO9pmx9KlXiyCM8o5jZjCUu6
-         PvBLFz/4Evlc8IUAX8RWUiLly2lBgnkT5h3dSqNT2vKcDQjSkHk97bzQvSPCOZex37BW
-         /AnZ6hejAeNa0S9Vos5yDie+1i5tZFVMIhVn/fPV05bOtTKrowuJ09QiD4qe0S+J34M/
-         VmHg==
-X-Gm-Message-State: APjAAAW9s+7QX/TytC+o9Y61Hrd4wT0HOBGlNx+ljZe81x9dg0zr+hY6
-        1QsrmbMCL6veZkRCwQwH+f4=
-X-Google-Smtp-Source: APXvYqzk6v7tQvu2fTaY2Q2UszOnOuD4ns4eYEIDZ0p4SxWS/dsaD+LXL1DVIAQFRdWnk9tAHO6JCg==
-X-Received: by 2002:a17:902:2f84:: with SMTP id t4mr68932398plb.57.1563775625815;
-        Sun, 21 Jul 2019 23:07:05 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.0.39])
-        by smtp.gmail.com with ESMTPSA id j13sm35935646pfh.13.2019.07.21.23.07.01
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 21 Jul 2019 23:07:05 -0700 (PDT)
-From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     maxime.ripard@bootlin.com, paul.kocialkowski@bootlin.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH v2] staging: media: sunxi: Add bool cast to value
-Date:   Mon, 22 Jul 2019 11:36:51 +0530
-Message-Id: <20190722060651.6538-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1scnAc3sjeh3WnhlFA65T1sb9Wb1g8NqJ7QEYKWinXI=;
+        b=CqnkzpUprlO/wq927NOX0GMg5XhDdwYQiwJEifbPWXvb6UZ6l2IzY+qxngA80T7zYG
+         MPOpzP6FDDRGK8wN7HyyOAW9+B2pra8W1oKix0yyQiBTIQ1PazDLWJR6dTjaFFWMaJLv
+         hRCRmKc1qsIuIbYVGYG6cvNi0Wd1sSlkMFvE7yfSFO8IEl+AigcMcGPV4Sc4ZpwpMwuX
+         4FeRsILV8+w8Js3eBU87+DjFjFSbs1Mta8SMbNiUJenxhWtFjEyQ7ErLm6IvzPsw2wAf
+         Is+AG2sG3ZE5nF3w993wQHpX9MocRuAyq9C4prxvYTlpzkHvOfAkAizeQntVxHImh8ef
+         6ysw==
+X-Gm-Message-State: APjAAAVkIE5+e3u03Ftq7rYf6J45lWQ1BmoH5a566/SZojM87/JMPFhp
+        zctpNbD/w8dN49y+lS9vgelA+qLyzTFPlt5uHReG6uTZ
+X-Google-Smtp-Source: APXvYqwCsFlLcZIboFmBzsjOKnB2+3vm3wBmHSjjERq1FdF1fyAUmXB8XhbTC41jULay24oeapefuqgs+ZsLgVKZXYk=
+X-Received: by 2002:a5d:4284:: with SMTP id k4mr70423576wrq.194.1563778571585;
+ Sun, 21 Jul 2019 23:56:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190708100641.2702-1-dongchun.zhu@mediatek.com>
+In-Reply-To: <20190708100641.2702-1-dongchun.zhu@mediatek.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 22 Jul 2019 15:56:00 +0900
+Message-ID: <CAHD77HkDrGgiTceE2jLX8Tqc8GH9R1UyRhiU83=HRvZKjoDYjw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] media: add support for DW9768 VCM driver
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>, devicetree@vger.kernel.org,
+        Louis Kuo <louis.kuo@mediatek.com>, shengnan.wang@mediatek.com,
+        dongchun.zhu@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Typecast as bool the return value of cedrus_find_format in
-cedrus_check_format as the return value of cedrus_check_format is always
-treated like a boolean value.
+On Mon, Jul 8, 2019 at 7:12 PM <dongchun.zhu@mediatek.com> wrote:
+>
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+>
+> Hello,
+>
+> Add a v4l2 sub-device driver for Dongwoon's DW9768 lens voice coil.
+> This is a voice coil module using the i2c bus to control the focus position.
+>
+> The DW9768 can control the position with 10 bits value and
+> consists of two 8 bit registers show as below:
+> register 0x04(DW9768_REG_POSITION):
+>     +---+---+---+---+---+---+---+---+
+>     |D07|D06|D05|D04|D03|D02|D01|D00|
+>     +---+---+---+---+---+---+---+---+
+> register 0x03:
+>     +---+---+---+---+---+---+---+---+
+>     |---|---|---|---|---|---|D09|D08|
+>     +---+---+---+---+---+---+---+---+
+>
+> This driver support :
+>  - set DW9768 to standby mode once suspend and turn it back to active if resume
+>  - set the position via V4L2_CID_FOCUS_ABSOLUTE ctrl
+>
+> Dongchun Zhu (2):
+>   media: i2c: dw9768: Add DT support and MAINTAINERS entry
+>   media: i2c: dw9768: Add DW9768 VCM driver
+>
+>  .../bindings/media/i2c/dongwoon,dw9768.txt         |   9 +
+>  MAINTAINERS                                        |   8 +
+>  drivers/media/i2c/Kconfig                          |  10 +
+>  drivers/media/i2c/Makefile                         |   1 +
+>  drivers/media/i2c/dw9768.c                         | 458 +++++++++++++++++++++
+>  5 files changed, 486 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.txt
+>  create mode 100644 drivers/media/i2c/dw9768.c
+>
+> --
+> 2.9.2
+>
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
-Changes in v2:
-- Add !! to the returned pointer to ensure that the return value is
-  always either true or false, and never a non-zero value other than
-  true.
+Gentle ping. Some help with review would be appreciated!
 
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index e2b530b1a956..b731745f21f8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
- static bool cedrus_check_format(u32 pixelformat, u32 directions,
- 				unsigned int capabilities)
- {
--	return cedrus_find_format(pixelformat, directions, capabilities);
-+	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
- }
- 
- static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
--- 
-2.19.1
-
+Best regards,
+Tomasz
