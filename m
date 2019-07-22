@@ -2,197 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF82870086
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 15:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E1A7008E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 15:07:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728501AbfGVNFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 09:05:48 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:41241 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728413AbfGVNFs (ORCPT
+        id S1729430AbfGVNHa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 09:07:30 -0400
+Received: from mail-lj1-f174.google.com ([209.85.208.174]:36237 "EHLO
+        mail-lj1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727360AbfGVNHa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 09:05:48 -0400
-X-Originating-IP: 86.250.200.211
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id D9DA6C000D;
-        Mon, 22 Jul 2019 13:05:44 +0000 (UTC)
-Date:   Mon, 22 Jul 2019 15:05:44 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] media: docs-rst: Document m2m stateless video decoder
- interface
-Message-ID: <20190722130544.GC1908@aptenodytes>
-References: <20190620073505.33819-1-acourbot@chromium.org>
- <94ac16b6-110a-18d7-22cf-47e39ee68e0d@xs4all.nl>
+        Mon, 22 Jul 2019 09:07:30 -0400
+Received: by mail-lj1-f174.google.com with SMTP id i21so37555620ljj.3
+        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2019 06:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:references:from:openpgp:autocrypt:cc:message-id:date
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=81PFJRegZoIUE/QxUE+xDddONniv3UoJCZAdRqDgRmA=;
+        b=lAWCb3x+t81vvH/cL1qMsL2UUjI9gqhvik620jvQHU0YK8SWk8qb7SV7vpgHA5/d3C
+         VLqlaBrOP6RT8frN0E4HbNdBdGXlF03NI+uNZjFUnzHhwjHJfGK35Ewm5DP0/G5DjPub
+         6jnhxXtdmLNhwTBOKyazR1utolshqswoLwET7Z58Dnth69lzMvaZ2uR0pMONAvqq0Agt
+         NiXI7a/JMZNwsAIPc3nAlhEclST14DT3gBeJliQYC3NXsfti5m4rTB9DIPMg3Ni50TyK
+         LFLRPWMsq4Nvy743D6dTWI75QecTVq4crQD1JD+NtXfZM/saBPpHDq6RYzxu8DMtXXP/
+         m0PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt:cc
+         :message-id:date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=81PFJRegZoIUE/QxUE+xDddONniv3UoJCZAdRqDgRmA=;
+        b=gYMJd1SbjLOzTneqNoNrAXpbncHO46dhIRDwxKNPHwbGWw3RFLmJ2kTcK9mXSyFXJQ
+         Vw2571sp8hyhJ9je937AOGHg76j7flwh3wwn1s+pu186cW/r1qA3FVUzINHnHE+KOeZq
+         8/LGuWBbYSiO+RGswFJak1WWjjl/msU2tum7pwLo200VMXM5pHAtUUyouvjhHZjCPxuj
+         d4nC56lqoqh5P6iy3NVuQZ+kbdXURI7EA3jo3NtapTpo7W47HhIp/BlVtTl6hRc6kkyb
+         KB/MDNxTElXgXnMsSaeP01idc0wpShQMNo6/nVJmSqXsUWnB/gMWmbRQ27pPoEsC1EPB
+         94Gg==
+X-Gm-Message-State: APjAAAWLHBDdjcKUBqGv6BYPGIlCYUQ8YQZdaqPaYaqQ9N6zIKaq+oMG
+        m8ls5UnP8VneVy+zeiKZBTeffTFThdo=
+X-Google-Smtp-Source: APXvYqw6oV6xwIeJA/kPev7f4gmkID3PpYf1Ex5Z1a4Q4srbh46TeE8T9yRMYHUXG870+EXWdqsPJA==
+X-Received: by 2002:a2e:988b:: with SMTP id b11mr35844599ljj.110.1563800847268;
+        Mon, 22 Jul 2019 06:07:27 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+        by smtp.googlemail.com with ESMTPSA id q1sm7504067ljb.87.2019.07.22.06.07.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Jul 2019 06:07:26 -0700 (PDT)
+Subject: Re: [git:media_tree/master] docs: interconnect.rst: add it to the
+ driver-api guide
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+References: <E1hpWim-0008Ff-Q7@www.linuxtv.org>
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+ KEmKjLDvB0pePJkdTw==
+Cc:     linux-media@vger.kernel.org
+Message-ID: <19f6ec1c-9ae9-db94-6080-37d751dd5d22@linaro.org>
+Date:   Mon, 22 Jul 2019 16:07:23 +0300
 MIME-Version: 1.0
+In-Reply-To: <E1hpWim-0008Ff-Q7@www.linuxtv.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <94ac16b6-110a-18d7-22cf-47e39ee68e0d@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 7/15/19 15:20, Mauro Carvalho Chehab wrote:
+> This is an automatic generated email to let you know that the following patch were queued:
+> 
+> Subject: docs: interconnect.rst: add it to the driver-api guide
+> Author:  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Date:    Tue Jun 18 17:15:10 2019 -0300
+> 
+> This is intended for Kernel hackers audience.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Reviewed-by: Georgi Djakov <georgi.djakov@linaro.org>
+> 
+>  Documentation/driver-api/index.rst          |  1 +
+>  Documentation/driver-api/interconnect.rst   | 93 ++++++++++++++++++++++++++++
+>  Documentation/interconnect/interconnect.rst | 95 -----------------------------
+>  MAINTAINERS                                 |  2 +-
+>  4 files changed, 95 insertions(+), 96 deletions(-)
 
-[...]
+Hi Mauro,
 
-> > +Buffer management while decoding
-> > +================================
-> > +Contrary to stateful decoders, a stateless decoder does not perform any kind of
-> > +buffer management: it only guarantees that dequeued ``CAPTURE`` buffers can be
-> > +used by the client for as long as they are not queued again. "Used" here
-> > +encompasses using the buffer for compositing or display.
-> > +
-> > +A dequeued capture buffer can also be used as the reference frame of another
-> > +buffer.
-> > +
-> > +A frame is specified as reference by converting its timestamp into nanoseconds,
-> > +and storing it into the relevant member of a codec-dependent control structure.
-> > +The :c:func:`v4l2_timeval_to_ns` function must be used to perform that
-> > +conversion. The timestamp of a frame can be used to reference it as soon as all
-> > +its units of encoded data are successfully submitted to the ``OUTPUT`` queue.
-> > +
-> > +A decoded buffer containing a reference frame must not be reused as a decoding
-> > +target until all the frames referencing it have been decoded. The safest way to
-> > +achieve this is to refrain from queueing a reference buffer until all the
-> > +decoded frames referencing it have been dequeued. However, if the driver can
-> > +guarantee that buffers queued to the ``CAPTURE`` queue are processed in queued
-> > +order, then user-space can take advantage of this guarantee and queue a
-> > +reference buffer when the following conditions are met:
-> > +
-> > +1. All the requests for frames affected by the reference frame have been
-> > +   queued, and
-> > +
-> > +2. A sufficient number of ``CAPTURE`` buffers to cover all the decoded
-> > +   referencing frames have been queued.
-> > +
-> > +When queuing a decoding request, the driver will increase the reference count of
-> > +all the resources associated with reference frames. This means that the client
-> 
-> Does this really happen? I don't think we've implemented support for incrementing
-> the ref count yet. It *should* happen like this, that I agree with.
+Maybe the script that generated this email can be improved a bit, as it does not
+show the renames. So the diffstat here looks a bit different compared with the
+original git commit:
+https://git.linuxtv.org/media_tree.git/commit/?id=9b1f44028ff2e051816517781153e10a2d748dc3
 
-I'm pretty sure we don't do anything particular to increment the refcount of
-imported dma-buf buffers at the time they are used as references.
-
-> > +can e.g. close the DMABUF file descriptors of reference frame buffers if it
-> > +won't need them afterwards.
-> 
-> I'm fairly certain that this will fail with the current code.
-> 
-> We're missing vb2 helpers that ensure that the memory of reference frames sticks
-> around: the memory refcount should be incremented when validating the request, and
-> decremented when the request is completed.
-> 
-> If the reference frame memory that is requested has already been deleted (i.e. the
-> CAPTURE buffer dmabuf has been closed before the new request was queued), then
-> the request validation code will fail.
-> 
-> I know this has been discussed before, but we never actually implemented this.
-> 
-> Unfortunately, this will require new vb2 memops, so it is a bit more work.
-
-Last time we discussed this, we merged a patch to keep dma-buf-imported buffers
-mapped until they are either replaced with another dma-buf fd or destroyed:
-media: vb2: Keep dma-buf buffers mapped until they are freed
-
-Won't think cover the issue at hand here? I strongly suspect that mapping
-implies keeping the access refcount incremented. So even if userspace closes the
-fd, I'm pretty sure the memory would be kept alive.
-
-There's a good chance I'm missing something though, feel free to let me know!
-
-Cheers,
-
-Paul
-
-> > +
-> > +Seeking
-> > +=======
-> > +In order to seek, the client just needs to submit requests using input buffers
-> > +corresponding to the new stream position. It must however be aware that
-> > +resolution may have changed and follow the dynamic resolution change sequence in
-> > +that case. Also depending on the codec used, picture parameters (e.g. SPS/PPS
-> > +for H.264) may have changed and the client is responsible for making sure that a
-> > +valid state is sent to the decoder.
-> > +
-> > +The client is then free to ignore any returned ``CAPTURE`` buffer that comes
-> > +from the pre-seek position.
-> > +
-> > +Pausing
-> > +=======
-> > +
-> > +In order to pause, the client can just cease queuing buffers onto the ``OUTPUT``
-> > +queue. Without source bitstream data, there is no data to process and the codec
-> > +will remain idle.
-> > +
-> > +Dynamic resolution change
-> > +=========================
-> > +
-> > +If the client detects a resolution change in the stream, it will need to perform
-> > +the initialization sequence again with the new resolution:
-> > +
-> > +1. Wait until all submitted requests have completed and dequeue the
-> > +   corresponding output buffers.
-> > +
-> > +2. Call :c:func:`VIDIOC_STREAMOFF` on both the ``OUTPUT`` and ``CAPTURE``
-> > +   queues.
-> 
-> Note: you have the same problem with HOLD_CAPTURE_BUF here as in the Drain
-> situation. I think this should be mentioned here as well.
-> 
-> > +
-> > +3. Free all ``CAPTURE`` buffers by calling :c:func:`VIDIOC_REQBUFS` on the
-> > +   ``CAPTURE`` queue with a buffer count of zero.
-> > +
-> > +4. Perform the initialization sequence again (minus the allocation of
-> > +   ``OUTPUT`` buffers), with the new resolution set on the ``OUTPUT`` queue.
-> > +   Note that due to resolution constraints, a different format may need to be
-> > +   picked on the ``CAPTURE`` queue.
-> > +
-> > +Drain
-> > +=====
-> > +
-> > +In order to drain the stream on a stateless decoder, the client just needs to
-> > +wait until all the submitted requests are completed. There is no need to send a
-> > +``V4L2_DEC_CMD_STOP`` command since requests are processed sequentially by the
-> > +decoder.
-> > +
-> > +If the last submitted request resulted in a ``CAPTURE`` buffer being held by the
-> > +use of the ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` flag, the last frame may not
-> > +be available on the ``CAPTURE`` queue. In this case, an extra request with an
-> > +empty ``OUTPUT`` buffer (e.g. which ``bytesused`` is set to 0) and a different
-> 
-> which -> where
-> 
-> > +timestamp can be queued. This will make the driver release the held ``CAPTURE``
-> > +buffer without doing any extra processing.
-> > 
-> 
-> I don't like this. It's a special request which would require special handling in
-> drivers. It just makes things more complicated.
-> 
-> How about this: add a new command to VIDIOC_DECODER_CMD: V4L2_DEC_CMD_END_OF_FRAME.
-> 
-> A stateless decoder that supports HOLD_CAPTURE_BUF would implement support for this
-> command to flush the last frame, if any.
-> 
-> What do you think?
-> 
-> Regards,
-> 
-> 	Hans
-
--- 
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks,
+Georgi
