@@ -2,89 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3727B704B1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 17:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB1E704BA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 17:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729307AbfGVP4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 11:56:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56628 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726653AbfGVP4U (ORCPT
+        id S1729049AbfGVP6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 11:58:21 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:56518 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728154AbfGVP6V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 11:56:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CAzJDkQEF+zZ3EPLNqWPzICxo/kTEg65fS0d8UgYJ+s=; b=DLqFEh6XdjwyhiyLdrCUXChd2
-        sf8s5YQyiGHPfIG3e7nbt0eUm/mJtwGtb5csrt0IpxQbK3IFinq950YhJHeOcop/JRVBxZ1eCpAQs
-        YN78nh+hRWZ/7KC90ZVBPACyOmfUJu5wNW3lLbg2vCW7h3ZtgQGcShwHKIGPjtjecR37EYYv5vR02
-        9fC729x6dDr5908hgSoTT0EwAaC8d90E2AkQ/l5Jc8vNix0cbqEZnnqDmzPJM0LpkzJ1XKf+VzxNt
-        +xCFAZ+FGOVKLs3f940YASVM7jGRMxojwa25G01f+5KjrmxN9SgPsfC7sQD51bPmPFL9ULkPPO+88
-        zqYGwxzJQ==;
-Received: from 177.157.124.3.dynamic.adsl.gvt.net.br ([177.157.124.3] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hpafh-0004dD-Sv; Mon, 22 Jul 2019 15:56:18 +0000
-Date:   Mon, 22 Jul 2019 12:56:14 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL FOR v5.4] Fix device_caps, don't set fmt description
-Message-ID: <20190722125614.53815ac0@coco.lan>
-In-Reply-To: <9064bb69-03f1-02a3-fcc8-5010a506e0e5@xs4all.nl>
-References: <9064bb69-03f1-02a3-fcc8-5010a506e0e5@xs4all.nl>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 22 Jul 2019 11:58:21 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 2E862634C87;
+        Mon, 22 Jul 2019 18:58:15 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hpaha-0000Qa-Eg; Mon, 22 Jul 2019 18:58:14 +0300
+Date:   Mon, 22 Jul 2019 18:58:14 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jeremy Sowden <jeremy@azazel.net>, maxime.ripard@bootlin.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] staging: media: sunxi: Add bool cast to value
+Message-ID: <20190722155814.GC1263@valkosipuli.retiisi.org.uk>
+References: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+ <20190722111225.GA2695@azazel.net>
+ <20190722122438.GA1908@aptenodytes>
+ <45555499-57f3-a315-6f84-f878c3aa0130@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45555499-57f3-a315-6f84-f878c3aa0130@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 22 Jul 2019 16:06:01 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+On Mon, Jul 22, 2019 at 07:14:08PM +0530, Nishka Dasgupta wrote:
+> On 22/07/19 5:54 PM, Paul Kocialkowski wrote:
+> > Hi,
+> > 
+> > On Mon 22 Jul 19, 12:12, Jeremy Sowden wrote:
+> > > On 2019-07-22, at 11:36:51 +0530, Nishka Dasgupta wrote:
+> > > > Typecast as bool the return value of cedrus_find_format in
+> > > > cedrus_check_format as the return value of cedrus_check_format is
+> > > > always treated like a boolean value.
+> > > > 
+> > > > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> > > > ---
+> > > > Changes in v2:
+> > > > - Add !! to the returned pointer to ensure that the return value is
+> > > >    always either true or false, and never a non-zero value other than
+> > > >    true.
+> > > > 
+> > > >   drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > index e2b530b1a956..b731745f21f8 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > > @@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+> > > >   static bool cedrus_check_format(u32 pixelformat, u32 directions,
+> > > >   				unsigned int capabilities)
+> > > >   {
+> > > > -	return cedrus_find_format(pixelformat, directions, capabilities);
+> > > > +	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
+> > > >   }
+> > > 
+> > > I think the original was fine.  The return value of cedrus_find_format
+> > > will be automatically converted to bool before being returned from
+> > > cedrus_check_format since that is the return-type of the function, and
+> > > the result of converting any non-zero value to bool is 1.
+> > 
+> > Okay I was a bit unsure about that and wanted to play it on the safe side
+> > without really looking it up, but that gave me the occasion to verify.
+> > 
+> >  From what I could find (from my GNU system's /usr/include/unistring/stdbool.h):
+> > 
+> >     Limitations of this substitute, when used in a C89 environment:
+> > 
+> >         - In C99, casts and automatic conversions to '_Bool' or 'bool' are
+> >           performed in such a way that every nonzero value gets converted
+> >           to 'true', and zero gets converted to 'false'.  This doesn't work
+> >           with this substitute.  With this substitute, only the values 0 and 1
+> >           give the expected result when converted to _Bool' or 'bool'.
+> > 
+> > So since the kernel is built for C89 (unless I'm mistaken), I don't think the
+> > compiler provides any guarantee about bool values being converted to 1 when
+> > they are non-zero. As a result, I think it's best to be careful.
+> > 
+> > However, I'm not sure I really see what cocinelle was unhappy about. You
+> > mentionned single-line functions, but I don't see how that can be a problem.
+> 
+> It's not a problem per se. I'm just working on a cleanup project for which I
+> went through all of staging replacing single-line functions with what they
+> were calling. In some cases that makes it easier to figure out what a
+> particular function call does, since the called function actually does
+> something itself instead of just calling a different function?
+> This function was also flagged as one such potentially-removable function by
+> Coccinelle; but in order to do the same replacement that I'd done in other
+> staging drivers, I thought I would do something about the type mismatch
+> first, especially since find_format doesn't appear to be used anywhere else.
+> However, now I won't remove check_format and replace it with find_format as
+> I'd originally planned, since you've said that isn't necessary here. That
+> leaves the return type issue.
+> 
+> 
+> > So in the end, I think we should keep the !! and drop the (bool) cast if there's
+> > no particular warning about it.
+> 
+> Should I send a version 3 that does this?
 
-> Contains these two patch series, rebased on top of v5.3-rc1
+bool was introduced in C99. Converting a non-zero value to boolean will
+yield true as a result. Please keep the code as-is; it's much easier to
+read that way.
 
->       media/usb: don't set description in ENUM_FMT
+-- 
+Kind regards,
 
-Hmm...
-
-trying to apply this on the top of upstream caused a lot of issues:
-
-Applying patch patches/0002-0021-media-usb-don-t-set-description-in-ENUM_FMT.patch
-patching file drivers/media/dvb-frontends/rtl2832_sdr.c
-Hunk #1 FAILED at 998.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/usb/gspca/gspca.c
-patching file drivers/media/usb/hdpvr/hdpvr-video.c
-Hunk #1 succeeded at 984 with fuzz 2.
-patching file drivers/media/usb/msi2500/msi2500.c
-Hunk #2 FAILED at 890.
-1 out of 2 hunks FAILED -- rejects in file drivers/media/usb/msi2500/msi2500.c
-patching file drivers/media/usb/pwc/pwc-v4l.c
-Hunk #1 FAILED at 867.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/usb/pwc/pwc-v4l.c
-patching file drivers/media/usb/s2255/s2255drv.c
-Hunk #3 FAILED at 723.
-1 out of 3 hunks FAILED -- rejects in file drivers/media/usb/s2255/s2255drv.c
-patching file drivers/media/usb/stk1160/stk1160-v4l.c
-Hunk #2 FAILED at 342.
-1 out of 2 hunks FAILED -- rejects in file drivers/media/usb/stk1160/stk1160-v4l.c
-patching file drivers/media/usb/stk1160/stk1160.h
-patching file drivers/media/usb/stkwebcam/stk-webcam.c
-patching file drivers/media/usb/tm6000/tm6000-video.c
-Hunk #2 FAILED at 869.
-1 out of 2 hunks FAILED -- rejects in file drivers/media/usb/tm6000/tm6000-video.c
-patching file drivers/media/usb/tm6000/tm6000.h
-patching file drivers/media/usb/usbtv/usbtv-video.c
-Hunk #1 FAILED at 630.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/usb/usbtv/usbtv-video.c
-
-It doesn't seem you did a rebase on this branch
-	git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4a2
-
-Thanks,
-Mauro
+Sakari Ailus
