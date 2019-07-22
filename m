@@ -2,119 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA976FB80
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 10:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AEE56FBA5
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2019 10:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728477AbfGVIkf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 04:40:35 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:41632 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726481AbfGVIkf (ORCPT
+        id S1728554AbfGVIye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jul 2019 04:54:34 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36764 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbfGVIye (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 04:40:35 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6M8eOsg070238;
-        Mon, 22 Jul 2019 03:40:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1563784824;
-        bh=TviAWhiRP3zQTB51r4gI+gZaJWkaHb/tZnv/A5V5Vec=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=iGDD/T/krkpcQWBLx7cJN+bhSHCfkTJfr4zmFgdjTROeqVqtmjIOb2TjaQPaq+Ew+
-         xyJxkc12dBMvkmGrPryQRTAN9G3loNxthgqkCX4HiiAz/oKPGD8R6XUYsBor0MTDvW
-         BnRcmxfHPb/gfiXi3HEXO0qiVt4aFZyBll1kTGao=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6M8eOaw058289
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 22 Jul 2019 03:40:24 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 22
- Jul 2019 03:40:23 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 22 Jul 2019 03:40:23 -0500
-Received: from [172.24.190.172] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6M8eIZk028120;
-        Mon, 22 Jul 2019 03:40:19 -0500
-Subject: Re: [PATCH] staging: media/davinci_vpfe: fix pinmux setup compilation
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mukesh Ojha <mojha@codeaurora.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ioannis Valasakis <code@wizofe.uk>,
-        Arushi Singhal <arushisinghal19971997@gmail.com>,
-        <linux-media@vger.kernel.org>, <devel@driverdev.osuosl.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20190722081243.2084226-1-arnd@arndb.de>
-From:   Sekhar Nori <nsekhar@ti.com>
-Message-ID: <35b6ec33-f3d7-54ec-e9a0-3748ee9eb343@ti.com>
-Date:   Mon, 22 Jul 2019 14:10:18 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Mon, 22 Jul 2019 04:54:34 -0400
+Received: by mail-pg1-f195.google.com with SMTP id l21so17344297pgm.3
+        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=biM0OSNS5ZGpRpAgnAVdTqKaXhBNpNIPHYCeUlAsDXo=;
+        b=J3F1dnC/ZFg2XPia01dmjicHZLH6vHlWaKqphRc4EVU9k8NuQmdSQtNcFq3xlrCUKF
+         90Lw6ZwJiMBNPbkAZjTSXDqkmdKC8Hf7hpYpUBTbWxuBIeqWzJcGy1IVr7woksYgOtp6
+         zPw7KwySYfsNCVZ45yNTuAfY/EGdXoZam8Ke4ThTVVeDH/V8QAzr38y+MqFODoDhkLrU
+         K7FLg9ySAvF9OHN72uKzG2mifcKYRCYLGKzDOerJKs9haMZEJqtrV0eJoHIJ0ulkx0kS
+         C5d+TimIxfM9YwX8gHjjdbM3WNvfQYoNvJFtcoGxEKeYF9vjesSHqanWj2Ly5DlTo1hq
+         BSUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=biM0OSNS5ZGpRpAgnAVdTqKaXhBNpNIPHYCeUlAsDXo=;
+        b=Qo1nQCMbWqN3mtnISo/AR6tsrEykbiDI9ZaKTvA0JrQEbDKZcUmE/17e4rfmJdVXlc
+         6NvPmvS8mO63HWc0p4Ebscemx11g53gEyATdCUtE9LadwnE8cPXzziZ5H23psDvTbARK
+         hboyjVQ60u039lyCpKENudt1USV0lYineanofuSYrvvTHrZZyKNgzSUsp1SlM+53JWxU
+         iSTt3G2cDgm+0Hx8/UlY5wq64wWMbmNSCzmnSrCyZ7xrtWUXYesFI4cLX429x1A556+k
+         nY3X1csCeqR7szcTCrU4InEwsORDiA4ebqbwe/jTxlRtFxNWG4tFbtiiOXM3jcH5XZiG
+         AgQw==
+X-Gm-Message-State: APjAAAXDygkIDysfiBkOPsrAo4e7j3C7xAw8ebt46LcmkXkTNMKVi0pd
+        0ZrUo0V3a1lFDiSNMGXC+7o=
+X-Google-Smtp-Source: APXvYqw4NAMsN7QtS8azeL5m5K/spvFcnwQ2npwNGaA3WlUAzpUuuuj1y5plZArSatdp9cta3HhzbQ==
+X-Received: by 2002:a63:eb56:: with SMTP id b22mr71136439pgk.355.1563785673534;
+        Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
+Received: from localhost.localdomain ([122.163.0.39])
+        by smtp.gmail.com with ESMTPSA id v27sm52537557pgn.76.2019.07.22.01.54.31
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 22 Jul 2019 01:54:33 -0700 (PDT)
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+To:     gregkh@linuxfoundation.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: [PATCH RESEND] staging: media: davinci_vpfe: Replace function vpfe_isif_cleanup()
+Date:   Mon, 22 Jul 2019 14:24:20 +0530
+Message-Id: <20190722085420.20294-1-nishkadg.linux@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20190722081243.2084226-1-arnd@arndb.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+Rename function isif_remove to vpfe_isif_cleanup, as
+vpfe_isif_cleanup does nothing but call isif_remove.
+Change type of new vpfe_isif_cleanup from static to non-static to match
+the old function definition.
+Remove the original vpfe_isif_cleanup.
+Modify calls to isif_remove to vpfe_isif_cleanup.
+Issue found with Coccinelle.
 
-On 22/07/19 1:42 PM, Arnd Bergmann wrote:
-> The dm365_isif staging driver uses an odd method for configuring its
-> pin muxing by calling directly into low-level davinci platform specific
-> code, even when being compile-tested for other platforms.
-> 
-> As we want davinci to be part of a multi-platform kernel, this will
-> cause a build failure when those headers are no longer exported even
-> for davinci:
-> 
-> drivers/staging/media/davinci_vpfe/dm365_isif.c: In function 'vpfe_isif_init':
-> drivers/staging/media/davinci_vpfe/dm365_isif.c:2031:2: error: implicit declaration of function 'davinci_cfg_reg'; did you mean 'omap_cfg_reg'? [-Werror=implicit-function-declaration]
->   davinci_cfg_reg(DM365_VIN_CAM_WEN);
->   ^~~~~~~~~~~~~~~
->   omap_cfg_reg
-> drivers/staging/media/davinci_vpfe/dm365_isif.c:2031:18: error: 'DM365_VIN_CAM_WEN' undeclared (first use in this function); did you mean 'DM365_ISIF_MAX_CLDC'?
->   davinci_cfg_reg(DM365_VIN_CAM_WEN);
->                   ^~~~~~~~~~~~~~~~~
-> 
-> Digging further, it seems that the platform data structures defined
-> in drivers/staging/media/davinci_vpfe/vpfe.h are an incompatible
-> version of the same structures in include/media/davinci/vpfe_capture.h,
-> which is the version that is used by the platform code, so the
-> combination that exists in the mainline kernel cannot be used.
-> 
-> The platform code already has an abstraction for the pinmux,
-> in the form of the dm365_isif_setup_pinmux() helper. If we want
-> to ever get to use the staging driver again, this needs to be
-> read from the platform data passed to this driver, or rewritten
-> to use the pinmux framework.
-> 
-> For the moment, pretend we pass the helper function in the
-> staging platform driver to get it to build cleanly. I could
-> not figure out how the staging driver relates to the code
-> in drivers/media/platform/davinci/, some clarification on that
-> would be helpful to decide what the long-term plan on this
-> should be to either remove the staging driver as obsolete or
-> integrate it with the rest in a way that actually works.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+---
+Sorry, I think this may have gotten lost the last time I sent it?
 
-I looked at the history of updates on this driver over last 4 years.
-None of them are towards fixing some issue found with the driver during
-actual usage or for improving its design to move it out of staging.
+ .../staging/media/davinci_vpfe/dm365_isif.c   | 21 +++++++------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-I think no one is really using it or working on moving it out of
-staging. Perhaps the right thing to do would be to delete it.
+diff --git a/drivers/staging/media/davinci_vpfe/dm365_isif.c b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+index 05a997f7aa5d..632a51cf2e4a 100644
+--- a/drivers/staging/media/davinci_vpfe/dm365_isif.c
++++ b/drivers/staging/media/davinci_vpfe/dm365_isif.c
+@@ -1932,8 +1932,13 @@ static const struct v4l2_ctrl_config vpfe_isif_gain_offset = {
+ 	.def = 0,
+ };
+ 
+-static void isif_remove(struct vpfe_isif_device *isif,
+-			struct platform_device *pdev)
++/*
++ * vpfe_isif_cleanup - isif module cleanup
++ * @isif: pointer to isif subdevice
++ * @dev: pointer to platform device structure
++ */
++void vpfe_isif_cleanup(struct vpfe_isif_device *isif,
++		       struct platform_device *pdev)
+ {
+ 	struct resource *res;
+ 	int i = 0;
+@@ -2081,17 +2086,7 @@ int vpfe_isif_init(struct vpfe_isif_device *isif, struct platform_device *pdev)
+ 	return status;
+ isif_fail:
+ 	v4l2_ctrl_handler_free(&isif->ctrls);
+-	isif_remove(isif, pdev);
++	vpfe_isif_cleanup(isif, pdev);
+ 	return status;
+ }
+ 
+-/*
+- * vpfe_isif_cleanup - isif module cleanup
+- * @isif: pointer to isif subdevice
+- * @dev: pointer to platform device structure
+- */
+-void
+-vpfe_isif_cleanup(struct vpfe_isif_device *isif, struct platform_device *pdev)
+-{
+-	isif_remove(isif, pdev);
+-}
+-- 
+2.19.1
 
-Thanks,
-Sekhar
