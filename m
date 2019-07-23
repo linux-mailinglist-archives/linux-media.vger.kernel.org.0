@@ -2,82 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5FA71680
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 12:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FE19716AB
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 12:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729365AbfGWKre convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 23 Jul 2019 06:47:34 -0400
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:36327 "EHLO
-        mail-qt1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbfGWKrb (ORCPT
+        id S1731863AbfGWK7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 06:59:00 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37065 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731069AbfGWK7A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 06:47:31 -0400
-Received: by mail-qt1-f173.google.com with SMTP id z4so41437541qtc.3
-        for <linux-media@vger.kernel.org>; Tue, 23 Jul 2019 03:47:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wF9w9R25zyNBF6vNfN1cmSUaCysQdjcWUcUV740Wuqs=;
-        b=IygxHY90yIe7lvRBr7XjM0+KtbRz9s1I90Ja4N86iBi1bFfVqleR35Mq52Me20wrZT
-         hS5zyY/RctAai4inw0D54DuRxeo8cYdJlPEjeP16hjSRoFLak1X6I0oqxLInkEjt03e3
-         YoTHuYKsREQqC42OGr9/y7acIWr8QyllOX/ciSXHw5bkqBKAYBnl5Avzz25vRqSrWkjA
-         PcEuQ1fptNkqM67iY3/9raS9c2anFZbg36/KjWM4V9x+FwepTn3w5UV7I32q4KtQJitA
-         M59lGE0ZnRmLQClGabDyzFqYTZq2FeIyMncX9bVmG+zBcugRrevhzfCCA6UjDB1og/D0
-         az1A==
-X-Gm-Message-State: APjAAAVX0T1CE0W1u+700mVa4qD/ktW68auQ/53J6xkj4opBeiqlVs/E
-        3FyDBy1ugOZQNiGLMFqXMBcWjuXAVlk52O9P/tg=
-X-Google-Smtp-Source: APXvYqzMla3mXKBASQGgbj50kW6t+ILXkCO4Tr2H2WYKNeypD5TAKlx06rYJFkdIWS1dU4pWdqK6O/Q5NbDokAKSDLE=
-X-Received: by 2002:ac8:f99:: with SMTP id b25mr45901620qtk.142.1563878849577;
- Tue, 23 Jul 2019 03:47:29 -0700 (PDT)
+        Tue, 23 Jul 2019 06:59:00 -0400
+Received: from [IPv6:2001:420:44c1:2579:b924:5c77:4556:9fd2] ([IPv6:2001:420:44c1:2579:b924:5c77:4556:9fd2])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id psVShunI2LqASpsVWhIbUw; Tue, 23 Jul 2019 12:58:58 +0200
+Subject: Re: [RFC] Removal of drivers/staging/media/bcm2048
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <e78d190f-5185-f37a-c212-b88af2198f55@xs4all.nl>
+ <20190723090952.GB30669@amd> <20190723094856.rlwt3rns3yt6q6uz@pali>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f20fc4bf-537f-0672-11fd-9ba61eb788c7@xs4all.nl>
+Date:   Tue, 23 Jul 2019 12:58:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <93050d86-ec75-8394-4fdb-6a06ebb5ce6b@xs4all.nl>
- <cc1790b8-4199-e0ef-afb9-36eca9fd5c0a@xs4all.nl> <CA+V-a8tK+YGf7ww27OzM6FuO_4hwbz0eOvqFKgGe2cdiULzb6A@mail.gmail.com>
- <88fa0656-e819-3558-7d16-478cf8be75fc@xs4all.nl>
-In-Reply-To: <88fa0656-e819-3558-7d16-478cf8be75fc@xs4all.nl>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 23 Jul 2019 12:47:12 +0200
-Message-ID: <CAK8P3a3pVDMsbQM0scrho0WvtVW0UykbgS_Fjpz87ObZUA3kNg@mail.gmail.com>
-Subject: Re: [RFC] Removal of drivers/staging/media/davinci_vpfe
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sekhar Nori <nsekhar@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20190723094856.rlwt3rns3yt6q6uz@pali>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfI3b46cPLvIQxDBIqW3WoXCOSsHUsAr4/RaYScFeelY8SBQrVAZN+Mghx6UsRf/MVGX0CEtHaXiP+pwBjpl5L9dtOjgIA8RVA6xS3qtufQXYjAgk+/Gn
+ 1ptBm6LAujATg1dYShwKpl7gUuoiI92krYG09qKuTwmZ+C1xMe8jBBIGnD7a41YNno/YLqJ8NJ77Mi57cny8EiNlyOnDBMrFpnt0IdGLUZPPHZsvKCu1c/u+
+ P5r0ZBzSRw+VFfHrNuLdzhqhVHHys0b2ytLX9jMTKRNhhiDBPYNQozvlk4nJ9Q/AvOGhYNm8D/vCWIVKXE6oiYbiyKNPx36R2QnILCOF5Ao=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 11:25 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 7/23/19 11:06 AM, Lad, Prabhakar wrote:
-> > Hi Hans,
-> >
-> > On Tue, Jul 23, 2019 at 9:48 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>
-> >> +Laurent Pinchart
-> >>
-> >> On 7/23/19 10:46 AM, Hans Verkuil wrote:
-> >>> Hi Prabhakar,
-> >>>
-> >>> This staging driver is now almost 7 years old, but hasn't seen any real
-> >>> development for a long time.
-> >>>
-> >>> I think it is time to remove it, unless you plan to do work on this.
-> >>>
-> >>> What do you think?
-> >>>
-> > I don’t have any plans to work on it anytime soon, and also referring
-> > to Sekhar's email
-> > on Arnd's patch he's OK too drop the driver from staging.
-> >
-> > shall I create a patch doing this ?
->
-> Arnd mentioned he was going to post a patch for that.
+On 7/23/19 11:48 AM, Pali Rohár wrote:
+> On Tuesday 23 July 2019 11:09:53 Pavel Machek wrote:
+>> On Tue 2019-07-23 10:51:52, Hans Verkuil wrote:
+>>> This staging driver is now almost 6 years old, but hasn't seen any real
+>>> development for a long time.
+>>>
+>>> I think it is time to remove it, unless someone plans to do work on this
+>>> in the near future.
+>>>
+>>> If anyone wants to work on this, please let us know.
+>>
+>> So... unfortunately this one depends on bluetooth driver, which is
+>> quite complex. Unfortunately, that one was removed from staging while
+>> it was being worked upon, and seen little progress since that.
+> 
+> There is already a new bluetooth driver hci_nokia for bcm2048:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bluetooth/hci_nokia.c
 
-Sent a patch now, I had not seen this thread before creating that.
+Hmm, this went in two years ago.
 
-      Arnd
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/omap3-n900.dts
+> 
+
+Is there any chance that this bcm2048 driver will be fixed and moved out of staging
+by the end of this year? If not, then I want to remove it.
+
+Regards,
+
+	Hans
