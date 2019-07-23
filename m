@@ -2,97 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 895B471D4E
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 19:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F208A71E31
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 19:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390969AbfGWRED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jul 2019 13:04:03 -0400
-Received: from rime.area49.net ([173.255.231.124]:51944 "EHLO rime.area49.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390967AbfGWRED (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 13:04:03 -0400
-X-Greylist: delayed 1575 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Jul 2019 13:04:03 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=area49.net;
-         s=20170228; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-        Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=XQnhAoK2rBsF7YrzRe45lPkI3olPTYqXfklS7lal+5k=; b=dTqwFu/n5pm6oS8x/ljkfsNkfX
-        /nv8yg/OOy4z11bG+MX/Ifz8GlxI3i2viVjqH/DP0bF3nCazteg0Wzr7kYDH6YjbtajVkV+QIRq6e
-        WCvgqpI7UyKrBxGhUncjggttCjLqLePzLkfFnytHgh2Q/0JdajYuPtTVTf9Y22qsf4aWWnWIWlgNG
-        pOMVagAiA0GGBHgVoEiG3lTFJdXTh5QpHm8rtDKb+g9h4pvoTkucZIxUSEaNCjI0fgrU/Z+lhN3/H
-        Ttn9hJe43XYOncqsHPVkh2JwvfaNLYiJiZQVpbLdXn4oUI3RG5pACSwbcgR1VVYKnOAIWpNYpnOBt
-        c2CkC0sQ==;
-Received: from pool-71-178-35-130.washdc.fios.verizon.net ([71.178.35.130] helo=[192.168.1.155])
-        by rime.area49.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <alpha@area49.net>)
-        id 1hpxnO-0007oO-JX; Tue, 23 Jul 2019 12:37:46 -0400
-To:     linux-media@vger.kernel.org
-Cc:     Sean Young <sean@mess.org>
-From:   Darius Rad <alpha@area49.net>
-Subject: [PATCH] media: rc: imon: Allow iMON RC protocol for ffdc 7e device
-Message-ID: <3702ce97-8a03-1a37-9c40-e7844931f5ff@area49.net>
-Date:   Tue, 23 Jul 2019 12:37:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S2391230AbfGWR7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 13:59:11 -0400
+Received: from mail-yb1-f201.google.com ([209.85.219.201]:52030 "EHLO
+        mail-yb1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391169AbfGWR7K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jul 2019 13:59:10 -0400
+Received: by mail-yb1-f201.google.com with SMTP id l2so22163911ybl.18
+        for <linux-media@vger.kernel.org>; Tue, 23 Jul 2019 10:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=uxuxpoqA/C7rk06bc2rM9al5Hb55km4kp2za7lpV0D8=;
+        b=gvBkOkwzaYNLh+oGcJAVB7MjFm6ggJ16J7ZtFWSs5smrgxbyTgnFANakPKwfHBaKJo
+         Z3AeBj5hFUm+GIYoHcLDXyEq448i3WGfVM80s/ZYt3Ff7Lnffb2whFy1iyiq0vNB8tme
+         ZgEAhcj6PmMNwScnzwOlSrD9vrs9BWD5XfY+Jc7tfz6fIGBdIIOc361XhF1FnJ2J5gIc
+         R3XqyRsgPc72AURET11IAyvFYp4TC8kAAhKarnjk3baGMHuxZXMV89tXjZO+C8I9PfEc
+         YEGyFP+vd3pK7Yts8v+bEOrkzxv2fC0rSmwv0ECVx3Gypru+tBZwBnoAh4W0hQ7k4cn/
+         8ScQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=uxuxpoqA/C7rk06bc2rM9al5Hb55km4kp2za7lpV0D8=;
+        b=JQnX9vOtLpwlwmQNl5/wjV0WcYoX8kb8r/OLTZQUVHBaLcXzr3PBxkGEv7DYvZNaUE
+         PHx7BKigie/e6bsVG4DgIi7oG6N4z7je2V1um3tq6cIRvOT/Rb4ubhGUTza3glT5qS/4
+         C/EgiJriOH+e+7+nZh1OPC2Z3fN5raaLQ+0V9PWli0W0g79bz+0y0Vwlv6KUrb9oYJVr
+         OJ3urCkXw+8r9UskyGpcLnyrlCxhImk+oeSn0hBvnZJSExGjW4hGXqiXfcPNk4BTE0qP
+         92EEWlyWd1d5BXrRi++4Isxy8c/7QZ6Yd9bJ2iysOjdmrMkkx54zft/DEJw7HJx0Dbs+
+         TUCA==
+X-Gm-Message-State: APjAAAUVO0RT29/ltcQqGLOVgWq0Up8wSmNM18R4dHEvbJ/res7kp/FO
+        3RvcQyB9T9B91+tCfOhEC6VmVJuFZHjjXQTN
+X-Google-Smtp-Source: APXvYqw9DwaHVI19t/YbteMrcIZMKltNbSnI88dDsWcfp8XIUhxn9zscDjBOZxYqaezV+ZapgNfd0Az5q5SxMU+h
+X-Received: by 2002:a5b:951:: with SMTP id x17mr48178059ybq.511.1563904749116;
+ Tue, 23 Jul 2019 10:59:09 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 19:58:38 +0200
+In-Reply-To: <cover.1563904656.git.andreyknvl@google.com>
+Message-Id: <bc53284e2c95fd5b65809a1fb8169d4c1618c61b.1563904656.git.andreyknvl@google.com>
+Mime-Version: 1.0
+References: <cover.1563904656.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+Subject: [PATCH v19 01/15] arm64: untag user pointers in access_ok and __uaccess_mask_ptr
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow selecting the IR protocol, MCE or iMON, for a device that
-identifies as follows (with config id 0x7e):
+This patch is a part of a series that extends kernel ABI to allow to pass
+tagged user pointers (with the top byte set to something else other than
+0x00) as syscall arguments.
 
-15c2:ffdc SoundGraph Inc. iMON PAD Remote Controller
+copy_from_user (and a few other similar functions) are used to copy data
+from user memory into the kernel memory or vice versa. Since a user can
+provided a tagged pointer to one of the syscalls that use copy_from_user,
+we need to correctly handle such pointers.
 
-As the driver is structured to default to iMON when both RC
-protocols are supported, existing users of this device (using MCE
-protocol) will need to manually switch to MCE (RC-6) protocol from
-userspace (with ir-keytable, sysfs).
+Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
+before performing access validity checks.
 
-Signed-off-by: Darius Rad <alpha@area49.net>
+Note, that this patch only temporarily untags the pointers to perform the
+checks, but then passes them as is into the kernel internals.
+
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
+ arch/arm64/include/asm/uaccess.h | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-The hardware I have (described in the commit) only supports the iMON
-protocol; whereas the driver only supports the MCE protocol.  The
-unfortunate side effect of this change is that the default setting
-will cause problems for existing users.
-
-Allowing a different default protocol for this device will take
-more invasive changes.  If it will help this patch be accepted, I
-can propose such changes.
-
-  drivers/media/rc/imon.c | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 7bee72108b0e..37a850421fbb 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -1826,12 +1826,17 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
-  		break;
-  	/* iMON VFD, MCE IR */
-  	case 0x46:
--	case 0x7e:
-  	case 0x9e:
-  		dev_info(ictx->dev, "0xffdc iMON VFD, MCE IR");
-  		detected_display_type = IMON_DISPLAY_TYPE_VFD;
-  		allowed_protos = RC_PROTO_BIT_RC6_MCE;
-  		break;
-+	/* iMON VFD, iMON or MCE IR */
-+	case 0x7e:
-+		dev_info(ictx->dev, "0xffdc iMON VFD, iMON or MCE IR");
-+		detected_display_type = IMON_DISPLAY_TYPE_VFD;
-+		allowed_protos |= RC_PROTO_BIT_RC6_MCE;
-+		break;
-  	/* iMON LCD, MCE IR */
-  	case 0x9f:
-  		dev_info(ictx->dev, "0xffdc iMON LCD, MCE IR");
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 5a1c32260c1f..a138e3b4f717 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -62,6 +62,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ {
+ 	unsigned long ret, limit = current_thread_info()->addr_limit;
+ 
++	addr = untagged_addr(addr);
++
+ 	__chk_user_ptr(addr);
+ 	asm volatile(
+ 	// A + B <= C + 1 for all A,B,C, in four easy steps:
+@@ -215,7 +217,8 @@ static inline void uaccess_enable_not_uao(void)
+ 
+ /*
+  * Sanitise a uaccess pointer such that it becomes NULL if above the
+- * current addr_limit.
++ * current addr_limit. In case the pointer is tagged (has the top byte set),
++ * untag the pointer before checking.
+  */
+ #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
+ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+@@ -223,10 +226,11 @@ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
+ 	void __user *safe_ptr;
+ 
+ 	asm volatile(
+-	"	bics	xzr, %1, %2\n"
++	"	bics	xzr, %3, %2\n"
+ 	"	csel	%0, %1, xzr, eq\n"
+ 	: "=&r" (safe_ptr)
+-	: "r" (ptr), "r" (current_thread_info()->addr_limit)
++	: "r" (ptr), "r" (current_thread_info()->addr_limit),
++	  "r" (untagged_addr(ptr))
+ 	: "cc");
+ 
+ 	csdb();
 -- 
-2.20.1
+2.22.0.709.g102302147b-goog
+
