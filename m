@@ -2,174 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E9D971407
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 10:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 867F17144B
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 10:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbfGWIdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jul 2019 04:33:33 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48773 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726070AbfGWIdd (ORCPT
+        id S1728417AbfGWIqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 04:46:21 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37201 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727076AbfGWIqV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 04:33:33 -0400
+        Tue, 23 Jul 2019 04:46:21 -0400
 Received: from [192.168.2.10] ([46.9.252.75])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id pqEhhty6rLqASpqEkhI5SR; Tue, 23 Jul 2019 10:33:30 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Various fixes/enhancements
-Message-ID: <1d62bfee-5c9c-2430-2610-b3c309bd4d70@xs4all.nl>
-Date:   Tue, 23 Jul 2019 10:33:27 +0200
+        id pqR5hu2i9LqASpqR9hI8UN; Tue, 23 Jul 2019 10:46:20 +0200
+To:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [RFC] Removal of drivers/staging/media/davinci_vpfe
+Message-ID: <93050d86-ec75-8394-4fdb-6a06ebb5ce6b@xs4all.nl>
+Date:   Tue, 23 Jul 2019 10:46:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfDT6vWrV8QPn0x+5dSS+pwynJ4S042xYeNxQN542oavZ91JnQEGnJDmjjJgVU/g+wa5EKgRMUFkNhtaw39XsXOXY+9FN3aoxd+CXdlFdkgHLc8XvBvSm
- XMn2C44bofg9/BjrTD1xIRHwUswRLfs/7EhSvm2GUfDOu3ICTbx/WnuToxfMCXI9fO/h5AN7tUoBlQ==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDhdgyMc44i5mkqYY8d9ZMbskCJXl1B8+XDegFTXwBZNsoCbWL4I7C45ViQLd6Qb6aRhvoPW0xRZiFbWD2J1/GZXbvotxO2BrhKvUUWLvzKqf6GJISOc
+ p8MSzp4w0XKobM1saFKP2Zrm/qRlVYAXKbOpP/1wduIn4HDgvHmnaVzOGkE4m6d7OvU0PrY2Ii1A5bF66Sj1uLU5aEvVtC30PfU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is part one of pending fixes/enhancements from my todo list.
+Hi Prabhakar,
 
-Once this is merged, I'll prepare a second PR for the remaining patches.
+This staging driver is now almost 7 years old, but hasn't seen any real
+development for a long time.
+
+I think it is time to remove it, unless you plan to do work on this.
+
+What do you think?
 
 Regards,
 
 	Hans
-
-The following changes since commit 66193b24514c91aeda88da744554b2665471aeae:
-
-  media: dvbsky: add support for Mygica T230C v2 (2019-07-22 15:33:30 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4c2
-
-for you to fetch changes up to ecc4494e3fdb135995319aee237bb6e383a2c7e0:
-
-  media: vimc.rst: add vimc-streamer source documentation (2019-07-23 10:28:53 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-André Almeida (5):
-      media: vimc: stream: remove obsolete function doc
-      media: vimc: stream: fix style of argument description
-      media: vimc: stream: format comments as kernel-doc
-      media: vimc.rst: Add a proper alt attribute to vimc.dot
-      media: vimc.rst: add vimc-streamer source documentation
-
-Arnd Bergmann (2):
-      media: davinci-vpbe: remove obsolete includes
-      media: vivid: work around high stack usage with clang
-
-Colin Ian King (3):
-      media: vivid: fix potential integer overflow on left shift
-      media: cobalt: remove redundant assignment to variable data
-      saa7134: remove redundant assignment to variable value
-
-Frederick Lawler (1):
-      media: cobalt: Prefer pcie_capability_read_word()
-
-Hans Verkuil (11):
-      v4l2-ioctl: call v4l_pix_format_touch() for TRY_FMT
-      input/touchscreen/sur40: use COLORSPACE_RAW
-      drivers/media: don't set pix->priv = 0
-      via-camera: call viafb_pm_unregister in remove()
-      via-camera: use struct v4l2_fh
-      ov7670: don't return ENOTTY if SUBDEV_API is not set
-      via-camera: fix v4l2-compliance fails
-      media/i2c: don't return ENOTTY if SUBDEV_API is not set
-      m2m-deinterlace: use struct v4l2_fh
-      omap_vout: use struct v4l2_fh
-      mx2_emmaprp: use struct v4l2_fh
-
-Hariprasad Kelam (1):
-      staging/media/davinci_vpfe: Add null check post kmalloc
-
-Joe Perches (2):
-      media: m2m-deinterlace: Fix misuse of strscpy
-      media: go7007: Fix misuse of strscpy
-
-Lucas Stach (1):
-      media: vb2-dc: skip CPU sync in map/unmap dma_buf
-
-Maxime Ripard (1):
-      MAINTAINERS: Update my email address
-
-Michael Tretter (2):
-      media: vb2: reorder checks in vb2_poll()
-      media: v4l2-mem2mem: reorder checks in v4l2_m2m_poll()
-
-Neil Armstrong (2):
-      dt-bindings: media: meson-ao-cec: add SM1 compatible
-      media: platform: meson-ao-cec-g12a: add support for SM1
-
-Stephen Rothwell (1):
-      media: vp8-ctrls.h: new file needs types.h
-
-Steve Longerbeam (1):
-      media: staging/imx: Fix NULL deref in find_pipeline_entity()
-
-Vandana BN (1):
-      media:vivid:add sanity check to avoid divide error and set value to 1 if 0.
-
-Wen Yang (2):
-      media: exynos4-is: fix leaked of_node references
-      media: ti-vpe: fix leaked of_node references
-
- .mailmap                                                 |   2 +
- Documentation/devicetree/bindings/media/meson-ao-cec.txt |   8 ++-
- Documentation/media/v4l-drivers/vimc.rst                 |  13 ++++-
- MAINTAINERS                                              |  10 ++--
- drivers/input/touchscreen/sur40.c                        |   4 +-
- drivers/media/common/videobuf2/videobuf2-dma-contig.c    |  23 +++++---
- drivers/media/common/videobuf2/videobuf2-v4l2.c          |   8 ++-
- drivers/media/i2c/mt9m111.c                              |   2 +-
- drivers/media/i2c/ov2640.c                               |   2 +-
- drivers/media/i2c/ov2659.c                               |   4 +-
- drivers/media/i2c/ov2680.c                               |   5 +-
- drivers/media/i2c/ov5695.c                               |   5 +-
- drivers/media/i2c/ov7670.c                               |   6 +-
- drivers/media/i2c/ov7740.c                               |   8 +--
- drivers/media/pci/cobalt/cobalt-driver.c                 |  38 +++++--------
- drivers/media/pci/cobalt/cobalt-flash.c                  |   2 +-
- drivers/media/pci/cobalt/cobalt-v4l2.c                   |   1 -
- drivers/media/pci/saa7134/saa7134-tvaudio.c              |   1 -
- drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c           |   2 -
- drivers/media/pci/solo6x10/solo6x10-v4l2.c               |   2 -
- drivers/media/pci/tw68/tw68-video.c                      |   1 -
- drivers/media/platform/davinci/vpbe_display.c            |   4 --
- drivers/media/platform/davinci/vpbe_osd.c                |   5 --
- drivers/media/platform/davinci/vpbe_venc.c               |   5 --
- drivers/media/platform/davinci/vpif_capture.c            |   1 -
- drivers/media/platform/exynos4-is/fimc-is.c              |   1 +
- drivers/media/platform/exynos4-is/media-dev.c            |   2 +
- drivers/media/platform/m2m-deinterlace.c                 | 126 ++++++++++++-----------------------------
- drivers/media/platform/meson/ao-cec-g12a.c               |  36 +++++++++++-
- drivers/media/platform/mx2_emmaprp.c                     | 132 +++++++++++--------------------------------
- drivers/media/platform/omap/omap_vout.c                  |  53 ++++++++---------
- drivers/media/platform/ti-vpe/cal.c                      |   1 +
- drivers/media/platform/via-camera.c                      |  94 +++++++++++++++++-------------
- drivers/media/platform/vimc/vimc-streamer.c              |  38 ++++++++-----
- drivers/media/platform/vimc/vimc-streamer.h              |  18 ++----
- drivers/media/platform/vivid/vivid-ctrls.c               |  24 ++++----
- drivers/media/platform/vivid/vivid-kthread-cap.c         |   9 ++-
- drivers/media/usb/au0828/au0828-video.c                  |   2 -
- drivers/media/usb/cpia2/cpia2_v4l.c                      |   2 -
- drivers/media/usb/em28xx/em28xx-video.c                  |   1 -
- drivers/media/usb/go7007/snd-go7007.c                    |   2 +-
- drivers/media/usb/gspca/gspca.c                          |  28 ++++-----
- drivers/media/usb/s2255/s2255drv.c                       |   2 -
- drivers/media/usb/uvc/uvc_v4l2.c                         |   2 -
- drivers/media/v4l2-core/v4l2-ioctl.c                     |   3 +
- drivers/media/v4l2-core/v4l2-mem2mem.c                   |  47 ++++++++-------
- drivers/staging/media/davinci_vpfe/dm365_ipipe.c         |   5 ++
- drivers/staging/media/imx/imx-media-utils.c              |   2 +-
- include/media/vp8-ctrls.h                                |   2 +
- 49 files changed, 365 insertions(+), 429 deletions(-)
