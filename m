@@ -2,196 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D109E718F7
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 15:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70CDE71A03
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 16:13:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732492AbfGWNOp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jul 2019 09:14:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48136 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727311AbfGWNOp (ORCPT
+        id S1732136AbfGWONL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 10:13:11 -0400
+Received: from rcdn-iport-8.cisco.com ([173.37.86.79]:39181 "EHLO
+        rcdn-iport-8.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726201AbfGWONL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 09:14:45 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 3A19228B16B
-Message-ID: <1563887680.23193.9.camel@collabora.com>
+        Tue, 23 Jul 2019 10:13:11 -0400
+X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Jul 2019 10:13:10 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=12186; q=dns/txt;
+  s=iport; t=1563891190; x=1565100790;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=7ZvLx3NR8AXzDyqNQ2wBEL31libjYDtwJXyii8WDjXo=;
+  b=iJZ3bimSiGvRmFn5DG0xZF2+eSC25RiVFBNiMpJ47KwKxMUrtzQ8nHKl
+   pqexjmAO/pCOK7btHpA1miD+ZtZUkVKLoRjEVuoGSx9gSqpTxRlnqHdEP
+   cvJXc1tzAt4RZpd40Qo4EmfbvSzCGJanSZuiZieva+ZzVvwO+x0+1UrnU
+   M=;
+IronPort-PHdr: =?us-ascii?q?9a23=3A/ArsIB19V0fQiymMsmDT+zVfbzU7u7jyIg8e44?=
+ =?us-ascii?q?YmjLQLaKm44pD+JxKGt+51ggrPWoPWo7JfhuzavrqoeFRI4I3J8RVgOIdJSw?=
+ =?us-ascii?q?dDjMwXmwI6B8vQCUT9N+DndS8SF8VZX1gj9Ha+YgBY?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0B/AABgEzdd/5JdJa1mGQEBAQEBAQE?=
+ =?us-ascii?q?BAQEBAQcBAQEBAQGBZ4FEUANtVSAECyoKhBODRwONfkyBaiWXUIJSA1QJAQE?=
+ =?us-ascii?q?BDAEBIwoCAQGEQAIXgjcjOBMBAwEBBAEBAgEGbYUeDIVLAQEEEhERDAEBLAs?=
+ =?us-ascii?q?BDwIBCBgCAiYCAgIwFRACBAEMAQUCAQEegwABgWoDHQEOn0gCgTiIYHGBMoJ?=
+ =?us-ascii?q?5AQEFhQcYghMJgQwoi18XgUA/gREnDIIxLj6CYQQYgSEmF4J0gliMHIItL4U?=
+ =?us-ascii?q?hggqGPo4GCQKCGYZYjS4GG5gKjTWHSJAIAgQCBAUCDgEBBYFnIYFYcBU7gmw?=
+ =?us-ascii?q?JgjkMF4NOhRSFP3IBgSiLVIEwAYEgAQE?=
+X-IronPort-AV: E=Sophos;i="5.64,299,1559520000"; 
+   d="scan'208";a="600918582"
+Received: from rcdn-core-10.cisco.com ([173.37.93.146])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 23 Jul 2019 14:06:03 +0000
+Received: from XCH-RCD-020.cisco.com (xch-rcd-020.cisco.com [173.37.102.30])
+        by rcdn-core-10.cisco.com (8.15.2/8.15.2) with ESMTPS id x6NE624v029111
+        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+        Tue, 23 Jul 2019 14:06:03 GMT
+Received: from xhs-aln-003.cisco.com (173.37.135.120) by XCH-RCD-020.cisco.com
+ (173.37.102.30) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 09:06:02 -0500
+Received: from xhs-aln-003.cisco.com (173.37.135.120) by xhs-aln-003.cisco.com
+ (173.37.135.120) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jul
+ 2019 09:06:01 -0500
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (173.37.151.57)
+ by xhs-aln-003.cisco.com (173.37.135.120) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 23 Jul 2019 09:06:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fm0By/KZfHjKZoK6nqAhvP/ITreGxHp1lm+724olI2UpYjFCGJqAlFNnWUggPjlWu/67OLoP6H3dlDZsC3ovpXFuMqfQ06ZapDBrqhqC52feo56OCh0vsOSVt699W2KF9lPkMCZUgouBjyaeAJ85cKuovPk6V+7QdgOhZSd8CHjVdhCLc2dbpkSTaAoNXk7fLnsvpLSbKa1r7olH248rNo6txT4MlreOTJxiN9z5pQ23Kfua/6Rq8fSjL90C7y/1WQ07rEKzTIy2WnEIyLxIvd1PG1OGjeJum3P0PwCTuzSqKOsn2TtiddU6t4YIVHA6IWCu9GBNBGuA5xffeSeJSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7ZvLx3NR8AXzDyqNQ2wBEL31libjYDtwJXyii8WDjXo=;
+ b=JO0AVNH8zySM8avRwGjdNm1uyCq9XLC6CrEw4wQsMTJK/SBtZcwPxLDlG5VAoCcdOvxq3BM20Lm0zoooc2k1lfPWm7QHEZE4Hjt5yGQrwCvyEkU6tM5MzrLBDryFLmTL4H1P2KsILojOhDfqiUzCTs27M0qJ0KT74UMAg4ddJ9JtWIQV2xmKgGyhKQX2bUrOP0gMaOr5Hat2f+n2XzgNVtxf04QhICUsnCLk4SWX8Z80Ieol3QzaG+MqpUK6OxZeDC9+JePUFVj0MikFN4lpjd5gbqBvfsxsSSBMbFKHonzXGZYUo+m13LV0LZnndx3UWrGWReWU7kiCWgjIGyS3KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=cisco.com;dmarc=pass action=none
+ header.from=cisco.com;dkim=pass header.d=cisco.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.onmicrosoft.com;
+ s=selector2-cisco-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7ZvLx3NR8AXzDyqNQ2wBEL31libjYDtwJXyii8WDjXo=;
+ b=A16W1nlndSbNJ7RtmsiNxGsRORelk/JThWrcxW3KpQJUbsiR9pUcSsqsIb8pUmIZsQ342QvxXMSd0HdJV7KrbmPLB+qugM6Uh2TfCxtvwOUvz2VN0amhq/deoZepwGPw4NoK99SOKIseAq8XBZKdio+e1vSCs3XK8OqP+GexT5g=
+Received: from MWHPR11MB0062.namprd11.prod.outlook.com (10.164.204.34) by
+ MWHPR11MB1711.namprd11.prod.outlook.com (10.169.235.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.16; Tue, 23 Jul 2019 14:05:59 +0000
+Received: from MWHPR11MB0062.namprd11.prod.outlook.com
+ ([fe80::f4bd:d898:497f:8724]) by MWHPR11MB0062.namprd11.prod.outlook.com
+ ([fe80::f4bd:d898:497f:8724%7]) with mapi id 15.20.2094.013; Tue, 23 Jul 2019
+ 14:05:59 +0000
+From:   "Hans Verkuil (hansverk)" <hansverk@cisco.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+CC:     "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "vincent.abriou@st.com" <vincent.abriou@st.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        "kernel@collabora.com" <kernel@collabora.com>
 Subject: Re: kernel Warning when using vivid with contiguous dma
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     p.zabel@pengutronix.de, hans.verkuil@cisco.com,
-        vincent.abriou@st.com, linux-media@vger.kernel.org,
-        nicoleotsuka@gmail.com, ezequiel@collabora.com,
-        kernel@collabora.com
-Date:   Tue, 23 Jul 2019 15:14:40 +0200
-In-Reply-To: <20190722083748.2abd3fe1@coco.lan>
+Thread-Topic: kernel Warning when using vivid with contiguous dma
+Thread-Index: AQHVQH+cvpb0j/O5n02SjPxSZ5yZoqbWgvMAgAGtOACAAA5WAA==
+Date:   Tue, 23 Jul 2019 14:05:59 +0000
+Message-ID: <95693bd5-2118-db95-fbf9-d5e3fc301f0a@cisco.com>
 References: <1563794460.2546.3.camel@collabora.com>
-         <20190722083748.2abd3fe1@coco.lan>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20190722083748.2abd3fe1@coco.lan> <1563887680.23193.9.camel@collabora.com>
+In-Reply-To: <1563887680.23193.9.camel@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=hansverk@cisco.com; 
+x-originating-ip: [173.38.220.37]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 101c76be-335d-413a-c651-08d70f76e38d
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR11MB1711;
+x-ms-traffictypediagnostic: MWHPR11MB1711:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <MWHPR11MB171159221F04E04AE24BE7CFDEC70@MWHPR11MB1711.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0107098B6C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(376002)(346002)(39860400002)(366004)(136003)(189003)(199004)(76176011)(76116006)(66476007)(71200400001)(68736007)(64756008)(36756003)(66946007)(45080400002)(91956017)(31686004)(66556008)(53546011)(66446008)(64126003)(31696002)(102836004)(26005)(65826007)(5660300002)(71190400001)(186003)(54906003)(6246003)(229853002)(6506007)(2906002)(81166006)(81156014)(4326008)(6512007)(6116002)(2616005)(53936002)(478600001)(110136005)(58126008)(6306002)(446003)(25786009)(11346002)(8676002)(6486002)(3846002)(486006)(14454004)(99286004)(14444005)(316002)(6436002)(8936002)(65956001)(476003)(86362001)(65806001)(256004)(7736002)(66066001)(305945005)(966005);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR11MB1711;H:MWHPR11MB0062.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: cisco.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Jw5bNtilMc6IWOVI7jEFJGvYrp4hxzemxg26p5Ek0gEQV+yr53hbhkbFvB15cntulI0x6j0XUepUZSBd8qVphVdh/v5cLLyaQK58qej50yo0qd71cTSBfrDDLMndj4u3y2drD9roWdfLdc7RULe/ExAndGDwwcXBrSj4fgbeKHYREhW/8+HFovkHs4n5piEAAiMHBGw1KTXkyHU09BjS+V/IEVMTASzn9H/swwtN4IuQF/1SJlzpEVqvFKo/FmnHWxP1iBVcpf3UWD6K+bwJKpDO8O+HYijT7utqRtdFGAInD/GZ4taTsMuqM4g/fehm3BO49CjxVu+If4IeQjEg4L8iqOvRXTxlcLJ+XoPKxwmTxEgdsP6sVJcyc9Chjlh5Ak/ULQvzSjsQtmgqa4yz/k11GWqA156CUGP+Ythn8UI=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <629C42643A7B8744B8341C8A7C5F3C67@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 101c76be-335d-413a-c651-08d70f76e38d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2019 14:05:59.3122
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hansverk@cisco.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1711
+X-OriginatorOrg: cisco.com
+X-Outbound-SMTP-Client: 173.37.102.30, xch-rcd-020.cisco.com
+X-Outbound-Node: rcdn-core-10.cisco.com
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2019-07-22 at 08:38 -0300, Mauro Carvalho Chehab wrote:
-> Em Mon, 22 Jul 2019 13:21:00 +0200
-> Dafna Hirschfeld <dafna.hirschfeld@collabora.com> escreveu:
-> 
-> > I loaded the vivid module with contiguous DMA and ran streaming
-> > with
-> > it with large image dimensions
-> > [  306.437327] Call Trace:
-> > [  306.437338]  __dma_direct_alloc_pages+0xc9/0x1c0
-> > [  306.437343]  dma_direct_alloc_pages+0x24/0xf0
-> > [  306.437348]  dma_direct_alloc+0xe/0x10
-> > [  306.437351]  dma_alloc_attrs+0x84/0xd0
-> 
-> Hmm... we had a recent regression affecting other media devices,
-> reported via Kaffeine mailing list:
-> 
-> 	https://bugs.kde.org/show_bug.cgi?id=408004#c35
-> 
-> While this one was for S/G, maybe it is somewhat related.
-> 
-Also, I compiled vivid as built-in into the kernel (not as a separate module) for nitrogen8m device (imx8) and
-set it to use contig dma for mem_ops. Then I get a crash when running the above command.
-I use the master branch of git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git with this patch to vivid:
-
-diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-index bc2a176937a4..0531f36d7d0a 100644
---- a/drivers/media/platform/vivid/vivid-core.c
-+++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -140,7 +140,7 @@ static bool no_error_inj;
- module_param(no_error_inj, bool, 0444);
- MODULE_PARM_DESC(no_error_inj, " if set disable the error injecting controls");
- 
--static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 0 };
-+static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 1 };
- module_param_array(allocators, uint, NULL, 0444);
- MODULE_PARM_DESC(allocators, " memory allocator selection, default is 0.\n"
-                             "\t\t    0 == vmalloc\n"
-
-And then on the nitrogen8m device I get the following crash report which seems to be related to the cma allocation
-
-ubuntu@bionic-dev64:~$ v4l2-ctl -d3 -v width=2592,height=1944,pixelformat=UYVY,bytesperline=5184 --stream-mmap --stream-to video.UYVY
-[   70.139006] cma: cma_alloc(cma (____ptrval____), count 4050, align 8)
-[   70.159829] cma: cma_alloc(cma (____ptrval____), count 4050, align 8)
-[   70.166292] cma: cma_alloc: alloc failed, req-size: 4050 pages, ret: -12
-[   70.173006] cma: number of available pages: 72@184+3886@4306=> 3958 free of 8192 total pages
-[   70.181471] cma: cma_alloc(): returned (____ptrval____)
-[   70.192449] cma: cma_alloc(cma (____ptrval____), count 4050, align 8)
-[   70.198907] cma: cma_alloc: alloc failed, req-size: 4050 pages, ret: -12
-[   70.205625] cma: number of available pages: 72@184+3886@4306=> 3958 free of 8192 total pages
-[   70.205733] systemd-journald[204]: /var/log/journal/5cca8918401249538eacb5efd5b9b052/system.journal: Journal file corrupted, rotating.
-[   70.214083] cma: cma_alloc(): returned (____ptrval____)
-[   70.219867] cma: cma_alloc(cma (____ptrval____), count 4050, align 8)
-[   70.237878] cma: cma_alloc: alloc failed, req-size: 4050 pages, ret: -12
-[   70.244599] cma: number of available pages: 72@184+3886@4306=> 3958 free of 8192 total pages
-[   70.253066] cma: cma_alloc(): returned (____ptrval____)
-[   70.264893] cma: cma_release(page (____ptrval____))
-[   70.272871] cma: cma_release(page (____ptrval____))
-[   70.277800] BUG: Bad page state in process v4l2-ctl  pfn:b5a00
-[   70.283652] page:ffff7e0001d68000 refcount:13 mapcount:0 mapping:0000000000000000 index:0x0 compound_mapcount: 0
-[   70.293874] flags: 0xffff00000010000(head)
-[   70.297999] raw: 0ffff00000010000 dead000000000100 dead000000000122 0000000000000000
-[   70.305772] raw: 0000000000000000 0000000000000000 0000000dffffffff 0000000000000000
-[   70.313526] page dumped because: nonzero _refcount
-[   70.318327] Modules linked in:
-[   70.321399] CPU: 2 PID: 482 Comm: v4l2-ctl Not tainted 5.3.0-rc1+ #159
-[   70.327927] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M (DT)
-[   70.334196] Call trace:
-[   70.336654]  dump_backtrace+0x0/0x148
-[   70.340319]  show_stack+0x14/0x20
-[   70.343640]  dump_stack+0x9c/0xc4
-[   70.346959]  bad_page+0xe4/0x148
-[   70.350188]  free_pages_check_bad+0x70/0xa8
-[   70.354375]  __free_pages_ok+0x294/0x2b0
-[   70.358301]  __free_pages+0x38/0x50
-[   70.361795]  dma_free_contiguous+0x90/0x98
-[   70.365892]  __dma_direct_free_pages+0x18/0x20
-[   70.370338]  arch_dma_free+0x74/0x88
-[   70.373916]  dma_direct_free+0x4c/0x58
-[   70.377668]  dma_free_attrs+0x88/0xe0
-[   70.381335]  vb2_dc_put+0x44/0x60
-[   70.384653]  __vb2_buf_mem_free+0x68/0x110
-[   70.388749]  __vb2_queue_free+0x398/0x538
-[   70.392763]  vb2_core_queue_release+0x34/0x48
-[   70.397122]  _vb2_fop_release+0x88/0x98
-[   70.400960]  vb2_fop_release+0x28/0x50
-[   70.404712]  vivid_fop_release+0x88/0x208
-[   70.408725]  v4l2_release+0x6c/0xf0
-[   70.412216]  __fput+0x8c/0x1f8
-[   70.415270]  ____fput+0xc/0x18
-[   70.418328]  task_work_run+0x94/0xb0
-[   70.421907]  do_exit+0x2b0/0x9f8
-[   70.425138]  do_group_exit+0x34/0x98
-[   70.428717]  get_signal+0x104/0x678
-[   70.432209]  do_notify_resume+0x2ac/0x380
-[   70.436220]  work_pending+0x8/0x10
-[   70.439648] Disabling lock debugging due to kernel taint
-[   70.444974] BUG: Bad page state in process v4l2-ctl  pfn:b5a01
-[   70.450822] page:ffff7e0001d68040 refcount:0 mapcount:0 mapping:dead000000000400 index:0x1 compound_mapcount: 0
-[   70.451427] printk: systemd: 27 output lines suppressed due to ratelimiting
-[   70.460924] flags: 0xffff00000000000()
-[   70.460931] raw: 0ffff00000000000 ffff7e0001d68001 ffffffff01d60301 dead000000000400
-[   70.467945] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-[   70.471659] raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-[   70.479389] CPU: 1 PID: 1 Comm: systemd Tainted: G    B             5.3.0-rc1+ #159
-[   70.479394] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M (DT)
-[   70.487058] page dumped because: non-NULL mapping
-[   70.494782] Call trace:
-[   70.494789]  dump_backtrace+0x0/0x148
-[   70.494793]  show_stack+0x14/0x20
-[   70.494799]  dump_stack+0x9c/0xc4
-[   70.502460] Modules linked in:
-[   70.508713]  panic+0x140/0x32c
-[   70.508718]  complete_and_exit+0x0/0x20
-[   70.508724]  do_group_exit+0x34/0x98
-[   70.539649]  get_signal+0x104/0x678
-[   70.543139]  do_notify_resume+0x2ac/0x380
-[   70.547149]  work_pending+0x8/0x10
-[   70.550553] CPU: 2 PID: 482 Comm: v4l2-ctl Tainted: G    B             5.3.0-rc1+ #159
-[   70.550554] SMP: stopping secondary CPUs
-[   70.562387] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M (DT)
-[   70.568653] Call trace:
-[   70.571103]  dump_backtrace+0x0/0x148
-[   70.574765]  show_stack+0x14/0x20
-[   70.578081]  dump_stack+0x9c/0xc4
-[   70.581398]  bad_page+0xe4/0x148
-[   70.584627]  free_pages_check_bad+0x70/0xa8
-[   70.588814]  __free_pages_ok+0x294/0x2b0
-[   70.592737]  __free_pages+0x38/0x50
-[   70.596229]  dma_free_contiguous+0x90/0x98
-[   70.600327]  __dma_direct_free_pages+0x18/0x20
-[   70.604771]  arch_dma_free+0x74/0x88
-[   70.608347]  dma_direct_free+0x4c/0x58
-[   70.612098]  dma_free_attrs+0x88/0xe0
-[   70.615765]  vb2_dc_put+0x44/0x60
-[   70.619082]  __vb2_buf_mem_free+0x68/0x110
-[   70.623180]  __vb2_queue_free+0x398/0x538
-[   70.627192]  vb2_core_queue_release+0x34/0x48
-[   70.631551]  _vb2_fop_release+0x88/0x98
-[   70.635387]  vb2_fop_release+0x28/0x50
-[   70.639138]  vivid_fop_release+0x88/0x208
-[   70.643149]  v4l2_release+0x6c/0xf0
-[   70.646638]  __fput+0x8c/0x1f8
-[   70.649693]  ____fput+0xc/0x18
-[   70.652750]  task_work_run+0x94/0xb0
-[   70.656326]  do_exit+0x2b0/0x9f8
-[   70.659554]  do_group_exit+0x34/0x98
-[   70.663130]  get_signal+0x104/0x678
-[   70.666621]  do_notify_resume+0x2ac/0x380
-[   70.670632]  work_pending+0x8/0x10
-[   70.674036] Kernel Offset: disabled
-[   70.677526] CPU features: 0x0002,2000200c
-[   70.681535] Memory Limit: none
-[   70.684599] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
-
-Dafna
-
-> Thanks,
-> Mauro
+T24gNy8yMy8xOSAzOjE0IFBNLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3RlOg0KPiBPbiBNb24sIDIw
+MTktMDctMjIgYXQgMDg6MzggLTAzMDAsIE1hdXJvIENhcnZhbGhvIENoZWhhYiB3cm90ZToNCj4+
+IEVtIE1vbiwgMjIgSnVsIDIwMTkgMTM6MjE6MDAgKzAyMDANCj4+IERhZm5hIEhpcnNjaGZlbGQg
+PGRhZm5hLmhpcnNjaGZlbGRAY29sbGFib3JhLmNvbT4gZXNjcmV2ZXU6DQo+Pg0KPj4+IEkgbG9h
+ZGVkIHRoZSB2aXZpZCBtb2R1bGUgd2l0aCBjb250aWd1b3VzIERNQSBhbmQgcmFuIHN0cmVhbWlu
+Zw0KPj4+IHdpdGgNCj4+PiBpdCB3aXRoIGxhcmdlIGltYWdlIGRpbWVuc2lvbnMNCj4+PiBbwqDC
+oDMwNi40MzczMjddIENhbGwgVHJhY2U6DQo+Pj4gW8KgwqAzMDYuNDM3MzM4XcKgwqBfX2RtYV9k
+aXJlY3RfYWxsb2NfcGFnZXMrMHhjOS8weDFjMA0KPj4+IFvCoMKgMzA2LjQzNzM0M13CoMKgZG1h
+X2RpcmVjdF9hbGxvY19wYWdlcysweDI0LzB4ZjANCj4+PiBbwqDCoDMwNi40MzczNDhdwqDCoGRt
+YV9kaXJlY3RfYWxsb2MrMHhlLzB4MTANCj4+PiBbwqDCoDMwNi40MzczNTFdwqDCoGRtYV9hbGxv
+Y19hdHRycysweDg0LzB4ZDANCj4+DQo+PiBIbW0uLi4gd2UgaGFkIGEgcmVjZW50IHJlZ3Jlc3Np
+b24gYWZmZWN0aW5nIG90aGVyIG1lZGlhIGRldmljZXMsDQo+PiByZXBvcnRlZCB2aWEgS2FmZmVp
+bmUgbWFpbGluZyBsaXN0Og0KPj4NCj4+IAlodHRwczovL2J1Z3Mua2RlLm9yZy9zaG93X2J1Zy5j
+Z2k/aWQ9NDA4MDA0I2MzNQ0KPj4NCj4+IFdoaWxlIHRoaXMgb25lIHdhcyBmb3IgUy9HLCBtYXli
+ZSBpdCBpcyBzb21ld2hhdCByZWxhdGVkLg0KPj4NCj4gQWxzbywgSSBjb21waWxlZCB2aXZpZCBh
+cyBidWlsdC1pbiBpbnRvIHRoZSBrZXJuZWwgKG5vdCBhcyBhIHNlcGFyYXRlIG1vZHVsZSnCoGZv
+ciBuaXRyb2dlbjhtIGRldmljZSAoaW14OCkgYW5kDQo+IHNldCBpdCB0byB1c2UgY29udGlnIGRt
+YSBmb3IgbWVtX29wcy4gVGhlbiBJIGdldCBhIGNyYXNoIHdoZW4gcnVubmluZyB0aGUgYWJvdmUg
+Y29tbWFuZC4NCj4gSSB1c2UgdGhlIG1hc3RlciBicmFuY2ggb2YgZ2l0Oi8vZ2l0Lmtlcm5lbC5v
+cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdCB3aXRoIHRoaXMg
+cGF0Y2ggdG8gdml2aWQ6DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS92aXZpZC92aXZpZC1jb3JlLmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3ZpdmlkL3Zpdmlk
+LWNvcmUuYw0KPiBpbmRleCBiYzJhMTc2OTM3YTQuLjA1MzFmMzZkN2QwYSAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92aXZpZC92aXZpZC1jb3JlLmMNCj4gKysrIGIvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS92aXZpZC92aXZpZC1jb3JlLmMNCj4gQEAgLTE0MCw3ICsxNDAs
+NyBAQCBzdGF0aWMgYm9vbCBub19lcnJvcl9pbmo7DQo+ICBtb2R1bGVfcGFyYW0obm9fZXJyb3Jf
+aW5qLCBib29sLCAwNDQ0KTsNCj4gIE1PRFVMRV9QQVJNX0RFU0Mobm9fZXJyb3JfaW5qLCAiIGlm
+IHNldCBkaXNhYmxlIHRoZSBlcnJvciBpbmplY3RpbmcgY29udHJvbHMiKTsNCj4gIA0KPiAtc3Rh
+dGljIHVuc2lnbmVkIGludCBhbGxvY2F0b3JzW1ZJVklEX01BWF9ERVZTXSA9IHsgWzAgLi4uIChW
+SVZJRF9NQVhfREVWUyAtIDEpXSA9IDAgfTsNCj4gK3N0YXRpYyB1bnNpZ25lZCBpbnQgYWxsb2Nh
+dG9yc1tWSVZJRF9NQVhfREVWU10gPSB7IFswIC4uLiAoVklWSURfTUFYX0RFVlMgLSAxKV0gPSAx
+IH07DQo+ICBtb2R1bGVfcGFyYW1fYXJyYXkoYWxsb2NhdG9ycywgdWludCwgTlVMTCwgMDQ0NCk7
+DQo+ICBNT0RVTEVfUEFSTV9ERVNDKGFsbG9jYXRvcnMsICIgbWVtb3J5IGFsbG9jYXRvciBzZWxl
+Y3Rpb24sIGRlZmF1bHQgaXMgMC5cbiINCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAi
+XHRcdCAgICAwID09IHZtYWxsb2NcbiINCj4gDQo+IEFuZCB0aGVuIG9uIHRoZSBuaXRyb2dlbjht
+IGRldmljZSBJIGdldCB0aGUgZm9sbG93aW5nIGNyYXNoIHJlcG9ydCB3aGljaCBzZWVtcyB0byBi
+ZSByZWxhdGVkIHRvIHRoZSBjbWEgYWxsb2NhdGlvbg0KPiANCj4gdWJ1bnR1QGJpb25pYy1kZXY2
+NDp+JCB2NGwyLWN0bCAtZDMgLXYgd2lkdGg9MjU5MixoZWlnaHQ9MTk0NCxwaXhlbGZvcm1hdD1V
+WVZZLGJ5dGVzcGVybGluZT01MTg0IC0tc3RyZWFtLW1tYXAgLS1zdHJlYW0tdG8gdmlkZW8uVVlW
+WQ0KPiBbICAgNzAuMTM5MDA2XSBjbWE6IGNtYV9hbGxvYyhjbWEgKF9fX19wdHJ2YWxfX19fKSwg
+Y291bnQgNDA1MCwgYWxpZ24gOCkNCj4gWyAgIDcwLjE1OTgyOV0gY21hOiBjbWFfYWxsb2MoY21h
+IChfX19fcHRydmFsX19fXyksIGNvdW50IDQwNTAsIGFsaWduIDgpDQo+IFsgICA3MC4xNjYyOTJd
+IGNtYTogY21hX2FsbG9jOiBhbGxvYyBmYWlsZWQsIHJlcS1zaXplOiA0MDUwIHBhZ2VzLCByZXQ6
+IC0xMg0KPiBbICAgNzAuMTczMDA2XSBjbWE6IG51bWJlciBvZiBhdmFpbGFibGUgcGFnZXM6IDcy
+QDE4NCszODg2QDQzMDY9PiAzOTU4IGZyZWUgb2YgODE5MiB0b3RhbCBwYWdlcw0KDQpTbyBpdCBs
+b29rcyBsaWtlIHRoZSBDTUEgYXJlYSBpcyB0b28gc21hbGwuIExvb2sgYXQgdGhlIENPTkZJR19D
+TUFfU0laRV9NQllURVMNCnNldHRpbmcuDQoNClRoYXQgZXhwbGFpbnMgd2h5IGl0IGZhaWxzLg0K
+DQo+IFsgICA3MC4xODE0NzFdIGNtYTogY21hX2FsbG9jKCk6IHJldHVybmVkIChfX19fcHRydmFs
+X19fXykNCj4gWyAgIDcwLjE5MjQ0OV0gY21hOiBjbWFfYWxsb2MoY21hIChfX19fcHRydmFsX19f
+XyksIGNvdW50IDQwNTAsIGFsaWduIDgpDQo+IFsgICA3MC4xOTg5MDddIGNtYTogY21hX2FsbG9j
+OiBhbGxvYyBmYWlsZWQsIHJlcS1zaXplOiA0MDUwIHBhZ2VzLCByZXQ6IC0xMg0KPiBbICAgNzAu
+MjA1NjI1XSBjbWE6IG51bWJlciBvZiBhdmFpbGFibGUgcGFnZXM6IDcyQDE4NCszODg2QDQzMDY9
+PiAzOTU4IGZyZWUgb2YgODE5MiB0b3RhbCBwYWdlcw0KPiBbICAgNzAuMjA1NzMzXSBzeXN0ZW1k
+LWpvdXJuYWxkWzIwNF06IC92YXIvbG9nL2pvdXJuYWwvNWNjYTg5MTg0MDEyNDk1MzhlYWNiNWVm
+ZDViOWIwNTIvc3lzdGVtLmpvdXJuYWw6IEpvdXJuYWwgZmlsZSBjb3JydXB0ZWQsIHJvdGF0aW5n
+Lg0KPiBbICAgNzAuMjE0MDgzXSBjbWE6IGNtYV9hbGxvYygpOiByZXR1cm5lZCAoX19fX3B0cnZh
+bF9fX18pDQo+IFsgICA3MC4yMTk4NjddIGNtYTogY21hX2FsbG9jKGNtYSAoX19fX3B0cnZhbF9f
+X18pLCBjb3VudCA0MDUwLCBhbGlnbiA4KQ0KPiBbICAgNzAuMjM3ODc4XSBjbWE6IGNtYV9hbGxv
+YzogYWxsb2MgZmFpbGVkLCByZXEtc2l6ZTogNDA1MCBwYWdlcywgcmV0OiAtMTINCj4gWyAgIDcw
+LjI0NDU5OV0gY21hOiBudW1iZXIgb2YgYXZhaWxhYmxlIHBhZ2VzOiA3MkAxODQrMzg4NkA0MzA2
+PT4gMzk1OCBmcmVlIG9mIDgxOTIgdG90YWwgcGFnZXMNCj4gWyAgIDcwLjI1MzA2Nl0gY21hOiBj
+bWFfYWxsb2MoKTogcmV0dXJuZWQgKF9fX19wdHJ2YWxfX19fKQ0KPiBbICAgNzAuMjY0ODkzXSBj
+bWE6IGNtYV9yZWxlYXNlKHBhZ2UgKF9fX19wdHJ2YWxfX19fKSkNCj4gWyAgIDcwLjI3Mjg3MV0g
+Y21hOiBjbWFfcmVsZWFzZShwYWdlIChfX19fcHRydmFsX19fXykpDQo+IFsgICA3MC4yNzc4MDBd
+IEJVRzogQmFkIHBhZ2Ugc3RhdGUgaW4gcHJvY2VzcyB2NGwyLWN0bCAgcGZuOmI1YTAwDQoNCkJ1
+dCB0aGF0IHNob3VsZG4ndCBsZWFkIHRvIHRoaXMuDQoNCkl0IGNvdWxkIGJlIGEgYnVnIHNvbWV3
+aGVyZS4NCg0KRG9lcyBpdCB3b3JrIGZpbmUgaWYgeW91IHVzZSBhIHNtYWxsZXIgcmVzb2x1dGlv
+bj8gUGVyaGFwcyB0aGVyZSBpcyBzb21ldGhpbmcNCndyb25nIGluIGVycm9yIGhhbmRsaW5nIGlu
+IHZiMi4gVGhlc2UgY29ybmVyIGNhc2VzIGFyZSBub3QgZXhhY3RseSB0ZXN0ZWQNCnZlcnkgb2Z0
+ZW4gKG9yIGF0IGFsbCEpLg0KDQpSZWdhcmRzLA0KDQoJSGFucw0KDQo+IFsgICA3MC4yODM2NTJd
+IHBhZ2U6ZmZmZjdlMDAwMWQ2ODAwMCByZWZjb3VudDoxMyBtYXBjb3VudDowIG1hcHBpbmc6MDAw
+MDAwMDAwMDAwMDAwMCBpbmRleDoweDAgY29tcG91bmRfbWFwY291bnQ6IDANCj4gWyAgIDcwLjI5
+Mzg3NF0gZmxhZ3M6IDB4ZmZmZjAwMDAwMDEwMDAwKGhlYWQpDQo+IFsgICA3MC4yOTc5OTldIHJh
+dzogMGZmZmYwMDAwMDAxMDAwMCBkZWFkMDAwMDAwMDAwMTAwIGRlYWQwMDAwMDAwMDAxMjIgMDAw
+MDAwMDAwMDAwMDAwMA0KPiBbICAgNzAuMzA1NzcyXSByYXc6IDAwMDAwMDAwMDAwMDAwMDAgMDAw
+MDAwMDAwMDAwMDAwMCAwMDAwMDAwZGZmZmZmZmZmIDAwMDAwMDAwMDAwMDAwMDANCj4gWyAgIDcw
+LjMxMzUyNl0gcGFnZSBkdW1wZWQgYmVjYXVzZTogbm9uemVybyBfcmVmY291bnQNCj4gWyAgIDcw
+LjMxODMyN10gTW9kdWxlcyBsaW5rZWQgaW46DQo+IFsgICA3MC4zMjEzOTldIENQVTogMiBQSUQ6
+IDQ4MiBDb21tOiB2NGwyLWN0bCBOb3QgdGFpbnRlZCA1LjMuMC1yYzErICMxNTkNCj4gWyAgIDcw
+LjMyNzkyN10gSGFyZHdhcmUgbmFtZTogQm91bmRhcnkgRGV2aWNlcyBpLk1YOE1RIE5pdHJvZ2Vu
+OE0gKERUKQ0KPiBbICAgNzAuMzM0MTk2XSBDYWxsIHRyYWNlOg0KPiBbICAgNzAuMzM2NjU0XSAg
+ZHVtcF9iYWNrdHJhY2UrMHgwLzB4MTQ4DQo+IFsgICA3MC4zNDAzMTldICBzaG93X3N0YWNrKzB4
+MTQvMHgyMA0KPiBbICAgNzAuMzQzNjQwXSAgZHVtcF9zdGFjaysweDljLzB4YzQNCj4gWyAgIDcw
+LjM0Njk1OV0gIGJhZF9wYWdlKzB4ZTQvMHgxNDgNCj4gWyAgIDcwLjM1MDE4OF0gIGZyZWVfcGFn
+ZXNfY2hlY2tfYmFkKzB4NzAvMHhhOA0KPiBbICAgNzAuMzU0Mzc1XSAgX19mcmVlX3BhZ2VzX29r
+KzB4Mjk0LzB4MmIwDQo+IFsgICA3MC4zNTgzMDFdICBfX2ZyZWVfcGFnZXMrMHgzOC8weDUwDQo+
+IFsgICA3MC4zNjE3OTVdICBkbWFfZnJlZV9jb250aWd1b3VzKzB4OTAvMHg5OA0KPiBbICAgNzAu
+MzY1ODkyXSAgX19kbWFfZGlyZWN0X2ZyZWVfcGFnZXMrMHgxOC8weDIwDQo+IFsgICA3MC4zNzAz
+MzhdICBhcmNoX2RtYV9mcmVlKzB4NzQvMHg4OA0KPiBbICAgNzAuMzczOTE2XSAgZG1hX2RpcmVj
+dF9mcmVlKzB4NGMvMHg1OA0KPiBbICAgNzAuMzc3NjY4XSAgZG1hX2ZyZWVfYXR0cnMrMHg4OC8w
+eGUwDQo+IFsgICA3MC4zODEzMzVdICB2YjJfZGNfcHV0KzB4NDQvMHg2MA0KPiBbICAgNzAuMzg0
+NjUzXSAgX192YjJfYnVmX21lbV9mcmVlKzB4NjgvMHgxMTANCj4gWyAgIDcwLjM4ODc0OV0gIF9f
+dmIyX3F1ZXVlX2ZyZWUrMHgzOTgvMHg1MzgNCj4gWyAgIDcwLjM5Mjc2M10gIHZiMl9jb3JlX3F1
+ZXVlX3JlbGVhc2UrMHgzNC8weDQ4DQo+IFsgICA3MC4zOTcxMjJdICBfdmIyX2ZvcF9yZWxlYXNl
+KzB4ODgvMHg5OA0KPiBbICAgNzAuNDAwOTYwXSAgdmIyX2ZvcF9yZWxlYXNlKzB4MjgvMHg1MA0K
+PiBbICAgNzAuNDA0NzEyXSAgdml2aWRfZm9wX3JlbGVhc2UrMHg4OC8weDIwOA0KPiBbICAgNzAu
+NDA4NzI1XSAgdjRsMl9yZWxlYXNlKzB4NmMvMHhmMA0KPiBbICAgNzAuNDEyMjE2XSAgX19mcHV0
+KzB4OGMvMHgxZjgNCj4gWyAgIDcwLjQxNTI3MF0gIF9fX19mcHV0KzB4Yy8weDE4DQo+IFsgICA3
+MC40MTgzMjhdICB0YXNrX3dvcmtfcnVuKzB4OTQvMHhiMA0KPiBbICAgNzAuNDIxOTA3XSAgZG9f
+ZXhpdCsweDJiMC8weDlmOA0KPiBbICAgNzAuNDI1MTM4XSAgZG9fZ3JvdXBfZXhpdCsweDM0LzB4
+OTgNCj4gWyAgIDcwLjQyODcxN10gIGdldF9zaWduYWwrMHgxMDQvMHg2NzgNCj4gWyAgIDcwLjQz
+MjIwOV0gIGRvX25vdGlmeV9yZXN1bWUrMHgyYWMvMHgzODANCj4gWyAgIDcwLjQzNjIyMF0gIHdv
+cmtfcGVuZGluZysweDgvMHgxMA0KPiBbICAgNzAuNDM5NjQ4XSBEaXNhYmxpbmcgbG9jayBkZWJ1
+Z2dpbmcgZHVlIHRvIGtlcm5lbCB0YWludA0KPiBbICAgNzAuNDQ0OTc0XSBCVUc6IEJhZCBwYWdl
+IHN0YXRlIGluIHByb2Nlc3MgdjRsMi1jdGwgIHBmbjpiNWEwMQ0KPiBbICAgNzAuNDUwODIyXSBw
+YWdlOmZmZmY3ZTAwMDFkNjgwNDAgcmVmY291bnQ6MCBtYXBjb3VudDowIG1hcHBpbmc6ZGVhZDAw
+MDAwMDAwMDQwMCBpbmRleDoweDEgY29tcG91bmRfbWFwY291bnQ6IDANCj4gWyAgIDcwLjQ1MTQy
+N10gcHJpbnRrOiBzeXN0ZW1kOiAyNyBvdXRwdXQgbGluZXMgc3VwcHJlc3NlZCBkdWUgdG8gcmF0
+ZWxpbWl0aW5nDQo+IFsgICA3MC40NjA5MjRdIGZsYWdzOiAweGZmZmYwMDAwMDAwMDAwMCgpDQo+
+IFsgICA3MC40NjA5MzFdIHJhdzogMGZmZmYwMDAwMDAwMDAwMCBmZmZmN2UwMDAxZDY4MDAxIGZm
+ZmZmZmZmMDFkNjAzMDEgZGVhZDAwMDAwMDAwMDQwMA0KPiBbICAgNzAuNDY3OTQ1XSBLZXJuZWwg
+cGFuaWMgLSBub3Qgc3luY2luZzogQXR0ZW1wdGVkIHRvIGtpbGwgaW5pdCEgZXhpdGNvZGU9MHgw
+MDAwMDAwYg0KPiBbICAgNzAuNDcxNjU5XSByYXc6IDAwMDAwMDAwMDAwMDAwMDAgMDAwMDAwMDAw
+MDAwMDAwMCAwMDAwMDAwMGZmZmZmZmZmIDAwMDAwMDAwMDAwMDAwMDANCj4gWyAgIDcwLjQ3OTM4
+OV0gQ1BVOiAxIFBJRDogMSBDb21tOiBzeXN0ZW1kIFRhaW50ZWQ6IEcgICAgQiAgICAgICAgICAg
+ICA1LjMuMC1yYzErICMxNTkNCj4gWyAgIDcwLjQ3OTM5NF0gSGFyZHdhcmUgbmFtZTogQm91bmRh
+cnkgRGV2aWNlcyBpLk1YOE1RIE5pdHJvZ2VuOE0gKERUKQ0KPiBbICAgNzAuNDg3MDU4XSBwYWdl
+IGR1bXBlZCBiZWNhdXNlOiBub24tTlVMTCBtYXBwaW5nDQo+IFsgICA3MC40OTQ3ODJdIENhbGwg
+dHJhY2U6DQo+IFsgICA3MC40OTQ3ODldICBkdW1wX2JhY2t0cmFjZSsweDAvMHgxNDgNCj4gWyAg
+IDcwLjQ5NDc5M10gIHNob3dfc3RhY2srMHgxNC8weDIwDQo+IFsgICA3MC40OTQ3OTldICBkdW1w
+X3N0YWNrKzB4OWMvMHhjNA0KPiBbICAgNzAuNTAyNDYwXSBNb2R1bGVzIGxpbmtlZCBpbjoNCj4g
+WyAgIDcwLjUwODcxM10gIHBhbmljKzB4MTQwLzB4MzJjDQo+IFsgICA3MC41MDg3MThdICBjb21w
+bGV0ZV9hbmRfZXhpdCsweDAvMHgyMA0KPiBbICAgNzAuNTA4NzI0XSAgZG9fZ3JvdXBfZXhpdCsw
+eDM0LzB4OTgNCj4gWyAgIDcwLjUzOTY0OV0gIGdldF9zaWduYWwrMHgxMDQvMHg2NzgNCj4gWyAg
+IDcwLjU0MzEzOV0gIGRvX25vdGlmeV9yZXN1bWUrMHgyYWMvMHgzODANCj4gWyAgIDcwLjU0NzE0
+OV0gIHdvcmtfcGVuZGluZysweDgvMHgxMA0KPiBbICAgNzAuNTUwNTUzXSBDUFU6IDIgUElEOiA0
+ODIgQ29tbTogdjRsMi1jdGwgVGFpbnRlZDogRyAgICBCICAgICAgICAgICAgIDUuMy4wLXJjMSsg
+IzE1OQ0KPiBbICAgNzAuNTUwNTU0XSBTTVA6IHN0b3BwaW5nIHNlY29uZGFyeSBDUFVzDQo+IFsg
+ICA3MC41NjIzODddIEhhcmR3YXJlIG5hbWU6IEJvdW5kYXJ5IERldmljZXMgaS5NWDhNUSBOaXRy
+b2dlbjhNIChEVCkNCj4gWyAgIDcwLjU2ODY1M10gQ2FsbCB0cmFjZToNCj4gWyAgIDcwLjU3MTEw
+M10gIGR1bXBfYmFja3RyYWNlKzB4MC8weDE0OA0KPiBbICAgNzAuNTc0NzY1XSAgc2hvd19zdGFj
+aysweDE0LzB4MjANCj4gWyAgIDcwLjU3ODA4MV0gIGR1bXBfc3RhY2srMHg5Yy8weGM0DQo+IFsg
+ICA3MC41ODEzOThdICBiYWRfcGFnZSsweGU0LzB4MTQ4DQo+IFsgICA3MC41ODQ2MjddICBmcmVl
+X3BhZ2VzX2NoZWNrX2JhZCsweDcwLzB4YTgNCj4gWyAgIDcwLjU4ODgxNF0gIF9fZnJlZV9wYWdl
+c19vaysweDI5NC8weDJiMA0KPiBbICAgNzAuNTkyNzM3XSAgX19mcmVlX3BhZ2VzKzB4MzgvMHg1
+MA0KPiBbICAgNzAuNTk2MjI5XSAgZG1hX2ZyZWVfY29udGlndW91cysweDkwLzB4OTgNCj4gWyAg
+IDcwLjYwMDMyN10gIF9fZG1hX2RpcmVjdF9mcmVlX3BhZ2VzKzB4MTgvMHgyMA0KPiBbICAgNzAu
+NjA0NzcxXSAgYXJjaF9kbWFfZnJlZSsweDc0LzB4ODgNCj4gWyAgIDcwLjYwODM0N10gIGRtYV9k
+aXJlY3RfZnJlZSsweDRjLzB4NTgNCj4gWyAgIDcwLjYxMjA5OF0gIGRtYV9mcmVlX2F0dHJzKzB4
+ODgvMHhlMA0KPiBbICAgNzAuNjE1NzY1XSAgdmIyX2RjX3B1dCsweDQ0LzB4NjANCj4gWyAgIDcw
+LjYxOTA4Ml0gIF9fdmIyX2J1Zl9tZW1fZnJlZSsweDY4LzB4MTEwDQo+IFsgICA3MC42MjMxODBd
+ICBfX3ZiMl9xdWV1ZV9mcmVlKzB4Mzk4LzB4NTM4DQo+IFsgICA3MC42MjcxOTJdICB2YjJfY29y
+ZV9xdWV1ZV9yZWxlYXNlKzB4MzQvMHg0OA0KPiBbICAgNzAuNjMxNTUxXSAgX3ZiMl9mb3BfcmVs
+ZWFzZSsweDg4LzB4OTgNCj4gWyAgIDcwLjYzNTM4N10gIHZiMl9mb3BfcmVsZWFzZSsweDI4LzB4
+NTANCj4gWyAgIDcwLjYzOTEzOF0gIHZpdmlkX2ZvcF9yZWxlYXNlKzB4ODgvMHgyMDgNCj4gWyAg
+IDcwLjY0MzE0OV0gIHY0bDJfcmVsZWFzZSsweDZjLzB4ZjANCj4gWyAgIDcwLjY0NjYzOF0gIF9f
+ZnB1dCsweDhjLzB4MWY4DQo+IFsgICA3MC42NDk2OTNdICBfX19fZnB1dCsweGMvMHgxOA0KPiBb
+ICAgNzAuNjUyNzUwXSAgdGFza193b3JrX3J1bisweDk0LzB4YjANCj4gWyAgIDcwLjY1NjMyNl0g
+IGRvX2V4aXQrMHgyYjAvMHg5ZjgNCj4gWyAgIDcwLjY1OTU1NF0gIGRvX2dyb3VwX2V4aXQrMHgz
+NC8weDk4DQo+IFsgICA3MC42NjMxMzBdICBnZXRfc2lnbmFsKzB4MTA0LzB4Njc4DQo+IFsgICA3
+MC42NjY2MjFdICBkb19ub3RpZnlfcmVzdW1lKzB4MmFjLzB4MzgwDQo+IFsgICA3MC42NzA2MzJd
+ICB3b3JrX3BlbmRpbmcrMHg4LzB4MTANCj4gWyAgIDcwLjY3NDAzNl0gS2VybmVsIE9mZnNldDog
+ZGlzYWJsZWQNCj4gWyAgIDcwLjY3NzUyNl0gQ1BVIGZlYXR1cmVzOiAweDAwMDIsMjAwMDIwMGMN
+Cj4gWyAgIDcwLjY4MTUzNV0gTWVtb3J5IExpbWl0OiBub25lDQo+IFsgICA3MC42ODQ1OTldIC0t
+LVsgZW5kIEtlcm5lbCBwYW5pYyAtIG5vdCBzeW5jaW5nOiBBdHRlbXB0ZWQgdG8ga2lsbCBpbml0
+ISBleGl0Y29kZT0weDAwMDAwMDBiIF0tLS0NCj4gDQo+IERhZm5hDQo+IA0KPj4gVGhhbmtzLA0K
+Pj4gTWF1cm8NCg==
