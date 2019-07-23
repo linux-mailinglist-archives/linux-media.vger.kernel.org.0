@@ -2,145 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB7970D9D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 01:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 576177104C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 06:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731790AbfGVXt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jul 2019 19:49:27 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:47018 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729728AbfGVXt0 (ORCPT
+        id S1725863AbfGWEDT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 00:03:19 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35423 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725862AbfGWEDT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jul 2019 19:49:26 -0400
-Received: by mail-io1-f68.google.com with SMTP id i10so77834170iol.13;
-        Mon, 22 Jul 2019 16:49:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OJLmbuthXALsnhPZhxE7MeJBMmONjl7w8T5HPyeenvc=;
-        b=W8E3iQVyRjdXFw0N3rKrjpPdQHtOwqWRxL/RsRe7X4P7IMLpvvR5LVVPCRxh6w13iK
-         vamc4AhwKvUEBNf8yPTL+HjKYym4CZFBDIgIwgQwIr9kNTvpdjRbKAgIX2rb6UB2LXLM
-         /iP1HfOtlBpqZMJzM5NhcaYfHnzxDHegsnACej0LjTzKcBAc+5I66qNqo+8pYlD5z3Yx
-         zfgKmUvdYKU4jcr+EYCE6mgyMP91+hIESH4ETpLi79n57ip4VZWs7elWUQLJVp4CrIDL
-         eF6X7B9pFP9JVheFesU15yOAah5pMzM8mTmbqocJ3BpOU3MgNfqrZYMxA7KZz9mn8Flc
-         c66w==
-X-Gm-Message-State: APjAAAXEFUwggL+jdjoqgqbP8U9sDeGZjdCAo8eXgvLcZrv5ZJ6QHhWO
-        R2klkZAGiZDLn9jWY8F2Iw==
-X-Google-Smtp-Source: APXvYqzkH8Tnp7m9jxTvF2W3kkBnlZgivGKMGBtOnCdqqnMHosHOQ0blCrKEmssR6DnsieQ9XjyLqw==
-X-Received: by 2002:a5d:8ccc:: with SMTP id k12mr67931100iot.141.1563839365957;
-        Mon, 22 Jul 2019 16:49:25 -0700 (PDT)
-Received: from localhost ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id m4sm36990247iok.68.2019.07.22.16.49.25
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 22 Jul 2019 16:49:25 -0700 (PDT)
-Date:   Mon, 22 Jul 2019 17:49:24 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     dongchun.zhu@mediatek.com
-Cc:     mchehab@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, --to=drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [RFC,V2,1/2] media: dt-bindings: media: i2c: Add bindings for
- OV02A10
-Message-ID: <20190722234924.GA22604@bogus>
-References: <20190704084651.3105-1-dongchun.zhu@mediatek.com>
- <20190704084651.3105-2-dongchun.zhu@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190704084651.3105-2-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 23 Jul 2019 00:03:19 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:3444:3aa3:41f9:652])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id pm1Ehd4OxuEBxpm1Fhm28K; Tue, 23 Jul 2019 06:03:17 +0200
+Message-ID: <d56d983deb24b7066402036193824394@smtp-cloud9.xs4all.net>
+Date:   Tue, 23 Jul 2019 06:03:16 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfC7x/r2QwlM0xWBA2Zwy4RdbybhRqKW3v8iVwUthl47rZyay7OIZ+PGYlT19snMjKLaYUtqtU2P6u/xenbP1hwSYNOGD52ZPSCMiTYlkxI6syJ/rK2Vi
+ bQpkS0V+0PKpLCBmfH8t+lwJO3WPIvynIm/yXxerylZz2tfK4cgzj+TU4DuKdrPn2MIqbTLn7bfPrgS2mc9oCzry0Rj5NqKQNasI4VkQvzwEehD09BLP+vUq
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 04, 2019 at 04:46:50PM +0800, dongchun.zhu@mediatek.com wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-> Add device tree binding documentation for the OV02A10 camera sensor.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  .../devicetree/bindings/media/i2c/ov02a10.txt      | 43 ++++++++++++++++++++++
->  MAINTAINERS                                        |  7 ++++
->  2 files changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov02a10.txt b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> new file mode 100644
-> index 0000000..d40aa87
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> @@ -0,0 +1,43 @@
-> +* Omnivision OV02A10 MIPI CSI-2 sensor
-> +
-> +Required Properties:
-> +- compatible: shall be "ovti,ov02a10"
-> +- clocks: reference to the xvclk input clock
-> +- clock-names: shall be "xvclk"
-> +- avdd-supply: Analog voltage supply, 2.8 volts
-> +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
-> +- dvdd-supply: Digital core voltage supply, 1.8 volts
-> +- reset-gpios: Low active reset gpio
-> +
-> +The device node shall contain one 'port' child node with an
-> +'endpoint' subnode for its digital output video port,
-> +in accordance with the video interface bindings defined in
-> +Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +The endpoint optional property 'data-lanes' shall be "<1>".
-> +
-> +Example:
-> +&i2c4 {
-> +	ov02a10: camera-sensor@3d {
-> +		compatible = "ovti,ov02a10";
-> +		reg = <0x3d>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&camera_pins_cam1_mclk_on>;
-> +
-> +		clocks = <&topckgen CLK_TOP_MUX_CAMTG2>,
-> +			<&topckgen CLK_TOP_UNIVP_192M_D8>;
-> +		clock-names = "xvclk", "freq_mux";
-> +
-> +		avdd-supply = <&mt6358_vcama1_reg>;
-> +		dvdd-supply = <&mt6358_vcn18_reg>;
-> +		dovdd-supply = <&mt6358_vcamio_reg>;
-> +		pwdn-gpios = <&pio 107 1>;
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Not documented. If you need this, use 'powerdown-gpios' instead.
+Results of the daily build of media_tree:
 
-> +		reset-gpios = <&pio 109 1>;
-> +
-> +		port {
-> +		   ov02a10_core: endpoint {
-> +		       remote-endpoint = <&ov02a10_0>;
-> +			   data-lanes = <1>;
-> +			};
-> +		};
-> +	};
-> +};
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5cfbea4..62b81ff 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11571,6 +11571,13 @@ T:	git git://linuxtv.org/media_tree.git
->  S:	Maintained
->  F:	drivers/media/i2c/ov13858.c
->  
-> +OMNIVISION OV02A10 SENSOR DRIVER
-> +M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +L:	linux-media@vger.kernel.org
-> +T:	git git://linuxtv.org/media_tree.git
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/ov02a10.txt
-> +
->  OMNIVISION OV2680 SENSOR DRIVER
->  M:	Rui Miguel Silva <rmfrfs@gmail.com>
->  L:	linux-media@vger.kernel.org
-> -- 
-> 2.9.2
-> 
+date:			Tue Jul 23 05:00:13 CEST 2019
+media-tree git hash:	66193b24514c91aeda88da744554b2665471aeae
+media_build git hash:	c5884d3b03606ebdbf64417fcdfd274cbcc0b4e4
+v4l-utils git hash:	6b63111c71eb2837195962d510c510b83c3821f0
+edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2382c744834df83c5de61d43d7ed295f050f0599
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: WARNINGS
+linux-5.3-rc1-x86_64: WARNINGS
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Logs weren't copied as they are too large (4292 kB)
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
