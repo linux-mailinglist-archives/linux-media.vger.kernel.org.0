@@ -2,69 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE19716AB
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 12:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED077173D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 13:37:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731863AbfGWK7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jul 2019 06:59:00 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37065 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731069AbfGWK7A (ORCPT
+        id S1727025AbfGWLhy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 07:37:54 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:37194 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726575AbfGWLhx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 06:59:00 -0400
-Received: from [IPv6:2001:420:44c1:2579:b924:5c77:4556:9fd2] ([IPv6:2001:420:44c1:2579:b924:5c77:4556:9fd2])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id psVShunI2LqASpsVWhIbUw; Tue, 23 Jul 2019 12:58:58 +0200
-Subject: Re: [RFC] Removal of drivers/staging/media/bcm2048
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali.rohar@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>
+        Tue, 23 Jul 2019 07:37:53 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 6798D634C87;
+        Tue, 23 Jul 2019 14:37:45 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hpt72-0000Vp-N6; Tue, 23 Jul 2019 14:37:44 +0300
+Date:   Tue, 23 Jul 2019 14:37:44 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <e78d190f-5185-f37a-c212-b88af2198f55@xs4all.nl>
- <20190723090952.GB30669@amd> <20190723094856.rlwt3rns3yt6q6uz@pali>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f20fc4bf-537f-0672-11fd-9ba61eb788c7@xs4all.nl>
-Date:   Tue, 23 Jul 2019 12:58:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+Subject: Re: [PATCH] v4l2-dev/ioctl: require non-zero device_caps, verify
+ sane querycap results
+Message-ID: <20190723113744.GE1263@valkosipuli.retiisi.org.uk>
+References: <1025a223-5625-2776-4524-473590a664eb@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20190723094856.rlwt3rns3yt6q6uz@pali>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfI3b46cPLvIQxDBIqW3WoXCOSsHUsAr4/RaYScFeelY8SBQrVAZN+Mghx6UsRf/MVGX0CEtHaXiP+pwBjpl5L9dtOjgIA8RVA6xS3qtufQXYjAgk+/Gn
- 1ptBm6LAujATg1dYShwKpl7gUuoiI92krYG09qKuTwmZ+C1xMe8jBBIGnD7a41YNno/YLqJ8NJ77Mi57cny8EiNlyOnDBMrFpnt0IdGLUZPPHZsvKCu1c/u+
- P5r0ZBzSRw+VFfHrNuLdzhqhVHHys0b2ytLX9jMTKRNhhiDBPYNQozvlk4nJ9Q/AvOGhYNm8D/vCWIVKXE6oiYbiyKNPx36R2QnILCOF5Ao=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1025a223-5625-2776-4524-473590a664eb@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/23/19 11:48 AM, Pali Rohár wrote:
-> On Tuesday 23 July 2019 11:09:53 Pavel Machek wrote:
->> On Tue 2019-07-23 10:51:52, Hans Verkuil wrote:
->>> This staging driver is now almost 6 years old, but hasn't seen any real
->>> development for a long time.
->>>
->>> I think it is time to remove it, unless someone plans to do work on this
->>> in the near future.
->>>
->>> If anyone wants to work on this, please let us know.
->>
->> So... unfortunately this one depends on bluetooth driver, which is
->> quite complex. Unfortunately, that one was removed from staging while
->> it was being worked upon, and seen little progress since that.
+Hi Hans,
+
+On Tue, Jul 23, 2019 at 10:21:25AM +0200, Hans Verkuil wrote:
+> Now that all V4L2 drivers set device_caps in struct video_device, we can add
+> a check for this to ensure all future drivers fill this in.
 > 
-> There is already a new bluetooth driver hci_nokia for bcm2048:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/bluetooth/hci_nokia.c
-
-Hmm, this went in two years ago.
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/omap3-n900.dts
+> Also verify that when the querycap ioctl is called the driver didn't mess
+> with the device_caps value and that capabilities is a superset of device_caps.
 > 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index cbb74f748555..3af72e3bbd65 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -859,6 +859,9 @@ int __video_register_device(struct video_device *vdev,
+>  	/* the v4l2_dev pointer MUST be present */
+>  	if (WARN_ON(!vdev->v4l2_dev))
+>  		return -EINVAL;
+> +	/* the device_caps field MUST be set */
+> +	if (WARN_ON(!vdev->device_caps))
+> +		return -EINVAL;
+> 
+>  	/* v4l2_fh support */
+>  	spin_lock_init(&vdev->fh_lock);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index e36629ae2203..61846c355627 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1057,14 +1057,18 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+> 
+>  	ret = ops->vidioc_querycap(file, fh, cap);
+> 
+> -	cap->capabilities |= V4L2_CAP_EXT_PIX_FORMAT;
+>  	/*
+> -	 * Drivers MUST fill in device_caps, so check for this and
+> -	 * warn if it was forgotten.
+> +	 * Drivers must not change device_caps, so check for this and
+> +	 * warn if this happened.
+> +	 */
+> +	WARN_ON(cap->device_caps != vfd->device_caps);
+> +	/*
+> +	 * Check that capabilities is a superset of
+> +	 * vfd->device_caps | V4L2_CAP_DEVICE_CAPS
+>  	 */
+> -	WARN(!(cap->capabilities & V4L2_CAP_DEVICE_CAPS) ||
+> -		!cap->device_caps, "Bad caps for driver %s, %x %x",
+> -		cap->driver, cap->capabilities, cap->device_caps);
+> +	WARN_ON((cap->capabilities & (vfd->device_caps | V4L2_CAP_DEVICE_CAPS)) !=
 
-Is there any chance that this bcm2048 driver will be fixed and moved out of staging
-by the end of this year? If not, then I want to remove it.
+This is over 80, it'd be nicer it it was wrapped.
 
-Regards,
+Either way,
 
-	Hans
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+> +	        (vfd->device_caps | V4L2_CAP_DEVICE_CAPS));
+> +	cap->capabilities |= V4L2_CAP_EXT_PIX_FORMAT;
+>  	cap->device_caps |= V4L2_CAP_EXT_PIX_FORMAT;
+> 
+>  	return ret;
+
+-- 
+Kind regards,
+
+Sakari Ailus
