@@ -2,48 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 598C471E7F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 20:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F0B71E81
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2019 20:01:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388516AbfGWR7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jul 2019 13:59:08 -0400
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:55739 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388704AbfGWR7H (ORCPT
+        id S2391246AbfGWR7P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jul 2019 13:59:15 -0400
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:34728 "EHLO
+        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391234AbfGWR7N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jul 2019 13:59:07 -0400
-Received: by mail-ua1-f73.google.com with SMTP id 64so4310304uam.22
-        for <linux-media@vger.kernel.org>; Tue, 23 Jul 2019 10:59:06 -0700 (PDT)
+        Tue, 23 Jul 2019 13:59:13 -0400
+Received: by mail-qk1-f202.google.com with SMTP id h198so37171104qke.1
+        for <linux-media@vger.kernel.org>; Tue, 23 Jul 2019 10:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=lfK9PM0iV5015ssJsOLZ75ytHguHzFWZ5l8GKq/s9nM=;
-        b=gIhYgpLvYM8o2KSJRf0YwXAVpkgjoQoThy0HxmludelyQCLjm/rGVSvnbgRzXJr8rk
-         N6XtPW6cRSqSSKHsQzpdLAgcRvfxywBBmMYHY53hQ59/3TvCtodXMUuNr3kRDn3ng4Hs
-         C9BJGR7anugJtiZIzE0R4BGLfoM+wh/fhoxHmMV/hLTqNemnVDXlXp/8iUO4iShSPjhh
-         U6GGrUsXDmv4xRIxZ9qveFsQFu2JLpzwlZP+o4icwqsYORDobmAXm0GA60FFFk55RnBA
-         Ic33wBwpclZUiJKwDMmP8xYatoQm0//62OrW8s7AgiMzNdLAGSNKnAWOzqpU1gCOm+/b
-         qenw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=mEM9r2TrIcyS5QiUJ5WsI/WGUVLPWWhwkAU6Ibh3jIs=;
+        b=H5geBT1j+ubrLFlbrsinXfwZ0W5BQqUsTQ4IaRG81Ui2ZwtPz7y/KxLSObtE6WVnKG
+         iLhrcnu/dA6uvy2xcSWRBGEgliAGFYmCJj9eOifU6l6F5s22JsTp5wdsL4S09QNfUDVI
+         UCiPujniwnzgr9cWOZtf0O60DfpKFiDJD1smf/WyvtqTOs+e49rV01Sy+tA1kalRfOYC
+         3saGMlUnkEYHG4EJGY2ZRToPTiWHH99XVusCT8uRMBFt4SPd2rqEw8UO4qGVRomxdtCq
+         F9yP/y3PSBYaBJ+MgdczyCl0HRVmy2j6uCXJDxaojhfskG3cHHnyJgYo5kA7+x/3sY0a
+         e1vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=lfK9PM0iV5015ssJsOLZ75ytHguHzFWZ5l8GKq/s9nM=;
-        b=ty65stYN8QOuevY6njYVSLBvWHy749bVuxH0NO8xGZSrX1qXa0pof2vSN6EXpt4CE2
-         88UseCjb76a7nWikqBAAeSL+iJ9XK4H4mDhfnAiMmXu4n50O6h0+0y6+ZBkRBPEtLd8g
-         qCw9JH+aiymRvPCgwT8c53Tya+dp6ShFXfLPTkvpTPjZC/hhZJL6gTW2UesptjIvhUMi
-         8Cm8k12Ym++emGIAZX6PfTPe3H2mGvyVld05RLH6ww16iVZ1DCobfDhuC+KtaLSegZrj
-         tP/Ds34OVI+/ASqmQHg6YF4Sud+CAepm0DdXCBc+O/Qj7Wfx53TM6t88BuTkdAkzl0EN
-         sonw==
-X-Gm-Message-State: APjAAAX8NiOvRyN4GOpel3iBEX26mVZoq3eREBtPu1L8u1qU0zaijafq
-        lLSW3x4xPYqwEPDSPzu2YBVlZoJPVoCx9lga
-X-Google-Smtp-Source: APXvYqx44n2YStIzN7NuQPeuSz18+mXOfADDN+N4juRQa2rUox8ntqpSq1g7X9IGauGCI+ZpTov23IwQacPu4RVg
-X-Received: by 2002:ab0:751a:: with SMTP id m26mr38816428uap.11.1563904745676;
- Tue, 23 Jul 2019 10:59:05 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 19:58:37 +0200
-Message-Id: <cover.1563904656.git.andreyknvl@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=mEM9r2TrIcyS5QiUJ5WsI/WGUVLPWWhwkAU6Ibh3jIs=;
+        b=YTFmpjiEsgrAozV7Gqn0GrUvuD+U9+Ibzhej1A/fMdjXqNVXz8EvDQXhwDYDB26GNY
+         w5t6/K517jAPTD99VxxANtnJ627TNuQxsikFnqHkHH37cMHSptq5fLx7eT6DdS+jcdN+
+         32r8CMviVfNIR+u6NaA12DPj0aPJYTI8nyuHcTq4XhhuX3oSqPYfV7aY18hr/BnU1b3R
+         Hq9ST9q3T31FKJNKqSzFx49eWBPYrXDqZkcjbqh9Lf+h1+5lD0ee/f+3E5vvK/C4l6Yf
+         hrfAx1BDqhnf4HJcXzFkSvKr+0eADZl4a/JRhy2+uVRMuNJXAzD8Xl8DRx7+tNWiVIvC
+         utDA==
+X-Gm-Message-State: APjAAAV/NGPrGbGLUvLttcynBGaWD/xfJVYXLvRdAguZ7xX4o7dDvb+u
+        rRGo6oYDl5J+cNKf+XNIPd6NnZnmeea3A5FA
+X-Google-Smtp-Source: APXvYqzAUxNwopC91TOnVL5OWCCwX02ZC910lFa3yrWgPSH4oaNT26Uf7JNL1bImHscifmXrtCV+ZCB9Y2uf5vV7
+X-Received: by 2002:a0c:8705:: with SMTP id 5mr54401806qvh.32.1563904752366;
+ Tue, 23 Jul 2019 10:59:12 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 19:58:39 +0200
+In-Reply-To: <cover.1563904656.git.andreyknvl@google.com>
+Message-Id: <1c05651c53f90d07e98ee4973c2786ccf315db12.1563904656.git.andreyknvl@google.com>
 Mime-Version: 1.0
+References: <cover.1563904656.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-Subject: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
+Subject: [PATCH v19 02/15] arm64: Introduce prctl() options to control the
+ tagged user addresses ABI
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
@@ -87,326 +92,250 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-=== Overview
+From: Catalin Marinas <catalin.marinas@arm.com>
 
-arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-tags into the top byte of each pointer. Userspace programs (such as
-HWASan, a memory debugging tool [1]) might use this feature and pass
-tagged user pointers to the kernel through syscalls or other interfaces.
+It is not desirable to relax the ABI to allow tagged user addresses into
+the kernel indiscriminately. This patch introduces a prctl() interface
+for enabling or disabling the tagged ABI with a global sysctl control
+for preventing applications from enabling the relaxed ABI (meant for
+testing user-space prctl() return error checking without reconfiguring
+the kernel). The ABI properties are inherited by threads of the same
+application and fork()'ed children but cleared on execve(). A Kconfig
+option allows the overall disabling of the relaxed ABI.
 
-Right now the kernel is already able to handle user faults with tagged
-pointers, due to these patches:
+The PR_SET_TAGGED_ADDR_CTRL will be expanded in the future to handle
+MTE-specific settings like imprecise vs precise exceptions.
 
-1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
-             tagged pointer")
-2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
-	      pointers")
-3. 276e9327 ("arm64: entry: improve data abort handling of tagged
-	      pointers")
-
-This patchset extends tagged pointer support to syscall arguments.
-
-As per the proposed ABI change [3], tagged pointers are only allowed to be
-passed to syscalls when they point to memory ranges obtained by anonymous
-mmap() or sbrk() (see the patchset [3] for more details).
-
-For non-memory syscalls this is done by untaging user pointers when the
-kernel performs pointer checking to find out whether the pointer comes
-from userspace (most notably in access_ok). The untagging is done only
-when the pointer is being checked, the tag is preserved as the pointer
-makes its way through the kernel and stays tagged when the kernel
-dereferences the pointer when perfoming user memory accesses.
-
-The mmap and mremap (only new_addr) syscalls do not currently accept
-tagged addresses. Architectures may interpret the tag as a background
-colour for the corresponding vma.
-
-Other memory syscalls (mprotect, etc.) don't do user memory accesses but
-rather deal with memory ranges, and untagged pointers are better suited to
-describe memory ranges internally. Thus for memory syscalls we untag
-pointers completely when they enter the kernel.
-
-=== Other approaches
-
-One of the alternative approaches to untagging that was considered is to
-completely strip the pointer tag as the pointer enters the kernel with
-some kind of a syscall wrapper, but that won't work with the countless
-number of different ioctl calls. With this approach we would need a custom
-wrapper for each ioctl variation, which doesn't seem practical.
-
-An alternative approach to untagging pointers in memory syscalls prologues
-is to inspead allow tagged pointers to be passed to find_vma() (and other
-vma related functions) and untag them there. Unfortunately, a lot of
-find_vma() callers then compare or subtract the returned vma start and end
-fields against the pointer that was being searched. Thus this approach
-would still require changing all find_vma() callers.
-
-=== Testing
-
-The following testing approaches has been taken to find potential issues
-with user pointer untagging:
-
-1. Static testing (with sparse [2] and separately with a custom static
-   analyzer based on Clang) to track casts of __user pointers to integer
-   types to find places where untagging needs to be done.
-
-2. Static testing with grep to find parts of the kernel that call
-   find_vma() (and other similar functions) or directly compare against
-   vm_start/vm_end fields of vma.
-
-3. Static testing with grep to find parts of the kernel that compare
-   user pointers with TASK_SIZE or other similar consts and macros.
-
-4. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
-   a modified syzkaller version that passes tagged pointers to the kernel.
-
-Based on the results of the testing the requried patches have been added
-to the patchset.
-
-=== Notes
-
-This patchset is meant to be merged together with "arm64 relaxed ABI" [3].
-
-This patchset is a prerequisite for ARM's memory tagging hardware feature
-support [4].
-
-This patchset has been merged into the Pixel 2 & 3 kernel trees and is
-now being used to enable testing of Pixel phones with HWASan.
-
-Thanks!
-
-[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-
-[2] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
-
-[3] https://lkml.org/lkml/2019/6/12/745
-
-[4] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
-
-=== History
-
-Changes in v19:
-- Rebased onto 7b5cf701 (5.3-rc1+).
-
-Changes in v18:
-- Reverted the selftest back to not using the LD_PRELOAD approach.
-- Added prctl(PR_SET_TAGGED_ADDR_CTRL) call to the selftest.
-- Reworded the patch descriptions to make them less oriented on arm64
-  only.
-- Catalin's patch: "I added a Kconfig option and dropped the prctl args
-  zero check. There is some minor clean-up as well".
-
-Changes in v17:
-- The "uaccess: add noop untagged_addr definition" patch is dropped, as it
-  was merged into upstream named as "uaccess: add noop untagged_addr
-  definition".
-- Merged "mm, arm64: untag user pointers in do_pages_move" into
-  "mm, arm64: untag user pointers passed to memory syscalls".
-- Added "arm64: Introduce prctl() options to control the tagged user
-  addresses ABI" patch from Catalin.
-- Add tags_lib.so to tools/testing/selftests/arm64/.gitignore.
-- Added a comment clarifying untagged in mremap.
-- Moved untagging back into mlx4_get_umem_mr() for the IB patch.
-
-Changes in v16:
-- Moved untagging for memory syscalls from arm64 wrappers back to generic
-  code.
-- Dropped untagging for the following memory syscalls: brk, mmap, munmap;
-  mremap (only dropped for new_address); mmap_pgoff (not used on arm64);
-  remap_file_pages (deprecated); shmat, shmdt (work on shared memory).
-- Changed kselftest to LD_PRELOAD a shared library that overrides malloc
-  to return tagged pointers.
-- Rebased onto 5.2-rc3.
-
-Changes in v15:
-- Removed unnecessary untagging from radeon_ttm_tt_set_userptr().
-- Removed unnecessary untagging from amdgpu_ttm_tt_set_userptr().
-- Moved untagging to validate_range() in userfaultfd code.
-- Moved untagging to ib_uverbs_(re)reg_mr() from mlx4_get_umem_mr().
-- Rebased onto 5.1.
-
-Changes in v14:
-- Moved untagging for most memory syscalls to an arm64 specific
-  implementation, instead of doing that in the common code.
-- Dropped "net, arm64: untag user pointers in tcp_zerocopy_receive", since
-  the provided user pointers don't come from an anonymous map and thus are
-  not covered by this ABI relaxation.
-- Dropped "kernel, arm64: untag user pointers in prctl_set_mm*".
-- Moved untagging from __check_mem_type() to tee_shm_register().
-- Updated untagging for the amdgpu and radeon drivers to cover the MMU
-  notifier, as suggested by Felix.
-- Since this ABI relaxation doesn't actually allow tagged instruction
-  pointers, dropped the following patches:
-- Dropped "tracing, arm64: untag user pointers in seq_print_user_ip".
-- Dropped "uprobes, arm64: untag user pointers in find_active_uprobe".
-- Dropped "bpf, arm64: untag user pointers in stack_map_get_build_id_offset".
-- Rebased onto 5.1-rc7 (37624b58).
-
-Changes in v13:
-- Simplified untagging in tcp_zerocopy_receive().
-- Looked at find_vma() callers in drivers/, which allowed to identify a
-  few other places where untagging is needed.
-- Added patch "mm, arm64: untag user pointers in get_vaddr_frames".
-- Added patch "drm/amdgpu, arm64: untag user pointers in
-  amdgpu_ttm_tt_get_user_pages".
-- Added patch "drm/radeon, arm64: untag user pointers in
-  radeon_ttm_tt_pin_userptr".
-- Added patch "IB/mlx4, arm64: untag user pointers in mlx4_get_umem_mr".
-- Added patch "media/v4l2-core, arm64: untag user pointers in
-  videobuf_dma_contig_user_get".
-- Added patch "tee/optee, arm64: untag user pointers in check_mem_type".
-- Added patch "vfio/type1, arm64: untag user pointers".
-
-Changes in v12:
-- Changed untagging in tcp_zerocopy_receive() to also untag zc->address.
-- Fixed untagging in prctl_set_mm* to only untag pointers for vma lookups
-  and validity checks, but leave them as is for actual user space accesses.
-- Updated the link to the v2 of the "arm64 relaxed ABI" patchset [3].
-- Dropped the documentation patch, as the "arm64 relaxed ABI" patchset [3]
-  handles that.
-
-Changes in v11:
-- Added "uprobes, arm64: untag user pointers in find_active_uprobe" patch.
-- Added "bpf, arm64: untag user pointers in stack_map_get_build_id_offset"
-  patch.
-- Fixed "tracing, arm64: untag user pointers in seq_print_user_ip" to
-  correctly perform subtration with a tagged addr.
-- Moved untagged_addr() from SYSCALL_DEFINE3(mprotect) and
-  SYSCALL_DEFINE4(pkey_mprotect) to do_mprotect_pkey().
-- Moved untagged_addr() definition for other arches from
-  include/linux/memory.h to include/linux/mm.h.
-- Changed untagging in strn*_user() to perform userspace accesses through
-  tagged pointers.
-- Updated the documentation to mention that passing tagged pointers to
-  memory syscalls is allowed.
-- Updated the test to use malloc'ed memory instead of stack memory.
-
-Changes in v10:
-- Added "mm, arm64: untag user pointers passed to memory syscalls" back.
-- New patch "fs, arm64: untag user pointers in fs/userfaultfd.c".
-- New patch "net, arm64: untag user pointers in tcp_zerocopy_receive".
-- New patch "kernel, arm64: untag user pointers in prctl_set_mm*".
-- New patch "tracing, arm64: untag user pointers in seq_print_user_ip".
-
-Changes in v9:
-- Rebased onto 4.20-rc6.
-- Used u64 instead of __u64 in type casts in the untagged_addr macro for
-  arm64.
-- Added braces around (addr) in the untagged_addr macro for other arches.
-
-Changes in v8:
-- Rebased onto 65102238 (4.20-rc1).
-- Added a note to the cover letter on why syscall wrappers/shims that untag
-  user pointers won't work.
-- Added a note to the cover letter that this patchset has been merged into
-  the Pixel 2 kernel tree.
-- Documentation fixes, in particular added a list of syscalls that don't
-  support tagged user pointers.
-
-Changes in v7:
-- Rebased onto 17b57b18 (4.19-rc6).
-- Dropped the "arm64: untag user address in __do_user_fault" patch, since
-  the existing patches already handle user faults properly.
-- Dropped the "usb, arm64: untag user addresses in devio" patch, since the
-  passed pointer must come from a vma and therefore be untagged.
-- Dropped the "arm64: annotate user pointers casts detected by sparse"
-  patch (see the discussion to the replies of the v6 of this patchset).
-- Added more context to the cover letter.
-- Updated Documentation/arm64/tagged-pointers.txt.
-
-Changes in v6:
-- Added annotations for user pointer casts found by sparse.
-- Rebased onto 050cdc6c (4.19-rc1+).
-
-Changes in v5:
-- Added 3 new patches that add untagging to places found with static
-  analysis.
-- Rebased onto 44c929e1 (4.18-rc8).
-
-Changes in v4:
-- Added a selftest for checking that passing tagged pointers to the
-  kernel succeeds.
-- Rebased onto 81e97f013 (4.18-rc1+).
-
-Changes in v3:
-- Rebased onto e5c51f30 (4.17-rc6+).
-- Added linux-arch@ to the list of recipients.
-
-Changes in v2:
-- Rebased onto 2d618bdf (4.17-rc3+).
-- Removed excessive untagging in gup.c.
-- Removed untagging pointers returned from __uaccess_mask_ptr.
-
-Changes in v1:
-- Rebased onto 4.17-rc1.
-
-Changes in RFC v2:
-- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-  defining it for each arch individually.
-- Updated Documentation/arm64/tagged-pointers.txt.
-- Dropped "mm, arm64: untag user addresses in memory syscalls".
-- Rebased onto 3eb2ce82 (4.16-rc7).
-
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ arch/arm64/Kconfig                   |  9 ++++
+ arch/arm64/include/asm/processor.h   |  8 +++
+ arch/arm64/include/asm/thread_info.h |  1 +
+ arch/arm64/include/asm/uaccess.h     |  4 +-
+ arch/arm64/kernel/process.c          | 73 ++++++++++++++++++++++++++++
+ include/uapi/linux/prctl.h           |  5 ++
+ kernel/sys.c                         | 12 +++++
+ 7 files changed, 111 insertions(+), 1 deletion(-)
 
-Andrey Konovalov (14):
-  arm64: untag user pointers in access_ok and __uaccess_mask_ptr
-  lib: untag user pointers in strn*_user
-  mm: untag user pointers passed to memory syscalls
-  mm: untag user pointers in mm/gup.c
-  mm: untag user pointers in get_vaddr_frames
-  fs/namespace: untag user pointers in copy_mount_options
-  userfaultfd: untag user pointers
-  drm/amdgpu: untag user pointers
-  drm/radeon: untag user pointers in radeon_gem_userptr_ioctl
-  IB/mlx4: untag user pointers in mlx4_get_umem_mr
-  media/v4l2-core: untag user pointers in videobuf_dma_contig_user_get
-  tee/shm: untag user pointers in tee_shm_register
-  vfio/type1: untag user pointers in vaddr_get_pfn
-  selftests, arm64: add a selftest for passing tagged pointers to kernel
-
-Catalin Marinas (1):
-  arm64: Introduce prctl() options to control the tagged user addresses
-    ABI
-
- arch/arm64/Kconfig                            |  9 +++
- arch/arm64/include/asm/processor.h            |  8 ++
- arch/arm64/include/asm/thread_info.h          |  1 +
- arch/arm64/include/asm/uaccess.h              | 12 ++-
- arch/arm64/kernel/process.c                   | 73 +++++++++++++++++++
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +
- drivers/gpu/drm/radeon/radeon_gem.c           |  2 +
- drivers/infiniband/hw/mlx4/mr.c               |  7 +-
- drivers/media/v4l2-core/videobuf-dma-contig.c |  9 ++-
- drivers/tee/tee_shm.c                         |  1 +
- drivers/vfio/vfio_iommu_type1.c               |  2 +
- fs/namespace.c                                |  2 +-
- fs/userfaultfd.c                              | 22 +++---
- include/uapi/linux/prctl.h                    |  5 ++
- kernel/sys.c                                  | 12 +++
- lib/strncpy_from_user.c                       |  3 +-
- lib/strnlen_user.c                            |  3 +-
- mm/frame_vector.c                             |  2 +
- mm/gup.c                                      |  4 +
- mm/madvise.c                                  |  2 +
- mm/mempolicy.c                                |  3 +
- mm/migrate.c                                  |  2 +-
- mm/mincore.c                                  |  2 +
- mm/mlock.c                                    |  4 +
- mm/mprotect.c                                 |  2 +
- mm/mremap.c                                   |  7 ++
- mm/msync.c                                    |  2 +
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 +++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 +++
- tools/testing/selftests/arm64/tags_test.c     | 29 ++++++++
- 32 files changed, 233 insertions(+), 25 deletions(-)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
-
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 3adcec05b1f6..5d254178b9ca 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1110,6 +1110,15 @@ config ARM64_SW_TTBR0_PAN
+ 	  zeroed area and reserved ASID. The user access routines
+ 	  restore the valid TTBR0_EL1 temporarily.
+ 
++config ARM64_TAGGED_ADDR_ABI
++	bool "Enable the tagged user addresses syscall ABI"
++	default y
++	help
++	  When this option is enabled, user applications can opt in to a
++	  relaxed ABI via prctl() allowing tagged addresses to be passed
++	  to system calls as pointer arguments. For details, see
++	  Documentation/arm64/tagged-address-abi.txt.
++
+ menuconfig COMPAT
+ 	bool "Kernel support for 32-bit EL0"
+ 	depends on ARM64_4K_PAGES || EXPERT
+diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
+index fd5b1a4efc70..ee86070a28d4 100644
+--- a/arch/arm64/include/asm/processor.h
++++ b/arch/arm64/include/asm/processor.h
+@@ -296,6 +296,14 @@ extern void __init minsigstksz_setup(void);
+ /* PR_PAC_RESET_KEYS prctl */
+ #define PAC_RESET_KEYS(tsk, arg)	ptrauth_prctl_reset_keys(tsk, arg)
+ 
++#ifdef CONFIG_ARM64_TAGGED_ADDR_ABI
++/* PR_{SET,GET}_TAGGED_ADDR_CTRL prctl */
++long set_tagged_addr_ctrl(unsigned long arg);
++long get_tagged_addr_ctrl(void);
++#define SET_TAGGED_ADDR_CTRL(arg)	set_tagged_addr_ctrl(arg)
++#define GET_TAGGED_ADDR_CTRL()		get_tagged_addr_ctrl()
++#endif
++
+ /*
+  * For CONFIG_GCC_PLUGIN_STACKLEAK
+  *
+diff --git a/arch/arm64/include/asm/thread_info.h b/arch/arm64/include/asm/thread_info.h
+index 180b34ec5965..012238d8e58d 100644
+--- a/arch/arm64/include/asm/thread_info.h
++++ b/arch/arm64/include/asm/thread_info.h
+@@ -90,6 +90,7 @@ void arch_release_task_struct(struct task_struct *tsk);
+ #define TIF_SVE			23	/* Scalable Vector Extension in use */
+ #define TIF_SVE_VL_INHERIT	24	/* Inherit sve_vl_onexec across exec */
+ #define TIF_SSBD		25	/* Wants SSB mitigation */
++#define TIF_TAGGED_ADDR		26	/* Allow tagged user addresses */
+ 
+ #define _TIF_SIGPENDING		(1 << TIF_SIGPENDING)
+ #define _TIF_NEED_RESCHED	(1 << TIF_NEED_RESCHED)
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index a138e3b4f717..097d6bfac0b7 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -62,7 +62,9 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ {
+ 	unsigned long ret, limit = current_thread_info()->addr_limit;
+ 
+-	addr = untagged_addr(addr);
++	if (IS_ENABLED(CONFIG_ARM64_TAGGED_ADDR_ABI) &&
++	    test_thread_flag(TIF_TAGGED_ADDR))
++		addr = untagged_addr(addr);
+ 
+ 	__chk_user_ptr(addr);
+ 	asm volatile(
+diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+index 6a869d9f304f..ef06a303bda0 100644
+--- a/arch/arm64/kernel/process.c
++++ b/arch/arm64/kernel/process.c
+@@ -19,6 +19,7 @@
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
+ #include <linux/stddef.h>
++#include <linux/sysctl.h>
+ #include <linux/unistd.h>
+ #include <linux/user.h>
+ #include <linux/delay.h>
+@@ -38,6 +39,7 @@
+ #include <trace/events/power.h>
+ #include <linux/percpu.h>
+ #include <linux/thread_info.h>
++#include <linux/prctl.h>
+ 
+ #include <asm/alternative.h>
+ #include <asm/arch_gicv3.h>
+@@ -307,11 +309,18 @@ static void tls_thread_flush(void)
+ 	}
+ }
+ 
++static void flush_tagged_addr_state(void)
++{
++	if (IS_ENABLED(CONFIG_ARM64_TAGGED_ADDR_ABI))
++		clear_thread_flag(TIF_TAGGED_ADDR);
++}
++
+ void flush_thread(void)
+ {
+ 	fpsimd_flush_thread();
+ 	tls_thread_flush();
+ 	flush_ptrace_hw_breakpoint(current);
++	flush_tagged_addr_state();
+ }
+ 
+ void release_thread(struct task_struct *dead_task)
+@@ -541,3 +550,67 @@ void arch_setup_new_exec(void)
+ 
+ 	ptrauth_thread_init_user(current);
+ }
++
++#ifdef CONFIG_ARM64_TAGGED_ADDR_ABI
++/*
++ * Control the relaxed ABI allowing tagged user addresses into the kernel.
++ */
++static unsigned int tagged_addr_prctl_allowed = 1;
++
++long set_tagged_addr_ctrl(unsigned long arg)
++{
++	if (!tagged_addr_prctl_allowed)
++		return -EINVAL;
++	if (is_compat_task())
++		return -EINVAL;
++	if (arg & ~PR_TAGGED_ADDR_ENABLE)
++		return -EINVAL;
++
++	update_thread_flag(TIF_TAGGED_ADDR, arg & PR_TAGGED_ADDR_ENABLE);
++
++	return 0;
++}
++
++long get_tagged_addr_ctrl(void)
++{
++	if (!tagged_addr_prctl_allowed)
++		return -EINVAL;
++	if (is_compat_task())
++		return -EINVAL;
++
++	if (test_thread_flag(TIF_TAGGED_ADDR))
++		return PR_TAGGED_ADDR_ENABLE;
++
++	return 0;
++}
++
++/*
++ * Global sysctl to disable the tagged user addresses support. This control
++ * only prevents the tagged address ABI enabling via prctl() and does not
++ * disable it for tasks that already opted in to the relaxed ABI.
++ */
++static int zero;
++static int one = 1;
++
++static struct ctl_table tagged_addr_sysctl_table[] = {
++	{
++		.procname	= "tagged_addr",
++		.mode		= 0644,
++		.data		= &tagged_addr_prctl_allowed,
++		.maxlen		= sizeof(int),
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= &zero,
++		.extra2		= &one,
++	},
++	{ }
++};
++
++static int __init tagged_addr_init(void)
++{
++	if (!register_sysctl("abi", tagged_addr_sysctl_table))
++		return -EINVAL;
++	return 0;
++}
++
++core_initcall(tagged_addr_init);
++#endif	/* CONFIG_ARM64_TAGGED_ADDR_ABI */
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index 094bb03b9cc2..2e927b3e9d6c 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -229,4 +229,9 @@ struct prctl_mm_map {
+ # define PR_PAC_APDBKEY			(1UL << 3)
+ # define PR_PAC_APGAKEY			(1UL << 4)
+ 
++/* Tagged user address controls for arm64 */
++#define PR_SET_TAGGED_ADDR_CTRL		55
++#define PR_GET_TAGGED_ADDR_CTRL		56
++# define PR_TAGGED_ADDR_ENABLE		(1UL << 0)
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 2969304c29fe..c6c4d5358bd3 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -124,6 +124,12 @@
+ #ifndef PAC_RESET_KEYS
+ # define PAC_RESET_KEYS(a, b)	(-EINVAL)
+ #endif
++#ifndef SET_TAGGED_ADDR_CTRL
++# define SET_TAGGED_ADDR_CTRL(a)	(-EINVAL)
++#endif
++#ifndef GET_TAGGED_ADDR_CTRL
++# define GET_TAGGED_ADDR_CTRL()		(-EINVAL)
++#endif
+ 
+ /*
+  * this is where the system-wide overflow UID and GID are defined, for
+@@ -2492,6 +2498,12 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 			return -EINVAL;
+ 		error = PAC_RESET_KEYS(me, arg2);
+ 		break;
++	case PR_SET_TAGGED_ADDR_CTRL:
++		error = SET_TAGGED_ADDR_CTRL(arg2);
++		break;
++	case PR_GET_TAGGED_ADDR_CTRL:
++		error = GET_TAGGED_ADDR_CTRL();
++		break;
+ 	default:
+ 		error = -EINVAL;
+ 		break;
 -- 
 2.22.0.709.g102302147b-goog
 
