@@ -2,227 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B274773223
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 16:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD33F73276
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 17:10:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387480AbfGXOsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 10:48:37 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:39613 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726593AbfGXOsh (ORCPT
+        id S2387549AbfGXPKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 11:10:49 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33515 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387547AbfGXPKt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 10:48:37 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8EB6B2000C;
-        Wed, 24 Jul 2019 14:48:33 +0000 (UTC)
-Date:   Wed, 24 Jul 2019 16:49:55 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laura Nao <laura.nao@kynetics.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        loic.poulain@linaro.org, linux-media <linux-media@vger.kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        sam@elite-embedded.com
-Subject: Re: Issues with ov5640 camera on i.MX6Q
-Message-ID: <20190724144955.ek6dmlcjjqc3wo2d@uno.localdomain>
-References: <890e6dbe-2d8e-d674-b17e-2421a38e7acd@kynetics.com>
- <CAOMZO5B3GV8fPLAdsxx2F+dyH68xPn6MN5rehEvwDvjJmirZrg@mail.gmail.com>
- <9785bc82-b741-b60c-ccd7-efdd2b507c6f@kynetics.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ul4tbihbxyekdz6p"
-Content-Disposition: inline
-In-Reply-To: <9785bc82-b741-b60c-ccd7-efdd2b507c6f@kynetics.com>
-User-Agent: NeoMutt/20180716
+        Wed, 24 Jul 2019 11:10:49 -0400
+Received: by mail-pf1-f194.google.com with SMTP id g2so21115720pfq.0
+        for <linux-media@vger.kernel.org>; Wed, 24 Jul 2019 08:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=uAVI3O07kr7HDutT3AXMuJQCAY3APJ11Wj6qTEh0q5A=;
+        b=bX6A5d5Rxbtxy4d7H74PdlrXTXVjZlWfrapSUPVYztdDm3g9MoengJktbg66sirpMN
+         WCIUJ/03HS3oTzWDsjiL+DwtD1XSWaTJzzpv5K3Ap01RoOVc/HB22BFK3nNj/tI0qQYk
+         ffGgXSDC2nT85ayMBC7fy++Y0279KQwsxdIDZQwqnxeBaExH4vvkuL69gA9Atk+scwNe
+         Ic5yIgrr00fw4QdnmPnxnb7tPxtNKYg6HLVX7eGTI7DgxpHeytkp1kaxzAtCBZyxX5nJ
+         VMs31BdGKUMmsZv404MtS9Zc9tgWAZ5B/BcnAvYax2z1wF8v4MQKOmInwUcW9ci2tsgG
+         ooug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=uAVI3O07kr7HDutT3AXMuJQCAY3APJ11Wj6qTEh0q5A=;
+        b=JZbyZDyaPiWeQ9iFFdsvtVoLINoXAPp39MQmQnfzyk/nrVckUJOCz/jfo0+cwik7XN
+         Q17FaStWVJQqEkQqSCMR57xgRHyZ8qeVRYQRZC1B+YJmdao46UadXNfidEctRNhFN++0
+         LcxluQT+DevfWYkvWDwNtlomp9KLsze2gTFUBBZr+Nfg1KTS1xV0ae2x6Hn0BbE5y8Gs
+         TazgpoK2gdOEjIvepL1FAoVHFtcbHgW3UjBjyK9VlmnByTugOQQq5gjJ6Y2RuITCj8ke
+         LWntLqzqcbhu4rYX46Ed+cs7kYgoFxbFB6Y1taC2c9MaX95oF+hfWnU5uFpriRnFoUqw
+         rUyQ==
+X-Gm-Message-State: APjAAAWLz3lTJ/uoPTIwy0nuZeSym0RTeAXp3KHPospWUl4WcWXyP0d5
+        QdLz1BPPZdLbpdcccdiac8DQKcYBtRo=
+X-Google-Smtp-Source: APXvYqyo75K4PmR2gczia3Pakogdca0LEuYXi2Kqm2vnvykY3yxvPalK5KrM0QCCmoZqCX11sWgArQ==
+X-Received: by 2002:aa7:8651:: with SMTP id a17mr11718819pfo.138.1563981048626;
+        Wed, 24 Jul 2019 08:10:48 -0700 (PDT)
+Received: from localhost.localdomain (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
+        by smtp.gmail.com with ESMTPSA id i9sm38195101pjj.2.2019.07.24.08.10.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Jul 2019 08:10:48 -0700 (PDT)
+From:   Mark Balantzyan <mbalant3@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Mark Balantzyan <mbalant3@gmail.com>
+Subject: [PATCH] media input infrastructure:tw686x: Added Added custom function to set vdev->release in tw686x driver
+Date:   Wed, 24 Jul 2019 08:10:36 -0700
+Message-Id: <20190724151036.26868-1-mbalant3@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
+---
+This patch adds a custom function to release video device in assignment to vdev->release member in tw686x driver.
 
---ul4tbihbxyekdz6p
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ drivers/media/pci/tw686x/tw686x-video.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-Hi Laura,
-   thanks for addressing this issue.
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 3a06c000..3631d0f5 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -1151,6 +1151,21 @@ void tw686x_video_irq(struct tw686x_dev *dev, unsigned long requests,
+ 	}
+ }
+ 
++
++
++void tw686x_video_device_release(struct tw686x_video_channel *vc) {
++	struct tw686x_dev *dev = vc->dev;
++	unsigned int ch, pb;
++
++	for (ch = 0; ch < max_channels(dev); ch++) {
++		struct tw686x_video_channel *vc = &dev->video_channels[ch];
++
++	dev->dma_ops->free;
++	
++	video_device_release((struct video_device*)dev);
++
++}
++
+ void tw686x_video_free(struct tw686x_dev *dev)
+ {
+ 	unsigned int ch, pb;
+@@ -1160,9 +1175,6 @@ void tw686x_video_free(struct tw686x_dev *dev)
+ 
+ 		video_unregister_device(vc->device);
+ 
+-		if (dev->dma_ops->free)
+-			for (pb = 0; pb < 2; pb++)
+-				dev->dma_ops->free(vc, pb);
+ 	}
+ }
+ 
+@@ -1277,7 +1289,7 @@ int tw686x_video_init(struct tw686x_dev *dev)
+ 		snprintf(vdev->name, sizeof(vdev->name), "%s video", dev->name);
+ 		vdev->fops = &tw686x_video_fops;
+ 		vdev->ioctl_ops = &tw686x_video_ioctl_ops;
+-		vdev->release = video_device_release;
++		vdev->release = tw686x_video_device_release;
+ 		vdev->v4l2_dev = &dev->v4l2_dev;
+ 		vdev->queue = &vc->vidq;
+ 		vdev->tvnorms = V4L2_STD_525_60 | V4L2_STD_625_50;
+-- 
+2.17.1
 
-On Mon, Jul 22, 2019 at 05:50:35PM +0200, Laura Nao wrote:
-> Thanks Fabio!
->
-> I tried tweaking the PLL configuration in the driver and did some further
-> tests on 5.2 kernel.
->
-> I was finally able to capture RAW frames that match the test pattern for
-> 1280x720 and 1920x1080 resolutions. The 2592x1944 frame is still not
-> perfectly aligned, but it looks much closer to the test pattern.
->
-> I uploaded the images here:
->
-> https://imgur.com/a/ywHokMf
->
-> The changes I made in the driver are below. Not sure these changes make much
-> sense, but they seem to fix 1280x720 and 1920x1080 frames.
->
-
-So, this has finally happened :)
-
-When ~1 year ago we addressed dynamic clock computation for this
-driver the only cases that were tested where the DVP interface by
-Maxime and the CSI-2 one on my side but only for formats with 16bpp
-and 2 data lanes, so I'm not surprised by the fact 8-bit raw fails
-with the current implementation.[1]
-
-[1] https://patchwork.kernel.org/patch/10680571/
-
-The driver has clearly commented that once we were to support more
-formats some changes would be required. In example, just before the
-ov5640_set_mipi_pclk() function a FIXME comment reports:
-
- * FIXME: this have been tested with 16bpp and 2 lanes setup only.
- * MIPI_DIV is fixed to value 2, but it -might- be changed according to the
- * above formula for setups with 1 lane or image formats with different bpp.
- *
- * FIXME: this deviates from the sensor manual documentation which is quite
- * thin on the MIPI clock tree generation part.
-
-I tried to extensively comment there PLL calculation procedure I
-deduced from the not-so-clear documentation for the sensor, and I
-must admit everytime I look at it again, it is still a pain :)
-
-While your below fixes are not consumable by mainline, I would be glad
-to help integrating calculation of the PLL in case of raw8 (and
-possibly other formats).
-
-I suggest to go through the iteration of the above linked series from
-Maxime, as they contain somewhat interesting discussions on both the
-PLL architecture and links to some useful documentation. I will find
-some time to study all of this again in the next days and try to help
-if necessary.
-
-In the meantime let me cc Maxime (even if he mostly worked on the
-parallel interface support) and Sam, who gave some very interesting
-insights on the PLL architecture.
-
-Thanks for your work, and please keep me and Maxime CC-ed, as the PLL
-calculation part and CSI-2 support has been quite a big effort, and I
-would like to help having it succesfully working with most use cases!
-
-Thanks
-   j
-
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 759d60c6..cfa678e 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -795,13 +795,13 @@ static int ov5640_mod_reg(struct ov5640_dev *sensor,
-> u16 reg,
->   * FIXME: to be re-calcualted for 1 data lanes setups
->   */
->  #define OV5640_MIPI_DIV_PCLK	2
-> -#define OV5640_MIPI_DIV_SCLK	1
-> +#define OV5640_MIPI_DIV_SCLK	2
->
->  /*
->   * This is supposed to be ranging from 1 to 2, but the value is always
->   * set to 2 in the vendor kernels.
->   */
-> -#define OV5640_PLL_ROOT_DIV			2
-> +#define OV5640_PLL_ROOT_DIV			1
->  #define OV5640_PLL_CTRL3_PLL_ROOT_DIV_2		BIT(4)
->
->  /*
-> @@ -836,8 +836,8 @@ static unsigned long ov5640_compute_sys_clk(struct
-> ov5640_dev *sensor,
->  	unsigned long sysclk = sensor->xclk_freq / pll_prediv * pll_mult;
->
->  	/* PLL1 output cannot exceed 1GHz. */
-> -	if (sysclk / 1000000 > 1000)
-> -		return 0;
-> +	// if (sysclk / 1000000 > 1000)
-> +	// 	return 0;
->
->  	return sysclk / sysdiv;
->  }
-> @@ -1818,7 +1824,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->  	 * All the formats we support have 16 bits per pixel, seems to require
->  	 * the same rate than YUV, so we can just use 16 bpp all the time.
->  	 */
-> -	rate = mode->vtot * mode->htot * 16;
-> +	rate = mode->vtot * mode->htot * 8;
->  	rate *= ov5640_framerates[sensor->current_fr];
->  	if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
->  		rate = rate / sensor->ep.bus.mipi_csi2.num_data_lanes;
->
-> Thanks,
->
-> Best,
->
-> Laura
->
-> On 7/22/19 2:45 PM, Fabio Estevam wrote:
-> > [Adding Steve and Philipp]
-> >
-> > On Thu, Jul 18, 2019 at 10:06 AM Laura Nao <laura.nao@kynetics.com> wrote:
-> > >
-> > > Hello Loic,
-> > >
-> > > I'm having some issues with RAW8 mode on the OV5640 camera and I'd like
-> > > to kindly ask for your advice, as I saw that you added support for RAW
-> > > mode in the mainline kernel driver.
-> > >
-> > > I'm trying to capture some raw images on a i.MX6Q based board. I
-> > > configured the pipeline as follows:
-> > >
-> > > media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
-> > > media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
-> > > media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
-> > > media-ctl -V "'ov5640 1-003c':0 [fmt:SBGGR8_1X8/2592x1944 field:none]"
-> > > media-ctl -V "'imx6-mipi-csi2':2 [fmt:SBGGR8_1X8/2592x1944 field:none]"
-> > >
-> > > I'm capturing the frame using v4l-utils:
-> > >
-> > > v4l2-ctl -d /dev/video5 --verbose --set-fmt
-> > > video=width=2592,height=1944,pixelformat=BA81 --stream-mmap
-> > > --stream-count=1 --stream-to=bggr_2592x1944.raw
-> > >
-> > > The images I'm obtaining are completely garbled. I tried both 5.2
-> > > mainline and 5.1.18 kernels.
-> > >
-> > > I'm able to correctly capture YUV frames in all resolutions with the
-> > > same driver (with the pipeline configured to go through the
-> > > ipu1_ic_prpenc node first).
-> > >
-> > > Do you have any insight on what might be causing these issues? Is the
-> > > PLL configuration supposed to be changed when RAW8 format is selected?
-> > >
-> > > Thanks for your help,
-> > >
-> > > Best regards,
-> > >
-> > > Laura
-
---ul4tbihbxyekdz6p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl04cBMACgkQcjQGjxah
-Vjz7ChAAwaKQWrokLmn5VEu0SReeF9P+oiL0ozE27aaEOdDte8xuXseRs9mLPBQg
-ziy1cL2b19Rn2JBBt5eYOX+ZREnj1A11QxRkvHCqGXSfSs3bgR88Y7NyjjeMABC6
-CJ90k/VaIVZ2PW11iedxPHM+wY5c3sSc3lXOkvQ0za18iW+xr3OKtG0fOQ81uhdj
-h7zheLOss5bCcB1PjUJ9KD8CbYUXK8BaZETs94koipm1tw0Tli5t3AJxrRt0TTEB
-HcGFakZBHa/Maqhwr3AkUb0Ao/MbvUFQpTYtsosdH9NERFN/bGJaIPyY4in/dukN
-MfPPvhliQ64kuTaahNAdEervi1gYJq2GmHw28bcm7Urh5WD6MJEeL2aw0Sk8MERh
-QDcH4po7Ps01xp28+m+p8TGJR6puhdT6MzZKs0BYayKvWOakj5eSgM333G6q9Mhg
-1LvzygySiuKL8Ir2VCdEkjrIvijg38P4zMcsrzHjFDSDiW4Kl4MoKVfBulQSi4y0
-59LPQLaUBdkJW2PSiV5R2sBeaQ2eKbZ8Os1GIJbc/Yoxnao+q8usBQ57ABy0V42F
-6xR/bTCp6Vt61LuBLs9D3UyjKJLGkOtanXPI9WGeot22I5x/5xCwSLwrc/J5HnH8
-G5C90ItAYXqTo4Cp1FT8V9bSnC26wmG94mDGrq9MmgGJgfWZzyI=
-=aE4H
------END PGP SIGNATURE-----
-
---ul4tbihbxyekdz6p--
