@@ -2,118 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0164F73181
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 16:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 018D173189
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 16:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbfGXOVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 10:21:07 -0400
-Received: from foss.arm.com ([217.140.110.172]:41946 "EHLO foss.arm.com"
+        id S1727822AbfGXOX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 10:23:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:42012 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726166AbfGXOVH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 10:21:07 -0400
+        id S1726166AbfGXOX7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jul 2019 10:23:59 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AFA328;
-        Wed, 24 Jul 2019 07:21:06 -0700 (PDT)
-Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 761323F71A;
-        Wed, 24 Jul 2019 07:21:01 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 15:20:59 +0100
-From:   Will Deacon <will.deacon@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        dri-devel@lists.freedesktop.org,
-        Kostya Serebryany <kcc@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
-Message-ID: <20190724142059.GC21234@fuggles.cambridge.arm.com>
-References: <cover.1563904656.git.andreyknvl@google.com>
- <CAAeHK+yc0D_nd7nTRsY4=qcSx+eQR0VLut3uXMf4NEiE-VpeCw@mail.gmail.com>
- <20190724140212.qzvbcx5j2gi5lcoj@willie-the-truck>
- <CAAeHK+xXzdQHpVXL7f1T2Ef2P7GwFmDMSaBH4VG8fT3=c_OnjQ@mail.gmail.com>
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 007AC28;
+        Wed, 24 Jul 2019 07:23:58 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 911C33F71A;
+        Wed, 24 Jul 2019 07:23:56 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: ipu3: Enable IOVA API only when IOMMU
+ support is enabled
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Yuehaibing <yuehaibing@huawei.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, hverkuil-cisco@xs4all.nl,
+        mchehab@kernel.org, yong.zhi@intel.com
+References: <20190722134749.21580-1-yuehaibing@huawei.com>
+ <20190724103027.GD21370@paasikivi.fi.intel.com>
+ <e48fc180-06cc-eac7-d8ca-9be1699c8677@arm.com>
+ <0c08bdae-facc-0f28-0e58-17a65172587a@huawei.com>
+ <491dbca1-8a58-b26e-cf56-a1a419da288f@gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <eaf521ff-7dc6-70ae-0473-9c994def602b@arm.com>
+Date:   Wed, 24 Jul 2019 15:23:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xXzdQHpVXL7f1T2Ef2P7GwFmDMSaBH4VG8fT3=c_OnjQ@mail.gmail.com>
-User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
+In-Reply-To: <491dbca1-8a58-b26e-cf56-a1a419da288f@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 04:16:49PM +0200, Andrey Konovalov wrote:
-> On Wed, Jul 24, 2019 at 4:02 PM Will Deacon <will@kernel.org> wrote:
-> > On Tue, Jul 23, 2019 at 08:03:29PM +0200, Andrey Konovalov wrote:
-> > > On Tue, Jul 23, 2019 at 7:59 PM Andrey Konovalov <andreyknvl@google.com> wrote:
-> > > >
-> > > > === Overview
-> > > >
-> > > > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> > > > tags into the top byte of each pointer. Userspace programs (such as
-> > > > HWASan, a memory debugging tool [1]) might use this feature and pass
-> > > > tagged user pointers to the kernel through syscalls or other interfaces.
-> > > >
-> > > > Right now the kernel is already able to handle user faults with tagged
-> > > > pointers, due to these patches:
-> > > >
-> > > > 1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
-> > > >              tagged pointer")
-> > > > 2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
-> > > >               pointers")
-> > > > 3. 276e9327 ("arm64: entry: improve data abort handling of tagged
-> > > >               pointers")
-> > > >
-> > > > This patchset extends tagged pointer support to syscall arguments.
-> >
-> > [...]
-> >
-> > > Do you think this is ready to be merged?
-> > >
-> > > Should this go through the mm or the arm tree?
-> >
-> > I would certainly prefer to take at least the arm64 bits via the arm64 tree
-> > (i.e. patches 1, 2 and 15). We also need a Documentation patch describing
-> > the new ABI.
+On 24/07/2019 15:09, Dmitry Osipenko wrote:
+> 24.07.2019 17:03, Yuehaibing пишет:
+>> On 2019/7/24 21:49, Robin Murphy wrote:
+>>> On 24/07/2019 11:30, Sakari Ailus wrote:
+>>>> Hi Yue,
+>>>>
+>>>> On Mon, Jul 22, 2019 at 09:47:49PM +0800, YueHaibing wrote:
+>>>>> If IOMMU_SUPPORT is not set, ipu3 driver may select IOMMU_IOVA to m.
+>>>>> But for many drivers, they use "select IOMMU_IOVA if IOMMU_SUPPORT"
+>>>>> in the Kconfig, for example, CONFIG_TEGRA_VDE is set to y but IOMMU_IOVA
+>>>>> is m, then the building fails like this:
+>>>>>
+>>>>> drivers/staging/media/tegra-vde/iommu.o: In function `tegra_vde_iommu_map':
+>>>>> iommu.c:(.text+0x41): undefined reference to `alloc_iova'
+>>>>> iommu.c:(.text+0x56): undefined reference to `__free_iova'
+>>>>>
+>>>>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>>>>> Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
+>>>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>>>>> ---
+>>>>>    drivers/staging/media/ipu3/Kconfig | 2 +-
+>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/staging/media/ipu3/Kconfig b/drivers/staging/media/ipu3/Kconfig
+>>>>> index 4b51c67..b7df18f 100644
+>>>>> --- a/drivers/staging/media/ipu3/Kconfig
+>>>>> +++ b/drivers/staging/media/ipu3/Kconfig
+>>>>> @@ -4,7 +4,7 @@ config VIDEO_IPU3_IMGU
+>>>>>        depends on PCI && VIDEO_V4L2
+>>>>>        depends on MEDIA_CONTROLLER && VIDEO_V4L2_SUBDEV_API
+>>>>>        depends on X86
+>>>>> -    select IOMMU_IOVA
+>>>>> +    select IOMMU_IOVA if IOMMU_SUPPORT
+>>>>
+>>>> This doesn't seem right: the ipu3-cio2 driver needs IOMMU_IOVA
+>>>> independently of IOMMU_SUPPORT.
+>>>>
+>>>> Looking at tegra-vde, it seems to depend on IOMMU_SUPPORT but that's not
+>>>> declared in its Kconfig entry. I wonder if adding that would be the right
+>>>> way to fix this.
+>>>>
+>>>> Cc'ing the IOMMU list.
+> IOMMU_SUPPORT is optional for the Tegra-VDE driver.
 > 
-> Sounds good! Should I post those patches together with the
-> Documentation patches from Vincenzo as a separate patchset?
+>>> Right, I also had the impression that we'd made the IOVA library completely standalone. And what does the IPU3 driver's Kconfig have to do with some *other* driver failing to link anyway?
+> 
+> I can see it failing if IPU3 is compiled as a loadable module, while
+> Tegra-VDE is a built-in driver. Hence IOVA lib should be also a kernel
+> module and thus the IOVA symbols will be missing during of linkage of
+> the VDE driver.
+> 
+>> Oh, I misunderstand that IOMMU_IOVA is depend on IOMMU_SUPPORT, thank you for clarification.
+>>
+>> I will try to fix this in tegra-vde.
+> 
+> Probably IOVA could be selected independently of IOMMU_SUPPORT, but IOVA
+> library isn't needed for the VDE driver if IOMMU_SUPPORT is disabled.
 
-Yes, please (although as you say below, we need a new version of those
-patches from Vincenzo to address the feedback on v5). The other thing I
-should say is that I'd be happy to queue the other patches in the series
-too, but some of them are missing acks from the relevant maintainers (e.g.
-the mm/ and fs/ changes).
+Oh, I think I get the problem now - tegra-vde/iommu.c is built 
+unconditionally and relies on the static inline stubs for IOMMU and IOVA 
+calls if !IOMMU_SUPPORT, but in a compile-test config where IOVA=m for 
+other reasons, it then picks up the real declarations from linux/iova.h 
+instead of the stubs, and things go downhill from there. So there is a 
+real issue, but indeed it's Tegra-VDE which needs to be restructured to 
+cope with such configurations, and not IPU3's (or anyone else who may 
+select IOVA=m in future) job to work around it.
 
-Will
+Robin.
