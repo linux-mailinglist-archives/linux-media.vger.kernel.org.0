@@ -2,162 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9198572C60
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 12:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C91072C8A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 12:47:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726300AbfGXKe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 06:34:58 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34543 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726070AbfGXKe6 (ORCPT
+        id S1727299AbfGXKrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 06:47:46 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:32790 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726087AbfGXKrq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 06:34:58 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id qEbeh3OofLqASqEbhhN3tW; Wed, 24 Jul 2019 12:34:56 +0200
-Subject: Re: [RFC PATCH 0/5] Add enum_fmt flag for coded formats with dynamic
- resolution switching
-To:     Maxime Jourdan <mjourdan@baylibre.com>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>
-References: <20190609143820.4662-1-mjourdan@baylibre.com>
- <907e0560-3b46-04c9-52ef-6c6ff7140876@xs4all.nl>
- <3dc4d551-0628-5c74-c223-4afe64a701d8@xs4all.nl>
- <CAMO6nawAyxV=kK5PWOM2658DQqyoPZGYaSGbwfn6ReiDbOW1DQ@mail.gmail.com>
- <6450d9d6-70bf-6a8d-5f73-e4fe57557539@xs4all.nl>
- <CAMO6naxJDopbY6LA+J4Ts4KzPSyodaXWVjKWsB27Ntm13Daikw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <0d38eaa1-7496-74ef-985c-86f7c489a4e7@xs4all.nl>
-Date:   Wed, 24 Jul 2019 12:34:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 24 Jul 2019 06:47:46 -0400
+Received: by mail-ot1-f65.google.com with SMTP id q20so47310235otl.0;
+        Wed, 24 Jul 2019 03:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c/u6Ul6eSGfqr/SaYhCYPb/PuuVt6oryQFyHXq1Lw6M=;
+        b=EK8m57GWsorqR6PN8Fc1QeDOA+iyhHouiH0L7g4Brjxe4bNV0GK1HJ++2mdbcK3QP2
+         dzKo0BaHn/mLCoXfbgS+IopyHEHSt6xditsw2HDjZfPHCcqSyeP4MgJoUVKlAyjxkPHO
+         9JPLKaHM9xp2FtoiB5CO//8r31Ju5aaAKVM5fSBkm3Y7/IRMVbRNMqkiALqwdvvZe3xT
+         4TzTCIPeiLGVc2WpWx1XZTarUUqm4cGEtm1cU7JzrhD51J16YS4unIMTA07WwY+nwb9b
+         N0/b6qi18o9lZcwJF0tKSUvE00WrZEMZarAsxD/ARIBL8ANiloNL4gxYOWB+jWJ0W6vG
+         gSfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c/u6Ul6eSGfqr/SaYhCYPb/PuuVt6oryQFyHXq1Lw6M=;
+        b=DIwVWuiNlzVEyuvR8RG5oCLJj2hWErFAJgr68iqOLLB78/6XeZw0kHG34oIy5XjDTk
+         iTWTfL9lFIqvtx12r0fcLoZGGLllt+PSJLCMqaYR0px+y96VXhd4jhzFIN4NRnrzKQpJ
+         kewA4lXfcU1TLi3aKBHPt0dZV3tdT7GMDuH+iBbSUGW/tiWtj4KjzGZ863e3QYTpKmpp
+         HBZqyr44vIyoCB/mUwExCtlrx1b4QiBskGSKCHcbuIAufpaVOA8Eo1lS9I2pDs8k+V1P
+         d4rqrKcf7zZomQMr6AFHN1kURyyIc3RSfjZ8xKsj92p4XBuGS9ZP+nHI0PT/X5SVrMJR
+         QIRA==
+X-Gm-Message-State: APjAAAWfBnGIQiifINx3y28rygh0Mg+j4CKGLP/R+xvu1cN2niOWDHcM
+        itrOtq7Z7gfDAsMYbAM1VzgQWkUliAnTBVBhaic=
+X-Google-Smtp-Source: APXvYqz9QA6BCf/a/Wq0ly9dhpDoTP4VWgL7lYOSAzAslHP6ajhVOITUuZlJh+mqz4Al7PbxDBDxMiZxoUsC6o+NTws=
+X-Received: by 2002:a05:6830:157:: with SMTP id j23mr36863462otp.198.1563965264852;
+ Wed, 24 Jul 2019 03:47:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMO6naxJDopbY6LA+J4Ts4KzPSyodaXWVjKWsB27Ntm13Daikw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJCbYDWhACLpWxOxmRJ5230RqlQiVZMUn4ktLlo1i7lbiB4HPUQY/tXiDt33fozWyc8ctXnD9QJS8Qx5yfoljUtMQjXLaVJv7mfZ6PM/6BfdeoaREfv/
- ER89TgAtdwsoSTPaepHQbyLnvCcX6b3+9GCLdO05pWBkeSev5lnks3iCvL2A1Rtqe7nHSRqTKdf6zNeojeNHpbLrscAyUf9+B8LioL8rl7YQms7cSpmAdyyr
- AZVYIUJxBELxqPHhxaaNuj1HEbt/hDNnofwdOIl1AzA0vpSXzSIfrrXhB2tUNowbk/nswVpWHQ+36kvMKeC02P1SNKa/UOVfsob/OT2kXHi1xhFIENW5cnTK
- dXryh9CTC6hOpPMM+o7qjhRgjs924H97lSseyWsJ/FGY3aOYfLM9rjeylxdrGwjxSfCkFAWBsjGOfbHeNrov4ITsaPW+cSPdSWn/yW29mrD1nfsWK8QQceoo
- uZoRCTdlzDrDyIZ31QiuGU/b914XttRCvWFghe3mVam3tQz04uomaJ89SvYxLhrh+EfQWcRZ7jVXms92Mc0aJCcw7suZKBmR4/0tfWefPsv+cNb/nbGKWwAQ
- RXHNSU72B54LidZBXpt9dVTh
+References: <20190723104602.3215243-1-arnd@arndb.de>
+In-Reply-To: <20190723104602.3215243-1-arnd@arndb.de>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 24 Jul 2019 11:47:17 +0100
+Message-ID: <CA+V-a8uVt5GD=XZuCubFf8ZFacxPLofUdU3HKNZsbU4aQr5X7w@mail.gmail.com>
+Subject: Re: [PATCH] media: staging: davinci: remove vpfe driver
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        OSUOSL Drivers <devel@driverdev.osuosl.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/24/19 12:32 PM, Maxime Jourdan wrote:
-> On Thu, Jul 18, 2019 at 11:22 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 7/18/19 10:39 AM, Maxime Jourdan wrote:
->>> On Mon, Jul 15, 2019 at 2:37 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>>>
->>>> On 6/11/19 10:13 AM, Hans Verkuil wrote:
->>>>> On 6/9/19 4:38 PM, Maxime Jourdan wrote:
->>>>>> Hello,
->>>>>>
->>>>>> This RFC proposes a new format flag - V4L2_FMT_FLAG_DYN_RESOLUTION - used
->>>>>> to tag coded formats for which the device supports dynamic resolution
->>>>>> switching, via V4L2_EVENT_SOURCE_CHANGE.
->>>>>> This includes the initial "source change" where the device is able to
->>>>>> tell userspace about the coded resolution and the DPB size (which
->>>>>> sometimes translates to V4L2_CID_MIN_BUFFERS_FOR_CAPTURE).
->>>>>
->>>>> Shouldn't the initial source change still be there? The amlogic decoder
->>>>> is capable of determining the resolution of the stream, right? It just
->>>>> can't handle mid-stream changes.
->>>>
->>>> I've been thinking about this a bit more: there are three different HW capabilities:
->>>>
->>>> 1) The hardware cannot parse the resolution at all and userspace has to tell it
->>>> via S_FMT.
->>>>
->>>> 2) The hardware can parse the initial resolution, but is not able to handle
->>>> mid-stream resolution changes.
->>>>
->>>> 3) The hardware can parse the initial resolution and all following mid-stream
->>>> resolution changes.
->>>>
->>>> We can consider 2 the default situation.
->>>>
->>>> In case of 1 the SOURCE_CHANGE event is absent and userspace cannot subscribe
->>>> to it. Question: do we want to flag this with the format as well? I.e. with a
->>>> V4L2_FMT_FLAG_MANUAL_RESOLUTION? I think just not implementing the SOURCE_CHANGE
->>>> event (and documenting this) is sufficient.
->>>>
->>>
->>> I think that not implementing SOURCE_CHANGE is sufficient as well. The
->>> issue (in my case), is that the amlogic decoder _does_ support the
->>> event (case 3) for anything recent (H264, HEVC, VP9), but not for e.g
->>> MPEG 1/2 (case 1).
->>>
->>> A possible solution would be to create 2 separate devices, one
->>> implementing the event, the other not. Do you think this is reasonable
->>> ? This would discard the need for all the proposed flags, unless there
->>> are other decoder drivers that fall in case 2.
->>
->> I don't think it is a good idea to create two device nodes, that's really
->> confusing. Instead I think we just need a V4L2_FMT_FLAG_MANUAL_RESOLUTION
->> flag.
->>
-> 
-> I guess I just feel bad about adding a flag (MANUAL_RESOLUTION) for
-> what is basically a problem with one compression standard for one
-> driver, with the root cause being bad firmware design. Then again I
-> don't see a way around it, and case 1 & 2 are indeed two possibilities
-> that need their own flag.
-> 
-> I'll prepare 2 new patch series if that is okay with you:
->  - DYN_RESOLUTION format flag updated series (in this current RFC,
-> there are issues with the explanation of the flag in the doc)
+On Tue, Jul 23, 2019 at 11:46 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> The davinci_vpfe driver was merged into staging back in 2012 by Manjunath
+> Hadli from TI, with a long TODO list.
+>
+> For all I can tell, since then it has only seen fixes for compile-time
+> issues and global cleanups, but nobody has actually worked on the items
+> on the TODO list.
+>
+> To make things worse, the driver in its current form is incompatible with
+> the platform code in arch/arm/mach-davinci, i.e. the driver expects to
+> get its platform_data passed to the device as a 'struct vpfe_config',
+> but uses a differnet definition for that structure compared to what the
 
-Wait with this: I'm about to post a consolidated series with all
-outstanding patches for codecs. That includes this series.
+s/differnet/different
 
->  - Adding MANUAL_RESOLUTION format flag
-> 
->> BTW, what happens if the application sets the format to e.g. 640x480 but
->> the MPEG file is a different resolution? Does the decoder fail to produce
->> anything? Or does it internally parse the resolution from the bitstream
->> and start decoding it? What if the bitstream resolution is larger than the
->> resolution set with S_FMT? Does it check for the buffer size?
->>
->> I just want to make sure it won't write past the end of the buffer.
->>
-> 
-> I tested this case a long while ago.The DMAs are programmed with the
-> allocated VB2 buffers, so you get cropped pictures (and no DMA
-> overflow).
+> platform uses.
+>
+> Finally, there is another driver for the same device in
+> drivers/media/platform/davinci/vpfe_capture.c. From all I can tell, the
+> staging version was originally a copy of a more featureful driver in TI's
+> downstream kernels. However, that kernel no longer supports dm365 after
+> linux-2.6.37, and the mainline version moved in a different direction.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/staging/media/Kconfig                 |    2 -
+>  drivers/staging/media/Makefile                |    1 -
+>  drivers/staging/media/davinci_vpfe/Kconfig    |   13 -
+>  drivers/staging/media/davinci_vpfe/Makefile   |   11 -
+>  drivers/staging/media/davinci_vpfe/TODO       |   38 -
+>  .../media/davinci_vpfe/davinci-vpfe-mc.txt    |  154 --
+>  .../media/davinci_vpfe/davinci_vpfe_user.h    | 1287 ----------
+>  .../staging/media/davinci_vpfe/dm365_ipipe.c  | 1852 ---------------
+>  .../staging/media/davinci_vpfe/dm365_ipipe.h  |  174 --
+>  .../media/davinci_vpfe/dm365_ipipe_hw.c       | 1038 --------
+>  .../media/davinci_vpfe/dm365_ipipe_hw.h       |  556 -----
+>  .../media/davinci_vpfe/dm365_ipipeif.c        | 1070 ---------
+>  .../media/davinci_vpfe/dm365_ipipeif.h        |  228 --
+>  .../media/davinci_vpfe/dm365_ipipeif_user.h   |   90 -
+>  .../staging/media/davinci_vpfe/dm365_isif.c   | 2097 -----------------
+>  .../staging/media/davinci_vpfe/dm365_isif.h   |  200 --
+>  .../media/davinci_vpfe/dm365_isif_regs.h      |  291 ---
+>  .../media/davinci_vpfe/dm365_resizer.c        | 1995 ----------------
+>  .../media/davinci_vpfe/dm365_resizer.h        |  241 --
+>  drivers/staging/media/davinci_vpfe/vpfe.h     |   83 -
+>  .../media/davinci_vpfe/vpfe_mc_capture.c      |  716 ------
+>  .../media/davinci_vpfe/vpfe_mc_capture.h      |   90 -
+>  .../staging/media/davinci_vpfe/vpfe_video.c   | 1646 -------------
+>  .../staging/media/davinci_vpfe/vpfe_video.h   |  150 --
+>  24 files changed, 14023 deletions(-)
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/Kconfig
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/Makefile
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/TODO
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/davinci-vpfe-mc.txt
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/davinci_vpfe_user.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif_user.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif_regs.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.h
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.c
+>  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.h
+>
 
-Good to know.
+Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
 
 Regards,
-
-	Hans
-
-> 
-> 
->> Regards,
->>
->>         Hans
->>
->>>
->>>> In case of 3 the format sets the V4L2_FMT_FLAG_DYN_RESOLUTION flag.
->>>>
->>>> What do you think?
->>>>
->>>> Regards,
->>>>
->>>>         Hans
-
+--Prabhakar Lad
