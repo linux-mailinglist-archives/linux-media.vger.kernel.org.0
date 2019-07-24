@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EF5572D8B
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AECE272D8F
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:28:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727456AbfGXL20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 07:28:26 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49633 "EHLO
+        id S1727485AbfGXL21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 07:28:27 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49121 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727083AbfGXL2Z (ORCPT
+        by vger.kernel.org with ESMTP id S1727228AbfGXL20 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:28:25 -0400
+        Wed, 24 Jul 2019 07:28:26 -0400
 Received: from tschai.fritz.box ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qFRUh3sccLqASqFRYhNLFI; Wed, 24 Jul 2019 13:28:24 +0200
+        id qFRUh3sccLqASqFRYhNLFP; Wed, 24 Jul 2019 13:28:24 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 05/14] media: venus: vdec: flag OUTPUT formats with V4L2_FMT_FLAG_DYN_RESOLUTION
-Date:   Wed, 24 Jul 2019 13:27:07 +0200
-Message-Id: <20190724112716.30288-6-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 06/14] media: s5p_mfc_dec: set flags for OUTPUT coded formats
+Date:   Wed, 24 Jul 2019 13:27:08 +0200
+Message-Id: <20190724112716.30288-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190724112716.30288-1-hverkuil-cisco@xs4all.nl>
 References: <20190724112716.30288-1-hverkuil-cisco@xs4all.nl>
@@ -37,93 +37,135 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Maxime Jourdan <mjourdan@baylibre.com>
 
-Tag all the coded formats where the venus vdec supports dynamic
-resolution switching.
+Tag all the coded formats where the s5p_mfc decoder supports dynamic
+resolution switching or has a bitstream parser.
 
 Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+[hverkuil-cisco@xs4all.nl: added HAS_BITSTREAM_PARSER]
 ---
- drivers/media/platform/qcom/venus/core.h |  1 +
- drivers/media/platform/qcom/venus/vdec.c | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+ .../media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c   | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 9ab95fd57760..6c243309df4b 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -46,6 +46,7 @@ struct venus_format {
- 	u32 pixfmt;
- 	unsigned int num_planes;
- 	u32 type;
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
+index 96d1ecd1521b..31b133af91eb 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
+@@ -723,6 +723,7 @@ struct s5p_mfc_fmt {
+ 	enum s5p_mfc_fmt_type type;
+ 	u32 num_planes;
+ 	u32 versions;
 +	u32 flags;
  };
  
- #define MAX_PLANES		4
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index e1f998656c07..380e8d1682e2 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -37,42 +37,52 @@ static const struct venus_format vdec_formats[] = {
- 		.pixfmt = V4L2_PIX_FMT_MPEG4,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_MPEG2,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_H263,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_G,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_H264,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_VP8,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_VP9,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_XVID,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	}, {
- 		.pixfmt = V4L2_PIX_FMT_HEVC,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+ /**
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+index 61e144a35201..2d45a4d8d536 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
+@@ -62,6 +62,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_H264_MVC,
+@@ -69,6 +71,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V6PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_H263,
+@@ -76,6 +80,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_MPEG1,
+@@ -83,6 +88,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_MPEG2,
+@@ -90,6 +97,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_MPEG4,
+@@ -97,6 +106,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_XVID,
+@@ -104,6 +115,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_G,
+@@ -111,6 +123,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_L,
+@@ -118,6 +131,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V5PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_VP8,
+@@ -125,6 +139,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V6PLUS_BITS,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_HEVC,
+@@ -132,6 +147,8 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V10_BIT,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
++				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
+ 	},
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_VP9,
+@@ -139,6 +156,7 @@ static struct s5p_mfc_fmt formats[] = {
+ 		.type		= MFC_FMT_DEC,
+ 		.num_planes	= 1,
+ 		.versions	= MFC_V10_BIT,
++		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
  	},
  };
  
-@@ -351,6 +361,7 @@ static int vdec_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 		return -EINVAL;
- 
- 	f->pixelformat = fmt->pixfmt;
-+	f->flags = fmt->flags;
- 
- 	return 0;
- }
 -- 
 2.20.1
 
