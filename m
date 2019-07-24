@@ -2,144 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C91072C8A
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 12:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C358472CD1
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbfGXKrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 06:47:46 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:32790 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbfGXKrq (ORCPT
+        id S1727380AbfGXLFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 07:05:31 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50095 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726681AbfGXLFb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 06:47:46 -0400
-Received: by mail-ot1-f65.google.com with SMTP id q20so47310235otl.0;
-        Wed, 24 Jul 2019 03:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c/u6Ul6eSGfqr/SaYhCYPb/PuuVt6oryQFyHXq1Lw6M=;
-        b=EK8m57GWsorqR6PN8Fc1QeDOA+iyhHouiH0L7g4Brjxe4bNV0GK1HJ++2mdbcK3QP2
-         dzKo0BaHn/mLCoXfbgS+IopyHEHSt6xditsw2HDjZfPHCcqSyeP4MgJoUVKlAyjxkPHO
-         9JPLKaHM9xp2FtoiB5CO//8r31Ju5aaAKVM5fSBkm3Y7/IRMVbRNMqkiALqwdvvZe3xT
-         4TzTCIPeiLGVc2WpWx1XZTarUUqm4cGEtm1cU7JzrhD51J16YS4unIMTA07WwY+nwb9b
-         N0/b6qi18o9lZcwJF0tKSUvE00WrZEMZarAsxD/ARIBL8ANiloNL4gxYOWB+jWJ0W6vG
-         gSfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c/u6Ul6eSGfqr/SaYhCYPb/PuuVt6oryQFyHXq1Lw6M=;
-        b=DIwVWuiNlzVEyuvR8RG5oCLJj2hWErFAJgr68iqOLLB78/6XeZw0kHG34oIy5XjDTk
-         iTWTfL9lFIqvtx12r0fcLoZGGLllt+PSJLCMqaYR0px+y96VXhd4jhzFIN4NRnrzKQpJ
-         kewA4lXfcU1TLi3aKBHPt0dZV3tdT7GMDuH+iBbSUGW/tiWtj4KjzGZ863e3QYTpKmpp
-         HBZqyr44vIyoCB/mUwExCtlrx1b4QiBskGSKCHcbuIAufpaVOA8Eo1lS9I2pDs8k+V1P
-         d4rqrKcf7zZomQMr6AFHN1kURyyIc3RSfjZ8xKsj92p4XBuGS9ZP+nHI0PT/X5SVrMJR
-         QIRA==
-X-Gm-Message-State: APjAAAWfBnGIQiifINx3y28rygh0Mg+j4CKGLP/R+xvu1cN2niOWDHcM
-        itrOtq7Z7gfDAsMYbAM1VzgQWkUliAnTBVBhaic=
-X-Google-Smtp-Source: APXvYqz9QA6BCf/a/Wq0ly9dhpDoTP4VWgL7lYOSAzAslHP6ajhVOITUuZlJh+mqz4Al7PbxDBDxMiZxoUsC6o+NTws=
-X-Received: by 2002:a05:6830:157:: with SMTP id j23mr36863462otp.198.1563965264852;
- Wed, 24 Jul 2019 03:47:44 -0700 (PDT)
+        Wed, 24 Jul 2019 07:05:31 -0400
+Received: from tschai.fritz.box ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id qF5Hh3g5kLqASqF5KhNDyL; Wed, 24 Jul 2019 13:05:29 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 00/14] Stateful/stateless codec core support
+Date:   Wed, 24 Jul 2019 13:05:09 +0200
+Message-Id: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190723104602.3215243-1-arnd@arndb.de>
-In-Reply-To: <20190723104602.3215243-1-arnd@arndb.de>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 24 Jul 2019 11:47:17 +0100
-Message-ID: <CA+V-a8uVt5GD=XZuCubFf8ZFacxPLofUdU3HKNZsbU4aQr5X7w@mail.gmail.com>
-Subject: Re: [PATCH] media: staging: davinci: remove vpfe driver
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        OSUOSL Drivers <devel@driverdev.osuosl.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfHTcspy1VwrGjmYaMDxR3AkHmgn15EpEQjJ1j2p9LkdB2nm4eYTMHFDYl6OB/gC5Bk4jfET5vEgS9mrUPR85F+qerV6BMmjM42wJDeBre/x5atvuPnk5
+ 2ouyYkAHMtDVlcUwjV6qPwYJYaCwJvyg/gfRIJk1e42ZQFG7eiyacBW1D9zDBeSl+YyrcZXO6YgInw/6xJALRG+Xvqi7v/nPQUouzwyTYiXI5/zeQFeN27Ym
+ qkhnDHhUuJBto8f/wZ+aCYbIMJst6896aGzjjxSw0cVdBFGjbjinCZyukgAztcrS2cwa9XRTMdZOAjB7QFjn4eP9mszEjvuT6ylHxC0Mtm08UvPHtwSufg21
+ oivNLTzFQCgSRCmaxxw5CHYDJDPlDiz8THQyuyuYbL5zYRUVBFINcB0rypMgG6OUiPSRa5hn40h4x63GKgUeRQBd4Hkwaq9FPPN2kN48FLNhGpOIpI0RBK7J
+ BiMODkpyRe8PEUMwe2UYlvaI37yYoSTAIq+TZWLS/3xdLsRaLSkfwvgJwAJTcfgjngGjlA0nzU7V5sLR0AYc+XSts3DidhRsVkFywRxSOPMi8JESzGBB8HWZ
+ qQw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 11:46 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> The davinci_vpfe driver was merged into staging back in 2012 by Manjunath
-> Hadli from TI, with a long TODO list.
->
-> For all I can tell, since then it has only seen fixes for compile-time
-> issues and global cleanups, but nobody has actually worked on the items
-> on the TODO list.
->
-> To make things worse, the driver in its current form is incompatible with
-> the platform code in arch/arm/mach-davinci, i.e. the driver expects to
-> get its platform_data passed to the device as a 'struct vpfe_config',
-> but uses a differnet definition for that structure compared to what the
+This series consolidates various patches/patch series that add
+features or document memory-to-memory video codec interfaces.
 
-s/differnet/different
+This includes patches adding V4L2_FMT_FLAG_DYN_RESOLUTION,
+new code adding V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER, new code
+adding V4L2_DEC_CMD_FLUSH, patches adding V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+(now with documentation) and patches documenting the stateful
+encoder/decoder and stateless decoder.
 
-> platform uses.
->
-> Finally, there is another driver for the same device in
-> drivers/media/platform/davinci/vpfe_capture.c. From all I can tell, the
-> staging version was originally a copy of a more featureful driver in TI's
-> downstream kernels. However, that kernel no longer supports dm365 after
-> linux-2.6.37, and the mainline version moved in a different direction.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/staging/media/Kconfig                 |    2 -
->  drivers/staging/media/Makefile                |    1 -
->  drivers/staging/media/davinci_vpfe/Kconfig    |   13 -
->  drivers/staging/media/davinci_vpfe/Makefile   |   11 -
->  drivers/staging/media/davinci_vpfe/TODO       |   38 -
->  .../media/davinci_vpfe/davinci-vpfe-mc.txt    |  154 --
->  .../media/davinci_vpfe/davinci_vpfe_user.h    | 1287 ----------
->  .../staging/media/davinci_vpfe/dm365_ipipe.c  | 1852 ---------------
->  .../staging/media/davinci_vpfe/dm365_ipipe.h  |  174 --
->  .../media/davinci_vpfe/dm365_ipipe_hw.c       | 1038 --------
->  .../media/davinci_vpfe/dm365_ipipe_hw.h       |  556 -----
->  .../media/davinci_vpfe/dm365_ipipeif.c        | 1070 ---------
->  .../media/davinci_vpfe/dm365_ipipeif.h        |  228 --
->  .../media/davinci_vpfe/dm365_ipipeif_user.h   |   90 -
->  .../staging/media/davinci_vpfe/dm365_isif.c   | 2097 -----------------
->  .../staging/media/davinci_vpfe/dm365_isif.h   |  200 --
->  .../media/davinci_vpfe/dm365_isif_regs.h      |  291 ---
->  .../media/davinci_vpfe/dm365_resizer.c        | 1995 ----------------
->  .../media/davinci_vpfe/dm365_resizer.h        |  241 --
->  drivers/staging/media/davinci_vpfe/vpfe.h     |   83 -
->  .../media/davinci_vpfe/vpfe_mc_capture.c      |  716 ------
->  .../media/davinci_vpfe/vpfe_mc_capture.h      |   90 -
->  .../staging/media/davinci_vpfe/vpfe_video.c   | 1646 -------------
->  .../staging/media/davinci_vpfe/vpfe_video.h   |  150 --
->  24 files changed, 14023 deletions(-)
->  delete mode 100644 drivers/staging/media/davinci_vpfe/Kconfig
->  delete mode 100644 drivers/staging/media/davinci_vpfe/Makefile
->  delete mode 100644 drivers/staging/media/davinci_vpfe/TODO
->  delete mode 100644 drivers/staging/media/davinci_vpfe/davinci-vpfe-mc.txt
->  delete mode 100644 drivers/staging/media/davinci_vpfe/davinci_vpfe_user.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif_user.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif_regs.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.h
->  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.c
->  delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.h
->
+The stateful encoder documentation is still RFC quality (there are
+open TODOs, see https://patchwork.kernel.org/cover/10972783/).
 
-Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+The stateless decoder documentation is the same as the v5 posted
+by Alexandre, but with my comments incorporated.
+
+Also added are updated pixelformat descriptions. Please review this!
+I didn't update the MPEG4 format since I'm not sure what to put there.
+
+If anyone has access to recent codec standards, then I would really
+like to have the right references to 'MPEG Picture' and 'Access Unit'.
+It would be good to just refer to the definition of what a Picture
+or Access Unit is in the right standards.
+
+Changes for the stateful decoder documentation since v4:
+
+- In the Decoding section change "multiple ``OUTPUT`` buffers generate
+  one ``CAPTURE`` buffer: timestamp of the ``OUTPUT`` buffer queued last
+  will be copied." to "queued first" since this corresponds to
+  existing implementations.
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new ENUM_FMT flags.
+
+Changes for the stateless decoder documentation since v5:
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new V4L2_DEC_CMD_FLUSH command to flush the last held
+  capture buffer. This replaces the 'queue an empty buffer' solution.
+
+In my view this series is ready to go in, except for the last patch
+(stateful encoder).
+
+Maxime, I didn't add the proposed V4L2_FMT_FLAG_MANUAL_RESOLUTION
+flag since I think that can go in separately. I also am not 100%
+happy with that name, although I can't think of a better one.
 
 Regards,
---Prabhakar Lad
+
+	Hans
+
+Alexandre Courbot (1):
+  media: docs-rst: Document m2m stateless video decoder interface
+
+Hans Verkuil (6):
+  v4l2-ioctl.c: OR flags in v4l_fill_fmtdesc(), not don't overwrite
+  videodev2.h: add V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
+  videodev2.h.rst.exceptions: tymecode -> timecode
+  vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+  videodev2.h: add V4L2_DEC_CMD_FLUSH
+  pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation
+
+Maxime Jourdan (5):
+  videodev2.h: add V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: venus: vdec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: s5p_mfc_dec: set flags for OUTPUT coded formats
+  media: mtk-vcodec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: vicodec: set flags for vdec/stateful OUTPUT coded formats
+
+Tomasz Figa (2):
+  media: docs-rst: Document memory-to-memory video decoder interface
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ Documentation/media/uapi/v4l/buffer.rst       |   13 +
+ Documentation/media/uapi/v4l/dev-decoder.rst  | 1101 +++++++++++++++++
+ Documentation/media/uapi/v4l/dev-encoder.rst  |  608 +++++++++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst  |   10 +-
+ .../media/uapi/v4l/dev-stateless-decoder.rst  |  424 +++++++
+ .../media/uapi/v4l/pixfmt-compressed.rst      |   36 +-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   10 +
+ Documentation/media/uapi/v4l/v4l2.rst         |   12 +-
+ .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   52 +-
+ .../media/uapi/v4l/vidioc-dqevent.rst         |   11 +-
+ .../media/uapi/v4l/vidioc-encoder-cmd.rst     |   51 +-
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        |   16 +
+ .../media/uapi/v4l/vidioc-reqbufs.rst         |    6 +
+ .../media/videodev2.h.rst.exceptions          |    7 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    8 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |    1 +
+ drivers/media/platform/qcom/venus/core.h      |    1 +
+ drivers/media/platform/qcom/venus/vdec.c      |   11 +
+ .../media/platform/s5p-mfc/s5p_mfc_common.h   |    1 +
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   18 +
+ drivers/media/platform/vicodec/vicodec-core.c |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +-
+ include/media/v4l2-mem2mem.h                  |   42 +
+ include/media/videobuf2-core.h                |    3 +
+ include/media/videobuf2-v4l2.h                |    5 +
+ include/uapi/linux/videodev2.h                |   20 +-
+ 27 files changed, 2419 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
+
+-- 
+2.20.1
+
