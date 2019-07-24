@@ -2,60 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E867F72CEB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 607C872CEC
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727384AbfGXLK2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727202AbfGXLK2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 24 Jul 2019 07:10:28 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:55449 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726087AbfGXLK2 (ORCPT
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56713 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727375AbfGXLK2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 24 Jul 2019 07:10:28 -0400
 Received: from tschai.fritz.box ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qFA7h3isaLqASqFAAhNG0x; Wed, 24 Jul 2019 13:10:26 +0200
+        id qFA7h3isaLqASqFAAhNG12; Wed, 24 Jul 2019 13:10:27 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 01/14] v4l2-ioctl.c: OR flags in v4l_fill_fmtdesc(), not don't overwrite
-Date:   Wed, 24 Jul 2019 13:10:10 +0200
-Message-Id: <20190724111023.29499-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 02/14] videodev2.h: add V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
+Date:   Wed, 24 Jul 2019 13:10:11 +0200
+Message-Id: <20190724111023.29499-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190724111023.29499-1-hverkuil-cisco@xs4all.nl>
 References: <20190724111023.29499-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCuKa/CUu4X8lGfynrLrXPKocxLUr6sWOnTpygRUeWTn5mBR4mNfC7YP9Z/sxDUjvBXUThO7Y+h8Lc7aIdbT+kZC412gSP/gvNQgRyEScf8vaktubJgJ
- Gps9UzkQYfWHDFNlQjJWpbsjYFoLSXiWOPEOPEo0ioAy1MVwlGotW5xPpXF69CX1ppHILtA/ofuhY3VQIh/vpnWEyZxoNenl2VmJodK3U2WpwWwQinkTPgJV
+X-CMAE-Envelope: MS4wfKziv8AQC4NANuD86URvaRfxS54xq9tRCcduJZZcIki3YjUn/+u2Zki62VBdcSaI0uA8Ge1sNFqCF8mZMLhGaCDALvmsVl/kBca/EFjy3jI6r1PYEUdS
+ ZPH0dZ7NVOcvsPXK3AiJRHfk21NuY3J26QNMd1K44soAvqVlRGF/yh2H/KeNO3kyk2R7i5wh2qDEesGCppqo0arqGElLi5oZeDF9gFDWetwEwTverxGLmNN5
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a driver sets a FMT flag in the enum_fmt op, then that will be
-ignored since v4l_fill_fmtdesc() overwrites it again.
+Add an enum_fmt format flag to specifically tag coded formats where
+full bitstream parsing is supported by the device.
 
-v4l_fill_fmtdesc() should OR its flag, not overwrite it.
+Some stateful decoders are capable of fully parsing a bitstream,
+but others require that userspace pre-parses the bitstream into
+frames or fields (see the corresponding pixelformat descriptions
+for details).
+
+If this flag is set, then this pre-parsing step is not required
+(but still possible, of course).
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
+ Documentation/media/videodev2.h.rst.exceptions   | 1 +
+ include/uapi/linux/videodev2.h                   | 5 +++--
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 80efc581e3f9..911a20f915c5 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1390,7 +1390,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+index 822d6730e7d2..4e24e671f32e 100644
+--- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
++++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+@@ -127,6 +127,14 @@ one until ``EINVAL`` is returned.
+       - This format is not native to the device but emulated through
+ 	software (usually libv4l2), where possible try to use a native
+ 	format instead for better performance.
++    * - ``V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER``
++      - 0x0004
++      - The hardware decoder for this compressed bitstream format (aka coded
++	format) is capable of parsing the bitstream. Applications do not
++	need to parse the bitstream themselves to find the boundaries between
++	frames/fields. This flag can only be used in combination with the
++	``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to compressed
++	formats only.
  
- 	if (descr)
- 		WARN_ON(strscpy(fmt->description, descr, sz) < 0);
--	fmt->flags = flags;
-+	fmt->flags |= flags;
- }
  
- static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+ Return Value
+diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+index 55cbe324b9fc..74fb9f00c12d 100644
+--- a/Documentation/media/videodev2.h.rst.exceptions
++++ b/Documentation/media/videodev2.h.rst.exceptions
+@@ -180,6 +180,7 @@ replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserved-formats
+ # V4L2 format flags
+ replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
+ replace define V4L2_FMT_FLAG_EMULATED fmtdesc-flags
++replace define V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER fmtdesc-flags
+ 
+ # V4L2 tymecode types
+ replace define V4L2_TC_TYPE_24FPS timecode-type
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 2427bc4d8eba..8c5a28666b16 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -774,8 +774,9 @@ struct v4l2_fmtdesc {
+ 	__u32		    reserved[4];
+ };
+ 
+-#define V4L2_FMT_FLAG_COMPRESSED 0x0001
+-#define V4L2_FMT_FLAG_EMULATED   0x0002
++#define V4L2_FMT_FLAG_COMPRESSED		0x0001
++#define V4L2_FMT_FLAG_EMULATED			0x0002
++#define V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER	0x0004
+ 
+ 	/* Frame Size and frame rate enumeration */
+ /*
 -- 
 2.20.1
 
