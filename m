@@ -2,183 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE0372CD7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07E5672CED
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:10:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727398AbfGXLFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 07:05:35 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50095 "EHLO
+        id S1726087AbfGXLK3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 07:10:29 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46475 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727387AbfGXLFe (ORCPT
+        by vger.kernel.org with ESMTP id S1726070AbfGXLK2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:05:34 -0400
+        Wed, 24 Jul 2019 07:10:28 -0400
 Received: from tschai.fritz.box ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qF5Hh3g5kLqASqF5QhNE28; Wed, 24 Jul 2019 13:05:32 +0200
+        id qFA7h3isaLqASqFAAhNG0t; Wed, 24 Jul 2019 13:10:26 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 06/14] media: s5p_mfc_dec: set flags for OUTPUT coded formats
-Date:   Wed, 24 Jul 2019 13:05:15 +0200
-Message-Id: <20190724110523.29248-7-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 00/14] Stateful/stateless codec core support
+Date:   Wed, 24 Jul 2019 13:10:09 +0200
+Message-Id: <20190724111023.29499-1-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
-References: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfMSf2wi/tLWAmyGQbqJEWh5+CNk3LG2ra76h3lUlnAPi8B4gotiYKVSLShy9Bl6l1/mq73ju6ftt2MlWk4NasrQp9ww1T8eZkZ1rU8m9z+LpwXBFVQxT
- Yb2n7a+115bDdBn77i5dzVetXJPM8Qzk8Rsda2XSInh8VPklMZw5rTukdyciThQFDxb4gKK5chqPGqQ6Fi//wn+c9Q+MUqANVrW7/k3mZzAsN5fFWUOh+HBf
- bcDQ9LB47QjvsA+nc+JBrlfrHmmIR3DTNrrJKXk2OLIHOdfn/9Ax6clhfi1ZLXSd0uZeRob57h2QLbgLz1VxMEI+gI5KeZ1WrY6XMXP/E1BS0koI1V5nyO40
- vf/ChgaRVDH0hUh1zT1rJVXFpI7En2hZiYqMkRqBDbvkUumana8LlM8KfmijD1AhEJCPLlB8vRxnudBHIr66Wuc91aEAzGwU00/SejrTAPuXtdTNnHDHEaZz
- 9VeS0qnVzVShLOYpPZXnRYzwGA7hia0s30QGgVWxyuHU51n3flLaHi9E3hH1FP3paADfEeYui9jaVMTzv/jZkbu+4y0RK9+341tLpIgCQ0l6M1IuVMfF+EVW
- OyBlkAuIfZwx6i9weA41XMG5b0QBbtkdycsCtmOXHFmjBg==
+X-CMAE-Envelope: MS4wfCuKa/CUu4X8lGfynrLrXPKocxLUr6sWOnTpygRUeWTn5mBR4mNfC7YP9Z/sxDUjvBXUThO7Y+h8Lc7aIdbT+kZC412gSP/gvNQgRyEScf8vaktubJgJ
+ Gps9UzkQYfWHDKwrpM9NnIXKXphCLf+swIEGP9nEEN6ggCkpzPxqZ7qUh8tWbUndwVpYsFeozDTGUA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maxime Jourdan <mjourdan@baylibre.com>
+(There were too many recipients for my provider, so resending
+without the zillion CCs, just read the mailinglist instead :-) )
 
-Tag all the coded formats where the s5p_mfc decoder supports dynamic
-resolution switching or has a bitstream parser.
+This series consolidates various patches/patch series that add
+features or document memory-to-memory video codec interfaces.
 
-Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: added HAS_BITSTREAM_PARSER]
----
- .../media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
- drivers/media/platform/s5p-mfc/s5p_mfc_dec.c   | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
+This includes patches adding V4L2_FMT_FLAG_DYN_RESOLUTION,
+new code adding V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER, new code
+adding V4L2_DEC_CMD_FLUSH, patches adding V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+(now with documentation) and patches documenting the stateful
+encoder/decoder and stateless decoder.
 
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-index 96d1ecd1521b..31b133af91eb 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-@@ -723,6 +723,7 @@ struct s5p_mfc_fmt {
- 	enum s5p_mfc_fmt_type type;
- 	u32 num_planes;
- 	u32 versions;
-+	u32 flags;
- };
- 
- /**
-diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-index 61e144a35201..2d45a4d8d536 100644
---- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-+++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-@@ -62,6 +62,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_H264_MVC,
-@@ -69,6 +71,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V6PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_H263,
-@@ -76,6 +80,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_MPEG1,
-@@ -83,6 +88,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_MPEG2,
-@@ -90,6 +97,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_MPEG4,
-@@ -97,6 +106,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_XVID,
-@@ -104,6 +115,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_G,
-@@ -111,6 +123,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_VC1_ANNEX_L,
-@@ -118,6 +131,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V5PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_VP8,
-@@ -125,6 +139,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V6PLUS_BITS,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_HEVC,
-@@ -132,6 +147,8 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V10_BIT,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-+				  V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER,
- 	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_VP9,
-@@ -139,6 +156,7 @@ static struct s5p_mfc_fmt formats[] = {
- 		.type		= MFC_FMT_DEC,
- 		.num_planes	= 1,
- 		.versions	= MFC_V10_BIT,
-+		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
- 	},
- };
- 
+The stateful encoder documentation is still RFC quality (there are
+open TODOs, see https://patchwork.kernel.org/cover/10972783/).
+
+The stateless decoder documentation is the same as the v5 posted
+by Alexandre, but with my comments incorporated.
+
+Also added are updated pixelformat descriptions. Please review this!
+I didn't update the MPEG4 format since I'm not sure what to put there.
+
+If anyone has access to recent codec standards, then I would really
+like to have the right references to 'MPEG Picture' and 'Access Unit'.
+It would be good to just refer to the definition of what a Picture
+or Access Unit is in the right standards.
+
+Changes for the stateful decoder documentation since v4:
+
+- In the Decoding section change "multiple ``OUTPUT`` buffers generate
+  one ``CAPTURE`` buffer: timestamp of the ``OUTPUT`` buffer queued last
+  will be copied." to "queued first" since this corresponds to
+  existing implementations.
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new ENUM_FMT flags.
+
+Changes for the stateless decoder documentation since v5:
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new V4L2_DEC_CMD_FLUSH command to flush the last held
+  capture buffer. This replaces the 'queue an empty buffer' solution.
+
+In my view this series is ready to go in, except for the last patch
+(stateful encoder).
+
+Maxime, I didn't add the proposed V4L2_FMT_FLAG_MANUAL_RESOLUTION
+flag since I think that can go in separately. I also am not 100%
+happy with that name, although I can't think of a better one.
+
+Regards,
+
+	Hans
+
+Alexandre Courbot (1):
+  media: docs-rst: Document m2m stateless video decoder interface
+
+Hans Verkuil (6):
+  v4l2-ioctl.c: OR flags in v4l_fill_fmtdesc(), not don't overwrite
+  videodev2.h: add V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
+  videodev2.h.rst.exceptions: tymecode -> timecode
+  vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+  videodev2.h: add V4L2_DEC_CMD_FLUSH
+  pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation
+
+Maxime Jourdan (5):
+  videodev2.h: add V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: venus: vdec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: s5p_mfc_dec: set flags for OUTPUT coded formats
+  media: mtk-vcodec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: vicodec: set flags for vdec/stateful OUTPUT coded formats
+
+Tomasz Figa (2):
+  media: docs-rst: Document memory-to-memory video decoder interface
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ Documentation/media/uapi/v4l/buffer.rst       |   13 +
+ Documentation/media/uapi/v4l/dev-decoder.rst  | 1101 +++++++++++++++++
+ Documentation/media/uapi/v4l/dev-encoder.rst  |  608 +++++++++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst  |   10 +-
+ .../media/uapi/v4l/dev-stateless-decoder.rst  |  424 +++++++
+ .../media/uapi/v4l/pixfmt-compressed.rst      |   36 +-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   10 +
+ Documentation/media/uapi/v4l/v4l2.rst         |   12 +-
+ .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   52 +-
+ .../media/uapi/v4l/vidioc-dqevent.rst         |   11 +-
+ .../media/uapi/v4l/vidioc-encoder-cmd.rst     |   51 +-
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        |   16 +
+ .../media/uapi/v4l/vidioc-reqbufs.rst         |    6 +
+ .../media/videodev2.h.rst.exceptions          |    7 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    8 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |    1 +
+ drivers/media/platform/qcom/venus/core.h      |    1 +
+ drivers/media/platform/qcom/venus/vdec.c      |   11 +
+ .../media/platform/s5p-mfc/s5p_mfc_common.h   |    1 +
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   18 +
+ drivers/media/platform/vicodec/vicodec-core.c |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +-
+ include/media/v4l2-mem2mem.h                  |   42 +
+ include/media/videobuf2-core.h                |    3 +
+ include/media/videobuf2-v4l2.h                |    5 +
+ include/uapi/linux/videodev2.h                |   20 +-
+ 27 files changed, 2419 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
+
 -- 
 2.20.1
 
