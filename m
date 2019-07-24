@@ -2,81 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C82FA732DE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 17:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B50F573312
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 17:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387652AbfGXPgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 11:36:16 -0400
-Received: from 233-64-107-242.static.try.wideopenwest.com ([64.233.242.107]:55044
-        "EHLO mail.nordicboycomputing.com" rhost-flags-OK-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S2387650AbfGXPgQ (ORCPT
+        id S1728339AbfGXPvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 11:51:20 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:34407 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbfGXPvU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 11:36:16 -0400
-X-Greylist: delayed 590 seconds by postgrey-1.27 at vger.kernel.org; Wed, 24 Jul 2019 11:36:15 EDT
-Received: from nordicboycomputing.com (gateway.appalachian.home [192.168.4.1])
-        by mail.nordicboycomputing.com (Postfix) with ESMTPSA id 569A93402FE
-        for <linux-media@vger.kernel.org>; Wed, 24 Jul 2019 11:26:24 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-        d=nordicboycomputing.com; s=YYYYMM; t=1563981984;
-        bh=amRN4UtBmS/ytE1EkWYjJ6NHmBHH77++ZQ3Pi8VikrE=;
-        h=Date:From:To:Subject:From;
-        b=Sxujx9eXxDbr9msaawpCJgExbfYnbpW7exesYiZBC8wSUnOo2SGtEk1PSXhUeuka2
-         b4YQIMP6mNh4dAj00/P0HEeXNNS/GRAHZKRXdMFNRsFgWAkOda/HJ4SfUY8nYA4zE8
-         cQzvUbBiUZu9Iw1IePSU2nlEGFbj6tYGAwBLp2N7gj7Gyx4eDWSlIt0tnXEdtend7H
-         af6ja+/61WsdqD1Keu9FD0co6FLBFHXaaCflaKCFa3Vsrcb2aUvbNz8jSP8xv5c6O4
-         FazvoqNPndJh5XVd8yXV+c6brDYLyhhFsZJooEpTMurRwL/XEsxiBUnZvXwpkeRSGT
-         NTBAp5xbYJltot2USfuk6LW65v3G5P9wgJp0dP6x41L1QBdnF1voWMb5MDm068Q2An
-         UGHOeYFmwN5v2WY1mINMfkogoFDLshiFpxffXml3z+J//eGhncW3kRZk/7mDjSTZui
-         Un8RiAi7dRpLzsmeRZWwAelVXIIbhP2usvLOZjfep7Xl2XOxyHgZan8u73VYE91hgA
-         IFw2AjQTtMk8srOrBrcSwjEP9tLOQIkNW/daIBimOMuWxL6UV1JFbeKslhrkmrvsnR
-         MGMWwRW+4XJtS7LgJ9r1fN5h1/XC0Wafvt1LQ5eDQwRG4beaQ4NNO7HUTEI51mdrJC
-         wBsnE+Pu+Goar243r12gqSQ4=
-Date:   Wed, 24 Jul 2019 11:26:24 -0400 (EDT)
-From:   jklaas@nordicboycomputing.com
-To:     linux-media@vger.kernel.org
-Subject: radio-si470x and gnomeradio
-Message-ID: <alpine.DEB.2.20.1907241121080.19014@shenandoah.nordicboycomputing.com>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+        Wed, 24 Jul 2019 11:51:20 -0400
+Received: by mail-ua1-f68.google.com with SMTP id c4so18628304uad.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Jul 2019 08:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0syX1wQdoHhNnv4cq/OJXk3DTgq3xd7sV+Jn+M468mc=;
+        b=eAjDloOWWJ9JWgjmFeGbkk4jB6fhNdVNPSzup8y25PXgsYVhqbUJI6f70n1FOnTXRg
+         tWNyl7DMojOeCMtnb4pOndUu2GU7fEQtqLLz1+rr0eDDT/dlyfonSubS4xcvXwYB+Qnw
+         ZcxB6dVk2baaIJghEEKVsHLmrzaKUqHy3ga7WxIpGfxej8bUyd06T21BF9cce97Nc0rs
+         cqCM6fIIty9agrV5SPtnAhl2O+qPkuY2buI36zR0xZh0rzEVxERGNKKNmobow3KpXjsK
+         lOSACbLxqiDWkrFHtW24zaosJ5CcPG+tYr2fOP/n2L1Z1Ck39ydkJ3aByEDuNLVWkTd9
+         XsOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0syX1wQdoHhNnv4cq/OJXk3DTgq3xd7sV+Jn+M468mc=;
+        b=HJ4GqF2vRTfeYc5aI1fyVUmTylj/brNWpzhcvRDWxYVvdlsIuZ1ypcSV8UcQocxq71
+         K4X9jW4+KKvPGF+voHQzenky2JYRd+PErzl/Q+kkXTTqR/n47dP7AfrIIqVALKag9onI
+         IpXBc4H+4+CyALOUe8GVaanRrOrPObVzViIssVfFQmFzavckxSYLFZOWrkJo88Jv8Nyp
+         rd0z34PdGBoPMhq5dp4x5QjFkKV5rX4PBmoi5MLJQqyWYU8NyoCgEzGyaDZE+sc/XntR
+         rehpmVOnPJDBqR1XZHlrEVM98dobrKWqjsY39+mL5JYp700tf7NAMth/u9Pl9mOBZiuR
+         6m+Q==
+X-Gm-Message-State: APjAAAWdpNf0FCLcHvcHfLnaRc3/T31tF/4zOOgdhTlfOx3htV3jOLyc
+        r5mavezwBUU5hPGwz6vzJgKVvMQ48bp/6DY52GM=
+X-Google-Smtp-Source: APXvYqz6OukfzhfI7SGedygppgfymdQuau/2JG7cGlLPnn0roLbai7Gzr2OtkcWsiQsEtr/T+wqtJmLKdYql4NwTkHA=
+X-Received: by 2002:ab0:6619:: with SMTP id r25mr4966079uam.33.1563983479473;
+ Wed, 24 Jul 2019 08:51:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
+References: <20190724151036.26868-1-mbalant3@gmail.com>
+In-Reply-To: <20190724151036.26868-1-mbalant3@gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Wed, 24 Jul 2019 12:51:08 -0300
+Message-ID: <CAAEAJfAHLPqx41H_pQY=wG+xdQJv-HFvFu9zTYR5GNP=wmckcQ@mail.gmail.com>
+Subject: Re: [PATCH] media input infrastructure:tw686x: Added Added custom
+ function to set vdev->release in tw686x driver
+To:     Mark Balantzyan <mbalant3@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I found my old FM Radio stick last night and decided to see if it still worked.
+Hi Mark,
 
-On insertion of my USB Radio stick, I get the following message:
+On Wed, 24 Jul 2019 at 12:10, Mark Balantzyan <mbalant3@gmail.com> wrote:
+>
 
-178145.786842] radio-si470x 1-1.2:1.2: non-zero urb status (-71)
-[178145.810838] radio-si470x 1-1.2:1.2: non-zero urb status (-71)
-[178145.813827] usb 1-1.2: USB disconnect, device number 8
-[178148.084395] usb 1-1.2: new full-speed USB device number 10 using ehci-pci
-[178148.194702] usb 1-1.2: New USB device found, idVendor=10c4, idProduct=818a
-[178148.194705] usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-[178148.194708] usb 1-1.2: Product: FM Radio
-[178148.194710] usb 1-1.2: Manufacturer: SILICON LABORATORIES INC.
-[178148.197655] radio-si470x 1-1.2:1.2: DeviceID=0x1242 ChipID=0x0409
-[178148.197660] radio-si470x 1-1.2:1.2: This driver is known to work with firmware version 12,
-[178148.197663] radio-si470x 1-1.2:1.2: but the device has firmware version 9.
-[178148.198151] radio-si470x 1-1.2:1.2: software version 0, hardware version 6
-[178148.198154] radio-si470x 1-1.2:1.2: If you have some trouble using this driver,
-[178148.198156] radio-si470x 1-1.2:1.2: please report to V4L ML at linux-media@vger.kernel.org
+This commit needs to be thoroughly explained in order to make sense.
 
-I read somewhere that running a newer version of the USBRadio.exe file should update the firmware. I can't seem to get the latest usbradio.zip from SiLabs to see if that will update the firmware. SiLabs makes you sign up for an account and I've not yet received a confirmation of my account yet.
+> Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
+> ---
+> This patch adds a custom function to release video device in assignment to vdev->release member in tw686x driver.
+>
+>  drivers/media/pci/tw686x/tw686x-video.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+> index 3a06c000..3631d0f5 100644
+> --- a/drivers/media/pci/tw686x/tw686x-video.c
+> +++ b/drivers/media/pci/tw686x/tw686x-video.c
+> @@ -1151,6 +1151,21 @@ void tw686x_video_irq(struct tw686x_dev *dev, unsigned long requests,
+>         }
+>  }
+>
+> +
+> +
+> +void tw686x_video_device_release(struct tw686x_video_channel *vc) {
+> +       struct tw686x_dev *dev = vc->dev;
+> +       unsigned int ch, pb;
+> +
+> +       for (ch = 0; ch < max_channels(dev); ch++) {
+> +               struct tw686x_video_channel *vc = &dev->video_channels[ch];
+> +
+> +       dev->dma_ops->free;
+> +
 
-When I try to use gnomeradio I get many of the following messages:
+While I certainly appreciate your intention, you should at least test build
+your patch.
 
-ALSA lib pcm.c:7843:(snd_pcm_recover) overrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) overrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) overrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
-ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
+You might want to read Documentation/process/ and get some insight on
+upstreaming good practices.
 
-I can mitigate this by increasing the (I think) alsa buffers, but it never really goes away.
+Thanks,
+Eze
 
--- 
-                         James Klaas
-
+> +       video_device_release((struct video_device*)dev);
+> +
+> +}
+> +
+>  void tw686x_video_free(struct tw686x_dev *dev)
+>  {
+>         unsigned int ch, pb;
+> @@ -1160,9 +1175,6 @@ void tw686x_video_free(struct tw686x_dev *dev)
+>
+>                 video_unregister_device(vc->device);
+>
+> -               if (dev->dma_ops->free)
+> -                       for (pb = 0; pb < 2; pb++)
+> -                               dev->dma_ops->free(vc, pb);
+>         }
+>  }
+>
+> @@ -1277,7 +1289,7 @@ int tw686x_video_init(struct tw686x_dev *dev)
+>                 snprintf(vdev->name, sizeof(vdev->name), "%s video", dev->name);
+>                 vdev->fops = &tw686x_video_fops;
+>                 vdev->ioctl_ops = &tw686x_video_ioctl_ops;
+> -               vdev->release = video_device_release;
+> +               vdev->release = tw686x_video_device_release;
+>                 vdev->v4l2_dev = &dev->v4l2_dev;
+>                 vdev->queue = &vc->vidq;
+>                 vdev->tvnorms = V4L2_STD_525_60 | V4L2_STD_625_50;
+> --
+> 2.17.1
+>
