@@ -2,73 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D4B731B5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 16:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76533731B9
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 16:34:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbfGXOdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 10:33:24 -0400
-Received: from mail-pl1-f169.google.com ([209.85.214.169]:44459 "EHLO
-        mail-pl1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbfGXOdY (ORCPT
+        id S1726990AbfGXOeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 10:34:19 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:44841 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726709AbfGXOeS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 10:33:24 -0400
-Received: by mail-pl1-f169.google.com with SMTP id t14so22061971plr.11
-        for <linux-media@vger.kernel.org>; Wed, 24 Jul 2019 07:33:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=o2b/M+I9BbhdegDZkBWo+NyUJvKTNf861YIINqI0cCg=;
-        b=no1KsZOTjPXOQdhfiS30EESYIIgAFcNy0Ld8G6zUyCxZ/1lWBGCcsV4Qq4sH9R2Oh+
-         HNvJin6Z9i01kiBvfJWHKbwOIUCVVtD0HVhghlckYicMIcYYueGjNphcj4NrytX2CA/C
-         5FZMl+Keya9EHfLFC+SYmSrjX9ShQg+/4j5746+SMfMiygxjyqNuXdGWPLHLM3mUZsFj
-         zjwe3fuUtyO6/FJL3NtKz6PVgvExeNqLjNa+wVy6lyRCAnjRksQw6MxvaQqyucqCuz7e
-         0UNsgOEJT20zlH2BIn2f6usgPsGPY1Cjy3gNUopemu77Y1cG017IVLSSwXThL0aPu6ja
-         eftw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=o2b/M+I9BbhdegDZkBWo+NyUJvKTNf861YIINqI0cCg=;
-        b=fgTyX+A8Si5Y4MsJGzGdjV9m8R8MhVi8QMjg2TAw9CMY5Vt3XmHIycC0UNHM7J4hpV
-         /1nCSuZsaF24f3/cy/uu3g1rkbIx3e6UqPqA97RXwOZY89hupLn81+ZwaIWLY+sAe7jI
-         qZzuv3Pu97AT8+Daum+Zi3tjtm2JyFXx9DbV6uVxl4I2/BwrNXHu+YyDzPRnOQ7euwMh
-         lkPckHIfyz56DmMonvF9QXvTmQZzBYAyZuRE3CG7vLA9HHi71cJg9FXXnZtY2FYHQ7Dy
-         44PlVjprN6+xyQFAOJZtVbzYfabQnayVtHaWFQ2YFvmnrCmTtvLp/NpegqCI1j1evRQZ
-         zdkw==
-X-Gm-Message-State: APjAAAVFdsJCqtwdQ8UNP91JKEcBT2EVoWmT00Pv2HOrBaRN+zOAhRNS
-        FYwML15J+PSOM7nzVfhar2p29c26UaY=
-X-Google-Smtp-Source: APXvYqxr0aCN/TH9+RVBAipnhzA0KCJu9nDRgG8fOYWvArEEL8hp+cyOu4DenbSFi85s+mn0gJsE7w==
-X-Received: by 2002:a17:902:bf09:: with SMTP id bi9mr80800182plb.143.1563978802832;
-        Wed, 24 Jul 2019 07:33:22 -0700 (PDT)
-Received: from [10.0.2.15] (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
-        by smtp.gmail.com with ESMTPSA id l25sm57434180pff.143.2019.07.24.07.33.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Jul 2019 07:33:21 -0700 (PDT)
-To:     hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org
-From:   =?UTF-8?Q?Mark_Balan=c3=a7ian?= <mbalant3@gmail.com>
-Subject: my patch
-Message-ID: <7aa628b3-aaa0-950e-7872-89b27c4bb522@gmail.com>
-Date:   Wed, 24 Jul 2019 07:33:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+        Wed, 24 Jul 2019 10:34:18 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hqILR-0001NT-Mg; Wed, 24 Jul 2019 16:34:17 +0200
+Message-ID: <1563978854.2914.15.camel@pengutronix.de>
+Subject: Re: [PATCH 01/14] v4l2-ioctl.c: OR flags in v4l_fill_fmtdesc(), not
+ don't overwrite
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Date:   Wed, 24 Jul 2019 16:34:14 +0200
+In-Reply-To: <8559fd11-e6b7-092d-08b3-dc92f92ee089@xs4all.nl>
+References: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
+         <20190724110523.29248-2-hverkuil-cisco@xs4all.nl>
+         <1563974568.2914.11.camel@pengutronix.de>
+         <8559fd11-e6b7-092d-08b3-dc92f92ee089@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I hope it looks ok? I was only able to direct git send email to send it 
-to one recipient (Hans). I'm not sure about the value for "pb" (I set it 
-to zero by default). Please would like some feedback. Also, I could not 
-figure out how to use git send-email to Cc: linux-media. Cc'ing was 
-working yesterday. Sorry about that.
+On Wed, 2019-07-24 at 15:30 +0200, Hans Verkuil wrote:
+> On 7/24/19 3:22 PM, Philipp Zabel wrote:
+> > On Wed, 2019-07-24 at 13:05 +0200, Hans Verkuil wrote:
+> > > If a driver sets a FMT flag in the enum_fmt op, then that will be
+> > > ignored since v4l_fill_fmtdesc() overwrites it again.
+> > > 
+> > > v4l_fill_fmtdesc() should OR its flag, not overwrite it.
+> > > 
+> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > index 80efc581e3f9..911a20f915c5 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -1390,7 +1390,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> > >  
+> > >  	if (descr)
+> > >  		WARN_ON(strscpy(fmt->description, descr, sz) < 0);
+> > > -	fmt->flags = flags;
+> > > +	fmt->flags |= flags;
+> > >  }
+> > >  
+> > >  static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+> > 
+> > If the enum_fmt op does not write fmt->flags, will it not contain the
+> > value provided by userspace at this point? I think p->flags must be
+> > cleared in v4l2_enum_fmt() with this change, before the enum_fmt op is
+> > called.
+> 
+> All fields after 'type' in struct v4l2_fmtdesc are cleared by the core:
+> search for INFO_FL_CLEAR(v4l2_fmtdesc, type) in v4l2-ioctl.c.
+> 
+> So 'flags' is already zeroed when this function is called.
 
-Thank you,
+Got it, thanks. In that case,
 
-Mark
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
+regards
+Philipp
