@@ -2,91 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 177DD7300E
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 15:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD8DD73035
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 15:49:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbfGXNkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 09:40:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35312 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725826AbfGXNkE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 09:40:04 -0400
-Received: by mail-oi1-f195.google.com with SMTP id a127so35001175oii.2
-        for <linux-media@vger.kernel.org>; Wed, 24 Jul 2019 06:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3d6ssC5f4WWJRwGDNIV/dz/cD9cDgvCqu1WVfecFLyc=;
-        b=W2am4WrmrhYtyb664zBUM8rxf2q9Og4cdM99m98JUkCw3o5F9CIlBGsY/1YvvPzbcQ
-         4VT8ZB0PfB8jtOFh+BACFQvs0G0NM1YZlpaiR/6CDIrxbIy9sAkhrM58JhL/Tu04Ge86
-         eqhiaS5nRzKbUezn59YAW/Jo1Bn6u5GVbHRO5G/JRHu4WD/kmo5gWzMTmSUyf1MROcjx
-         OqZf8kfWVyZlxb8TZFrQJsfPtM4g5BDCAEqXF4K3l1qkTRB1LdYfSgWKVFTrhmCyb3KL
-         qkV2G5piIWhWfoeIl3pxiWWfefU4ovmULQDZYZpG9p+j3W0LTniNGZiqgArDuintavaA
-         LTOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3d6ssC5f4WWJRwGDNIV/dz/cD9cDgvCqu1WVfecFLyc=;
-        b=owgAYg3rEuVf/OBUk/xFMypGvVXaZp8Y02gYT7zgd5wmTLf3RK31SwoR/IgsOWl+mD
-         pr30kAHLwf9yOhLMHyuB2D/AH7zX9i9DhywgI7JlXjaqirBqsSAdyjITURbROKed3hzW
-         njciVlgFkfm74xE+tg4LTmlhD9VKckdkUDPdJA0E3yX9txpIIIzxOh03wDIRtmHVutwm
-         1AVXLVOnMhE8fD7ISQXxzc3ZMdJwgk/C3Qx/WNDhYTLcIPRxqd3SyXCb5yQ5ztsTarG7
-         13AbVYjEuEO3Taz7Hi3XmfTsqz+ugaCy1ypDpGgy00UCb9G3s7YTc/bWDivXgduHKC6K
-         ug+g==
-X-Gm-Message-State: APjAAAXJuXZ8x5LxrilpdWymLojAOIQ/AI//GG6BeBSGBzHo3dcGgXqf
-        ehz6mISFrVkGCiM27hAIKWi+WlC+7UOB4klwLpyCzc/lfk4=
-X-Google-Smtp-Source: APXvYqx7tEjSs8z4kIyICMQiFrgj0ophkeCnu8DdSRdCgVZz1OvOuyinSc+pz6bRlYRdnHwQmWM/eoOWAlXsayefplA=
-X-Received: by 2002:a54:4109:: with SMTP id l9mr41508231oic.93.1563975603134;
- Wed, 24 Jul 2019 06:40:03 -0700 (PDT)
+        id S1726855AbfGXNtp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 09:49:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:41172 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726422AbfGXNto (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jul 2019 09:49:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE10E28;
+        Wed, 24 Jul 2019 06:49:43 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 88C793F71A;
+        Wed, 24 Jul 2019 06:49:42 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: ipu3: Enable IOVA API only when IOMMU
+ support is enabled
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        YueHaibing <yuehaibing@huawei.com>
+Cc:     devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org, hverkuil-cisco@xs4all.nl,
+        digetx@gmail.com, mchehab@kernel.org, yong.zhi@intel.com
+References: <20190722134749.21580-1-yuehaibing@huawei.com>
+ <20190724103027.GD21370@paasikivi.fi.intel.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e48fc180-06cc-eac7-d8ca-9be1699c8677@arm.com>
+Date:   Wed, 24 Jul 2019 14:49:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <b29844e0-4dee-a6a5-913c-59c40f8ab77a@xs4all.nl>
-In-Reply-To: <b29844e0-4dee-a6a5-913c-59c40f8ab77a@xs4all.nl>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 24 Jul 2019 14:39:36 +0100
-Message-ID: <CA+V-a8tdcyLFFPfr+K3xR-oNtORJaDD=AAcR-mBwERhEeAWBtA@mail.gmail.com>
-Subject: Re: [PATCH] am437x: remove unused struct vpfe_pixel_format
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190724103027.GD21370@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 24/07/2019 11:30, Sakari Ailus wrote:
+> Hi Yue,
+> 
+> On Mon, Jul 22, 2019 at 09:47:49PM +0800, YueHaibing wrote:
+>> If IOMMU_SUPPORT is not set, ipu3 driver may select IOMMU_IOVA to m.
+>> But for many drivers, they use "select IOMMU_IOVA if IOMMU_SUPPORT"
+>> in the Kconfig, for example, CONFIG_TEGRA_VDE is set to y but IOMMU_IOVA
+>> is m, then the building fails like this:
+>>
+>> drivers/staging/media/tegra-vde/iommu.o: In function `tegra_vde_iommu_map':
+>> iommu.c:(.text+0x41): undefined reference to `alloc_iova'
+>> iommu.c:(.text+0x56): undefined reference to `__free_iova'
+>>
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Fixes: 7fc7af649ca7 ("media: staging/intel-ipu3: Add imgu top level pci device driver")
+>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>> ---
+>>   drivers/staging/media/ipu3/Kconfig | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/ipu3/Kconfig b/drivers/staging/media/ipu3/Kconfig
+>> index 4b51c67..b7df18f 100644
+>> --- a/drivers/staging/media/ipu3/Kconfig
+>> +++ b/drivers/staging/media/ipu3/Kconfig
+>> @@ -4,7 +4,7 @@ config VIDEO_IPU3_IMGU
+>>   	depends on PCI && VIDEO_V4L2
+>>   	depends on MEDIA_CONTROLLER && VIDEO_V4L2_SUBDEV_API
+>>   	depends on X86
+>> -	select IOMMU_IOVA
+>> +	select IOMMU_IOVA if IOMMU_SUPPORT
+> 
+> This doesn't seem right: the ipu3-cio2 driver needs IOMMU_IOVA
+> independently of IOMMU_SUPPORT.
+> 
+> Looking at tegra-vde, it seems to depend on IOMMU_SUPPORT but that's not
+> declared in its Kconfig entry. I wonder if adding that would be the right
+> way to fix this.
+> 
+> Cc'ing the IOMMU list.
 
-Thank you for the patch.
+Right, I also had the impression that we'd made the IOVA library 
+completely standalone. And what does the IPU3 driver's Kconfig have to 
+do with some *other* driver failing to link anyway?
 
-On Tue, Jul 23, 2019 at 1:59 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> struct vpfe_pixel_format was defined, but never used. Remove it.
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> diff --git a/drivers/media/platform/am437x/am437x-vpfe.h b/drivers/media/platform/am437x/am437x-vpfe.h
-> index 17d7aa426788..4678285f34c6 100644
-> --- a/drivers/media/platform/am437x/am437x-vpfe.h
-> +++ b/drivers/media/platform/am437x/am437x-vpfe.h
+Robin.
 
-Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-
-Regards,
---Prabhakar Lad
-
-> @@ -65,12 +65,6 @@ struct vpfe_hw_if_param {
->  #define VPFE_MAX_SUBDEV                1
->  #define VPFE_MAX_INPUTS                1
->
-> -struct vpfe_pixel_format {
-> -       struct v4l2_fmtdesc fmtdesc;
-> -       /* bytes per pixel */
-> -       int bpp;
-> -};
-> -
->  struct vpfe_std_info {
->         int active_pixels;
->         int active_lines;
+> 
+>>   	select VIDEOBUF2_DMA_SG
+>>   	help
+>>   	  This is the Video4Linux2 driver for Intel IPU3 image processing unit,
+> 
