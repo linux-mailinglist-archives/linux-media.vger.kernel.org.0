@@ -2,105 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 084F572CEE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E470372D75
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2019 13:27:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbfGXLK3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 07:10:29 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59261 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727349AbfGXLK3 (ORCPT
+        id S1727569AbfGXL1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jul 2019 07:27:22 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33201 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726300AbfGXL1V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:10:29 -0400
+        Wed, 24 Jul 2019 07:27:21 -0400
 Received: from tschai.fritz.box ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qFA7h3isaLqASqFABhNG16; Wed, 24 Jul 2019 13:10:27 +0200
+        id qFQSh3s6JLqASqFQVhNKzA; Wed, 24 Jul 2019 13:27:19 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH 03/14] videodev2.h: add V4L2_FMT_FLAG_DYN_RESOLUTION
-Date:   Wed, 24 Jul 2019 13:10:12 +0200
-Message-Id: <20190724111023.29499-4-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 00/14] Stateful/stateless codec core support (resend)
+Date:   Wed, 24 Jul 2019 13:27:02 +0200
+Message-Id: <20190724112716.30288-1-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190724111023.29499-1-hverkuil-cisco@xs4all.nl>
-References: <20190724111023.29499-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfKziv8AQC4NANuD86URvaRfxS54xq9tRCcduJZZcIki3YjUn/+u2Zki62VBdcSaI0uA8Ge1sNFqCF8mZMLhGaCDALvmsVl/kBca/EFjy3jI6r1PYEUdS
- ZPH0dZ7NVOcvsBZoGsTRnyoCcTrbuTU5LXK5fU3adXDzoqcFNIjSDnx/R6B4wr/6QtyoUCBW+D1mQcyynjVXt4CnZjUT3yq+jk/CwMlUTwHwdV/N0KB+q+q2
- cKU5p8NX9/wNox0YlpsVcdSJO5kD1FyBhmX3fLpEe1ikyPfVF7StpgX7bbalsV+f
+X-CMAE-Envelope: MS4wfDQrmu0wN0i89gUYIxlcH+2uzmvQrLzJ406BxzG2GisP/f+GtoM+UfN1PNKKIum/qZ4z/k9WPoYlLQ6KQ3Ss+ATINCqYL4PFKcSKLGj/Dqn0h49MdJIY
+ qthESU5LXlxr0stabaOmbpw8H4FjnR5eQ/fDEIGj7abN3QiM3SD+rVu19nYR84jCgbEgokyz/aybCQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maxime Jourdan <mjourdan@baylibre.com>
+(There were too many recipients for my provider, so resending
+again without the zillion CCs, and in batches of 5 patches. Stupid
+spammer detection...)
 
-Add an enum_fmt format flag to specifically tag coded formats where
-dynamic resolution switching is supported by the device.
+This series consolidates various patches/patch series that add
+features or document memory-to-memory video codec interfaces.
 
-This is useful for some codec drivers that can support dynamic
-resolution switching for one or more of their listed coded formats. It
-allows userspace to know whether it should extract the video parameters
-itself, or if it can rely on the device to send V4L2_EVENT_SOURCE_CHANGE
-when such changes are detected.
+This includes patches adding V4L2_FMT_FLAG_DYN_RESOLUTION,
+new code adding V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER, new code
+adding V4L2_DEC_CMD_FLUSH, patches adding V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+(now with documentation) and patches documenting the stateful
+encoder/decoder and stateless decoder.
 
-Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: added flag to videodev2.h.rst.exceptions]
-[hverkuil-cisco@xs4all.nl: updated commit text: 'one or more' instead of 'all']
-Acked-by: Tomasz Figa <tfiga@chromium.org>
----
- Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
- Documentation/media/videodev2.h.rst.exceptions   | 1 +
- include/uapi/linux/videodev2.h                   | 1 +
- 3 files changed, 10 insertions(+)
+The stateful encoder documentation is still RFC quality (there are
+open TODOs, see https://patchwork.kernel.org/cover/10972783/).
 
-diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-index 4e24e671f32e..05454780cb21 100644
---- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-@@ -135,6 +135,14 @@ one until ``EINVAL`` is returned.
- 	frames/fields. This flag can only be used in combination with the
- 	``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to compressed
- 	formats only.
-+    * - ``V4L2_FMT_FLAG_DYN_RESOLUTION``
-+      - 0x0008
-+      - Dynamic resolution switching is supported by the device for this
-+	compressed bitstream format (aka coded format). It will notify the user
-+	via the event ``V4L2_EVENT_SOURCE_CHANGE`` when changes in the video
-+	parameters are detected. This flag can only be used in combination
-+	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
-+	compressed formats only.
- 
- 
- Return Value
-diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
-index 74fb9f00c12d..0a9a1b386443 100644
---- a/Documentation/media/videodev2.h.rst.exceptions
-+++ b/Documentation/media/videodev2.h.rst.exceptions
-@@ -181,6 +181,7 @@ replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserved-formats
- replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
- replace define V4L2_FMT_FLAG_EMULATED fmtdesc-flags
- replace define V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER fmtdesc-flags
-+replace define V4L2_FMT_FLAG_DYN_RESOLUTION fmtdesc-flags
- 
- # V4L2 tymecode types
- replace define V4L2_TC_TYPE_24FPS timecode-type
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 8c5a28666b16..ed572b05bd25 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -777,6 +777,7 @@ struct v4l2_fmtdesc {
- #define V4L2_FMT_FLAG_COMPRESSED		0x0001
- #define V4L2_FMT_FLAG_EMULATED			0x0002
- #define V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER	0x0004
-+#define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
- 
- 	/* Frame Size and frame rate enumeration */
- /*
+The stateless decoder documentation is the same as the v5 posted
+by Alexandre, but with my comments incorporated.
+
+Also added are updated pixelformat descriptions. Please review this!
+I didn't update the MPEG4 format since I'm not sure what to put there.
+
+If anyone has access to recent codec standards, then I would really
+like to have the right references to 'MPEG Picture' and 'Access Unit'.
+It would be good to just refer to the definition of what a Picture
+or Access Unit is in the right standards.
+
+Changes for the stateful decoder documentation since v4:
+
+- In the Decoding section change "multiple ``OUTPUT`` buffers generate
+  one ``CAPTURE`` buffer: timestamp of the ``OUTPUT`` buffer queued last
+  will be copied." to "queued first" since this corresponds to
+  existing implementations.
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new ENUM_FMT flags.
+
+Changes for the stateless decoder documentation since v5:
+
+- Document that width and height are required fields in step 4 of the
+  Capture Setup.
+
+- Mention the new V4L2_DEC_CMD_FLUSH command to flush the last held
+  capture buffer. This replaces the 'queue an empty buffer' solution.
+
+In my view this series is ready to go in, except for the last patch
+(stateful encoder).
+
+Maxime, I didn't add the proposed V4L2_FMT_FLAG_MANUAL_RESOLUTION
+flag since I think that can go in separately. I also am not 100%
+happy with that name, although I can't think of a better one.
+
+Regards,
+
+	Hans
+
+Alexandre Courbot (1):
+  media: docs-rst: Document m2m stateless video decoder interface
+
+Hans Verkuil (6):
+  v4l2-ioctl.c: OR flags in v4l_fill_fmtdesc(), not don't overwrite
+  videodev2.h: add V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
+  videodev2.h.rst.exceptions: tymecode -> timecode
+  vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+  videodev2.h: add V4L2_DEC_CMD_FLUSH
+  pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation
+
+Maxime Jourdan (5):
+  videodev2.h: add V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: venus: vdec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: s5p_mfc_dec: set flags for OUTPUT coded formats
+  media: mtk-vcodec: flag OUTPUT formats with
+    V4L2_FMT_FLAG_DYN_RESOLUTION
+  media: vicodec: set flags for vdec/stateful OUTPUT coded formats
+
+Tomasz Figa (2):
+  media: docs-rst: Document memory-to-memory video decoder interface
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ Documentation/media/uapi/v4l/buffer.rst       |   13 +
+ Documentation/media/uapi/v4l/dev-decoder.rst  | 1101 +++++++++++++++++
+ Documentation/media/uapi/v4l/dev-encoder.rst  |  608 +++++++++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst  |   10 +-
+ .../media/uapi/v4l/dev-stateless-decoder.rst  |  424 +++++++
+ .../media/uapi/v4l/pixfmt-compressed.rst      |   36 +-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   10 +
+ Documentation/media/uapi/v4l/v4l2.rst         |   12 +-
+ .../media/uapi/v4l/vidioc-decoder-cmd.rst     |   52 +-
+ .../media/uapi/v4l/vidioc-dqevent.rst         |   11 +-
+ .../media/uapi/v4l/vidioc-encoder-cmd.rst     |   51 +-
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        |   16 +
+ .../media/uapi/v4l/vidioc-reqbufs.rst         |    6 +
+ .../media/videodev2.h.rst.exceptions          |    7 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    8 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |    1 +
+ drivers/media/platform/qcom/venus/core.h      |    1 +
+ drivers/media/platform/qcom/venus/vdec.c      |   11 +
+ .../media/platform/s5p-mfc/s5p_mfc_common.h   |    1 +
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   18 +
+ drivers/media/platform/vicodec/vicodec-core.c |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +-
+ include/media/v4l2-mem2mem.h                  |   42 +
+ include/media/videobuf2-core.h                |    3 +
+ include/media/videobuf2-v4l2.h                |    5 +
+ include/uapi/linux/videodev2.h                |   20 +-
+ 27 files changed, 2419 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
+
 -- 
 2.20.1
 
