@@ -2,142 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8697441D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 05:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60A1B744C4
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 07:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390052AbfGYDtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jul 2019 23:49:49 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40245 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389014AbfGYDtt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jul 2019 23:49:49 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:686a:d84c:12cb:f4b5])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id qUlFh6QGneD5bqUlGhfrVa; Thu, 25 Jul 2019 05:49:46 +0200
-Message-ID: <82a0392407bceefd2dbcc0df484a9ae3@smtp-cloud8.xs4all.net>
-Date:   Thu, 25 Jul 2019 05:49:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfJIzvxXJKYXQaYeenYq2rqp9y8J4W28RzrqyiQEEsI5gy1/2NJLByb6P7kHtFO7INA3UXuTRk7QLb7Lv0gs8HyPFe+5+ubE9XxOdXIsDcVW4GEg/SPP3
- v7kupjo1TjRfnqr4JsixMWap/ejKtk20R26kx9WwZCn4+K2Mq2UptvCOTFl1C33Px9cem6yYHiv5/UnaXeCYtI2rD8bPYVTrV5oldcnPEvmcC838ONbIduN0
+        id S2390475AbfGYFME (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 01:12:04 -0400
+Received: from gofer.mess.org ([88.97.38.141]:34441 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390362AbfGYFME (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Jul 2019 01:12:04 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id AFB1C60474; Thu, 25 Jul 2019 06:12:02 +0100 (BST)
+Date:   Thu, 25 Jul 2019 06:12:02 +0100
+From:   Sean Young <sean@mess.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: ir-kbd-i2c: prevent potential NULL pointer
+ access
+Message-ID: <20190725051202.o47mz4unbn63z6uk@gofer.mess.org>
+References: <20190722172632.4402-1-wsa+renesas@sang-engineering.com>
+ <20190722172632.4402-2-wsa+renesas@sang-engineering.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190722172632.4402-2-wsa+renesas@sang-engineering.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Mon, Jul 22, 2019 at 07:26:31PM +0200, Wolfram Sang wrote:
+> i2c_new_dummy() can fail returning a NULL pointer. The code does not
+> bail out in this case and the returned pointer is blindly used.
 
-Results of the daily build of media_tree:
+I don't see how. The existing code tries to set up the tx part; if
+i2c_new_dummy() return NULL then the rcdev is registered without tx,
+and tx_c is never used.
 
-date:			Thu Jul 25 05:00:12 CEST 2019
-media-tree git hash:	e2727ec58c113c2c95cbb75f6a129bd1fa0bf761
-media_build git hash:	c5884d3b03606ebdbf64417fcdfd274cbcc0b4e4
-v4l-utils git hash:	6b63111c71eb2837195962d510c510b83c3821f0
-edid-decode git hash:	15df4aebf06da579241c58949493b866139d0e2b
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d35a612cf09e3c21da849f4bfcd894d91ffa00b3
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+> Convert
+> to devm_i2c_new_dummy_device() which returns an ERR_PTR and also bail
+> out when failing the validity check.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: WARNINGS
-linux-3.10.108-x86_64: WARNINGS
-linux-3.11.10-i686: WARNINGS
-linux-3.11.10-x86_64: WARNINGS
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: WARNINGS
-linux-3.13.11-i686: WARNINGS
-linux-3.13.11-x86_64: WARNINGS
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: WARNINGS
-linux-3.15.10-i686: WARNINGS
-linux-3.15.10-x86_64: WARNINGS
-linux-3.16.63-i686: WARNINGS
-linux-3.16.63-x86_64: WARNINGS
-linux-3.17.8-i686: WARNINGS
-linux-3.17.8-x86_64: WARNINGS
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: WARNINGS
-linux-3.19.8-i686: WARNINGS
-linux-3.19.8-x86_64: WARNINGS
-linux-4.0.9-i686: WARNINGS
-linux-4.0.9-x86_64: WARNINGS
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: WARNINGS
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: WARNINGS
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: WARNINGS
-linux-4.4.167-i686: WARNINGS
-linux-4.4.167-x86_64: WARNINGS
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: WARNINGS
-linux-5.3-rc1-x86_64: WARNINGS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Possibly I was being overly cautious with not bailing out if tx can't
+be registered; moving to devm is probably a good idea. However the
+commit message is misleading, because the existing code has no
+NULL pointer access.
 
-Logs weren't copied as they are too large (4388 kB)
+Sean
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/media/i2c/ir-kbd-i2c.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
+> index 876d7587a1da..f46717052efc 100644
+> --- a/drivers/media/i2c/ir-kbd-i2c.c
+> +++ b/drivers/media/i2c/ir-kbd-i2c.c
+> @@ -885,9 +885,12 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	INIT_DELAYED_WORK(&ir->work, ir_work);
+>  
+>  	if (probe_tx) {
+> -		ir->tx_c = i2c_new_dummy(client->adapter, 0x70);
+> -		if (!ir->tx_c) {
+> +		ir->tx_c = devm_i2c_new_dummy_device(&client->dev,
+> +						     client->adapter, 0x70);
+> +		if (IS_ERR(ir->tx_c)) {
+>  			dev_err(&client->dev, "failed to setup tx i2c address");
+> +			err = PTR_ERR(ir->tx_c);
+> +			goto err_out_free;
+>  		} else if (!zilog_init(ir)) {
+>  			ir->carrier = 38000;
+>  			ir->duty_cycle = 40;
+> @@ -904,9 +907,6 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	return 0;
+>  
+>   err_out_free:
+> -	if (ir->tx_c)
+> -		i2c_unregister_device(ir->tx_c);
+> -
+>  	/* Only frees rc if it were allocated internally */
+>  	rc_free_device(rc);
+>  	return err;
+> @@ -919,9 +919,6 @@ static int ir_remove(struct i2c_client *client)
+>  	/* kill outstanding polls */
+>  	cancel_delayed_work_sync(&ir->work);
+>  
+> -	if (ir->tx_c)
+> -		i2c_unregister_device(ir->tx_c);
+> -
+>  	/* unregister device */
+>  	rc_unregister_device(ir->rc);
+>  
+> -- 
+> 2.20.1
