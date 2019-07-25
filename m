@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB442750BA
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 16:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10CD6750BB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 16:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfGYOSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 10:18:09 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44650 "EHLO
+        id S1727167AbfGYOSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 10:18:14 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44670 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726432AbfGYOSJ (ORCPT
+        with ESMTP id S1726432AbfGYOSN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 10:18:09 -0400
+        Thu, 25 Jul 2019 10:18:13 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 8094028B830
+        with ESMTPSA id DFBFE28B831
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
 Cc:     kernel@collabora.com,
@@ -28,11 +28,13 @@ Cc:     kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 0/7] hantro: Add RK3399 VP8 decoding support
-Date:   Thu, 25 Jul 2019 11:17:49 -0300
-Message-Id: <20190725141756.2518-1-ezequiel@collabora.com>
+        stable@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 1/7] media: hantro: Set DMA max segment size
+Date:   Thu, 25 Jul 2019 11:17:50 -0300
+Message-Id: <20190725141756.2518-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190725141756.2518-1-ezequiel@collabora.com>
+References: <20190725141756.2518-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,53 +42,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds VP8 decoding support on RK3399 SoC.
+From: Francois Buergisser <fbuergisser@chromium.org>
 
-I'm including a set of commits from Boris' recent H264 series [1].
-These commits add some helpers that are also useful for RK3399 VP8,
-and at the same time cleanup the driver nicely.
+The Hantro codec is typically used in platforms with an IOMMU,
+so we need to set a proper DMA segment size. Devices without an
+IOMMU will still fallback to default 64KiB segments.
 
-Finally, there's a fix by Francois Buergisser from Chromium team.
+Cc: stable@vger.kernel.org
+Fixes: 775fec69008d3 ("media: add Rockchip VPU JPEG encoder driver")
+Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-VP8 and MPEG-2 tested on RK3399 RockPi and RK3288 Rock2 boards.
-
-[1] https://patchwork.kernel.org/cover/11003971/
-
-Changes from v1:
-
- * Remove unused variables.
- * Use buffer helpers in places missing in v1.
-
-Boris Brezillon (4):
-  media: hantro: Simplify the controls creation logic
-  media: hantro: Constify the control array
-  media: hantro: Add hantro_get_{src,dst}_buf() helpers
-  media: hantro: Add helpers to prepare/finish a run
-
-Ezequiel Garcia (1):
-  media: hantro: Move VP8 common code
-
-Francois Buergisser (1):
-  media: hantro: Set DMA max segment size
-
-Jeffy Chen (1):
-  media: hantro: Support RK3399 VP8 decoding
-
- drivers/staging/media/hantro/Makefile         |   1 +
- drivers/staging/media/hantro/hantro.h         |  15 +-
- drivers/staging/media/hantro/hantro_drv.c     |  53 +-
- .../media/hantro/hantro_g1_mpeg2_dec.c        |  14 +-
- .../staging/media/hantro/hantro_g1_vp8_dec.c  |  34 +-
- .../staging/media/hantro/hantro_h1_jpeg_enc.c |  11 +-
- drivers/staging/media/hantro/hantro_hw.h      |   7 +
- drivers/staging/media/hantro/hantro_vp8.c     |  15 +
- drivers/staging/media/hantro/rk3399_vpu_hw.c  |  22 +-
- .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |  12 +-
- .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  14 +-
- .../media/hantro/rk3399_vpu_hw_vp8_dec.c      | 595 ++++++++++++++++++
- 12 files changed, 708 insertions(+), 85 deletions(-)
- create mode 100644 drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
-
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index b71a06e9159e..4eae1dbb1ac8 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -731,6 +731,7 @@ static int hantro_probe(struct platform_device *pdev)
+ 		dev_err(vpu->dev, "Could not set DMA coherent mask.\n");
+ 		return ret;
+ 	}
++	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+ 
+ 	for (i = 0; i < vpu->variant->num_irqs; i++) {
+ 		const char *irq_name = vpu->variant->irqs[i].name;
 -- 
 2.22.0
 
