@@ -2,82 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FDFD74C0A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 12:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AEAD74C1C
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 12:47:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727589AbfGYKo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 06:44:56 -0400
-Received: from gofer.mess.org ([88.97.38.141]:41021 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726513AbfGYKoz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 06:44:55 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id EA01460474; Thu, 25 Jul 2019 11:44:53 +0100 (BST)
-Date:   Thu, 25 Jul 2019 11:44:53 +0100
-From:   Sean Young <sean@mess.org>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: ir-kbd-i2c: prevent potential NULL pointer
- access
-Message-ID: <20190725104453.5kqusisyg44zbbcy@gofer.mess.org>
-References: <20190722172632.4402-1-wsa+renesas@sang-engineering.com>
- <20190722172632.4402-2-wsa+renesas@sang-engineering.com>
- <20190725051202.o47mz4unbn63z6uk@gofer.mess.org>
- <20190725075538.GB1323@kunai>
+        id S1728962AbfGYKrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 06:47:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44414 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728726AbfGYKrS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Jul 2019 06:47:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=lVWSvMti17F8POnwuS7EAyc3O7WloP9rxEkzwLg6TD8=; b=W7QoRAjz2R9Cyj7PLvxtg+aoY
+        Exgo1z2uv90MCPfnczKPDe8Xjt8RQD3vFIs8ELDmsnUDcVsmv+ZBbMVgitj2pW6i9RMkG8LbJwPB/
+        hfCTwDuBMkRPlU0J2smAQHdNS+V6SdWFs2QVOk+HVMioYAnsscgih9e0ovVx0zdAR5MPUH0rXgOCp
+        Ni3lX5kucpRGIZ0pcX/zbOKnKViHI3xaEqM0YY/2u5zGS29FFwPDxXyOhjrvg8S09S9wNfEDPJLTU
+        FK0yIDm9LLaipuRmlYMUd0EXxpcSE14N+Ip9XNWLNV2g/kNgyQ6v7VXoNcxJfThsW3xbYJ02xFugZ
+        3sDDgnfJg==;
+Received: from [179.95.31.157] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hqbHJ-0002hn-Iz; Thu, 25 Jul 2019 10:47:18 +0000
+Date:   Thu, 25 Jul 2019 07:47:14 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL for 5.4] V4L2 ISP, fwnode, sensor and CSI2 patches
+Message-ID: <20190725074714.52f775f2@coco.lan>
+In-Reply-To: <20190725095030.GG1263@valkosipuli.retiisi.org.uk>
+References: <20190725095030.GG1263@valkosipuli.retiisi.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190725075538.GB1323@kunai>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+Em Thu, 25 Jul 2019 12:50:30 +0300
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-On Thu, Jul 25, 2019 at 09:55:38AM +0200, Wolfram Sang wrote:
-> Hi Sean,
+> Hi Mauro,
 > 
-> thanks for the review!
+> Here's my first set of V4L2 patches for 5.4. Included are sensor driver
+> patches, but also update for the Cadence CSI2TX driver and odd fixes and
+> cleanups. No new drivers this time.
 > 
-> On Thu, Jul 25, 2019 at 06:12:02AM +0100, Sean Young wrote:
-> > On Mon, Jul 22, 2019 at 07:26:31PM +0200, Wolfram Sang wrote:
-> > > i2c_new_dummy() can fail returning a NULL pointer. The code does not
-> > > bail out in this case and the returned pointer is blindly used.
-> > 
-> > I don't see how. The existing code tries to set up the tx part; if
-> > i2c_new_dummy() return NULL then the rcdev is registered without tx,
-> > and tx_c is never used.
+> Please pull.
 > 
-> Yes, you are totally right. I missed that the send_block function is
-> also only called iff zilog_init succeeded. Thanks for the heads up and
-> sorry for the noise.
+> 
+> The following changes since commit ebe15c7679680308268b99d911b1db15d514c7b8:
+> 
+>   media: tegra-cec: use cec_notifier_cec_adap_(un)register (2019-07-23 08:40:57 -0400)
+> 
+> are available in the Git repository at:
+> 
+>   ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.4-3-signed
+> 
+> for you to fetch changes up to d0de3d651cbc2ff02084a1671368c461bb3c3e78:
+> 
+>   media: staging/intel-ipu3: Use dev_get_drvdata where possible (2019-07-25 12:30:25 +0300)
+> 
+> ----------------------------------------------------------------
+> V4L2 patches for 5.4
+> 
+> ----------------------------------------------------------------
+> Andy Shevchenko (1):
+>       media: v4l2-fwnode: Switch to use fwnode_property_count_uXX()
+> 
+> Christophe JAILLET (1):
+>       media: ov2680: fix a typo in a function name
+> 
+> Chuhong Yuan (2):
+>       media: pci: Use dev_get_drvdata where possible
+>       media: staging/intel-ipu3: Use dev_get_drvdata where possible
+> 
+> Fabio Estevam (5):
+>       media: ov5645: Remove unneeded regulator_set_voltage()
+>       media: ov5645: Use regulator_bulk() functions
+>       media: i2c: ov5640: Check for devm_gpiod_get_optional() error
+>       media: i2c: ov5640: Fix the order for enabling regulators
 
-Not at all, thank you for the patch.
+>       media: imx7.rst: Fix the references to the CSI multiplexer
 
-> > > Convert
-> > > to devm_i2c_new_dummy_device() which returns an ERR_PTR and also bail
-> > > out when failing the validity check.
-> > 
-> > Possibly I was being overly cautious with not bailing out if tx can't
-> > be registered; moving to devm is probably a good idea. However the
-> > commit message is misleading, because the existing code has no
-> > NULL pointer access.
+This patch has an issue: it breaks a code block at documentation.
+
+So, I'm skipping this one, picking the remaining patches.
+
+Regards,
+Mauro
+
+
 > 
-> Yep, I will resend with a proper commit message. Technically, there is
-> no need to bail out anymore because there is no NULL pointer access. My
-> tendency is now to not bail out and keep the old behaviour (registering
-> without tx). What do you think?
+> Jan Kotas (4):
+>       media: dt-bindings: Update bindings for Cadence CSI2TX version 2.1
+>       media: Add lane checks for Cadence CSI2TX
+>       media: Fix Lane mapping in Cadence CSI2TX
+>       media: Add support for Cadence CSI2TX 2.1
+> 
+>  .../devicetree/bindings/media/cdns,csi2tx.txt      |   3 +-
+>  Documentation/media/v4l-drivers/imx7.rst           | 127 +++++++++--------
+>  drivers/media/i2c/ov2680.c                         |   4 +-
+>  drivers/media/i2c/ov5640.c                         |   7 +-
+>  drivers/media/i2c/ov5645.c                         | 120 +++-------------
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c           |   3 +-
+>  drivers/media/pci/pt1/pt1.c                        |   6 +-
+>  drivers/media/pci/pt3/pt3.c                        |   6 +-
+>  drivers/media/platform/cadence/cdns-csi2tx.c       | 155 ++++++++++++++++-----
+>  drivers/media/v4l2-core/v4l2-fwnode.c              |   8 +-
+>  drivers/staging/media/ipu3/ipu3.c                  |   3 +-
+>  11 files changed, 225 insertions(+), 217 deletions(-)
+> 
 
-Since I write this code I've got pretty much every model with this zilog
-transmitter/receiver, and they all work fine, including different firmware
-versions. If there is a problem it would be nice to hear about it, and
-not silently swallow the error. I think.
+
 
 Thanks,
-
-Sean
+Mauro
