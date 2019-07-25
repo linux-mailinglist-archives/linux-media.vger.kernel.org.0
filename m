@@ -2,324 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B02F75B73
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 01:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA50475B89
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 01:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbfGYXmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 19:42:10 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33547 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727729AbfGYXmJ (ORCPT
+        id S1727592AbfGYXnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 19:43:41 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:43806 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727574AbfGYXnk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 19:42:09 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c14so23939088plo.0;
-        Thu, 25 Jul 2019 16:42:08 -0700 (PDT)
+        Thu, 25 Jul 2019 19:43:40 -0400
+Received: by mail-pg1-f193.google.com with SMTP id f25so23788784pgv.10
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 16:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=2GAKwzMUlP3WmD+pUyDwl1ISawmBP4193MDBqvqYky4=;
-        b=nhlQMRV4GLFqDHbvHEVj927TPmOUDzCmyQAOPAhADKYhtD4vUWzxIqr2aX9vAbeZzl
-         6UNddx7i8te7kDOGI5lPrVNTDf5YKgXxjfn1frBGFdt59mmme7SyfyGbK4g6Qbfh59Rh
-         dmZb7w4twDQA8h23OhYaze90zTj09s1Gqf9xIO6OUAV+6aT34cWLmOPpQvXbwdaj8XQ4
-         tpB/rgQ7VXgWieBv8a2/tHguSg58j0XsFK1hiG8GKVx6CcYqBM4/iV2C/SdVAS0GDYgt
-         bnVF4Ag/VVGXD4jSolHNLGwZp5VjyCP1+flcLEs62i30q2ztxQUfHQqyQiuUDaEJ8zjF
-         nrdg==
+        bh=+31NAwuYNNwjhnZWdU/hHvSiUjClvc3PD/Zt3pfeXkU=;
+        b=djeD9+YxaBccPNXYnP3lpANl8C6uVDUDMjmwW/hoHkLQkv38+qkvB/OPBUDimNMXhk
+         yz/uoN6fuBP4q6hITBj76LPhdi6KIbyaEd4vnNjQJtcjenOlgsauQunzU7jRgOP01Gaa
+         FW5MjB18qhnxp03XLTeYqm8p7EGjdSWaMUUlTpHH9NIRqha7JIKC8Taodayt4b9pYNak
+         LLDscxKO5qOflwYqhg7HkxiyvXyHnbi0YLIOzFS2/b8xKvWElfixsscNolVuJbGbOHbY
+         bODdqI3p5HHC9waM4AwEoWVNnWTJoSP1Rb+2TExRJOX+Rkq5dzLCqZccvvr1Ts6fU8iu
+         m9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=2GAKwzMUlP3WmD+pUyDwl1ISawmBP4193MDBqvqYky4=;
-        b=grL3ZQpO7aDHHhxttkBe0MwretAcTxWB1bvM8ESRAbVCbKsItDfqq9m/J4YlYZi0HY
-         ft+1X4mmLvNtQQB76ClQyGP4zfRdOaylFXJvFDo4QuVkD3DrKPqNiFPSVTmjdmBtd2p6
-         14Aa0ez06tp/k1GYkf70/i7JogsPifZV9WpdzlI1F81ygdGObGsMOFlDyDERgUyOg4cm
-         TJ/iD9755lp9TjO/oHnnGmU0eqkaBxS2CtD1ydWWxL4KPqVJBynbYl+XXriaLwytbGRL
-         zQjFk3ayqX0QL5x6uPuB4AIeI03PkRHyTYalnic9X3u9LCff4JtnDhRu7Rq0wfU921cM
-         ZiCw==
-X-Gm-Message-State: APjAAAUxSSiJpxU25v0aqc3VoGWMgJlyi1SAyGj6hHrcss5Re7nYvYhy
-        x3UjmLt8nsmLwMad2E93WkU=
-X-Google-Smtp-Source: APXvYqxmi/FzQIP8qaoABUPm3Xq2BFl14gHU3e414MTPj/K/JgQlbCdKyJCGGx3VBOTmJzmUKQDrtQ==
-X-Received: by 2002:a17:902:20ec:: with SMTP id v41mr88146472plg.142.1564098128158;
-        Thu, 25 Jul 2019 16:42:08 -0700 (PDT)
+        bh=+31NAwuYNNwjhnZWdU/hHvSiUjClvc3PD/Zt3pfeXkU=;
+        b=I0kT5FzoepItDKVb2FJS/q3Fx/lxwYRoNe3iGygz0E1hPYm/bfYcfKsMPw17YVWcwz
+         xCr+bHg4gGO+wVByZnlFpuH24neoVgA2XstmGDCEASrn+9sQmo/fROEtzMF0K8P/vreq
+         cfmu17p4Wt0cH2GRtHKPq+SyO+qrvUmSLhqR/eqpl40KP0MX4OQEVIsiB+NwCEHsBgNG
+         vgTLCMUZW+Msv6FshlcBy3Mbje6vveqDnvmGvKFENFhfAPl+LUL+tD/rhqnAUz2ebr9V
+         lBwz4PHyqE19mSHQyGPhxc0AT9Xbbv4tWji178uRErz0PnTcV/R11G4Sb48oGTNJ5nB1
+         OrRg==
+X-Gm-Message-State: APjAAAXnrQbRZ/AQKnxlrtciy04PEqLsHWgtGYs5uyN75ZizZoV1Qit3
+        s8LcLl+jhvbn9bwmk5CIqUQ=
+X-Google-Smtp-Source: APXvYqwoBSxCEGaOABnhTe6zuRSogtjzMSHmSWL+uZYgEja7Cq6Aa8E3QzDa3RKm9ashNQFRNjXvow==
+X-Received: by 2002:a63:4e60:: with SMTP id o32mr90050319pgl.68.1564098219923;
+        Thu, 25 Jul 2019 16:43:39 -0700 (PDT)
 Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id u3sm44695365pjn.5.2019.07.25.16.42.07
+        by smtp.gmail.com with ESMTPSA id a3sm46403367pfc.70.2019.07.25.16.43.39
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 25 Jul 2019 16:42:07 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 16:42:51 -0700
+        Thu, 25 Jul 2019 16:43:39 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 16:44:25 -0700
 From:   Nicolin Chen <nicoleotsuka@gmail.com>
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, hch@lst.de,
-        robin.murphy@arm.com, Marek Szyprowski <m.szyprowski@samsung.com>,
-        vdumpa@nvidia.com, Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>, chris@zankel.net,
-        jcmvbkbc@gmail.com, joro@8bytes.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        sfr@canb.auug.org.au, treding@nvidia.com, keescook@chromium.org,
-        iamjoonsoo.kim@lge.com, wsa+renesas@sang-engineering.com,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org, iommu@lists.linux-foundation.org,
-        dann.frazier@canonical.com, linux-media@vger.kernel.org,
-        hans.verkuil@cisco.com
-Subject: Re: [PATCH v3 1/2] dma-contiguous: Abstract
- dma_{alloc,free}_contiguous()
-Message-ID: <20190725234250.GA15714@Asurada-Nvidia.nvidia.com>
-References: <20190524040633.16854-1-nicoleotsuka@gmail.com>
- <20190524040633.16854-2-nicoleotsuka@gmail.com>
- <CAAEAJfA+edVLfZzEZe98249Y7NZQFht9185JH21pV10Bq9Wk3w@mail.gmail.com>
- <20190725165015.GA31961@Asurada-Nvidia.nvidia.com>
- <1564075865.2339.6.camel@collabora.com>
+Cc:     "Hans Verkuil (hansverk)" <hansverk@cisco.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "vincent.abriou@st.com" <vincent.abriou@st.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        "kernel@collabora.com" <kernel@collabora.com>
+Subject: Re: kernel Warning when using vivid with contiguous dma
+Message-ID: <20190725234424.GB15714@Asurada-Nvidia.nvidia.com>
+References: <1563794460.2546.3.camel@collabora.com>
+ <20190722083748.2abd3fe1@coco.lan>
+ <1563887680.23193.9.camel@collabora.com>
+ <95693bd5-2118-db95-fbf9-d5e3fc301f0a@cisco.com>
+ <1564046865.5850.1.camel@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1564075865.2339.6.camel@collabora.com>
+In-Reply-To: <1564046865.5850.1.camel@collabora.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 07:31:05PM +0200, Dafna Hirschfeld wrote:
-> On Thu, 2019-07-25 at 09:50 -0700, Nicolin Chen wrote:
-> > On Thu, Jul 25, 2019 at 01:06:42PM -0300, Ezequiel Garcia wrote:
-> > > I can't find a way to forward-redirect from Gmail, so I'm Ccing Dafna
-> > > who found a regression caused by this commit. Dafna, can you give all
-> > > the details, including the log and how you are reproducing it?
-> > 
-> > I saw the conversation there. Sorry for not replying yet.
-> > May we discuss there since there are full logs available?
-> > 
-> > Thanks
-> > Nicolin
-> > 
-> 
-> Hi,
-> I compiled vivid as built-in into the kernel (not as a separate module) for nitrogen8m device (imx8) and
-> set it to use contig dma for mem_ops by adding the kernel param
-> vivid.allocators=1,1,...
-> 
-> I use this devicetree patch for the dtb file: https://lkml.org/lkml/2019/7/24/789. Although it should
-> be the same on any Aarch64 platform.
-> 
-> Then, on the board I run the command:
-> 
-> v4l2-ctl -d3 -v width=2592,height=1944,pixelformat=UYVY,bytesperline=5184 --stream-mmap --stream-to video.UYVY
-> 
-> In every run there is a different crash. Here is one of them: https://pastebin.com/xXgbXMAN
+Just an update here:
 
-This probably should be a fix: https://lkml.org/lkml/2019/7/25/1432
+After looking at the code and the logs here, submitted a fix:
+https://lkml.org/lkml/2019/7/25/1432
 
-I also sent it to you. Would it be possible for you to test it?
+I only added Dafna in the To-list but anyone is interested can
+find it in the maillist.
 
 Thanks
 Nicolin
 
+On Thu, Jul 25, 2019 at 11:27:45AM +0200, Dafna Hirschfeld wrote:
+> On Tue, 2019-07-23 at 14:05 +0000, Hans Verkuil (hansverk) wrote:
+> > On 7/23/19 3:14 PM, Dafna Hirschfeld wrote:
+> > > On Mon, 2019-07-22 at 08:38 -0300, Mauro Carvalho Chehab wrote:
+> > > > Em Mon, 22 Jul 2019 13:21:00 +0200
+> > > > Dafna Hirschfeld <dafna.hirschfeld@collabora.com> escreveu:
+> > > > 
+> > > > > I loaded the vivid module with contiguous DMA and ran streaming
+> > > > > with
+> > > > > it with large image dimensions
+> > > > > [  306.437327] Call Trace:
+> > > > > [  306.437338]  __dma_direct_alloc_pages+0xc9/0x1c0
+> > > > > [  306.437343]  dma_direct_alloc_pages+0x24/0xf0
+> > > > > [  306.437348]  dma_direct_alloc+0xe/0x10
+> > > > > [  306.437351]  dma_alloc_attrs+0x84/0xd0
+> > > > 
+> > > > Hmm... we had a recent regression affecting other media devices,
+> > > > reported via Kaffeine mailing list:
+> > > > 
+> > > > 	https://bugs.kde.org/show_bug.cgi?id=408004#c35
+> > > > 
+> > > > While this one was for S/G, maybe it is somewhat related.
+> > > > 
+> > > 
+> > > Also, I compiled vivid as built-in into the kernel (not as a
+> > > separate module) for nitrogen8m device (imx8) and
+> > > set it to use contig dma for mem_ops. Then I get a crash when
+> > > running the above command.
+> > > I use the master branch of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> > > with this patch to vivid:
+> > > 
+> > > diff --git a/drivers/media/platform/vivid/vivid-core.c
+> > > b/drivers/media/platform/vivid/vivid-core.c
+> > > index bc2a176937a4..0531f36d7d0a 100644
+> > > --- a/drivers/media/platform/vivid/vivid-core.c
+> > > +++ b/drivers/media/platform/vivid/vivid-core.c
+> > > @@ -140,7 +140,7 @@ static bool no_error_inj;
+> > >  module_param(no_error_inj, bool, 0444);
+> > >  MODULE_PARM_DESC(no_error_inj, " if set disable the error
+> > > injecting controls");
+> > >  
+> > > -static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ...
+> > > (VIVID_MAX_DEVS - 1)] = 0 };
+> > > +static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ...
+> > > (VIVID_MAX_DEVS - 1)] = 1 };
+> > >  module_param_array(allocators, uint, NULL, 0444);
+> > >  MODULE_PARM_DESC(allocators, " memory allocator selection, default
+> > > is 0.\n"
+> > >                              "\t\t    0 == vmalloc\n"
+> > > 
+> > > And then on the nitrogen8m device I get the following crash report
+> > > which seems to be related to the cma allocation
+> > > 
+> > > ubuntu@bionic-dev64:~$ v4l2-ctl -d3 -v
+> > > width=2592,height=1944,pixelformat=UYVY,bytesperline=5184 --stream-
+> > > mmap --stream-to video.UYVY
+> > > [   70.139006] cma: cma_alloc(cma (____ptrval____), count 4050,
+> > > align 8)
+> > > [   70.159829] cma: cma_alloc(cma (____ptrval____), count 4050,
+> > > align 8)
+> > > [   70.166292] cma: cma_alloc: alloc failed, req-size: 4050 pages,
+> > > ret: -12
+> > > [   70.173006] cma: number of available pages: 72@184+3886@4306=>
+> > > 3958 free of 8192 total pages
+> > 
+> > So it looks like the CMA area is too small. Look at the
+> > CONFIG_CMA_SIZE_MBYTES
+> > setting.
+> > 
+> > That explains why it fails.
+> > 
+> > > [   70.181471] cma: cma_alloc(): returned (____ptrval____)
+> > > [   70.192449] cma: cma_alloc(cma (____ptrval____), count 4050,
+> > > align 8)
+> > > [   70.198907] cma: cma_alloc: alloc failed, req-size: 4050 pages,
+> > > ret: -12
+> > > [   70.205625] cma: number of available pages: 72@184+3886@4306=>
+> > > 3958 free of 8192 total pages
+> > > [   70.205733] systemd-journald[204]:
+> > > /var/log/journal/5cca8918401249538eacb5efd5b9b052/system.journal:
+> > > Journal file corrupted, rotating.
+> > > [   70.214083] cma: cma_alloc(): returned (____ptrval____)
+> > > [   70.219867] cma: cma_alloc(cma (____ptrval____), count 4050,
+> > > align 8)
+> > > [   70.237878] cma: cma_alloc: alloc failed, req-size: 4050 pages,
+> > > ret: -12
+> > > [   70.244599] cma: number of available pages: 72@184+3886@4306=>
+> > > 3958 free of 8192 total pages
+> > > [   70.253066] cma: cma_alloc(): returned (____ptrval____)
+> > > [   70.264893] cma: cma_release(page (____ptrval____))
+> > > [   70.272871] cma: cma_release(page (____ptrval____))
+> > > [   70.277800] BUG: Bad page state in process v4l2-ctl  pfn:b5a00
+> > 
+> > But that shouldn't lead to this.
+> > 
+> > It could be a bug somewhere.
+> > 
+> > Does it work fine if you use a smaller resolution? Perhaps there is
+> > something
+> > wrong in error handling in vb2. These corner cases are not exactly
+> > tested
+> > very often (or at all!).
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> 
+> Hi, I suspect that the error is in the cma code, the crash occurs first
+> after the commit ""dma-contiguous: add dma_{alloc,free}_contiguous()
+> helpers"
 > 
 > Dafna
+> > 
+> > > [   70.283652] page:ffff7e0001d68000 refcount:13 mapcount:0
+> > > mapping:0000000000000000 index:0x0 compound_mapcount: 0
+> > > [   70.293874] flags: 0xffff00000010000(head)
+> > > [   70.297999] raw: 0ffff00000010000 dead000000000100
+> > > dead000000000122 0000000000000000
+> > > [   70.305772] raw: 0000000000000000 0000000000000000
+> > > 0000000dffffffff 0000000000000000
+> > > [   70.313526] page dumped because: nonzero _refcount
+> > > [   70.318327] Modules linked in:
+> > > [   70.321399] CPU: 2 PID: 482 Comm: v4l2-ctl Not tainted 5.3.0-
+> > > rc1+ #159
+> > > [   70.327927] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
+> > > (DT)
+> > > [   70.334196] Call trace:
+> > > [   70.336654]  dump_backtrace+0x0/0x148
+> > > [   70.340319]  show_stack+0x14/0x20
+> > > [   70.343640]  dump_stack+0x9c/0xc4
+> > > [   70.346959]  bad_page+0xe4/0x148
+> > > [   70.350188]  free_pages_check_bad+0x70/0xa8
+> > > [   70.354375]  __free_pages_ok+0x294/0x2b0
+> > > [   70.358301]  __free_pages+0x38/0x50
+> > > [   70.361795]  dma_free_contiguous+0x90/0x98
+> > > [   70.365892]  __dma_direct_free_pages+0x18/0x20
+> > > [   70.370338]  arch_dma_free+0x74/0x88
+> > > [   70.373916]  dma_direct_free+0x4c/0x58
+> > > [   70.377668]  dma_free_attrs+0x88/0xe0
+> > > [   70.381335]  vb2_dc_put+0x44/0x60
+> > > [   70.384653]  __vb2_buf_mem_free+0x68/0x110
+> > > [   70.388749]  __vb2_queue_free+0x398/0x538
+> > > [   70.392763]  vb2_core_queue_release+0x34/0x48
+> > > [   70.397122]  _vb2_fop_release+0x88/0x98
+> > > [   70.400960]  vb2_fop_release+0x28/0x50
+> > > [   70.404712]  vivid_fop_release+0x88/0x208
+> > > [   70.408725]  v4l2_release+0x6c/0xf0
+> > > [   70.412216]  __fput+0x8c/0x1f8
+> > > [   70.415270]  ____fput+0xc/0x18
+> > > [   70.418328]  task_work_run+0x94/0xb0
+> > > [   70.421907]  do_exit+0x2b0/0x9f8
+> > > [   70.425138]  do_group_exit+0x34/0x98
+> > > [   70.428717]  get_signal+0x104/0x678
+> > > [   70.432209]  do_notify_resume+0x2ac/0x380
+> > > [   70.436220]  work_pending+0x8/0x10
+> > > [   70.439648] Disabling lock debugging due to kernel taint
+> > > [   70.444974] BUG: Bad page state in process v4l2-ctl  pfn:b5a01
+> > > [   70.450822] page:ffff7e0001d68040 refcount:0 mapcount:0
+> > > mapping:dead000000000400 index:0x1 compound_mapcount: 0
+> > > [   70.451427] printk: systemd: 27 output lines suppressed due to
+> > > ratelimiting
+> > > [   70.460924] flags: 0xffff00000000000()
+> > > [   70.460931] raw: 0ffff00000000000 ffff7e0001d68001
+> > > ffffffff01d60301 dead000000000400
+> > > [   70.467945] Kernel panic - not syncing: Attempted to kill init!
+> > > exitcode=0x0000000b
+> > > [   70.471659] raw: 0000000000000000 0000000000000000
+> > > 00000000ffffffff 0000000000000000
+> > > [   70.479389] CPU: 1 PID: 1 Comm: systemd Tainted:
+> > > G    B             5.3.0-rc1+ #159
+> > > [   70.479394] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
+> > > (DT)
+> > > [   70.487058] page dumped because: non-NULL mapping
+> > > [   70.494782] Call trace:
+> > > [   70.494789]  dump_backtrace+0x0/0x148
+> > > [   70.494793]  show_stack+0x14/0x20
+> > > [   70.494799]  dump_stack+0x9c/0xc4
+> > > [   70.502460] Modules linked in:
+> > > [   70.508713]  panic+0x140/0x32c
+> > > [   70.508718]  complete_and_exit+0x0/0x20
+> > > [   70.508724]  do_group_exit+0x34/0x98
+> > > [   70.539649]  get_signal+0x104/0x678
+> > > [   70.543139]  do_notify_resume+0x2ac/0x380
+> > > [   70.547149]  work_pending+0x8/0x10
+> > > [   70.550553] CPU: 2 PID: 482 Comm: v4l2-ctl Tainted:
+> > > G    B             5.3.0-rc1+ #159
+> > > [   70.550554] SMP: stopping secondary CPUs
+> > > [   70.562387] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
+> > > (DT)
+> > > [   70.568653] Call trace:
+> > > [   70.571103]  dump_backtrace+0x0/0x148
+> > > [   70.574765]  show_stack+0x14/0x20
+> > > [   70.578081]  dump_stack+0x9c/0xc4
+> > > [   70.581398]  bad_page+0xe4/0x148
+> > > [   70.584627]  free_pages_check_bad+0x70/0xa8
+> > > [   70.588814]  __free_pages_ok+0x294/0x2b0
+> > > [   70.592737]  __free_pages+0x38/0x50
+> > > [   70.596229]  dma_free_contiguous+0x90/0x98
+> > > [   70.600327]  __dma_direct_free_pages+0x18/0x20
+> > > [   70.604771]  arch_dma_free+0x74/0x88
+> > > [   70.608347]  dma_direct_free+0x4c/0x58
+> > > [   70.612098]  dma_free_attrs+0x88/0xe0
+> > > [   70.615765]  vb2_dc_put+0x44/0x60
+> > > [   70.619082]  __vb2_buf_mem_free+0x68/0x110
+> > > [   70.623180]  __vb2_queue_free+0x398/0x538
+> > > [   70.627192]  vb2_core_queue_release+0x34/0x48
+> > > [   70.631551]  _vb2_fop_release+0x88/0x98
+> > > [   70.635387]  vb2_fop_release+0x28/0x50
+> > > [   70.639138]  vivid_fop_release+0x88/0x208
+> > > [   70.643149]  v4l2_release+0x6c/0xf0
+> > > [   70.646638]  __fput+0x8c/0x1f8
+> > > [   70.649693]  ____fput+0xc/0x18
+> > > [   70.652750]  task_work_run+0x94/0xb0
+> > > [   70.656326]  do_exit+0x2b0/0x9f8
+> > > [   70.659554]  do_group_exit+0x34/0x98
+> > > [   70.663130]  get_signal+0x104/0x678
+> > > [   70.666621]  do_notify_resume+0x2ac/0x380
+> > > [   70.670632]  work_pending+0x8/0x10
+> > > [   70.674036] Kernel Offset: disabled
+> > > [   70.677526] CPU features: 0x0002,2000200c
+> > > [   70.681535] Memory Limit: none
+> > > [   70.684599] ---[ end Kernel panic - not syncing: Attempted to
+> > > kill init! exitcode=0x0000000b ]---
 > > > 
+> > > Dafna
 > > > 
-> > > > > On Fri, 24 May 2019 at 01:08, Nicolin Chen <nicoleotsuka@gmail.com> wrote:
-> > > > 
-> > > > Both dma_alloc_from_contiguous() and dma_release_from_contiguous()
-> > > > are very simply implemented, but requiring callers to pass certain
-> > > > parameters like count and align, and taking a boolean parameter to
-> > > > check __GFP_NOWARN in the allocation flags. So every function call
-> > > > duplicates similar work:
-> > > >   /* A piece of example */
-> > > >   unsigned long order = get_order(size);
-> > > >   size_t count = size >> PAGE_SHIFT;
-> > > >   page = dma_alloc_from_contiguous(dev, count, order, gfp & __GFP_NOWARN);
-> > > >   [...]
-> > > >   dma_release_from_contiguous(dev, page, size >> PAGE_SHIFT);
-> > > > 
-> > > > Additionally, as CMA can be used only in the context which permits
-> > > > sleeping, most of callers do a gfpflags_allow_blocking() check and
-> > > > a corresponding fallback allocation of normal pages upon any false
-> > > > result:
-> > > >   /* A piece of example */
-> > > >   if (gfpflags_allow_blocking(flag))
-> > > >       page = dma_alloc_from_contiguous();
-> > > >   if (!page)
-> > > >       page = alloc_pages();
-> > > >   [...]
-> > > >   if (!dma_release_from_contiguous(dev, page, count))
-> > > >       __free_pages(page, get_order(size));
-> > > > 
-> > > > So this patch simplifies those function calls by abstracting these
-> > > > operations into the two new functions: dma_{alloc,free}_contiguous.
-> > > > 
-> > > > As some callers of dma_{alloc,release}_from_contiguous() might be
-> > > > complicated, this patch just implements these two new functions to
-> > > > kernel/dma/direct.c only as an initial step.
-> > > > 
-> > > > > > > Suggested-by: Christoph Hellwig <hch@lst.de>
-> > > > > > > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> > > > ---
-> > > > Changelog
-> > > > v2->v3:
-> > > >  * Added missing "static inline" in header file to fix build error.
-> > > > v1->v2:
-> > > >  * Added new functions beside the old ones so we can replace callers
-> > > >    one by one later.
-> > > >  * Applied new functions to dma/direct.c only, because it's the best
-> > > >    example caller to apply and should be safe with the new functions.
-> > > > 
-> > > >  include/linux/dma-contiguous.h | 11 ++++++++
-> > > >  kernel/dma/contiguous.c        | 48 ++++++++++++++++++++++++++++++++++
-> > > >  kernel/dma/direct.c            | 24 +++--------------
-> > > >  3 files changed, 63 insertions(+), 20 deletions(-)
-> > > > 
-> > > > diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
-> > > > index f247e8aa5e3d..00a370c1c140 100644
-> > > > --- a/include/linux/dma-contiguous.h
-> > > > +++ b/include/linux/dma-contiguous.h
-> > > > @@ -115,6 +115,8 @@ struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
-> > > >                                        unsigned int order, bool no_warn);
-> > > >  bool dma_release_from_contiguous(struct device *dev, struct page *pages,
-> > > >                                  int count);
-> > > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp);
-> > > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size);
-> > > > 
-> > > >  #else
-> > > > 
-> > > > @@ -157,6 +159,15 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
-> > > >         return false;
-> > > >  }
-> > > > 
-> > > > +static inline
-> > > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
-> > > > +{
-> > > > +       return NULL;
-> > > > +}
-> > > > +
-> > > > +static inline
-> > > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size) { }
-> > > > +
-> > > >  #endif
-> > > > 
-> > > >  #endif
-> > > > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> > > > index b2a87905846d..21f39a6cb04f 100644
-> > > > --- a/kernel/dma/contiguous.c
-> > > > +++ b/kernel/dma/contiguous.c
-> > > > @@ -214,6 +214,54 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
-> > > >         return cma_release(dev_get_cma_area(dev), pages, count);
-> > > >  }
-> > > > 
-> > > > +/**
-> > > > + * dma_alloc_contiguous() - allocate contiguous pages
-> > > > + * @dev:   Pointer to device for which the allocation is performed.
-> > > > + * @size:  Requested allocation size.
-> > > > + * @gfp:   Allocation flags.
-> > > > + *
-> > > > + * This function allocates contiguous memory buffer for specified device. It
-> > > > + * first tries to use device specific contiguous memory area if available or
-> > > > + * the default global one, then tries a fallback allocation of normal pages.
-> > > > + */
-> > > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
-> > > > +{
-> > > > +       int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
-> > > > +       size_t count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> > > > +       size_t align = get_order(PAGE_ALIGN(size));
-> > > > +       struct cma *cma = dev_get_cma_area(dev);
-> > > > +       struct page *page = NULL;
-> > > > +
-> > > > +       /* CMA can be used only in the context which permits sleeping */
-> > > > +       if (cma && gfpflags_allow_blocking(gfp)) {
-> > > > +               align = min_t(size_t, align, CONFIG_CMA_ALIGNMENT);
-> > > > +               page = cma_alloc(cma, count, align, gfp & __GFP_NOWARN);
-> > > > +       }
-> > > > +
-> > > > +       /* Fallback allocation of normal pages */
-> > > > +       if (!page)
-> > > > +               page = alloc_pages_node(node, gfp, align);
-> > > > +
-> > > > +       return page;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * dma_free_contiguous() - release allocated pages
-> > > > + * @dev:   Pointer to device for which the pages were allocated.
-> > > > + * @page:  Pointer to the allocated pages.
-> > > > + * @size:  Size of allocated pages.
-> > > > + *
-> > > > + * This function releases memory allocated by dma_alloc_contiguous(). As the
-> > > > + * cma_release returns false when provided pages do not belong to contiguous
-> > > > + * area and true otherwise, this function then does a fallback __free_pages()
-> > > > + * upon a false-return.
-> > > > + */
-> > > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
-> > > > +{
-> > > > +       if (!cma_release(dev_get_cma_area(dev), page, size >> PAGE_SHIFT))
-> > > > +               __free_pages(page, get_order(size));
-> > > > +}
-> > > > +
-> > > >  /*
-> > > >   * Support for reserved memory regions defined in device tree
-> > > >   */
-> > > > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> > > > index 2c2772e9702a..0816c1e8b05a 100644
-> > > > --- a/kernel/dma/direct.c
-> > > > +++ b/kernel/dma/direct.c
-> > > > @@ -96,8 +96,6 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
-> > > >  struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
-> > > >                 dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
-> > > >  {
-> > > > -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> > > > -       int page_order = get_order(size);
-> > > >         struct page *page = NULL;
-> > > >         u64 phys_mask;
-> > > > 
-> > > > @@ -109,20 +107,9 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
-> > > >         gfp |= __dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
-> > > >                         &phys_mask);
-> > > >  again:
-> > > > -       /* CMA can be used only in the context which permits sleeping */
-> > > > -       if (gfpflags_allow_blocking(gfp)) {
-> > > > -               page = dma_alloc_from_contiguous(dev, count, page_order,
-> > > > -                                                gfp & __GFP_NOWARN);
-> > > > -               if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-> > > > -                       dma_release_from_contiguous(dev, page, count);
-> > > > -                       page = NULL;
-> > > > -               }
-> > > > -       }
-> > > > -       if (!page)
-> > > > -               page = alloc_pages_node(dev_to_node(dev), gfp, page_order);
-> > > > -
-> > > > +       page = dma_alloc_contiguous(dev, size, gfp);
-> > > >         if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-> > > > -               __free_pages(page, page_order);
-> > > > +               dma_free_contiguous(dev, page, size);
-> > > >                 page = NULL;
-> > > > 
-> > > >                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-> > > > @@ -154,7 +141,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
-> > > >         if (PageHighMem(page)) {
-> > > >                 /*
-> > > >                  * Depending on the cma= arguments and per-arch setup
-> > > > -                * dma_alloc_from_contiguous could return highmem pages.
-> > > > +                * dma_alloc_contiguous could return highmem pages.
-> > > >                  * Without remapping there is no way to return them here,
-> > > >                  * so log an error and fail.
-> > > >                  */
-> > > > @@ -176,10 +163,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
-> > > > 
-> > > >  void __dma_direct_free_pages(struct device *dev, size_t size, struct page *page)
-> > > >  {
-> > > > -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> > > > -
-> > > > -       if (!dma_release_from_contiguous(dev, page, count))
-> > > > -               __free_pages(page, get_order(size));
-> > > > +       dma_free_contiguous(dev, page, size);
-> > > >  }
-> > > > 
-> > > >  void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
-> > > > --
-> > > > 2.17.1
-> > > > 
+> > > > Thanks,
+> > > > Mauro
