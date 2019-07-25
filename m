@@ -2,317 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA50475B89
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 01:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCCEA75BB5
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 01:55:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727592AbfGYXnl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 19:43:41 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:43806 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727574AbfGYXnk (ORCPT
+        id S1727094AbfGYXzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 19:55:24 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49410 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726397AbfGYXzY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 19:43:40 -0400
-Received: by mail-pg1-f193.google.com with SMTP id f25so23788784pgv.10
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 16:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=+31NAwuYNNwjhnZWdU/hHvSiUjClvc3PD/Zt3pfeXkU=;
-        b=djeD9+YxaBccPNXYnP3lpANl8C6uVDUDMjmwW/hoHkLQkv38+qkvB/OPBUDimNMXhk
-         yz/uoN6fuBP4q6hITBj76LPhdi6KIbyaEd4vnNjQJtcjenOlgsauQunzU7jRgOP01Gaa
-         FW5MjB18qhnxp03XLTeYqm8p7EGjdSWaMUUlTpHH9NIRqha7JIKC8Taodayt4b9pYNak
-         LLDscxKO5qOflwYqhg7HkxiyvXyHnbi0YLIOzFS2/b8xKvWElfixsscNolVuJbGbOHbY
-         bODdqI3p5HHC9waM4AwEoWVNnWTJoSP1Rb+2TExRJOX+Rkq5dzLCqZccvvr1Ts6fU8iu
-         m9Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=+31NAwuYNNwjhnZWdU/hHvSiUjClvc3PD/Zt3pfeXkU=;
-        b=I0kT5FzoepItDKVb2FJS/q3Fx/lxwYRoNe3iGygz0E1hPYm/bfYcfKsMPw17YVWcwz
-         xCr+bHg4gGO+wVByZnlFpuH24neoVgA2XstmGDCEASrn+9sQmo/fROEtzMF0K8P/vreq
-         cfmu17p4Wt0cH2GRtHKPq+SyO+qrvUmSLhqR/eqpl40KP0MX4OQEVIsiB+NwCEHsBgNG
-         vgTLCMUZW+Msv6FshlcBy3Mbje6vveqDnvmGvKFENFhfAPl+LUL+tD/rhqnAUz2ebr9V
-         lBwz4PHyqE19mSHQyGPhxc0AT9Xbbv4tWji178uRErz0PnTcV/R11G4Sb48oGTNJ5nB1
-         OrRg==
-X-Gm-Message-State: APjAAAXnrQbRZ/AQKnxlrtciy04PEqLsHWgtGYs5uyN75ZizZoV1Qit3
-        s8LcLl+jhvbn9bwmk5CIqUQ=
-X-Google-Smtp-Source: APXvYqwoBSxCEGaOABnhTe6zuRSogtjzMSHmSWL+uZYgEja7Cq6Aa8E3QzDa3RKm9ashNQFRNjXvow==
-X-Received: by 2002:a63:4e60:: with SMTP id o32mr90050319pgl.68.1564098219923;
-        Thu, 25 Jul 2019 16:43:39 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id a3sm46403367pfc.70.2019.07.25.16.43.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 25 Jul 2019 16:43:39 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 16:44:25 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     "Hans Verkuil (hansverk)" <hansverk@cisco.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "vincent.abriou@st.com" <vincent.abriou@st.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "kernel@collabora.com" <kernel@collabora.com>
-Subject: Re: kernel Warning when using vivid with contiguous dma
-Message-ID: <20190725234424.GB15714@Asurada-Nvidia.nvidia.com>
-References: <1563794460.2546.3.camel@collabora.com>
- <20190722083748.2abd3fe1@coco.lan>
- <1563887680.23193.9.camel@collabora.com>
- <95693bd5-2118-db95-fbf9-d5e3fc301f0a@cisco.com>
- <1564046865.5850.1.camel@collabora.com>
+        Thu, 25 Jul 2019 19:55:24 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 4AE3F28A970
+Message-ID: <cb3e54a7281678b89e34eee82009f615589fea94.camel@collabora.com>
+Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
+ autoselect" is enabled
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Chen-Yu Tsai <wens@kernel.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>
+Date:   Thu, 25 Jul 2019 20:55:13 -0300
+In-Reply-To: <20190725154111.7fc7e335@coco.lan>
+References: <20190715212316.352-1-ezequiel@collabora.com>
+                <20190715212316.352-3-ezequiel@collabora.com>
+                <20190725125730.2218f0a8@coco.lan>
+                <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
+                <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
+         <20190725154111.7fc7e335@coco.lan>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1564046865.5850.1.camel@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just an update here:
-
-After looking at the code and the logs here, submitted a fix:
-https://lkml.org/lkml/2019/7/25/1432
-
-I only added Dafna in the To-list but anyone is interested can
-find it in the maillist.
-
-Thanks
-Nicolin
-
-On Thu, Jul 25, 2019 at 11:27:45AM +0200, Dafna Hirschfeld wrote:
-> On Tue, 2019-07-23 at 14:05 +0000, Hans Verkuil (hansverk) wrote:
-> > On 7/23/19 3:14 PM, Dafna Hirschfeld wrote:
-> > > On Mon, 2019-07-22 at 08:38 -0300, Mauro Carvalho Chehab wrote:
-> > > > Em Mon, 22 Jul 2019 13:21:00 +0200
-> > > > Dafna Hirschfeld <dafna.hirschfeld@collabora.com> escreveu:
-> > > > 
-> > > > > I loaded the vivid module with contiguous DMA and ran streaming
-> > > > > with
-> > > > > it with large image dimensions
-> > > > > [  306.437327] Call Trace:
-> > > > > [  306.437338]  __dma_direct_alloc_pages+0xc9/0x1c0
-> > > > > [  306.437343]  dma_direct_alloc_pages+0x24/0xf0
-> > > > > [  306.437348]  dma_direct_alloc+0xe/0x10
-> > > > > [  306.437351]  dma_alloc_attrs+0x84/0xd0
-> > > > 
-> > > > Hmm... we had a recent regression affecting other media devices,
-> > > > reported via Kaffeine mailing list:
-> > > > 
-> > > > 	https://bugs.kde.org/show_bug.cgi?id=408004#c35
-> > > > 
-> > > > While this one was for S/G, maybe it is somewhat related.
-> > > > 
-> > > 
-> > > Also, I compiled vivid as built-in into the kernel (not as a
-> > > separate module) for nitrogen8m device (imx8) and
-> > > set it to use contig dma for mem_ops. Then I get a crash when
-> > > running the above command.
-> > > I use the master branch of
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> > > with this patch to vivid:
-> > > 
-> > > diff --git a/drivers/media/platform/vivid/vivid-core.c
-> > > b/drivers/media/platform/vivid/vivid-core.c
-> > > index bc2a176937a4..0531f36d7d0a 100644
-> > > --- a/drivers/media/platform/vivid/vivid-core.c
-> > > +++ b/drivers/media/platform/vivid/vivid-core.c
-> > > @@ -140,7 +140,7 @@ static bool no_error_inj;
-> > >  module_param(no_error_inj, bool, 0444);
-> > >  MODULE_PARM_DESC(no_error_inj, " if set disable the error
-> > > injecting controls");
-> > >  
-> > > -static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ...
-> > > (VIVID_MAX_DEVS - 1)] = 0 };
-> > > +static unsigned int allocators[VIVID_MAX_DEVS] = { [0 ...
-> > > (VIVID_MAX_DEVS - 1)] = 1 };
-> > >  module_param_array(allocators, uint, NULL, 0444);
-> > >  MODULE_PARM_DESC(allocators, " memory allocator selection, default
-> > > is 0.\n"
-> > >                              "\t\t    0 == vmalloc\n"
-> > > 
-> > > And then on the nitrogen8m device I get the following crash report
-> > > which seems to be related to the cma allocation
-> > > 
-> > > ubuntu@bionic-dev64:~$ v4l2-ctl -d3 -v
-> > > width=2592,height=1944,pixelformat=UYVY,bytesperline=5184 --stream-
-> > > mmap --stream-to video.UYVY
-> > > [   70.139006] cma: cma_alloc(cma (____ptrval____), count 4050,
-> > > align 8)
-> > > [   70.159829] cma: cma_alloc(cma (____ptrval____), count 4050,
-> > > align 8)
-> > > [   70.166292] cma: cma_alloc: alloc failed, req-size: 4050 pages,
-> > > ret: -12
-> > > [   70.173006] cma: number of available pages: 72@184+3886@4306=>
-> > > 3958 free of 8192 total pages
-> > 
-> > So it looks like the CMA area is too small. Look at the
-> > CONFIG_CMA_SIZE_MBYTES
-> > setting.
-> > 
-> > That explains why it fails.
-> > 
-> > > [   70.181471] cma: cma_alloc(): returned (____ptrval____)
-> > > [   70.192449] cma: cma_alloc(cma (____ptrval____), count 4050,
-> > > align 8)
-> > > [   70.198907] cma: cma_alloc: alloc failed, req-size: 4050 pages,
-> > > ret: -12
-> > > [   70.205625] cma: number of available pages: 72@184+3886@4306=>
-> > > 3958 free of 8192 total pages
-> > > [   70.205733] systemd-journald[204]:
-> > > /var/log/journal/5cca8918401249538eacb5efd5b9b052/system.journal:
-> > > Journal file corrupted, rotating.
-> > > [   70.214083] cma: cma_alloc(): returned (____ptrval____)
-> > > [   70.219867] cma: cma_alloc(cma (____ptrval____), count 4050,
-> > > align 8)
-> > > [   70.237878] cma: cma_alloc: alloc failed, req-size: 4050 pages,
-> > > ret: -12
-> > > [   70.244599] cma: number of available pages: 72@184+3886@4306=>
-> > > 3958 free of 8192 total pages
-> > > [   70.253066] cma: cma_alloc(): returned (____ptrval____)
-> > > [   70.264893] cma: cma_release(page (____ptrval____))
-> > > [   70.272871] cma: cma_release(page (____ptrval____))
-> > > [   70.277800] BUG: Bad page state in process v4l2-ctl  pfn:b5a00
-> > 
-> > But that shouldn't lead to this.
-> > 
-> > It could be a bug somewhere.
-> > 
-> > Does it work fine if you use a smaller resolution? Perhaps there is
-> > something
-> > wrong in error handling in vb2. These corner cases are not exactly
-> > tested
-> > very often (or at all!).
-> > 
-> > Regards,
-> > 
-> > 	Hans
+On Thu, 2019-07-25 at 15:41 -0300, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Jul 2019 01:29:58 +0800
+> Chen-Yu Tsai <wens@kernel.org> escreveu:
 > 
-> Hi, I suspect that the error is in the cma code, the crash occurs first
-> after the commit ""dma-contiguous: add dma_{alloc,free}_contiguous()
-> helpers"
-> 
-> Dafna
+> > On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > > On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:  
+> > > > Em Mon, 15 Jul 2019 18:23:16 -0300
+> > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+> > > >  
+> > > > > 	Many users have been complaining about not being able to find
+> > > > > certain menu options. One such example are camera sensor drivers
+> > > > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
+> > > > > and not always ancillary devices.
+> > > > > 
+> > > > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
+> > > > > to the fact that it uses the "visible" kbuild syntax to hide
+> > > > > entire group of drivers.
+> > > > > 
+> > > > > This is not obvious and, as explained above, not always desired.
+> > > > > 
+> > > > > To fix the problem, drop the "visible" and stop hiding any menu
+> > > > > options. Users skilled enough to configure their kernel are expected
+> > > > > to be skilled enough to know what (not) to configure anyway.
+> > > > > 
+> > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > > > ---
+> > > > >  drivers/media/dvb-frontends/Kconfig | 1 -
+> > > > >  drivers/media/i2c/Kconfig           | 1 -
+> > > > >  drivers/media/spi/Kconfig           | 1 -
+> > > > >  drivers/media/tuners/Kconfig        | 1 -
+> > > > >  4 files changed, 4 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+> > > > > index dc43749177df..2d1fea3bf546 100644
+> > > > > --- a/drivers/media/dvb-frontends/Kconfig
+> > > > > +++ b/drivers/media/dvb-frontends/Kconfig
+> > > > > @@ -1,5 +1,4 @@
+> > > > >  menu "Customise DVB Frontends"
+> > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+> > > > > 
+> > > > >  comment "Multistandard (satellite) frontends"
+> > > > >     depends on DVB_CORE
+> > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > > > index 79ce9ec6fc1b..475072bb67d6 100644
+> > > > > --- a/drivers/media/i2c/Kconfig
+> > > > > +++ b/drivers/media/i2c/Kconfig
+> > > > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
+> > > > >  #
+> > > > > 
+> > > > >  menu "I2C Encoders, decoders, sensors and other helper chips"
+> > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT  
+> > > > 
+> > > > Hmm... Hans picked this patch, but IMO it doesn't make sense
+> > > > for PC consumer people to see the hundreds of extra options
+> > > > that making those menus visible will produce.
+> > > > 
+> > > > This was added because in the past we had lots of issues with
+> > > > people desktop/laptop settings with all those things enabled.
+> > > > 
+> > > > In any case, if the desktop/laptop user is smart enough to
+> > > > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
+> > > > manually select what he wants, so I really miss the point of
+> > > > making those stuff always visible.
+> > > > 
+> > > > Now, from this patch's comments, it seems that you want this
+> > > > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
+> > > > replace the changes on this patch to:
+> > > > 
+> > > >       menu "foo"
+> > > >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
+> > > > 
+> > > > In other words, for the normal guy that just wants to build the
+> > > > latest media stuff for his PC camera or TV device to work, he won't
+> > > > need to dig into hundreds of things that won't make any difference
+> > > > if he enables, except for making the Kernel bigger.
+> > > >  
+> > > 
+> > > Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
+> > > not the hidden part. I'm really missing to see what hiding anything gives you.
+> > > 
+> > > In other words, this option gets useful when driver authors select ancillary
+> > > drivers such as:
+> > > 
+> > > config VIDEO_USBVISION
+> > >         tristate "USB video devices based on Nogatech NT1003/1004/1005"
+> > >         depends on I2C && VIDEO_V4L2
+> > >         select VIDEO_TUNER
+> > >         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
+> > > 
+> > > What's so confusing about having these drivers visible? Compared to the
+> > > rest of the zillion menu options, what's more confusing about seeing these?
+> > > 
+> > > Now, while I would agree with EMBEDDED, the problem with that is that
+> > > many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
+> > > 
+> > > Finally, let me give an example of why hiding the menus is so bad.
+> > > Normally, to enable a symbol, we use the search tool.
+> > > 
+> > > Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
+> > > there and there's no indication why.  
 > > 
-> > > [   70.283652] page:ffff7e0001d68000 refcount:13 mapcount:0
-> > > mapping:0000000000000000 index:0x0 compound_mapcount: 0
-> > > [   70.293874] flags: 0xffff00000010000(head)
-> > > [   70.297999] raw: 0ffff00000010000 dead000000000100
-> > > dead000000000122 0000000000000000
-> > > [   70.305772] raw: 0000000000000000 0000000000000000
-> > > 0000000dffffffff 0000000000000000
-> > > [   70.313526] page dumped because: nonzero _refcount
-> > > [   70.318327] Modules linked in:
-> > > [   70.321399] CPU: 2 PID: 482 Comm: v4l2-ctl Not tainted 5.3.0-
-> > > rc1+ #159
-> > > [   70.327927] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
-> > > (DT)
-> > > [   70.334196] Call trace:
-> > > [   70.336654]  dump_backtrace+0x0/0x148
-> > > [   70.340319]  show_stack+0x14/0x20
-> > > [   70.343640]  dump_stack+0x9c/0xc4
-> > > [   70.346959]  bad_page+0xe4/0x148
-> > > [   70.350188]  free_pages_check_bad+0x70/0xa8
-> > > [   70.354375]  __free_pages_ok+0x294/0x2b0
-> > > [   70.358301]  __free_pages+0x38/0x50
-> > > [   70.361795]  dma_free_contiguous+0x90/0x98
-> > > [   70.365892]  __dma_direct_free_pages+0x18/0x20
-> > > [   70.370338]  arch_dma_free+0x74/0x88
-> > > [   70.373916]  dma_direct_free+0x4c/0x58
-> > > [   70.377668]  dma_free_attrs+0x88/0xe0
-> > > [   70.381335]  vb2_dc_put+0x44/0x60
-> > > [   70.384653]  __vb2_buf_mem_free+0x68/0x110
-> > > [   70.388749]  __vb2_queue_free+0x398/0x538
-> > > [   70.392763]  vb2_core_queue_release+0x34/0x48
-> > > [   70.397122]  _vb2_fop_release+0x88/0x98
-> > > [   70.400960]  vb2_fop_release+0x28/0x50
-> > > [   70.404712]  vivid_fop_release+0x88/0x208
-> > > [   70.408725]  v4l2_release+0x6c/0xf0
-> > > [   70.412216]  __fput+0x8c/0x1f8
-> > > [   70.415270]  ____fput+0xc/0x18
-> > > [   70.418328]  task_work_run+0x94/0xb0
-> > > [   70.421907]  do_exit+0x2b0/0x9f8
-> > > [   70.425138]  do_group_exit+0x34/0x98
-> > > [   70.428717]  get_signal+0x104/0x678
-> > > [   70.432209]  do_notify_resume+0x2ac/0x380
-> > > [   70.436220]  work_pending+0x8/0x10
-> > > [   70.439648] Disabling lock debugging due to kernel taint
-> > > [   70.444974] BUG: Bad page state in process v4l2-ctl  pfn:b5a01
-> > > [   70.450822] page:ffff7e0001d68040 refcount:0 mapcount:0
-> > > mapping:dead000000000400 index:0x1 compound_mapcount: 0
-> > > [   70.451427] printk: systemd: 27 output lines suppressed due to
-> > > ratelimiting
-> > > [   70.460924] flags: 0xffff00000000000()
-> > > [   70.460931] raw: 0ffff00000000000 ffff7e0001d68001
-> > > ffffffff01d60301 dead000000000400
-> > > [   70.467945] Kernel panic - not syncing: Attempted to kill init!
-> > > exitcode=0x0000000b
-> > > [   70.471659] raw: 0000000000000000 0000000000000000
-> > > 00000000ffffffff 0000000000000000
-> > > [   70.479389] CPU: 1 PID: 1 Comm: systemd Tainted:
-> > > G    B             5.3.0-rc1+ #159
-> > > [   70.479394] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
-> > > (DT)
-> > > [   70.487058] page dumped because: non-NULL mapping
-> > > [   70.494782] Call trace:
-> > > [   70.494789]  dump_backtrace+0x0/0x148
-> > > [   70.494793]  show_stack+0x14/0x20
-> > > [   70.494799]  dump_stack+0x9c/0xc4
-> > > [   70.502460] Modules linked in:
-> > > [   70.508713]  panic+0x140/0x32c
-> > > [   70.508718]  complete_and_exit+0x0/0x20
-> > > [   70.508724]  do_group_exit+0x34/0x98
-> > > [   70.539649]  get_signal+0x104/0x678
-> > > [   70.543139]  do_notify_resume+0x2ac/0x380
-> > > [   70.547149]  work_pending+0x8/0x10
-> > > [   70.550553] CPU: 2 PID: 482 Comm: v4l2-ctl Tainted:
-> > > G    B             5.3.0-rc1+ #159
-> > > [   70.550554] SMP: stopping secondary CPUs
-> > > [   70.562387] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
-> > > (DT)
-> > > [   70.568653] Call trace:
-> > > [   70.571103]  dump_backtrace+0x0/0x148
-> > > [   70.574765]  show_stack+0x14/0x20
-> > > [   70.578081]  dump_stack+0x9c/0xc4
-> > > [   70.581398]  bad_page+0xe4/0x148
-> > > [   70.584627]  free_pages_check_bad+0x70/0xa8
-> > > [   70.588814]  __free_pages_ok+0x294/0x2b0
-> > > [   70.592737]  __free_pages+0x38/0x50
-> > > [   70.596229]  dma_free_contiguous+0x90/0x98
-> > > [   70.600327]  __dma_direct_free_pages+0x18/0x20
-> > > [   70.604771]  arch_dma_free+0x74/0x88
-> > > [   70.608347]  dma_direct_free+0x4c/0x58
-> > > [   70.612098]  dma_free_attrs+0x88/0xe0
-> > > [   70.615765]  vb2_dc_put+0x44/0x60
-> > > [   70.619082]  __vb2_buf_mem_free+0x68/0x110
-> > > [   70.623180]  __vb2_queue_free+0x398/0x538
-> > > [   70.627192]  vb2_core_queue_release+0x34/0x48
-> > > [   70.631551]  _vb2_fop_release+0x88/0x98
-> > > [   70.635387]  vb2_fop_release+0x28/0x50
-> > > [   70.639138]  vivid_fop_release+0x88/0x208
-> > > [   70.643149]  v4l2_release+0x6c/0xf0
-> > > [   70.646638]  __fput+0x8c/0x1f8
-> > > [   70.649693]  ____fput+0xc/0x18
-> > > [   70.652750]  task_work_run+0x94/0xb0
-> > > [   70.656326]  do_exit+0x2b0/0x9f8
-> > > [   70.659554]  do_group_exit+0x34/0x98
-> > > [   70.663130]  get_signal+0x104/0x678
-> > > [   70.666621]  do_notify_resume+0x2ac/0x380
-> > > [   70.670632]  work_pending+0x8/0x10
-> > > [   70.674036] Kernel Offset: disabled
-> > > [   70.677526] CPU features: 0x0002,2000200c
-> > > [   70.681535] Memory Limit: none
-> > > [   70.684599] ---[ end Kernel panic - not syncing: Attempted to
-> > > kill init! exitcode=0x0000000b ]---
-> > > 
-> > > Dafna
-> > > 
-> > > > Thanks,
-> > > > Mauro
+> > As someone who has done so in the past year, I agree it's confusing.
+> > I had to dig through the Kconfig files to figure out which knobs to
+> > turn to get the OV5640 option out. The description says "auto-selecting",
+> 
+> Well, the text and/or the help message can be changed, if it is not
+> clear enough, but this option was added because we had too many issues
+> with users trying to build drivers for their devices without being
+> able to do that, because selecting thousands of devices is something
+> that an average PC user has troubles.
+> 
+> I'm all to improve it, provided that we don't make harder for non-devs
+> to build the Kernel.
+> 
+
+I just recalled Buildroot made extensive use of comments,
+so how about this instead:
+
+From fdbb96242422823a6df59cf457ebd19f83e45ffe Mon Sep 17 00:00:00 2001
+From: Ezequiel Garcia <ezequiel@collabora.com>
+Date: Thu, 25 Jul 2019 20:45:07 -0300
+Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
+
+Some users have been having a hard time finding certain menu
+options. One such example are camera sensor drivers
+(e.g IMX219, OV5645, etc) which are common on embedded
+platforms and not really "ancillary" devices.
+
+The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
+to the fact that it uses the "visible" kbuild syntax to hide
+entire group of drivers.
+
+This is not obvious and it normally takes some time to
+figure out.
+
+To fix the problem, add a comment on each of hidden menus,
+which should clarify what option is causing menus to be hidden.
+
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+ drivers/media/dvb-frontends/Kconfig | 3 +++
+ drivers/media/i2c/Kconfig           | 3 +++
+ drivers/media/spi/Kconfig           | 3 +++
+ drivers/media/tuners/Kconfig        | 4 ++++
+ 4 files changed, 13 insertions(+)
+
+diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+index dc43749177df..5e2ba9d03662 100644
+--- a/drivers/media/dvb-frontends/Kconfig
++++ b/drivers/media/dvb-frontends/Kconfig
+@@ -1,3 +1,6 @@
++comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
++	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
++
+ menu "Customise DVB Frontends"
+ 	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+ 
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 79ce9ec6fc1b..a110fa53233f 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -22,6 +22,9 @@ config VIDEO_IR_I2C
+ # Encoder / Decoder module configuration
+ #
+ 
++comment "I2C drivers hidden by 'Autoselect ancillary drivers'"
++	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
++
+ menu "I2C Encoders, decoders, sensors and other helper chips"
+ 	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+ 
+diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
+index 08386abb9bbc..da1750f86bbc 100644
+--- a/drivers/media/spi/Kconfig
++++ b/drivers/media/spi/Kconfig
+@@ -1,6 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ if VIDEO_V4L2
+ 
++comment "SPI drivers hidden by 'Autoselect ancillary drivers'"
++	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
++
+ menu "SPI helper chips"
+ 	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+ 
+diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
+index a7108e575e9b..e017e09d5374 100644
+--- a/drivers/media/tuners/Kconfig
++++ b/drivers/media/tuners/Kconfig
+@@ -15,6 +15,10 @@ config MEDIA_TUNER
+ 	select MEDIA_TUNER_TDA9887 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
+ 
++comment "Tuner drivers hidden by 'Autoselect ancillary drivers'"
++	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
++	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
++
+ menu "Customize TV tuners"
+ 	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+ 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+-- 
+2.22.0
+
+
+
