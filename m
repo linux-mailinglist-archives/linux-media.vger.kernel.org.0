@@ -2,134 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68265752B3
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 17:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DD6752DE
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 17:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389122AbfGYPdz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 11:33:55 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46699 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389058AbfGYPdy (ORCPT
+        id S2389285AbfGYPgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 11:36:47 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54267 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389277AbfGYPgp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 11:33:54 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id qfkbhBJpkeD5bqfkehiRkU; Thu, 25 Jul 2019 17:33:52 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Support RK3399 VP8 decoding, various fixes,
- rcar-vin improvements
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Message-ID: <71f1bbc8-6b98-968d-b3ec-f331d517124a@xs4all.nl>
-Date:   Thu, 25 Jul 2019 17:33:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCy/PnETjVDuBoFPIjMgTarKnOWd0ZKVAINyPR76K+rpojxhMk0vEvg2P6lTPMepWEFn/DqsvxjdbwFTcZcwk1qI/qjBRe3aaV19iLqPHB2CIP8DD68z
- zwxP1tGEG+bkSjOZZuQoFT9npdjXMAsHjKhWxzyCl8ElUnWCCZ88luJBQzFu7o6qga73BT1JpA/VBmzz0MkuZyOagDjLopZaRsU6ji2reaVnchQkNUOKr7lE
- XY7jbGYcyVNDQtjnFUXjsQ==
+        Thu, 25 Jul 2019 11:36:45 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hqfnQ-0001bw-8U; Thu, 25 Jul 2019 17:36:44 +0200
+Message-ID: <1564069001.3006.1.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/7] media: hantro: Set DMA max segment size
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Date:   Thu, 25 Jul 2019 17:36:41 +0200
+In-Reply-To: <20190725141756.2518-2-ezequiel@collabora.com>
+References: <20190725141756.2518-1-ezequiel@collabora.com>
+         <20190725141756.2518-2-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Thu, 2019-07-25 at 11:17 -0300, Ezequiel Garcia wrote:
+> From: Francois Buergisser <fbuergisser@chromium.org>
+> 
+> The Hantro codec is typically used in platforms with an IOMMU,
+> so we need to set a proper DMA segment size.
 
-Please note the 'v4l2-dev: fix WARN_ON(!vdev->device_caps)' patch. Sorry about
-that. I did test the original patch with vimc, but test-media doesn't actually
-create a FAIL if a module can't be loaded. I'll fix that.
+... to make sure the DMA-mapping subsystem produces contiguous mappings?
 
-Other than that it's the usual fixes/cleanups and also it adds RK3399 VP8 decoding.
+> Devices without an
+> IOMMU will still fallback to default 64KiB segments.
 
-Regards,
+I don't understand this comment. The default max_seg_size may be 64 KiB,
+but if we are always setting it to DMA_BUT_MASK(32), there is no falling
+back.
 
-	Hans
+> Cc: stable@vger.kernel.org
+> Fixes: 775fec69008d3 ("media: add Rockchip VPU JPEG encoder driver")
+> Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index b71a06e9159e..4eae1dbb1ac8 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -731,6 +731,7 @@ static int hantro_probe(struct platform_device *pdev)
+>  		dev_err(vpu->dev, "Could not set DMA coherent mask.\n");
+>  		return ret;
+>  	}
+> +	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 
-The following changes since commit 6ddb094a9f8c451c42bc7c58cfed22275e8a1e38:
+This should be complemented by a call to
+vb2_dma_contig_clear_max_seg_size() in _remove,
+to avoid leaking dev->dma_parms.
 
-  media: staging/intel-ipu3: Use dev_get_drvdata where possible (2019-07-25 06:45:46 -0400)
+>  
+>  	for (i = 0; i < vpu->variant->num_irqs; i++) {
+>  		const char *irq_name = vpu->variant->irqs[i].name;
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4e2
-
-for you to fetch changes up to bb636bb902862c0008d7cd96ebae38fe41656233:
-
-  media: v4l2-core: introduce a helper to unregister a I2C subdev (2019-07-25 17:13:27 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Boris Brezillon (4):
-      media: hantro: Simplify the controls creation logic
-      media: hantro: Constify the control array
-      media: hantro: Add hantro_get_{src, dst}_buf() helpers
-      media: hantro: Add helpers to prepare/finish a run
-
-Ezequiel Garcia (9):
-      media: Don't default-enable "ancillary driver autoselect" if EMBEDDED
-      media: Don't hide any menu if "ancillary drivers autoselect" is enabled
-      media: hantro: Move VP8 common code
-      media: v4l2-core: Cleanup Makefile
-      media: v4l2-core: Module re-organization
-      media: v4l2-core: move spi helpers out of v4l2-common.c
-      media: v4l2-core: move i2c helpers out of v4l2-common.c
-      media: v4l2-core: introduce a helper to unregister a SPI subdev
-      media: v4l2-core: introduce a helper to unregister a I2C subdev
-
-Francois Buergisser (1):
-      media: hantro: Set DMA max segment size
-
-Hans Verkuil (1):
-      v4l2-dev: fix WARN_ON(!vdev->device_caps)
-
-Hariprasad Kelam (1):
-      staging: media: hantro: Remove call to memset after dma_alloc_coherent
-
-Jeffy Chen (1):
-      media: hantro: Support RK3399 VP8 decoding
-
-Niklas Söderlund (4):
-      rcar-vin: Rename VNDMR_DTMD_ARGB1555 to VNDMR_DTMD_ARGB
-      rcar-vin: Add control for alpha component
-      rcar-vin: Add support for RGB formats with alpha component
-      rcar-vin: Always setup controls when opening video device
-
- drivers/media/Kconfig                                  |   2 +-
- drivers/media/dvb-frontends/Kconfig                    |   1 -
- drivers/media/i2c/Kconfig                              |   1 -
- drivers/media/platform/rcar-vin/rcar-core.c            |  53 +++-
- drivers/media/platform/rcar-vin/rcar-dma.c             |  44 +++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c            |  40 +--
- drivers/media/platform/rcar-vin/rcar-vin.h             |   5 +
- drivers/media/spi/Kconfig                              |   1 -
- drivers/media/tuners/Kconfig                           |   1 -
- drivers/media/v4l2-core/Kconfig                        |   5 +
- drivers/media/v4l2-core/Makefile                       |  15 +-
- drivers/media/v4l2-core/v4l2-common.c                  | 210 ----------------
- drivers/media/v4l2-core/v4l2-dev.c                     |   4 +-
- drivers/media/v4l2-core/v4l2-device.c                  |  39 +--
- drivers/media/v4l2-core/v4l2-i2c.c                     | 167 +++++++++++++
- drivers/media/v4l2-core/v4l2-spi.c                     |  73 ++++++
- drivers/staging/media/hantro/Makefile                  |   1 +
- drivers/staging/media/hantro/hantro.h                  |  15 +-
- drivers/staging/media/hantro/hantro_drv.c              |  53 ++--
- drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c     |  14 +-
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c       |  34 +--
- drivers/staging/media/hantro/hantro_h1_jpeg_enc.c      |  11 +-
- drivers/staging/media/hantro/hantro_hw.h               |   7 +
- drivers/staging/media/hantro/hantro_vp8.c              |  17 +-
- drivers/staging/media/hantro/rk3399_vpu_hw.c           |  22 +-
- drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c  |  12 +-
- drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c |  14 +-
- drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c   | 595 +++++++++++++++++++++++++++++++++++++++++++++
- include/media/v4l2-common.h                            | 150 +++++++++---
- 29 files changed, 1199 insertions(+), 407 deletions(-)
- create mode 100644 drivers/media/v4l2-core/v4l2-i2c.c
- create mode 100644 drivers/media/v4l2-core/v4l2-spi.c
- create mode 100644 drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+regards
+Philipp
