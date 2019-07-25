@@ -2,124 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AEAD74C1C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 12:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0151F74C44
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 12:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728962AbfGYKrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 06:47:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44414 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728726AbfGYKrS (ORCPT
+        id S2388928AbfGYK4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 06:56:47 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43006 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728710AbfGYK4q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 06:47:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=lVWSvMti17F8POnwuS7EAyc3O7WloP9rxEkzwLg6TD8=; b=W7QoRAjz2R9Cyj7PLvxtg+aoY
-        Exgo1z2uv90MCPfnczKPDe8Xjt8RQD3vFIs8ELDmsnUDcVsmv+ZBbMVgitj2pW6i9RMkG8LbJwPB/
-        hfCTwDuBMkRPlU0J2smAQHdNS+V6SdWFs2QVOk+HVMioYAnsscgih9e0ovVx0zdAR5MPUH0rXgOCp
-        Ni3lX5kucpRGIZ0pcX/zbOKnKViHI3xaEqM0YY/2u5zGS29FFwPDxXyOhjrvg8S09S9wNfEDPJLTU
-        FK0yIDm9LLaipuRmlYMUd0EXxpcSE14N+Ip9XNWLNV2g/kNgyQ6v7VXoNcxJfThsW3xbYJ02xFugZ
-        3sDDgnfJg==;
-Received: from [179.95.31.157] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqbHJ-0002hn-Iz; Thu, 25 Jul 2019 10:47:18 +0000
-Date:   Thu, 25 Jul 2019 07:47:14 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL for 5.4] V4L2 ISP, fwnode, sensor and CSI2 patches
-Message-ID: <20190725074714.52f775f2@coco.lan>
-In-Reply-To: <20190725095030.GG1263@valkosipuli.retiisi.org.uk>
-References: <20190725095030.GG1263@valkosipuli.retiisi.org.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Thu, 25 Jul 2019 06:56:46 -0400
+Received: by mail-ed1-f67.google.com with SMTP id v15so49850683eds.9
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 03:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k+VmJx2qHC6IoWcUVPga9JSh1E7Qu0Q0gAer0TQntYM=;
+        b=Bv3+Nes2Q+ALJZRs1cdOeFsomrNoG29LQ9rzUKD8y5Jq4FvKKXDIX6u7vGvo4j5Ydh
+         RDNNXZq1byNAJhYlWdmZcIDxxxqAf8WrYk9w4nFlhcn9LVk1iuezwnnsm8eqrgDKKipT
+         5G5ReK1RMANSGUYwwKf1BIOtYh+nKwBnzg6lk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k+VmJx2qHC6IoWcUVPga9JSh1E7Qu0Q0gAer0TQntYM=;
+        b=tVgHAM2mg7X8I38H1paYydtM1L9PD3H0C3FJGhFF96nQ8aXUBiEVE36+iWsQUs/jiu
+         2oRAPB87iX2+h/NA1OLczpt/OMINWdHr6f+JwgOwodqS8PxTHHCObWtpp17PTSW6MhTC
+         WBwNm8xi+DzTDKNERFlC7tpgLAGwELDrFNE2xe5D9mIqDM2oUDoeyA4T/RsCfpMmapvH
+         0kEhDd8XSrufSqUjn9t0XXZy/lAoKBI7qV4o1SvY6t+FK85zatbUy63D5Ptnnx7NBDzO
+         FLsdqs1ewsgpilqBH2lSQYVAKzl2INHwbtpWxN0ysSEU8fMd7SEckhFQiJc8b9P9s5RS
+         FeKA==
+X-Gm-Message-State: APjAAAVxsfGmpO5+JY5A7jHciFNiH/6fFDS4/3BLp1W8lHkLebT7fkNN
+        HiO5G78n3svr3b4jERoYuVhVT+1tHakUZg==
+X-Google-Smtp-Source: APXvYqyzk/8slQo16sS5Qr/Icz9Pd3KqrTcMOQmqwKEHOb/1/fbUkxR2omxB1zYjFxCXG5k6uxfMbA==
+X-Received: by 2002:aa7:d28a:: with SMTP id w10mr76184272edq.251.1564052204139;
+        Thu, 25 Jul 2019 03:56:44 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
+        by smtp.gmail.com with ESMTPSA id o21sm12931152edt.26.2019.07.25.03.56.41
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Jul 2019 03:56:41 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id p17so50240097wrf.11
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 03:56:41 -0700 (PDT)
+X-Received: by 2002:adf:ed41:: with SMTP id u1mr89782001wro.162.1564052200774;
+ Thu, 25 Jul 2019 03:56:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <jungo.lin@mediatek.com> <20190611035344.29814-1-jungo.lin@mediatek.com>
+ <20190611035344.29814-9-jungo.lin@mediatek.com> <20190710095827.GC181405@chromium.org>
+ <1563675513.1212.444.camel@mtksdccf07>
+In-Reply-To: <1563675513.1212.444.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 25 Jul 2019 19:56:28 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BT7M425AbFicYuX+wr-twgS_cxQ937+Rgxo6Y2fA6_gA@mail.gmail.com>
+Message-ID: <CAAFQd5BT7M425AbFicYuX+wr-twgS_cxQ937+Rgxo6Y2fA6_gA@mail.gmail.com>
+Subject: Re: [RFC,v3 8/9] media: platform: Add Mediatek ISP P1 SCP communication
+To:     Jungo Lin <jungo.lin@mediatek.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        devicetree@vger.kernel.org,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        ddavenport@chromium.org, Rob Herring <robh@kernel.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <sean.cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <frederic.chen@mediatek.com>,
+        =?UTF-8?B?UnlhbiBZdSAo5L2Z5a2f5L+uKQ==?= <ryan.yu@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <rynn.wu@mediatek.com>,
+        =?UTF-8?B?RnJhbmtpZSBDaGl1ICjpgrHmloflh7Ep?= 
+        <frankie.chiu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 25 Jul 2019 12:50:30 +0300
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+Hi Jungo,
 
-> Hi Mauro,
-> 
-> Here's my first set of V4L2 patches for 5.4. Included are sensor driver
-> patches, but also update for the Cadence CSI2TX driver and odd fixes and
-> cleanups. No new drivers this time.
-> 
-> Please pull.
-> 
-> 
-> The following changes since commit ebe15c7679680308268b99d911b1db15d514c7b8:
-> 
->   media: tegra-cec: use cec_notifier_cec_adap_(un)register (2019-07-23 08:40:57 -0400)
-> 
-> are available in the Git repository at:
-> 
->   ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.4-3-signed
-> 
-> for you to fetch changes up to d0de3d651cbc2ff02084a1671368c461bb3c3e78:
-> 
->   media: staging/intel-ipu3: Use dev_get_drvdata where possible (2019-07-25 12:30:25 +0300)
-> 
-> ----------------------------------------------------------------
-> V4L2 patches for 5.4
-> 
-> ----------------------------------------------------------------
-> Andy Shevchenko (1):
->       media: v4l2-fwnode: Switch to use fwnode_property_count_uXX()
-> 
-> Christophe JAILLET (1):
->       media: ov2680: fix a typo in a function name
-> 
-> Chuhong Yuan (2):
->       media: pci: Use dev_get_drvdata where possible
->       media: staging/intel-ipu3: Use dev_get_drvdata where possible
-> 
-> Fabio Estevam (5):
->       media: ov5645: Remove unneeded regulator_set_voltage()
->       media: ov5645: Use regulator_bulk() functions
->       media: i2c: ov5640: Check for devm_gpiod_get_optional() error
->       media: i2c: ov5640: Fix the order for enabling regulators
+On Sun, Jul 21, 2019 at 11:18 AM Jungo Lin <jungo.lin@mediatek.com> wrote:
+[snip]
+> > > +           wake_up_interruptible(&isp_ctx->composer_tx_thread.wq);
+> > > +           isp_ctx->composer_tx_thread.thread = NULL;
+> > > +   }
+> > > +
+> > > +   if (isp_ctx->composer_deinit_thread.thread) {
+> > > +           wake_up(&isp_ctx->composer_deinit_thread.wq);
+> > > +           isp_ctx->composer_deinit_thread.thread = NULL;
+> > > +   }
+> > > +   mutex_unlock(&isp_ctx->lock);
+> > > +
+> > > +   pm_runtime_put_sync(&p1_dev->pdev->dev);
+> >
+> > No need to use the sync variant.
+> >
+>
+> We don't get this point. If we will call pm_runtime_get_sync in
+> mtk_isp_hw_init function, will we need to call
+> pm_runtime_put_sync_autosuspend in mtk_isp_hw_release in next patch?
+> As we know, we should call runtime pm functions in pair.
+>
 
->       media: imx7.rst: Fix the references to the CSI multiplexer
+My point is that pm_runtime_put_sync() is only needed if one wants the
+runtime count to be decremented after the function returns. Normally
+there is no need to do so and one would call pm_runtime_put(), or if
+autosuspend is used, pm_runtime_put_autosuspend() (note there is no
+"sync" in the name).
 
-This patch has an issue: it breaks a code block at documentation.
+[snip]
+> > +static void isp_composer_handler(void *data, unsigned int len, void *priv)
+> > > +{
+> > > +   struct mtk_isp_p1_ctx *isp_ctx = (struct mtk_isp_p1_ctx *)priv;
+> > > +   struct isp_p1_device *p1_dev = p1_ctx_to_dev(isp_ctx);
+> > > +   struct device *dev = &p1_dev->pdev->dev;
+> > > +   struct mtk_isp_scp_p1_cmd *ipi_msg;
+> > > +
+> > > +   ipi_msg = (struct mtk_isp_scp_p1_cmd *)data;
+> >
+> > Should we check that len == sizeof(*ipi_msg)? (Or at least >=, if data could
+> > contain some extra bytes at the end.)
+> >
+>
+> The len parameter is the actual sending bytes from SCP to kernel.
+> In the runtime, it is only 6 bytes for isp_ack_info command
+> However, sizeof(*ipi_msg) is large due to struct mtk_isp_scp_p1_cmd is
+> union structure.
+>
 
-So, I'm skipping this one, picking the remaining patches.
+That said we still should check if len is enough to cover the data
+we're accessing below.
 
-Regards,
-Mauro
+> > > +
+> > > +   if (ipi_msg->cmd_id != ISP_CMD_ACK)
+> > > +           return;
+> > > +
+> > > +   if (ipi_msg->ack_info.cmd_id == ISP_CMD_FRAME_ACK) {
+> > > +           dev_dbg(dev, "ack frame_num:%d",
+> > > +                   ipi_msg->ack_info.frame_seq_no);
+> > > +           atomic_set(&isp_ctx->composed_frame_id,
+> > > +                      ipi_msg->ack_info.frame_seq_no);
+> >
+> > I suppose we are expecting here that ipi_msg->ack_info.frame_seq_no would be
+> > just isp_ctx->composed_frame_id + 1, right? If not, we probably dropped some
+> > frames and we should handle that somehow.
+> >
+>
+> No, we use isp_ctx->composed_frame_id to save which frame sequence
+> number are composed done in SCP. In new design, we will move this from
+> isp_ctx to p1_dev.
 
+But we compose the frames in order, don't we? Wouldn't every composed
+frame would be just previous frame ID + 1?
 
-> 
-> Jan Kotas (4):
->       media: dt-bindings: Update bindings for Cadence CSI2TX version 2.1
->       media: Add lane checks for Cadence CSI2TX
->       media: Fix Lane mapping in Cadence CSI2TX
->       media: Add support for Cadence CSI2TX 2.1
-> 
->  .../devicetree/bindings/media/cdns,csi2tx.txt      |   3 +-
->  Documentation/media/v4l-drivers/imx7.rst           | 127 +++++++++--------
->  drivers/media/i2c/ov2680.c                         |   4 +-
->  drivers/media/i2c/ov5640.c                         |   7 +-
->  drivers/media/i2c/ov5645.c                         | 120 +++-------------
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c           |   3 +-
->  drivers/media/pci/pt1/pt1.c                        |   6 +-
->  drivers/media/pci/pt3/pt3.c                        |   6 +-
->  drivers/media/platform/cadence/cdns-csi2tx.c       | 155 ++++++++++++++++-----
->  drivers/media/v4l2-core/v4l2-fwnode.c              |   8 +-
->  drivers/staging/media/ipu3/ipu3.c                  |   3 +-
->  11 files changed, 225 insertions(+), 217 deletions(-)
-> 
+[snip]
+> > > +void isp_composer_hw_init(struct device *dev)
+> > > +{
+> > > +   struct mtk_isp_scp_p1_cmd composer_tx_cmd;
+> > > +   struct isp_p1_device *p1_dev = get_p1_device(dev);
+> > > +   struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
+> > > +
+> > > +   memset(&composer_tx_cmd, 0, sizeof(composer_tx_cmd));
+> > > +   composer_tx_cmd.cmd_id = ISP_CMD_INIT;
+> > > +   composer_tx_cmd.frameparam.hw_module = isp_ctx->isp_hw_module;
+> > > +   composer_tx_cmd.frameparam.cq_addr.iova = isp_ctx->scp_mem_iova;
+> > > +   composer_tx_cmd.frameparam.cq_addr.scp_addr = isp_ctx->scp_mem_pa;
+> >
+> > Should we also specify the size of the buffer? Otherwise we could end up
+> > with some undetectable overruns.
+> >
+>
+> The size of SCP composer's memory is fixed to 0x200000.
+> Is it necessary to specify the size of this buffer?
+>
+> #define MTK_ISP_COMPOSER_MEM_SIZE 0x200000
+>
+> ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
+>                         MTK_ISP_COMPOSER_MEM_SIZE, &addr, GFP_KERNEL);
+>
 
+Okay, but please add a comment saying that this is an implicit
+requirement of the firmware.
 
-
-Thanks,
-Mauro
+Best regards,
+Tomasz
