@@ -2,375 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82F3B74E8E
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 14:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE39274EAD
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 14:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389460AbfGYMwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 08:52:25 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:41601 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387586AbfGYMwZ (ORCPT
+        id S1729226AbfGYM7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 08:59:34 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49199 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728897AbfGYM7e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 08:52:25 -0400
-X-Originating-IP: 86.250.200.211
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 5FA9AFF815;
-        Thu, 25 Jul 2019 12:52:20 +0000 (UTC)
-Date:   Thu, 25 Jul 2019 14:52:20 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+        Thu, 25 Jul 2019 08:59:34 -0400
+Received: from [IPv6:2001:420:44c1:2579:64cb:e917:d1ce:4f27] ([IPv6:2001:420:44c1:2579:64cb:e917:d1ce:4f27])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id qdLBhEcaaLqASqdLEhTpVV; Thu, 25 Jul 2019 14:59:31 +0200
+Subject: Re: [PATCH 0/7] hantro: Add RK3399 VP8 decoding support
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Boris Brezillon <boris.brezillon@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v6 3/5] media: v4l: Add definitions for the HEVC slice
- controls
-Message-ID: <20190725125220.GA14499@aptenodytes>
-References: <20190614143837.15605-1-paul.kocialkowski@bootlin.com>
- <20190614143837.15605-4-paul.kocialkowski@bootlin.com>
- <d91d8424-a06a-15da-93af-6d2d48619cee@xs4all.nl>
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
+References: <20190724171702.9449-1-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b0cd9a4f-4bf9-a48c-6d7c-7147b13fa0b2@xs4all.nl>
+Date:   Thu, 25 Jul 2019 14:59:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
+In-Reply-To: <20190724171702.9449-1-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d91d8424-a06a-15da-93af-6d2d48619cee@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH91+GSCR9/BQ6o5MVMi8O1vy+fYBT8pfW7voO0zSMsUL/0FoUIfCsRdCer6unCd3zmVDWduneqT8untxNKbfwUDD6zeR30I/mWIt+H5JH5JV6aFt3Ns
+ mebj0wkIAzROiH99iss3dQxTRTr6M8q8jDR5mK5PhjPdMfgmsLT/weZJ/M64eB0YEPJozJdlg0rPFiA0UiYy0/KvPaJaTvZBnzhunjpHuCim0YhoHm7EKQWb
+ 4lEyOEjzOZzRC6ADMMp1ncXoQALIFxtlIOg1ueb9RjvcuFZSF9SvFxMwdjO4jiL2qP7dva5mKzRNYtq8tcuORYZ5dGcoGRDol6NRK5BYFB1hCSy0QOuZ6E/u
+ et6/0+bQuPcpTZeWzvPZ63UBC8um/HLQEIIM2RxvpVFO/RqORAMUjmuVKX6VOmlV0Brb3gEQV0+tr7/5NCp149iYNlLXi0P7I5zyj4UuCMTZGx5rVpCSkD3i
+ 4Y/AoeWBbZ7T/5W4slLL0sLVLRxl+XfQFDNrQ3B6ay/2xODlw/+VPb6EsPPPgHz9IePfdSQyMTpsgRcvkTy0A3HiuMuvQ8o4oCPuDx+S7pk3mRRLvZmEhe16
+ ZQFiIrzs2PhW5IC17EiAG1yhpLXU0eIHcg5dFhpvPSQr0aWwuUtQjj4zL7eSlXKvRmLHU7twDPiGPUQsF5l6mR3bGu2SZkR8bfsnt50RxiCCFUXwktXHvTdG
+ T3IGCaNCHD0ynrqgpuETywVduNEEDsXUB4BIIb72u/zM65uPDZ3NKFzvPTcFPoRrdxsQ+Ur4gvNQY7nBRZA3cxtKKjSigmRk
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans and thanks for the review!
-
-On Mon 22 Jul 19, 16:40, Hans Verkuil wrote:
-> On 6/14/19 4:38 PM, Paul Kocialkowski wrote:
-> > This introduces the required definitions for HEVC decoding support with
-> > stateless VPUs. The controls associated to the HEVC slice format provide
-> > the required meta-data for decoding slices extracted from the bitstream.
-> > 
-> > They are not exported to the public V4L2 API since reworking this API
-> > will be needed for covering various use-cases and new hardware.
-> > 
-> > The interface comes with the following limitations:
-> > * No custom quantization matrices (scaling lists);
-> > * Support for a single temporal layer only;
-> > * No slice entry point offsets support;
-> > * No conformance window support;
-> > * No VUI parameters support;
-> > * No support for SPS extensions: range, multilayer, 3d, scc, 4 bits;
-> > * No support for PPS extensions: range, multilayer, 3d, scc, 4 bits.
-> > 
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  Documentation/media/uapi/v4l/biblio.rst       |   9 +
-> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 474 +++++++++++++++++-
-> >  .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
-> >  .../media/videodev2.h.rst.exceptions          |   3 +
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          | 103 ++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
-> >  include/media/hevc-ctrls.h                    | 197 ++++++++
-> >  include/media/v4l2-ctrls.h                    |   7 +
-> >  8 files changed, 809 insertions(+), 3 deletions(-)
-> >  create mode 100644 include/media/hevc-ctrls.h
-> > 
+On 7/24/19 7:16 PM, Ezequiel Garcia wrote:
+> This series adds VP8 decoding support on RK3399 SoC.
 > 
-> <snip>
+> I'm including a set of commits from Boris' recent H264 series [1].
+> These commits add some helpers that are also useful for RK3399 VP8,
+> and at the same time cleanup the driver nicely.
 > 
-> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > new file mode 100644
-> > index 000000000000..f10f57625142
-> > --- /dev/null
-> > +++ b/include/media/hevc-ctrls.h
-> > @@ -0,0 +1,197 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * These are the HEVC state controls for use with stateless HEVC
-> > + * codec drivers.
-> > + *
-> > + * It turns out that these structs are not stable yet and will undergo
-> > + * more changes. So keep them private until they are stable and ready to
-> > + * become part of the official public API.
-> > + */
-> > +
-> > +#ifndef _HEVC_CTRLS_H_
-> > +#define _HEVC_CTRLS_H_
-> > +
-> > +#include <linux/videodev2.h>
-> > +
-> > +/* The pixel format isn't stable at the moment and will likely be renamed. */
-> > +#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
-> > +
-> > +#define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_MPEG_BASE + 1008)
-> > +#define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_MPEG_BASE + 1009)
-> > +#define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_MPEG_BASE + 1010)
-> > +
-> > +/* enum v4l2_ctrl_type type values */
-> > +#define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> > +#define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
-> > +#define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
-> > +
-> > +#define V4L2_HEVC_SLICE_TYPE_B	0
-> > +#define V4L2_HEVC_SLICE_TYPE_P	1
-> > +#define V4L2_HEVC_SLICE_TYPE_I	2
-> > +
-> > +#define V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE		(1 << 0)
-> > +#define V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED			(1 << 1)
-> > +#define V4L2_HEVC_SPS_FLAG_AMP_ENABLED				(1 << 2)
-> > +#define V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET		(1 << 3)
-> > +#define V4L2_HEVC_SPS_FLAG_PCM_ENABLED				(1 << 4)
-> > +#define V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED		(1 << 5)
-> > +#define V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT		(1 << 6)
-> > +#define V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED		(1 << 7)
-> > +#define V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED	(1 << 8)
-> > +
-> > +/* The controls are not stable at the moment and will likely be reworked. */
-> > +struct v4l2_ctrl_hevc_sps {
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
-> > +	__u8	chroma_format_idc;
+> Finally, there's a fix by Francois Buergisser from Chromium team.
 > 
-> There is a hole in the struct here. Can that be fixed?
+> VP8 and MPEG-2 tested on RK3399 RockPi and RK3288 Rock2 boards.
 
-Oh I had missed it. Let's move that u8 between num_long_term_ref_pics_sps and
-flags (at the end) then.
+I get this when compiling:
 
-> > +	__u16	pic_width_in_luma_samples;
-> > +	__u16	pic_height_in_luma_samples;
-> > +	__u8	bit_depth_luma_minus8;
-> > +	__u8	bit_depth_chroma_minus8;
-> > +	__u8	log2_max_pic_order_cnt_lsb_minus4;
-> > +	__u8	sps_max_dec_pic_buffering_minus1;
-> > +	__u8	sps_max_num_reorder_pics;
-> > +	__u8	sps_max_latency_increase_plus1;
-> > +	__u8	log2_min_luma_coding_block_size_minus3;
-> > +	__u8	log2_diff_max_min_luma_coding_block_size;
-> > +	__u8	log2_min_luma_transform_block_size_minus2;
-> > +	__u8	log2_diff_max_min_luma_transform_block_size;
-> > +	__u8	max_transform_hierarchy_depth_inter;
-> > +	__u8	max_transform_hierarchy_depth_intra;
-> > +	__u8	pcm_sample_bit_depth_luma_minus1;
-> > +	__u8	pcm_sample_bit_depth_chroma_minus1;
-> > +	__u8	log2_min_pcm_luma_coding_block_size_minus3;
-> > +	__u8	log2_diff_max_min_pcm_luma_coding_block_size;
-> > +	__u8	num_short_term_ref_pic_sets;
-> > +	__u8	num_long_term_ref_pics_sps;
-> > +
-> > +	__u64	flags;
-> > +};
-> > +
-> > +#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1 << 0)
-> > +#define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1 << 1)
-> > +#define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1 << 2)
-> > +#define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1 << 3)
-> > +#define V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED		(1 << 4)
-> > +#define V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED		(1 << 5)
-> > +#define V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED			(1 << 6)
-> > +#define V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT	(1 << 7)
-> > +#define V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED			(1 << 8)
-> > +#define V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED			(1 << 9)
-> > +#define V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED		(1 << 10)
-> > +#define V4L2_HEVC_PPS_FLAG_TILES_ENABLED			(1 << 11)
-> > +#define V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED		(1 << 12)
-> > +#define V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED	(1 << 13)
-> > +#define V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED (1 << 14)
-> > +#define V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED	(1 << 15)
-> > +#define V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER	(1 << 16)
-> > +#define V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT		(1 << 17)
-> > +#define V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT (1 << 18)
-> > +
-> > +struct v4l2_ctrl_hevc_pps {
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
-> > +	__u8	num_extra_slice_header_bits;
-> > +	__s8	init_qp_minus26;
-> > +	__u8	diff_cu_qp_delta_depth;
-> > +	__s8	pps_cb_qp_offset;
-> > +	__s8	pps_cr_qp_offset;
-> > +	__u8	num_tile_columns_minus1;
-> > +	__u8	num_tile_rows_minus1;
-> > +	__u8	column_width_minus1[20];
-> > +	__u8	row_height_minus1[22];
-> > +	__s8	pps_beta_offset_div2;
-> > +	__s8	pps_tc_offset_div2;
-> > +	__u8	log2_parallel_merge_level_minus2;
-> > +
-> > +	__u8	padding[4];
+/home/hans/work/build/media-git/drivers/staging/media/hantro/hantro_g1_vp8_dec.c: In function 'hantro_g1_vp8_dec_run':
+/home/hans/work/build/media-git/drivers/staging/media/hantro/hantro_g1_vp8_dec.c:435:26: warning: variable 'vb2_src' set but not used [-Wunused-but-set-variable]
+  struct vb2_v4l2_buffer *vb2_src;
+                          ^~~~~~~
+  CC      drivers/staging/media/omap4iss/iss_csiphy.o
+/home/hans/work/build/media-git/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c: In function 'rk3399_vpu_vp8_dec_run':
+/home/hans/work/build/media-git/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c:515:26: warning: variable 'vb2_src' set but not used [-Wunused-but-set-variable]
+  struct vb2_v4l2_buffer *vb2_src;
+                          ^~~~~~~
+
+Can you take a look?
+
+Thanks,
+
+	Hans
+
 > 
-> General note regarding padding:
+> [1] https://patchwork.kernel.org/cover/11003971/
 > 
-> 1) Padding fields should be zeroed in std_validate_hevc(), but it
->    looks that already happens, right?
-
-Yes, that should be taken care of already.
-
-> 2) Padding fields should be documented like this:
+> Boris Brezillon (4):
+>   media: hantro: Simplify the controls creation logic
+>   media: hantro: Constify the control array
+>   media: hantro: Add hantro_get_{src,dst}_buf() helpers
+>   media: hantro: Add helpers to prepare/finish a run
 > 
->    * - __u8
->      - ``padding``
->      - Applications and drivers must set this to zero.
+> Ezequiel Garcia (1):
+>   media: hantro: Move VP8 common code
 > 
->    That doesn't happen, AFAICS.
-
-Will do!
-
-> > +	__u64	flags;
-> > +};
-> > +
-> > +#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
-> > +#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
-> > +#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
-> > +
-> > +#define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
-> > +
-> > +struct v4l2_hevc_dpb_entry {
-> > +	__u64	timestamp;
-> > +	__u8	rps;
-> > +	__u8	field_pic;
-> > +	__u16	pic_order_cnt[2];
-> > +	__u8	padding[2];
-> > +};
-> > +
-> > +struct v4l2_hevc_pred_weight_table {
-> > +	__u8	luma_log2_weight_denom;
-> > +	__s8	delta_chroma_log2_weight_denom;
-> > +
-> > +	__s8	delta_luma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__s8	luma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__s8	delta_chroma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
-> > +	__s8	chroma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
-> > +
-> > +	__s8	delta_luma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__s8	luma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__s8	delta_chroma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
-> > +	__s8	chroma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
-> > +
-> > +	__u8	padding[6];
-> > +};
-> > +
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_LUMA		(1 << 0)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_CHROMA		(1 << 1)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_TEMPORAL_MVP_ENABLED	(1 << 2)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_MVD_L1_ZERO			(1 << 3)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_CABAC_INIT			(1 << 4)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_COLLOCATED_FROM_L0		(1 << 5)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1 << 6)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1 << 7)
-> > +#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1 << 8)
-> > +
-> > +struct v4l2_ctrl_hevc_slice_params {
-> > +	__u32	bit_size;
-> > +	__u32	data_bit_offset;
-> > +
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> > +	__u8	nal_unit_type;
-> > +	__u8	nuh_temporal_id_plus1;
-> > +
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
-> > +	__u8	slice_type;
-> > +	__u8	colour_plane_id;
-> > +	__u16	slice_pic_order_cnt;
-> > +	__u8	num_ref_idx_l0_active_minus1;
-> > +	__u8	num_ref_idx_l1_active_minus1;
-> > +	__u8	collocated_ref_idx;
-> > +	__u8	five_minus_max_num_merge_cand;
-> > +	__s8	slice_qp_delta;
-> > +	__s8	slice_cb_qp_offset;
-> > +	__s8	slice_cr_qp_offset;
-> > +	__s8	slice_act_y_qp_offset;
-> > +	__s8	slice_act_cb_qp_offset;
-> > +	__s8	slice_act_cr_qp_offset;
-> > +	__s8	slice_beta_offset_div2;
-> > +	__s8	slice_tc_offset_div2;
-> > +
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
-> > +	__u8	pic_struct;
-> > +
-> > +	__u8	padding_pre[13];
+> Francois Buergisser (1):
+>   media: hantro: Set DMA max segment size
 > 
-> Where does '13' come from? I expect values between 1 and 7, so 13 is weird.
-
-Huh, I can't recall why I picked 13, but 5 should obviously do the work just as
-well.
-
-> I'm also not keen on having _pre and _post padding fields. Can that be
-> avoided somehow?
-
-Ah, this is because I had decided to keep the (64-bit-aligned) structs in the
-middle of this structure, but it's probably best to have them at the end and
-only have one padding field between (unaligned) individual fields and (aligned)
-struct fields. Will fix in the next revision!
-
-Cheers,
-
-Paul
-
-> > +
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
-> > +	struct v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__u8	num_active_dpb_entries;
-> > +	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
-> > +
-> > +	__u8	num_rps_poc_st_curr_before;
-> > +	__u8	num_rps_poc_st_curr_after;
-> > +	__u8	num_rps_poc_lt_curr;
-> > +
-> > +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
-> > +	struct v4l2_hevc_pred_weight_table pred_weight_table;
-> > +
-> > +	__u8	padding_post[4];
-> > +	__u64	flags;
-> > +};
-> > +
-> > +#endif
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index b4433483af23..2fd477108e7a 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -20,6 +20,7 @@
-> >  #include <media/mpeg2-ctrls.h>
-> >  #include <media/fwht-ctrls.h>
-> >  #include <media/h264-ctrls.h>
-> > +#include <media/hevc-ctrls.h>
-> >  
-> >  /* forward references */
-> >  struct file;
-> > @@ -48,6 +49,9 @@ struct poll_table_struct;
-> >   * @p_h264_scaling_matrix:	Pointer to a struct v4l2_ctrl_h264_scaling_matrix.
-> >   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
-> >   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
-> > + * @p_hevc_sps:			Pointer to an HEVC sequence parameter set structure.
-> > + * @p_hevc_pps:			Pointer to an HEVC picture parameter set structure.
-> > + * @p_hevc_slice_params:	Pointer to an HEVC slice parameters structure.
-> >   * @p:				Pointer to a compound value.
-> >   */
-> >  union v4l2_ctrl_ptr {
-> > @@ -65,6 +69,9 @@ union v4l2_ctrl_ptr {
-> >  	struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
-> >  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
-> >  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
-> > +	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
-> > +	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
-> > +	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
-> >  	void *p;
-> >  };
-> >  
-> > 
+> Jeffy Chen (1):
+>   media: hantro: Support RK3399 VP8 decoding
 > 
-> Regards,
+>  drivers/staging/media/hantro/Makefile         |   1 +
+>  drivers/staging/media/hantro/hantro.h         |  15 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  53 +-
+>  .../media/hantro/hantro_g1_mpeg2_dec.c        |  14 +-
+>  .../staging/media/hantro/hantro_g1_vp8_dec.c  |  34 +-
+>  .../staging/media/hantro/hantro_h1_jpeg_enc.c |  11 +-
+>  drivers/staging/media/hantro/hantro_hw.h      |   7 +
+>  drivers/staging/media/hantro/hantro_vp8.c     |  15 +
+>  drivers/staging/media/hantro/rk3399_vpu_hw.c  |  22 +-
+>  .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |  12 +-
+>  .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  14 +-
+>  .../media/hantro/rk3399_vpu_hw_vp8_dec.c      | 597 ++++++++++++++++++
+>  12 files changed, 711 insertions(+), 84 deletions(-)
+>  create mode 100644 drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
 > 
-> 	Hans
 
--- 
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
