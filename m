@@ -2,86 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26E1674CDD
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 13:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5B3974CFA
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 13:24:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391772AbfGYLTq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 07:19:46 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:60228 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390925AbfGYLTp (ORCPT
+        id S2391816AbfGYLY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 07:24:29 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44643 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391270AbfGYLY3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 07:19:45 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 51401634C87
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 14:19:28 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hqbmR-0000nA-Mb
-        for linux-media@vger.kernel.org; Thu, 25 Jul 2019 14:19:27 +0300
-Date:   Thu, 25 Jul 2019 14:19:27 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.4] V4L2 fwnode parsing improvements
-Message-ID: <20190725111927.GI1263@valkosipuli.retiisi.org.uk>
+        Thu, 25 Jul 2019 07:24:29 -0400
+Received: from [IPv6:2001:420:44c1:2579:64cb:e917:d1ce:4f27] ([IPv6:2001:420:44c1:2579:64cb:e917:d1ce:4f27])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id qbrDhDsLkLqASqbrHhTIzl; Thu, 25 Jul 2019 13:24:28 +0200
+Subject: Re: [PATCH v2] staging: media: sunxi: Add bool cast to value
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>,
+        maxime.ripard@bootlin.com, paul.kocialkowski@bootlin.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <960d6d68-dff0-1774-8173-b5b1dd0d32f3@xs4all.nl>
+Date:   Thu, 25 Jul 2019 13:24:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190722060651.6538-1-nishkadg.linux@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLx4YLBHUEn8dqW0jvm89k2W2gS8HhdbGSV+CNnBVPSVEv89oOd4fAvMAcxKxp+mp1+XOgGDcWUuNfxXHQsSHc6H/RWmuF4f3xMi0ki/GDVu8lhI+Yt0
+ 3V6KPrjO3eopSlnMl8A8vHRtenHxvzKqKK22VedvJ4qBX8xePwtODq8PsnbLHBFgQ0hEEBt4TDAJrhWrFwnfBNasiJx1aN+XUMGuRemTLTy6yUrTEKCagqxM
+ IgzAgghHC2mKYj9hb33X7JW0I7uuJRmrNiwwJQla1RhPKaqdljstPBrtpn0VRhhVvjMAJCWWhYmR4323ktduuLK5bhaEfaXsNrEDC++NojkS2PnJTQihQcr6
+ Cq8vooBLM3fARSl0GulZpv7zl07PHY+FXbxkuhicL/R5zJ7sj1QpqamjuY0Lk4lX9cHXVaakpstPOZrHoTmQGL09syJ9yen1jnOr8iQ7pdrmR52H09wm08et
+ y16yofHaB2SOEtQWo6Mkr4QN9qdKN3bKQzvfO4d4Ka9vryrQurIgvBkrziiLndgvWoavkQEsZ+G3/bg9ILZvfLsCfMEL3OoDVzJ+3fDRSNwGL5jjQyXzmAXJ
+ UGw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On 7/22/19 8:06 AM, Nishka Dasgupta wrote:
+> Typecast as bool the return value of cedrus_find_format in
+> cedrus_check_format as the return value of cedrus_check_format is always
+> treated like a boolean value.
+> 
+> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+> ---
+> Changes in v2:
+> - Add !! to the returned pointer to ensure that the return value is
+>   always either true or false, and never a non-zero value other than
+>   true.
+> 
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> index e2b530b1a956..b731745f21f8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -86,7 +86,7 @@ static struct cedrus_format *cedrus_find_format(u32 pixelformat, u32 directions,
+>  static bool cedrus_check_format(u32 pixelformat, u32 directions,
+>  				unsigned int capabilities)
+>  {
+> -	return cedrus_find_format(pixelformat, directions, capabilities);
+> +	return !!(bool)cedrus_find_format(pixelformat, directions, capabilities);
 
-This set contains the V4L2 fwnode parsing improvements that have had
-lengthy reviews on the list.
+Why not write:
 
-Please pull.
+	return cedrus_find_format(pixelformat, directions, capabilities) != NULL;
 
+That way coccinelle should be happy, and it is clear that cedrus_find_format
+returns a pointer and that we return true if it is non-NULL.
 
-The following changes since commit ebe15c7679680308268b99d911b1db15d514c7b8:
+Regards,
 
-  media: tegra-cec: use cec_notifier_cec_adap_(un)register (2019-07-23 08:40:57 -0400)
+	Hans
 
-are available in the Git repository at:
+>  }
+>  
+>  static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
+> 
 
-  ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.4-2-signed
-
-for you to fetch changes up to 7e9afcd1b74ed7daf6c16b217d0fe2cea81dc510:
-
-  ipu3-cio2: Parse information from firmware without using callbacks (2019-07-25 11:41:18 +0300)
-
-----------------------------------------------------------------
-Fwnode parsing improvements
-
-----------------------------------------------------------------
-Sakari Ailus (8):
-      davinci-vpif: Don't dereference endpoint after putting it, fix refcounting
-      v4l2-async: Get fwnode reference when putting it to the notifier's list
-      v4l2-async: Add v4l2_async_notifier_add_fwnode_remote_subdev
-      omap3isp: Rework OF endpoint parsing
-      v4l2-async: Safely clean up an uninitialised notifier
-      ipu3-cio2: Clean up notifier's subdev list if parsing endpoints fails
-      ipu3-cio2: Proceed with notifier init even if there are no subdevs
-      ipu3-cio2: Parse information from firmware without using callbacks
-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  97 ++++----
- drivers/media/platform/am437x/am437x-vpfe.c   |   5 +-
- drivers/media/platform/davinci/vpif_capture.c |  18 +-
- drivers/media/platform/omap3isp/isp.c         | 331 +++++++++++++++-----------
- drivers/media/platform/qcom/camss/camss.c     |   2 +-
- drivers/media/platform/xilinx/xilinx-vipp.c   |   2 +-
- drivers/media/v4l2-core/v4l2-async.c          |  28 ++-
- drivers/media/v4l2-core/v4l2-fwnode.c         |  23 +-
- include/media/v4l2-async.h                    |  30 ++-
- 9 files changed, 323 insertions(+), 213 deletions(-)
-
--- 
-Kind regards,
-
-Sakari Ailus
