@@ -2,101 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0CA75307
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 17:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D6367534D
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 17:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389383AbfGYPmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 11:42:08 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:40027 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389136AbfGYPmG (ORCPT
+        id S2387660AbfGYP5g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 11:57:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51448 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbfGYP5f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 11:42:06 -0400
-Received: by mail-ed1-f67.google.com with SMTP id k8so50623091eds.7
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 08:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MNkXECJCwZrlY0TNH7A1b2lGWt3otavBoyZrTznJtcA=;
-        b=jI+NycjUP6dxobiyu7dooewJyiMPSKnZuEAR9QAAdHorsKKv9zQty8Zi/e3mTuuwTw
-         f+5REnTryYYRy7SGL9GubSQdxHJJASl9Ylgtuj/XQKjHnxc3LR3PA0ZTh3KESVVHAP0l
-         b+ZmbxdwQ8OgMxYul7lgpNzEHZXSO/mmnFCbw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MNkXECJCwZrlY0TNH7A1b2lGWt3otavBoyZrTznJtcA=;
-        b=k/CH9jOY4qTRQTr0LvFsze+5/IYQet/NM/BD05VrVOnq3AA2DsjBGvX4Ioc/MWZBxY
-         zaVJrb5vPpEe8aAZRwmBT2tNGqN1oH2nsXtZJQdlDDCdxnh3kriW4NxSruivheiusmMY
-         CWlC2kDX3jkQgJFsj0yDu44Qzk8dOTFZv4Qj6/CnX6+DghL+ZOjhhbAiIvrryp9OjOgn
-         vPisXIOtuxjLk/44zO8HPyAscfHP+RmNFuuxqpJkwXvZ1qqH+LtNHio5ZOA5NccQePoO
-         hoasgU99CqHqalgP2HyUFG/26Y1A6HSURlNwt6x2Ho42x1/+UflQPU9RwPTblYndISW7
-         LjlQ==
-X-Gm-Message-State: APjAAAUAWuSYLuogtOmosDN3sxoqXfj1uF7Js9p6JEQ6pqkvEmYG7SAQ
-        u9GgQCyDQi4K4UcSFchifkTehpNXZIPM+A==
-X-Google-Smtp-Source: APXvYqxFcWpIkzeqT++NItryffYVJ/cxWD2PsvNoeydpalhI61nIBOAXgV2KoHBCJSsg7x0BTuireQ==
-X-Received: by 2002:a50:c081:: with SMTP id k1mr77138943edf.19.1564069324747;
-        Thu, 25 Jul 2019 08:42:04 -0700 (PDT)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
-        by smtp.gmail.com with ESMTPSA id n15sm13192652edd.49.2019.07.25.08.42.02
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Jul 2019 08:42:02 -0700 (PDT)
-Received: by mail-wm1-f50.google.com with SMTP id l2so45157272wmg.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 08:42:02 -0700 (PDT)
-X-Received: by 2002:a1c:343:: with SMTP id 64mr77603832wmd.116.1564069321964;
- Thu, 25 Jul 2019 08:42:01 -0700 (PDT)
+        Thu, 25 Jul 2019 11:57:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=xi0m+r98hv4YyRdAuVgrIQAcj/fCNe/oPFIbM/tAuXM=; b=Pm0kunYXVbn7vDwnLMw5ByCFU
+        IOlc8EjFdEEDh7ZVJkeC2GMd9T2hAjPqzFoevdyPZAVOIGPnT3efGWFqL9wutiNCp3l+I1NsoO1V6
+        8rHttxemTIj9CeCR3kZ6OZS48ViEDHymhzH2Bg6O5waKhHRFs34cQxTm4oqisdLt/DfpyhvhRlOnY
+        I3rmnuMY3USrtVZcG/pAgrx30qbTMxNYPBZ8TyCMwn98GSmWTjmMz9zaqahks0U4y3KRTnhoE/6Rq
+        JUmOU3xvu/ceoNjjbDQLVd/4qS5MCNrdsMD0LwuQHm5+dM2bpyMQXq8dZHmVLYFjjo79oUaEHEns1
+        k0P4ASanw==;
+Received: from [179.95.31.157] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hqg7a-0000Jr-AX; Thu, 25 Jul 2019 15:57:34 +0000
+Date:   Thu, 25 Jul 2019 12:57:30 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
+        linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>
+Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
+ autoselect" is enabled
+Message-ID: <20190725125730.2218f0a8@coco.lan>
+In-Reply-To: <20190715212316.352-3-ezequiel@collabora.com>
+References: <20190715212316.352-1-ezequiel@collabora.com>
+        <20190715212316.352-3-ezequiel@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190725141756.2518-1-ezequiel@collabora.com> <20190725141756.2518-2-ezequiel@collabora.com>
- <1564069001.3006.1.camel@pengutronix.de>
-In-Reply-To: <1564069001.3006.1.camel@pengutronix.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 26 Jul 2019 00:41:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BxQJBNqMnS1bCVXz-9+dCkw0g4xmiPLYgtVCJx_pbRPg@mail.gmail.com>
-Message-ID: <CAAFQd5BxQJBNqMnS1bCVXz-9+dCkw0g4xmiPLYgtVCJx_pbRPg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] media: hantro: Set DMA max segment size
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 12:36 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> On Thu, 2019-07-25 at 11:17 -0300, Ezequiel Garcia wrote:
-> > From: Francois Buergisser <fbuergisser@chromium.org>
-> >
-> > The Hantro codec is typically used in platforms with an IOMMU,
-> > so we need to set a proper DMA segment size.
->
-> ... to make sure the DMA-mapping subsystem produces contiguous mappings?
->
-> > Devices without an
-> > IOMMU will still fallback to default 64KiB segments.
->
-> I don't understand this comment. The default max_seg_size may be 64 KiB,
-> but if we are always setting it to DMA_BUT_MASK(32), there is no falling
-> back.
->
+Em Mon, 15 Jul 2019 18:23:16 -0300
+Ezequiel Garcia <ezequiel@collabora.com> escreveu:
 
-DMA mask and segment size are two completely orthogonal parameters.
-Please check https://elixir.bootlin.com/linux/v5.3-rc1/source/drivers/iommu/dma-iommu.c#L740
-for an example of how the latter is used.
+> Many users have been complaining about not being able to find
+> certain menu options. One such example are camera sensor drivers
+> (e.g IMX219, OV5645, etc) which are common on embedded platforms
+> and not always ancillary devices.
+> 
+> The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
+> to the fact that it uses the "visible" kbuild syntax to hide
+> entire group of drivers.
+> 
+> This is not obvious and, as explained above, not always desired.
+> 
+> To fix the problem, drop the "visible" and stop hiding any menu
+> options. Users skilled enough to configure their kernel are expected
+> to be skilled enough to know what (not) to configure anyway.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/media/dvb-frontends/Kconfig | 1 -
+>  drivers/media/i2c/Kconfig           | 1 -
+>  drivers/media/spi/Kconfig           | 1 -
+>  drivers/media/tuners/Kconfig        | 1 -
+>  4 files changed, 4 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+> index dc43749177df..2d1fea3bf546 100644
+> --- a/drivers/media/dvb-frontends/Kconfig
+> +++ b/drivers/media/dvb-frontends/Kconfig
+> @@ -1,5 +1,4 @@
+>  menu "Customise DVB Frontends"
+> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+>  
+>  comment "Multistandard (satellite) frontends"
+>  	depends on DVB_CORE
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 79ce9ec6fc1b..475072bb67d6 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
+>  #
+>  
+>  menu "I2C Encoders, decoders, sensors and other helper chips"
+> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
 
-Best regards,
-Tomasz
+Hmm... Hans picked this patch, but IMO it doesn't make sense
+for PC consumer people to see the hundreds of extra options
+that making those menus visible will produce.
+
+This was added because in the past we had lots of issues with
+people desktop/laptop settings with all those things enabled.
+
+In any case, if the desktop/laptop user is smart enough to
+go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
+manually select what he wants, so I really miss the point of
+making those stuff always visible.
+
+Now, from this patch's comments, it seems that you want this
+to be visible if CONFIG_EMBEDDED. So, I won't complain if you
+replace the changes on this patch to:
+
+	menu "foo"
+	    visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
+
+In other words, for the normal guy that just wants to build the
+latest media stuff for his PC camera or TV device to work, he won't
+need to dig into hundreds of things that won't make any difference
+if he enables, except for making the Kernel bigger.
+
+
+>  
+>  comment "Audio decoders, processors and mixers"
+>  
+> diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
+> index 08386abb9bbc..d94921fe3db5 100644
+> --- a/drivers/media/spi/Kconfig
+> +++ b/drivers/media/spi/Kconfig
+> @@ -2,7 +2,6 @@
+>  if VIDEO_V4L2
+>  
+>  menu "SPI helper chips"
+> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+>  
+>  config VIDEO_GS1662
+>  	tristate "Gennum Serializers video"
+> diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
+> index a7108e575e9b..01212df505ae 100644
+> --- a/drivers/media/tuners/Kconfig
+> +++ b/drivers/media/tuners/Kconfig
+> @@ -16,7 +16,6 @@ config MEDIA_TUNER
+>  	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
+>  
+>  menu "Customize TV tuners"
+> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+>  	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+>  
+>  config MEDIA_TUNER_SIMPLE
+
+
+
+Thanks,
+Mauro
