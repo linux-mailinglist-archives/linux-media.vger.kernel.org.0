@@ -2,201 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BEF755BF
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 19:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D55755C1
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 19:30:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729476AbfGYR3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 13:29:35 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:45974 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726547AbfGYR3e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:29:34 -0400
-Received: by mail-pf1-f195.google.com with SMTP id r1so23089715pfq.12
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 10:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=3o1J409FLrSXE1BSq5gY90sptWX1+K/9Q9vgyYosSdo=;
-        b=nJi+dlQXxSeP/9x9bZOVNrmFdvdGjV6cIHV6oIhUP+XraMgrxMwyqsFt6rP8GlU+mw
-         JWO/Cm+XEmPfEbQe8UxtNfb+7yIMUwpPN1LzqvcUjMMVZTR1OqZ5EF4tApVUFP+lCUBE
-         FPzz2ZhpNyO0kM1nxvmDCyp1igI9G4qgzHBOIiu6qhQeIlGKyD59NvAX9hrjdEzqlqin
-         4c+oZBqq08twM/n6gUEk3NzQwRvRFp+u6U2j0s0/eu2xA/nccWBK5XR3g9WtT+ez5+FH
-         oWDTA5FUAYbslbqwq6YcKiV+INNBtG9ZIxoZfPy0E1Fn3J9+piwKQdXeLroULnlFx2ba
-         0yXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=3o1J409FLrSXE1BSq5gY90sptWX1+K/9Q9vgyYosSdo=;
-        b=CgYqdg6z8WEfWbHWlMFIUIAp1exwjiszD4FUrgKnWJiGFx3nWDXsaYwNdWE2oES541
-         kSvr5YmcqbwMBtrjAg2hMKLcPCpDhoDsk7M+FqIOvbXZNxodAuaDa5++oBMKfO/3U7op
-         /oAVQd/o4uRb16VYWWWYyCUcoBbV2Pm/ut02ifkgtYEp2ybcua29c/3r8QfasbiR/quW
-         MLmOJOkYP0mzbWp90iRPnlrHTof5grx/UxAHX7UapgI3fp6E9wu0razEQjDy/yrDOzkz
-         gEtKVb7l5CnKQQy44RlXEtdVlz8r6Yp1WGCgc2U/pfkHGCJ2JQwHiohIS0ZbgBh4L8xl
-         w90Q==
-X-Gm-Message-State: APjAAAWLUOHy8ZzXStVLO5OKYmm7GspzgeLFmXc7RI511cYuRlmJMhO/
-        bIsQFydJCNtKJU9+Pg1AdMc=
-X-Google-Smtp-Source: APXvYqz5qHT5EfTy67WO06OK+111h+kMujY+q9WMhF8aTysX0ACQIMuz4onU14ISlf3jUzYu5Fy4eQ==
-X-Received: by 2002:a62:1807:: with SMTP id 7mr17429989pfy.149.1564075773744;
-        Thu, 25 Jul 2019 10:29:33 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id n98sm50595513pjc.26.2019.07.25.10.29.33
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 25 Jul 2019 10:29:33 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 10:30:18 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     "Hans Verkuil (hansverk)" <hansverk@cisco.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "vincent.abriou@st.com" <vincent.abriou@st.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "kernel@collabora.com" <kernel@collabora.com>
-Subject: Re: kernel Warning when using vivid with contiguous dma
-Message-ID: <20190725173017.GB31961@Asurada-Nvidia.nvidia.com>
-References: <1563794460.2546.3.camel@collabora.com>
- <20190722083748.2abd3fe1@coco.lan>
- <1563887680.23193.9.camel@collabora.com>
- <95693bd5-2118-db95-fbf9-d5e3fc301f0a@cisco.com>
- <1564046865.5850.1.camel@collabora.com>
+        id S1729691AbfGYRaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 13:30:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726547AbfGYRaM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Jul 2019 13:30:12 -0400
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 11729229F3
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 17:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564075811;
+        bh=YixtddaiZ7dD8tAh6B8gguCMZxyehTliVywjTUrKUOg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fGzKbCX7jOCqbPpF//bnZ+4Lap7pjg4buM5d72+5j/LgGU4mpewCqaEhBC7ZJhNpw
+         MF9oPxhdfc+rA/ilYL0PpZ4w/mVP9XTpjBB3TXoTb2Ic+KjKO2UPP9JlwYkdmj2QPS
+         XETM6oZgmIjXIIogoqBS3vCiIHSHAMvsuzHUCQH4=
+Received: by mail-wr1-f43.google.com with SMTP id f9so51598194wre.12
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 10:30:10 -0700 (PDT)
+X-Gm-Message-State: APjAAAXtL9fqxagHgAIzdMYqbFdBi+euM6sPUrPyRbH4XU3VXI8v7lW0
+        dX2y6zyuYK1qHnplaQDpN8qR8EwOFn0L0ugeU58=
+X-Google-Smtp-Source: APXvYqwpeBmRNSYoFu50liQDSMiCfi+uhxep3G0nXCUCPolTefvE7mdRrlKeYuwpy4l2Yd93adjleRY0fFJTh07cQK0=
+X-Received: by 2002:adf:e941:: with SMTP id m1mr8594609wrn.279.1564075809569;
+ Thu, 25 Jul 2019 10:30:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1564046865.5850.1.camel@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20190715212316.352-1-ezequiel@collabora.com> <20190715212316.352-3-ezequiel@collabora.com>
+ <20190725125730.2218f0a8@coco.lan> <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
+In-Reply-To: <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
+From:   Chen-Yu Tsai <wens@kernel.org>
+Date:   Fri, 26 Jul 2019 01:29:58 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
+Message-ID: <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
+ autoselect" is enabled
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow me to trim the message a bit.
+On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+>
+> On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:
+> > Em Mon, 15 Jul 2019 18:23:16 -0300
+> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+> >
+> > > Many users have been complaining about not being able to find
+> > > certain menu options. One such example are camera sensor drivers
+> > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
+> > > and not always ancillary devices.
+> > >
+> > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
+> > > to the fact that it uses the "visible" kbuild syntax to hide
+> > > entire group of drivers.
+> > >
+> > > This is not obvious and, as explained above, not always desired.
+> > >
+> > > To fix the problem, drop the "visible" and stop hiding any menu
+> > > options. Users skilled enough to configure their kernel are expected
+> > > to be skilled enough to know what (not) to configure anyway.
+> > >
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > ---
+> > >  drivers/media/dvb-frontends/Kconfig | 1 -
+> > >  drivers/media/i2c/Kconfig           | 1 -
+> > >  drivers/media/spi/Kconfig           | 1 -
+> > >  drivers/media/tuners/Kconfig        | 1 -
+> > >  4 files changed, 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+> > > index dc43749177df..2d1fea3bf546 100644
+> > > --- a/drivers/media/dvb-frontends/Kconfig
+> > > +++ b/drivers/media/dvb-frontends/Kconfig
+> > > @@ -1,5 +1,4 @@
+> > >  menu "Customise DVB Frontends"
+> > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+> > >
+> > >  comment "Multistandard (satellite) frontends"
+> > >     depends on DVB_CORE
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 79ce9ec6fc1b..475072bb67d6 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
+> > >  #
+> > >
+> > >  menu "I2C Encoders, decoders, sensors and other helper chips"
+> > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+> >
+> > Hmm... Hans picked this patch, but IMO it doesn't make sense
+> > for PC consumer people to see the hundreds of extra options
+> > that making those menus visible will produce.
+> >
+> > This was added because in the past we had lots of issues with
+> > people desktop/laptop settings with all those things enabled.
+> >
+> > In any case, if the desktop/laptop user is smart enough to
+> > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
+> > manually select what he wants, so I really miss the point of
+> > making those stuff always visible.
+> >
+> > Now, from this patch's comments, it seems that you want this
+> > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
+> > replace the changes on this patch to:
+> >
+> >       menu "foo"
+> >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
+> >
+> > In other words, for the normal guy that just wants to build the
+> > latest media stuff for his PC camera or TV device to work, he won't
+> > need to dig into hundreds of things that won't make any difference
+> > if he enables, except for making the Kernel bigger.
+> >
+>
+> Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
+> not the hidden part. I'm really missing to see what hiding anything gives you.
+>
+> In other words, this option gets useful when driver authors select ancillary
+> drivers such as:
+>
+> config VIDEO_USBVISION
+>         tristate "USB video devices based on Nogatech NT1003/1004/1005"
+>         depends on I2C && VIDEO_V4L2
+>         select VIDEO_TUNER
+>         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
+>
+> What's so confusing about having these drivers visible? Compared to the
+> rest of the zillion menu options, what's more confusing about seeing these?
+>
+> Now, while I would agree with EMBEDDED, the problem with that is that
+> many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
+>
+> Finally, let me give an example of why hiding the menus is so bad.
+> Normally, to enable a symbol, we use the search tool.
+>
+> Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
+> there and there's no indication why.
 
-On Thu, Jul 25, 2019 at 11:27:45AM +0200, Dafna Hirschfeld wrote:
+As someone who has done so in the past year, I agree it's confusing.
+I had to dig through the Kconfig files to figure out which knobs to
+turn to get the OV5640 option out. The description says "auto-selecting",
+which does not equal hiding everything. You could still have drivers
+auto-selected (or not) based on a Kconfig option without hiding things.
 
-> > > [   70.219867] cma: cma_alloc(cma (____ptrval____), count 4050,
-> > > align 8)
-> > > [   70.237878] cma: cma_alloc: alloc failed, req-size: 4050 pages,
-> > > ret: -12
-
-It shows that cma_alloc() failed so the dma_alloc_contigudous()
-does fallback alloc_pages_node(). It should be same as previous
-__dma_direct_alloc_pages(), but would you like to confirm after
-partially reverting the change at kernel/dma/direct.c file? It
-is not necessary for debugging to entirely revert the commit as
-build break might happen since the helper functions are called
-by other files too. Something like this:
-
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index b67f0aa08aa3..6688e1cee7d1 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -96,6 +96,8 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
- struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
- 		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
- {
-+	unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+	int page_order = get_order(size);
- 	struct page *page = NULL;
- 	u64 phys_mask;
-
-@@ -107,9 +109,20 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
- 	gfp |= __dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
- 			&phys_mask);
- again:
--	page = dma_alloc_contiguous(dev, size, gfp);
-+	/* CMA can be used only in the context which permits sleeping */
-+	if (gfpflags_allow_blocking(gfp)) {
-+		page = dma_alloc_from_contiguous(dev, count, page_order,
-+						 gfp & __GFP_NOWARN);
-+		if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-+			dma_release_from_contiguous(dev, page, count);
-+			page = NULL;
-+		}
-+	}
-+	if (!page)
-+		page = alloc_pages_node(dev_to_node(dev), gfp, page_order);
-+
- 	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
--		dma_free_contiguous(dev, page, size);
-+		__free_pages(page, page_order);
- 		page = NULL;
-
- 		if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-@@ -141,7 +154,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
- 	if (PageHighMem(page)) {
- 		/*
- 		 * Depending on the cma= arguments and per-arch setup
--		 * dma_alloc_contiguous could return highmem pages.
-+		 * dma_alloc_from_contiguous could return highmem pages.
- 		 * Without remapping there is no way to return them here,
- 		 * so log an error and fail.
- 		 */
-@@ -170,7 +183,10 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
-
- void __dma_direct_free_pages(struct device *dev, size_t size, struct page *page)
- {
--	dma_free_contiguous(dev, page, size);
-+	unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+
-+	if (!dma_release_from_contiguous(dev, page, count))
-+		__free_pages(page, get_order(size));
- }
-
- void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
-
-> > > [   70.244599] cma: number of available pages: 72@184+3886@4306=>
-> > > 3958 free of 8192 total pages
-> > > [   70.253066] cma: cma_alloc(): returned (____ptrval____)
-> > > [   70.264893] cma: cma_release(page (____ptrval____))
-> > > [   70.272871] cma: cma_release(page (____ptrval____))
-> > > [   70.277800] BUG: Bad page state in process v4l2-ctl  pfn:b5a00
-> > > [   70.283652] page:ffff7e0001d68000 refcount:13 mapcount:0
-> > > mapping:0000000000000000 index:0x0 compound_mapcount: 0
-> > > [   70.293874] flags: 0xffff00000010000(head)
-> > > [   70.297999] raw: 0ffff00000010000 dead000000000100
-> > > dead000000000122 0000000000000000
-> > > [   70.305772] raw: 0000000000000000 0000000000000000
-> > > 0000000dffffffff 0000000000000000
-> > > [   70.313526] page dumped because: nonzero _refcount
-> > > [   70.318327] Modules linked in:
-> > > [   70.321399] CPU: 2 PID: 482 Comm: v4l2-ctl Not tainted 5.3.0-
-> > > rc1+ #159
-> > > [   70.327927] Hardware name: Boundary Devices i.MX8MQ Nitrogen8M
-> > > (DT)
-> > > [   70.334196] Call trace:
-> > > [   70.336654]  dump_backtrace+0x0/0x148
-> > > [   70.340319]  show_stack+0x14/0x20
-> > > [   70.343640]  dump_stack+0x9c/0xc4
-> > > [   70.346959]  bad_page+0xe4/0x148
-> > > [   70.350188]  free_pages_check_bad+0x70/0xa8
-> > > [   70.354375]  __free_pages_ok+0x294/0x2b0
-> > > [   70.358301]  __free_pages+0x38/0x50
-> > > [   70.361795]  dma_free_contiguous+0x90/0x98
-> > > [   70.365892]  __dma_direct_free_pages+0x18/0x20
-
-Here shows cma_release() has failed as those pages aren't from
-CMA, so it uses the fallback __free_pages(). I just scrutinized
-my commit once again and found that the free routine has missed
-a PAGE_ALIGN() operation for the size parameter. Though it does
-not likely cause the problem, yet would you please try this?
-
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index bfc0c17f2a3d..a2d872a82be9 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -266,7 +266,8 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
-  */
- void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
- {
--       if (!cma_release(dev_get_cma_area(dev), page, size >> PAGE_SHIFT))
-+       if (!cma_release(dev_get_cma_area(dev), page,
-+                        PAGE_ALIGN(size) >> PAGE_SHIFT))
-                __free_pages(page, get_order(size));
- }
+ChenYu
