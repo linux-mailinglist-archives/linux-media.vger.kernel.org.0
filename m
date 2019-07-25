@@ -2,94 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24656748B9
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 10:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4BAE74969
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 10:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388988AbfGYIEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 04:04:44 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57013 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387586AbfGYIEo (ORCPT
+        id S2389900AbfGYIxp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 04:53:45 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:56647 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389905AbfGYIxp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 04:04:44 -0400
+        Thu, 25 Jul 2019 04:53:45 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qYjuhCFwXLqASqYjyhSAIU; Thu, 25 Jul 2019 10:04:42 +0200
-Subject: Re: [PATCH 2/2] Revert "media: vimc: propagate pixel format in the
- stream"
-To:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kernel@collabora.com,
-        skhan@linuxfoundation.org
-References: <e144e6f5aae4e3d932e464fbf741d7cbaaf55980.1562701396.git.helen.koike@collabora.com>
- <8450c879beff8c86dde7333f1f2d688eef380de4.1562701396.git.helen.koike@collabora.com>
+        id qZVLhCf8BLqASqZVOhSSBr; Thu, 25 Jul 2019 10:53:42 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <47703594-f336-3006-5ae0-7b459e48110f@xs4all.nl>
-Date:   Thu, 25 Jul 2019 10:04:38 +0200
+Subject: [GIT PULL FOR v5.4] Various fixes, removal of davince_vpfe, bcm2048
+Message-ID: <0a30f1e2-1869-770d-4d56-7bc4c2abf0e9@xs4all.nl>
+Date:   Thu, 25 Jul 2019 10:53:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <8450c879beff8c86dde7333f1f2d688eef380de4.1562701396.git.helen.koike@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF3+WuifdXyrzyLYdY3HGxRMUEXbkZCsnBqP3qn+DVu8FhP+gz5yphjZIyz/RMALPeO6z0qj7bpwMp/p1kjQSnaHYh7vpWZmrNJRSa/HoBBt0iSwUoAJ
- LItKK9F+uUfy3Vn7JVwc5aesNrZBGMacwTQfNgL6b5GzBHiLbg9KL/ecc1cZ28WUr9++ZQQyMTtOaTUTNLksnCZz90QtnfKAgM/F+wlibGQfU+rMqNk+3AFU
- lPTp2g7oSbqUqYvPe3ycnl67YCsRXOmBgAn43ZVRxdprGY05uMOR11dbkRg31ysS6SSRlB27d3/MSzJi7TmO2bK9wELo8+87IEihAR4MtqM=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfODa49cg/MLBpddHIER+L9nRBiKhPzTskmLr4i18cL5SPIBsELjrjoeEXZLrByzHg6T7aBctJb/IR9nWd0xJtKccdHUdjWwrucOpL0cuQBrCG8U+Grn9
+ dlrx1VDNCTqVd5D3+SE/YrDnFQkesDeFajLFgy1spktdWjZEHgCKxVZATFBpNJJCkMZHohmvXU4+rQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
+The following changes since commit e2727ec58c113c2c95cbb75f6a129bd1fa0bf761:
 
-On 7/9/19 9:43 PM, Helen Koike wrote:
-> This reverts commit b6c61a6c37317efd7327199bfe24770af3d7e799.
-> 
-> The requested pixelformat is being propagated from the capture to the
-> tpg in the sensor.
-> 
-> This was a bad design choice, as we start having the following issues:
-> 
-> * We set a pixelformat in the capture;
-> * We set matching media bus formats in the subdevices pads;
-> * Link validate looks fine (sizes matches, media bus formats matches);
-> * Issue: if some of the subdevice doesn't know how to generate the
-> requested pixelformat in the capture, then stream_on fails. This is bad
-> because capture says it supports that pixelformat, everything looks
-> fine, but it is not, and there is no way to find it out through the
-> links.
-> 
-> This patch was implemented so we could request any pixelformat from the
-> pipeline regardeless of the media bus format configured between pads.
-> Not all pixelformat can be mapped into a media bus code (e.g.
-> multiplanar formats), so with this patch we could request those
-> pixelformats from the tpg.
-> 
-> Solution: map pixelformats to media bus codes as before, and implement
-> conversions to other pixelformats in the capture to support multiplanar.
-> 
-> So first step to this solution is to revert this patch.
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
->  drivers/media/platform/vimc/vimc-capture.c  |  76 ++---
->  drivers/media/platform/vimc/vimc-common.c   | 309 ++++++++++++--------
->  drivers/media/platform/vimc/vimc-common.h   |  58 ++--
->  drivers/media/platform/vimc/vimc-debayer.c  |  83 ++----
->  drivers/media/platform/vimc/vimc-scaler.c   |  63 ++--
->  drivers/media/platform/vimc/vimc-sensor.c   |  51 +++-
->  drivers/media/platform/vimc/vimc-streamer.c |   2 -
->  drivers/media/platform/vimc/vimc-streamer.h |   6 -
->  8 files changed, 342 insertions(+), 306 deletions(-)
-> 
+  media: vimc.rst: add vimc-streamer source documentation (2019-07-23 11:55:00 -0400)
 
-Unfortunately this patch no longer applies.
+are available in the Git repository at:
 
-Can you respin this series?
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4d
 
-Also, should this be backported to 5.3 as well?
+for you to fetch changes up to 73799e9d5776150e2d358d654f4045d352cb3fd3:
 
-Regards,
+  vivid: fix typo: use -> user (2019-07-25 10:06:56 +0200)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: staging: davinci: remove vpfe driver
+
+Dmitry Osipenko (1):
+      media: dt: bindings: tegra-vde: Document new optional IOMMU property
+
+Ezequiel Garcia (1):
+      media: v4l: ctrls: Add debug messages
+
+Guillaume Tucker (1):
+      media: vivid: fix device init when no_error_inj=1 and fb disabled
+
+Hans Verkuil (6):
+      v4l2-dev/ioctl: require non-zero device_caps, verify sane querycap results
+      sh_veu: convert to struct v4l2_fh
+      davinci/vpfe_capture.c: drop unused format descriptions
+      am437x: remove unused struct vpfe_pixel_format
+      staging/media/bcm2048: remove driver
+      vivid: fix typo: use -> user
+
+Joe Perches (1):
+      staging: media: cedrus: Fix misuse of GENMASK macro
+
+Lubomir Rintel (1):
+      media: marvell-ccic: mmp: add MODULE_DEVICE_TABLE
+
+Luke Nowakowski-Krijger (1):
+      media: hdpvr: Add device num check and handling
+
+Niklas Söderlund (2):
+      rcar-vin: Clean up correct notifier in error path
+      rcar-vin: Centralize black listing of pixel formats
+
+ Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt |    2 +
+ Documentation/media/kapi/v4l2-dev.rst                        |    1 +
+ drivers/media/platform/am437x/am437x-vpfe.h                  |    6 -
+ drivers/media/platform/davinci/vpfe_capture.c                |   51 +-
+ drivers/media/platform/marvell-ccic/mmp-driver.c             |    1 +
+ drivers/media/platform/omap3isp/ispvideo.c                   |    4 +-
+ drivers/media/platform/rcar-vin/rcar-core.c                  |    2 +-
+ drivers/media/platform/rcar-vin/rcar-dma.c                   |    2 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c                  |   23 +-
+ drivers/media/platform/rcar-vin/rcar-vin.h                   |    4 +-
+ drivers/media/platform/sh_veu.c                              |    5 +
+ drivers/media/platform/vivid/vivid-core.c                    |    4 +-
+ drivers/media/platform/vivid/vivid-ctrls.c                   |    2 +-
+ drivers/media/usb/hdpvr/hdpvr-core.c                         |   12 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c                         |  126 +-
+ drivers/media/v4l2-core/v4l2-dev.c                           |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                         |   35 +-
+ drivers/media/v4l2-core/v4l2-subdev.c                        |    6 +-
+ drivers/staging/media/Kconfig                                |    4 -
+ drivers/staging/media/Makefile                               |    2 -
+ drivers/staging/media/bcm2048/Kconfig                        |   14 -
+ drivers/staging/media/bcm2048/Makefile                       |    2 -
+ drivers/staging/media/bcm2048/TODO                           |   24 -
+ drivers/staging/media/bcm2048/radio-bcm2048.c                | 2689 --------------------------------------
+ drivers/staging/media/bcm2048/radio-bcm2048.h                |   26 -
+ drivers/staging/media/davinci_vpfe/Kconfig                   |   13 -
+ drivers/staging/media/davinci_vpfe/Makefile                  |   11 -
+ drivers/staging/media/davinci_vpfe/TODO                      |   38 -
+ drivers/staging/media/davinci_vpfe/davinci-vpfe-mc.txt       |  154 ---
+ drivers/staging/media/davinci_vpfe/davinci_vpfe_user.h       | 1287 ------------------
+ drivers/staging/media/davinci_vpfe/dm365_ipipe.c             | 1857 --------------------------
+ drivers/staging/media/davinci_vpfe/dm365_ipipe.h             |  174 ---
+ drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.c          | 1038 ---------------
+ drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.h          |  556 --------
+ drivers/staging/media/davinci_vpfe/dm365_ipipeif.c           | 1070 ---------------
+ drivers/staging/media/davinci_vpfe/dm365_ipipeif.h           |  228 ----
+ drivers/staging/media/davinci_vpfe/dm365_ipipeif_user.h      |   90 --
+ drivers/staging/media/davinci_vpfe/dm365_isif.c              | 2097 -----------------------------
+ drivers/staging/media/davinci_vpfe/dm365_isif.h              |  200 ---
+ drivers/staging/media/davinci_vpfe/dm365_isif_regs.h         |  291 -----
+ drivers/staging/media/davinci_vpfe/dm365_resizer.c           | 1995 ----------------------------
+ drivers/staging/media/davinci_vpfe/dm365_resizer.h           |  241 ----
+ drivers/staging/media/davinci_vpfe/vpfe.h                    |   83 --
+ drivers/staging/media/davinci_vpfe/vpfe_mc_capture.c         |  716 ----------
+ drivers/staging/media/davinci_vpfe/vpfe_mc_capture.h         |   90 --
+ drivers/staging/media/davinci_vpfe/vpfe_video.c              | 1646 -----------------------
+ drivers/staging/media/davinci_vpfe/vpfe_video.h              |  150 ---
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h             |    2 +-
+ include/media/davinci/vpfe_capture.h                         |    2 +-
+ include/media/v4l2-ctrls.h                                   |    9 +-
+ include/media/v4l2-ioctl.h                                   |    2 +
+ 51 files changed, 191 insertions(+), 16899 deletions(-)
+ delete mode 100644 drivers/staging/media/bcm2048/Kconfig
+ delete mode 100644 drivers/staging/media/bcm2048/Makefile
+ delete mode 100644 drivers/staging/media/bcm2048/TODO
+ delete mode 100644 drivers/staging/media/bcm2048/radio-bcm2048.c
+ delete mode 100644 drivers/staging/media/bcm2048/radio-bcm2048.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/Kconfig
+ delete mode 100644 drivers/staging/media/davinci_vpfe/Makefile
+ delete mode 100644 drivers/staging/media/davinci_vpfe/TODO
+ delete mode 100644 drivers/staging/media/davinci_vpfe/davinci-vpfe-mc.txt
+ delete mode 100644 drivers/staging/media/davinci_vpfe/davinci_vpfe_user.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipe_hw.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_ipipeif_user.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_isif_regs.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/dm365_resizer.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_mc_capture.h
+ delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.c
+ delete mode 100644 drivers/staging/media/davinci_vpfe/vpfe_video.h
