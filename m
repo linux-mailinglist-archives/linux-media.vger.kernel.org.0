@@ -2,131 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E507476A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 08:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4930874776
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 08:47:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726814AbfGYGmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 02:42:35 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40916 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725819AbfGYGmf (ORCPT
+        id S1728097AbfGYGrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 02:47:02 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58201 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725808AbfGYGrC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 02:42:35 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5AB58285323;
-        Thu, 25 Jul 2019 07:42:32 +0100 (BST)
-Date:   Thu, 25 Jul 2019 08:42:28 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
+        Thu, 25 Jul 2019 02:47:02 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id qXWchBe9YLqASqXWfhRkfQ; Thu, 25 Jul 2019 08:47:00 +0200
+Subject: Re: [PATCH 11/12] staging: media: cedrus: Fix misuse of GENMASK macro
+To:     Joe Perches <joe@perches.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v3 1/3] media: uapi: h264: Clarify our expectations
- regarding NAL header format
-Message-ID: <20190725084228.2306171e@collabora.com>
-In-Reply-To: <20190705191618.3467c417@collabora.com>
-References: <20190703122849.6316-1-boris.brezillon@collabora.com>
-        <20190703122849.6316-2-boris.brezillon@collabora.com>
-        <2f836ff0ce9ea68329a81e83109e53e24f7783c6.camel@collabora.com>
-        <20190705191618.3467c417@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <cover.1562734889.git.joe@perches.com>
+ <cd543a5f26b031a0bbd3baa55e1f15813f59f107.1562734889.git.joe@perches.com>
+ <be536d37a3b58557cdacd33943915d397bcb5037.camel@perches.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <14f2eda2-9f39-0b7c-fabc-bd860efae23a@xs4all.nl>
+Date:   Thu, 25 Jul 2019 08:46:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <be536d37a3b58557cdacd33943915d397bcb5037.camel@perches.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBXVwhl7PyoGh7Hlw1FjrXvvJ1p514+omG88Y0Ob0C09kM/d1f/mQGakj+OLgifwvX9PflPPcNJWHsoNYwl6JxwVW6J1UV/ys10YpJcPHIckkKGi6yhP
+ 83U5TMAFLTRrRJe6Z2qGSUdmtYfkQQylHN2QlFKssXAaOwDEis2rZFcC6cQWYrk1ToI4dbUKjkdav7CTywVts7Z6so1iDdjnk1EONG992bLeEooJCjEvTweD
+ 78k+5+lM1XZc8fNHkf4DBeOlZ9s1HrA8hsI3voVAROqqS/FPCqKWyD3JCCHQG381m5a1uA2uMRI/XVnmN+qO8Wz0QAELKHeFbnTXuJK6PlaXNHmPOziJ4WQL
+ nHXevkefPT8O9A4yEjCR/b17LIr87mztD5PwMaK8SmnVWn6vzCNDRusl4y9xnbxp2Lr6BR+H7/TQzvNH13J2eBfiOdJ6CBidXzKBN6noOCuHaILCovDaB0qX
+ 0XRyTfThgl3XjTG6iqj3arhOshgqkwYHkVgNFKXvDQOzoHmEz8SOujjpj/umUQyX/X2uioog8uoVQxJC
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 5 Jul 2019 19:16:18 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
-
-> On Fri, 05 Jul 2019 13:40:03 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> wrote:
+On 7/24/19 7:09 PM, Joe Perches wrote:
+> On Tue, 2019-07-09 at 22:04 -0700, Joe Perches wrote:
+>> Arguments are supposed to be ordered high then low.
+>>
+>> Signed-off-by: Joe Perches <joe@perches.com>
+>> ---
+>>  drivers/staging/media/sunxi/cedrus/cedrus_regs.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+>> index 3e9931416e45..ddd29788d685 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+>> @@ -110,7 +110,7 @@
+>>  #define VE_DEC_MPEG_MBADDR			(VE_ENGINE_DEC_MPEG + 0x10)
+>>  
+>>  #define VE_DEC_MPEG_MBADDR_X(w)			(((w) << 8) & GENMASK(15, 8))
+>> -#define VE_DEC_MPEG_MBADDR_Y(h)			(((h) << 0) & GENMASK(0, 7))
+>> +#define VE_DEC_MPEG_MBADDR_Y(h)			(((h) << 0) & GENMASK(7, 0))
+>>  
+>>  #define VE_DEC_MPEG_CTRL			(VE_ENGINE_DEC_MPEG + 0x14)
 > 
-> > Hi Boris, Paul,
-> > 
-> > On Wed, 2019-07-03 at 14:28 +0200, Boris Brezillon wrote:  
-> > > Looks like some stateless decoders expect slices to be prefixed with
-> > > ANNEX B start codes (they most likely do some kind of bitstream parsing
-> > > and/or need that to delimit slices when doing per frame decoding).
-> > > Since skipping those start codes for dummy stateless decoders (those
-> > > expecting all params to be passed through controls) should be pretty
-> > > easy, let's mandate that all slices be prepended with ANNEX B start
-> > > codes.
-> > > 
-> > > If we ever need to support AVC headers, we can add a new menu control
-> > > to select the type of NAL header to use.
-> > > 
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > > Changes in v3:
-> > > * Add Paul's R-b
-> > > 
-> > > Changes in v2:
-> > > * None
-> > > ---
-> > >  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > index 7a1947f5be96..3ae1367806cf 100644
-> > > --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> > > @@ -1726,6 +1726,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> > >      :ref:`h264`, section 7.4.3 "Slice Header Semantics". For further
-> > >      documentation, refer to the above specification, unless there is
-> > >      an explicit comment stating otherwise.
-> > > +    All slices should be prepended with an ANNEX B start code.
-> > >      
-> > 
-> > Currently, the H264 slice V4L2_PIX_FMT_H264_SLICE_RAW,
-> > is specified to _not_ contain the ANNEX B start code.  
+> Greg?  ping?
+>  
 > 
-> Yep, we should provably rename the format.
 
-Paul, are you okay with this rename?
+It's actually me and I'm about to pick this one up and make a PR for Mauro.
 
-s/V4L2_PIX_FMT_H264_SLICE_RAW/V4L2_PIX_FMT_H264_SLICE/
+Regards,
 
-or
-
-s/V4L2_PIX_FMT_H264_SLICE_RAW/V4L2_PIX_FMT_H264_SLICE_ANNEXB/
-
-I'd also to discuss some concerns Ezequiel and I have regarding this
-change. Some (most?) codec have alignment constraints on the buffer
-they pass to the HW. For HW that support Annex B parsing, that's no
-problem because the start of the buffer will be aligned on a page (I'm
-assuming page alignment should cover 99% of the alignment constraints).
-But HW that need to skip the start code will have to pass a non-aligned
-buffer (annex B start code is 3 byte long).
-Paul looked at the Cedrus driver and thinks it can be handled correctly
-thanks to the VE_H264_VLD_OFFSET field (which encodes an offset in bit),
-but I fear this might be a problem on other HW.
-
-So, I'm asking again, are we sure we want to handle the raw (no start
-code) and annex-b cases using the same pixel format? If we do, what's
-the plan to address those potential alignment constraints? Should
-we provide a way for userspace to define where the start-code ends so it
-can align things properly (annex B can be extended with extra 00
-bytes at the beginning)? If we do that, that means userspace has to
-know about those alignment constraints, or take something big enough.
-Another option would be to use a bounce buffer when things are not
-aligned properly.
-
-I'd really like to get feedback on those points before sending a v4.
+	Hans
