@@ -2,158 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA0DD75372
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 18:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 927A7753CB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 18:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388490AbfGYQBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 12:01:32 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34647 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388187AbfGYQBc (ORCPT
+        id S2390355AbfGYQWk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 12:22:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:32838 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388971AbfGYQWk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 12:01:32 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id qgBKhBRkheD5bqgBOhiVSf; Thu, 25 Jul 2019 18:01:30 +0200
-Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
- autoselect" is enabled
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-References: <20190715212316.352-1-ezequiel@collabora.com>
- <20190715212316.352-3-ezequiel@collabora.com>
- <20190725125730.2218f0a8@coco.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4a60eb6e-d0b7-2305-9ea0-407a6b53bd9b@xs4all.nl>
-Date:   Thu, 25 Jul 2019 18:01:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 25 Jul 2019 12:22:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=jmxq7cUH+5nrEr7J45H3lQqJP+cVdwe0XIslgATjMww=; b=qao610lA7li0A6DLNca9Jd/9R
+        0cMhCxxeQZZmf0ivJrFAhVZsSVfS957oa2EXoGSGnwsxPj/yIBWDIQOUoWIuA9CngUgAMlyfZukP8
+        ptet1sLz2z5kpWhQs9N33WkWwNKgwIFyxxAN5rfBpiOoY9TFOpZ13WOkUPT4Mcq/TKpsdHtsm0EW/
+        G3M7n8cALjW/XVtN5QhPeDNuxEytgPYQU+DU79fgl10kWQF4IHEpi1jWvZRGIsX/XKgtieOfg2O11
+        DLffj/fs0TjGnsjuS6eneugp8cKWa4P7kNCCoNDNZbW4mE9jr63Dcg0So8GEMAxx3CoM4TnUTf4vr
+        J05edpcKw==;
+Received: from [179.95.31.157] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hqgVo-0001QW-C5; Thu, 25 Jul 2019 16:22:36 +0000
+Date:   Thu, 25 Jul 2019 13:22:30 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+        kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] media: hantro: Move VP8 common code
+Message-ID: <20190725132230.6e7f0c22@coco.lan>
+In-Reply-To: <20190725141756.2518-7-ezequiel@collabora.com>
+References: <20190725141756.2518-1-ezequiel@collabora.com>
+        <20190725141756.2518-7-ezequiel@collabora.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190725125730.2218f0a8@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEFBkLHjEghXG1c+0Tr5aVOJt2vJbRyYqFAZjP6oPw+t8qoIt9yM3qlSerV4QR+rNM1r9rvwQnkErTfricSi8wKFUGgZ3HW0GZ3tbfHe5+TGpC0m7dz7
- //8tAyHRimaRg/CBy1WUQ4k8+ZuLUT3tcrK28o0AJ3KTBQpVxb2J+oVOcKFsI0BBt1/FuMUrCQvLG+t2wvt/jg/7+l/Xyk10V0plnUbhA2Nex1uP+oZCXSwH
- a0RSXsQWVZmxUCslPtN7sgbfvRTlM83g3w+XzgkKJMz6rV7mKkk3qbNt7U/82nqeA3qMBlUECXcwklpNyYxC3VqtjeVEdOFo0nwvbH5X/pAolD61nGwjUEPF
- AMYE0BmQ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/25/19 5:57 PM, Mauro Carvalho Chehab wrote:
-> Em Mon, 15 Jul 2019 18:23:16 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> 
->> Many users have been complaining about not being able to find
->> certain menu options. One such example are camera sensor drivers
->> (e.g IMX219, OV5645, etc) which are common on embedded platforms
->> and not always ancillary devices.
->>
->> The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
->> to the fact that it uses the "visible" kbuild syntax to hide
->> entire group of drivers.
->>
->> This is not obvious and, as explained above, not always desired.
->>
->> To fix the problem, drop the "visible" and stop hiding any menu
->> options. Users skilled enough to configure their kernel are expected
->> to be skilled enough to know what (not) to configure anyway.
->>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> ---
->>  drivers/media/dvb-frontends/Kconfig | 1 -
->>  drivers/media/i2c/Kconfig           | 1 -
->>  drivers/media/spi/Kconfig           | 1 -
->>  drivers/media/tuners/Kconfig        | 1 -
->>  4 files changed, 4 deletions(-)
->>
->> diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
->> index dc43749177df..2d1fea3bf546 100644
->> --- a/drivers/media/dvb-frontends/Kconfig
->> +++ b/drivers/media/dvb-frontends/Kconfig
->> @@ -1,5 +1,4 @@
->>  menu "Customise DVB Frontends"
->> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->>  
->>  comment "Multistandard (satellite) frontends"
->>  	depends on DVB_CORE
->> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->> index 79ce9ec6fc1b..475072bb67d6 100644
->> --- a/drivers/media/i2c/Kconfig
->> +++ b/drivers/media/i2c/Kconfig
->> @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
->>  #
->>  
->>  menu "I2C Encoders, decoders, sensors and other helper chips"
->> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> 
-> Hmm... Hans picked this patch, but IMO it doesn't make sense
-> for PC consumer people to see the hundreds of extra options
-> that making those menus visible will produce.
-> 
-> This was added because in the past we had lots of issues with
-> people desktop/laptop settings with all those things enabled.
-> 
-> In any case, if the desktop/laptop user is smart enough to
-> go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
-> manually select what he wants, so I really miss the point of
-> making those stuff always visible.
-> 
-> Now, from this patch's comments, it seems that you want this
-> to be visible if CONFIG_EMBEDDED. So, I won't complain if you
-> replace the changes on this patch to:
-> 
-> 	menu "foo"
-> 	    visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
-> 
-> In other words, for the normal guy that just wants to build the
-> latest media stuff for his PC camera or TV device to work, he won't
-> need to dig into hundreds of things that won't make any difference
-> if he enables, except for making the Kernel bigger.
+Em Thu, 25 Jul 2019 11:17:55 -0300
+Ezequiel Garcia <ezequiel@collabora.com> escreveu:
 
-Good points, I agree.
+> In order to introduce support for RK3399 VP8 decoding,
+> move some common VP8 code. This will be reused by
+> the RK3399 implementation, reducing code duplication.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  .../staging/media/hantro/hantro_g1_vp8_dec.c    | 17 -----------------
+>  drivers/staging/media/hantro/hantro_hw.h        |  4 ++++
+>  drivers/staging/media/hantro/hantro_vp8.c       | 15 +++++++++++++++
+>  3 files changed, 19 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> index cd1fbd3a0d5f..181e2f76d8cb 100644
+> --- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+> @@ -16,8 +16,6 @@
+>  #include "hantro.h"
+>  #include "hantro_g1_regs.h"
+>  
+> -#define DEC_8190_ALIGN_MASK	0x07U
+> -
+>  /* DCT partition base address regs */
+>  static const struct hantro_reg vp8_dec_dct_base[8] = {
+>  	{ G1_REG_ADDR_STR, 0, 0xffffffff },
+> @@ -131,21 +129,6 @@ static const struct hantro_reg vp8_dec_pred_bc_tap[8][4] = {
+>  	},
+>  };
+>  
+> -/*
+> - * filter taps taken to 7-bit precision,
+> - * reference RFC6386#Page-16, filters[8][6]
+> - */
+> -static const u32 vp8_dec_mc_filter[8][6] = {
+> -	{ 0, 0, 128, 0, 0, 0 },
+> -	{ 0, -6, 123, 12, -1, 0 },
+> -	{ 2, -11, 108, 36, -8, 1 },
+> -	{ 0, -9, 93, 50, -6, 0 },
+> -	{ 3, -16, 77, 77, -16, 3 },
+> -	{ 0, -6, 50, 93, -9, 0 },
+> -	{ 1, -8, 36, 108, -11, 2 },
+> -	{ 0, -1, 12, 123, -6, 0 }
+> -};
+> -
+>  /*
+>   * Set loop filters
+>   */
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 34ef24e3a9ef..185e27d47e47 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -15,6 +15,8 @@
+>  #include <media/vp8-ctrls.h>
+>  #include <media/videobuf2-core.h>
+>  
+> +#define DEC_8190_ALIGN_MASK	0x07U
+> +
+>  struct hantro_dev;
+>  struct hantro_ctx;
+>  struct hantro_buf;
+> @@ -93,6 +95,8 @@ extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+>  
+> +extern const u32 vp8_dec_mc_filter[8][6];
+
+Please don't do that, as a symbol like that can easily cause
+namespace clashes in the future. For all exported symbols,
+please prepend the driver name, like:
+
+	hantro_vp8_dec_mc_filter
 
 Regards,
+Mauro
 
-	Hans
 
-> 
-> 
->>  
->>  comment "Audio decoders, processors and mixers"
->>  
->> diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
->> index 08386abb9bbc..d94921fe3db5 100644
->> --- a/drivers/media/spi/Kconfig
->> +++ b/drivers/media/spi/Kconfig
->> @@ -2,7 +2,6 @@
->>  if VIDEO_V4L2
->>  
->>  menu "SPI helper chips"
->> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->>  
->>  config VIDEO_GS1662
->>  	tristate "Gennum Serializers video"
->> diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
->> index a7108e575e9b..01212df505ae 100644
->> --- a/drivers/media/tuners/Kconfig
->> +++ b/drivers/media/tuners/Kconfig
->> @@ -16,7 +16,6 @@ config MEDIA_TUNER
->>  	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
->>  
->>  menu "Customize TV tuners"
->> -	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->>  	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
->>  
->>  config MEDIA_TUNER_SIMPLE
-> 
-> 
-> 
-> Thanks,
-> Mauro
-> 
+> +
+>  void hantro_watchdog(struct work_struct *work);
+>  void hantro_run(struct hantro_ctx *ctx);
+>  void hantro_irq_done(struct hantro_dev *vpu, unsigned int bytesused,
+> diff --git a/drivers/staging/media/hantro/hantro_vp8.c b/drivers/staging/media/hantro/hantro_vp8.c
+> index 66c45335d871..be5cb01d1309 100644
+> --- a/drivers/staging/media/hantro/hantro_vp8.c
+> +++ b/drivers/staging/media/hantro/hantro_vp8.c
+> @@ -31,6 +31,21 @@ struct vp8_prob_tbl_packed {
+>  	u8 padding3[96];
+>  };
+>  
+> +/*
+> + * filter taps taken to 7-bit precision,
+> + * reference RFC6386#Page-16, filters[8][6]
+> + */
+> +const u32 vp8_dec_mc_filter[8][6] = {
+> +	{ 0, 0, 128, 0, 0, 0 },
+> +	{ 0, -6, 123, 12, -1, 0 },
+> +	{ 2, -11, 108, 36, -8, 1 },
+> +	{ 0, -9, 93, 50, -6, 0 },
+> +	{ 3, -16, 77, 77, -16, 3 },
+> +	{ 0, -6, 50, 93, -9, 0 },
+> +	{ 1, -8, 36, 108, -11, 2 },
+> +	{ 0, -1, 12, 123, -6, 0 }
+> +};
+> +
+>  void hantro_vp8_prob_update(struct hantro_ctx *ctx,
+>  			    const struct v4l2_ctrl_vp8_frame_header *hdr)
+>  {
 
+
+
+Thanks,
+Mauro
