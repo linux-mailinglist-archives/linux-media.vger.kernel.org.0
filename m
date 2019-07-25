@@ -2,157 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D55755C1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 19:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A5E755C8
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2019 19:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729691AbfGYRaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 13:30:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42308 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726547AbfGYRaM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:30:12 -0400
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729923AbfGYRbM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 13:31:12 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46532 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726547AbfGYRbM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Jul 2019 13:31:12 -0400
+Received: from [IPv6:2a02:810a:113f:a6c2::355a] (unknown [IPv6:2a02:810a:113f:a6c2::355a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11729229F3
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 17:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564075811;
-        bh=YixtddaiZ7dD8tAh6B8gguCMZxyehTliVywjTUrKUOg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fGzKbCX7jOCqbPpF//bnZ+4Lap7pjg4buM5d72+5j/LgGU4mpewCqaEhBC7ZJhNpw
-         MF9oPxhdfc+rA/ilYL0PpZ4w/mVP9XTpjBB3TXoTb2Ic+KjKO2UPP9JlwYkdmj2QPS
-         XETM6oZgmIjXIIogoqBS3vCiIHSHAMvsuzHUCQH4=
-Received: by mail-wr1-f43.google.com with SMTP id f9so51598194wre.12
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 10:30:10 -0700 (PDT)
-X-Gm-Message-State: APjAAAXtL9fqxagHgAIzdMYqbFdBi+euM6sPUrPyRbH4XU3VXI8v7lW0
-        dX2y6zyuYK1qHnplaQDpN8qR8EwOFn0L0ugeU58=
-X-Google-Smtp-Source: APXvYqwpeBmRNSYoFu50liQDSMiCfi+uhxep3G0nXCUCPolTefvE7mdRrlKeYuwpy4l2Yd93adjleRY0fFJTh07cQK0=
-X-Received: by 2002:adf:e941:: with SMTP id m1mr8594609wrn.279.1564075809569;
- Thu, 25 Jul 2019 10:30:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190715212316.352-1-ezequiel@collabora.com> <20190715212316.352-3-ezequiel@collabora.com>
- <20190725125730.2218f0a8@coco.lan> <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
-In-Reply-To: <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
-From:   Chen-Yu Tsai <wens@kernel.org>
-Date:   Fri, 26 Jul 2019 01:29:58 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
-Message-ID: <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
- autoselect" is enabled
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CF5E128BC07;
+        Thu, 25 Jul 2019 18:31:07 +0100 (BST)
+Message-ID: <1564075865.2339.6.camel@collabora.com>
+Subject: Re: [PATCH v3 1/2] dma-contiguous: Abstract
+ dma_{alloc,free}_contiguous()
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     hch@lst.de, robin.murphy@arm.com,
+        Marek Szyprowski <m.szyprowski@samsung.com>, vdumpa@nvidia.com,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>, chris@zankel.net,
+        jcmvbkbc@gmail.com, joro@8bytes.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        sfr@canb.auug.org.au, treding@nvidia.com, keescook@chromium.org,
+        iamjoonsoo.kim@lge.com, wsa+renesas@sang-engineering.com,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, iommu@lists.linux-foundation.org,
+        dann.frazier@canonical.com, linux-media@vger.kernel.org,
+        hans.verkuil@cisco.com
+Date:   Thu, 25 Jul 2019 19:31:05 +0200
+In-Reply-To: <20190725165015.GA31961@Asurada-Nvidia.nvidia.com>
+References: <20190524040633.16854-1-nicoleotsuka@gmail.com>
+         <20190524040633.16854-2-nicoleotsuka@gmail.com>
+         <CAAEAJfA+edVLfZzEZe98249Y7NZQFht9185JH21pV10Bq9Wk3w@mail.gmail.com>
+         <20190725165015.GA31961@Asurada-Nvidia.nvidia.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:
-> > Em Mon, 15 Jul 2019 18:23:16 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> >
-> > > Many users have been complaining about not being able to find
-> > > certain menu options. One such example are camera sensor drivers
-> > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
-> > > and not always ancillary devices.
-> > >
-> > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > > to the fact that it uses the "visible" kbuild syntax to hide
-> > > entire group of drivers.
-> > >
-> > > This is not obvious and, as explained above, not always desired.
-> > >
-> > > To fix the problem, drop the "visible" and stop hiding any menu
-> > > options. Users skilled enough to configure their kernel are expected
-> > > to be skilled enough to know what (not) to configure anyway.
-> > >
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+On Thu, 2019-07-25 at 09:50 -0700, Nicolin Chen wrote:
+> On Thu, Jul 25, 2019 at 01:06:42PM -0300, Ezequiel Garcia wrote:
+> > I can't find a way to forward-redirect from Gmail, so I'm Ccing Dafna
+> > who found a regression caused by this commit. Dafna, can you give all
+> > the details, including the log and how you are reproducing it?
+> 
+> I saw the conversation there. Sorry for not replying yet.
+> May we discuss there since there are full logs available?
+> 
+> Thanks
+> Nicolin
+> 
+
+Hi,
+I compiled vivid as built-in into the kernel (not as a separate module) for nitrogen8m device (imx8) and
+set it to use contig dma for mem_ops by adding the kernel param
+vivid.allocators=1,1,...
+
+I use this devicetree patch for the dtb file: https://lkml.org/lkml/2019/7/24/789. Although it should
+be the same on any Aarch64 platform.
+
+Then, on the board I run the command:
+
+v4l2-ctl -d3 -v width=2592,height=1944,pixelformat=UYVY,bytesperline=5184 --stream-mmap --stream-to video.UYVY
+
+In every run there is a different crash. Here is one of them: https://pastebin.com/xXgbXMAN
+
+Dafna
+> > 
+> > 
+> > > > On Fri, 24 May 2019 at 01:08, Nicolin Chen <nicoleotsuka@gmail.com> wrote:
+> > > 
+> > > Both dma_alloc_from_contiguous() and dma_release_from_contiguous()
+> > > are very simply implemented, but requiring callers to pass certain
+> > > parameters like count and align, and taking a boolean parameter to
+> > > check __GFP_NOWARN in the allocation flags. So every function call
+> > > duplicates similar work:
+> > >   /* A piece of example */
+> > >   unsigned long order = get_order(size);
+> > >   size_t count = size >> PAGE_SHIFT;
+> > >   page = dma_alloc_from_contiguous(dev, count, order, gfp & __GFP_NOWARN);
+> > >   [...]
+> > >   dma_release_from_contiguous(dev, page, size >> PAGE_SHIFT);
+> > > 
+> > > Additionally, as CMA can be used only in the context which permits
+> > > sleeping, most of callers do a gfpflags_allow_blocking() check and
+> > > a corresponding fallback allocation of normal pages upon any false
+> > > result:
+> > >   /* A piece of example */
+> > >   if (gfpflags_allow_blocking(flag))
+> > >       page = dma_alloc_from_contiguous();
+> > >   if (!page)
+> > >       page = alloc_pages();
+> > >   [...]
+> > >   if (!dma_release_from_contiguous(dev, page, count))
+> > >       __free_pages(page, get_order(size));
+> > > 
+> > > So this patch simplifies those function calls by abstracting these
+> > > operations into the two new functions: dma_{alloc,free}_contiguous.
+> > > 
+> > > As some callers of dma_{alloc,release}_from_contiguous() might be
+> > > complicated, this patch just implements these two new functions to
+> > > kernel/dma/direct.c only as an initial step.
+> > > 
+> > > > > > Suggested-by: Christoph Hellwig <hch@lst.de>
+> > > > > > Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 > > > ---
-> > >  drivers/media/dvb-frontends/Kconfig | 1 -
-> > >  drivers/media/i2c/Kconfig           | 1 -
-> > >  drivers/media/spi/Kconfig           | 1 -
-> > >  drivers/media/tuners/Kconfig        | 1 -
-> > >  4 files changed, 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > > index dc43749177df..2d1fea3bf546 100644
-> > > --- a/drivers/media/dvb-frontends/Kconfig
-> > > +++ b/drivers/media/dvb-frontends/Kconfig
-> > > @@ -1,5 +1,4 @@
-> > >  menu "Customise DVB Frontends"
-> > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> > >
-> > >  comment "Multistandard (satellite) frontends"
-> > >     depends on DVB_CORE
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index 79ce9ec6fc1b..475072bb67d6 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
-> > >  #
-> > >
-> > >  menu "I2C Encoders, decoders, sensors and other helper chips"
-> > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> >
-> > Hmm... Hans picked this patch, but IMO it doesn't make sense
-> > for PC consumer people to see the hundreds of extra options
-> > that making those menus visible will produce.
-> >
-> > This was added because in the past we had lots of issues with
-> > people desktop/laptop settings with all those things enabled.
-> >
-> > In any case, if the desktop/laptop user is smart enough to
-> > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
-> > manually select what he wants, so I really miss the point of
-> > making those stuff always visible.
-> >
-> > Now, from this patch's comments, it seems that you want this
-> > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
-> > replace the changes on this patch to:
-> >
-> >       menu "foo"
-> >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
-> >
-> > In other words, for the normal guy that just wants to build the
-> > latest media stuff for his PC camera or TV device to work, he won't
-> > need to dig into hundreds of things that won't make any difference
-> > if he enables, except for making the Kernel bigger.
-> >
->
-> Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
-> not the hidden part. I'm really missing to see what hiding anything gives you.
->
-> In other words, this option gets useful when driver authors select ancillary
-> drivers such as:
->
-> config VIDEO_USBVISION
->         tristate "USB video devices based on Nogatech NT1003/1004/1005"
->         depends on I2C && VIDEO_V4L2
->         select VIDEO_TUNER
->         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
->
-> What's so confusing about having these drivers visible? Compared to the
-> rest of the zillion menu options, what's more confusing about seeing these?
->
-> Now, while I would agree with EMBEDDED, the problem with that is that
-> many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
->
-> Finally, let me give an example of why hiding the menus is so bad.
-> Normally, to enable a symbol, we use the search tool.
->
-> Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
-> there and there's no indication why.
-
-As someone who has done so in the past year, I agree it's confusing.
-I had to dig through the Kconfig files to figure out which knobs to
-turn to get the OV5640 option out. The description says "auto-selecting",
-which does not equal hiding everything. You could still have drivers
-auto-selected (or not) based on a Kconfig option without hiding things.
-
-ChenYu
+> > > Changelog
+> > > v2->v3:
+> > >  * Added missing "static inline" in header file to fix build error.
+> > > v1->v2:
+> > >  * Added new functions beside the old ones so we can replace callers
+> > >    one by one later.
+> > >  * Applied new functions to dma/direct.c only, because it's the best
+> > >    example caller to apply and should be safe with the new functions.
+> > > 
+> > >  include/linux/dma-contiguous.h | 11 ++++++++
+> > >  kernel/dma/contiguous.c        | 48 ++++++++++++++++++++++++++++++++++
+> > >  kernel/dma/direct.c            | 24 +++--------------
+> > >  3 files changed, 63 insertions(+), 20 deletions(-)
+> > > 
+> > > diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
+> > > index f247e8aa5e3d..00a370c1c140 100644
+> > > --- a/include/linux/dma-contiguous.h
+> > > +++ b/include/linux/dma-contiguous.h
+> > > @@ -115,6 +115,8 @@ struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
+> > >                                        unsigned int order, bool no_warn);
+> > >  bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+> > >                                  int count);
+> > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp);
+> > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size);
+> > > 
+> > >  #else
+> > > 
+> > > @@ -157,6 +159,15 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+> > >         return false;
+> > >  }
+> > > 
+> > > +static inline
+> > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+> > > +{
+> > > +       return NULL;
+> > > +}
+> > > +
+> > > +static inline
+> > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size) { }
+> > > +
+> > >  #endif
+> > > 
+> > >  #endif
+> > > diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> > > index b2a87905846d..21f39a6cb04f 100644
+> > > --- a/kernel/dma/contiguous.c
+> > > +++ b/kernel/dma/contiguous.c
+> > > @@ -214,6 +214,54 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+> > >         return cma_release(dev_get_cma_area(dev), pages, count);
+> > >  }
+> > > 
+> > > +/**
+> > > + * dma_alloc_contiguous() - allocate contiguous pages
+> > > + * @dev:   Pointer to device for which the allocation is performed.
+> > > + * @size:  Requested allocation size.
+> > > + * @gfp:   Allocation flags.
+> > > + *
+> > > + * This function allocates contiguous memory buffer for specified device. It
+> > > + * first tries to use device specific contiguous memory area if available or
+> > > + * the default global one, then tries a fallback allocation of normal pages.
+> > > + */
+> > > +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+> > > +{
+> > > +       int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
+> > > +       size_t count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> > > +       size_t align = get_order(PAGE_ALIGN(size));
+> > > +       struct cma *cma = dev_get_cma_area(dev);
+> > > +       struct page *page = NULL;
+> > > +
+> > > +       /* CMA can be used only in the context which permits sleeping */
+> > > +       if (cma && gfpflags_allow_blocking(gfp)) {
+> > > +               align = min_t(size_t, align, CONFIG_CMA_ALIGNMENT);
+> > > +               page = cma_alloc(cma, count, align, gfp & __GFP_NOWARN);
+> > > +       }
+> > > +
+> > > +       /* Fallback allocation of normal pages */
+> > > +       if (!page)
+> > > +               page = alloc_pages_node(node, gfp, align);
+> > > +
+> > > +       return page;
+> > > +}
+> > > +
+> > > +/**
+> > > + * dma_free_contiguous() - release allocated pages
+> > > + * @dev:   Pointer to device for which the pages were allocated.
+> > > + * @page:  Pointer to the allocated pages.
+> > > + * @size:  Size of allocated pages.
+> > > + *
+> > > + * This function releases memory allocated by dma_alloc_contiguous(). As the
+> > > + * cma_release returns false when provided pages do not belong to contiguous
+> > > + * area and true otherwise, this function then does a fallback __free_pages()
+> > > + * upon a false-return.
+> > > + */
+> > > +void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
+> > > +{
+> > > +       if (!cma_release(dev_get_cma_area(dev), page, size >> PAGE_SHIFT))
+> > > +               __free_pages(page, get_order(size));
+> > > +}
+> > > +
+> > >  /*
+> > >   * Support for reserved memory regions defined in device tree
+> > >   */
+> > > diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> > > index 2c2772e9702a..0816c1e8b05a 100644
+> > > --- a/kernel/dma/direct.c
+> > > +++ b/kernel/dma/direct.c
+> > > @@ -96,8 +96,6 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+> > >  struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+> > >                 dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+> > >  {
+> > > -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> > > -       int page_order = get_order(size);
+> > >         struct page *page = NULL;
+> > >         u64 phys_mask;
+> > > 
+> > > @@ -109,20 +107,9 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+> > >         gfp |= __dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+> > >                         &phys_mask);
+> > >  again:
+> > > -       /* CMA can be used only in the context which permits sleeping */
+> > > -       if (gfpflags_allow_blocking(gfp)) {
+> > > -               page = dma_alloc_from_contiguous(dev, count, page_order,
+> > > -                                                gfp & __GFP_NOWARN);
+> > > -               if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> > > -                       dma_release_from_contiguous(dev, page, count);
+> > > -                       page = NULL;
+> > > -               }
+> > > -       }
+> > > -       if (!page)
+> > > -               page = alloc_pages_node(dev_to_node(dev), gfp, page_order);
+> > > -
+> > > +       page = dma_alloc_contiguous(dev, size, gfp);
+> > >         if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> > > -               __free_pages(page, page_order);
+> > > +               dma_free_contiguous(dev, page, size);
+> > >                 page = NULL;
+> > > 
+> > >                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
+> > > @@ -154,7 +141,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+> > >         if (PageHighMem(page)) {
+> > >                 /*
+> > >                  * Depending on the cma= arguments and per-arch setup
+> > > -                * dma_alloc_from_contiguous could return highmem pages.
+> > > +                * dma_alloc_contiguous could return highmem pages.
+> > >                  * Without remapping there is no way to return them here,
+> > >                  * so log an error and fail.
+> > >                  */
+> > > @@ -176,10 +163,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+> > > 
+> > >  void __dma_direct_free_pages(struct device *dev, size_t size, struct page *page)
+> > >  {
+> > > -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> > > -
+> > > -       if (!dma_release_from_contiguous(dev, page, count))
+> > > -               __free_pages(page, get_order(size));
+> > > +       dma_free_contiguous(dev, page, size);
+> > >  }
+> > > 
+> > >  void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+> > > --
+> > > 2.17.1
+> > > 
