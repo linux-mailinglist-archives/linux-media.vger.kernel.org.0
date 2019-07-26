@@ -2,116 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE93772ED
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 22:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09FD077419
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 00:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbfGZUla (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 16:41:30 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34086 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726184AbfGZUla (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 16:41:30 -0400
-Received: by mail-pf1-f193.google.com with SMTP id b13so25040566pfo.1
-        for <linux-media@vger.kernel.org>; Fri, 26 Jul 2019 13:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Bb9W8HGpknIfV7cjp47FpQf0Q+kLqAzlJFDTd3TC6/M=;
-        b=jT6zSbw198KpBhmrtZqkgtqcr69T/pgjhj2jibTg2J42/psTKY7zZkUo6N7X1iEY/X
-         u4MEh33c5rqTXYK/T9CHlv7637STEvVawXzHfj8fpNRd/K/dRwFi9d3WHV5Bz3QdlVkA
-         4gjrst+Pv55j3zOTw81+DWuMv+nzGbH38GHtFKBUOnAhj9hi3JhPyY+ITjDo5qh39Dzs
-         m6t+bvHB7sac2Qi/Ji20jbW2VYjUP0ufguSHRirusXvZUi9qN3zQXRDCAirX99aGG3uu
-         ypz8xzUMA4sCzd4Albo9HG25PDI+Np2lLtGjlcksd9RVb0zMY620kw8uVadqc7OKHw5X
-         cqDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Bb9W8HGpknIfV7cjp47FpQf0Q+kLqAzlJFDTd3TC6/M=;
-        b=XgE+AbSqARZH8rfmVVl+FQFySShzKE93fh4k3or7OXzn0AHAYfS2P+C35fr3gmGYRZ
-         NCqB/NHb6stqvxC222crbuEMmyJEk9YBwrlvwlOyCIp7TzTal+UrYc+6b37Yz8vDUM8u
-         lli7iHl2ISwwGwnbQBEjwIiH4bbvKX5S8nTFEk8WGZWaxRf3RWqjCFBGJzBAtnM3dP7W
-         Jh5WcGYhEq2hb4M7rd5zrxYHvOGsEJEBVVHCtduPuamu4NlLpctWVXhECe/6LFO3z7nO
-         4VrcslI1Ii3EkMWyTFkvwg+y3dUW25k85/oEIgf/5AqWN27RTSPumwULFC9KPtOTA2WU
-         L6TQ==
-X-Gm-Message-State: APjAAAUb9s9Q6DBejNbPjpKl4oLuZbxWr2rttx4WBBxQyEJyxQe6SwQ4
-        Tcm5GTZj6msWDduQuKFmoI7NarXFNUU=
-X-Google-Smtp-Source: APXvYqw976P7gM+vYqqxQXdaD3UOspZUWZ9tWua/mzaUsMPNm1OptWcdv/81CZa3Pk7phfK9LEwXmw==
-X-Received: by 2002:aa7:8e17:: with SMTP id c23mr24273135pfr.227.1564173689312;
-        Fri, 26 Jul 2019 13:41:29 -0700 (PDT)
-Received: from localhost.localdomain (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
-        by smtp.gmail.com with ESMTPSA id i74sm100366447pje.16.2019.07.26.13.41.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 13:41:28 -0700 (PDT)
-From:   Mark Balantzyan <mbalant3@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Mark Balantzyan <mbalant3@gmail.com>
-Subject: [PATCH] media input infrastructure:tw686x: Added custom function for video device release functionality in tw686x driver
-Date:   Fri, 26 Jul 2019 13:41:23 -0700
-Message-Id: <20190726204123.30384-1-mbalant3@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727356AbfGZWnT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 18:43:19 -0400
+Received: from mga05.intel.com ([192.55.52.43]:17047 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726581AbfGZWnS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jul 2019 18:43:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Jul 2019 15:43:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,312,1559545200"; 
+   d="scan'208";a="322190099"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jul 2019 15:43:16 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hr8vk-0003ys-6h; Sat, 27 Jul 2019 06:43:16 +0800
+Date:   Sat, 27 Jul 2019 06:42:56 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ a8f910ec66583bfb61558c3f333195b3960d832d
+Message-ID: <5d3b81f0.v8UV6lLv4EcVQugv%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
-Reported-by: kbuild test robot <lkp@intel.com>
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: a8f910ec66583bfb61558c3f333195b3960d832d  media: v4l2-core: Cleanup Makefile
+
+elapsed time: 1787m
+
+configs tested: 150
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+s390                             allmodconfig
+s390                              allnoconfig
+s390                          debug_defconfig
+s390                                defconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                           allnoconfig
+m68k                          multi_defconfig
+m68k                       m5475evb_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                     edosk2674_defconfig
+m68k                           sun3_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+ia64                                defconfig
+x86_64                 randconfig-h001-201929
+x86_64                 randconfig-h002-201929
+x86_64                 randconfig-h003-201929
+x86_64                 randconfig-h004-201929
+i386                   randconfig-h001-201929
+i386                   randconfig-h002-201929
+i386                   randconfig-h003-201929
+i386                   randconfig-h004-201929
+x86_64                             acpi-redef
+x86_64                           allyesdebian
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                nfsroot
+x86_64                                   rhel
+x86_64                               rhel-7.6
+parisc                            allnoconfig
+parisc                         b180_defconfig
+parisc                        c3000_defconfig
+parisc                              defconfig
+x86_64                           allyesconfig
+i386                             allmodconfig
+x86_64                 randconfig-a001-201929
+x86_64                 randconfig-a002-201929
+x86_64                 randconfig-a003-201929
+x86_64                 randconfig-a004-201929
+i386                   randconfig-a001-201929
+i386                   randconfig-a002-201929
+i386                   randconfig-a003-201929
+i386                   randconfig-a004-201929
+x86_64                 randconfig-e001-201929
+x86_64                 randconfig-e002-201929
+x86_64                 randconfig-e003-201929
+x86_64                 randconfig-e004-201929
+i386                   randconfig-e001-201929
+i386                   randconfig-e002-201929
+i386                   randconfig-e003-201929
+i386                   randconfig-e004-201929
+arm                              allmodconfig
+arm                               allnoconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+x86_64                 randconfig-d001-201929
+x86_64                 randconfig-d002-201929
+x86_64                 randconfig-d003-201929
+x86_64                 randconfig-d004-201929
+i386                   randconfig-d001-201929
+i386                   randconfig-d002-201929
+i386                   randconfig-d003-201929
+i386                   randconfig-d004-201929
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+alpha                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                 randconfig-b001-201929
+x86_64                 randconfig-b002-201929
+x86_64                 randconfig-b003-201929
+x86_64                 randconfig-b004-201929
+i386                   randconfig-b001-201929
+i386                   randconfig-b002-201929
+i386                   randconfig-b003-201929
+i386                   randconfig-b004-201929
+x86_64                           allmodconfig
+i386                             alldefconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                      fuloong2e_defconfig
+mips                                   jz4740
+mips                      malta_kvm_defconfig
+mips                                     txx9
+arc                              allyesconfig
+microblaze                    nommu_defconfig
+microblaze                      mmu_defconfig
+arc                                 defconfig
+i386                              allnoconfig
+i386                                defconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                             defconfig
+x86_64                 randconfig-f001-201929
+x86_64                 randconfig-f002-201929
+x86_64                 randconfig-f003-201929
+x86_64                 randconfig-f004-201929
+i386                   randconfig-f001-201929
+i386                   randconfig-f002-201929
+i386                   randconfig-f003-201929
+i386                   randconfig-f004-201929
+x86_64                 randconfig-c001-201929
+x86_64                 randconfig-c002-201929
+x86_64                 randconfig-c003-201929
+x86_64                 randconfig-c004-201929
+i386                   randconfig-c001-201929
+i386                   randconfig-c002-201929
+i386                   randconfig-c003-201929
+i386                   randconfig-c004-201929
+x86_64                 randconfig-g001-201929
+x86_64                 randconfig-g002-201929
+x86_64                 randconfig-g003-201929
+x86_64                 randconfig-g004-201929
+i386                   randconfig-g001-201929
+i386                   randconfig-g002-201929
+i386                   randconfig-g003-201929
+i386                   randconfig-g004-201929
+
 ---
-This patch adds a custom function for releasing the video device for the tw686x video device driver.
-
- drivers/media/pci/tw686x/tw686x-video.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-index 3a06c000..cabc4f89 100644
---- a/drivers/media/pci/tw686x/tw686x-video.c
-+++ b/drivers/media/pci/tw686x/tw686x-video.c
-@@ -1151,18 +1151,32 @@ void tw686x_video_irq(struct tw686x_dev *dev, unsigned long requests,
- 	}
- }
- 
-+void tw686x_video_device_release(struct tw686x_video_channel *vc) {
-+
-+	struct tw686x_dev *dev = vc->dev;
-+
-+	unsigned int ch;
-+
-+	for (ch = 0; ch < max_channels(dev); ch++) {
-+		struct tw686x_video_channel *vc = &dev->video_channels[ch];
-+
-+	}
-+	
-+	dev->dma_ops->free(vc,0);
-+	
-+	video_device_release((struct video_device*)dev);
-+
-+}
-+
- void tw686x_video_free(struct tw686x_dev *dev)
- {
--	unsigned int ch, pb;
-+	unsigned int ch;
- 
- 	for (ch = 0; ch < max_channels(dev); ch++) {
- 		struct tw686x_video_channel *vc = &dev->video_channels[ch];
- 
- 		video_unregister_device(vc->device);
- 
--		if (dev->dma_ops->free)
--			for (pb = 0; pb < 2; pb++)
--				dev->dma_ops->free(vc, pb);
- 	}
- }
- 
-@@ -1277,7 +1291,6 @@ int tw686x_video_init(struct tw686x_dev *dev)
- 		snprintf(vdev->name, sizeof(vdev->name), "%s video", dev->name);
- 		vdev->fops = &tw686x_video_fops;
- 		vdev->ioctl_ops = &tw686x_video_ioctl_ops;
--		vdev->release = video_device_release;
- 		vdev->v4l2_dev = &dev->v4l2_dev;
- 		vdev->queue = &vc->vidq;
- 		vdev->tvnorms = V4L2_STD_525_60 | V4L2_STD_625_50;
--- 
-2.17.1
-
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
