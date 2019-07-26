@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 746F076DD0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 17:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4013076D8A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 17:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389128AbfGZPal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 11:30:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45592 "EHLO mail.kernel.org"
+        id S2389805AbfGZPeY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 11:34:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389119AbfGZPal (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 11:30:41 -0400
+        id S2389823AbfGZPeU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jul 2019 11:34:20 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9E854205F4;
-        Fri, 26 Jul 2019 15:30:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E6DD2054F;
+        Fri, 26 Jul 2019 15:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564155040;
-        bh=GQaj6qDMId0prqXX2EQtRMtN/1cgibciF4pkpinytAM=;
+        s=default; t=1564155259;
+        bh=QOAORFFSoIgj6olZjTHeJxdeVZ/k9XluFJeK97Pn3B0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t042ePzDHUXFittCjolrcBD1TqFF/Kk7Rc8+dqiij2n4bDFSD2KFYZl0In9biKPKQ
-         eE82wSGo0JVIKLESCCNJ3SuZrC7Y0HI9nphvMvuOSfi3SEEmODTV2/nbfjUWuXlDKZ
-         FFvEebIEt99g+QfHxbABDHoiElC5TLIRhC+tuMtI=
+        b=x6FWzX3miONmF3QIg6gjmqnAT55iBBvhlwVngLXfnoBqfNBwsLfbrJHa43YFkfs/O
+         6kxXdt20TGDZAdeaaRgwWOQ454y+kvdSqQyLqmA23FXs1sVQfabZuys90TU3cCIiUx
+         HTS/0VSkWZoj7bROExf43TS45S/WNo8X712oLS0o=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -34,12 +34,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org,
         =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>
-Subject: [PATCH 5.1 43/62] dma-buf: balance refcount inbalance
-Date:   Fri, 26 Jul 2019 17:24:55 +0200
-Message-Id: <20190726152306.483670022@linuxfoundation.org>
+Subject: [PATCH 4.19 36/50] dma-buf: balance refcount inbalance
+Date:   Fri, 26 Jul 2019 17:25:11 +0200
+Message-Id: <20190726152304.356080005@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190726152301.720139286@linuxfoundation.org>
-References: <20190726152301.720139286@linuxfoundation.org>
+In-Reply-To: <20190726152300.760439618@linuxfoundation.org>
+References: <20190726152300.760439618@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -75,7 +75,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
-@@ -1068,6 +1068,7 @@ static int dma_buf_debug_show(struct seq
+@@ -1069,6 +1069,7 @@ static int dma_buf_debug_show(struct seq
  				   fence->ops->get_driver_name(fence),
  				   fence->ops->get_timeline_name(fence),
  				   dma_fence_is_signaled(fence) ? "" : "un");
