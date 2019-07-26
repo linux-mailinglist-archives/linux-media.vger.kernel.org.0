@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B98DB772E8
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 22:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE93772ED
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 22:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbfGZUjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 16:39:48 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36750 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726305AbfGZUjs (ORCPT
+        id S1727208AbfGZUla (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 16:41:30 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34086 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726184AbfGZUla (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 16:39:48 -0400
-Received: by mail-pg1-f194.google.com with SMTP id l21so25289907pgm.3
-        for <linux-media@vger.kernel.org>; Fri, 26 Jul 2019 13:39:48 -0700 (PDT)
+        Fri, 26 Jul 2019 16:41:30 -0400
+Received: by mail-pf1-f193.google.com with SMTP id b13so25040566pfo.1
+        for <linux-media@vger.kernel.org>; Fri, 26 Jul 2019 13:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=bQ7MMoOSrAZIn8FxRgv3QzzRq2X4oVBfVFoto8m98G8=;
-        b=mqpp7A1OlyMHRkuBwxn3X0xO1VmcMxZkhkXAPij1Kf69eBJrjKX1ARPM99k+r+4tg0
-         SiKxv/ik87QNyxAo66BqWISS8/Lnxe8w+XRfxqINv517ePphjcMU/p/UvhotmyQmugJh
-         RRgUfPuFnUZYv2dGmn1HPpey2S9p3fNgFweFLwHmXtPE1oaDNrYbHd3QonyS17z1hDLF
-         DDqtA9eWzaz2XxSpdVzs62DrD/bVLPVSsTaDfDDsNqMgA6Eim1ZPVNE+RODnc6TLGAZ9
-         M7XMs6aJF/hy15ntguObrddJzfpEVYd2GAbu2leewfXQRnpTRlF/46ZQXB2wXx8KR3ru
-         62pA==
+        bh=Bb9W8HGpknIfV7cjp47FpQf0Q+kLqAzlJFDTd3TC6/M=;
+        b=jT6zSbw198KpBhmrtZqkgtqcr69T/pgjhj2jibTg2J42/psTKY7zZkUo6N7X1iEY/X
+         u4MEh33c5rqTXYK/T9CHlv7637STEvVawXzHfj8fpNRd/K/dRwFi9d3WHV5Bz3QdlVkA
+         4gjrst+Pv55j3zOTw81+DWuMv+nzGbH38GHtFKBUOnAhj9hi3JhPyY+ITjDo5qh39Dzs
+         m6t+bvHB7sac2Qi/Ji20jbW2VYjUP0ufguSHRirusXvZUi9qN3zQXRDCAirX99aGG3uu
+         ypz8xzUMA4sCzd4Albo9HG25PDI+Np2lLtGjlcksd9RVb0zMY620kw8uVadqc7OKHw5X
+         cqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=bQ7MMoOSrAZIn8FxRgv3QzzRq2X4oVBfVFoto8m98G8=;
-        b=bGHjp1c8HeI7I5pwi1caFXoKArJaKlZuo6bh2ajN2aLaSi8nBu1cZpEW8lIKM6Ufgg
-         +N0wsA4eEUFYjDuB2g1WbL1R+Ir1I4lU1L2cHMGHx+Jv1h3B7hWQuLJLvIpi2eZCMzWa
-         s/dO8/sQCTrynzPzXzUyLiadW3650oXo1uYtXPN9RJ2xpFEGakGE2ecihCN/8H5IQAz7
-         urT/Akuc92vI2l1sPcyhTNaqkqCN+wQmwvuV2JzFNuIhDhTPW8gNl0I0h4MgnojrW6sM
-         ZlVxroQbdP+vSQBJgOHsyCNaZuCss4Ypug7agUuKrtCQ93Yx8uxCLGNjBzpvzG9BAtxt
-         oP5A==
-X-Gm-Message-State: APjAAAW0pSe3zr2SZXvMYcX6LuL6o9ZPg4++Lfwne0o0NrUK45OlHpZs
-        LmZzAXEU/7ASUgeC0n04BR6gLU8eO0o=
-X-Google-Smtp-Source: APXvYqw4Qwlw1JRvmOHXFaMwSwEKB1JfVuHR+5RHYRnj+ayWWjM5dxQmf+PvRq0bnjli2fUz5XRWuw==
-X-Received: by 2002:a65:690f:: with SMTP id s15mr87281877pgq.432.1564173587672;
-        Fri, 26 Jul 2019 13:39:47 -0700 (PDT)
+        bh=Bb9W8HGpknIfV7cjp47FpQf0Q+kLqAzlJFDTd3TC6/M=;
+        b=XgE+AbSqARZH8rfmVVl+FQFySShzKE93fh4k3or7OXzn0AHAYfS2P+C35fr3gmGYRZ
+         NCqB/NHb6stqvxC222crbuEMmyJEk9YBwrlvwlOyCIp7TzTal+UrYc+6b37Yz8vDUM8u
+         lli7iHl2ISwwGwnbQBEjwIiH4bbvKX5S8nTFEk8WGZWaxRf3RWqjCFBGJzBAtnM3dP7W
+         Jh5WcGYhEq2hb4M7rd5zrxYHvOGsEJEBVVHCtduPuamu4NlLpctWVXhECe/6LFO3z7nO
+         4VrcslI1Ii3EkMWyTFkvwg+y3dUW25k85/oEIgf/5AqWN27RTSPumwULFC9KPtOTA2WU
+         L6TQ==
+X-Gm-Message-State: APjAAAUb9s9Q6DBejNbPjpKl4oLuZbxWr2rttx4WBBxQyEJyxQe6SwQ4
+        Tcm5GTZj6msWDduQuKFmoI7NarXFNUU=
+X-Google-Smtp-Source: APXvYqw976P7gM+vYqqxQXdaD3UOspZUWZ9tWua/mzaUsMPNm1OptWcdv/81CZa3Pk7phfK9LEwXmw==
+X-Received: by 2002:aa7:8e17:: with SMTP id c23mr24273135pfr.227.1564173689312;
+        Fri, 26 Jul 2019 13:41:29 -0700 (PDT)
 Received: from localhost.localdomain (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
-        by smtp.gmail.com with ESMTPSA id r13sm76223292pfr.25.2019.07.26.13.39.46
+        by smtp.gmail.com with ESMTPSA id i74sm100366447pje.16.2019.07.26.13.41.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 13:39:47 -0700 (PDT)
+        Fri, 26 Jul 2019 13:41:28 -0700 (PDT)
 From:   Mark Balantzyan <mbalant3@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Mark Balantzyan <mbalant3@gmail.com>
-Subject: [PATCH] Added custom function for video device release functionality in tw686x driver
-Date:   Fri, 26 Jul 2019 13:39:41 -0700
-Message-Id: <20190726203941.29453-1-mbalant3@gmail.com>
+Subject: [PATCH] media input infrastructure:tw686x: Added custom function for video device release functionality in tw686x driver
+Date:   Fri, 26 Jul 2019 13:41:23 -0700
+Message-Id: <20190726204123.30384-1-mbalant3@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -58,7 +58,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
 Reported-by: kbuild test robot <lkp@intel.com>
 ---
-This patch adds a custom function in tw686x-video.c to provide a release mechanism for the driver for the tw686x video device.
+This patch adds a custom function for releasing the video device for the tw686x video device driver.
 
  drivers/media/pci/tw686x/tw686x-video.c | 23 ++++++++++++++++++-----
  1 file changed, 18 insertions(+), 5 deletions(-)
