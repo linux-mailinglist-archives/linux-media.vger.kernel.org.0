@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4753E76529
+	by mail.lfdr.de (Postfix) with ESMTP id B6AA07652A
 	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 14:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726443AbfGZMI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726496AbfGZMI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 26 Jul 2019 08:08:29 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50397 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726138AbfGZMI2 (ORCPT
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:37289 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726207AbfGZMI3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 08:08:28 -0400
+        Fri, 26 Jul 2019 08:08:29 -0400
 Received: from tschai.fritz.box ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qz1JhX1g2ur8Tqz1PhyBWH; Fri, 26 Jul 2019 14:08:27 +0200
+        id qz1JhX1g2ur8Tqz1PhyBWL; Fri, 26 Jul 2019 14:08:27 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/3] v4l2-common: add support for new RGB32 pixelformats
-Date:   Fri, 26 Jul 2019 14:08:20 +0200
-Message-Id: <20190726120821.12569-3-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 3/3] vivid: add support for new pixelformats
+Date:   Fri, 26 Jul 2019 14:08:21 +0200
+Message-Id: <20190726120821.12569-4-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190726120821.12569-1-hverkuil-cisco@xs4all.nl>
 References: <20190726120821.12569-1-hverkuil-cisco@xs4all.nl>
@@ -33,34 +33,183 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Four new variants of RGB32 were added. Add support for them to
-the v4l2_format_info() function.
+New RGB444, RGB555 and RGB32 variants were recently added. Now also
+support them in vivid.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-common.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../media/platform/vivid/vivid-vid-common.c   | 132 +++++++++++++++++-
+ 1 file changed, 129 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index f8ad1c580a3e..ab4a792a3bc1 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -455,11 +455,15 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_HSV24,   .mem_planes = 1, .comp_planes = 1, .bpp = { 3, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_BGR32,   .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_XBGR32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_BGRX32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_RGB32,   .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_XRGB32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_RGBX32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_HSV32,   .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_ARGB32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_RGBA32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_ABGR32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_BGRA32,  .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_GREY,    .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 
- 		/* YUV packed formats */
+diff --git a/drivers/media/platform/vivid/vivid-vid-common.c b/drivers/media/platform/vivid/vivid-vid-common.c
+index 1f33eb1a76b6..8665dfd25eb4 100644
+--- a/drivers/media/platform/vivid/vivid-vid-common.c
++++ b/drivers/media/platform/vivid/vivid-vid-common.c
+@@ -262,21 +262,66 @@ struct vivid_fmt vivid_formats[] = {
+ 		.can_do_overlay = true,
+ 	},
+ 	{
+-		.fourcc   = V4L2_PIX_FMT_RGB444, /* xxxxrrrr ggggbbbb */
++		.fourcc   = V4L2_PIX_FMT_RGB444, /* ggggbbbb xxxxrrrr */
+ 		.vdownsampling = { 1 },
+ 		.bit_depth = { 16 },
+ 		.planes   = 1,
+ 		.buffers = 1,
+ 	},
+ 	{
+-		.fourcc   = V4L2_PIX_FMT_XRGB444, /* xxxxrrrr ggggbbbb */
++		.fourcc   = V4L2_PIX_FMT_XRGB444, /* ggggbbbb xxxxrrrr */
+ 		.vdownsampling = { 1 },
+ 		.bit_depth = { 16 },
+ 		.planes   = 1,
+ 		.buffers = 1,
+ 	},
+ 	{
+-		.fourcc   = V4L2_PIX_FMT_ARGB444, /* aaaarrrr ggggbbbb */
++		.fourcc   = V4L2_PIX_FMT_ARGB444, /* ggggbbbb aaaarrrr */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.alpha_mask = 0x00f0,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBX444, /* bbbbxxxx rrrrgggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBA444, /* bbbbaaaa rrrrgggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.alpha_mask = 0x00f0,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_XBGR444, /* ggggrrrr xxxxbbbb */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_ABGR444, /* ggggrrrr aaaabbbb */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.alpha_mask = 0x00f0,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRX444, /* rrrrxxxx bbbbgggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRA444, /* rrrraaaa bbbbgggg  */
+ 		.vdownsampling = { 1 },
+ 		.bit_depth = { 16 },
+ 		.planes   = 1,
+@@ -308,6 +353,57 @@ struct vivid_fmt vivid_formats[] = {
+ 		.can_do_overlay = true,
+ 		.alpha_mask = 0x8000,
+ 	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBX555, /* ggbbbbbx rrrrrggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBA555, /* ggbbbbba rrrrrggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++		.alpha_mask = 0x8000,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_XBGR555, /* gggrrrrr xbbbbbgg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_ABGR555, /* gggrrrrr abbbbbgg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++		.alpha_mask = 0x8000,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRX555, /* ggrrrrrx bbbbbggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRA555, /* ggrrrrra bbbbbggg */
++		.vdownsampling = { 1 },
++		.bit_depth = { 16 },
++		.planes   = 1,
++		.buffers = 1,
++		.can_do_overlay = true,
++		.alpha_mask = 0x8000,
++	},
+ 	{
+ 		.fourcc   = V4L2_PIX_FMT_RGB555X, /* xrrrrrgg gggbbbbb */
+ 		.vdownsampling = { 1 },
+@@ -395,6 +491,36 @@ struct vivid_fmt vivid_formats[] = {
+ 		.buffers = 1,
+ 		.alpha_mask = 0xff000000,
+ 	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBX32, /* rgbx */
++		.vdownsampling = { 1 },
++		.bit_depth = { 32 },
++		.planes   = 1,
++		.buffers = 1,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRX32, /* xbgr */
++		.vdownsampling = { 1 },
++		.bit_depth = { 32 },
++		.planes   = 1,
++		.buffers = 1,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_RGBA32, /* rgba */
++		.vdownsampling = { 1 },
++		.bit_depth = { 32 },
++		.planes   = 1,
++		.buffers = 1,
++		.alpha_mask = 0x000000ff,
++	},
++	{
++		.fourcc   = V4L2_PIX_FMT_BGRA32, /* abgr */
++		.vdownsampling = { 1 },
++		.bit_depth = { 32 },
++		.planes   = 1,
++		.buffers = 1,
++		.alpha_mask = 0xff000000,
++	},
+ 	{
+ 		.fourcc   = V4L2_PIX_FMT_SBGGR8, /* Bayer BG/GR */
+ 		.vdownsampling = { 1 },
 -- 
 2.20.1
 
