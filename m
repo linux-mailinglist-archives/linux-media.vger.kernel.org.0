@@ -2,225 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A43075D39
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 04:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA37C75D8A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 05:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725909AbfGZCyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 22:54:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51234 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfGZCyP (ORCPT
+        id S1725909AbfGZDvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 23:51:35 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35887 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725842AbfGZDvf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 22:54:15 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5829928B85C
-Message-ID: <75a6c552707a274524770016ea82fbbcad8f4f73.camel@collabora.com>
-Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
- autoselect" is enabled
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Chen-Yu Tsai <wens@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
-Date:   Thu, 25 Jul 2019 23:54:05 -0300
-In-Reply-To: <20190725230929.6a52133c@coco.lan>
-References: <20190715212316.352-1-ezequiel@collabora.com>
-         <20190715212316.352-3-ezequiel@collabora.com>
-         <20190725125730.2218f0a8@coco.lan>
-         <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
-         <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
-         <20190725154111.7fc7e335@coco.lan>
-         <cb3e54a7281678b89e34eee82009f615589fea94.camel@collabora.com>
-         <20190725230929.6a52133c@coco.lan>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Thu, 25 Jul 2019 23:51:35 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:9413:a363:60c:bfd2])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qrGWhGtIvAffAqrGXhVrRG; Fri, 26 Jul 2019 05:51:33 +0200
+Message-ID: <9c69fc473908e75b71926c83e9310cca@smtp-cloud9.xs4all.net>
+Date:   Fri, 26 Jul 2019 05:51:32 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfB7zUZQ6ekFMuNlzVwjPUUcLRSWCeWwz6rs4h0QD5GONFfv9gFi2B7JagBZNSZ1KEL9KxORwafvdhRUUheLSHm+qkfIp3UoR2poZcNexU1B12XNkltue
+ No/gGi7kQwLikcwTxrrPEJEuab73Jq5P7T6cb+Er54wrcfU8WtjvsBRdDhie8tUcGKXhWaYzsr/9VtzCW9971IN7LDXAVV7CkIOPUAIp1gFtveLPlULIIGlG
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-07-25 at 23:09 -0300, Mauro Carvalho Chehab wrote:
-> Em Thu, 25 Jul 2019 20:55:13 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> 
-> > On Thu, 2019-07-25 at 15:41 -0300, Mauro Carvalho Chehab wrote:
-> > > Em Fri, 26 Jul 2019 01:29:58 +0800
-> > > Chen-Yu Tsai <wens@kernel.org> escreveu:
-> > >   
-> > > > On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:  
-> > > > > On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:    
-> > > > > > Em Mon, 15 Jul 2019 18:23:16 -0300
-> > > > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > > > > >    
-> > > > > > > 	Many users have been complaining about not being able to find
-> > > > > > > certain menu options. One such example are camera sensor drivers
-> > > > > > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
-> > > > > > > and not always ancillary devices.
-> > > > > > > 
-> > > > > > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > > > > > > to the fact that it uses the "visible" kbuild syntax to hide
-> > > > > > > entire group of drivers.
-> > > > > > > 
-> > > > > > > This is not obvious and, as explained above, not always desired.
-> > > > > > > 
-> > > > > > > To fix the problem, drop the "visible" and stop hiding any menu
-> > > > > > > options. Users skilled enough to configure their kernel are expected
-> > > > > > > to be skilled enough to know what (not) to configure anyway.
-> > > > > > > 
-> > > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/dvb-frontends/Kconfig | 1 -
-> > > > > > >  drivers/media/i2c/Kconfig           | 1 -
-> > > > > > >  drivers/media/spi/Kconfig           | 1 -
-> > > > > > >  drivers/media/tuners/Kconfig        | 1 -
-> > > > > > >  4 files changed, 4 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > > > > > > index dc43749177df..2d1fea3bf546 100644
-> > > > > > > --- a/drivers/media/dvb-frontends/Kconfig
-> > > > > > > +++ b/drivers/media/dvb-frontends/Kconfig
-> > > > > > > @@ -1,5 +1,4 @@
-> > > > > > >  menu "Customise DVB Frontends"
-> > > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> > > > > > > 
-> > > > > > >  comment "Multistandard (satellite) frontends"
-> > > > > > >     depends on DVB_CORE
-> > > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > > > > > index 79ce9ec6fc1b..475072bb67d6 100644
-> > > > > > > --- a/drivers/media/i2c/Kconfig
-> > > > > > > +++ b/drivers/media/i2c/Kconfig
-> > > > > > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
-> > > > > > >  #
-> > > > > > > 
-> > > > > > >  menu "I2C Encoders, decoders, sensors and other helper chips"
-> > > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT    
-> > > > > > 
-> > > > > > Hmm... Hans picked this patch, but IMO it doesn't make sense
-> > > > > > for PC consumer people to see the hundreds of extra options
-> > > > > > that making those menus visible will produce.
-> > > > > > 
-> > > > > > This was added because in the past we had lots of issues with
-> > > > > > people desktop/laptop settings with all those things enabled.
-> > > > > > 
-> > > > > > In any case, if the desktop/laptop user is smart enough to
-> > > > > > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
-> > > > > > manually select what he wants, so I really miss the point of
-> > > > > > making those stuff always visible.
-> > > > > > 
-> > > > > > Now, from this patch's comments, it seems that you want this
-> > > > > > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
-> > > > > > replace the changes on this patch to:
-> > > > > > 
-> > > > > >       menu "foo"
-> > > > > >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
-> > > > > > 
-> > > > > > In other words, for the normal guy that just wants to build the
-> > > > > > latest media stuff for his PC camera or TV device to work, he won't
-> > > > > > need to dig into hundreds of things that won't make any difference
-> > > > > > if he enables, except for making the Kernel bigger.
-> > > > > >    
-> > > > > 
-> > > > > Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
-> > > > > not the hidden part. I'm really missing to see what hiding anything gives you.
-> > > > > 
-> > > > > In other words, this option gets useful when driver authors select ancillary
-> > > > > drivers such as:
-> > > > > 
-> > > > > config VIDEO_USBVISION
-> > > > >         tristate "USB video devices based on Nogatech NT1003/1004/1005"
-> > > > >         depends on I2C && VIDEO_V4L2
-> > > > >         select VIDEO_TUNER
-> > > > >         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
-> > > > > 
-> > > > > What's so confusing about having these drivers visible? Compared to the
-> > > > > rest of the zillion menu options, what's more confusing about seeing these?
-> > > > > 
-> > > > > Now, while I would agree with EMBEDDED, the problem with that is that
-> > > > > many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
-> > > > > 
-> > > > > Finally, let me give an example of why hiding the menus is so bad.
-> > > > > Normally, to enable a symbol, we use the search tool.
-> > > > > 
-> > > > > Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
-> > > > > there and there's no indication why.    
-> > > > 
-> > > > As someone who has done so in the past year, I agree it's confusing.
-> > > > I had to dig through the Kconfig files to figure out which knobs to
-> > > > turn to get the OV5640 option out. The description says "auto-selecting",  
-> > > 
-> > > Well, the text and/or the help message can be changed, if it is not
-> > > clear enough, but this option was added because we had too many issues
-> > > with users trying to build drivers for their devices without being
-> > > able to do that, because selecting thousands of devices is something
-> > > that an average PC user has troubles.
-> > > 
-> > > I'm all to improve it, provided that we don't make harder for non-devs
-> > > to build the Kernel.
-> > >   
-> > 
-> > I just recalled Buildroot made extensive use of comments,
-> > so how about this instead:
-> > 
-> > From fdbb96242422823a6df59cf457ebd19f83e45ffe Mon Sep 17 00:00:00 2001
-> > From: Ezequiel Garcia <ezequiel@collabora.com>
-> > Date: Thu, 25 Jul 2019 20:45:07 -0300
-> > Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-> > 
-> > Some users have been having a hard time finding certain menu
-> > options. One such example are camera sensor drivers
-> > (e.g IMX219, OV5645, etc) which are common on embedded
-> > platforms and not really "ancillary" devices.
-> > 
-> > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > to the fact that it uses the "visible" kbuild syntax to hide
-> > entire group of drivers.
-> > 
-> > This is not obvious and it normally takes some time to
-> > figure out.
-> > 
-> > To fix the problem, add a comment on each of hidden menus,
-> > which should clarify what option is causing menus to be hidden.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/media/dvb-frontends/Kconfig | 3 +++
-> >  drivers/media/i2c/Kconfig           | 3 +++
-> >  drivers/media/spi/Kconfig           | 3 +++
-> >  drivers/media/tuners/Kconfig        | 4 ++++
-> >  4 files changed, 13 insertions(+)
-> > 
-> > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > index dc43749177df..5e2ba9d03662 100644
-> > --- a/drivers/media/dvb-frontends/Kconfig
-> > +++ b/drivers/media/dvb-frontends/Kconfig
-> > @@ -1,3 +1,6 @@
-> > +comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-> > +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> > +
-> >  menu "Customise DVB Frontends"
-> >  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> 
-> Makes sense to me.
-> 
-> Yet, it will keep repeating the same dependency logic everywhere.
-> 
-> Maybe we could have something like:
-> 
-> config MEDIA_SIMPLIFY_SELECT
-> 	bool
-> 	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> 	default y
-> 
-> (yeah, the name sucks - feel free to suggest a better name for
-> the symbol)
-> 
-> and use it instead of keeping repeating the same if over and over.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I'll cook something up.
+Results of the daily build of media_tree:
 
+date:			Fri Jul 26 05:00:10 CEST 2019
+media-tree git hash:	a8f910ec66583bfb61558c3f333195b3960d832d
+media_build git hash:	03b08a7135d67653ff81bc8d88498a783c4c8498
+v4l-utils git hash:	6b63111c71eb2837195962d510c510b83c3821f0
+edid-decode git hash:	42f5fa4ed99b669da4b4169a42eca7dbf5a293c7
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.105-i686: ERRORS
+linux-4.14.105-x86_64: ERRORS
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Logs weren't copied as they are too large (14692 kB)
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
