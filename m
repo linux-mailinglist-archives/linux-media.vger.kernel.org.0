@@ -2,280 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C5B075CBE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 04:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057BB75D09
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 04:34:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725909AbfGZCJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 22:09:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36792 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725819AbfGZCJg (ORCPT
+        id S1726109AbfGZCeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jul 2019 22:34:02 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:36652 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbfGZCeB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 22:09:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=du09czMbznQL4hmsu4giv5m1v0qVkxwz64Ozzt+8ph8=; b=F25/cSPP2dlsQ9su9K23TiFU4
-        SchcAbrf0ZqtGeoAXhJAisinwsIIXzgDe77J++VEvz+ryhnGItwtf/cjhnOEfYN/MAkhkCv9D5HKX
-        trR1a34ck3h27Tmcffh2vslbtioyheo1+oN6q7FQYc+p1ABqedw8Oc3cQIkvsz6ntaQHt84T32Jty
-        D1gJyr63HTYe8xkhrwmGg5ILzXjW14CwVzSupWB0tZ1RbBXHO9MnrpTUNMWky+T/OxJ0ndPbTvC5N
-        A+xeboYpcX75ceI7hZrz2vAL8sZhEfu5ilcafZI6azx9STOY59aH017gsIYz//a2pkEsnOi37SE+y
-        /dgLJGX1w==;
-Received: from [179.95.31.157] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hqpfq-0006Gg-4Y; Fri, 26 Jul 2019 02:09:34 +0000
-Date:   Thu, 25 Jul 2019 23:09:29 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Chen-Yu Tsai <wens@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
- autoselect" is enabled
-Message-ID: <20190725230929.6a52133c@coco.lan>
-In-Reply-To: <cb3e54a7281678b89e34eee82009f615589fea94.camel@collabora.com>
-References: <20190715212316.352-1-ezequiel@collabora.com>
-        <20190715212316.352-3-ezequiel@collabora.com>
-        <20190725125730.2218f0a8@coco.lan>
-        <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
-        <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
-        <20190725154111.7fc7e335@coco.lan>
-        <cb3e54a7281678b89e34eee82009f615589fea94.camel@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Thu, 25 Jul 2019 22:34:01 -0400
+Received: by mail-io1-f71.google.com with SMTP id k21so57097054ioj.3
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 19:34:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=7CpkHsdwXfZwBwrO6vlf0OIv7joJOo5Z6wYVwguiJ04=;
+        b=ZTtSW6N5dFSRj1bPWBVb/tnzmMutabVtpTZEFA4YJLa5IO5z2bntmMcko1A5a69KNU
+         9NLAA1Oj0384G+9Xh/DqEDbQ5DHsZXYyZsCJKalzl916NqtvLOvjt9Eks6gbFg4Zk5T9
+         S8yizdl8TXOW6tX6bzYWAQf+MqIShxDt98RCgbDmxeVDUyVyAdVax1Gc8NT0G6ySj5UY
+         HFX0Q1TvLUkF+xzU9hhzyob1i6WbIW/+onAwewFz8StYRfBr3MNR1cWwSeXdTo9r+cPm
+         vhShgER411QQ952cT8WLDimvbogPcK4Gu86RD+urS7LxIo7kTI0oqlUMokQX7TPdf06e
+         +YTw==
+X-Gm-Message-State: APjAAAXwqhboebFwg9sIzCG9bYXLmMY/642V34HX57SWSP1xzkOHyoK/
+        PgD5MN1j4p6hDSIIBzdRWubb8Sw3RlHXOmyZwswMXmzncYu0
+X-Google-Smtp-Source: APXvYqwFoHU762iKdsVHVX6yTlu7QfEbGsNdjn/z0ANksU56Shk8WreV3mmUqSXqtLdMgVlprsuuj4lm54a3cf1C9DCqoj4pnlX3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a02:b90e:: with SMTP id v14mr56641596jan.122.1564108441113;
+ Thu, 25 Jul 2019 19:34:01 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 19:34:01 -0700
+In-Reply-To: <000000000000b68e04058e6a3421@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000005dbbc058e8c608d@google.com>
+Subject: Re: memory leak in dma_buf_ioctl
+From:   syzbot <syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com>
+To:     bsingharora@gmail.com, coreteam@netfilter.org, davem@davemloft.net,
+        dri-devel@lists.freedesktop.org, duwe@suse.de, dvyukov@google.com,
+        kaber@trash.net, kadlec@blackhole.kfki.hu,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mingo@redhat.com, mpe@ellerman.id.au,
+        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        pablo@netfilter.org, rostedt@goodmis.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 25 Jul 2019 20:55:13 -0300
-Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+syzbot has bisected this bug to:
 
-> On Thu, 2019-07-25 at 15:41 -0300, Mauro Carvalho Chehab wrote:
-> > Em Fri, 26 Jul 2019 01:29:58 +0800
-> > Chen-Yu Tsai <wens@kernel.org> escreveu:
-> >   
-> > > On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:  
-> > > > On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:    
-> > > > > Em Mon, 15 Jul 2019 18:23:16 -0300
-> > > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > > > >    
-> > > > > > 	Many users have been complaining about not being able to find
-> > > > > > certain menu options. One such example are camera sensor drivers
-> > > > > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
-> > > > > > and not always ancillary devices.
-> > > > > > 
-> > > > > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > > > > > to the fact that it uses the "visible" kbuild syntax to hide
-> > > > > > entire group of drivers.
-> > > > > > 
-> > > > > > This is not obvious and, as explained above, not always desired.
-> > > > > > 
-> > > > > > To fix the problem, drop the "visible" and stop hiding any menu
-> > > > > > options. Users skilled enough to configure their kernel are expected
-> > > > > > to be skilled enough to know what (not) to configure anyway.
-> > > > > > 
-> > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > ---
-> > > > > >  drivers/media/dvb-frontends/Kconfig | 1 -
-> > > > > >  drivers/media/i2c/Kconfig           | 1 -
-> > > > > >  drivers/media/spi/Kconfig           | 1 -
-> > > > > >  drivers/media/tuners/Kconfig        | 1 -
-> > > > > >  4 files changed, 4 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > > > > > index dc43749177df..2d1fea3bf546 100644
-> > > > > > --- a/drivers/media/dvb-frontends/Kconfig
-> > > > > > +++ b/drivers/media/dvb-frontends/Kconfig
-> > > > > > @@ -1,5 +1,4 @@
-> > > > > >  menu "Customise DVB Frontends"
-> > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> > > > > > 
-> > > > > >  comment "Multistandard (satellite) frontends"
-> > > > > >     depends on DVB_CORE
-> > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > > > > index 79ce9ec6fc1b..475072bb67d6 100644
-> > > > > > --- a/drivers/media/i2c/Kconfig
-> > > > > > +++ b/drivers/media/i2c/Kconfig
-> > > > > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
-> > > > > >  #
-> > > > > > 
-> > > > > >  menu "I2C Encoders, decoders, sensors and other helper chips"
-> > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT    
-> > > > > 
-> > > > > Hmm... Hans picked this patch, but IMO it doesn't make sense
-> > > > > for PC consumer people to see the hundreds of extra options
-> > > > > that making those menus visible will produce.
-> > > > > 
-> > > > > This was added because in the past we had lots of issues with
-> > > > > people desktop/laptop settings with all those things enabled.
-> > > > > 
-> > > > > In any case, if the desktop/laptop user is smart enough to
-> > > > > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
-> > > > > manually select what he wants, so I really miss the point of
-> > > > > making those stuff always visible.
-> > > > > 
-> > > > > Now, from this patch's comments, it seems that you want this
-> > > > > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
-> > > > > replace the changes on this patch to:
-> > > > > 
-> > > > >       menu "foo"
-> > > > >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
-> > > > > 
-> > > > > In other words, for the normal guy that just wants to build the
-> > > > > latest media stuff for his PC camera or TV device to work, he won't
-> > > > > need to dig into hundreds of things that won't make any difference
-> > > > > if he enables, except for making the Kernel bigger.
-> > > > >    
-> > > > 
-> > > > Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
-> > > > not the hidden part. I'm really missing to see what hiding anything gives you.
-> > > > 
-> > > > In other words, this option gets useful when driver authors select ancillary
-> > > > drivers such as:
-> > > > 
-> > > > config VIDEO_USBVISION
-> > > >         tristate "USB video devices based on Nogatech NT1003/1004/1005"
-> > > >         depends on I2C && VIDEO_V4L2
-> > > >         select VIDEO_TUNER
-> > > >         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
-> > > > 
-> > > > What's so confusing about having these drivers visible? Compared to the
-> > > > rest of the zillion menu options, what's more confusing about seeing these?
-> > > > 
-> > > > Now, while I would agree with EMBEDDED, the problem with that is that
-> > > > many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
-> > > > 
-> > > > Finally, let me give an example of why hiding the menus is so bad.
-> > > > Normally, to enable a symbol, we use the search tool.
-> > > > 
-> > > > Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
-> > > > there and there's no indication why.    
-> > > 
-> > > As someone who has done so in the past year, I agree it's confusing.
-> > > I had to dig through the Kconfig files to figure out which knobs to
-> > > turn to get the OV5640 option out. The description says "auto-selecting",  
-> > 
-> > Well, the text and/or the help message can be changed, if it is not
-> > clear enough, but this option was added because we had too many issues
-> > with users trying to build drivers for their devices without being
-> > able to do that, because selecting thousands of devices is something
-> > that an average PC user has troubles.
-> > 
-> > I'm all to improve it, provided that we don't make harder for non-devs
-> > to build the Kernel.
-> >   
-> 
-> I just recalled Buildroot made extensive use of comments,
-> so how about this instead:
-> 
-> From fdbb96242422823a6df59cf457ebd19f83e45ffe Mon Sep 17 00:00:00 2001
-> From: Ezequiel Garcia <ezequiel@collabora.com>
-> Date: Thu, 25 Jul 2019 20:45:07 -0300
-> Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-> 
-> Some users have been having a hard time finding certain menu
-> options. One such example are camera sensor drivers
-> (e.g IMX219, OV5645, etc) which are common on embedded
-> platforms and not really "ancillary" devices.
-> 
-> The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> to the fact that it uses the "visible" kbuild syntax to hide
-> entire group of drivers.
-> 
-> This is not obvious and it normally takes some time to
-> figure out.
-> 
-> To fix the problem, add a comment on each of hidden menus,
-> which should clarify what option is causing menus to be hidden.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/media/dvb-frontends/Kconfig | 3 +++
->  drivers/media/i2c/Kconfig           | 3 +++
->  drivers/media/spi/Kconfig           | 3 +++
->  drivers/media/tuners/Kconfig        | 4 ++++
->  4 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> index dc43749177df..5e2ba9d03662 100644
-> --- a/drivers/media/dvb-frontends/Kconfig
-> +++ b/drivers/media/dvb-frontends/Kconfig
-> @@ -1,3 +1,6 @@
-> +comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-> +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> +
->  menu "Customise DVB Frontends"
->  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
+commit 04cf31a759ef575f750a63777cee95500e410994
+Author: Michael Ellerman <mpe@ellerman.id.au>
+Date:   Thu Mar 24 11:04:01 2016 +0000
 
-Makes sense to me.
+     ftrace: Make ftrace_location_range() global
 
-Yet, it will keep repeating the same dependency logic everywhere.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=154293f4600000
+start commit:   abdfd52a Merge tag 'armsoc-defconfig' of git://git.kernel...
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=174293f4600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=134293f4600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d31de3d88059b7fa
+dashboard link: https://syzkaller.appspot.com/bug?extid=b2098bc44728a4efb3e9
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12526e58600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=161784f0600000
 
-Maybe we could have something like:
+Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
+Fixes: 04cf31a759ef ("ftrace: Make ftrace_location_range() global")
 
-config MEDIA_SIMPLIFY_SELECT
-	bool
-	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-	default y
-
-(yeah, the name sucks - feel free to suggest a better name for
-the symbol)
-
-and use it instead of keeping repeating the same if over and over.
-
->  
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 79ce9ec6fc1b..a110fa53233f 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -22,6 +22,9 @@ config VIDEO_IR_I2C
->  # Encoder / Decoder module configuration
->  #
->  
-> +comment "I2C drivers hidden by 'Autoselect ancillary drivers'"
-> +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> +
->  menu "I2C Encoders, decoders, sensors and other helper chips"
->  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->  
-> diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-> index 08386abb9bbc..da1750f86bbc 100644
-> --- a/drivers/media/spi/Kconfig
-> +++ b/drivers/media/spi/Kconfig
-> @@ -1,6 +1,9 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  if VIDEO_V4L2
->  
-> +comment "SPI drivers hidden by 'Autoselect ancillary drivers'"
-> +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> +
->  menu "SPI helper chips"
->  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->  
-> diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-> index a7108e575e9b..e017e09d5374 100644
-> --- a/drivers/media/tuners/Kconfig
-> +++ b/drivers/media/tuners/Kconfig
-> @@ -15,6 +15,10 @@ config MEDIA_TUNER
->  	select MEDIA_TUNER_TDA9887 if MEDIA_SUBDRV_AUTOSELECT
->  	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
->  
-> +comment "Tuner drivers hidden by 'Autoselect ancillary drivers'"
-> +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> +	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
-> +
->  menu "Customize TV tuners"
->  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
->  	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
-
-
-
-Thanks,
-Mauro
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
