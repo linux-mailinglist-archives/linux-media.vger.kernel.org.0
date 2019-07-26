@@ -2,142 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA37C75D8A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 05:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EDA575E30
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 07:15:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725909AbfGZDvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jul 2019 23:51:35 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35887 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725842AbfGZDvf (ORCPT
+        id S1725864AbfGZFPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 01:15:30 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:34062 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbfGZFPa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jul 2019 23:51:35 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:9413:a363:60c:bfd2])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id qrGWhGtIvAffAqrGXhVrRG; Fri, 26 Jul 2019 05:51:33 +0200
-Message-ID: <9c69fc473908e75b71926c83e9310cca@smtp-cloud9.xs4all.net>
-Date:   Fri, 26 Jul 2019 05:51:32 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfB7zUZQ6ekFMuNlzVwjPUUcLRSWCeWwz6rs4h0QD5GONFfv9gFi2B7JagBZNSZ1KEL9KxORwafvdhRUUheLSHm+qkfIp3UoR2poZcNexU1B12XNkltue
- No/gGi7kQwLikcwTxrrPEJEuab73Jq5P7T6cb+Er54wrcfU8WtjvsBRdDhie8tUcGKXhWaYzsr/9VtzCW9971IN7LDXAVV7CkIOPUAIp1gFtveLPlULIIGlG
+        Fri, 26 Jul 2019 01:15:30 -0400
+Received: by mail-ed1-f66.google.com with SMTP id s49so17324284edb.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 22:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=evwEOy3DAtV16NqcUka5UGTz9T6aRrk1pQfUhjz7kyM=;
+        b=ZBIvhCvHNC04mPpW5vAoOuVtbo2QAUddYCwID6pWL5rm8y3h6wUgKF17LCqRjpx/a9
+         Gd9kgqgCuTSVnqHPByGCI4TjnPe5L26wKUcVclXK+knZ5jc+o0MIAiJFtcW5g6cgCmqZ
+         tgSzX+Xl6wHiy8U19ptEi0DiTywgjb1n9I9dQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=evwEOy3DAtV16NqcUka5UGTz9T6aRrk1pQfUhjz7kyM=;
+        b=QQYLLFnxRKoML1Y7GAP2qxABhpREnCI5Boosjktw2jsLF8+KHihd5i4RghclDK2y/L
+         1lCd367y9wCb0ebh8B+ax8MG6aqtVI/LSK4dCNJbdw3b05u+UKFsOL9Ex5N3ILDwTQde
+         U8fCOjBN7wiF7jIHy2e3TDU6ZrEXGV44Gj3hZrsy/4MuQylO4PWUGNhqTn0ui3wnbOgS
+         5hPl/NF0xaaHUrZGR6bRYnD4QLgNqLPPD8L8LpOGCA1DtjH6jQssn371HFjFOeXHElMd
+         bbxJFekoGqRk7nvzkUXhGXZ7ogSB/DP39F45V5N8s2xYnWCNFm5cj/snLp8OqlIXmIV9
+         H1vQ==
+X-Gm-Message-State: APjAAAX609Cy4P3FW0IWqm1fJnzTVf1zchwky25BO2uW9HMzkizoweCB
+        WxqUt1SEl3Vver6TAwyVGfcGI0uCSyx5eQ==
+X-Google-Smtp-Source: APXvYqwa3vq12kN2voYcm4SxAbbGj4nkn9IndLaMPxCyapSmqo7OCejCE9nE9UbTTIQnYKm9+9v87g==
+X-Received: by 2002:a17:906:2289:: with SMTP id p9mr11789392eja.249.1564118127961;
+        Thu, 25 Jul 2019 22:15:27 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id n15sm13522479edd.49.2019.07.25.22.15.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Jul 2019 22:15:27 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id z1so52941507wru.13
+        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2019 22:15:26 -0700 (PDT)
+X-Received: by 2002:adf:e541:: with SMTP id z1mr9178545wrm.48.1564118126310;
+ Thu, 25 Jul 2019 22:15:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <jungo.lin@mediatek.com> <20190611035344.29814-1-jungo.lin@mediatek.com>
+ <20190611035344.29814-10-jungo.lin@mediatek.com> <20190701072532.GB137710@chromium.org>
+ <1562297618.1212.46.camel@mtksdccf07> <CAAFQd5BaTQ-Q7gsE0X+d4_81OZq9WHaCYkmALt7_4A1JFo=_8g@mail.gmail.com>
+ <1562313579.1212.73.camel@mtksdccf07> <CAAFQd5AaNFpMGCVJREY85n8UetEwd99TOka8-ECoLzMbMkos_g@mail.gmail.com>
+ <1563870117.1212.455.camel@mtksdccf07>
+In-Reply-To: <1563870117.1212.455.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 26 Jul 2019 14:15:14 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Bh80N+cMhz=eyHUGJLaE5uuypOawQvHrTgGSMDvmcpLA@mail.gmail.com>
+Message-ID: <CAAFQd5Bh80N+cMhz=eyHUGJLaE5uuypOawQvHrTgGSMDvmcpLA@mail.gmail.com>
+Subject: Re: [RFC, v3 9/9] media: platform: Add Mediatek ISP P1 shared memory device
+To:     Jungo Lin <jungo.lin@mediatek.com>
+Cc:     devicetree@vger.kernel.org,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <sean.cheng@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <rynn.wu@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?B?UnlhbiBZdSAo5L2Z5a2f5L+uKQ==?= <ryan.yu@mediatek.com>,
+        =?UTF-8?B?RnJhbmtpZSBDaGl1ICjpgrHmloflh7Ep?= 
+        <frankie.chiu@mediatek.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sj Huang <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        ddavenport@chromium.org,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <frederic.chen@mediatek.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Jul 23, 2019 at 5:22 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
+>
+> Hi, Tomasz:
+>
+> On Tue, 2019-07-23 at 16:20 +0900, Tomasz Figa wrote:
+> > Hi Jungo,
+> >
+> > On Fri, Jul 5, 2019 at 4:59 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
+> > >
+> > > Hi Tomasz:
+> > >
+> > > On Fri, 2019-07-05 at 13:22 +0900, Tomasz Figa wrote:
+> > > > Hi Jungo,
+> > > >
+> > > > On Fri, Jul 5, 2019 at 12:33 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
+> > > > >
+> > > > > Hi Tomasz,
+> > >
+> > > [snip]
+> > >
+> > > > > After applying your suggestion in SCP device driver, we could remove
+> > > > > mtk_cam-smem.h/c. Currently, we use dma_alloc_coherent with SCP device
+> > > > > to get SCP address. We could touch the buffer with this SCP address in
+> > > > > SCP processor.
+> > > > >
+> > > > > After that, we use dma_map_page_attrs with P1 device which supports
+> > > > > IOMMU domain to get IOVA address. For this address, we will assign
+> > > > > it to our ISP HW device to proceed.
+> > > > >
+> > > > > Below is the snippet for ISP P1 compose buffer initialization.
+> > > > >
+> > > > >         ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
+> > > > >                                  MAX_COMPOSER_SIZE, &addr, GFP_KERNEL);
+> > > > >         if (!ptr) {
+> > > > >                 dev_err(dev, "failed to allocate compose memory\n");
+> > > > >                 return -ENOMEM;
+> > > > >         }
+> > > > >         isp_ctx->scp_mem_pa = addr;
+> > > >
+> > > > addr contains a DMA address, not a physical address. Could we call it
+> > > > scp_mem_dma instead?
+> > > >
+> > > > >         dev_dbg(dev, "scp addr:%pad\n", &addr);
+> > > > >
+> > > > >         /* get iova address */
+> > > > >         addr = dma_map_page_attrs(dev, phys_to_page(addr), 0,
+> > > >
+> > > > addr is a DMA address, so phys_to_page() can't be called on it. The
+> > > > simplest thing here would be to use dma_map_single() with ptr as the
+> > > > CPU address expected.
+> > > >
+> > >
+> > > We have changed to use ma_map_single() with ptr, but encounter IOMMU
+> > > error. From the debug log of iommu_dma_map_page[3], we got
+> > > 0x0000000054800000 instead of expected address: 0x0000000050800000[2].
+> > > There is a address offset(0x4000000). If we change to use
+> > > dma_map_page_attrs with phys_to_page(addr), the address is correct as we
+> > > expected[2]. Do you have any suggestion on this issue? Do we miss
+> > > something?
+> >
+> > Sorry for the late reply. Could you show me the code changes you made
+> > to use dma_map_single()? It would sound like the virtual address
+> > passed to dma_map_single() isn't correct.
+> >
+> > Best regards,
+> > Tomasz
+> >
+>
+>
+> Please check the below code snippet in today's testing.
+>
+>         p1_dev->cam_dev.smem_dev = &p1_dev->scp_pdev->dev;
+>         ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
+>                                  MTK_ISP_COMPOSER_MEM_SIZE, &addr, GFP_KERNEL);
+>         if (!ptr) {
+>                 dev_err(dev, "failed to allocate compose memory\n");
+>                 return -ENOMEM;
+>         }
+>         p1_dev->composer_scp_addr = addr;
+>         p1_dev->composer_virt_addr = ptr;
+>         dev_info(dev, "scp addr:%pad va:%pK\n", &addr, ptr);
+>
+>         /* get iova address */
+>         addr = dma_map_single(dev, ptr, MTK_ISP_COMPOSER_MEM_SIZE,
+> DMA_BIDIRECTIONAL);
+>         if (dma_mapping_error(dev, addr)) {
+>                 dma_free_coherent(p1_dev->cam_dev.smem_dev,
+>                                   MTK_ISP_COMPOSER_MEM_SIZE,
+>                                   ptr, p1_dev->composer_scp_addr);
+>                 dev_err(dev, "Failed to map scp iova\n");
+>                 ret = -ENOMEM;
+>                 goto fail_free_mem;
+>         }
+>         p1_dev->composer_iova = addr;
+>         dev_info(dev, "scp iova addr:%pad\n", &addr);
+>
+> Moreover, below is extracted log[2].
+>
+> We guess the virtual address which is returned by dma_alloc_coherent
+> function is not valid kernel logical address. It is actually returned by
+> memremap() in dma_init_coherent_memory(). Moreover, dma_map_single()
+> will call virt_to_page() function. For virt_to_page function, it
+> requires a logical address[1].
+>
+> [1]https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch15.html
+>
 
-Results of the daily build of media_tree:
+Indeed virt_to_page() works only with kernel LOWMEM addresses. Whether
+virt_to_page() is the right thing to do in dma_map_single() is a good
+question, but let's assume it was implemented like this for a reason.
 
-date:			Fri Jul 26 05:00:10 CEST 2019
-media-tree git hash:	a8f910ec66583bfb61558c3f333195b3960d832d
-media_build git hash:	03b08a7135d67653ff81bc8d88498a783c4c8498
-v4l-utils git hash:	6b63111c71eb2837195962d510c510b83c3821f0
-edid-decode git hash:	42f5fa4ed99b669da4b4169a42eca7dbf5a293c7
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+However, you also can't call phys_to_page() on the DMA addresses
+returned by dma_alloc_*() either. It works just by luck, because SCP
+DMA addresses and CPU physical addresses are numerically the same.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.63-i686: ERRORS
-linux-3.16.63-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.167-i686: ERRORS
-linux-4.4.167-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.162-i686: ERRORS
-linux-4.9.162-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.105-i686: ERRORS
-linux-4.14.105-x86_64: ERRORS
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2165, Succeeded: 2165, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Could you try dma_get_sgtable() with the SCP struct device and then
+dma_map_sg() with the P1 struct device?
 
-Logs weren't copied as they are too large (14692 kB)
+Best regards,
+Tomasz
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> [2]
+>   322 [    1.238269] mtk-cam-p1 1a006000.camisp: scp
+> addr:0x0000000052000000 va:00000000a3adc471
+>   323 [    1.239582] mtk-cam-p1 1a006000.camisp: scp iova
+> addr:0x00000000fde00000
+>  7716 [    1.238963] mtk-cam-p1 1a006000.camisp: scp
+> addr:0x0000000052000000 va:0000000042ec580f
+>  7717 [    1.240276] mtk-cam-p1 1a006000.camisp: scp iova
+> addr:0x00000000fde00000
+> 15088 [    1.239309] mtk-cam-p1 1a006000.camisp: scp
+> addr:0x0000000052000000 va:000000005e5b3462
+> 15089 [    1.240626] mtk-cam-p1 1a006000.camisp: scp iova
+> addr:0x00000000fde00000
+>
+> Best regards,
+>
+> Jungo
+>
+> > >
+> > > [1]
+> > > [    1.344786] __dma_alloc_from_coherent: 0x800000 PAGE_SHIFT:12
+> > > device_base:0x0000000050000000 dma:0x0000000050800000
+> > > virt_base:ffffff8014000000 va:ffffff8014800000
+> > >
+> > > [    1.346890] mtk-cam 1a000000.camisp: scp addr:0x0000000050800000
+> > > va:ffffff8014800000
+> > >
+> > > [    1.347864] iommu_dma_map_page:0x0000000054800000 offset:0
+> > > [    1.348562] mtk-cam 1a000000.camisp: iova addr:0x00000000fde00000
+> > >
+> > > [2]
+> > > [    1.346738] __dma_alloc_from_coherent: 0x800000 PAGE_SHIFT:12
+> > > device_base:0x0000000050000000 dma:0x0000000050800000
+> > > virt_base:ffffff8014000000 va:ffffff8014800000
+> > > [    1.348841] mtk-cam 1a000000.camisp: scp addr:0x0000000050800000
+> > > va:ffffff8014800000
+> > > [    1.349816] iommu_dma_map_page:0x0000000050800000 offset:0
+> > > [    1.350514] mtk-cam 1a000000.camisp: iova addr:0x00000000fde00000
+> > >
+> > >
+> > > [3]
+> > > dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+> > >                 unsigned long offset, size_t size, int prot)
+> > > {
+> > >         phys_addr_t phys = page_to_phys(page);
+> > >         pr_err("iommu_dma_map_page:%pa offset:%lu\n", &phys, offset);
+> > >
+> > >         return __iommu_dma_map(dev, page_to_phys(page) + offset, size, prot,
+> > >                         iommu_get_dma_domain(dev));
+> > > }
+> > >
+> > > [snip]
+> > >
+> > > Best regards,
+> > >
+> > > Jungo
+> > >
+> >
+> > _______________________________________________
+> > Linux-mediatek mailing list
+> > Linux-mediatek@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
+>
+>
