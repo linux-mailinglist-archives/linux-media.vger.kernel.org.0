@@ -2,222 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C12D7605D
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 10:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EF21760E7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 10:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725945AbfGZIHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 04:07:24 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:52894 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725815AbfGZIHX (ORCPT
+        id S1726300AbfGZIeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 04:34:11 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:47621 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725842AbfGZIeL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 04:07:23 -0400
-X-UUID: cbf2136ac42e4a648bc565fa019146ae-20190726
-X-UUID: cbf2136ac42e4a648bc565fa019146ae-20190726
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <jungo.lin@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
-        with ESMTP id 1274394466; Fri, 26 Jul 2019 16:07:17 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 26 Jul 2019 16:07:17 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 26 Jul 2019 16:07:17 +0800
-Message-ID: <1564128437.1212.615.camel@mtksdccf07>
-Subject: Re: [RFC,v3 8/9] media: platform: Add Mediatek ISP P1 SCP
- communication
-From:   Jungo Lin <jungo.lin@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        <devicetree@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        <ddavenport@chromium.org>, Rob Herring <robh@kernel.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <sean.cheng@mediatek.com>, "Sj Huang" <sj.huang@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <frederic.chen@mediatek.com>,
-        Ryan Yu =?UTF-8?Q?=28=E4=BD=99=E5=AD=9F=E4=BF=AE=29?= 
-        <ryan.yu@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <rynn.wu@mediatek.com>,
-        Frankie Chiu =?UTF-8?Q?=28=E9=82=B1=E6=96=87=E5=87=B1=29?= 
-        <frankie.chiu@mediatek.com>
-Date:   Fri, 26 Jul 2019 16:07:17 +0800
-In-Reply-To: <CAAFQd5BT7M425AbFicYuX+wr-twgS_cxQ937+Rgxo6Y2fA6_gA@mail.gmail.com>
-References: <jungo.lin@mediatek.com>
-         <20190611035344.29814-1-jungo.lin@mediatek.com>
-         <20190611035344.29814-9-jungo.lin@mediatek.com>
-         <20190710095827.GC181405@chromium.org>
-         <1563675513.1212.444.camel@mtksdccf07>
-         <CAAFQd5BT7M425AbFicYuX+wr-twgS_cxQ937+Rgxo6Y2fA6_gA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        Fri, 26 Jul 2019 04:34:11 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qvfnhIatWAffAqvfqhWoI5; Fri, 26 Jul 2019 10:34:08 +0200
+Subject: Re: [PATCH v7 0/4] HEVC/H.265 stateless support for V4L2 and Cedrus
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@googlegroups.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20190725185602.22522-1-paul.kocialkowski@bootlin.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7fa38a2c-8e16-5e88-d073-1d04e9feaa84@xs4all.nl>
+Date:   Fri, 26 Jul 2019 10:33:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MTK:  N
+In-Reply-To: <20190725185602.22522-1-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNsva33SWs0vuOMOs0gxsaNeFw/rMhzSnsHXRYnqVZZsm13uavrno33Yi+FLd95MK3M4q3XPzn/qIMrTKtUEIoEv+GYcpYWgVfwqXtMJsR6AQtiCEFs4
+ dYUzz6sxR52Sf1T6fZK6VDxVzyHySEtCEZ1Yy3oiCCLBYVI4abNqtNlvPWQUDnVbTwwVEHx71ZbIVIBFbl2GyRp2VLeken9WELUNhYmsa4VjTq1PGq6W5a28
+ OyR55+Xg+jtyyct418LWizQepHD7emo2Z8aexLhFr/W1YDBsojff/r4EoCcvefb+ijkdYbMDzXmBifhJmAIgrldsFN5TgENKYohzNCQ3ZKUvL1FLPZrrl3vk
+ PeEj7zEuCvFZxLLgf/4ymX7ZPB32GOPqyPWjT16+Bpsr6KIgfJYEyuKQWPIzQFKvMB7+effcUGTSwnMlYxRMlXkMX31AMvk61paNTZUC1oX86yBX9gaM3bJm
+ zVkyLsJJh1UmG73aG7TrsPb8yLEQQCMt1W4DxNsI8R5ohaZn4tCpe9pMYBaudM77TbC2L99wXHg85J669Wg3LBaLpJzbR3q+lhcg5pmfD6ftUb3I0lYUUdmR
+ F5ArKmRQiY1z6mtLJuRz+ziiOrBpbCdhBNV6ZIInN/9t2o+clzNKWA3FR6Zy+qC8xRUjUKEa91ao30YYSN5ituHIiikrZlOUekhOVLH4ImLI4B+Si5r4bw16
+ Px/LEJUWtUUM9dSJb8GYXHsZrbbQggKSVVOZfDsj8CebL5cQ4DgWIGDKXKzCTaAEyBuGHCtyjmpdDA/NIwyyW7ZF/KHGkCDiUeT7R3P04Ya4l7U7xYRGswaa
+ LepCXkdb8+KiG+IfJBs=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Tomasz:
-
-On Thu, 2019-07-25 at 19:56 +0900, Tomasz Figa wrote:
-> Hi Jungo,
+On 7/25/19 8:55 PM, Paul Kocialkowski wrote:
+> HEVC/H.265 stateless support for V4L2 and Cedrus
 > 
-> On Sun, Jul 21, 2019 at 11:18 AM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> [snip]
-> > > > +           wake_up_interruptible(&isp_ctx->composer_tx_thread.wq);
-> > > > +           isp_ctx->composer_tx_thread.thread = NULL;
-> > > > +   }
-> > > > +
-> > > > +   if (isp_ctx->composer_deinit_thread.thread) {
-> > > > +           wake_up(&isp_ctx->composer_deinit_thread.wq);
-> > > > +           isp_ctx->composer_deinit_thread.thread = NULL;
-> > > > +   }
-> > > > +   mutex_unlock(&isp_ctx->lock);
-> > > > +
-> > > > +   pm_runtime_put_sync(&p1_dev->pdev->dev);
-> > >
-> > > No need to use the sync variant.
-> > >
-> >
-> > We don't get this point. If we will call pm_runtime_get_sync in
-> > mtk_isp_hw_init function, will we need to call
-> > pm_runtime_put_sync_autosuspend in mtk_isp_hw_release in next patch?
-> > As we know, we should call runtime pm functions in pair.
-> >
+> This is early support for HEVC/H.265 stateless decoding in V4L2,
+> including both definitions and driver support for the Cedrus VPU
+> driver, which concerns Allwinner devices.
 > 
-> My point is that pm_runtime_put_sync() is only needed if one wants the
-> runtime count to be decremented after the function returns. Normally
-> there is no need to do so and one would call pm_runtime_put(), or if
-> autosuspend is used, pm_runtime_put_autosuspend() (note there is no
-> "sync" in the name).
+> A specific pixel format is introduced for the HEVC slice format and
+> controls are provided to pass the bitstream metadata to the decoder.
+> Some bitstream extensions are intentionally not supported at this point.
 > 
-> [snip]
-
-Ok, got your point.
-We will change to use pm_runtime_put_autosuspend() which has ASYNC flag.
-
-> > > +static void isp_composer_handler(void *data, unsigned int len, void *priv)
-> > > > +{
-> > > > +   struct mtk_isp_p1_ctx *isp_ctx = (struct mtk_isp_p1_ctx *)priv;
-> > > > +   struct isp_p1_device *p1_dev = p1_ctx_to_dev(isp_ctx);
-> > > > +   struct device *dev = &p1_dev->pdev->dev;
-> > > > +   struct mtk_isp_scp_p1_cmd *ipi_msg;
-> > > > +
-> > > > +   ipi_msg = (struct mtk_isp_scp_p1_cmd *)data;
-> > >
-> > > Should we check that len == sizeof(*ipi_msg)? (Or at least >=, if data could
-> > > contain some extra bytes at the end.)
-> > >
-> >
-> > The len parameter is the actual sending bytes from SCP to kernel.
-> > In the runtime, it is only 6 bytes for isp_ack_info command
-> > However, sizeof(*ipi_msg) is large due to struct mtk_isp_scp_p1_cmd is
-> > union structure.
-> >
+> Since this is the first proposal for stateless HEVC/H.265 support in
+> V4L2, reviews and comments about the controls definitions are
+> particularly welcome.
 > 
-> That said we still should check if len is enough to cover the data
-> we're accessing below.
+> On the Cedrus side, the H.265 implementation covers frame pictures
+> with both uni-directional and bi-direction prediction modes (P/B
+> slices). Field pictures (interleaved), scaling lists and 10-bit output
+> are not supported at this point.
 > 
+> Changes since v6:
+> * Rebased on latest media tree from Hans;
 
-Ok, we will add the len checking before accessing the data.
+Which tree is that? Or are you just referring our media_tree master
+branch? (which isn't 'my' tree :-) )
 
-> > > > +
-> > > > +   if (ipi_msg->cmd_id != ISP_CMD_ACK)
-> > > > +           return;
-> > > > +
-> > > > +   if (ipi_msg->ack_info.cmd_id == ISP_CMD_FRAME_ACK) {
-> > > > +           dev_dbg(dev, "ack frame_num:%d",
-> > > > +                   ipi_msg->ack_info.frame_seq_no);
-> > > > +           atomic_set(&isp_ctx->composed_frame_id,
-> > > > +                      ipi_msg->ack_info.frame_seq_no);
-> > >
-> > > I suppose we are expecting here that ipi_msg->ack_info.frame_seq_no would be
-> > > just isp_ctx->composed_frame_id + 1, right? If not, we probably dropped some
-> > > frames and we should handle that somehow.
-> > >
-> >
-> > No, we use isp_ctx->composed_frame_id to save which frame sequence
-> > number are composed done in SCP. In new design, we will move this from
-> > isp_ctx to p1_dev.
+Regards,
+
+	Hans
+
+> * Reordered some fields to avoid holes and multi-padding;
+> * Updated the documentation.
 > 
-> But we compose the frames in order, don't we? Wouldn't every composed
-> frame would be just previous frame ID + 1?
+> Changes since v5:
+> * Rebased atop latest next media tree;
+> * Moved to flags instead of u8 fields;
+> * Added padding to ensure 64-bit alignment
+>   (tested with GDB on 32 and 64-bit architectures);
+> * Reworked cedrus H.265 driver support a bit for flags;
+> * Split off codec-specific control validation and init;
+> * Added HEVC controls fields cleanup at std_validate to allow reliable
+>   control comparison with memcmp;
+> * Fixed various misc reported mistakes.
 > 
-> [snip]
-
-Yes, we compose the frames in order.
-At the same time, we already increased "frame ID + 1" in
-mtk_isp_req_enqueue() for each new request before sending to SCP for
-composing. After receiving the ACK from SCP, we think the frame ID is
-composed done and save by isp_ctx->composed_frame_id(v3).
-
-[RFC v3]
-void mtk_isp_req_enqueue(struct device *dev, struct media_request *req)
-{
-	...
-	frameparams.frame_seq_no = isp_ctx->frame_seq_no++;
-
-[RFC v4]
-void mtk_isp_req_enqueue(struct mtk_cam_dev *cam,
-			 struct mtk_cam_dev_request *req)
-{
-	struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(cam->dev);
-
-	/* Accumulated frame sequence number */
-	req->frame_params.frame_seq_no = ++p1_dev->enqueue_frame_seq_no;
-
- 
-
-> > > > +void isp_composer_hw_init(struct device *dev)
-> > > > +{
-> > > > +   struct mtk_isp_scp_p1_cmd composer_tx_cmd;
-> > > > +   struct isp_p1_device *p1_dev = get_p1_device(dev);
-> > > > +   struct mtk_isp_p1_ctx *isp_ctx = &p1_dev->isp_ctx;
-> > > > +
-> > > > +   memset(&composer_tx_cmd, 0, sizeof(composer_tx_cmd));
-> > > > +   composer_tx_cmd.cmd_id = ISP_CMD_INIT;
-> > > > +   composer_tx_cmd.frameparam.hw_module = isp_ctx->isp_hw_module;
-> > > > +   composer_tx_cmd.frameparam.cq_addr.iova = isp_ctx->scp_mem_iova;
-> > > > +   composer_tx_cmd.frameparam.cq_addr.scp_addr = isp_ctx->scp_mem_pa;
-> > >
-> > > Should we also specify the size of the buffer? Otherwise we could end up
-> > > with some undetectable overruns.
-> > >
-> >
-> > The size of SCP composer's memory is fixed to 0x200000.
-> > Is it necessary to specify the size of this buffer?
-> >
-> > #define MTK_ISP_COMPOSER_MEM_SIZE 0x200000
-> >
-> > ptr = dma_alloc_coherent(p1_dev->cam_dev.smem_dev,
-> >                         MTK_ISP_COMPOSER_MEM_SIZE, &addr, GFP_KERNEL);
-> >
+> Changes since v4:
+> * Rebased atop latest H.254 series.
 > 
-> Okay, but please add a comment saying that this is an implicit
-> requirement of the firmware.
+> Changes since v3:
+> * Updated commit messages;
+> * Updated CID base to avoid conflicts;
+> * Used cpu_to_le32 for packed le32 data;
+> * Fixed misc minor issues in the drive code;
+> * Made it clear in the docs that the API will evolve;
+> * Made the pixfmt private and split commits about it.
 > 
-> Best regards,
-> Tomasz
-
-Ok, we will add comments.
-
-Best regards,
-
-
-Jungo
-
-
-
+> Changes since v2:
+> * Moved headers to non-public API;
+> * Added H265 capability for A64 and H5;
+> * Moved docs to ext-ctrls-codec.rst;
+> * Mentionned sections of the spec in the docs;
+> * Added padding to control structures for 32-bit alignment;
+> * Made write function use void/size in bytes;
+> * Reduced the number of arguments to helpers when possible;
+> * Removed PHYS_OFFSET since we already set PFN_OFFSET;
+> * Added comments where suggested;
+> * Moved to timestamp for references instead of index;
+> * Fixed some style issues reported by checkpatch.
+> 
+> Changes since v1:
+> * Added a H.265 capability to whitelist relevant platforms;
+> * Switched over to tags instead of buffer indices in the DPB
+> * Declared variable in their reduced scope as suggested;
+> * Added the H.265/HEVC spec to the biblio;
+> * Used in-doc references to the spec and the required APIs;
+> * Removed debugging leftovers.
+> 
+> Cheers!
+> 
+> Paul Kocialkowski (4):
+>   media: v4l2-ctrl: Add a comment on why we zero out compound controls
+>     fields
+>   media: v4l: Add definitions for the HEVC slice controls
+>   media: pixfmt: Document the HEVC slice pixel format
+>   media: cedrus: Add HEVC/H.265 decoding support
+> 
+>  Documentation/media/uapi/v4l/biblio.rst       |   9 +
+>  .../media/uapi/v4l/ext-ctrls-codec.rst        | 486 +++++++++++++-
+>  .../media/uapi/v4l/pixfmt-compressed.rst      |  21 +
+>  .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
+>  .../media/videodev2.h.rst.exceptions          |   3 +
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |  93 +++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  31 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++++
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 271 ++++++++
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
+>  include/media/hevc-ctrls.h                    | 198 ++++++
+>  include/media/v4l2-ctrls.h                    |   7 +
+>  17 files changed, 1789 insertions(+), 8 deletions(-)
+>  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>  create mode 100644 include/media/hevc-ctrls.h
+> 
 
