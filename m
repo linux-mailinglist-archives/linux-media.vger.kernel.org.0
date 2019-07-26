@@ -2,214 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6AA07652A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 14:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C3576AD4
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2019 16:01:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfGZMI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 08:08:29 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:37289 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726207AbfGZMI3 (ORCPT
+        id S2387717AbfGZOBO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 10:01:14 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55225 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388432AbfGZOBM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 08:08:29 -0400
-Received: from tschai.fritz.box ([46.9.232.237])
+        Fri, 26 Jul 2019 10:01:12 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id qz1JhX1g2ur8Tqz1PhyBWL; Fri, 26 Jul 2019 14:08:27 +0200
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/3] vivid: add support for new pixelformats
-Date:   Fri, 26 Jul 2019 14:08:21 +0200
-Message-Id: <20190726120821.12569-4-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190726120821.12569-1-hverkuil-cisco@xs4all.nl>
-References: <20190726120821.12569-1-hverkuil-cisco@xs4all.nl>
+        id r0mRhXjmVur8Tr0mUhyb3N; Fri, 26 Jul 2019 16:01:10 +0200
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v5.3] vivid: fix missing cec adapter name
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Johan Korsnes <johan.korsnes@gmail.com>
+Message-ID: <cd7a3809-ac0b-3165-68b1-3ee82b94b653@xs4all.nl>
+Date:   Fri, 26 Jul 2019 16:01:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfDCJvHOUgneMZiUnKG/Wt0MDiBaaBdulHy931OZx90S0u/UOEyMO7JvuOU/UgVkJOfHjVCYczaLT5OPPHKZgAafaRaDL+HSsPZGHB5tDrz342MOCUD83
- lkQidgcwyM0QnNPpEnAoyFWAzqa8DqK20qyjoceVpi0bCRPIKswWuoRSNeaIJL+v1QjAQ+xp58Gxvt9LUIHhlCWgfYcec2D8x0C9DO2soRTZN9s6n0+vTsLA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAbmPbEG8APXobTbLZyDKtBIpUuiJNaJL3+rEFhBI2bJZzKVxpNzievQyolZZE3y1mi0qH7gGl/QLrVy+GATFDKW/IsyOYMCpmXeQND19maXzFQGZ+bD
+ 3T57e85aziRowZTRxElkIVaf83pxoG2LX3d5Xo8zAcpGYHFmEJ9xWbVkyCEgx/W0Is+2LZAZYILmPBwGHiWVCKtw+6BGLFI89m4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-New RGB444, RGB555 and RGB32 variants were recently added. Now also
-support them in vivid.
+Commit "vivid: reorder CEC allocation and control set-up" missed that the CEC adapter
+needs a valid vfd->name, and that was now filled in after the CEC adapter was
+created, leading to an empty adapter name.
+
+Fill in the name earlier.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 4ee895e71abb ("media: vivid: reorder CEC allocation and control set-up")
 ---
- .../media/platform/vivid/vivid-vid-common.c   | 132 +++++++++++++++++-
- 1 file changed, 129 insertions(+), 3 deletions(-)
+diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+index 8e1ebc94943e..53315c8dd2bb 100644
+--- a/drivers/media/platform/vivid/vivid-core.c
++++ b/drivers/media/platform/vivid/vivid-core.c
+@@ -1099,6 +1099,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
 
-diff --git a/drivers/media/platform/vivid/vivid-vid-common.c b/drivers/media/platform/vivid/vivid-vid-common.c
-index 1f33eb1a76b6..8665dfd25eb4 100644
---- a/drivers/media/platform/vivid/vivid-vid-common.c
-+++ b/drivers/media/platform/vivid/vivid-vid-common.c
-@@ -262,21 +262,66 @@ struct vivid_fmt vivid_formats[] = {
- 		.can_do_overlay = true,
- 	},
- 	{
--		.fourcc   = V4L2_PIX_FMT_RGB444, /* xxxxrrrr ggggbbbb */
-+		.fourcc   = V4L2_PIX_FMT_RGB444, /* ggggbbbb xxxxrrrr */
- 		.vdownsampling = { 1 },
- 		.bit_depth = { 16 },
- 		.planes   = 1,
- 		.buffers = 1,
- 	},
- 	{
--		.fourcc   = V4L2_PIX_FMT_XRGB444, /* xxxxrrrr ggggbbbb */
-+		.fourcc   = V4L2_PIX_FMT_XRGB444, /* ggggbbbb xxxxrrrr */
- 		.vdownsampling = { 1 },
- 		.bit_depth = { 16 },
- 		.planes   = 1,
- 		.buffers = 1,
- 	},
- 	{
--		.fourcc   = V4L2_PIX_FMT_ARGB444, /* aaaarrrr ggggbbbb */
-+		.fourcc   = V4L2_PIX_FMT_ARGB444, /* ggggbbbb aaaarrrr */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.alpha_mask = 0x00f0,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBX444, /* bbbbxxxx rrrrgggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBA444, /* bbbbaaaa rrrrgggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.alpha_mask = 0x00f0,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_XBGR444, /* ggggrrrr xxxxbbbb */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_ABGR444, /* ggggrrrr aaaabbbb */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.alpha_mask = 0x00f0,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRX444, /* rrrrxxxx bbbbgggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRA444, /* rrrraaaa bbbbgggg  */
- 		.vdownsampling = { 1 },
- 		.bit_depth = { 16 },
- 		.planes   = 1,
-@@ -308,6 +353,57 @@ struct vivid_fmt vivid_formats[] = {
- 		.can_do_overlay = true,
- 		.alpha_mask = 0x8000,
- 	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBX555, /* ggbbbbbx rrrrrggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBA555, /* ggbbbbba rrrrrggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+		.alpha_mask = 0x8000,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_XBGR555, /* gggrrrrr xbbbbbgg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_ABGR555, /* gggrrrrr abbbbbgg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+		.alpha_mask = 0x8000,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRX555, /* ggrrrrrx bbbbbggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRA555, /* ggrrrrra bbbbbggg */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 16 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.can_do_overlay = true,
-+		.alpha_mask = 0x8000,
-+	},
- 	{
- 		.fourcc   = V4L2_PIX_FMT_RGB555X, /* xrrrrrgg gggbbbbb */
- 		.vdownsampling = { 1 },
-@@ -395,6 +491,36 @@ struct vivid_fmt vivid_formats[] = {
- 		.buffers = 1,
- 		.alpha_mask = 0xff000000,
- 	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBX32, /* rgbx */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 32 },
-+		.planes   = 1,
-+		.buffers = 1,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRX32, /* xbgr */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 32 },
-+		.planes   = 1,
-+		.buffers = 1,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_RGBA32, /* rgba */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 32 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.alpha_mask = 0x000000ff,
-+	},
-+	{
-+		.fourcc   = V4L2_PIX_FMT_BGRA32, /* abgr */
-+		.vdownsampling = { 1 },
-+		.bit_depth = { 32 },
-+		.planes   = 1,
-+		.buffers = 1,
-+		.alpha_mask = 0xff000000,
-+	},
- 	{
- 		.fourcc   = V4L2_PIX_FMT_SBGGR8, /* Bayer BG/GR */
- 		.vdownsampling = { 1 },
--- 
-2.20.1
+ 	/* start creating the vb2 queues */
+ 	if (dev->has_vid_cap) {
++		snprintf(dev->vid_cap_dev.name, sizeof(dev->vid_cap_dev.name),
++			 "vivid-%03d-vid-cap", inst);
+ 		/* initialize vid_cap queue */
+ 		q = &dev->vb_vid_cap_q;
+ 		q->type = dev->multiplanar ? V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE :
+@@ -1122,6 +1124,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	}
 
+ 	if (dev->has_vid_out) {
++		snprintf(dev->vid_out_dev.name, sizeof(dev->vid_out_dev.name),
++			 "vivid-%03d-vid-out", inst);
+ 		/* initialize vid_out queue */
+ 		q = &dev->vb_vid_out_q;
+ 		q->type = dev->multiplanar ? V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE :
+@@ -1265,8 +1269,6 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+ 	/* finally start creating the device nodes */
+ 	if (dev->has_vid_cap) {
+ 		vfd = &dev->vid_cap_dev;
+-		snprintf(vfd->name, sizeof(vfd->name),
+-			 "vivid-%03d-vid-cap", inst);
+ 		vfd->fops = &vivid_fops;
+ 		vfd->ioctl_ops = &vivid_ioctl_ops;
+ 		vfd->device_caps = dev->vid_cap_caps;
+@@ -1312,8 +1314,6 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+
+ 	if (dev->has_vid_out) {
+ 		vfd = &dev->vid_out_dev;
+-		snprintf(vfd->name, sizeof(vfd->name),
+-			 "vivid-%03d-vid-out", inst);
+ 		vfd->vfl_dir = VFL_DIR_TX;
+ 		vfd->fops = &vivid_fops;
+ 		vfd->ioctl_ops = &vivid_ioctl_ops;
