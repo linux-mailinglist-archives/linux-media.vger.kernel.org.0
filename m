@@ -2,340 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C9477562
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 02:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B39737756F
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 02:38:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727951AbfG0ARM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jul 2019 20:17:12 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35828 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726102AbfG0ARM (ORCPT
+        id S1726640AbfG0AiW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jul 2019 20:38:22 -0400
+Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.227]:57586 "EHLO
+        cdptpa-cmomta02.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726115AbfG0AiW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jul 2019 20:17:12 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 90D7828BD91
-Message-ID: <e9dc1975727f6aeee34114c9fdb488bf71a2aa71.camel@collabora.com>
-Subject: Re: [PATCH 2/2] media: Don't hide any menu if "ancillary drivers
- autoselect" is enabled
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Chen-Yu Tsai <wens@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
-Date:   Fri, 26 Jul 2019 21:17:00 -0300
-In-Reply-To: <20190725230929.6a52133c@coco.lan>
-References: <20190715212316.352-1-ezequiel@collabora.com>
-         <20190715212316.352-3-ezequiel@collabora.com>
-         <20190725125730.2218f0a8@coco.lan>
-         <f87fb2e6bd740de8c44df1f8ff3b48b7b04af481.camel@collabora.com>
-         <CAGb2v65wOz+nUi=Leb3FudU7K5S_AHtuCarXHcO0kMvvqEw8rQ@mail.gmail.com>
-         <20190725154111.7fc7e335@coco.lan>
-         <cb3e54a7281678b89e34eee82009f615589fea94.camel@collabora.com>
-         <20190725230929.6a52133c@coco.lan>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Fri, 26 Jul 2019 20:38:22 -0400
+Received: from [192.168.2.97] ([72.182.16.184])
+        by cmsmtp with ESMTP
+        id rAj2hXLs9zqEzrAj4hBsp7; Sat, 27 Jul 2019 00:38:19 +0000
+Subject: Re: [PATCH 1/2]: media: hdpvr: Add adaptive sleeping in
+ hdpvr_start_streaming
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <f3ef6967-2b00-6ee7-19ef-086014fe6aab@austin.rr.com>
+ <f2cc9f3c-b4e4-cb89-910c-f4782390d8d9@xs4all.nl>
+From:   Keith Pyle <kpyle@austin.rr.com>
+Message-ID: <b40667d3-09ea-9ff3-78d5-12f890314c8f@austin.rr.com>
+Date:   Fri, 26 Jul 2019 19:38:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <f2cc9f3c-b4e4-cb89-910c-f4782390d8d9@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CMAE-Envelope: MS4wfDv5jinnMElRx7AGfaE0Yj9SsBzfU1IH0e42hHn+cIlJm4L6ScNNAAIC+LwOYzJAEQt/Sk1b2iSaa48S68SOhT9OCwO/Dk3XGICYoHOn87o8dGY2cj4B
+ qnbWpjAEGdRL04AODpGg2udsxwwxaVDqJHSmV8QHHXVxY6qv7d02OKeNlAnYHGtHysMdOpe8bIaPdBCKMRWtexn4PSByUrAPaPY=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-07-25 at 23:09 -0300, Mauro Carvalho Chehab wrote:
-> Em Thu, 25 Jul 2019 20:55:13 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> 
-> > On Thu, 2019-07-25 at 15:41 -0300, Mauro Carvalho Chehab wrote:
-> > > Em Fri, 26 Jul 2019 01:29:58 +0800
-> > > Chen-Yu Tsai <wens@kernel.org> escreveu:
-> > >   
-> > > > On Fri, Jul 26, 2019 at 1:06 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:  
-> > > > > On Thu, 2019-07-25 at 12:57 -0300, Mauro Carvalho Chehab wrote:    
-> > > > > > Em Mon, 15 Jul 2019 18:23:16 -0300
-> > > > > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > > > > >    
-> > > > > > > 	Many users have been complaining about not being able to find
-> > > > > > > certain menu options. One such example are camera sensor drivers
-> > > > > > > (e.g IMX219, OV5645, etc) which are common on embedded platforms
-> > > > > > > and not always ancillary devices.
-> > > > > > > 
-> > > > > > > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > > > > > > to the fact that it uses the "visible" kbuild syntax to hide
-> > > > > > > entire group of drivers.
-> > > > > > > 
-> > > > > > > This is not obvious and, as explained above, not always desired.
-> > > > > > > 
-> > > > > > > To fix the problem, drop the "visible" and stop hiding any menu
-> > > > > > > options. Users skilled enough to configure their kernel are expected
-> > > > > > > to be skilled enough to know what (not) to configure anyway.
-> > > > > > > 
-> > > > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > > ---
-> > > > > > >  drivers/media/dvb-frontends/Kconfig | 1 -
-> > > > > > >  drivers/media/i2c/Kconfig           | 1 -
-> > > > > > >  drivers/media/spi/Kconfig           | 1 -
-> > > > > > >  drivers/media/tuners/Kconfig        | 1 -
-> > > > > > >  4 files changed, 4 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > > > > > > index dc43749177df..2d1fea3bf546 100644
-> > > > > > > --- a/drivers/media/dvb-frontends/Kconfig
-> > > > > > > +++ b/drivers/media/dvb-frontends/Kconfig
-> > > > > > > @@ -1,5 +1,4 @@
-> > > > > > >  menu "Customise DVB Frontends"
-> > > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> > > > > > > 
-> > > > > > >  comment "Multistandard (satellite) frontends"
-> > > > > > >     depends on DVB_CORE
-> > > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > > > > > index 79ce9ec6fc1b..475072bb67d6 100644
-> > > > > > > --- a/drivers/media/i2c/Kconfig
-> > > > > > > +++ b/drivers/media/i2c/Kconfig
-> > > > > > > @@ -23,7 +23,6 @@ config VIDEO_IR_I2C
-> > > > > > >  #
-> > > > > > > 
-> > > > > > >  menu "I2C Encoders, decoders, sensors and other helper chips"
-> > > > > > > -   visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT    
-> > > > > > 
-> > > > > > Hmm... Hans picked this patch, but IMO it doesn't make sense
-> > > > > > for PC consumer people to see the hundreds of extra options
-> > > > > > that making those menus visible will produce.
-> > > > > > 
-> > > > > > This was added because in the past we had lots of issues with
-> > > > > > people desktop/laptop settings with all those things enabled.
-> > > > > > 
-> > > > > > In any case, if the desktop/laptop user is smart enough to
-> > > > > > go though it, he can simply disable MEDIA_SUBDRV_AUTOSELECT and
-> > > > > > manually select what he wants, so I really miss the point of
-> > > > > > making those stuff always visible.
-> > > > > > 
-> > > > > > Now, from this patch's comments, it seems that you want this
-> > > > > > to be visible if CONFIG_EMBEDDED. So, I won't complain if you
-> > > > > > replace the changes on this patch to:
-> > > > > > 
-> > > > > >       menu "foo"
-> > > > > >           visible if !MEDIA_SUBDRV_AUTOSELECT || !EMBEDDED || COMPILE_TEST || EXPERT
-> > > > > > 
-> > > > > > In other words, for the normal guy that just wants to build the
-> > > > > > latest media stuff for his PC camera or TV device to work, he won't
-> > > > > > need to dig into hundreds of things that won't make any difference
-> > > > > > if he enables, except for making the Kernel bigger.
-> > > > > >    
-> > > > > 
-> > > > > Well, I think the real value of MEDIA_SUBDRV_AUTOSELECT is the autoselection,
-> > > > > not the hidden part. I'm really missing to see what hiding anything gives you.
-> > > > > 
-> > > > > In other words, this option gets useful when driver authors select ancillary
-> > > > > drivers such as:
-> > > > > 
-> > > > > config VIDEO_USBVISION
-> > > > >         tristate "USB video devices based on Nogatech NT1003/1004/1005"
-> > > > >         depends on I2C && VIDEO_V4L2
-> > > > >         select VIDEO_TUNER
-> > > > >         select VIDEO_SAA711X if MEDIA_SUBDRV_AUTOSELECT
-> > > > > 
-> > > > > What's so confusing about having these drivers visible? Compared to the
-> > > > > rest of the zillion menu options, what's more confusing about seeing these?
-> > > > > 
-> > > > > Now, while I would agree with EMBEDDED, the problem with that is that
-> > > > > many "embedded" platforms don't enable EMBEDDED. So, it's not that useful.
-> > > > > 
-> > > > > Finally, let me give an example of why hiding the menus is so bad.
-> > > > > Normally, to enable a symbol, we use the search tool.
-> > > > > 
-> > > > > Now, when MEDIA_SUBDRV_AUTOSELECT=y, the search tool will _not_ take you
-> > > > > there and there's no indication why.    
-> > > > 
-> > > > As someone who has done so in the past year, I agree it's confusing.
-> > > > I had to dig through the Kconfig files to figure out which knobs to
-> > > > turn to get the OV5640 option out. The description says "auto-selecting",  
-> > > 
-> > > Well, the text and/or the help message can be changed, if it is not
-> > > clear enough, but this option was added because we had too many issues
-> > > with users trying to build drivers for their devices without being
-> > > able to do that, because selecting thousands of devices is something
-> > > that an average PC user has troubles.
-> > > 
-> > > I'm all to improve it, provided that we don't make harder for non-devs
-> > > to build the Kernel.
-> > >   
-> > 
-> > I just recalled Buildroot made extensive use of comments,
-> > so how about this instead:
-> > 
-> > From fdbb96242422823a6df59cf457ebd19f83e45ffe Mon Sep 17 00:00:00 2001
-> > From: Ezequiel Garcia <ezequiel@collabora.com>
-> > Date: Thu, 25 Jul 2019 20:45:07 -0300
-> > Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-> > 
-> > Some users have been having a hard time finding certain menu
-> > options. One such example are camera sensor drivers
-> > (e.g IMX219, OV5645, etc) which are common on embedded
-> > platforms and not really "ancillary" devices.
-> > 
-> > The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-> > to the fact that it uses the "visible" kbuild syntax to hide
-> > entire group of drivers.
-> > 
-> > This is not obvious and it normally takes some time to
-> > figure out.
-> > 
-> > To fix the problem, add a comment on each of hidden menus,
-> > which should clarify what option is causing menus to be hidden.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/media/dvb-frontends/Kconfig | 3 +++
-> >  drivers/media/i2c/Kconfig           | 3 +++
-> >  drivers/media/spi/Kconfig           | 3 +++
-> >  drivers/media/tuners/Kconfig        | 4 ++++
-> >  4 files changed, 13 insertions(+)
-> > 
-> > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > index dc43749177df..5e2ba9d03662 100644
-> > --- a/drivers/media/dvb-frontends/Kconfig
-> > +++ b/drivers/media/dvb-frontends/Kconfig
-> > @@ -1,3 +1,6 @@
-> > +comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-> > +	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> > +
-> >  menu "Customise DVB Frontends"
-> >  	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-> 
-> Makes sense to me.
-> 
-> Yet, it will keep repeating the same dependency logic everywhere.
-> 
-> Maybe we could have something like:
-> 
-> config MEDIA_SIMPLIFY_SELECT
-> 	bool
-> 	depends on !(!MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT)
-> 	default y
-> 
-> (yeah, the name sucks - feel free to suggest a better name for
-> the symbol)
-> 
-> and use it instead of keeping repeating the same if over and over.
-> 
+On 07/25/19 02:10, Hans Verkuil wrote:
+> On 7/7/19 11:15 PM, Keith Pyle wrote:
+>> The hdpvr firmware reacts poorly to a fast close/open sequence.  Delaying
+>> a few seconds between the close and next open produces generally reliable
+>> results.  Rather than requiring user programs to implement this delay and
+>> coordinate among themselves when the device is handed from one program to
+>> another, add kernel support for delaying the attempt to start streaming if
+>> the device only recently stopped streaming.  A delay of 4 seconds seems to
+>> be sufficient, but some administrators may wish to push their luck by
+>> trying shorter delays.  To allow administrators to change the delay, add a
+>> new parameter to the hdpvr module: `hdpvr_close_to_open_ms_delay`, which
+>> specifies the delay in milliseconds between a close and subsequent
+>> start-streaming.  If the user application has already delayed by at least
+>> that long for its own reasons, this feature will add no further delay.
+>>
+>> Signed-off-by: Keith Pyle <kpyle@austin.rr.com>
+>> Tested-by: Keith Pyle <kpyle@austin.rr.com>
+>> ---
+>> Changes since v1:
+>> - Rewrapped output at 80 columns, per request from Hans.  Literal strings
+>> still exceed 80 columns where necessary to keep an entire string together,
+>> since this makes it easier for grep to find the file and line that
+>> generates a given message.
+>> - Reviewed Hans request to use `jiffies` instead of `get_jiffies_64()`.
+>> Per the documentation, raw `jiffies` appears to be inappropriate
+>> on 32-bit systems, so the patch continues to use `get_jiffies_64()`.
+> That's news to all the 32-bit systems that have been using jiffies since the
+> dawn of time.
+>
+> Please use jiffies, like everyone else. 'jiffies' is an unsigned long, so
+> 32 bits on a 32 bit system and 64 bit on a 64 bit system. Just want you
+> want.
+Actually, it isn't.  Contrary to your interpretation, we intentionally used the 64 bit value for jiffies on both 32 and 64 bit systems since the get_jiffies_64 macro returns a u64 in all cases.  Recording systems using HD-PVR devices frequently have long uptimes, so rollover of a 32-bit jiffies value could be a problem (i.e., the necessary delay before a streaming restart would be missing in the event of a rollover).  Extra code for rollover detection would be needed.
 
-I've added an extra config, and used it also for the 'visible' syntax.
+Also, include/linux/jiffies.h specifically says "The 64-bit value is not atomic - you MUST NOT read it...", so we use the get_jiffies_64 macro as the header recommends.  On a 64-bit system, the macro becomes an inline return of jiffies.   On a 32-bit system, it becomes an appropriate function call.
 
-From e3d7207f7055bb7b69ce7fd0a5c9305c550b18ae Mon Sep 17 00:00:00 2001
-From: Ezequiel Garcia <ezequiel@collabora.com>
-Date: Thu, 25 Jul 2019 20:45:07 -0300
-Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-
-Some users have been having a hard time finding certain menu
-options. One such example are camera sensor drivers
-(e.g IMX219, OV5645, etc) which are common on embedded
-platforms and not really "ancillary" devices.
-
-The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-to the fact that it uses the "visible" kbuild syntax to hide
-entire group of drivers.
-
-This is not obvious and it normally takes some time to
-figure out.
-
-To fix the problem, add a comment on each of hidden menus,
-which should clarify what option is causing menus to be hidden.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/media/Kconfig               | 5 +++++
- drivers/media/dvb-frontends/Kconfig | 5 ++++-
- drivers/media/i2c/Kconfig           | 5 ++++-
- drivers/media/spi/Kconfig           | 5 ++++-
- drivers/media/tuners/Kconfig        | 6 +++++-
- 5 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 8404e80aa38e..b36a41332867 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -207,6 +207,11 @@ config MEDIA_SUBDRV_AUTOSELECT
- 
- 	  If unsure say Y.
- 
-+config MEDIA_HIDE_ANCILLARY_SUBDRV
-+        bool
-+        depends on MEDIA_SUBDRV_AUTOSELECT && !COMPILE_TEST && !EXPERT
-+        default y
-+
- config MEDIA_ATTACH
- 	bool
- 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index dc43749177df..a29e9ddf9c82 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -1,5 +1,8 @@
-+comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "Customise DVB Frontends"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- comment "Multistandard (satellite) frontends"
- 	depends on DVB_CORE
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 79ce9ec6fc1b..1f72eafa7d1a 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -22,8 +22,11 @@ config VIDEO_IR_I2C
- # Encoder / Decoder module configuration
- #
- 
-+comment "I2C drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "I2C Encoders, decoders, sensors and other helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- comment "Audio decoders, processors and mixers"
- 
-diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-index 08386abb9bbc..bcc49cb47de6 100644
---- a/drivers/media/spi/Kconfig
-+++ b/drivers/media/spi/Kconfig
-@@ -1,8 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-only
- if VIDEO_V4L2
- 
-+comment "SPI drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "SPI helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- config VIDEO_GS1662
- 	tristate "Gennum Serializers video"
-diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-index a7108e575e9b..e104bb7766e1 100644
---- a/drivers/media/tuners/Kconfig
-+++ b/drivers/media/tuners/Kconfig
-@@ -15,8 +15,12 @@ config MEDIA_TUNER
- 	select MEDIA_TUNER_TDA9887 if MEDIA_SUBDRV_AUTOSELECT
- 	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
- 
-+comment "Tuner drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
-+
- menu "Customize TV tuners"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
- 
- config MEDIA_TUNER_SIMPLE
--- 
-2.22.0
-
+>> On 64-bit systems, `get_jiffies_64()` becomes a direct read of `jiffies`.
+>> Further, both uses of `get_jiffies_64()` are on relatively cold paths
+>> (one just before starting streaming, the other just before a 10ms
+>> hardcoded sleep), so the performance impact even on the 32-bit path
+>> should be trivial relative to the time required for the surrounding code.
+>> ---
+>>  drivers/media/usb/hdpvr/hdpvr-core.c  |  4 ++++
+>>  drivers/media/usb/hdpvr/hdpvr-video.c | 22 ++++++++++++++++++++++
+>>  drivers/media/usb/hdpvr/hdpvr.h       |  5 +++++
+>>  3 files changed, 31 insertions(+)
+>>
+>> diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+>> index 23d3d0754308..fd7608e7e94c 100644
+>> --- a/drivers/media/usb/hdpvr/hdpvr-core.c
+>> +++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+>> @@ -39,6 +39,10 @@ int hdpvr_debug;
+>>  module_param(hdpvr_debug, int, S_IRUGO|S_IWUSR);
+>>  MODULE_PARM_DESC(hdpvr_debug, "enable debugging output");
+>>  
+>> +uint hdpvr_close_to_open_ms_delay = 4000;
+>> +module_param(hdpvr_close_to_open_ms_delay, uint, S_IRUGO|S_IWUSR);
+>> +MODULE_PARM_DESC(hdpvr_close_to_open_ms_delay, "delay restarting streaming by the specified number of milliseconds");
+>> +
+>>  static uint default_video_input = HDPVR_VIDEO_INPUTS;
+>>  module_param(default_video_input, uint, S_IRUGO|S_IWUSR);
+>>  MODULE_PARM_DESC(default_video_input, "default video input: 0=Component / 1=S-Video / 2=Composite");
+>> diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
+>> index 3d199d5d6738..8a2b883d372e 100644
+>> --- a/drivers/media/usb/hdpvr/hdpvr-video.c
+>> +++ b/drivers/media/usb/hdpvr/hdpvr-video.c
+>> @@ -278,6 +278,8 @@ static int hdpvr_start_streaming(struct hdpvr_device *dev)
+>>  {
+>>  	int ret;
+>>  	struct hdpvr_video_info vidinf;
+>> +	u64 now_jiffies, delta_jiffies;
+>> +	uint msec_to_sleep;
+>>  
+>>  	if (dev->status == STATUS_STREAMING)
+>>  		return 0;
+>> @@ -298,6 +300,22 @@ static int hdpvr_start_streaming(struct hdpvr_device *dev)
+>>  	v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
+>>  			"video signal: %dx%d@%dhz\n", vidinf.width,
+>>  			vidinf.height, vidinf.fps);
+>> +	now_jiffies = get_jiffies_64();
+>> +	/* inline time_after64 since the result of the subtraction is needed
+>> +	 * for the sleep
+>> +	 */
+>> +	delta_jiffies = dev->jiffies_next_start_streaming - now_jiffies;
+>> +	if ((__s64)delta_jiffies > 0) {
+>> +		/* device firmware may not be ready yet */
+>> +		msec_to_sleep = jiffies_to_msecs(delta_jiffies);
+>> +		v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
+>> +			 "firmware may not be ready, sleeping for %u ms\n",
+>> +			 msec_to_sleep);
+>> +		msleep(msec_to_sleep);
+>> +	} else {
+>> +		v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
+>> +			 "firmware assumed to be ready, not sleeping\n");
+>> +	}
+>>  
+>>  	/* start streaming 2 request */
+>>  	hdpvr_usb_lock(dev, HDPVR_USB_CTRL);
+>> @@ -332,6 +350,7 @@ static int hdpvr_stop_streaming(struct hdpvr_device *dev)
+>>  	int actual_length;
+>>  	uint c = 0;
+>>  	u8 *buf;
+>> +	u64 now_jiffies;
+>>  
+>>  	if (dev->status == STATUS_IDLE)
+>>  		return 0;
+>> @@ -368,6 +387,9 @@ static int hdpvr_stop_streaming(struct hdpvr_device *dev)
+>>  	kfree(buf);
+>>  	v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
+>>  		 "used %d urbs to empty device buffers\n", c-1);
+>> +	now_jiffies = get_jiffies_64();
+>> +	dev->jiffies_next_start_streaming = now_jiffies +
+>> +		msecs_to_jiffies(hdpvr_close_to_open_ms_delay);
+>>  	msleep(10);
+>>  
+>>  	dev->status = STATUS_IDLE;
+>> diff --git a/drivers/media/usb/hdpvr/hdpvr.h b/drivers/media/usb/hdpvr/hdpvr.h
+>> index 7b3d166da1dd..9e5f88146827 100644
+>> --- a/drivers/media/usb/hdpvr/hdpvr.h
+>> +++ b/drivers/media/usb/hdpvr/hdpvr.h
+>> @@ -43,6 +43,7 @@
+>>  /* #define HDPVR_DEBUG */
+>>  
+>>  extern int hdpvr_debug;
+>> +extern uint hdpvr_close_to_open_ms_delay;
+>>  
+>>  #define MSG_INFO	1
+>>  #define MSG_BUFFER	2
+>> @@ -95,6 +96,10 @@ struct hdpvr_device {
+>>  	struct v4l2_dv_timings	cur_dv_timings;
+>>  
+>>  	uint			flags;
+>> +	/* earliest jiffies at which the device firmware will be ready to
+> Multiple comments should put the '/*' on a separate line. Please adjust
+> both patches for this. Don't forget to run 'checkpatch.pl --strict' for both
+> patches before posting!
+>
+>> +	 * start streaming
+>> +	 */
+>> +	u64             jiffies_next_start_streaming;
+> The indent of jiffies_next_start_streaming doesn't seem to match the other fields.
+>
+>>  
+>>  	/* synchronize I/O */
+>>  	struct mutex		io_mutex;
+>>
+> Regards,
+>
+> 	Hans
+>
 
