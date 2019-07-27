@@ -2,139 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E07778F3
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 15:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6284B7790C
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 15:49:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387656AbfG0Nbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jul 2019 09:31:43 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40246 "EHLO
+        id S2387647AbfG0NtO convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 27 Jul 2019 09:49:14 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:40356 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387514AbfG0Nbn (ORCPT
+        with ESMTP id S2387603AbfG0NtO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jul 2019 09:31:43 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 064AC26B072
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-Date:   Sat, 27 Jul 2019 10:31:29 -0300
-Message-Id: <20190727133129.18468-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.22.0
+        Sat, 27 Jul 2019 09:49:14 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B762C283B7E;
+        Sat, 27 Jul 2019 14:49:11 +0100 (BST)
+Date:   Sat, 27 Jul 2019 15:49:08 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, kernel@collabora.com,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v3 1/3] media: uapi: h264: Clarify our expectations
+ regarding NAL header format
+Message-ID: <20190727154908.13e8a34b@collabora.com>
+In-Reply-To: <df545d0fe07766c5637e36c0f1fbd1d479721dec.camel@collabora.com>
+References: <20190703122849.6316-1-boris.brezillon@collabora.com>
+        <20190703122849.6316-2-boris.brezillon@collabora.com>
+        <2f836ff0ce9ea68329a81e83109e53e24f7783c6.camel@collabora.com>
+        <20190705191618.3467c417@collabora.com>
+        <20190725084228.2306171e@collabora.com>
+        <20190725193616.GD14499@aptenodytes>
+        <75b515e22494690ab467dd769c4d5902af414c7a.camel@collabora.com>
+        <20190726082828.0844011d@collabora.com>
+        <20190726093028.3a94bda0@collabora.com>
+        <df545d0fe07766c5637e36c0f1fbd1d479721dec.camel@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some users have been having a hard time finding the hidden
-menus. A typically case are camera sensor drivers
-(e.g IMX219, OV5645, etc), which are common on embedded
-platforms and not really "ancillary" devices.
+On Sat, 27 Jul 2019 09:52:24 -0300
+Ezequiel Garcia <ezequiel@collabora.com> wrote:
 
-The problem with MEDIA_SUBDRV_AUTOSELECT seems to be related
-to the fact that it uses the "visible" syntax to hide
-the menus.
 
-This is not obvious and it normally takes some time to
-figure out.
+> > > 
+> > > That's not my understanding of the Annex B section (quoting the spec
+> > > for reference):
+> > > 
+> > > "
+> > > The byte stream format consists of a sequence of byte stream NAL unit
+> > > syntax structures. Each byte stream NAL unit syntax structure contains
+> > > one start code prefix followed by one nal_unit( NumBytesInNALunit )
+> > > syntax structure. It may (and under some circumstances, it shall) also
+> > > contain an additional zero_byte syntax element. It may also contain one
+> > > or more additional trailing_zero_8bits syntax elements. When it is the
+> > > first byte stream NAL unit in the bitstream, it may also contain one or
+> > > more additional leading_zero_8bits syntax elements.
+> > > "
+> > >   
+> 
+> Right. I wonder what the "may or shall" part is really specifying.
+> 
+> However, note that the table B.1.1 and its comments B.1.2 is might
+> be interpreted differently. To me, there's a difference between the different
+> syntax elements (zero-bytes elements vs. the start code prefix element).
+> 
+> This is what it says about the zero_byte syntax element:
+> 
+> """
+> zero_byte is a single byte equal to 0x00.
+> When any of the following conditions are fulfilled, the zero_byte syntax element shall be present.
+> – the nal_unit_type within the nal_unit( ) is equal to 7 (sequence parameter set) or 8 (picture parameter set)
+> – the byte stream NAL unit syntax structure contains the first NAL unit of an access unit in decoding order, as
+> specified by subclause 7.4.1.2.3.
+> """
+> 
+> We are not dealing with SPS or PPS here, but we are discussing multislice content,
+> so IIUC this syntax element would be part of our bitstream pixfmt.
+> 
+> And this is what it says about the start code prefix:
+> 
+> """
+> start_code_prefix_one_3bytes is a fixed-value sequence of 3 bytes equal to 0x000001. This syntax element is called a
+> start code prefix.
+> """
+> 
+> These elements are used in such a way that it might seem
+> you have two start codes options 3-byte or 4-byte, though.
 
-To fix the problem, add a comment on each of hidden menus,
-which should clarify what option is causing menus to be hidden.
+This is correct, but I was actually referring to:
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/media/Kconfig               | 5 +++++
- drivers/media/dvb-frontends/Kconfig | 5 ++++-
- drivers/media/i2c/Kconfig           | 5 ++++-
- drivers/media/spi/Kconfig           | 5 ++++-
- drivers/media/tuners/Kconfig        | 6 +++++-
- 5 files changed, 22 insertions(+), 4 deletions(-)
+"
+It may also contain one or more additional trailing_zero_8bits syntax
+elements. When it is the first byte stream NAL unit in the
+bitstream, it may also contain one or more additional
+leading_zero_8bits syntax elements.
+"
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 8404e80aa38e..b36a41332867 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -207,6 +207,11 @@ config MEDIA_SUBDRV_AUTOSELECT
- 
- 	  If unsure say Y.
- 
-+config MEDIA_HIDE_ANCILLARY_SUBDRV
-+        bool
-+        depends on MEDIA_SUBDRV_AUTOSELECT && !COMPILE_TEST && !EXPERT
-+        default y
-+
- config MEDIA_ATTACH
- 	bool
- 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index dc43749177df..a29e9ddf9c82 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -1,5 +1,8 @@
-+comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "Customise DVB Frontends"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- comment "Multistandard (satellite) frontends"
- 	depends on DVB_CORE
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 79ce9ec6fc1b..1f72eafa7d1a 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -22,8 +22,11 @@ config VIDEO_IR_I2C
- # Encoder / Decoder module configuration
- #
- 
-+comment "I2C drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "I2C Encoders, decoders, sensors and other helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- comment "Audio decoders, processors and mixers"
- 
-diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-index 08386abb9bbc..bcc49cb47de6 100644
---- a/drivers/media/spi/Kconfig
-+++ b/drivers/media/spi/Kconfig
-@@ -1,8 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-only
- if VIDEO_V4L2
- 
-+comment "SPI drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+
- menu "SPI helper chips"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
- config VIDEO_GS1662
- 	tristate "Gennum Serializers video"
-diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-index a7108e575e9b..e104bb7766e1 100644
---- a/drivers/media/tuners/Kconfig
-+++ b/drivers/media/tuners/Kconfig
-@@ -15,8 +15,12 @@ config MEDIA_TUNER
- 	select MEDIA_TUNER_TDA9887 if MEDIA_SUBDRV_AUTOSELECT
- 	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
- 
-+comment "Tuner drivers hidden by 'Autoselect ancillary drivers'"
-+	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-+	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
-+
- menu "Customize TV tuners"
--	visible if !MEDIA_SUBDRV_AUTOSELECT || COMPILE_TEST || EXPERT
-+	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
- 
- config MEDIA_TUNER_SIMPLE
--- 
-2.22.0
+which would allow userspace to put additional zeros at the beginning
+in order to fulfill the HW alignment constraints. I'm not saying this is
+a good solution, just saying it can be done.
 
+
+> > > > > I guess it's not such a high price to pay for a unified codec interface :)    
+> > > 
+> > > If by unified you mean exposing only one pixel format, then yes, it's
+> > > unified. Doesn't make it easier to deal with from the userspace
+> > > perspective IMHO.
+> > > 
+> > > To sum-up, I'm fine keeping one pixel format, but I'm no longer sure
+> > > not exposing the NAL header type is a good option. We've seen that
+> > > providing alignment guarantees for HW expecting raw bitstream (without
+> > > the start code) might become challenging at some point. So I'd opt for
+> > > making this selection explicit. After all, it's just an extra control
+> > > to set from userspace, and 2 extra switch-case: one to select the most
+> > > appropriate NAL header type, and another one to fill the buffer with
+> > > the appropriate header (if there's one).  
+> 
+> I must admit I'm confused by what you mean about NAL header type, I thought
+> we weren't trying to support AVC, and only the Annex B bitstream format.
+
+I'm not trying to support AVC headers, but designing something that
+allows us to extend the interface and support that case (if we ever need
+to) is a good thing IMO.
+
+>  
+> That said, I don't see the interface getting any simpler with a unified
+> pixfmt, given the menu control to expose frame or slice decoding.
+
+I agree. I think it's pretty much the same complexity anyway
+('additional ctrl to set the start-code/header/preamble type' vs
+'additional pixfmt'), so it's mostly a matter of taste.
+
+> 
+> Proper applications need to support both modes anyway, where in the latter
+> it'll have to parse the bitstream to extract the slices.
+
+Hm, the current uAPI forces us to pass slice offsets, which means we
+have to parse the bitstream anyway. I think we should keep it like that
+because I don't think we can assume the HW is smart enough to detect
+slice boundaries.
+
+> What's so bad
+> about just supporting an extra pixel format, where the slices are stripped
+> of its start codes and zero-byte elements?
+
+I'm not opposed to that solution, but Paul is, so I'm just trying to
+find something that makes everyone happy, hence the "NAL header
+type" (or "start code type"/"preamble type" if you prefer, though
+it's not really a start code for AVC) proposal.
+
+> 
+> And how come this is any more complex than exposing alignment constraints,
+> so that applications can artificially add leading_zero_8bits or trailing_zero_8bits
+> elements to comply with a driver dma alignment. To be honest, the more I think
+> about it, the more this option sounds just horrible :-)
+
+Also think this option is more complicated and less future proof
+(AFAICT, AVC headers/start-codes can't be extended like Annex B ones).
+
+> 
+> To me, it's far simpler to just expose what the devices support. If a driver
+> will expect to parse the bitstream, and accepts multi-slice content,
+> we expose that as a bitstream pixfmt.
+
+Those 2 problems are orthogonal. You could have HW dealing with
+multi-slice content while still requiring things to be passed without
+Annex B start codes. The H264 pixfmt is really just about NAL headers:
+No NAL headers vs Annex B headers vs AVC headers.
+
+> And if another driver expects
+> no-start-code slices, then we have another pixfmt.
+
+Yep, but I don't want to argue endlessly on this, and I'd be fine with
+the "NAL header/preamble/start-code/whatever type ctrl" too.
