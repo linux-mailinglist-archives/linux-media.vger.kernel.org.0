@@ -2,89 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CA10777D8
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 11:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90973777E2
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 11:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387457AbfG0JP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jul 2019 05:15:56 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33109 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387432AbfG0JP4 (ORCPT
+        id S1728246AbfG0J1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Jul 2019 05:27:48 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:44111 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727885AbfG0J1s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jul 2019 05:15:56 -0400
-Received: by mail-pf1-f193.google.com with SMTP id g2so25632820pfq.0;
-        Sat, 27 Jul 2019 02:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Atx8xpuE0sl6vRA/wIvsHhfFZ2IVdmWCb/LsfxFrY/c=;
-        b=bZNxBjvyxvmG+0QaoLyJh1nCiE8XkjlejTpxJjKNJyk/oxDCnHM+GtMGKsZjKMZIay
-         kUv4THn/eVeeut224iqfTSoHcVIZSGdKBUwdINBQp6iutYD7UMoYADo7h7e3sTqRUxOw
-         48CGoakfAomxPG3M9yGinvKU+tJkoblwrLVC9FH8ooTWRPctTkCBBksWoOnIapU7UnW4
-         R7hv16sHQ026+CcuZSABz4KsX8N/dhIbZxn81BDvkkBgZYtSj4sXnm8hPn9jymtfdEzF
-         TZHS/aGfI9lDuGN5Sz+1RfQ9kWJlVRiuqpi7TVprf6bJRilwsrjyZVzST1cBkAsgaSiQ
-         s4fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Atx8xpuE0sl6vRA/wIvsHhfFZ2IVdmWCb/LsfxFrY/c=;
-        b=SOrnLqyfI8Jy10X0UWpuvmLDtBOjSI6+QsfpZDTr1TPGJqIENON0+XRfUhZgSHzoZN
-         sMuFC2zFxi5hdeAVPzGwhl/U0QtsnzmmDlnpMCuZOrIQz44biPliZMdyYmhR5dQFCvYt
-         5vJO16p4gp8lutxxZsAT5H7sOjXb6Aano3u6/gIk67ctohModGQi7WKUVWAPdessBkiQ
-         EXt9bpoPAHbAeb6Ww0Cj+lghz2Apbk7DZg4Knj+dhAOx/A6bS33/Gvs2Q0O+6Lyu9rEO
-         kE0IVM38sb4q/ERNxzX+1ja5qOrBVTxlvlrl6B19USyiXcDIYZ+p2W3381iWHBDotubG
-         qTDw==
-X-Gm-Message-State: APjAAAXS7fOpL9ReChszJ2AGXD5BHTtUqNZ5MR6haZrL1REXXsaHGGY4
-        sqGrjNZPBtFHdFIAQ4kie6E=
-X-Google-Smtp-Source: APXvYqxNLfJu4DrS4MHx5N/BZp2jBKE3m8mnG8F2gCqux/5fqVhIVgEwh6WJr9TN504eW7z8WPsEkA==
-X-Received: by 2002:a62:5214:: with SMTP id g20mr26674415pfb.187.1564218955306;
-        Sat, 27 Jul 2019 02:15:55 -0700 (PDT)
-Received: from oslab.tsinghua.edu.cn ([2402:f000:4:72:808::3ca])
-        by smtp.gmail.com with ESMTPSA id y12sm64088978pfn.187.2019.07.27.02.15.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 27 Jul 2019 02:15:54 -0700 (PDT)
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-To:     stanimir.varbanov@linaro.org, agross@kernel.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [PATCH] media: qcom: venus: Fix a possible null-pointer dereference in vdec_g_fmt()
-Date:   Sat, 27 Jul 2019 17:15:47 +0800
-Message-Id: <20190727091547.11674-1-baijiaju1990@gmail.com>
-X-Mailer: git-send-email 2.17.0
+        Sat, 27 Jul 2019 05:27:48 -0400
+X-Originating-IP: 176.158.46.5
+Received: from aptenodytes (static-176-158-46-5.ftth.abo.bbox.fr [176.158.46.5])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id C790DFF806;
+        Sat, 27 Jul 2019 09:27:43 +0000 (UTC)
+Date:   Sat, 27 Jul 2019 11:27:43 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, kernel@collabora.com,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v3 1/3] media: uapi: h264: Clarify our expectations
+ regarding NAL header format
+Message-ID: <20190727092743.GA16618@aptenodytes>
+References: <20190703122849.6316-1-boris.brezillon@collabora.com>
+ <20190703122849.6316-2-boris.brezillon@collabora.com>
+ <2f836ff0ce9ea68329a81e83109e53e24f7783c6.camel@collabora.com>
+ <20190705191618.3467c417@collabora.com>
+ <20190725084228.2306171e@collabora.com>
+ <20190725193616.GD14499@aptenodytes>
+ <75b515e22494690ab467dd769c4d5902af414c7a.camel@collabora.com>
+ <20190726082828.0844011d@collabora.com>
+ <20190726093028.3a94bda0@collabora.com>
+ <9b186171-3c1f-d979-c070-ef0c5c0786ac@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9b186171-3c1f-d979-c070-ef0c5c0786ac@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In vdec_g_fmt(), fmt is firstly assigned NULL, and it could be never
-assigned before being used on line 223:
-    pixmp->pixelformat = fmt->pixfmt;
+Hi,
 
-Thus, a possible null-pointer dereference may occur.
+On Fri 26 Jul 19, 10:53, Hans Verkuil wrote:
+> On 7/26/19 9:30 AM, Boris Brezillon wrote:
+> > On Fri, 26 Jul 2019 08:28:28 +0200
+> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> > 
+> >> On Thu, 25 Jul 2019 23:39:11 -0300
+> >> Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> >>
+> >>> On Thu, 2019-07-25 at 21:36 +0200, Paul Kocialkowski wrote:  
+> >>>> Having a control that specifies an alignment constraint for the slice beginning
+> >>>> could work (as long as we make it optional, although userspace should be
+> >>>> required to abide by it when it is present).  
+> >>
+> >> By making that, you put the burden on both sides of the stack:
+> >>
+> >> - the kernel side will have to deal with the unaligned cases (using a
+> >>   bounce buffer)
+> >> - userspace apps/libs that want to avoid an extra copy will have to
+> >>   check this constraint and align things properly anyway
+> > 
+> > I'd like to revise my statement. Ideally, the drivers should take care
+> > of such mis-alignments or unsupported NAL header types by
+> > copying/re-formatting the OUTPUT buffer so that existing apps work
+> > out of the box when the driver is added, which means we'll have to take
+> > care of that kernel-side anyway. Handling selection of the best
+> > encoding-mode/NAL-header-type in userspace is useful if one wants to
+> > improve perfs.
+> 
+> Just my 5 cents:
+> 
+> You very much want to avoid the situation where drivers have to copy or
+> reformat the OUTPUT buffer. That's asking for problems, not to mention
+> that it is no longer zero-copy.
 
-To fix this bug, fmt is checked before being used here.
+I definitely agree on that, since such constraints are likely to exist, we are
+certainly better off exposing them to userspace.
 
-This bug is found by a static analysis tool STCheck written by us.
+I understand that it does add some complexity and asks for userspace code to be
+more complex, but let's be realistic: this is a complex topic with lots of
+hardware-specific details getting in the way. I don't think we can act as if
+things were simpler.
 
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
----
- drivers/media/platform/qcom/venus/vdec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+My feeling is that we should keep trying to find "as elegant as possible" ways
+to expose constraints instead of putting strict and easy definitions for
+userspace that end up making drivers perform sub-optimally.
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index e1f998656c07..12c31551f191 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -211,7 +211,8 @@ static int vdec_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 		inst->height = format.fmt.pix_mp.height;
- 	}
- 
--	pixmp->pixelformat = fmt->pixfmt;
-+	if (fmt)
-+		pixmp->pixelformat = fmt->pixfmt;
- 
- 	if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
- 		pixmp->width = inst->width;
+Since the initial cedrus proposal, we have covered more ground to allow the
+API to fit the rockchip case, without conflicting with cedrus. We're now facing
+new constraints and issue and I really think we should keep trying to integrate
+them in the unified API.
+
+> >> Plus, the alignment thing won't work for AVC headers, so I think we
+> >> should actually have a control to select the NAL header type rather
+> >> than expose some alignment constraints (or have one pix fmt per NAL
+> >> header type, but you don't seem to like the idea, so I'm trying
+> >> to find something else :-)).
+> >>
+> >> And if we go for this option (control to select the NAL header type),
+> >> I'm wondering why we're not making that NAL-header type selection
+> >> mandatory from the start. We don't have to support all NAL headers at
+> >> first (can be Annex B only), but, by making this control selection
+> >> non-optional, we'll at least give a decent feedback to userspace
+> >> (setting NAL header control fails because the selected NAL header type
+> >> is not supported by the HW) instead of returning an error on the
+> >> decoding operation (which, depending on how verbose the driver is, can
+> >> be quite hard to figure out).
+> 
+> This sounds reasonable.
+> 
+> This control should be mandatory, and it should be referred to from
+> the H264/5 pixelformat definitions (see also https://patchwork.linuxtv.org/patch/57709/).
+
+I am growing confused about one thing: are we talking about selecting
+the type of *start code* (which can have a variable number of heading and
+trailing zeros depending on the situation) or about the *NAL header type*, which
+follows the start code?
+
+I like the idea of drivers providing what types of start codes they can support,
+but I don't really see how it helps regarding the alignment constraints and how
+it relates to the zero-padding.
+
+Cheers,
+
+Paul
+
+> Regards,
+> 
+> 	Hans
+> 
+> >>
+> >>>>
+> >>>> I guess it's not such a high price to pay for a unified codec interface :)  
+> >>
+> >> If by unified you mean exposing only one pixel format, then yes, it's
+> >> unified. Doesn't make it easier to deal with from the userspace
+> >> perspective IMHO.
+> >>
+> >> To sum-up, I'm fine keeping one pixel format, but I'm no longer sure
+> >> not exposing the NAL header type is a good option. We've seen that
+> >> providing alignment guarantees for HW expecting raw bitstream (without
+> >> the start code) might become challenging at some point. So I'd opt for
+> >> making this selection explicit. After all, it's just an extra control
+> >> to set from userspace, and 2 extra switch-case: one to select the most
+> >> appropriate NAL header type, and another one to fill the buffer with
+> >> the appropriate header (if there's one).
+> > 
+> 
+
 -- 
-2.17.0
-
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
