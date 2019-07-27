@@ -2,167 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD3477801
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 11:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 329C877807
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2019 11:57:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387487AbfG0Jqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jul 2019 05:46:42 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39288 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727885AbfG0Jql (ORCPT
+        id S1728646AbfG0J5i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Jul 2019 05:57:38 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:44623 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727885AbfG0J5i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jul 2019 05:46:41 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 764D8268CDE;
-        Sat, 27 Jul 2019 10:46:39 +0100 (BST)
-Date:   Sat, 27 Jul 2019 11:46:36 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Sat, 27 Jul 2019 05:57:38 -0400
+X-Originating-IP: 176.158.46.5
+Received: from aptenodytes (static-176-158-46-5.ftth.abo.bbox.fr [176.158.46.5])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id BC06740004;
+        Sat, 27 Jul 2019 09:57:29 +0000 (UTC)
+Date:   Sat, 27 Jul 2019 11:57:29 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v3 1/3] media: uapi: h264: Clarify our expectations
- regarding NAL header format
-Message-ID: <20190727114636.4224e2cd@collabora.com>
-In-Reply-To: <20190727092743.GA16618@aptenodytes>
-References: <20190703122849.6316-1-boris.brezillon@collabora.com>
-        <20190703122849.6316-2-boris.brezillon@collabora.com>
-        <2f836ff0ce9ea68329a81e83109e53e24f7783c6.camel@collabora.com>
-        <20190705191618.3467c417@collabora.com>
-        <20190725084228.2306171e@collabora.com>
-        <20190725193616.GD14499@aptenodytes>
-        <75b515e22494690ab467dd769c4d5902af414c7a.camel@collabora.com>
-        <20190726082828.0844011d@collabora.com>
-        <20190726093028.3a94bda0@collabora.com>
-        <9b186171-3c1f-d979-c070-ef0c5c0786ac@xs4all.nl>
-        <20190727092743.GA16618@aptenodytes>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v7 0/4] HEVC/H.265 stateless support for V4L2 and Cedrus
+Message-ID: <20190727095729.GD16618@aptenodytes>
+References: <20190725185602.22522-1-paul.kocialkowski@bootlin.com>
+ <7fa38a2c-8e16-5e88-d073-1d04e9feaa84@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7fa38a2c-8e16-5e88-d073-1d04e9feaa84@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 27 Jul 2019 11:27:43 +0200
-Paul Kocialkowski <paul.kocialkowski@bootlin.com> wrote:
+Hi Hans,
 
-> Hi,
-> 
-> On Fri 26 Jul 19, 10:53, Hans Verkuil wrote:
-> > On 7/26/19 9:30 AM, Boris Brezillon wrote:  
-> > > On Fri, 26 Jul 2019 08:28:28 +0200
-> > > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > >   
-> > >> On Thu, 25 Jul 2019 23:39:11 -0300
-> > >> Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > >>  
-> > >>> On Thu, 2019-07-25 at 21:36 +0200, Paul Kocialkowski wrote:    
-> > >>>> Having a control that specifies an alignment constraint for the slice beginning
-> > >>>> could work (as long as we make it optional, although userspace should be
-> > >>>> required to abide by it when it is present).    
-> > >>
-> > >> By making that, you put the burden on both sides of the stack:
-> > >>
-> > >> - the kernel side will have to deal with the unaligned cases (using a
-> > >>   bounce buffer)
-> > >> - userspace apps/libs that want to avoid an extra copy will have to
-> > >>   check this constraint and align things properly anyway  
-> > > 
-> > > I'd like to revise my statement. Ideally, the drivers should take care
-> > > of such mis-alignments or unsupported NAL header types by
-> > > copying/re-formatting the OUTPUT buffer so that existing apps work
-> > > out of the box when the driver is added, which means we'll have to take
-> > > care of that kernel-side anyway. Handling selection of the best
-> > > encoding-mode/NAL-header-type in userspace is useful if one wants to
-> > > improve perfs.  
+On Fri 26 Jul 19, 10:33, Hans Verkuil wrote:
+> On 7/25/19 8:55 PM, Paul Kocialkowski wrote:
+> > HEVC/H.265 stateless support for V4L2 and Cedrus
 > > 
-> > Just my 5 cents:
+> > This is early support for HEVC/H.265 stateless decoding in V4L2,
+> > including both definitions and driver support for the Cedrus VPU
+> > driver, which concerns Allwinner devices.
 > > 
-> > You very much want to avoid the situation where drivers have to copy or
-> > reformat the OUTPUT buffer. That's asking for problems, not to mention
-> > that it is no longer zero-copy.  
-> 
-> I definitely agree on that, since such constraints are likely to exist, we are
-> certainly better off exposing them to userspace.
-> 
-> I understand that it does add some complexity and asks for userspace code to be
-> more complex, but let's be realistic: this is a complex topic with lots of
-> hardware-specific details getting in the way. I don't think we can act as if
-> things were simpler.
-> 
-> My feeling is that we should keep trying to find "as elegant as possible" ways
-> to expose constraints instead of putting strict and easy definitions for
-> userspace that end up making drivers perform sub-optimally.
-> 
-> Since the initial cedrus proposal, we have covered more ground to allow the
-> API to fit the rockchip case, without conflicting with cedrus. We're now facing
-> new constraints and issue and I really think we should keep trying to integrate
-> them in the unified API.
-> 
-> > >> Plus, the alignment thing won't work for AVC headers, so I think we
-> > >> should actually have a control to select the NAL header type rather
-> > >> than expose some alignment constraints (or have one pix fmt per NAL
-> > >> header type, but you don't seem to like the idea, so I'm trying
-> > >> to find something else :-)).
-> > >>
-> > >> And if we go for this option (control to select the NAL header type),
-> > >> I'm wondering why we're not making that NAL-header type selection
-> > >> mandatory from the start. We don't have to support all NAL headers at
-> > >> first (can be Annex B only), but, by making this control selection
-> > >> non-optional, we'll at least give a decent feedback to userspace
-> > >> (setting NAL header control fails because the selected NAL header type
-> > >> is not supported by the HW) instead of returning an error on the
-> > >> decoding operation (which, depending on how verbose the driver is, can
-> > >> be quite hard to figure out).  
+> > A specific pixel format is introduced for the HEVC slice format and
+> > controls are provided to pass the bitstream metadata to the decoder.
+> > Some bitstream extensions are intentionally not supported at this point.
 > > 
-> > This sounds reasonable.
+> > Since this is the first proposal for stateless HEVC/H.265 support in
+> > V4L2, reviews and comments about the controls definitions are
+> > particularly welcome.
 > > 
-> > This control should be mandatory, and it should be referred to from
-> > the H264/5 pixelformat definitions (see also https://patchwork.linuxtv.org/patch/57709/).  
+> > On the Cedrus side, the H.265 implementation covers frame pictures
+> > with both uni-directional and bi-direction prediction modes (P/B
+> > slices). Field pictures (interleaved), scaling lists and 10-bit output
+> > are not supported at this point.
+> > 
+> > Changes since v6:
+> > * Rebased on latest media tree from Hans;
 > 
-> I am growing confused about one thing: are we talking about selecting
-> the type of *start code* (which can have a variable number of heading and
-> trailing zeros depending on the situation) or about the *NAL header type*, which
-> follows the start code?
+> Which tree is that? Or are you just referring our media_tree master
+> branch? (which isn't 'my' tree :-) )
 
-We're talking about start codes, but Nicolas called them nal_header in
-this email [1], so I thought it was the appropriate naming.
+I'm usually rebasing on the tree you use to send PRs to Mauro, at:
+https://git.linuxtv.org/hverkuil/media_tree.git/
 
+which is usually the best up-to-date stateless codec support tree :)
+
+Cheers,
+
+Paul
+
+> Regards,
 > 
-> I like the idea of drivers providing what types of start codes they can support,
-> but I don't really see how it helps regarding the alignment constraints and how
-> it relates to the zero-padding.
+> 	Hans
+> 
+> > * Reordered some fields to avoid holes and multi-padding;
+> > * Updated the documentation.
+> > 
+> > Changes since v5:
+> > * Rebased atop latest next media tree;
+> > * Moved to flags instead of u8 fields;
+> > * Added padding to ensure 64-bit alignment
+> >   (tested with GDB on 32 and 64-bit architectures);
+> > * Reworked cedrus H.265 driver support a bit for flags;
+> > * Split off codec-specific control validation and init;
+> > * Added HEVC controls fields cleanup at std_validate to allow reliable
+> >   control comparison with memcmp;
+> > * Fixed various misc reported mistakes.
+> > 
+> > Changes since v4:
+> > * Rebased atop latest H.254 series.
+> > 
+> > Changes since v3:
+> > * Updated commit messages;
+> > * Updated CID base to avoid conflicts;
+> > * Used cpu_to_le32 for packed le32 data;
+> > * Fixed misc minor issues in the drive code;
+> > * Made it clear in the docs that the API will evolve;
+> > * Made the pixfmt private and split commits about it.
+> > 
+> > Changes since v2:
+> > * Moved headers to non-public API;
+> > * Added H265 capability for A64 and H5;
+> > * Moved docs to ext-ctrls-codec.rst;
+> > * Mentionned sections of the spec in the docs;
+> > * Added padding to control structures for 32-bit alignment;
+> > * Made write function use void/size in bytes;
+> > * Reduced the number of arguments to helpers when possible;
+> > * Removed PHYS_OFFSET since we already set PFN_OFFSET;
+> > * Added comments where suggested;
+> > * Moved to timestamp for references instead of index;
+> > * Fixed some style issues reported by checkpatch.
+> > 
+> > Changes since v1:
+> > * Added a H.265 capability to whitelist relevant platforms;
+> > * Switched over to tags instead of buffer indices in the DPB
+> > * Declared variable in their reduced scope as suggested;
+> > * Added the H.265/HEVC spec to the biblio;
+> > * Used in-doc references to the spec and the required APIs;
+> > * Removed debugging leftovers.
+> > 
+> > Cheers!
+> > 
+> > Paul Kocialkowski (4):
+> >   media: v4l2-ctrl: Add a comment on why we zero out compound controls
+> >     fields
+> >   media: v4l: Add definitions for the HEVC slice controls
+> >   media: pixfmt: Document the HEVC slice pixel format
+> >   media: cedrus: Add HEVC/H.265 decoding support
+> > 
+> >  Documentation/media/uapi/v4l/biblio.rst       |   9 +
+> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 486 +++++++++++++-
+> >  .../media/uapi/v4l/pixfmt-compressed.rst      |  21 +
+> >  .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
+> >  .../media/videodev2.h.rst.exceptions          |   3 +
+> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  93 +++
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+> >  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  31 +-
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
+> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++++
+> >  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
+> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 271 ++++++++
+> >  .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
+> >  include/media/hevc-ctrls.h                    | 198 ++++++
+> >  include/media/v4l2-ctrls.h                    |   7 +
+> >  17 files changed, 1789 insertions(+), 8 deletions(-)
+> >  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> >  create mode 100644 include/media/hevc-ctrls.h
+> > 
+> 
 
-It does help with alignment constraints because buffers allocated by
-the driver are usually matching the HW alignment constraints and by
-passing the type of NAL header (or start code if you prefer) we now
-guarantee that the raw bitstream (when in NO_NAL_HEADER is selected) is
-placed at the beginning of the buffer. Doesn't solve the case of
-imported buffers, but that problem is orthogonal I think (it's a
-problem we already have right now, and would indeed require some way
-to expose HW alignment constraints).
-
-Not sure what the zero padding issue is. If you know the type of start
-code, you don't have add extra 0 at the beginning to meet the alignment
-constraints. If you're talking about padding bytes added at the end of
-the bitstream (there's such a constraint on the rkvdec block), I think
-that's something driver specific and should be handled by the driver.
-
-[1]https://www.mail-archive.com/linux-media@vger.kernel.org/msg146836.html
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
