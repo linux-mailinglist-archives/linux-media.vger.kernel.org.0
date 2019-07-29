@@ -2,221 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9162B7895A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 12:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D23E978974
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 12:14:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbfG2KMB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 06:12:01 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:34542 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728287AbfG2KMB (ORCPT
+        id S1728198AbfG2KOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 06:14:51 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34384 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726358AbfG2KOv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 06:12:01 -0400
-Received: by mail-ed1-f66.google.com with SMTP id s49so23978072edb.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 03:11:59 -0700 (PDT)
+        Mon, 29 Jul 2019 06:14:51 -0400
+Received: by mail-pf1-f193.google.com with SMTP id b13so27785020pfo.1;
+        Mon, 29 Jul 2019 03:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BuGv9mCdiFGsr2/aU0TRRsCbu+bBVd92bSRQXh+qKoY=;
-        b=cAC9vA1WzP7wEkgiMvdLyiKgruKKv4ZnjNuRve1TY9887obLYXBAbg8MOgcgRTNeEZ
-         S1uerLNW/hOLtEC/W09eiyKTP84oZV1KJzien/avQoU0Uj1Z34YIicEcENwWaYUE3kYS
-         v3xUCf6OAkD8Y9Aw3J6yQsOt49ZRuJIF8L9Y8=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=GbFn4obvpalB5w/Xt+sl4gq+abdT8/92+i83jlpQ9tY=;
+        b=gQFRP4vf+DTa2WwHXpt4Vzz8VQ1mleS775ULZE2B3aXf3aBEcV9Jx0nfCMVIyvxFOP
+         bkY2b2S9yGzaUBa8Sss1LB/lcYJCotjMPOG9dl/I8RsZQsx2GedGIB/O+UWqoDwfqPm5
+         6fWO5gUdTyuKRMdvZW/9Elvgs9M7DwQ2nFmiJPzd/Hf3d5wBXWD7iTZJqlj0Pvt/cJd+
+         FfNiAK/hXY41GJSNZEJtyvj5R6UxkIezj54QGU1hEiEAPkciCbh+cCcCrUU+YK5pURYa
+         nQrTKYK6QJi/03iZjIPRSP6s/t2DSNGgI2R5kFdT6r+/hqZCKTbu6N1VZYQG7/RDkVgl
+         4yLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BuGv9mCdiFGsr2/aU0TRRsCbu+bBVd92bSRQXh+qKoY=;
-        b=Q9bDlLnQznMBYkjJmfF6IHPmI7ELZl8UR0qZzfv8+Q6EAtVARgrRSjHrubxQoP4anU
-         HL9f8V1jkuV7konOxDHBmncaoo6ifwPJ9hR73mKRtz1tCdPvX5kvPATga4FF0daFXJrj
-         njpisIEQstV0x6PBnhOTOkSQ0COKgczS16NoPtznOFWcobKqS6FyMvhbwnG+QOmZzJdl
-         WszS0AHiYm00TBLmSxY1T0v4YEgRpFJLiYRoOwwiCBRK28rGa0K8Euvz+yaqj1NElaq3
-         6ji0LNp0jymSsoefci4ebES7b3J5MgRBF3XYzck40Fct/styhTDJloVSk4oIs6hIXxGL
-         v7MQ==
-X-Gm-Message-State: APjAAAW0j+7hMZaOZR0ZsO9SN68l4M4hv64yEOHVXiYHY6O9zuEoRlop
-        v+7fgZcn5+Gs/9pm02el+laX8bkQ9uthBw==
-X-Google-Smtp-Source: APXvYqxSLyb3QcqJn++I0NCURv8EjQeXiKpjtj+c9/wfakphmO6hQVfH/6RTS99FGVcRtjCBs6o2cQ==
-X-Received: by 2002:a17:906:e91:: with SMTP id p17mr84971919ejf.217.1564395118541;
-        Mon, 29 Jul 2019 03:11:58 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id jt17sm11552739ejb.90.2019.07.29.03.11.58
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 03:11:58 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id r1so61162647wrl.7
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 03:11:58 -0700 (PDT)
-X-Received: by 2002:a5d:5012:: with SMTP id e18mr17574578wrt.166.1564394653548;
- Mon, 29 Jul 2019 03:04:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <jungo.lin@mediatek.com> <20190611035344.29814-1-jungo.lin@mediatek.com>
- <20190611035344.29814-7-jungo.lin@mediatek.com> <20190710095429.GA181405@chromium.org>
- <1563424741.1212.212.camel@mtksdccf07> <CAAFQd5CXeQv74RtqDxYYLVEpsnFbsm0m-kUBDpY_AFmCBO0PyA@mail.gmail.com>
- <1563942689.1212.494.camel@mtksdccf07> <CAAFQd5A8zW9s8cewmHnr9HFmrkxDnEqjrTiwLF2m8sKp0619hA@mail.gmail.com>
- <1564363089.1212.636.camel@mtksdccf07>
-In-Reply-To: <1564363089.1212.636.camel@mtksdccf07>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 29 Jul 2019 19:04:02 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5D4Roc05H1NnXSp=W+L1RN7LEPHY0EA0mRhpHAcZ3wvMg@mail.gmail.com>
-Message-ID: <CAAFQd5D4Roc05H1NnXSp=W+L1RN7LEPHY0EA0mRhpHAcZ3wvMg@mail.gmail.com>
-Subject: Re: [RFC,v3 6/9] media: platform: Add Mediatek ISP P1 V4L2 functions
-To:     Jungo Lin <jungo.lin@mediatek.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <sean.cheng@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <rynn.wu@mediatek.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?B?UnlhbiBZdSAo5L2Z5a2f5L+uKQ==?= <ryan.yu@mediatek.com>,
-        =?UTF-8?B?RnJhbmtpZSBDaGl1ICjpgrHmloflh7Ep?= 
-        <frankie.chiu@mediatek.com>, ddavenport@chromium.org,
-        Sj Huang <sj.huang@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GbFn4obvpalB5w/Xt+sl4gq+abdT8/92+i83jlpQ9tY=;
+        b=ZneaCZMFrJNzz8LgSwFj18cw8cnSQZ6t/p3EC3OC1NOdVLqNF3CWbNXCjfirNWQmYP
+         GuAYPMwRHR1E2b/Fxh1THLyzKnt5HUL5DE9TUSdjCbDBYgfg7Jv3crJR5M+QPdfpWUG3
+         Eehsb6G2CQQa3gWH/fDQhEXLkoQuJYCs7dSQKCFWMng9WW/hXJ7lT7HvgLKk1fHHMy3R
+         LVjTjBYLZ1b4LWZU5LHREOV4CUNK8AWTPBAIz+T+ghyjmWVlU3K5SR9WZ/OR3ISVgwu6
+         zlETN6TTkT4DhrJaH29MhE597b1ZUSQPqLETX4A9ELBrA5Zz1Mxo2290VW3HzY7LVAMP
+         eHeQ==
+X-Gm-Message-State: APjAAAXC0AnGiR8uSZroz3OI+hWVs44GOMXOraNV2/eLM2qzIyRTMNyA
+        mpwJeZmbL8y8kKiB1zISsZc=
+X-Google-Smtp-Source: APXvYqwlmDfFBmYBWfMitNvfMIfBOlhro1Re+rdnGNnZks/VV0r4hw/CNy2brXFn6hvrtul6ImASzQ==
+X-Received: by 2002:a62:6d84:: with SMTP id i126mr35016137pfc.129.1564395290695;
+        Mon, 29 Jul 2019 03:14:50 -0700 (PDT)
+Received: from oslab.tsinghua.edu.cn ([2402:f000:4:72:808::3ca])
+        by smtp.gmail.com with ESMTPSA id o129sm32187330pfg.1.2019.07.29.03.14.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 03:14:50 -0700 (PDT)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     crope@iki.fi, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH] media: usb: msi2500: Fix a possible null-pointer dereference in msi2500_stop_streaming()
+Date:   Mon, 29 Jul 2019 18:14:44 +0800
+Message-Id: <20190729101444.2191-1-baijiaju1990@gmail.com>
+X-Mailer: git-send-email 2.17.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 10:18 AM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> On Fri, 2019-07-26 at 14:49 +0900, Tomasz Figa wrote:
-> > On Wed, Jul 24, 2019 at 1:31 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> > > On Tue, 2019-07-23 at 19:21 +0900, Tomasz Figa wrote:
-> > > > On Thu, Jul 18, 2019 at 1:39 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> > > > > On Wed, 2019-07-10 at 18:54 +0900, Tomasz Figa wrote:
-> > > > > > On Tue, Jun 11, 2019 at 11:53:41AM +0800, Jungo Lin wrote:
-[snip]
-> > >                 dev_dbg(cam->dev, "jobs are full\n");
-> > >                 spin_unlock_irqrestore(&cam->pending_job_lock, flags);
-> > >                 return;
-> > >         }
-> > >         list_for_each_entry_safe(req, req_prev, &cam->pending_job_list, list) {
-> >
-> > Could we instead check the counter here and break if it's >=
-> > MTK_ISP_MAX_RUNNING_JOBS?
-> > Then we could increment it here too to simplify the code.
-> >
->
-> Thanks for your advice.
-> We simplified this function as below:
->
-> void mtk_cam_dev_req_try_queue(struct mtk_cam_dev *cam)
-> {
->         struct mtk_cam_dev_request *req, *req_prev;
->         unsigned long flags;
->
->         if (!cam->streaming) {
->                 dev_dbg(cam->dev, "stream is off\n");
->                 return;
->         }
->
->         spin_lock_irq(&cam->pending_job_lock);
->         spin_lock_irqsave(&cam->running_job_lock, flags);
+In msi2500_stop_streaming(), there is an if statement on line 870 to
+check whether dev->udev is NULL:
+    if (dev->udev)
 
-Having the inner call spin_lock_irqsave() doesn't really do anything
-useful, because the outer spin_lock_irq() disables the IRQs and flags
-would always have the IRQ disabled state. Please use irqsave for the
-outer call.
+When dev->udev is NULL, it is used on line 877:
+    msi2500_ctrl_msg(dev, CMD_STOP_STREAMING, 0)
+        usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0), ...)
 
-[snip]
-> > > > > > > +
-> > > > > > > +static struct v4l2_subdev *
-> > > > > > > +mtk_cam_cio_get_active_sensor(struct mtk_cam_dev *cam_dev)
-> > > > > > > +{
-> > > > > > > +   struct media_device *mdev = cam_dev->seninf->entity.graph_obj.mdev;
-> > > > > > > +   struct media_entity *entity;
-> > > > > > > +   struct device *dev = &cam_dev->pdev->dev;
-> > > > > > > +   struct v4l2_subdev *sensor;
-> > > > > >
-> > > > > > This variable would be unitialized if there is no streaming sensor. Was
-> > > > > > there no compiler warning generated for this?
-> > > > > >
-> > > > >
-> > > > > No, there is no compiler warning.
-> > > > > But, we will assign sensor to NULL to avoid unnecessary compiler warning
-> > > > > with different compiler options.
-> > > > >
-> > > >
-> > > > Thanks. It would be useful if you could check why the compiler you're
-> > > > using doesn't show a warning here. We might be missing other
-> > > > uninitialized variables.
-> > > >
-> > >
-> > > We will feedback to your project team to check the possible reason about
-> > > compiler warning issue.
-> > >
-> >
-> > Do you mean that it was the Clang toolchain used on Chromium OS (e.g.
-> > emerge chromeos-kernel-4_19)?
->
-> > [snip]
->
-> Yes, I checked this comment in the Chromium OS build environment.
-> But, I think I have made the mistake here. I need to check the build
-> status in the Mediatek's kernel upstream environment. I will pay
-> attention in next path set upstream.
->
+Thus, a possible null-pointer dereference may occur.
 
-Thanks a lot. I will recheck this in the Chromium OS toolchain too.
+To fix this bug, dev->udev is checked before calling msi2500_ctrl_msg().
 
-> > > > > > > +
-> > > > > > > +   dev_dbg(dev, "%s: node:%d fd:%d idx:%d\n",
-> > > > > > > +           __func__,
-> > > > > > > +           node->id,
-> > > > > > > +           buf->vbb.request_fd,
-> > > > > > > +           buf->vbb.vb2_buf.index);
-> > > > > > > +
-> > > > > > > +   /* For request buffers en-queue, handled in mtk_cam_req_try_queue */
-> > > > > > > +   if (vb->vb2_queue->uses_requests)
-> > > > > > > +           return;
-> > > > > >
-> > > > > > I'd suggest removing non-request support from this driver. Even if we end up
-> > > > > > with a need to provide compatibility for non-request mode, then it should be
-> > > > > > built on top of the requests mode, so that the driver itself doesn't have to
-> > > > > > deal with two modes.
-> > > > > >
-> > > > >
-> > > > > The purpose of non-request function in this driver is needed by
-> > > > > our camera middle-ware design. It needs 3A statistics buffers before
-> > > > > image buffers en-queue. So we need to en-queue 3A statistics with
-> > > > > non-request mode in this driver. After MW got the 3A statistics data, it
-> > > > > will en-queue the images, tuning buffer and other meta buffers with
-> > > > > request mode. Based on this requirement, do you have any suggestion?
-> > > > > For upstream driver, should we only consider request mode?
-> > > > >
-> > > >
-> > > > Where does that requirement come from? Why the timing of queuing of
-> > > > the buffers to the driver is important?
-> > > >
-> > > > [snip]
-> > >
-> > > Basically, this requirement comes from our internal camera
-> > > middle-ware/3A hal in user space. Since this is not generic requirement,
-> > > we will follow your original suggestion to keep the request mode only
-> > > and remove other non-request design in other files. For upstream driver,
-> > > it should support request mode only.
-> > >
-> >
-> > Note that Chromium OS will use the "upstream driver" and we don't want
-> > to diverge, so please make the userspace also use only requests. I
-> > don't see a reason why there would be any need to submit any buffers
-> > outside of a request.
-> >
-> > [snip]
->
-> Ok, I have raised your concern to our colleagues and let him to discuss
-> with you in another communication channel.
->
+This bug is found by a static analysis tool STCheck written by us.
 
-Thanks!
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+---
+ drivers/media/usb/msi2500/msi2500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Tomasz
+diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
+index 4c9b2a12acfb..a6ecd9bd35f9 100644
+--- a/drivers/media/usb/msi2500/msi2500.c
++++ b/drivers/media/usb/msi2500/msi2500.c
+@@ -874,7 +874,7 @@ static void msi2500_stop_streaming(struct vb2_queue *vq)
+ 
+ 	/* according to tests, at least 700us delay is required  */
+ 	msleep(20);
+-	if (!msi2500_ctrl_msg(dev, CMD_STOP_STREAMING, 0)) {
++	if (dev->udev && !msi2500_ctrl_msg(dev, CMD_STOP_STREAMING, 0)) {
+ 		/* sleep USB IF / ADC */
+ 		msi2500_ctrl_msg(dev, CMD_WREG, 0x01000003);
+ 	}
+-- 
+2.17.0
+
