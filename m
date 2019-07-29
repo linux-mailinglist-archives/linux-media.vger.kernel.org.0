@@ -2,105 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA3178B7C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 14:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B25678C61
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 15:12:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727418AbfG2MOf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 08:14:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45780 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726972AbfG2MOf (ORCPT
+        id S2387965AbfG2NMe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 09:12:34 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:33277 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727283AbfG2NMe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 08:14:35 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E39CBCC;
-        Mon, 29 Jul 2019 14:14:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564402473;
-        bh=wCcAv6FM39diFN+jloWxPo/sh6IQxLvyE55J6Ukj43k=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=EXVYBv5C2Fy1T255ejinqH2w7bZ2KZfQLDogsCIDvvZObjLlX3XBstaONLOl1zwYh
-         +PtIcBcFdTS5Es71PD3z2jJ3HGaKPQIMk2i7OaeoC2UTOMCrrnRZ2JpqrMQ08ch3MA
-         cWrtMeLvUSmXhqe96Xg3cKNn3Jz325jQ1LYgV7SM=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: vsp1: fix memory leak of dl on error return path
-To:     Colin Ian King <colin.king@canonical.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190728171124.14202-1-colin.king@canonical.com>
- <e5c3dede-2c59-4c64-7a8c-f022ee06cbfa@ideasonboard.com>
- <22ff8757-fd79-a279-f55e-fc7c8d204a60@canonical.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <dd5e9421-9d32-0cad-9411-575569766b2f@ideasonboard.com>
-Date:   Mon, 29 Jul 2019 13:14:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 29 Jul 2019 09:12:34 -0400
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 2EC75240004;
+        Mon, 29 Jul 2019 13:12:30 +0000 (UTC)
+Date:   Mon, 29 Jul 2019 15:12:29 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH 02/14] videodev2.h: add V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
+Message-ID: <20190729131229.GB24269@aptenodytes>
+References: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
+ <20190724110523.29248-3-hverkuil-cisco@xs4all.nl>
+ <20190727093745.GB16618@aptenodytes>
+ <CAAFQd5CTcvyOe6_gETcdyvxVE6NaWmQwrgpWbTu5so_-FLYWtA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <22ff8757-fd79-a279-f55e-fc7c8d204a60@canonical.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5CTcvyOe6_gETcdyvxVE6NaWmQwrgpWbTu5so_-FLYWtA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/07/2019 13:12, Colin Ian King wrote:
-> On 29/07/2019 13:11, Kieran Bingham wrote:
->> Hi Colin,
->>
->> On 28/07/2019 18:11, Colin King wrote:
->>> From: Colin Ian King <colin.king@canonical.com>
->>>
->>> Currently when the call vsp1_dl_body_get fails and returns null the
->>> error return path leaks the allocation of dl. Fix this by kfree'ing
->>> dl before returning.
->>
->> Eeep. This does indeed look to be the case.
->>
->>>
->>> Addresses-Coverity: ("Resource leak")
->>> Fixes: 5d7936b8e27d ("media: vsp1: Convert display lists to use new body pool")
->>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
->>
->> Thank you!
+Hi,
+
+On Sun 28 Jul 19, 23:05, Tomasz Figa wrote:
+> On Sat, Jul 27, 2019 at 6:37 PM Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > Hi,
+> >
+> > On Wed 24 Jul 19, 13:05, Hans Verkuil wrote:
+> > > Add an enum_fmt format flag to specifically tag coded formats where
+> > > full bitstream parsing is supported by the device.
+> > >
+> > > Some stateful decoders are capable of fully parsing a bitstream,
+> > > but others require that userspace pre-parses the bitstream into
+> > > frames or fields (see the corresponding pixelformat descriptions
+> > > for details).
+> > >
+> > > If this flag is set, then this pre-parsing step is not required
+> > > (but still possible, of course).
+> > >
+> > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > ---
+> > >  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
+> > >  Documentation/media/videodev2.h.rst.exceptions   | 1 +
+> > >  include/uapi/linux/videodev2.h                   | 5 +++--
+> > >  3 files changed, 12 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > index 822d6730e7d2..4e24e671f32e 100644
+> > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > @@ -127,6 +127,14 @@ one until ``EINVAL`` is returned.
+> > >        - This format is not native to the device but emulated through
+> > >       software (usually libv4l2), where possible try to use a native
+> > >       format instead for better performance.
+> > > +    * - ``V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER``
+> > > +      - 0x0004
+> > > +      - The hardware decoder for this compressed bitstream format (aka coded
+> > > +     format) is capable of parsing the bitstream. Applications do not
+> > > +     need to parse the bitstream themselves to find the boundaries between
+> > > +     frames/fields. This flag can only be used in combination with the
+> > > +     ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to compressed
+> > > +     formats only.
+> >
+> > Should this flag be set for stateless codecs as well? It seems a bit over-kill
+> > for this case. I am not sure whether "compressed bitstream format" clearly only
+> > covers the formats used by stateful decoders and not the ones for stateless
+> > decoders.
 > 
-> Thank static analysis :-)
-
-Bah, that's just the hammer - you're the one finding the nails :-D
---
-Kieran
-
-
+> I'd suggest using a different name for the flag, because "bitstream
+> parser" is actually one of the core differences between stateful and
+> stateless. All stateful decoders have bitstream parsers, the only
+> difference between the implementations is the unit on which the parser
+> operates, i.e. full stream, frame, NALU.
 > 
->>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>
->>
->>> ---
->>>  drivers/media/platform/vsp1/vsp1_dl.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
->>> index 104b6f514536..d7b43037e500 100644
->>> --- a/drivers/media/platform/vsp1/vsp1_dl.c
->>> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
->>> @@ -557,8 +557,10 @@ static struct vsp1_dl_list *vsp1_dl_list_alloc(struct vsp1_dl_manager *dlm)
->>>  
->>>  	/* Get a default body for our list. */
->>>  	dl->body0 = vsp1_dl_body_get(dlm->pool);
->>> -	if (!dl->body0)
->>> +	if (!dl->body0) {
->>> +		kfree(dl);
->>>  		return NULL;
->>> +	}
->>>  
->>>  	header_offset = dl->body0->max_entries * sizeof(*dl->body0->entries);
->>>  
->>>
->>
-> 
+> Perhaps V4L2_FMT_FLAG_CONTINUOUS_BITSTREAM (as opposed to discrete,
+> framed/sliced chunks)?
 
+Sure, that seems like a more explicit name regarding what it's supposed to
+describe in my opinion.
+
+> Regardless of that, it doesn't make sense for a stateless decoder to
+> set this flag anyway, because the userspace needs to parse the whole
+> stream anyway and the whole stateless API is based on the assumption
+> that the userspace splits the bitstream into frames (or slices).
+
+Indeed, I agree that it doesn't make sense, but I thought that the name of the
+flag could be confusing. Since there is no direct equivalency between
+"stateless" and "doesn't parse the bitstream" (as we've seen with the rockchip
+decoder needing to parse the slice header on its own), that could have been
+ambiguous. I think the name you're suggesting mostly solves this concern.
+
+I'm still a bit unsure about what "compressed formats" entails or not, so it
+could be good to explicitly mention that this applies to stateful decoders only
+(but it's just a suggestion, advanced users of the API will probably find it
+straightforward).
+
+Cheers,
+
+Paul
+
+-- 
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
