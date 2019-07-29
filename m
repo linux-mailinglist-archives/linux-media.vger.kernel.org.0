@@ -2,123 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35793792A2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 19:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2830792C4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 20:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728417AbfG2RxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 13:53:15 -0400
-Received: from mout.gmx.net ([212.227.17.21]:41659 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728017AbfG2RxP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 13:53:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1564422781;
-        bh=7wzmysCmKHB/MJ7yViR5g7vWMi9GW505v/lZE5dCVIM=;
-        h=X-UI-Sender-Class:From:To:Subject:Date:Cc:References:In-Reply-To;
-        b=iAbU8DutaEeE3VfG0gwqHQ7qG/JsABdtnNR4ue6jFALSoC+bXayD02Zbo4r83D8eI
-         TTMS0iU0hT6gd5QAaACP6dK7sI2E8SK1qV8XM5EUYPdcmx5WrJ/M6qtXa4UDLKobF/
-         bOOIuhvd/+JNpmzDQmYGbhcpKiBxrqkPmScyCyTA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from doku18 ([77.2.94.7]) by mail.gmx.com (mrgmx101
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MTwYX-1i0iWD3q2j-00Qfvd; Mon, 29
- Jul 2019 19:53:01 +0200
-From:   Dominik Kuhlen <dkuhlen@gmx.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
+        id S1729035AbfG2SEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 14:04:50 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:49150 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728389AbfG2SEu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jul 2019 14:04:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=PPCoIvY0ptmHG65RLTTxoEUAS5Vd8DJmfHn79ns6Cz4=; b=mPD3EbJ9/PI5/IXrlCmYsVUCWK
+        bj5u/rA41R+qK+5Suwzd4RJ6UfnmFTusHcHCKWuYVVutPzWtfDfV3BsMTqNYm3pvTCglimRAUC02p
+        RMQPcQXEbO7fkg5kSGtkoTRCKReg5YT4bgsEiSeF42EYOZjFIuNMOP1SPcproSo2/z/kqeLFEECow
+        2YERNW2E7TzQ6EgBcC/8rqUB0q1XWm/Nsrsqwf+7vvY/2o4JL437v9Ve7a1C66g7VpxVUlKRqv1KS
+        v6XcKM5E5lsxQP9+sWZl4as8BZ+6hSnfB5bYb2TnDWZy4oKaPODWarVYGSaI2gwPgV0rTgbkSzWlz
+        hMZrymrQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hsA0p-0004oP-I7; Mon, 29 Jul 2019 18:04:44 +0000
 Subject: Re: linux-next: Tree for Jul 26 (media/usb/dvb-usb/pctv452e.c)
-Date:   Mon, 29 Jul 2019 19:52:53 +0200
-User-Agent: KMail/1.9.10 (enterprise35 0.20100827.1168748)
+To:     Dominik Kuhlen <dkuhlen@gmx.net>
 Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
         Linux Next Mailing List <linux-next@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-media" <linux-media@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
         Andre Weidemann <Andre.Weidemann@web.de>,
         "Michael H. Schimek" <mschimek@gmx.at>
-References: <20190726152342.2dd8b728@canb.auug.org.au> <782d7306-497f-7bd8-daaa-abac4fca0bdc@infradead.org>
-In-Reply-To: <782d7306-497f-7bd8-daaa-abac4fca0bdc@infradead.org>
-X-KMail-QuotePrefix: > 
+References: <20190726152342.2dd8b728@canb.auug.org.au>
+ <782d7306-497f-7bd8-daaa-abac4fca0bdc@infradead.org>
+ <201907291952.54035.dkuhlen@gmx.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7995d469-34a8-2574-5137-18a509187d23@infradead.org>
+Date:   Mon, 29 Jul 2019 11:04:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart21433132.aLrHPWef0M";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
-Message-Id: <201907291952.54035.dkuhlen@gmx.net>
-X-Provags-ID: V03:K1:mB95IJ4jmxVaVllUrtLW0PlafrMBRi95QT3zMIxkaolk/h9cUhs
- qE+kkoXiesuWcSw1kXZAr9PI6qOjmgptR6d0ftkmPR5pnXhq1mcXyc6ltTxcmUMU8nH3P7c
- JKU1kXYTXVuYFyI40LVFDlAn/uxdDwiluSqxVEGJ01nRGqMG/f+8PXn2V/n7X/KnG2zA5kr
- k+KRfA33Ed0gSEQHoY1gA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8NkhlyBt2jY=:91UkcdGkNYBP7/JWBItlEj
- 7a9x6fVwxjVgHjKoWQo8bRm0hI1lpuHGMXkqJS5wdY+onIakReAzilTRXagrbKABv1Uwn5CpA
- qwJjLiHjBIk2ggZEspg+ouBDWURerNAyY+/09yuu+ZniG+WGut0NuqJBjROtY0zmmt7/O8G3P
- h5W/adb9kbryDPgMFkQrUtKpk0v1WAETs0DHXfMCGk7YiSUHUqoTIRpvAW6I6mWjSOLd8tZYb
- PDP0Bo+pIlfvR/GAAEXRiYIipkPojc2xvkukODgo+AbP9vYnvhZcRQ5v8KXSFeMfIujNdFhA5
- WX3pmq4WYpntMjoF7Jhv9UdT0n9q6fyOi3ZT2H5fMdwBoj2uWr5vqH6lo/emSMGWQvqANZCCX
- 9s1a2uZsLyz0arUsBf+zaK+1TwRUDV6FGXlsyxf44tgW2yOTuvdSkF/lql5VH0HLhT9mDyYVJ
- lO4tQakp+6gC1E2I3JQ3RD8YyQoefpp0ahjjz0R0WKhf6S0y3RkLUftyPv3cAybcCamClnM0W
- /0g0TMJzcF56FpTdWq0hF7P7cRo79/Se98QnoFx42N251KKeUEbFn7zq2qwrl/hDjv1Tvi1bY
- 2cv9WwnYab3jy050D7bfLp+Yl/d/hJ32R6gmHgdW0Rl3hJIJZQp9iUWvtvPp8MuP3KgY3GX3J
- qskTkpXmk3r7C1IwaOgLHI5rZRTnfvNGE3J/+OmQp6xGaulqvJQpc2aLPTZKa50c7hMU746P/
- MufYe8GL9E3gGgDuGInD/kk7C10d9uqwxvVI5klF+KXn/eQicAS1c1gO2zgAavKJ1G5nTGetp
- NxtEu0NZ4oHpS/X28AbI5OlfVdWKBw38sqy9L5MKxmMkX+5d6blQj54QP6FYdM6sfRF8ng0+8
- MCV7AKxEdDeF2CS4vdUWAuXsPr2SAweTV/vfYs4oOCovwv644a6aawjK9Y8MoMBRIHArVknIp
- wH7rffBbkkweb5gRTfWiSDS2i1HUVJ2Ivu7iye2PSHQ0kRX/5iToiVJ6E7SGk7WHKrd9PistT
- mfAP4jI5xXmRfs/ZvGM0QCH1BHxsmQrgpi0N/9WGTqSU+nUdkqdLn73PUeuz8qrU0Xx434fQK
- 7lX8a5J513sxE8=
+In-Reply-To: <201907291952.54035.dkuhlen@gmx.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---nextPart21433132.aLrHPWef0M
-Content-Type: text/plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+On 7/29/19 10:52 AM, Dominik Kuhlen wrote:
+> Hi Randy,
+> 
+> On Friday 26 July 2019 16:57:50 Randy Dunlap wrote:
+>> On 7/25/19 10:23 PM, Stephen Rothwell wrote:
+>>> Hi all,
+>>>
+>>> Changes since 20190725:
+>>>
+>>
+>> on x86_64:
+>>
+>> In file included from ../drivers/media/usb/dvb-usb/pctv452e.c:16:0:
+>> ../drivers/media/usb/dvb-usb/pctv452e.c: In function ‘pctv452e_frontend_attach’:
+>> ../drivers/media/dvb-frontends/stb0899_drv.h:139:36: error: weak declaration of ‘stb0899_attach’ being applied to a already existing, static definition
+>>  static inline struct dvb_frontend *stb0899_attach(struct stb0899_config *config,
+>>                                     ^~~~~~~~~~~~~~
+> 
+>  cat config-r6623 | grep -i pctv45
+> CONFIG_DVB_USB_PCTV452E=y
+> 
+>  cat config-r6623 | grep -i stb0899
+> # CONFIG_DVB_STB0899 is not set
+> 
+> -> mismatching configuration:
+> The pctv452e needs the stb0899 frontend driver to work.
+> And the CONFIG_DVB_STB6100 must also be set.
 
-Hi Randy,
+This build error is from a randconfig.  The Kconfig rules for this (any)
+driver should not allow build errors to be generated.
 
-On Friday 26 July 2019 16:57:50 Randy Dunlap wrote:
-> On 7/25/19 10:23 PM, Stephen Rothwell wrote:
-> > Hi all,
-> >=20
-> > Changes since 20190725:
-> >=20
->=20
-> on x86_64:
->=20
-> In file included from ../drivers/media/usb/dvb-usb/pctv452e.c:16:0:
-> ../drivers/media/usb/dvb-usb/pctv452e.c: In function =E2=80=98pctv452e_fr=
-ontend_attach=E2=80=99:
-> ../drivers/media/dvb-frontends/stb0899_drv.h:139:36: error: weak declarat=
-ion of =E2=80=98stb0899_attach=E2=80=99 being applied to a already existing=
-, static definition
->  static inline struct dvb_frontend *stb0899_attach(struct stb0899_config =
-*config,
->                                     ^~~~~~~~~~~~~~
+For DVB_USB_PCTV452E (and probably most of drivers/media/), there is an
+attempt to handle this by the use of MEDIA_SUBDRV_AUTOSELECT (which is
+not set/enabled in this particular randconfig).  So I am reporting that
+the Kconfig entry for DVB_USB_PCTV452E is not sufficient.
+(although I expect that some people won't care)
 
- cat config-r6623 | grep -i pctv45
-CONFIG_DVB_USB_PCTV452E=3Dy
 
- cat config-r6623 | grep -i stb0899
-# CONFIG_DVB_STB0899 is not set
-
-=2D> mismatching configuration:
-The pctv452e needs the stb0899 frontend driver to work.
-And the CONFIG_DVB_STB6100 must also be set.
-
-Best regards,
-  Dominik
-
---nextPart21433132.aLrHPWef0M
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRFyJKmsHqIL03994Lo5et+p+0wogUCXT8ydgAKCRDo5et+p+0w
-ouxYAKCStBFtM3FPc2DVzyK8twIZARLLXQCePMdigKYUO7HPoUmuy8IRu835eGw=
-=76Pp
------END PGP SIGNATURE-----
-
---nextPart21433132.aLrHPWef0M--
+thanks.
+-- 
+~Randy
