@@ -2,66 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC7778899
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 11:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95E72788A4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 11:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727500AbfG2Jiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 05:38:46 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53215 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727161AbfG2Jip (ORCPT
+        id S1726308AbfG2Jkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 05:40:49 -0400
+Received: from mail-pf1-f176.google.com ([209.85.210.176]:40192 "EHLO
+        mail-pf1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725818AbfG2Jkt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:38:45 -0400
-Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id s279heLmCAffAs27AhgJ6t; Mon, 29 Jul 2019 11:38:44 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Johan Korsnes <johan.korsnes@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.3] vivid: fix missing cec adapter name
-Message-ID: <2225b9ee-ea7f-f238-ae43-faf0a157898b@xs4all.nl>
-Date:   Mon, 29 Jul 2019 11:38:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 29 Jul 2019 05:40:49 -0400
+Received: by mail-pf1-f176.google.com with SMTP id p184so27729116pfp.7;
+        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=kw/X5PHvyhK+OPglhkZH2PrJCm66ztyP4P0qwlP8Hr0=;
+        b=PIRU+WPDU7Kb14O9rKBbjcvhEvWoo3Agt5kST4Gh2mzgeQzF2kueO4h60oIDShPQiO
+         RMxaDQOYAtUYif69BWsTbTMgVhehKQFCyth2Nb0P/zVRaxTLTNqcTDA4cCsruZmE5qBs
+         11wWLyVSUqJFAffo/mPWABVIF1p99NlslStd8bdmLtwr6KomHnlIdsumg1YDHbwso6b4
+         018QtqfmefGoI02ixaOrPS6hfSt0lJhCAmFnNgGn5IuuTjRwStUExYPF/7vNOeb28iRw
+         UrbNVZ6ILshiCUqNUzEckUKN0UWwe/GKp/dNZOK5oLujQLGO8FKdLA2pfUrJDwNVVVth
+         VEkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=kw/X5PHvyhK+OPglhkZH2PrJCm66ztyP4P0qwlP8Hr0=;
+        b=LBI0JzrQfZv9Juywa9862oTppr7+NKSqdZzUEeAJXFr/ZlxaMLTYFWFFC48hUm7CNi
+         TuSi3LzXX+SdNbjH8EjTpqup/HdLiqcYwG8h7dqEbrBZMQWRzM5odAV4x1XzpXeDQS7+
+         Ef8fOwWyWACACJ5j1iNJHBvKkeVcznTIDYdNdvse2vVkJr9c3qyplVIUzWnjRKPaa3yx
+         GxxWKu1GQad2TwGIJBSNeigyngdrZXfzGAf02aIq6Bo5Kra+mLO15xQECKKDZG1ayFoI
+         A3AWN/Uc4K4DDAqKNLM21sA9z1OGpKSNe3Q5Ac1XvhtACBc9xF1bsCAt7YXS6wWHTSWw
+         7+Eg==
+X-Gm-Message-State: APjAAAUDuOa6UEx92Aqe9fJ1fQTA9q8Qu8iL6hXOxAOmElW0nGKJwgTC
+        +I4wHH3XUbDG3rfSHI9HWo/KaBKR3hQ=
+X-Google-Smtp-Source: APXvYqzcrCWxWRHGoAN/iiUkYudCU+3IUU9keptoL836xU/F9rUN0q6xRmX0gioUquT0orDrVhdakA==
+X-Received: by 2002:a63:7b18:: with SMTP id w24mr102859972pgc.328.1564393248396;
+        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
+Received: from ?IPv6:2402:f000:4:72:808::177e? ([2402:f000:4:72:808::177e])
+        by smtp.gmail.com with ESMTPSA id g2sm64960696pfi.26.2019.07.29.02.40.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
+To:     awalls@md.metrocast.net, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [BUG] media: pci: cx18: a possible null-pointer dereference in
+ cx18_vapi()
+Message-ID: <d49c3c7d-1f2c-6eae-414e-b8e8bc813ebc@gmail.com>
+Date:   Mon, 29 Jul 2019 17:40:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGMKqZTTkdjV6kWUp3a56EB9a2A/udkotAccuFibWng0ZORJ51FIH6mZiK5n4NElqCSreeBiZCHns1rhF081rZiw2vNelUhU9HYQTODvT6G4mp64oz5u
- TzsIkgQ6WfoAGkW7nrVCsn7oyEaneuucpu6hXNeslrwem2dfZXu19GEb9ks8ly5gJ1+CnRoFq/iAz7WRzDz7FZL9kllJiIi02hqPpnFMzhDlTMYPpoRdVtFc
- Y9iX30w1AdCZks/nGhdt9eg7K8vJuCg6DotwojZ+Ox0AOzgUr75iqRLbP1DGuTmNBOIIQbB50OEfG4z7LH1Zbg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+In cx18_vapi(), when cx is NULL, it is still used on line 833:
+     CX18_ERR("cx == NULL (cmd=%x)\n", cmd);
+          v4l2_err(&cx->v4l2_dev, fmt , ## args)
 
-Just one fix for vivid: this bug causes a regression in the test-media
-cec tests.
+Thus, a possible null-pointer dereference may occur.
 
-Regards,
+This bug is found by a static analysis tool STCheck written by us.
 
-	Hans
+I do not know how to correctly fix this bug, so I only report it.
 
-The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
 
-  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3b
-
-for you to fetch changes up to 1ff571f0d9ca71d799201d26ba154e5ef3457a9c:
-
-  vivid: fix missing cec adapter name (2019-07-29 11:35:19 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (1):
-      vivid: fix missing cec adapter name
-
- drivers/media/platform/vivid/vivid-core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Best wishes,
+Jia-Ju Bai
