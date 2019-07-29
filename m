@@ -2,86 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3947794A9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 21:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8A107953D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 21:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388199AbfG2TeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 15:34:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48528 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388219AbfG2TeI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 15:34:08 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76384217D7;
-        Mon, 29 Jul 2019 19:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564428848;
-        bh=wbyM6RbvZIQm3+NgUtFet8W7UaelmwWaworHQg34nyQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UOrGaiKo5s9nLLZ0WpdMN6lJRFM+UlIlypQ/Zml8QlTfouIbVuzwHRTkCgW2kzGLW
-         58G+M+aIVOwPxdmNHG7OJ5oV7brdLspzfhp8OkIQlspe3U7PrqisYDRQz9yocm0eye
-         FhvknBwIbtbjqboS6pPUBK7GpgUI0Yk8RD6ELkik=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>
-Subject: [PATCH 4.14 205/293] dma-buf: balance refcount inbalance
-Date:   Mon, 29 Jul 2019 21:21:36 +0200
-Message-Id: <20190729190840.168417823@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729190820.321094988@linuxfoundation.org>
-References: <20190729190820.321094988@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S2389131AbfG2TkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 15:40:16 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38401 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389128AbfG2TkQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jul 2019 15:40:16 -0400
+Received: by mail-pf1-f194.google.com with SMTP id y15so28543725pfn.5
+        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 12:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:user-agent:mime-version;
+        bh=/pXWJ8ddDvfTuu0JB4WoRwgGG7E8bOmWDQnDjXLn3gk=;
+        b=Dod9sqp1g7zsfgwy7ejaT3Cd54HrZ/QKaxmiG3beIKLbvfkfCQWSXQW6M+226oBb4S
+         m4jKEZO4/kz/ikjIOntuxwBN1YTVUno9b6tDstv12ehZw6m0o4JVDmBueD+IHbd02TqH
+         hmmvzxtFg9WgYjQSVoMY3C2X+iIXzvNBfrhMn62ZWmHRepgcYSIUg3ickEHZTlMGrHxy
+         /1CfPF3iPXpNwqXIVfVowY5MYZQa5e1dRaw4pTd+WW+jIWYOQkF0wJRg9vJyRK/+WHOY
+         cuiF8hJ1D5K7eetZMYq91tRAserMTB8oQBDUxy7WLhLiDhy8CiClDuuZw+oTPTu8Livn
+         2C6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:user-agent
+         :mime-version;
+        bh=/pXWJ8ddDvfTuu0JB4WoRwgGG7E8bOmWDQnDjXLn3gk=;
+        b=ksWB1Tt/8MSTUdG0cST1h6x8jp/+ZAbxzrJQ2VhjBDASal4pP6fM5IvkkhY8adLpOu
+         8Pwlo2Fv6rf337ZQf9O/+oQDgAiJiEOZDECDNDQ0OK+vvXFKRw9U6c45FLanLoo2Ii3v
+         fdjMYhWvNyXmf57tYmedTxAJQKqT/7MPPkoMTkjd3VAR6EwMy+RiSUkqWG/iFaSsOEZT
+         n9ws9RjLu5JtVGbNO3Lq/pfXVoRS5x6NCN9urDUFYnVR87M5hVN5imzHqcyTUCCg6FTN
+         8XHLC4TdKAM/UazE3cT8ENQGQIrox8EKyhU4x4SdSWx+nva8dlv1U/2rdm5TtMddSCIE
+         Zh2g==
+X-Gm-Message-State: APjAAAWGQ0MBnPC1cYM8Fz6oF/Y9e0K299lteG1TZkmV/KnMXI+yrAtj
+        RgxDltb4lfOFMv4NLTK4Ykg=
+X-Google-Smtp-Source: APXvYqxVQzX0+YvVhKVTApzLzroKfR1o3WNyamIC6Kf7pqeElglCiQHQFqL1oWV9ij3ZrLHx7C3FCw==
+X-Received: by 2002:aa7:9481:: with SMTP id z1mr38427359pfk.92.1564429215244;
+        Mon, 29 Jul 2019 12:40:15 -0700 (PDT)
+Received: from mbalantz-desktop (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
+        by smtp.gmail.com with ESMTPSA id 65sm65334032pgf.30.2019.07.29.12.40.14
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 29 Jul 2019 12:40:14 -0700 (PDT)
+From:   Mark Balantzyan <mbalant3@gmail.com>
+X-Google-Original-From: Mark Balantzyan <mbalantz@mbalantz-desktop>
+Date:   Mon, 29 Jul 2019 12:40:10 -0700 (PDT)
+To:     ezequiel@vanguardiasur.com.ar, hverkuil@xs4all.nl
+cc:     linux-media@vger.kernel.org
+Subject: [PATCH] media input infrastructure:tw686x: Fix of possible inconsistent
+ memory deallocation and/or race condition by implementation of custom
+ video_device_release function in tw686x driver
+Message-ID: <alpine.DEB.2.21.1907291238290.12821@mbalantz-desktop>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jérôme Glisse <jglisse@redhat.com>
 
-commit 5e383a9798990c69fc759a4930de224bb497e62c upstream.
+Possible inconsistent memory deallocation and/or race conditions were 
+detected specifically with respect to remaining open handles to the video 
+device handled by the tw686x driver. This patch addresses this by 
+implementing a revised independent instance of the video_device_release 
+function to free the remaining resources and memory where the last open 
+handle(s) is/were closed.
 
-The debugfs take reference on fence without dropping them.
-
-Signed-off-by: Jérôme Glisse <jglisse@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: Stéphane Marchesin <marcheu@chromium.org>
-Cc: stable@vger.kernel.org
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20181206161840.6578-1-jglisse@redhat.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
 ---
- drivers/dma-buf/dma-buf.c |    1 +
- 1 file changed, 1 insertion(+)
+  drivers/media/pci/tw686x/tw686x-video.c | 13 ++++++++++---
+  1 file changed, 10 insertions(+), 3 deletions(-)
 
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1115,6 +1115,7 @@ static int dma_buf_debug_show(struct seq
- 				   fence->ops->get_driver_name(fence),
- 				   fence->ops->get_timeline_name(fence),
- 				   dma_fence_is_signaled(fence) ? "" : "un");
-+			dma_fence_put(fence);
- 		}
- 		rcu_read_unlock();
- 
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c 
+b/drivers/media/pci/tw686x/tw686x-video.c
+index 3a06c000..741e15ac 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -1151,6 +1151,13 @@ void tw686x_video_irq(struct tw686x_dev *dev, 
+unsigned long requests,
+  	}
+  }
 
++void video_device_release(tw686x_dev *dev) {
++	for (int pb = 0; pb < 2; pb++) {
++		dev->dma_ops->free(dev->video_channels,pb);
++	}
++	kfree(dev);
++}
++
+  void tw686x_video_free(struct tw686x_dev *dev)
+  {
+  	unsigned int ch, pb;
+@@ -1160,9 +1167,9 @@ void tw686x_video_free(struct tw686x_dev *dev)
 
+  		video_unregister_device(vc->device);
+
+-		if (dev->dma_ops->free)
+-			for (pb = 0; pb < 2; pb++)
+-				dev->dma_ops->free(vc, pb);
++		if (dev->dma_ops->free) {
++			video_device_release(dev);
++		}
+  	}
+  }
+
+-- 
+2.17.1
