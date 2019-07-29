@@ -2,131 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4B95787CF
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 10:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC7778899
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 11:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbfG2Iyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 04:54:36 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40613 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726709AbfG2Iyg (ORCPT
+        id S1727500AbfG2Jiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 05:38:46 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53215 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727161AbfG2Jip (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:54:36 -0400
-Received: by mail-lf1-f67.google.com with SMTP id b17so41504068lff.7
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 01:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=3AKaeYPpG4Jdj2uJ0zOwGBPVJEQq1UR02Z4tiIXe3tk=;
-        b=l+tYB5kCgHGllsWdRlnwZkOmu7f0rplk5eOJXlY/KPasvAnKar5hccvflgzUItR8FT
-         Ags9t946tz4p/8Hy8aIgx6ZxSGp2TkC3SMt7mIS6plW/Yl7MOAegeExQsfOoJRWjVRVc
-         P+jWZ/piqqaajZR30w51jY/uaj+7geU9bRCN7i6vy0f3uoXtUeKcZ3+PAkt0WtA4EPdO
-         CK2xk+WOEUTqgxnhnl0Q+95SikF7GChwTn7v7sYjfefsiu6fWXYblnffEjMBVWFK3WiQ
-         KZpfOO3QUrRwo8PyuNx8tLdQ6+q84ibLXE9SwJ+sR6vFBDwITA+zNIoZTq80l43pYQZO
-         6piQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=3AKaeYPpG4Jdj2uJ0zOwGBPVJEQq1UR02Z4tiIXe3tk=;
-        b=gOy5DNIWrnlS4ohaH0bJyxx7lv+BVSHJtcV2EbJBRt4UHnSG+YnCEvJMl12OUMHh/f
-         rYDqjkHFEoL2Otty3Ku/S2rNvmZB9QXso9yL6lUwZfgD478YtRYanw67rQO54oe3Q6CE
-         P9Re2Cfdp3IZmhizojY95Shkflq38Hbah3KvIZlV+rVX7jGuIlrc37EmaafgZoiTljph
-         3/R1ygsNs5DrXXcVI4AhS0eBjmGsan75dSM7Ewty3fXwAc0QuslvNOjEzMoKQqf2w5vn
-         dGcfU0U6LzI9yBnkItw5R6hTUsiHdQK2crn9MkF5kkWJRmaZAcWE9OvA1IQfrlqfDSLE
-         5nUA==
-X-Gm-Message-State: APjAAAXjeZUuYesUBbuNzTzTafsSthdWvS2jrKbjO0835dhmgaOPm7Kw
-        BAhNAcidIZYI32vjV59OP0XvBaSOw1eDl2exNSSh6g==
-X-Google-Smtp-Source: APXvYqzN2WgCBz75JRZqxtyxnKBtGCQd56zO1/jN/xQ+VmHZg+VBIBHetW1zYazPKw4clqZUq5TMz8WKIFZuTUELZTU=
-X-Received: by 2002:a19:c503:: with SMTP id w3mr45382483lfe.139.1564390474240;
- Mon, 29 Jul 2019 01:54:34 -0700 (PDT)
+        Mon, 29 Jul 2019 05:38:45 -0400
+Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id s279heLmCAffAs27AhgJ6t; Mon, 29 Jul 2019 11:38:44 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Johan Korsnes <johan.korsnes@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v5.3] vivid: fix missing cec adapter name
+Message-ID: <2225b9ee-ea7f-f238-ae43-faf0a157898b@xs4all.nl>
+Date:   Mon, 29 Jul 2019 11:38:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Received: by 2002:ac2:4186:0:0:0:0:0 with HTTP; Mon, 29 Jul 2019 01:54:33
- -0700 (PDT)
-From:   Vincent McIntyre <vincent.mcintyre@gmail.com>
-Date:   Mon, 29 Jul 2019 18:54:33 +1000
-Message-ID: <CAEsFdVMFa3qY5TdUTPqQ4=_cCx6ePzMOw31FLC+erR7_39hgFw@mail.gmail.com>
-Subject: build failures on ubuntu 16.04 (4.15.0.55.76)
-To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGMKqZTTkdjV6kWUp3a56EB9a2A/udkotAccuFibWng0ZORJ51FIH6mZiK5n4NElqCSreeBiZCHns1rhF081rZiw2vNelUhU9HYQTODvT6G4mp64oz5u
+ TzsIkgQ6WfoAGkW7nrVCsn7oyEaneuucpu6hXNeslrwem2dfZXu19GEb9ks8ly5gJ1+CnRoFq/iAz7WRzDz7FZL9kllJiIi02hqPpnFMzhDlTMYPpoRdVtFc
+ Y9iX30w1AdCZks/nGhdt9eg7K8vJuCg6DotwojZ+Ox0AOzgUr75iqRLbP1DGuTmNBOIIQbB50OEfG4z7LH1Zbg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Mauro,
 
-I am getting build failures in v4l2-fwnode.c. I'm sending this because
-the daily build logs
-are not showing any errors for this kernel (version below).
+Just one fix for vivid: this bug causes a regression in the test-media
+cec tests.
 
-I've tried flushing the git checkout and rerunning but I still get the failures.
-I can send a fuller log off-list if you like.
+Regards,
 
-/home/me/git/clones/media_build/v4l/v4l2-fwnode.c: In function
-'v4l2_fwnode_endpoint_parse_csi2_bus':
-/home/me/git/clones/media_build/v4l/v4l2-fwnode.c:166:9: error:
-implicit declaration of function 'fwnode_property_count_u32'
-[-Werror=implicit-function-declaration]
-  rval = fwnode_property_count_u32(fwnode, "data-lanes");
-         ^
-/home/me/git/clones/media_build/v4l/v4l2-fwnode.c: In function
-'v4l2_fwnode_endpoint_alloc_parse':
-/home/me/git/clones/media_build/v4l/v4l2-fwnode.c:527:9: error:
-implicit declaration of function 'fwnode_property_count_u64'
-[-Werror=implicit-function-declaration]
-  rval = fwnode_property_count_u64(fwnode, "link-frequencies");
-         ^
-/home/me/git/clones/media_build/v4l/v4l2-fwnode.c: At top level:
-cc1: warning: unrecognized command line option '-Wno-format-truncation'
-cc1: some warnings being treated as errors
-scripts/Makefile.build:339: recipe for target
-'/home/me/git/clones/media_build/v4l/v4l2-fwnode.o' failed
-make[3]: *** [/home/me/git/clones/media_build/v4l/v4l2-fwnode.o] Error 1
-Makefile:1552: recipe for target
-'_module_/home/me/git/clones/media_build/v4l' failed
-make[2]: *** [_module_/home/me/git/clones/media_build/v4l] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.15.0-47-generic'
-Makefile:51: recipe for target 'default' failed
-make[1]: *** [default] Error 2
-make[1]: Leaving directory '/home/me/git/clones/media_build/v4l'
-Makefile:26: recipe for target 'all' failed
-make: *** [all] Error 2
-build failed at ./build line 526
+	Hans
 
-$ cat /proc/version_signature
-Ubuntu 4.15.0-55.60~16.04.2-generic 4.15.18
+The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
 
-Also seen on
-Ubuntu 4.15.0-47.50~16.04.1-generic 4.15.18
+  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
 
-$ git --no-pager log -1
-commit 5158c420e7a0929fa58c56ac437e274e8b1c37d1
-Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Date:   Fri Jul 26 09:26:30 2019 +0200
+are available in the Git repository at:
 
-    Remove const from fwnode_property_count_u32/u64
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.3b
 
-    Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+for you to fetch changes up to 1ff571f0d9ca71d799201d26ba154e5ef3457a9c:
 
+  vivid: fix missing cec adapter name (2019-07-29 11:35:19 +0200)
 
-$ cd media;  git --no-pager log -1
-commit d2b4387f3bdf016e266d23cf657465f557721488
-Author: Eddie James <eajames@linux.ibm.com>
-Date:   Tue Dec 11 11:57:01 2018 -0500
+----------------------------------------------------------------
+Tag branch
 
-    media: platform: Add Aspeed Video Engine driver
+----------------------------------------------------------------
+Hans Verkuil (1):
+      vivid: fix missing cec adapter name
 
-    The Video Engine (VE) embedded in the Aspeed AST2400 and AST2500 SOCs
-    can capture and compress video data from digital or analog sources. With
-    the Aspeed chip acting a service processor, the Video Engine can capture
-    the host processor graphics output.
-
-    Add a V4L2 driver to capture video data and compress it to JPEG images.
-    Make the video frames available through the V4L2 streaming interface.
-
-    Signed-off-by: Eddie James <eajames@linux.ibm.com>
-    Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-    Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-Kind regards
-Vince
+ drivers/media/platform/vivid/vivid-core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
