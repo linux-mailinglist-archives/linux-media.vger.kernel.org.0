@@ -2,65 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF4E78EAC
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 17:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20E2678FA6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 17:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387883AbfG2PFB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 11:05:01 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:52556 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387861AbfG2PFB (ORCPT
+        id S2388171AbfG2PnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 11:43:09 -0400
+Received: from mail-pf1-f179.google.com ([209.85.210.179]:36655 "EHLO
+        mail-pf1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387476AbfG2PnJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 11:05:01 -0400
-Received: by mail-io1-f69.google.com with SMTP id p12so67798751iog.19
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 08:05:00 -0700 (PDT)
+        Mon, 29 Jul 2019 11:43:09 -0400
+Received: by mail-pf1-f179.google.com with SMTP id r7so28239798pfl.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 08:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:user-agent:mime-version;
+        bh=A89EEe1/US5kg8pm2EdCQcHd1Jx/JLFX2sqJ5EW+2Z4=;
+        b=lHV/GBiAVPfOAUFYWoT5jc6omvyzDJnavbD913qjWKQhVR8PyjgOc4h3jIW8EzznhQ
+         /EHF44aH+Cv+v5ApZU3PUoWdOxlQKtRKTjy9xZZczjG4V8IiSLdXARb0ut7Wy6D9W/OG
+         cMtZdsSR6+D8FzqzjTQTHiLWexPnAQ4JJa9coYL/Jyf4oEZjQH0anXhBkJInoE/OVLr7
+         RHnRahfLLgKAH53Pa3HFaLwYZnMOKahvu2KR4rTJZ8CfwddcMpGXeNTy3BjxOR+X901k
+         XHouYuv7mh0GEBYvREbbJCmyweMDyK8AVnTG+OVGV9Z39gwYUdcHLy+vWb0b1GKl3V1o
+         j8JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=83ogxiWJAcfPlpqDFHyk9MJiHXTGHElwcaQ+ZeWPJvY=;
-        b=bWof4sOOlAfsPJsgP932S7t8tlAEfFdUIHq3nG0BXebsdDgnLYjT1l4Wnqrp0ztOiX
-         lkzpG5LNPpSQGd5lEnH75PpBGv/whTWI0aqBb+zs5omBvYjQUn7Kgc0fWwgp8x6tL7/C
-         0vUlrHhOsf7ei/EaRFXDmADtqd4ua+ICJrl/XvYqEqeKWORtRc5N0ZHJM07r51aGURco
-         n3e0DLhmKdQiORAfpY5Jlya8hR67bzo9qsbXEREjPWzwSmS3XyyRU+XMUnc/7LYTnJ6t
-         zrkWt0RuBJM/W+KqCm9f0qsyscfJMyndk+plU+5Ryxzt6cG8FdOtxh3cR5DgO1ApNdxZ
-         RozQ==
-X-Gm-Message-State: APjAAAVsDGM7pe1d7OyDnjg/9bN8t187ZUROJVqa6/nW8hh5IpBjuF+Q
-        fnxhEy/99hYU4r2IARlGMqAUszrI1qYyV8cGeZqEXKGtSD4G
-X-Google-Smtp-Source: APXvYqzuprNbhcYXnWDZznVvJM8hy7civm1NgXptFAKw1t1/zdh4LNbL91ZtdbTJiYOgfkptxXs1BQq48/Fe4yaKBgO+y9MnqiVg
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:user-agent
+         :mime-version;
+        bh=A89EEe1/US5kg8pm2EdCQcHd1Jx/JLFX2sqJ5EW+2Z4=;
+        b=Ko9j6RwUwrYzQWHJVnvS5U6amU/HTDkgcacHSf9FGSCnMrESqWJXL4z1cJuXJu1uYU
+         z/QcGbEdTfn/yDReTWK6D3q8H3EynJQysl6SMSUrYFNOAeQmYAX/4TuaIgck4J+5OTgg
+         4jaqIzkfs5m9oG5Tyrff4gz6LuJm+WJ1fOAYlnDgoCPqhnJBCbaE7jNRnZdGk4szQ3d5
+         st3mS+o6+S7UHZAmBijlIsItPtu6B0Wa9vqF1T938Sf6FleMq0sDTPlb/7vlpTCSgNt1
+         5AdQbN6okMDbQcM/v83PH/mDtaTMEOOH//0uRCuXqUGPpe4RRG6FxpEW+OTskd+U+Ckt
+         E2Rg==
+X-Gm-Message-State: APjAAAVl9tmJA8vw24WBL2HB7l5mcmMCJFFUJ/0wD6sPmCbDGjOvkrsp
+        EG76PBNDNBj7OjV7OnmPryo=
+X-Google-Smtp-Source: APXvYqzXQOrNa+iEyjM7nxt7ljnBsYGSGXJLu8l2eRyHlLB1Lw7iWXhGYs87iU/yFczNCSH+hCT7hA==
+X-Received: by 2002:a17:90a:23a4:: with SMTP id g33mr115920380pje.115.1564414560999;
+        Mon, 29 Jul 2019 08:36:00 -0700 (PDT)
+Received: from mbalantz-desktop (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
+        by smtp.gmail.com with ESMTPSA id z12sm43490680pfn.29.2019.07.29.08.36.00
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 29 Jul 2019 08:36:00 -0700 (PDT)
+From:   Mark Balantzyan <mbalant3@gmail.com>
+X-Google-Original-From: Mark Balantzyan <mbalantz@mbalantz-desktop>
+Date:   Mon, 29 Jul 2019 08:35:56 -0700 (PDT)
+To:     hverkuil@xs4all.nl
+cc:     linux-media@vger.kernel.org
+Subject: tw686x driver (again, sorry; I respect it as a good driver!)
+Message-ID: <alpine.DEB.2.21.1907290834280.47996@mbalantz-desktop>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:b3c1:: with SMTP id c184mr51761619iof.222.1564412700296;
- Mon, 29 Jul 2019 08:05:00 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 08:05:00 -0700
-In-Reply-To: <1564410374.25582.15.camel@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000488c6d058ed337b2@google.com>
-Subject: Re: general protection fault in flexcop_usb_probe
-From:   syzbot <syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com>
-To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        oneukum@suse.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: multipart/mixed; boundary="8323329-683466979-1564414560=:47996"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+--8323329-683466979-1564414560=:47996
+Content-Type: text/plain; format=flowed; charset=ISO-8859-7
+Content-Transfer-Encoding: 8BIT
 
-Reported-and-tested-by:  
-syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com
+Hi Hans,
 
-Tested on:
+I recall us agreeing that a custom function to free the last resources 
+attached to the video device would be preferable. So may I clarify, in 
+your words, what bug I may be fixing? I please need a description to 
+report to patchwork and to my mentor..
 
-commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git  
-usb-fuzzer-usb-testing-2019.07.11
-kernel config:  https://syzkaller.appspot.com/x/.config?x=662450485a75f217
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1036e80c600000
+Also I¢m getting confused reactions about my patches from Ezequiel and 
+that may owe to my lack of direction on the fixing.
 
-Note: testing is done by a robot and is best-effort only.
+Thank you very much,
+Mark
+
+--8323329-683466979-1564414560=:47996--
