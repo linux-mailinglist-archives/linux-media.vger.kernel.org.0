@@ -2,200 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 630B678AD9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 13:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 547E178B2C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 13:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387812AbfG2LsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 07:48:16 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:40981 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387771AbfG2LsH (ORCPT
+        id S2387843AbfG2L6S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 07:58:18 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:48417 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387760AbfG2L6S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 07:48:07 -0400
-Received: by mail-io1-f69.google.com with SMTP id x17so66845718iog.8
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 04:48:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=kZ37XenQa1BiXC+YxE40YDF1Kab2aLWtcRgow9fgtEY=;
-        b=LCLQtAw4ACeD5i/IOOSw21lpplc7sNc5bhXTWe57WGMBVutf1OhjMzWmS0DPKcAI4u
-         qxwsA21zCybX1YBEPKHR83ArkTmkH1QCb1YFa5NgoD575KQNgEoqvbbrVsZ4P/Z6g0RB
-         /qAM+eTr4q7s1dAsNKB/+znzibLjteH5Nto3s2AHS9r86swgnte9j9mhbwlTptzGN1NX
-         aYR9h1vT7bTn9wdLq4X0nClC9xRFtGqKcIJAiuRLa4zWCIEcpNEmfrV2fvEUrjLe0Ag9
-         zYj4XIrEdpdjcX2+5T9OIDadkDo5skYa5fPmf8SoVqkCYUWCYEhu0BO1gU+MhQWltkNb
-         sfcw==
-X-Gm-Message-State: APjAAAUBm/qdl9Ocy2qZJOX4mBshtNt6uuacxh9nuTlthF1rMp9p9b+J
-        WvNhAajEEofwLHYt1VCA+fa7Ut3j/Vw00GRWNkHUpYyeKKit
-X-Google-Smtp-Source: APXvYqzeBzlcm1whsgBJI46ajx9HT7GM3Dpn9vMSlT57UUSUTirQbcCmnNmFpRwexcd9Yz7r1jU17mMCD4ydOXAaYMgNxZWNx6D6
+        Mon, 29 Jul 2019 07:58:18 -0400
+X-UUID: dc4886a3f36d45af9a68c1b4a4a1f7ad-20190729
+X-UUID: dc4886a3f36d45af9a68c1b4a4a1f7ad-20190729
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw02.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+        with ESMTP id 960706513; Mon, 29 Jul 2019 19:58:11 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 29 Jul 2019 19:58:11 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 29 Jul 2019 19:58:11 +0800
+Message-ID: <1564401491.15267.405.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
+        <po-yang.huang@mediatek.com>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        <jerry-ch.chen@mediatek.com>
+Date:   Mon, 29 Jul 2019 19:58:11 +0800
+In-Reply-To: <CAAFQd5A0Qi==m4O9L2W3Qmdx4g8acs-kjBtHjLBNCBpoGd5ZSw@mail.gmail.com>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <eb3bb92d-5d44-0d45-2e90-abcdb96f595d@metux.net>
+         <1564380061.15267.383.camel@mtksdccf07>
+         <CAAFQd5A0Qi==m4O9L2W3Qmdx4g8acs-kjBtHjLBNCBpoGd5ZSw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-Received: by 2002:a6b:6505:: with SMTP id z5mr98047140iob.295.1564400886105;
- Mon, 29 Jul 2019 04:48:06 -0700 (PDT)
-Date:   Mon, 29 Jul 2019 04:48:06 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001a4e93058ed07733@google.com>
-Subject: KASAN: use-after-free Write in usbvision_scratch_alloc
-From:   syzbot <syzbot+fa317310495b601f2c3e@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, bigeasy@linutronix.de, hverkuil@xs4all.nl,
-        kjlu@umn.edu, kstewart@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Tomasz,
 
-syzbot found the following crash on:
+On Mon, 2019-07-29 at 17:57 +0800, Tomasz Figa wrote:
+> On Mon, Jul 29, 2019 at 3:01 PM Jerry-ch Chen
+> <Jerry-ch.Chen@mediatek.com> wrote:
+> >
+> > Hi Enrico,
+> >
+> > On Tue, 2019-07-09 at 18:56 +0800, Enrico Weigelt, metux IT consult
+> > wrote:
+> > > On 09.07.19 10:41, Jerry-ch Chen wrote:
+> > >
+> > > Hi,
+> > >
+> > >
+> > > > diff --git a/drivers/media/platform/mtk-isp/fd/mtk_fd.h b/drivers/media/platform/mtk-isp/fd/mtk_fd.h
+> > > > new file mode 100644
+> > > > index 0000000..289999b
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/platform/mtk-isp/fd/mtk_fd.h
+> > > > @@ -0,0 +1,157 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +//
+> > > > +// Copyright (c) 2018 MediaTek Inc.
+> > > > +
+> > > > +#ifndef __MTK_FD_HW_H__
+> > > > +#define __MTK_FD_HW_H__
+> > > > +
+> > > > +#include <linux/io.h>
+> > > > +#include <linux/types.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <media/v4l2-ctrls.h>
+> > > > +#include <media/v4l2-device.h>
+> > > > +#include <media/videobuf2-v4l2.h>
+> > > > +
+> > > > +#define MTK_FD_OUTPUT_MIN_WIDTH                    26U
+> > > > +#define MTK_FD_OUTPUT_MIN_HEIGHT           26U
+> > > > +#define MTK_FD_OUTPUT_MAX_WIDTH                    640U
+> > > > +#define MTK_FD_OUTPUT_MAX_HEIGHT           480U
+> > > > +
+> > > > +/* Control the user defined image widths and heights
+> > > > + * to be scaled and performed face detection in FD HW.
+> > > > + * MTK FD support up to 14 user defined image sizes to perform face detection.
+> > > > + */
+> > > > +#define V4L2_CID_MTK_FD_SCALE_IMG_WIDTH            (V4L2_CID_USER_MTK_FD_BASE + 1)
+> > > > +#define V4L2_CID_MTK_FD_SCALE_IMG_HEIGHT   (V4L2_CID_USER_MTK_FD_BASE + 2)
+> > >
+> > > I've got a *really* bad feeling about introducing chip specific
+> > > uapi stuff. (by the way: uapi stuff belongs into include/uapi/...)
+> > >
+> > Thanks for your comments,
+> >
+> > If we remain chip-specific control IDs, I will move the uapi stuff into
+> > inlcude/uapi/mtk_fd.h (filename TBD)
+> >
+> > > Maybe you could tell us what that's *really* about, so we can find some
+> > > standard / chip-independent api for these things. That's one of the
+> > > major point of the kernel: hardware abstraction.
+> > >
+> > I am not sure if it is possible for us to add some standard
+> > v4l2-controls for face detection, a further explanations of controls are
+> > listed below.
+> >
+> > In v4l2-controls, there exists V4L2_CID_DETECT_CLASS, but I haven't
+> > found the standards or api that can be used for face detection yet.
+> > https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/v4l2-controls.h#L1092
+> >
+> > For detecting certain face angle and head direction, we would need
+> > V4L2_CID_DETECT_ANGLE, V4L2_CID_DETECT_DIRECTION controls for user to
+> > specify the angle and direction to be detected.
+> > In MTK FD driver, we support the following angles and directions to be
+> > selected by user, and they are both multiple selected .
+> > FD_angle_table[] = {-90, -45, 0 , 45, 90}
+> > FD_direction_table[] = {0, 30, 60, 90, 120, 150, ..., 330}
+> >
+> > Assuming these v4l2-controls are array of V4L2_CTRL_TYPE_U16 with
+> > dimension 5 and 12.
+> > User can select the desired angle and directions to be detected into
+> > arrays and bring it to driver by these controls, however, the more they
+> > select, the longer execution time needed by HW.
+> >
+> 
+> Sounds like we need some kind of a menu bitmask control here, but I
+> don't see V4L2 having anything like that.
+> 
+> Hans, Sakari, any ideas?
+> 
+> > For detecting different sizes of faces and increase the detection speed,
+> > FD driver might need to scales down the input image into different
+> > smaller sizes
+> 
+> Do you mean the FD hardware would do the scaling or the driver code
+> itself? It would be undesirable to do such scaling in a kernel driver,
+> so if that's not something handled by the hardware, the downscaled
+> image might need to be provided from the userspace.
+> 
+Thanks for your comments.
 
-HEAD commit:    6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=14089192600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
-dashboard link: https://syzkaller.appspot.com/bug?extid=fa317310495b601f2c3e
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+Yes, FD hardware will do the scaling itself, so driver could set the
+sizes.
 
-Unfortunately, I don't have any reproducer for this crash yet.
+> >, besides driver default values, user or proprietary
+> > algorithm library can manually set the desired image sizes, therefore,
+> > we would need the following controls:
+> > V4L2_CID_DETECT_SCALE_DOWN_IMG_WIDTH and
+> > V4L2_CID_DETECT_SCALE_DOWN_IMG_HEIGHT.
+> > In MTK FD driver, we implement these controls as array of
+> > V4L2_CTRL_TYPE_U16 with the dimension 15.
+> 
+> Why 15?
+> 
+It consists of one input image size and 14 down-scaled image sizes,
+the amount 15 (or say 14) is defined by the MTK FD algo library,
+therefore I remain the number of 15 here for communicate with the
+library.
+Maybe it should be defined as following?
+MTK_FD_MAX_SCALE_SIZE_NUM               14
+and 
+MTK_FD_SCALE_ARR_NUM			15
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+fa317310495b601f2c3e@syzkaller.appspotmail.com
+> >
+> > For controlling detection speed, we would need the
+> > V4L2_CID_DETECT_SPEED, the faster speedup implies the lower accuracy of
+> > detection, In MTK FD driver, the max level of speedup is 7, and default
+> > value is 0.
+> >
+> > For MTK FD algorithm user library, they would need select extra
+> > detection features(models) used in HW, we need
+> > V4L2_CID_MTK_FD_EXTRA_MODEL, this will be set to 1 for using extra
+> > model. However, we are considering make this control more
+> > chip-independent and can be added into standard.
+> > for example, V4L2_CID_DETECTION_FD_MODEL or ...FD_ALGO,
+> > drivers can define the detection algorithm or detection model to be used
+> > for users to select. How do you think?
+> 
+> Sounds like something that could be a menu control, so it could vary
+> between drivers.
+> 
+Ok, and maybe it should be created by v4l2_ctrl_new_int_menu(...)?
 
-==================================================================
-BUG: KASAN: use-after-free in usbvision_scratch_alloc+0x8c/0xa0  
-drivers/media/usb/usbvision/usbvision-core.c:350
-Write of size 8 at addr ffff8881cd2adc00 by task v4l_id/5718
+> >
+> > In short, I summery the control IDs as following:
+> > V4L2_CID_DETECT_ANGLE: set the angle of face in degrees. 90 ~ -90
+> > degrees.
+> > V4L2_CID_DETECT_DIRECTION: set the rotation of the head in degrees.
+> > 0~330 degrees.
+> > V4L2_CID_DETECT_SCALE_DOWN_IMG_WIDTH: set the image widths for an input
+> > image to be scaled down for face detection
+> > V4L2_CID_DETECT_SCALE_DOWN_IMG_HEIGHT: set the image heights for an
+> > input image to be scaled down for face detection
+> > V4L2_CID_DETECT_SPEED: set the detection speed, usually reducing
+> > accuracy.
+> > V4L2_CID_DETECTION_FD_MODEL: select the detection model or algorithm to
+> > be used by face detection driver.
+> >
+> > > > +#define ENABLE_FD                          0x111
+> > > > +#define FD_HW_ENABLE                               0x4
+> > > > +#define FD_INT_EN                          0x15c
+> > > > +#define FD_INT                                     0x168
+> > > > +#define FD_RESULT                          0x178
+> > > > +#define FD_IRQ_MASK                                0x001
+> > > > +
+> > > > +#define RS_MAX_BUF_SIZE                            2288788
+> > > > +#define FD_MAX_SPEEDUP                             7
+> > > > +#define FD_MAX_POSE_VAL                            0xfffffffffffffff
+> > > > +#define FD_DEF_POSE_VAL                            0x3ff
+> > > > +#define MAX_FD_SEL_NUM                             1026
+> > >
+> > > If that file is supposed to be included by anything beyond the driver
+> > > itself, we need proper prefixing. (same for anything else in here)
+> > >
+> > I will fix it as following:
+> >
+> > #define FD_ENABLE    0x111
+> >
+> > #define FD_REG_OFFSET_HW_ENABLE  0x4
+> > #define FD_REG_OFFSET_INT_EN     0x15c
+> > #define FD_REG_OFFSET_INT_VAL    0x168
+> > #define FD_REG_OFFSET_RESULT     0x178
+> >
+> > #define FD_IRQ_MASK         1
+> > #define FD_MAX_RS_BUF_SIZE  2288788
+> > #define FD_MAX_SPEEDUP      7
+> > #define FD_MAX_RESULT_NUM   1026
+> >
+> 
+> I'd suggest the MTK_FD_ prefix.
+> 
+Ok, I will use MTK_FD_ prefix.
 
-CPU: 0 PID: 5718 Comm: v4l_id Not tainted 5.2.0-rc6+ #15
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x67/0x231 mm/kasan/report.c:188
-  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
-  kasan_report+0xe/0x20 mm/kasan/common.c:614
-  usbvision_scratch_alloc+0x8c/0xa0  
-drivers/media/usb/usbvision/usbvision-core.c:350
-  usbvision_v4l2_open+0x148/0x2f0  
-drivers/media/usb/usbvision/usbvision-video.c:325
-  v4l2_open+0x1af/0x350 drivers/media/v4l2-core/v4l2-dev.c:423
-  chrdev_open+0x219/0x5c0 fs/char_dev.c:413
-  do_dentry_open+0x497/0x1040 fs/open.c:778
-  do_last fs/namei.c:3416 [inline]
-  path_openat+0x1430/0x3ff0 fs/namei.c:3533
-  do_filp_open+0x1a1/0x280 fs/namei.c:3563
-  do_sys_open+0x3c0/0x580 fs/open.c:1070
-  do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x7f655947e120
-Code: 48 8b 15 1b 4d 2b 00 f7 d8 64 89 02 83 c8 ff c3 90 90 90 90 90 90 90  
-90 90 90 83 3d d5 a4 2b 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
-ff 73 31 c3 48 83 ec 08 e8 5e 8c 01 00 48 89 04 24
-RSP: 002b:00007ffd1bdddb58 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 00007ffd1bdddcb8 RCX: 00007f655947e120
-RDX: 00007f6559733138 RSI: 0000000000000000 RDI: 00007ffd1bdddf1c
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
-R13: 00007ffd1bdddcb0 R14: 0000000000000000 R15: 0000000000000000
+> > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > > > index 3dcfc61..eae876e 100644
+> > > > --- a/include/uapi/linux/v4l2-controls.h
+> > > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > > @@ -192,6 +192,10 @@ enum v4l2_colorfx {
+> > > >   * We reserve 16 controls for this driver. */
+> > > >  #define V4L2_CID_USER_IMX_BASE                     (V4L2_CID_USER_BASE + 0x10b0)
+> > > >
+> > > > +/* The base for the mediatek FD driver controls */
+> > > > +/* We reserve 16 controls for this driver. */
+> > > > +#define V4L2_CID_USER_MTK_FD_BASE          (V4L2_CID_USER_BASE + 0x10d0)
+> > >
+> > > Why only the base, but not the actual IDs in uapi ?
+> > >
+> > I will put actual IDs in uapi/ for user to reference.
+> >
+> > >
+> > > --mtx
+> > >
+> >
+> 
+> Best regards,
+> Tomasz
 
-Allocated by task 2779:
-  save_stack+0x1b/0x80 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_kmalloc mm/kasan/common.c:489 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:462
-  kmalloc include/linux/slab.h:547 [inline]
-  kzalloc include/linux/slab.h:742 [inline]
-  usbvision_alloc drivers/media/usb/usbvision/usbvision-video.c:1310 [inline]
-  usbvision_probe.cold+0x586/0x1d69  
-drivers/media/usb/usbvision/usbvision-video.c:1464
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_new_device.cold+0x6a4/0xe61 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1abd/0x3550 drivers/usb/core/hub.c:5441
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Best regards,
+Jerry
 
-Freed by task 2779:
-  save_stack+0x1b/0x80 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:451
-  slab_free_hook mm/slub.c:1421 [inline]
-  slab_free_freelist_hook mm/slub.c:1448 [inline]
-  slab_free mm/slub.c:2994 [inline]
-  kfree+0xd7/0x280 mm/slub.c:3949
-  usbvision_release+0x181/0x1c0  
-drivers/media/usb/usbvision/usbvision-video.c:1359
-  usbvision_disconnect+0x16c/0x1d0  
-drivers/media/usb/usbvision/usbvision-video.c:1582
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1081 [inline]
-  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1112
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-  device_del+0x460/0xb80 drivers/base/core.c:2274
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x830 drivers/usb/core/hub.c:2199
-  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x13bd/0x3550 drivers/usb/core/hub.c:5441
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8881cd2ac200
-  which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 6656 bytes inside of
-  8192-byte region [ffff8881cd2ac200, ffff8881cd2ae200)
-The buggy address belongs to the page:
-page:ffffea000734aa00 refcount:1 mapcount:0 mapping:ffff8881dac02400  
-index:0x0 compound_mapcount: 0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 dead000000000100 dead000000000200 ffff8881dac02400
-raw: 0000000000000000 0000000080030003 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881cd2adb00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881cd2adb80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881cd2adc00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                    ^
-  ffff8881cd2adc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881cd2add00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
