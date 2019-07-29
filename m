@@ -2,77 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95E72788A4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 11:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3C40788CC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2019 11:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726308AbfG2Jkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jul 2019 05:40:49 -0400
-Received: from mail-pf1-f176.google.com ([209.85.210.176]:40192 "EHLO
-        mail-pf1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbfG2Jkt (ORCPT
+        id S1726659AbfG2Jq3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jul 2019 05:46:29 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42541 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726129AbfG2Jq3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:40:49 -0400
-Received: by mail-pf1-f176.google.com with SMTP id p184so27729116pfp.7;
-        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=kw/X5PHvyhK+OPglhkZH2PrJCm66ztyP4P0qwlP8Hr0=;
-        b=PIRU+WPDU7Kb14O9rKBbjcvhEvWoo3Agt5kST4Gh2mzgeQzF2kueO4h60oIDShPQiO
-         RMxaDQOYAtUYif69BWsTbTMgVhehKQFCyth2Nb0P/zVRaxTLTNqcTDA4cCsruZmE5qBs
-         11wWLyVSUqJFAffo/mPWABVIF1p99NlslStd8bdmLtwr6KomHnlIdsumg1YDHbwso6b4
-         018QtqfmefGoI02ixaOrPS6hfSt0lJhCAmFnNgGn5IuuTjRwStUExYPF/7vNOeb28iRw
-         UrbNVZ6ILshiCUqNUzEckUKN0UWwe/GKp/dNZOK5oLujQLGO8FKdLA2pfUrJDwNVVVth
-         VEkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=kw/X5PHvyhK+OPglhkZH2PrJCm66ztyP4P0qwlP8Hr0=;
-        b=LBI0JzrQfZv9Juywa9862oTppr7+NKSqdZzUEeAJXFr/ZlxaMLTYFWFFC48hUm7CNi
-         TuSi3LzXX+SdNbjH8EjTpqup/HdLiqcYwG8h7dqEbrBZMQWRzM5odAV4x1XzpXeDQS7+
-         Ef8fOwWyWACACJ5j1iNJHBvKkeVcznTIDYdNdvse2vVkJr9c3qyplVIUzWnjRKPaa3yx
-         GxxWKu1GQad2TwGIJBSNeigyngdrZXfzGAf02aIq6Bo5Kra+mLO15xQECKKDZG1ayFoI
-         A3AWN/Uc4K4DDAqKNLM21sA9z1OGpKSNe3Q5Ac1XvhtACBc9xF1bsCAt7YXS6wWHTSWw
-         7+Eg==
-X-Gm-Message-State: APjAAAUDuOa6UEx92Aqe9fJ1fQTA9q8Qu8iL6hXOxAOmElW0nGKJwgTC
-        +I4wHH3XUbDG3rfSHI9HWo/KaBKR3hQ=
-X-Google-Smtp-Source: APXvYqzcrCWxWRHGoAN/iiUkYudCU+3IUU9keptoL836xU/F9rUN0q6xRmX0gioUquT0orDrVhdakA==
-X-Received: by 2002:a63:7b18:: with SMTP id w24mr102859972pgc.328.1564393248396;
-        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
-Received: from ?IPv6:2402:f000:4:72:808::177e? ([2402:f000:4:72:808::177e])
-        by smtp.gmail.com with ESMTPSA id g2sm64960696pfi.26.2019.07.29.02.40.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 02:40:48 -0700 (PDT)
-To:     awalls@md.metrocast.net, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [BUG] media: pci: cx18: a possible null-pointer dereference in
- cx18_vapi()
-Message-ID: <d49c3c7d-1f2c-6eae-414e-b8e8bc813ebc@gmail.com>
-Date:   Mon, 29 Jul 2019 17:40:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 29 Jul 2019 05:46:29 -0400
+Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id s2EbheOcSAffAs2EdhgKYe; Mon, 29 Jul 2019 11:46:27 +0200
+Subject: Re: build failures on ubuntu 16.04 (4.15.0.55.76)
+To:     Vincent McIntyre <vincent.mcintyre@gmail.com>,
+        linux-media@vger.kernel.org
+References: <CAEsFdVMFa3qY5TdUTPqQ4=_cCx6ePzMOw31FLC+erR7_39hgFw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <54473f8a-2164-6350-5721-9347ec3630ad@xs4all.nl>
+Date:   Mon, 29 Jul 2019 11:46:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEsFdVMFa3qY5TdUTPqQ4=_cCx6ePzMOw31FLC+erR7_39hgFw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDP5oMbePvnyBgyBIR3sA/aHMdFW3wctErWPUSjA3VKBN2pE5+kTpHZXIO5/BVrMRYTiJxn8tIF9PPwToQT8nDT33v679wYqO1Hb/5K8SMpGbsMr/8e4
+ JleK3YS7WJoawNIdYu2afqoMuLlsmceh3IMCWADWyMHfPS8Q0uThlAtchZ4lgPcc4IawTO6ECN46n6a8twET/IRpOW80xhwxKOMU6DiVNK19yj8NIag2td1j
+ //dX6ol8B79tlq5DaBojWbjXL4/VgvuMNv0G1+t/MJxVM8zOmw61/JpLkZen5SFHpniDgVgFbOHQYeT1KI7Wgg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In cx18_vapi(), when cx is NULL, it is still used on line 833:
-     CX18_ERR("cx == NULL (cmd=%x)\n", cmd);
-          v4l2_err(&cx->v4l2_dev, fmt , ## args)
+On 7/29/19 10:54 AM, Vincent McIntyre wrote:
+> Hi,
+> 
+> I am getting build failures in v4l2-fwnode.c. I'm sending this because
+> the daily build logs
+> are not showing any errors for this kernel (version below).
+> 
+> I've tried flushing the git checkout and rerunning but I still get the failures.
+> I can send a fuller log off-list if you like.
 
-Thus, a possible null-pointer dereference may occur.
+I just pushed a fix to the media_build git repo. Hopefully this will
+fix the issue.
 
-This bug is found by a static analysis tool STCheck written by us.
+The cause was that I had CONFIG_OF defined in my tests, and you almost
+certainly do not. So I never saw this failure.
 
-I do not know how to correctly fix this bug, so I only report it.
+Regards,
 
+	Hans
 
-Best wishes,
-Jia-Ju Bai
+> 
+> /home/me/git/clones/media_build/v4l/v4l2-fwnode.c: In function
+> 'v4l2_fwnode_endpoint_parse_csi2_bus':
+> /home/me/git/clones/media_build/v4l/v4l2-fwnode.c:166:9: error:
+> implicit declaration of function 'fwnode_property_count_u32'
+> [-Werror=implicit-function-declaration]
+>   rval = fwnode_property_count_u32(fwnode, "data-lanes");
+>          ^
+> /home/me/git/clones/media_build/v4l/v4l2-fwnode.c: In function
+> 'v4l2_fwnode_endpoint_alloc_parse':
+> /home/me/git/clones/media_build/v4l/v4l2-fwnode.c:527:9: error:
+> implicit declaration of function 'fwnode_property_count_u64'
+> [-Werror=implicit-function-declaration]
+>   rval = fwnode_property_count_u64(fwnode, "link-frequencies");
+>          ^
+> /home/me/git/clones/media_build/v4l/v4l2-fwnode.c: At top level:
+> cc1: warning: unrecognized command line option '-Wno-format-truncation'
+> cc1: some warnings being treated as errors
+> scripts/Makefile.build:339: recipe for target
+> '/home/me/git/clones/media_build/v4l/v4l2-fwnode.o' failed
+> make[3]: *** [/home/me/git/clones/media_build/v4l/v4l2-fwnode.o] Error 1
+> Makefile:1552: recipe for target
+> '_module_/home/me/git/clones/media_build/v4l' failed
+> make[2]: *** [_module_/home/me/git/clones/media_build/v4l] Error 2
+> make[2]: Leaving directory '/usr/src/linux-headers-4.15.0-47-generic'
+> Makefile:51: recipe for target 'default' failed
+> make[1]: *** [default] Error 2
+> make[1]: Leaving directory '/home/me/git/clones/media_build/v4l'
+> Makefile:26: recipe for target 'all' failed
+> make: *** [all] Error 2
+> build failed at ./build line 526
+> 
+> $ cat /proc/version_signature
+> Ubuntu 4.15.0-55.60~16.04.2-generic 4.15.18
+> 
+> Also seen on
+> Ubuntu 4.15.0-47.50~16.04.1-generic 4.15.18
+> 
+> $ git --no-pager log -1
+> commit 5158c420e7a0929fa58c56ac437e274e8b1c37d1
+> Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Date:   Fri Jul 26 09:26:30 2019 +0200
+> 
+>     Remove const from fwnode_property_count_u32/u64
+> 
+>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> 
+> $ cd media;  git --no-pager log -1
+> commit d2b4387f3bdf016e266d23cf657465f557721488
+> Author: Eddie James <eajames@linux.ibm.com>
+> Date:   Tue Dec 11 11:57:01 2018 -0500
+> 
+>     media: platform: Add Aspeed Video Engine driver
+> 
+>     The Video Engine (VE) embedded in the Aspeed AST2400 and AST2500 SOCs
+>     can capture and compress video data from digital or analog sources. With
+>     the Aspeed chip acting a service processor, the Video Engine can capture
+>     the host processor graphics output.
+> 
+>     Add a V4L2 driver to capture video data and compress it to JPEG images.
+>     Make the video frames available through the V4L2 streaming interface.
+> 
+>     Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>     Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> 
+> Kind regards
+> Vince
+> 
+
