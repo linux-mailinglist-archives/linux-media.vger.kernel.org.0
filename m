@@ -2,83 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 088147A129
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 08:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7440F7A158
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 08:38:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728413AbfG3GSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 02:18:04 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48677 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728360AbfG3GSE (ORCPT
+        id S1726865AbfG3GiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 02:38:20 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36399 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725911AbfG3GiU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 02:18:04 -0400
-Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
+        Tue, 30 Jul 2019 02:38:20 -0400
+Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id sLSRhAD41qTdhsLSShkY5j; Tue, 30 Jul 2019 08:18:02 +0200
-To:     "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] mach-omap2/devices.c: set dma mask
-Message-ID: <7d079362-3881-6890-3e1f-71aeee06f4fc@xs4all.nl>
-Date:   Tue, 30 Jul 2019 08:17:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id sLm5hAKSWqTdhsLm6hkdQN; Tue, 30 Jul 2019 08:38:18 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH 0/2] omap_vout: clean up and convert to vb2
+Date:   Tue, 30 Jul 2019 08:38:15 +0200
+Message-Id: <20190730063817.47674-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBIbpGuU+C7ZtgIiYgnHJmSkOlZ+q4j6Cu+Iz918/q8XE32k/a12+tsx6+wMtPs54KgSLQ1rG7oBRqB569LEBho4DmH6bBlnbyvjRpjjMoFt6/E6wBa9
- n/a3rjSnNcgVoJqhl3WNHD6o9ReRNvLEXquOF2LiAeYFbzNCmEkkvfFunthj78uHAKSUCEbpMuFyp4F3KlL3l5/lmrPjv6OxBTjnATRSiNeIxSuwEhs1YX92
- CsSLksDBnHsVXGcb6ie0htVUEw99+PR1RWcByxqrALDMk/xts+QT9Q5kb3tJLVnM4xsDH9aljH0D7JP31HLiJPzX0odAxIxlfDMr/ZxwYxsMIcpjWqW0AHa3
- TmPh1L0V7knx/ML0FK2GCMb5E3hYlbzrRDKY3aDHpR5Q0VMEanw=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfNCABzaRMCy4mrLv+GCudo+fTMXV3SjWaE05MHk1ZJjriUyBPqEa1piSY5BsqWYFzvbQ5WNWU0mMku8SXgyKsvajL5E/Dm4x5Q6AOkId93rgM1kKmsbF
+ 5sk81JCkUFGwcLJzZSlJ4BJwWvqD44LEOGHKYCd6NFRq2a7YCUGfeIAufziJE6DOoc63iVpDbYgnE5wUKWQMV6TplPQVzJGgacWFzEumzQE9ofQ93b6cj0VS
+ LvsiFizSMBOJmBZVOMv9cMPdOEDYZ8hbd7q0/nNH15Dg8EiKk1Me+qy7kiPbU1o5Ykla/ZB++9nJikj/nkyYq5Cz6geO7k3jz2E/L21vFT0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dma_mask and coherent_dma_mask values were never set.
+While working on the m2m-deinterlace driver I needed to test it,
+and the easiest way to do that was with a Pandaboard. While
+doing that I found a bug in the omap-dma driver:
 
-This prevented the media omap_vout driver from loading successfully.
+https://patchwork.linuxtv.org/patch/57778/
 
-Tested on a Pandaboard and Beagle XM board.
+That bug affected omap_vout as well, so the next step was to
+test that driver. And if I had to do that, I might as well
+take the opportunity to clean up this driver and convert it
+to vb2 so that it passes the v4l2-compliance tests.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- arch/arm/mach-omap2/devices.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Hence this series.
 
-diff --git a/arch/arm/mach-omap2/devices.c b/arch/arm/mach-omap2/devices.c
-index cc0d08dad141..5a2e198e7db1 100644
---- a/arch/arm/mach-omap2/devices.c
-+++ b/arch/arm/mach-omap2/devices.c
-@@ -10,6 +10,7 @@
- #include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/clk.h>
-+#include <linux/dma-mapping.h>
- #include <linux/err.h>
- #include <linux/slab.h>
- #include <linux/of.h>
-@@ -43,11 +44,17 @@ static struct resource omap_vout_resource[2] = {
- };
- #endif
+Note that this series relies on a second patch as well:
 
-+static u64 omap_vout_dma_mask = DMA_BIT_MASK(32);
-+
- static struct platform_device omap_vout_device = {
- 	.name		= "omap_vout",
- 	.num_resources	= ARRAY_SIZE(omap_vout_resource),
- 	.resource 	= &omap_vout_resource[0],
- 	.id		= -1,
-+	.dev		= {
-+		.dma_mask		= &omap_vout_dma_mask,
-+		.coherent_dma_mask	= DMA_BIT_MASK(32),
-+	},
- };
+https://patchwork.linuxtv.org/patch/57779/
 
- int __init omap_init_vout(void)
+Tested on a Pandaboard and a Beagle XM board.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (2):
+  omap_vout: fix various v4l2-compliance failures
+  omap_vout: convert to vb2
+
+ drivers/media/platform/omap/Kconfig          |    3 +-
+ drivers/media/platform/omap/omap_vout.c      | 1011 +++++-------------
+ drivers/media/platform/omap/omap_vout_vrfb.c |   22 +-
+ drivers/media/platform/omap/omap_vout_vrfb.h |    4 +-
+ drivers/media/platform/omap/omap_voutdef.h   |   45 +-
+ drivers/media/platform/omap/omap_voutlib.c   |    6 +-
+ 6 files changed, 304 insertions(+), 787 deletions(-)
+
 -- 
 2.20.1
 
