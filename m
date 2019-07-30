@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94EAD7B258
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 20:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CD287B267
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 20:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388370AbfG3SpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 14:45:22 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42768 "EHLO
+        id S2388387AbfG3Spa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 14:45:30 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42796 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388341AbfG3SpV (ORCPT
+        with ESMTP id S2388373AbfG3Sp2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 14:45:21 -0400
+        Tue, 30 Jul 2019 14:45:28 -0400
 Received: from floko.floko.floko (unknown [IPv6:2804:431:c7f1:ce2f:ec1:e6e6:2e9f:e76e])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1C86528B927;
-        Tue, 30 Jul 2019 19:45:10 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EDCED28B924;
+        Tue, 30 Jul 2019 19:45:16 +0100 (BST)
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-rockchip@lists.infradead.org
 Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -31,9 +31,9 @@ Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
         Jacob Chen <cc@rock-chips.com>,
         Allon Huang <allon.huang@rock-chips.com>,
         Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH v8 07/14] media: rkisp1: add ISP1 params driver
-Date:   Tue, 30 Jul 2019 15:42:49 -0300
-Message-Id: <20190730184256.30338-8-helen.koike@collabora.com>
+Subject: [PATCH v8 08/14] media: rkisp1: add capture device driver
+Date:   Tue, 30 Jul 2019 15:42:50 -0300
+Message-Id: <20190730184256.30338-9-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190730184256.30338-1-helen.koike@collabora.com>
 References: <20190730184256.30338-1-helen.koike@collabora.com>
@@ -46,7 +46,8 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jacob Chen <jacob2.chen@rock-chips.com>
 
-Add the output video driver that accept params from userspace.
+This is the capture device interface driver that provides the v4l2
+user interface. Frames can be received from ISP1.
 
 Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
 Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
@@ -56,7 +57,7 @@ Signed-off-by: Eddie Cai <eddie.cai.linux@gmail.com>
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 Signed-off-by: Allon Huang <allon.huang@rock-chips.com>
 Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-[update for upstream]
+[updated for upstream]
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
 ---
@@ -64,37 +65,1981 @@ Signed-off-by: Helen Koike <helen.koike@collabora.com>
 Changes in v8: None
 Changes in v7:
 - s/strlcpy/strscpy
-- s/strcpy/strscpy
-- fix config lsc error
-LSC data table size is 17x17, but when configuring data to ISP,
-should be aligned to 18x17. That means every last data of last
-line should be filled with 0, and not filled with the data of
-next line.
-- Update new ISP parameters immediately
-For those sub modules that have shadow registers in core isp, the
-new programing parameters would not be active if both
-CIF_ISP_CTRL_ISP_CFG_UPD_PERMANENT and CFG_UPD are not set. Now
-we configure CFG_UPD to force update the shadow registers when new
-ISP parameters are configured.
-- fix some ISP parameters config error
-Some ISP parameter config functions may override the old enable
-bit value, because the enable bits of these modules are in the
-same registers with parameters. So we should save the old enable
-bits firstly.
+- Fix v4l2-compliance issues:
+        * remove input ioctls
+media api can be used to define the topology, this input api is not
+required. Besides it, if an input is enumerated, v4l2-compliance is not
+happy with G_FMT returning the default colorspace instead of something
+more specific.
+        * return the pixelformat to the userspace
+G_/S_/TRY_ FORMAT should return a valid pixelformat to the user, even if
+the user gave an invalid one
+        * add missing default colorspace and ycbcr
+        * fix wrong pixformat in mp_fmts[] table
+        * add buf type check in s_/g_selection
+        * queue_setup - check sizes
+        * normalize bus_info name
+        * fix field any v4l2-compliance -s complain - set field none
+        when streaming
+- Fix compiling error: s/vidioc_enum_fmt_vid_cap_mplane/vidioc_enum_fmt_vid_cap
+- Replace stream state with a boolean
+The rkisp1_state enum consists only of 3 entries, where 1 is completely
+unused and the other two respectively mean not streaming or streaming.
+Replace it with a boolean called "streaming".
+- Simplify MI interrupt handling
+Rather than adding unnecessary indirection, just use stream index to
+handle MI interrupt enable/disable/clear, since the stream index matches
+the order of bits now, thanks to previous patch. While at it, remove
+some dead code.
 - code styling and checkpatch fixes
+- add link_validate: don't allow a link with bayer/non-bayer mismatch
 
- .../media/platform/rockchip/isp1/isp_params.c | 1604 +++++++++++++++++
- .../media/platform/rockchip/isp1/isp_params.h |   50 +
- 2 files changed, 1654 insertions(+)
- create mode 100644 drivers/media/platform/rockchip/isp1/isp_params.c
- create mode 100644 drivers/media/platform/rockchip/isp1/isp_params.h
+ .../media/platform/rockchip/isp1/capture.c    | 1754 +++++++++++++++++
+ .../media/platform/rockchip/isp1/capture.h    |  164 ++
+ drivers/media/platform/rockchip/isp1/regs.c   |  223 +++
+ drivers/media/platform/rockchip/isp1/regs.h   | 1525 ++++++++++++++
+ 4 files changed, 3666 insertions(+)
+ create mode 100644 drivers/media/platform/rockchip/isp1/capture.c
+ create mode 100644 drivers/media/platform/rockchip/isp1/capture.h
+ create mode 100644 drivers/media/platform/rockchip/isp1/regs.c
+ create mode 100644 drivers/media/platform/rockchip/isp1/regs.h
 
-diff --git a/drivers/media/platform/rockchip/isp1/isp_params.c b/drivers/media/platform/rockchip/isp1/isp_params.c
+diff --git a/drivers/media/platform/rockchip/isp1/capture.c b/drivers/media/platform/rockchip/isp1/capture.c
 new file mode 100644
-index 000000000000..7b470b6bf90f
+index 000000000000..86ceeb8443e7
 --- /dev/null
-+++ b/drivers/media/platform/rockchip/isp1/isp_params.c
-@@ -0,0 +1,1604 @@
++++ b/drivers/media/platform/rockchip/isp1/capture.c
+@@ -0,0 +1,1754 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Rockchip isp1 driver
++ *
++ * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
++ */
++
++#include <linux/delay.h>
++#include <linux/pm_runtime.h>
++#include <media/v4l2-common.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-fh.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-subdev.h>
++#include <media/videobuf2-dma-contig.h>
++
++#include "dev.h"
++#include "regs.h"
++
++/*
++ * NOTE:
++ * 1. There are two capture video devices in rkisp1, selfpath and mainpath
++ * 2. Two capture device have separated memory-interface/crop/scale units.
++ * 3. Besides describing stream hardware, this file also contain entries
++ *    for pipeline operations.
++ * 4. The register read/write operations in this file are put into regs.c.
++ */
++
++/*
++ * differences between selfpatch and mainpath
++ * available mp sink input: isp
++ * available sp sink input : isp, dma(TODO)
++ * available mp sink pad fmts: yuv422, raw
++ * available sp sink pad fmts: yuv422, yuv420......
++ * available mp source fmts: yuv, raw, jpeg(TODO)
++ * available sp source fmts: yuv, rgb
++ */
++
++#define CIF_ISP_REQ_BUFS_MIN 1
++#define CIF_ISP_REQ_BUFS_MAX 8
++
++#define STREAM_PAD_SINK				0
++#define STREAM_PAD_SOURCE			1
++
++#define STREAM_MAX_MP_RSZ_OUTPUT_WIDTH		4416
++#define STREAM_MAX_MP_RSZ_OUTPUT_HEIGHT		3312
++#define STREAM_MAX_SP_RSZ_OUTPUT_WIDTH		1920
++#define STREAM_MAX_SP_RSZ_OUTPUT_HEIGHT		1920
++#define STREAM_MIN_RSZ_OUTPUT_WIDTH		32
++#define STREAM_MIN_RSZ_OUTPUT_HEIGHT		16
++
++#define STREAM_MAX_MP_SP_INPUT_WIDTH STREAM_MAX_MP_RSZ_OUTPUT_WIDTH
++#define STREAM_MAX_MP_SP_INPUT_HEIGHT STREAM_MAX_MP_RSZ_OUTPUT_HEIGHT
++#define STREAM_MIN_MP_SP_INPUT_WIDTH		32
++#define STREAM_MIN_MP_SP_INPUT_HEIGHT		32
++
++/* Get xsubs and ysubs for fourcc formats
++ *
++ * @xsubs: horizontal color samples in a 4*4 matrix, for yuv
++ * @ysubs: vertical color samples in a 4*4 matrix, for yuv
++ */
++static int fcc_xysubs(u32 fcc, u32 *xsubs, u32 *ysubs)
++{
++	switch (fcc) {
++	case V4L2_PIX_FMT_GREY:
++	case V4L2_PIX_FMT_YUV444M:
++		*xsubs = 1;
++		*ysubs = 1;
++		break;
++	case V4L2_PIX_FMT_YUYV:
++	case V4L2_PIX_FMT_YVYU:
++	case V4L2_PIX_FMT_VYUY:
++	case V4L2_PIX_FMT_YUV422P:
++	case V4L2_PIX_FMT_NV16:
++	case V4L2_PIX_FMT_NV61:
++	case V4L2_PIX_FMT_YVU422M:
++		*xsubs = 2;
++		*ysubs = 1;
++		break;
++	case V4L2_PIX_FMT_NV21:
++	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_NV21M:
++	case V4L2_PIX_FMT_NV12M:
++	case V4L2_PIX_FMT_YUV420:
++	case V4L2_PIX_FMT_YVU420:
++		*xsubs = 2;
++		*ysubs = 2;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int mbus_code_xysubs(u32 code, u32 *xsubs, u32 *ysubs)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_YUYV8_2X8:
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++	case MEDIA_BUS_FMT_YVYU8_1X16:
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_VYUY8_1X16:
++		*xsubs = 2;
++		*ysubs = 1;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int mbus_code_sp_in_fmt(u32 code, u32 *format)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_YUYV8_2X8:
++		*format = MI_CTRL_SP_INPUT_YUV422;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static const struct capture_fmt mp_fmts[] = {
++	/* yuv422 */
++	{
++		.fourcc = V4L2_PIX_FMT_YUYV,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUVINT,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVYU,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUVINT,
++	}, {
++		.fourcc = V4L2_PIX_FMT_VYUY,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUVINT,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YUV422P,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV16,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV61,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVU422M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 3,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	},
++	/* yuv420 */
++	{
++		.fourcc = V4L2_PIX_FMT_NV21,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV12,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV21M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 2,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV12M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 2,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_SPLA,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YUV420,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVU420,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	},
++	/* yuv444 */
++	{
++		.fourcc = V4L2_PIX_FMT_YUV444M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 3,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	},
++	/* yuv400 */
++	{
++		.fourcc = V4L2_PIX_FMT_GREY,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_MP_WRITE_YUVINT,
++	},
++	/* raw */
++	{
++		.fourcc = V4L2_PIX_FMT_SRGGB8,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 8 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG8,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 8 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG8,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 8 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR8,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 8 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB10,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 10 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG10,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 10 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG10,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 10 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR10,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 10 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB12,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 12 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG12,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 12 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG12,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 12 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR12,
++		.fmt_type = FMT_BAYER,
++		.bpp = { 12 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_MP_WRITE_RAW12,
++	},
++};
++
++static const struct capture_fmt sp_fmts[] = {
++	/* yuv422 */
++	{
++		.fourcc = V4L2_PIX_FMT_YUYV,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_INT,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVYU,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_INT,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_VYUY,
++		.fmt_type = FMT_YUV,
++		.bpp = { 16 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_INT,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YUV422P,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV16,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV61,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVU422M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 3,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV422,
++	},
++	/* yuv420 */
++	{
++		.fourcc = V4L2_PIX_FMT_NV21,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV12,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV21M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 2,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	}, {
++		.fourcc = V4L2_PIX_FMT_NV12M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 16 },
++		.cplanes = 2,
++		.mplanes = 2,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_SPLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YUV420,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	}, {
++		.fourcc = V4L2_PIX_FMT_YVU420,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 1,
++		.uv_swap = 1,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV420,
++	},
++	/* yuv444 */
++	{
++		.fourcc = V4L2_PIX_FMT_YUV444M,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8, 8, 8 },
++		.cplanes = 3,
++		.mplanes = 3,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV444,
++	},
++	/* yuv400 */
++	{
++		.fourcc = V4L2_PIX_FMT_GREY,
++		.fmt_type = FMT_YUV,
++		.bpp = { 8 },
++		.cplanes = 1,
++		.mplanes = 1,
++		.uv_swap = 0,
++		.write_format = MI_CTRL_SP_WRITE_INT,
++		.output_format = MI_CTRL_SP_OUTPUT_YUV400,
++	},
++	/* rgb */
++	{
++		.fourcc = V4L2_PIX_FMT_RGB24,
++		.fmt_type = FMT_RGB,
++		.bpp = { 24 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_RGB888,
++	}, {
++		.fourcc = V4L2_PIX_FMT_RGB565,
++		.fmt_type = FMT_RGB,
++		.bpp = { 16 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_RGB565,
++	}, {
++		.fourcc = V4L2_PIX_FMT_BGR666,
++		.fmt_type = FMT_RGB,
++		.bpp = { 18 },
++		.mplanes = 1,
++		.write_format = MI_CTRL_SP_WRITE_PLA,
++		.output_format = MI_CTRL_SP_OUTPUT_RGB666,
++	},
++};
++
++static struct stream_config rkisp1_mp_stream_config = {
++	.fmts = mp_fmts,
++	.fmt_size = ARRAY_SIZE(mp_fmts),
++	/* constraints */
++	.max_rsz_width = STREAM_MAX_MP_RSZ_OUTPUT_WIDTH,
++	.max_rsz_height = STREAM_MAX_MP_RSZ_OUTPUT_HEIGHT,
++	.min_rsz_width = STREAM_MIN_RSZ_OUTPUT_WIDTH,
++	.min_rsz_height = STREAM_MIN_RSZ_OUTPUT_HEIGHT,
++	/* registers */
++	.rsz = {
++		.ctrl = CIF_MRSZ_CTRL,
++		.scale_hy = CIF_MRSZ_SCALE_HY,
++		.scale_hcr = CIF_MRSZ_SCALE_HCR,
++		.scale_hcb = CIF_MRSZ_SCALE_HCB,
++		.scale_vy = CIF_MRSZ_SCALE_VY,
++		.scale_vc = CIF_MRSZ_SCALE_VC,
++		.scale_lut = CIF_MRSZ_SCALE_LUT,
++		.scale_lut_addr = CIF_MRSZ_SCALE_LUT_ADDR,
++		.scale_hy_shd = CIF_MRSZ_SCALE_HY_SHD,
++		.scale_hcr_shd = CIF_MRSZ_SCALE_HCR_SHD,
++		.scale_hcb_shd = CIF_MRSZ_SCALE_HCB_SHD,
++		.scale_vy_shd = CIF_MRSZ_SCALE_VY_SHD,
++		.scale_vc_shd = CIF_MRSZ_SCALE_VC_SHD,
++		.phase_hy = CIF_MRSZ_PHASE_HY,
++		.phase_hc = CIF_MRSZ_PHASE_HC,
++		.phase_vy = CIF_MRSZ_PHASE_VY,
++		.phase_vc = CIF_MRSZ_PHASE_VC,
++		.ctrl_shd = CIF_MRSZ_CTRL_SHD,
++		.phase_hy_shd = CIF_MRSZ_PHASE_HY_SHD,
++		.phase_hc_shd = CIF_MRSZ_PHASE_HC_SHD,
++		.phase_vy_shd = CIF_MRSZ_PHASE_VY_SHD,
++		.phase_vc_shd = CIF_MRSZ_PHASE_VC_SHD,
++	},
++	.dual_crop = {
++		.ctrl = CIF_DUAL_CROP_CTRL,
++		.yuvmode_mask = CIF_DUAL_CROP_MP_MODE_YUV,
++		.rawmode_mask = CIF_DUAL_CROP_MP_MODE_RAW,
++		.h_offset = CIF_DUAL_CROP_M_H_OFFS,
++		.v_offset = CIF_DUAL_CROP_M_V_OFFS,
++		.h_size = CIF_DUAL_CROP_M_H_SIZE,
++		.v_size = CIF_DUAL_CROP_M_V_SIZE,
++	},
++	.mi = {
++		.y_size_init = CIF_MI_MP_Y_SIZE_INIT,
++		.cb_size_init = CIF_MI_MP_CB_SIZE_INIT,
++		.cr_size_init = CIF_MI_MP_CR_SIZE_INIT,
++		.y_base_ad_init = CIF_MI_MP_Y_BASE_AD_INIT,
++		.cb_base_ad_init = CIF_MI_MP_CB_BASE_AD_INIT,
++		.cr_base_ad_init = CIF_MI_MP_CR_BASE_AD_INIT,
++		.y_offs_cnt_init = CIF_MI_MP_Y_OFFS_CNT_INIT,
++		.cb_offs_cnt_init = CIF_MI_MP_CB_OFFS_CNT_INIT,
++		.cr_offs_cnt_init = CIF_MI_MP_CR_OFFS_CNT_INIT,
++	},
++};
++
++static struct stream_config rkisp1_sp_stream_config = {
++	.fmts = sp_fmts,
++	.fmt_size = ARRAY_SIZE(sp_fmts),
++	/* constraints */
++	.max_rsz_width = STREAM_MAX_SP_RSZ_OUTPUT_WIDTH,
++	.max_rsz_height = STREAM_MAX_SP_RSZ_OUTPUT_HEIGHT,
++	.min_rsz_width = STREAM_MIN_RSZ_OUTPUT_WIDTH,
++	.min_rsz_height = STREAM_MIN_RSZ_OUTPUT_HEIGHT,
++	/* registers */
++	.rsz = {
++		.ctrl = CIF_SRSZ_CTRL,
++		.scale_hy = CIF_SRSZ_SCALE_HY,
++		.scale_hcr = CIF_SRSZ_SCALE_HCR,
++		.scale_hcb = CIF_SRSZ_SCALE_HCB,
++		.scale_vy = CIF_SRSZ_SCALE_VY,
++		.scale_vc = CIF_SRSZ_SCALE_VC,
++		.scale_lut = CIF_SRSZ_SCALE_LUT,
++		.scale_lut_addr = CIF_SRSZ_SCALE_LUT_ADDR,
++		.scale_hy_shd = CIF_SRSZ_SCALE_HY_SHD,
++		.scale_hcr_shd = CIF_SRSZ_SCALE_HCR_SHD,
++		.scale_hcb_shd = CIF_SRSZ_SCALE_HCB_SHD,
++		.scale_vy_shd = CIF_SRSZ_SCALE_VY_SHD,
++		.scale_vc_shd = CIF_SRSZ_SCALE_VC_SHD,
++		.phase_hy = CIF_SRSZ_PHASE_HY,
++		.phase_hc = CIF_SRSZ_PHASE_HC,
++		.phase_vy = CIF_SRSZ_PHASE_VY,
++		.phase_vc = CIF_SRSZ_PHASE_VC,
++		.ctrl_shd = CIF_SRSZ_CTRL_SHD,
++		.phase_hy_shd = CIF_SRSZ_PHASE_HY_SHD,
++		.phase_hc_shd = CIF_SRSZ_PHASE_HC_SHD,
++		.phase_vy_shd = CIF_SRSZ_PHASE_VY_SHD,
++		.phase_vc_shd = CIF_SRSZ_PHASE_VC_SHD,
++	},
++	.dual_crop = {
++		.ctrl = CIF_DUAL_CROP_CTRL,
++		.yuvmode_mask = CIF_DUAL_CROP_SP_MODE_YUV,
++		.rawmode_mask = CIF_DUAL_CROP_SP_MODE_RAW,
++		.h_offset = CIF_DUAL_CROP_S_H_OFFS,
++		.v_offset = CIF_DUAL_CROP_S_V_OFFS,
++		.h_size = CIF_DUAL_CROP_S_H_SIZE,
++		.v_size = CIF_DUAL_CROP_S_V_SIZE,
++	},
++	.mi = {
++		.y_size_init = CIF_MI_SP_Y_SIZE_INIT,
++		.cb_size_init = CIF_MI_SP_CB_SIZE_INIT,
++		.cr_size_init = CIF_MI_SP_CR_SIZE_INIT,
++		.y_base_ad_init = CIF_MI_SP_Y_BASE_AD_INIT,
++		.cb_base_ad_init = CIF_MI_SP_CB_BASE_AD_INIT,
++		.cr_base_ad_init = CIF_MI_SP_CR_BASE_AD_INIT,
++		.y_offs_cnt_init = CIF_MI_SP_Y_OFFS_CNT_INIT,
++		.cb_offs_cnt_init = CIF_MI_SP_CB_OFFS_CNT_INIT,
++		.cr_offs_cnt_init = CIF_MI_SP_CR_OFFS_CNT_INIT,
++	},
++};
++
++static const
++struct capture_fmt *find_fmt(struct rkisp1_stream *stream, const u32 pixelfmt)
++{
++	const struct capture_fmt *fmt;
++	unsigned int i;
++
++	for (i = 0; i < stream->config->fmt_size; i++) {
++		fmt = &stream->config->fmts[i];
++		if (fmt->fourcc == pixelfmt)
++			return fmt;
++	}
++	return NULL;
++}
++
++/* configure dual-crop unit */
++static int rkisp1_config_dcrop(struct rkisp1_stream *stream, bool async)
++{
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_rect *dcrop = &stream->dcrop;
++	struct v4l2_rect *input_win;
++
++	/* dual-crop unit get data from isp */
++	input_win = rkisp1_get_isp_sd_win(&dev->isp_sdev);
++
++	if (dcrop->width == input_win->width &&
++	    dcrop->height == input_win->height &&
++	    dcrop->left == 0 && dcrop->top == 0) {
++		disable_dcrop(stream, async);
++		v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev,
++			 "stream %d crop disabled\n", stream->id);
++		return 0;
++	}
++
++	config_dcrop(stream, dcrop, async);
++
++	v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev,
++		 "stream %d crop: %dx%d -> %dx%d\n", stream->id,
++		 input_win->width, input_win->height,
++		 dcrop->width, dcrop->height);
++
++	return 0;
++}
++
++/* configure scale unit */
++static int rkisp1_config_rsz(struct rkisp1_stream *stream, bool async)
++{
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_pix_format_mplane output_fmt = stream->out_fmt;
++	struct capture_fmt *output_isp_fmt = &stream->out_isp_fmt;
++	struct ispsd_out_fmt *input_isp_fmt =
++			rkisp1_get_ispsd_out_fmt(&dev->isp_sdev);
++	struct v4l2_rect in_y, in_c, out_y, out_c;
++	u32 xsubs_in, ysubs_in, xsubs_out, ysubs_out;
++
++	if (input_isp_fmt->fmt_type == FMT_BAYER)
++		goto disable;
++
++	/* set input and output sizes for scale calculation */
++	in_y.width = stream->dcrop.width;
++	in_y.height = stream->dcrop.height;
++	out_y.width = output_fmt.width;
++	out_y.height = output_fmt.height;
++
++	/* The size of Cb,Cr are related to the format */
++	if (mbus_code_xysubs(input_isp_fmt->mbus_code, &xsubs_in, &ysubs_in)) {
++		v4l2_err(&dev->v4l2_dev, "Not xsubs/ysubs found\n");
++		return -EINVAL;
++	}
++	in_c.width = in_y.width / xsubs_in;
++	in_c.height = in_y.height / ysubs_in;
++
++	if (output_isp_fmt->fmt_type == FMT_YUV) {
++		fcc_xysubs(output_isp_fmt->fourcc, &xsubs_out, &ysubs_out);
++		out_c.width = out_y.width / xsubs_out;
++		out_c.height = out_y.height / ysubs_out;
++	} else {
++		out_c.width = out_y.width / xsubs_in;
++		out_c.height = out_y.height / ysubs_in;
++	}
++
++	if (in_c.width == out_c.width && in_c.height == out_c.height)
++		goto disable;
++
++	/* set RSZ input and output */
++	v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev,
++		 "stream %d rsz/scale: %dx%d -> %dx%d\n",
++		 stream->id, stream->dcrop.width, stream->dcrop.height,
++		 output_fmt.width, output_fmt.height);
++	v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev,
++		 "chroma scaling %dx%d -> %dx%d\n",
++		 in_c.width, in_c.height, out_c.width, out_c.height);
++
++	/* calculate and set scale */
++	config_rsz(stream, &in_y, &in_c, &out_y, &out_c, async);
++
++	if (rkisp1_debug)
++		dump_rsz_regs(stream);
++
++	return 0;
++
++disable:
++	disable_rsz(stream, async);
++
++	return 0;
++}
++
++/***************************** stream operations*******************************/
++
++/*
++ * configure memory interface for mainpath
++ * This should only be called when stream-on
++ */
++static int mp_config_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++       /*
++	* NOTE: plane_fmt[0].sizeimage is total size of all planes for single
++	* memory plane formats, so calculate the size explicitly.
++	*/
++	mi_set_y_size(stream, stream->out_fmt.plane_fmt[0].bytesperline *
++			 stream->out_fmt.height);
++	mi_set_cb_size(stream, stream->out_fmt.plane_fmt[1].sizeimage);
++	mi_set_cr_size(stream, stream->out_fmt.plane_fmt[2].sizeimage);
++
++	mi_frame_end_int_enable(stream);
++	if (stream->out_isp_fmt.uv_swap)
++		mp_set_uv_swap(base);
++
++	config_mi_ctrl(stream);
++	mp_mi_ctrl_set_format(base, stream->out_isp_fmt.write_format);
++	mp_mi_ctrl_autoupdate_en(base);
++
++	return 0;
++}
++
++/*
++ * configure memory interface for selfpath
++ * This should only be called when stream-on
++ */
++static int sp_config_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct capture_fmt *output_isp_fmt = &stream->out_isp_fmt;
++	struct ispsd_out_fmt *input_isp_fmt =
++			rkisp1_get_ispsd_out_fmt(&dev->isp_sdev);
++	u32 sp_in_fmt;
++
++	if (mbus_code_sp_in_fmt(input_isp_fmt->mbus_code, &sp_in_fmt)) {
++		v4l2_err(&dev->v4l2_dev, "Can't find the input format\n");
++		return -EINVAL;
++	}
++       /*
++	* NOTE: plane_fmt[0].sizeimage is total size of all planes for single
++	* memory plane formats, so calculate the size explicitly.
++	*/
++	mi_set_y_size(stream, stream->out_fmt.plane_fmt[0].bytesperline *
++		      stream->out_fmt.height);
++	mi_set_cb_size(stream, stream->out_fmt.plane_fmt[1].sizeimage);
++	mi_set_cr_size(stream, stream->out_fmt.plane_fmt[2].sizeimage);
++
++	sp_set_y_width(base, stream->out_fmt.width);
++	sp_set_y_height(base, stream->out_fmt.height);
++	sp_set_y_line_length(base, stream->u.sp.y_stride);
++
++	mi_frame_end_int_enable(stream);
++	if (output_isp_fmt->uv_swap)
++		sp_set_uv_swap(base);
++
++	config_mi_ctrl(stream);
++	sp_mi_ctrl_set_format(base, stream->out_isp_fmt.write_format |
++			      sp_in_fmt | output_isp_fmt->output_format);
++
++	sp_mi_ctrl_autoupdate_en(base);
++
++	return 0;
++}
++
++static void mp_enable_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	struct capture_fmt *isp_fmt = &stream->out_isp_fmt;
++
++	mi_ctrl_mp_disable(base);
++	if (isp_fmt->fmt_type == FMT_BAYER)
++		mi_ctrl_mpraw_enable(base);
++	else if (isp_fmt->fmt_type == FMT_YUV)
++		mi_ctrl_mpyuv_enable(base);
++}
++
++static void sp_enable_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	mi_ctrl_spyuv_enable(base);
++}
++
++static void mp_disable_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	mi_ctrl_mp_disable(base);
++}
++
++static void sp_disable_mi(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	mi_ctrl_spyuv_disable(base);
++}
++
++/* Update buffer info to memory interface, it's called in interrupt */
++static void update_mi(struct rkisp1_stream *stream)
++{
++	struct rkisp1_dummy_buffer *dummy_buf = &stream->dummy_buf;
++
++	/* The dummy space allocated by dma_alloc_coherent is used, we can
++	 * throw data to it if there is no available buffer.
++	 */
++	if (stream->next_buf) {
++		mi_set_y_addr(stream,
++			stream->next_buf->buff_addr[RKISP1_PLANE_Y]);
++		mi_set_cb_addr(stream,
++			stream->next_buf->buff_addr[RKISP1_PLANE_CB]);
++		mi_set_cr_addr(stream,
++			stream->next_buf->buff_addr[RKISP1_PLANE_CR]);
++	} else {
++		v4l2_dbg(1, rkisp1_debug, &stream->ispdev->v4l2_dev,
++			 "stream %d: to dummy buf\n", stream->id);
++		mi_set_y_addr(stream, dummy_buf->dma_addr);
++		mi_set_cb_addr(stream, dummy_buf->dma_addr);
++		mi_set_cr_addr(stream, dummy_buf->dma_addr);
++	}
++
++	mi_set_y_offset(stream, 0);
++	mi_set_cb_offset(stream, 0);
++	mi_set_cr_offset(stream, 0);
++}
++
++static void mp_stop_mi(struct rkisp1_stream *stream)
++{
++	if (!stream->streaming)
++		return;
++	mi_frame_end_int_clear(stream);
++	stream->ops->disable_mi(stream);
++}
++
++static void sp_stop_mi(struct rkisp1_stream *stream)
++{
++	if (!stream->streaming)
++		return;
++	mi_frame_end_int_clear(stream);
++	stream->ops->disable_mi(stream);
++}
++
++static struct streams_ops rkisp1_mp_streams_ops = {
++	.config_mi = mp_config_mi,
++	.enable_mi = mp_enable_mi,
++	.disable_mi = mp_disable_mi,
++	.stop_mi = mp_stop_mi,
++	.set_data_path = mp_set_data_path,
++	.is_stream_stopped = mp_is_stream_stopped,
++};
++
++static struct streams_ops rkisp1_sp_streams_ops = {
++	.config_mi = sp_config_mi,
++	.enable_mi = sp_enable_mi,
++	.disable_mi = sp_disable_mi,
++	.stop_mi = sp_stop_mi,
++	.set_data_path = sp_set_data_path,
++	.is_stream_stopped = sp_is_stream_stopped,
++};
++
++/*
++ * This function is called when a frame end come. The next frame
++ * is processing and we should set up buffer for next-next frame,
++ * otherwise it will overflow.
++ */
++static int mi_frame_end(struct rkisp1_stream *stream)
++{
++	struct rkisp1_device *isp_dev = stream->ispdev;
++	struct rkisp1_isp_subdev *isp_sd = &isp_dev->isp_sdev;
++	struct capture_fmt *isp_fmt = &stream->out_isp_fmt;
++	unsigned long lock_flags = 0;
++	int i = 0;
++
++	if (stream->curr_buf) {
++		/* Dequeue a filled buffer */
++		for (i = 0; i < isp_fmt->mplanes; i++) {
++			u32 payload_size =
++				stream->out_fmt.plane_fmt[i].sizeimage;
++			vb2_set_plane_payload(
++				&stream->curr_buf->vb.vb2_buf, i,
++				payload_size);
++		}
++		stream->curr_buf->vb.sequence =
++				atomic_read(&isp_sd->frm_sync_seq) - 1;
++		stream->curr_buf->vb.vb2_buf.timestamp = ktime_get_ns();
++		stream->curr_buf->vb.field = V4L2_FIELD_NONE;
++		vb2_buffer_done(&stream->curr_buf->vb.vb2_buf,
++				VB2_BUF_STATE_DONE);
++	}
++
++	/* Next frame is writing to it */
++	stream->curr_buf = stream->next_buf;
++	stream->next_buf = NULL;
++
++	/* Set up an empty buffer for the next-next frame */
++	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
++	if (!list_empty(&stream->buf_queue)) {
++		stream->next_buf = list_first_entry(&stream->buf_queue,
++					struct rkisp1_buffer, queue);
++		list_del(&stream->next_buf->queue);
++	}
++
++	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
++
++	update_mi(stream);
++
++	return 0;
++}
++
++/***************************** vb2 operations*******************************/
++
++/*
++ * Set flags and wait, it should stop in interrupt.
++ * If it didn't, stop it by force.
++ */
++static void rkisp1_stream_stop(struct rkisp1_stream *stream)
++{
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_device *v4l2_dev = &dev->v4l2_dev;
++	int ret;
++
++	stream->stopping = true;
++	ret = wait_event_timeout(stream->done,
++				 !stream->streaming,
++				 msecs_to_jiffies(1000));
++	if (!ret) {
++		v4l2_warn(v4l2_dev, "waiting on event return error %d\n", ret);
++		stream->ops->stop_mi(stream);
++		stream->stopping = false;
++		stream->streaming = false;
++	}
++	disable_dcrop(stream, true);
++	disable_rsz(stream, true);
++}
++
++/*
++ * Most of registers inside rockchip isp1 have shadow register since
++ * they must be not changed during processing a frame.
++ * Usually, each sub-module updates its shadow register after
++ * processing the last pixel of a frame.
++ */
++static int rkisp1_start(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct rkisp1_stream *other = &dev->stream[stream->id ^ 1];
++	int ret;
++
++	stream->ops->set_data_path(base);
++	ret = stream->ops->config_mi(stream);
++	if (ret)
++		return ret;
++
++	/* Set up an buffer for the next frame */
++	mi_frame_end(stream);
++	stream->ops->enable_mi(stream);
++	/* It's safe to config ACTIVE and SHADOW regs for the
++	 * first stream. While when the second is starting, do NOT
++	 * force_cfg_update() because it also update the first one.
++	 *
++	 * The latter case would drop one more buf(that is 2) since
++	 * there's not buf in shadow when the second FE received. This's
++	 * also required because the sencond FE maybe corrupt especially
++	 * when run at 120fps.
++	 */
++	if (!other->streaming) {
++		force_cfg_update(base);
++		mi_frame_end(stream);
++	}
++	stream->streaming = true;
++
++	return 0;
++}
++
++static int rkisp1_queue_setup(struct vb2_queue *queue,
++			      unsigned int *num_buffers,
++			      unsigned int *num_planes,
++			      unsigned int sizes[],
++			      struct device *alloc_devs[])
++{
++	struct rkisp1_stream *stream = queue->drv_priv;
++	struct rkisp1_device *dev = stream->ispdev;
++	const struct v4l2_pix_format_mplane *pixm = &stream->out_fmt;
++	const struct capture_fmt *isp_fmt = &stream->out_isp_fmt;
++	unsigned int i;
++
++	*num_planes = isp_fmt->mplanes;
++
++	for (i = 0; i < isp_fmt->mplanes; i++) {
++		const struct v4l2_plane_pix_format *plane_fmt;
++
++		plane_fmt = &pixm->plane_fmt[i];
++		if (sizes[i] && sizes[i] < plane_fmt->sizeimage)
++			return -EINVAL;
++		sizes[i] = plane_fmt->sizeimage;
++	}
++
++	v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev, "%s count %d, size %d\n",
++		 v4l2_type_names[queue->type], *num_buffers, sizes[0]);
++
++	return 0;
++}
++
++/*
++ * The vb2_buffer are stored in rkisp1_buffer, in order to unify
++ * mplane buffer and none-mplane buffer.
++ */
++static void rkisp1_buf_queue(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct rkisp1_buffer *ispbuf = to_rkisp1_buffer(vbuf);
++	struct vb2_queue *queue = vb->vb2_queue;
++	struct rkisp1_stream *stream = queue->drv_priv;
++	struct capture_fmt *isp_fmt = &stream->out_isp_fmt;
++	unsigned long lock_flags = 0;
++	unsigned int i;
++
++	memset(ispbuf->buff_addr, 0, sizeof(ispbuf->buff_addr));
++	for (i = 0; i < isp_fmt->mplanes; i++)
++		ispbuf->buff_addr[i] = vb2_dma_contig_plane_dma_addr(vb, i);
++
++	/* Convert to non-MPLANE */
++	if (isp_fmt->mplanes == 1) {
++		ispbuf->buff_addr[RKISP1_PLANE_CB] =
++			ispbuf->buff_addr[RKISP1_PLANE_Y] +
++			stream->out_fmt.plane_fmt[RKISP1_PLANE_Y].bytesperline *
++			stream->out_fmt.height;
++		ispbuf->buff_addr[RKISP1_PLANE_CR] =
++			ispbuf->buff_addr[RKISP1_PLANE_CB] +
++			stream->out_fmt.plane_fmt[RKISP1_PLANE_CB].sizeimage;
++	}
++	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
++
++	/* XXX: replace dummy to speed up  */
++	if (stream->streaming &&
++	    stream->next_buf == NULL &&
++	    atomic_read(&stream->ispdev->isp_sdev.frm_sync_seq) == 0) {
++		stream->next_buf = ispbuf;
++		update_mi(stream);
++	} else {
++		list_add_tail(&ispbuf->queue, &stream->buf_queue);
++	}
++	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
++}
++
++static int rkisp1_buf_prepare(struct vb2_buffer *vb)
++{
++	struct vb2_queue *queue = vb->vb2_queue;
++	struct rkisp1_stream *stream = queue->drv_priv;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct capture_fmt *isp_fmt = &stream->out_isp_fmt;
++	unsigned int i;
++
++	for (i = 0; i < isp_fmt->mplanes; i++) {
++		unsigned long size = stream->out_fmt.plane_fmt[i].sizeimage;
++
++		if (isp_fmt->mplanes > 1 && i == 0)
++			size = stream->out_fmt.plane_fmt[RKISP1_PLANE_Y].bytesperline *
++				stream->out_fmt.height;
++
++		if (vb2_plane_size(vb, i) < size) {
++			v4l2_err(&dev->v4l2_dev,
++				 "User buffer too small (%ld < %ld)\n",
++				 vb2_plane_size(vb, i), size);
++			return -EINVAL;
++		}
++		vb2_set_plane_payload(vb, i, size);
++	}
++
++	return 0;
++}
++
++static int rkisp1_create_dummy_buf(struct rkisp1_stream *stream)
++{
++	struct rkisp1_dummy_buffer *dummy_buf = &stream->dummy_buf;
++	struct rkisp1_device *dev = stream->ispdev;
++
++	/* get a maximum size */
++	dummy_buf->size = max3(stream->out_fmt.plane_fmt[0].bytesperline *
++		stream->out_fmt.height,
++		stream->out_fmt.plane_fmt[1].sizeimage,
++		stream->out_fmt.plane_fmt[2].sizeimage);
++
++	dummy_buf->vaddr = dma_alloc_coherent(dev->dev, dummy_buf->size,
++					      &dummy_buf->dma_addr,
++					      GFP_KERNEL);
++	if (!dummy_buf->vaddr) {
++		v4l2_err(&dev->v4l2_dev,
++			 "Failed to allocate the memory for dummy buffer\n");
++		return -ENOMEM;
++	}
++
++	return 0;
++}
++
++static void rkisp1_destroy_dummy_buf(struct rkisp1_stream *stream)
++{
++	struct rkisp1_dummy_buffer *dummy_buf = &stream->dummy_buf;
++	struct rkisp1_device *dev = stream->ispdev;
++
++	dma_free_coherent(dev->dev, dummy_buf->size,
++			  dummy_buf->vaddr, dummy_buf->dma_addr);
++}
++
++static void rkisp1_return_all_buffers(struct rkisp1_stream *stream,
++					enum vb2_buffer_state state)
++{
++	unsigned long lock_flags = 0;
++	struct rkisp1_buffer *buf;
++
++	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
++	if (stream->curr_buf) {
++		list_add_tail(&stream->curr_buf->queue, &stream->buf_queue);
++		stream->curr_buf = NULL;
++	}
++	if (stream->next_buf) {
++		list_add_tail(&stream->next_buf->queue, &stream->buf_queue);
++		stream->next_buf = NULL;
++	}
++	while (!list_empty(&stream->buf_queue)) {
++		buf = list_first_entry(&stream->buf_queue,
++				       struct rkisp1_buffer, queue);
++		list_del(&buf->queue);
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
++	}
++	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
++}
++
++static void rkisp1_stop_streaming(struct vb2_queue *queue)
++{
++	struct rkisp1_stream *stream = queue->drv_priv;
++	struct rkisp1_vdev_node *node = &stream->vnode;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_device *v4l2_dev = &dev->v4l2_dev;
++	int ret;
++
++	rkisp1_stream_stop(stream);
++	/* call to the other devices */
++	media_pipeline_stop(&node->vdev.entity);
++	ret = dev->pipe.set_stream(&dev->pipe, false);
++	if (ret < 0)
++		v4l2_err(v4l2_dev, "pipeline stream-off failed error:%d\n",
++			 ret);
++
++	/* release buffers */
++	rkisp1_return_all_buffers(stream, VB2_BUF_STATE_ERROR);
++
++	ret = dev->pipe.close(&dev->pipe);
++	if (ret < 0)
++		v4l2_err(v4l2_dev, "pipeline close failed error:%d\n", ret);
++
++	rkisp1_destroy_dummy_buf(stream);
++}
++
++static int rkisp1_stream_start(struct rkisp1_stream *stream)
++{
++	struct v4l2_device *v4l2_dev = &stream->ispdev->v4l2_dev;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct rkisp1_stream *other = &dev->stream[stream->id ^ 1];
++	bool async = false;
++	int ret;
++
++	if (other->streaming)
++		async = true;
++
++	ret = rkisp1_config_rsz(stream, async);
++	if (ret < 0) {
++		v4l2_err(v4l2_dev, "config rsz failed with error %d\n", ret);
++		return ret;
++	}
++
++	/*
++	 * can't be async now, otherwise the latter started stream fails to
++	 * produce mi interrupt.
++	 */
++	ret = rkisp1_config_dcrop(stream, false);
++	if (ret < 0) {
++		v4l2_err(v4l2_dev, "config dcrop failed with error %d\n", ret);
++		return ret;
++	}
++
++	return rkisp1_start(stream);
++}
++
++static int
++rkisp1_start_streaming(struct vb2_queue *queue, unsigned int count)
++{
++	struct rkisp1_stream *stream = queue->drv_priv;
++	struct rkisp1_vdev_node *node = &stream->vnode;
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_device *v4l2_dev = &dev->v4l2_dev;
++	int ret = -EINVAL;
++
++	if (WARN_ON(stream->streaming))
++		goto return_queued_buf;
++
++	ret = rkisp1_create_dummy_buf(stream);
++	if (ret < 0)
++		goto return_queued_buf;
++
++	/* enable clocks/power-domains */
++	ret = dev->pipe.open(&dev->pipe, &node->vdev.entity, true);
++	if (ret < 0) {
++		v4l2_err(v4l2_dev, "open cif pipeline failed %d\n", ret);
++		goto destroy_dummy_buf;
++	}
++
++	/* configure stream hardware to start */
++	ret = rkisp1_stream_start(stream);
++	if (ret < 0) {
++		v4l2_err(v4l2_dev, "start streaming failed\n");
++		goto close_pipe;
++	}
++
++	/* start sub-devices */
++	ret = dev->pipe.set_stream(&dev->pipe, true);
++	if (ret < 0)
++		goto stop_stream;
++
++	ret = media_pipeline_start(&node->vdev.entity, &dev->pipe.pipe);
++	if (ret < 0) {
++		v4l2_err(&dev->v4l2_dev, "start pipeline failed %d\n", ret);
++		goto pipe_stream_off;
++	}
++
++	return 0;
++
++pipe_stream_off:
++	dev->pipe.set_stream(&dev->pipe, false);
++stop_stream:
++	rkisp1_stream_stop(stream);
++close_pipe:
++	dev->pipe.close(&dev->pipe);
++destroy_dummy_buf:
++	rkisp1_destroy_dummy_buf(stream);
++return_queued_buf:
++	rkisp1_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
++
++	return ret;
++}
++
++static struct vb2_ops rkisp1_vb2_ops = {
++	.queue_setup = rkisp1_queue_setup,
++	.buf_queue = rkisp1_buf_queue,
++	.buf_prepare = rkisp1_buf_prepare,
++	.wait_prepare = vb2_ops_wait_prepare,
++	.wait_finish = vb2_ops_wait_finish,
++	.stop_streaming = rkisp1_stop_streaming,
++	.start_streaming = rkisp1_start_streaming,
++};
++
++static int rkisp_init_vb2_queue(struct vb2_queue *q,
++				struct rkisp1_stream *stream,
++				enum v4l2_buf_type buf_type)
++{
++	struct rkisp1_vdev_node *node;
++
++	node = queue_to_node(q);
++
++	q->type = buf_type;
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
++	q->drv_priv = stream;
++	q->ops = &rkisp1_vb2_ops;
++	q->mem_ops = &vb2_dma_contig_memops;
++	q->buf_struct_size = sizeof(struct rkisp1_buffer);
++	q->min_buffers_needed = CIF_ISP_REQ_BUFS_MIN;
++	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	q->lock = &node->vlock;
++	q->dev = stream->ispdev->dev;
++
++	return vb2_queue_init(q);
++}
++
++static void rkisp1_set_fmt(struct rkisp1_stream *stream,
++			   struct v4l2_pix_format_mplane *pixm,
++			   bool try)
++{
++	const struct capture_fmt *fmt;
++	const struct stream_config *config = stream->config;
++	struct rkisp1_stream *other_stream =
++			&stream->ispdev->stream[!stream->id];
++	unsigned int imagsize = 0;
++	unsigned int planes;
++	u32 xsubs = 1, ysubs = 1;
++	unsigned int i;
++
++	fmt = find_fmt(stream, pixm->pixelformat);
++	if (!fmt) {
++		fmt = config->fmts;
++		pixm->pixelformat = fmt->fourcc;
++	}
++
++	/* do checks on resolution */
++	pixm->width = clamp_t(u32, pixm->width, config->min_rsz_width,
++			      config->max_rsz_width);
++	pixm->height = clamp_t(u32, pixm->height, config->min_rsz_height,
++			      config->max_rsz_height);
++	pixm->num_planes = fmt->mplanes;
++	pixm->field = V4L2_FIELD_NONE;
++	pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
++	pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
++	/* get quantization from ispsd */
++	pixm->quantization = stream->ispdev->isp_sdev.quantization;
++
++	/* output full range by default, take effect in isp_params */
++	if (!pixm->quantization)
++		pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	/* can not change quantization when stream-on */
++	if (other_stream->streaming)
++		pixm->quantization = other_stream->out_fmt.quantization;
++
++	/* calculate size */
++	fcc_xysubs(fmt->fourcc, &xsubs, &ysubs);
++	planes = fmt->cplanes ? fmt->cplanes : fmt->mplanes;
++	for (i = 0; i < planes; i++) {
++		struct v4l2_plane_pix_format *plane_fmt;
++		int width, height, bytesperline;
++
++		plane_fmt = pixm->plane_fmt + i;
++		width = pixm->width / (i ? xsubs : 1);
++		height = pixm->height / (i ? ysubs : 1);
++
++		bytesperline = width * DIV_ROUND_UP(fmt->bpp[i], 8);
++		/* stride is only available for sp stream and y plane */
++		if (stream->id != RKISP1_STREAM_SP || i != 0 ||
++		    plane_fmt->bytesperline < bytesperline)
++			plane_fmt->bytesperline = bytesperline;
++
++		plane_fmt->sizeimage = plane_fmt->bytesperline * height;
++
++		imagsize += plane_fmt->sizeimage;
++	}
++
++	/* convert to non-MPLANE format.
++	 * it's important since we want to unify none-MPLANE
++	 * and MPLANE.
++	 */
++	if (fmt->mplanes == 1)
++		pixm->plane_fmt[0].sizeimage = imagsize;
++
++	if (!try) {
++		stream->out_isp_fmt = *fmt;
++		stream->out_fmt = *pixm;
++
++		if (stream->id == RKISP1_STREAM_SP) {
++			stream->u.sp.y_stride =
++				pixm->plane_fmt[0].bytesperline /
++				DIV_ROUND_UP(fmt->bpp[0], 8);
++		} else {
++			stream->u.mp.raw_enable = (fmt->fmt_type == FMT_BAYER);
++		}
++		v4l2_dbg(1, rkisp1_debug, &stream->ispdev->v4l2_dev,
++			 "%s: stream: %d req(%d, %d) out(%d, %d)\n", __func__,
++			 stream->id, pixm->width, pixm->height,
++			 stream->out_fmt.width, stream->out_fmt.height);
++	}
++}
++
++/************************* v4l2_file_operations***************************/
++void rkisp1_stream_init(struct rkisp1_device *dev, u32 id)
++{
++	struct rkisp1_stream *stream = &dev->stream[id];
++	struct v4l2_pix_format_mplane pixm;
++
++	memset(stream, 0, sizeof(*stream));
++	stream->id = id;
++	stream->ispdev = dev;
++
++	INIT_LIST_HEAD(&stream->buf_queue);
++	init_waitqueue_head(&stream->done);
++	spin_lock_init(&stream->vbq_lock);
++	if (stream->id == RKISP1_STREAM_SP) {
++		stream->ops = &rkisp1_sp_streams_ops;
++		stream->config = &rkisp1_sp_stream_config;
++	} else {
++		stream->ops = &rkisp1_mp_streams_ops;
++		stream->config = &rkisp1_mp_stream_config;
++	}
++
++	stream->streaming = false;
++
++	memset(&pixm, 0, sizeof(pixm));
++	pixm.pixelformat = V4L2_PIX_FMT_YUYV;
++	pixm.width = RKISP1_DEFAULT_WIDTH;
++	pixm.height = RKISP1_DEFAULT_HEIGHT;
++	rkisp1_set_fmt(stream, &pixm, false);
++
++	stream->dcrop.left = 0;
++	stream->dcrop.top = 0;
++	stream->dcrop.width = RKISP1_DEFAULT_WIDTH;
++	stream->dcrop.height = RKISP1_DEFAULT_HEIGHT;
++}
++
++static const struct v4l2_file_operations rkisp1_fops = {
++	.open = v4l2_fh_open,
++	.release = vb2_fop_release,
++	.unlocked_ioctl = video_ioctl2,
++	.poll = vb2_fop_poll,
++	.mmap = vb2_fop_mmap,
++};
++
++/*
++ * mp and sp v4l2_ioctl_ops
++ */
++
++static int rkisp1_try_fmt_vid_cap_mplane(struct file *file, void *fh,
++					 struct v4l2_format *f)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++
++	rkisp1_set_fmt(stream, &f->fmt.pix_mp, true);
++
++	return 0;
++}
++
++static int rkisp1_enum_fmt_vid_cap_mplane(struct file *file, void *priv,
++					  struct v4l2_fmtdesc *f)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++	const struct capture_fmt *fmt = NULL;
++
++	if (f->index >= stream->config->fmt_size)
++		return -EINVAL;
++
++	fmt = &stream->config->fmts[f->index];
++	f->pixelformat = fmt->fourcc;
++
++	return 0;
++}
++
++static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
++				       void *priv, struct v4l2_format *f)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++	struct video_device *vdev = &stream->vnode.vdev;
++	struct rkisp1_vdev_node *node = vdev_to_node(vdev);
++	struct rkisp1_device *dev = stream->ispdev;
++
++	if (vb2_is_busy(&node->buf_queue)) {
++		v4l2_err(&dev->v4l2_dev, "%s queue busy\n", __func__);
++		return -EBUSY;
++	}
++
++	rkisp1_set_fmt(stream, &f->fmt.pix_mp, false);
++
++	return 0;
++}
++
++static int rkisp1_g_fmt_vid_cap_mplane(struct file *file, void *fh,
++				       struct v4l2_format *f)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++
++	f->fmt.pix_mp = stream->out_fmt;
++
++	return 0;
++}
++
++static int rkisp1_g_selection(struct file *file, void *prv,
++			      struct v4l2_selection *sel)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_rect *dcrop = &stream->dcrop;
++	struct v4l2_rect *input_win;
++
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		return -EINVAL;
++
++	input_win = rkisp1_get_isp_sd_win(&dev->isp_sdev);
++
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.width = input_win->width;
++		sel->r.height = input_win->height;
++		sel->r.left = 0;
++		sel->r.top = 0;
++		break;
++	case V4L2_SEL_TGT_CROP:
++		sel->r = *dcrop;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static struct v4l2_rect *rkisp1_update_crop(struct rkisp1_stream *stream,
++					    struct v4l2_rect *sel,
++					    const struct v4l2_rect *in)
++{
++	/* Not crop for MP bayer raw data */
++	if (stream->id == RKISP1_STREAM_MP &&
++	    stream->out_isp_fmt.fmt_type == FMT_BAYER) {
++		sel->left = 0;
++		sel->top = 0;
++		sel->width = in->width;
++		sel->height = in->height;
++		return sel;
++	}
++
++	sel->left = ALIGN(sel->left, 2);
++	sel->width = ALIGN(sel->width, 2);
++	sel->left = clamp_t(u32, sel->left, 0,
++			    in->width - STREAM_MIN_MP_SP_INPUT_WIDTH);
++	sel->top = clamp_t(u32, sel->top, 0,
++			   in->height - STREAM_MIN_MP_SP_INPUT_HEIGHT);
++	sel->width = clamp_t(u32, sel->width, STREAM_MIN_MP_SP_INPUT_WIDTH,
++			     in->width - sel->left);
++	sel->height = clamp_t(u32, sel->height, STREAM_MIN_MP_SP_INPUT_HEIGHT,
++			      in->height - sel->top);
++	return sel;
++}
++
++static int rkisp1_s_selection(struct file *file, void *prv,
++			      struct v4l2_selection *sel)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++	struct video_device *vdev = &stream->vnode.vdev;
++	struct rkisp1_vdev_node *node = vdev_to_node(vdev);
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_rect *dcrop = &stream->dcrop;
++	const struct v4l2_rect *input_win;
++
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		return -EINVAL;
++
++	if (vb2_is_busy(&node->buf_queue)) {
++		v4l2_err(&dev->v4l2_dev, "%s queue busy\n", __func__);
++		return -EBUSY;
++	}
++
++	input_win = rkisp1_get_isp_sd_win(&dev->isp_sdev);
++
++	if (sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
++
++	if (sel->flags != 0)
++		return -EINVAL;
++
++	if (sel->target == V4L2_SEL_TGT_CROP) {
++		*dcrop = *rkisp1_update_crop(stream, &sel->r, input_win);
++		v4l2_dbg(1, rkisp1_debug, &dev->v4l2_dev,
++			 "stream %d crop(%d,%d)/%dx%d\n", stream->id,
++			 dcrop->left, dcrop->top, dcrop->width, dcrop->height);
++	}
++
++	return 0;
++}
++
++static int rkisp1_querycap(struct file *file, void *priv,
++			   struct v4l2_capability *cap)
++{
++	struct rkisp1_stream *stream = video_drvdata(file);
++	struct device *dev = stream->ispdev->dev;
++
++	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
++	strscpy(cap->card, dev->driver->name, sizeof(cap->card));
++	strscpy(cap->bus_info, "platform: " DRIVER_NAME, sizeof(cap->bus_info));
++
++	return 0;
++}
++
++static int rkisp1_vdev_link_validate(struct media_link *link)
++{
++	struct v4l2_subdev *sd =
++		media_entity_to_v4l2_subdev(link->source->entity);
++	struct rkisp1_isp_subdev *isp_sd = sd_to_isp_sd(sd);
++	struct video_device *vdev =
++		media_entity_to_video_device(link->sink->entity);
++	struct rkisp1_stream *stream = video_get_drvdata(vdev);
++
++	if (stream->out_isp_fmt.fmt_type != isp_sd->out_fmt.fmt_type) {
++		v4l2_err(vdev->v4l2_dev,
++			 "format type mismatch in link '%s:%d->%s:%d'\n",
++			 link->source->entity->name, link->source->index,
++			 link->sink->entity->name, link->sink->index);
++		return -EPIPE;
++	}
++	return 0;
++}
++
++static const struct media_entity_operations rkisp1_isp_vdev_media_ops = {
++	.link_validate = rkisp1_vdev_link_validate,
++};
++
++static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
++	.vidioc_reqbufs = vb2_ioctl_reqbufs,
++	.vidioc_querybuf = vb2_ioctl_querybuf,
++	.vidioc_create_bufs = vb2_ioctl_create_bufs,
++	.vidioc_qbuf = vb2_ioctl_qbuf,
++	.vidioc_expbuf = vb2_ioctl_expbuf,
++	.vidioc_dqbuf = vb2_ioctl_dqbuf,
++	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
++	.vidioc_streamon = vb2_ioctl_streamon,
++	.vidioc_streamoff = vb2_ioctl_streamoff,
++	.vidioc_try_fmt_vid_cap_mplane = rkisp1_try_fmt_vid_cap_mplane,
++	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
++	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
++	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
++	.vidioc_s_selection = rkisp1_s_selection,
++	.vidioc_g_selection = rkisp1_g_selection,
++	.vidioc_querycap = rkisp1_querycap,
++	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
++	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
++};
++
++static void rkisp1_unregister_stream_vdev(struct rkisp1_stream *stream)
++{
++	media_entity_cleanup(&stream->vnode.vdev.entity);
++	video_unregister_device(&stream->vnode.vdev);
++}
++
++void rkisp1_unregister_stream_vdevs(struct rkisp1_device *dev)
++{
++	struct rkisp1_stream *mp_stream = &dev->stream[RKISP1_STREAM_MP];
++	struct rkisp1_stream *sp_stream = &dev->stream[RKISP1_STREAM_SP];
++
++	rkisp1_unregister_stream_vdev(mp_stream);
++	rkisp1_unregister_stream_vdev(sp_stream);
++}
++
++static int rkisp1_register_stream_vdev(struct rkisp1_stream *stream)
++{
++	struct rkisp1_device *dev = stream->ispdev;
++	struct v4l2_device *v4l2_dev = &dev->v4l2_dev;
++	struct video_device *vdev = &stream->vnode.vdev;
++	struct rkisp1_vdev_node *node;
++	int ret;
++
++	strscpy(vdev->name,
++		stream->id == RKISP1_STREAM_SP ? SP_VDEV_NAME : MP_VDEV_NAME,
++		sizeof(vdev->name));
++	node = vdev_to_node(vdev);
++	mutex_init(&node->vlock);
++
++	vdev->ioctl_ops = &rkisp1_v4l2_ioctl_ops;
++	vdev->release = video_device_release_empty;
++	vdev->fops = &rkisp1_fops;
++	vdev->minor = -1;
++	vdev->v4l2_dev = v4l2_dev;
++	vdev->lock = &node->vlock;
++	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
++				V4L2_CAP_STREAMING;
++	vdev->entity.ops = &rkisp1_isp_vdev_media_ops;
++	video_set_drvdata(vdev, stream);
++	vdev->vfl_dir = VFL_DIR_RX;
++	node->pad.flags = MEDIA_PAD_FL_SINK;
++
++	rkisp_init_vb2_queue(&node->buf_queue, stream,
++			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
++	vdev->queue = &node->buf_queue;
++
++	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
++	if (ret < 0) {
++		v4l2_err(v4l2_dev,
++			 "video_register_device failed with error %d\n", ret);
++		return ret;
++	}
++
++	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
++	if (ret < 0)
++		goto unreg;
++
++	return 0;
++unreg:
++	video_unregister_device(vdev);
++	return ret;
++}
++
++int rkisp1_register_stream_vdevs(struct rkisp1_device *dev)
++{
++	struct rkisp1_stream *stream;
++	unsigned int i, j;
++	int ret;
++
++	for (i = 0; i < RKISP1_MAX_STREAM; i++) {
++		stream = &dev->stream[i];
++		stream->ispdev = dev;
++		ret = rkisp1_register_stream_vdev(stream);
++		if (ret < 0)
++			goto err;
++	}
++
++	return 0;
++err:
++	for (j = 0; j < i; j++) {
++		stream = &dev->stream[j];
++		rkisp1_unregister_stream_vdev(stream);
++	}
++
++	return ret;
++}
++
++/****************  Interrupter Handler ****************/
++
++void rkisp1_mi_isr(u32 mis_val, struct rkisp1_device *dev)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(dev->stream); ++i) {
++		struct rkisp1_stream *stream = &dev->stream[i];
++
++		if (!(mis_val & CIF_MI_FRAME(stream)))
++			continue;
++
++		mi_frame_end_int_clear(stream);
++
++		if (stream->stopping) {
++			/*
++			 * Make sure stream is actually stopped, whose state
++			 * can be read from the shadow register, before
++			 * wake_up() thread which would immediately free all
++			 * frame buffers. stop_mi() takes effect at the next
++			 * frame end that sync the configurations to shadow
++			 * regs.
++			 */
++			if (stream->ops->is_stream_stopped(dev->base_addr)) {
++				stream->stopping = false;
++				stream->streaming = false;
++				wake_up(&stream->done);
++			} else {
++				stream->ops->stop_mi(stream);
++			}
++		} else {
++			mi_frame_end(stream);
++		}
++	}
++}
+diff --git a/drivers/media/platform/rockchip/isp1/capture.h b/drivers/media/platform/rockchip/isp1/capture.h
+new file mode 100644
+index 000000000000..aa2dcce407be
+--- /dev/null
++++ b/drivers/media/platform/rockchip/isp1/capture.h
+@@ -0,0 +1,164 @@
++/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++/*
++ * Rockchip isp1 driver
++ *
++ * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
++ */
++
++#ifndef _RKISP1_PATH_VIDEO_H
++#define _RKISP1_PATH_VIDEO_H
++
++#include "common.h"
++
++struct rkisp1_stream;
++
++/*
++ * @fourcc: pixel format
++ * @mbus_code: pixel format over bus
++ * @fmt_type: helper filed for pixel format
++ * @bpp: bits per pixel
++ * @bayer_pat: bayer patten type
++ * @cplanes: number of colour planes
++ * @mplanes: number of stored memory planes
++ * @uv_swap: if cb cr swaped, for yuv
++ * @write_format: defines how YCbCr self picture data is written to memory
++ * @input_format: defines sp input format
++ * @output_format: defines sp output format
++ */
++struct capture_fmt {
++	u32 fourcc;
++	u32 mbus_code;
++	u8 fmt_type;
++	u8 cplanes;
++	u8 mplanes;
++	u8 uv_swap;
++	u32 write_format;
++	u32 output_format;
++	u8 bpp[VIDEO_MAX_PLANES];
++};
++
++enum rkisp1_sp_inp {
++	RKISP1_SP_INP_ISP,
++	RKISP1_SP_INP_DMA_SP,
++	RKISP1_SP_INP_MAX
++};
++
++struct rkisp1_stream_sp {
++	int y_stride;
++	enum rkisp1_sp_inp input_sel;
++};
++
++struct rkisp1_stream_mp {
++	bool raw_enable;
++};
++
++/* Different config between selfpath and mainpath */
++struct stream_config {
++	const struct capture_fmt *fmts;
++	int fmt_size;
++	/* constrains */
++	const int max_rsz_width;
++	const int max_rsz_height;
++	const int min_rsz_width;
++	const int min_rsz_height;
++	/* registers */
++	struct {
++		u32 ctrl;
++		u32 ctrl_shd;
++		u32 scale_hy;
++		u32 scale_hcr;
++		u32 scale_hcb;
++		u32 scale_vy;
++		u32 scale_vc;
++		u32 scale_lut;
++		u32 scale_lut_addr;
++		u32 scale_hy_shd;
++		u32 scale_hcr_shd;
++		u32 scale_hcb_shd;
++		u32 scale_vy_shd;
++		u32 scale_vc_shd;
++		u32 phase_hy;
++		u32 phase_hc;
++		u32 phase_vy;
++		u32 phase_vc;
++		u32 phase_hy_shd;
++		u32 phase_hc_shd;
++		u32 phase_vy_shd;
++		u32 phase_vc_shd;
++	} rsz;
++	struct {
++		u32 ctrl;
++		u32 yuvmode_mask;
++		u32 rawmode_mask;
++		u32 h_offset;
++		u32 v_offset;
++		u32 h_size;
++		u32 v_size;
++	} dual_crop;
++	struct {
++		u32 y_size_init;
++		u32 cb_size_init;
++		u32 cr_size_init;
++		u32 y_base_ad_init;
++		u32 cb_base_ad_init;
++		u32 cr_base_ad_init;
++		u32 y_offs_cnt_init;
++		u32 cb_offs_cnt_init;
++		u32 cr_offs_cnt_init;
++	} mi;
++};
++
++/* Different reg ops between selfpath and mainpath */
++struct streams_ops {
++	int (*config_mi)(struct rkisp1_stream *stream);
++	void (*stop_mi)(struct rkisp1_stream *stream);
++	void (*enable_mi)(struct rkisp1_stream *stream);
++	void (*disable_mi)(struct rkisp1_stream *stream);
++	void (*set_data_path)(void __iomem *base);
++	bool (*is_stream_stopped)(void __iomem *base);
++};
++
++/*
++ * struct rkisp1_stream - ISP capture video device
++ *
++ * @out_isp_fmt: output isp format
++ * @out_fmt: output buffer size
++ * @dcrop: coordinates of dual-crop
++ *
++ * @vbq_lock: lock to protect buf_queue
++ * @buf_queue: queued buffer list
++ * @dummy_buf: dummy space to store dropped data
++ *
++ * rkisp1 use shadowsock registers, so it need two buffer at a time
++ * @curr_buf: the buffer used for current frame
++ * @next_buf: the buffer used for next frame
++ */
++struct rkisp1_stream {
++	unsigned id:1;
++	struct rkisp1_device *ispdev;
++	struct rkisp1_vdev_node vnode;
++	struct capture_fmt out_isp_fmt;
++	struct v4l2_pix_format_mplane out_fmt;
++	struct v4l2_rect dcrop;
++	struct streams_ops *ops;
++	struct stream_config *config;
++	spinlock_t vbq_lock;
++	struct list_head buf_queue;
++	struct rkisp1_dummy_buffer dummy_buf;
++	struct rkisp1_buffer *curr_buf;
++	struct rkisp1_buffer *next_buf;
++	bool streaming;
++	bool stopping;
++	wait_queue_head_t done;
++	union {
++		struct rkisp1_stream_sp sp;
++		struct rkisp1_stream_mp mp;
++	} u;
++};
++
++void rkisp1_unregister_stream_vdevs(struct rkisp1_device *dev);
++int rkisp1_register_stream_vdevs(struct rkisp1_device *dev);
++void rkisp1_mi_isr(u32 mis_val, struct rkisp1_device *dev);
++void rkisp1_stream_init(struct rkisp1_device *dev, u32 id);
++
++#endif /* _RKISP1_PATH_VIDEO_H */
+diff --git a/drivers/media/platform/rockchip/isp1/regs.c b/drivers/media/platform/rockchip/isp1/regs.c
+new file mode 100644
+index 000000000000..7d1d0c8aed81
+--- /dev/null
++++ b/drivers/media/platform/rockchip/isp1/regs.c
+@@ -0,0 +1,223 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Rockchip isp1 driver
@@ -103,1608 +2048,227 @@ index 000000000000..7b470b6bf90f
 + */
 +
 +#include <media/v4l2-common.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-ioctl.h>
-+#include <media/videobuf2-core.h>
-+#include <media/videobuf2-vmalloc.h>	/* for ISP params */
 +
-+#include "dev.h"
 +#include "regs.h"
 +
-+#define RKISP1_ISP_PARAMS_REQ_BUFS_MIN	2
-+#define RKISP1_ISP_PARAMS_REQ_BUFS_MAX	8
-+
-+#define BLS_START_H_MAX_IS_VALID(val)	((val) < CIFISP_BLS_START_H_MAX)
-+#define BLS_STOP_H_MAX_IS_VALID(val)	((val) < CIFISP_BLS_STOP_H_MAX)
-+
-+#define BLS_START_V_MAX_IS_VALID(val)	((val) < CIFISP_BLS_START_V_MAX)
-+#define BLS_STOP_V_MAX_IS_VALID(val)	((val) < CIFISP_BLS_STOP_V_MAX)
-+
-+#define BLS_SAMPLE_MAX_IS_VALID(val)	((val) < CIFISP_BLS_SAMPLES_MAX)
-+
-+#define BLS_FIX_SUB_IS_VALID(val)	\
-+	((val) > (s16) CIFISP_BLS_FIX_SUB_MIN && (val) < CIFISP_BLS_FIX_SUB_MAX)
-+
-+#define RKISP1_ISP_DPCC_LINE_THRESH(n)	(CIF_ISP_DPCC_LINE_THRESH_1 + 0x14 * (n))
-+#define RKISP1_ISP_DPCC_LINE_MAD_FAC(n) (CIF_ISP_DPCC_LINE_MAD_FAC_1 + 0x14 * (n))
-+#define RKISP1_ISP_DPCC_PG_FAC(n)	(CIF_ISP_DPCC_PG_FAC_1 + 0x14 * (n))
-+#define RKISP1_ISP_DPCC_RND_THRESH(n)	(CIF_ISP_DPCC_RND_THRESH_1 + 0x14 * (n))
-+#define RKISP1_ISP_DPCC_RG_FAC(n)	(CIF_ISP_DPCC_RG_FAC_1 + 0x14 * (n))
-+#define RKISP1_ISP_CC_COEFF(n)		(CIF_ISP_CC_COEFF_0 + (n) * 4)
-+
-+static inline void rkisp1_iowrite32(struct rkisp1_isp_params_vdev *params_vdev,
-+				    u32 value, u32 addr)
++void disable_dcrop(struct rkisp1_stream *stream, bool async)
 +{
-+	iowrite32(value, params_vdev->dev->base_addr + addr);
-+}
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *dc_ctrl_addr = base + stream->config->dual_crop.ctrl;
++	u32 dc_ctrl = readl(dc_ctrl_addr);
++	u32 mask = ~(stream->config->dual_crop.yuvmode_mask |
++			stream->config->dual_crop.rawmode_mask);
++	u32 val = dc_ctrl & mask;
 +
-+static inline u32 rkisp1_ioread32(struct rkisp1_isp_params_vdev *params_vdev,
-+				  u32 addr)
-+{
-+	return ioread32(params_vdev->dev->base_addr + addr);
-+}
-+
-+static inline void isp_param_set_bits(struct rkisp1_isp_params_vdev
-+					     *params_vdev,
-+				      u32 reg, u32 bit_mask)
-+{
-+	u32 val;
-+
-+	val = rkisp1_ioread32(params_vdev, reg);
-+	rkisp1_iowrite32(params_vdev, val | bit_mask, reg);
-+}
-+
-+static inline void isp_param_clear_bits(struct rkisp1_isp_params_vdev
-+					       *params_vdev,
-+					u32 reg, u32 bit_mask)
-+{
-+	u32 val;
-+
-+	val = rkisp1_ioread32(params_vdev, reg);
-+	rkisp1_iowrite32(params_vdev, val & ~bit_mask, reg);
-+}
-+
-+/* ISP BP interface function */
-+static void dpcc_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			const struct cifisp_dpcc_config *arg)
-+{
-+	unsigned int i;
-+	u32 mode;
-+
-+	/* avoid to override the old enable value */
-+	mode = rkisp1_ioread32(params_vdev, CIF_ISP_DPCC_MODE);
-+	mode &= CIF_ISP_DPCC_ENA;
-+	mode |= arg->mode & ~CIF_ISP_DPCC_ENA;
-+	rkisp1_iowrite32(params_vdev, mode, CIF_ISP_DPCC_MODE);
-+	rkisp1_iowrite32(params_vdev, arg->output_mode,
-+			 CIF_ISP_DPCC_OUTPUT_MODE);
-+	rkisp1_iowrite32(params_vdev, arg->set_use, CIF_ISP_DPCC_SET_USE);
-+
-+	rkisp1_iowrite32(params_vdev, arg->methods[0].method,
-+			 CIF_ISP_DPCC_METHODS_SET_1);
-+	rkisp1_iowrite32(params_vdev, arg->methods[1].method,
-+			 CIF_ISP_DPCC_METHODS_SET_2);
-+	rkisp1_iowrite32(params_vdev, arg->methods[2].method,
-+			 CIF_ISP_DPCC_METHODS_SET_3);
-+	for (i = 0; i < CIFISP_DPCC_METHODS_MAX; i++) {
-+		rkisp1_iowrite32(params_vdev, arg->methods[i].line_thresh,
-+				 RKISP1_ISP_DPCC_LINE_THRESH(i));
-+		rkisp1_iowrite32(params_vdev, arg->methods[i].line_mad_fac,
-+				 RKISP1_ISP_DPCC_LINE_MAD_FAC(i));
-+		rkisp1_iowrite32(params_vdev, arg->methods[i].pg_fac,
-+				 RKISP1_ISP_DPCC_PG_FAC(i));
-+		rkisp1_iowrite32(params_vdev, arg->methods[i].rnd_thresh,
-+				 RKISP1_ISP_DPCC_RND_THRESH(i));
-+		rkisp1_iowrite32(params_vdev, arg->methods[i].rg_fac,
-+				 RKISP1_ISP_DPCC_RG_FAC(i));
-+	}
-+
-+	rkisp1_iowrite32(params_vdev, arg->rnd_offs, CIF_ISP_DPCC_RND_OFFS);
-+	rkisp1_iowrite32(params_vdev, arg->ro_limits, CIF_ISP_DPCC_RO_LIMITS);
-+}
-+
-+/* ISP black level subtraction interface function */
-+static void bls_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_bls_config *arg)
-+{
-+	/* avoid to override the old enable value */
-+	u32 new_control;
-+
-+	new_control = rkisp1_ioread32(params_vdev, CIF_ISP_BLS_CTRL);
-+	new_control &= CIF_ISP_BLS_ENA;
-+	/* fixed subtraction values */
-+	if (!arg->enable_auto) {
-+		const struct cifisp_bls_fixed_val *pval = &arg->fixed_val;
-+
-+		switch (params_vdev->raw_type) {
-+		case RAW_BGGR:
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->r, CIF_ISP_BLS_D_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gr, CIF_ISP_BLS_C_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gb, CIF_ISP_BLS_B_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->b, CIF_ISP_BLS_A_FIXED);
-+			break;
-+		case RAW_GBRG:
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->r, CIF_ISP_BLS_C_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gr, CIF_ISP_BLS_D_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gb, CIF_ISP_BLS_A_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->b, CIF_ISP_BLS_B_FIXED);
-+			break;
-+		case RAW_GRBG:
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->r, CIF_ISP_BLS_B_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gr, CIF_ISP_BLS_A_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gb, CIF_ISP_BLS_D_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->b, CIF_ISP_BLS_C_FIXED);
-+			break;
-+		case RAW_RGGB:
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->r, CIF_ISP_BLS_A_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gr, CIF_ISP_BLS_B_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->gb, CIF_ISP_BLS_C_FIXED);
-+			rkisp1_iowrite32(params_vdev,
-+					 pval->b, CIF_ISP_BLS_D_FIXED);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+	} else {
-+		if (arg->en_windows & BIT(1)) {
-+			rkisp1_iowrite32(params_vdev, arg->bls_window2.h_offs,
-+					 CIF_ISP_BLS_H2_START);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window2.h_size,
-+					 CIF_ISP_BLS_H2_STOP);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window2.v_offs,
-+					 CIF_ISP_BLS_V2_START);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window2.v_size,
-+					 CIF_ISP_BLS_V2_STOP);
-+			new_control |= CIF_ISP_BLS_WINDOW_2;
-+		}
-+
-+		if (arg->en_windows & BIT(0)) {
-+			rkisp1_iowrite32(params_vdev, arg->bls_window1.h_offs,
-+					 CIF_ISP_BLS_H1_START);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window1.h_size,
-+					 CIF_ISP_BLS_H1_STOP);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window1.v_offs,
-+					 CIF_ISP_BLS_V1_START);
-+			rkisp1_iowrite32(params_vdev, arg->bls_window1.v_size,
-+					 CIF_ISP_BLS_V1_STOP);
-+			new_control |= CIF_ISP_BLS_WINDOW_1;
-+		}
-+
-+		rkisp1_iowrite32(params_vdev, arg->bls_samples,
-+				 CIF_ISP_BLS_SAMPLES);
-+
-+		new_control |= CIF_ISP_BLS_MODE_MEASURED;
-+	}
-+	rkisp1_iowrite32(params_vdev, new_control, CIF_ISP_BLS_CTRL);
-+}
-+
-+/* ISP LS correction interface function */
-+static void
-+__lsc_correct_matrix_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			    const struct cifisp_lsc_config *pconfig)
-+{
-+	unsigned int isp_lsc_status, sram_addr, isp_lsc_table_sel;
-+	unsigned int i, j, data;
-+
-+	isp_lsc_status = rkisp1_ioread32(params_vdev, CIF_ISP_LSC_STATUS);
-+
-+	/* CIF_ISP_LSC_TABLE_ADDRESS_153 = ( 17 * 18 ) >> 1 */
-+	sram_addr = (isp_lsc_status & CIF_ISP_LSC_ACTIVE_TABLE) ?
-+		     CIF_ISP_LSC_TABLE_ADDRESS_0 :
-+		     CIF_ISP_LSC_TABLE_ADDRESS_153;
-+	rkisp1_iowrite32(params_vdev, sram_addr, CIF_ISP_LSC_R_TABLE_ADDR);
-+	rkisp1_iowrite32(params_vdev, sram_addr, CIF_ISP_LSC_GR_TABLE_ADDR);
-+	rkisp1_iowrite32(params_vdev, sram_addr, CIF_ISP_LSC_GB_TABLE_ADDR);
-+	rkisp1_iowrite32(params_vdev, sram_addr, CIF_ISP_LSC_B_TABLE_ADDR);
-+
-+	/* program data tables (table size is 9 * 17 = 153) */
-+	for (i = 0; i < CIF_ISP_LSC_SECTORS_MAX * CIF_ISP_LSC_SECTORS_MAX;
-+	     i += CIF_ISP_LSC_SECTORS_MAX) {
-+		/*
-+		 * 17 sectors with 2 values in one DWORD = 9
-+		 * DWORDs (2nd value of last DWORD unused)
-+		 */
-+		for (j = 0; j < CIF_ISP_LSC_SECTORS_MAX - 1; j += 2) {
-+			data = CIF_ISP_LSC_TABLE_DATA(
-+					pconfig->r_data_tbl[i + j],
-+					pconfig->r_data_tbl[i + j + 1]);
-+			rkisp1_iowrite32(params_vdev, data,
-+					 CIF_ISP_LSC_R_TABLE_DATA);
-+
-+			data = CIF_ISP_LSC_TABLE_DATA(
-+					pconfig->gr_data_tbl[i + j],
-+					pconfig->gr_data_tbl[i + j + 1]);
-+			rkisp1_iowrite32(params_vdev, data,
-+					 CIF_ISP_LSC_GR_TABLE_DATA);
-+
-+			data = CIF_ISP_LSC_TABLE_DATA(
-+					pconfig->gb_data_tbl[i + j],
-+					pconfig->gb_data_tbl[i + j + 1]);
-+			rkisp1_iowrite32(params_vdev, data,
-+					 CIF_ISP_LSC_GB_TABLE_DATA);
-+
-+			data = CIF_ISP_LSC_TABLE_DATA(
-+					pconfig->b_data_tbl[i + j],
-+					pconfig->b_data_tbl[i + j + 1]);
-+			rkisp1_iowrite32(params_vdev, data,
-+					 CIF_ISP_LSC_B_TABLE_DATA);
-+		}
-+		data = CIF_ISP_LSC_TABLE_DATA(
-+				pconfig->r_data_tbl[i + j],
-+				0);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_R_TABLE_DATA);
-+
-+		data = CIF_ISP_LSC_TABLE_DATA(
-+				pconfig->gr_data_tbl[i + j],
-+				0);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_GR_TABLE_DATA);
-+
-+		data = CIF_ISP_LSC_TABLE_DATA(
-+				pconfig->gb_data_tbl[i + j],
-+				0);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_GB_TABLE_DATA);
-+
-+		data = CIF_ISP_LSC_TABLE_DATA(
-+				pconfig->b_data_tbl[i + j],
-+				0);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_B_TABLE_DATA);
-+	}
-+	isp_lsc_table_sel = (isp_lsc_status & CIF_ISP_LSC_ACTIVE_TABLE) ?
-+				CIF_ISP_LSC_TABLE_0 : CIF_ISP_LSC_TABLE_1;
-+	rkisp1_iowrite32(params_vdev, isp_lsc_table_sel, CIF_ISP_LSC_TABLE_SEL);
-+}
-+
-+static void lsc_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_lsc_config *arg)
-+{
-+	unsigned int i, data;
-+	u32 lsc_ctrl;
-+
-+	/* To config must be off , store the current status firstly */
-+	lsc_ctrl = rkisp1_ioread32(params_vdev, CIF_ISP_LSC_CTRL);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_LSC_CTRL,
-+			     CIF_ISP_LSC_CTRL_ENA);
-+	__lsc_correct_matrix_config(params_vdev, arg);
-+
-+	for (i = 0; i < 4; i++) {
-+		/* program x size tables */
-+		data = CIF_ISP_LSC_SECT_SIZE(arg->x_size_tbl[i * 2],
-+					arg->x_size_tbl[i * 2 + 1]);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_XSIZE_01 + i * 4);
-+
-+		/* program x grad tables */
-+		data = CIF_ISP_LSC_SECT_SIZE(arg->x_grad_tbl[i * 2],
-+					arg->x_grad_tbl[i * 2 + 1]);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_XGRAD_01 + i * 4);
-+
-+		/* program y size tables */
-+		data = CIF_ISP_LSC_SECT_SIZE(arg->y_size_tbl[i * 2],
-+					arg->y_size_tbl[i * 2 + 1]);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_YSIZE_01 + i * 4);
-+
-+		/* program y grad tables */
-+		data = CIF_ISP_LSC_SECT_SIZE(arg->y_grad_tbl[i * 2],
-+					arg->y_grad_tbl[i * 2 + 1]);
-+		rkisp1_iowrite32(params_vdev, data,
-+				 CIF_ISP_LSC_YGRAD_01 + i * 4);
-+	}
-+
-+	/* restore the lsc ctrl status */
-+	if (lsc_ctrl & CIF_ISP_LSC_CTRL_ENA) {
-+		isp_param_set_bits(params_vdev,
-+				   CIF_ISP_LSC_CTRL,
-+				   CIF_ISP_LSC_CTRL_ENA);
-+	} else {
-+		isp_param_clear_bits(params_vdev,
-+				     CIF_ISP_LSC_CTRL,
-+				     CIF_ISP_LSC_CTRL_ENA);
-+	}
-+}
-+
-+/* ISP Filtering function */
-+static void flt_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_flt_config *arg)
-+{
-+	u32 filt_mode;
-+
-+	rkisp1_iowrite32(params_vdev, arg->thresh_bl0, CIF_ISP_FILT_THRESH_BL0);
-+	rkisp1_iowrite32(params_vdev, arg->thresh_bl1, CIF_ISP_FILT_THRESH_BL1);
-+	rkisp1_iowrite32(params_vdev, arg->thresh_sh0, CIF_ISP_FILT_THRESH_SH0);
-+	rkisp1_iowrite32(params_vdev, arg->thresh_sh1, CIF_ISP_FILT_THRESH_SH1);
-+	rkisp1_iowrite32(params_vdev, arg->fac_bl0, CIF_ISP_FILT_FAC_BL0);
-+	rkisp1_iowrite32(params_vdev, arg->fac_bl1, CIF_ISP_FILT_FAC_BL1);
-+	rkisp1_iowrite32(params_vdev, arg->fac_mid, CIF_ISP_FILT_FAC_MID);
-+	rkisp1_iowrite32(params_vdev, arg->fac_sh0, CIF_ISP_FILT_FAC_SH0);
-+	rkisp1_iowrite32(params_vdev, arg->fac_sh1, CIF_ISP_FILT_FAC_SH1);
-+	rkisp1_iowrite32(params_vdev, arg->lum_weight, CIF_ISP_FILT_LUM_WEIGHT);
-+
-+	rkisp1_iowrite32(params_vdev, (arg->mode ? CIF_ISP_FLT_MODE_DNR : 0) |
-+			 CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
-+			 CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
-+			 CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1),
-+			 CIF_ISP_FILT_MODE);
-+
-+	/* avoid to override the old enable value */
-+	filt_mode = rkisp1_ioread32(params_vdev, CIF_ISP_FILT_MODE);
-+	filt_mode &= CIF_ISP_FLT_ENA;
-+	if (arg->mode)
-+		filt_mode |= CIF_ISP_FLT_MODE_DNR;
-+	filt_mode |= CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
-+				 CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
-+				 CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1);
-+	rkisp1_iowrite32(params_vdev, filt_mode, CIF_ISP_FILT_MODE);
-+}
-+
-+/* ISP demosaic interface function */
-+static int bdm_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		      const struct cifisp_bdm_config *arg)
-+{
-+	u32 bdm_th;
-+
-+	/* avoid to override the old enable value */
-+	bdm_th = rkisp1_ioread32(params_vdev, CIF_ISP_DEMOSAIC);
-+	bdm_th &= CIF_ISP_DEMOSAIC_BYPASS;
-+	bdm_th |= arg->demosaic_th & ~CIF_ISP_DEMOSAIC_BYPASS;
-+	/* set demosaic threshold */
-+	rkisp1_iowrite32(params_vdev, bdm_th, CIF_ISP_DEMOSAIC);
-+	return 0;
-+}
-+
-+/* ISP GAMMA correction interface function */
-+static void sdg_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_sdg_config *arg)
-+{
-+	unsigned int i;
-+
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->xa_pnts.gamma_dx0, CIF_ISP_GAMMA_DX_LO);
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->xa_pnts.gamma_dx1, CIF_ISP_GAMMA_DX_HI);
-+
-+	for (i = 0; i < CIFISP_DEGAMMA_CURVE_SIZE; i++) {
-+		rkisp1_iowrite32(params_vdev, arg->curve_r.gamma_y[i],
-+				 CIF_ISP_GAMMA_R_Y0 + i * 4);
-+		rkisp1_iowrite32(params_vdev, arg->curve_g.gamma_y[i],
-+				 CIF_ISP_GAMMA_G_Y0 + i * 4);
-+		rkisp1_iowrite32(params_vdev, arg->curve_b.gamma_y[i],
-+				 CIF_ISP_GAMMA_B_Y0 + i * 4);
-+	}
-+}
-+
-+/* ISP GAMMA correction interface function */
-+static void goc_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_goc_config *arg)
-+{
-+	unsigned int i;
-+
-+	isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+			     CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-+	rkisp1_iowrite32(params_vdev, arg->mode, CIF_ISP_GAMMA_OUT_MODE);
-+
-+	for (i = 0; i < CIFISP_GAMMA_OUT_MAX_SAMPLES; i++)
-+		rkisp1_iowrite32(params_vdev, arg->gamma_y[i],
-+				 CIF_ISP_GAMMA_OUT_Y_0 + i * 4);
-+}
-+
-+/* ISP Cross Talk */
-+static void ctk_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_ctk_config *arg)
-+{
-+	rkisp1_iowrite32(params_vdev, arg->coeff0, CIF_ISP_CT_COEFF_0);
-+	rkisp1_iowrite32(params_vdev, arg->coeff1, CIF_ISP_CT_COEFF_1);
-+	rkisp1_iowrite32(params_vdev, arg->coeff2, CIF_ISP_CT_COEFF_2);
-+	rkisp1_iowrite32(params_vdev, arg->coeff3, CIF_ISP_CT_COEFF_3);
-+	rkisp1_iowrite32(params_vdev, arg->coeff4, CIF_ISP_CT_COEFF_4);
-+	rkisp1_iowrite32(params_vdev, arg->coeff5, CIF_ISP_CT_COEFF_5);
-+	rkisp1_iowrite32(params_vdev, arg->coeff6, CIF_ISP_CT_COEFF_6);
-+	rkisp1_iowrite32(params_vdev, arg->coeff7, CIF_ISP_CT_COEFF_7);
-+	rkisp1_iowrite32(params_vdev, arg->coeff8, CIF_ISP_CT_COEFF_8);
-+	rkisp1_iowrite32(params_vdev, arg->ct_offset_r, CIF_ISP_CT_OFFSET_R);
-+	rkisp1_iowrite32(params_vdev, arg->ct_offset_g, CIF_ISP_CT_OFFSET_G);
-+	rkisp1_iowrite32(params_vdev, arg->ct_offset_b, CIF_ISP_CT_OFFSET_B);
-+}
-+
-+static void ctk_enable(struct rkisp1_isp_params_vdev *params_vdev, bool en)
-+{
-+	if (en)
-+		return;
-+
-+	/* Write back the default values. */
-+	rkisp1_iowrite32(params_vdev, 0x80, CIF_ISP_CT_COEFF_0);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_1);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_2);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_3);
-+	rkisp1_iowrite32(params_vdev, 0x80, CIF_ISP_CT_COEFF_4);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_5);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_6);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_COEFF_7);
-+	rkisp1_iowrite32(params_vdev, 0x80, CIF_ISP_CT_COEFF_8);
-+
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_OFFSET_R);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_OFFSET_G);
-+	rkisp1_iowrite32(params_vdev, 0, CIF_ISP_CT_OFFSET_B);
-+}
-+
-+/* ISP White Balance Mode */
-+static void awb_meas_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			    const struct cifisp_awb_meas_config *arg)
-+{
-+	u32 reg_val = 0;
-+	/* based on the mode,configure the awb module */
-+	if (arg->awb_mode == CIFISP_AWB_MODE_YCBCR) {
-+		/* Reference Cb and Cr */
-+		rkisp1_iowrite32(params_vdev,
-+				 CIF_ISP_AWB_REF_CR_SET(arg->awb_ref_cr) |
-+				 arg->awb_ref_cb, CIF_ISP_AWB_REF);
-+		/* Yc Threshold */
-+		rkisp1_iowrite32(params_vdev,
-+				 CIF_ISP_AWB_MAX_Y_SET(arg->max_y) |
-+				 CIF_ISP_AWB_MIN_Y_SET(arg->min_y) |
-+				 CIF_ISP_AWB_MAX_CS_SET(arg->max_csum) |
-+				 arg->min_c, CIF_ISP_AWB_THRESH);
-+	}
-+
-+	reg_val = rkisp1_ioread32(params_vdev, CIF_ISP_AWB_PROP);
-+	if (arg->enable_ymax_cmp)
-+		reg_val |= CIF_ISP_AWB_YMAX_CMP_EN;
++	if (async)
++		val |= CIF_DUAL_CROP_GEN_CFG_UPD;
 +	else
-+		reg_val &= ~CIF_ISP_AWB_YMAX_CMP_EN;
-+	rkisp1_iowrite32(params_vdev, reg_val, CIF_ISP_AWB_PROP);
-+
-+	/* window offset */
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->awb_wnd.v_offs, CIF_ISP_AWB_WND_V_OFFS);
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->awb_wnd.h_offs, CIF_ISP_AWB_WND_H_OFFS);
-+	/* AWB window size */
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->awb_wnd.v_size, CIF_ISP_AWB_WND_V_SIZE);
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->awb_wnd.h_size, CIF_ISP_AWB_WND_H_SIZE);
-+	/* Number of frames */
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->frames, CIF_ISP_AWB_FRAMES);
++		val |= CIF_DUAL_CROP_CFG_UPD;
++	writel(val, dc_ctrl_addr);
 +}
 +
-+static void awb_meas_enable(struct rkisp1_isp_params_vdev *params_vdev,
-+			    const struct cifisp_awb_meas_config *arg, bool en)
++void
++config_dcrop(struct rkisp1_stream *stream, struct v4l2_rect *rect, bool async)
 +{
-+	u32 reg_val = rkisp1_ioread32(params_vdev, CIF_ISP_AWB_PROP);
-+
-+	/* switch off */
-+	reg_val &= CIF_ISP_AWB_MODE_MASK_NONE;
-+
-+	if (en) {
-+		if (arg->awb_mode == CIFISP_AWB_MODE_RGB)
-+			reg_val |= CIF_ISP_AWB_MODE_RGB_EN;
-+		else
-+			reg_val |= CIF_ISP_AWB_MODE_YCBCR_EN;
-+
-+		rkisp1_iowrite32(params_vdev, reg_val, CIF_ISP_AWB_PROP);
-+
-+		/* Measurements require AWB block be active. */
-+		/* TODO: need to enable here ? awb_gain_enable has done this */
-+		isp_param_set_bits(params_vdev, CIF_ISP_CTRL,
-+				   CIF_ISP_CTRL_ISP_AWB_ENA);
-+	} else {
-+		rkisp1_iowrite32(params_vdev,
-+				 reg_val, CIF_ISP_AWB_PROP);
-+		isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+				     CIF_ISP_CTRL_ISP_AWB_ENA);
-+	}
-+}
-+
-+static void awb_gain_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			    const struct cifisp_awb_gain_config *arg)
-+{
-+	rkisp1_iowrite32(params_vdev,
-+			 CIF_ISP_AWB_GAIN_R_SET(arg->gain_green_r) |
-+			 arg->gain_green_b, CIF_ISP_AWB_GAIN_G);
-+
-+	rkisp1_iowrite32(params_vdev, CIF_ISP_AWB_GAIN_R_SET(arg->gain_red) |
-+			 arg->gain_blue, CIF_ISP_AWB_GAIN_RB);
-+}
-+
-+static void aec_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_aec_config *arg)
-+{
-+	unsigned int block_hsize, block_vsize;
-+	u32 exp_ctrl;
-+
-+	/* avoid to override the old enable value */
-+	exp_ctrl = rkisp1_ioread32(params_vdev, CIF_ISP_EXP_CTRL);
-+	exp_ctrl &= CIF_ISP_EXP_ENA;
-+	if (arg->autostop)
-+		exp_ctrl |= CIF_ISP_EXP_CTRL_AUTOSTOP;
-+	if (arg->mode == CIFISP_EXP_MEASURING_MODE_1)
-+		exp_ctrl |= CIF_ISP_EXP_CTRL_MEASMODE_1;
-+	rkisp1_iowrite32(params_vdev, exp_ctrl, CIF_ISP_EXP_CTRL);
-+
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->meas_window.h_offs, CIF_ISP_EXP_H_OFFSET);
-+	rkisp1_iowrite32(params_vdev,
-+			 arg->meas_window.v_offs, CIF_ISP_EXP_V_OFFSET);
-+
-+	block_hsize = arg->meas_window.h_size / CIF_ISP_EXP_COLUMN_NUM - 1;
-+	block_vsize = arg->meas_window.v_size / CIF_ISP_EXP_ROW_NUM - 1;
-+
-+	rkisp1_iowrite32(params_vdev, CIF_ISP_EXP_H_SIZE_SET(block_hsize),
-+			 CIF_ISP_EXP_H_SIZE);
-+	rkisp1_iowrite32(params_vdev, CIF_ISP_EXP_V_SIZE_SET(block_vsize),
-+			 CIF_ISP_EXP_V_SIZE);
-+}
-+
-+static void cproc_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			 const struct cifisp_cproc_config *arg)
-+{
-+	struct cifisp_isp_other_cfg *cur_other_cfg =
-+						&params_vdev->cur_params.others;
-+	struct cifisp_ie_config *cur_ie_config = &cur_other_cfg->ie_config;
-+	u32 effect = cur_ie_config->effect;
-+	u32 quantization = params_vdev->quantization;
-+
-+	rkisp1_iowrite32(params_vdev, arg->contrast, CIF_C_PROC_CONTRAST);
-+	rkisp1_iowrite32(params_vdev, arg->hue, CIF_C_PROC_HUE);
-+	rkisp1_iowrite32(params_vdev, arg->sat, CIF_C_PROC_SATURATION);
-+	rkisp1_iowrite32(params_vdev, arg->brightness, CIF_C_PROC_BRIGHTNESS);
-+
-+	if (quantization != V4L2_QUANTIZATION_FULL_RANGE ||
-+	    effect != V4L2_COLORFX_NONE) {
-+		isp_param_clear_bits(params_vdev, CIF_C_PROC_CTRL,
-+				     CIF_C_PROC_YOUT_FULL |
-+				     CIF_C_PROC_YIN_FULL |
-+				     CIF_C_PROC_COUT_FULL);
-+	} else {
-+		isp_param_set_bits(params_vdev, CIF_C_PROC_CTRL,
-+				   CIF_C_PROC_YOUT_FULL |
-+				   CIF_C_PROC_YIN_FULL |
-+				   CIF_C_PROC_COUT_FULL);
-+	}
-+}
-+
-+static void hst_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_hst_config *arg)
-+{
-+	unsigned int block_hsize, block_vsize;
-+	static const u32 hist_weight_regs[] = {
-+		CIF_ISP_HIST_WEIGHT_00TO30, CIF_ISP_HIST_WEIGHT_40TO21,
-+		CIF_ISP_HIST_WEIGHT_31TO12, CIF_ISP_HIST_WEIGHT_22TO03,
-+		CIF_ISP_HIST_WEIGHT_13TO43, CIF_ISP_HIST_WEIGHT_04TO34,
-+		CIF_ISP_HIST_WEIGHT_44,
-+	};
-+	const u8 *weight;
-+	unsigned int i;
-+	u32 hist_prop;
-+
-+	/* avoid to override the old enable value */
-+	hist_prop = rkisp1_ioread32(params_vdev, CIF_ISP_HIST_PROP);
-+	hist_prop &= CIF_ISP_HIST_PROP_MODE_MASK;
-+	hist_prop |= CIF_ISP_HIST_PREDIV_SET(arg->histogram_predivider);
-+	rkisp1_iowrite32(params_vdev, hist_prop, CIF_ISP_HIST_PROP);
-+	rkisp1_iowrite32(params_vdev,
-+			arg->meas_window.h_offs,
-+			CIF_ISP_HIST_H_OFFS);
-+	rkisp1_iowrite32(params_vdev,
-+			arg->meas_window.v_offs,
-+			CIF_ISP_HIST_V_OFFS);
-+
-+	block_hsize = arg->meas_window.h_size / CIF_ISP_HIST_COLUMN_NUM - 1;
-+	block_vsize = arg->meas_window.v_size / CIF_ISP_HIST_ROW_NUM - 1;
-+
-+	rkisp1_iowrite32(params_vdev, block_hsize, CIF_ISP_HIST_H_SIZE);
-+	rkisp1_iowrite32(params_vdev, block_vsize, CIF_ISP_HIST_V_SIZE);
-+
-+	weight = arg->hist_weight;
-+	for (i = 0; i < ARRAY_SIZE(hist_weight_regs); ++i, weight += 4)
-+		rkisp1_iowrite32(params_vdev, CIF_ISP_HIST_WEIGHT_SET(
-+				 weight[0], weight[1], weight[2], weight[3]),
-+				 hist_weight_regs[i]);
-+}
-+
-+static void hst_enable(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_hst_config *arg, bool en)
-+{
-+	if (en)	{
-+		u32 hist_prop = rkisp1_ioread32(params_vdev, CIF_ISP_HIST_PROP);
-+
-+		hist_prop &= ~CIF_ISP_HIST_PROP_MODE_MASK;
-+		hist_prop |= arg->mode;
-+		isp_param_set_bits(params_vdev, CIF_ISP_HIST_PROP, hist_prop);
-+	} else {
-+		isp_param_clear_bits(params_vdev, CIF_ISP_HIST_PROP,
-+				CIF_ISP_HIST_PROP_MODE_MASK);
-+	}
-+}
-+
-+static void afm_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_afc_config *arg)
-+{
-+	size_t num_of_win = min_t(size_t, ARRAY_SIZE(arg->afm_win),
-+				  arg->num_afm_win);
-+	u32 afm_ctrl = rkisp1_ioread32(params_vdev, CIF_ISP_AFM_CTRL);
-+	unsigned int i;
-+
-+	/* Switch off to configure. */
-+	isp_param_clear_bits(params_vdev, CIF_ISP_AFM_CTRL, CIF_ISP_AFM_ENA);
-+
-+	for (i = 0; i < num_of_win; i++) {
-+		rkisp1_iowrite32(params_vdev,
-+				 CIF_ISP_AFM_WINDOW_X(arg->afm_win[i].h_offs) |
-+				 CIF_ISP_AFM_WINDOW_Y(arg->afm_win[i].v_offs),
-+				 CIF_ISP_AFM_LT_A + i * 8);
-+		rkisp1_iowrite32(params_vdev,
-+				 CIF_ISP_AFM_WINDOW_X(arg->afm_win[i].h_size +
-+						      arg->afm_win[i].h_offs) |
-+				 CIF_ISP_AFM_WINDOW_Y(arg->afm_win[i].v_size +
-+						      arg->afm_win[i].v_offs),
-+				 CIF_ISP_AFM_RB_A + i * 8);
-+	}
-+	rkisp1_iowrite32(params_vdev, arg->thres, CIF_ISP_AFM_THRES);
-+	rkisp1_iowrite32(params_vdev, arg->var_shift, CIF_ISP_AFM_VAR_SHIFT);
-+	/* restore afm status */
-+	rkisp1_iowrite32(params_vdev, afm_ctrl, CIF_ISP_AFM_CTRL);
-+}
-+
-+static void ie_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		      const struct cifisp_ie_config *arg)
-+{
-+	u32 eff_ctrl;
-+
-+	eff_ctrl = rkisp1_ioread32(params_vdev, CIF_IMG_EFF_CTRL);
-+	eff_ctrl &= ~CIF_IMG_EFF_CTRL_MODE_MASK;
-+
-+	if (params_vdev->quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_YCBCR_FULL;
-+
-+	switch (arg->effect) {
-+	case V4L2_COLORFX_SEPIA:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_SEPIA;
-+		break;
-+	case V4L2_COLORFX_SET_CBCR:
-+		rkisp1_iowrite32(params_vdev, arg->eff_tint, CIF_IMG_EFF_TINT);
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_SEPIA;
-+		break;
-+		/*
-+		 * Color selection is similar to water color(AQUA):
-+		 * grayscale + selected color w threshold
-+		 */
-+	case V4L2_COLORFX_AQUA:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_COLOR_SEL;
-+		rkisp1_iowrite32(params_vdev, arg->color_sel,
-+				 CIF_IMG_EFF_COLOR_SEL);
-+		break;
-+	case V4L2_COLORFX_EMBOSS:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_EMBOSS;
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_1,
-+				 CIF_IMG_EFF_MAT_1);
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_2,
-+				 CIF_IMG_EFF_MAT_2);
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_3,
-+				 CIF_IMG_EFF_MAT_3);
-+		break;
-+	case V4L2_COLORFX_SKETCH:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_SKETCH;
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_3,
-+				 CIF_IMG_EFF_MAT_3);
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_4,
-+				 CIF_IMG_EFF_MAT_4);
-+		rkisp1_iowrite32(params_vdev, arg->eff_mat_5,
-+				 CIF_IMG_EFF_MAT_5);
-+		break;
-+	case V4L2_COLORFX_BW:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_BLACKWHITE;
-+		break;
-+	case V4L2_COLORFX_NEGATIVE:
-+		eff_ctrl |= CIF_IMG_EFF_CTRL_MODE_NEGATIVE;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	rkisp1_iowrite32(params_vdev, eff_ctrl, CIF_IMG_EFF_CTRL);
-+}
-+
-+static void ie_enable(struct rkisp1_isp_params_vdev *params_vdev, bool en)
-+{
-+	if (en) {
-+		isp_param_set_bits(params_vdev, CIF_ICCL, CIF_ICCL_IE_CLK);
-+		rkisp1_iowrite32(params_vdev, CIF_IMG_EFF_CTRL_ENABLE,
-+				 CIF_IMG_EFF_CTRL);
-+		isp_param_set_bits(params_vdev, CIF_IMG_EFF_CTRL,
-+				   CIF_IMG_EFF_CTRL_CFG_UPD);
-+	} else {
-+		isp_param_clear_bits(params_vdev, CIF_IMG_EFF_CTRL,
-+				     CIF_IMG_EFF_CTRL_ENABLE);
-+		isp_param_clear_bits(params_vdev, CIF_ICCL, CIF_ICCL_IE_CLK);
-+	}
-+}
-+
-+static void csm_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       bool full_range)
-+{
-+	static const u16 full_range_coeff[] = {
-+		0x0026, 0x004b, 0x000f,
-+		0x01ea, 0x01d6, 0x0040,
-+		0x0040, 0x01ca, 0x01f6
-+	};
-+	static const u16 limited_range_coeff[] = {
-+		0x0021, 0x0040, 0x000d,
-+		0x01ed, 0x01db, 0x0038,
-+		0x0038, 0x01d1, 0x01f7,
-+	};
-+	unsigned int i;
-+
-+	if (full_range) {
-+		for (i = 0; i < ARRAY_SIZE(full_range_coeff); i++)
-+			rkisp1_iowrite32(params_vdev, full_range_coeff[i],
-+					 CIF_ISP_CC_COEFF_0 + i * 4);
-+
-+		isp_param_set_bits(params_vdev, CIF_ISP_CTRL,
-+				   CIF_ISP_CTRL_ISP_CSM_Y_FULL_ENA |
-+				   CIF_ISP_CTRL_ISP_CSM_C_FULL_ENA);
-+	} else {
-+		for (i = 0; i < ARRAY_SIZE(limited_range_coeff); i++)
-+			rkisp1_iowrite32(params_vdev, limited_range_coeff[i],
-+					 CIF_ISP_CC_COEFF_0 + i * 4);
-+
-+		isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+				     CIF_ISP_CTRL_ISP_CSM_Y_FULL_ENA |
-+				     CIF_ISP_CTRL_ISP_CSM_C_FULL_ENA);
-+	}
-+}
-+
-+/* ISP De-noise Pre-Filter(DPF) function */
-+static void dpf_config(struct rkisp1_isp_params_vdev *params_vdev,
-+		       const struct cifisp_dpf_config *arg)
-+{
-+	unsigned int isp_dpf_mode, spatial_coeff, i;
-+
-+	switch (arg->gain.mode) {
-+	case CIFISP_DPF_GAIN_USAGE_NF_GAINS:
-+		isp_dpf_mode = CIF_ISP_DPF_MODE_USE_NF_GAIN |
-+				CIF_ISP_DPF_MODE_AWB_GAIN_COMP;
-+		break;
-+	case CIFISP_DPF_GAIN_USAGE_LSC_GAINS:
-+		isp_dpf_mode = CIF_ISP_DPF_MODE_LSC_GAIN_COMP;
-+		break;
-+	case CIFISP_DPF_GAIN_USAGE_NF_LSC_GAINS:
-+		isp_dpf_mode = CIF_ISP_DPF_MODE_USE_NF_GAIN |
-+				CIF_ISP_DPF_MODE_AWB_GAIN_COMP |
-+				CIF_ISP_DPF_MODE_LSC_GAIN_COMP;
-+		break;
-+	case CIFISP_DPF_GAIN_USAGE_AWB_GAINS:
-+		isp_dpf_mode = CIF_ISP_DPF_MODE_AWB_GAIN_COMP;
-+		break;
-+	case CIFISP_DPF_GAIN_USAGE_AWB_LSC_GAINS:
-+		isp_dpf_mode = CIF_ISP_DPF_MODE_LSC_GAIN_COMP |
-+				CIF_ISP_DPF_MODE_AWB_GAIN_COMP;
-+		break;
-+	case CIFISP_DPF_GAIN_USAGE_DISABLED:
-+	default:
-+		isp_dpf_mode = 0;
-+		break;
-+	}
-+
-+	if (arg->nll.scale_mode == CIFISP_NLL_SCALE_LOGARITHMIC)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_NLL_SEGMENTATION;
-+	if (arg->rb_flt.fltsize == CIFISP_DPF_RB_FILTERSIZE_9x9)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_RB_FLTSIZE_9x9;
-+	if (!arg->rb_flt.r_enable)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_R_FLT_DIS;
-+	if (!arg->rb_flt.b_enable)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_B_FLT_DIS;
-+	if (!arg->g_flt.gb_enable)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_GB_FLT_DIS;
-+	if (!arg->g_flt.gr_enable)
-+		isp_dpf_mode |= CIF_ISP_DPF_MODE_GR_FLT_DIS;
-+
-+	isp_param_set_bits(params_vdev, CIF_ISP_DPF_MODE, isp_dpf_mode);
-+	rkisp1_iowrite32(params_vdev, arg->gain.nf_b_gain,
-+			 CIF_ISP_DPF_NF_GAIN_B);
-+	rkisp1_iowrite32(params_vdev, arg->gain.nf_r_gain,
-+			 CIF_ISP_DPF_NF_GAIN_R);
-+	rkisp1_iowrite32(params_vdev, arg->gain.nf_gb_gain,
-+			 CIF_ISP_DPF_NF_GAIN_GB);
-+	rkisp1_iowrite32(params_vdev, arg->gain.nf_gr_gain,
-+			 CIF_ISP_DPF_NF_GAIN_GR);
-+
-+	for (i = 0; i < CIFISP_DPF_MAX_NLF_COEFFS; i++) {
-+		rkisp1_iowrite32(params_vdev, arg->nll.coeff[i],
-+				 CIF_ISP_DPF_NULL_COEFF_0 + i * 4);
-+	}
-+
-+	spatial_coeff = arg->g_flt.spatial_coeff[0] |
-+			(arg->g_flt.spatial_coeff[1] << 8) |
-+			(arg->g_flt.spatial_coeff[2] << 16) |
-+			(arg->g_flt.spatial_coeff[3] << 24);
-+	rkisp1_iowrite32(params_vdev, spatial_coeff,
-+			 CIF_ISP_DPF_S_WEIGHT_G_1_4);
-+
-+	spatial_coeff = arg->g_flt.spatial_coeff[4] |
-+			(arg->g_flt.spatial_coeff[5] << 8);
-+	rkisp1_iowrite32(params_vdev, spatial_coeff,
-+			 CIF_ISP_DPF_S_WEIGHT_G_5_6);
-+
-+	spatial_coeff = arg->rb_flt.spatial_coeff[0] |
-+			(arg->rb_flt.spatial_coeff[1] << 8) |
-+			(arg->rb_flt.spatial_coeff[2] << 16) |
-+			(arg->rb_flt.spatial_coeff[3] << 24);
-+	rkisp1_iowrite32(params_vdev, spatial_coeff,
-+			 CIF_ISP_DPF_S_WEIGHT_RB_1_4);
-+
-+	spatial_coeff = arg->rb_flt.spatial_coeff[4] |
-+			(arg->rb_flt.spatial_coeff[5] << 8);
-+	rkisp1_iowrite32(params_vdev, spatial_coeff,
-+			CIF_ISP_DPF_S_WEIGHT_RB_5_6);
-+}
-+
-+static void dpf_strength_config(struct rkisp1_isp_params_vdev *params_vdev,
-+				const struct cifisp_dpf_strength_config *arg)
-+{
-+	rkisp1_iowrite32(params_vdev, arg->b, CIF_ISP_DPF_STRENGTH_B);
-+	rkisp1_iowrite32(params_vdev, arg->g, CIF_ISP_DPF_STRENGTH_G);
-+	rkisp1_iowrite32(params_vdev, arg->r, CIF_ISP_DPF_STRENGTH_R);
-+}
-+
-+static __maybe_unused
-+void __isp_isr_other_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			    const struct rkisp1_isp_params_cfg *new_params)
-+{
-+	unsigned int module_en_update, module_cfg_update, module_ens;
-+
-+	module_en_update = new_params->module_en_update;
-+	module_cfg_update = new_params->module_cfg_update;
-+	module_ens = new_params->module_ens;
-+
-+	if ((module_en_update & CIFISP_MODULE_DPCC) ||
-+	    (module_cfg_update & CIFISP_MODULE_DPCC)) {
-+		/*update dpc config */
-+		if ((module_cfg_update & CIFISP_MODULE_DPCC))
-+			dpcc_config(params_vdev,
-+				    &new_params->others.dpcc_config);
-+
-+		if (module_en_update & CIFISP_MODULE_DPCC) {
-+			if (!!(module_ens & CIFISP_MODULE_DPCC))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_DPCC_MODE,
-+						   CIF_ISP_DPCC_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_DPCC_MODE,
-+						     CIF_ISP_DPCC_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_BLS) ||
-+	    (module_cfg_update & CIFISP_MODULE_BLS)) {
-+		/* update bls config */
-+		if ((module_cfg_update & CIFISP_MODULE_BLS))
-+			bls_config(params_vdev, &new_params->others.bls_config);
-+
-+		if (module_en_update & CIFISP_MODULE_BLS) {
-+			if (!!(module_ens & CIFISP_MODULE_BLS))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_BLS_CTRL,
-+						   CIF_ISP_BLS_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_BLS_CTRL,
-+						     CIF_ISP_BLS_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_SDG) ||
-+	    (module_cfg_update & CIFISP_MODULE_SDG)) {
-+		/* update sdg config */
-+		if ((module_cfg_update & CIFISP_MODULE_SDG))
-+			sdg_config(params_vdev, &new_params->others.sdg_config);
-+
-+		if (module_en_update & CIFISP_MODULE_SDG) {
-+			if (!!(module_ens & CIFISP_MODULE_SDG))
-+				isp_param_set_bits(params_vdev,
-+						CIF_ISP_CTRL,
-+						CIF_ISP_CTRL_ISP_GAMMA_IN_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						CIF_ISP_CTRL,
-+						CIF_ISP_CTRL_ISP_GAMMA_IN_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_LSC) ||
-+	    (module_cfg_update & CIFISP_MODULE_LSC)) {
-+		/* update lsc config */
-+		if ((module_cfg_update & CIFISP_MODULE_LSC))
-+			lsc_config(params_vdev, &new_params->others.lsc_config);
-+
-+		if (module_en_update & CIFISP_MODULE_LSC) {
-+			if (!!(module_ens & CIFISP_MODULE_LSC))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_LSC_CTRL,
-+						   CIF_ISP_LSC_CTRL_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_LSC_CTRL,
-+						     CIF_ISP_LSC_CTRL_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_AWB_GAIN) ||
-+	    (module_cfg_update & CIFISP_MODULE_AWB_GAIN)) {
-+		/* update awb gains */
-+		if ((module_cfg_update & CIFISP_MODULE_AWB_GAIN))
-+			awb_gain_config(params_vdev,
-+					&new_params->others.awb_gain_config);
-+
-+		if (module_en_update & CIFISP_MODULE_AWB_GAIN) {
-+			if (!!(module_ens & CIFISP_MODULE_AWB_GAIN))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_CTRL,
-+						   CIF_ISP_CTRL_ISP_AWB_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_CTRL,
-+						     CIF_ISP_CTRL_ISP_AWB_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_BDM) ||
-+	    (module_cfg_update & CIFISP_MODULE_BDM)) {
-+		/* update bdm config */
-+		if ((module_cfg_update & CIFISP_MODULE_BDM))
-+			bdm_config(params_vdev, &new_params->others.bdm_config);
-+
-+		if (module_en_update & CIFISP_MODULE_BDM) {
-+			if (!!(module_ens & CIFISP_MODULE_BDM))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_DEMOSAIC,
-+						   CIF_ISP_DEMOSAIC_BYPASS);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_DEMOSAIC,
-+						     CIF_ISP_DEMOSAIC_BYPASS);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_FLT) ||
-+	    (module_cfg_update & CIFISP_MODULE_FLT)) {
-+		/* update filter config */
-+		if ((module_cfg_update & CIFISP_MODULE_FLT))
-+			flt_config(params_vdev, &new_params->others.flt_config);
-+
-+		if (module_en_update & CIFISP_MODULE_FLT) {
-+			if (!!(module_ens & CIFISP_MODULE_FLT))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_FILT_MODE,
-+						   CIF_ISP_FLT_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_FILT_MODE,
-+						     CIF_ISP_FLT_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_CTK) ||
-+	    (module_cfg_update & CIFISP_MODULE_CTK)) {
-+		/* update ctk config */
-+		if ((module_cfg_update & CIFISP_MODULE_CTK))
-+			ctk_config(params_vdev, &new_params->others.ctk_config);
-+
-+		if (module_en_update & CIFISP_MODULE_CTK)
-+			ctk_enable(params_vdev,
-+				   !!(module_ens & CIFISP_MODULE_CTK));
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_GOC) ||
-+	    (module_cfg_update & CIFISP_MODULE_GOC)) {
-+		/* update goc config */
-+		if ((module_cfg_update & CIFISP_MODULE_GOC))
-+			goc_config(params_vdev, &new_params->others.goc_config);
-+
-+		if (module_en_update & CIFISP_MODULE_GOC) {
-+			if (!!(module_ens & CIFISP_MODULE_GOC))
-+				isp_param_set_bits(params_vdev,
-+						CIF_ISP_CTRL,
-+						CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						CIF_ISP_CTRL,
-+						CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_CPROC) ||
-+	    (module_cfg_update & CIFISP_MODULE_CPROC)) {
-+		/* update cproc config */
-+		if ((module_cfg_update & CIFISP_MODULE_CPROC)) {
-+			cproc_config(params_vdev,
-+				     &new_params->others.cproc_config);
-+
-+		}
-+
-+		if (module_en_update & CIFISP_MODULE_CPROC) {
-+			if (!!(module_ens & CIFISP_MODULE_CPROC))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_C_PROC_CTRL,
-+						   CIF_C_PROC_CTR_ENABLE);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						   CIF_C_PROC_CTRL,
-+						   CIF_C_PROC_CTR_ENABLE);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_IE) ||
-+	    (module_cfg_update & CIFISP_MODULE_IE)) {
-+		/* update ie config */
-+		if ((module_cfg_update & CIFISP_MODULE_IE))
-+			ie_config(params_vdev, &new_params->others.ie_config);
-+
-+		if (module_en_update & CIFISP_MODULE_IE)
-+			ie_enable(params_vdev,
-+				   !!(module_ens & CIFISP_MODULE_IE));
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_DPF) ||
-+	    (module_cfg_update & CIFISP_MODULE_DPF)) {
-+		/* update dpf  config */
-+		if ((module_cfg_update & CIFISP_MODULE_DPF))
-+			dpf_config(params_vdev, &new_params->others.dpf_config);
-+
-+		if (module_en_update & CIFISP_MODULE_DPF) {
-+			if (!!(module_ens & CIFISP_MODULE_DPF))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_DPF_MODE,
-+						   CIF_ISP_DPF_MODE_EN);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_DPF_MODE,
-+						     CIF_ISP_DPF_MODE_EN);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_DPF_STRENGTH) ||
-+	    (module_cfg_update & CIFISP_MODULE_DPF_STRENGTH)) {
-+		/* update dpf strength config */
-+		dpf_strength_config(params_vdev,
-+				    &new_params->others.dpf_strength_config);
-+	}
-+}
-+
-+static __maybe_unused
-+void __isp_isr_meas_config(struct rkisp1_isp_params_vdev *params_vdev,
-+			   struct  rkisp1_isp_params_cfg *new_params)
-+{
-+	unsigned int module_en_update, module_cfg_update, module_ens;
-+
-+	module_en_update = new_params->module_en_update;
-+	module_cfg_update = new_params->module_cfg_update;
-+	module_ens = new_params->module_ens;
-+
-+	if ((module_en_update & CIFISP_MODULE_AWB) ||
-+	    (module_cfg_update & CIFISP_MODULE_AWB)) {
-+		/* update awb config */
-+		if ((module_cfg_update & CIFISP_MODULE_AWB))
-+			awb_meas_config(params_vdev,
-+					&new_params->meas.awb_meas_config);
-+
-+		if (module_en_update & CIFISP_MODULE_AWB)
-+			awb_meas_enable(params_vdev,
-+					&new_params->meas.awb_meas_config,
-+					!!(module_ens & CIFISP_MODULE_AWB));
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_AFC) ||
-+	    (module_cfg_update & CIFISP_MODULE_AFC)) {
-+		/* update afc config */
-+		if ((module_cfg_update & CIFISP_MODULE_AFC))
-+			afm_config(params_vdev, &new_params->meas.afc_config);
-+
-+		if (module_en_update & CIFISP_MODULE_AFC) {
-+			if (!!(module_ens & CIFISP_MODULE_AFC))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_AFM_CTRL,
-+						   CIF_ISP_AFM_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_AFM_CTRL,
-+						     CIF_ISP_AFM_ENA);
-+		}
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_HST) ||
-+	    (module_cfg_update & CIFISP_MODULE_HST)) {
-+		/* update hst config */
-+		if ((module_cfg_update & CIFISP_MODULE_HST))
-+			hst_config(params_vdev, &new_params->meas.hst_config);
-+
-+		if (module_en_update & CIFISP_MODULE_HST)
-+			hst_enable(params_vdev,
-+				   &new_params->meas.hst_config,
-+				   !!(module_ens & CIFISP_MODULE_HST));
-+	}
-+
-+	if ((module_en_update & CIFISP_MODULE_AEC) ||
-+	    (module_cfg_update & CIFISP_MODULE_AEC)) {
-+		/* update aec config */
-+		if ((module_cfg_update & CIFISP_MODULE_AEC))
-+			aec_config(params_vdev, &new_params->meas.aec_config);
-+
-+		if (module_en_update & CIFISP_MODULE_AEC) {
-+			if (!!(module_ens & CIFISP_MODULE_AEC))
-+				isp_param_set_bits(params_vdev,
-+						   CIF_ISP_EXP_CTRL,
-+						   CIF_ISP_EXP_ENA);
-+			else
-+				isp_param_clear_bits(params_vdev,
-+						     CIF_ISP_EXP_CTRL,
-+						     CIF_ISP_EXP_ENA);
-+		}
-+	}
-+}
-+
-+void rkisp1_params_isr(struct rkisp1_isp_params_vdev *params_vdev, u32 isp_mis)
-+{
-+	struct rkisp1_isp_params_cfg *new_params;
-+	struct rkisp1_buffer *cur_buf = NULL;
-+	unsigned int cur_frame_id = -1;
-+
-+	cur_frame_id =
-+		atomic_read(&params_vdev->dev->isp_sdev.frm_sync_seq) - 1;
-+
-+	spin_lock(&params_vdev->config_lock);
-+	if (!params_vdev->streamon) {
-+		spin_unlock(&params_vdev->config_lock);
-+		return;
-+	}
-+
-+	/* get one empty buffer */
-+	if (!list_empty(&params_vdev->params))
-+		cur_buf = list_first_entry(&params_vdev->params,
-+					   struct rkisp1_buffer, queue);
-+	spin_unlock(&params_vdev->config_lock);
-+
-+	if (!cur_buf)
-+		return;
-+
-+	new_params = (struct rkisp1_isp_params_cfg *)(cur_buf->vaddr[0]);
-+
-+	if (isp_mis & CIF_ISP_FRAME) {
-+		u32 isp_ctrl;
-+
-+		__isp_isr_other_config(params_vdev, new_params);
-+		__isp_isr_meas_config(params_vdev, new_params);
-+
-+		/* update shadow register immediately */
-+		isp_ctrl = rkisp1_ioread32(params_vdev, CIF_ISP_CTRL);
-+		isp_ctrl |= CIF_ISP_CTRL_ISP_CFG_UPD;
-+		rkisp1_iowrite32(params_vdev, isp_ctrl, CIF_ISP_CTRL);
-+
-+		spin_lock(&params_vdev->config_lock);
-+		list_del(&cur_buf->queue);
-+		spin_unlock(&params_vdev->config_lock);
-+
-+		cur_buf->vb.sequence = cur_frame_id;
-+		vb2_buffer_done(&cur_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	}
-+}
-+
-+static const struct cifisp_awb_meas_config awb_params_default_config = {
-+	{
-+		0, 0, RKISP1_DEFAULT_WIDTH, RKISP1_DEFAULT_HEIGHT
-+	},
-+	CIFISP_AWB_MODE_YCBCR, 200, 30, 20, 20, 0, 128, 128
-+};
-+
-+static const struct cifisp_aec_config aec_params_default_config = {
-+	CIFISP_EXP_MEASURING_MODE_0,
-+	CIFISP_EXP_CTRL_AUTOSTOP_0,
-+	{
-+		RKISP1_DEFAULT_WIDTH >> 2, RKISP1_DEFAULT_HEIGHT >> 2,
-+		RKISP1_DEFAULT_WIDTH >> 1, RKISP1_DEFAULT_HEIGHT >> 1
-+	}
-+};
-+
-+static const struct cifisp_hst_config hst_params_default_config = {
-+	CIFISP_HISTOGRAM_MODE_RGB_COMBINED,
-+	3,
-+	{
-+		RKISP1_DEFAULT_WIDTH >> 2, RKISP1_DEFAULT_HEIGHT >> 2,
-+		RKISP1_DEFAULT_WIDTH >> 1, RKISP1_DEFAULT_HEIGHT >> 1
-+	},
-+	{
-+		0, /* To be filled in with 0x01 at runtime. */
-+	}
-+};
-+
-+static const struct cifisp_afc_config afc_params_default_config = {
-+	1,
-+	{
-+		{
-+			300, 225, 200, 150
-+		}
-+	},
-+	4,
-+	14
-+};
-+
-+static
-+void rkisp1_params_config_parameter(struct rkisp1_isp_params_vdev *params_vdev)
-+{
-+	struct cifisp_hst_config hst = hst_params_default_config;
-+
-+	spin_lock(&params_vdev->config_lock);
-+
-+	awb_meas_config(params_vdev, &awb_params_default_config);
-+	awb_meas_enable(params_vdev, &awb_params_default_config, true);
-+
-+	aec_config(params_vdev, &aec_params_default_config);
-+	isp_param_set_bits(params_vdev, CIF_ISP_EXP_CTRL, CIF_ISP_EXP_ENA);
-+
-+	afm_config(params_vdev, &afc_params_default_config);
-+	isp_param_set_bits(params_vdev, CIF_ISP_AFM_CTRL, CIF_ISP_AFM_ENA);
-+
-+	memset(hst.hist_weight, 0x01, sizeof(hst.hist_weight));
-+	hst_config(params_vdev, &hst);
-+	isp_param_set_bits(params_vdev, CIF_ISP_HIST_PROP,
-+			   ~CIF_ISP_HIST_PROP_MODE_MASK |
-+			   hst_params_default_config.mode);
-+
-+	/* set the  range */
-+	if (params_vdev->quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+		csm_config(params_vdev, true);
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *dc_ctrl_addr = base + stream->config->dual_crop.ctrl;
++	u32 dc_ctrl = readl(dc_ctrl_addr);
++
++	writel(rect->left, base + stream->config->dual_crop.h_offset);
++	writel(rect->top, base + stream->config->dual_crop.v_offset);
++	writel(rect->width, base + stream->config->dual_crop.h_size);
++	writel(rect->height, base + stream->config->dual_crop.v_size);
++	dc_ctrl |= stream->config->dual_crop.yuvmode_mask;
++	if (async)
++		dc_ctrl |= CIF_DUAL_CROP_GEN_CFG_UPD;
 +	else
-+		csm_config(params_vdev, false);
-+
-+	/* override the default things */
-+	__isp_isr_other_config(params_vdev, &params_vdev->cur_params);
-+	__isp_isr_meas_config(params_vdev, &params_vdev->cur_params);
-+
-+	spin_unlock(&params_vdev->config_lock);
++		dc_ctrl |= CIF_DUAL_CROP_CFG_UPD;
++	writel(dc_ctrl, dc_ctrl_addr);
 +}
 +
-+/* Not called when the camera active, thus not isr protection. */
-+void rkisp1_params_configure_isp(struct rkisp1_isp_params_vdev *params_vdev,
-+			  struct ispsd_in_fmt *in_fmt,
-+			  enum v4l2_quantization quantization)
++void dump_rsz_regs(struct rkisp1_stream *stream)
 +{
-+	params_vdev->quantization = quantization;
-+	params_vdev->raw_type = in_fmt->bayer_pat;
-+	rkisp1_params_config_parameter(params_vdev);
++	void __iomem *base = stream->ispdev->base_addr;
++
++	pr_info("RSZ_CTRL 0x%08x/0x%08x\n"
++		"RSZ_SCALE_HY %d/%d\n"
++		"RSZ_SCALE_HCB %d/%d\n"
++		"RSZ_SCALE_HCR %d/%d\n"
++		"RSZ_SCALE_VY %d/%d\n"
++		"RSZ_SCALE_VC %d/%d\n"
++		"RSZ_PHASE_HY %d/%d\n"
++		"RSZ_PHASE_HC %d/%d\n"
++		"RSZ_PHASE_VY %d/%d\n"
++		"RSZ_PHASE_VC %d/%d\n",
++		readl(base + stream->config->rsz.ctrl),
++		readl(base + stream->config->rsz.ctrl_shd),
++		readl(base + stream->config->rsz.scale_hy),
++		readl(base + stream->config->rsz.scale_hy_shd),
++		readl(base + stream->config->rsz.scale_hcb),
++		readl(base + stream->config->rsz.scale_hcb_shd),
++		readl(base + stream->config->rsz.scale_hcr),
++		readl(base + stream->config->rsz.scale_hcr_shd),
++		readl(base + stream->config->rsz.scale_vy),
++		readl(base + stream->config->rsz.scale_vy_shd),
++		readl(base + stream->config->rsz.scale_vc),
++		readl(base + stream->config->rsz.scale_vc_shd),
++		readl(base + stream->config->rsz.phase_hy),
++		readl(base + stream->config->rsz.phase_hy_shd),
++		readl(base + stream->config->rsz.phase_hc),
++		readl(base + stream->config->rsz.phase_hc_shd),
++		readl(base + stream->config->rsz.phase_vy),
++		readl(base + stream->config->rsz.phase_vy_shd),
++		readl(base + stream->config->rsz.phase_vc),
++		readl(base + stream->config->rsz.phase_vc_shd));
 +}
 +
-+/* Not called when the camera active, thus not isr protection. */
-+void rkisp1_params_disable_isp(struct rkisp1_isp_params_vdev *params_vdev)
++static void update_rsz_shadow(struct rkisp1_stream *stream, bool async)
 +{
-+	isp_param_clear_bits(params_vdev, CIF_ISP_DPCC_MODE, CIF_ISP_DPCC_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_LSC_CTRL,
-+			     CIF_ISP_LSC_CTRL_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_BLS_CTRL, CIF_ISP_BLS_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+			     CIF_ISP_CTRL_ISP_GAMMA_IN_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+			     CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_DEMOSAIC,
-+			     CIF_ISP_DEMOSAIC_BYPASS);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_FILT_MODE, CIF_ISP_FLT_ENA);
-+	awb_meas_enable(params_vdev, NULL, false);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_CTRL,
-+			     CIF_ISP_CTRL_ISP_AWB_ENA);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_EXP_CTRL, CIF_ISP_EXP_ENA);
-+	ctk_enable(params_vdev, false);
-+	isp_param_clear_bits(params_vdev, CIF_C_PROC_CTRL,
-+			     CIF_C_PROC_CTR_ENABLE);
-+	hst_enable(params_vdev, NULL, false);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_AFM_CTRL, CIF_ISP_AFM_ENA);
-+	ie_enable(params_vdev, false);
-+	isp_param_clear_bits(params_vdev, CIF_ISP_DPF_MODE,
-+			     CIF_ISP_DPF_MODE_EN);
++	void __iomem *addr =
++		stream->ispdev->base_addr + stream->config->rsz.ctrl;
++	u32 ctrl_cfg = readl(addr);
++
++	if (async)
++		writel(CIF_RSZ_CTRL_CFG_UPD_AUTO | ctrl_cfg, addr);
++	else
++		writel(CIF_RSZ_CTRL_CFG_UPD | ctrl_cfg, addr);
 +}
 +
-+static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
-+					   struct v4l2_fmtdesc *f)
++static void set_scale(struct rkisp1_stream *stream, struct v4l2_rect *in_y,
++		      struct v4l2_rect *in_c, struct v4l2_rect *out_y,
++		      struct v4l2_rect *out_c)
 +{
-+	struct video_device *video = video_devdata(file);
-+	struct rkisp1_isp_params_vdev *params_vdev = video_get_drvdata(video);
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *scale_hy_addr = base + stream->config->rsz.scale_hy;
++	void __iomem *scale_hcr_addr = base + stream->config->rsz.scale_hcr;
++	void __iomem *scale_hcb_addr = base + stream->config->rsz.scale_hcb;
++	void __iomem *scale_vy_addr = base + stream->config->rsz.scale_vy;
++	void __iomem *scale_vc_addr = base + stream->config->rsz.scale_vc;
++	void __iomem *rsz_ctrl_addr = base + stream->config->rsz.ctrl;
++	u32 scale_hy, scale_hc, scale_vy, scale_vc, rsz_ctrl = 0;
 +
-+	if (f->index > 0 || f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	f->pixelformat = params_vdev->vdev_fmt.fmt.meta.dataformat;
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
-+					struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct rkisp1_isp_params_vdev *params_vdev = video_get_drvdata(video);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	memset(meta, 0, sizeof(*meta));
-+	meta->dataformat = params_vdev->vdev_fmt.fmt.meta.dataformat;
-+	meta->buffersize = params_vdev->vdev_fmt.fmt.meta.buffersize;
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_querycap(struct file *file,
-+				  void *priv, struct v4l2_capability *cap)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+
-+	strscpy(cap->driver, DRIVER_NAME, sizeof(cap->driver));
-+	strscpy(cap->card, vdev->name, sizeof(cap->card));
-+	strscpy(cap->bus_info, "platform: " DRIVER_NAME, sizeof(cap->bus_info));
-+
-+	return 0;
-+}
-+
-+/* ISP params video device IOCTLs */
-+static const struct v4l2_ioctl_ops rkisp1_params_ioctl = {
-+	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-+	.vidioc_querybuf = vb2_ioctl_querybuf,
-+	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-+	.vidioc_qbuf = vb2_ioctl_qbuf,
-+	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-+	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-+	.vidioc_expbuf = vb2_ioctl_expbuf,
-+	.vidioc_streamon = vb2_ioctl_streamon,
-+	.vidioc_streamoff = vb2_ioctl_streamoff,
-+	.vidioc_enum_fmt_meta_out = rkisp1_params_enum_fmt_meta_out,
-+	.vidioc_g_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_s_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_try_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_querycap = rkisp1_params_querycap,
-+	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-+	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-+};
-+
-+static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
-+					 unsigned int *num_buffers,
-+					 unsigned int *num_planes,
-+					 unsigned int sizes[],
-+					 struct device *alloc_devs[])
-+{
-+	struct rkisp1_isp_params_vdev *params_vdev = vq->drv_priv;
-+
-+	*num_buffers = clamp_t(u32, *num_buffers,
-+			       RKISP1_ISP_PARAMS_REQ_BUFS_MIN,
-+			       RKISP1_ISP_PARAMS_REQ_BUFS_MAX);
-+
-+	*num_planes = 1;
-+
-+	sizes[0] = sizeof(struct rkisp1_isp_params_cfg);
-+
-+	INIT_LIST_HEAD(&params_vdev->params);
-+	params_vdev->first_params = true;
-+
-+	return 0;
-+}
-+
-+static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct rkisp1_buffer *params_buf = to_rkisp1_buffer(vbuf);
-+	struct vb2_queue *vq = vb->vb2_queue;
-+	struct rkisp1_isp_params_vdev *params_vdev = vq->drv_priv;
-+	struct rkisp1_isp_params_cfg *new_params;
-+	unsigned long flags;
-+
-+	unsigned int cur_frame_id = -1;
-+
-+	cur_frame_id =
-+		atomic_read(&params_vdev->dev->isp_sdev.frm_sync_seq) - 1;
-+
-+	if (params_vdev->first_params) {
-+		new_params = (struct rkisp1_isp_params_cfg *)
-+			(vb2_plane_vaddr(vb, 0));
-+		vbuf->sequence = cur_frame_id;
-+		vb2_buffer_done(&params_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+		params_vdev->first_params = false;
-+		params_vdev->cur_params = *new_params;
-+		return;
++	if (in_y->width < out_y->width) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_HY_ENABLE |
++				CIF_RSZ_CTRL_SCALE_HY_UP;
++		scale_hy = ((in_y->width - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(out_y->width - 1);
++		writel(scale_hy, scale_hy_addr);
++	} else if (in_y->width > out_y->width) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_HY_ENABLE;
++		scale_hy = ((out_y->width - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(in_y->width - 1) + 1;
++		writel(scale_hy, scale_hy_addr);
++	}
++	if (in_c->width < out_c->width) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_HC_ENABLE |
++				CIF_RSZ_CTRL_SCALE_HC_UP;
++		scale_hc = ((in_c->width - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(out_c->width - 1);
++		writel(scale_hc, scale_hcb_addr);
++		writel(scale_hc, scale_hcr_addr);
++	} else if (in_c->width > out_c->width) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_HC_ENABLE;
++		scale_hc = ((out_c->width - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(in_c->width - 1) + 1;
++		writel(scale_hc, scale_hcb_addr);
++		writel(scale_hc, scale_hcr_addr);
 +	}
 +
-+	params_buf->vaddr[0] = vb2_plane_vaddr(vb, 0);
-+	spin_lock_irqsave(&params_vdev->config_lock, flags);
-+	list_add_tail(&params_buf->queue, &params_vdev->params);
-+	spin_unlock_irqrestore(&params_vdev->config_lock, flags);
++	if (in_y->height < out_y->height) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_VY_ENABLE |
++				CIF_RSZ_CTRL_SCALE_VY_UP;
++		scale_vy = ((in_y->height - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(out_y->height - 1);
++		writel(scale_vy, scale_vy_addr);
++	} else if (in_y->height > out_y->height) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_VY_ENABLE;
++		scale_vy = ((out_y->height - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(in_y->height - 1) + 1;
++		writel(scale_vy, scale_vy_addr);
++	}
++
++	if (in_c->height < out_c->height) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_VC_ENABLE |
++				CIF_RSZ_CTRL_SCALE_VC_UP;
++		scale_vc = ((in_c->height - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(out_c->height - 1);
++		writel(scale_vc, scale_vc_addr);
++	} else if (in_c->height > out_c->height) {
++		rsz_ctrl |= CIF_RSZ_CTRL_SCALE_VC_ENABLE;
++		scale_vc = ((out_c->height - 1) * CIF_RSZ_SCALER_FACTOR) /
++				(in_c->height - 1) + 1;
++		writel(scale_vc, scale_vc_addr);
++	}
++
++	writel(rsz_ctrl, rsz_ctrl_addr);
 +}
 +
-+static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
++void config_rsz(struct rkisp1_stream *stream, struct v4l2_rect *in_y,
++		struct v4l2_rect *in_c, struct v4l2_rect *out_y,
++		struct v4l2_rect *out_c, bool async)
 +{
-+	if (vb2_plane_size(vb, 0) < sizeof(struct rkisp1_isp_params_cfg))
-+		return -EINVAL;
-+
-+	vb2_set_plane_payload(vb, 0, sizeof(struct rkisp1_isp_params_cfg));
-+
-+	return 0;
-+}
-+
-+static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
-+{
-+	struct rkisp1_isp_params_vdev *params_vdev = vq->drv_priv;
-+	struct rkisp1_buffer *buf;
-+	unsigned long flags;
++	void __iomem *base_addr = stream->ispdev->base_addr;
 +	unsigned int i;
 +
-+	/* stop params input firstly */
-+	spin_lock_irqsave(&params_vdev->config_lock, flags);
-+	params_vdev->streamon = false;
-+	spin_unlock_irqrestore(&params_vdev->config_lock, flags);
++	/* No phase offset */
++	writel(0, base_addr + stream->config->rsz.phase_hy);
++	writel(0, base_addr + stream->config->rsz.phase_hc);
++	writel(0, base_addr + stream->config->rsz.phase_vy);
++	writel(0, base_addr + stream->config->rsz.phase_vc);
 +
-+	for (i = 0; i < RKISP1_ISP_PARAMS_REQ_BUFS_MAX; i++) {
-+		spin_lock_irqsave(&params_vdev->config_lock, flags);
-+		if (!list_empty(&params_vdev->params)) {
-+			buf = list_first_entry(&params_vdev->params,
-+					       struct rkisp1_buffer, queue);
-+			list_del(&buf->queue);
-+			spin_unlock_irqrestore(&params_vdev->config_lock,
-+					       flags);
-+		} else {
-+			spin_unlock_irqrestore(&params_vdev->config_lock,
-+					       flags);
-+			break;
-+		}
-+
-+		if (buf)
-+			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+		buf = NULL;
++	/* Linear interpolation */
++	for (i = 0; i < 64; i++) {
++		writel(i, base_addr + stream->config->rsz.scale_lut_addr);
++		writel(i, base_addr + stream->config->rsz.scale_lut);
 +	}
++
++	set_scale(stream, in_y, in_c, out_y, out_c);
++
++	update_rsz_shadow(stream, async);
 +}
 +
-+static int
-+rkisp1_params_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
++void disable_rsz(struct rkisp1_stream *stream, bool async)
 +{
-+	struct rkisp1_isp_params_vdev *params_vdev = queue->drv_priv;
-+	unsigned long flags;
++	writel(0, stream->ispdev->base_addr + stream->config->rsz.ctrl);
 +
-+	spin_lock_irqsave(&params_vdev->config_lock, flags);
-+	params_vdev->streamon = true;
-+	spin_unlock_irqrestore(&params_vdev->config_lock, flags);
-+
-+	return 0;
++	if (!async)
++		update_rsz_shadow(stream, async);
 +}
 +
-+static struct vb2_ops rkisp1_params_vb2_ops = {
-+	.queue_setup = rkisp1_params_vb2_queue_setup,
-+	.wait_prepare = vb2_ops_wait_prepare,
-+	.wait_finish = vb2_ops_wait_finish,
-+	.buf_queue = rkisp1_params_vb2_buf_queue,
-+	.buf_prepare = rkisp1_params_vb2_buf_prepare,
-+	.start_streaming = rkisp1_params_vb2_start_streaming,
-+	.stop_streaming = rkisp1_params_vb2_stop_streaming,
-+
-+};
-+
-+struct v4l2_file_operations rkisp1_params_fops = {
-+	.mmap = vb2_fop_mmap,
-+	.unlocked_ioctl = video_ioctl2,
-+	.poll = vb2_fop_poll,
-+	.open = v4l2_fh_open,
-+	.release = vb2_fop_release
-+};
-+
-+static int
-+rkisp1_params_init_vb2_queue(struct vb2_queue *q,
-+			     struct rkisp1_isp_params_vdev *params_vdev)
++void config_mi_ctrl(struct rkisp1_stream *stream)
 +{
-+	struct rkisp1_vdev_node *node;
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *addr = base + CIF_MI_CTRL;
++	u32 reg;
 +
-+	node = queue_to_node(q);
-+
-+	q->type = V4L2_BUF_TYPE_META_OUTPUT;
-+	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-+	q->drv_priv = params_vdev;
-+	q->ops = &rkisp1_params_vb2_ops;
-+	q->mem_ops = &vb2_vmalloc_memops;
-+	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-+	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-+	q->lock = &node->vlock;
-+
-+	return vb2_queue_init(q);
++	reg = readl(addr) & ~GENMASK(17, 16);
++	writel(reg | CIF_MI_CTRL_BURST_LEN_LUM_64, addr);
++	reg = readl(addr) & ~GENMASK(19, 18);
++	writel(reg | CIF_MI_CTRL_BURST_LEN_CHROM_64, addr);
++	reg = readl(addr);
++	writel(reg | CIF_MI_CTRL_INIT_BASE_EN, addr);
++	reg = readl(addr);
++	writel(reg | CIF_MI_CTRL_INIT_OFFSET_EN, addr);
 +}
 +
-+static void rkisp1_init_params_vdev(struct rkisp1_isp_params_vdev *params_vdev)
++bool mp_is_stream_stopped(void __iomem *base)
 +{
-+	params_vdev->vdev_fmt.fmt.meta.dataformat =
-+		V4L2_META_FMT_RK_ISP1_PARAMS;
-+	params_vdev->vdev_fmt.fmt.meta.buffersize =
-+		sizeof(struct rkisp1_isp_params_cfg);
++	int en;
++
++	en = CIF_MI_CTRL_SHD_MP_IN_ENABLED | CIF_MI_CTRL_SHD_RAW_OUT_ENABLED;
++	return !(readl(base + CIF_MI_CTRL_SHD) & en);
 +}
 +
-+int rkisp1_register_params_vdev(struct rkisp1_isp_params_vdev *params_vdev,
-+				struct v4l2_device *v4l2_dev,
-+				struct rkisp1_device *dev)
++bool sp_is_stream_stopped(void __iomem *base)
 +{
-+	struct rkisp1_vdev_node *node = &params_vdev->vnode;
-+	struct video_device *vdev = &node->vdev;
-+	int ret;
-+
-+	params_vdev->dev = dev;
-+	mutex_init(&node->vlock);
-+	spin_lock_init(&params_vdev->config_lock);
-+
-+	strscpy(vdev->name, "rkisp1-input-params", sizeof(vdev->name));
-+
-+	video_set_drvdata(vdev, params_vdev);
-+	vdev->ioctl_ops = &rkisp1_params_ioctl;
-+	vdev->fops = &rkisp1_params_fops;
-+	vdev->release = video_device_release_empty;
-+	/*
-+	 * Provide a mutex to v4l2 core. It will be used
-+	 * to protect all fops and v4l2 ioctls.
-+	 */
-+	vdev->lock = &node->vlock;
-+	vdev->v4l2_dev = v4l2_dev;
-+	vdev->queue = &node->buf_queue;
-+	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_META_OUTPUT;
-+	vdev->vfl_dir = VFL_DIR_TX;
-+	rkisp1_params_init_vb2_queue(vdev->queue, params_vdev);
-+	rkisp1_init_params_vdev(params_vdev);
-+	video_set_drvdata(vdev, params_vdev);
-+
-+	node->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
-+	if (ret < 0)
-+		goto err_release_queue;
-+	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-+	if (ret < 0) {
-+		dev_err(&vdev->dev,
-+			"could not register Video for Linux device\n");
-+		goto err_cleanup_media_entity;
-+	}
-+	return 0;
-+err_cleanup_media_entity:
-+	media_entity_cleanup(&vdev->entity);
-+err_release_queue:
-+	vb2_queue_release(vdev->queue);
-+	return ret;
++	return !(readl(base + CIF_MI_CTRL_SHD) & CIF_MI_CTRL_SHD_SP_IN_ENABLED);
 +}
-+
-+void rkisp1_unregister_params_vdev(struct rkisp1_isp_params_vdev *params_vdev)
-+{
-+	struct rkisp1_vdev_node *node = &params_vdev->vnode;
-+	struct video_device *vdev = &node->vdev;
-+
-+	video_unregister_device(vdev);
-+	media_entity_cleanup(&vdev->entity);
-+	vb2_queue_release(vdev->queue);
-+}
-diff --git a/drivers/media/platform/rockchip/isp1/isp_params.h b/drivers/media/platform/rockchip/isp1/isp_params.h
+diff --git a/drivers/media/platform/rockchip/isp1/regs.h b/drivers/media/platform/rockchip/isp1/regs.h
 new file mode 100644
-index 000000000000..95e5a778125b
+index 000000000000..df93336bf772
 --- /dev/null
-+++ b/drivers/media/platform/rockchip/isp1/isp_params.h
-@@ -0,0 +1,50 @@
++++ b/drivers/media/platform/rockchip/isp1/regs.h
+@@ -0,0 +1,1525 @@
 +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
 +/*
 + * Rockchip isp1 driver
@@ -1712,49 +2276,1524 @@ index 000000000000..95e5a778125b
 + * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
 + */
 +
-+#ifndef _RKISP1_ISP_H
-+#define _RKISP1_ISP_H
++#ifndef _RKISP1_REGS_H
++#define _RKISP1_REGS_H
++#include "dev.h"
 +
-+#include <linux/rkisp1-config.h>
++/* ISP_CTRL */
++#define CIF_ISP_CTRL_ISP_ENABLE			BIT(0)
++#define CIF_ISP_CTRL_ISP_MODE_RAW_PICT		(0 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_ITU656		(1 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_ITU601		(2 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_BAYER_ITU601	(3 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_DATA_MODE		(4 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_BAYER_ITU656	(5 << 1)
++#define CIF_ISP_CTRL_ISP_MODE_RAW_PICT_ITU656	(6 << 1)
++#define CIF_ISP_CTRL_ISP_INFORM_ENABLE		BIT(4)
++#define CIF_ISP_CTRL_ISP_GAMMA_IN_ENA		BIT(6)
++#define CIF_ISP_CTRL_ISP_AWB_ENA		BIT(7)
++#define CIF_ISP_CTRL_ISP_CFG_UPD_PERMANENT	BIT(8)
++#define CIF_ISP_CTRL_ISP_CFG_UPD		BIT(9)
++#define CIF_ISP_CTRL_ISP_GEN_CFG_UPD		BIT(10)
++#define CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA		BIT(11)
++#define CIF_ISP_CTRL_ISP_FLASH_MODE_ENA		BIT(12)
++#define CIF_ISP_CTRL_ISP_CSM_Y_FULL_ENA		BIT(13)
++#define CIF_ISP_CTRL_ISP_CSM_C_FULL_ENA		BIT(14)
 +
-+#include "common.h"
++/* ISP_ACQ_PROP */
++#define CIF_ISP_ACQ_PROP_POS_EDGE		BIT(0)
++#define CIF_ISP_ACQ_PROP_HSYNC_LOW		BIT(1)
++#define CIF_ISP_ACQ_PROP_VSYNC_LOW		BIT(2)
++#define CIF_ISP_ACQ_PROP_BAYER_PAT_RGGB		(0 << 3)
++#define CIF_ISP_ACQ_PROP_BAYER_PAT_GRBG		(1 << 3)
++#define CIF_ISP_ACQ_PROP_BAYER_PAT_GBRG		(2 << 3)
++#define CIF_ISP_ACQ_PROP_BAYER_PAT_BGGR		(3 << 3)
++#define CIF_ISP_ACQ_PROP_BAYER_PAT(pat)		((pat) << 3)
++#define CIF_ISP_ACQ_PROP_YCBYCR			(0 << 7)
++#define CIF_ISP_ACQ_PROP_YCRYCB			(1 << 7)
++#define CIF_ISP_ACQ_PROP_CBYCRY			(2 << 7)
++#define CIF_ISP_ACQ_PROP_CRYCBY			(3 << 7)
++#define CIF_ISP_ACQ_PROP_FIELD_SEL_ALL		(0 << 9)
++#define CIF_ISP_ACQ_PROP_FIELD_SEL_EVEN		(1 << 9)
++#define CIF_ISP_ACQ_PROP_FIELD_SEL_ODD		(2 << 9)
++#define CIF_ISP_ACQ_PROP_IN_SEL_12B		(0 << 12)
++#define CIF_ISP_ACQ_PROP_IN_SEL_10B_ZERO	(1 << 12)
++#define CIF_ISP_ACQ_PROP_IN_SEL_10B_MSB		(2 << 12)
++#define CIF_ISP_ACQ_PROP_IN_SEL_8B_ZERO		(3 << 12)
++#define CIF_ISP_ACQ_PROP_IN_SEL_8B_MSB		(4 << 12)
++
++/* VI_DPCL */
++#define CIF_VI_DPCL_DMA_JPEG			(0 << 0)
++#define CIF_VI_DPCL_MP_MUX_MRSZ_MI		(1 << 0)
++#define CIF_VI_DPCL_MP_MUX_MRSZ_JPEG		(2 << 0)
++#define CIF_VI_DPCL_CHAN_MODE_MP		(1 << 2)
++#define CIF_VI_DPCL_CHAN_MODE_SP		(2 << 2)
++#define CIF_VI_DPCL_CHAN_MODE_MPSP		(3 << 2)
++#define CIF_VI_DPCL_DMA_SW_SPMUX		(0 << 4)
++#define CIF_VI_DPCL_DMA_SW_SI			(1 << 4)
++#define CIF_VI_DPCL_DMA_SW_IE			(2 << 4)
++#define CIF_VI_DPCL_DMA_SW_JPEG			(3 << 4)
++#define CIF_VI_DPCL_DMA_SW_ISP			(4 << 4)
++#define CIF_VI_DPCL_IF_SEL_PARALLEL		(0 << 8)
++#define CIF_VI_DPCL_IF_SEL_SMIA			(1 << 8)
++#define CIF_VI_DPCL_IF_SEL_MIPI			(2 << 8)
++#define CIF_VI_DPCL_DMA_IE_MUX_DMA		BIT(10)
++#define CIF_VI_DPCL_DMA_SP_MUX_DMA		BIT(11)
++
++/* ISP_IMSC - ISP_MIS - ISP_RIS - ISP_ICR - ISP_ISR */
++#define CIF_ISP_OFF				BIT(0)
++#define CIF_ISP_FRAME				BIT(1)
++#define CIF_ISP_DATA_LOSS			BIT(2)
++#define CIF_ISP_PIC_SIZE_ERROR			BIT(3)
++#define CIF_ISP_AWB_DONE			BIT(4)
++#define CIF_ISP_FRAME_IN			BIT(5)
++#define CIF_ISP_V_START				BIT(6)
++#define CIF_ISP_H_START				BIT(7)
++#define CIF_ISP_FLASH_ON			BIT(8)
++#define CIF_ISP_FLASH_OFF			BIT(9)
++#define CIF_ISP_SHUTTER_ON			BIT(10)
++#define CIF_ISP_SHUTTER_OFF			BIT(11)
++#define CIF_ISP_AFM_SUM_OF			BIT(12)
++#define CIF_ISP_AFM_LUM_OF			BIT(13)
++#define CIF_ISP_AFM_FIN				BIT(14)
++#define CIF_ISP_HIST_MEASURE_RDY		BIT(15)
++#define CIF_ISP_FLASH_CAP			BIT(17)
++#define CIF_ISP_EXP_END				BIT(18)
++#define CIF_ISP_VSM_END				BIT(19)
++
++/* ISP_ERR */
++#define CIF_ISP_ERR_INFORM_SIZE			BIT(0)
++#define CIF_ISP_ERR_IS_SIZE			BIT(1)
++#define CIF_ISP_ERR_OUTFORM_SIZE		BIT(2)
++
++/* MI_CTRL */
++#define CIF_MI_CTRL_MP_ENABLE			(1 << 0)
++#define CIF_MI_CTRL_SP_ENABLE			(2 << 0)
++#define CIF_MI_CTRL_JPEG_ENABLE			(4 << 0)
++#define CIF_MI_CTRL_RAW_ENABLE			(8 << 0)
++#define CIF_MI_CTRL_HFLIP			BIT(4)
++#define CIF_MI_CTRL_VFLIP			BIT(5)
++#define CIF_MI_CTRL_ROT				BIT(6)
++#define CIF_MI_BYTE_SWAP			BIT(7)
++#define CIF_MI_SP_Y_FULL_YUV2RGB		BIT(8)
++#define CIF_MI_SP_CBCR_FULL_YUV2RGB		BIT(9)
++#define CIF_MI_SP_422NONCOSITEED		BIT(10)
++#define CIF_MI_MP_PINGPONG_ENABEL		BIT(11)
++#define CIF_MI_SP_PINGPONG_ENABEL		BIT(12)
++#define CIF_MI_MP_AUTOUPDATE_ENABLE		BIT(13)
++#define CIF_MI_SP_AUTOUPDATE_ENABLE		BIT(14)
++#define CIF_MI_LAST_PIXEL_SIG_ENABLE		BIT(15)
++#define CIF_MI_CTRL_BURST_LEN_LUM_16		(0 << 16)
++#define CIF_MI_CTRL_BURST_LEN_LUM_32		(1 << 16)
++#define CIF_MI_CTRL_BURST_LEN_LUM_64		(2 << 16)
++#define CIF_MI_CTRL_BURST_LEN_CHROM_16		(0 << 18)
++#define CIF_MI_CTRL_BURST_LEN_CHROM_32		(1 << 18)
++#define CIF_MI_CTRL_BURST_LEN_CHROM_64		(2 << 18)
++#define CIF_MI_CTRL_INIT_BASE_EN		BIT(20)
++#define CIF_MI_CTRL_INIT_OFFSET_EN		BIT(21)
++#define MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8	(0 << 22)
++#define MI_CTRL_MP_WRITE_YUV_SPLA		(1 << 22)
++#define MI_CTRL_MP_WRITE_YUVINT			(2 << 22)
++#define MI_CTRL_MP_WRITE_RAW12			(2 << 22)
++#define MI_CTRL_SP_WRITE_PLA			(0 << 24)
++#define MI_CTRL_SP_WRITE_SPLA			(1 << 24)
++#define MI_CTRL_SP_WRITE_INT			(2 << 24)
++#define MI_CTRL_SP_INPUT_YUV400			(0 << 26)
++#define MI_CTRL_SP_INPUT_YUV420			(1 << 26)
++#define MI_CTRL_SP_INPUT_YUV422			(2 << 26)
++#define MI_CTRL_SP_INPUT_YUV444			(3 << 26)
++#define MI_CTRL_SP_OUTPUT_YUV400		(0 << 28)
++#define MI_CTRL_SP_OUTPUT_YUV420		(1 << 28)
++#define MI_CTRL_SP_OUTPUT_YUV422		(2 << 28)
++#define MI_CTRL_SP_OUTPUT_YUV444		(3 << 28)
++#define MI_CTRL_SP_OUTPUT_RGB565		(4 << 28)
++#define MI_CTRL_SP_OUTPUT_RGB666		(5 << 28)
++#define MI_CTRL_SP_OUTPUT_RGB888		(6 << 28)
++
++#define MI_CTRL_MP_FMT_MASK			GENMASK(23, 22)
++#define MI_CTRL_SP_FMT_MASK			GENMASK(30, 24)
++
++/* MI_INIT */
++#define CIF_MI_INIT_SKIP			BIT(2)
++#define CIF_MI_INIT_SOFT_UPD			BIT(4)
++
++/* MI_CTRL_SHD */
++#define CIF_MI_CTRL_SHD_MP_IN_ENABLED		BIT(0)
++#define CIF_MI_CTRL_SHD_SP_IN_ENABLED		BIT(1)
++#define CIF_MI_CTRL_SHD_JPEG_IN_ENABLED		BIT(2)
++#define CIF_MI_CTRL_SHD_RAW_IN_ENABLED		BIT(3)
++#define CIF_MI_CTRL_SHD_MP_OUT_ENABLED		BIT(16)
++#define CIF_MI_CTRL_SHD_SP_OUT_ENABLED		BIT(17)
++#define CIF_MI_CTRL_SHD_JPEG_OUT_ENABLED	BIT(18)
++#define CIF_MI_CTRL_SHD_RAW_OUT_ENABLED		BIT(19)
++
++/* RSZ_CTRL */
++#define CIF_RSZ_CTRL_SCALE_HY_ENABLE		BIT(0)
++#define CIF_RSZ_CTRL_SCALE_HC_ENABLE		BIT(1)
++#define CIF_RSZ_CTRL_SCALE_VY_ENABLE		BIT(2)
++#define CIF_RSZ_CTRL_SCALE_VC_ENABLE		BIT(3)
++#define CIF_RSZ_CTRL_SCALE_HY_UP		BIT(4)
++#define CIF_RSZ_CTRL_SCALE_HC_UP		BIT(5)
++#define CIF_RSZ_CTRL_SCALE_VY_UP		BIT(6)
++#define CIF_RSZ_CTRL_SCALE_VC_UP		BIT(7)
++#define CIF_RSZ_CTRL_CFG_UPD			BIT(8)
++#define CIF_RSZ_CTRL_CFG_UPD_AUTO		BIT(9)
++#define CIF_RSZ_SCALER_FACTOR			BIT(16)
++
++/* MI_IMSC - MI_MIS - MI_RIS - MI_ICR - MI_ISR */
++#define CIF_MI_FRAME(stream)			BIT((stream)->id)
++#define CIF_MI_MBLK_LINE			BIT(2)
++#define CIF_MI_FILL_MP_Y			BIT(3)
++#define CIF_MI_WRAP_MP_Y			BIT(4)
++#define CIF_MI_WRAP_MP_CB			BIT(5)
++#define CIF_MI_WRAP_MP_CR			BIT(6)
++#define CIF_MI_WRAP_SP_Y			BIT(7)
++#define CIF_MI_WRAP_SP_CB			BIT(8)
++#define CIF_MI_WRAP_SP_CR			BIT(9)
++#define CIF_MI_DMA_READY			BIT(11)
++
++/* MI_STATUS */
++#define CIF_MI_STATUS_MP_Y_FIFO_FULL		BIT(0)
++#define CIF_MI_STATUS_SP_Y_FIFO_FULL		BIT(4)
++
++/* MI_DMA_CTRL */
++#define CIF_MI_DMA_CTRL_BURST_LEN_LUM_16	(0 << 0)
++#define CIF_MI_DMA_CTRL_BURST_LEN_LUM_32	(1 << 0)
++#define CIF_MI_DMA_CTRL_BURST_LEN_LUM_64	(2 << 0)
++#define CIF_MI_DMA_CTRL_BURST_LEN_CHROM_16	(0 << 2)
++#define CIF_MI_DMA_CTRL_BURST_LEN_CHROM_32	(1 << 2)
++#define CIF_MI_DMA_CTRL_BURST_LEN_CHROM_64	(2 << 2)
++#define CIF_MI_DMA_CTRL_READ_FMT_PLANAR		(0 << 4)
++#define CIF_MI_DMA_CTRL_READ_FMT_SPLANAR	(1 << 4)
++#define CIF_MI_DMA_CTRL_FMT_YUV400		(0 << 6)
++#define CIF_MI_DMA_CTRL_FMT_YUV420		(1 << 6)
++#define CIF_MI_DMA_CTRL_READ_FMT_PACKED		(2 << 4)
++#define CIF_MI_DMA_CTRL_FMT_YUV422		(2 << 6)
++#define CIF_MI_DMA_CTRL_FMT_YUV444		(3 << 6)
++#define CIF_MI_DMA_CTRL_BYTE_SWAP		BIT(8)
++#define CIF_MI_DMA_CTRL_CONTINUOUS_ENA		BIT(9)
++#define CIF_MI_DMA_CTRL_RGB_BAYER_NO		(0 << 12)
++#define CIF_MI_DMA_CTRL_RGB_BAYER_8BIT		(1 << 12)
++#define CIF_MI_DMA_CTRL_RGB_BAYER_16BIT		(2 << 12)
++/* MI_DMA_START */
++#define CIF_MI_DMA_START_ENABLE			BIT(0)
++/* MI_XTD_FORMAT_CTRL  */
++#define CIF_MI_XTD_FMT_CTRL_MP_CB_CR_SWAP	BIT(0)
++#define CIF_MI_XTD_FMT_CTRL_SP_CB_CR_SWAP	BIT(1)
++#define CIF_MI_XTD_FMT_CTRL_DMA_CB_CR_SWAP	BIT(2)
++
++/* CCL */
++#define CIF_CCL_CIF_CLK_DIS			BIT(2)
++/* ICCL */
++#define CIF_ICCL_ISP_CLK			BIT(0)
++#define CIF_ICCL_CP_CLK				BIT(1)
++#define CIF_ICCL_RES_2				BIT(2)
++#define CIF_ICCL_MRSZ_CLK			BIT(3)
++#define CIF_ICCL_SRSZ_CLK			BIT(4)
++#define CIF_ICCL_JPEG_CLK			BIT(5)
++#define CIF_ICCL_MI_CLK				BIT(6)
++#define CIF_ICCL_RES_7				BIT(7)
++#define CIF_ICCL_IE_CLK				BIT(8)
++#define CIF_ICCL_SIMP_CLK			BIT(9)
++#define CIF_ICCL_SMIA_CLK			BIT(10)
++#define CIF_ICCL_MIPI_CLK			BIT(11)
++#define CIF_ICCL_DCROP_CLK			BIT(12)
++/* IRCL */
++#define CIF_IRCL_ISP_SW_RST			BIT(0)
++#define CIF_IRCL_CP_SW_RST			BIT(1)
++#define CIF_IRCL_YCS_SW_RST			BIT(2)
++#define CIF_IRCL_MRSZ_SW_RST			BIT(3)
++#define CIF_IRCL_SRSZ_SW_RST			BIT(4)
++#define CIF_IRCL_JPEG_SW_RST			BIT(5)
++#define CIF_IRCL_MI_SW_RST			BIT(6)
++#define CIF_IRCL_CIF_SW_RST			BIT(7)
++#define CIF_IRCL_IE_SW_RST			BIT(8)
++#define CIF_IRCL_SI_SW_RST			BIT(9)
++#define CIF_IRCL_MIPI_SW_RST			BIT(11)
++
++/* C_PROC_CTR */
++#define CIF_C_PROC_CTR_ENABLE			BIT(0)
++#define CIF_C_PROC_YOUT_FULL			BIT(1)
++#define CIF_C_PROC_YIN_FULL			BIT(2)
++#define CIF_C_PROC_COUT_FULL			BIT(3)
++#define CIF_C_PROC_CTRL_RESERVED		0xFFFFFFFE
++#define CIF_C_PROC_CONTRAST_RESERVED		0xFFFFFF00
++#define CIF_C_PROC_BRIGHTNESS_RESERVED		0xFFFFFF00
++#define CIF_C_PROC_HUE_RESERVED			0xFFFFFF00
++#define CIF_C_PROC_SATURATION_RESERVED		0xFFFFFF00
++#define CIF_C_PROC_MACC_RESERVED		0xE000E000
++#define CIF_C_PROC_TONE_RESERVED		0xF000
++/* DUAL_CROP_CTRL */
++#define CIF_DUAL_CROP_MP_MODE_BYPASS		(0 << 0)
++#define CIF_DUAL_CROP_MP_MODE_YUV		(1 << 0)
++#define CIF_DUAL_CROP_MP_MODE_RAW		(2 << 0)
++#define CIF_DUAL_CROP_SP_MODE_BYPASS		(0 << 2)
++#define CIF_DUAL_CROP_SP_MODE_YUV		(1 << 2)
++#define CIF_DUAL_CROP_SP_MODE_RAW		(2 << 2)
++#define CIF_DUAL_CROP_CFG_UPD_PERMANENT		BIT(4)
++#define CIF_DUAL_CROP_CFG_UPD			BIT(5)
++#define CIF_DUAL_CROP_GEN_CFG_UPD		BIT(6)
++
++/* IMG_EFF_CTRL */
++#define CIF_IMG_EFF_CTRL_ENABLE			BIT(0)
++#define CIF_IMG_EFF_CTRL_MODE_BLACKWHITE	(0 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_NEGATIVE		(1 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_SEPIA		(2 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_COLOR_SEL		(3 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_EMBOSS		(4 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_SKETCH		(5 << 1)
++#define CIF_IMG_EFF_CTRL_MODE_SHARPEN		(6 << 1)
++#define CIF_IMG_EFF_CTRL_CFG_UPD		BIT(4)
++#define CIF_IMG_EFF_CTRL_YCBCR_FULL		BIT(5)
++
++#define CIF_IMG_EFF_CTRL_MODE_BLACKWHITE_SHIFT	0
++#define CIF_IMG_EFF_CTRL_MODE_NEGATIVE_SHIFT	1
++#define CIF_IMG_EFF_CTRL_MODE_SEPIA_SHIFT	2
++#define CIF_IMG_EFF_CTRL_MODE_COLOR_SEL_SHIFT	3
++#define CIF_IMG_EFF_CTRL_MODE_EMBOSS_SHIFT	4
++#define CIF_IMG_EFF_CTRL_MODE_SKETCH_SHIFT	5
++#define CIF_IMG_EFF_CTRL_MODE_SHARPEN_SHIFT	6
++#define CIF_IMG_EFF_CTRL_MODE_MASK		0xE
++
++/* IMG_EFF_COLOR_SEL */
++#define CIF_IMG_EFF_COLOR_RGB			0
++#define CIF_IMG_EFF_COLOR_B			(1 << 0)
++#define CIF_IMG_EFF_COLOR_G			(2 << 0)
++#define CIF_IMG_EFF_COLOR_GB			(3 << 0)
++#define CIF_IMG_EFF_COLOR_R			(4 << 0)
++#define CIF_IMG_EFF_COLOR_RB			(5 << 0)
++#define CIF_IMG_EFF_COLOR_RG			(6 << 0)
++#define CIF_IMG_EFF_COLOR_RGB2			(7 << 0)
++
++/* MIPI_CTRL */
++#define CIF_MIPI_CTRL_OUTPUT_ENA		BIT(0)
++#define CIF_MIPI_CTRL_SHUTDOWNLANES(a)		(((a) & 0xF) << 8)
++#define CIF_MIPI_CTRL_NUM_LANES(a)		(((a) & 0x3) << 12)
++#define CIF_MIPI_CTRL_ERR_SOT_HS_SKIP		BIT(16)
++#define CIF_MIPI_CTRL_ERR_SOT_SYNC_HS_SKIP	BIT(17)
++#define CIF_MIPI_CTRL_CLOCKLANE_ENA		BIT(18)
++
++/* MIPI_DATA_SEL */
++#define CIF_MIPI_DATA_SEL_VC(a)			(((a) & 0x3) << 6)
++#define CIF_MIPI_DATA_SEL_DT(a)			(((a) & 0x3F) << 0)
++/* MIPI DATA_TYPE */
++#define CIF_CSI2_DT_YUV420_8b			0x18
++#define CIF_CSI2_DT_YUV420_10b			0x19
++#define CIF_CSI2_DT_YUV422_8b			0x1E
++#define CIF_CSI2_DT_YUV422_10b			0x1F
++#define CIF_CSI2_DT_RGB565			0x22
++#define CIF_CSI2_DT_RGB666			0x23
++#define CIF_CSI2_DT_RGB888			0x24
++#define CIF_CSI2_DT_RAW8			0x2A
++#define CIF_CSI2_DT_RAW10			0x2B
++#define CIF_CSI2_DT_RAW12			0x2C
++
++/* MIPI_IMSC, MIPI_RIS, MIPI_MIS, MIPI_ICR, MIPI_ISR */
++#define CIF_MIPI_SYNC_FIFO_OVFLW(a)		(((a) & 0xF) << 0)
++#define CIF_MIPI_ERR_SOT(a)			(((a) & 0xF) << 4)
++#define CIF_MIPI_ERR_SOT_SYNC(a)		(((a) & 0xF) << 8)
++#define CIF_MIPI_ERR_EOT_SYNC(a)		(((a) & 0xF) << 12)
++#define CIF_MIPI_ERR_CTRL(a)			(((a) & 0xF) << 16)
++#define CIF_MIPI_ERR_PROTOCOL			BIT(20)
++#define CIF_MIPI_ERR_ECC1			BIT(21)
++#define CIF_MIPI_ERR_ECC2			BIT(22)
++#define CIF_MIPI_ERR_CS				BIT(23)
++#define CIF_MIPI_FRAME_END			BIT(24)
++#define CIF_MIPI_ADD_DATA_OVFLW			BIT(25)
++#define CIF_MIPI_ADD_DATA_WATER_MARK		BIT(26)
++
++#define CIF_MIPI_ERR_CSI  (CIF_MIPI_ERR_PROTOCOL | \
++	CIF_MIPI_ERR_ECC1 | \
++	CIF_MIPI_ERR_ECC2 | \
++	CIF_MIPI_ERR_CS)
++
++#define CIF_MIPI_ERR_DPHY  (CIF_MIPI_ERR_SOT(3) | \
++	CIF_MIPI_ERR_SOT_SYNC(3) | \
++	CIF_MIPI_ERR_EOT_SYNC(3) | \
++	CIF_MIPI_ERR_CTRL(3))
++
++/* SUPER_IMPOSE */
++#define CIF_SUPER_IMP_CTRL_NORMAL_MODE		BIT(0)
++#define CIF_SUPER_IMP_CTRL_REF_IMG_MEM		BIT(1)
++#define CIF_SUPER_IMP_CTRL_TRANSP_DIS		BIT(2)
++
++/* ISP HISTOGRAM CALCULATION : ISP_HIST_PROP */
++#define CIF_ISP_HIST_PROP_MODE_DIS		(0 << 0)
++#define CIF_ISP_HIST_PROP_MODE_RGB		(1 << 0)
++#define CIF_ISP_HIST_PROP_MODE_RED		(2 << 0)
++#define CIF_ISP_HIST_PROP_MODE_GREEN		(3 << 0)
++#define CIF_ISP_HIST_PROP_MODE_BLUE		(4 << 0)
++#define CIF_ISP_HIST_PROP_MODE_LUM		(5 << 0)
++#define CIF_ISP_HIST_PROP_MODE_MASK		0x7
++#define CIF_ISP_HIST_PREDIV_SET(x)		(((x) & 0x7F) << 3)
++#define CIF_ISP_HIST_WEIGHT_SET(v0, v1, v2, v3)	\
++				     (((v0) & 0x1F) | (((v1) & 0x1F) << 8)  |\
++				     (((v2) & 0x1F) << 16) | \
++				     (((v3) & 0x1F) << 24))
++
++#define CIF_ISP_HIST_WINDOW_OFFSET_RESERVED	0xFFFFF000
++#define CIF_ISP_HIST_WINDOW_SIZE_RESERVED	0xFFFFF800
++#define CIF_ISP_HIST_WEIGHT_RESERVED		0xE0E0E0E0
++#define CIF_ISP_MAX_HIST_PREDIVIDER		0x0000007F
++#define CIF_ISP_HIST_ROW_NUM			5
++#define CIF_ISP_HIST_COLUMN_NUM			5
++
++/* AUTO FOCUS MEASUREMENT:  ISP_AFM_CTRL */
++#define ISP_AFM_CTRL_ENABLE			BIT(0)
++
++/* SHUTTER CONTROL */
++#define CIF_ISP_SH_CTRL_SH_ENA			BIT(0)
++#define CIF_ISP_SH_CTRL_REP_EN			BIT(1)
++#define CIF_ISP_SH_CTRL_SRC_SH_TRIG		BIT(2)
++#define CIF_ISP_SH_CTRL_EDGE_POS		BIT(3)
++#define CIF_ISP_SH_CTRL_POL_LOW			BIT(4)
++
++/* FLASH MODULE */
++/* ISP_FLASH_CMD */
++#define CIF_FLASH_CMD_PRELIGHT_ON		BIT(0)
++#define CIF_FLASH_CMD_FLASH_ON			BIT(1)
++#define CIF_FLASH_CMD_PRE_FLASH_ON		BIT(2)
++/* ISP_FLASH_CONFIG */
++#define CIF_FLASH_CONFIG_PRELIGHT_END		BIT(0)
++#define CIF_FLASH_CONFIG_VSYNC_POS		BIT(1)
++#define CIF_FLASH_CONFIG_PRELIGHT_LOW		BIT(2)
++#define CIF_FLASH_CONFIG_SRC_FL_TRIG		BIT(3)
++#define CIF_FLASH_CONFIG_DELAY(a)		(((a) & 0xF) << 4)
++
++/* Demosaic:  ISP_DEMOSAIC */
++#define CIF_ISP_DEMOSAIC_BYPASS			BIT(10)
++#define CIF_ISP_DEMOSAIC_TH(x)			((x) & 0xFF)
++
++/* AWB */
++/* ISP_AWB_PROP */
++#define CIF_ISP_AWB_YMAX_CMP_EN			BIT(2)
++#define CIFISP_AWB_YMAX_READ(x)			(((x) >> 2) & 1)
++#define CIF_ISP_AWB_MODE_RGB_EN			((1 << 31) | (0x2 << 0))
++#define CIF_ISP_AWB_MODE_YCBCR_EN		((0 << 31) | (0x2 << 0))
++#define CIF_ISP_AWB_MODE_YCBCR_EN		((0 << 31) | (0x2 << 0))
++#define CIF_ISP_AWB_MODE_MASK_NONE		0xFFFFFFFC
++#define CIF_ISP_AWB_MODE_READ(x)		((x) & 3)
++/* ISP_AWB_GAIN_RB, ISP_AWB_GAIN_G  */
++#define CIF_ISP_AWB_GAIN_R_SET(x)		(((x) & 0x3FF) << 16)
++#define CIF_ISP_AWB_GAIN_R_READ(x)		(((x) >> 16) & 0x3FF)
++#define CIF_ISP_AWB_GAIN_B_SET(x)		((x) & 0x3FFF)
++#define CIF_ISP_AWB_GAIN_B_READ(x)		((x) & 0x3FFF)
++/* ISP_AWB_REF */
++#define CIF_ISP_AWB_REF_CR_SET(x)		(((x) & 0xFF) << 8)
++#define CIF_ISP_AWB_REF_CR_READ(x)		(((x) >> 8) & 0xFF)
++#define CIF_ISP_AWB_REF_CB_READ(x)		((x) & 0xFF)
++/* ISP_AWB_THRESH */
++#define CIF_ISP_AWB_MAX_CS_SET(x)		(((x) & 0xFF) << 8)
++#define CIF_ISP_AWB_MAX_CS_READ(x)		(((x) >> 8) & 0xFF)
++#define CIF_ISP_AWB_MIN_C_READ(x)		((x) & 0xFF)
++#define CIF_ISP_AWB_MIN_Y_SET(x)		(((x) & 0xFF) << 16)
++#define CIF_ISP_AWB_MIN_Y_READ(x)		(((x) >> 16) & 0xFF)
++#define CIF_ISP_AWB_MAX_Y_SET(x)		(((x) & 0xFF) << 24)
++#define CIF_ISP_AWB_MAX_Y_READ(x)		(((x) >> 24) & 0xFF)
++/* ISP_AWB_MEAN */
++#define CIF_ISP_AWB_GET_MEAN_CR_R(x)		((x) & 0xFF)
++#define CIF_ISP_AWB_GET_MEAN_CB_B(x)		(((x) >> 8) & 0xFF)
++#define CIF_ISP_AWB_GET_MEAN_Y_G(x)		(((x) >> 16) & 0xFF)
++/* ISP_AWB_WHITE_CNT */
++#define CIF_ISP_AWB_GET_PIXEL_CNT(x)		((x) & 0x3FFFFFF)
++
++#define CIF_ISP_AWB_GAINS_MAX_VAL		0x000003FF
++#define CIF_ISP_AWB_WINDOW_OFFSET_MAX		0x00000FFF
++#define CIF_ISP_AWB_WINDOW_MAX_SIZE		0x00001FFF
++#define CIF_ISP_AWB_CBCR_MAX_REF		0x000000FF
++#define CIF_ISP_AWB_THRES_MAX_YC		0x000000FF
++
++/* AE */
++/* ISP_EXP_CTRL */
++#define CIF_ISP_EXP_ENA				BIT(0)
++#define CIF_ISP_EXP_CTRL_AUTOSTOP		BIT(1)
++/*
++ *'1' luminance calculation according to  Y=(R+G+B) x 0.332 (85/256)
++ *'0' luminance calculation according to Y=16+0.25R+0.5G+0.1094B
++ */
++#define CIF_ISP_EXP_CTRL_MEASMODE_1		BIT(31)
++
++/* ISP_EXP_H_SIZE */
++#define CIF_ISP_EXP_H_SIZE_SET(x)		((x) & 0x7FF)
++#define CIF_ISP_EXP_HEIGHT_MASK			0x000007FF
++/* ISP_EXP_V_SIZE : vertical size must be a multiple of 2). */
++#define CIF_ISP_EXP_V_SIZE_SET(x)		((x) & 0x7FE)
++
++/* ISP_EXP_H_OFFSET */
++#define CIF_ISP_EXP_H_OFFSET_SET(x)		((x) & 0x1FFF)
++#define CIF_ISP_EXP_MAX_HOFFS			2424
++/* ISP_EXP_V_OFFSET */
++#define CIF_ISP_EXP_V_OFFSET_SET(x)		((x) & 0x1FFF)
++#define CIF_ISP_EXP_MAX_VOFFS			1806
++
++#define CIF_ISP_EXP_ROW_NUM			5
++#define CIF_ISP_EXP_COLUMN_NUM			5
++#define CIF_ISP_EXP_NUM_LUMA_REGS \
++	(CIF_ISP_EXP_ROW_NUM * CIF_ISP_EXP_COLUMN_NUM)
++#define CIF_ISP_EXP_BLOCK_MAX_HSIZE		516
++#define CIF_ISP_EXP_BLOCK_MIN_HSIZE		35
++#define CIF_ISP_EXP_BLOCK_MAX_VSIZE		390
++#define CIF_ISP_EXP_BLOCK_MIN_VSIZE		28
++#define CIF_ISP_EXP_MAX_HSIZE	\
++	(CIF_ISP_EXP_BLOCK_MAX_HSIZE * CIF_ISP_EXP_COLUMN_NUM + 1)
++#define CIF_ISP_EXP_MIN_HSIZE	\
++	(CIF_ISP_EXP_BLOCK_MIN_HSIZE * CIF_ISP_EXP_COLUMN_NUM + 1)
++#define CIF_ISP_EXP_MAX_VSIZE	\
++	(CIF_ISP_EXP_BLOCK_MAX_VSIZE * CIF_ISP_EXP_ROW_NUM + 1)
++#define CIF_ISP_EXP_MIN_VSIZE	\
++	(CIF_ISP_EXP_BLOCK_MIN_VSIZE * CIF_ISP_EXP_ROW_NUM + 1)
++
++/* LSC: ISP_LSC_CTRL */
++#define CIF_ISP_LSC_CTRL_ENA			BIT(0)
++#define CIF_ISP_LSC_SECT_SIZE_RESERVED		0xFC00FC00
++#define CIF_ISP_LSC_GRAD_RESERVED		0xF000F000
++#define CIF_ISP_LSC_SAMPLE_RESERVED		0xF000F000
++#define CIF_ISP_LSC_SECTORS_MAX			17
++#define CIF_ISP_LSC_TABLE_DATA(v0, v1)     \
++	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 12))
++#define CIF_ISP_LSC_SECT_SIZE(v0, v1)      \
++	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 16))
++#define CIF_ISP_LSC_GRAD_SIZE(v0, v1)      \
++	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 16))
++
++/* LSC: ISP_LSC_TABLE_SEL */
++#define CIF_ISP_LSC_TABLE_0			0
++#define CIF_ISP_LSC_TABLE_1			1
++
++/* LSC: ISP_LSC_STATUS */
++#define CIF_ISP_LSC_ACTIVE_TABLE		BIT(1)
++#define CIF_ISP_LSC_TABLE_ADDRESS_0		0
++#define CIF_ISP_LSC_TABLE_ADDRESS_153		153
++
++/* FLT */
++/* ISP_FILT_MODE */
++#define CIF_ISP_FLT_ENA				BIT(0)
 +
 +/*
-+ * struct rkisp1_isp_subdev - ISP input parameters device
-+ *
-+ * @cur_params: Current ISP parameters
-+ * @first_params: the first params should take effect immediately
++ * 0: green filter static mode (active filter factor = FILT_FAC_MID)
++ * 1: dynamic noise reduction/sharpen Default
 + */
-+struct rkisp1_isp_params_vdev {
-+	struct rkisp1_vdev_node vnode;
-+	struct rkisp1_device *dev;
++#define CIF_ISP_FLT_MODE_DNR			BIT(1)
++#define CIF_ISP_FLT_MODE_MAX			1
++#define CIF_ISP_FLT_CHROMA_V_MODE(x)		(((x) & 0x3) << 4)
++#define CIF_ISP_FLT_CHROMA_H_MODE(x)		(((x) & 0x3) << 6)
++#define CIF_ISP_FLT_CHROMA_MODE_MAX		3
++#define CIF_ISP_FLT_GREEN_STAGE1(x)		(((x) & 0xF) << 8)
++#define CIF_ISP_FLT_GREEN_STAGE1_MAX		8
++#define CIF_ISP_FLT_THREAD_RESERVED		0xFFFFFC00
++#define CIF_ISP_FLT_FAC_RESERVED		0xFFFFFFC0
++#define CIF_ISP_FLT_LUM_WEIGHT_RESERVED		0xFFF80000
 +
-+	spinlock_t config_lock;
-+	struct list_head params;
-+	struct rkisp1_isp_params_cfg cur_params;
-+	struct v4l2_format vdev_fmt;
-+	bool streamon;
-+	bool first_params;
++#define CIF_ISP_CTK_COEFF_RESERVED		0xFFFFF800
++#define CIF_ISP_XTALK_OFFSET_RESERVED		0xFFFFF000
 +
-+	enum v4l2_quantization quantization;
-+	enum rkisp1_fmt_raw_pat_type raw_type;
-+};
++/* GOC */
++#define CIF_ISP_GAMMA_OUT_MODE_EQU		BIT(0)
++#define CIF_ISP_GOC_MODE_MAX			1
++#define CIF_ISP_GOC_RESERVED			0xFFFFF800
++/* ISP_CTRL BIT 11*/
++#define CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA_READ(x)	(((x) >> 11) & 1)
 +
-+/* config params before ISP streaming */
-+void rkisp1_params_configure_isp(struct rkisp1_isp_params_vdev *params_vdev,
-+				 struct ispsd_in_fmt *in_fmt,
-+				 enum v4l2_quantization quantization);
-+void rkisp1_params_disable_isp(struct rkisp1_isp_params_vdev *params_vdev);
++/* DPCC */
++/* ISP_DPCC_MODE */
++#define CIF_ISP_DPCC_ENA			BIT(0)
++#define CIF_ISP_DPCC_MODE_MAX			0x07
++#define CIF_ISP_DPCC_OUTPUTMODE_MAX		0x0F
++#define CIF_ISP_DPCC_SETUSE_MAX			0x0F
++#define CIF_ISP_DPCC_METHODS_SET_RESERVED	0xFFFFE000
++#define CIF_ISP_DPCC_LINE_THRESH_RESERVED	0xFFFF0000
++#define CIF_ISP_DPCC_LINE_MAD_FAC_RESERVED	0xFFFFC0C0
++#define CIF_ISP_DPCC_PG_FAC_RESERVED		0xFFFFC0C0
++#define CIF_ISP_DPCC_RND_THRESH_RESERVED	0xFFFF0000
++#define CIF_ISP_DPCC_RG_FAC_RESERVED		0xFFFFC0C0
++#define CIF_ISP_DPCC_RO_LIMIT_RESERVED		0xFFFFF000
++#define CIF_ISP_DPCC_RND_OFFS_RESERVED		0xFFFFF000
 +
-+int rkisp1_register_params_vdev(struct rkisp1_isp_params_vdev *params_vdev,
-+				struct v4l2_device *v4l2_dev,
-+				struct rkisp1_device *dev);
++/* BLS */
++/* ISP_BLS_CTRL */
++#define CIF_ISP_BLS_ENA				BIT(0)
++#define CIF_ISP_BLS_MODE_MEASURED		BIT(1)
++#define CIF_ISP_BLS_MODE_FIXED			0
++#define CIF_ISP_BLS_WINDOW_1			(1 << 2)
++#define CIF_ISP_BLS_WINDOW_2			(2 << 2)
 +
-+void rkisp1_unregister_params_vdev(struct rkisp1_isp_params_vdev *params_vdev);
++/* GAMMA-IN */
++#define CIFISP_DEGAMMA_X_RESERVED	\
++	((1 << 31) | (1 << 27) | (1 << 23) | (1 << 19) |\
++	(1 << 15) | (1 << 11) | (1 << 7) | (1 << 3))
++#define CIFISP_DEGAMMA_Y_RESERVED               0xFFFFF000
 +
-+void rkisp1_params_isr(struct rkisp1_isp_params_vdev *params_vdev, u32 isp_mis);
++/* AFM */
++#define CIF_ISP_AFM_ENA				BIT(0)
++#define CIF_ISP_AFM_THRES_RESERVED		0xFFFF0000
++#define CIF_ISP_AFM_VAR_SHIFT_RESERVED		0xFFF8FFF8
++#define CIF_ISP_AFM_WINDOW_X_RESERVED		0xE000
++#define CIF_ISP_AFM_WINDOW_Y_RESERVED		0xF000
++#define CIF_ISP_AFM_WINDOW_X_MIN		0x5
++#define CIF_ISP_AFM_WINDOW_Y_MIN		0x2
++#define CIF_ISP_AFM_WINDOW_X(x)			(((x) & 0x1FFF) << 16)
++#define CIF_ISP_AFM_WINDOW_Y(x)			((x) & 0x1FFF)
 +
-+#endif /* _RKISP1_ISP_H */
++/* DPF */
++#define CIF_ISP_DPF_MODE_EN			BIT(0)
++#define CIF_ISP_DPF_MODE_B_FLT_DIS		BIT(1)
++#define CIF_ISP_DPF_MODE_GB_FLT_DIS		BIT(2)
++#define CIF_ISP_DPF_MODE_GR_FLT_DIS		BIT(3)
++#define CIF_ISP_DPF_MODE_R_FLT_DIS		BIT(4)
++#define CIF_ISP_DPF_MODE_RB_FLTSIZE_9x9		BIT(5)
++#define CIF_ISP_DPF_MODE_NLL_SEGMENTATION	BIT(6)
++#define CIF_ISP_DPF_MODE_AWB_GAIN_COMP		BIT(7)
++#define CIF_ISP_DPF_MODE_LSC_GAIN_COMP		BIT(8)
++#define CIF_ISP_DPF_MODE_USE_NF_GAIN		BIT(9)
++#define CIF_ISP_DPF_NF_GAIN_RESERVED		0xFFFFF000
++#define CIF_ISP_DPF_SPATIAL_COEFF_MAX		0x1F
++#define CIF_ISP_DPF_NLL_COEFF_N_MAX		0x3FF
++
++/* =================================================================== */
++/*                            CIF Registers                            */
++/* =================================================================== */
++#define CIF_CTRL_BASE			0x00000000
++#define CIF_CCL				(CIF_CTRL_BASE + 0x00000000)
++#define CIF_VI_ID			(CIF_CTRL_BASE + 0x00000008)
++#define CIF_ICCL			(CIF_CTRL_BASE + 0x00000010)
++#define CIF_IRCL			(CIF_CTRL_BASE + 0x00000014)
++#define CIF_VI_DPCL			(CIF_CTRL_BASE + 0x00000018)
++
++#define CIF_IMG_EFF_BASE		0x00000200
++#define CIF_IMG_EFF_CTRL		(CIF_IMG_EFF_BASE + 0x00000000)
++#define CIF_IMG_EFF_COLOR_SEL		(CIF_IMG_EFF_BASE + 0x00000004)
++#define CIF_IMG_EFF_MAT_1		(CIF_IMG_EFF_BASE + 0x00000008)
++#define CIF_IMG_EFF_MAT_2		(CIF_IMG_EFF_BASE + 0x0000000C)
++#define CIF_IMG_EFF_MAT_3		(CIF_IMG_EFF_BASE + 0x00000010)
++#define CIF_IMG_EFF_MAT_4		(CIF_IMG_EFF_BASE + 0x00000014)
++#define CIF_IMG_EFF_MAT_5		(CIF_IMG_EFF_BASE + 0x00000018)
++#define CIF_IMG_EFF_TINT		(CIF_IMG_EFF_BASE + 0x0000001C)
++#define CIF_IMG_EFF_CTRL_SHD		(CIF_IMG_EFF_BASE + 0x00000020)
++#define CIF_IMG_EFF_SHARPEN		(CIF_IMG_EFF_BASE + 0x00000024)
++
++#define CIF_SUPER_IMP_BASE		0x00000300
++#define CIF_SUPER_IMP_CTRL		(CIF_SUPER_IMP_BASE + 0x00000000)
++#define CIF_SUPER_IMP_OFFSET_X		(CIF_SUPER_IMP_BASE + 0x00000004)
++#define CIF_SUPER_IMP_OFFSET_Y		(CIF_SUPER_IMP_BASE + 0x00000008)
++#define CIF_SUPER_IMP_COLOR_Y		(CIF_SUPER_IMP_BASE + 0x0000000C)
++#define CIF_SUPER_IMP_COLOR_CB		(CIF_SUPER_IMP_BASE + 0x00000010)
++#define CIF_SUPER_IMP_COLOR_CR		(CIF_SUPER_IMP_BASE + 0x00000014)
++
++#define CIF_ISP_BASE			0x00000400
++#define CIF_ISP_CTRL			(CIF_ISP_BASE + 0x00000000)
++#define CIF_ISP_ACQ_PROP		(CIF_ISP_BASE + 0x00000004)
++#define CIF_ISP_ACQ_H_OFFS		(CIF_ISP_BASE + 0x00000008)
++#define CIF_ISP_ACQ_V_OFFS		(CIF_ISP_BASE + 0x0000000C)
++#define CIF_ISP_ACQ_H_SIZE		(CIF_ISP_BASE + 0x00000010)
++#define CIF_ISP_ACQ_V_SIZE		(CIF_ISP_BASE + 0x00000014)
++#define CIF_ISP_ACQ_NR_FRAMES		(CIF_ISP_BASE + 0x00000018)
++#define CIF_ISP_GAMMA_DX_LO		(CIF_ISP_BASE + 0x0000001C)
++#define CIF_ISP_GAMMA_DX_HI		(CIF_ISP_BASE + 0x00000020)
++#define CIF_ISP_GAMMA_R_Y0		(CIF_ISP_BASE + 0x00000024)
++#define CIF_ISP_GAMMA_R_Y1		(CIF_ISP_BASE + 0x00000028)
++#define CIF_ISP_GAMMA_R_Y2		(CIF_ISP_BASE + 0x0000002C)
++#define CIF_ISP_GAMMA_R_Y3		(CIF_ISP_BASE + 0x00000030)
++#define CIF_ISP_GAMMA_R_Y4		(CIF_ISP_BASE + 0x00000034)
++#define CIF_ISP_GAMMA_R_Y5		(CIF_ISP_BASE + 0x00000038)
++#define CIF_ISP_GAMMA_R_Y6		(CIF_ISP_BASE + 0x0000003C)
++#define CIF_ISP_GAMMA_R_Y7		(CIF_ISP_BASE + 0x00000040)
++#define CIF_ISP_GAMMA_R_Y8		(CIF_ISP_BASE + 0x00000044)
++#define CIF_ISP_GAMMA_R_Y9		(CIF_ISP_BASE + 0x00000048)
++#define CIF_ISP_GAMMA_R_Y10		(CIF_ISP_BASE + 0x0000004C)
++#define CIF_ISP_GAMMA_R_Y11		(CIF_ISP_BASE + 0x00000050)
++#define CIF_ISP_GAMMA_R_Y12		(CIF_ISP_BASE + 0x00000054)
++#define CIF_ISP_GAMMA_R_Y13		(CIF_ISP_BASE + 0x00000058)
++#define CIF_ISP_GAMMA_R_Y14		(CIF_ISP_BASE + 0x0000005C)
++#define CIF_ISP_GAMMA_R_Y15		(CIF_ISP_BASE + 0x00000060)
++#define CIF_ISP_GAMMA_R_Y16		(CIF_ISP_BASE + 0x00000064)
++#define CIF_ISP_GAMMA_G_Y0		(CIF_ISP_BASE + 0x00000068)
++#define CIF_ISP_GAMMA_G_Y1		(CIF_ISP_BASE + 0x0000006C)
++#define CIF_ISP_GAMMA_G_Y2		(CIF_ISP_BASE + 0x00000070)
++#define CIF_ISP_GAMMA_G_Y3		(CIF_ISP_BASE + 0x00000074)
++#define CIF_ISP_GAMMA_G_Y4		(CIF_ISP_BASE + 0x00000078)
++#define CIF_ISP_GAMMA_G_Y5		(CIF_ISP_BASE + 0x0000007C)
++#define CIF_ISP_GAMMA_G_Y6		(CIF_ISP_BASE + 0x00000080)
++#define CIF_ISP_GAMMA_G_Y7		(CIF_ISP_BASE + 0x00000084)
++#define CIF_ISP_GAMMA_G_Y8		(CIF_ISP_BASE + 0x00000088)
++#define CIF_ISP_GAMMA_G_Y9		(CIF_ISP_BASE + 0x0000008C)
++#define CIF_ISP_GAMMA_G_Y10		(CIF_ISP_BASE + 0x00000090)
++#define CIF_ISP_GAMMA_G_Y11		(CIF_ISP_BASE + 0x00000094)
++#define CIF_ISP_GAMMA_G_Y12		(CIF_ISP_BASE + 0x00000098)
++#define CIF_ISP_GAMMA_G_Y13		(CIF_ISP_BASE + 0x0000009C)
++#define CIF_ISP_GAMMA_G_Y14		(CIF_ISP_BASE + 0x000000A0)
++#define CIF_ISP_GAMMA_G_Y15		(CIF_ISP_BASE + 0x000000A4)
++#define CIF_ISP_GAMMA_G_Y16		(CIF_ISP_BASE + 0x000000A8)
++#define CIF_ISP_GAMMA_B_Y0		(CIF_ISP_BASE + 0x000000AC)
++#define CIF_ISP_GAMMA_B_Y1		(CIF_ISP_BASE + 0x000000B0)
++#define CIF_ISP_GAMMA_B_Y2		(CIF_ISP_BASE + 0x000000B4)
++#define CIF_ISP_GAMMA_B_Y3		(CIF_ISP_BASE + 0x000000B8)
++#define CIF_ISP_GAMMA_B_Y4		(CIF_ISP_BASE + 0x000000BC)
++#define CIF_ISP_GAMMA_B_Y5		(CIF_ISP_BASE + 0x000000C0)
++#define CIF_ISP_GAMMA_B_Y6		(CIF_ISP_BASE + 0x000000C4)
++#define CIF_ISP_GAMMA_B_Y7		(CIF_ISP_BASE + 0x000000C8)
++#define CIF_ISP_GAMMA_B_Y8		(CIF_ISP_BASE + 0x000000CC)
++#define CIF_ISP_GAMMA_B_Y9		(CIF_ISP_BASE + 0x000000D0)
++#define CIF_ISP_GAMMA_B_Y10		(CIF_ISP_BASE + 0x000000D4)
++#define CIF_ISP_GAMMA_B_Y11		(CIF_ISP_BASE + 0x000000D8)
++#define CIF_ISP_GAMMA_B_Y12		(CIF_ISP_BASE + 0x000000DC)
++#define CIF_ISP_GAMMA_B_Y13		(CIF_ISP_BASE + 0x000000E0)
++#define CIF_ISP_GAMMA_B_Y14		(CIF_ISP_BASE + 0x000000E4)
++#define CIF_ISP_GAMMA_B_Y15		(CIF_ISP_BASE + 0x000000E8)
++#define CIF_ISP_GAMMA_B_Y16		(CIF_ISP_BASE + 0x000000EC)
++#define CIF_ISP_AWB_PROP		(CIF_ISP_BASE + 0x00000110)
++#define CIF_ISP_AWB_WND_H_OFFS		(CIF_ISP_BASE + 0x00000114)
++#define CIF_ISP_AWB_WND_V_OFFS		(CIF_ISP_BASE + 0x00000118)
++#define CIF_ISP_AWB_WND_H_SIZE		(CIF_ISP_BASE + 0x0000011C)
++#define CIF_ISP_AWB_WND_V_SIZE		(CIF_ISP_BASE + 0x00000120)
++#define CIF_ISP_AWB_FRAMES		(CIF_ISP_BASE + 0x00000124)
++#define CIF_ISP_AWB_REF			(CIF_ISP_BASE + 0x00000128)
++#define CIF_ISP_AWB_THRESH		(CIF_ISP_BASE + 0x0000012C)
++#define CIF_ISP_AWB_GAIN_G		(CIF_ISP_BASE + 0x00000138)
++#define CIF_ISP_AWB_GAIN_RB		(CIF_ISP_BASE + 0x0000013C)
++#define CIF_ISP_AWB_WHITE_CNT		(CIF_ISP_BASE + 0x00000140)
++#define CIF_ISP_AWB_MEAN		(CIF_ISP_BASE + 0x00000144)
++#define CIF_ISP_CC_COEFF_0		(CIF_ISP_BASE + 0x00000170)
++#define CIF_ISP_CC_COEFF_1		(CIF_ISP_BASE + 0x00000174)
++#define CIF_ISP_CC_COEFF_2		(CIF_ISP_BASE + 0x00000178)
++#define CIF_ISP_CC_COEFF_3		(CIF_ISP_BASE + 0x0000017C)
++#define CIF_ISP_CC_COEFF_4		(CIF_ISP_BASE + 0x00000180)
++#define CIF_ISP_CC_COEFF_5		(CIF_ISP_BASE + 0x00000184)
++#define CIF_ISP_CC_COEFF_6		(CIF_ISP_BASE + 0x00000188)
++#define CIF_ISP_CC_COEFF_7		(CIF_ISP_BASE + 0x0000018C)
++#define CIF_ISP_CC_COEFF_8		(CIF_ISP_BASE + 0x00000190)
++#define CIF_ISP_OUT_H_OFFS		(CIF_ISP_BASE + 0x00000194)
++#define CIF_ISP_OUT_V_OFFS		(CIF_ISP_BASE + 0x00000198)
++#define CIF_ISP_OUT_H_SIZE		(CIF_ISP_BASE + 0x0000019C)
++#define CIF_ISP_OUT_V_SIZE		(CIF_ISP_BASE + 0x000001A0)
++#define CIF_ISP_DEMOSAIC		(CIF_ISP_BASE + 0x000001A4)
++#define CIF_ISP_FLAGS_SHD		(CIF_ISP_BASE + 0x000001A8)
++#define CIF_ISP_OUT_H_OFFS_SHD		(CIF_ISP_BASE + 0x000001AC)
++#define CIF_ISP_OUT_V_OFFS_SHD		(CIF_ISP_BASE + 0x000001B0)
++#define CIF_ISP_OUT_H_SIZE_SHD		(CIF_ISP_BASE + 0x000001B4)
++#define CIF_ISP_OUT_V_SIZE_SHD		(CIF_ISP_BASE + 0x000001B8)
++#define CIF_ISP_IMSC			(CIF_ISP_BASE + 0x000001BC)
++#define CIF_ISP_RIS			(CIF_ISP_BASE + 0x000001C0)
++#define CIF_ISP_MIS			(CIF_ISP_BASE + 0x000001C4)
++#define CIF_ISP_ICR			(CIF_ISP_BASE + 0x000001C8)
++#define CIF_ISP_ISR			(CIF_ISP_BASE + 0x000001CC)
++#define CIF_ISP_CT_COEFF_0		(CIF_ISP_BASE + 0x000001D0)
++#define CIF_ISP_CT_COEFF_1		(CIF_ISP_BASE + 0x000001D4)
++#define CIF_ISP_CT_COEFF_2		(CIF_ISP_BASE + 0x000001D8)
++#define CIF_ISP_CT_COEFF_3		(CIF_ISP_BASE + 0x000001DC)
++#define CIF_ISP_CT_COEFF_4		(CIF_ISP_BASE + 0x000001E0)
++#define CIF_ISP_CT_COEFF_5		(CIF_ISP_BASE + 0x000001E4)
++#define CIF_ISP_CT_COEFF_6		(CIF_ISP_BASE + 0x000001E8)
++#define CIF_ISP_CT_COEFF_7		(CIF_ISP_BASE + 0x000001EC)
++#define CIF_ISP_CT_COEFF_8		(CIF_ISP_BASE + 0x000001F0)
++#define CIF_ISP_GAMMA_OUT_MODE		(CIF_ISP_BASE + 0x000001F4)
++#define CIF_ISP_GAMMA_OUT_Y_0		(CIF_ISP_BASE + 0x000001F8)
++#define CIF_ISP_GAMMA_OUT_Y_1		(CIF_ISP_BASE + 0x000001FC)
++#define CIF_ISP_GAMMA_OUT_Y_2		(CIF_ISP_BASE + 0x00000200)
++#define CIF_ISP_GAMMA_OUT_Y_3		(CIF_ISP_BASE + 0x00000204)
++#define CIF_ISP_GAMMA_OUT_Y_4		(CIF_ISP_BASE + 0x00000208)
++#define CIF_ISP_GAMMA_OUT_Y_5		(CIF_ISP_BASE + 0x0000020C)
++#define CIF_ISP_GAMMA_OUT_Y_6		(CIF_ISP_BASE + 0x00000210)
++#define CIF_ISP_GAMMA_OUT_Y_7		(CIF_ISP_BASE + 0x00000214)
++#define CIF_ISP_GAMMA_OUT_Y_8		(CIF_ISP_BASE + 0x00000218)
++#define CIF_ISP_GAMMA_OUT_Y_9		(CIF_ISP_BASE + 0x0000021C)
++#define CIF_ISP_GAMMA_OUT_Y_10		(CIF_ISP_BASE + 0x00000220)
++#define CIF_ISP_GAMMA_OUT_Y_11		(CIF_ISP_BASE + 0x00000224)
++#define CIF_ISP_GAMMA_OUT_Y_12		(CIF_ISP_BASE + 0x00000228)
++#define CIF_ISP_GAMMA_OUT_Y_13		(CIF_ISP_BASE + 0x0000022C)
++#define CIF_ISP_GAMMA_OUT_Y_14		(CIF_ISP_BASE + 0x00000230)
++#define CIF_ISP_GAMMA_OUT_Y_15		(CIF_ISP_BASE + 0x00000234)
++#define CIF_ISP_GAMMA_OUT_Y_16		(CIF_ISP_BASE + 0x00000238)
++#define CIF_ISP_ERR			(CIF_ISP_BASE + 0x0000023C)
++#define CIF_ISP_ERR_CLR			(CIF_ISP_BASE + 0x00000240)
++#define CIF_ISP_FRAME_COUNT		(CIF_ISP_BASE + 0x00000244)
++#define CIF_ISP_CT_OFFSET_R		(CIF_ISP_BASE + 0x00000248)
++#define CIF_ISP_CT_OFFSET_G		(CIF_ISP_BASE + 0x0000024C)
++#define CIF_ISP_CT_OFFSET_B		(CIF_ISP_BASE + 0x00000250)
++
++#define CIF_ISP_FLASH_BASE		0x00000660
++#define CIF_ISP_FLASH_CMD		(CIF_ISP_FLASH_BASE + 0x00000000)
++#define CIF_ISP_FLASH_CONFIG		(CIF_ISP_FLASH_BASE + 0x00000004)
++#define CIF_ISP_FLASH_PREDIV		(CIF_ISP_FLASH_BASE + 0x00000008)
++#define CIF_ISP_FLASH_DELAY		(CIF_ISP_FLASH_BASE + 0x0000000C)
++#define CIF_ISP_FLASH_TIME		(CIF_ISP_FLASH_BASE + 0x00000010)
++#define CIF_ISP_FLASH_MAXP		(CIF_ISP_FLASH_BASE + 0x00000014)
++
++#define CIF_ISP_SH_BASE			0x00000680
++#define CIF_ISP_SH_CTRL			(CIF_ISP_SH_BASE + 0x00000000)
++#define CIF_ISP_SH_PREDIV		(CIF_ISP_SH_BASE + 0x00000004)
++#define CIF_ISP_SH_DELAY		(CIF_ISP_SH_BASE + 0x00000008)
++#define CIF_ISP_SH_TIME			(CIF_ISP_SH_BASE + 0x0000000C)
++
++#define CIF_C_PROC_BASE			0x00000800
++#define CIF_C_PROC_CTRL			(CIF_C_PROC_BASE + 0x00000000)
++#define CIF_C_PROC_CONTRAST		(CIF_C_PROC_BASE + 0x00000004)
++#define CIF_C_PROC_BRIGHTNESS		(CIF_C_PROC_BASE + 0x00000008)
++#define CIF_C_PROC_SATURATION		(CIF_C_PROC_BASE + 0x0000000C)
++#define CIF_C_PROC_HUE			(CIF_C_PROC_BASE + 0x00000010)
++
++#define CIF_DUAL_CROP_BASE		0x00000880
++#define CIF_DUAL_CROP_CTRL		(CIF_DUAL_CROP_BASE + 0x00000000)
++#define CIF_DUAL_CROP_M_H_OFFS		(CIF_DUAL_CROP_BASE + 0x00000004)
++#define CIF_DUAL_CROP_M_V_OFFS		(CIF_DUAL_CROP_BASE + 0x00000008)
++#define CIF_DUAL_CROP_M_H_SIZE		(CIF_DUAL_CROP_BASE + 0x0000000C)
++#define CIF_DUAL_CROP_M_V_SIZE		(CIF_DUAL_CROP_BASE + 0x00000010)
++#define CIF_DUAL_CROP_S_H_OFFS		(CIF_DUAL_CROP_BASE + 0x00000014)
++#define CIF_DUAL_CROP_S_V_OFFS		(CIF_DUAL_CROP_BASE + 0x00000018)
++#define CIF_DUAL_CROP_S_H_SIZE		(CIF_DUAL_CROP_BASE + 0x0000001C)
++#define CIF_DUAL_CROP_S_V_SIZE		(CIF_DUAL_CROP_BASE + 0x00000020)
++#define CIF_DUAL_CROP_M_H_OFFS_SHD	(CIF_DUAL_CROP_BASE + 0x00000024)
++#define CIF_DUAL_CROP_M_V_OFFS_SHD	(CIF_DUAL_CROP_BASE + 0x00000028)
++#define CIF_DUAL_CROP_M_H_SIZE_SHD	(CIF_DUAL_CROP_BASE + 0x0000002C)
++#define CIF_DUAL_CROP_M_V_SIZE_SHD	(CIF_DUAL_CROP_BASE + 0x00000030)
++#define CIF_DUAL_CROP_S_H_OFFS_SHD	(CIF_DUAL_CROP_BASE + 0x00000034)
++#define CIF_DUAL_CROP_S_V_OFFS_SHD	(CIF_DUAL_CROP_BASE + 0x00000038)
++#define CIF_DUAL_CROP_S_H_SIZE_SHD	(CIF_DUAL_CROP_BASE + 0x0000003C)
++#define CIF_DUAL_CROP_S_V_SIZE_SHD	(CIF_DUAL_CROP_BASE + 0x00000040)
++
++#define CIF_MRSZ_BASE			0x00000C00
++#define CIF_MRSZ_CTRL			(CIF_MRSZ_BASE + 0x00000000)
++#define CIF_MRSZ_SCALE_HY		(CIF_MRSZ_BASE + 0x00000004)
++#define CIF_MRSZ_SCALE_HCB		(CIF_MRSZ_BASE + 0x00000008)
++#define CIF_MRSZ_SCALE_HCR		(CIF_MRSZ_BASE + 0x0000000C)
++#define CIF_MRSZ_SCALE_VY		(CIF_MRSZ_BASE + 0x00000010)
++#define CIF_MRSZ_SCALE_VC		(CIF_MRSZ_BASE + 0x00000014)
++#define CIF_MRSZ_PHASE_HY		(CIF_MRSZ_BASE + 0x00000018)
++#define CIF_MRSZ_PHASE_HC		(CIF_MRSZ_BASE + 0x0000001C)
++#define CIF_MRSZ_PHASE_VY		(CIF_MRSZ_BASE + 0x00000020)
++#define CIF_MRSZ_PHASE_VC		(CIF_MRSZ_BASE + 0x00000024)
++#define CIF_MRSZ_SCALE_LUT_ADDR		(CIF_MRSZ_BASE + 0x00000028)
++#define CIF_MRSZ_SCALE_LUT		(CIF_MRSZ_BASE + 0x0000002C)
++#define CIF_MRSZ_CTRL_SHD		(CIF_MRSZ_BASE + 0x00000030)
++#define CIF_MRSZ_SCALE_HY_SHD		(CIF_MRSZ_BASE + 0x00000034)
++#define CIF_MRSZ_SCALE_HCB_SHD		(CIF_MRSZ_BASE + 0x00000038)
++#define CIF_MRSZ_SCALE_HCR_SHD		(CIF_MRSZ_BASE + 0x0000003C)
++#define CIF_MRSZ_SCALE_VY_SHD		(CIF_MRSZ_BASE + 0x00000040)
++#define CIF_MRSZ_SCALE_VC_SHD		(CIF_MRSZ_BASE + 0x00000044)
++#define CIF_MRSZ_PHASE_HY_SHD		(CIF_MRSZ_BASE + 0x00000048)
++#define CIF_MRSZ_PHASE_HC_SHD		(CIF_MRSZ_BASE + 0x0000004C)
++#define CIF_MRSZ_PHASE_VY_SHD		(CIF_MRSZ_BASE + 0x00000050)
++#define CIF_MRSZ_PHASE_VC_SHD		(CIF_MRSZ_BASE + 0x00000054)
++
++#define CIF_SRSZ_BASE			0x00001000
++#define CIF_SRSZ_CTRL			(CIF_SRSZ_BASE + 0x00000000)
++#define CIF_SRSZ_SCALE_HY		(CIF_SRSZ_BASE + 0x00000004)
++#define CIF_SRSZ_SCALE_HCB		(CIF_SRSZ_BASE + 0x00000008)
++#define CIF_SRSZ_SCALE_HCR		(CIF_SRSZ_BASE + 0x0000000C)
++#define CIF_SRSZ_SCALE_VY		(CIF_SRSZ_BASE + 0x00000010)
++#define CIF_SRSZ_SCALE_VC		(CIF_SRSZ_BASE + 0x00000014)
++#define CIF_SRSZ_PHASE_HY		(CIF_SRSZ_BASE + 0x00000018)
++#define CIF_SRSZ_PHASE_HC		(CIF_SRSZ_BASE + 0x0000001C)
++#define CIF_SRSZ_PHASE_VY		(CIF_SRSZ_BASE + 0x00000020)
++#define CIF_SRSZ_PHASE_VC		(CIF_SRSZ_BASE + 0x00000024)
++#define CIF_SRSZ_SCALE_LUT_ADDR		(CIF_SRSZ_BASE + 0x00000028)
++#define CIF_SRSZ_SCALE_LUT		(CIF_SRSZ_BASE + 0x0000002C)
++#define CIF_SRSZ_CTRL_SHD		(CIF_SRSZ_BASE + 0x00000030)
++#define CIF_SRSZ_SCALE_HY_SHD		(CIF_SRSZ_BASE + 0x00000034)
++#define CIF_SRSZ_SCALE_HCB_SHD		(CIF_SRSZ_BASE + 0x00000038)
++#define CIF_SRSZ_SCALE_HCR_SHD		(CIF_SRSZ_BASE + 0x0000003C)
++#define CIF_SRSZ_SCALE_VY_SHD		(CIF_SRSZ_BASE + 0x00000040)
++#define CIF_SRSZ_SCALE_VC_SHD		(CIF_SRSZ_BASE + 0x00000044)
++#define CIF_SRSZ_PHASE_HY_SHD		(CIF_SRSZ_BASE + 0x00000048)
++#define CIF_SRSZ_PHASE_HC_SHD		(CIF_SRSZ_BASE + 0x0000004C)
++#define CIF_SRSZ_PHASE_VY_SHD		(CIF_SRSZ_BASE + 0x00000050)
++#define CIF_SRSZ_PHASE_VC_SHD		(CIF_SRSZ_BASE + 0x00000054)
++
++#define CIF_MI_BASE			0x00001400
++#define CIF_MI_CTRL			(CIF_MI_BASE + 0x00000000)
++#define CIF_MI_INIT			(CIF_MI_BASE + 0x00000004)
++#define CIF_MI_MP_Y_BASE_AD_INIT	(CIF_MI_BASE + 0x00000008)
++#define CIF_MI_MP_Y_SIZE_INIT		(CIF_MI_BASE + 0x0000000C)
++#define CIF_MI_MP_Y_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000010)
++#define CIF_MI_MP_Y_OFFS_CNT_START	(CIF_MI_BASE + 0x00000014)
++#define CIF_MI_MP_Y_IRQ_OFFS_INIT	(CIF_MI_BASE + 0x00000018)
++#define CIF_MI_MP_CB_BASE_AD_INIT	(CIF_MI_BASE + 0x0000001C)
++#define CIF_MI_MP_CB_SIZE_INIT		(CIF_MI_BASE + 0x00000020)
++#define CIF_MI_MP_CB_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000024)
++#define CIF_MI_MP_CB_OFFS_CNT_START	(CIF_MI_BASE + 0x00000028)
++#define CIF_MI_MP_CR_BASE_AD_INIT	(CIF_MI_BASE + 0x0000002C)
++#define CIF_MI_MP_CR_SIZE_INIT		(CIF_MI_BASE + 0x00000030)
++#define CIF_MI_MP_CR_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000034)
++#define CIF_MI_MP_CR_OFFS_CNT_START	(CIF_MI_BASE + 0x00000038)
++#define CIF_MI_SP_Y_BASE_AD_INIT	(CIF_MI_BASE + 0x0000003C)
++#define CIF_MI_SP_Y_SIZE_INIT		(CIF_MI_BASE + 0x00000040)
++#define CIF_MI_SP_Y_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000044)
++#define CIF_MI_SP_Y_OFFS_CNT_START	(CIF_MI_BASE + 0x00000048)
++#define CIF_MI_SP_Y_LLENGTH		(CIF_MI_BASE + 0x0000004C)
++#define CIF_MI_SP_CB_BASE_AD_INIT	(CIF_MI_BASE + 0x00000050)
++#define CIF_MI_SP_CB_SIZE_INIT		(CIF_MI_BASE + 0x00000054)
++#define CIF_MI_SP_CB_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000058)
++#define CIF_MI_SP_CB_OFFS_CNT_START	(CIF_MI_BASE + 0x0000005C)
++#define CIF_MI_SP_CR_BASE_AD_INIT	(CIF_MI_BASE + 0x00000060)
++#define CIF_MI_SP_CR_SIZE_INIT		(CIF_MI_BASE + 0x00000064)
++#define CIF_MI_SP_CR_OFFS_CNT_INIT	(CIF_MI_BASE + 0x00000068)
++#define CIF_MI_SP_CR_OFFS_CNT_START	(CIF_MI_BASE + 0x0000006C)
++#define CIF_MI_BYTE_CNT			(CIF_MI_BASE + 0x00000070)
++#define CIF_MI_CTRL_SHD			(CIF_MI_BASE + 0x00000074)
++#define CIF_MI_MP_Y_BASE_AD_SHD		(CIF_MI_BASE + 0x00000078)
++#define CIF_MI_MP_Y_SIZE_SHD		(CIF_MI_BASE + 0x0000007C)
++#define CIF_MI_MP_Y_OFFS_CNT_SHD	(CIF_MI_BASE + 0x00000080)
++#define CIF_MI_MP_Y_IRQ_OFFS_SHD	(CIF_MI_BASE + 0x00000084)
++#define CIF_MI_MP_CB_BASE_AD_SHD	(CIF_MI_BASE + 0x00000088)
++#define CIF_MI_MP_CB_SIZE_SHD		(CIF_MI_BASE + 0x0000008C)
++#define CIF_MI_MP_CB_OFFS_CNT_SHD	(CIF_MI_BASE + 0x00000090)
++#define CIF_MI_MP_CR_BASE_AD_SHD	(CIF_MI_BASE + 0x00000094)
++#define CIF_MI_MP_CR_SIZE_SHD		(CIF_MI_BASE + 0x00000098)
++#define CIF_MI_MP_CR_OFFS_CNT_SHD	(CIF_MI_BASE + 0x0000009C)
++#define CIF_MI_SP_Y_BASE_AD_SHD		(CIF_MI_BASE + 0x000000A0)
++#define CIF_MI_SP_Y_SIZE_SHD		(CIF_MI_BASE + 0x000000A4)
++#define CIF_MI_SP_Y_OFFS_CNT_SHD	(CIF_MI_BASE + 0x000000A8)
++#define CIF_MI_SP_CB_BASE_AD_SHD	(CIF_MI_BASE + 0x000000B0)
++#define CIF_MI_SP_CB_SIZE_SHD		(CIF_MI_BASE + 0x000000B4)
++#define CIF_MI_SP_CB_OFFS_CNT_SHD	(CIF_MI_BASE + 0x000000B8)
++#define CIF_MI_SP_CR_BASE_AD_SHD	(CIF_MI_BASE + 0x000000BC)
++#define CIF_MI_SP_CR_SIZE_SHD		(CIF_MI_BASE + 0x000000C0)
++#define CIF_MI_SP_CR_OFFS_CNT_SHD	(CIF_MI_BASE + 0x000000C4)
++#define CIF_MI_DMA_Y_PIC_START_AD	(CIF_MI_BASE + 0x000000C8)
++#define CIF_MI_DMA_Y_PIC_WIDTH		(CIF_MI_BASE + 0x000000CC)
++#define CIF_MI_DMA_Y_LLENGTH		(CIF_MI_BASE + 0x000000D0)
++#define CIF_MI_DMA_Y_PIC_SIZE		(CIF_MI_BASE + 0x000000D4)
++#define CIF_MI_DMA_CB_PIC_START_AD	(CIF_MI_BASE + 0x000000D8)
++#define CIF_MI_DMA_CR_PIC_START_AD	(CIF_MI_BASE + 0x000000E8)
++#define CIF_MI_IMSC			(CIF_MI_BASE + 0x000000F8)
++#define CIF_MI_RIS			(CIF_MI_BASE + 0x000000FC)
++#define CIF_MI_MIS			(CIF_MI_BASE + 0x00000100)
++#define CIF_MI_ICR			(CIF_MI_BASE + 0x00000104)
++#define CIF_MI_ISR			(CIF_MI_BASE + 0x00000108)
++#define CIF_MI_STATUS			(CIF_MI_BASE + 0x0000010C)
++#define CIF_MI_STATUS_CLR		(CIF_MI_BASE + 0x00000110)
++#define CIF_MI_SP_Y_PIC_WIDTH		(CIF_MI_BASE + 0x00000114)
++#define CIF_MI_SP_Y_PIC_HEIGHT		(CIF_MI_BASE + 0x00000118)
++#define CIF_MI_SP_Y_PIC_SIZE		(CIF_MI_BASE + 0x0000011C)
++#define CIF_MI_DMA_CTRL			(CIF_MI_BASE + 0x00000120)
++#define CIF_MI_DMA_START		(CIF_MI_BASE + 0x00000124)
++#define CIF_MI_DMA_STATUS		(CIF_MI_BASE + 0x00000128)
++#define CIF_MI_PIXEL_COUNT		(CIF_MI_BASE + 0x0000012C)
++#define CIF_MI_MP_Y_BASE_AD_INIT2	(CIF_MI_BASE + 0x00000130)
++#define CIF_MI_MP_CB_BASE_AD_INIT2	(CIF_MI_BASE + 0x00000134)
++#define CIF_MI_MP_CR_BASE_AD_INIT2	(CIF_MI_BASE + 0x00000138)
++#define CIF_MI_SP_Y_BASE_AD_INIT2	(CIF_MI_BASE + 0x0000013C)
++#define CIF_MI_SP_CB_BASE_AD_INIT2	(CIF_MI_BASE + 0x00000140)
++#define CIF_MI_SP_CR_BASE_AD_INIT2	(CIF_MI_BASE + 0x00000144)
++#define CIF_MI_XTD_FORMAT_CTRL		(CIF_MI_BASE + 0x00000148)
++
++#define CIF_SMIA_BASE			0x00001A00
++#define CIF_SMIA_CTRL			(CIF_SMIA_BASE + 0x00000000)
++#define CIF_SMIA_STATUS			(CIF_SMIA_BASE + 0x00000004)
++#define CIF_SMIA_IMSC			(CIF_SMIA_BASE + 0x00000008)
++#define CIF_SMIA_RIS			(CIF_SMIA_BASE + 0x0000000C)
++#define CIF_SMIA_MIS			(CIF_SMIA_BASE + 0x00000010)
++#define CIF_SMIA_ICR			(CIF_SMIA_BASE + 0x00000014)
++#define CIF_SMIA_ISR			(CIF_SMIA_BASE + 0x00000018)
++#define CIF_SMIA_DATA_FORMAT_SEL	(CIF_SMIA_BASE + 0x0000001C)
++#define CIF_SMIA_SOF_EMB_DATA_LINES	(CIF_SMIA_BASE + 0x00000020)
++#define CIF_SMIA_EMB_HSTART		(CIF_SMIA_BASE + 0x00000024)
++#define CIF_SMIA_EMB_HSIZE		(CIF_SMIA_BASE + 0x00000028)
++#define CIF_SMIA_EMB_VSTART		(CIF_SMIA_BASE + 0x0000002c)
++#define CIF_SMIA_NUM_LINES		(CIF_SMIA_BASE + 0x00000030)
++#define CIF_SMIA_EMB_DATA_FIFO		(CIF_SMIA_BASE + 0x00000034)
++#define CIF_SMIA_EMB_DATA_WATERMARK	(CIF_SMIA_BASE + 0x00000038)
++
++#define CIF_MIPI_BASE			0x00001C00
++#define CIF_MIPI_CTRL			(CIF_MIPI_BASE + 0x00000000)
++#define CIF_MIPI_STATUS			(CIF_MIPI_BASE + 0x00000004)
++#define CIF_MIPI_IMSC			(CIF_MIPI_BASE + 0x00000008)
++#define CIF_MIPI_RIS			(CIF_MIPI_BASE + 0x0000000C)
++#define CIF_MIPI_MIS			(CIF_MIPI_BASE + 0x00000010)
++#define CIF_MIPI_ICR			(CIF_MIPI_BASE + 0x00000014)
++#define CIF_MIPI_ISR			(CIF_MIPI_BASE + 0x00000018)
++#define CIF_MIPI_CUR_DATA_ID		(CIF_MIPI_BASE + 0x0000001C)
++#define CIF_MIPI_IMG_DATA_SEL		(CIF_MIPI_BASE + 0x00000020)
++#define CIF_MIPI_ADD_DATA_SEL_1		(CIF_MIPI_BASE + 0x00000024)
++#define CIF_MIPI_ADD_DATA_SEL_2		(CIF_MIPI_BASE + 0x00000028)
++#define CIF_MIPI_ADD_DATA_SEL_3		(CIF_MIPI_BASE + 0x0000002C)
++#define CIF_MIPI_ADD_DATA_SEL_4		(CIF_MIPI_BASE + 0x00000030)
++#define CIF_MIPI_ADD_DATA_FIFO		(CIF_MIPI_BASE + 0x00000034)
++#define CIF_MIPI_FIFO_FILL_LEVEL	(CIF_MIPI_BASE + 0x00000038)
++#define CIF_MIPI_COMPRESSED_MODE	(CIF_MIPI_BASE + 0x0000003C)
++#define CIF_MIPI_FRAME			(CIF_MIPI_BASE + 0x00000040)
++#define CIF_MIPI_GEN_SHORT_DT		(CIF_MIPI_BASE + 0x00000044)
++#define CIF_MIPI_GEN_SHORT_8_9		(CIF_MIPI_BASE + 0x00000048)
++#define CIF_MIPI_GEN_SHORT_A_B		(CIF_MIPI_BASE + 0x0000004C)
++#define CIF_MIPI_GEN_SHORT_C_D		(CIF_MIPI_BASE + 0x00000050)
++#define CIF_MIPI_GEN_SHORT_E_F		(CIF_MIPI_BASE + 0x00000054)
++
++#define CIF_ISP_AFM_BASE		0x00002000
++#define CIF_ISP_AFM_CTRL		(CIF_ISP_AFM_BASE + 0x00000000)
++#define CIF_ISP_AFM_LT_A		(CIF_ISP_AFM_BASE + 0x00000004)
++#define CIF_ISP_AFM_RB_A		(CIF_ISP_AFM_BASE + 0x00000008)
++#define CIF_ISP_AFM_LT_B		(CIF_ISP_AFM_BASE + 0x0000000C)
++#define CIF_ISP_AFM_RB_B		(CIF_ISP_AFM_BASE + 0x00000010)
++#define CIF_ISP_AFM_LT_C		(CIF_ISP_AFM_BASE + 0x00000014)
++#define CIF_ISP_AFM_RB_C		(CIF_ISP_AFM_BASE + 0x00000018)
++#define CIF_ISP_AFM_THRES		(CIF_ISP_AFM_BASE + 0x0000001C)
++#define CIF_ISP_AFM_VAR_SHIFT		(CIF_ISP_AFM_BASE + 0x00000020)
++#define CIF_ISP_AFM_SUM_A		(CIF_ISP_AFM_BASE + 0x00000024)
++#define CIF_ISP_AFM_SUM_B		(CIF_ISP_AFM_BASE + 0x00000028)
++#define CIF_ISP_AFM_SUM_C		(CIF_ISP_AFM_BASE + 0x0000002C)
++#define CIF_ISP_AFM_LUM_A		(CIF_ISP_AFM_BASE + 0x00000030)
++#define CIF_ISP_AFM_LUM_B		(CIF_ISP_AFM_BASE + 0x00000034)
++#define CIF_ISP_AFM_LUM_C		(CIF_ISP_AFM_BASE + 0x00000038)
++
++#define CIF_ISP_LSC_BASE		0x00002200
++#define CIF_ISP_LSC_CTRL		(CIF_ISP_LSC_BASE + 0x00000000)
++#define CIF_ISP_LSC_R_TABLE_ADDR	(CIF_ISP_LSC_BASE + 0x00000004)
++#define CIF_ISP_LSC_GR_TABLE_ADDR	(CIF_ISP_LSC_BASE + 0x00000008)
++#define CIF_ISP_LSC_B_TABLE_ADDR	(CIF_ISP_LSC_BASE + 0x0000000C)
++#define CIF_ISP_LSC_GB_TABLE_ADDR	(CIF_ISP_LSC_BASE + 0x00000010)
++#define CIF_ISP_LSC_R_TABLE_DATA	(CIF_ISP_LSC_BASE + 0x00000014)
++#define CIF_ISP_LSC_GR_TABLE_DATA	(CIF_ISP_LSC_BASE + 0x00000018)
++#define CIF_ISP_LSC_B_TABLE_DATA	(CIF_ISP_LSC_BASE + 0x0000001C)
++#define CIF_ISP_LSC_GB_TABLE_DATA	(CIF_ISP_LSC_BASE + 0x00000020)
++#define CIF_ISP_LSC_XGRAD_01		(CIF_ISP_LSC_BASE + 0x00000024)
++#define CIF_ISP_LSC_XGRAD_23		(CIF_ISP_LSC_BASE + 0x00000028)
++#define CIF_ISP_LSC_XGRAD_45		(CIF_ISP_LSC_BASE + 0x0000002C)
++#define CIF_ISP_LSC_XGRAD_67		(CIF_ISP_LSC_BASE + 0x00000030)
++#define CIF_ISP_LSC_YGRAD_01		(CIF_ISP_LSC_BASE + 0x00000034)
++#define CIF_ISP_LSC_YGRAD_23		(CIF_ISP_LSC_BASE + 0x00000038)
++#define CIF_ISP_LSC_YGRAD_45		(CIF_ISP_LSC_BASE + 0x0000003C)
++#define CIF_ISP_LSC_YGRAD_67		(CIF_ISP_LSC_BASE + 0x00000040)
++#define CIF_ISP_LSC_XSIZE_01		(CIF_ISP_LSC_BASE + 0x00000044)
++#define CIF_ISP_LSC_XSIZE_23		(CIF_ISP_LSC_BASE + 0x00000048)
++#define CIF_ISP_LSC_XSIZE_45		(CIF_ISP_LSC_BASE + 0x0000004C)
++#define CIF_ISP_LSC_XSIZE_67		(CIF_ISP_LSC_BASE + 0x00000050)
++#define CIF_ISP_LSC_YSIZE_01		(CIF_ISP_LSC_BASE + 0x00000054)
++#define CIF_ISP_LSC_YSIZE_23		(CIF_ISP_LSC_BASE + 0x00000058)
++#define CIF_ISP_LSC_YSIZE_45		(CIF_ISP_LSC_BASE + 0x0000005C)
++#define CIF_ISP_LSC_YSIZE_67		(CIF_ISP_LSC_BASE + 0x00000060)
++#define CIF_ISP_LSC_TABLE_SEL		(CIF_ISP_LSC_BASE + 0x00000064)
++#define CIF_ISP_LSC_STATUS		(CIF_ISP_LSC_BASE + 0x00000068)
++
++#define CIF_ISP_IS_BASE			0x00002300
++#define CIF_ISP_IS_CTRL			(CIF_ISP_IS_BASE + 0x00000000)
++#define CIF_ISP_IS_RECENTER		(CIF_ISP_IS_BASE + 0x00000004)
++#define CIF_ISP_IS_H_OFFS		(CIF_ISP_IS_BASE + 0x00000008)
++#define CIF_ISP_IS_V_OFFS		(CIF_ISP_IS_BASE + 0x0000000C)
++#define CIF_ISP_IS_H_SIZE		(CIF_ISP_IS_BASE + 0x00000010)
++#define CIF_ISP_IS_V_SIZE		(CIF_ISP_IS_BASE + 0x00000014)
++#define CIF_ISP_IS_MAX_DX		(CIF_ISP_IS_BASE + 0x00000018)
++#define CIF_ISP_IS_MAX_DY		(CIF_ISP_IS_BASE + 0x0000001C)
++#define CIF_ISP_IS_DISPLACE		(CIF_ISP_IS_BASE + 0x00000020)
++#define CIF_ISP_IS_H_OFFS_SHD		(CIF_ISP_IS_BASE + 0x00000024)
++#define CIF_ISP_IS_V_OFFS_SHD		(CIF_ISP_IS_BASE + 0x00000028)
++#define CIF_ISP_IS_H_SIZE_SHD		(CIF_ISP_IS_BASE + 0x0000002C)
++#define CIF_ISP_IS_V_SIZE_SHD		(CIF_ISP_IS_BASE + 0x00000030)
++
++#define CIF_ISP_HIST_BASE		0x00002400
++
++#define CIF_ISP_HIST_PROP		(CIF_ISP_HIST_BASE + 0x00000000)
++#define CIF_ISP_HIST_H_OFFS		(CIF_ISP_HIST_BASE + 0x00000004)
++#define CIF_ISP_HIST_V_OFFS		(CIF_ISP_HIST_BASE + 0x00000008)
++#define CIF_ISP_HIST_H_SIZE		(CIF_ISP_HIST_BASE + 0x0000000C)
++#define CIF_ISP_HIST_V_SIZE		(CIF_ISP_HIST_BASE + 0x00000010)
++#define CIF_ISP_HIST_BIN_0		(CIF_ISP_HIST_BASE + 0x00000014)
++#define CIF_ISP_HIST_BIN_1		(CIF_ISP_HIST_BASE + 0x00000018)
++#define CIF_ISP_HIST_BIN_2		(CIF_ISP_HIST_BASE + 0x0000001C)
++#define CIF_ISP_HIST_BIN_3		(CIF_ISP_HIST_BASE + 0x00000020)
++#define CIF_ISP_HIST_BIN_4		(CIF_ISP_HIST_BASE + 0x00000024)
++#define CIF_ISP_HIST_BIN_5		(CIF_ISP_HIST_BASE + 0x00000028)
++#define CIF_ISP_HIST_BIN_6		(CIF_ISP_HIST_BASE + 0x0000002C)
++#define CIF_ISP_HIST_BIN_7		(CIF_ISP_HIST_BASE + 0x00000030)
++#define CIF_ISP_HIST_BIN_8		(CIF_ISP_HIST_BASE + 0x00000034)
++#define CIF_ISP_HIST_BIN_9		(CIF_ISP_HIST_BASE + 0x00000038)
++#define CIF_ISP_HIST_BIN_10		(CIF_ISP_HIST_BASE + 0x0000003C)
++#define CIF_ISP_HIST_BIN_11		(CIF_ISP_HIST_BASE + 0x00000040)
++#define CIF_ISP_HIST_BIN_12		(CIF_ISP_HIST_BASE + 0x00000044)
++#define CIF_ISP_HIST_BIN_13		(CIF_ISP_HIST_BASE + 0x00000048)
++#define CIF_ISP_HIST_BIN_14		(CIF_ISP_HIST_BASE + 0x0000004C)
++#define CIF_ISP_HIST_BIN_15		(CIF_ISP_HIST_BASE + 0x00000050)
++#define CIF_ISP_HIST_WEIGHT_00TO30	(CIF_ISP_HIST_BASE + 0x00000054)
++#define CIF_ISP_HIST_WEIGHT_40TO21	(CIF_ISP_HIST_BASE + 0x00000058)
++#define CIF_ISP_HIST_WEIGHT_31TO12	(CIF_ISP_HIST_BASE + 0x0000005C)
++#define CIF_ISP_HIST_WEIGHT_22TO03	(CIF_ISP_HIST_BASE + 0x00000060)
++#define CIF_ISP_HIST_WEIGHT_13TO43	(CIF_ISP_HIST_BASE + 0x00000064)
++#define CIF_ISP_HIST_WEIGHT_04TO34	(CIF_ISP_HIST_BASE + 0x00000068)
++#define CIF_ISP_HIST_WEIGHT_44		(CIF_ISP_HIST_BASE + 0x0000006C)
++
++#define CIF_ISP_FILT_BASE		0x00002500
++#define CIF_ISP_FILT_MODE		(CIF_ISP_FILT_BASE + 0x00000000)
++#define CIF_ISP_FILT_THRESH_BL0		(CIF_ISP_FILT_BASE + 0x00000028)
++#define CIF_ISP_FILT_THRESH_BL1		(CIF_ISP_FILT_BASE + 0x0000002c)
++#define CIF_ISP_FILT_THRESH_SH0		(CIF_ISP_FILT_BASE + 0x00000030)
++#define CIF_ISP_FILT_THRESH_SH1		(CIF_ISP_FILT_BASE + 0x00000034)
++#define CIF_ISP_FILT_LUM_WEIGHT		(CIF_ISP_FILT_BASE + 0x00000038)
++#define CIF_ISP_FILT_FAC_SH1		(CIF_ISP_FILT_BASE + 0x0000003c)
++#define CIF_ISP_FILT_FAC_SH0		(CIF_ISP_FILT_BASE + 0x00000040)
++#define CIF_ISP_FILT_FAC_MID		(CIF_ISP_FILT_BASE + 0x00000044)
++#define CIF_ISP_FILT_FAC_BL0		(CIF_ISP_FILT_BASE + 0x00000048)
++#define CIF_ISP_FILT_FAC_BL1		(CIF_ISP_FILT_BASE + 0x0000004C)
++
++#define CIF_ISP_CAC_BASE		0x00002580
++#define CIF_ISP_CAC_CTRL		(CIF_ISP_CAC_BASE + 0x00000000)
++#define CIF_ISP_CAC_COUNT_START		(CIF_ISP_CAC_BASE + 0x00000004)
++#define CIF_ISP_CAC_A			(CIF_ISP_CAC_BASE + 0x00000008)
++#define CIF_ISP_CAC_B			(CIF_ISP_CAC_BASE + 0x0000000C)
++#define CIF_ISP_CAC_C			(CIF_ISP_CAC_BASE + 0x00000010)
++#define CIF_ISP_X_NORM			(CIF_ISP_CAC_BASE + 0x00000014)
++#define CIF_ISP_Y_NORM			(CIF_ISP_CAC_BASE + 0x00000018)
++
++#define CIF_ISP_EXP_BASE		0x00002600
++#define CIF_ISP_EXP_CTRL		(CIF_ISP_EXP_BASE + 0x00000000)
++#define CIF_ISP_EXP_H_OFFSET		(CIF_ISP_EXP_BASE + 0x00000004)
++#define CIF_ISP_EXP_V_OFFSET		(CIF_ISP_EXP_BASE + 0x00000008)
++#define CIF_ISP_EXP_H_SIZE		(CIF_ISP_EXP_BASE + 0x0000000C)
++#define CIF_ISP_EXP_V_SIZE		(CIF_ISP_EXP_BASE + 0x00000010)
++#define CIF_ISP_EXP_MEAN_00		(CIF_ISP_EXP_BASE + 0x00000014)
++#define CIF_ISP_EXP_MEAN_10		(CIF_ISP_EXP_BASE + 0x00000018)
++#define CIF_ISP_EXP_MEAN_20		(CIF_ISP_EXP_BASE + 0x0000001c)
++#define CIF_ISP_EXP_MEAN_30		(CIF_ISP_EXP_BASE + 0x00000020)
++#define CIF_ISP_EXP_MEAN_40		(CIF_ISP_EXP_BASE + 0x00000024)
++#define CIF_ISP_EXP_MEAN_01		(CIF_ISP_EXP_BASE + 0x00000028)
++#define CIF_ISP_EXP_MEAN_11		(CIF_ISP_EXP_BASE + 0x0000002c)
++#define CIF_ISP_EXP_MEAN_21		(CIF_ISP_EXP_BASE + 0x00000030)
++#define CIF_ISP_EXP_MEAN_31		(CIF_ISP_EXP_BASE + 0x00000034)
++#define CIF_ISP_EXP_MEAN_41		(CIF_ISP_EXP_BASE + 0x00000038)
++#define CIF_ISP_EXP_MEAN_02		(CIF_ISP_EXP_BASE + 0x0000003c)
++#define CIF_ISP_EXP_MEAN_12		(CIF_ISP_EXP_BASE + 0x00000040)
++#define CIF_ISP_EXP_MEAN_22		(CIF_ISP_EXP_BASE + 0x00000044)
++#define CIF_ISP_EXP_MEAN_32		(CIF_ISP_EXP_BASE + 0x00000048)
++#define CIF_ISP_EXP_MEAN_42		(CIF_ISP_EXP_BASE + 0x0000004c)
++#define CIF_ISP_EXP_MEAN_03		(CIF_ISP_EXP_BASE + 0x00000050)
++#define CIF_ISP_EXP_MEAN_13		(CIF_ISP_EXP_BASE + 0x00000054)
++#define CIF_ISP_EXP_MEAN_23		(CIF_ISP_EXP_BASE + 0x00000058)
++#define CIF_ISP_EXP_MEAN_33		(CIF_ISP_EXP_BASE + 0x0000005c)
++#define CIF_ISP_EXP_MEAN_43		(CIF_ISP_EXP_BASE + 0x00000060)
++#define CIF_ISP_EXP_MEAN_04		(CIF_ISP_EXP_BASE + 0x00000064)
++#define CIF_ISP_EXP_MEAN_14		(CIF_ISP_EXP_BASE + 0x00000068)
++#define CIF_ISP_EXP_MEAN_24		(CIF_ISP_EXP_BASE + 0x0000006c)
++#define CIF_ISP_EXP_MEAN_34		(CIF_ISP_EXP_BASE + 0x00000070)
++#define CIF_ISP_EXP_MEAN_44		(CIF_ISP_EXP_BASE + 0x00000074)
++
++#define CIF_ISP_BLS_BASE		0x00002700
++#define CIF_ISP_BLS_CTRL		(CIF_ISP_BLS_BASE + 0x00000000)
++#define CIF_ISP_BLS_SAMPLES		(CIF_ISP_BLS_BASE + 0x00000004)
++#define CIF_ISP_BLS_H1_START		(CIF_ISP_BLS_BASE + 0x00000008)
++#define CIF_ISP_BLS_H1_STOP		(CIF_ISP_BLS_BASE + 0x0000000c)
++#define CIF_ISP_BLS_V1_START		(CIF_ISP_BLS_BASE + 0x00000010)
++#define CIF_ISP_BLS_V1_STOP		(CIF_ISP_BLS_BASE + 0x00000014)
++#define CIF_ISP_BLS_H2_START		(CIF_ISP_BLS_BASE + 0x00000018)
++#define CIF_ISP_BLS_H2_STOP		(CIF_ISP_BLS_BASE + 0x0000001c)
++#define CIF_ISP_BLS_V2_START		(CIF_ISP_BLS_BASE + 0x00000020)
++#define CIF_ISP_BLS_V2_STOP		(CIF_ISP_BLS_BASE + 0x00000024)
++#define CIF_ISP_BLS_A_FIXED		(CIF_ISP_BLS_BASE + 0x00000028)
++#define CIF_ISP_BLS_B_FIXED		(CIF_ISP_BLS_BASE + 0x0000002c)
++#define CIF_ISP_BLS_C_FIXED		(CIF_ISP_BLS_BASE + 0x00000030)
++#define CIF_ISP_BLS_D_FIXED		(CIF_ISP_BLS_BASE + 0x00000034)
++#define CIF_ISP_BLS_A_MEASURED		(CIF_ISP_BLS_BASE + 0x00000038)
++#define CIF_ISP_BLS_B_MEASURED		(CIF_ISP_BLS_BASE + 0x0000003c)
++#define CIF_ISP_BLS_C_MEASURED		(CIF_ISP_BLS_BASE + 0x00000040)
++#define CIF_ISP_BLS_D_MEASURED		(CIF_ISP_BLS_BASE + 0x00000044)
++
++#define CIF_ISP_DPF_BASE		0x00002800
++#define CIF_ISP_DPF_MODE		(CIF_ISP_DPF_BASE + 0x00000000)
++#define CIF_ISP_DPF_STRENGTH_R		(CIF_ISP_DPF_BASE + 0x00000004)
++#define CIF_ISP_DPF_STRENGTH_G		(CIF_ISP_DPF_BASE + 0x00000008)
++#define CIF_ISP_DPF_STRENGTH_B		(CIF_ISP_DPF_BASE + 0x0000000C)
++#define CIF_ISP_DPF_S_WEIGHT_G_1_4	(CIF_ISP_DPF_BASE + 0x00000010)
++#define CIF_ISP_DPF_S_WEIGHT_G_5_6	(CIF_ISP_DPF_BASE + 0x00000014)
++#define CIF_ISP_DPF_S_WEIGHT_RB_1_4	(CIF_ISP_DPF_BASE + 0x00000018)
++#define CIF_ISP_DPF_S_WEIGHT_RB_5_6	(CIF_ISP_DPF_BASE + 0x0000001C)
++#define CIF_ISP_DPF_NULL_COEFF_0	(CIF_ISP_DPF_BASE + 0x00000020)
++#define CIF_ISP_DPF_NULL_COEFF_1	(CIF_ISP_DPF_BASE + 0x00000024)
++#define CIF_ISP_DPF_NULL_COEFF_2	(CIF_ISP_DPF_BASE + 0x00000028)
++#define CIF_ISP_DPF_NULL_COEFF_3	(CIF_ISP_DPF_BASE + 0x0000002C)
++#define CIF_ISP_DPF_NULL_COEFF_4	(CIF_ISP_DPF_BASE + 0x00000030)
++#define CIF_ISP_DPF_NULL_COEFF_5	(CIF_ISP_DPF_BASE + 0x00000034)
++#define CIF_ISP_DPF_NULL_COEFF_6	(CIF_ISP_DPF_BASE + 0x00000038)
++#define CIF_ISP_DPF_NULL_COEFF_7	(CIF_ISP_DPF_BASE + 0x0000003C)
++#define CIF_ISP_DPF_NULL_COEFF_8	(CIF_ISP_DPF_BASE + 0x00000040)
++#define CIF_ISP_DPF_NULL_COEFF_9	(CIF_ISP_DPF_BASE + 0x00000044)
++#define CIF_ISP_DPF_NULL_COEFF_10	(CIF_ISP_DPF_BASE + 0x00000048)
++#define CIF_ISP_DPF_NULL_COEFF_11	(CIF_ISP_DPF_BASE + 0x0000004C)
++#define CIF_ISP_DPF_NULL_COEFF_12	(CIF_ISP_DPF_BASE + 0x00000050)
++#define CIF_ISP_DPF_NULL_COEFF_13	(CIF_ISP_DPF_BASE + 0x00000054)
++#define CIF_ISP_DPF_NULL_COEFF_14	(CIF_ISP_DPF_BASE + 0x00000058)
++#define CIF_ISP_DPF_NULL_COEFF_15	(CIF_ISP_DPF_BASE + 0x0000005C)
++#define CIF_ISP_DPF_NULL_COEFF_16	(CIF_ISP_DPF_BASE + 0x00000060)
++#define CIF_ISP_DPF_NF_GAIN_R		(CIF_ISP_DPF_BASE + 0x00000064)
++#define CIF_ISP_DPF_NF_GAIN_GR		(CIF_ISP_DPF_BASE + 0x00000068)
++#define CIF_ISP_DPF_NF_GAIN_GB		(CIF_ISP_DPF_BASE + 0x0000006C)
++#define CIF_ISP_DPF_NF_GAIN_B		(CIF_ISP_DPF_BASE + 0x00000070)
++
++#define CIF_ISP_DPCC_BASE		0x00002900
++#define CIF_ISP_DPCC_MODE		(CIF_ISP_DPCC_BASE + 0x00000000)
++#define CIF_ISP_DPCC_OUTPUT_MODE	(CIF_ISP_DPCC_BASE + 0x00000004)
++#define CIF_ISP_DPCC_SET_USE		(CIF_ISP_DPCC_BASE + 0x00000008)
++#define CIF_ISP_DPCC_METHODS_SET_1	(CIF_ISP_DPCC_BASE + 0x0000000C)
++#define CIF_ISP_DPCC_METHODS_SET_2	(CIF_ISP_DPCC_BASE + 0x00000010)
++#define CIF_ISP_DPCC_METHODS_SET_3	(CIF_ISP_DPCC_BASE + 0x00000014)
++#define CIF_ISP_DPCC_LINE_THRESH_1	(CIF_ISP_DPCC_BASE + 0x00000018)
++#define CIF_ISP_DPCC_LINE_MAD_FAC_1	(CIF_ISP_DPCC_BASE + 0x0000001C)
++#define CIF_ISP_DPCC_PG_FAC_1		(CIF_ISP_DPCC_BASE + 0x00000020)
++#define CIF_ISP_DPCC_RND_THRESH_1	(CIF_ISP_DPCC_BASE + 0x00000024)
++#define CIF_ISP_DPCC_RG_FAC_1		(CIF_ISP_DPCC_BASE + 0x00000028)
++#define CIF_ISP_DPCC_LINE_THRESH_2	(CIF_ISP_DPCC_BASE + 0x0000002C)
++#define CIF_ISP_DPCC_LINE_MAD_FAC_2	(CIF_ISP_DPCC_BASE + 0x00000030)
++#define CIF_ISP_DPCC_PG_FAC_2		(CIF_ISP_DPCC_BASE + 0x00000034)
++#define CIF_ISP_DPCC_RND_THRESH_2	(CIF_ISP_DPCC_BASE + 0x00000038)
++#define CIF_ISP_DPCC_RG_FAC_2		(CIF_ISP_DPCC_BASE + 0x0000003C)
++#define CIF_ISP_DPCC_LINE_THRESH_3	(CIF_ISP_DPCC_BASE + 0x00000040)
++#define CIF_ISP_DPCC_LINE_MAD_FAC_3	(CIF_ISP_DPCC_BASE + 0x00000044)
++#define CIF_ISP_DPCC_PG_FAC_3		(CIF_ISP_DPCC_BASE + 0x00000048)
++#define CIF_ISP_DPCC_RND_THRESH_3	(CIF_ISP_DPCC_BASE + 0x0000004C)
++#define CIF_ISP_DPCC_RG_FAC_3		(CIF_ISP_DPCC_BASE + 0x00000050)
++#define CIF_ISP_DPCC_RO_LIMITS		(CIF_ISP_DPCC_BASE + 0x00000054)
++#define CIF_ISP_DPCC_RND_OFFS		(CIF_ISP_DPCC_BASE + 0x00000058)
++#define CIF_ISP_DPCC_BPT_CTRL		(CIF_ISP_DPCC_BASE + 0x0000005C)
++#define CIF_ISP_DPCC_BPT_NUMBER		(CIF_ISP_DPCC_BASE + 0x00000060)
++#define CIF_ISP_DPCC_BPT_ADDR		(CIF_ISP_DPCC_BASE + 0x00000064)
++#define CIF_ISP_DPCC_BPT_DATA		(CIF_ISP_DPCC_BASE + 0x00000068)
++
++#define CIF_ISP_WDR_BASE		0x00002A00
++#define CIF_ISP_WDR_CTRL		(CIF_ISP_WDR_BASE + 0x00000000)
++#define CIF_ISP_WDR_TONECURVE_1		(CIF_ISP_WDR_BASE + 0x00000004)
++#define CIF_ISP_WDR_TONECURVE_2		(CIF_ISP_WDR_BASE + 0x00000008)
++#define CIF_ISP_WDR_TONECURVE_3		(CIF_ISP_WDR_BASE + 0x0000000C)
++#define CIF_ISP_WDR_TONECURVE_4		(CIF_ISP_WDR_BASE + 0x00000010)
++#define CIF_ISP_WDR_TONECURVE_YM_0	(CIF_ISP_WDR_BASE + 0x00000014)
++#define CIF_ISP_WDR_TONECURVE_YM_1	(CIF_ISP_WDR_BASE + 0x00000018)
++#define CIF_ISP_WDR_TONECURVE_YM_2	(CIF_ISP_WDR_BASE + 0x0000001C)
++#define CIF_ISP_WDR_TONECURVE_YM_3	(CIF_ISP_WDR_BASE + 0x00000020)
++#define CIF_ISP_WDR_TONECURVE_YM_4	(CIF_ISP_WDR_BASE + 0x00000024)
++#define CIF_ISP_WDR_TONECURVE_YM_5	(CIF_ISP_WDR_BASE + 0x00000028)
++#define CIF_ISP_WDR_TONECURVE_YM_6	(CIF_ISP_WDR_BASE + 0x0000002C)
++#define CIF_ISP_WDR_TONECURVE_YM_7	(CIF_ISP_WDR_BASE + 0x00000030)
++#define CIF_ISP_WDR_TONECURVE_YM_8	(CIF_ISP_WDR_BASE + 0x00000034)
++#define CIF_ISP_WDR_TONECURVE_YM_9	(CIF_ISP_WDR_BASE + 0x00000038)
++#define CIF_ISP_WDR_TONECURVE_YM_10	(CIF_ISP_WDR_BASE + 0x0000003C)
++#define CIF_ISP_WDR_TONECURVE_YM_11	(CIF_ISP_WDR_BASE + 0x00000040)
++#define CIF_ISP_WDR_TONECURVE_YM_12	(CIF_ISP_WDR_BASE + 0x00000044)
++#define CIF_ISP_WDR_TONECURVE_YM_13	(CIF_ISP_WDR_BASE + 0x00000048)
++#define CIF_ISP_WDR_TONECURVE_YM_14	(CIF_ISP_WDR_BASE + 0x0000004C)
++#define CIF_ISP_WDR_TONECURVE_YM_15	(CIF_ISP_WDR_BASE + 0x00000050)
++#define CIF_ISP_WDR_TONECURVE_YM_16	(CIF_ISP_WDR_BASE + 0x00000054)
++#define CIF_ISP_WDR_TONECURVE_YM_17	(CIF_ISP_WDR_BASE + 0x00000058)
++#define CIF_ISP_WDR_TONECURVE_YM_18	(CIF_ISP_WDR_BASE + 0x0000005C)
++#define CIF_ISP_WDR_TONECURVE_YM_19	(CIF_ISP_WDR_BASE + 0x00000060)
++#define CIF_ISP_WDR_TONECURVE_YM_20	(CIF_ISP_WDR_BASE + 0x00000064)
++#define CIF_ISP_WDR_TONECURVE_YM_21	(CIF_ISP_WDR_BASE + 0x00000068)
++#define CIF_ISP_WDR_TONECURVE_YM_22	(CIF_ISP_WDR_BASE + 0x0000006C)
++#define CIF_ISP_WDR_TONECURVE_YM_23	(CIF_ISP_WDR_BASE + 0x00000070)
++#define CIF_ISP_WDR_TONECURVE_YM_24	(CIF_ISP_WDR_BASE + 0x00000074)
++#define CIF_ISP_WDR_TONECURVE_YM_25	(CIF_ISP_WDR_BASE + 0x00000078)
++#define CIF_ISP_WDR_TONECURVE_YM_26	(CIF_ISP_WDR_BASE + 0x0000007C)
++#define CIF_ISP_WDR_TONECURVE_YM_27	(CIF_ISP_WDR_BASE + 0x00000080)
++#define CIF_ISP_WDR_TONECURVE_YM_28	(CIF_ISP_WDR_BASE + 0x00000084)
++#define CIF_ISP_WDR_TONECURVE_YM_29	(CIF_ISP_WDR_BASE + 0x00000088)
++#define CIF_ISP_WDR_TONECURVE_YM_30	(CIF_ISP_WDR_BASE + 0x0000008C)
++#define CIF_ISP_WDR_TONECURVE_YM_31	(CIF_ISP_WDR_BASE + 0x00000090)
++#define CIF_ISP_WDR_TONECURVE_YM_32	(CIF_ISP_WDR_BASE + 0x00000094)
++#define CIF_ISP_WDR_OFFSET		(CIF_ISP_WDR_BASE + 0x00000098)
++#define CIF_ISP_WDR_DELTAMIN		(CIF_ISP_WDR_BASE + 0x0000009C)
++#define CIF_ISP_WDR_TONECURVE_1_SHD	(CIF_ISP_WDR_BASE + 0x000000A0)
++#define CIF_ISP_WDR_TONECURVE_2_SHD	(CIF_ISP_WDR_BASE + 0x000000A4)
++#define CIF_ISP_WDR_TONECURVE_3_SHD	(CIF_ISP_WDR_BASE + 0x000000A8)
++#define CIF_ISP_WDR_TONECURVE_4_SHD	(CIF_ISP_WDR_BASE + 0x000000AC)
++#define CIF_ISP_WDR_TONECURVE_YM_0_SHD	(CIF_ISP_WDR_BASE + 0x000000B0)
++#define CIF_ISP_WDR_TONECURVE_YM_1_SHD	(CIF_ISP_WDR_BASE + 0x000000B4)
++#define CIF_ISP_WDR_TONECURVE_YM_2_SHD	(CIF_ISP_WDR_BASE + 0x000000B8)
++#define CIF_ISP_WDR_TONECURVE_YM_3_SHD	(CIF_ISP_WDR_BASE + 0x000000BC)
++#define CIF_ISP_WDR_TONECURVE_YM_4_SHD	(CIF_ISP_WDR_BASE + 0x000000C0)
++#define CIF_ISP_WDR_TONECURVE_YM_5_SHD	(CIF_ISP_WDR_BASE + 0x000000C4)
++#define CIF_ISP_WDR_TONECURVE_YM_6_SHD	(CIF_ISP_WDR_BASE + 0x000000C8)
++#define CIF_ISP_WDR_TONECURVE_YM_7_SHD	(CIF_ISP_WDR_BASE + 0x000000CC)
++#define CIF_ISP_WDR_TONECURVE_YM_8_SHD	(CIF_ISP_WDR_BASE + 0x000000D0)
++#define CIF_ISP_WDR_TONECURVE_YM_9_SHD	(CIF_ISP_WDR_BASE + 0x000000D4)
++#define CIF_ISP_WDR_TONECURVE_YM_10_SHD	(CIF_ISP_WDR_BASE + 0x000000D8)
++#define CIF_ISP_WDR_TONECURVE_YM_11_SHD	(CIF_ISP_WDR_BASE + 0x000000DC)
++#define CIF_ISP_WDR_TONECURVE_YM_12_SHD	(CIF_ISP_WDR_BASE + 0x000000E0)
++#define CIF_ISP_WDR_TONECURVE_YM_13_SHD	(CIF_ISP_WDR_BASE + 0x000000E4)
++#define CIF_ISP_WDR_TONECURVE_YM_14_SHD	(CIF_ISP_WDR_BASE + 0x000000E8)
++#define CIF_ISP_WDR_TONECURVE_YM_15_SHD	(CIF_ISP_WDR_BASE + 0x000000EC)
++#define CIF_ISP_WDR_TONECURVE_YM_16_SHD	(CIF_ISP_WDR_BASE + 0x000000F0)
++#define CIF_ISP_WDR_TONECURVE_YM_17_SHD	(CIF_ISP_WDR_BASE + 0x000000F4)
++#define CIF_ISP_WDR_TONECURVE_YM_18_SHD	(CIF_ISP_WDR_BASE + 0x000000F8)
++#define CIF_ISP_WDR_TONECURVE_YM_19_SHD	(CIF_ISP_WDR_BASE + 0x000000FC)
++#define CIF_ISP_WDR_TONECURVE_YM_20_SHD	(CIF_ISP_WDR_BASE + 0x00000100)
++#define CIF_ISP_WDR_TONECURVE_YM_21_SHD	(CIF_ISP_WDR_BASE + 0x00000104)
++#define CIF_ISP_WDR_TONECURVE_YM_22_SHD	(CIF_ISP_WDR_BASE + 0x00000108)
++#define CIF_ISP_WDR_TONECURVE_YM_23_SHD	(CIF_ISP_WDR_BASE + 0x0000010C)
++#define CIF_ISP_WDR_TONECURVE_YM_24_SHD	(CIF_ISP_WDR_BASE + 0x00000110)
++#define CIF_ISP_WDR_TONECURVE_YM_25_SHD	(CIF_ISP_WDR_BASE + 0x00000114)
++#define CIF_ISP_WDR_TONECURVE_YM_26_SHD	(CIF_ISP_WDR_BASE + 0x00000118)
++#define CIF_ISP_WDR_TONECURVE_YM_27_SHD	(CIF_ISP_WDR_BASE + 0x0000011C)
++#define CIF_ISP_WDR_TONECURVE_YM_28_SHD	(CIF_ISP_WDR_BASE + 0x00000120)
++#define CIF_ISP_WDR_TONECURVE_YM_29_SHD	(CIF_ISP_WDR_BASE + 0x00000124)
++#define CIF_ISP_WDR_TONECURVE_YM_30_SHD	(CIF_ISP_WDR_BASE + 0x00000128)
++#define CIF_ISP_WDR_TONECURVE_YM_31_SHD	(CIF_ISP_WDR_BASE + 0x0000012C)
++#define CIF_ISP_WDR_TONECURVE_YM_32_SHD	(CIF_ISP_WDR_BASE + 0x00000130)
++
++#define CIF_ISP_VSM_BASE		0x00002F00
++#define CIF_ISP_VSM_MODE		(CIF_ISP_VSM_BASE + 0x00000000)
++#define CIF_ISP_VSM_H_OFFS		(CIF_ISP_VSM_BASE + 0x00000004)
++#define CIF_ISP_VSM_V_OFFS		(CIF_ISP_VSM_BASE + 0x00000008)
++#define CIF_ISP_VSM_H_SIZE		(CIF_ISP_VSM_BASE + 0x0000000C)
++#define CIF_ISP_VSM_V_SIZE		(CIF_ISP_VSM_BASE + 0x00000010)
++#define CIF_ISP_VSM_H_SEGMENTS		(CIF_ISP_VSM_BASE + 0x00000014)
++#define CIF_ISP_VSM_V_SEGMENTS		(CIF_ISP_VSM_BASE + 0x00000018)
++#define CIF_ISP_VSM_DELTA_H		(CIF_ISP_VSM_BASE + 0x0000001C)
++#define CIF_ISP_VSM_DELTA_V		(CIF_ISP_VSM_BASE + 0x00000020)
++
++void disable_dcrop(struct rkisp1_stream *stream, bool async);
++void config_dcrop(struct rkisp1_stream *stream, struct v4l2_rect *rect,
++		  bool async);
++
++void dump_rsz_regs(struct rkisp1_stream *stream);
++void disable_rsz(struct rkisp1_stream *stream, bool async);
++void config_rsz(struct rkisp1_stream *stream, struct v4l2_rect *in_y,
++		struct v4l2_rect *in_c, struct v4l2_rect *out_y,
++		struct v4l2_rect *out_c, bool async);
++
++void config_mi_ctrl(struct rkisp1_stream *stream);
++
++void mp_clr_frame_end_int(void __iomem *base);
++void sp_clr_frame_end_int(void __iomem *base);
++
++bool mp_is_frame_end_int_masked(void __iomem *base);
++bool sp_is_frame_end_int_masked(void __iomem *base);
++bool mp_is_stream_stopped(void __iomem *base);
++bool sp_is_stream_stopped(void __iomem *base);
++
++static inline void mi_set_y_size(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.y_size_init);
++}
++
++static inline void mi_set_cb_size(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cb_size_init);
++}
++
++static inline void mi_set_cr_size(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cr_size_init);
++}
++
++static inline void mi_set_y_addr(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.y_base_ad_init);
++}
++
++static inline void mi_set_cb_addr(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cb_base_ad_init);
++}
++
++static inline void mi_set_cr_addr(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cr_base_ad_init);
++}
++
++static inline void mi_set_y_offset(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.y_offs_cnt_init);
++}
++
++static inline void mi_set_cb_offset(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cb_offs_cnt_init);
++}
++
++static inline void mi_set_cr_offset(struct rkisp1_stream *stream, int val)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++
++	writel(val, base + stream->config->mi.cr_offs_cnt_init);
++}
++
++static inline void mi_frame_end_int_enable(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *addr = base + CIF_MI_IMSC;
++
++	writel(CIF_MI_FRAME(stream) | readl(addr), addr);
++}
++
++static inline void mi_frame_end_int_disable(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *addr = base + CIF_MI_IMSC;
++
++	writel(~CIF_MI_FRAME(stream) & readl(addr), addr);
++}
++
++static inline void mi_frame_end_int_clear(struct rkisp1_stream *stream)
++{
++	void __iomem *base = stream->ispdev->base_addr;
++	void __iomem *addr = base + CIF_MI_ICR;
++
++	writel(CIF_MI_FRAME(stream), addr);
++}
++
++static inline void mp_set_chain_mode(void __iomem *base)
++{
++	u32 dpcl = readl(base + CIF_VI_DPCL);
++
++	dpcl |= CIF_VI_DPCL_CHAN_MODE_MP;
++	writel(dpcl, base + CIF_VI_DPCL);
++}
++
++static inline void sp_set_chain_mode(void __iomem *base)
++{
++	u32 dpcl = readl(base + CIF_VI_DPCL);
++
++	dpcl |= CIF_VI_DPCL_CHAN_MODE_SP;
++	writel(dpcl, base + CIF_VI_DPCL);
++}
++
++static inline void mp_set_data_path(void __iomem *base)
++{
++	u32 dpcl = readl(base + CIF_VI_DPCL);
++
++	dpcl = dpcl | CIF_VI_DPCL_CHAN_MODE_MP | CIF_VI_DPCL_MP_MUX_MRSZ_MI;
++	writel(dpcl, base + CIF_VI_DPCL);
++}
++
++static inline void sp_set_data_path(void __iomem *base)
++{
++	u32 dpcl = readl(base + CIF_VI_DPCL);
++
++	dpcl |= CIF_VI_DPCL_CHAN_MODE_SP;
++	writel(dpcl, base + CIF_VI_DPCL);
++}
++
++static inline void mp_set_uv_swap(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_XTD_FORMAT_CTRL;
++	u32 reg = readl(addr) & ~BIT(0);
++
++	writel(reg | CIF_MI_XTD_FMT_CTRL_MP_CB_CR_SWAP, addr);
++}
++
++static inline void sp_set_uv_swap(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_XTD_FORMAT_CTRL;
++	u32 reg = readl(addr) & ~BIT(1);
++
++	writel(reg | CIF_MI_XTD_FMT_CTRL_SP_CB_CR_SWAP, addr);
++}
++
++static inline void sp_set_y_width(void __iomem *base, u32 val)
++{
++	writel(val, base + CIF_MI_SP_Y_PIC_WIDTH);
++}
++
++static inline void sp_set_y_height(void __iomem *base, u32 val)
++{
++	writel(val, base + CIF_MI_SP_Y_PIC_HEIGHT);
++}
++
++static inline void sp_set_y_line_length(void __iomem *base, u32 val)
++{
++	writel(val, base + CIF_MI_SP_Y_LLENGTH);
++}
++
++static inline void mp_mi_ctrl_set_format(void __iomem *base, u32 val)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++	u32 reg = readl(addr) & ~MI_CTRL_MP_FMT_MASK;
++
++	writel(reg | val, addr);
++}
++
++static inline void sp_mi_ctrl_set_format(void __iomem *base, u32 val)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++	u32 reg = readl(addr) & ~MI_CTRL_SP_FMT_MASK;
++
++	writel(reg | val, addr);
++}
++
++static inline void mi_ctrl_mpyuv_enable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(CIF_MI_CTRL_MP_ENABLE | readl(addr), addr);
++}
++
++static inline void mi_ctrl_mpyuv_disable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(~CIF_MI_CTRL_MP_ENABLE & readl(addr), addr);
++}
++
++static inline void mi_ctrl_mp_disable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(~(CIF_MI_CTRL_MP_ENABLE | CIF_MI_CTRL_RAW_ENABLE) & readl(addr),
++	       addr);
++}
++
++static inline void mi_ctrl_spyuv_enable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(CIF_MI_CTRL_SP_ENABLE | readl(addr), addr);
++}
++
++static inline void mi_ctrl_spyuv_disable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(~CIF_MI_CTRL_SP_ENABLE & readl(addr), addr);
++}
++
++static inline void mi_ctrl_sp_disable(void __iomem *base)
++{
++	mi_ctrl_spyuv_disable(base);
++}
++
++static inline void mi_ctrl_mpraw_enable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(CIF_MI_CTRL_RAW_ENABLE | readl(addr), addr);
++}
++
++static inline void mi_ctrl_mpraw_disable(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(~CIF_MI_CTRL_RAW_ENABLE & readl(addr), addr);
++}
++
++static inline void mp_mi_ctrl_autoupdate_en(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(readl(addr) | CIF_MI_MP_AUTOUPDATE_ENABLE, addr);
++}
++
++static inline void sp_mi_ctrl_autoupdate_en(void __iomem *base)
++{
++	void __iomem *addr = base + CIF_MI_CTRL;
++
++	writel(readl(addr) | CIF_MI_SP_AUTOUPDATE_ENABLE, addr);
++}
++
++static inline void force_cfg_update(void __iomem *base)
++{
++	writel(CIF_MI_INIT_SOFT_UPD, base + CIF_MI_INIT);
++}
++
++#endif /* _RKISP1_REGS_H */
 -- 
 2.22.0
 
