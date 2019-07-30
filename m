@@ -2,156 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C40F27A2F9
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3157B7A31D
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729547AbfG3IQc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 04:16:32 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37454 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729338AbfG3IQc (ORCPT
+        id S1730649AbfG3IaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 04:30:01 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:41739 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726946AbfG3IaB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 04:16:32 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 16B0528B28C
-Message-ID: <5b9da5ccb5b1b8d216464138b2e8e44abc0e13c2.camel@collabora.com>
-Subject: Re: [PATCH v2] media: i2c: ov5645: Fix power sequence
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>
-Date:   Tue, 30 Jul 2019 05:16:22 -0300
-In-Reply-To: <20190710184000.8995-1-ezequiel@collabora.com>
-References: <20190710184000.8995-1-ezequiel@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Tue, 30 Jul 2019 04:30:01 -0400
+Received: by mail-io1-f70.google.com with SMTP id x17so70165791iog.8
+        for <linux-media@vger.kernel.org>; Tue, 30 Jul 2019 01:30:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=RFgSTCfcESdk+wudtp7BymcAVpIjxQ2mPwsiS44G8Uw=;
+        b=UN7GAEjGKnLeMaciidVRN05/wsSh0Hj3+zb3zQaSOumPUwo2wFRv8F8uN1bo/y0Mx+
+         4j4bcZfOjH2/l3TMfsrPQnzvMEGLKH1OZp4SMVaUA9ShxSw6VqGM6685D4S+DyTe5F/j
+         qjHiJ/XODHeqLOy+O7jnOlDPWa5gaItlVGWn+GfEd9QjN+1UNVh9cx2qbfZqFgL7tmIB
+         vHlIs3K9SzdrSxWZbPCVQTk8lqtHlWa9O/yAJvToRQcttu+6Lnu+mv2s77rgxejMIj+5
+         AvEUoZVxBgP2tL5+D+hE+j2nX7VXnKpB34NUr1wInuzzGpuFLbUnyxpR6bBvvp19AuYl
+         cOvQ==
+X-Gm-Message-State: APjAAAU95ec/Ej8H0VIYOmspO+ZS/yFeRvbSnRvMUnXpZlr8HabdITNS
+        QPmNofmIMtWWJAEtkjVOWZow3MS1GvWnh47cRsbnVTApPAOA
+X-Google-Smtp-Source: APXvYqw7fepiZjUizcBLP5VnhleGqr3AULHdUUS/YFdJOaywH95yk0+F/Mwtou+Z+8O67IaVpqQRRGb+Ue7Nrgf7+87oN4YKEacX
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a5d:9957:: with SMTP id v23mr29208723ios.117.1564475400495;
+ Tue, 30 Jul 2019 01:30:00 -0700 (PDT)
+Date:   Tue, 30 Jul 2019 01:30:00 -0700
+In-Reply-To: <1564472907.25582.16.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000081a9c1058ee1d06a@google.com>
+Subject: Re: general protection fault in flexcop_usb_probe
+From:   syzbot <syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com>
+To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        oneukum@suse.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Sakari,
+Hello,
 
-On Wed, 2019-07-10 at 15:40 -0300, Ezequiel Garcia wrote:
-> This is mostly a port of Jacopo's fix:
-> 
->   commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
->   Author: Jacopo Mondi <jacopo@jmondi.org>
->   Date:   Fri Jul 6 05:51:52 2018 -0400
-> 
->   media: ov5640: Re-work MIPI startup sequence
-> 
-> In the OV5645 case, the changes are:
-> 
-> - Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
-> - At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
->   LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
-> - At set_power(0) time power down MIPI Tx/Rx (in addition to the current
->   power down of regulators and clock gating).
-> - At s_stream time enable/disable the MIPI interface output.
-> 
-> With this commit the sensor is able to enter LP-11 mode during power up,
-> as expected by some CSI-2 controllers.
-> 
-> Many thanks to Fabio Estevam for his help debugging this issue.
-> 
-> Tested-by: Fabio Estevam <festevam@gmail.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
-> Changes in v2:
-> * As suggested by Philipp, move the initial configuration
->   to the ov5645_global_init_setting array.
-> ---
->  drivers/media/i2c/ov5645.c | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index 124c8df04633..58972c884705 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -45,6 +45,8 @@
->  #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
->  #define OV5645_CHIP_ID_LOW		0x300b
->  #define		OV5645_CHIP_ID_LOW_BYTE		0x45
-> +#define OV5645_IO_MIPI_CTRL00		0x300e
-> +#define OV5645_PAD_OUTPUT00		0x3019
->  #define OV5645_AWB_MANUAL_CONTROL	0x3406
->  #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
->  #define OV5645_AEC_PK_MANUAL		0x3503
-> @@ -55,6 +57,7 @@
->  #define		OV5645_ISP_VFLIP		BIT(2)
->  #define OV5645_TIMING_TC_REG21		0x3821
->  #define		OV5645_SENSOR_MIRROR		BIT(1)
-> +#define OV5645_MIPI_CTRL00		0x4800
->  #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
->  #define		OV5645_TEST_PATTERN_MASK	0x3
->  #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
-> @@ -121,7 +124,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
->  	{ 0x3503, 0x07 },
->  	{ 0x3002, 0x1c },
->  	{ 0x3006, 0xc3 },
-> -	{ 0x300e, 0x45 },
->  	{ 0x3017, 0x00 },
->  	{ 0x3018, 0x00 },
->  	{ 0x302e, 0x0b },
-> @@ -350,7 +352,10 @@ static const struct reg_value ov5645_global_init_setting[] = {
->  	{ 0x3a1f, 0x14 },
->  	{ 0x0601, 0x02 },
->  	{ 0x3008, 0x42 },
-> -	{ 0x3008, 0x02 }
-> +	{ 0x3008, 0x02 },
-> +	{ OV5645_IO_MIPI_CTRL00, 0x40 },
-> +	{ OV5645_MIPI_CTRL00, 0x24 },
-> +	{ OV5645_PAD_OUTPUT00, 0x70 }
->  };
->  
->  static const struct reg_value ov5645_setting_sxga[] = {
-> @@ -737,13 +742,9 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
->  				goto exit;
->  			}
->  
-> -			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> -					       OV5645_SYSTEM_CTRL0_STOP);
-> -			if (ret < 0) {
-> -				ov5645_set_power_off(ov5645);
-> -				goto exit;
-> -			}
-> +			usleep_range(500, 1000);
->  		} else {
-> +			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
->  			ov5645_set_power_off(ov5645);
->  		}
->  	}
-> @@ -1049,11 +1050,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
->  			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
->  			return ret;
->  		}
-> +
-> +		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-> +		if (ret < 0)
-> +			return ret;
-> +
->  		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
->  				       OV5645_SYSTEM_CTRL0_START);
->  		if (ret < 0)
->  			return ret;
->  	} else {
-> +		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-> +		if (ret < 0)
-> +			return ret;
-> +
->  		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
->  				       OV5645_SYSTEM_CTRL0_STOP);
->  		if (ret < 0)
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-Gentle reminder about this one.
+Reported-and-tested-by:  
+syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com
 
-Thanks!
-Eze
+Tested on:
 
+commit:         9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1226c2d8600000
 
+Note: testing is done by a robot and is best-effort only.
