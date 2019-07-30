@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76AFA7B274
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 20:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F4EE7B24D
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 20:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388182AbfG3So5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 14:44:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42682 "EHLO
+        id S2388291AbfG3SpC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 14:45:02 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42702 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729968AbfG3So5 (ORCPT
+        with ESMTP id S1729968AbfG3SpB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 14:44:57 -0400
+        Tue, 30 Jul 2019 14:45:01 -0400
 Received: from floko.floko.floko (unknown [IPv6:2804:431:c7f1:ce2f:ec1:e6e6:2e9f:e76e])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DFC9C28B911;
-        Tue, 30 Jul 2019 19:44:48 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5215228B914;
+        Tue, 30 Jul 2019 19:44:54 +0100 (BST)
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-rockchip@lists.infradead.org
 Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -29,9 +29,9 @@ Cc:     devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
         ezequiel@collabora.com, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
         Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH v8 03/14] media: rkisp1: Add user space ABI definitions
-Date:   Tue, 30 Jul 2019 15:42:45 -0300
-Message-Id: <20190730184256.30338-4-helen.koike@collabora.com>
+Subject: [PATCH v8 04/14] media: rkisp1: add Rockchip MIPI Synopsys DPHY driver
+Date:   Tue, 30 Jul 2019 15:42:46 -0300
+Message-Id: <20190730184256.30338-5-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190730184256.30338-1-helen.koike@collabora.com>
 References: <20190730184256.30338-1-helen.koike@collabora.com>
@@ -42,857 +42,481 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jeffy Chen <jeffy.chen@rock-chips.com>
+From: Jacob Chen <jacob2.chen@rock-chips.com>
 
-Add the header for userspace
+This commit adds a subdev driver for Rockchip MIPI Synopsys DPHY driver
 
-Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+[migrate to phy framework]
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 [update for upstream]
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
 ---
-Hi,
 
-I don't have the "REF_01 - ISP_user_manual, Rev 2.57" document that was
-mentioned in previous version, so I'm adding a TODO for now to improve
-the docs once we collect the information.
-If Rockchip people could help here it would be great.
+Changes in v8:
+- Remove boiler plate license text
 
-Thanks
-Helen
-
-Changes in v8: None
 Changes in v7:
-- Fix checkpatch errors (lines over 80 and SPDX)
-- Add TODO to improve docs
+- Migrate dphy specific code from
+drivers/media/platform/rockchip/isp1/mipi_dphy_sy.c
+to drivers/phy/rockchip/phy-rockchip-dphy.c
+- Drop support for rk3288
+- Drop support for dphy txrx
+- code styling and checkpatch fixes
 
- include/uapi/linux/rkisp1-config.h | 816 +++++++++++++++++++++++++++++
- 1 file changed, 816 insertions(+)
- create mode 100644 include/uapi/linux/rkisp1-config.h
+ drivers/phy/rockchip/Kconfig             |   8 +
+ drivers/phy/rockchip/Makefile            |   1 +
+ drivers/phy/rockchip/phy-rockchip-dphy.c | 408 +++++++++++++++++++++++
+ 3 files changed, 417 insertions(+)
+ create mode 100644 drivers/phy/rockchip/phy-rockchip-dphy.c
 
-diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
+index c454c90cd99e..afd072f135e6 100644
+--- a/drivers/phy/rockchip/Kconfig
++++ b/drivers/phy/rockchip/Kconfig
+@@ -9,6 +9,14 @@ config PHY_ROCKCHIP_DP
+ 	help
+ 	  Enable this to support the Rockchip Display Port PHY.
+ 
++config PHY_ROCKCHIP_DPHY
++	tristate "Rockchip MIPI Synopsys DPHY driver"
++	depends on ARCH_ROCKCHIP && OF
++	select GENERIC_PHY_MIPI_DPHY
++	select GENERIC_PHY
++	help
++	  Enable this to support the Rockchip MIPI Synopsys DPHY.
++
+ config PHY_ROCKCHIP_EMMC
+ 	tristate "Rockchip EMMC PHY Driver"
+ 	depends on ARCH_ROCKCHIP && OF
+diff --git a/drivers/phy/rockchip/Makefile b/drivers/phy/rockchip/Makefile
+index fd21cbaf40dd..f62e9010bcaf 100644
+--- a/drivers/phy/rockchip/Makefile
++++ b/drivers/phy/rockchip/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_PHY_ROCKCHIP_DP)		+= phy-rockchip-dp.o
++obj-$(CONFIG_PHY_ROCKCHIP_DPHY)		+= phy-rockchip-dphy.o
+ obj-$(CONFIG_PHY_ROCKCHIP_EMMC)		+= phy-rockchip-emmc.o
+ obj-$(CONFIG_PHY_ROCKCHIP_INNO_HDMI)	+= phy-rockchip-inno-hdmi.o
+ obj-$(CONFIG_PHY_ROCKCHIP_INNO_USB2)	+= phy-rockchip-inno-usb2.o
+diff --git a/drivers/phy/rockchip/phy-rockchip-dphy.c b/drivers/phy/rockchip/phy-rockchip-dphy.c
 new file mode 100644
-index 000000000000..9ab979bb4adb
+index 000000000000..3a29976c2dff
 --- /dev/null
-+++ b/include/uapi/linux/rkisp1-config.h
-@@ -0,0 +1,816 @@
-+/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
++++ b/drivers/phy/rockchip/phy-rockchip-dphy.c
+@@ -0,0 +1,408 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
-+ * Rockchip isp1 driver
-+ * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
++ * Rockchip MIPI Synopsys DPHY driver
++ *
++ * Based on:
++ *
++ * Copyright (C) 2016 FuZhou Rockchip Co., Ltd.
++ * Author: Yakir Yang <ykk@@rock-chips.com>
 + */
 +
-+/*
-+ * TODO: Improve documentation, mostly regarding abbreviation and hardware
-+ * specificities.
-+ */
++#include <linux/clk.h>
++#include <linux/io.h>
++#include <linux/mfd/syscon.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/phy/phy.h>
++#include <linux/phy/phy-mipi-dphy.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
 +
-+#ifndef _UAPI_RKISP1_CONFIG_H
-+#define _UAPI_RKISP1_CONFIG_H
++#define RK3399_GRF_SOC_CON9	0x6224
++#define RK3399_GRF_SOC_CON21	0x6254
++#define RK3399_GRF_SOC_CON22	0x6258
++#define RK3399_GRF_SOC_CON23	0x625c
++#define RK3399_GRF_SOC_CON24	0x6260
++#define RK3399_GRF_SOC_CON25	0x6264
++#define RK3399_GRF_SOC_STATUS1	0xe2a4
 +
-+#include <linux/types.h>
-+#include <linux/v4l2-controls.h>
++#define CLOCK_LANE_HS_RX_CONTROL		0x34
++#define LANE0_HS_RX_CONTROL			0x44
++#define LANE1_HS_RX_CONTROL			0x54
++#define LANE2_HS_RX_CONTROL			0x84
++#define LANE3_HS_RX_CONTROL			0x94
++#define HS_RX_DATA_LANES_THS_SETTLE_CONTROL	0x75
 +
-+#define CIFISP_MODULE_DPCC              (1 << 0)
-+#define CIFISP_MODULE_BLS               (1 << 1)
-+#define CIFISP_MODULE_SDG               (1 << 2)
-+#define CIFISP_MODULE_HST               (1 << 3)
-+#define CIFISP_MODULE_LSC               (1 << 4)
-+#define CIFISP_MODULE_AWB_GAIN          (1 << 5)
-+#define CIFISP_MODULE_FLT               (1 << 6)
-+#define CIFISP_MODULE_BDM               (1 << 7)
-+#define CIFISP_MODULE_CTK               (1 << 8)
-+#define CIFISP_MODULE_GOC               (1 << 9)
-+#define CIFISP_MODULE_CPROC             (1 << 10)
-+#define CIFISP_MODULE_AFC               (1 << 11)
-+#define CIFISP_MODULE_AWB               (1 << 12)
-+#define CIFISP_MODULE_IE                (1 << 13)
-+#define CIFISP_MODULE_AEC               (1 << 14)
-+#define CIFISP_MODULE_WDR               (1 << 15)
-+#define CIFISP_MODULE_DPF               (1 << 16)
-+#define CIFISP_MODULE_DPF_STRENGTH      (1 << 17)
++#define MAX_DPHY_CLK 8
 +
-+#define CIFISP_CTK_COEFF_MAX            0x100
-+#define CIFISP_CTK_OFFSET_MAX           0x800
++#define PHY_TESTEN_ADDR			(0x1 << 16)
++#define PHY_TESTEN_DATA			(0x0 << 16)
++#define PHY_TESTCLK			(0x1 << 1)
++#define PHY_TESTCLR			(0x1 << 0)
++#define THS_SETTLE_COUNTER_THRESHOLD	0x04
 +
-+#define CIFISP_AE_MEAN_MAX              25
-+#define CIFISP_HIST_BIN_N_MAX           16
-+#define CIFISP_AFM_MAX_WINDOWS          3
-+#define CIFISP_DEGAMMA_CURVE_SIZE       17
++#define HIWORD_UPDATE(val, mask, shift) \
++	((val) << (shift) | (mask) << ((shift) + 16))
 +
-+#define CIFISP_BDM_MAX_TH               0xFF
++#define GRF_SOC_CON12                           0x0274
 +
-+/*
-+ * Black level compensation
-+ */
-+/* maximum value for horizontal start address */
-+#define CIFISP_BLS_START_H_MAX             0x00000FFF
-+/* maximum value for horizontal stop address */
-+#define CIFISP_BLS_STOP_H_MAX              0x00000FFF
-+/* maximum value for vertical start address */
-+#define CIFISP_BLS_START_V_MAX             0x00000FFF
-+/* maximum value for vertical stop address */
-+#define CIFISP_BLS_STOP_V_MAX              0x00000FFF
-+/* maximum is 2^18 = 262144*/
-+#define CIFISP_BLS_SAMPLES_MAX             0x00000012
-+/* maximum value for fixed black level */
-+#define CIFISP_BLS_FIX_SUB_MAX             0x00000FFF
-+/* minimum value for fixed black level */
-+#define CIFISP_BLS_FIX_SUB_MIN             0xFFFFF000
-+/* 13 bit range (signed)*/
-+#define CIFISP_BLS_FIX_MASK                0x00001FFF
++#define GRF_EDP_REF_CLK_SEL_INTER_HIWORD_MASK   BIT(20)
++#define GRF_EDP_REF_CLK_SEL_INTER               BIT(4)
 +
-+/*
-+ * Automatic white balance measurments
-+ */
-+#define CIFISP_AWB_MAX_GRID                1
-+#define CIFISP_AWB_MAX_FRAMES              7
++#define GRF_EDP_PHY_SIDDQ_HIWORD_MASK           BIT(21)
++#define GRF_EDP_PHY_SIDDQ_ON                    0
++#define GRF_EDP_PHY_SIDDQ_OFF                   BIT(5)
 +
-+/*
-+ * Gamma out
-+ */
-+/* Maximum number of color samples supported */
-+#define CIFISP_GAMMA_OUT_MAX_SAMPLES       17
-+
-+/*
-+ * Lens shade correction
-+ */
-+#define CIFISP_LSC_GRAD_TBL_SIZE           8
-+#define CIFISP_LSC_SIZE_TBL_SIZE           8
-+/*
-+ * The following matches the tuning process,
-+ * not the max capabilities of the chip.
-+ * Last value unused.
-+ */
-+#define	CIFISP_LSC_DATA_TBL_SIZE           290
-+
-+/*
-+ * Histogram calculation
-+ */
-+/* Last 3 values unused. */
-+#define CIFISP_HISTOGRAM_WEIGHT_GRIDS_SIZE 28
-+
-+/*
-+ * Defect Pixel Cluster Correction
-+ */
-+#define CIFISP_DPCC_METHODS_MAX       3
-+
-+/*
-+ * Denoising pre filter
-+ */
-+#define CIFISP_DPF_MAX_NLF_COEFFS      17
-+#define CIFISP_DPF_MAX_SPATIAL_COEFFS  6
-+
-+/*
-+ * Measurement types
-+ */
-+#define CIFISP_STAT_AWB           (1 << 0)
-+#define CIFISP_STAT_AUTOEXP       (1 << 1)
-+#define CIFISP_STAT_AFM_FIN       (1 << 2)
-+#define CIFISP_STAT_HIST          (1 << 3)
-+
-+enum cifisp_histogram_mode {
-+	CIFISP_HISTOGRAM_MODE_DISABLE,
-+	CIFISP_HISTOGRAM_MODE_RGB_COMBINED,
-+	CIFISP_HISTOGRAM_MODE_R_HISTOGRAM,
-+	CIFISP_HISTOGRAM_MODE_G_HISTOGRAM,
-+	CIFISP_HISTOGRAM_MODE_B_HISTOGRAM,
-+	CIFISP_HISTOGRAM_MODE_Y_HISTOGRAM
++struct hsfreq_range {
++	u32 range_h;
++	u8 cfg_bit;
 +};
 +
-+enum cifisp_awb_mode_type {
-+	CIFISP_AWB_MODE_MANUAL,
-+	CIFISP_AWB_MODE_RGB,
-+	CIFISP_AWB_MODE_YCBCR
++static const struct hsfreq_range rk3399_mipidphy_hsfreq_ranges[] = {
++	{  89, 0x00}, {  99, 0x10}, { 109, 0x20}, { 129, 0x01},
++	{ 139, 0x11}, { 149, 0x21}, { 169, 0x02}, { 179, 0x12},
++	{ 199, 0x22}, { 219, 0x03}, { 239, 0x13}, { 249, 0x23},
++	{ 269, 0x04}, { 299, 0x14}, { 329, 0x05}, { 359, 0x15},
++	{ 399, 0x25}, { 449, 0x06}, { 499, 0x16}, { 549, 0x07},
++	{ 599, 0x17}, { 649, 0x08}, { 699, 0x18}, { 749, 0x09},
++	{ 799, 0x19}, { 849, 0x29}, { 899, 0x39}, { 949, 0x0a},
++	{ 999, 0x1a}, {1049, 0x2a}, {1099, 0x3a}, {1149, 0x0b},
++	{1199, 0x1b}, {1249, 0x2b}, {1299, 0x3b}, {1349, 0x0c},
++	{1399, 0x1c}, {1449, 0x2c}, {1500, 0x3c}
 +};
 +
-+enum cifisp_flt_mode {
-+	CIFISP_FLT_STATIC_MODE,
-+	CIFISP_FLT_DYNAMIC_MODE
++static const char * const rk3399_mipidphy_clks[] = {
++	"dphy-ref",
++	"dphy-cfg",
++	"grf",
 +};
 +
-+/**
-+ * enum cifisp_exp_ctrl_autostop - stop modes
-+ * @CIFISP_EXP_CTRL_AUTOSTOP_0: continuous measurement
-+ * @CIFISP_EXP_CTRL_AUTOSTOP_1: stop measuring after a complete frame
-+ */
-+enum cifisp_exp_ctrl_autostop {
-+	CIFISP_EXP_CTRL_AUTOSTOP_0 = 0,
-+	CIFISP_EXP_CTRL_AUTOSTOP_1 = 1,
++enum dphy_reg_id {
++	GRF_DPHY_RX0_TURNDISABLE = 0,
++	GRF_DPHY_RX0_FORCERXMODE,
++	GRF_DPHY_RX0_FORCETXSTOPMODE,
++	GRF_DPHY_RX0_ENABLE,
++	GRF_DPHY_RX0_TESTCLR,
++	GRF_DPHY_RX0_TESTCLK,
++	GRF_DPHY_RX0_TESTEN,
++	GRF_DPHY_RX0_TESTDIN,
++	GRF_DPHY_RX0_TURNREQUEST,
++	GRF_DPHY_RX0_TESTDOUT,
++	GRF_DPHY_TX0_TURNDISABLE,
++	GRF_DPHY_TX0_FORCERXMODE,
++	GRF_DPHY_TX0_FORCETXSTOPMODE,
++	GRF_DPHY_TX0_TURNREQUEST,
++	GRF_DPHY_TX1RX1_TURNDISABLE,
++	GRF_DPHY_TX1RX1_FORCERXMODE,
++	GRF_DPHY_TX1RX1_FORCETXSTOPMODE,
++	GRF_DPHY_TX1RX1_ENABLE,
++	GRF_DPHY_TX1RX1_MASTERSLAVEZ,
++	GRF_DPHY_TX1RX1_BASEDIR,
++	GRF_DPHY_TX1RX1_ENABLECLK,
++	GRF_DPHY_TX1RX1_TURNREQUEST,
++	GRF_DPHY_RX1_SRC_SEL,
++	/* rk3288 only */
++	GRF_CON_DISABLE_ISP,
++	GRF_CON_ISP_DPHY_SEL,
++	GRF_DSI_CSI_TESTBUS_SEL,
++	GRF_DVP_V18SEL,
++	/* below is for rk3399 only */
++	GRF_DPHY_RX0_CLK_INV_SEL,
++	GRF_DPHY_RX1_CLK_INV_SEL,
 +};
 +
-+/**
-+ * enum cifisp_exp_meas_mode - Exposure measure mode
-+ * @CIFISP_EXP_MEASURING_MODE_0: Y = 16 + 0.25R + 0.5G + 0.1094B
-+ * @CIFISP_EXP_MEASURING_MODE_1: Y = (R + G + B) x (85/256)
-+ */
-+enum cifisp_exp_meas_mode {
-+	CIFISP_EXP_MEASURING_MODE_0,
-+	CIFISP_EXP_MEASURING_MODE_1,
++struct dphy_reg {
++	u32 offset;
++	u32 mask;
++	u32 shift;
 +};
 +
-+/*---------- PART1: Input Parameters ------------*/
++#define PHY_REG(_offset, _width, _shift) \
++	{ .offset = _offset, .mask = BIT(_width) - 1, .shift = _shift, }
 +
-+struct cifisp_window {
-+	__u16 h_offs;
-+	__u16 v_offs;
-+	__u16 h_size;
-+	__u16 v_size;
-+} __attribute__ ((packed));
++static const struct dphy_reg rk3399_grf_dphy_regs[] = {
++	[GRF_DPHY_RX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON9, 4, 0),
++	[GRF_DPHY_RX0_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 10),
++	[GRF_DPHY_RX1_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 11),
++	[GRF_DPHY_RX0_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 0),
++	[GRF_DPHY_RX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 4),
++	[GRF_DPHY_RX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 8),
++	[GRF_DPHY_RX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 12),
++	[GRF_DPHY_TX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 0),
++	[GRF_DPHY_TX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 4),
++	[GRF_DPHY_TX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 8),
++	[GRF_DPHY_TX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 12),
++	[GRF_DPHY_TX1RX1_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 0),
++	[GRF_DPHY_TX1RX1_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 4),
++	[GRF_DPHY_TX1RX1_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 8),
++	[GRF_DPHY_TX1RX1_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 12),
++	[GRF_DPHY_TX1RX1_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON24, 4, 0),
++	[GRF_DPHY_RX1_SRC_SEL] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 4),
++	[GRF_DPHY_TX1RX1_BASEDIR] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 5),
++	[GRF_DPHY_TX1RX1_ENABLECLK] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 6),
++	[GRF_DPHY_TX1RX1_MASTERSLAVEZ] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 7),
++	[GRF_DPHY_RX0_TESTDIN] = PHY_REG(RK3399_GRF_SOC_CON25, 8, 0),
++	[GRF_DPHY_RX0_TESTEN] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 8),
++	[GRF_DPHY_RX0_TESTCLK] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 9),
++	[GRF_DPHY_RX0_TESTCLR] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 10),
++	[GRF_DPHY_RX0_TESTDOUT] = PHY_REG(RK3399_GRF_SOC_STATUS1, 8, 0),
++};
 +
-+/**
-+ * struct cifisp_bls_fixed_val - BLS fixed subtraction values
-+ *
-+ * The values will be subtracted from the sensor
-+ * values. Therefore a negative value means addition instead of subtraction!
-+ *
-+ * @r: Fixed (signed!) subtraction value for Bayer pattern R
-+ * @gr: Fixed (signed!) subtraction value for Bayer pattern Gr
-+ * @gb: Fixed (signed!) subtraction value for Bayer pattern Gb
-+ * @b: Fixed (signed!) subtraction value for Bayer pattern B
-+ */
-+struct cifisp_bls_fixed_val {
-+	__s16 r;
-+	__s16 gr;
-+	__s16 gb;
-+	__s16 b;
-+} __attribute__ ((packed));
++struct dphy_drv_data {
++	const char * const *clks;
++	int num_clks;
++	const struct hsfreq_range *hsfreq_ranges;
++	int num_hsfreq_ranges;
++	const struct dphy_reg *regs;
++};
 +
-+/**
-+ * struct cifisp_bls_config - Configuration used by black level subtraction
-+ *
-+ * @enable_auto: Automatic mode activated means that the measured values
-+ *		 are subtracted. Otherwise the fixed subtraction
-+ *		 values will be subtracted.
-+ * @en_windows: enabled window
-+ * @bls_window1: Measurement window 1 size
-+ * @bls_window2: Measurement window 2 size
-+ * @bls_samples: Set amount of measured pixels for each Bayer position
-+ *		 (A, B,C and D) to 2^bls_samples.
-+ * @cifisp_bls_fixed_val: Fixed subtraction values
-+ */
-+struct cifisp_bls_config {
-+	__u8 enable_auto;
-+	__u8 en_windows;
-+	struct cifisp_window bls_window1;
-+	struct cifisp_window bls_window2;
-+	__u8 bls_samples;
-+	struct cifisp_bls_fixed_val fixed_val;
-+} __attribute__ ((packed));
++struct rockchip_dphy {
++	struct device *dev;
++	struct regmap *grf;
++	const struct dphy_reg *grf_regs;
++	struct clk_bulk_data clks[MAX_DPHY_CLK];
 +
-+/**
-+ * struct cifisp_dpcc_methods_config - Methods Configuration used by DPCC
-+ *
-+ * Methods Configuration used by Defect Pixel Cluster Correction
-+ *
-+ * @method: Method enable bits
-+ * @line_thresh: Line threshold
-+ * @line_mad_fac: Line MAD factor
-+ * @pg_fac: Peak gradient factor
-+ * @rnd_thresh: Rank Neighbor Difference threshold
-+ * @rg_fac: Rank gradient factor
-+ */
-+struct cifisp_dpcc_methods_config {
-+	__u32 method;
-+	__u32 line_thresh;
-+	__u32 line_mad_fac;
-+	__u32 pg_fac;
-+	__u32 rnd_thresh;
-+	__u32 rg_fac;
-+} __attribute__ ((packed));
++	const struct dphy_drv_data *drv_data;
++	struct phy_configure_opts_mipi_dphy config;
++};
 +
-+/**
-+ * struct cifisp_dpcc_methods_config - Configuration used by DPCC
-+ *
-+ * Configuration used by Defect Pixel Cluster Correction
-+ *
-+ * @mode: dpcc output mode
-+ * @output_mode: whether use hard coded methods
-+ * @set_use: stage1 methods set
-+ * @methods: methods config
-+ * @ro_limits: rank order limits
-+ * @rnd_offs: differential rank offsets for rank neighbor difference
-+ */
-+struct cifisp_dpcc_config {
-+	__u32 mode;
-+	__u32 output_mode;
-+	__u32 set_use;
-+	struct cifisp_dpcc_methods_config methods[CIFISP_DPCC_METHODS_MAX];
-+	__u32 ro_limits;
-+	__u32 rnd_offs;
-+} __attribute__ ((packed));
++static inline void write_grf_reg(struct rockchip_dphy *priv,
++				 int index, u8 value)
++{
++	const struct dphy_reg *reg = &priv->grf_regs[index];
++	unsigned int val = HIWORD_UPDATE(value, reg->mask, reg->shift);
 +
-+struct cifisp_gamma_corr_curve {
-+	__u16 gamma_y[CIFISP_DEGAMMA_CURVE_SIZE];
-+} __attribute__ ((packed));
++	WARN_ON(!reg->offset);
++	regmap_write(priv->grf, reg->offset, val);
++}
 +
-+struct cifisp_gamma_curve_x_axis_pnts {
-+	__u32 gamma_dx0;
-+	__u32 gamma_dx1;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_gamma_corr_curve - Configuration used by sensor degamma
-+ *
-+ * @curve_x: gamma curve point definition axis for x
-+ * @xa_pnts: x increments
-+ */
-+struct cifisp_sdg_config {
-+	struct cifisp_gamma_corr_curve curve_r;
-+	struct cifisp_gamma_corr_curve curve_g;
-+	struct cifisp_gamma_corr_curve curve_b;
-+	struct cifisp_gamma_curve_x_axis_pnts xa_pnts;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_lsc_config - Configuration used by Lens shading correction
-+ *
-+ * refer to REF_01 for details
-+ */
-+struct cifisp_lsc_config {
-+	__u32 r_data_tbl[CIFISP_LSC_DATA_TBL_SIZE];
-+	__u32 gr_data_tbl[CIFISP_LSC_DATA_TBL_SIZE];
-+	__u32 gb_data_tbl[CIFISP_LSC_DATA_TBL_SIZE];
-+	__u32 b_data_tbl[CIFISP_LSC_DATA_TBL_SIZE];
-+
-+	__u32 x_grad_tbl[CIFISP_LSC_GRAD_TBL_SIZE];
-+	__u32 y_grad_tbl[CIFISP_LSC_GRAD_TBL_SIZE];
-+
-+	__u32 x_size_tbl[CIFISP_LSC_SIZE_TBL_SIZE];
-+	__u32 y_size_tbl[CIFISP_LSC_SIZE_TBL_SIZE];
-+	__u16 config_width;
-+	__u16 config_height;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_ie_config - Configuration used by image effects
-+ *
-+ * @eff_mat_1: 3x3 Matrix Coefficients for Emboss Effect 1
-+ * @eff_mat_2: 3x3 Matrix Coefficients for Emboss Effect 2
-+ * @eff_mat_3: 3x3 Matrix Coefficients for Emboss 3/Sketch 1
-+ * @eff_mat_4: 3x3 Matrix Coefficients for Sketch Effect 2
-+ * @eff_mat_5: 3x3 Matrix Coefficients for Sketch Effect 3
-+ * @eff_tint: Chrominance increment values of tint (used for sepia effect)
-+ */
-+struct cifisp_ie_config {
-+	__u16 effect;
-+	__u16 color_sel;
-+	__u16 eff_mat_1;
-+	__u16 eff_mat_2;
-+	__u16 eff_mat_3;
-+	__u16 eff_mat_4;
-+	__u16 eff_mat_5;
-+	__u16 eff_tint;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_cproc_config - Configuration used by Color Processing
-+ *
-+ * @c_out_range: Chrominance pixel clipping range at output.
-+ *		 (0 for limit, 1 for full)
-+ * @y_in_range: Luminance pixel clipping range at output.
-+ * @y_out_range: Luminance pixel clipping range at output.
-+ * @contrast: 00~ff, 0.0~1.992
-+ * @brightness: 80~7F, -128~+127
-+ * @sat: saturation, 00~FF, 0.0~1.992
-+ * @hue: 80~7F, -90~+87.188
-+ */
-+struct cifisp_cproc_config {
-+	__u8 c_out_range;
-+	__u8 y_in_range;
-+	__u8 y_out_range;
-+	__u8 contrast;
-+	__u8 brightness;
-+	__u8 sat;
-+	__u8 hue;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_awb_meas_config - Configuration used by auto white balance
-+ *
-+ * @awb_wnd: white balance measurement window (in pixels)
-+ *	     (from enum cifisp_awb_mode_type)
-+ * @max_y: only pixels values < max_y contribute to awb measurement, set to 0
-+ *	   to disable this feature
-+ * @min_y: only pixels values > min_y contribute to awb measurement
-+ * @max_csum: Chrominance sum maximum value, only consider pixels with Cb+Cr,
-+ *	      smaller than threshold for awb measurements
-+ * @min_c: Chrominance minimum value, only consider pixels with Cb/Cr
-+ *	   each greater than threshold value for awb measurements
-+ * @frames: number of frames - 1 used for mean value calculation
-+ *	    (ucFrames=0 means 1 Frame)
-+ * @awb_ref_cr: reference Cr value for AWB regulation, target for AWB
-+ * @awb_ref_cb: reference Cb value for AWB regulation, target for AWB
-+ */
-+struct cifisp_awb_meas_config {
++static void mipidphy0_wr_reg(struct rockchip_dphy *priv,
++			     u8 test_code, u8 test_data)
++{
 +	/*
-+	 * Note: currently the h and v offsets are mapped to grid offsets
++	 * With the falling edge on TESTCLK, the TESTDIN[7:0] signal content
++	 * is latched internally as the current test code. Test data is
++	 * programmed internally by rising edge on TESTCLK.
 +	 */
-+	struct cifisp_window awb_wnd;
-+	__u32 awb_mode;
-+	__u8 max_y;
-+	__u8 min_y;
-+	__u8 max_csum;
-+	__u8 min_c;
-+	__u8 frames;
-+	__u8 awb_ref_cr;
-+	__u8 awb_ref_cb;
-+	__u8 enable_ymax_cmp;
-+} __attribute__ ((packed));
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTDIN, test_code);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTEN, 1);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 0);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTEN, 0);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTDIN, test_data);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
++}
 +
-+/**
-+ * struct cifisp_awb_gain_config - Configuration used by auto white balance gain
-+ *
-+ * out_data_x = ( AWB_GEAIN_X * in_data + 128) >> 8
-+ */
-+struct cifisp_awb_gain_config {
-+	__u16 gain_red;
-+	__u16 gain_green_r;
-+	__u16 gain_blue;
-+	__u16 gain_green_b;
-+} __attribute__ ((packed));
++/* should be move to power_on */
++static int mipidphy_rx_stream_on(struct rockchip_dphy *priv)
++{
++	const struct dphy_drv_data *drv_data = priv->drv_data;
++	const struct hsfreq_range *hsfreq_ranges = drv_data->hsfreq_ranges;
++	struct phy_configure_opts_mipi_dphy *config = &priv->config;
++	unsigned int i, hsfreq = 0, data_rate_mbps = config->hs_clk_rate;
++	int num_hsfreq_ranges = drv_data->num_hsfreq_ranges;
 +
-+/**
-+ * struct cifisp_flt_config - Configuration used by ISP filtering
-+ *
-+ * @mode: ISP_FILT_MODE register fields (from enum cifisp_flt_mode)
-+ * @grn_stage1: ISP_FILT_MODE register fields
-+ * @chr_h_mode: ISP_FILT_MODE register fields
-+ * @chr_v_mode: ISP_FILT_MODE register fields
-+ *
-+ * refer to REF_01 for details.
-+ */
++	do_div(data_rate_mbps, 1000 * 1000);
 +
-+struct cifisp_flt_config {
-+	__u32 mode;
-+	__u8 grn_stage1;
-+	__u8 chr_h_mode;
-+	__u8 chr_v_mode;
-+	__u32 thresh_bl0;
-+	__u32 thresh_bl1;
-+	__u32 thresh_sh0;
-+	__u32 thresh_sh1;
-+	__u32 lum_weight;
-+	__u32 fac_sh1;
-+	__u32 fac_sh0;
-+	__u32 fac_mid;
-+	__u32 fac_bl0;
-+	__u32 fac_bl1;
-+} __attribute__ ((packed));
++	dev_dbg(priv->dev, "%s: lanes %d - data_rate_mbps %u\n",
++		__func__, config->lanes, data_rate_mbps);
 +
-+/**
-+ * struct cifisp_bdm_config - Configuration used by Bayer DeMosaic
-+ *
-+ * @demosaic_th: threshod for bayer demosaicing texture detection
-+ */
-+struct cifisp_bdm_config {
-+	__u8 demosaic_th;
-+} __attribute__ ((packed));
++	for (i = 0; i < num_hsfreq_ranges; i++) {
++		if (hsfreq_ranges[i].range_h >= data_rate_mbps) {
++			hsfreq = hsfreq_ranges[i].cfg_bit;
++			break;
++		}
++	}
 +
-+/**
-+ * struct cifisp_ctk_config - Configuration used by Cross Talk correction
-+ *
-+ * @coeff: color correction matrix
-+ * @ct_offset_b: offset for the crosstalk correction matrix
-+ */
-+struct cifisp_ctk_config {
-+	__u16 coeff0;
-+	__u16 coeff1;
-+	__u16 coeff2;
-+	__u16 coeff3;
-+	__u16 coeff4;
-+	__u16 coeff5;
-+	__u16 coeff6;
-+	__u16 coeff7;
-+	__u16 coeff8;
-+	__u16 ct_offset_r;
-+	__u16 ct_offset_g;
-+	__u16 ct_offset_b;
-+} __attribute__ ((packed));
++	write_grf_reg(priv, GRF_DPHY_RX0_FORCERXMODE, 0);
++	write_grf_reg(priv, GRF_DPHY_RX0_FORCETXSTOPMODE, 0);
 +
-+enum cifisp_goc_mode {
-+	CIFISP_GOC_MODE_LOGARITHMIC,
-+	CIFISP_GOC_MODE_EQUIDISTANT
++	/* Disable lan turn around, which is ignored in receive mode */
++	write_grf_reg(priv, GRF_DPHY_RX0_TURNREQUEST, 0);
++	write_grf_reg(priv, GRF_DPHY_RX0_TURNDISABLE, 0xf);
++
++	write_grf_reg(priv, GRF_DPHY_RX0_ENABLE, GENMASK(config->lanes - 1, 0));
++
++	/* dphy start */
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLR, 1);
++	usleep_range(100, 150);
++	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLR, 0);
++	usleep_range(100, 150);
++
++	/* set clock lane */
++	/* HS hsfreq_range & lane 0  settle bypass */
++	mipidphy0_wr_reg(priv, CLOCK_LANE_HS_RX_CONTROL, 0);
++	/* HS RX Control of lane0 */
++	mipidphy0_wr_reg(priv, LANE0_HS_RX_CONTROL, hsfreq << 1);
++	/* HS RX Control of lane1 */
++	mipidphy0_wr_reg(priv, LANE1_HS_RX_CONTROL, 0);
++	/* HS RX Control of lane2 */
++	mipidphy0_wr_reg(priv, LANE2_HS_RX_CONTROL, 0);
++	/* HS RX Control of lane3 */
++	mipidphy0_wr_reg(priv, LANE3_HS_RX_CONTROL, 0);
++	/* HS RX Data Lanes Settle State Time Control */
++	mipidphy0_wr_reg(priv, HS_RX_DATA_LANES_THS_SETTLE_CONTROL,
++			 THS_SETTLE_COUNTER_THRESHOLD);
++
++	/* Normal operation */
++	mipidphy0_wr_reg(priv, 0x0, 0);
++
++	return 0;
++}
++
++static int rockchip_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++	int ret;
++
++	/* pass with phy_mipi_dphy_get_default_config (with pixel rate?) */
++	ret = phy_mipi_dphy_config_validate(&opts->mipi_dphy);
++	if (ret)
++		return ret;
++
++	memcpy(&priv->config, opts, sizeof(priv->config));
++
++	return 0;
++}
++
++static int rockchip_dphy_power_on(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++	int ret;
++
++	ret = clk_bulk_enable(priv->drv_data->num_clks, priv->clks);
++	if (ret)
++		return ret;
++
++	return mipidphy_rx_stream_on(priv);
++}
++
++static int rockchip_dphy_power_off(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++
++	clk_bulk_disable(priv->drv_data->num_clks, priv->clks);
++	return 0;
++}
++
++static int rockchip_dphy_init(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++	int ret;
++
++	ret = clk_bulk_prepare(priv->drv_data->num_clks, priv->clks);
++	if (ret)
++		return ret;
++	return 0;
++}
++
++static int rockchip_dphy_exit(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++
++	clk_bulk_unprepare(priv->drv_data->num_clks, priv->clks);
++	return 0;
++}
++
++static const struct phy_ops rockchip_dphy_ops = {
++	.power_on	= rockchip_dphy_power_on,
++	.power_off	= rockchip_dphy_power_off,
++	.init		= rockchip_dphy_init,
++	.exit		= rockchip_dphy_exit,
++	.configure	= rockchip_dphy_configure,
++	.owner		= THIS_MODULE,
 +};
 +
-+/**
-+ * struct cifisp_goc_config - Configuration used by Gamma Out correction
-+ *
-+ * @mode: goc mode (from enum cifisp_goc_mode)
-+ * @gamma_y: gamma out curve y-axis for all color components
-+ */
-+struct cifisp_goc_config {
-+	__u32 mode;
-+	__u16 gamma_y[CIFISP_GAMMA_OUT_MAX_SAMPLES];
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_hst_config - Configuration used by Histogram
-+ *
-+ * @mode: histogram mode (from enum cifisp_histogram_mode)
-+ * @histogram_predivider: process every stepsize pixel, all other pixels are
-+ *			  skipped
-+ * @meas_window: coordinates of the measure window
-+ * @hist_weight: weighting factor for sub-windows
-+ */
-+struct cifisp_hst_config {
-+	__u32 mode;
-+	__u8 histogram_predivider;
-+	struct cifisp_window meas_window;
-+	__u8 hist_weight[CIFISP_HISTOGRAM_WEIGHT_GRIDS_SIZE];
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_aec_config - Configuration used by Auto Exposure Control
-+ *
-+ * @mode: Exposure measure mode (from enum cifisp_exp_meas_mode)
-+ * @autostop: stop mode (from enum cifisp_exp_ctrl_autostop)
-+ * @meas_window: coordinates of the measure window
-+ */
-+struct cifisp_aec_config {
-+	__u32 mode;
-+	__u32 autostop;
-+	struct cifisp_window meas_window;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_afc_config - Configuration used by Auto Focus Control
-+ *
-+ * @num_afm_win: max CIFISP_AFM_MAX_WINDOWS
-+ * @afm_win: coordinates of the meas window
-+ * @thres: threshold used for minimizing the influence of noise
-+ * @var_shift: the number of bits for the shift operation at the end of the
-+ *	       calculation chain.
-+ */
-+struct cifisp_afc_config {
-+	__u8 num_afm_win;
-+	struct cifisp_window afm_win[CIFISP_AFM_MAX_WINDOWS];
-+	__u32 thres;
-+	__u32 var_shift;
-+} __attribute__ ((packed));
-+
-+/**
-+ * enum cifisp_dpf_gain_usage - dpf gain usage
-+ * @CIFISP_DPF_GAIN_USAGE_DISABLED: don't use any gains in preprocessing stage
-+ * @CIFISP_DPF_GAIN_USAGE_NF_GAINS: use only the noise function gains from
-+ *				    registers DPF_NF_GAIN_R, ...
-+ * @CIFISP_DPF_GAIN_USAGE_LSC_GAINS:  use only the gains from LSC module
-+ * @CIFISP_DPF_GAIN_USAGE_NF_LSC_GAINS: use the noise function gains and the
-+ *					gains from LSC module
-+ * @CIFISP_DPF_GAIN_USAGE_AWB_GAINS: use only the gains from AWB module
-+ * @CIFISP_DPF_GAIN_USAGE_AWB_LSC_GAINS: use the gains from AWB and LSC module
-+ * @CIFISP_DPF_GAIN_USAGE_MAX: upper border (only for an internal evaluation)
-+ */
-+enum cifisp_dpf_gain_usage {
-+	CIFISP_DPF_GAIN_USAGE_DISABLED,
-+	CIFISP_DPF_GAIN_USAGE_NF_GAINS,
-+	CIFISP_DPF_GAIN_USAGE_LSC_GAINS,
-+	CIFISP_DPF_GAIN_USAGE_NF_LSC_GAINS,
-+	CIFISP_DPF_GAIN_USAGE_AWB_GAINS,
-+	CIFISP_DPF_GAIN_USAGE_AWB_LSC_GAINS,
-+	CIFISP_DPF_GAIN_USAGE_MAX
++static const struct dphy_drv_data rk3399_mipidphy_drv_data = {
++	.clks = rk3399_mipidphy_clks,
++	.num_clks = ARRAY_SIZE(rk3399_mipidphy_clks),
++	.hsfreq_ranges = rk3399_mipidphy_hsfreq_ranges,
++	.num_hsfreq_ranges = ARRAY_SIZE(rk3399_mipidphy_hsfreq_ranges),
++	.regs = rk3399_grf_dphy_regs,
 +};
 +
-+/**
-+ * enum cifisp_dpf_gain_usage - dpf gain usage
-+ * @CIFISP_DPF_RB_FILTERSIZE_13x9: red and blue filter kernel size 13x9
-+ *				   (means 7x5 active pixel)
-+ * @CIFISP_DPF_RB_FILTERSIZE_9x9: red and blue filter kernel size 9x9
-+ *				   (means 5x5 active pixel)
-+ */
-+enum cifisp_dpf_rb_filtersize {
-+	CIFISP_DPF_RB_FILTERSIZE_13x9,
-+	CIFISP_DPF_RB_FILTERSIZE_9x9,
++static const struct of_device_id rockchip_dphy_dt_ids[] = {
++	{
++		.compatible = "rockchip,rk3399-mipi-dphy",
++		.data = &rk3399_mipidphy_drv_data,
++	},
++	{}
 +};
++MODULE_DEVICE_TABLE(of, rockchip_dphy_dt_ids);
 +
-+/**
-+ * enum cifisp_dpf_nll_scale_mode - dpf noise level scale mode
-+ * @CIFISP_NLL_SCALE_LINEAR: use a linear scaling
-+ * @CIFISP_NLL_SCALE_LOGARITHMIC: use a logarithmic scaling
-+ */
-+enum cifisp_dpf_nll_scale_mode {
-+	CIFISP_NLL_SCALE_LINEAR,
-+	CIFISP_NLL_SCALE_LOGARITHMIC,
++static int rockchip_dphy_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	const struct dphy_drv_data *drv_data;
++	struct phy_provider *phy_provider;
++	const struct of_device_id *of_id;
++	struct rockchip_dphy *priv;
++	struct regmap *grf;
++	struct phy *phy;
++	unsigned int i;
++	int ret;
++
++	if (!dev->parent || !dev->parent->of_node)
++		return -ENODEV;
++
++	if (platform_get_resource(pdev, IORESOURCE_MEM, 0)) {
++		dev_err(&pdev->dev, "Rockchip DPHY driver only suports rx\n");
++		return -EINVAL;
++	}
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	priv->dev = dev;
++
++	grf = syscon_node_to_regmap(dev->parent->of_node);
++	if (IS_ERR(grf)) {
++		grf = syscon_regmap_lookup_by_phandle(dev->of_node,
++						      "rockchip,grf");
++		if (IS_ERR(grf)) {
++			dev_err(dev, "Can't find GRF syscon\n");
++			return -ENODEV;
++		}
++	}
++	priv->grf = grf;
++
++	of_id = of_match_device(rockchip_dphy_dt_ids, dev);
++	if (!of_id)
++		return -EINVAL;
++
++	drv_data = of_id->data;
++	priv->grf_regs = drv_data->regs;
++	priv->drv_data = drv_data;
++	for (i = 0; i < drv_data->num_clks; i++)
++		priv->clks[i].id = drv_data->clks[i];
++	ret = devm_clk_bulk_get(&pdev->dev, drv_data->num_clks, priv->clks);
++	if (ret)
++		return ret;
++
++	phy = devm_phy_create(dev, np, &rockchip_dphy_ops);
++	if (IS_ERR(phy)) {
++		dev_err(dev, "failed to create phy\n");
++		return PTR_ERR(phy);
++	}
++	phy_set_drvdata(phy, priv);
++
++	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++
++	return PTR_ERR_OR_ZERO(phy_provider);
++}
++
++static struct platform_driver rockchip_dphy_driver = {
++	.probe = rockchip_dphy_probe,
++	.driver = {
++		.name	= "rockchip-mipi-dphy",
++		.of_match_table = rockchip_dphy_dt_ids,
++	},
 +};
++module_platform_driver(rockchip_dphy_driver);
 +
-+/**
-+ * struct cifisp_dpf_nll - Noise level lookup
-+ *
-+ * @coeff: Noise level Lookup coefficient
-+ * @scale_mode: dpf noise level scale mode (from enum cifisp_dpf_nll_scale_mode)
-+ */
-+struct cifisp_dpf_nll {
-+	__u16 coeff[CIFISP_DPF_MAX_NLF_COEFFS];
-+	__u32 scale_mode;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_dpf_rb_flt - Red blue filter config
-+ *
-+ * @fltsize: The filter size for the red and blue pixels
-+ *	     (from enum cifisp_dpf_rb_filtersize)
-+ * @spatial_coeff: Spatial weights
-+ * @r_enable: enable filter processing for red pixels
-+ * @b_enable: enable filter processing for blue pixels
-+ */
-+struct cifisp_dpf_rb_flt {
-+	__u32 fltsize;
-+	__u8 spatial_coeff[CIFISP_DPF_MAX_SPATIAL_COEFFS];
-+	__u8 r_enable;
-+	__u8 b_enable;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_dpf_g_flt - Green filter Configuration
-+ *
-+ * @spatial_coeff: Spatial weights
-+ * @gr_enable: enable filter processing for green pixels in green/red lines
-+ * @gb_enable: enable filter processing for green pixels in green/blue lines
-+ */
-+struct cifisp_dpf_g_flt {
-+	__u8 spatial_coeff[CIFISP_DPF_MAX_SPATIAL_COEFFS];
-+	__u8 gr_enable;
-+	__u8 gb_enable;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_dpf_gain - Noise function Configuration
-+ *
-+ * @mode: dpf gain usage  (from enum cifisp_dpf_gain_usage)
-+ * @nf_r_gain: Noise function Gain that replaces the AWB gain for red pixels
-+ * @nf_b_gain: Noise function Gain that replaces the AWB gain for blue pixels
-+ * @nf_gr_gain: Noise function Gain that replaces the AWB gain
-+ *		for green pixels in a red line
-+ * @nf_gb_gain: Noise function Gain that replaces the AWB gain
-+ *		for green pixels in a blue line
-+ */
-+struct cifisp_dpf_gain {
-+	__u32 mode;
-+	__u16 nf_r_gain;
-+	__u16 nf_b_gain;
-+	__u16 nf_gr_gain;
-+	__u16 nf_gb_gain;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_dpf_config - Configuration used by De-noising pre-filter
-+ *
-+ * @gain: noise function gain
-+ * @g_flt: green filter config
-+ * @rb_flt: red blue filter config
-+ * @nll: noise level lookup
-+ */
-+struct cifisp_dpf_config {
-+	struct cifisp_dpf_gain gain;
-+	struct cifisp_dpf_g_flt g_flt;
-+	struct cifisp_dpf_rb_flt rb_flt;
-+	struct cifisp_dpf_nll nll;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_dpf_strength_config - strength of the filter
-+ *
-+ * @r: filter strength of the RED filter
-+ * @g: filter strength of the GREEN filter
-+ * @b: filter strength of the BLUE filter
-+ */
-+struct cifisp_dpf_strength_config {
-+	__u8 r;
-+	__u8 g;
-+	__u8 b;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_isp_other_cfg - Parameters for some blocks in rockchip isp1
-+ *
-+ * @dpcc_config: Defect Pixel Cluster Correction config
-+ * @bls_config: Black Level Subtraction config
-+ * @sdg_config: sensor degamma config
-+ * @lsc_config: Lens Shade config
-+ * @awb_gain_config: Auto White balance gain config
-+ * @flt_config: filter config
-+ * @bdm_config: demosaic config
-+ * @ctk_config: cross talk config
-+ * @goc_config: gamma out config
-+ * @bls_config: black level subtraction config
-+ * @dpf_config: De-noising pre-filter config
-+ * @dpf_strength_config: dpf strength config
-+ * @cproc_config: color process config
-+ * @ie_config: image effects config
-+ */
-+struct cifisp_isp_other_cfg {
-+	struct cifisp_dpcc_config dpcc_config;
-+	struct cifisp_bls_config bls_config;
-+	struct cifisp_sdg_config sdg_config;
-+	struct cifisp_lsc_config lsc_config;
-+	struct cifisp_awb_gain_config awb_gain_config;
-+	struct cifisp_flt_config flt_config;
-+	struct cifisp_bdm_config bdm_config;
-+	struct cifisp_ctk_config ctk_config;
-+	struct cifisp_goc_config goc_config;
-+	struct cifisp_dpf_config dpf_config;
-+	struct cifisp_dpf_strength_config dpf_strength_config;
-+	struct cifisp_cproc_config cproc_config;
-+	struct cifisp_ie_config ie_config;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_isp_meas_cfg - Rockchip ISP1 Measure Parameters
-+ *
-+ * @awb_meas_config: auto white balance config
-+ * @hst_config: histogram config
-+ * @aec_config: auto exposure config
-+ * @afc_config: auto focus config
-+ */
-+struct cifisp_isp_meas_cfg {
-+	struct cifisp_awb_meas_config awb_meas_config;
-+	struct cifisp_hst_config hst_config;
-+	struct cifisp_aec_config aec_config;
-+	struct cifisp_afc_config afc_config;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct rkisp1_isp_params_cfg - Rockchip ISP1 Input Parameters Meta Data
-+ *
-+ * @module_en_update: mask the enable bits of which module should be updated
-+ * @module_ens: mask the enable value of each module, only update the module
-+ *		which correspond bit was set in module_en_update
-+ * @module_cfg_update: mask the config bits of which module should be updated
-+ * @meas: measurement config
-+ * @others: other config
-+ */
-+struct rkisp1_isp_params_cfg {
-+	__u32 module_en_update;
-+	__u32 module_ens;
-+	__u32 module_cfg_update;
-+
-+	struct cifisp_isp_meas_cfg meas;
-+	struct cifisp_isp_other_cfg others;
-+} __attribute__ ((packed));
-+
-+/*---------- PART2: Measurement Statistics ------------*/
-+
-+/**
-+ * struct cifisp_bls_meas_val - AWB measured values
-+ *
-+ * @cnt: White pixel count, number of "white pixels" found during laster
-+ *	 measurement
-+ * @mean_y_or_g: Mean value of Y within window and frames,
-+ *		 Green if RGB is selected.
-+ * @mean_cb_or_b: Mean value of Cb within window and frames,
-+ *		  Blue if RGB is selected.
-+ * @mean_cr_or_r: Mean value of Cr within window and frames,
-+ *		  Red if RGB is selected.
-+ */
-+struct cifisp_awb_meas {
-+	__u32 cnt;
-+	__u8 mean_y_or_g;
-+	__u8 mean_cb_or_b;
-+	__u8 mean_cr_or_r;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_awb_stat - statistics automatic white balance data
-+ *
-+ * @awb_mean: Mean measured data
-+ */
-+struct cifisp_awb_stat {
-+	struct cifisp_awb_meas awb_mean[CIFISP_AWB_MAX_GRID];
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_bls_meas_val - BLS measured values
-+ *
-+ * @meas_r: Mean measured value for Bayer pattern R
-+ * @meas_gr: Mean measured value for Bayer pattern Gr
-+ * @meas_gb: Mean measured value for Bayer pattern Gb
-+ * @meas_b: Mean measured value for Bayer pattern B
-+ */
-+struct cifisp_bls_meas_val {
-+	__u16 meas_r;
-+	__u16 meas_gr;
-+	__u16 meas_gb;
-+	__u16 meas_b;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_ae_stat - statistics auto exposure data
-+ *
-+ * @exp_mean: Mean luminance value of block xx
-+ * @bls_val:  BLS measured values
-+ *
-+ * Image is divided into 5x5 blocks.
-+ */
-+struct cifisp_ae_stat {
-+	__u8 exp_mean[CIFISP_AE_MEAN_MAX];
-+	struct cifisp_bls_meas_val bls_val;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_af_meas_val - AF measured values
-+ *
-+ * @sum: sharpness, refer to REF_01 for definition
-+ * @lum: luminance, refer to REF_01 for definition
-+ */
-+struct cifisp_af_meas_val {
-+	__u32 sum;
-+	__u32 lum;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_af_stat - statistics auto focus data
-+ *
-+ * @window: AF measured value of window x
-+ *
-+ * The module measures the sharpness in 3 windows of selectable size via
-+ * register settings(ISP_AFM_*_A/B/C)
-+ */
-+struct cifisp_af_stat {
-+	struct cifisp_af_meas_val window[CIFISP_AFM_MAX_WINDOWS];
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct cifisp_hist_stat - statistics histogram data
-+ *
-+ * @hist_bins: measured bin counters
-+ *
-+ * Measurement window divided into 25 sub-windows, set
-+ * with ISP_HIST_XXX
-+ */
-+struct cifisp_hist_stat {
-+	__u16 hist_bins[CIFISP_HIST_BIN_N_MAX];
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct rkisp1_stat_buffer - Rockchip ISP1 Statistics Data
-+ *
-+ * @cifisp_awb_stat: statistics data for automatic white balance
-+ * @cifisp_ae_stat: statistics data for auto exposure
-+ * @cifisp_af_stat: statistics data for auto focus
-+ * @cifisp_hist_stat: statistics histogram data
-+ */
-+struct cifisp_stat {
-+	struct cifisp_awb_stat awb;
-+	struct cifisp_ae_stat ae;
-+	struct cifisp_af_stat af;
-+	struct cifisp_hist_stat hist;
-+} __attribute__ ((packed));
-+
-+/**
-+ * struct rkisp1_stat_buffer - Rockchip ISP1 Statistics Meta Data
-+ *
-+ * @meas_type: measurement types (CIFISP_STAT_ definitions)
-+ * @frame_id: frame ID for sync
-+ * @params: statistics data
-+ */
-+struct rkisp1_stat_buffer {
-+	__u32 meas_type;
-+	__u32 frame_id;
-+	struct cifisp_stat params;
-+} __attribute__ ((packed));
-+
-+#endif /* _UAPI_RKISP1_CONFIG_H */
++MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
++MODULE_DESCRIPTION("Rockchip MIPI Synopsys DPHY driver");
++MODULE_LICENSE("Dual MIT/GPL");
 -- 
 2.22.0
 
