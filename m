@@ -2,109 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD3687A2F3
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C40F27A2F9
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbfG3IPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 04:15:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:51953 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727789AbfG3IPq (ORCPT
+        id S1729547AbfG3IQc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 04:16:32 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37454 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729338AbfG3IQc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 04:15:46 -0400
-Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id sNIGhAzQaqTdhsNIIhlAOr; Tue, 30 Jul 2019 10:15:41 +0200
-Subject: Re: [PATCH] media input infrastructure:tw686x: Fix of
- possibleinconsistent memory deallocation and/or race condition by
- implementation of custom video_device_release function in tw686x driver
-To:     Mark Balantzyan <mbalant3@gmail.com>, ezequiel@vanguardiasur.com.ar
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <alpine.DEB.2.21.1907291256080.16959@mbalantz-desktop>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <40d14e23-636e-ed8a-6608-99427f5b8169@xs4all.nl>
-Date:   Tue, 30 Jul 2019 10:15:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 30 Jul 2019 04:16:32 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 16B0528B28C
+Message-ID: <5b9da5ccb5b1b8d216464138b2e8e44abc0e13c2.camel@collabora.com>
+Subject: Re: [PATCH v2] media: i2c: ov5645: Fix power sequence
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>
+Date:   Tue, 30 Jul 2019 05:16:22 -0300
+In-Reply-To: <20190710184000.8995-1-ezequiel@collabora.com>
+References: <20190710184000.8995-1-ezequiel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1907291256080.16959@mbalantz-desktop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPqNhh2qVlJuZ2GmaH9XhGYKqumkyFarMB2ZiQRDm683SEAP533sV503AxCaD7YHeXDagHkODd+NotO33NqwPYWJ64aPeWhqhc9YpdcvoRIrwRSaE7e6
- zSGlL3E/tPmj3drXRzjZgCv6s+WNZ8M1KwhzZkrYXxATKUG4s2Sy7qbEAYUy5IklMMBVmKpoSCcp7a+3EYhD4sDodMDEubReyeJvD+31fC8shw+gdW5VyPri
- 4b9H1xgYMzoxLqF2E8lTM9HT0WeWVacV/FFhO7q/3hfxnYuIE+5Wkqfk6U8qK3KrEDhhbZtVZaKaCCyGVI2rZSlhbs2fWvk3YLfgloAaBzyFhMnlaruKHVdT
- PnaBI2B5vxMzxQzf2KZcyvdkFbaZr5j628+/i0bANEe1iNVDiTw=
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mark,
+Hi Hans, Sakari,
 
-Please, please read this first before posting patches:
-
-https://kernelnewbies.org/FirstKernelPatch
-
-And don't use insanely long subject lines in your email.
-
-This patch is nonsense. As said before, you need to override the release() callback
-of struct video_device with a tw686x-specific function that frees the dma memory and
-calls video_device_release() at the end to free the struct video_device itself.
-
-This release() callback is called by the V4L2 framework when the last user of the
-device closes its filehandle, so that's a good point to free all the memory. Doing
-it earlier (as the current code does) runs the risk that someone might still access
-that memory, and you don't want that.
-
-Regards,
-
-	Hans
-
-On 7/29/19 10:09 PM, Mark Balantzyan wrote:
+On Wed, 2019-07-10 at 15:40 -0300, Ezequiel Garcia wrote:
+> This is mostly a port of Jacopo's fix:
 > 
-> Possible inconsistent memory deallocation and/or race conditions were detected specifically with respect to remaining open handles to the video device handled by the tw686x driver. This patch
-> addresses this by implementing a revised independent instance of the video_device_release function to free the remaining resources and memory where the last open handle(s) is/were closed.
+>   commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
+>   Author: Jacopo Mondi <jacopo@jmondi.org>
+>   Date:   Fri Jul 6 05:51:52 2018 -0400
 > 
-> Signed-off-by: Mark Balantzyan <mbalant3@gmail.com>
+>   media: ov5640: Re-work MIPI startup sequence
 > 
+> In the OV5645 case, the changes are:
+> 
+> - Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
+> - At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
+>   LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
+> - At set_power(0) time power down MIPI Tx/Rx (in addition to the current
+>   power down of regulators and clock gating).
+> - At s_stream time enable/disable the MIPI interface output.
+> 
+> With this commit the sensor is able to enter LP-11 mode during power up,
+> as expected by some CSI-2 controllers.
+> 
+> Many thanks to Fabio Estevam for his help debugging this issue.
+> 
+> Tested-by: Fabio Estevam <festevam@gmail.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
+> Changes in v2:
+> * As suggested by Philipp, move the initial configuration
+>   to the ov5645_global_init_setting array.
+> ---
+>  drivers/media/i2c/ov5645.c | 26 ++++++++++++++++++--------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
 > 
->  drivers/media/pci/tw686x/tw686x-video.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
-> index 3a06c000..29e10c85 100644
-> --- a/drivers/media/pci/tw686x/tw686x-video.c
-> +++ b/drivers/media/pci/tw686x/tw686x-video.c
-> @@ -1151,18 +1151,25 @@ void tw686x_video_irq(struct tw686x_dev *dev, unsigned long requests,
->      }
->  }
-> 
-> +void video_device_release(tw686x_dev *dev) {
-> +    for (int pb = 0; pb < 2; pb++) {
-> +        dev->dma_ops->free(dev->video_channels,pb);
-> +    }
-> +    kfree(dev);
-> +}
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index 124c8df04633..58972c884705 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -45,6 +45,8 @@
+>  #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
+>  #define OV5645_CHIP_ID_LOW		0x300b
+>  #define		OV5645_CHIP_ID_LOW_BYTE		0x45
+> +#define OV5645_IO_MIPI_CTRL00		0x300e
+> +#define OV5645_PAD_OUTPUT00		0x3019
+>  #define OV5645_AWB_MANUAL_CONTROL	0x3406
+>  #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
+>  #define OV5645_AEC_PK_MANUAL		0x3503
+> @@ -55,6 +57,7 @@
+>  #define		OV5645_ISP_VFLIP		BIT(2)
+>  #define OV5645_TIMING_TC_REG21		0x3821
+>  #define		OV5645_SENSOR_MIRROR		BIT(1)
+> +#define OV5645_MIPI_CTRL00		0x4800
+>  #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
+>  #define		OV5645_TEST_PATTERN_MASK	0x3
+>  #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
+> @@ -121,7 +124,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
+>  	{ 0x3503, 0x07 },
+>  	{ 0x3002, 0x1c },
+>  	{ 0x3006, 0xc3 },
+> -	{ 0x300e, 0x45 },
+>  	{ 0x3017, 0x00 },
+>  	{ 0x3018, 0x00 },
+>  	{ 0x302e, 0x0b },
+> @@ -350,7 +352,10 @@ static const struct reg_value ov5645_global_init_setting[] = {
+>  	{ 0x3a1f, 0x14 },
+>  	{ 0x0601, 0x02 },
+>  	{ 0x3008, 0x42 },
+> -	{ 0x3008, 0x02 }
+> +	{ 0x3008, 0x02 },
+> +	{ OV5645_IO_MIPI_CTRL00, 0x40 },
+> +	{ OV5645_MIPI_CTRL00, 0x24 },
+> +	{ OV5645_PAD_OUTPUT00, 0x70 }
+>  };
+>  
+>  static const struct reg_value ov5645_setting_sxga[] = {
+> @@ -737,13 +742,9 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+>  				goto exit;
+>  			}
+>  
+> -			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+> -					       OV5645_SYSTEM_CTRL0_STOP);
+> -			if (ret < 0) {
+> -				ov5645_set_power_off(ov5645);
+> -				goto exit;
+> -			}
+> +			usleep_range(500, 1000);
+>  		} else {
+> +			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+>  			ov5645_set_power_off(ov5645);
+>  		}
+>  	}
+> @@ -1049,11 +1050,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+>  			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
+>  			return ret;
+>  		}
 > +
->  void tw686x_video_free(struct tw686x_dev *dev)
->  {
-> -    unsigned int ch, pb;
-> +    unsigned int ch;
-> 
->      for (ch = 0; ch < max_channels(dev); ch++) {
->          struct tw686x_video_channel *vc = &dev->video_channels[ch];
-> 
->          video_unregister_device(vc->device);
-> 
-> -        if (dev->dma_ops->free)
-> -            for (pb = 0; pb < 2; pb++)
-> -                dev->dma_ops->free(vc, pb);
-> +        if (dev->dma_ops->free) {
-> +            video_device_release(dev);
-> +        }
->      }
->  }
-> 
+> +		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
+> +		if (ret < 0)
+> +			return ret;
+> +
+>  		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+>  				       OV5645_SYSTEM_CTRL0_START);
+>  		if (ret < 0)
+>  			return ret;
+>  	} else {
+> +		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
+> +		if (ret < 0)
+> +			return ret;
+> +
+>  		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+>  				       OV5645_SYSTEM_CTRL0_STOP);
+>  		if (ret < 0)
+
+Gentle reminder about this one.
+
+Thanks!
+Eze
+
 
