@@ -2,64 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3157B7A31D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3D9F7A365
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 10:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730649AbfG3IaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 04:30:01 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:41739 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726946AbfG3IaB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 04:30:01 -0400
-Received: by mail-io1-f70.google.com with SMTP id x17so70165791iog.8
-        for <linux-media@vger.kernel.org>; Tue, 30 Jul 2019 01:30:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=RFgSTCfcESdk+wudtp7BymcAVpIjxQ2mPwsiS44G8Uw=;
-        b=UN7GAEjGKnLeMaciidVRN05/wsSh0Hj3+zb3zQaSOumPUwo2wFRv8F8uN1bo/y0Mx+
-         4j4bcZfOjH2/l3TMfsrPQnzvMEGLKH1OZp4SMVaUA9ShxSw6VqGM6685D4S+DyTe5F/j
-         qjHiJ/XODHeqLOy+O7jnOlDPWa5gaItlVGWn+GfEd9QjN+1UNVh9cx2qbfZqFgL7tmIB
-         vHlIs3K9SzdrSxWZbPCVQTk8lqtHlWa9O/yAJvToRQcttu+6Lnu+mv2s77rgxejMIj+5
-         AvEUoZVxBgP2tL5+D+hE+j2nX7VXnKpB34NUr1wInuzzGpuFLbUnyxpR6bBvvp19AuYl
-         cOvQ==
-X-Gm-Message-State: APjAAAU95ec/Ej8H0VIYOmspO+ZS/yFeRvbSnRvMUnXpZlr8HabdITNS
-        QPmNofmIMtWWJAEtkjVOWZow3MS1GvWnh47cRsbnVTApPAOA
-X-Google-Smtp-Source: APXvYqw7fepiZjUizcBLP5VnhleGqr3AULHdUUS/YFdJOaywH95yk0+F/Mwtou+Z+8O67IaVpqQRRGb+Ue7Nrgf7+87oN4YKEacX
-MIME-Version: 1.0
-X-Received: by 2002:a5d:9957:: with SMTP id v23mr29208723ios.117.1564475400495;
- Tue, 30 Jul 2019 01:30:00 -0700 (PDT)
-Date:   Tue, 30 Jul 2019 01:30:00 -0700
-In-Reply-To: <1564472907.25582.16.camel@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000081a9c1058ee1d06a@google.com>
-Subject: Re: general protection fault in flexcop_usb_probe
-From:   syzbot <syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com>
-To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        oneukum@suse.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        id S1731169AbfG3IvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 04:51:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46830 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728206AbfG3IvA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Jul 2019 04:51:00 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 83829AED5;
+        Tue, 30 Jul 2019 08:50:59 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     sean@mess.org, mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] iguanair: add sanity checks
+Date:   Tue, 30 Jul 2019 10:50:44 +0200
+Message-Id: <20190730085044.16107-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The driver needs to check the endpoint types, too, as opposed
+to the number of endpoints. This also requires moving the check earlier.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+Reported-by: syzbot+01a77b82edaa374068e1@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/media/rc/iguanair.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-Reported-and-tested-by:  
-syzbot+d93dff37e6a89431c158@syzkaller.appspotmail.com
+diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
+index ea05e125016a..663083a6b399 100644
+--- a/drivers/media/rc/iguanair.c
++++ b/drivers/media/rc/iguanair.c
+@@ -413,6 +413,10 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	int ret, pipein, pipeout;
+ 	struct usb_host_interface *idesc;
+ 
++	idesc = intf->altsetting;
++	if (idesc->desc.bNumEndpoints < 2)
++		return -ENODEV;
++
+ 	ir = kzalloc(sizeof(*ir), GFP_KERNEL);
+ 	rc = rc_allocate_device(RC_DRIVER_IR_RAW);
+ 	if (!ir || !rc) {
+@@ -427,18 +431,13 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	ir->urb_in = usb_alloc_urb(0, GFP_KERNEL);
+ 	ir->urb_out = usb_alloc_urb(0, GFP_KERNEL);
+ 
+-	if (!ir->buf_in || !ir->packet || !ir->urb_in || !ir->urb_out) {
++	if (!ir->buf_in || !ir->packet || !ir->urb_in || !ir->urb_out ||
++			!usb_endpoint_is_int_in(&idesc->endpoint[0].desc) ||
++			!usb_endpoint_is_int_out(&idesc->endpoint[1].desc)) {
+ 		ret = -ENOMEM;
+ 		goto out;
+ 	}
+ 
+-	idesc = intf->altsetting;
+-
+-	if (idesc->desc.bNumEndpoints < 2) {
+-		ret = -ENODEV;
+-		goto out;
+-	}
+-
+ 	ir->rc = rc;
+ 	ir->dev = &intf->dev;
+ 	ir->udev = udev;
+-- 
+2.16.4
 
-Tested on:
-
-commit:         9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1226c2d8600000
-
-Note: testing is done by a robot and is best-effort only.
