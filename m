@@ -2,111 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D3779FC8
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 06:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D547A123
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2019 08:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbfG3ENI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 00:13:08 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:40906 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbfG3ENI (ORCPT
+        id S1728176AbfG3GO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 02:14:29 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39371 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726358AbfG3GO2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 00:13:08 -0400
-Received: by mail-pf1-f194.google.com with SMTP id p184so29103934pfp.7
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2019 21:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0dIdr0oee/yzISErhJRxkq09mvv2TBOhcmQ09wO6m0E=;
-        b=OrtCq5Snu5fXUnizDVa0OuKzMhTHKT7s5OK7tU318dlfyuG3bM8RYHmuV7nP3E8a+/
-         +yOlv35ESIfJr+g4pd9yjM6q41lvTW01/7heaskQI8d33iLkSP72SzxWG8aVo3W3u+ZW
-         dlCPkfjpEZYFugUKH4EwVM50JS3i9vV3dshDL2KJChMPBmBzi26W0ceSNsth5kCjs3ZC
-         eunZDBKEX1l8ogrLuX2V/aXyizny3TO8NSczp/xzmsx9f680i9TQH6sws+AnLECXDaiq
-         Nz3tHjZnvmu8y3C3vgW2fEbRXakmRB+5d3ZWZnaOx/4227/5+FKR1sBYP+srlkJTAm+G
-         jCbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0dIdr0oee/yzISErhJRxkq09mvv2TBOhcmQ09wO6m0E=;
-        b=NYfMXR7zOpMMXmq14/BTE5krp1yW0ms8eMU4WdiMxYimA40UBRIjnT6Hh/OHT/bnen
-         yVkxmzs1DdsPUIHQHTGs4eyeFZ6NMdv8bliqO9RN3ob8Z7RuEpglojT4JEA8uGiXkzdp
-         yuwKwRgbEDpwKBAs6NwDyHTE0BTH8i+cYHr+gy0rCbrIsqZiVjdrodFLbBaXlkGNvexS
-         CCiowjjKna/gtFLtnMShAu+w2Y52J9KatXeFlgDrLro7qTVrgdtSSXyYRrSdo4whLYNK
-         bROkTeHmdPTtuxV34wJRziKHr1/MmKp9uSOu9CAMGkEesAvhAOot8KfKOCXKzeliq1Sb
-         zpXw==
-X-Gm-Message-State: APjAAAU/eETminiGo2refyom6zPNqDMTwq11tK41f064+5fPEeac9uKr
-        viAsbEImKGl/NnmYj2DIlSse
-X-Google-Smtp-Source: APXvYqz5yPeIopb8Zi5XBaN/Wi6+Py+XNWnQJqU+IjLr28mzLvamVAUeAbUgGvxcXYv4TzlNrw5ZMA==
-X-Received: by 2002:a62:770e:: with SMTP id s14mr38606145pfc.150.1564459987428;
-        Mon, 29 Jul 2019 21:13:07 -0700 (PDT)
-Received: from Mani-XPS-13-9360 ([2405:204:704e:cda4:ddd4:6d08:8469:b0f0])
-        by smtp.gmail.com with ESMTPSA id h9sm76306769pgk.10.2019.07.29.21.13.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Jul 2019 21:13:06 -0700 (PDT)
-Date:   Tue, 30 Jul 2019 09:42:57 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     mchehab@kernel.org
-Cc:     robh+dt@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, c.barrett@framos.com,
-        a.brela@framos.com
-Subject: Re: [PATCH 0/3] Add IMX290 CMOS image sensor support
-Message-ID: <20190730041253.GA3178@Mani-XPS-13-9360>
-References: <20190703190230.12392-1-manivannan.sadhasivam@linaro.org>
+        Tue, 30 Jul 2019 02:14:28 -0400
+Received: from [IPv6:2001:983:e9a7:1:3159:f139:4aff:7185] ([IPv6:2001:983:e9a7:1:3159:f139:4aff:7185])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id sLOthABgJqTdhsLOuhkX2E; Tue, 30 Jul 2019 08:14:26 +0200
+To:     dmaengine@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] omap-dma/omap_vout_vrfb: fix off-by-one fi value
+Message-ID: <8f4e529f-9c20-b2e3-7e60-35e2d72d5242@xs4all.nl>
+Date:   Tue, 30 Jul 2019 08:14:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190703190230.12392-1-manivannan.sadhasivam@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBiehGZxUXRrX/9yQdHb8S0LSkiPKOIQDPydebvc6iTI0ybK3RlgDnJXm8SrgqPjSHwR6bhUhYIUev52CgoSI9ka4bNFH0spHCEmPfZrLkSm3YpFlptL
+ 74R3jvJmdpNxkAvFCXQfIXJVLYghYm64BCnarJQUUBf3rrG+tFt1O3HRO0c3ZvPigzhRBYaTat9GyAISDnxbfSoK6ILdz59euVvphINR80Z/3zpxQabcpWUX
+ irCMwU2KyE2HhkUqJbuH3LdzG1GmGe0pjjfGI7cxeJ0lgqxxsxrkAV5OZNi2kSa2KP6m/foG/g0h7Ua1/+JtDidTjpPoTtDikJLHR63VXrICeuOIarKhu/TW
+ VyrMa1wuuYMSTCUAEDl28/N7Z2iUq5C5wUX6PoZeeTV02Idy40rGdkaIpEp0rUzuv3/9MJgZj1qVuuk6aF4EisAWq9ZDLdGahVJZ7lUgJtQtIsQ8kHg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 04, 2019 at 12:32:27AM +0530, Manivannan Sadhasivam wrote:
-> Hello,
-> 
-> This patchset adds support for IMX290 CMOS image sensor from Sony.
-> Sensor can be programmed through I2C and 4-wire interface but the
-> current driver only supports I2C interface. Also, the sensor is
-> capable of outputting frames in following 3 interfaces:
-> 
-> * CMOS logic parallel SDR output
-> * Low voltage LVDS serial DDR output
-> * CSI-2 serial data output
-> 
-> But the current driver only supports CSI-2 output available from 4 lanes.
-> In the case of sensor resolution, driver only supports 1920x1080 and
-> 1280x720 at mid data rate of 445.5 Mpbs.
-> 
-> The driver has been validated using Framos IMX290 module interfaced to
-> 96Boards Dragonboard410c.
-> 
+The OMAP 4 TRM specifies that when using double-index addressing
+the address increases by the ES plus the EI value minus 1 within
+a frame. When a full frame is transferred, the address increases
+by the ES plus the frame index (FI) value minus 1.
 
-Ping on the patchset!
+The omap-dma code didn't account for the 'minus 1' in the FI register.
+To get correct addressing, add 1 to the src_icg value.
 
-Thanks,
-Mani
+This was found when testing a hacked version of the media m2m-deinterlace.c
+driver on a Pandaboard.
 
-> Thanks,
-> Mani
-> 
-> Manivannan Sadhasivam (3):
->   dt-bindings: media: i2c: Add IMX290 CMOS sensor binding
->   media: i2c: Add IMX290 CMOS image sensor driver
->   MAINTAINERS: Add entry for IMX290 CMOS image sensor driver
-> 
->  .../devicetree/bindings/media/i2c/imx290.txt  |  51 ++
->  MAINTAINERS                                   |   8 +
->  drivers/media/i2c/Kconfig                     |  11 +
->  drivers/media/i2c/Makefile                    |   1 +
->  drivers/media/i2c/imx290.c                    | 845 ++++++++++++++++++
->  5 files changed, 916 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
->  create mode 100644 drivers/media/i2c/imx290.c
-> 
-> -- 
-> 2.17.1
-> 
+The only other source that uses this feature is omap_vout_vrfb.c,
+and that adds a + 1 when setting the dst_icg. This is a workaround
+for the broken omap-dma.c behavior. So remove the workaround at the
+same time that we fix omap-dma.c.
+
+I tested the omap_vout driver with a Beagle XM board to check that
+the '+ 1' in omap_vout_vrfb.c was indeed a workaround for the omap-dma
+bug.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+It makes sense that this patch goes in through the dmaengine subsystem
+(Mauro, can you Ack this patch?), but if preferred it can also go in
+through the media subsystem if we get an Ack.
+
+Regards,
+
+	Hans
+---
+ drivers/dma/ti/omap-dma.c                    | 4 ++--
+ drivers/media/platform/omap/omap_vout_vrfb.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+index ba2489d4ea24..ba27802efcd0 100644
+--- a/drivers/dma/ti/omap-dma.c
++++ b/drivers/dma/ti/omap-dma.c
+@@ -1234,7 +1234,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+ 	if (src_icg) {
+ 		d->ccr |= CCR_SRC_AMODE_DBLIDX;
+ 		d->ei = 1;
+-		d->fi = src_icg;
++		d->fi = src_icg + 1;
+ 	} else if (xt->src_inc) {
+ 		d->ccr |= CCR_SRC_AMODE_POSTINC;
+ 		d->fi = 0;
+@@ -1249,7 +1249,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+ 	if (dst_icg) {
+ 		d->ccr |= CCR_DST_AMODE_DBLIDX;
+ 		sg->ei = 1;
+-		sg->fi = dst_icg;
++		sg->fi = dst_icg + 1;
+ 	} else if (xt->dst_inc) {
+ 		d->ccr |= CCR_DST_AMODE_POSTINC;
+ 		sg->fi = 0;
+diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
+index 29e3f5da59c1..729b1bf9395f 100644
+--- a/drivers/media/platform/omap/omap_vout_vrfb.c
++++ b/drivers/media/platform/omap/omap_vout_vrfb.c
+@@ -254,7 +254,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
+
+ 	pixsize = vout->bpp * vout->vrfb_bpp;
+ 	dst_icg = ((MAX_PIXELS_PER_LINE * pixsize) -
+-		  (vout->pix.width * vout->bpp)) + 1;
++		  (vout->pix.width * vout->bpp));
+
+ 	xt->src_start = vout->buf_phy_addr[vb->i];
+ 	xt->dst_start = vout->vrfb_context[vb->i].paddr[0];
+-- 
+2.20.1
+
