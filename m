@@ -2,75 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4937BB92
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 10:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80B587BC01
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 10:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728127AbfGaI0E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 04:26:04 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:43903 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727946AbfGaI0D (ORCPT
+        id S1726467AbfGaImM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 04:42:12 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:35256 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726058AbfGaImM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 04:26:03 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hsjvl-0006Tm-Pu; Wed, 31 Jul 2019 10:25:53 +0200
-Message-ID: <1564561552.3207.3.camel@pengutronix.de>
-Subject: Re: [PATCH v2] media: i2c: ov5645: Fix power sequence
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
+        Wed, 31 Jul 2019 04:42:12 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1hskBW-0001vy-NL; Wed, 31 Jul 2019 08:42:10 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Date:   Wed, 31 Jul 2019 10:25:52 +0200
-In-Reply-To: <20190710184000.8995-1-ezequiel@collabora.com>
-References: <20190710184000.8995-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: pulse8-cec: remove redundant assignment to variable err
+Date:   Wed, 31 Jul 2019 09:42:10 +0100
+Message-Id: <20190731084210.24911-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-07-10 at 15:40 -0300, Ezequiel Garcia wrote:
-> This is mostly a port of Jacopo's fix:
-> 
->   commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
->   Author: Jacopo Mondi <jacopo@jmondi.org>
->   Date:   Fri Jul 6 05:51:52 2018 -0400
-> 
->   media: ov5640: Re-work MIPI startup sequence
-> 
-> In the OV5645 case, the changes are:
-> 
-> - Move OV5645_IO_MIPI_CTRL00 (0x300e) out of the initial setting blob.
-> - At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
->   LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
-> - At set_power(0) time power down MIPI Tx/Rx (in addition to the current
->   power down of regulators and clock gating).
-> - At s_stream time enable/disable the MIPI interface output.
-> 
-> With this commit the sensor is able to enter LP-11 mode during power up,
-> as expected by some CSI-2 controllers.
-> 
-> Many thanks to Fabio Estevam for his help debugging this issue.
-> 
-> Tested-by: Fabio Estevam <festevam@gmail.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
-> Changes in v2:
-> * As suggested by Philipp, move the initial configuration
->   to the ov5645_global_init_setting array.
+From: Colin Ian King <colin.king@canonical.com>
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Variable err is being initialized with a value that is never read
+and err is being re-assigned a little later on. The assignment is
+redundant and hence can be removed.
 
-regards
-Philipp
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/media/usb/pulse8-cec/pulse8-cec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/pulse8-cec/pulse8-cec.c b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+index ac88ade94cda..85fc11829758 100644
+--- a/drivers/media/usb/pulse8-cec/pulse8-cec.c
++++ b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+@@ -640,7 +640,7 @@ static int pulse8_connect(struct serio *serio, struct serio_driver *drv)
+ {
+ 	u32 caps = CEC_CAP_DEFAULTS | CEC_CAP_PHYS_ADDR | CEC_CAP_MONITOR_ALL;
+ 	struct pulse8 *pulse8;
+-	int err = -ENOMEM;
++	int err;
+ 	struct cec_log_addrs log_addrs = {};
+ 	u16 pa = CEC_PHYS_ADDR_INVALID;
+ 
+-- 
+2.20.1
+
