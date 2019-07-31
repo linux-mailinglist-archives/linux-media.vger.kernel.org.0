@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2EB17C926
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 18:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E506E7C8FE
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 18:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728154AbfGaQt5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 12:49:57 -0400
-Received: from 10.mo177.mail-out.ovh.net ([46.105.73.133]:33917 "EHLO
-        10.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbfGaQt5 (ORCPT
+        id S1730295AbfGaQmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 12:42:10 -0400
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]:49757 "EHLO
+        1.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730085AbfGaQmJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 12:49:57 -0400
-X-Greylist: delayed 602 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Jul 2019 12:49:56 EDT
-Received: from player756.ha.ovh.net (unknown [10.109.159.222])
-        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 77ACF1061E5
-        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2019 18:33:17 +0200 (CEST)
+        Wed, 31 Jul 2019 12:42:09 -0400
+X-Greylist: delayed 472 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Jul 2019 12:42:08 EDT
+Received: from player697.ha.ovh.net (unknown [10.108.57.53])
+        by mo2.mail-out.ovh.net (Postfix) with ESMTP id 38F061A6CED
+        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2019 18:34:15 +0200 (CEST)
 Received: from armadeus.com (lfbn-1-7591-179.w90-126.abo.wanadoo.fr [90.126.248.179])
         (Authenticated sender: sebastien.szymanski@armadeus.com)
-        by player756.ha.ovh.net (Postfix) with ESMTPSA id B74A77ADA712;
-        Wed, 31 Jul 2019 16:32:56 +0000 (UTC)
+        by player697.ha.ovh.net (Postfix) with ESMTPSA id 580F38831A9A;
+        Wed, 31 Jul 2019 16:33:56 +0000 (UTC)
 From:   =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
         <sebastien.szymanski@armadeus.com>
 To:     Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -37,15 +37,15 @@ Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org,
         =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Subject: [PATCH v3 1/3] ARM: dts: imx6ul: Add csi node
-Date:   Wed, 31 Jul 2019 18:32:57 +0200
-Message-Id: <20190731163257.32448-1-sebastien.szymanski@armadeus.com>
+        <sebastien.szymanski@armadeus.com>, Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 3/3] media: dt-bindings: imx7-csi: add i.MX6UL/L support
+Date:   Wed, 31 Jul 2019 18:33:58 +0200
+Message-Id: <20190731163358.32622-1-sebastien.szymanski@armadeus.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 14036875616662541351
+X-Ovh-Tracer-Id: 14053201162921464871
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgddutdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
@@ -54,9 +54,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add csi node for i.MX6UL SoC.
+Document "fsl,imx6ul-csi" entry.
 
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
 ---
 
@@ -64,31 +64,24 @@ Changes for v3:
  - none
 
 Changes for v2:
- - only "mclk" clock is required now.
+ - New patch to document new "fsl,imx6ul-csi" entry.
 
- arch/arm/boot/dts/imx6ul.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/media/imx7-csi.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
-index 81d4b4925127..56cfcf0e5084 100644
---- a/arch/arm/boot/dts/imx6ul.dtsi
-+++ b/arch/arm/boot/dts/imx6ul.dtsi
-@@ -957,6 +957,15 @@
- 				};
- 			};
+diff --git a/Documentation/devicetree/bindings/media/imx7-csi.txt b/Documentation/devicetree/bindings/media/imx7-csi.txt
+index 443aef07356e..d80ceefa0c00 100644
+--- a/Documentation/devicetree/bindings/media/imx7-csi.txt
++++ b/Documentation/devicetree/bindings/media/imx7-csi.txt
+@@ -9,7 +9,7 @@ to connect directly to external CMOS image sensors.
  
-+			csi: csi@21c4000 {
-+				compatible = "fsl,imx6ul-csi", "fsl,imx7-csi";
-+				reg = <0x021c4000 0x4000>;
-+				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clks IMX6UL_CLK_CSI>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+			};
-+
- 			lcdif: lcdif@21c8000 {
- 				compatible = "fsl,imx6ul-lcdif", "fsl,imx28-lcdif";
- 				reg = <0x021c8000 0x4000>;
+ Required properties:
+ 
+-- compatible    : "fsl,imx7-csi";
++- compatible    : "fsl,imx7-csi" or "fsl,imx6ul-csi";
+ - reg           : base address and length of the register set for the device;
+ - interrupts    : should contain CSI interrupt;
+ - clocks        : list of clock specifiers, see
 -- 
 2.21.0
 
