@@ -2,214 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36D1D7B81E
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 05:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6EB17B850
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 05:43:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728130AbfGaDBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 23:01:34 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47174 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbfGaDBe (ORCPT
+        id S1728651AbfGaDnV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 23:43:21 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:56411 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727571AbfGaDnV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 23:01:34 -0400
-Received: from [IPv6:2804:431:c7f5:133:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:c7f5:133:d711:794d:1c68:5ed3])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: tonyk)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E56CD28AA3C;
-        Wed, 31 Jul 2019 04:01:30 +0100 (BST)
-Subject: Re: [PATCH 0/7] media: vimc: Add a V4L2 output device
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, kernel@collabora.com,
-        linux-kernel@vger.kernel.org
-References: <20190702154752.14939-1-andrealmeid@collabora.com>
- <00fb0dc3-0dd3-8d4c-9add-dba617f34d19@collabora.com>
- <7189e204-ba37-930b-1738-d192f45b0af5@xs4all.nl>
- <333e5df6-0e24-ff76-7e7f-bf338652f9ac@collabora.com>
- <c6fe9585-cd52-ea77-3c98-cb9e70424f84@xs4all.nl>
-From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
-Message-ID: <83383964-c382-fb04-6dd9-81908c407eb3@collabora.com>
-Date:   Wed, 31 Jul 2019 00:00:40 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <c6fe9585-cd52-ea77-3c98-cb9e70424f84@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Tue, 30 Jul 2019 23:43:21 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a003:9a19:9f18:5372])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id sfWHh2In9ur8TsfWIhB4uj; Wed, 31 Jul 2019 05:43:19 +0200
+Message-ID: <571246b7d7d27e97e1cbe92e64e0bb6c@smtp-cloud7.xs4all.net>
+Date:   Wed, 31 Jul 2019 05:43:17 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfMrYe0m8cgc4NhFbUPxplkrXUT+W+vv733K5WCcJhJSJDvbfoWqDsEAlHTS0rWTOv3ErYdZosz3gvGnjBc2nPZhQk6sIyQlE9X6qnTLqOMuZ5pLtN+Ci
+ 1SofpLkA0ijVjH2RYGAVUZOuI+Ir4y9t7kBiDePywvUwGWKN7Jmb3It3E/RV/siHf4zkEiIcwOJIws4AeyTJjArrFWGG33NtMcMVT4OQocG6Q3PFBAazFFZg
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/13/19 7:03 AM, Hans Verkuil wrote:
-> On 7/12/19 5:38 PM, André Almeida wrote:
->> Hello,
->>
->> On 7/10/19 4:33 AM, Hans Verkuil wrote:
->>> On 7/10/19 12:19 AM, Helen Koike wrote:
->>>> Hi André,
->>>>
->>>> Thanks for the patches.
->>>>
->>>> On 7/2/19 12:47 PM, André Almeida wrote:
->>>>> Hello,
->>>>>
->>>>> This patch adds a V4L2 output device on vimc, that comply with V4L2 API
->>>>> for video output. If there is an output device and a capture device at the
->>>>> same pipeline, one can get a video loopback pipeline feeding frames at
->>>>> the output and then seeing them at the capture. It's possible to insert
->>>>> vimc submodules at the pipeline to modify the image (e.g. a scaler).
->>>>>
->>>>> If one starts a streaming at the capture, with the output off, the
->>>>> capture will display a noisy frame. If one starts a streaming at the
->>>>> output with the capture off, the output will just consume the buffers,
->>>>> without sending them to the pipeline. If both output and capture are
->>>>> streaming, the loopback will happen.
->>>> I understand why it is done like this in vivid, but I was wondering, if we
->>>> have a pipeline like:
->>>> output -> capture
->>>> Shouldn't streaming from the capture just stalls if there is no frame
->>>> available in the output (i.e. streaming in the output is off) ? But then I'm
->>>> not sure what the framerate in the capture would mean.
->>>>
->>>> Hans, what do you think?
->>> If you set up the pipeline like this:
->>>
->>> Video Output -> Scaler -> Video Capture
->>
->> If the capture will stall if there's no frame from the video output, how
->> can I add support for this kind of pipeline at test-media? It would be
->> required to send frames to the output device while running
->> `v4l2-compliance` at the capture device to make testing possible.
-> 
-> The compliance test doesn't support such devices at the moment.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-The implementation of the expected behavior can be found here:
-https://gitlab.collabora.com/tonyk/linux/tree/vimc/output-v2
+Results of the daily build of media_tree:
 
-> 
-> I think a new option (or options) are needed to tell the compliance test
-> that the capture and output video devices together constitute an m2m device.
+date:			Wed Jul 31 05:00:12 CEST 2019
+media-tree git hash:	4590c07462fbff4ecbfe1deec44431c16191bd19
+media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
+v4l-utils git hash:	1f0c4fa2d65204ee7df255ca3eede12d6679eabe
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I've reading the v4l-utils code base and I had a look at both m2m tests
-and capture/output tests, but I'm not sure how to implement this new
-option. How do you think it should be implemented? Should it resemble
-how v4l2-compliance tests vim2m? Something like this:
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-	v4l2-compliance -m platform:vim2m -z platform:vivid-002 -e
-vivid-002-vid-cap -s10 -P -a
+Detailed results are available here:
 
-Thanks,
-	André
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> Thanks,
->>     André
->>
->>> Then this is a mem2mem device (except with two separate video devices) and
->>> framerate doesn't apply anymore. And video capture will just stall if there
->>> is no video output frame provided.
->>>
->>> It's how e.g. omap3isp works.
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->>>> Thanks,
->>>> Helen
->>>>
->>>>> The patches 1 and 2 provide some ground to create the output
->>>>> device. The patch 3 creates the device and modify how the vimc-streamer
->>>>> was dealing with the s_stream callback on other vimc modules, to make
->>>>> simpler implementing this callback at vimc-output. Patch 4 change the
->>>>> behavior of the pipeline in order to be closer to a real life hardware.
->>>>> Patches 5-7 updates the default pipeline and the documentation to
->>>>> include the new output device.
->>>>>
->>>>> This is the result of v4l2-compliance after this patch series:
->>>>> $ v4l2-compliance -m0 -s50
->>>>> Grand Total for vimc device /dev/media0: 476, Succeeded: 476, Failed: 0,
->>>>> Warnings: 0
->>>>>
->>>>> A git tree up to date with media-master and with this changes can be found
->>>>> at: https://gitlab.collabora.com/tonyk/linux/tree/vimc/output
->>>>>
->>>>> In order to test it, one can follow these instructions:
->>>>>
->>>>> 1 - Configure the pipeline (requires v4l-utils):
->>>>>
->>>>> $ media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
->>>>> $ media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
->>>>> $ media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
->>>>> $ media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
->>>>> $ v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
->>>>> $ v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
->>>>> $ v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
->>>>> $ v4l2-ctl -z platform:vimc -e "RGB/YUV Input" -v width=640,height=480
->>>>>
->>>>> 2 - Use a userspace application:
->>>>> 2.a gst-launch (requires gstreamer and gst-plugins-good):
->>>>>
->>>>> Feed frames into the output and grab from the capture (rescaled for
->>>>> convenience):
->>>>>
->>>>> $ gst-launch-1.0 videotestsrc pattern=ball ! \
->>>>> 	video/x-raw,width=640,height=480,format=RGB \
->>>>> 	! v4l2sink device=/dev/video2 v4l2src device=/dev/video3 ! \
->>>>> 	video/x-raw,width=1920,height=1440,format=RGB ! videoscale ! \
->>>>> 	video/x-raw,width=640,height=480 ! videoconvert ! ximagesink
->>>>>
->>>>> 2.b qv4l2 (requires v4l-utils):
->>>>>
->>>>> Open the output device:
->>>>>
->>>>> $ qv4l2 -d2
->>>>>
->>>>> Open the capture device:
->>>>>
->>>>> $ qv4l2 -d3
->>>>>
->>>>> Start the streaming at both, at any order. You can change the frame
->>>>> content at "Test Pattern Generator" -> "Test Pattern" on the output.
->>>>>
->>>>> Thanks,
->>>>> 	André
->>>>>
->>>>> André Almeida (7):
->>>>>   media: vimc: Create video module
->>>>>   media: vimc: video: Add write file operation
->>>>>   media: vimc: Create a V4L2 output device
->>>>>   media: vimc: Send null buffer through the pipeline
->>>>>   media: vimc: core: Add output device on the pipeline
->>>>>   media: vimc.dot: Update default topology diagram
->>>>>   media: vimc.rst: Add output device
->>>>>
->>>>>  Documentation/media/v4l-drivers/vimc.dot    |   4 +-
->>>>>  Documentation/media/v4l-drivers/vimc.rst    |  12 +-
->>>>>  drivers/media/platform/vimc/Makefile        |   4 +-
->>>>>  drivers/media/platform/vimc/vimc-capture.c  | 356 +++----------------
->>>>>  drivers/media/platform/vimc/vimc-common.h   |   5 +-
->>>>>  drivers/media/platform/vimc/vimc-core.c     |   7 +-
->>>>>  drivers/media/platform/vimc/vimc-debayer.c  |  14 +-
->>>>>  drivers/media/platform/vimc/vimc-output.c   | 362 ++++++++++++++++++++
->>>>>  drivers/media/platform/vimc/vimc-scaler.c   |  13 +-
->>>>>  drivers/media/platform/vimc/vimc-sensor.c   |  10 +-
->>>>>  drivers/media/platform/vimc/vimc-streamer.c |  24 +-
->>>>>  drivers/media/platform/vimc/vimc-video.c    | 273 +++++++++++++++
->>>>>  drivers/media/platform/vimc/vimc-video.h    | 130 +++++++
->>>>>  13 files changed, 849 insertions(+), 365 deletions(-)
->>>>>  create mode 100644 drivers/media/platform/vimc/vimc-output.c
->>>>>  create mode 100644 drivers/media/platform/vimc/vimc-video.c
->>>>>  create mode 100644 drivers/media/platform/vimc/vimc-video.h
->>>>>
-> 
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
