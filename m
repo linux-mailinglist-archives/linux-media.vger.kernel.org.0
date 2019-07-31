@@ -2,178 +2,363 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85AA17C600
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 17:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F6107C688
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 17:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbfGaPTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 11:19:41 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:47028 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729464AbfGaPTk (ORCPT
+        id S1727418AbfGaP3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 11:29:17 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:56714 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726665AbfGaP3Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 11:19:40 -0400
-Received: by mail-ed1-f65.google.com with SMTP id d4so66094793edr.13;
-        Wed, 31 Jul 2019 08:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=eUJ8t2456YLpO+5wsj/zvfqMDj98OQZKV0lfzwF4lOM=;
-        b=tfJP8LTraZCnglh0kDKjE7CEi2QBq5FY2I6FmFlrxGtPxIgnvYLDwnTdJN/t1PIC8c
-         gC2TQWxLcCKDa4P6hb3CgX4PnJ2MD3JS+81BoLl6SCc9hfKfemMZ1tg0KlCx6VLkIjQb
-         PpOpv3gKOO4NI3wFuLFmahVDb/3HpUEZil4v/38gCJdomEBReWEowpcJUo/01v8Yoreu
-         /PvtjZ89qP8SPw3o9jn30L9wnej4qYtAVjgacHL9lu9CIfJruJgPQV+lLAIGv6aB68zI
-         kGr/RiWSNeM8S8bjOJPMLIkbN0Xqh95X3VGa7W8OXLkIAvaU8F0a+RiwRL4fx1V8fETP
-         r5SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=eUJ8t2456YLpO+5wsj/zvfqMDj98OQZKV0lfzwF4lOM=;
-        b=Dm3aD0BN15aQUO4YgYG4YfMthDrpMF0UdLz1VvESzlPKnXh+LFq7miuHlpCTQf964e
-         J14sIw6dVp8zPJig84Q7XSlxPj+bE7JaK0CxWFhPaPeHtuPhI1Y/d9WS6h+R7mpoF3Lh
-         /5uN9n6qqVbCiHwDcAMoth/b9aZL3ZmGxYQWNYuVXjah/r6JZF9TuMIcKv3N5wx5VR5P
-         50gzA85Oik1bvOePLzZGLET1GipxjjCNtPfovQ5fhHCLpUwy73PbNpAu+00mYycfGVGk
-         BdYXXl4jHBNiMzsH4QLdOKaCnlKyHE8et9LjlJiyhrRvzdOYKcUpKo1seQMsGMQovVuN
-         rq7Q==
-X-Gm-Message-State: APjAAAVKjebdz0+sc3OfcdK1wgEFn2SiVdFugLTlptvq85qNxMGcesFP
-        r9P+IidLF16kdqQg9VAFf8Q=
-X-Google-Smtp-Source: APXvYqwmhJS7wCt8sv9HpQBTgaLkCzSAW2WgGVTLm6TdVSFvA+J4LevOPVV0vBadE15ibRy3qazgIA==
-X-Received: by 2002:a17:906:27c7:: with SMTP id k7mr95478244ejc.91.1564586378071;
-        Wed, 31 Jul 2019 08:19:38 -0700 (PDT)
-Received: from localhost.localdomain ([130.185.139.210])
-        by smtp.gmail.com with ESMTPSA id o22sm17288382edc.37.2019.07.31.08.19.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Jul 2019 08:19:37 -0700 (PDT)
-From:   Tomas Bortoli <tomasbortoli@gmail.com>
-To:     mchehab@kernel.org
-Cc:     gregkh@linuxfoundation.org, tglx@linutronix.de,
-        rfontana@redhat.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller@googlegroups.com,
-        Tomas Bortoli <tomasbortoli@gmail.com>
-Subject: [PATCH] media: ttusb-dec: Fix info-leak in ttusb_dec_send_command()
-Date:   Wed, 31 Jul 2019 11:19:05 -0400
-Message-Id: <20190731151905.9189-1-tomasbortoli@gmail.com>
-X-Mailer: git-send-email 2.11.0
+        Wed, 31 Jul 2019 11:29:16 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6VFSsMd122851;
+        Wed, 31 Jul 2019 10:28:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1564586934;
+        bh=wM4WLBybjiGAeVXDZMD/wXoKWRVlS1GPBkndflafC7U=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=TnSg7r9ZhQz29LFvz9ZmhyoAOtdtmAJWuJbtGM/C/TBd/lzKxaaHajEPOVSWDVVY7
+         dnSr9RoDB+9ldgPJdj6N9FjJdoI2yuD+0HAZIPid113XSyvllK2/+xhbV8CljjG+ac
+         fotLHSDQEsEv/td/Byd+Zs4L7Ps9gOm8MI5m/kEY=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6VFSs3o118844
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 31 Jul 2019 10:28:54 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 31
+ Jul 2019 10:28:54 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 31 Jul 2019 10:28:54 -0500
+Received: from [10.250.88.190] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6VFSqO8127389;
+        Wed, 31 Jul 2019 10:28:52 -0500
+Subject: Re: [RFC PATCH 2/2] soc: ti: Add Support for the TI Page-based
+ Address Translator (PAT)
+To:     Tero Kristo <t-kristo@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Santosh Shilimkar <ssantosh@kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, William Mills <wmills@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        John Stultz <john.stultz@linaro.org>
+CC:     <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <iommu@lists.linux-foundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20190607193523.25700-1-afd@ti.com>
+ <20190607193523.25700-3-afd@ti.com>
+ <28dea95d-8ae6-431c-ca88-149972d26502@ti.com>
+From:   "Andrew F. Davis" <afd@ti.com>
+Message-ID: <1ecfd453-ecbd-cbea-605d-759ba329dd19@ti.com>
+Date:   Wed, 31 Jul 2019 11:28:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <28dea95d-8ae6-431c-ca88-149972d26502@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The function at issue does not always initialize each byte allocated for 'b'
-and can therefore leak uninitialized memory to a USB device in the call to usb_bulk_msg()
+On 6/18/19 5:07 AM, Tero Kristo wrote:
+> On 07/06/2019 22:35, Andrew F. Davis wrote:
+>> This patch adds a driver for the Page-based Address Translator (PAT)
+>> present on various TI SoCs. A PAT device performs address translation
+>> using tables stored in an internal SRAM. Each PAT supports a set number
+>> of pages, each occupying a programmable 4KB, 16KB, 64KB, or 1MB of
+>> addresses in a window for which an incoming transaction will be
+>> translated.
+>>
+>> Signed-off-by: Andrew F. Davis <afd@ti.com>
+>> ---
+>>   drivers/soc/ti/Kconfig      |   9 +
+>>   drivers/soc/ti/Makefile     |   1 +
+>>   drivers/soc/ti/ti-pat.c     | 569 ++++++++++++++++++++++++++++++++++++
+>>   include/uapi/linux/ti-pat.h |  44 +++
+>>   4 files changed, 623 insertions(+)
+>>   create mode 100644 drivers/soc/ti/ti-pat.c
+>>   create mode 100644 include/uapi/linux/ti-pat.h
+>>
+>> diff --git a/drivers/soc/ti/Kconfig b/drivers/soc/ti/Kconfig
+>> index f0be35d3dcba..b838ae74d01f 100644
+>> --- a/drivers/soc/ti/Kconfig
+>> +++ b/drivers/soc/ti/Kconfig
+>> @@ -86,4 +86,13 @@ config TI_SCI_INTA_MSI_DOMAIN
+>>       help
+>>         Driver to enable Interrupt Aggregator specific MSI Domain.
+>>   +config TI_PAT
+>> +    tristate "TI PAT DMA-BUF exporter"
+>> +    select REGMAP
+> 
+> What is the reasoning for using regmap for internal register access? Why
+> not just use direct readl/writel for everything? To me it seems this is
+> only used during probe time also...
+> 
 
-Use kzalloc() instead of kmalloc()
+There are two register spaces, the configuration space, and the actual
+translation table data. I use regmap for all the configuration space.
+Direct readl/writel would also work, but I prefer regmap as it lets me
+work with field names vs using masks and shifts, even if it adds a
+little extra code in tables at the top.
 
+>> +    help
+>> +      Driver for TI Page-based Address Translator (PAT). This driver
+>> +      provides the an API allowing the remapping of a non-contiguous
+>> +      DMA-BUF into a contiguous one that is sutable for devices needing
+>> +      coniguous memory.
+> 
+> Minor typo: contiguous.
+> 
 
-Signed-off-by: Tomas Bortoli <tomasbortoli@gmail.com>
-Reported-by: syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com
----
-Crash log:
-==================================================================
-BUG: KMSAN: kernel-usb-infoleak in usb_submit_urb+0x7ef/0x1f50 drivers/usb/core/urb.c:405
-CPU: 1 PID: 3095 Comm: kworker/1:2 Not tainted 5.2.0-rc4+ #10
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x191/0x1f0 lib/dump_stack.c:113
- kmsan_report+0x162/0x2d0 mm/kmsan/kmsan_report.c:109
- kmsan_internal_check_memory+0x974/0xa80 mm/kmsan/kmsan.c:573
- kmsan_handle_urb+0x28/0x40 mm/kmsan/kmsan_hooks.c:617
- usb_submit_urb+0x7ef/0x1f50 drivers/usb/core/urb.c:405
- usb_start_wait_urb+0x143/0x410 drivers/usb/core/message.c:58
- usb_bulk_msg+0x811/0x920 drivers/usb/core/message.c:257
- ttusb_dec_send_command+0x47d/0xd50 drivers/media/usb/ttusb-dec/ttusb_dec.c:345
- ttusb_dec_get_stb_state drivers/media/usb/ttusb-dec/ttusb_dec.c:393 [inline]
- ttusb_dec_init_stb drivers/media/usb/ttusb-dec/ttusb_dec.c:1421 [inline]
- ttusb_dec_probe+0xe31/0x4df0 drivers/media/usb/ttusb-dec/ttusb_dec.c:1680
- usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
- really_probe+0x1344/0x1d90 drivers/base/dd.c:513
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:670
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:777
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:843
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:890
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2111
- usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
- generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
- usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
- really_probe+0x1344/0x1d90 drivers/base/dd.c:513
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:670
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:777
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:843
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:890
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2111
- usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2534
- hub_port_connect drivers/usb/core/hub.c:5089 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
- port_event drivers/usb/core/hub.c:5350 [inline]
- hub_event+0x5853/0x7320 drivers/usb/core/hub.c:5432
- process_one_work+0x1572/0x1f00 kernel/workqueue.c:2269
- worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
- kthread+0x4b5/0x4f0 kernel/kthread.c:256
- ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
-Uninit was created at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:200 [inline]
- kmsan_internal_poison_shadow+0x53/0xa0 mm/kmsan/kmsan.c:159
- kmsan_kmalloc+0xa4/0x130 mm/kmsan/kmsan_hooks.c:178
- kmem_cache_alloc_trace+0x503/0xae0 mm/slub.c:2793
- kmalloc include/linux/slab.h:547 [inline]
- ttusb_dec_send_command+0x155/0xd50 drivers/media/usb/ttusb-dec/ttusb_dec.c:322
- ttusb_dec_get_stb_state drivers/media/usb/ttusb-dec/ttusb_dec.c:393 [inline]
- ttusb_dec_init_stb drivers/media/usb/ttusb-dec/ttusb_dec.c:1421 [inline]
- ttusb_dec_probe+0xe31/0x4df0 drivers/media/usb/ttusb-dec/ttusb_dec.c:1680
- usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
- really_probe+0x1344/0x1d90 drivers/base/dd.c:513
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:670
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:777
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:843
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:890
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2111
- usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
- generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
- usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
- really_probe+0x1344/0x1d90 drivers/base/dd.c:513
- driver_probe_device+0x1ba/0x510 drivers/base/dd.c:670
- __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:777
- bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
- __device_attach+0x489/0x750 drivers/base/dd.c:843
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:890
- bus_probe_device+0x131/0x390 drivers/base/bus.c:514
- device_add+0x25b5/0x2df0 drivers/base/core.c:2111
- usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2534
- hub_port_connect drivers/usb/core/hub.c:5089 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
- port_event drivers/usb/core/hub.c:5350 [inline]
- hub_event+0x5853/0x7320 drivers/usb/core/hub.c:5432
- process_one_work+0x1572/0x1f00 kernel/workqueue.c:2269
- worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
- kthread+0x4b5/0x4f0 kernel/kthread.c:256
- ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
-Bytes 4-63 of 64 are uninitialized
-Memory access of size 64 starts at ffff8880ba4efac0
-==================================================================
+ACK
 
- drivers/media/usb/ttusb-dec/ttusb_dec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>>   endif # SOC_TI
+>> diff --git a/drivers/soc/ti/Makefile b/drivers/soc/ti/Makefile
+>> index b3868d392d4f..1369642b40c3 100644
+>> --- a/drivers/soc/ti/Makefile
+>> +++ b/drivers/soc/ti/Makefile
+>> @@ -9,3 +9,4 @@ obj-$(CONFIG_AMX3_PM)            += pm33xx.o
+>>   obj-$(CONFIG_WKUP_M3_IPC)        += wkup_m3_ipc.o
+>>   obj-$(CONFIG_TI_SCI_PM_DOMAINS)        += ti_sci_pm_domains.o
+>>   obj-$(CONFIG_TI_SCI_INTA_MSI_DOMAIN)    += ti_sci_inta_msi.o
+>> +obj-$(CONFIG_TI_PAT)            += ti-pat.o
+>> diff --git a/drivers/soc/ti/ti-pat.c b/drivers/soc/ti/ti-pat.c
+>> new file mode 100644
+>> index 000000000000..7359ea0f7ccf
+>> --- /dev/null
+>> +++ b/drivers/soc/ti/ti-pat.c
+>> @@ -0,0 +1,569 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * TI PAT mapped DMA-BUF memory re-exporter
+>> + *
+>> + * Copyright (C) 2018-2019 Texas Instruments Incorporated -
+>> http://www.ti.com/
+>> + *    Andrew F. Davis <afd@ti.com>
+>> + */
+>> +
+>> +#include <linux/fs.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/mod_devicetable.h>
+>> +#include <linux/uaccess.h>
+>> +#include <linux/miscdevice.h>
+>> +#include <linux/regmap.h>
+>> +#include <linux/dma-buf.h>
+>> +#include <linux/genalloc.h>
+>> +#include <linux/vmalloc.h>
+>> +#include <linux/slab.h>
+>> +
+>> +#include <linux/ti-pat.h>
+>> +
+>> +#define TI_PAT_DRIVER_NAME    "ti-pat"
+> 
+> Why do you have a define for this seeing it is only used in single
+> location?
+> 
 
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 1d0afa340f47..3198f9624b7c 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -319,7 +319,7 @@ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
- 
- 	dprintk("%s\n", __func__);
- 
--	b = kmalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
-+	b = kzalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
- 	if (!b)
- 		return -ENOMEM;
- 
--- 
-2.11.0
+Just habit when starting a driver, but you are right it is not needed here.
 
+>> +
+>> +/* TI PAT MMRS registers */
+>> +#define TI_PAT_MMRS_PID        0x0 /* Revision Register */
+>> +#define TI_PAT_MMRS_CONFIG    0x4 /* Config Register */
+>> +#define TI_PAT_MMRS_CONTROL    0x10 /* Control Register */
+>> +
+>> +/* TI PAT CONTROL register field values */
+>> +#define TI_PAT_CONTROL_ARB_MODE_UF    0x0 /* Updates first */
+>> +#define TI_PAT_CONTROL_ARB_MODE_RR    0x2 /* Round-robin */
+>> +
+>> +#define TI_PAT_CONTROL_PAGE_SIZE_4KB    0x0
+>> +#define TI_PAT_CONTROL_PAGE_SIZE_16KB    0x1
+>> +#define TI_PAT_CONTROL_PAGE_SIZE_64KB    0x2
+>> +#define TI_PAT_CONTROL_PAGE_SIZE_1MB    0x3
+>> +
+>> +static unsigned int ti_pat_page_sizes[] = {
+>> +    [TI_PAT_CONTROL_PAGE_SIZE_4KB]  = 4 * 1024,
+>> +    [TI_PAT_CONTROL_PAGE_SIZE_16KB] = 16 * 1024,
+>> +    [TI_PAT_CONTROL_PAGE_SIZE_64KB] = 64 * 1024,
+>> +    [TI_PAT_CONTROL_PAGE_SIZE_1MB]  = 1024 * 1024,
+>> +};
+>> +
+>> +enum ti_pat_mmrs_fields {
+>> +    /* Revision */
+>> +    F_PID_MAJOR,
+>> +    F_PID_MINOR,
+>> +
+>> +    /* Controls */
+>> +    F_CONTROL_ARB_MODE,
+>> +    F_CONTROL_PAGE_SIZE,
+>> +    F_CONTROL_REPLACE_OID_EN,
+>> +    F_CONTROL_EN,
+>> +
+>> +    /* sentinel */
+>> +    F_MAX_FIELDS
+>> +};
+>> +
+>> +static const struct reg_field ti_pat_mmrs_reg_fields[] = {
+>> +    /* Revision */
+>> +    [F_PID_MAJOR]            = REG_FIELD(TI_PAT_MMRS_PID, 8, 10),
+>> +    [F_PID_MINOR]            = REG_FIELD(TI_PAT_MMRS_PID, 0, 5),
+>> +    /* Controls */
+>> +    [F_CONTROL_ARB_MODE]        = REG_FIELD(TI_PAT_MMRS_CONTROL, 6, 7),
+>> +    [F_CONTROL_PAGE_SIZE]        = REG_FIELD(TI_PAT_MMRS_CONTROL, 4, 5),
+>> +    [F_CONTROL_REPLACE_OID_EN]    = REG_FIELD(TI_PAT_MMRS_CONTROL, 1,
+>> 1),
+>> +    [F_CONTROL_EN]            = REG_FIELD(TI_PAT_MMRS_CONTROL, 0, 0),
+>> +};
+>> +
+>> +/**
+>> + * struct ti_pat_data - PAT device instance data
+>> + * @dev: PAT device structure
+>> + * @mdev: misc device
+>> + * @mmrs_map: Register map of MMRS region
+>> + * @table_base: Base address of TABLE region
+> 
+> Please add kerneldoc comments for all fields.
+> 
+
+Will add.
+
+>> + */
+>> +struct ti_pat_data {
+>> +    struct device *dev;
+>> +    struct miscdevice mdev;
+>> +    struct regmap *mmrs_map;
+>> +    struct regmap_field *mmrs_fields[F_MAX_FIELDS];
+>> +    void __iomem *table_base;
+>> +    unsigned int page_count;
+>> +    unsigned int page_size;
+>> +    phys_addr_t window_base;
+>> +    struct gen_pool *pool;
+>> +};
+>> +
+> 
+> Kerneldoc comments for below structs would be also useful, especially
+> for ti_pat_buffer.
+> 
+
+Will add.
+
+>> +struct ti_pat_dma_buf_attachment {
+>> +    struct device *dev;
+>> +    struct sg_table *table;
+>> +    struct ti_pat_buffer *buffer;
+>> +    struct list_head list;
+>> +};
+>> +
+>> +struct ti_pat_buffer {
+>> +    struct ti_pat_data *pat;
+>> +    struct dma_buf *i_dma_buf;
+>> +    size_t size;
+>> +    unsigned long offset;
+>> +    struct dma_buf *e_dma_buf;
+>> +
+>> +    struct dma_buf_attachment *attachment;
+>> +    struct sg_table *sgt;
+>> +
+>> +    struct list_head attachments;
+>> +    int map_count;
+>> +
+>> +    struct mutex lock;
+>> +};
+>> +
+>> +static const struct regmap_config ti_pat_regmap_config = {
+>> +    .reg_bits = 32,
+>> +    .val_bits = 32,
+>> +    .reg_stride = 4,
+>> +};
+>> +
+>> +static int ti_pat_dma_buf_attach(struct dma_buf *dmabuf,
+>> +                 struct dma_buf_attachment *attachment)
+>> +{
+>> +    struct ti_pat_dma_buf_attachment *a;
+>> +    struct ti_pat_buffer *buffer = dmabuf->priv;
+>> +
+>> +    a = kzalloc(sizeof(*a), GFP_KERNEL);
+>> +    if (!a)
+>> +        return -ENOMEM;
+>> +
+>> +    a->dev = attachment->dev;
+>> +    a->buffer = buffer;
+>> +    INIT_LIST_HEAD(&a->list);
+>> +
+>> +    a->table = kzalloc(sizeof(*a->table), GFP_KERNEL);
+>> +    if (!a->table) {
+>> +        kfree(a);
+>> +        return -ENOMEM;
+>> +    }
+>> +
+>> +    if (sg_alloc_table(a->table, 1, GFP_KERNEL)) {
+>> +        kfree(a->table);
+>> +        kfree(a);
+>> +        return -ENOMEM;
+>> +    }
+>> +
+>> +    sg_set_page(a->table->sgl, pfn_to_page(PFN_DOWN(buffer->offset)),
+>> buffer->size, 0);
+>> +
+>> +    attachment->priv = a;
+>> +
+>> +    mutex_lock(&buffer->lock);
+>> +    /* First time attachment we attach to parent */
+>> +    if (list_empty(&buffer->attachments)) {
+>> +        buffer->attachment = dma_buf_attach(buffer->i_dma_buf,
+>> buffer->pat->dev);
+>> +        if (IS_ERR(buffer->attachment)) {
+>> +            dev_err(buffer->pat->dev, "Unable to attach to parent
+>> DMA-BUF\n");
+>> +            mutex_unlock(&buffer->lock);
+>> +            kfree(a->table);
+>> +            kfree(a);
+>> +            return PTR_ERR(buffer->attachment);
+>> +        }
+>> +    }
+>> +    list_add(&a->list, &buffer->attachments);
+>> +    mutex_unlock(&buffer->lock);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void ti_pat_dma_buf_detatch(struct dma_buf *dmabuf,
+>> +                   struct dma_buf_attachment *attachment)
+> 
+> Func name should be ti_pat_dma_buf_detach instead?
+> 
+
+Good catch, will fix.
+
+> Other than that, I can't see anything obvious with my limited experience
+> with dma_buf. Is there a simple way to test this driver btw?
+> 
+
+Simple way? No not really.. What I've been doing is allocating a
+non-contiguous buffer (from system DMA-BUF heaps), writing some test
+pattern to it, using this driver to convert the buffer, then sending the
+new handle to our DSS (display subsystem which cannot handle
+non-contiguous buffers). If all is working the test pattern is displayed
+correctly.
+
+Thanks,
+Andrew
+
+> -Tero
+> 
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
