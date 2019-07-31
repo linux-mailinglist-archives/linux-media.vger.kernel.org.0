@@ -2,229 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9A17C1D6
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 14:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 320557C267
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 14:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbfGaMnI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 08:43:08 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:48965 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbfGaMnI (ORCPT
+        id S2387983AbfGaM4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 08:56:47 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:32536 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727090AbfGaM4q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 08:43:08 -0400
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id CCA5910000A;
-        Wed, 31 Jul 2019 12:43:01 +0000 (UTC)
-Date:   Wed, 31 Jul 2019 14:43:01 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@googlegroups.com,
+        Wed, 31 Jul 2019 08:56:46 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6VCpUJh016802;
+        Wed, 31 Jul 2019 14:56:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=lcqx0uZw6dlZ+99bC8ZqWM7F55NO2x68BB/LQEBznPQ=;
+ b=fC5Mvih1s6e2NHIa7kpJqYmXDYNq5LPcYDGyWs9UN+KhhqsDI8Oaba0sHyd1pCDeDUPV
+ bhlDGWDGqrtjuFkX3xtVdbkQHvskitO6AZRDm07MIyIewmctAFvNiY3JhcG3qZ/FSgwk
+ Wptqa+Tzqhb8iUz5o9pv5L64GCBFfzQP/v1syJOREnhzsGL3B6qdyW19ikLeHoF9aCOm
+ LTrtlOkhmEYvZxWuWgGpgz867OkHPzWWtaQx6VnP02KFIVStB7BxUbABptMEQSHzDAZW
+ 6z1CxQLaEWqSWYXrZFdw+8+w2CnKuA9GENaeJ+/xDfFHWrAcoq2zsFsUhbXBT6hWowIT KA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2u0bra4m1u-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 31 Jul 2019 14:56:27 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 168B231;
+        Wed, 31 Jul 2019 12:56:26 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F3F25CB312;
+        Wed, 31 Jul 2019 14:56:25 +0200 (CEST)
+Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by Safex1hubcas22.st.com
+ (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 31 Jul
+ 2019 14:56:25 +0200
+Received: from localhost (10.201.23.19) by webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 31 Jul 2019 14:56:25
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@st.com>
+To:     Alexandre Torgue <alexandre.torgue@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v7 0/4] HEVC/H.265 stateless support for V4L2 and Cedrus
-Message-ID: <20190731124301.GA18205@aptenodytes>
-References: <20190725185602.22522-1-paul.kocialkowski@bootlin.com>
- <7fa38a2c-8e16-5e88-d073-1d04e9feaa84@xs4all.nl>
- <20190727095729.GD16618@aptenodytes>
- <91a028b6-7f25-1a38-24e4-7dac02f34039@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        "Hugues Fruchet" <hugues.fruchet@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: [PATCH v4 0/3] DCMI bridge support
+Date:   Wed, 31 Jul 2019 14:56:20 +0200
+Message-ID: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
-Content-Disposition: inline
-In-Reply-To: <91a028b6-7f25-1a38-24e4-7dac02f34039@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain
+X-Originating-IP: [10.201.23.19]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-31_06:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This patch serie allows to connect non-parallel camera sensor to
+DCMI thanks to a bridge connected in between such as STMIPID02 [1].
 
---vtzGhvizbBRQ85DL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Media controller support is introduced first, then support of
+several sub-devices within pipeline with dynamic linking
+between them.
+In order to keep backward compatibility with applications
+relying on V4L2 interface only, format set on video node
+is propagated to all sub-devices connected to camera interface.
 
-Hi,
+[1] https://www.spinics.net/lists/devicetree/msg278002.html
 
-On Tue 30 Jul 19, 09:27, Hans Verkuil wrote:
-> On 7/27/19 11:57 AM, Paul Kocialkowski wrote:
-> > Hi Hans,
-> >=20
-> > On Fri 26 Jul 19, 10:33, Hans Verkuil wrote:
-> >> On 7/25/19 8:55 PM, Paul Kocialkowski wrote:
-> >>> HEVC/H.265 stateless support for V4L2 and Cedrus
-> >>>
-> >>> This is early support for HEVC/H.265 stateless decoding in V4L2,
-> >>> including both definitions and driver support for the Cedrus VPU
-> >>> driver, which concerns Allwinner devices.
-> >>>
-> >>> A specific pixel format is introduced for the HEVC slice format and
-> >>> controls are provided to pass the bitstream metadata to the decoder.
-> >>> Some bitstream extensions are intentionally not supported at this poi=
-nt.
-> >>>
-> >>> Since this is the first proposal for stateless HEVC/H.265 support in
-> >>> V4L2, reviews and comments about the controls definitions are
-> >>> particularly welcome.
-> >>>
-> >>> On the Cedrus side, the H.265 implementation covers frame pictures
-> >>> with both uni-directional and bi-direction prediction modes (P/B
-> >>> slices). Field pictures (interleaved), scaling lists and 10-bit output
-> >>> are not supported at this point.
-> >>>
-> >>> Changes since v6:
-> >>> * Rebased on latest media tree from Hans;
-> >>
-> >> Which tree is that? Or are you just referring our media_tree master
-> >> branch? (which isn't 'my' tree :-) )
-> >=20
-> > I'm usually rebasing on the tree you use to send PRs to Mauro, at:
-> > https://git.linuxtv.org/hverkuil/media_tree.git/
->=20
-> There are lots of branches there, and none are stable branches.
->=20
-> Just base it on the master branch of git://linuxtv.org/media_tree.git.
+===========
+= history =
+===========
+version 4:
+  - Also drop subdev nodes registry as suggested by Hans:
+    https://www.spinics.net/lists/arm-kernel/msg743375.html
 
-Understood, I will do that from now on.
+version 3:
+  - Drop media device registry to not expose media controller
+    interface to userspace as per Laurent' suggestion:
+    https://www.spinics.net/lists/linux-media/msg153417.html
+  - Prefer "source" instead of "sensor" and keep it in 
+    dcmi_graph_entity struct, move asd as first member
+    of struct as per Sakari' suggestion:
+    https://www.spinics.net/lists/linux-media/msg153119.html
+  - Drop dcmi_graph_deinit() as per Sakari' suggestion:
+    https://www.spinics.net/lists/linux-media/msg153417.html
 
-Either way, the series applies and builds as-is (with the initial patch out=
- of
-the way, as it was merged already) on top of the common media tree.
+version 2:
+  - Fix bus_info not consistent between media and V4L:
+    https://www.spinics.net/lists/arm-kernel/msg717676.html
+  - Propagation of format set on video node to the sub-devices
+    chain connected on camera interface
 
-I just retested everything and it's good to go as far as I'm concerned!
+version 1:
+  - Initial submission
 
-Cheers,
+Hugues Fruchet (3):
+  media: stm32-dcmi: improve sensor subdev naming
+  media: stm32-dcmi: add media controller support
+  media: stm32-dcmi: add support of several sub-devices
 
-Paul
+ drivers/media/platform/Kconfig            |   2 +-
+ drivers/media/platform/stm32/stm32-dcmi.c | 283 +++++++++++++++++++++++++-----
+ 2 files changed, 236 insertions(+), 49 deletions(-)
 
-> Regards,
->=20
-> 	Hans
->=20
-> >=20
-> > which is usually the best up-to-date stateless codec support tree :)
-> >=20
-> > Cheers,
-> >=20
-> > Paul
-> >=20
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>> * Reordered some fields to avoid holes and multi-padding;
-> >>> * Updated the documentation.
-> >>>
-> >>> Changes since v5:
-> >>> * Rebased atop latest next media tree;
-> >>> * Moved to flags instead of u8 fields;
-> >>> * Added padding to ensure 64-bit alignment
-> >>>   (tested with GDB on 32 and 64-bit architectures);
-> >>> * Reworked cedrus H.265 driver support a bit for flags;
-> >>> * Split off codec-specific control validation and init;
-> >>> * Added HEVC controls fields cleanup at std_validate to allow reliable
-> >>>   control comparison with memcmp;
-> >>> * Fixed various misc reported mistakes.
-> >>>
-> >>> Changes since v4:
-> >>> * Rebased atop latest H.254 series.
-> >>>
-> >>> Changes since v3:
-> >>> * Updated commit messages;
-> >>> * Updated CID base to avoid conflicts;
-> >>> * Used cpu_to_le32 for packed le32 data;
-> >>> * Fixed misc minor issues in the drive code;
-> >>> * Made it clear in the docs that the API will evolve;
-> >>> * Made the pixfmt private and split commits about it.
-> >>>
-> >>> Changes since v2:
-> >>> * Moved headers to non-public API;
-> >>> * Added H265 capability for A64 and H5;
-> >>> * Moved docs to ext-ctrls-codec.rst;
-> >>> * Mentionned sections of the spec in the docs;
-> >>> * Added padding to control structures for 32-bit alignment;
-> >>> * Made write function use void/size in bytes;
-> >>> * Reduced the number of arguments to helpers when possible;
-> >>> * Removed PHYS_OFFSET since we already set PFN_OFFSET;
-> >>> * Added comments where suggested;
-> >>> * Moved to timestamp for references instead of index;
-> >>> * Fixed some style issues reported by checkpatch.
-> >>>
-> >>> Changes since v1:
-> >>> * Added a H.265 capability to whitelist relevant platforms;
-> >>> * Switched over to tags instead of buffer indices in the DPB
-> >>> * Declared variable in their reduced scope as suggested;
-> >>> * Added the H.265/HEVC spec to the biblio;
-> >>> * Used in-doc references to the spec and the required APIs;
-> >>> * Removed debugging leftovers.
-> >>>
-> >>> Cheers!
-> >>>
-> >>> Paul Kocialkowski (4):
-> >>>   media: v4l2-ctrl: Add a comment on why we zero out compound controls
-> >>>     fields
-> >>>   media: v4l: Add definitions for the HEVC slice controls
-> >>>   media: pixfmt: Document the HEVC slice pixel format
-> >>>   media: cedrus: Add HEVC/H.265 decoding support
-> >>>
-> >>>  Documentation/media/uapi/v4l/biblio.rst       |   9 +
-> >>>  .../media/uapi/v4l/ext-ctrls-codec.rst        | 486 +++++++++++++-
-> >>>  .../media/uapi/v4l/pixfmt-compressed.rst      |  21 +
-> >>>  .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
-> >>>  .../media/videodev2.h.rst.exceptions          |   3 +
-> >>>  drivers/media/v4l2-core/v4l2-ctrls.c          |  93 +++
-> >>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
-> >>>  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
-> >>>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  31 +-
-> >>>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
-> >>>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
-> >>>  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++=
-++
-> >>>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
-> >>>  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 271 ++++++++
-> >>>  .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
-> >>>  include/media/hevc-ctrls.h                    | 198 ++++++
-> >>>  include/media/v4l2-ctrls.h                    |   7 +
-> >>>  17 files changed, 1789 insertions(+), 8 deletions(-)
-> >>>  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> >>>  create mode 100644 include/media/hevc-ctrls.h
-> >>>
-> >>
-> >=20
->=20
+-- 
+2.7.4
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---vtzGhvizbBRQ85DL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl1BjNUACgkQ3cLmz3+f
-v9FjuAf/aL5i4AOg3ogqc6Uz7f2hvSX1pHj2oFKXBRtcq0iz/tC2U02b7b8w6sQ7
-DHowvN5AwbEyiXgiwOWTzPDi4TGkEZSNCORwkD08m7DA6MzRrKA78SLRaHW9WYSc
-PjVrpSncMMuxJ4SHqekk9sX5dFJzxpYdor+ggQdd6YgU4NFnlQKjKHRjeI+r4Qcz
-jzXwwQ07ugPsHDROaQOE8VyCSZXFs8JKs5SMiRcQs7fRIwvJimaPLvng3N8qNX27
-XOHH6DLl0Q22X1CXgasgX+OeMk+8oN7ie4ZecTyDIBKW6h2sSfGxufcr1dUo1ABm
-IA52WkzBa+IMEwDEqgqfmWgHaApu1A==
-=3hPJ
------END PGP SIGNATURE-----
-
---vtzGhvizbBRQ85DL--
