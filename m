@@ -2,201 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B607B813
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 04:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36D1D7B81E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 05:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbfGaC5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jul 2019 22:57:04 -0400
-Received: from gofer.mess.org ([88.97.38.141]:58255 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726345AbfGaC5E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jul 2019 22:57:04 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 061886055F; Wed, 31 Jul 2019 03:57:01 +0100 (BST)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Bastien Nocera <hadess@hadess.net>
-Subject: [PATCH v4l-utils] keytable: check keymaps
-Date:   Wed, 31 Jul 2019 03:57:01 +0100
-Message-Id: <20190731025701.3420-1-sean@mess.org>
-X-Mailer: git-send-email 2.11.0
+        id S1728130AbfGaDBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jul 2019 23:01:34 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47174 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726428AbfGaDBe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Jul 2019 23:01:34 -0400
+Received: from [IPv6:2804:431:c7f5:133:d711:794d:1c68:5ed3] (unknown [IPv6:2804:431:c7f5:133:d711:794d:1c68:5ed3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tonyk)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E56CD28AA3C;
+        Wed, 31 Jul 2019 04:01:30 +0100 (BST)
+Subject: Re: [PATCH 0/7] media: vimc: Add a V4L2 output device
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, kernel@collabora.com,
+        linux-kernel@vger.kernel.org
+References: <20190702154752.14939-1-andrealmeid@collabora.com>
+ <00fb0dc3-0dd3-8d4c-9add-dba617f34d19@collabora.com>
+ <7189e204-ba37-930b-1738-d192f45b0af5@xs4all.nl>
+ <333e5df6-0e24-ff76-7e7f-bf338652f9ac@collabora.com>
+ <c6fe9585-cd52-ea77-3c98-cb9e70424f84@xs4all.nl>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <83383964-c382-fb04-6dd9-81908c407eb3@collabora.com>
+Date:   Wed, 31 Jul 2019 00:00:40 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <c6fe9585-cd52-ea77-3c98-cb9e70424f84@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- utils/keytable/Makefile.am |  3 +++
- utils/keytable/keytable.c  | 40 +++++++++++++++++++++++++-------------
- 2 files changed, 29 insertions(+), 14 deletions(-)
+On 7/13/19 7:03 AM, Hans Verkuil wrote:
+> On 7/12/19 5:38 PM, André Almeida wrote:
+>> Hello,
+>>
+>> On 7/10/19 4:33 AM, Hans Verkuil wrote:
+>>> On 7/10/19 12:19 AM, Helen Koike wrote:
+>>>> Hi André,
+>>>>
+>>>> Thanks for the patches.
+>>>>
+>>>> On 7/2/19 12:47 PM, André Almeida wrote:
+>>>>> Hello,
+>>>>>
+>>>>> This patch adds a V4L2 output device on vimc, that comply with V4L2 API
+>>>>> for video output. If there is an output device and a capture device at the
+>>>>> same pipeline, one can get a video loopback pipeline feeding frames at
+>>>>> the output and then seeing them at the capture. It's possible to insert
+>>>>> vimc submodules at the pipeline to modify the image (e.g. a scaler).
+>>>>>
+>>>>> If one starts a streaming at the capture, with the output off, the
+>>>>> capture will display a noisy frame. If one starts a streaming at the
+>>>>> output with the capture off, the output will just consume the buffers,
+>>>>> without sending them to the pipeline. If both output and capture are
+>>>>> streaming, the loopback will happen.
+>>>> I understand why it is done like this in vivid, but I was wondering, if we
+>>>> have a pipeline like:
+>>>> output -> capture
+>>>> Shouldn't streaming from the capture just stalls if there is no frame
+>>>> available in the output (i.e. streaming in the output is off) ? But then I'm
+>>>> not sure what the framerate in the capture would mean.
+>>>>
+>>>> Hans, what do you think?
+>>> If you set up the pipeline like this:
+>>>
+>>> Video Output -> Scaler -> Video Capture
+>>
+>> If the capture will stall if there's no frame from the video output, how
+>> can I add support for this kind of pipeline at test-media? It would be
+>> required to send frames to the output device while running
+>> `v4l2-compliance` at the capture device to make testing possible.
+> 
+> The compliance test doesn't support such devices at the moment.
 
-diff --git a/utils/keytable/Makefile.am b/utils/keytable/Makefile.am
-index 148b9446..0a8f5936 100644
---- a/utils/keytable/Makefile.am
-+++ b/utils/keytable/Makefile.am
-@@ -20,6 +20,9 @@ endif
- 
- EXTRA_DIST = 70-infrared.rules rc_keymaps rc_keymaps_userspace gen_keytables.pl ir-keytable.1 rc_maps.cfg rc_keymap.5
- 
-+check:
-+	@$(foreach keymap,$(wildcard $(keytablesystem_DATA)),./ir-keytable --test-keymap=$(keymap);)
-+
- # custom target
- install-data-local:
- 	$(install_sh) -d "$(DESTDIR)$(keytableuserdir)"
-diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-index 55d52945..573989eb 100644
---- a/utils/keytable/keytable.c
-+++ b/utils/keytable/keytable.c
-@@ -262,6 +262,7 @@ static const struct argp_option options[] = {
- 	{"delay",	'D',	N_("DELAY"),	0,	N_("Sets the delay before repeating a keystroke"), 0},
- 	{"period",	'P',	N_("PERIOD"),	0,	N_("Sets the period to repeat a keystroke"), 0},
- 	{"auto-load",	'a',	N_("CFGFILE"),	0,	N_("Auto-load keymaps, based on a configuration file. Only works with --sysdev."), 0},
-+	{"test-keymap",	1,	N_("KEYMAP"),	0,	N_("Test if keymap is valid"), 0},
- 	{"help",        '?',	0,		0,	N_("Give this help list"), -1},
- 	{"usage",	-3,	0,		0,	N_("Give a short usage message")},
- 	{"version",	'V',	0,		0,	N_("Print program version"), -1},
-@@ -278,6 +279,7 @@ int debug = 0;
- static int test = 0;
- static int delay = -1;
- static int period = -1;
-+static int test_keymap = 0;
- static enum sysfs_protocols ch_proto = 0;
- 
- struct bpf_protocol {
-@@ -421,7 +423,7 @@ static error_t parse_plain_keyfile(char *fname, char **table)
- 
- 						protocol = parse_sysfs_protocol(p, false);
- 						if (protocol == SYSFS_INVALID) {
--							fprintf(stderr, _("Protocol %s invalid\n"), p);
-+							fprintf(stderr, _("%s: protocol %s invalid\n"), fname, p);
- 							goto err_einval;
- 						}
- 						ch_proto |= protocol;
-@@ -484,7 +486,7 @@ err_einval:
- 	return EINVAL;
- }
- 
--static error_t parse_toml_protocol(struct toml_table_t *proot)
-+static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot)
- {
- 	struct toml_table_t *scancodes;
- 	enum sysfs_protocols protocol;
-@@ -494,12 +496,12 @@ static error_t parse_toml_protocol(struct toml_table_t *proot)
- 
- 	raw = toml_raw_in(proot, "protocol");
- 	if (!raw) {
--		fprintf(stderr, _("protocol missing\n"));
-+		fprintf(stderr, _("%s: protocol missing\n"), fname);
- 		return EINVAL;
- 	}
- 
- 	if (toml_rtos(raw, &p)) {
--		fprintf(stderr, _("Bad value `%s' for protocol\n"), raw);
-+		fprintf(stderr, _("%s: bad value `%s' for protocol\n"), fname, raw);
- 		return EINVAL;
- 	}
- 
-@@ -520,7 +522,7 @@ static error_t parse_toml_protocol(struct toml_table_t *proot)
- 	scancodes = toml_table_in(proot, "scancodes");
- 	if (!scancodes) {
- 		if (debug)
--			fprintf(stderr, _("No [protocols.scancodes] section\n"));
-+			fprintf(stderr, _("%s: no [protocols.scancodes] section\n"), fname);
- 		return 0;
- 	}
- 
-@@ -536,13 +538,13 @@ static error_t parse_toml_protocol(struct toml_table_t *proot)
- 
- 		raw = toml_raw_in(scancodes, scancode);
- 		if (!raw) {
--			fprintf(stderr, _("Invalid value `%s'\n"), scancode);
-+			fprintf(stderr, _("%s: invalid value `%s'\n"), fname, scancode);
- 			return EINVAL;
- 		}
- 
- 		if (toml_rtos(raw, &keycode)) {
--			fprintf(stderr, _("Bad value `%s' for keycode\n"),
--				keycode);
-+			fprintf(stderr, _("%s: bad value `%s' for keycode\n"),
-+				fname, keycode);
- 			return EINVAL;
- 		}
- 
-@@ -556,7 +558,7 @@ static error_t parse_toml_protocol(struct toml_table_t *proot)
- 		if (value == -1) {
- 			value = strtol(keycode, &p, 0);
- 			if (errno || *p)
--				fprintf(stderr, _("keycode `%s' not recognised, no mapping for scancode %s\n"), keycode, scancode);
-+				fprintf(stderr, _("%s: keycode `%s' not recognised, no mapping for scancode %s\n"), fname, keycode, scancode);
- 		}
- 		free(keycode);
- 
-@@ -595,13 +597,13 @@ static error_t parse_toml_keyfile(char *fname, char **table)
- 	root = toml_parse_file(fin, buf, sizeof(buf));
- 	fclose(fin);
- 	if (!root) {
--		fprintf(stderr, _("Failed to parse toml: %s\n"), buf);
-+		fprintf(stderr, _("%s: failed to parse toml: %s\n"), fname, buf);
- 		return EINVAL;
- 	}
- 
- 	arr = toml_array_in(root, "protocols");
- 	if (!arr) {
--		fprintf(stderr, _("Missing [protocols] section\n"));
-+		fprintf(stderr, _("%s: missing [protocols] section\n"), fname);
- 		return EINVAL;
- 	}
- 
-@@ -610,7 +612,7 @@ static error_t parse_toml_keyfile(char *fname, char **table)
- 		if (!proot)
- 			break;
- 
--		ret = parse_toml_protocol(proot);
-+		ret = parse_toml_protocol(fname, proot);
- 		if (ret)
- 			goto out;
- 
-@@ -618,11 +620,11 @@ static error_t parse_toml_keyfile(char *fname, char **table)
- 	}
- 
- 	if (i == 0) {
--		fprintf(stderr, _("No protocols found\n"));
-+		fprintf(stderr, _("%s: no protocols found\n"), fname);
- 		goto out;
- 	}
- 
--	// Don't free toml, this is used during bpf loading */
-+	// Don't free toml, this is used during bpf loading
- 	//toml_free(root);
- 	return 0;
- out:
-@@ -871,7 +873,14 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
- 			p = strtok(NULL, ":=");
- 		} while (p);
- 		break;
-+	case 1:
-+		test_keymap++;
-+		char *name = NULL;
- 
-+		rc = parse_keyfile(arg, &name);
-+		if (rc)
-+			argp_error(state, _("Failed to read table file %s"), arg);
-+		break;
- 	case '?':
- 		argp_state_help(state, state->out_stream,
- 				ARGP_HELP_SHORT_USAGE | ARGP_HELP_LONG
-@@ -2121,6 +2130,9 @@ int main(int argc, char *argv[])
- 
- 	argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, 0);
- 
-+	if (test_keymap)
-+		return 0;
-+
- 	/* Just list all devices */
- 	if (!clear && !readtable && !keytable && !ch_proto && !cfg.next && !test && delay < 0 && period < 0 && !bpf_protocol) {
- 		if (show_sysfs_attribs(&rc_dev, devclass))
--- 
-2.21.0
+The implementation of the expected behavior can be found here:
+https://gitlab.collabora.com/tonyk/linux/tree/vimc/output-v2
+
+> 
+> I think a new option (or options) are needed to tell the compliance test
+> that the capture and output video devices together constitute an m2m device.
+
+I've reading the v4l-utils code base and I had a look at both m2m tests
+and capture/output tests, but I'm not sure how to implement this new
+option. How do you think it should be implemented? Should it resemble
+how v4l2-compliance tests vim2m? Something like this:
+
+	v4l2-compliance -m platform:vim2m -z platform:vivid-002 -e
+vivid-002-vid-cap -s10 -P -a
+
+Thanks,
+	André
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> Thanks,
+>>     André
+>>
+>>> Then this is a mem2mem device (except with two separate video devices) and
+>>> framerate doesn't apply anymore. And video capture will just stall if there
+>>> is no video output frame provided.
+>>>
+>>> It's how e.g. omap3isp works.
+>>>
+>>> Regards,
+>>>
+>>> 	Hans
+>>>
+>>>> Thanks,
+>>>> Helen
+>>>>
+>>>>> The patches 1 and 2 provide some ground to create the output
+>>>>> device. The patch 3 creates the device and modify how the vimc-streamer
+>>>>> was dealing with the s_stream callback on other vimc modules, to make
+>>>>> simpler implementing this callback at vimc-output. Patch 4 change the
+>>>>> behavior of the pipeline in order to be closer to a real life hardware.
+>>>>> Patches 5-7 updates the default pipeline and the documentation to
+>>>>> include the new output device.
+>>>>>
+>>>>> This is the result of v4l2-compliance after this patch series:
+>>>>> $ v4l2-compliance -m0 -s50
+>>>>> Grand Total for vimc device /dev/media0: 476, Succeeded: 476, Failed: 0,
+>>>>> Warnings: 0
+>>>>>
+>>>>> A git tree up to date with media-master and with this changes can be found
+>>>>> at: https://gitlab.collabora.com/tonyk/linux/tree/vimc/output
+>>>>>
+>>>>> In order to test it, one can follow these instructions:
+>>>>>
+>>>>> 1 - Configure the pipeline (requires v4l-utils):
+>>>>>
+>>>>> $ media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+>>>>> $ media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+>>>>> $ media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+>>>>> $ media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+>>>>> $ v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+>>>>> $ v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+>>>>> $ v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+>>>>> $ v4l2-ctl -z platform:vimc -e "RGB/YUV Input" -v width=640,height=480
+>>>>>
+>>>>> 2 - Use a userspace application:
+>>>>> 2.a gst-launch (requires gstreamer and gst-plugins-good):
+>>>>>
+>>>>> Feed frames into the output and grab from the capture (rescaled for
+>>>>> convenience):
+>>>>>
+>>>>> $ gst-launch-1.0 videotestsrc pattern=ball ! \
+>>>>> 	video/x-raw,width=640,height=480,format=RGB \
+>>>>> 	! v4l2sink device=/dev/video2 v4l2src device=/dev/video3 ! \
+>>>>> 	video/x-raw,width=1920,height=1440,format=RGB ! videoscale ! \
+>>>>> 	video/x-raw,width=640,height=480 ! videoconvert ! ximagesink
+>>>>>
+>>>>> 2.b qv4l2 (requires v4l-utils):
+>>>>>
+>>>>> Open the output device:
+>>>>>
+>>>>> $ qv4l2 -d2
+>>>>>
+>>>>> Open the capture device:
+>>>>>
+>>>>> $ qv4l2 -d3
+>>>>>
+>>>>> Start the streaming at both, at any order. You can change the frame
+>>>>> content at "Test Pattern Generator" -> "Test Pattern" on the output.
+>>>>>
+>>>>> Thanks,
+>>>>> 	André
+>>>>>
+>>>>> André Almeida (7):
+>>>>>   media: vimc: Create video module
+>>>>>   media: vimc: video: Add write file operation
+>>>>>   media: vimc: Create a V4L2 output device
+>>>>>   media: vimc: Send null buffer through the pipeline
+>>>>>   media: vimc: core: Add output device on the pipeline
+>>>>>   media: vimc.dot: Update default topology diagram
+>>>>>   media: vimc.rst: Add output device
+>>>>>
+>>>>>  Documentation/media/v4l-drivers/vimc.dot    |   4 +-
+>>>>>  Documentation/media/v4l-drivers/vimc.rst    |  12 +-
+>>>>>  drivers/media/platform/vimc/Makefile        |   4 +-
+>>>>>  drivers/media/platform/vimc/vimc-capture.c  | 356 +++----------------
+>>>>>  drivers/media/platform/vimc/vimc-common.h   |   5 +-
+>>>>>  drivers/media/platform/vimc/vimc-core.c     |   7 +-
+>>>>>  drivers/media/platform/vimc/vimc-debayer.c  |  14 +-
+>>>>>  drivers/media/platform/vimc/vimc-output.c   | 362 ++++++++++++++++++++
+>>>>>  drivers/media/platform/vimc/vimc-scaler.c   |  13 +-
+>>>>>  drivers/media/platform/vimc/vimc-sensor.c   |  10 +-
+>>>>>  drivers/media/platform/vimc/vimc-streamer.c |  24 +-
+>>>>>  drivers/media/platform/vimc/vimc-video.c    | 273 +++++++++++++++
+>>>>>  drivers/media/platform/vimc/vimc-video.h    | 130 +++++++
+>>>>>  13 files changed, 849 insertions(+), 365 deletions(-)
+>>>>>  create mode 100644 drivers/media/platform/vimc/vimc-output.c
+>>>>>  create mode 100644 drivers/media/platform/vimc/vimc-video.c
+>>>>>  create mode 100644 drivers/media/platform/vimc/vimc-video.h
+>>>>>
+> 
 
