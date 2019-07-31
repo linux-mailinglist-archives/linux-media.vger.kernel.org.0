@@ -2,85 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 359B27CCBD
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 21:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55A687CD24
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 21:51:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbfGaT3X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 15:29:23 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:46889 "EHLO mail.kapsi.fi"
+        id S1728014AbfGaTv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 15:51:29 -0400
+Received: from sauhun.de ([88.99.104.3]:44636 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726334AbfGaT3X (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:29:23 -0400
-X-Greylist: delayed 3159 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Jul 2019 15:29:22 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ncAdmh9wQ4TR8p/g0VDjOvxfStohLJvBGksqaFMt3ZQ=; b=xFTgCVSMm7bVKiKYPO+lVNWowC
-        6yaYh48tnlxpL6a2Zro0OovDQP5jmpkxsDYQEeYsjydwXpX2v5f8hO9enRHEXK6ih1D5PIXsn9Toe
-        L0jYmKa82Qi5f0QB9Tqar3RlsDOwHn78GzDtwv9SKqC3taIygSMYDRVi3BX/5TEbgV7d4SFQbeMpi
-        rtosyeJwfOlvb4Fb08LPV7osGNGnjWIqCxjMxJilZVXeaV4KvbC2nrtHPErRc8tV6UajHMLOw3J4M
-        SHQj9dflwP5WBLJi4ezKZRnD/Fwtumxd6SBOkFkddJVzJiZ+Oz8a0ApvVCIHlcgf2UObD5kqCJ9PB
-        6AY9F/Vg==;
-Received: from dvbz8cyyyyyyyyyyyy5hy-3.rev.dnainternet.fi ([2001:14ba:8869:c100::64c] helo=localhost.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1hstSr-00033f-8D; Wed, 31 Jul 2019 21:36:41 +0300
-Subject: Re: [PATCH] media: tm6000: Spelling s/diconencted/diconnected/
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-References: <20190731134121.18473-1-geert+renesas@glider.be>
-From:   Antti Palosaari <crope@iki.fi>
-Message-ID: <95aa9f00-a01e-09ab-3cc3-5f1246052093@iki.fi>
-Date:   Wed, 31 Jul 2019 21:36:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726232AbfGaTv3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 31 Jul 2019 15:51:29 -0400
+Received: from localhost (p54B33080.dip0.t-ipconnect.de [84.179.48.128])
+        by pokefinder.org (Postfix) with ESMTPSA id 6CB462C270A;
+        Wed, 31 Jul 2019 21:51:26 +0200 (CEST)
+Date:   Wed, 31 Jul 2019 21:51:26 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] media: radio: si4713: Convert to new i2c device
+ probe()
+Message-ID: <20190731195125.GC4084@kunai>
+References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190710215149.9208-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20190731134121.18473-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::64c
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VywGB/WGlW4DM4P8"
+Content-Disposition: inline
+In-Reply-To: <20190710215149.9208-2-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/31/19 4:41 PM, Geert Uytterhoeven wrote:
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   drivers/media/usb/tm6000/tm6000-cards.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
-> index 23df50aa0a4af6da..9a0ffe678524987c 100644
-> --- a/drivers/media/usb/tm6000/tm6000-cards.c
-> +++ b/drivers/media/usb/tm6000/tm6000-cards.c
-> @@ -1328,7 +1328,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
->   
->   /*
->    * tm6000_usb_disconnect()
-> - * called when the device gets diconencted
-> + * called when the device gets diconnected
 
-disconnected ?
+--VywGB/WGlW4DM4P8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For the both patches.
+On Wed, Jul 10, 2019 at 10:51:44PM +0100, Kieran Bingham wrote:
+> The I2C core framework provides a simplified probe framework from commit
+> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
+>=20
+> This driver does not utilise the i2c_device_id table in the probe, so we =
+can
+> easily convert it to utilise the simplfied i2c driver registration.
+>=20
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
->    * video device will be unregistered on v4l2_close in case it is still open
->    */
->   static void tm6000_usb_disconnect(struct usb_interface *interface)
-> 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
-regards
-Antti
+--VywGB/WGlW4DM4P8
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-http://palosaari.fi/
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1B8T0ACgkQFA3kzBSg
+Kbb4ow//ZyIbTtU3Gr7nelWX2UfX2+F1vwzZbtgIYAS2iyewaz4oPj8VXZcbblWy
+zRtRkoQDziaj2SmU/3t+lxEc3Hr+j4359IrunnTW31Tcgd6vxM26AHya+UTSbIFy
+sEG64k0/FuMxkGqkR8NoL2oS+o++SzLeV371TJh1M9e36vsHU/HdwFPqiolbtNX2
+lkpUt/o4CWtie0kKlCpzmNzO0HpQo8GA1DCJChtmaofs2bDiPVDzNNYzHkkwIgoj
+Zhg49yc4625/EBSmESYatT/liiWaIJqAzsNnrQH1opjjT8Gh7O7QUfbZmjjlf9ju
+phCvn3vJ1wSKJgOjG7gmJXfDFZ/hwsUWP7fLjuPpHVOVjBdRaghdvc1XPYtJZBst
+Mg80LJNgrskkwVOOO4GefcikHcfodZyFkvxvYxC0tMUIXY8yy/FLacL+2oYMjudU
+o6lyb8x+jlJ1/fjuCBtWXNuC9Yi47/4kSzCL6glfHmrr59rVv0NeXALQI0Z61C0S
+IdUXAbiwNq7OlfPw/utZyPDeqxpTVutjL612vvvo6fQVIzLvjZ93TyGa0sjuVaM1
+INmhbTwatAvb5If3oavyKkOeffxOt0Fwc35H06nnDp9k1fEbqHmOp2J2NhEjZykf
+skIIX4vClxrNKFLKe+aRZHu0jpj3fkR1lNv3BNlagmcjLnePhE0=
+=sfK1
+-----END PGP SIGNATURE-----
+
+--VywGB/WGlW4DM4P8--
