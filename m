@@ -2,228 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 251F67DDCC
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 16:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 646B07DF36
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 17:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731988AbfHAOYW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Aug 2019 10:24:22 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:40583 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731986AbfHAOYW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Aug 2019 10:24:22 -0400
-Received: by mail-qt1-f195.google.com with SMTP id a15so70357519qtn.7
-        for <linux-media@vger.kernel.org>; Thu, 01 Aug 2019 07:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=8eEC/zShes7f9e4U4OX6q9Xv7PEjW7Dxj6wno+YzhLI=;
-        b=OdZiidc7NJizLVznmNs2dIIh8dK5S5dQDtkV4jDgWuWYxXNGOZ+8aQzSR6fPBg8coM
-         v9eQCw0SbWxdXbPG5yhdHQ8dXu8lDa5XAhAMAHV+vG/CKR7SOCcfRxij8WnSFbRaMwSo
-         HMHm2eaALga5fjAvd62dESBwzoyOigYt+99DUBCSb3dHtYpw1/wcv/slpGYxxlCKpi/c
-         0Pr/nH9dIIi0WZZGhqzDl6qX/pbLdYHEIaqtf2m0/3O1cGpk64YRQqf3L3cGOfYncOHO
-         XNC6u23GwaVDgHoGAXjTYahJrrMXmEwNrdGJBw8YgXYOJIwaRVNSMkfsu+Awiy6fxf15
-         Ag2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=8eEC/zShes7f9e4U4OX6q9Xv7PEjW7Dxj6wno+YzhLI=;
-        b=VSwfNZUpHYqLglRkv7DLqlJCBLjE+HUUVmC90syhT9JLts2E+fy5EBvagBd2cwcwF/
-         1/I1aHt4tDNAe8tJJvkoEaJ5nTjlSKni+0ZiqWnxuNJIlJ+Q/2bhh0VgvwGCaM6DT1x6
-         pDRYki8FTRUxlyWO5ZSquQkSyik4DqLzu0Fqh2QTKbuP/1y+TCLKOpnhte3UwOGh37bL
-         Y8/d31HWLzB8WeYtxl6/wCFt3zLOWI0wpi4c7CYE96UYtvfVUjUgHv9kHdXDEMTOED5J
-         3LcblMYiX09kA47Ok2ewKmwcsdfKLKaQ8OJFM7aFGmnybz/xApab2h3kfay1gUVQszeI
-         YWeg==
-X-Gm-Message-State: APjAAAUFSKrSYiBkv1A1730PiAJPuUbFRziQghIK4Zt8ylDrbizlS17E
-        RQ1THxQ/DgOymIJ6nFKmd+c=
-X-Google-Smtp-Source: APXvYqzHbcBJURql6ZsgcB1jZpbeTXtvbFsnofeq3JVe0z5lFVBZvTKqUl7QW15zrdI567qfdQIKmQ==
-X-Received: by 2002:ac8:2c35:: with SMTP id d50mr87396664qta.313.1564669461040;
-        Thu, 01 Aug 2019 07:24:21 -0700 (PDT)
-Received: from tpx230-nicolas.collaboramtl (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id o33sm33979306qtd.72.2019.08.01.07.24.17
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 01 Aug 2019 07:24:18 -0700 (PDT)
-Message-ID: <c1b58b1169a6c6e04e6bbaf01775c67148f21ffb.camel@ndufresne.ca>
-Subject: Re: [PATCH 02/14] videodev2.h: add
- V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Date:   Thu, 01 Aug 2019 10:24:15 -0400
-In-Reply-To: <2d8e8a7f-144c-5ce2-8dd0-3c82248a3a83@xs4all.nl>
-References: <20190724110523.29248-1-hverkuil-cisco@xs4all.nl>
-         <20190724110523.29248-3-hverkuil-cisco@xs4all.nl>
-         <20190727093745.GB16618@aptenodytes>
-         <CAAFQd5CTcvyOe6_gETcdyvxVE6NaWmQwrgpWbTu5so_-FLYWtA@mail.gmail.com>
-         <20190729131229.GB24269@aptenodytes>
-         <CAAFQd5Au5+AZvSG-5p9Zp32aUUANyEi-b68wHf=g_diBw-+2BQ@mail.gmail.com>
-         <2d8e8a7f-144c-5ce2-8dd0-3c82248a3a83@xs4all.nl>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-JAu0RuiAvKx2t/J1CFBq"
-User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
+        id S1728041AbfHAPgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Aug 2019 11:36:48 -0400
+Received: from mga11.intel.com ([192.55.52.93]:20061 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726654AbfHAPgs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Aug 2019 11:36:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Aug 2019 08:36:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,334,1559545200"; 
+   d="scan'208";a="184278760"
+Received: from unknown (HELO [10.7.201.140]) ([10.7.201.140])
+  by orsmga002.jf.intel.com with ESMTP; 01 Aug 2019 08:36:47 -0700
+Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <8c618cc9-ae68-9769-c5bb-67f1295abc4e@intel.com>
+ <13b4cf53-3ecb-f7e7-b504-d77af15d77aa@arm.com>
+ <CAAeHK+zTFqsLiB3Wf0bAi5A8ukQX5ZuvfUg4td-=r5UhBsUBOQ@mail.gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <96fd8da4-a912-f6cc-2b32-5791027dbbd5@intel.com>
+Date:   Thu, 1 Aug 2019 08:36:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAAeHK+zTFqsLiB3Wf0bAi5A8ukQX5ZuvfUg4td-=r5UhBsUBOQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 8/1/19 5:48 AM, Andrey Konovalov wrote:
+> On Thu, Aug 1, 2019 at 2:11 PM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
+>> On 31/07/2019 17:50, Dave Hansen wrote:
+>>> On 7/23/19 10:58 AM, Andrey Konovalov wrote:
+>>>> The mmap and mremap (only new_addr) syscalls do not currently accept
+>>>> tagged addresses. Architectures may interpret the tag as a background
+>>>> colour for the corresponding vma.
+>>> What the heck is a "background colour"? :)
+>> Good point, this is some jargon that we started using for MTE, the idea being that
+>> the kernel could set a tag value (specified during mmap()) as "background colour" for
+>> anonymous pages allocated in that range.
+>>
+>> Anyway, this patch series is not about MTE. Andrey, for v20 (if any), I think it's
+>> best to drop this last sentence to avoid any confusion.
+> Sure, thanks!
 
---=-JAu0RuiAvKx2t/J1CFBq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mardi 30 juillet 2019 =C3=A0 09:21 +0200, Hans Verkuil a =C3=A9crit :
-> On 7/29/19 3:18 PM, Tomasz Figa wrote:
-> > On Mon, Jul 29, 2019 at 10:12 PM Paul Kocialkowski
-> > <paul.kocialkowski@bootlin.com> wrote:
-> > > Hi,
-> > >=20
-> > > On Sun 28 Jul 19, 23:05, Tomasz Figa wrote:
-> > > > On Sat, Jul 27, 2019 at 6:37 PM Paul Kocialkowski
-> > > > <paul.kocialkowski@bootlin.com> wrote:
-> > > > > Hi,
-> > > > >=20
-> > > > > On Wed 24 Jul 19, 13:05, Hans Verkuil wrote:
-> > > > > > Add an enum_fmt format flag to specifically tag coded formats w=
-here
-> > > > > > full bitstream parsing is supported by the device.
-> > > > > >=20
-> > > > > > Some stateful decoders are capable of fully parsing a bitstream=
-,
-> > > > > > but others require that userspace pre-parses the bitstream into
-> > > > > > frames or fields (see the corresponding pixelformat description=
-s
-> > > > > > for details).
-> > > > > >=20
-> > > > > > If this flag is set, then this pre-parsing step is not required
-> > > > > > (but still possible, of course).
-> > > > > >=20
-> > > > > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > > > > > ---
-> > > > > >  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
-> > > > > >  Documentation/media/videodev2.h.rst.exceptions   | 1 +
-> > > > > >  include/uapi/linux/videodev2.h                   | 5 +++--
-> > > > > >  3 files changed, 12 insertions(+), 2 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b=
-/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > > index 822d6730e7d2..4e24e671f32e 100644
-> > > > > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > > @@ -127,6 +127,14 @@ one until ``EINVAL`` is returned.
-> > > > > >        - This format is not native to the device but emulated t=
-hrough
-> > > > > >       software (usually libv4l2), where possible try to use a n=
-ative
-> > > > > >       format instead for better performance.
-> > > > > > +    * - ``V4L2_FMT_FLAG_HAS_BITSTREAM_PARSER``
-> > > > > > +      - 0x0004
-> > > > > > +      - The hardware decoder for this compressed bitstream for=
-mat (aka coded
-> > > > > > +     format) is capable of parsing the bitstream. Applications=
- do not
-> > > > > > +     need to parse the bitstream themselves to find the bounda=
-ries between
-> > > > > > +     frames/fields. This flag can only be used in combination =
-with the
-> > > > > > +     ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to =
-compressed
-> > > > > > +     formats only.
-> > > > >=20
-> > > > > Should this flag be set for stateless codecs as well? It seems a =
-bit over-kill
-> > > > > for this case. I am not sure whether "compressed bitstream format=
-" clearly only
-> > > > > covers the formats used by stateful decoders and not the ones for=
- stateless
-> > > > > decoders.
-> > > >=20
-> > > > I'd suggest using a different name for the flag, because "bitstream
-> > > > parser" is actually one of the core differences between stateful an=
-d
-> > > > stateless. All stateful decoders have bitstream parsers, the only
-> > > > difference between the implementations is the unit on which the par=
-ser
-> > > > operates, i.e. full stream, frame, NALU.
-> > > >=20
-> > > > Perhaps V4L2_FMT_FLAG_CONTINUOUS_BITSTREAM (as opposed to discrete,
-> > > > framed/sliced chunks)?
-> > >=20
-> > > Sure, that seems like a more explicit name regarding what it's suppos=
-ed to
-> > > describe in my opinion.
->=20
-> I like that name. And this flag is valid for stateful decoders only.
-
-Sorry, I'm not against the name change, but it should be
-V4L2_FMT_FLAG_HAS_BYTESTREAM_PARSER (BYTE). Parsers don't support
-random bit alignment, so I think usage of bitstream would be miss-
-leading. This is playing on words of course, H264 is a bitstream, but
-what is passed to the driver is byte aligned, hence a bytestream.
-
->=20
-> > > > Regardless of that, it doesn't make sense for a stateless decoder t=
-o
-> > > > set this flag anyway, because the userspace needs to parse the whol=
-e
-> > > > stream anyway and the whole stateless API is based on the assumptio=
-n
-> > > > that the userspace splits the bitstream into frames (or slices).
-> > >=20
-> > > Indeed, I agree that it doesn't make sense, but I thought that the na=
-me of the
-> > > flag could be confusing. Since there is no direct equivalency between
-> > > "stateless" and "doesn't parse the bitstream" (as we've seen with the=
- rockchip
-> > > decoder needing to parse the slice header on its own), that could hav=
-e been
-> > > ambiguous. I think the name you're suggesting mostly solves this conc=
-ern.
-> > >=20
-> > > I'm still a bit unsure about what "compressed formats" entails or not=
-, so it
-> > > could be good to explicitly mention that this applies to stateful dec=
-oders only
-> > > (but it's just a suggestion, advanced users of the API will probably =
-find it
-> > > straightforward).
-> >=20
-> > My understanding is that a compressed format is any format that
-> > doesn't have a directly accessible 2D pixel matrix in its memory
-> > representation, so all the bitstream formats should have it set.
->=20
-> Correct.
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> > Best regards,
-> > Tomasz
-> >=20
-
---=-JAu0RuiAvKx2t/J1CFBq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXUL2EAAKCRBxUwItrAao
-HAnqAJ4jrJbDUJQZsJwKja31vVc+E9qfqACfQjyulPLY+Rq62amtX2aDZpiMklU=
-=+ne+
------END PGP SIGNATURE-----
-
---=-JAu0RuiAvKx2t/J1CFBq--
+OK, but what does that mean for tagged addresses getting passed to
+mmap/mremap?  That sentence read to me like "architectures might allow
+tags for ...something...".  So do we accept tagged addresses into those
+syscalls?
 
