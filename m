@@ -2,91 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E107DBA1
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9DDD7DBA3
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731179AbfHAMiL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Aug 2019 08:38:11 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:51526 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbfHAMiL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Aug 2019 08:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=bH3hTzzK8wCiqvY4xW3EPVXepMqBIOyt0Kx3x1aegwg=; b=miyXfEN8B3UsjIwBbezhY6o42
-        DjkGYekMBPmWShjXfySYo3uYdfUEMYwN+sz5CJCfx9L0jeYj8cH4Y1ZQB4PH0bqVs6j36reDKOpsm
-        tUjwVGryLDkjUGE7Boo85MkNWFATHmPP7ouvBdXSct1FOjH2AJWBk5GpfIXpLEViclbLL5rRm3mxw
-        ksCdR5GHGIQhQtirmBA+yuWd8IHaz2qE2/0H39QSYUhqkh2zwuE2iHwsAUa7OGH71icKI7j/go95E
-        VRkVfWUDg3p0sfUFENHxSIgskOKm3f5S5bMEHBeV6xs6vBQVOtttLEzIA6suh42b0lYbW/nkuta6U
-        Sr4mYamzQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1htALP-0006Zx-O3; Thu, 01 Aug 2019 12:38:07 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 227242029F4CD; Thu,  1 Aug 2019 14:38:06 +0200 (CEST)
-Date:   Thu, 1 Aug 2019 14:38:06 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andy Walls <andy@silverblocksystems.net>
-Cc:     mingo@kernel.org, linux-kernel@vger.kernel.org,
-        Andy Walls <awalls@md.metrocast.net>,
+        id S1731331AbfHAMiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Aug 2019 08:38:14 -0400
+Received: from foss.arm.com ([217.140.110.172]:35274 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726422AbfHAMiN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Aug 2019 08:38:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA8AC1570;
+        Thu,  1 Aug 2019 05:38:12 -0700 (PDT)
+Received: from [10.1.194.48] (e123572-lin.cambridge.arm.com [10.1.194.48])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E84103F575;
+        Thu,  1 Aug 2019 05:38:07 -0700 (PDT)
+Subject: Re: [PATCH v19 02/15] arm64: Introduce prctl() options to control the
+ tagged user addresses ABI
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 4/5] media/ivtv: Reduce default FIFO priority
-Message-ID: <20190801123806.GA31398@hirez.programming.kicks-ass.net>
-References: <20190801111348.530242235@infradead.org>
- <20190801111541.858088180@infradead.org>
- <7970f0e30d1eb83e7067225d07b923863bf1ac50.camel@silverblocksystems.net>
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <1c05651c53f90d07e98ee4973c2786ccf315db12.1563904656.git.andreyknvl@google.com>
+ <7a34470c-73f0-26ac-e63d-161191d4b1e4@intel.com>
+From:   Kevin Brodsky <kevin.brodsky@arm.com>
+Message-ID: <2b274c6f-6023-8eb8-5a86-507e6000e13d@arm.com>
+Date:   Thu, 1 Aug 2019 13:38:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7970f0e30d1eb83e7067225d07b923863bf1ac50.camel@silverblocksystems.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <7a34470c-73f0-26ac-e63d-161191d4b1e4@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 01, 2019 at 08:24:22AM -0400, Andy Walls wrote:
-> Hi Peter:
-> 
-> On Thu, 2019-08-01 at 13:13 +0200, Peter Zijlstra wrote:
-> > The ivtv driver creates a FIFO-99 thread by default, reduce this to
-> > FIFO-1.
-> > 
-> > FIFO-99 is the very highest priority available to SCHED_FIFO and
-> > it not a suitable default; it would indicate the ivtv work is the
-> > most important work on the machine.
-> 
-> ivtv based boards are legacy, convential PCI boards.  At this point,
-> these old boards are generally installed in boxes dedicated to video
-> capture (e.g. MythTV setups) or boxes dedicated to capturing VBI
-> information, like closed captioning, for business intelligence.
-> 
-> For boxes dedicated to video or VBI capture, the ivtv work may very
-> well be close to the most important work on the machine, to avoid
-> dropping video frames or VBI data.
-> 
-> 
-> > FIFO-1 gets it above all OTHER tasks, which seems high enough lacking
-> > better justification.
-> 
-> I agree that FIFO-99 is the wrong default level.
-> 
-> However, in my opinion, threads responsible for real time data
-> acquisition should have higher priority than the other kernel driver
-> threads normally running at FIFO-50.
-> 
-> How about FIFO-51 as the default?
+On 31/07/2019 18:05, Dave Hansen wrote:
+> On 7/23/19 10:58 AM, Andrey Konovalov wrote:
+>> +long set_tagged_addr_ctrl(unsigned long arg)
+>> +{
+>> +	if (!tagged_addr_prctl_allowed)
+>> +		return -EINVAL;
+>> +	if (is_compat_task())
+>> +		return -EINVAL;
+>> +	if (arg & ~PR_TAGGED_ADDR_ENABLE)
+>> +		return -EINVAL;
+>> +
+>> +	update_thread_flag(TIF_TAGGED_ADDR, arg & PR_TAGGED_ADDR_ENABLE);
+>> +
+>> +	return 0;
+>> +}
+> Instead of a plain enable/disable, a more flexible ABI would be to have
+> the tag mask be passed in.  That way, an implementation that has a
+> flexible tag size can select it.  It also ensures that userspace
+> actually knows what the tag size is and isn't surprised if a hardware
+> implementation changes the tag size or position.
+>
+> Also, this whole set deals with tagging/untagging, but there's an
+> effective loss of address space when you do this.  Is that dealt with
+> anywhere?  How do we ensure that allocations don't get placed at a
+> tagged address before this gets turned on?  Where's that checking?
 
-If the consumer of the data are RT tasks as well (I hadn't expected that
-from a TV capture device) then I'd propose to use FIFO-50 as default.
+This patch series only changes what is allowed or not at the syscall interface. It 
+does not change the address space size. On arm64, TBI (Top Byte Ignore) has always 
+been enabled for userspace, so it has never been possible to use the upper 8 bits of 
+user pointers for addressing.
 
-The thing is, the moment you're doing actual proper RT, the admin needs
-to configure things anyway, which then very much includes setting the
-priority of interrupt threads and the like.
+If other architectures were to support a similar functionality, then I agree that a 
+common and more generic interface (if needed) would be helpful, but as it stands this 
+is an arm64-specific prctl, and on arm64 the address tag is defined by the 
+architecture as bits [63:56].
 
-(that is exacty why pretty much everything defaults to FIFO-50)
+Kevin
