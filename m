@@ -2,124 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F2AB7DB58
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C62BC7DB85
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728582AbfHAMYZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Aug 2019 08:24:25 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:34362 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727248AbfHAMYZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Aug 2019 08:24:25 -0400
-Received: by mail-qk1-f193.google.com with SMTP id t8so51805683qkt.1
-        for <linux-media@vger.kernel.org>; Thu, 01 Aug 2019 05:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=silverblocksystems-net.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0fBH6l9BLYbOCzrs817yKQIIa9zIlv8DLrTZC4IffaM=;
-        b=RSLcPoaeJAAfB67bUYIqah/OaGmFpMbgJwj7DV167LybGd7QKyr8uQMAQ5hbwPP5fe
-         oDVhneA/BOjmAHr8YDUq6d4XcMhrqAnpK4A5/Ly5Oj3y3XkcS+4C+OuOqyoRREuQJ2Jw
-         +G1n1TNnBpvr2TgvlgvNy3eXYmhsaCCwtoE/s6gz2LkDZCqv+R9fgqCd8nTUg/rFi5q2
-         /lXNMgdJfU+3uxbjquwY05kN1LBZlSgte1TIJ71mQwqhi2VrOXSVR+Chx1kEPupNzUUJ
-         kEqvfuj7W+9SjYdrKiOMb3QhAqZqHZM/PCqvNMnPba7g9hQf6t2zs/ZG95arhXt0cFRF
-         QS4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0fBH6l9BLYbOCzrs817yKQIIa9zIlv8DLrTZC4IffaM=;
-        b=af/F0oEFGMEFdrCEh9tP6fxjw0d0+phj1MWoHxl2Oof3z8CPs9/oraPbuGF8tAIPrm
-         JoLY8yY1GXrFPgdIaT9lFEl3+wjdCfgKsGJBJ+ctxocDDwImuPfgzGtRfXar3gRJ/fmL
-         oqDzMl78Iy/kbeyIDR+KI5CdwDvU0Pj1Kf3aruGEsILIKM6NorabPwhVAgkNk33p7D8+
-         AGxJaw4n2HZ+1BUdlusVY4oqs74FK6gGUNyTNA5OMczugzsPZ95xbx6zjDX4520wzMZh
-         x8E0Ay6DNw1AhYHk3eMqzEGmzJydDNTQo7sxYd/Wfo8hzu+k4HPwE1YPobKmyZmS/kMZ
-         4DkA==
-X-Gm-Message-State: APjAAAWfCdHiRZo4LVwSR21ep/22HuAkNP/Oc6K1tYoCK2M5MwprrkHL
-        +LdfUQPfW5ybTvdJaiYR7cvLZMa1
-X-Google-Smtp-Source: APXvYqzkeNPzSavZYxUiinFMf15Rmke7hDUbYCslQnV5GTuD3Ej7QWvc13oXJOLjhttmRXoNhgIpfw==
-X-Received: by 2002:a05:620a:1310:: with SMTP id o16mr1144022qkj.196.1564662264096;
-        Thu, 01 Aug 2019 05:24:24 -0700 (PDT)
-Received: from localhost.localdomain (static-72-9-14-85.md.cpe.atlanticbb.net. [72.9.14.85])
-        by smtp.gmail.com with ESMTPSA id r189sm31309054qkc.60.2019.08.01.05.24.23
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 01 Aug 2019 05:24:23 -0700 (PDT)
-Message-ID: <7970f0e30d1eb83e7067225d07b923863bf1ac50.camel@silverblocksystems.net>
-Subject: Re: [PATCH 4/5] media/ivtv: Reduce default FIFO priority
-From:   Andy Walls <andy@silverblocksystems.net>
-To:     Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Date:   Thu, 01 Aug 2019 08:24:22 -0400
-In-Reply-To: <20190801111541.858088180@infradead.org>
-References: <20190801111348.530242235@infradead.org>
-         <20190801111541.858088180@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        id S1729506AbfHAMbc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Aug 2019 08:31:32 -0400
+Received: from gofer.mess.org ([88.97.38.141]:41601 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728902AbfHAMbc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Aug 2019 08:31:32 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7D0586015D; Thu,  1 Aug 2019 13:31:31 +0100 (BST)
+Date:   Thu, 1 Aug 2019 13:31:31 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.4] dvb/rc fixes, take #2
+Message-ID: <20190801123131.azv6kldrr7gniqih@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Peter:
+Hi Mauro,
 
-On Thu, 2019-08-01 at 13:13 +0200, Peter Zijlstra wrote:
-> The ivtv driver creates a FIFO-99 thread by default, reduce this to
-> FIFO-1.
-> 
-> FIFO-99 is the very highest priority available to SCHED_FIFO and
-> it not a suitable default; it would indicate the ivtv work is the
-> most important work on the machine.
+Here is another dvb/rc pull request. More to come.
 
-ivtv based boards are legacy, convential PCI boards.  At this point,
-these old boards are generally installed in boxes dedicated to video
-capture (e.g. MythTV setups) or boxes dedicated to capturing VBI
-information, like closed captioning, for business intelligence.
+Thanks
+Sean
 
-For boxes dedicated to video or VBI capture, the ivtv work may very
-well be close to the most important work on the machine, to avoid
-dropping video frames or VBI data.
+The following changes since commit 4590c07462fbff4ecbfe1deec44431c16191bd19:
 
+  media: via-camera: convert to the vb2 framework (2019-07-30 12:18:34 -0400)
 
-> FIFO-1 gets it above all OTHER tasks, which seems high enough lacking
-> better justification.
+are available in the Git repository at:
 
-I agree that FIFO-99 is the wrong default level.
+  git://linuxtv.org/syoung/media_tree.git tags/v5.4b
 
-However, in my opinion, threads responsible for real time data
-acquisition should have higher priority than the other kernel driver
-threads normally running at FIFO-50.
+for you to fetch changes up to 6eedaba3f5a2c733c211b4fea91a348f058bc025:
 
-How about FIFO-51 as the default?
+  dt-bindings: media: sunxi-ir: Add H6 compatible (2019-08-01 21:09:15 +0900)
 
-Regards,
-Andy
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: don't drop front-end reference count for ->detach
 
-> Cc: Andy Walls <awalls@md.metrocast.net>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  drivers/media/pci/ivtv/ivtv-driver.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- a/drivers/media/pci/ivtv/ivtv-driver.c
-> +++ b/drivers/media/pci/ivtv/ivtv-driver.c
-> @@ -738,7 +738,7 @@ static void ivtv_process_options(struct
->   */
->  static int ivtv_init_struct1(struct ivtv *itv)
->  {
-> -	struct sched_param param = { .sched_priority = 99 };
-> +	struct sched_param param = { .sched_priority = 1 };
->  
->  	itv->base_addr = pci_resource_start(itv->pdev, 0);
->  	itv->enc_mbox.max_mbox = 2; /* the encoder has 3 mailboxes (0-
-> 2) */
-> 
-> 
+Clément Péron (6):
+      dt-bindings: media: sunxi-ir: Add A31 compatible
+      media: rc: Introduce sunxi_ir_quirks
+      media: rc: sunxi: Add A31 compatible
+      media: rc: sunxi: Add RXSTA bits definition
+      dt-bindings: media: sunxi-ir: Add A64 compatible
+      dt-bindings: media: sunxi-ir: Add H6 compatible
 
+Oliver Neukum (1):
+      media: iguanair: add sanity checks
+
+Sean Young (2):
+      media: lirc: document BPF IR decoding
+      media: rc: describe rc protocols and their scancodes
+
+Wolfram Sang (2):
+      media: ir-kbd-i2c: convert to i2c_new_dummy_device()
+      media: ir-kbd-i2c: remove outdated comments
+
+ .../devicetree/bindings/media/sunxi-ir.txt         |  11 +-
+ Documentation/media/uapi/rc/lirc-dev-intro.rst     |  57 ++-
+ Documentation/media/uapi/rc/lirc-read.rst          |   3 +-
+ Documentation/media/uapi/rc/lirc-write.rst         |   3 +-
+ Documentation/media/uapi/rc/rc-protos.rst          | 456 +++++++++++++++++++++
+ Documentation/media/uapi/rc/remote_controllers.rst |   1 +
+ drivers/media/dvb-core/dvb_frontend.c              |   4 +-
+ drivers/media/i2c/ir-kbd-i2c.c                     |  17 +-
+ drivers/media/rc/iguanair.c                        |  15 +-
+ drivers/media/rc/sunxi-cir.c                       |  88 +++-
+ drivers/media/usb/dvb-usb/pctv452e.c               |   8 -
+ 11 files changed, 597 insertions(+), 66 deletions(-)
+ create mode 100644 Documentation/media/uapi/rc/rc-protos.rst
