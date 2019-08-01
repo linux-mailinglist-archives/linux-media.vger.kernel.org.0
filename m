@@ -2,84 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C62BC7DB85
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 455BB7DB93
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 14:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729506AbfHAMbc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Aug 2019 08:31:32 -0400
-Received: from gofer.mess.org ([88.97.38.141]:41601 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728902AbfHAMbc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Aug 2019 08:31:32 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7D0586015D; Thu,  1 Aug 2019 13:31:31 +0100 (BST)
-Date:   Thu, 1 Aug 2019 13:31:31 +0100
-From:   Sean Young <sean@mess.org>
+        id S1729522AbfHAMeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Aug 2019 08:34:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34466 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbfHAMeF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Aug 2019 08:34:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:
+        Date:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=zmJ1XI/WnwOcLA+zAfOPq1dliMPgkr8zXGj7S5gAdS8=; b=ksv0Kk5n9wCmiQMl2RhjNO8DC
+        JfAetHOwmbJmPPHsLKKLyBSBY9PEzREeM0SBGEDwgICjuxJ9UAHS02yXcP7QlUZURTpqv1RPh4Feq
+        jV7LdGZJazDhXU8C3yOASXUa7pRcJeHm3WLJImPhL7rKvtSKvD6flGidyllQXEnfAY9cMhQLu6OLQ
+        UTego6WxDdB3EEUE77S+VZFwNX7WH2ZxradhDSjW6AjBHJjCnyo9iFOiIeyEvgnju3UicRXLHcK1W
+        xzWnWBTy24d1GuCPuPPQEslKO7svb1l9959iBvAk4VDZMN6gBSyBBNQ4vvYStY65tkYKP7K3uvy9x
+        oWrb+UrzA==;
+Received: from [191.33.152.89] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1htAHU-0007J8-VY
+        for linux-media@vger.kernel.org; Thu, 01 Aug 2019 12:34:05 +0000
+Date:   Thu, 1 Aug 2019 09:34:00 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.4] dvb/rc fixes, take #2
-Message-ID: <20190801123131.azv6kldrr7gniqih@gofer.mess.org>
+Subject: Re: [ANN] Media summit in Lisbon at September
+Message-ID: <20190801093400.5c351754@coco.lan>
+In-Reply-To: <20190630134404.7ba170f0@coco.lan>
+References: <20190630134404.7ba170f0@coco.lan>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Em Sun, 30 Jun 2019 13:44:04 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
 
-Here is another dvb/rc pull request. More to come.
+> Hi all,
+> 
+> We are organizing a media mini-summit in Lisbon to happen in September,
+> at the same week as the Linux Plumber Conference and the Kernel Summit.
+> 
+> We're still discussing the details about that.
 
-Thanks
-Sean
+Gently reminder.
 
-The following changes since commit 4590c07462fbff4ecbfe1deec44431c16191bd19:
+Right now, we have just one extra theme proposal from Sean:
 
-  media: via-camera: convert to the vb2 framework (2019-07-30 12:18:34 -0400)
+	- possible dvb improvements.
 
-are available in the Git repository at:
+If we don't have more proposals, we may end skipping the Media
+Summit this year.
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.4b
+Regards,
+Mauro
 
-for you to fetch changes up to 6eedaba3f5a2c733c211b4fea91a348f058bc025:
 
-  dt-bindings: media: sunxi-ir: Add H6 compatible (2019-08-01 21:09:15 +0900)
+> 
+> In principle, it will be a free event for the ones registered
+> to Linux Plumbers Conference, happening between Sept 9-11.
+> They have a room available that we could use for the meeting on that
+> period of time, but we need to adjust to avoid conflicts with other
+> interesting micro-conferences that will happen in parallel (or
+> eventually do it outside that period, but that would be harder to
+> organize).
+> 
+> I'll let you know more details once we got it.
+> 
+> If you plan to attend, please let me know. It is open for all, but
+> we'll have a limited number of seats. So, the earliest we get the
+> number of interested people, the best.
+> 
+> -
+> 
+> At the last summit, we were supposed to do a Key Signing Party, but
+> we end not doing it, due to lack of time. I suggest we add this again,
+> but doing it earlier, in order to avoid getting out of time for doing
+> it.
+> 
+> From my side, I'd like to discuss what criteria we should adopt for
+> the code that comes via /drivers/staging/media, in particular:
+> how much time should we keep a code there that doesn't receive any
+> patch addressing the drivers real issues (excluding codepatch,
+> cleanups and kAPI changes)?
+> 
+> What other themes should be discussed?
+> 
+> Thanks,
+> Mauro
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: don't drop front-end reference count for ->detach
 
-Clément Péron (6):
-      dt-bindings: media: sunxi-ir: Add A31 compatible
-      media: rc: Introduce sunxi_ir_quirks
-      media: rc: sunxi: Add A31 compatible
-      media: rc: sunxi: Add RXSTA bits definition
-      dt-bindings: media: sunxi-ir: Add A64 compatible
-      dt-bindings: media: sunxi-ir: Add H6 compatible
 
-Oliver Neukum (1):
-      media: iguanair: add sanity checks
-
-Sean Young (2):
-      media: lirc: document BPF IR decoding
-      media: rc: describe rc protocols and their scancodes
-
-Wolfram Sang (2):
-      media: ir-kbd-i2c: convert to i2c_new_dummy_device()
-      media: ir-kbd-i2c: remove outdated comments
-
- .../devicetree/bindings/media/sunxi-ir.txt         |  11 +-
- Documentation/media/uapi/rc/lirc-dev-intro.rst     |  57 ++-
- Documentation/media/uapi/rc/lirc-read.rst          |   3 +-
- Documentation/media/uapi/rc/lirc-write.rst         |   3 +-
- Documentation/media/uapi/rc/rc-protos.rst          | 456 +++++++++++++++++++++
- Documentation/media/uapi/rc/remote_controllers.rst |   1 +
- drivers/media/dvb-core/dvb_frontend.c              |   4 +-
- drivers/media/i2c/ir-kbd-i2c.c                     |  17 +-
- drivers/media/rc/iguanair.c                        |  15 +-
- drivers/media/rc/sunxi-cir.c                       |  88 +++-
- drivers/media/usb/dvb-usb/pctv452e.c               |   8 -
- 11 files changed, 597 insertions(+), 66 deletions(-)
- create mode 100644 Documentation/media/uapi/rc/rc-protos.rst
+Thanks,
+Mauro
