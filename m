@@ -2,153 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5CF57D3C6
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 05:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 490F77D445
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 06:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbfHADmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 23:42:32 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35249 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725793AbfHADmb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 23:42:31 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:6937:afe9:6e56:bab3])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id t1z2h03dZAffAt1z3hockH; Thu, 01 Aug 2019 05:42:29 +0200
-Message-ID: <30255536416dd0f66656e344e54d9884@smtp-cloud9.xs4all.net>
-Date:   Thu, 01 Aug 2019 05:42:28 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPOhMItkTp7+IPdf99n/bVyBWeRG19YkQPHkfHaBZy5zcb4jG/MT+s0YNkAmFoS26aBf//U4432V6B1YkwEZsRB9MNG9Nsqiwh27ymR9WgnamcE8pYZU
- RCeSHDrqWbt6StlHZKjYLIbx0BdK23Y+3HSwvq19q0JsatLtW/FSLu3cVv8b0PFmDqsXZ64vrnn6CrMT+UNBpZMZzGAAb2BdNegFKzN+rFJcKzOT+DSqh3GP
+        id S1726521AbfHAEGZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Aug 2019 00:06:25 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36417 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725308AbfHAEGY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Aug 2019 00:06:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so72030928wrs.3
+        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2019 21:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0mB42y3xmrJWhBLWeWzKTdkVYurhG+q5hPYefS8udCw=;
+        b=Rqy1b9wgnbO9iiiBCq0yAP3hGF9q5tLtF+rAKGfMKigKhec6hrRDE2gbAmGB6vil2r
+         3lcZJ1qyK34AcYzj1Pc4F5LaFctVd17q/tHL6sMpyVAhjhlkvj+6WFudBTwwiM77jJg2
+         1pvNRrRsnFSe3u9RLO+v1a/eLfrm+Ons2lnZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0mB42y3xmrJWhBLWeWzKTdkVYurhG+q5hPYefS8udCw=;
+        b=hZNb8tqOp9P4ugSwAyiDVDbG67T/cwDClES5sUlpZdaNcxI6ErB6MO722ASt9+EljY
+         HG9uPvAY7C2mw9x/owibFM+fMg3qysWTCqrxiiT9BZN/kmMjsoGYY8asCawqQkOaqxaC
+         czVyDcswU/Bytro5Jrfc0MRsbrbgGC6XaBWOm860kVtk1pZN+AwdiMcHQ3IT1jlJPihw
+         7EerSdnjEsbfI31ECTYNGHe81M+UfjWjMjZXiBz1MzOxDR5HpwTlKURToVTXQUTcDEjX
+         wU5+lYM+5pqpT5NSTLifYxZykkx2ScTgVOXIg+Ouo8qqBaHfqB/jv8OTqo3jWC+vvxjH
+         ZjLA==
+X-Gm-Message-State: APjAAAWXIbYxh+bgeAaiop/OARcSBUip3wQ6pV671u2Htvgss0k7Adgn
+        sLnPk7FaMmU1oSLIfok6I9CRwuAd3NEIRdMDY+5yqA==
+X-Google-Smtp-Source: APXvYqycKy7N26liWehbx4OB6WFB2ks3ASboEt4UcIJYI8SMe0JfZCnvhCeu+F7MPJNgeMKOB0gT4IRbMod1SEgn704=
+X-Received: by 2002:adf:f08f:: with SMTP id n15mr52081058wro.213.1564632382431;
+ Wed, 31 Jul 2019 21:06:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190619121540.29320-1-boris.brezillon@collabora.com> <20190619121540.29320-8-boris.brezillon@collabora.com>
+In-Reply-To: <20190619121540.29320-8-boris.brezillon@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 1 Aug 2019 13:06:10 +0900
+Message-ID: <CAHD77HksotqFBTE84rRM=DuNFX=YJPs=YnsuFkaN-pWUNCtoxA@mail.gmail.com>
+Subject: Re: [PATCH 7/9] media: hantro: Add core bits to support H264 decoding
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hertz Wong <hertz.wong@rock-chips.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Boris,
 
-Results of the daily build of media_tree:
+On Wed, Jun 19, 2019 at 9:15 PM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+[snip]
+> @@ -533,10 +535,21 @@ hantro_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
+>                 return -EINVAL;
+>         }
+>
+> +       /* The H264 decoder needs extra size on the output buffer. */
+> +       if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE_RAW)
+> +               extra_size0 = 128 * DIV_ROUND_UP(pixfmt->width, 16) *
+> +                             DIV_ROUND_UP(pixfmt->height, 16);
+> +
 
-date:			Thu Aug  1 05:00:10 CEST 2019
-media-tree git hash:	4590c07462fbff4ecbfe1deec44431c16191bd19
-media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
-v4l-utils git hash:	28be49b4e9d72c5866188cf5ba408541c665c921
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+I wonder if this shouldn't be accounted for already in the sizeimage
+returned by TRY_/S_FMT, so that the application can know the required
+buffer size if it uses some external allocator and DMABUF memory type.
+I know we had it like this in our downstream code, but it wasn't the
+problem because we use minigbm, where we explicitly add the same
+padding in the rockchip backend. Any thoughts?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
