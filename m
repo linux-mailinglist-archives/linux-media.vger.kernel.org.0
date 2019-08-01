@@ -2,91 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2E807D023
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2019 23:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5CF57D3C6
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2019 05:42:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729853AbfGaVcw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Jul 2019 17:32:52 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39262 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbfGaVcw (ORCPT
+        id S1728364AbfHADmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Jul 2019 23:42:32 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35249 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725793AbfHADmb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Jul 2019 17:32:52 -0400
-Received: by mail-pl1-f194.google.com with SMTP id b7so31089209pls.6;
-        Wed, 31 Jul 2019 14:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=N9gPxJSS+drGx3gkBDyyqIUQ628VPY96K/YYURGM20I=;
-        b=YNHkNtgBwrh6nbpMkE8s3S3DSkUREUY/zJ2lSMLIGS/mcdDXEu61HGn0u5lfYe3SdE
-         6Go5On1veg0XK8WJi7hoYXZsPxNh6JX/ZFzk1LCQZezGU+hn7E8ciqMiM9d7WnhBcwQj
-         nDiRLpMV4Zq/V35AdaeT1sCJXmtALheS2q/h34dZDk1FD0d4udGXjbhjiVXFkebOUkwp
-         tC/WiopiafnP5mBCYfGZRFa6iihOMplq97v1Opz9zqHRdPf67wWlmGbpxJxtNgt7Te6H
-         GmKh7Hrtxj49Gps3mFuGfssRxNEXAT2EnQFktBFA4a51QQRptYLap9SIcJAHb3vhMmkb
-         WHhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=N9gPxJSS+drGx3gkBDyyqIUQ628VPY96K/YYURGM20I=;
-        b=XBc3O3OuayndMfKq5gw+uarNizVhl3NSbYQ7w/sJuCnzJgv9JAOtKyHcdyNXN17hUQ
-         opaxwjTkHYw+/1mPxTuwq5LNRC3z22IfCCtkO0DBuohV6yCue4NNR9ozenOd7YT4xoyI
-         qromiBcEnEJPp/aVlVO0ls0oBgAbuFJCFpa3RpJU51MDUKF3amUMGefcWPGfYsRpE4Ke
-         ObeKXjdorMRCkhDvtjefK1IQOkMSFEwHs+ZPS4R2lo/ObZMM1mpS1nlMgNSRBlyTG78h
-         3az5yw/GHZ2qD0hyR576MTvws+r9cNiqcJ9hQ57dANT+vLlFz2eLD6wEc2iKinaJasOi
-         QN/A==
-X-Gm-Message-State: APjAAAUrKYtNfp3gzm5FU1GmjYh5tIs00EW/7NXnau2D2J+NFUHivT2R
-        CAn+e+UC02v2JNtxP9bfPSpp/J0XgBY=
-X-Google-Smtp-Source: APXvYqwtPtb7EptjDKSGnhnZQetheDAKXUj8SLRER2Ll27IMu2RKc7zxzE2dlBUODNwFvzF3lXVDfA==
-X-Received: by 2002:a17:902:6b85:: with SMTP id p5mr118280098plk.225.1564608771566;
-        Wed, 31 Jul 2019 14:32:51 -0700 (PDT)
-Received: from [192.168.1.4] (d206-116-172-62.bchsia.telus.net. [206.116.172.62])
-        by smtp.gmail.com with ESMTPSA id i7sm2309345pjk.24.2019.07.31.14.32.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Jul 2019 14:32:50 -0700 (PDT)
-From:   Mark Balantzyan <mbalant3@gmail.com>
-X-Google-Original-From: Mark Balantzyan <mbalantz@exun.local>
-Date:   Wed, 31 Jul 2019 14:32:46 -0700 (PDT)
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-cc:     Mark Balantzyan <mbalant3@gmail.com>,
-        ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media input infrastructure:tw686x: Fix of possibleinconsistent
- memory deallocation and/or race condition by implementation of custom
- video_device_release function in tw686x driver
-In-Reply-To: <40d14e23-636e-ed8a-6608-99427f5b8169@xs4all.nl>
-Message-ID: <alpine.OSX.2.21.1907311431410.3567@exun.local>
-References: <alpine.DEB.2.21.1907291256080.16959@mbalantz-desktop> <40d14e23-636e-ed8a-6608-99427f5b8169@xs4all.nl>
-User-Agent: Alpine 2.21 (OSX 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
+        Wed, 31 Jul 2019 23:42:31 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:6937:afe9:6e56:bab3])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id t1z2h03dZAffAt1z3hockH; Thu, 01 Aug 2019 05:42:29 +0200
+Message-ID: <30255536416dd0f66656e344e54d9884@smtp-cloud9.xs4all.net>
+Date:   Thu, 01 Aug 2019 05:42:28 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPOhMItkTp7+IPdf99n/bVyBWeRG19YkQPHkfHaBZy5zcb4jG/MT+s0YNkAmFoS26aBf//U4432V6B1YkwEZsRB9MNG9Nsqiwh27ymR9WgnamcE8pYZU
+ RCeSHDrqWbt6StlHZKjYLIbx0BdK23Y+3HSwvq19q0JsatLtW/FSLu3cVv8b0PFmDqsXZ64vrnn6CrMT+UNBpZMZzGAAb2BdNegFKzN+rFJcKzOT+DSqh3GP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, all,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sorry for the poor patching, I am a student and as you may tell still new 
-to this system. At the time of the patching, I wasn't fully informed of 
-all the requirements that go into such things, and am still learning.
+Results of the daily build of media_tree:
 
-Would it be alright if I submit a report instead? In order to, I am 
-(still, sorry) trying to understand the issue at hand. How in fact may the 
-release() callback be overridden (by a tw686x-specific function) to free 
-the dma memory and call video_device_release()? To my understanding at the 
-time, this was merely a re-implementation of video_device_release with 
-said requirements and subtraction of extra features from 
-tw686x_video_free()..
+date:			Thu Aug  1 05:00:10 CEST 2019
+media-tree git hash:	4590c07462fbff4ecbfe1deec44431c16191bd19
+media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
+v4l-utils git hash:	28be49b4e9d72c5866188cf5ba408541c665c921
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
- 	This release() callback is called by the V4L2 framework when the last user
- 	of the device closes its filehandle, so that's a good point to free all
- 	the memory. Doing it earlier (as the current code does) runs the risk that someone might
- 	still access that memory, and you don't want that.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-Yes, I definitely don't want that. :)
+Detailed results are available here:
 
-Thank you,
-Mark
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
