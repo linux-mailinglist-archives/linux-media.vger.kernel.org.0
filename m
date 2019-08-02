@@ -2,84 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84D1F7F041
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 11:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44737F4E8
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 12:20:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388004AbfHBJTf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 2 Aug 2019 05:19:35 -0400
-Received: from mga09.intel.com ([134.134.136.24]:11805 "EHLO mga09.intel.com"
+        id S2391133AbfHBKUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Aug 2019 06:20:40 -0400
+Received: from foss.arm.com ([217.140.110.172]:49040 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387890AbfHBJTf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Aug 2019 05:19:35 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Aug 2019 02:19:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; 
-   d="scan'208";a="178105348"
-Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost) ([10.252.3.11])
-  by orsmga006.jf.intel.com with ESMTP; 02 Aug 2019 02:19:23 -0700
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-To:     Andrew Morton <akpm@linux-foundation.org>, john.hubbard@gmail.com
-From:   Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-In-Reply-To: <20190802022005.5117-7-jhubbard@nvidia.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?utf-8?b?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        id S2389243AbfHBKUk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Aug 2019 06:20:40 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E44A3344;
+        Fri,  2 Aug 2019 03:20:38 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26BB63F71F;
+        Fri,  2 Aug 2019 03:20:34 -0700 (PDT)
+Date:   Fri, 2 Aug 2019 11:20:32 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
-        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>
-References: <20190802022005.5117-1-jhubbard@nvidia.com>
- <20190802022005.5117-7-jhubbard@nvidia.com>
-Message-ID: <156473756254.19842.12384378926183716632@jlahtine-desk.ger.corp.intel.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH 06/34] drm/i915: convert put_page() to put_user_page*()
-Date:   Fri, 02 Aug 2019 12:19:22 +0300
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+        kvm@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
+Message-ID: <20190802102031.GB4175@arrakis.emea.arm.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <8c618cc9-ae68-9769-c5bb-67f1295abc4e@intel.com>
+ <13b4cf53-3ecb-f7e7-b504-d77af15d77aa@arm.com>
+ <CAAeHK+zTFqsLiB3Wf0bAi5A8ukQX5ZuvfUg4td-=r5UhBsUBOQ@mail.gmail.com>
+ <96fd8da4-a912-f6cc-2b32-5791027dbbd5@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <96fd8da4-a912-f6cc-2b32-5791027dbbd5@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting john.hubbard@gmail.com (2019-08-02 05:19:37)
-> From: John Hubbard <jhubbard@nvidia.com>
-> 
-> For pages that were retained via get_user_pages*(), release those pages
-> via the new put_user_page*() routines, instead of via put_page() or
-> release_pages().
-> 
-> This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
-> ("mm: introduce put_user_page*(), placeholder versions").
-> 
-> Note that this effectively changes the code's behavior in
-> i915_gem_userptr_put_pages(): it now calls set_page_dirty_lock(),
-> instead of set_page_dirty(). This is probably more accurate.
+On Thu, Aug 01, 2019 at 08:36:47AM -0700, Dave Hansen wrote:
+> On 8/1/19 5:48 AM, Andrey Konovalov wrote:
+> > On Thu, Aug 1, 2019 at 2:11 PM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
+> >> On 31/07/2019 17:50, Dave Hansen wrote:
+> >>> On 7/23/19 10:58 AM, Andrey Konovalov wrote:
+> >>>> The mmap and mremap (only new_addr) syscalls do not currently accept
+> >>>> tagged addresses. Architectures may interpret the tag as a background
+> >>>> colour for the corresponding vma.
+> >>>
+> >>> What the heck is a "background colour"? :)
+> >>
+> >> Good point, this is some jargon that we started using for MTE, the idea being that
+> >> the kernel could set a tag value (specified during mmap()) as "background colour" for
+> >> anonymous pages allocated in that range.
+> >>
+> >> Anyway, this patch series is not about MTE. Andrey, for v20 (if any), I think it's
+> >> best to drop this last sentence to avoid any confusion.
 
-We've already fixed this in drm-tip where the current code uses
-set_page_dirty_lock().
+Indeed, the part with the "background colour" and even the "currently"
+adverb should be dropped.
 
-This would conflict with our tree. Rodrigo is handling
-drm-intel-next for 5.4, so you guys want to coordinate how
-to merge.
+Also, if we merge the patches via different trees anyway, I don't think
+there is a need for Andrey to integrate them with his series. We can
+pick them up directly in the arm64 tree (once the review finished).
 
-Regards, Joonas
+> OK, but what does that mean for tagged addresses getting passed to
+> mmap/mremap?  That sentence read to me like "architectures might allow
+> tags for ...something...".  So do we accept tagged addresses into those
+> syscalls?
+
+If mmap() does not return a tagged address, the reasoning is that it
+should not accept one as an address hint (with or without MAP_FIXED).
+Note that these docs should only describe the top-byte-ignore ABI while
+leaving the memory tagging for a future patchset.
+
+In that future patchset, we may want to update the mmap() ABI to allow,
+only in conjunction with PROT_MTE, a tagged pointer as an address
+argument. In such case mmap() will return a tagged address and the pages
+pre-coloured (on fault) with the tag requested by the user. As I said,
+that's to be discussed later in the year.
+
+-- 
+Catalin
