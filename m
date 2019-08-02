@@ -2,105 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 180647FCE0
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 16:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461B77FE3D
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 18:10:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391016AbfHBOzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Aug 2019 10:55:03 -0400
-Received: from mail-wm1-f41.google.com ([209.85.128.41]:39040 "EHLO
-        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726505AbfHBOzC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Aug 2019 10:55:02 -0400
-Received: by mail-wm1-f41.google.com with SMTP id u25so56269811wmc.4
-        for <linux-media@vger.kernel.org>; Fri, 02 Aug 2019 07:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id;
-        bh=vtYJyVhDCPjLzLy5/MbN/yV2vCwD0EXVUtR5sFxeM/s=;
-        b=do5Ci+x9YJ/L8p+UB1n98FM7X8klxZHuSeSZ3vhjoH15Nsjl8YQP8ya3f1G3ZIqlB+
-         Ti7Pt+UkmM28RGOnaDcI5zKQJOIfEHuqUNdvkYwFRh32+VcGX5IWWnxQzKJt4C9tWaeL
-         ZiMAMGGQkwRu52deVtjnyL03++ck4z6KRzLFxMy+gXVNXl16ZLBb/XRlNWpDeJ0QXjNb
-         naOvtU33qv5U+y+v4awPEsS95mXdKcKhSrrsEgPR4cEYDfXUPZ+5IAo+o/pE+uUPdLfW
-         9PQ0x8BnYo/GoktBo3k+esD75XxzN4KjDkI6yqC7NOXPkVfYIJ7HzuAGnbsUCrond6U6
-         RcJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=vtYJyVhDCPjLzLy5/MbN/yV2vCwD0EXVUtR5sFxeM/s=;
-        b=D0JteL0uTE5MAa49TJr+KU3NZagWQVGfHgNc4K761+6LA43Ipy2S265UlqdBIN6Zus
-         lOd1P0l1GaKukhtdi2Kxtkg6j28TTb7Wl7VqKN4Q5r8o9FbazOEtQCCa6NyZWeIrI3gk
-         R7i4nYsmyaxkSr9s//fEVrwuRb+UKwxMiQLb/7Op48shpBKpb7QYRrlqWYn6HBXqeRCz
-         nsCToDlQSbaSLJVWLYfelBbLOsIH74Xgc9fK9VUgvucovBivZ5gyBlMqhazdB3OQc57c
-         Yb6v3pxbnoKnYVqwHofLrJWsU2FbHVG4agXgptn5PWpFOkwZ474I9kxC50HJgkm896p4
-         I0dA==
-X-Gm-Message-State: APjAAAV1z1KLrClrBUA2stJHD9b7G/Dr2NdmmC911Bk2vg01ssd6hEki
-        4h9yPv75xQ14ikUNA79I0q6d0zyC1Hs=
-X-Google-Smtp-Source: APXvYqzieEjHRCM7WUt5pBEPgSjvcw/J+pHEh39+X/h8YNecPurKUlINKfPBFnhF/629n0Diz0FlaA==
-X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr4761945wmk.92.1564757700287;
-        Fri, 02 Aug 2019 07:55:00 -0700 (PDT)
-Received: from mms-0440.ent.mm-sol.com ([37.157.136.206])
-        by smtp.gmail.com with ESMTPSA id v23sm65468255wmj.32.2019.08.02.07.54.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 02 Aug 2019 07:54:59 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for v5.4] Venus updates - stateful decoder
-Date:   Fri,  2 Aug 2019 17:54:30 +0300
-Message-Id: <20190802145430.843-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S2389718AbfHBQJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Aug 2019 12:09:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:15837 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389527AbfHBQJt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Aug 2019 12:09:49 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Aug 2019 09:09:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,338,1559545200"; 
+   d="scan'208";a="372996055"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+  by fmsmga006.fm.intel.com with ESMTP; 02 Aug 2019 09:09:47 -0700
+Received: from fmsmsx122.amr.corp.intel.com (10.18.125.37) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 2 Aug 2019 09:09:48 -0700
+Received: from crsmsx103.amr.corp.intel.com (172.18.63.31) by
+ fmsmsx122.amr.corp.intel.com (10.18.125.37) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 2 Aug 2019 09:09:47 -0700
+Received: from crsmsx101.amr.corp.intel.com ([169.254.1.115]) by
+ CRSMSX103.amr.corp.intel.com ([169.254.4.51]) with mapi id 14.03.0439.000;
+ Fri, 2 Aug 2019 10:09:45 -0600
+From:   "Weiny, Ira" <ira.weiny@intel.com>
+To:     Juergen Gross <jgross@suse.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        "john.hubbard@gmail.com" <john.hubbard@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+        Dave Chinner <david@fromorbit.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-rpi-kernel@lists.infradead.org" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "devel@lists.orangefs.org" <devel@lists.orangefs.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
+        =?utf-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [PATCH 20/34] xen: convert put_page() to put_user_page*()
+Thread-Topic: [PATCH 20/34] xen: convert put_page() to put_user_page*()
+Thread-Index: AQHVSNjlYWPmavKIo0aaO/eIo60VTqbnqrGAgAAT84CAAAYcgIAAQruQ
+Date:   Fri, 2 Aug 2019 16:09:44 +0000
+Message-ID: <2807E5FD2F6FDA4886F6618EAC48510E79E66216@CRSMSX101.amr.corp.intel.com>
+References: <20190802022005.5117-1-jhubbard@nvidia.com>
+ <20190802022005.5117-21-jhubbard@nvidia.com>
+ <4471e9dc-a315-42c1-0c3c-55ba4eeeb106@suse.com>
+ <d5140833-e9ee-beb5-ff0a-2d13a4fe819f@nvidia.com>
+ <d4931311-db01-e8c3-0f8c-d64685dc2143@suse.com>
+In-Reply-To: <d4931311-db01-e8c3-0f8c-d64685dc2143@suse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTRmN2E3MTYtMGM4Yi00ZWFmLTk2Y2YtNDU3NGNhMWI3OGZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicmZLd2FNcXRLU2Rkc2k3dFluUytKTjZ2XC9UUlFtczVETG53ZjA3V1hcL0FrcFBtWE5EdUh2U1dwRnZrV1dScDdtIn0=
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-originating-ip: [172.18.205.10]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
-
-Here is a set of patches to make Venus decoder driver compliant with
-stateful decoder draft documentation.
-
-Please pull.
-
-regards,
-Stan
-
-The following changes since commit 4590c07462fbff4ecbfe1deec44431c16191bd19:
-
-  media: via-camera: convert to the vb2 framework (2019-07-30 12:18:34 -0400)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.4
-
-for you to fetch changes up to 03aa0de2d3bfb24a9cae3267421164534a638e47:
-
-  venus: dec: populate properly timestamps and flags for capture buffers (2019-08-01 12:57:51 +0300)
-
-----------------------------------------------------------------
-Venus updates for v5.4
-
-----------------------------------------------------------------
-Malathi Gottam (1):
-      venus: venc: amend buffer size for bitstream plane
-
-Stanimir Varbanov (10):
-      venus: helpers: export few helper functions
-      venus: hfi: add type argument to hfi flush function
-      venus: hfi: export few HFI functions
-      venus: hfi: return an error if session_init is already called
-      venus: helpers: add three more helper functions
-      venus: vdec_ctrls: get real minimum buffers for capture
-      venus: vdec: allow bigger sizeimage set by clients
-      venus: make decoder compliant with stateful codec API
-      venus: helpers: handle correctly vbuf field
-      venus: dec: populate properly timestamps and flags for capture buffers
-
- drivers/media/platform/qcom/venus/core.h       |  32 +-
- drivers/media/platform/qcom/venus/helpers.c    | 199 +++++++--
- drivers/media/platform/qcom/venus/helpers.h    |  12 +
- drivers/media/platform/qcom/venus/hfi.c        |  11 +-
- drivers/media/platform/qcom/venus/hfi.h        |   2 +-
- drivers/media/platform/qcom/venus/vdec.c       | 537 +++++++++++++++++++------
- drivers/media/platform/qcom/venus/vdec_ctrls.c |   7 +-
- drivers/media/platform/qcom/venus/venc.c       |  13 +-
- 8 files changed, 656 insertions(+), 157 deletions(-)
+PiANCj4gT24gMDIuMDguMTkgMDc6NDgsIEpvaG4gSHViYmFyZCB3cm90ZToNCj4gPiBPbiA4LzEv
+MTkgOTozNiBQTSwgSnVlcmdlbiBHcm9zcyB3cm90ZToNCj4gPj4gT24gMDIuMDguMTkgMDQ6MTks
+IGpvaG4uaHViYmFyZEBnbWFpbC5jb20gd3JvdGU6DQo+ID4+PiBGcm9tOiBKb2huIEh1YmJhcmQg
+PGpodWJiYXJkQG52aWRpYS5jb20+DQo+ID4gLi4uDQo+ID4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy94ZW4vcHJpdmNtZC5jIGIvZHJpdmVycy94ZW4vcHJpdmNtZC5jIGluZGV4DQo+ID4+PiAyZjVj
+ZTcyMzBhNDMuLjI5ZTQ2MWRiZWUyZCAxMDA2NDQNCj4gPj4+IC0tLSBhL2RyaXZlcnMveGVuL3By
+aXZjbWQuYw0KPiA+Pj4gKysrIGIvZHJpdmVycy94ZW4vcHJpdmNtZC5jDQo+ID4+PiBAQCAtNjEx
+LDE1ICs2MTEsMTAgQEAgc3RhdGljIGludCBsb2NrX3BhZ2VzKA0KPiA+Pj4gwqAgc3RhdGljIHZv
+aWQgdW5sb2NrX3BhZ2VzKHN0cnVjdCBwYWdlICpwYWdlc1tdLCB1bnNpZ25lZCBpbnQNCj4gPj4+
+IG5yX3BhZ2VzKQ0KPiA+Pj4gwqAgew0KPiA+Pj4gLcKgwqDCoCB1bnNpZ25lZCBpbnQgaTsNCj4g
+Pj4+IC0NCj4gPj4+IMKgwqDCoMKgwqAgaWYgKCFwYWdlcykNCj4gPj4+IMKgwqDCoMKgwqDCoMKg
+wqDCoCByZXR1cm47DQo+ID4+PiAtwqDCoMKgIGZvciAoaSA9IDA7IGkgPCBucl9wYWdlczsgaSsr
+KSB7DQo+ID4+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKHBhZ2VzW2ldKQ0KPiA+Pj4gLcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgcHV0X3BhZ2UocGFnZXNbaV0pOw0KPiA+Pj4gLcKgwqDCoCB9DQo+ID4+
+PiArwqDCoMKgIHB1dF91c2VyX3BhZ2VzKHBhZ2VzLCBucl9wYWdlcyk7DQo+ID4+DQo+ID4+IFlv
+dSBhcmUgbm90IGhhbmRsaW5nIHRoZSBjYXNlIHdoZXJlIHBhZ2VzW2ldIGlzIE5VTEwgaGVyZS4g
+T3IgYW0gSQ0KPiA+PiBtaXNzaW5nIGEgcGVuZGluZyBwYXRjaCB0byBwdXRfdXNlcl9wYWdlcygp
+IGhlcmU/DQo+ID4+DQo+ID4NCj4gPiBIaSBKdWVyZ2VuLA0KPiA+DQo+ID4gWW91IGFyZSBjb3Jy
+ZWN0LS10aGlzIG5vIGxvbmdlciBoYW5kbGVzIHRoZSBjYXNlcyB3aGVyZSBwYWdlc1tpXSBpcw0K
+PiA+IE5VTEwuIEl0J3MgaW50ZW50aW9uYWwsIHRob3VnaCBwb3NzaWJseSB3cm9uZy4gOikNCj4g
+Pg0KPiA+IEkgc2VlIHRoYXQgSSBzaG91bGQgaGF2ZSBhZGRlZCBteSBzdGFuZGFyZCBibHVyYiB0
+byB0aGlzIGNvbW1pdA0KPiA+IGRlc2NyaXB0aW9uLiBJIG1pc3NlZCB0aGlzIG9uZSwgYnV0IHNv
+bWUgb2YgdGhlIG90aGVyIHBhdGNoZXMgaGF2ZSBpdC4NCj4gPiBJdCBtYWtlcyB0aGUgZm9sbG93
+aW5nLCBwb3NzaWJseSBpbmNvcnJlY3QgY2xhaW06DQo+ID4NCj4gPiAiVGhpcyBjaGFuZ2VzIHRo
+ZSByZWxlYXNlIGNvZGUgc2xpZ2h0bHksIGJlY2F1c2UgZWFjaCBwYWdlIHNsb3QgaW4gdGhlDQo+
+ID4gcGFnZV9saXN0W10gYXJyYXkgaXMgbm8gbG9uZ2VyIGNoZWNrZWQgZm9yIE5VTEwuIEhvd2V2
+ZXIsIHRoYXQgY2hlY2sNCj4gPiB3YXMgd3JvbmcgYW55d2F5LCBiZWNhdXNlIHRoZSBnZXRfdXNl
+cl9wYWdlcygpIHBhdHRlcm4gb2YgdXNhZ2UgaGVyZQ0KPiA+IG5ldmVyIGFsbG93ZWQgZm9yIE5V
+TEwgZW50cmllcyB3aXRoaW4gYSByYW5nZSBvZiBwaW5uZWQgcGFnZXMuIg0KPiA+DQo+ID4gVGhl
+IHdheSBJJ3ZlIHNlZW4gdGhlc2UgcGFnZSBhcnJheXMgdXNlZCB3aXRoIGdldF91c2VyX3BhZ2Vz
+KCksIHRoaW5ncw0KPiA+IGFyZSBlaXRoZXIgZG9uZSBzaW5nbGUgcGFnZSwgb3Igd2l0aCBhIGNv
+bnRpZ3VvdXMgcmFuZ2UuIFNvIHVubGVzcyBJJ20NCj4gPiBtaXNzaW5nIGEgY2FzZSB3aGVyZSBz
+b21lb25lIGlzIGVpdGhlcg0KPiA+DQo+ID4gYSkgcmVsZWFzaW5nIGluZGl2aWR1YWwgcGFnZXMg
+d2l0aGluIGEgcmFuZ2UgKGFuZCB0aHVzIGxpa2VseSBtZXNzaW5nDQo+ID4gdXAgdGhlaXIgY291
+bnQgb2YgcGFnZXMgdGhleSBoYXZlKSwgb3INCj4gPg0KPiA+IGIpIGFsbG9jYXRpbmcgdHdvIGd1
+cCByYW5nZXMgd2l0aGluIHRoZSBzYW1lIHBhZ2VzW10gYXJyYXksIHdpdGggYSBnYXANCj4gPiBi
+ZXR3ZWVuIHRoZSBhbGxvY2F0aW9ucywNCj4gPg0KPiA+IC4uLnRoZW4gaXQgc2hvdWxkIGJlIGNv
+cnJlY3QuIElmIHNvLCB0aGVuIEknbGwgYWRkIHRoZSBhYm92ZSBibHVyYiB0bw0KPiA+IHRoaXMg
+cGF0Y2gncyBjb21taXQgZGVzY3JpcHRpb24uDQo+ID4NCj4gPiBJZiB0aGF0J3Mgbm90IHRoZSBj
+YXNlIChib3RoIGhlcmUsIGFuZCBpbiAzIG9yIDQgb3RoZXIgcGF0Y2hlcyBpbiB0aGlzDQo+ID4g
+c2VyaWVzLCB0aGVuIGFzIHlvdSBzYWlkLCBJIHNob3VsZCBhZGQgTlVMTCBjaGVja3MgdG8gcHV0
+X3VzZXJfcGFnZXMoKQ0KPiA+IGFuZCBwdXRfdXNlcl9wYWdlc19kaXJ0eV9sb2NrKCkuDQo+IA0K
+PiBJbiB0aGlzIGNhc2UgaXQgaXMgbm90IGNvcnJlY3QsIGJ1dCBjYW4gZWFzaWx5IGJlIGhhbmRs
+ZWQuIFRoZSBOVUxMIGNhc2UgY2FuDQo+IG9jY3VyIG9ubHkgaW4gYW4gZXJyb3IgY2FzZSB3aXRo
+IHRoZSBwYWdlcyBhcnJheSBmaWxsZWQgcGFydGlhbGx5IG9yIG5vdCBhdCBhbGwuDQo+IA0KPiBJ
+J2QgcHJlZmVyIHNvbWV0aGluZyBsaWtlIHRoZSBhdHRhY2hlZCBwYXRjaCBoZXJlLg0KDQpJJ20g
+bm90IGFuIGV4cGVydCBpbiB0aGlzIGNvZGUgYW5kIGhhdmUgbm90IGxvb2tlZCBhdCBpdCBjYXJl
+ZnVsbHkgYnV0IHRoYXQgcGF0Y2ggZG9lcyBzZWVtIHRvIGJlIHRoZSBiZXR0ZXIgZml4IHRoYW4g
+Zm9yY2luZyBOVUxMIGNoZWNrcyBvbiBldmVyeW9uZS4NCg0KSXJhDQoNCg==
