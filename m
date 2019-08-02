@@ -2,97 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 559EE7EFB1
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 10:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8C937F018
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2019 11:12:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732202AbfHBI63 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Aug 2019 04:58:29 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59442 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730713AbfHBI63 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Aug 2019 04:58:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=/G68ut9V+Igim0AzrVXEipFOU/9WLiFOX2nUkkTzcHQ=; b=KfNlPhD/w0UbDGnpbQ/REn0g5
-        6oaHKUks286tOKhZrh0THjEFBcX0GnWm4wlc7dM/dE/tQt/QinHekViEpxBHAU31xJYisJ1ImvD+u
-        IqpEAalcoLdPcKZmnjch3UmCNRFXiYYEIyWVAXxuzpRYq7wGWCpdodB3sl596Oi8B8hbx4wfjUce+
-        IysR9ne7zYm5MkQSf+qwkFNx6qguUN7IGAqVbbdib3hW3k1mKdN3YbEBD+2ABgfIYhuD4CRQ1BL/p
-        KxK3a5Q2hejzudSbGl5ltFHV8NY5bJcueUNA3dmbjdcRMaevhFG8QlFFzqEH3eDnhnJdVgTqSfRAb
-        F8fcXznWw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1htTOK-0005K4-Bu; Fri, 02 Aug 2019 08:58:24 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 9C8C32029F4CB; Fri,  2 Aug 2019 10:58:22 +0200 (CEST)
-Date:   Fri, 2 Aug 2019 10:58:22 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Andy Walls <andy@silverblocksystems.net>
-Cc:     mingo@kernel.org, linux-kernel@vger.kernel.org,
-        Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 4/5] media/ivtv: Reduce default FIFO priority
-Message-ID: <20190802085822.GA2386@hirez.programming.kicks-ass.net>
-References: <20190801111348.530242235@infradead.org>
- <20190801111541.858088180@infradead.org>
- <7970f0e30d1eb83e7067225d07b923863bf1ac50.camel@silverblocksystems.net>
- <20190801123806.GA31398@hirez.programming.kicks-ass.net>
+        id S1733027AbfHBJMv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Aug 2019 05:12:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54294 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727127AbfHBJMu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Aug 2019 05:12:50 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 4990DAFE2;
+        Fri,  2 Aug 2019 09:12:47 +0000 (UTC)
+Date:   Fri, 2 Aug 2019 11:12:44 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     john.hubbard@gmail.com
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
+        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
+Message-ID: <20190802091244.GD6461@dhcp22.suse.cz>
+References: <20190802022005.5117-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190801123806.GA31398@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190802022005.5117-1-jhubbard@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 01, 2019 at 02:38:06PM +0200, Peter Zijlstra wrote:
-> If the consumer of the data are RT tasks as well (I hadn't expected that
-> from a TV capture device) then I'd propose to use FIFO-50 as default.
-> 
-> The thing is, the moment you're doing actual proper RT, the admin needs
-> to configure things anyway, which then very much includes setting the
-> priority of interrupt threads and the like.
-> 
-> (that is exacty why pretty much everything defaults to FIFO-50)
+On Thu 01-08-19 19:19:31, john.hubbard@gmail.com wrote:
+[...]
+> 2) Convert all of the call sites for get_user_pages*(), to
+> invoke put_user_page*(), instead of put_page(). This involves dozens of
+> call sites, and will take some time.
 
-Is the below acceptible?
+How do we make sure this is the case and it will remain the case in the
+future? There must be some automagic to enforce/check that. It is simply
+not manageable to do it every now and then because then 3) will simply
+be never safe.
 
----
-Subject: media/ivtv: Reduce default FIFO priority
-From: Peter Zijlstra <peterz@infradead.org>
-Date: Thu Aug  1 12:56:40 CEST 2019
-
-The ivtv driver creates a FIFO-99 thread by default, reduce this to
-FIFO-50.
-
-FIFO-99 is the very highest priority available to SCHED_FIFO and
-it not a suitable default; it would indicate the ivtv work is the
-most important work on the machine.
-
-Cc: Andy Walls <awalls@md.metrocast.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- drivers/media/pci/ivtv/ivtv-driver.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/media/pci/ivtv/ivtv-driver.c
-+++ b/drivers/media/pci/ivtv/ivtv-driver.c
-@@ -738,7 +738,7 @@ static void ivtv_process_options(struct
-  */
- static int ivtv_init_struct1(struct ivtv *itv)
- {
--	struct sched_param param = { .sched_priority = 99 };
-+	struct sched_param param = { .sched_priority = MAX_RT_PRIO / 2 };
- 
- 	itv->base_addr = pci_resource_start(itv->pdev, 0);
- 	itv->enc_mbox.max_mbox = 2; /* the encoder has 3 mailboxes (0-2) */
+Have you considered coccinele or some other scripted way to do the
+transition? I have no idea how to deal with future changes that would
+break the balance though.
+-- 
+Michal Hocko
+SUSE Labs
