@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDDF080637
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2019 14:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE5EF80731
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2019 18:18:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390761AbfHCMti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Aug 2019 08:49:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47928 "EHLO
+        id S2388125AbfHCQR4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Aug 2019 12:17:56 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33660 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389830AbfHCMti (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Aug 2019 08:49:38 -0400
+        with ESMTP id S2387958AbfHCQRz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Aug 2019 12:17:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=clsLOA6WMhirNbK5w+Om4GaDi7e45HhAECiH5gv+EHA=; b=dXADn0+WjoimxGFg2+068+N+u
-        EJgzb/zxBQONAoeAoSSaC7qsLrkuv4GzLcedV/gqAlUqI1ZaEqOBNo8N2M4Lh5/a1e4yJaW2asvw0
-        sBwNVy0VeprM7fv9Yry5VMxZ5x+yl1Pu3fu+c6sQSS6BljKzcyiqfMwYMU7JHrQ8yxzq3mUjzpz59
-        uUF3B0LOcMYtwGqnHG5BI4B3i/Y8u33HwHO6w/ikpj6pxtxo4fUnxdF/e8ZPg1gkidmQqFAKBWzwq
-        ALV77digzVvmEN23xhV6KXv4zPNDaDRKexchO+22tah7hygxNIu8VuWQzoNQkNz92aixPSCYTh4JR
-        +h8X/oK/w==;
+         bh=Gu8G8y6Ne0ryjTmF9kVNzse2VVG5LtflJsXjD47kfSE=; b=jXX1dtoyVtUHxbYohmvnyEjxf
+        M5gRSf7KQbRDdCt1G2xrGgvnfzeGaUODS73jlHhuEQ+xeIu8nGV7fxTj1zAvjWc2/saKM+EV/msqc
+        5ME2bZ5WJnFe4pPUZZyNyDBiP+IPqwVCzKSYPP+swO6xyt5g5FeinAejTBl32oLx1JiCHxNExUHfh
+        0Piel9GlHhmG0h2esCM7M25c6G1dThsWOeXoFwEbWCfyiRJ8chZuKcHuDGJKWlp/iS4iTmnUzsi1Z
+        8HSDL0HfhUewmzZkdy7O+9OOghZDpuzoDN95i2wZYCgGDMLk8NYLlZvwEfK8VriDMWMgm25VIqXfk
+        Y7vqHlUjw==;
 Received: from [191.33.150.100] (helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1httTd-0004tu-1T; Sat, 03 Aug 2019 12:49:37 +0000
-Date:   Sat, 3 Aug 2019 09:49:33 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL for v5.4] Venus updates - stateful decoder
-Message-ID: <20190803094933.46f30732@coco.lan>
-In-Reply-To: <20190803115807.27655-1-jenkins@linuxtv.org>
-References: <20190802145430.843-1-stanimir.varbanov@linaro.org>
-        <20190803115807.27655-1-jenkins@linuxtv.org>
+        id 1htwjB-0007VE-PE; Sat, 03 Aug 2019 16:17:54 +0000
+Date:   Sat, 3 Aug 2019 13:17:49 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: ir-kbd-i2c: convert to
+ i2c_new_dummy_device()
+Message-ID: <20190803131749.4d6517ab@coco.lan>
+In-Reply-To: <20190730175555.14098-2-wsa+renesas@sang-engineering.com>
+References: <20190730175555.14098-1-wsa+renesas@sang-engineering.com>
+        <20190730175555.14098-2-wsa+renesas@sang-engineering.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,28 +46,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stanimir,
+Em Tue, 30 Jul 2019 19:55:54 +0200
+Wolfram Sang <wsa+renesas@sang-engineering.com> escreveu:
 
-Em Sat,  3 Aug 2019 11:58:07 +0000
-Jenkins <jenkins@linuxtv.org> escreveu:
+> Convert this driver to use the new i2c_new_dummy_device() call and bail
+> out if the dummy device cannot be registered to make failure more
+> visible to the user.
+> 
 
-> From: builder@linuxtv.org
-> 
-> Pull request: https://patchwork.linuxtv.org/patch/57868/mbox/
-> Build log: https://builder.linuxtv.org/job/patchwork/866/
-> Build time: 00:04:24
-> 
-> Summary: 1 issues, being 0 build regressions
-> 
-> Error/warnings:
-> 
-> patches/0009-venus-make-decoder-compliant-with-stateful-codec-API.patch:31: WARNING: please, no space before tabs
-> patches/0009-venus-make-decoder-compliant-with-stateful-codec-API.patch:41: CHECK: Please don't use multiple blank lines
-> patches/0009-venus-make-decoder-compliant-with-stateful-codec-API.patch:139: CHECK: Please don't use multiple blank lines
-> 
-> Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-venus-make-decoder-compliant-with-stateful-codec-API.patch
+Please don't do that.
 
-Please fix the above warnings on your pull request.
+At first glance, devm_* sounds a good idea, but we had enough issues
+using it on media system.
+
+I don't mind mind much if some SoC specific would use it, but doing
+it on generic drivers is a very bad idea. We have removed almost all
+devm_* calls from the media system.
+
+The problem with devm is that it the de-allocation routines aren't
+called during device unbind. They happen a way later, only when the
+device itself is physically removed, or the driver is removed.
+
+That caused lots of headaches to debug memory lifetime issues on
+media.
+
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Change since v1:
+> 
+> * reworded commit message because there was no NULL ptr access
+> 
+>  drivers/media/i2c/ir-kbd-i2c.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
+> index 876d7587a1da..f46717052efc 100644
+> --- a/drivers/media/i2c/ir-kbd-i2c.c
+> +++ b/drivers/media/i2c/ir-kbd-i2c.c
+> @@ -885,9 +885,12 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	INIT_DELAYED_WORK(&ir->work, ir_work);
+>  
+>  	if (probe_tx) {
+> -		ir->tx_c = i2c_new_dummy(client->adapter, 0x70);
+> -		if (!ir->tx_c) {
+> +		ir->tx_c = devm_i2c_new_dummy_device(&client->dev,
+> +						     client->adapter, 0x70);
+> +		if (IS_ERR(ir->tx_c)) {
+>  			dev_err(&client->dev, "failed to setup tx i2c address");
+> +			err = PTR_ERR(ir->tx_c);
+> +			goto err_out_free;
+>  		} else if (!zilog_init(ir)) {
+>  			ir->carrier = 38000;
+>  			ir->duty_cycle = 40;
+> @@ -904,9 +907,6 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	return 0;
+>  
+>   err_out_free:
+> -	if (ir->tx_c)
+> -		i2c_unregister_device(ir->tx_c);
+> -
+>  	/* Only frees rc if it were allocated internally */
+>  	rc_free_device(rc);
+>  	return err;
+> @@ -919,9 +919,6 @@ static int ir_remove(struct i2c_client *client)
+>  	/* kill outstanding polls */
+>  	cancel_delayed_work_sync(&ir->work);
+>  
+> -	if (ir->tx_c)
+> -		i2c_unregister_device(ir->tx_c);
+> -
+>  	/* unregister device */
+>  	rc_unregister_device(ir->rc);
+>  
+
+
 
 Thanks,
 Mauro
