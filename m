@@ -2,115 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F53080734
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2019 18:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F2A80834
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2019 22:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387958AbfHCQYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Aug 2019 12:24:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33716 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387464AbfHCQYK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Aug 2019 12:24:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=XSLOZN3ga9Ecy3LtSrYOh8CMmhfqw1VrMAjYmlU4U6c=; b=Or8Rk8SyCEI/nTz5Q6xPORxnG
-        DAUTgwelPVJzms0lF8vU3rc3rUMsYNhDMbAlc9jJ3zpcnyj31NNsy75w/YqqcC7jeihAZV8YwIhmr
-        +k3TQOUr8MIp+BhnV2bbUegPOcEZNGvTvy6BPeabdGXzxk9AC+YOHsBlDJoO0O6Enqn6iCl8y4BqX
-        B8mK/FhwH6EoiomyBVxJDzg6+Xb9/AjYbF/gUmGUKrfuLyRWqYcyGp6UloVY+DlBrS+Fa7R6I75c7
-        W0f/UgA14KTc/jc72yEeaXqPStZXfuAOw2V/NVALlEWfkB8U3HaUCqEyQhYfwrE5IrUG7+6tp11NB
-        VROCGceZw==;
-Received: from [191.33.150.100] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1htwpG-0000Kj-7G; Sat, 03 Aug 2019 16:24:10 +0000
-Date:   Sat, 3 Aug 2019 13:24:06 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [GIT PULL FOR v5.4] dvb/rc fixes, take #2
-Message-ID: <20190803132406.7bbb139b@coco.lan>
-In-Reply-To: <20190801123131.azv6kldrr7gniqih@gofer.mess.org>
-References: <20190801123131.azv6kldrr7gniqih@gofer.mess.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729000AbfHCUDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Aug 2019 16:03:08 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:10527 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727585AbfHCUDI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Aug 2019 16:03:08 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d45e87a0000>; Sat, 03 Aug 2019 13:03:06 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sat, 03 Aug 2019 13:03:06 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sat, 03 Aug 2019 13:03:06 -0700
+Received: from [10.110.48.28] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 3 Aug
+ 2019 20:03:05 +0000
+Subject: Re: [PATCH 06/34] drm/i915: convert put_page() to put_user_page*()
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        <john.hubbard@gmail.com>
+CC:     Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        <amd-gfx@lists.freedesktop.org>, <ceph-devel@vger.kernel.org>,
+        <devel@driverdev.osuosl.org>, <devel@lists.orangefs.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-block@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-xfs@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <rds-devel@oss.oracle.com>, <sparclinux@vger.kernel.org>,
+        <x86@kernel.org>, <xen-devel@lists.xenproject.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>
+References: <20190802022005.5117-1-jhubbard@nvidia.com>
+ <20190802022005.5117-7-jhubbard@nvidia.com>
+ <156473756254.19842.12384378926183716632@jlahtine-desk.ger.corp.intel.com>
+ <7d9a9c57-4322-270b-b636-7214019f87e9@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <22c309f6-a7ca-2624-79c3-b16a1487f488@nvidia.com>
+Date:   Sat, 3 Aug 2019 13:03:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <7d9a9c57-4322-270b-b636-7214019f87e9@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1564862587; bh=ilU/8cKxAxLoWjJW9QtQ++HPyf9Kp7C47ReaMR8aBDk=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=I2YSIJHtEvh6s6ys5+qZOy9oK09e18lfnMQt77fXZCyrgzqntxCUGfZ7oWikmHJt5
+         4V1+y4MySAejsYy1JLbf4x7KQ0hiidb6jg5xsakkPPG/MxjywoS180jIN6uhV11y/O
+         011sP6dgxSCe7CPHZfVmc5h9v3h4EFz6CzWGnO3zjeLQA+xNf7n8Aq4VIo5dqejc1s
+         ogxZqWO3QmjUKVwNVzjjVrVg9ptoPI8+f8bAuuTtyZ6ixyHn7fxeF7f3r5zkr6u4id
+         LKe10E8R/74E4Fa+DG9GwiVmNsBu++raNIZCy4+8RyCJBTlO14Pl8lc8yCIpDgUHCO
+         oxDfeJ3aA6pnw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 1 Aug 2019 13:31:31 +0100
-Sean Young <sean@mess.org> escreveu:
+On 8/2/19 11:48 AM, John Hubbard wrote:
+> On 8/2/19 2:19 AM, Joonas Lahtinen wrote:
+>> Quoting john.hubbard@gmail.com (2019-08-02 05:19:37)
+>>> From: John Hubbard <jhubbard@nvidia.com>
+...
+> In order to deal with the merge problem, I'll drop this patch from my ser=
+ies,
+> and I'd recommend that the drm-intel-next take the following approach:
 
-> Hi Mauro,
->=20
-> Here is another dvb/rc pull request. More to come.
->=20
-> Thanks
-> Sean
->=20
-> The following changes since commit 4590c07462fbff4ecbfe1deec44431c16191bd=
-19:
->=20
->   media: via-camera: convert to the vb2 framework (2019-07-30 12:18:34 -0=
-400)
->=20
-> are available in the Git repository at:
->=20
->   git://linuxtv.org/syoung/media_tree.git tags/v5.4b
->=20
-> for you to fetch changes up to 6eedaba3f5a2c733c211b4fea91a348f058bc025:
->=20
->   dt-bindings: media: sunxi-ir: Add H6 compatible (2019-08-01 21:09:15 +0=
-900)
->=20
-> ----------------------------------------------------------------
-> Arnd Bergmann (1):
->       media: don't drop front-end reference count for ->detach
->=20
-> Cl=C3=A9ment P=C3=A9ron (6):
->       dt-bindings: media: sunxi-ir: Add A31 compatible
->       media: rc: Introduce sunxi_ir_quirks
->       media: rc: sunxi: Add A31 compatible
->       media: rc: sunxi: Add RXSTA bits definition
->       dt-bindings: media: sunxi-ir: Add A64 compatible
->       dt-bindings: media: sunxi-ir: Add H6 compatible
->=20
-> Oliver Neukum (1):
->       media: iguanair: add sanity checks
->=20
-> Sean Young (2):
->       media: lirc: document BPF IR decoding
->       media: rc: describe rc protocols and their scancodes
->=20
-> Wolfram Sang (2):
->       media: ir-kbd-i2c: convert to i2c_new_dummy_device()
+Actually, I just pulled the latest linux.git, and there are a few changes:
 
-I don't think this one is a good idea, as it may cause troubles
-during unbind time.
-
->       media: ir-kbd-i2c: remove outdated comments
 >=20
->  .../devicetree/bindings/media/sunxi-ir.txt         |  11 +-
->  Documentation/media/uapi/rc/lirc-dev-intro.rst     |  57 ++-
->  Documentation/media/uapi/rc/lirc-read.rst          |   3 +-
->  Documentation/media/uapi/rc/lirc-write.rst         |   3 +-
->  Documentation/media/uapi/rc/rc-protos.rst          | 456 +++++++++++++++=
-++++++
->  Documentation/media/uapi/rc/remote_controllers.rst |   1 +
->  drivers/media/dvb-core/dvb_frontend.c              |   4 +-
->  drivers/media/i2c/ir-kbd-i2c.c                     |  17 +-
->  drivers/media/rc/iguanair.c                        |  15 +-
->  drivers/media/rc/sunxi-cir.c                       |  88 +++-
->  drivers/media/usb/dvb-usb/pctv452e.c               |   8 -
->  11 files changed, 597 insertions(+), 66 deletions(-)
->  create mode 100644 Documentation/media/uapi/rc/rc-protos.rst
+> 1) For now, s/put_page/put_user_page/ in i915_gem_userptr_put_pages(),
+> and fix up the set_page_dirty() --> set_page_dirty_lock() issue, like thi=
+s
+> (based against linux.git):
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_userptr.c
+> index 528b61678334..94721cc0093b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -664,10 +664,10 @@ i915_gem_userptr_put_pages(struct drm_i915_gem_obje=
+ct *obj,
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_sgt_page(page, sgt_it=
+er, pages) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 if (obj->mm.dirty)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_page_dirty=
+(page);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_page_dirty=
+_lock(page);
 
+I see you've already applied this fix to your tree, in linux.git already.
 
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 mark_page_accessed(page);
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 put_page(page);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 put_user_page(page);
 
-Thanks,
-Mauro
+But this conversion still needs doing. So I'll repost a patch that only doe=
+s=20
+this (plus the other call sites).=20
+
+That can go in via either your tree, or Andrew's -mm tree, without generati=
+ng
+any conflicts.
+
+thanks,
+--=20
+John Hubbard
+NVIDIA
