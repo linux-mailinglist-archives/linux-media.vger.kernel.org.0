@@ -2,143 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81F2A80834
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2019 22:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFAA08087F
+	for <lists+linux-media@lfdr.de>; Sun,  4 Aug 2019 00:09:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729000AbfHCUDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Aug 2019 16:03:08 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10527 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727585AbfHCUDI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Aug 2019 16:03:08 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d45e87a0000>; Sat, 03 Aug 2019 13:03:06 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sat, 03 Aug 2019 13:03:06 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sat, 03 Aug 2019 13:03:06 -0700
-Received: from [10.110.48.28] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 3 Aug
- 2019 20:03:05 +0000
-Subject: Re: [PATCH 06/34] drm/i915: convert put_page() to put_user_page*()
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        <john.hubbard@gmail.com>
-CC:     Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        <amd-gfx@lists.freedesktop.org>, <ceph-devel@vger.kernel.org>,
-        <devel@driverdev.osuosl.org>, <devel@lists.orangefs.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-block@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-        <linux-fbdev@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-nfs@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-xfs@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <rds-devel@oss.oracle.com>, <sparclinux@vger.kernel.org>,
-        <x86@kernel.org>, <xen-devel@lists.xenproject.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>
-References: <20190802022005.5117-1-jhubbard@nvidia.com>
- <20190802022005.5117-7-jhubbard@nvidia.com>
- <156473756254.19842.12384378926183716632@jlahtine-desk.ger.corp.intel.com>
- <7d9a9c57-4322-270b-b636-7214019f87e9@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <22c309f6-a7ca-2624-79c3-b16a1487f488@nvidia.com>
-Date:   Sat, 3 Aug 2019 13:03:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1729188AbfHCWJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Aug 2019 18:09:39 -0400
+Received: from cdptpa-outbound-snat.email.rr.com ([107.14.166.228]:56400 "EHLO
+        cdptpa-cmomta02.email.rr.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729178AbfHCWJj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 3 Aug 2019 18:09:39 -0400
+Received: from [192.168.2.97] ([72.182.16.184])
+        by cmsmtp with ESMTP
+        id u2DWhQMDKzc56u2DZhlLia; Sat, 03 Aug 2019 22:09:37 +0000
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Keith Pyle <kpyle@austin.rr.com>
+Subject: [PATCH 1/2]: media: hdpvr: Add adaptive sleeping in
+ hdpvr_start_streaming
+Message-ID: <d037c895-4280-1b73-ec82-fd7ae8b4b7d1@austin.rr.com>
+Date:   Sat, 3 Aug 2019 17:09:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.0
 MIME-Version: 1.0
-In-Reply-To: <7d9a9c57-4322-270b-b636-7214019f87e9@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1564862587; bh=ilU/8cKxAxLoWjJW9QtQ++HPyf9Kp7C47ReaMR8aBDk=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=I2YSIJHtEvh6s6ys5+qZOy9oK09e18lfnMQt77fXZCyrgzqntxCUGfZ7oWikmHJt5
-         4V1+y4MySAejsYy1JLbf4x7KQ0hiidb6jg5xsakkPPG/MxjywoS180jIN6uhV11y/O
-         011sP6dgxSCe7CPHZfVmc5h9v3h4EFz6CzWGnO3zjeLQA+xNf7n8Aq4VIo5dqejc1s
-         ogxZqWO3QmjUKVwNVzjjVrVg9ptoPI8+f8bAuuTtyZ6ixyHn7fxeF7f3r5zkr6u4id
-         LKe10E8R/74E4Fa+DG9GwiVmNsBu++raNIZCy4+8RyCJBTlO14Pl8lc8yCIpDgUHCO
-         oxDfeJ3aA6pnw==
+X-CMAE-Envelope: MS4wfLEPw8ioJY3sfYEmvFugf1jy2uoLodunuSgTtynhPwIaM899pCZlSv3AfHYvkCPjiIYD7332+TdDpT1VYdDwb/GoB5XA8Za3lSJB4GADGmZTkjNq+kLh
+ JqBWWImLXsUkKCJVIBo46wGtJysZco0eNuebOhLTdStkUxZ9jUNWiErc20iXFTg3ZkDUwfhCsH1Fnw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/2/19 11:48 AM, John Hubbard wrote:
-> On 8/2/19 2:19 AM, Joonas Lahtinen wrote:
->> Quoting john.hubbard@gmail.com (2019-08-02 05:19:37)
->>> From: John Hubbard <jhubbard@nvidia.com>
-...
-> In order to deal with the merge problem, I'll drop this patch from my ser=
-ies,
-> and I'd recommend that the drm-intel-next take the following approach:
+The hdpvr firmware reacts poorly to a fast close/open sequence.  Delaying
+a few seconds between the close and next open produces generally reliable
+results.  Rather than requiring user programs to implement this delay and
+coordinate among themselves when the device is handed from one program to
+another, add kernel support for delaying the attempt to start streaming if
+the device only recently stopped streaming.  A delay of 4 seconds seems to
+be sufficient, but some administrators may wish to push their luck by
+trying shorter delays.  To allow administrators to change the delay, add a
+new parameter to the hdpvr module: `hdpvr_close_to_open_ms_delay`, which
+specifies the delay in milliseconds between a close and subsequent
+start-streaming.  If the user application has already delayed by at least
+that long for its own reasons, this feature will add no further delay.
 
-Actually, I just pulled the latest linux.git, and there are a few changes:
+Signed-off-by: Keith Pyle <kpyle@austin.rr.com>
+Tested-by: Keith Pyle <kpyle@austin.rr.com>
+---
+Changes since v2:
+- Rewrapped comments again, per request from Hans.
+- Per advice from checkpatch.pl --strict (suggested by Hans), added
+spacing around `|` for mode permissions.  This satisfies checkpatch,
+but reduces consistency in hdpvr-core.c, which had preexisting uses that
+violate checkpatch --strict.
+- Changed indentation of declaration of jiffies_next_start_streaming to
+line up when viewed with tabstop=8.
+Changes since v1:
+- Rewrapped output at 80 columns, per request from Hans.  Literal strings
+still exceed 80 columns where necessary to keep an entire string together,
+since this makes it easier for grep to find the file and line that
+generates a given message.
+- Reviewed Hans request to use `jiffies` instead of `get_jiffies_64()`.
+Per the documentation, raw `jiffies` appears to be inappropriate
+on 32-bit systems, so the patch continues to use `get_jiffies_64()`.
+On 64-bit systems, `get_jiffies_64()` becomes a direct read of `jiffies`.
+Further, both uses of `get_jiffies_64()` are on relatively cold paths
+(one just before starting streaming, the other just before a 10ms
+hardcoded sleep), so the performance impact even on the 32-bit path
+should be trivial relative to the time required for the surrounding code.
+---
+ drivers/media/usb/hdpvr/hdpvr-core.c  |  4 ++++
+ drivers/media/usb/hdpvr/hdpvr-video.c | 22 ++++++++++++++++++++++
+ drivers/media/usb/hdpvr/hdpvr.h       |  5 +++++
+ 3 files changed, 31 insertions(+)
 
->=20
-> 1) For now, s/put_page/put_user_page/ in i915_gem_userptr_put_pages(),
-> and fix up the set_page_dirty() --> set_page_dirty_lock() issue, like thi=
-s
-> (based against linux.git):
->=20
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_userptr.c
-> index 528b61678334..94721cc0093b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -664,10 +664,10 @@ i915_gem_userptr_put_pages(struct drm_i915_gem_obje=
-ct *obj,
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_sgt_page(page, sgt_it=
-er, pages) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (obj->mm.dirty)
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_page_dirty=
-(page);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_page_dirty=
-_lock(page);
+diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+index 23d3d0754308..a3d2f632fe38 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-core.c
++++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+@@ -39,6 +39,10 @@ int hdpvr_debug;
+ module_param(hdpvr_debug, int, S_IRUGO|S_IWUSR);
+ MODULE_PARM_DESC(hdpvr_debug, "enable debugging output");
+ 
++uint hdpvr_close_to_open_ms_delay = 4000;
++module_param(hdpvr_close_to_open_ms_delay, uint, S_IRUGO | S_IWUSR);
++MODULE_PARM_DESC(hdpvr_close_to_open_ms_delay, "delay restarting streaming by the specified number of milliseconds");
++
+ static uint default_video_input = HDPVR_VIDEO_INPUTS;
+ module_param(default_video_input, uint, S_IRUGO|S_IWUSR);
+ MODULE_PARM_DESC(default_video_input, "default video input: 0=Component / 1=S-Video / 2=Composite");
+diff --git a/drivers/media/usb/hdpvr/hdpvr-video.c b/drivers/media/usb/hdpvr/hdpvr-video.c
+index 3d199d5d6738..7e5897dd8dff 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-video.c
++++ b/drivers/media/usb/hdpvr/hdpvr-video.c
+@@ -278,6 +278,8 @@ static int hdpvr_start_streaming(struct hdpvr_device *dev)
+ {
+ 	int ret;
+ 	struct hdpvr_video_info vidinf;
++	u64 now_jiffies, delta_jiffies;
++	uint msec_to_sleep;
+ 
+ 	if (dev->status == STATUS_STREAMING)
+ 		return 0;
+@@ -298,6 +300,22 @@ static int hdpvr_start_streaming(struct hdpvr_device *dev)
+ 	v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
+ 			"video signal: %dx%d@%dhz\n", vidinf.width,
+ 			vidinf.height, vidinf.fps);
++	now_jiffies = get_jiffies_64();
++	/* inline time_after64 since the result of the subtraction is needed for
++	 * the sleep
++	 */
++	delta_jiffies = dev->jiffies_next_start_streaming - now_jiffies;
++	if ((__s64)delta_jiffies > 0) {
++		/* device firmware may not be ready yet */
++		msec_to_sleep = jiffies_to_msecs(delta_jiffies);
++		v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
++			 "firmware may not be ready, sleeping for %u ms\n",
++			 msec_to_sleep);
++		msleep(msec_to_sleep);
++	} else {
++		v4l2_dbg(MSG_INFO, hdpvr_debug, &dev->v4l2_dev,
++			 "firmware assumed to be ready, not sleeping\n");
++	}
+ 
+ 	/* start streaming 2 request */
+ 	hdpvr_usb_lock(dev, HDPVR_USB_CTRL);
+@@ -332,6 +350,7 @@ static int hdpvr_stop_streaming(struct hdpvr_device *dev)
+ 	int actual_length;
+ 	uint c = 0;
+ 	u8 *buf;
++	u64 now_jiffies;
+ 
+ 	if (dev->status == STATUS_IDLE)
+ 		return 0;
+@@ -368,6 +387,9 @@ static int hdpvr_stop_streaming(struct hdpvr_device *dev)
+ 	kfree(buf);
+ 	v4l2_dbg(MSG_BUFFER, hdpvr_debug, &dev->v4l2_dev,
+ 		 "used %d urbs to empty device buffers\n", c-1);
++	now_jiffies = get_jiffies_64();
++	dev->jiffies_next_start_streaming = now_jiffies +
++		msecs_to_jiffies(hdpvr_close_to_open_ms_delay);
+ 	msleep(10);
+ 
+ 	dev->status = STATUS_IDLE;
+diff --git a/drivers/media/usb/hdpvr/hdpvr.h b/drivers/media/usb/hdpvr/hdpvr.h
+index 7b3d166da1dd..32498b7120aa 100644
+--- a/drivers/media/usb/hdpvr/hdpvr.h
++++ b/drivers/media/usb/hdpvr/hdpvr.h
+@@ -43,6 +43,7 @@
+ /* #define HDPVR_DEBUG */
+ 
+ extern int hdpvr_debug;
++extern uint hdpvr_close_to_open_ms_delay;
+ 
+ #define MSG_INFO	1
+ #define MSG_BUFFER	2
+@@ -95,6 +96,10 @@ struct hdpvr_device {
+ 	struct v4l2_dv_timings	cur_dv_timings;
+ 
+ 	uint			flags;
++	/* earliest jiffies at which the device firmware will be ready to start
++	 * streaming
++	 */
++	u64			jiffies_next_start_streaming;
+ 
+ 	/* synchronize I/O */
+ 	struct mutex		io_mutex;
+-- 
+2.22.0
 
-I see you've already applied this fix to your tree, in linux.git already.
 
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 mark_page_accessed(page);
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 put_page(page);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 put_user_page(page);
-
-But this conversion still needs doing. So I'll repost a patch that only doe=
-s=20
-this (plus the other call sites).=20
-
-That can go in via either your tree, or Andrew's -mm tree, without generati=
-ng
-any conflicts.
-
-thanks,
---=20
-John Hubbard
-NVIDIA
