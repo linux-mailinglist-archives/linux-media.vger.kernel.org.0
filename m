@@ -2,68 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C86BF808EE
-	for <lists+linux-media@lfdr.de>; Sun,  4 Aug 2019 04:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C114080901
+	for <lists+linux-media@lfdr.de>; Sun,  4 Aug 2019 05:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727788AbfHDC5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Aug 2019 22:57:31 -0400
-Received: from gofer.mess.org ([88.97.38.141]:49813 "EHLO gofer.mess.org"
+        id S1726048AbfHDDxc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Aug 2019 23:53:32 -0400
+Received: from gofer.mess.org ([88.97.38.141]:37391 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726268AbfHDC5b (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Aug 2019 22:57:31 -0400
+        id S1725844AbfHDDxc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 3 Aug 2019 23:53:32 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 2D44F604C0; Sun,  4 Aug 2019 03:57:29 +0100 (BST)
-Date:   Sun, 4 Aug 2019 03:57:29 +0100
+        id 477FF604C0; Sun,  4 Aug 2019 04:53:31 +0100 (BST)
+Date:   Sun, 4 Aug 2019 04:53:31 +0100
 From:   Sean Young <sean@mess.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: ir-kbd-i2c: convert to
- i2c_new_dummy_device()
-Message-ID: <20190804025728.5v5r42zmjn5onxl7@gofer.mess.org>
-References: <20190730175555.14098-1-wsa+renesas@sang-engineering.com>
- <20190730175555.14098-2-wsa+renesas@sang-engineering.com>
- <20190803131749.4d6517ab@coco.lan>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.4] dvb/rc fixes, take #3
+Message-ID: <20190804035330.mqpwx67vlirbs3xt@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190803131749.4d6517ab@coco.lan>
+Content-Transfer-Encoding: 8bit
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Aug 03, 2019 at 01:17:49PM -0300, Mauro Carvalho Chehab wrote:
-> Em Tue, 30 Jul 2019 19:55:54 +0200
-> Wolfram Sang <wsa+renesas@sang-engineering.com> escreveu:
-> 
-> > Convert this driver to use the new i2c_new_dummy_device() call and bail
-> > out if the dummy device cannot be registered to make failure more
-> > visible to the user.
-> > 
-> 
-> Please don't do that.
-> 
-> At first glance, devm_* sounds a good idea, but we had enough issues
-> using it on media system.
-> 
-> I don't mind mind much if some SoC specific would use it, but doing
-> it on generic drivers is a very bad idea. We have removed almost all
-> devm_* calls from the media system.
-> 
-> The problem with devm is that it the de-allocation routines aren't
-> called during device unbind. They happen a way later, only when the
-> device itself is physically removed, or the driver is removed.
+Hi Mauro,
 
-Yes, good point.
+Here is another dvb/rc pull request; I've dropped the commit with
+the devm_i2c_new_dummy_device.
 
-> That caused lots of headaches to debug memory lifetime issues on
-> media.
-
-Indeed this becomes much more complex. Explicit freeing is much better.
-
-
-Thanks,
+Thanks
 Sean
+
+The following changes since commit 4590c07462fbff4ecbfe1deec44431c16191bd19:
+
+  media: via-camera: convert to the vb2 framework (2019-07-30 12:18:34 -0400)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/syoung/media_tree.git tags/v5.4b
+
+for you to fetch changes up to 4ebfd2d0f1854ef026e1c59d7891204e0a9fd10a:
+
+  dt-bindings: media: sunxi-ir: Add H6 compatible (2019-08-04 12:05:15 +0900)
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: don't drop front-end reference count for ->detach
+
+Clément Péron (6):
+      dt-bindings: media: sunxi-ir: Add A31 compatible
+      media: rc: Introduce sunxi_ir_quirks
+      media: rc: sunxi: Add A31 compatible
+      media: rc: sunxi: Add RXSTA bits definition
+      dt-bindings: media: sunxi-ir: Add A64 compatible
+      dt-bindings: media: sunxi-ir: Add H6 compatible
+
+Oliver Neukum (1):
+      media: iguanair: add sanity checks
+
+Sean Young (2):
+      media: lirc: document BPF IR decoding
+      media: rc: describe rc protocols and their scancodes
+
+Wolfram Sang (1):
+      media: ir-kbd-i2c: remove outdated comments
+
+ .../devicetree/bindings/media/sunxi-ir.txt         |  11 +-
+ Documentation/media/uapi/rc/lirc-dev-intro.rst     |  57 ++-
+ Documentation/media/uapi/rc/lirc-read.rst          |   3 +-
+ Documentation/media/uapi/rc/lirc-write.rst         |   3 +-
+ Documentation/media/uapi/rc/rc-protos.rst          | 456 +++++++++++++++++++++
+ Documentation/media/uapi/rc/remote_controllers.rst |   1 +
+ drivers/media/dvb-core/dvb_frontend.c              |   4 +-
+ drivers/media/i2c/ir-kbd-i2c.c                     |   3 -
+ drivers/media/rc/iguanair.c                        |  15 +-
+ drivers/media/rc/sunxi-cir.c                       |  88 +++-
+ drivers/media/usb/dvb-usb/pctv452e.c               |   8 -
+ 11 files changed, 592 insertions(+), 57 deletions(-)
+ create mode 100644 Documentation/media/uapi/rc/rc-protos.rst
