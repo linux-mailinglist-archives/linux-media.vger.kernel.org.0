@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E27580E05
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 00:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9148E80DD9
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 00:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbfHDWwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Aug 2019 18:52:35 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37348 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727614AbfHDWt4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Aug 2019 18:49:56 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b3so35710478plr.4;
-        Sun, 04 Aug 2019 15:49:55 -0700 (PDT)
+        id S1728157AbfHDWwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Aug 2019 18:52:03 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40977 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727686AbfHDWt7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Aug 2019 18:49:59 -0400
+Received: by mail-pf1-f194.google.com with SMTP id m30so38608480pff.8;
+        Sun, 04 Aug 2019 15:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lKIFYbXGeRFczJ7GPuSawhtMV9YIx2+MYUTps7oOTAE=;
-        b=TDggbkgRiGIAFGZg+jjgHpzcEiYccMBQ6jptVLtuAINCBCAa7tBLSYJdtzRqQAkVQq
-         tQ08R+kd1zAphQz9pkaaBX/hg9RvlkTaePPnO2E1bu2f/76JhzKynqi5fDXQgm3u+sje
-         C80KY3nOvFeOz/PfxhVfGvol35idNxGJp30wpqdrZCtYSNKWJHD3OZzPkmpz9TZ2iydK
-         zGtAdXJa7uyuK2GhTVtmCk46eJaIXB31IST9V3s1VEcpQHy9Y1uuVubQ/wNf6EoCYZeE
-         iY7ztWwDS8B1eHyY4QnXS4dvWcICmGOtU1XZ3uVoXugfKVLMqqSM2fvbIrY7TrJ6h/xd
-         OTrg==
+        bh=XDFswRI13oGzit66yuxshlgOj+nOKd4gwJhAdxr7MGM=;
+        b=rRmTjwmKQyZXs+w2fc61p+6blqitgFt44VDlq2hBJa3msEqsCjE3iMA0N59ImENjx1
+         pWxFmzHovpTywgJof2duXF6btSgoIVe+p+WICBao5KO8pBkE9NcaTV9gfxHpi58Jd393
+         DFKgJ0xyVx8/IYN8IUERTh2Rxf2HWoXWnWj+XPN7lRyL0wmkPmCXMh8pOjTaDWP9OB/k
+         giTYlSTz/ZRaJt6cAxVDISU3w6TbcicUIO0JMUvDlHhqw/CPHipUdbC11SYdC5WWsNXd
+         vc/vSbii+ZbRuDVkTzr0tcFTEidEPQ4hRCQUhyIepPPKxZC6v01QDasnaLKNedkEXXRF
+         M2wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lKIFYbXGeRFczJ7GPuSawhtMV9YIx2+MYUTps7oOTAE=;
-        b=tABZWdKdYpIgrcVWeiAxnoafL7HXkKXhgvjv1l75FXJCdYPdOXkP0ic/CNTd6u6+/k
-         oL07x0avDlDWn9Px1GhAtqI1hY3puO2YSJMxVDbx51AuhIuhtyvGgGOaLc+/NhRF48XA
-         kszuf+lfdRSbqIIRN2oW3Sm+7DvbbDw9sPSt2L3Klc7BLDxxZs8V2b3dEvoH4Rjk5NVN
-         uYhD4xHs8yi7T+wNauEsZb9UnyuGZ/VCLiPyn3G2nE5mEZgZ+KZke07M6k8EOjdV6HaF
-         E9Dxm/+0B7A+9el8Ceo71fduZMdTWA2+kvQNRqwlJu8Cqrnt7vh5E57YEfSM1BcHP3f7
-         Do0A==
-X-Gm-Message-State: APjAAAUILQhO4ipbigFHkYTmMqbzHXkSyxEXZ7/HoO+6S1CiDeTmQdfW
-        m7hXUpjTV+IYO02Bwal4xwk=
-X-Google-Smtp-Source: APXvYqxpyFBswVwCpmbWWUYW5zokWhx2pCk/sdTQw8977867DfmKTOqoiHBx6Glc/HUCem3kZHec6Q==
-X-Received: by 2002:a17:902:8689:: with SMTP id g9mr131877551plo.252.1564958995585;
-        Sun, 04 Aug 2019 15:49:55 -0700 (PDT)
+        bh=XDFswRI13oGzit66yuxshlgOj+nOKd4gwJhAdxr7MGM=;
+        b=ke2Y1gKrPgV/oA/60dBAHquyvJGir3hjY0nCT73PoYCpmMbCXcVpy6r40XRCNXlBhB
+         +khwwkRyNvaYnf68aCW7ksvE5IA1f5g/wdfvXSZ+Z2/+r9x7n/ddIsCfWbFa5cIejvjW
+         CkdXLWYzuUgD5VzrZCtpAgn8wugRQIzxgH+bziDuZsvx9hS2kKLPH0RW8jEL+MxLw4QZ
+         nQQKf/cR/BgXl4JDWrgKD1tpGUWQ6Hyknv0vHjqxfk7sxq3imJ6LPEJ4eA2nyXuuV9oD
+         iWhZOlea8nwefKb2UHiUhakBtuDWHzPyCG89exoji/6GrP+H7ZgU2qLAdN2ekuPLyTT/
+         b2Mg==
+X-Gm-Message-State: APjAAAXsyqpyf3dN4q+/L45kJM79UaaPm5i49YdmKWvkl+segNcvNWum
+        5HKEf0ORINgyNqL7uCCqP3Q=
+X-Google-Smtp-Source: APXvYqwlrqrBPfbU3uzw56VyHFJ2u/Wv2Z0KkmEAsOsnKmMeY4aJMueEUB/6oS1u2+NCnzOVxWkmSA==
+X-Received: by 2002:a63:4a51:: with SMTP id j17mr133593330pgl.284.1564958998921;
+        Sun, 04 Aug 2019 15:49:58 -0700 (PDT)
 Received: from blueforge.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id r6sm35946836pjb.22.2019.08.04.15.49.53
+        by smtp.gmail.com with ESMTPSA id r6sm35946836pjb.22.2019.08.04.15.49.57
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 04 Aug 2019 15:49:55 -0700 (PDT)
+        Sun, 04 Aug 2019 15:49:58 -0700 (PDT)
 From:   john.hubbard@gmail.com
 X-Google-Original-From: jhubbard@nvidia.com
 To:     Andrew Morton <akpm@linux-foundation.org>
@@ -67,15 +67,10 @@ Cc:     Christoph Hellwig <hch@infradead.org>,
         netdev@vger.kernel.org, rds-devel@oss.oracle.com,
         sparclinux@vger.kernel.org, x86@kernel.org,
         xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>
-Subject: [PATCH v2 23/34] uprobes: convert put_page() to put_user_page*()
-Date:   Sun,  4 Aug 2019 15:49:04 -0700
-Message-Id: <20190804224915.28669-24-jhubbard@nvidia.com>
+        Mel Gorman <mgorman@suse.de>, Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v2 25/34] mm/frame_vector.c: convert put_page() to put_user_page*()
+Date:   Sun,  4 Aug 2019 15:49:06 -0700
+Message-Id: <20190804224915.28669-26-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190804224915.28669-1-jhubbard@nvidia.com>
 References: <20190804224915.28669-1-jhubbard@nvidia.com>
@@ -96,48 +91,37 @@ release_pages().
 This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
 ("mm: introduce put_user_page*(), placeholder versions").
 
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Jiri Olsa <jolsa@redhat.com>
-Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
- kernel/events/uprobes.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ mm/frame_vector.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index 84fa00497c49..4a575de8cec8 100644
---- a/kernel/events/uprobes.c
-+++ b/kernel/events/uprobes.c
-@@ -397,7 +397,7 @@ __update_ref_ctr(struct mm_struct *mm, unsigned long vaddr, short d)
- 	ret = 0;
+diff --git a/mm/frame_vector.c b/mm/frame_vector.c
+index c64dca6e27c2..f590badac776 100644
+--- a/mm/frame_vector.c
++++ b/mm/frame_vector.c
+@@ -120,7 +120,6 @@ EXPORT_SYMBOL(get_vaddr_frames);
+  */
+ void put_vaddr_frames(struct frame_vector *vec)
+ {
+-	int i;
+ 	struct page **pages;
+ 
+ 	if (!vec->got_ref)
+@@ -133,8 +132,7 @@ void put_vaddr_frames(struct frame_vector *vec)
+ 	 */
+ 	if (WARN_ON(IS_ERR(pages)))
+ 		goto out;
+-	for (i = 0; i < vec->nr_frames; i++)
+-		put_page(pages[i]);
++	put_user_pages(pages, vec->nr_frames);
+ 	vec->got_ref = false;
  out:
- 	kunmap_atomic(kaddr);
--	put_page(page);
-+	put_user_page(page);
- 	return ret;
- }
- 
-@@ -504,7 +504,7 @@ int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm,
- 	ret = __replace_page(vma, vaddr, old_page, new_page);
- 	put_page(new_page);
- put_old:
--	put_page(old_page);
-+	put_user_page(old_page);
- 
- 	if (unlikely(ret == -EAGAIN))
- 		goto retry;
-@@ -1981,7 +1981,7 @@ static int is_trap_at_addr(struct mm_struct *mm, unsigned long vaddr)
- 		return result;
- 
- 	copy_from_page(page, vaddr, &opcode, UPROBE_SWBP_INSN_SIZE);
--	put_page(page);
-+	put_user_page(page);
-  out:
- 	/* This needs to return true for any variant of the trap insn */
- 	return is_trap_insn(&opcode);
+ 	vec->nr_frames = 0;
 -- 
 2.22.0
 
