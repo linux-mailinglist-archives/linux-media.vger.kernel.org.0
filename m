@@ -2,126 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 907E78132F
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 09:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3308143E
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 10:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbfHEHb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Aug 2019 03:31:28 -0400
-Received: from mail-eopbgr770052.outbound.protection.outlook.com ([40.107.77.52]:35082
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726394AbfHEHb2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Aug 2019 03:31:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NYC20YxpEYPumv1uOr/qyrD7EjHb/a6ha9hYq0vDyhAcEcACrQBrzP7RlSUatVipitlt44HNe9+1uFx8B2af2f/Gn6q5YK+mS6zktVDVSbknDXIpg2Bd2nteEO3sjnndSim9DaIODYgz3WLr98WjU4BMbYIt+Gnne53S7qgTOUZAUCkhZ80sdvmRuRrxxh2Ybtj66QJtTsvh4+5N1ab38fLa4+Auo/zNPDfd49tHveNfH6mOuAUA1rjkuSepm8Cnn0T8Hn1iw35ANtkF4mcgZJyNuK545Jg6TeDjCOvi8SUfwmxKVbtohjSBU70Au2ubMxYYioPwDGX436Y/Mrgd0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=szHfvlcDWLsDOKTgGWyySV51zsdOnfrptt7WM36Y+oE=;
- b=kgiATxT+q8tNIuAMt0J4Ox8ZTF7JlwCtZgvHqyH5VZxTNcrF5M+m4qlQcBv64+683kK4Y0mMYzxbFq4zKEqvSC1M8jjKHRSS2nN7WqAOgYY6fg5oNvHUPJ9ZU9lPHmfEqOSYcHAk3u1/f5FFJvJIZjiJ8zXFhxidkOe/m3gvumK+HbS+hsZI1oO9IdBkirgrcvvTBr+GjfXp2QWqKmWvwmBLG2vaMDJ9VMwz0qaLBFPg0d/BgvxGGXlTRSYPZs+6ipx9sTZTzpblJSB84ZLivsoCfBY6axTn+pwOoO1O3EB6XesYFEli9OGy9iw8UMbcx64EN+7fg6gJTnI9CtO3kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
- header.d=amd.com;arc=none
+        id S1727796AbfHEIbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Aug 2019 04:31:47 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:46145 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727357AbfHEIbr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 04:31:47 -0400
+Received: by mail-io1-f68.google.com with SMTP id i10so52249482iol.13
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 01:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=szHfvlcDWLsDOKTgGWyySV51zsdOnfrptt7WM36Y+oE=;
- b=itdTipb+GzxiDC+OpQQzda+6ySLpOhUl3MRNtg+dfzhfTBkbkgyck0Kl9HZgq7dpuLdXTMwFIa00XG9KeC3X2FY8PLJrENZ0o7vbDhlS9kalniaBfqAbd4UIgnRoFANcQ5qcZhJRsu7d7ZH64xyil8SM62cgWxmTcPmfkLTCRHM=
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1660.namprd12.prod.outlook.com (10.172.36.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.19; Mon, 5 Aug 2019 07:31:22 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::fc5f:ce01:e8c8:db89]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::fc5f:ce01:e8c8:db89%12]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 07:31:22 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Chris Wilson <chris@chris-wilson.co.uk>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= 
-        <ckoenig.leichtzumerken@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-Subject: Re: [PATCH] dma-buf: add more reservation object locking wrappers
-Thread-Topic: [PATCH] dma-buf: add more reservation object locking wrappers
-Thread-Index: AQHVR6gGr7MN05AABkG1OwQATicrpabsMDcA
-Date:   Mon, 5 Aug 2019 07:31:22 +0000
-Message-ID: <f2b6c926-0df9-fac7-d099-acbb84662ce8@amd.com>
-References: <20190731113853.51779-1-christian.koenig@amd.com>
- <156457641010.6373.7515721920178088211@skylake-alporthouse-com>
- <6421ea80-2bdd-7f63-1cba-9c57157f3946@gmail.com>
- <156458148806.15787.4157473890441039515@skylake-alporthouse-com>
-In-Reply-To: <156458148806.15787.4157473890441039515@skylake-alporthouse-com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: PR0P264CA0157.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1b::25) To DM5PR12MB1546.namprd12.prod.outlook.com
- (2603:10b6:4:8::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6e0befea-1863-4854-2f8c-08d71976ea37
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1660;
-x-ms-traffictypediagnostic: DM5PR12MB1660:
-x-microsoft-antispam-prvs: <DM5PR12MB166062618D6D39CF7072A32283DA0@DM5PR12MB1660.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01208B1E18
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39850400004)(136003)(346002)(376002)(396003)(366004)(189003)(199004)(2616005)(11346002)(6506007)(5660300002)(476003)(53936002)(486006)(110136005)(46003)(76176011)(446003)(52116002)(99286004)(58126008)(8676002)(229853002)(316002)(6246003)(36756003)(68736007)(65806001)(65956001)(6436002)(31686004)(6512007)(7736002)(305945005)(65826007)(8936002)(81166006)(2201001)(6486002)(2501003)(25786009)(66446008)(64756008)(66556008)(66476007)(71190400001)(478600001)(71200400001)(31696002)(6116002)(256004)(64126003)(81156014)(86362001)(66946007)(102836004)(2906002)(386003)(14454004)(186003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1660;H:DM5PR12MB1546.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 61BVPPYyQ7VaYJ6uqJ4YIxX5wgmUn2Vr+uMPJt0qNL0bI71bj6jtpUMExWci/sEC4SUyZiAY+KQw+yx7PCtAqQ3khWyFv03+w6JrXTKR7vHQr0T/WYm/DMtB7UfYghGzflMGwqKUuC7gMBgNJu+9uilQOp+BuZ4vEkYGQOYUk4AgayTx4LVRA/dmFXNt2iiC7VmljGCjZrFBDa4UAA0xFHRlZZ0RwV60jzWLgGGEFJuvuqNxayOap4vIi/RdoQWMH4TyyFJkuOrHONA8zjg25/NjKv9xKhDxGgzGeJKqJOeqsZyov4SGzDAKuB3IlyYfRvOCkV+0qPuWVhnnEfn652I6chZiyPj40ZaVdtC2CT38MzifpPFLqT24X0/FgXSi/1LiCgiLE7XX434qf2/0psb/5j3zMDOROrqWunnA90I=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BC698184876B324EB2B7927B2A8337B5@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/9onNqSu8H6T4t+v8bvPux5C3Ze/nalI4ApJroQRttg=;
+        b=aywESScdkNjlGJf+foMrGaH30r3yFivVONl+3QF/vs9mPZxQ7Z9lCSqAyevZxfhXBV
+         p8Y71cVlfFNUQTlqv3fAISo5KNCajOU6OqFY8zXEiQwtgIDNHjm1JLQM8mcmBfK/Essk
+         Vs1iZN+Zd9qsQCZfwGrN71p0/vxpdh1yVob0V5Kddk+Z/nd7sQKhLstCHf0Usgxwwjk9
+         EJQmEKFdpnBimhSdaDaq4sVIY93TaBb8vY1+OPKgg+jhPAp0s/NgDOZ5ohrGB3Cz7R22
+         +L0+ioeTc9pYBSuDbEdoGHFvdgHuYL79kuicaVTPqh+hvyhAcJoXbtOht/1sFRJngb0w
+         qquw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/9onNqSu8H6T4t+v8bvPux5C3Ze/nalI4ApJroQRttg=;
+        b=R/hoV56hsthPBXhGFjh08YVb2/ks5iR2ZWHCkNPvEOYpHXYnRP+30tmTjOzSL0lijW
+         TNicBeNu06uYzDR9rFltQCk10nFsOYP8ijBL9GTzij8SKbf/s8KFd0IFpo8/kULB4oc4
+         2rMO8w5KlMlxX+cxk2otXfwBusG4m6ULZis1ASGCRLnfcIu5x/DtJ9ecF6eECq6sChxr
+         KbVVp0zDratCOFZqIH9BtzITG/1srokU9JJ1s1FEMpFRsa4NSpGZPBePopttqGOseS37
+         WollBlOc0BEStYc81kwGAQjMXY7dW9GUSjqpnzO210tLvk3kQAAVQ4Dju/lXyv/EHcMz
+         JMAQ==
+X-Gm-Message-State: APjAAAVox3FbfQJM7Rtvnqt4D6bTT5rIYayKRYyX5zB8Adjc9YYspIJm
+        CBC7lttZItNLd2q0EH0B/qlRjyJWcVhzojCjkLs=
+X-Google-Smtp-Source: APXvYqwdH5YrXmNOdQLqeqaHrEbB41XdZAI+QgVn/WPhGXhazC5gC+vdAsxaH69ckpH1PS09DzXuJmzKdsOLUZS7P9M=
+X-Received: by 2002:a02:5b05:: with SMTP id g5mr147889176jab.114.1564993906173;
+ Mon, 05 Aug 2019 01:31:46 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e0befea-1863-4854-2f8c-08d71976ea37
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:31:22.4744
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1660
+References: <20190725131257.6142-1-brgl@bgdev.pl> <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
+In-Reply-To: <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 5 Aug 2019 10:31:35 +0200
+Message-ID: <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform build
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMzEuMDcuMTkgdW0gMTU6NTggc2NocmllYiBDaHJpcyBXaWxzb246DQo+IFF1b3RpbmcgQ2hy
-aXN0aWFuIEvDtm5pZyAoMjAxOS0wNy0zMSAxNDozNDoyOCkNCj4+IEFtIDMxLjA3LjE5IHVtIDE0
-OjMzIHNjaHJpZWIgQ2hyaXMgV2lsc29uOg0KPj4+IFF1b3RpbmcgQ2hyaXN0aWFuIEvDtm5pZyAo
-MjAxOS0wNy0zMSAxMjozODo1MykNCj4+Pj4gQ29tcGxldGUgdGhlIGFic3RyYWN0aW9uIG9mIHRo
-ZSB3d19tdXRleCBpbnNpZGUgdGhlIHJlc2VydmF0aW9uIG9iamVjdC4NCj4+Pj4NCj4+Pj4gVGhp
-cyBhbGxvd3MgdXMgdG8gYWRkIG1vcmUgaGFuZGxpbmcgYW5kIGRlYnVnZ2luZyB0byB0aGUgcmVz
-ZXJ2YXRpb24NCj4+Pj4gb2JqZWN0IGluIHRoZSBmdXR1cmUuDQo+Pj4+DQo+Pj4+IFNpZ25lZC1v
-ZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4+PiBM
-b29rcyBlbnRpcmVseSBtZWNoYW5pY2FsLA0KPj4+IFJldmlld2VkLWJ5OiBDaHJpcyBXaWxzb24g
-PGNocmlzQGNocmlzLXdpbHNvbi5jby51az4NCj4+Pg0KPj4+IFF1aWV0bHkgb3BpbmVzIGZvciBz
-L3Jlc2VydmF0aW9uX29iamVjdC9kbWFfcmVzZXJ2YXRpb24vDQo+PiBJIHdhcyB0aGlua2luZyBh
-Ym91dCB0aGF0IGFzIHdlbGwgYmVjYXVzZSAicmVzZXJ2YXRpb25fb2JqZWN0IiBpcyBqdXN0IGEN
-Cj4+IHJhdGhlciBsb25nIG5hbWUgYW5kIG5vdCB2ZXJ5IGRlc2NyaXB0aXZlLg0KPj4NCj4+IEJ1
-dCBJJ20gbm90IHN1cmUgaWYgZG1hX3Jlc2VydmF0aW9uIGZpdHMgZWl0aGVyLiBIb3cgYWJvdXQg
-c29tZXRoaW5nDQo+PiBsaWtlIGRtYV9jbnRybD8NCj4gUmVzZXJ2YXRpb24ga2luZCBvZiB3b3Jr
-cyBiZWNhdXNlIG9mIGhpc3RvcmljYWwgdXNhZ2UsIGJ1dCBpcyBpdHNlbGYNCj4gcmF0aGVyIGxv
-bmcuIENvbnRyb2wgZG9lc24ndCBtZWFuIG11Y2ggdG8gbWUuIGRtYV9zZXF1ZW5jZT8gTWF5YmUg
-anVzdA0KPiBkbWFfc3luY3B0LCBhcyB0aGUgc25hcHNob3Qgb2YgZmVuY2VzIGlzIGl0c2VsZiBh
-IGZlbmNlIC8NCj4gc3luY2hyb25pc2F0aW9uIHBvaW50LiBUaG91Z2ggdGhhdCBpcyBhdCBvZGRz
-IHdpdGggb3RoZXIgdXNhZ2Ugb2YNCj4gc3luY3B0LCB3ZSBoYXZlIGFuIHVub3JkZXJlZCBjb2xs
-ZWN0aW9uIG9mIGZlbmNlcyBhY3Jvc3MgbXVsdGlwbGUNCj4gdGltZWxpbmVzLCBhcyBvcHBvc2Vk
-IHRvIGEgc2luZ2xlIHBvaW50IGFsb25nIGEgdGltZWxpbmUuDQo+DQo+IEZ3aXcsIHdlIHVzZSBp
-OTE1X2FjdGl2ZSBmb3IgdGhlIHNpbWlsYXIgcHVycG9zZSBvZiB0cmFja2luZyB0aGUgYWN0aXZl
-DQo+IGNvbGxlY3Rpb24gb2YgZmVuY2VzLCBzbyBtYXliZSBkbWFfYWN0aXZlPw0KDQpJbiBhbWRn
-cHUgd2UgaGF2ZSBhbWRncHVfc3luYyBmb3IgdGhhdCwgYnV0IHRoYXQgaXNuJ3QgbXVjaCBkZXNj
-cmlwdGl2ZSANCmVpdGhlci4NCg0KT2ssIGxldCdzIHN0aWNrIHdpdGggZG1hX3Jlc2VydmF0aW9u
-IGZvciBub3cgdW5sZXNzIHNvbWVib2R5IGhhcyBhIA0KYmV0dGVyIGlkZWEuDQoNCkNocmlzdGlh
-bi4NCg0KPiAtQ2hyaXMNCg0K
+czw., 25 lip 2019 o 16:57 Arnd Bergmann <arnd@arndb.de> napisa=C5=82(a):
+>
+> On Thu, Jul 25, 2019 at 3:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote=
+:
+> >
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > This series makes DaVinci part of the multiplatform build for ARM v5.
+> >
+> > First three patches fix build errors spotted and fixed by Arnd with v1.
+> >
+> > The fourth patch adds necessary bits and pieces for davinci to support
+> > multiplatform build and the last one actually adds all davinci boards
+> > to multi_v5_defconfig.
+> >
+> > Tested on da850-lcdk with both multi_v5 as well as davinci_all defconfi=
+gs.
+> >
+> > v1 -> v2:
+> > - added patches from Arnd that fix build errors spotted when building
+> >   random configurations (much appreciated)
+> > - rebased on top of v5.3-rc1
+>
+> > Arnd Bergmann (3):
+> > staging: media/davinci_vpfe: fix pinmux setup compilation
+> >  media: davinci-vpbe: remove obsolete includes
+> >  davinci: fix sleep.S build error on ARMv4
+> >
+> > Bartosz Golaszewski (2):
+> >  ARM: davinci: support multiplatform build for ARM v5
+> >  ARM: multi_v5_defconfig: make DaVinci part of the ARM v5 multiplatform=
+ build
+>
+>
+> Thanks a lot for reposting the series!
+>
+> I wonder how we shoud deal with the dependencies now that the two media
+> patches got merged in the linux-media tree.
+>
+> It would be tempting to just merge the arch/arm/ changes, but that create=
+s
+> a bisection problem when the vpbe driver is enabled. I don't care
+> about the staging driver really as that one is broken anyway, but includi=
+ng
+> the "media: davinci-vpbe: remove obsolete includes" fix would be better
+> here.
+>
+> Mauro, any idea for how to handle that? Should we apply an identical
+> patch to the davinci tree, or maybe only have it the ARM tree and you
+> drop it from your tree (I don't know if you have a rule against rebasing)=
+.
+> Sorry for not coordinating with Bartosz before I sent the patch again
+> earlier this week.
+>
+>
+>       Arnd
+
+Hi Arnd,
+
+is there any action required from me for this series?
+
+Bart
