@@ -2,22 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 313BE82346
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 18:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 556ED82457
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 19:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728760AbfHEQ4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Aug 2019 12:56:16 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58945 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728518AbfHEQ4Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Aug 2019 12:56:16 -0400
-Received: from [10.125.143.226] ([138.219.197.106])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ugHDhXiQ5AffAugHIh0jrA; Mon, 05 Aug 2019 18:56:14 +0200
-Subject: Re: [RFC PATCH 1/5] media: vb2: Add a helper to get the vb2 buffer
- attached to a request
-To:     Boris Brezillon <boris.brezillon@collabora.com>
+        id S1728800AbfHER7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Aug 2019 13:59:05 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:56052 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726779AbfHER7F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 13:59:05 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4C74C28A3AC;
+        Mon,  5 Aug 2019 18:59:03 +0100 (BST)
+Date:   Mon, 5 Aug 2019 19:59:00 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -32,121 +34,70 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alexandre Courbot <acourbot@chromium.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [RFC PATCH 3/5] media: v4l2: Add m2m codec helpers
+Message-ID: <20190805195900.7c25d99c@collabora.com>
+In-Reply-To: <bca63b3d-7254-99db-bcf4-cb3f2511c69a@xs4all.nl>
 References: <20190805094827.11205-1-boris.brezillon@collabora.com>
- <20190805094827.11205-2-boris.brezillon@collabora.com>
- <722ddb41-f7b8-afee-66a3-e99a571da5d7@xs4all.nl>
- <20190805161338.7df1e623@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ef907940-c86b-efde-3092-1af8dfbf4c04@xs4all.nl>
-Date:   Mon, 5 Aug 2019 13:56:02 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        <20190805094827.11205-4-boris.brezillon@collabora.com>
+        <bca63b3d-7254-99db-bcf4-cb3f2511c69a@xs4all.nl>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190805161338.7df1e623@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPXwDEIlOEqWH8XzgkhakcSXJr6zudCx0NKMENye8YiNLO7MORDEWOOGsjhhVXXhJTPHdYj1bTEG59e0M683lYHOUty6havXkJ5R41oj5RuTJ6TlBhT7
- 7xQaOalYXQFp214WwL4J4VZl/Hyp8ZSmQ08dJ8VY9Epgq8c92RJLzhx3EegqAZLpZixt0tLgbnOVY0NQC44CQl//5icsl71Sns7FzhJSWPMij+1fv0Rc12/C
- 3ihvBaAdgkV46HYGTwh3W+iyZ5875Ta4MR5zDmoC9Edei7g4czW3DcBkEwyy3pJbAdENdzyr0pSGV8cJoY4OLeS6X1nIOIXi6Y4iX11SM4oOX5/Ll4E0c5Am
- 6BwUo9p8hf5OGkmxkONKoPbRUtxm9tAytBS7lHDOzMVqIcFsI2Sa7KMXsDaPJxY95q5DI0Cjz0Z5SxmPgzjDOiw+DqwWj7a9GDwDyYMQw8/YbNQZUreW7Oev
- szb4epxx2T/2XwHQ9zSef3mM4HATA+HO/le/OTCwIar+AoV7X/Gv1HFOkgz+Ck1D07JAk4kyuLcGD30GqwRpIyl25u9O9H5N4Izc37Ohh1UXhgLKUftBB9+G
- ACj3njo6Z0KMcv4w2fYa0MNdNGRPJiAZu+vT/cFrDOaTf9Qtqs7/S2CDglrr+jpnfsGZlWsLHla0b+VLYnlM5R9fU56iAezBVNNkxW18Nvbs7yZ9HDQWFPML
- rWlDeNgDWTHqJGtTqYU1YqE7eaq8c6ZWWO9Bp6JHCEddKmG5p/O34g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/5/19 11:13 AM, Boris Brezillon wrote:
-> On Mon, 5 Aug 2019 10:12:53 -0300
-> Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> 
->> On 8/5/19 6:48 AM, Boris Brezillon wrote:
->>> vb2_request_get_buf() returns the N-th buffer attached to a media
->>> request.
->>>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> ---
->>>    .../media/common/videobuf2/videobuf2-core.c   | 23 +++++++++++++++++++
->>>    include/media/videobuf2-core.h                | 11 +++++++++
->>>    2 files changed, 34 insertions(+)
->>>
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index 4489744fbbd9..58769f0c8665 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -1416,6 +1416,29 @@ unsigned int vb2_request_buffer_cnt(struct media_request *req)
->>>    }
->>>    EXPORT_SYMBOL_GPL(vb2_request_buffer_cnt);
->>>    
->>> +struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
->>> +				       unsigned int idx)
->>> +{
->>> +	struct media_request_object *obj;
->>> +	struct vb2_buffer *buf = NULL;
->>> +	unsigned int nbufs = 0;
->>> +	unsigned long flags;
->>> +
->>> +	spin_lock_irqsave(&req->lock, flags);
->>> +	list_for_each_entry(obj, &req->objects, list) {
->>> +		if (!vb2_request_object_is_buffer(obj) ||
->>> +		    nbufs++ < idx)
->>> +			continue;
->>> +
->>> +		buf = container_of(obj, struct vb2_buffer, req_obj);
->>> +		break;
->>> +	}
->>> +	spin_unlock_irqrestore(&req->lock, flags);
->>> +
->>> +	return buf;
->>> +}
->>> +EXPORT_SYMBOL_GPL(vb2_request_get_buf);
->>> +
->>>    int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
->>>    {
->>>    	struct vb2_buffer *vb;
->>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>> index 640aabe69450..febf3261a120 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -1222,4 +1222,15 @@ bool vb2_request_object_is_buffer(struct media_request_object *obj);
->>>     */
->>>    unsigned int vb2_request_buffer_cnt(struct media_request *req);
->>>    
->>> +/**
->>> + * vb2_request_get_buf() - return the buffer at index @idx
->>> + *
->>> + * @req:	the request.
->>> + * @idx:	index of the buffer in the req object list
->>
->> This is confusing: it suggests that you are talking about the buffer
->> index itself (buf->index) instead of the nth buffer in the request.
-> 
-> How about:
-> 
-> @n: search for the Nth buffer in the req object list
+On Mon, 5 Aug 2019 13:53:20 -0300
+Hans Verkuil <hverkuil@xs4all.nl> wrote:
 
-That looks good to me.
+> > +/**
+> > + * struct v4l2_m2m_codec_ctx - Codec context
+> > + * @fh: file handle
+> > + * @coded_fmt: current coded format
+> > + * @decoded_fmt: current decoded format
+> > + * @coded_fmt_desc: current coded format desc
+> > + * @decoded_fmt_desc: current decoded format desc
+> > + * @ctrl_hdl: control handler
+> > + * @codec: the codec that has created this context
+> > + */
+> > +struct v4l2_m2m_codec_ctx {
+> > +	struct v4l2_fh fh;
+> > +	struct v4l2_format coded_fmt;
+> > +	struct v4l2_format decoded_fmt;
+> > +	const struct v4l2_m2m_codec_coded_fmt_desc *coded_fmt_desc;
+> > +	const struct v4l2_m2m_codec_decoded_fmt_desc *decoded_fmt_desc;
+> > +	struct v4l2_ctrl_handler ctrl_hdl;
+> > +	struct v4l2_m2m_codec *codec;
+> > +};  
+> 
+> ...this struct.
+> 
+> So basically everything in this header :-)
+> 
+> I haven't done an in-depth review, but my main concern is that I
+> believe these structs and the helpers depending on them are too
+> high-level.
+> 
+> The helpers themselves often look reasonable, except that they could
+> be more generic if it wasn't for these high-level structs.
 
-	Hans
+I'll have to double check, but I fear most of those helpers are useless
+if we don't have these generic structs.
 
 > 
->>
->> Looks good otherwise.
->>
->> Regards,
->>
->> 	Hans
->>
->>> + *
->>> + * Return a vb2 buffer or NULL if there's no buffer at the specified index
->>> + */
->>> +struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
->>> +				       unsigned int idx);
->>> +
->>>    #endif /* _MEDIA_VIDEOBUF2_CORE_H */
->>>    
->>
-> 
+> My feeling is that it would make more sense if you would create structs 
+> dealing just with formats and structs just for controls and don't try
+> to mix in things like struct video_device or struct v4l2_fh.
 
+Except that's where most of the boiler-plate code is (basically all the
+ioctl and vb2_queue ops).
+
+> 
+> I think that will create a better balance between providing helpers
+> for codec drivers without hiding too much inside v4l2_m2m_codec_* structs.
+
+I'm fine with that, just not sure this will significantly reduce code
+duplication...
