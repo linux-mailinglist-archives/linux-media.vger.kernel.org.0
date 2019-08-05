@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F428209C
+	by mail.lfdr.de (Postfix) with ESMTP id E0E0F8209D
 	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 17:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728086AbfHEPqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728662AbfHEPqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 5 Aug 2019 11:46:00 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38997 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727460AbfHEPqA (ORCPT
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34578 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727259AbfHEPqA (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 11:46:00 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x4so31735092wrt.6
-        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 08:45:58 -0700 (PDT)
+Received: by mail-wr1-f68.google.com with SMTP id 31so84937420wrm.1
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 08:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=v306sfwUGIVnriTquF2KCh9r0qG80xENrZcYr3yv41A=;
-        b=RPl/cWr4ICJ1bdX1iZkG7X25CTPpq5Ar/WW0HcJ9gh5rqtkdD6q+0gjm3pYy80LHB7
-         ELw9Df1MB3ZM5DzXGQtjdAMPwyex8IiqdGKjuXDxFrQJJiog8knuUUCzGlQJkSJcylCN
-         f6E625dTHPgYBXlqgrWGSayMZAOiXy9+KK4OP95Z7YdHJOXPvABdeursdLsGzp/xy5xx
-         GN51bL/l/g3eajCja5cX2Mxp5mshzDQhFo/u1rKNq67lnuK0zeaPUW0EHObGBXr90fte
-         cM1CkFfovDVjZ9WVP3wjmAgeQQhpPI9AXl0WHYSzW8KxOqc2Gwi+OhPu7VHmdfjfoovC
-         YuMQ==
+        bh=a4ZZo1KUS4v5eA927ZZztm7GQeLvgm0C/yGY+IBScNk=;
+        b=c8lKjumQ802qAfCvsp5WXfL6BHjFMbZ03rSET63kgSVQxwL/Si4kP11+H9pHt9SeC8
+         NBKpD0r8ULstE6FSP+fQdLCvtGGyH/qMhQUScICPY7e3ZLr8bDXUj4R1Scn6dYI4pOyn
+         eL+OWq0smywS6iFlWZQnphIY48FUqJ1Iv4D+S0hk/xSnywiDLWApC4PmPVswHUxzp2Dt
+         AdA6MQwxUQquKYm66Vcv4+HKNz6Bcw1v1VndIYGPs7OEDiryqfcp8AaS+qzZQQWKhyD4
+         SI4xZu/j0j7DktO6fvtfDA9+/bdcwg5kx5ZXqeP2JEQpJHyjvFJGoA1i9OUPXvDWBwmr
+         UhNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=v306sfwUGIVnriTquF2KCh9r0qG80xENrZcYr3yv41A=;
-        b=JZTRWp/uEvmwVW4nxb/gmnryw4SGL4mtKdkjIeqQOVzXNxthtLYBmSKgIap0zH8yIC
-         HeDkPmaAnme9ACsvLvks9EdV/+gNoguYaFH9Z7CGNsRCrKgxVjQBja3IAzlKceBCdVzZ
-         8KgWHMbbHFLS78N2f//d/18kPaczb1/t2oncn6goq/foYx40P+gwuXyBCHSFxw8gjN0Y
-         YvRubR7WosUfEQ21iZfBW/VFO+6LPgbyO1xem79ZPeHC1pUrQBtyX4ZV6dVNxqaPedCG
-         oYXsvCOEOe3dpxmeSlJTHkH70ogz5fWSPgwdCNZCxgzJTlLUz5/E0Z1OfKv0joBHBCVS
-         pVdQ==
-X-Gm-Message-State: APjAAAX5pb7Pt5rH8gKQuBgLR4Fe9qVwT7fO7h2GOAkDOJBaQJcaKWR9
-        TMXzqlvzcKArUW5Db6AJgkc=
-X-Google-Smtp-Source: APXvYqyiVh4JW9BAxeQmV7Ga2Y/xwkIkFOdeQDansqXZR5hzlhxtXw4izgVGV95M9bxc9zQCbGMijQ==
-X-Received: by 2002:a5d:4090:: with SMTP id o16mr6149082wrp.292.1565019958047;
+        bh=a4ZZo1KUS4v5eA927ZZztm7GQeLvgm0C/yGY+IBScNk=;
+        b=JBz1a6YiXDJHUMztHupxVoP61wqd8WNfTOtOtgZzco3cQ1b6b2qeOO/MgN7Q7PNHyn
+         UdPR4iq/9DIETF38+Dw6+bk9jEvmNcoaauqoNoJ15dv+q5Q1dsAM9qhG25vD4zWObyhO
+         u/ufks5GnudBicOrb3GqWd+OUK/KgEC+NWaYkkC/gXxQoJIIha23+yRDqzBltc3ccxn7
+         vLIEfcOsLEiY86S/M7KfOW8+99sY6JB+Hv1KExfi6XqWP/S5OEA0vhrSuZ9Kss0ZlSIr
+         c7q+nLaeqNT8xYh5kdTLo9KBYby7cRGcQyVYM0G4GsgzuvX+Nupd47untpZS4MHt81Tr
+         QtZg==
+X-Gm-Message-State: APjAAAU68tCiWh4Wb/lj5yFJUwfMQaMgCsdjbFbkThvKMDN2c+k0lRa7
+        u1nHkKI+NOUhbOGsRCYwOCI=
+X-Google-Smtp-Source: APXvYqyKtWz2oAW1/rv7hSkrkd2h3z7inIhLfCt8NJpgwvZgCZQvI+8ki0rdQlhG46LV+7qztvPF4w==
+X-Received: by 2002:a5d:6389:: with SMTP id p9mr1126311wru.297.1565019958875;
         Mon, 05 Aug 2019 08:45:58 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:fdbd:6233:4990:5a8d])
-        by smtp.gmail.com with ESMTPSA id 91sm171836865wrp.3.2019.08.05.08.45.57
+        by smtp.gmail.com with ESMTPSA id 91sm171836865wrp.3.2019.08.05.08.45.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Aug 2019 08:45:57 -0700 (PDT)
+        Mon, 05 Aug 2019 08:45:58 -0700 (PDT)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         chris@chris-wilson.co.uk
-Subject: [PATCH 3/5] dma-buf: further relax reservation_object_add_shared_fence
-Date:   Mon,  5 Aug 2019 17:45:52 +0200
-Message-Id: <20190805154554.3476-3-christian.koenig@amd.com>
+Subject: [PATCH 4/5] dma-buf: simplify reservation_object_get_fences_rcu a bit
+Date:   Mon,  5 Aug 2019 17:45:53 +0200
+Message-Id: <20190805154554.3476-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190805154554.3476-1-christian.koenig@amd.com>
 References: <20190805154554.3476-1-christian.koenig@amd.com>
@@ -64,38 +64,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Other cores don't busy wait any more and we removed the last user of checking
-the seqno for changes. Drop updating the number for shared fences altogether.
+We can add the exclusive fence to the list after making sure we got
+a consistent state.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/reservation.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/dma-buf/reservation.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/dma-buf/reservation.c b/drivers/dma-buf/reservation.c
-index d59207ca72d2..6eaca469005f 100644
+index 6eaca469005f..69c826553c72 100644
 --- a/drivers/dma-buf/reservation.c
 +++ b/drivers/dma-buf/reservation.c
-@@ -206,9 +206,6 @@ void reservation_object_add_shared_fence(struct reservation_object *obj,
- 	fobj = reservation_object_get_list(obj);
- 	count = fobj->shared_count;
- 
--	preempt_disable();
--	write_seqcount_begin(&obj->seq);
+@@ -426,13 +426,6 @@ int reservation_object_get_fences_rcu(struct reservation_object *obj,
+ 				if (!dma_fence_get_rcu(shared[i]))
+ 					break;
+ 			}
 -
- 	for (i = 0; i < count; ++i) {
+-			if (!pfence_excl && fence_excl) {
+-				shared[i] = fence_excl;
+-				fence_excl = NULL;
+-				++i;
+-				++shared_count;
+-			}
+ 		}
  
- 		old = rcu_dereference_protected(fobj->shared[i],
-@@ -226,9 +223,6 @@ void reservation_object_add_shared_fence(struct reservation_object *obj,
- 	RCU_INIT_POINTER(fobj->shared[i], fence);
- 	/* pointer update must be visible before we extend the shared_count */
- 	smp_store_mb(fobj->shared_count, count);
+ 		if (i != shared_count || read_seqcount_retry(&obj->seq, seq)) {
+@@ -447,6 +440,11 @@ int reservation_object_get_fences_rcu(struct reservation_object *obj,
+ 		rcu_read_unlock();
+ 	} while (ret);
+ 
++	if (pfence_excl)
++		*pfence_excl = fence_excl;
++	else if (fence_excl)
++		shared[++shared_count] = fence_excl;
++
+ 	if (!shared_count) {
+ 		kfree(shared);
+ 		shared = NULL;
+@@ -454,9 +452,6 @@ int reservation_object_get_fences_rcu(struct reservation_object *obj,
+ 
+ 	*pshared_count = shared_count;
+ 	*pshared = shared;
+-	if (pfence_excl)
+-		*pfence_excl = fence_excl;
 -
--	write_seqcount_end(&obj->seq);
--	preempt_enable();
- 	dma_fence_put(old);
+ 	return ret;
  }
- EXPORT_SYMBOL(reservation_object_add_shared_fence);
+ EXPORT_SYMBOL_GPL(reservation_object_get_fences_rcu);
 -- 
 2.17.1
 
