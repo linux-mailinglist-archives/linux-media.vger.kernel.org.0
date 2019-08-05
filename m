@@ -2,126 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3308143E
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 10:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B82281454
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 10:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbfHEIbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Aug 2019 04:31:47 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:46145 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727357AbfHEIbr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 04:31:47 -0400
-Received: by mail-io1-f68.google.com with SMTP id i10so52249482iol.13
-        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 01:31:46 -0700 (PDT)
+        id S1727233AbfHEIeo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Aug 2019 04:34:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42688 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726423AbfHEIeo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 04:34:44 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x1so33579234wrr.9
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 01:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=/9onNqSu8H6T4t+v8bvPux5C3Ze/nalI4ApJroQRttg=;
-        b=aywESScdkNjlGJf+foMrGaH30r3yFivVONl+3QF/vs9mPZxQ7Z9lCSqAyevZxfhXBV
-         p8Y71cVlfFNUQTlqv3fAISo5KNCajOU6OqFY8zXEiQwtgIDNHjm1JLQM8mcmBfK/Essk
-         Vs1iZN+Zd9qsQCZfwGrN71p0/vxpdh1yVob0V5Kddk+Z/nd7sQKhLstCHf0Usgxwwjk9
-         EJQmEKFdpnBimhSdaDaq4sVIY93TaBb8vY1+OPKgg+jhPAp0s/NgDOZ5ohrGB3Cz7R22
-         +L0+ioeTc9pYBSuDbEdoGHFvdgHuYL79kuicaVTPqh+hvyhAcJoXbtOht/1sFRJngb0w
-         qquw==
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id;
+        bh=hIkYpiCXF6GopNuef0iCS8m/j5Ofmo2fnbuqG9ExZwE=;
+        b=ZUKuMCPnDqbYnDRIZhJwELoH1XHMpcoN4lqmnS2abzXOjDyeygvH3C6Zu0cC56LAMO
+         Szio27FKC46d/zOXorwT0wWaWDXGafPValRMcVko3ep6dWVj/kXpgiXjK5Y//JhtzpVH
+         DaImXRn5tLAiqcwx7/ZoxFpG6LJ4zCQTQgKNTMPiT85V2+rzaElvCvJnkYayU8GeKAip
+         Uw1Rww95otF+Uu42eA2sGitx/XaJ0EznN4uw9rp+Kneaw4EquQVXTZQDiHWGtIdxV8Fa
+         rkWPRqJabhlPPpZ7j0gtGbcUkdsoszWC5C/uz4cGVIAukRuD5dwOpSVNGwpyiy2tf1CX
+         TEdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=/9onNqSu8H6T4t+v8bvPux5C3Ze/nalI4ApJroQRttg=;
-        b=R/hoV56hsthPBXhGFjh08YVb2/ks5iR2ZWHCkNPvEOYpHXYnRP+30tmTjOzSL0lijW
-         TNicBeNu06uYzDR9rFltQCk10nFsOYP8ijBL9GTzij8SKbf/s8KFd0IFpo8/kULB4oc4
-         2rMO8w5KlMlxX+cxk2otXfwBusG4m6ULZis1ASGCRLnfcIu5x/DtJ9ecF6eECq6sChxr
-         KbVVp0zDratCOFZqIH9BtzITG/1srokU9JJ1s1FEMpFRsa4NSpGZPBePopttqGOseS37
-         WollBlOc0BEStYc81kwGAQjMXY7dW9GUSjqpnzO210tLvk3kQAAVQ4Dju/lXyv/EHcMz
-         JMAQ==
-X-Gm-Message-State: APjAAAVox3FbfQJM7Rtvnqt4D6bTT5rIYayKRYyX5zB8Adjc9YYspIJm
-        CBC7lttZItNLd2q0EH0B/qlRjyJWcVhzojCjkLs=
-X-Google-Smtp-Source: APXvYqwdH5YrXmNOdQLqeqaHrEbB41XdZAI+QgVn/WPhGXhazC5gC+vdAsxaH69ckpH1PS09DzXuJmzKdsOLUZS7P9M=
-X-Received: by 2002:a02:5b05:: with SMTP id g5mr147889176jab.114.1564993906173;
- Mon, 05 Aug 2019 01:31:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190725131257.6142-1-brgl@bgdev.pl> <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
-In-Reply-To: <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 5 Aug 2019 10:31:35 +0200
-Message-ID: <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform build
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=hIkYpiCXF6GopNuef0iCS8m/j5Ofmo2fnbuqG9ExZwE=;
+        b=EyhYPBmPs+PS2jN4K3VlqSiVd3s/eo+p52DbxPY3bAJuiy/p5tIC8AAuCwkPNFB1k4
+         n0FIrfGOx5jnxn+KBN/cqNt0Ad010P2GxaeegVWGKnprNcKkvl0MWtiVf9HpD9lO4ZML
+         Mt4JqDqIF4ilk/+uJrhMtCvVbSMLwlFDa4I3Ie4Wsw9XYwruOi/Ae/6XCTZIkgbIDuf6
+         lirAGVZS7jnjsIBzDmlD6E05CYKOQxI4yx3cvPSR88qSMYWMXJXDFsHFY+IedjA86eaQ
+         d9lp8IsIwLQI1FZsIQSQLH1eyOMzhZPRwSaAJlQjRfXazRXAWMUhjHOK5VJo2ExnxSfl
+         DE6Q==
+X-Gm-Message-State: APjAAAUh40SepQ8d0oyYgCETL0u2MwiRXSgmDwo4+h5gca6AEgbkktv2
+        md/Ai76hQSj94xxTq4BvU5to3eI0Ti8=
+X-Google-Smtp-Source: APXvYqz0i6Z+HsMvyRzBJQuQPIbyHBlL9+c5I7MJPr6vkGo/H9mUsDXiw/lR6TcLj/H83jOZ7j9OYw==
+X-Received: by 2002:adf:e941:: with SMTP id m1mr10589020wrn.279.1564994082011;
+        Mon, 05 Aug 2019 01:34:42 -0700 (PDT)
+Received: from mms-0440.ent.mm-sol.com ([37.157.136.206])
+        by smtp.gmail.com with ESMTPSA id v124sm89643765wmf.23.2019.08.05.01.34.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 05 Aug 2019 01:34:41 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for v5.4] Venus updates - stateful decoder, take 2
+Date:   Mon,  5 Aug 2019 11:34:36 +0300
+Message-Id: <20190805083436.30921-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-czw., 25 lip 2019 o 16:57 Arnd Bergmann <arnd@arndb.de> napisa=C5=82(a):
->
-> On Thu, Jul 25, 2019 at 3:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote=
-:
-> >
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > This series makes DaVinci part of the multiplatform build for ARM v5.
-> >
-> > First three patches fix build errors spotted and fixed by Arnd with v1.
-> >
-> > The fourth patch adds necessary bits and pieces for davinci to support
-> > multiplatform build and the last one actually adds all davinci boards
-> > to multi_v5_defconfig.
-> >
-> > Tested on da850-lcdk with both multi_v5 as well as davinci_all defconfi=
-gs.
-> >
-> > v1 -> v2:
-> > - added patches from Arnd that fix build errors spotted when building
-> >   random configurations (much appreciated)
-> > - rebased on top of v5.3-rc1
->
-> > Arnd Bergmann (3):
-> > staging: media/davinci_vpfe: fix pinmux setup compilation
-> >  media: davinci-vpbe: remove obsolete includes
-> >  davinci: fix sleep.S build error on ARMv4
-> >
-> > Bartosz Golaszewski (2):
-> >  ARM: davinci: support multiplatform build for ARM v5
-> >  ARM: multi_v5_defconfig: make DaVinci part of the ARM v5 multiplatform=
- build
->
->
-> Thanks a lot for reposting the series!
->
-> I wonder how we shoud deal with the dependencies now that the two media
-> patches got merged in the linux-media tree.
->
-> It would be tempting to just merge the arch/arm/ changes, but that create=
-s
-> a bisection problem when the vpbe driver is enabled. I don't care
-> about the staging driver really as that one is broken anyway, but includi=
-ng
-> the "media: davinci-vpbe: remove obsolete includes" fix would be better
-> here.
->
-> Mauro, any idea for how to handle that? Should we apply an identical
-> patch to the davinci tree, or maybe only have it the ARM tree and you
-> drop it from your tree (I don't know if you have a rule against rebasing)=
-.
-> Sorry for not coordinating with Bartosz before I sent the patch again
-> earlier this week.
->
->
->       Arnd
+Hi Mauro,
 
-Hi Arnd,
+Here is a set of patches to make Venus decoder driver compliant with
+stateful decoder draft documentation.
 
-is there any action required from me for this series?
+Please pull.
 
-Bart
+Changes in take 2:
+Fixed checkpatch Error/warnings.
+
+regards,
+Stan
+
+The following changes since commit d3dd552da3eb16e369d2459e3fa927542f11d17c:
+
+  media: dt-bindings: media: sunxi-ir: Add H6 compatible (2019-08-04 06:36:11 -0300)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.4
+
+for you to fetch changes up to bf86c65719f2ff6a592e543479b4f1dc4c5ec0c7:
+
+  venus: dec: populate properly timestamps and flags for capture buffers (2019-08-05 10:00:07 +0300)
+
+----------------------------------------------------------------
+Venus updates for v5.4
+
+----------------------------------------------------------------
+Malathi Gottam (1):
+      venus: venc: amend buffer size for bitstream plane
+
+Stanimir Varbanov (10):
+      venus: helpers: export few helper functions
+      venus: hfi: add type argument to hfi flush function
+      venus: hfi: export few HFI functions
+      venus: hfi: return an error if session_init is already called
+      venus: helpers: add three more helper functions
+      venus: vdec_ctrls: get real minimum buffers for capture
+      venus: vdec: allow bigger sizeimage set by clients
+      venus: make decoder compliant with stateful codec API
+      venus: helpers: handle correctly vbuf field
+      venus: dec: populate properly timestamps and flags for capture buffers
+
+ drivers/media/platform/qcom/venus/core.h       |  32 +-
+ drivers/media/platform/qcom/venus/helpers.c    | 199 +++++++--
+ drivers/media/platform/qcom/venus/helpers.h    |  11 +
+ drivers/media/platform/qcom/venus/hfi.c        |  11 +-
+ drivers/media/platform/qcom/venus/hfi.h        |   2 +-
+ drivers/media/platform/qcom/venus/vdec.c       | 537 +++++++++++++++++++------
+ drivers/media/platform/qcom/venus/vdec_ctrls.c |   7 +-
+ drivers/media/platform/qcom/venus/venc.c       |  13 +-
+ 8 files changed, 655 insertions(+), 157 deletions(-)
