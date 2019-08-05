@@ -2,137 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 846A781EC5
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 16:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB4F8209A
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2019 17:45:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729002AbfHEONp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Aug 2019 10:13:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54100 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfHEONo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 10:13:44 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EF36828A3A8;
-        Mon,  5 Aug 2019 15:13:41 +0100 (BST)
-Date:   Mon, 5 Aug 2019 16:13:38 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [RFC PATCH 1/5] media: vb2: Add a helper to get the vb2 buffer
- attached to a request
-Message-ID: <20190805161338.7df1e623@collabora.com>
-In-Reply-To: <722ddb41-f7b8-afee-66a3-e99a571da5d7@xs4all.nl>
-References: <20190805094827.11205-1-boris.brezillon@collabora.com>
-        <20190805094827.11205-2-boris.brezillon@collabora.com>
-        <722ddb41-f7b8-afee-66a3-e99a571da5d7@xs4all.nl>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727357AbfHEPp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Aug 2019 11:45:58 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38992 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbfHEPp6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Aug 2019 11:45:58 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x4so31735004wrt.6
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 08:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r9iyE3YOKUeG5ZizxulW4D4UK5rsERFOEpq/DiuLZko=;
+        b=r9V02blzsn/6sU9/5govctOIYa39rlzhhnCWUYpMiBr5RPzdlvmSKgAYjBwfpWrye3
+         GIK3Z0ZsnMO+mIW7sB6C9vQSUBjvGPMf9zOz9aEj6gdIUn3pcZ/tQ0qooolgGvNZepz8
+         FaPAT4RqE1dpCNs8ZzPAtC773iHBIz96czJ0t6bBJzOnt4p+Q+2D2+ZnCttlZ6+jO4Pa
+         8aPnXDJe/Z0fJtACdcGBKFxrlejBuusaM+n5JrCM4ta2LG/MSd9uho9HFVxSEJa9JkTj
+         yFCpY3TQfzmD8E024Pzjk7wIcO7LSPBYD8jj6yKYumTylx2nIs0rWabchkJmVBZDT81z
+         1mvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r9iyE3YOKUeG5ZizxulW4D4UK5rsERFOEpq/DiuLZko=;
+        b=K4WvUqw4PZ4EtAP+0/+8pYRv6QzA3dESPUWUvQlW94LS0tYVFoYMC4FiYVuBjUtp/m
+         8IlCLT+f6ugPKBQ0NAXJW1pH2cHnvP9VJJzXkoKGAC155wZoLNHDpnmoCW8hOewOcdcv
+         +pcyFf22/dCQhxr6HXjIYCnjvM22hSV7V0sMb8fBmiL97KG2pgSQI3idu6EyrtCla2mS
+         6ny/2YpYHyX4rjt26wW8tNKEo5NK4zxxHwwrr/9j3muDY8m3WV3eiaF2mlOurOOoShgu
+         6JOOJ1EbocoZO/bkmx2ZiLwIdTokrDJFhzFg10PkEEfPN7zbfnZS2SkosCyqpv24uZ3c
+         RuRA==
+X-Gm-Message-State: APjAAAVjP+HVPfJIv/SMnGLIxMGj1GQte6JYzmDrQ5q0JR7SBBjkw/6Y
+        mrSfGMpKkyFomnbmtQiSRGRgB/jG
+X-Google-Smtp-Source: APXvYqwCfN2jELpOVXfZqazfG5tJI+AkZ8uPPiqhfPSXd+Hfql7qg3WBGsEluL6UnV4wSsPytaVFDA==
+X-Received: by 2002:a05:6000:14b:: with SMTP id r11mr11212622wrx.196.1565019956350;
+        Mon, 05 Aug 2019 08:45:56 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:fdbd:6233:4990:5a8d])
+        by smtp.gmail.com with ESMTPSA id 91sm171836865wrp.3.2019.08.05.08.45.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 05 Aug 2019 08:45:55 -0700 (PDT)
+From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
+        <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To:     intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        chris@chris-wilson.co.uk
+Subject: [PATCH 1/5] drm/i915: stop pruning reservation object after wait
+Date:   Mon,  5 Aug 2019 17:45:50 +0200
+Message-Id: <20190805154554.3476-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 5 Aug 2019 10:12:53 -0300
-Hans Verkuil <hverkuil@xs4all.nl> wrote:
+The reservation object should be capable of handling its internal memory
+management itself. And since we search for a free slot to add the fence
+from the beginning this is actually a waste of time and only minimal helpful.
 
-> On 8/5/19 6:48 AM, Boris Brezillon wrote:
-> > vb2_request_get_buf() returns the N-th buffer attached to a media
-> > request.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >   .../media/common/videobuf2/videobuf2-core.c   | 23 +++++++++++++++++++
-> >   include/media/videobuf2-core.h                | 11 +++++++++
-> >   2 files changed, 34 insertions(+)
-> > 
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> > index 4489744fbbd9..58769f0c8665 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > @@ -1416,6 +1416,29 @@ unsigned int vb2_request_buffer_cnt(struct media_request *req)
-> >   }
-> >   EXPORT_SYMBOL_GPL(vb2_request_buffer_cnt);
-> >   
-> > +struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
-> > +				       unsigned int idx)
-> > +{
-> > +	struct media_request_object *obj;
-> > +	struct vb2_buffer *buf = NULL;
-> > +	unsigned int nbufs = 0;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&req->lock, flags);
-> > +	list_for_each_entry(obj, &req->objects, list) {
-> > +		if (!vb2_request_object_is_buffer(obj) ||
-> > +		    nbufs++ < idx)
-> > +			continue;
-> > +
-> > +		buf = container_of(obj, struct vb2_buffer, req_obj);
-> > +		break;
-> > +	}
-> > +	spin_unlock_irqrestore(&req->lock, flags);
-> > +
-> > +	return buf;
-> > +}
-> > +EXPORT_SYMBOL_GPL(vb2_request_get_buf);
-> > +
-> >   int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
-> >   {
-> >   	struct vb2_buffer *vb;
-> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> > index 640aabe69450..febf3261a120 100644
-> > --- a/include/media/videobuf2-core.h
-> > +++ b/include/media/videobuf2-core.h
-> > @@ -1222,4 +1222,15 @@ bool vb2_request_object_is_buffer(struct media_request_object *obj);
-> >    */
-> >   unsigned int vb2_request_buffer_cnt(struct media_request *req);
-> >   
-> > +/**
-> > + * vb2_request_get_buf() - return the buffer at index @idx
-> > + *
-> > + * @req:	the request.
-> > + * @idx:	index of the buffer in the req object list  
-> 
-> This is confusing: it suggests that you are talking about the buffer
-> index itself (buf->index) instead of the nth buffer in the request.
+Drop it to allow removal of the seqno handling in the reservation object.
 
-How about:
+This essentially reverts commit "drm/i915: Remove completed fences after a wait".
 
-@n: search for the Nth buffer in the req object list
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c | 27 ------------------------
+ 1 file changed, 27 deletions(-)
 
-> 
-> Looks good otherwise.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > + *
-> > + * Return a vb2 buffer or NULL if there's no buffer at the specified index
-> > + */
-> > +struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
-> > +				       unsigned int idx);
-> > +
-> >   #endif /* _MEDIA_VIDEOBUF2_CORE_H */
-> >   
-> 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+index 26ec6579b7cd..bb64ec6bef8e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+@@ -35,9 +35,7 @@ i915_gem_object_wait_reservation(struct reservation_object *resv,
+ 				 unsigned int flags,
+ 				 long timeout)
+ {
+-	unsigned int seq = __read_seqcount_begin(&resv->seq);
+ 	struct dma_fence *excl;
+-	bool prune_fences = false;
+ 
+ 	if (flags & I915_WAIT_ALL) {
+ 		struct dma_fence **shared;
+@@ -61,17 +59,6 @@ i915_gem_object_wait_reservation(struct reservation_object *resv,
+ 		for (; i < count; i++)
+ 			dma_fence_put(shared[i]);
+ 		kfree(shared);
+-
+-		/*
+-		 * If both shared fences and an exclusive fence exist,
+-		 * then by construction the shared fences must be later
+-		 * than the exclusive fence. If we successfully wait for
+-		 * all the shared fences, we know that the exclusive fence
+-		 * must all be signaled. If all the shared fences are
+-		 * signaled, we can prune the array and recover the
+-		 * floating references on the fences/requests.
+-		 */
+-		prune_fences = count && timeout >= 0;
+ 	} else {
+ 		excl = reservation_object_get_excl_rcu(resv);
+ 	}
+@@ -80,20 +67,6 @@ i915_gem_object_wait_reservation(struct reservation_object *resv,
+ 		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
+ 
+ 	dma_fence_put(excl);
+-
+-	/*
+-	 * Opportunistically prune the fences iff we know they have *all* been
+-	 * signaled and that the reservation object has not been changed (i.e.
+-	 * no new fences have been added).
+-	 */
+-	if (prune_fences && !__read_seqcount_retry(&resv->seq, seq)) {
+-		if (reservation_object_trylock(resv)) {
+-			if (!__read_seqcount_retry(&resv->seq, seq))
+-				reservation_object_add_excl_fence(resv, NULL);
+-			reservation_object_unlock(resv);
+-		}
+-	}
+-
+ 	return timeout;
+ }
+ 
+-- 
+2.17.1
 
