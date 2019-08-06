@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4DBB83404
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 16:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6230783407
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 16:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732983AbfHFOfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Aug 2019 10:35:14 -0400
-Received: from mail-out.m-online.net ([212.18.0.10]:41138 "EHLO
+        id S1732997AbfHFOfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Aug 2019 10:35:19 -0400
+Received: from mail-out.m-online.net ([212.18.0.10]:50762 "EHLO
         mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728756AbfHFOfO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 10:35:14 -0400
+        with ESMTP id S1731984AbfHFOfS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 10:35:18 -0400
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 462xxV6DX6z1rVv9;
-        Tue,  6 Aug 2019 16:35:10 +0200 (CEST)
+        by mail-out.m-online.net (Postfix) with ESMTP id 462xxb158kz1rVvp;
+        Tue,  6 Aug 2019 16:35:15 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 462xxV5NWMz1qqkQ;
-        Tue,  6 Aug 2019 16:35:10 +0200 (CEST)
+        by mail.m-online.net (Postfix) with ESMTP id 462xxb0HTfz1qqkR;
+        Tue,  6 Aug 2019 16:35:15 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
         by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id LHj61_sut0SF; Tue,  6 Aug 2019 16:35:08 +0200 (CEST)
-X-Auth-Info: j3+SvpMbHsWbQLXgZMvnHeWgBWarzBwrIwc1lT4beaA=
+        with ESMTP id GrJifkBdOOAK; Tue,  6 Aug 2019 16:35:12 +0200 (CEST)
+X-Auth-Info: 7fXuCd2jklhR15Q3R0u3m4rnPhcSgxOxpRKj5ABhWOM=
 Received: from [IPv6:::1] (unknown [195.140.253.167])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Tue,  6 Aug 2019 16:35:08 +0200 (CEST)
+        Tue,  6 Aug 2019 16:35:12 +0200 (CEST)
+From:   Marek Vasut <marex@denx.de>
 Subject: Re: [PATCH 1/2] media: dt-bindings: Add Intersil ISL7998x DT bindings
-To:     Ian Arkver <ian.arkver.dev@gmail.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org,
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Ian Arkver <ian.arkver.dev@gmail.com>, linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
@@ -43,8 +43,7 @@ References: <20190520201812.7937-1-marex@denx.de>
  <e481c8a1-a0c8-f0d9-9df7-e016e5c3bc57@denx.de>
  <59881e2a-56c2-3801-2058-d939b25d6259@gmail.com>
  <acb6c57e-49da-614b-d9fd-833b5eca131c@denx.de>
- <040ee008-2ae9-40d3-fa2f-729e7da4331a@gmail.com>
-From:   Marek Vasut <marex@denx.de>
+ <20190529134321.3naykdw4jx5xu3jl@uno.localdomain>
 Openpgp: preference=signencrypt
 Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
  mQINBFHmnxgBEACuQOC6Kaw/32MTeUJdFuDZ1FrbG76a0Ys/I02Kj9jXDmCCLvqq18Z4A1b0
@@ -88,12 +87,12 @@ Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
  tgPc2T/X/ETe5eCuhxMytIYbt1fK2pDXPoIKbbDK4uEmg9USXZ+pYrac4PFo1d+6D6vmTjRZ
  GRRITOVpKgBndfPyqofxeKNKGdNf9FS/x89RlnDWXsQHm+0pXguSRG9XdB16ZFNgeo8SeZVr
  qc9uLfhyQp/zB6qEnuX1TToug7PuDgcNZdjN3vgTXyno2TFMxp/LKHqg
-Message-ID: <e11b2f2b-1455-a3ce-e228-96e7fe9897e2@denx.de>
-Date:   Tue, 6 Aug 2019 15:35:13 +0200
+Message-ID: <3a8dc708-a504-714f-8799-7e4622f42d02@denx.de>
+Date:   Tue, 6 Aug 2019 15:35:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <040ee008-2ae9-40d3-fa2f-729e7da4331a@gmail.com>
+In-Reply-To: <20190529134321.3naykdw4jx5xu3jl@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -102,10 +101,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/29/19 1:15 PM, Ian Arkver wrote:
-> Hi Marek,
-> 
-> On 29/05/2019 12:09, Marek Vasut wrote:
+On 5/29/19 3:43 PM, Jacopo Mondi wrote:
+> HI Marek,
+
+Hi,
+
+> On Wed, May 29, 2019 at 01:09:47PM +0200, Marek Vasut wrote:
 >> On 5/29/19 1:04 PM, Ian Arkver wrote:
 >>> Hi,
 >>>
@@ -118,12 +119,10 @@ On 5/29/19 1:15 PM, Ian Arkver wrote:
 >>>>>>>>> https://www.renesas.com/eu/en/products/audio-video/video-decoders-encoders/video-decoders/device/ISL79987.html
 >>>>>>>>>
 >>>>>>>>>
->>>>>>>>>
 >>>>>>>>>> +Required Properties:
 >>>>>>>>>> +- compatible: value should be "isil,isl79987"
 >>>>>>>
->>>>>>> And here you might want to have 2 different compatibles for 79987
->>>>>>> and
+>>>>>>> And here you might want to have 2 different compatibles for 79987 and
 >>>>>>> 79988.
 >>>>>>
 >>>>>> The 79988 is not supported yet, do we want to have it in the binding
@@ -143,8 +142,7 @@ On 5/29/19 1:15 PM, Ian Arkver wrote:
 >>>>
 >>>>>> [...]
 >>>>>>
->>>>>>>>> I see from the example you only support one output port? How do
->>>>>>>>> you
+>>>>>>>>> I see from the example you only support one output port? How do you
 >>>>>>>>> model the input ones.
 >>>>>>>>
 >>>>>>>> I don't . Do we model analog inputs now somehow ?
@@ -153,23 +151,21 @@ On 5/29/19 1:15 PM, Ian Arkver wrote:
 >>>>>>> Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
 >>>>>>>
 >>>>>>>
->>>>>>>
 >>>>>>> And as an example of a board device tree using connectors to model
 >>>>>>> analog input see how the cvbs input on Salvator-X is described:
 >>>>>>>
->>>>>>>      cvbs-in {
->>>>>>>          compatible = "composite-video-connector";
->>>>>>>          label = "CVBS IN";
+>>>>>>>     cvbs-in {
+>>>>>>>         compatible = "composite-video-connector";
+>>>>>>>         label = "CVBS IN";
 >>>>>>>
->>>>>>>          port {
->>>>>>>              cvbs_con: endpoint {
->>>>>>>                  remote-endpoint = <&adv7482_ain7>;
->>>>>>>              };
->>>>>>>          };
->>>>>>>      };
+>>>>>>>         port {
+>>>>>>>             cvbs_con: endpoint {
+>>>>>>>                 remote-endpoint = <&adv7482_ain7>;
+>>>>>>>             };
+>>>>>>>         };
+>>>>>>>     };
 >>>>>>>
->>>>>>> I think you should provide 4 input ports, where to connect input
->>>>>>> from
+>>>>>>> I think you should provide 4 input ports, where to connect input from
 >>>>>>> the analog connectors, and derive the number of enabled inputs from
 >>>>>>> the number of endpoints connected to an active remote.
 >>>>>>
@@ -177,10 +173,8 @@ On 5/29/19 1:15 PM, Ian Arkver wrote:
 >>>>>> binding
 >>>>>> makes sense.
 >>>>>>
->>>>>> However unlike the adv7482, the isl79987 does not support
->>>>>> remapping the
->>>>>> physical inputs to ADCs in the chip. It does support some
->>>>>> remapping of
+>>>>>> However unlike the adv7482, the isl79987 does not support remapping the
+>>>>>> physical inputs to ADCs in the chip. It does support some remapping of
 >>>>>> physical inputs to MIPI CSI2 channels, but that's probably not very
 >>>>>> useful.
 >>>>>>
@@ -189,21 +183,102 @@ On 5/29/19 1:15 PM, Ian Arkver wrote:
 >>>>> correctly pointed out here below that DT should describe hardware, and
 >>>>> the hardware has indeed 4 input ports..
 >>>>
->>>> My question here is whether it makes sense to describe the ports
->>>> even if
+>>>> My question here is whether it makes sense to describe the ports even if
 >>>> they cannot be muxed to different ADC. Does it ?
 >>>
 >>> Each input port can be either differential CVBS or single ended with a
 >>> 2:1 input select mux. It would be nice to be able to describe this.
 >>
 >> Where do you see that ?
+>>
+>>> You cannot remap the inputs to different ADCs, but you can remap the
+>>> ADCs to different VC IDs using the
+>>> ISL7998x_REG_P5_LI_ENGINE_VC_ASSIGNMENT register. Describing each input
+>>> would proivde somewhere to specify the vc-id.
+>>
+>> I think Jacopo mentioned above the input muxing and the MIPI CSI2 VC
+>> muxing are two separate things. But I have to wonder, do we have a way
+>> of muxing the VCs in the DT or via the media controller yet ?
 > 
-> Bits 0 and 1 of each channel page's Differential Clamping Control 4
-> (0x39, ISL7998x_REG_Px_DEC_DIFF_CLMP_CTL_4).
+> I'm not sure I get what you mean with "input muxing", do you mean
+> controlling which input is directed to which ADC ?
+
+Yes
+
+> I don't have the
+> chip manual, but according to what you and Ian said this is not
+> possible.
+
+Correct. You can only remap ADC output(s) to different MIPI CSI2 VC(s).
+
+> Selecting which input video stream is directed to which CSI-2 virtual
+> channel in the output CSI-2 stream is not possible in mainline. There
+> are patches in development that would allow you to do so, but their
+> design is not fully finalized yet. They would, in any case, require
+> you to have one sink pad for each input port
+
+Right, and the iMX6 CSI2 driver which I use for development doesn't
+support that yet either.
+
+>, and while you could
+> register as many pads as it is specified in your custom property,
+> you would loose the notion of which input is connected to which port
+> ie. when a single input (isil,num-inputs=1) is connected to an input
+> port which is not the first one (anyway, quickly looking at 2/2 it
+> seems to me you only register a single source pad for this device).
 > 
-> I don't think you change it from the default (single ended on the first
-> input).
+> The DT bindings layout is an orthogonal problem though. My opinion is
+> that as the chip has 4 available input connections it should have 4
+> input ports in the bindings definition, and for each one you would
+> register a sink pad.
 
-I don't, since I have no way to test the differential mode of operation.
+Who would be the source for such an input "sink" pad though ? I looked
+at
+Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt,
+as you suggested above, but this is for video _OUTPUT_ devices, not
+input devices, so that's likely not what I want.
 
-[...]
+> Only the actually connected ones should be present
+> in the DTS, so that the driver knows which input port is active and,
+> once something that allows you to control VC will land in mainline,
+> it will let you tell something like "I want the video stream
+> received on the input port@2 sent in virtual channel x in the output
+> CSI-2 stream", but again this is quite an orthogonal issue. Sure thing
+> is that with the current design and implementation, which afaict does
+> not provides any sink pad, this is frowned upon (but you can then say
+> 'who cares, since it's not here yet' :)
+
+Fine, so let's ignore this for now.
+
+> Or what Ian said, if you can model a connector that provides 2 single
+> ended inputs, each connected to an input port and muxed internally by
+> the chip, you could only do that if you have numbered input ports I
+> guess. Nobody requires you support any of these, but at least bindings
+> should be defined in a future proof way, to avoid later changes to the
+> ABI.
+
+Well, if endpoint 0 is the MIPI CSI2 output, then you can always add
+more endpoints (1..4) for the analog inputs . In this way , the bindings
+are already future-proof.
+
+Or shall the input ports come first (as endpoints 0..3) and be followed
+by the MIPI CSI2 output (4) ? If so, that would make counting the
+(varying number of) inputs a bit cumbersome in the driver.
+
+> Anyway, you had my opinion, multiple times already, and as I'm not in
+> any position to judge if something is acceptable for merge or not,
+> I'll now get quiet hoping that this prolonged email exchange drags in
+> opinion from more experienced people to tell you which direction you
+> should take and if what you have here is fine already or not :)
+> 
+> Cheers
+>    j
+> 
+>>
+>> --
+>> Best regards,
+>> Marek Vasut
+
+-- 
+Best regards,
+Marek Vasut
