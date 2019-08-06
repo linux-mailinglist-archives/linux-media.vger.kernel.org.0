@@ -2,211 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 560FA8328F
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 15:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4DBB83404
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 16:35:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732419AbfHFNSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Aug 2019 09:18:23 -0400
-Received: from mail-oi1-f197.google.com ([209.85.167.197]:48139 "EHLO
-        mail-oi1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727259AbfHFNSJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 09:18:09 -0400
-Received: by mail-oi1-f197.google.com with SMTP id a198so34782304oii.15
-        for <linux-media@vger.kernel.org>; Tue, 06 Aug 2019 06:18:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=FzofwumTSU8y/88bVgKq30Q1wa7L3Zs0EynGj0t5zVA=;
-        b=Q5T8CyHTA2wIwyBPbUkdHlhpRoNmNRuqV/MbJRmjbGJtj+D+RuKQVl65ofRdyNn6Hd
-         PLg9TWFTEw2YRzMzDmAhkoLthsdpOp7oLHGjekRx8fFFzDCPADCeSn7bywyLPyl19DJO
-         Yo7me02GWqXpUexIX7pj2zWoQS1B8B3o/KenMPGrqUnHO7yUo5eX2vIqnZ7/yeYL/t0c
-         KHoQMmsvKCrKb5Mxi0zPFDL0ebDS9+CiJ3peBL/yL6nm5vPPCeMHoGbv9gGnwTnZvfe3
-         jqY7DdjDcwKxgs7rH4G8CGUMj+Nlz+60QVQQFewVV74kuLPWFde5dBlMfSrx0TPVfI6d
-         so9w==
-X-Gm-Message-State: APjAAAXVtJvhTYqV4tABTNm016ufv4Q9T6P21JfExrndwil4oc9QcXxC
-        YejyyD12Pp8TQaOOq43Dxrgg9V8QAqB1cMiVFbkJ7vMrqF+D
-X-Google-Smtp-Source: APXvYqwERZclYzGK3ibAlILoDHf/eIeqkDu5Ax8+RtDrben6RlQkxe96IVhNBYID1F3TxDWCilTdzplr0DB8CwKIybGSnqrdvEas
+        id S1732983AbfHFOfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Aug 2019 10:35:14 -0400
+Received: from mail-out.m-online.net ([212.18.0.10]:41138 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728756AbfHFOfO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 10:35:14 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 462xxV6DX6z1rVv9;
+        Tue,  6 Aug 2019 16:35:10 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 462xxV5NWMz1qqkQ;
+        Tue,  6 Aug 2019 16:35:10 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id LHj61_sut0SF; Tue,  6 Aug 2019 16:35:08 +0200 (CEST)
+X-Auth-Info: j3+SvpMbHsWbQLXgZMvnHeWgBWarzBwrIwc1lT4beaA=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Tue,  6 Aug 2019 16:35:08 +0200 (CEST)
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add Intersil ISL7998x DT bindings
+To:     Ian Arkver <ian.arkver.dev@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20190520201812.7937-1-marex@denx.de>
+ <20190528114758.a4oac3zgdy7dkx7k@uno.localdomain>
+ <6cd36678-2a2c-2a43-e245-4263c0e0f666@denx.de>
+ <20190528151036.nxsh7tjyqrbpbrhy@uno.localdomain>
+ <08c1a65e-dcc5-e1ae-053a-823931b9ec15@denx.de>
+ <20190529062844.bsdg7u7rgvkcmq6k@uno.localdomain>
+ <e481c8a1-a0c8-f0d9-9df7-e016e5c3bc57@denx.de>
+ <59881e2a-56c2-3801-2058-d939b25d6259@gmail.com>
+ <acb6c57e-49da-614b-d9fd-833b5eca131c@denx.de>
+ <040ee008-2ae9-40d3-fa2f-729e7da4331a@gmail.com>
+From:   Marek Vasut <marex@denx.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=marex@denx.de; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <e11b2f2b-1455-a3ce-e228-96e7fe9897e2@denx.de>
+Date:   Tue, 6 Aug 2019 15:35:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:303:: with SMTP id w3mr4012283jap.103.1565097488096;
- Tue, 06 Aug 2019 06:18:08 -0700 (PDT)
-Date:   Tue, 06 Aug 2019 06:18:08 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000d128c2058f72a73b@google.com>
-Subject: KASAN: use-after-free Read in dvb_usb_device_exit (2)
-From:   syzbot <syzbot+c58e976e022432ee60b4@syzkaller.appspotmail.com>
-To:     allison@lohutok.net, andreyknvl@google.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mail@maciej.szmigiero.name,
-        mchehab@kernel.org, oneukum@suse.com, sean@mess.org,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+In-Reply-To: <040ee008-2ae9-40d3-fa2f-729e7da4331a@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On 5/29/19 1:15 PM, Ian Arkver wrote:
+> Hi Marek,
+> 
+> On 29/05/2019 12:09, Marek Vasut wrote:
+>> On 5/29/19 1:04 PM, Ian Arkver wrote:
+>>> Hi,
+>>>
+>>> On 29/05/2019 11:41, Marek Vasut wrote:
+>>>> On 5/29/19 8:28 AM, Jacopo Mondi wrote:
+>>>>
+>>>> [...]
+>>>>
+>>>>>>>>> [1]
+>>>>>>>>> https://www.renesas.com/eu/en/products/audio-video/video-decoders-encoders/video-decoders/device/ISL79987.html
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> +Required Properties:
+>>>>>>>>>> +- compatible: value should be "isil,isl79987"
+>>>>>>>
+>>>>>>> And here you might want to have 2 different compatibles for 79987
+>>>>>>> and
+>>>>>>> 79988.
+>>>>>>
+>>>>>> The 79988 is not supported yet, do we want to have it in the binding
+>>>>>> doc?
+>>>>>>
+>>>>>
+>>>>> I got mislead by the isl7998x naming scheme you used...
+>>>>>
+>>>>> I would say that's up to you, the two chips seems very similar,
+>>>>> and it might make sense to provide bindings that support both. At the
+>>>>> same time, as long as the here defined bindings does not prevent
+>>>>> future expansions to include the ISL79988, its support could be safely
+>>>>> post-poned. In that case please s/isl7998x/isl79987/ in this document
+>>>>> and do not mention BT565 in the description.
+>>>>
+>>>> Right
+>>>>
+>>>>>> [...]
+>>>>>>
+>>>>>>>>> I see from the example you only support one output port? How do
+>>>>>>>>> you
+>>>>>>>>> model the input ones.
+>>>>>>>>
+>>>>>>>> I don't . Do we model analog inputs now somehow ?
+>>>>>>>
+>>>>>>> I really think so, please see:
+>>>>>>> Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> And as an example of a board device tree using connectors to model
+>>>>>>> analog input see how the cvbs input on Salvator-X is described:
+>>>>>>>
+>>>>>>>      cvbs-in {
+>>>>>>>          compatible = "composite-video-connector";
+>>>>>>>          label = "CVBS IN";
+>>>>>>>
+>>>>>>>          port {
+>>>>>>>              cvbs_con: endpoint {
+>>>>>>>                  remote-endpoint = <&adv7482_ain7>;
+>>>>>>>              };
+>>>>>>>          };
+>>>>>>>      };
+>>>>>>>
+>>>>>>> I think you should provide 4 input ports, where to connect input
+>>>>>>> from
+>>>>>>> the analog connectors, and derive the number of enabled inputs from
+>>>>>>> the number of endpoints connected to an active remote.
+>>>>>>
+>>>>>> Deriving the number of active physical inputs from some existing
+>>>>>> binding
+>>>>>> makes sense.
+>>>>>>
+>>>>>> However unlike the adv7482, the isl79987 does not support
+>>>>>> remapping the
+>>>>>> physical inputs to ADCs in the chip. It does support some
+>>>>>> remapping of
+>>>>>> physical inputs to MIPI CSI2 channels, but that's probably not very
+>>>>>> useful.
+>>>>>>
+>>>>>
+>>>>> I understand, but I will now use against you the argument you have
+>>>>> correctly pointed out here below that DT should describe hardware, and
+>>>>> the hardware has indeed 4 input ports..
+>>>>
+>>>> My question here is whether it makes sense to describe the ports
+>>>> even if
+>>>> they cannot be muxed to different ADC. Does it ?
+>>>
+>>> Each input port can be either differential CVBS or single ended with a
+>>> 2:1 input select mux. It would be nice to be able to describe this.
+>>
+>> Where do you see that ?
+> 
+> Bits 0 and 1 of each channel page's Differential Clamping Control 4
+> (0x39, ISL7998x_REG_Px_DEC_DIFF_CLMP_CTL_4).
+> 
+> I don't think you change it from the default (single ended on the first
+> input).
 
-syzbot found the following crash on:
+I don't, since I have no way to test the differential mode of operation.
 
-HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=114fd9aa600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-dashboard link: https://syzkaller.appspot.com/bug?extid=c58e976e022432ee60b4
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173ee42c600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d9442c600000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+c58e976e022432ee60b4@syzkaller.appspotmail.com
-
-input: TeVii S421 PCI as  
-/devices/platform/dummy_hcd.0/usb1/1-1/rc/rc0/input5
-dvb-usb: schedule remote query interval to 150 msecs.
-dw2102: su3000_power_ctrl: 0, initialized 1
-dvb-usb: TeVii S421 PCI successfully initialized and connected.
-usb 1-1: USB disconnect, device number 2
-==================================================================
-BUG: KASAN: use-after-free in dvb_usb_device_exit+0x19a/0x1a0  
-drivers/media/usb/dvb-usb/dvb-usb-init.c:305
-Read of size 8 at addr ffff8881d50468e8 by task kworker/1:1/22
-
-CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.3.0-rc2+ #25
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x6a/0x32c mm/kasan/report.c:351
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
-  kasan_report+0xe/0x12 mm/kasan/common.c:612
-  dvb_usb_device_exit+0x19a/0x1a0  
-drivers/media/usb/dvb-usb/dvb-usb-init.c:305
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1120 [inline]
-  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1151
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-  device_del+0x420/0xb10 drivers/base/core.c:2288
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
-  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Allocated by task 22:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:487 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:460
-  slab_post_alloc_hook mm/slab.h:520 [inline]
-  slab_alloc_node mm/slub.c:2766 [inline]
-  slab_alloc mm/slub.c:2774 [inline]
-  __kmalloc_track_caller+0xc8/0x2a0 mm/slub.c:4331
-  kmemdup+0x23/0x50 mm/util.c:120
-  kmemdup include/linux/string.h:432 [inline]
-  dw2102_probe+0x627/0xc40 drivers/media/usb/dvb-usb/dw2102.c:2372
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Freed by task 22:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:449
-  slab_free_hook mm/slub.c:1423 [inline]
-  slab_free_freelist_hook mm/slub.c:1470 [inline]
-  slab_free mm/slub.c:3012 [inline]
-  kfree+0xe4/0x2f0 mm/slub.c:3953
-  dw2102_probe+0x871/0xc40 drivers/media/usb/dvb-usb/dw2102.c:2406
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8881d5046600
-  which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 744 bytes inside of
-  4096-byte region [ffff8881d5046600, ffff8881d5047600)
-The buggy address belongs to the page:
-page:ffffea0007541000 refcount:1 mapcount:0 mapping:ffff8881da00c280  
-index:0x0 compound_mapcount: 0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da00c280
-raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881d5046780: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881d5046800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881d5046880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                           ^
-  ffff8881d5046900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881d5046980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+[...]
