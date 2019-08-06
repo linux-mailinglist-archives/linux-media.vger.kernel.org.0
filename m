@@ -2,153 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6757582A13
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 05:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B1882A30
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 06:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729383AbfHFDmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Aug 2019 23:42:02 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45207 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728892AbfHFDmC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Aug 2019 23:42:02 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:1d34:926e:3086:e1e])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id uqMJhaewjAffAuqMKh2AU7; Tue, 06 Aug 2019 05:42:00 +0200
-Message-ID: <83aa84c941ae122e61f2de0060f9ecff@smtp-cloud9.xs4all.net>
-Date:   Tue, 06 Aug 2019 05:41:59 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfGSvqPJMoY6RbynDpDpoEpi6Xdug4pmPyK96+PgP9WB4d5rZlVpSALrIGJsWcWI5XRsY8ED4oMc9fT4Q9GtedVdm6WNCVc249mLSaDGLTeoZpaZSoV04
- O18A6s/nh8oA5K28i54jN5nqApzDl8wVWnijGeziZP+V0YE3Qj8/tYTzANc0FxPME+ddYW8e9P35CX6NJWsA7ZkZzieTlP8Rjch04A576MBFZ+cySzqTf+9o
+        id S1727927AbfHFEQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Aug 2019 00:16:15 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:39972 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725853AbfHFEQP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 00:16:15 -0400
+Received: by mail-ed1-f67.google.com with SMTP id k8so80991270eds.7
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 21:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pl4laxveqxbFoLVSBJBsq2q/ipMs/mfndz3RNUveMcY=;
+        b=DzyWmD70Zod3tb8nY7SBaJ4s0DWTv5hzieoY1t3GEvpTHlT0z0PqeA5HuhuyPtBXeO
+         ssFzaWqQydsNv2erkIXMw18neZsvg1hmc5NXlBGD3cK5nXU8UlbWgbWVvWG1eFtUd9J1
+         9chrOStlqltKvAyh1pVAZbCTr1c3uxL9tphL8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pl4laxveqxbFoLVSBJBsq2q/ipMs/mfndz3RNUveMcY=;
+        b=hxC+NXqeG/2+sc54x159ksRvlM1DROGzAcvbVba9ND/JqKO0j4DKaissMVxHXLecRt
+         D5jrscx7fr07nl+eZoc7wot2hUBUK/Du7R5naqf1AzWAe6eN5ufk1r8rOU1jQFLXtNyv
+         pcZKQhLBzJdGGrLa7iym3+XQ+b0SSLpTBxZRz6+DlpTPZ52c3sQhRsO9J/OWxtsObQTQ
+         vIneRXKsOU/rVoidExg8clXcvimzGDacRqGmvilmLIXduthb0CcGue0+R+0kK7WMdeiq
+         7jq1cY7MOrbOhbvud8Z0Piw4neCNkUY3gi9beNothkjSYL13EMugVqtDcByQAhEWDWKH
+         e8gg==
+X-Gm-Message-State: APjAAAUeJ8w3FNR0QAIH0g4mZv2dl1CNEg4J2lK1iTfpr0LwaxaKvM9e
+        KgGLnxBnDIO7YbYV7slEku1eLkeJDbSTaA==
+X-Google-Smtp-Source: APXvYqzkF8E4Js7OUGdF77iw2fIW+jgdXhlwd/a1Pp6IHb4yf7hllpVDxgVOn/lWvjxse8ZDG8AiQA==
+X-Received: by 2002:a17:906:4d89:: with SMTP id s9mr1220930eju.160.1565064972492;
+        Mon, 05 Aug 2019 21:16:12 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id qq13sm14612391ejb.27.2019.08.05.21.16.10
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 05 Aug 2019 21:16:10 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id l2so74916231wmg.0
+        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2019 21:16:10 -0700 (PDT)
+X-Received: by 2002:a1c:407:: with SMTP id 7mr1839604wme.113.1565064969579;
+ Mon, 05 Aug 2019 21:16:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181017075242.21790-1-henryhsu@chromium.org> <CAAFQd5AL2CnnWLk+i133RRa36HTa0baFkezRhpTXf9YP0DSF1Q@mail.gmail.com>
+ <CAHNYxRwbSSp02Zr4a1z5gh0q6cHUUDnZCqRQU7QtP8LMe3Jp2A@mail.gmail.com>
+ <1610184.U7oo9Z4Yep@avalon> <CAAFQd5A7k2VgmawF-x=AcKhJiG-shrJiCP4Tu9054J0eE91+9w@mail.gmail.com>
+ <d79e0857-c6ae-9e57-52e2-e596864a68f8@metafoo.de> <CAAFQd5C_QucJiZMUgCpztC52Mi3p6HDThHNkcNOm9C+SZUDDYQ@mail.gmail.com>
+ <20190313012451.GR891@pendragon.ideasonboard.com> <CAAFQd5DtSD3TrXz8jaFnmBgpRQ6Gnq+LKxyY+LNZrqiM1pxNVA@mail.gmail.com>
+In-Reply-To: <CAAFQd5DtSD3TrXz8jaFnmBgpRQ6Gnq+LKxyY+LNZrqiM1pxNVA@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 6 Aug 2019 13:15:57 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DreQkUsG9PnUxWMUDo6c+AxQMHm4ErZQFPjGqJz=wmCg@mail.gmail.com>
+Message-ID: <CAAFQd5DreQkUsG9PnUxWMUDo6c+AxQMHm4ErZQFPjGqJz=wmCg@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Add boottime clock support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Alexandru Stan <amstan@chromium.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Heng-Ruey Hsu <henryhsu@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ricky Liang <jcliang@chromium.org>, linux-iio@vger.kernel.org,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Mar 13, 2019 at 11:38 AM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Wed, Mar 13, 2019 at 10:25 AM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Tomasz,
+> >
+> > On Fri, Nov 23, 2018 at 11:46:43PM +0900, Tomasz Figa wrote:
+> > > On Fri, Nov 2, 2018 at 12:03 AM Lars-Peter Clausen wrote:
+> > > > On 11/01/2018 03:30 PM, Tomasz Figa wrote:
+> > > >> On Thu, Nov 1, 2018 at 11:03 PM Laurent Pinchart wrote:
+> > > >>> On Thursday, 18 October 2018 20:28:06 EET Alexandru M Stan wrote:
+> > > >>>> On Wed, Oct 17, 2018 at 9:31 PM, Tomasz Figa wrote:
+> > > >>>>> On Thu, Oct 18, 2018 at 5:50 AM Laurent Pinchart wrote:
+> > > >>>>>> On Wednesday, 17 October 2018 11:28:52 EEST Tomasz Figa wrote:
+> > > >>>>>>> On Wed, Oct 17, 2018 at 5:02 PM Laurent Pinchart wrote:
+> > > >>>>>>>> On Wednesday, 17 October 2018 10:52:42 EEST Heng-Ruey Hsu wrote:
+> > > >>>>>>>>> Android requires camera timestamps to be reported with
+> > > >>>>>>>>> CLOCK_BOOTTIME to sync timestamp with other sensor sources.
+> > > >>>>>>>>
+> > > >>>>>>>> What's the rationale behind this, why can't CLOCK_MONOTONIC work ? If
+> > > >>>>>>>> the monotonic clock has shortcomings that make its use impossible for
+> > > >>>>>>>> proper synchronization, then we should consider switching to
+> > > >>>>>>>> CLOCK_BOOTTIME globally in V4L2, not in selected drivers only.
+> > > >>>>>>>
+> > > >>>>>>> CLOCK_BOOTTIME includes the time spent in suspend, while
+> > > >>>>>>> CLOCK_MONOTONIC doesn't. I can imagine the former being much more
+> > > >>>>>>> useful for anything that cares about the actual, long term, time
+> > > >>>>>>> tracking. Especially important since suspend is a very common event on
+> > > >>>>>>> Android and doesn't stop the time flow there, i.e. applications might
+> > > >>>>>>> wake up the device to perform various tasks at necessary times.
+> > > >>>>>>
+> > > >>>>>> Sure, but this patch mentions timestamp synchronization with other
+> > > >>>>>> sensors, and from that point of view, I'd like to know what is wrong with
+> > > >>>>>> the monotonic clock if all devices use it.
+> > > >>>>>
+> > > >>>>> AFAIK the sensors mentioned there are not camera sensors, but rather
+> > > >>>>> things we normally put under IIO, e.g. accelerometers, gyroscopes and
+> > > >>>>> so on. I'm not sure how IIO deals with timestamps, but Android seems
+> > > >>>>> to operate in the CLOCK_BOTTIME domain. Let me add some IIO folks.
+> > > >>>>>
+> > > >>>>> Gwendal, Alexandru, do you think you could shed some light on how we
+> > > >>>>> handle IIO sensors timestamps across the kernel, Chrome OS and
+> > > >>>>> Android?
+> > > >>>>
+> > > >>>> On our devices of interest have a specialized "sensor" that comes via
+> > > >>>> IIO (from the EC, cros-ec-ring driver) that can be used to more
+> > > >>>> accurately timestamp each frame (since it's recorded with very low
+> > > >>>> jitter by a realtime-ish OS). In some high level userspace thing
+> > > >>>> (specifically the Android Camera HAL) we try to pick the best
+> > > >>>> timestamp from the IIO, whatever's closest to what the V4L stuff gives
+> > > >>>> us.
+> > > >>>>
+> > > >>>> I guess the Android convention is for sensor timestamps to be in
+> > > >>>> CLOCK_BOOTTIME (maybe because it likes sleeping so much). There's
+> > > >>>> probably no advantage to using one over the other, but the important
+> > > >>>> thing is that they have to be the same, otherwise the closest match
+> > > >>>> logic would fail.
+> > > >>>
+> > > >>> That's my understanding too, I don't think CLOCK_BOOTTIME really brings much
+> > > >>> benefit in this case,
+> > > >>
+> > > >> I think it does have a significant benefit. CLOCK_MONOTONIC stops when
+> > > >> the device is sleeping, but the sensors can still capture various
+> > > >> actions. We would lose the time keeping of those actions if we use
+> > > >> CLOCK_MONOTONIC.
+> > > >>
+> > > >>> but it's important than all timestamps use the same
+> > > >>> clock. The question is thus which clock we should select. Mainline mostly uses
+> > > >>> CLOCK_MONOTONIC, and Android CLOCK_BOOTTIME. Would you like to submit patches
+> > > >>> to switch Android to CLOCK_MONOTONIC ? :-)
+> > > >>
+> > > >> Is it Android using CLOCK_BOOTTIME or the sensors (IIO?). I have
+> > > >> almost zero familiarity with the IIO subsystem and was hoping someone
+> > > >> from there could comment on what time domain is used for those
+> > > >> sensors.
+> > > >
+> > > > IIO has the option to choose between BOOTTIME or MONOTONIC (and a few
+> > > > others) for the timestamp on a per device basis.
+> > > >
+> > > > There was a bit of a discussion about this a while back. See
+> > > > https://lkml.org/lkml/2018/7/10/432 and the following thread.
+> > >
+> > > Given that IIO supports BOOTTIME in upstream already and also the
+> > > important advantage of using it over MONOTONIC for systems which keep
+> > > capturing events during sleep, do you think we could move on with some
+> > > way to support it in uvcvideo or preferably V4L2 in general?
+> >
+> > I'm not opposed to that, but I don't think we should approach that from
+> > a UVC point of view. The issue should be addressed in V4L2, and then
+> > driver-specific support could be added, if needed.
+>
+> Yes, fully agreed. The purpose of sending this patch was just to start
+> the discussion on how to support this.
+>
+> Do you think something like a buffer flag called
+> V4L2_BUF_FLAG_TIMESTAMP_BOOTTIME that could be set by the userspace at
+> QBUF could work here? (That would change the timestamp flags
+> semantics, because it used to be just the information from the driver,
+> but shouldn't have any compatibility implications.) I suppose we would
+> also need some capability flag for querying purposes, possibly added
+> to the capability flags returned by REQBUFS/CREATE_BUFS?
 
-Results of the daily build of media_tree:
+Any thoughts?
 
-date:			Tue Aug  6 05:00:11 CEST 2019
-media-tree git hash:	d42974e438feebda372fe4a39d7761cc596abc57
-media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
-v4l-utils git hash:	28be49b4e9d72c5866188cf5ba408541c665c921
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 67d626b059f807573d76221f4d2e8113e6c4339a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Adding Hans and Kieran for more insight.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
