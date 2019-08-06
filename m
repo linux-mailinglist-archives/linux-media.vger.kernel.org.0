@@ -2,121 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BA8983759
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 18:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F45A837BC
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2019 19:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732809AbfHFQxw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Aug 2019 12:53:52 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34285 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728927AbfHFQxw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Aug 2019 12:53:52 -0400
-Received: by mail-wr1-f66.google.com with SMTP id 31so88635084wrm.1;
-        Tue, 06 Aug 2019 09:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=gxNkkJD3b/WJ2BCN1yM/UBEgODs/xbGIxyPlrinnovU=;
-        b=YDWulAFE5M1Cj2s64V8j8s4cLZ1QNjqZ5aD10HE/qncnQNsNiWNP1srKy9Z936zPzZ
-         GfLtuLfTfrrKO3l7ixtUHK6aIHkRVgaik5+aOyFeBIxlxV7xPMyeKBLP45ubBVWxqsvG
-         wv/eUSKpDGVhO/g1WIJNOS0+R9Wfm8cnW8QIO5tIdAWAE7WTYI7POS3z35s1jXLnCod4
-         CWXJQqx3mhYa908hr5zPh9VqNo/osxl0WXgr26ayPgSZw6kCEbUbyRkHjfamOz2yZxLr
-         yYLSsxfbZ8JDyt/lxippVAe3faaTsN4WpYs1vq6t0UsM2gnR9HGI8OGgrzC6l8M2QSke
-         UBOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=gxNkkJD3b/WJ2BCN1yM/UBEgODs/xbGIxyPlrinnovU=;
-        b=QdON+hfanZRqD8cCT+topmyEO3sUEoaRjRnbCJzwxR7wzyRKdss6V4z/oGqbcYIJuj
-         yEAaQiUcSup0dOdcD9704qezWV+sWG1649aB0XfFkQQJR04fHe/YGNfYFqsFg8i0ZOfn
-         E7m3K+9bmLrM6UFrpV53BF3uGz9DFUIKFAUGrwC7iCjQbypQLGew8GOwizn2+GhNsm/J
-         cxaYwQfOU0PC0Sq6CiBr7fimv4dj1maER6Z2UMwo7zjXBU2FJLcJZzN4gGa9IqGb50gr
-         7+4FW0NFPgS4au0CWlzRToaxcQhXO5aRkb/kCss2WZ0RUdgZXmmDnGd2yFpHBmEeq7PW
-         FVPw==
-X-Gm-Message-State: APjAAAUkO6rERWhiSm/BEasrlWqr0J7WYWt6A4e5dn83yDbPHg6cB6uQ
-        MwfZoOfZmUvpESFBrb9ez0bB0zkX
-X-Google-Smtp-Source: APXvYqwkEM8/7FtU/qIz2EzqolfwDqNOFGtE+29zXZgsxLDAnchWnPtpfHMtQFGIzAti+86XMVHClQ==
-X-Received: by 2002:adf:ec49:: with SMTP id w9mr5292515wrn.303.1565110429245;
-        Tue, 06 Aug 2019 09:53:49 -0700 (PDT)
-Received: from [172.30.90.245] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id l15sm2581667wrq.64.2019.08.06.09.53.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Aug 2019 09:53:48 -0700 (PDT)
-Subject: Re: [PATCH 04/22] media: Move v4l2_fwnode_parse_link from v4l2 to
- driver base
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S1732918AbfHFRNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Aug 2019 13:13:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42228 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728189AbfHFRNq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Aug 2019 13:13:46 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7ACF82086D;
+        Tue,  6 Aug 2019 17:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565111625;
+        bh=GcwPgkJicx4YCfVs1IPwu6WwyqpK78qeXeT/YMfDkko=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rTAT9bH7GKNJUZdS8BRtbH8phw4qgZ5+dRNFkldjVWk6dGxX0O1d/RnE/0V20gryu
+         PTJMl31RRRdUsoRUBPiBr87DgRaB/HWSPKLtCibTJQQUtSYBOvQ2oBVDM1HUaAlT2q
+         mkbOtB7+YYYk5DiFCNquMbqioXWuU2alu3yKrGRo=
+Date:   Tue, 6 Aug 2019 18:13:36 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        dri-devel@lists.freedesktop.org,
+        Kostya Serebryany <kcc@google.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        Christoph Hellwig <hch@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Len Brown <lenb@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/ZYNQ ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "open list:ACPI" <linux-acpi@vger.kernel.org>
-References: <20190805233505.21167-1-slongerbeam@gmail.com>
- <20190805233505.21167-5-slongerbeam@gmail.com>
- <CAHp75VcOh8bOf_s6t0ehwGtcYn64QFGj303SVvpHrztEOhTRgg@mail.gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <4750b347-b421-6569-600f-0ced8406460e@gmail.com>
-Date:   Tue, 6 Aug 2019 09:53:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Dmitry Vyukov <dvyukov@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
+Message-ID: <20190806171335.4dzjex5asoertaob@willie-the-truck>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <CAAeHK+yc0D_nd7nTRsY4=qcSx+eQR0VLut3uXMf4NEiE-VpeCw@mail.gmail.com>
+ <20190724140212.qzvbcx5j2gi5lcoj@willie-the-truck>
+ <CAAeHK+xXzdQHpVXL7f1T2Ef2P7GwFmDMSaBH4VG8fT3=c_OnjQ@mail.gmail.com>
+ <20190724142059.GC21234@fuggles.cambridge.arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VcOh8bOf_s6t0ehwGtcYn64QFGj303SVvpHrztEOhTRgg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190724142059.GC21234@fuggles.cambridge.arm.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+On Wed, Jul 24, 2019 at 03:20:59PM +0100, Will Deacon wrote:
+> On Wed, Jul 24, 2019 at 04:16:49PM +0200, Andrey Konovalov wrote:
+> > On Wed, Jul 24, 2019 at 4:02 PM Will Deacon <will@kernel.org> wrote:
+> > > On Tue, Jul 23, 2019 at 08:03:29PM +0200, Andrey Konovalov wrote:
+> > > > Should this go through the mm or the arm tree?
+> > >
+> > > I would certainly prefer to take at least the arm64 bits via the arm64 tree
+> > > (i.e. patches 1, 2 and 15). We also need a Documentation patch describing
+> > > the new ABI.
+> > 
+> > Sounds good! Should I post those patches together with the
+> > Documentation patches from Vincenzo as a separate patchset?
+> 
+> Yes, please (although as you say below, we need a new version of those
+> patches from Vincenzo to address the feedback on v5). The other thing I
+> should say is that I'd be happy to queue the other patches in the series
+> too, but some of them are missing acks from the relevant maintainers (e.g.
+> the mm/ and fs/ changes).
 
-On 8/5/19 11:41 PM, Andy Shevchenko wrote:
-> On Tue, Aug 6, 2019 at 2:37 AM Steve Longerbeam <slongerbeam@gmail.com> wrote:
->> There is nothing v4l2-specific about v4l2_fwnode_{parse|put}_link().
->> Make these functions more generally available by moving them to driver
->> base, with the appropriate name changes to the functions and struct.
->>
->> In the process embed a 'struct fwnode_endpoint' in 'struct fwnode_link'
->> for both sides of the link, and make use of fwnode_graph_parse_endpoint()
->> to fully parse both endpoints. Rename members local_node and
->> remote_node to more descriptive local_port_parent and
->> remote_port_parent.
->>
-> May I ask if it's going to be used outside of v4l2?
+Ok, I've queued patches 1, 2, and 15 on a stable branch here:
 
-It could be, I can see fwnode_graph_parse_link() being useful in DRM, 
-for example. But at this, only media core and v4l2 are making use of it.
+  https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/tbi
 
-This patch was created so that fwnode links can be parsed in a new media 
-core function that forms media links from fwnode links.
+which should find its way into -next shortly via our for-next/core branch.
+If you want to make changes, please send additional patches on top.
 
-The full patchset doesn't seem to be up yet, but see [1] for the cover 
-letter.
+This is targetting 5.4, but I will drop it before the merge window if
+we don't have both of the following in place:
 
-Steve
+  * Updated ABI documentation with Acks from Catalin and Kevin
+  * The other patches in the series either Acked (so I can pick them up)
+    or queued via some other tree(s) for 5.4.
 
-[1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg148910.html
+Make sense?
+
+Cheers,
+
+Will
