@@ -2,449 +2,632 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6355784CE5
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 15:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 358CF84D86
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 15:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388232AbfHGN0M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Aug 2019 09:26:12 -0400
-Received: from mail-ed1-f44.google.com ([209.85.208.44]:40858 "EHLO
-        mail-ed1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388213AbfHGN0M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Aug 2019 09:26:12 -0400
-Received: by mail-ed1-f44.google.com with SMTP id k8so86189056eds.7
-        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2019 06:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0QjvmREjR45+76WZT5ZncbNe7ZAOKj+et9L3PIgmwQw=;
-        b=oYuUKvAzdP81mVXUtzj+k6v54pdMGU1p5UK5sB62IYRmd5SSHUkIDZB7WieiTik0ZH
-         LF94L0AF/0JyJoq+bfHes/U1HX3sFPQDSTVseCCBP8OyP4nErrFHEQ1cWmNgVyeZJOlj
-         cT9iEDoYyRObTElNDzF/9Ig1NC8m34WFPknk4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0QjvmREjR45+76WZT5ZncbNe7ZAOKj+et9L3PIgmwQw=;
-        b=LWdFBars1y6fbJZZQUSvEeP0Uh5FvK72JHGxbFaW7vKP+fhxnRa17j02D2BPRJzULo
-         ZmUmNjZPKbM7fVFDzWTCBq5XUQfzzD4BHPaHL9iCLiNneYarbC8H3bbC6XQNpmhdO36J
-         7b5mm3p/uWl7Wzr43Ne4UeVA/JrveBuAAvAI+cZgzPweiUReVd0RPYGvVtfZCbRADuRZ
-         6WW7icYtP5baERapSHspKx5mPWRWC+WVzWQXxQT40l5cMPSqIuB86eHD4fd4EA/N4QbW
-         mAWz4+1munxNzWdDbhndTaE5HHVCHagSTY5QrLMvj2hWYnJhK1qOjEu08v6QyaKIiyUU
-         5wNQ==
-X-Gm-Message-State: APjAAAUEF2VrhdfE0hnpU7JU/yz73xobtjSwFtLgGJBs5qfWJUkck9+k
-        a0cqpph8dvI5Zf5xEeaVGLLFTFspcQMg/Q==
-X-Google-Smtp-Source: APXvYqx2+VZgAgy7B7RrlcY3elxy8pr8Kdm/SYBasULmtDTsjM/XgGGPT5VnaZ1DO2pKi3Fg40eIAw==
-X-Received: by 2002:a17:906:d201:: with SMTP id w1mr358357ejz.303.1565184368700;
-        Wed, 07 Aug 2019 06:26:08 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id k51sm21393572edb.7.2019.08.07.06.26.06
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Aug 2019 06:26:06 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id x1so41485090wrr.9
-        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2019 06:26:06 -0700 (PDT)
-X-Received: by 2002:adf:fe10:: with SMTP id n16mr10531176wrr.92.1565184365643;
- Wed, 07 Aug 2019 06:26:05 -0700 (PDT)
+        id S2388379AbfHGNiL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Aug 2019 09:38:11 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52884 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387982AbfHGNiL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Aug 2019 09:38:11 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 2F64028C586
+Subject: Re: [PATCH v8 04/14] media: rkisp1: add Rockchip MIPI Synopsys DPHY
+ driver
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        kernel@collabora.com, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        zhengsq@rock-chips.com
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-5-helen.koike@collabora.com>
+ <20190807130558.GF822@valkosipuli.retiisi.org.uk>
+From:   Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <c61498b0-dd4c-53af-db82-169f8dfdc6bd@collabora.com>
+Date:   Wed, 7 Aug 2019 10:37:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <jungo.lin@mediatek.com> <20190611035344.29814-1-jungo.lin@mediatek.com>
- <20190611035344.29814-8-jungo.lin@mediatek.com> <20190710095646.GB181405@chromium.org>
- <1563616681.1212.386.camel@mtksdccf07> <CAAFQd5AmAXm1T0eLPiUTFLv9qiKxe-wZGyXxk0jvge+EanZ3FQ@mail.gmail.com>
- <1564125828.1212.600.camel@mtksdccf07> <CAAFQd5D5m=gGViSY++r5uUS1+91y9=Gpcss1dEXrin_T07H+uQ@mail.gmail.com>
- <1565143899.9157.19.camel@mtksdccf07>
-In-Reply-To: <1565143899.9157.19.camel@mtksdccf07>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 7 Aug 2019 22:25:52 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CfWOvGTUZLJ3Gu6L6ptjQiL7z7sSGG4ktonzCdqieqbQ@mail.gmail.com>
-Message-ID: <CAAFQd5CfWOvGTUZLJ3Gu6L6ptjQiL7z7sSGG4ktonzCdqieqbQ@mail.gmail.com>
-Subject: Re: [RFC,v3 7/9] media: platform: Add Mediatek ISP P1 device driver
-To:     Jungo Lin <jungo.lin@mediatek.com>
-Cc:     devicetree@vger.kernel.org,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <sean.cheng@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <rynn.wu@mediatek.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?B?UnlhbiBZdSAo5L2Z5a2f5L+uKQ==?= <ryan.yu@mediatek.com>,
-        =?UTF-8?B?RnJhbmtpZSBDaGl1ICjpgrHmloflh7Ep?= 
-        <frankie.chiu@mediatek.com>, Hans Verkuil <hverkuil@xs4all.nl>,
-        ddavenport@chromium.org, Sj Huang <sj.huang@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190807130558.GF822@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 7, 2019 at 11:11 AM Jungo Lin <jungo.lin@mediatek.com> wrote:
->
-> Hi, Tomasz:
->
-> On Tue, 2019-08-06 at 18:47 +0900, Tomasz Figa wrote:
-> > Hi Jungo,
-> >
-> > On Fri, Jul 26, 2019 at 4:24 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> > >
-> > > Hi, Tomasz:
-> > >
-> > > On Thu, 2019-07-25 at 18:23 +0900, Tomasz Figa wrote:
-> > > > .Hi Jungo,
-> > > >
-> > > > On Sat, Jul 20, 2019 at 6:58 PM Jungo Lin <jungo.lin@mediatek.com> wrote:
-> > > > >
-> > > > > Hi, Tomasz:
-> > > > >
-> > > > > On Wed, 2019-07-10 at 18:56 +0900, Tomasz Figa wrote:
-> > > > > > Hi Jungo,
-> > > > > >
-> > > > > > On Tue, Jun 11, 2019 at 11:53:42AM +0800, Jungo Lin wrote:
-> > [snip]
->
-> I just keep some questions to be clarified.
-> [snip]
->
-> > > > > > > +           isp_dev->meta0_vb2_index = meta0_vb2_index;
-> > > > > > > +           isp_dev->meta1_vb2_index = meta1_vb2_index;
-> > > > > > > +   } else {
-> > > > > > > +           if (irq_status & SOF_INT_ST) {
-> > > > > > > +                   isp_dev->current_frame = hw_frame_num;
-> > > > > > > +                   isp_dev->meta0_vb2_index = meta0_vb2_index;
-> > > > > > > +                   isp_dev->meta1_vb2_index = meta1_vb2_index;
-> > > > > > > +           }
-> > > > > > > +           irq_handle_notify_event(isp_dev, irq_status, dma_status, 1);
-> > > > > > > +   }
-> > > > > >
-> > > > > > The if and else blocks do almost the same things just in different order. Is
-> > > > > > it really expected?
-> > > > > >
-> > > > >
-> > > > > If we receive HW_PASS1_DON_ST & SOF_INT_ST IRQ events at the same time,
-> > > > > the correct sequence should be handle HW_PASS1_DON_ST firstly to check
-> > > > > any de-queued frame and update the next frame setting later.
-> > > > > Normally, this is a corner case or system performance issue.
-> > > >
-> > > > So it sounds like HW_PASS1_DON_ST means that all data from current
-> > > > frame has been written, right? If I understand your explanation above
-> > > > correctly, that would mean following handling of each interrupt:
-> > > >
-> > > > HW_PASS1_DON_ST:
-> > > >  - CQ executes with next CQ buffer to prepare for next frame. <- how
-> > > > is this handled? does the CQ hardware automatically receive this event
-> > > > from the ISP hadware?
-> > > >  - return VB2 buffers,
-> > > >  - complete requests.
-> > > >
-> > > > SOF_INT_ST:
-> > > >  - send VSYNC event to userspace,
-> > > >  - program next CQ buffer to CQ,
-> > > >
-> > > > SW_PASS1_DON_ST:
-> > > >  - reclaim CQ buffer and enqueue next frame to composing if available
-> > > >
-> > >
-> > > Sorry for our implementation of HW_PASS1_DON_ST.
-> > > It is confusing.
-> > > Below is the revised version based on your conclusion.
-> > > So in our new implemmenation, we just handle SOF_INT_ST &
-> > > SW_PASS1_DON_ST events. We just add one warning message for
-> > > HW_PASS1_DON_ST
-> > >
-> > > HW_PASS1_DON_ST:
-> > > - CQ executes with next CQ buffer to prepare for next frame.
-> > >
-> > > SOF_INT_ST:
-> > > - send VSYNC event to userspace,
-> > > - program next CQ buffer to CQ,
-> > >
-> > > SW_PASS1_DON_ST:
-> > > - reclaim CQ buffer and enqueue next frame to composing if available
-> > > - return VB2 buffers,
-> > > - complete requests.
-> > >
-> > > For CQ HW operations, it is listed below:
-> > >
-> > > a. The CQ buffer has two kinds of information
-> > >  - Which ISP registers needs to be updated.
-> > >  - Where the corresponding ISP register data to be read.
-> > > b. The CQ buffer loading procedure is triggered by HW_PASS1_DONT_ST IRQ
-> > > event periodically.
-> > >  - Normally, if the ISP HW receives the completed frame and it will
-> > > trigger W_PASS1_DONT_ST IRQ and perform CQ buffer loading immediately.
-> > > -  So the CQ buffer loading is performed by ISP HW automatically.
-> > > c. The ISP HW will read CQ base address register(REG_CQ_THR0_BASEADDR)
-> > > to decide which CQ buffer is loaded.
-> > >    - So we configure the next CQ base address in SOF.
-> > > d. For CQ buffer loading, CQ will read the ISP registers from CQ buffer
-> > > and update the ISP register values into HW.
-> > >    - SCP composer will compose one dummy CQ buffer and assign it to
-> > > REG_CQ_THR0_BASEADDR of each CQ buffer.
-> > >    - Dummy CQ buffer has no updated ISP registers comparing with other
-> > > CQ buffers.
-> > >    - With this design, if there is no updated new CQ buffer by driver
-> > > which may be caused no en-queue frames from user space. The CQ HW will
-> > > load dummy CQ buffer and do nothing.
-> >
-> > Does the set of registers programmed by CQ include destination buffer
-> > addresses to? If yes, we would end up overwriting previous frames if
-> > no new buffers are provided.
-> >
->
-> Yes, the buffer addresses are changed per frame request. We need to
-> compose CQ to include these DMA destination addresses. For your concern,
-> we have DMA flow buffer control (FBC) in HW. If there is no FBC counter
-> increased due to no buffer for each DMA, the ISP HW doesn't output the
-> data to the corresponding DMA address.
->
-> Below is the simple descriptor of CQ buffer.
-> a. ISP registers in tuning buffer, including 3A registers.
-> b. All capture buffers informations.
->    - DMA buffer destination address
->    - FBC counter
-> c. Some specif ISP registers for meta DMAs, such as LCE or LMVO.
-> d. frame sequence number register
->
+Hi Sakari,
 
-Okay, with the FBC counter it sounds fine. Thanks for clarifying.
+thanks for your review,
 
-> > > f. The CQ buffer loading is guaranteed by HW to finish before the next
-> > > SOF.
-> > >
-> >
-> > Okay, thanks a lot for the explanation. This is much more clear now.
-> >
-> > [snip]
-> > > > > > > +static const struct dev_pm_ops mtk_isp_pm_ops = {
-> > > > > > > +   SET_SYSTEM_SLEEP_PM_OPS(mtk_isp_suspend, mtk_isp_resume)
-> > > > > > > +   SET_RUNTIME_PM_OPS(mtk_isp_suspend, mtk_isp_resume, NULL)
-> > > > > >
-> > > > > > For V4L2 drivers system and runtime PM ops would normally be completely
-> > > > > > different. Runtime PM ops would be called when the hardware is idle already
-> > > > > > or is about to become active. System PM ops would be called at system power
-> > > > > > state change and the hardware might be both idle or active. Please also see
-> > > > > > my comments to mtk_isp_suspend() and mtk_isp_resume() above.
-> > > > > >
-> > > > >
-> > > > > Here is the new implementation. It should be clear to show the
-> > > > > difference between system and runtime PM ops.
-> > > > >
-> > > > > static const struct dev_pm_ops mtk_isp_pm_ops = {
-> > > > >         SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> > > > >                                 pm_runtime_force_resume)
-> > > > >         SET_RUNTIME_PM_OPS(mtk_isp_runtime_suspend, mtk_isp_runtime_resume,
-> > > > > NULL)
-> > > > > };
-> > > >
-> > > > That's still not correct. In runtime suspend/resume ops we already are
-> > > > not streaming anymore, because we call pm_runtime_get/put_*() when
-> > > > starting and stopping streaming. In system suspend/resume ops we might
-> > > > be streaming and that's when we need to stop the hardware and wait for
-> > > > it to finish. Please implement these ops separately.
-> > > >
-> > > > Best regards,
-> > > > Tomasz
-> > >
-> > >
-> > > Ok, got your point.
-> > > Below is the new implementation for your review.
-> > >
-> > > static int mtk_isp_pm_suspend(struct device *dev)
-> > > {
-> > >         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
-> > >         u32 val;
-> > >         int ret;
-> > >
-> > >         dev_dbg(dev, "- %s\n", __func__);
-> > >
-> > >         /* Check ISP is streaming or not */
-> > >         if (!p1_dev->cam_dev.streaming)
-> > >                 goto done;
-> >
-> > We would normally check here for pm_runtime_suspended(). Although they
-> > both should be equivalent. Still, there is no need to call
-> > pm_runtime_force_suspend() if the latter is true, so we could just
-> > return 0 instantly.
-> >
->
-> Ok, here is the fixed version.
->
-> static int mtk_isp_pm_suspend(struct device *dev)
-> {
->         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
->         u32 val;
->         int ret;
->
->         dev_dbg(dev, "- %s\n", __func__);
->
->         if (pm_runtime_suspended(dev))
->                 return 0;
->
->         /* Disable ISP's view finder and wait for TG idle */
->         dev_dbg(dev, "cam suspend, disable VF\n");
->         val = readl(p1_dev->regs + REG_TG_VF_CON);
->         writel(val & (~TG_VF_CON_VFDATA_EN), p1_dev->regs + REG_TG_VF_CON);
->         ret = readl_poll_timeout_atomic(p1_dev->regs + REG_TG_INTER_ST, val,
->                                         (val & TG_CS_MASK) == TG_IDLE_ST,
->                                         USEC_PER_MSEC, MTK_ISP_STOP_HW_TIMEOUT);
->         if (ret)
->                 dev_warn(dev, "can't stop HW:%d:0x%x\n", ret, val);
+On 8/7/19 10:05 AM, Sakari Ailus wrote:
+> Hi Helen,
+> 
+> Thanks for the patchset.
+> 
+> On Tue, Jul 30, 2019 at 03:42:46PM -0300, Helen Koike wrote:
+>> From: Jacob Chen <jacob2.chen@rock-chips.com>
+>>
+>> This commit adds a subdev driver for Rockchip MIPI Synopsys DPHY driver
+>>
+>> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+>> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+>> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+>> [migrate to phy framework]
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> [update for upstream]
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>
+>> ---
+>>
+>> Changes in v8:
+>> - Remove boiler plate license text
+>>
+>> Changes in v7:
+>> - Migrate dphy specific code from
+>> drivers/media/platform/rockchip/isp1/mipi_dphy_sy.c
+>> to drivers/phy/rockchip/phy-rockchip-dphy.c
+>> - Drop support for rk3288
+>> - Drop support for dphy txrx
+>> - code styling and checkpatch fixes
+>>
+>>  drivers/phy/rockchip/Kconfig             |   8 +
+>>  drivers/phy/rockchip/Makefile            |   1 +
+>>  drivers/phy/rockchip/phy-rockchip-dphy.c | 408 +++++++++++++++++++++++
+>>  3 files changed, 417 insertions(+)
+>>  create mode 100644 drivers/phy/rockchip/phy-rockchip-dphy.c
+>>
+>> diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
+>> index c454c90cd99e..afd072f135e6 100644
+>> --- a/drivers/phy/rockchip/Kconfig
+>> +++ b/drivers/phy/rockchip/Kconfig
+>> @@ -9,6 +9,14 @@ config PHY_ROCKCHIP_DP
+>>  	help
+>>  	  Enable this to support the Rockchip Display Port PHY.
+>>  
+>> +config PHY_ROCKCHIP_DPHY
+>> +	tristate "Rockchip MIPI Synopsys DPHY driver"
+>> +	depends on ARCH_ROCKCHIP && OF
+> 
+> How about (...) || COMPILE_TEST ?
+> 
+>> +	select GENERIC_PHY_MIPI_DPHY
+>> +	select GENERIC_PHY
+>> +	help
+>> +	  Enable this to support the Rockchip MIPI Synopsys DPHY.
+>> +
+>>  config PHY_ROCKCHIP_EMMC
+>>  	tristate "Rockchip EMMC PHY Driver"
+>>  	depends on ARCH_ROCKCHIP && OF
+>> diff --git a/drivers/phy/rockchip/Makefile b/drivers/phy/rockchip/Makefile
+>> index fd21cbaf40dd..f62e9010bcaf 100644
+>> --- a/drivers/phy/rockchip/Makefile
+>> +++ b/drivers/phy/rockchip/Makefile
+>> @@ -1,5 +1,6 @@
+>>  # SPDX-License-Identifier: GPL-2.0
+>>  obj-$(CONFIG_PHY_ROCKCHIP_DP)		+= phy-rockchip-dp.o
+>> +obj-$(CONFIG_PHY_ROCKCHIP_DPHY)		+= phy-rockchip-dphy.o
+>>  obj-$(CONFIG_PHY_ROCKCHIP_EMMC)		+= phy-rockchip-emmc.o
+>>  obj-$(CONFIG_PHY_ROCKCHIP_INNO_HDMI)	+= phy-rockchip-inno-hdmi.o
+>>  obj-$(CONFIG_PHY_ROCKCHIP_INNO_USB2)	+= phy-rockchip-inno-usb2.o
+>> diff --git a/drivers/phy/rockchip/phy-rockchip-dphy.c b/drivers/phy/rockchip/phy-rockchip-dphy.c
+>> new file mode 100644
+>> index 000000000000..3a29976c2dff
+>> --- /dev/null
+>> +++ b/drivers/phy/rockchip/phy-rockchip-dphy.c
+>> @@ -0,0 +1,408 @@
+>> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> +/*
+>> + * Rockchip MIPI Synopsys DPHY driver
+>> + *
+>> + * Based on:
+>> + *
+>> + * Copyright (C) 2016 FuZhou Rockchip Co., Ltd.
+>> + * Author: Yakir Yang <ykk@@rock-chips.com>
+>> + */
+>> +
+>> +#include <linux/clk.h>
+>> +#include <linux/io.h>
+>> +#include <linux/mfd/syscon.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of.h>
+>> +#include <linux/of_device.h>
+>> +#include <linux/phy/phy.h>
+>> +#include <linux/phy/phy-mipi-dphy.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +#define RK3399_GRF_SOC_CON9	0x6224
+>> +#define RK3399_GRF_SOC_CON21	0x6254
+>> +#define RK3399_GRF_SOC_CON22	0x6258
+>> +#define RK3399_GRF_SOC_CON23	0x625c
+>> +#define RK3399_GRF_SOC_CON24	0x6260
+>> +#define RK3399_GRF_SOC_CON25	0x6264
+>> +#define RK3399_GRF_SOC_STATUS1	0xe2a4
+>> +
+>> +#define CLOCK_LANE_HS_RX_CONTROL		0x34
+>> +#define LANE0_HS_RX_CONTROL			0x44
+>> +#define LANE1_HS_RX_CONTROL			0x54
+>> +#define LANE2_HS_RX_CONTROL			0x84
+>> +#define LANE3_HS_RX_CONTROL			0x94
+>> +#define HS_RX_DATA_LANES_THS_SETTLE_CONTROL	0x75
+>> +
+>> +#define MAX_DPHY_CLK 8
+>> +
+>> +#define PHY_TESTEN_ADDR			(0x1 << 16)
+>> +#define PHY_TESTEN_DATA			(0x0 << 16)
+>> +#define PHY_TESTCLK			(0x1 << 1)
+>> +#define PHY_TESTCLR			(0x1 << 0)
+>> +#define THS_SETTLE_COUNTER_THRESHOLD	0x04
+>> +
+>> +#define HIWORD_UPDATE(val, mask, shift) \
+>> +	((val) << (shift) | (mask) << ((shift) + 16))
+>> +
+>> +#define GRF_SOC_CON12                           0x0274
+>> +
+>> +#define GRF_EDP_REF_CLK_SEL_INTER_HIWORD_MASK   BIT(20)
+>> +#define GRF_EDP_REF_CLK_SEL_INTER               BIT(4)
+>> +
+>> +#define GRF_EDP_PHY_SIDDQ_HIWORD_MASK           BIT(21)
+>> +#define GRF_EDP_PHY_SIDDQ_ON                    0
+>> +#define GRF_EDP_PHY_SIDDQ_OFF                   BIT(5)
+>> +
+>> +struct hsfreq_range {
+>> +	u32 range_h;
+>> +	u8 cfg_bit;
+>> +};
+>> +
+>> +static const struct hsfreq_range rk3399_mipidphy_hsfreq_ranges[] = {
+>> +	{  89, 0x00}, {  99, 0x10}, { 109, 0x20}, { 129, 0x01},
+>> +	{ 139, 0x11}, { 149, 0x21}, { 169, 0x02}, { 179, 0x12},
+>> +	{ 199, 0x22}, { 219, 0x03}, { 239, 0x13}, { 249, 0x23},
+>> +	{ 269, 0x04}, { 299, 0x14}, { 329, 0x05}, { 359, 0x15},
+>> +	{ 399, 0x25}, { 449, 0x06}, { 499, 0x16}, { 549, 0x07},
+>> +	{ 599, 0x17}, { 649, 0x08}, { 699, 0x18}, { 749, 0x09},
+>> +	{ 799, 0x19}, { 849, 0x29}, { 899, 0x39}, { 949, 0x0a},
+>> +	{ 999, 0x1a}, {1049, 0x2a}, {1099, 0x3a}, {1149, 0x0b},
+>> +	{1199, 0x1b}, {1249, 0x2b}, {1299, 0x3b}, {1349, 0x0c},
+>> +	{1399, 0x1c}, {1449, 0x2c}, {1500, 0x3c}
+>> +};
+>> +
+>> +static const char * const rk3399_mipidphy_clks[] = {
+>> +	"dphy-ref",
+>> +	"dphy-cfg",
+>> +	"grf",
+>> +};
+>> +
+>> +enum dphy_reg_id {
+>> +	GRF_DPHY_RX0_TURNDISABLE = 0,
+>> +	GRF_DPHY_RX0_FORCERXMODE,
+>> +	GRF_DPHY_RX0_FORCETXSTOPMODE,
+>> +	GRF_DPHY_RX0_ENABLE,
+>> +	GRF_DPHY_RX0_TESTCLR,
+>> +	GRF_DPHY_RX0_TESTCLK,
+>> +	GRF_DPHY_RX0_TESTEN,
+>> +	GRF_DPHY_RX0_TESTDIN,
+>> +	GRF_DPHY_RX0_TURNREQUEST,
+>> +	GRF_DPHY_RX0_TESTDOUT,
+>> +	GRF_DPHY_TX0_TURNDISABLE,
+>> +	GRF_DPHY_TX0_FORCERXMODE,
+>> +	GRF_DPHY_TX0_FORCETXSTOPMODE,
+>> +	GRF_DPHY_TX0_TURNREQUEST,
+>> +	GRF_DPHY_TX1RX1_TURNDISABLE,
+>> +	GRF_DPHY_TX1RX1_FORCERXMODE,
+>> +	GRF_DPHY_TX1RX1_FORCETXSTOPMODE,
+>> +	GRF_DPHY_TX1RX1_ENABLE,
+>> +	GRF_DPHY_TX1RX1_MASTERSLAVEZ,
+>> +	GRF_DPHY_TX1RX1_BASEDIR,
+>> +	GRF_DPHY_TX1RX1_ENABLECLK,
+>> +	GRF_DPHY_TX1RX1_TURNREQUEST,
+>> +	GRF_DPHY_RX1_SRC_SEL,
+>> +	/* rk3288 only */
+>> +	GRF_CON_DISABLE_ISP,
+>> +	GRF_CON_ISP_DPHY_SEL,
+>> +	GRF_DSI_CSI_TESTBUS_SEL,
+>> +	GRF_DVP_V18SEL,
+>> +	/* below is for rk3399 only */
+>> +	GRF_DPHY_RX0_CLK_INV_SEL,
+>> +	GRF_DPHY_RX1_CLK_INV_SEL,
+>> +};
+>> +
+>> +struct dphy_reg {
+>> +	u32 offset;
+>> +	u32 mask;
+>> +	u32 shift;
+>> +};
+>> +
+>> +#define PHY_REG(_offset, _width, _shift) \
+>> +	{ .offset = _offset, .mask = BIT(_width) - 1, .shift = _shift, }
+>> +
+>> +static const struct dphy_reg rk3399_grf_dphy_regs[] = {
+>> +	[GRF_DPHY_RX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON9, 4, 0),
+>> +	[GRF_DPHY_RX0_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 10),
+>> +	[GRF_DPHY_RX1_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 11),
+>> +	[GRF_DPHY_RX0_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 0),
+>> +	[GRF_DPHY_RX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 4),
+>> +	[GRF_DPHY_RX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 8),
+>> +	[GRF_DPHY_RX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 12),
+>> +	[GRF_DPHY_TX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 0),
+>> +	[GRF_DPHY_TX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 4),
+>> +	[GRF_DPHY_TX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 8),
+>> +	[GRF_DPHY_TX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 12),
+>> +	[GRF_DPHY_TX1RX1_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 0),
+>> +	[GRF_DPHY_TX1RX1_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 4),
+>> +	[GRF_DPHY_TX1RX1_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 8),
+>> +	[GRF_DPHY_TX1RX1_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 12),
+>> +	[GRF_DPHY_TX1RX1_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON24, 4, 0),
+>> +	[GRF_DPHY_RX1_SRC_SEL] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 4),
+>> +	[GRF_DPHY_TX1RX1_BASEDIR] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 5),
+>> +	[GRF_DPHY_TX1RX1_ENABLECLK] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 6),
+>> +	[GRF_DPHY_TX1RX1_MASTERSLAVEZ] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 7),
+>> +	[GRF_DPHY_RX0_TESTDIN] = PHY_REG(RK3399_GRF_SOC_CON25, 8, 0),
+>> +	[GRF_DPHY_RX0_TESTEN] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 8),
+>> +	[GRF_DPHY_RX0_TESTCLK] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 9),
+>> +	[GRF_DPHY_RX0_TESTCLR] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 10),
+>> +	[GRF_DPHY_RX0_TESTDOUT] = PHY_REG(RK3399_GRF_SOC_STATUS1, 8, 0),
+>> +};
+>> +
+>> +struct dphy_drv_data {
+>> +	const char * const *clks;
+>> +	int num_clks;
+>> +	const struct hsfreq_range *hsfreq_ranges;
+>> +	int num_hsfreq_ranges;
+>> +	const struct dphy_reg *regs;
+>> +};
+>> +
+>> +struct rockchip_dphy {
+>> +	struct device *dev;
+>> +	struct regmap *grf;
+>> +	const struct dphy_reg *grf_regs;
+>> +	struct clk_bulk_data clks[MAX_DPHY_CLK];
+>> +
+>> +	const struct dphy_drv_data *drv_data;
+>> +	struct phy_configure_opts_mipi_dphy config;
+>> +};
+>> +
+>> +static inline void write_grf_reg(struct rockchip_dphy *priv,
+>> +				 int index, u8 value)
+>> +{
+>> +	const struct dphy_reg *reg = &priv->grf_regs[index];
+>> +	unsigned int val = HIWORD_UPDATE(value, reg->mask, reg->shift);
+>> +
+>> +	WARN_ON(!reg->offset);
+>> +	regmap_write(priv->grf, reg->offset, val);
+>> +}
+>> +
+>> +static void mipidphy0_wr_reg(struct rockchip_dphy *priv,
+>> +			     u8 test_code, u8 test_data)
+>> +{
+>> +	/*
+>> +	 * With the falling edge on TESTCLK, the TESTDIN[7:0] signal content
+>> +	 * is latched internally as the current test code. Test data is
+>> +	 * programmed internally by rising edge on TESTCLK.
+>> +	 */
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTDIN, test_code);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTEN, 1);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 0);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTEN, 0);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTDIN, test_data);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
+>> +}
+>> +
+>> +/* should be move to power_on */
+>> +static int mipidphy_rx_stream_on(struct rockchip_dphy *priv)
+>> +{
+>> +	const struct dphy_drv_data *drv_data = priv->drv_data;
+>> +	const struct hsfreq_range *hsfreq_ranges = drv_data->hsfreq_ranges;
+>> +	struct phy_configure_opts_mipi_dphy *config = &priv->config;
+>> +	unsigned int i, hsfreq = 0, data_rate_mbps = config->hs_clk_rate;
+>> +	int num_hsfreq_ranges = drv_data->num_hsfreq_ranges;
+>> +
+>> +	do_div(data_rate_mbps, 1000 * 1000);
+>> +
+>> +	dev_dbg(priv->dev, "%s: lanes %d - data_rate_mbps %u\n",
+>> +		__func__, config->lanes, data_rate_mbps);
+>> +
+>> +	for (i = 0; i < num_hsfreq_ranges; i++) {
+>> +		if (hsfreq_ranges[i].range_h >= data_rate_mbps) {
+>> +			hsfreq = hsfreq_ranges[i].cfg_bit;
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_FORCERXMODE, 0);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_FORCETXSTOPMODE, 0);
+>> +
+>> +	/* Disable lan turn around, which is ignored in receive mode */
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TURNREQUEST, 0);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TURNDISABLE, 0xf);
+>> +
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_ENABLE, GENMASK(config->lanes - 1, 0));
+>> +
+>> +	/* dphy start */
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLK, 1);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLR, 1);
+>> +	usleep_range(100, 150);
+>> +	write_grf_reg(priv, GRF_DPHY_RX0_TESTCLR, 0);
+>> +	usleep_range(100, 150);
+>> +
+>> +	/* set clock lane */
+>> +	/* HS hsfreq_range & lane 0  settle bypass */
+>> +	mipidphy0_wr_reg(priv, CLOCK_LANE_HS_RX_CONTROL, 0);
+>> +	/* HS RX Control of lane0 */
+>> +	mipidphy0_wr_reg(priv, LANE0_HS_RX_CONTROL, hsfreq << 1);
+>> +	/* HS RX Control of lane1 */
+>> +	mipidphy0_wr_reg(priv, LANE1_HS_RX_CONTROL, 0);
+>> +	/* HS RX Control of lane2 */
+>> +	mipidphy0_wr_reg(priv, LANE2_HS_RX_CONTROL, 0);
+>> +	/* HS RX Control of lane3 */
+>> +	mipidphy0_wr_reg(priv, LANE3_HS_RX_CONTROL, 0);
+>> +	/* HS RX Data Lanes Settle State Time Control */
+>> +	mipidphy0_wr_reg(priv, HS_RX_DATA_LANES_THS_SETTLE_CONTROL,
+>> +			 THS_SETTLE_COUNTER_THRESHOLD);
+>> +
+>> +	/* Normal operation */
+>> +	mipidphy0_wr_reg(priv, 0x0, 0);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int rockchip_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
+>> +{
+>> +	struct rockchip_dphy *priv = phy_get_drvdata(phy);
+>> +	int ret;
+>> +
+>> +	/* pass with phy_mipi_dphy_get_default_config (with pixel rate?) */
+>> +	ret = phy_mipi_dphy_config_validate(&opts->mipi_dphy);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	memcpy(&priv->config, opts, sizeof(priv->config));
+> 
+> You could to:
+> 
+> 	priv->config = *opts;
+> 
+> Up to you. Some people like memcpy(). :-)
 
-What happens in this case? Is it safe to continue?
+your way is better thanks!
 
->
->         /* Disable CMOS */
->         val = readl(p1_dev->regs + REG_TG_SEN_MODE);
->         writel(val & (~TG_SEN_MODE_CMOS_EN), p1_dev->regs + REG_TG_SEN_MODE);
->
->         /* Force ISP HW to idle */
->         ret = pm_runtime_force_suspend(dev);
->         if (ret)
->                 return ret;
+> 
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int rockchip_dphy_power_on(struct phy *phy)
+>> +{
+>> +	struct rockchip_dphy *priv = phy_get_drvdata(phy);
+>> +	int ret;
+>> +
+>> +	ret = clk_bulk_enable(priv->drv_data->num_clks, priv->clks);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return mipidphy_rx_stream_on(priv);
+>> +}
+>> +
+>> +static int rockchip_dphy_power_off(struct phy *phy)
+>> +{
+>> +	struct rockchip_dphy *priv = phy_get_drvdata(phy);
+>> +
+>> +	clk_bulk_disable(priv->drv_data->num_clks, priv->clks);
+>> +	return 0;
+>> +}
+>> +
+>> +static int rockchip_dphy_init(struct phy *phy)
+>> +{
+>> +	struct rockchip_dphy *priv = phy_get_drvdata(phy);
+>> +	int ret;
+>> +
+>> +	ret = clk_bulk_prepare(priv->drv_data->num_clks, priv->clks);
+> 
+> return ...;
+> 
+>> +	if (ret)
+>> +		return ret;
+>> +	return 0;
+>> +}
+>> +
+>> +static int rockchip_dphy_exit(struct phy *phy)
+>> +{
+>> +	struct rockchip_dphy *priv = phy_get_drvdata(phy);
+>> +
+>> +	clk_bulk_unprepare(priv->drv_data->num_clks, priv->clks);
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct phy_ops rockchip_dphy_ops = {
+>> +	.power_on	= rockchip_dphy_power_on,
+>> +	.power_off	= rockchip_dphy_power_off,
+>> +	.init		= rockchip_dphy_init,
+>> +	.exit		= rockchip_dphy_exit,
+>> +	.configure	= rockchip_dphy_configure,
+>> +	.owner		= THIS_MODULE,
+>> +};
+>> +
+>> +static const struct dphy_drv_data rk3399_mipidphy_drv_data = {
+>> +	.clks = rk3399_mipidphy_clks,
+>> +	.num_clks = ARRAY_SIZE(rk3399_mipidphy_clks),
+>> +	.hsfreq_ranges = rk3399_mipidphy_hsfreq_ranges,
+>> +	.num_hsfreq_ranges = ARRAY_SIZE(rk3399_mipidphy_hsfreq_ranges),
+>> +	.regs = rk3399_grf_dphy_regs,
+> 
+> Do you expect to support more of the similar PHY(s) --- are there such? If
+> not, you could put these in the code that uses them.
 
-We should probably reenable the hardware if the above failed, so that
-we hopefully end up in the same state as before the suspend.
+Yes, for rk3288 in the future.
 
->
->         return 0;
-> }
-> [snip]
->
-> > > static int mtk_isp_pm_resume(struct device *dev)
-> > > {
-> > >         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
-> > >         u32 val;
-> > >         int ret;
-> > >
-> > >         dev_dbg(dev, "- %s\n", __func__);
-> > >
-> > >         /* Force ISP HW to resume if needed */
-> > >         ret = pm_runtime_force_resume(dev);
-> > >         if (ret)
-> > >                 return ret;
-> >
-> > We should do this conditionally based on what pm_runtime_suspended()
-> > returns. If it's non-zero then we can just return 0 instantly.
-> >
->
-> Ok, here is the fixed version.
->
-> static int mtk_isp_pm_resume(struct device *dev)
-> {
->         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
->         u32 val;
->         int ret;
->
->         dev_dbg(dev, "- %s\n", __func__);
->
->         if (pm_runtime_suspended(dev))
->                 return 0;
->
->         /* Force ISP HW to resume */
->         ret = pm_runtime_force_resume(dev);
->         if (ret)
->                 return ret;
->
->         /* Enable CMOS */
->         dev_dbg(dev, "cam resume, enable CMOS/VF\n");
->         val = readl(p1_dev->regs + REG_TG_SEN_MODE);
->         writel(val | TG_SEN_MODE_CMOS_EN, p1_dev->regs + REG_TG_SEN_MODE);
->
->         /* Enable VF */
->         val = readl(p1_dev->regs + REG_TG_VF_CON);
->         writel(val | TG_VF_CON_VFDATA_EN, p1_dev->regs + REG_TG_VF_CON);
->
->         return 0;
-> }
->
-> [snip]
->
-> > > static int mtk_isp_runtime_suspend(struct device *dev)
-> > > {
-> > >         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
-> > >
-> > >         dev_dbg(dev, "- %s\n", __func__);
-> > >
-> > >         if (pm_runtime_suspended(dev))
-> > >                 return 0;
-> >
-> > Sorry, I guess I wasn't clear in my reply. It's not possible to get
-> > this callback called if the device is already runtime suspended.
-> >
->
-> Ok, got it. Need to remove pm_runtime_suspended(dev) checking and move
-> it into mtk_isp_pm_* functions. If I still don't get your point, could
-> you kindly provide one sample driver for reference?
+Regards,
+Helen
 
-The above implementation is okay, thanks. :)
-
-> Based on current
-> implementation, it is similar to below drivers.
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/mtk-mdp/mtk_mdp_core.c#L255
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/exynos4-is/fimc-is-i2c.c#L113
->
-
-The first one is an m2m device so it has slightly different rules -
-the runtime PM is allowed to suspend between frames if the idle time
-is long enough. The second one is a dummy driver for some fake i2c
-bus, so it doesn't really have any meaningful implementation.
-
-I think you could take a look at
-https://elixir.bootlin.com/linux/v5.3-rc3/source/drivers/media/platform/exynos4-is/fimc-lite.c#L1550
-, which is an online capture device too.
-
->
-> static int mtk_isp_runtime_suspend(struct device *dev)
-> {
->         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
->
->         dev_dbg(dev, "%s:disable clock\n", __func__);
->         clk_bulk_disable_unprepare(p1_dev->num_clks, p1_dev->clks);
->
->         return 0;
-> }
->
-> [snip]
->
-> > > static int mtk_isp_runtime_resume(struct device *dev)
-> > > {
-> > >         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
-> > >         int ret;
-> > >
-> > >         dev_dbg(dev, "- %s\n", __func__);
-> > >
-> > >         if (pm_runtime_suspended(dev))
-> > >                 return 0;
-> >
-> > In this case the above call would always return non-zero, so the
-> > behavior wouldn't be very good.
-> >
->
-> Same as above.
->
-> static int mtk_isp_runtime_resume(struct device *dev)
-> {
->         struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(dev);
->         int ret;
->
->         dev_dbg(dev, "%s:enable clock\n", __func__);
->         ret = clk_bulk_prepare_enable(p1_dev->num_clks, p1_dev->clks);
->         if (ret) {
->                 dev_err(dev, "failed to enable clock:%d\n", ret);
->                 return ret;
->         }
->
->         return 0;
-> }
-
-Makes sense, thanks!
-
-Best regards,
-Tomasz
+> 
+>> +};
+>> +
+>> +static const struct of_device_id rockchip_dphy_dt_ids[] = {
+>> +	{
+>> +		.compatible = "rockchip,rk3399-mipi-dphy",
+>> +		.data = &rk3399_mipidphy_drv_data,
+>> +	},
+>> +	{}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, rockchip_dphy_dt_ids);
+>> +
+>> +static int rockchip_dphy_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct device_node *np = dev->of_node;
+>> +	const struct dphy_drv_data *drv_data;
+>> +	struct phy_provider *phy_provider;
+>> +	const struct of_device_id *of_id;
+>> +	struct rockchip_dphy *priv;
+>> +	struct regmap *grf;
+>> +	struct phy *phy;
+>> +	unsigned int i;
+>> +	int ret;
+>> +
+>> +	if (!dev->parent || !dev->parent->of_node)
+>> +		return -ENODEV;
+>> +
+>> +	if (platform_get_resource(pdev, IORESOURCE_MEM, 0)) {
+>> +		dev_err(&pdev->dev, "Rockchip DPHY driver only suports rx\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>> +	if (!priv)
+>> +		return -ENOMEM;
+>> +	priv->dev = dev;
+>> +
+>> +	grf = syscon_node_to_regmap(dev->parent->of_node);
+>> +	if (IS_ERR(grf)) {
+>> +		grf = syscon_regmap_lookup_by_phandle(dev->of_node,
+>> +						      "rockchip,grf");
+>> +		if (IS_ERR(grf)) {
+>> +			dev_err(dev, "Can't find GRF syscon\n");
+>> +			return -ENODEV;
+>> +		}
+>> +	}
+>> +	priv->grf = grf;
+>> +
+>> +	of_id = of_match_device(rockchip_dphy_dt_ids, dev);
+>> +	if (!of_id)
+>> +		return -EINVAL;
+>> +
+>> +	drv_data = of_id->data;
+>> +	priv->grf_regs = drv_data->regs;
+>> +	priv->drv_data = drv_data;
+>> +	for (i = 0; i < drv_data->num_clks; i++)
+>> +		priv->clks[i].id = drv_data->clks[i];
+>> +	ret = devm_clk_bulk_get(&pdev->dev, drv_data->num_clks, priv->clks);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	phy = devm_phy_create(dev, np, &rockchip_dphy_ops);
+>> +	if (IS_ERR(phy)) {
+>> +		dev_err(dev, "failed to create phy\n");
+>> +		return PTR_ERR(phy);
+>> +	}
+>> +	phy_set_drvdata(phy, priv);
+>> +
+>> +	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+>> +
+>> +	return PTR_ERR_OR_ZERO(phy_provider);
+>> +}
+>> +
+>> +static struct platform_driver rockchip_dphy_driver = {
+>> +	.probe = rockchip_dphy_probe,
+>> +	.driver = {
+>> +		.name	= "rockchip-mipi-dphy",
+>> +		.of_match_table = rockchip_dphy_dt_ids,
+>> +	},
+>> +};
+>> +module_platform_driver(rockchip_dphy_driver);
+>> +
+>> +MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
+>> +MODULE_DESCRIPTION("Rockchip MIPI Synopsys DPHY driver");
+>> +MODULE_LICENSE("Dual MIT/GPL");
+> 
