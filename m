@@ -2,120 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADA14846D0
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 10:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FB91846F6
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 10:17:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387586AbfHGIHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Aug 2019 04:07:19 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35635 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727413AbfHGIHS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Aug 2019 04:07:18 -0400
-Received: from [IPv6:2001:983:e9a7:1:8cc6:9015:1548:23f3] ([IPv6:2001:983:e9a7:1:8cc6:9015:1548:23f3])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vGyNhjeHgAffAvGyOh7CoE; Wed, 07 Aug 2019 10:07:15 +0200
-Subject: Re: [PATCH v3 11/41] media/v4l2-core/mm: convert put_page() to
- put_user_page*()
-To:     john.hubbard@gmail.com, Andrew Morton <akpm@linux-foundation.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
-        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Souptick Joarder <jrdr.linux@gmail.com>
-References: <20190807013340.9706-1-jhubbard@nvidia.com>
- <20190807013340.9706-12-jhubbard@nvidia.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <8a02b10a-507b-2eb3-19aa-1cb498c1a4af@xs4all.nl>
-Date:   Wed, 7 Aug 2019 10:07:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1728670AbfHGIRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Aug 2019 04:17:51 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43784 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728587AbfHGIRu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Aug 2019 04:17:50 -0400
+Received: by mail-lj1-f193.google.com with SMTP id y17so60068982ljk.10
+        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2019 01:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=uZ71/IjfnhtwBPFF6THZcvtecPOI1brQIp9ai2NeI1k=;
+        b=lw+MGCG53qlHD6l00B/7Hr2jQ5KNOzTe/Gk4nJidoMcAM/PCuqYZNE5tCopKN5tIB9
+         ybdrmwbQq5dr9qON9O8J8tGMHldp8JlCb68Ac2C0JgrkXcGwvDALxCGgpGaA82m0RYXA
+         zDX6S/ynK0N53ICsuuEg/6wrYFCVbJ2HCDDXtR42Frjtd5oq48/dnaIr00RzlNlkR7gP
+         Dui88b7Dhs5Iyz7jNvscReYjqxYvEeRM5v4NIkWqclUCYLi2XkMxH0PRxVxOG9bZJv2L
+         5QY+LkAUXXOj7VzSwILoN2j9w6heWQ+OyEsdpqqgtZUaF4YL1FkoK0LlSOT4PJM4xtNO
+         sGGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=uZ71/IjfnhtwBPFF6THZcvtecPOI1brQIp9ai2NeI1k=;
+        b=O8ILxfzf2MqlSK8nk5igPvETc2Gj+cbdg8TfnHkY3KGZnDGX6nqPwHwNBA4yVvjlwf
+         tHqtMwDmw+2ROKCXzf41WeqMEyA8dzvur+PEF+Orw74UU/pGohBKWcqqankDJg3uRLxN
+         KG30NudqT1hGy2rFFE2Rmz0Xp/KHClXR3A3+Z6Mr8Tzbey6wXjz2rYk5tAIT7MnGTSxW
+         TRw4bIPWGBaZaVQUynnzjjcAH5v3pH5lpIU4/uJ99RGE0c3ZhTLJnPwUzUv4oLbmytfm
+         xCTxj9mCRFnxBoXWmfbIgwF3Uk2NFaqjJHcnI1uAS+/mn3ZjkF/wZZCjyzSvK5Jby9na
+         d3Fg==
+X-Gm-Message-State: APjAAAW9sP3ii60GOg9zFVX2nmV45mMA1g0GnTw0J8h/NuBxRFi1dtXw
+        4OrES+SczKQXVQsUv98b3iB3EAehyf+OSUtrLXFMMg==
+X-Google-Smtp-Source: APXvYqwBt9zZPEZS9Zv/S7dA7gva1bRM0PXxxk+aEKCKsKDg9IuOsBbotspesjzG8OPcsmVa9uK3w9BCohv4bn1xoHc=
+X-Received: by 2002:a2e:87d0:: with SMTP id v16mr4116786ljj.24.1565165868639;
+ Wed, 07 Aug 2019 01:17:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190807013340.9706-12-jhubbard@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLtFI4ThDBFuoSwFqT380PxkcC6q3XCYC9HO7bxya62SPesHUoWCzd0ksBMTGkppOn75d+WBKCLiUJL1JCKKzueS8vA20zMfsb357SuvaUy4TtJTFapt
- x/bWCTcScAJNoSAViYa6NSlEx2FKBMG1ub01wuczTnbJurUSOB+vxv+m9yWKJM94dHdvARuWMkXZdmUldHpi22HuFtGEBhfQsDY52cLv9SRNbWMy30DrEJ0t
- IZpNWziFzZ3evJ7mzLCVhbiK2kiOOXAk37J1rrkYGH2YtOIVmpGPTJw+iPQnS41ERf+BCjbaTp9dtSr4qdKvpCtCTPfnpCYMb9QEG7YIv4Bkl6jCBTx7G7/4
- E+/Gcs1gOswCkbsVZkXHiYav454A3NZryrYeXwugbZcaQXzdLwQKX8vixuVBgbqFmyjLnuKfL1+c17HvE7YGvrxNLgEJHTveu7qGFUgiDp8Kxm2qaSU6Ln+T
- ElUIz8bygLmP/ZaLM0W02XHdcvoF3n3t59CNY87n3tR3oXUf8LBXliPMUlUaTsd4sTe3FnbfHAUNwVeklfrjO7mwx/ZtuvdypniGohclf+1bp5fAUTyCCCrQ
- 2HyNedUvC2lDdYTRuhJr04fafwrpC9JLhSLKJeMRBVwa4n0gqjUnzFBrEoDnP692PfkgpqcUzLJ3ou9bn9SXymgnoZ/su+Qto3UpDDWJiMsSJM83gtLeDDPU
- 2LAMy4jSsugrfD7VC1dmYwzG8OWIPHuvJ7Tu8XU7oActSpAZS3c9skTdMjLehhV+5MHeC8g3tQLGrW2WL0nM2XSwHbo4mwTDcXTASOqE5niPTgs0jd+PPxdD
- 6xGBJo3u/QbyQ3ajYSHTR7/iYO7MKvqve0YwbtTNR57pWM38fmVObjBWJ2Qb5+GQ3v2MdIxvVfz42j69SfAzoN+qm5pqDcKBwXhfBdG1NM3xlepenmsR9xg5
- 62RVbClfekDh1mdFfuyj4KBmVBX0v1np3JjJ4vNebVx2IyoyHonzCgI/VeK3Xg6+xvyxhVW0lz7O9WmdlxWKcql5t0Yb5f0zsKtS1NvNqjdoMQPPDLlgqBkJ
- zSwzmxMfYBhUca00uKQBlssFsG5QNKIC7fFgqtDFBmNtn6ipJvZKRC79Cw4QS6qRNMXKSaUQOSPYCvM4KmrZVW9w5s8hot0TfDYbj+oHiuzjCO1jmdtzXAbt
- gWocxcFwf55hNfAhTODtYnIcQTTBxC/fmKLTijSmU3lfUSSSsnl8ef0xn1zUtoXXnyzz6mcZVljhvITEJx0jnOlTUGnl6EnAeCVrfPoD4WCRmPS4tIKMb0Sn
- DjxDBO/HszoKfvVJZYTfTvPxU+6WAyaIoLGRNQX6ew6/T19LTZ7M+CVC1zczygV1hOTQJzIdJnWdrI7AWTB8dFsFHEUTylMp921VegrittBprwtssRQSETDt
- w+WAy7sK++9/GONtwbizNl49IwU+D0GMpL0NbybeY6J7lGNNM2UtsFttBraN5pO3M9SU3xDoE5SqJiulL8VfDzJKyah60WIfPdhLbN00mLGEveLuRT0YQNVO
- Ve41rvqKpgWWp9HPZO7QwGGi4muzZFJs6F8sgGua1ktJvh99nm3LVZHEV++X5Bous3oUMbzF6ihXBdgtubshPp+ElhOLvWLff7DQNQVzst9h3eqqPREvSJlB
- 0+CfDkY+tvaCm6YXmIbg/FxzMGySzi98TfrQYNsvylv4MWX8pxKCyY/xfBN6o8zPRNMJNc0PX0kAdkxIJbJSRls4hOcOInlZ
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Wed, 7 Aug 2019 13:47:37 +0530
+Message-ID: <CA+G9fYus+cW4775Y2_Xqpc+G6YP_KfjGeCMzoSQq6o2yVY8Q3w@mail.gmail.com>
+Subject: next-20190806: arm64: adv7511 3-0039: failed to find dsi host
+To:     Linux-Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hans Verkuil <hans.verkuil@cisco.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        linux-media@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, agross@kernel.org,
+        david.brown@linaro.org, lkft-triage@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/7/19 3:33 AM, john.hubbard@gmail.com wrote:
-> From: John Hubbard <jhubbard@nvidia.com>
-> 
-> For pages that were retained via get_user_pages*(), release those pages
-> via the new put_user_page*() routines, instead of via put_page() or
-> release_pages().
-> 
-> This is part a tree-wide conversion, as described in commit fc1d8e7cca2d
-> ("mm: introduce put_user_page*(), placeholder versions").
-> 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Hans Verkuil <hans.verkuil@cisco.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Souptick Joarder <jrdr.linux@gmail.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+arm64 devices dragonboard 410c (QC410E) and hi6220-hikey running Linux
+next-20190806 loading modules causing floods of kernel messages.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+We have enabled few extra kernel configs for testing.
+CONFIG_DRM_I2C_ADV7511=m
+CONFIG_DRM_I2C_ADV7511_CEC=y
+...
 
-> ---
->  drivers/media/v4l2-core/videobuf-dma-sg.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2-core/videobuf-dma-sg.c
-> index 66a6c6c236a7..d6eeb437ec19 100644
-> --- a/drivers/media/v4l2-core/videobuf-dma-sg.c
-> +++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
-> @@ -349,8 +349,7 @@ int videobuf_dma_free(struct videobuf_dmabuf *dma)
->  	BUG_ON(dma->sglen);
->  
->  	if (dma->pages) {
-> -		for (i = 0; i < dma->nr_pages; i++)
-> -			put_page(dma->pages[i]);
-> +		put_user_pages(dma->pages, dma->nr_pages);
->  		kfree(dma->pages);
->  		dma->pages = NULL;
->  	}
-> 
+Please find below boot log and config file link.
 
+[    0.000000] Linux version 5.3.0-rc3-next-20190806 (oe-user@oe-host)
+(gcc version 7.3.0 (GCC)) #1 SMP PREEMPT Tue Aug 6 05:49:36 UTC 2019
+[    0.000000] Machine model: Qualcomm Technologies, Inc. APQ 8016 SBC
+....
+[   10.051193] adv7511 3-0039: 3-0039 supply dvdd not found, using
+dummy regulator
+[   10.051633] adv7511 3-0039: 3-0039 supply pvdd not found, using
+dummy regulator
+[   10.076257] adreno 1c00000.gpu: Adding to iommu group 0
+[   10.090929] adv7511 3-0039: 3-0039 supply a2vdd not found, using
+dummy regulator
+[   10.101703] msm_mdp 1a01000.mdp: Adding to iommu group 1
+[   10.102563] msm_mdp 1a01000.mdp: No interconnect support may cause
+display underflows!
+[   10.139492] adv7511 3-0039: failed to find dsi host
+...
+[   33.065744] adv7511 3-0039: failed to find dsi host
+[   33.076721] msm 1a00000.mdss: 1a00000.mdss supply vdd not found,
+using dummy regulator
+[   33.078344] msm_mdp 1a01000.mdp: [drm:mdp5_bind [msm]] MDP5 version v1.6
+[   33.083862] msm 1a00000.mdss: bound 1a01000.mdp (ops mdp5_ops [msm])
+[   33.090892] msm_dsi 1a98000.dsi: 1a98000.dsi supply gdsc not found,
+using dummy regulator
+[   33.097756] msm_dsi 1a98000.dsi: 1a98000.dsi supply gdsc not found,
+using dummy regulator
+[   33.106606] msm_dsi_manager_register: failed to register mipi dsi
+host for DSI 0
+[   33.114579] msm 1a00000.mdss: failed to bind 1a98000.dsi (ops
+dsi_ops [msm]): -517
+[   33.121263] msm 1a00000.mdss: master bind failed: -517
+[   33.135547] adv7511 3-0039: 3-0039 supply dvdd not found, using
+dummy regulator
+[   33.139360] adv7511 3-0039: 3-0039 supply pvdd not found, using
+dummy regulator
+[   33.143646] adv7511 3-0039: 3-0039 supply a2vdd not found, using
+dummy regulator
+
+Full test log
+https://lkft.validation.linaro.org/scheduler/job/860208#L956
+
+metadata:
+  git branch: master
+  git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+  git commit: 958eb4327c1761c609bde8e9f7c04e9d1c6fbb96
+  git describe: next-20190806
+  make_kernelversion: 5.3.0-rc3
+  kernel-config:
+http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579/config
+  kernel-defconfig:
+http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579/defconfig
+  build-location:
+http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579
+
+Best regards
+Naresh Kamboju
