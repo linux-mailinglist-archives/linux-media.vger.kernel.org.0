@@ -2,90 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 624F084A24
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 12:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905CC84A50
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 13:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfHGKxv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Aug 2019 06:53:51 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42817 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbfHGKxu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Aug 2019 06:53:50 -0400
-Received: by mail-ot1-f66.google.com with SMTP id l15so102484501otn.9
-        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2019 03:53:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ptBIJaPqjzzFbOlt+wTcfpDxtdbCBPstiqPBsk+q0Dw=;
-        b=FFQWm2sjnSXDLWMgX4eKRtUxZV6NKPL4x/Okmj9rd1jcS9TnacqDpdOsEAwPcyNwii
-         KpPlP33/oZFe0qp8KLOJ0JLlvpa/FzyZLjsVpmll1DXW2mL58X4qpCjoJ5QqkEVTq7Xt
-         gVPgFn0eRADrJitlW563/f2lq3KN7nakD3PnO9R0zcjfYPSpJ5uHdqCWFGPTqcwY6jME
-         6RI27XmfPlRWT20phkiD+jXkk0uqbacnpHJo7kNyVIuS1y+MpINk80lD5ozXfK5+W/Eq
-         7NCT2ilpT1bufPdLzcR0pPGc08KmAwSBwH2NzoszaKvupyQtoVhIS+0irddXM3CLB347
-         eh0g==
-X-Gm-Message-State: APjAAAUz0mR53jT+Yj3Orfs79KWYdIN6kjvM4kLdWfFr1GhxTg483TKE
-        yXrSnUxVWLLNJKEWiWfGn9jjYNwfHVwAOi0EPUs=
-X-Google-Smtp-Source: APXvYqxENaVSLf6mIRSAbWs3wPBxQBdUazgb7vv5wtIKPb7B1TD9Y5XW/LrjEc1SvSpIGClJu+win4/a8ZViu2UgAoc=
-X-Received: by 2002:a05:6830:210f:: with SMTP id i15mr7688249otc.250.1565175230079;
- Wed, 07 Aug 2019 03:53:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190731134121.18473-1-geert+renesas@glider.be>
- <95aa9f00-a01e-09ab-3cc3-5f1246052093@iki.fi> <CAMuHMdWZW-=8sD2KYEGY0f++++ocMjwDVut1r2z3pJk9OL2wmw@mail.gmail.com>
- <1201f416-26fe-862c-27ee-346ca50ff998@xs4all.nl>
-In-Reply-To: <1201f416-26fe-862c-27ee-346ca50ff998@xs4all.nl>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 7 Aug 2019 12:53:38 +0200
-Message-ID: <CAMuHMdUfm1p+91xBcjWO9Tm4BcmTr9R5p530ChMQC=0RKLuaDA@mail.gmail.com>
+        id S2387488AbfHGLFe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Aug 2019 07:05:34 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:43775 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387476AbfHGLFd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Aug 2019 07:05:33 -0400
+Received: from [IPv6:2001:983:e9a7:1:9c05:4bbc:890e:7747] ([IPv6:2001:983:e9a7:1:9c05:4bbc:890e:7747])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id vJl4hkmqNAffAvJl5h7wci; Wed, 07 Aug 2019 13:05:31 +0200
 Subject: Re: [PATCH] media: tm6000: Spelling s/diconencted/diconnected/
-To:     Hans Verkuil <hverkuil@xs4all.nl>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190731134121.18473-1-geert+renesas@glider.be>
+ <95aa9f00-a01e-09ab-3cc3-5f1246052093@iki.fi>
+ <CAMuHMdWZW-=8sD2KYEGY0f++++ocMjwDVut1r2z3pJk9OL2wmw@mail.gmail.com>
+ <1201f416-26fe-862c-27ee-346ca50ff998@xs4all.nl>
+ <CAMuHMdUfm1p+91xBcjWO9Tm4BcmTr9R5p530ChMQC=0RKLuaDA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <040b2c92-516b-58c6-940e-54fb58f7ddee@xs4all.nl>
+Date:   Wed, 7 Aug 2019 13:05:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdUfm1p+91xBcjWO9Tm4BcmTr9R5p530ChMQC=0RKLuaDA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfL4h/kn3LWfh42V1QlxtZ7SyYzLZHLelFCBpVYS2cfOL2/z3qOPaSSF2zMKRZFpKTqRCKSPaqXG5LAry4qgqmJSNowcRWCYrtXXXiarYmfOkNXqSY5v+
+ mV2/b0gNv+aKbrPGddZheR50fYjl7s+yZslJKNZEf23c7OMjSkSCbiWfnfuQWEJb82BgvevysmYyKx7nbMpo2NTSoOor+slisZhmv2wlMT3Uotml2StQMKuJ
+ 1+JW9UCWsTN1rZvj6L2N4mBeJCbw2bfwnXtzg98iKyp45WN8llSpAfkVwO5HdebaZkGIRMEtLDMgxAKDvGbbHr7bfDRsQLhAXl5J1a//jdMxOsyIJt+kggdO
+ +an70KER
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 8/7/19 12:53 PM, Geert Uytterhoeven wrote:
+> Hi Hans,
+> 
+> On Wed, Aug 7, 2019 at 11:33 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>> On 7/31/19 8:43 PM, Geert Uytterhoeven wrote:
+>>> On Wed, Jul 31, 2019 at 8:36 PM Antti Palosaari <crope@iki.fi> wrote:
+>>>> On 7/31/19 4:41 PM, Geert Uytterhoeven wrote:
+>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> ---
+>>>>>   drivers/media/usb/tm6000/tm6000-cards.c | 2 +-
+>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
+>>>>> index 23df50aa0a4af6da..9a0ffe678524987c 100644
+>>>>> --- a/drivers/media/usb/tm6000/tm6000-cards.c
+>>>>> +++ b/drivers/media/usb/tm6000/tm6000-cards.c
+>>>>> @@ -1328,7 +1328,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
+>>>>>
+>>>>>   /*
+>>>>>    * tm6000_usb_disconnect()
+>>>>> - * called when the device gets diconencted
+>>>>> + * called when the device gets diconnected
+>>>>
+>>>> disconnected ?
+>>>
+>>> Thanks, will fix!
+>>
+>> Can you also add a commit message when you post v2? Currently that's
+>> empty and Linus doesn't like empty commit messages :-)
+> 
+> Even if everything to be said is in the one-line summary?
 
-On Wed, Aug 7, 2019 at 11:33 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> On 7/31/19 8:43 PM, Geert Uytterhoeven wrote:
-> > On Wed, Jul 31, 2019 at 8:36 PM Antti Palosaari <crope@iki.fi> wrote:
-> >> On 7/31/19 4:41 PM, Geert Uytterhoeven wrote:
-> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> ---
-> >>>   drivers/media/usb/tm6000/tm6000-cards.c | 2 +-
-> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
-> >>> index 23df50aa0a4af6da..9a0ffe678524987c 100644
-> >>> --- a/drivers/media/usb/tm6000/tm6000-cards.c
-> >>> +++ b/drivers/media/usb/tm6000/tm6000-cards.c
-> >>> @@ -1328,7 +1328,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
-> >>>
-> >>>   /*
-> >>>    * tm6000_usb_disconnect()
-> >>> - * called when the device gets diconencted
-> >>> + * called when the device gets diconnected
-> >>
-> >> disconnected ?
-> >
-> > Thanks, will fix!
->
-> Can you also add a commit message when you post v2? Currently that's
-> empty and Linus doesn't like empty commit messages :-)
+Yes. In fact, checkpatch warns if the commit description is empty.
 
-Even if everything to be said is in the one-line summary?
+In this case, just say 'Fix typo.', that's sufficient.
 
-Gr{oetje,eeting}s,
+Regards,
 
-                        Geert
+	Hans
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
