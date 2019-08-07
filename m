@@ -2,124 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 330BD847DA
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 10:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDCF2847E9
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2019 10:47:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387672AbfHGIqh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Aug 2019 04:46:37 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:53141 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387452AbfHGIqh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Aug 2019 04:46:37 -0400
-Received: from [IPv6:2001:983:e9a7:1:9c05:4bbc:890e:7747] ([IPv6:2001:983:e9a7:1:9c05:4bbc:890e:7747])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id vHabhjtKZAffAvHach7Mxn; Wed, 07 Aug 2019 10:46:34 +0200
-Subject: Re: next-20190806: arm64: adv7511 3-0039: failed to find dsi host
-To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>, mchehab@kernel.org,
-        robh+dt@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        linux-media@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, agross@kernel.org,
-        david.brown@linaro.org, lkft-triage@lists.linaro.org,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <CA+G9fYus+cW4775Y2_Xqpc+G6YP_KfjGeCMzoSQq6o2yVY8Q3w@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <a9f7c007-8639-0202-c35d-219d371a1842@xs4all.nl>
-Date:   Wed, 7 Aug 2019 10:46:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2387786AbfHGIqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Aug 2019 04:46:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55384 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387743AbfHGIqy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Aug 2019 04:46:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 8E81EAD29;
+        Wed,  7 Aug 2019 08:46:50 +0000 (UTC)
+Date:   Wed, 7 Aug 2019 10:46:49 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Jan Kara <jack@suse.cz>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>, john.hubbard@gmail.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
+        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
+Message-ID: <20190807084649.GQ11812@dhcp22.suse.cz>
+References: <20190802022005.5117-1-jhubbard@nvidia.com>
+ <20190802091244.GD6461@dhcp22.suse.cz>
+ <20190802124146.GL25064@quack2.suse.cz>
+ <20190802142443.GB5597@bombadil.infradead.org>
+ <20190802145227.GQ25064@quack2.suse.cz>
+ <076e7826-67a5-4829-aae2-2b90f302cebd@nvidia.com>
+ <20190807083726.GA14658@quack2.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <CA+G9fYus+cW4775Y2_Xqpc+G6YP_KfjGeCMzoSQq6o2yVY8Q3w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfApS0b/lMPm7rop7sg4zrGCd+8i5M4UPTpKak97B2soWM1lDxIqMEISdnpCsJMglPti5bkjxmU2Axw9lKEqQw4HCmMOx113b51Z7Ji58DjsbuiIF5JAp
- 2hpTdBYYwQ90Rrq3A8U2qoCTM6Z/JttrqM5JxCTBNphIfY/AuA7m0KHVCvE1pI1IThCds62OiVpyDbYYyzKvnIs52V68cd1UB0l9j4cC+XqxAeAYZmG1mK7w
- xaad+EklKa6qrQnuLMDsiMmDGrhJg+DDCeSMfzRXxZw4ebYXnUtwlo3aYNb5CQR41tCTT/ESrJt/IPPxWzyET4o3F4/YppkFLZgfoIfB5Y3ZQ7IpElrhZz4r
- hV57N0/Yuuoq0T9x7kA9dTXm+F3NWk3J5WKmiB365qLjkOgSI63bfUxmkWT7m+jgjqVzq/TGfjOwkqqmmPirOtmj69K2yV/grgKxrXhMroiuaJ6glk2kq2e+
- BLuAfNaMYLMy6RNaPAwL6o6xAQg0mXGKT+wSjoXbDC1yeypR0ZeSIBVS1myDswQDidoHIohjuLYJN8a7QRZ7dz1F7/rPyRKUZquqdWxLOIlTNnedR96BVikJ
- /APKCq63uC5PmQQtGFwLXihb7WzA7QXNLVXwxAoWFoWdS2ygZkf0LLnZA8ngSsCuDBI/oZMdrqaX8YUMpDr0WRRCF+7SlvbH+O6oUDgqh3ZABG2uX1I1Dq2n
- 2xbI43RkHTE=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190807083726.GA14658@quack2.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adding dri-devel since this appears to be drm specific and not media
-related.
+On Wed 07-08-19 10:37:26, Jan Kara wrote:
+> On Fri 02-08-19 12:14:09, John Hubbard wrote:
+> > On 8/2/19 7:52 AM, Jan Kara wrote:
+> > > On Fri 02-08-19 07:24:43, Matthew Wilcox wrote:
+> > > > On Fri, Aug 02, 2019 at 02:41:46PM +0200, Jan Kara wrote:
+> > > > > On Fri 02-08-19 11:12:44, Michal Hocko wrote:
+> > > > > > On Thu 01-08-19 19:19:31, john.hubbard@gmail.com wrote:
+> > > > > > [...]
+> > > > > > > 2) Convert all of the call sites for get_user_pages*(), to
+> > > > > > > invoke put_user_page*(), instead of put_page(). This involves dozens of
+> > > > > > > call sites, and will take some time.
+> > > > > > 
+> > > > > > How do we make sure this is the case and it will remain the case in the
+> > > > > > future? There must be some automagic to enforce/check that. It is simply
+> > > > > > not manageable to do it every now and then because then 3) will simply
+> > > > > > be never safe.
+> > > > > > 
+> > > > > > Have you considered coccinele or some other scripted way to do the
+> > > > > > transition? I have no idea how to deal with future changes that would
+> > > > > > break the balance though.
+> > 
+> > Hi Michal,
+> > 
+> > Yes, I've thought about it, and coccinelle falls a bit short (it's not smart
+> > enough to know which put_page()'s to convert). However, there is a debug
+> > option planned: a yet-to-be-posted commit [1] uses struct page extensions
+> > (obviously protected by CONFIG_DEBUG_GET_USER_PAGES_REFERENCES) to add
+> > a redundant counter. That allows:
+> > 
+> > void __put_page(struct page *page)
+> > {
+> > 	...
+> > 	/* Someone called put_page() instead of put_user_page() */
+> > 	WARN_ON_ONCE(atomic_read(&page_ext->pin_count) > 0);
+> > 
+> > > > > 
+> > > > > Yeah, that's why I've been suggesting at LSF/MM that we may need to create
+> > > > > a gup wrapper - say vaddr_pin_pages() - and track which sites dropping
+> > > > > references got converted by using this wrapper instead of gup. The
+> > > > > counterpart would then be more logically named as unpin_page() or whatever
+> > > > > instead of put_user_page().  Sure this is not completely foolproof (you can
+> > > > > create new callsite using vaddr_pin_pages() and then just drop refs using
+> > > > > put_page()) but I suppose it would be a high enough barrier for missed
+> > > > > conversions... Thoughts?
+> > 
+> > The debug option above is still a bit simplistic in its implementation
+> > (and maybe not taking full advantage of the data it has), but I think
+> > it's preferable, because it monitors the "core" and WARNs.
+> > 
+> > Instead of the wrapper, I'm thinking: documentation and the passage of
+> > time, plus the debug option (perhaps enhanced--probably once I post it
+> > someone will notice opportunities), yes?
+> 
+> So I think your debug option and my suggested renaming serve a bit
+> different purposes (and thus both make sense). If you do the renaming, you
+> can just grep to see unconverted sites. Also when someone merges new GUP
+> user (unaware of the new rules) while you switch GUP to use pins instead of
+> ordinary references, you'll get compilation error in case of renaming
+> instead of hard to debug refcount leak without the renaming. And such
+> conflict is almost bound to happen given the size of GUP patch set... Also
+> the renaming serves against the "coding inertia" - i.e., GUP is around for
+> ages so people just use it without checking any documentation or comments.
+> After switching how GUP works, what used to be correct isn't anymore so
+> renaming the function serves as a warning that something has really
+> changed.
 
-Regards,
+Fully agreed!
 
-	Hans
+> Your refcount debug patches are good to catch bugs in the conversions done
+> but that requires you to be able to excercise the code path in the first
+> place which may require particular HW or so, and you also have to enable
+> the debug option which means you already aim at verifying the GUP
+> references are treated properly.
+> 
+> 								Honza
+> 
+> -- 
+> Jan Kara <jack@suse.com>
+> SUSE Labs, CR
 
-On 8/7/19 10:17 AM, Naresh Kamboju wrote:
-> arm64 devices dragonboard 410c (QC410E) and hi6220-hikey running Linux
-> next-20190806 loading modules causing floods of kernel messages.
-> 
-> We have enabled few extra kernel configs for testing.
-> CONFIG_DRM_I2C_ADV7511=m
-> CONFIG_DRM_I2C_ADV7511_CEC=y
-> ...
-> 
-> Please find below boot log and config file link.
-> 
-> [    0.000000] Linux version 5.3.0-rc3-next-20190806 (oe-user@oe-host)
-> (gcc version 7.3.0 (GCC)) #1 SMP PREEMPT Tue Aug 6 05:49:36 UTC 2019
-> [    0.000000] Machine model: Qualcomm Technologies, Inc. APQ 8016 SBC
-> ....
-> [   10.051193] adv7511 3-0039: 3-0039 supply dvdd not found, using
-> dummy regulator
-> [   10.051633] adv7511 3-0039: 3-0039 supply pvdd not found, using
-> dummy regulator
-> [   10.076257] adreno 1c00000.gpu: Adding to iommu group 0
-> [   10.090929] adv7511 3-0039: 3-0039 supply a2vdd not found, using
-> dummy regulator
-> [   10.101703] msm_mdp 1a01000.mdp: Adding to iommu group 1
-> [   10.102563] msm_mdp 1a01000.mdp: No interconnect support may cause
-> display underflows!
-> [   10.139492] adv7511 3-0039: failed to find dsi host
-> ...
-> [   33.065744] adv7511 3-0039: failed to find dsi host
-> [   33.076721] msm 1a00000.mdss: 1a00000.mdss supply vdd not found,
-> using dummy regulator
-> [   33.078344] msm_mdp 1a01000.mdp: [drm:mdp5_bind [msm]] MDP5 version v1.6
-> [   33.083862] msm 1a00000.mdss: bound 1a01000.mdp (ops mdp5_ops [msm])
-> [   33.090892] msm_dsi 1a98000.dsi: 1a98000.dsi supply gdsc not found,
-> using dummy regulator
-> [   33.097756] msm_dsi 1a98000.dsi: 1a98000.dsi supply gdsc not found,
-> using dummy regulator
-> [   33.106606] msm_dsi_manager_register: failed to register mipi dsi
-> host for DSI 0
-> [   33.114579] msm 1a00000.mdss: failed to bind 1a98000.dsi (ops
-> dsi_ops [msm]): -517
-> [   33.121263] msm 1a00000.mdss: master bind failed: -517
-> [   33.135547] adv7511 3-0039: 3-0039 supply dvdd not found, using
-> dummy regulator
-> [   33.139360] adv7511 3-0039: 3-0039 supply pvdd not found, using
-> dummy regulator
-> [   33.143646] adv7511 3-0039: 3-0039 supply a2vdd not found, using
-> dummy regulator
-> 
-> Full test log
-> https://lkft.validation.linaro.org/scheduler/job/860208#L956
-> 
-> metadata:
->   git branch: master
->   git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->   git commit: 958eb4327c1761c609bde8e9f7c04e9d1c6fbb96
->   git describe: next-20190806
->   make_kernelversion: 5.3.0-rc3
->   kernel-config:
-> http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579/config
->   kernel-defconfig:
-> http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579/defconfig
->   build-location:
-> http://snapshots.linaro.org/openembedded/lkft/lkft/sumo/dragonboard-410c/lkft/linux-next/579
-> 
-> Best regards
-> Naresh Kamboju
-> 
-
+-- 
+Michal Hocko
+SUSE Labs
