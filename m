@@ -2,50 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B9F85ED4
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 11:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 545E285EE6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 11:42:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389750AbfHHJjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 05:39:40 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:59790 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389684AbfHHJjk (ORCPT
+        id S1732519AbfHHJmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 05:42:08 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:32939 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732494AbfHHJmH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:39:40 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x789cIQd023410;
-        Thu, 8 Aug 2019 11:38:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=rfAy2kQie5nyqet5futdME6zq6BbLniw6BappTO8JW8=;
- b=bZw3ufJS0Ny+6r7smXCGChSxzXuJohT5YuZKYP1I1STBqCiHttUYNKPztyOe3HPD3ezE
- 00qBEr8ooA9XY7NWjJSrQm8yN9iAWoGSKfzGkM+8KTp5oFvUlJvRCYHxAUd53g7tDU2V
- bfBVvIA/bwifv9nZiJVrCb7ZV3fUGU2p9Ao4zvD1XuKdY5yOpU9CVzV6Pdf59cBjfurz
- sChiUvSoCuJVF3Iw1e1yPDyLh6jzdK+En+LVy0KVIwqG1oYXhRh6uu9SRAf3WBz0haBa
- NPrkaYgnJxtlyIuoI/QlmfjOWQiomFLAZf/ACwBAczRiCPu7Iazvf++zx+AlS5TiPgSu Zg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2u515mvb4c-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 08 Aug 2019 11:38:22 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 468F938;
-        Thu,  8 Aug 2019 09:38:03 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 22B312DAD65;
-        Thu,  8 Aug 2019 11:38:03 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE3.st.com
- (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 8 Aug
- 2019 11:38:02 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Thu, 8 Aug 2019 11:38:02 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Thu, 8 Aug 2019 05:42:07 -0400
+Received: from [IPv6:2001:983:e9a7:1:dd78:ec97:6537:dc93] ([IPv6:2001:983:e9a7:1:dd78:ec97:6537:dc93])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id vevkhs1w4AffAvevmhBakW; Thu, 08 Aug 2019 11:42:05 +0200
+Subject: Re: [PATCH v4 0/3] DCMI bridge support
+To:     Hugues FRUCHET <hugues.fruchet@st.com>,
         Alexandre TORGUE <alexandre.torgue@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Sakari Ailus" <sakari.ailus@linux.intel.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -55,117 +30,188 @@ CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         Yannick FERTRE <yannick.fertre@st.com>,
         Philippe CORNU <philippe.cornu@st.com>,
         Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v4 0/3] DCMI bridge support
-Thread-Topic: [PATCH v4 0/3] DCMI bridge support
-Thread-Index: AQHVTQkgTcvIjOQmAEWftzhpiuOH2qbw3leA
-Date:   Thu, 8 Aug 2019 09:38:02 +0000
-Message-ID: <85edd40f-68cc-13aa-52e0-6ec832bf6c2f@st.com>
 References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
  <28a2a9ac-d5b9-a312-616a-620e0385cf66@xs4all.nl>
-In-Reply-To: <28a2a9ac-d5b9-a312-616a-620e0385cf66@xs4all.nl>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.45]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <68E7D2C351D66940A2DE53144A771ACE@st.com>
-Content-Transfer-Encoding: base64
+ <85edd40f-68cc-13aa-52e0-6ec832bf6c2f@st.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c58613a7-a1d2-cc1b-5f94-beb2bd753e5e@xs4all.nl>
+Date:   Thu, 8 Aug 2019 11:41:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-08_05:,,
- signatures=0
+In-Reply-To: <85edd40f-68cc-13aa-52e0-6ec832bf6c2f@st.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfC5ACmRPuS3YAAfyW4BnQN1UU1u9dTyjgbg6D28/ejMIlmwugAn4Lgm1gsP6k6qYQh4okcjxQa6xKfGl3g7c0oahlOIl6COVcn55qS8YgJi50OtIMALk
+ UpVPWPmdB93XfcDjw18IkPJNc1hzjo3yOXJKMruxlLcC3KV0RZQ6jk8V33UWiY+wtN6T15kPmbrc4MAB4D9EZuVhoTuhZOZegwHhtkpb0fT7F16op6Xg7GpY
+ teNn385Qaho8zI6uA5Msq6r7aGTNVRUpNdp6E2w7iHDk4GQ53BtipOWyB+8073y1wFMhu7/DZ7CN+pyXT2CXHRcjScxinU7alz88DCGqjZdMRwsx2WmibCmM
+ wA1SmNp3E74eSFzb9m9ywfUSvmkHUwAVWrRSn7qm8CdSAHwDcDGrcRznYfurxSQq7zWkwbeS7sj2bWDNKxlxWMgs1cN4Luv/QbbwAwJZlvTwzyvNyGmp7zTP
+ 4ibGCs6B4F7LJLLI7gvSa2anue8cejdrz8InncEcgIYdaTPCUep+igNV1lBm1u5eBHthRBUryy98B7W6AmHwN8CQt/Qlyx12zmVZbE5MiQvwJ0P+yT+7+g7p
+ HlNEkD5OGeKlm/kqO2HHJF6ZQ3jKacnuCRCJnZ7lAmbqmXeYCGjjnUb0AWNbtbTMJw2R5TALI4FMwOUqeqY4i0ohHeHNZjUIM1jViP4V/IYeXpt94AyeOcec
+ L5o5hrZ04iI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSGFucywNCg0KWW91J3JlIHdlbGNvbWUsIGhlcmUgaXQgaXM6DQoNCjEpIHY0bC11dGlscyBt
-YXN0ZXIgYnJhbmNoLCBjb21taXQgDQo2YWExNWY3NDQ3ZDRhZWNhNmFmMWVkN2VlOTY0NGEwYzdl
-ODkxZWNlICJ2NGwyLWN0bDogZml4IGRvdWJsZSANCmRlY3JlbWVudGluZyBvZiBzdHJlYW1fY291
-bnQiDQoNCjIpIENyb3BwaW5nIHRlc3QgaXMgZmFpbGVkIGFzIHVzdWFsIGJlY2F1c2Ugb2YgT1Y1
-NjQwIGRpc2NyZXRlIGZyYW1lc2l6ZXMNCg0KMykgTm8gbW9yZSAvZGV2L21lZGlhKiBhbmQgL2Rl
-di92NGwtKjoNCnJvb3RAc3RtMzJtcDEtYXY5Njp+IyBscyAtYWwgL2Rldi92aWRlbzANCmNydy1y
-dy0tLS0gMSByb290IHZpZGVvIDgxLCAwIE1hciAxOSAxNzo0MiAvZGV2L3ZpZGVvMA0Kcm9vdEBz
-dG0zMm1wMS1hdjk2On4jIGxzIC1hbCAvZGV2L21lZGlhKg0KbHM6IGNhbm5vdCBhY2Nlc3MgJy9k
-ZXYvbWVkaWEqJzogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0Kcm9vdEBzdG0zMm1wMS1hdjk2
-On4jIGxzIC1hbCAvZGV2L3Y0bC0qDQpsczogY2Fubm90IGFjY2VzcyAnL2Rldi92NGwtKic6IE5v
-IHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCg0KDQpyb290QHN0bTMybXAxLWF2OTY6fiMgdjRsMi1j
-b21wbGlhbmNlIC1zDQp2NGwyLWNvbXBsaWFuY2UgU0hBOiA2YWExNWY3NDQ3ZDRhZWNhNmFmMWVk
-N2VlOTY0NGEwYzdlODkxZWNlLCAzMiBiaXRzDQoNCkNvbXBsaWFuY2UgdGVzdCBmb3Igc3RtMzIt
-ZGNtaSBkZXZpY2UgL2Rldi92aWRlbzA6DQoNCkRyaXZlciBJbmZvOg0KICAgICAgICAgRHJpdmVy
-IG5hbWUgICAgICA6IHN0bTMyLWRjbWkNCiAgICAgICAgIENhcmQgdHlwZSAgICAgICAgOiBTVE0z
-MiBDYW1lcmEgTWVtb3J5IEludGVyZmFjZQ0KICAgICAgICAgQnVzIGluZm8gICAgICAgICA6IHBs
-YXRmb3JtOmRjbWkNCiAgICAgICAgIERyaXZlciB2ZXJzaW9uICAgOiA0LjE5LjQ5DQogICAgICAg
-ICBDYXBhYmlsaXRpZXMgICAgIDogMHg4NTIwMDAwMQ0KICAgICAgICAgICAgICAgICBWaWRlbyBD
-YXB0dXJlDQogICAgICAgICAgICAgICAgIFJlYWQvV3JpdGUNCiAgICAgICAgICAgICAgICAgU3Ry
-ZWFtaW5nDQogICAgICAgICAgICAgICAgIEV4dGVuZGVkIFBpeCBGb3JtYXQNCiAgICAgICAgICAg
-ICAgICAgRGV2aWNlIENhcGFiaWxpdGllcw0KICAgICAgICAgRGV2aWNlIENhcHMgICAgICA6IDB4
-MDUyMDAwMDENCiAgICAgICAgICAgICAgICAgVmlkZW8gQ2FwdHVyZQ0KICAgICAgICAgICAgICAg
-ICBSZWFkL1dyaXRlDQogICAgICAgICAgICAgICAgIFN0cmVhbWluZw0KICAgICAgICAgICAgICAg
-ICBFeHRlbmRlZCBQaXggRm9ybWF0DQoNClJlcXVpcmVkIGlvY3RsczoNCiAgICAgICAgIHRlc3Qg
-VklESU9DX1FVRVJZQ0FQOiBPSw0KDQpBbGxvdyBmb3IgbXVsdGlwbGUgb3BlbnM6DQogICAgICAg
-ICB0ZXN0IHNlY29uZCAvZGV2L3ZpZGVvMCBvcGVuOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0Nf
-UVVFUllDQVA6IE9LDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfUFJJT1JJVFk6IE9LDQogICAg
-ICAgICB0ZXN0IGZvciB1bmxpbWl0ZWQgb3BlbnM6IE9LDQoNCkRlYnVnIGlvY3RsczoNCiAgICAg
-ICAgIHRlc3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAg
-ICAgICAgdGVzdCBWSURJT0NfTE9HX1NUQVRVUzogT0sNCg0KSW5wdXQgaW9jdGxzOg0KICAgICAg
-ICAgdGVzdCBWSURJT0NfRy9TX1RVTkVSL0VOVU1fRlJFUV9CQU5EUzogT0sgKE5vdCBTdXBwb3J0
-ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfRlJFUVVFTkNZOiBPSyAoTm90IFN1cHBvcnRl
-ZCkNCiAgICAgICAgIHRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90IFN1cHBvcnRl
-ZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0VOVU1BVURJTzogT0sgKE5vdCBTdXBwb3J0ZWQpDQog
-ICAgICAgICB0ZXN0IFZJRElPQ19HL1MvRU5VTUlOUFVUOiBPSw0KICAgICAgICAgdGVzdCBWSURJ
-T0NfRy9TX0FVRElPOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIElucHV0czogMSBBdWRp
-byBJbnB1dHM6IDAgVHVuZXJzOiAwDQoNCk91dHB1dCBpb2N0bHM6DQogICAgICAgICB0ZXN0IFZJ
-RElPQ19HL1NfTU9EVUxBVE9SOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklE
-SU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgdGVzdCBWSURJ
-T0NfRU5VTUFVRE9VVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19H
-L1MvRU5VTU9VVFBVVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19H
-L1NfQVVET1VUOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIE91dHB1dHM6IDAgQXVkaW8g
-T3V0cHV0czogMCBNb2R1bGF0b3JzOiAwDQoNCklucHV0L091dHB1dCBjb25maWd1cmF0aW9uIGlv
-Y3RsczoNCiAgICAgICAgIHRlc3QgVklESU9DX0VOVU0vRy9TL1FVRVJZX1NURDogT0sgKE5vdCBT
-dXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19FTlVNL0cvUy9RVUVSWV9EVl9USU1JTkdT
-OiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0RWX1RJTUlOR1NfQ0FQ
-OiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0cvU19FRElEOiBPSyAo
-Tm90IFN1cHBvcnRlZCkNCg0KQ29udHJvbCBpb2N0bHMgKElucHV0IDApOg0KICAgICAgICAgdGVz
-dCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSw0KICAgICAgICAgdGVzdCBWSURJ
-T0NfUVVFUllDVFJMOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0NfRy9TX0NUUkw6IE9LDQogICAg
-ICAgICB0ZXN0IFZJRElPQ19HL1MvVFJZX0VYVF9DVFJMUzogT0sNCiAgICAgICAgIHRlc3QgVklE
-SU9DXyhVTilTVUJTQ1JJQkVfRVZFTlQvRFFFVkVOVDogT0sNCiAgICAgICAgIHRlc3QgVklESU9D
-X0cvU19KUEVHQ09NUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICBTdGFuZGFyZCBDb250
-cm9sczogMTggUHJpdmF0ZSBDb250cm9sczogMA0KDQpGb3JtYXQgaW9jdGxzIChJbnB1dCAwKToN
-CiAgICAgICAgIHRlc3QgVklESU9DX0VOVU1fRk1UL0ZSQU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6
-IE9LDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfUEFSTTogT0sNCiAgICAgICAgIHRlc3QgVklE
-SU9DX0dfRkJVRjogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19HX0ZN
-VDogT0sNCiAgICAgICAgIHRlc3QgVklESU9DX1RSWV9GTVQ6IE9LDQogICAgICAgICB0ZXN0IFZJ
-RElPQ19TX0ZNVDogT0sNCiAgICAgICAgIHRlc3QgVklESU9DX0dfU0xJQ0VEX1ZCSV9DQVA6IE9L
-IChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgICAgICAgICBmYWlsOiANCi4uLy4uLy4uLy4uLy4u
-Ly4uLy4uLy4uLy4uL3NvdXJjZXMvdjRsLXV0aWxzL3V0aWxzL3Y0bDItY29tcGxpYW5jZS92NGwy
-LXRlc3QtZm9ybWF0cy5jcHAoMTQxNCk6IA0Kbm9kZS0+ZnJtc2l6ZXNfY291bnRbcGl4Zm0NCnRd
-ID4gMQ0KICAgICAgICAgdGVzdCBDcm9wcGluZzogRkFJTA0KICAgICAgICAgdGVzdCBDb21wb3Np
-bmc6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgdGVzdCBTY2FsaW5nOiBPSyAoTm90IFN1
-cHBvcnRlZCkNCg0KQ29kZWMgaW9jdGxzIChJbnB1dCAwKToNCiAgICAgICAgIHRlc3QgVklESU9D
-XyhUUllfKUVOQ09ERVJfQ01EOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklE
-SU9DX0dfRU5DX0lOREVYOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9D
-XyhUUllfKURFQ09ERVJfQ01EOiBPSyAoTm90IFN1cHBvcnRlZCkNCg0KQnVmZmVyIGlvY3RscyAo
-SW5wdXQgMCk6DQogICAgICAgICB0ZXN0IFZJRElPQ19SRVFCVUZTL0NSRUFURV9CVUZTL1FVRVJZ
-QlVGOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0NfRVhQQlVGOiBPSw0KICAgICAgICAgdGVzdCBS
-ZXF1ZXN0czogT0sgKE5vdCBTdXBwb3J0ZWQpDQoNClRlc3QgaW5wdXQgMDoNCg0KU3RyZWFtaW5n
-IGlvY3RsczoNCiAgICAgICAgIHRlc3QgcmVhZC93cml0ZTogT0sNCiAgICAgICAgIHRlc3QgYmxv
-Y2tpbmcgd2FpdDogT0sNCiAgICAgICAgIHRlc3QgTU1BUCAobm8gcG9sbCk6IE9LDQogICAgICAg
-ICB0ZXN0IE1NQVAgKHNlbGVjdCk6IE9LDQogICAgICAgICB0ZXN0IE1NQVAgKGVwb2xsKTogT0sN
-CiAgICAgICAgIHRlc3QgVVNFUlBUUiAobm8gcG9sbCk6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAg
-ICAgICAgdGVzdCBVU0VSUFRSIChzZWxlY3QpOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAg
-IHRlc3QgRE1BQlVGOiBDYW5ub3QgdGVzdCwgc3BlY2lmeSAtLWV4cGJ1Zi1kZXZpY2UNCg0KVG90
-YWwgZm9yIHN0bTMyLWRjbWkgZGV2aWNlIC9kZXYvdmlkZW8wOiA1MSwgU3VjY2VlZGVkOiA1MCwg
-RmFpbGVkOiAxLCANCldhcm5pbmdzOiAwDQoNCg0KT24gOC83LzE5IDEyOjE1IFBNLCBIYW5zIFZl
-cmt1aWwgd3JvdGU6DQo+IEhpIEh1Z3VlcywNCj4gDQo+IENhbiB5b3UgcHJvdmlkZSB0aGUgb3V0
-cHV0IG9mIHRoZSBtb3N0IHJlY2VudCB2NGwyLWNvbXBsaWFuY2U/DQo+IA0KPiBVc2UgJ3Y0bDIt
-Y29tcGxpYW5jZSAtcycuDQo+IA0KPiBBbHNvLCBqdXN0IHRvIGNvbmZpcm0sIHdpdGggdGhpcyB2
-NCB0aGVyZSBhcmUgbm8gL2Rldi9tZWRpYVggb3INCj4gL2Rldi92NGwtc3ViZGV2WCBkZXZpY2Vz
-IGNyZWF0ZWQgYW55bW9yZSwgcmlnaHQ/DQo+IA0KPiBUaGlzIHY0IGxvb2tzIGdvb2QgdG8gbWUs
-IEkganVzdCB3YW50IHRvIGhhdmUgdGhlc2UgZmluYWwgY2hlY2tzDQo+IGRvbmUuDQo+IA0KPiBS
-ZWdhcmRzLA0KPiANCj4gCUhhbnMNCj4gDQoNCkJlc3QgcmVnYXJkcywNCkh1Z3Vlcy4=
+Hi Hugues,
+
+On 8/8/19 11:38 AM, Hugues FRUCHET wrote:
+> Hi Hans,
+> 
+> You're welcome, here it is:
+> 
+> 1) v4l-utils master branch, commit 
+> 6aa15f7447d4aeca6af1ed7ee9644a0c7e891ece "v4l2-ctl: fix double 
+> decrementing of stream_count"
+> 
+> 2) Cropping test is failed as usual because of OV5640 discrete framesizes
+> 
+> 3) No more /dev/media* and /dev/v4l-*:
+> root@stm32mp1-av96:~# ls -al /dev/video0
+> crw-rw---- 1 root video 81, 0 Mar 19 17:42 /dev/video0
+> root@stm32mp1-av96:~# ls -al /dev/media*
+> ls: cannot access '/dev/media*': No such file or directory
+> root@stm32mp1-av96:~# ls -al /dev/v4l-*
+> ls: cannot access '/dev/v4l-*': No such file or directory
+
+Good. One more question: is this tested with two subdevs? So a bridge+sensor?
+
+Regards,
+
+	Hans
+
+> 
+> 
+> root@stm32mp1-av96:~# v4l2-compliance -s
+> v4l2-compliance SHA: 6aa15f7447d4aeca6af1ed7ee9644a0c7e891ece, 32 bits
+> 
+> Compliance test for stm32-dcmi device /dev/video0:
+> 
+> Driver Info:
+>          Driver name      : stm32-dcmi
+>          Card type        : STM32 Camera Memory Interface
+>          Bus info         : platform:dcmi
+>          Driver version   : 4.19.49
+>          Capabilities     : 0x85200001
+>                  Video Capture
+>                  Read/Write
+>                  Streaming
+>                  Extended Pix Format
+>                  Device Capabilities
+>          Device Caps      : 0x05200001
+>                  Video Capture
+>                  Read/Write
+>                  Streaming
+>                  Extended Pix Format
+> 
+> Required ioctls:
+>          test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>          test second /dev/video0 open: OK
+>          test VIDIOC_QUERYCAP: OK
+>          test VIDIOC_G/S_PRIORITY: OK
+>          test for unlimited opens: OK
+> 
+> Debug ioctls:
+>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>          test VIDIOC_LOG_STATUS: OK
+> 
+> Input ioctls:
+>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMINPUT: OK
+>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>          Inputs: 1 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>          test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls (Input 0):
+>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>          test VIDIOC_QUERYCTRL: OK
+>          test VIDIOC_G/S_CTRL: OK
+>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>          Standard Controls: 18 Private Controls: 0
+> 
+> Format ioctls (Input 0):
+>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>          test VIDIOC_G/S_PARM: OK
+>          test VIDIOC_G_FBUF: OK (Not Supported)
+>          test VIDIOC_G_FMT: OK
+>          test VIDIOC_TRY_FMT: OK
+>          test VIDIOC_S_FMT: OK
+>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>                  fail: 
+> ../../../../../../../../../sources/v4l-utils/utils/v4l2-compliance/v4l2-test-formats.cpp(1414): 
+> node->frmsizes_count[pixfm
+> t] > 1
+>          test Cropping: FAIL
+>          test Composing: OK (Not Supported)
+>          test Scaling: OK (Not Supported)
+> 
+> Codec ioctls (Input 0):
+>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls (Input 0):
+>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>          test VIDIOC_EXPBUF: OK
+>          test Requests: OK (Not Supported)
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+>          test read/write: OK
+>          test blocking wait: OK
+>          test MMAP (no poll): OK
+>          test MMAP (select): OK
+>          test MMAP (epoll): OK
+>          test USERPTR (no poll): OK (Not Supported)
+>          test USERPTR (select): OK (Not Supported)
+>          test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for stm32-dcmi device /dev/video0: 51, Succeeded: 50, Failed: 1, 
+> Warnings: 0
+> 
+> 
+> On 8/7/19 12:15 PM, Hans Verkuil wrote:
+>> Hi Hugues,
+>>
+>> Can you provide the output of the most recent v4l2-compliance?
+>>
+>> Use 'v4l2-compliance -s'.
+>>
+>> Also, just to confirm, with this v4 there are no /dev/mediaX or
+>> /dev/v4l-subdevX devices created anymore, right?
+>>
+>> This v4 looks good to me, I just want to have these final checks
+>> done.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+> 
+> Best regards,
+> Hugues.
+> 
+
