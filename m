@@ -2,708 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A12685EA7
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 11:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B9F85ED4
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 11:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732221AbfHHJg7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 05:36:59 -0400
-Received: from mga04.intel.com ([192.55.52.120]:11403 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731122AbfHHJg7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:36:59 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 02:36:57 -0700
-X-IronPort-AV: E=Sophos;i="5.64,360,1559545200"; 
-   d="scan'208";a="176467836"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 02:36:53 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id C0F1C203D9; Thu,  8 Aug 2019 12:37:29 +0300 (EEST)
-Date:   Thu, 8 Aug 2019 12:37:29 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
-        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
-        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, kernel@collabora.com,
-        ezequiel@collabora.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
-        Jacob Chen <cc@rock-chips.com>,
-        Allon Huang <allon.huang@rock-chips.com>
-Subject: Re: [PATCH v8 06/14] media: rkisp1: add ISP1 statistics driver
-Message-ID: <20190808093729.GR21370@paasikivi.fi.intel.com>
-References: <20190730184256.30338-1-helen.koike@collabora.com>
- <20190730184256.30338-7-helen.koike@collabora.com>
+        id S2389750AbfHHJjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 05:39:40 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:59790 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2389684AbfHHJjk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Aug 2019 05:39:40 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x789cIQd023410;
+        Thu, 8 Aug 2019 11:38:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=rfAy2kQie5nyqet5futdME6zq6BbLniw6BappTO8JW8=;
+ b=bZw3ufJS0Ny+6r7smXCGChSxzXuJohT5YuZKYP1I1STBqCiHttUYNKPztyOe3HPD3ezE
+ 00qBEr8ooA9XY7NWjJSrQm8yN9iAWoGSKfzGkM+8KTp5oFvUlJvRCYHxAUd53g7tDU2V
+ bfBVvIA/bwifv9nZiJVrCb7ZV3fUGU2p9Ao4zvD1XuKdY5yOpU9CVzV6Pdf59cBjfurz
+ sChiUvSoCuJVF3Iw1e1yPDyLh6jzdK+En+LVy0KVIwqG1oYXhRh6uu9SRAf3WBz0haBa
+ NPrkaYgnJxtlyIuoI/QlmfjOWQiomFLAZf/ACwBAczRiCPu7Iazvf++zx+AlS5TiPgSu Zg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2u515mvb4c-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Thu, 08 Aug 2019 11:38:22 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 468F938;
+        Thu,  8 Aug 2019 09:38:03 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 22B312DAD65;
+        Thu,  8 Aug 2019 11:38:03 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE3.st.com
+ (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 8 Aug
+ 2019 11:38:02 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Thu, 8 Aug 2019 11:38:02 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Sakari Ailus" <sakari.ailus@linux.intel.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: Re: [PATCH v4 0/3] DCMI bridge support
+Thread-Topic: [PATCH v4 0/3] DCMI bridge support
+Thread-Index: AQHVTQkgTcvIjOQmAEWftzhpiuOH2qbw3leA
+Date:   Thu, 8 Aug 2019 09:38:02 +0000
+Message-ID: <85edd40f-68cc-13aa-52e0-6ec832bf6c2f@st.com>
+References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
+ <28a2a9ac-d5b9-a312-616a-620e0385cf66@xs4all.nl>
+In-Reply-To: <28a2a9ac-d5b9-a312-616a-620e0385cf66@xs4all.nl>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <68E7D2C351D66940A2DE53144A771ACE@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190730184256.30338-7-helen.koike@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-08_05:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
-
-On Tue, Jul 30, 2019 at 03:42:48PM -0300, Helen Koike wrote:
-> From: Jacob Chen <jacob2.chen@rock-chips.com>
-> 
-> Add the capture video driver for rockchip isp1 statistics block.
-> 
-> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
-> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-> Signed-off-by: Yichong Zhong <zyc@rock-chips.com>
-> Signed-off-by: Jacob Chen <cc@rock-chips.com>
-> Signed-off-by: Eddie Cai <eddie.cai.linux@gmail.com>
-> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
-> Signed-off-by: Allon Huang <allon.huang@rock-chips.com>
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> [update for upstream]
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
-> 
-> ---
-> 
-> Changes in v8: None
-> Changes in v7:
-> - s/strlcpy/strscpy
-> - sort out the locks in isp stats
-> - code styling and checkpatch fixes
-> 
->  .../media/platform/rockchip/isp1/isp_stats.c  | 508 ++++++++++++++++++
->  .../media/platform/rockchip/isp1/isp_stats.h  |  60 +++
->  2 files changed, 568 insertions(+)
->  create mode 100644 drivers/media/platform/rockchip/isp1/isp_stats.c
->  create mode 100644 drivers/media/platform/rockchip/isp1/isp_stats.h
-> 
-> diff --git a/drivers/media/platform/rockchip/isp1/isp_stats.c b/drivers/media/platform/rockchip/isp1/isp_stats.c
-> new file mode 100644
-> index 000000000000..01d947867c70
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/isp1/isp_stats.c
-> @@ -0,0 +1,508 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Rockchip isp1 driver
-> + *
-> + * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-> + */
-> +
-> +#include <media/v4l2-common.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/videobuf2-core.h>
-> +#include <media/videobuf2-vmalloc.h>	/* for ISP statistics */
-> +
-> +#include "dev.h"
-> +#include "regs.h"
-> +
-> +#define RKISP1_ISP_STATS_REQ_BUFS_MIN 2
-> +#define RKISP1_ISP_STATS_REQ_BUFS_MAX 8
-> +
-> +static int rkisp1_stats_enum_fmt_meta_cap(struct file *file, void *priv,
-> +					  struct v4l2_fmtdesc *f)
-> +{
-> +	struct video_device *video = video_devdata(file);
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = video_get_drvdata(video);
-> +
-> +	if (f->index > 0 || f->type != video->queue->type)
-> +		return -EINVAL;
-> +
-> +	f->pixelformat = stats_vdev->vdev_fmt.fmt.meta.dataformat;
-> +	return 0;
-> +}
-> +
-> +static int rkisp1_stats_g_fmt_meta_cap(struct file *file, void *priv,
-> +				       struct v4l2_format *f)
-> +{
-> +	struct video_device *video = video_devdata(file);
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = video_get_drvdata(video);
-> +	struct v4l2_meta_format *meta = &f->fmt.meta;
-> +
-> +	if (f->type != video->queue->type)
-> +		return -EINVAL;
-> +
-> +	memset(meta, 0, sizeof(*meta));
-> +	meta->dataformat = stats_vdev->vdev_fmt.fmt.meta.dataformat;
-> +	meta->buffersize = stats_vdev->vdev_fmt.fmt.meta.buffersize;
-> +
-> +	return 0;
-> +}
-> +
-> +static int rkisp1_stats_querycap(struct file *file,
-> +				 void *priv, struct v4l2_capability *cap)
-> +{
-> +	struct video_device *vdev = video_devdata(file);
-> +
-> +	strscpy(cap->driver, DRIVER_NAME, sizeof(cap->driver));
-> +	strscpy(cap->card, vdev->name, sizeof(cap->card));
-> +	strscpy(cap->bus_info, "platform: " DRIVER_NAME, sizeof(cap->bus_info));
-> +
-> +	return 0;
-> +}
-> +
-> +/* ISP video device IOCTLs */
-> +static const struct v4l2_ioctl_ops rkisp1_stats_ioctl = {
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +	.vidioc_enum_fmt_meta_cap = rkisp1_stats_enum_fmt_meta_cap,
-> +	.vidioc_g_fmt_meta_cap = rkisp1_stats_g_fmt_meta_cap,
-> +	.vidioc_s_fmt_meta_cap = rkisp1_stats_g_fmt_meta_cap,
-> +	.vidioc_try_fmt_meta_cap = rkisp1_stats_g_fmt_meta_cap,
-> +	.vidioc_querycap = rkisp1_stats_querycap,
-> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-
-Do you have controls on the video nodes? If not, you can remove the two.
-
-> +};
-> +
-> +struct v4l2_file_operations rkisp1_stats_fops = {
-
-static const
-
-> +	.mmap = vb2_fop_mmap,
-> +	.unlocked_ioctl = video_ioctl2,
-> +	.poll = vb2_fop_poll,
-> +	.open = v4l2_fh_open,
-> +	.release = vb2_fop_release
-> +};
-> +
-> +static int rkisp1_stats_vb2_queue_setup(struct vb2_queue *vq,
-> +					unsigned int *num_buffers,
-> +					unsigned int *num_planes,
-> +					unsigned int sizes[],
-> +					struct device *alloc_devs[])
-> +{
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = vq->drv_priv;
-> +
-> +	*num_planes = 1;
-> +
-> +	*num_buffers = clamp_t(u32, *num_buffers, RKISP1_ISP_STATS_REQ_BUFS_MIN,
-> +			       RKISP1_ISP_STATS_REQ_BUFS_MAX);
-> +
-> +	sizes[0] = sizeof(struct rkisp1_stat_buffer);
-> +
-> +	INIT_LIST_HEAD(&stats_vdev->stat);
-> +
-> +	return 0;
-> +}
-> +
-> +static void rkisp1_stats_vb2_buf_queue(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct rkisp1_buffer *stats_buf = to_rkisp1_buffer(vbuf);
-> +	struct vb2_queue *vq = vb->vb2_queue;
-> +	struct rkisp1_isp_stats_vdev *stats_dev = vq->drv_priv;
-> +
-> +	stats_buf->vaddr[0] = vb2_plane_vaddr(vb, 0);
-> +
-> +	mutex_lock(&stats_dev->wq_lock);
-> +	list_add_tail(&stats_buf->queue, &stats_dev->stat);
-> +	mutex_unlock(&stats_dev->wq_lock);
-> +}
-> +
-> +static int rkisp1_stats_vb2_buf_prepare(struct vb2_buffer *vb)
-> +{
-> +	if (vb2_plane_size(vb, 0) < sizeof(struct rkisp1_stat_buffer))
-> +		return -EINVAL;
-> +
-> +	vb2_set_plane_payload(vb, 0, sizeof(struct rkisp1_stat_buffer));
-> +
-> +	return 0;
-> +}
-> +
-> +static void rkisp1_stats_vb2_stop_streaming(struct vb2_queue *vq)
-> +{
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = vq->drv_priv;
-> +	struct rkisp1_buffer *buf;
-> +	unsigned long flags;
-> +	unsigned int i;
-> +
-> +	/* Make sure no new work queued in isr before draining wq */
-> +	spin_lock_irqsave(&stats_vdev->irq_lock, flags);
-> +	stats_vdev->streamon = false;
-> +	spin_unlock_irqrestore(&stats_vdev->irq_lock, flags);
-> +
-> +	drain_workqueue(stats_vdev->readout_wq);
-> +
-> +	mutex_lock(&stats_vdev->wq_lock);
-> +	for (i = 0; i < RKISP1_ISP_STATS_REQ_BUFS_MAX; i++) {
-> +		if (list_empty(&stats_vdev->stat))
-> +			break;
-> +		buf = list_first_entry(&stats_vdev->stat,
-> +				       struct rkisp1_buffer, queue);
-> +		list_del(&buf->queue);
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +	}
-> +	mutex_unlock(&stats_vdev->wq_lock);
-> +}
-> +
-> +static int
-> +rkisp1_stats_vb2_start_streaming(struct vb2_queue *queue,
-> +				 unsigned int count)
-> +{
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = queue->drv_priv;
-> +
-> +	stats_vdev->streamon = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct vb2_ops rkisp1_stats_vb2_ops = {
-
-const
-
-> +	.queue_setup = rkisp1_stats_vb2_queue_setup,
-> +	.buf_queue = rkisp1_stats_vb2_buf_queue,
-> +	.buf_prepare = rkisp1_stats_vb2_buf_prepare,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
-> +	.stop_streaming = rkisp1_stats_vb2_stop_streaming,
-> +	.start_streaming = rkisp1_stats_vb2_start_streaming,
-> +};
-> +
-> +static int rkisp1_stats_init_vb2_queue(struct vb2_queue *q,
-> +				       struct rkisp1_isp_stats_vdev *stats_vdev)
-> +{
-> +	struct rkisp1_vdev_node *node;
-> +
-> +	node = queue_to_node(q);
-> +
-> +	q->type = V4L2_BUF_TYPE_META_CAPTURE;
-> +	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +	q->drv_priv = stats_vdev;
-> +	q->ops = &rkisp1_stats_vb2_ops;
-> +	q->mem_ops = &vb2_vmalloc_memops;
-> +	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-> +	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	q->lock = &node->vlock;
-> +
-> +	return vb2_queue_init(q);
-> +}
-> +
-> +static void rkisp1_stats_get_awb_meas(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +				      struct rkisp1_stat_buffer *pbuf)
-> +{
-> +	/* Protect against concurrent access from ISR? */
-> +	u32 reg_val;
-> +
-> +	pbuf->meas_type |= CIFISP_STAT_AWB;
-> +	reg_val = readl(stats_vdev->dev->base_addr + CIF_ISP_AWB_WHITE_CNT);
-> +	pbuf->params.awb.awb_mean[0].cnt = CIF_ISP_AWB_GET_PIXEL_CNT(reg_val);
-> +	reg_val = readl(stats_vdev->dev->base_addr + CIF_ISP_AWB_MEAN);
-> +
-> +	pbuf->params.awb.awb_mean[0].mean_cr_or_r =
-> +		CIF_ISP_AWB_GET_MEAN_CR_R(reg_val);
-> +	pbuf->params.awb.awb_mean[0].mean_cb_or_b =
-> +		CIF_ISP_AWB_GET_MEAN_CB_B(reg_val);
-> +	pbuf->params.awb.awb_mean[0].mean_y_or_g =
-> +		CIF_ISP_AWB_GET_MEAN_Y_G(reg_val);
-> +}
-> +
-> +static void rkisp1_stats_get_aec_meas(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +				      struct rkisp1_stat_buffer *pbuf)
-> +{
-> +	void __iomem *addr = stats_vdev->dev->base_addr + CIF_ISP_EXP_MEAN_00;
-> +	unsigned int i;
-> +
-> +	pbuf->meas_type |= CIFISP_STAT_AUTOEXP;
-> +	for (i = 0; i < CIFISP_AE_MEAN_MAX; i++)
-> +		pbuf->params.ae.exp_mean[i] = (u8)readl(addr + i * 4);
-> +}
-> +
-> +static void rkisp1_stats_get_afc_meas(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +				      struct rkisp1_stat_buffer *pbuf)
-> +{
-> +	void __iomem *base_addr;
-> +	struct cifisp_af_stat *af;
-> +
-> +	pbuf->meas_type = CIFISP_STAT_AFM_FIN;
-> +
-> +	af = &pbuf->params.af;
-> +	base_addr = stats_vdev->dev->base_addr;
-> +	af->window[0].sum = readl(base_addr + CIF_ISP_AFM_SUM_A);
-> +	af->window[0].lum = readl(base_addr + CIF_ISP_AFM_LUM_A);
-> +	af->window[1].sum = readl(base_addr + CIF_ISP_AFM_SUM_B);
-> +	af->window[1].lum = readl(base_addr + CIF_ISP_AFM_LUM_B);
-> +	af->window[2].sum = readl(base_addr + CIF_ISP_AFM_SUM_C);
-> +	af->window[2].lum = readl(base_addr + CIF_ISP_AFM_LUM_C);
-> +}
-> +
-> +static void rkisp1_stats_get_hst_meas(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +				      struct rkisp1_stat_buffer *pbuf)
-> +{
-> +	void __iomem *addr = stats_vdev->dev->base_addr + CIF_ISP_HIST_BIN_0;
-> +	unsigned int i;
-> +
-> +	pbuf->meas_type |= CIFISP_STAT_HIST;
-> +	for (i = 0; i < CIFISP_HIST_BIN_N_MAX; i++)
-> +		pbuf->params.hist.hist_bins[i] = readl(addr + (i * 4));
-> +}
-> +
-> +static void rkisp1_stats_get_bls_meas(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +				      struct rkisp1_stat_buffer *pbuf)
-> +{
-> +	struct rkisp1_device *dev = stats_vdev->dev;
-> +	const struct ispsd_in_fmt *in_fmt =
-> +			rkisp1_get_ispsd_in_fmt(&dev->isp_sdev);
-> +	void __iomem *base = stats_vdev->dev->base_addr;
-> +	struct cifisp_bls_meas_val *bls_val;
-> +
-> +	bls_val = &pbuf->params.ae.bls_val;
-> +	if (in_fmt->bayer_pat == RAW_BGGR) {
-> +		bls_val->meas_b = readl(base + CIF_ISP_BLS_A_MEASURED);
-> +		bls_val->meas_gb = readl(base + CIF_ISP_BLS_B_MEASURED);
-> +		bls_val->meas_gr = readl(base + CIF_ISP_BLS_C_MEASURED);
-> +		bls_val->meas_r = readl(base + CIF_ISP_BLS_D_MEASURED);
-> +	} else if (in_fmt->bayer_pat == RAW_GBRG) {
-> +		bls_val->meas_gb = readl(base + CIF_ISP_BLS_A_MEASURED);
-> +		bls_val->meas_b = readl(base + CIF_ISP_BLS_B_MEASURED);
-> +		bls_val->meas_r = readl(base + CIF_ISP_BLS_C_MEASURED);
-> +		bls_val->meas_gr = readl(base + CIF_ISP_BLS_D_MEASURED);
-> +	} else if (in_fmt->bayer_pat == RAW_GRBG) {
-> +		bls_val->meas_gr = readl(base + CIF_ISP_BLS_A_MEASURED);
-> +		bls_val->meas_r = readl(base + CIF_ISP_BLS_B_MEASURED);
-> +		bls_val->meas_b = readl(base + CIF_ISP_BLS_C_MEASURED);
-> +		bls_val->meas_gb = readl(base + CIF_ISP_BLS_D_MEASURED);
-> +	} else if (in_fmt->bayer_pat == RAW_RGGB) {
-> +		bls_val->meas_r = readl(base + CIF_ISP_BLS_A_MEASURED);
-> +		bls_val->meas_gr = readl(base + CIF_ISP_BLS_B_MEASURED);
-> +		bls_val->meas_gb = readl(base + CIF_ISP_BLS_C_MEASURED);
-> +		bls_val->meas_b = readl(base + CIF_ISP_BLS_D_MEASURED);
-> +	}
-> +}
-> +
-> +static void
-> +rkisp1_stats_send_measurement(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +			      struct rkisp1_isp_readout_work *meas_work)
-> +{
-> +	struct rkisp1_stat_buffer *cur_stat_buf;
-> +	struct rkisp1_buffer *cur_buf = NULL;
-> +	unsigned int cur_frame_id = -1;
-> +
-> +	cur_frame_id = atomic_read(&stats_vdev->dev->isp_sdev.frm_sync_seq) - 1;
-> +	if (cur_frame_id != meas_work->frame_id) {
-> +		v4l2_warn(stats_vdev->vnode.vdev.v4l2_dev,
-> +			  "Measurement late(%d, %d)\n",
-> +			  cur_frame_id, meas_work->frame_id);
-> +		cur_frame_id = meas_work->frame_id;
-> +	}
-> +
-> +	mutex_lock(&stats_vdev->wq_lock);
-> +	/* get one empty buffer */
-> +	if (!list_empty(&stats_vdev->stat)) {
-> +		cur_buf = list_first_entry(&stats_vdev->stat,
-> +					   struct rkisp1_buffer, queue);
-> +		list_del(&cur_buf->queue);
-> +	}
-> +	mutex_unlock(&stats_vdev->wq_lock);
-> +
-> +	if (!cur_buf)
-> +		return;
-> +
-> +	cur_stat_buf =
-> +		(struct rkisp1_stat_buffer *)(cur_buf->vaddr[0]);
-> +
-> +	if (meas_work->isp_ris & CIF_ISP_AWB_DONE) {
-> +		rkisp1_stats_get_awb_meas(stats_vdev, cur_stat_buf);
-> +		cur_stat_buf->meas_type |= CIFISP_STAT_AWB;
-> +	}
-> +
-> +	if (meas_work->isp_ris & CIF_ISP_AFM_FIN) {
-> +		rkisp1_stats_get_afc_meas(stats_vdev, cur_stat_buf);
-> +		cur_stat_buf->meas_type |= CIFISP_STAT_AFM_FIN;
-> +	}
-> +
-> +	if (meas_work->isp_ris & CIF_ISP_EXP_END) {
-> +		rkisp1_stats_get_aec_meas(stats_vdev, cur_stat_buf);
-> +		rkisp1_stats_get_bls_meas(stats_vdev, cur_stat_buf);
-> +		cur_stat_buf->meas_type |= CIFISP_STAT_AUTOEXP;
-> +	}
-> +
-> +	if (meas_work->isp_ris & CIF_ISP_HIST_MEASURE_RDY) {
-> +		rkisp1_stats_get_hst_meas(stats_vdev, cur_stat_buf);
-> +		cur_stat_buf->meas_type |= CIFISP_STAT_HIST;
-> +	}
-> +
-> +	vb2_set_plane_payload(&cur_buf->vb.vb2_buf, 0,
-> +			      sizeof(struct rkisp1_stat_buffer));
-> +	cur_buf->vb.sequence = cur_frame_id;
-> +	cur_buf->vb.vb2_buf.timestamp = ktime_get_ns();
-
-It might be better to get the timestamp in the beginning of the function
-before acquiring the mutex which can take a relatively long time.
-
-> +	vb2_buffer_done(&cur_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> +}
-> +
-> +static void rkisp1_stats_readout_work(struct work_struct *work)
-> +{
-> +	struct rkisp1_isp_readout_work *readout_work = container_of(work,
-> +						struct rkisp1_isp_readout_work,
-> +						work);
-> +	struct rkisp1_isp_stats_vdev *stats_vdev = readout_work->stats_vdev;
-> +
-> +	if (readout_work->readout == RKISP1_ISP_READOUT_MEAS)
-> +		rkisp1_stats_send_measurement(stats_vdev, readout_work);
-> +
-> +	kfree(readout_work);
-> +}
-> +
-> +int rkisp1_stats_isr(struct rkisp1_isp_stats_vdev *stats_vdev, u32 isp_ris)
-> +{
-> +	unsigned int cur_frame_id =
-> +		atomic_read(&stats_vdev->dev->isp_sdev.frm_sync_seq) - 1;
-> +	struct rkisp1_isp_readout_work *work;
-> +	unsigned int isp_mis_tmp = 0;
-> +#ifdef LOG_ISR_EXE_TIME
-> +	ktime_t in_t = ktime_get();
-> +#endif
-> +
-> +	spin_lock(&stats_vdev->irq_lock);
-> +
-> +	writel((CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN | CIF_ISP_EXP_END |
-> +		CIF_ISP_HIST_MEASURE_RDY),
-> +		stats_vdev->dev->base_addr + CIF_ISP_ICR);
-> +
-> +	isp_mis_tmp = readl(stats_vdev->dev->base_addr + CIF_ISP_MIS);
-> +	if (isp_mis_tmp &
-> +		(CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN |
-> +		 CIF_ISP_EXP_END | CIF_ISP_HIST_MEASURE_RDY))
-> +		v4l2_err(stats_vdev->vnode.vdev.v4l2_dev,
-> +			 "isp icr 3A info err: 0x%x\n",
-> +			 isp_mis_tmp);
-> +
-> +	if (!stats_vdev->streamon)
-> +		goto unlock;
-> +	if (isp_ris & (CIF_ISP_AWB_DONE | CIF_ISP_AFM_FIN | CIF_ISP_EXP_END |
-> +		CIF_ISP_HIST_MEASURE_RDY)) {
-> +		work = (struct rkisp1_isp_readout_work *)
-> +			kzalloc(sizeof(struct rkisp1_isp_readout_work),
-> +				GFP_ATOMIC);
-> +		if (work) {
-> +			INIT_WORK(&work->work,
-> +				  rkisp1_stats_readout_work);
-> +			work->readout = RKISP1_ISP_READOUT_MEAS;
-> +			work->stats_vdev = stats_vdev;
-> +			work->frame_id = cur_frame_id;
-> +			work->isp_ris = isp_ris;
-> +			if (!queue_work(stats_vdev->readout_wq,
-> +					&work->work))
-
-Please use threaded interrupt handling instead.
-
-> +				kfree(work);
-> +		} else {
-> +			v4l2_err(stats_vdev->vnode.vdev.v4l2_dev,
-> +				 "Could not allocate work\n");
-> +		}
-> +	}
-> +
-> +#ifdef LOG_ISR_EXE_TIME
-> +	if (isp_ris & (CIF_ISP_EXP_END | CIF_ISP_AWB_DONE |
-> +		       CIF_ISP_FRAME | CIF_ISP_HIST_MEASURE_RDY)) {
-> +		unsigned int diff_us =
-> +				ktime_to_us(ktime_sub(ktime_get(), in_t));
-> +
-> +		if (diff_us > g_longest_isr_time)
-> +			g_longest_isr_time = diff_us;
-> +
-> +		v4l2_info(stats_vdev->vnode.vdev.v4l2_dev,
-> +			  "isp_isr time %d %d\n", diff_us, g_longest_isr_time);
-> +	}
-> +#endif
-
-I'd remove this; it could be useful during development time but hardly any
-longer.
-
-> +
-> +unlock:
-> +	spin_unlock(&stats_vdev->irq_lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static void rkisp1_init_stats_vdev(struct rkisp1_isp_stats_vdev *stats_vdev)
-> +{
-> +	stats_vdev->vdev_fmt.fmt.meta.dataformat =
-> +		V4L2_META_FMT_RK_ISP1_STAT_3A;
-> +	stats_vdev->vdev_fmt.fmt.meta.buffersize =
-> +		sizeof(struct rkisp1_stat_buffer);
-> +}
-> +
-> +int rkisp1_register_stats_vdev(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +			       struct v4l2_device *v4l2_dev,
-> +			       struct rkisp1_device *dev)
-> +{
-> +	struct rkisp1_vdev_node *node = &stats_vdev->vnode;
-> +	struct video_device *vdev = &node->vdev;
-> +	unsigned int ret;
-> +
-> +	stats_vdev->dev = dev;
-> +	mutex_init(&stats_vdev->wq_lock);
-> +	mutex_init(&node->vlock);
-> +	INIT_LIST_HEAD(&stats_vdev->stat);
-> +	spin_lock_init(&stats_vdev->irq_lock);
-> +
-> +	strlcpy(vdev->name, "rkisp1-statistics", sizeof(vdev->name));
-
-strscpy()?
-
-> +
-> +	video_set_drvdata(vdev, stats_vdev);
-> +	vdev->ioctl_ops = &rkisp1_stats_ioctl;
-> +	vdev->fops = &rkisp1_stats_fops;
-> +	vdev->release = video_device_release_empty;
-> +	vdev->lock = &node->vlock;
-> +	vdev->v4l2_dev = v4l2_dev;
-> +	vdev->queue = &node->buf_queue;
-> +	vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
-> +	vdev->vfl_dir =  VFL_DIR_RX;
-> +	rkisp1_stats_init_vb2_queue(vdev->queue, stats_vdev);
-> +	rkisp1_init_stats_vdev(stats_vdev);
-> +	video_set_drvdata(vdev, stats_vdev);
-> +
-> +	node->pad.flags = MEDIA_PAD_FL_SINK;
-> +	ret = media_entity_pads_init(&vdev->entity, 1, &node->pad);
-> +	if (ret < 0)
-> +		goto err_release_queue;
-> +
-> +	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-> +	if (ret < 0) {
-> +		dev_err(&vdev->dev,
-> +			"could not register Video for Linux device\n");
-> +		goto err_cleanup_media_entity;
-> +	}
-> +
-> +	stats_vdev->readout_wq =
-> +	    alloc_workqueue("measurement_queue",
-
-Indentation.
-
-> +			    WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
-> +
-> +	if (!stats_vdev->readout_wq) {
-> +		ret = -ENOMEM;
-> +			goto err_unreg_vdev;
-
-Same here.
-
-> +	}
-> +
-> +	return 0;
-
-Please leave an extra newline before the labels below, as well as before
-return.
-
-> +err_unreg_vdev:
-> +	video_unregister_device(vdev);
-> +err_cleanup_media_entity:
-> +	media_entity_cleanup(&vdev->entity);
-> +err_release_queue:
-> +	vb2_queue_release(vdev->queue);
-
-Also remember mutex_destroy() for the two mutexes.
-
-> +	return ret;
-> +}
-> +
-> +void rkisp1_unregister_stats_vdev(struct rkisp1_isp_stats_vdev *stats_vdev)
-> +{
-> +	struct rkisp1_vdev_node *node = &stats_vdev->vnode;
-> +	struct video_device *vdev = &node->vdev;
-> +
-> +	destroy_workqueue(stats_vdev->readout_wq);
-> +	video_unregister_device(vdev);
-> +	media_entity_cleanup(&vdev->entity);
-> +	vb2_queue_release(vdev->queue);
-
-mutex_destroy() here, too.
-
-> +}
-> diff --git a/drivers/media/platform/rockchip/isp1/isp_stats.h b/drivers/media/platform/rockchip/isp1/isp_stats.h
-> new file mode 100644
-> index 000000000000..b46c8537e1c7
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/isp1/isp_stats.h
-> @@ -0,0 +1,60 @@
-> +/* SPDX-License-Identifier: (GPL-2.0+ OR MIT) */
-> +/*
-> + * Rockchip isp1 driver
-> + *
-> + * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-> + */
-> +
-> +#ifndef _RKISP1_ISP_STATS_H
-> +#define _RKISP1_ISP_STATS_H
-> +
-> +#include <linux/rkisp1-config.h>
-> +
-> +#include "common.h"
-> +
-> +struct rkisp1_isp_stats_vdev;
-> +
-> +enum rkisp1_isp_readout_cmd {
-> +	RKISP1_ISP_READOUT_MEAS,
-> +	RKISP1_ISP_READOUT_META,
-> +};
-> +
-> +struct rkisp1_isp_readout_work {
-> +	struct work_struct work;
-> +	struct rkisp1_isp_stats_vdev *stats_vdev;
-> +
-> +	unsigned int frame_id;
-> +	unsigned int isp_ris;
-> +	enum rkisp1_isp_readout_cmd readout;
-> +	struct vb2_buffer *vb;
-> +};
-> +
-> +/*
-> + * struct rkisp1_isp_stats_vdev - ISP Statistics device
-> + *
-> + * @irq_lock: buffer queue lock
-> + * @stat: stats buffer list
-> + * @readout_wq: workqueue for statistics information read
-> + */
-> +struct rkisp1_isp_stats_vdev {
-> +	struct rkisp1_vdev_node vnode;
-> +	struct rkisp1_device *dev;
-> +
-> +	spinlock_t irq_lock;
-> +	struct list_head stat;
-> +	struct v4l2_format vdev_fmt;
-> +	bool streamon;
-> +
-> +	struct workqueue_struct *readout_wq;
-> +	struct mutex wq_lock;
-> +};
-> +
-> +int rkisp1_stats_isr(struct rkisp1_isp_stats_vdev *stats_vdev, u32 isp_ris);
-> +
-> +int rkisp1_register_stats_vdev(struct rkisp1_isp_stats_vdev *stats_vdev,
-> +			       struct v4l2_device *v4l2_dev,
-> +			       struct rkisp1_device *dev);
-> +
-> +void rkisp1_unregister_stats_vdev(struct rkisp1_isp_stats_vdev *stats_vdev);
-> +
-> +#endif /* _RKISP1_ISP_STATS_H */
-
--- 
-Kind regards,
-
-Sakari Ailus
-sakari.ailus@linux.intel.com
+SGkgSGFucywNCg0KWW91J3JlIHdlbGNvbWUsIGhlcmUgaXQgaXM6DQoNCjEpIHY0bC11dGlscyBt
+YXN0ZXIgYnJhbmNoLCBjb21taXQgDQo2YWExNWY3NDQ3ZDRhZWNhNmFmMWVkN2VlOTY0NGEwYzdl
+ODkxZWNlICJ2NGwyLWN0bDogZml4IGRvdWJsZSANCmRlY3JlbWVudGluZyBvZiBzdHJlYW1fY291
+bnQiDQoNCjIpIENyb3BwaW5nIHRlc3QgaXMgZmFpbGVkIGFzIHVzdWFsIGJlY2F1c2Ugb2YgT1Y1
+NjQwIGRpc2NyZXRlIGZyYW1lc2l6ZXMNCg0KMykgTm8gbW9yZSAvZGV2L21lZGlhKiBhbmQgL2Rl
+di92NGwtKjoNCnJvb3RAc3RtMzJtcDEtYXY5Njp+IyBscyAtYWwgL2Rldi92aWRlbzANCmNydy1y
+dy0tLS0gMSByb290IHZpZGVvIDgxLCAwIE1hciAxOSAxNzo0MiAvZGV2L3ZpZGVvMA0Kcm9vdEBz
+dG0zMm1wMS1hdjk2On4jIGxzIC1hbCAvZGV2L21lZGlhKg0KbHM6IGNhbm5vdCBhY2Nlc3MgJy9k
+ZXYvbWVkaWEqJzogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0Kcm9vdEBzdG0zMm1wMS1hdjk2
+On4jIGxzIC1hbCAvZGV2L3Y0bC0qDQpsczogY2Fubm90IGFjY2VzcyAnL2Rldi92NGwtKic6IE5v
+IHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCg0KDQpyb290QHN0bTMybXAxLWF2OTY6fiMgdjRsMi1j
+b21wbGlhbmNlIC1zDQp2NGwyLWNvbXBsaWFuY2UgU0hBOiA2YWExNWY3NDQ3ZDRhZWNhNmFmMWVk
+N2VlOTY0NGEwYzdlODkxZWNlLCAzMiBiaXRzDQoNCkNvbXBsaWFuY2UgdGVzdCBmb3Igc3RtMzIt
+ZGNtaSBkZXZpY2UgL2Rldi92aWRlbzA6DQoNCkRyaXZlciBJbmZvOg0KICAgICAgICAgRHJpdmVy
+IG5hbWUgICAgICA6IHN0bTMyLWRjbWkNCiAgICAgICAgIENhcmQgdHlwZSAgICAgICAgOiBTVE0z
+MiBDYW1lcmEgTWVtb3J5IEludGVyZmFjZQ0KICAgICAgICAgQnVzIGluZm8gICAgICAgICA6IHBs
+YXRmb3JtOmRjbWkNCiAgICAgICAgIERyaXZlciB2ZXJzaW9uICAgOiA0LjE5LjQ5DQogICAgICAg
+ICBDYXBhYmlsaXRpZXMgICAgIDogMHg4NTIwMDAwMQ0KICAgICAgICAgICAgICAgICBWaWRlbyBD
+YXB0dXJlDQogICAgICAgICAgICAgICAgIFJlYWQvV3JpdGUNCiAgICAgICAgICAgICAgICAgU3Ry
+ZWFtaW5nDQogICAgICAgICAgICAgICAgIEV4dGVuZGVkIFBpeCBGb3JtYXQNCiAgICAgICAgICAg
+ICAgICAgRGV2aWNlIENhcGFiaWxpdGllcw0KICAgICAgICAgRGV2aWNlIENhcHMgICAgICA6IDB4
+MDUyMDAwMDENCiAgICAgICAgICAgICAgICAgVmlkZW8gQ2FwdHVyZQ0KICAgICAgICAgICAgICAg
+ICBSZWFkL1dyaXRlDQogICAgICAgICAgICAgICAgIFN0cmVhbWluZw0KICAgICAgICAgICAgICAg
+ICBFeHRlbmRlZCBQaXggRm9ybWF0DQoNClJlcXVpcmVkIGlvY3RsczoNCiAgICAgICAgIHRlc3Qg
+VklESU9DX1FVRVJZQ0FQOiBPSw0KDQpBbGxvdyBmb3IgbXVsdGlwbGUgb3BlbnM6DQogICAgICAg
+ICB0ZXN0IHNlY29uZCAvZGV2L3ZpZGVvMCBvcGVuOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0Nf
+UVVFUllDQVA6IE9LDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfUFJJT1JJVFk6IE9LDQogICAg
+ICAgICB0ZXN0IGZvciB1bmxpbWl0ZWQgb3BlbnM6IE9LDQoNCkRlYnVnIGlvY3RsczoNCiAgICAg
+ICAgIHRlc3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAg
+ICAgICAgdGVzdCBWSURJT0NfTE9HX1NUQVRVUzogT0sNCg0KSW5wdXQgaW9jdGxzOg0KICAgICAg
+ICAgdGVzdCBWSURJT0NfRy9TX1RVTkVSL0VOVU1fRlJFUV9CQU5EUzogT0sgKE5vdCBTdXBwb3J0
+ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfRlJFUVVFTkNZOiBPSyAoTm90IFN1cHBvcnRl
+ZCkNCiAgICAgICAgIHRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90IFN1cHBvcnRl
+ZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0VOVU1BVURJTzogT0sgKE5vdCBTdXBwb3J0ZWQpDQog
+ICAgICAgICB0ZXN0IFZJRElPQ19HL1MvRU5VTUlOUFVUOiBPSw0KICAgICAgICAgdGVzdCBWSURJ
+T0NfRy9TX0FVRElPOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIElucHV0czogMSBBdWRp
+byBJbnB1dHM6IDAgVHVuZXJzOiAwDQoNCk91dHB1dCBpb2N0bHM6DQogICAgICAgICB0ZXN0IFZJ
+RElPQ19HL1NfTU9EVUxBVE9SOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklE
+SU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgdGVzdCBWSURJ
+T0NfRU5VTUFVRE9VVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19H
+L1MvRU5VTU9VVFBVVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19H
+L1NfQVVET1VUOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIE91dHB1dHM6IDAgQXVkaW8g
+T3V0cHV0czogMCBNb2R1bGF0b3JzOiAwDQoNCklucHV0L091dHB1dCBjb25maWd1cmF0aW9uIGlv
+Y3RsczoNCiAgICAgICAgIHRlc3QgVklESU9DX0VOVU0vRy9TL1FVRVJZX1NURDogT0sgKE5vdCBT
+dXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19FTlVNL0cvUy9RVUVSWV9EVl9USU1JTkdT
+OiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0RWX1RJTUlOR1NfQ0FQ
+OiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9DX0cvU19FRElEOiBPSyAo
+Tm90IFN1cHBvcnRlZCkNCg0KQ29udHJvbCBpb2N0bHMgKElucHV0IDApOg0KICAgICAgICAgdGVz
+dCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSw0KICAgICAgICAgdGVzdCBWSURJ
+T0NfUVVFUllDVFJMOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0NfRy9TX0NUUkw6IE9LDQogICAg
+ICAgICB0ZXN0IFZJRElPQ19HL1MvVFJZX0VYVF9DVFJMUzogT0sNCiAgICAgICAgIHRlc3QgVklE
+SU9DXyhVTilTVUJTQ1JJQkVfRVZFTlQvRFFFVkVOVDogT0sNCiAgICAgICAgIHRlc3QgVklESU9D
+X0cvU19KUEVHQ09NUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICBTdGFuZGFyZCBDb250
+cm9sczogMTggUHJpdmF0ZSBDb250cm9sczogMA0KDQpGb3JtYXQgaW9jdGxzIChJbnB1dCAwKToN
+CiAgICAgICAgIHRlc3QgVklESU9DX0VOVU1fRk1UL0ZSQU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6
+IE9LDQogICAgICAgICB0ZXN0IFZJRElPQ19HL1NfUEFSTTogT0sNCiAgICAgICAgIHRlc3QgVklE
+SU9DX0dfRkJVRjogT0sgKE5vdCBTdXBwb3J0ZWQpDQogICAgICAgICB0ZXN0IFZJRElPQ19HX0ZN
+VDogT0sNCiAgICAgICAgIHRlc3QgVklESU9DX1RSWV9GTVQ6IE9LDQogICAgICAgICB0ZXN0IFZJ
+RElPQ19TX0ZNVDogT0sNCiAgICAgICAgIHRlc3QgVklESU9DX0dfU0xJQ0VEX1ZCSV9DQVA6IE9L
+IChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgICAgICAgICBmYWlsOiANCi4uLy4uLy4uLy4uLy4u
+Ly4uLy4uLy4uLy4uL3NvdXJjZXMvdjRsLXV0aWxzL3V0aWxzL3Y0bDItY29tcGxpYW5jZS92NGwy
+LXRlc3QtZm9ybWF0cy5jcHAoMTQxNCk6IA0Kbm9kZS0+ZnJtc2l6ZXNfY291bnRbcGl4Zm0NCnRd
+ID4gMQ0KICAgICAgICAgdGVzdCBDcm9wcGluZzogRkFJTA0KICAgICAgICAgdGVzdCBDb21wb3Np
+bmc6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAgICAgICAgdGVzdCBTY2FsaW5nOiBPSyAoTm90IFN1
+cHBvcnRlZCkNCg0KQ29kZWMgaW9jdGxzIChJbnB1dCAwKToNCiAgICAgICAgIHRlc3QgVklESU9D
+XyhUUllfKUVOQ09ERVJfQ01EOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklE
+SU9DX0dfRU5DX0lOREVYOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAgIHRlc3QgVklESU9D
+XyhUUllfKURFQ09ERVJfQ01EOiBPSyAoTm90IFN1cHBvcnRlZCkNCg0KQnVmZmVyIGlvY3RscyAo
+SW5wdXQgMCk6DQogICAgICAgICB0ZXN0IFZJRElPQ19SRVFCVUZTL0NSRUFURV9CVUZTL1FVRVJZ
+QlVGOiBPSw0KICAgICAgICAgdGVzdCBWSURJT0NfRVhQQlVGOiBPSw0KICAgICAgICAgdGVzdCBS
+ZXF1ZXN0czogT0sgKE5vdCBTdXBwb3J0ZWQpDQoNClRlc3QgaW5wdXQgMDoNCg0KU3RyZWFtaW5n
+IGlvY3RsczoNCiAgICAgICAgIHRlc3QgcmVhZC93cml0ZTogT0sNCiAgICAgICAgIHRlc3QgYmxv
+Y2tpbmcgd2FpdDogT0sNCiAgICAgICAgIHRlc3QgTU1BUCAobm8gcG9sbCk6IE9LDQogICAgICAg
+ICB0ZXN0IE1NQVAgKHNlbGVjdCk6IE9LDQogICAgICAgICB0ZXN0IE1NQVAgKGVwb2xsKTogT0sN
+CiAgICAgICAgIHRlc3QgVVNFUlBUUiAobm8gcG9sbCk6IE9LIChOb3QgU3VwcG9ydGVkKQ0KICAg
+ICAgICAgdGVzdCBVU0VSUFRSIChzZWxlY3QpOiBPSyAoTm90IFN1cHBvcnRlZCkNCiAgICAgICAg
+IHRlc3QgRE1BQlVGOiBDYW5ub3QgdGVzdCwgc3BlY2lmeSAtLWV4cGJ1Zi1kZXZpY2UNCg0KVG90
+YWwgZm9yIHN0bTMyLWRjbWkgZGV2aWNlIC9kZXYvdmlkZW8wOiA1MSwgU3VjY2VlZGVkOiA1MCwg
+RmFpbGVkOiAxLCANCldhcm5pbmdzOiAwDQoNCg0KT24gOC83LzE5IDEyOjE1IFBNLCBIYW5zIFZl
+cmt1aWwgd3JvdGU6DQo+IEhpIEh1Z3VlcywNCj4gDQo+IENhbiB5b3UgcHJvdmlkZSB0aGUgb3V0
+cHV0IG9mIHRoZSBtb3N0IHJlY2VudCB2NGwyLWNvbXBsaWFuY2U/DQo+IA0KPiBVc2UgJ3Y0bDIt
+Y29tcGxpYW5jZSAtcycuDQo+IA0KPiBBbHNvLCBqdXN0IHRvIGNvbmZpcm0sIHdpdGggdGhpcyB2
+NCB0aGVyZSBhcmUgbm8gL2Rldi9tZWRpYVggb3INCj4gL2Rldi92NGwtc3ViZGV2WCBkZXZpY2Vz
+IGNyZWF0ZWQgYW55bW9yZSwgcmlnaHQ/DQo+IA0KPiBUaGlzIHY0IGxvb2tzIGdvb2QgdG8gbWUs
+IEkganVzdCB3YW50IHRvIGhhdmUgdGhlc2UgZmluYWwgY2hlY2tzDQo+IGRvbmUuDQo+IA0KPiBS
+ZWdhcmRzLA0KPiANCj4gCUhhbnMNCj4gDQoNCkJlc3QgcmVnYXJkcywNCkh1Z3Vlcy4=
