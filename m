@@ -2,33 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 381DD86624
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 17:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C9A86642
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 17:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733259AbfHHPqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 11:46:00 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:38524 "EHLO www.linuxtv.org"
+        id S1732698AbfHHPxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 11:53:41 -0400
+Received: from sauhun.de ([88.99.104.3]:56596 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733213AbfHHPqA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 11:46:00 -0400
-Received: from 140-211-167-10-openstack.osuosl.org ([140.211.167.10] helo=builder.linuxtv.org)
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hvkbv-00077D-Ea; Thu, 08 Aug 2019 15:45:51 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxdvb.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hvkbx-0003ZL-Ue; Thu, 08 Aug 2019 15:45:54 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.3-rc4] media fixes
-Date:   Thu,  8 Aug 2019 15:45:53 +0000
-Message-Id: <20190808154553.13677-1-jenkins@linuxtv.org>
+        id S1728380AbfHHPxl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Aug 2019 11:53:41 -0400
+Received: from localhost (p5486CA1C.dip0.t-ipconnect.de [84.134.202.28])
+        by pokefinder.org (Postfix) with ESMTPSA id 212A92C3112;
+        Thu,  8 Aug 2019 17:53:39 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v3] media: ir-kbd-i2c: convert to i2c_new_dummy_device()
+Date:   Thu,  8 Aug 2019 17:53:28 +0200
+Message-Id: <20190808155328.5376-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190808123943.1551193d@coco.lan>
-References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,18 +29,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Convert this driver to use the new i2c_new_dummy_device() call and bail
+out if the dummy device cannot be registered to make failure more
+visible to the user.
 
-Pull request: https://patchwork.linuxtv.org/patch/58037/
-Build log: https://builder.linuxtv.org/job/patchwork/4527/
-Build time: 00:04:25
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Summary: 1 issues, being 0 build regressions
+Change since v2: move away from devm per Mauro's suggestion
 
-Error/warnings:
+Note: i2c_unregister_device() is NULL pointer aware so we can skip the
+if in the last block.
 
-patches/0001-media-vivid-fix-missing-cec-adapter-name.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-patches/0001-media-vivid-fix-missing-cec-adapter-name.patch:61: WARNING: Missing Signed-off-by: line by nominal patch author 'Hans Verkuil <hverkuil@xs4all.nl>'
+ drivers/media/i2c/ir-kbd-i2c.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-vivid-fix-missing-cec-adapter-name.patch
+diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
+index 96932779ca37..e8119ad0bc71 100644
+--- a/drivers/media/i2c/ir-kbd-i2c.c
++++ b/drivers/media/i2c/ir-kbd-i2c.c
+@@ -885,9 +885,11 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	INIT_DELAYED_WORK(&ir->work, ir_work);
+ 
+ 	if (probe_tx) {
+-		ir->tx_c = i2c_new_dummy(client->adapter, 0x70);
+-		if (!ir->tx_c) {
++		ir->tx_c = i2c_new_dummy_device(client->adapter, 0x70);
++		if (IS_ERR(ir->tx_c)) {
+ 			dev_err(&client->dev, "failed to setup tx i2c address");
++			err = PTR_ERR(ir->tx_c);
++			goto err_out_free;
+ 		} else if (!zilog_init(ir)) {
+ 			ir->carrier = 38000;
+ 			ir->duty_cycle = 40;
+@@ -904,7 +906,7 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	return 0;
+ 
+  err_out_free:
+-	if (ir->tx_c)
++	if (!IS_ERR(ir->tx_c))
+ 		i2c_unregister_device(ir->tx_c);
+ 
+ 	/* Only frees rc if it were allocated internally */
+@@ -918,8 +920,7 @@ static int ir_remove(struct i2c_client *client)
+ 
+ 	cancel_delayed_work_sync(&ir->work);
+ 
+-	if (ir->tx_c)
+-		i2c_unregister_device(ir->tx_c);
++	i2c_unregister_device(ir->tx_c);
+ 
+ 	rc_unregister_device(ir->rc);
+ 
+-- 
+2.20.1
 
