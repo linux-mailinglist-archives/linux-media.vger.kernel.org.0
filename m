@@ -2,144 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D4185C2F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 09:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72A6D85C98
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 10:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731604AbfHHH5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 03:57:04 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:40594 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbfHHH5E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 03:57:04 -0400
-Received: by mail-ot1-f65.google.com with SMTP id l15so57827970oth.7;
-        Thu, 08 Aug 2019 00:57:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PfgNCbwNh+egJUA3cbV8dUVAFRIGQlHaXhUpgK2RvWY=;
-        b=JGJMpSjCGosPfjQC++oRo9/VpIYQjtroBHN743qwzAzvGwWB5pIBYAiDbdvUr9BPJt
-         Eo75K5UBgZ/gNMoWwkPqrC1ebkSs6ugBxhbHyqohfNnLDNGaVk38PZCLn+DuTtHuWbh7
-         5hOZdCLwSYvYHaoqJcd3YCtb78oW/V7GqgaUuaKoez42d8Opdb+7SC6HbG3SMcwWfgOX
-         58mFj2RG/w8nyMm9/lRxYUJK4+B17RhjqJLtgW7lPpWJDtAsIvV9RPikTutK1Mb3WE/Z
-         7NkEE7P395FfzzoTyAL38adaFrI9UH5xaJbeITg8/VqaF/DK1vddCOeMp8womXVikOXV
-         qFkQ==
-X-Gm-Message-State: APjAAAWTQXbT7DoKFP8e7rXNysRmu2ExYF6MtNYw7tJUCwhn0jgjnO2h
-        cWv5ICjfuv2JQeBT8lSfrMyNJXm/bigR4DlWAC0=
-X-Google-Smtp-Source: APXvYqyxub+OuS4BmFWrwKCfra+oZAC4TQcubjFwMCIkh5Hd7WXBKupUhwY9Boc0JZWx3NsB6ilSK6bX/BtJ1nAWqYU=
-X-Received: by 2002:aca:bd43:: with SMTP id n64mr1504808oif.148.1565251023062;
- Thu, 08 Aug 2019 00:57:03 -0700 (PDT)
+        id S1731996AbfHHIPM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 04:15:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50514 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731592AbfHHIPL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 04:15:11 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3B4BCC;
+        Thu,  8 Aug 2019 10:15:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565252109;
+        bh=NxaHzWpBJn9m5BgpAncvqk7gfKUP5iYYoCV7jyznrfM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pKHXRmZ3MMocBLGc4tHLh5TgYmP7437N0mlqrec9JtAMDizWM2rVb4+KG4mUMf1DU
+         E3z7ifWbEp6on81bi4g+Z3a7NgVt9VOLXNut20MpPlBvNTTemOTi6a7UwJFDExxpsa
+         l04au1kTX+T4824WKH8FHzZaOkYBJDCKFhPXFMUE=
+Date:   Thu, 8 Aug 2019 11:15:06 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-vin: Report correct image stride
+Message-ID: <20190808081506.GB6055@pendragon.ideasonboard.com>
+References: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20190730181557.90391-1-swboyd@chromium.org> <20190730181557.90391-26-swboyd@chromium.org>
-In-Reply-To: <20190730181557.90391-26-swboyd@chromium.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 8 Aug 2019 09:56:51 +0200
-Message-ID: <CAMuHMdV2786n3ex-rY7N5LdX4PpnqZ-tuX2SyTO0w+TRfrA84g@mail.gmail.com>
-Subject: Re: [PATCH v6 25/57] media: Remove dev_err() usage after platform_get_irq()
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stephen,
+Hi Niklas,
 
-On Tue, Jul 30, 2019 at 8:21 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> We don't need dev_err() messages when platform_get_irq() fails now that
-> platform_get_irq() prints an error message itself when something goes
-> wrong. Let's remove these prints with a simple semantic patch.
->
-> // <smpl>
-> @@
-> expression ret;
-> struct platform_device *E;
-> @@
->
-> ret =
-> (
-> platform_get_irq(E, ...)
-> |
-> platform_get_irq_byname(E, ...)
-> );
->
-> if ( \( ret < 0 \| ret <= 0 \) )
-> {
-> (
-> -if (ret != -EPROBE_DEFER)
-> -{ ...
-> -dev_err(...);
-> -... }
-> |
-> ...
-> -dev_err(...);
-> )
-> ...
-> }
-> // </smpl>
->
-> While we're here, remove braces on if statements that only have one
-> statement (manually).
->
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Thank you for the patch.
+
+On Thu, Aug 08, 2019 at 07:10:58AM +0200, Niklas Söderlund wrote:
+> The image stride was adjusted when it was written to hardware and not
+> when configuring the format. Calculate the correct stride value and
+> report it to userspace.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->
-> Please apply directly to subsystem trees
->
->  drivers/media/platform/am437x/am437x-vpfe.c           | 1 -
->  drivers/media/platform/atmel/atmel-sama5d2-isc.c      | 7 ++-----
->  drivers/media/platform/exynos4-is/mipi-csis.c         | 4 +---
->  drivers/media/platform/imx-pxp.c                      | 4 +---
->  drivers/media/platform/omap3isp/isp.c                 | 1 -
->  drivers/media/platform/renesas-ceu.c                  | 4 +---
->  drivers/media/platform/rockchip/rga/rga.c             | 1 -
->  drivers/media/platform/s3c-camif/camif-core.c         | 4 +---
->  drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 8 ++------
->  drivers/media/platform/sti/hva/hva-hw.c               | 8 ++------
->  drivers/media/platform/stm32/stm32-dcmi.c             | 5 +----
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c    | 7 ++-----
->  drivers/media/rc/img-ir/img-ir-core.c                 | 4 +---
->  drivers/media/rc/ir-hix5hd2.c                         | 4 +---
->  drivers/media/rc/meson-ir.c                           | 4 +---
->  drivers/media/rc/mtk-cir.c                            | 4 +---
->  drivers/media/rc/sunxi-cir.c                          | 1 -
->  17 files changed, 17 insertions(+), 54 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 10 ++++++----
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++++-
+>  2 files changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index f16f2966f9628b72..3cb29b2e0b2b18a9 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -577,6 +577,9 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  
+>  void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  {
+> +	const struct rvin_video_format *fmt;
+> +	u32 stride;
+> +
+>  	/* Set Start/End Pixel/Line Pre-Clip */
+>  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
+>  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
+> @@ -600,10 +603,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	if (vin->info->model != RCAR_GEN3)
+>  		rvin_crop_scale_comp_gen2(vin);
+>  
+> -	if (vin->format.pixelformat == V4L2_PIX_FMT_NV16)
+> -		rvin_write(vin, ALIGN(vin->format.width, 0x20), VNIS_REG);
+> -	else
+> -		rvin_write(vin, ALIGN(vin->format.width, 0x10), VNIS_REG);
+> +	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
 
-Looks like this didn't catch the double assignments in:
+You may want as an optimisation to cache the active rvin_video_format
+pointer in rvin_dev, but that can be done in a separate patch.
 
-drivers/media/platform/rcar_fdp1.c:     fdp1->irq = ret =
-platform_get_irq(pdev, 0);
-drivers/media/platform/rcar_fdp1.c-     if (ret < 0) {
-drivers/media/platform/rcar_fdp1.c-             dev_err(&pdev->dev,
-"cannot find IRQ\n");
-drivers/media/platform/rcar_fdp1.c-             return ret;
-drivers/media/platform/rcar_fdp1.c-     }
-drivers/media/platform/rcar_fdp1.c-
---
-drivers/media/platform/rcar_jpu.c:      jpu->irq = ret =
-platform_get_irq(pdev, 0);
-drivers/media/platform/rcar_jpu.c-      if (ret < 0) {
-drivers/media/platform/rcar_jpu.c-              dev_err(&pdev->dev,
-"cannot find IRQ\n");
-drivers/media/platform/rcar_jpu.c-              return ret;
-drivers/media/platform/rcar_jpu.c-      }
-drivers/media/platform/rcar_jpu.c-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Gr{oetje,eeting}s,
+> +	stride = vin->format.bytesperline / fmt->bpp;
+> +	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index cfed0a2604133849..cbc1c07f0a9631a4 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -83,13 +83,16 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
+>  				    struct v4l2_pix_format *pix)
+>  {
+>  	const struct rvin_video_format *fmt;
+> +	u32 align;
+>  
+>  	fmt = rvin_format_from_pixel(vin, pix->pixelformat);
+>  
+>  	if (WARN_ON(!fmt))
+>  		return -EINVAL;
+>  
+> -	return pix->width * fmt->bpp;
+> +	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
+> +
+> +	return ALIGN(pix->width, align) * fmt->bpp;
+>  }
+>  
+>  static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
 
-                        Geert
+-- 
+Regards,
 
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
