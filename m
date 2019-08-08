@@ -2,122 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D4D785CBD
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 10:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1379185CC5
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 10:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731839AbfHHI0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 04:26:10 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:53630 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731592AbfHHI0K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 04:26:10 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id BED9A634C87;
-        Thu,  8 Aug 2019 11:26:04 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hvdkL-0000IK-JF; Thu, 08 Aug 2019 11:26:05 +0300
-Date:   Thu, 8 Aug 2019 11:26:05 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, hverkuil@xs4all.nl,
-        slongerbeam@gmail.com, linux-imx@nxp.com,
-        linux-media@vger.kernel.org, kernel@pengutronix.de,
-        shawnguo@kernel.org, mchehab@kernel.org
-Subject: Re: [PATCH v3] media: imx: mipi csi-2: Don't fail if initial state
- times-out
-Message-ID: <20190808082605.GA917@valkosipuli.retiisi.org.uk>
-References: <20190627222912.25485-1-festevam@gmail.com>
- <1561963729.3753.5.camel@pengutronix.de>
- <8b859fd7758c3f95b45b5b70909be0d2ae2e4f34.camel@collabora.com>
- <20190807120626.GE822@valkosipuli.retiisi.org.uk>
- <73d82df753e0579bd122dfaf9fa12ba8cad95d88.camel@collabora.com>
+        id S1732011AbfHHI1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 04:27:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51578 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731844AbfHHI1o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 04:27:44 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56E22CC;
+        Thu,  8 Aug 2019 10:27:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565252862;
+        bh=zW2JVLHezKBQBrbjta6tKwzYLt6Lx/4QtyF+Iy7oh/M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nMOEy6wAXJHjboUbwBnlLEmT7ZL/AGksuJ6Tbih2OZj9/vHJizWuTxdJbjCukJOVP
+         Ht5yt++5twx8BIGA8NgNwypcPB2L7ZbHijiu+o+Jm2nI8K5EOkJi4xs+4WFFAr6ZFH
+         0WsKClNfTVvUTAlmYhyHPniDKQ8LxtR3KFXhhGak=
+Date:   Thu, 8 Aug 2019 11:27:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] rcar-vin: Make use of V4L2_FIELD_IS_INTERLACED()
+ macro
+Message-ID: <20190808082740.GD6055@pendragon.ideasonboard.com>
+References: <20190808011850.21219-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190808011850.21219-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <73d82df753e0579bd122dfaf9fa12ba8cad95d88.camel@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808011850.21219-3-niklas.soderlund+renesas@ragnatech.se>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+Hi Niklas,
 
-On Wed, Aug 07, 2019 at 10:59:22AM -0300, Ezequiel Garcia wrote:
-> Hi Sakari,
+Thank you for the patch.
+
+On Thu, Aug 08, 2019 at 03:18:46AM +0200, Niklas Söderlund wrote:
+> The V4L2_FIELD_IS_INTERLACED() can be used to make the code more
+> readable, use it.
 > 
-> Thanks for reviewing the patch.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 > 
-> On Wed, 2019-08-07 at 15:06 +0300, Sakari Ailus wrote:
-> > On Tue, Jul 30, 2019 at 05:14:24AM -0300, Ezequiel Garcia wrote:
-> > > Hey Hans,
-> > > 
-> > > On Mon, 2019-07-01 at 08:48 +0200, Philipp Zabel wrote:
-> > > > On Thu, 2019-06-27 at 19:29 -0300, Fabio Estevam wrote:
-> > > > > From: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > 
-> > > > > Not all sensors will be able to guarantee a proper initial state.
-> > > > > This may be either because the driver is not properly written,
-> > > > > or (probably unlikely) because the hardware won't support it.
-> > > > > 
-> > > > > While the right solution in the former case is to fix the sensor
-> > > > > driver, the real world not always allows right solutions, due to lack
-> > > > > of available documentation and support on these sensors.
-> > > > > 
-> > > > > Let's relax this requirement, and allow the driver to support stream start,
-> > > > > even if the sensor initial sequence wasn't the expected.
-> > > > > 
-> > > > > Also improve the warning message to better explain the problem and provide
-> > > > > a hint that the sensor driver needs to be fixed.
-> > > > > 
-> > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> > > > 
-> > > > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > 
-> > > 
-> > > This seems ready to pick and it has Philipp's and Steve's RB.
-> > 
-> > Hi Ezequiel,
-> > 
-> > In general the LP-11 condition should be detected by hardware (or firmware)
-> > in such a way that it's detected even if a transmitter that holds the state
-> > just a short period of time. In other words, software is not supposed to be
-> > even testing for it.
-> > 
-> > Have you checked how it works if you simply leave out this test?
-> > 
-> 
-> The current change relaxes a condition, which we observed was too strict.
-> Some drivers might be unable to enter LP-11 state, but I don't think
-> that's a reason to fail capture.
-
-Some devices can be commanded to enter LP-11 state but some will just
-briefly visit that state. The LP-11 state is mandatory but software should
-not be involved in detecting it if at all possible.
-
-So if the hardware does not require further initialisation to be done in
-LP-11 state, you should remove the check.
-
-> 
-> We had to fix at least OV5645 and OV5640 recently because of this,
-> and I can imagine more drivers will have the same issue.
-
-This is actually an issue in the IMX driver (or hardware), not in the
-sensor driver. It may be that sometimes it's easier to work around it in
-the sensor driver.
-
-So, I'd like to know whether the check itself is a driver bug, or something
-that the hardware requires. The fact that you're sending this patch
-suggests the former.
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index f16f2966f9628b72..6be1f33d44e2170c 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -557,16 +557,11 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  	rvin_write(vin, 0, VNSPPOC_REG);
+>  	rvin_write(vin, 0, VNSLPOC_REG);
+>  	rvin_write(vin, vin->format.width - 1, VNEPPOC_REG);
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> +
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
+>  		rvin_write(vin, vin->format.height / 2 - 1, VNELPOC_REG);
+> -		break;
+> -	default:
+> +	else
+>  		rvin_write(vin, vin->format.height - 1, VNELPOC_REG);
+> -		break;
+> -	}
+>  
+>  	vin_dbg(vin,
+>  		"Pre-Clip: %ux%u@%u:%u YS: %d XS: %d Post-Clip: %ux%u@%u:%u\n",
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
