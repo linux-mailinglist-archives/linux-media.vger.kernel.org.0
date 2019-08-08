@@ -2,206 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B182185833
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 04:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEAAE858A5
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 05:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389561AbfHHChI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Aug 2019 22:37:08 -0400
-Received: from mga02.intel.com ([134.134.136.20]:4305 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728025AbfHHChH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Aug 2019 22:37:07 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Aug 2019 19:36:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,358,1559545200"; 
-   d="scan'208";a="186207302"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.157])
-  by orsmga002.jf.intel.com with ESMTP; 07 Aug 2019 19:36:38 -0700
-Date:   Wed, 7 Aug 2019 19:36:37 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     Jan Kara <jack@suse.cz>, John Hubbard <jhubbard@nvidia.com>,
-        Matthew Wilcox <willy@infradead.org>, john.hubbard@gmail.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
-        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
-Message-ID: <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
-References: <20190802022005.5117-1-jhubbard@nvidia.com>
- <20190802091244.GD6461@dhcp22.suse.cz>
- <20190802124146.GL25064@quack2.suse.cz>
- <20190802142443.GB5597@bombadil.infradead.org>
- <20190802145227.GQ25064@quack2.suse.cz>
- <076e7826-67a5-4829-aae2-2b90f302cebd@nvidia.com>
- <20190807083726.GA14658@quack2.suse.cz>
- <20190807084649.GQ11812@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190807084649.GQ11812@dhcp22.suse.cz>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+        id S1730772AbfHHDmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Aug 2019 23:42:33 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:45147 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728183AbfHHDmd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Aug 2019 23:42:33 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:9c05:4bbc:890e:7747])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id vZJrhN2QXqTdhvZJshKB9X; Thu, 08 Aug 2019 05:42:31 +0200
+Message-ID: <0ef0a2009d3334211e88a65fd05f7581@smtp-cloud8.xs4all.net>
+Date:   Thu, 08 Aug 2019 05:42:27 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfCQAHbnmUgJt8f9H2OubIpI7ZV8eRWd/tEUjzwGRG01kTfkD6NFUcRZ73bCSAgjAllWumGTbQhq0GMcuiBt5GNBgJOI0v9QpySBLeyWl4I1kRJtcLyCq
+ /QoyYfFST1Fe9/bmtZkgUsVEswRNvaKzX7XthI8Xch8EzR9kXqxM62F1d9uyTxI399ojMvE/+FBj3S++r4w7PExwJVNy+xWmqfce2L7hY8bgHE75C6/G1082
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 07, 2019 at 10:46:49AM +0200, Michal Hocko wrote:
-> On Wed 07-08-19 10:37:26, Jan Kara wrote:
-> > On Fri 02-08-19 12:14:09, John Hubbard wrote:
-> > > On 8/2/19 7:52 AM, Jan Kara wrote:
-> > > > On Fri 02-08-19 07:24:43, Matthew Wilcox wrote:
-> > > > > On Fri, Aug 02, 2019 at 02:41:46PM +0200, Jan Kara wrote:
-> > > > > > On Fri 02-08-19 11:12:44, Michal Hocko wrote:
-> > > > > > > On Thu 01-08-19 19:19:31, john.hubbard@gmail.com wrote:
-> > > > > > > [...]
-> > > > > > > > 2) Convert all of the call sites for get_user_pages*(), to
-> > > > > > > > invoke put_user_page*(), instead of put_page(). This involves dozens of
-> > > > > > > > call sites, and will take some time.
-> > > > > > > 
-> > > > > > > How do we make sure this is the case and it will remain the case in the
-> > > > > > > future? There must be some automagic to enforce/check that. It is simply
-> > > > > > > not manageable to do it every now and then because then 3) will simply
-> > > > > > > be never safe.
-> > > > > > > 
-> > > > > > > Have you considered coccinele or some other scripted way to do the
-> > > > > > > transition? I have no idea how to deal with future changes that would
-> > > > > > > break the balance though.
-> > > 
-> > > Hi Michal,
-> > > 
-> > > Yes, I've thought about it, and coccinelle falls a bit short (it's not smart
-> > > enough to know which put_page()'s to convert). However, there is a debug
-> > > option planned: a yet-to-be-posted commit [1] uses struct page extensions
-> > > (obviously protected by CONFIG_DEBUG_GET_USER_PAGES_REFERENCES) to add
-> > > a redundant counter. That allows:
-> > > 
-> > > void __put_page(struct page *page)
-> > > {
-> > > 	...
-> > > 	/* Someone called put_page() instead of put_user_page() */
-> > > 	WARN_ON_ONCE(atomic_read(&page_ext->pin_count) > 0);
-> > > 
-> > > > > > 
-> > > > > > Yeah, that's why I've been suggesting at LSF/MM that we may need to create
-> > > > > > a gup wrapper - say vaddr_pin_pages() - and track which sites dropping
-> > > > > > references got converted by using this wrapper instead of gup. The
-> > > > > > counterpart would then be more logically named as unpin_page() or whatever
-> > > > > > instead of put_user_page().  Sure this is not completely foolproof (you can
-> > > > > > create new callsite using vaddr_pin_pages() and then just drop refs using
-> > > > > > put_page()) but I suppose it would be a high enough barrier for missed
-> > > > > > conversions... Thoughts?
-> > > 
-> > > The debug option above is still a bit simplistic in its implementation
-> > > (and maybe not taking full advantage of the data it has), but I think
-> > > it's preferable, because it monitors the "core" and WARNs.
-> > > 
-> > > Instead of the wrapper, I'm thinking: documentation and the passage of
-> > > time, plus the debug option (perhaps enhanced--probably once I post it
-> > > someone will notice opportunities), yes?
-> > 
-> > So I think your debug option and my suggested renaming serve a bit
-> > different purposes (and thus both make sense). If you do the renaming, you
-> > can just grep to see unconverted sites. Also when someone merges new GUP
-> > user (unaware of the new rules) while you switch GUP to use pins instead of
-> > ordinary references, you'll get compilation error in case of renaming
-> > instead of hard to debug refcount leak without the renaming. And such
-> > conflict is almost bound to happen given the size of GUP patch set... Also
-> > the renaming serves against the "coding inertia" - i.e., GUP is around for
-> > ages so people just use it without checking any documentation or comments.
-> > After switching how GUP works, what used to be correct isn't anymore so
-> > renaming the function serves as a warning that something has really
-> > changed.
-> 
-> Fully agreed!
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ok Prior to this I've been basing all my work for the RDMA/FS DAX stuff in
-Johns put_user_pages()...  (Including when I proposed failing truncate with a
-lease in June [1])
+Results of the daily build of media_tree:
 
-However, based on the suggestions in that thread it became clear that a new
-interface was going to need to be added to pass in the "RDMA file" information
-to GUP to associate file pins with the correct processes...
+date:			Thu Aug  8 05:00:13 CEST 2019
+media-tree git hash:	97299a3035328d7ae2f4fccaf6e549974df6e118
+media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
+v4l-utils git hash:	6aa15f7447d4aeca6af1ed7ee9644a0c7e891ece
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: cdcfe2eb9ea76dee66b2129df808a4d77156f4a0
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I have many drawings on my white board with "a whole lot of lines" on them to
-make sure that if a process opens a file, mmaps it, pins it with RDMA, _closes_
-it, and ummaps it; that the resulting file pin can still be traced back to the
-RDMA context and all the processes which may have access to it....  No matter
-where the original context may have come from.  I believe I have accomplished
-that.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-Before I go on, I would like to say that the "imbalance" of get_user_pages()
-and put_page() bothers me from a purist standpoint...  However, since this
-discussion cropped up I went ahead and ported my work to Linus' current master
-(5.3-rc3+) and in doing so I only had to steal a bit of Johns code...  Sorry
-John...  :-(
+Detailed results are available here:
 
-I don't have the commit messages all cleaned up and I know there may be some
-discussion on these new interfaces but I wanted to throw this series out there
-because I think it may be what Jan and Michal are driving at (or at least in
-that direction.
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Right now only RDMA and DAX FS's are supported.  Other users of GUP will still
-fail on a DAX file and regular files will still be at risk.[2]
+Detailed regression test results are available here:
 
-I've pushed this work (based 5.3-rc3+ (33920f1ec5bf)) here[3]:
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
-https://github.com/weiny2/linux-kernel/tree/linus-rdmafsdax-b0-v3
+Full logs are available here:
 
-I think the most relevant patch to this conversation is:
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
-https://github.com/weiny2/linux-kernel/commit/5d377653ba5cf11c3b716f904b057bee6641aaf6
+The Media Infrastructure API from this daily build is here:
 
-I stole Jans suggestion for a name as the name I used while prototyping was
-pretty bad...  So Thanks Jan...  ;-)
-
-Also thanks to John for his contribution on some of this.  I'm still tweaking
-put_user_pages under the hood on the DAX path.
-
-Ira
-
-[1] https://lwn.net/Articles/790544/
-
-[2] I've been looking into how to support io_uring next but I've had some issue
-getting a test program to actually call GUP in that code path...  :-(
-
-[3] If it would be easier I can just throw an RFC on the list but right now the
-cover letter and some of the commit messages are full of the old stuff and
-various ideas I have had...
-
-> 
-> > Your refcount debug patches are good to catch bugs in the conversions done
-> > but that requires you to be able to excercise the code path in the first
-> > place which may require particular HW or so, and you also have to enable
-> > the debug option which means you already aim at verifying the GUP
-> > references are treated properly.
-> > 
-> > 								Honza
-> > 
-> > -- 
-> > Jan Kara <jack@suse.com>
-> > SUSE Labs, CR
-> 
-> -- 
-> Michal Hocko
-> SUSE Labs
+http://www.xs4all.nl/~hverkuil/spec/index.html
