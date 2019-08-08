@@ -2,481 +2,879 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACCC2868B3
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 20:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FFB86BB6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 22:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731038AbfHHSWw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 14:22:52 -0400
-Received: from mga14.intel.com ([192.55.52.115]:15565 "EHLO mga14.intel.com"
+        id S2389974AbfHHUk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 16:40:26 -0400
+Received: from gofer.mess.org ([88.97.38.141]:44805 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727649AbfHHSWw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 14:22:52 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 11:22:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,362,1559545200"; 
-   d="gz'50?scan'50,208,50";a="174926920"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Aug 2019 11:22:47 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1hvn3n-000B4E-EQ; Fri, 09 Aug 2019 02:22:47 +0800
-Date:   Fri, 9 Aug 2019 02:22:01 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@01.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, changzhu <Changfeng.Zhu@amd.com>,
-        Christian =?unknown-8bit?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>
-Subject: [radeon-alex:amd-19.30 1374/2148] htmldocs:
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:204: warning: Function parameter
- or member 'target_dev' not described in 'amdgpu_dma_buf_map_attach'
-Message-ID: <201908090256.kGDayG4C%lkp@intel.com>
+        id S1725785AbfHHUk0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Aug 2019 16:40:26 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 32DC26075C; Thu,  8 Aug 2019 21:40:24 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v2 v4l-utils] keytable: add support for keymap with raw literals
+Date:   Thu,  8 Aug 2019 21:40:24 +0100
+Message-Id: <20190808204024.24808-1-sean@mess.org>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="mavbm72nfjcly754"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Patchwork-Hint: ignore
-User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+These rc keymaps look like:
 
---mavbm72nfjcly754
-Content-Type: text/plain; charset=unknown-8bit
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+	[[protocols]]
+	name = 'Beon_Colour_TV'
+	protocol = 'raw'
+	[[protocols.raw]]
+	keycode = 'KEY_POWER'
+	raw = [ 1324, 842, 6697, 26400, 1324, 842, 6697 ]
+	[[protocols.raw]]
+	keycode = 'KEY_MUTE'
+	raw = [ 1305, 865, 2357, 931, 3411, 26400, 1305, 865, 2357, 931, 3411 ]
 
-Hi Mauro,
+So the incoming IR will be literally compared against the IR given, and only
+if the entire array matches with no leading or trailing IR will the keycode
+be reported.
 
-FYI, the error/warning still remains.
+This is analogous to lircd raw_codes support, so lircd2toml.py can also
+convert raw_codes lircd.conf files. This means that the vast majority of
+lircd files can now be converted.
 
-tree:   git://people.freedesktop.org/~agd5f/linux.git amd-19.30
-head:   494cd065e68f6ba299e074e269b57773d7524e67
-commit: 247814e2121b6f9d3b5f2ed04a7221b991fb441a [1374/2148] gpu: amdgpu: fix broken amdgpu_dma_buf.c references
-reproduce: make htmldocs
+This feature requires loops in BPF programs so this is only supported
+in kernel 5.3 onwards.
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   WARNING: convert(1) not found, for SVG to PDF conversion install ImageMagick (https://www.imagemagick.org)
-   Documentation/sphinx/kerneldoc.py:93: RemovedInSphinx20Warning: app.verbose() is now deprecated. Use sphinx.util.logging instead.
-   env.app.verbose('calling kernel-doc '%s'' % (" ".join(cmd)))
-   Documentation/sphinx/kerneldoc.py:125: RemovedInSphinx20Warning: AutodocReporter is now deprecated. Use sphinx.util.docutils.switch_source_input() instead.
-   self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
-   include/linux/interrupt.h:268: warning: Function parameter or member 'is_managed' not described in 'irq_affinity_desc'
-   block/blk-core.c:685: warning: Excess function parameter 'request_count' description in 'blk_attempt_plug_merge'
-   block/blk-core.c:685: warning: Excess function parameter 'request_count' description in 'blk_attempt_plug_merge'
-   include/linux/rcupdate_wait.h:1: warning: no structured comments found
-   include/linux/rcutree.h:1: warning: no structured comments found
-   kernel/rcu/tree.c:710: warning: Excess function parameter 'irq' description in 'rcu_nmi_exit'
-   include/linux/gfp.h:1: warning: no structured comments found
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.ibss' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.connect' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.keys' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.ie' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.ie_len' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.bssid' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.ssid' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.default_key' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.default_mgmt_key' not described in 'wireless_dev'
-   include/net/cfg80211.h:4687: warning: Function parameter or member 'wext.prev_bssid_valid' not described in 'wireless_dev'
-   include/net/mac80211.h:2393: warning: Function parameter or member 'radiotap_timestamp.units_pos' not described in 'ieee80211_hw'
-   include/net/mac80211.h:2393: warning: Function parameter or member 'radiotap_timestamp.accuracy' not described in 'ieee80211_hw'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.rates' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.rts_cts_rate_idx' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.use_rts' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.use_cts_prot' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.short_preamble' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.skip_table' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.jiffies' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.vif' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.hw_key' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.flags' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'control.enqueue_time' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'ack' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'ack.cookie' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.rates' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.ack_signal' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.ampdu_ack_len' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.ampdu_len' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.antenna' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.tx_time' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.is_valid_ack_signal' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'status.status_driver_data' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'driver_rates' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'pad' not described in 'ieee80211_tx_info'
-   include/net/mac80211.h:1004: warning: Function parameter or member 'rate_driver_data' not described in 'ieee80211_tx_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'rx_stats_avg' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'rx_stats_avg.signal' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'rx_stats_avg.chain_signal' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.filtered' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.retry_failed' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.retry_count' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.lost_packets' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.last_tdls_pkt_time' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.msdu_retries' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.msdu_failed' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.last_ack' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.last_ack_signal' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.ack_signal_filled' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'status_stats.avg_ack_signal' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'tx_stats.packets' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'tx_stats.bytes' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'tx_stats.last_rate' not described in 'sta_info'
-   net/mac80211/sta_info.h:590: warning: Function parameter or member 'tx_stats.msdu' not described in 'sta_info'
-   kernel/rcu/tree.c:711: warning: Excess function parameter 'irq' description in 'rcu_nmi_exit'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_excl.cb' not described in 'dma_buf'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_excl.poll' not described in 'dma_buf'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_excl.active' not described in 'dma_buf'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_shared.cb' not described in 'dma_buf'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_shared.poll' not described in 'dma_buf'
-   include/linux/dma-buf.h:313: warning: Function parameter or member 'cb_shared.active' not described in 'dma_buf'
-   include/linux/dma-fence-array.h:54: warning: Function parameter or member 'work' not described in 'dma_fence_array'
-   include/linux/firmware/intel/stratix10-svc-client.h:1: warning: no structured comments found
-   include/linux/gpio/driver.h:371: warning: Function parameter or member 'init_valid_mask' not described in 'gpio_chip'
-   include/linux/iio/hw-consumer.h:1: warning: no structured comments found
-   include/linux/input/sparse-keymap.h:46: warning: Function parameter or member 'sw' not described in 'key_entry'
-   drivers/mtd/nand/raw/nand_base.c:420: warning: Function parameter or member 'chip' not described in 'nand_fill_oob'
-   drivers/mtd/nand/raw/nand_bbt.c:173: warning: Function parameter or member 'this' not described in 'read_bbt'
-   drivers/mtd/nand/raw/nand_bbt.c:173: warning: Excess function parameter 'chip' description in 'read_bbt'
-   include/linux/regulator/machine.h:199: warning: Function parameter or member 'max_uV_step' not described in 'regulation_constraints'
-   include/linux/regulator/driver.h:228: warning: Function parameter or member 'resume' not described in 'regulator_ops'
-   arch/s390/include/asm/cio.h:245: warning: Function parameter or member 'esw.esw0' not described in 'irb'
-   arch/s390/include/asm/cio.h:245: warning: Function parameter or member 'esw.esw1' not described in 'irb'
-   arch/s390/include/asm/cio.h:245: warning: Function parameter or member 'esw.esw2' not described in 'irb'
-   arch/s390/include/asm/cio.h:245: warning: Function parameter or member 'esw.esw3' not described in 'irb'
-   arch/s390/include/asm/cio.h:245: warning: Function parameter or member 'esw.eadm' not described in 'irb'
-   drivers/slimbus/stream.c:1: warning: no structured comments found
-   include/linux/spi/spi.h:180: warning: Function parameter or member 'driver_override' not described in 'spi_device'
-   drivers/target/target_core_device.c:1: warning: no structured comments found
-   drivers/usb/typec/bus.c:1: warning: no structured comments found
-   drivers/usb/typec/class.c:1: warning: no structured comments found
-   include/linux/w1.h:281: warning: Function parameter or member 'of_match_table' not described in 'w1_family'
-   fs/direct-io.c:257: warning: Excess function parameter 'offset' description in 'dio_complete'
-   fs/file_table.c:1: warning: no structured comments found
-   fs/libfs.c:477: warning: Excess function parameter 'available' description in 'simple_write_end'
-   fs/posix_acl.c:646: warning: Function parameter or member 'inode' not described in 'posix_acl_update_mode'
-   fs/posix_acl.c:646: warning: Function parameter or member 'mode_p' not described in 'posix_acl_update_mode'
-   fs/posix_acl.c:646: warning: Function parameter or member 'acl' not described in 'posix_acl_update_mode'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:204: warning: Function parameter or member 'target_dev' not described in 'amdgpu_dma_buf_map_attach'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:318: warning: Excess function parameter 'mm' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:318: warning: Excess function parameter 'start' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:318: warning: Excess function parameter 'end' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:205: warning: Function parameter or member 'blockable' not described in 'amdgpu_mn_read_lock'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:319: warning: Function parameter or member 'range' not described in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:319: warning: Excess function parameter 'mm' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:319: warning: Excess function parameter 'start' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:319: warning: Excess function parameter 'end' description in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:381: warning: Function parameter or member 'blockable' not described in 'amdgpu_mn_invalidate_range_start_gfx'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:438: warning: Function parameter or member 'blockable' not described in 'amdgpu_mn_invalidate_range_start_hsa'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:353: warning: cannot understand function prototype: 'struct amdgpu_vm_pt_cursor '
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1574: warning: Excess function parameter 'nodes' description in 'amdgpu_vm_bo_split_mapping'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:354: warning: cannot understand function prototype: 'struct amdgpu_vm_pt_cursor '
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:500: warning: Function parameter or member 'start' not described in 'amdgpu_vm_pt_first_dfs'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:552: warning: Function parameter or member 'adev' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:552: warning: Function parameter or member 'vm' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:552: warning: Function parameter or member 'start' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:552: warning: Function parameter or member 'cursor' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:552: warning: Function parameter or member 'entry' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:827: warning: Function parameter or member 'level' not described in 'amdgpu_vm_bo_param'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'params' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'bo' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'level' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'pe' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'addr' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'count' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'incr' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1298: warning: Function parameter or member 'flags' not described in 'amdgpu_vm_update_flags'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1575: warning: Function parameter or member 'mem' not described in 'amdgpu_vm_bo_split_mapping'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1575: warning: Excess function parameter 'nodes' description in 'amdgpu_vm_bo_split_mapping'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2855: warning: Function parameter or member 'pasid' not described in 'amdgpu_vm_make_compute'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:375: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:376: warning: Function parameter or member 'ih' not described in 'amdgpu_irq_dispatch'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:376: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
-   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:1: warning: no structured comments found
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1: warning: no structured comments found
-   drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c:1: warning: no structured comments found
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:153: warning: Incorrect use of kernel-doc format: Documentation Makefile include scripts source @atomic_obj
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'atomic_obj' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'backlight_link' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'backlight_caps' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'freesync_module' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'fw_dmcu' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:236: warning: Function parameter or member 'dmcu_fw_version' not described in 'amdgpu_display_manager'
-   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1: warning: no structured comments found
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_pin' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_unpin' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_res_obj' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_get_sg_table' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_import_sg_table' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_vmap' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_vunmap' not described in 'drm_driver'
-   include/drm/drm_drv.h:618: warning: Function parameter or member 'gem_prime_mmap' not described in 'drm_driver'
-   include/drm/drm_atomic_state_helper.h:1: warning: no structured comments found
-   drivers/gpu/drm/scheduler/sched_main.c:367: warning: Function parameter or member 'bad' not described in 'drm_sched_stop'
-   drivers/gpu/drm/scheduler/sched_main.c:431: warning: Function parameter or member 'full_recovery' not described in 'drm_sched_start'
-   drivers/gpu/drm/i915/i915_vma.h:49: warning: cannot understand function prototype: 'struct i915_vma '
-   drivers/gpu/drm/i915/i915_vma.h:1: warning: no structured comments found
-   drivers/gpu/drm/i915/intel_guc_fwif.h:536: warning: cannot understand function prototype: 'struct guc_log_buffer_state '
-   drivers/gpu/drm/i915/i915_trace.h:1: warning: no structured comments found
-   include/linux/skbuff.h:876: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'list' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'ip_defrag_offset' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'skb_mstamp_ns' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member '__cloned_offset' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'head_frag' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member '__pkt_type_offset' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'encapsulation' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'encap_hdr_csum' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'csum_valid' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member '__pkt_vlan_present_offset' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'vlan_present' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'csum_complete_sw' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'csum_level' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'inner_protocol_type' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'remcsum_offload' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'sender_cpu' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'reserved_tailroom' not described in 'sk_buff'
-   include/linux/skbuff.h:876: warning: Function parameter or member 'inner_ipproto' not described in 'sk_buff'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_addrpair' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_portpair' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_ipv6only' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_net_refcnt' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_v6_daddr' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_v6_rcv_saddr' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_cookie' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_listener' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_tw_dr' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_rcv_wnd' not described in 'sock_common'
-   include/net/sock.h:238: warning: Function parameter or member 'skc_tw_rcv_nxt' not described in 'sock_common'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_backlog.rmem_alloc' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_backlog.len' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_backlog.head' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_backlog.tail' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_wq_raw' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'tcp_rtx_queue' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_route_forced_caps' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_txtime_report_errors' not described in 'sock'
-   include/net/sock.h:513: warning: Function parameter or member 'sk_validate_xmit_skb' not described in 'sock'
-   include/linux/netdevice.h:2048: warning: Function parameter or member 'adj_list.upper' not described in 'net_device'
-
-vim +204 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  184  
-a6a944b476552b drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Kevin Wang      2018-01-15  185  #if DRM_VERSION_CODE >= DRM_VERSION(4, 17, 0) || !defined(BUILD_AS_DKMS)
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  186  /**
-6a745988552e2b drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian König 2019-05-06  187   * amdgpu_dma_buf_map_attach - &dma_buf_ops.attach implementation
-56ea0976007680 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Vijetha Malkai  2018-09-13  188   * @dma_buf: Shared DMA buffer
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  189   * @attach: DMA-buf attachment
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  190   *
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  191   * Makes sure that the shared DMA buffer can be accessed by the target device.
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  192   * For now, simply pins it to the GTT domain, where it should be accessible by
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  193   * all DMA devices.
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  194   *
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  195   * Returns:
-56ea0976007680 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Vijetha Malkai  2018-09-13  196   * 0 on success or a negative error code on failure.
-baca30fabdc9ba drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Michel Dänzer   2018-05-29  197   */
-6a745988552e2b drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c Christian König 2019-05-06  198  static int amdgpu_dma_buf_map_attach(struct dma_buf *dma_buf,
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  199  #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 19, 0)
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  200  					struct device *target_dev,
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  201  #endif
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  202  					struct dma_buf_attachment *attach)
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  203  {
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16 @204  	struct drm_gem_object *obj = dma_buf->priv;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  205  	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-2333bf9ad960eb drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-03-21  206  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  207  	long r;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  208  
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  209  	r = drm_gem_map_attach(dma_buf,
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  210  #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 19, 0)
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  211  						target_dev,
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  212  #endif
-54037055a21bd9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   tianci yin      2019-01-18  213  						attach);
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  214  	if (r)
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  215  		return r;
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  216  
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  217  	r = amdgpu_bo_reserve(bo, false);
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  218  	if (unlikely(r != 0))
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  219  		goto error_detach;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  220  
-9021d2edd259d9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-19  221  
-2333bf9ad960eb drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-03-21  222  	if (attach->dev->driver != adev->dev->driver) {
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  223  		/*
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  224  		 * We only create shared fences for internal use, but importers
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  225  		 * of the dmabuf rely on exclusive fences for implicitly
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  226  		 * tracking write hazards. As any of the current fences may
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  227  		 * correspond to a write, we need to convert all existing
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  228  		 * fences on the reservation object into a single exclusive
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  229  		 * fence.
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  230  		 */
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  231  		r = __reservation_object_make_exclusive(bo->tbo.resv);
-2acede2cb05160 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Chris Wilson    2019-01-30  232  		if (r)
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  233  			goto error_unreserve;
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  234  	}
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  235  
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  236  	/* pin buffer into GTT */
-7b7c6c81b3a370 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Junwei Zhang    2018-06-25  237  	r = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
-9021d2edd259d9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-19  238  	if (r)
-9021d2edd259d9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-19  239  		goto error_unreserve;
-9021d2edd259d9 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-19  240  
-2333bf9ad960eb drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-03-21  241  	if (attach->dev->driver != adev->dev->driver)
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  242  		bo->prime_shared_count++;
-8e94a46c177088 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Mario Kleiner   2016-11-09  243  
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  244  error_unreserve:
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  245  	amdgpu_bo_unreserve(bo);
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  246  
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  247  error_detach:
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  248  	if (r)
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  249  		drm_gem_map_detach(dma_buf, attach);
-5a13761fa68306 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Christian König 2018-02-16  250  	return r;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  251  }
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c   Alex Deucher    2015-04-20  252  
-
-:::::: The code at line 204 was first introduced by commit
-:::::: 5a13761fa68306bc21ff91d9ca4d56d14793c889 drm/amdgpu: implement amdgpu_gem_map_(attach/detach)
-
-:::::: TO: Christian König <christian.koenig@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
-
+Signed-off-by: Sean Young <sean@mess.org>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ contrib/lircd2toml.py                    |  76 ++++++++----
+ utils/keytable/bpf_load.c                | 108 +++++++++++++++-
+ utils/keytable/bpf_load.h                |   9 +-
+ utils/keytable/bpf_protocols/Makefile.am |   2 +-
+ utils/keytable/bpf_protocols/bitmap.h    |  36 ++++++
+ utils/keytable/bpf_protocols/raw.c       | 149 +++++++++++++++++++++++
+ utils/keytable/keytable.c                | 139 ++++++++++++++++++++-
+ utils/keytable/rc_keymap.5.in            |  18 ++-
+ 8 files changed, 505 insertions(+), 32 deletions(-)
+ create mode 100644 utils/keytable/bpf_protocols/bitmap.h
+ create mode 100644 utils/keytable/bpf_protocols/raw.c
 
---mavbm72nfjcly754
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+diff --git a/contrib/lircd2toml.py b/contrib/lircd2toml.py
+index 9b93f198..5a60cfaa 100755
+--- a/contrib/lircd2toml.py
++++ b/contrib/lircd2toml.py
+@@ -146,14 +146,14 @@ class LircdParser:
+             a = line.split()
+             if a[0] == 'name':
+                 if len(codes) > 0:
+-                    raw_codes.append({ 'name': name, 'codes': codes })
++                    raw_codes.append({ 'keycode': name, 'raw': codes })
+                 name = line.split(maxsplit=2)[1]
+                 if not name.startswith('KEY_'):
+                     name = 'KEY_' + name.upper()
+                 codes = []
+             elif a[0] == 'end':
+                 if len(codes) > 0:
+-                    raw_codes.append({ 'name': name, 'codes': codes })
++                    raw_codes.append({ 'keycode': name, 'raw': codes })
+                 return raw_codes
+             else:
+                 for v in a:
+@@ -224,6 +224,8 @@ class Converter:
+             return self.convert_rcmm()
+         elif 'space_enc' in flags:
+             return self.convert_space_enc()
++        elif 'raw_codes' in flags:
++            return self.convert_raw_codes()
+         else:
+             self.error('Cannot convert remote with flags: {}'.format('|'.join(flags)))
+ 
+@@ -237,7 +239,7 @@ class Converter:
+         res  = {
+             'protocol': 'pulse_distance',
+             'params': {},
+-            'map': {}
++            'scancodes': {}
+         }
+ 
+         res['name'] = self.remote['name']
+@@ -338,7 +340,7 @@ class Converter:
+                 elif v != variant:
+                     variant = ""
+ 
+-                res['map'][n] = self.remote['codes'][s]
++                res['scancodes'][n] = self.remote['codes'][s]
+ 
+             if variant:
+                 res['params']['variant'] = "'" + variant + "'"
+@@ -374,14 +376,14 @@ class Converter:
+                 elif v != variant:
+                     variant = ""
+ 
+-                res['map'][n] = self.remote['codes'][s]
++                res['scancodes'][n] = self.remote['codes'][s]
+ 
+             if variant:
+                 res['params']['variant'] = "'" + variant + "'"
+         else:
+             for s in self.remote['codes']:
+                 p = (s<<post_data_bits)|pre_data
+-                res['map'][p] = self.remote['codes'][s]
++                res['scancodes'][p] = self.remote['codes'][s]
+ 
+         return res
+ 
+@@ -389,7 +391,7 @@ class Converter:
+         res  = {
+             'protocol': 'rc-mm',
+             'params': {},
+-            'map': {}
++            'scancodes': {}
+         }
+ 
+         res['name'] = self.remote['name']
+@@ -415,9 +417,9 @@ class Converter:
+             pre_data = int(self.remote['pre_data'][0]) << bits
+             bits += pre_data_bits
+             for s in self.remote['codes']:
+-                res['map'][s|pre_data] = self.remote['codes'][s]
++                res['scancodes'][s|pre_data] = self.remote['codes'][s]
+         else:
+-            res['map'] = self.remote['codes']
++            res['scancodes'] = self.remote['codes']
+ 
+         res['params']['bits'] = bits
+         res['params']['variant'] = "'rc-mm-" + str(bits) + "'"
+@@ -431,7 +433,7 @@ class Converter:
+         res = {
+             'protocol': 'rc-6',
+             'params': { },
+-            'map': { }
++            'scancodes': { }
+         }
+ 
+         res['name'] = self.remote['name']
+@@ -471,7 +473,7 @@ class Converter:
+             d = ~(s|pre_data)&mask
+             if bits == 32:
+                 vendor = d >> 16
+-            res['map'][d] = self.remote['codes'][s]
++            res['scancodes'][d] = self.remote['codes'][s]
+ 
+         if bits == 16:
+             res['params']['variant'] = "'rc-6-0'"
+@@ -494,7 +496,7 @@ class Converter:
+         res  = {
+             'protocol': 'manchester',
+             'params': { },
+-            'map': { }
++            'scancodes': { }
+         }
+ 
+         res['name'] = self.remote['name']
+@@ -560,10 +562,20 @@ class Converter:
+                 n = s|pre_data
+                 n = (n & 0x3f) | ((n << 2) & 0x1f00)
+                 newcodes[n] = self.remote['codes'][s]
+-            res['map'] = newcodes
++            res['scancodes'] = newcodes
+         else:
+             for s in self.remote['codes']:
+-                res['map'][s|pre_data] = self.remote['codes'][s]
++                res['scancodes'][s|pre_data] = self.remote['codes'][s]
++
++        return res
++
++    def convert_raw_codes(self):
++        res  = {
++            'protocol': 'raw',
++            'params': {},
++            'raw': self.remote['raw_codes'],
++            'name': self.remote['name']
++        }
+ 
+         return res
+ 
+@@ -576,16 +588,32 @@ def writeTOMLFile(fh, remote):
+     print('protocol = {}'.format(escapeString(remote['protocol'])), file=fh)
+     for p in remote['params']:
+         print('{} = {}'.format(p, remote['params'][p]), file=fh)
+-    print('[protocols.scancodes]', file=fh)
+-    # find the largest scancode
+-    length=1
+-    for c in remote['map']:
+-        length=max(length, c.bit_length())
+-
+-    # width seems to include '0x', hence the + 2
+-    width = math.ceil(length/4) + 2
+-    for c in remote['map']:
+-        print('{:#0{width}x} = {}'.format(c, escapeString(remote['map'][c]), width=width), file=fh)
++
++    if 'scancodes' in remote:
++        print('[protocols.scancodes]', file=fh)
++        # find the largest scancode
++        length=1
++        for c in remote['scancodes']:
++            length=max(length, c.bit_length())
++
++        # width seems to include '0x', hence the + 2
++        width = math.ceil(length/4) + 2
++        for c in remote['scancodes']:
++            print('{:#0{width}x} = {}'.format(c, escapeString(remote['scancodes'][c]), width=width), file=fh)
++
++    elif 'raw' in remote:
++        for raw in remote['raw']:
++            print('[[protocols.raw]]', file=fh)
++            print('keycode = {}\nraw = ['.format(escapeString(raw['keycode'])), file=fh, end='')
++            first = True
++            for v in raw['raw']:
++                if first:
++                    print(' {}'.format(v), file=fh, end='')
++                else:
++                    print(', {}'.format(v), file=fh, end='')
++                first = False
++
++            print(' ]', file=fh)
+ 
+     return True
+ 
+diff --git a/utils/keytable/bpf_load.c b/utils/keytable/bpf_load.c
+index 1078c9bb..3187b988 100644
+--- a/utils/keytable/bpf_load.c
++++ b/utils/keytable/bpf_load.c
+@@ -27,6 +27,16 @@
+ # define _(string) string
+ #endif
+ 
++// This should match the struct in the raw BPF decoder
++struct raw_pattern {
++	unsigned int scancode;
++	unsigned short raw[0];
++};
++
++// For the raw decoder, these values are calculated based on the raw
++// patterns and need to be patched into the BPF
++int max_length;
++int trail_space;
+ 
+ char bpf_log_buf[BPF_LOG_BUF_SIZE];
+ extern int debug;
+@@ -68,7 +78,80 @@ static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, const char *n
+ 	return 0;
+ }
+ 
+-static int load_maps(struct bpf_file *bpf_file)
++static int build_raw_map(struct bpf_map_data *map, struct raw_entry *raw, int numa_node)
++{
++	int no_patterns, value_size, fd, key, i;
++	struct raw_entry *e;
++	struct raw_pattern *p;
++
++	no_patterns = 0;
++
++	for (e = raw; e; e = e->next) {
++		if (e->raw_length > max_length)
++			max_length = e->raw_length;
++		no_patterns++;
++	}
++
++	// pattern needs a trailing 0 to mark the end of
++	// the pattern
++	max_length++;
++
++	value_size = sizeof(struct raw_pattern) + max_length * sizeof(short);
++
++	fd = bpf_create_map_node(map->def.type,
++				 map->name,
++				 map->def.key_size,
++				 value_size,
++				 no_patterns,
++				 map->def.map_flags,
++				 numa_node);
++
++	if (fd < 0) {
++		printf(_("failed to create a map: %d %s\n"),
++		       errno, strerror(errno));
++		return -1;
++	}
++
++	p = malloc(value_size);
++	if (!p) {
++		printf(_("Failed to allocate memory"));
++		return -1;
++	}
++
++	key = 0;
++
++	for (e = raw; e; e = e->next) {
++		p->scancode = e->scancode;
++		for (i = 0; i < e->raw_length; i++) {
++			p->raw[i] = e->raw[i];
++			if (i % 2 && e->raw[i] > trail_space)
++				trail_space = e->raw[i];
++		}
++
++		// Add trailing space and clear rest of the struct
++		while (i < max_length)
++			p->raw[i++] = 0;
++
++		if (bpf_map_update_elem(fd, &key, p, BPF_ANY)) {
++			printf(_("failed to update raw map: %d %s\n"),
++			       errno, strerror(errno));
++			free(p);
++			return -1;
++		}
++
++		key++;
++	}
++	free(p);
++
++	// 1ms extra for trailing space. This also ensure that the
++	// trail_space is larger than largest space + margin in the
++	// decoder
++	trail_space += 1000;
++
++	return fd;
++}
++
++static int load_maps(struct bpf_file *bpf_file, struct raw_entry *raw)
+ {
+ 	struct bpf_map_data *maps = bpf_file->map_data;
+ 	int i, numa_node;
+@@ -89,6 +172,8 @@ static int load_maps(struct bpf_file *bpf_file)
+ 							maps[i].def.max_entries,
+ 							maps[i].def.map_flags,
+ 							numa_node);
++		} else if (!strcmp(maps[i].name, "raw_map")) {
++			bpf_file->map_fd[i] = build_raw_map(&maps[i], raw, numa_node);
+ 		} else {
+ 			bpf_file->map_fd[i] = bpf_create_map_node(
+ 							maps[i].def.type,
+@@ -99,6 +184,7 @@ static int load_maps(struct bpf_file *bpf_file)
+ 							maps[i].def.map_flags,
+ 							numa_node);
+ 		}
++
+ 		if (bpf_file->map_fd[i] < 0) {
+ 			printf(_("failed to create a map: %d %s\n"),
+ 			       errno, strerror(errno));
+@@ -202,7 +288,17 @@ static int parse_relo_and_apply(struct bpf_file *bpf_file, GElf_Shdr *shdr,
+ 
+ 				value = val64;
+ 			} else if (sym.st_shndx == bpf_file->dataidx) {
+-				value = *(int*)((unsigned char*)bpf_file->data->d_buf + sym.st_value);
++				// Value is not overridden on command line
++				// or toml file. For the raw decoder, the
++				// max_length and trail_space needs to be
++				// patched in. Otherwise use value set in
++				// bpf object file from data section.
++				if (!strcmp(sym_name, "max_length") && max_length)
++					value = max_length;
++				else if (!strcmp(sym_name, "trail_space") && trail_space)
++					value = trail_space;
++				else
++					value = *(int*)((unsigned char*)bpf_file->data->d_buf + sym.st_value);
+ 			}
+ 
+ 			if (debug)
+@@ -339,7 +435,8 @@ static int load_elf_maps_section(struct bpf_file *bpf_file)
+ 	return nr_maps;
+ }
+ 
+-int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml)
++int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml,
++	          struct raw_entry *raw)
+ {
+ 	struct bpf_file bpf_file = { .toml = toml };
+ 	int fd, i, ret;
+@@ -406,6 +503,9 @@ int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml)
+ 		goto done;
+ 	}
+ 
++	max_length = 0;
++	trail_space = 0;
++
+ 	if (data_map) {
+ 		bpf_file.nr_maps = load_elf_maps_section(&bpf_file);
+ 		if (bpf_file.nr_maps < 0) {
+@@ -413,7 +513,7 @@ int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml)
+ 			       nr_maps, strerror(-nr_maps));
+ 			goto done;
+ 		}
+-		if (load_maps(&bpf_file))
++		if (load_maps(&bpf_file, raw))
+ 			goto done;
+ 
+ 		bpf_file.processed_sec[bpf_file.maps_shidx] = true;
+diff --git a/utils/keytable/bpf_load.h b/utils/keytable/bpf_load.h
+index 2775607f..471600bb 100644
+--- a/utils/keytable/bpf_load.h
++++ b/utils/keytable/bpf_load.h
+@@ -24,6 +24,13 @@ struct bpf_map_data {
+ 	struct bpf_load_map_def def;
+ };
+ 
++struct raw_entry {
++	struct raw_entry *next;
++	u_int32_t scancode;
++	u_int32_t raw_length;
++	u_int32_t raw[1];
++};
++
+ /* parses elf file compiled by llvm .c->.o
+  * . parses 'maps' section and creates maps via BPF syscall
+  * . parses 'license' section and passes it to syscall
+@@ -36,7 +43,7 @@ struct bpf_map_data {
+  *
+  * returns zero on success
+  */
+-int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml);
++int load_bpf_file(const char *path, int lirc_fd, struct toml_table_t *toml, struct raw_entry *raw);
+ 
+ int bpf_param(const char *name, int *val);
+ 
+diff --git a/utils/keytable/bpf_protocols/Makefile.am b/utils/keytable/bpf_protocols/Makefile.am
+index bca3bdec..d9facbc9 100644
+--- a/utils/keytable/bpf_protocols/Makefile.am
++++ b/utils/keytable/bpf_protocols/Makefile.am
+@@ -10,7 +10,7 @@ CLANG_SYS_INCLUDES := $(shell $(CLANG) -v -E - </dev/null 2>&1 \
+ %.o: %.c bpf_helpers.h
+ 	$(CLANG) $(CLANG_SYS_INCLUDES) -D__linux__ -I$(top_srcdir)/include -target bpf -O2 -c $<
+ 
+-PROTOCOLS = grundig.o pulse_distance.o pulse_length.o rc_mm.o manchester.o xbox-dvd.o imon_rsc.o
++PROTOCOLS = grundig.o pulse_distance.o pulse_length.o rc_mm.o manchester.o xbox-dvd.o imon_rsc.o raw.o
+ 
+ all: $(PROTOCOLS)
+ 
+diff --git a/utils/keytable/bpf_protocols/bitmap.h b/utils/keytable/bpf_protocols/bitmap.h
+new file mode 100644
+index 00000000..e3d731ad
+--- /dev/null
++++ b/utils/keytable/bpf_protocols/bitmap.h
+@@ -0,0 +1,36 @@
++
++#ifndef __BITMAP_H__
++#define __BITMAP_H__
++
++#include "string.h"
++
++#define BITS_PER_LONG 64
++#define BITS_TO_LONG(n) \
++	(((n) + BITS_PER_LONG - 1) / BITS_PER_LONG)
++
++
++#define DECLARE_BITMAP(name, bits) \
++	unsigned long name[BITS_TO_LONG(bits)]
++
++static void inline bitmap_zero(unsigned long *bitmap, int bits)
++{
++	for (int i = 0; i < BITS_TO_LONG(bits); i++)
++		bitmap[i] = 0;
++}
++
++static void inline bitmap_fill(unsigned long *bitmap, int bits)
++{
++	for (int i = 0; i < BITS_TO_LONG(bits); i++)
++		bitmap[i] = ~0;
++}
++
++#define bitmap_set(b, n) \
++	b[n / BITS_PER_LONG] |= 1 << (n % BITS_PER_LONG)
++
++#define bitmap_clear(b, n) \
++	b[n / BITS_PER_LONG] &= ~(1 << (n % BITS_PER_LONG))
++
++#define bitmap_test(b, n) \
++	(b[n / BITS_PER_LONG] & (1 << (n % BITS_PER_LONG))) != 0
++
++#endif
+diff --git a/utils/keytable/bpf_protocols/raw.c b/utils/keytable/bpf_protocols/raw.c
+new file mode 100644
+index 00000000..a0ee78b4
+--- /dev/null
++++ b/utils/keytable/bpf_protocols/raw.c
+@@ -0,0 +1,149 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// Copyright (C) 2019 Sean Young <sean@mess.org>
++//
++// This decoder matches pre-defined pulse-space sequences. It does so by
++// iterating through the list There are many optimisation possible, if
++// performance is an issue.
++//
++// First of all iterating through the list of patterns is one-by-one, even
++// though after the first few pulse space sequences, most patterns will be
++// will not be a match. The bitmap datastructure could use a "next clear bit"
++// function.
++//
++// Secondly this can be transformed into a much more efficient state machine,
++// where we pre-compile the patterns much like a regex.
++
++#include <linux/lirc.h>
++#include <linux/bpf.h>
++
++#include "bpf_helpers.h"
++#include "bitmap.h"
++
++#define MAX_PATTERNS 1024
++
++struct decoder_state {
++	int pos;
++	DECLARE_BITMAP(nomatch, MAX_PATTERNS);
++};
++
++struct bpf_map_def SEC("maps") decoder_state_map = {
++	.type = BPF_MAP_TYPE_ARRAY,
++	.key_size = sizeof(unsigned int),
++	.value_size = sizeof(struct decoder_state),
++	.max_entries = 1,
++};
++
++struct raw_pattern {
++	unsigned int scancode;
++	unsigned short raw[0];
++};
++
++// ir-keytable will load the raw patterns here
++struct bpf_map_def SEC("maps") raw_map = {
++	.type = BPF_MAP_TYPE_ARRAY,
++	.key_size = sizeof(unsigned int),
++	.value_size = sizeof(struct raw_pattern), // this is not used
++	.max_entries = MAX_PATTERNS,
++};
++
++
++// These values can be overridden in the rc_keymap toml
++//
++// We abuse elf relocations. We cast the address of these variables to
++// an int, so that the compiler emits a mov immediate for the address
++// but uses it as an int. The bpf loader replaces the relocation with the
++// actual value (either overridden or taken from the data segment).
++int margin = 200;
++int rc_protocol = 68;
++// The following two values are calculated by ir-keytable
++int trail_space = 1000;
++int max_length = 1;
++
++#define BPF_PARAM(x) (int)(&(x))
++
++static inline int eq_margin(unsigned d1, unsigned d2)
++{
++	return ((d1 > (d2 - BPF_PARAM(margin))) && (d1 < (d2 + BPF_PARAM(margin))));
++}
++
++SEC("raw")
++int bpf_decoder(unsigned int *sample)
++{
++	unsigned int key = 0;
++	struct decoder_state *s = bpf_map_lookup_elem(&decoder_state_map, &key);
++	struct raw_pattern *p;
++	unsigned int i;
++
++	// Make verifier happy. Should never come to pass
++	if (!s)
++		return 0;
++
++	switch (*sample & LIRC_MODE2_MASK) {
++	case LIRC_MODE2_SPACE:
++	case LIRC_MODE2_PULSE:
++	case LIRC_MODE2_TIMEOUT:
++		break;
++	default:
++		// not a timing events
++		return 0;
++	}
++
++	int duration = LIRC_VALUE(*sample);
++	int pulse = LIRC_IS_PULSE(*sample);
++	int pos = s->pos;
++
++	if (pos < 0 || pos >= BPF_PARAM(max_length)) {
++		if (!pulse && duration >= BPF_PARAM(trail_space)) {
++			bitmap_zero(s->nomatch, MAX_PATTERNS);
++			s->pos = 0;
++		}
++
++		return 0;
++	}
++
++	if (!pulse && duration >= BPF_PARAM(trail_space)) {
++		for (i = 0; i < MAX_PATTERNS; i++) {
++			key = i;
++			p = bpf_map_lookup_elem(&raw_map, &key);
++			// Make verifier happy. Should never come to pass
++			if (!p)
++				break;
++
++			// Has this pattern already mismatched?
++			if (bitmap_test(s->nomatch, i))
++				continue;
++
++			// Are we at the end of the pattern?
++			if (p->raw[pos] == 0)
++				bpf_rc_keydown(sample, BPF_PARAM(rc_protocol),
++					       p->scancode, 0);
++		}
++
++		bitmap_zero(s->nomatch, MAX_PATTERNS);
++		s->pos = 0;
++	} else {
++		for (i = 0; i < MAX_PATTERNS; i++) {
++			key = i;
++			p = bpf_map_lookup_elem(&raw_map, &key);
++			// Make verifier happy. Should never come to pass
++			if (!p)
++				break;
++
++			// Has this pattern already mismatched?
++			if (bitmap_test(s->nomatch, i))
++				continue;
++
++			// If the pattern ended, or does not match
++			if (p->raw[pos] == 0 ||
++				!eq_margin(duration,  p->raw[pos]))
++				bitmap_set(s->nomatch, i);
++		}
++
++		s->pos++;
++	}
++
++	return 0;
++}
++
++char _license[] SEC("license") = "GPL";
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index 573989eb..4a7da63d 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -80,7 +80,13 @@ struct keytable_entry {
+ 	struct keytable_entry *next;
+ };
+ 
++// Whenever for each key which has a raw entry rather than a scancode,
++// we need to assign a globally unique scancode for dealing with reading
++// more than keymap with raw entries.
++static int raw_scancode = 0;
++
+ struct keytable_entry *keytable = NULL;
++struct raw_entry *rawtable = NULL;
+ 
+ struct uevents {
+ 	char		*key;
+@@ -486,11 +492,120 @@ err_einval:
+ 	return EINVAL;
+ }
+ 
++static error_t parse_toml_raw_part(const char *fname, struct toml_array_t *raw)
++{
++	struct toml_table_t *t;
++	struct toml_array_t *rawarray;
++	struct raw_entry *re;
++	struct keytable_entry *ke;
++	const char *rkeycode;
++	char *keycode, *p;
++	int ind = 0, length;
++	int value;
++
++	while ((t = toml_table_at(raw, ind++)) != NULL) {
++		rkeycode = toml_raw_in(t, "keycode");
++		if (!rkeycode) {
++			fprintf(stderr, _("%s: invalid keycode for raw entry %d\n"),
++				fname, ind);
++			return EINVAL;
++		}
++
++		if (toml_rtos(rkeycode, &keycode)) {
++			fprintf(stderr, _("%s: bad value `%s' for keycode\n"),
++				fname, rkeycode);
++			return EINVAL;
++		}
++
++		value = parse_code(keycode);
++		if (debug)
++			fprintf(stderr, _("\tvalue=%d\n"), value);
++
++		if (value == -1) {
++			value = strtol(keycode, &p, 0);
++			if (errno || *p) {
++				free(keycode);
++				fprintf(stderr, _("%s: Keycode `%s' not recognised\n"),
++					fname, keycode);
++				continue;
++			}
++		}
++		free(keycode);
++
++		rawarray = toml_array_in(t, "raw");
++		if (!rawarray) {
++			fprintf(stderr, _("%s: missing raw array for entry %d\n"),
++				fname, ind);
++			return EINVAL;
++		}
++
++		// determine length of array
++		length = 0;
++		while (toml_raw_at(rawarray, length) != NULL)
++			length++;
++
++		if (!(length % 2)) {
++			fprintf(stderr, _("%s: raw array must have odd length rather than %d\n"),
++				fname, length);
++			return EINVAL;
++		}
++
++		re = calloc(1, sizeof(*re) + sizeof(re->raw[0]) * length);
++		if (!re) {
++			fprintf(stderr, _("Failed to allocate memory"));
++			return EINVAL;
++		}
++
++		for (int i=0; i<length; i++) {
++			const char *s = toml_raw_at(rawarray, i);
++			int64_t v;
++
++			if (toml_rtoi(s, &v) || v == 0) {
++				fprintf(stderr, _("%s: incorrect raw value `%s'"),
++					fname, s);
++				return EINVAL;
++			}
++
++			if (v <= 0 || v > USHRT_MAX) {
++				fprintf(stderr, _("%s: raw value %d out of range"),
++					fname, value);
++				return EINVAL;
++			}
++
++			re->raw[i] = v;
++		}
++
++		re->raw_length = length;
++
++		ke = calloc(1, sizeof(*ke));
++		if (!re) {
++			fprintf(stderr, _("Failed to allocate memory"));
++			return EINVAL;
++		}
++
++		ke->scancode = raw_scancode;
++		ke->keycode = value;
++		ke->next = keytable;
++		keytable = ke;
++
++		re->scancode = raw_scancode;
++		re->next = rawtable;
++		rawtable = re;
++
++		raw_scancode++;
++	}
++
++	return 0;
++}
++
++
+ static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot)
+ {
+ 	struct toml_table_t *scancodes;
++	struct toml_array_t *rawarray;
+ 	enum sysfs_protocols protocol;
+ 	const char *raw;
++	bool have_raw_protocol = false;
+ 	char *p;
+ 	int i = 0;
+ 
+@@ -510,6 +625,9 @@ static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot
+ 		struct bpf_protocol *b;
+ 
+ 		b = malloc(sizeof(*b));
++		if (!strcmp(p, "raw"))
++			have_raw_protocol = true;
++
+ 		b->name = p;
+ 		b->toml = proot;
+ 		add_bpf_protocol(b);
+@@ -519,6 +637,25 @@ static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot
+ 		free(p);
+ 	}
+ 
++	rawarray = toml_array_in(proot, "raw");
++	if (rawarray) {
++		if (toml_raw_in(proot, "scancodes")) {
++			fprintf(stderr, _("Cannot have both [raw] and [scancode] sections"));
++			return EINVAL;
++		}
++		if (!have_raw_protocol) {
++			fprintf(stderr, _("Keymap with raw entries must have raw protocol"));
++			return EINVAL;
++		}
++		error_t err = parse_toml_raw_part(fname, rawarray);
++		if (err != 0)
++			return err;
++
++	} else if (have_raw_protocol) {
++		fprintf(stderr, _("Keymap with raw protocol must have raw entries"));
++		return EINVAL;
++	}
++
+ 	scancodes = toml_table_in(proot, "scancodes");
+ 	if (!scancodes) {
+ 		if (debug)
+@@ -1907,7 +2044,7 @@ static void attach_bpf(const char *lirc_name, const char *bpf_prog, struct toml_
+ 		return;
+ 	}
+ 
+-	load_bpf_file(bpf_prog, fd, toml);
++	load_bpf_file(bpf_prog, fd, toml, rawtable);
+ 	close(fd);
+ }
+ 
+diff --git a/utils/keytable/rc_keymap.5.in b/utils/keytable/rc_keymap.5.in
+index c9e672d7..d5de657a 100644
+--- a/utils/keytable/rc_keymap.5.in
++++ b/utils/keytable/rc_keymap.5.in
+@@ -52,7 +52,8 @@ Protocol \fBrc\-mm\fR has variants \fBrc-mm-12\fR, \fBrc-mm-24\fR, and
+ \fBrc-mm-32\fR.
+ .SS Scancodes field
+ The \fBscancodes\fR table list the scancodes and the mapping to linux input
+-key events. Multiple scancodes can map to the same key event.
++key events. Multiple scancodes can map to the same key event. This field
++is not present for \fBraw\fR protocols.
+ .PP
+ If the scancode start with 0x, it is interpreted as a hexadecimal number. If
+ it starts with a 0, it is interpreted as an octal number.
+@@ -60,6 +61,16 @@ it starts with a 0, it is interpreted as an octal number.
+ The key events are listed in the \fBinput-event-codes.h\fR header file.
+ Examples are \fBKEY_ENTER\fR, \fBKEY_ESC\fR or \fBBTN_LEFT\fR for the left
+ mouse button.
++.SS Raw field
++If the protocol is \fBraw\fR, the \fBraw\fR field is an array of keycode
++to raw mapping. For each entry, there is a \fBkeycode\fR field and \fBraw\fR
++field. The \fBkeycode\fR is a linux input event, as explained the scancodes
++section.
++.PP
++The \fBraw\fR field is an array of integers. These are the pulse and space
++values of the IR message. The first is a pulse value in microseconds, and
++the second a space, third pulse, etc. There should be an odd number of fields
++so that the last entry is a pulse.
+ .SS Remaining fields (BPF parameters)
+ If the protocol is a BPF based decoder, it may have any number of numeric
+ parameters. These parameters are used to support protocols with non-standard
+@@ -74,6 +85,11 @@ Kernel based non-BPF protocol decoders do not have any parameters.
+ Some of the BPF protocol decoders are generic and will need parameters to
+ work. Other are for specific remotes and should work without any parameters.
+ The timing parameters are all in microseconds (µs).
++.SS raw
++This decoder must be used when the keymap is raw; for each key, there is an
++entry in raw array with the pulse and space values for that key. No decoding
++is done, the incoming IR is simply matched against the different pulse and
++space values.
+ .SS imon_rsc
+ This decoder is specifically for the iMON RSC remote, which was packaged with
+ the iMON Station (amongst others). The decoder is for the directional stick in
+-- 
+2.21.0
 
-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
-
---mavbm72nfjcly754--
