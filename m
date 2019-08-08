@@ -2,101 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E84686D50
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 00:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2D1E86D75
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 00:53:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404804AbfHHWdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 18:33:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39538 "EHLO mail.kernel.org"
+        id S2404278AbfHHWx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 18:53:29 -0400
+Received: from mga09.intel.com ([134.134.136.24]:18608 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404681AbfHHWdD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 18:33:03 -0400
-Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1ECB5216C8;
-        Thu,  8 Aug 2019 22:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565303582;
-        bh=M1LHDKT+Utjw2MuliMFXwjmQGIz79EFLeGhC6jmdeW8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=rJm/bKIjqOczu37MctJclbvuCqDc2bjNbCOceXgrdzzO5jdTQq59GCZBl+aaSOFHo
-         JWftfKITVhkjQlcdggzJR5GIR3v5lckbgstfbb5fdsE0+HHu12+i5Q62vy30iUhD6A
-         xVNDNvwKYNXCR25osWwquW4PqKI0St9mmWBTs9xA=
-Date:   Thu, 8 Aug 2019 15:33:00 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        dri-devel@lists.freedesktop.org,
-        Kostya Serebryany <kcc@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the
- kernel
-Message-Id: <20190808153300.09d3eb80772515f0ea062833@linux-foundation.org>
-In-Reply-To: <201908081410.C16D2BD@keescook>
-References: <cover.1563904656.git.andreyknvl@google.com>
-        <CAAeHK+yc0D_nd7nTRsY4=qcSx+eQR0VLut3uXMf4NEiE-VpeCw@mail.gmail.com>
-        <20190724140212.qzvbcx5j2gi5lcoj@willie-the-truck>
-        <CAAeHK+xXzdQHpVXL7f1T2Ef2P7GwFmDMSaBH4VG8fT3=c_OnjQ@mail.gmail.com>
-        <20190724142059.GC21234@fuggles.cambridge.arm.com>
-        <20190806171335.4dzjex5asoertaob@willie-the-truck>
-        <CAAeHK+zF01mxU+PkEYLkoVu-ZZM6jNfL_OwMJKRwLr-sdU4Myg@mail.gmail.com>
-        <201908081410.C16D2BD@keescook>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1732708AbfHHWx3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Aug 2019 18:53:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 15:53:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,363,1559545200"; 
+   d="scan'208";a="186498166"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 08 Aug 2019 15:53:27 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hvrHi-0003Ut-Jf; Fri, 09 Aug 2019 06:53:26 +0800
+Date:   Fri, 09 Aug 2019 06:53:12 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 97299a3035328d7ae2f4fccaf6e549974df6e118
+Message-ID: <5d4ca7d8.whnvQuM6gyQZQSyZ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 8 Aug 2019 14:12:19 -0700 Kees Cook <keescook@chromium.org> wrote:
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 97299a3035328d7ae2f4fccaf6e549974df6e118  media: Remove dev_err() usage after platform_get_irq()
 
-> > The ones that are left are the mm ones: 4, 5, 6, 7 and 8.
-> > 
-> > Andrew, could you take a look and give your Acked-by or pick them up directly?
-> 
-> Given the subsystem Acks, it seems like 3-10 and 12 could all just go
-> via Andrew? I hope he agrees. :)
+elapsed time: 1580m
 
-I'll grab everything that has not yet appeared in linux-next.  If more
-of these patches appear in linux-next I'll drop those as well.
+configs tested: 150
 
-The review discussion against " [PATCH v19 02/15] arm64: Introduce
-prctl() options to control the tagged user addresses ABI" has petered
-out inconclusively.  prctl() vs arch_prctl().
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+x86_64                 randconfig-b001-201931
+x86_64                 randconfig-b002-201931
+x86_64                 randconfig-b003-201931
+x86_64                 randconfig-b004-201931
+i386                   randconfig-b002-201931
+i386                   randconfig-b003-201931
+i386                   randconfig-b004-201931
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             alldefconfig
+ia64                                defconfig
+x86_64                           allyesconfig
+i386                             allmodconfig
+x86_64                           allmodconfig
+i386                             alldefconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                 randconfig-e001-201931
+x86_64                 randconfig-e002-201931
+x86_64                 randconfig-e003-201931
+x86_64                 randconfig-e004-201931
+i386                   randconfig-e001-201931
+i386                   randconfig-e002-201931
+i386                   randconfig-e003-201931
+i386                   randconfig-e004-201931
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+x86_64                 randconfig-d001-201931
+x86_64                 randconfig-d002-201931
+x86_64                 randconfig-d003-201931
+x86_64                 randconfig-d004-201931
+i386                   randconfig-d001-201931
+i386                   randconfig-d002-201931
+i386                   randconfig-d003-201931
+i386                   randconfig-d004-201931
+alpha                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                 randconfig-f001-201931
+x86_64                 randconfig-f002-201931
+x86_64                 randconfig-f003-201931
+x86_64                 randconfig-f004-201931
+i386                   randconfig-f001-201931
+i386                   randconfig-f002-201931
+i386                   randconfig-f003-201931
+i386                   randconfig-f004-201931
+i386                   randconfig-b001-201931
+x86_64                 randconfig-a001-201931
+x86_64                 randconfig-a002-201931
+x86_64                 randconfig-a003-201931
+x86_64                 randconfig-a004-201931
+i386                   randconfig-a001-201931
+i386                   randconfig-a002-201931
+i386                   randconfig-a003-201931
+i386                   randconfig-a004-201931
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                          debug_defconfig
+s390                                defconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                      fuloong2e_defconfig
+mips                                   jz4740
+mips                      malta_kvm_defconfig
+mips                                     txx9
+x86_64                 randconfig-g001-201931
+x86_64                 randconfig-g003-201931
+x86_64                 randconfig-g004-201931
+i386                   randconfig-g001-201931
+i386                   randconfig-g002-201931
+i386                   randconfig-g003-201931
+i386                   randconfig-g004-201931
+x86_64                 randconfig-g002-201931
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                             defconfig
+x86_64                 randconfig-c001-201931
+x86_64                 randconfig-c002-201931
+x86_64                 randconfig-c003-201931
+x86_64                 randconfig-c004-201931
+i386                   randconfig-c001-201931
+i386                   randconfig-c002-201931
+i386                   randconfig-c003-201931
+i386                   randconfig-c004-201931
+x86_64                 randconfig-h001-201931
+x86_64                 randconfig-h002-201931
+x86_64                 randconfig-h003-201931
+x86_64                 randconfig-h004-201931
+i386                   randconfig-h001-201931
+i386                   randconfig-h002-201931
+i386                   randconfig-h003-201931
+i386                   randconfig-h004-201931
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+parisc                        c3000_defconfig
+parisc                         b180_defconfig
+parisc                              defconfig
+parisc                            allnoconfig
+i386                              allnoconfig
+i386                                defconfig
+x86_64                             acpi-redef
+x86_64                           allyesdebian
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                nfsroot
+x86_64                                   rhel
+x86_64                               rhel-7.6
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
