@@ -2,101 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16462859A4
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 07:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33461859EC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 07:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730859AbfHHFLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 01:11:07 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:18703 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728090AbfHHFLH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 01:11:07 -0400
-X-Halon-ID: e8c83743-b99a-11e9-903a-005056917f90
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [145.14.112.32])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id e8c83743-b99a-11e9-903a-005056917f90;
-        Thu, 08 Aug 2019 07:11:02 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] rcar-vin: Report correct image stride
-Date:   Thu,  8 Aug 2019 07:10:58 +0200
-Message-Id: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.22.0
+        id S1731021AbfHHFmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 01:42:46 -0400
+Received: from ozlabs.org ([203.11.71.1]:56463 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725868AbfHHFmp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Aug 2019 01:42:45 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 463y252c4Xz9sN1;
+        Thu,  8 Aug 2019 15:42:37 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     john.hubbard@gmail.com, Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?utf-8?B?SsOpcsO0?= =?utf-8?B?bWU=?= Glisse 
+        <jglisse@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
+        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Christoph Hellwig <hch@lst.de>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 38/41] powerpc: convert put_page() to put_user_page*()
+In-Reply-To: <20190807013340.9706-39-jhubbard@nvidia.com>
+References: <20190807013340.9706-1-jhubbard@nvidia.com> <20190807013340.9706-39-jhubbard@nvidia.com>
+Date:   Thu, 08 Aug 2019 15:42:34 +1000
+Message-ID: <87k1botdpx.fsf@concordia.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The image stride was adjusted when it was written to hardware and not
-when configuring the format. Calculate the correct stride value and
-report it to userspace.
+Hi John,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  | 10 ++++++----
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++++-
- 2 files changed, 10 insertions(+), 5 deletions(-)
+john.hubbard@gmail.com writes:
+> diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s64/iommu_api.c
+> index b056cae3388b..e126193ba295 100644
+> --- a/arch/powerpc/mm/book3s64/iommu_api.c
+> +++ b/arch/powerpc/mm/book3s64/iommu_api.c
+> @@ -203,6 +202,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+>  {
+>  	long i;
+>  	struct page *page = NULL;
+> +	bool dirty = false;
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index f16f2966f9628b72..3cb29b2e0b2b18a9 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -577,6 +577,9 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
- 
- void rvin_crop_scale_comp(struct rvin_dev *vin)
- {
-+	const struct rvin_video_format *fmt;
-+	u32 stride;
-+
- 	/* Set Start/End Pixel/Line Pre-Clip */
- 	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
- 	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
-@@ -600,10 +603,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
- 	if (vin->info->model != RCAR_GEN3)
- 		rvin_crop_scale_comp_gen2(vin);
- 
--	if (vin->format.pixelformat == V4L2_PIX_FMT_NV16)
--		rvin_write(vin, ALIGN(vin->format.width, 0x20), VNIS_REG);
--	else
--		rvin_write(vin, ALIGN(vin->format.width, 0x10), VNIS_REG);
-+	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
-+	stride = vin->format.bytesperline / fmt->bpp;
-+	rvin_write(vin, stride, VNIS_REG);
- }
- 
- /* -----------------------------------------------------------------------------
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index cfed0a2604133849..cbc1c07f0a9631a4 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -83,13 +83,16 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
- 				    struct v4l2_pix_format *pix)
- {
- 	const struct rvin_video_format *fmt;
-+	u32 align;
- 
- 	fmt = rvin_format_from_pixel(vin, pix->pixelformat);
- 
- 	if (WARN_ON(!fmt))
- 		return -EINVAL;
- 
--	return pix->width * fmt->bpp;
-+	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-+
-+	return ALIGN(pix->width, align) * fmt->bpp;
- }
- 
- static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
--- 
-2.22.0
+I don't think you need that initialisation do you?
 
+>  	if (!mem->hpas)
+>  		return;
+> @@ -215,10 +215,9 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+>  		if (!page)
+>  			continue;
+>  
+> -		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+> -			SetPageDirty(page);
+> +		dirty = mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY;
+> -		put_page(page);
+> +		put_user_pages_dirty_lock(&page, 1, dirty);
+>  		mem->hpas[i] = 0;
+>  	}
+>  }
+
+cheers
