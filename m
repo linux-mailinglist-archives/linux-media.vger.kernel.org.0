@@ -2,85 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33461859EC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 07:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D4185C2F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 09:57:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731021AbfHHFmq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 01:42:46 -0400
-Received: from ozlabs.org ([203.11.71.1]:56463 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725868AbfHHFmp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 01:42:45 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 463y252c4Xz9sN1;
-        Thu,  8 Aug 2019 15:42:37 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     john.hubbard@gmail.com, Andrew Morton <akpm@linux-foundation.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?utf-8?B?SsOpcsO0?= =?utf-8?B?bWU=?= Glisse 
-        <jglisse@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
-        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org, John Hubbard <jhubbard@nvidia.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christoph Hellwig <hch@lst.de>, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v3 38/41] powerpc: convert put_page() to put_user_page*()
-In-Reply-To: <20190807013340.9706-39-jhubbard@nvidia.com>
-References: <20190807013340.9706-1-jhubbard@nvidia.com> <20190807013340.9706-39-jhubbard@nvidia.com>
-Date:   Thu, 08 Aug 2019 15:42:34 +1000
-Message-ID: <87k1botdpx.fsf@concordia.ellerman.id.au>
+        id S1731604AbfHHH5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 03:57:04 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40594 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbfHHH5E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 03:57:04 -0400
+Received: by mail-ot1-f65.google.com with SMTP id l15so57827970oth.7;
+        Thu, 08 Aug 2019 00:57:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PfgNCbwNh+egJUA3cbV8dUVAFRIGQlHaXhUpgK2RvWY=;
+        b=JGJMpSjCGosPfjQC++oRo9/VpIYQjtroBHN743qwzAzvGwWB5pIBYAiDbdvUr9BPJt
+         Eo75K5UBgZ/gNMoWwkPqrC1ebkSs6ugBxhbHyqohfNnLDNGaVk38PZCLn+DuTtHuWbh7
+         5hOZdCLwSYvYHaoqJcd3YCtb78oW/V7GqgaUuaKoez42d8Opdb+7SC6HbG3SMcwWfgOX
+         58mFj2RG/w8nyMm9/lRxYUJK4+B17RhjqJLtgW7lPpWJDtAsIvV9RPikTutK1Mb3WE/Z
+         7NkEE7P395FfzzoTyAL38adaFrI9UH5xaJbeITg8/VqaF/DK1vddCOeMp8womXVikOXV
+         qFkQ==
+X-Gm-Message-State: APjAAAWTQXbT7DoKFP8e7rXNysRmu2ExYF6MtNYw7tJUCwhn0jgjnO2h
+        cWv5ICjfuv2JQeBT8lSfrMyNJXm/bigR4DlWAC0=
+X-Google-Smtp-Source: APXvYqyxub+OuS4BmFWrwKCfra+oZAC4TQcubjFwMCIkh5Hd7WXBKupUhwY9Boc0JZWx3NsB6ilSK6bX/BtJ1nAWqYU=
+X-Received: by 2002:aca:bd43:: with SMTP id n64mr1504808oif.148.1565251023062;
+ Thu, 08 Aug 2019 00:57:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20190730181557.90391-1-swboyd@chromium.org> <20190730181557.90391-26-swboyd@chromium.org>
+In-Reply-To: <20190730181557.90391-26-swboyd@chromium.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 8 Aug 2019 09:56:51 +0200
+Message-ID: <CAMuHMdV2786n3ex-rY7N5LdX4PpnqZ-tuX2SyTO0w+TRfrA84g@mail.gmail.com>
+Subject: Re: [PATCH v6 25/57] media: Remove dev_err() usage after platform_get_irq()
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi John,
+Hi Stephen,
 
-john.hubbard@gmail.com writes:
-> diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s64/iommu_api.c
-> index b056cae3388b..e126193ba295 100644
-> --- a/arch/powerpc/mm/book3s64/iommu_api.c
-> +++ b/arch/powerpc/mm/book3s64/iommu_api.c
-> @@ -203,6 +202,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
->  {
->  	long i;
->  	struct page *page = NULL;
-> +	bool dirty = false;
+On Tue, Jul 30, 2019 at 8:21 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> We don't need dev_err() messages when platform_get_irq() fails now that
+> platform_get_irq() prints an error message itself when something goes
+> wrong. Let's remove these prints with a simple semantic patch.
+>
+> // <smpl>
+> @@
+> expression ret;
+> struct platform_device *E;
+> @@
+>
+> ret =
+> (
+> platform_get_irq(E, ...)
+> |
+> platform_get_irq_byname(E, ...)
+> );
+>
+> if ( \( ret < 0 \| ret <= 0 \) )
+> {
+> (
+> -if (ret != -EPROBE_DEFER)
+> -{ ...
+> -dev_err(...);
+> -... }
+> |
+> ...
+> -dev_err(...);
+> )
+> ...
+> }
+> // </smpl>
+>
+> While we're here, remove braces on if statements that only have one
+> statement (manually).
+>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>
+> Please apply directly to subsystem trees
+>
+>  drivers/media/platform/am437x/am437x-vpfe.c           | 1 -
+>  drivers/media/platform/atmel/atmel-sama5d2-isc.c      | 7 ++-----
+>  drivers/media/platform/exynos4-is/mipi-csis.c         | 4 +---
+>  drivers/media/platform/imx-pxp.c                      | 4 +---
+>  drivers/media/platform/omap3isp/isp.c                 | 1 -
+>  drivers/media/platform/renesas-ceu.c                  | 4 +---
+>  drivers/media/platform/rockchip/rga/rga.c             | 1 -
+>  drivers/media/platform/s3c-camif/camif-core.c         | 4 +---
+>  drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 8 ++------
+>  drivers/media/platform/sti/hva/hva-hw.c               | 8 ++------
+>  drivers/media/platform/stm32/stm32-dcmi.c             | 5 +----
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c    | 7 ++-----
+>  drivers/media/rc/img-ir/img-ir-core.c                 | 4 +---
+>  drivers/media/rc/ir-hix5hd2.c                         | 4 +---
+>  drivers/media/rc/meson-ir.c                           | 4 +---
+>  drivers/media/rc/mtk-cir.c                            | 4 +---
+>  drivers/media/rc/sunxi-cir.c                          | 1 -
+>  17 files changed, 17 insertions(+), 54 deletions(-)
 
-I don't think you need that initialisation do you?
+Looks like this didn't catch the double assignments in:
 
->  	if (!mem->hpas)
->  		return;
-> @@ -215,10 +215,9 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
->  		if (!page)
->  			continue;
->  
-> -		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
-> -			SetPageDirty(page);
-> +		dirty = mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY;
-> -		put_page(page);
-> +		put_user_pages_dirty_lock(&page, 1, dirty);
->  		mem->hpas[i] = 0;
->  	}
->  }
+drivers/media/platform/rcar_fdp1.c:     fdp1->irq = ret =
+platform_get_irq(pdev, 0);
+drivers/media/platform/rcar_fdp1.c-     if (ret < 0) {
+drivers/media/platform/rcar_fdp1.c-             dev_err(&pdev->dev,
+"cannot find IRQ\n");
+drivers/media/platform/rcar_fdp1.c-             return ret;
+drivers/media/platform/rcar_fdp1.c-     }
+drivers/media/platform/rcar_fdp1.c-
+--
+drivers/media/platform/rcar_jpu.c:      jpu->irq = ret =
+platform_get_irq(pdev, 0);
+drivers/media/platform/rcar_jpu.c-      if (ret < 0) {
+drivers/media/platform/rcar_jpu.c-              dev_err(&pdev->dev,
+"cannot find IRQ\n");
+drivers/media/platform/rcar_jpu.c-              return ret;
+drivers/media/platform/rcar_jpu.c-      }
+drivers/media/platform/rcar_jpu.c-
 
-cheers
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
