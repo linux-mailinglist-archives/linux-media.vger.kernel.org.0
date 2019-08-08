@@ -2,204 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B016D8603D
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 12:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC5486093
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2019 13:05:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404059AbfHHKko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 06:40:44 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:44460 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2403783AbfHHKko (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Aug 2019 06:40:44 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x78Abf5q006589;
-        Thu, 8 Aug 2019 12:40:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=OR5QhrSszwUC5t+z/AAD78ZpZNVofHWSNNovD/lgTSQ=;
- b=PKrATBT8H0axnMTx3n0Rhc+YmGCBVNKBVDzl9VWIy8jphDKNra82rwuHuxwCbKYkaxbe
- wcUiNPa/jDhQPvDrlm7N1vxQlbOVdMkpEIghXQbTrTtzAuVydrOPnYs8MfuSDm3SNrwP
- wZIFastHH6rhcopklk4phU23P3IR0PM/tGA71XItN0hKtiJfMnJZGjCz3Mr8ds4PPwRW
- M7IxoxypXtmu8M/KQpQQg5yGnt5mTGbLiBm6Ua7PULk4jCcHfZJm+wEjRRiTmAa4n64l
- YlCW+F04m/yyoV+jDIgRSQycGUM9a8omAsorGFk2FqyqBEn3QVm1A733vptvcGzWxsnL 3g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2u515mvnh5-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 08 Aug 2019 12:40:31 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0016831;
-        Thu,  8 Aug 2019 10:40:29 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D6BDC2F9D8A;
-        Thu,  8 Aug 2019 12:40:29 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE2.st.com
- (10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 8 Aug
- 2019 12:40:29 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Thu, 8 Aug 2019 12:40:28 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Sakari Ailus" <sakari.ailus@linux.intel.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick FERTRE <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v4 0/3] DCMI bridge support
-Thread-Topic: [PATCH v4 0/3] DCMI bridge support
-Thread-Index: AQHVTQkgTcvIjOQmAEWftzhpiuOH2qbw3leAgAABGACAABBaAA==
-Date:   Thu, 8 Aug 2019 10:40:28 +0000
-Message-ID: <bbb4f08d-7aa1-cef9-8d81-15c8ae48cba0@st.com>
-References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
- <28a2a9ac-d5b9-a312-616a-620e0385cf66@xs4all.nl>
- <85edd40f-68cc-13aa-52e0-6ec832bf6c2f@st.com>
- <c58613a7-a1d2-cc1b-5f94-beb2bd753e5e@xs4all.nl>
-In-Reply-To: <c58613a7-a1d2-cc1b-5f94-beb2bd753e5e@xs4all.nl>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <756ACA611C217547A1C2FC3E2A041002@st.com>
-Content-Transfer-Encoding: base64
+        id S1730879AbfHHLFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 07:05:53 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37328 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730678AbfHHLFx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 07:05:53 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 74A9128C975
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH v3] media: i2c: ov5645: Fix power sequence
+Date:   Thu,  8 Aug 2019 08:05:40 -0300
+Message-Id: <20190808110540.5832-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-08_05:,,
- signatures=0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSGFucywNCg0KT24gOC84LzE5IDExOjQxIEFNLCBIYW5zIFZlcmt1aWwgd3JvdGU6DQo+IEhp
-IEh1Z3VlcywNCj4gDQo+IE9uIDgvOC8xOSAxMTozOCBBTSwgSHVndWVzIEZSVUNIRVQgd3JvdGU6
-DQo+PiBIaSBIYW5zLA0KPj4NCj4+IFlvdSdyZSB3ZWxjb21lLCBoZXJlIGl0IGlzOg0KPj4NCj4+
-IDEpIHY0bC11dGlscyBtYXN0ZXIgYnJhbmNoLCBjb21taXQNCj4+IDZhYTE1Zjc0NDdkNGFlY2E2
-YWYxZWQ3ZWU5NjQ0YTBjN2U4OTFlY2UgInY0bDItY3RsOiBmaXggZG91YmxlDQo+PiBkZWNyZW1l
-bnRpbmcgb2Ygc3RyZWFtX2NvdW50Ig0KPj4NCj4+IDIpIENyb3BwaW5nIHRlc3QgaXMgZmFpbGVk
-IGFzIHVzdWFsIGJlY2F1c2Ugb2YgT1Y1NjQwIGRpc2NyZXRlIGZyYW1lc2l6ZXMNCj4+DQo+PiAz
-KSBObyBtb3JlIC9kZXYvbWVkaWEqIGFuZCAvZGV2L3Y0bC0qOg0KPj4gcm9vdEBzdG0zMm1wMS1h
-djk2On4jIGxzIC1hbCAvZGV2L3ZpZGVvMA0KPj4gY3J3LXJ3LS0tLSAxIHJvb3QgdmlkZW8gODEs
-IDAgTWFyIDE5IDE3OjQyIC9kZXYvdmlkZW8wDQo+PiByb290QHN0bTMybXAxLWF2OTY6fiMgbHMg
-LWFsIC9kZXYvbWVkaWEqDQo+PiBsczogY2Fubm90IGFjY2VzcyAnL2Rldi9tZWRpYSonOiBObyBz
-dWNoIGZpbGUgb3IgZGlyZWN0b3J5DQo+PiByb290QHN0bTMybXAxLWF2OTY6fiMgbHMgLWFsIC9k
-ZXYvdjRsLSoNCj4+IGxzOiBjYW5ub3QgYWNjZXNzICcvZGV2L3Y0bC0qJzogTm8gc3VjaCBmaWxl
-IG9yIGRpcmVjdG9yeQ0KPiANCj4gR29vZC4gT25lIG1vcmUgcXVlc3Rpb246IGlzIHRoaXMgdGVz
-dGVkIHdpdGggdHdvIHN1YmRldnM/IFNvIGEgYnJpZGdlK3NlbnNvcj8NCg0KWWVzLCB0ZXN0ZWQg
-d2l0aCBvdjU2NDAgKENTSSkgPT4gc3QtbWlwaWQwMiA9PiBzdG0zMi1kY21pLg0KDQpJbiB0ZXJt
-IG9mIGhhcmR3YXJlIHNldHVwLCBpdCdzIGFuIEF2ZW5nZXI5NiA5NiBib2FyZCBbMV0gZW1iZWRk
-aW5nIGFuIA0KU1RNMzJNUDE1NyAoRENNSSAvLykgYW5kIGFuIFNUIE1JUElEMDIgYnJpZGdlIChD
-U0kgdG8gLy8pIGluIG9yZGVyIHRvIA0KZW5hYmxlIENTSSB2aWRlbyBpbnB1dCBvbiBoaWdoIHNw
-ZWVkIGV4cGFuc2lvbiBjb25uZWN0b3IgKyBhIEQzIA0KZW5naW5lZXJpbmcgbWV6emFuaW5lIGJv
-YXJkIFsyXSBlbWJlZGRpbmcgYW4gT1Y1NjQwIENTSSBjYW1lcmEuDQoNCiZkY21pIHsNCi4uLg0K
-CXBvcnQgew0KCQlkY21pXzA6IGVuZHBvaW50IHsNCgkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbWlw
-aWQwMl8yPjsNCg0KbWlwaWQwMjogbWlwaWQwMkAxNCB7DQouLi4NCgkJCXBvcnRAMCB7DQoJCQkJ
-cmVnID0gPDA+Ow0KDQoJCQkJbWlwaWQwMl8wOiBlbmRwb2ludCB7DQoJCQkJCWRhdGEtbGFuZXMg
-PSA8MSAyPjsNCgkJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZvdjU2NDBfMD47DQoJCQkJfTsNCgkJ
-CX07DQoJCQlwb3J0QDIgew0KCQkJCXJlZyA9IDwyPjsNCg0KCQkJCW1pcGlkMDJfMjogZW5kcG9p
-bnQgew0KCQkJCQlidXMtd2lkdGggPSA8OD47DQoJCQkJCWhzeW5jLWFjdGl2ZSA9IDwwPjsNCgkJ
-CQkJdnN5bmMtYWN0aXZlID0gPDA+Ow0KCQkJCQlwY2xrLXNhbXBsZSA9IDwwPjsNCgkJCQkJcmVt
-b3RlLWVuZHBvaW50ID0gPCZkY21pXzA+Ow0KCQkJCX07DQoNCm92NTY0MDogY2FtZXJhQDNjIHsN
-Ci4uLg0KCQkJb3Y1NjQwXzA6IGVuZHBvaW50IHsNCgkJCQlyZW1vdGUtZW5kcG9pbnQgPSA8Jm1p
-cGlkMDJfMD47DQoJCQkJY2xvY2stbGFuZXMgPSA8MD47DQoJCQkJZGF0YS1sYW5lcyA9IDwxIDI+
-Ow0KCQkJfTsNCg0KDQoNClsxXQ0KaHR0cHM6Ly93d3cuOTZib2FyZHMub3JnL3Byb2R1Y3QvYXZl
-bmdlcjk2Lw0KaHR0cHM6Ly93aWtpLmRoLWVsZWN0cm9uaWNzLmNvbS9pbmRleC5waHAvQXZlbmdl
-cjk2DQoNClsyXSBodHRwczovL3d3dy45NmJvYXJkcy5vcmcvcHJvZHVjdC9kM2NhbWVyYS8NCg0K
-DQo+IA0KPiBSZWdhcmRzLA0KPiANCj4gCUhhbnMNCj4gDQo+Pg0KPj4NCj4+IHJvb3RAc3RtMzJt
-cDEtYXY5Njp+IyB2NGwyLWNvbXBsaWFuY2UgLXMNCj4+IHY0bDItY29tcGxpYW5jZSBTSEE6IDZh
-YTE1Zjc0NDdkNGFlY2E2YWYxZWQ3ZWU5NjQ0YTBjN2U4OTFlY2UsIDMyIGJpdHMNCj4+DQo+PiBD
-b21wbGlhbmNlIHRlc3QgZm9yIHN0bTMyLWRjbWkgZGV2aWNlIC9kZXYvdmlkZW8wOg0KPj4NCj4+
-IERyaXZlciBJbmZvOg0KPj4gICAgICAgICAgIERyaXZlciBuYW1lICAgICAgOiBzdG0zMi1kY21p
-DQo+PiAgICAgICAgICAgQ2FyZCB0eXBlICAgICAgICA6IFNUTTMyIENhbWVyYSBNZW1vcnkgSW50
-ZXJmYWNlDQo+PiAgICAgICAgICAgQnVzIGluZm8gICAgICAgICA6IHBsYXRmb3JtOmRjbWkNCj4+
-ICAgICAgICAgICBEcml2ZXIgdmVyc2lvbiAgIDogNC4xOS40OQ0KPj4gICAgICAgICAgIENhcGFi
-aWxpdGllcyAgICAgOiAweDg1MjAwMDAxDQo+PiAgICAgICAgICAgICAgICAgICBWaWRlbyBDYXB0
-dXJlDQo+PiAgICAgICAgICAgICAgICAgICBSZWFkL1dyaXRlDQo+PiAgICAgICAgICAgICAgICAg
-ICBTdHJlYW1pbmcNCj4+ICAgICAgICAgICAgICAgICAgIEV4dGVuZGVkIFBpeCBGb3JtYXQNCj4+
-ICAgICAgICAgICAgICAgICAgIERldmljZSBDYXBhYmlsaXRpZXMNCj4+ICAgICAgICAgICBEZXZp
-Y2UgQ2FwcyAgICAgIDogMHgwNTIwMDAwMQ0KPj4gICAgICAgICAgICAgICAgICAgVmlkZW8gQ2Fw
-dHVyZQ0KPj4gICAgICAgICAgICAgICAgICAgUmVhZC9Xcml0ZQ0KPj4gICAgICAgICAgICAgICAg
-ICAgU3RyZWFtaW5nDQo+PiAgICAgICAgICAgICAgICAgICBFeHRlbmRlZCBQaXggRm9ybWF0DQo+
-Pg0KPj4gUmVxdWlyZWQgaW9jdGxzOg0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX1FVRVJZQ0FQ
-OiBPSw0KPj4NCj4+IEFsbG93IGZvciBtdWx0aXBsZSBvcGVuczoNCj4+ICAgICAgICAgICB0ZXN0
-IHNlY29uZCAvZGV2L3ZpZGVvMCBvcGVuOiBPSw0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX1FV
-RVJZQ0FQOiBPSw0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0cvU19QUklPUklUWTogT0sNCj4+
-ICAgICAgICAgICB0ZXN0IGZvciB1bmxpbWl0ZWQgb3BlbnM6IE9LDQo+Pg0KPj4gRGVidWcgaW9j
-dGxzOg0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9LIChOb3Qg
-U3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0xPR19TVEFUVVM6IE9LDQo+Pg0K
-Pj4gSW5wdXQgaW9jdGxzOg0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0cvU19UVU5FUi9FTlVN
-X0ZSRVFfQkFORFM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3QgVklESU9D
-X0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3QgVklE
-SU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICB0ZXN0
-IFZJRElPQ19FTlVNQVVESU86IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3Qg
-VklESU9DX0cvUy9FTlVNSU5QVVQ6IE9LDQo+PiAgICAgICAgICAgdGVzdCBWSURJT0NfRy9TX0FV
-RElPOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICBJbnB1dHM6IDEgQXVkaW8gSW5w
-dXRzOiAwIFR1bmVyczogMA0KPj4NCj4+IE91dHB1dCBpb2N0bHM6DQo+PiAgICAgICAgICAgdGVz
-dCBWSURJT0NfRy9TX01PRFVMQVRPUjogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+PiAgICAgICAgICAg
-dGVzdCBWSURJT0NfRy9TX0ZSRVFVRU5DWTogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+PiAgICAgICAg
-ICAgdGVzdCBWSURJT0NfRU5VTUFVRE9VVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+PiAgICAgICAg
-ICAgdGVzdCBWSURJT0NfRy9TL0VOVU1PVVRQVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAg
-ICAgICAgIHRlc3QgVklESU9DX0cvU19BVURPVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAg
-ICAgICAgIE91dHB1dHM6IDAgQXVkaW8gT3V0cHV0czogMCBNb2R1bGF0b3JzOiAwDQo+Pg0KPj4g
-SW5wdXQvT3V0cHV0IGNvbmZpZ3VyYXRpb24gaW9jdGxzOg0KPj4gICAgICAgICAgIHRlc3QgVklE
-SU9DX0VOVU0vRy9TL1FVRVJZX1NURDogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+PiAgICAgICAgICAg
-dGVzdCBWSURJT0NfRU5VTS9HL1MvUVVFUllfRFZfVElNSU5HUzogT0sgKE5vdCBTdXBwb3J0ZWQp
-DQo+PiAgICAgICAgICAgdGVzdCBWSURJT0NfRFZfVElNSU5HU19DQVA6IE9LIChOb3QgU3VwcG9y
-dGVkKQ0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0cvU19FRElEOiBPSyAoTm90IFN1cHBvcnRl
-ZCkNCj4+DQo+PiBDb250cm9sIGlvY3RscyAoSW5wdXQgMCk6DQo+PiAgICAgICAgICAgdGVzdCBW
-SURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSw0KPj4gICAgICAgICAgIHRlc3QgVklE
-SU9DX1FVRVJZQ1RSTDogT0sNCj4+ICAgICAgICAgICB0ZXN0IFZJRElPQ19HL1NfQ1RSTDogT0sN
-Cj4+ICAgICAgICAgICB0ZXN0IFZJRElPQ19HL1MvVFJZX0VYVF9DVFJMUzogT0sNCj4+ICAgICAg
-ICAgICB0ZXN0IFZJRElPQ18oVU4pU1VCU0NSSUJFX0VWRU5UL0RRRVZFTlQ6IE9LDQo+PiAgICAg
-ICAgICAgdGVzdCBWSURJT0NfRy9TX0pQRUdDT01QOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4+ICAg
-ICAgICAgICBTdGFuZGFyZCBDb250cm9sczogMTggUHJpdmF0ZSBDb250cm9sczogMA0KPj4NCj4+
-IEZvcm1hdCBpb2N0bHMgKElucHV0IDApOg0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0VOVU1f
-Rk1UL0ZSQU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6IE9LDQo+PiAgICAgICAgICAgdGVzdCBWSURJ
-T0NfRy9TX1BBUk06IE9LDQo+PiAgICAgICAgICAgdGVzdCBWSURJT0NfR19GQlVGOiBPSyAoTm90
-IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICB0ZXN0IFZJRElPQ19HX0ZNVDogT0sNCj4+ICAgICAg
-ICAgICB0ZXN0IFZJRElPQ19UUllfRk1UOiBPSw0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX1Nf
-Rk1UOiBPSw0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0dfU0xJQ0VEX1ZCSV9DQVA6IE9LIChO
-b3QgU3VwcG9ydGVkKQ0KPj4gICAgICAgICAgICAgICAgICAgZmFpbDoNCj4+IC4uLy4uLy4uLy4u
-Ly4uLy4uLy4uLy4uLy4uL3NvdXJjZXMvdjRsLXV0aWxzL3V0aWxzL3Y0bDItY29tcGxpYW5jZS92
-NGwyLXRlc3QtZm9ybWF0cy5jcHAoMTQxNCk6DQo+PiBub2RlLT5mcm1zaXplc19jb3VudFtwaXhm
-bQ0KPj4gdF0gPiAxDQo+PiAgICAgICAgICAgdGVzdCBDcm9wcGluZzogRkFJTA0KPj4gICAgICAg
-ICAgIHRlc3QgQ29tcG9zaW5nOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICB0ZXN0
-IFNjYWxpbmc6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4NCj4+IENvZGVjIGlvY3RscyAoSW5wdXQg
-MCk6DQo+PiAgICAgICAgICAgdGVzdCBWSURJT0NfKFRSWV8pRU5DT0RFUl9DTUQ6IE9LIChOb3Qg
-U3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3QgVklESU9DX0dfRU5DX0lOREVYOiBPSyAoTm90
-IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICB0ZXN0IFZJRElPQ18oVFJZXylERUNPREVSX0NNRDog
-T0sgKE5vdCBTdXBwb3J0ZWQpDQo+Pg0KPj4gQnVmZmVyIGlvY3RscyAoSW5wdXQgMCk6DQo+PiAg
-ICAgICAgICAgdGVzdCBWSURJT0NfUkVRQlVGUy9DUkVBVEVfQlVGUy9RVUVSWUJVRjogT0sNCj4+
-ICAgICAgICAgICB0ZXN0IFZJRElPQ19FWFBCVUY6IE9LDQo+PiAgICAgICAgICAgdGVzdCBSZXF1
-ZXN0czogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+Pg0KPj4gVGVzdCBpbnB1dCAwOg0KPj4NCj4+IFN0
-cmVhbWluZyBpb2N0bHM6DQo+PiAgICAgICAgICAgdGVzdCByZWFkL3dyaXRlOiBPSw0KPj4gICAg
-ICAgICAgIHRlc3QgYmxvY2tpbmcgd2FpdDogT0sNCj4+ICAgICAgICAgICB0ZXN0IE1NQVAgKG5v
-IHBvbGwpOiBPSw0KPj4gICAgICAgICAgIHRlc3QgTU1BUCAoc2VsZWN0KTogT0sNCj4+ICAgICAg
-ICAgICB0ZXN0IE1NQVAgKGVwb2xsKTogT0sNCj4+ICAgICAgICAgICB0ZXN0IFVTRVJQVFIgKG5v
-IHBvbGwpOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4+ICAgICAgICAgICB0ZXN0IFVTRVJQVFIgKHNl
-bGVjdCk6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPj4gICAgICAgICAgIHRlc3QgRE1BQlVGOiBDYW5u
-b3QgdGVzdCwgc3BlY2lmeSAtLWV4cGJ1Zi1kZXZpY2UNCj4+DQo+PiBUb3RhbCBmb3Igc3RtMzIt
-ZGNtaSBkZXZpY2UgL2Rldi92aWRlbzA6IDUxLCBTdWNjZWVkZWQ6IDUwLCBGYWlsZWQ6IDEsDQo+
-PiBXYXJuaW5nczogMA0KPj4NCj4+DQo+PiBPbiA4LzcvMTkgMTI6MTUgUE0sIEhhbnMgVmVya3Vp
-bCB3cm90ZToNCj4+PiBIaSBIdWd1ZXMsDQo+Pj4NCj4+PiBDYW4geW91IHByb3ZpZGUgdGhlIG91
-dHB1dCBvZiB0aGUgbW9zdCByZWNlbnQgdjRsMi1jb21wbGlhbmNlPw0KPj4+DQo+Pj4gVXNlICd2
-NGwyLWNvbXBsaWFuY2UgLXMnLg0KPj4+DQo+Pj4gQWxzbywganVzdCB0byBjb25maXJtLCB3aXRo
-IHRoaXMgdjQgdGhlcmUgYXJlIG5vIC9kZXYvbWVkaWFYIG9yDQo+Pj4gL2Rldi92NGwtc3ViZGV2
-WCBkZXZpY2VzIGNyZWF0ZWQgYW55bW9yZSwgcmlnaHQ/DQo+Pj4NCj4+PiBUaGlzIHY0IGxvb2tz
-IGdvb2QgdG8gbWUsIEkganVzdCB3YW50IHRvIGhhdmUgdGhlc2UgZmluYWwgY2hlY2tzDQo+Pj4g
-ZG9uZS4NCj4+Pg0KPj4+IFJlZ2FyZHMsDQo+Pj4NCj4+PiAJSGFucw0KPj4+DQo+Pg0KPj4gQmVz
-dCByZWdhcmRzLA0KPj4gSHVndWVzLg0KPj4NCj4gDQoNCkJlc3QgcmVnYXJkcywNCkh1Z3Vlcy4=
+This is mostly a port of Jacopo's fix:
+
+  commit aa4bb8b8838ffcc776a79f49a4d7476b82405349
+  Author: Jacopo Mondi <jacopo@jmondi.org>
+  Date:   Fri Jul 6 05:51:52 2018 -0400
+
+  media: ov5640: Re-work MIPI startup sequence
+
+In the OV5645 case, the changes are:
+
+- At set_power(1) time power up MIPI Tx/Rx and set data and clock lanes in
+  LP11 during 'sleep' and 'idle' with MIPI clock in non-continuous mode.
+- At set_power(0) time power down MIPI Tx/Rx (in addition to the current
+  power down of regulators and clock gating).
+- At s_stream time enable/disable the MIPI interface output.
+
+With this commit the sensor is able to enter LP-11 mode during power up,
+as expected by some CSI-2 controllers.
+
+Many thanks to Fabio Estevam for his help debugging this issue.
+
+Tested-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+Changes in v3:
+* Add R-b.
+* Reword commit log, as noted by Jacopo.
+Changes in v2:
+* As suggested by Philipp, move the initial configuration
+  to the ov5645_global_init_setting array.
+---
+ drivers/media/i2c/ov5645.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 9602b9201b3e..f9808f2dbc43 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -41,6 +41,8 @@
+ #define		OV5645_CHIP_ID_HIGH_BYTE	0x56
+ #define OV5645_CHIP_ID_LOW		0x300b
+ #define		OV5645_CHIP_ID_LOW_BYTE		0x45
++#define OV5645_IO_MIPI_CTRL00		0x300e
++#define OV5645_PAD_OUTPUT00		0x3019
+ #define OV5645_AWB_MANUAL_CONTROL	0x3406
+ #define		OV5645_AWB_MANUAL_ENABLE	BIT(0)
+ #define OV5645_AEC_PK_MANUAL		0x3503
+@@ -51,6 +53,7 @@
+ #define		OV5645_ISP_VFLIP		BIT(2)
+ #define OV5645_TIMING_TC_REG21		0x3821
+ #define		OV5645_SENSOR_MIRROR		BIT(1)
++#define OV5645_MIPI_CTRL00		0x4800
+ #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
+ #define		OV5645_TEST_PATTERN_MASK	0x3
+ #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
+@@ -124,7 +127,6 @@ static const struct reg_value ov5645_global_init_setting[] = {
+ 	{ 0x3503, 0x07 },
+ 	{ 0x3002, 0x1c },
+ 	{ 0x3006, 0xc3 },
+-	{ 0x300e, 0x45 },
+ 	{ 0x3017, 0x00 },
+ 	{ 0x3018, 0x00 },
+ 	{ 0x302e, 0x0b },
+@@ -353,7 +355,10 @@ static const struct reg_value ov5645_global_init_setting[] = {
+ 	{ 0x3a1f, 0x14 },
+ 	{ 0x0601, 0x02 },
+ 	{ 0x3008, 0x42 },
+-	{ 0x3008, 0x02 }
++	{ 0x3008, 0x02 },
++	{ OV5645_IO_MIPI_CTRL00, 0x40 },
++	{ OV5645_MIPI_CTRL00, 0x24 },
++	{ OV5645_PAD_OUTPUT00, 0x70 }
+ };
+ 
+ static const struct reg_value ov5645_setting_sxga[] = {
+@@ -690,13 +695,9 @@ static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+ 				goto exit;
+ 			}
+ 
+-			ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+-					       OV5645_SYSTEM_CTRL0_STOP);
+-			if (ret < 0) {
+-				ov5645_set_power_off(ov5645);
+-				goto exit;
+-			}
++			usleep_range(500, 1000);
+ 		} else {
++			ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+ 			ov5645_set_power_off(ov5645);
+ 		}
+ 	}
+@@ -1002,11 +1003,20 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+ 			dev_err(ov5645->dev, "could not sync v4l2 controls\n");
+ 			return ret;
+ 		}
++
++		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
++		if (ret < 0)
++			return ret;
++
+ 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+ 				       OV5645_SYSTEM_CTRL0_START);
+ 		if (ret < 0)
+ 			return ret;
+ 	} else {
++		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
++		if (ret < 0)
++			return ret;
++
+ 		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+ 				       OV5645_SYSTEM_CTRL0_STOP);
+ 		if (ret < 0)
+-- 
+2.22.0
+
