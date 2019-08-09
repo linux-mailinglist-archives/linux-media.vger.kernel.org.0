@@ -2,115 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32CBB87424
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 10:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CCED87436
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 10:34:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405829AbfHIIcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 04:32:55 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55857 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726059AbfHIIcy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 04:32:54 -0400
-Received: from [IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5] ([IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id w0KGhZ768qTdhw0KHhUIPC; Fri, 09 Aug 2019 10:32:52 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dmaengine@vger.kernel.org
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] omap-dma/omap_vout_vrfb: fix off-by-one fi value
-Message-ID: <952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl>
-Date:   Fri, 9 Aug 2019 10:32:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2405963AbfHIIel (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 04:34:41 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38264 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726054AbfHIIek (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Aug 2019 04:34:40 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id DD89FAE49;
+        Fri,  9 Aug 2019 08:34:36 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id DC04B1E437E; Fri,  9 Aug 2019 10:34:35 +0200 (CEST)
+Date:   Fri, 9 Aug 2019 10:34:35 +0200
+From:   Jan Kara <jack@suse.cz>
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     Michal Hocko <mhocko@kernel.org>, Jan Kara <jack@suse.cz>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>, john.hubbard@gmail.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
+        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
+Message-ID: <20190809083435.GA17568@quack2.suse.cz>
+References: <20190802022005.5117-1-jhubbard@nvidia.com>
+ <20190802091244.GD6461@dhcp22.suse.cz>
+ <20190802124146.GL25064@quack2.suse.cz>
+ <20190802142443.GB5597@bombadil.infradead.org>
+ <20190802145227.GQ25064@quack2.suse.cz>
+ <076e7826-67a5-4829-aae2-2b90f302cebd@nvidia.com>
+ <20190807083726.GA14658@quack2.suse.cz>
+ <20190807084649.GQ11812@dhcp22.suse.cz>
+ <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGBHksXKv+i7JHE9cu112c8cGY7ctVJUw0pW0Bt3iAVUUkdCDjMSRv3o+ys1hJAB9v2cbfIWCaU3yBEIRuQ5AqQbu3lHdi4PCQplnlLwdL4++vFJOu8n
- UDlH1nHvh8em4OIHRDM927TN7mcd0KiMS2RGDCgcfsID62xn9OBqlD849zSgelMMl+1Xz5eKSVbPrj572sLvxyqiMWtbBCzYqI9Mp4WzHHr2j2jNeiUAPmXL
- Xx6Fvh3rzFfQw15XEzNddY8MZcYXGF2pj2BU8iyB/psd/r2QoeSgjG6P/mC9NwjSYS5KV0f3qwkrbhhzC1Gt+kyrqTFQqLa+bMk8ld5sSvi00Lfodm5CiBEK
- hgjJzwJguYcNF48Sy8hErtLqRsrhQbbC2RK3tcMoD8c3dNO6fUUnCQ6+FHfiXrAk8x9+aJF3qvuAzd3/0p1+EkyrDMLgoA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OMAP 4 TRM specifies that when using double-index addressing
-the address increases by the ES plus the EI value minus 1 within
-a frame. When a full frame is transferred, the address increases
-by the ES plus the frame index (FI) value minus 1.
+On Wed 07-08-19 19:36:37, Ira Weiny wrote:
+> On Wed, Aug 07, 2019 at 10:46:49AM +0200, Michal Hocko wrote:
+> > > So I think your debug option and my suggested renaming serve a bit
+> > > different purposes (and thus both make sense). If you do the renaming, you
+> > > can just grep to see unconverted sites. Also when someone merges new GUP
+> > > user (unaware of the new rules) while you switch GUP to use pins instead of
+> > > ordinary references, you'll get compilation error in case of renaming
+> > > instead of hard to debug refcount leak without the renaming. And such
+> > > conflict is almost bound to happen given the size of GUP patch set... Also
+> > > the renaming serves against the "coding inertia" - i.e., GUP is around for
+> > > ages so people just use it without checking any documentation or comments.
+> > > After switching how GUP works, what used to be correct isn't anymore so
+> > > renaming the function serves as a warning that something has really
+> > > changed.
+> > 
+> > Fully agreed!
+> 
+> Ok Prior to this I've been basing all my work for the RDMA/FS DAX stuff in
+> Johns put_user_pages()...  (Including when I proposed failing truncate with a
+> lease in June [1])
+> 
+> However, based on the suggestions in that thread it became clear that a new
+> interface was going to need to be added to pass in the "RDMA file" information
+> to GUP to associate file pins with the correct processes...
+> 
+> I have many drawings on my white board with "a whole lot of lines" on them to
+> make sure that if a process opens a file, mmaps it, pins it with RDMA, _closes_
+> it, and ummaps it; that the resulting file pin can still be traced back to the
+> RDMA context and all the processes which may have access to it....  No matter
+> where the original context may have come from.  I believe I have accomplished
+> that.
+> 
+> Before I go on, I would like to say that the "imbalance" of get_user_pages()
+> and put_page() bothers me from a purist standpoint...  However, since this
+> discussion cropped up I went ahead and ported my work to Linus' current master
+> (5.3-rc3+) and in doing so I only had to steal a bit of Johns code...  Sorry
+> John...  :-(
+> 
+> I don't have the commit messages all cleaned up and I know there may be some
+> discussion on these new interfaces but I wanted to throw this series out there
+> because I think it may be what Jan and Michal are driving at (or at least in
+> that direction.
+> 
+> Right now only RDMA and DAX FS's are supported.  Other users of GUP will still
+> fail on a DAX file and regular files will still be at risk.[2]
+> 
+> I've pushed this work (based 5.3-rc3+ (33920f1ec5bf)) here[3]:
+> 
+> https://github.com/weiny2/linux-kernel/tree/linus-rdmafsdax-b0-v3
+> 
+> I think the most relevant patch to this conversation is:
+> 
+> https://github.com/weiny2/linux-kernel/commit/5d377653ba5cf11c3b716f904b057bee6641aaf6
+> 
+> I stole Jans suggestion for a name as the name I used while prototyping was
+> pretty bad...  So Thanks Jan...  ;-)
 
-The omap-dma code didn't account for the 'minus 1' in the FI register.
-To get correct addressing, add 1 to the src_icg value.
+For your function, I'd choose a name like vaddr_pin_leased_pages() so that
+association with a lease is clear from the name :) Also I'd choose the
+counterpart to be vaddr_unpin_leased_page[s](). Especially having put_page in
+the name looks confusing to me...
 
-This was found when testing a hacked version of the media m2m-deinterlace.c
-driver on a Pandaboard.
+								Honza
 
-The only other source that uses this feature is omap_vout_vrfb.c,
-and that adds a + 1 when setting the dst_icg. This is a workaround
-for the broken omap-dma.c behavior. So remove the workaround at the
-same time that we fix omap-dma.c.
-
-I tested the omap_vout driver with a Beagle XM board to check that
-the '+ 1' in omap_vout_vrfb.c was indeed a workaround for the omap-dma
-bug.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
----
-Changes since v1: removed unnecessary parenthesis in omap_vout_vrfb.c
-as suggested by Laurent.
-
-It makes sense that this patch goes in through the dmaengine subsystem
-(Mauro, can you Ack this patch?), but if preferred it can also go in
-through the media subsystem if we get an Ack from Vinod.
----
- drivers/dma/ti/omap-dma.c                    | 4 ++--
- drivers/media/platform/omap/omap_vout_vrfb.c | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-index ba2489d4ea24..ba27802efcd0 100644
---- a/drivers/dma/ti/omap-dma.c
-+++ b/drivers/dma/ti/omap-dma.c
-@@ -1234,7 +1234,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
- 	if (src_icg) {
- 		d->ccr |= CCR_SRC_AMODE_DBLIDX;
- 		d->ei = 1;
--		d->fi = src_icg;
-+		d->fi = src_icg + 1;
- 	} else if (xt->src_inc) {
- 		d->ccr |= CCR_SRC_AMODE_POSTINC;
- 		d->fi = 0;
-@@ -1249,7 +1249,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
- 	if (dst_icg) {
- 		d->ccr |= CCR_DST_AMODE_DBLIDX;
- 		sg->ei = 1;
--		sg->fi = dst_icg;
-+		sg->fi = dst_icg + 1;
- 	} else if (xt->dst_inc) {
- 		d->ccr |= CCR_DST_AMODE_POSTINC;
- 		sg->fi = 0;
-diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
-index 29e3f5da59c1..11ec048929e8 100644
---- a/drivers/media/platform/omap/omap_vout_vrfb.c
-+++ b/drivers/media/platform/omap/omap_vout_vrfb.c
-@@ -253,8 +253,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
- 	 */
-
- 	pixsize = vout->bpp * vout->vrfb_bpp;
--	dst_icg = ((MAX_PIXELS_PER_LINE * pixsize) -
--		  (vout->pix.width * vout->bpp)) + 1;
-+	dst_icg = MAX_PIXELS_PER_LINE * pixsize - vout->pix.width * vout->bpp;
-
- 	xt->src_start = vout->buf_phy_addr[vb->i];
- 	xt->dst_start = vout->vrfb_context[vb->i].paddr[0];
 -- 
-2.20.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
