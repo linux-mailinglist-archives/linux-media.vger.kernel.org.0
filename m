@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD5A87AF3
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 15:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9045687AF6
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 15:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407002AbfHINSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 09:18:08 -0400
-Received: from mail-ot1-f71.google.com ([209.85.210.71]:48362 "EHLO
+        id S2407066AbfHINSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 09:18:25 -0400
+Received: from mail-ot1-f71.google.com ([209.85.210.71]:47006 "EHLO
         mail-ot1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406676AbfHINSI (ORCPT
+        with ESMTP id S2406935AbfHINSI (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 09:18:08 -0400
-Received: by mail-ot1-f71.google.com with SMTP id b4so68746702otf.15
+Received: by mail-ot1-f71.google.com with SMTP id g6so7921207otq.13
         for <linux-media@vger.kernel.org>; Fri, 09 Aug 2019 06:18:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=VXzutlNhDah6arTUyAYrVcxlR7yZHCjN1bYgiV3eUos=;
-        b=KitR4o/6uW1/dyQyUaODuJehLYs4Mhu9J11YT8IV+9CEraYlkKu0ntk2TpOlJ0Chzy
-         tobMPqg6IBZkoa0qfTG2Q4PDXLH7Jnwev5cgPLCgtDm3LSLkuwiV5kdxxCHBjvqGn22t
-         f/4gMAOJCGX723w19NXEYULmi3lnklP+jRAzAek5VgNxGEwyZLb5PPpdERDyKjYfmiLV
-         6dK0SwifoWuG+ZrsZi3iKilEIa9L/EoXxPhA3LiOYKWxj3hvdxPlvuvEEhHpmI3vQeHb
-         yzZq1vKhDajq6vJA7MQJn4fNRqxuRv9Vc8gcFJN2JboXuWoT8PtHvOjYeDNxcZX1FxvH
-         mW6Q==
-X-Gm-Message-State: APjAAAVP+wy9yI3q8ccv+mFeCPjbxh1r/LsAoCEXVedKdjkFZLtk3dJ5
-        DvFHboWGsPBAqcbFgJHXw0xru8iUeA75Td9tYHjMN7OPL2Gu
-X-Google-Smtp-Source: APXvYqw7xOGcwZAOmlCHadLqenE0yz5Y2uP/Qs3apYDikEK1TrXBlpoOUWv9W5d1Sm72DxkpYEyRKD7SW0/LI/OqOvotczfIChx9
+        bh=nWHe0S+V90Nx6X3NKPT0jWYFZ1rMcSIf8jk+Kp2biVo=;
+        b=uEW323GuK/WdYgmg5eBpQYIrE+ugn+bBOycQdybK3vIwPoHSqNZ9fugs+VGid4Vpim
+         idKJiN3nwg0vQkjUGEcwrl2OTwfwc0rW1uXn0uGfpOUTInFiQXmx3xtaPgEmNi/ls6X8
+         qxhDAhNB5KH1jLSmPIh+ziu0HgnDgCtASRLVLlfdaBkxKGvoHFWC5pqPSEQ87zg+nWGg
+         0q4KkvnK3XeIUW5rXJ5wW1NhJoql0ywkT6VKiLF4M90bCLuHdpXbXT4+hjLVCfCwM6/r
+         9GEy65JHhbChXLS78yWob3pWNewqX5LDUY1X6M6uvX31KyjPM3iazPtExDS0gcWEDtGB
+         l5mQ==
+X-Gm-Message-State: APjAAAV81UPMw15grBuwnauF2bD7flc17phZ8TnxU+GregUx2RaPmhsH
+        AYFlZFrdj0QNQ1SG1D27sxt9Cvx/TmqgtzMxOKNQzN/ahGjy
+X-Google-Smtp-Source: APXvYqxisCa09pCrUIJdr2jqOhsEVR7LdHBnNo9Fx9xC3D5Lxz1QB4qiba5wbjN0sZ2U+eyNQuDXVpj6b39bFVCn06UPrELPUJEV
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:348:: with SMTP id x8mr14322147jap.31.1565356686812;
- Fri, 09 Aug 2019 06:18:06 -0700 (PDT)
-Date:   Fri, 09 Aug 2019 06:18:06 -0700
+X-Received: by 2002:a05:6602:104:: with SMTP id s4mr20896182iot.200.1565356687343;
+ Fri, 09 Aug 2019 06:18:07 -0700 (PDT)
+Date:   Fri, 09 Aug 2019 06:18:07 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000043b599058faf0145@google.com>
-Subject: possible deadlock in display_open
-From:   syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>
+Message-ID: <0000000000004bcc0d058faf01c4@google.com>
+Subject: WARNING in em28xx_usb_disconnect
+From:   syzbot <syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -50,172 +50,68 @@ syzbot found the following crash on:
 
 HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=13b29b26600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ef3cba600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-dashboard link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+dashboard link: https://syzkaller.appspot.com/bug?extid=b7f57261c521087d89bb
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15427002600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111cb61c600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ceae36600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12816f26600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+c558267ad910fc494497@syzkaller.appspotmail.com
+Reported-by: syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com
 
-======================================================
-WARNING: possible circular locking dependency detected
-5.3.0-rc2+ #25 Not tainted
-------------------------------------------------------
-syz-executor626/1723 is trying to acquire lock:
-000000001a0d74d7 (driver_lock#2){+.+.}, at: display_open+0x1f/0x1d0  
-drivers/media/rc/imon.c:475
-
-but task is already holding lock:
-00000000076a0058 (minor_rwsem){++++}, at: usb_open+0x23/0x270  
-drivers/usb/core/file.c:39
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (minor_rwsem){++++}:
-        down_write+0x92/0x150 kernel/locking/rwsem.c:1500
-        usb_register_dev drivers/usb/core/file.c:187 [inline]
-        usb_register_dev+0x131/0x6a0 drivers/usb/core/file.c:156
-        imon_init_display drivers/media/rc/imon.c:2343 [inline]
-        imon_probe+0x244d/0x2af0 drivers/media/rc/imon.c:2426
-        usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-        really_probe+0x281/0x650 drivers/base/dd.c:548
-        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-        bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-        __device_attach+0x217/0x360 drivers/base/dd.c:882
-        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-        device_add+0xae6/0x16f0 drivers/base/core.c:2114
-        usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-        generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-        usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-        really_probe+0x281/0x650 drivers/base/dd.c:548
-        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-        bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-        __device_attach+0x217/0x360 drivers/base/dd.c:882
-        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-        device_add+0xae6/0x16f0 drivers/base/core.c:2114
-        usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-        hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-        hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-        port_event drivers/usb/core/hub.c:5359 [inline]
-        hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-        process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-        worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-        kthread+0x318/0x420 kernel/kthread.c:255
-        ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
--> #1 (&ictx->lock){+.+.}:
-        __mutex_lock_common kernel/locking/mutex.c:930 [inline]
-        __mutex_lock+0x158/0x1360 kernel/locking/mutex.c:1077
-        imon_init_intf0 drivers/media/rc/imon.c:2188 [inline]
-        imon_probe+0xf0c/0x2af0 drivers/media/rc/imon.c:2387
-        usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-        really_probe+0x281/0x650 drivers/base/dd.c:548
-        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-        bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-        __device_attach+0x217/0x360 drivers/base/dd.c:882
-        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-        device_add+0xae6/0x16f0 drivers/base/core.c:2114
-        usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-        generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-        usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-        really_probe+0x281/0x650 drivers/base/dd.c:548
-        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-        bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-        __device_attach+0x217/0x360 drivers/base/dd.c:882
-        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-        device_add+0xae6/0x16f0 drivers/base/core.c:2114
-        usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-        hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-        hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-        port_event drivers/usb/core/hub.c:5359 [inline]
-        hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-        process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-        worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-        kthread+0x318/0x420 kernel/kthread.c:255
-        ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
--> #0 (driver_lock#2){+.+.}:
-        check_prev_add kernel/locking/lockdep.c:2405 [inline]
-        check_prevs_add kernel/locking/lockdep.c:2507 [inline]
-        validate_chain kernel/locking/lockdep.c:2897 [inline]
-        __lock_acquire+0x1f7c/0x3b50 kernel/locking/lockdep.c:3880
-        lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4412
-        __mutex_lock_common kernel/locking/mutex.c:930 [inline]
-        __mutex_lock+0x158/0x1360 kernel/locking/mutex.c:1077
-        display_open+0x1f/0x1d0 drivers/media/rc/imon.c:475
-        usb_open+0x1df/0x270 drivers/usb/core/file.c:48
-        chrdev_open+0x219/0x5c0 fs/char_dev.c:414
-        do_dentry_open+0x494/0x1120 fs/open.c:797
-        do_last fs/namei.c:3416 [inline]
-        path_openat+0x1430/0x3f50 fs/namei.c:3533
-        do_filp_open+0x1a1/0x280 fs/namei.c:3563
-        do_sys_open+0x3c0/0x580 fs/open.c:1089
-        do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-        entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-other info that might help us debug this:
-
-Chain exists of:
-   driver_lock#2 --> &ictx->lock --> minor_rwsem
-
-  Possible unsafe locking scenario:
-
-        CPU0                    CPU1
-        ----                    ----
-   lock(minor_rwsem);
-                                lock(&ictx->lock);
-                                lock(minor_rwsem);
-   lock(driver_lock#2);
-
-  *** DEADLOCK ***
-
-1 lock held by syz-executor626/1723:
-  #0: 00000000076a0058 (minor_rwsem){++++}, at: usb_open+0x23/0x270  
-drivers/usb/core/file.c:39
-
-stack backtrace:
-CPU: 1 PID: 1723 Comm: syz-executor626 Not tainted 5.3.0-rc2+ #25
+usb 1-1: USB disconnect, device number 2
+em28xx 1-1:1.153: Disconnecting em28xx #1
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3031  
+__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc2+ #25
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
 Call Trace:
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0xca/0x13e lib/dump_stack.c:113
-  check_noncircular+0x345/0x3e0 kernel/locking/lockdep.c:1741
-  check_prev_add kernel/locking/lockdep.c:2405 [inline]
-  check_prevs_add kernel/locking/lockdep.c:2507 [inline]
-  validate_chain kernel/locking/lockdep.c:2897 [inline]
-  __lock_acquire+0x1f7c/0x3b50 kernel/locking/lockdep.c:3880
-  lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4412
-  __mutex_lock_common kernel/locking/mutex.c:930 [inline]
-  __mutex_lock+0x158/0x1360 kernel/locking/mutex.c:1077
-  display_open+0x1f/0x1d0 drivers/media/rc/imon.c:475
-  usb_open+0x1df/0x270 drivers/usb/core/file.c:48
-  chrdev_open+0x219/0x5c0 fs/char_dev.c:414
-  do_dentry_open+0x494/0x1120 fs/open.c:797
-  do_last fs/namei.c:3416 [inline]
-  path_openat+0x1430/0x3f50 fs/namei.c:3533
-  do_filp_open+0x1a1/0x280 fs/namei.c:3563
-  do_sys_open+0x3c0/0x580 fs/open.c:1089
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x401300
-Code: 01 f0 ff ff 0f 83 00 0b 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f  
-44 00 00 83 3d 8d 0a 2d 00 00 75 14 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 d4 0a 00 00 c3 48 83 ec 08 e8 3a 00 00 00
-RSP: 002b:00007ffc59dcdec8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 0000000000401300
-RDX: 0000000000000000 RSI: 0000000000000002 RDI: 00007ffc59dcdee0
-RBP: 00000
+  panic+0x2a3/0x6da kernel/panic.c:219
+  __warn.cold+0x20/0x4a kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
+RIP: 0010:__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+Code: 9a 22 00 48 c7 c7 20 e4 c5 85 e8 d9 3a 0d 00 0f 0b 45 31 e4 e9 98 86  
+ff ff e8 51 9a 22 00 48 c7 c7 20 e4 c5 85 e8 be 3a 0d 00 <0f> 0b 45 31 e4  
+e9 7d 86 ff ff e8 36 9a 22 00 48 c7 c7 20 e4 c5 85
+RSP: 0018:ffff8881da20f720 EFLAGS: 00010286
+RAX: 0000000000000024 RBX: dffffc0000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed103b441ed6
+RBP: ffff8881da20f888 R08: 0000000000000024 R09: fffffbfff11acd9a
+R10: fffffbfff11acd99 R11: ffffffff88d66ccf R12: 0000000000000000
+R13: 0000000000000001 R14: ffff8881c6685df8 R15: ffff8881d2a85b78
+  flush_request_modules drivers/media/usb/em28xx/em28xx-cards.c:3325 [inline]
+  em28xx_usb_disconnect.cold+0x280/0x2a6  
+drivers/media/usb/em28xx/em28xx-cards.c:4023
+  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
+  __device_release_driver drivers/base/dd.c:1120 [inline]
+  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1151
+  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
+  device_del+0x420/0xb10 drivers/base/core.c:2288
+  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
+  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
+  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
 
 ---
