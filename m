@@ -2,254 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43447871EC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 08:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 863AC872D4
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 09:19:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbfHIGAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 02:00:45 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:53539 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbfHIGAp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 02:00:45 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hvxx9-0006Y9-Ot; Fri, 09 Aug 2019 08:00:39 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hvxx7-000705-FL; Fri, 09 Aug 2019 08:00:37 +0200
-Date:   Fri, 9 Aug 2019 08:00:37 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 01/13] dt-bindings: connector: analog: add tv norms
- property
-Message-ID: <20190809060037.pauihgtyrom7nhmg@pengutronix.de>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-2-m.felsch@pengutronix.de>
- <9989034f-4794-adba-d89c-8330bbf7b27f@xs4all.nl>
- <20190514151119.2099cd10@coco.lan>
+        id S2405749AbfHIHT5 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 9 Aug 2019 03:19:57 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34692 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726212AbfHIHT4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 03:19:56 -0400
+Received: by mail-ot1-f65.google.com with SMTP id n5so129108150otk.1;
+        Fri, 09 Aug 2019 00:19:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6p6dBdqDPricYiTRinA1aQUZ05T7XbK23I9zukd3E6E=;
+        b=oqaz6E8GjRwSQz0LB0LDrXB4TPCdhWx+6XvBP9AtqdjdM+FCUCk2B714OxPUrZ6v0s
+         fgYelmO6nlK4I0UFpuc/VFHH8ySwXMqN3vmFYm4sRGBIqI5RP3L4riWdJ680DbFaROIt
+         HZoJRQBZN8dW/0FUaNSusn6Oq0YHzdf+ZeUM6U+fsG0IGYPBsT2Wam+IxOoacQdLEtSb
+         /avKeyFmjEH7IIM2+T1JR/FHl6OXelGbY/+EHjA/6/T+0cQXPfkQz3TxAq9iJpAkZ4d+
+         LIw6/sG1k/kHDW0Hthpmo6SX4Fzu3x8ZMcXXNDPhwhANGkn4qFXC0Rmw896ATFhzfIyI
+         I0bA==
+X-Gm-Message-State: APjAAAUF0M8KutSRiNc8DbTuXT5eHIh55A/7JkyEwCa1JVP33N7N/rS0
+        XNEpynlry8WzC1yG8APLAd6hjMYKv3YR9TNA1RTRRBLW
+X-Google-Smtp-Source: APXvYqxZiWbqh8vvzsFz23He51VOzzWRYhJvKHKEvIgTNhCZk439MI6sntbZ6JJYozM7MNk3Jb6bI+BrZ4NsPoCbFxc=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr4177810otk.145.1565335195266;
+ Fri, 09 Aug 2019 00:19:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514151119.2099cd10@coco.lan>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 07:58:22 up 83 days, 12:16, 53 users,  load average: 0.01, 0.04,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20190809040558.10698-1-niklas.soderlund+renesas@ragnatech.se> <20190809040558.10698-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190809040558.10698-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 9 Aug 2019 09:19:43 +0200
+Message-ID: <CAMuHMdUbc-Zr6JvDRSMWN2ovGG88s-YmJsQ+fEadqSV0+WgRzg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro, Hans,
+CC devicetree
 
-thanks for the review.
+cover letter at
+https://lore.kernel.org/linux-renesas-soc/20190809040558.10698-1-niklas.soderlund+renesas@ragnatech.se/
 
-On 19-05-14 15:11, Mauro Carvalho Chehab wrote:
-> Em Mon, 6 May 2019 12:01:06 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
-> > On 4/15/19 2:44 PM, Marco Felsch wrote:
-> > > Some connectors no matter if in- or output supports only a limited
-> > > range of tv norms. It doesn't matter if the hardware behind that
-> > > connector supports more than the listed formats since the users are
-> > > restriced by a label e.g. to plug only a camera into this connector
-> > > which uses the PAL format.  
-> > 
-> > For S-Video and Composite connectors there are really just two formats
-> > to consider: 50 and 60 Hz. I.e. there is no difference between PAL
-> > and SECAM. Only for tuners/modulators does this matter.
-> > 
-> > So it is a good idea to add TVNORM_525_60, TVNORM_625_50 to tvnorms.h.
-
-Of course I can add this ones. With Mauro's concerns below do you still
-think that it is a good idea to adapt the example?
-
-Regards,
-  Marco
-
-> > In the various bindings examples I would recommend that you use
-> > TVNORM_525_60 or TVNORM_625_50 rather than e.g. PAL_M since that's what
-> > you would use in practice for Composite/S-Video.
-> 
-> Hans, that could be true for component video, but for S-Video and
-> Composite, you need to tell the demod how the color sub-carrier is
-> encoded, and what's its frequency, or otherwise it won't work.
-> 
-> There are plenty of equipments in Brazil that have both NTSC/M and
-> PAL/M (and a few with PAL/N') output. All those formats are 60Hz.
-> 
-> Colors are only decoded by tvp5150 and other demods if it is set
-> to the right color format (PAL or NTSC) and to the right line 
-> frequency (60Hz) [1]. Also, some decoders are very sensitive to the
-> chroma sub-carrier frequency. That's the case of tvp5150.
-> 
-> [1] Or - when supported by the hardware - if the demod is set to
->     automatic mode.
-> 
->     Automatic mode usually doesn't work well with PAL/M and PAL/N'.
-> 
->     The problem is related to the sub-carrier frequency: both 
->     PAL/N' (used only on Paraguay) and NTSC/M have the same 
->     frequency; PAL/M has a close but different frequency for the
->     color sub-carrier.
-> 
->     Most decoders use the frequency of the chroma sub-carrier in
->     order to switch between NTSC/M nd PAL/M. So, auto-detection
->     usually fails with PAL/N', as such detectors understand it
->     as NTSC.
-> 
->     Worse than that, it is not uncommon to have pseudo-PAL-M devices
->     that were made for the US market, and received a conversion
->     to PAL, with envolves adding a small board with a NTSC->PAL converter.
->     As most TV sets used in this part of the world are designed to
->     work both with PAL/M and PAL/N' (by using a broader notch filter),
->     to make the hardware cheaper, lots of manufacturers just
->     change the modulation on encoders, while keeping the NTSC XTAL.
->     So, in practice, such devices, sold as "PAL/M" are actually PAL/N'.
->     A significant amount of old VCRs and DVD devices found in Brazil
->     are actually PAL/N'. The same applies to game consoles.
-> 
->     Btw, the main reason for having analog video streams here nowadays
->     is to copy old videos from VCRs and encode them digitally or to
->     record games from game consoles.
-> 
-> > 
-> > Regards,
-> > 
-> > 	Hans
-> > 
-> > > 
-> > > This patch adds the capability to describe such limitation within the
-> > > firmware. There are no format restrictions if the property isn't
-> > > present, so it's completely backward compatible.
-> > > 
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > [1] https://patchwork.kernel.org/cover/10794703/
-> > > 
-> > > v6:
-> > > - tvnorms.h: use tabs instead of spaces
-> > > - tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
-> > > - tvnorms.h: drop rarely used TVNORM_ATSC_* norms
-> > > 
-> > > v2-v4:
-> > > - nothing since the patch was squashed from series [1] into this
-> > >   series.
-> > > 
-> > >  .../display/connector/analog-tv-connector.txt |  4 ++
-> > >  include/dt-bindings/media/tvnorms.h           | 56 +++++++++++++++++++
-> > >  2 files changed, 60 insertions(+)
-> > >  create mode 100644 include/dt-bindings/media/tvnorms.h
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > index 0c0970c210ab..346f8937a0b7 100644
-> > > --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > @@ -6,6 +6,9 @@ Required properties:
-> > >  
-> > >  Optional properties:
-> > >  - label: a symbolic name for the connector
-> > > +- tvnorms: limit the supported tv norms on a connector to the given ones else
-> > > +           all tv norms are allowed. Possible video standards are defined in
-> > > +           include/dt-bindings/media/tvnorms.h.
-> > >  
-> > >  Required nodes:
-> > >  - Video port for TV input
-> > > @@ -16,6 +19,7 @@ Example
-> > >  tv: connector {
-> > >  	compatible = "composite-video-connector";
-> > >  	label = "tv";
-> > > +	tvnorms = <(TVNORM_PAL_M | TVNORM_NTSC_M)>;
-> > >  
-> > >  	port {
-> > >  		tv_connector_in: endpoint {
-> > > diff --git a/include/dt-bindings/media/tvnorms.h b/include/dt-bindings/media/tvnorms.h
-> > > new file mode 100644
-> > > index 000000000000..058ab8414145
-> > > --- /dev/null
-> > > +++ b/include/dt-bindings/media/tvnorms.h
-> > > @@ -0,0 +1,56 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only or X11 */
-> > > +/*
-> > > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
-> > > + */
-> > > +
-> > > +#ifndef _DT_BINDINGS_MEDIA_TVNORMS_H
-> > > +#define _DT_BINDINGS_MEDIA_TVNORMS_H
-> > > +
-> > > +/* one bit for each */
-> > > +#define TVNORM_PAL_B		0x00000001
-> > > +#define TVNORM_PAL_B1		0x00000002
-> > > +#define TVNORM_PAL_G		0x00000004
-> > > +#define TVNORM_PAL_H		0x00000008
-> > > +#define TVNORM_PAL_I		0x00000010
-> > > +#define TVNORM_PAL_D		0x00000020
-> > > +#define TVNORM_PAL_D1		0x00000040
-> > > +#define TVNORM_PAL_K		0x00000080
-> > > +
-> > > +#define TVNORM_PAL		(TVNORM_PAL_B  | \
-> > > +				 TVNORM_PAL_B1 | \
-> > > +				 TVNORM_PAL_G  | \
-> > > +				 TVNORM_PAL_H  | \
-> > > +				 TVNORM_PAL_I  | \
-> > > +				 TVNORM_PAL_D  | \
-> > > +				 TVNORM_PAL_D1 | \
-> > > +				 TVNORM_PAL_K)
-> > > +
-> > > +#define TVNORM_PAL_M		0x00000100
-> > > +#define TVNORM_PAL_N		0x00000200
-> > > +#define TVNORM_PAL_Nc		0x00000400
-> > > +#define TVNORM_PAL_60		0x00000800
-> > > +
-> > > +#define TVNORM_NTSC_M		0x00001000	/* BTSC */
-> > > +#define TVNORM_NTSC_M_JP	0x00002000	/* EIA-J */
-> > > +#define TVNORM_NTSC_443		0x00004000
-> > > +#define TVNORM_NTSC_M_KR	0x00008000	/* FM A2 */
-> > > +
-> > > +#define TVNORM_SECAM_B		0x00010000
-> > > +#define TVNORM_SECAM_D		0x00020000
-> > > +#define TVNORM_SECAM_G		0x00040000
-> > > +#define TVNORM_SECAM_H		0x00080000
-> > > +#define TVNORM_SECAM_K		0x00100000
-> > > +#define TVNORM_SECAM_K1		0x00200000
-> > > +#define TVNORM_SECAM_L		0x00400000
-> > > +#define TVNORM_SECAM_LC		0x00800000
-> > > +
-> > > +#define TVNORM_SECAM		(TVNORM_SECAM_B  | \
-> > > +				 TVNORM_SECAM_D  | \
-> > > +				 TVNORM_SECAM_G  | \
-> > > +				 TVNORM_SECAM_H  | \
-> > > +				 TVNORM_SECAM_K  | \
-> > > +				 TVNORM_SECAM_K1 | \
-> > > +				 TVNORM_SECAM_L  | \
-> > > +				 TVNORM_SECAM_LC)
-> > > +
-> > > +#endif /* _DT_BINDINGS_MEDIA_TVNORMS_H */
-> 
-> Patch looks good to me.
-> 
-> Thanks,
-> Mauro
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+On Fri, Aug 9, 2019 at 6:07 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> The MAX9286 deserializes video data received on up to 4 Gigabit
+> Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> to 4 data lanes.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/media/i2c/maxim,max9286.txt      | 182 ++++++++++++++++++
+>  1 file changed, 182 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
+> new file mode 100644
+> index 0000000000000000..afff77a55bb70744
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
+> @@ -0,0 +1,182 @@
+> +Maxim Integrated Quad GMSL Deserializer
+> +---------------------------------------
+> +
+> +The MAX9286 deserializer receives video data on up to 4 Gigabit Multimedia
+> +Serial Links (GMSL) and outputs them on a CSI-2 D-PHY port using up to 4 data
+> +lanes.
+> +
+> +In addition to video data, the GMSL links carry a bidirectional control channel
+> +that encapsulates I2C messages. The MAX9286 forwards all I2C traffic not
+> +addressed to itself to the other side of the links, where a GMSL serializer
+> +will output it on a local I2C bus. In the other direction all I2C traffic
+> +received over GMSL by the MAX9286 is output on the local I2C bus.
+> +
+> +Required Properties:
+> +
+> +- compatible: Shall be "maxim,max9286"
+> +- reg: I2C device address
+> +
+> +Optional Properties:
+> +
+> +- poc-supply: Regulator providing Power over Coax to the cameras
+> +- enable-gpios: GPIO connected to the #PWDN pin with inverted polarity
+> +
+> +Required endpoint nodes:
+> +-----------------------
+> +
+> +The connections to the MAX9286 GMSL and its endpoint nodes are modelled using
+> +the OF graph bindings in accordance with the video interface bindings defined
+> +in Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +The following table lists the port number corresponding to each device port.
+> +
+> +        Port            Description
+> +        ----------------------------------------
+> +        Port 0          GMSL Input 0
+> +        Port 1          GMSL Input 1
+> +        Port 2          GMSL Input 2
+> +        Port 3          GMSL Input 3
+> +        Port 4          CSI-2 Output
+> +
+> +Optional Endpoint Properties for GMSL Input Ports (Port [0-3]):
+> +
+> +- remote-endpoint: phandle to the remote GMSL source endpoint subnode in the
+> +  remote node port.
+> +
+> +Required Endpoint Properties for CSI-2 Output Port (Port 4):
+> +
+> +- remote-endpoint: phandle to the remote CSI-2 sink endpoint node.
+> +- data-lanes: array of physical CSI-2 data lane indexes.
+> +
+> +Required i2c-mux nodes:
+> +----------------------
+> +
+> +Each GMSL link is modelled as a child bus of an i2c bus multiplexer/switch, in
+> +accordance with bindings described in
+> +Documentation/devicetree/bindings/i2c/i2c-mux.txt. The serializer device on the
+> +remote end of the GMSL link shall be modelled as a child node of the
+> +corresponding I2C bus.
+> +
+> +Required i2c child bus properties:
+> +- all properties described as required i2c child bus nodes properties in
+> +  Documentation/devicetree/bindings/i2c/i2c-mux.txt.
+> +
+> +Example:
+> +-------
+> +
+> +       gmsl-deserializer@2c {
+> +               compatible = "maxim,max9286";
+> +               reg = <0x2c>;
+> +               poc-supply = <&camera_poc_12v>;
+> +               enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+> +
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               ports {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +
+> +                       port@0 {
+> +                               reg = <0>;
+> +                               max9286_in0: endpoint {
+> +                                       remote-endpoint = <&rdacm20_out0>;
+> +                               };
+> +                       };
+> +
+> +                       port@1 {
+> +                               reg = <1>;
+> +                               max9286_in1: endpoint {
+> +                                       remote-endpoint = <&rdacm20_out1>;
+> +                               };
+> +                       };
+> +
+> +                       port@2 {
+> +                               reg = <2>;
+> +                               max9286_in2: endpoint {
+> +                                       remote-endpoint = <&rdacm20_out2>;
+> +                               };
+> +                       };
+> +
+> +                       port@3 {
+> +                               reg = <3>;
+> +                               max9286_in3: endpoint {
+> +                                       remote-endpoint = <&rdacm20_out3>;
+> +                               };
+> +                       };
+> +
+> +                       port@4 {
+> +                               reg = <4>;
+> +                               max9286_out: endpoint {
+> +                                       data-lanes = <1 2 3 4>;
+> +                                       remote-endpoint = <&csi40_in>;
+> +                               };
+> +                       };
+> +               };
+> +
+> +               i2c@0 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <0>;
+> +
+> +                       camera@51 {
+> +                               compatible = "imi,rdacm20";
+> +                               reg = <0x51 0x61>;
+> +
+> +                               port {
+> +                                       rdacm20_out0: endpoint {
+> +                                               remote-endpoint = <&max9286_in0>;
+> +                                       };
+> +                               };
+> +
+> +                       };
+> +               };
+> +
+> +               i2c@1 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <1>;
+> +
+> +                       camera@52 {
+> +                               compatible = "imi,rdacm20";
+> +                               reg = <0x52 0x62>;
+> +                               port {
+> +                                       rdacm20_out1: endpoint {
+> +                                               remote-endpoint = <&max9286_in1>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               i2c@2 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <2>;
+> +
+> +                       camera@53 {
+> +                               compatible = "imi,rdacm20";
+> +                               reg = <0x53 0x63>;
+> +                               port {
+> +                                       rdacm20_out2: endpoint {
+> +                                               remote-endpoint = <&max9286_in2>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +
+> +               i2c@3 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <3>;
+> +
+> +                       camera@54 {
+> +                               compatible = "imi,rdacm20";
+> +                               reg = <0x54 0x64>;
+> +                               port {
+> +                                       rdacm20_out3: endpoint {
+> +                                               remote-endpoint = <&max9286_in3>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +       };
+> --
+> 2.22.0
+>
