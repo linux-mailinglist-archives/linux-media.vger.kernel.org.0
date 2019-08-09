@@ -2,132 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CCED87436
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 10:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4C0687461
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 10:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405963AbfHIIel (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 04:34:41 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38264 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726054AbfHIIek (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 04:34:40 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id DD89FAE49;
-        Fri,  9 Aug 2019 08:34:36 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id DC04B1E437E; Fri,  9 Aug 2019 10:34:35 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 10:34:35 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Michal Hocko <mhocko@kernel.org>, Jan Kara <jack@suse.cz>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Matthew Wilcox <willy@infradead.org>, john.hubbard@gmail.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, ceph-devel@vger.kernel.org,
-        devel@driverdev.osuosl.org, devel@lists.orangefs.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mm@kvack.org,
-        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-xfs@vger.kernel.org,
-        netdev@vger.kernel.org, rds-devel@oss.oracle.com,
-        sparclinux@vger.kernel.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
-Message-ID: <20190809083435.GA17568@quack2.suse.cz>
-References: <20190802022005.5117-1-jhubbard@nvidia.com>
- <20190802091244.GD6461@dhcp22.suse.cz>
- <20190802124146.GL25064@quack2.suse.cz>
- <20190802142443.GB5597@bombadil.infradead.org>
- <20190802145227.GQ25064@quack2.suse.cz>
- <076e7826-67a5-4829-aae2-2b90f302cebd@nvidia.com>
- <20190807083726.GA14658@quack2.suse.cz>
- <20190807084649.GQ11812@dhcp22.suse.cz>
- <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
+        id S2405983AbfHIIjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 04:39:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42366 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726178AbfHIIjs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 04:39:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=XyYqpakWb1SuitGUZglvmIb6eFhkNNv0pxmvQD8vZbw=; b=NNb9GZ7Yuumrv2FwFMf56PWLN
+        vyneECO+fzUHhkUvfQIAa2TQLLe2SF5diusVFmG54n2IGYmyLTCADwLoT3LVuRGrG/whkNbfBzvrG
+        uRqmdrci2LHTUjUufkgTVxnUf0FtRlzmpr5+/Bsi0ivHHEIzkTbKg1wukrHCkn4aKIcfBfXcPykiZ
+        BeOxQ1OOpoxMlK8srjDgOL7u8R/7wm86HdTOlz0a9l5oeabyOsvCf8zL/JcazWoCGkaIMfVeHNT7D
+        qp3IKe2Ci7I5B1GIFCqrv5uKRi9qqirAX9g0cldUqW3s+98B1/70caDK25P5+itW930O/cIVT6pfj
+        qmETyooGw==;
+Received: from [179.162.52.10] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hw0R8-0000Dq-P6; Fri, 09 Aug 2019 08:39:47 +0000
+Date:   Fri, 9 Aug 2019 05:39:41 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCHv2] omap-dma/omap_vout_vrfb: fix off-by-one fi value
+Message-ID: <20190809053941.4d9842f6@coco.lan>
+In-Reply-To: <952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl>
+References: <952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed 07-08-19 19:36:37, Ira Weiny wrote:
-> On Wed, Aug 07, 2019 at 10:46:49AM +0200, Michal Hocko wrote:
-> > > So I think your debug option and my suggested renaming serve a bit
-> > > different purposes (and thus both make sense). If you do the renaming, you
-> > > can just grep to see unconverted sites. Also when someone merges new GUP
-> > > user (unaware of the new rules) while you switch GUP to use pins instead of
-> > > ordinary references, you'll get compilation error in case of renaming
-> > > instead of hard to debug refcount leak without the renaming. And such
-> > > conflict is almost bound to happen given the size of GUP patch set... Also
-> > > the renaming serves against the "coding inertia" - i.e., GUP is around for
-> > > ages so people just use it without checking any documentation or comments.
-> > > After switching how GUP works, what used to be correct isn't anymore so
-> > > renaming the function serves as a warning that something has really
-> > > changed.
-> > 
-> > Fully agreed!
-> 
-> Ok Prior to this I've been basing all my work for the RDMA/FS DAX stuff in
-> Johns put_user_pages()...  (Including when I proposed failing truncate with a
-> lease in June [1])
-> 
-> However, based on the suggestions in that thread it became clear that a new
-> interface was going to need to be added to pass in the "RDMA file" information
-> to GUP to associate file pins with the correct processes...
-> 
-> I have many drawings on my white board with "a whole lot of lines" on them to
-> make sure that if a process opens a file, mmaps it, pins it with RDMA, _closes_
-> it, and ummaps it; that the resulting file pin can still be traced back to the
-> RDMA context and all the processes which may have access to it....  No matter
-> where the original context may have come from.  I believe I have accomplished
-> that.
-> 
-> Before I go on, I would like to say that the "imbalance" of get_user_pages()
-> and put_page() bothers me from a purist standpoint...  However, since this
-> discussion cropped up I went ahead and ported my work to Linus' current master
-> (5.3-rc3+) and in doing so I only had to steal a bit of Johns code...  Sorry
-> John...  :-(
-> 
-> I don't have the commit messages all cleaned up and I know there may be some
-> discussion on these new interfaces but I wanted to throw this series out there
-> because I think it may be what Jan and Michal are driving at (or at least in
-> that direction.
-> 
-> Right now only RDMA and DAX FS's are supported.  Other users of GUP will still
-> fail on a DAX file and regular files will still be at risk.[2]
-> 
-> I've pushed this work (based 5.3-rc3+ (33920f1ec5bf)) here[3]:
-> 
-> https://github.com/weiny2/linux-kernel/tree/linus-rdmafsdax-b0-v3
-> 
-> I think the most relevant patch to this conversation is:
-> 
-> https://github.com/weiny2/linux-kernel/commit/5d377653ba5cf11c3b716f904b057bee6641aaf6
-> 
-> I stole Jans suggestion for a name as the name I used while prototyping was
-> pretty bad...  So Thanks Jan...  ;-)
+Em Fri, 9 Aug 2019 10:32:40 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-For your function, I'd choose a name like vaddr_pin_leased_pages() so that
-association with a lease is clear from the name :) Also I'd choose the
-counterpart to be vaddr_unpin_leased_page[s](). Especially having put_page in
-the name looks confusing to me...
+> The OMAP 4 TRM specifies that when using double-index addressing
+> the address increases by the ES plus the EI value minus 1 within
+> a frame. When a full frame is transferred, the address increases
+> by the ES plus the frame index (FI) value minus 1.
+> 
+> The omap-dma code didn't account for the 'minus 1' in the FI register.
+> To get correct addressing, add 1 to the src_icg value.
+> 
+> This was found when testing a hacked version of the media m2m-deinterlace.c
+> driver on a Pandaboard.
+> 
+> The only other source that uses this feature is omap_vout_vrfb.c,
+> and that adds a + 1 when setting the dst_icg. This is a workaround
+> for the broken omap-dma.c behavior. So remove the workaround at the
+> same time that we fix omap-dma.c.
+> 
+> I tested the omap_vout driver with a Beagle XM board to check that
+> the '+ 1' in omap_vout_vrfb.c was indeed a workaround for the omap-dma
+> bug.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 
-								Honza
+Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Regards,
+Mauro
+
+> ---
+> Changes since v1: removed unnecessary parenthesis in omap_vout_vrfb.c
+> as suggested by Laurent.
+> 
+> It makes sense that this patch goes in through the dmaengine subsystem
+> (Mauro, can you Ack this patch?), but if preferred it can also go in
+> through the media subsystem if we get an Ack from Vinod.
+> ---
+>  drivers/dma/ti/omap-dma.c                    | 4 ++--
+>  drivers/media/platform/omap/omap_vout_vrfb.c | 3 +--
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+> index ba2489d4ea24..ba27802efcd0 100644
+> --- a/drivers/dma/ti/omap-dma.c
+> +++ b/drivers/dma/ti/omap-dma.c
+> @@ -1234,7 +1234,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+>  	if (src_icg) {
+>  		d->ccr |= CCR_SRC_AMODE_DBLIDX;
+>  		d->ei = 1;
+> -		d->fi = src_icg;
+> +		d->fi = src_icg + 1;
+>  	} else if (xt->src_inc) {
+>  		d->ccr |= CCR_SRC_AMODE_POSTINC;
+>  		d->fi = 0;
+> @@ -1249,7 +1249,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+>  	if (dst_icg) {
+>  		d->ccr |= CCR_DST_AMODE_DBLIDX;
+>  		sg->ei = 1;
+> -		sg->fi = dst_icg;
+> +		sg->fi = dst_icg + 1;
+>  	} else if (xt->dst_inc) {
+>  		d->ccr |= CCR_DST_AMODE_POSTINC;
+>  		sg->fi = 0;
+> diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
+> index 29e3f5da59c1..11ec048929e8 100644
+> --- a/drivers/media/platform/omap/omap_vout_vrfb.c
+> +++ b/drivers/media/platform/omap/omap_vout_vrfb.c
+> @@ -253,8 +253,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
+>  	 */
+> 
+>  	pixsize = vout->bpp * vout->vrfb_bpp;
+> -	dst_icg = ((MAX_PIXELS_PER_LINE * pixsize) -
+> -		  (vout->pix.width * vout->bpp)) + 1;
+> +	dst_icg = MAX_PIXELS_PER_LINE * pixsize - vout->pix.width * vout->bpp;
+> 
+>  	xt->src_start = vout->buf_phy_addr[vb->i];
+>  	xt->dst_start = vout->vrfb_context[vb->i].paddr[0];
