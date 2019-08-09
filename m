@@ -2,98 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9AD87E4A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 17:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B95987EC9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 18:02:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436786AbfHIPlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 11:41:06 -0400
-Received: from sauhun.de ([88.99.104.3]:39226 "EHLO pokefinder.org"
+        id S2436666AbfHIQCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 12:02:25 -0400
+Received: from mga09.intel.com ([134.134.136.24]:8195 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726255AbfHIPlG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 11:41:06 -0400
-Received: from localhost (p54B333D4.dip0.t-ipconnect.de [84.179.51.212])
-        by pokefinder.org (Postfix) with ESMTPSA id D59B82C3014;
-        Fri,  9 Aug 2019 17:41:03 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 17:41:03 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        id S1726421AbfHIQCZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Aug 2019 12:02:25 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 09:02:24 -0700
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; 
+   d="scan'208";a="166045189"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 09:02:21 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 22D9E20CEA; Fri,  9 Aug 2019 19:01:22 +0300 (EEST)
+Date:   Fri, 9 Aug 2019 19:01:21 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hugues Fruchet <hugues.fruchet@st.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] i2c: replace i2c_new_secondary_device with an ERR_PTR
- variant
-Message-ID: <20190809154103.GC5099@ninjato>
-References: <20190722172600.3452-1-wsa+renesas@sang-engineering.com>
- <9b71c556-bd70-4d29-dba5-fbeaefb5f3b4@ideasonboard.com>
- <20190808155709.GA1316@ninjato>
- <20190808160434.GT6055@pendragon.ideasonboard.com>
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: Re: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
+Message-ID: <20190809160121.GA6194@paasikivi.fi.intel.com>
+References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
+ <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4ZLFUWh1odzi/v6L"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190808160434.GT6055@pendragon.ideasonboard.com>
+In-Reply-To: <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hugues,
 
---4ZLFUWh1odzi/v6L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for teh update.
 
-Hi Laurent,
+On Wed, Jul 31, 2019 at 02:56:21PM +0200, Hugues Fruchet wrote:
+> Rename "subdev" entity struct field to "source"
+> to prepare for several subdev support.
+> Move asd field on top of entity struct.
+> 
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> Change-Id: I1545a1a29a8061ee67cc6e4b799e9a69071911e7
 
-> > > > +		if (IS_ERR(state->i2c_clients[i])) {
-> > > > +			err =3D PTR_ERR(state->i2c_clients[i]);
-> > > >  			v4l2_err(sd, "failed to create i2c client %u\n", i);
-> > > >  			goto err_i2c;
->=20
-> This will call adv76xx_unregister_clients(), which will try to
-> i2c_unregister_device() all non-NULL i2c_clients entries. You need to
+No Change-Id tags in the kernel, please. Check the other two as well.
 
-Uh, right! Sorry for missing this :(
+With that fixed,
 
-> either set the entry to NULL here, or update
-> adv76xx_unregister_clients() to skip IS_ERR() entries. My preference
-> would be to store the return value of adv76xx_dummy_client() in a local
-> variable here, and set state->i2c_clients[i] after the error check.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-I implemented your preference and simplified
-adv76xx_unregister_clients() because i2c_unregister_device is NULL
-pointer aware. New patch coming in a minute.
-
-Thanks for the review,
-
-   Wolfram
-
-
---4ZLFUWh1odzi/v6L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1NlAsACgkQFA3kzBSg
-KbYrtw//eax3sE64XT5D8MkAUjtfesOD/GYUTnTU9ceRn7IEMMJBWCSuw24W6t5i
-tESvfnVngDidODNAHxiAxTLt1fIKkjEPcwE3WVviODWS0vx2nqCidralMM1VsX1y
-4qZB6Ux1ESqmQe8DPFobbu2wCxXnPvqPz11BQyXb4DIlCVVyT5aQXSAtTc9+B8MU
-lZHU9yDBIkVneB6yIVp0H3nxxnXOsstFIQEHUbbIkMklgegyaqFWpzNLYSOtR1OZ
-RGBo9TrmK2abSXSIA3j2+TGhdO8EXrAtchoYa/PZMeR9npMCrdlraa7x8vXBMBji
-fTxZ2NuMbzPi5MWMvSxp6MILBK3MdO9Ph56VZs/RYAqDqkfvfvAbo8htSHglwxcY
-Qk2VxXKqUYs/vTOMwz4Zw45yR0ub1XGix+uxxmxq5P4rKRP7neHI5dq8cxMb5MfF
-YWBYdxzT3zbY2iMrx1QBRzgZZSPaR1aUuolkeo8qAyiyNz4yBG6A7gZqILGnx4Xq
-BEk69WTMCepDKrLiWB2m3G8m49e7StEaBF2D0F+RvV9jPu6CJ6p6tYGNT/Tqcop4
-t8RDnxY5nSpxz3VdWTLsKLvPUcMSKltb4yoTnj82Rpx/mc3sl0k2tldYsdk0/4rK
-op46MBBe0WNEEkbOEgyycC/x3iT/YOX15X9wTdYqM5idUUEdQ/Q=
-=Tjl7
------END PGP SIGNATURE-----
-
---4ZLFUWh1odzi/v6L--
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
