@@ -2,125 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B39D386DB5
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 01:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63D1686ED3
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 02:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404562AbfHHXJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 19:09:07 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46307 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404457AbfHHXJH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 19:09:07 -0400
-Received: by mail-pl1-f196.google.com with SMTP id c2so44137297plz.13
-        for <linux-media@vger.kernel.org>; Thu, 08 Aug 2019 16:09:06 -0700 (PDT)
+        id S2404550AbfHIA1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 20:27:48 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:39605 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729419AbfHIA1s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 20:27:48 -0400
+Received: by mail-qt1-f194.google.com with SMTP id l9so94122054qtu.6;
+        Thu, 08 Aug 2019 17:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PshILyRjCCo0C5QCJz7frN2AnaNP8oJw8QYaH2iANig=;
-        b=dbDwiA4Adn6NNb5EvA73thvbmUP2keuqre4+n/NxwEHqhexDztnDaNh7AsRSTZZe49
-         hYpD3IzLcNsObNJn7jV0JwQOyof3bHoudWE9xbxMphJZ3xC6+cAju3iiWanCTUgT+RRy
-         5BTDqjSStXzv50strdYe4GteQ70uxl48L/KiQ=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=11xnYV0nLuTfHH50YX7WG8U4a7R04qxCQzIia3Aq77A=;
+        b=DY6YN0HidRLoCjDAVy75tPCMpvaFqFDYG77GX+XnUoZwnRS6PXKQGa8fKrzJ5Leslv
+         ZIMyxR4gMHDP2lb5pPOdurSKUha5/jWlJZRYMmZ/wn2yQ0UuyVuFdTKWNSZclYg4DrPr
+         Cv+uOS1GWI/u9pPja1fWsirXQfNeZeQJypEiUin8+0FRoVRtBb3dA/RcOm6Y4TKQoee3
+         L5PJX/NTOwehJbIEI6gdtU7hUwM0Srj8HQpowFRULXz+9l5sH8q+ezJbHqpNvrtRGB2s
+         DdSjx5d58TI6BwYXDCF9+xDoyKtPfrVoWeyJP+uZRlXh0lOJRAP8COg4vn5h9BbjdOJk
+         V6eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PshILyRjCCo0C5QCJz7frN2AnaNP8oJw8QYaH2iANig=;
-        b=bW9a5WoSMOq++j7BGXg0Y9LppPTLLD8TyK3Bs+FnjSIMlMEA/7fesvVuQkGdrGisvx
-         7zfCtc+CXtFJ2kT19GBI3PGk3Kxc9bJvou8f1gaDAAdr24yM5F8JufAhhlgsU9lHkV2d
-         anJ8wK4R72+Yvb0QyjwAvfKH+GWZZTQG8vgSCnM0LyX7L9WZ/WU8XtSxF+aaTMCPcdLw
-         WZc4Mz1aqmNSSvvdC2evrErKHhDIox4Q/eGdDprUa/lhUjx9w4MnHejX/gcS6iyYcvhe
-         qlCgzMNjkV5wOJrw1dZluua6Yf2+p5lbjTyQGDJwQBYJW+Hh+2uCWcY736YYswQSLEfR
-         Uocg==
-X-Gm-Message-State: APjAAAUEhzFDWfi+VLRzsaPLNQsq8NZ/wbELXtxygVJ27xQ9d81ncCMF
-        W4CaIsoF8jI0ts2Td4I70X6hhQ==
-X-Google-Smtp-Source: APXvYqwRMwQCoIwwE1SVnXBBenp7lYzRwUiHs8nPiovNgZn+1R84ViErtlLi11BYuAEM5u5dpbcusw==
-X-Received: by 2002:a17:902:d70a:: with SMTP id w10mr15179356ply.251.1565305746634;
-        Thu, 08 Aug 2019 16:09:06 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o130sm157376311pfg.171.2019.08.08.16.09.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 08 Aug 2019 16:09:05 -0700 (PDT)
-Date:   Thu, 8 Aug 2019 16:09:04 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        dri-devel@lists.freedesktop.org,
-        Kostya Serebryany <kcc@google.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        enh <enh@google.com>, Robin Murphy <robin.murphy@arm.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v19 00/15] arm64: untag user pointers passed to the kernel
-Message-ID: <201908081608.A4F6711@keescook>
-References: <cover.1563904656.git.andreyknvl@google.com>
- <CAAeHK+yc0D_nd7nTRsY4=qcSx+eQR0VLut3uXMf4NEiE-VpeCw@mail.gmail.com>
- <20190724140212.qzvbcx5j2gi5lcoj@willie-the-truck>
- <CAAeHK+xXzdQHpVXL7f1T2Ef2P7GwFmDMSaBH4VG8fT3=c_OnjQ@mail.gmail.com>
- <20190724142059.GC21234@fuggles.cambridge.arm.com>
- <20190806171335.4dzjex5asoertaob@willie-the-truck>
- <CAAeHK+zF01mxU+PkEYLkoVu-ZZM6jNfL_OwMJKRwLr-sdU4Myg@mail.gmail.com>
- <201908081410.C16D2BD@keescook>
- <20190808153300.09d3eb80772515f0ea062833@linux-foundation.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=11xnYV0nLuTfHH50YX7WG8U4a7R04qxCQzIia3Aq77A=;
+        b=a5xWJfFJFpHnE+E9aAOTOgG+X2E70uFDjLv21ag+8MuKeCQ7M4slD6PPa4rN0qzRAs
+         +/Jj9NgDjXZzKxINYoNpy3AlnscSQa2z3n7KIqh+nwmkPWiW+zzZn+oVeEP3f4D8Y+X7
+         nZ+vJnn+vZwiFOiTfQkJy6mpu0I8Ew9IWxPDXjIFpQG4Ezxkrj19+n1U9Lm1CE0vLodr
+         tKu+3qn3bPzC6YSRJhTs4D8V1fzboyb7SAdiDFD5LctJUtt2wEr3TTMQYz7upNho0S40
+         9uArltLjbatJ6PAOxF6iEqlFaBAFSeZpgjQaVQZCqDkXWa074nJb2q8kkw07HYqvPWjN
+         fumA==
+X-Gm-Message-State: APjAAAWt6RklQmZ4xGrXw+UPFOBaeJiJf/u6t53O/ss89DAI3jpZ2pr2
+        kP9BTCD4N4BvyXwvkL5408IqEQ1PkJc=
+X-Google-Smtp-Source: APXvYqzK3eJvHmjsNqUI0sk+E12L5i8bn+3ZHOt03w4bAA9dG/xXnQ2sJX9qYmaDhOcccs5jDTjNFg==
+X-Received: by 2002:ac8:32a1:: with SMTP id z30mr15816454qta.117.1565310467076;
+        Thu, 08 Aug 2019 17:27:47 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7f0:20d6:c52:d75:1f0d:f1e9])
+        by smtp.gmail.com with ESMTPSA id d71sm4489082qkg.70.2019.08.08.17.27.44
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 08 Aug 2019 17:27:46 -0700 (PDT)
+From:   =?UTF-8?q?Lucas=20A=2E=20M=2E=20Magalh=C3=A3es?= 
+        <lucmaga@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        kernel@collabora.com, skhan@linuxfoundation.org,
+        helen.koike@collabora.com,
+        "Lucas A . M . Magalhaes" <lucmaga@gmail.com>
+Subject: [PATCH v2 1/2] media: Revert "media: vimc: Remove or modify stream checks"
+Date:   Thu,  8 Aug 2019 21:27:40 -0300
+Message-Id: <b3eec274c34f7516acf0b963587f6e094f2fe01a.1565309305.git.lucmaga@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808153300.09d3eb80772515f0ea062833@linux-foundation.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 08, 2019 at 03:33:00PM -0700, Andrew Morton wrote:
-> On Thu, 8 Aug 2019 14:12:19 -0700 Kees Cook <keescook@chromium.org> wrote:
-> 
-> > > The ones that are left are the mm ones: 4, 5, 6, 7 and 8.
-> > > 
-> > > Andrew, could you take a look and give your Acked-by or pick them up directly?
-> > 
-> > Given the subsystem Acks, it seems like 3-10 and 12 could all just go
-> > via Andrew? I hope he agrees. :)
-> 
-> I'll grab everything that has not yet appeared in linux-next.  If more
-> of these patches appear in linux-next I'll drop those as well.
-> 
-> The review discussion against " [PATCH v19 02/15] arm64: Introduce
-> prctl() options to control the tagged user addresses ABI" has petered
-> out inconclusively.  prctl() vs arch_prctl().
+From: Helen Koike <helen.koike@collabora.com>
 
-I've always disliked arch_prctl() existing at all. Given that tagging is
-likely to be a multi-architectural feature, it seems like the controls
-should live in prctl() to me.
+This reverts commit 3c1b9ac753e99005d7ee0a883d6e5b577ba32aa9.
 
+Required to Revert "media: vimc: propagate pixel format in the stream"
+which introduced the stream object in the vimc_ent_device struct.
+
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Lucas A. M. Magalhaes <lucmaga@gmail.com>
+---
+
+I'm just helping out Helen by solving this patch set conflicts.
+There was no conflict in this patch.
+
+ drivers/media/platform/vimc/vimc-debayer.c | 5 ++++-
+ drivers/media/platform/vimc/vimc-scaler.c  | 7 +++++--
+ drivers/media/platform/vimc/vimc-sensor.c  | 6 +++++-
+ 3 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+index 00598fbf3cba..72adba6cf892 100644
+--- a/drivers/media/platform/vimc/vimc-debayer.c
++++ b/drivers/media/platform/vimc/vimc-debayer.c
+@@ -262,7 +262,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		/* Do not change the format while stream is on */
+-		if (vdeb->ved.stream)
++		if (vdeb->src_frame)
+ 			return -EBUSY;
+ 
+ 		sink_fmt = &vdeb->sink_fmt;
+@@ -329,6 +329,9 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct v4l2_format_info *pix_info;
+ 		unsigned int frame_size;
+ 
++		if (vdeb->src_frame)
++			return 0;
++
+ 		/* We only support translating bayer to RGB24 */
+ 		if (src_pixelformat != V4L2_PIX_FMT_RGB24) {
+ 			dev_err(vdeb->dev,
+diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+index c7123a45c55b..5f31c1e351a3 100644
+--- a/drivers/media/platform/vimc/vimc-scaler.c
++++ b/drivers/media/platform/vimc/vimc-scaler.c
+@@ -148,7 +148,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		/* Do not change the format while stream is on */
+-		if (vsca->ved.stream)
++		if (vsca->src_frame)
+ 			return -EBUSY;
+ 
+ 		sink_fmt = &vsca->sink_fmt;
+@@ -203,6 +203,9 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct v4l2_format_info *pix_info;
+ 		unsigned int frame_size;
+ 
++		if (vsca->src_frame)
++			return 0;
++
+ 		if (!vimc_sca_is_pixfmt_supported(pixelformat)) {
+ 			dev_err(vsca->dev, "pixfmt (0x%08x) is not supported\n",
+ 				pixelformat);
+@@ -324,7 +327,7 @@ static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
+ 						    ved);
+ 
+ 	/* If the stream in this node is not active, just return */
+-	if (!ved->stream)
++	if (!vsca->src_frame)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	vimc_sca_fill_src_frame(vsca, sink_frame);
+diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+index 51359472eef2..c47454cc7f70 100644
+--- a/drivers/media/platform/vimc/vimc-sensor.c
++++ b/drivers/media/platform/vimc/vimc-sensor.c
+@@ -131,7 +131,7 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		/* Do not change the format while stream is on */
+-		if (vsen->ved.stream)
++		if (vsen->frame)
+ 			return -EBUSY;
+ 
+ 		mf = &vsen->mbus_format;
+@@ -187,6 +187,10 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct v4l2_format_info *pix_info;
+ 		unsigned int frame_size;
+ 
++		if (vsen->kthread_sen)
++			/* tpg is already executing */
++			return 0;
++
+ 		/* Calculate the frame size */
+ 		pix_info = v4l2_format_info(pixelformat);
+ 		frame_size = vsen->mbus_format.width * pix_info->bpp[0] *
 -- 
-Kees Cook
+2.23.0.rc1
+
