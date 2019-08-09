@@ -2,69 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B95987EC9
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 18:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 554B687ED2
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 18:03:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436666AbfHIQCZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 12:02:25 -0400
-Received: from mga09.intel.com ([134.134.136.24]:8195 "EHLO mga09.intel.com"
+        id S2436960AbfHIQDK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 12:03:10 -0400
+Received: from foss.arm.com ([217.140.110.172]:49390 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfHIQCZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 12:02:25 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 09:02:24 -0700
-X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; 
-   d="scan'208";a="166045189"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Aug 2019 09:02:21 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 22D9E20CEA; Fri,  9 Aug 2019 19:01:22 +0300 (EEST)
-Date:   Fri, 9 Aug 2019 19:01:21 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hugues Fruchet <hugues.fruchet@st.com>
-Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
+        id S1726421AbfHIQDJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Aug 2019 12:03:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 979B315A2;
+        Fri,  9 Aug 2019 09:03:08 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67723F575;
+        Fri,  9 Aug 2019 09:03:03 -0700 (PDT)
+Date:   Fri, 9 Aug 2019 17:03:01 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
-Message-ID: <20190809160121.GA6194@paasikivi.fi.intel.com>
-References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
- <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v19 04/15] mm: untag user pointers passed to memory
+ syscalls
+Message-ID: <20190809160301.GB23083@arrakis.emea.arm.com>
+References: <cover.1563904656.git.andreyknvl@google.com>
+ <aaf0c0969d46b2feb9017f3e1b3ef3970b633d91.1563904656.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
+In-Reply-To: <aaf0c0969d46b2feb9017f3e1b3ef3970b633d91.1563904656.git.andreyknvl@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
-
-Thanks for teh update.
-
-On Wed, Jul 31, 2019 at 02:56:21PM +0200, Hugues Fruchet wrote:
-> Rename "subdev" entity struct field to "source"
-> to prepare for several subdev support.
-> Move asd field on top of entity struct.
+On Tue, Jul 23, 2019 at 07:58:41PM +0200, Andrey Konovalov wrote:
+> This patch is a part of a series that extends kernel ABI to allow to pass
+> tagged user pointers (with the top byte set to something else other than
+> 0x00) as syscall arguments.
 > 
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> Change-Id: I1545a1a29a8061ee67cc6e4b799e9a69071911e7
+> This patch allows tagged pointers to be passed to the following memory
+> syscalls: get_mempolicy, madvise, mbind, mincore, mlock, mlock2, mprotect,
+> mremap, msync, munlock, move_pages.
+> 
+> The mmap and mremap syscalls do not currently accept tagged addresses.
+> Architectures may interpret the tag as a background colour for the
+> corresponding vma.
+> 
+> Reviewed-by: Khalid Aziz <khalid.aziz@oracle.com>
+> Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  mm/madvise.c   | 2 ++
+>  mm/mempolicy.c | 3 +++
+>  mm/migrate.c   | 2 +-
+>  mm/mincore.c   | 2 ++
+>  mm/mlock.c     | 4 ++++
+>  mm/mprotect.c  | 2 ++
+>  mm/mremap.c    | 7 +++++++
+>  mm/msync.c     | 2 ++
+>  8 files changed, 23 insertions(+), 1 deletion(-)
 
-No Change-Id tags in the kernel, please. Check the other two as well.
+More back and forth discussions on how to specify the exceptions here.
+I'm proposing just dropping the exceptions and folding in the diff
+below.
 
-With that fixed,
+Andrew, if you prefer a standalone patch instead, please let me know:
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+------------------8<----------------------------
+From 9a5286acaa638c6a917d96986bf28dad35e24a0c Mon Sep 17 00:00:00 2001
+From: Catalin Marinas <catalin.marinas@arm.com>
+Date: Fri, 9 Aug 2019 14:21:33 +0100
+Subject: [PATCH] fixup! mm: untag user pointers passed to memory syscalls
 
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+mmap, mremap, munmap, brk added to the list of syscalls that accept
+tagged pointers.
+
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ mm/mmap.c   | 5 +++++
+ mm/mremap.c | 6 +-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 7e8c3e8ae75f..b766b633b7ae 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -201,6 +201,8 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
+ 	bool downgraded = false;
+ 	LIST_HEAD(uf);
+ 
++	brk = untagged_addr(brk);
++
+ 	if (down_write_killable(&mm->mmap_sem))
+ 		return -EINTR;
+ 
+@@ -1573,6 +1575,8 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
+ 	struct file *file = NULL;
+ 	unsigned long retval;
+ 
++	addr = untagged_addr(addr);
++
+ 	if (!(flags & MAP_ANONYMOUS)) {
+ 		audit_mmap_fd(fd, flags);
+ 		file = fget(fd);
+@@ -2874,6 +2878,7 @@ EXPORT_SYMBOL(vm_munmap);
+ 
+ SYSCALL_DEFINE2(munmap, unsigned long, addr, size_t, len)
+ {
++	addr = untagged_addr(addr);
+ 	profile_munmap(addr);
+ 	return __vm_munmap(addr, len, true);
+ }
+diff --git a/mm/mremap.c b/mm/mremap.c
+index 64c9a3b8be0a..1fc8a29fbe3f 100644
+--- a/mm/mremap.c
++++ b/mm/mremap.c
+@@ -606,12 +606,8 @@ SYSCALL_DEFINE5(mremap, unsigned long, addr, unsigned long, old_len,
+ 	LIST_HEAD(uf_unmap_early);
+ 	LIST_HEAD(uf_unmap);
+ 
+-	/*
+-	 * Architectures may interpret the tag passed to mmap as a background
+-	 * colour for the corresponding vma. For mremap we don't allow tagged
+-	 * new_addr to preserve similar behaviour to mmap.
+-	 */
+ 	addr = untagged_addr(addr);
++	new_addr = untagged_addr(new_addr);
+ 
+ 	if (flags & ~(MREMAP_FIXED | MREMAP_MAYMOVE))
+ 		return ret;
