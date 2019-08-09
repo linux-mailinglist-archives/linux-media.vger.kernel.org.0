@@ -2,124 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 204B488538
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 23:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C67A088700
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 01:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728596AbfHIVp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 17:45:58 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:39861 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728188AbfHIVpy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 17:45:54 -0400
-Received: by mail-ot1-f66.google.com with SMTP id r21so132180629otq.6
-        for <linux-media@vger.kernel.org>; Fri, 09 Aug 2019 14:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q8bv0VJFvcUca4dNFjkReaJ6w8K5woMhiQ/onkgnpeg=;
-        b=coaW+EFbAMuceCGUBT8pJ/YDD+TnpNU0zyfWayKUPOymm32egeIGxjcQDzd/Tcs/zn
-         lY/ewx0Sqd/l2YR0gIlQh5Kjfzf5EpyKc78HGQ+YXYWW+uKzVk06cTisXHX0JoAEG4kZ
-         ukQJbmoVvy4sfaOcfM0OU0LGSpjOD6+JPp3Oo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q8bv0VJFvcUca4dNFjkReaJ6w8K5woMhiQ/onkgnpeg=;
-        b=nVU6S9VsvFs8Fhm6QVtcxhrVbFLEne/bO1HKeajKCEa3V0lZCv65HPPYdKxI3V88Ec
-         1DlHs34HrKUJ6BwbQw12ZQJZN2GH5f2QWT/X9nMpCzzsbOuAs9Y53y33mvQPxUxK7fb6
-         WI/yIk0liclGrZtuSbVZqD9l3ic3Uyn7uG2SYw2lNZ6znmGaKM6SYLdOR0VvaBz0ZbfA
-         LIHBuLs188Lkt05ljSsetk0j9A2ezXkmyx/OSrTaVvw3c1FlhWvxxyVQ/syYyuLOOEdc
-         W2vzmKF/CjaeF5RO7ird/C7dZOUqlLvglHYiRK28mCr0l1TG6gXho5mjVadLNfAIc4hz
-         HJ3w==
-X-Gm-Message-State: APjAAAXIuyiYH+ClokZHebmbqz+ZcHQQdrjprnnBCsQ6O0WOYOoLSxj9
-        No+AMNWXVgqTPWIXrgvi1YKRDg==
-X-Google-Smtp-Source: APXvYqxaftLcNmxLkz2YDb7ubn2cO8ZuF5CD6gIUlXfbvU4C91kVGJRxpuMwXPDTJDhWtthGZuh4Uw==
-X-Received: by 2002:a05:6602:8e:: with SMTP id h14mr9560463iob.305.1565387153481;
-        Fri, 09 Aug 2019 14:45:53 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id n17sm75861623iog.63.2019.08.09.14.45.52
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 09 Aug 2019 14:45:53 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
+        id S1726157AbfHIXxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 19:53:22 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57328 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726053AbfHIXxW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 19:53:22 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: tonyk)
+        with ESMTPSA id 889DF28C40D
+Subject: Re: [PATCH 0/3] Collapse vimc into single monolithic driver
+To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
+        helen.koike@collabora.com, hverkuil@xs4all.nl,
         laurent.pinchart@ideasonboard.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 3/3] media: vimc: Fix gpf in rmmod path when stream is active
-Date:   Fri,  9 Aug 2019 15:45:43 -0600
-Message-Id: <1ec378f927ed2462258d0657c6355bf916618a0e.1565386364.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1565386363.git.skhan@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 References: <cover.1565386363.git.skhan@linuxfoundation.org>
+From:   =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>
+Message-ID: <3118bc46-14ac-8015-9a6c-a8dfcdcea940@collabora.com>
+Date:   Fri, 9 Aug 2019 20:52:23 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <cover.1565386363.git.skhan@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vimc module is removed while streaming is in progress, sensor
-subdev unregister runs into general protection fault when it tries
-to unregister media entities.
+Hello Shuah,
 
-vimc_ent_sd_unregister() is fixed to call vimc_pads_cleanup() to
-release media pads after v4l2_device_unregister_subdev() is done
-unregistering the subdev and stop accessing media objects.
+Thanks for the patch, I did some comments below.
 
-kernel: [ 4136.715839] general protection fault: 0000 [#1] SMP PTI
-kernel: [ 4136.715847] CPU: 2 PID: 1972 Comm: bash Not tainted 5.3.0-rc2+ #4
-kernel: [ 4136.715850] Hardware name: Dell Inc. OptiPlex 790/0HY9JP, BIOS A18 09/24/2013
-kernel: [ 4136.715858] RIP: 0010:media_gobj_destroy.part.16+0x1f/0x60
-kernel: [ 4136.715863] Code: ff 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 55 48 89 fe 48 89 e5 53 48 89 fb 48 c7 c7 00 7f cf b0 e8 24 fa ff ff 48 8b 03 <48> 83 80 a0 00 00 00 01 48 8b 43 18 48 8b 53 10 48 89 42 08 48 89
-kernel: [ 4136.715866] RSP: 0018:ffff9b2248fe3cb0 EFLAGS: 00010246
-kernel: [ 4136.715870] RAX: bcf2bfbfa0d63c2f RBX: ffff88c3eb37e9c0 RCX: 00000000802a0018
-kernel: [ 4136.715873] RDX: ffff88c3e4f6a078 RSI: ffff88c3eb37e9c0 RDI: ffffffffb0cf7f00
-kernel: [ 4136.715876] RBP: ffff9b2248fe3cb8 R08: 0000000001000002 R09: ffffffffb0492b00
-kernel: [ 4136.715879] R10: ffff9b2248fe3c28 R11: 0000000000000001 R12: 0000000000000038
-kernel: [ 4136.715881] R13: ffffffffc09a1628 R14: ffff88c3e4f6a028 R15: fffffffffffffff2
-kernel: [ 4136.715885] FS:  00007f8389647740(0000) GS:ffff88c465500000(0000) knlGS:0000000000000000
-kernel: [ 4136.715888] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-kernel: [ 4136.715891] CR2: 000055d008f80fd8 CR3: 00000001996ec005 CR4: 00000000000606e0
-kernel: [ 4136.715894] Call Trace:
-kernel: [ 4136.715903]  media_gobj_destroy+0x14/0x20
-kernel: [ 4136.715908]  __media_device_unregister_entity+0xb3/0xe0
-kernel: [ 4136.715915]  media_device_unregister_entity+0x30/0x40
-kernel: [ 4136.715920]  v4l2_device_unregister_subdev+0xa8/0xe0
-kernel: [ 4136.715928]  vimc_ent_sd_unregister+0x1e/0x30 [vimc]
-kernel: [ 4136.715933]  vimc_sen_rm+0x16/0x20 [vimc]
-kernel: [ 4136.715938]  vimc_remove+0x3e/0xa0 [vimc]
-kernel: [ 4136.715945]  platform_drv_remove+0x25/0x50
-kernel: [ 4136.715951]  device_release_driver_internal+0xe0/0x1b0
-kernel: [ 4136.715956]  device_driver_detach+0x14/0x20
-kernel: [ 4136.715960]  unbind_store+0xd1/0x130
-kernel: [ 4136.715965]  drv_attr_store+0x27/0x40
-kernel: [ 4136.715971]  sysfs_kf_write+0x48/0x60
-kernel: [ 4136.715976]  kernfs_fop_write+0x128/0x1b0
-kernel: [ 4136.715982]  __vfs_write+0x1b/0x40
-kernel: [ 4136.715987]  vfs_write+0xc3/0x1d0
-kernel: [ 4136.715993]  ksys_write+0xaa/0xe0
-kernel: [ 4136.715999]  __x64_sys_write+0x1a/0x20
-kernel: [ 4136.716005]  do_syscall_64+0x5a/0x130
-kernel: [ 4136.716010]  entry_SYSCALL_64_after_hwframe+0x4
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- drivers/media/platform/vimc/vimc-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 8/9/19 6:45 PM, Shuah Khan wrote:
+> vimc uses Component API to split the driver into functional components.
+> The real hardware resembles a monolith structure than component and
+> component structure added a level of complexity making it hard to
+> maintain without adding any real benefit.
+>     
+> The sensor is one vimc component that would makes sense to be a separate
+> module to closely align with the real hardware. It would be easier to
+> collapse vimc into single monolithic driver first and then split the
+> sensor off as a separate module.
+> 
+> This patch series emoves the component API and makes minimal changes to
+> the code base preserving the functional division of the code structure.
+> Preserving the functional structure allows us to split the sensor off
+> as a separate module in the future.
+> 
+> Major design elements in this change are:
+>     - Use existing struct vimc_ent_config and struct vimc_pipeline_config
+>       to drive the initialization of the functional components.
+>     - Make vimc_ent_config global by moving it to vimc.h
+>     - Add two new hooks add and rm to initialize and register, unregister
+>       and free subdevs.
+>     - All component API is now gone and bind and unbind hooks are modified
+>       to do "add" and "rm" with minimal changes to just add and rm subdevs.
+>     - vimc-core's bind and unbind are now register and unregister.
+>     - vimc-core invokes "add" hooks from its vimc_register_devices().
+>       The "add" hooks remain the same and register subdevs. They don't
+>       create platform devices of their own and use vimc's pdev.dev as
+>       their reference device. The "add" hooks save their vimc_ent_device(s)
+>       in the corresponding vimc_ent_config.
+>     - vimc-core invokes "rm" hooks from its unregister to unregister subdevs
+>       and cleanup.
+>     - vimc-core invokes "add" and "rm" hooks with pointer to struct vimc_device
+>       and the corresponding struct vimc_ent_config pointer.
+>     
+> The following configure and stream test works on all devices.
+>     
+>     media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+>     media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+>     media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+>     media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+>     
+>     v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+>     v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+>     v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+>     
+>     v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video1
+>     v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+>     v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video3
+> 
+> The third patch in the series fixes a general protection fault found
+> when rmmod is done while stream is active.
 
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index 03016f204d05..abace5e0b4d3 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -373,7 +373,7 @@ EXPORT_SYMBOL_GPL(vimc_ent_sd_register);
- void vimc_ent_sd_unregister(struct vimc_ent_device *ved, struct v4l2_subdev *sd)
- {
- 	media_entity_cleanup(ved->ent);
--	vimc_pads_cleanup(ved->pads);
- 	v4l2_device_unregister_subdev(sd);
-+	vimc_pads_cleanup(ved->pads);
- }
- EXPORT_SYMBOL_GPL(vimc_ent_sd_unregister);
--- 
-2.17.1
+I applied your patch on top of media_tree/master and I did some testing.
+Not sure if I did something wrong, but just adding and removing the
+module generated a kernel panic:
+
+~# modprobe vimc
+~# rmmod vimc
+[   16.452974] stack segment: 0000 [#1] SMP PTI
+[   16.453688] CPU: 0 PID: 2038 Comm: rmmod Not tainted 5.3.0-rc2+ #36
+[   16.454678] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
+BIOS 1.12.0-20181126_142135-anatol 04/01/2014
+[   16.456191] RIP: 0010:kfree+0x4d/0x240
+
+<registers values...>
+
+[   16.469188] Call Trace:
+[   16.469666]  vimc_remove+0x35/0x90 [vimc]
+[   16.470436]  platform_drv_remove+0x1f/0x40
+[   16.471233]  device_release_driver_internal+0xd3/0x1b0
+[   16.472184]  driver_detach+0x37/0x6b
+[   16.472882]  bus_remove_driver+0x50/0xc1
+[   16.473569]  vimc_exit+0xc/0xca0 [vimc]
+[   16.474231]  __x64_sys_delete_module+0x18d/0x240
+[   16.475036]  do_syscall_64+0x43/0x110
+[   16.475656]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   16.476504] RIP: 0033:0x7fceb8dafa4b
+
+<registers values...>
+
+[   16.484853] Modules linked in: vimc(-) videobuf2_vmalloc
+videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common
+[   16.486187] ---[ end trace 91e5e0894e254d49 ]---
+[   16.486758] RIP: 0010:kfree+0x4d/0x240
+
+<registers values...>
+
+fish: “rmmod vimc” terminated by signal SIGSEGV (Address boundary error)
+
+I just added the module after booting, no other action was made. Here is
+how my `git log --oneline` looks like:
+
+897d708e922b media: vimc: Fix gpf in rmmod path when stream is active
+2e4a5ad8ad6d media: vimc: Collapse component structure into a single
+monolithic driver
+7c8da1687e92 media: vimc: move private defines to a common header
+97299a303532 media: Remove dev_err() usage after platform_get_irq()
+25a3d6bac6b9 media: adv7511/cobalt: rename driver name to adv7511-v4l2
+...
+
+> 
+> vimc_print_dot (--print-dot) topology after this change:
+> digraph board {
+> 	rankdir=TB
+> 	n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000001:port0 -> n00000005:port0 [style=bold]
+> 	n00000001:port0 -> n0000000b [style=bold]
+> 	n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000003:port0 -> n00000008:port0 [style=bold]
+> 	n00000003:port0 -> n0000000f [style=bold]
+> 	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000005:port1 -> n00000015:port0
+> 	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000008:port1 -> n00000015:port0 [style=dashed]
+> 	n0000000b [label="Raw Capture 0\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> 	n0000000f [label="Raw Capture 1\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+> 	n00000013 [label="{{} | RGB/YUV Input\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000013:port0 -> n00000015:port0 [style=dashed]
+> 	n00000015 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> 	n00000015:port1 -> n00000018 [style=bold]
+> 	n00000018 [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+> }
+
+Since the topology changed, it would be nice to change in the
+documentation as well. The current dot file can be found at
+`Documentation/media/v4l-drivers/vimc.dot` and it's rendered at this
+page: https://www.kernel.org/doc/html/latest/media/v4l-drivers/vimc.html
+
+Thanks,
+	André
+
+> 
+> Shuah Khan (3):
+>   media: vimc: move private defines to a common header
+>   media: vimc: Collapse component structure into a single monolithic
+>     driver
+>   media: vimc: Fix gpf in rmmod path when stream is active
+> 
+>  drivers/media/platform/vimc/Makefile       |   7 +-
+>  drivers/media/platform/vimc/vimc-capture.c |  96 ++----------
+>  drivers/media/platform/vimc/vimc-common.c  |   2 +-
+>  drivers/media/platform/vimc/vimc-core.c    | 174 +++++++--------------
+>  drivers/media/platform/vimc/vimc-debayer.c |  84 ++--------
+>  drivers/media/platform/vimc/vimc-scaler.c  |  83 ++--------
+>  drivers/media/platform/vimc/vimc-sensor.c  |  82 ++--------
+>  drivers/media/platform/vimc/vimc.h         | 121 ++++++++++++++
+>  8 files changed, 230 insertions(+), 419 deletions(-)
+>  create mode 100644 drivers/media/platform/vimc/vimc.h
+> 
 
