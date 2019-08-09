@@ -2,61 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 030FC86ED6
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 02:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15C1B86F10
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 03:03:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404943AbfHIA1x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Aug 2019 20:27:53 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:44327 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729419AbfHIA1v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 20:27:51 -0400
-Received: by mail-qk1-f195.google.com with SMTP id d79so70310094qke.11;
-        Thu, 08 Aug 2019 17:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6aAuEtZJmUfisZ/oHg7rgXNyx1muvHBr15GttX5OS8U=;
-        b=NDNcPOnc7d7tbsC5hzqBI8JpNOeTMJl+sleLtn7+qoY34DxkCkafdPMq4iJzVFsg0k
-         27h00oISBk7UoN45WsyXU2dUHRgQdpFzbnKXT/9HqBvD8JNxR3dG934ew5+9a/UUZG9y
-         JFnR6GnSM1ShRk6mEWnnrE4XUzAqc5Q82GVjp/CnIEf+ngscogCqLpZlob6nA74WKUw1
-         aVZ8o/wuSMQG1BoyOqa3u9x7LAnKfvtSNtbZKjHazmtNsNyx19NCLl01LJiQwTIPhv5c
-         t5jrdb/ik4gpYZ+8f1KR89y9LFk2a+fcG+NKAQrHPdd+jfob1c9V7+Fku1RrGTCbab7r
-         fFeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6aAuEtZJmUfisZ/oHg7rgXNyx1muvHBr15GttX5OS8U=;
-        b=UQSnkJ0CUR94ohvi79vkINBNBO88pShmkkLaGYtDM487snTjhAE4wsdLzlAzhAWB3t
-         OqZbm25tvAaSFmoe5RhJ5Ta7oyFfbEmS+N+D6Cb13Wt4ShEgUzSVC6qLUmsbCpscsWxg
-         PdIsI8DwvxJUd3TkI6G1FNHva6FHs7r167WfOmBxbbkPrPLxVYowaH7x7VKPlESQ1IB4
-         D+hsBK7zdaIO8aizSuOY3h+3Mp5gnc/igCI6tDwLwfR0Nt9xRaNXT0i74FlDCsMH9RWZ
-         CigOSEH9PUzpIA1oeZRqMAM79YId78M9dBj6+GA5fYqna9QpZ/qWtSiyFKtA1f6eRCX9
-         WerA==
-X-Gm-Message-State: APjAAAVIdAX3L7FyYN8AL7IZ+KrJ02332btr2oD9Hv3kqCrWqqkqkLAN
-        yqgJONie5/qsAv5OluoA3I+f0DB2VFE=
-X-Google-Smtp-Source: APXvYqyeac92OjhQabG/BCb7hkA6vGxxDuXxl4Zc6t6e0RqPrlfrIPEQP611uZ03Cs8UGFk8ktGYfQ==
-X-Received: by 2002:a37:9bc4:: with SMTP id d187mr11071825qke.150.1565310469701;
-        Thu, 08 Aug 2019 17:27:49 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7f0:20d6:c52:d75:1f0d:f1e9])
-        by smtp.gmail.com with ESMTPSA id d71sm4489082qkg.70.2019.08.08.17.27.47
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 08 Aug 2019 17:27:49 -0700 (PDT)
-From:   =?UTF-8?q?Lucas=20A=2E=20M=2E=20Magalh=C3=A3es?= 
-        <lucmaga@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, skhan@linuxfoundation.org,
-        helen.koike@collabora.com,
-        "Lucas A . M . Magalhaes" <lucmaga@gmail.com>
-Subject: [PATCH v2 2/2] Revert "media: vimc: propagate pixel format in the stream"
-Date:   Thu,  8 Aug 2019 21:27:41 -0300
-Message-Id: <1d75748538782cc28a3ae2386814fb718133ba8d.1565309305.git.lucmaga@gmail.com>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <b3eec274c34f7516acf0b963587f6e094f2fe01a.1565309305.git.lucmaga@gmail.com>
-References: <b3eec274c34f7516acf0b963587f6e094f2fe01a.1565309305.git.lucmaga@gmail.com>
+        id S2405077AbfHIBDD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Aug 2019 21:03:03 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45188 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725785AbfHIBDD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Aug 2019 21:03:03 -0400
+Received: from turingmachine.home (unknown [IPv6:2804:431:c7f4:9cf6:d711:794d:1c68:5ed3])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: tonyk)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F281228B3A8;
+        Fri,  9 Aug 2019 02:02:59 +0100 (BST)
+From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+To:     hverkuil@xs4all.nl, linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
+Subject: [PATCH] v4l2-compliance: split node at testNode() in two nodes
+Date:   Thu,  8 Aug 2019 22:02:04 -0300
+Message-Id: <20190809010204.11555-1-andrealmeid@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,1181 +33,432 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Helen Koike <helen.koike@collabora.com>
+v4l2-compliance tests deals with memory-to-memory devices (m2m) like
+they are a single device, through the struct node. This is indeed the
+most usual case. However, there are m2m devices that have two
+separated devices for the capture queue and for the output queue, and
+the current design does not support they.
 
-This reverts commit b6c61a6c37317efd7327199bfe24770af3d7e799.
+Split the node on testNode and related functions in two arguments:
+struct node node and struct node node_m2m_cap. For now, use the same node in
+both arguments.
 
-The requested pixelformat is being propagated from the capture to the
-tpg in the sensor.
-
-This was a bad design choice, as we start having the following issues:
-
-* We set a pixelformat in the capture;
-* We set matching media bus formats in the subdevices pads;
-* Link validate looks fine (sizes matches, media bus formats matches);
-* Issue: if some of the subdevice doesn't know how to generate the
-requested pixelformat in the capture, then stream_on fails. This is bad
-because capture says it supports that pixelformat, everything looks
-fine, but it is not, and there is no way to find it out through the
-links.
-
-This patch was implemented so we could request any pixelformat from the
-pipeline regardeless of the media bus format configured between pads.
-Not all pixelformat can be mapped into a media bus code (e.g.
-multiplanar formats), so with this patch we could request those
-pixelformats from the tpg.
-
-Solution: map pixelformats to media bus codes as before, and implement
-conversions to other pixelformats in the capture to support multiplanar.
-
-So first step to this solution is to revert this patch.
-
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
-Signed-off-by: Lucas A. M. Magalhaes <lucmaga@gmail.com>
-Tested-by:  André Almeida <andrealmeid@collabora.com>
+Signed-off-by: André Almeida <andrealmeid@collabora.com>
 ---
+Hello,
 
-I'm just helping out Helen with this patchset conflicts.
+This is an effort to support topologies with video loopback (i.e. an
+output device and a capture in the same media path). A future patch will
+add a new option (--output) to specify the output device to be used with
+the --device to form the loopback. With that option, the arguments node
+and node_m2m_cap would not be the same device, as in this patch.
+I may forgot to replace in some function, please notify my if you find
+something missing.
 
-v2:
-    * Remove conflicting documentation at vimc-streamer.h
+Thanks,
+	André
 
- drivers/media/platform/vimc/vimc-capture.c  |  76 ++---
- drivers/media/platform/vimc/vimc-common.c   | 309 ++++++++++++--------
- drivers/media/platform/vimc/vimc-common.h   |  58 ++--
- drivers/media/platform/vimc/vimc-debayer.c  |  83 ++----
- drivers/media/platform/vimc/vimc-scaler.c   |  63 ++--
- drivers/media/platform/vimc/vimc-sensor.c   |  51 +++-
- drivers/media/platform/vimc/vimc-streamer.c |   2 -
- drivers/media/platform/vimc/vimc-streamer.h |   8 -
- 8 files changed, 342 insertions(+), 308 deletions(-)
+ utils/v4l2-compliance/v4l2-compliance.cpp   | 20 ++---
+ utils/v4l2-compliance/v4l2-compliance.h     | 22 +++++-
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 88 +++++++++++----------
+ utils/v4l2-compliance/v4l2-test-media.cpp   |  2 +-
+ 4 files changed, 74 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-index 664855708fdf..1d56b91830ba 100644
---- a/drivers/media/platform/vimc/vimc-capture.c
-+++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -18,32 +18,6 @@
- 
- #define VIMC_CAP_DRV_NAME "vimc-capture"
- 
--static const u32 vimc_cap_supported_pixfmt[] = {
--	V4L2_PIX_FMT_BGR24,
--	V4L2_PIX_FMT_RGB24,
--	V4L2_PIX_FMT_ARGB32,
--	V4L2_PIX_FMT_SBGGR8,
--	V4L2_PIX_FMT_SGBRG8,
--	V4L2_PIX_FMT_SGRBG8,
--	V4L2_PIX_FMT_SRGGB8,
--	V4L2_PIX_FMT_SBGGR10,
--	V4L2_PIX_FMT_SGBRG10,
--	V4L2_PIX_FMT_SGRBG10,
--	V4L2_PIX_FMT_SRGGB10,
--	V4L2_PIX_FMT_SBGGR10ALAW8,
--	V4L2_PIX_FMT_SGBRG10ALAW8,
--	V4L2_PIX_FMT_SGRBG10ALAW8,
--	V4L2_PIX_FMT_SRGGB10ALAW8,
--	V4L2_PIX_FMT_SBGGR10DPCM8,
--	V4L2_PIX_FMT_SGBRG10DPCM8,
--	V4L2_PIX_FMT_SGRBG10DPCM8,
--	V4L2_PIX_FMT_SRGGB10DPCM8,
--	V4L2_PIX_FMT_SBGGR12,
--	V4L2_PIX_FMT_SGBRG12,
--	V4L2_PIX_FMT_SGRBG12,
--	V4L2_PIX_FMT_SRGGB12,
--};
--
- struct vimc_cap_device {
- 	struct vimc_ent_device ved;
- 	struct video_device vdev;
-@@ -117,25 +91,29 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- 				    struct v4l2_format *f)
- {
- 	struct v4l2_pix_format *format = &f->fmt.pix;
-+	const struct vimc_pix_map *vpix;
- 
- 	format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
- 				VIMC_FRAME_MAX_WIDTH) & ~1;
- 	format->height = clamp_t(u32, format->height, VIMC_FRAME_MIN_HEIGHT,
- 				 VIMC_FRAME_MAX_HEIGHT) & ~1;
- 
--	vimc_colorimetry_clamp(format);
-+	/* Don't accept a pixelformat that is not on the table */
-+	vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
-+	if (!vpix) {
-+		format->pixelformat = fmt_default.pixelformat;
-+		vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
-+	}
-+	/* TODO: Add support for custom bytesperline values */
-+	format->bytesperline = format->width * vpix->bpp;
-+	format->sizeimage = format->bytesperline * format->height;
- 
- 	if (format->field == V4L2_FIELD_ANY)
- 		format->field = fmt_default.field;
- 
--	/* TODO: Add support for custom bytesperline values */
--
--	/* Don't accept a pixelformat that is not on the table */
--	if (!v4l2_format_info(format->pixelformat))
--		format->pixelformat = fmt_default.pixelformat;
-+	vimc_colorimetry_clamp(format);
- 
--	return v4l2_fill_pixfmt(format, format->pixelformat,
--				format->width, format->height);
-+	return 0;
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index fbeb96be..d9509064 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -908,7 +908,7 @@ err:
+ 	return result;
  }
  
- static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
-@@ -174,31 +152,27 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
- static int vimc_cap_enum_fmt_vid_cap(struct file *file, void *priv,
- 				     struct v4l2_fmtdesc *f)
+-void testNode(struct node &node, struct node &expbuf_node, media_type type,
++void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
+ 	      unsigned frame_count, unsigned all_fmt_frame_count)
  {
--	if (f->index >= ARRAY_SIZE(vimc_cap_supported_pixfmt))
-+	const struct vimc_pix_map *vpix = vimc_pix_map_by_index(f->index);
-+
-+	if (!vpix)
- 		return -EINVAL;
- 
--	f->pixelformat = vimc_cap_supported_pixfmt[f->index];
-+	f->pixelformat = vpix->pixelformat;
- 
- 	return 0;
- }
- 
--static bool vimc_cap_is_pixfmt_supported(u32 pixelformat)
--{
--	unsigned int i;
--
--	for (i = 0; i < ARRAY_SIZE(vimc_cap_supported_pixfmt); i++)
--		if (vimc_cap_supported_pixfmt[i] == pixelformat)
--			return true;
--	return false;
--}
--
- static int vimc_cap_enum_framesizes(struct file *file, void *fh,
- 				    struct v4l2_frmsizeenum *fsize)
- {
-+	const struct vimc_pix_map *vpix;
-+
- 	if (fsize->index)
- 		return -EINVAL;
- 
--	if (!vimc_cap_is_pixfmt_supported(fsize->pixel_format))
-+	/* Only accept code in the pix map table */
-+	vpix = vimc_pix_map_by_code(fsize->pixel_format);
-+	if (!vpix)
- 		return -EINVAL;
- 
- 	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-@@ -272,7 +246,6 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		return ret;
- 	}
- 
--	vcap->stream.producer_pixfmt = vcap->format.pixelformat;
- 	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
- 	if (ret) {
- 		media_pipeline_stop(entity);
-@@ -423,6 +396,7 @@ static int vimc_cap_comp_bind(struct device *comp, struct device *master,
- {
- 	struct v4l2_device *v4l2_dev = master_data;
- 	struct vimc_platform_data *pdata = comp->platform_data;
-+	const struct vimc_pix_map *vpix;
- 	struct vimc_cap_device *vcap;
- 	struct video_device *vdev;
- 	struct vb2_queue *q;
-@@ -477,8 +451,10 @@ static int vimc_cap_comp_bind(struct device *comp, struct device *master,
- 
- 	/* Set default frame format */
- 	vcap->format = fmt_default;
--	v4l2_fill_pixfmt(&vcap->format, vcap->format.pixelformat,
--			 vcap->format.width, vcap->format.height);
-+	vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
-+	vcap->format.bytesperline = vcap->format.width * vpix->bpp;
-+	vcap->format.sizeimage = vcap->format.bytesperline *
-+				 vcap->format.height;
- 
- 	/* Fill the vimc_ent_device struct */
- 	vcap->ved.ent = &vcap->vdev.entity;
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index 03016f204d05..7e1ae0b12f1e 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -10,139 +10,192 @@
- 
- #include "vimc-common.h"
- 
--static const __u32 vimc_mbus_list[] = {
--	MEDIA_BUS_FMT_FIXED,
--	MEDIA_BUS_FMT_RGB444_1X12,
--	MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE,
--	MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE,
--	MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
--	MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
--	MEDIA_BUS_FMT_RGB565_1X16,
--	MEDIA_BUS_FMT_BGR565_2X8_BE,
--	MEDIA_BUS_FMT_BGR565_2X8_LE,
--	MEDIA_BUS_FMT_RGB565_2X8_BE,
--	MEDIA_BUS_FMT_RGB565_2X8_LE,
--	MEDIA_BUS_FMT_RGB666_1X18,
--	MEDIA_BUS_FMT_RBG888_1X24,
--	MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
--	MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
--	MEDIA_BUS_FMT_BGR888_1X24,
--	MEDIA_BUS_FMT_GBR888_1X24,
--	MEDIA_BUS_FMT_RGB888_1X24,
--	MEDIA_BUS_FMT_RGB888_2X12_BE,
--	MEDIA_BUS_FMT_RGB888_2X12_LE,
--	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
--	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
--	MEDIA_BUS_FMT_ARGB8888_1X32,
--	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
--	MEDIA_BUS_FMT_RGB101010_1X30,
--	MEDIA_BUS_FMT_RGB121212_1X36,
--	MEDIA_BUS_FMT_RGB161616_1X48,
--	MEDIA_BUS_FMT_Y8_1X8,
--	MEDIA_BUS_FMT_UV8_1X8,
--	MEDIA_BUS_FMT_UYVY8_1_5X8,
--	MEDIA_BUS_FMT_VYUY8_1_5X8,
--	MEDIA_BUS_FMT_YUYV8_1_5X8,
--	MEDIA_BUS_FMT_YVYU8_1_5X8,
--	MEDIA_BUS_FMT_UYVY8_2X8,
--	MEDIA_BUS_FMT_VYUY8_2X8,
--	MEDIA_BUS_FMT_YUYV8_2X8,
--	MEDIA_BUS_FMT_YVYU8_2X8,
--	MEDIA_BUS_FMT_Y10_1X10,
--	MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
--	MEDIA_BUS_FMT_UYVY10_2X10,
--	MEDIA_BUS_FMT_VYUY10_2X10,
--	MEDIA_BUS_FMT_YUYV10_2X10,
--	MEDIA_BUS_FMT_YVYU10_2X10,
--	MEDIA_BUS_FMT_Y12_1X12,
--	MEDIA_BUS_FMT_UYVY12_2X12,
--	MEDIA_BUS_FMT_VYUY12_2X12,
--	MEDIA_BUS_FMT_YUYV12_2X12,
--	MEDIA_BUS_FMT_YVYU12_2X12,
--	MEDIA_BUS_FMT_UYVY8_1X16,
--	MEDIA_BUS_FMT_VYUY8_1X16,
--	MEDIA_BUS_FMT_YUYV8_1X16,
--	MEDIA_BUS_FMT_YVYU8_1X16,
--	MEDIA_BUS_FMT_YDYUYDYV8_1X16,
--	MEDIA_BUS_FMT_UYVY10_1X20,
--	MEDIA_BUS_FMT_VYUY10_1X20,
--	MEDIA_BUS_FMT_YUYV10_1X20,
--	MEDIA_BUS_FMT_YVYU10_1X20,
--	MEDIA_BUS_FMT_VUY8_1X24,
--	MEDIA_BUS_FMT_YUV8_1X24,
--	MEDIA_BUS_FMT_UYYVYY8_0_5X24,
--	MEDIA_BUS_FMT_UYVY12_1X24,
--	MEDIA_BUS_FMT_VYUY12_1X24,
--	MEDIA_BUS_FMT_YUYV12_1X24,
--	MEDIA_BUS_FMT_YVYU12_1X24,
--	MEDIA_BUS_FMT_YUV10_1X30,
--	MEDIA_BUS_FMT_UYYVYY10_0_5X30,
--	MEDIA_BUS_FMT_AYUV8_1X32,
--	MEDIA_BUS_FMT_UYYVYY12_0_5X36,
--	MEDIA_BUS_FMT_YUV12_1X36,
--	MEDIA_BUS_FMT_YUV16_1X48,
--	MEDIA_BUS_FMT_UYYVYY16_0_5X48,
--	MEDIA_BUS_FMT_SBGGR8_1X8,
--	MEDIA_BUS_FMT_SGBRG8_1X8,
--	MEDIA_BUS_FMT_SGRBG8_1X8,
--	MEDIA_BUS_FMT_SRGGB8_1X8,
--	MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
--	MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
--	MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
--	MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
--	MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
--	MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
--	MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
--	MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
--	MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE,
--	MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
--	MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE,
--	MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE,
--	MEDIA_BUS_FMT_SBGGR10_1X10,
--	MEDIA_BUS_FMT_SGBRG10_1X10,
--	MEDIA_BUS_FMT_SGRBG10_1X10,
--	MEDIA_BUS_FMT_SRGGB10_1X10,
--	MEDIA_BUS_FMT_SBGGR12_1X12,
--	MEDIA_BUS_FMT_SGBRG12_1X12,
--	MEDIA_BUS_FMT_SGRBG12_1X12,
--	MEDIA_BUS_FMT_SRGGB12_1X12,
--	MEDIA_BUS_FMT_SBGGR14_1X14,
--	MEDIA_BUS_FMT_SGBRG14_1X14,
--	MEDIA_BUS_FMT_SGRBG14_1X14,
--	MEDIA_BUS_FMT_SRGGB14_1X14,
--	MEDIA_BUS_FMT_SBGGR16_1X16,
--	MEDIA_BUS_FMT_SGBRG16_1X16,
--	MEDIA_BUS_FMT_SGRBG16_1X16,
--	MEDIA_BUS_FMT_SRGGB16_1X16,
--	MEDIA_BUS_FMT_JPEG_1X8,
--	MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8,
--	MEDIA_BUS_FMT_AHSV8888_1X32,
-+/*
-+ * NOTE: non-bayer formats need to come first (necessary for enum_mbus_code
-+ * in the scaler)
-+ */
-+static const struct vimc_pix_map vimc_pix_map_list[] = {
-+	/* TODO: add all missing formats */
-+
-+	/* RGB formats */
-+	{
-+		.code = MEDIA_BUS_FMT_BGR888_1X24,
-+		.pixelformat = V4L2_PIX_FMT_BGR24,
-+		.bpp = 3,
-+		.bayer = false,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_RGB888_1X24,
-+		.pixelformat = V4L2_PIX_FMT_RGB24,
-+		.bpp = 3,
-+		.bayer = false,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_ARGB8888_1X32,
-+		.pixelformat = V4L2_PIX_FMT_ARGB32,
-+		.bpp = 4,
-+		.bayer = false,
-+	},
-+
-+	/* Bayer formats */
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SBGGR8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGBRG8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGRBG8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SRGGB8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-+		.pixelformat = V4L2_PIX_FMT_SBGGR10,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
-+		.pixelformat = V4L2_PIX_FMT_SGBRG10,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-+		.pixelformat = V4L2_PIX_FMT_SGRBG10,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+		.pixelformat = V4L2_PIX_FMT_SRGGB10,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+
-+	/* 10bit raw bayer a-law compressed to 8 bits */
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+
-+	/* 10bit raw bayer DPCM compressed to 8 bits */
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
-+		.pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
-+		.bpp = 1,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
-+		.pixelformat = V4L2_PIX_FMT_SBGGR12,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
-+		.pixelformat = V4L2_PIX_FMT_SGBRG12,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
-+		.pixelformat = V4L2_PIX_FMT_SGRBG12,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
-+	{
-+		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-+		.pixelformat = V4L2_PIX_FMT_SRGGB12,
-+		.bpp = 2,
-+		.bayer = true,
-+	},
- };
- 
--/* Helper function to check mbus codes */
--bool vimc_mbus_code_supported(__u32 code)
-+const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
-+{
-+	if (i >= ARRAY_SIZE(vimc_pix_map_list))
-+		return NULL;
-+
-+	return &vimc_pix_map_list[i];
-+}
-+EXPORT_SYMBOL_GPL(vimc_pix_map_by_index);
-+
-+const struct vimc_pix_map *vimc_pix_map_by_code(u32 code)
- {
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(vimc_mbus_list); i++)
--		if (code == vimc_mbus_list[i])
--			return true;
--	return false;
-+	for (i = 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
-+		if (vimc_pix_map_list[i].code == code)
-+			return &vimc_pix_map_list[i];
-+	}
-+	return NULL;
- }
--EXPORT_SYMBOL_GPL(vimc_mbus_code_supported);
-+EXPORT_SYMBOL_GPL(vimc_pix_map_by_code);
- 
--/* Helper function to enumerate mbus codes */
--int vimc_enum_mbus_code(struct v4l2_subdev *sd,
--			struct v4l2_subdev_pad_config *cfg,
--			struct v4l2_subdev_mbus_code_enum *code)
-+const struct vimc_pix_map *vimc_pix_map_by_pixelformat(u32 pixelformat)
- {
--	if (code->index >= ARRAY_SIZE(vimc_mbus_list))
--		return -EINVAL;
-+	unsigned int i;
- 
--	code->code = vimc_mbus_list[code->index];
--	return 0;
-+	for (i = 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
-+		if (vimc_pix_map_list[i].pixelformat == pixelformat)
-+			return &vimc_pix_map_list[i];
-+	}
-+	return NULL;
- }
--EXPORT_SYMBOL_GPL(vimc_enum_mbus_code);
-+EXPORT_SYMBOL_GPL(vimc_pix_map_by_pixelformat);
- 
- /* Helper function to allocate and initialize pads */
- struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
-@@ -214,13 +267,15 @@ static int vimc_get_mbus_format(struct media_pad *pad,
- 							 struct video_device,
- 							 entity);
- 		struct vimc_ent_device *ved = video_get_drvdata(vdev);
-+		const struct vimc_pix_map *vpix;
- 		struct v4l2_pix_format vdev_fmt;
- 
- 		if (!ved->vdev_get_format)
- 			return -ENOIOCTLCMD;
- 
- 		ved->vdev_get_format(ved, &vdev_fmt);
--		v4l2_fill_mbus_format(&fmt->format, &vdev_fmt, 0);
-+		vpix = vimc_pix_map_by_pixelformat(vdev_fmt.pixelformat);
-+		v4l2_fill_mbus_format(&fmt->format, &vdev_fmt, vpix->code);
- 	} else {
- 		return -EINVAL;
- 	}
-@@ -260,12 +315,8 @@ int vimc_link_validate(struct media_link *link)
- 	/* The width, height and code must match. */
- 	if (source_fmt.format.width != sink_fmt.format.width
- 	    || source_fmt.format.height != sink_fmt.format.height
--	    || (source_fmt.format.code && sink_fmt.format.code &&
--		source_fmt.format.code != sink_fmt.format.code)) {
--		pr_err("vimc: format doesn't match in link %s->%s\n",
--			link->source->entity->name, link->sink->entity->name);
-+	    || source_fmt.format.code != sink_fmt.format.code)
- 		return -EPIPE;
--	}
- 
- 	/*
- 	 * The field order must match, or the sink field order must be NONE
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-index 7b4d988b208b..9c2e0e216c6b 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -12,8 +12,6 @@
- #include <media/media-device.h>
- #include <media/v4l2-device.h>
- 
--#include "vimc-streamer.h"
--
- #define VIMC_PDEV_NAME "vimc"
- 
- /* VIMC-specific controls */
-@@ -69,6 +67,23 @@ struct vimc_platform_data {
- 	char entity_name[32];
- };
- 
-+/**
-+ * struct vimc_pix_map - maps media bus code with v4l2 pixel format
-+ *
-+ * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
-+ * @bbp:		number of bytes each pixel occupies
-+ * @pixelformat:	pixel format devined by V4L2_PIX_FMT_* macros
-+ *
-+ * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
-+ * V4L2_PIX_FMT_* fourcc pixelformat and its bytes per pixel (bpp)
-+ */
-+struct vimc_pix_map {
-+	unsigned int code;
-+	unsigned int bpp;
-+	u32 pixelformat;
-+	bool bayer;
-+};
-+
- /**
-  * struct vimc_ent_device - core struct that represents a node in the topology
-  *
-@@ -90,30 +105,12 @@ struct vimc_platform_data {
- struct vimc_ent_device {
- 	struct media_entity *ent;
- 	struct media_pad *pads;
--	struct vimc_stream *stream;
- 	void * (*process_frame)(struct vimc_ent_device *ved,
- 				const void *frame);
- 	void (*vdev_get_format)(struct vimc_ent_device *ved,
- 			      struct v4l2_pix_format *fmt);
- };
- 
--/**
-- * vimc_mbus_code_supported - helper to check supported mbus codes
-- *
-- * Helper function to check if mbus code is enumerated by vimc_enum_mbus_code()
-- */
--bool vimc_mbus_code_supported(__u32 code);
--
--/**
-- * vimc_enum_mbus_code - enumerate mbus codes
-- *
-- * Helper function to be pluged in .enum_mbus_code from
-- * struct v4l2_subdev_pad_ops.
-- */
--int vimc_enum_mbus_code(struct v4l2_subdev *sd,
--			struct v4l2_subdev_pad_config *cfg,
--			struct v4l2_subdev_mbus_code_enum *code);
--
- /**
-  * vimc_pads_init - initialize pads
-  *
-@@ -148,6 +145,27 @@ static inline void vimc_pads_cleanup(struct media_pad *pads)
-  */
- int vimc_pipeline_s_stream(struct media_entity *ent, int enable);
- 
-+/**
-+ * vimc_pix_map_by_index - get vimc_pix_map struct by its index
-+ *
-+ * @i:			index of the vimc_pix_map struct in vimc_pix_map_list
-+ */
-+const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i);
-+
-+/**
-+ * vimc_pix_map_by_code - get vimc_pix_map struct by media bus code
-+ *
-+ * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
-+ */
-+const struct vimc_pix_map *vimc_pix_map_by_code(u32 code);
-+
-+/**
-+ * vimc_pix_map_by_pixelformat - get vimc_pix_map struct by v4l2 pixel format
-+ *
-+ * @pixelformat:	pixel format devined by V4L2_PIX_FMT_* macros
-+ */
-+const struct vimc_pix_map *vimc_pix_map_by_pixelformat(u32 pixelformat);
-+
- /**
-  * vimc_ent_sd_register - initialize and register a subdev node
-  *
-diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 72adba6cf892..b72b8385067b 100644
---- a/drivers/media/platform/vimc/vimc-debayer.c
-+++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -16,11 +16,6 @@
- #include "vimc-common.h"
- 
- #define VIMC_DEB_DRV_NAME "vimc-debayer"
--/* This module only supports transforming a bayer format
-- * to V4L2_PIX_FMT_RGB24
-- */
--#define VIMC_DEB_SRC_PIXFMT V4L2_PIX_FMT_RGB24
--#define VIMC_DEB_SRC_MBUS_FMT_DEFAULT MEDIA_BUS_FMT_RGB888_1X24
- 
- static unsigned int deb_mean_win_size = 3;
- module_param(deb_mean_win_size, uint, 0000);
-@@ -39,7 +34,6 @@ enum vimc_deb_rgb_colors {
- };
- 
- struct vimc_deb_pix_map {
--	u32 pixelformat;
- 	u32 code;
- 	enum vimc_deb_rgb_colors order[2][2];
- };
-@@ -69,73 +63,61 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
- 
- static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
- 	{
--		.pixelformat = V4L2_PIX_FMT_SBGGR8,
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.order = { { VIMC_DEB_BLUE, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_RED } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGBRG8,
- 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_BLUE },
- 			   { VIMC_DEB_RED, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGRBG8,
- 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_RED },
- 			   { VIMC_DEB_BLUE, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SRGGB8,
- 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
- 		.order = { { VIMC_DEB_RED, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_BLUE } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SBGGR10,
- 		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
- 		.order = { { VIMC_DEB_BLUE, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_RED } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGBRG10,
- 		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_BLUE },
- 			   { VIMC_DEB_RED, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGRBG10,
- 		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_RED },
- 			   { VIMC_DEB_BLUE, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SRGGB10,
- 		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
- 		.order = { { VIMC_DEB_RED, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_BLUE } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SBGGR12,
- 		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
- 		.order = { { VIMC_DEB_BLUE, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_RED } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGBRG12,
- 		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_BLUE },
- 			   { VIMC_DEB_RED, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SGRBG12,
- 		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
- 		.order = { { VIMC_DEB_GREEN, VIMC_DEB_RED },
- 			   { VIMC_DEB_BLUE, VIMC_DEB_GREEN } }
- 	},
- 	{
--		.pixelformat = V4L2_PIX_FMT_SRGGB12,
- 		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
- 		.order = { { VIMC_DEB_RED, VIMC_DEB_GREEN },
- 			   { VIMC_DEB_GREEN, VIMC_DEB_BLUE } }
-@@ -176,32 +158,41 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev *sd,
- 				   struct v4l2_subdev_pad_config *cfg,
- 				   struct v4l2_subdev_mbus_code_enum *code)
- {
--	/* For the sink pad we only support codes in the map_list */
--	if (IS_SINK(code->pad)) {
-+	/* We only support one format for source pads */
-+	if (IS_SRC(code->pad)) {
-+		struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
-+
-+		if (code->index)
-+			return -EINVAL;
-+
-+		code->code = vdeb->src_code;
-+	} else {
- 		if (code->index >= ARRAY_SIZE(vimc_deb_pix_map_list))
- 			return -EINVAL;
- 
- 		code->code = vimc_deb_pix_map_list[code->index].code;
--		return 0;
- 	}
- 
--	return vimc_enum_mbus_code(sd, cfg, code);
-+	return 0;
- }
- 
- static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_pad_config *cfg,
- 				    struct v4l2_subdev_frame_size_enum *fse)
- {
-+	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
-+
- 	if (fse->index)
- 		return -EINVAL;
- 
--	/* For the sink pad we only support codes in the map_list */
- 	if (IS_SINK(fse->pad)) {
- 		const struct vimc_deb_pix_map *vpix =
- 			vimc_deb_pix_map_by_code(fse->code);
- 
- 		if (!vpix)
- 			return -EINVAL;
-+	} else if (fse->code != vdeb->src_code) {
-+		return -EINVAL;
- 	}
- 
- 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
-@@ -257,9 +248,6 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- 	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
- 	struct v4l2_mbus_framefmt *sink_fmt;
- 
--	if (!vimc_mbus_code_supported(fmt->format.code))
--		fmt->format.code = sink_fmt_default.code;
--
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
- 		if (vdeb->src_frame)
-@@ -272,11 +260,11 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- 
- 	/*
- 	 * Do not change the format of the source pad,
--	 * it is propagated from the sink (except for the code)
-+	 * it is propagated from the sink
- 	 */
- 	if (IS_SRC(fmt->pad)) {
--		vdeb->src_code = fmt->format.code;
- 		fmt->format = *sink_fmt;
-+		/* TODO: Add support for other formats */
- 		fmt->format.code = vdeb->src_code;
- 	} else {
- 		/* Set the new format in the sink pad */
-@@ -308,7 +296,7 @@ static const struct v4l2_subdev_pad_ops vimc_deb_pad_ops = {
- 	.set_fmt		= vimc_deb_set_fmt,
- };
- 
--static void vimc_deb_set_rgb_pix_rgb24(struct vimc_deb_device *vdeb,
-+static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(struct vimc_deb_device *vdeb,
- 						  unsigned int lin,
- 						  unsigned int col,
- 						  unsigned int rgb[3])
-@@ -325,38 +313,25 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
- 
- 	if (enable) {
--		u32 src_pixelformat = vdeb->ved.stream->producer_pixfmt;
--		const struct v4l2_format_info *pix_info;
-+		const struct vimc_pix_map *vpix;
- 		unsigned int frame_size;
- 
- 		if (vdeb->src_frame)
- 			return 0;
- 
--		/* We only support translating bayer to RGB24 */
--		if (src_pixelformat != V4L2_PIX_FMT_RGB24) {
--			dev_err(vdeb->dev,
--				"translating to pixfmt (0x%08x) is not supported\n",
--				src_pixelformat);
--			return -EINVAL;
--		}
-+		/* Calculate the frame size of the source pad */
-+		vpix = vimc_pix_map_by_code(vdeb->src_code);
-+		frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
-+				vpix->bpp;
-+
-+		/* Save the bytes per pixel of the sink */
-+		vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
-+		vdeb->sink_bpp = vpix->bpp;
- 
- 		/* Get the corresponding pixel map from the table */
- 		vdeb->sink_pix_map =
- 			vimc_deb_pix_map_by_code(vdeb->sink_fmt.code);
- 
--		/* Request bayer format from the pipeline for the sink pad */
--		vdeb->ved.stream->producer_pixfmt =
--			vdeb->sink_pix_map->pixelformat;
--
--		/* Calculate frame_size of the source */
--		pix_info = v4l2_format_info(src_pixelformat);
--		frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
--			     pix_info->bpp[0];
--
--		/* Get bpp from the sink */
--		pix_info = v4l2_format_info(vdeb->sink_pix_map->pixelformat);
--		vdeb->sink_bpp = pix_info->bpp[0];
--
- 		/*
- 		 * Allocate the frame buffer. Use vmalloc to be able to
- 		 * allocate a large amount of memory
-@@ -557,14 +532,14 @@ static int vimc_deb_comp_bind(struct device *comp, struct device *master,
- 
- 	/* Initialize the frame format */
- 	vdeb->sink_fmt = sink_fmt_default;
--	vdeb->src_code = VIMC_DEB_SRC_MBUS_FMT_DEFAULT;
- 	/*
- 	 * TODO: Add support for more output formats, we only support
--	 * RGB24 for now.
-+	 * RGB888 for now
- 	 * NOTE: the src format is always the same as the sink, except
- 	 * for the code
- 	 */
--	vdeb->set_rgb_src = vimc_deb_set_rgb_pix_rgb24;
-+	vdeb->src_code = MEDIA_BUS_FMT_RGB888_1X24;
-+	vdeb->set_rgb_src = vimc_deb_set_rgb_mbus_fmt_rgb888_1x24;
- 
- 	return 0;
- }
-diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index 5f31c1e351a3..49ab8d9dd9c9 100644
---- a/drivers/media/platform/vimc/vimc-scaler.c
-+++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -25,12 +25,6 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
- #define IS_SRC(pad)	(pad)
- #define MAX_ZOOM	8
- 
--static const u32 vimc_sca_supported_pixfmt[] = {
--	V4L2_PIX_FMT_BGR24,
--	V4L2_PIX_FMT_RGB24,
--	V4L2_PIX_FMT_ARGB32,
--};
--
- struct vimc_sca_device {
- 	struct vimc_ent_device ved;
- 	struct v4l2_subdev sd;
-@@ -53,16 +47,6 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
- 	.colorspace = V4L2_COLORSPACE_DEFAULT,
- };
- 
--static bool vimc_sca_is_pixfmt_supported(u32 pixelformat)
--{
--	unsigned int i;
--
--	for (i = 0; i < ARRAY_SIZE(vimc_sca_supported_pixfmt); i++)
--		if (vimc_sca_supported_pixfmt[i] == pixelformat)
--			return true;
--	return false;
--}
--
- static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_pad_config *cfg)
- {
-@@ -82,13 +66,35 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int vimc_sca_enum_mbus_code(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	const struct vimc_pix_map *vpix = vimc_pix_map_by_index(code->index);
-+
-+	/* We don't support bayer format */
-+	if (!vpix || vpix->bayer)
-+		return -EINVAL;
-+
-+	code->code = vpix->code;
-+
-+	return 0;
-+}
-+
- static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_pad_config *cfg,
- 				    struct v4l2_subdev_frame_size_enum *fse)
- {
-+	const struct vimc_pix_map *vpix;
-+
- 	if (fse->index)
- 		return -EINVAL;
- 
-+	/* Only accept code in the pix map table in non bayer format */
-+	vpix = vimc_pix_map_by_code(fse->code);
-+	if (!vpix || vpix->bayer)
-+		return -EINVAL;
-+
- 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
- 	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
- 
-@@ -125,6 +131,13 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
- 
- static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
- {
-+	const struct vimc_pix_map *vpix;
-+
-+	/* Only accept code in the pix map table in non bayer format */
-+	vpix = vimc_pix_map_by_code(fmt->code);
-+	if (!vpix || vpix->bayer)
-+		fmt->code = sink_fmt_default.code;
-+
- 	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
- 			     VIMC_FRAME_MAX_WIDTH) & ~1;
- 	fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
-@@ -143,9 +156,6 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
- 	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
- 	struct v4l2_mbus_framefmt *sink_fmt;
- 
--	if (!vimc_mbus_code_supported(fmt->format.code))
--		fmt->format.code = sink_fmt_default.code;
--
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
- 		if (vsca->src_frame)
-@@ -188,7 +198,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
- 
- static const struct v4l2_subdev_pad_ops vimc_sca_pad_ops = {
- 	.init_cfg		= vimc_sca_init_cfg,
--	.enum_mbus_code		= vimc_enum_mbus_code,
-+	.enum_mbus_code		= vimc_sca_enum_mbus_code,
- 	.enum_frame_size	= vimc_sca_enum_frame_size,
- 	.get_fmt		= vimc_sca_get_fmt,
- 	.set_fmt		= vimc_sca_set_fmt,
-@@ -199,22 +209,15 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
- 
- 	if (enable) {
--		u32 pixelformat = vsca->ved.stream->producer_pixfmt;
--		const struct v4l2_format_info *pix_info;
-+		const struct vimc_pix_map *vpix;
- 		unsigned int frame_size;
- 
- 		if (vsca->src_frame)
- 			return 0;
- 
--		if (!vimc_sca_is_pixfmt_supported(pixelformat)) {
--			dev_err(vsca->dev, "pixfmt (0x%08x) is not supported\n",
--				pixelformat);
--			return -EINVAL;
--		}
--
- 		/* Save the bytes per pixel of the sink */
--		pix_info = v4l2_format_info(pixelformat);
--		vsca->bpp = pix_info->bpp[0];
-+		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
-+		vsca->bpp = vpix->bpp;
- 
- 		/* Calculate the width in bytes of the src frame */
- 		vsca->src_line_size = vsca->sink_fmt.width *
-diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index c47454cc7f70..6c53b9fc1617 100644
---- a/drivers/media/platform/vimc/vimc-sensor.c
-+++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -55,13 +55,34 @@ static int vimc_sen_init_cfg(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int vimc_sen_enum_mbus_code(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	const struct vimc_pix_map *vpix = vimc_pix_map_by_index(code->index);
-+
-+	if (!vpix)
-+		return -EINVAL;
-+
-+	code->code = vpix->code;
-+
-+	return 0;
-+}
-+
- static int vimc_sen_enum_frame_size(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_pad_config *cfg,
- 				    struct v4l2_subdev_frame_size_enum *fse)
- {
-+	const struct vimc_pix_map *vpix;
-+
- 	if (fse->index)
- 		return -EINVAL;
- 
-+	/* Only accept code in the pix map table */
-+	vpix = vimc_pix_map_by_code(fse->code);
-+	if (!vpix)
-+		return -EINVAL;
-+
- 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
- 	fse->max_width = VIMC_FRAME_MAX_WIDTH;
- 	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
-@@ -86,17 +107,14 @@ static int vimc_sen_get_fmt(struct v4l2_subdev *sd,
- 
- static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
- {
--	u32 pixelformat = vsen->ved.stream->producer_pixfmt;
--	const struct v4l2_format_info *pix_info;
--
--	pix_info = v4l2_format_info(pixelformat);
-+	const struct vimc_pix_map *vpix =
-+				vimc_pix_map_by_code(vsen->mbus_format.code);
- 
- 	tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
- 			 vsen->mbus_format.height, vsen->mbus_format.field);
--	tpg_s_bytesperline(&vsen->tpg, 0,
--			   vsen->mbus_format.width * pix_info->bpp[0]);
-+	tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
- 	tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
--	tpg_s_fourcc(&vsen->tpg, pixelformat);
-+	tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
- 	/* TODO: add support for V4L2_FIELD_ALTERNATE */
- 	tpg_s_field(&vsen->tpg, vsen->mbus_format.field, false);
- 	tpg_s_colorspace(&vsen->tpg, vsen->mbus_format.colorspace);
-@@ -107,6 +125,13 @@ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
- 
- static void vimc_sen_adjust_fmt(struct v4l2_mbus_framefmt *fmt)
- {
-+	const struct vimc_pix_map *vpix;
-+
-+	/* Only accept code in the pix map table */
-+	vpix = vimc_pix_map_by_code(fmt->code);
-+	if (!vpix)
-+		fmt->code = fmt_default.code;
-+
- 	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
- 			     VIMC_FRAME_MAX_WIDTH) & ~1;
- 	fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
-@@ -126,9 +151,6 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
- 	struct vimc_sen_device *vsen = v4l2_get_subdevdata(sd);
- 	struct v4l2_mbus_framefmt *mf;
- 
--	if (!vimc_mbus_code_supported(fmt->format.code))
--		fmt->format.code = fmt_default.code;
--
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		/* Do not change the format while stream is on */
- 		if (vsen->frame)
-@@ -161,7 +183,7 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
- 
- static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
- 	.init_cfg		= vimc_sen_init_cfg,
--	.enum_mbus_code		= vimc_enum_mbus_code,
-+	.enum_mbus_code		= vimc_sen_enum_mbus_code,
- 	.enum_frame_size	= vimc_sen_enum_frame_size,
- 	.get_fmt		= vimc_sen_get_fmt,
- 	.set_fmt		= vimc_sen_set_fmt,
-@@ -183,8 +205,7 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
- 				container_of(sd, struct vimc_sen_device, sd);
- 
- 	if (enable) {
--		u32 pixelformat = vsen->ved.stream->producer_pixfmt;
--		const struct v4l2_format_info *pix_info;
-+		const struct vimc_pix_map *vpix;
- 		unsigned int frame_size;
- 
- 		if (vsen->kthread_sen)
-@@ -192,8 +213,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
- 			return 0;
- 
- 		/* Calculate the frame size */
--		pix_info = v4l2_format_info(pixelformat);
--		frame_size = vsen->mbus_format.width * pix_info->bpp[0] *
-+		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
-+		frame_size = vsen->mbus_format.width * vpix->bpp *
- 			     vsen->mbus_format.height;
- 
- 		/*
-diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-index 62dde7d74c24..048d770e498b 100644
---- a/drivers/media/platform/vimc/vimc-streamer.c
-+++ b/drivers/media/platform/vimc/vimc-streamer.c
-@@ -54,7 +54,6 @@ static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
- 	while (stream->pipe_size) {
- 		stream->pipe_size--;
- 		ved = stream->ved_pipeline[stream->pipe_size];
--		ved->stream = NULL;
- 		stream->ved_pipeline[stream->pipe_size] = NULL;
- 
- 		if (!is_media_entity_v4l2_subdev(ved->ent))
-@@ -93,7 +92,6 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
- 			return -EINVAL;
+ 	struct node node2;
+@@ -1333,33 +1333,33 @@ void testNode(struct node &node, struct node &expbuf_node, media_type type,
+ 			node.reopen();
+ 			if (!(node.codec_mask & (STATEFUL_ENCODER | STATEFUL_DECODER))) {
+ 				printf("\ttest MMAP (no poll): %s\n",
+-				       ok(testMmap(&node, frame_count, POLL_MODE_NONE)));
++				       ok(testMmap(&node, &node_m2m_cap, frame_count, POLL_MODE_NONE)));
+ 				node.reopen();
+ 			}
+ 			printf("\ttest MMAP (select): %s\n",
+-			       ok(testMmap(&node, frame_count, POLL_MODE_SELECT)));
++			       ok(testMmap(&node, &node_m2m_cap, frame_count, POLL_MODE_SELECT)));
+ 			node.reopen();
+ 			printf("\ttest MMAP (epoll): %s\n",
+-			       ok(testMmap(&node, frame_count, POLL_MODE_EPOLL)));
++			       ok(testMmap(&node, &node_m2m_cap, frame_count, POLL_MODE_EPOLL)));
+ 			node.reopen();
+ 			if (!(node.codec_mask & (STATEFUL_ENCODER | STATEFUL_DECODER))) {
+ 				printf("\ttest USERPTR (no poll): %s\n",
+-				       ok(testUserPtr(&node, frame_count, POLL_MODE_NONE)));
++				       ok(testUserPtr(&node, &node_m2m_cap, frame_count, POLL_MODE_NONE)));
+ 				node.reopen();
+ 			}
+ 			printf("\ttest USERPTR (select): %s\n",
+-			       ok(testUserPtr(&node, frame_count, POLL_MODE_SELECT)));
++			       ok(testUserPtr(&node, &node_m2m_cap, frame_count, POLL_MODE_SELECT)));
+ 			node.reopen();
+ 			if (options[OptSetExpBufDevice] ||
+ 			    !(node.valid_memorytype & (1 << V4L2_MEMORY_DMABUF))) {
+ 				if (!(node.codec_mask & (STATEFUL_ENCODER | STATEFUL_DECODER))) {
+ 					printf("\ttest DMABUF (no poll): %s\n",
+-					       ok(testDmaBuf(&expbuf_node, &node, frame_count,
+-							     POLL_MODE_NONE)));
++					       ok(testDmaBuf(&expbuf_node, &node, &node_m2m_cap,
++							     frame_count, POLL_MODE_NONE)));
+ 					node.reopen();
+ 				}
+ 				printf("\ttest DMABUF (select): %s\n",
+-				       ok(testDmaBuf(&expbuf_node, &node, frame_count, POLL_MODE_SELECT)));
++				       ok(testDmaBuf(&expbuf_node, &node, &node_m2m_cap, frame_count, POLL_MODE_SELECT)));
+ 				node.reopen();
+ 			} else if (!options[OptSetExpBufDevice]) {
+ 				printf("\ttest DMABUF: Cannot test, specify --expbuf-device\n");
+@@ -1707,7 +1707,7 @@ int main(int argc, char **argv)
  		}
- 		stream->ved_pipeline[stream->pipe_size++] = ved;
--		ved->stream = stream;
+ 	}
  
- 		if (is_media_entity_v4l2_subdev(ved->ent)) {
- 			sd = media_entity_to_v4l2_subdev(ved->ent);
-diff --git a/drivers/media/platform/vimc/vimc-streamer.h b/drivers/media/platform/vimc/vimc-streamer.h
-index d744a787e0e7..fe3c51f15fad 100644
---- a/drivers/media/platform/vimc/vimc-streamer.h
-+++ b/drivers/media/platform/vimc/vimc-streamer.h
-@@ -25,13 +25,6 @@
-  * processed in the pipeline.
-  * @pipe_size:		size of @ved_pipeline
-  * @kthread:		thread that generates the frames of the stream.
-- * @producer_pixfmt:	the pixel format requested from the pipeline. This must
-- *			be set just before calling
-- *			vimc_streamer_s_stream(ent, 1). This value is propagated
-- *			up to the source of the base image (usually a sensor
-- *			node) and can be modified by entities during s_stream
-- *			callback to request a differentformat from rest of
-- *			the pipeline.
-  *
-  * When the user call stream_on in a video device, struct vimc_stream is
-  * used to keep track of all entities and subdevices that generates and
-@@ -42,7 +35,6 @@ struct vimc_stream {
- 	struct vimc_ent_device *ved_pipeline[VIMC_STREAMER_PIPELINE_MAX_SIZE];
- 	unsigned int pipe_size;
- 	struct task_struct *kthread;
--	u32 producer_pixfmt;
- };
+-	testNode(node, expbuf_node, type, frame_count, all_fmt_frame_count);
++	testNode(node, node, expbuf_node, type, frame_count, all_fmt_frame_count);
  
- int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 	if (!expbuf_device.empty())
+ 		expbuf_node.close();
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 152a6c6d..6aba3828 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -258,7 +258,7 @@ int check_string(const char *s, size_t len);
+ int check_ustring(const __u8 *s, int len);
+ int check_0(const void *p, int len);
+ int restoreFormat(struct node *node);
+-void testNode(struct node &node, struct node &expbuf_node, media_type type,
++void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
+ 	      unsigned frame_count, unsigned all_fmt_frame_count);
+ std::string stream_from(std::string pixelformat, bool &use_hdr);
+ 
+@@ -331,9 +331,23 @@ int testReqBufs(struct node *node);
+ int testReadWrite(struct node *node);
+ int testExpBuf(struct node *node);
+ int testBlockingWait(struct node *node);
+-int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode);
+-int testUserPtr(struct node *node, unsigned frame_count, enum poll_mode pollmode);
+-int testDmaBuf(struct node *expbuf_node, struct node *node, unsigned frame_count,
++/*
++ * struct node node:
++ * 	the current media node being tested
++ *
++ * struct node node_m2m_cap:
++ * 	the capture device to be used when testing loopback or m2m, for
++ * 	instance, if the node we are testing is m2m, then node == node_m2m_cap,
++ * 	but if we have a topology like output->capture, node will be the output
++ * 	and node_m2m_cap will be the capture device that v4l2-compliance will
++ * 	use to test the loop
++ */
++int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
++	     enum poll_mode pollmode);
++int testUserPtr(struct node *node, struct node *node_m2m_cap,
++		unsigned frame_count, enum poll_mode pollmode);
++int testDmaBuf(struct node *expbuf_node, struct node *node,
++	       struct node *node_m2m_cap, unsigned frame_count,
+ 	       enum poll_mode pollmode);
+ int testRequests(struct node *node, bool test_streaming);
+ void streamAllFormats(struct node *node, unsigned frame_count);
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index fefe3e7b..029d0ed0 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -836,7 +836,7 @@ static int setupM2M(struct node *node, cv4l_queue &q, bool init = true)
+ 	return 0;
+ }
+ 
+-static int captureBufs(struct node *node, const cv4l_queue &q,
++static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_queue &q,
+ 		cv4l_queue &m2m_q, unsigned frame_count, int pollmode,
+ 		unsigned &capture_count)
+ {
+@@ -885,8 +885,8 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
+ 		V4L2_FMT_FLAG_COMPRESSED)
+ 		valid_output_flags = V4L2_BUF_FLAG_TIMECODE | V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
+ 	if (node->is_m2m) {
+-		node->g_fmt(fmt_q, m2m_q.g_type());
+-		if (node->buftype_pixfmts[m2m_q.g_type()][fmt_q.g_pixelformat()] &
++		node_m2m_cap->g_fmt(fmt_q, m2m_q.g_type());
++		if (node_m2m_cap->buftype_pixfmts[m2m_q.g_type()][fmt_q.g_pixelformat()] &
+ 			V4L2_FMT_FLAG_COMPRESSED)
+ 			valid_output_flags = V4L2_BUF_FLAG_TIMECODE | V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
+ 
+@@ -1045,7 +1045,7 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
+ 
+ 		buf.init(m2m_q);
+ 		do {
+-			ret = buf.dqbuf(node);
++			ret = buf.dqbuf(node_m2m_cap);
+ 		} while (ret == EAGAIN);
+ 		capture_count++;
+ 
+@@ -1072,16 +1072,16 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
+ 		}
+ 		fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
+ 		if (!count || stopped) {
+-			if (!(node->codec_mask & (STATEFUL_ENCODER | STATEFUL_DECODER)))
++			if (!(node_m2m_cap->codec_mask & (STATEFUL_ENCODER | STATEFUL_DECODER)))
+ 				break;
+ 			if (buf.g_flags() & V4L2_BUF_FLAG_LAST) {
+-				fail_on_test(buf.dqbuf(node) != EPIPE);
++				fail_on_test(buf.dqbuf(node_m2m_cap) != EPIPE);
+ 				fail_on_test(!got_eos && !got_source_change);
+ 				if (!count)
+ 					break;
+-				fail_on_test(node->streamoff(m2m_q.g_type()));
+-				m2m_q.munmap_bufs(node);
+-				fail_on_test(setupM2M(node, m2m_q, false));
++				fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
++				m2m_q.munmap_bufs(node_m2m_cap);
++				fail_on_test(setupM2M(node_m2m_cap, m2m_q, false));
+ 				stopped = false;
+ 				got_source_change = false;
+ 
+@@ -1089,12 +1089,12 @@ static int captureBufs(struct node *node, const cv4l_queue &q,
+ 
+ 				memset(&cmd, 0, sizeof(cmd));
+ 				cmd.cmd = V4L2_DEC_CMD_START;
+-				fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
++				fail_on_test(doioctl(node_m2m_cap, VIDIOC_DECODER_CMD, &cmd));
+ 				continue;
+ 			}
+ 		}
+ 		buf.s_flags(buf.g_flags() & ~V4L2_BUF_FLAG_REQUEST_FD);
+-		fail_on_test(buf.qbuf(node, m2m_q));
++		fail_on_test(buf.qbuf(node_m2m_cap, m2m_q));
+ 		// If the queued buffer is immediately returned as a last
+ 		// empty buffer, then FLAG_DONE is set here.
+ 		// Need to look at this more closely.
+@@ -1210,7 +1210,8 @@ static int setupMmap(struct node *node, cv4l_queue &q)
+ 	return 0;
+ }
+ 
+-int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
++int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
++	     enum poll_mode pollmode)
+ {
+ 	bool can_stream = node->g_caps() & V4L2_CAP_STREAMING;
+ 	bool have_createbufs = true;
+@@ -1338,15 +1339,15 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 				fail_on_test(ev.type != V4L2_EVENT_SOURCE_CHANGE);
+ 				fail_on_test(!(ev.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION));
+ 			}
+-			fail_on_test(setupM2M(node, m2m_q));
++			fail_on_test(setupM2M(node_m2m_cap, m2m_q));
+ 		}
+ 
+-		fail_on_test(captureBufs(node, q, m2m_q, frame_count,
++		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
+ 					 pollmode, capture_count));
+ 		fail_on_test(node->streamoff(q.g_type()));
+ 		fail_on_test(node->streamoff(q.g_type()));
+ 		if (node->is_m2m)
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
+ 
+ 		if (node->codec_mask & STATEFUL_ENCODER) {
+ 			struct v4l2_encoder_cmd cmd;
+@@ -1357,7 +1358,7 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 
+ 			/* No buffers are queued, call STREAMON, then STOP */
+ 			fail_on_test(node->streamon(q.g_type()));
+-			fail_on_test(node->streamon(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamon(m2m_q.g_type()));
+ 			fail_on_test(doioctl(node, VIDIOC_ENCODER_CMD, &cmd));
+ 
+ 			fail_on_test(buf_cap.querybuf(node, 0));
+@@ -1367,11 +1368,11 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 			for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+ 				fail_on_test(buf_cap.g_bytesused(p));
+ 			fail_on_test(node->streamoff(q.g_type()));
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
+ 
+ 			/* Call STREAMON, queue one CAPTURE buffer, then STOP */
+ 			fail_on_test(node->streamon(q.g_type()));
+-			fail_on_test(node->streamon(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamon(m2m_q.g_type()));
+ 			fail_on_test(buf_cap.querybuf(node, 0));
+ 			fail_on_test(buf_cap.qbuf(node));
+ 			fail_on_test(doioctl(node, VIDIOC_ENCODER_CMD, &cmd));
+@@ -1381,7 +1382,7 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 			for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+ 				fail_on_test(buf_cap.g_bytesused(p));
+ 			fail_on_test(node->streamoff(q.g_type()));
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
+ 		}
+ 
+ 		if (node->codec_mask & STATEFUL_DECODER) {
+@@ -1393,7 +1394,7 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 
+ 			/* No buffers are queued, call STREAMON, then STOP */
+ 			fail_on_test(node->streamon(q.g_type()));
+-			fail_on_test(node->streamon(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamon(m2m_q.g_type()));
+ 			fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
+ 
+ 			fail_on_test(buf_cap.querybuf(node, 0));
+@@ -1403,11 +1404,11 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 			for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+ 				fail_on_test(buf_cap.g_bytesused(p));
+ 			fail_on_test(node->streamoff(q.g_type()));
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
+ 
+ 			/* Call STREAMON, queue one CAPTURE buffer, then STOP */
+ 			fail_on_test(node->streamon(q.g_type()));
+-			fail_on_test(node->streamon(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamon(m2m_q.g_type()));
+ 			fail_on_test(buf_cap.querybuf(node, 0));
+ 			fail_on_test(buf_cap.qbuf(node));
+ 			fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
+@@ -1417,7 +1418,7 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 			for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+ 				fail_on_test(buf_cap.g_bytesused(p));
+ 			fail_on_test(node->streamoff(q.g_type()));
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
+ 		}
+ 
+ 		if (node->supports_orphaned_bufs) {
+@@ -1436,15 +1437,15 @@ int testMmap(struct node *node, unsigned frame_count, enum poll_mode pollmode)
+ 		if (node->is_m2m) {
+ 			if (node->supports_orphaned_bufs) {
+ 				fail_on_test(m2m_q.reqbufs(node, 0));
+-				m2m_q.munmap_bufs(node);
++				m2m_q.munmap_bufs(node_m2m_cap);
+ 			} else if (m2m_q.reqbufs(node, 0) != EBUSY) {
+ 				// It's either a bug or this driver should set
+ 				// V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS
+ 				warn("Can free buffers even if still mmap()ed\n");
+ 				q.munmap_bufs(node);
+ 			} else {
+-				m2m_q.munmap_bufs(node);
+-				fail_on_test(m2m_q.reqbufs(node, 0));
++				m2m_q.munmap_bufs(node_m2m_cap);
++				fail_on_test(m2m_q.reqbufs(node_m2m_cap, 0));
+ 			}
+ 			fail_on_test(!capture_count);
+ 		}
+@@ -1528,7 +1529,8 @@ static int setupUserPtr(struct node *node, cv4l_queue &q)
+ 	return 0;
+ }
+ 
+-int testUserPtr(struct node *node, unsigned frame_count, enum poll_mode pollmode)
++int testUserPtr(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
++		enum poll_mode pollmode)
+ {
+ 	bool can_stream = node->g_caps() & V4L2_CAP_STREAMING;
+ 	int type;
+@@ -1592,16 +1594,16 @@ int testUserPtr(struct node *node, unsigned frame_count, enum poll_mode pollmode
+ 				fail_on_test(ev.type != V4L2_EVENT_SOURCE_CHANGE);
+ 				fail_on_test(!(ev.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION));
+ 			}
+-			fail_on_test(setupM2M(node, m2m_q));
++			fail_on_test(setupM2M(node_m2m_cap, m2m_q));
+ 		}
+-		fail_on_test(captureBufs(node, q, m2m_q, frame_count,
++		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
+ 					 pollmode, capture_count));
+ 		fail_on_test(node->streamoff(q.g_type()));
+ 		fail_on_test(node->streamoff(q.g_type()));
+ 		if (node->is_m2m) {
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
+-			m2m_q.munmap_bufs(node);
+-			fail_on_test(m2m_q.reqbufs(node, 0));
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
++			m2m_q.munmap_bufs(node_m2m_cap);
++			fail_on_test(m2m_q.reqbufs(node_m2m_cap, 0));
+ 			fail_on_test(!capture_count);
+ 		}
+ 		stream_close();
+@@ -1670,7 +1672,7 @@ static int setupDmaBuf(struct node *expbuf_node, struct node *node,
+ 	return 0;
+ }
+ 
+-int testDmaBuf(struct node *expbuf_node, struct node *node,
++int testDmaBuf(struct node *expbuf_node, struct node *node, struct node *node_m2m_cap,
+ 	       unsigned frame_count, enum poll_mode pollmode)
+ {
+ 	bool can_stream = node->g_caps() & V4L2_CAP_STREAMING;
+@@ -1746,9 +1748,9 @@ int testDmaBuf(struct node *expbuf_node, struct node *node,
+ 				fail_on_test(ev.type != V4L2_EVENT_SOURCE_CHANGE);
+ 				fail_on_test(!(ev.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION));
+ 			}
+-			fail_on_test(setupM2M(node, m2m_q));
++			fail_on_test(setupM2M(node_m2m_cap, m2m_q));
+ 		}
+-		fail_on_test(captureBufs(node, q, m2m_q, frame_count,
++		fail_on_test(captureBufs(node, node_m2m_cap, q, m2m_q, frame_count,
+ 					 pollmode, capture_count));
+ 		fail_on_test(node->streamoff(q.g_type()));
+ 		fail_on_test(node->streamoff(q.g_type()));
+@@ -1765,18 +1767,18 @@ int testDmaBuf(struct node *expbuf_node, struct node *node,
+ 			fail_on_test(q.reqbufs(node, 0));
+ 		}
+ 		if (node->is_m2m) {
+-			fail_on_test(node->streamoff(m2m_q.g_type()));
+-			if (node->supports_orphaned_bufs) {
++			fail_on_test(node_m2m_cap->streamoff(m2m_q.g_type()));
++			if (node_m2m_cap->supports_orphaned_bufs) {
+ 				fail_on_test(m2m_q.reqbufs(node, 0));
+-				m2m_q.munmap_bufs(node);
+-			} else if (m2m_q.reqbufs(node, 0) != EBUSY) {
++				m2m_q.munmap_bufs(node_m2m_cap);
++			} else if (m2m_q.reqbufs(node_m2m_cap, 0) != EBUSY) {
+ 				// It's either a bug or this driver should set
+ 				// V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS
+ 				warn("Can free buffers even if still mmap()ed\n");
+ 				q.munmap_bufs(node);
+ 			} else {
+-				m2m_q.munmap_bufs(node);
+-				fail_on_test(m2m_q.reqbufs(node, 0));
++				m2m_q.munmap_bufs(node_m2m_cap);
++				fail_on_test(m2m_q.reqbufs(node_m2m_cap, 0));
+ 			}
+ 			fail_on_test(!capture_count);
+ 		}
+@@ -2086,7 +2088,7 @@ int testRequests(struct node *node, bool test_streaming)
+ 	if (test_streaming) {
+ 		unsigned capture_count;
+ 
+-		fail_on_test(captureBufs(node, q, m2m_q, num_bufs,
++		fail_on_test(captureBufs(node, node, q, m2m_q, num_bufs,
+ 					 POLL_MODE_SELECT, capture_count));
+ 	}
+ 	fail_on_test(node->streamoff(q.g_type()));
+@@ -2824,7 +2826,7 @@ static void streamM2MRun(struct node *node, unsigned frame_count)
+ 	       fcc2s(cap_fmt.g_pixelformat()).c_str(),
+ 	       pixfmt2s(cap_fmt.g_pixelformat()).c_str(),
+ 	       cap_fmt.g_width(), cap_fmt.g_height(),
+-	       ok(testMmap(node, frame_count, POLL_MODE_SELECT)));
++	       ok(testMmap(node, node, frame_count, POLL_MODE_SELECT)));
+ }
+ 
+ static int streamM2MOutFormat(struct node *node, __u32 pixelformat, __u32 w, __u32 h,
+diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-compliance/v4l2-test-media.cpp
+index 03314b9d..a8b84b9a 100644
+--- a/utils/v4l2-compliance/v4l2-test-media.cpp
++++ b/utils/v4l2-compliance/v4l2-test-media.cpp
+@@ -601,7 +601,7 @@ void walkTopology(struct node &node, struct node &expbuf_node,
+ 			continue;
+ 		}
+ 
+-		testNode(test_node, expbuf_node, type,
++		testNode(test_node, test_node, expbuf_node, type,
+ 			 frame_count, all_fmt_frame_count);
+ 		test_node.close();
+ 	}
 -- 
-2.23.0.rc1
+2.22.0
 
