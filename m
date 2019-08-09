@@ -2,262 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58F0687744
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 12:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B6BF8782E
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 13:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbfHIKaf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 06:30:35 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:45061 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726300AbfHIKaf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 06:30:35 -0400
-Received: from [IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5] ([IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id w2AJh2T2SAffAw2AKhFqMs; Fri, 09 Aug 2019 12:30:33 +0200
-Subject: Re: [PATCH v5 1/9] drm_dp_cec: add connector info support.
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
-        linux-media@vger.kernel.org
-References: <20190807085232.151260-1-darekm@google.com>
- <20190807085232.151260-2-darekm@google.com>
- <f1e42e42-34c0-dc89-eb42-50ede95fbcf2@xs4all.nl>
-Message-ID: <b7686469-95ed-7e0d-a73f-7882917b528c@xs4all.nl>
-Date:   Fri, 9 Aug 2019 12:30:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2406399AbfHILFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 07:05:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405954AbfHILFi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Aug 2019 07:05:38 -0400
+Received: from localhost (unknown [122.167.65.92])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 05EE12084D;
+        Fri,  9 Aug 2019 11:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565348737;
+        bh=eoCx8u5R444JhsbK9zwRJFeJZ8fwMoWRZ1HGZAidTJE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jaBldWwjh9AECKG9c2IH/EcQqi0c7G6bHg2+9ulqkq5Dl9ks6cYvrKgt+WqItS69B
+         8hqsGC+fdsXKUFVS7twWZ0QFohC+1BA46Txx5Wt/pPRRCgGfLVzuGqB0xgpUn0RL+Q
+         r2v0bEzo1jYP2HL9HYCqQznU1uHNkE6N99FBbZI4=
+Date:   Fri, 9 Aug 2019 16:34:21 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dmaengine@vger.kernel.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCHv2] omap-dma/omap_vout_vrfb: fix off-by-one fi value
+Message-ID: <20190809110421.GL12733@vkoul-mobl.Dlink>
+References: <952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <f1e42e42-34c0-dc89-eb42-50ede95fbcf2@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJkYPUGHkjTX6xqfjqfJhi3UPk2GAPgwpJ7EVsv/QpMq9/eu//vxk0qY8ieo1p1MO3q2yvwyaSqF14PbzaxcgrUmhBuRG+bg01H29VPt9iJLRhgPxO4F
- W74iqXz6towJDbQzROQ05BfpayoiCqJMRWbVM1GH5pQlwPqN51UwIVNSZ77tAVBSDCwlepKdGgNHskjlMIjPWG9IMvHWHBEEy8C7tqScxGCjyIIbJ34zjS1j
- y5NJ3oVldIQHTre1hbkDCjw1hF8SYtcNkwoLeB080CSHUuT0CAatCB7+fTXcBEiKt+pOdpNRpZ8LGKirnZJrNQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/8/19 10:18 AM, Hans Verkuil wrote:
-> Hi Dariusz,
+On 09-08-19, 10:32, Hans Verkuil wrote:
+> The OMAP 4 TRM specifies that when using double-index addressing
+> the address increases by the ES plus the EI value minus 1 within
+> a frame. When a full frame is transferred, the address increases
+> by the ES plus the frame index (FI) value minus 1.
 > 
-> On 8/7/19 10:52 AM, Dariusz Marcinkiewicz wrote:
->> Pass the connector info to the CEC adapter. This makes it possible
->> to associate the CEC adapter with the corresponding drm connector.
->>
->> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
->>  drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++++++++-------
->>  drivers/gpu/drm/i915/intel_dp.c               |  4 +--
->>  drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +--
->>  include/drm/drm_dp_helper.h                   | 14 +++++------
->>  5 files changed, 26 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> index 6e205ee36ac3b..7f2eb4eb1035b 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> @@ -394,7 +394,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->>  
->>  	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
->>  	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
->> -				      aconnector->base.name, dm->adev->dev);
->> +				      &aconnector->base);
->>  	aconnector->mst_mgr.cbs = &dm_mst_cbs;
->>  	drm_dp_mst_topology_mgr_init(
->>  		&aconnector->mst_mgr,
->> diff --git a/drivers/gpu/drm/drm_dp_cec.c b/drivers/gpu/drm/drm_dp_cec.c
->> index b15cee85b702b..b457c16c3a8bb 100644
->> --- a/drivers/gpu/drm/drm_dp_cec.c
->> +++ b/drivers/gpu/drm/drm_dp_cec.c
->> @@ -8,7 +8,9 @@
->>  #include <linux/kernel.h>
->>  #include <linux/module.h>
->>  #include <linux/slab.h>
->> +#include <drm/drm_connector.h>
->>  #include <drm/drm_dp_helper.h>
->> +#include <drm/drmP.h>
->>  #include <media/cec.h>
->>  
->>  /*
->> @@ -295,7 +297,10 @@ static void drm_dp_cec_unregister_work(struct work_struct *work)
->>   */
->>  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
->>  {
->> -	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD;
->> +	struct drm_connector *connector = aux->cec.connector;
->> +	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD |
->> +		       CEC_CAP_CONNECTOR_INFO;
->> +	struct cec_connector_info conn_info;
->>  	unsigned int num_las = 1;
->>  	u8 cap;
->>  
->> @@ -344,13 +349,17 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
->>  
->>  	/* Create a new adapter */
->>  	aux->cec.adap = cec_allocate_adapter(&drm_dp_cec_adap_ops,
->> -					     aux, aux->cec.name, cec_caps,
->> +					     aux, connector->name, cec_caps,
->>  					     num_las);
->>  	if (IS_ERR(aux->cec.adap)) {
->>  		aux->cec.adap = NULL;
->>  		goto unlock;
->>  	}
->> -	if (cec_register_adapter(aux->cec.adap, aux->cec.parent)) {
->> +
->> +	cec_fill_conn_info_from_drm(&conn_info, connector);
->> +	cec_s_conn_info(aux->cec.adap, &conn_info);
->> +
->> +	if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
->>  		cec_delete_adapter(aux->cec.adap);
->>  		aux->cec.adap = NULL;
->>  	} else {
->> @@ -406,22 +415,20 @@ EXPORT_SYMBOL(drm_dp_cec_unset_edid);
->>  /**
->>   * drm_dp_cec_register_connector() - register a new connector
->>   * @aux: DisplayPort AUX channel
->> - * @name: name of the CEC device
->> - * @parent: parent device
->> + * @connector: drm connector
->>   *
->>   * A new connector was registered with associated CEC adapter name and
->>   * CEC adapter parent device. After registering the name and parent
->>   * drm_dp_cec_set_edid() is called to check if the connector supports
->>   * CEC and to register a CEC adapter if that is the case.
->>   */
->> -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
->> -				   struct device *parent)
->> +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
->> +				   struct drm_connector *connector)
->>  {
->>  	WARN_ON(aux->cec.adap);
->>  	if (WARN_ON(!aux->transfer))
->>  		return;
->> -	aux->cec.name = name;
->> -	aux->cec.parent = parent;
->> +	aux->cec.connector = connector;
->>  	INIT_DELAYED_WORK(&aux->cec.unregister_work,
->>  			  drm_dp_cec_unregister_work);
->>  }
->> diff --git a/drivers/gpu/drm/i915/intel_dp.c b/drivers/gpu/drm/i915/intel_dp.c
->> index 4336df46fe782..79c8afdbc4869 100644
->> --- a/drivers/gpu/drm/i915/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/intel_dp.c
->> @@ -5693,7 +5693,6 @@ static int
->>  intel_dp_connector_register(struct drm_connector *connector)
->>  {
->>  	struct intel_dp *intel_dp = intel_attached_dp(connector);
->> -	struct drm_device *dev = connector->dev;
->>  	int ret;
->>  
->>  	ret = intel_connector_register(connector);
->> @@ -5708,8 +5707,7 @@ intel_dp_connector_register(struct drm_connector *connector)
->>  	intel_dp->aux.dev = connector->kdev;
->>  	ret = drm_dp_aux_register(&intel_dp->aux);
->>  	if (!ret)
->> -		drm_dp_cec_register_connector(&intel_dp->aux,
->> -					      connector->name, dev->dev);
->> +		drm_dp_cec_register_connector(&intel_dp->aux, connector);
->>  	return ret;
->>  }
->>  
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
->> index 4116ee62adafe..4438824ca88b0 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
->> @@ -1413,8 +1413,7 @@ nouveau_connector_create(struct drm_device *dev,
->>  	switch (type) {
->>  	case DRM_MODE_CONNECTOR_DisplayPort:
->>  	case DRM_MODE_CONNECTOR_eDP:
->> -		drm_dp_cec_register_connector(&nv_connector->aux,
->> -					      connector->name, dev->dev);
->> +		drm_dp_cec_register_connector(&nv_connector->aux, connector);
->>  		break;
->>  	}
->>  
->> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
->> index 3fc534ee81746..729af0b812909 100644
->> --- a/include/drm/drm_dp_helper.h
->> +++ b/include/drm/drm_dp_helper.h
->> @@ -1221,6 +1221,7 @@ struct drm_dp_aux_msg {
->>  
->>  struct cec_adapter;
->>  struct edid;
->> +struct drm_connector;
->>  
->>  /**
->>   * struct drm_dp_aux_cec - DisplayPort CEC-Tunneling-over-AUX
->> @@ -1233,8 +1234,7 @@ struct edid;
->>  struct drm_dp_aux_cec {
->>  	struct mutex lock;
->>  	struct cec_adapter *adap;
->> -	const char *name;
->> -	struct device *parent;
->> +	struct drm_connector *connector;
->>  	struct delayed_work unregister_work;
->>  };
+> The omap-dma code didn't account for the 'minus 1' in the FI register.
+> To get correct addressing, add 1 to the src_icg value.
 > 
-> You probably saw the kbuild test robot mail as well: the comments before this
-> struct need to be updated.
+> This was found when testing a hacked version of the media m2m-deinterlace.c
+> driver on a Pandaboard.
 > 
-> Also, this series is against an older tree: intel_dp/hdmi.c is now moved to
-> a i915/display/ directory.
+> The only other source that uses this feature is omap_vout_vrfb.c,
+> and that adds a + 1 when setting the dst_icg. This is a workaround
+> for the broken omap-dma.c behavior. So remove the workaround at the
+> same time that we fix omap-dma.c.
 > 
-> Can you rebase and post a v6 for this series? Make sure to post to dri-devel as
-> well! The various drm maintainers of these drivers have to review the code as well
-> and give an Acked-by! I noticed that you only posted it to linux-media, but
-> that's not enough. In fact, it would be great if you can Cc each patch to the
-> corresponding maintainer as well (see the MAINTAINERS file).
-> 
-> I've started testing this series on my hardware and I will post Tested-by tags
-> whenever I finished testing each patch for which I have HW.
+> I tested the omap_vout driver with a Beagle XM board to check that
+> the '+ 1' in omap_vout_vrfb.c was indeed a workaround for the omap-dma
+> bug.
 
-When you make a v6, please don't forget to add my Tested-by lines!
+Applied, thanks
 
-There is only one more patch that I need to test (8/9), I'll try to do
-that tomorrow.
-
-Patch 6/9 (sti) I cannot test since I don't have the hardware. Still,
-being able to test 8 out of 9 patches ain't bad and is a clear sign
-I have way too much hardware :-)
-
-Regards,
-
-	Hans
-
-> 
-> Thanks!
-> 
-> 	Hans
-> 
->>  
->> @@ -1431,8 +1431,8 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
->>  
->>  #ifdef CONFIG_DRM_DP_CEC
->>  void drm_dp_cec_irq(struct drm_dp_aux *aux);
->> -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
->> -				   struct device *parent);
->> +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
->> +				   struct drm_connector *connector);
->>  void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
->>  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
->>  void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
->> @@ -1441,9 +1441,9 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux *aux)
->>  {
->>  }
->>  
->> -static inline void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
->> -						 const char *name,
->> -						 struct device *parent)
->> +static inline void
->> +drm_dp_cec_register_connector(struct drm_dp_aux *aux,
->> +			      struct drm_connector *connector)
->>  {
->>  }
->>  
->>
-> 
-
+-- 
+~Vinod
