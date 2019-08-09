@@ -2,267 +2,374 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99541881FC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 20:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E139882D9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 20:46:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436930AbfHISG5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 14:06:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60010 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbfHISG5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 14:06:57 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24046CC;
-        Fri,  9 Aug 2019 20:06:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565374014;
-        bh=5n9tTAf2YqrGo7SBEkeLK2nncuxWLs8hv2W+FFbOU4M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=llUvQF1nVmA1MpRNXbvQyBMSoitNbpBKqt3NemcbhjKZjV0jIChW4sdXtTKZSKDHE
-         4E4nJBfkWgarb5J5MzuNRyxNN/052FSUTY8AD7/DgRe94R6AQytex2vIQ3lQV3sZA8
-         i1a4IJ9H/SI/snhUVlKE44+Y7qSblWcqgO93AFhA=
-Date:   Fri, 9 Aug 2019 21:06:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: replace i2c_new_secondary_device with an ERR_PTR
- variant
-Message-ID: <20190809180651.GB5007@pendragon.ideasonboard.com>
-References: <20190809154047.9897-1-wsa+renesas@sang-engineering.com>
+        id S1726411AbfHISqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 14:46:01 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:47100 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406607AbfHISqA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 14:46:00 -0400
+Received: by mail-pl1-f196.google.com with SMTP id c2so45274670plz.13
+        for <linux-media@vger.kernel.org>; Fri, 09 Aug 2019 11:46:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kA5LMiIp35kf1OvXboDks3RjTBrzmyys+m0gU3GXqkY=;
+        b=totvYs6WJYnbIThPXIKEypX7mCUKzz85xs246Qyy6UXtgaVUmub9FQl8br2uKbfpFg
+         7pZWXSDF7ZHNYbhmdZaOklLs4Okoq5X9BjvlNPdUYgSuFJOBTOW4oAtVt1XwZrpBn1ml
+         mdJOGpAw7V6y5I9ta7dsFbWWAB0aQC0qEyauE+/jVdoyPdl+hfhv8QMq7ACaWI39hc9W
+         SaHlJ+RXDa7BMM9ba8p1GYay1MVHF9L3SsPQeTRFRdGE0RUrN/9uj+XuHaxfZ7oDD8IS
+         S2nWTpOipd7a4StfDh7np0KJjkZ3DDll8OYCnDjQX9N33li3sexl18rfRUOg7bNHod84
+         PwtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kA5LMiIp35kf1OvXboDks3RjTBrzmyys+m0gU3GXqkY=;
+        b=L4OU0x52ecK6KGj0H6teNrTqAjdPoeyI0XomJphmJuR2kxsLdx4WBPkjv70S3RwJuS
+         yislmrlGiPqHmBe5P1MC3oQMaeEdjcFF8bp4OScLaOgcF2K80qa3eYMDYwd2+/CdDO+Q
+         zeG0mJOoLilVMWz0d1rBjpK9A7h3HysuzsPN0ADG23mM1RoQxBfPp/UZi8JTI9bf7ulC
+         ZQPaxPwDrROSgbBtiH2jdAS37yE11G6FixWZb/JjK6N+b28RCQMz13hqlAqubGVHuAqy
+         TMM9ojg+5i5QL4hIhoo76b+a4LiCQnDY5nI0xugNfDAD6NnKj3Q79CJ5Qmjiu/Sce8r5
+         LSug==
+X-Gm-Message-State: APjAAAVXCcYvV5z9NlqzYC6iOYHnXGGuRd5DtoUGQjm2Cqch6TAVo2KX
+        +l0aY76GzN0zWaxNJRvcFxAi
+X-Google-Smtp-Source: APXvYqx8Xc1qNXI4kyu3+M5Sl/Db8l+iqg6Tbc4dM4Y8QzmZEndaSqDq3bql3F92nRtZlLFfP8a5ig==
+X-Received: by 2002:a17:902:8203:: with SMTP id x3mr20514753pln.304.1565376359454;
+        Fri, 09 Aug 2019 11:45:59 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:6092:4e27:d84b:95b4:a65a:8749])
+        by smtp.gmail.com with ESMTPSA id w16sm121850348pfj.85.2019.08.09.11.45.50
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 09 Aug 2019 11:45:58 -0700 (PDT)
+Date:   Sat, 10 Aug 2019 00:15:46 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        kernel@collabora.com, ezequiel@collabora.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        zhengsq@rock-chips.com
+Subject: Re: [PATCH v8 00/14] Rockchip ISP1 Driver
+Message-ID: <20190809184546.GA29746@Mani-XPS-13-9360>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190809154047.9897-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190730184256.30338-1-helen.koike@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+Hi Helen,
 
-On Fri, Aug 09, 2019 at 05:40:47PM +0200, Wolfram Sang wrote:
-> In the general move to have i2c_new_*_device functions which return
-> ERR_PTR instead of NULL, this patch converts i2c_new_secondary_device().
+On Fri, Aug 09, 2019 at 03:40:02PM -0300, Helen Koike wrote:
+> Hello,
 > 
-> There are only few users, so this patch converts the I2C core and all
-> users in one go. The function gets renamed to i2c_new_ancillary_device()
-> so out-of-tree users will get a build failure to understand they need to
-> adapt their error checking code.
+> I'm re-sending a new version of ISP(Camera) v4l2 driver for rockchip
+> rk3399 SoC.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com> # adv748x
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> # adv7511
-> ---
+> I didn't change much from the last version, just applying the
+> suggestions made in the previous one.
 > 
-> Changes since v1:
+> This patchset is also available at:
+> https://gitlab.collabora.com/koike/linux/tree/rockchip/isp/v8
 > 
-> * adv7604: use a local variable for error handling
-> * adv7604: simplify unregistering dummy clients because I2C core helper
->            is NULL ptr aware
+> Libcamera patched to work with this version:
+> https://gitlab.collabora.com/koike/libcamera
+> (also sent to the mailing list)
+> 
+> I tested on the rockpi 4 with a rpi v1.3 sensor and also with the
+> Scarlet Chromebook.
+> 
 
-For adv7604:
+I just tested this patchset on Rock960 but getting below error while
+configuring media link:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+root@linaro-alip:~# media-ctl -p /dev/media0 -v
+Opening media device /dev/media0
+Enumerating entities
+looking up device: 81:4
+looking up device: 81:0
+looking up device: 81:1
+looking up device: 81:2
+looking up device: 81:3
+looking up device: 81:5
+Found 6 entities
+Enumerating pads and links
+*** Error in `media-ctl': munmap_chunk(): invalid pointer: 0x01ce44d0 ***
+Aborted
 
-> * added tags for adv748x and adv7511
+Here is the change I did for Rock960:
+https://pastebin.ubuntu.com/p/CmdcqJ7bsJ/
+
+Did I miss anything?
+
+Thanks,
+Mani
+
+> Known issues (same as in v7):
+> -------------
+> - Reloading the module doesn't work (there is some missing cleanup when
+> unloading)
+> - When capturing in bayer format, changing the size doesn't seem to
+> affect the image.
+> - crop needs more tests
+> - v4l2-compliance error:
+>         fail: v4l2-test-controls.cpp(824): subscribe event for control 'Image Processing Controls' failed
+> test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+> It seems that if controls are supported, v4l2-compliance says that
+> controls of type 'Image Processing Controls' are mandatory, is this
+> correct?
+> - It seems there are still some issues with interrupts, but I couldn't
+> isolate them yet.
 > 
-> Thanks Kieran and Laurent!
+> Previous changelog:
+> -------------------
 > 
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++--------
->  drivers/i2c/i2c-core-base.c                  | 10 ++++-----
->  drivers/media/i2c/adv748x/adv748x-core.c     |  6 +++---
->  drivers/media/i2c/adv7604.c                  | 22 +++++++++++---------
->  include/linux/i2c.h                          |  2 +-
->  5 files changed, 30 insertions(+), 28 deletions(-)
+> changes in V6:
+>   - add mipi txrx phy support
+>   - remove bool and enum from uapi header
+>   - add buf_prepare op
+>   - correct some spelling problems
+>   - return all queued buffers when starting stream failed
 > 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index f6d2681f6927..9e13e466e72c 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -981,10 +981,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
->  {
->  	int ret;
->  
-> -	adv->i2c_cec = i2c_new_secondary_device(adv->i2c_main, "cec",
-> +	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
->  						ADV7511_CEC_I2C_ADDR_DEFAULT);
-> -	if (!adv->i2c_cec)
-> -		return -EINVAL;
-> +	if (IS_ERR(adv->i2c_cec))
-> +		return PTR_ERR(adv->i2c_cec);
->  	i2c_set_clientdata(adv->i2c_cec, adv);
->  
->  	adv->regmap_cec = devm_regmap_init_i2c(adv->i2c_cec,
-> @@ -1165,20 +1165,20 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->  
->  	adv7511_packet_disable(adv7511, 0xffff);
->  
-> -	adv7511->i2c_edid = i2c_new_secondary_device(i2c, "edid",
-> +	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
->  					ADV7511_EDID_I2C_ADDR_DEFAULT);
-> -	if (!adv7511->i2c_edid) {
-> -		ret = -EINVAL;
-> +	if (IS_ERR(adv7511->i2c_edid)) {
-> +		ret = PTR_ERR(adv7511->i2c_edid);
->  		goto uninit_regulators;
->  	}
->  
->  	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
->  		     adv7511->i2c_edid->addr << 1);
->  
-> -	adv7511->i2c_packet = i2c_new_secondary_device(i2c, "packet",
-> +	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
->  					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-> -	if (!adv7511->i2c_packet) {
-> -		ret = -EINVAL;
-> +	if (IS_ERR(adv7511->i2c_packet)) {
-> +		ret = PTR_ERR(adv7511->i2c_packet);
->  		goto err_i2c_unregister_edid;
->  	}
->  
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index f26ed495d384..76cb91e064b8 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -966,7 +966,7 @@ struct i2c_client *devm_i2c_new_dummy_device(struct device *dev,
->  EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
->  
->  /**
-> - * i2c_new_secondary_device - Helper to get the instantiated secondary address
-> + * i2c_new_ancillary_device - Helper to get the instantiated secondary address
->   * and create the associated device
->   * @client: Handle to the primary client
->   * @name: Handle to specify which secondary address to get
-> @@ -985,9 +985,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
->   * cell whose "reg-names" value matches the slave name.
->   *
->   * This returns the new i2c client, which should be saved for later use with
-> - * i2c_unregister_device(); or NULL to indicate an error.
-> + * i2c_unregister_device(); or an ERR_PTR to describe the error.
->   */
-> -struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
-> +struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
->  						const char *name,
->  						u16 default_addr)
->  {
-> @@ -1002,9 +1002,9 @@ struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
->  	}
->  
->  	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-> -	return i2c_new_dummy(client->adapter, addr);
-> +	return i2c_new_dummy_device(client->adapter, addr);
->  }
-> -EXPORT_SYMBOL_GPL(i2c_new_secondary_device);
-> +EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
->  
->  /* ------------------------------------------------------------------------- */
->  
-> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index f57cd77a32fa..2567de2b0037 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -183,14 +183,14 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
->  	int ret;
->  
->  	for (i = ADV748X_PAGE_DPLL; i < ADV748X_PAGE_MAX; ++i) {
-> -		state->i2c_clients[i] = i2c_new_secondary_device(
-> +		state->i2c_clients[i] = i2c_new_ancillary_device(
->  				state->client,
->  				adv748x_default_addresses[i].name,
->  				adv748x_default_addresses[i].default_addr);
->  
-> -		if (state->i2c_clients[i] == NULL) {
-> +		if (IS_ERR(state->i2c_clients[i])) {
->  			adv_err(state, "failed to create i2c client %u\n", i);
-> -			return -ENOMEM;
-> +			return PTR_ERR(state->i2c_clients[i]);
->  		}
->  
->  		ret = adv748x_configure_regmap(state, i);
-> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-> index 28a84bf9f8a9..2dedd6ebb236 100644
-> --- a/drivers/media/i2c/adv7604.c
-> +++ b/drivers/media/i2c/adv7604.c
-> @@ -2862,10 +2862,8 @@ static void adv76xx_unregister_clients(struct adv76xx_state *state)
->  {
->  	unsigned int i;
->  
-> -	for (i = 1; i < ARRAY_SIZE(state->i2c_clients); ++i) {
-> -		if (state->i2c_clients[i])
-> -			i2c_unregister_device(state->i2c_clients[i]);
-> -	}
-> +	for (i = 1; i < ARRAY_SIZE(state->i2c_clients); ++i)
-> +		i2c_unregister_device(state->i2c_clients[i]);
->  }
->  
->  static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
-> @@ -2878,14 +2876,14 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
->  	struct i2c_client *new_client;
->  
->  	if (pdata && pdata->i2c_addresses[page])
-> -		new_client = i2c_new_dummy(client->adapter,
-> +		new_client = i2c_new_dummy_device(client->adapter,
->  					   pdata->i2c_addresses[page]);
->  	else
-> -		new_client = i2c_new_secondary_device(client,
-> +		new_client = i2c_new_ancillary_device(client,
->  				adv76xx_default_addresses[page].name,
->  				adv76xx_default_addresses[page].default_addr);
->  
-> -	if (new_client)
-> +	if (!IS_ERR(new_client))
->  		io_write(sd, io_reg, new_client->addr << 1);
->  
->  	return new_client;
-> @@ -3516,15 +3514,19 @@ static int adv76xx_probe(struct i2c_client *client,
->  	}
->  
->  	for (i = 1; i < ADV76XX_PAGE_MAX; ++i) {
-> +		struct i2c_client *dummy_client;
-> +
->  		if (!(BIT(i) & state->info->page_mask))
->  			continue;
->  
-> -		state->i2c_clients[i] = adv76xx_dummy_client(sd, i);
-> -		if (!state->i2c_clients[i]) {
-> -			err = -EINVAL;
-> +		dummy_client = adv76xx_dummy_client(sd, i);
-> +		if (IS_ERR(dummy_client)) {
-> +			err = PTR_ERR(dummy_client);
->  			v4l2_err(sd, "failed to create i2c client %u\n", i);
->  			goto err_i2c;
->  		}
-> +
-> +		state->i2c_clients[i] = dummy_client;
->  	}
->  
->  	INIT_DELAYED_WORK(&state->delayed_work_enable_hotplug,
-> diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-> index fa5552c2307b..ebbe024dd9e0 100644
-> --- a/include/linux/i2c.h
-> +++ b/include/linux/i2c.h
-> @@ -473,7 +473,7 @@ extern struct i2c_client *
->  devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 address);
->  
->  extern struct i2c_client *
-> -i2c_new_secondary_device(struct i2c_client *client,
-> +i2c_new_ancillary_device(struct i2c_client *client,
->  				const char *name,
->  				u16 default_addr);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+> changes in V5: Sync with local changes,
+>   - fix the SP height limit
+>   - speed up the second stream capture
+>   - the second stream can't force sync for rsz when start/stop streaming
+>   - add frame id to param vb2 buf
+>   - enable luminance maximum threshold
+> 
+> changes in V4:
+>   - fix some bugs during development
+>   - move quantization settings to rkisp1 subdev
+>   - correct some spelling problems
+>   - describe ports in dt-binding documents
+> 
+> changes in V3:
+>   - add some comments
+>   - fix wrong use of v4l2_async_subdev_notifier_register
+>   - optimize two paths capture at a time
+>   - remove compose
+>   - re-struct headers
+>   - add a tmp wiki page: http://opensource.rock-chips.com/wiki_Rockchip-isp1
+> 
+> changes in V2:
+>   mipi-phy:
+>     - use async probing
+>     - make it be a child device of the GRF
+>   isp:
+>     - add dummy buffer
+>     - change the way to get bus configuration, which make it possible to
+>             add parallel sensor support in the future(without mipi-phy driver).
+> 
+> ------------------
+> 
+> Changes in v8:
+> - Add SPDX in the header
+> - Remove emacs configs
+> - Fix doc style
+> - Remove boiler plate license text
+> 
+> Changes in v7:
+> - s/IPU3/RK_ISP1
+> - s/correspond/corresponding
+> - s/use/uses
+> - s/docuemnt/document
+> - Fix checkpatch errors (lines over 80 and SPDX)
+> - Add TODO to improve docs
+> - Migrate dphy specific code from
+> drivers/media/platform/rockchip/isp1/mipi_dphy_sy.c
+> to drivers/phy/rockchip/phy-rockchip-dphy.c
+> - Drop support for rk3288
+> - Drop support for dphy txrx
+> - code styling and checkpatch fixes
+> - fixed warning because of unknown entity type
+> - fixed v4l2-compliance errors regarding rkisp1 formats, try formats
+> and default values
+> - fix typo riksp1/rkisp1
+> - redesign: remove mipi/csi subdevice, sensors connect directly to the
+> isp subdevice in the media topology now. As a consequence, remove the
+> hack in mipidphy_g_mbus_config() where information from the sensor was
+> being propagated through the topology.
+> - From the old dphy:
+>         * cache get_remote_sensor() in s_stream
+>         * use V4L2_CID_PIXEL_RATE instead of V4L2_CID_LINK_FREQ
+> - Replace stream state with a boolean
+> - code styling and checkpatch fixes
+> - fix stop_stream (return after calling stop, do not reenable the stream)
+> - fix rkisp1_isp_sd_get_selection when V4L2_SUBDEV_FORMAT_TRY is set
+> - fix get format in output (isp_sd->out_fmt.mbus_code was being ignored)
+> - s/intput/input
+> - remove #define sd_to_isp_sd(_sd), add a static inline as it will be
+> reused by the capture
+> - s/strlcpy/strscpy
+> - sort out the locks in isp stats
+> - code styling and checkpatch fixes
+> - s/strlcpy/strscpy
+> - s/strcpy/strscpy
+> - fix config lsc error
+> LSC data table size is 17x17, but when configuring data to ISP,
+> should be aligned to 18x17. That means every last data of last
+> line should be filled with 0, and not filled with the data of
+> next line.
+> - Update new ISP parameters immediately
+> For those sub modules that have shadow registers in core isp, the
+> new programing parameters would not be active if both
+> CIF_ISP_CTRL_ISP_CFG_UPD_PERMANENT and CFG_UPD are not set. Now
+> we configure CFG_UPD to force update the shadow registers when new
+> ISP parameters are configured.
+> - fix some ISP parameters config error
+> Some ISP parameter config functions may override the old enable
+> bit value, because the enable bits of these modules are in the
+> same registers with parameters. So we should save the old enable
+> bits firstly.
+> - code styling and checkpatch fixes
+> - s/strlcpy/strscpy
+> - Fix v4l2-compliance issues:
+>         * remove input ioctls
+> media api can be used to define the topology, this input api is not
+> required. Besides it, if an input is enumerated, v4l2-compliance is not
+> happy with G_FMT returning the default colorspace instead of something
+> more specific.
+>         * return the pixelformat to the userspace
+> G_/S_/TRY_ FORMAT should return a valid pixelformat to the user, even if
+> the user gave an invalid one
+>         * add missing default colorspace and ycbcr
+>         * fix wrong pixformat in mp_fmts[] table
+>         * add buf type check in s_/g_selection
+>         * queue_setup - check sizes
+>         * normalize bus_info name
+>         * fix field any v4l2-compliance -s complain - set field none
+>         when streaming
+> - Fix compiling error: s/vidioc_enum_fmt_vid_cap_mplane/vidioc_enum_fmt_vid_cap
+> - Replace stream state with a boolean
+> The rkisp1_state enum consists only of 3 entries, where 1 is completely
+> unused and the other two respectively mean not streaming or streaming.
+> Replace it with a boolean called "streaming".
+> - Simplify MI interrupt handling
+> Rather than adding unnecessary indirection, just use stream index to
+> handle MI interrupt enable/disable/clear, since the stream index matches
+> the order of bits now, thanks to previous patch. While at it, remove
+> some dead code.
+> - code styling and checkpatch fixes
+> - add link_validate: don't allow a link with bayer/non-bayer mismatch
+> - VIDEO_ROCKCHIP_ISP1 selects VIDEOBUF2_VMALLOC
+> - add PHY_ROCKCHIP_DPHY as a dependency for VIDEO_ROCKCHIP_ISP1
+> - Fix compilation and runtime errors due to bitrotting
+> The code has bit-rotten since March 2018, fix compilation errors.
+> The new V4L2 async notifier API requires notifiers to be initialized by
+> a call to v4l2_async_notifier_init() before being used, do so.
+> - Add missing module device table
+> - use clk_bulk framework
+> - add missing notifiers cleanups
+> - s/strlcpy/strscpy
+> - normalize bus_info name
+> - fix s_stream error path, stream_cnt wans't being decremented properly
+> - use devm_platform_ioremap_resource() helper
+> - s/deice/device
+> - redesign: remove mipi/csi subdevice, sensors connect directly to the
+> isp subdevice in the media topology now.
+> - remove "saved_state" member from rkisp1_stream struct
+> - Reverse the order of MIs
+> - Simplify MI interrupt handling
+> Rather than adding unnecessary indirection, just use stream index to
+> handle MI interrupt enable/disable/clear, since the stream index matches
+> the order of bits now, thanks to previous patch. While at it, remove
+> some dead code.
+> - code styling and checkpatch fixes
+> - update document with new design and tested example
+> - updated doc with new design and tested example
+> - add phy properties
+> - add ports
+> - add phy-cells
+> 
+> Helen Koike (1):
+>   MAINTAINERS: add entry for Rockchip ISP1 driver
+> 
+> Jacob Chen (9):
+>   media: doc: add document for rkisp1 meta buffer format
+>   media: rkisp1: add Rockchip MIPI Synopsys DPHY driver
+>   media: rkisp1: add Rockchip ISP1 subdev driver
+>   media: rkisp1: add ISP1 statistics driver
+>   media: rkisp1: add ISP1 params driver
+>   media: rkisp1: add capture device driver
+>   media: rkisp1: add rockchip isp1 core driver
+>   dt-bindings: Document the Rockchip ISP1 bindings
+>   dt-bindings: Document the Rockchip MIPI RX D-PHY bindings
+> 
+> Jeffy Chen (1):
+>   media: rkisp1: Add user space ABI definitions
+> 
+> Shunqian Zheng (3):
+>   media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
+>   arm64: dts: rockchip: add isp0 node for rk3399
+>   arm64: dts: rockchip: add rx0 mipi-phy for rk3399
+> 
+>  .../bindings/media/rockchip-isp1.txt          |   71 +
+>  .../bindings/media/rockchip-mipi-dphy.txt     |   38 +
+>  Documentation/media/uapi/v4l/meta-formats.rst |    2 +
+>  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    |   23 +
+>  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      |   22 +
+>  MAINTAINERS                                   |    8 +
+>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   36 +
+>  drivers/media/platform/Kconfig                |   12 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/rockchip/isp1/Makefile |    7 +
+>  .../media/platform/rockchip/isp1/capture.c    | 1754 +++++++++++++++++
+>  .../media/platform/rockchip/isp1/capture.h    |  164 ++
+>  drivers/media/platform/rockchip/isp1/common.h |  101 +
+>  drivers/media/platform/rockchip/isp1/dev.c    |  675 +++++++
+>  drivers/media/platform/rockchip/isp1/dev.h    |   97 +
+>  .../media/platform/rockchip/isp1/isp_params.c | 1604 +++++++++++++++
+>  .../media/platform/rockchip/isp1/isp_params.h |   50 +
+>  .../media/platform/rockchip/isp1/isp_stats.c  |  508 +++++
+>  .../media/platform/rockchip/isp1/isp_stats.h  |   60 +
+>  drivers/media/platform/rockchip/isp1/regs.c   |  223 +++
+>  drivers/media/platform/rockchip/isp1/regs.h   | 1525 ++++++++++++++
+>  drivers/media/platform/rockchip/isp1/rkisp1.c | 1286 ++++++++++++
+>  drivers/media/platform/rockchip/isp1/rkisp1.h |  111 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+>  drivers/phy/rockchip/Kconfig                  |    8 +
+>  drivers/phy/rockchip/Makefile                 |    1 +
+>  drivers/phy/rockchip/phy-rockchip-dphy.c      |  408 ++++
+>  include/uapi/linux/rkisp1-config.h            |  816 ++++++++
+>  include/uapi/linux/videodev2.h                |    4 +
+>  29 files changed, 9617 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/rockchip-isp1.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+>  create mode 100644 drivers/media/platform/rockchip/isp1/Makefile
+>  create mode 100644 drivers/media/platform/rockchip/isp1/capture.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/capture.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/common.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/dev.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/dev.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/isp_params.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/isp_params.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/isp_stats.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/isp_stats.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/regs.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/regs.h
+>  create mode 100644 drivers/media/platform/rockchip/isp1/rkisp1.c
+>  create mode 100644 drivers/media/platform/rockchip/isp1/rkisp1.h
+>  create mode 100644 drivers/phy/rockchip/phy-rockchip-dphy.c
+>  create mode 100644 include/uapi/linux/rkisp1-config.h
+> 
+> -- 
+> 2.22.0
+> 
+> 
+> -- 
+> To unsubscribe, send mail to kernel-unsubscribe@lists.collabora.co.uk.
+> 
