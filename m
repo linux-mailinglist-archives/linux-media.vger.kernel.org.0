@@ -2,230 +2,275 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35F2D87387
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 09:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24BB5873BA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 10:04:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405571AbfHIHzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 03:55:45 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56447 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405239AbfHIHzo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 03:55:44 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hvzkQ-0000MB-J2; Fri, 09 Aug 2019 09:55:38 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hvzkO-0002jL-Ul; Fri, 09 Aug 2019 09:55:36 +0200
-Date:   Fri, 9 Aug 2019 09:55:36 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v6 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
-Message-ID: <20190809075536.pukp444dmb7haoxj@pengutronix.de>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-3-m.felsch@pengutronix.de>
- <20190516163632.GO14820@pendragon.ideasonboard.com>
+        id S2405732AbfHIIE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 04:04:57 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42672 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405395AbfHIIE5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Aug 2019 04:04:57 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EEEEACC;
+        Fri,  9 Aug 2019 10:04:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565337894;
+        bh=Fiud4LoFhQ2nLTZDDGIvG1zQ82kOzvKwHZFvy00Qzsk=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=R8UfVL0HqeZhqE0u5YVLxNRQJ4ZKMExGOCbgxJ6qsd8tyPw52k0hNScegkth3gyxF
+         ejGIoeskP+EgGV601qlvltssHWrxUIR6Qpz+xgvUq+dziOSFPOjzUdseMmxmzotQSA
+         3MT8K5tAhcfqRY8gxkk9FrQzJGox+aHmROfoqNko=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190809040558.10698-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190809040558.10698-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <f5b54d92-13c7-001a-1cbf-0537ab1fcc77@ideasonboard.com>
+Date:   Fri, 9 Aug 2019 09:04:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190516163632.GO14820@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:25:12 up 83 days, 13:43, 57 users,  load average: 0.09, 0.06,
- 0.02
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20190809040558.10698-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Niklas,
 
-On 19-05-16 19:36, Laurent Pinchart wrote:
-> Hi Marco,
+I have posted 4 versions of this already, so this should be v5.
+
+Have you considered the review comments from Rob Herring [0]
+
+What version did you take to start this process? Is this an arbitrary
+new version? Something you had lying around?
+
+Or did you get the latest version from my branches?
+
+If so - what changes have you made against that version ?
+
+
+[0] https://lore.kernel.org/lkml/20181105200238.GA12435@bogus/
+
+--
+Kieran
+
+On 09/08/2019 05:05, Niklas Söderlund wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
-> Thank you for the patch.
-
-Thanks for the review and sorry for the delayed reply.
-
-> On Mon, Apr 15, 2019 at 02:44:02PM +0200, Marco Felsch wrote:
-> > Currently every driver needs to parse the connector endpoints by it self.
+> The MAX9286 deserializes video data received on up to 4 Gigabit
+> Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> to 4 data lanes.
 > 
-> s/it self/itself/
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/media/i2c/maxim,max9286.txt      | 182 ++++++++++++++++++
+>  1 file changed, 182 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
 > 
-> > This is the initial work to make this generic. The generic connector has
-> > some common fields and some connector specific parts. The generic one
-> > includes:
-> >   - type
-> >   - label
-> >   - remote_port (the port where the connector is connected to)
-> >   - remote_id   (the endpoint where the connector is connected to)
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
+> new file mode 100644
+> index 0000000000000000..afff77a55bb70744
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.txt
+> @@ -0,0 +1,182 @@
+> +Maxim Integrated Quad GMSL Deserializer
+> +---------------------------------------
+> +
+> +The MAX9286 deserializer receives video data on up to 4 Gigabit Multimedia
+> +Serial Links (GMSL) and outputs them on a CSI-2 D-PHY port using up to 4 data
+> +lanes.
+> +
+> +In addition to video data, the GMSL links carry a bidirectional control channel
+> +that encapsulates I2C messages. The MAX9286 forwards all I2C traffic not
+> +addressed to itself to the other side of the links, where a GMSL serializer
+> +will output it on a local I2C bus. In the other direction all I2C traffic
+> +received over GMSL by the MAX9286 is output on the local I2C bus.
+> +
+> +Required Properties:
+> +
+> +- compatible: Shall be "maxim,max9286"
+> +- reg: I2C device address
+> +
+> +Optional Properties:
+> +
+> +- poc-supply: Regulator providing Power over Coax to the cameras
+> +- enable-gpios: GPIO connected to the #PWDN pin with inverted polarity
+> +
+> +Required endpoint nodes:
+> +-----------------------
+> +
+> +The connections to the MAX9286 GMSL and its endpoint nodes are modelled using
+> +the OF graph bindings in accordance with the video interface bindings defined
+> +in Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +The following table lists the port number corresponding to each device port.
+> +
+> +        Port            Description
+> +        ----------------------------------------
+> +        Port 0          GMSL Input 0
+> +        Port 1          GMSL Input 1
+> +        Port 2          GMSL Input 2
+> +        Port 3          GMSL Input 3
+> +        Port 4          CSI-2 Output
+> +
+> +Optional Endpoint Properties for GMSL Input Ports (Port [0-3]):
+> +
+> +- remote-endpoint: phandle to the remote GMSL source endpoint subnode in the
+> +  remote node port.
+> +
+> +Required Endpoint Properties for CSI-2 Output Port (Port 4):
+> +
+> +- remote-endpoint: phandle to the remote CSI-2 sink endpoint node.
+> +- data-lanes: array of physical CSI-2 data lane indexes.
+> +
+> +Required i2c-mux nodes:
+> +----------------------
+> +
+> +Each GMSL link is modelled as a child bus of an i2c bus multiplexer/switch, in
+> +accordance with bindings described in
+> +Documentation/devicetree/bindings/i2c/i2c-mux.txt. The serializer device on the
+> +remote end of the GMSL link shall be modelled as a child node of the
+> +corresponding I2C bus.
+> +
+> +Required i2c child bus properties:
+> +- all properties described as required i2c child bus nodes properties in
+> +  Documentation/devicetree/bindings/i2c/i2c-mux.txt.
+> +
+> +Example:
+> +-------
+> +
+> +	gmsl-deserializer@2c {
+> +		compatible = "maxim,max9286";
+> +		reg = <0x2c>;
+> +		poc-supply = <&camera_poc_12v>;
+> +		enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				max9286_in0: endpoint {
+> +					remote-endpoint = <&rdacm20_out0>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				max9286_in1: endpoint {
+> +					remote-endpoint = <&rdacm20_out1>;
+> +				};
+> +			};
+> +
+> +			port@2 {
+> +				reg = <2>;
+> +				max9286_in2: endpoint {
+> +					remote-endpoint = <&rdacm20_out2>;
+> +				};
+> +			};
+> +
+> +			port@3 {
+> +				reg = <3>;
+> +				max9286_in3: endpoint {
+> +					remote-endpoint = <&rdacm20_out3>;
+> +				};
+> +			};
+> +
+> +			port@4 {
+> +				reg = <4>;
+> +				max9286_out: endpoint {
+> +					data-lanes = <1 2 3 4>;
+> +					remote-endpoint = <&csi40_in>;
+> +				};
+> +			};
+> +		};
+> +
+> +		i2c@0 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <0>;
+> +
+> +			camera@51 {
+> +				compatible = "imi,rdacm20";
+> +				reg = <0x51 0x61>;
+> +
+> +				port {
+> +					rdacm20_out0: endpoint {
+> +						remote-endpoint = <&max9286_in0>;
+> +					};
+> +				};
+> +
+> +			};
+> +		};
+> +
+> +		i2c@1 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <1>;
+> +
+> +			camera@52 {
+> +				compatible = "imi,rdacm20";
+> +				reg = <0x52 0x62>;
+> +				port {
+> +					rdacm20_out1: endpoint {
+> +						remote-endpoint = <&max9286_in1>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		i2c@2 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <2>;
+> +
+> +			camera@53 {
+> +				compatible = "imi,rdacm20";
+> +				reg = <0x53 0x63>;
+> +				port {
+> +					rdacm20_out2: endpoint {
+> +						remote-endpoint = <&max9286_in2>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		i2c@3 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <3>;
+> +
+> +			camera@54 {
+> +				compatible = "imi,rdacm20";
+> +				reg = <0x54 0x64>;
+> +				port {
+> +					rdacm20_out3: endpoint {
+> +						remote-endpoint = <&max9286_in3>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
 > 
-> This assumes a single connection between a connector and a remote port,
-> and a single port on the connector side. Is this guaranteed ? For the
-> mini-DIN-4 connectors (often used for S-Video) for instance, I recall
-> from the extensive discussions we had in the past that they should be
-> modeled with two pins, one for the Y component and one for C components.
-> The rationale for this is to support systems where such a connector
-> could be used to carry S-Video, but also two composite video signals
-> (usually through an external adapter from 2 RCA female connectors to one
-> S-Video male connector) that would be routed to two separate video
-> decoders (or two different inputs of the same video decoder). Other
-> topologies may be possible too.
 
-I got your concerns and I also remember the tvp5150 port bindings
-myself in the past. Do you know how often such a setup you described
-above happens these days? I would rather add more documentation to the
-bindings [1] and add a check to v4l2_fwnode_parse_connector() to
-guarantee that one port has only one endpoint. Because I don't think
-that analog connectors has a bright future these days.
-
-[1] Documentation/devicetree/bindings/display/connector/ \
-    analog-tv-connector.txt
-
-> > The specific fields are within a union, since only one of them can be
-> > available at the time. Since this is the initial support the patch adds
-> > only the analog-connector specific ones.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> > [1] https://patchwork.kernel.org/cover/10794703/
-> > 
-> > v6:
-> > - fix some spelling and style issues
-> > - rm unnecessary comments
-> > - drop vga and dvi connector
-> > 
-> > v2-v4:
-> > - nothing since the patch was squashed from series [1] into this
-> >   series.
-> > 
-> >  include/media/v4l2-connector.h | 30 ++++++++++++++++++++++++++++++
-> >  include/media/v4l2-fwnode.h    | 33 +++++++++++++++++++++++++++++++++
-> >  2 files changed, 63 insertions(+)
-> >  create mode 100644 include/media/v4l2-connector.h
-> > 
-> > diff --git a/include/media/v4l2-connector.h b/include/media/v4l2-connector.h
-> > new file mode 100644
-> > index 000000000000..3a951c54f50e
-> > --- /dev/null
-> > +++ b/include/media/v4l2-connector.h
-> > @@ -0,0 +1,30 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * v4l2-connector.h
-> > + *
-> > + * V4L2 connector types.
-> > + *
-> > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
-> > + */
-> > +
-> > +#ifndef V4L2_CONNECTOR_H
-> > +#define V4L2_CONNECTOR_H
-> > +
-> > +#define V4L2_CONNECTOR_MAX_LABEL 41
-> 
-> Hans pointed out this was a weird number. Should you turn the label
-> field into a pointer to make this more generic (with a
-> v4l2_fwnode_connector_cleanup() function then) ?
-
-Yes, that would be the better approach. I will change that.
-
-Regards,
-  Marco
-
-> > +
-> > +/**
-> > + * enum v4l2_connector_type - connector type
-> > + * @V4L2_CON_UNKNOWN:   unknown connector type, no V4L2 connetor configuration
-> > + * @V4L2_CON_COMPOSITE: analog composite connector
-> > + * @V4L2_CON_SVIDEO:    analog svideo connector
-> > + * @V4L2_CON_HDMI:      digital hdmi connector
-> > + */
-> > +enum v4l2_connector_type {
-> > +	V4L2_CON_UNKNOWN,
-> > +	V4L2_CON_COMPOSITE,
-> > +	V4L2_CON_SVIDEO,
-> > +	V4L2_CON_HDMI,
-> > +};
-> > +
-> > +#endif /* V4L2_CONNECTOR_H */
-> > +
-> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> > index 6c07825e18b9..f4df1b95c5ef 100644
-> > --- a/include/media/v4l2-fwnode.h
-> > +++ b/include/media/v4l2-fwnode.h
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/list.h>
-> >  #include <linux/types.h>
-> >  
-> > +#include <media/v4l2-connector.h>
-> >  #include <media/v4l2-mediabus.h>
-> >  #include <media/v4l2-subdev.h>
-> >  
-> > @@ -126,6 +127,38 @@ struct v4l2_fwnode_link {
-> >  	unsigned int remote_port;
-> >  };
-> >  
-> > +/**
-> > + * struct v4l2_fwnode_connector_analog - analog connector data structure
-> > + * @supported_tvnorms: tv norms this connector supports, set to V4L2_STD_ALL
-> > + *                     if no restrictions are specified.
-> > + */
-> > +struct v4l2_fwnode_connector_analog {
-> > +	v4l2_std_id supported_tvnorms;
-> > +};
-> > +
-> > +/**
-> > + * struct v4l2_fwnode_connector - the connector data structure
-> > + * @remote_port: identifier of the remote endpoint port the connector connects
-> > + *		 to
-> > + * @remote_id: identifier of the remote endpoint the connector connects to
-> > + * @label: connetor label
-> > + * @type: connector type
-> > + * @connector: connector configuration
-> > + * @connector.analog: analog connector configuration
-> > + *                    &struct v4l2_fwnode_connector_analog
-> > + */
-> > +struct v4l2_fwnode_connector {
-> > +	unsigned int remote_port;
-> > +	unsigned int remote_id;
-> > +	char label[V4L2_CONNECTOR_MAX_LABEL];
-> > +	enum v4l2_connector_type type;
-> > +
-> > +	union {
-> > +		struct v4l2_fwnode_connector_analog analog;
-> > +		/* future connectors */
-> > +	} connector;
-> > +};
-> > +
-> >  /**
-> >   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
-> >   * @fwnode: pointer to the endpoint's fwnode handle
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
