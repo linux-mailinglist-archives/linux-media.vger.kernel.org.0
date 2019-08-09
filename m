@@ -2,159 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDB387DC6
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 17:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CC7187E46
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2019 17:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407240AbfHIPM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Aug 2019 11:12:28 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60877 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726342AbfHIPM2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Aug 2019 11:12:28 -0400
-Received: from [IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5] ([IPv6:2001:983:e9a7:1:a042:9da:6cf5:9cb5])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id w6Z7h4mJ5ur8Tw6Z8hcHIP; Fri, 09 Aug 2019 17:12:26 +0200
-Subject: Re: [PATCH v5 8/9] drm: dw-hdmi: use cec_notifier_conn_(un)register
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        id S2436775AbfHIPk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Aug 2019 11:40:56 -0400
+Received: from sauhun.de ([88.99.104.3]:39202 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726255AbfHIPk4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Aug 2019 11:40:56 -0400
+Received: from localhost (p54B333D4.dip0.t-ipconnect.de [84.179.51.212])
+        by pokefinder.org (Postfix) with ESMTPSA id AD90A2C3014;
+        Fri,  9 Aug 2019 17:40:52 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-References: <20190807085232.151260-1-darekm@google.com>
- <20190807085232.151260-9-darekm@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e1db21af-fb72-b5b1-3578-9684e297e7ce@xs4all.nl>
-Date:   Fri, 9 Aug 2019 17:12:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Subject: [PATCH v2] i2c: replace i2c_new_secondary_device with an ERR_PTR variant
+Date:   Fri,  9 Aug 2019 17:40:47 +0200
+Message-Id: <20190809154047.9897-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190807085232.151260-9-darekm@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGwiw3aYhALsX57+j8Og6RUpMbzi1xYycVWDEjhQA4wfZxpPUDcnyt28nlo/rxDUlZvlg287SvQcgf1m2Teyd2HvQtPwFhMKF4guIAG0dSg0gclcJNN0
- dm+uoQ4AurHuOrGM4LMmjn9M73gH+j1HW8AgoaYk8qfHNFEeziOnmdKyAU4x7aCZqC6R+GaFf85M6v92gaUglPZIgykDQ9m8aHZiADpDh9bDQhHWaiFkjlfG
- H8Aqe3S/JxPEhrM3z7P47OVDhMvHj2DeZjyawyhQGY2LvYdwfc+m8HXsleBd+28uRfweudAW4+NiTvw1+rekMQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/7/19 10:52 AM, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill in
-> the cec_connector_info.
-> 
-> Changes since v4:
-> 	- typo fix
-> Changes since v2:
-> 	- removed unnecessary NULL check before a call to
-> 	cec_notifier_conn_unregister,
-> 	- use cec_notifier_phys_addr_invalidate to invalidate physical
-> 	address.
-> Changes since v1:
-> 	Add memory barrier to make sure that the notifier
-> 	becomes visible to the irq thread once it is fully
-> 	constructed.
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+In the general move to have i2c_new_*_device functions which return
+ERR_PTR instead of NULL, this patch converts i2c_new_secondary_device().
 
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+There are only few users, so this patch converts the I2C core and all
+users in one go. The function gets renamed to i2c_new_ancillary_device()
+so out-of-tree users will get a build failure to understand they need to
+adapt their error checking code.
 
-Tested on a AML_S905X-CC board.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com> # adv748x
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> # adv7511
+---
 
-Note: there is a bug (unrelated to this series) that prevents the physical
-address from being invalidated in drivers/gpu/drm/meson/meson_dw_hdmi.c.
+Changes since v1:
 
-I have a patch, but it needs a bit more testing before I'll post it.
+* adv7604: use a local variable for error handling
+* adv7604: simplify unregistering dummy clients because I2C core helper
+           is NULL ptr aware
+* added tags for adv748x and adv7511
 
-Regards,
+Thanks Kieran and Laurent!
 
-	Hans
 
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 36 ++++++++++++++---------
->  1 file changed, 22 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index ab7968c8f6a29..b7d0d9ad5f2f7 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2118,6 +2118,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->  	struct dw_hdmi *hdmi = bridge->driver_private;
->  	struct drm_encoder *encoder = bridge->encoder;
->  	struct drm_connector *connector = &hdmi->connector;
-> +	struct cec_connector_info conn_info;
-> +	struct cec_notifier *notifier;
->  
->  	connector->interlace_allowed = 1;
->  	connector->polled = DRM_CONNECTOR_POLL_HPD;
-> @@ -2129,6 +2131,18 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->  
->  	drm_connector_attach_encoder(connector, encoder);
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +	/*
-> +	 * Make sure that dw_hdmi_irq thread does see the notifier
-> +	 * when it fully constructed.
-> +	 */
-> +	smp_wmb();
-> +	hdmi->cec_notifier = notifier;
-> +
->  	return 0;
->  }
->  
-> @@ -2295,9 +2309,13 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->  				       phy_stat & HDMI_PHY_HPD,
->  				       phy_stat & HDMI_PHY_RX_SENSE);
->  
-> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0)
-> -			cec_notifier_set_phys_addr(hdmi->cec_notifier,
-> -						   CEC_PHYS_ADDR_INVALID);
-> +		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
-> +			struct cec_notifier *notifier;
-> +
-> +			notifier = READ_ONCE(hdmi->cec_notifier);
-> +			if (notifier)
-> +				cec_notifier_phys_addr_invalidate(notifier);
-> +		}
->  	}
->  
->  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> @@ -2600,12 +2618,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  	if (ret)
->  		goto err_iahb;
->  
-> -	hdmi->cec_notifier = cec_notifier_get(dev);
-> -	if (!hdmi->cec_notifier) {
-> -		ret = -ENOMEM;
-> -		goto err_iahb;
-> -	}
-> -
->  	/*
->  	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
->  	 * N and cts values before enabling phy
-> @@ -2693,9 +2705,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  		hdmi->ddc = NULL;
->  	}
->  
-> -	if (hdmi->cec_notifier)
-> -		cec_notifier_put(hdmi->cec_notifier);
-> -
->  	clk_disable_unprepare(hdmi->iahb_clk);
->  	if (hdmi->cec_clk)
->  		clk_disable_unprepare(hdmi->cec_clk);
-> @@ -2717,8 +2726,7 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
->  	/* Disable all interrupts */
->  	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
->  
-> -	if (hdmi->cec_notifier)
-> -		cec_notifier_put(hdmi->cec_notifier);
-> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
->  
->  	clk_disable_unprepare(hdmi->iahb_clk);
->  	clk_disable_unprepare(hdmi->isfr_clk);
-> 
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 ++++++++--------
+ drivers/i2c/i2c-core-base.c                  | 10 ++++-----
+ drivers/media/i2c/adv748x/adv748x-core.c     |  6 +++---
+ drivers/media/i2c/adv7604.c                  | 22 +++++++++++---------
+ include/linux/i2c.h                          |  2 +-
+ 5 files changed, 30 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index f6d2681f6927..9e13e466e72c 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -981,10 +981,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ {
+ 	int ret;
+ 
+-	adv->i2c_cec = i2c_new_secondary_device(adv->i2c_main, "cec",
++	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
+ 						ADV7511_CEC_I2C_ADDR_DEFAULT);
+-	if (!adv->i2c_cec)
+-		return -EINVAL;
++	if (IS_ERR(adv->i2c_cec))
++		return PTR_ERR(adv->i2c_cec);
+ 	i2c_set_clientdata(adv->i2c_cec, adv);
+ 
+ 	adv->regmap_cec = devm_regmap_init_i2c(adv->i2c_cec,
+@@ -1165,20 +1165,20 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 
+ 	adv7511_packet_disable(adv7511, 0xffff);
+ 
+-	adv7511->i2c_edid = i2c_new_secondary_device(i2c, "edid",
++	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
+ 					ADV7511_EDID_I2C_ADDR_DEFAULT);
+-	if (!adv7511->i2c_edid) {
+-		ret = -EINVAL;
++	if (IS_ERR(adv7511->i2c_edid)) {
++		ret = PTR_ERR(adv7511->i2c_edid);
+ 		goto uninit_regulators;
+ 	}
+ 
+ 	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
+ 		     adv7511->i2c_edid->addr << 1);
+ 
+-	adv7511->i2c_packet = i2c_new_secondary_device(i2c, "packet",
++	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
+ 					ADV7511_PACKET_I2C_ADDR_DEFAULT);
+-	if (!adv7511->i2c_packet) {
+-		ret = -EINVAL;
++	if (IS_ERR(adv7511->i2c_packet)) {
++		ret = PTR_ERR(adv7511->i2c_packet);
+ 		goto err_i2c_unregister_edid;
+ 	}
+ 
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index f26ed495d384..76cb91e064b8 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -966,7 +966,7 @@ struct i2c_client *devm_i2c_new_dummy_device(struct device *dev,
+ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+ 
+ /**
+- * i2c_new_secondary_device - Helper to get the instantiated secondary address
++ * i2c_new_ancillary_device - Helper to get the instantiated secondary address
+  * and create the associated device
+  * @client: Handle to the primary client
+  * @name: Handle to specify which secondary address to get
+@@ -985,9 +985,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * cell whose "reg-names" value matches the slave name.
+  *
+  * This returns the new i2c client, which should be saved for later use with
+- * i2c_unregister_device(); or NULL to indicate an error.
++ * i2c_unregister_device(); or an ERR_PTR to describe the error.
+  */
+-struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
++struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+ 						const char *name,
+ 						u16 default_addr)
+ {
+@@ -1002,9 +1002,9 @@ struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
+ 	}
+ 
+ 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+-	return i2c_new_dummy(client->adapter, addr);
++	return i2c_new_dummy_device(client->adapter, addr);
+ }
+-EXPORT_SYMBOL_GPL(i2c_new_secondary_device);
++EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+ 
+ /* ------------------------------------------------------------------------- */
+ 
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index f57cd77a32fa..2567de2b0037 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -183,14 +183,14 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
+ 	int ret;
+ 
+ 	for (i = ADV748X_PAGE_DPLL; i < ADV748X_PAGE_MAX; ++i) {
+-		state->i2c_clients[i] = i2c_new_secondary_device(
++		state->i2c_clients[i] = i2c_new_ancillary_device(
+ 				state->client,
+ 				adv748x_default_addresses[i].name,
+ 				adv748x_default_addresses[i].default_addr);
+ 
+-		if (state->i2c_clients[i] == NULL) {
++		if (IS_ERR(state->i2c_clients[i])) {
+ 			adv_err(state, "failed to create i2c client %u\n", i);
+-			return -ENOMEM;
++			return PTR_ERR(state->i2c_clients[i]);
+ 		}
+ 
+ 		ret = adv748x_configure_regmap(state, i);
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 28a84bf9f8a9..2dedd6ebb236 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -2862,10 +2862,8 @@ static void adv76xx_unregister_clients(struct adv76xx_state *state)
+ {
+ 	unsigned int i;
+ 
+-	for (i = 1; i < ARRAY_SIZE(state->i2c_clients); ++i) {
+-		if (state->i2c_clients[i])
+-			i2c_unregister_device(state->i2c_clients[i]);
+-	}
++	for (i = 1; i < ARRAY_SIZE(state->i2c_clients); ++i)
++		i2c_unregister_device(state->i2c_clients[i]);
+ }
+ 
+ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
+@@ -2878,14 +2876,14 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
+ 	struct i2c_client *new_client;
+ 
+ 	if (pdata && pdata->i2c_addresses[page])
+-		new_client = i2c_new_dummy(client->adapter,
++		new_client = i2c_new_dummy_device(client->adapter,
+ 					   pdata->i2c_addresses[page]);
+ 	else
+-		new_client = i2c_new_secondary_device(client,
++		new_client = i2c_new_ancillary_device(client,
+ 				adv76xx_default_addresses[page].name,
+ 				adv76xx_default_addresses[page].default_addr);
+ 
+-	if (new_client)
++	if (!IS_ERR(new_client))
+ 		io_write(sd, io_reg, new_client->addr << 1);
+ 
+ 	return new_client;
+@@ -3516,15 +3514,19 @@ static int adv76xx_probe(struct i2c_client *client,
+ 	}
+ 
+ 	for (i = 1; i < ADV76XX_PAGE_MAX; ++i) {
++		struct i2c_client *dummy_client;
++
+ 		if (!(BIT(i) & state->info->page_mask))
+ 			continue;
+ 
+-		state->i2c_clients[i] = adv76xx_dummy_client(sd, i);
+-		if (!state->i2c_clients[i]) {
+-			err = -EINVAL;
++		dummy_client = adv76xx_dummy_client(sd, i);
++		if (IS_ERR(dummy_client)) {
++			err = PTR_ERR(dummy_client);
+ 			v4l2_err(sd, "failed to create i2c client %u\n", i);
+ 			goto err_i2c;
+ 		}
++
++		state->i2c_clients[i] = dummy_client;
+ 	}
+ 
+ 	INIT_DELAYED_WORK(&state->delayed_work_enable_hotplug,
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index fa5552c2307b..ebbe024dd9e0 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -473,7 +473,7 @@ extern struct i2c_client *
+ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 address);
+ 
+ extern struct i2c_client *
+-i2c_new_secondary_device(struct i2c_client *client,
++i2c_new_ancillary_device(struct i2c_client *client,
+ 				const char *name,
+ 				u16 default_addr);
+ 
+-- 
+2.20.1
 
