@@ -2,57 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB17488B16
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 13:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B8CD88B46
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 14:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbfHJLpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Aug 2019 07:45:00 -0400
-Received: from gofer.mess.org ([88.97.38.141]:55415 "EHLO gofer.mess.org"
+        id S1726221AbfHJMR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Aug 2019 08:17:26 -0400
+Received: from gofer.mess.org ([88.97.38.141]:39923 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726101AbfHJLpA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Aug 2019 07:45:00 -0400
+        id S1726162AbfHJMR0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 10 Aug 2019 08:17:26 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id BD61C61BFD; Sat, 10 Aug 2019 12:44:58 +0100 (BST)
+        id E368E60A27; Sat, 10 Aug 2019 13:17:24 +0100 (BST)
+Date:   Sat, 10 Aug 2019 13:17:24 +0100
 From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>
-Subject: [PATCH 3/3] selftests: ir: fix ir_loopback test failure
-Date:   Sat, 10 Aug 2019 12:44:58 +0100
-Message-Id: <20190810114458.8883-3-sean@mess.org>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190810114458.8883-1-sean@mess.org>
-References: <20190810114458.8883-1-sean@mess.org>
+To:     A Sun <as1033x@comcast.net>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 2/3] [media] mceusb: Reword messages referring to "urb"
+Message-ID: <20190810121724.7oo7uoggxg4hha6i@gofer.mess.org>
+References: <20190606095337.jfhmc6jqgyhmxn4q@gofer.mess.org>
+ <2548e827-1d11-4ce2-013f-bf36c9f5436e@comcast.net>
+ <20190608083729.bw47vkplpf3r4e4b@gofer.mess.org>
+ <7e0c816d-c7bf-a3bf-a9f3-8c61605dbb17@comcast.net>
+ <20190625105127.qw73fwt6dku5736m@gofer.mess.org>
+ <3c452b74-dc5b-f1d4-3c66-8acdb69da5da@comcast.net>
+ <20190625161241.u5v7fiegokwrzvey@gofer.mess.org>
+ <44516839-3c00-1f1e-30c6-3638e45e8d2d@comcast.net>
+ <20190715122827.picgfztheuklfl64@gofer.mess.org>
+ <49527290-a5b0-4b4f-c93a-ac54ff52edc8@comcast.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49527290-a5b0-4b4f-c93a-ac54ff52edc8@comcast.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The decoder is called rc-mm, not rcmm. This was renamed late in the cycle
-so this bug crept in.
+Hi,
 
-Cc: Shuah Khan <shuah@kernel.org>
-Signed-off-by: Sean Young <sean@mess.org>
----
- tools/testing/selftests/ir/ir_loopback.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Sun, Jul 21, 2019 at 05:31:55PM -0400, A Sun wrote:
+> FYI, I'm in progress on another mceusb patch to fix, and eliminate, the driver's
+> TX IR length limits. Limit causes -EINVAL errors for > ~300 pulse/space samples and
+> I've seen reports (and patches for) of appliances with IR over 400 pulse/spaces.
 
-diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
-index e700e09e3682..af7f9c7d59bc 100644
---- a/tools/testing/selftests/ir/ir_loopback.c
-+++ b/tools/testing/selftests/ir/ir_loopback.c
-@@ -54,9 +54,9 @@ static const struct {
- 	{ RC_PROTO_RC6_MCE, "rc-6-mce", 0x00007fff, "rc-6" },
- 	{ RC_PROTO_SHARP, "sharp", 0x1fff, "sharp" },
- 	{ RC_PROTO_IMON, "imon", 0x7fffffff, "imon" },
--	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rcmm" },
--	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rcmm" },
--	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rcmm" },
-+	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rc-mm" },
-+	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rc-mm" },
-+	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rc-mm" },
- };
- 
- int lirc_open(const char *rc)
--- 
-2.21.0
+This always looked like it needed improvement. Thank you!
 
+> 
+> The future patch rewrites:
+>   mceusb_tx_ir()
+> And revises "write/tx" async I/O to sync I/O to do unlimited multipart TX IR.
+> These functions will need rewrite and rename:
+>   mce_async_callback() -> mce_tx_callback()
+>   mce_request_packet() -> mce_tx()
+> The present mce_async_out() name will become misleading. mce_command_out()
+> or mce_request_out() (which calls mce_tx()), are probably better names.
+> 
+> I'm still mulling over whether the more generic "read/write" term
+> (e.g. mce_write() and mce_write_callback()) may be a better migration path,
+> for future work.
+
+Thanks.
+
+Another thing the mceusb driver could do with is usb wakeup. I've hadn't
+had the time to look at that.
+
+
+Sean
