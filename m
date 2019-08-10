@@ -2,22 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2053988B17
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 13:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB17488B16
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 13:45:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726132AbfHJLpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726121AbfHJLpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sat, 10 Aug 2019 07:45:00 -0400
-Received: from gofer.mess.org ([88.97.38.141]:36489 "EHLO gofer.mess.org"
+Received: from gofer.mess.org ([88.97.38.141]:55415 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726094AbfHJLpA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726101AbfHJLpA (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sat, 10 Aug 2019 07:45:00 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 9584F600AF; Sat, 10 Aug 2019 12:44:58 +0100 (BST)
+        id BD61C61BFD; Sat, 10 Aug 2019 12:44:58 +0100 (BST)
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 2/3] media: imon_raw: prevent "nonsensical timing event of duration 0"
-Date:   Sat, 10 Aug 2019 12:44:57 +0100
-Message-Id: <20190810114458.8883-2-sean@mess.org>
+Cc:     Shuah Khan <shuah@kernel.org>
+Subject: [PATCH 3/3] selftests: ir: fix ir_loopback test failure
+Date:   Sat, 10 Aug 2019 12:44:58 +0100
+Message-Id: <20190810114458.8883-3-sean@mess.org>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190810114458.8883-1-sean@mess.org>
 References: <20190810114458.8883-1-sean@mess.org>
@@ -26,31 +27,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sometimes the device sends IR data which is all space, no pulses whatsoever.
-Add the end of this the driver will put the rc device into idle mode when
-it already is in idle mode. The following will be logged:
+The decoder is called rc-mm, not rcmm. This was renamed late in the cycle
+so this bug crept in.
 
-rc rc0: nonsensical timing event of duration 0
-rc rc0: two consecutive events of type space
-
+Cc: Shuah Khan <shuah@kernel.org>
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- drivers/media/rc/imon_raw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/testing/selftests/ir/ir_loopback.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/rc/imon_raw.c b/drivers/media/rc/imon_raw.c
-index e6723993b466..d4aedcf76418 100644
---- a/drivers/media/rc/imon_raw.c
-+++ b/drivers/media/rc/imon_raw.c
-@@ -85,7 +85,7 @@ static void imon_ir_data(struct imon *imon)
- 		offset = bit;
- 	} while (offset > 0);
+diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
+index e700e09e3682..af7f9c7d59bc 100644
+--- a/tools/testing/selftests/ir/ir_loopback.c
++++ b/tools/testing/selftests/ir/ir_loopback.c
+@@ -54,9 +54,9 @@ static const struct {
+ 	{ RC_PROTO_RC6_MCE, "rc-6-mce", 0x00007fff, "rc-6" },
+ 	{ RC_PROTO_SHARP, "sharp", 0x1fff, "sharp" },
+ 	{ RC_PROTO_IMON, "imon", 0x7fffffff, "imon" },
+-	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rcmm" },
+-	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rcmm" },
+-	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rcmm" },
++	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rc-mm" },
++	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rc-mm" },
++	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rc-mm" },
+ };
  
--	if (packet_no == 0x0a) {
-+	if (packet_no == 0x0a && !imon->rcdev->idle) {
- 		ir_raw_event_set_idle(imon->rcdev, true);
- 		ir_raw_event_handle(imon->rcdev);
- 	}
+ int lirc_open(const char *rc)
 -- 
 2.21.0
 
