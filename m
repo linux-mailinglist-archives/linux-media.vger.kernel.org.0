@@ -2,326 +2,349 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 682F088B80
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 15:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DD3F88BB7
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 16:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726266AbfHJNJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Aug 2019 09:09:33 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:38921 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbfHJNJd (ORCPT
+        id S1726168AbfHJOOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Aug 2019 10:14:37 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57214 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726145AbfHJOOh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Aug 2019 09:09:33 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f17so43479074pfn.6;
-        Sat, 10 Aug 2019 06:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nbp33dhtEClMZJfYmdVFpechLLFXlx7/6GRzJF8BUsQ=;
-        b=sLHpz8kylvDXRLZFNKnk+XfEE+9bI+XO05/0nYrgqwg890FMLxcSh3dLEYHLCMEuaZ
-         4460ZpV0AHUG7benYX/T+GmjLX6cYpoZCJiNPytDVlx8ky7s0JQ4pcNREVrOHApQA3x1
-         VENsW0/nsQx9l8IqBdg/ZGyrIyp1IDB3wrqk7pVsxSPIx7TFJh1VPGf22R+xkS4MO/6e
-         sJ+r60UgrQOZGuU6b0XEi7EPy7VGvVe0kDqHwlvY/hrFH+R5R7gGUY2bPm+oYb5TKVno
-         eHHTpOrqbdcU/bm6ZWocgXt/k2gk7J1pJeFtP0AaJDgJe3xn8wAosprsBtK3SU4ixDYl
-         LZsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nbp33dhtEClMZJfYmdVFpechLLFXlx7/6GRzJF8BUsQ=;
-        b=GnaSlvPwUUSpFbg4Elfw5Kx5jL3xahiOzKPXQ08AZa1jCzBOQxEKmxHMsVsjmrYJ/e
-         aFoJqta9JFiWaDZj2+1krIOwz96BomyiT174QbHyHjb0O064u/5U51wiUiVOmucDLiuV
-         qof/FK5g8hNVRoJJT/OXYp2I7dnn/tDhczkEUWoCw19RPhFtaimt69C1sNjLCwH4trWc
-         vaCesA92cI7bQaOe7wj9mTGor0zlBJTs41poRzBILcSyG8HuvlanOWi2kdW6iY54yz7s
-         6TayuseugjQ8+HCjUAvZoxvy+jFsROCLlIt6EYA0V10NMW194FGZiy8v5dRPDgj48dH2
-         0KGQ==
-X-Gm-Message-State: APjAAAUAvJQq5ivq287v91WyU33pT8NsUeDXdP4g+Fk+3WVQHTAfv/qE
-        Rx0t4RyTIn/P+tVT+1QDeX/MPLYZwjnKqG3ME2A=
-X-Google-Smtp-Source: APXvYqyE+ULqZVrF1p9wQKabJ2ELBRkepsfar6pZIykSfU9M+fAS92ifxACCYFnuH4uBVfAR8Xu+1d7JNGtHnnaJcrU=
-X-Received: by 2002:a63:e54f:: with SMTP id z15mr21886228pgj.4.1565442572461;
- Sat, 10 Aug 2019 06:09:32 -0700 (PDT)
+        Sat, 10 Aug 2019 10:14:37 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5536F67;
+        Sat, 10 Aug 2019 16:14:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565446474;
+        bh=bSif1YUXdro/ri2Eo/hCoZ/bPT1nH7AYvUtuX1zxJVc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rX88nVNe4tp7g4UFh28oVuvXOLwkmI1337WGUPcWEtL+R63qc4UNuW5A++iGb6gmS
+         Ael0LZAiF5xWpeFDvCZSlxeH6LSEzaY8ca0w84XRvlBOZT9s9iZc7a9U5dfCvTxLOa
+         +hDo/eqpUoFJ90Q02Tw/ESir0JUih1GyRRJBaii4=
+Date:   Sat, 10 Aug 2019 17:14:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: vimc: move private defines to a common header
+Message-ID: <20190810141432.GA30451@pendragon.ideasonboard.com>
+References: <cover.1565386363.git.skhan@linuxfoundation.org>
+ <142cc5a6a10f75ed97de8b2d9b1e73b034a88b2f.1565386363.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
-References: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
- <1560280855-18085-3-git-send-email-luis.oliveira@synopsys.com> <20190809141000.GB864@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20190809141000.GB864@valkosipuli.retiisi.org.uk>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 10 Aug 2019 16:09:21 +0300
-Message-ID: <CAHp75VeutP=W43GHtY+FKvVGjBnQrF+nKbdaq_QXy8ZCoS=k1g@mail.gmail.com>
-Subject: Re: [v4 2/6] media: platform: dwc: Add MIPI CSI-2 controller driver
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Luis Oliveira <Luis.Oliveira@synopsys.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Rob Herring <robh@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        paulmck@linux.ibm.com, Mark Rutland <mark.rutland@arm.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Joao Pinto <Joao.Pinto@synopsys.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <142cc5a6a10f75ed97de8b2d9b1e73b034a88b2f.1565386363.git.skhan@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 9, 2019 at 5:38 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> On Tue, Jun 11, 2019 at 09:20:51PM +0200, Luis Oliveira wrote:
-> > Add the Synopsys MIPI CSI-2 controller driver. This
-> > controller driver is divided in platform functions and core functions.
-> > This way it serves as platform for future DesignWare drivers.
+Hi Shuah,
 
-> > +const struct mipi_dt csi_dt[] = {
->
-> Make this static or use a common prefix that somehow resembles the name
-> name of the driver.
->
-> > +     {
-> > +             .hex = CSI_2_YUV420_8,
-> > +             .name = "YUV420_8bits",
-> > +     }, {
-> > +             .hex = CSI_2_YUV420_10,
-> > +             .name = "YUV420_10bits",
-> > +     }, {
-> > +             .hex = CSI_2_YUV420_8_LEG,
-> > +             .name = "YUV420_8bits_LEGACY",
-> > +     }, {
-> > +             .hex = CSI_2_YUV420_8_SHIFT,
-> > +             .name = "YUV420_8bits_SHIFT",
-> > +     }, {
-> > +             .hex = CSI_2_YUV420_10_SHIFT,
-> > +             .name = "YUV420_10bits_SHIFT",
-> > +     }, {
-> > +             .hex = CSI_2_YUV422_8,
-> > +             .name = "YUV442_8bits",
-> > +     }, {
-> > +             .hex = CSI_2_YUV422_10,
-> > +             .name = "YUV442_10bits",
-> > +     }, {
-> > +             .hex = CSI_2_RGB444,
-> > +             .name = "RGB444",
-> > +     }, {
-> > +             .hex = CSI_2_RGB555,
-> > +             .name = "RGB555",
-> > +     }, {
-> > +             .hex = CSI_2_RGB565,
-> > +             .name = "RGB565",
-> > +     }, {
-> > +             .hex = CSI_2_RGB666,
-> > +             .name = "RGB666",
-> > +     }, {
-> > +             .hex = CSI_2_RGB888,
-> > +             .name = "RGB888",
-> > +     }, {
-> > +             .hex = CSI_2_RAW6,
-> > +             .name = "RAW6",
-> > +     }, {
-> > +             .hex = CSI_2_RAW7,
-> > +             .name = "RAW7",
-> > +     }, {
-> > +             .hex = CSI_2_RAW8,
-> > +             .name = "RAW8",
-> > +     }, {
-> > +             .hex = CSI_2_RAW10,
-> > +             .name = "RAW10",
-> > +     }, {
-> > +             .hex = CSI_2_RAW12,
-> > +             .name = "RAW12",
-> > +     }, {
-> > +             .hex = CSI_2_RAW14,
-> > +             .name = "RAW14",
-> > +     }, {
-> > +             .hex = CSI_2_RAW16,
-> > +             .name = "RAW16",
-> > +     },
-> > +};
+Thank you for the patch.
 
-One may utilize __stringify() macro and do somelike
+On Fri, Aug 09, 2019 at 03:45:41PM -0600, Shuah Khan wrote:
+> In preparation for collapsing the component driver structure into
+> a monolith, move private device structure defines to a new common
+> header file.
 
-#define CSI_FMT_DESC(fmt) \
- { .hex = CSI_2_##fmt, .name = __stringify(fmt), }
+Apart from the vimc_device structure, this doesn't seem to be needed.
+I'd rather keep each structure private to the .c file that handles it,
+and only share vimc_device globally.
 
-And do
-
- CSI_FMT_DESC(RAW16),
-
-etc.
-
-> > +             return cfg ? v4l2_subdev_get_try_format(&dev->sd,
-> > +                                                     cfg,
-> > +                                                     0) : NULL;
-
-This indentation looks ugly.
-I would rather put this on one line.
-
-> > +     dev_dbg(dev->dev,
-> > +             "%s got v4l2_mbus_pixelcode. 0x%x\n", __func__,
-> > +             dev->format.code);
-> > +     dev_dbg(dev->dev,
-> > +             "%s got width. 0x%x\n", __func__,
-> > +             dev->format.width);
-> > +     dev_dbg(dev->dev,
-> > +             "%s got height. 0x%x\n", __func__,
-> > +             dev->format.height);
-
-__func__ is usually redundant (if Dynamic Debug in use it can be
-switched at run-time).
-
-> I'd just omit these debug prints in a driver. But adding them to the
-> framework might make sense. We don't have a lot of debug prints dealing
-> with user parameters in there. OTOH the common test programs largely do the
-> same already.
-
-I would rather see tracepoints instead of debug prints if we are
-talking about generic solution for entire framework.
-
->
-> > +     return &dev->format;
-> > +}
-
-> > +     struct mipi_fmt *dev_fmt;
-
-This is simple bad name. We have dev_fmt() macro. I would rather avoid
-potential collisions.
-
-> > +     struct v4l2_mbus_framefmt *mf;
-> > +
-> > +     mf = dw_mipi_csi_get_format(dev, cfg, fmt->which);
-> > +     if (!mf)
-> > +             return -EINVAL;
-
-Can't you rather return an error pointer in this and similar cases?
-
-> > +     dev_vdbg(dev->dev, "%s: on=%d\n", __func__, on);
-
-This is noise. If you would like to debug Function Tracer is a good start.
-
-> > +     of_id = of_match_node(dw_mipi_csi_of_match, dev->of_node);
-> > +     if (!of_id)
-> > +             return -EINVAL;
-
-Is it possible to have this asserted?
-
-
-> > +     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-
-> > +     if (!res)
-> > +             return -ENXIO;
-
-Redundant. Below does the check for you.
-
-> > +
-> > +     csi->base_address = devm_ioremap_resource(dev, res);
-> > +     if (IS_ERR(csi->base_address)) {
-
-> > +             dev_err(dev, "Base address not set.\n");
-
-Redundant. Above does print an error message for you.
-
-> > +             return PTR_ERR(csi->base_address);
-> > +     }
-
-Moreover, use devm_platform_ioremap_resource() instead of both.
-
-> > +     csi->ctrl_irq_number = platform_get_irq(pdev, 0);
-> > +     if (csi->ctrl_irq_number < 0) {
-
-> > +             dev_err(dev, "irq number %d not set.\n", csi->ctrl_irq_number);
-
-Redundant since this cycle (v5.4).
-
-> > +             ret = csi->ctrl_irq_number;
-
-Better to do the opposite
-
-ret = platform_get_irq();
-if (ret)
- goto end;
-... = ret;
-
-> > +             goto end;
-> > +     }
-
-> > +     ret = devm_request_irq(dev, csi->ctrl_irq_number,
-> > +                            dw_mipi_csi_irq1, IRQF_SHARED,
-> > +                            dev_name(dev), csi);
-> > +     if (ret) {
-> > +             dev_err(dev, "irq csi %s failed\n", of_id->name);
-> > +
-> > +             goto end;
-> > +     }
-
-devm_*irq() might be a bad idea. Is it race free in your driver?
-
-> > +static const struct of_device_id dw_mipi_csi_of_match[] = {
-> > +     { .compatible = "snps,dw-csi" },
-
-> > +     {},
-
-Better without comma. Terminator may terminate even at compile time.
-
-> > +};
-
-> > +static ssize_t core_version_show(struct device *dev,
-> > +                              struct device_attribute *attr,
-> > +                              char *buf)
-> > +{
-> > +     struct platform_device *pdev = to_platform_device(dev);
-> > +     struct v4l2_subdev *sd = platform_get_drvdata(pdev);
-> > +     struct dw_csi *csi_dev = sd_to_mipi_csi_dev(sd);
-
-> > +
-> > +     char buffer[10];
-> > +
-> > +     snprintf(buffer, 10, "v.%d.%d*\n", csi_dev->hw_version_major,
-> > +              csi_dev->hw_version_minor);
-> > +
-> > +     return strlcpy(buf, buffer, PAGE_SIZE);
-
-Oh, can't you simple without any temprorary useless buffers?
- sprintf(buf, ...)?
-(Yes, note _absence_ of *n* there)
-
-> > +}
-
-> > +static ssize_t n_lanes_store(struct device *dev, struct device_attribute *attr,
-> > +                          const char *buf, size_t count)
-> > +{
-> > +     int ret;
-> > +     unsigned long lanes;
-
-> > +
-
-More blank lines! We need them!
-
-> > +     struct platform_device *pdev = to_platform_device(dev);
-> > +     struct v4l2_subdev *sd = platform_get_drvdata(pdev);
-> > +     struct dw_csi *csi_dev = sd_to_mipi_csi_dev(sd);
-> > +
-> > +     ret = kstrtoul(buf, 10, &lanes);
-> > +     if (ret < 0)
-> > +             return ret;
-
-Can it return positive number?
-
-> > +     dev_info(dev, "Lanes %lu\n", lanes);
-
-Noise.
-The user gets it, why to spam kernel log???
-
-> > +     csi_dev->hw.num_lanes = lanes;
-> > +
-> > +     return count;
-> > +}
-
-I told once, can repeat again. Synopsys perhaps needs better reviews
-inside company. Each time I see the code, it repeats same mistakes
-over and over. Have you, guys, do something about it?
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  drivers/media/platform/vimc/vimc-capture.c |  21 +----
+>  drivers/media/platform/vimc/vimc-core.c    |  18 +---
+>  drivers/media/platform/vimc/vimc-debayer.c |  16 +---
+>  drivers/media/platform/vimc/vimc-scaler.c  |  15 +--
+>  drivers/media/platform/vimc/vimc-sensor.c  |  13 +--
+>  drivers/media/platform/vimc/vimc.h         | 102 +++++++++++++++++++++
+>  6 files changed, 107 insertions(+), 78 deletions(-)
+>  create mode 100644 drivers/media/platform/vimc/vimc.h
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index 664855708fdf..c52fc5d97c2d 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -13,6 +13,7 @@
+>  #include <media/videobuf2-core.h>
+>  #include <media/videobuf2-vmalloc.h>
+>  
+> +#include "vimc.h"
+>  #include "vimc-common.h"
+>  #include "vimc-streamer.h"
+>  
+> @@ -44,26 +45,6 @@ static const u32 vimc_cap_supported_pixfmt[] = {
+>  	V4L2_PIX_FMT_SRGGB12,
+>  };
+>  
+> -struct vimc_cap_device {
+> -	struct vimc_ent_device ved;
+> -	struct video_device vdev;
+> -	struct device *dev;
+> -	struct v4l2_pix_format format;
+> -	struct vb2_queue queue;
+> -	struct list_head buf_list;
+> -	/*
+> -	 * NOTE: in a real driver, a spin lock must be used to access the
+> -	 * queue because the frames are generated from a hardware interruption
+> -	 * and the isr is not allowed to sleep.
+> -	 * Even if it is not necessary a spinlock in the vimc driver, we
+> -	 * use it here as a code reference
+> -	 */
+> -	spinlock_t qlock;
+> -	struct mutex lock;
+> -	u32 sequence;
+> -	struct vimc_stream stream;
+> -};
+> -
+>  static const struct v4l2_pix_format fmt_default = {
+>  	.width = 640,
+>  	.height = 480,
+> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+> index 571c55aa0e16..c9b351472272 100644
+> --- a/drivers/media/platform/vimc/vimc-core.c
+> +++ b/drivers/media/platform/vimc/vimc-core.c
+> @@ -12,6 +12,7 @@
+>  #include <media/media-device.h>
+>  #include <media/v4l2-device.h>
+>  
+> +#include "vimc.h"
+>  #include "vimc-common.h"
+>  
+>  #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
+> @@ -24,23 +25,6 @@
+>  	.flags = link_flags,					\
+>  }
+>  
+> -struct vimc_device {
+> -	/* The platform device */
+> -	struct platform_device pdev;
+> -
+> -	/* The pipeline configuration */
+> -	const struct vimc_pipeline_config *pipe_cfg;
+> -
+> -	/* The Associated media_device parent */
+> -	struct media_device mdev;
+> -
+> -	/* Internal v4l2 parent device*/
+> -	struct v4l2_device v4l2_dev;
+> -
+> -	/* Subdevices */
+> -	struct platform_device **subdevs;
+> -};
+> -
+>  /* Structure which describes individual configuration for each entity */
+>  struct vimc_ent_config {
+>  	const char *name;
+> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+> index 00598fbf3cba..750752bb173c 100644
+> --- a/drivers/media/platform/vimc/vimc-debayer.c
+> +++ b/drivers/media/platform/vimc/vimc-debayer.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/v4l2-mediabus.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> +#include "vimc.h"
+>  #include "vimc-common.h"
+>  
+>  #define VIMC_DEB_DRV_NAME "vimc-debayer"
+> @@ -44,21 +45,6 @@ struct vimc_deb_pix_map {
+>  	enum vimc_deb_rgb_colors order[2][2];
+>  };
+>  
+> -struct vimc_deb_device {
+> -	struct vimc_ent_device ved;
+> -	struct v4l2_subdev sd;
+> -	struct device *dev;
+> -	/* The active format */
+> -	struct v4l2_mbus_framefmt sink_fmt;
+> -	u32 src_code;
+> -	void (*set_rgb_src)(struct vimc_deb_device *vdeb, unsigned int lin,
+> -			    unsigned int col, unsigned int rgb[3]);
+> -	/* Values calculated when the stream starts */
+> -	u8 *src_frame;
+> -	const struct vimc_deb_pix_map *sink_pix_map;
+> -	unsigned int sink_bpp;
+> -};
+> -
+>  static const struct v4l2_mbus_framefmt sink_fmt_default = {
+>  	.width = 640,
+>  	.height = 480,
+> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+> index c7123a45c55b..fe99b9102ada 100644
+> --- a/drivers/media/platform/vimc/vimc-scaler.c
+> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/v4l2-mediabus.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> +#include "vimc.h"
+>  #include "vimc-common.h"
+>  
+>  #define VIMC_SCA_DRV_NAME "vimc-scaler"
+> @@ -31,20 +32,6 @@ static const u32 vimc_sca_supported_pixfmt[] = {
+>  	V4L2_PIX_FMT_ARGB32,
+>  };
+>  
+> -struct vimc_sca_device {
+> -	struct vimc_ent_device ved;
+> -	struct v4l2_subdev sd;
+> -	struct device *dev;
+> -	/* NOTE: the source fmt is the same as the sink
+> -	 * with the width and hight multiplied by mult
+> -	 */
+> -	struct v4l2_mbus_framefmt sink_fmt;
+> -	/* Values calculated when the stream starts */
+> -	u8 *src_frame;
+> -	unsigned int src_line_size;
+> -	unsigned int bpp;
+> -};
+> -
+>  static const struct v4l2_mbus_framefmt sink_fmt_default = {
+>  	.width = 640,
+>  	.height = 480,
+> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+> index 51359472eef2..6c57b1e262f9 100644
+> --- a/drivers/media/platform/vimc/vimc-sensor.c
+> +++ b/drivers/media/platform/vimc/vimc-sensor.c
+> @@ -16,22 +16,11 @@
+>  #include <media/v4l2-subdev.h>
+>  #include <media/tpg/v4l2-tpg.h>
+>  
+> +#include "vimc.h"
+>  #include "vimc-common.h"
+>  
+>  #define VIMC_SEN_DRV_NAME "vimc-sensor"
+>  
+> -struct vimc_sen_device {
+> -	struct vimc_ent_device ved;
+> -	struct v4l2_subdev sd;
+> -	struct device *dev;
+> -	struct tpg_data tpg;
+> -	struct task_struct *kthread_sen;
+> -	u8 *frame;
+> -	/* The active format */
+> -	struct v4l2_mbus_framefmt mbus_format;
+> -	struct v4l2_ctrl_handler hdl;
+> -};
+> -
+>  static const struct v4l2_mbus_framefmt fmt_default = {
+>  	.width = 640,
+>  	.height = 480,
+> diff --git a/drivers/media/platform/vimc/vimc.h b/drivers/media/platform/vimc/vimc.h
+> new file mode 100644
+> index 000000000000..a5adebdda941
+> --- /dev/null
+> +++ b/drivers/media/platform/vimc/vimc.h
+> @@ -0,0 +1,102 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + *
+> + * Copyright (C) 2019 Shuah Khan <skhan@linuxfoundation.org>
+> + *
+> + */
+> +
+> +/*
+> + * This file defines vimc driver device and sub-device structures.
+> + */
+> +
+> +#ifndef _VIMC_H_
+> +#define _VIMC_H_
+> +
+> +#include <linux/platform_device.h>
+> +#include <media/media-device.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/tpg/v4l2-tpg.h>
+> +#include <media/v4l2-ctrls.h>
+> +
+> +#include "vimc-common.h"
+> +
+> +struct vimc_cap_device {
+> +	struct vimc_ent_device ved;
+> +	struct video_device vdev;
+> +	struct device *dev;
+> +	struct v4l2_pix_format format;
+> +	struct vb2_queue queue;
+> +	struct list_head buf_list;
+> +	/*
+> +	 * NOTE: in a real driver, a spin lock must be used to access the
+> +	 * queue because the frames are generated from a hardware interruption
+> +	 * and the isr is not allowed to sleep.
+> +	 * Even if it is not necessary a spinlock in the vimc driver, we
+> +	 * use it here as a code reference
+> +	 */
+> +	spinlock_t qlock;
+> +	struct mutex lock;
+> +	u32 sequence;
+> +	struct vimc_stream stream;
+> +};
+> +
+> +struct vimc_sca_device {
+> +	struct vimc_ent_device ved;
+> +	struct v4l2_subdev sd;
+> +	struct device *dev;
+> +	/* NOTE: the source fmt is the same as the sink
+> +	 * with the width and hight multiplied by mult
+> +	 */
+> +	struct v4l2_mbus_framefmt sink_fmt;
+> +	/* Values calculated when the stream starts */
+> +	u8 *src_frame;
+> +	unsigned int src_line_size;
+> +	unsigned int bpp;
+> +};
+> +
+> +struct vimc_deb_device {
+> +	struct vimc_ent_device ved;
+> +	struct v4l2_subdev sd;
+> +	struct device *dev;
+> +	/* The active format */
+> +	struct v4l2_mbus_framefmt sink_fmt;
+> +	u32 src_code;
+> +	void (*set_rgb_src)(struct vimc_deb_device *vdeb, unsigned int lin,
+> +			    unsigned int col, unsigned int rgb[3]);
+> +	/* Values calculated when the stream starts */
+> +	u8 *src_frame;
+> +	const struct vimc_deb_pix_map *sink_pix_map;
+> +	unsigned int sink_bpp;
+> +};
+> +
+> +struct vimc_sen_device {
+> +	struct vimc_ent_device ved;
+> +	struct v4l2_subdev sd;
+> +	struct device *dev;
+> +	struct tpg_data tpg;
+> +	struct task_struct *kthread_sen;
+> +	u8 *frame;
+> +	/* The active format */
+> +	struct v4l2_mbus_framefmt mbus_format;
+> +	struct v4l2_ctrl_handler hdl;
+> +};
+> +
+> +struct vimc_device {
+> +	/* The platform device */
+> +	struct platform_device pdev;
+> +
+> +	/* The pipeline configuration */
+> +	const struct vimc_pipeline_config *pipe_cfg;
+> +
+> +	/* The Associated media_device parent */
+> +	struct media_device mdev;
+> +
+> +	/* Internal v4l2 parent device*/
+> +	struct v4l2_device v4l2_dev;
+> +
+> +	/* Subdevices */
+> +	struct platform_device **subdevs;
+> +};
+> +
+> +#endif
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
+
+Laurent Pinchart
