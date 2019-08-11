@@ -2,153 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C22788F41
-	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2019 05:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B86DE88FCE
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2019 07:11:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbfHKDlC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Aug 2019 23:41:02 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57545 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726417AbfHKDlC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Aug 2019 23:41:02 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:85dc:b370:3c15:1378])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id wej4hGAyDur8Twej5hf5OP; Sun, 11 Aug 2019 05:40:59 +0200
-Message-ID: <dc071bd8d9447d10a1d2c33fcf024555@smtp-cloud7.xs4all.net>
-Date:   Sun, 11 Aug 2019 05:40:58 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfK+tm1HjFevZAuwe3kpD4ZygxjFOrpMGE6NsZDAygpoyCk6LBpcs0r5l7lQAwu+i3OsZnQWUZpXvp2LpTlc31fL6LNamFajdiySiwa8ceUOeTpWeVVIc
- /qIkp/DeBdWl7E/p/E3QtacnnLJ/t6wbV5POnlI8bLot1U1Ajtc0ATB6w4KlIhUrUvg1Ky8g/G/YgN7aaMqDQAGblHHQwIVqPHuIRYS/t1maoyXep6X9IJPV
+        id S1725861AbfHKFLN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Aug 2019 01:11:13 -0400
+Received: from gofer.mess.org ([88.97.38.141]:35575 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725813AbfHKFLN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 11 Aug 2019 01:11:13 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 8DDA360A27; Sun, 11 Aug 2019 06:11:10 +0100 (BST)
+Date:   Sun, 11 Aug 2019 06:11:10 +0100
+From:   Sean Young <sean@mess.org>
+To:     syzbot <syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com>
+Cc:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media: em28xx: modules workqueue not inited for 2nd device
+Message-ID: <20190811051110.hsdwmjrbvqgrmssc@gofer.mess.org>
+References: <0000000000004bcc0d058faf01c4@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000004bcc0d058faf01c4@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+syzbot reports an error on flush_request_modules() for the second device.
+This workqueue was never initialised so simply remove the offending line.
 
-Results of the daily build of media_tree:
+usb 1-1: USB disconnect, device number 2
+em28xx 1-1:1.153: Disconnecting em28xx #1
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3031
+__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc2+ #25
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x2a3/0x6da kernel/panic.c:219
+  __warn.cold+0x20/0x4a kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
+RIP: 0010:__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+Code: 9a 22 00 48 c7 c7 20 e4 c5 85 e8 d9 3a 0d 00 0f 0b 45 31 e4 e9 98 86
+ff ff e8 51 9a 22 00 48 c7 c7 20 e4 c5 85 e8 be 3a 0d 00 <0f> 0b 45 31 e4
+e9 7d 86 ff ff e8 36 9a 22 00 48 c7 c7 20 e4 c5 85
+RSP: 0018:ffff8881da20f720 EFLAGS: 00010286
+RAX: 0000000000000024 RBX: dffffc0000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed103b441ed6
+RBP: ffff8881da20f888 R08: 0000000000000024 R09: fffffbfff11acd9a
+R10: fffffbfff11acd99 R11: ffffffff88d66ccf R12: 0000000000000000
+R13: 0000000000000001 R14: ffff8881c6685df8 R15: ffff8881d2a85b78
+  flush_request_modules drivers/media/usb/em28xx/em28xx-cards.c:3325 [inline]
+  em28xx_usb_disconnect.cold+0x280/0x2a6
+drivers/media/usb/em28xx/em28xx-cards.c:4023
+  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
+  __device_release_driver drivers/base/dd.c:1120 [inline]
+  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1151
+  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
+  device_del+0x420/0xb10 drivers/base/core.c:2288
+  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
+  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
+  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-date:			Sun Aug 11 05:00:12 CEST 2019
-media-tree git hash:	97299a3035328d7ae2f4fccaf6e549974df6e118
-media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
-v4l-utils git hash:	edea79a653acfc9aab6331296abd850a5a6873b0
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: cdcfe2eb9ea76dee66b2129df808a4d77156f4a0
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Reported-by: syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/usb/em28xx/em28xx-cards.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: ERRORS
-spec-git: OK
-virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
+diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+index 6e33782c3ca6..5983e72a0622 100644
+--- a/drivers/media/usb/em28xx/em28xx-cards.c
++++ b/drivers/media/usb/em28xx/em28xx-cards.c
+@@ -4019,7 +4019,6 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
+ 		dev->dev_next->disconnected = 1;
+ 		dev_info(&dev->intf->dev, "Disconnecting %s\n",
+ 			 dev->dev_next->name);
+-		flush_request_modules(dev->dev_next);
+ 	}
+ 
+ 	dev->disconnected = 1;
+-- 
+2.21.0
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
