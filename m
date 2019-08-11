@@ -2,273 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8E788CF6
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2019 21:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C22788F41
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2019 05:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726239AbfHJTcN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Aug 2019 15:32:13 -0400
-Received: from mail-pl1-f178.google.com ([209.85.214.178]:34939 "EHLO
-        mail-pl1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbfHJTcN (ORCPT
+        id S1726473AbfHKDlC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Aug 2019 23:41:02 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57545 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726417AbfHKDlC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Aug 2019 15:32:13 -0400
-Received: by mail-pl1-f178.google.com with SMTP id w24so46288747plp.2;
-        Sat, 10 Aug 2019 12:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=KVpggb07NcQVN8x+snzsUWt3OQHYfjx5+ahbazYc12I=;
-        b=sJCJ6EkiH8aOP51sC8wSpJg0Asmed2klBTXhnnvdAj54b1sXTj4Z6P6S96DOZM1Uhx
-         TO53sIBrvAoRVqWPnP5DaBGnI1lwyv/UtGNUN4S0oMw3lErLVywi2mz8UUP5iL42tuGb
-         5r45oW5xdQV8RXoR/96gkElXQTCd/W7tMXSjpB1BSHJb2wgCNC4Ej5rCHQtkJ25c+g6Z
-         ULxFUpWaVmct1iJ4RlZpKzLNSiqpGz9KqUuWb5K/83WboV++BvLSNGuHIf2KBJIBHv86
-         tz5w1r0alo3fm1D8amdIsKscLgpO5+yR6WUfvhfSyKV0eeByjVH0L+MjyAo9fEffyRHr
-         ohUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=KVpggb07NcQVN8x+snzsUWt3OQHYfjx5+ahbazYc12I=;
-        b=BtvYzzhku39Eum15N2l21h1qlkmXFzFP9Es9AAgjlzZcSbvQpaf2LgX9Dis+H9nc+e
-         z8lk8AJYB33uBXT3nWPfZ5UVeDgj7NWCz5j8B0/B7fRI2nKueOdxzE6oW8MsNqKGiMkb
-         j8PvZ2nQw1J2m7EiPx/yXhFl91fX8wD+YJMpI6P3B2RquSdgyq7bVboJY2cFa3LBbCXG
-         +bs6FnUvilgiRGonOCecbd/nWe5enMiXNrlOOKp8ONH6+E3AtlPXl6Wfz9qAjIB+aEEM
-         VrECzmyUxM6tLCjEoi7u9oUDFWuoX2yyPSKCCory675mBmukFWlsQv/eB/Tzhah2IlAu
-         KU3g==
-X-Gm-Message-State: APjAAAWsH9Q1Y9TJ0ywbfIR/VYRboymzIAEg/euozTHafIxWf8aFIILR
-        OBFs3dLWIxrqnl/YM+DhqAS3//fG
-X-Google-Smtp-Source: APXvYqzkd5b+90LgBNpauykDy3L1MkKOV/hzPTu69N32A9nw7bXrhy2ca1krfQsJlf+WwR3rGRyTmA==
-X-Received: by 2002:a17:902:ff05:: with SMTP id f5mr24637591plj.116.1565465531964;
-        Sat, 10 Aug 2019 12:32:11 -0700 (PDT)
-Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id z4sm156578574pfg.166.2019.08.10.12.32.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 10 Aug 2019 12:32:11 -0700 (PDT)
-From:   Steve Longerbeam <slongerbeam@gmail.com>
+        Sat, 10 Aug 2019 23:41:02 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:85dc:b370:3c15:1378])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id wej4hGAyDur8Twej5hf5OP; Sun, 11 Aug 2019 05:40:59 +0200
+Message-ID: <dc071bd8d9447d10a1d2c33fcf024555@smtp-cloud7.xs4all.net>
+Date:   Sun, 11 Aug 2019 05:40:58 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
-        / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] media: imx: mipi csi-2: Release DPHY reset in s_power
-Date:   Sat, 10 Aug 2019 12:32:04 -0700
-Message-Id: <20190810193204.25278-1-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfK+tm1HjFevZAuwe3kpD4ZygxjFOrpMGE6NsZDAygpoyCk6LBpcs0r5l7lQAwu+i3OsZnQWUZpXvp2LpTlc31fL6LNamFajdiySiwa8ceUOeTpWeVVIc
+ /qIkp/DeBdWl7E/p/E3QtacnnLJ/t6wbV5POnlI8bLot1U1Ajtc0ATB6w4KlIhUrUvg1Ky8g/G/YgN7aaMqDQAGblHHQwIVqPHuIRYS/t1maoyXep6X9IJPV
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some CSI-2 transmitters may only set their data lanes to LP-11 state for
-a very short time after being powered on, after which they transition
-the lanes to high speed mode.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-If that occurs, the lanes will likely be in HS mode long before the imx6
-DPHY receiver is initialized and brought out of reset at stream on.
-According to the imx6 reference manual, the lanes need to be in LP-11
-state at least for some period after the DPHY reset is released. This
-might mean that the state machine in the DPHY core (a Synopsys DesignWare
-core) needs to detect a LP-11 to HS transition on the lanes before it can
-proceed to detect a clock on the clock lane and begin to accept packets.
+Results of the daily build of media_tree:
 
-In an attempt to accommodate such sensors, carry out steps 1-5 in the
-s_power op (moved out of s_stream op). This moves steps 1-5 closer in
-time to after the sensor is powered ON by v4l2_pipeline_pm_use(), and
-provides a better chance that the receiver DPHY will catch an early
-LP-11 to HS transition.
+date:			Sun Aug 11 05:00:12 CEST 2019
+media-tree git hash:	97299a3035328d7ae2f4fccaf6e549974df6e118
+media_build git hash:	f5f8e016b8243744bfb2cced2fed3a0772cbd168
+v4l-utils git hash:	edea79a653acfc9aab6331296abd850a5a6873b0
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: cdcfe2eb9ea76dee66b2129df808a4d77156f4a0
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-This works because the graph walk stack used by v4l2_pipeline_pm_use()
-is setup such that the transmitter s_power op is called immediately
-before the receiver's s_power op.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: ERRORS
+spec-git: OK
+virtme: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-For sensors that can persist LP-11 state until stream on, then this
-should still work fine. The receiver will detect the HS transition
-at step 6, when streaming is enabled at the transmitter.
+Detailed results are available here:
 
-Tested on imx6q SabreSD with OV5640.
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
----
- drivers/staging/media/imx/imx6-mipi-csi2.c | 93 +++++++++++++++++-----
- 1 file changed, 73 insertions(+), 20 deletions(-)
+Detailed regression test results are available here:
 
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index f29e28df36ed..06345de9f060 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -47,6 +47,7 @@ struct csi2_dev {
- 
- 	struct v4l2_mbus_framefmt format_mbus;
- 
-+	int                     power_count;
- 	int                     stream_count;
- 	struct v4l2_subdev      *src_sd;
- 	bool                    sink_linked[CSI2_NUM_SRC_PADS];
-@@ -113,9 +114,10 @@ static inline struct csi2_dev *sd_to_dev(struct v4l2_subdev *sdev)
-  * 7. CSI2 Controller programming - Read the PHY status register (PHY_STATE)
-  *    to confirm that the D-PHY is receiving a clock on the D-PHY clock lane.
-  *
-- * All steps 3 through 7 are carried out by csi2_s_stream(ON) here. Step
-- * 6 is accomplished by calling the source subdev's s_stream(ON) between
-- * steps 5 and 7.
-+ * Steps 3 through 5 are carried out by csi2_s_power(ON) here.
-+ *
-+ * Steps 6 and 7 are carried out by stream(ON) here. Step 6 is accomplished
-+ * by calling the source subdev's s_stream(ON).
-  */
- 
- static void csi2_enable(struct csi2_dev *csi2, bool enable)
-@@ -295,7 +297,7 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
- 	writel(reg, csi2->base + CSI2IPU_GASKET);
- }
- 
--static int csi2_start(struct csi2_dev *csi2)
-+static int csi2_power_on(struct csi2_dev *csi2)
- {
- 	int ret;
- 
-@@ -320,41 +322,87 @@ static int csi2_start(struct csi2_dev *csi2)
- 	if (ret)
- 		goto err_assert_reset;
- 
-+	return 0;
-+
-+err_assert_reset:
-+	csi2_enable(csi2, false);
-+err_disable_clk:
-+	clk_disable_unprepare(csi2->pix_clk);
-+	return ret;
-+}
-+
-+static void csi2_power_off(struct csi2_dev *csi2)
-+{
-+	csi2_enable(csi2, false);
-+	clk_disable_unprepare(csi2->pix_clk);
-+}
-+
-+static int csi2_stream_on(struct csi2_dev *csi2)
-+{
-+	int ret;
-+
- 	/* Step 6 */
- 	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
- 	ret = (ret && ret != -ENOIOCTLCMD) ? ret : 0;
- 	if (ret)
--		goto err_assert_reset;
-+		return ret;
- 
- 	/* Step 7 */
- 	ret = csi2_dphy_wait_clock_lane(csi2);
- 	if (ret)
--		goto err_stop_upstream;
--
--	return 0;
-+		v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
- 
--err_stop_upstream:
--	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
--err_assert_reset:
--	csi2_enable(csi2, false);
--err_disable_clk:
--	clk_disable_unprepare(csi2->pix_clk);
- 	return ret;
- }
- 
--static void csi2_stop(struct csi2_dev *csi2)
-+static void csi2_stream_off(struct csi2_dev *csi2)
- {
- 	/* stop upstream */
- 	v4l2_subdev_call(csi2->src_sd, video, s_stream, 0);
--
--	csi2_enable(csi2, false);
--	clk_disable_unprepare(csi2->pix_clk);
- }
- 
- /*
-  * V4L2 subdev operations.
-  */
- 
-+static int csi2_s_power(struct v4l2_subdev *sd, int on)
-+{
-+	struct csi2_dev *csi2 = sd_to_dev(sd);
-+	int ret = 0;
-+
-+	mutex_lock(&csi2->lock);
-+
-+	if (!csi2->src_sd) {
-+		ret = -EPIPE;
-+		goto out;
-+	}
-+
-+	/*
-+	 * power on/off only if power_count is going from
-+	 * 0 to 1 / 1 to 0.
-+	 */
-+	if (csi2->power_count != !on)
-+		goto update_count;
-+
-+	dev_dbg(csi2->dev, "power %s\n", on ? "ON" : "OFF");
-+
-+	if (on)
-+		ret = csi2_power_on(csi2);
-+	else
-+		csi2_power_off(csi2);
-+	if (ret)
-+		goto out;
-+
-+	/* Update the power count. */
-+update_count:
-+	csi2->power_count += on ? 1 : -1;
-+	if (csi2->power_count < 0)
-+		csi2->power_count = 0;
-+out:
-+	mutex_unlock(&csi2->lock);
-+	return ret;
-+}
-+
- static int csi2_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct csi2_dev *csi2 = sd_to_dev(sd);
-@@ -385,9 +433,9 @@ static int csi2_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	dev_dbg(csi2->dev, "stream %s\n", enable ? "ON" : "OFF");
- 	if (enable)
--		ret = csi2_start(csi2);
-+		ret = csi2_stream_on(csi2);
- 	else
--		csi2_stop(csi2);
-+		csi2_stream_off(csi2);
- 	if (ret)
- 		goto out;
- 
-@@ -528,6 +576,10 @@ static const struct media_entity_operations csi2_entity_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
- };
- 
-+static const struct v4l2_subdev_core_ops csi2_core_ops = {
-+	.s_power = csi2_s_power,
-+};
-+
- static const struct v4l2_subdev_video_ops csi2_video_ops = {
- 	.s_stream = csi2_s_stream,
- };
-@@ -539,6 +591,7 @@ static const struct v4l2_subdev_pad_ops csi2_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops csi2_subdev_ops = {
-+	.core = &csi2_core_ops,
- 	.video = &csi2_video_ops,
- 	.pad = &csi2_pad_ops,
- };
--- 
-2.17.1
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
