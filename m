@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F406C8A72D
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 21:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93AFB8A72E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 21:35:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726934AbfHLTfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 15:35:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60034 "EHLO
+        id S1726955AbfHLTft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 15:35:49 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60038 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726681AbfHLTfp (ORCPT
+        with ESMTP id S1726681AbfHLTfs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 15:35:45 -0400
+        Mon, 12 Aug 2019 15:35:48 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 00945283D3D
+        with ESMTPSA id AD68E283C52
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com,
@@ -28,11 +28,10 @@ Cc:     kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v5 01/11] lib/sort.c: implement sort() variant taking context argument
-Date:   Mon, 12 Aug 2019 16:35:12 -0300
-Message-Id: <20190812193522.10911-2-ezequiel@collabora.com>
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v5 02/11] media: uapi: h264: Rename pixel format
+Date:   Mon, 12 Aug 2019 16:35:13 -0300
+Message-Id: <20190812193522.10911-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190812193522.10911-1-ezequiel@collabora.com>
 References: <20190812193522.10911-1-ezequiel@collabora.com>
@@ -43,138 +42,115 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+The V4L2_PIX_FMT_H264_SLICE_RAW name was originally suggested
+because the pixel format would represent H264 slices without any
+start code.
 
-Our list_sort() utility has always supported a context argument that
-is passed through to the comparison routine. Now there's a use case
-for the similar thing for sort().
+However, as we will now introduce a start code menu control,
+give the pixel format a more meaningful name, while it's
+still early enough to do so.
 
-This implements sort_r by simply extending the existing sort function
-in the obvious way. To avoid code duplication, we want to implement
-sort() in terms of sort_r(). The naive way to do that is
-
-static int cmp_wrapper(const void *a, const void *b, const void *ctx)
-{
-  int (*real_cmp)(const void*, const void*) = ctx;
-  return real_cmp(a, b);
-}
-
-sort(..., cmp) { sort_r(..., cmp_wrapper, cmp) }
-
-but this would do two indirect calls for each comparison. Instead, do
-as is done for the default swap functions - that only adds a cost of a
-single easily predicted branch to each comparison call.
-
-Aside from introducing support for the context argument, this also
-serves as preparation for patches that will eliminate the indirect
-comparison calls in common cases.
-
-Requested-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- include/linux/sort.h |  5 +++++
- lib/sort.c           | 34 ++++++++++++++++++++++++++++------
- 2 files changed, 33 insertions(+), 6 deletions(-)
+Changes in v5:
+* None.
+Changes in v4:
+* New patch.
+---
+ Documentation/media/uapi/v4l/pixfmt-compressed.rst | 4 ++--
+ drivers/media/v4l2-core/v4l2-ioctl.c               | 2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c    | 2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c  | 6 +++---
+ include/media/h264-ctrls.h                         | 2 +-
+ 5 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/sort.h b/include/linux/sort.h
-index 2b99a5dd073d..61b96d0ebc44 100644
---- a/include/linux/sort.h
-+++ b/include/linux/sort.h
-@@ -4,6 +4,11 @@
+diff --git a/Documentation/media/uapi/v4l/pixfmt-compressed.rst b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
+index f52a7b67023d..9b65473a2288 100644
+--- a/Documentation/media/uapi/v4l/pixfmt-compressed.rst
++++ b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
+@@ -52,9 +52,9 @@ Compressed Formats
+       - ``V4L2_PIX_FMT_H264_MVC``
+       - 'M264'
+       - H264 MVC video elementary stream.
+-    * .. _V4L2-PIX-FMT-H264-SLICE-RAW:
++    * .. _V4L2-PIX-FMT-H264-SLICE:
  
- #include <linux/types.h>
+-      - ``V4L2_PIX_FMT_H264_SLICE_RAW``
++      - ``V4L2_PIX_FMT_H264_SLICE``
+       - 'S264'
+       - H264 parsed slice data, without the start code and as
+ 	extracted from the H264 bitstream.  This format is adapted for
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index bb5b4926538a..39f10621c91b 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1343,7 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_H264:		descr = "H.264"; break;
+ 		case V4L2_PIX_FMT_H264_NO_SC:	descr = "H.264 (No Start Codes)"; break;
+ 		case V4L2_PIX_FMT_H264_MVC:	descr = "H.264 MVC"; break;
+-		case V4L2_PIX_FMT_H264_SLICE_RAW:	descr = "H.264 Parsed Slice Data"; break;
++		case V4L2_PIX_FMT_H264_SLICE:	descr = "H.264 Parsed Slice Data"; break;
+ 		case V4L2_PIX_FMT_H263:		descr = "H.263"; break;
+ 		case V4L2_PIX_FMT_MPEG1:	descr = "MPEG-1 ES"; break;
+ 		case V4L2_PIX_FMT_MPEG2:	descr = "MPEG-2 ES"; break;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index bdad87eb9d79..56ca4c9ad01c 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -46,7 +46,7 @@ void cedrus_device_run(void *priv)
+ 			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
+ 		break;
  
-+void sort_r(void *base, size_t num, size_t size,
-+	    int (*cmp)(const void *, const void *, const void *),
-+	    void (*swap)(void *, void *, int),
-+	    const void *priv);
-+
- void sort(void *base, size_t num, size_t size,
- 	  int (*cmp)(const void *, const void *),
- 	  void (*swap)(void *, void *, int));
-diff --git a/lib/sort.c b/lib/sort.c
-index cf408aec3733..d54cf97e9548 100644
---- a/lib/sort.c
-+++ b/lib/sort.c
-@@ -144,6 +144,18 @@ static void do_swap(void *a, void *b, size_t size, swap_func_t swap_func)
- 		swap_func(a, b, (int)size);
- }
+-	case V4L2_PIX_FMT_H264_SLICE_RAW:
++	case V4L2_PIX_FMT_H264_SLICE:
+ 		run.h264.decode_params = cedrus_find_control_data(ctx,
+ 			V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
+ 		run.h264.pps = cedrus_find_control_data(ctx,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index e2b530b1a956..06c695615703 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -38,7 +38,7 @@ static struct cedrus_format cedrus_formats[] = {
+ 		.directions	= CEDRUS_DECODE_SRC,
+ 	},
+ 	{
+-		.pixelformat	= V4L2_PIX_FMT_H264_SLICE_RAW,
++		.pixelformat	= V4L2_PIX_FMT_H264_SLICE,
+ 		.directions	= CEDRUS_DECODE_SRC,
+ 	},
+ 	{
+@@ -104,7 +104,7 @@ static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
  
-+typedef int (*cmp_func_t)(const void *, const void *);
-+typedef int (*cmp_r_func_t)(const void *, const void *, const void *);
-+#define _CMP_WRAPPER ((cmp_r_func_t)0L)
-+
-+static int do_cmp(const void *a, const void *b,
-+		  cmp_r_func_t cmp, const void *priv)
-+{
-+	if (cmp == _CMP_WRAPPER)
-+		return ((cmp_func_t)(priv))(a, b);
-+	return cmp(a, b, priv);
-+}
-+
- /**
-  * parent - given the offset of the child, find the offset of the parent.
-  * @i: the offset of the heap element whose parent is sought.  Non-zero.
-@@ -171,12 +183,13 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
- }
+ 	switch (pix_fmt->pixelformat) {
+ 	case V4L2_PIX_FMT_MPEG2_SLICE:
+-	case V4L2_PIX_FMT_H264_SLICE_RAW:
++	case V4L2_PIX_FMT_H264_SLICE:
+ 		/* Zero bytes per line for encoded source. */
+ 		bytesperline = 0;
  
- /**
-- * sort - sort an array of elements
-+ * sort_r - sort an array of elements
-  * @base: pointer to data to sort
-  * @num: number of elements
-  * @size: size of each element
-  * @cmp_func: pointer to comparison function
-  * @swap_func: pointer to swap function or NULL
-+ * @priv: third argument passed to comparison function
-  *
-  * This function does a heapsort on the given array.  You may provide
-  * a swap_func function if you need to do something more than a memory
-@@ -188,9 +201,10 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
-  * O(n*n) worst-case behavior and extra memory requirements that make
-  * it less suitable for kernel use.
-  */
--void sort(void *base, size_t num, size_t size,
--	  int (*cmp_func)(const void *, const void *),
--	  void (*swap_func)(void *, void *, int size))
-+void sort_r(void *base, size_t num, size_t size,
-+	    int (*cmp_func)(const void *, const void *, const void *),
-+	    void (*swap_func)(void *, void *, int size),
-+	    const void *priv)
- {
- 	/* pre-scale counters for performance */
- 	size_t n = num * size, a = (num/2) * size;
-@@ -238,12 +252,12 @@ void sort(void *base, size_t num, size_t size,
- 		 * average, 3/4 worst-case.)
- 		 */
- 		for (b = a; c = 2*b + size, (d = c + size) < n;)
--			b = cmp_func(base + c, base + d) >= 0 ? c : d;
-+			b = do_cmp(base + c, base + d, cmp_func, priv) >= 0 ? c : d;
- 		if (d == n)	/* Special case last leaf with no sibling */
- 			b = c;
+@@ -469,7 +469,7 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		ctx->current_codec = CEDRUS_CODEC_MPEG2;
+ 		break;
  
- 		/* Now backtrack from "b" to the correct location for "a" */
--		while (b != a && cmp_func(base + a, base + b) >= 0)
-+		while (b != a && do_cmp(base + a, base + b, cmp_func, priv) >= 0)
- 			b = parent(b, lsbit, size);
- 		c = b;			/* Where "a" belongs */
- 		while (b != a) {	/* Shift it into place */
-@@ -252,4 +266,12 @@ void sort(void *base, size_t num, size_t size,
- 		}
- 	}
- }
-+EXPORT_SYMBOL(sort_r);
-+
-+void sort(void *base, size_t num, size_t size,
-+	  int (*cmp_func)(const void *, const void *),
-+	  void (*swap_func)(void *, void *, int size))
-+{
-+	return sort_r(base, num, size, _CMP_WRAPPER, swap_func, cmp_func);
-+}
- EXPORT_SYMBOL(sort);
+-	case V4L2_PIX_FMT_H264_SLICE_RAW:
++	case V4L2_PIX_FMT_H264_SLICE:
+ 		ctx->current_codec = CEDRUS_CODEC_H264;
+ 		break;
+ 
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index e1404d78d6ff..6160a69c0143 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -14,7 +14,7 @@
+ #include <linux/videodev2.h>
+ 
+ /* Our pixel format isn't stable at the moment */
+-#define V4L2_PIX_FMT_H264_SLICE_RAW v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
++#define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+ 
+ /*
+  * This is put insanely high to avoid conflicting with controls that
 -- 
 2.22.0
 
