@@ -2,63 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB8D38A020
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 15:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E47C8A029
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 15:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727542AbfHLNyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 09:54:17 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57227 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727136AbfHLNyR (ORCPT
+        id S1728022AbfHLNzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 09:55:24 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:47529 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbfHLNzX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 09:54:17 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id xAm4hRKMWur8TxAm7hicCZ; Mon, 12 Aug 2019 15:54:15 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Fix dma_mask for omap_vout
-Message-ID: <d8972207-52e0-76af-4226-d276c649b434@xs4all.nl>
-Date:   Mon, 12 Aug 2019 15:54:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 12 Aug 2019 09:55:23 -0400
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: maxime.ripard@bootlin.com)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id AD3FC240003;
+        Mon, 12 Aug 2019 13:55:19 +0000 (UTC)
+Date:   Mon, 12 Aug 2019 15:55:19 +0200
+From:   Maxime Ripard <maxime.ripard@bootlin.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
+        paul.kocialkowski@bootlin.com, wens@csie.org, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] media: cedrus: Improvements/cleanup
+Message-ID: <20190812135519.ysmqytkhtln7sknc@flea>
+References: <20190530211516.1891-1-jernej.skrabec@siol.net>
+ <274221f1-b2d2-83aa-d84b-e1c572a1b832@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNKnMRhEOlVBo/lURI+AVVfUxeQqoSvJKdzH1OlLFTqsXr1a3F6Y2ouuQ34VTcQmgcqNpFX7k2YDzVJSn3cKk/mvqbSaQPrPN7XKEaZ9NBoMqcfCVGF4
- KDALb5U+5NC27Ru11j7vriQPNHjU64T7X/3l9cwxevQW8sabRJTqBThqUG1q00zRkjZBjlx7cv6F/Q==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5ghcmst6jaoa4kn7"
+Content-Disposition: inline
+In-Reply-To: <274221f1-b2d2-83aa-d84b-e1c572a1b832@xs4all.nl>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just a single patch: this is the last bit needed to make omap_vout work
-again. Tony was OK with this going through the media subsystem since it
-concerns a media driver.
 
-Regards,
+--5ghcmst6jaoa4kn7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-	Hans
+Hi!
 
-The following changes since commit 97299a3035328d7ae2f4fccaf6e549974df6e118:
+On Mon, Aug 12, 2019 at 02:12:21PM +0200, Hans Verkuil wrote:
+> On 5/30/19 11:15 PM, Jernej Skrabec wrote:
+> > Here is first batch of random Cedrus improvements/cleanups. Only patch 2
+> > has a change which raises a question about H264 controls.
+> >
+> > Changes were tested on H3 SoC using modified ffmpeg and Kodi.
+> >
+> > Please take a look.
+>
+> This has been sitting in patchwork for quite some time. I've updated the
+> status of the various patches and most needed extra work.
+>
+> It seems that patches 4/7 and 5/7 are OK. Maxime, can you please confirm
+> that these two are still valid? They apply cleanly on the latest master
+> at least, but since they are a bit old I prefer to have confirmation that
+> it's OK to merge them.
 
-  media: Remove dev_err() usage after platform_get_irq() (2019-08-07 17:08:33 -0300)
+Yes, you can definitely merge those.
 
-are available in the Git repository at:
+Maxime
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4j
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-for you to fetch changes up to b9553f6250e0ef78673a7691cd304a732c4bfc00:
+--5ghcmst6jaoa4kn7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  mach-omap2/devices.c: set dma mask (2019-08-12 15:51:13 +0200)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Tag branch
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVFvxwAKCRDj7w1vZxhR
+xaNLAPsEGPiyqOdRajYEA4cGxVY18jjPs7B80tUGLwn7y/lX7QEA1hoN114NPrjR
+odSkIRw1Cs9MkNQXMbozY4cjiWx8ZAs=
+=JSLg
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Hans Verkuil (1):
-      mach-omap2/devices.c: set dma mask
-
- arch/arm/mach-omap2/devices.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+--5ghcmst6jaoa4kn7--
