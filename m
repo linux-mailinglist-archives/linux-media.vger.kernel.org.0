@@ -2,106 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C79678A38D
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 18:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7DA8A3CB
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 18:51:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfHLQme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 12:42:34 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35456 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726457AbfHLQme (ORCPT
+        id S1727058AbfHLQvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 12:51:00 -0400
+Received: from mail-pg1-f170.google.com ([209.85.215.170]:41716 "EHLO
+        mail-pg1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726457AbfHLQu7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 12:42:34 -0400
-Received: by mail-lj1-f195.google.com with SMTP id l14so8966120lje.2;
-        Mon, 12 Aug 2019 09:42:32 -0700 (PDT)
+        Mon, 12 Aug 2019 12:50:59 -0400
+Received: by mail-pg1-f170.google.com with SMTP id x15so39429087pgg.8;
+        Mon, 12 Aug 2019 09:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ozj3HWG6u6WFRMPDTuQbMffve34JSmH8p0q+ZkIw8XA=;
-        b=kdTrnznY0ezwmK90LkssxTwtB4Fd8Cx3FNt5PqxgtfkoAL7kGnyrNFj5LUUmqjMoY2
-         bLO3HJbyP+RuyCLuwIQK3TS4yblcNqm13U3EktOzREhNXejGO61zB5fmPQRwTjEtwjGT
-         aABoMMF7biT8hXhaaXsyRDwsP24ALrslfudwMx4uEAIYS3So5FZ0+sX1BPepvSfpvxaS
-         P3x2fQgTI/sPoIOS2NFigF5EJ7bEF2KinUM5+Exo+5fsjjXmdCGqmZMbNM5p/q7SNu+S
-         liVtytDJ+Aq1MokyqNCJPTRdUBR6RNQxV3xkek+uuEWkqsTNPdTx8d5+zwBugPpNtZoL
-         LCfA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g9qJeMX8U2lRIDeMiCr86C9holTbMXh0NvzNqlARYoI=;
+        b=KJFn9a4uDrLZeXdVcv23sADaBfj63sYK9Nys2bd9F1b9ij6qqeYBVewjJ1TFcFNGVp
+         E6wP5V/v6RJdRH8GREXrnErUAHelzEPyww5bV/1PIn0gIU7Qbf0cgjFQDHTyMu+tT9DS
+         PCf2lV4xHJQ+x2qJSxvuh8IXJlu1ylF8aTKRPzENByzCpaxQkrSR7IwA2sE4JrTgQqW3
+         zSE70qJFv2fg3XQ7Ox+Pf5Tn+O0es9/VNxLDBpQjEEVp14choZIIwD+EKQ3ov72NYhgM
+         7ArfXt2/0eiLvxnFPKxS4yj0JBsmO7BrTNMDLhA1zBsO58kjTwSPXniP12hRb3FpFsTe
+         NSjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ozj3HWG6u6WFRMPDTuQbMffve34JSmH8p0q+ZkIw8XA=;
-        b=LYpninqUpLvts+yLYumg5qPbY/rf3leH1Vtfi9xyt1lQI5o/jeg0r0evna1Z9gRB9y
-         0uAzEd0MabbKUhTAgZM7iyde4Lwq2H6Q3oaBeu2tUcjFq97Q5QEc8FbKGtO+sJanO2ns
-         X/OxDP/gvfJNmVmqUCYzEZDgNYDl2Sm3j6Vf2ONe7D5D88Y4Xjq2FzgWH+a/Wmls/Vpm
-         dMLlDYrJGmKvAXdMzAsFDKcxz0A2+yimI1VX5dqtc3m1M7b6wHB4Kfe7sxbicY95Dbtn
-         5W0zxILFni3VAUANNDVJb3/LJ0Cc/HLQpL3wuSt/9D+KfOFHlLKj0gGYWjKbsYotIJao
-         BGdQ==
-X-Gm-Message-State: APjAAAVGKnzG/xnpwSSOMG+pHgs5Xjc0QfdiO+uU8xaHlXvKh3wFKlpf
-        6QvgQFIr0CxU91QiYAvgwqaA1Eq2
-X-Google-Smtp-Source: APXvYqwrsiBom6sXbAvtUH5ZNer8hQ/6TRxY2p8vbUytdt+kTSF8r3G6P2ijhZEelRwijvd+3RbMnA==
-X-Received: by 2002:a2e:9819:: with SMTP id a25mr7054589ljj.99.1565628151275;
-        Mon, 12 Aug 2019 09:42:31 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-        by smtp.googlemail.com with ESMTPSA id e87sm24327081ljf.54.2019.08.12.09.42.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Aug 2019 09:42:30 -0700 (PDT)
-Subject: Re: [PATCH v3] ARM: dts: tegra30: Connect SMMU with Video Decoder
- Engine
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-References: <20190623170730.5095-1-digetx@gmail.com>
- <20190623170730.5095-2-digetx@gmail.com>
-Message-ID: <e2dbeed2-7596-d687-d200-8f08dc267c83@gmail.com>
-Date:   Mon, 12 Aug 2019 19:42:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g9qJeMX8U2lRIDeMiCr86C9holTbMXh0NvzNqlARYoI=;
+        b=sMd1YrfdtSlBWBF900jj7G1uBnHjzw8nOvjGHw52SOv3llksBZEZvM7AVrkpzdJ5i/
+         uLlGLm0yMmkZfj0CH4Ivyn/kLsIH4QOmLuq/OmSwZ54DzMbnuyAi7qsbaif7HdWUBATp
+         alTGfhVyOn5Bh77+d2IZqOEqgF4vvX8gW6uqrCx0VjuilRTd2zQuy6AsQkaNpPjULvac
+         mxqTKfpOfmXZNvJfhna73FmkQBdPUZmtldSfZPQx6L6Ltz9yIrHcD6NE8R/VSlP2nhti
+         f7d66xu6wddnW2qkzUxDxgXFagVpXgd0IisTIKl4FjxtUPpRGRTPGaprIDE6AaT8q+Pm
+         kZuQ==
+X-Gm-Message-State: APjAAAV+I4XvnhNBRKmR82ZyZPizHi3CiHjkbcDc/L+CCVg+F5Jpufoo
+        gHjrUTlGOPfHKonBjA4ww5HdUt0DzvFxgLBvecA=
+X-Google-Smtp-Source: APXvYqwgxt09JBsfPEAZiqB4JcYb6a0OyhR7nQZSMJCETQ0/MNL3XZ9i37XfV2K/T+1vZfMuk3wN/B3iap8zlzb3OCA=
+X-Received: by 2002:a05:6a00:8e:: with SMTP id c14mr8324189pfj.241.1565628659105;
+ Mon, 12 Aug 2019 09:50:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190623170730.5095-2-digetx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1560280855-18085-1-git-send-email-luis.oliveira@synopsys.com>
+ <1560280855-18085-3-git-send-email-luis.oliveira@synopsys.com>
+ <20190809141000.GB864@valkosipuli.retiisi.org.uk> <CAHp75VeutP=W43GHtY+FKvVGjBnQrF+nKbdaq_QXy8ZCoS=k1g@mail.gmail.com>
+ <MN2PR12MB3710E54A1E4BA4FD3AD77B87CBD30@MN2PR12MB3710.namprd12.prod.outlook.com>
+In-Reply-To: <MN2PR12MB3710E54A1E4BA4FD3AD77B87CBD30@MN2PR12MB3710.namprd12.prod.outlook.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 12 Aug 2019 19:50:47 +0300
+Message-ID: <CAHp75VcgZjXj8PqBrm5pOxjQuhS-6=e7ZP9HnO9j+BbMEfb-9Q@mail.gmail.com>
+Subject: Re: [v4 2/6] media: platform: dwc: Add MIPI CSI-2 controller driver
+To:     Luis de Oliveira <Luis.Oliveira@synopsys.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        "paulmck@linux.ibm.com" <paulmck@linux.ibm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Joao Pinto <Joao.Pinto@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-23.06.2019 20:07, Dmitry Osipenko пишет:
-> Enable IOMMU support for the video decoder.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
-> 
-> No changes since v1.
-> 
->  arch/arm/boot/dts/tegra30.dtsi | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-> index 934caa83c8db..ce162125e7bf 100644
-> --- a/arch/arm/boot/dts/tegra30.dtsi
-> +++ b/arch/arm/boot/dts/tegra30.dtsi
-> @@ -424,6 +424,7 @@
->  		clocks = <&tegra_car TEGRA30_CLK_VDE>;
->  		reset-names = "vde", "mc";
->  		resets = <&tegra_car 61>, <&mc TEGRA30_MC_RESET_VDE>;
-> +		iommus = <&mc TEGRA_SWGROUP_VDE>;
->  	};
->  
->  	apbmisc@70000800 {
-> 
+On Mon, Aug 12, 2019 at 12:45 PM Luis de Oliveira
+<Luis.Oliveira@synopsys.com> wrote:
+> From: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Date: Sat, Aug 10, 2019 at 14:09:21
+> > On Fri, Aug 9, 2019 at 5:38 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > > On Tue, Jun 11, 2019 at 09:20:51PM +0200, Luis Oliveira wrote:
 
-Hello Thierry,
+> > > > +     of_id = of_match_node(dw_mipi_csi_of_match, dev->of_node);
+> > > > +     if (!of_id)
+> > > > +             return -EINVAL;
+> >
+> > Is it possible to have this asserted?
+> >
+>
+> I will remove it.
 
-Will be awesome if you could pick up this and [1][2] for v5.4. The rest of the VDE patches
-are already applied by the media maintainers in linux-next, please note that [2] is required
-to avoid problems caused by the notorious implicit IOMMU backing. Thanks in advance!
+But please double check that is really the case.
 
-[1] http://patchwork.ozlabs.org/patch/1120864/
-[2] http://patchwork.ozlabs.org/project/linux-tegra/list/?series=115608
+> > > > +     ret = devm_request_irq(dev, csi->ctrl_irq_number,
+> > > > +                            dw_mipi_csi_irq1, IRQF_SHARED,
+> > > > +                            dev_name(dev), csi);
+> > > > +     if (ret) {
+> > > > +             dev_err(dev, "irq csi %s failed\n", of_id->name);
+> > > > +
+> > > > +             goto end;
+> > > > +     }
+> >
+> > devm_*irq() might be a bad idea. Is it race free in your driver?
+> >
+>
+> I never thought about it like that. Should I use request_irq and
+> free_irq?
+
+It's you, author of the driver, who knows it better :-)
+
+
+> > I told once, can repeat again. Synopsys perhaps needs better reviews
+> > inside company. Each time I see the code, it repeats same mistakes
+> > over and over. Have you, guys, do something about it?
+>
+> We are working on it. It will get better, sorry.
+
+Thanks! Hope to see a progress!
+
+-- 
+With Best Regards,
+Andy Shevchenko
