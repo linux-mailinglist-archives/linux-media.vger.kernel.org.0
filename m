@@ -2,92 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E8C8A0FA
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 16:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8652F8A0FC
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 16:26:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727766AbfHLOYx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 10:24:53 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36772 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726585AbfHLOYw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 10:24:52 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6763C327;
-        Mon, 12 Aug 2019 16:24:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565619890;
-        bh=JclI79piuUPbIB88Y35NuHhrDCtcyvwfghAGMqyhi7I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MdClYar7VDS+d7D7oWHHizEt+M2uExI3jx9pY8+IMmiIi4cOu2/aC1vkEhvTuHOzs
-         dBL2WswIjICz8qBqsOAk4w7xk/Z2eN7eXVqGRmlLaJ8lZyXGYkwLOs+z+hRMYdJ5fb
-         GLPal75ifBn7mBS2AhahJpodA/m2yFJb4Fuwu+sc=
-Date:   Mon, 12 Aug 2019 17:24:47 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     helen.koike@collabora.com,
-        =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: vimc: move private defines to a common header
-Message-ID: <20190812142447.GF5006@pendragon.ideasonboard.com>
-References: <cover.1565386363.git.skhan@linuxfoundation.org>
- <142cc5a6a10f75ed97de8b2d9b1e73b034a88b2f.1565386363.git.skhan@linuxfoundation.org>
- <20190810141432.GA30451@pendragon.ideasonboard.com>
- <ab0b316c-8b6d-0faf-b046-97c8065b8afd@linuxfoundation.org>
+        id S1726525AbfHLOZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 10:25:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47754 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726296AbfHLOZt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Aug 2019 10:25:49 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 05E3620665;
+        Mon, 12 Aug 2019 14:25:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565619948;
+        bh=dnLPVpEUWOO5jDD79kMhEtPATXAMvxJya3SuCzucbT4=;
+        h=Subject:To:References:From:Date:In-Reply-To:From;
+        b=Gu7RkPlXykG7GIHnPPD7Pwx2t1jhIQ8Oxcdju5Yoj9uuNETYQLsJxkEMaY8jvi4Gu
+         p/lev0jWc8wzWMXVbIrU1g7hHDKlb2A+MMR9xZsrBWep4y5fgj8+xxNyw8BDDmTvAs
+         qI+4BJ6hz/zJbajZ2ofsnc4gX1cxiGOrVpAW6A+g=
+Subject: Re: [PATCH 3/3] selftests: ir: fix ir_loopback test failure
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, shuah <shuah@kernel.org>
+References: <20190810114458.8883-1-sean@mess.org>
+ <20190810114458.8883-3-sean@mess.org>
+From:   shuah <shuah@kernel.org>
+Message-ID: <7b612199-542e-a4e6-6544-3cd4936f72e4@kernel.org>
+Date:   Mon, 12 Aug 2019 08:25:41 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ab0b316c-8b6d-0faf-b046-97c8065b8afd@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190810114458.8883-3-sean@mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shua,
+On 8/10/19 5:44 AM, Sean Young wrote:
+> The decoder is called rc-mm, not rcmm. This was renamed late in the cycle
+> so this bug crept in.
+> 
+> Cc: Shuah Khan <shuah@kernel.org>
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>   tools/testing/selftests/ir/ir_loopback.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/ir/ir_loopback.c b/tools/testing/selftests/ir/ir_loopback.c
+> index e700e09e3682..af7f9c7d59bc 100644
+> --- a/tools/testing/selftests/ir/ir_loopback.c
+> +++ b/tools/testing/selftests/ir/ir_loopback.c
+> @@ -54,9 +54,9 @@ static const struct {
+>   	{ RC_PROTO_RC6_MCE, "rc-6-mce", 0x00007fff, "rc-6" },
+>   	{ RC_PROTO_SHARP, "sharp", 0x1fff, "sharp" },
+>   	{ RC_PROTO_IMON, "imon", 0x7fffffff, "imon" },
+> -	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rcmm" },
+> -	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rcmm" },
+> -	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rcmm" },
+> +	{ RC_PROTO_RCMM12, "rcmm-12", 0x00000fff, "rc-mm" },
+> +	{ RC_PROTO_RCMM24, "rcmm-24", 0x00ffffff, "rc-mm" },
+> +	{ RC_PROTO_RCMM32, "rcmm-32", 0xffffffff, "rc-mm" },
+>   };
+>   
+>   int lirc_open(const char *rc)
+> 
 
-On Mon, Aug 12, 2019 at 08:19:27AM -0600, Shuah Khan wrote:
-> On 8/10/19 8:14 AM, Laurent Pinchart wrote:
-> > On Fri, Aug 09, 2019 at 03:45:41PM -0600, Shuah Khan wrote:
-> >> In preparation for collapsing the component driver structure into
-> >> a monolith, move private device structure defines to a new common
-> >> header file.
-> > 
-> > Apart from the vimc_device structure, this doesn't seem to be needed.
-> > I'd rather keep each structure private to the .c file that handles it,
-> > and only share vimc_device globally.
-> 
-> Right. I initially thought that I needed these global. Once I completed
-> the patches without needing these as global, I overlooked updating the
-> patches.
-> 
-> I will take care of that. Any thoughts on vimc.h vs. adding vimc_device
-> struct to existing vimc-common.h
-> 
-> As I explained to Helen in response to her comment about:
-> 
-> "My thinking is that vimc-common.h is common for all the subdevs and
-> putting vimc-core defines and structures it shares it with the subdev
-> files can be in a separate file.
-> 
-> It is more of design choice to keep structures and defined organized.
-> Originally I was thinking all the subdev device structires need to be
-> global, and my patch set I sent out as such doesn't need that. I just
-> overlooked that when I sent the patches out.
-> 
-> This reduces the number of things that need to be common, I don't really
-> have any strong reasons for either choice of adding common defines to
-> vimc-common.h vs vimc.h - maybe with a slight tilt towards vimc.h"
+Thanks Sean! Please cc - linux-keseltest makling list on these patches.
 
-The vimc_device structure fits nicely in vimc-common.h in my opinion, as
-it's used by every component. I don't care much either way.
+I can take this through my tree or here is my Ack for it go through
+media tree
 
-> Thanks all for a quick review and testing. I will work on v2 with your
-> comments. I want to make sure topology either looks the same as what
-> is in media master. I think it is, but I want to double check.
-
--- 
-Regards,
-
-Laurent Pinchart
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
