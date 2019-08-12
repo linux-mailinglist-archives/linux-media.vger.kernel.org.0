@@ -2,89 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD3589EE8
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 14:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8801789F26
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 15:05:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbfHLMyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 08:54:44 -0400
-Received: from muru.com ([72.249.23.125]:56986 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726497AbfHLMyo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 08:54:44 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id E449F80CC;
-        Mon, 12 Aug 2019 12:55:10 +0000 (UTC)
-Date:   Mon, 12 Aug 2019 05:54:40 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] mach-omap2/devices.c: set dma mask
-Message-ID: <20190812125440.GD52127@atomide.com>
-References: <7d079362-3881-6890-3e1f-71aeee06f4fc@xs4all.nl>
- <3c9077dc-3092-43b6-d58f-de9983da6c44@xs4all.nl>
+        id S1728651AbfHLNFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 09:05:47 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59721 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726458AbfHLNFr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Aug 2019 09:05:47 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id xA17hR0ubur8TxA1BhiSSI; Mon, 12 Aug 2019 15:05:46 +0200
+Subject: Re: [PATCH] media: video-i2c: add mlx90640 subpage data to output
+To:     Matt Ranostay <matt.ranostay@konsulko.com>,
+        linux-media@vger.kernel.org
+References: <20190811071015.3303-1-matt.ranostay@konsulko.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <0630c968-1d47-a2c7-cc47-964a08085f13@xs4all.nl>
+Date:   Mon, 12 Aug 2019 15:05:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c9077dc-3092-43b6-d58f-de9983da6c44@xs4all.nl>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190811071015.3303-1-matt.ranostay@konsulko.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfMKy/u5OkSKqWUJYONsWtGaXzJtlqxyH+N9oybYx1biU/sxEXyF/gDroV8fz1a+b3nD9JfQTuj0dZXQhm7SYs54XcEF7WuETtTZLUEzvqmeXYs4gekt/
+ E0aNgKdlljgekoBS7ofAHvBtwpPV0CRAO++47sLNBBFmcVg2m+bL62SKcvjMPYA+BdSJXF4v3tyyWoWGlZ1aXLkUmYki2v5yNBrLZQaDZaUidETB1vmqHe7/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-* Hans Verkuil <hverkuil@xs4all.nl> [190812 12:50]:
-> On 7/30/19 8:17 AM, Hans Verkuil wrote:
-> > The dma_mask and coherent_dma_mask values were never set.
-> > 
-> > This prevented the media omap_vout driver from loading successfully.
-> > 
-> > Tested on a Pandaboard and Beagle XM board.
-> > 
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Hi Matt,
+
+On 8/11/19 9:10 AM, Matt Ranostay wrote:
+> Add current subpage data via the status register to the video
+> frame in the last word of data, which seems to be unused
+> undocumented reserved data.
+
+I don't really understand from this description what is going on
+here.
+
+mlx90640_xfer() reads the buffer data from the i2c device, but
+that data is split over two different addresses? Or does
+0x8000 contain something else with a different meaning compared
+to what is read from 0x400?
+
 > 
-> Tony, can you pick this up? Or give an Ack so that it can be merged via
-> the media subsystem if you prefer?
-
-Sorry for the delays on this one. Please just merge
-it via via the media susbsystem since you need it:
-
-Acked-by: Tony Lindgren <tony@atomide.com>
-
-> > ---
-> >  arch/arm/mach-omap2/devices.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/arch/arm/mach-omap2/devices.c b/arch/arm/mach-omap2/devices.c
-> > index cc0d08dad141..5a2e198e7db1 100644
-> > --- a/arch/arm/mach-omap2/devices.c
-> > +++ b/arch/arm/mach-omap2/devices.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/platform_device.h>
-> >  #include <linux/io.h>
-> >  #include <linux/clk.h>
-> > +#include <linux/dma-mapping.h>
-> >  #include <linux/err.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/of.h>
-> > @@ -43,11 +44,17 @@ static struct resource omap_vout_resource[2] = {
-> >  };
-> >  #endif
-> > 
-> > +static u64 omap_vout_dma_mask = DMA_BIT_MASK(32);
-> > +
-> >  static struct platform_device omap_vout_device = {
-> >  	.name		= "omap_vout",
-> >  	.num_resources	= ARRAY_SIZE(omap_vout_resource),
-> >  	.resource 	= &omap_vout_resource[0],
-> >  	.id		= -1,
-> > +	.dev		= {
-> > +		.dma_mask		= &omap_vout_dma_mask,
-> > +		.coherent_dma_mask	= DMA_BIT_MASK(32),
-> > +	},
-> >  };
-> > 
-> >  int __init omap_init_vout(void)
-> > 
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> ---
+>  drivers/media/i2c/video-i2c.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+> index 078141712c88..8bc7b228ba40 100644
+> --- a/drivers/media/i2c/video-i2c.c
+> +++ b/drivers/media/i2c/video-i2c.c
+> @@ -168,8 +168,16 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
+>  
+>  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
+>  {
+> -	return regmap_bulk_read(data->regmap, 0x400, buf,
+> -				data->chip->buffer_size);
+> +	int ret = regmap_bulk_read(data->regmap, 0x400, buf,
+> +				   data->chip->buffer_size);
+
+Shouldn't this be data->chip->buffer_size - size, since the last
+'size' bytes will be overwritten anyway?
+
+> +	int size = data->chip->bpp / 8;
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* read status register, which contains subpage that is read */
+> +	return regmap_bulk_read(data->regmap, 0x8000,
+> +				&buf[data->chip->buffer_size - size], size);
+>  }
+>  
+>  static int amg88xx_setup(struct video_i2c_data *data)
+> 
+
+Regards,
+
+	Hans
