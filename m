@@ -2,144 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3920F8A652
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 20:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1B98A678
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2019 20:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbfHLS3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Aug 2019 14:29:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46648 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbfHLS3M (ORCPT
+        id S1726562AbfHLSpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Aug 2019 14:45:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59664 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbfHLSpw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Aug 2019 14:29:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=kxb5BHX8j8/3KMkqf3WkF+xRjLZ9aAybEwRAEV6h6uE=; b=NO5leLp8JZDHW9rlAHhjBF3Cj
-        jTrZ0jkTJv+yUNrdgFLfBlQ+FRs3OVqUDVbOyF2d9x5aBkb926a7Szwsq/pDfHkhzlHviui3m9fnS
-        I/KWUjmmcqKQWxbzeKBOPizcoY/ZvMCzv6lfVUgnQQ2VlAdpFeqxEgpoJW+c1RO0NvcLEgGaCsheN
-        eXoPsYatVLWLo75JAwWDkCIM2znXqJIhlNYXSLZKPtw2ntvytZJkcVYOFPlPgwPZnAiFqoAfBxvKd
-        EWdV1248EdYUQk9z9t+O4Z+O3BSJPk+Y2j8cCWTTkP++tEJq18/NB6ZBrz6fK4p/SmWOZOXnrB33E
-        cUyKosEkA==;
-Received: from [179.182.166.35] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hxF4B-0005Yu-LL
-        for linux-media@vger.kernel.org; Mon, 12 Aug 2019 18:29:12 +0000
-Date:   Mon, 12 Aug 2019 15:29:08 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     linux-media@vger.kernel.org
-Subject: [ANN] LinuxTV CI builder
-Message-ID: <20190812152908.5e3d65f3@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 12 Aug 2019 14:45:52 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 8578028A489
+Message-ID: <35a308cc5b499e5bbec8017b5b641a5f88c40be9.camel@collabora.com>
+Subject: Re: [PATCH v4 00/11] media: hantro: Add support for H264 decoding
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
+Date:   Mon, 12 Aug 2019 15:45:42 -0300
+In-Reply-To: <1565606519.5017.5.camel@pengutronix.de>
+References: <20190808103432.12062-1-ezequiel@collabora.com>
+         <1565606519.5017.5.camel@pengutronix.de>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+On Mon, 2019-08-12 at 12:41 +0200, Philipp Zabel wrote:
+> Hi Ezequiel,
+> 
+> On Thu, 2019-08-08 at 07:34 -0300, Ezequiel Garcia wrote:
+> > This series is consolidating the two recent H264 series submitted
+> > by Boris [1] [2]. Given some patches from [2]  have been merged (namely,
+> > helpers for the Hantro driver), the series contains the remanining
+> > bits required to support H264 on Hantro G1 VPU.
+> > 
+> > * Patch 1 adds support for the sort_r() variant and has
+> >   been posted separately by Rasmus. It would be good to merge this patch
+> >   via the media tree, ideally as soon as possible, to avoid the
+> >   synchronisation burden that might appear if we decide to delay it.
+> > 
+> > * Patch 2 to 4 extends the H264 uAPI, introducing frame-based vs slice-based
+> >   decoding granularity, and also support for different NALU start codes.
+> >   Currently, Annex B and no start codes are the supported options.
+> > 
+> >   With the introduction of the start code control, the H264 parsed
+> >   slices pixel format should be renamed, dropping the _RAW suffix,
+> >   which is now meaningless.
+> > 
+> > * Patch 5 removes the P0/B0/B1 ref lists from the decode_params control.
+> >   These lists are no longer needed since we build them on the
+> >   kernel side based on the DPB.
+> > 
+> > * Patch 6 and 7 exposes the proper decoding mode and start code
+> >   on the cedrus driver. The driver functionality is not changed,
+> >   and only the Cedrus support is now being properly exposed to
+> >   userspace.
+> > 
+> > * Patch 8 is needed to properly propagate the OUTPUT buffer timestamp to
+> >   the CAPTURE buffer one, which is required for intra-frame references.
+> > 
+> > * Patches 9 to 11 adds H264 support for Hantro G1 and then enable
+> >   H264 decoding on RK3288.
+> > 
+> > This series has been tested using MPV/Ffmpeg, on Rockchip RK3288
+> > for Hantro and Allwinner H3 boards for Cedrus.
+> 
+> Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
+> 
+> on i.MX8MQ EVK using [1], so I effectively patches 1-5 and 8-10, with
+> your FFmpeg modifications [2].
+> 
+> [1] git://git.pengutronix.de/git/pza/linux.git hantro/imx8m-wip
+> [2] https://gitlab.collabora.com/ezequiel/ffmpeg stateless-mpeg2-vp8-
+> h264-v4
+> 
 
-Just want you to know about the latest news:
+Glad to hear things work properly. I'm adding your tested-by to all
+patches except those that apply to cedrus and rk3288.
 
-==================================
-CI builder service for LinuxTV.org
-==================================
+Thank you very much for the test,
+Ezequiel
 
-Some of you may probably noticed already: thanks to OSU Open Source Lab[1], 
-with is providing us a few VM instances, we now have a Jenkins server
-running for the media subsystem. It can be accessed via this URL:
-
-	https://builder.linuxtv.org/
-
-[1] https://osuosl.org/
-
-It is doing periodic builds on the projects related to our work, specially
-for the trees hosted at linuxtv.org. I didn't add a job for a few projects
-with already have another CI instance running.
-
-Right now, we have the following projects being built:
-
-	Userspace:
-		- camorama
-		- dtv-scan-tables
-		- edid-decode
-		- libcamera
-		- tvtime
-		- v4l-utils
-		- xawtv3
-		- xawtv4
-
-	Kernelspace:
-		- media_build 
-		  (against Debian 10.0 Kernel - v4.19);
-		- media_tree:
-			- allmodconfig: x86_64
-			- allyesconfig
-				- x86_64, i386, arm and arm64
-		- pull requests received by patchwork
-
-Patchwork job
-=============
-
-The patchwork job is currently meant to help me to test the pull requests
-sent by a media core maintainer, doing part of my own testing workflow.
-
-Right now, it always apply the pull request against the master branch.
-
-This will help me to merge patches quickly, as I'm doing a quicker review
-on patches sent by a media core maintainer that the script won't point
-any issues.
-
-For patchwork pull requests, it should always do a build and provide
-an answer for the build, testing against bisect breakages, and running
-checkpatch/sparse/smatch, patch per patch. Currently, it is sending replies
-in about 10 minutes or so, but the build time actually depends on the 
-number of patches and if they're touching core header files or not.
-
-Email policy
-============
-
-Except for the patchwork, the other jobs should send an e-mail to the ML
-(and to me) when:
-
-	- a build fails;
-	- a failed build got fixed.
-
-It shouldn't be sending e-mails if everything is fine.
-
-Other CI instances related to media
-===================================
-
-Please notice that we have some trees with have already a CI instance
-running:
-
-	- ZBar:
-	  https://travis-ci.org/mchehab/zbar
-
-	- Kaffeine:
-	  https://travis-ci.org/mchehab/kaffeine
-
-So, no need to duplicate the efforts by adding them also to our builder.
-
-Please let me know if you find any issues.
-
-Future Plans
-============
-
-I'm planning to add support in the future for the CI to also handle patch
-series builds from patchwork (against the master branch), but, for that to
-work,  it seems that we'll need to upgrade from patchwork's stable version
-to  the latest one - or wait for the next patchwork stable version. 
-
-I'm also planning to change the media_build logic in a way that it would
-not download media driver tallbals that failed on the builder machine.
-
-Any other suggestions?
-
-Thanks,
-Mauro
