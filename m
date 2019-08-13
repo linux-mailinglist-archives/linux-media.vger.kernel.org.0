@@ -2,74 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F7678C254
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 22:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 412788C398
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 23:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbfHMUvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 16:51:08 -0400
-Received: from gofer.mess.org ([88.97.38.141]:33375 "EHLO gofer.mess.org"
+        id S1726937AbfHMVYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 17:24:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55616 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726074AbfHMUvI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 16:51:08 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 6D880603E8; Tue, 13 Aug 2019 21:51:05 +0100 (BST)
-Date:   Tue, 13 Aug 2019 21:51:05 +0100
-From:   Sean Young <sean@mess.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     syzbot <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com>,
-        bnvandana@gmail.com, allison@lohutok.net, hverkuil-cisco@xs4all.nl,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        rfontana@redhat.com,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Thomas Gleixner <tglx@linutronix.de>, tskd08@gmail.com
-Subject: Re: KASAN: global-out-of-bounds Read in dvb_pll_attach
-Message-ID: <20190813205104.pnyan3kafz26wsse@gofer.mess.org>
-References: <CAAeHK+zPDgvDr_Bao9dz_7hGEg+Ud6-tj7pZaihKeYHJ8M386Q@mail.gmail.com>
- <00000000000054f8bd058ddfa341@google.com>
- <CAAeHK+xZRH9-ue0QyEdiWmbFJF6P3RXMud+tE6t3x6Orcxnbkg@mail.gmail.com>
+        id S1726631AbfHMVYK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:24:10 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9BA962084D;
+        Tue, 13 Aug 2019 21:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565731449;
+        bh=R5Yh9wFJPtJIKxbptxdaKPDiX/ZNZf1g/oJL8un702U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MiH5H3LCM2A75FvZHCjHYqJ7oaK3Hwwla30yyL6yij7D9l51oJfnojqROrQffWVas
+         h2XULaadDYcbeM7LNjIAzIuOJkw/52DQHUs/vLmfMQ1r0rjsLlBVjNCrd/b6X2RLvI
+         dU4bAw9iuhkZRIK6H1L/4zgMNHRgSa8+PksNZHqQ=
+Received: by mail-qt1-f174.google.com with SMTP id z4so107998643qtc.3;
+        Tue, 13 Aug 2019 14:24:09 -0700 (PDT)
+X-Gm-Message-State: APjAAAXjtaFYklp82/mb75HY8MwQNQ3KEeu3veClFHNdnD6Bo7xd59E3
+        aK3ZB+RwfIT9P0M/TxxSUl5WlW/N9HiNqmmUnw==
+X-Google-Smtp-Source: APXvYqyDoMF5kcqlkAQ276qRzcr1OCkIYQIe1bsUEqWU0awHa7ShjdR60+MD54WSwZGK3ztXNw5WmKIXTDoa+P8D+Ws=
+X-Received: by 2002:ac8:386f:: with SMTP id r44mr18216092qtb.300.1565731448864;
+ Tue, 13 Aug 2019 14:24:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xZRH9-ue0QyEdiWmbFJF6P3RXMud+tE6t3x6Orcxnbkg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190813124513.31413-1-mripard@kernel.org>
+In-Reply-To: <20190813124513.31413-1-mripard@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 13 Aug 2019 15:23:56 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLUfQdtXZMNTLJX9uMpdCY0NNN=AEDqGiemrdDazB8HeA@mail.gmail.com>
+Message-ID: <CAL_JsqLUfQdtXZMNTLJX9uMpdCY0NNN=AEDqGiemrdDazB8HeA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add YAML schemas for the generic
+ RC bindings
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sean Young <sean@mess.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 03:22:49PM +0200, Andrey Konovalov wrote:
-> On Wed, Jul 17, 2019 at 2:29 PM syzbot
-> <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot has tested the proposed patch and the reproducer did not trigger
-> > crash:
-> >
-> > Reported-and-tested-by:
-> > syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com
-> >
-> > Tested on:
-> >
-> > commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=d90745bdf884fc0a
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > patch:          https://syzkaller.appspot.com/x/patch.diff?x=1454f4d0600000
-> >
-> > Note: testing is done by a robot and is best-effort only.
-> 
-> Hi bnvandana,
-> 
-> Could you submit this patch? Syzbot testing shows that is fixes the issue.
+On Tue, Aug 13, 2019 at 6:45 AM Maxime Ripard <mripard@kernel.org> wrote:
+>
+> From: Maxime Ripard <maxime.ripard@bootlin.com>
+>
+> The RC controllers have a bunch of generic properties that are needed in a
+> device tree. Add a YAML schemas for those.
+>
+> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> ---
+>  .../devicetree/bindings/media/rc.txt          | 118 +--------------
+>  .../devicetree/bindings/media/rc.yaml         | 135 ++++++++++++++++++
+>  2 files changed, 136 insertions(+), 117 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
 
-The patch had issues (see discussion in the thread). I created this patch
-but I see now I did not include the correct Reported-by: tag. 
-
-https://www.mail-archive.com/linux-media@vger.kernel.org/msg148889.html
-
-Thanks
-
-Sean
+Reviewed-by: Rob Herring <robh@kernel.org>
