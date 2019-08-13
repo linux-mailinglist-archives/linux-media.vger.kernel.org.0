@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 412788C398
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 23:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F3D98C39E
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 23:26:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfHMVYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 17:24:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55616 "EHLO mail.kernel.org"
+        id S1726704AbfHMV0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 17:26:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726631AbfHMVYK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:24:10 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        id S1726631AbfHMV0I (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 17:26:08 -0400
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9BA962084D;
-        Tue, 13 Aug 2019 21:24:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1AE1B20843;
+        Tue, 13 Aug 2019 21:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565731449;
-        bh=R5Yh9wFJPtJIKxbptxdaKPDiX/ZNZf1g/oJL8un702U=;
+        s=default; t=1565731567;
+        bh=GM23DGhyg+mtBCE8YlRJbCakPF/+Hq09zu3D+TE+XK4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MiH5H3LCM2A75FvZHCjHYqJ7oaK3Hwwla30yyL6yij7D9l51oJfnojqROrQffWVas
-         h2XULaadDYcbeM7LNjIAzIuOJkw/52DQHUs/vLmfMQ1r0rjsLlBVjNCrd/b6X2RLvI
-         dU4bAw9iuhkZRIK6H1L/4zgMNHRgSa8+PksNZHqQ=
-Received: by mail-qt1-f174.google.com with SMTP id z4so107998643qtc.3;
-        Tue, 13 Aug 2019 14:24:09 -0700 (PDT)
-X-Gm-Message-State: APjAAAXjtaFYklp82/mb75HY8MwQNQ3KEeu3veClFHNdnD6Bo7xd59E3
-        aK3ZB+RwfIT9P0M/TxxSUl5WlW/N9HiNqmmUnw==
-X-Google-Smtp-Source: APXvYqyDoMF5kcqlkAQ276qRzcr1OCkIYQIe1bsUEqWU0awHa7ShjdR60+MD54WSwZGK3ztXNw5WmKIXTDoa+P8D+Ws=
-X-Received: by 2002:ac8:386f:: with SMTP id r44mr18216092qtb.300.1565731448864;
- Tue, 13 Aug 2019 14:24:08 -0700 (PDT)
+        b=VxkNvHzW5zFD9wl7s36dXRTvfAss97andtV1hadpeobFxj5vhBypMZHkF24mLp/1H
+         rWBgnA98YgmnYDGLxMU91+UCVUqy2r+pIhrusWyKwIlM6WRraIuKtRs0ILti79Befk
+         d4dP2GbwhwL3JXhQK1P1FV5Fjhqq82IW+MmiARak=
+Received: by mail-qk1-f181.google.com with SMTP id d23so6112086qko.3;
+        Tue, 13 Aug 2019 14:26:07 -0700 (PDT)
+X-Gm-Message-State: APjAAAXCyl+2wOuvjkgQxiv+ouchJeEKX/9r7rT4Ltv1zUzOKthgkPA7
+        sxFq/0h2/hxKAMUV7H3daA8YklEpDhnaTT1zgA==
+X-Google-Smtp-Source: APXvYqww0rswwh3lSXwVgzazVtv7axCmSc4uhEaJfwxBqHXdcPCfjRZvDPnHTIKk86sXYyVlAWoAz/lP9mYw9zUw0OU=
+X-Received: by 2002:a37:a010:: with SMTP id j16mr35848216qke.152.1565731566318;
+ Tue, 13 Aug 2019 14:26:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190813124513.31413-1-mripard@kernel.org>
-In-Reply-To: <20190813124513.31413-1-mripard@kernel.org>
+References: <20190813124513.31413-1-mripard@kernel.org> <20190813124513.31413-2-mripard@kernel.org>
+In-Reply-To: <20190813124513.31413-2-mripard@kernel.org>
 From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 13 Aug 2019 15:23:56 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLUfQdtXZMNTLJX9uMpdCY0NNN=AEDqGiemrdDazB8HeA@mail.gmail.com>
-Message-ID: <CAL_JsqLUfQdtXZMNTLJX9uMpdCY0NNN=AEDqGiemrdDazB8HeA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add YAML schemas for the generic
- RC bindings
+Date:   Tue, 13 Aug 2019 15:25:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJKw=UaZPzXZu7jCvzeVO7zNcb4mCC-eVmn8DMxsm5cXA@mail.gmail.com>
+Message-ID: <CAL_JsqJKw=UaZPzXZu7jCvzeVO7zNcb4mCC-eVmn8DMxsm5cXA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: media: Convert Allwinner A10 IR to a schema
 To:     Maxime Ripard <mripard@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sean Young <sean@mess.org>,
@@ -60,14 +59,18 @@ On Tue, Aug 13, 2019 at 6:45 AM Maxime Ripard <mripard@kernel.org> wrote:
 >
 > From: Maxime Ripard <maxime.ripard@bootlin.com>
 >
-> The RC controllers have a bunch of generic properties that are needed in a
-> device tree. Add a YAML schemas for those.
+> The older Allwinner SoCs have a IR receiver supported in Linux, with a
+> matching Device Tree binding.
+>
+> Now that we have the DT validation in place, let's convert the device tree
+> bindings for that controller over to a YAML schemas.
 >
 > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
 > ---
->  .../devicetree/bindings/media/rc.txt          | 118 +--------------
->  .../devicetree/bindings/media/rc.yaml         | 135 ++++++++++++++++++
->  2 files changed, 136 insertions(+), 117 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
+>  .../media/allwinner,sun4i-a10-ir.yaml         | 80 +++++++++++++++++++
+>  .../devicetree/bindings/media/sunxi-ir.txt    | 35 --------
+>  2 files changed, 80 insertions(+), 35 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/sunxi-ir.txt
 
 Reviewed-by: Rob Herring <robh@kernel.org>
