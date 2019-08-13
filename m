@@ -2,92 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68FE18B945
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FDA38B94A
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:59:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728691AbfHMM6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:58:37 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46121 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728510AbfHMM6h (ORCPT
+        id S1728342AbfHMM7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:59:01 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46419 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728746AbfHMM7B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:58:37 -0400
-Received: by mail-pg1-f195.google.com with SMTP id w3so14020947pgt.13
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:58:36 -0700 (PDT)
+        Tue, 13 Aug 2019 08:59:01 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c2so49244670plz.13
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=K0mcjPqibl5/pK0KaPG7YxeOH9I+6H5Hxs/ZHlDZ8nw=;
-        b=tp1hhzGE6GvKPo8tkoN0W9cmNeOdxek8Tg74x+mox6nUWOAoue+JsB3CAKXN0ntuNJ
-         2zaM1NuQVo+24x4dCw3qEFydQW62zSGWsJ2drX41U1FrkTHk2WSymFbM03Wkiq1DXC8j
-         DtNOtFQVCWeINcvMQMRPgbrBsVfelEc9r60VZgCunwozhvSFeyuaUA0qdei0OsxdexWN
-         Gr0V4NDBLgVbNBp5dHbrvNFgR8DOmbXeARkWMpKsyKSgVQVdG9HuYZbqy3/bPA8xzjZT
-         SskZzULB9IhVnZ0gMcUsw7HLEIXq4mHYYROlB6IqmmEl9PyJJ3sj9H2xwIa3l/5W3JNT
-         QBng==
+        bh=DhHHMldNA11v/SK2WsSGLAU/UTQ6fOX7HQpywB8nTAU=;
+        b=tCss9UF0DCoJJ290xSMja7MfUntYGAEA1DeuVnFyDUwT89HpJGVAWMYMXZB77kRjR4
+         GadDe3W7BIM704633FeIsD26lvjvTcSbYvl09t42QRUgUh4XIKkAB4t3vupGgkTEXqcB
+         +UihTQ4zJKnWd8y9aQOdY3uQduUEix1nIyy4hD7vR/+oD8jjW7o/8N0UCK89Jihl4RHK
+         8zvT1b3Txgr4bcUOHfFRlnWMOIRg0fa36KMkyr3I9HN0yBk4OG6OXgjv1sTW5odPuUE/
+         AVZ2WF7HvtsCFzMQcNZ/oPdo31vxHWCT3eLMk1aC/fhljxrnOLZHyBDCwm8m97Mnnvz/
+         9yAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=K0mcjPqibl5/pK0KaPG7YxeOH9I+6H5Hxs/ZHlDZ8nw=;
-        b=MT6DQUD5iPmocynkqYpglpq50PCDyNKIb3dTWFFN4hXcabUA8/w+b1oIYL6lT1owq0
-         lMqVyic9FOFgTvag5NGKkLvb8F+N1A3z3amWuSjPQMka9BmJt5A8twrkoBxbvAQBats0
-         2VT2hDjBlRljuyBNe1V4WAKnmemD1Y8LdTpAY9M45nfCJ5CcebpHgHFEJN2oHXZqlYqG
-         AnaOcj9YnJ5USfffvPOTVtiga0wUZ5caIYiMqoB0kcD1fp7kM6kmhAt6HDYsKQtMHAQ2
-         PiDda0EZ7N4W9RYbRMiF+A7hOXAxdExD8ZtrsVDGtXF7uT7E6WmpG23twKrlTjEVy5Ol
-         KxRw==
-X-Gm-Message-State: APjAAAVuJ0vDl42Y1Ewz84cSB8GiJ/sOOgW5j0mRX4UT/qokiVAFLXnO
-        GyfUJOGLkf47X/ALfMcSpWGWq2WCSr9oDHSqdnsiRQ==
-X-Google-Smtp-Source: APXvYqzRqCxZvp5AvCdUCueql8m+Jr5zGRlkKAWkF+ToFPgR8LD5GTqSz+3wOZ5HIjvXGSoCCK56p5CGIDRZ8cKJsxQ=
-X-Received: by 2002:a63:c442:: with SMTP id m2mr35132445pgg.286.1565701115974;
- Tue, 13 Aug 2019 05:58:35 -0700 (PDT)
+        bh=DhHHMldNA11v/SK2WsSGLAU/UTQ6fOX7HQpywB8nTAU=;
+        b=Vo5oeLbqv/YzEhowe9q5a+i4ncFosGg8sxFdBzangAtIFmlK/BPRxyt3vsVn9IDWwj
+         ZPbbEQbQnYmt4PzLZmeRHY6RgYENNY0f5JubFy3olsjdZzX9Q9NGtSO139hQUHQqUTGH
+         P9DrV+2DuXHuZtM9G3gjpi9QOe3E8ht2FkvLgcTMbRqnxIiwwuNC5j2xq01WfmVScrW8
+         thDloWsPVIbIUipYtvAswkRRteo8WVGlqvGMzRl0oXhP4tTSlKSTpeQaDONcTv3PI+t5
+         X8/+T7KB2DzDLkaqz9mD28Nijbxm0LW2ERQ/RBb8C0o5xKAFpMf6RhBczP0KbVL5MxU2
+         /VKQ==
+X-Gm-Message-State: APjAAAWHacYB0Z8Z57khCSPAg7rtj4WylqNV+xfNy3a6XA2GsAgb6z+T
+        Jb7aaMh7anyGqsGPMUThXbFurGCpTDDkj19yqvL/ug==
+X-Google-Smtp-Source: APXvYqzIOrQplJqd1l29SMBrKZETtZ3wT3HiZ92VFmevqGu0OWai1bWa1/BQWF/Fyd0j9dW0uRCuRvFkZ72wLiuF4LQ=
+X-Received: by 2002:a17:902:bb94:: with SMTP id m20mr5204966pls.336.1565701139685;
+ Tue, 13 Aug 2019 05:58:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <000000000000fb811f0587aa1b7f@google.com>
-In-Reply-To: <000000000000fb811f0587aa1b7f@google.com>
+References: <000000000000c08c230587e6e01e@google.com>
+In-Reply-To: <000000000000c08c230587e6e01e@google.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 13 Aug 2019 14:58:24 +0200
-Message-ID: <CAAeHK+z=JsE+tt9ZNPcgMV34LryOXHvBQK9tUs5on8+zqSduVA@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Write in v4l2_device_release
-To:     syzbot <syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com>
-Cc:     ezequiel@collabora.com, Hans Verkuil <hans.verkuil@cisco.com>,
+Date:   Tue, 13 Aug 2019 14:58:48 +0200
+Message-ID: <CAAeHK+zug7cAxPxhziuXzufxuBf=+=JDYix+BTyv2qz8VTRM_Q@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in v4l2_fh_del
+To:     syzbot <syzbot+d53275bc1af5eb01bfff@syzkaller.appspotmail.com>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
         USB list <linux-usb@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, sque@chromium.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        tfiga@chromium.org
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 2:06 PM syzbot
-<syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com> wrote:
+On Thu, May 2, 2019 at 2:36 PM syzbot
+<syzbot+d53275bc1af5eb01bfff@syzkaller.appspotmail.com> wrote:
 >
 > Hello,
 >
 > syzbot found the following crash on:
 >
 > HEAD commit:    43151d6c usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=13f56538a00000
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=145cd8ff200000
 > kernel config:  https://syzkaller.appspot.com/x/.config?x=4183eeef650d1234
-> dashboard link: https://syzkaller.appspot.com/bug?extid=62d0ec9a8d05fffcf12e
+> dashboard link: https://syzkaller.appspot.com/bug?extid=d53275bc1af5eb01bfff
 > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 >
 > Unfortunately, I don't have any reproducer for this crash yet.
 >
 > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com
+> Reported-by: syzbot+d53275bc1af5eb01bfff@syzkaller.appspotmail.com
 >
 > ==================================================================
-> BUG: KASAN: use-after-free in v4l2_device_release+0x3ce/0x408
-> drivers/media/v4l2-core/v4l2-dev.c:197
-> Write of size 8 at addr ffff88809a266c08 by task v4l_id/7544
+> BUG: KASAN: use-after-free in __lock_acquire+0x2930/0x37c0
+> kernel/locking/lockdep.c:3573
+> Read of size 8 at addr ffff88806b57ec90 by task v4l_id/7959
 >
-> CPU: 1 PID: 7544 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
+> CPU: 0 PID: 7959 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
 > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
 > Google 01/01/2011
 > Call Trace:
@@ -95,15 +94,13 @@ On Mon, Apr 29, 2019 at 2:06 PM syzbot
 >   dump_stack+0xe8/0x16e lib/dump_stack.c:113
 >   print_address_description+0x6c/0x236 mm/kasan/report.c:187
 >   kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
->   v4l2_device_release+0x3ce/0x408 drivers/media/v4l2-core/v4l2-dev.c:197
->   device_release+0x7d/0x210 drivers/base/core.c:1064
->   kobject_cleanup lib/kobject.c:662 [inline]
->   kobject_release lib/kobject.c:691 [inline]
->   kref_put include/linux/kref.h:67 [inline]
->   kobject_put+0x1df/0x4f0 lib/kobject.c:708
->   put_device+0x21/0x30 drivers/base/core.c:2205
->   video_put drivers/media/v4l2-core/v4l2-dev.c:174 [inline]
->   v4l2_release+0x2d1/0x390 drivers/media/v4l2-core/v4l2-dev.c:469
+>   __lock_acquire+0x2930/0x37c0 kernel/locking/lockdep.c:3573
+>   lock_acquire+0x10d/0x2f0 kernel/locking/lockdep.c:4211
+>   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+>   _raw_spin_lock_irqsave+0x44/0x60 kernel/locking/spinlock.c:152
+>   v4l2_fh_del+0x4e/0x270 drivers/media/v4l2-core/v4l2-fh.c:81
+>   v4l2_fh_release+0x46/0x70 drivers/media/v4l2-core/v4l2-fh.c:104
+>   v4l2_release+0x2f0/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
 >   __fput+0x2df/0x8c0 fs/file_table.c:278
 >   task_work_run+0x149/0x1c0 kernel/task_work.c:113
 >   tracehook_notify_resume include/linux/tracehook.h:188 [inline]
@@ -112,18 +109,18 @@ On Mon, Apr 29, 2019 at 2:06 PM syzbot
 >   syscall_return_slowpath arch/x86/entry/common.c:268 [inline]
 >   do_syscall_64+0x40c/0x4f0 arch/x86/entry/common.c:293
 >   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7fc1f5f952b0
+> RIP: 0033:0x7fd157cde2b0
 > Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0
 > 07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff
 > ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
-> RSP: 002b:00007ffd270a0138 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007fc1f5f952b0
-> RDX: 00007fc1f624bdf0 RSI: 0000000000000001 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 00007fc1f624bdf0 R09: 000000000000000a
+> RSP: 002b:00007ffcf08bde38 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007fd157cde2b0
+> RDX: 0000000000000013 RSI: 0000000080685600 RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
 > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
-> R13: 00007ffd270a0290 R14: 0000000000000000 R15: 0000000000000000
+> R13: 00007ffcf08bdf90 R14: 0000000000000000 R15: 0000000000000000
 >
-> Allocated by task 5354:
+> Allocated by task 17:
 >   set_track mm/kasan/common.c:87 [inline]
 >   __kasan_kmalloc mm/kasan/common.c:497 [inline]
 >   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
@@ -163,7 +160,7 @@ On Mon, Apr 29, 2019 at 2:06 PM syzbot
 >   kthread+0x313/0x420 kernel/kthread.c:253
 >   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
 >
-> Freed by task 5354:
+> Freed by task 17:
 >   set_track mm/kasan/common.c:87 [inline]
 >   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
 >   slab_free_hook mm/slub.c:1429 [inline]
@@ -188,25 +185,25 @@ On Mon, Apr 29, 2019 at 2:06 PM syzbot
 >   kthread+0x313/0x420 kernel/kthread.c:253
 >   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
 >
-> The buggy address belongs to the object at ffff88809a266600
+> The buggy address belongs to the object at ffff88806b57e600
 >   which belongs to the cache kmalloc-4k of size 4096
-> The buggy address is located 1544 bytes inside of
->   4096-byte region [ffff88809a266600, ffff88809a267600)
+> The buggy address is located 1680 bytes inside of
+>   4096-byte region [ffff88806b57e600, ffff88806b57f600)
 > The buggy address belongs to the page:
-> page:ffffea0002689800 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0
+> page:ffffea0001ad5e00 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0
 > compound_mapcount: 0
 > flags: 0xfff00000010200(slab|head)
-> raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+> raw: 00fff00000010200 0000000000000000 0000000100000001 ffff88812c3f4600
 > raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
 > page dumped because: kasan: bad access detected
 >
 > Memory state around the buggy address:
->   ffff88809a266b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff88809a266b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> > ffff88809a266c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                        ^
->   ffff88809a266c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff88809a266d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff88806b57eb80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff88806b57ec00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > ffff88806b57ec80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                           ^
+>   ffff88806b57ed00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff88806b57ed80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
 > ==================================================================
 
 #syz dup: KASAN: use-after-free Read in v4l2_ioctl
