@@ -2,151 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8A58B875
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3F778B877
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:22:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726866AbfHMMV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:21:58 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50867 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726453AbfHMMV6 (ORCPT
+        id S1727241AbfHMMWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:22:22 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:53518 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726453AbfHMMWW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:21:58 -0400
-Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xVoFhLI2vqTdhxVoKh9duu; Tue, 13 Aug 2019 14:21:56 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Fuqian Huang <huangfq.daxian@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Fixes and i2c conversions
-Message-ID: <0ce80e1f-46c1-6184-b0c1-fc99d0908725@xs4all.nl>
-Date:   Tue, 13 Aug 2019 14:21:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Tue, 13 Aug 2019 08:22:22 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id D73A0634C88;
+        Tue, 13 Aug 2019 15:22:12 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxVoa-0000g3-6a; Tue, 13 Aug 2019 15:22:12 +0300
+Date:   Tue, 13 Aug 2019 15:22:12 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
+ binding
+Message-ID: <20190813122212.GE2527@valkosipuli.retiisi.org.uk>
+References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
+ <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
+ <20190813094526.GG835@valkosipuli.retiisi.org.uk>
+ <20190813113358.GA28877@Mani-XPS-13-9360>
+ <20190813114643.GA2527@valkosipuli.retiisi.org.uk>
+ <20190813121400.GA29378@Mani-XPS-13-9360>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIAW6dZ5nZfbwByQJJVexxOLIkJO9Wly4Bh32azDLK9vQr/v1/v3WzbXKwb2ZcK+gBulkCF+i3M6OEHAhKkSAH6QTn0OszcavG3lL8Oqnq2uHVTGrZ9f
- 4RSfv75E9QAgB8D6MGqWwJN0KBGzPBznu3pBJHLZDwm78RkrheN7wvg612+OatwU53YoIDKbRArIU/lazgDMYh6A+DY8DdS1LFzRDKb9/ozRtXgRmz5+Y+Ii
- 1tyejIH4wbO/lGstnyUrQprUHYk/XHZL0aVZTYc88e5FLRRtmx5Xg2Qyh3L+BfYBy3dL48TZiDDNmJyp2uWJ7PzoB/hXkhgErZVn+CPvbDidtSAY/7fnN3U/
- aipwwkaf8d/RootzNyNZMYVn1g4xX7EW3DlhtQWQBXuZCezCjXZNrM8ySco/jUSAaW5yl9Xli6xf0FStBXZAgbSVEw1lGQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813121400.GA29378@Mani-XPS-13-9360>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit ae27c563a6185d47a904c2d71b72580266cb9d86:
+Hi Manivannan,
 
-  Merge tag 'v5.3-rc4' into patchwork (2019-08-12 13:22:54 -0300)
+On Tue, Aug 13, 2019 at 05:44:00PM +0530, Manivannan Sadhasivam wrote:
+> Hi Sakari,
+> 
+> On Tue, Aug 13, 2019 at 02:46:43PM +0300, Sakari Ailus wrote:
+> > Hi Manivannan,
+> > 
+> > On Tue, Aug 13, 2019 at 05:03:58PM +0530, Manivannan Sadhasivam wrote:
+> > > Hi Sakari,
+> > > 
+> > > Thanks for the review!
+> > > 
+> > > On Tue, Aug 13, 2019 at 12:45:26PM +0300, Sakari Ailus wrote:
+> > > > Hi Manivannan,
+> > > > 
+> > > > On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
+> > > > > Add devicetree binding for IMX290 CMOS image sensor.
+> > > > > 
+> > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > > ---
+> > > > >  .../devicetree/bindings/media/i2c/imx290.txt  | 51 +++++++++++++++++++
+> > > > >  1 file changed, 51 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > > 
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.txt b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > > new file mode 100644
+> > > > > index 000000000000..7535b5b5b24b
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > > @@ -0,0 +1,51 @@
+> > > > > +* Sony IMX290 1/2.8-Inch CMOS Image Sensor
+> > > > > +
+> > > > > +The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with
+> > > > > +Square Pixel for Color Cameras. It is programmable through I2C and 4-wire
+> > > > > +interfaces. The sensor output is available via CMOS logic parallel SDR output,
+> > > > > +Low voltage LVDS DDR output and CSI-2 serial data output.
+> > > > 
+> > > > If there are three to choose from, then you should specify which one is in
+> > > > use. Given that I think chances remain slim we'd add support for the other
+> > > > two (it's certainly not ruled out though), CSI-2 could be the default. But
+> > > > this needs to be documented.
+> > > > 
+> > > 
+> > > Hmm... I'm not sure here. Bindings should describe the hardware and not the
+> > > limitations of the driver. Here as you said, the sensor can output frames
+> > > in 3 different modes/formats but the driver only supports CSI2. I can add a
+> > > note in the driver but not sure whether dt-binding is the right place or not!
+> > 
+> > I guess alternatively you could document the necessary bindings for the
+> > other two busses.
+> > 
+> > But what I'm saying here is that it's highly unlikely they'll be ever
+> > needed, and it'd be mostly a waste of time to implement that. (That said, I
+> > have nothing against the use of these busses, but I've never seen anyone
+> > using them.) Many other devices use defaults for more contentious settings.
+> > 
+> 
+> Agree with you but my question was, whether I could document the supported
+> mode in bindings or not! I have seen comments from Rob in the past that the
+> binding should not document the limitations of the driver. But anyway, one
+> can infer from the current binding that only CSI2 is supported for now, it's
+> just stating it explicitly makes me doubtful!
 
-are available in the Git repository at:
+I think it could be e.g.:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4k
+The CSI-2 bus is the default. No bindings have been defined for the other
+busses.
 
-for you to fetch changes up to dbffad6384421cc9dfee27ab6a922ec14ba9ae9a:
+...
 
-  MAINTAINERS: Remove zoran driver (2019-08-13 13:59:04 +0200)
+> > > > I suppose you can't change the lane order, so clock-lanes is redundant
+> > > > (don't use it in the example) and data-lanes should be monotonically
+> > > > incrementing series from 1 to 4.
+> > > > 
+> > > 
+> > > We can change the order and the example here illustrates how it has been
+> > > wired in FRAMOS module. If I change the lane order like you said, it won't
+> > > work.
+> > 
+> > I highly doubt that. Neither the driver nor the sensor uses the lane
+> > ordering information.
+> > 
+> 
+> Agree but CSI2 host will need this informtion, right? Please correct me if
+> I'm wrong!
 
-----------------------------------------------------------------
-Tag branch
+The CSI-2 receiver may need that configuration, but it's not addressed by a
+sensor's binding documentation (it's configured in the endpoint on the
+receiver's side).
 
-----------------------------------------------------------------
-Denis Efremov (2):
-      MAINTAINERS: hantro: Fix typo in a filepath
-      MAINTAINERS: Remove zoran driver
-
-Fuqian Huang (3):
-      media: pvrusb2: use kzalloc instead of kmalloc and memset
-      media: ngene: Remove call to memset after pci_alloc_consistent
-      media: exynos4-is: Remove call to memset after dma_alloc_coherent
-
-Geert Uytterhoeven (1):
-      media: fdp1: Reduce FCP not found message level to debug
-
-Jernej Skrabec (2):
-      media: cedrus: Remove dst_bufs from context
-      media: cedrus: Don't set chroma size for scale & rotation
-
-Kieran Bingham (7):
-      media: i2c: adv748x: Convert to new i2c device probe()
-      media: radio: si4713: Convert to new i2c device probe()
-      media: radio: si470x: Convert to new i2c device probe()
-      media: i2c: smiapp: Convert to new i2c device probe()
-      media: i2c: s5c73m3: Convert to new i2c device probe()
-      media: i2c: et8ek8: Convert to new i2c device probe()
-      media: i2c: Convert to new i2c device probe()
-
-Matthias Brugger (1):
-      media: mtk-mdp: fix reference count on old device tree
-
-Nishka Dasgupta (2):
-      media: platform: mtk-mdp: mtk_mdp_core: Add of_node_put() before goto
-      media: i2c: tvp5150: Add of_node_put() before goto
-
-Wolfram Sang (14):
-      media: dvb-frontends: cxd2820r_core: convert to i2c_new_dummy_device
-      media: dvb-frontends: mn88443x: convert to i2c_new_dummy_device
-      media: dvb-frontends: mn88472: convert to i2c_new_dummy_device
-      media: dvb-frontends: mn88473: convert to i2c_new_dummy_device
-      media: i2c: ad9389b: convert to i2c_new_dummy_device
-      media: i2c: adv7180: convert to i2c_new_dummy_device
-      media: i2c: adv7511-v4l2: convert to i2c_new_dummy_device
-      media: usb: go7007: s2250-board: convert to i2c_new_dummy_device
-      media: i2c: tda1997x: prevent potential NULL pointer access
-      media: i2c: adv7842: convert to i2c_new_dummy_device
-      media: cxd2820r: don't check retval after our own assignemt
-      media: mn88472: don't check retval after our own assignemt
-      media: mn88473: don't check retval after our own assignemt
-      media: zd1301_demod: don't check retval after our own assignemt
-
- MAINTAINERS                                       | 10 +---------
- drivers/media/dvb-frontends/cxd2820r_core.c       |  9 ++++-----
- drivers/media/dvb-frontends/mn88443x.c            |  6 +++---
- drivers/media/dvb-frontends/mn88472.c             | 18 ++++++++----------
- drivers/media/dvb-frontends/mn88473.c             | 18 ++++++++----------
- drivers/media/dvb-frontends/zd1301_demod.c        |  3 +--
- drivers/media/i2c/ad9389b.c                       |  6 +++---
- drivers/media/i2c/adv7180.c                       | 12 ++++++------
- drivers/media/i2c/adv7343.c                       |  5 ++---
- drivers/media/i2c/adv748x/adv748x-core.c          | 13 ++-----------
- drivers/media/i2c/adv7511-v4l2.c                  | 18 +++++++++---------
- drivers/media/i2c/adv7842.c                       |  9 ++++++---
- drivers/media/i2c/et8ek8/et8ek8_driver.c          |  5 ++---
- drivers/media/i2c/imx274.c                        |  5 ++---
- drivers/media/i2c/max2175.c                       |  5 ++---
- drivers/media/i2c/mt9m001.c                       |  5 ++---
- drivers/media/i2c/mt9m111.c                       |  5 ++---
- drivers/media/i2c/ov2640.c                        |  5 ++---
- drivers/media/i2c/ov2659.c                        |  5 ++---
- drivers/media/i2c/ov5640.c                        |  5 ++---
- drivers/media/i2c/ov5645.c                        |  5 ++---
- drivers/media/i2c/ov5647.c                        |  5 ++---
- drivers/media/i2c/ov772x.c                        |  5 ++---
- drivers/media/i2c/ov7740.c                        |  5 ++---
- drivers/media/i2c/ov9650.c                        |  5 ++---
- drivers/media/i2c/s5c73m3/s5c73m3-core.c          |  5 ++---
- drivers/media/i2c/s5k5baf.c                       |  5 ++---
- drivers/media/i2c/s5k6a3.c                        |  5 ++---
- drivers/media/i2c/smiapp/smiapp-core.c            |  5 ++---
- drivers/media/i2c/tc358743.c                      |  5 ++---
- drivers/media/i2c/tda1997x.c                      |  9 +++++++--
- drivers/media/i2c/ths8200.c                       |  5 ++---
- drivers/media/i2c/tvp5150.c                       |  9 ++++++---
- drivers/media/i2c/tvp7002.c                       |  4 ++--
- drivers/media/pci/ngene/ngene-core.c              |  4 ----
- drivers/media/platform/exynos4-is/fimc-is.c       |  1 -
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c     |  9 +++++++--
- drivers/media/platform/rcar_fdp1.c                |  2 +-
- drivers/media/radio/si470x/radio-si470x-i2c.c     |  5 ++---
- drivers/media/radio/si4713/si4713.c               |  5 ++---
- drivers/media/usb/go7007/s2250-board.c            |  6 +++---
- drivers/media/usb/pvrusb2/pvrusb2-eeprom.c        |  3 +--
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c           |  3 +--
- drivers/staging/media/sunxi/cedrus/cedrus.h       |  4 +---
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c  |  4 ++--
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c    |  3 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 22 ----------------------
- 47 files changed, 126 insertions(+), 189 deletions(-)
+-- 
+Sakari Ailus
