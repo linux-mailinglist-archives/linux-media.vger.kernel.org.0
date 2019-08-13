@@ -2,242 +2,2762 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2038B88C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23A2F8B890
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727770AbfHMM27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:28:59 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:38327 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727948AbfHMM26 (ORCPT
+        id S1727872AbfHMMbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:31:19 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55675 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726903AbfHMMbS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:28:58 -0400
-Received: by mail-pf1-f196.google.com with SMTP id o70so6190663pfg.5
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:28:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J0OX+UavUW69Pwj5kvp4kGJVZ4Uc8g5Osru9cf1AYzc=;
-        b=SbKsDMZNqVb5RwjgqbtwyiGjQAHwB5mGcAbYNURPBCc8DkboBxolWPTZOxS2F9nOVn
-         7DKQ5ABZoYZKRby13FRNrdxEY58kv0s2/4TsLtqqyDdj8r+oXcSjiOwBAVpQuPI9bi5v
-         9RaZ+qlh5oXtjnnY/yOMf0WNToRzFOHDr5QzTkZ/QThjKlaGfPkMivWBi5rRn4TNAB1C
-         vAYjIOb2qyZ/AtuQjGIOIpmhavIk2V8yvoAMvxsD9laNlJNfqQrsipu3MI1QwQSw33gX
-         WoiRJ61LxoJQWISlErqxKUEr8EWYu5KQuZkLJ0QaCEgSKL1D8Ke+7qmDE82iFKuK8i0L
-         e0Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J0OX+UavUW69Pwj5kvp4kGJVZ4Uc8g5Osru9cf1AYzc=;
-        b=gUUapfn6RyybhE8s9HQrJshFGvpc3BbHViQkBBfu0xGGEsAFWb/HeCQpTXKLZVZRFf
-         Deytb43J8RfxQ4Vrz+FNINDuh3VpisdqmyhprrIvlV2mu2OBpR6XHoxMmsx0JFkj28K1
-         mWWA65gPw4RwyD9G71c8xebd/LBzGiCPsILBdwITSMa5hd3UEwQ8vlkgPj9fs7vFIbnl
-         iUIfyqUmaXK+x4P+T/UhY47MUe0u3RrNkvnUpJzEWjw7FpOtwQptsWG2UvgYixBH6P+x
-         j2ablRQxZXwskETeHHj6Z4/5noWkfxvKY+akqIhlhq3q4RJq7LWwgxdRo08zxiN9DRUb
-         B1Mw==
-X-Gm-Message-State: APjAAAWdDNFTNN615cFEqat3qLe03HNfiFrsRJzx4sFov1hiv1kwEKPz
-        nZFhymOMm0a2MMJfgQrw81dxdMkOjB7dKaCKFi/E2g==
-X-Google-Smtp-Source: APXvYqyt3FbaY4pZ6t086GdXktl0QRQ7Tn97z0LHBv3i0+L733YFoLUob5A41zfJSJIQyop+mxB6dGfAFVag6jFtZwQ=
-X-Received: by 2002:aa7:9e0a:: with SMTP id y10mr16866954pfq.93.1565699337128;
- Tue, 13 Aug 2019 05:28:57 -0700 (PDT)
+        Tue, 13 Aug 2019 08:31:18 -0400
+Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xVxBhLM0eqTdhxVxEh9gWt; Tue, 13 Aug 2019 14:31:09 +0200
+Subject: Re: [PATCH 1/1] v4l: Documentation: Raw Bayer formats are not RGB
+ formats
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20190813113614.2747-1-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d069e48e-d41f-5412-d1be-12dc9399a46b@xs4all.nl>
+Date:   Tue, 13 Aug 2019 14:31:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <00000000000003799c05868311b9@google.com>
-In-Reply-To: <00000000000003799c05868311b9@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 13 Aug 2019 14:28:46 +0200
-Message-ID: <CAAeHK+yYunegtGoLs4TzrWEQ8U-CWQR7NnAz6NK1j_Vm=ZRTBw@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Read in v4l2_ioctl
-To:     syzbot <syzbot+d587871cd33a9bc7c086@syzkaller.appspotmail.com>
-Cc:     ezequiel@collabora.com, Hans Verkuil <hans.verkuil@cisco.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, sque@chromium.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190813113614.2747-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOW4qQ7G7eXYxZkFhoxFoZbTrNtipAwbA+bme9AUsZDGB5xol9TPiSxg1fHB431Tz5HFZ4fu6vVpKyXm1hbuEqbNYN3NynozkxuY8xxagfWt2T0mxcZM
+ 4TZq/x9kDi8CLGoS8druWHp+ecHXEwd8VNVvCfhtq/HwguSvpmo7GuWdWzHjm8Qne6G6I+sSFjeHNx1oOOsXSh9y4/BJMSKOnVffQ51LKz32Ar7B/+cP9mMS
+ FqBKCNztSbn32FNTbB5kRA13X01W7F7S6rVNb3785SKnySOBmMtyBoBdcWhSsClRSQaC5o+yU55hvASJQpFyXI2bb5VKHVTpZqpMtt1NWfk=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Apr 14, 2019 at 10:06 PM syzbot
-<syzbot+d587871cd33a9bc7c086@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following crash on:
->
-> HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=137d8a2d200000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-> dashboard link: https://syzkaller.appspot.com/bug?extid=d587871cd33a9bc7c086
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e878f3200000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=102432e3200000
->
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+d587871cd33a9bc7c086@syzkaller.appspotmail.com
->
-> usb 6-1: USB disconnect, device number 19
-> radio-raremono 6-1:0.210: Thanko's Raremono disconnected
-> radio-si470x 2-1:0.210: could not find interrupt in endpoint
-> radio-si470x 3-1:0.210: could not find interrupt in endpoint
-> ==================================================================
-> BUG: KASAN: use-after-free in v4l2_ioctl+0x187/0x1a0
-> drivers/media/v4l2-core/v4l2-dev.c:362
-> Read of size 8 at addr ffff88809b3645e0 by task v4l_id/5799
-> radio-si470x 4-1:0.210: could not find interrupt in endpoint
->
-> CPU: 0 PID: 5799 Comm: v4l_id Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-> radio-si470x: probe of 4-1:0.210 failed with error -5
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xe8/0x16e lib/dump_stack.c:113
->   print_address_description+0x6c/0x236 mm/kasan/report.c:187
-> radio-si470x: probe of 2-1:0.210 failed with error -5
->   kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
->   v4l2_ioctl+0x187/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:362
->   vfs_ioctl fs/ioctl.c:46 [inline]
+On 8/13/19 1:36 PM, Sakari Ailus wrote:
+> The raw Bayer formats have been listed under the label of RGB formats but
+> in fact they're quite different. The latter are readily usable as such
+> whereas the former require quite bit of image processing before useful.
+> 
+> Split them into RGB and raw Bayer formats.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-#syz fix: media: radio-raremono: change devm_k*alloc to k*alloc
+Fantastic! This has been annoying me for a long time.
+Very nice improvement.
 
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
-> usb 5-1: new high-speed USB device number 19 using dummy_hcd
-> radio-si470x: probe of 3-1:0.210 failed with error -5
->   ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7f435c835347
-> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
-> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
-> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
-> radio-raremono 2-1:0.210: Thanko's Raremono connected: (10C4:818A)
-> RSP: 002b:00007ffeca71fda8 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f435c835347
-> RDX: 00007ffeca71fdb0 RSI: 0000000080685600 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
-> R13: 00007ffeca71ff00 R14: 0000000000000000 R15: 0000000000000000
->
-> Allocated by task 12:
->   set_track mm/kasan/common.c:87 [inline]
->   __kasan_kmalloc mm/kasan/common.c:497 [inline]
->   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
->   slab_post_alloc_hook mm/slab.h:437 [inline]
->   slab_alloc_node mm/slub.c:2756 [inline]
->   __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
->   alloc_dr drivers/base/devres.c:103 [inline]
->   devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
->   devm_kzalloc include/linux/device.h:679 [inline]
->   usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
-> radio-raremono 3-1:0.210: Thanko's Raremono connected: (10C4:818A)
->   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
->   really_probe+0x2da/0xb10 drivers/base/dd.c:509
-> radio-raremono 4-1:0.210: Thanko's Raremono connected: (10C4:818A)
->   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
->   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
->   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
->   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-> usb 1-1: new high-speed USB device number 19 using dummy_hcd
->   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
->   device_add+0xad2/0x16e0 drivers/base/core.c:2106
->   usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
->   generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
->   usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
->   really_probe+0x2da/0xb10 drivers/base/dd.c:509
->   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
->   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
->   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
->   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
->   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-> usb 5-1: Using ep0 maxpacket: 8
->   device_add+0xad2/0x16e0 drivers/base/core.c:2106
->   usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
->   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
->   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
->   port_event drivers/usb/core/hub.c:5350 [inline]
->   hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
->   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-> radio-raremono 2-1:0.210: raremono_cmd_main failed (-71)
->   process_scheduled_works kernel/workqueue.c:2331 [inline]
->   worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
-> radio-raremono 4-1:0.210: raremono_cmd_main failed (-71)
->   kthread+0x313/0x420 kernel/kthread.c:253
->   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
->
-> Freed by task 12:
-> radio-raremono 2-1:0.210: V4L2 device registered as radio33
->   set_track mm/kasan/common.c:87 [inline]
->   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
-> radio-raremono 4-1:0.210: V4L2 device registered as radio34
->   slab_free_hook mm/slub.c:1429 [inline]
->   slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
->   slab_free mm/slub.c:3003 [inline]
->   kfree+0xce/0x290 mm/slub.c:3958
->   release_nodes+0x4ac/0x920 drivers/base/devres.c:508
->   devres_release_all+0x79/0xc8 drivers/base/devres.c:529
->   __device_release_driver drivers/base/dd.c:1086 [inline]
->   device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
->   bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
->   device_del+0x467/0xb90 drivers/base/core.c:2269
->   usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
->   usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
->   hub_port_connect drivers/usb/core/hub.c:4940 [inline]
->   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
->   port_event drivers/usb/core/hub.c:5350 [inline]
->   hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
->   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
->   process_scheduled_works kernel/workqueue.c:2331 [inline]
->   worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
->   kthread+0x313/0x420 kernel/kthread.c:253
->   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
->
-> The buggy address belongs to the object at ffff88809b364400
->   which belongs to the cache kmalloc-4k of size 4096
-> The buggy address is located 480 bytes inside of
->   4096-byte region [ffff88809b364400, ffff88809b365400)
-> The buggy address belongs to the page:
-> page:ffffea00026cd800 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0
-> compound_mapcount: 0
-> flags: 0xfff00000010200(slab|head)
-> raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
-> radio-raremono 3-1:0.210: raremono_cmd_main failed (-71)
-> raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-> radio-raremono 3-1:0.210: V4L2 device registered as radio35
-> page dumped because: kasan: bad access detected
->
-> Memory state around the buggy address:
->   ffff88809b364480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff88809b364500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> > ffff88809b364580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                                                         ^
->   ffff88809b364600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff88809b364680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ==================================================================
->
->
+However, I get this warning when building the docs:
+
+Documentation/media/uapi/v4l/pixfmt-bayer.rst:14: WARNING: duplicate label pixfmt-rgb, other instance in Documentation/media/uapi/v4l/pixfmt-rgb.rst
+
 > ---
-> This bug is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this bug report. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this bug, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/00000000000003799c05868311b9%40google.com.
-> For more options, visit https://groups.google.com/d/optout.
+>  Documentation/media/uapi/v4l/pixfmt-bayer.rst |   29 +
+>  .../media/uapi/v4l/pixfmt-packed-rgb.rst      | 1306 ----------------
+>  Documentation/media/uapi/v4l/pixfmt-rgb.rst   | 1318 ++++++++++++++++-
+>  Documentation/media/uapi/v4l/pixfmt.rst       |    1 +
+>  4 files changed, 1327 insertions(+), 1327 deletions(-)
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-bayer.rst
+>  delete mode 100644 Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
+> 
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-bayer.rst b/Documentation/media/uapi/v4l/pixfmt-bayer.rst
+> new file mode 100644
+> index 0000000000000..641d075696c78
+> --- /dev/null
+> +++ b/Documentation/media/uapi/v4l/pixfmt-bayer.rst
+> @@ -0,0 +1,29 @@
+> +.. Permission is granted to copy, distribute and/or modify this
+> +.. document under the terms of the GNU Free Documentation License,
+> +.. Version 1.1 or any later version published by the Free Software
+> +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> +.. and no Back-Cover Texts. A copy of the license is included at
+> +.. Documentation/media/uapi/fdl-appendix.rst.
+> +..
+> +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+> +
+> +.. _pixfmt-rgb:
+
+So this should become _pixfmt-bayer
+
+> +
+> +*****************
+> +Raw Bayer Formats
+> +*****************
+
+There should also be a short description here, as is done with the other
+formats.
+
+Regards,
+
+	Hans
+
+> +
+> +
+> +.. toctree::
+> +    :maxdepth: 1
+> +
+> +    pixfmt-srggb8
+> +    pixfmt-srggb10
+> +    pixfmt-srggb10p
+> +    pixfmt-srggb10alaw8
+> +    pixfmt-srggb10dpcm8
+> +    pixfmt-srggb10-ipu3
+> +    pixfmt-srggb12
+> +    pixfmt-srggb12p
+> +    pixfmt-srggb14p
+> +    pixfmt-srggb16
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
+> deleted file mode 100644
+> index 738bb14c0ee28..0000000000000
+> --- a/Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
+> +++ /dev/null
+> @@ -1,1306 +0,0 @@
+> -.. Permission is granted to copy, distribute and/or modify this
+> -.. document under the terms of the GNU Free Documentation License,
+> -.. Version 1.1 or any later version published by the Free Software
+> -.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> -.. and no Back-Cover Texts. A copy of the license is included at
+> -.. Documentation/media/uapi/fdl-appendix.rst.
+> -..
+> -.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+> -
+> -.. _packed-rgb:
+> -
+> -******************
+> -Packed RGB formats
+> -******************
+> -
+> -Description
+> -===========
+> -
+> -These formats are designed to match the pixel formats of typical PC
+> -graphics frame buffers. They occupy 8, 16, 24 or 32 bits per pixel.
+> -These are all packed-pixel formats, meaning all the data for a pixel lie
+> -next to each other in memory.
+> -
+> -.. raw:: latex
+> -
+> -    \begingroup
+> -    \tiny
+> -    \setlength{\tabcolsep}{2pt}
+> -
+> -.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> -
+> -
+> -.. _rgb-formats:
+> -
+> -.. flat-table:: Packed RGB Image Formats
+> -    :header-rows:  2
+> -    :stub-columns: 0
+> -
+> -    * - Identifier
+> -      - Code
+> -      - :cspan:`7` Byte 0 in memory
+> -      - :cspan:`7` Byte 1
+> -      - :cspan:`7` Byte 2
+> -      - :cspan:`7` Byte 3
+> -    * -
+> -      -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -    * .. _V4L2-PIX-FMT-RGB332:
+> -
+> -      - ``V4L2_PIX_FMT_RGB332``
+> -      - 'RGB1'
+> -
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-ARGB444:
+> -
+> -      - ``V4L2_PIX_FMT_ARGB444``
+> -      - 'AR12'
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-XRGB444:
+> -
+> -      - ``V4L2_PIX_FMT_XRGB444``
+> -      - 'XR12'
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGBA444:
+> -
+> -      - ``V4L2_PIX_FMT_RGBA444``
+> -      - 'RA12'
+> -
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGBX444:
+> -
+> -      - ``V4L2_PIX_FMT_RGBX444``
+> -      - 'RX12'
+> -
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -      -
+> -      -
+> -      -
+> -
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-ABGR444:
+> -
+> -      - ``V4L2_PIX_FMT_ABGR444``
+> -      - 'AB12'
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-XBGR444:
+> -
+> -      - ``V4L2_PIX_FMT_XBGR444``
+> -      - 'XB12'
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGRA444:
+> -
+> -      - ``V4L2_PIX_FMT_BGRA444``
+> -      - 'BA12'
+> -
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGRX444:
+> -
+> -      - ``V4L2_PIX_FMT_BGRX444``
+> -      - 'BX12'
+> -
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -      -
+> -      -
+> -      -
+> -
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-ARGB555:
+> -
+> -      - ``V4L2_PIX_FMT_ARGB555``
+> -      - 'AR15'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - a
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-XRGB555:
+> -
+> -      - ``V4L2_PIX_FMT_XRGB555``
+> -      - 'XR15'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGBA555:
+> -
+> -      - ``V4L2_PIX_FMT_RGBA555``
+> -      - 'RA15'
+> -
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - a
+> -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGBX555:
+> -
+> -      - ``V4L2_PIX_FMT_RGBX555``
+> -      - 'RX15'
+> -
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      -
+> -    * .. _V4L2-PIX-FMT-ABGR555:
+> -
+> -      - ``V4L2_PIX_FMT_ABGR555``
+> -      - 'AB15'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - a
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-XBGR555:
+> -
+> -      - ``V4L2_PIX_FMT_XBGR555``
+> -      - 'XB15'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      -
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGRA555:
+> -
+> -      - ``V4L2_PIX_FMT_BGRA555``
+> -      - 'BA15'
+> -
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - a
+> -
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGRX555:
+> -
+> -      - ``V4L2_PIX_FMT_BGRX555``
+> -      - 'BX15'
+> -
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGB565:
+> -
+> -      - ``V4L2_PIX_FMT_RGB565``
+> -      - 'RGBP'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-ARGB555X:
+> -
+> -      - ``V4L2_PIX_FMT_ARGB555X``
+> -      - 'AR15' | (1 << 31)
+> -
+> -      - a
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-XRGB555X:
+> -
+> -      - ``V4L2_PIX_FMT_XRGB555X``
+> -      - 'XR15' | (1 << 31)
+> -
+> -      -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGB565X:
+> -
+> -      - ``V4L2_PIX_FMT_RGB565X``
+> -      - 'RGBR'
+> -
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGR24:
+> -
+> -      - ``V4L2_PIX_FMT_BGR24``
+> -      - 'BGR3'
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGB24:
+> -
+> -      - ``V4L2_PIX_FMT_RGB24``
+> -      - 'RGB3'
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGR666:
+> -
+> -      - ``V4L2_PIX_FMT_BGR666``
+> -      - 'BGRH'
+> -
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -    * .. _V4L2-PIX-FMT-ABGR32:
+> -
+> -      - ``V4L2_PIX_FMT_ABGR32``
+> -      - 'AR24'
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-XBGR32:
+> -
+> -      - ``V4L2_PIX_FMT_XBGR32``
+> -      - 'XR24'
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGRA32:
+> -
+> -      - ``V4L2_PIX_FMT_BGRA32``
+> -      - 'RA24'
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-BGRX32:
+> -
+> -      - ``V4L2_PIX_FMT_BGRX32``
+> -      - 'RX24'
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-RGBA32:
+> -
+> -      - ``V4L2_PIX_FMT_RGBA32``
+> -      - 'AB24'
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-RGBX32:
+> -
+> -      - ``V4L2_PIX_FMT_RGBX32``
+> -      - 'XB24'
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -    * .. _V4L2-PIX-FMT-ARGB32:
+> -
+> -      - ``V4L2_PIX_FMT_ARGB32``
+> -      - 'BA24'
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-XRGB32:
+> -
+> -      - ``V4L2_PIX_FMT_XRGB32``
+> -      - 'BX24'
+> -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -      -
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -.. raw:: latex
+> -
+> -    \endgroup
+> -
+> -.. note:: Bit 7 is the most significant bit.
+> -
+> -The usage and value of the alpha bits (a) in the ARGB and ABGR formats
+> -(collectively referred to as alpha formats) depend on the device type
+> -and hardware operation. :ref:`Capture <capture>` devices (including
+> -capture queues of mem-to-mem devices) fill the alpha component in
+> -memory. When the device outputs an alpha channel the alpha component
+> -will have a meaningful value. Otherwise, when the device doesn't output
+> -an alpha channel but can set the alpha bit to a user-configurable value,
+> -the :ref:`V4L2_CID_ALPHA_COMPONENT <v4l2-alpha-component>` control
+> -is used to specify that alpha value, and the alpha component of all
+> -pixels will be set to the value specified by that control. Otherwise a
+> -corresponding format without an alpha component (XRGB or XBGR) must be
+> -used instead of an alpha format.
+> -
+> -:ref:`Output <output>` devices (including output queues of mem-to-mem
+> -devices and :ref:`video output overlay <osd>` devices) read the alpha
+> -component from memory. When the device processes the alpha channel the
+> -alpha component must be filled with meaningful values by applications.
+> -Otherwise a corresponding format without an alpha component (XRGB or
+> -XBGR) must be used instead of an alpha format.
+> -
+> -The XRGB and XBGR formats contain undefined bits (-). Applications,
+> -devices and drivers must ignore those bits, for both
+> -:ref:`capture` and :ref:`output` devices.
+> -
+> -**Byte Order.**
+> -Each cell is one byte.
+> -
+> -
+> -.. raw:: latex
+> -
+> -    \small
+> -
+> -.. tabularcolumns:: |p{3.1cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
+> -
+> -.. flat-table:: RGB byte order
+> -    :header-rows:  0
+> -    :stub-columns: 0
+> -    :widths:       11 3 3 3 3 3 3 3 3 3 3 3 3
+> -
+> -    * - start + 0:
+> -      - B\ :sub:`00`
+> -      - G\ :sub:`00`
+> -      - R\ :sub:`00`
+> -      - B\ :sub:`01`
+> -      - G\ :sub:`01`
+> -      - R\ :sub:`01`
+> -      - B\ :sub:`02`
+> -      - G\ :sub:`02`
+> -      - R\ :sub:`02`
+> -      - B\ :sub:`03`
+> -      - G\ :sub:`03`
+> -      - R\ :sub:`03`
+> -    * - start + 12:
+> -      - B\ :sub:`10`
+> -      - G\ :sub:`10`
+> -      - R\ :sub:`10`
+> -      - B\ :sub:`11`
+> -      - G\ :sub:`11`
+> -      - R\ :sub:`11`
+> -      - B\ :sub:`12`
+> -      - G\ :sub:`12`
+> -      - R\ :sub:`12`
+> -      - B\ :sub:`13`
+> -      - G\ :sub:`13`
+> -      - R\ :sub:`13`
+> -    * - start + 24:
+> -      - B\ :sub:`20`
+> -      - G\ :sub:`20`
+> -      - R\ :sub:`20`
+> -      - B\ :sub:`21`
+> -      - G\ :sub:`21`
+> -      - R\ :sub:`21`
+> -      - B\ :sub:`22`
+> -      - G\ :sub:`22`
+> -      - R\ :sub:`22`
+> -      - B\ :sub:`23`
+> -      - G\ :sub:`23`
+> -      - R\ :sub:`23`
+> -    * - start + 36:
+> -      - B\ :sub:`30`
+> -      - G\ :sub:`30`
+> -      - R\ :sub:`30`
+> -      - B\ :sub:`31`
+> -      - G\ :sub:`31`
+> -      - R\ :sub:`31`
+> -      - B\ :sub:`32`
+> -      - G\ :sub:`32`
+> -      - R\ :sub:`32`
+> -      - B\ :sub:`33`
+> -      - G\ :sub:`33`
+> -      - R\ :sub:`33`
+> -
+> -.. raw:: latex
+> -
+> -    \normalsize
+> -
+> -Formats defined in :ref:`rgb-formats-deprecated` are deprecated and
+> -must not be used by new drivers. They are documented here for reference.
+> -The meaning of their alpha bits ``(a)`` are ill-defined and interpreted as in
+> -either the corresponding ARGB or XRGB format, depending on the driver.
+> -
+> -
+> -.. raw:: latex
+> -
+> -    \begingroup
+> -    \tiny
+> -    \setlength{\tabcolsep}{2pt}
+> -
+> -.. tabularcolumns:: |p{2.6cm}|p{0.70cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> -
+> -.. _rgb-formats-deprecated:
+> -
+> -.. flat-table:: Deprecated Packed RGB Image Formats
+> -    :header-rows:  2
+> -    :stub-columns: 0
+> -
+> -    * - Identifier
+> -      - Code
+> -      - :cspan:`7` Byte 0 in memory
+> -
+> -      - :cspan:`7` Byte 1
+> -
+> -      - :cspan:`7` Byte 2
+> -
+> -      - :cspan:`7` Byte 3
+> -    * -
+> -      -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -
+> -      - 7
+> -      - 6
+> -      - 5
+> -      - 4
+> -      - 3
+> -      - 2
+> -      - 1
+> -      - 0
+> -    * .. _V4L2-PIX-FMT-RGB444:
+> -
+> -      - ``V4L2_PIX_FMT_RGB444``
+> -      - 'R444'
+> -
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGB555:
+> -
+> -      - ``V4L2_PIX_FMT_RGB555``
+> -      - 'RGBO'
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - a
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      -
+> -    * .. _V4L2-PIX-FMT-RGB555X:
+> -
+> -      - ``V4L2_PIX_FMT_RGB555X``
+> -      - 'RGBQ'
+> -
+> -      - a
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -      -
+> -    * .. _V4L2-PIX-FMT-BGR32:
+> -
+> -      - ``V4L2_PIX_FMT_BGR32``
+> -      - 'BGR4'
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -    * .. _V4L2-PIX-FMT-RGB32:
+> -
+> -      - ``V4L2_PIX_FMT_RGB32``
+> -      - 'RGB4'
+> -
+> -      - a\ :sub:`7`
+> -      - a\ :sub:`6`
+> -      - a\ :sub:`5`
+> -      - a\ :sub:`4`
+> -      - a\ :sub:`3`
+> -      - a\ :sub:`2`
+> -      - a\ :sub:`1`
+> -      - a\ :sub:`0`
+> -
+> -      - r\ :sub:`7`
+> -      - r\ :sub:`6`
+> -      - r\ :sub:`5`
+> -      - r\ :sub:`4`
+> -      - r\ :sub:`3`
+> -      - r\ :sub:`2`
+> -      - r\ :sub:`1`
+> -      - r\ :sub:`0`
+> -
+> -      - g\ :sub:`7`
+> -      - g\ :sub:`6`
+> -      - g\ :sub:`5`
+> -      - g\ :sub:`4`
+> -      - g\ :sub:`3`
+> -      - g\ :sub:`2`
+> -      - g\ :sub:`1`
+> -      - g\ :sub:`0`
+> -
+> -      - b\ :sub:`7`
+> -      - b\ :sub:`6`
+> -      - b\ :sub:`5`
+> -      - b\ :sub:`4`
+> -      - b\ :sub:`3`
+> -      - b\ :sub:`2`
+> -      - b\ :sub:`1`
+> -      - b\ :sub:`0`
+> -
+> -.. raw:: latex
+> -
+> -    \endgroup
+> -
+> -A test utility to determine which RGB formats a driver actually supports
+> -is available from the LinuxTV v4l-dvb repository. See
+> -`https://linuxtv.org/repo/ <https://linuxtv.org/repo/>`__ for access
+> -instructions.
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> index 48ab800248352..738bb14c0ee28 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
+> @@ -7,24 +7,1300 @@
+>  ..
+>  .. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+>  
+> -.. _pixfmt-rgb:
+> -
+> -***********
+> -RGB Formats
+> -***********
+> -
+> -
+> -.. toctree::
+> -    :maxdepth: 1
+> -
+> -    pixfmt-packed-rgb
+> -    pixfmt-srggb8
+> -    pixfmt-srggb10
+> -    pixfmt-srggb10p
+> -    pixfmt-srggb10alaw8
+> -    pixfmt-srggb10dpcm8
+> -    pixfmt-srggb10-ipu3
+> -    pixfmt-srggb12
+> -    pixfmt-srggb12p
+> -    pixfmt-srggb14p
+> -    pixfmt-srggb16
+> +.. _packed-rgb:
+> +
+> +******************
+> +Packed RGB formats
+> +******************
+> +
+> +Description
+> +===========
+> +
+> +These formats are designed to match the pixel formats of typical PC
+> +graphics frame buffers. They occupy 8, 16, 24 or 32 bits per pixel.
+> +These are all packed-pixel formats, meaning all the data for a pixel lie
+> +next to each other in memory.
+> +
+> +.. raw:: latex
+> +
+> +    \begingroup
+> +    \tiny
+> +    \setlength{\tabcolsep}{2pt}
+> +
+> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> +
+> +
+> +.. _rgb-formats:
+> +
+> +.. flat-table:: Packed RGB Image Formats
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - :cspan:`7` Byte 0 in memory
+> +      - :cspan:`7` Byte 1
+> +      - :cspan:`7` Byte 2
+> +      - :cspan:`7` Byte 3
+> +    * -
+> +      -
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * .. _V4L2-PIX-FMT-RGB332:
+> +
+> +      - ``V4L2_PIX_FMT_RGB332``
+> +      - 'RGB1'
+> +
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ARGB444:
+> +
+> +      - ``V4L2_PIX_FMT_ARGB444``
+> +      - 'AR12'
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-XRGB444:
+> +
+> +      - ``V4L2_PIX_FMT_XRGB444``
+> +      - 'XR12'
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGBA444:
+> +
+> +      - ``V4L2_PIX_FMT_RGBA444``
+> +      - 'RA12'
+> +
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGBX444:
+> +
+> +      - ``V4L2_PIX_FMT_RGBX444``
+> +      - 'RX12'
+> +
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +      -
+> +      -
+> +      -
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ABGR444:
+> +
+> +      - ``V4L2_PIX_FMT_ABGR444``
+> +      - 'AB12'
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-XBGR444:
+> +
+> +      - ``V4L2_PIX_FMT_XBGR444``
+> +      - 'XB12'
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRA444:
+> +
+> +      - ``V4L2_PIX_FMT_BGRA444``
+> +      - 'BA12'
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRX444:
+> +
+> +      - ``V4L2_PIX_FMT_BGRX444``
+> +      - 'BX12'
+> +
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +      -
+> +      -
+> +      -
+> +
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ARGB555:
+> +
+> +      - ``V4L2_PIX_FMT_ARGB555``
+> +      - 'AR15'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - a
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-XRGB555:
+> +
+> +      - ``V4L2_PIX_FMT_XRGB555``
+> +      - 'XR15'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      -
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGBA555:
+> +
+> +      - ``V4L2_PIX_FMT_RGBA555``
+> +      - 'RA15'
+> +
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - a
+> +
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGBX555:
+> +
+> +      - ``V4L2_PIX_FMT_RGBX555``
+> +      - 'RX15'
+> +
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ABGR555:
+> +
+> +      - ``V4L2_PIX_FMT_ABGR555``
+> +      - 'AB15'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - a
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-XBGR555:
+> +
+> +      - ``V4L2_PIX_FMT_XBGR555``
+> +      - 'XB15'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      -
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRA555:
+> +
+> +      - ``V4L2_PIX_FMT_BGRA555``
+> +      - 'BA15'
+> +
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - a
+> +
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRX555:
+> +
+> +      - ``V4L2_PIX_FMT_BGRX555``
+> +      - 'BX15'
+> +
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB565:
+> +
+> +      - ``V4L2_PIX_FMT_RGB565``
+> +      - 'RGBP'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-ARGB555X:
+> +
+> +      - ``V4L2_PIX_FMT_ARGB555X``
+> +      - 'AR15' | (1 << 31)
+> +
+> +      - a
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-XRGB555X:
+> +
+> +      - ``V4L2_PIX_FMT_XRGB555X``
+> +      - 'XR15' | (1 << 31)
+> +
+> +      -
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB565X:
+> +
+> +      - ``V4L2_PIX_FMT_RGB565X``
+> +      - 'RGBR'
+> +
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGR24:
+> +
+> +      - ``V4L2_PIX_FMT_BGR24``
+> +      - 'BGR3'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB24:
+> +
+> +      - ``V4L2_PIX_FMT_RGB24``
+> +      - 'RGB3'
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGR666:
+> +
+> +      - ``V4L2_PIX_FMT_BGR666``
+> +      - 'BGRH'
+> +
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +    * .. _V4L2-PIX-FMT-ABGR32:
+> +
+> +      - ``V4L2_PIX_FMT_ABGR32``
+> +      - 'AR24'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-XBGR32:
+> +
+> +      - ``V4L2_PIX_FMT_XBGR32``
+> +      - 'XR24'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGRA32:
+> +
+> +      - ``V4L2_PIX_FMT_BGRA32``
+> +      - 'RA24'
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-BGRX32:
+> +
+> +      - ``V4L2_PIX_FMT_BGRX32``
+> +      - 'RX24'
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-RGBA32:
+> +
+> +      - ``V4L2_PIX_FMT_RGBA32``
+> +      - 'AB24'
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-RGBX32:
+> +
+> +      - ``V4L2_PIX_FMT_RGBX32``
+> +      - 'XB24'
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +    * .. _V4L2-PIX-FMT-ARGB32:
+> +
+> +      - ``V4L2_PIX_FMT_ARGB32``
+> +      - 'BA24'
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-XRGB32:
+> +
+> +      - ``V4L2_PIX_FMT_XRGB32``
+> +      - 'BX24'
+> +
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +.. raw:: latex
+> +
+> +    \endgroup
+> +
+> +.. note:: Bit 7 is the most significant bit.
+> +
+> +The usage and value of the alpha bits (a) in the ARGB and ABGR formats
+> +(collectively referred to as alpha formats) depend on the device type
+> +and hardware operation. :ref:`Capture <capture>` devices (including
+> +capture queues of mem-to-mem devices) fill the alpha component in
+> +memory. When the device outputs an alpha channel the alpha component
+> +will have a meaningful value. Otherwise, when the device doesn't output
+> +an alpha channel but can set the alpha bit to a user-configurable value,
+> +the :ref:`V4L2_CID_ALPHA_COMPONENT <v4l2-alpha-component>` control
+> +is used to specify that alpha value, and the alpha component of all
+> +pixels will be set to the value specified by that control. Otherwise a
+> +corresponding format without an alpha component (XRGB or XBGR) must be
+> +used instead of an alpha format.
+> +
+> +:ref:`Output <output>` devices (including output queues of mem-to-mem
+> +devices and :ref:`video output overlay <osd>` devices) read the alpha
+> +component from memory. When the device processes the alpha channel the
+> +alpha component must be filled with meaningful values by applications.
+> +Otherwise a corresponding format without an alpha component (XRGB or
+> +XBGR) must be used instead of an alpha format.
+> +
+> +The XRGB and XBGR formats contain undefined bits (-). Applications,
+> +devices and drivers must ignore those bits, for both
+> +:ref:`capture` and :ref:`output` devices.
+> +
+> +**Byte Order.**
+> +Each cell is one byte.
+> +
+> +
+> +.. raw:: latex
+> +
+> +    \small
+> +
+> +.. tabularcolumns:: |p{3.1cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
+> +
+> +.. flat-table:: RGB byte order
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       11 3 3 3 3 3 3 3 3 3 3 3 3
+> +
+> +    * - start + 0:
+> +      - B\ :sub:`00`
+> +      - G\ :sub:`00`
+> +      - R\ :sub:`00`
+> +      - B\ :sub:`01`
+> +      - G\ :sub:`01`
+> +      - R\ :sub:`01`
+> +      - B\ :sub:`02`
+> +      - G\ :sub:`02`
+> +      - R\ :sub:`02`
+> +      - B\ :sub:`03`
+> +      - G\ :sub:`03`
+> +      - R\ :sub:`03`
+> +    * - start + 12:
+> +      - B\ :sub:`10`
+> +      - G\ :sub:`10`
+> +      - R\ :sub:`10`
+> +      - B\ :sub:`11`
+> +      - G\ :sub:`11`
+> +      - R\ :sub:`11`
+> +      - B\ :sub:`12`
+> +      - G\ :sub:`12`
+> +      - R\ :sub:`12`
+> +      - B\ :sub:`13`
+> +      - G\ :sub:`13`
+> +      - R\ :sub:`13`
+> +    * - start + 24:
+> +      - B\ :sub:`20`
+> +      - G\ :sub:`20`
+> +      - R\ :sub:`20`
+> +      - B\ :sub:`21`
+> +      - G\ :sub:`21`
+> +      - R\ :sub:`21`
+> +      - B\ :sub:`22`
+> +      - G\ :sub:`22`
+> +      - R\ :sub:`22`
+> +      - B\ :sub:`23`
+> +      - G\ :sub:`23`
+> +      - R\ :sub:`23`
+> +    * - start + 36:
+> +      - B\ :sub:`30`
+> +      - G\ :sub:`30`
+> +      - R\ :sub:`30`
+> +      - B\ :sub:`31`
+> +      - G\ :sub:`31`
+> +      - R\ :sub:`31`
+> +      - B\ :sub:`32`
+> +      - G\ :sub:`32`
+> +      - R\ :sub:`32`
+> +      - B\ :sub:`33`
+> +      - G\ :sub:`33`
+> +      - R\ :sub:`33`
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+> +Formats defined in :ref:`rgb-formats-deprecated` are deprecated and
+> +must not be used by new drivers. They are documented here for reference.
+> +The meaning of their alpha bits ``(a)`` are ill-defined and interpreted as in
+> +either the corresponding ARGB or XRGB format, depending on the driver.
+> +
+> +
+> +.. raw:: latex
+> +
+> +    \begingroup
+> +    \tiny
+> +    \setlength{\tabcolsep}{2pt}
+> +
+> +.. tabularcolumns:: |p{2.6cm}|p{0.70cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> +
+> +.. _rgb-formats-deprecated:
+> +
+> +.. flat-table:: Deprecated Packed RGB Image Formats
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - :cspan:`7` Byte 0 in memory
+> +
+> +      - :cspan:`7` Byte 1
+> +
+> +      - :cspan:`7` Byte 2
+> +
+> +      - :cspan:`7` Byte 3
+> +    * -
+> +      -
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * .. _V4L2-PIX-FMT-RGB444:
+> +
+> +      - ``V4L2_PIX_FMT_RGB444``
+> +      - 'R444'
+> +
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB555:
+> +
+> +      - ``V4L2_PIX_FMT_RGB555``
+> +      - 'RGBO'
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - a
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      -
+> +    * .. _V4L2-PIX-FMT-RGB555X:
+> +
+> +      - ``V4L2_PIX_FMT_RGB555X``
+> +      - 'RGBQ'
+> +
+> +      - a
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +      -
+> +    * .. _V4L2-PIX-FMT-BGR32:
+> +
+> +      - ``V4L2_PIX_FMT_BGR32``
+> +      - 'BGR4'
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +    * .. _V4L2-PIX-FMT-RGB32:
+> +
+> +      - ``V4L2_PIX_FMT_RGB32``
+> +      - 'RGB4'
+> +
+> +      - a\ :sub:`7`
+> +      - a\ :sub:`6`
+> +      - a\ :sub:`5`
+> +      - a\ :sub:`4`
+> +      - a\ :sub:`3`
+> +      - a\ :sub:`2`
+> +      - a\ :sub:`1`
+> +      - a\ :sub:`0`
+> +
+> +      - r\ :sub:`7`
+> +      - r\ :sub:`6`
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +
+> +      - g\ :sub:`7`
+> +      - g\ :sub:`6`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +
+> +      - b\ :sub:`7`
+> +      - b\ :sub:`6`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +
+> +.. raw:: latex
+> +
+> +    \endgroup
+> +
+> +A test utility to determine which RGB formats a driver actually supports
+> +is available from the LinuxTV v4l-dvb repository. See
+> +`https://linuxtv.org/repo/ <https://linuxtv.org/repo/>`__ for access
+> +instructions.
+> diff --git a/Documentation/media/uapi/v4l/pixfmt.rst b/Documentation/media/uapi/v4l/pixfmt.rst
+> index 29be001796dbc..a7d4cd43a298f 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt.rst
+> @@ -31,6 +31,7 @@ see also :ref:`VIDIOC_G_FBUF <VIDIOC_G_FBUF>`.)
+>      pixfmt-intro
+>      pixfmt-indexed
+>      pixfmt-rgb
+> +    pixfmt-bayer
+>      yuv-formats
+>      hsv-formats
+>      depth-formats
+> 
+
