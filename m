@@ -2,258 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0408B368
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 11:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78C8A8B36B
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 11:11:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbfHMJKh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 05:10:37 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51525 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726974AbfHMJKh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 05:10:37 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hxSp5-0002TQ-4A; Tue, 13 Aug 2019 11:10:31 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1hxSp4-0006S1-DC; Tue, 13 Aug 2019 11:10:30 +0200
-Date:   Tue, 13 Aug 2019 11:10:30 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v6 12/13] media: tvp5150: add support to limit tv norms
- on connector
-Message-ID: <20190813091030.wyjjd2heoh5pk7rj@pengutronix.de>
-References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-13-m.felsch@pengutronix.de>
- <20190516180753.GS14820@pendragon.ideasonboard.com>
+        id S1727025AbfHMJLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 05:11:02 -0400
+Received: from gofer.mess.org ([88.97.38.141]:49753 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726298AbfHMJLC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 05:11:02 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id CCABA603E8; Tue, 13 Aug 2019 10:10:59 +0100 (BST)
+Date:   Tue, 13 Aug 2019 10:10:59 +0100
+From:   Sean Young <sean@mess.org>
+To:     Brad Love <brad@nextdimension.cc>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        syzbot <syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media: em28xx: modules workqueue not inited for 2nd
+ device
+Message-ID: <20190813091059.6ec46psv67y7msef@gofer.mess.org>
+References: <0000000000004bcc0d058faf01c4@google.com>
+ <20190811051110.hsdwmjrbvqgrmssc@gofer.mess.org>
+ <614221186ed37383778d8890d39e829a0e924796.camel@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190516180753.GS14820@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:57:30 up 87 days, 15:15, 57 users,  load average: 0.15, 0.13,
- 0.04
+In-Reply-To: <614221186ed37383778d8890d39e829a0e924796.camel@collabora.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Brad,
 
-On 19-05-16 21:07, Laurent Pinchart wrote:
-> Hi Marco,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Apr 15, 2019 at 02:44:12PM +0200, Marco Felsch wrote:
-> > The tvp5150 accepts NTSC(M,J,4.43), PAL (B,D,G,H,I,M,N) and SECAM video
-> > data and is able to auto-detect the input signal. The auto-detection
-> > does not work if the connector does not receive an input signal and the
-> > tvp5150 might not be configured correctly. This misconfiguration leads
-> > into wrong decoded video streams if the tvp5150 gets powered on before
-> > the video signal is present.
+On Mon, Aug 12, 2019 at 10:21:39AM -0300, Ezequiel Garcia wrote:
+> On Sun, 2019-08-11 at 06:11 +0100, Sean Young wrote:
+> > syzbot reports an error on flush_request_modules() for the second device.
+> > This workqueue was never initialised so simply remove the offending line.
 > > 
-> > Limit the supported tv norms according to the actual selected connector
-> > to avoid a misconfiguration.
+> > usb 1-1: USB disconnect, device number 2
+> > em28xx 1-1:1.153: Disconnecting em28xx #1
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3031
+> > __flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+> > Kernel panic - not syncing: panic_on_warn set ...
+> > CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc2+ #25
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> > Google 01/01/2011
+> > Workqueue: usb_hub_wq hub_event
+> > Call Trace:
+> >   __dump_stack lib/dump_stack.c:77 [inline]
+> >   dump_stack+0xca/0x13e lib/dump_stack.c:113
+> >   panic+0x2a3/0x6da kernel/panic.c:219
+> >   __warn.cold+0x20/0x4a kernel/panic.c:576
+> >   report_bug+0x262/0x2a0 lib/bug.c:186
+> >   fixup_bug arch/x86/kernel/traps.c:179 [inline]
+> >   fixup_bug arch/x86/kernel/traps.c:174 [inline]
+> >   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+> >   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+> >   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
+> > RIP: 0010:__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
+> > Code: 9a 22 00 48 c7 c7 20 e4 c5 85 e8 d9 3a 0d 00 0f 0b 45 31 e4 e9 98 86
+> > ff ff e8 51 9a 22 00 48 c7 c7 20 e4 c5 85 e8 be 3a 0d 00 <0f> 0b 45 31 e4
+> > e9 7d 86 ff ff e8 36 9a 22 00 48 c7 c7 20 e4 c5 85
+> > RSP: 0018:ffff8881da20f720 EFLAGS: 00010286
+> > RAX: 0000000000000024 RBX: dffffc0000000000 RCX: 0000000000000000
+> > RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed103b441ed6
+> > RBP: ffff8881da20f888 R08: 0000000000000024 R09: fffffbfff11acd9a
+> > R10: fffffbfff11acd99 R11: ffffffff88d66ccf R12: 0000000000000000
+> > R13: 0000000000000001 R14: ffff8881c6685df8 R15: ffff8881d2a85b78
+> >   flush_request_modules drivers/media/usb/em28xx/em28xx-cards.c:3325 [inline]
+> >   em28xx_usb_disconnect.cold+0x280/0x2a6
+> > drivers/media/usb/em28xx/em28xx-cards.c:4023
+> >   usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
+> >   __device_release_driver drivers/base/dd.c:1120 [inline]
+> >   device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1151
+> >   bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
+> >   device_del+0x420/0xb10 drivers/base/core.c:2288
+> >   usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
+> >   usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
+> >   hub_port_connect drivers/usb/core/hub.c:4949 [inline]
+> >   hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+> >   port_event drivers/usb/core/hub.c:5359 [inline]
+> >   hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
+> >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+> >   process_scheduled_works kernel/workqueue.c:2331 [inline]
+> >   worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+> >   kthread+0x318/0x420 kernel/kthread.c:255
+> >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+> > Kernel Offset: disabled
+> > Rebooting in 86400 seconds..
+> > 
+> > Reported-by: syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com
+> > Signed-off-by: Sean Young <sean@mess.org>
 > 
-> This seems a bit of a hack to me. In particular, on what grounds would
-> you specify a particular configuration in DT ? Also, this issue affects
-> non-DT systems, and should be solved globally.
+> I reviewed the syzbot report, but was left head-scratching and
+> failing to see how the module-loading worker was supposed to be used :-)
+> 
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> 
+> Also, this seems a bug, so how about this tag?
+> 
+> Fixes: be7fd3c3a8c5e ("media: em28xx: Hauppauge DualHD second tuner functionality)
 
-Why is this a hack? Imagine a hardware which supports PAL signals only.
-Then it should be forbidden for the user space to configure it to SECAM
-or any NTSC. Since the hardware makes the limitation it should be
-abstracted on DT level.
+Would you mind reviewing this change please Brad? You added the dual_ts
+feature to the driver so it would be good to have your view on this.
 
-Regards,
-  Marco
+Thanks
+Sean
 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> 
 > > ---
-> > [1] https://patchwork.kernel.org/cover/10794703/
+> >  drivers/media/usb/em28xx/em28xx-cards.c | 1 -
+> >  1 file changed, 1 deletion(-)
 > > 
-> > v5:
-> > - probe() initialize supported tv-norms according the given connectors
-> >   if they are available.
-> > - check if media-controller is used. Don't limit the norm if it isn't
-> >   used.
-> > - add more logic to be smarter during connector changing so it is
-> >   intuitiver for the user space.
-> > 
-> > v2-v4:
-> > - nothing since the patch was squashed from series [1] into this
-> >   series.
-> > 
-> >  drivers/media/i2c/tvp5150.c | 69 +++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 67 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> > index cd54715eb641..c0ee08546643 100644
-> > --- a/drivers/media/i2c/tvp5150.c
-> > +++ b/drivers/media/i2c/tvp5150.c
-> > @@ -32,6 +32,13 @@
-> >  #define TVP5150_MBUS_FMT	MEDIA_BUS_FMT_UYVY8_2X8
-> >  #define TVP5150_FIELD		V4L2_FIELD_ALTERNATE
-> >  #define TVP5150_COLORSPACE	V4L2_COLORSPACE_SMPTE170M
-> > +#define TVP5150_STD_MASK	(V4L2_STD_NTSC     | \
-> > +				 V4L2_STD_NTSC_443 | \
-> > +				 V4L2_STD_PAL      | \
-> > +				 V4L2_STD_PAL_M    | \
-> > +				 V4L2_STD_PAL_N    | \
-> > +				 V4L2_STD_PAL_Nc   | \
-> > +				 V4L2_STD_SECAM)
-> >  
-> >  MODULE_DESCRIPTION("Texas Instruments TVP5150A/TVP5150AM1/TVP5151 video decoder driver");
-> >  MODULE_AUTHOR("Mauro Carvalho Chehab");
-> > @@ -66,6 +73,7 @@ struct tvp5150 {
-> >  	/* media-ctl properties */
-> >  	struct media_pad pads[TVP5150_NUM_PADS];
-> >  	struct tvp5150_connector *connectors;
-> > +	struct tvp5150_connector *cur_connector;
-> >  	int connectors_num;
-> >  
-> >  	struct v4l2_ctrl_handler hdl;
-> > @@ -785,17 +793,28 @@ static int tvp5150_g_std(struct v4l2_subdev *sd, v4l2_std_id *std)
-> >  static int tvp5150_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
-> >  {
-> >  	struct tvp5150 *decoder = to_tvp5150(sd);
-> > +	struct tvp5150_connector *cur_con = decoder->cur_connector;
-> > +	v4l2_std_id supported_norms = cur_con ?
-> > +		cur_con->base.connector.analog.supported_tvnorms : V4L2_STD_ALL;
-> >  
-> >  	if (decoder->norm == std)
-> >  		return 0;
-> >  
-> > +	/*
-> > +	 * check if requested std or group of std's is/are supported by the
-> > +	 * connector
-> > +	 */
-> > +	if ((supported_norms & std) == 0)
-> > +		return -EINVAL;
-> > +
-> >  	/* Change cropping height limits */
-> >  	if (std & V4L2_STD_525_60)
-> >  		decoder->rect.height = TVP5150_V_MAX_525_60;
-> >  	else
-> >  		decoder->rect.height = TVP5150_V_MAX_OTHERS;
-> >  
-> > -	decoder->norm = std;
-> > +	/* set only the specific supported std in case of group of std's */
-> > +	decoder->norm = supported_norms & std;
-> >  
-> >  	return tvp5150_set_std(sd, std);
-> >  }
-> > @@ -1347,6 +1366,8 @@ static int tvp5150_link_setup(struct media_entity *entity,
-> >  			  TVP5150_BLACK_SCREEN, 0);
-> >  
-> >  	if (flags & MEDIA_LNK_FL_ENABLED) {
-> > +		u32 new_norm;
-> > +
-> >  		/*
-> >  		 * S-Video connector is conneted to both ports AIP1A and AIP1B.
-> >  		 * Both links must be enabled in one-shot regardless which link
-> > @@ -1358,6 +1379,26 @@ static int tvp5150_link_setup(struct media_entity *entity,
-> >  			if (err)
-> >  				return err;
-> >  		}
-> > +
-> > +		/* Update the current connector */
-> > +		decoder->cur_connector =
-> > +			container_of(remote, struct tvp5150_connector, pad);
-> > +
-> > +		/*
-> > +		 * Do nothing if the new connector supports the same tv-norms as
-> > +		 * the old one.
-> > +		 */
-> > +		new_norm = decoder->norm &
-> > +			decoder->cur_connector->base.connector.analog.supported_tvnorms;
-> > +		if (decoder->norm == new_norm)
-> > +			return 0;
-> > +
-> > +		/*
-> > +		 * Fallback to the new connector tv-norms if we can't find any
-> > +		 * common between the current tv-norm and the new one.
-> > +		 */
-> > +		tvp5150_s_std(sd, new_norm ? new_norm :
-> > +			decoder->cur_connector->base.connector.analog.supported_tvnorms);
+> > diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+> > index 6e33782c3ca6..5983e72a0622 100644
+> > --- a/drivers/media/usb/em28xx/em28xx-cards.c
+> > +++ b/drivers/media/usb/em28xx/em28xx-cards.c
+> > @@ -4019,7 +4019,6 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
+> >  		dev->dev_next->disconnected = 1;
+> >  		dev_info(&dev->intf->dev, "Disconnecting %s\n",
+> >  			 dev->dev_next->name);
+> > -		flush_request_modules(dev->dev_next);
 > >  	}
 > >  
-> >  	return 0;
-> > @@ -1576,6 +1617,9 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
-> >  				TVP5150_COMPOSITE1;
-> >  
-> >  			tvp5150_selmux(sd);
-> > +			decoder->cur_connector = &decoder->connectors[i];
-> > +			tvp5150_s_std(sd,
-> > +				decoder->connectors[i].base.connector.analog.supported_tvnorms);
-> >  		}
-> >  	}
-> >  #endif
-> > @@ -1903,6 +1947,11 @@ static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
-> >  				ret = -EINVAL;
-> >  				goto err;
-> >  			}
-> > +			if (!(c.connector.analog.supported_tvnorms &
-> > +			    TVP5150_STD_MASK))
-> > +				dev_warn(dev,
-> > +					"Unsupported tv-norm on connector %s.\n",
-> > +					c.label);
-> >  			in++;
-> >  			break;
-> >  		case TVP5150_PAD_VID_OUT:
-> > @@ -2011,7 +2060,23 @@ static int tvp5150_probe(struct i2c_client *c,
-> >  	if (res < 0)
-> >  		goto err_cleanup_dt;
-> >  
-> > -	core->norm = V4L2_STD_ALL;	/* Default is autodetect */
-> > +	/*
-> > +	 * Iterate over all available connectors in case they are supported and
-> > +	 * successfully parsed. Fallback to default autodetect in case they
-> > +	 * aren't supported.
-> > +	 */
-> > +	if (core->connectors) {
-> > +		struct v4l2_fwnode_connector *con;
-> > +		int i;
-> > +
-> > +		for (i = 0; i < core->connectors_num; i++) {
-> > +			con = &core->connectors[i].base;
-> > +			core->norm |= con->connector.analog.supported_tvnorms;
-> > +		}
-> > +	} else {
-> > +		core->norm = V4L2_STD_ALL;
-> > +	}
-> > +
-> >  	core->detected_norm = V4L2_STD_UNKNOWN;
-> >  	core->input = TVP5150_COMPOSITE1;
-> >  	core->enable = true;
-> > -- 
-> > 2.20.1
-> > 
+> >  	dev->disconnected = 1;
 > 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
