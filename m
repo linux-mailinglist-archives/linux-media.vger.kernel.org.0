@@ -2,116 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4878D8BB23
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 16:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 295638BB12
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 16:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbfHMOGE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 10:06:04 -0400
-Received: from jp.dhs.org ([62.251.46.73]:56884 "EHLO jpvw.nl"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729438AbfHMOGE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:06:04 -0400
-X-Greylist: delayed 1162 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Aug 2019 10:06:03 EDT
-Received: from localhost ([127.0.0.1] helo=jpvw.nl)
-        by jpvw.nl with esmtp (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1hxX8I-0000VP-2P; Tue, 13 Aug 2019 15:46:38 +0200
-Subject: Re: MyGica T230 dvb-t2 data corruption since commit 5fa8815
-To:     James Hutchinson <jahutchinson99@googlemail.com>
-Cc:     Antti Palosaari <crope@iki.fi>, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org,
-        Thomas Hollstegge <thomas.hollstegge@gmail.com>
-References: <CAD+OKUpCVHUO1=mEGCx8Mx7TJLc4rJZjV8+Rgd_fRFrwpBDExA@mail.gmail.com>
- <20190719183542.GA25609@jpvw.nl>
- <CAD+OKUoCXV1LLM40Frm8VGoFDzhKmO__ALdsnttmfr=nueBFAg@mail.gmail.com>
-From:   JP <jp@jpvw.nl>
-Message-ID: <2dcec967-35b0-315c-4cdf-0bcfe8e71cbc@jpvw.nl>
-Date:   Tue, 13 Aug 2019 15:46:37 +0200
+        id S1728774AbfHMOEm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 10:04:42 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:48251 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727724AbfHMOEm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 10:04:42 -0400
+Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xXPhhM0AxqTdhxXPkhA5wv; Tue, 13 Aug 2019 16:04:40 +0200
+Subject: Re: [PATCH v2 1/1] v4l: Documentation: Serial busses use parallel
+ mbus codes
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20190813135520.5981-1-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a71cf768-c083-7bbd-a0e9-1b86e4411934@xs4all.nl>
+Date:   Tue, 13 Aug 2019 16:04:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAD+OKUoCXV1LLM40Frm8VGoFDzhKmO__ALdsnttmfr=nueBFAg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190813135520.5981-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIdjZFhT86mDMmzG6wt8mhWI8wVO6Xsth4vdLWPtNk8JzFE26Xn1p/H6/L9Qqb0oUavCCipRLaW9G7+voY/jaihn75+7Lq9tSVVNIDJ1pzrE3S8DPNCI
+ d9w3WfDrRhET6dI8mOrJJVMjraccSw2LG9r13bofmJPocelE2WuG3cS5h7q+doDlR7K5uQf/CKfcPQhq6umBSv5Js+ok2PtXYbcc4RGTHxIdnQzhJMCDM9+F
+ KTfn+W7vrehnu+riHzeCLdJQJoVi2HJW9Be94Qjv3ZikWzwVoQrdd+bKUHMZDM20GA9Ckmezf0The0n9rzDzmqt3catcgr1JE4tWF7fBfLQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks James, my tests on both DVB-T and DVB-C all went OK.
+On 8/13/19 3:55 PM, Sakari Ailus wrote:
+> When the support for serial busses was introduced in V4L2, it was decided
+> to use the existing parallel bus media bus pixel codes to describe them.
+> While this was a practical choice at the time, it necessitates choosing
+> which one of the many parallel mbus pixel codes to use, for on the serial
+> busses these formats are effectively all equivalent.
+> 
+> The practice has always been to use the pixel code that describes a bus
+> that transfers a single sample per clock. Document this.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-So, with the t230 driver in cxusb broken for one hw version of
-the device and both hw versions now working fine in dvbsky &
-the driver in cxusb does not crash itself anymore (did you test
-that, James?) & everybody agrees I think this move to dvbsky
-should be done.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Sean: some hunks from the 'remove from cxusb' patch won't
-apply to linux-5.3 , because of the recent addition of the analogue
-driver code to cxusb. So I now have 2 different 'remove from
-cxusb'  patches. How do I proceed with that?
+Regards,
 
-[one more remark below]
+	Hans
 
-On 8/2/19 2:00 PM, James Hutchinson wrote:
-> Hi Jan,
->
-> I've been running for a couple of weeks now with your two patches applied:
->
-> 1) dvbsky: add MyGica T230
-> 2) remove t230 from cxusb
->
-> Everything has been working perfectly - the checksum errors when
-> scanning muxes have gone, and streaming has been working nicely.
->
-> Tested-by: James Hutchinson <jahutchinson99@googlemail.com>
->
-> Regards,
-> James
->
-> On Fri, 19 Jul 2019 at 19:35, Jan Pieter van Woerkom <jp@jpvw.nl> wrote:
->> dvbsky: add MyGica T230.
->> Moved from cxusb driver as that driver can't handle FX2 FIFO issue.
->>
->> Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
->> ---
->> diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
->> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c     2019-07-08 00:41:56.000000000 +0200
->> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c     2019-07-19 17:50:54.671341146 +0200
->> @@ -561,11 +561,18 @@
->>
->>          /* attach tuner */
->>          si2157_config.fe = adap->fe[0];
->> -       si2157_config.if_port = 0;
->> -
->> -       state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
->> +       if (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230) {
->> +               si2157_config.if_port = 1;
->> +               state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
->> +                                                  i2c_adapter,
->> +                                                  0x60, &si2157_config);
->> +       }
->> +       else {
-Coding style: those last 2 lines should be:
-         } else {
->> +               si2157_config.if_port = 0;
->> +               state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
->>                                                     i2c_adapter,
->>                                                     0x60, &si2157_config);
->> +       }
->>          if (!state->i2c_client_tuner) {
->>                  dvb_module_release(state->i2c_client_demod);
->>                  return -ENODEV;
->> @@ -787,6 +794,9 @@
->>          { DVB_USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_S2_R4,
->>                  &dvbsky_s960_props, "Terratec Cinergy S2 Rev.4",
->>                  RC_MAP_DVBSKY) },
->> +       { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230,
->> +               &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230",
->> +               RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
->>          { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
->>                  &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
->>                  RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
-Cheers,
-Jan Pieter.
+> ---
+> since v1:
+> 
+> - Add an example of mbus pixel codes on serial and parallel busses.
+> 
+>  Documentation/media/kapi/csi2.rst               | 7 +++++++
+>  Documentation/media/uapi/v4l/subdev-formats.rst | 8 ++++++++
+>  2 files changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/media/kapi/csi2.rst b/Documentation/media/kapi/csi2.rst
+> index a7e75e2eba85a..c67736a15c45b 100644
+> --- a/Documentation/media/kapi/csi2.rst
+> +++ b/Documentation/media/kapi/csi2.rst
+> @@ -72,3 +72,10 @@ the transmitter up by using the
+>  :c:type:`v4l2_subdev_core_ops`->s_power() callback. This may take
+>  place either indirectly by using :c:func:`v4l2_pipeline_pm_use` or
+>  directly.
+> +
+> +Formats
+> +-------
+> +
+> +The media bus pixel codes document parallel formats. Should the pixel data be
+> +transported over a serial bus, the media bus pixel code that describes a
+> +parallel format that transfers a sample on a single clock cycle is used.
+> diff --git a/Documentation/media/uapi/v4l/subdev-formats.rst b/Documentation/media/uapi/v4l/subdev-formats.rst
+> index ab1a48a5ae80b..7b8e17c7b68b4 100644
+> --- a/Documentation/media/uapi/v4l/subdev-formats.rst
+> +++ b/Documentation/media/uapi/v4l/subdev-formats.rst
+> @@ -85,6 +85,14 @@ formats in memory (a raw Bayer image won't be magically converted to
+>  JPEG just by storing it to memory), there is no one-to-one
+>  correspondence between them.
+>  
+> +The media bus pixel codes document parallel formats. Should the pixel data be
+> +transported over a serial bus, the media bus pixel code that describes a
+> +parallel format that transfers a sample on a single clock cycle is used. For
+> +instance, both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used
+> +on parallel busses for transferring an 8 bits per sample BGR data, whereas on
+> +serial busses the data in this format is only referred to using
+> +MEDIA_BUS_FMT_BGR888_1X24. This is because there is effectively only a single
+> +way to transport that format on the serial busses.
+>  
+>  Packed RGB Formats
+>  ^^^^^^^^^^^^^^^^^^
+> 
+
