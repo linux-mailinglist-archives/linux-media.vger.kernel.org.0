@@ -2,163 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 817ED8BB47
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 16:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C86238BD7A
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 17:44:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729352AbfHMOSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 10:18:20 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:55220 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729151AbfHMOST (ORCPT
+        id S1728023AbfHMPom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 11:44:42 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33873 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727491AbfHMPom (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:18:19 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 5863F634C88;
-        Tue, 13 Aug 2019 17:18:09 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hxXcm-0000gO-Li; Tue, 13 Aug 2019 17:18:08 +0300
-Date:   Tue, 13 Aug 2019 17:18:08 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
- binding
-Message-ID: <20190813141808.GF2527@valkosipuli.retiisi.org.uk>
-References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
- <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
- <20190813094526.GG835@valkosipuli.retiisi.org.uk>
- <20190813113358.GA28877@Mani-XPS-13-9360>
- <20190813114643.GA2527@valkosipuli.retiisi.org.uk>
- <20190813121400.GA29378@Mani-XPS-13-9360>
- <20190813122212.GE2527@valkosipuli.retiisi.org.uk>
- <20190813135209.GA30945@Mani-XPS-13-9360>
+        Tue, 13 Aug 2019 11:44:42 -0400
+Received: by mail-ot1-f68.google.com with SMTP id c7so1641533otp.1;
+        Tue, 13 Aug 2019 08:44:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SFxfynLI/PayVK9T09mSvJ64s8uI65LTsxBTjCv6WcM=;
+        b=hY3ddn4ZK5tGvPTBiLkxH+x7mamRXpGMTAuWyeXYo6VDrj+ZtRMFD2c0UQX9U2cIry
+         109T5HwR+t7wdJNtzQQ9YpCl572oey0n/mrzro9JRIqwhgDxS8X1E6Qhlqkh3d+QdlEY
+         bsCv/kUOnq+kAt4H5oVeUTZBku75zyBbwx3rDmUZXoy06+oUsisC2x1KWAljb3mUL066
+         n4VZ34/7WIL+u66s0SWglCfDB0tuFVdrtqMSoG5uSJD7gEUhsxJYFizETvprxIbdP8nU
+         Kshnh/HmGpqqJ/FiKtyzbWC/Fu3jWW2vmc8smx/A/v5Vhc4+3DW6Hl0m/WJq1mjMtodN
+         Jcaw==
+X-Gm-Message-State: APjAAAVeXeooLwFojWgE29zxAT9e+YlWqSM0I2y96V5sTakXQpKE9T4F
+        kPyh0J3TqlisAwmGt6iC4Q==
+X-Google-Smtp-Source: APXvYqwiOI2LwlaSaAXpu7WaNtoQaiiVUisNbPaGgLe845gRk8bidZjBEntLcLXJBp0UuKTM2tqjvA==
+X-Received: by 2002:a05:6638:52:: with SMTP id a18mr44508592jap.75.1565711080806;
+        Tue, 13 Aug 2019 08:44:40 -0700 (PDT)
+Received: from localhost ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id f9sm16190844ioc.47.2019.08.13.08.44.40
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 13 Aug 2019 08:44:40 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 09:44:39 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Peter Rosin <peda@axentia.se>
+Subject: Re: [RFC,v2 3/6] media: dt-bindings: add DS90UB954-Q1 video
+ deserializer
+Message-ID: <20190813154439.GA29515@bogus>
+References: <20190723203723.11730-1-luca@lucaceresoli.net>
+ <20190723203723.11730-4-luca@lucaceresoli.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190813135209.GA30945@Mani-XPS-13-9360>
+In-Reply-To: <20190723203723.11730-4-luca@lucaceresoli.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mani,
+On Tue, Jul 23, 2019 at 10:37:20PM +0200, Luca Ceresoli wrote:
+> Describe the Texas Instruments DS90UB954-Q1, a 2-input video deserializer
+> with I2C Address Translator and remote GPIOs.
+> 
+> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> 
+> ---
+> 
+> Changes RFCv1 -> RFCv2:
+> 
+>  - add explicit aliases for the FPD-link RX ports (optional)
+>  - add proper remote GPIO description
+> ---
+>  .../bindings/media/i2c/ti,ds90ub954-q1.txt    | 194 ++++++++++++++++++
+>  1 file changed, 194 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.txt b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.txt
+> new file mode 100644
+> index 000000000000..73ce21ecc3b6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub954-q1.txt
+> @@ -0,0 +1,194 @@
+> +Texas Instruments DS90UB954-Q1 dual video deserializer
+> +======================================================
+> +
+> +The TI DS90UB954-Q1 is a MIPI CSI-2 video deserializer that forwards video
+> +streams from up to two FPD-Link 3 connections to a MIPI CSI-2 output. It
+> +also allows access to remote I2C and GPIO.
+> +
+> +Required properties:
+> +
+> + - compatible: must be "ti,ds90ub954-q1"
+> +
+> + - reg: main I2C slave address; optionally aliases for RX port registers
+> +   and remote serializers. The main address is mandatory and must be the
+> +   first, others are optional and fall back to defaults if not
+> +   specified. See "reg-names".
+> +
+> + - reset-gpios: chip reset GPIO, active low (connected to PDB pin of the chip)
+> + - i2c-alias-pool: list of I2C addresses that are known to be available on the
+> +                   "local" (SoC-to-deser) I2C bus; they will be picked at
+> +		   runtime and used as aliases to reach remove I2C chips
 
-On Tue, Aug 13, 2019 at 07:22:09PM +0530, Manivannan Sadhasivam wrote:
-> Hi Sakari,
-> 
-> On Tue, Aug 13, 2019 at 03:22:12PM +0300, Sakari Ailus wrote:
-> > Hi Manivannan,
-> > 
-> > On Tue, Aug 13, 2019 at 05:44:00PM +0530, Manivannan Sadhasivam wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Tue, Aug 13, 2019 at 02:46:43PM +0300, Sakari Ailus wrote:
-> > > > Hi Manivannan,
-> > > > 
-> > > > On Tue, Aug 13, 2019 at 05:03:58PM +0530, Manivannan Sadhasivam wrote:
-> > > > > Hi Sakari,
-> > > > > 
-> > > > > Thanks for the review!
-> > > > > 
-> > > > > On Tue, Aug 13, 2019 at 12:45:26PM +0300, Sakari Ailus wrote:
-> > > > > > Hi Manivannan,
-> > > > > > 
-> > > > > > On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
-> > > > > > > Add devicetree binding for IMX290 CMOS image sensor.
-> > > > > > > 
-> > > > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > > > ---
-> > > > > > >  .../devicetree/bindings/media/i2c/imx290.txt  | 51 +++++++++++++++++++
-> > > > > > >  1 file changed, 51 insertions(+)
-> > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
-> > > > > > > 
-> > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.txt b/Documentation/devicetree/bindings/media/i2c/imx290.txt
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..7535b5b5b24b
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/imx290.txt
-> > > > > > > @@ -0,0 +1,51 @@
-> > > > > > > +* Sony IMX290 1/2.8-Inch CMOS Image Sensor
-> > > > > > > +
-> > > > > > > +The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with
-> > > > > > > +Square Pixel for Color Cameras. It is programmable through I2C and 4-wire
-> > > > > > > +interfaces. The sensor output is available via CMOS logic parallel SDR output,
-> > > > > > > +Low voltage LVDS DDR output and CSI-2 serial data output.
-> > > > > > 
-> > > > > > If there are three to choose from, then you should specify which one is in
-> > > > > > use. Given that I think chances remain slim we'd add support for the other
-> > > > > > two (it's certainly not ruled out though), CSI-2 could be the default. But
-> > > > > > this needs to be documented.
-> > > > > > 
-> > > > > 
-> > > > > Hmm... I'm not sure here. Bindings should describe the hardware and not the
-> > > > > limitations of the driver. Here as you said, the sensor can output frames
-> > > > > in 3 different modes/formats but the driver only supports CSI2. I can add a
-> > > > > note in the driver but not sure whether dt-binding is the right place or not!
-> > > > 
-> > > > I guess alternatively you could document the necessary bindings for the
-> > > > other two busses.
-> > > > 
-> > > > But what I'm saying here is that it's highly unlikely they'll be ever
-> > > > needed, and it'd be mostly a waste of time to implement that. (That said, I
-> > > > have nothing against the use of these busses, but I've never seen anyone
-> > > > using them.) Many other devices use defaults for more contentious settings.
-> > > > 
-> > > 
-> > > Agree with you but my question was, whether I could document the supported
-> > > mode in bindings or not! I have seen comments from Rob in the past that the
-> > > binding should not document the limitations of the driver. But anyway, one
-> > > can infer from the current binding that only CSI2 is supported for now, it's
-> > > just stating it explicitly makes me doubtful!
-> > 
-> > I think it could be e.g.:
-> > 
-> > The CSI-2 bus is the default. No bindings have been defined for the other
-> > busses.
-> > 
-> 
-> Ack.
-> 
-> > ...
-> > 
-> > > > > > I suppose you can't change the lane order, so clock-lanes is redundant
-> > > > > > (don't use it in the example) and data-lanes should be monotonically
-> > > > > > incrementing series from 1 to 4.
-> > > > > > 
-> > > > > 
-> > > > > We can change the order and the example here illustrates how it has been
-> > > > > wired in FRAMOS module. If I change the lane order like you said, it won't
-> > > > > work.
-> > > > 
-> > > > I highly doubt that. Neither the driver nor the sensor uses the lane
-> > > > ordering information.
-> > > > 
-> > > 
-> > > Agree but CSI2 host will need this informtion, right? Please correct me if
-> > > I'm wrong!
-> > 
-> > The CSI-2 receiver may need that configuration, but it's not addressed by a
-> > sensor's binding documentation (it's configured in the endpoint on the
-> > receiver's side).
-> > 
-> 
-> Yes but I thought that documenting the sensor lane configuration based on one
-> example implementation might help interfacing w/ different hosts. Anyway, to be
-> host agnostic, I can drop the clock lane and make data lane start from 1 as you
-> suggested.
+s/remove/remote/
 
-You could well have a different configuration from the default in an
-example. But my point is that this is simply the wrong place for
-configuring the lane mapping on the host.
+Needs a vendor prefix.
 
--- 
-Sakari Ailus
+> + - gpio-controller
+> + - #gpio-cells: must be 3: FPD-Link 3 RX port number, remote gpio number, flags
+
+We're pretty standardized on 2 cells for GPIO. Perhaps combine the port 
+and gpio number to 1 cell.
+
+> +
+> +Optional properties:
+> +
+> + - reg-names: names of I2C address used to communicate with the chip, must
+> +              match the "reg" values; mandatory if there are 2 or more
+> +              addresses
+> +    - "main": the main I2C address, used to access shared registers
+> +    - "rxport0", "rxport1": I2C alias to access FPD-link RX port specific
+> +      registers; must not be used by other slaves on the same bus
+> +    - "ser0", "ser1": I2C alias to access the remote serializer connected
+> +      on each FPD-link RX port; must not be used by other slaves on the
+> +      same bus
+> + - interrupts: interrupt pin from the chip
+> +
+> +Required subnodes:
+> +
+> + - ports: A ports node with one port child node per device input and output
+> +          port, in accordance with the video interface bindings defined in
+> +          Documentation/devicetree/bindings/media/video-interfaces.txt. The
+> +          port nodes are numbered as follows:
+> +
+> +          Port Description
+> +          ------------------------------------
+> +          0    Input from FPD-Link 3 RX port 0
+> +          1    Input from FPD-Link 3 RX port 1
+> +          2    CSI-2 output
+> +
+> +          Each port must have a "remote-chip" subnode that defines the remote
+> +	  chip (serializer) with at least a "compatible" property
+
+We don't allow other nodes within graph nodes. I'm not really clear what 
+you are trying to do here.
+
+> +
+> + - i2c-atr: contains one child per RX port, each describes the I2C bus on
+> +            the remote side
+> +
+> +	    Required properties:
+> +	    - #address-cells = <1>;
+> +	    - #size-cells = <0>;
+> +
+> +	    Subnodes: one per each FPD-link RX port, each having:
+> +
+> +	    Required properties for "i2c-atr" child bus nodes:
+> +	    - reg: The number of the port where the remove chip is connected
+
+s/remove/remote/
+
+> +	    - #address-cells = <1>;
+> +	    - #size-cells = <0>;
+> +
+> +	    Optional properties for "i2c-atr" child bus nodes:
+> +	    - Other properties specific to the remote hardware
+
+Such as?
+
+> +	    - Child nodes conforming to i2c bus binding
+> +
+> +
+> +Device node example
+> +-------------------
+> +
+> +&i2c0 {
+> +	deser: deser@3d {
+> +		compatible = "ti,ds90ub954-q1";
+> +		reg-names = "main", "rxport0", "rxport1", "ser0", "ser1";
+> +		reg       = <0x3d>,  <0x40>,    <0x41>,   <0x44>, <0x45>;
+> +		clocks = <&clk_25M>;
+> +		interrupt-parent = <&gic>;
+> +		interrupts = <3 1 IRQ_TYPE_LEVEL_HIGH>;
+> +		reset-gpios = <&gpio_ctl 4 GPIO_ACTIVE_LOW>;
+> +
+> +		i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
+> +
+> +		gpio-controller;
+> +		#gpio-cells = <3>; /* rxport, remote gpio num, flags */
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				ds90ub954_fpd3_in0: endpoint {
+> +					remote-endpoint = <&sensor_0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				ds90ub954_fpd3_in1: endpoint {
+> +					remote-endpoint = <&sensor_1_out>;
+> +				};
+> +			};
+> +
+> +			port@2 {
+> +				reg = <2>;
+> +				ds90ub954_mipi_out0: endpoint {
+> +					data-lanes = <1 2 3 4>;
+> +					/* Actually a REFCLK multiplier */
+> +					data-rate = <1600000000>;
+> +					remote-endpoint = <&csirx_0_in>;
+> +				};
+> +			};
+> +		};
+> +
+> +		i2c-atr {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			remote_i2c0: i2c@0 {
+> +				reg = <0>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+
+Presumably, there are child I2C devices here. Please show that in the 
+example.
+
+> +			};
+> +
+> +			remote_i2c1: i2c@1 {
+> +				reg = <1>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&ds90ub954_fpd3_in0 {
+> +	remote-chip {
+> +		compatible = "ti,ds90ub953-q1";
+> +		gpio-functions = <DS90_GPIO_FUNC_OUTPUT_REMOTE
+
+Not documented.
+
+> +				  DS90_GPIO_FUNC_UNUSED
+> +				  DS90_GPIO_FUNC_UNUSED
+> +				  DS90_GPIO_FUNC_UNUSED>;
+> +	};
+> +};
+> +
+> +&ds90ub954_fpd3_in1 {
+> +	remote-chip {
+> +		compatible = "ti,ds90ub953-q1";
+> +		gpio-functions = <DS90_GPIO_FUNC_OUTPUT_REMOTE
+> +				  DS90_GPIO_FUNC_UNUSED
+> +				  DS90_GPIO_FUNC_UNUSED
+> +				  DS90_GPIO_FUNC_UNUSED>;
+> +	};
+> +};
+> +
+> +&remote_i2c0 {
+> +	sensor_0@3c {
+> +		compatible = "sony,imx274";
+> +		reg = <0x3c>;
+> +
+> +		reset-gpios = <&deser 0 0 GPIO_ACTIVE_LOW>;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@0 {
+> +			reg = <0>;
+> +			sensor_0_out: endpoint {
+> +				remote-endpoint = <&ds90ub954_fpd3_in0>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&remote_i2c1 {
+> +	sensor_0@3c {
+> +		compatible = "sony,imx274";
+> +		reg = <0x3c>;
+> +
+> +		reset-gpios = <&deser 1 0 GPIO_ACTIVE_LOW>;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@0 {
+> +			reg = <0>;
+> +			sensor_1_out: endpoint {
+> +				remote-endpoint = <&ds90ub954_fpd3_in1>;
+> +			};
+> +		};
+> +	};
+> +};
+> -- 
+> 2.17.1
+> 
