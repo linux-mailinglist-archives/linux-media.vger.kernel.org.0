@@ -2,142 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B668B6F1
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EA78B700
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:34:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbfHMLcS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 07:32:18 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:35430 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbfHMLcR (ORCPT
+        id S1727409AbfHMLeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 07:34:09 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34722 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727289AbfHMLeI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 07:32:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=8Cz0dhG8JlSQ8zGF79vjEHYxjSQnz3txKDT7QLmjLxw=; b=xiBNoaBz67Ngmks68l8gE5aH5
-        zIsOBxAGr5sqkC5CdQ/z8Vbf11g0UU9hxKAeoBC2XdOqEHVza2pPKPC2gRpHrzSmVa5P0zsE63NYq
-        uj74WAySYdSqhaW4PJyoDlO+cO/H/2Tt7y1+5yYLkDO1+PdWHQ/iBYmG6VI8nb9Y9swI2R+DBrTSZ
-        yLoL91CwrTeOXy6Om9ZrLhDxUzrFTo3JF3mTUnHjj6diabS0izAT44mUggMhBcPnb4V4h54o5C1bP
-        J+ozu2+DthD3z8XjCqcqEv1nQOfCorWHYk/0eWjzlz41yMWHMQDMtZeKMh5Jx3CvcdrUhL3dxH7xB
-        OBABDGFWA==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:51944)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1hxV2D-0008RU-Hh; Tue, 13 Aug 2019 12:32:13 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1hxV29-0007Sy-BL; Tue, 13 Aug 2019 12:32:09 +0100
-Date:   Tue, 13 Aug 2019 12:32:09 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 3/8] tda9950: use cec_notifier_cec_adap_(un)register
-Message-ID: <20190813113209.GF13294@shell.armlinux.org.uk>
-References: <20190813110300.83025-1-darekm@google.com>
- <20190813110300.83025-4-darekm@google.com>
+        Tue, 13 Aug 2019 07:34:08 -0400
+Received: by mail-pg1-f193.google.com with SMTP id n9so44899466pgc.1
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 04:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aqKzsId2hKvcmQF7fGKO1YK1h2GnFRh9+uXig4ZlhlI=;
+        b=qIM74CehEWqpruIVCMxZ1SU6H+bafjp4CnsZA1QUPeAuSeAXNz0eJuPF1cvKYzNPrB
+         Urm06rTx/UJ10JMASVZP7ORYWict6oCGdi8OT1E2aX8Bmx2GqZsjr6TemvVAU+g1KHjr
+         XJV88ycQnQ9nqtp2YkULT9jrRkG7Xb/QMehenAgC+HxOSsfOJ1pc5rEu5YgN3/c/dhuP
+         0x4VToIoFdcK6KsaZKVf2eTz52vHeh3UDKxpe768xMZHZB88ySoKj4PV38tA7ZDTqfvV
+         0q+76Tfv0+ULGbjk7PkKRYbaMNqCPrP4086Tq5UuMSccQGKdDl01hven962hEj4XK0JI
+         5EHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aqKzsId2hKvcmQF7fGKO1YK1h2GnFRh9+uXig4ZlhlI=;
+        b=GhQCCwIgaZr7Ec04GNI0gjydP+yZKcE5reapzkQjJxvGB+yl+4PzIMND/yXGEDz1ap
+         uYA7nbCYGDCyhpii1G116pAa6f3fXsexZdXMFEmwZOMDPJ3zhIcgtmJhRgSWZMw0IMTF
+         KSFHIVA5BgV1JRG/3D4E+nSSbzQ8c8+IJs9QkKeMAz+wLx5CVFXxOt66PLeNUMLhsZ2w
+         0OpvlZHEo41JXIn00FKhARnmiwu7tUtLCzbmQCQ+GBy110NDS0YXAN7VUBbpu40tF/wF
+         i28ZSWENsywU+o8xN/LBsCQCv4+HCrKjYJTdMru9CxlXuFBc+z+eRc8k09lnnEQhfJEV
+         RVFg==
+X-Gm-Message-State: APjAAAVx2JJdhiN50JDqsJ37EUJ/5dR+cXDVw9qp9+pz/czdZR2HRRAf
+        W5YiQqZEMkzjK0vs9oIL/DNI
+X-Google-Smtp-Source: APXvYqxFqGvvALogO0qGnnxAWwPceWM61LYF6yJdHePWaHoUBIRZ6KPZx+AQ7CTcd9g3uFciYU6ehg==
+X-Received: by 2002:a17:90a:bc42:: with SMTP id t2mr1777337pjv.121.1565696047695;
+        Tue, 13 Aug 2019 04:34:07 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:649c:6ce0:9d44:669c:5d6c:bc5f])
+        by smtp.gmail.com with ESMTPSA id o24sm199536009pfp.135.2019.08.13.04.34.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 13 Aug 2019 04:34:07 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 17:03:58 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
+ binding
+Message-ID: <20190813113358.GA28877@Mani-XPS-13-9360>
+References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
+ <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
+ <20190813094526.GG835@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190813110300.83025-4-darekm@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190813094526.GG835@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 01:02:35PM +0200, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_cec_adap_(un)register() functions to
-> (un)register the notifier for the CEC adapter.
+Hi Sakari,
+
+Thanks for the review!
+
+On Tue, Aug 13, 2019 at 12:45:26PM +0300, Sakari Ailus wrote:
+> Hi Manivannan,
 > 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/i2c/tda9950.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
+> > Add devicetree binding for IMX290 CMOS image sensor.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../devicetree/bindings/media/i2c/imx290.txt  | 51 +++++++++++++++++++
+> >  1 file changed, 51 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.txt b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > new file mode 100644
+> > index 000000000000..7535b5b5b24b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > @@ -0,0 +1,51 @@
+> > +* Sony IMX290 1/2.8-Inch CMOS Image Sensor
+> > +
+> > +The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with
+> > +Square Pixel for Color Cameras. It is programmable through I2C and 4-wire
+> > +interfaces. The sensor output is available via CMOS logic parallel SDR output,
+> > +Low voltage LVDS DDR output and CSI-2 serial data output.
 > 
-> diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
-> index 8039fc0d83db4..a5a75bdeb7a5f 100644
-> --- a/drivers/gpu/drm/i2c/tda9950.c
-> +++ b/drivers/gpu/drm/i2c/tda9950.c
-> @@ -420,7 +420,8 @@ static int tda9950_probe(struct i2c_client *client,
->  		priv->hdmi = glue->parent;
->  
->  	priv->adap = cec_allocate_adapter(&tda9950_cec_ops, priv, "tda9950",
-> -					  CEC_CAP_DEFAULTS,
-> +					  CEC_CAP_DEFAULTS |
-> +					  CEC_CAP_CONNECTOR_INFO,
->  					  CEC_MAX_LOG_ADDRS);
->  	if (IS_ERR(priv->adap))
->  		return PTR_ERR(priv->adap);
-> @@ -457,13 +458,14 @@ static int tda9950_probe(struct i2c_client *client,
->  	if (ret < 0)
->  		return ret;
->  
-> -	priv->notify = cec_notifier_get(priv->hdmi);
-> +	priv->notify = cec_notifier_cec_adap_register(priv->hdmi, NULL,
-> +						      priv->adap);
->  	if (!priv->notify)
->  		return -ENOMEM;
->  
->  	ret = cec_register_adapter(priv->adap, priv->hdmi);
->  	if (ret < 0) {
-> -		cec_notifier_put(priv->notify);
-> +		cec_notifier_cec_adap_unregister(priv->notify);
->  		return ret;
->  	}
->  
-> @@ -473,8 +475,6 @@ static int tda9950_probe(struct i2c_client *client,
->  	 */
->  	devm_remove_action(dev, tda9950_cec_del, priv);
->  
-> -	cec_register_cec_notifier(priv->adap, priv->notify);
-> -
->  	return 0;
->  }
->  
-> @@ -482,8 +482,8 @@ static int tda9950_remove(struct i2c_client *client)
->  {
->  	struct tda9950_priv *priv = i2c_get_clientdata(client);
->  
-> +	cec_notifier_cec_adap_unregister(priv->notify);
->  	cec_unregister_adapter(priv->adap);
-> -	cec_notifier_put(priv->notify);
+> If there are three to choose from, then you should specify which one is in
+> use. Given that I think chances remain slim we'd add support for the other
+> two (it's certainly not ruled out though), CSI-2 could be the default. But
+> this needs to be documented.
+> 
 
-It looks weird to have an unexpectedly different ordering of
-unregistration from the registration path - normally, unregistration
-is the reverse order of initialisation.
+Hmm... I'm not sure here. Bindings should describe the hardware and not the
+limitations of the driver. Here as you said, the sensor can output frames
+in 3 different modes/formats but the driver only supports CSI2. I can add a
+note in the driver but not sure whether dt-binding is the right place or not!
 
-In the initialisation path, it seems that we register the notifier
-and _then_ the adapter.  Here, we unregister the notifier and then
-the adapter rather than what would normally be expected.  Why is
-this?  I suspect there will be drivers created that do this the
-"normal" way round, so if this is a requirement, it needs to be made
-plainly obvious.
+> > +
+> > +Required Properties:
+> > +- compatible: Should be "sony,imx290"
+> > +- reg: I2C bus address of the device
+> > +- clocks: Reference to the xclk clock.
+> > +- clock-names: Should be "xclk".
+> > +- clock-frequency: Frequency of the xclk clock.
+> 
+> ...in Hz.
+> 
 
->  
->  	return 0;
->  }
+Ack.
+
+> > +- vdddo-supply: Sensor digital IO regulator.
+> > +- vdda-supply: Sensor analog regulator.
+> > +- vddd-supply: Sensor digital core regulator.
+> > +
+> > +Optional Properties:
+> > +- reset-gpios: Sensor reset GPIO
+> > +
+> > +The imx290 device node should contain one 'port' child node with
+> > +an 'endpoint' subnode. For further reading on port node refer to
+> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> 
+> Which other properties are relevant for the device?
+
+Not much other than, clock/data lanes.
+
+> I suppose you can't change the lane order, so clock-lanes is redundant
+> (don't use it in the example) and data-lanes should be monotonically
+> incrementing series from 1 to 4.
+> 
+
+We can change the order and the example here illustrates how it has been
+wired in FRAMOS module. If I change the lane order like you said, it won't
+work.
+
+> > +
+> > +Example:
+> > +	&i2c1 {
+> > +		...
+> > +		imx290: imx290@1a {
+> 
+> imx290: camera-sensor@1a {
+
+Ack.
+
+Thanks,
+Mani
+
+> 
+> > +			compatible = "sony,imx290";
+> > +			reg = <0x1a>;
+> > +
+> > +			reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+> > +			pinctrl-names = "default";
+> > +			pinctrl-0 = <&camera_rear_default>;
+> > +
+> > +			clocks = <&gcc GCC_CAMSS_MCLK0_CLK>;
+> > +			clock-names = "xclk";
+> > +			clock-frequency = <37125000>;
+> > +
+> > +			vdddo-supply = <&camera_vdddo_1v8>;
+> > +			vdda-supply = <&camera_vdda_2v8>;
+> > +			vddd-supply = <&camera_vddd_1v5>;
+> > +
+> > +			port {
+> > +				imx290_ep: endpoint {
+> > +					clock-lanes = <1>;
+> > +					data-lanes = <0 2 3 4>;
+> > +					remote-endpoint = <&csiphy0_ep>;
+> > +				};
+> > +			};
+> > +		};
+> 
 > -- 
-> 2.23.0.rc1.153.gdeed80330f-goog
+> Regards,
 > 
-> 
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+> Sakari Ailus
