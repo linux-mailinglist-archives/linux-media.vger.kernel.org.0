@@ -2,295 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14FC48B4B7
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 11:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6A018B545
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 12:19:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728565AbfHMJ5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 05:57:02 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54692 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726915AbfHMJ5B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 05:57:01 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F95830F;
-        Tue, 13 Aug 2019 11:56:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565690217;
-        bh=ny5ECrk2xiANs8twCJbx2+rZQL/t1wKoNhgKIWp+kwA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r66Fqhq7yPuiCFKhNSkkjLi8h0+7uMgA0SFbQVGXbUonVv58aN5iSYIN4aUCnn4zR
-         0sZ2S2O77yDLMkNK1mTkyJrAl2pPN1NZVwlc3EnCvl92LOzbTjx4itAbf4gHzO1PJe
-         eWjdmNis3f/UAv95J78j+d5sHD5PywrTuz15F/Ug=
-Date:   Tue, 13 Aug 2019 12:56:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@collabora.com
-Subject: Re: [PATCH 0/3] Collapse vimc into single monolithic driver
-Message-ID: <20190813095654.GA5009@pendragon.ideasonboard.com>
-References: <cover.1565386363.git.skhan@linuxfoundation.org>
- <3118bc46-14ac-8015-9a6c-a8dfcdcea940@collabora.com>
- <4e9b8eb3-23c5-62ea-07dc-b51acb238dee@linuxfoundation.org>
- <15badf5e-49fa-7fbe-de6b-296e9a7f5cd9@collabora.com>
- <e21d38a5-4fcd-7b02-f5f2-e445c280f769@collabora.com>
- <2ee23903-8e99-a0a0-619a-be5bdaa71802@linuxfoundation.org>
- <374574f2-0ecd-723a-4a66-c190332aaa04@collabora.com>
- <737dbfd4-8e86-289b-1827-736e3d6ffff5@linuxfoundation.org>
- <03b51b1e-3d78-72e6-3b3e-210b4411c897@linuxfoundation.org>
- <e81df4a5-2393-e341-258c-abf55babe519@collabora.com>
+        id S1728199AbfHMKTC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 06:19:02 -0400
+Received: from mail-oln040092072059.outbound.protection.outlook.com ([40.92.72.59]:37892
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727632AbfHMKTC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 06:19:02 -0400
+Received: from DB5EUR03FT064.eop-EUR03.prod.protection.outlook.com
+ (10.152.20.52) by DB5EUR03HT081.eop-EUR03.prod.protection.outlook.com
+ (10.152.21.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2052.18; Tue, 13 Aug
+ 2019 10:18:58 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.20.57) by
+ DB5EUR03FT064.mail.protection.outlook.com (10.152.21.199) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2052.18 via Frontend Transport; Tue, 13 Aug 2019 10:18:58 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com
+ ([fe80::b952:7cd2:4c8d:e460]) by HE1PR06MB4011.eurprd06.prod.outlook.com
+ ([fe80::b952:7cd2:4c8d:e460%4]) with mapi id 15.20.2157.022; Tue, 13 Aug 2019
+ 10:18:58 +0000
+From:   Jonas Karlman <jonas@kwiboo.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Neil Armstrong <narmstrong@baylibre.com>
+CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Dariusz Marcinkiewicz <darekm@google.com>
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: move cec PA invalidation to
+ dw_hdmi_setup_rx_sense()
+Thread-Topic: [PATCH] drm/bridge: dw-hdmi: move cec PA invalidation to
+ dw_hdmi_setup_rx_sense()
+Thread-Index: AQHVUboa7A1pYK0KN0KnivRIR5caz6b40QaAgAAMi4A=
+Date:   Tue, 13 Aug 2019 10:18:57 +0000
+Message-ID: <HE1PR06MB40116485045605E0B9E67B92ACD20@HE1PR06MB4011.eurprd06.prod.outlook.com>
+References: <6099ff8a-e708-e466-5877-07c9102513f8@xs4all.nl>
+ <60547c6d-e8a1-0b2c-b8ae-acb2f4643be8@xs4all.nl>
+In-Reply-To: <60547c6d-e8a1-0b2c-b8ae-acb2f4643be8@xs4all.nl>
+Accept-Language: sv-SE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM0PR02CA0054.eurprd02.prod.outlook.com
+ (2603:10a6:208:d2::31) To HE1PR06MB4011.eurprd06.prod.outlook.com
+ (2603:10a6:7:9c::32)
+x-incomingtopheadermarker: OriginalChecksum:DBA9AD1BB0783CA976A1EC8B4D067D85AEB3965F102EEB96568F5E30E4F80B9E;UpperCasedChecksum:0DA820003AB7690E2662D6C462004CC18A5662A19C7A8D4B52D17360DDEABF96;SizeAsReceived:7779;Count:49
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [uvjZ3hyHswyphtJUsy9V4KDwL5s3FhSG]
+x-microsoft-original-message-id: <2c39a66b-b90b-72a9-6dd9-844149ae11eb@kwiboo.se>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 49
+x-eopattributedmessage: 0
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031322404)(2017031323274)(2017031324274)(1601125500)(1603101475)(1701031045);SRVR:DB5EUR03HT081;
+x-ms-traffictypediagnostic: DB5EUR03HT081:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-message-info: ncpTPHBQq84euolWOOx2KAB4+zK8KKGOAbhBWUsS2OXg/LKnFoRiE7PKDLV4p57mG9c5nKw4SFgBQrGeHfGvsRih0Dm0LstDmAfyRbYiRtjfbIdD/85HFyDx54ibtMlI5nQyUmMZpVSPYkAJyKu4uHbbmpzTq7u5MkLTsgb/mTq8tOLEIwTjZtG5zO/oTzcj
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <05E66ED1B41203478771BB06AD0230B9@eurprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e81df4a5-2393-e341-258c-abf55babe519@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbfefc67-b425-44de-23d2-08d71fd7a6da
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Aug 2019 10:18:57.9867
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT081
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
-
-On Mon, Aug 12, 2019 at 08:41:33PM -0300, Helen Koike wrote:
-> On 8/12/19 7:14 PM, Shuah Khan wrote:
-> > On 8/12/19 1:10 PM, Shuah Khan wrote:
-> >> On 8/12/19 12:52 PM, André Almeida wrote:
-> >>> On 8/12/19 11:08 AM, Shuah Khan wrote:
-> >>>> On 8/9/19 9:51 PM, Helen Koike wrote:
-> >>>>> On 8/9/19 9:24 PM, André Almeida wrote:
-> >>>>>> On 8/9/19 9:17 PM, Shuah Khan wrote:
-> >>>>>>> On 8/9/19 5:52 PM, André Almeida wrote:
-> >>>>>>>> On 8/9/19 6:45 PM, Shuah Khan wrote:
-> >>>>>>>>> vimc uses Component API to split the driver into functional
-> >>>>>>>>> components.
-> >>>>>>>>> The real hardware resembles a monolith structure than component and
-> >>>>>>>>> component structure added a level of complexity making it hard to
-> >>>>>>>>> maintain without adding any real benefit.
-> >>>>>>>>>        The sensor is one vimc component that would makes sense to be a
-> >>>>>>>>> separate
-> >>>>>>>>> module to closely align with the real hardware. It would be easier to
-> >>>>>>>>> collapse vimc into single monolithic driver first and then split the
-> >>>>>>>>> sensor off as a separate module.
-> >>>>>>>>>
-> >>>>>>>>> This patch series emoves the component API and makes minimal
-> >>>>>>>>> changes to
-> >>>>>>>>> the code base preserving the functional division of the code
-> >>>>>>>>> structure.
-> >>>>>>>>> Preserving the functional structure allows us to split the sensor off
-> >>>>>>>>> as a separate module in the future.
-> >>>>>>>>>
-> >>>>>>>>> Major design elements in this change are:
-> >>>>>>>>>        - Use existing struct vimc_ent_config and struct
-> >>>>>>>>> vimc_pipeline_config
-> >>>>>>>>>          to drive the initialization of the functional components.
-> >>>>>>>>>        - Make vimc_ent_config global by moving it to vimc.h
-> >>>>>>>>>        - Add two new hooks add and rm to initialize and register,
-> >>>>>>>>> unregister
-> >>>>>>>>>          and free subdevs.
-> >>>>>>>>>        - All component API is now gone and bind and unbind hooks are
-> >>>>>>>>> modified
-> >>>>>>>>>          to do "add" and "rm" with minimal changes to just add and rm
-> >>>>>>>>> subdevs.
-> >>>>>>>>>        - vimc-core's bind and unbind are now register and unregister.
-> >>>>>>>>>        - vimc-core invokes "add" hooks from its
-> >>>>>>>>> vimc_register_devices().
-> >>>>>>>>>          The "add" hooks remain the same and register subdevs. They
-> >>>>>>>>> don't
-> >>>>>>>>>          create platform devices of their own and use vimc's
-> >>>>>>>>> pdev.dev as
-> >>>>>>>>>          their reference device. The "add" hooks save their
-> >>>>>>>>> vimc_ent_device(s)
-> >>>>>>>>>          in the corresponding vimc_ent_config.
-> >>>>>>>>>        - vimc-core invokes "rm" hooks from its unregister to
-> >>>>>>>>> unregister
-> >>>>>>>>> subdevs
-> >>>>>>>>>          and cleanup.
-> >>>>>>>>>        - vimc-core invokes "add" and "rm" hooks with pointer to struct
-> >>>>>>>>> vimc_device
-> >>>>>>>>>          and the corresponding struct vimc_ent_config pointer.
-> >>>>>>>>>        The following configure and stream test works on all devices.
-> >>>>>>>>>             media-ctl -d platform:vimc -V '"Sensor
-> >>>>>>>>> A":0[fmt:SBGGR8_1X8/640x480]'
-> >>>>>>>>>        media-ctl -d platform:vimc -V '"Debayer
-> >>>>>>>>> A":0[fmt:SBGGR8_1X8/640x480]'
-> >>>>>>>>>        media-ctl -d platform:vimc -V '"Sensor
-> >>>>>>>>> B":0[fmt:SBGGR8_1X8/640x480]'
-> >>>>>>>>>        media-ctl -d platform:vimc -V '"Debayer
-> >>>>>>>>> B":0[fmt:SBGGR8_1X8/640x480]'
-> >>>>>>>>>             v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v
-> >>>>>>>>> width=1920,height=1440
-> >>>>>>>>>        v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v
-> >>>>>>>>> pixelformat=BA81
-> >>>>>>>>>        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v
-> >>>>>>>>> pixelformat=BA81
-> >>>>>>>>>             v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video1
-> >>>>>>>>>        v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
-> >>>>>>>>>        v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video3
-> >>>>>>>>>
-> >>>>>>>>> The third patch in the series fixes a general protection fault found
-> >>>>>>>>> when rmmod is done while stream is active.
-> >>>>>>>>
-> >>>>>>>> I applied your patch on top of media_tree/master and I did some
-> >>>>>>>> testing.
-> >>>>>>>> Not sure if I did something wrong, but just adding and removing the
-> >>>>>>>> module generated a kernel panic:
-> >>>>>>>
-> >>>>>>> Thanks for testing.
-> >>>>>>>
-> >>>>>>> Odd. I tested modprobe and rmmod both.I was working on Linux 5.3-rc2.
-> >>>>>>> I will apply these to media latest and work from there. I have to
-> >>>>>>> rebase these on top of the reverts from Lucas and Helen
-> >>>>>>
-> >>>>>> Ok, please let me know if I succeeded to reproduce.
-> >>>>>>
-> >>>>>>>>
-> >>>>>>>> ~# modprobe vimc
-> >>>>>>>> ~# rmmod vimc
-> >>>>>>>> [   16.452974] stack segment: 0000 [#1] SMP PTI
-> >>>>>>>> [   16.453688] CPU: 0 PID: 2038 Comm: rmmod Not tainted 5.3.0-rc2+ #36
-> >>>>>>>> [   16.454678] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-> >>>>>>>> BIOS 1.12.0-20181126_142135-anatol 04/01/2014
-> >>>>>>>> [   16.456191] RIP: 0010:kfree+0x4d/0x240
-> >>>>>>>>
-> >>>>>>>> <registers values...>
-> >>>>>>>>
-> >>>>>>>> [   16.469188] Call Trace:
-> >>>>>>>> [   16.469666]  vimc_remove+0x35/0x90 [vimc]
-> >>>>>>>> [   16.470436]  platform_drv_remove+0x1f/0x40
-> >>>>>>>> [   16.471233]  device_release_driver_internal+0xd3/0x1b0
-> >>>>>>>> [   16.472184]  driver_detach+0x37/0x6b
-> >>>>>>>> [   16.472882]  bus_remove_driver+0x50/0xc1
-> >>>>>>>> [   16.473569]  vimc_exit+0xc/0xca0 [vimc]
-> >>>>>>>> [   16.474231]  __x64_sys_delete_module+0x18d/0x240
-> >>>>>>>> [   16.475036]  do_syscall_64+0x43/0x110
-> >>>>>>>> [   16.475656]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> >>>>>>>> [   16.476504] RIP: 0033:0x7fceb8dafa4b
-> >>>>>>>>
-> >>>>>>>> <registers values...>
-> >>>>>>>>
-> >>>>>>>> [   16.484853] Modules linked in: vimc(-) videobuf2_vmalloc
-> >>>>>>>> videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common
-> >>>>>>>> [   16.486187] ---[ end trace 91e5e0894e254d49 ]---
-> >>>>>>>> [   16.486758] RIP: 0010:kfree+0x4d/0x240
-> >>>>>>>>
-> >>>>>>>> <registers values...>
-> >>>>>>>>
-> >>>>>>>> fish: “rmmod vimc” terminated by signal SIGSEGV (Address boundary
-> >>>>>>>> error)
-> >>>>>>>>
-> >>>>>>>> I just added the module after booting, no other action was made.
-> >>>>>>>> Here is
-> >>>>>>>> how my `git log --oneline` looks like:
-> >>>>>>>>
-> >>>>>>>> 897d708e922b media: vimc: Fix gpf in rmmod path when stream is active
-> >>>>>>>> 2e4a5ad8ad6d media: vimc: Collapse component structure into a single
-> >>>>>>>> monolithic driver
-> >>>>>>>> 7c8da1687e92 media: vimc: move private defines to a common header
-> >>>>>>>> 97299a303532 media: Remove dev_err() usage after platform_get_irq()
-> >>>>>>>> 25a3d6bac6b9 media: adv7511/cobalt: rename driver name to adv7511-v4l2
-> >>>>>
-> >>>>> I couldn't reproduce the error, my tree looks the same:
-> >>>>>
-> >>>>> [I] koike@floko ~/m/o/linux> git log --oneline
-> >>>>> e3345155c8ed (HEAD) media: vimc: Fix gpf in rmmod path when stream is
-> >>>>> active
-> >>>>> 43e9e2fe761f media: vimc: Collapse component structure into a single
-> >>>>> monolithic driver
-> >>>>> 8a6d0b9adde0 media: vimc: move private defines to a common header
-> >>>>> 97299a303532 (media/master) media: Remove dev_err() usage after
-> >>>>> platform_get_irq()
-> >>>>> 25a3d6bac6b9 media: adv7511/cobalt: rename driver name to adv7511-v4l2
-> >>>>
-> >>>> Thanks Helen for trying to reproduce and sharing the result.
-> >>>
-> >>> Me and Helen found out what is the problem. If you follow this call trace:
-> >>>
-> >>> vimc_ent_sd_unregister()
-> >>> v4l2_device_unregister_subdev()
-> >>> v4l2_subdev_release()
-> >>>
-> >>> You'll notice that this last function calls the `release` callback
-> >>> implementation of the subdevice. For instance, the `release` of
-> >>> vimc-sensor is this one:
-> >>>
-> >>> static void vimc_sen_release(struct v4l2_subdev *sd)
-> >>> {
-> >>>     struct vimc_sen_device *vsen =
-> >>>                 container_of(sd, struct vimc_sen_device, sd);
-> >>>
-> >>>     v4l2_ctrl_handler_free(&vsen->hdl);
-> >>>     tpg_free(&vsen->tpg);
-> >>>     kfree(vsen);
-> >>> }
-> >>>
-> >>> And then you can see that `vsen` has been freed. Back to
-> >>> vimc_ent_sd_unregister(), after v4l2_device_unregister_subdev(), the
-> >>> function will call vimc_pads_cleanup(). This is basically a
-> >>> kfree(ved->pads), but `ved` has just been freed at
-> >>> v4l2_subdev_release(), producing a memory fault.
-> >>>
-> >>> To fix that, we found two options:
-> >>>
-> >>> - place the kfree(ved->pads) inside the release callback of each
-> >>> subdevice and removing vimc_pads_cleanup() from
-> >>> vimc_ent_sd_unregister()
-> >>> - use a auxiliary variable to hold the address of the pads, for instance:
-> >>>
-> >>> void vimc_ent_sd_unregister(...)
-> >>> {
-> >>>      struct media_pad *pads = ved->pads;
-> >>>      ...
-> >>>      vimc_pads_cleanup(pads);
-> >>> }
-> >>>
-> >>>
-> >>
-> >> I fixed a problem in the thirds patch. vimc-capture uses the first
-> >> approach - placing the kfree(ved->pads) inside the release callback.
-> >>
-> >> I am debugging another such problem in unbind path while streaming.
-> >> I am working on v2 and I will look for the rmmod problem and fix it.
-> >>
-> >> thanks again for testing and finding the root cause.
-> >> -- Shuah
-> > 
-> > Hi Andre,
-> > 
-> > Here is what's happening.
-> > 
-> > Before this change, you can't really do rmmod vimc, because vimc is in
-> > use by other component drivers. With the collapse, now you can actually
-> > do rmmod on vimc and this problem in vimc_ent_sd_unregister() that frees
-> > pads first and the does v4l2_device_unregister_subdev().
-> > 
-> > I fixed this in the 3/3 patch. I can reproduce the problem with patches 1 and 2, and patch 3 fixes it.
-> > 
-> > Did you test with the third patch in this series?
-> 
-> yes, we tested with 3/3, but the new problem now is when doing the following
-> in this order:
-> 
->     v4l2_device_unregister_subdev(sd);
->     vimc_pads_cleanup(ved->pads);
-> 
-> 
-> v4l2_device_unregister_subdev() calls the release function of the subdevice that
-> frees the ved object, so ved->pads is not valid anymore. That is why André suggested
-> a temporary variable to hold ved->pads and to be able to free it later:
-> 
->     struct media_pad *pads = ved->pads;
-> 
->     v4l2_device_unregister_subdev(sd);
->     vimc_pads_cleanup(pads); // So we don't use the ved object here anymore.
-
-Can't you simply call vimc_pads_cleanup() in the release function of the
-subdevice before freeing the ved object ?
-
--- 
-Regards,
-
-Laurent Pinchart
+QXMgYW4gYWx0ZXJuYXRpdmUgSSBoYXZlIGEgcGF0Y2ggWzFdIHRvIHN1Ym1pdCB0aGF0IG1vdmVz
+IGNlY19ub3RpZmllcl9waHlzX2FkZHJfaW52YWxpZGF0ZSgpIGNhbGwNCmZyb20gZHdfaGRtaV9p
+cnEoKSB0byBkd19oZG1pX2Nvbm5lY3Rvcl9kZXRlY3QoKSBpbiBvcmRlciB0byBhZGRyZXNzIGFu
+IGlzc3VlIHdpdGgNCnN0YWxlIENFQyBwaHlzIGFkZHIgYW5kIHN0YWxlIEVESUQvRUxEIGRhdGEg
+YWZ0ZXIgVFYgb3IgQVZSIHVzZXMgYSAxMDBtcyBIUEQgcHVsc2UNCnRvIHNpZ25hbCBFRElEIGhh
+cyBjaGFuZ2VkLCBmdWxsIHBhdGNoc2V0IGF0IFsyXS4NCg0KQXQgdGhlIG1vbWVudCBDRUMgcGh5
+cyBhZGRyZXNzIGlzIGludmFsaWRhdGVkIGRpcmVjdGx5IGF0IEhQRCwgbGVhdmluZyB0aGUgYWRk
+cmVzcyBhcyBpbnZhbGlkDQphZnRlciBhIDEwMG1zIEhQRCBwdWxzZSwgcGh5cyBhZGRyZXNzIG1h
+eSBsYXRlciBiZSByZXN0b3JlZCB0byBhIHZhbGlkIHBoeXMgYWRkcmVzcyB3aGVuDQpnZXRfbW9k
+ZXMoKSBpcyBjYWxsZWQgYnkgZHJtIGNvcmUuDQoNClNob3VsZCBJIHdhaXQgb24geW91ciBhbmQg
+cmVsYXRlZCBwYXRjaGVzIHRvIGJlIG1lcmdlZCBiZWZvcmUgc3VibWl0dGluZyBteSBzZXJpZXM/
+DQoNClsxXSBodHRwczovL2dpdGh1Yi5jb20vS3dpYm9vL2xpbnV4LXJvY2tjaGlwL2NvbW1pdC8y
+ZjRmOTljODI5ODNlNzA5NTI2NjhjMjFmMWM1NmEwMjQxYmQ3NWYyDQpbMl0gaHR0cHM6Ly9naXRo
+dWIuY29tL0t3aWJvby9saW51eC1yb2NrY2hpcC9jb21wYXJlL25leHQtMjAxOTA4MTMuLi5uZXh0
+LTIwMTkwODEzLWNlYy1lbGQNCg0KUmVnYXJkcywNCkpvbmFzDQoNCk9uIDIwMTktMDgtMTMgMTE6
+MzQsIEhhbnMgVmVya3VpbCB3cm90ZToNCj4gQ0MgRGFyaXVzeiBhcyB3ZWxsLCBzaW5jZSB0aGlz
+IGlzc3VlIHdhcyBkaXNjb3ZlcmVkIHdoZW4gdGVzdGluZyBoaXMNCj4gQ0VDIHBhdGNoZXMuDQo+
+DQo+IFJlZ2FyZHMsDQo+DQo+IAlIYW5zDQo+DQo+IE9uIDgvMTMvMTkgMTE6MzIgQU0sIEhhbnMg
+VmVya3VpbCB3cm90ZToNCj4+IFdoZW4gdGVzdGluZyBDRUMgb24gdGhlIEFNTC1TOTA1WC1DQyBi
+b2FyZCBJIG5vdGljZWQgdGhhdCB0aGUgQ0VDIHBoeXNpY2FsDQo+PiBhZGRyZXNzIHdhcyBub3Qg
+aW52YWxpZGF0ZWQgd2hlbiB0aGUgSERNSSBjYWJsZSB3YXMgdW5wbHVnZ2VkLiBTb21lIG1vcmUN
+Cj4+IGRpZ2dpbmcgc2hvd2VkIHRoYXQgbWVzb24gdXNlcyBtZXNvbl9kd19oZG1pLmMgdG8gaGFu
+ZGxlIHRoZSBIUEQuDQo+Pg0KPj4gQm90aCBkd19oZG1pX2lycSgpIGFuZCBkd19oZG1pX3RvcF90
+aHJlYWRfaXJxKCkgKGluIG1lc29uX2R3X2hkbWkuYykgY2FsbA0KPj4gdGhlIGR3X2hkbWlfc2V0
+dXBfcnhfc2Vuc2UoKSBmdW5jdGlvbi4gU28gbW92ZSB0aGUgY29kZSB0byBpbnZhbGlkYXRlIHRo
+ZQ0KPj4gQ0VDIHBoeXNpY2FsIGFkZHJlc3MgdG8gdGhhdCBmdW5jdGlvbiwgc28gdGhhdCBpdCBp
+cyBpbmRlcGVuZGVudCBvZiB3aGVyZQ0KPj4gdGhlIEhQRCBpbnRlcnJ1cHQgaGFwcGVucy4NCj4+
+DQo+PiBUZXN0ZWQgd2l0aCBib3RoIGEgQU1MLVM5MDVYLUNDIGFuZCBhIEtoYWRhcyBWSU0yIGJv
+YXJkLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEhhbnMgVmVya3VpbCA8aHZlcmt1aWwtY2lzY29A
+eHM0YWxsLm5sPg0KPj4gLS0tDQo+PiBOb3RlOiBhbiBhbHRlcm5hdGl2ZSB3b3VsZCBiZSB0byBt
+YWtlIGEgbmV3IGR3LWhkbWkgZnVuY3Rpb24gc3VjaCBhcw0KPj4gZHdfaGRtaV9jZWNfcGh5c19h
+ZGRyX2ludmFsaWRhdGUoKSB0aGF0IGlzIGNhbGxlZCBmcm9tIG1lc29uX2R3X2hkbWkuYy4NCj4+
+IEkgZGVjaWRlZCBub3QgdG8gZG8gdGhhdCBzaW5jZSB0aGlzIHBhdGNoIGlzIG1pbmltYWxseSBp
+bnZhc2l2ZSwgYnV0DQo+PiB0aGF0IGNhbiBvYnZpb3VzbHkgYmUgY2hhbmdlZCBpZiB0aGF0IGFw
+cHJvYWNoIGlzIHByZWZlcnJlZC4NCj4+IC0tLQ0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
+eW5vcHN5cy9kdy1oZG1pLmMNCj4+IGluZGV4IGM1YTg1NGFmNTRmOC4uZTg5OWIzMWUxNDMyIDEw
+MDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMN
+Cj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jDQo+PiBA
+QCAtMjMyOSw2ICsyMzI5LDEzIEBAIHZvaWQgZHdfaGRtaV9zZXR1cF9yeF9zZW5zZShzdHJ1Y3Qg
+ZHdfaGRtaSAqaGRtaSwgYm9vbCBocGQsIGJvb2wgcnhfc2Vuc2UpDQo+PiAgCQlkd19oZG1pX3Vw
+ZGF0ZV9wb3dlcihoZG1pKTsNCj4+ICAJCWR3X2hkbWlfdXBkYXRlX3BoeV9tYXNrKGhkbWkpOw0K
+Pj4gIAl9DQo+PiArCWlmICghaHBkICYmICFyeF9zZW5zZSkgew0KPj4gKwkJc3RydWN0IGNlY19u
+b3RpZmllciAqbm90aWZpZXIgPSBSRUFEX09OQ0UoaGRtaS0+Y2VjX25vdGlmaWVyKTsNCj4+ICsN
+Cj4+ICsJCWlmIChub3RpZmllcikNCj4+ICsJCQljZWNfbm90aWZpZXJfcGh5c19hZGRyX2ludmFs
+aWRhdGUobm90aWZpZXIpOw0KPj4gKwl9DQo+PiArDQo+PiAgCW11dGV4X3VubG9jaygmaGRtaS0+
+bXV0ZXgpOw0KPj4gIH0NCj4+ICBFWFBPUlRfU1lNQk9MX0dQTChkd19oZG1pX3NldHVwX3J4X3Nl
+bnNlKTsNCj4+IEBAIC0yMzY5LDE0ICsyMzc2LDYgQEAgc3RhdGljIGlycXJldHVybl90IGR3X2hk
+bWlfaXJxKGludCBpcnEsIHZvaWQgKmRldl9pZCkNCj4+ICAJCWR3X2hkbWlfc2V0dXBfcnhfc2Vu
+c2UoaGRtaSwNCj4+ICAJCQkJICAgICAgIHBoeV9zdGF0ICYgSERNSV9QSFlfSFBELA0KPj4gIAkJ
+CQkgICAgICAgcGh5X3N0YXQgJiBIRE1JX1BIWV9SWF9TRU5TRSk7DQo+PiAtDQo+PiAtCQlpZiAo
+KHBoeV9zdGF0ICYgKEhETUlfUEhZX1JYX1NFTlNFIHwgSERNSV9QSFlfSFBEKSkgPT0gMCkgew0K
+Pj4gLQkJCXN0cnVjdCBjZWNfbm90aWZpZXIgKm5vdGlmaWVyOw0KPj4gLQ0KPj4gLQkJCW5vdGlm
+aWVyID0gUkVBRF9PTkNFKGhkbWktPmNlY19ub3RpZmllcik7DQo+PiAtCQkJaWYgKG5vdGlmaWVy
+KQ0KPj4gLQkJCQljZWNfbm90aWZpZXJfcGh5c19hZGRyX2ludmFsaWRhdGUobm90aWZpZXIpOw0K
+Pj4gLQkJfQ0KPj4gIAl9DQo+Pg0KPj4gIAlpZiAoaW50cl9zdGF0ICYgSERNSV9JSF9QSFlfU1RB
+VDBfSFBEKSB7DQo+Pg0KDQo=
