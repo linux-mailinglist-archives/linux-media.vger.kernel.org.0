@@ -2,183 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE4D8B67C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEF388B698
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:27:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbfHMLUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 07:20:22 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:35238 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbfHMLUV (ORCPT
+        id S1726488AbfHML1N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 07:27:13 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34439 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726086AbfHML1N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 07:20:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=As27JiQCtjDix/tvRgjOc1g0lMqX8YplheJrOl6+LCA=; b=gXQL49mvvW4g2lW3tFhEt/2Ti
-        xJ5H0r3hmXslUTn6VvLnszvQyYt1zap4JFtfZUXawdKFi9QVEF/Kg4vNRg7gr8NCz2OJn5+Qz5t1x
-        yL8tw79mr2khVW3KGP8Fqs7RfNiH8rQ8wHATRxCpGl17cSf6WBEJS13CafGQWO7wk2OKZ4moTwCMk
-        +8G6KXHbKNQbDRjXwx0Lk0WUDnl8YBa1xvGCXhPGFMB/OChqK3WO/O0iUI7zOEj4iECsTuzG4m6ec
-        ccVbbms5xFGIZjSIQ2Tiqoly9SwVgoGAsVeoiYZJN1xi0YkzEhq9fLFggpYCb1YOI3LNREYxy4ZcF
-        HUzLEqaiQ==;
-Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:44420)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1hxUqf-0008NO-Rz; Tue, 13 Aug 2019 12:20:18 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1hxUqc-0007Sa-JG; Tue, 13 Aug 2019 12:20:14 +0100
-Date:   Tue, 13 Aug 2019 12:20:14 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 4/8] drm: tda998x: use cec_notifier_conn_(un)register
-Message-ID: <20190813112014.GE13294@shell.armlinux.org.uk>
-References: <20190813110300.83025-1-darekm@google.com>
- <20190813110300.83025-5-darekm@google.com>
+        Tue, 13 Aug 2019 07:27:13 -0400
+Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xUxFhKuPtqTdhxUxKh9NXP; Tue, 13 Aug 2019 13:27:11 +0200
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: move cec PA invalidation to
+ dw_hdmi_setup_rx_sense()
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Neil Armstrong <narmstrong@baylibre.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Dariusz Marcinkiewicz <darekm@google.com>
+References: <6099ff8a-e708-e466-5877-07c9102513f8@xs4all.nl>
+ <60547c6d-e8a1-0b2c-b8ae-acb2f4643be8@xs4all.nl>
+ <HE1PR06MB40116485045605E0B9E67B92ACD20@HE1PR06MB4011.eurprd06.prod.outlook.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <806faef0-8d54-8f6c-2cbe-46e0961e926a@xs4all.nl>
+Date:   Tue, 13 Aug 2019 13:27:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813110300.83025-5-darekm@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <HE1PR06MB40116485045605E0B9E67B92ACD20@HE1PR06MB4011.eurprd06.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfB8Qg3CwBdHjvPHrevd5qIYX7C/SH0FSUlq8LMJ18fEq8qeSeU2XcC5GXWDA7MbhOmpwngzd+b3WTgcftSY2tcUkymoyDpFkm7YVVWCtWyFx8463LPb4
+ tS9m5/j5AaDz4ZHHaBJ/BxQynKbvw+y4dZejylQfMNn82lz3OQRq+HD73QLskFBGd+QbVtRQRtIIenIsO8I4FXqXMAq5YCgEk5dmQde6PKvW2hMtoWSnWOxU
+ dIuUYVACfZ3JPygpvY/fS69N9SnPFeOMUEuV7ODw/TgdsoQGLQ4ik6lMkAJVPOo7SMdXEsjDu2/x93bJP6FC1/rCtp7fFrCL05Pm7YhYmfWSaoEY0ZjgzfUH
+ GM99NlJtXij3nUxzPImUX849jDj2H0VbIfkHsa4PXxGXBpJf4pOP88NjW5E/4fGAwUTGi1u+tLlMtX+0sDaz2eJ/GvSil70A0RBH0bZshBZ+c3q6nYg5uitB
+ i7CRSV3zaP5y4OKbks5eZgdQnZEV3J9JK5UnrWILyiSfXT/YHa7Od0Jj37Qh4Mt0PqlzmxK6Hqy8NBjo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 01:02:36PM +0200, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill
-> in the cec_connector_info.
+On 8/13/19 12:18 PM, Jonas Karlman wrote:
+> As an alternative I have a patch [1] to submit that moves cec_notifier_phys_addr_invalidate() call
+> from dw_hdmi_irq() to dw_hdmi_connector_detect() in order to address an issue with
+> stale CEC phys addr and stale EDID/ELD data after TV or AVR uses a 100ms HPD pulse
+> to signal EDID has changed, full patchset at [2].
 > 
-> Changes since v2:
-> 	- cec_notifier_phys_addr_invalidate where appropriate,
-> 	- don't check for NULL notifier before calling
-> 	cec_notifier_conn_unregister.
-> Changes since v1:
-> 	Add memory barrier to make sure that the notifier
-> 	becomes visible to the irq thread once it is
-> 	fully constructed.
+> At the moment CEC phys address is invalidated directly at HPD, leaving the address as invalid
+> after a 100ms HPD pulse, phys address may later be restored to a valid phys address when
+> get_modes() is called by drm core.
 > 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/i2c/tda998x_drv.c | 33 +++++++++++++++++++++----------
->  1 file changed, 23 insertions(+), 10 deletions(-)
+> Should I wait on your and related patches to be merged before submitting my series?
+
+Your patch fixes this issue as well, so just ignore my patch and submit your series.
+Please CC me when you post your series.
+
+Regards,
+
+	Hans
+
 > 
-> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-> index 61e042918a7fc..19a63ee1b3f53 100644
-> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
-> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-> @@ -804,9 +804,14 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
->  			if (lvl & CEC_RXSHPDLEV_HPD) {
->  				tda998x_edid_delay_start(priv);
->  			} else {
-> +				struct cec_notifier *notify;
-> +
->  				schedule_work(&priv->detect_work);
-> -				cec_notifier_set_phys_addr(priv->cec_notify,
-> -						   CEC_PHYS_ADDR_INVALID);
-> +
-> +				notify = READ_ONCE(priv->cec_notify);
-> +				if (notify)
-> +					cec_notifier_phys_addr_invalidate(
-> +							notify);
->  			}
->  
->  			handled = true;
-> @@ -1331,6 +1336,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  				  struct drm_device *drm)
->  {
->  	struct drm_connector *connector = &priv->connector;
-> +	struct cec_connector_info conn_info;
-> +	struct cec_notifier *notifier;
->  	int ret;
->  
->  	connector->interlace_allowed = 1;
-> @@ -1347,6 +1354,19 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  	if (ret)
->  		return ret;
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
-> +					      NULL, &conn_info);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +	/*
-> +	 * Make sure that tda998x_irq_thread does see the notifier
-> +	 * when it fully constructed.
-> +	 */
-> +	smp_wmb();
-> +	priv->cec_notify = notifier;
-
-To nitpick, this comment and the following code do not go together.
-
-I think what you actually mean is:
-
-	 * Make sure that tda998x_irq_thread sees the notifier
-	 * only after it is fully constructed.
-
-> +
->  	drm_connector_attach_encoder(&priv->connector,
->  				     priv->bridge.encoder);
->  
-> @@ -1790,8 +1810,7 @@ static void tda998x_destroy(struct device *dev)
->  
->  	i2c_unregister_device(priv->cec);
->  
-> -	if (priv->cec_notify)
-> -		cec_notifier_put(priv->cec_notify);
-> +	cec_notifier_conn_unregister(priv->cec_notify);
-
-This also doesn't make sense: tda998x_destroy() is the opposite of
-tda998x_create().  However, tda998x_connector_destroy() is the
-opposite of tda998x_connector_create().
-
-By moving the CEC creation code into tda998x_connector_create(), you
-are creating the possibility for the following sequence to mess up
-CEC and leak:
-
-	tda998x_create()
-	tda998x_connector_create()
-	tda998x_connector_destroy()
-	tda998x_connector_create()
-	tda998x_connector_destroy()
-	tda998x_destroy()
-
-Anything you create in tda998x_connector_create() must be cleaned up
-by tda998x_connector_destroy().
-
->  }
->  
->  static int tda998x_create(struct device *dev)
-> @@ -1916,12 +1935,6 @@ static int tda998x_create(struct device *dev)
->  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
->  	}
->  
-> -	priv->cec_notify = cec_notifier_get(dev);
-> -	if (!priv->cec_notify) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -
->  	priv->cec_glue.parent = dev;
->  	priv->cec_glue.data = priv;
->  	priv->cec_glue.init = tda998x_cec_hook_init;
-> -- 
-> 2.23.0.rc1.153.gdeed80330f-goog
+> [1] https://github.com/Kwiboo/linux-rockchip/commit/2f4f99c82983e70952668c21f1c56a0241bd75f2
+> [2] https://github.com/Kwiboo/linux-rockchip/compare/next-20190813...next-20190813-cec-eld
 > 
+> Regards,
+> Jonas
+> 
+> On 2019-08-13 11:34, Hans Verkuil wrote:
+>> CC Dariusz as well, since this issue was discovered when testing his
+>> CEC patches.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>> On 8/13/19 11:32 AM, Hans Verkuil wrote:
+>>> When testing CEC on the AML-S905X-CC board I noticed that the CEC physical
+>>> address was not invalidated when the HDMI cable was unplugged. Some more
+>>> digging showed that meson uses meson_dw_hdmi.c to handle the HPD.
+>>>
+>>> Both dw_hdmi_irq() and dw_hdmi_top_thread_irq() (in meson_dw_hdmi.c) call
+>>> the dw_hdmi_setup_rx_sense() function. So move the code to invalidate the
+>>> CEC physical address to that function, so that it is independent of where
+>>> the HPD interrupt happens.
+>>>
+>>> Tested with both a AML-S905X-CC and a Khadas VIM2 board.
+>>>
+>>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>> ---
+>>> Note: an alternative would be to make a new dw-hdmi function such as
+>>> dw_hdmi_cec_phys_addr_invalidate() that is called from meson_dw_hdmi.c.
+>>> I decided not to do that since this patch is minimally invasive, but
+>>> that can obviously be changed if that approach is preferred.
+>>> ---
+>>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>>> index c5a854af54f8..e899b31e1432 100644
+>>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>>> @@ -2329,6 +2329,13 @@ void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sense)
+>>>  		dw_hdmi_update_power(hdmi);
+>>>  		dw_hdmi_update_phy_mask(hdmi);
+>>>  	}
+>>> +	if (!hpd && !rx_sense) {
+>>> +		struct cec_notifier *notifier = READ_ONCE(hdmi->cec_notifier);
+>>> +
+>>> +		if (notifier)
+>>> +			cec_notifier_phys_addr_invalidate(notifier);
+>>> +	}
+>>> +
+>>>  	mutex_unlock(&hdmi->mutex);
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(dw_hdmi_setup_rx_sense);
+>>> @@ -2369,14 +2376,6 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+>>>  		dw_hdmi_setup_rx_sense(hdmi,
+>>>  				       phy_stat & HDMI_PHY_HPD,
+>>>  				       phy_stat & HDMI_PHY_RX_SENSE);
+>>> -
+>>> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
+>>> -			struct cec_notifier *notifier;
+>>> -
+>>> -			notifier = READ_ONCE(hdmi->cec_notifier);
+>>> -			if (notifier)
+>>> -				cec_notifier_phys_addr_invalidate(notifier);
+>>> -		}
+>>>  	}
+>>>
+>>>  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
+>>>
 > 
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
