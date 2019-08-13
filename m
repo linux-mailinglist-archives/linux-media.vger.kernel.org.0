@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 253CB8B625
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC6738B626
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728604AbfHMLD7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 07:03:59 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:43004 "EHLO
+        id S1726951AbfHMLED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 07:04:03 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:33378 "EHLO
         mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728601AbfHMLD7 (ORCPT
+        with ESMTP id S1726721AbfHMLED (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 07:03:59 -0400
-Received: by mail-qk1-f201.google.com with SMTP id p18so22462849qke.9
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 04:03:59 -0700 (PDT)
+        Tue, 13 Aug 2019 07:04:03 -0400
+Received: by mail-qk1-f201.google.com with SMTP id f22so14841183qkg.0
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 04:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=6ulPqZWHu3buhcEJ9W+gaYDffj1X2raN/hmc1DXKRc0=;
-        b=Ttc66cpbZ8f6IDLo5P+0wVxpvOL4SKVLSiOw7YHwSn/XuZU+OLaUtGoHRCorWkaat1
-         wHSH5LO9HUkbMelvZJAXTbIIKxlRuRGofTbc+1J1foxEeRj2qI4qwLsJ+rvqQnKOUhlh
-         esxHHm3r1yTSn5NKYWJdmluPi4/GbmoggxvsZJ7FmgW3kcTO4WzXH1zjYAljxfoSQqWJ
-         0dwdWp+SksTGppNbhvwfEOHUPhbusR4sTcuYUCqyACzHhfGvzundOvP5iG7h3CHvfoWe
-         C19TChEbFAxO0/uUA6NZOpJaJi5Dv54wbOd7YlTIWGPp/pAG/vYiwfnT1a1T5Oq173Mk
-         v5pQ==
+        bh=ip9lF/U/ATkDBCN52xa8MDYElKkFg+n6UubAPvcwdoQ=;
+        b=L8MnBJ66KutyhXM1pVJve1tTkI9eCP1J5jPB3Zz1KokSDUH6mh59HIERL2XGmcVUPr
+         3WrIC6I9g5N127W9P+9Rp5VuHoeaKnvsC+8o341cSsS2xtEvgkrarWZA8QbeVAOjMGe1
+         liVA/FbdyxZivqYi7Yr+irg6HA4OxJeMf/IF0alLg66zc6sUjvufCQCkDO3FCvv2e4Zv
+         3SHnX+IE4HMfr4asT3FCECTYCwZKb0b2SKzJ3if+MCbZXG6GvmwgU3l8ogIEl6tkipYu
+         e7wOP85XCH2b5SpFdqb7dERv+2Zz6z1h5BRtL99ey4tkpST978h96jVyK5Chw7JsPAFd
+         Yfpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=6ulPqZWHu3buhcEJ9W+gaYDffj1X2raN/hmc1DXKRc0=;
-        b=QLYBGwZ51/aRj5ZbhFnMezVNWM7WXwzL0yWC90o6/ebLwsPoHDn9u87Gl0+B/b6l5x
-         5LJNQAFcUu3YPzFgRUebON9qfeXWKboH6x3lpIDYGmcwa3yIYqj87MGYCo7G0R0RM4cQ
-         j3zfvFvSIfb48zdpChATbOWHUSbZ4HMr4VPdiImDeDNnAx9KRgPV7jpSLrl0yTSibjEn
-         Wy+/jdLBo5YjKmoahDRKO6lbyxsY0Ahpy9XN8q4aBT947ISHhHPL/qXMfqyW25MxHoxU
-         EBOkORJEctQEh6oo7vQ9mZRp/eFwjhd7yq49WW9Jr6iGGFM5C9/4pJuHja/1rY10Fich
-         8u/w==
-X-Gm-Message-State: APjAAAXWh66OxDnYptHb+TCfnvGFcpP5Em+TofHrQGbc3WGBWJvhzuNa
-        ZXOYEHq5EXPAjAo2CYok53t+oInQqUY=
-X-Google-Smtp-Source: APXvYqzOEdfJlhU1SPtyfEAHwdXZr+UgnOS/BqJFVj/N8D9Hp9/fP0qqBoTZWcRHPQw91l6QDOyw/B0nzXU=
-X-Received: by 2002:ae9:df84:: with SMTP id t126mr30585905qkf.328.1565694238500;
- Tue, 13 Aug 2019 04:03:58 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 13:02:36 +0200
+        bh=ip9lF/U/ATkDBCN52xa8MDYElKkFg+n6UubAPvcwdoQ=;
+        b=QCCH3rbrqaFzDmTnEsHCmjTvi4J8gNFK7PX7nngsiFMuhwn6KhjfNmvlGzf/X/ig62
+         MUrDVz+AOY/Btow82lXmiMqveRWiQ+1Rs6FpmC+E16h9e3w/ebtryDVv6Lpzx0oMZ/Z6
+         sNNvAYTHIXPs8JIRc8Wxbl3LMUxB3qogEtaSyvkbJ+rXlSbVCe62WnxnbtramWW+aJpu
+         y312/L3Y1i9HgaZo17OotKWG1rMUbor3dS5ZdMUeIHQKSWV6KfVj+tSKzg6UwpLMoIS7
+         FzhoqBlTCaq5h7RZyooQiaWHoVCBC+eas0/K7+Fq9D4fVVkQVsshq8KTOUEmRfYTUAfF
+         xN9g==
+X-Gm-Message-State: APjAAAUxp3j1SLhxAfNYfurMUORVYjBklmxGuR3Q+ki5CWDaxoU3huu5
+        IMVeUCcZKQsrcovscBKy2S+N5ihTCzA=
+X-Google-Smtp-Source: APXvYqysSUrmxH++r5MmUXV4gWwiLxUMWPgS8nugFZzvIugrQ9MfQDgywxdIlcVe+Xz2GFVznywfU+Ysfvs=
+X-Received: by 2002:ac8:6105:: with SMTP id a5mr15179523qtm.285.1565694242255;
+ Tue, 13 Aug 2019 04:04:02 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 13:02:37 +0200
 In-Reply-To: <20190813110300.83025-1-darekm@google.com>
-Message-Id: <20190813110300.83025-5-darekm@google.com>
+Message-Id: <20190813110300.83025-6-darekm@google.com>
 Mime-Version: 1.0
 References: <20190813110300.83025-1-darekm@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v6 4/8] drm: tda998x: use cec_notifier_conn_(un)register
+Subject: [PATCH v6 5/8] drm: sti: use cec_notifier_conn_(un)register
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         hverkuil-cisco@xs4all.nl
 Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        Russell King <linux@armlinux.org.uk>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Vincent Abriou <vincent.abriou@st.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         open list <linux-kernel@vger.kernel.org>
@@ -67,93 +68,77 @@ Use the new cec_notifier_conn_(un)register() functions to
 in the cec_connector_info.
 
 Changes since v2:
-	- cec_notifier_phys_addr_invalidate where appropriate,
-	- don't check for NULL notifier before calling
-	cec_notifier_conn_unregister.
-Changes since v1:
-	Add memory barrier to make sure that the notifier
-	becomes visible to the irq thread once it is
-	fully constructed.
+	Don't invalidate physical address before unregistering the
+	notifier.
 
 Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/gpu/drm/i2c/tda998x_drv.c | 33 +++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/sti/sti_hdmi.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index 61e042918a7fc..19a63ee1b3f53 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -804,9 +804,14 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
- 			if (lvl & CEC_RXSHPDLEV_HPD) {
- 				tda998x_edid_delay_start(priv);
- 			} else {
-+				struct cec_notifier *notify;
-+
- 				schedule_work(&priv->detect_work);
--				cec_notifier_set_phys_addr(priv->cec_notify,
--						   CEC_PHYS_ADDR_INVALID);
-+
-+				notify = READ_ONCE(priv->cec_notify);
-+				if (notify)
-+					cec_notifier_phys_addr_invalidate(
-+							notify);
- 			}
- 
- 			handled = true;
-@@ -1331,6 +1336,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
- 				  struct drm_device *drm)
- {
- 	struct drm_connector *connector = &priv->connector;
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index 9862c322f0c4a..bd15902b825ad 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -1256,6 +1256,7 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_device *drm_dev = data;
+ 	struct drm_encoder *encoder;
+ 	struct sti_hdmi_connector *connector;
 +	struct cec_connector_info conn_info;
-+	struct cec_notifier *notifier;
- 	int ret;
- 
- 	connector->interlace_allowed = 1;
-@@ -1347,6 +1354,19 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
- 	if (ret)
- 		return ret;
- 
-+	cec_fill_conn_info_from_drm(&conn_info, connector);
-+
-+	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
-+					      NULL, &conn_info);
-+	if (!notifier)
-+		return -ENOMEM;
-+	/*
-+	 * Make sure that tda998x_irq_thread does see the notifier
-+	 * when it fully constructed.
-+	 */
-+	smp_wmb();
-+	priv->cec_notify = notifier;
-+
- 	drm_connector_attach_encoder(&priv->connector,
- 				     priv->bridge.encoder);
- 
-@@ -1790,8 +1810,7 @@ static void tda998x_destroy(struct device *dev)
- 
- 	i2c_unregister_device(priv->cec);
- 
--	if (priv->cec_notify)
--		cec_notifier_put(priv->cec_notify);
-+	cec_notifier_conn_unregister(priv->cec_notify);
- }
- 
- static int tda998x_create(struct device *dev)
-@@ -1916,12 +1935,6 @@ static int tda998x_create(struct device *dev)
- 		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+ 	struct drm_connector *drm_connector;
+ 	struct drm_bridge *bridge;
+ 	int err;
+@@ -1318,6 +1319,14 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 		goto err_sysfs;
  	}
  
--	priv->cec_notify = cec_notifier_get(dev);
--	if (!priv->cec_notify) {
--		ret = -ENOMEM;
--		goto fail;
--	}
++	cec_fill_conn_info_from_drm(&conn_info, drm_connector);
++	hdmi->notifier = cec_notifier_conn_register(&hdmi->dev, NULL,
++						    &conn_info);
++	if (!hdmi->notifier) {
++		hdmi->drm_connector = NULL;
++		return -ENOMEM;
++	}
++
+ 	/* Enable default interrupts */
+ 	hdmi_write(hdmi, HDMI_DEFAULT_INT, HDMI_INT_EN);
+ 
+@@ -1331,6 +1340,9 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
+ static void sti_hdmi_unbind(struct device *dev,
+ 		struct device *master, void *data)
+ {
++	struct sti_hdmi *hdmi = dev_get_drvdata(dev);
++
++	cec_notifier_conn_unregister(hdmi->notifier);
+ }
+ 
+ static const struct component_ops sti_hdmi_ops = {
+@@ -1436,10 +1448,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
+ 		goto release_adapter;
+ 	}
+ 
+-	hdmi->notifier = cec_notifier_get(&pdev->dev);
+-	if (!hdmi->notifier)
+-		goto release_adapter;
 -
- 	priv->cec_glue.parent = dev;
- 	priv->cec_glue.data = priv;
- 	priv->cec_glue.init = tda998x_cec_hook_init;
+ 	hdmi->reset = devm_reset_control_get(dev, "hdmi");
+ 	/* Take hdmi out of reset */
+ 	if (!IS_ERR(hdmi->reset))
+@@ -1459,14 +1467,11 @@ static int sti_hdmi_remove(struct platform_device *pdev)
+ {
+ 	struct sti_hdmi *hdmi = dev_get_drvdata(&pdev->dev);
+ 
+-	cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID);
+-
+ 	i2c_put_adapter(hdmi->ddc_adapt);
+ 	if (hdmi->audio_pdev)
+ 		platform_device_unregister(hdmi->audio_pdev);
+ 	component_del(&pdev->dev, &sti_hdmi_ops);
+ 
+-	cec_notifier_put(hdmi->notifier);
+ 	return 0;
+ }
+ 
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
