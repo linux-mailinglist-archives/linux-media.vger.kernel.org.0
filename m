@@ -2,197 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 419BB8B7A9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FAA38B828
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:14:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727510AbfHML42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 07:56:28 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51891 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727342AbfHML42 (ORCPT
+        id S1727391AbfHMMOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:14:10 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39940 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727332AbfHMMOJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 07:56:28 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so1243648wma.1
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 04:56:26 -0700 (PDT)
+        Tue, 13 Aug 2019 08:14:09 -0400
+Received: by mail-pl1-f194.google.com with SMTP id a93so49157553pla.7
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:openpgp:autocrypt:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=D0fIGhGLp0xihNCsIbbPap9YOn2voGlklnNOTUFqYtw=;
-        b=LebCRVSjUZB/PIYePN/CZKKgNdJVMoe9Al41mBq5/r1f8sbhjZHaXaKS2+N2AVhUjn
-         xPJ0BTZ8ebK7h+Qk54yRcaH7V7pxZa1CoPTpSvM8vMBwp94mGGTlh0bZePZzBwspMeZP
-         RE0+2L/fptYHTKFmqH9HSD6SLXkaISGrkMzVEfnD/9KrJSOnMZ6HaRtu71msO/JI4Eqa
-         y7hfCu5ZYQSLxAnvQJYbX51FG5gtCCJbdyjmPofpYrz58iRf2i1aD8y7Q7LUgP62F2nY
-         bZEnMjBN3vX9tF9xVTGjenlq7Ukb6uiFGgAw9KNz0bxdzNMCoBi+F/HOxvqMhiyj9cfA
-         eQMA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qSoVEIqNaOExh67Z6AKi/3gvBhmET7Q2JnQdOFBkG+Y=;
+        b=xVsKlQndmoKfmKjbH3yVxeW1V/Qao83PlCF8Fr+rgXVqfzS1f2OUp/FODQ3Lc4vbbC
+         bhIgdsO7DHtzKL4eq86oSP6AwFG2yq2b6WJjGtz862ByPdIwzwKCiL5ZnONtBN803mzJ
+         Hp0GoSDNg1ePUSOg6yarxQgtha3y4tfhUTUZ/IMU0HZzdbASQmt2Th8IirIdvaay0wHd
+         +OapeDH7N9/2fGO93QtWLxDHTanzS+lk6Jww5APWnGxcrvib4QPLAmq1BY+pqJux9KvG
+         1EM8U1fZC4sVg44n0gmoRPjyqLDBIh9QVCahB1Qo28qL9NEdIlH3SbMjA/l1Ehxu6m81
+         9CZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=D0fIGhGLp0xihNCsIbbPap9YOn2voGlklnNOTUFqYtw=;
-        b=eWmCjwJy/29oTw4jRBlaeDhizfPvXG1oNPVQ9SoNg+4MGt5HGiN+gLTB3SzDYnmGxl
-         VJSjGPxR/+uBATZVCNs6vQYAPwBe5rAzYhFPHnxlNW0+62wqytkxQfQDoN+rtJzIbIZX
-         Yq+XgTumNeIVIh3UuGhuhPS09m9t3uCzHr5GWVkZYDkRC0X9QVx1yZn1STJi0xlJmMn0
-         7x1Gcq3Gj4hwDI4M1RBkGISdurtgrfVLz++I8OVkmoQvMxZEMLW7lp7T6hd8Xsjm6Lf4
-         BrwEJKBtaab6yGmrM3LAd+yluxzndOAsBN9jMaCJeQO+dmz+TKXf3JUzmfVACEzTKaBZ
-         MuSw==
-X-Gm-Message-State: APjAAAWzj9FKEL7q+cYipMnEX7tU5baxXS4Tk5zhxVBZqTkGnU+FKqya
-        ceusWJP1kirKVjbrCJfPXu47+Q==
-X-Google-Smtp-Source: APXvYqz8WMcBFAqdKArlOCGzWhq5IJhPXZEu4YE0kUEIVfKEW9aZNeO1hcGL+vxVVoNdNDQVd980MQ==
-X-Received: by 2002:a1c:be05:: with SMTP id o5mr2815270wmf.52.1565697385206;
-        Tue, 13 Aug 2019 04:56:25 -0700 (PDT)
-Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id n14sm213373304wra.75.2019.08.13.04.56.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Aug 2019 04:56:24 -0700 (PDT)
-Subject: Re: [PATCH] drm/bridge: dw-hdmi: move cec PA invalidation to
- dw_hdmi_setup_rx_sense()
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        Jonas Karlman <jonas@kwiboo.se>
-References: <6099ff8a-e708-e466-5877-07c9102513f8@xs4all.nl>
- <c05b6989-a2a2-e728-7fef-3342b14fa655@xs4all.nl>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <9c254c99-efda-f603-7ee2-8859af635a8e@baylibre.com>
-Date:   Tue, 13 Aug 2019 13:56:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qSoVEIqNaOExh67Z6AKi/3gvBhmET7Q2JnQdOFBkG+Y=;
+        b=kZTM1EogcXP1wLSKSch6leO2E4piId+VrlFInANlTdCHy/6OdlfOCFV53s2fiYWrPV
+         TXdaqD6+/vsyKq1f3hv2KWCGRdb8ykQ7s0wwkHIzIc/nfrOA9S4gsQvTOc1EehHWle7C
+         EvbiKKuPzBPn4oyS9DZ0iFMuylz3GBir2kfaW5bl2QPoY/u8Yfgb1V2xUm3NFmyYGZ+u
+         bvhGGug4FiA4L+//5y0iL0/wyemXAL6qNzALGNRdfdLtJN7ihhPyfrXmJ3tZeqCFFBz1
+         SpTJXNHjQKwTOs0fKbmxwifitzn1MvtT7wy9WiuiaXObvmdxSWFsjdHWpCoUTaSwG9gz
+         hW+g==
+X-Gm-Message-State: APjAAAUCoAwwqQga8J58Ep9wV2lZb5xLzh9NUOwao3Wj/ZWAZCaUG6+y
+        3fGi4MMMHk+9J6ZyOmDGHzJ3
+X-Google-Smtp-Source: APXvYqyqk5l2TCDeiILn8sdBnKDZ03tP2u4wc3zOtMi6rIRkZXzhbn5iaUNzL/6GdHA2nfzu68C0NQ==
+X-Received: by 2002:a17:902:d70e:: with SMTP id w14mr8185306ply.339.1565698448530;
+        Tue, 13 Aug 2019 05:14:08 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:649c:6ce0:9d44:669c:5d6c:bc5f])
+        by smtp.gmail.com with ESMTPSA id i124sm195773668pfe.61.2019.08.13.05.14.02
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 13 Aug 2019 05:14:07 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 17:44:00 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
+ binding
+Message-ID: <20190813121400.GA29378@Mani-XPS-13-9360>
+References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
+ <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
+ <20190813094526.GG835@valkosipuli.retiisi.org.uk>
+ <20190813113358.GA28877@Mani-XPS-13-9360>
+ <20190813114643.GA2527@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <c05b6989-a2a2-e728-7fef-3342b14fa655@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813114643.GA2527@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Sakari,
 
-On 13/08/2019 13:43, Hans Verkuil wrote:
-> On 8/13/19 11:32 AM, Hans Verkuil wrote:
->> When testing CEC on the AML-S905X-CC board I noticed that the CEC physical
->> address was not invalidated when the HDMI cable was unplugged. Some more
->> digging showed that meson uses meson_dw_hdmi.c to handle the HPD.
->>
->> Both dw_hdmi_irq() and dw_hdmi_top_thread_irq() (in meson_dw_hdmi.c) call
->> the dw_hdmi_setup_rx_sense() function. So move the code to invalidate the
->> CEC physical address to that function, so that it is independent of where
->> the HPD interrupt happens.
->>
->> Tested with both a AML-S905X-CC and a Khadas VIM2 board.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+On Tue, Aug 13, 2019 at 02:46:43PM +0300, Sakari Ailus wrote:
+> Hi Manivannan,
 > 
-> Please disregard this patch, Jonas Karlman will post a different series
-> which will fix this in a different way.
-
-Noted, thanks.
-
-Neil
-
+> On Tue, Aug 13, 2019 at 05:03:58PM +0530, Manivannan Sadhasivam wrote:
+> > Hi Sakari,
+> > 
+> > Thanks for the review!
+> > 
+> > On Tue, Aug 13, 2019 at 12:45:26PM +0300, Sakari Ailus wrote:
+> > > Hi Manivannan,
+> > > 
+> > > On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
+> > > > Add devicetree binding for IMX290 CMOS image sensor.
+> > > > 
+> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/imx290.txt  | 51 +++++++++++++++++++
+> > > >  1 file changed, 51 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.txt b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > new file mode 100644
+> > > > index 000000000000..7535b5b5b24b
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/imx290.txt
+> > > > @@ -0,0 +1,51 @@
+> > > > +* Sony IMX290 1/2.8-Inch CMOS Image Sensor
+> > > > +
+> > > > +The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with
+> > > > +Square Pixel for Color Cameras. It is programmable through I2C and 4-wire
+> > > > +interfaces. The sensor output is available via CMOS logic parallel SDR output,
+> > > > +Low voltage LVDS DDR output and CSI-2 serial data output.
+> > > 
+> > > If there are three to choose from, then you should specify which one is in
+> > > use. Given that I think chances remain slim we'd add support for the other
+> > > two (it's certainly not ruled out though), CSI-2 could be the default. But
+> > > this needs to be documented.
+> > > 
+> > 
+> > Hmm... I'm not sure here. Bindings should describe the hardware and not the
+> > limitations of the driver. Here as you said, the sensor can output frames
+> > in 3 different modes/formats but the driver only supports CSI2. I can add a
+> > note in the driver but not sure whether dt-binding is the right place or not!
 > 
+> I guess alternatively you could document the necessary bindings for the
+> other two busses.
+> 
+> But what I'm saying here is that it's highly unlikely they'll be ever
+> needed, and it'd be mostly a waste of time to implement that. (That said, I
+> have nothing against the use of these busses, but I've never seen anyone
+> using them.) Many other devices use defaults for more contentious settings.
+> 
+
+Agree with you but my question was, whether I could document the supported
+mode in bindings or not! I have seen comments from Rob in the past that the
+binding should not document the limitations of the driver. But anyway, one
+can infer from the current binding that only CSI2 is supported for now, it's
+just stating it explicitly makes me doubtful!
+
+> > 
+> > > > +
+> > > > +Required Properties:
+> > > > +- compatible: Should be "sony,imx290"
+> > > > +- reg: I2C bus address of the device
+> > > > +- clocks: Reference to the xclk clock.
+> > > > +- clock-names: Should be "xclk".
+> > > > +- clock-frequency: Frequency of the xclk clock.
+> > > 
+> > > ...in Hz.
+> > > 
+> > 
+> > Ack.
+> > 
+> > > > +- vdddo-supply: Sensor digital IO regulator.
+> > > > +- vdda-supply: Sensor analog regulator.
+> > > > +- vddd-supply: Sensor digital core regulator.
+> > > > +
+> > > > +Optional Properties:
+> > > > +- reset-gpios: Sensor reset GPIO
+> > > > +
+> > > > +The imx290 device node should contain one 'port' child node with
+> > > > +an 'endpoint' subnode. For further reading on port node refer to
+> > > > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > 
+> > > Which other properties are relevant for the device?
+> > 
+> > Not much other than, clock/data lanes.
+> 
+> Please document data-lanes, and which values it may have.
+>
+
+Ack.
+
+> > 
+> > > I suppose you can't change the lane order, so clock-lanes is redundant
+> > > (don't use it in the example) and data-lanes should be monotonically
+> > > incrementing series from 1 to 4.
+> > > 
+> > 
+> > We can change the order and the example here illustrates how it has been
+> > wired in FRAMOS module. If I change the lane order like you said, it won't
+> > work.
+> 
+> I highly doubt that. Neither the driver nor the sensor uses the lane
+> ordering information.
+> 
+
+Agree but CSI2 host will need this informtion, right? Please correct me if
+I'm wrong!
+
+> And even if the driver only supported four lanes, then it should check the
+> number of lanes is actually four.
+> 
+
+Ack. Sensor works with 2/4 lanes but the driver only handles 4 for now. Will
+add the check in driver.
+
+Thanks,
+Mani
+
+> -- 
 > Regards,
 > 
-> 	Hans
-> 
->> ---
->> Note: an alternative would be to make a new dw-hdmi function such as
->> dw_hdmi_cec_phys_addr_invalidate() that is called from meson_dw_hdmi.c.
->> I decided not to do that since this patch is minimally invasive, but
->> that can obviously be changed if that approach is preferred.
->> ---
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index c5a854af54f8..e899b31e1432 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -2329,6 +2329,13 @@ void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sense)
->>  		dw_hdmi_update_power(hdmi);
->>  		dw_hdmi_update_phy_mask(hdmi);
->>  	}
->> +	if (!hpd && !rx_sense) {
->> +		struct cec_notifier *notifier = READ_ONCE(hdmi->cec_notifier);
->> +
->> +		if (notifier)
->> +			cec_notifier_phys_addr_invalidate(notifier);
->> +	}
->> +
->>  	mutex_unlock(&hdmi->mutex);
->>  }
->>  EXPORT_SYMBOL_GPL(dw_hdmi_setup_rx_sense);
->> @@ -2369,14 +2376,6 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->>  		dw_hdmi_setup_rx_sense(hdmi,
->>  				       phy_stat & HDMI_PHY_HPD,
->>  				       phy_stat & HDMI_PHY_RX_SENSE);
->> -
->> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
->> -			struct cec_notifier *notifier;
->> -
->> -			notifier = READ_ONCE(hdmi->cec_notifier);
->> -			if (notifier)
->> -				cec_notifier_phys_addr_invalidate(notifier);
->> -		}
->>  	}
->>
->>  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
->>
-> 
-
+> Sakari Ailus
