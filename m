@@ -2,92 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69DFF8B1E9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 09:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22EA58B26E
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 10:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbfHMH7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 03:59:45 -0400
-Received: from mga05.intel.com ([192.55.52.43]:53078 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727451AbfHMH7o (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 03:59:44 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 00:59:44 -0700
-X-IronPort-AV: E=Sophos;i="5.64,380,1559545200"; 
-   d="scan'208";a="170323126"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 00:59:43 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 6D6942076C; Tue, 13 Aug 2019 10:58:34 +0300 (EEST)
-Date:   Tue, 13 Aug 2019 10:58:34 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Shawnx Tu <shawnx.tu@intel.com>
-Cc:     linux-media@vger.kernel.org, andy.yeh@intel.com
-Subject: Re: [PATCH v2] ov5675: Add support for OV5675 sensor
-Message-ID: <20190813075834.GB5329@paasikivi.fi.intel.com>
-References: <1565172476-3487-1-git-send-email-shawnx.tu@intel.com>
+        id S1727754AbfHMI3C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 04:29:02 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:50962 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725842AbfHMI3C (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 04:29:02 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7716B634C88;
+        Tue, 13 Aug 2019 11:28:53 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxSAm-0000dk-Pt; Tue, 13 Aug 2019 11:28:52 +0300
+Date:   Tue, 13 Aug 2019 11:28:52 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>, hverkuil@xs4all.nl,
+        linux-imx@nxp.com, linux-media@vger.kernel.org,
+        kernel@pengutronix.de, shawnguo@kernel.org, mchehab@kernel.org
+Subject: Re: [PATCH v3] media: imx: mipi csi-2: Don't fail if initial state
+ times-out
+Message-ID: <20190813082852.GE835@valkosipuli.retiisi.org.uk>
+References: <20190627222912.25485-1-festevam@gmail.com>
+ <1561963729.3753.5.camel@pengutronix.de>
+ <8b859fd7758c3f95b45b5b70909be0d2ae2e4f34.camel@collabora.com>
+ <20190807120626.GE822@valkosipuli.retiisi.org.uk>
+ <73d82df753e0579bd122dfaf9fa12ba8cad95d88.camel@collabora.com>
+ <20190808082605.GA917@valkosipuli.retiisi.org.uk>
+ <1565254405.3656.1.camel@pengutronix.de>
+ <e4b84958-28c7-1141-e34f-e1e3ad5b35db@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1565172476-3487-1-git-send-email-shawnx.tu@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e4b84958-28c7-1141-e34f-e1e3ad5b35db@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shawn,
+Hi Steve,
 
-On Wed, Aug 07, 2019 at 06:07:56PM +0800, Shawnx Tu wrote:
-> From: Shawn Tu <shawnx.tu@intel.com>
+On Thu, Aug 08, 2019 at 11:02:29AM -0700, Steve Longerbeam wrote:
 > 
-> Add a V4L2 sub-device driver for Omnivision ov5675 image sensor.
-> This is a camera sensor using the I2C bus for control and the
-> CSI-2 bus for data.
 > 
-> This driver supports following features:
-> - manual exposure and analog/digital gain control support
-> - vblank/hblank control support
-> - test pattern support
-> - media controller support
-> - runtime PM support
-> - support following resolutions:
->   + 2592x1944 at 30FPS
->   + 1296x972  at 30FPS
+> On 8/8/19 1:53 AM, Philipp Zabel wrote:
+> > Hi Sakari,
+> > 
+> > On Thu, 2019-08-08 at 11:26 +0300, Sakari Ailus wrote:
+> > [...]
+> > > > > Have you checked how it works if you simply leave out this test?
+> > Whether this works or not depends on the sensor used, and for some
+> > sensor/drivers may depend on timing (or random factors influencing it).
+> > See below.
+> > 
+> > [...]
+> > > Some devices can be commanded to enter LP-11 state but some will just
+> > > briefly visit that state. The LP-11 state is mandatory but software should
+> > > not be involved in detecting it if at all possible.
+> > This is a good point. Devices that can be set to LP-11 state
+> > immediately, but that don't stay there long enough (either because they
+> > wait for less than the required by spec 100µs, or because system load
+> > causes this check to be executed too late) may end up working reliably
+> > even though the warning fires.
 > 
-> Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
+> > > So if the hardware does not require further initialisation to be done in
+> > > LP-11 state, you should remove the check.
+> > > 
+> > > > We had to fix at least OV5645 and OV5640 recently because of this,
+> > > > and I can imagine more drivers will have the same issue.
+> > > This is actually an issue in the IMX driver (or hardware), not in the
+> > > sensor driver. It may be that sometimes it's easier to work around it in
+> > > the sensor driver.
+> > > 
+> > > So, I'd like to know whether the check itself is a driver bug, or something
+> > > that the hardware requires. The fact that you're sending this patch
+> > > suggests the former.
+> > This is something that the hardware requires, according to the reference
+> > manual. See the comment in drivers/staging/media/imx/imx6-mipi-csi2.c,
+> > especially step 5.:
+> > 
+> > /*
+> >   * The required sequence of MIPI CSI-2 startup as specified in the i.MX6
+> >   * reference manual is as follows:
+> >   *
+> >   * 1. Deassert presetn signal (global reset).
+> >   *        It's not clear what this "global reset" signal is (maybe APB
+> >   *        global reset), but in any case this step would be probably
+> >   *        be carried out during driver load in csi2_probe().
+> >   *
+> >   * 2. Configure MIPI Camera Sensor to put all Tx lanes in LP-11 state.
+> >   *        This must be carried out by the MIPI sensor's s_power(ON) subdev
+> >   *        op.
+> >   *
+> >   * 3. D-PHY initialization.
+> >   * 4. CSI2 Controller programming (Set N_LANES, deassert PHY_SHUTDOWNZ,
+> >   *    deassert PHY_RSTZ, deassert CSI2_RESETN).
+> >   * 5. Read the PHY status register (PHY_STATE) to confirm that all data and
+> >   *    clock lanes of the D-PHY are in LP-11 state.
+> >   * 6. Configure the MIPI Camera Sensor to start transmitting a clock on the
+> >   *    D-PHY clock lane.
+> >   * 7. CSI2 Controller programming - Read the PHY status register (PHY_STATE)
+> >   *    to confirm that the D-PHY is receiving a clock on the D-PHY clock lane.
+> >   */
+> > 
+> > I read this as the hardware needing to see the LP-11 -> HS transition
+> > after the DPHY reset has been released, and before the CSI2 RX
+> > controller is programmed.
+> 
+> I think that's a fair assumption, and there's another paragraph at the end
+> of that comment above that adds more evidence to that:
+> 
+> ...
+> * All steps 3 through 7 are carried out by csi2_s_stream(ON) here. Step
+> * 6 is accomplished by calling the source subdev's s_stream(ON) between
+> * steps 5 and 7.
+> */
+> 
+> 
+> So the driver is expecting that the LP-11 state persists until step 6, at
+> which the LP-11 -> HS transition occurs when streaming is started at the
+> transmitter.
+> 
+> But if the transmitter only stays in LP-11 state for the minimum 100 usec
+> after it is powered on, and then _automatically_ transitions to HS, it's
+> quite possible the LP-11 -> HS transition will happen long before the DPHY
+> is taken out of reset. That's because the transmitter's s_power(ON) is
+> called when the capture device is opened (via v4l2_pipeline_pm_use()), but
+> the steps above are carried out when streaming starts, so userland would
+> have to issue VIDIOC_STREAMON well within the 100 usec expires after
+> open()'ing the device, for the receiver hardware to see the transition.
 
-Applied, with the following diff (was over 80 characters per line):
+After powering on the sensor it sensor should stay in (software) standby
+mode until streaming is started. It should still have its lanes in LP-11
+mode if the sensor supports it (as documented) until the sensor switches to
+the streaming mode.
 
-diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-index a35b9fb8b908..81593aebf262 100644
---- a/drivers/media/i2c/ov5675.c
-+++ b/drivers/media/i2c/ov5675.c
-@@ -646,7 +646,8 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VBLANK:
- 		ret = ov5675_write_reg(ov5675, OV5675_REG_VTS,
- 				       OV5675_REG_VALUE_16BIT,
--				       ov5675->cur_mode->height + ctrl->val + 10);
-+				       ov5675->cur_mode->height + ctrl->val +
-+				       10);
- 		break;
- 
- 	case V4L2_CID_TEST_PATTERN:
-@@ -710,7 +711,8 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
- 	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
- 			  OV5675_DGTL_GAIN_MIN, OV5675_DGTL_GAIN_MAX,
- 			  OV5675_DGTL_GAIN_STEP, OV5675_DGTL_GAIN_DEFAULT);
--	exposure_max = (ov5675->cur_mode->vts_def - OV5675_EXPOSURE_MAX_MARGIN)/2;
-+	exposure_max = (ov5675->cur_mode->vts_def -
-+			OV5675_EXPOSURE_MAX_MARGIN) / 2;
- 	ov5675->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
- 					     V4L2_CID_EXPOSURE,
- 					     OV5675_EXPOSURE_MIN, exposure_max,
+> 
+> Perhaps that would be an argument for moving steps 1 - 5 into the driver's
+> s_power(ON) call, which would first call s_power(ON) to the transmitter and
+> then immediately go through steps 1 - 5. Steps 6,7 would then remain in
+> s_stream(ON).
 
+Not all sensor drivers power on the sensor before starting streaming.
+
+Perhaps we could add a prepare_streaming() callback (in absence of a better
+proposal) to address that? We'd also need a corresponding
+unprepare_streaming() callback as well --- to power off the sensor. I think
+this only should be done if the sensor can be switched to LP-11 explicitly;
+many simply don't support that.
 
 -- 
+Regards,
+
 Sakari Ailus
-sakari.ailus@linux.intel.com
