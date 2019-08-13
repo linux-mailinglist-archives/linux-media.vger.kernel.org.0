@@ -2,167 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32FAE8B74A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10FE88B754
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 13:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728069AbfHMLiG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 07:38:06 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:37339 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726600AbfHMLiF (ORCPT
+        id S1727485AbfHMLix (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 07:38:53 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:35580 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725953AbfHMLix (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 07:38:05 -0400
-Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xV7hhKyl4qTdhxV7lh9QWs; Tue, 13 Aug 2019 13:38:03 +0200
-Subject: Re: [PATCH v6 7/8] drm: dw-hdmi: use cec_notifier_conn_(un)register
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Cc:     Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20190813110300.83025-1-darekm@google.com>
- <20190813110300.83025-8-darekm@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <41c95313-fe39-b201-5238-24df7e72879a@xs4all.nl>
-Date:   Tue, 13 Aug 2019 13:37:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Tue, 13 Aug 2019 07:38:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=OhLDQQN+hbiEAG1TpQP8a/y4fpxqsnBJK9G3iQ2C2s4=; b=hR9C8SdbOHH8WqJOQWEwqSr9I
+        lwLZSuUVnKR8i72bzk8GJ87wf6D5jPsRm8eA88Skhp56CD9oCqXvvC7ed9eX0kBjNeOR52PaU749P
+        oofDaSOufoispmGRH8UprhrwSFfOakR0EJWiCgwg9BgNEsGKIWUmv0CHxNqsPu2ixQ+wuA7aQDJCf
+        AZ8EhtXC/8XV9OGEHWNz5tSohTsDaYmGbvTJIJPxr7cb7u7e8DWbvk8ciX5NR8wnxebry9pwuv7W3
+        ruzfmL+qbDeCKTpXkC9O8p1A0oyTqaS9KvxNRNwcoD28dpo7fOdWlXIyca66wqUQLDqglMufmZmut
+        pNT+hXJkg==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:44432)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1hxV8a-0008Tv-Jc; Tue, 13 Aug 2019 12:38:48 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1hxV8Y-0007T9-Pj; Tue, 13 Aug 2019 12:38:46 +0100
+Date:   Tue, 13 Aug 2019 12:38:46 +0100
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
+        c.barrett@framos.com, linux-kernel@vger.kernel.org,
+        a.brela@framos.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
+ binding
+Message-ID: <20190813113846.GG13294@shell.armlinux.org.uk>
+References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
+ <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190813110300.83025-8-darekm@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIBagj28XgFXymMISKdyrWMjFt9IjTRiBXHeYQ8i3w0U4Wmg+lnZ4GDTQICxwIRE85AT9cLb1gSIzU3XCyCFb06QnkcTTCxjaQdd9IIIDbMS7bs5/Seq
- 6wtzY0AoNHNv4XZ9VmC4qEaDiqB6IEjBr73ptDVWgMelCSl9YXJXPJMO0ivIG5B+CrTxcI74sSrvID5kdg2f3tMIENv57PbTFy18gzjJWLz8G69CYhaLdIJz
- gMo7szk+Ysud2+ULZN5BuGjhvxHqCqnMiZ16x26Rz8wqkJ0p/cfuKBvLRUYrcGOn9drZjQbC4+oqfiWwh8v0Lvjs3JaFCiCsoygSJQh5oMbS2ewOC0gZGHVt
- 0YESTERspXC9yG9j6vUXZ1TUnXIRm6tfqYNysThfBOgkTmKKaLe147ZJvmvPuR6PJH8sXGBX0mcmwtqs+IUyDjRYLoiAFuQ9JYadKltmz5Yhwca6jxnFEH3U
- U67fCyYxZK+6Pnl6kTZhZc4B+Q8g1stYW7QHS6V+mT0Z5YCwKrDhxjfoZrL/GmNGU7Q6W504ilzQ5oDoP103BJ4w5pT4uu3R/AIvZSJ35782yKdbmWgkCJuE
- X8lcNgQisp/ICI9RN+zYMhIHhskKnJQY5rqthEzspk/T/Y6zGuWxT0oHh4mWuC/g0Mkq6mKFAvRcwbQY8IY6faGxg/Xj8TlZtw63BtR/VMCeRA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/13/19 1:02 PM, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill in
-> the cec_connector_info.
-> 
-> Changes since v4:
-> 	- typo fix
-> Changes since v2:
-> 	- removed unnecessary NULL check before a call to
-> 	cec_notifier_conn_unregister,
-> 	- use cec_notifier_phys_addr_invalidate to invalidate physical
-> 	address.
-> Changes since v1:
-> 	Add memory barrier to make sure that the notifier
-> 	becomes visible to the irq thread once it is fully
-> 	constructed.
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 36 ++++++++++++++---------
->  1 file changed, 22 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 83b94b66e464e..c00184700bb9d 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2194,6 +2194,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->  	struct dw_hdmi *hdmi = bridge->driver_private;
->  	struct drm_encoder *encoder = bridge->encoder;
->  	struct drm_connector *connector = &hdmi->connector;
-> +	struct cec_connector_info conn_info;
-> +	struct cec_notifier *notifier;
->  
->  	connector->interlace_allowed = 1;
->  	connector->polled = DRM_CONNECTOR_POLL_HPD;
-> @@ -2207,6 +2209,18 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->  
->  	drm_connector_attach_encoder(connector, encoder);
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +	/*
-> +	 * Make sure that dw_hdmi_irq thread does see the notifier
-> +	 * when it fully constructed.
-> +	 */
-> +	smp_wmb();
-> +	hdmi->cec_notifier = notifier;
-> +
->  	return 0;
->  }
->  
-> @@ -2373,9 +2387,13 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->  				       phy_stat & HDMI_PHY_HPD,
->  				       phy_stat & HDMI_PHY_RX_SENSE);
->  
-> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0)
-> -			cec_notifier_set_phys_addr(hdmi->cec_notifier,
-> -						   CEC_PHYS_ADDR_INVALID);
-> +		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
-> +			struct cec_notifier *notifier;
-> +
-> +			notifier = READ_ONCE(hdmi->cec_notifier);
-> +			if (notifier)
-> +				cec_notifier_phys_addr_invalidate(notifier);
-> +		}
->  	}
->  
->  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> @@ -2693,12 +2711,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  	if (ret)
->  		goto err_iahb;
->  
-> -	hdmi->cec_notifier = cec_notifier_get(dev);
-> -	if (!hdmi->cec_notifier) {
-> -		ret = -ENOMEM;
-> -		goto err_iahb;
-> -	}
-> -
->  	/*
->  	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
->  	 * N and cts values before enabling phy
-> @@ -2796,9 +2808,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  		hdmi->ddc = NULL;
->  	}
->  
-> -	if (hdmi->cec_notifier)
-> -		cec_notifier_put(hdmi->cec_notifier);
-> -
->  	clk_disable_unprepare(hdmi->iahb_clk);
->  	if (hdmi->cec_clk)
->  		clk_disable_unprepare(hdmi->cec_clk);
-> @@ -2820,8 +2829,7 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
->  	/* Disable all interrupts */
->  	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
->  
-> -	if (hdmi->cec_notifier)
-> -		cec_notifier_put(hdmi->cec_notifier);
-> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
+On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
+> +Required Properties:
+> +- compatible: Should be "sony,imx290"
+> +- reg: I2C bus address of the device
+> +- clocks: Reference to the xclk clock.
+> +- clock-names: Should be "xclk".
+> +- clock-frequency: Frequency of the xclk clock.
 
-Russell's review caused me to take another look at this series, and it made
-wonder if cec_notifier_conn_unregister() shouldn't be called from bridge_detach?
+Driver code:
 
-Regards,
++       ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);+       if (ret) {
++               dev_err(dev, "Could not get xclk frequency\n");
++               return ret;
++       }
++
++       /* external clock must be 37.125 MHz */
++       if (xclk_freq != 37125000) {
++               dev_err(dev, "External clock frequency %u is not supported\n",
++                       xclk_freq);
++               return -EINVAL;
++       }
 
-	Hans
+So, only 37125000 is supported - is that not worth mentioning in this
+description?  Is this a hard requirement of the sensor?  If so, why
+does it need to be mentioned in the DT binding?
 
->  
->  	clk_disable_unprepare(hdmi->iahb_clk);
->  	clk_disable_unprepare(hdmi->isfr_clk);
-> 
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
