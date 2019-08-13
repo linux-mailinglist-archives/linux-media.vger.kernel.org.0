@@ -2,33 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D47EB8B8AC
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9358B8F4
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:45:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728256AbfHMMhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:37:36 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:51065 "EHLO www.linuxtv.org"
+        id S1728347AbfHMMpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:45:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727763AbfHMMhg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:37:36 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hxW3M-0005NM-Dm; Tue, 13 Aug 2019 12:37:28 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hxW3M-0004Az-6L; Tue, 13 Aug 2019 12:37:28 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.4] Fixes and i2c conversions
-Date:   Tue, 13 Aug 2019 12:37:27 +0000
-Message-Id: <20190813123727.16011-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <0ce80e1f-46c1-6184-b0c1-fc99d0908725@xs4all.nl>
-References: 
+        id S1727837AbfHMMpT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 08:45:19 -0400
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0BE3420578;
+        Tue, 13 Aug 2019 12:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565700317;
+        bh=FzwT+sjrRLea54kpZg9iDgfR61NECkEJeil7Chk4M/M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tmaf5sUHAFGn2sHD0m/c5dA+mO4RumDrZmUrOms90i0tdhOfxxLIU/8i7yFEVDfcc
+         6a7Z7L31veLKMK2lv4rKL+7VhCAZQdxgdU57BtilrpfvauTXwNpRgqYv+rN7QqICDa
+         uz8k2G49wBtMEBOUDJtU/Y1DRG4QznxLh3tFreG8=
+From:   Maxime Ripard <mripard@kernel.org>
+To:     mchehab@kernel.org, sean@mess.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: [PATCH 1/2] dt-bindings: media: Add YAML schemas for the generic RC bindings
+Date:   Tue, 13 Aug 2019 14:45:12 +0200
+Message-Id: <20190813124513.31413-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,58 +44,282 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+From: Maxime Ripard <maxime.ripard@bootlin.com>
 
-Pull request: https://patchwork.linuxtv.org/patch/58111/
-Build log: https://builder.linuxtv.org/job/patchwork/7830/
-Build time: 00:13:54
-Link: https://lore.kernel.org/linux-media/0ce80e1f-46c1-6184-b0c1-fc99d0908725@xs4all.nl
-Summary: 12 issues, being 0 build regressions
+The RC controllers have a bunch of generic properties that are needed in a
+device tree. Add a YAML schemas for those.
 
-Error/warnings:
+Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+---
+ .../devicetree/bindings/media/rc.txt          | 118 +--------------
+ .../devicetree/bindings/media/rc.yaml         | 135 ++++++++++++++++++
+ 2 files changed, 136 insertions(+), 117 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
 
-patches/0004-media-dvb-frontends-cxd2820r_core-convert-to-i2c_new.patch:26: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-dvb-frontends-cxd2820r_core-convert-to-i2c_new.patch
-patches/0005-media-dvb-frontends-mn88443x-convert-to-i2c_new_dumm.patch:26: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-dvb-frontends-mn88443x-convert-to-i2c_new_dumm.patch
-patches/0008-media-i2c-ad9389b-convert-to-i2c_new_dummy_device.patch:25: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-i2c-ad9389b-convert-to-i2c_new_dummy_device.patch
-patches/0009-media-i2c-adv7180-convert-to-i2c_new_dummy_device.patch:25: CHECK: Alignment should match open parenthesis
-patches/0009-media-i2c-adv7180-convert-to-i2c_new_dummy_device.patch:35: CHECK: Alignment should match open parenthesis
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-media-i2c-adv7180-convert-to-i2c_new_dummy_device.patch
-patches/0010-media-i2c-adv7511-v4l2-convert-to-i2c_new_dummy_devi.patch:25: CHECK: Alignment should match open parenthesis
-patches/0010-media-i2c-adv7511-v4l2-convert-to-i2c_new_dummy_devi.patch:40: CHECK: Alignment should match open parenthesis
-patches/0010-media-i2c-adv7511-v4l2-convert-to-i2c_new_dummy_devi.patch:55: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-i2c-adv7511-v4l2-convert-to-i2c_new_dummy_devi.patch
-patches/0022-media-i2c-adv748x-Convert-to-new-i2c-device-probe.patch:10: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0022-media-i2c-adv748x-Convert-to-new-i2c-device-probe.patch
-patches/0023-media-radio-si4713-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-patches/0023-media-radio-si4713-Convert-to-new-i2c-device-probe.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0023-media-radio-si4713-Convert-to-new-i2c-device-probe.patch
-patches/0024-media-radio-si470x-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-patches/0024-media-radio-si470x-Convert-to-new-i2c-device-probe.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0024-media-radio-si470x-Convert-to-new-i2c-device-probe.patch
-patches/0025-media-i2c-smiapp-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-patches/0025-media-i2c-smiapp-Convert-to-new-i2c-device-probe.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0025-media-i2c-smiapp-Convert-to-new-i2c-device-probe.patch
-patches/0026-media-i2c-s5c73m3-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-patches/0026-media-i2c-s5c73m3-Convert-to-new-i2c-device-probe.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0026-media-i2c-s5c73m3-Convert-to-new-i2c-device-probe.patch
-patches/0027-media-i2c-et8ek8-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-patches/0027-media-i2c-et8ek8-Convert-to-new-i2c-device-probe.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0027-media-i2c-et8ek8-Convert-to-new-i2c-device-probe.patch
-patches/0028-media-i2c-Convert-to-new-i2c-device-probe.patch:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")'
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0028-media-i2c-Convert-to-new-i2c-device-probe.patch
+diff --git a/Documentation/devicetree/bindings/media/rc.txt b/Documentation/devicetree/bindings/media/rc.txt
+index d3e7a012bfda..be629f7fa77e 100644
+--- a/Documentation/devicetree/bindings/media/rc.txt
++++ b/Documentation/devicetree/bindings/media/rc.txt
+@@ -1,117 +1 @@
+-The following properties are common to the infrared remote controllers:
+-
+-- linux,rc-map-name: string, specifies the scancode/key mapping table
+-  defined in-kernel for the remote controller. Support values are:
+-  * "rc-adstech-dvb-t-pci"
+-  * "rc-alink-dtu-m"
+-  * "rc-anysee"
+-  * "rc-apac-viewcomp"
+-  * "rc-asus-pc39"
+-  * "rc-asus-ps3-100"
+-  * "rc-ati-tv-wonder-hd-600"
+-  * "rc-ati-x10"
+-  * "rc-avermedia-a16d"
+-  * "rc-avermedia-cardbus"
+-  * "rc-avermedia-dvbt"
+-  * "rc-avermedia-m135a"
+-  * "rc-avermedia-m733a-rm-k6"
+-  * "rc-avermedia-rm-ks"
+-  * "rc-avermedia"
+-  * "rc-avertv-303"
+-  * "rc-azurewave-ad-tu700"
+-  * "rc-behold-columbus"
+-  * "rc-behold"
+-  * "rc-budget-ci-old"
+-  * "rc-cec"
+-  * "rc-cinergy-1400"
+-  * "rc-cinergy"
+-  * "rc-delock-61959"
+-  * "rc-dib0700-nec"
+-  * "rc-dib0700-rc5"
+-  * "rc-digitalnow-tinytwin"
+-  * "rc-digittrade"
+-  * "rc-dm1105-nec"
+-  * "rc-dntv-live-dvbt-pro"
+-  * "rc-dntv-live-dvb-t"
+-  * "rc-dtt200u"
+-  * "rc-dvbsky"
+-  * "rc-empty"
+-  * "rc-em-terratec"
+-  * "rc-encore-enltv2"
+-  * "rc-encore-enltv-fm53"
+-  * "rc-encore-enltv"
+-  * "rc-evga-indtube"
+-  * "rc-eztv"
+-  * "rc-flydvb"
+-  * "rc-flyvideo"
+-  * "rc-fusionhdtv-mce"
+-  * "rc-gadmei-rm008z"
+-  * "rc-geekbox"
+-  * "rc-genius-tvgo-a11mce"
+-  * "rc-gotview7135"
+-  * "rc-hauppauge"
+-  * "rc-imon-mce"
+-  * "rc-imon-pad"
+-  * "rc-iodata-bctv7e"
+-  * "rc-it913x-v1"
+-  * "rc-it913x-v2"
+-  * "rc-kaiomy"
+-  * "rc-kworld-315u"
+-  * "rc-kworld-pc150u"
+-  * "rc-kworld-plus-tv-analog"
+-  * "rc-leadtek-y04g0051"
+-  * "rc-lirc"
+-  * "rc-lme2510"
+-  * "rc-manli"
+-  * "rc-medion-x10"
+-  * "rc-medion-x10-digitainer"
+-  * "rc-medion-x10-or2x"
+-  * "rc-msi-digivox-ii"
+-  * "rc-msi-digivox-iii"
+-  * "rc-msi-tvanywhere-plus"
+-  * "rc-msi-tvanywhere"
+-  * "rc-nebula"
+-  * "rc-nec-terratec-cinergy-xs"
+-  * "rc-norwood"
+-  * "rc-npgtech"
+-  * "rc-pctv-sedna"
+-  * "rc-pinnacle-color"
+-  * "rc-pinnacle-grey"
+-  * "rc-pinnacle-pctv-hd"
+-  * "rc-pixelview-new"
+-  * "rc-pixelview"
+-  * "rc-pixelview-002t"
+-  * "rc-pixelview-mk12"
+-  * "rc-powercolor-real-angel"
+-  * "rc-proteus-2309"
+-  * "rc-purpletv"
+-  * "rc-pv951"
+-  * "rc-hauppauge"
+-  * "rc-rc5-tv"
+-  * "rc-rc6-mce"
+-  * "rc-real-audio-220-32-keys"
+-  * "rc-reddo"
+-  * "rc-snapstream-firefly"
+-  * "rc-streamzap"
+-  * "rc-tbs-nec"
+-  * "rc-technisat-ts35"
+-  * "rc-technisat-usb2"
+-  * "rc-terratec-cinergy-c-pci"
+-  * "rc-terratec-cinergy-s2-hd"
+-  * "rc-terratec-cinergy-xs"
+-  * "rc-terratec-slim"
+-  * "rc-terratec-slim-2"
+-  * "rc-tevii-nec"
+-  * "rc-tivo"
+-  * "rc-total-media-in-hand"
+-  * "rc-total-media-in-hand-02"
+-  * "rc-trekstor"
+-  * "rc-tt-1500"
+-  * "rc-twinhan-dtv-cab-ci"
+-  * "rc-twinhan1027"
+-  * "rc-videomate-k100"
+-  * "rc-videomate-s350"
+-  * "rc-videomate-tv-pvr"
+-  * "rc-winfast"
+-  * "rc-winfast-usbii-deluxe"
+-  * "rc-su3000"
++This file has been moved to rc.yaml.
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+new file mode 100644
+index 000000000000..19b28e7edf9c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -0,0 +1,135 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/rc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Generic Infrared Remote Controller Device Tree Bindings
++
++maintainers:
++  - Mauro Carvalho Chehab <mchehab@kernel.org>
++  - Sean Young <sean@mess.org>
++
++properties:
++  $nodename:
++    pattern: "^ir(@[a-f0-9]+)?$"
++
++  linux,rc-map-name:
++    description:
++      Specifies the scancode/key mapping table defined in-kernel for
++      the remote controller.
++    allOf:
++      - $ref: '/schemas/types.yaml#/definitions/string'
++      - enum:
++          - rc-adstech-dvb-t-pci
++          - rc-alink-dtu-m
++          - rc-anysee
++          - rc-apac-viewcomp
++          - rc-asus-pc39
++          - rc-asus-ps3-100
++          - rc-ati-tv-wonder-hd-600
++          - rc-ati-x10
++          - rc-avermedia
++          - rc-avermedia-a16d
++          - rc-avermedia-cardbus
++          - rc-avermedia-dvbt
++          - rc-avermedia-m135a
++          - rc-avermedia-m733a-rm-k6
++          - rc-avermedia-rm-ks
++          - rc-avertv-303
++          - rc-azurewave-ad-tu700
++          - rc-behold
++          - rc-behold-columbus
++          - rc-budget-ci-old
++          - rc-cec
++          - rc-cinergy
++          - rc-cinergy-1400
++          - rc-delock-61959
++          - rc-dib0700-nec
++          - rc-dib0700-rc5
++          - rc-digitalnow-tinytwin
++          - rc-digittrade
++          - rc-dm1105-nec
++          - rc-dntv-live-dvb-t
++          - rc-dntv-live-dvbt-pro
++          - rc-dtt200u
++          - rc-dvbsky
++          - rc-em-terratec
++          - rc-empty
++          - rc-encore-enltv
++          - rc-encore-enltv-fm53
++          - rc-encore-enltv2
++          - rc-evga-indtube
++          - rc-eztv
++          - rc-flydvb
++          - rc-flyvideo
++          - rc-fusionhdtv-mce
++          - rc-gadmei-rm008z
++          - rc-geekbox
++          - rc-genius-tvgo-a11mce
++          - rc-gotview7135
++          - rc-hauppauge
++          - rc-imon-mce
++          - rc-imon-pad
++          - rc-iodata-bctv7e
++          - rc-it913x-v1
++          - rc-it913x-v2
++          - rc-kaiomy
++          - rc-kworld-315u
++          - rc-kworld-pc150u
++          - rc-kworld-plus-tv-analog
++          - rc-leadtek-y04g0051
++          - rc-lirc
++          - rc-lme2510
++          - rc-manli
++          - rc-medion-x10
++          - rc-medion-x10-digitainer
++          - rc-medion-x10-or2x
++          - rc-msi-digivox-ii
++          - rc-msi-digivox-iii
++          - rc-msi-tvanywhere
++          - rc-msi-tvanywhere-plus
++          - rc-nebula
++          - rc-nec-terratec-cinergy-xs
++          - rc-norwood
++          - rc-npgtech
++          - rc-pctv-sedna
++          - rc-pinnacle-color
++          - rc-pinnacle-grey
++          - rc-pinnacle-pctv-hd
++          - rc-pixelview
++          - rc-pixelview-002t
++          - rc-pixelview-mk12
++          - rc-pixelview-new
++          - rc-powercolor-real-angel
++          - rc-proteus-2309
++          - rc-purpletv
++          - rc-pv951
++          - rc-rc5-tv
++          - rc-rc6-mce
++          - rc-real-audio-220-32-keys
++          - rc-reddo
++          - rc-snapstream-firefly
++          - rc-streamzap
++          - rc-su3000
++          - rc-tbs-nec
++          - rc-technisat-ts35
++          - rc-technisat-usb2
++          - rc-terratec-cinergy-c-pci
++          - rc-terratec-cinergy-s2-hd
++          - rc-terratec-cinergy-xs
++          - rc-terratec-slim
++          - rc-terratec-slim-2
++          - rc-tevii-nec
++          - rc-tivo
++          - rc-total-media-in-hand
++          - rc-total-media-in-hand-02
++          - rc-trekstor
++          - rc-tt-1500
++          - rc-twinhan-dtv-cab-ci
++          - rc-twinhan1027
++          - rc-videomate-k100
++          - rc-videomate-s350
++          - rc-videomate-tv-pvr
++          - rc-winfast
++          - rc-winfast-usbii-deluxe
+-- 
+2.21.0
 
