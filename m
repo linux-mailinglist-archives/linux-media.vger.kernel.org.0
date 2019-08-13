@@ -2,92 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 254828B831
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8A58B875
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:21:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfHMMQK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:16:10 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46639 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726974AbfHMMQK (ORCPT
+        id S1726866AbfHMMV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:21:58 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50867 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726453AbfHMMV6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:16:10 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q139so3221446pfc.13
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:16:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HVlLJiIzjaXDxFFkRwCgsS9CVo3aI/KKzGwIYcEyzZU=;
-        b=XNUFdEtT15n7SWbDoymnDWB6S1FHl3jTRMDvFq1tpn+deX4cDMtdSaifhruzfd5utA
-         Zm6EOCAz2i2aXTj/LvosazkuB1chumYOVHkJVyOztRrzdHDgtxXKQsag4uSefxubT8x+
-         x8F9fAzkGkBc7u9QgBuN/hq7bzEW/tmUINBC0DuoIUPEe455xY7RjQ2NFB3+cTbPFKny
-         eYCN6EhLj+4oY6s+oDAWKtGbhZo4r+HhznjjdW37EgA0ODTPkQnXJkWn5QB6sCpwgMb9
-         3jfjohhGwfSx4Y7y23bjrgF8Dgs8wqn4QCUrhRRoUK+AqAEGBXjikFMhsCwTCF9uuNa7
-         1VnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HVlLJiIzjaXDxFFkRwCgsS9CVo3aI/KKzGwIYcEyzZU=;
-        b=p0ebFLwrbQKe94cpdw4ExFgI66v++wFu8P0dQ8Khmg3VmKs4vtvvc6uXVGBQCd4un7
-         vcKbZkjxi0SpAErRMAEHYtV8MypGtHl3gXg+t7mk1R9QXkFFIKBYxqSE5iGa+MOgMrKW
-         4cTLdkVenxqPHZop4NK0e3eaRnTJCbHX7vZ9A/K/KNBmGkSdfnjXI59a+X7MYd/Y68lz
-         3qcIUxQMqS54Lq4ocoWc0UUkK6BjBxaWPAQQX7pYq0yKfmnlQCDELJUEitjq2m709JuJ
-         RJcXuN+E8TXcx95ZGZtR2JLAH/n6loueXqSU4wUhr7Ctqxj2ruRm/25CVVwePLWdXKGx
-         SuUg==
-X-Gm-Message-State: APjAAAUePKKHnfFsbcNVP6SXccYn2UUprIkZ77wIyjy/fhlq4a146I8I
-        J5KkdYMLaJHtV6Hn08jCHevQ
-X-Google-Smtp-Source: APXvYqyqBDGNMo4tLSC5P2L0ZMq6zP+MdPBF4+rrYMx7vSuFUW2VLy1NayISlC8n8x8eROfvPHOiTw==
-X-Received: by 2002:a17:90a:fe07:: with SMTP id ck7mr1936580pjb.68.1565698569207;
-        Tue, 13 Aug 2019 05:16:09 -0700 (PDT)
-Received: from Mani-XPS-13-9360 ([2409:4072:649c:6ce0:9d44:669c:5d6c:bc5f])
-        by smtp.gmail.com with ESMTPSA id o24sm200027991pfp.135.2019.08.13.05.16.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Aug 2019 05:16:08 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 17:46:01 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: Add IMX290 CMOS sensor
- binding
-Message-ID: <20190813121601.GB29378@Mani-XPS-13-9360>
-References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
- <20190806130938.19916-2-manivannan.sadhasivam@linaro.org>
- <20190813115427.GC2527@valkosipuli.retiisi.org.uk>
+        Tue, 13 Aug 2019 08:21:58 -0400
+Received: from [IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531] ([IPv6:2001:420:44c1:2579:155e:93d7:78eb:5531])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xVoFhLI2vqTdhxVoKh9duu; Tue, 13 Aug 2019 14:21:56 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Fuqian Huang <huangfq.daxian@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v5.4] Fixes and i2c conversions
+Message-ID: <0ce80e1f-46c1-6184-b0c1-fc99d0908725@xs4all.nl>
+Date:   Tue, 13 Aug 2019 14:21:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813115427.GC2527@valkosipuli.retiisi.org.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIAW6dZ5nZfbwByQJJVexxOLIkJO9Wly4Bh32azDLK9vQr/v1/v3WzbXKwb2ZcK+gBulkCF+i3M6OEHAhKkSAH6QTn0OszcavG3lL8Oqnq2uHVTGrZ9f
+ 4RSfv75E9QAgB8D6MGqWwJN0KBGzPBznu3pBJHLZDwm78RkrheN7wvg612+OatwU53YoIDKbRArIU/lazgDMYh6A+DY8DdS1LFzRDKb9/ozRtXgRmz5+Y+Ii
+ 1tyejIH4wbO/lGstnyUrQprUHYk/XHZL0aVZTYc88e5FLRRtmx5Xg2Qyh3L+BfYBy3dL48TZiDDNmJyp2uWJ7PzoB/hXkhgErZVn+CPvbDidtSAY/7fnN3U/
+ aipwwkaf8d/RootzNyNZMYVn1g4xX7EW3DlhtQWQBXuZCezCjXZNrM8ySco/jUSAaW5yl9Xli6xf0FStBXZAgbSVEw1lGQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 02:54:27PM +0300, Sakari Ailus wrote:
-> On Tue, Aug 06, 2019 at 06:39:36PM +0530, Manivannan Sadhasivam wrote:
-> ...
-> > +Required Properties:
-> > +- compatible: Should be "sony,imx290"
-> > +- reg: I2C bus address of the device
-> > +- clocks: Reference to the xclk clock.
-> > +- clock-names: Should be "xclk".
-> > +- clock-frequency: Frequency of the xclk clock.
-> > +- vdddo-supply: Sensor digital IO regulator.
-> > +- vdda-supply: Sensor analog regulator.
-> > +- vddd-supply: Sensor digital core regulator.
-> 
-> Could you also add the link-frequencies property, please?
-> 
+The following changes since commit ae27c563a6185d47a904c2d71b72580266cb9d86:
 
-Sure, will do.
+  Merge tag 'v5.3-rc4' into patchwork (2019-08-12 13:22:54 -0300)
 
-Thanks,
-Mani
+are available in the Git repository at:
 
-> -- 
-> Sakari Ailus
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4k
+
+for you to fetch changes up to dbffad6384421cc9dfee27ab6a922ec14ba9ae9a:
+
+  MAINTAINERS: Remove zoran driver (2019-08-13 13:59:04 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Denis Efremov (2):
+      MAINTAINERS: hantro: Fix typo in a filepath
+      MAINTAINERS: Remove zoran driver
+
+Fuqian Huang (3):
+      media: pvrusb2: use kzalloc instead of kmalloc and memset
+      media: ngene: Remove call to memset after pci_alloc_consistent
+      media: exynos4-is: Remove call to memset after dma_alloc_coherent
+
+Geert Uytterhoeven (1):
+      media: fdp1: Reduce FCP not found message level to debug
+
+Jernej Skrabec (2):
+      media: cedrus: Remove dst_bufs from context
+      media: cedrus: Don't set chroma size for scale & rotation
+
+Kieran Bingham (7):
+      media: i2c: adv748x: Convert to new i2c device probe()
+      media: radio: si4713: Convert to new i2c device probe()
+      media: radio: si470x: Convert to new i2c device probe()
+      media: i2c: smiapp: Convert to new i2c device probe()
+      media: i2c: s5c73m3: Convert to new i2c device probe()
+      media: i2c: et8ek8: Convert to new i2c device probe()
+      media: i2c: Convert to new i2c device probe()
+
+Matthias Brugger (1):
+      media: mtk-mdp: fix reference count on old device tree
+
+Nishka Dasgupta (2):
+      media: platform: mtk-mdp: mtk_mdp_core: Add of_node_put() before goto
+      media: i2c: tvp5150: Add of_node_put() before goto
+
+Wolfram Sang (14):
+      media: dvb-frontends: cxd2820r_core: convert to i2c_new_dummy_device
+      media: dvb-frontends: mn88443x: convert to i2c_new_dummy_device
+      media: dvb-frontends: mn88472: convert to i2c_new_dummy_device
+      media: dvb-frontends: mn88473: convert to i2c_new_dummy_device
+      media: i2c: ad9389b: convert to i2c_new_dummy_device
+      media: i2c: adv7180: convert to i2c_new_dummy_device
+      media: i2c: adv7511-v4l2: convert to i2c_new_dummy_device
+      media: usb: go7007: s2250-board: convert to i2c_new_dummy_device
+      media: i2c: tda1997x: prevent potential NULL pointer access
+      media: i2c: adv7842: convert to i2c_new_dummy_device
+      media: cxd2820r: don't check retval after our own assignemt
+      media: mn88472: don't check retval after our own assignemt
+      media: mn88473: don't check retval after our own assignemt
+      media: zd1301_demod: don't check retval after our own assignemt
+
+ MAINTAINERS                                       | 10 +---------
+ drivers/media/dvb-frontends/cxd2820r_core.c       |  9 ++++-----
+ drivers/media/dvb-frontends/mn88443x.c            |  6 +++---
+ drivers/media/dvb-frontends/mn88472.c             | 18 ++++++++----------
+ drivers/media/dvb-frontends/mn88473.c             | 18 ++++++++----------
+ drivers/media/dvb-frontends/zd1301_demod.c        |  3 +--
+ drivers/media/i2c/ad9389b.c                       |  6 +++---
+ drivers/media/i2c/adv7180.c                       | 12 ++++++------
+ drivers/media/i2c/adv7343.c                       |  5 ++---
+ drivers/media/i2c/adv748x/adv748x-core.c          | 13 ++-----------
+ drivers/media/i2c/adv7511-v4l2.c                  | 18 +++++++++---------
+ drivers/media/i2c/adv7842.c                       |  9 ++++++---
+ drivers/media/i2c/et8ek8/et8ek8_driver.c          |  5 ++---
+ drivers/media/i2c/imx274.c                        |  5 ++---
+ drivers/media/i2c/max2175.c                       |  5 ++---
+ drivers/media/i2c/mt9m001.c                       |  5 ++---
+ drivers/media/i2c/mt9m111.c                       |  5 ++---
+ drivers/media/i2c/ov2640.c                        |  5 ++---
+ drivers/media/i2c/ov2659.c                        |  5 ++---
+ drivers/media/i2c/ov5640.c                        |  5 ++---
+ drivers/media/i2c/ov5645.c                        |  5 ++---
+ drivers/media/i2c/ov5647.c                        |  5 ++---
+ drivers/media/i2c/ov772x.c                        |  5 ++---
+ drivers/media/i2c/ov7740.c                        |  5 ++---
+ drivers/media/i2c/ov9650.c                        |  5 ++---
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c          |  5 ++---
+ drivers/media/i2c/s5k5baf.c                       |  5 ++---
+ drivers/media/i2c/s5k6a3.c                        |  5 ++---
+ drivers/media/i2c/smiapp/smiapp-core.c            |  5 ++---
+ drivers/media/i2c/tc358743.c                      |  5 ++---
+ drivers/media/i2c/tda1997x.c                      |  9 +++++++--
+ drivers/media/i2c/ths8200.c                       |  5 ++---
+ drivers/media/i2c/tvp5150.c                       |  9 ++++++---
+ drivers/media/i2c/tvp7002.c                       |  4 ++--
+ drivers/media/pci/ngene/ngene-core.c              |  4 ----
+ drivers/media/platform/exynos4-is/fimc-is.c       |  1 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c     |  9 +++++++--
+ drivers/media/platform/rcar_fdp1.c                |  2 +-
+ drivers/media/radio/si470x/radio-si470x-i2c.c     |  5 ++---
+ drivers/media/radio/si4713/si4713.c               |  5 ++---
+ drivers/media/usb/go7007/s2250-board.c            |  6 +++---
+ drivers/media/usb/pvrusb2/pvrusb2-eeprom.c        |  3 +--
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c           |  3 +--
+ drivers/staging/media/sunxi/cedrus/cedrus.h       |  4 +---
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c  |  4 ++--
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c    |  3 ---
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 22 ----------------------
+ 47 files changed, 126 insertions(+), 189 deletions(-)
