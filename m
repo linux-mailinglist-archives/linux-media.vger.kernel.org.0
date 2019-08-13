@@ -2,374 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99F258B882
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8D818B887
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 14:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbfHMMZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 08:25:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40848 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726802AbfHMMZM (ORCPT
+        id S1727860AbfHMM2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 08:28:16 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43344 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727738AbfHMM2P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:25:12 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id B63E128A87E
-Subject: Re: [PATCH 0/3] Collapse vimc into single monolithic driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@collabora.com>,
-        mchehab@kernel.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        kernel@collabora.com
-References: <cover.1565386363.git.skhan@linuxfoundation.org>
- <3118bc46-14ac-8015-9a6c-a8dfcdcea940@collabora.com>
- <4e9b8eb3-23c5-62ea-07dc-b51acb238dee@linuxfoundation.org>
- <15badf5e-49fa-7fbe-de6b-296e9a7f5cd9@collabora.com>
- <e21d38a5-4fcd-7b02-f5f2-e445c280f769@collabora.com>
- <2ee23903-8e99-a0a0-619a-be5bdaa71802@linuxfoundation.org>
- <374574f2-0ecd-723a-4a66-c190332aaa04@collabora.com>
- <737dbfd4-8e86-289b-1827-736e3d6ffff5@linuxfoundation.org>
- <03b51b1e-3d78-72e6-3b3e-210b4411c897@linuxfoundation.org>
- <e81df4a5-2393-e341-258c-abf55babe519@collabora.com>
- <20190813095654.GA5009@pendragon.ideasonboard.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <a0fa05d7-5fc2-071a-f5ab-788662ecc6b2@collabora.com>
-Date:   Tue, 13 Aug 2019 09:25:01 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Tue, 13 Aug 2019 08:28:15 -0400
+Received: by mail-pf1-f193.google.com with SMTP id v12so3743193pfn.10
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2019 05:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o4jG5xUhAUJZtV3VJiJndVYqDs9JDKOuEWpeDm9O5bE=;
+        b=SZWKgi+GtqLEMCmB2uAgjZbHFJfbEhWmi0vz/nUZ9UwbS/lkjG2cnMve4ql4ukoLIS
+         GLd3QccUV6PJzEoDoL8YkK3teNF6XW70PIdvYBYeWC5LMhBhGKT7oCne/XgoT2ZdI6Hg
+         2wSjP3i1urjij/pSgKTRe+xKnitMjGLxTZic2egHHfuFbaa3W24dMFa/jpLgY72cYE7r
+         kKS5vPI7L/aK9ToW617/GxRZnJ+vQVqu4N7UadHB4zpzZg0JOCf1lbSviXpWVYN7v0IB
+         /WTE0FFH+9Bg7CfOYjFM8ImIFGMd26ZelSelBLDuM0XE9I592d0AYJDXkUB9CeC7QYVP
+         Wr6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o4jG5xUhAUJZtV3VJiJndVYqDs9JDKOuEWpeDm9O5bE=;
+        b=MOL1/TriBRjMoKQ3KDBkgtLuLNo+ri80/vt1MwhfHdTTRCMsc8USeHg8lmeBiuFfT8
+         AuZealRr5CkhZbNoLPf5tOc80hoamETJ0lxsoA7hAWue4M+VN2HooaW1EZb/yhNyIxi4
+         wT8Zxv+suft3qeu6Sn0CBIqDTKWGZkHEz21kKoJOJWVXSWqN38/6WEGego8aoqgmoghO
+         4vvxNDk9C7JTpjwIUaJL0izpOJ5+M4zmQ5iL3cWKk3/X9TKJnPgGgD2Pc4/iaExCR/o2
+         FrDR57uMDc/gqDdkAUS5qk/Ggx9NKEJl0G3r1PrUX5Xcj2zKLUIlc0ZMuEKw94e2r6/v
+         xvTQ==
+X-Gm-Message-State: APjAAAX0YnFY7GdIpfqLvg3UyzYsHYpb7UBx7r3VztxH9LrmwLlzm01M
+        BOjxYCSofX8w7sgV+Rs5i2fkwj+m4EHN1u+HLV421A==
+X-Google-Smtp-Source: APXvYqxIB2bWV/Z2kD1G5C2XJ1KyB1ofIYU0nvkAABlDU3pdmkMcBP8meCnmXxavPJ2mncL2fdoIkJVoE1x531NSB2M=
+X-Received: by 2002:aa7:9790:: with SMTP id o16mr3598839pfp.51.1565699294597;
+ Tue, 13 Aug 2019 05:28:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190813095654.GA5009@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <00000000000014c6b305868311d3@google.com>
+In-Reply-To: <00000000000014c6b305868311d3@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 13 Aug 2019 14:28:03 +0200
+Message-ID: <CAAeHK+y4RwTg+ozvgYmFjjaBAr3+UfN5V+rVHakcMaeR8BHquQ@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in __video_do_ioctl
+To:     syzbot <syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com>
+Cc:     ezequiel@collabora.com, Hans Verkuil <hans.verkuil@cisco.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        paul.kocialkowski@bootlin.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sun, Apr 14, 2019 at 10:06 PM syzbot
+<syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot found the following crash on:
+>
+> HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1317cedd200000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> dashboard link: https://syzkaller.appspot.com/bug?extid=5b7575b3f6820232e17c
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>
+> Unfortunately, I don't have any reproducer for this crash yet.
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com
+>
+> radio-raremono 6-1:0.210: raremono_cmd_main failed (-71)
+> radio-raremono 6-1:0.210: V4L2 device registered as radio32
+> usb 6-1: USB disconnect, device number 119
+> radio-raremono 6-1:0.210: Thanko's Raremono disconnected
+> ==================================================================
+> BUG: KASAN: use-after-free in __mutex_lock_common
+> kernel/locking/mutex.c:1009 [inline]
+> BUG: KASAN: use-after-free in __mutex_lock+0x11ad/0x12b0
+> kernel/locking/mutex.c:1072
+> Read of size 8 at addr ffff888097e94bf8 by task v4l_id/7329
+>
+> CPU: 1 PID: 7329 Comm: v4l_id Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xe8/0x16e lib/dump_stack.c:113
+>   print_address_description+0x6c/0x236 mm/kasan/report.c:187
+>   kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+>   __mutex_lock_common kernel/locking/mutex.c:1009 [inline]
+>   __mutex_lock+0x11ad/0x12b0 kernel/locking/mutex.c:1072
+>   __video_do_ioctl+0x5d2/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2842
+> usb 5-1: Using ep0 maxpacket: 8
+>   video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
+>   v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
 
+#syz dup: KASAN: use-after-free Read in v4l2_ioctl
 
-On 8/13/19 6:56 AM, Laurent Pinchart wrote:
-> Hi Helen,
-> 
-> On Mon, Aug 12, 2019 at 08:41:33PM -0300, Helen Koike wrote:
->> On 8/12/19 7:14 PM, Shuah Khan wrote:
->>> On 8/12/19 1:10 PM, Shuah Khan wrote:
->>>> On 8/12/19 12:52 PM, André Almeida wrote:
->>>>> On 8/12/19 11:08 AM, Shuah Khan wrote:
->>>>>> On 8/9/19 9:51 PM, Helen Koike wrote:
->>>>>>> On 8/9/19 9:24 PM, André Almeida wrote:
->>>>>>>> On 8/9/19 9:17 PM, Shuah Khan wrote:
->>>>>>>>> On 8/9/19 5:52 PM, André Almeida wrote:
->>>>>>>>>> On 8/9/19 6:45 PM, Shuah Khan wrote:
->>>>>>>>>>> vimc uses Component API to split the driver into functional
->>>>>>>>>>> components.
->>>>>>>>>>> The real hardware resembles a monolith structure than component and
->>>>>>>>>>> component structure added a level of complexity making it hard to
->>>>>>>>>>> maintain without adding any real benefit.
->>>>>>>>>>>        The sensor is one vimc component that would makes sense to be a
->>>>>>>>>>> separate
->>>>>>>>>>> module to closely align with the real hardware. It would be easier to
->>>>>>>>>>> collapse vimc into single monolithic driver first and then split the
->>>>>>>>>>> sensor off as a separate module.
->>>>>>>>>>>
->>>>>>>>>>> This patch series emoves the component API and makes minimal
->>>>>>>>>>> changes to
->>>>>>>>>>> the code base preserving the functional division of the code
->>>>>>>>>>> structure.
->>>>>>>>>>> Preserving the functional structure allows us to split the sensor off
->>>>>>>>>>> as a separate module in the future.
->>>>>>>>>>>
->>>>>>>>>>> Major design elements in this change are:
->>>>>>>>>>>        - Use existing struct vimc_ent_config and struct
->>>>>>>>>>> vimc_pipeline_config
->>>>>>>>>>>          to drive the initialization of the functional components.
->>>>>>>>>>>        - Make vimc_ent_config global by moving it to vimc.h
->>>>>>>>>>>        - Add two new hooks add and rm to initialize and register,
->>>>>>>>>>> unregister
->>>>>>>>>>>          and free subdevs.
->>>>>>>>>>>        - All component API is now gone and bind and unbind hooks are
->>>>>>>>>>> modified
->>>>>>>>>>>          to do "add" and "rm" with minimal changes to just add and rm
->>>>>>>>>>> subdevs.
->>>>>>>>>>>        - vimc-core's bind and unbind are now register and unregister.
->>>>>>>>>>>        - vimc-core invokes "add" hooks from its
->>>>>>>>>>> vimc_register_devices().
->>>>>>>>>>>          The "add" hooks remain the same and register subdevs. They
->>>>>>>>>>> don't
->>>>>>>>>>>          create platform devices of their own and use vimc's
->>>>>>>>>>> pdev.dev as
->>>>>>>>>>>          their reference device. The "add" hooks save their
->>>>>>>>>>> vimc_ent_device(s)
->>>>>>>>>>>          in the corresponding vimc_ent_config.
->>>>>>>>>>>        - vimc-core invokes "rm" hooks from its unregister to
->>>>>>>>>>> unregister
->>>>>>>>>>> subdevs
->>>>>>>>>>>          and cleanup.
->>>>>>>>>>>        - vimc-core invokes "add" and "rm" hooks with pointer to struct
->>>>>>>>>>> vimc_device
->>>>>>>>>>>          and the corresponding struct vimc_ent_config pointer.
->>>>>>>>>>>        The following configure and stream test works on all devices.
->>>>>>>>>>>             media-ctl -d platform:vimc -V '"Sensor
->>>>>>>>>>> A":0[fmt:SBGGR8_1X8/640x480]'
->>>>>>>>>>>        media-ctl -d platform:vimc -V '"Debayer
->>>>>>>>>>> A":0[fmt:SBGGR8_1X8/640x480]'
->>>>>>>>>>>        media-ctl -d platform:vimc -V '"Sensor
->>>>>>>>>>> B":0[fmt:SBGGR8_1X8/640x480]'
->>>>>>>>>>>        media-ctl -d platform:vimc -V '"Debayer
->>>>>>>>>>> B":0[fmt:SBGGR8_1X8/640x480]'
->>>>>>>>>>>             v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v
->>>>>>>>>>> width=1920,height=1440
->>>>>>>>>>>        v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v
->>>>>>>>>>> pixelformat=BA81
->>>>>>>>>>>        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v
->>>>>>>>>>> pixelformat=BA81
->>>>>>>>>>>             v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video1
->>>>>>>>>>>        v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
->>>>>>>>>>>        v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video3
->>>>>>>>>>>
->>>>>>>>>>> The third patch in the series fixes a general protection fault found
->>>>>>>>>>> when rmmod is done while stream is active.
->>>>>>>>>>
->>>>>>>>>> I applied your patch on top of media_tree/master and I did some
->>>>>>>>>> testing.
->>>>>>>>>> Not sure if I did something wrong, but just adding and removing the
->>>>>>>>>> module generated a kernel panic:
->>>>>>>>>
->>>>>>>>> Thanks for testing.
->>>>>>>>>
->>>>>>>>> Odd. I tested modprobe and rmmod both.I was working on Linux 5.3-rc2.
->>>>>>>>> I will apply these to media latest and work from there. I have to
->>>>>>>>> rebase these on top of the reverts from Lucas and Helen
->>>>>>>>
->>>>>>>> Ok, please let me know if I succeeded to reproduce.
->>>>>>>>
->>>>>>>>>>
->>>>>>>>>> ~# modprobe vimc
->>>>>>>>>> ~# rmmod vimc
->>>>>>>>>> [   16.452974] stack segment: 0000 [#1] SMP PTI
->>>>>>>>>> [   16.453688] CPU: 0 PID: 2038 Comm: rmmod Not tainted 5.3.0-rc2+ #36
->>>>>>>>>> [   16.454678] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
->>>>>>>>>> BIOS 1.12.0-20181126_142135-anatol 04/01/2014
->>>>>>>>>> [   16.456191] RIP: 0010:kfree+0x4d/0x240
->>>>>>>>>>
->>>>>>>>>> <registers values...>
->>>>>>>>>>
->>>>>>>>>> [   16.469188] Call Trace:
->>>>>>>>>> [   16.469666]  vimc_remove+0x35/0x90 [vimc]
->>>>>>>>>> [   16.470436]  platform_drv_remove+0x1f/0x40
->>>>>>>>>> [   16.471233]  device_release_driver_internal+0xd3/0x1b0
->>>>>>>>>> [   16.472184]  driver_detach+0x37/0x6b
->>>>>>>>>> [   16.472882]  bus_remove_driver+0x50/0xc1
->>>>>>>>>> [   16.473569]  vimc_exit+0xc/0xca0 [vimc]
->>>>>>>>>> [   16.474231]  __x64_sys_delete_module+0x18d/0x240
->>>>>>>>>> [   16.475036]  do_syscall_64+0x43/0x110
->>>>>>>>>> [   16.475656]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
->>>>>>>>>> [   16.476504] RIP: 0033:0x7fceb8dafa4b
->>>>>>>>>>
->>>>>>>>>> <registers values...>
->>>>>>>>>>
->>>>>>>>>> [   16.484853] Modules linked in: vimc(-) videobuf2_vmalloc
->>>>>>>>>> videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common
->>>>>>>>>> [   16.486187] ---[ end trace 91e5e0894e254d49 ]---
->>>>>>>>>> [   16.486758] RIP: 0010:kfree+0x4d/0x240
->>>>>>>>>>
->>>>>>>>>> <registers values...>
->>>>>>>>>>
->>>>>>>>>> fish: “rmmod vimc” terminated by signal SIGSEGV (Address boundary
->>>>>>>>>> error)
->>>>>>>>>>
->>>>>>>>>> I just added the module after booting, no other action was made.
->>>>>>>>>> Here is
->>>>>>>>>> how my `git log --oneline` looks like:
->>>>>>>>>>
->>>>>>>>>> 897d708e922b media: vimc: Fix gpf in rmmod path when stream is active
->>>>>>>>>> 2e4a5ad8ad6d media: vimc: Collapse component structure into a single
->>>>>>>>>> monolithic driver
->>>>>>>>>> 7c8da1687e92 media: vimc: move private defines to a common header
->>>>>>>>>> 97299a303532 media: Remove dev_err() usage after platform_get_irq()
->>>>>>>>>> 25a3d6bac6b9 media: adv7511/cobalt: rename driver name to adv7511-v4l2
->>>>>>>
->>>>>>> I couldn't reproduce the error, my tree looks the same:
->>>>>>>
->>>>>>> [I] koike@floko ~/m/o/linux> git log --oneline
->>>>>>> e3345155c8ed (HEAD) media: vimc: Fix gpf in rmmod path when stream is
->>>>>>> active
->>>>>>> 43e9e2fe761f media: vimc: Collapse component structure into a single
->>>>>>> monolithic driver
->>>>>>> 8a6d0b9adde0 media: vimc: move private defines to a common header
->>>>>>> 97299a303532 (media/master) media: Remove dev_err() usage after
->>>>>>> platform_get_irq()
->>>>>>> 25a3d6bac6b9 media: adv7511/cobalt: rename driver name to adv7511-v4l2
->>>>>>
->>>>>> Thanks Helen for trying to reproduce and sharing the result.
->>>>>
->>>>> Me and Helen found out what is the problem. If you follow this call trace:
->>>>>
->>>>> vimc_ent_sd_unregister()
->>>>> v4l2_device_unregister_subdev()
->>>>> v4l2_subdev_release()
->>>>>
->>>>> You'll notice that this last function calls the `release` callback
->>>>> implementation of the subdevice. For instance, the `release` of
->>>>> vimc-sensor is this one:
->>>>>
->>>>> static void vimc_sen_release(struct v4l2_subdev *sd)
->>>>> {
->>>>>     struct vimc_sen_device *vsen =
->>>>>                 container_of(sd, struct vimc_sen_device, sd);
->>>>>
->>>>>     v4l2_ctrl_handler_free(&vsen->hdl);
->>>>>     tpg_free(&vsen->tpg);
->>>>>     kfree(vsen);
->>>>> }
->>>>>
->>>>> And then you can see that `vsen` has been freed. Back to
->>>>> vimc_ent_sd_unregister(), after v4l2_device_unregister_subdev(), the
->>>>> function will call vimc_pads_cleanup(). This is basically a
->>>>> kfree(ved->pads), but `ved` has just been freed at
->>>>> v4l2_subdev_release(), producing a memory fault.
->>>>>
->>>>> To fix that, we found two options:
->>>>>
->>>>> - place the kfree(ved->pads) inside the release callback of each
->>>>> subdevice and removing vimc_pads_cleanup() from
->>>>> vimc_ent_sd_unregister()
->>>>> - use a auxiliary variable to hold the address of the pads, for instance:
->>>>>
->>>>> void vimc_ent_sd_unregister(...)
->>>>> {
->>>>>      struct media_pad *pads = ved->pads;
->>>>>      ...
->>>>>      vimc_pads_cleanup(pads);
->>>>> }
->>>>>
->>>>>
->>>>
->>>> I fixed a problem in the thirds patch. vimc-capture uses the first
->>>> approach - placing the kfree(ved->pads) inside the release callback.
->>>>
->>>> I am debugging another such problem in unbind path while streaming.
->>>> I am working on v2 and I will look for the rmmod problem and fix it.
->>>>
->>>> thanks again for testing and finding the root cause.
->>>> -- Shuah
->>>
->>> Hi Andre,
->>>
->>> Here is what's happening.
->>>
->>> Before this change, you can't really do rmmod vimc, because vimc is in
->>> use by other component drivers. With the collapse, now you can actually
->>> do rmmod on vimc and this problem in vimc_ent_sd_unregister() that frees
->>> pads first and the does v4l2_device_unregister_subdev().
->>>
->>> I fixed this in the 3/3 patch. I can reproduce the problem with patches 1 and 2, and patch 3 fixes it.
->>>
->>> Did you test with the third patch in this series?
->>
->> yes, we tested with 3/3, but the new problem now is when doing the following
->> in this order:
->>
->>     v4l2_device_unregister_subdev(sd);
->>     vimc_pads_cleanup(ved->pads);
->>
->>
->> v4l2_device_unregister_subdev() calls the release function of the subdevice that
->> frees the ved object, so ved->pads is not valid anymore. That is why André suggested
->> a temporary variable to hold ved->pads and to be able to free it later:
->>
->>     struct media_pad *pads = ved->pads;
->>
->>     v4l2_device_unregister_subdev(sd);
->>     vimc_pads_cleanup(pads); // So we don't use the ved object here anymore.
-> 
-> Can't you simply call vimc_pads_cleanup() in the release function of the
-> subdevice before freeing the ved object ?
-> 
-
-Yes we can, that is the other option Andre suggested.
-The  advantage of doing it inside vimc_ent_sd_unregister() is that
-who allocated the memory in the first place was vimc_ent_sd_register(), and also,
-this is a common code to all subdevs, so letting it in vimc_ent_sd_unregister()
-will make sure no subdevs ever forget to free this memory.
-But saving the pointer to a variable to free it later is not that pretty
-either.
-
-Helen
+>   vfs_ioctl fs/ioctl.c:46 [inline]
+>   file_ioctl fs/ioctl.c:509 [inline]
+>   do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
+>   ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
+>   __do_sys_ioctl fs/ioctl.c:720 [inline]
+>   __se_sys_ioctl fs/ioctl.c:718 [inline]
+>   __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
+>   do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x7f582f197347
+> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
+> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
+> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
+> usb 5-1: config 0 has an invalid interface number: 85 but max is 0
+> RSP: 002b:00007ffda90c77a8 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f582f197347
+> RDX: 00007ffda90c77b0 RSI: 0000000080685600 RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
+> R13: 00007ffda90c7900 R14: 0000000000000000 R15: 0000000000000000
+>
+> Allocated by task 5:
+>   set_track mm/kasan/common.c:87 [inline]
+>   __kasan_kmalloc mm/kasan/common.c:497 [inline]
+>   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+>   slab_post_alloc_hook mm/slab.h:437 [inline]
+>   slab_alloc_node mm/slub.c:2756 [inline]
+>   __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+>   alloc_dr drivers/base/devres.c:103 [inline]
+>   devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
+>   devm_kzalloc include/linux/device.h:679 [inline]
+>   usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
+>   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+>   really_probe+0x2da/0xb10 drivers/base/dd.c:509
+> usb 5-1: config 0 has no interface number 0
+>   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+>   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+>   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+>   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+>   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+>   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+>   usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+>   generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+>   usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+>   really_probe+0x2da/0xb10 drivers/base/dd.c:509
+>   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+>   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+>   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+>   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+> usb 5-1: New USB device found, idVendor=04b3, idProduct=4001, bcdDevice=
+> 1.10
+>   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+>   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+>   usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+> usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+>   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+>   port_event drivers/usb/core/hub.c:5350 [inline]
+>   hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+>   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+>   worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+>   kthread+0x313/0x420 kernel/kthread.c:253
+>   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+>
+> Freed by task 5:
+>   set_track mm/kasan/common.c:87 [inline]
+>   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+>   slab_free_hook mm/slub.c:1429 [inline]
+>   slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+> usb 5-1: config 0 descriptor??
+>   slab_free mm/slub.c:3003 [inline]
+>   kfree+0xce/0x290 mm/slub.c:3958
+>   release_nodes+0x4ac/0x920 drivers/base/devres.c:508
+>   devres_release_all+0x79/0xc8 drivers/base/devres.c:529
+>   __device_release_driver drivers/base/dd.c:1086 [inline]
+>   device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
+>   bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
+>   device_del+0x467/0xb90 drivers/base/core.c:2269
+>   usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
+> usb-storage 5-1:0.85: USB Mass Storage device detected
+>   usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
+>   hub_port_connect drivers/usb/core/hub.c:4940 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+>   port_event drivers/usb/core/hub.c:5350 [inline]
+>   hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+> usb-storage 5-1:0.85: Quirks match for vid 04b3 pid 4001: 2000
+>   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+>   process_scheduled_works kernel/workqueue.c:2331 [inline]
+>   worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+>   kthread+0x313/0x420 kernel/kthread.c:253
+>   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+>
+> The buggy address belongs to the object at ffff888097e94400
+>   which belongs to the cache kmalloc-4k of size 4096
+> The buggy address is located 2040 bytes inside of
+>   4096-byte region [ffff888097e94400, ffff888097e95400)
+> The buggy address belongs to the page:
+> page:ffffea00025fa400 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0
+> compound_mapcount: 0
+> flags: 0xfff00000010200(slab|head)
+> raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+> raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>   ffff888097e94a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff888097e94b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > ffff888097e94b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                                                                  ^
+>   ffff888097e94c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff888097e94c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
