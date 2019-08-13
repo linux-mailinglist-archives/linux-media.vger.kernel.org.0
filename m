@@ -2,134 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78C8A8B36B
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 11:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 283628B409
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2019 11:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbfHMJLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Aug 2019 05:11:02 -0400
-Received: from gofer.mess.org ([88.97.38.141]:49753 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726298AbfHMJLC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Aug 2019 05:11:02 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id CCABA603E8; Tue, 13 Aug 2019 10:10:59 +0100 (BST)
-Date:   Tue, 13 Aug 2019 10:10:59 +0100
-From:   Sean Young <sean@mess.org>
-To:     Brad Love <brad@nextdimension.cc>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        syzbot <syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] media: em28xx: modules workqueue not inited for 2nd
- device
-Message-ID: <20190813091059.6ec46psv67y7msef@gofer.mess.org>
-References: <0000000000004bcc0d058faf01c4@google.com>
- <20190811051110.hsdwmjrbvqgrmssc@gofer.mess.org>
- <614221186ed37383778d8890d39e829a0e924796.camel@collabora.com>
+        id S1727089AbfHMJYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Aug 2019 05:24:03 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:51514 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725781AbfHMJYD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Aug 2019 05:24:03 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 45371634C88;
+        Tue, 13 Aug 2019 12:23:54 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxT21-0000e8-J2; Tue, 13 Aug 2019 12:23:53 +0300
+Date:   Tue, 13 Aug 2019 12:23:53 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v2 3/3] MAINTAINERS: Add entry for IMX290 CMOS image
+ sensor driver
+Message-ID: <20190813092353.GF835@valkosipuli.retiisi.org.uk>
+References: <20190806130938.19916-1-manivannan.sadhasivam@linaro.org>
+ <20190806130938.19916-4-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <614221186ed37383778d8890d39e829a0e924796.camel@collabora.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190806130938.19916-4-manivannan.sadhasivam@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Brad,
+Hi Manivannan,
 
-On Mon, Aug 12, 2019 at 10:21:39AM -0300, Ezequiel Garcia wrote:
-> On Sun, 2019-08-11 at 06:11 +0100, Sean Young wrote:
-> > syzbot reports an error on flush_request_modules() for the second device.
-> > This workqueue was never initialised so simply remove the offending line.
-> > 
-> > usb 1-1: USB disconnect, device number 2
-> > em28xx 1-1:1.153: Disconnecting em28xx #1
-> > ------------[ cut here ]------------
-> > WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3031
-> > __flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
-> > Kernel panic - not syncing: panic_on_warn set ...
-> > CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc2+ #25
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> > Google 01/01/2011
-> > Workqueue: usb_hub_wq hub_event
-> > Call Trace:
-> >   __dump_stack lib/dump_stack.c:77 [inline]
-> >   dump_stack+0xca/0x13e lib/dump_stack.c:113
-> >   panic+0x2a3/0x6da kernel/panic.c:219
-> >   __warn.cold+0x20/0x4a kernel/panic.c:576
-> >   report_bug+0x262/0x2a0 lib/bug.c:186
-> >   fixup_bug arch/x86/kernel/traps.c:179 [inline]
-> >   fixup_bug arch/x86/kernel/traps.c:174 [inline]
-> >   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-> >   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-> >   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
-> > RIP: 0010:__flush_work.cold+0x2c/0x36 kernel/workqueue.c:3031
-> > Code: 9a 22 00 48 c7 c7 20 e4 c5 85 e8 d9 3a 0d 00 0f 0b 45 31 e4 e9 98 86
-> > ff ff e8 51 9a 22 00 48 c7 c7 20 e4 c5 85 e8 be 3a 0d 00 <0f> 0b 45 31 e4
-> > e9 7d 86 ff ff e8 36 9a 22 00 48 c7 c7 20 e4 c5 85
-> > RSP: 0018:ffff8881da20f720 EFLAGS: 00010286
-> > RAX: 0000000000000024 RBX: dffffc0000000000 RCX: 0000000000000000
-> > RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed103b441ed6
-> > RBP: ffff8881da20f888 R08: 0000000000000024 R09: fffffbfff11acd9a
-> > R10: fffffbfff11acd99 R11: ffffffff88d66ccf R12: 0000000000000000
-> > R13: 0000000000000001 R14: ffff8881c6685df8 R15: ffff8881d2a85b78
-> >   flush_request_modules drivers/media/usb/em28xx/em28xx-cards.c:3325 [inline]
-> >   em28xx_usb_disconnect.cold+0x280/0x2a6
-> > drivers/media/usb/em28xx/em28xx-cards.c:4023
-> >   usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-> >   __device_release_driver drivers/base/dd.c:1120 [inline]
-> >   device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1151
-> >   bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-> >   device_del+0x420/0xb10 drivers/base/core.c:2288
-> >   usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-> >   usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
-> >   hub_port_connect drivers/usb/core/hub.c:4949 [inline]
-> >   hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-> >   port_event drivers/usb/core/hub.c:5359 [inline]
-> >   hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
-> >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-> >   process_scheduled_works kernel/workqueue.c:2331 [inline]
-> >   worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-> >   kthread+0x318/0x420 kernel/kthread.c:255
-> >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-> > Kernel Offset: disabled
-> > Rebooting in 86400 seconds..
-> > 
-> > Reported-by: syzbot+b7f57261c521087d89bb@syzkaller.appspotmail.com
-> > Signed-off-by: Sean Young <sean@mess.org>
+On Tue, Aug 06, 2019 at 06:39:38PM +0530, Manivannan Sadhasivam wrote:
+> Add MAINTAINERS entry for Sony IMX290 CMOS image sensor driver.
 > 
-> I reviewed the syzbot report, but was left head-scratching and
-> failing to see how the module-loading worker was supposed to be used :-)
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> 
-> Also, this seems a bug, so how about this tag?
-> 
-> Fixes: be7fd3c3a8c5e ("media: em28xx: Hauppauge DualHD second tuner functionality)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d0ed735994a5..27e4c1f57b61 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14669,6 +14669,14 @@ S:	Maintained
+>  F:	drivers/media/i2c/imx274.c
+>  F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  
+> +SONY IMX290 SENSOR DRIVER
+> +M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> +L:	linux-media@vger.kernel.org
+> +T:	git git://linuxtv.org/media_tree.git
+> +S:	Maintained
+> +F:	drivers/media/i2c/imx290.c
+> +F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
+> +
+>  SONY IMX319 SENSOR DRIVER
+>  M:	Bingbu Cao <bingbu.cao@intel.com>
+>  L:	linux-media@vger.kernel.org
 
-Would you mind reviewing this change please Brad? You added the dual_ts
-feature to the driver so it would be good to have your view on this.
+Please put the MAINTAINERS changes to the first patch adding files.
 
-Thanks
-Sean
-
-> 
-> > ---
-> >  drivers/media/usb/em28xx/em28xx-cards.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-> > index 6e33782c3ca6..5983e72a0622 100644
-> > --- a/drivers/media/usb/em28xx/em28xx-cards.c
-> > +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-> > @@ -4019,7 +4019,6 @@ static void em28xx_usb_disconnect(struct usb_interface *intf)
-> >  		dev->dev_next->disconnected = 1;
-> >  		dev_info(&dev->intf->dev, "Disconnecting %s\n",
-> >  			 dev->dev_next->name);
-> > -		flush_request_modules(dev->dev_next);
-> >  	}
-> >  
-> >  	dev->disconnected = 1;
-> 
+-- 
+Sakari Ailus
