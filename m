@@ -2,96 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2906D8D0BC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7344D8D0C0
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:33:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbfHNKbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 06:31:18 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:51240 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfHNKbS (ORCPT
+        id S1727039AbfHNKdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 06:33:05 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35718 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726770AbfHNKdF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 06:31:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=vIn3VrH7ocwDZwAAstv4Z1w3Iw6dyOjCurgY/OY+iMg=; b=vVh2LAglzEG++FwqN4KSlYc3e
-        r1btgKmDEiOv85fXEZ+HfeiKQBXj02w1pCssYPOmHUYKWhHS2i274oG8l7lzAZQyzqLikkkKa2/cn
-        WqMl1l0IGoprA+wUx5VYjOFf8yY23van8tZYvi6GupNDAe5pITc2JQ3GiWymo+Kc7VaMu2DZ6jqsM
-        2q0ZsPP+7DcgBWAlSUisioPDmWaF5tS9lO/A5V44fXMDcQMBLxm+bdNYuCMutScF2l2wOZXilNUAC
-        Y22OnCoc77oDHHMtZ+EIAfsKBwK6Mcu/2EPbieFfdGiXbXawu/8aRhm05G6xCnRbCDDFMmJ3m/ak/
-        ulXIvjO9w==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56468)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1hxqYb-0005uy-JR; Wed, 14 Aug 2019 11:31:05 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1hxqYR-0008OC-2C; Wed, 14 Aug 2019 11:30:55 +0100
-Date:   Wed, 14 Aug 2019 11:30:55 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "open list:ACPI" <linux-acpi@vger.kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Len Brown <lenb@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "moderated list:ARM/ZYNQ ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Enrico Weigelt <info@metux.net>
-Subject: Re: [PATCH 04/22] media: Move v4l2_fwnode_parse_link from v4l2 to
- driver base
-Message-ID: <20190814103054.GI13294@shell.armlinux.org.uk>
-References: <20190805233505.21167-1-slongerbeam@gmail.com>
- <20190805233505.21167-5-slongerbeam@gmail.com>
- <CAHp75VcOh8bOf_s6t0ehwGtcYn64QFGj303SVvpHrztEOhTRgg@mail.gmail.com>
- <4750b347-b421-6569-600f-0ced8406460e@gmail.com>
+        Wed, 14 Aug 2019 06:33:05 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id A6161634C88
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 13:32:52 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxqaK-0000uv-0G
+        for linux-media@vger.kernel.org; Wed, 14 Aug 2019 13:32:52 +0300
+Date:   Wed, 14 Aug 2019 13:32:51 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL v2 for 5.4] More sensor driver, omap3isp and documentation
+ patches
+Message-ID: <20190814103251.GA3504@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4750b347-b421-6569-600f-0ced8406460e@gmail.com>
+Content-Transfer-Encoding: 8bit
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 09:53:41AM -0700, Steve Longerbeam wrote:
-> The full patchset doesn't seem to be up yet, but see [1] for the cover
-> letter.
+Hi Mauro,
 
-Was the entire series copied to the mailing lists, or just selected
-patches?  I only saw 4, 9, 11 and 13-22 via lakml.
+Here's a bunch of sensor driver, omap3isp and documentatino patches.
+Noteworthy bit is perhaps a driver for the ov5675 sensor.
 
-In the absence of the other patches, will this solve imx-media binding
-the internal subdevs of sensor devices to the CSI2 interface?
+There are some checkpatch warnings there (patches 1, 6 and 8), the first
+two seem false positives whereas the last one comes from the documentation
+license header.
 
-Thanks.
+I've since v1 added a few more patches; IMX driver improvements as well as
+a MAINTAINERS entry for ov5670.
+
+Please pull.
+
+
+The following changes since commit 0dc99e042a4cfbc1e27572d523d2a1dbaf402cbf:
+
+  media: MAINTAINERS: Remove zoran driver (2019-08-13 11:55:34 -0300)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.4-6-signed
+
+for you to fetch changes up to 852a51507ac865d7fbbf1305e2f485e7a4131b95:
+
+  MAINTAINERS: Add entry for the ov5670 driver (2019-08-14 12:59:16 +0300)
+
+----------------------------------------------------------------
+Camera driver + framework patches for 5.4
+
+----------------------------------------------------------------
+Ezequiel Garcia (2):
+      media: i2c: ov5645: Fix power sequence
+      media: imx: mipi csi-2: Don't fail if initial state times-out
+
+Luca Weiss (1):
+      media: ov5640: Add support for flash and lens devices
+
+Sakari Ailus (6):
+      ov8856: Check reading clock frequency succeeded
+      omap3isp: Set device on omap3isp subdevs
+      omap3isp: Don't set streaming state on random subdevs
+      v4l: Documentation: Serial busses use parallel mbus codes
+      v4l: Documentation: Raw Bayer formats are not RGB formats
+      MAINTAINERS: Add entry for the ov5670 driver
+
+Shawn Tu (1):
+      ov5675: Add support for OV5675 sensor
+
+Steve Longerbeam (1):
+      media: docs-rst: Clarify duration of LP-11 mode
+
+Sébastien Szymanski (2):
+      media: dt-bindings: imx7-csi: add i.MX6UL/L support
+      media: imx7-media-csi: add i.MX6UL support
+
+ .../devicetree/bindings/media/imx7-csi.txt         |    2 +-
+ Documentation/media/kapi/csi2.rst                  |   17 +-
+ Documentation/media/uapi/v4l/control.rst           |    2 +-
+ Documentation/media/uapi/v4l/hist-v4l2.rst         |    2 +-
+ Documentation/media/uapi/v4l/pixfmt-bayer.rst      |   38 +
+ Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst | 1306 --------------------
+ Documentation/media/uapi/v4l/pixfmt-rgb.rst        | 1302 ++++++++++++++++++-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst       |    2 +-
+ Documentation/media/uapi/v4l/pixfmt.rst            |    1 +
+ Documentation/media/uapi/v4l/subdev-formats.rst    |    8 +
+ MAINTAINERS                                        |   15 +
+ drivers/media/i2c/Kconfig                          |   13 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/ov5640.c                         |    2 +-
+ drivers/media/i2c/ov5645.c                         |   26 +-
+ drivers/media/i2c/ov5675.c                         | 1183 ++++++++++++++++++
+ drivers/media/i2c/ov8856.c                         |    5 +-
+ drivers/media/platform/omap3isp/isp.c              |    8 +
+ drivers/media/platform/omap3isp/ispccdc.c          |    1 +
+ drivers/media/platform/omap3isp/ispccp2.c          |    1 +
+ drivers/media/platform/omap3isp/ispcsi2.c          |    1 +
+ drivers/media/platform/omap3isp/isppreview.c       |    1 +
+ drivers/media/platform/omap3isp/ispresizer.c       |    1 +
+ drivers/media/platform/omap3isp/ispstat.c          |    2 +
+ drivers/staging/media/imx/Kconfig                  |    4 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c         |   12 +-
+ drivers/staging/media/imx/imx7-media-csi.c         |   30 +-
+ 27 files changed, 2630 insertions(+), 1356 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-bayer.rst
+ delete mode 100644 Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
+ create mode 100644 drivers/media/i2c/ov5675.c
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Sakari Ailus
