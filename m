@@ -2,151 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D8778D116
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D5048D118
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:45:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727594AbfHNKpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 06:45:32 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:37375 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727237AbfHNKpb (ORCPT
+        id S1727793AbfHNKpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 06:45:40 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:51799 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726951AbfHNKpk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 06:45:31 -0400
-Received: by mail-qk1-f202.google.com with SMTP id d203so20958684qke.4
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 03:45:31 -0700 (PDT)
+        Wed, 14 Aug 2019 06:45:40 -0400
+Received: by mail-qt1-f202.google.com with SMTP id h15so1519640qtq.18
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 03:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=GWyXBGwmHFcGXlg8sYWmi9ISwiX/TjDTxXNJrsxIlo0=;
-        b=SO9w2qWfA9s7es8tmXD3wqbpTBgbgE1DHH1ERM7v7ptLx8iAJ95y8N4Tw+xRfTgVDo
-         13xnwEMU6xzG5TpnrwEkbvb8IB4VVAMk6MolT2ZOkf2TYbkpgela2WK1udMqSYuSSak5
-         Q8LdwxwSdNmbsCfPqW/1A50L/ApA7o7dCxHQL6Y2ilUQe/pD/9Nn91c3LpVJIKbuVG3f
-         htMPgcJTD+HpBw3QVSvs7B1iIa/DvtlWekME6zM0+MAhwABxQrewkKFJVJq3adx9qDVe
-         C1f+Ddir0Bz1vfsh4GwublcxERGy6vsW5i3k2OyP6w/YcY/Yuy9icYHfcvFqq2wGVRrR
-         +BXg==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=whkfqsEcOyHsXcg5UupuMappSEEYC3tS9spKNSQ45vY=;
+        b=bFURKDlMw/AD0iK6Imh+IC0s8NWb8bXmrZPtvaG6c1bz3fBGInljs3qd9HxoF9Ladt
+         JxuMf6NxMJZTqlD5i8OLK5nR+443EaeKi2N5kizixGX6djoqUzd5EpMxa5eSFPEJAe1e
+         F0cYGel4XHYwVhpoZSBtSyZCirm3UOdvnH1NW3Izx//VVhd7c8msSJBhR2Yi6am9AUwW
+         KrJZ/jm6UxGC++/jschouG9yFS7G2Yxx48fYdbx3i0s4RbZuKLclurLeFWA2IXLahwHt
+         ht9QXRtE/SZnWYYO3verOc70cvm4BxlJoqyL8FEhJpp5uJ+vUbOJBqLgSg14IUne5hCe
+         nfhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=GWyXBGwmHFcGXlg8sYWmi9ISwiX/TjDTxXNJrsxIlo0=;
-        b=KDr5sn+aJyI+y1XvGgPQIYDGhuXGL6j73tuSHkDZN+UjeOs13+oZ6vNvfXRCBMIb26
-         qGKwF43qn0MzKyt2kUPQ1Krk0/YQf1ulRrRCxf3RGEPERXlk4jQxYYBuS2/qY7iF+TsS
-         IUpORFQfP63P9YQNa/S1G7qznfZZvS2g3RxIvLroFRbWNhUTTkoZFZ6XA2r6hLnI8wLC
-         Hm4NBPlI2J3ljrHWuj3DbPf/zFKSwcaHRkWiNH+guFNIpEyzKrBuiNxMW2SVeD1dmdCb
-         vg0QDqUR1JBwjd4pEQ+a+P72Qf3U71ec0hydox+dqfNkXCMBrwea4KrJb7n8xUGUKTcm
-         /P+Q==
-X-Gm-Message-State: APjAAAV5bksI0aUToo+47k28sueHtCieoAT5YPPXmuBHXmHr+rHpqw66
-        9h29N1W11/O7kp7XZR36MWaYQTaJyfk=
-X-Google-Smtp-Source: APXvYqwhM4JMovHg2xzCJqqYJ3hsrqpakcRk8IC6SFMlsdE9qbu+1Sj05yHDBXOw9hQhCX71VwS62n5KfcM=
-X-Received: by 2002:ac8:748a:: with SMTP id v10mr16346695qtq.386.1565779530315;
- Wed, 14 Aug 2019 03:45:30 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 12:44:58 +0200
-Message-Id: <20190814104520.6001-1-darekm@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=whkfqsEcOyHsXcg5UupuMappSEEYC3tS9spKNSQ45vY=;
+        b=sreVJnBM3OeAPymZU4R9/D4akl/uZNnYA9fKHridPhRxuU4UcbkEqh1TsfkX1bhyw2
+         PpztAT101ZJ7iUcglPtWObRNsUwWhc8UTrXfgftkcbG8c6Ic50ci86byGc/x0ePo0Krr
+         68Lan9CxXGJW3is+obA0j8jIbp8+N2mxryoXGX3dBMwRzF2tWLtMPapcyDxUnyzRY86C
+         +ySnHF4yLhjfCf+mc+klz9d9PTjMjw06jqTnJ8P073te/uNC5oR8RP0CA2YAzCpx+iBu
+         oCLB3E2ITQXDIIbDL0RaJ5Ea1XVTlt33g2uaVEjYfWLc2Wdp9JgYfgwfqipCAdObHM+7
+         xx2Q==
+X-Gm-Message-State: APjAAAX02x9DYXKbWLRPh/DVpy1jf985TmhkulkxzXnknGmDbejqxv40
+        v7/GuKBrrTTuszbZtsjs/9hRXIWvGJI=
+X-Google-Smtp-Source: APXvYqxHlqOydou7FHll2RQCwIW2DiCralOJoGRp5boteOB7sUX3ztNjURofheCSvry1mZkjIGCRSLWNdxc=
+X-Received: by 2002:a05:620a:1467:: with SMTP id j7mr31340962qkl.445.1565779538812;
+ Wed, 14 Aug 2019 03:45:38 -0700 (PDT)
+Date:   Wed, 14 Aug 2019 12:44:59 +0200
+In-Reply-To: <20190814104520.6001-1-darekm@google.com>
+Message-Id: <20190814104520.6001-2-darekm@google.com>
 Mime-Version: 1.0
+References: <20190814104520.6001-1-darekm@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v7 0/9] drm: cec: convert DRM drivers to the new notifier API
+Subject: [PATCH v7 1/9] drm_dp_cec: add connector info support.
 From:   Dariusz Marcinkiewicz <darekm@google.com>
 To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         hverkuil-cisco@xs4all.nl
 Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Allison Randal <allison@lohutok.net>,
-        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Colin Ian King <colin.king@canonical.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        David Francis <David.Francis@amd.com>,
-        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Enrico Weigelt <info@metux.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
         Harry Wentland <harry.wentland@amd.com>,
-        Imre Deak <imre.deak@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@intel.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Leo Li <sunpeng.li@amd.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Lyude Paul <lyude@redhat.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        nouveau@lists.freedesktop.org,
-        Ramalingam C <ramalingam.c@intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Shashank Sharma <shashank.sharma@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>,
+        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
+        Anthony Koo <Anthony.Koo@amd.com>,
         Thomas Lim <Thomas.Lim@amd.com>,
+        David Francis <David.Francis@amd.com>,
         "=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=" 
-        <ville.syrjala@linux.intel.com>
+        <ville.syrjala@linux.intel.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Imre Deak <imre.deak@intel.com>,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series updates DRM drivers to use new CEC notifier API.
+Pass the connector info to the CEC adapter. This makes it possible
+to associate the CEC adapter with the corresponding drm connector.
 
-Changes since v6:
-	Made CEC notifiers' registration and de-registration symmetric
-	in tda998x and dw-hdmi drivers. Also, accidentally dropped one
-	patch in v6 (change to drm_dp_cec), brought it back now.
-Changes since v5:
-        Fixed a warning about a missing comment for a new member of
-	drm_dp_aux_cec struct. Sending to a wider audience,
-	including maintainers of respective drivers.
-Changes since v4:
-	Addressing review comments.
-Changes since v3:
-        Updated adapter flags in dw-hdmi-cec.
-Changes since v2:
-	Include all DRM patches from "cec: improve notifier support,
-	add connector info connector info" series.
-Changes since v1:
-	Those patches delay creation of notifiers until respective
-	connectors are constructed. It seems that those patches, for a
-	couple of drivers, by adding the delay, introduce a race between
-	notifiers' creation and the IRQs handling threads - at least I
-	don't see anything obvious in there that would explicitly forbid
-	such races to occur. v2 adds a write barrier to make sure IRQ
-	threads see the notifier once it is created (replacing the
-	WRITE_ONCE I put in v1). The best thing to do here, I believe,
-	would be not to have any synchronization and make sure that an IRQ
-	only gets enabled after the notifier is created.
-Dariusz Marcinkiewicz (9):
-  drm_dp_cec: add connector info support.
-  drm/i915/intel_hdmi: use cec_notifier_conn_(un)register
-  dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
-  tda9950: use cec_notifier_cec_adap_(un)register
-  drm: tda998x: use cec_notifier_conn_(un)register
-  drm: sti: use cec_notifier_conn_(un)register
-  drm: tegra: use cec_notifier_conn_(un)register
-  drm: dw-hdmi: use cec_notifier_conn_(un)register
-  drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
-
+Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 13 +++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 46 +++++++++++++------
- drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++----
- drivers/gpu/drm/exynos/exynos_hdmi.c          | 31 +++++++------
- drivers/gpu/drm/i2c/tda9950.c                 | 12 ++---
- drivers/gpu/drm/i2c/tda998x_drv.c             | 36 ++++++++++-----
- drivers/gpu/drm/i915/display/intel_dp.c       |  4 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c     | 13 ++++--
- drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +-
- drivers/gpu/drm/sti/sti_hdmi.c                | 19 +++++---
- drivers/gpu/drm/tegra/output.c                | 28 ++++++++---
- include/drm/drm_dp_helper.h                   | 17 ++++---
- 13 files changed, 155 insertions(+), 94 deletions(-)
+ drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++++++++-------
+ drivers/gpu/drm/i915/display/intel_dp.c       |  4 +--
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +--
+ include/drm/drm_dp_helper.h                   | 17 ++++++-------
+ 5 files changed, 27 insertions(+), 24 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 16218a202b591..5ec14efd4d8cb 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -416,7 +416,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
+ 
+ 	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
+ 	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
+-				      aconnector->base.name, dm->adev->dev);
++				      &aconnector->base);
+ 	aconnector->mst_mgr.cbs = &dm_mst_cbs;
+ 	drm_dp_mst_topology_mgr_init(
+ 		&aconnector->mst_mgr,
+diff --git a/drivers/gpu/drm/drm_dp_cec.c b/drivers/gpu/drm/drm_dp_cec.c
+index b15cee85b702b..b457c16c3a8bb 100644
+--- a/drivers/gpu/drm/drm_dp_cec.c
++++ b/drivers/gpu/drm/drm_dp_cec.c
+@@ -8,7 +8,9 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
++#include <drm/drm_connector.h>
+ #include <drm/drm_dp_helper.h>
++#include <drm/drmP.h>
+ #include <media/cec.h>
+ 
+ /*
+@@ -295,7 +297,10 @@ static void drm_dp_cec_unregister_work(struct work_struct *work)
+  */
+ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
+ {
+-	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD;
++	struct drm_connector *connector = aux->cec.connector;
++	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD |
++		       CEC_CAP_CONNECTOR_INFO;
++	struct cec_connector_info conn_info;
+ 	unsigned int num_las = 1;
+ 	u8 cap;
+ 
+@@ -344,13 +349,17 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
+ 
+ 	/* Create a new adapter */
+ 	aux->cec.adap = cec_allocate_adapter(&drm_dp_cec_adap_ops,
+-					     aux, aux->cec.name, cec_caps,
++					     aux, connector->name, cec_caps,
+ 					     num_las);
+ 	if (IS_ERR(aux->cec.adap)) {
+ 		aux->cec.adap = NULL;
+ 		goto unlock;
+ 	}
+-	if (cec_register_adapter(aux->cec.adap, aux->cec.parent)) {
++
++	cec_fill_conn_info_from_drm(&conn_info, connector);
++	cec_s_conn_info(aux->cec.adap, &conn_info);
++
++	if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
+ 		cec_delete_adapter(aux->cec.adap);
+ 		aux->cec.adap = NULL;
+ 	} else {
+@@ -406,22 +415,20 @@ EXPORT_SYMBOL(drm_dp_cec_unset_edid);
+ /**
+  * drm_dp_cec_register_connector() - register a new connector
+  * @aux: DisplayPort AUX channel
+- * @name: name of the CEC device
+- * @parent: parent device
++ * @connector: drm connector
+  *
+  * A new connector was registered with associated CEC adapter name and
+  * CEC adapter parent device. After registering the name and parent
+  * drm_dp_cec_set_edid() is called to check if the connector supports
+  * CEC and to register a CEC adapter if that is the case.
+  */
+-void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
+-				   struct device *parent)
++void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
++				   struct drm_connector *connector)
+ {
+ 	WARN_ON(aux->cec.adap);
+ 	if (WARN_ON(!aux->transfer))
+ 		return;
+-	aux->cec.name = name;
+-	aux->cec.parent = parent;
++	aux->cec.connector = connector;
+ 	INIT_DELAYED_WORK(&aux->cec.unregister_work,
+ 			  drm_dp_cec_unregister_work);
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 1092499115760..de2486fe7bf2d 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5497,7 +5497,6 @@ static int
+ intel_dp_connector_register(struct drm_connector *connector)
+ {
+ 	struct intel_dp *intel_dp = intel_attached_dp(connector);
+-	struct drm_device *dev = connector->dev;
+ 	int ret;
+ 
+ 	ret = intel_connector_register(connector);
+@@ -5512,8 +5511,7 @@ intel_dp_connector_register(struct drm_connector *connector)
+ 	intel_dp->aux.dev = connector->kdev;
+ 	ret = drm_dp_aux_register(&intel_dp->aux);
+ 	if (!ret)
+-		drm_dp_cec_register_connector(&intel_dp->aux,
+-					      connector->name, dev->dev);
++		drm_dp_cec_register_connector(&intel_dp->aux, connector);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 330d7d29a6e34..8aa703347eb54 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -1416,8 +1416,7 @@ nouveau_connector_create(struct drm_device *dev,
+ 	switch (type) {
+ 	case DRM_MODE_CONNECTOR_DisplayPort:
+ 	case DRM_MODE_CONNECTOR_eDP:
+-		drm_dp_cec_register_connector(&nv_connector->aux,
+-					      connector->name, dev->dev);
++		drm_dp_cec_register_connector(&nv_connector->aux, connector);
+ 		break;
+ 	}
+ 
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 8364502f92cfe..7972b925a952b 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1230,20 +1230,19 @@ struct drm_dp_aux_msg {
+ 
+ struct cec_adapter;
+ struct edid;
++struct drm_connector;
+ 
+ /**
+  * struct drm_dp_aux_cec - DisplayPort CEC-Tunneling-over-AUX
+  * @lock: mutex protecting this struct
+  * @adap: the CEC adapter for CEC-Tunneling-over-AUX support.
+- * @name: name of the CEC adapter
+- * @parent: parent device of the CEC adapter
++ * @connector: the connector this CEC adapter is associated with
+  * @unregister_work: unregister the CEC adapter
+  */
+ struct drm_dp_aux_cec {
+ 	struct mutex lock;
+ 	struct cec_adapter *adap;
+-	const char *name;
+-	struct device *parent;
++	struct drm_connector *connector;
+ 	struct delayed_work unregister_work;
+ };
+ 
+@@ -1451,8 +1450,8 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
+ 
+ #ifdef CONFIG_DRM_DP_CEC
+ void drm_dp_cec_irq(struct drm_dp_aux *aux);
+-void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
+-				   struct device *parent);
++void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
++				   struct drm_connector *connector);
+ void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
+ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
+ void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
+@@ -1461,9 +1460,9 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux *aux)
+ {
+ }
+ 
+-static inline void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
+-						 const char *name,
+-						 struct device *parent)
++static inline void
++drm_dp_cec_register_connector(struct drm_dp_aux *aux,
++			      struct drm_connector *connector)
+ {
+ }
+ 
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
