@@ -2,100 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 328D08CFE5
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 11:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C02658D04E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbfHNJmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 05:42:50 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:35340 "EHLO
+        id S1726126AbfHNKHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 06:07:46 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35548 "EHLO
         hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726606AbfHNJmu (ORCPT
+        by vger.kernel.org with ESMTP id S1725955AbfHNKHq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 05:42:50 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7A1F3634C89;
-        Wed, 14 Aug 2019 12:42:38 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hxpnh-0000u7-SD; Wed, 14 Aug 2019 12:42:37 +0300
-Date:   Wed, 14 Aug 2019 12:42:37 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     =?iso-8859-1?Q?S=E9bastien?= Szymanski 
-        <sebastien.szymanski@armadeus.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org
-Subject: Re: [PATCH v3 1/3] ARM: dts: imx6ul: Add csi node
-Message-ID: <20190814094237.GJ2527@valkosipuli.retiisi.org.uk>
-References: <20190731163257.32448-1-sebastien.szymanski@armadeus.com>
+        Wed, 14 Aug 2019 06:07:46 -0400
+Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1002])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id ACDAC634C88;
+        Wed, 14 Aug 2019 13:07:33 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     chiranjeevi.rapolu@intel.com, hyungwoo.yang@intel.com
+Subject: [PATCH 1/1] MAINTAINERS: Add entry for the ov5670 driver
+Date:   Wed, 14 Aug 2019 13:04:58 +0300
+Message-Id: <20190814100458.20080-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190731163257.32448-1-sebastien.szymanski@armadeus.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sébastien,
+The ov5670 driver didn't get a MAINTAINERS entry when it was merged. Add
+one now.
 
-On Wed, Jul 31, 2019 at 06:32:57PM +0200, Sébastien Szymanski wrote:
-> Add csi node for i.MX6UL SoC.
-> 
-> Reviewed-by: Fabio Estevam <festevam@gmail.com>
-> Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-This should be probably merged through the ARM tree.
-
-I can take the other two.
-
-> ---
-> 
-> Changes for v3:
->  - none
-> 
-> Changes for v2:
->  - only "mclk" clock is required now.
-> 
->  arch/arm/boot/dts/imx6ul.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
-> index 81d4b4925127..56cfcf0e5084 100644
-> --- a/arch/arm/boot/dts/imx6ul.dtsi
-> +++ b/arch/arm/boot/dts/imx6ul.dtsi
-> @@ -957,6 +957,15 @@
->  				};
->  			};
->  
-> +			csi: csi@21c4000 {
-> +				compatible = "fsl,imx6ul-csi", "fsl,imx7-csi";
-> +				reg = <0x021c4000 0x4000>;
-> +				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks = <&clks IMX6UL_CLK_CSI>;
-> +				clock-names = "mclk";
-> +				status = "disabled";
-> +			};
-> +
->  			lcdif: lcdif@21c8000 {
->  				compatible = "fsl,imx6ul-lcdif", "fsl,imx28-lcdif";
->  				reg = <0x021c8000 0x4000>;
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 74c51fe3f25c..69d3fa86cf18 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11846,6 +11846,14 @@ T:	git git://linuxtv.org/media_tree.git
+ S:	Maintained
+ F:	drivers/media/i2c/ov5647.c
+ 
++OMNIVISION OV5670 SENSOR DRIVER
++M:	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
++M:	Hyungwoo Yang <hyungwoo.yang@intel.com>
++L:	linux-media@vger.kernel.org
++T:	git git://linuxtv.org/media_tree.git
++S:	Maintained
++F:	drivers/media/i2c/ov5670.c
++
+ OMNIVISION OV5675 SENSOR DRIVER
+ M:	Shawn Tu <shawnx.tu@intel.com>
+ L:	linux-media@vger.kernel.org
 -- 
-Sakari Ailus
+2.20.1
+
