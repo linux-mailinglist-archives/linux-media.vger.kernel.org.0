@@ -2,32 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CD118D6AB
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 16:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69F298D72B
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 17:28:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbfHNOy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 10:54:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50666 "EHLO
+        id S1726166AbfHNP2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 11:28:11 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50762 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726166AbfHNOy0 (ORCPT
+        with ESMTP id S1726047AbfHNP2L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 10:54:26 -0400
+        Wed, 14 Aug 2019 11:28:11 -0400
 Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35EB42B2;
-        Wed, 14 Aug 2019 16:54:24 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A48832B2
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 17:28:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565794464;
-        bh=fMwkKQDP9tb51LzahulAvzJUA1ysJqumG8L71bWW+kg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BSMwRDTpoYFS9Y/Pee2id1AnmYSDkYOHODAPDuef8kECgSNkcV2sNjnHcgkJw4LQs
-         +seMeELJbzkqm67D1mlwuz0qNY3UXLHZTUm6vaBbRzOWw5FTrBaqz3XhES2WzByMqg
-         G+p2K87cU1GMN+KMwOBVuUCM6SRuDt/y0GIo1bZY=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+        s=mail; t=1565796489;
+        bh=4J8x03fBojg4wiPyMn8N8tQv11qHPkhdG1e12IxgYO4=;
+        h=From:To:Subject:Date:From;
+        b=whrYA+szxBBvO+UGJUnO9MqFHZV5LmaboaYWYaah4fBlf5GH3uWh3o2T762Z3XzmL
+         qThnBxRsqGg09Ux2s+BkgBKF+CN1VDSyu5mogUADVtXkSWpWRr3i8Mr4QNHW+dMJxW
+         am8YvMtNSMTQD1W5JtZEY2lE/RqWk+2QAvucLTig=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
-Date:   Wed, 14 Aug 2019 17:54:17 +0300
-Message-Id: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH] media: uvc: Fix error path in control parsing failure
+Date:   Wed, 14 Aug 2019 18:28:02 +0300
+Message-Id: <20190814152802.1867-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -36,96 +35,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This helps identifying the IP core version, for debugging purpose only
-for now.
+When parsing the UVC control descriptors fails, the error path tries to
+cleanup a media device that hasn't been initialised, potentially
+resulting in a crash. Fix this by initialising the media device before
+the error handling path can be reached.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Fixes: 5a254d751e52 ("[media] uvcvideo: Register a v4l2_device")
+Reported-by: syzbot+c86454eb3af9e8a4da20@syzkaller.appspotmail.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
-Changes since v1:
+ drivers/media/usb/uvc/uvc_driver.c | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-- Use devm_platform_ioremap_resource()
----
- drivers/media/platform/rcar-fcp.c | 41 +++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
-
-diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-index 43c78620c9d8..6e0c0e7c0f8c 100644
---- a/drivers/media/platform/rcar-fcp.c
-+++ b/drivers/media/platform/rcar-fcp.c
-@@ -8,6 +8,7 @@
-  */
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 66ee168ddc7e..428235ca2635 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2151,6 +2151,20 @@ static int uvc_probe(struct usb_interface *intf,
+ 			   sizeof(dev->name) - len);
+ 	}
  
- #include <linux/device.h>
-+#include <linux/io.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-@@ -21,11 +22,38 @@
- struct rcar_fcp_device {
- 	struct list_head list;
- 	struct device *dev;
-+	void __iomem *iomem;
- };
++	/* Initialize the media device. */
++#ifdef CONFIG_MEDIA_CONTROLLER
++	dev->mdev.dev = &intf->dev;
++	strscpy(dev->mdev.model, dev->name, sizeof(dev->mdev.model));
++	if (udev->serial)
++		strscpy(dev->mdev.serial, udev->serial,
++			sizeof(dev->mdev.serial));
++	usb_make_path(udev, dev->mdev.bus_info, sizeof(dev->mdev.bus_info));
++	dev->mdev.hw_revision = le16_to_cpu(udev->descriptor.bcdDevice);
++	media_device_init(&dev->mdev);
++
++	dev->vdev.mdev = &dev->mdev;
++#endif
++
+ 	/* Parse the Video Class control descriptor. */
+ 	if (uvc_parse_control(dev) < 0) {
+ 		uvc_trace(UVC_TRACE_PROBE, "Unable to parse UVC "
+@@ -2171,19 +2185,7 @@ static int uvc_probe(struct usb_interface *intf,
+ 			"linux-uvc-devel mailing list.\n");
+ 	}
  
- static LIST_HEAD(fcp_devices);
- static DEFINE_MUTEX(fcp_lock);
+-	/* Initialize the media device and register the V4L2 device. */
+-#ifdef CONFIG_MEDIA_CONTROLLER
+-	dev->mdev.dev = &intf->dev;
+-	strscpy(dev->mdev.model, dev->name, sizeof(dev->mdev.model));
+-	if (udev->serial)
+-		strscpy(dev->mdev.serial, udev->serial,
+-			sizeof(dev->mdev.serial));
+-	usb_make_path(udev, dev->mdev.bus_info, sizeof(dev->mdev.bus_info));
+-	dev->mdev.hw_revision = le16_to_cpu(udev->descriptor.bcdDevice);
+-	media_device_init(&dev->mdev);
+-
+-	dev->vdev.mdev = &dev->mdev;
+-#endif
++	/* Register the V4L2 device. */
+ 	if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
+ 		goto error;
  
-+#define FCP_VCR			0x0000
-+#define FCP_VCR_CATEGORY_MASK	(0xff << 8)
-+#define FCP_VCR_CATEGORY_SHIFT	8
-+#define FCP_VCR_REVISION_MASK	(0xff << 0)
-+#define FCP_VCR_REVISION_SHIFT	0
-+
-+#define FCP_CFG0		0x0004
-+#define FCP_RST			0x0010
-+#define FCP_STA			0x0018
-+#define FCP_TL_CTRL		0x0070
-+#define FCP_PICINFO1		0x00c4
-+#define FCP_BA_ANC_Y0		0x0100
-+#define FCP_BA_ANC_Y1		0x0104
-+#define FCP_BA_ANC_Y2		0x0108
-+#define FCP_BA_ANC_C		0x010c
-+#define FCP_BA_REF_Y0		0x0110
-+#define FCP_BA_REF_Y1		0x0114
-+#define FCP_BA_REF_Y2		0x0118
-+#define FCP_BA_REF_C		0x011c
-+
-+
-+static inline u32 rcar_fcp_read(struct rcar_fcp_device *fcp, u32 reg)
-+{
-+	return ioread32(fcp->iomem + reg);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Public API
-  */
-@@ -129,6 +157,7 @@ EXPORT_SYMBOL_GPL(rcar_fcp_disable);
- static int rcar_fcp_probe(struct platform_device *pdev)
- {
- 	struct rcar_fcp_device *fcp;
-+	u32 version;
- 
- 	fcp = devm_kzalloc(&pdev->dev, sizeof(*fcp), GFP_KERNEL);
- 	if (fcp == NULL)
-@@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(&pdev->dev);
- 
-+	fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(fcp->iomem))
-+		return PTR_ERR(fcp->iomem);
-+
-+	pm_runtime_get_sync(&pdev->dev);
-+	version = rcar_fcp_read(fcp, FCP_VCR);
-+	pm_runtime_put(&pdev->dev);
-+
-+	dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
-+		(version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
-+		(version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
-+
- 	mutex_lock(&fcp_lock);
- 	list_add_tail(&fcp->list, &fcp_devices);
- 	mutex_unlock(&fcp_lock);
 -- 
 Regards,
 
