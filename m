@@ -2,106 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC3518D5C6
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 16:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CD118D6AB
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 16:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbfHNOR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 10:17:28 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:2944 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726019AbfHNOR2 (ORCPT
+        id S1728014AbfHNOy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 10:54:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50666 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726166AbfHNOy0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 10:17:28 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7EEBQT5021331;
-        Wed, 14 Aug 2019 16:17:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=864BMKlRVFujYQCq26+1g0K4hmq2aALb8dEnOteiolo=;
- b=J174bcZrkmVeJ7AJOl9VCKXBznmKRNGKuDznEEXShutR8zIKsYb3zZoJjmj7dK6hhK86
- pa2BHJKexcG++kpNZuT8ZtR3NgdSxFyIVq9wwvVFLbzz3smt+NVNYNSMNPz4yFx+41DE
- ARk9qY87/HMVJkZkFzWdH4htlaFv8ubQe8cLNPkXvh0nO4z1+2A/pa7zefqWKmafwPFx
- jyZvovgQIZXEd3rDaFel6SwqEZvhDThUrlZcBFE7yTwlDRUCQvKmyFumyleQApn39Dj2
- cEq8L+o0Xnx9k1l32qgFnjOWTRQ3vsPwt48I7z3O+7TwRnV2noQXt0wn56rdHAzUyzh3 TA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2u9kpuwtjn-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 14 Aug 2019 16:17:14 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D312534;
-        Wed, 14 Aug 2019 14:17:13 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C0FDC2B910C;
-        Wed, 14 Aug 2019 16:17:13 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE3.st.com
- (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 14 Aug
- 2019 16:17:13 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Wed, 14 Aug 2019 16:17:13 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Alexandre TORGUE <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick FERTRE <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
-Thread-Topic: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
-Thread-Index: AQHVTsvbNiH8ciXV5ESmNTxaXVzk1ab6ls8A
-Date:   Wed, 14 Aug 2019 14:17:13 +0000
-Message-ID: <ca92a856-98fc-f82b-fa0a-62b9f44e266c@st.com>
-References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
- <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
- <20190809160121.GA6194@paasikivi.fi.intel.com>
-In-Reply-To: <20190809160121.GA6194@paasikivi.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.51]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EDF4C1A0C930AF4EB3EB2E6088AF5865@st.com>
-Content-Transfer-Encoding: base64
+        Wed, 14 Aug 2019 10:54:26 -0400
+Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35EB42B2;
+        Wed, 14 Aug 2019 16:54:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565794464;
+        bh=fMwkKQDP9tb51LzahulAvzJUA1ysJqumG8L71bWW+kg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BSMwRDTpoYFS9Y/Pee2id1AnmYSDkYOHODAPDuef8kECgSNkcV2sNjnHcgkJw4LQs
+         +seMeELJbzkqm67D1mlwuz0qNY3UXLHZTUm6vaBbRzOWw5FTrBaqz3XhES2WzByMqg
+         G+p2K87cU1GMN+KMwOBVuUCM6SRuDt/y0GIo1bZY=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
+Date:   Wed, 14 Aug 2019 17:54:17 +0300
+Message-Id: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-14_05:,,
- signatures=0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgU2FrYXJpLCBIYW5zLA0KDQpJJ3ZlIGp1c3QgcHVzaGVkIGEgdjYgd2l0aCB0aGUgRklYTUUg
-d2UgZGlzY3Vzc2VkIG9uIElSQyBhYm91dA0KInBhcmFsbGVsIiBtYnVzIGNvZGUgdmVyc3VzICJz
-ZXJpYWwiIG1idXMgY29kZS4gSSBoYXZlIGFsc28gYWRkZWQNCnNvbWUgdHJhY2VzIHRvIGhlbHAg
-aW4gZGVidWdnaW5nIGlmIHN1Y2ggY2FzZSBvY2N1cnMuDQoNCnZlcnNpb24gNjoNCiAgIC0gQXMg
-cGVyIFNha2FyaSByZW1hcms6IGFkZCBhIEZJWE1FIGV4cGxhaW5pbmcgdGhhdCB0aGlzDQogICAg
-IHZlcnNpb24gb25seSBzdXBwb3J0cyBzdWJkZXZpY2VzIHdoaWNoIGV4cG9zZSBSR0IgJiBZVVYN
-CiAgICAgInBhcmFsbGVsIGZvcm0iIG1idXMgY29kZSAoXzJYOCkNCiAgIC0gQWRkIHNvbWUgdHJh
-Y2UgYXJvdW5kIHN1YmRldl9jYWxsKHNfZm10KSBlcnJvciAmIGZvcm1hdA0KICAgICBjaGFuZ2Vz
-IHRvIGRlYnVnIHN1YmRldiB3aGljaCBvbmx5IGV4cG9zZSBzZXJpYWwgbWJ1cyBjb2RlDQogICAt
-IENvbmZvcm0gdG8gIjxuYW1lPiI6PHBhZCBpbmRleD4gd2hlbiB0cmFjaW5nIHN1YmRldiBpbmZv
-cw0KDQoNCkJlc3QgcmVnYXJkcywNCkh1Z3Vlcy4NCg0KT24gOC85LzE5IDY6MDEgUE0sIFNha2Fy
-aSBBaWx1cyB3cm90ZToNCj4gSGkgSHVndWVzLA0KPiANCj4gVGhhbmtzIGZvciB0ZWggdXBkYXRl
-Lg0KPiANCj4gT24gV2VkLCBKdWwgMzEsIDIwMTkgYXQgMDI6NTY6MjFQTSArMDIwMCwgSHVndWVz
-IEZydWNoZXQgd3JvdGU6DQo+PiBSZW5hbWUgInN1YmRldiIgZW50aXR5IHN0cnVjdCBmaWVsZCB0
-byAic291cmNlIg0KPj4gdG8gcHJlcGFyZSBmb3Igc2V2ZXJhbCBzdWJkZXYgc3VwcG9ydC4NCj4+
-IE1vdmUgYXNkIGZpZWxkIG9uIHRvcCBvZiBlbnRpdHkgc3RydWN0Lg0KPj4NCj4+IFNpZ25lZC1v
-ZmYtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMuZnJ1Y2hldEBzdC5jb20+DQo+PiBDaGFuZ2Ut
-SWQ6IEkxNTQ1YTFhMjlhODA2MWVlNjdjYzZlNGI3OTllOWE2OTA3MTkxMWU3DQo+IA0KPiBObyBD
-aGFuZ2UtSWQgdGFncyBpbiB0aGUga2VybmVsLCBwbGVhc2UuIENoZWNrIHRoZSBvdGhlciB0d28g
-YXMgd2VsbC4NCj4gDQo+IFdpdGggdGhhdCBmaXhlZCwNCj4gDQo+IEFja2VkLWJ5OiBTYWthcmkg
-QWlsdXMgPHNha2FyaS5haWx1c0BsaW51eC5pbnRlbC5jb20+DQo+IA==
+This helps identifying the IP core version, for debugging purpose only
+for now.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Changes since v1:
+
+- Use devm_platform_ioremap_resource()
+---
+ drivers/media/platform/rcar-fcp.c | 41 +++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 43c78620c9d8..6e0c0e7c0f8c 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/device.h>
++#include <linux/io.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/mod_devicetable.h>
+@@ -21,11 +22,38 @@
+ struct rcar_fcp_device {
+ 	struct list_head list;
+ 	struct device *dev;
++	void __iomem *iomem;
+ };
+ 
+ static LIST_HEAD(fcp_devices);
+ static DEFINE_MUTEX(fcp_lock);
+ 
++#define FCP_VCR			0x0000
++#define FCP_VCR_CATEGORY_MASK	(0xff << 8)
++#define FCP_VCR_CATEGORY_SHIFT	8
++#define FCP_VCR_REVISION_MASK	(0xff << 0)
++#define FCP_VCR_REVISION_SHIFT	0
++
++#define FCP_CFG0		0x0004
++#define FCP_RST			0x0010
++#define FCP_STA			0x0018
++#define FCP_TL_CTRL		0x0070
++#define FCP_PICINFO1		0x00c4
++#define FCP_BA_ANC_Y0		0x0100
++#define FCP_BA_ANC_Y1		0x0104
++#define FCP_BA_ANC_Y2		0x0108
++#define FCP_BA_ANC_C		0x010c
++#define FCP_BA_REF_Y0		0x0110
++#define FCP_BA_REF_Y1		0x0114
++#define FCP_BA_REF_Y2		0x0118
++#define FCP_BA_REF_C		0x011c
++
++
++static inline u32 rcar_fcp_read(struct rcar_fcp_device *fcp, u32 reg)
++{
++	return ioread32(fcp->iomem + reg);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Public API
+  */
+@@ -129,6 +157,7 @@ EXPORT_SYMBOL_GPL(rcar_fcp_disable);
+ static int rcar_fcp_probe(struct platform_device *pdev)
+ {
+ 	struct rcar_fcp_device *fcp;
++	u32 version;
+ 
+ 	fcp = devm_kzalloc(&pdev->dev, sizeof(*fcp), GFP_KERNEL);
+ 	if (fcp == NULL)
+@@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
++	fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(fcp->iomem))
++		return PTR_ERR(fcp->iomem);
++
++	pm_runtime_get_sync(&pdev->dev);
++	version = rcar_fcp_read(fcp, FCP_VCR);
++	pm_runtime_put(&pdev->dev);
++
++	dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
++		(version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
++		(version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
++
+ 	mutex_lock(&fcp_lock);
+ 	list_add_tail(&fcp->list, &fcp_devices);
+ 	mutex_unlock(&fcp_lock);
+-- 
+Regards,
+
+Laurent Pinchart
+
