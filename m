@@ -2,115 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C6AA8CE93
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 10:36:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68FC78CEB9
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 10:43:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfHNIgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 04:36:02 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43454 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725265AbfHNIgC (ORCPT
+        id S1726585AbfHNIna (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 04:43:30 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:34774 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726496AbfHNIna (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 04:36:02 -0400
-Received: by mail-ot1-f67.google.com with SMTP id e12so36233669otp.10
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 01:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/o/cT1ICfJaxPM6fH7buuil/8DvoYp2xlNCjpESVvuY=;
-        b=ZZyo7C7ly0jQSE2RN4WhEb6i4w8ibawWKvN9arx8bRlDDbX/3HRbu2ow4p8mPPwc3K
-         DaPGRxbaf8MHpT1xu8CI30GwEC6/Z6QzRYkbt8S7EIXxd53Lu2m/UbnHGt4CJocY16D/
-         Xe+aoN/F9giVj26yfFmJF69GIgSOhA5Dlnv1I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/o/cT1ICfJaxPM6fH7buuil/8DvoYp2xlNCjpESVvuY=;
-        b=Ki8IWscWAo/e7NAiooAAEybKa35Io4OKPyBBeSzET06Ksd8pPOOuHKDPA34+EKSfy/
-         fZBk/7UpQqJdBiC1KwMw3RRZzDdJkG0osAcMRJV4pBFCfQuMbSUviFHqE842edRCc3Qt
-         6kKBjm//DHYqMEVu5R7vYN0KUUqqL13d8hRSQ0fj2VIKaHqoFslKrXDBQANtMVrddSmN
-         FMWWztieX0dHGMB0WcG2ewVAy2LqKt+svYB31B/oUYSOeA3DJ+cVmepYqPQFY4SZJ1Iw
-         ku2MDUNcNKjNkl8hSLsXcBI+XfXyzp0cdyWtUeJlf5QRHfQiv9HshlA4YJI5cQqQGZMh
-         hE6A==
-X-Gm-Message-State: APjAAAVVGjY9rZjn4nHU2V6Km2NM8y9NQhx4qtRVu/cnGE7J4+FmJnkQ
-        oK/1RyfEKnNNLmTTgBrUolFGVQHo1Lk=
-X-Google-Smtp-Source: APXvYqwHfzetOTG0ty7B1Qj5r9nvdI75SBKqyjyY0JgAsCV0deMMin0Vfr3UGYJtELDXt5zB1uEiwg==
-X-Received: by 2002:a9d:72c3:: with SMTP id d3mr5560711otk.149.1565771761408;
-        Wed, 14 Aug 2019 01:36:01 -0700 (PDT)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com. [209.85.167.171])
-        by smtp.gmail.com with ESMTPSA id p3sm38270331otk.47.2019.08.14.01.35.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Aug 2019 01:36:00 -0700 (PDT)
-Received: by mail-oi1-f171.google.com with SMTP id y8so2612368oih.10
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 01:35:59 -0700 (PDT)
-X-Received: by 2002:aca:40d5:: with SMTP id n204mr4023184oia.94.1565771759262;
- Wed, 14 Aug 2019 01:35:59 -0700 (PDT)
+        Wed, 14 Aug 2019 04:43:30 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id CADE2634C88
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 11:43:17 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxosH-0000su-5L
+        for linux-media@vger.kernel.org; Wed, 14 Aug 2019 11:43:17 +0300
+Date:   Wed, 14 Aug 2019 11:43:17 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.4] More sensor driver, omap3isp and documentation
+ patches
+Message-ID: <20190814084317.GI2527@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-References: <20190630134404.7ba170f0@coco.lan> <20190801093400.5c351754@coco.lan>
- <20190808095535.1ec92a1d@coco.lan> <CAPBb6MUknz7hOpG=hHF59QwvMxJR-=RxWvK2aTPo=97XKqPPQA@mail.gmail.com>
- <e450c395-cc9d-ee5a-c02f-821807c48947@xs4all.nl>
-In-Reply-To: <e450c395-cc9d-ee5a-c02f-821807c48947@xs4all.nl>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 14 Aug 2019 17:35:48 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
-Message-ID: <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
-Subject: Re: [ANN] Media summit in Lisbon at September
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-That could be nice. Of course something more informal is also fine.
-Anyone else planning to attend? I suspect Laurent and people living in
-France might be there?
+Hi Mauro,
 
-On Mon, Aug 12, 2019 at 4:28 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 8/12/19 6:00 AM, Alexandre Courbot wrote:
-> > On Thu, Aug 8, 2019 at 9:55 PM Mauro Carvalho Chehab
-> > <mchehab+samsung@kernel.org> wrote:
-> >>
-> >> Em Thu, 1 Aug 2019 09:34:00 -0300
-> >> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> >>
-> >>> Em Sun, 30 Jun 2019 13:44:04 -0300
-> >>> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> >>>
-> >>>> Hi all,
-> >>>>
-> >>>> We are organizing a media mini-summit in Lisbon to happen in September,
-> >>>> at the same week as the Linux Plumber Conference and the Kernel Summit.
-> >>>>
-> >>>> We're still discussing the details about that.
-> >>>
-> >>> Gently reminder.
-> >>>
-> >>> Right now, we have just one extra theme proposal from Sean:
-> >>>
-> >>>       - possible dvb improvements.
-> >>>
-> >>> If we don't have more proposals, we may end skipping the Media
-> >>> Summit this year.
-> >>
-> >> It sounds that we won't have material to have a media summit this year.
-> >> So, let's cancel the media summit this year.
-> >
-> > Loosely related, but are there people planning to go to ELCE on
-> > 10/28-30? Tomasz and I may attend if there is a chance to discuss
-> > libcamera/V4L2 codecs.
->
-> I'll be there and if there is enough interest in setting up a meeting
-> to discuss this, then I can ask the LF to set a room aside for us for,
-> say, half a day or so.
->
-> Regards,
->
->         Hans
+Here's a bunch of sensor driver, omap3isp and documentatino patches.
+Noteworthy bit is perhaps a driver for the ov5675 sensor.
+
+There are some checkpatch warnings there (patches 1, 6 and 8), the first
+two seem false positives whereas the last one comes from the documentation
+license header.
+
+Please pull.
+
+
+The following changes since commit 0dc99e042a4cfbc1e27572d523d2a1dbaf402cbf:
+
+  media: MAINTAINERS: Remove zoran driver (2019-08-13 11:55:34 -0300)
+
+are available in the Git repository at:
+
+  ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.4-4-signed
+
+for you to fetch changes up to 91a393dd12ba00d3916496a18ae3df090d2d351b:
+
+  media: docs-rst: Clarify duration of LP-11 mode (2019-08-14 11:33:45 +0300)
+
+----------------------------------------------------------------
+Sensor driver stuff for 5.4
+
+----------------------------------------------------------------
+Ezequiel Garcia (1):
+      media: i2c: ov5645: Fix power sequence
+
+Luca Weiss (1):
+      media: ov5640: Add support for flash and lens devices
+
+Sakari Ailus (5):
+      ov8856: Check reading clock frequency succeeded
+      omap3isp: Set device on omap3isp subdevs
+      omap3isp: Don't set streaming state on random subdevs
+      v4l: Documentation: Serial busses use parallel mbus codes
+      v4l: Documentation: Raw Bayer formats are not RGB formats
+
+Shawn Tu (1):
+      ov5675: Add support for OV5675 sensor
+
+Steve Longerbeam (1):
+      media: docs-rst: Clarify duration of LP-11 mode
+
+ Documentation/media/kapi/csi2.rst                  |   17 +-
+ Documentation/media/uapi/v4l/control.rst           |    2 +-
+ Documentation/media/uapi/v4l/hist-v4l2.rst         |    2 +-
+ Documentation/media/uapi/v4l/pixfmt-bayer.rst      |   38 +
+ Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst | 1306 --------------------
+ Documentation/media/uapi/v4l/pixfmt-rgb.rst        | 1302 ++++++++++++++++++-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst       |    2 +-
+ Documentation/media/uapi/v4l/pixfmt.rst            |    1 +
+ Documentation/media/uapi/v4l/subdev-formats.rst    |    8 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/i2c/Kconfig                          |   13 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/ov5640.c                         |    2 +-
+ drivers/media/i2c/ov5645.c                         |   26 +-
+ drivers/media/i2c/ov5675.c                         | 1183 ++++++++++++++++++
+ drivers/media/i2c/ov8856.c                         |    5 +-
+ drivers/media/platform/omap3isp/isp.c              |    8 +
+ drivers/media/platform/omap3isp/ispccdc.c          |    1 +
+ drivers/media/platform/omap3isp/ispccp2.c          |    1 +
+ drivers/media/platform/omap3isp/ispcsi2.c          |    1 +
+ drivers/media/platform/omap3isp/isppreview.c       |    1 +
+ drivers/media/platform/omap3isp/ispresizer.c       |    1 +
+ drivers/media/platform/omap3isp/ispstat.c          |    2 +
+ 23 files changed, 2594 insertions(+), 1336 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-bayer.rst
+ delete mode 100644 Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
+ create mode 100644 drivers/media/i2c/ov5675.c
+
+-- 
+Sakari Ailus
