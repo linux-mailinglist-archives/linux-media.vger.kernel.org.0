@@ -2,170 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DE88D335
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 14:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BCBB8D3D4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 14:53:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfHNMfQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 08:35:16 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59961 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfHNMfQ (ORCPT
+        id S1728036AbfHNMwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 08:52:16 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60111 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727110AbfHNMwO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 08:35:16 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1hxsUk-0007zN-RT; Wed, 14 Aug 2019 14:35:14 +0200
-Message-ID: <1565786114.3640.1.camel@pengutronix.de>
-Subject: Re: [PATCH v9] media: imx: add csc/scaler mem2mem device
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, kernel@pengutronix.de
-Date:   Wed, 14 Aug 2019 14:35:14 +0200
-In-Reply-To: <20190814122444.17920-1-p.zabel@pengutronix.de>
-References: <20190814122444.17920-1-p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        Wed, 14 Aug 2019 08:52:14 -0400
+X-Originating-IP: 86.250.200.211
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 04F46E000C;
+        Wed, 14 Aug 2019 12:52:10 +0000 (UTC)
+Date:   Wed, 14 Aug 2019 14:52:10 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCHv2 01/12] videodev2.h: add
+ V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM
+Message-ID: <20190814125210.GA11714@aptenodytes>
+References: <20190812110513.23774-1-hverkuil-cisco@xs4all.nl>
+ <20190812110513.23774-2-hverkuil-cisco@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
+Content-Disposition: inline
+In-Reply-To: <20190812110513.23774-2-hverkuil-cisco@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-08-14 at 14:24 +0200, Philipp Zabel wrote:
-> Add a single imx-media mem2mem video device that uses the IPU IC PP
-> (image converter post processing) task for scaling and colorspace
-> conversion.
-> On i.MX6Q/DL SoCs with two IPUs currently only the first IPU is used.
-[...]
 
-Output of 'v4l2-compliance -d 10 -e 10 -s -P', with the ipu-v3 fixes at
-[1] applied. 'v4l2-compliance -f' works for most format combinations,
-but fails with CMA trying to allocate physically contiguous 4096x4096
-32-bit RGB buffers on both queues, on my test system:
+--YiEDa0DAkWCtVeE4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://patchwork.kernel.org/series/159687/mbox
+Hi,
 
-----------8<----------
-v4l2-compliance SHA: 8d411705aa29f3ad77a4d48797b7ad07bfcce471, 32 bits
+On Mon 12 Aug 19, 13:05, Hans Verkuil wrote:
+> Add an enum_fmt format flag to specifically tag coded formats where
+> full bytestream parsing is supported by the device.
+>=20
+> Some stateful decoders are capable of fully parsing a bytestream,
+> but others require that userspace pre-parses the bytestream into
+> frames or fields (see the corresponding pixelformat descriptions
+> for details).
+>=20
+> If this flag is set, then this pre-parsing step is not required
+> (but still possible, of course).
 
-Compliance test for imx-media-csc-s device /dev/video10:
+Although I wasn't involved with the initial issue, looks good to me!
 
-Driver Info:
-	Driver name      : imx-media-csc-s
-	Card type        : imx-media-csc-scaler
-	Bus info         : platform:imx-media-csc-scaler
-	Driver version   : 5.3.0
-	Capabilities     : 0x84208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-Media Driver Info:
-	Driver name      : imx-media
-	Model            : imx-media
-	Serial           : 
-	Bus info         : 
-	Media version    : 5.3.0
-	Hardware revision: 0x00000000 (0)
-	Driver version   : 5.3.0
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
+Cheers,
 
-Allow for multiple opens:
-	test second /dev/video10 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
+Paul
 
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
+>  Documentation/media/videodev2.h.rst.exceptions   | 1 +
+>  include/uapi/linux/videodev2.h                   | 5 +++--
+>  3 files changed, 12 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documenta=
+tion/media/uapi/v4l/vidioc-enum-fmt.rst
+> index 822d6730e7d2..ebc05ce74bdf 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> @@ -127,6 +127,14 @@ one until ``EINVAL`` is returned.
+>        - This format is not native to the device but emulated through
+>  	software (usually libv4l2), where possible try to use a native
+>  	format instead for better performance.
+> +    * - ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
+> +      - 0x0004
+> +      - The hardware decoder for this compressed bytestream format (aka =
+coded
+> +	format) is capable of parsing a continuous bytestream. Applications do
+> +	not need to parse the bytestream themselves to find the boundaries
+> +	between frames/fields. This flag can only be used in combination with
+> +	the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to compressed
+> +	formats only. This flag is valid for stateful decoders only.
+> =20
+> =20
+>  Return Value
+> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentati=
+on/media/videodev2.h.rst.exceptions
+> index 8e7d3492d248..a0640b6d0f68 100644
+> --- a/Documentation/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/media/videodev2.h.rst.exceptions
+> @@ -180,6 +180,7 @@ replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserve=
+d-formats
+>  # V4L2 format flags
+>  replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
+>  replace define V4L2_FMT_FLAG_EMULATED fmtdesc-flags
+> +replace define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM fmtdesc-flags
+> =20
+>  # V4L2 timecode types
+>  replace define V4L2_TC_TYPE_24FPS timecode-type
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 2427bc4d8eba..67077d52c59d 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -774,8 +774,9 @@ struct v4l2_fmtdesc {
+>  	__u32		    reserved[4];
+>  };
+> =20
+> -#define V4L2_FMT_FLAG_COMPRESSED 0x0001
+> -#define V4L2_FMT_FLAG_EMULATED   0x0002
+> +#define V4L2_FMT_FLAG_COMPRESSED		0x0001
+> +#define V4L2_FMT_FLAG_EMULATED			0x0002
+> +#define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
+> =20
+>  	/* Frame Size and frame rate enumeration */
+>  /*
+> --=20
+> 2.20.1
+>=20
 
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
+--YiEDa0DAkWCtVeE4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
+-----BEGIN PGP SIGNATURE-----
 
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 4 Private Controls: 0
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl1UA/oACgkQ3cLmz3+f
+v9E+Fwf/Xh/JFS6RTOtckm9ftRje3r/T3WXHXxXCrJqmUWIE/2CU3wMWSjpXXIG1
+5O1NQALIWjIryrRaELzPQGNCmdL/6BS6y3bUagcWb6bNb5WVXs/kkPpcwFZ86Fhc
+iheZ9pWJDxK4S+lgRxcVzlOTnqH/P2WyYenTneaU8vae95WVWRvRGIx8PAev9ZLx
+gpKWuymA22nEXDRSEt8rkioISJMNgIZ1HUv7oP63xsiha7cEAH2JfYM6pSKD3APU
+imiJp0qpyC6zSs0fy91NVUAT7MMXCquxYcQCmokuJQIsp/daZsma86HdBWOMiDV5
+YLQW6sC3VofZklmzY9H1aIWiK2QLjg==
+=0fQB
+-----END PGP SIGNATURE-----
 
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK
-	test Composing: OK
-	test Scaling: OK
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	Video Capture: Captured 58 buffers
-	test MMAP (no poll): OK
-	Video Capture: Captured 58 buffers
-	test MMAP (select): OK
-	Video Capture: Captured 58 buffers
-	test MMAP (epoll): OK
-	test USERPTR (no poll): OK (Not Supported)
-	test USERPTR (select): OK (Not Supported)
-	Video Capture: Captured 58 buffers
-	test DMABUF (no poll): OK
-	Video Capture: Captured 58 buffers
-	test DMABUF (select): OK
-
-Total for imx-media-csc-s device /dev/video10: 53, Succeeded: 53, Failed: 0, Warnings: 0
----------->8----------
-
-regards
-Philipp
+--YiEDa0DAkWCtVeE4--
