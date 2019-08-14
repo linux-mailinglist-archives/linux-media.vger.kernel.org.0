@@ -2,129 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7344D8D0C0
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D8778D116
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 12:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbfHNKdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 06:33:05 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:35718 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726770AbfHNKdF (ORCPT
+        id S1727594AbfHNKpc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 06:45:32 -0400
+Received: from mail-qk1-f202.google.com ([209.85.222.202]:37375 "EHLO
+        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727237AbfHNKpb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 06:33:05 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id A6161634C88
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 13:32:52 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hxqaK-0000uv-0G
-        for linux-media@vger.kernel.org; Wed, 14 Aug 2019 13:32:52 +0300
-Date:   Wed, 14 Aug 2019 13:32:51 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v2 for 5.4] More sensor driver, omap3isp and documentation
- patches
-Message-ID: <20190814103251.GA3504@valkosipuli.retiisi.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 14 Aug 2019 06:45:31 -0400
+Received: by mail-qk1-f202.google.com with SMTP id d203so20958684qke.4
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 03:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=GWyXBGwmHFcGXlg8sYWmi9ISwiX/TjDTxXNJrsxIlo0=;
+        b=SO9w2qWfA9s7es8tmXD3wqbpTBgbgE1DHH1ERM7v7ptLx8iAJ95y8N4Tw+xRfTgVDo
+         13xnwEMU6xzG5TpnrwEkbvb8IB4VVAMk6MolT2ZOkf2TYbkpgela2WK1udMqSYuSSak5
+         Q8LdwxwSdNmbsCfPqW/1A50L/ApA7o7dCxHQL6Y2ilUQe/pD/9Nn91c3LpVJIKbuVG3f
+         htMPgcJTD+HpBw3QVSvs7B1iIa/DvtlWekME6zM0+MAhwABxQrewkKFJVJq3adx9qDVe
+         C1f+Ddir0Bz1vfsh4GwublcxERGy6vsW5i3k2OyP6w/YcY/Yuy9icYHfcvFqq2wGVRrR
+         +BXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=GWyXBGwmHFcGXlg8sYWmi9ISwiX/TjDTxXNJrsxIlo0=;
+        b=KDr5sn+aJyI+y1XvGgPQIYDGhuXGL6j73tuSHkDZN+UjeOs13+oZ6vNvfXRCBMIb26
+         qGKwF43qn0MzKyt2kUPQ1Krk0/YQf1ulRrRCxf3RGEPERXlk4jQxYYBuS2/qY7iF+TsS
+         IUpORFQfP63P9YQNa/S1G7qznfZZvS2g3RxIvLroFRbWNhUTTkoZFZ6XA2r6hLnI8wLC
+         Hm4NBPlI2J3ljrHWuj3DbPf/zFKSwcaHRkWiNH+guFNIpEyzKrBuiNxMW2SVeD1dmdCb
+         vg0QDqUR1JBwjd4pEQ+a+P72Qf3U71ec0hydox+dqfNkXCMBrwea4KrJb7n8xUGUKTcm
+         /P+Q==
+X-Gm-Message-State: APjAAAV5bksI0aUToo+47k28sueHtCieoAT5YPPXmuBHXmHr+rHpqw66
+        9h29N1W11/O7kp7XZR36MWaYQTaJyfk=
+X-Google-Smtp-Source: APXvYqwhM4JMovHg2xzCJqqYJ3hsrqpakcRk8IC6SFMlsdE9qbu+1Sj05yHDBXOw9hQhCX71VwS62n5KfcM=
+X-Received: by 2002:ac8:748a:: with SMTP id v10mr16346695qtq.386.1565779530315;
+ Wed, 14 Aug 2019 03:45:30 -0700 (PDT)
+Date:   Wed, 14 Aug 2019 12:44:58 +0200
+Message-Id: <20190814104520.6001-1-darekm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH v7 0/9] drm: cec: convert DRM drivers to the new notifier API
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Allison Randal <allison@lohutok.net>,
+        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Colin Ian King <colin.king@canonical.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        David Francis <David.Francis@amd.com>,
+        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Enrico Weigelt <info@metux.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Imre Deak <imre.deak@intel.com>,
+        intel-gfx@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@intel.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        nouveau@lists.freedesktop.org,
+        Ramalingam C <ramalingam.c@intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        Shashank Sharma <shashank.sharma@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Lim <Thomas.Lim@amd.com>,
+        "=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?=" 
+        <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This series updates DRM drivers to use new CEC notifier API.
 
-Here's a bunch of sensor driver, omap3isp and documentatino patches.
-Noteworthy bit is perhaps a driver for the ov5675 sensor.
+Changes since v6:
+	Made CEC notifiers' registration and de-registration symmetric
+	in tda998x and dw-hdmi drivers. Also, accidentally dropped one
+	patch in v6 (change to drm_dp_cec), brought it back now.
+Changes since v5:
+        Fixed a warning about a missing comment for a new member of
+	drm_dp_aux_cec struct. Sending to a wider audience,
+	including maintainers of respective drivers.
+Changes since v4:
+	Addressing review comments.
+Changes since v3:
+        Updated adapter flags in dw-hdmi-cec.
+Changes since v2:
+	Include all DRM patches from "cec: improve notifier support,
+	add connector info connector info" series.
+Changes since v1:
+	Those patches delay creation of notifiers until respective
+	connectors are constructed. It seems that those patches, for a
+	couple of drivers, by adding the delay, introduce a race between
+	notifiers' creation and the IRQs handling threads - at least I
+	don't see anything obvious in there that would explicitly forbid
+	such races to occur. v2 adds a write barrier to make sure IRQ
+	threads see the notifier once it is created (replacing the
+	WRITE_ONCE I put in v1). The best thing to do here, I believe,
+	would be not to have any synchronization and make sure that an IRQ
+	only gets enabled after the notifier is created.
+Dariusz Marcinkiewicz (9):
+  drm_dp_cec: add connector info support.
+  drm/i915/intel_hdmi: use cec_notifier_conn_(un)register
+  dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
+  tda9950: use cec_notifier_cec_adap_(un)register
+  drm: tda998x: use cec_notifier_conn_(un)register
+  drm: sti: use cec_notifier_conn_(un)register
+  drm: tegra: use cec_notifier_conn_(un)register
+  drm: dw-hdmi: use cec_notifier_conn_(un)register
+  drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
 
-There are some checkpatch warnings there (patches 1, 6 and 8), the first
-two seem false positives whereas the last one comes from the documentation
-license header.
-
-I've since v1 added a few more patches; IMX driver improvements as well as
-a MAINTAINERS entry for ov5670.
-
-Please pull.
-
-
-The following changes since commit 0dc99e042a4cfbc1e27572d523d2a1dbaf402cbf:
-
-  media: MAINTAINERS: Remove zoran driver (2019-08-13 11:55:34 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.4-6-signed
-
-for you to fetch changes up to 852a51507ac865d7fbbf1305e2f485e7a4131b95:
-
-  MAINTAINERS: Add entry for the ov5670 driver (2019-08-14 12:59:16 +0300)
-
-----------------------------------------------------------------
-Camera driver + framework patches for 5.4
-
-----------------------------------------------------------------
-Ezequiel Garcia (2):
-      media: i2c: ov5645: Fix power sequence
-      media: imx: mipi csi-2: Don't fail if initial state times-out
-
-Luca Weiss (1):
-      media: ov5640: Add support for flash and lens devices
-
-Sakari Ailus (6):
-      ov8856: Check reading clock frequency succeeded
-      omap3isp: Set device on omap3isp subdevs
-      omap3isp: Don't set streaming state on random subdevs
-      v4l: Documentation: Serial busses use parallel mbus codes
-      v4l: Documentation: Raw Bayer formats are not RGB formats
-      MAINTAINERS: Add entry for the ov5670 driver
-
-Shawn Tu (1):
-      ov5675: Add support for OV5675 sensor
-
-Steve Longerbeam (1):
-      media: docs-rst: Clarify duration of LP-11 mode
-
-Sébastien Szymanski (2):
-      media: dt-bindings: imx7-csi: add i.MX6UL/L support
-      media: imx7-media-csi: add i.MX6UL support
-
- .../devicetree/bindings/media/imx7-csi.txt         |    2 +-
- Documentation/media/kapi/csi2.rst                  |   17 +-
- Documentation/media/uapi/v4l/control.rst           |    2 +-
- Documentation/media/uapi/v4l/hist-v4l2.rst         |    2 +-
- Documentation/media/uapi/v4l/pixfmt-bayer.rst      |   38 +
- Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst | 1306 --------------------
- Documentation/media/uapi/v4l/pixfmt-rgb.rst        | 1302 ++++++++++++++++++-
- Documentation/media/uapi/v4l/pixfmt-v4l2.rst       |    2 +-
- Documentation/media/uapi/v4l/pixfmt.rst            |    1 +
- Documentation/media/uapi/v4l/subdev-formats.rst    |    8 +
- MAINTAINERS                                        |   15 +
- drivers/media/i2c/Kconfig                          |   13 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/ov5640.c                         |    2 +-
- drivers/media/i2c/ov5645.c                         |   26 +-
- drivers/media/i2c/ov5675.c                         | 1183 ++++++++++++++++++
- drivers/media/i2c/ov8856.c                         |    5 +-
- drivers/media/platform/omap3isp/isp.c              |    8 +
- drivers/media/platform/omap3isp/ispccdc.c          |    1 +
- drivers/media/platform/omap3isp/ispccp2.c          |    1 +
- drivers/media/platform/omap3isp/ispcsi2.c          |    1 +
- drivers/media/platform/omap3isp/isppreview.c       |    1 +
- drivers/media/platform/omap3isp/ispresizer.c       |    1 +
- drivers/media/platform/omap3isp/ispstat.c          |    2 +
- drivers/staging/media/imx/Kconfig                  |    4 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c         |   12 +-
- drivers/staging/media/imx/imx7-media-csi.c         |   30 +-
- 27 files changed, 2630 insertions(+), 1356 deletions(-)
- create mode 100644 Documentation/media/uapi/v4l/pixfmt-bayer.rst
- delete mode 100644 Documentation/media/uapi/v4l/pixfmt-packed-rgb.rst
- create mode 100644 drivers/media/i2c/ov5675.c
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 13 +++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 46 +++++++++++++------
+ drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++----
+ drivers/gpu/drm/exynos/exynos_hdmi.c          | 31 +++++++------
+ drivers/gpu/drm/i2c/tda9950.c                 | 12 ++---
+ drivers/gpu/drm/i2c/tda998x_drv.c             | 36 ++++++++++-----
+ drivers/gpu/drm/i915/display/intel_dp.c       |  4 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 13 ++++--
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                | 19 +++++---
+ drivers/gpu/drm/tegra/output.c                | 28 ++++++++---
+ include/drm/drm_dp_helper.h                   | 17 ++++---
+ 13 files changed, 155 insertions(+), 94 deletions(-)
 
 -- 
-Sakari Ailus
+2.23.0.rc1.153.gdeed80330f-goog
+
