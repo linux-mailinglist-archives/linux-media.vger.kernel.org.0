@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F00F78DE30
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 21:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6348DE3E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 22:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728467AbfHNT7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 15:59:48 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:57474 "EHLO
+        id S1728804AbfHNUEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 16:04:04 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57526 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728169AbfHNT7r (ORCPT
+        with ESMTP id S1726047AbfHNUED (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 15:59:47 -0400
+        Wed, 14 Aug 2019 16:04:03 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id DA10228CB47
+        with ESMTPSA id BD4F0283BE8
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com,
@@ -28,11 +28,14 @@ Cc:     kernel@collabora.com,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v6 00/11] media: hantro: Add support for H264 decoding
-Date:   Wed, 14 Aug 2019 16:59:20 -0300
-Message-Id: <20190814195931.6587-1-ezequiel@collabora.com>
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v6 01/11] lib/sort.c: implement sort() variant taking context argument
+Date:   Wed, 14 Aug 2019 16:59:21 -0300
+Message-Id: <20190814195931.6587-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190814195931.6587-1-ezequiel@collabora.com>
+References: <20190814195931.6587-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,107 +43,138 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Small respin of H264 uAPI review and Hantro G1 H264 decoding support.
-Compared to previous version, this version does some more improvements
-on the uAPI spec, addressing feedback from Hans and Paul.
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 
-I really hope I managed to get this right, and address current concerns.
+Our list_sort() utility has always supported a context argument that
+is passed through to the comparison routine. Now there's a use case
+for the similar thing for sort().
 
-Here's previous cover letter, for reference:
+This implements sort_r by simply extending the existing sort function
+in the obvious way. To avoid code duplication, we want to implement
+sort() in terms of sort_r(). The naive way to do that is
 
-This series consolidates the two recent H264 series submitted
-by Boris [1] [2]. Some patches from [2] have been merged (namely,
-helpers for the Hantro driver), and so I'm adding the remanining
-bits required to support H264 on Hantro G1 VPU.
+static int cmp_wrapper(const void *a, const void *b, const void *ctx)
+{
+  int (*real_cmp)(const void*, const void*) = ctx;
+  return real_cmp(a, b);
+}
 
-* Patch 1 adds support for the sort_r() variant and has
-  been posted separately by Rasmus. It would be good to merge this patch
-  via the media tree, ideally as soon as possible, to avoid the
-  synchronisation burden that might appear if we decide to delay it.
+sort(..., cmp) { sort_r(..., cmp_wrapper, cmp) }
 
-* Patch 2 to 4 extends the H264 uAPI, introducing frame-based vs slice-based
-  decoding granularity, and also support for different NALU start codes.
-  Currently, Annex B and no start codes are the supported options.
+but this would do two indirect calls for each comparison. Instead, do
+as is done for the default swap functions - that only adds a cost of a
+single easily predicted branch to each comparison call.
 
-  With the introduction of the start code control, the H264 parsed
-  slices pixel format should be renamed, dropping the _RAW suffix,
-  which is now meaningless.
+Aside from introducing support for the context argument, this also
+serves as preparation for patches that will eliminate the indirect
+comparison calls in common cases.
 
-* Patch 5 removes the P0/B0/B1 ref lists from the decode_params control.
-  These lists are no longer needed since we build them on the
-  kernel side based on the DPB.
+Requested-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Acked-by: Andrew Morton <akpm@linux-foundation.org>
+Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ include/linux/sort.h |  5 +++++
+ lib/sort.c           | 34 ++++++++++++++++++++++++++++------
+ 2 files changed, 33 insertions(+), 6 deletions(-)
 
-* Patch 6 and 7 exposes the proper decoding mode and start code
-  on the cedrus driver. The driver functionality is not changed,
-  and only the Cedrus support is now being properly exposed to
-  userspace.
-
-* Patch 8 is needed to properly propagate the OUTPUT buffer timestamp to
-  the CAPTURE buffer one, which is required for intra-frame references.
-
-* Patches 9 to 11 adds H264 support for Hantro G1 and then enable
-  H264 decoding on RK3288.
-
-This is based on media master and tested on Rockchip RK3288 for Hantro and
-Allwinner H3 boards for Cedrus. Philipp Zabel tested on i.MX8MQ EVK using [3].
-
-The Ffmpeg branch used to test is based on the great work of Jonas and Boris,
-and is available in [4]. Instructions to build and run are as follows:
-
-./configure --enable-v4l2-request --enable-libdrm
-make -j4
-
-(test via framebuffer rendering):
-
-./ffmpeg -loglevel debug -hwaccel drm -hwaccel_device /dev/dri/card0 -i $some_file.avi -pix_fmt bgra -f fbdev /dev/fb0
-
-[1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg148299.html
-[2] https://lkml.org/lkml/2019/6/19/379
-[3] git://git.pengutronix.de/git/pza/linux.git hantro/imx8m-wip
-[4] https://gitlab.collabora.com/ezequiel/ffmpeg/tree/stateless-mpeg2-vp8-h264-v4
-
-Boris Brezillon (3):
-  media: uapi: h264: Add the concept of decoding mode
-  media: uapi: h264: Get rid of the p0/b0/b1 ref-lists
-  media: hantro: Move copy_metadata() before doing a decode operation
-
-Ezequiel Garcia (4):
-  media: uapi: h264: Rename pixel format
-  media: uapi: h264: Add the concept of start code
-  media: cedrus: Cleanup control initialization
-  media: cedrus: Specify H264 startcode and decoding mode
-
-Hertz Wong (3):
-  media: hantro: Add core bits to support H264 decoding
-  media: hantro: Add support for H264 decoding on G1
-  media: hantro: Enable H264 decoding on rk3288
-
-Rasmus Villemoes (1):
-  lib/sort.c: implement sort() variant taking context argument
-
- .../media/uapi/v4l/ext-ctrls-codec.rst        |  89 ++-
- .../media/uapi/v4l/pixfmt-compressed.rst      |  11 +-
- drivers/media/v4l2-core/v4l2-ctrls.c          |  18 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +-
- drivers/staging/media/hantro/Makefile         |   2 +
- drivers/staging/media/hantro/hantro.h         |   9 +-
- drivers/staging/media/hantro/hantro_drv.c     |  50 +-
- .../staging/media/hantro/hantro_g1_h264_dec.c | 292 ++++++++
- drivers/staging/media/hantro/hantro_h264.c    | 641 ++++++++++++++++++
- drivers/staging/media/hantro/hantro_hw.h      |  56 ++
- drivers/staging/media/hantro/hantro_v4l2.c    |  10 +
- drivers/staging/media/hantro/rk3288_vpu_hw.c  |  21 +-
- drivers/staging/media/sunxi/cedrus/cedrus.c   |  65 +-
- drivers/staging/media/sunxi/cedrus/cedrus.h   |   3 +-
- .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_video.c |   6 +-
- include/linux/sort.h                          |   5 +
- include/media/h264-ctrls.h                    |  21 +-
- lib/sort.c                                    |  34 +-
- 19 files changed, 1281 insertions(+), 56 deletions(-)
- create mode 100644 drivers/staging/media/hantro/hantro_g1_h264_dec.c
- create mode 100644 drivers/staging/media/hantro/hantro_h264.c
-
+diff --git a/include/linux/sort.h b/include/linux/sort.h
+index 2b99a5dd073d..61b96d0ebc44 100644
+--- a/include/linux/sort.h
++++ b/include/linux/sort.h
+@@ -4,6 +4,11 @@
+ 
+ #include <linux/types.h>
+ 
++void sort_r(void *base, size_t num, size_t size,
++	    int (*cmp)(const void *, const void *, const void *),
++	    void (*swap)(void *, void *, int),
++	    const void *priv);
++
+ void sort(void *base, size_t num, size_t size,
+ 	  int (*cmp)(const void *, const void *),
+ 	  void (*swap)(void *, void *, int));
+diff --git a/lib/sort.c b/lib/sort.c
+index cf408aec3733..d54cf97e9548 100644
+--- a/lib/sort.c
++++ b/lib/sort.c
+@@ -144,6 +144,18 @@ static void do_swap(void *a, void *b, size_t size, swap_func_t swap_func)
+ 		swap_func(a, b, (int)size);
+ }
+ 
++typedef int (*cmp_func_t)(const void *, const void *);
++typedef int (*cmp_r_func_t)(const void *, const void *, const void *);
++#define _CMP_WRAPPER ((cmp_r_func_t)0L)
++
++static int do_cmp(const void *a, const void *b,
++		  cmp_r_func_t cmp, const void *priv)
++{
++	if (cmp == _CMP_WRAPPER)
++		return ((cmp_func_t)(priv))(a, b);
++	return cmp(a, b, priv);
++}
++
+ /**
+  * parent - given the offset of the child, find the offset of the parent.
+  * @i: the offset of the heap element whose parent is sought.  Non-zero.
+@@ -171,12 +183,13 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
+ }
+ 
+ /**
+- * sort - sort an array of elements
++ * sort_r - sort an array of elements
+  * @base: pointer to data to sort
+  * @num: number of elements
+  * @size: size of each element
+  * @cmp_func: pointer to comparison function
+  * @swap_func: pointer to swap function or NULL
++ * @priv: third argument passed to comparison function
+  *
+  * This function does a heapsort on the given array.  You may provide
+  * a swap_func function if you need to do something more than a memory
+@@ -188,9 +201,10 @@ static size_t parent(size_t i, unsigned int lsbit, size_t size)
+  * O(n*n) worst-case behavior and extra memory requirements that make
+  * it less suitable for kernel use.
+  */
+-void sort(void *base, size_t num, size_t size,
+-	  int (*cmp_func)(const void *, const void *),
+-	  void (*swap_func)(void *, void *, int size))
++void sort_r(void *base, size_t num, size_t size,
++	    int (*cmp_func)(const void *, const void *, const void *),
++	    void (*swap_func)(void *, void *, int size),
++	    const void *priv)
+ {
+ 	/* pre-scale counters for performance */
+ 	size_t n = num * size, a = (num/2) * size;
+@@ -238,12 +252,12 @@ void sort(void *base, size_t num, size_t size,
+ 		 * average, 3/4 worst-case.)
+ 		 */
+ 		for (b = a; c = 2*b + size, (d = c + size) < n;)
+-			b = cmp_func(base + c, base + d) >= 0 ? c : d;
++			b = do_cmp(base + c, base + d, cmp_func, priv) >= 0 ? c : d;
+ 		if (d == n)	/* Special case last leaf with no sibling */
+ 			b = c;
+ 
+ 		/* Now backtrack from "b" to the correct location for "a" */
+-		while (b != a && cmp_func(base + a, base + b) >= 0)
++		while (b != a && do_cmp(base + a, base + b, cmp_func, priv) >= 0)
+ 			b = parent(b, lsbit, size);
+ 		c = b;			/* Where "a" belongs */
+ 		while (b != a) {	/* Shift it into place */
+@@ -252,4 +266,12 @@ void sort(void *base, size_t num, size_t size,
+ 		}
+ 	}
+ }
++EXPORT_SYMBOL(sort_r);
++
++void sort(void *base, size_t num, size_t size,
++	  int (*cmp_func)(const void *, const void *),
++	  void (*swap_func)(void *, void *, int size))
++{
++	return sort_r(base, num, size, _CMP_WRAPPER, swap_func, cmp_func);
++}
+ EXPORT_SYMBOL(sort);
 -- 
 2.22.0
 
