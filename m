@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BDCD8DEC3
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 22:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DA3D8DEC1
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 22:27:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729611AbfHNU1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 16:27:20 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:33645 "EHLO
+        id S1729643AbfHNU1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 16:27:22 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:35937 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729595AbfHNU1U (ORCPT
+        with ESMTP id S1729625AbfHNU1V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 16:27:20 -0400
+        Wed, 14 Aug 2019 16:27:21 -0400
 X-Originating-IP: 87.5.130.64
 Received: from uno.homenet.telecomitalia.it (host64-130-dynamic.5-87-r.retail.telecomitalia.it [87.5.130.64])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 174B0FF803;
-        Wed, 14 Aug 2019 20:27:16 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D59F3FF807;
+        Wed, 14 Aug 2019 20:27:18 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -25,9 +25,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 4/5] media: i2c: ov5670: Report the camera location
-Date:   Wed, 14 Aug 2019 22:28:14 +0200
-Message-Id: <20190814202815.32491-5-jacopo@jmondi.org>
+Subject: [RFC 5/5] media: i2c: ov13858: Report the camera location
+Date:   Wed, 14 Aug 2019 22:28:15 +0200
+Message-Id: <20190814202815.32491-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190814202815.32491-1-jacopo@jmondi.org>
 References: <20190814202815.32491-1-jacopo@jmondi.org>
@@ -44,33 +44,29 @@ V4L2_CID_LOCATION control.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5670.c | 11 +++++++++++
+ drivers/media/i2c/ov13858.c | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
-diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-index 041fcbb4eebd..1446aef1fc1e 100644
---- a/drivers/media/i2c/ov5670.c
-+++ b/drivers/media/i2c/ov5670.c
-@@ -2059,10 +2059,12 @@ static const struct v4l2_ctrl_ops ov5670_ctrl_ops = {
- /* Initialize control handlers */
- static int ov5670_init_controls(struct ov5670 *ov5670)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov5670->sd);
+diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
+index 45bb872db3c5..6baefc3083e1 100644
+--- a/drivers/media/i2c/ov13858.c
++++ b/drivers/media/i2c/ov13858.c
+@@ -1591,6 +1591,7 @@ static int ov13858_init_controls(struct ov13858 *ov13858)
+ 	struct i2c_client *client = v4l2_get_subdevdata(&ov13858->sd);
  	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	s64 vblank_max;
+ 	s64 exposure_max;
++	u32 location;
  	s64 vblank_def;
  	s64 vblank_min;
-+	u32 location;
- 	s64 exposure_max;
- 	int ret;
- 
-@@ -2124,6 +2126,15 @@ static int ov5670_init_controls(struct ov5670 *ov5670)
- 				     ARRAY_SIZE(ov5670_test_pattern_menu) - 1,
- 				     0, 0, ov5670_test_pattern_menu);
- 
+ 	s64 hblank;
+@@ -1659,6 +1660,16 @@ static int ov13858_init_controls(struct ov13858 *ov13858)
+ 				     V4L2_CID_TEST_PATTERN,
+ 				     ARRAY_SIZE(ov13858_test_pattern_menu) - 1,
+ 				     0, 0, ov13858_test_pattern_menu);
++
 +	ret = device_property_read_u32(&client->dev, "location", &location);
 +	if (!ret) {
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov5670_ctrl_ops,
++		v4l2_ctrl_new_std(ctrl_hdlr, &ov13858_ctrl_ops,
 +				  V4L2_CID_LOCATION, V4L2_LOCATION_FRONT,
 +				  V4L2_LOCATION_BACK, 1,
 +				  location == V4L2_LOCATION_FRONT ?
@@ -79,7 +75,7 @@ index 041fcbb4eebd..1446aef1fc1e 100644
 +
  	if (ctrl_hdlr->error) {
  		ret = ctrl_hdlr->error;
- 		goto error;
+ 		dev_err(&client->dev, "%s control init failed (%d)\n",
 -- 
 2.22.0
 
