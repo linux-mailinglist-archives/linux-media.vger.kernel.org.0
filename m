@@ -2,165 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81D558D282
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 13:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4DA8D2BD
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 14:09:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727010AbfHNLtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 07:49:32 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:45877 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726263AbfHNLtc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 07:49:32 -0400
-X-Originating-IP: 86.250.200.211
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 336A620004;
-        Wed, 14 Aug 2019 11:49:29 +0000 (UTC)
-Date:   Wed, 14 Aug 2019 13:49:28 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 04/11] media: uapi: h264: Add the concept of start code
-Message-ID: <20190814114928.GB4687@aptenodytes>
-References: <20190812193522.10911-1-ezequiel@collabora.com>
- <20190812193522.10911-5-ezequiel@collabora.com>
- <f88d144f-e0fe-6974-efe5-77b5ed5c6e09@xs4all.nl>
+        id S1726230AbfHNMJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 08:09:04 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57510 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726121AbfHNMJE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Aug 2019 08:09:04 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1hxs5D-00046j-NK; Wed, 14 Aug 2019 12:08:51 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1hxs5E-0005pN-9p; Wed, 14 Aug 2019 12:08:52 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab+samsung@kernel.org,
+        linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 for 5.4] More sensor driver, omap3isp and documentation
+Date:   Wed, 14 Aug 2019 12:08:44 +0000
+Message-Id: <20190814120844.22361-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190814103251.GA3504@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="t0UkRYy7tHLRMCai"
-Content-Disposition: inline
-In-Reply-To: <f88d144f-e0fe-6974-efe5-77b5ed5c6e09@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
---t0UkRYy7tHLRMCai
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pull request: https://patchwork.linuxtv.org/patch/58128/
+Build log: https://builder.linuxtv.org/job/patchwork/8485/
+Build time: 00:09:49
+Link: https://lore.kernel.org/linux-media/20190814103251.GA3504@valkosipuli.retiisi.org.uk
+Summary: 3 issues, being 0 at build time
 
-Hi,
+gpg: Signature made Wed 14 Aug 2019 10:10:12 AM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: F0D0 377A 0D4F 25A7 9238  EFE5 6D40 361B 6E28 C193
 
-On Wed 14 Aug 19, 10:11, Hans Verkuil wrote:
-> On 8/12/19 9:35 PM, Ezequiel Garcia wrote:
-> > Stateless decoders have different expectations about the
-> > start code that is prepended on H264 slices. Add a
-> > menu control to express the supported start code types
-> > (including no start code).
-> >=20
-> > Drivers are allowed to support only one start code type,
-> > but they can support both too.
-> >=20
-> > Note that this is independent of the H264 decoding mode,
-> > which specifies the granularity of the decoding operations.
-> > Either in frame-based or slice-based mode, this new control
-> > will allow to define the start code expected on H264 slices.
-> >=20
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > Changes in v5:
-> > * Improve specification as suggested by Hans.
-> > Changes in v4:
-> > * New patch.
-> > ---
-> >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 33 +++++++++++++++++++
-> >  .../media/uapi/v4l/pixfmt-compressed.rst      |  3 +-
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
-> >  include/media/h264-ctrls.h                    |  6 ++++
-> >  4 files changed, 50 insertions(+), 1 deletion(-)
-> >=20
->=20
-> <snip>
->=20
-> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index e6c510877f67..31555c99f64a 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/media/h264-ctrls.h
-> > @@ -27,6 +27,7 @@
-> >  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+100=
-4)
-> >  #define V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE	(V4L2_CID_MPEG_BASE+100=
-5)
-> > +#define V4L2_CID_MPEG_VIDEO_H264_STARTCODE	(V4L2_CID_MPEG_BASE+1006)
->=20
-> I almost forgot: can you change this to _START_CODE? Since it is two word=
-s?
 
-Agreed, I like it better this way too.
+Error/warnings:
 
-> Thanks!
->=20
-> 	Hans
->=20
-> > =20
-> >  /* enum v4l2_ctrl_type type values */
-> >  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> > @@ -41,6 +42,11 @@ enum v4l2_mpeg_video_h264_decoding_mode {
-> >  	V4L2_MPEG_VIDEO_H264_FRAME_BASED_DECODING,
-> >  };
-> > =20
-> > +enum v4l2_mpeg_video_h264_start_code {
-> > +	V4L2_MPEG_VIDEO_H264_NO_STARTCODE,
-> > +	V4L2_MPEG_VIDEO_H264_ANNEX_B_STARTCODE,
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:660: CHECK: Alignment should match open parenthesis
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:709: CHECK: spaces preferred around that '/' (ctx:VxV)
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:774: CHECK: Alignment should match open parenthesis
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:781: CHECK: Alignment should match open parenthesis
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:786: CHECK: Alignment should match open parenthesis
+patches/0001-ov5675-Add-support-for-OV5675-sensor.patch:791: CHECK: Alignment should match open parenthesis
 
-Could we apply the same START_CODE renaming here too?
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-ov5675-Add-support-for-OV5675-sensor.patch
+patches/0006-media-i2c-ov5645-Fix-power-sequence.patch:8: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit aa4bb8b8838f ("media: ov5640: Re-work MIPI startup sequence")'
 
-I was also thinking that it would be slightly more readable put like this,
-with START_CODE as a prefix since it's common to both options and the name =
-of
-the enum:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-i2c-ov5645-Fix-power-sequence.patch
+patches/0008-v4l-Documentation-Raw-Bayer-formats-are-not-RGB-form.patch:53: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0008-v4l-Documentation-Raw-Bayer-formats-are-not-RGB-form.patch:58: WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
 
-- V4L2_MPEG_VIDEO_H264_START_CODE_NONE
-- V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-v4l-Documentation-Raw-Bayer-formats-are-not-RGB-form.patch
 
-What do you think?
-
-Cheers,
-
-Paul
-
-> > +};
-> > +
-> >  #define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
-> >  #define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
-> >  #define V4L2_H264_SPS_CONSTRAINT_SET2_FLAG			0x04
-> >=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---t0UkRYy7tHLRMCai
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl1T9UgACgkQ3cLmz3+f
-v9HGVQgAiV5mFB7VPdtODmRBRts3AVeDl89JHNmbGXNAG37Sm9z3pUd3Uz5FEScy
-owJySCgGlrUekE0s/IQ2/K5cqrhY1dvDuLb4Y8RmfgiPoj//GZy5wK28dUIuujb8
-VWkfYxUb1UHyYS0BwZGPqD8K0A34fTD/+jh3CME9vbhrjBGtnhoW3IwQ/MtDxxUJ
-ozmmiq6uRcWTcQfcCs89RhFjRk+zyxWnvMZwhIalkH6YdbB/XD4flM+W6JL66GYg
-JKiPwFNIcRkICQ/xW8q1Jvt7MMVYxBI1jgGJrz1Dw7mXJBX1pIPRnujYZL1KvgZA
-xpzvbtp2A1d1FTT+tFYYfRDNx2T+2A==
-=rJGn
------END PGP SIGNATURE-----
-
---t0UkRYy7tHLRMCai--
