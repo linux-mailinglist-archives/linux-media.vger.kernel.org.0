@@ -2,118 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DD628CDB8
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 10:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6AA8CE93
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 10:36:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbfHNILl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 04:11:41 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:32803 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725306AbfHNILl (ORCPT
+        id S1726373AbfHNIgC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 04:36:02 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:43454 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725265AbfHNIgC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 04:11:41 -0400
-Received: from [IPv6:2001:420:44c1:2579:6c2e:a3d:2bd:ee96] ([IPv6:2001:420:44c1:2579:6c2e:a3d:2bd:ee96])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xoN6hRmGlqTdhxoNAhCccS; Wed, 14 Aug 2019 10:11:37 +0200
-Subject: Re: [PATCH v5 04/11] media: uapi: h264: Add the concept of start code
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-References: <20190812193522.10911-1-ezequiel@collabora.com>
- <20190812193522.10911-5-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f88d144f-e0fe-6974-efe5-77b5ed5c6e09@xs4all.nl>
-Date:   Wed, 14 Aug 2019 10:11:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Wed, 14 Aug 2019 04:36:02 -0400
+Received: by mail-ot1-f67.google.com with SMTP id e12so36233669otp.10
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 01:36:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/o/cT1ICfJaxPM6fH7buuil/8DvoYp2xlNCjpESVvuY=;
+        b=ZZyo7C7ly0jQSE2RN4WhEb6i4w8ibawWKvN9arx8bRlDDbX/3HRbu2ow4p8mPPwc3K
+         DaPGRxbaf8MHpT1xu8CI30GwEC6/Z6QzRYkbt8S7EIXxd53Lu2m/UbnHGt4CJocY16D/
+         Xe+aoN/F9giVj26yfFmJF69GIgSOhA5Dlnv1I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/o/cT1ICfJaxPM6fH7buuil/8DvoYp2xlNCjpESVvuY=;
+        b=Ki8IWscWAo/e7NAiooAAEybKa35Io4OKPyBBeSzET06Ksd8pPOOuHKDPA34+EKSfy/
+         fZBk/7UpQqJdBiC1KwMw3RRZzDdJkG0osAcMRJV4pBFCfQuMbSUviFHqE842edRCc3Qt
+         6kKBjm//DHYqMEVu5R7vYN0KUUqqL13d8hRSQ0fj2VIKaHqoFslKrXDBQANtMVrddSmN
+         FMWWztieX0dHGMB0WcG2ewVAy2LqKt+svYB31B/oUYSOeA3DJ+cVmepYqPQFY4SZJ1Iw
+         ku2MDUNcNKjNkl8hSLsXcBI+XfXyzp0cdyWtUeJlf5QRHfQiv9HshlA4YJI5cQqQGZMh
+         hE6A==
+X-Gm-Message-State: APjAAAVVGjY9rZjn4nHU2V6Km2NM8y9NQhx4qtRVu/cnGE7J4+FmJnkQ
+        oK/1RyfEKnNNLmTTgBrUolFGVQHo1Lk=
+X-Google-Smtp-Source: APXvYqwHfzetOTG0ty7B1Qj5r9nvdI75SBKqyjyY0JgAsCV0deMMin0Vfr3UGYJtELDXt5zB1uEiwg==
+X-Received: by 2002:a9d:72c3:: with SMTP id d3mr5560711otk.149.1565771761408;
+        Wed, 14 Aug 2019 01:36:01 -0700 (PDT)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com. [209.85.167.171])
+        by smtp.gmail.com with ESMTPSA id p3sm38270331otk.47.2019.08.14.01.35.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 14 Aug 2019 01:36:00 -0700 (PDT)
+Received: by mail-oi1-f171.google.com with SMTP id y8so2612368oih.10
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2019 01:35:59 -0700 (PDT)
+X-Received: by 2002:aca:40d5:: with SMTP id n204mr4023184oia.94.1565771759262;
+ Wed, 14 Aug 2019 01:35:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190812193522.10911-5-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfG8Jzg4iwcPYhjaE3e0D1MzS/fTJ/eDl4AEQI2qX+XOCPw8tnWB5Y+HXAymMpC8EyabKscl/GIMDy/RJARU23MJZNq76ZSSM/xEECsPalo31ZWSBNCQe
- OiVJ1xF4NFcmHOVZa9JLq/xylYBGiJZLhwKx6OEJ29QQLrY5H3YWgXdHMLYd+L+bjMVzzdMXXmUevf0w2cwmjB+eAmLcrkxPsXJ4Zh2V0WYULRIMVzE1a0Ze
- ta8b89PWo00P5NlPW/aeg2BDTGaJzXFuUnjWrhu37Pf+NtrYt917QYI1HD2LIpUwOhVzCX2FTyYBakPMz/jcIJbJ+4c4RVQQdmuO3923M7tS1kWNzTu2leBn
- HoC6MDyCFUrT9aLlVhta7saGxI5nJnqYGKNJkDmavufWEhoRp4eUV9lwf682O5YerUzuScE++kne0/gOuD7fLY4CH6ZrAsZwPS317wIUhJ/HIUAx8MZjCfIo
- SeucqXmdwOPDQ6eNUBpXsyvfKrwQRk4zXrCRlmTXRA58Xb94D+bbRvixzBtwlSrbeSbp8jlluguU6CIfKnq+TXRarsR+mKMvzP+tueYbunp00BqTpR1Gua7w
- 479IGDcBjLac8AOsAMZVJ0zODF6y4kODYqZxBS/pFCcPiUJIBoYpiM5PSzIGlz6LXkoedT5fx4Pc9u15HRjD7j0EP0wu0bBXm5rqUfiNpwreDvPdIFEHjhhJ
- CixfdwKkLAt+KwA5kr3da35dbZPC/sATPI2z5zMIrsnmDN34sRdJoA==
+References: <20190630134404.7ba170f0@coco.lan> <20190801093400.5c351754@coco.lan>
+ <20190808095535.1ec92a1d@coco.lan> <CAPBb6MUknz7hOpG=hHF59QwvMxJR-=RxWvK2aTPo=97XKqPPQA@mail.gmail.com>
+ <e450c395-cc9d-ee5a-c02f-821807c48947@xs4all.nl>
+In-Reply-To: <e450c395-cc9d-ee5a-c02f-821807c48947@xs4all.nl>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Wed, 14 Aug 2019 17:35:48 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
+Message-ID: <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
+Subject: Re: [ANN] Media summit in Lisbon at September
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/12/19 9:35 PM, Ezequiel Garcia wrote:
-> Stateless decoders have different expectations about the
-> start code that is prepended on H264 slices. Add a
-> menu control to express the supported start code types
-> (including no start code).
-> 
-> Drivers are allowed to support only one start code type,
-> but they can support both too.
-> 
-> Note that this is independent of the H264 decoding mode,
-> which specifies the granularity of the decoding operations.
-> Either in frame-based or slice-based mode, this new control
-> will allow to define the start code expected on H264 slices.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
-> Changes in v5:
-> * Improve specification as suggested by Hans.
-> Changes in v4:
-> * New patch.
-> ---
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 33 +++++++++++++++++++
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  3 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
->  include/media/h264-ctrls.h                    |  6 ++++
->  4 files changed, 50 insertions(+), 1 deletion(-)
-> 
+That could be nice. Of course something more informal is also fine.
+Anyone else planning to attend? I suspect Laurent and people living in
+France might be there?
 
-<snip>
-
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index e6c510877f67..31555c99f64a 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -27,6 +27,7 @@
->  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
->  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+1004)
->  #define V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE	(V4L2_CID_MPEG_BASE+1005)
-> +#define V4L2_CID_MPEG_VIDEO_H264_STARTCODE	(V4L2_CID_MPEG_BASE+1006)
-
-I almost forgot: can you change this to _START_CODE? Since it is two words?
-
-Thanks!
-
-	Hans
-
->  
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> @@ -41,6 +42,11 @@ enum v4l2_mpeg_video_h264_decoding_mode {
->  	V4L2_MPEG_VIDEO_H264_FRAME_BASED_DECODING,
->  };
->  
-> +enum v4l2_mpeg_video_h264_start_code {
-> +	V4L2_MPEG_VIDEO_H264_NO_STARTCODE,
-> +	V4L2_MPEG_VIDEO_H264_ANNEX_B_STARTCODE,
-> +};
-> +
->  #define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
->  #define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
->  #define V4L2_H264_SPS_CONSTRAINT_SET2_FLAG			0x04
-> 
-
+On Mon, Aug 12, 2019 at 4:28 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 8/12/19 6:00 AM, Alexandre Courbot wrote:
+> > On Thu, Aug 8, 2019 at 9:55 PM Mauro Carvalho Chehab
+> > <mchehab+samsung@kernel.org> wrote:
+> >>
+> >> Em Thu, 1 Aug 2019 09:34:00 -0300
+> >> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+> >>
+> >>> Em Sun, 30 Jun 2019 13:44:04 -0300
+> >>> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+> >>>
+> >>>> Hi all,
+> >>>>
+> >>>> We are organizing a media mini-summit in Lisbon to happen in September,
+> >>>> at the same week as the Linux Plumber Conference and the Kernel Summit.
+> >>>>
+> >>>> We're still discussing the details about that.
+> >>>
+> >>> Gently reminder.
+> >>>
+> >>> Right now, we have just one extra theme proposal from Sean:
+> >>>
+> >>>       - possible dvb improvements.
+> >>>
+> >>> If we don't have more proposals, we may end skipping the Media
+> >>> Summit this year.
+> >>
+> >> It sounds that we won't have material to have a media summit this year.
+> >> So, let's cancel the media summit this year.
+> >
+> > Loosely related, but are there people planning to go to ELCE on
+> > 10/28-30? Tomasz and I may attend if there is a chance to discuss
+> > libcamera/V4L2 codecs.
+>
+> I'll be there and if there is enough interest in setting up a meeting
+> to discuss this, then I can ask the LF to set a room aside for us for,
+> say, half a day or so.
+>
+> Regards,
+>
+>         Hans
