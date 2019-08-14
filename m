@@ -2,134 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74E088D5B2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 16:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC3518D5C6
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 16:17:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbfHNOM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 10:12:28 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55000 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725828AbfHNOM2 (ORCPT
+        id S1726575AbfHNOR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 10:17:28 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:2944 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726019AbfHNOR2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 10:12:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 78E88286289
-Message-ID: <c490068a4d1ea550f330e8127826014bec0e12f2.camel@collabora.com>
-Subject: Re: [PATCH v5 04/11] media: uapi: h264: Add the concept of start
- code
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Wed, 14 Aug 2019 10:17:28 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7EEBQT5021331;
+        Wed, 14 Aug 2019 16:17:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=864BMKlRVFujYQCq26+1g0K4hmq2aALb8dEnOteiolo=;
+ b=J174bcZrkmVeJ7AJOl9VCKXBznmKRNGKuDznEEXShutR8zIKsYb3zZoJjmj7dK6hhK86
+ pa2BHJKexcG++kpNZuT8ZtR3NgdSxFyIVq9wwvVFLbzz3smt+NVNYNSMNPz4yFx+41DE
+ ARk9qY87/HMVJkZkFzWdH4htlaFv8ubQe8cLNPkXvh0nO4z1+2A/pa7zefqWKmafwPFx
+ jyZvovgQIZXEd3rDaFel6SwqEZvhDThUrlZcBFE7yTwlDRUCQvKmyFumyleQApn39Dj2
+ cEq8L+o0Xnx9k1l32qgFnjOWTRQ3vsPwt48I7z3O+7TwRnV2noQXt0wn56rdHAzUyzh3 TA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2u9kpuwtjn-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 14 Aug 2019 16:17:14 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D312534;
+        Wed, 14 Aug 2019 14:17:13 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C0FDC2B910C;
+        Wed, 14 Aug 2019 16:17:13 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE3.st.com
+ (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 14 Aug
+ 2019 16:17:13 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Wed, 14 Aug 2019 16:17:13 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-Date:   Wed, 14 Aug 2019 11:12:16 -0300
-In-Reply-To: <20190814114928.GB4687@aptenodytes>
-References: <20190812193522.10911-1-ezequiel@collabora.com>
-         <20190812193522.10911-5-ezequiel@collabora.com>
-         <f88d144f-e0fe-6974-efe5-77b5ed5c6e09@xs4all.nl>
-         <20190814114928.GB4687@aptenodytes>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+CC:     Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: Re: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
+Thread-Topic: [PATCH v4 1/3] media: stm32-dcmi: improve sensor subdev naming
+Thread-Index: AQHVTsvbNiH8ciXV5ESmNTxaXVzk1ab6ls8A
+Date:   Wed, 14 Aug 2019 14:17:13 +0000
+Message-ID: <ca92a856-98fc-f82b-fa0a-62b9f44e266c@st.com>
+References: <1564577783-18627-1-git-send-email-hugues.fruchet@st.com>
+ <1564577783-18627-2-git-send-email-hugues.fruchet@st.com>
+ <20190809160121.GA6194@paasikivi.fi.intel.com>
+In-Reply-To: <20190809160121.GA6194@paasikivi.fi.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.51]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EDF4C1A0C930AF4EB3EB2E6088AF5865@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-14_05:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-08-14 at 13:49 +0200, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Wed 14 Aug 19, 10:11, Hans Verkuil wrote:
-> > On 8/12/19 9:35 PM, Ezequiel Garcia wrote:
-> > > Stateless decoders have different expectations about the
-> > > start code that is prepended on H264 slices. Add a
-> > > menu control to express the supported start code types
-> > > (including no start code).
-> > > 
-> > > Drivers are allowed to support only one start code type,
-> > > but they can support both too.
-> > > 
-> > > Note that this is independent of the H264 decoding mode,
-> > > which specifies the granularity of the decoding operations.
-> > > Either in frame-based or slice-based mode, this new control
-> > > will allow to define the start code expected on H264 slices.
-> > > 
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > ---
-> > > Changes in v5:
-> > > * Improve specification as suggested by Hans.
-> > > Changes in v4:
-> > > * New patch.
-> > > ---
-> > >  .../media/uapi/v4l/ext-ctrls-codec.rst        | 33 +++++++++++++++++++
-> > >  .../media/uapi/v4l/pixfmt-compressed.rst      |  3 +-
-> > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
-> > >  include/media/h264-ctrls.h                    |  6 ++++
-> > >  4 files changed, 50 insertions(+), 1 deletion(-)
-> > > 
-> > 
-> > <snip>
-> > 
-> > > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > > index e6c510877f67..31555c99f64a 100644
-> > > --- a/include/media/h264-ctrls.h
-> > > +++ b/include/media/h264-ctrls.h
-> > > @@ -27,6 +27,7 @@
-> > >  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
-> > >  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+1004)
-> > >  #define V4L2_CID_MPEG_VIDEO_H264_DECODING_MODE	(V4L2_CID_MPEG_BASE+1005)
-> > > +#define V4L2_CID_MPEG_VIDEO_H264_STARTCODE	(V4L2_CID_MPEG_BASE+1006)
-> > 
-> > I almost forgot: can you change this to _START_CODE? Since it is two words?
-> 
-> Agreed, I like it better this way too.
-> 
-
-The reason to have STARTCODE instead of START_CODE was to have some
-consistency with other controls (namely, V4L2_CID_MPEG_VIDEO_HEVC_WITHOUT_STARTCODE).
-
-Consistency is really important in a API,
-but at the same time, I agree START_CODE looks better.
-
-> > Thanks!
-> > 
-> > 	Hans
-> > 
-> > >  
-> > >  /* enum v4l2_ctrl_type type values */
-> > >  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> > > @@ -41,6 +42,11 @@ enum v4l2_mpeg_video_h264_decoding_mode {
-> > >  	V4L2_MPEG_VIDEO_H264_FRAME_BASED_DECODING,
-> > >  };
-> > >  
-> > > +enum v4l2_mpeg_video_h264_start_code {
-> > > +	V4L2_MPEG_VIDEO_H264_NO_STARTCODE,
-> > > +	V4L2_MPEG_VIDEO_H264_ANNEX_B_STARTCODE,
-> 
-> Could we apply the same START_CODE renaming here too?
-> 
-> I was also thinking that it would be slightly more readable put like this,
-> with START_CODE as a prefix since it's common to both options and the name of
-> the enum:
-> 
-> - V4L2_MPEG_VIDEO_H264_START_CODE_NONE
-> - V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B
-> 
-
-Yes, that looks much better.
-
-Thanks,
-Ezequiel
-
+SGkgU2FrYXJpLCBIYW5zLA0KDQpJJ3ZlIGp1c3QgcHVzaGVkIGEgdjYgd2l0aCB0aGUgRklYTUUg
+d2UgZGlzY3Vzc2VkIG9uIElSQyBhYm91dA0KInBhcmFsbGVsIiBtYnVzIGNvZGUgdmVyc3VzICJz
+ZXJpYWwiIG1idXMgY29kZS4gSSBoYXZlIGFsc28gYWRkZWQNCnNvbWUgdHJhY2VzIHRvIGhlbHAg
+aW4gZGVidWdnaW5nIGlmIHN1Y2ggY2FzZSBvY2N1cnMuDQoNCnZlcnNpb24gNjoNCiAgIC0gQXMg
+cGVyIFNha2FyaSByZW1hcms6IGFkZCBhIEZJWE1FIGV4cGxhaW5pbmcgdGhhdCB0aGlzDQogICAg
+IHZlcnNpb24gb25seSBzdXBwb3J0cyBzdWJkZXZpY2VzIHdoaWNoIGV4cG9zZSBSR0IgJiBZVVYN
+CiAgICAgInBhcmFsbGVsIGZvcm0iIG1idXMgY29kZSAoXzJYOCkNCiAgIC0gQWRkIHNvbWUgdHJh
+Y2UgYXJvdW5kIHN1YmRldl9jYWxsKHNfZm10KSBlcnJvciAmIGZvcm1hdA0KICAgICBjaGFuZ2Vz
+IHRvIGRlYnVnIHN1YmRldiB3aGljaCBvbmx5IGV4cG9zZSBzZXJpYWwgbWJ1cyBjb2RlDQogICAt
+IENvbmZvcm0gdG8gIjxuYW1lPiI6PHBhZCBpbmRleD4gd2hlbiB0cmFjaW5nIHN1YmRldiBpbmZv
+cw0KDQoNCkJlc3QgcmVnYXJkcywNCkh1Z3Vlcy4NCg0KT24gOC85LzE5IDY6MDEgUE0sIFNha2Fy
+aSBBaWx1cyB3cm90ZToNCj4gSGkgSHVndWVzLA0KPiANCj4gVGhhbmtzIGZvciB0ZWggdXBkYXRl
+Lg0KPiANCj4gT24gV2VkLCBKdWwgMzEsIDIwMTkgYXQgMDI6NTY6MjFQTSArMDIwMCwgSHVndWVz
+IEZydWNoZXQgd3JvdGU6DQo+PiBSZW5hbWUgInN1YmRldiIgZW50aXR5IHN0cnVjdCBmaWVsZCB0
+byAic291cmNlIg0KPj4gdG8gcHJlcGFyZSBmb3Igc2V2ZXJhbCBzdWJkZXYgc3VwcG9ydC4NCj4+
+IE1vdmUgYXNkIGZpZWxkIG9uIHRvcCBvZiBlbnRpdHkgc3RydWN0Lg0KPj4NCj4+IFNpZ25lZC1v
+ZmYtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMuZnJ1Y2hldEBzdC5jb20+DQo+PiBDaGFuZ2Ut
+SWQ6IEkxNTQ1YTFhMjlhODA2MWVlNjdjYzZlNGI3OTllOWE2OTA3MTkxMWU3DQo+IA0KPiBObyBD
+aGFuZ2UtSWQgdGFncyBpbiB0aGUga2VybmVsLCBwbGVhc2UuIENoZWNrIHRoZSBvdGhlciB0d28g
+YXMgd2VsbC4NCj4gDQo+IFdpdGggdGhhdCBmaXhlZCwNCj4gDQo+IEFja2VkLWJ5OiBTYWthcmkg
+QWlsdXMgPHNha2FyaS5haWx1c0BsaW51eC5pbnRlbC5jb20+DQo+IA==
