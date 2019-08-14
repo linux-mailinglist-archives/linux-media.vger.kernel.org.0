@@ -2,123 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8B558DDA4
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 21:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F00F78DE30
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 21:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728726AbfHNTE4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 15:04:56 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:47101 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728283AbfHNTE4 (ORCPT
+        id S1728467AbfHNT7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 15:59:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57474 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728169AbfHNT7r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 15:04:56 -0400
-Received: by mail-pg1-f195.google.com with SMTP id w3so19185pgt.13;
-        Wed, 14 Aug 2019 12:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=vseqSnSbN0/CqanKomWBzaCIiF5jTd1dDC+ZOTFJoRU=;
-        b=NIUd46jprVTVWb3fgGd29jnISTwMC3sQLMBzqbzBx5/C/GbBaRyCyZuIZG4f8Uch80
-         XGuLIqfmPvQ6z82mGFrCsuSFrROVu1t9z3XyMwxTEMjTlKIV5FkXdjanZh7Dd0POtN+S
-         BwA9JU2VOATUXFcUNJCTHbhzp1EW/NnqqUw7VjKYbTpSAYfCV4lvoYfL37oM4x5RCCMG
-         dgbSOh5K2P9x6Kw3+5rYztkqapb02op3DEUgrh3ZanrRGjq8F7MZomVPda30Ty7lY3/N
-         Cl3ePLIn0U+V3+NOqwAJ1FHRAHOL21IJvANqGqrKfbgscg2sJCL035S3EbBpdmHZQxNX
-         8NFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=vseqSnSbN0/CqanKomWBzaCIiF5jTd1dDC+ZOTFJoRU=;
-        b=kBaaWnSuMBAkP4iBSxWC/2x419kfy356vwy7Js0ke8F5eC3+S0x5PIRzaQGqFhnN9v
-         5SaDNOFgyc3cRTyc7PMsljMrH2bBBgs/7Y27vlEeH2lEET7F1dkxXw9CzfJ8ZzZ3xRwT
-         kNUeuK29pz2l4z4GKwlCLPhxqtYElvU/hfDfM5qKOfM0Vnk1wP4MSUjYrE/Tpg2BnEbZ
-         fauEEbV2cwMKGKQM6U61y+fK9+fzKleseYKFZZ9fKCKnlVxQ26qbMn71QvIuOIOAboOY
-         sZWioBxHI2KOpAfvERcFSvC2gZ/SjXymdImc1lpe5adf/P1nbOzksVsgh03fTkXhXnq6
-         TSyg==
-X-Gm-Message-State: APjAAAVgOaG1JWFnANpcCLeWsfb1/R7oQ0J06VgmjO9nK/+FlQV52xsT
-        neCmtB3FA4NVpIGTkbIoij0=
-X-Google-Smtp-Source: APXvYqxPvTpGzpOkdo/g/K4RNLCTrEvQmHU4pCu/ZH1U09LHKXfy4gAnJ648mZN9j/inAzh8Er9WwQ==
-X-Received: by 2002:a17:90a:cc13:: with SMTP id b19mr1108603pju.117.1565809495303;
-        Wed, 14 Aug 2019 12:04:55 -0700 (PDT)
-Received: from [172.30.88.90] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id t15sm702679pfc.47.2019.08.14.12.04.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Aug 2019 12:04:54 -0700 (PDT)
-Subject: Re: [PATCH 04/22] media: Move v4l2_fwnode_parse_link from v4l2 to
- driver base
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "open list:ACPI" <linux-acpi@vger.kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
+        Wed, 14 Aug 2019 15:59:47 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id DA10228CB47
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Len Brown <lenb@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "moderated list:ARM/ZYNQ ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Enrico Weigelt <info@metux.net>
-References: <20190805233505.21167-1-slongerbeam@gmail.com>
- <20190805233505.21167-5-slongerbeam@gmail.com>
- <CAHp75VcOh8bOf_s6t0ehwGtcYn64QFGj303SVvpHrztEOhTRgg@mail.gmail.com>
- <4750b347-b421-6569-600f-0ced8406460e@gmail.com>
- <20190814103054.GI13294@shell.armlinux.org.uk>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <e0a19469-af9d-d9de-499f-4ffbf04542b3@gmail.com>
-Date:   Wed, 14 Aug 2019 12:04:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v6 00/11] media: hantro: Add support for H264 decoding
+Date:   Wed, 14 Aug 2019 16:59:20 -0300
+Message-Id: <20190814195931.6587-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190814103054.GI13294@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Small respin of H264 uAPI review and Hantro G1 H264 decoding support.
+Compared to previous version, this version does some more improvements
+on the uAPI spec, addressing feedback from Hans and Paul.
 
+I really hope I managed to get this right, and address current concerns.
 
-On 8/14/19 3:30 AM, Russell King - ARM Linux admin wrote:
-> On Tue, Aug 06, 2019 at 09:53:41AM -0700, Steve Longerbeam wrote:
->> The full patchset doesn't seem to be up yet, but see [1] for the cover
->> letter.
-> Was the entire series copied to the mailing lists, or just selected
-> patches?  I only saw 4, 9, 11 and 13-22 via lakml.
+Here's previous cover letter, for reference:
 
-The whole series was posted to the linux-media ML, see [1]. At the time, 
-none of the linux-media ML archives had the whole series.
+This series consolidates the two recent H264 series submitted
+by Boris [1] [2]. Some patches from [2] have been merged (namely,
+helpers for the Hantro driver), and so I'm adding the remanining
+bits required to support H264 on Hantro G1 VPU.
 
-> In the absence of the other patches, will this solve imx-media binding
-> the internal subdevs of sensor devices to the CSI2 interface?
+* Patch 1 adds support for the sort_r() variant and has
+  been posted separately by Rasmus. It would be good to merge this patch
+  via the media tree, ideally as soon as possible, to avoid the
+  synchronisation burden that might appear if we decide to delay it.
 
-"internal subdevs of sensor devices" ?? That doesn't make any sense.
+* Patch 2 to 4 extends the H264 uAPI, introducing frame-based vs slice-based
+  decoding granularity, and also support for different NALU start codes.
+  Currently, Annex B and no start codes are the supported options.
 
-Sensors are external to the SoC, there are no "internal" sensor devices.
+  With the introduction of the start code control, the H264 parsed
+  slices pixel format should be renamed, dropping the _RAW suffix,
+  which is now meaningless.
 
-Not sure what you mean by "binding" either in this context, but external 
-sensors can connect via fwnode endpoint, and later translated to media 
-link, to the receiver CSI-2 sink.
+* Patch 5 removes the P0/B0/B1 ref lists from the decode_params control.
+  These lists are no longer needed since we build them on the
+  kernel side based on the DPB.
 
-Steve
+* Patch 6 and 7 exposes the proper decoding mode and start code
+  on the cedrus driver. The driver functionality is not changed,
+  and only the Cedrus support is now being properly exposed to
+  userspace.
 
-[1] https://www.spinics.net/lists/linux-media/msg155160.html
+* Patch 8 is needed to properly propagate the OUTPUT buffer timestamp to
+  the CAPTURE buffer one, which is required for intra-frame references.
+
+* Patches 9 to 11 adds H264 support for Hantro G1 and then enable
+  H264 decoding on RK3288.
+
+This is based on media master and tested on Rockchip RK3288 for Hantro and
+Allwinner H3 boards for Cedrus. Philipp Zabel tested on i.MX8MQ EVK using [3].
+
+The Ffmpeg branch used to test is based on the great work of Jonas and Boris,
+and is available in [4]. Instructions to build and run are as follows:
+
+./configure --enable-v4l2-request --enable-libdrm
+make -j4
+
+(test via framebuffer rendering):
+
+./ffmpeg -loglevel debug -hwaccel drm -hwaccel_device /dev/dri/card0 -i $some_file.avi -pix_fmt bgra -f fbdev /dev/fb0
+
+[1] https://www.mail-archive.com/linux-media@vger.kernel.org/msg148299.html
+[2] https://lkml.org/lkml/2019/6/19/379
+[3] git://git.pengutronix.de/git/pza/linux.git hantro/imx8m-wip
+[4] https://gitlab.collabora.com/ezequiel/ffmpeg/tree/stateless-mpeg2-vp8-h264-v4
+
+Boris Brezillon (3):
+  media: uapi: h264: Add the concept of decoding mode
+  media: uapi: h264: Get rid of the p0/b0/b1 ref-lists
+  media: hantro: Move copy_metadata() before doing a decode operation
+
+Ezequiel Garcia (4):
+  media: uapi: h264: Rename pixel format
+  media: uapi: h264: Add the concept of start code
+  media: cedrus: Cleanup control initialization
+  media: cedrus: Specify H264 startcode and decoding mode
+
+Hertz Wong (3):
+  media: hantro: Add core bits to support H264 decoding
+  media: hantro: Add support for H264 decoding on G1
+  media: hantro: Enable H264 decoding on rk3288
+
+Rasmus Villemoes (1):
+  lib/sort.c: implement sort() variant taking context argument
+
+ .../media/uapi/v4l/ext-ctrls-codec.rst        |  89 ++-
+ .../media/uapi/v4l/pixfmt-compressed.rst      |  11 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  18 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +-
+ drivers/staging/media/hantro/Makefile         |   2 +
+ drivers/staging/media/hantro/hantro.h         |   9 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  50 +-
+ .../staging/media/hantro/hantro_g1_h264_dec.c | 292 ++++++++
+ drivers/staging/media/hantro/hantro_h264.c    | 641 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_hw.h      |  56 ++
+ drivers/staging/media/hantro/hantro_v4l2.c    |  10 +
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |  21 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  65 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   3 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   6 +-
+ include/linux/sort.h                          |   5 +
+ include/media/h264-ctrls.h                    |  21 +-
+ lib/sort.c                                    |  34 +-
+ 19 files changed, 1281 insertions(+), 56 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/hantro_g1_h264_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_h264.c
+
+-- 
+2.22.0
+
