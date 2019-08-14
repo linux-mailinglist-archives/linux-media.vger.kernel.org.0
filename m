@@ -2,92 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11CDD8CFD9
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 11:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 328D08CFE5
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 11:42:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbfHNJkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 05:40:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47496 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725863AbfHNJkv (ORCPT
+        id S1726821AbfHNJmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 05:42:50 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35340 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726606AbfHNJmu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 05:40:51 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FF462B2;
-        Wed, 14 Aug 2019 11:40:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565775650;
-        bh=gxmnWXLyNHLwBAGzfyBvuEt1FJyOEDpDyqb0e28If6Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vxkf3Y3cVBg6sM9TUGmNZ2G/B9RRK97kxI0Gu3fQBLxXvW+2nTAaiztYTmgSiOdD/
-         /t9SltrDuAyDp3yHHhF3lL4W3uAXAMd6fE1+9zHR9STxRW910zBNPw3IQjk+N5U3XJ
-         zrhmuabO+RBkEK+PfJO9KaZdhyhiw1VPYnS+R/yg=
-Date:   Wed, 14 Aug 2019 12:40:46 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [ANN] Media summit in Lisbon at September
-Message-ID: <20190814094046.GA5009@pendragon.ideasonboard.com>
-References: <20190630134404.7ba170f0@coco.lan>
- <20190801093400.5c351754@coco.lan>
- <20190808095535.1ec92a1d@coco.lan>
- <CAPBb6MUknz7hOpG=hHF59QwvMxJR-=RxWvK2aTPo=97XKqPPQA@mail.gmail.com>
- <e450c395-cc9d-ee5a-c02f-821807c48947@xs4all.nl>
- <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
+        Wed, 14 Aug 2019 05:42:50 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7A1F3634C89;
+        Wed, 14 Aug 2019 12:42:38 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1hxpnh-0000u7-SD; Wed, 14 Aug 2019 12:42:37 +0300
+Date:   Wed, 14 Aug 2019 12:42:37 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     =?iso-8859-1?Q?S=E9bastien?= Szymanski 
+        <sebastien.szymanski@armadeus.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devel@driverdev.osuosl.org
+Subject: Re: [PATCH v3 1/3] ARM: dts: imx6ul: Add csi node
+Message-ID: <20190814094237.GJ2527@valkosipuli.retiisi.org.uk>
+References: <20190731163257.32448-1-sebastien.szymanski@armadeus.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAPBb6MUHX1DUid+6rDaB_yFS8xrPQKmHGnRSa1F_R0YbmNfvXw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190731163257.32448-1-sebastien.szymanski@armadeus.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 05:35:48PM +0900, Alexandre Courbot wrote:
-> That could be nice. Of course something more informal is also fine.
-> Anyone else planning to attend? I suspect Laurent and people living in
-> France might be there?
+Hi Sébastien,
 
-I will, and so should the whole libcamera team.
+On Wed, Jul 31, 2019 at 06:32:57PM +0200, Sébastien Szymanski wrote:
+> Add csi node for i.MX6UL SoC.
+> 
+> Reviewed-by: Fabio Estevam <festevam@gmail.com>
+> Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
 
-> On Mon, Aug 12, 2019 at 4:28 PM Hans Verkuil wrote:
-> > On 8/12/19 6:00 AM, Alexandre Courbot wrote:
-> > > On Thu, Aug 8, 2019 at 9:55 PM Mauro Carvalho Chehab wrote:
-> > >> Em Thu, 1 Aug 2019 09:34:00 -0300 Mauro Carvalho Chehab escreveu:
-> > >>> Em Sun, 30 Jun 2019 13:44:04 -0300 Mauro Carvalho Chehab escreveu:
-> > >>>
-> > >>>> Hi all,
-> > >>>>
-> > >>>> We are organizing a media mini-summit in Lisbon to happen in September,
-> > >>>> at the same week as the Linux Plumber Conference and the Kernel Summit.
-> > >>>>
-> > >>>> We're still discussing the details about that.
-> > >>>
-> > >>> Gently reminder.
-> > >>>
-> > >>> Right now, we have just one extra theme proposal from Sean:
-> > >>>
-> > >>>       - possible dvb improvements.
-> > >>>
-> > >>> If we don't have more proposals, we may end skipping the Media
-> > >>> Summit this year.
-> > >>
-> > >> It sounds that we won't have material to have a media summit this year.
-> > >> So, let's cancel the media summit this year.
-> > >
-> > > Loosely related, but are there people planning to go to ELCE on
-> > > 10/28-30? Tomasz and I may attend if there is a chance to discuss
-> > > libcamera/V4L2 codecs.
-> >
-> > I'll be there and if there is enough interest in setting up a meeting
-> > to discuss this, then I can ask the LF to set a room aside for us for,
-> > say, half a day or so.
+This should be probably merged through the ARM tree.
+
+I can take the other two.
+
+> ---
+> 
+> Changes for v3:
+>  - none
+> 
+> Changes for v2:
+>  - only "mclk" clock is required now.
+> 
+>  arch/arm/boot/dts/imx6ul.dtsi | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
+> index 81d4b4925127..56cfcf0e5084 100644
+> --- a/arch/arm/boot/dts/imx6ul.dtsi
+> +++ b/arch/arm/boot/dts/imx6ul.dtsi
+> @@ -957,6 +957,15 @@
+>  				};
+>  			};
+>  
+> +			csi: csi@21c4000 {
+> +				compatible = "fsl,imx6ul-csi", "fsl,imx7-csi";
+> +				reg = <0x021c4000 0x4000>;
+> +				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks = <&clks IMX6UL_CLK_CSI>;
+> +				clock-names = "mclk";
+> +				status = "disabled";
+> +			};
+> +
+>  			lcdif: lcdif@21c8000 {
+>  				compatible = "fsl,imx6ul-lcdif", "fsl,imx28-lcdif";
+>  				reg = <0x021c8000 0x4000>;
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
