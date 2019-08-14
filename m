@@ -2,445 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF69D8CEF2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 11:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 262D48CF1D
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 11:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbfHNJDU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 05:03:20 -0400
-Received: from gofer.mess.org ([88.97.38.141]:41913 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725306AbfHNJDU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 05:03:20 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 344EE603F6; Wed, 14 Aug 2019 10:03:17 +0100 (BST)
-Date:   Wed, 14 Aug 2019 10:03:17 +0100
-From:   Sean Young <sean@mess.org>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add YAML schemas for the generic
- RC bindings
-Message-ID: <20190814090316.q7ilx63h63a6wgih@gofer.mess.org>
-References: <20190813124513.31413-1-mripard@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190813124513.31413-1-mripard@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S1726604AbfHNJMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 05:12:36 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:37894 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726500AbfHNJMf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Aug 2019 05:12:35 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id oxCY2000f05gfCL06xCYaD; Wed, 14 Aug 2019 11:12:33 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hxpKa-0003Pg-Ps; Wed, 14 Aug 2019 11:12:32 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hxpKa-0003Cl-Nb; Wed, 14 Aug 2019 11:12:32 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] media: Fix various misspellings of disconnected
+Date:   Wed, 14 Aug 2019 11:12:31 +0200
+Message-Id: <20190814091231.12278-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 02:45:12PM +0200, Maxime Ripard wrote:
-> From: Maxime Ripard <maxime.ripard@bootlin.com>
-> 
-> The RC controllers have a bunch of generic properties that are needed in a
-> device tree. Add a YAML schemas for those.
-> 
-> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> ---
->  .../devicetree/bindings/media/rc.txt          | 118 +--------------
->  .../devicetree/bindings/media/rc.yaml         | 135 ++++++++++++++++++
->  2 files changed, 136 insertions(+), 117 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rc.txt b/Documentation/devicetree/bindings/media/rc.txt
-> index d3e7a012bfda..be629f7fa77e 100644
-> --- a/Documentation/devicetree/bindings/media/rc.txt
-> +++ b/Documentation/devicetree/bindings/media/rc.txt
-> @@ -1,117 +1 @@
-> -The following properties are common to the infrared remote controllers:
-> -
-> -- linux,rc-map-name: string, specifies the scancode/key mapping table
-> -  defined in-kernel for the remote controller. Support values are:
-> -  * "rc-adstech-dvb-t-pci"
-> -  * "rc-alink-dtu-m"
-> -  * "rc-anysee"
-> -  * "rc-apac-viewcomp"
-> -  * "rc-asus-pc39"
-> -  * "rc-asus-ps3-100"
-> -  * "rc-ati-tv-wonder-hd-600"
-> -  * "rc-ati-x10"
-> -  * "rc-avermedia-a16d"
-> -  * "rc-avermedia-cardbus"
-> -  * "rc-avermedia-dvbt"
-> -  * "rc-avermedia-m135a"
-> -  * "rc-avermedia-m733a-rm-k6"
-> -  * "rc-avermedia-rm-ks"
-> -  * "rc-avermedia"
-> -  * "rc-avertv-303"
-> -  * "rc-azurewave-ad-tu700"
-> -  * "rc-behold-columbus"
-> -  * "rc-behold"
-> -  * "rc-budget-ci-old"
-> -  * "rc-cec"
-> -  * "rc-cinergy-1400"
-> -  * "rc-cinergy"
-> -  * "rc-delock-61959"
-> -  * "rc-dib0700-nec"
-> -  * "rc-dib0700-rc5"
-> -  * "rc-digitalnow-tinytwin"
-> -  * "rc-digittrade"
-> -  * "rc-dm1105-nec"
-> -  * "rc-dntv-live-dvbt-pro"
-> -  * "rc-dntv-live-dvb-t"
-> -  * "rc-dtt200u"
-> -  * "rc-dvbsky"
-> -  * "rc-empty"
-> -  * "rc-em-terratec"
-> -  * "rc-encore-enltv2"
-> -  * "rc-encore-enltv-fm53"
-> -  * "rc-encore-enltv"
-> -  * "rc-evga-indtube"
-> -  * "rc-eztv"
-> -  * "rc-flydvb"
-> -  * "rc-flyvideo"
-> -  * "rc-fusionhdtv-mce"
-> -  * "rc-gadmei-rm008z"
-> -  * "rc-geekbox"
-> -  * "rc-genius-tvgo-a11mce"
-> -  * "rc-gotview7135"
-> -  * "rc-hauppauge"
-> -  * "rc-imon-mce"
-> -  * "rc-imon-pad"
-> -  * "rc-iodata-bctv7e"
-> -  * "rc-it913x-v1"
-> -  * "rc-it913x-v2"
-> -  * "rc-kaiomy"
-> -  * "rc-kworld-315u"
-> -  * "rc-kworld-pc150u"
-> -  * "rc-kworld-plus-tv-analog"
-> -  * "rc-leadtek-y04g0051"
-> -  * "rc-lirc"
-> -  * "rc-lme2510"
-> -  * "rc-manli"
-> -  * "rc-medion-x10"
-> -  * "rc-medion-x10-digitainer"
-> -  * "rc-medion-x10-or2x"
-> -  * "rc-msi-digivox-ii"
-> -  * "rc-msi-digivox-iii"
-> -  * "rc-msi-tvanywhere-plus"
-> -  * "rc-msi-tvanywhere"
-> -  * "rc-nebula"
-> -  * "rc-nec-terratec-cinergy-xs"
-> -  * "rc-norwood"
-> -  * "rc-npgtech"
-> -  * "rc-pctv-sedna"
-> -  * "rc-pinnacle-color"
-> -  * "rc-pinnacle-grey"
-> -  * "rc-pinnacle-pctv-hd"
-> -  * "rc-pixelview-new"
-> -  * "rc-pixelview"
-> -  * "rc-pixelview-002t"
-> -  * "rc-pixelview-mk12"
-> -  * "rc-powercolor-real-angel"
-> -  * "rc-proteus-2309"
-> -  * "rc-purpletv"
-> -  * "rc-pv951"
-> -  * "rc-hauppauge"
-> -  * "rc-rc5-tv"
-> -  * "rc-rc6-mce"
-> -  * "rc-real-audio-220-32-keys"
-> -  * "rc-reddo"
-> -  * "rc-snapstream-firefly"
-> -  * "rc-streamzap"
-> -  * "rc-tbs-nec"
-> -  * "rc-technisat-ts35"
-> -  * "rc-technisat-usb2"
-> -  * "rc-terratec-cinergy-c-pci"
-> -  * "rc-terratec-cinergy-s2-hd"
-> -  * "rc-terratec-cinergy-xs"
-> -  * "rc-terratec-slim"
-> -  * "rc-terratec-slim-2"
-> -  * "rc-tevii-nec"
-> -  * "rc-tivo"
-> -  * "rc-total-media-in-hand"
-> -  * "rc-total-media-in-hand-02"
-> -  * "rc-trekstor"
-> -  * "rc-tt-1500"
-> -  * "rc-twinhan-dtv-cab-ci"
-> -  * "rc-twinhan1027"
-> -  * "rc-videomate-k100"
-> -  * "rc-videomate-s350"
-> -  * "rc-videomate-tv-pvr"
-> -  * "rc-winfast"
-> -  * "rc-winfast-usbii-deluxe"
-> -  * "rc-su3000"
-> +This file has been moved to rc.yaml.
-> diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-> new file mode 100644
-> index 000000000000..19b28e7edf9c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rc.yaml
-> @@ -0,0 +1,135 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/rc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic Infrared Remote Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Mauro Carvalho Chehab <mchehab@kernel.org>
-> +  - Sean Young <sean@mess.org>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^ir(@[a-f0-9]+)?$"
-> +
-> +  linux,rc-map-name:
-> +    description:
-> +      Specifies the scancode/key mapping table defined in-kernel for
-> +      the remote controller.
-> +    allOf:
-> +      - $ref: '/schemas/types.yaml#/definitions/string'
-> +      - enum:
-> +          - rc-adstech-dvb-t-pci
-> +          - rc-alink-dtu-m
-> +          - rc-anysee
-> +          - rc-apac-viewcomp
-> +          - rc-asus-pc39
-> +          - rc-asus-ps3-100
-> +          - rc-ati-tv-wonder-hd-600
-> +          - rc-ati-x10
-> +          - rc-avermedia
-> +          - rc-avermedia-a16d
-> +          - rc-avermedia-cardbus
-> +          - rc-avermedia-dvbt
-> +          - rc-avermedia-m135a
-> +          - rc-avermedia-m733a-rm-k6
-> +          - rc-avermedia-rm-ks
-> +          - rc-avertv-303
-> +          - rc-azurewave-ad-tu700
-> +          - rc-behold
-> +          - rc-behold-columbus
-> +          - rc-budget-ci-old
-> +          - rc-cec
-> +          - rc-cinergy
-> +          - rc-cinergy-1400
-> +          - rc-delock-61959
-> +          - rc-dib0700-nec
-> +          - rc-dib0700-rc5
-> +          - rc-digitalnow-tinytwin
-> +          - rc-digittrade
-> +          - rc-dm1105-nec
-> +          - rc-dntv-live-dvb-t
-> +          - rc-dntv-live-dvbt-pro
-> +          - rc-dtt200u
-> +          - rc-dvbsky
-> +          - rc-em-terratec
-> +          - rc-empty
-> +          - rc-encore-enltv
-> +          - rc-encore-enltv-fm53
-> +          - rc-encore-enltv2
-> +          - rc-evga-indtube
-> +          - rc-eztv
-> +          - rc-flydvb
-> +          - rc-flyvideo
-> +          - rc-fusionhdtv-mce
-> +          - rc-gadmei-rm008z
-> +          - rc-geekbox
-> +          - rc-genius-tvgo-a11mce
-> +          - rc-gotview7135
-> +          - rc-hauppauge
-> +          - rc-imon-mce
-> +          - rc-imon-pad
-> +          - rc-iodata-bctv7e
-> +          - rc-it913x-v1
-> +          - rc-it913x-v2
-> +          - rc-kaiomy
-> +          - rc-kworld-315u
-> +          - rc-kworld-pc150u
-> +          - rc-kworld-plus-tv-analog
-> +          - rc-leadtek-y04g0051
-> +          - rc-lirc
-> +          - rc-lme2510
-> +          - rc-manli
-> +          - rc-medion-x10
-> +          - rc-medion-x10-digitainer
-> +          - rc-medion-x10-or2x
-> +          - rc-msi-digivox-ii
-> +          - rc-msi-digivox-iii
-> +          - rc-msi-tvanywhere
-> +          - rc-msi-tvanywhere-plus
-> +          - rc-nebula
-> +          - rc-nec-terratec-cinergy-xs
-> +          - rc-norwood
-> +          - rc-npgtech
-> +          - rc-pctv-sedna
-> +          - rc-pinnacle-color
-> +          - rc-pinnacle-grey
-> +          - rc-pinnacle-pctv-hd
-> +          - rc-pixelview
-> +          - rc-pixelview-002t
-> +          - rc-pixelview-mk12
-> +          - rc-pixelview-new
-> +          - rc-powercolor-real-angel
-> +          - rc-proteus-2309
-> +          - rc-purpletv
-> +          - rc-pv951
-> +          - rc-rc5-tv
-> +          - rc-rc6-mce
-> +          - rc-real-audio-220-32-keys
-> +          - rc-reddo
-> +          - rc-snapstream-firefly
-> +          - rc-streamzap
-> +          - rc-su3000
-> +          - rc-tbs-nec
-> +          - rc-technisat-ts35
-> +          - rc-technisat-usb2
-> +          - rc-terratec-cinergy-c-pci
-> +          - rc-terratec-cinergy-s2-hd
-> +          - rc-terratec-cinergy-xs
-> +          - rc-terratec-slim
-> +          - rc-terratec-slim-2
-> +          - rc-tevii-nec
-> +          - rc-tivo
-> +          - rc-total-media-in-hand
-> +          - rc-total-media-in-hand-02
-> +          - rc-trekstor
-> +          - rc-tt-1500
-> +          - rc-twinhan-dtv-cab-ci
-> +          - rc-twinhan1027
-> +          - rc-videomate-k100
-> +          - rc-videomate-s350
-> +          - rc-videomate-tv-pvr
-> +          - rc-winfast
-> +          - rc-winfast-usbii-deluxe
+Fix typos.
 
-The list of keymaps is out of date. Might as well fix it up at now?
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - Merge "media: cx231xx: Spelling s/diconencted/diconnected/"
+    and "media: tm6000: Spelling s/diconencted/diconnected/",
+  - Fix silly second spelling mistake in above,
+  - Add fixes for more variants.
+---
+ drivers/media/usb/cx231xx/cx231xx-cards.c | 4 ++--
+ drivers/media/usb/cx231xx/cx231xx-core.c  | 2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c | 2 +-
+ drivers/media/usb/em28xx/em28xx-video.c   | 2 +-
+ drivers/media/usb/em28xx/em28xx.h         | 2 +-
+ drivers/media/usb/tm6000/tm6000-cards.c   | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-Thanks
-Sean
-
-          # awk -F ' ' '/define RC_MAP_/ { gsub(/"/, "", $3); print "          - " $3 }' < include/media/rc-map.h
-          - rc-adstech-dvb-t-pci
-          - rc-alink-dtu-m
-          - rc-anysee
-          - rc-apac-viewcomp
-          - rc-astrometa-t2hybrid
-          - rc-asus-pc39
-          - rc-asus-ps3-100
-          - rc-ati-tv-wonder-hd-600
-          - rc-ati-x10
-          - rc-avermedia-a16d
-          - rc-avermedia-cardbus
-          - rc-avermedia-dvbt
-          - rc-avermedia-m135a
-          - rc-avermedia-m733a-rm-k6
-          - rc-avermedia-rm-ks
-          - rc-avermedia
-          - rc-avertv-303
-          - rc-azurewave-ad-tu700
-          - rc-behold-columbus
-          - rc-behold
-          - rc-budget-ci-old
-          - rc-cec
-          - rc-cinergy-1400
-          - rc-cinergy
-          - rc-d680-dmb
-          - rc-delock-61959
-          - rc-dib0700-nec
-          - rc-dib0700-rc5
-          - rc-digitalnow-tinytwin
-          - rc-digittrade
-          - rc-dm1105-nec
-          - rc-dntv-live-dvbt-pro
-          - rc-dntv-live-dvb-t
-          - rc-dtt200u
-          - rc-dvbsky
-          - rc-dvico-mce
-          - rc-dvico-portable
-          - rc-empty
-          - rc-em-terratec
-          - rc-encore-enltv2
-          - rc-encore-enltv-fm53
-          - rc-encore-enltv
-          - rc-evga-indtube
-          - rc-eztv
-          - rc-flydvb
-          - rc-flyvideo
-          - rc-fusionhdtv-mce
-          - rc-gadmei-rm008z
-          - rc-geekbox
-          - rc-genius-tvgo-a11mce
-          - rc-gotview7135
-          - rc-hauppauge
-          - rc-hisi-poplar
-          - rc-hisi-tv-demo
-          - rc-imon-mce
-          - rc-imon-pad
-          - rc-imon-rsc
-          - rc-iodata-bctv7e
-          - rc-it913x-v1
-          - rc-it913x-v2
-          - rc-kaiomy
-          - rc-kworld-315u
-          - rc-kworld-pc150u
-          - rc-kworld-plus-tv-analog
-          - rc-leadtek-y04g0051
-          - rc-lme2510
-          - rc-manli
-          - rc-medion-x10
-          - rc-medion-x10-digitainer
-          - rc-medion-x10-or2x
-          - rc-msi-digivox-ii
-          - rc-msi-digivox-iii
-          - rc-msi-tvanywhere-plus
-          - rc-msi-tvanywhere
-          - rc-nebula
-          - rc-nec-terratec-cinergy-xs
-          - rc-norwood
-          - rc-npgtech
-          - rc-pctv-sedna
-          - rc-pinnacle-color
-          - rc-pinnacle-grey
-          - rc-pinnacle-pctv-hd
-          - rc-pixelview-new
-          - rc-pixelview
-          - rc-pixelview-002t
-          - rc-pixelview-mk12
-          - rc-powercolor-real-angel
-          - rc-proteus-2309
-          - rc-purpletv
-          - rc-pv951
-          - rc-hauppauge
-          - rc-rc5-tv
-          - rc-rc6-mce
-          - rc-real-audio-220-32-keys
-          - rc-reddo
-          - rc-snapstream-firefly
-          - rc-streamzap
-          - rc-tango
-          - rc-tbs-nec
-          - rc-technisat-ts35
-          - rc-technisat-usb2
-          - rc-terratec-cinergy-c-pci
-          - rc-terratec-cinergy-s2-hd
-          - rc-terratec-cinergy-xs
-          - rc-terratec-slim
-          - rc-terratec-slim-2
-          - rc-tevii-nec
-          - rc-tivo
-          - rc-total-media-in-hand
-          - rc-total-media-in-hand-02
-          - rc-trekstor
-          - rc-tt-1500
-          - rc-twinhan-dtv-cab-ci
-          - rc-twinhan1027
-          - rc-videomate-k100
-          - rc-videomate-s350
-          - rc-videomate-tv-pvr
-          - rc-winfast
-          - rc-winfast-usbii-deluxe
-          - rc-su3000
-          - rc-xbox-dvd
-          - rc-zx-irdec
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index e0d98ba8fdbfa829..e123e74c549ed57c 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -1351,7 +1351,7 @@ static void cx231xx_unregister_media_device(struct cx231xx *dev)
+ /*
+  * cx231xx_realease_resources()
+  * unregisters the v4l2,i2c and usb devices
+- * called when the device gets disconected or at module unload
++ * called when the device gets disconnected or at module unload
+ */
+ void cx231xx_release_resources(struct cx231xx *dev)
+ {
+@@ -1924,7 +1924,7 @@ static int cx231xx_usb_probe(struct usb_interface *interface,
+ 
+ /*
+  * cx231xx_usb_disconnect()
+- * called when the device gets diconencted
++ * called when the device gets disconnected
+  * video device will be unregistered on v4l2_close in case it is still open
+  */
+ static void cx231xx_usb_disconnect(struct usb_interface *interface)
+diff --git a/drivers/media/usb/cx231xx/cx231xx-core.c b/drivers/media/usb/cx231xx/cx231xx-core.c
+index a749baadc1f12f04..982cb56e97e9641f 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-core.c
++++ b/drivers/media/usb/cx231xx/cx231xx-core.c
+@@ -53,7 +53,7 @@ static DEFINE_MUTEX(cx231xx_devlist_mutex);
+ /*
+  * cx231xx_realease_resources()
+  * unregisters the v4l2,i2c and usb devices
+- * called when the device gets disconected or at module unload
++ * called when the device gets disconnected or at module unload
+ */
+ void cx231xx_remove_from_devlist(struct cx231xx *dev)
+ {
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index c77597917ca18e54..9b51f07a729e4e94 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -1837,7 +1837,7 @@ static int cx231xx_v4l2_open(struct file *filp)
+ /*
+  * cx231xx_realease_resources()
+  * unregisters the v4l2,i2c and usb devices
+- * called when the device gets disconected or at module unload
++ * called when the device gets disconnected or at module unload
+ */
+ void cx231xx_release_analog_resources(struct cx231xx *dev)
+ {
+diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+index fc6d37d76dc9282b..b0f7390e4b4f2ac6 100644
+--- a/drivers/media/usb/em28xx/em28xx-video.c
++++ b/drivers/media/usb/em28xx/em28xx-video.c
+@@ -2199,7 +2199,7 @@ static int em28xx_v4l2_open(struct file *filp)
+ /*
+  * em28xx_v4l2_fini()
+  * unregisters the v4l2,i2c and usb devices
+- * called when the device gets disconected or at module unload
++ * called when the device gets disconnected or at module unload
+  */
+ static int em28xx_v4l2_fini(struct em28xx *dev)
+ {
+diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
+index c69e0bc46eb7d58b..c8bc59059a19e5d0 100644
+--- a/drivers/media/usb/em28xx/em28xx.h
++++ b/drivers/media/usb/em28xx/em28xx.h
+@@ -655,7 +655,7 @@ struct em28xx {
+ 	enum em28xx_chip_id chip_id;
+ 
+ 	unsigned int is_em25xx:1;	// em25xx/em276x/7x/8x family bridge
+-	unsigned int disconnected:1;	// device has been diconnected
++	unsigned int disconnected:1;	// device has been disconnected
+ 	unsigned int has_video:1;
+ 	unsigned int is_audio_only:1;
+ 	unsigned int is_webcam:1;
+diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
+index 23df50aa0a4af6da..5358cd8c46030837 100644
+--- a/drivers/media/usb/tm6000/tm6000-cards.c
++++ b/drivers/media/usb/tm6000/tm6000-cards.c
+@@ -1328,7 +1328,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
+ 
+ /*
+  * tm6000_usb_disconnect()
+- * called when the device gets diconencted
++ * called when the device gets disconnected
+  * video device will be unregistered on v4l2_close in case it is still open
+  */
+ static void tm6000_usb_disconnect(struct usb_interface *interface)
+-- 
+2.17.1
 
