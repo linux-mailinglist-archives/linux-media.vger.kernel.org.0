@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 360078DEC6
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 22:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8507D8DEC4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 22:27:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729529AbfHNU1R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Aug 2019 16:27:17 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:45043 "EHLO
+        id S1729580AbfHNU1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Aug 2019 16:27:18 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:51427 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbfHNU1Q (ORCPT
+        with ESMTP id S1729547AbfHNU1S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 16:27:16 -0400
+        Wed, 14 Aug 2019 16:27:18 -0400
 X-Originating-IP: 87.5.130.64
 Received: from uno.homenet.telecomitalia.it (host64-130-dynamic.5-87-r.retail.telecomitalia.it [87.5.130.64])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4E018FF808;
-        Wed, 14 Aug 2019 20:27:13 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 2636BFF804;
+        Wed, 14 Aug 2019 20:27:14 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -25,9 +25,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
-Date:   Wed, 14 Aug 2019 22:28:12 +0200
-Message-Id: <20190814202815.32491-3-jacopo@jmondi.org>
+Subject: [RFC 3/5] media: v4l2-ctrls: Add support for V4L2_CID_LOCATION
+Date:   Wed, 14 Aug 2019 22:28:13 +0200
+Message-Id: <20190814202815.32491-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190814202815.32491-1-jacopo@jmondi.org>
 References: <20190814202815.32491-1-jacopo@jmondi.org>
@@ -38,48 +38,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the V4L2_CID_LOCATION camera control. The newly
-added read-only control reports the camera device mounting position.
+Add support for the newly defined V4L2_CID_LOCATION read-only control
+used to report the camera device mounting position.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../media/uapi/v4l/ext-ctrls-camera.rst       | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
+ include/uapi/linux/v4l2-controls.h   | 4 ++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-index 51c1d5c9eb00..fc0a02eee6d4 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-@@ -510,6 +510,29 @@ enum v4l2_scene_mode -
-     value down. A value of zero stops the motion if one is in progress
-     and has no effect otherwise.
-
-+``V4L2_CID_LOCATION (integer)``
-+    This read-only control describes the camera location by reporting its
-+    mounting position on the device where the camera is installed. This
-+    control is particularly meaningful for devices which have a well defined
-+    orientation, such as phones, laptops and portable devices as the camera
-+    location is expressed as a position relative to the device intended
-+    usage position. In example, a camera installed on the user-facing side
-+    of a phone device is said to be installed in the ``V4L2_LOCATION_FRONT``
-+    position.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 7d3a33258748..8ab0857df59a 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -943,6 +943,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
+ 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+ 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
++	case V4L2_CID_LOCATION:			return "Location";
+ 
+ 	/* FM Radio Modulator controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1300,6 +1301,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
+ 		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
++	case V4L2_CID_LOCATION:
++		*type = V4L2_CTRL_TYPE_INTEGER;
++		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
++		*min = V4L2_LOCATION_FRONT;
++		*max = V4L2_LOCATION_BACK;
++		*step = 1;
+ 		break;
+ 	default:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 37807f23231e..5c4c7b245921 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -889,6 +889,10 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+ #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
+ 
++#define V4L2_CID_LOCATION			(V4L2_CID_CAMERA_CLASS_BASE+34)
++#define V4L2_LOCATION_FRONT			(0 << 0)
++#define V4L2_LOCATION_BACK			(1 << 0)
 +
-+
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - ``V4L2_LOCATION_FRONT``
-+      - The camera device is located on the front side of the device.
-+    * - ``V4L2_LOCATION_BACK``
-+      - The camera device is located on the back side of the device.
-+
-+
-+
- .. [#f1]
-    This control may be changed to a menu control in the future, if more
-    options are required.
---
+ /* FM Modulator class control IDs */
+ 
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+-- 
 2.22.0
 
