@@ -1,29 +1,31 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from vger.kernel.org (unknown [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2454F8CBD9
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 08:20:23 +0200 (CEST)
+Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
+	by mail.lfdr.de (Postfix) with ESMTP id 7C84C8CC14
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2019 08:49:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbfHNGTh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Aug 2019 02:19:37 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:41155 "EHLO www.linuxtv.org"
+        id S1726909AbfHNGtk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Aug 2019 02:49:40 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:42386 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725263AbfHNGTg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Aug 2019 02:19:36 -0400
+        id S1726575AbfHNGtk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Aug 2019 02:49:40 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtp (Exim 4.84_2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1hxmd7-00047X-CS; Wed, 14 Aug 2019 06:19:29 +0000
+        id 1hxn6D-0005Y2-9R; Wed, 14 Aug 2019 06:49:33 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1hxmd7-0006eC-Ox; Wed, 14 Aug 2019 06:19:29 +0000
-Date:   Wed, 14 Aug 2019 06:19:29 +0000 (UTC)
+        id 1hxn6E-0008O6-6E; Wed, 14 Aug 2019 06:49:34 +0000
+Date:   Wed, 14 Aug 2019 06:49:34 +0000 (UTC)
 From:   jenkins@linuxtv.org
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1376893238.3.1565763569765.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #45
+Message-ID: <150734882.4.1565765374186.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1376893238.3.1565763569765.JavaMail.jenkins@builder.linuxtv.org>
+References: <1376893238.3.1565763569765.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #46
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -35,16 +37,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/45/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/46/display/redirect?page=changes>
 
 Changes:
 
-------------------------------------------
-[...truncated 13.13 KB...]
-  6050K .......... .......... .......... .......... .......... 99%  155M 0s
-  6100K .......... .......... ..........                      100%  162M=1.7s
+[hverkuil-cisco] Add compat code for i2c_new_dummy_device
 
-2019-08-14 06:19:09 (3.54 MB/s) - ‘linux-media.tar.bz2’ saved [6277677/6277677]
+------------------------------------------
+[...truncated 870 B...]
+Checking out Revision 410796173f01203cfbec5c5858509e523df72d23 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 410796173f01203cfbec5c5858509e523df72d23
+Commit message: "Add compat code for i2c_new_dummy_device"
+ > git rev-list --no-walk f5f8e016b8243744bfb2cced2fed3a0772cbd168 # timeout=10
+[media-build] $ /bin/sh -xe /tmp/jenkins287301705892671808.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
+
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2019-08-14 06:49:13--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2019-08-14 06:49:13--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100% 7.24M=0s
+
+2019-08-14 06:49:14 (7.24 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
@@ -166,8 +216,8 @@ make -C <https://builder.linuxtv.org/job/media-build/ws/v4l>
 make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
 ./scripts/make_myconfig.pl
 [ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-creating symbolic links...
 perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
+creating symbolic links...
 Kernel build directory is /lib/modules/4.19.0-5-amd64/build
 make -C ../linux apply_patches
 make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
@@ -221,66 +271,20 @@ make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vpx3220.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vs6624.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt819.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt856.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bt866.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ks0127.o>
 <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.c>: In function 'tda1997x_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.c>:2694:22: error: implicit declaration of function 'devm_i2c_new_dummy_device'; did you mean 'i2c_new_probed_device'? [-Werror=implicit-function-declaration]
+<https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.c>:2694:22: error: implicit declaration of function 'devm_i2c_new_dummy_device'; did you mean 'i2c_new_dummy_device'? [-Werror=implicit-function-declaration]
   state->client_cec = devm_i2c_new_dummy_device(&client->dev,
                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-                      i2c_new_probed_device
+                      i2c_new_dummy_device
 <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.c>:2694:20: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
   state->client_cec = devm_i2c_new_dummy_device(&client->dev,
                     ^
 cc1: some warnings being treated as errors
 make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1997x.o]> Error 1
 make[5]: *** Waiting for unfinished jobs....
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.c>: In function 'adv7180_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.c>:1332:23: error: implicit declaration of function 'i2c_new_dummy_device'; did you mean 'i2c_new_probed_device'? [-Werror=implicit-function-declaration]
-   state->csi_client = i2c_new_dummy_device(client->adapter,
-                       ^~~~~~~~~~~~~~~~~~~~
-                       i2c_new_probed_device
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.c>:1332:21: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   state->csi_client = i2c_new_dummy_device(client->adapter,
-                     ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.c>:1339:21: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   state->vpp_client = i2c_new_dummy_device(client->adapter,
-                     ^
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7180.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.c>: In function 'ad9389b_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.c>:1151:27: error: implicit declaration of function 'i2c_new_dummy_device'; did you mean 'i2c_new_probed_device'? [-Werror=implicit-function-declaration]
-  state->edid_i2c_client = i2c_new_dummy_device(client->adapter, (0x7e >> 1));
-                           ^~~~~~~~~~~~~~~~~~~~
-                           i2c_new_probed_device
-<https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.c>:1151:25: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  state->edid_i2c_client = i2c_new_dummy_device(client->adapter, (0x7e >> 1));
-                         ^
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/ad9389b.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.c>: In function 'adv7511_probe':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.c>:1875:20: error: implicit declaration of function 'i2c_new_dummy_device'; did you mean 'i2c_new_probed_device'? [-Werror=implicit-function-declaration]
-  state->i2c_edid = i2c_new_dummy_device(client->adapter,
-                    ^~~~~~~~~~~~~~~~~~~~
-                    i2c_new_probed_device
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.c>:1875:18: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  state->i2c_edid = i2c_new_dummy_device(client->adapter,
-                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.c>:1892:18: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   state->i2c_cec = i2c_new_dummy_device(client->adapter,
-                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.c>:1904:20: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  state->i2c_pktmem = i2c_new_dummy_device(client->adapter, state->i2c_pktmem_addr >> 1);
-                    ^
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7511-v4l2.o]> Error 1
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.c>: In function 'adv7842_dummy_client':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.c>:3403:7: error: implicit declaration of function 'i2c_new_dummy_device'; did you mean 'i2c_new_probed_device'? [-Werror=implicit-function-declaration]
-  cp = i2c_new_dummy_device(client->adapter, io_read(sd, io_reg) >> 1);
-       ^~~~~~~~~~~~~~~~~~~~
-       i2c_new_probed_device
-<https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.c>:3403:5: warning: assignment to 'struct i2c_client *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  cp = i2c_new_dummy_device(client->adapter, io_read(sd, io_reg) >> 1);
-     ^
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/adv7842.o]> Error 1
 make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
 make[3]: *** [Makefile:146: sub-make] Error 2
 make[2]: *** [Makefile:8: all] Error 2
