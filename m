@@ -2,135 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A07A8ED47
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 967B78ED5C
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:51:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732541AbfHONtT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 09:49:19 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:45307 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732504AbfHONtS (ORCPT
+        id S1732477AbfHONvs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 09:51:48 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46138 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732426AbfHONvs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:49:18 -0400
-X-Originating-IP: 87.5.130.64
-Received: from uno.localdomain (host64-130-dynamic.5-87-r.retail.telecomitalia.it [87.5.130.64])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 8F425C0006;
-        Thu, 15 Aug 2019 13:49:15 +0000 (UTC)
-Date:   Thu, 15 Aug 2019 15:50:42 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 3/5] media: v4l2-ctrls: Add support for V4L2_CID_LOCATION
-Message-ID: <20190815135042.mm2co73badsv2wbo@uno.localdomain>
-References: <20190814202815.32491-1-jacopo@jmondi.org>
- <20190814202815.32491-4-jacopo@jmondi.org>
- <6c9460e2-b607-9863-f8f0-1a94773c6556@xs4all.nl>
+        Thu, 15 Aug 2019 09:51:48 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E6122AF;
+        Thu, 15 Aug 2019 15:51:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565877106;
+        bh=eQaxJ9fWzARXPrOco46drXtMqHl8iBVISexpgwltDec=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fvrGFVkaMHxE7ZCJ6VmVuUBnwX+lY5NX8E3uYdQdN5um35yc0ZREjQtNfQOEUAl69
+         LsG3gXVAYtPbsxxTiaxIejTqesO+6fNhlsdlUvwaDnGNfUmP3zfFIsggKWEkrWEuwD
+         hJp9t7xVupEFs5CVqLfePFRxogg15dsszGdhbves=
+Date:   Thu, 15 Aug 2019 16:51:43 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, hans.verkuil@cisco.com,
+        sakari.ailus@linux.intel.com, kernel@collabora.com,
+        ezequiel@collabora.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
+        Jacob Chen <jacob-chen@rock-chips.com>
+Subject: Re: [PATCH v8 02/14] media: doc: add document for rkisp1 meta buffer
+ format
+Message-ID: <20190815135143.GU5011@pendragon.ideasonboard.com>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-3-helen.koike@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ipri7ukjihz5d7ak"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6c9460e2-b607-9863-f8f0-1a94773c6556@xs4all.nl>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190730184256.30338-3-helen.koike@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Helen,
 
---ipri7ukjihz5d7ak
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Thank you for the patch.
 
-Hi Hans,
+On Tue, Jul 30, 2019 at 03:42:44PM -0300, Helen Koike wrote:
+> From: Jacob Chen <jacob2.chen@rock-chips.com>
+> 
+> This commit add document for rkisp1 meta buffer format
+> 
+> Signed-off-by: Jacob Chen <jacob-chen@rock-chips.com>
+> Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+> [update for upstream]
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> 
+> ---
+> 
+> Changes in v8:
+> - Add SPDX in the header
+> - Remove emacs configs
+> - Fix doc style
+> 
+> Changes in v7:
+> - s/correspond/corresponding
+> - s/use/uses
+> - s/docuemnt/document
+> 
+>  Documentation/media/uapi/v4l/meta-formats.rst |  2 ++
+>  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    | 23 +++++++++++++++++++
+>  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      | 22 ++++++++++++++++++
+>  3 files changed, 47 insertions(+)
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> 
+> diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
+> index b10ca9ee3968..5de621fea3cc 100644
+> --- a/Documentation/media/uapi/v4l/meta-formats.rst
+> +++ b/Documentation/media/uapi/v4l/meta-formats.rst
+> @@ -24,3 +24,5 @@ These formats are used for the :ref:`metadata` interface only.
+>      pixfmt-meta-uvc
+>      pixfmt-meta-vsp1-hgo
+>      pixfmt-meta-vsp1-hgt
+> +    pixfmt-meta-rkisp1-params
+> +    pixfmt-meta-rkisp1-stat
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> new file mode 100644
+> index 000000000000..103b5cb79b7c
+> --- /dev/null
+> +++ b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
+> @@ -0,0 +1,23 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +.. _v4l2-meta-fmt-rkisp1-params:
+> +
+> +============================
+> +V4L2_META_FMT_RK_ISP1_PARAMS
+> +============================
+> +
+> +Rockchip ISP1 Parameters Data
+> +
+> +Description
+> +===========
+> +
+> +This format describes input parameters for the Rockchip ISP1.
+> +
+> +It uses c-struct :c:type:`rkisp1_isp_params_cfg`, which is defined in
+> +the ``linux/rkisp1-config.h`` header file.
 
-On Thu, Aug 15, 2019 at 03:23:47PM +0200, Hans Verkuil wrote:
-> On 8/14/19 10:28 PM, Jacopo Mondi wrote:
-> > Add support for the newly defined V4L2_CID_LOCATION read-only control
-> > used to report the camera device mounting position.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
-> >  include/uapi/linux/v4l2-controls.h   | 4 ++++
-> >  2 files changed, 11 insertions(+)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > index 7d3a33258748..8ab0857df59a 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > @@ -943,6 +943,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
-> >  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
-> >  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-> > +	case V4L2_CID_LOCATION:			return "Location";
-> >
-> >  	/* FM Radio Modulator controls */
-> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> > @@ -1300,6 +1301,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >  		break;
-> >  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
-> >  		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
->
-> Missing break!
->
+I would say that
 
-Sorry, this was a trivial mistake. Thanks for spotting!
+"The buffer contains a single instance of the C structure
+:c:type:`rkisp1_isp_params_cfg`, defined in the
+``linux/rkisp1-config.h`` header file."
 
-> Regards,
->
-> 	Hans
->
-> > +	case V4L2_CID_LOCATION:
-> > +		*type = V4L2_CTRL_TYPE_INTEGER;
-> > +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > +		*min = V4L2_LOCATION_FRONT;
-> > +		*max = V4L2_LOCATION_BACK;
-> > +		*step = 1;
-> >  		break;
-> >  	default:
-> >  		*type = V4L2_CTRL_TYPE_INTEGER;
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > index 37807f23231e..5c4c7b245921 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -889,6 +889,10 @@ enum v4l2_auto_focus_range {
-> >  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
-> >  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
-> >
-> > +#define V4L2_CID_LOCATION			(V4L2_CID_CAMERA_CLASS_BASE+34)
-> > +#define V4L2_LOCATION_FRONT			(0 << 0)
-> > +#define V4L2_LOCATION_BACK			(1 << 0)
-> > +
-> >  /* FM Modulator class control IDs */
-> >
-> >  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
-> >
->
+And add a sentence to explain what the alignment requirements are.
 
---ipri7ukjihz5d7ak
-Content-Type: application/pgp-signature; name="signature.asc"
+> +
+> +The parameters consist of multiple modules.
+> +The module won't be updated if the corresponding bit was not set in module_*_update.
 
------BEGIN PGP SIGNATURE-----
+Doesn't this belong to rkisp1-config.h ? I would group all the
+information related to fields of the structure in the header file, and
+only have here the information related to the buffer layout (this mainly
+referencing the structure and talking about alignment/padding).
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1VYzEACgkQcjQGjxah
-VjyXGg//TtjdcaQodf+iq7So6at1omA6DRghCTKwiwhy/mXsNnNp6O3SHF42nFsU
-3Mv9EBaYdzpcmaASPMiT82hxUufOT16IOVQ1L/bBs+/JHnVv0fPtw0LbmuVPIQwD
-gzGHQDKRkgzCzcp54oodPZ9UvtEvxRyUWU/GEzmewd8QTa5kccKEj9+VYPHrRhoz
-SLXzVXSj6ux5kQOvnv9Ys3a3k3EVXhEnNAGvq5kYLohvhlFeI46rQJoSZYsFOfpx
-aFLxfcoRYhOU33LEFLiOykQsIPzUyRMkzbfPOkLUSSUlgFjF8g2tAkusdOWGtU4Q
-KGd9XF4u51zc2O/nUAb0dWjgSOCmALq/Gn6hwH4rFV1pj0m9kfALYOJCwoMpCFrF
-pwxK6sVPkYRrihMz3t0aEEV6iPei9z06S5Ri7hGT+xlE6nfwn2MRy1Biia+NN95Y
-y/AJx9KzSQKba2idsSXMXYBakFJah5p5RnJhIxE1WZef0e0fdTiXnQKp9lvFhA82
-Q9s/48w/bQ2xMyM8A7G8z4NOoxeGeQEfFkytSiR2jxW9cgleDc63zVvwQdUBU+ZW
-4Doso5lGdaUBlkv84HqCAknKF3sQOcMEmpe40eDxYswJ7cTiR2h5bw3ur1VwPhRP
-eIBta5yHl9GShlIXTG5jaSLXIMHp8ZKScISLWuNl0y86ETm+JnM=
-=UjlD
------END PGP SIGNATURE-----
+> +
+> +.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> +   :functions: rkisp1_isp_params_cfg
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> new file mode 100644
+> index 000000000000..4ad303f96421
+> --- /dev/null
+> +++ b/Documentation/media/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
+> @@ -0,0 +1,22 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +.. _v4l2-meta-fmt-rkisp1-stat:
+> +
+> +=============================
+> +V4L2_META_FMT_RK_ISP1_STAT_3A
+> +=============================
+> +
+> +
+> +Rockchip ISP1 Statistics Data
+> +
+> +Description
+> +===========
+> +
+> +This format describes image color statistics information generated by the Rockchip
+> +ISP1.
+> +
+> +It uses c-struct :c:type:`rkisp1_stat_buffer`, which is defined in
+> +the ``linux/rkisp1-config.h`` header file.
 
---ipri7ukjihz5d7ak--
+Same comment here, I think we need to document alignment/padding
+constraints.
+
+> +
+> +.. kernel-doc:: include/uapi/linux/rkisp1-config.h
+> +   :functions: rkisp1_stat_buffer
+
+-- 
+Regards,
+
+Laurent Pinchart
