@@ -2,146 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 174468ED23
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D44C68ED41
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732328AbfHONl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 09:41:59 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:52025 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729918AbfHONl7 (ORCPT
+        id S1732505AbfHONsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 09:48:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46064 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732122AbfHONsy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:41:59 -0400
-Received: from [IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f] ([IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yG0nhw2wxDqPeyG0rhYLfe; Thu, 15 Aug 2019 15:41:57 +0200
-Subject: Re: [RFC 3/5] media: v4l2-ctrls: Add support for V4L2_CID_LOCATION
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thu, 15 Aug 2019 09:48:54 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E141C2AF;
+        Thu, 15 Aug 2019 15:48:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565876932;
+        bh=xowyGRiP4/YVXIEzA/PZn8BUaXGf008qzpBzfZbm7g0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iI7FG4A3hy7aFaZLKOforRcR9n5x1GpjnRZ/oNE0bvk2jsJETaf/mnqUBcBZ80j9r
+         MiZnTKuLSXk+YEgSIMXZsiXI7Cypb1cVOo3MLCcwrNBiGu3H0rMtvyW5IH/o8yWGrI
+         K6tS3lSFCq/AVUarbp8nklxxuVRBkbeENn61GoOo=
+Date:   Thu, 15 Aug 2019 16:48:48 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
         <linux-media@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
+Message-ID: <20190815134848.GA20020@pendragon.ideasonboard.com>
 References: <20190814202815.32491-1-jacopo@jmondi.org>
- <20190814202815.32491-4-jacopo@jmondi.org>
- <20190814225353.GE5015@pendragon.ideasonboard.com>
- <20190815130245.usat55oqffe4abvi@uno.localdomain>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f16bc961-1410-a38b-9973-eddb7293b4b2@xs4all.nl>
-Date:   Thu, 15 Aug 2019 15:41:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+ <20190814202815.32491-3-jacopo@jmondi.org>
+ <02b40da5-c30c-f1f3-2351-c04da932e94a@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20190815130245.usat55oqffe4abvi@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIvVw+YP1TjkGK30wylgD6dnQvfhOlyHaEe0FibFsnIf1SzNCUBu4Lg1dARQ5/qQlNOvjTpyAmCPciO0E4SXdUEVoRyN4ZahzeD7vP64wcCZuuhSwSV9
- Ae6m7jUizYjQhmLqQjyMC1CuIg2C6qVe7l3rZ9NP5Fg5tZZRcF2XD3yh2bvA4z0vvN3PE+7KgBStvALUuGBT9LJyTxPVfhB3C6yVlor3zfGxsTuXBaZsmj28
- Qb6PYK94zj6tJZwnVz/tqKMjavS2xTetrpHjDav/sKh9E27l4n1jIo6ibi7FuYW2IbBjFl/YoJRcNs1CoWWeND/lTM5y7L6y53wIK1ag/8/z5qQMU9Bs/hQc
- G5azbalFXNE4PhxNtm7d3PibnyUYuiCf08PCJOeqNDvuJXhSwCcxBo/jTjS3CHjucndFL4B2iNyWZae600eMm523vWoWJSMOlmb+z5KG0sY6OSjWQb0GtdVG
- n8NUdWgNx5ysbfSP
+Content-Disposition: inline
+In-Reply-To: <02b40da5-c30c-f1f3-2351-c04da932e94a@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/15/19 3:02 PM, Jacopo Mondi wrote:
-> Hi Laurent,
-> 
-> On Thu, Aug 15, 2019 at 01:53:53AM +0300, Laurent Pinchart wrote:
->> Hi Jacopo,
->>
->> Thank you for the patch.
->>
->> On Wed, Aug 14, 2019 at 10:28:13PM +0200, Jacopo Mondi wrote:
->>> Add support for the newly defined V4L2_CID_LOCATION read-only control
->>> used to report the camera device mounting position.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
->>>  include/uapi/linux/v4l2-controls.h   | 4 ++++
->>>  2 files changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> index 7d3a33258748..8ab0857df59a 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> @@ -943,6 +943,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
->>>  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
->>>  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
->>> +	case V4L2_CID_LOCATION:			return "Location";
->>
->> Depending on what we decide to name the control (see review of 2/5), you
->> should adjust the description accordingly.
->>
->>>
->>>  	/* FM Radio Modulator controls */
->>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->>> @@ -1300,6 +1301,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>>  		break;
->>>  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
->>>  		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
->>> +	case V4L2_CID_LOCATION:
->>> +		*type = V4L2_CTRL_TYPE_INTEGER;
->>> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> +		*min = V4L2_LOCATION_FRONT;
->>> +		*max = V4L2_LOCATION_BACK;
->>
->> I don't think the control should have a min and a max different than the
->> current value, as it's a fully static control. I'd drop those two lines
->> here, and drivers will have to set value = min = max = V4L2_LOCATION_xxx
->> when creating the control. That why you should be able to collapse this
->> with V4L2_CID_MIN_BUFFERS_FOR_OUTPUT.
->>
-> 
-> Ah, I thought min/max should report the actual control values limits.
-> Anyway, if we move this to be an integer menu control with an helper
-> to parse the DT property and register the control on behalf of
-> drivers, this will change.
-> 
->>> +		*step = 1;
->>>  		break;
->>>  	default:
->>>  		*type = V4L2_CTRL_TYPE_INTEGER;
->>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->>> index 37807f23231e..5c4c7b245921 100644
->>> --- a/include/uapi/linux/v4l2-controls.h
->>> +++ b/include/uapi/linux/v4l2-controls.h
->>> @@ -889,6 +889,10 @@ enum v4l2_auto_focus_range {
->>>  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
->>>  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
->>>
->>> +#define V4L2_CID_LOCATION			(V4L2_CID_CAMERA_CLASS_BASE+34)
->>> +#define V4L2_LOCATION_FRONT			(0 << 0)
->>> +#define V4L2_LOCATION_BACK			(1 << 0)
->>
->> Why not just 0 and 1 ?
-> 
-> Or why not BIT(). I saw that the (1 << x) style is the mostly used one in
-> this header file when defining macros like this one so I went for
-> consistency with the existing code.
+Hi Hans,
 
-Definitely not right. This is an enumeration, so just number from 0, 1, 2, ...
+On Thu, Aug 15, 2019 at 03:30:59PM +0200, Hans Verkuil wrote:
+> On 8/14/19 10:28 PM, Jacopo Mondi wrote:
+> > Add documentation for the V4L2_CID_LOCATION camera control. The newly
+> > added read-only control reports the camera device mounting position.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 23 +++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> > 
+> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > index 51c1d5c9eb00..fc0a02eee6d4 100644
+> > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > @@ -510,6 +510,29 @@ enum v4l2_scene_mode -
+> >      value down. A value of zero stops the motion if one is in progress
+> >      and has no effect otherwise.
+> > 
+> > +``V4L2_CID_LOCATION (integer)``
+> > +    This read-only control describes the camera location by reporting its
+> > +    mounting position on the device where the camera is installed. This
+> > +    control is particularly meaningful for devices which have a well defined
+> > +    orientation, such as phones, laptops and portable devices as the camera
+> > +    location is expressed as a position relative to the device intended
+> > +    usage position. In example, a camera installed on the user-facing side
+> > +    of a phone device is said to be installed in the ``V4L2_LOCATION_FRONT``
+> > +    position.
+> 
+> When should this control be created? If there is only one location (e.g.
+> all sensors are front-facing) would you still expose this? Or does it depend
+> on the type of device?
 
-Nothing to do with bits/bitmasks.
+Those are important questions that need to be answered :-) Going forward
+I think all camera sensors should expose this, and I'd like a helper
+function to create the control and set its value based on firmware
+properties that all (or most) camera sensor drivers should use. That
+helper function should also create the other mandatory or optional
+standard controls for camera sensors, such as the pixel rate or link
+frequency controls.
 
+> And is the sensor in a digital camera front or back facing? (Just curious
+> about what you think about that situation!)
+
+I think we should include here a list of supported device types, and for
+each device type, define what the front location is. All other locations
+are then derived from that. For a digital camera I would define the
+front side as facing the scene being photographed.
+
+> > +
+> > +
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +
+> > +    * - ``V4L2_LOCATION_FRONT``
+> > +      - The camera device is located on the front side of the device.
+> > +    * - ``V4L2_LOCATION_BACK``
+> > +      - The camera device is located on the back side of the device.
+> > +
+> > +
+> > +
+> >  .. [#f1]
+> >     This control may be changed to a menu control in the future, if more
+> >     options are required.
+
+-- 
 Regards,
 
-	Hans
-
-> 
->>
->>> +
->>>  /* FM Modulator class control IDs */
->>>
->>>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
-
+Laurent Pinchart
