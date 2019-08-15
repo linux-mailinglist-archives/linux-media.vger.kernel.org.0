@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F528EEF2
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9A88EEF4
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733225AbfHOPAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 11:00:15 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55831 "EHLO
+        id S1732190AbfHOPAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 11:00:49 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55835 "EHLO
         mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733212AbfHOPAN (ORCPT
+        with ESMTP id S1730788AbfHOPAP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:00:13 -0400
-Received: by mail-wm1-f65.google.com with SMTP id f72so1526751wmf.5;
-        Thu, 15 Aug 2019 08:00:11 -0700 (PDT)
+        Thu, 15 Aug 2019 11:00:15 -0400
+Received: by mail-wm1-f65.google.com with SMTP id f72so1526854wmf.5;
+        Thu, 15 Aug 2019 08:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=r+jzvQvthTNKSSPEA/jk2wsfbVmv5OmhIWCFXHNfwOg=;
-        b=Yg1IFtVuJjSG3SFA9a8c2IxE5itAd+yHgpPX75BjzB02ymAJShqbqeguQn8I5FuBs6
-         kegRFAWh3YSKrScpQ/X9bZ+9TH7Rqr4Q4HfTtH3/aH37Dy/vPv/7tvzOjJlZ+m1/N7/S
-         dzl+UovjWE0kuBTZgityqz8/MtK2y4jfAH++TpOYaF3TUO3UffpniDFAh/VFvOV0ZuZ5
-         G825GcEsqi/2r+t2fqmDJhHizCI8iLBu+E+F6UULQ5APoj3Gb2pyVBlI0t0FTWTS6Hsu
-         kze5hNl0D7adHf8Auj8B2bD/eocQdgqXPdWRz20RXONmmiUVMdeu8j3pbuBoUQTxXA8X
-         RCKw==
+        bh=175hmWTJX0mZg1homV3MfEoJFn7/G0Qp9jA5/mRZmFs=;
+        b=lnGY4+drKoBUw9kXu4I/QoyWhyFUNQyWblYexphY1jQAhqWcJgqVn4Gbu7yDbNtcT/
+         G2k5WY8HIrhJke1yNhkd5E+zOuNk6zWjWGOob8HOLfYY51t7ZTduWgnrQLwXEeb+a9B5
+         7JlbAWDeQGRZEZblvA6DUV5Vzjs1jKaymdKBkQDmsP/vLrYQfjKUY8QzqE2UlDmssO5L
+         voIPWSDrtIARFVH8eWMtbkLWWQf3UlJq0Xmo6VNVYW+blpr6oMC3BZW3BL8FlM1C9aFg
+         6tlnWZFuiW0mqBT04ihbpwisUxp4ygHCDiJdrhqJJY4nPtkaLjWMyThjtoCeWlz3OWK6
+         jhQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=r+jzvQvthTNKSSPEA/jk2wsfbVmv5OmhIWCFXHNfwOg=;
-        b=Si5fKFmltFlPwm5m2TKQqaEfHPo3lihQgjBLGUX01+0qFRUCdDg4sM0FUU4dYZKdqq
-         EtDhmJMN86P65XK9RK6tyFh4yE2Rzc47/Emb7lzFkLPX+APU8y1qKXykhcHX6JzaR13u
-         NSaEfYkJTst5zuRmIxf77B0a9n07mdRrNpHTUnDSp73K8rNSK/76PCC+bIew0abFjfmw
-         MAHptK6wUXFKax7+hfzn7lf2eZaIpPOXHPgAKwyXXO8DvG+FVTqQ/9V0Gao3pIhasCKz
-         z4XzXAlHzPlBJTEYFpCkCzIl4maZmYW/pWhtKG4erIr2QPZo573Y+VTW+FPwJEpNs+Ir
-         SF1g==
-X-Gm-Message-State: APjAAAV526mivWlcm/7CjNcor9g8sXGKsiPIdZdLrGEvFifBJqnjMji1
-        5IVuT/fWslYMIZZo7Wcr7IQ=
-X-Google-Smtp-Source: APXvYqx+BwCsHw6G4GS9zXML3675MFAyPzQruVOtLjl23v6CWb81hpiV+mN2jcc++T//e+ayodLMaA==
-X-Received: by 2002:a1c:a852:: with SMTP id r79mr3072300wme.36.1565881211028;
-        Thu, 15 Aug 2019 08:00:11 -0700 (PDT)
+        bh=175hmWTJX0mZg1homV3MfEoJFn7/G0Qp9jA5/mRZmFs=;
+        b=T6/b0+tLzeauWa9vZ4Vt5PeVqKdJs1bnj4X0TrQgh1NAwYRyh176ZZZHvTEmp495VO
+         eFQvUc1YX9rmdPxiyPGhuQre+xObsmnHUGS8cPje+tXrTWj/nYQOfhE3rMAKCLb2kIks
+         PHWLV9cxyKYxuiScJXwah8eOpePYWKerukLXLH6c6mqS75bFFID+TrI4d240YsRAnz15
+         KAG2v98hx+Wav0e3tJ91QDMXpw0uCHQfQsw5s0EUXnXdcJX0YdPDW4oPklvLM9tWZjM+
+         FR3mdgi8l35l1UNbcqE3DP4Mc7Jdw3HIOg+JYWru4OdNa0T0ZjRzjY+ypopsKplXB1Cx
+         ysSQ==
+X-Gm-Message-State: APjAAAWZ/PO9Q3dm7lI3Cp4hzYxDnrvifYz+dHUp3keZc+k71jS6QxnP
+        l8djG+Rk9S3SVuCUqftY2w4=
+X-Google-Smtp-Source: APXvYqxtD4h22YDO0EJkRcYmHTbUrk17SD1r8OUdyf4itj+hZIvbRQalGx03WQBSGFFBrH9LVWhyDQ==
+X-Received: by 2002:a7b:c76d:: with SMTP id x13mr3064501wmk.110.1565881213007;
+        Thu, 15 Aug 2019 08:00:13 -0700 (PDT)
 Received: from localhost.localdomain ([94.204.252.234])
-        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.09
+        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 15 Aug 2019 08:00:10 -0700 (PDT)
+        Thu, 15 Aug 2019 08:00:12 -0700 (PDT)
 From:   Christian Hewitt <christianshewitt@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Benjamin Valentin <benpicco@googlemail.com>,
         Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
 Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH 2/7] media: rc: add keymap for Khadas VIM/EDGE remote
-Date:   Thu, 15 Aug 2019 18:59:12 +0400
-Message-Id: <1565881157-14644-3-git-send-email-christianshewitt@gmail.com>
+Subject: [PATCH 3/7] media: rc: add keymap for Tanix TX3 mini remote
+Date:   Thu, 15 Aug 2019 18:59:13 +0400
+Message-Id: <1565881157-14644-4-git-send-email-christianshewitt@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
 References: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
@@ -61,104 +61,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Khadas VIM and Edge SBC devices use the same NEC remote device. The
-remote includes a mouse button for Android use. This has been mapped
-to KEY_MUTE.
+The Tanix TX3 mini Android STB ships with a simple NEC remote.
 
 Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 ---
- drivers/media/rc/keymaps/Makefile    |  1 +
- drivers/media/rc/keymaps/rc-khadas.c | 56 ++++++++++++++++++++++++++++++++++++
- include/media/rc-map.h               |  1 +
- 3 files changed, 58 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-khadas.c
+ drivers/media/rc/keymaps/Makefile           |  1 +
+ drivers/media/rc/keymaps/rc-tanix-tx3mini.c | 79 +++++++++++++++++++++++++++++
+ include/media/rc-map.h                      |  1 +
+ 3 files changed, 81 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-tanix-tx3mini.c
 
 diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index b88c4e7..39192b0 100644
+index 39192b0..31720d8 100644
 --- a/drivers/media/rc/keymaps/Makefile
 +++ b/drivers/media/rc/keymaps/Makefile
-@@ -58,6 +58,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-it913x-v1.o \
- 			rc-it913x-v2.o \
- 			rc-kaiomy.o \
-+			rc-khadas.o \
- 			rc-kworld-315u.o \
- 			rc-kworld-pc150u.o \
- 			rc-kworld-plus-tv-analog.o \
-diff --git a/drivers/media/rc/keymaps/rc-khadas.c b/drivers/media/rc/keymaps/rc-khadas.c
+@@ -95,6 +95,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-snapstream-firefly.o \
+ 			rc-streamzap.o \
+ 			rc-tango.o \
++			rc-tanix-tx3mini.o \
+ 			rc-tbs-nec.o \
+ 			rc-technisat-ts35.o \
+ 			rc-technisat-usb2.o \
+diff --git a/drivers/media/rc/keymaps/rc-tanix-tx3mini.c b/drivers/media/rc/keymaps/rc-tanix-tx3mini.c
 new file mode 100644
-index 0000000..bb183ed
+index 0000000..e501398
 --- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-khadas.c
-@@ -0,0 +1,56 @@
++++ b/drivers/media/rc/keymaps/rc-tanix-tx3mini.c
+@@ -0,0 +1,78 @@
 +// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Copyright (C) 2019 Christian Hewitt <christianshewitt@gmail.com>
-+
-+/*
-+ * Keytable for the Khadas VIM/EDGE SBC remote control
-+ */
++// Copyright (c) 2018 Christian Hewitt
 +
 +#include <media/rc-map.h>
 +#include <linux/module.h>
 +
-+static struct rc_map_table khadas[] = {
++/*
++ * Keymap for the Tanix TX3 mini STB remote control
++ */
 +
-+	{ 0x14, KEY_POWER },
++static struct rc_map_table tanix_tx3mini[] = {
 +
-+	{ 0x03, KEY_UP },
-+	{ 0x02, KEY_DOWN },
-+	{ 0x0e, KEY_LEFT },
-+	{ 0x1a, KEY_RIGHT },
-+	{ 0x07, KEY_OK },
++	{ 0x8051, KEY_POWER },
++	{ 0x804d, KEY_MUTE },
 +
-+	{ 0x01, KEY_BACK },
-+	{ 0x5b, KEY_MUTE }, // mouse
-+	{ 0x13, KEY_MENU },
++	{ 0x8009, KEY_RED },
++	{ 0x8011, KEY_GREEN },
++	{ 0x8054, KEY_YELLOW },
++	{ 0x804f, KEY_BLUE },
 +
-+	{ 0x58, KEY_VOLUMEDOWN },
-+	{ 0x0b, KEY_VOLUMEUP },
++	{ 0x8056, KEY_VOLUMEDOWN },
++	{ 0x80bd, KEY_PREVIOUS },
++	{ 0x80bb, KEY_NEXT },
++	{ 0x804e, KEY_VOLUMEUP },
 +
-+	{ 0x48, KEY_HOME },
++	{ 0x8053, KEY_HOME },
++	{ 0x801b, KEY_BACK },
 +
++	{ 0x8026, KEY_UP },
++	{ 0x8028, KEY_DOWN },
++	{ 0x8025, KEY_LEFT },
++	{ 0x8027, KEY_RIGHT },
++	{ 0x800d, KEY_OK },
++
++	{ 0x8049, KEY_MENU },
++	{ 0x8052, KEY_EPG }, // mouse
++
++	{ 0x8031, KEY_1 },
++	{ 0x8032, KEY_2 },
++	{ 0x8033, KEY_3 },
++
++	{ 0x8034, KEY_4 },
++	{ 0x8035, KEY_5 },
++	{ 0x8036, KEY_6 },
++
++	{ 0x8037, KEY_7 },
++	{ 0x8038, KEY_8 },
++	{ 0x8039, KEY_9 },
++
++	{ 0x8058, KEY_SUBTITLE }, // 1/a
++	{ 0x8030, KEY_0 },
++	{ 0x8044, KEY_DELETE },
 +};
 +
-+static struct rc_map_list khadas_map = {
++static struct rc_map_list tanix_tx3mini_map = {
 +	.map = {
-+		.scan     = khadas,
-+		.size     = ARRAY_SIZE(khadas),
++		.scan     = tanix_tx3mini,
++		.size     = ARRAY_SIZE(tanix_tx3mini),
 +		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_KHADAS,
++		.name     = RC_MAP_TANIX_TX3MINI,
 +	}
 +};
 +
-+static int __init init_rc_map_khadas(void)
++static int __init init_rc_map_tanix_tx3mini(void)
 +{
-+	return rc_map_register(&khadas_map);
++	return rc_map_register(&tanix_tx3mini_map);
 +}
 +
-+static void __exit exit_rc_map_khadas(void)
++static void __exit exit_rc_map_tanix_tx3mini(void)
 +{
-+	rc_map_unregister(&khadas_map);
++	rc_map_unregister(&tanix_tx3mini_map);
 +}
 +
-+module_init(init_rc_map_khadas)
-+module_exit(exit_rc_map_khadas)
++module_init(init_rc_map_tanix_tx3mini)
++module_exit(exit_rc_map_tanix_tx3mini)
 +
 +MODULE_LICENSE("GPL");
 +MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
 diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index 1f61cb07..37508b0 100644
+index 37508b0..44e6458 100644
 --- a/include/media/rc-map.h
 +++ b/include/media/rc-map.h
-@@ -224,6 +224,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_IT913X_V1                 "rc-it913x-v1"
- #define RC_MAP_IT913X_V2                 "rc-it913x-v2"
- #define RC_MAP_KAIOMY                    "rc-kaiomy"
-+#define RC_MAP_KHADAS                    "rc-khadas"
- #define RC_MAP_KWORLD_315U               "rc-kworld-315u"
- #define RC_MAP_KWORLD_PC150U             "rc-kworld-pc150u"
- #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
+@@ -262,6 +262,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_SNAPSTREAM_FIREFLY        "rc-snapstream-firefly"
+ #define RC_MAP_STREAMZAP                 "rc-streamzap"
+ #define RC_MAP_TANGO                     "rc-tango"
++#define RC_MAP_TANIX_TX3MINI             "rc-tanix-tx3mini"
+ #define RC_MAP_TBS_NEC                   "rc-tbs-nec"
+ #define RC_MAP_TECHNISAT_TS35            "rc-technisat-ts35"
+ #define RC_MAP_TECHNISAT_USB2            "rc-technisat-usb2"
 -- 
 2.7.4
 
