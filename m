@@ -2,162 +2,398 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E03088EB53
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE0F8EB84
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730330AbfHOMPP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 15 Aug 2019 08:15:15 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:39741 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726352AbfHOMPP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 08:15:15 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hyEet-00011g-Iq; Thu, 15 Aug 2019 12:15:11 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1hyEeu-0004X1-MI; Thu, 15 Aug 2019 12:15:12 +0000
-Date:   Thu, 15 Aug 2019 12:15:12 +0000 (UTC)
-From:   jenkins@linuxtv.org
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1855160069.12.1565871312684.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #3
+        id S1731455AbfHOM1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 08:27:52 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:32903 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbfHOM1v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Aug 2019 08:27:51 -0400
+Received: by mail-ed1-f68.google.com with SMTP id s15so1996209edx.0
+        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 05:27:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yxz195eWcgYEqzKYAccxvsZ/hWOjGEEh9ma/hm4DVXE=;
+        b=G03yi2wKTJ3BNLGOAR+ZT74Op9jLN8oqWydwGS7oI2gLMWwNzEc+2W9avh4hOED4HV
+         uEC01jvRiOiFHYIFAiDJkEt4WvnYQt1WMKXMGyunvNk3icigx+AxUicKHyFWC1bCGMSJ
+         nRs8jbb6gaoD4sIK/oZgQHnVo3SpjCmmcdO9o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yxz195eWcgYEqzKYAccxvsZ/hWOjGEEh9ma/hm4DVXE=;
+        b=MwOf2BQtRzWjaWhMNAkzTtjymepljCPJfkKmp6YA3oshfwXwHAt9lIm96v69LjRwKE
+         d0kWCONHKUaSNpARmn811Wqa9yE928NkLi0+ij0xAVPBCrhZngSHDO5MVkkuP34+L3Zy
+         6BP3tpPXXpLYQQP2nNXBY0AbEg1mxmQ1JeOiZP8ZgoyLyJEGSe7EArvuZlUd6ca5AHbN
+         DohlpgrvsIjw7MntYmfMFwreySPn1BQizKI9EYiSOKbantZLqqpMhSEWRmCcjKV5pMe1
+         qY4awD3n2O5nzkpbyUVmw+hKFQjBrfxt8nNV7hOcL2rqzGvPO+uHubJmdW+Ql5ImYEG2
+         FjUg==
+X-Gm-Message-State: APjAAAV5LV5UTDEFMN80cMp06CGs5FxdDCMXZK0Z+L2OCWJ+6sp7Nbhv
+        qFot0yi7oanPrco1GJzAp+nwfGvxbnVKzw==
+X-Google-Smtp-Source: APXvYqyigsRjJ8IDRiZw9moN6S8tOf7GmxFMlVkharOaxvt9odlrCCtIF6M0FNHCkY3WyWemurnXfg==
+X-Received: by 2002:a50:a68a:: with SMTP id e10mr4970814edc.173.1565872068720;
+        Thu, 15 Aug 2019 05:27:48 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id la5sm362389ejb.30.2019.08.15.05.27.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Aug 2019 05:27:47 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id g17so2072571wrr.5
+        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 05:27:47 -0700 (PDT)
+X-Received: by 2002:adf:fc03:: with SMTP id i3mr4937208wrr.48.1565872067113;
+ Thu, 15 Aug 2019 05:27:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
+References: <20190812110513.23774-1-hverkuil-cisco@xs4all.nl>
+ <20190812110513.23774-10-hverkuil-cisco@xs4all.nl> <CAPBb6MW_kSdSA99iFPXmTxqOag3=0D9AOAV6OrO2Umw9nnHdTw@mail.gmail.com>
+ <4961c8f5-0cb8-1ab9-af13-9f8092536e21@xs4all.nl>
+In-Reply-To: <4961c8f5-0cb8-1ab9-af13-9f8092536e21@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 15 Aug 2019 21:27:34 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DaR0m+L3x9UU5RBFRRVwze2nkwwONkNqQ94p93r7Gctg@mail.gmail.com>
+Message-ID: <CAAFQd5DaR0m+L3x9UU5RBFRRVwze2nkwwONkNqQ94p93r7Gctg@mail.gmail.com>
+Subject: Re: [PATCHv2 09/12] vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/3/display/redirect>
+On Thu, Aug 15, 2019 at 8:53 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 8/15/19 10:12 AM, Alexandre Courbot wrote:
+> > On Mon, Aug 12, 2019 at 8:06 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>
+> >> This RFC patch adds support for the V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF flag.
+> >> It also adds a new V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability and
+> >> a v4l2_m2m_release_capture_buf() helper function.
+> >>
+> >> Drivers should set vb2_queue->subsystem_flags to VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF
+> >> to indicate support for this flag.
+> >>
+> >> The device_run() function should look like this:
+> >>
+> >> if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> >>         v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >>         v4l2_m2m_job_finish(...);
+> >>         return;
+> >> }
+> >> cap_vb->is_held = out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >>
+> >> ...
+> >>
+> >> v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> >> if (!cap_vb->is_held) {
+> >>         v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >>         v4l2_m2m_job_finish(...);
+> >> }
+> >>
+> >> In order to handle the corner case where V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> >> is always set for the output buffer, and you reached the last frame (so no
+> >> new output buffer will be queued with a new timestamp), the driver should
+> >> implement support for the V4L2_DEC_CMD_STOP command, and that should do:
+>
+> V4L2_DEC_CMD_STOP should have been CMD_FLUSH. Sorry for the confusion.
+>
+> >
+> > I wonder if "the driver must implement..." would not make things
+> > easier: what about drivers that only support formats for which we have
+> > an exact 1:1 mapping (like VP8)? Should they also implement it? What
+>
+> Such drivers do not need this and will not set
+> V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF. If that cap is not set,
+> then V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF will be ignored.
+>
+> > it permitted for a driver supporting this flag to not implement
+> > V4L2_DEC_CMD_STOP?
+>
+> Drivers that support this flag must implement DEC_CMD_FLUSH.
+>
+> >
+> > Leaving this as an option may complicate user-space quite a bit. Since
+> > the implementation of V4L2_DEC_CMD_STOP does not seem too complicated,
+> > how about making it mandatory for all stateless decoders?
+>
+> It's a good question: should we support DEC_CMD_FLUSH also for decoders
+> that do not set V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF?
+>
+> It would be a NOP, but it might simplify applications.
+>
+> That said, I think we can postpone a decision about that until we have
+> more experience. It is easier to add support for this than to remove
+> it later.
 
-Changes:
+I might have missed the discussion, but what's the reason not to just
+make this consistent with stateful decoder and use the
+DEC_CMD_STOP/START pair?
 
-------------------------------------------
-Started by user Mauro Carvalho Chehab
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-No credentials specified
-Cloning the remote Git repository
-Cloning repository git://linuxtv.org/libcamera.git
- > git init <https://builder.linuxtv.org/job/libcamera/ws/> # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git fetch --tags --force --progress git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/*
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
- > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git fetch --tags --force --progress git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/*
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 0268984c0d870a6e772b45e3aa1b01daadd45395 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0268984c0d870a6e772b45e3aa1b01daadd45395
-Commit message: "test: v4l2_device: Remove unused function"
- > git rev-list --no-walk 0268984c0d870a6e772b45e3aa1b01daadd45395 # timeout=10
-[libcamera] $ /bin/sh -xe /tmp/jenkins43895443202581844.sh
-+ meson build -Dandroid=true
-The Meson build system
-Version: 0.49.2
-Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
-Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
-Build type: native build
-Project name: libcamera
-Project version: 0.0.0
-Native C compiler: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
-Native C++ compiler: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
-Build machine cpu family: x86_64
-Build machine cpu: x86_64
-Header <stdlib.h> has symbol "secure_getenv" : YES
-Configuring version.h using configuration
-Found pkg-config: /usr/bin/pkg-config (0.29)
-Dependency libudev found: YES 241
-Library dl found: YES
-Dependency threads found: YES 
-WARNING: rcc dependencies will not work reliably until this upstream issue is fixed: https://bugreports.qt.io/browse/QTBUG-45460
-Dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.11.3 (pkg-config)
-Detecting Qt5 tools
- moc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/moc, 5.11.3)
- uic: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/uic, 5.11.3)
- rcc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/rcc, 5.11.3)
- lrelease: NO
-Program doxygen found: YES (/usr/bin/doxygen)
-Configuring Doxyfile using configuration
-Program sphinx-build-3 found: NO
-Program sphinx-build found: YES (/usr/bin/sphinx-build)
-Configuring config.h using configuration
-Build targets in project: 52
-Option werror is: True [default: true]
-Found ninja-1.8.2 at /usr/bin/ninja
-+ cd build
-+ ninja
-[1/171] Generating control_types_cpp with a custom command.
-[2/171] Generating gen-header with a custom command.
-[3/171] Compiling C object 'src/android/e7e5733@@camera_metadata@sta/metadata_camera_metadata.c.o'.
-[4/171] Linking static target src/android/libcamera_metadata.a.
-[5/171] Generating version.cpp with a custom command.
-[6/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher.cpp.o'.
-[7/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator_sysfs.cpp.o'.
-[8/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/buffer.cpp.o'.
-[9/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/meson-generated_.._control_types.cpp.o'.
-[10/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/meson-generated_.._version.cpp.o'.
-[11/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_interface.cpp.o'.
-[12/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o'.
-[13/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/geometry.cpp.o'.
-[14/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/controls.cpp.o'.
-[15/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_notifier.cpp.o'.
-[16/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera_manager.cpp.o'.
-[17/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/formats.cpp.o'.
-[18/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera_sensor.cpp.o'.
-[19/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera.cpp.o'.
-[20/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher_poll.cpp.o'.
-[21/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o'.
-[22/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_proxy.cpp.o'.
-[23/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/message.cpp.o'.
-[24/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipc_unixsocket.cpp.o'.
-[25/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/media_object.cpp.o'.
-[26/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_module.cpp.o'.
-[27/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/log.cpp.o'.
-[28/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/media_device.cpp.o'.
-[29/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/object.cpp.o'.
-[30/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/utils.cpp.o'.
-[31/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/timer.cpp.o'.
-[32/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/signal.cpp.o'.
-[33/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/process.cpp.o'.
-[34/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_controls.cpp.o'.
-[35/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/thread.cpp.o'.
-[36/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o'.
-[37/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/request.cpp.o'.
-[38/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_handler.cpp.o'.
-[39/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/stream.cpp.o'.
-[40/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_subdevice.cpp.o'.
-[41/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator_udev.cpp.o'.
-[42/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o'.
-[43/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/proxy_ipa_proxy_linux.cpp.o'.
-[44/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/.._android_camera3_hal.cpp.o'.
-[45/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/.._android_camera_hal_manager.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/.._android_camera_hal_manager.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/.._android_camera_hal_manager.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/.._android_camera_hal_manager.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/.._android_camera_hal_manager.cpp.o' -c ../src/android/camera_hal_manager.cpp
-../src/android/camera_hal_manager.cpp: In member function ‘CameraProxy* CameraHalManager::open(unsigned int, const hw_module_t*)’:
-../src/android/camera_hal_manager.cpp:89:9: error: comparison of unsigned expression < 0 is always false [-Werror=type-limits]
-  if (id < 0 || id >= numCameras()) {
-      ~~~^~~
-cc1plus: all warnings being treated as errors
-[46/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o'.
-[47/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o'.
-[48/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_ipu3_ipu3.cpp.o'.
-[49/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/.._android_thread_rpc.cpp.o'.
-[50/171] Compiling C++ object 'src/cam/351722a@@cam@exe/event_loop.cpp.o'.
-[51/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_rkisp1_rkisp1.cpp.o'.
-[52/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/.._android_camera_device.cpp.o'.
-[53/171] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/.._android_camera_proxy.cpp.o'.
-[54/171] Compiling C++ object 'src/cam/351722a@@cam@exe/main.cpp.o'.
-ninja: build stopped: subcommand failed.
-Build step 'Execute shell' marked build as failure
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >
+> >>
+> >> struct vb2_v4l2_buffer *out_vb = v4l2_m2m_last_src_buf(m2m_ctx);
+> >> struct vb2_v4l2_buffer *cap_vb = v4l2_m2m_last_dst_buf(m2m_ctx);
+> >>
+> >> if (out_vb) {
+> >>         out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >> } else if (cap_vb && cap_vb->is_held) {
+> >>         v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >>         v4l2_m2m_job_finish(...);
+> >> }
+> >>
+> >> At least, I think so. Comments on this are very welcome. We definitely
+> >> need better support in v4l2-mem2mem.c for such situations (same for
+> >> stateful codecs) since it's too complex for drivers to get right IMHO.
+> >>
+> >> Regards,
+> >>
+> >>         Hans
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >> Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> ---
+> >>  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+> >>  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+> >>  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+> >>  include/media/v4l2-mem2mem.h                  | 42 +++++++++++++++++++
+> >>  include/media/videobuf2-core.h                |  3 ++
+> >>  include/media/videobuf2-v4l2.h                |  5 +++
+> >>  include/uapi/linux/videodev2.h                | 13 +++---
+> >>  7 files changed, 84 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
+> >> index 1cbd9cde57f3..afb03906ead9 100644
+> >> --- a/Documentation/media/uapi/v4l/buffer.rst
+> >> +++ b/Documentation/media/uapi/v4l/buffer.rst
+> >> @@ -607,6 +607,19 @@ Buffer Flags
+> >>         applications shall use this flag for output buffers if the data in
+> >>         this buffer has not been created by the CPU but by some
+> >>         DMA-capable unit, in which case caches have not been used.
+> >> +    * .. _`V4L2-BUF-FLAG-M2M-HOLD-CAPTURE-BUF`:
+> >> +
+> >> +      - ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF``
+> >> +      - 0x00000200
+> >> +      - Only valid if ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` is
+> >> +        set. It is typically used with stateless decoders where multiple
+> >> +       output buffers each decode to a slice of the decoded frame.
+> >> +       Applications can set this flag when queueing the output buffer
+> >> +       to prevent the driver from dequeueing the capture buffer after
+> >> +       the output buffer has been decoded (i.e. the capture buffer is
+> >> +       'held'). If the timestamp of this output buffer differs from that
+> >> +       of the previous output buffer, then that indicates the start of a
+> >> +       new frame and the previously held capture buffer is dequeued.
+> >>      * .. _`V4L2-BUF-FLAG-LAST`:
+> >>
+> >>        - ``V4L2_BUF_FLAG_LAST``
+> >> diff --git a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> >> index d7faef10e39b..d0c643db477a 100644
+> >> --- a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> >> +++ b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> >> @@ -125,6 +125,7 @@ aborting or finishing any DMA in progress, an implicit
+> >>  .. _V4L2-BUF-CAP-SUPPORTS-DMABUF:
+> >>  .. _V4L2-BUF-CAP-SUPPORTS-REQUESTS:
+> >>  .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
+> >> +.. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
+> >>
+> >>  .. cssclass:: longtable
+> >>
+> >> @@ -150,6 +151,11 @@ aborting or finishing any DMA in progress, an implicit
+> >>        - The kernel allows calling :ref:`VIDIOC_REQBUFS` while buffers are still
+> >>          mapped or exported via DMABUF. These orphaned buffers will be freed
+> >>          when they are unmapped or when the exported DMABUF fds are closed.
+> >> +    * - ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF``
+> >> +      - 0x00000020
+> >> +      - Only valid for stateless decoders. If set, then userspace can set the
+> >> +        ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` flag to hold off on returning the
+> >> +       capture buffer until the OUTPUT timestamp changes.
+> >>
+> >>  Return Value
+> >>  ============
+> >> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> >> index 5a9ba3846f0a..699787f48f46 100644
+> >> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> >> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> >> @@ -50,7 +50,8 @@ module_param(debug, int, 0644);
+> >>                                  V4L2_BUF_FLAG_TIMESTAMP_MASK)
+> >>  /* Output buffer flags that should be passed on to the driver */
+> >>  #define V4L2_BUFFER_OUT_FLAGS  (V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME | \
+> >> -                                V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE)
+> >> +                                V4L2_BUF_FLAG_KEYFRAME | V4L2_BUF_FLAG_TIMECODE | \
+> >> +                                V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)
+> >>
+> >>  /*
+> >>   * __verify_planes_array() - verify that the planes array passed in struct
+> >> @@ -194,6 +195,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+> >>         }
+> >>         vbuf->sequence = 0;
+> >>         vbuf->request_fd = -1;
+> >> +       vbuf->is_held = false;
+> >>
+> >>         if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
+> >>                 switch (b->memory) {
+> >> @@ -321,6 +323,8 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+> >>                  */
+> >>                 vbuf->flags &= ~V4L2_BUF_FLAG_TIMECODE;
+> >>                 vbuf->field = b->field;
+> >> +               if (!(q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
+> >> +                       vbuf->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >>         } else {
+> >>                 /* Zero any output buffer flags as this is a capture buffer */
+> >>                 vbuf->flags &= ~V4L2_BUFFER_OUT_FLAGS;
+> >> @@ -654,6 +658,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+> >>                 *caps |= V4L2_BUF_CAP_SUPPORTS_USERPTR;
+> >>         if (q->io_modes & VB2_DMABUF)
+> >>                 *caps |= V4L2_BUF_CAP_SUPPORTS_DMABUF;
+> >> +       if (q->subsystem_flags & VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF)
+> >> +               *caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+> >>  #ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
+> >>         if (q->supports_requests)
+> >>                 *caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
+> >> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> >> index 0b9c3a287061..724858efded2 100644
+> >> --- a/include/media/v4l2-mem2mem.h
+> >> +++ b/include/media/v4l2-mem2mem.h
+> >> @@ -644,6 +644,48 @@ void v4l2_m2m_buf_copy_metadata(const struct vb2_v4l2_buffer *out_vb,
+> >>                                 struct vb2_v4l2_buffer *cap_vb,
+> >>                                 bool copy_frame_flags);
+> >>
+> >> +/**
+> >> + * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
+> >> + * released
+> >> + *
+> >> + * @out_vb: the output buffer
+> >> + * @cap_vb: the capture buffer
+> >> + *
+> >> + * This helper function returns true if the current capture buffer should
+> >> + * be released to vb2. This is the case if the output buffer specified that
+> >> + * the capture buffer should be held (i.e. not returned to vb2) AND if the
+> >> + * timestamp of the capture buffer differs from the output buffer timestamp.
+> >> + *
+> >> + * This helper is to be called at the start of the device_run callback:
+> >> + *
+> >> + * .. code-block:: c
+> >> + *
+> >> + *     if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> >> + *             v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> + *             v4l2_m2m_job_finish(...);
+> >> + *             return;
+> >> + *     }
+> >> + *     cap_vb->is_held = out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >> + *
+> >> + *     ...
+> >> + *
+> >> + *     v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> >> + *     if (!cap_vb->is_held) {
+> >> + *             v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> + *             v4l2_m2m_job_finish(...);
+> >> + *     }
+> >> + *
+> >> + * This allows for multiple output buffers to be used to fill in a single
+> >> + * capture buffer. This is typically used by stateless decoders where
+> >> + * multiple e.g. H.264 slices contribute to a single decoded frame.
+> >> + */
+> >> +static inline bool v4l2_m2m_release_capture_buf(const struct vb2_v4l2_buffer *out_vb,
+> >> +                                               const struct vb2_v4l2_buffer *cap_vb)
+> >> +{
+> >> +       return cap_vb->is_held && cap_vb->vb2_buf.copied_timestamp &&
+> >> +              out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
+> >> +}
+> >> +
+> >>  /* v4l2 request helper */
+> >>
+> >>  void v4l2_m2m_request_queue(struct media_request *req);
+> >> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> >> index 640aabe69450..a2b2208b02da 100644
+> >> --- a/include/media/videobuf2-core.h
+> >> +++ b/include/media/videobuf2-core.h
+> >> @@ -505,6 +505,8 @@ struct vb2_buf_ops {
+> >>   * @buf_ops:   callbacks to deliver buffer information.
+> >>   *             between user-space and kernel-space.
+> >>   * @drv_priv:  driver private data.
+> >> + * @subsystem_flags: Flags specific to the subsystem (V4L2/DVB/etc.). Not used
+> >> + *             by the vb2 core.
+> >>   * @buf_struct_size: size of the driver-specific buffer structure;
+> >>   *             "0" indicates the driver doesn't want to use a custom buffer
+> >>   *             structure type. for example, ``sizeof(struct vb2_v4l2_buffer)``
+> >> @@ -571,6 +573,7 @@ struct vb2_queue {
+> >>         const struct vb2_buf_ops        *buf_ops;
+> >>
+> >>         void                            *drv_priv;
+> >> +       u32                             subsystem_flags;
+> >>         unsigned int                    buf_struct_size;
+> >>         u32                             timestamp_flags;
+> >>         gfp_t                           gfp_flags;
+> >> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+> >> index 8a10889dc2fd..13ab101864aa 100644
+> >> --- a/include/media/videobuf2-v4l2.h
+> >> +++ b/include/media/videobuf2-v4l2.h
+> >> @@ -33,6 +33,7 @@
+> >>   * @timecode:  frame timecode.
+> >>   * @sequence:  sequence count of this frame.
+> >>   * @request_fd:        the request_fd associated with this buffer
+> >> + * @is_held:   if true, then this buffer was held
+> >>   * @planes:    plane information (userptr/fd, length, bytesused, data_offset).
+> >>   *
+> >>   * Should contain enough information to be able to cover all the fields
+> >> @@ -46,9 +47,13 @@ struct vb2_v4l2_buffer {
+> >>         struct v4l2_timecode    timecode;
+> >>         __u32                   sequence;
+> >>         __s32                   request_fd;
+> >> +       bool                    is_held;
+> >>         struct vb2_plane        planes[VB2_MAX_PLANES];
+> >>  };
+> >>
+> >> +/* VB2 V4L2 flags as set in vb2_queue.subsystem_flags */
+> >> +#define VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF (1 << 0)
+> >> +
+> >>  /*
+> >>   * to_vb2_v4l2_buffer() - cast struct vb2_buffer * to struct vb2_v4l2_buffer *
+> >>   */
+> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> >> index 530638dffd93..4fa9f543742d 100644
+> >> --- a/include/uapi/linux/videodev2.h
+> >> +++ b/include/uapi/linux/videodev2.h
+> >> @@ -915,11 +915,12 @@ struct v4l2_requestbuffers {
+> >>  };
+> >>
+> >>  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
+> >> -#define V4L2_BUF_CAP_SUPPORTS_MMAP     (1 << 0)
+> >> -#define V4L2_BUF_CAP_SUPPORTS_USERPTR  (1 << 1)
+> >> -#define V4L2_BUF_CAP_SUPPORTS_DMABUF   (1 << 2)
+> >> -#define V4L2_BUF_CAP_SUPPORTS_REQUESTS (1 << 3)
+> >> -#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS (1 << 4)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_MMAP                     (1 << 0)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_USERPTR                  (1 << 1)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_DMABUF                   (1 << 2)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_REQUESTS                 (1 << 3)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS            (1 << 4)
+> >> +#define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF     (1 << 5)
+> >>
+> >>  /**
+> >>   * struct v4l2_plane - plane info for multi-planar buffers
+> >> @@ -1041,6 +1042,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+> >>  #define V4L2_BUF_FLAG_IN_REQUEST               0x00000080
+> >>  /* timecode field is valid */
+> >>  #define V4L2_BUF_FLAG_TIMECODE                 0x00000100
+> >> +/* Don't return the capture buffer until OUTPUT timestamp changes */
+> >> +#define V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF     0x00000200
+> >>  /* Buffer is prepared for queuing */
+> >>  #define V4L2_BUF_FLAG_PREPARED                 0x00000400
+> >>  /* Cache handling flags */
+> >> --
+> >> 2.20.1
+> >>
+>
