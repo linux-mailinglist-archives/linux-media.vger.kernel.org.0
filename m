@@ -2,214 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB6A78E8DA
+	by mail.lfdr.de (Postfix) with ESMTP id 6D3A38E8D9
 	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 12:14:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730768AbfHOKOl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 06:14:41 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:33855 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfHOKOl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 06:14:41 -0400
-Received: by mail-ed1-f66.google.com with SMTP id s49so1719340edb.1
-        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 03:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AmKNhcBcz+A981onr4gAty4gwBrKdQXwD5SM/0QOmm0=;
-        b=SMng4Bj9S+A+bwKn7CeyiOSh0aehioYNyAjqmGBExy2DMOPRse/0yMHnWiFwXcVS0W
-         HqswZ9AP4zOmki8LswKDlfuQ5i6+WGxaspV0L3In/UjZ55zaDTe/5zG4M8GREDq+DA66
-         9PMk7TyS1GWp+IqdF9ikMwK2Jnm/5NXZNYVwA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AmKNhcBcz+A981onr4gAty4gwBrKdQXwD5SM/0QOmm0=;
-        b=tHlB9SCQ3YaijhyWhow4G9ZcxwOcM9O4xZep7QqQ8yVFfutCr3V2t7kQ13kwNnFwWB
-         8601mLk5LB18yBwhXaLu77J5SGO5JWnzZdREPLFVm30DQvgNq2ifqozlbm6uG0M8N200
-         iUzDTJXlph8h4Xd3mp7VWL/s++JcROuURiaOJdmSRmorDntqZ+9vPQ/2rDxx1e4ORBfk
-         NWCZ/y4LmOYzSPHOabPDLTsYPxhxuD50Q9NnLyPLUtDMbmhlp/gF+YrM0GYgyr67nJqH
-         vWelAT7g9V/wWuW64CLRbgZirh411io3ScU88QxVwLhYjISDVyrmSXSZZzS6jvNDsUmq
-         T6cw==
-X-Gm-Message-State: APjAAAVt+l+8AsmPsFLkdmzxw1mOMA168/szwRusp3AW1zVONN3p1W5F
-        Q/1FfUNL9vBgjM43po1KlAoJWLrFoxys1Q==
-X-Google-Smtp-Source: APXvYqzYPSNpWNssJAoybwIEfgX2l+BLkJat97hXI+pFu9IPU4eet+7MML1mRtgv8TYmKI/d/Mr9kA==
-X-Received: by 2002:a50:b825:: with SMTP id j34mr4625958ede.58.1565864078191;
-        Thu, 15 Aug 2019 03:14:38 -0700 (PDT)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
-        by smtp.gmail.com with ESMTPSA id h9sm477600edv.75.2019.08.15.03.14.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 15 Aug 2019 03:14:37 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id b16so1740363wrq.9
-        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 03:14:37 -0700 (PDT)
-X-Received: by 2002:a05:6000:110f:: with SMTP id z15mr4382671wrw.162.1565864076682;
- Thu, 15 Aug 2019 03:14:36 -0700 (PDT)
+        id S1730533AbfHOKOj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 06:14:39 -0400
+Received: from gofer.mess.org ([88.97.38.141]:48615 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725875AbfHOKOj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Aug 2019 06:14:39 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 6E1206078C; Thu, 15 Aug 2019 11:14:36 +0100 (BST)
+Date:   Thu, 15 Aug 2019 11:14:36 +0100
+From:   Sean Young <sean@mess.org>
+To:     JP <jp@jpvw.nl>
+Cc:     James Hutchinson <jahutchinson99@googlemail.com>,
+        Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org,
+        Thomas Hollstegge <thomas.hollstegge@gmail.com>
+Subject: Re: MyGica T230 dvb-t2 data corruption since commit 5fa8815
+Message-ID: <20190815101436.m73vlybkei7ij4oz@gofer.mess.org>
+References: <CAD+OKUpCVHUO1=mEGCx8Mx7TJLc4rJZjV8+Rgd_fRFrwpBDExA@mail.gmail.com>
+ <20190719183542.GA25609@jpvw.nl>
+ <CAD+OKUoCXV1LLM40Frm8VGoFDzhKmO__ALdsnttmfr=nueBFAg@mail.gmail.com>
+ <2dcec967-35b0-315c-4cdf-0bcfe8e71cbc@jpvw.nl>
 MIME-Version: 1.0
-References: <20190812110513.23774-1-hverkuil-cisco@xs4all.nl> <20190812110513.23774-5-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20190812110513.23774-5-hverkuil-cisco@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 15 Aug 2019 19:14:25 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DQ_oAmsqBWVDWrCiTNxGH5PJ0OdX5Qk_=M+RKnbr=-_g@mail.gmail.com>
-Message-ID: <CAAFQd5DQ_oAmsqBWVDWrCiTNxGH5PJ0OdX5Qk_=M+RKnbr=-_g@mail.gmail.com>
-Subject: Re: [PATCHv2 04/12] media: s5p_mfc_dec: set flags for OUTPUT coded formats
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Jeongtae Park <jtp.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Maxime Jourdan <mjourdan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2dcec967-35b0-315c-4cdf-0bcfe8e71cbc@jpvw.nl>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi JP,
 
-On Mon, Aug 12, 2019 at 8:05 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> From: Maxime Jourdan <mjourdan@baylibre.com>
->
-> Tag all the coded formats where the s5p_mfc decoder supports dynamic
-> resolution switching or has a bytestream parser.
->
+On Tue, Aug 13, 2019 at 03:46:37PM +0200, JP wrote:
+> Thanks James, my tests on both DVB-T and DVB-C all went OK.
+> 
+> So, with the t230 driver in cxusb broken for one hw version of
+> the device and both hw versions now working fine in dvbsky &
+> the driver in cxusb does not crash itself anymore (did you test
+> that, James?) & everybody agrees I think this move to dvbsky
+> should be done.
+> 
+> Sean: some hunks from the 'remove from cxusb' patch won't
+> apply to linux-5.3 , because of the recent addition of the analogue
+> driver code to cxusb. So I now have 2 different 'remove from
+> cxusb'  patches. How do I proceed with that?
 
-I believe it depends on the MFC hardware version. v5 might have some
-additional restrictions.
+Would it be possible to submit new patches which apply? The testing
+is great (thanks James!) so should be good for v5.4 if we have
+patches on time.
 
-Let me add some more folks to figure out.
+Thanks,
 
-> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> [hverkuil-cisco@xs4all.nl: added CONTINUOUS_BYTESTREAM]
-> ---
->  .../media/platform/s5p-mfc/s5p_mfc_common.h    |  1 +
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c   | 18 ++++++++++++++++++
->  2 files changed, 19 insertions(+)
->
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> index 96d1ecd1521b..31b133af91eb 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_common.h
-> @@ -723,6 +723,7 @@ struct s5p_mfc_fmt {
->         enum s5p_mfc_fmt_type type;
->         u32 num_planes;
->         u32 versions;
-> +       u32 flags;
->  };
->
->  /**
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> index 61e144a35201..1423c33c70cb 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc_dec.c
-> @@ -62,6 +62,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_H264_MVC,
-> @@ -69,6 +71,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V6PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_H263,
-> @@ -76,6 +80,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_MPEG1,
-> @@ -83,6 +88,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_MPEG2,
-> @@ -90,6 +97,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_MPEG4,
-> @@ -97,6 +106,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_XVID,
-> @@ -104,6 +115,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_VC1_ANNEX_G,
-> @@ -111,6 +123,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_VC1_ANNEX_L,
-> @@ -118,6 +131,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V5PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_VP8,
-> @@ -125,6 +139,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V6PLUS_BITS,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_HEVC,
-> @@ -132,6 +147,8 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V10_BIT,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION |
-> +                                 V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->         },
->         {
->                 .fourcc         = V4L2_PIX_FMT_VP9,
-> @@ -139,6 +156,7 @@ static struct s5p_mfc_fmt formats[] = {
->                 .type           = MFC_FMT_DEC,
->                 .num_planes     = 1,
->                 .versions       = MFC_V10_BIT,
-> +               .flags          = V4L2_FMT_FLAG_DYN_RESOLUTION,
->         },
->  };
->
-> --
-> 2.20.1
->
+Sean
+
+> 
+> [one more remark below]
+> 
+> On 8/2/19 2:00 PM, James Hutchinson wrote:
+> > Hi Jan,
+> > 
+> > I've been running for a couple of weeks now with your two patches applied:
+> > 
+> > 1) dvbsky: add MyGica T230
+> > 2) remove t230 from cxusb
+> > 
+> > Everything has been working perfectly - the checksum errors when
+> > scanning muxes have gone, and streaming has been working nicely.
+> > 
+> > Tested-by: James Hutchinson <jahutchinson99@googlemail.com>
+> > 
+> > Regards,
+> > James
+> > 
+> > On Fri, 19 Jul 2019 at 19:35, Jan Pieter van Woerkom <jp@jpvw.nl> wrote:
+> > > dvbsky: add MyGica T230.
+> > > Moved from cxusb driver as that driver can't handle FX2 FIFO issue.
+> > > 
+> > > Signed-off-by: Jan Pieter van Woerkom <jp@jpvw.nl>
+> > > ---
+> > > diff -ru a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> > > --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c     2019-07-08 00:41:56.000000000 +0200
+> > > +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c     2019-07-19 17:50:54.671341146 +0200
+> > > @@ -561,11 +561,18 @@
+> > > 
+> > >          /* attach tuner */
+> > >          si2157_config.fe = adap->fe[0];
+> > > -       si2157_config.if_port = 0;
+> > > -
+> > > -       state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
+> > > +       if (le16_to_cpu(d->udev->descriptor.idProduct) == USB_PID_MYGICA_T230) {
+> > > +               si2157_config.if_port = 1;
+> > > +               state->i2c_client_tuner = dvb_module_probe("si2157", NULL,
+> > > +                                                  i2c_adapter,
+> > > +                                                  0x60, &si2157_config);
+> > > +       }
+> > > +       else {
+> Coding style: those last 2 lines should be:
+>         } else {
+> > > +               si2157_config.if_port = 0;
+> > > +               state->i2c_client_tuner = dvb_module_probe("si2157", "si2141",
+> > >                                                     i2c_adapter,
+> > >                                                     0x60, &si2157_config);
+> > > +       }
+> > >          if (!state->i2c_client_tuner) {
+> > >                  dvb_module_release(state->i2c_client_demod);
+> > >                  return -ENODEV;
+> > > @@ -787,6 +794,9 @@
+> > >          { DVB_USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_S2_R4,
+> > >                  &dvbsky_s960_props, "Terratec Cinergy S2 Rev.4",
+> > >                  RC_MAP_DVBSKY) },
+> > > +       { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230,
+> > > +               &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230",
+> > > +               RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> > >          { DVB_USB_DEVICE(USB_VID_CONEXANT, USB_PID_MYGICA_T230C,
+> > >                  &mygica_t230c_props, "MyGica Mini DVB-T2 USB Stick T230C",
+> > >                  RC_MAP_TOTAL_MEDIA_IN_HAND_02) },
+> Cheers,
+> Jan Pieter.
