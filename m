@@ -2,161 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F33788EEE0
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7835E8EF21
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733267AbfHOPAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 11:00:23 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35754 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733212AbfHOPAW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:00:22 -0400
-Received: by mail-wm1-f65.google.com with SMTP id l2so1516773wmg.0;
-        Thu, 15 Aug 2019 08:00:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=yhYg9hn/63+6B9t0MZk6qflb+4wVUlf/t544dzGkgaA=;
-        b=PtfoiYD59tzuZbU3w4AxfNa6ImyVyhMXzzVBxk0FEpIV0WlK4/3Fy8GEcsZBVNVX57
-         XlCsbZriIBoDiBmWt2y/m7M0QF8A6joO1mYsxx2uRsViRo8nmdi1uhrCBE2PP0yRGxqz
-         vR7Q8dJsbzneqNv89cCy9d/6vbmgTQO2dg0gZGmcAFp3zZVgXZn8kcHiLwB2FNifO2w7
-         xARrKHMHY1HrDYq704EpD9JjZ+KnM00Kz+xt02Zd4UYZvMhCu/EbojHyLDmQyIJdmhhX
-         GsK0fbn/tFC4Kej54gDxUECyYXohdYttMMtMBi3uwazxk4/XALZPH98bu2Z4vf800vqn
-         7LaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=yhYg9hn/63+6B9t0MZk6qflb+4wVUlf/t544dzGkgaA=;
-        b=NIXJ/xWHrlV1qICCQ19R/JImQ/kokmtHoZF9Xy+BEIjYjoePDigUA4lACRN8WiRBs4
-         3aYplrr0Rx/C+VioV/9/HNfdHSAIbKMETcKdkhVnWwnns47GoA3KKB2PJWcqSrU+e18E
-         0m2sg2qDlnBfxV5aXOkEeSy9GITOGbJfVufZ6tyipXX+7xZbmw9UVX6eDnpiFy+dwIBN
-         jjPdS8giusqMi/gOoSjDruictlKiiz/ngItDj3CTGS6z0808LCS07oZ3J3FAkeN0yLlF
-         UqisUU7BL+IXhoBHnDqbdVrif4mBCpkk1LbOZ7+UpLeG4NbxCuJKVtwmsJQsMVc0rV6s
-         V3FA==
-X-Gm-Message-State: APjAAAU/bD99R4S6Nf3cVAyZmd02g971iHLOS4mdhFRwPrAeWa1vpjzL
-        Ey/cQ93l+5fj4kAxWrzZgzKg04X8FEcBOQ==
-X-Google-Smtp-Source: APXvYqyLJ6yceWHs66JcZt6cbgoW6wH/5jnTiFO3GO0ClapT0Cwq473NgraXZg42/+aOcbCdajNqaw==
-X-Received: by 2002:a7b:c954:: with SMTP id i20mr3254460wml.169.1565881221114;
-        Thu, 15 Aug 2019 08:00:21 -0700 (PDT)
-Received: from localhost.localdomain ([94.204.252.234])
-        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.19
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 15 Aug 2019 08:00:20 -0700 (PDT)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH 7/7] media: rc: add keymap for HardKernel ODROID remote
-Date:   Thu, 15 Aug 2019 18:59:17 +0400
-Message-Id: <1565881157-14644-8-git-send-email-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
-References: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
+        id S1732585AbfHOPP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 11:15:29 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23633 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732578AbfHOPP2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Aug 2019 11:15:28 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 08:15:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,389,1559545200"; 
+   d="scan'208";a="201239857"
+Received: from mschitte-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.37.7])
+  by fmsmga004.fm.intel.com with ESMTP; 15 Aug 2019 08:15:26 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id A3E3A21E6F; Thu, 15 Aug 2019 18:12:31 +0300 (EEST)
+Date:   Thu, 15 Aug 2019 18:12:31 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
+Message-ID: <20190815151231.GA6012@kekkonen.localdomain>
+References: <20190814202815.32491-1-jacopo@jmondi.org>
+ <20190814202815.32491-3-jacopo@jmondi.org>
+ <20190814224340.GD5015@pendragon.ideasonboard.com>
+ <664fe7b3-9051-30da-736e-710a4e9cecde@xs4all.nl>
+ <d60e4664-3a3f-1723-6c96-4fc822b6a7bb@xs4all.nl>
+ <20190815143423.vaoswb4jvzd2blxp@uno.localdomain>
+ <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a simple NEC remote control device shipped with the HardKernel
-ODROID range of SBC devices.
+Hi Hans,
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- drivers/media/rc/keymaps/Makefile    |  1 +
- drivers/media/rc/keymaps/rc-odroid.c | 51 ++++++++++++++++++++++++++++++++++++
- include/media/rc-map.h               |  1 +
- 3 files changed, 53 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-odroid.c
+On Thu, Aug 15, 2019 at 04:40:03PM +0200, Hans Verkuil wrote:
+> On 8/15/19 4:34 PM, Jacopo Mondi wrote:
+> > Hi Hans,
+> > 
+> > On Thu, Aug 15, 2019 at 04:14:38PM +0200, Hans Verkuil wrote:
+> >> On 8/15/19 4:10 PM, Hans Verkuil wrote:
+> >>> On 8/15/19 12:43 AM, Laurent Pinchart wrote:
+> >>>> Hi Jacopo,
+> >>>>
+> >>>> Thank you for the patch.
+> >>>>
+> >>>> On Wed, Aug 14, 2019 at 10:28:12PM +0200, Jacopo Mondi wrote:
+> >>>>> Add documentation for the V4L2_CID_LOCATION camera control. The newly
+> >>>>> added read-only control reports the camera device mounting position.
+> >>>>>
+> >>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>>> ---
+> >>>>>  .../media/uapi/v4l/ext-ctrls-camera.rst       | 23 +++++++++++++++++++
+> >>>>>  1 file changed, 23 insertions(+)
+> >>>>>
+> >>>>> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> >>>>> index 51c1d5c9eb00..fc0a02eee6d4 100644
+> >>>>> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> >>>>> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> >>>>> @@ -510,6 +510,29 @@ enum v4l2_scene_mode -
+> >>>>>      value down. A value of zero stops the motion if one is in progress
+> >>>>>      and has no effect otherwise.
+> >>>>>
+> >>>>> +``V4L2_CID_LOCATION (integer)``
+> >>>>
+> >>>> Maybe V4L2_CID_CAMERA_SENSOR_LOCATION ? Same for the values below.
+> >>>
+> >>> Probably a better name, if a bit long. But we might need other location
+> >>> controls in the future (e.g. flash location), so CID_LOCATION is just too
+> >>> generic.
+> >>
+> > 
+> > Thanks for the feedback.
+> > 
+> >> Note that the location defines themselves can most likely be used with any
+> >> LOCATION control, so V4L2_LOCATION_FRONT would be fine with any control.
+> >>
+> > 
+> > What do you think instead of the control type? Would a single integer
+> > control do or an integer menu one would be better? I see merit in both
+> > proposals actually...
+> 
+> Single integer. It's read-only, so it just reports the location.
+> 
+> It would be different if this was a writable control: then you need to
+> know which locations are possible to set, and that requires a menu type.
+> 
+> But it doesn't make sense to set the location from software. However, the
+> location might change as a result of other changes: e.g. if the camera
+> has motor control of the tilt and the tilt changes from forward facing to
+> downward facing, then the driver might change the location from FRONT
+> to DOWN. A convoluted example perhaps, but this is just brainstorming.
 
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index d316a99..a56fc63 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -76,6 +76,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-nec-terratec-cinergy-xs.o \
- 			rc-norwood.o \
- 			rc-npgtech.o \
-+			rc-odroid.o \
- 			rc-pctv-sedna.o \
- 			rc-pinnacle-color.o \
- 			rc-pinnacle-grey.o \
-diff --git a/drivers/media/rc/keymaps/rc-odroid.c b/drivers/media/rc/keymaps/rc-odroid.c
-new file mode 100644
-index 0000000..e95aab6
---- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-odroid.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Copyright (C) 2019 Christian Hewitt <christianshewitt@gmail.com>
-+
-+#include <media/rc-map.h>
-+#include <linux/module.h>
-+
-+//
-+// Keytable for the HardKernel ODROID remote control
-+//
-+
-+static struct rc_map_table odroid[] = {
-+
-+	{ 0xb2dc, KEY_POWER },
-+
-+	{ 0xb288, KEY_MUTE },
-+	{ 0xb282, KEY_HOME },
-+
-+	{ 0xb2ca, KEY_UP },
-+	{ 0xb299, KEY_LEFT },
-+	{ 0xb2ce, KEY_OK },
-+	{ 0xb2c1, KEY_RIGHT },
-+	{ 0xb2d2, KEY_DOWN },
-+
-+	{ 0xb2c5, KEY_MENU },
-+	{ 0xb29a, KEY_BACK },
-+
-+	{ 0xb281, KEY_VOLUMEDOWN },
-+	{ 0xb280, KEY_VOLUMEUP },
-+};
-+
-+static struct rc_map_list odroid_map = {
-+	.map = {
-+		.scan     = odroid,
-+		.size     = ARRAY_SIZE(odroid),
-+		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_ODROID,
-+	}
-+};
-+
-+static int __init init_rc_map_odroid(void)
-+{
-+	return rc_map_register(&odroid_map);
-+}
-+
-+static void __exit exit_rc_map_odroid(void)
-+{
-+	rc_map_unregister(&odroid_map);
-+}
-+
-+module_init(init_rc_map_odroid)
-+module_exit(exit_rc_map_odroid)
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com");
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index 1a357fb..ead4567 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -242,6 +242,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_NEC_TERRATEC_CINERGY_XS   "rc-nec-terratec-cinergy-xs"
- #define RC_MAP_NORWOOD                   "rc-norwood"
- #define RC_MAP_NPGTECH                   "rc-npgtech"
-+#define RC_MAP_ODROID                    "rc-odroid"
- #define RC_MAP_PCTV_SEDNA                "rc-pctv-sedna"
- #define RC_MAP_PINNACLE_COLOR            "rc-pinnacle-color"
- #define RC_MAP_PINNACLE_GREY             "rc-pinnacle-grey"
+When the camera points to another direction than directly away from the
+surface, then we need another property to describe that. Location tells
+where the camera is... well, located. :-)
+
 -- 
-2.7.4
-
+Sakari Ailus
+sakari.ailus@linux.intel.com
