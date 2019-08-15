@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 046368F12D
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 18:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011CB8F12F
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 18:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729210AbfHOQsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 12:48:17 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38910 "EHLO
+        id S1729668AbfHOQsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 12:48:20 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38912 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbfHOQsQ (ORCPT
+        with ESMTP id S1726098AbfHOQsT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 12:48:16 -0400
+        Thu, 15 Aug 2019 12:48:19 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id B8ABE28CF69
+        with ESMTPSA id 83AEA28CF68
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 1/6] media: v4l2-core: Module re-organization
-Date:   Thu, 15 Aug 2019 13:48:01 -0300
-Message-Id: <20190815164806.19248-2-ezequiel@collabora.com>
+Subject: [PATCH v2 2/6] media: v4l2-core: move spi helpers out of v4l2-common.c
+Date:   Thu, 15 Aug 2019 13:48:02 -0300
+Message-Id: <20190815164806.19248-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190815164806.19248-1-ezequiel@collabora.com>
 References: <20190815164806.19248-1-ezequiel@collabora.com>
@@ -31,84 +31,227 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-videodev.ko and v4l2-common.ko driver are built under
-the same conditions. Therefore, it doesn't make much sense
-to split them in two different modules.
-
-Splitting v4l2-common to its own driver was done many years ago:
-
-  commit a9254475bbfbed5f0596d952c6a3c9806e19dd0b
-  Author: Mauro Carvalho Chehab <mchehab@infradead.org>
-  Date:   Tue Jan 29 18:32:35 2008 -0300
-
-      V4L/DVB (7115): Fix bug #9833: regression when compiling V4L without I2C
-
-Back then, the subsystem organization was different and the module split
-was needed. However, with the current organization, there is no issue
-compiling V4L2 with I2C as y/m/n.
-
-This commit makes v4l2-common part of our V4L2 core driver (videodev.ko).
+Separate the spi helpers to v4l2-spi.c, in order to get rid
+of the ifdefery. No functional changes intended, this is
+just a cosmetic change to organize the code better.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
 Changes v2:
-* Fix MODULE_xxx macros, combining all the authors
-  and amending the description.
+* None.
 ---
- drivers/media/v4l2-core/Makefile      | 3 +--
- drivers/media/v4l2-core/v4l2-common.c | 4 ----
- drivers/media/v4l2-core/v4l2-dev.c    | 4 ++--
- 3 files changed, 3 insertions(+), 8 deletions(-)
+ drivers/media/v4l2-core/Makefile      |  1 +
+ drivers/media/v4l2-core/v4l2-common.c | 65 ---------------------------
+ drivers/media/v4l2-core/v4l2-spi.c    | 65 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           | 18 +++++++-
+ 4 files changed, 82 insertions(+), 67 deletions(-)
+ create mode 100644 drivers/media/v4l2-core/v4l2-spi.c
 
 diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index 4d42418e603e..8e2f52f7800b 100644
+index 8e2f52f7800b..2deeeac6ee76 100644
 --- a/drivers/media/v4l2-core/Makefile
 +++ b/drivers/media/v4l2-core/Makefile
-@@ -7,14 +7,13 @@ tuner-objs	:=	tuner-core.o
- 
- videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
- 			v4l2-event.o v4l2-ctrls.o v4l2-subdev.o v4l2-clk.o \
--			v4l2-async.o
-+			v4l2-async.o v4l2-common.o
+@@ -11,6 +11,7 @@ videodev-objs	:=	v4l2-dev.o v4l2-ioctl.o v4l2-device.o v4l2-fh.o \
  videodev-$(CONFIG_COMPAT) += v4l2-compat-ioctl32.o
  videodev-$(CONFIG_TRACEPOINTS) += v4l2-trace.o
  videodev-$(CONFIG_MEDIA_CONTROLLER) += v4l2-mc.o
++videodev-$(CONFIG_SPI) += v4l2-spi.o
  
  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
  obj-$(CONFIG_VIDEO_V4L2) += videodev.o
--obj-$(CONFIG_VIDEO_V4L2) += v4l2-common.o
- obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
- 
- obj-$(CONFIG_VIDEO_TUNER) += tuner.o
 diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index ab4a792a3bc1..5cbb51864fbb 100644
+index 5cbb51864fbb..8ffa758d9342 100644
 --- a/drivers/media/v4l2-core/v4l2-common.c
 +++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -54,10 +54,6 @@
+@@ -41,9 +41,6 @@
+ #include <linux/string.h>
+ #include <linux/errno.h>
+ #include <linux/i2c.h>
+-#if defined(CONFIG_SPI)
+-#include <linux/spi/spi.h>
+-#endif
+ #include <linux/uaccess.h>
+ #include <asm/pgtable.h>
+ #include <asm/io.h>
+@@ -235,68 +232,6 @@ EXPORT_SYMBOL_GPL(v4l2_i2c_tuner_addrs);
  
- #include <linux/videodev2.h>
+ #endif /* defined(CONFIG_I2C) */
  
--MODULE_AUTHOR("Bill Dirks, Justin Schoeman, Gerd Knorr");
--MODULE_DESCRIPTION("misc helper functions for v4l2 device drivers");
--MODULE_LICENSE("GPL");
+-#if defined(CONFIG_SPI)
 -
- /*
-  *
-  *	V 4 L 2   D R I V E R   H E L P E R   A P I
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index a1c61d6f3b9b..4037689a945a 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1092,7 +1092,7 @@ static void __exit videodev_exit(void)
- subsys_initcall(videodev_init);
- module_exit(videodev_exit)
+-/* Load an spi sub-device. */
+-
+-void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
+-		const struct v4l2_subdev_ops *ops)
+-{
+-	v4l2_subdev_init(sd, ops);
+-	sd->flags |= V4L2_SUBDEV_FL_IS_SPI;
+-	/* the owner is the same as the spi_device's driver owner */
+-	sd->owner = spi->dev.driver->owner;
+-	sd->dev = &spi->dev;
+-	/* spi_device and v4l2_subdev point to one another */
+-	v4l2_set_subdevdata(sd, spi);
+-	spi_set_drvdata(spi, sd);
+-	/* initialize name */
+-	snprintf(sd->name, sizeof(sd->name), "%s %s",
+-		spi->dev.driver->name, dev_name(&spi->dev));
+-}
+-EXPORT_SYMBOL_GPL(v4l2_spi_subdev_init);
+-
+-struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
+-		struct spi_master *master, struct spi_board_info *info)
+-{
+-	struct v4l2_subdev *sd = NULL;
+-	struct spi_device *spi = NULL;
+-
+-	BUG_ON(!v4l2_dev);
+-
+-	if (info->modalias[0])
+-		request_module(info->modalias);
+-
+-	spi = spi_new_device(master, info);
+-
+-	if (spi == NULL || spi->dev.driver == NULL)
+-		goto error;
+-
+-	if (!try_module_get(spi->dev.driver->owner))
+-		goto error;
+-
+-	sd = spi_get_drvdata(spi);
+-
+-	/* Register with the v4l2_device which increases the module's
+-	   use count as well. */
+-	if (v4l2_device_register_subdev(v4l2_dev, sd))
+-		sd = NULL;
+-
+-	/* Decrease the module use count to match the first try_module_get. */
+-	module_put(spi->dev.driver->owner);
+-
+-error:
+-	/* If we have a client but no subdev, then something went wrong and
+-	   we must unregister the client. */
+-	if (!sd)
+-		spi_unregister_device(spi);
+-
+-	return sd;
+-}
+-EXPORT_SYMBOL_GPL(v4l2_spi_new_subdev);
+-
+-#endif /* defined(CONFIG_SPI) */
+-
+ /* Clamp x to be between min and max, aligned to a multiple of 2^align.  min
+  * and max don't have to be aligned, but there must be at least one valid
+  * value.  E.g., min=17,max=31,align=4 is not allowed as there are no multiples
+diff --git a/drivers/media/v4l2-core/v4l2-spi.c b/drivers/media/v4l2-core/v4l2-spi.c
+new file mode 100644
+index 000000000000..ab5a7eb4205d
+--- /dev/null
++++ b/drivers/media/v4l2-core/v4l2-spi.c
+@@ -0,0 +1,65 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * v4l2-spi - SPI helpers for Video4Linux2
++ */
++
++#include <linux/module.h>
++#include <linux/spi/spi.h>
++#include <media/v4l2-common.h>
++#include <media/v4l2-device.h>
++
++void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
++		const struct v4l2_subdev_ops *ops)
++{
++	v4l2_subdev_init(sd, ops);
++	sd->flags |= V4L2_SUBDEV_FL_IS_SPI;
++	/* the owner is the same as the spi_device's driver owner */
++	sd->owner = spi->dev.driver->owner;
++	sd->dev = &spi->dev;
++	/* spi_device and v4l2_subdev point to one another */
++	v4l2_set_subdevdata(sd, spi);
++	spi_set_drvdata(spi, sd);
++	/* initialize name */
++	snprintf(sd->name, sizeof(sd->name), "%s %s",
++		spi->dev.driver->name, dev_name(&spi->dev));
++}
++EXPORT_SYMBOL_GPL(v4l2_spi_subdev_init);
++
++struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
++		struct spi_master *master, struct spi_board_info *info)
++{
++	struct v4l2_subdev *sd = NULL;
++	struct spi_device *spi = NULL;
++
++	BUG_ON(!v4l2_dev);
++
++	if (info->modalias[0])
++		request_module(info->modalias);
++
++	spi = spi_new_device(master, info);
++
++	if (spi == NULL || spi->dev.driver == NULL)
++		goto error;
++
++	if (!try_module_get(spi->dev.driver->owner))
++		goto error;
++
++	sd = spi_get_drvdata(spi);
++
++	/* Register with the v4l2_device which increases the module's
++	   use count as well. */
++	if (v4l2_device_register_subdev(v4l2_dev, sd))
++		sd = NULL;
++
++	/* Decrease the module use count to match the first try_module_get. */
++	module_put(spi->dev.driver->owner);
++
++error:
++	/* If we have a client but no subdev, then something went wrong and
++	   we must unregister the client. */
++	if (!sd)
++		spi_unregister_device(spi);
++
++	return sd;
++}
++EXPORT_SYMBOL_GPL(v4l2_spi_new_subdev);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 6b319d0d73ad..a1c5288caa6a 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -216,11 +216,10 @@ const unsigned short *v4l2_i2c_tuner_addrs(enum v4l2_i2c_tuner_type type);
+ /* ------------------------------------------------------------------------- */
  
--MODULE_AUTHOR("Alan Cox, Mauro Carvalho Chehab <mchehab@kernel.org>");
--MODULE_DESCRIPTION("Device registrar for Video4Linux drivers v2");
-+MODULE_AUTHOR("Alan Cox, Mauro Carvalho Chehab <mchehab@kernel.org>, Bill Dirks, Justin Schoeman, Gerd Knorr");
-+MODULE_DESCRIPTION("Video4Linux2 core driver");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS_CHARDEV_MAJOR(VIDEO_MAJOR);
+ /* SPI Helper functions */
+-#if defined(CONFIG_SPI)
+ 
+ #include <linux/spi/spi.h>
+ 
+-struct spi_device;
++#if defined(CONFIG_SPI)
+ 
+ /**
+  *  v4l2_spi_new_subdev - Load an spi module and return an initialized
+@@ -246,6 +245,21 @@ struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
+  */
+ void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
+ 		const struct v4l2_subdev_ops *ops);
++
++#else
++
++static inline struct v4l2_subdev *
++v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
++		    struct spi_master *master, struct spi_board_info *info)
++{
++	return NULL;
++}
++
++static inline void
++v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
++		     const struct v4l2_subdev_ops *ops)
++{}
++
+ #endif
+ 
+ /* ------------------------------------------------------------------------- */
 -- 
 2.22.0
 
