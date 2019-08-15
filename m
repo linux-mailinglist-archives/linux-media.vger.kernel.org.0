@@ -2,177 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 754BA8F4E5
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 21:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB2A8F52B
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 21:56:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733049AbfHOTmT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 15:42:19 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:44802 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733039AbfHOTmT (ORCPT
+        id S1732135AbfHOT43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 15:56:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40847 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731366AbfHOT42 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 15:42:19 -0400
-Received: by mail-io1-f67.google.com with SMTP id j4so1529176iop.11
-        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 12:42:18 -0700 (PDT)
+        Thu, 15 Aug 2019 15:56:28 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c3so3250145wrd.7;
+        Thu, 15 Aug 2019 12:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=g/o3EIuOgBberLg/fgVO+y01nT1mvbxjkqxkgN3Qppw=;
-        b=X1PvC/Tp7650/s8PEeIqJQOpNwOsfIFWUBcf9LGGG9AkhuUx8FAutlgrXBkTdrwRS8
-         Ejzf7iFRl8AAThASsPgN+sWomptP6ti3D2Zmt5SoiR5S57JW/U2IyCTWbQ7Ek6qRtLP1
-         ghFhYaCNd8vxZ6XCORKpCf/DE9phg0RQ84Z0c=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=g9gYXoDI8x/e6fYrmXGn/1ayuYBgMKowuhsSXyNfgGk=;
+        b=BxFVHZYKa5FJrzI4dPgxhphpWrPJX2/swt830QW256gBUwXxM+yJC5IcwYLsVK7nDX
+         YJfjPvRIeaA5/1BBNJXoqsgHTewr/PGetGNR+nY8LcUb106z3sVc1BGnzwC66iGgyvBi
+         +mZLEhnELdlHg5W9w2aWb5ElMS7FgSEkhszGxlzux9iKt0MowKuNOJLEMUsF+38EitOx
+         aWGA01aulScsS+DFbHrtKj7iyTuIPYhoHtdzLh8PvOBthQUYT/SsM7uXPDDj4Q1D9eSV
+         8Sy3e80DmLJG96aLV8uckZ39ffojhwRHHccpX8EVLTaFDo7W+D2mPyxmub0qfUW0foGm
+         Ocvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=g/o3EIuOgBberLg/fgVO+y01nT1mvbxjkqxkgN3Qppw=;
-        b=CQOUh+SxSrpdxxG+CfatBj9UeRC8Nc0Jg8KX/yhNzt3jdQ//2Biz8n8hgXFQ13zon9
-         UCv8bAGU0DoMVHyColLnwkYV8VA/kWVwsonSE0BfLwFKTb6XuXTs9Hct+DmE1ioiBUNv
-         bXcQGeAUzv5ZlHlFuB7BTJWRNdkRJa/2DcARQyMh5OWj3HmPxVKjpcoHVgt+3IlaSAKW
-         oXrWAtpZuVEkEZ1LzcwDgzKvqtR7+NIc6MEzxWaEILMJFOPa5Uns7QDPpsZIQwEQqh9Q
-         NA3xGh6fFkERGhMv7l1RS7/DR8/6hrwyMnsoMCvnptYNjGeHeUbRv0xIl+0ME2q37sOj
-         CWjA==
-X-Gm-Message-State: APjAAAWIxozHSxO1oMMxVgXikaFfmy1DRizXmiXolsIZA6KQAqx29IVy
-        92zYkBXnyqR6BmzzEneu04RMySIy0XY=
-X-Google-Smtp-Source: APXvYqw1oovwnjXvPuC+l/awHROr3NEIuDFvKuqtLKJtEj231yNB8L7rapFFyHdYVTiwNdQkwNM2Ig==
-X-Received: by 2002:a5e:9701:: with SMTP id w1mr7403803ioj.294.1565898138349;
-        Thu, 15 Aug 2019 12:42:18 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id j16sm3624268iok.34.2019.08.15.12.42.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2019 12:42:17 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, andrealmeid@collabora.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v2 2/2] media: vimc: Fix gpf in rmmod path when stream is active
-Date:   Thu, 15 Aug 2019 13:42:13 -0600
-Message-Id: <bfbdbd8072ff811ba1e16784488da592ccd79ed0.1565740213.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1565740213.git.skhan@linuxfoundation.org>
-References: <cover.1565740213.git.skhan@linuxfoundation.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=g9gYXoDI8x/e6fYrmXGn/1ayuYBgMKowuhsSXyNfgGk=;
+        b=WY0uWMNmoDVdt4uHTPD+laP/aIjuylqU5Ax1x0NP7ay7htP9BMKUcRFlnanla1JHsw
+         DAUqBfuB9FnNbhasprLYVcJunzW30ZWiZfcAWnKeTKTEAaysLNHt+PXuPHUqVHkU2ly8
+         +vxUyJaKQIASIX6Mdt51JqULA3TlEnzcO2vdWLocDiDgxibcW/xon4ixq/xaGCZwJWLH
+         sXZS2k+s7KN9HD3k6S+y6dt447bo8eA9KyRfwAFCIN8/9vvCDbDrdQVkhqEiZO3ciGf7
+         Vc6qMZY/PVZBDTWDsM5psQWHQEl8J9f1BowefIkUWdM7ZjcEu7ZdkVGL0yo/INWi8wO/
+         mD4Q==
+X-Gm-Message-State: APjAAAUSWkWan8Fjk9aOrIoc9gGePmQotfJxP2zAyLVuDTOcFccgOovP
+        yRZSY4HaSZqritDT9jRGsY8=
+X-Google-Smtp-Source: APXvYqxCRww3HZkI3tRakEQwmbHT9qSGZgIG7df34SLn3B0yW2ltqN9deIrgqnjQ87uU/8wJDAOtvQ==
+X-Received: by 2002:adf:ffc2:: with SMTP id x2mr3219310wrs.338.1565898984599;
+        Thu, 15 Aug 2019 12:56:24 -0700 (PDT)
+Received: from [172.30.88.191] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id h2sm1762739wmb.28.2019.08.15.12.56.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Aug 2019 12:56:23 -0700 (PDT)
+Subject: Re: [PATCH 04/22] media: Move v4l2_fwnode_parse_link from v4l2 to
+ driver base
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "open list:ACPI" <linux-acpi@vger.kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Len Brown <lenb@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        "moderated list:ARM/ZYNQ ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Enrico Weigelt <info@metux.net>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>
+References: <20190805233505.21167-1-slongerbeam@gmail.com>
+ <20190805233505.21167-5-slongerbeam@gmail.com>
+ <CAHp75VcOh8bOf_s6t0ehwGtcYn64QFGj303SVvpHrztEOhTRgg@mail.gmail.com>
+ <4750b347-b421-6569-600f-0ced8406460e@gmail.com>
+ <20190814103054.GI13294@shell.armlinux.org.uk>
+ <e0a19469-af9d-d9de-499f-4ffbf04542b3@gmail.com>
+ <20190814220437.GJ13294@shell.armlinux.org.uk>
+ <1842bf8f-4f97-6294-41db-74f9f8e2befd@gmail.com>
+ <20190814231509.GK13294@shell.armlinux.org.uk>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <9b9ca684-9309-cadd-2e58-9ae73162a807@gmail.com>
+Date:   Thu, 15 Aug 2019 12:56:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190814231509.GK13294@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vimc module is removed while streaming is in progress, sensor subdev
-unregister runs into general protection fault when it tries to unregister
-media entities. This is a common subdev problem related to releasing
-pads from v4l2_device_unregister_subdev() before calling unregister.
-Unregister references pads during unregistering subdev.
 
-The sd release handler is the right place for releasing all sd resources
-including pads. The release handlers currently release all resources
-except the pads.
 
-Fix v4l2_device_unregister_subdev() not release pads and release pads
-from the sd_int_op release handlers.
+On 8/14/19 4:15 PM, Russell King - ARM Linux admin wrote:
+> On Wed, Aug 14, 2019 at 04:00:30PM -0700, Steve Longerbeam wrote:
+>>
+>> On 8/14/19 3:04 PM, Russell King - ARM Linux admin wrote:
+>>> On Wed, Aug 14, 2019 at 12:04:41PM -0700, Steve Longerbeam wrote:
+>>>> On 8/14/19 3:30 AM, Russell King - ARM Linux admin wrote:
+>>>>> On Tue, Aug 06, 2019 at 09:53:41AM -0700, Steve Longerbeam wrote:
+>>>>>> The full patchset doesn't seem to be up yet, but see [1] for the cover
+>>>>>> letter.
+>>>>> Was the entire series copied to the mailing lists, or just selected
+>>>>> patches?  I only saw 4, 9, 11 and 13-22 via lakml.
+>>>> The whole series was posted to the linux-media ML, see [1]. At the time,
+>>>> none of the linux-media ML archives had the whole series.
+>>>>
+>>>>> In the absence of the other patches, will this solve imx-media binding
+>>>>> the internal subdevs of sensor devices to the CSI2 interface?
+>>>> "internal subdevs of sensor devices" ?? That doesn't make any sense.
+>>> Sorry, but it makes complete sense when you consider that sensor
+>>> devices may have more than one subdev, but there should be only one
+>>> that is the "output" to whatever the camera is attached to.  The
+>>> other subdevs are internal to the sensor.
+>> Ah, thanks for the clarification. Yes, by "internal subdevs" I understand
+>> what you mean now. The adv748x and smiapp are examples.
+>>
+>>> subdevs are not purely the remit of SoC drivers.
+>> So there is no binding of internal subdevs to the receiver CSI-2. The
+>> receiver CSI-2 subdev will create media links to the subdev that has an
+>> externally exposed fwnode endpoint that connects with the CSI-2 sink pad.
+> Maybe - with 5.2, I get:
+>
+> - entity 15: imx6-mipi-csi2 (5 pads, 6 links)
+>               type V4L2 subdev subtype Unknown flags 0
+>               device node name /dev/v4l-subdev2
+>          pad0: Sink
+> ...
+>                  <- "imx219 0-0010":0 []
+>                  <- "imx219 pixel 0-0010":0 []
+>
+> Adding some debug in gives:
+>
+> [   11.963362] imx-media: imx_media_create_of_links() for imx6-mipi-csi2
+> [   11.963396] imx-media: create_of_link(): /soc/aips-bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux
+> [   11.963422] imx-media: create_of_link(): /soc/ipu@2400000
+> [   11.963450] imx-media: create_of_link(): /soc/ipu@2800000
+> [   11.963478] imx-media: create_of_link(): /soc/aips-bus@2000000/iomuxc-gpr@20e0000/ipu2_csi1_mux
+> [   11.963489] imx-media: imx6-mipi-csi2:4 -> ipu2_csi1_mux:0
+> [   11.963522] imx-media: create_of_link(): /soc/aips-bus@2100000/i2c@21a0000/camera@10
+> [   11.963533] imx-media: imx219 0-0010:0 -> imx6-mipi-csi2:0
+> [   11.963549] imx-media: imx_media_create_of_links() for imx219 pixel 0-0010
+> [   11.963577] imx-media: create_of_link(): /soc/aips-bus@2100000/mipi@21dc000
+> [   11.963587] imx-media: imx219 pixel 0-0010:0 -> imx6-mipi-csi2:0
+> [   11.963602] imx-media: imx_media_create_of_links() for imx219 0-0010
+>
+> Note that it's not created by imx6-mipi-csi2, but by imx-media delving
+> around in the imx219 subdevs.
+>
+>  From what I can see, smiapp does the same thing that I do in imx219 -
+> sets the subdev->dev member to point at the struct device, which then
+> means that v4l2_device_register_subdev() will associate the same fwnode
+> with both "imx219 pixel 0-0010" and "imx219 0-0010".
 
-kernel: [ 4136.715839] general protection fault: 0000 [#1] SMP PTI
-kernel: [ 4136.715847] CPU: 2 PID: 1972 Comm: bash Not tainted 5.3.0-rc2+ #4
-kernel: [ 4136.715850] Hardware name: Dell Inc. OptiPlex 790/0HY9JP, BIOS A18 09/24/2013
-kernel: [ 4136.715858] RIP: 0010:media_gobj_destroy.part.16+0x1f/0x60
-kernel: [ 4136.715863] Code: ff 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 55 48 89 fe 48 89 e5 53 48 89 fb 48 c7 c7 00 7f cf b0 e8 24 fa ff ff 48 8b 03 <48> 83 80 a0 00 00 00 01 48 8b 43 18 48 8b 53 10 48 89 42 08 48 89
-kernel: [ 4136.715866] RSP: 0018:ffff9b2248fe3cb0 EFLAGS: 00010246
-kernel: [ 4136.715870] RAX: bcf2bfbfa0d63c2f RBX: ffff88c3eb37e9c0 RCX: 00000000802a0018
-kernel: [ 4136.715873] RDX: ffff88c3e4f6a078 RSI: ffff88c3eb37e9c0 RDI: ffffffffb0cf7f00
-kernel: [ 4136.715876] RBP: ffff9b2248fe3cb8 R08: 0000000001000002 R09: ffffffffb0492b00
-kernel: [ 4136.715879] R10: ffff9b2248fe3c28 R11: 0000000000000001 R12: 0000000000000038
-kernel: [ 4136.715881] R13: ffffffffc09a1628 R14: ffff88c3e4f6a028 R15: fffffffffffffff2
-kernel: [ 4136.715885] FS:  00007f8389647740(0000) GS:ffff88c465500000(0000) knlGS:0000000000000000
-kernel: [ 4136.715888] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-kernel: [ 4136.715891] CR2: 000055d008f80fd8 CR3: 00000001996ec005 CR4: 00000000000606e0
-kernel: [ 4136.715894] Call Trace:
-kernel: [ 4136.715903]  media_gobj_destroy+0x14/0x20
-kernel: [ 4136.715908]  __media_device_unregister_entity+0xb3/0xe0
-kernel: [ 4136.715915]  media_device_unregister_entity+0x30/0x40
-kernel: [ 4136.715920]  v4l2_device_unregister_subdev+0xa8/0xe0
-kernel: [ 4136.715928]  vimc_ent_sd_unregister+0x1e/0x30 [vimc]
-kernel: [ 4136.715933]  vimc_sen_rm+0x16/0x20 [vimc]
-kernel: [ 4136.715938]  vimc_remove+0x3e/0xa0 [vimc]
-kernel: [ 4136.715945]  platform_drv_remove+0x25/0x50
-kernel: [ 4136.715951]  device_release_driver_internal+0xe0/0x1b0
-kernel: [ 4136.715956]  device_driver_detach+0x14/0x20
-kernel: [ 4136.715960]  unbind_store+0xd1/0x130
-kernel: [ 4136.715965]  drv_attr_store+0x27/0x40
-kernel: [ 4136.715971]  sysfs_kf_write+0x48/0x60
-kernel: [ 4136.715976]  kernfs_fop_write+0x128/0x1b0
-kernel: [ 4136.715982]  __vfs_write+0x1b/0x40
-kernel: [ 4136.715987]  vfs_write+0xc3/0x1d0
-kernel: [ 4136.715993]  ksys_write+0xaa/0xe0
-kernel: [ 4136.715999]  __x64_sys_write+0x1a/0x20
-kernel: [ 4136.716005]  do_syscall_64+0x5a/0x130
-kernel: [ 4136.716010]  entry_SYSCALL_64_after_hwframe+0x4
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- drivers/media/platform/vimc/vimc-common.c  | 3 +--
- drivers/media/platform/vimc/vimc-debayer.c | 1 +
- drivers/media/platform/vimc/vimc-scaler.c  | 1 +
- drivers/media/platform/vimc/vimc-sensor.c  | 1 +
- 4 files changed, 4 insertions(+), 2 deletions(-)
+Ok, understood.
 
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index 03016f204d05..d6b1e543891b 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -324,7 +324,7 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
- {
- 	int ret;
- 
--	/* Allocate the pads */
-+	/* Allocate the pads. Should be released from the sd_int_op release */
- 	ved->pads = vimc_pads_init(num_pads, pads_flag);
- 	if (IS_ERR(ved->pads))
- 		return PTR_ERR(ved->pads);
-@@ -373,7 +373,6 @@ EXPORT_SYMBOL_GPL(vimc_ent_sd_register);
- void vimc_ent_sd_unregister(struct vimc_ent_device *ved, struct v4l2_subdev *sd)
- {
- 	media_entity_cleanup(ved->ent);
--	vimc_pads_cleanup(ved->pads);
- 	v4l2_device_unregister_subdev(sd);
- }
- EXPORT_SYMBOL_GPL(vimc_ent_sd_unregister);
-diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 3b4e73c10a03..8c561498020c 100644
---- a/drivers/media/platform/vimc/vimc-debayer.c
-+++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -501,6 +501,7 @@ static void vimc_deb_release(struct v4l2_subdev *sd)
- 	struct vimc_deb_device *vdeb =
- 				container_of(sd, struct vimc_deb_device, sd);
- 
-+	vimc_pads_cleanup(vdeb->ved.pads);
- 	kfree(vdeb);
- }
- 
-diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index cb5eb42de69d..9eeb1159dc78 100644
---- a/drivers/media/platform/vimc/vimc-scaler.c
-+++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -332,6 +332,7 @@ static void vimc_sca_release(struct v4l2_subdev *sd)
- 	struct vimc_sca_device *vsca =
- 				container_of(sd, struct vimc_sca_device, sd);
- 
-+	vimc_pads_cleanup(vsca->ved.pads);
- 	kfree(vsca);
- }
- 
-diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index 70b195b817a4..27c54f5dab37 100644
---- a/drivers/media/platform/vimc/vimc-sensor.c
-+++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -266,6 +266,7 @@ static void vimc_sen_release(struct v4l2_subdev *sd)
- 
- 	v4l2_ctrl_handler_free(&vsen->hdl);
- 	tpg_free(&vsen->tpg);
-+	vimc_pads_cleanup(vsen->ved.pads);
- 	kfree(vsen);
- }
- 
--- 
-2.17.1
+I realize imx_media_create_of_link() is a bit intrusive, and that's one 
+of the things I'm trying to get rid of in this patchset. Unfortunately 
+it's there for a reason which is described in patch 0021. But to explain 
+here, the imx6-mipi-csi2 receiver outputs its four virtual channels on 
+four separate source pads, and those connect to four different 
+subdevices (video mux's and CSI's), and the problem is that only the 
+first subdev that adds imx6-mipi-csi2 to its notifier asd list will get 
+a notifier bind() callback (where links can be created to 
+imx6-mipi-csi2) -- the other subdevs don't contain it in their asd lists 
+so they never create the links to imx6-mipi-csi2. So until the 
+requirement in v4l2-async that no notifiers can contain the same asd in 
+its list is relaxed, this function will have to remain, but I can make 
+it less intrusive (only create the missing links from imx6-mipi-csi2). 
+I'm not able to find a cleaner workaround at the moment.
+
+Steve
 
