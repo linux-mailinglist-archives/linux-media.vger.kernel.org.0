@@ -2,45 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A60E88EB94
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DCBB8EBAA
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:38:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731813AbfHOMds (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 08:33:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44926 "EHLO
+        id S1731864AbfHOMiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 08:38:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44976 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731716AbfHOMds (ORCPT
+        with ESMTP id S1725977AbfHOMiY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 08:33:48 -0400
+        Thu, 15 Aug 2019 08:38:24 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A3F82AF;
-        Thu, 15 Aug 2019 14:33:44 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA9CA2AF;
+        Thu, 15 Aug 2019 14:38:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565872424;
-        bh=Nyw1JCfJMrEtoxdvZKdVUUclQbz1d6UF+tgswVDWIrA=;
+        s=mail; t=1565872702;
+        bh=YRJnmv2XykB9/Bf3g+Kqjz6ifwFR0kAEhtIl0NbIsss=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OxMu1xR6c32IJ0CfGHY4QT+eSwHSmkGUHli6DAw8TTHUu03bXKDd7G9jci/kE4sDk
-         TfbA4RXqtdclPXCmNCz9jSur/y4tPWShLnCCgbffEY68JkztiYfbue2XHKaaqstlOr
-         Lh7yG0R3Fc1VYhwwTcKJsaeoW1glVIDkeJIYdnNY=
-Date:   Thu, 15 Aug 2019 15:33:35 +0300
+        b=JfavTIMxcU8Bj+mqssTcIl4ieqtsp6OFeRozsUMCWwfUtDeB34v57hlvaHG+yKRdR
+         TbbqvnLxPa+m1JPt+1lmt3PnVEzsdF+LjgSBKyGtOQ35hoAhRznbU047YScnFSP+eI
+         y8jjHGGSf6j8V9cBGfQPkVY/zC70xGYv3bs+SYEE=
+Date:   Thu, 15 Aug 2019 15:38:10 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Marco Felsch <m.felsch@pengutronix.de>
 Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, kernel@pengutronix.de,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 01/13] dt-bindings: connector: analog: add tv norms
- property
-Message-ID: <20190815123335.GB13823@pendragon.ideasonboard.com>
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v6 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
+Message-ID: <20190815123810.GC13823@pendragon.ideasonboard.com>
 References: <20190415124413.18456-1-m.felsch@pengutronix.de>
- <20190415124413.18456-2-m.felsch@pengutronix.de>
- <20190516162755.GN14820@pendragon.ideasonboard.com>
- <20190809055809.fm47nllixxfievre@pengutronix.de>
+ <20190415124413.18456-3-m.felsch@pengutronix.de>
+ <20190516163632.GO14820@pendragon.ideasonboard.com>
+ <20190809075536.pukp444dmb7haoxj@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190809055809.fm47nllixxfievre@pengutronix.de>
+In-Reply-To: <20190809075536.pukp444dmb7haoxj@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -49,134 +48,172 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Marco,
 
-On Fri, Aug 09, 2019 at 07:58:09AM +0200, Marco Felsch wrote:
-> On 19-05-16 19:27, Laurent Pinchart wrote:
-> > On Mon, Apr 15, 2019 at 02:44:01PM +0200, Marco Felsch wrote:
-> > > Some connectors no matter if in- or output supports only a limited
-> > > range of tv norms. It doesn't matter if the hardware behind that
-> > > connector supports more than the listed formats since the users are
-> > > restriced by a label e.g. to plug only a camera into this connector
-> > > which uses the PAL format.
-> > > 
-> > > This patch adds the capability to describe such limitation within the
-> > > firmware. There are no format restrictions if the property isn't
-> > > present, so it's completely backward compatible.
+On Fri, Aug 09, 2019 at 09:55:36AM +0200, Marco Felsch wrote:
+> On 19-05-16 19:36, Laurent Pinchart wrote:
+> > On Mon, Apr 15, 2019 at 02:44:02PM +0200, Marco Felsch wrote:
+> > > Currently every driver needs to parse the connector endpoints by it self.
 > > 
-> > Why is this needed ? It's not really a hardware property, is it ? What's
-> > the use case ?
+> > s/it self/itself/
+> > 
+> > > This is the initial work to make this generic. The generic connector has
+> > > some common fields and some connector specific parts. The generic one
+> > > includes:
+> > >   - type
+> > >   - label
+> > >   - remote_port (the port where the connector is connected to)
+> > >   - remote_id   (the endpoint where the connector is connected to)
+> > 
+> > This assumes a single connection between a connector and a remote port,
+> > and a single port on the connector side. Is this guaranteed ? For the
+> > mini-DIN-4 connectors (often used for S-Video) for instance, I recall
+> > from the extensive discussions we had in the past that they should be
+> > modeled with two pins, one for the Y component and one for C components.
+> > The rationale for this is to support systems where such a connector
+> > could be used to carry S-Video, but also two composite video signals
+> > (usually through an external adapter from 2 RCA female connectors to one
+> > S-Video male connector) that would be routed to two separate video
+> > decoders (or two different inputs of the same video decoder). Other
+> > topologies may be possible too.
 > 
-> Cause some hardware only support a limited range of formats to that
-> connector. Of course it is a hardware property. For example if a
-> customer wants to limit a connector to a specifc norm because the
-> hardware behind that connector only supports that format or is
-> restricted to that format.
+> I got your concerns and I also remember the tvp5150 port bindings
+> myself in the past. Do you know how often such a setup you described
+> above happens these days? I would rather add more documentation to the
+> bindings [1] and add a check to v4l2_fwnode_parse_connector() to
+> guarantee that one port has only one endpoint. Because I don't think
+> that analog connectors has a bright future these days.
+> 
+> [1] Documentation/devicetree/bindings/display/connector/ \
+>     analog-tv-connector.txt
 
-Then it should be a DT property of the hardware behind that connector
-(or information hardcoded directly into that driver), shouldn't it ?
+I have seen it on older hardware, I don't know about more recent
+systems. For the S-Video case at least, you need to support two DT
+ports, even if you don't support connecting them to two different
+devices yet.
 
+In any case, I'm fine if those topologies are not supported yet, but it
+should be possible to support them in a backward-compatible way. In
+particular, in this case, we should make sure the DT bindings will allow
+such topologies, and the DT parsing API should make it possible to
+support them without fugure changes to drivers that use the API from
+this patch for "simple" topologies.
+
+> > > The specific fields are within a union, since only one of them can be
+> > > available at the time. Since this is the initial support the patch adds
+> > > only the analog-connector specific ones.
+> > > 
 > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 > > > ---
 > > > [1] https://patchwork.kernel.org/cover/10794703/
 > > > 
 > > > v6:
-> > > - tvnorms.h: use tabs instead of spaces
-> > > - tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
-> > > - tvnorms.h: drop rarely used TVNORM_ATSC_* norms
+> > > - fix some spelling and style issues
+> > > - rm unnecessary comments
+> > > - drop vga and dvi connector
 > > > 
 > > > v2-v4:
 > > > - nothing since the patch was squashed from series [1] into this
 > > >   series.
 > > > 
-> > >  .../display/connector/analog-tv-connector.txt |  4 ++
-> > >  include/dt-bindings/media/tvnorms.h           | 56 +++++++++++++++++++
-> > >  2 files changed, 60 insertions(+)
-> > >  create mode 100644 include/dt-bindings/media/tvnorms.h
+> > >  include/media/v4l2-connector.h | 30 ++++++++++++++++++++++++++++++
+> > >  include/media/v4l2-fwnode.h    | 33 +++++++++++++++++++++++++++++++++
+> > >  2 files changed, 63 insertions(+)
+> > >  create mode 100644 include/media/v4l2-connector.h
 > > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > index 0c0970c210ab..346f8937a0b7 100644
-> > > --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > > @@ -6,6 +6,9 @@ Required properties:
-> > >  
-> > >  Optional properties:
-> > >  - label: a symbolic name for the connector
-> > > +- tvnorms: limit the supported tv norms on a connector to the given ones else
-> > > +           all tv norms are allowed. Possible video standards are defined in
-> > > +           include/dt-bindings/media/tvnorms.h.
-> > >  
-> > >  Required nodes:
-> > >  - Video port for TV input
-> > > @@ -16,6 +19,7 @@ Example
-> > >  tv: connector {
-> > >  	compatible = "composite-video-connector";
-> > >  	label = "tv";
-> > > +	tvnorms = <(TVNORM_PAL_M | TVNORM_NTSC_M)>;
-> > >  
-> > >  	port {
-> > >  		tv_connector_in: endpoint {
-> > > diff --git a/include/dt-bindings/media/tvnorms.h b/include/dt-bindings/media/tvnorms.h
+> > > diff --git a/include/media/v4l2-connector.h b/include/media/v4l2-connector.h
 > > > new file mode 100644
-> > > index 000000000000..058ab8414145
+> > > index 000000000000..3a951c54f50e
 > > > --- /dev/null
-> > > +++ b/include/dt-bindings/media/tvnorms.h
-> > > @@ -0,0 +1,56 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only or X11 */
+> > > +++ b/include/media/v4l2-connector.h
+> > > @@ -0,0 +1,30 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
 > > > +/*
+> > > + * v4l2-connector.h
+> > > + *
+> > > + * V4L2 connector types.
+> > > + *
 > > > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
 > > > + */
 > > > +
-> > > +#ifndef _DT_BINDINGS_MEDIA_TVNORMS_H
-> > > +#define _DT_BINDINGS_MEDIA_TVNORMS_H
+> > > +#ifndef V4L2_CONNECTOR_H
+> > > +#define V4L2_CONNECTOR_H
 > > > +
-> > > +/* one bit for each */
-> > > +#define TVNORM_PAL_B		0x00000001
-> > > +#define TVNORM_PAL_B1		0x00000002
-> > > +#define TVNORM_PAL_G		0x00000004
-> > > +#define TVNORM_PAL_H		0x00000008
-> > > +#define TVNORM_PAL_I		0x00000010
-> > > +#define TVNORM_PAL_D		0x00000020
-> > > +#define TVNORM_PAL_D1		0x00000040
-> > > +#define TVNORM_PAL_K		0x00000080
+> > > +#define V4L2_CONNECTOR_MAX_LABEL 41
+> > 
+> > Hans pointed out this was a weird number. Should you turn the label
+> > field into a pointer to make this more generic (with a
+> > v4l2_fwnode_connector_cleanup() function then) ?
+> 
+> Yes, that would be the better approach. I will change that.
+> 
 > > > +
-> > > +#define TVNORM_PAL		(TVNORM_PAL_B  | \
-> > > +				 TVNORM_PAL_B1 | \
-> > > +				 TVNORM_PAL_G  | \
-> > > +				 TVNORM_PAL_H  | \
-> > > +				 TVNORM_PAL_I  | \
-> > > +				 TVNORM_PAL_D  | \
-> > > +				 TVNORM_PAL_D1 | \
-> > > +				 TVNORM_PAL_K)
+> > > +/**
+> > > + * enum v4l2_connector_type - connector type
+> > > + * @V4L2_CON_UNKNOWN:   unknown connector type, no V4L2 connetor configuration
+> > > + * @V4L2_CON_COMPOSITE: analog composite connector
+> > > + * @V4L2_CON_SVIDEO:    analog svideo connector
+> > > + * @V4L2_CON_HDMI:      digital hdmi connector
+> > > + */
+> > > +enum v4l2_connector_type {
+> > > +	V4L2_CON_UNKNOWN,
+> > > +	V4L2_CON_COMPOSITE,
+> > > +	V4L2_CON_SVIDEO,
+> > > +	V4L2_CON_HDMI,
+> > > +};
 > > > +
-> > > +#define TVNORM_PAL_M		0x00000100
-> > > +#define TVNORM_PAL_N		0x00000200
-> > > +#define TVNORM_PAL_Nc		0x00000400
-> > > +#define TVNORM_PAL_60		0x00000800
+> > > +#endif /* V4L2_CONNECTOR_H */
 > > > +
-> > > +#define TVNORM_NTSC_M		0x00001000	/* BTSC */
-> > > +#define TVNORM_NTSC_M_JP	0x00002000	/* EIA-J */
-> > > +#define TVNORM_NTSC_443		0x00004000
-> > > +#define TVNORM_NTSC_M_KR	0x00008000	/* FM A2 */
+> > > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > > index 6c07825e18b9..f4df1b95c5ef 100644
+> > > --- a/include/media/v4l2-fwnode.h
+> > > +++ b/include/media/v4l2-fwnode.h
+> > > @@ -22,6 +22,7 @@
+> > >  #include <linux/list.h>
+> > >  #include <linux/types.h>
+> > >  
+> > > +#include <media/v4l2-connector.h>
+> > >  #include <media/v4l2-mediabus.h>
+> > >  #include <media/v4l2-subdev.h>
+> > >  
+> > > @@ -126,6 +127,38 @@ struct v4l2_fwnode_link {
+> > >  	unsigned int remote_port;
+> > >  };
+> > >  
+> > > +/**
+> > > + * struct v4l2_fwnode_connector_analog - analog connector data structure
+> > > + * @supported_tvnorms: tv norms this connector supports, set to V4L2_STD_ALL
+> > > + *                     if no restrictions are specified.
+> > > + */
+> > > +struct v4l2_fwnode_connector_analog {
+> > > +	v4l2_std_id supported_tvnorms;
+> > > +};
 > > > +
-> > > +#define TVNORM_SECAM_B		0x00010000
-> > > +#define TVNORM_SECAM_D		0x00020000
-> > > +#define TVNORM_SECAM_G		0x00040000
-> > > +#define TVNORM_SECAM_H		0x00080000
-> > > +#define TVNORM_SECAM_K		0x00100000
-> > > +#define TVNORM_SECAM_K1		0x00200000
-> > > +#define TVNORM_SECAM_L		0x00400000
-> > > +#define TVNORM_SECAM_LC		0x00800000
+> > > +/**
+> > > + * struct v4l2_fwnode_connector - the connector data structure
+> > > + * @remote_port: identifier of the remote endpoint port the connector connects
+> > > + *		 to
+> > > + * @remote_id: identifier of the remote endpoint the connector connects to
+> > > + * @label: connetor label
+> > > + * @type: connector type
+> > > + * @connector: connector configuration
+> > > + * @connector.analog: analog connector configuration
+> > > + *                    &struct v4l2_fwnode_connector_analog
+> > > + */
+> > > +struct v4l2_fwnode_connector {
+> > > +	unsigned int remote_port;
+> > > +	unsigned int remote_id;
+> > > +	char label[V4L2_CONNECTOR_MAX_LABEL];
+> > > +	enum v4l2_connector_type type;
 > > > +
-> > > +#define TVNORM_SECAM		(TVNORM_SECAM_B  | \
-> > > +				 TVNORM_SECAM_D  | \
-> > > +				 TVNORM_SECAM_G  | \
-> > > +				 TVNORM_SECAM_H  | \
-> > > +				 TVNORM_SECAM_K  | \
-> > > +				 TVNORM_SECAM_K1 | \
-> > > +				 TVNORM_SECAM_L  | \
-> > > +				 TVNORM_SECAM_LC)
+> > > +	union {
+> > > +		struct v4l2_fwnode_connector_analog analog;
+> > > +		/* future connectors */
+> > > +	} connector;
+> > > +};
 > > > +
-> > > +#endif /* _DT_BINDINGS_MEDIA_TVNORMS_H */
+> > >  /**
+> > >   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
+> > >   * @fwnode: pointer to the endpoint's fwnode handle
 
 -- 
 Regards,
