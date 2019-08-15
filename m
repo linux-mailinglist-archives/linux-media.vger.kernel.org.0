@@ -2,181 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58ED58F54D
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 22:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C47D08F5B6
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 22:25:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732467AbfHOUCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 16:02:36 -0400
-Received: from egyptian.birch.relay.mailchannels.net ([23.83.209.56]:16702
-        "EHLO egyptian.birch.relay.mailchannels.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730540AbfHOUCg (ORCPT
+        id S1731796AbfHOUZ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 16:25:56 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44951 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728579AbfHOUZ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 16:02:36 -0400
-X-Sender-Id: dreamhost|x-authsender|brad@nextdimension.ws
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id 848872C29BF;
-        Thu, 15 Aug 2019 19:53:42 +0000 (UTC)
-Received: from pdx1-sub0-mail-a22.g.dreamhost.com (100-96-86-117.trex.outbound.svc.cluster.local [100.96.86.117])
-        (Authenticated sender: dreamhost)
-        by relay.mailchannels.net (Postfix) with ESMTPA id C4DE12C1CC5;
-        Thu, 15 Aug 2019 19:53:41 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|brad@nextdimension.ws
-Received: from pdx1-sub0-mail-a22.g.dreamhost.com ([TEMPUNAVAIL].
- [64.90.62.162])
-        (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384)
-        by 0.0.0.0:2500 (trex/5.17.5);
-        Thu, 15 Aug 2019 19:53:42 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|brad@nextdimension.ws
-X-MailChannels-Auth-Id: dreamhost
-X-Spill-Spicy: 2c56c2d44818fb20_1565898822217_618839351
-X-MC-Loop-Signature: 1565898822217:1019645721
-X-MC-Ingress-Time: 1565898822217
-Received: from pdx1-sub0-mail-a22.g.dreamhost.com (localhost [127.0.0.1])
-        by pdx1-sub0-mail-a22.g.dreamhost.com (Postfix) with ESMTP id DA0758215E;
-        Thu, 15 Aug 2019 12:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=nextdimension.cc; h=from
-        :to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=nextdimension.cc; bh=eCliwoQKAu72i
-        F65WzXiCkEmSJk=; b=bHRw+egyUmcxnbTYdwZ9iif5TerGWPBnlVb754DJ0gcl8
-        1LJlhMkjsgrw/QXJq7JYbTrfwlA6XrzCOOTMv4XriRa/0OmU3Nrq3hFv4So+NObx
-        7vCQ+jpphH0Ct/V4j7d4DA2GEQ9vky6CJPD9qQy+aJUEQku1jKjqvKlUo9dMCA=
-Received: from localhost.localdomain (67-198-57-188.static.grandenetworks.net [67.198.57.188])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: brad@nextdimension.ws)
-        by pdx1-sub0-mail-a22.g.dreamhost.com (Postfix) with ESMTPSA id 69C4A8215C;
-        Thu, 15 Aug 2019 12:53:39 -0700 (PDT)
-X-DH-BACKEND: pdx1-sub0-mail-a22
-From:   Brad Love <brad@nextdimension.cc>
-To:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Cc:     Brad Love <brad@nextdimension.cc>
-Subject: [PATCH] cx231xx-video: fix WARN about mismatched capabilities
-Date:   Thu, 15 Aug 2019 14:53:31 -0500
-Message-Id: <20190815195331.6619-1-brad@nextdimension.cc>
-X-Mailer: git-send-email 2.21.0
+        Thu, 15 Aug 2019 16:25:56 -0400
+Received: by mail-wr1-f68.google.com with SMTP id p17so3307747wrf.11
+        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 13:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=SuULyIq1tyucfJVgzF1Jne7LYkqypmUzEfCAXohdJ8o=;
+        b=hGEbfY49H2qHhMr+MRT+nQG9CdJaJJNlskTevMiRLHB3MSCt2OUNLongxtEKl5gYAA
+         4rXbn9ruHzLc+Z6mm9E9V2C7s44sss+aqBHy3riBED/9nQPTcspdR5UwRbdaG/50BB7O
+         lfVMTYdBVze4s+ojZD4UKgWxGuYm1TYjXeV5SFm8urARPHinKG/anCwJf8P9KdUhZCsj
+         c+gGAh0KF9vQWyccfrm1J0rks+iBcH6lSQ/nHKbBBPFGBBn0I/pbJ5rx7x7D7PbvVe9u
+         9nsti6M6h+JqLwZKTMFetPhS6JHI/81cW9lgWS8GI/RJNWLYHNkPW1M6GJ+PuQc4o8ka
+         rt8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=SuULyIq1tyucfJVgzF1Jne7LYkqypmUzEfCAXohdJ8o=;
+        b=Ubm2g0FKp7XGjUrZi6Lwt2XcBNARXKfhgJOUc+p7IZ6GKoJU4nmepBzMek1zI1+JN8
+         6YYISnSkcB3WeEiwwCQt9FP1DVmGs1kX+HTjXRANft6ncbGNbQS2RgGOuqojnBqy6NNY
+         DMK/OwiYlp9++/4GAbqGhvwcakibNXcBt5qjawR39KnkAilaEE2Ycb4rBX3HmNQguCON
+         hGUwEbmMu+sdagg7iV4FBKC5QYwDPF5BWneOgJrPJEtCKkPYmWWnPiEoOBj7Dp/QqpBM
+         E4tCHtIorkT1YAwPQ1sUSTRQOqfZSmAml6U5CYX1sljXAtseA6FPBlzz922TmEV6cxAx
+         vxYQ==
+X-Gm-Message-State: APjAAAVtece7HOdzqBaVbrQ2i2kc2FOUxaEbgCKBbn9ARmEyEhKGY5Yh
+        jfy3YtsrjBOZqxmDm+g86Ac=
+X-Google-Smtp-Source: APXvYqxiG7/toAUaR7Hta+VOHux9GusZWKRdE1dTc+NsPRWeRxRYazGUwvtKUBshuxLt3MSVgMeRdw==
+X-Received: by 2002:adf:ce04:: with SMTP id p4mr7177913wrn.227.1565900753288;
+        Thu, 15 Aug 2019 13:25:53 -0700 (PDT)
+Received: from [172.30.88.191] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id a26sm2057106wmg.45.2019.08.15.13.25.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 15 Aug 2019 13:25:52 -0700 (PDT)
+Subject: Re: [PATCH v3] media: imx: mipi csi-2: Don't fail if initial state
+ times-out
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>, hverkuil@xs4all.nl,
+        linux-imx@nxp.com, linux-media@vger.kernel.org,
+        kernel@pengutronix.de, shawnguo@kernel.org, mchehab@kernel.org
+References: <20190627222912.25485-1-festevam@gmail.com>
+ <1561963729.3753.5.camel@pengutronix.de>
+ <8b859fd7758c3f95b45b5b70909be0d2ae2e4f34.camel@collabora.com>
+ <20190807120626.GE822@valkosipuli.retiisi.org.uk>
+ <73d82df753e0579bd122dfaf9fa12ba8cad95d88.camel@collabora.com>
+ <20190808082605.GA917@valkosipuli.retiisi.org.uk>
+ <1565254405.3656.1.camel@pengutronix.de>
+ <e4b84958-28c7-1141-e34f-e1e3ad5b35db@gmail.com>
+ <20190813082852.GE835@valkosipuli.retiisi.org.uk>
+ <c4ced1cc-4f0c-b4e1-c1e7-b85de85e439d@gmail.com>
+ <20190814071645.GH2527@valkosipuli.retiisi.org.uk>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <b1e5d2bc-e261-e944-eb05-aa8574145a94@gmail.com>
+Date:   Thu, 15 Aug 2019 13:25:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-VR-OUT-STATUS: OK
-X-VR-OUT-SCORE: 30
-X-VR-OUT-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudefuddgudegudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucggtfgfnhhsuhgsshgtrhhisggvpdfftffgtefojffquffvnecuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdeftddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeurhgrugcunfhovhgvuceosghrrggusehnvgigthguihhmvghnshhiohhnrdgttgeqnecukfhppeeijedrudelkedrheejrddukeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdphhgvlhhopehlohgtrghlhhhoshhtrdhlohgtrghlughomhgrihhnpdhinhgvthepieejrdduleekrdehjedrudekkedprhgvthhurhhnqdhprghthhepuehrrgguucfnohhvvgcuoegsrhgrugesnhgvgihtughimhgvnhhsihhonhdrtggtqedpmhgrihhlfhhrohhmpegsrhgrugesnhgvgihtughimhgvnhhsihhonhdrtggtpdhnrhgtphhtthhopegsrhgrugesnhgvgihtughimhgvnhhsihhonhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190814071645.GH2527@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since 049e684f2d ("media: v4l2-dev: fix WARN_ON(!vdev->device_caps)"),
-if device_caps !=3D capabilities a WARNING is dumped:
 
 
-[    6.887391] ------------[ cut here ]------------
-[    6.887422] WARNING: CPU: 0 PID: 988 at drivers/media/v4l2-core/v4l2-i=
-octl.c:1071 v4l_querycap+0xca/0xe0 [videodev]
-[    6.887423] Modules linked in: si2157 lgdt3306a cx231xx_dvb dvb_core v=
-ideobuf2_vmalloc videobuf2_memops videobuf2_common cx231xx_alsa cx25840 e=
-dac_mce_amd cx231xx kvm videobuf_vmalloc tveeprom cx2341x videobuf_core c=
-rct10dif_pclmul v4l2_common i2c_mux videodev mc crc32_pclmul ghash_clmuln=
-i_intel aesni_intel aes_x86_64 crypto_simd snd_hda_codec_hdmi cryptd glue=
-_helper wmi_bmof k10temp nls_iso8859_1 ir_rc5_decoder snd_hda_codec_realt=
-ek snd_hda_codec_generic ledtrig_audio rc_hauppauge mceusb asix rc_core u=
-sbnet mii snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_=
-seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device snd_timer =
-snd ccp soundcore sch_fq_codel mac_hid parport_pc ppdev lp parport ip_tab=
-les x_tables autofs4 vfio_pci vfio_virqfd irqbypass vfio_iommu_type1 vfio=
- hid_generic usbhid hid nouveau mxm_wmi video i2c_algo_bit ttm drm_kms_he=
-lper syscopyarea sysfillrect sysimgblt fb_sys_fops drm i2c_piix4 ahci lib=
-ahci wmi gpio_amdpt gpio_generic
-[    6.887470] CPU: 0 PID: 988 Comm: v4l_id Not tainted 5.3.0-rc4+ #58
-[    6.887471] Hardware name: MSI MS-7A39/B350M GAMING PRO (MS-7A39), BIO=
-S 2.G0 04/27/2018
-[    6.887478] RIP: 0010:v4l_querycap+0xca/0xe0 [videodev]
-[    6.887481] Code: af 6f c4 da 0f 0b 41 8b 84 24 b0 01 00 00 8b 53 54 0=
-d 00 00 00 80 89 d1 21 c1 39 c8 74 bc 48 c7 c7 c0 f8 ac c0 e8 89 6f c4 da=
- <0f> 0b 8b 53 54 eb a9 0f 1f 44 00 00 66 2e 0f 1f 84 00 00 00 00 00
-[    6.887483] RSP: 0018:ffffb694c168bc78 EFLAGS: 00010286
-[    6.887485] RAX: 0000000000000024 RBX: ffffb694c168bd88 RCX: 000000000=
-0000000
-[    6.887486] RDX: 0000000000000000 RSI: ffff9844cea17388 RDI: ffff9844c=
-ea17388
-[    6.887487] RBP: ffffb694c168bca0 R08: 0000000000000001 R09: 000000000=
-000039e
-[    6.887488] R10: 0000000000000020 R11: 000000000000039e R12: ffff9844c=
-a685248
-[    6.887489] R13: 0000000000000000 R14: ffff9844c7912000 R15: ffffffffc=
-0bdcbe0
-[    6.887491] FS:  00007f16beef0540(0000) GS:ffff9844cea00000(0000) knlG=
-S:0000000000000000
-[    6.887492] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    6.887493] CR2: 00007f10a2372128 CR3: 0000000409a10000 CR4: 000000000=
-03406f0
-[    6.887494] Call Trace:
-[    6.887503]  __video_do_ioctl+0x24c/0x480 [videodev]
-[    6.887509]  ? tomoyo_init_request_info+0x80/0x90
-[    6.887516]  video_usercopy+0x280/0x5f0 [videodev]
-[    6.887522]  ? v4l_s_fmt+0x660/0x660 [videodev]
-[    6.887530]  video_ioctl2+0x15/0x20 [videodev]
-[    6.887535]  v4l2_ioctl+0x4d/0x60 [videodev]
-[    6.887539]  do_vfs_ioctl+0xa6/0x600
-[    6.887542]  ? tomoyo_file_ioctl+0x19/0x20
-[    6.887545]  ksys_ioctl+0x6d/0x80
-[    6.887547]  __x64_sys_ioctl+0x1a/0x20
-[    6.887551]  do_syscall_64+0x5a/0x130
-[    6.887555]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[    6.887557] RIP: 0033:0x7f16bea0a5d7
-[    6.887560] Code: b3 66 90 48 8b 05 b1 48 2d 00 64 c7 00 26 00 00 00 4=
-8 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05=
- <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 81 48 2d 00 f7 d8 64 89 01 48
-[    6.887561] RSP: 002b:00007ffdad4ea2b8 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000010
-[    6.887562] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f16b=
-ea0a5d7
-[    6.887563] RDX: 00007ffdad4ea2c0 RSI: 0000000080685600 RDI: 000000000=
-0000003
-[    6.887564] RBP: 0000557718bd4e70 R08: 0000000000000000 R09: 000000000=
-0000000
-[    6.887565] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffda=
-d4ea2c0
-[    6.887566] R13: 00007ffdad4ea420 R14: 0000000000000000 R15: 000000000=
-0000000
-[    6.887568] ---[ end trace f385f48cdd44f9e9 ]---
+On 8/14/19 12:16 AM, Sakari Ailus wrote:
+> Hi Steve,
+>
+> On Tue, Aug 13, 2019 at 04:27:06PM -0700, Steve Longerbeam wrote:
+>> Hi Sakari,
+>>
+>> On 8/13/19 1:28 AM, Sakari Ailus wrote:
+>>> Hi Steve,
+>>>
+>>> On Thu, Aug 08, 2019 at 11:02:29AM -0700, Steve Longerbeam wrote:
+>>>> On 8/8/19 1:53 AM, Philipp Zabel wrote:
+>>>>> Hi Sakari,
+>>>>>
+>>>>> On Thu, 2019-08-08 at 11:26 +0300, Sakari Ailus wrote:
+>>>>> [...]
+>>>>>>>> Have you checked how it works if you simply leave out this test?
+>>>>> Whether this works or not depends on the sensor used, and for some
+>>>>> sensor/drivers may depend on timing (or random factors influencing it).
+>>>>> See below.
+>>>>>
+>>>>> [...]
+>>>>>> Some devices can be commanded to enter LP-11 state but some will just
+>>>>>> briefly visit that state. The LP-11 state is mandatory but software should
+>>>>>> not be involved in detecting it if at all possible.
+>>>>> This is a good point. Devices that can be set to LP-11 state
+>>>>> immediately, but that don't stay there long enough (either because they
+>>>>> wait for less than the required by spec 100µs, or because system load
+>>>>> causes this check to be executed too late) may end up working reliably
+>>>>> even though the warning fires.
+>>>>>> So if the hardware does not require further initialisation to be done in
+>>>>>> LP-11 state, you should remove the check.
+>>>>>>
+>>>>>>> We had to fix at least OV5645 and OV5640 recently because of this,
+>>>>>>> and I can imagine more drivers will have the same issue.
+>>>>>> This is actually an issue in the IMX driver (or hardware), not in the
+>>>>>> sensor driver. It may be that sometimes it's easier to work around it in
+>>>>>> the sensor driver.
+>>>>>>
+>>>>>> So, I'd like to know whether the check itself is a driver bug, or something
+>>>>>> that the hardware requires. The fact that you're sending this patch
+>>>>>> suggests the former.
+>>>>> This is something that the hardware requires, according to the reference
+>>>>> manual. See the comment in drivers/staging/media/imx/imx6-mipi-csi2.c,
+>>>>> especially step 5.:
+>>>>>
+>>>>> /*
+>>>>>     * The required sequence of MIPI CSI-2 startup as specified in the i.MX6
+>>>>>     * reference manual is as follows:
+>>>>>     *
+>>>>>     * 1. Deassert presetn signal (global reset).
+>>>>>     *        It's not clear what this "global reset" signal is (maybe APB
+>>>>>     *        global reset), but in any case this step would be probably
+>>>>>     *        be carried out during driver load in csi2_probe().
+>>>>>     *
+>>>>>     * 2. Configure MIPI Camera Sensor to put all Tx lanes in LP-11 state.
+>>>>>     *        This must be carried out by the MIPI sensor's s_power(ON) subdev
+>>>>>     *        op.
+>>>>>     *
+>>>>>     * 3. D-PHY initialization.
+>>>>>     * 4. CSI2 Controller programming (Set N_LANES, deassert PHY_SHUTDOWNZ,
+>>>>>     *    deassert PHY_RSTZ, deassert CSI2_RESETN).
+>>>>>     * 5. Read the PHY status register (PHY_STATE) to confirm that all data and
+>>>>>     *    clock lanes of the D-PHY are in LP-11 state.
+>>>>>     * 6. Configure the MIPI Camera Sensor to start transmitting a clock on the
+>>>>>     *    D-PHY clock lane.
+>>>>>     * 7. CSI2 Controller programming - Read the PHY status register (PHY_STATE)
+>>>>>     *    to confirm that the D-PHY is receiving a clock on the D-PHY clock lane.
+>>>>>     */
+>>>>>
+>>>>> I read this as the hardware needing to see the LP-11 -> HS transition
+>>>>> after the DPHY reset has been released, and before the CSI2 RX
+>>>>> controller is programmed.
+>>>> I think that's a fair assumption, and there's another paragraph at the end
+>>>> of that comment above that adds more evidence to that:
+>>>>
+>>>> ...
+>>>> * All steps 3 through 7 are carried out by csi2_s_stream(ON) here. Step
+>>>> * 6 is accomplished by calling the source subdev's s_stream(ON) between
+>>>> * steps 5 and 7.
+>>>> */
+>>>>
+>>>>
+>>>> So the driver is expecting that the LP-11 state persists until step 6, at
+>>>> which the LP-11 -> HS transition occurs when streaming is started at the
+>>>> transmitter.
+>>>>
+>>>> But if the transmitter only stays in LP-11 state for the minimum 100 usec
+>>>> after it is powered on, and then _automatically_ transitions to HS, it's
+>>>> quite possible the LP-11 -> HS transition will happen long before the DPHY
+>>>> is taken out of reset. That's because the transmitter's s_power(ON) is
+>>>> called when the capture device is opened (via v4l2_pipeline_pm_use()), but
+>>>> the steps above are carried out when streaming starts, so userland would
+>>>> have to issue VIDIOC_STREAMON well within the 100 usec expires after
+>>>> open()'ing the device, for the receiver hardware to see the transition.
+>>> After powering on the sensor it sensor should stay in (software) standby
+>>> mode until streaming is started. It should still have its lanes in LP-11
+>>> mode if the sensor supports it (as documented) until the sensor switches to
+>>> the streaming mode.
+>> Yes that's my understanding too.
+>>
+>>>> Perhaps that would be an argument for moving steps 1 - 5 into the driver's
+>>>> s_power(ON) call, which would first call s_power(ON) to the transmitter and
+>>>> then immediately go through steps 1 - 5. Steps 6,7 would then remain in
+>>>> s_stream(ON).
+>>> Not all sensor drivers power on the sensor before starting streaming.
+>>>
+>>> Perhaps we could add a prepare_streaming() callback (in absence of a better
+>>> proposal) to address that? We'd also need a corresponding
+>>> unprepare_streaming() callback as well --- to power off the sensor. I think
+>>> this only should be done if the sensor can be switched to LP-11 explicitly;
+>>> many simply don't support that.
+>> So you are saying a sensor can power on and place its lanes in LP-11 in this
+>> new prepare_streaming() callback, the reason being, this can be called
+>> closer in time, and just before, the receiver DPHY is brought out of reset,
+>> in order for the receiver DPHY to be able to detect a possible early
+>> transition to HS mode?
+>>
+>> While I don't have any objection to adding a prepare_streaming() callback
+>> (it could be useful for other reasons), I don't see why the sensor could not
+>> simply make use of existing s_power to power on and place the lanes in
+>> LP-11. That is what it's intended for anyway.
+> The vast majority of new drivers no longer have s_power callbacks --- they
+> use runtime PM instead.
+>
+
+Ok I see that now. Most of them call pm_runtime_get at stream on, but 
+some others in an internal_ops open() callback.
+
+So never mind the patch I posted that moves receiver DPHY power on to 
+.s_power(), that will actually make things worse for sensors that power 
+on via runtime PM in their .s_stream op.
+
+Steve
 
 
-Fix this for cx231xx-video by only adding appropriate capabilities for
-a specific v4l2 device, based on their file handle type.
-
-Verified working for video device, analog tuner, VBI, and radio.
-
-
-Signed-off-by: Brad Love <brad@nextdimension.cc>
----
- drivers/media/usb/cx231xx/cx231xx-video.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/us=
-b/cx231xx/cx231xx-video.c
-index 45eed56137e1..643da9b930c5 100644
---- a/drivers/media/usb/cx231xx/cx231xx-video.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-video.c
-@@ -1576,10 +1576,14 @@ int cx231xx_querycap(struct file *file, void *pri=
-v,
- 	strscpy(cap->driver, "cx231xx", sizeof(cap->driver));
- 	strscpy(cap->card, cx231xx_boards[dev->model].name, sizeof(cap->card));
- 	usb_make_path(dev->udev, cap->bus_info, sizeof(cap->bus_info));
--	cap->capabilities =3D V4L2_CAP_READWRITE |
--		V4L2_CAP_VBI_CAPTURE | V4L2_CAP_VIDEO_CAPTURE |
--		V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
--	if (video_is_registered(&dev->radio_dev))
-+	cap->capabilities =3D V4L2_CAP_READWRITE | V4L2_CAP_STREAMING |
-+		V4L2_CAP_DEVICE_CAPS;
-+
-+	if (fh->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+		cap->capabilities |=3D V4L2_CAP_VIDEO_CAPTURE;
-+	else if (fh->type =3D=3D V4L2_BUF_TYPE_VBI_CAPTURE)
-+		cap->capabilities |=3D V4L2_CAP_VBI_CAPTURE;
-+	else if (fh->type =3D=3D 0 && video_is_registered(&dev->radio_dev))
- 		cap->capabilities |=3D V4L2_CAP_RADIO;
- 	if (dev->tuner_type !=3D TUNER_ABSENT)
- 		cap->capabilities |=3D V4L2_CAP_TUNER;
---=20
-2.21.0
+>> There's really no drawback to the patch I posted that moves receiver DPHY
+>> init and reset-release to s_power time in the receiver driver. If given a
+>> choice, an isolated fix to the imx mipi csi-2 receiver driver should be
+>> preferable to implementing a new callback.
+>>
+>> But perhaps one advantage to the prepare_streaming() callback idea, is that
+>> there is more of a guarantee of minimum time between the
+>> sensor-power-on-and-enter-LP-11 event and receiver-DPHY-reset-release event,
+>> since s_power is normally called from v4l2_pipeline_pm_use() which could add
+>> extra overhead between the time s_power is called at the transmitter and at
+>> the receiver (but not much - the transmitter is connected directly to
+>> receiver in the graph).
 
