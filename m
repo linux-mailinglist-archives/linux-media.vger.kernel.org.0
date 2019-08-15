@@ -2,118 +2,381 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC0C38EC71
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82CC48EC83
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732139AbfHONK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 09:10:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45584 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731282AbfHONK6 (ORCPT
+        id S1732128AbfHONO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 09:14:28 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:42507 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732079AbfHONO2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:10:58 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6291A2AF;
-        Thu, 15 Aug 2019 15:10:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565874656;
-        bh=hbBpDpbfU930XiWYqzsub4i7LkoSXuNzLK98vG+7Mu8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=beOg9TUBVpvb3djnhuIIZiYyNalwjyebgK/IwdaODI6vVkptMxITGQMIUJJIocNDa
-         Fe8yUVSJK/JC9Lx1hfFZkkvUyK0BPl/F+AJgVeYi0M0LezSZivPY16USE95osrgtIP
-         A8eZjomz+9K2AGK+tXAEe6jpOmmVt4miunUyQMjk=
-Date:   Thu, 15 Aug 2019 16:10:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Thu, 15 Aug 2019 09:14:28 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hyFa8-000639-M9; Thu, 15 Aug 2019 15:14:20 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hyFa8-00037Q-7Q; Thu, 15 Aug 2019 15:14:20 +0200
+Date:   Thu, 15 Aug 2019 15:14:20 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
-Message-ID: <20190815131053.GO5011@pendragon.ideasonboard.com>
-References: <20190814202815.32491-1-jacopo@jmondi.org>
- <20190814202815.32491-3-jacopo@jmondi.org>
- <20190815070025.GK6133@paasikivi.fi.intel.com>
- <20190815125938.GI13823@pendragon.ideasonboard.com>
- <20190815130849.GQ6133@paasikivi.fi.intel.com>
+        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v6 03/13] media: v4l2-fwnode: add initial connector
+ parsing support
+Message-ID: <20190815131420.u7ybx22avgvx6u2r@pengutronix.de>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+ <20190415124413.18456-4-m.felsch@pengutronix.de>
+ <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
+ <20190514152004.30d7838b@coco.lan>
+ <20190516165114.GP14820@pendragon.ideasonboard.com>
+ <20190809121606.pv3ieak5f2ffpj3x@pengutronix.de>
+ <20190815124810.GD13823@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190815130849.GQ6133@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190815124810.GD13823@pendragon.ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:08:30 up 89 days, 19:26, 59 users,  load average: 0.06, 0.09,
+ 0.05
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-On Thu, Aug 15, 2019 at 04:08:49PM +0300, Sakari Ailus wrote:
-> On Thu, Aug 15, 2019 at 03:59:38PM +0300, Laurent Pinchart wrote:
-> > On Thu, Aug 15, 2019 at 10:00:25AM +0300, Sakari Ailus wrote:
-> > > On Wed, Aug 14, 2019 at 10:28:12PM +0200, Jacopo Mondi wrote:
-> > > > Add documentation for the V4L2_CID_LOCATION camera control. The newly
-> > > > added read-only control reports the camera device mounting position.
-> > > > 
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 23 +++++++++++++++++++
-> > > >  1 file changed, 23 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > > index 51c1d5c9eb00..fc0a02eee6d4 100644
-> > > > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > > @@ -510,6 +510,29 @@ enum v4l2_scene_mode -
-> > > >      value down. A value of zero stops the motion if one is in progress
-> > > >      and has no effect otherwise.
-> > > > 
-> > > > +``V4L2_CID_LOCATION (integer)``
-> > > > +    This read-only control describes the camera location by reporting its
-> > > > +    mounting position on the device where the camera is installed. This
-> > > > +    control is particularly meaningful for devices which have a well defined
-> > > > +    orientation, such as phones, laptops and portable devices as the camera
-> > > > +    location is expressed as a position relative to the device intended
-> > > > +    usage position. In example, a camera installed on the user-facing side
-> > > 
-> > > s/In/For/
-> > > 
-> > > > +    of a phone device is said to be installed in the ``V4L2_LOCATION_FRONT``
-> > > > +    position.
-> > > > +
-> > > > +
-> > > > +
-> > > > +.. flat-table::
-> > > > +    :header-rows:  0
-> > > > +    :stub-columns: 0
-> > > > +
-> > > > +    * - ``V4L2_LOCATION_FRONT``
-> > > > +      - The camera device is located on the front side of the device.
-> > > > +    * - ``V4L2_LOCATION_BACK``
-> > > > +      - The camera device is located on the back side of the device.
-> > > > +
-> > > > +
-> > > > +
-> > > >  .. [#f1]
-> > > >     This control may be changed to a menu control in the future, if more
-> > > >     options are required.
-> > > 
-> > > There's an effective limit of 64 for menus. ACPI has less than ten
-> > > different locations for a device, I think 64 will be enough here.
-> > > 
-> > > So I'd be actually in favour of switching to a menu.
-> > 
-> > Why ? As you explained yourself, it's a static read-only control, all it
-> > needs to report is a single value.
+On 19-08-15 15:48, Laurent Pinchart wrote:
+> Hi Marco,
 > 
-> Yes. That's true. It wasn't meant for this but it's nevertheless a
-> convenient API to get that information, both as integer and string.
+> On Fri, Aug 09, 2019 at 02:16:06PM +0200, Marco Felsch wrote:
+> > On 19-05-16 19:51, Laurent Pinchart wrote:
+> > > On Tue, May 14, 2019 at 03:20:04PM -0300, Mauro Carvalho Chehab wrote:
+> > >> Em Mon, 6 May 2019 12:10:41 +0200 Hans Verkuil escreveu:
+> > >>> On 4/15/19 2:44 PM, Marco Felsch wrote:
+> > >>>> The patch adds the initial connector parsing code, so we can move from a
+> > >>>> driver specific parsing code to a generic one. Currently only the
+> > >>>> generic fields and the analog-connector specific fields are parsed. Parsing
+> > >>>> the other connector specific fields can be added by a simple callbacks.
+> > >>>> 
+> > >>>> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > >>>> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> > >>>> ---
+> > >>>> [1] https://patchwork.kernel.org/cover/10794703/
+> > >>>> 
+> > >>>> v6:
+> > >>>> - use 'unsigned int' count var
+> > >>>> - fix comment and style issues
+> > >>>> - place '/* fall through */' to correct places
+> > >>>> - fix error handling and cleanup by releasing fwnode
+> > >>>> - drop vga and dvi parsing support as those connectors are rarely used
+> > >>>>   these days
+> > >>>> 
+> > >>>> v5:
+> > >>>> - s/strlcpy/strscpy/
+> > >>>> 
+> > >>>> v2-v4:
+> > >>>> - nothing since the patch was squashed from series [1] into this
+> > >>>>   series.
+> > >>>> 
+> > >>>>  drivers/media/v4l2-core/v4l2-fwnode.c | 111 ++++++++++++++++++++++++++
+> > >>>>  include/media/v4l2-fwnode.h           |  16 ++++
+> > >>>>  2 files changed, 127 insertions(+)
+> > >>>> 
+> > >>>> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > >>>> index 20571846e636..f1cca95c8fef 100644
+> > >>>> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > >>>> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > >>>> @@ -592,6 +592,117 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> > >>>>  }
+> > >>>>  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> > >>>>  
+> > >>>> +static const struct v4l2_fwnode_connector_conv {
+> > >>>> +	enum v4l2_connector_type type;
+> > >>>> +	const char *name;
+> > > 
+> > > Maybe compatible instead of name ?
+> > 
+> > Okay, I can change that.
+> > 
+> > >>>> +} connectors[] = {
+> > >>>> +	{
+> > >>>> +		.type = V4L2_CON_COMPOSITE,
+> > >>>> +		.name = "composite-video-connector",
+> > >>>> +	}, {
+> > >>>> +		.type = V4L2_CON_SVIDEO,
+> > >>>> +		.name = "svideo-connector",
+> > >>>> +	}, {
+> > >>>> +		.type = V4L2_CON_HDMI,
+> > >>>> +		.name = "hdmi-connector",
+> > >>>> +	},
+> > >>>> +};
+> > >>>> +
+> > >>>> +static enum v4l2_connector_type
+> > >>>> +v4l2_fwnode_string_to_connector_type(const char *con_str)
+> > >>>> +{
+> > >>>> +	unsigned int i;
+> > >>>> +
+> > >>>> +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
+> > >>>> +		if (!strcmp(con_str, connectors[i].name))
+> > >>>> +			return connectors[i].type;
+> > >>>> +
+> > >>>> +	/* no valid connector found */
+> > > 
+> > > The usual comment style in this file is to start with a capital letter
+> > > and end sentences with a period. I would however drop this comment, it's
+> > > not very useful. The other comments should be updated accordingly.
+> > 
+> > I will change my comments and drop this one.
+> > 
+> > >>>> +	return V4L2_CON_UNKNOWN;
+> > >>>> +}
+> > >>>> +
+> > >>>> +static int
+> > >>>> +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
+> > >>>> +				   struct v4l2_fwnode_connector *vc)
+> > >>>> +{
+> > >>>> +	u32 tvnorms;
+> > >>>> +	int ret;
+> > >>>> +
+> > >>>> +	ret = fwnode_property_read_u32(fwnode, "tvnorms", &tvnorms);
+> > >>>> +
+> > >>>> +	/* tvnorms is optional */
+> > >>>> +	vc->connector.analog.supported_tvnorms = ret ? V4L2_STD_ALL : tvnorms;
+> > >>>> +
+> > >>>> +	return 0;
+> > >>>> +}
+> > >>>> +
+> > > 
+> > > Please document all exported functions with kerneldoc.
+> > 
+> > It is documented within the header file. To be aligned with the other
+> > functions I wouldn't change that.
+> 
+> It's not your fault, but this policy REALLY makes review painful and is
+> EXTREMELY annoying.
 
-But why is that needed ? The integer seems enough to me.
+I'm with you..
+
+> > >>>> +int v4l2_fwnode_parse_connector(struct fwnode_handle *__fwnode,
+> > >>>> +				struct v4l2_fwnode_connector *connector)
+> > >>>> +{
+> > >>>> +	struct fwnode_handle *fwnode;
+> > >>>> +	struct fwnode_endpoint __ep;
+> > >>>> +	const char *c_type_str, *label;
+> > >>>> +	int ret;
+> > >>>> +
+> > >>>> +	memset(connector, 0, sizeof(*connector));
+> > >>>> +
+> > >>>> +	fwnode = fwnode_graph_get_remote_port_parent(__fwnode);
+> > > 
+> > > I would rename the argument __fwnode to fwnode, and rename the fwnode
+> > > variable to remote (or similar) to make this clearer.
+> > 
+> > Okay.
+> > 
+> > >>>> +	if (!fwnode)
+> > >>>> +		return -EINVAL;
+> > > 
+> > > Is EINVAL the right error here ? Wouldn't it be useful for the caller to
+> > > differentiate between unconnected connector nodes and invalid ones ?
+> > 
+> > Yes it would. Should I return ENOLINK instead?
+> 
+> Good idea.
+
+Good because I used it in my v7 :-)
+
+> > >>>> +
+> > >>>> +	/* parse all common properties first */
+> > >>>> +	/* connector-type is stored within the compatible string */
+> > >>>> +	ret = fwnode_property_read_string(fwnode, "compatible", &c_type_str);
+> > > 
+> > > Prefixing or postfixing names with types is usually frowned upon. You
+> > > could rename this to type_name for instance.
+> > 
+> > Okay.
+> > 
+> > >>>> +	if (ret) {
+> > >>>> +		fwnode_handle_put(fwnode);
+> > >>>> +		return -EINVAL;
+> > >>>> +	}
+> > >>>> +
+> > >>>> +	connector->type = v4l2_fwnode_string_to_connector_type(c_type_str);
+> > >>>> +
+> > >>>> +	fwnode_graph_parse_endpoint(__fwnode, &__ep);
+> > >>>> +	connector->remote_port = __ep.port;
+> > >>>> +	connector->remote_id = __ep.id;
+> > >>>> +
+> > >>>> +	ret = fwnode_property_read_string(fwnode, "label", &label);
+> > >>>> +	if (!ret) {
+> > >>>> +		/* ensure label doesn't exceed V4L2_CONNECTOR_MAX_LABEL size */
+> > >>>> +		strscpy(connector->label, label, V4L2_CONNECTOR_MAX_LABEL);
+> > >>>> +	} else {
+> > >>>> +		/*
+> > >>>> +		 * labels are optional, if none is given create one:
+> > >>>> +		 * <connector-type-string>@port<endpoint_port>/ep<endpoint_id>
+> > >>>> +		 */
+> > >>>> +		snprintf(connector->label, V4L2_CONNECTOR_MAX_LABEL,
+> > >>>> +			 "%s@port%u/ep%u", c_type_str, connector->remote_port,
+> > >>>> +			 connector->remote_id);
+> > > 
+> > > Should we really try to create labels when none is available ? If so
+> > > this needs much more careful thoughts, we need to think about what the
+> > > label will be used for, and create a good naming scheme accordingly. If
+> > > the label will be displayed to the end-user I don't think the above name
+> > > would be very useful, it would be best to leave it empty and let
+> > > applications create a name based on the connector type and other
+> > > information they have at their disposal.
+> > 
+> > Hm.. I don't have a strong opinion on that. If the others are with you I
+> > will leave it empty.
+> > 
+> > >>>> +	}
+> > >>>> +
+> > >>>> +	/* now parse the connector specific properties */
+> > >>>> +	switch (connector->type) {
+> > >>>> +	case V4L2_CON_COMPOSITE:
+> > >>>> +		/* fall through */
+> > > 
+> > > I don't think you need a fall-through comment when the two cases are
+> > > adjacent with no line in-between.
+> > 
+> > Hm.. I don't know the compiler behaviour. According the official
+> > gcc documentation [1] I would not leave that.
+> 
+> Not leave the fall-through comment, and thus remove it ? :-) I really
+> think it's not needed (otherwise imagine how the big switch-case in
+> v4l2-ctrls.c would look like for instance).
+
+Yes you're right. I dopped that in my v7.
+
+> 
+> > [1] https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+> > 
+> > >>>> +	case V4L2_CON_SVIDEO:
+> > >>>> +		ret = v4l2_fwnode_connector_parse_analog(fwnode, connector);
+> > >>>> +		break;
+> > >>>> +	case V4L2_CON_HDMI:
+> > >>>> +		pr_warn("Connector specific parsing is currently not supported for %s\n",
+> > >>>> +			c_type_str);  
+> > >>> 
+> > >>> Why warn? Just drop this.
+> > >> 
+> > >> good point. I would prefer to have some warning here, in order to warn a
+> > >> developer that might be using it that this part of the code would require 
+> > >> some change.
+> > >> 
+> > >> perhaps pr_warn_once()?
+> > >>
+> > >>>> +		ret = 0;
+> > >>>> +		break;
+> > > 
+> > > If it's not supported we should warn and return an error. Otherwise we
+> > > should be silent and return success. Combining a warning with success
+> > > isn't a good idea, this is either a normal case or an error, not both.
+> > 
+> > The generic part still applies and is valid. That was the reason why I
+> > did return success.
+> 
+> But the HDMI-specific part won't work, so the code will likely not
+> operate correctly. I'd rather make it an error to for developers using
+> HDMI connectors to fix it.
+
+Hm.. Since you and Hans have your concerns about it I can change that
+behaviour.
+
+Regards,
+  Marco
+
+> > >>>> +	case V4L2_CON_UNKNOWN:
+> > >>>> +		/* fall through */
+> > >>>> +	default:
+> > >>>> +		pr_err("Unknown connector type\n");
+> > >>>> +		ret = -EINVAL;
+> > >>>> +	};
+> > >>>> +
+> > >>>> +	fwnode_handle_put(fwnode);
+> > >>>> +
+> > >>>> +	return ret;
+> > >>>> +}
+> > >>>> +EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_connector);
+> > >>>> +
+> > >>>>  static int
+> > >>>>  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> > >>>>  					  struct v4l2_async_notifier *notifier,
+> > >>>> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > >>>> index f4df1b95c5ef..e072f2915ddb 100644
+> > >>>> --- a/include/media/v4l2-fwnode.h
+> > >>>> +++ b/include/media/v4l2-fwnode.h
+> > >>>> @@ -269,6 +269,22 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> > >>>>   */
+> > >>>>  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+> > >>>>  
+> > > 
+> > > And I see here that the function is documented. One more reason to move
+> > > kerneldoc to the .c files...
+> > 
+> > Please check my comment above.
+> 
+> I know, it's not your fault, I was complaining about the state of the
+> universe in general :-)
+> 
+> > >>>> +/**
+> > >>>> + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
+> > >>>> + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
+> > >>>> + *          connected to
+> > > 
+> > > This is very unclear, I would interpret that as the remote endpoint, not
+> > > the local endpoint. Could you please try to clarify the documentation ?
+> > 
+> > Hm.. I have no good idea how I should describe it..
+> > 
+> > """
+> > The device (local) endpoint fwnode handle on which the connector is
+> > connected to using the remote-enpoint property.
+> > """
+> > 
+> > >>>> + * @connector: pointer to the V4L2 fwnode connector data structure
+> > >>>> + *
+> > >>>> + * Fill the connector data structure with the connector type, label and the
+> > >>>> + * endpoint id and port where the connector belongs to. If no label is present
+> > >>>> + * a unique one will be created. Labels with more than 40 characters are cut.
+> > >>>> + *
+> > >>>> + * Return: %0 on success or a negative error code on failure:
+> > >>>> + *	   %-EINVAL on parsing failure
+> > >>>> + */
+> > >>>> +int v4l2_fwnode_parse_connector(struct fwnode_handle *fwnode,
+> > >>>> +				struct v4l2_fwnode_connector *connector);
+> > >>>> +
+> > >>>>  /**
+> > >>>>   * typedef parse_endpoint_func - Driver's callback function to be called on
+> > >>>>   *	each V4L2 fwnode endpoint.
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
