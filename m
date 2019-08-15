@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB128EEF1
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F458EEDD
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733237AbfHOPAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 11:00:17 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42416 "EHLO
+        id S1733250AbfHOPAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 11:00:19 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40588 "EHLO
         mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733232AbfHOPAR (ORCPT
+        with ESMTP id S1733212AbfHOPAT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:00:17 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b16so2473231wrq.9;
-        Thu, 15 Aug 2019 08:00:15 -0700 (PDT)
+        Thu, 15 Aug 2019 11:00:19 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c3so2480644wrd.7;
+        Thu, 15 Aug 2019 08:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=yI1cybUo22+/tK9S4wCt4IsFL7qtdvsQOm2HojWPgQU=;
-        b=jq/5Xz8v3S4/9neN4n7bvcEIVLiGOT6oIYNlLRXJ9em5IzPFy50qzxu4yQ0l6TNTGc
-         +9vHYfHoHKCQPtQ2K/UbbxKdgY07u/nzB0DJf/JGaglY2cZ4IWqqrZ7KO3MXKdZsqigO
-         r5o2HdHnZCnRqGYDY+4668vfbZJY/UNUwelJqtYnSw0R8BD2UaS2IzmYeCXcjweWI/x/
-         rwrd1iFtTeRpGgXTYvJNG+m/NPmxegl/sEkRhq2oW8H04yJYJGsbO8h4BynyH3qiF0b9
-         v1OoRZjaIOTkYu4mgHZCaXUG5LTTfRxn7bVIdw7Soy8awmB7Ck6v1xxVJmZGpZVyT2NV
-         PdDQ==
+        bh=ClnZ/ifqhx3xp+ECOjK85PdZjR7vJXHB5OxiKa77zTo=;
+        b=eghHCqIBiyryJx5chz0UoBCDd8FFw6vLdIvKAJE0vhxUNx7vdUXVqTAe0NeN3nBiR1
+         pkDc8hLMmUd17zW8wpPItL1rPiXnaZwK0DfIA9pHX/Tb/49f5BWSu1E/K4B45jFS4aNt
+         bRvHHmzSZNhKgHx32zkSGr1E56t+dXC/WL5yJMDSMV9JYfUKzF2taJGz77AsHFrZfiJi
+         v00OInftZeBFxdq7/NO4guccBj19gsitRaD6KOustQGAAKzUcxdPPG+UCsnM82wOQ7xY
+         j0IAUTNpKhNpakH6wjtbR5fYw6/xHNbS3OF3g+0fQPyX4NvyEI0lPBdOHQ9x4EUxIKEB
+         f5gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=yI1cybUo22+/tK9S4wCt4IsFL7qtdvsQOm2HojWPgQU=;
-        b=MaWLWeVtj/leUsfvD9WtNz36/UsdtVfCOA9pV3z4cLKi2WUcvD1at9aQpGpVrVnx9o
-         9BtbsWsiPDhg8cArnaDmeG1KU9inI/glTdJhnyba6m1ObELr8/UKas+naIpWYCv/sPVH
-         9UCDB+ZfFGRdFFK7n5UcODI0EbO3LiLPafjd8gkEv7XwtSfZL9A/iUrK8eecybXWc5Y3
-         fW6XSA3nfkl40WHca9OXCZyK4zpOguLLpKWzZ7Nk6Bsv6qz/tIR6s+7NiwbG7vgoKyWO
-         3RNPWRTphYxX7CE82MAVjwqdO3LSn6aj6/x7OQlwUhz3IFn2aReaN4w6QBstN7Olrq4s
-         QNTw==
-X-Gm-Message-State: APjAAAUvBtfspv4Aaj++iBQrpBuPG7FHc3r6bYkvRx7/B3I2ynpnWf4R
-        iwHd1CogHoU7cIMFjigSX2Y=
-X-Google-Smtp-Source: APXvYqzhHT4bBc5MMj+md/aop3aAaAttN9AZE/1VDK2Fikiny0hOy1hdg/TG2OxzcdgF6gcLnktk3A==
-X-Received: by 2002:adf:f481:: with SMTP id l1mr6061906wro.123.1565881215075;
-        Thu, 15 Aug 2019 08:00:15 -0700 (PDT)
+        bh=ClnZ/ifqhx3xp+ECOjK85PdZjR7vJXHB5OxiKa77zTo=;
+        b=rVx4JZbpFGdpuZ/nP7g7fCk29XrdkPOF/KfseHuukzJLuO/fLg9d5t16QCmGAqT8Ku
+         vuo6NzUZbaIU/wOOll3JgAJBQUVIQ+t4jzfItUoINJUNWoaFg8E8HFoJ3Rx/zRkmYUR/
+         2abVrmwItEwLIZCHsqnCrGY1hLvJCSE4TUbgZjch6SqvrnK48d3I1Av8xeL3TIm0URxw
+         NSA7zffXaMvYbw8NZ32WZrQVdzEK8abkp2E2W2SfyMWJ7QoOnAveGBdFcKScDHLkrq0w
+         MAIgia8PUNg1kVyujmN7RJ8fOZmM6la6cwivja18dfM9t8FAG6GCFvuRmiKFYt2wtghp
+         Uxbg==
+X-Gm-Message-State: APjAAAUepMxtS9M4AXvrejBHc2QnhcjVZEYnc0RhHPFAdXnpMh3D4CUP
+        zFZAIroNthhKWorJmF+Nz0U=
+X-Google-Smtp-Source: APXvYqxfU2ylyuJ7Y1A3krXl7GBk8HZ2/6oP0qli4lbicIZFPhImxCvuS/CLFHKsYC7fa681QVg7fA==
+X-Received: by 2002:a5d:4403:: with SMTP id z3mr6098513wrq.29.1565881217136;
+        Thu, 15 Aug 2019 08:00:17 -0700 (PDT)
 Received: from localhost.localdomain ([94.204.252.234])
-        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.13
+        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.15
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 15 Aug 2019 08:00:14 -0700 (PDT)
+        Thu, 15 Aug 2019 08:00:16 -0700 (PDT)
 From:   Christian Hewitt <christianshewitt@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Benjamin Valentin <benpicco@googlemail.com>,
         Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
 Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH 4/7] media: rc: add keymap for Tanix TX5 max remote
-Date:   Thu, 15 Aug 2019 18:59:14 +0400
-Message-Id: <1565881157-14644-5-git-send-email-christianshewitt@gmail.com>
+Subject: [PATCH 5/7] media: rc: add keymap for WeTek Hub remote
+Date:   Thu, 15 Aug 2019 18:59:15 +0400
+Message-Id: <1565881157-14644-6-git-send-email-christianshewitt@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
 References: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
@@ -61,34 +61,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Tanix TX5 max Android STB ships with a simple NEC remote.
+The WeTek Hub Android STB ships with a simple NEC remote.
 
 Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 ---
- drivers/media/rc/keymaps/Makefile          |  1 +
- drivers/media/rc/keymaps/rc-tanix-tx5max.c | 71 ++++++++++++++++++++++++++++++
- include/media/rc-map.h                     |  1 +
- 3 files changed, 73 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-tanix-tx5max.c
+ drivers/media/rc/keymaps/Makefile       |  1 +
+ drivers/media/rc/keymaps/rc-wetek-hub.c | 55 +++++++++++++++++++++++++++++++++
+ include/media/rc-map.h                  |  1 +
+ 3 files changed, 57 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-wetek-hub.c
 
 diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index 31720d8..85423cc 100644
+index 85423cc..6d744ac 100644
 --- a/drivers/media/rc/keymaps/Makefile
 +++ b/drivers/media/rc/keymaps/Makefile
-@@ -96,6 +96,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-streamzap.o \
- 			rc-tango.o \
- 			rc-tanix-tx3mini.o \
-+			rc-tanix-tx5max.o \
- 			rc-tbs-nec.o \
- 			rc-technisat-ts35.o \
- 			rc-technisat-usb2.o \
-diff --git a/drivers/media/rc/keymaps/rc-tanix-tx5max.c b/drivers/media/rc/keymaps/rc-tanix-tx5max.c
+@@ -116,6 +116,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-videomate-m1f.o \
+ 			rc-videomate-s350.o \
+ 			rc-videomate-tv-pvr.o \
++			rc-wetek-hub.o \
+ 			rc-winfast.o \
+ 			rc-winfast-usbii-deluxe.o \
+ 			rc-su3000.o \
+diff --git a/drivers/media/rc/keymaps/rc-wetek-hub.c b/drivers/media/rc/keymaps/rc-wetek-hub.c
 new file mode 100644
-index 0000000..43f467f
+index 0000000..8d114ae
 --- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-tanix-tx5max.c
-@@ -0,0 +1,70 @@
++++ b/drivers/media/rc/keymaps/rc-wetek-hub.c
+@@ -0,0 +1,55 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +// Copyright (c) 2018 Christian Hewitt
 +
@@ -96,81 +96,66 @@ index 0000000..43f467f
 +#include <linux/module.h>
 +
 +/*
-+ * Keymap for the Tanix TX5 max STB remote control
++ * This keymap is used with the WeTek Hub STB.
 + */
 +
-+static struct rc_map_table tanix_tx5max[] = {
++static struct rc_map_table wetek_hub[] = {
 +
-+	{ 0x40404d, KEY_POWER },
-+	{ 0x404043, KEY_MUTE },
++	{ 0x77f1, KEY_POWER },
 +
-+	{ 0x404017, KEY_VOLUMEDOWN },
-+	{ 0x404018, KEY_VOLUMEUP },
++	{ 0x77f2, KEY_HOME },
++	{ 0x77f3, KEY_MUTE }, // mouse
 +
-+	{ 0x40400b, KEY_UP },
-+	{ 0x404010, KEY_LEFT },
-+	{ 0x404011, KEY_RIGHT },
-+	{ 0x40400e, KEY_DOWN },
-+	{ 0x40400d, KEY_OK },
++	{ 0x77f4, KEY_UP },
++	{ 0x77f5, KEY_DOWN },
++	{ 0x77f6, KEY_LEFT },
++	{ 0x77f7, KEY_RIGHT },
++	{ 0x77f8, KEY_OK },
 +
-+	{ 0x40401a, KEY_HOME },
-+	{ 0x404045, KEY_MENU },
-+	{ 0x404042, KEY_BACK },
++	{ 0x77f9, KEY_BACK },
++	{ 0x77fa, KEY_MENU },
 +
-+	{ 0x404001, KEY_1 },
-+	{ 0x404002, KEY_2 },
-+	{ 0x404003, KEY_3 },
-+
-+	{ 0x404004, KEY_4 },
-+	{ 0x404005, KEY_5 },
-+	{ 0x404006, KEY_6 },
-+
-+	{ 0x404007, KEY_7 },
-+	{ 0x404008, KEY_8 },
-+	{ 0x404009, KEY_9 },
-+
-+	{ 0x404047, KEY_SUBTITLE }, // mouse
-+	{ 0x404000, KEY_0 },
-+	{ 0x40400c, KEY_DELETE },
++	{ 0x77fb, KEY_VOLUMEUP },
++	{ 0x77fc, KEY_VOLUMEDOWN },
 +
 +};
 +
-+static struct rc_map_list tanix_tx5max_map = {
++static struct rc_map_list wetek_hub_map = {
 +	.map = {
-+		.scan     = tanix_tx5max,
-+		.size     = ARRAY_SIZE(tanix_tx5max),
++		.scan     = wetek_hub,
++		.size     = ARRAY_SIZE(wetek_hub),
 +		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_TANIX_TX5MAX,
++		.name     = RC_MAP_WETEK_HUB,
 +	}
 +};
 +
-+static int __init init_rc_map_tanix_tx5max(void)
++static int __init init_rc_map_wetek_hub(void)
 +{
-+	return rc_map_register(&tanix_tx5max_map);
++	return rc_map_register(&wetek_hub_map);
 +}
 +
-+static void __exit exit_rc_map_tanix_tx5max(void)
++static void __exit exit_rc_map_wetek_hub(void)
 +{
-+	rc_map_unregister(&tanix_tx5max_map);
++	rc_map_unregister(&wetek_hub_map);
 +}
 +
-+module_init(init_rc_map_tanix_tx5max)
-+module_exit(exit_rc_map_tanix_tx5max)
++module_init(init_rc_map_wetek_hub)
++module_exit(exit_rc_map_wetek_hub)
 +
 +MODULE_LICENSE("GPL");
 +MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
 diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index 44e6458..a7ed5aa 100644
+index a7ed5aa..e7fee29 100644
 --- a/include/media/rc-map.h
 +++ b/include/media/rc-map.h
-@@ -263,6 +263,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_STREAMZAP                 "rc-streamzap"
- #define RC_MAP_TANGO                     "rc-tango"
- #define RC_MAP_TANIX_TX3MINI             "rc-tanix-tx3mini"
-+#define RC_MAP_TANIX_TX5MAX              "rc-tanix-tx5max"
- #define RC_MAP_TBS_NEC                   "rc-tbs-nec"
- #define RC_MAP_TECHNISAT_TS35            "rc-technisat-ts35"
- #define RC_MAP_TECHNISAT_USB2            "rc-technisat-usb2"
+@@ -283,6 +283,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_VIDEOMATE_K100            "rc-videomate-k100"
+ #define RC_MAP_VIDEOMATE_S350            "rc-videomate-s350"
+ #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
++#define RC_MAP_WETEK_HUB                 "rc-wetek-hub"
+ #define RC_MAP_WINFAST                   "rc-winfast"
+ #define RC_MAP_WINFAST_USBII_DELUXE      "rc-winfast-usbii-deluxe"
+ #define RC_MAP_SU3000                    "rc-su3000"
 -- 
 2.7.4
 
