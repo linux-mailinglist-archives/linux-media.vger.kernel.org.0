@@ -2,283 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 178CA8EBD6
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2398EBD8
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 14:48:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730211AbfHOMsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 08:48:02 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:35753 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725977AbfHOMsC (ORCPT
+        id S1731027AbfHOMsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 08:48:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45052 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfHOMsQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 08:48:02 -0400
-Received: from [IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f] ([IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yFAahvi6UDqPeyFAdhY8Z5; Thu, 15 Aug 2019 14:47:59 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] gspca: zero usb_buf on error
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <d6898729-7c52-5948-5499-8dd03608c361@xs4all.nl>
-Date:   Thu, 15 Aug 2019 14:47:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        Thu, 15 Aug 2019 08:48:16 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 582B22AF;
+        Thu, 15 Aug 2019 14:48:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565873293;
+        bh=hO7FDkAVGrSdCByC0ZlanQ6nqO1ZSVRXDWkJnw5GLxM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J2D/arjxloPxdJnjtwgtsaTQv/lA4bx8zd70aY7j33SDOs/jGvlnbWArNc6WqPfgs
+         zgKkGRsuvCtZaKMOE98lA8hU2wsuRTr1ad80ZiloM6zuE8hASDrcohN+3TVCpTcHi0
+         o7nqWmWm7YcwLTVEgwID8GfO2er93NSL0bqjbbe4=
+Date:   Thu, 15 Aug 2019 15:48:10 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v6 03/13] media: v4l2-fwnode: add initial connector
+ parsing support
+Message-ID: <20190815124810.GD13823@pendragon.ideasonboard.com>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+ <20190415124413.18456-4-m.felsch@pengutronix.de>
+ <67f45a50-1eef-89d7-c008-17f085940eb2@xs4all.nl>
+ <20190514152004.30d7838b@coco.lan>
+ <20190516165114.GP14820@pendragon.ideasonboard.com>
+ <20190809121606.pv3ieak5f2ffpj3x@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCPC+KP6wgEJ4UqN6AlveCmaX6NUK6uT5H9hwei+kGdcZmPJBPRb1ArGkIPji2D7D63j8ORke3i97mtB0BXB7/LThvYiXv6qERxznf08l+N6dqBL318i
- 95OsvUnCK7l6eCds2Wsba+sadUvi3ylX5qJgYBvJqmhCbZs0/bkYqkk4iWb1FRDhQsxvGTt3BVzp+8qizKAfGHXYk8TNdAeuD/a2PYxXNComDpo7qB96g6Lo
- 7OrSVcZ9K+5uiXVuQs4b3i2zuoNZcj9pbXYZSjTDuMvoyMU9+KOCv/pB8FXZqFr2
+Content-Disposition: inline
+In-Reply-To: <20190809121606.pv3ieak5f2ffpj3x@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If reg_r() fails, then gspca_dev->usb_buf was left uninitialized,
-and some drivers used the contents of that buffer in logic.
+Hi Marco,
 
-This caused several syzbot errors:
+On Fri, Aug 09, 2019 at 02:16:06PM +0200, Marco Felsch wrote:
+> On 19-05-16 19:51, Laurent Pinchart wrote:
+> > On Tue, May 14, 2019 at 03:20:04PM -0300, Mauro Carvalho Chehab wrote:
+> >> Em Mon, 6 May 2019 12:10:41 +0200 Hans Verkuil escreveu:
+> >>> On 4/15/19 2:44 PM, Marco Felsch wrote:
+> >>>> The patch adds the initial connector parsing code, so we can move from a
+> >>>> driver specific parsing code to a generic one. Currently only the
+> >>>> generic fields and the analog-connector specific fields are parsed. Parsing
+> >>>> the other connector specific fields can be added by a simple callbacks.
+> >>>> 
+> >>>> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> >>>> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>> ---
+> >>>> [1] https://patchwork.kernel.org/cover/10794703/
+> >>>> 
+> >>>> v6:
+> >>>> - use 'unsigned int' count var
+> >>>> - fix comment and style issues
+> >>>> - place '/* fall through */' to correct places
+> >>>> - fix error handling and cleanup by releasing fwnode
+> >>>> - drop vga and dvi parsing support as those connectors are rarely used
+> >>>>   these days
+> >>>> 
+> >>>> v5:
+> >>>> - s/strlcpy/strscpy/
+> >>>> 
+> >>>> v2-v4:
+> >>>> - nothing since the patch was squashed from series [1] into this
+> >>>>   series.
+> >>>> 
+> >>>>  drivers/media/v4l2-core/v4l2-fwnode.c | 111 ++++++++++++++++++++++++++
+> >>>>  include/media/v4l2-fwnode.h           |  16 ++++
+> >>>>  2 files changed, 127 insertions(+)
+> >>>> 
+> >>>> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>> index 20571846e636..f1cca95c8fef 100644
+> >>>> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>> @@ -592,6 +592,117 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> >>>>  }
+> >>>>  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> >>>>  
+> >>>> +static const struct v4l2_fwnode_connector_conv {
+> >>>> +	enum v4l2_connector_type type;
+> >>>> +	const char *name;
+> > 
+> > Maybe compatible instead of name ?
+> 
+> Okay, I can change that.
+> 
+> >>>> +} connectors[] = {
+> >>>> +	{
+> >>>> +		.type = V4L2_CON_COMPOSITE,
+> >>>> +		.name = "composite-video-connector",
+> >>>> +	}, {
+> >>>> +		.type = V4L2_CON_SVIDEO,
+> >>>> +		.name = "svideo-connector",
+> >>>> +	}, {
+> >>>> +		.type = V4L2_CON_HDMI,
+> >>>> +		.name = "hdmi-connector",
+> >>>> +	},
+> >>>> +};
+> >>>> +
+> >>>> +static enum v4l2_connector_type
+> >>>> +v4l2_fwnode_string_to_connector_type(const char *con_str)
+> >>>> +{
+> >>>> +	unsigned int i;
+> >>>> +
+> >>>> +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
+> >>>> +		if (!strcmp(con_str, connectors[i].name))
+> >>>> +			return connectors[i].type;
+> >>>> +
+> >>>> +	/* no valid connector found */
+> > 
+> > The usual comment style in this file is to start with a capital letter
+> > and end sentences with a period. I would however drop this comment, it's
+> > not very useful. The other comments should be updated accordingly.
+> 
+> I will change my comments and drop this one.
+> 
+> >>>> +	return V4L2_CON_UNKNOWN;
+> >>>> +}
+> >>>> +
+> >>>> +static int
+> >>>> +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
+> >>>> +				   struct v4l2_fwnode_connector *vc)
+> >>>> +{
+> >>>> +	u32 tvnorms;
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	ret = fwnode_property_read_u32(fwnode, "tvnorms", &tvnorms);
+> >>>> +
+> >>>> +	/* tvnorms is optional */
+> >>>> +	vc->connector.analog.supported_tvnorms = ret ? V4L2_STD_ALL : tvnorms;
+> >>>> +
+> >>>> +	return 0;
+> >>>> +}
+> >>>> +
+> > 
+> > Please document all exported functions with kerneldoc.
+> 
+> It is documented within the header file. To be aligned with the other
+> functions I wouldn't change that.
 
-https://syzkaller.appspot.com/bug?extid=397fd082ce5143e2f67d
-https://syzkaller.appspot.com/bug?extid=1a35278dd0ebfb3a038a
-https://syzkaller.appspot.com/bug?extid=06ddf1788cfd048c5e82
+It's not your fault, but this policy REALLY makes review painful and is
+EXTREMELY annoying.
 
-I analyzed the gspca drivers and zeroed the buffer where needed.
+> >>>> +int v4l2_fwnode_parse_connector(struct fwnode_handle *__fwnode,
+> >>>> +				struct v4l2_fwnode_connector *connector)
+> >>>> +{
+> >>>> +	struct fwnode_handle *fwnode;
+> >>>> +	struct fwnode_endpoint __ep;
+> >>>> +	const char *c_type_str, *label;
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	memset(connector, 0, sizeof(*connector));
+> >>>> +
+> >>>> +	fwnode = fwnode_graph_get_remote_port_parent(__fwnode);
+> > 
+> > I would rename the argument __fwnode to fwnode, and rename the fwnode
+> > variable to remote (or similar) to make this clearer.
+> 
+> Okay.
+> 
+> >>>> +	if (!fwnode)
+> >>>> +		return -EINVAL;
+> > 
+> > Is EINVAL the right error here ? Wouldn't it be useful for the caller to
+> > differentiate between unconnected connector nodes and invalid ones ?
+> 
+> Yes it would. Should I return ENOLINK instead?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-and-tested-by: syzbot+1a35278dd0ebfb3a038a@syzkaller.appspotmail.com
-Reported-and-tested-by: syzbot+397fd082ce5143e2f67d@syzkaller.appspotmail.com
-Reported-and-tested-by: syzbot+06ddf1788cfd048c5e82@syzkaller.appspotmail.com
----
-diff --git a/drivers/media/usb/gspca/konica.c b/drivers/media/usb/gspca/konica.c
-index d8e40137a204..53db9a2895ea 100644
---- a/drivers/media/usb/gspca/konica.c
-+++ b/drivers/media/usb/gspca/konica.c
-@@ -114,6 +114,11 @@ static void reg_r(struct gspca_dev *gspca_dev, u16 value, u16 index)
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, 2);
- 	}
- }
+Good idea.
 
-diff --git a/drivers/media/usb/gspca/nw80x.c b/drivers/media/usb/gspca/nw80x.c
-index 59649704beba..db3e1657670b 100644
---- a/drivers/media/usb/gspca/nw80x.c
-+++ b/drivers/media/usb/gspca/nw80x.c
-@@ -1572,6 +1572,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 		return;
- 	}
- 	if (len == 1)
-diff --git a/drivers/media/usb/gspca/ov519.c b/drivers/media/usb/gspca/ov519.c
-index cfb1f53bc17e..f417dfc0b872 100644
---- a/drivers/media/usb/gspca/ov519.c
-+++ b/drivers/media/usb/gspca/ov519.c
-@@ -2073,6 +2073,11 @@ static int reg_r(struct sd *sd, u16 index)
- 	} else {
- 		gspca_err(gspca_dev, "reg_r %02x failed %d\n", index, ret);
- 		sd->gspca_dev.usb_err = ret;
-+		/*
-+		 * Make sure the result is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		gspca_dev->usb_buf[0] = 0;
- 	}
+> >>>> +
+> >>>> +	/* parse all common properties first */
+> >>>> +	/* connector-type is stored within the compatible string */
+> >>>> +	ret = fwnode_property_read_string(fwnode, "compatible", &c_type_str);
+> > 
+> > Prefixing or postfixing names with types is usually frowned upon. You
+> > could rename this to type_name for instance.
+> 
+> Okay.
+> 
+> >>>> +	if (ret) {
+> >>>> +		fwnode_handle_put(fwnode);
+> >>>> +		return -EINVAL;
+> >>>> +	}
+> >>>> +
+> >>>> +	connector->type = v4l2_fwnode_string_to_connector_type(c_type_str);
+> >>>> +
+> >>>> +	fwnode_graph_parse_endpoint(__fwnode, &__ep);
+> >>>> +	connector->remote_port = __ep.port;
+> >>>> +	connector->remote_id = __ep.id;
+> >>>> +
+> >>>> +	ret = fwnode_property_read_string(fwnode, "label", &label);
+> >>>> +	if (!ret) {
+> >>>> +		/* ensure label doesn't exceed V4L2_CONNECTOR_MAX_LABEL size */
+> >>>> +		strscpy(connector->label, label, V4L2_CONNECTOR_MAX_LABEL);
+> >>>> +	} else {
+> >>>> +		/*
+> >>>> +		 * labels are optional, if none is given create one:
+> >>>> +		 * <connector-type-string>@port<endpoint_port>/ep<endpoint_id>
+> >>>> +		 */
+> >>>> +		snprintf(connector->label, V4L2_CONNECTOR_MAX_LABEL,
+> >>>> +			 "%s@port%u/ep%u", c_type_str, connector->remote_port,
+> >>>> +			 connector->remote_id);
+> > 
+> > Should we really try to create labels when none is available ? If so
+> > this needs much more careful thoughts, we need to think about what the
+> > label will be used for, and create a good naming scheme accordingly. If
+> > the label will be displayed to the end-user I don't think the above name
+> > would be very useful, it would be best to leave it empty and let
+> > applications create a name based on the connector type and other
+> > information they have at their disposal.
+> 
+> Hm.. I don't have a strong opinion on that. If the others are with you I
+> will leave it empty.
+> 
+> >>>> +	}
+> >>>> +
+> >>>> +	/* now parse the connector specific properties */
+> >>>> +	switch (connector->type) {
+> >>>> +	case V4L2_CON_COMPOSITE:
+> >>>> +		/* fall through */
+> > 
+> > I don't think you need a fall-through comment when the two cases are
+> > adjacent with no line in-between.
+> 
+> Hm.. I don't know the compiler behaviour. According the official
+> gcc documentation [1] I would not leave that.
 
- 	return ret;
-@@ -2101,6 +2106,11 @@ static int reg_r8(struct sd *sd,
- 	} else {
- 		gspca_err(gspca_dev, "reg_r8 %02x failed %d\n", index, ret);
- 		sd->gspca_dev.usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, 8);
- 	}
+Not leave the fall-through comment, and thus remove it ? :-) I really
+think it's not needed (otherwise imagine how the big switch-case in
+v4l2-ctrls.c would look like for instance).
 
- 	return ret;
-diff --git a/drivers/media/usb/gspca/ov534.c b/drivers/media/usb/gspca/ov534.c
-index 56521c991db4..185c1f10fb30 100644
---- a/drivers/media/usb/gspca/ov534.c
-+++ b/drivers/media/usb/gspca/ov534.c
-@@ -693,6 +693,11 @@ static u8 ov534_reg_read(struct gspca_dev *gspca_dev, u16 reg)
- 	if (ret < 0) {
- 		pr_err("read failed %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the result is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		gspca_dev->usb_buf[0] = 0;
- 	}
- 	return gspca_dev->usb_buf[0];
- }
-diff --git a/drivers/media/usb/gspca/ov534_9.c b/drivers/media/usb/gspca/ov534_9.c
-index 867f860a9650..91efc650cf76 100644
---- a/drivers/media/usb/gspca/ov534_9.c
-+++ b/drivers/media/usb/gspca/ov534_9.c
-@@ -1145,6 +1145,7 @@ static u8 reg_r(struct gspca_dev *gspca_dev, u16 reg)
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		return 0;
- 	}
- 	return gspca_dev->usb_buf[0];
- }
-diff --git a/drivers/media/usb/gspca/se401.c b/drivers/media/usb/gspca/se401.c
-index 061deee138c3..e087cfb5980b 100644
---- a/drivers/media/usb/gspca/se401.c
-+++ b/drivers/media/usb/gspca/se401.c
-@@ -101,6 +101,11 @@ static void se401_read_req(struct gspca_dev *gspca_dev, u16 req, int silent)
- 			pr_err("read req failed req %#04x error %d\n",
- 			       req, err);
- 		gspca_dev->usb_err = err;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, READ_REQ_SIZE);
- 	}
- }
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+> 
+> >>>> +	case V4L2_CON_SVIDEO:
+> >>>> +		ret = v4l2_fwnode_connector_parse_analog(fwnode, connector);
+> >>>> +		break;
+> >>>> +	case V4L2_CON_HDMI:
+> >>>> +		pr_warn("Connector specific parsing is currently not supported for %s\n",
+> >>>> +			c_type_str);  
+> >>> 
+> >>> Why warn? Just drop this.
+> >> 
+> >> good point. I would prefer to have some warning here, in order to warn a
+> >> developer that might be using it that this part of the code would require 
+> >> some change.
+> >> 
+> >> perhaps pr_warn_once()?
+> >>
+> >>>> +		ret = 0;
+> >>>> +		break;
+> > 
+> > If it's not supported we should warn and return an error. Otherwise we
+> > should be silent and return success. Combining a warning with success
+> > isn't a good idea, this is either a normal case or an error, not both.
+> 
+> The generic part still applies and is valid. That was the reason why I
+> did return success.
 
-diff --git a/drivers/media/usb/gspca/sn9c20x.c b/drivers/media/usb/gspca/sn9c20x.c
-index b43f89fee6c1..490af88e88ac 100644
---- a/drivers/media/usb/gspca/sn9c20x.c
-+++ b/drivers/media/usb/gspca/sn9c20x.c
-@@ -909,6 +909,11 @@ static void reg_r(struct gspca_dev *gspca_dev, u16 reg, u16 length)
- 	if (unlikely(result < 0 || result != length)) {
- 		pr_err("Read register %02x failed %d\n", reg, result);
- 		gspca_dev->usb_err = result;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
+But the HDMI-specific part won't work, so the code will likely not
+operate correctly. I'd rather make it an error to for developers using
+HDMI connectors to fix it.
 
-diff --git a/drivers/media/usb/gspca/sonixb.c b/drivers/media/usb/gspca/sonixb.c
-index 046fc2c2a135..4d655e2da9cb 100644
---- a/drivers/media/usb/gspca/sonixb.c
-+++ b/drivers/media/usb/gspca/sonixb.c
-@@ -453,6 +453,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 		dev_err(gspca_dev->v4l2_dev.dev,
- 			"Error reading register %02x: %d\n", value, res);
- 		gspca_dev->usb_err = res;
-+		/*
-+		 * Make sure the result is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		gspca_dev->usb_buf[0] = 0;
- 	}
- }
+> >>>> +	case V4L2_CON_UNKNOWN:
+> >>>> +		/* fall through */
+> >>>> +	default:
+> >>>> +		pr_err("Unknown connector type\n");
+> >>>> +		ret = -EINVAL;
+> >>>> +	};
+> >>>> +
+> >>>> +	fwnode_handle_put(fwnode);
+> >>>> +
+> >>>> +	return ret;
+> >>>> +}
+> >>>> +EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_connector);
+> >>>> +
+> >>>>  static int
+> >>>>  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >>>>  					  struct v4l2_async_notifier *notifier,
+> >>>> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> >>>> index f4df1b95c5ef..e072f2915ddb 100644
+> >>>> --- a/include/media/v4l2-fwnode.h
+> >>>> +++ b/include/media/v4l2-fwnode.h
+> >>>> @@ -269,6 +269,22 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> >>>>   */
+> >>>>  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+> >>>>  
+> > 
+> > And I see here that the function is documented. One more reason to move
+> > kerneldoc to the .c files...
+> 
+> Please check my comment above.
 
-diff --git a/drivers/media/usb/gspca/sonixj.c b/drivers/media/usb/gspca/sonixj.c
-index 50a6c8425827..acf931a2bf1f 100644
---- a/drivers/media/usb/gspca/sonixj.c
-+++ b/drivers/media/usb/gspca/sonixj.c
-@@ -1162,6 +1162,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
+I know, it's not your fault, I was complaining about the state of the
+universe in general :-)
 
-diff --git a/drivers/media/usb/gspca/spca1528.c b/drivers/media/usb/gspca/spca1528.c
-index 2ae03b60163f..ec1811895f85 100644
---- a/drivers/media/usb/gspca/spca1528.c
-+++ b/drivers/media/usb/gspca/spca1528.c
-@@ -71,6 +71,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
+> >>>> +/**
+> >>>> + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
+> >>>> + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
+> >>>> + *          connected to
+> > 
+> > This is very unclear, I would interpret that as the remote endpoint, not
+> > the local endpoint. Could you please try to clarify the documentation ?
+> 
+> Hm.. I have no good idea how I should describe it..
+> 
+> """
+> The device (local) endpoint fwnode handle on which the connector is
+> connected to using the remote-enpoint property.
+> """
+> 
+> >>>> + * @connector: pointer to the V4L2 fwnode connector data structure
+> >>>> + *
+> >>>> + * Fill the connector data structure with the connector type, label and the
+> >>>> + * endpoint id and port where the connector belongs to. If no label is present
+> >>>> + * a unique one will be created. Labels with more than 40 characters are cut.
+> >>>> + *
+> >>>> + * Return: %0 on success or a negative error code on failure:
+> >>>> + *	   %-EINVAL on parsing failure
+> >>>> + */
+> >>>> +int v4l2_fwnode_parse_connector(struct fwnode_handle *fwnode,
+> >>>> +				struct v4l2_fwnode_connector *connector);
+> >>>> +
+> >>>>  /**
+> >>>>   * typedef parse_endpoint_func - Driver's callback function to be called on
+> >>>>   *	each V4L2 fwnode endpoint.
 
-diff --git a/drivers/media/usb/gspca/sq930x.c b/drivers/media/usb/gspca/sq930x.c
-index d1ba0888d798..cd9bf31ed437 100644
---- a/drivers/media/usb/gspca/sq930x.c
-+++ b/drivers/media/usb/gspca/sq930x.c
-@@ -425,6 +425,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r %04x failed %d\n", value, ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
+-- 
+Regards,
 
-diff --git a/drivers/media/usb/gspca/sunplus.c b/drivers/media/usb/gspca/sunplus.c
-index d0ddfa957ca9..0648d0db5515 100644
---- a/drivers/media/usb/gspca/sunplus.c
-+++ b/drivers/media/usb/gspca/sunplus.c
-@@ -255,6 +255,11 @@ static void reg_r(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
-
-diff --git a/drivers/media/usb/gspca/vc032x.c b/drivers/media/usb/gspca/vc032x.c
-index 588a847ea483..e652a6becb3e 100644
---- a/drivers/media/usb/gspca/vc032x.c
-+++ b/drivers/media/usb/gspca/vc032x.c
-@@ -2906,6 +2906,11 @@ static void reg_r_i(struct gspca_dev *gspca_dev,
- 	if (ret < 0) {
- 		pr_err("reg_r err %d\n", ret);
- 		gspca_dev->usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(gspca_dev->usb_buf, 0, sizeof(gspca_dev->usb_buf));
- 	}
- }
- static void reg_r(struct gspca_dev *gspca_dev,
-diff --git a/drivers/media/usb/gspca/w996Xcf.c b/drivers/media/usb/gspca/w996Xcf.c
-index 16b679c2de21..a8350ee9712f 100644
---- a/drivers/media/usb/gspca/w996Xcf.c
-+++ b/drivers/media/usb/gspca/w996Xcf.c
-@@ -133,6 +133,11 @@ static int w9968cf_read_sb(struct sd *sd)
- 	} else {
- 		pr_err("Read SB reg [01] failed\n");
- 		sd->gspca_dev.usb_err = ret;
-+		/*
-+		 * Make sure the buffer is zeroed to avoid uninitialized
-+		 * values.
-+		 */
-+		memset(sd->gspca_dev.usb_buf, 0, 2);
- 	}
-
- 	udelay(W9968CF_I2C_BUS_DELAY);
+Laurent Pinchart
