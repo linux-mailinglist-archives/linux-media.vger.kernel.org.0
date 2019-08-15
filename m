@@ -2,148 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 591138E5FD
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 10:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B378E63A
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 10:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730839AbfHOINb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 04:13:31 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42119 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbfHOINb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 04:13:31 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j7so4170847ota.9
-        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 01:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j2X6+wnhEZ+dwFc1xFvS5j4R+UQwgxL7Tmyv7OJKXfw=;
-        b=C5EAOX87Z3Ay8QQ35h9IEerr67vm6be1cqzJOVSIBClk7gcv3ua+0E+j97U3wAeWGE
-         XfWxohGIYDFmcCP16kWz63BvlVh/fSSMKC1IH3DYclynBnytsV+jyKlV0MGqLGWOG8l/
-         f6LO17b2QggpqtmXFRvEvOJob4ON+0FBMqO2I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j2X6+wnhEZ+dwFc1xFvS5j4R+UQwgxL7Tmyv7OJKXfw=;
-        b=IiNU2DjGFGg8rShYy/g7jQ1xEK8uoUt+0NtIFgaRGIzE5vGXpT3v7zQjcMADMRetk2
-         M7YSge/CKwySx3vzdl4E0C/yBgMc668t6cB0w5DlqQeLAatRzFoVs82GdMynBJl4mtA8
-         ENtNhy49QldaE0MSqPRMK6SSQjiQRoh5lYzoNrlzyx0zW1aFZjMLGnUH76syjuX87oss
-         mozrf0la+7HPpjvnFzwd0UwcuhiQVV7y/WqHHHBGIiHbRQMwp5AGHm31TkdSAayJfWB3
-         Y007JGMi2y+mV+YtPOmHDVDYh2lyIqObCMowF35A+qSOb1Ft07OzBz4omrd4XjIqc5/Q
-         RmSQ==
-X-Gm-Message-State: APjAAAVj21oOPCWpyesEaWqgCIOVSEEKMPV9vbPEOsmopBVuE5RnbKsW
-        5yu7/xf3VnGfUOWAgAiMl8cauHG4R8k=
-X-Google-Smtp-Source: APXvYqw4ix0Zn3vZ75JIehizxPi/fKbdfdcA5LpjzWo4ermcrT5+lVQAK/UXQy+2ZEjFJmtHbnN/4Q==
-X-Received: by 2002:a05:6830:144b:: with SMTP id w11mr2597055otp.185.1565856809601;
-        Thu, 15 Aug 2019 01:13:29 -0700 (PDT)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
-        by smtp.gmail.com with ESMTPSA id i21sm781993otl.24.2019.08.15.01.13.28
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Aug 2019 01:13:28 -0700 (PDT)
-Received: by mail-ot1-f47.google.com with SMTP id b1so4215814otp.6
-        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 01:13:28 -0700 (PDT)
-X-Received: by 2002:a9d:c67:: with SMTP id 94mr1720310otr.33.1565856808252;
- Thu, 15 Aug 2019 01:13:28 -0700 (PDT)
+        id S1730713AbfHOIZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 04:25:33 -0400
+Received: from mga05.intel.com ([192.55.52.43]:48394 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729838AbfHOIZd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Aug 2019 04:25:33 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 01:25:33 -0700
+X-IronPort-AV: E=Sophos;i="5.64,388,1559545200"; 
+   d="scan'208";a="184561788"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 01:25:28 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 7CD1B20BCA; Thu, 15 Aug 2019 11:24:22 +0300 (EEST)
+Date:   Thu, 15 Aug 2019 11:24:22 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+        ezequiel@collabora.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
+        Jacob Chen <cc@rock-chips.com>,
+        Allon Huang <allon.huang@rock-chips.com>
+Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
+Message-ID: <20190815082422.GM6133@paasikivi.fi.intel.com>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-6-helen.koike@collabora.com>
+ <20190808091406.GQ21370@paasikivi.fi.intel.com>
+ <da6c1d01-e3f6-ad73-db55-145d7832a665@collabora.com>
 MIME-Version: 1.0
-References: <20190812110513.23774-1-hverkuil-cisco@xs4all.nl>
- <20190812110513.23774-2-hverkuil-cisco@xs4all.nl> <CAPBb6MWtJyCTJwJii-e6O05idwFd2s8yEstCzfnM7b750h56uQ@mail.gmail.com>
-In-Reply-To: <CAPBb6MWtJyCTJwJii-e6O05idwFd2s8yEstCzfnM7b750h56uQ@mail.gmail.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Thu, 15 Aug 2019 17:13:16 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MUQB7e_8vSyO=b9nEwyEN2M5bGV5RUFJFPL7rnwqOqriw@mail.gmail.com>
-Message-ID: <CAPBb6MUQB7e_8vSyO=b9nEwyEN2M5bGV5RUFJFPL7rnwqOqriw@mail.gmail.com>
-Subject: Re: [PATCHv2 01/12] videodev2.h: add V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da6c1d01-e3f6-ad73-db55-145d7832a665@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 5:11 PM Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> On Mon, Aug 12, 2019 at 8:05 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >
-> > Add an enum_fmt format flag to specifically tag coded formats where
-> > full bytestream parsing is supported by the device.
-> >
-> > Some stateful decoders are capable of fully parsing a bytestream,
-> > but others require that userspace pre-parses the bytestream into
-> > frames or fields (see the corresponding pixelformat descriptions
-> > for details).
->
-> Reviewed-by: Alexandre Courbot <acourbot@chromium.org>
->
-> This patch does not update the pixelformat descriptions though, are we
-> planning on doing this?
+Hi Helen,
 
-I pressed Send too fast, patch 8 takes care of this. Sorry for the noise.
+On Wed, Aug 14, 2019 at 09:58:05PM -0300, Helen Koike wrote:
 
->
->
-> >
-> > If this flag is set, then this pre-parsing step is not required
-> > (but still possible, of course).
-> >
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  Documentation/media/uapi/v4l/vidioc-enum-fmt.rst | 8 ++++++++
-> >  Documentation/media/videodev2.h.rst.exceptions   | 1 +
-> >  include/uapi/linux/videodev2.h                   | 5 +++--
-> >  3 files changed, 12 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > index 822d6730e7d2..ebc05ce74bdf 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > @@ -127,6 +127,14 @@ one until ``EINVAL`` is returned.
-> >        - This format is not native to the device but emulated through
-> >         software (usually libv4l2), where possible try to use a native
-> >         format instead for better performance.
-> > +    * - ``V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM``
-> > +      - 0x0004
-> > +      - The hardware decoder for this compressed bytestream format (aka coded
-> > +       format) is capable of parsing a continuous bytestream. Applications do
-> > +       not need to parse the bytestream themselves to find the boundaries
-> > +       between frames/fields. This flag can only be used in combination with
-> > +       the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to compressed
-> > +       formats only. This flag is valid for stateful decoders only.
-> >
-> >
-> >  Return Value
-> > diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
-> > index 8e7d3492d248..a0640b6d0f68 100644
-> > --- a/Documentation/media/videodev2.h.rst.exceptions
-> > +++ b/Documentation/media/videodev2.h.rst.exceptions
-> > @@ -180,6 +180,7 @@ replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserved-formats
-> >  # V4L2 format flags
-> >  replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
-> >  replace define V4L2_FMT_FLAG_EMULATED fmtdesc-flags
-> > +replace define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM fmtdesc-flags
-> >
-> >  # V4L2 timecode types
-> >  replace define V4L2_TC_TYPE_24FPS timecode-type
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 2427bc4d8eba..67077d52c59d 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -774,8 +774,9 @@ struct v4l2_fmtdesc {
-> >         __u32               reserved[4];
-> >  };
-> >
-> > -#define V4L2_FMT_FLAG_COMPRESSED 0x0001
-> > -#define V4L2_FMT_FLAG_EMULATED   0x0002
-> > +#define V4L2_FMT_FLAG_COMPRESSED               0x0001
-> > +#define V4L2_FMT_FLAG_EMULATED                 0x0002
-> > +#define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM    0x0004
-> >
-> >         /* Frame Size and frame rate enumeration */
-> >  /*
-> > --
-> > 2.20.1
-> >
+...
+
+> >> +static int rkisp1_isp_sd_set_fmt(struct v4l2_subdev *sd,
+> >> +				 struct v4l2_subdev_pad_config *cfg,
+> >> +				 struct v4l2_subdev_format *fmt)
+> >> +{
+> >> +	struct rkisp1_device *isp_dev = sd_to_isp_dev(sd);
+> >> +	struct rkisp1_isp_subdev *isp_sd = &isp_dev->isp_sdev;
+> >> +	struct v4l2_mbus_framefmt *mf = &fmt->format;
+> >> +
+> > 
+> > Note that for sub-device nodes, the driver is itself responsible for
+> > serialising the access to its data structures.
+> 
+> But looking at subdev_do_ioctl_lock(), it seems that it serializes the
+> ioctl calls for subdevs, no? Or I'm misunderstanding something (which is
+> most probably) ?
+
+Good question. I had missed this change --- subdev_do_ioctl_lock() is
+relatively new. But setting that lock is still not possible as the struct
+is allocated in the framework and the device is registered before the
+driver gets hold of it. It's a good idea to provide the same serialisation
+for subdevs as well.
+
+I'll get back to this later.
+
+...
+
+> >> +static int rkisp1_isp_sd_s_power(struct v4l2_subdev *sd, int on)
+> > 
+> > If you support runtime PM, you shouldn't implement the s_power op.
+> 
+> Is is ok to completly remove the usage of runtime PM then?
+> Like this http://ix.io/1RJb ?
+
+Please use runtime PM instead. In the long run we should get rid of the
+s_power op. Drivers themselves know better when the hardware they control
+should be powered on or off.
+
+> 
+> tbh I'm not that familar with runtime PM and I'm not sure what is the
+> difference of it and using s_power op (and Documentation/power/runtime_pm.rst
+> is not being that helpful tbh).
+
+You can find a simple example e.g. in
+drivers/media/platform/atmel/atmel-isi.c .
+
+> 
+> > 
+> > You'll still need to call s_power on external subdevs though.
+> > 
+> >> +{
+> >> +	struct rkisp1_device *isp_dev = sd_to_isp_dev(sd);
+> >> +	int ret;
+> >> +
+> >> +	v4l2_dbg(1, rkisp1_debug, &isp_dev->v4l2_dev, "s_power: %d\n", on);
+> >> +
+> >> +	if (on) {
+> >> +		ret = pm_runtime_get_sync(isp_dev->dev);
+> 
+> If this is not ok to remove suport for runtime PM, then where should I put
+> the call to pm_runtime_get_sync() if not in this s_power op ?
+
+Basically the runtime_resume and runtime_suspend callbacks are where the
+device power state changes are implemented, and pm_runtime_get_sync and
+pm_runtime_put are how the driver controls the power state.
+
+So you no longer need the s_power() op at all. The op needs to be called on
+the pipeline however, as there are drivers that still use it.
+
+> 
+> >> +		if (ret < 0)
+> >> +			return ret;
+> >> +
+> >> +		rkisp1_config_clk(isp_dev);
+> >> +	} else {
+> >> +		ret = pm_runtime_put(isp_dev->dev);
+> >> +		if (ret < 0)
+> >> +			return ret;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int rkisp1_subdev_link_validate(struct media_link *link)
+> >> +{
+> >> +	if (link->source->index == RKISP1_ISP_PAD_SINK_PARAMS)
+> > 
+> > Is this test correct? The source is the source end of the link, i.e. the
+> > video node.
+> 
+> Ah yes, it should be link->sink->index (and not source), thanks for spotting this.
+> 
+> > 
+> > How about the links that end in a video node?
+> 
+> I thought that the only possibilities were sensor->isp1 and params->isp1 (where params
+> is an output video node that should be catched by the corrected version of the if
+> statement above.
+> 
+> Or do you mean another thing?
+
+The link_validate of the sink entity will be called only, for the knowledge
+what is possible is generally in that end.
+
+So you'll need this for all the sink pads this driver is in control of.
+I suppose this means the sub-devices as well as capture video nodes in
+practice.
+
+> 
+> > 
+> >> +		return 0;
+> >> +
+> >> +	return v4l2_subdev_link_validate(link);
+> >> +}
+> >> +
+> >> +static int rkisp1_subdev_fmt_link_validate(struct v4l2_subdev *sd,
+> >> +					struct media_link *link,
+> >> +					struct v4l2_subdev_format *source_fmt,
+> >> +					struct v4l2_subdev_format *sink_fmt)
+> >> +{
+> >> +	if (source_fmt->format.code != sink_fmt->format.code)
+> >> +		return -EINVAL;
+> 
+> ops, should be -EPIPE
+> 
+> >> +
+> >> +	/* Crop is available */
+> >> +	if (source_fmt->format.width < sink_fmt->format.width ||
+> >> +	    source_fmt->format.height < sink_fmt->format.height)
+> >> +		return -EINVAL;
+> 
+> -EPIPE
+> 
+> >> +
+> > 
+> > Could you use v4l2_subdev_link_validate_default()?
+> 
+> v4l2_subdev_link_validate_default() only allows for an exact width/height match,
+> but here we allow the sink to be smaller then the source for cropping, no?
+
+The width and height generally must match over a link. But cropping takes
+place inside a sub-device, it is not a concern in link validation as such.
+
+> 
+> Thanks again for your review!
+
+You're welcome!
+
+-- 
+Kind regards,
+
+Sakari Ailus
+sakari.ailus@linux.intel.com
