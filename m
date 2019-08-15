@@ -2,99 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E93688EEF3
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78AC18EED9
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 17:00:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732132AbfHOPAK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 11:00:10 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35723 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728500AbfHOPAJ (ORCPT
+        id S1733209AbfHOPAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 11:00:11 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39376 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730788AbfHOPAK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:00:09 -0400
-Received: by mail-wm1-f66.google.com with SMTP id l2so1515973wmg.0;
-        Thu, 15 Aug 2019 08:00:08 -0700 (PDT)
+        Thu, 15 Aug 2019 11:00:10 -0400
+Received: by mail-wr1-f67.google.com with SMTP id t16so2485933wra.6;
+        Thu, 15 Aug 2019 08:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=AT6SBdTWCfB14GGqz8HhPxiAnTof/RZXopdQCtNlMj0=;
-        b=ApNJyRL/CtWMWEcvsfuxy75j5hDH3+3l3U/kUEtfatsU2jCDnFU0JrjJhQqztHEyVX
-         ZBf+AF8sureX3Rn0e6llWGEb5Nd6DZ1S5rN3LdSFztPdlulQkx0Lvr4xt/On6LZN60g/
-         tiBWi6Vs3fymYZyyA76bcOH1RIdfjS+S0VceNFjXR0FIMDgOeqH5SBRuedUGtxsYFdmI
-         lZqn5nWsMkiBDsaz072rwM1j3ceP7ouFgT6SuUwUEWhLSFwaeUtxW2E/lUuVTkk1TD27
-         OAJuq6bM5OmdSyfB94TnVHqniYn3/IcSH9tUobrC7q/G6555+iHmDszSluR5cddEmtpa
-         Pg+g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=udYciyXbqm5Zne+hkQd3wevHbOZso+c2f+w2KUkviok=;
+        b=tF/RvXrRGyZVXFhyXBViXUyPZifX4vI2qn4i/TvKWRBMAdcJCExWMgR1OaBGojbN9i
+         wXFVr9QLa/hGagYdgKSrN2xmTctv09D6Mya/rQe4997mFhAlS/o8kvI11i+0iNCv8eOZ
+         SUaQ+UrwzL+ORo0NANbYJpy1Tgf2w34vfhmkpyd7+fnZky2aT20ymdWLVkTH8iX+tgvl
+         chK2ilTSznAUICxtVzo3Lx1pwI2G2yej3TZeJIpFAAAvBzzFRB4yvPvo/FehXJSWr6s5
+         bTttKl6xqxlKW3QbyngM2Tt72xP6/3J0iWMmniyOZ6xlHhgx/JwofCueWgjeEvAjVNHK
+         2q2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=AT6SBdTWCfB14GGqz8HhPxiAnTof/RZXopdQCtNlMj0=;
-        b=TU2cVBghejT3dqzWFQ/ZqYFumypDked6DXqbj6sIhui3ErewqQEejGFiml18h4AFob
-         1DNXXHBhgCiftOTFiz1cRRwVAEey77si0gNkVdRg7OAlJtp32klXjldcvt9utuZva43W
-         JFwMYa4d4mq2R0Yevfa/oc8GLlMruPHC8moOYbLi4n2Vi711jMkjCGnNfwn5mRNVkT6u
-         SvI3/2q2WO9tUzWKtkdQKdENaZ0csFd9+pcMr1n4g6/grJbu6lXJ/iUKdW3x7t4o/tU9
-         H9HtMrajsBV8Od3TDZeUWDgyRoVLrhx0hfP9iZBzSg9cp47d2b3b6/0ol/vB5zCmQSnQ
-         cdXg==
-X-Gm-Message-State: APjAAAXo0cGdeVAidiAT7kqBtygL6LadVSlHmeHhRu4jv4wR6t8mqJyT
-        FuhyRfrqMFMbIKwFeG2voYc=
-X-Google-Smtp-Source: APXvYqwpWvZ1WlKqFH37YuDJYaoQiQ/o/sdZdjkNO2n8K67kXq9JE4ht1IQu4MKhy1WxTgZ5nbaVRw==
-X-Received: by 2002:a1c:ed06:: with SMTP id l6mr3077053wmh.128.1565881206601;
-        Thu, 15 Aug 2019 08:00:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=udYciyXbqm5Zne+hkQd3wevHbOZso+c2f+w2KUkviok=;
+        b=ASny+ZhAjqFBkyUkmV+md+wnFYfKOymz2ZvSfdYmQPWpnGRwS3L5hV5XGl2DpKAANW
+         gQErzazAkcaklc5gjESnmxc3fmxhyjFk9j0HnIf2kNe554vmc7M2GAT4h0DLy8b22prj
+         tdzAzijygZ9R+5kOk5BGI1Gtf54TYQcvNFOWJXNb9858Gy6SvfPmMDhjTUSvUHxW/318
+         6owfH3dfJ6394Drc0HwTJ5dgSNtRbrJxc/8yGz5CbEwYgusQVwrzndRt52rTI1rMrsmb
+         77iSnkCPsp0z6DOCeQQx85oSV/Q8OyrsH2G9ysoS6WsNtJzO0+fSGSpV+cXPbSvktPe8
+         fJVQ==
+X-Gm-Message-State: APjAAAVR5K4hqnVfIoqk8nfTSyTLiM0cXCr0dYFR4Q9aj2onBp971HCT
+        5yn9aiM0fZnfdkVl0Fo+V/Y=
+X-Google-Smtp-Source: APXvYqxruAOlO5/y1WGq3s4qRP6NlewaY1UXLrG2M+b7keWLT53iyPJucJS1AT3PXkyFMHMdr92sTQ==
+X-Received: by 2002:a5d:470c:: with SMTP id y12mr5933559wrq.136.1565881208899;
+        Thu, 15 Aug 2019 08:00:08 -0700 (PDT)
 Received: from localhost.localdomain ([94.204.252.234])
-        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.04
+        by smtp.gmail.com with ESMTPSA id e4sm5041054wrh.39.2019.08.15.08.00.06
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 15 Aug 2019 08:00:05 -0700 (PDT)
+        Thu, 15 Aug 2019 08:00:08 -0700 (PDT)
 From:   Christian Hewitt <christianshewitt@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Benjamin Valentin <benpicco@googlemail.com>,
         Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
 Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH 0/7] media: rc: Add keymaps for common STB/SBC devices
-Date:   Thu, 15 Aug 2019 18:59:10 +0400
-Message-Id: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
+Subject: [PATCH 1/7] media: rc: add keymap for Amediatech X96-MAX remote
+Date:   Thu, 15 Aug 2019 18:59:11 +0400
+Message-Id: <1565881157-14644-2-git-send-email-christianshewitt@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
+References: <1565881157-14644-1-git-send-email-christianshewitt@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series submits keymaps for a number of Android STB/SBC devices that
-are regularly used with the Kodi mediacentre distro LibreELEC.
+The X96-Max Android STB ships with a simple NEC remote. It includes
+a TV section with preset buttons for controlling a TV. These are not
+configurable, but are noted to aid visual recognition of the device.
 
-Keymaps list buttons in rows, top-down, to aid visual comparison against
-devices. It's common for users of other no-name Android boxes to try a
-number of keymaps trying to find one that works and this reduces some of
-the guesswork. If the assigned key differs from the marked key, e.g.
-where Android 'mouse' buttons have been given a more useful purpose, the
-keymap has been commented.
-
-Christian Hewitt (7):
-  media: rc: add keymap for Amediatech X96-MAX remote
-  media: rc: add keymap for Khadas VIM/EDGE remote
-  media: rc: add keymap for Tanix TX3 mini remote
-  media: rc: add keymap for Tanix TX5 max remote
-  media: rc: add keymap for WeTek Hub remote
-  media: rc: add keymap for WeTeK Play 2 remote
-  media: rc: add keymap for HardKernel ODROID remote
-
- drivers/media/rc/keymaps/Makefile           |  7 +++
- drivers/media/rc/keymaps/rc-khadas.c        | 56 +++++++++++++++++
- drivers/media/rc/keymaps/rc-odroid.c        | 51 ++++++++++++++++
- drivers/media/rc/keymaps/rc-tanix-tx3mini.c | 79 ++++++++++++++++++++++++
- drivers/media/rc/keymaps/rc-tanix-tx5max.c  | 71 +++++++++++++++++++++
- drivers/media/rc/keymaps/rc-wetek-hub.c     | 55 +++++++++++++++++
- drivers/media/rc/keymaps/rc-wetek-play2.c   | 95 +++++++++++++++++++++++++++++
- drivers/media/rc/keymaps/rc-x96max.c        | 85 ++++++++++++++++++++++++++
- include/media/rc-map.h                      |  7 +++
- 9 files changed, 506 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-khadas.c
- create mode 100644 drivers/media/rc/keymaps/rc-odroid.c
- create mode 100644 drivers/media/rc/keymaps/rc-tanix-tx3mini.c
- create mode 100644 drivers/media/rc/keymaps/rc-tanix-tx5max.c
- create mode 100644 drivers/media/rc/keymaps/rc-wetek-hub.c
- create mode 100644 drivers/media/rc/keymaps/rc-wetek-play2.c
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ drivers/media/rc/keymaps/Makefile    |  1 +
+ drivers/media/rc/keymaps/rc-x96max.c | 85 ++++++++++++++++++++++++++++++++++++
+ include/media/rc-map.h               |  1 +
+ 3 files changed, 87 insertions(+)
  create mode 100644 drivers/media/rc/keymaps/rc-x96max.c
 
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 5b1399a..b88c4e7 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -117,4 +117,5 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-winfast-usbii-deluxe.o \
+ 			rc-su3000.o \
+ 			rc-xbox-dvd.o \
++			rc-x96max.o \
+ 			rc-zx-irdec.o
+diff --git a/drivers/media/rc/keymaps/rc-x96max.c b/drivers/media/rc/keymaps/rc-x96max.c
+new file mode 100644
+index 0000000..d947e46
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-x96max.c
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// Copyright (C) 2019 Christian Hewitt <christianshewitt@gmail.com>
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++//
++// Keytable for the X96-max STB remote control
++//
++
++static struct rc_map_table x96max[] = {
++
++	{ 0x140, KEY_POWER },
++
++	// ** TV CONTROL **
++	// SET
++	// AV/TV
++	// POWER
++	// VOLUME UP
++	// VOLUME DOWN
++
++	{ 0x118, KEY_VOLUMEUP },
++	{ 0x110, KEY_VOLUMEDOWN },
++
++	{ 0x143, KEY_MUTE }, // config
++
++	{ 0x100, KEY_EPG }, // mouse
++	{ 0x119, KEY_BACK },
++
++	{ 0x116, KEY_UP },
++	{ 0x151, KEY_LEFT },
++	{ 0x150, KEY_RIGHT },
++	{ 0x11a, KEY_DOWN },
++	{ 0x113, KEY_OK },
++
++	{ 0x111, KEY_HOME },
++	{ 0x14c, KEY_CONTEXT_MENU },
++
++	{ 0x159, KEY_PREVIOUS },
++	{ 0x15a, KEY_PLAYPAUSE },
++	{ 0x158, KEY_NEXT },
++
++	{ 0x147, KEY_MENU }, // @ key
++	{ 0x101, KEY_NUMERIC_0 },
++	{ 0x142, KEY_BACKSPACE },
++
++	{ 0x14e, KEY_NUMERIC_1 },
++	{ 0x10d, KEY_NUMERIC_2 },
++	{ 0x10c, KEY_NUMERIC_3 },
++
++	{ 0x14a, KEY_NUMERIC_4 },
++	{ 0x109, KEY_NUMERIC_5 },
++	{ 0x108, KEY_NUMERIC_6 },
++
++	{ 0x146, KEY_NUMERIC_7 },
++	{ 0x105, KEY_NUMERIC_8 },
++	{ 0x104, KEY_NUMERIC_9 },
++
++};
++
++static struct rc_map_list x96max_map = {
++	.map = {
++		.scan     = x96max,
++		.size     = ARRAY_SIZE(x96max),
++		.rc_proto = RC_PROTO_NEC,
++		.name     = RC_MAP_X96MAX,
++	}
++};
++
++static int __init init_rc_map_x96max(void)
++{
++	return rc_map_register(&x96max_map);
++}
++
++static void __exit exit_rc_map_x96max(void)
++{
++	rc_map_unregister(&x96max_map);
++}
++
++module_init(init_rc_map_x96max)
++module_exit(exit_rc_map_x96max)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index bebd3c4..1f61cb07 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -284,6 +284,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_WINFAST_USBII_DELUXE      "rc-winfast-usbii-deluxe"
+ #define RC_MAP_SU3000                    "rc-su3000"
+ #define RC_MAP_XBOX_DVD                  "rc-xbox-dvd"
++#define RC_MAP_X96MAX                    "rc-x96max"
+ #define RC_MAP_ZX_IRDEC                  "rc-zx-irdec"
+ 
+ /*
 -- 
 2.7.4
 
