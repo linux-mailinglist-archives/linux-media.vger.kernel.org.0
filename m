@@ -2,92 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B29DA8ED7D
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41F758ED91
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 16:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732648AbfHON4t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 09:56:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46176 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732589AbfHON4s (ORCPT
+        id S1732651AbfHOOAj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 10:00:39 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:43583 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731849AbfHOOAj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:56:48 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92D862AF;
-        Thu, 15 Aug 2019 15:56:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565877406;
-        bh=+znBB1qxlpkl1VQ3xwg9po9anFFiiOOPe/FD9geVKKY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L2Def8pd2B7+o7xJuCGOdegyMwnBrfp4zslYsGWuPvZyEykkt1EtWe0HMw4mcvmr5
-         uQtmj56sGIVUJjm/jUWSkijYOFuT+J56bkA1uNWCxWD+6BIaoSVu+WVXOFtnQMajsf
-         34jNMFPWS2jHgykQ7h4O1gUcah/ltNPuxGDlChX8=
-Date:   Thu, 15 Aug 2019 16:56:43 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
-        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
-        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, hans.verkuil@cisco.com,
-        sakari.ailus@linux.intel.com, kernel@collabora.com,
-        ezequiel@collabora.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com
-Subject: Re: [PATCH v8 14/14] MAINTAINERS: add entry for Rockchip ISP1 driver
-Message-ID: <20190815135643.GV5011@pendragon.ideasonboard.com>
-References: <20190730184256.30338-1-helen.koike@collabora.com>
- <20190730184256.30338-15-helen.koike@collabora.com>
+        Thu, 15 Aug 2019 10:00:39 -0400
+Received: from uno.localdomain (host64-130-dynamic.5-87-r.retail.telecomitalia.it [87.5.130.64])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 3D899240006;
+        Thu, 15 Aug 2019 14:00:35 +0000 (UTC)
+Date:   Thu, 15 Aug 2019 16:02:01 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
+Message-ID: <20190815140201.esdcv4vl7hdzkk4h@uno.localdomain>
+References: <20190814202815.32491-1-jacopo@jmondi.org>
+ <20190814202815.32491-3-jacopo@jmondi.org>
+ <02b40da5-c30c-f1f3-2351-c04da932e94a@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uzp5e4rqcbnkjq7e"
 Content-Disposition: inline
-In-Reply-To: <20190730184256.30338-15-helen.koike@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <02b40da5-c30c-f1f3-2351-c04da932e94a@xs4all.nl>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
 
-Thank you for the patch.
+--uzp5e4rqcbnkjq7e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tue, Jul 30, 2019 at 03:42:56PM -0300, Helen Koike wrote:
-> Add MAINTAINERS entry for the rockchip isp1 driver.
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> 
-> Changes in v8: None
-> Changes in v7: None
-> 
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6426db5198f0..7f38abcb4114 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13743,6 +13743,14 @@ F:	drivers/hid/hid-roccat*
->  F:	include/linux/hid-roccat*
->  F:	Documentation/ABI/*/sysfs-driver-hid-roccat*
->  
-> +ROCKCHIP ISP V1 DRIVER
-> +M:	Helen Koike <helen.koike@collabora.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/media/platform/rockchip/isp1/
-> +F:	Documentation/devicetree/bindings/media/rockchip-isp1.txt
-> +F:	Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
+Hi Hans,
 
-This is missing the include/ files and the custom format documentation.
-Apart from that, I'm happy to see that you will maintain this driver :-)
+On Thu, Aug 15, 2019 at 03:30:59PM +0200, Hans Verkuil wrote:
+> On 8/14/19 10:28 PM, Jacopo Mondi wrote:
+> > Add documentation for the V4L2_CID_LOCATION camera control. The newly
+> > added read-only control reports the camera device mounting position.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 23 +++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > index 51c1d5c9eb00..fc0a02eee6d4 100644
+> > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > @@ -510,6 +510,29 @@ enum v4l2_scene_mode -
+> >      value down. A value of zero stops the motion if one is in progress
+> >      and has no effect otherwise.
+> >
+> > +``V4L2_CID_LOCATION (integer)``
+> > +    This read-only control describes the camera location by reporting its
+> > +    mounting position on the device where the camera is installed. This
+> > +    control is particularly meaningful for devices which have a well defined
+> > +    orientation, such as phones, laptops and portable devices as the camera
+> > +    location is expressed as a position relative to the device intended
+> > +    usage position. In example, a camera installed on the user-facing side
+> > +    of a phone device is said to be installed in the ``V4L2_LOCATION_FRONT``
+> > +    position.
+>
+> When should this control be created? If there is only one location (e.g.
+> all sensors are front-facing) would you still expose this? Or does it depend
+> on the type of device?
 
-> +
->  ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
->  M:	Jacob chen <jacob2.chen@rock-chips.com>
->  L:	linux-media@vger.kernel.org
+If it's meaningful for the device, the location might be reported even
+if there's only a single camera in the system.
 
--- 
-Regards,
+>
+> And is the sensor in a digital camera front or back facing? (Just curious
+> about what you think about that situation!)
 
-Laurent Pinchart
+I would say it really depends on the device type. For a digital camera
+like a webcam, defining what's front or back doesn't add much value.
+Wherever the camera sensor is oriented to, that's the front :)
+
+The same way, image sensor connected through long cables to the
+remotely located base board (I'm thinking about cameras installed in
+cars and connected by coax cables) will hardly have a position
+defined in the mainline board DTS file, but if someone would like to add
+"rearview-mirror" to the list of position and use them in their DTS
+for whatever reason, this control gives a way to retrieve the
+information easily.
+
+I tried to convey this mentioning the "intended usage orientation" of
+the device, to give the idea that the position is totally dependent
+on the nature of the device the sensor is installed on. As said, it's
+easy to define what "front" is for a smartphone, not so easy for a
+camera in a car. But I would not tie themselves to device specific
+detail, but instead focus on providing a meachanism to make easy to
+expose them. In mainline, we could start with very simple "back" and
+"front" position, and then grow them when the need arises.
+
+>
+> Regards,
+>
+> 	Hans
+>
+> > +
+> > +
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +
+> > +    * - ``V4L2_LOCATION_FRONT``
+> > +      - The camera device is located on the front side of the device.
+> > +    * - ``V4L2_LOCATION_BACK``
+> > +      - The camera device is located on the back side of the device.
+> > +
+> > +
+> > +
+> >  .. [#f1]
+> >     This control may be changed to a menu control in the future, if more
+> >     options are required.
+> > --
+> > 2.22.0
+> >
+>
+
+--uzp5e4rqcbnkjq7e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1VZdkACgkQcjQGjxah
+Vjx/cBAAmPTWGBuNkSQyn422PSU5Bf0ufZEr+U7lD8rZCAsJY3FEThUOBW0pBq+B
+mmGWE8xvb1tISDHzLVcIVkMGhcgCbjemhlnBD1BnxHa1rDNxrPSWbPfIwv0md6+C
+ViFmYLPzKudBdj7w6ya67gWm3Sct+rxyZpZp3TVtIiGSXrs9k4EDEMlgujitgJcY
+WDBRZuvNZlMxq/TuY/8CBUEZmFeE1Lboq5aVUBzXPCvx36z/0RASEcdWtM3JLF2v
+vGdckQJ5Ropx+cAun3/vERxsnNp3WAlVBvj5PayF6mX0UrWSAOEIrJQUooaf7SF5
+0j7YjXm+pdmYELnAq2DOoEbpuVJFyeQItSlN8UzQJ3eBJl4rjhbPiN9h3yW5jODi
+mJ69XvzRwIEZthbZCpvjrZKtT8uf7hN76Oi49enXhQVqkvRQWktBXcsOK38zuQ5B
+keVlk6A7/bd605t87GDeTm3IGffBTYRQ5U7/Q/kAM+gF67R+YWZ4MwN1TRSvnwUl
+98JA2df7dEZYczm0NQyTHwnL6fQMN6pUj6o8O6l3cGuwHzD53W/fJQsoglgzpd4r
+AZTw+tqQKOlfC9I32ECl7B69W4BIK7YcatHENcO/Z7+9wmkZz46qM7+bDv8F4jdw
+roy+kyFkRc/LJuaj0MRDzQMDXY3oFLcjLTdV/MuQUOQu6OBt0mk=
+=y+sZ
+-----END PGP SIGNATURE-----
+
+--uzp5e4rqcbnkjq7e--
