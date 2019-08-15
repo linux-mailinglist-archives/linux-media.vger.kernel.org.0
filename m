@@ -2,141 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7900A8EC42
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3240D8EC51
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 15:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732080AbfHONDQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 09:03:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45322 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732076AbfHONDP (ORCPT
+        id S1732059AbfHONEp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 09:04:45 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:34699 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732036AbfHONEp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:03:15 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55AA12AF;
-        Thu, 15 Aug 2019 15:03:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565874193;
-        bh=5kdzof/vbFVXEsZX5go+Xlos33NleJK7CfeEo53EzTU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R799dJ+JqQmmT5akgmFfM05oqvVBT6ic2faHRm4xg/RgLGr6n+aWwJIqfqRYD/0MB
-         SQ8ZyWWjSFOuY8GwthRlxhQDC9OZdw0L285J7mdPl4Z/mKACojXjjKIGNzjxAcbj2h
-         yZjOedFP4E1omxAjchSpCuhIm2v++3AFenMIo3xw=
-Date:   Thu, 15 Aug 2019 16:03:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 3/5] media: v4l2-ctrls: Add support for V4L2_CID_LOCATION
-Message-ID: <20190815130310.GK13823@pendragon.ideasonboard.com>
-References: <20190814202815.32491-1-jacopo@jmondi.org>
- <20190814202815.32491-4-jacopo@jmondi.org>
- <20190814225353.GE5015@pendragon.ideasonboard.com>
- <20190815130245.usat55oqffe4abvi@uno.localdomain>
+        Thu, 15 Aug 2019 09:04:45 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hyFQk-0004Vh-4M; Thu, 15 Aug 2019 15:04:38 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hyFQj-0002rp-Hv; Thu, 15 Aug 2019 15:04:37 +0200
+Date:   Thu, 15 Aug 2019 15:04:37 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v6 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
+Message-ID: <20190815130437.fmmq6a7aw4fauqkh@pengutronix.de>
+References: <20190415124413.18456-1-m.felsch@pengutronix.de>
+ <20190415124413.18456-3-m.felsch@pengutronix.de>
+ <20190516163632.GO14820@pendragon.ideasonboard.com>
+ <20190809075536.pukp444dmb7haoxj@pengutronix.de>
+ <20190815123810.GC13823@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190815130245.usat55oqffe4abvi@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190815123810.GC13823@pendragon.ideasonboard.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:51:02 up 89 days, 19:09, 59 users,  load average: 0.08, 0.05,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 03:02:45PM +0200, Jacopo Mondi wrote:
-> Hi Laurent,
-> 
-> On Thu, Aug 15, 2019 at 01:53:53AM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Aug 14, 2019 at 10:28:13PM +0200, Jacopo Mondi wrote:
-> > > Add support for the newly defined V4L2_CID_LOCATION read-only control
-> > > used to report the camera device mounting position.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
-> > >  include/uapi/linux/v4l2-controls.h   | 4 ++++
-> > >  2 files changed, 11 insertions(+)
-> > >
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > index 7d3a33258748..8ab0857df59a 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > @@ -943,6 +943,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > >  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
-> > >  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
-> > >  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-> > > +	case V4L2_CID_LOCATION:			return "Location";
-> >
-> > Depending on what we decide to name the control (see review of 2/5), you
-> > should adjust the description accordingly.
-> >
-> > >
-> > >  	/* FM Radio Modulator controls */
-> > >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> > > @@ -1300,6 +1301,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> > >  		break;
-> > >  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
-> > >  		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
-> > > +	case V4L2_CID_LOCATION:
-> > > +		*type = V4L2_CTRL_TYPE_INTEGER;
-> > > +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +		*min = V4L2_LOCATION_FRONT;
-> > > +		*max = V4L2_LOCATION_BACK;
-> >
-> > I don't think the control should have a min and a max different than the
-> > current value, as it's a fully static control. I'd drop those two lines
-> > here, and drivers will have to set value = min = max = V4L2_LOCATION_xxx
-> > when creating the control. That why you should be able to collapse this
-> > with V4L2_CID_MIN_BUFFERS_FOR_OUTPUT.
-> >
-> 
-> Ah, I thought min/max should report the actual control values limits.
-> Anyway, if we move this to be an integer menu control with an helper
-> to parse the DT property and register the control on behalf of
-> drivers, this will change.
-> 
-> > > +		*step = 1;
-> > >  		break;
-> > >  	default:
-> > >  		*type = V4L2_CTRL_TYPE_INTEGER;
-> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > > index 37807f23231e..5c4c7b245921 100644
-> > > --- a/include/uapi/linux/v4l2-controls.h
-> > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > @@ -889,6 +889,10 @@ enum v4l2_auto_focus_range {
-> > >  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
-> > >  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
-> > >
-> > > +#define V4L2_CID_LOCATION			(V4L2_CID_CAMERA_CLASS_BASE+34)
-> > > +#define V4L2_LOCATION_FRONT			(0 << 0)
-> > > +#define V4L2_LOCATION_BACK			(1 << 0)
-> >
-> > Why not just 0 and 1 ?
-> 
-> Or why not BIT().
+Hi Laurent,
 
-No, BIT(0) == (0 << 0) but BIT(1) != (1 << 0).
+On 19-08-15 15:38, Laurent Pinchart wrote:
+> Hi Marco,
+> 
+> On Fri, Aug 09, 2019 at 09:55:36AM +0200, Marco Felsch wrote:
+> > On 19-05-16 19:36, Laurent Pinchart wrote:
+> > > On Mon, Apr 15, 2019 at 02:44:02PM +0200, Marco Felsch wrote:
+> > > > Currently every driver needs to parse the connector endpoints by it self.
+> > > 
+> > > s/it self/itself/
+> > > 
+> > > > This is the initial work to make this generic. The generic connector has
+> > > > some common fields and some connector specific parts. The generic one
+> > > > includes:
+> > > >   - type
+> > > >   - label
+> > > >   - remote_port (the port where the connector is connected to)
+> > > >   - remote_id   (the endpoint where the connector is connected to)
+> > > 
+> > > This assumes a single connection between a connector and a remote port,
+> > > and a single port on the connector side. Is this guaranteed ? For the
+> > > mini-DIN-4 connectors (often used for S-Video) for instance, I recall
+> > > from the extensive discussions we had in the past that they should be
+> > > modeled with two pins, one for the Y component and one for C components.
+> > > The rationale for this is to support systems where such a connector
+> > > could be used to carry S-Video, but also two composite video signals
+> > > (usually through an external adapter from 2 RCA female connectors to one
+> > > S-Video male connector) that would be routed to two separate video
+> > > decoders (or two different inputs of the same video decoder). Other
+> > > topologies may be possible too.
+> > 
+> > I got your concerns and I also remember the tvp5150 port bindings
+> > myself in the past. Do you know how often such a setup you described
+> > above happens these days? I would rather add more documentation to the
+> > bindings [1] and add a check to v4l2_fwnode_parse_connector() to
+> > guarantee that one port has only one endpoint. Because I don't think
+> > that analog connectors has a bright future these days.
+> > 
+> > [1] Documentation/devicetree/bindings/display/connector/ \
+> >     analog-tv-connector.txt
+> 
+> I have seen it on older hardware, I don't know about more recent
+> systems. For the S-Video case at least, you need to support two DT
+> ports, even if you don't support connecting them to two different
+> devices yet.
 
-> I saw that the (1 << x) style is the mostly used one in this header
-> file when defining macros like this one so I went for consistency with
-> the existing code.
+Can you take a look on the v7 I send a few minutes ago? I changed the
+layout ;)
 
-That's when you need a bitmask, which isn't the case here.
+> In any case, I'm fine if those topologies are not supported yet, but it
+> should be possible to support them in a backward-compatible way. In
+> particular, in this case, we should make sure the DT bindings will allow
+> such topologies, and the DT parsing API should make it possible to
+> support them without fugure changes to drivers that use the API from
+> this patch for "simple" topologies.
 
-> > > +
-> > >  /* FM Modulator class control IDs */
-> > >
-> > >  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+You're right. I adapted the struct to be more extendible.
+
+Regards,
+  Marco
+
+> 
+> > > > The specific fields are within a union, since only one of them can be
+> > > > available at the time. Since this is the initial support the patch adds
+> > > > only the analog-connector specific ones.
+> > > > 
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > > [1] https://patchwork.kernel.org/cover/10794703/
+> > > > 
+> > > > v6:
+> > > > - fix some spelling and style issues
+> > > > - rm unnecessary comments
+> > > > - drop vga and dvi connector
+> > > > 
+> > > > v2-v4:
+> > > > - nothing since the patch was squashed from series [1] into this
+> > > >   series.
+> > > > 
+> > > >  include/media/v4l2-connector.h | 30 ++++++++++++++++++++++++++++++
+> > > >  include/media/v4l2-fwnode.h    | 33 +++++++++++++++++++++++++++++++++
+> > > >  2 files changed, 63 insertions(+)
+> > > >  create mode 100644 include/media/v4l2-connector.h
+> > > > 
+> > > > diff --git a/include/media/v4l2-connector.h b/include/media/v4l2-connector.h
+> > > > new file mode 100644
+> > > > index 000000000000..3a951c54f50e
+> > > > --- /dev/null
+> > > > +++ b/include/media/v4l2-connector.h
+> > > > @@ -0,0 +1,30 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > > +/*
+> > > > + * v4l2-connector.h
+> > > > + *
+> > > > + * V4L2 connector types.
+> > > > + *
+> > > > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
+> > > > + */
+> > > > +
+> > > > +#ifndef V4L2_CONNECTOR_H
+> > > > +#define V4L2_CONNECTOR_H
+> > > > +
+> > > > +#define V4L2_CONNECTOR_MAX_LABEL 41
+> > > 
+> > > Hans pointed out this was a weird number. Should you turn the label
+> > > field into a pointer to make this more generic (with a
+> > > v4l2_fwnode_connector_cleanup() function then) ?
+> > 
+> > Yes, that would be the better approach. I will change that.
+> > 
+> > > > +
+> > > > +/**
+> > > > + * enum v4l2_connector_type - connector type
+> > > > + * @V4L2_CON_UNKNOWN:   unknown connector type, no V4L2 connetor configuration
+> > > > + * @V4L2_CON_COMPOSITE: analog composite connector
+> > > > + * @V4L2_CON_SVIDEO:    analog svideo connector
+> > > > + * @V4L2_CON_HDMI:      digital hdmi connector
+> > > > + */
+> > > > +enum v4l2_connector_type {
+> > > > +	V4L2_CON_UNKNOWN,
+> > > > +	V4L2_CON_COMPOSITE,
+> > > > +	V4L2_CON_SVIDEO,
+> > > > +	V4L2_CON_HDMI,
+> > > > +};
+> > > > +
+> > > > +#endif /* V4L2_CONNECTOR_H */
+> > > > +
+> > > > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > > > index 6c07825e18b9..f4df1b95c5ef 100644
+> > > > --- a/include/media/v4l2-fwnode.h
+> > > > +++ b/include/media/v4l2-fwnode.h
+> > > > @@ -22,6 +22,7 @@
+> > > >  #include <linux/list.h>
+> > > >  #include <linux/types.h>
+> > > >  
+> > > > +#include <media/v4l2-connector.h>
+> > > >  #include <media/v4l2-mediabus.h>
+> > > >  #include <media/v4l2-subdev.h>
+> > > >  
+> > > > @@ -126,6 +127,38 @@ struct v4l2_fwnode_link {
+> > > >  	unsigned int remote_port;
+> > > >  };
+> > > >  
+> > > > +/**
+> > > > + * struct v4l2_fwnode_connector_analog - analog connector data structure
+> > > > + * @supported_tvnorms: tv norms this connector supports, set to V4L2_STD_ALL
+> > > > + *                     if no restrictions are specified.
+> > > > + */
+> > > > +struct v4l2_fwnode_connector_analog {
+> > > > +	v4l2_std_id supported_tvnorms;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct v4l2_fwnode_connector - the connector data structure
+> > > > + * @remote_port: identifier of the remote endpoint port the connector connects
+> > > > + *		 to
+> > > > + * @remote_id: identifier of the remote endpoint the connector connects to
+> > > > + * @label: connetor label
+> > > > + * @type: connector type
+> > > > + * @connector: connector configuration
+> > > > + * @connector.analog: analog connector configuration
+> > > > + *                    &struct v4l2_fwnode_connector_analog
+> > > > + */
+> > > > +struct v4l2_fwnode_connector {
+> > > > +	unsigned int remote_port;
+> > > > +	unsigned int remote_id;
+> > > > +	char label[V4L2_CONNECTOR_MAX_LABEL];
+> > > > +	enum v4l2_connector_type type;
+> > > > +
+> > > > +	union {
+> > > > +		struct v4l2_fwnode_connector_analog analog;
+> > > > +		/* future connectors */
+> > > > +	} connector;
+> > > > +};
+> > > > +
+> > > >  /**
+> > > >   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
+> > > >   * @fwnode: pointer to the endpoint's fwnode handle
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
