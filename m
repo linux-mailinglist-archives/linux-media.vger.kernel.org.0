@@ -2,201 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E518F8F4B5
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 21:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68F68F4E4
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2019 21:42:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732181AbfHOTfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 15:35:19 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52226 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729366AbfHOTfS (ORCPT
+        id S1733019AbfHOTmR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 15:42:17 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:43643 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729900AbfHOTmQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 15:35:18 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FAFD2AF;
-        Thu, 15 Aug 2019 21:35:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565897716;
-        bh=hgOit6ttnomZUv28t6H5r8upAoxSvS9rboVdpEGq0Jk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mELDJQmSP3PP8LuNiOgapqmZDvFUOnBQC8eQrWq20rixpYAYB4qgMHgeIYYkngGSL
-         pRuFvzbEGxX0Nx76MqMGH6GGgYnifYyKBzONuo9G0zb/48dskh2ytsvyq5K2wQ/heQ
-         BKbIROUJRXT5nzuSa5mYmjzy7V5b2EtEV7P1ab8w=
-Date:   Thu, 15 Aug 2019 22:35:11 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Helen Koike <helen.koike@collabora.com>, hans.verkuil@cisco.com,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
-        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
-        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, sakari.ailus@linux.intel.com,
-        kernel@collabora.com, ezequiel@collabora.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        zhengsq@rock-chips.com, Jacob Chen <cc@rock-chips.com>,
-        Allon Huang <allon.huang@rock-chips.com>
-Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
-Message-ID: <20190815193511.GB5011@pendragon.ideasonboard.com>
-References: <20190730184256.30338-1-helen.koike@collabora.com>
- <20190730184256.30338-6-helen.koike@collabora.com>
- <86e17716-193f-ca49-1104-9c599a667eeb@collabora.com>
- <f229a840-bcf3-50c8-27c6-363c72de1d01@xs4all.nl>
+        Thu, 15 Aug 2019 15:42:16 -0400
+Received: by mail-io1-f66.google.com with SMTP id 18so1528209ioe.10
+        for <linux-media@vger.kernel.org>; Thu, 15 Aug 2019 12:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fdeUDnIIJr/lvtRblubrloL6VFzDFPRgR9hA+XA26mE=;
+        b=SQMxZ8teg004ySCkI/0Zr6jFx3rY72qjetgxGNV/bEZoELYa5/+30wpuXr77cfhCEl
+         JcLIX9IUXhmVcvH6M9RjroqNsJ/EM5nzGzxtVrTqujcRhqhEL9/nhUB9OUvWkMXyhkzk
+         gQ1itkV8dIOKepCpqo5v8m/sQa/U+wJoQ/qyo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fdeUDnIIJr/lvtRblubrloL6VFzDFPRgR9hA+XA26mE=;
+        b=Xz1tNHWjMSu5eWoSo0EFwplibuTd28aLIu3TLN9WEm7OPL/9/lHF0EoHYzbR9dRy6/
+         FKaBevfXQtz5zQHSNAuo2ny2jE0UeTHQqDmOA4sdV2jMYpY3BXXcvUZaSTlofpKcjnIu
+         KuoP2t9uXlo6wEHKWSZmDFh7vZsNrj/p/mdRe43i4mmDH3DdUwfctwDbFYLXQnVx4H8u
+         nL+6akU1v8VbDQ73VIa2W6a7V0XxE0ymp/hq75PBDNI1znkxXUMhxlmTV1okIBWBNBWs
+         mqGTLCndAwaJIRw0DAoE0Lb1AaZnND3CV8g8u7seNg51+vq2wB5FLBslImYeDfR5P2l6
+         e9vQ==
+X-Gm-Message-State: APjAAAW/25Zg21QVSaTZqKxeuiOTaQ/wREebVt2jDj1yLMGAcbZqvazD
+        h0cijRL5coJk9bn24TTPrRDy9Q==
+X-Google-Smtp-Source: APXvYqzzg/kSWN+TWqTtlTte5KSl8bMafVmCGFeLnx9iyc4QBoyt7wQxlDMSXTaxIqVmv3AG12cPHg==
+X-Received: by 2002:a5d:860e:: with SMTP id f14mr7212001iol.242.1565898135816;
+        Thu, 15 Aug 2019 12:42:15 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id j16sm3624268iok.34.2019.08.15.12.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Aug 2019 12:42:15 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, andrealmeid@collabora.com
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 0/2] Collapse vimc into single monolithic driver
+Date:   Thu, 15 Aug 2019 13:42:11 -0600
+Message-Id: <cover.1565740213.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f229a840-bcf3-50c8-27c6-363c72de1d01@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+vimc uses Component API to split the driver into functional components.
+The real hardware resembles a monolith structure than component and
+component structure added a level of complexity making it hard to
+maintain without adding any real benefit.
 
-On Wed, Aug 07, 2019 at 12:39:17PM +0200, Hans Verkuil wrote:
-> On 8/6/19 8:51 PM, Helen Koike wrote:
-> > On 7/30/19 3:42 PM, Helen Koike wrote:
-> >> From: Jacob Chen <jacob2.chen@rock-chips.com>
-> >>
-> >> Add the subdev driver for rockchip isp1.
-> >>
-> >> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
-> >> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-> >> Signed-off-by: Yichong Zhong <zyc@rock-chips.com>
-> >> Signed-off-by: Jacob Chen <cc@rock-chips.com>
-> >> Signed-off-by: Eddie Cai <eddie.cai.linux@gmail.com>
-> >> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
-> >> Signed-off-by: Allon Huang <allon.huang@rock-chips.com>
-> >> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> >> [fixed unknown entity type / switched to PIXEL_RATE]
-> >> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> >> [update for upstream]
-> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >>
-> >> ---
-> >>
-> >> Changes in v8: None
-> >> Changes in v7:
-> >> - fixed warning because of unknown entity type
-> >> - fixed v4l2-compliance errors regarding rkisp1 formats, try formats
-> >> and default values
-> >> - fix typo riksp1/rkisp1
-> >> - redesign: remove mipi/csi subdevice, sensors connect directly to the
-> >> isp subdevice in the media topology now. As a consequence, remove the
-> >> hack in mipidphy_g_mbus_config() where information from the sensor was
-> >> being propagated through the topology.
-> >> - From the old dphy:
-> >>         * cache get_remote_sensor() in s_stream
-> >>         * use V4L2_CID_PIXEL_RATE instead of V4L2_CID_LINK_FREQ
-> >> - Replace stream state with a boolean
-> >> - code styling and checkpatch fixes
-> >> - fix stop_stream (return after calling stop, do not reenable the stream)
-> >> - fix rkisp1_isp_sd_get_selection when V4L2_SUBDEV_FORMAT_TRY is set
-> >> - fix get format in output (isp_sd->out_fmt.mbus_code was being ignored)
-> >> - s/intput/input
-> >> - remove #define sd_to_isp_sd(_sd), add a static inline as it will be
-> >> reused by the capture
-> >>
-> >>  drivers/media/platform/rockchip/isp1/rkisp1.c | 1286 +++++++++++++++++
-> >>  drivers/media/platform/rockchip/isp1/rkisp1.h |  111 ++
-> >>  2 files changed, 1397 insertions(+)
-> >>  create mode 100644 drivers/media/platform/rockchip/isp1/rkisp1.c
-> >>  create mode 100644 drivers/media/platform/rockchip/isp1/rkisp1.h
-> >>
-> >> diff --git a/drivers/media/platform/rockchip/isp1/rkisp1.c b/drivers/media/platform/rockchip/isp1/rkisp1.c
-> >> new file mode 100644
-> >> index 000000000000..6d0c0ffb5e03
-> >> --- /dev/null
-> >> +++ b/drivers/media/platform/rockchip/isp1/rkisp1.c
-> >> @@ -0,0 +1,1286 @@
-> 
-> <snip>
-> 
-> >> +static int rkisp1_isp_sd_get_fmt(struct v4l2_subdev *sd,
-> >> +				 struct v4l2_subdev_pad_config *cfg,
-> >> +				 struct v4l2_subdev_format *fmt)
-> >> +{
-> >> +	struct rkisp1_isp_subdev *isp_sd = sd_to_isp_sd(sd);
-> >> +	struct v4l2_mbus_framefmt *mf = &fmt->format;
-> >> +
-> >> +	if ((fmt->pad != RKISP1_ISP_PAD_SINK) &&
-> >> +	    (fmt->pad != RKISP1_ISP_PAD_SOURCE_PATH)) {
-> >> +		fmt->format.code = MEDIA_BUS_FMT_FIXED;
-> >> +		/*
-> >> +		 * NOTE: setting a format here doesn't make much sense
-> >> +		 * but v4l2-compliance complains
-> >> +		 */
-> >> +		fmt->format.width = RKISP1_DEFAULT_WIDTH;
-> >> +		fmt->format.height = RKISP1_DEFAULT_HEIGHT;
-> > 
-> > As I had mentioned to you, this is called for the isp pads connected to the
-> > DMA engines for statistics and parameters (meta data).
-> > 
-> > If I remove those, I get the following errors:
-> > 
-> > Sub-Device ioctls (Sink Pad 1):
-> >         test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> >                 fail: v4l2-test-subdevs.cpp(311): fmt.width == 0 || fmt.width > 65536
-> >                 fail: v4l2-test-subdevs.cpp(356): checkMBusFrameFmt(node, fmt.format)
-> >         test Try VIDIOC_SUBDEV_G/S_FMT: FAIL
-> >         test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-> >         test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> >                 fail: v4l2-test-subdevs.cpp(311): fmt.width == 0 || fmt.width > 65536
-> >                 fail: v4l2-test-subdevs.cpp(356): checkMBusFrameFmt(node, fmt.format)
-> >         test Active VIDIOC_SUBDEV_G/S_FMT: FAIL
-> >         test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
-> >         test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-> > 
-> > Here is the full log: http://ix.io/1QNt
-> > 
-> > Is this a bug in v4l2-compliance?
-> 
-> Yes and no :-)
-> 
-> Currently v4l2-compliance assumes that only video is transferred over a media bus.
-> But that's not the case here, and testing the code field doesn't help v4l2-compliance
-> since MEDIA_BUS_FMT_FIXED is also still used by some older subdev drivers for video.
-> 
-> I think we need a new bus format: MEDIA_BUS_FMT_FIXED_METADATA. Then v4l2-compliance
-> can tell it apart from the regular fixed video bus format.
+The sensor is one vimc component that would makes sense to be a separate
+module to closely align with the real hardware. It would be easier to
+collapse vimc into single monolithic driver first and then split the
+sensor off as a separate module.
 
-Wouldn't a pad flag that identifies the type of data transmitted by a
-pad be a better, backward-compatible option ? This could be useful for
-audio as well.
+This patch series removes the component API and makes minimal changes to
+the code base preserving the functional division of the code structure.
+Preserving the functional structure allows us to split the sensor off
+as a separate module in the future.
 
-> If I do a 'git grep MEDIA_BUS_FMT_FIXED' then I see that it is also in use by vsp1
-> for histogram information, so that should also be converted to use the new FIXED_METADATA
-> format, although that might be too late (there might be userspace complications).
+Major design elements in this change are:
+    - Use existing struct vimc_ent_config and struct vimc_pipeline_config
+      to drive the initialization of the functional components.
+    - Make vimc_device and vimc_ent_config global by moving them to
+      vimc-common.h
+    - Add two new hooks add and rm to initialize and register, unregister
+      and free subdevs.
+    - All component API is now gone and bind and unbind hooks are modified
+      to do "add" and "rm" with minimal changes to just add and rm subdevs.
+    - vimc-core's bind and unbind are now register and unregister.
+    - vimc-core invokes "add" hooks from its vimc_register_devices().
+      The "add" hooks remain the same and register subdevs. They don't
+      create platform devices of their own and use vimc's pdev.dev as
+      their reference device. The "add" hooks save their vimc_ent_device(s)
+      in the corresponding vimc_ent_config.
+    - vimc-core invokes "rm" hooks from its unregister to unregister
+      subdevs and cleanup.
+    - vimc-core invokes "add" and "rm" hooks with pointer to struct
+      vimc_device and the corresponding struct vimc_ent_config pointer.
 
-Yes, probably not a good idea.
+The following configure and stream test works on all devices.
 
-> >> +		fmt->format.field = V4L2_FIELD_NONE;
-> >> +		return 0;
-> >> +	}
-> >> +
-> >> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> >> +		mf = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> >> +		fmt->format = *mf;
-> >> +		return 0;
-> >> +	}
-> >> +
-> >> +	if (fmt->pad == RKISP1_ISP_PAD_SINK) {
-> >> +		*mf = isp_sd->in_frm;
-> >> +	} else if (fmt->pad == RKISP1_ISP_PAD_SOURCE_PATH) {
-> >> +		/* format of source pad */
-> >> +		*mf = isp_sd->in_frm;
-> >> +		mf->code = isp_sd->out_fmt.mbus_code;
-> >> +		/* window size of source pad */
-> >> +		mf->width = isp_sd->out_crop.width;
-> >> +		mf->height = isp_sd->out_crop.height;
-> >> +		mf->quantization = isp_sd->quantization;
-> >> +	}
-> >> +	mf->field = V4L2_FIELD_NONE;
-> >> +
-> >> +	return 0;
-> >> +}
+    media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+    media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+    media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+    media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+
+    v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+    v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+    v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+
+    v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video1
+    v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+    v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video3
+
+The second patch in the series fixes a general protection fault found
+when rmmod is done while stream is active.
+
+- rmmod while streaming returns vimc is in use
+- rmmod without active stream works correctly
+
+Changes since v1:
+Patch 1 & 2: (patch 1 in this series)
+- Collapsed the two patches into one
+- Added common defines (vimc_device and vimc_ent_config) to vimc-common.h
+  based on our discussion.
+- Addressed review comments from Helen and Laurent
+- Use vimc-common.h instead of creating a new file.
+- Other minor comments from Helen on int vs. unsigned int and
+  not needing to initialize ret in vimc_add_subdevs()
+Patch 3 (patch 2 in this series):
+- The second patch is the fix for gpf. Updated the patch after looking
+  at the test results from Andre and Helen. This problem is in a common
+  code and impacts all subdevs. The fix addresses the core problem and
+  fixes it. Fix removes pads release from v4l2_device_unregister_subdev()
+  and pads are now released from the sd release handler with all other
+  resources.
+
+Outstanding:
+- Update documentation with the correct topology.
+- There is one outstanding gpf remaining in the unbind path. I will
+  fix that in a separate patch. This is an existing problem and will
+  be easier to fix on top of this patch series.
+
+vimc_print_dot (--print-dot) topology after this change: (no change
+compared to media master)
+digraph board {
+        rankdir=TB
+        n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000001:port0 -> n00000005:port0 [style=bold]
+        n00000001:port0 -> n0000000b [style=bold]
+        n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000003:port0 -> n00000008:port0 [style=bold]
+        n00000003:port0 -> n0000000f [style=bold]
+        n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000005:port1 -> n00000015:port0
+        n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000008:port1 -> n00000015:port0 [style=dashed]
+        n0000000b [label="Raw Capture 0\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+        n0000000f [label="Raw Capture 1\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+        n00000013 [label="{{} | RGB/YUV Input\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000013:port0 -> n00000015:port0 [style=dashed]
+        n00000015 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+        n00000015:port1 -> n00000018 [style=bold]
+        n00000018 [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+
+Shuah Khan (2):
+  media: vimc: Collapse component structure into a single monolithic
+    driver
+  media: vimc: Fix gpf in rmmod path when stream is active
+
+ drivers/media/platform/vimc/Makefile       |   7 +-
+ drivers/media/platform/vimc/vimc-capture.c |  75 ++-------
+ drivers/media/platform/vimc/vimc-common.c  |   3 +-
+ drivers/media/platform/vimc/vimc-common.h  |  54 ++++++
+ drivers/media/platform/vimc/vimc-core.c    | 182 +++++++--------------
+ drivers/media/platform/vimc/vimc-debayer.c |  69 ++------
+ drivers/media/platform/vimc/vimc-scaler.c  |  69 ++------
+ drivers/media/platform/vimc/vimc-sensor.c  |  70 ++------
+ 8 files changed, 161 insertions(+), 368 deletions(-)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
