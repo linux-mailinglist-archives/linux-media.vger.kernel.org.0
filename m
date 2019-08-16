@@ -2,133 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 727D88FB96
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 08:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD178FB6F
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 08:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbfHPG7V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 02:59:21 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45973 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725945AbfHPG7V (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 02:59:21 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id yWCfh0dBGzaKOyWCkhl85p; Fri, 16 Aug 2019 08:59:19 +0200
-Subject: Re: [PATCHv2 11/12] media: docs-rst: Document m2m stateless video
- decoder interface
-To:     Alexandre Courbot <acourbot@chromium.org>
+        id S1726826AbfHPGwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 02:52:30 -0400
+Received: from mga14.intel.com ([192.55.52.115]:2912 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725897AbfHPGw3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Aug 2019 02:52:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 23:52:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; 
+   d="scan'208";a="377331966"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.193]) ([10.238.232.193])
+  by fmsmga006.fm.intel.com with ESMTP; 15 Aug 2019 23:52:27 -0700
+Subject: Re: [PATCH] media: staging: imgu: make imgu work on low frequency for
+ low input
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Cao Bing Bu <bingbu.cao@intel.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Francois Buergisser <fbuergisser@google.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-References: <20190812110513.23774-1-hverkuil-cisco@xs4all.nl>
- <20190812110513.23774-12-hverkuil-cisco@xs4all.nl>
- <CAPBb6MWMeepMw=f=4DL5Qgx-H+cpsyCehyNuV5PVimEAN6nJZg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <0b947ac2-6d2e-cdc9-4c0b-6eb3d5a45fbe@xs4all.nl>
-Date:   Fri, 16 Aug 2019 08:59:13 +0200
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Yeh, Andy" <andy.yeh@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <1565926419-2228-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5Db7_cridF5KzuUOujgiUT8fqczRX6T-yyM5P9W9Ut-Mw@mail.gmail.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <f8f4e40a-b3ae-d75e-d2c2-0c667b0e8b52@linux.intel.com>
+Date:   Fri, 16 Aug 2019 15:00:33 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MWMeepMw=f=4DL5Qgx-H+cpsyCehyNuV5PVimEAN6nJZg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAAFQd5Db7_cridF5KzuUOujgiUT8fqczRX6T-yyM5P9W9Ut-Mw@mail.gmail.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfExVNYMhbEYby91DTWXXU2/IU9VaZQNoiZTWDg/izklZo7k5DXhTzB7/LBMtJnocIOPJ8mLFsDT0kQ5WYX8tNtE1WXSgn1ye3/f/mvljrISRhR/lxa9Z
- JjXIGecOMHZxTdqMRDcUsG2kAkEG41b8dOlZmXE4guh+Qlou0JOR0an/IkZHGc7X7/1vYQixbz3E0jPD3BUrLkCxoV+zXb+vVHJPm8gKKvqAGoAKIi0Tu0re
- yFZMYy42Wo/NEAlc6sf42XbeTZu9Xh1moj4SJL8Fa4LhDLcyZhWDWXfYCZtvPRBdtTigd4LE0jwA7n/hwxEjEjGpHUH9oE2zd76DfIktcJb5wwVYKBNrLMvK
- iDjU3yY4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/16/19 7:49 AM, Alexandre Courbot wrote:
-> On Mon, Aug 12, 2019 at 8:07 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+Hi, Tomasz
+
+Thanks for your review.
+
+On 8/16/19 2:10 PM, Tomasz Figa wrote:
+> Hi Bingbu,
+> 
+> On Fri, Aug 16, 2019 at 12:25 PM <bingbu.cao@intel.com> wrote:
 >>
->> From: Alexandre Courbot <acourbot@chromium.org>
+>> From: Bingbu Cao <bingbu.cao@intel.com>
 >>
->> Documents the protocol that user-space should follow when
->> communicating with stateless video decoders.
+>> Currently, imgu is working on 450MHz for all cases, however
+>> in some cases (input frame less than 2.3MP), the imgu
+>> did not need work in high frequency.
+>> This patch make imgu work on 200MHz if the imgu input
+>> frame is less than 2.3MP to save power.
 >>
->> The stateless video decoding API makes use of the new request and tags
->> APIs. While it has been implemented with the Cedrus driver so far, it
->> should probably still be considered staging for a short while.
->>
->> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> 
+> Thanks for the patch! Please see my comments inline.
+> 
+>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 >> ---
->>  Documentation/media/uapi/v4l/dev-mem2mem.rst  |   1 +
->>  .../media/uapi/v4l/dev-stateless-decoder.rst  | 424 ++++++++++++++++++
->>  2 files changed, 425 insertions(+)
->>  create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
+>>  drivers/staging/media/ipu3/ipu3-css.c  | 7 ++++---
+>>  drivers/staging/media/ipu3/ipu3-css.h  | 3 ++-
+>>  drivers/staging/media/ipu3/ipu3-v4l2.c | 6 ++++++
+>>  drivers/staging/media/ipu3/ipu3.c      | 6 ++++--
+>>  drivers/staging/media/ipu3/ipu3.h      | 1 +
+>>  5 files changed, 17 insertions(+), 6 deletions(-)
 >>
-
-<snip>
-
->> +Dynamic resolution change
->> +=========================
->> +
->> +If the client detects a resolution change in the stream, it will need to perform
->> +the initialization sequence again with the new resolution:
->> +
->> +1. If the last submitted request resulted in a ``CAPTURE`` buffer being
->> +   held by the use of the ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` flag, then the
->> +   last frame is not available on the ``CAPTURE`` queue. In this case, a
->> +   ``V4L2_DEC_CMD_FLUSH`` command shall be sent. This will make the driver
->> +   dequeue the held ``CAPTURE`` buffer.
->> +
->> +2. Wait until all submitted requests have completed and dequeue the
->> +   corresponding output buffers.
->> +
->> +3. Call :c:func:`VIDIOC_STREAMOFF` on both the ``OUTPUT`` and ``CAPTURE``
->> +   queues.
->> +
->> +4. Free all ``CAPTURE`` buffers by calling :c:func:`VIDIOC_REQBUFS` on the
->> +   ``CAPTURE`` queue with a buffer count of zero.
->> +
->> +5. Perform the initialization sequence again (minus the allocation of
->> +   ``OUTPUT`` buffers),
+>> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+>> index fd1ed84c400c..590ed7e182a6 100644
+>> --- a/drivers/staging/media/ipu3/ipu3-css.c
+>> +++ b/drivers/staging/media/ipu3/ipu3-css.c
+>> @@ -210,12 +210,13 @@ static int imgu_hw_wait(void __iomem *base, int reg, u32 mask, u32 cmp)
+>>
+>>  /* Initialize the IPU3 CSS hardware and associated h/w blocks */
+>>
+>> -int imgu_css_set_powerup(struct device *dev, void __iomem *base)
+>> +int imgu_css_set_powerup(struct device *dev, void __iomem *base, bool low_power)
+>>  {
+>> -       static const unsigned int freq = 450;
+>> +       unsigned int freq;
 > 
-> We have just hit an issue on the Hantro driver related to this. At the
-> moment, Hantro will reject calls to VIDIOC_S_FMT on the OUTPUT queue
-> if buffers are allocated. And indeed, the documentation for
-> VIDIOC_S_FMT mentions this behavior:
+> How about making freq the argument to this function rather than
+> introducing some artificial boolean?
+Let me try to move the check into imgu_powerup().
 > 
->     EBUSY
->       The device is busy and cannot change the format. This could be
-> because or the device is streaming or buffers are allocated or queued
-> to the driver.
+>>         u32 pm_ctrl, state, val;
+>>
+>> -       dev_dbg(dev, "%s\n", __func__);
+>> +       freq = low_power ? 200 : 450;
+>> +       dev_dbg(dev, "%s with freq %u\n", __func__, freq);
+>>         /* Clear the CSS busy signal */
+>>         readl(base + IMGU_REG_GP_BUSY);
+>>         writel(0, base + IMGU_REG_GP_BUSY);
+>> diff --git a/drivers/staging/media/ipu3/ipu3-css.h b/drivers/staging/media/ipu3/ipu3-css.h
+>> index 6b8bab27ab1f..882936a9dae9 100644
+>> --- a/drivers/staging/media/ipu3/ipu3-css.h
+>> +++ b/drivers/staging/media/ipu3/ipu3-css.h
+>> @@ -187,7 +187,8 @@ bool imgu_css_is_streaming(struct imgu_css *css);
+>>  bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe);
+>>
+>>  /******************* css hw *******************/
+>> -int imgu_css_set_powerup(struct device *dev, void __iomem *base);
+>> +int imgu_css_set_powerup(struct device *dev, void __iomem *base,
+>> +                        bool low_power);
+>>  void imgu_css_set_powerdown(struct device *dev, void __iomem *base);
+>>  int imgu_css_irq_ack(struct imgu_css *css);
+>>
+>> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+>> index 3c7ad1eed434..dcc2a0476e49 100644
+>> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+>> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+>> @@ -182,6 +182,12 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
+>>                 fmt->format.height = clamp(fmt->format.height,
+>>                                            IPU3_INPUT_MIN_HEIGHT,
+>>                                            IPU3_INPUT_MAX_HEIGHT);
+>> +
+>> +               /* input less than 2.3MP, ask imgu to work with low freq */
+>> +               if ((fmt->format.width * fmt->format.height) < (2048 * 1152))
 > 
-> However in our case it does not make much sense to force reallocating
-> the OUTPUT buffers if user-space knows that the current ones are still
-> large enough for the new resolution. Should Hantro be adapted to allow
-> this, or shall we reword the specification?
+> Why 2048 * 1152 specifically if we just care about the number of
+> pixels? Also it's slightly more than 2.3Mpix (2.359296 Mpix) making
+> the comment inaccurate.
+2048 *1152 is the smallest common 16:9/4:3 resolution that larger than
+1080p, we try to use this resolution as the start point to make imgu
+work on high frequency.
 > 
-> Note that if we allow this, we may also allow OUTPUT buffers to be
-> allocated before the CAPTURE format is set during the initialization
-> sequence (i.e. move step 6. somewhere after step 2.).
+>> +                       imgu->low_power = true;
+>> +               else
+>> +                       imgu->low_power = false;
 > 
-> Thoughts?
-
-Drivers can allow S_FMT while buffers are allocated. But it needs to be
-done carefully: for MMAP streaming mode the driver will have to check
-that the allocated buffers are large enough for the new format (you
-probably want to make a helper function for this check), for USERPTR and
-DMABUF this needs to be checked in the buf_prepare vb2 callback. This
-probably happens already.
-
-Calling S_FMT while streaming is probably not a good idea and should
-still result in a EBUSY. Mostly because it is not clear whether a S_FMT
-should take immediate effect (thus affecting all already queued buffers)
-or only with newly queued buffers. Let's just avoid this situation for
-now.
-
-It was always the intention to relax the rules of when you can call S_FMT,
-but in most cases it is easier to just prohibit calling S_FMT when buffers
-are allocated.
-
-Regards,
-
-	Hans
+> There should be no need to store this, as we should have access to the
+> exact format when we start streaming. Could you move the check there?
+> 
+> Also, we have 2 pipes. How do they play together?
+We want to guarantee 2 pipes can always work on each frequency, there is
+no precise calculation which can be used to make more finer granularity.
+> 
+> Best regards,
+> Tomasz
+> 
