@@ -2,112 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C869054F
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 18:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C72279075F
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 20:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727724AbfHPQCl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 12:02:41 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50326 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727377AbfHPQCk (ORCPT
+        id S1727286AbfHPSAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 14:00:42 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41303 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbfHPSAm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 12:02:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 2D3D0283C43
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Hertz Wong <hertz.wong@rock-chips.com>
-Subject: [PATCH v7 11/11] media: hantro: Enable H264 decoding on rk3288
-Date:   Fri, 16 Aug 2019 13:01:32 -0300
-Message-Id: <20190816160132.7352-12-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190816160132.7352-1-ezequiel@collabora.com>
-References: <20190816160132.7352-1-ezequiel@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 16 Aug 2019 14:00:42 -0400
+Received: by mail-pg1-f193.google.com with SMTP id x15so3300103pgg.8;
+        Fri, 16 Aug 2019 11:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=wATUQ5AhTqVsNORBNhI3H9hrgxCh4ZvalSiVwIYDNT0=;
+        b=WOyQ3WS/UO5ayKgN7fhfS2CGPYMqEaBxODLrYtdL5AZTCzK//pmkhLJjk22WwH2EgH
+         gQ1lP/Gx8XdKY5FYQzXzHFU8AiQbLcIHi6gQf2p9/kaHkJCKGjuWVzhzLgt+KQLvBPOs
+         omInQTPSACaKEaoX36Wby+FrsUAd9a3z9Ia6aRuIdNpn4/CFhV/KJvtdQURuqYlGtf1b
+         +Jlg4iGbyePWwUg0yElh+c8T5cAI5LWhSWEiT0p1YGts5ltHEnbgEAEdvdCeSgV7MGsn
+         ehboJZbJ7egDKE56CG8e2UZ3gYx32ye3qu0T9cu2yfKDd2Gsqp2WCrq4wNp5UYuxiRwp
+         gJqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wATUQ5AhTqVsNORBNhI3H9hrgxCh4ZvalSiVwIYDNT0=;
+        b=ZQeU6mK6pN63NM3gmgWSrvkrb4y/PrVlLYc9fJak6DyA+FSV+/x9siB2Mytj23wJvX
+         Dz34CVYPo8TNCvMJlgtdDTQOINl5dH9W4PUc7yToJ5QPxpskD4feybgECZRt0tdl5x9h
+         EPEM756VDrt37Xul7+2cCzn/pyFGBekRGQ4JL0gGhexuNunJA8ekwG6e45ZpN/8WuUv4
+         MOxM396J8wnN/LxLmrvN5NgIa92GNFwv0xe8f0L8uZ9DcFAbYdyD9epW9qcg+tWWxPmA
+         WxUVD9b4gLqrKIGcbv5nvfY+XfIs2hHWIQ+F7Ad7Z0b7KoFRKo/D2yW8Wh57S8muw/Wo
+         KW0Q==
+X-Gm-Message-State: APjAAAVnrktObuDyVwPq92KgndhUy2obbopUaQ4mnQpbzFt8YFxzqmJq
+        VYs3wC+8Q+m+YiL7YueOeEs=
+X-Google-Smtp-Source: APXvYqzg9EbcnjeIhLdeH5kFtiTthmbzOmZ7YYmw/QcVioc8vm7RaE1mqcqla5aXgXAhOFrNJ8Mu/w==
+X-Received: by 2002:aa7:9638:: with SMTP id r24mr11489219pfg.68.1565978441649;
+        Fri, 16 Aug 2019 11:00:41 -0700 (PDT)
+Received: from bharath12345-Inspiron-5559 ([103.110.42.34])
+        by smtp.gmail.com with ESMTPSA id 185sm11019906pff.54.2019.08.16.11.00.40
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 16 Aug 2019 11:00:41 -0700 (PDT)
+From:   Bharath Vedartham <linux.bhar@gmail.com>
+To:     sumit.semwal@linaro.org
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Bharath Vedartham <linux.bhar@gmail.com>
+Subject: [PATCH] dma-buf: Fix memory leak in dma_buf_set_name
+Date:   Fri, 16 Aug 2019 23:30:22 +0530
+Message-Id: <1565978422-9661-1-git-send-email-linux.bhar@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hertz Wong <hertz.wong@rock-chips.com>
+This patch fixes a memory leak bug reported by syzbot. Link to the
+bug is given at [1].
 
-Now that the generic bits have been added, we can activate H264 decoding
-on rk3288.
+A local variable name is used to hold the copied user buffer string
+using strndup_user. strndup_user allocates memory using
+kmalloc_track_caller in memdup_user. This kmalloc allocation needs to be
+followed by a kfree.
 
-Signed-off-by: Hertz Wong <hertz.wong@rock-chips.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+This patch has been tested by a compile test.
+
+[1] https://syzkaller.appspot.com/bug?id=ce692a3aa13e00e335e090be7846c6eb60ddff7a
+
+Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
+Signed-off-by: Bharath Vedartham <linux.bhar@gmail.com>
 ---
-Changes in v7:
-* None.
-Changes in v6:
-* None.
-Changes in v5:
-* None.
-Changes in v4:
-* None.
----
- drivers/staging/media/hantro/rk3288_vpu_hw.c | 21 +++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ drivers/dma-buf/dma-buf.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-index f1b573a006ae..6bfcc47d1e58 100644
---- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-@@ -61,6 +61,19 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
- 		.fourcc = V4L2_PIX_FMT_NV12,
- 		.codec_mode = HANTRO_MODE_NONE,
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-+		.codec_mode = HANTRO_MODE_H264_DEC,
-+		.max_depth = 2,
-+		.frmsize = {
-+			.min_width = 48,
-+			.max_width = 3840,
-+			.step_width = H264_MB_DIM,
-+			.min_height = 48,
-+			.max_height = 2160,
-+			.step_height = H264_MB_DIM,
-+		},
-+	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
- 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
-@@ -162,6 +175,12 @@ static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
- 		.init = hantro_jpeg_enc_init,
- 		.exit = hantro_jpeg_enc_exit,
- 	},
-+	[HANTRO_MODE_H264_DEC] = {
-+		.run = hantro_g1_h264_dec_run,
-+		.reset = rk3288_vpu_dec_reset,
-+		.init = hantro_h264_dec_init,
-+		.exit = hantro_h264_dec_exit,
-+	},
- 	[HANTRO_MODE_MPEG2_DEC] = {
- 		.run = hantro_g1_mpeg2_dec_run,
- 		.reset = rk3288_vpu_dec_reset,
-@@ -197,7 +216,7 @@ const struct hantro_variant rk3288_vpu_variant = {
- 	.dec_fmts = rk3288_vpu_dec_fmts,
- 	.num_dec_fmts = ARRAY_SIZE(rk3288_vpu_dec_fmts),
- 	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
--		 HANTRO_VP8_DECODER,
-+		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
- 	.codec_ops = rk3288_vpu_codec_ops,
- 	.irqs = rk3288_irqs,
- 	.num_irqs = ARRAY_SIZE(rk3288_irqs),
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index f45bfb2..9798f6d 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -342,6 +342,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	}
+ 	kfree(dmabuf->name);
+ 	dmabuf->name = name;
++	kfree(name);
+ 
+ out_unlock:
+ 	mutex_unlock(&dmabuf->lock);
 -- 
-2.22.0
+2.7.4
 
